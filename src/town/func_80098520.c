@@ -89,10 +89,7 @@ void func_80095C80(EntityRec *position) {
     register s32 axis_test ASM_REG("$2");
 
     motion = (M2C_UNK *)D_800FE5C0;
-    {
-        if (((S_80095C80_0 *)motion)->unk_0C <= 0) {
-            goto check_neg_x;
-        }
+    if (((S_80095C80_0 *)motion)->unk_0C > 0) {
         if (((S_80095C80_0 *)motion)->unk_10 > 0) {
             s32 boundary_test;
             probe.x = position->x.v - ((S_80095C80_0 *)motion)->unk_0C;
@@ -126,7 +123,8 @@ void func_80095C80(EntityRec *position) {
                     y_offset &= 0x3F;
                     x_offset = x_offset < y_offset;
                     if (x_offset == 0) {
-                        goto resolve_y;
+                        func_800961D8(position);
+                        return;
                     }
                     func_800961A8(position);
                     return;
@@ -151,7 +149,8 @@ void func_80095C80(EntityRec *position) {
                 func_800961A8(position);
                 return;
             }
-            goto resolve_y;
+            func_800961D8(position);
+            return;
         }
         if (((S_80095C80_0 *)motion)->unk_10 < 0) {
             probe.x = position->x.v - ((S_80095C80_0 *)motion)->unk_0C;
@@ -177,7 +176,8 @@ void func_80095C80(EntityRec *position) {
                         func_800961A8(position);
                         return;
                     }
-                    goto resolve_y;
+                    func_800961D8(position);
+                    return;
                 }
             } else {
                 pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
@@ -197,21 +197,16 @@ void func_80095C80(EntityRec *position) {
                 func_800961A8(position);
                 return;
             } else {
-                goto resolve_y;
+                func_800961D8(position);
+                return;
             }
         }
-        goto load_neg_x_motion;
     }
-load_neg_x_motion:
     {
         unsigned long motion_or_hit;
-check_neg_x:
         motion_or_hit = (unsigned long)D_800FE5C0;
-        {
+        if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C < 0) {
             register s32 y_step_or_side ASM_REG("$5");
-            if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C >= 0) {
-                goto check_single_axis;
-            }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 > 0) {
                 s32 y_test;
                 probe.x = position->x.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
@@ -246,7 +241,8 @@ check_neg_x:
                             func_800961A8(position);
                             return;
                         }
-                        goto resolve_y;
+                        func_800961D8(position);
+                        return;
                     }
                 } else {
                     neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
@@ -268,7 +264,8 @@ check_neg_x:
                     func_800961A8(position);
                     return;
                 }
-                goto resolve_y;
+                func_800961D8(position);
+                return;
             }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 < 0) {
                 probe.x = position->x.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
@@ -301,7 +298,8 @@ check_neg_x:
                         y_offset = abs(y_offset);
                         y_offset &= 0x3F;
                         if (axis_test < y_offset) {
-                            goto apply_y;
+                            func_800961D8(position);
+                            return;
                         }
                         func_800961A8(position);
                         return;
@@ -325,34 +323,25 @@ check_neg_x:
                     func_800961A8(position);
                     return;
                 }
-                goto resolve_y;
+                func_800961D8(position);
+                return;
             }
-            goto load_axis_motion;
         }
     }
-load_axis_motion:
     {
         M2C_UNK *axis_motion;
-check_single_axis:
         axis_motion = (M2C_UNK *)D_800FE5C0;
-        if (((S_80095C80_7 *)axis_motion)->unk_0C == 0) {
-            goto check_final_y;
-        }
-        if (((S_80095C80_7 *)axis_motion)->unk_10 != 0) {
+        if (((S_80095C80_7 *)axis_motion)->unk_0C != 0) {
+            if (((S_80095C80_7 *)axis_motion)->unk_10 != 0) {
+                return;
+            }
+            func_800961A8(position);
             return;
         }
-
-resolve_x:
-        func_800961A8(position);
-        return;
-
-check_final_y:
         if (((S_80095C80_7 *)axis_motion)->unk_10 == 0) {
             return;
         }
 
-resolve_y:
-apply_y:
         func_800961D8(position);
     }
 

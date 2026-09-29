@@ -220,227 +220,226 @@ s32 func_800A504C(s32 unused, void *source_entity)
     }
 
     mode_page = (u8 *)0x800E0000;
-    if (!(((S_800A504C_1 *)entity)->unk_14 & 0x4000)) {
-        goto dispatch_replace;
-    }
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
-        goto wait_copy;
-    }
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
-            goto load_copy;
+    if (((S_800A504C_1 *)entity)->unk_14 & 0x4000) {
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
+            goto wait_copy;
+        }
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
+            if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
+                goto load_copy;
+            }
+            return 0;
+        }
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
+            goto spawn_copy;
         }
         return 0;
-    }
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
-        goto spawn_copy;
-    }
-    return 0;
 
 load_copy:
-    if (func_80053EF0(4) != 0) {
-        return 0;
-    }
-    spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
-    if (spawned == NULL) {
-        return 0;
-    }
-    load_result = func_80047DB8(((S_800A504C_1 *)entity)->unk_13);
-    load_spawned = spawned;
-    D_80081488 = load_result;
-    func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
-    D_800E3E40[0] = 0;
-    Control_CD(0xFF, D_8003E140, D_800E3E40);
-    goto increment_mode;
+        if (func_80053EF0(4) != 0) {
+            return 0;
+        }
+        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
+        if (spawned == NULL) {
+            return 0;
+        }
+        load_result = func_80047DB8(((S_800A504C_1 *)entity)->unk_13);
+        load_spawned = spawned;
+        D_80081488 = load_result;
+        func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+        D_800E3E40[0] = 0;
+        Control_CD(0xFF, D_8003E140, D_800E3E40);
+            ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+            goto done;
 
 wait_copy:
-    if (D_800E3E40[0] != 0) {
-        func_80047E30();
-        goto increment_mode;
-    }
-    return 0;
-
-spawn_copy:
-    spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
-    if (spawned == NULL) {
-        return 0;
-    }
-    entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-    spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
-    spawned = spawn(6, entity_data[0x24], entity_data[0x25],
-                    (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
-    if (spawned == NULL) {
-        return 0;
-    }
-    base = entity;
-    tail_dst = spawned;
-    ASM_KEEP4_NV(base, tail_dst, entity, spawned);
-    saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
-    saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
-    copy_dst = tail_dst;
-    copy_src = entity;
-    copy_end = entity + 0x80;
-    do {
-        *(EntityCopyBlock *)copy_dst = *(EntityCopyBlock *)copy_src;
-        copy_src += sizeof(EntityCopyBlock);
-        copy_dst += sizeof(EntityCopyBlock);
-    } while (copy_src != copy_end);
-    *(EntityCopyTail *)copy_dst = *(EntityCopyTail *)copy_src;
-    ((S_800A504C_4 *)spawned)->unk_4C = 0;
-    ((S_800A504C_4 *)spawned)->unk_50 = 0;
-    ((S_800A504C_4 *)spawned)->unk_5C = saved_word_5c;
-    ((S_800A504C_4 *)spawned)->unk_58 = saved_word_58;
-    func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
-
-    copy_call_entity = spawned;
-    copy_call_zero = 0;
-    scale = 0x1000;
-    entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ((S_800A504C_2 *)entity_data)->unk_1E = scale;
-    ((S_800A504C_2 *)entity_data)->unk_1C = scale;
-    ((S_800A504C_4 *)spawned)->unk_14 &= -8;
-    ((S_800A504C_4 *)spawned)->unk_1C &= -8;
-    ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
-    ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-    func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  copy_call_zero);
-    func_80042710(spawned, entity);
-    ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
-
-    ((S_800A504C_3 *)tail_dst)->unk_8C = ((S_800A504C_0 *)base)->unk_8C;
-    ((S_800A504C_3 *)tail_dst)->unk_90 = ((S_800A504C_0 *)base)->unk_90;
-    ((S_800A504C_3 *)tail_dst)->unk_94 = ((S_800A504C_0 *)base)->unk_94;
-    ((S_800A504C_3 *)tail_dst)->unk_98 = ((S_800A504C_0 *)base)->unk_98;
-    ((S_800A504C_3 *)tail_dst)->unk_9A = ((S_800A504C_0 *)base)->unk_9A;
-    ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
-
-    offset = func_800A1BD0(entity);
-    record = ((u8 *)D_800814A8);
-    offset = (offset << 16) >> 14;
-    offset += (s32)record;
-    record = (u8 *)offset;
-    ((S_800A504C_5 *)record)->unk_AC = spawned;
-    func_8009A3D0(entity_data[0x24], entity_data[0x25], 0x300);
-    func_8009A028(spawned);
-    spawned -= 0x20;
-    func_80044A50(spawned);
-    update_flags = 0x80000000;
-    flags_result = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
-    global_page = (u8 *)0x80080000;
-    ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
-    update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
-    ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
-    update_flags_2 = ((S_800A504C_6 *)global_page)->unk_14A0;
-    flags_result = 0;
-    ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
-    ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags_2 | 0x8000;
-    return flags_result;
-
-dispatch_replace:
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
-        goto wait_replacement;
-    }
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
-        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
-            goto load_replacement;
+        if (D_800E3E40[0] != 0) {
+            func_80047E30();
+            ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+            goto done;
         }
         return 0;
-    }
-    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
-        goto spawn_replacement;
-    }
-    return 0;
 
-load_replacement:
-    load_kind = 3;
-    spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
-                                   load_kind);
-    if (spawned == NULL) {
-        goto increment_mode;
-    }
-    ((S_800A504C_1 *)entity)->unk_13--;
-    func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
-    D_80080A90 = D_80023000;
-    load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
-    load_spawned = spawned;
-
-    D_80081488 = load_result;
-    func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
-    D_800E3E40[0] = 0;
-    Control_CD(0xFF, D_8003E140, D_800E3E40);
-    goto increment_mode;
-
-wait_replacement:
-    if (D_800E3E40[0] == 0) {
-        return 0;
-    }
-    if (D_80081488 != 0) {
-        func_80047FF4(((S_800A504C_1 *)entity)->unk_13, D_80081488);
-    }
-
-increment_mode:
-    ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
-    goto done;
-
-spawn_replacement:
-    spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
-    if (spawned == NULL) {
-        return 0;
-    }
-    entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-    spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
-    spawned = spawn(1, entity_data[0x24], entity_data[0x25],
-                    (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
-    if (spawned != NULL) {
-        ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
-        offset = func_800A1BD0(entity);
-        record = ((u8 *)D_800814A8);
-        offset = (offset << 16) >> 14;
-        offset += (s32)record;
-        record = (u8 *)offset;
-        record_data = ((S_800A504C_5 *)record)->unk_D0;
-        ((S_800A504C_5 *)record)->unk_AC = spawned;
-        record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
-        (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
-
-        entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-        ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
-        ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
+spawn_copy:
+        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 2);
+        if (spawned == NULL) {
+            return 0;
+        }
+        entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
+        spawned = spawn(6, entity_data[0x24], entity_data[0x25],
+                        (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
+        if (spawned == NULL) {
+            return 0;
+        }
+        base = entity;
+        tail_dst = spawned;
+        ASM_KEEP4_NV(base, tail_dst, entity, spawned);
+        saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
+        saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
+        copy_dst = tail_dst;
+        copy_src = entity;
+        copy_end = entity + 0x80;
+        do {
+            *(EntityCopyBlock *)copy_dst = *(EntityCopyBlock *)copy_src;
+            copy_src += sizeof(EntityCopyBlock);
+            copy_dst += sizeof(EntityCopyBlock);
+        } while (copy_src != copy_end);
+        *(EntityCopyTail *)copy_dst = *(EntityCopyTail *)copy_src;
+        ((S_800A504C_4 *)spawned)->unk_4C = 0;
+        ((S_800A504C_4 *)spawned)->unk_50 = 0;
+        ((S_800A504C_4 *)spawned)->unk_5C = saved_word_5c;
+        ((S_800A504C_4 *)spawned)->unk_58 = saved_word_58;
         func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
+
         copy_call_entity = spawned;
-        replace_call_zero = 0;
+        copy_call_zero = 0;
+        scale = 0x1000;
+        entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+        ((S_800A504C_2 *)entity_data)->unk_1E = scale;
+        ((S_800A504C_2 *)entity_data)->unk_1C = scale;
         ((S_800A504C_4 *)spawned)->unk_14 &= -8;
         ((S_800A504C_4 *)spawned)->unk_1C &= -8;
         ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
         ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
         func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                      replace_call_zero);
+                      copy_call_zero);
         func_80042710(spawned, entity);
+        ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
 
-        if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
-            TablePage *table_page = (TablePage *)0x80010000;
-            u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
-            u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
-            table_page->table84[table_index].value = table_value;
-            table_page->table4[table_index].value = table_value;
+        ((S_800A504C_3 *)tail_dst)->unk_8C = ((S_800A504C_0 *)base)->unk_8C;
+        ((S_800A504C_3 *)tail_dst)->unk_90 = ((S_800A504C_0 *)base)->unk_90;
+        ((S_800A504C_3 *)tail_dst)->unk_94 = ((S_800A504C_0 *)base)->unk_94;
+        ((S_800A504C_3 *)tail_dst)->unk_98 = ((S_800A504C_0 *)base)->unk_98;
+        ((S_800A504C_3 *)tail_dst)->unk_9A = ((S_800A504C_0 *)base)->unk_9A;
+        ((S_800A504C_3 *)tail_dst)->unk_9B = ((S_800A504C_0 *)base)->unk_9B;
+
+        offset = func_800A1BD0(entity);
+        record = ((u8 *)D_800814A8);
+        offset = (offset << 16) >> 14;
+        offset += (s32)record;
+        record = (u8 *)offset;
+        ((S_800A504C_5 *)record)->unk_AC = spawned;
+        func_8009A3D0(entity_data[0x24], entity_data[0x25], 0x300);
+        func_8009A028(spawned);
+        spawned -= 0x20;
+        func_80044A50(spawned);
+        update_flags = 0x80000000;
+        flags_result = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
+        global_page = (u8 *)0x80080000;
+        ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
+        update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
+        ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
+        update_flags_2 = ((S_800A504C_6 *)global_page)->unk_14A0;
+        flags_result = 0;
+        ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
+        ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags_2 | 0x8000;
+        return flags_result;
+    } else {
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
+            goto wait_replacement;
         }
-        func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
-        func_80042560(spawned);
-        angle = ((S_800A504C_1 *)entity)->unk_2A;
-        (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
-        offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-        func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
-                      ((S_800A504C_2 *)entity_data)->unk_04);
-        data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
-        D_80080A90 = D_8014A000;
-        ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
-        remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
-        D_800DCF5C = count;
-        ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
-        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-        global_flags = objectFlagBlock.flags;
-        ((S_800A504C_1 *)entity)->unk_90 = 0;
-        objectFlagBlock.flags = global_flags | 0x8000;
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
+            if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
+                goto load_replacement;
+            }
+            return 0;
+        }
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
+            goto spawn_replacement;
+        }
+        return 0;
+
+load_replacement:
+        load_kind = 3;
+        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
+                                       load_kind);
+        if (spawned != NULL) {
+    ((S_800A504C_1 *)entity)->unk_13--;
+            func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
+            D_80080A90 = D_80023000;
+            load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
+            load_spawned = spawned;
+
+            D_80081488 = load_result;
+            func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+            D_800E3E40[0] = 0;
+            Control_CD(0xFF, D_8003E140, D_800E3E40);
+        }
+        goto increment_mode;
+
+wait_replacement:
+        if (D_800E3E40[0] == 0) {
+            return 0;
+        }
+        if (D_80081488 != 0) {
+            func_80047FF4(((S_800A504C_1 *)entity)->unk_13, D_80081488);
+        }
+
+increment_mode:
+        ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
+        goto done;
+
+spawn_replacement:
+        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
+        if (spawned == NULL) {
+            return 0;
+        }
+        entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
+        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
+        spawned = spawn(1, entity_data[0x24], entity_data[0x25],
+                        (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
+        if (spawned != NULL) {
+            ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
+            offset = func_800A1BD0(entity);
+            record = ((u8 *)D_800814A8);
+            offset = (offset << 16) >> 14;
+            offset += (s32)record;
+            record = (u8 *)offset;
+            record_data = ((S_800A504C_5 *)record)->unk_D0;
+            ((S_800A504C_5 *)record)->unk_AC = spawned;
+            record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
+            (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
+
+            entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+            ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
+            ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
+            func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
+            copy_call_entity = spawned;
+            replace_call_zero = 0;
+            ((S_800A504C_4 *)spawned)->unk_14 &= -8;
+            ((S_800A504C_4 *)spawned)->unk_1C &= -8;
+            ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
+            ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
+            func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+                          replace_call_zero);
+            func_80042710(spawned, entity);
+
+            if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
+                TablePage *table_page = (TablePage *)0x80010000;
+                u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
+                u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
+                table_page->table84[table_index].value = table_value;
+                table_page->table4[table_index].value = table_value;
+            }
+            func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
+            func_80042560(spawned);
+            angle = ((S_800A504C_1 *)entity)->unk_2A;
+            (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
+            offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
+            func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
+                          ((S_800A504C_2 *)entity_data)->unk_04);
+            data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
+            D_80080A90 = D_8014A000;
+            ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
+            remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
+            D_800DCF5C = count;
+            ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
+            (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
+            global_flags = objectFlagBlock.flags;
+            ((S_800A504C_1 *)entity)->unk_90 = 0;
+            objectFlagBlock.flags = global_flags | 0x8000;
+        }
     }
 done:
     return 0;

@@ -122,245 +122,219 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
     sub_actor = (SubActor *)(actor_parts + 0x20);
     actor_base = (ActorBase *)(actor_parts + 0x28);
 
-    if (state_index == 1) {
-        goto state1;
-    }
-    if (state_index < 2) {
-        if (state_index == 0) {
-            goto state0;
-        }
-        return;
-    }
-    if (state_index == 2) {
-        goto state2;
-    }
-    if (state_index == 3) {
-        goto state3;
-    }
-    return;
+    switch (state_index) {
+    case 0:
+        if (ent->flags1C & 0x2000) {
+            s32 slot_index;
 
-state0:
-    if (ent->flags1C & 0x2000) {
-        s32 slot_index;
-
-        slot_index = (ent->f46 & 0x3FFF) - 1;
-        switch (slot_index) {
-        case 6:
-            use_main_link = 1;
-            goto slot3;
-        case 5:
-            use_main_link = 1;
-            goto slot2;
-        case 4:
-            use_main_link = 1;
-            goto slot1;
-        case 0:
-            goto slot1;
-        case 1:
-            goto slot2;
-        case 2:
-            goto slot3;
-        default:
-            goto slot4;
-        }
-    }
-
-    {
-        s32 slot_type;
-
-        slot_type = ent->f46 & 0x3FFF;
-        if (slot_type == 2) {
-            goto slot2;
-        }
-        if (slot_type < 3) {
-            item_slot = 0;
-            if (slot_type == 1) {
-                goto normal_slot1;
+            slot_index = (ent->f46 & 0x3FFF) - 1;
+            switch (slot_index) {
+            case 6:
+                use_main_link = 1;
+                goto slot3;
+            case 5:
+                use_main_link = 1;
+                goto slot2;
+            case 4:
+                use_main_link = 1;
+                /* fall through */
+            case 0:
+                goto slot1;
+            case 1:
+                goto slot2;
+            case 2:
+                goto slot3;
+            default:
+                goto slot4;
             }
-            goto have_slot;
         }
-        if (slot_type != 3) {
-            item_slot = 0;
-            goto have_slot;
+
+        {
+            s32 slot_type;
+
+            slot_type = ent->f46 & 0x3FFF;
+            if (slot_type == 2) {
+                goto slot2;
+            }
+            if (slot_type < 3) {
+                item_slot = 0;
+                if (slot_type == 1) {
+                    goto slot1;
+                }
+                goto have_slot;
+            }
+            if (slot_type != 3) {
+                item_slot = 0;
+                goto have_slot;
+            }
         }
-    }
 
-slot3:
-    item_slot = &ent->slots[6];
-    goto have_slot;
-slot2:
-    item_slot = &ent->slots[3];
-    goto have_slot;
-normal_slot1:
-slot1:
-    item_slot = &ent->slots[0];
-    goto have_slot;
-slot4:
-    item_slot = 0;
+    slot3:
+        item_slot = &ent->slots[6];
+        goto have_slot;
+    slot2:
+        item_slot = &ent->slots[3];
+        goto have_slot;
+    slot1:
+        item_slot = &ent->slots[0];
+        goto have_slot;
+    slot4:
+        item_slot = 0;
 
-have_slot:
-    if (*item_slot != 0) {
-        s32 main_link_test;
-        u16 state_flags;
-        u8 *link_base;
+    have_slot:
+        if (*item_slot != 0) {
+            s32 main_link_test;
+            u16 state_flags;
+            u8 *link_base;
+            u8 *linked_actor;
 
-        state_flags = state->flags98;
-        state_flags &= 0xFF7F;
-        state->flags98 = state_flags;
-        main_link_test = use_main_link;
-        if (main_link_test) {
-            link_base = (u8 *)((MainObj *)D_800814A8);
-            ent->f60 = link_base;
-            goto copy_link;
-        }
-        if (D_8006DE24[*item_slot].kind == 2) {
-            link_base = ent->f60;
-            if (link_base != 0) {
-copy_link:
-                {
-                    register u8 *linked_actor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
+            state_flags = state->flags98;
+            state_flags &= 0xFF7F;
+            state->flags98 = state_flags;
+            main_link_test = use_main_link;
+            if (main_link_test) {
+                link_base = (u8 *)((MainObj *)D_800814A8);
+                ent->f60 = link_base;
+                linked_actor = *(u8 **)(link_base - 0x14);
+                ent->f72 = linked_actor[0x24];
+                ent->f73 = linked_actor[0x25];
+            } else if (D_8006DE24[*item_slot].kind == 2) {
+                link_base = ent->f60;
+                if (link_base != 0) {
                     linked_actor = *(u8 **)(link_base - 0x14);
                     ent->f72 = linked_actor[0x24];
                     ent->f73 = linked_actor[0x25];
                 }
-            }
-        } else {
-            s32 offset_y;
-            s32 offset_x;
+            } else {
+                s32 offset_y;
+                s32 offset_x;
 
-            *(void * volatile *)&ent->f60 = func_800A05A4(
-                ent, actor->f24, actor->f25, ent->f2A, 0x10);
-            offset_x = __builtin_abs(ent->f72);
-            offset_y = __builtin_abs(ent->f73);
-            ent->f72 = offset_x;
-            ent->f73 = offset_y;
+                ent->f60 = func_800A05A4(
+                    ent, actor->f24, actor->f25, ent->f2A, 0x10);
+                offset_x = __builtin_abs(ent->f72);
+                offset_y = __builtin_abs(ent->f73);
+                ent->f72 = offset_x;
+                ent->f73 = offset_y;
+            }
+
+            sub_actor->flags4 &= 0x7FFF;
+            actor_base->f2C = (void (*)(void))D_801744E4;
+            func_80047784(
+                actor_base,
+                D_801744E4[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                0);
+            if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
+                return;
+            }
+            actor->flags14 &= 0xF7FF;
+            func_800DAE44(pos, 5);
+            func_800A56E0(0x703);
+            state->state9B++;
+            state->flags98 |= 8;
+            ent->flags1C &= 0xF7FFFFFF;
+            ent->flags1C &= 0xFFFBFFFF;
+            return;
         }
 
-        sub_actor->flags4 &= 0x7FFF;
-        actor_base->f2C = (void (*)(void))D_801744E4;
-        func_80047784(
-            actor_base,
-            D_801744E4[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
-            0);
-        if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
+        pos->f14 = 0;
+        pos->f10 = 0;
+        pos->fC = 0;
+        func_800A2B04(pos, actor->f24, actor->f25);
+        {
+            MainObj *main_obj;
+
+            main_obj = ((MainObj *)D_800814A8);
+            dungeonStatus.unk_0C = 0;
+            main_obj->fA6--;
+        }
+        func_800A4ACC(ent);
+        ent->f6D--;
+        state->f8C = (void (*)(void))D_801713A8;
+        ent->f73 = 0;
+        ent->f72 = 0;
+        ent->f46 &= 0x7FFF;
+        return;
+
+
+    case 1:
+        state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
+        if (actor->flags14 & 0xE000) {
+            actor->f2C = (void (*)(void))D_801744DC;
+            func_80047784(
+                actor,
+                D_801744DC[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                0);
+            state->f96 = state_index;
+            state->state9B++;
+        }
+        return;
+
+
+    case 2:
+        if (func_8003F270()) {
+            actor->flags14 |= 0x800;
             return;
         }
         actor->flags14 &= 0xF7FF;
-        func_800DAE44(pos, 5);
-        func_800A56E0(0x703);
         state->state9B++;
-        state->flags98 |= 8;
-        ent->flags1C &= 0xF7FFFFFF;
-        ent->flags1C &= 0xFFFBFFFF;
-        return;
-    }
 
-    pos->f14 = 0;
-    pos->f10 = 0;
-    pos->fC = 0;
-    func_800A2B04(pos, actor->f24, actor->f25);
-    {
-        MainObj *main_obj;
 
-        main_obj = ((MainObj *)D_800814A8);
-        dungeonStatus.unk_0C = 0;
-        main_obj->fA6--;
-    }
-    func_800A4ACC(ent);
-    ent->f6D--;
-    state->f8C = (void (*)(void))D_801713A8;
-    ent->f73 = 0;
-    ent->f72 = 0;
-    ent->f46 &= 0x7FFF;
-    return;
-
-state1:
-    state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
-    if (actor->flags14 & 0xE000) {
-        actor->f2C = (void (*)(void))D_801744DC;
-        func_80047784(
-            actor,
-            D_801744DC[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
-            0);
-        state->f96 = state_index;
-        state->state9B++;
-    }
-    return;
-
-state2:
-    if (func_8003F270()) {
-        actor->flags14 |= 0x800;
-        return;
-    }
-    actor->flags14 &= 0xF7FF;
-    state->state9B++;
-
-state3:
-    state->u90.h.half92 +=
-        (-0x30 - (s16)state->u90.h.half92) >> 3;
-    state->f96--;
-    if ((s16)state->f96 > 0) {
+    case 3:
+        state->u90.h.half92 +=
+            (-0x30 - (s16)state->u90.h.half92) >> 3;
+        state->f96--;
+        if ((s16)state->f96 <= 0 || (actor->flags14 & 0xE000)) {
+            state->flags98 |= 0x80;
+        }
+        if ((!(state->flags98 & 0x4000) && state->fA8 == 2) || (actor->flags14 & 0x8000)) {
+            state->flags98 |= 0x4000;
+        }
         if (!(actor->flags14 & 0xE000)) {
-            goto no_flag80;
+            return;
         }
-    }
-    state->flags98 |= 0x80;
-no_flag80:
-    if (!(state->flags98 & 0x4000)) {
-        if (state->fA8 == 2) {
-            goto set_flag4000;
+
+        sub_actor->flags4 |= 0x8000;
+        pos->f14 = 0;
+        pos->f10 = 0;
+        pos->fC = 0;
+        func_800A2B04(pos, actor->f24, actor->f25);
+        state->flags98 &= 0xFFF7;
+        ent->flags1C |= 0x08000000;
+        ent->flags1C |= 0x00040000;
+
+        if (actor->f2C != (void (*)(void))D_80174494 &&
+            actor->f2C != (void (*)(void))D_8017449C) {
+            state->fA8 = 0;
+            state->flags98 &= 0xBFFF;
+            actor->f2C = (void (*)(void))D_80174494;
+            func_80047784(
+                actor,
+                D_80174494[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
+                state->fA8);
         }
-    }
-    if (!(actor->flags14 & 0x8000)) {
-        goto no_flag4000;
-    }
-set_flag4000:
-    state->flags98 |= 0x4000;
-no_flag4000:
-    if (!(actor->flags14 & 0xE000)) {
+        {
+
+            if (((u32)dungeonStatus.unk_0C) != 0) {
+                return;
+            }
+            if (!(state->flags98 & 0x4000)) {
+                return;
+            }
+            dungeonStatus.unk_0A--;
+        }
+        actor->flags14 &= 0xF7FF;
+        state->f8C = (void (*)(void))D_801713A8;
+        func_800A4ACC(ent);
+        if (ent->f6D > 0) {
+            ent->f6D--;
+        }
+        ent->f73 = 0;
+        ent->f72 = 0;
+        ent->f46 &= 0x7FFF;
+        func_800A56E0(0xB4);
+
+        return;
+    default:
         return;
     }
-
-    sub_actor->flags4 |= 0x8000;
-    pos->f14 = 0;
-    pos->f10 = 0;
-    pos->fC = 0;
-    func_800A2B04(pos, actor->f24, actor->f25);
-    state->flags98 &= 0xFFF7;
-    ent->flags1C |= 0x08000000;
-    ent->flags1C |= 0x00040000;
-
-    if (actor->f2C != (void (*)(void))D_80174494 &&
-        actor->f2C != (void (*)(void))D_8017449C) {
-        state->fA8 = 0;
-        state->flags98 &= 0xBFFF;
-        actor->f2C = (void (*)(void))D_80174494;
-        func_80047784(
-            actor,
-            D_80174494[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
-            state->fA8);
-    }
-    {
-
-        if (((u32)dungeonStatus.unk_0C) != 0) {
-            return;
-        }
-        if (!(state->flags98 & 0x4000)) {
-            return;
-        }
-        dungeonStatus.unk_0A--;
-    }
-    actor->flags14 &= 0xF7FF;
-    state->f8C = (void (*)(void))D_801713A8;
-    func_800A4ACC(ent);
-    if (ent->f6D > 0) {
-        ent->f6D--;
-    }
-    ent->f73 = 0;
-    ent->f72 = 0;
-    ent->f46 &= 0x7FFF;
-    func_800A56E0(0xB4);
-
-    return;
 }

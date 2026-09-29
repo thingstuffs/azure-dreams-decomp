@@ -78,132 +78,110 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
         switch (kind_index) {
         case 6:
             mode_or_angle = 1;
-            goto kind_3;
+        case 2:
+            item_slot = (u8 *)actor + 0xE;
+            break;
         case 5:
             mode_or_angle = 1;
-            goto kind_2;
+        case 1:
+            item_slot = (u8 *)actor + 0xB;
+            break;
         case 4:
             mode_or_angle = 1;
-            goto kind_1;
         case 0:
-            goto kind_1;
-        case 1:
-            goto kind_2;
-        case 2:
-            goto kind_3;
+            item_slot = (u8 *)actor + 8;
+            break;
         case 3:
         default:
-            goto kind_default;
+            item_slot = 0;
+            break;
         }
-    }
-
-    {
+    } else {
         s32 action_kind;
 
         action_kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-        if (action_kind == 2) {
-            goto kind_2;
-        }
-        if (action_kind < 3) {
+        switch (action_kind) {
+        case 3:
+            item_slot = (u8 *)actor + 0xE;
+            break;
+        case 2:
+            item_slot = (u8 *)actor + 0xB;
+            break;
+        case 1:
+            item_slot = (u8 *)actor + 8;
+            break;
+        default:
             item_slot = 0;
-            if (action_kind == 1) {
-                goto normal_kind_1;
-            }
-            goto selection_ready;
-        }
-        if (action_kind != 3) {
-            item_slot = 0;
-            goto selection_ready;
+            break;
         }
     }
 
-kind_3:
-    item_slot = (u8 *)actor + 0xE;
-    goto selection_ready;
-kind_2:
-    item_slot = (u8 *)actor + 0xB;
-    goto selection_ready;
-normal_kind_1:
-kind_1:
-    item_slot = (u8 *)actor + 8;
-    goto selection_ready;
-kind_default:
-    item_slot = 0;
+    if (*item_slot != 0) {
+        ((S_80173B08_0 *)action)->unk_98 &= 0xFF7F;
+        {
+            s32 is_special;
+            void *item_id;
 
-selection_ready:
-    if (*item_slot == 0) {
-        goto empty_selection;
-    }
-    ((S_80173B08_0 *)action)->unk_98 &= 0xFF7F;
-    {
-        s32 is_special;
-
-        is_special = mode_or_angle;
-        ASM_KEEP(is_special);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        if (is_special != 0) {
-            target = D_800814A8;
-            (*(void * *)((u8 *)actor + 0x60)) = target;
-            goto copy_active_coords;
-        }
-    }
-
-    {
-        void *item_id;
-
-        item_id = (void *)(*item_slot);
-        if (D_8006DE24[((u8)item_id)].kind == 2) {
-            target = (*(void * *)((u8 *)actor + 0x60));
-            if (target != 0) {
-
-copy_active_coords:
+            is_special = mode_or_angle;
+            ASM_KEEP(is_special);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            if (is_special != 0) {
+                target = D_800814A8;
+                (*(void * *)((u8 *)actor + 0x60)) = target;
                 item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
                 (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173B08_2 *)item_id)->unk_24;
                 (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173B08_2 *)item_id)->unk_25;
-                goto invoke_item;
-            }
-        } else {
-            s32 dx;
-            s32 dy;
+            } else {
+                item_id = (void *)(*item_slot);
+                if (D_8006DE24[((u8)item_id)].kind == 2) {
+                    target = (*(void * *)((u8 *)actor + 0x60));
+                    if (target != 0) {
+                        item_id = ((S_80173B08_1_pre *)target)[-1].unk_00;
+                        (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173B08_2 *)item_id)->unk_24;
+                        (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173B08_2 *)item_id)->unk_25;
+                    }
+                } else {
+                    s32 dx;
+                    s32 dy;
 
-            dx = (s32)func_800A05A4(
-                actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-            (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
-            dx = (*(s8 *)((u8 *)actor + 0x72));
-            dy = (*(s8 *)((u8 *)actor + 0x73));
-            if (dx < 0) {
-                dx = -dx;
+                    dx = (s32)func_800A05A4(
+                        actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
+                    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
+                    dx = (*(s8 *)((u8 *)actor + 0x72));
+                    dy = (*(s8 *)((u8 *)actor + 0x73));
+                    if (dx < 0) {
+                        dx = -dx;
+                    }
+                    if (dy < 0) {
+                        dy = -dy;
+                    }
+                    (*(u8 *)((u8 *)actor + 0x72)) = dx;
+                    (*(u8 *)((u8 *)actor + 0x73)) = dy;
+                }
             }
-            if (dy < 0) {
-                dy = -dy;
-            }
-            (*(u8 *)((u8 *)actor + 0x72)) = dx;
-            (*(u8 *)((u8 *)actor + 0x73)) = dy;
         }
-    }
 
-invoke_item:
-    if (func_800A94A0(actor, item_slot, mode_or_angle,
-                      (u8 *)action + 0x98) == 0) {
+        if (func_800A94A0(actor, item_slot, mode_or_angle,
+                          (u8 *)action + 0x98) == 0) {
+            return;
+        }
+        ((S_80173B08_0 *)action)->unk_9B++;
+        return;
+    } else {
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        func_800A4ACC(actor);
+        (*(u8 *)((u8 *)actor + 0x6D))--;
+        ((S_80173B08_0 *)action)->unk_8C = &D_80171F1C;
+        (*(u8 *)((u8 *)actor + 0x73)) = 0;
+        (*(u8 *)((u8 *)actor + 0x72)) = 0;
+        (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
         return;
     }
-    ((S_80173B08_0 *)action)->unk_9B++;
-    return;
-
-empty_selection:
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-    func_800A4ACC(actor);
-    (*(u8 *)((u8 *)actor + 0x6D))--;
-    ((S_80173B08_0 *)action)->unk_8C = &D_80171F1C;
-    (*(u8 *)((u8 *)actor + 0x73)) = 0;
-    (*(u8 *)((u8 *)actor + 0x72)) = 0;
-    (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    return;
 
     case 1:
     if (func_8003F270()) {
@@ -330,8 +308,6 @@ empty_selection:
         anim_addr = 0x80080000;
         ((S_80173B08_0 *)action)->unk_98 = action_flags;
     }
-    goto update_table;
-
 update_table:
     {
         ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = anim_table;

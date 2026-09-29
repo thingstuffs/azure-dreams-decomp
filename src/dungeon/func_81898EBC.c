@@ -155,7 +155,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         owner_node = PTR_AT(owner_data, 0xC);
         if (func_8003DE58(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
             if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
-                goto done;
+                break;
             }
         }
 
@@ -172,7 +172,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             U16_AT(motion, 0xA) = source_z - 0x40;
         }
         if (!(U16_AT(state->image, 0) & 0x80)) {
-            goto done;
+            break;
         }
 
         target_pos = scratch.work;
@@ -187,13 +187,12 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             state->y = D_80082E80.tileY +
                 ((s16 *)((u8 *)dirStepY +
                 ((direction_x >> 8) & 0xE)))[0];
-            goto place_target;
+        } else {
+            state->x = D_80082E80.tileX + dirStepX[state->direction];
+            state->y = D_80082E80.tileY + dirStepY[state->direction];
         }
 
         {
-            state->x = D_80082E80.tileX + dirStepX[state->direction];
-            state->y = D_80082E80.tileY + dirStepY[state->direction];
-place_target:
             {
                 void *height_node;
                 s32 tile_coord;
@@ -217,21 +216,24 @@ place_target:
                 S32_AT((u8 *)target_pos, 8) = fallback_value;
                 state->state = 6;
             } else {
-                {
-                    target_z = S16_AT(target_pos, 0xA);
+                target_z = S16_AT(target_pos, 0xA);
 
-                    direction_x = (u32)(target_z < 0x201);
-                    if (!(s32)direction_x) {
-                        s32 fallback_value;
+                direction_x = (u32)(target_z < 0x201);
+                if (!(s32)direction_x) {
+                    s32 fallback_value;
 
-                        fallback_value =
-                            ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-                        S32_AT((u8 *)target_pos, 8) = fallback_value;
-                        state->state = 6;
-                        goto state_set;
-                    }
-                }
-                if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0) {
+                    fallback_value =
+                        ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                    S32_AT((u8 *)target_pos, 8) = fallback_value;
+                    state->state = 6;
+                } else if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0) {
+                    s32 fallback_value;
+
+                    fallback_value =
+                        ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                    S32_AT((u8 *)target_pos, 8) = fallback_value;
+                    state->state = 6;
+                } else if ((func_800A5690() << 16) == 0) {
                     s32 fallback_value;
 
                     fallback_value =
@@ -239,24 +241,14 @@ place_target:
                     S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
                 } else {
-                    if ((func_800A5690() << 16) == 0) {
-                        s32 fallback_value;
-
-                        fallback_value =
-                            ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-                        S32_AT((u8 *)target_pos, 8) = fallback_value;
-                        state->state = 6;
+                    if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+                        state->status = 1;
                     } else {
-                        if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
-                            state->status = 1;
-                        } else {
-                            state->status = 2;
-                        }
-                        state->state++;
+                        state->status = 2;
                     }
+                    state->state++;
                 }
             }
-state_set:
 
             {
                 s32 delta_x;
@@ -278,7 +270,7 @@ state_set:
                 probe[2] = delta_z;
                 state->duration = delta_x;
             }
-            loop_0: {
+                    do {
                 s32 axis_delta;
 
                 axis_delta = S16_AT(delta_ptr, 24);
@@ -287,7 +279,7 @@ state_set:
                 }
                 axis++;
                 delta_ptr += 2;
-            } if (axis < 3) goto loop_0;
+            } while (axis < 3);
             state->duration =
                 (state->duration >> 4) + (state->duration >> 5);
             if (state->duration == 0) {
@@ -319,7 +311,7 @@ state_set:
             func_800240CC(state, motion, state->duration);
             func_800240CC(state, motion, state->duration);
             state->timer = 0;
-            goto done;
+            break;
         }
 
     case 2:
@@ -327,22 +319,26 @@ state_set:
         S32_AT(motion, 4) += S32_AT(motion, 0x10);
         S32_AT(motion, 8) += S32_AT(motion, 0x14);
         if (state->timer < state->duration) {
-            goto done;
+            break;
         }
         func_8002441C(state, motion);
         func_800A56E0(0x300);
-        goto advance_state;
+        state->timer = 0;
+        state->state++;
+        break;
 
     case 3:
         if (state->timer < 0x10) {
-            goto done;
+            break;
         }
         func_800245CC(state, motion);
-        goto advance_state;
+        state->timer = 0;
+        state->state++;
+        break;
 
     case 4:
         if (state->timer < 0x11) {
-            goto done;
+            break;
         }
         if (state->status != 0) {
             void *effect = func_800D24A8(state->status, state->x, state->y,
@@ -366,19 +362,18 @@ state_set:
             U8_AT(effect, 0x28) = clamped_intensity;
             U8_AT(effect, 0x29) = clamped_intensity;
         }
-advance_state:
         state->timer = 0;
         state->state++;
-        goto done;
+        break;
 
     case 5:
         if (state->field_14 != 0) {
-            goto done;
+            break;
         }
         dungeonStatus.unk_0C = 0;
         U16_AT(state, -2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        break;
 
     case 6:
         S32_AT(motion, 0) += S32_AT(motion, 0xC);
@@ -390,6 +385,5 @@ advance_state:
 
     }
 
-done:
     state->field_14 = 0;
 }

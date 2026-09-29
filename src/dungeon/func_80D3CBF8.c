@@ -115,27 +115,21 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
                 call_result = func_800A6D30();
                 U16_AT(actor, 0x2A) += (call_result & 7) << 9;
             }
-            goto loop_setup;
+        } else {
+            work_value = (s32)func_800A04F0(actor, U8_AT(position, 0x24),
+                                        U8_AT(position, 0x25),
+                                        S16_AT(actor, 0x2A));
+            if (work_value != 0) {
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
+            }
         }
-
-        work_value = (s32)func_800A04F0(actor, U8_AT(position, 0x24),
-                                    U8_AT(position, 0x25),
-                                    S16_AT(actor, 0x2A));
-        if (work_value == 0) {
-            goto loop_ready;
-        }
-        goto clear_history;
-    }
-
-    if (movement_flags & 0x2000) {
+    } else if (movement_flags & 0x2000) {
         if (U16_AT(actor, 0x46) & 0x8000) {
-            attempt = 0;
             attempt = 0;
             work_value = (s32)0x80070000;
             goto loop_ready_done;
-        }
-
-        if (movement_flags & 0x20000) {
+        } else if (movement_flags & 0x20000) {
             s16 path_angle;
             TileObject *path_center;
             u8 *path_work;
@@ -149,7 +143,8 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
 
             if ((U8_AT(position, 0x24) == (u16)target_x) &&
                 (U8_AT(position, 0x25) == (u16)target_y)) {
-                goto clear_history;
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
             }
 
             path_work = (u8 *)work_data + 0x98;
@@ -173,74 +168,60 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
             if ((work_value << 16) != 0) {
                 limit_turn = 1;
             }
-            goto loop_ready;
+        } else {
+            func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         }
     } else {
+        u8 *tile_records;
+        u8 *tile_record;
+
         tile_type = S8_AT(position, 0x26);
-        if (tile_type >= 0) {
-            u8 *tile_records;
-            u8 *tile_record;
-
-            tile_records = D_800E2970;
-            tile_record = tile_records + tile_type * 0x14;
-            if (U16_AT(tile_record, 0xC) & 2) {
-                goto direct_move;
+        if (tile_type >= 0 && (tile_records = D_800E2970, tile_record = tile_records + tile_type * 0x14, U16_AT(tile_record, 0xC) & 2)) {
+            func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
+        } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
+            node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                  S16_AT(actor, 0x2A));
+            if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
+                (func_800A0134(node, actor) < 0x81) &&
+                ((func_8009A540(
+                      ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                      U8_AT(position, 0x24), U8_AT(position, 0x25),
+                      (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
             }
-        }
 
-        attempt = 0;
-        if (U16_AT(actor, 0x46) & 0x8000) {
-            goto loop_ready;
-        }
+            if (S32_AT(actor, 0x1C) & 0x20000) {
+                TileObject *move_center;
 
-        node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                              S16_AT(actor, 0x2A));
-        if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
-            (func_800A0134(node, actor) < 0x81) &&
-            ((func_8009A540(
-                  ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                  U8_AT(position, 0x24), U8_AT(position, 0x25),
-                  (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
-            goto clear_history;
-        }
-
-        if (S32_AT(actor, 0x1C) & 0x20000) {
-            TileObject *move_center;
-
-            move_center = &D_80082E80;
-            U16_AT(actor, 0x2A) = func_800A0818(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
-                (u8 *)work_data + 0x98);
-
-            if ((func_8009FD7C(
+                move_center = &D_80082E80;
+                U16_AT(actor, 0x2A) = func_800A0818(
                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
-                if (func_800A0134(D_800814A8, actor) >= 0x81) {
-                    goto loop_setup;
-                }
-                if ((func_8009A540(
-                        ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                    U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
+                    (u8 *)work_data + 0x98);
+
+                if ((func_8009FD7C(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
-                        (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) == 0) {
-                    goto loop_setup;
+                        U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
+                    if (func_800A0134(D_800814A8, actor) < 0x81) {
+                        if ((func_8009A540(
+                                ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                            U8_AT(actor, 0x71) &= 0x7F;
+                            return;
+                        }
+                    }
                 }
-                goto clear_history;
+            } else {
+                func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
             }
-            goto loop_setup;
         }
     }
-direct_move:
-    func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
 
-loop_setup:
-    attempt = 0;
-
-loop_ready:
     attempt = 0;
     work_value = (s32)0x80070000;
-    loop_ready_done:
-    ;
+loop_ready_done:
     angle_step = (s16 *)(work_value - 0x3300);
 
 loop_head:
@@ -256,7 +237,8 @@ loop_head:
         if (attempt >= 3) {
             work_value = limit_turn;
             if (work_value != 0) {
-                goto clear_history;
+                U8_AT(actor, 0x71) &= 0x7F;
+                return;
             }
         }
 
@@ -332,15 +314,10 @@ loop_head:
 
         U16_AT(turn_state_tail, 8)++;
     }
-    if (S8_AT(actor, 0x6D) != 0) {
-        goto update_height;
+    if (S8_AT(actor, 0x6D) == 0) {
+        U8_AT(actor, 0x71) &= 0x7F;
+        return;
     }
-
-clear_history:
-    U8_AT(actor, 0x71) &= 0x7F;
-    return;
-
-update_height:
     attempt = func_800BCB04(
         (U8_AT(position, 0x24) << 6) | 0x20,
         (U8_AT(position, 0x25) << 6) | 0x20,

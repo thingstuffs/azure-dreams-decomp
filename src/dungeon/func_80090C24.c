@@ -117,202 +117,184 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec 
     }
 
     if (!(dungeonStatus.flags & 4)) {
-        if (!(status_flags & 0x20)) {
-            flags_page = (u16 *)0x80010000;
-            command_flags = flags_page[0x1B8A];
-            if (command_flags & 1) {
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFFFE;
-                if (actor_flags & 0x200) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFDFE;
-                }
+        if (status_flags & 0x20) {
+            func_800969B8(actor, actor_id, sprite, actor_data);
+            return;
+        }
+        flags_page = (u16 *)0x80010000;
+        command_flags = flags_page[0x1B8A];
+        if (command_flags & 1) {
+            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFFFE;
+            if (actor_flags & 0x200) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = actor_flags & 0xFDFE;
+            }
 
-                command = func_8009F868(command_flags);
-                if (command != 0) {
-                    direction = command->unk_01 & 7;
-                    old_angle = ((u16)actor_data->facing);
-                    ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    direction &= 0xFF;
-                    turn_angle = direction << 9;
-                    angle = old_angle & 0xFFF;
-                    target_angle = turn_angle;
-                    ASM_KEEP_NV(target_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    actor_data->facing = angle;
+            command = func_8009F868(command_flags);
+            if (command != 0) {
+                direction = command->unk_01 & 7;
+                old_angle = ((u16)actor_data->facing);
+                ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                direction &= 0xFF;
+                turn_angle = direction << 9;
+                angle = old_angle & 0xFFF;
+                target_angle = turn_angle;
+                ASM_KEEP_NV(target_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                actor_data->facing = angle;
 
-                    if (angle != target_angle) {
-                        wrapped_angle = old_angle & 0x800;
-                        if (!wrapped_angle) {
-                            wrapped_angle = old_angle & 0x7FF;
-                        } else {
-                            wrapped_angle = angle | 0xF800;
-                        }
-                        actor_data->facing = wrapped_angle;
-
-                        wrapped_angle = turn_angle & 0x800;
-                        if (!wrapped_angle) {
-                            wrapped_angle = turn_angle & 0x7FF;
-                        } else {
-                            wrapped_angle = turn_angle | 0xF800;
-                        }
-                        turn_angle = wrapped_angle;
-                        angle = turn_angle << 16;
-                        signed_target = angle >> 16;
-                        signed_angle = actor_data->facing;
-                        angle = ((u16)actor_data->facing);
-                        angle_distance = signed_angle - signed_target;
-                        if (angle_distance < 0) {
-                            angle_distance = 0 - angle_distance;
-                        }
-                        if (angle_distance >= 0x801) {
-                            actor_data->facing = (u16)
-                                ((turn_angle & ~0xFFF) | (angle & 0xFFF));
-                        }
-                        signed_angle = actor_data->facing;
-                        angle_2 = ((u16)actor_data->facing);
-                        next_angle = signed_target < signed_angle;
-                        if (!next_angle) {
-                            next_angle = angle_2 + 0x200;
-                        } else {
-                            next_angle = angle_2 - 0x200;
-                        }
-                        actor_data->facing = next_angle;
-                        func_8009F988(turn_angle, signed_target);
-                        goto reload_flags;
+                if (angle != target_angle) {
+                    wrapped_angle = old_angle & 0x800;
+                    if (!wrapped_angle) {
+                        wrapped_angle = old_angle & 0x7FF;
+                    } else {
+                        wrapped_angle = angle | 0xF800;
                     }
+                    actor_data->facing = wrapped_angle;
 
+                    wrapped_angle = turn_angle & 0x800;
+                    if (!wrapped_angle) {
+                        wrapped_angle = turn_angle & 0x7FF;
+                    } else {
+                        wrapped_angle = turn_angle | 0xF800;
+                    }
+                    turn_angle = wrapped_angle;
+                    angle = turn_angle << 16;
+                    signed_target = angle >> 16;
+                    signed_angle = actor_data->facing;
+                    angle = ((u16)actor_data->facing);
+                    angle_distance = signed_angle - signed_target;
+                    if (angle_distance < 0) {
+                        angle_distance = 0 - angle_distance;
+                    }
+                    if (angle_distance >= 0x801) {
+                        actor_data->facing = (u16)
+                            ((turn_angle & ~0xFFF) | (angle & 0xFFF));
+                    }
+                    signed_angle = actor_data->facing;
+                    angle_2 = ((u16)actor_data->facing);
+                    next_angle = signed_target < signed_angle;
+                    if (!next_angle) {
+                        next_angle = angle_2 + 0x200;
+                    } else {
+                        next_angle = angle_2 - 0x200;
+                    }
+                    actor_data->facing = next_angle;
+                    func_8009F988(turn_angle, signed_target);
+                } else {
                     D_800E3544[0] = command->unk_01 & 0xF8;
                     command_state = D_800E3544[0];
-                    if (command_state != 0x10) {
-                        if (command_state < 0x11) {
-                            if (command_state == 8) {
-                                goto move;
-                            }
-                            goto reload_flags;
-                        }
-                        if (command_state != 0x18) {
-                            if (command_state == 0xD8) {
-                                goto dispatch_command;
-                            }
-                            goto reload_flags;
-                        }
-                        goto use_action;
+                    switch (command_state) {
+                    case 8:
+                        func_80096C24(actor, actor_id, sprite, actor_data);
+                        return;
+                    case 0x10:
+                        func_800969B8(actor, actor_id, sprite, actor_data);
+                        return;
+                    case 0x18:
+                        func_800973F0(actor, actor_id, sprite, actor_data);
+                        break;
+                    case 0xD8:
+                        D_800DD830[command->unk_00 & 0x7F]();
+                        break;
                     }
-                    goto command_10;
-move:
-                    func_80096C24(actor, actor_id, sprite, actor_data);
-                    return;
-command_10:
-                    func_800969B8(actor, actor_id, sprite, actor_data);
-                    return;
-use_action:
-                    func_800973F0(actor, actor_id, sprite, actor_data);
-                    goto reload_flags;
-dispatch_command:
-                    D_800DD830[command->unk_00 & 0x7F]();
-                    goto reload_flags;
                 }
             } else {
-                D_800E3544[0] = 0;
-                if (command_flags & 4) {
-                    func_80040AA0(3);
-                    return;
-                }
-
-                if ((func_80094EA4() << 16) != 0) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_s16 = 0;
-                }
-
-                if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
-                    ((func_800A2C34(actor_data) << 16) == 0) &&
-                    !(dungeonStatus.flags & 4) &&
-                    ((func_800A4474(sprite->unk_24,
-                        sprite->unk_25) << 16) != 0)) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
-                    func_8008CF6C(actor, actor_id, sprite, D_800245A8);
-                    return;
-                }
-
-                if (input->buttons & 0x80) {
-                    actor_data->unk_8A = 2;
-                    D_800E4940[0] = 2;
-                    func_8008CF6C(actor, actor_id, sprite, D_8004F5F4);
-                    D_80082E80.unk_030 = 0;
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
-                    return;
-                }
-
-                flags_ptr = (u8 *)actor + 0xA2;
-                if (input->buttons & 3) {
-                    func_800A56E0(0x506, flags_ptr);
-                    return;
-                }
-
-                input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
-                    flags_ptr, (u8 *)actor_data + 0x2A);
-                if (input_angle != 0xFFF) {
-                    actor_data->facing = input_angle;
-                    if (!(input->buttons & 0x10)) {
-                        move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
-                        if (!(move_flags & 0x400)) {
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
-                            if (actor_data->flags1C & 0x400) {
-                                actor_data->facing =
-                                    ((u16)actor_data->facing) +
-                                    (func_800A6D30() & 0xE00);
-                            }
-                            func_80096C24(actor, actor_id, sprite, actor_data);
-                            if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0x32) {
-                                return;
-                            }
-                            goto check_actions;
-                        }
-                    }
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
-                }
-
-check_actions:
-                input_flags = ((u32)input->buttons);
-                if ((input_flags & 0x30) == 0x30) {
-                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
-                    func_800969B8(actor, actor_id, sprite, actor_data);
-                    return;
-                }
-
-                tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
-                action_bit = tail_flags & 0x40;
-                if (action_bit != 0) {
-                    action_bit = input_flags & 0x40;
-                    if (action_bit == 0) {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFBF;
-                        goto reload_flags;
-                    }
-                    goto update_sprite;
-                }
-                action_bit = input_flags & 0x40;
-                if (action_bit == 0) {
-                    goto reload_flags;
-                }
-                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-                if ((func_800973F0(actor, actor_id, sprite, actor_data) << 16) != 0) {
-                    return;
-                }
-                goto reload_flags;
+                return;
             }
         } else {
-            goto command_10;
+            D_800E3544[0] = 0;
+            if (command_flags & 4) {
+                func_80040AA0(3);
+                return;
+            }
+
+            if ((func_80094EA4() << 16) != 0) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_s16 = 0;
+            }
+
+            if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) &&
+                ((func_800A2C34(actor_data) << 16) == 0) &&
+                !(dungeonStatus.flags & 4) &&
+                ((func_800A4474(sprite->unk_24,
+                    sprite->unk_25) << 16) != 0)) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFDFF;
+                func_8008CF6C(actor, actor_id, sprite, D_800245A8);
+                return;
+            }
+
+            if (input->buttons & 0x80) {
+                actor_data->unk_8A = 2;
+                D_800E4940[0] = 2;
+                func_8008CF6C(actor, actor_id, sprite, D_8004F5F4);
+                D_80082E80.unk_030 = 0;
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
+                return;
+            }
+
+            flags_ptr = (u8 *)actor + 0xA2;
+            if (input->buttons & 3) {
+                func_800A56E0(0x506, flags_ptr);
+                return;
+            }
+
+            input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E,
+                flags_ptr, (u8 *)actor_data + 0x2A);
+            if (input_angle != 0xFFF) {
+                actor_data->facing = input_angle;
+                if (!(input->buttons & 0x10)) {
+                    move_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+                    if (!(move_flags & 0x400)) {
+                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = move_flags & 0xFFFE;
+                        if (actor_data->flags1C & 0x400) {
+                            actor_data->facing =
+                                ((u16)actor_data->facing) +
+                                (func_800A6D30() & 0xE00);
+                        }
+                        func_80096C24(actor, actor_id, sprite, actor_data);
+                        if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0x32) {
+                            return;
+                        }
+                    } else {
+                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                    }
+                } else {
+                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
+                }
+            }
+
+            input_flags = ((u32)input->buttons);
+            if ((input_flags & 0x30) == 0x30) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 &= 0xFFFE;
+                func_800969B8(actor, actor_id, sprite, actor_data);
+                return;
+            }
+
+            tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+            action_bit = tail_flags & 0x40;
+            if (action_bit != 0) {
+                action_bit = input_flags & 0x40;
+                if (action_bit == 0) {
+                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFBF;
+                }
+            } else {
+                action_bit = input_flags & 0x40;
+                if (action_bit != 0) {
+                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
+                    if ((func_800973F0(actor, actor_id, sprite, actor_data) << 16) != 0) {
+                        return;
+                    }
+                }
+            }
         }
-    } else {
-reload_flags:
-        tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
-update_sprite:
-        if (tail_flags & 1) {
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
-            sprite->unk_2C.as_pv = D_800DD274;
-            func_8003DB94(sprite,
-                *(void **)((u8 *)D_800DD274 +
-                    ((((s32)(gameWork.view.viewAngle + actor_data->facing +
-                        0x100)) >> 7) & 0x1C)),
-                0);
-        }
+    }
+    tail_flags = ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2;
+    if (tail_flags & 1) {
+        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = tail_flags & 0xFFFE;
+        sprite->unk_2C.as_pv = D_800DD274;
+        func_8003DB94(sprite,
+            *(void **)((u8 *)D_800DD274 +
+                ((((s32)(gameWork.view.viewAngle + actor_data->facing +
+                    0x100)) >> 7) & 0x1C)),
+            0);
     }
 }

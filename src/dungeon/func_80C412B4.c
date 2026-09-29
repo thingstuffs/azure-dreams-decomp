@@ -143,20 +143,17 @@ state_0:
     if (((S_80172AB4_1 *)actor)->unk_1C & 0x2000) {
         move_kind = (((S_80172AB4_1 *)actor)->unk_46 & 0x3FFF) - 1;
         switch (move_kind) {
-        case 0:
-            goto kind_1;
-        case 1:
-            goto kind_2;
-        case 2:
-            goto kind_3;
         case 6:
             use_player = 1;
+        case 2:
             goto kind_3;
         case 5:
             use_player = 1;
+        case 1:
             goto kind_2;
         case 4:
             use_player = 1;
+        case 0:
             goto kind_1;
         default:
             goto kind_none;
@@ -164,21 +161,21 @@ state_0:
     }
 
     move_kind = ((S_80172AB4_1 *)actor)->unk_46 & 0x3FFF;
-    if (move_kind == 2) {
-        goto kind_2;
-    }
-    if (move_kind < 3) {
-        if (move_kind == 1) {
-            goto kind_1;
-        }
+    switch (move_kind) {
+    case 1:
+        move_id = (u8 *)actor + 8;
+        break;
+    case 2:
+        move_id = (u8 *)actor + 0xB;
+        break;
+    case 3:
+        move_id = (u8 *)actor + 0xE;
+        break;
+    default:
         move_id = 0;
-        goto have_choice;
+        break;
     }
-    if (move_kind != 3) {
-        move_id = 0;
-        goto have_choice;
-    }
-
+    goto have_choice;
 kind_3:
     move_id = (u8 *)actor + 0xE;
     goto have_choice;
@@ -194,38 +191,29 @@ kind_none:
 have_choice:
     if (*move_id != 0) {
         ((S_80172AB4_0 *)action)->unk_98 &= 0xFF7F;
-        {
-            s32 player_target = use_player;
-
-            if (player_target != 0) {
-                target = D_800814A8;
-                ((S_80172AB4_1 *)actor)->unk_60 = target;
-                goto copy_existing;
-            }
-        }
-
-        if (D_8006DE24[*move_id].kind == 2) {
-            target = ((S_80172AB4_1 *)actor)->unk_60;
-            if (target == 0) {
-                goto move_setup;
-            }
-copy_existing:
+        if (use_player != 0) {
+            target = D_800814A8;
+            ((S_80172AB4_1 *)actor)->unk_60 = target;
             move_kind = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
             ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
             ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
-            goto apply_move;
+        } else if (D_8006DE24[*move_id].kind == 2) {
+            target = ((S_80172AB4_1 *)actor)->unk_60;
+            if (target != 0) {
+                move_kind = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
+                ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
+                ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
+            }
+        } else {
+            ((S_80172AB4_1 *)actor)->unk_60 =
+                func_800A05A4(actor,
+                              ((S_80172AB4_4 *)sprite)->unk_24,
+                              ((S_80172AB4_4 *)sprite)->unk_25,
+                              ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
+            ((S_80172AB4_1 *)actor)->unk_72.s = abs(((S_80172AB4_1 *)actor)->unk_72.u);
+            ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
         }
 
-        ((S_80172AB4_1 *)actor)->unk_60 =
-            func_800A05A4(actor,
-                          ((S_80172AB4_4 *)sprite)->unk_24,
-                          ((S_80172AB4_4 *)sprite)->unk_25,
-                          ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
-        ((S_80172AB4_1 *)actor)->unk_72.s = abs(((S_80172AB4_1 *)actor)->unk_72.u);
-        ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
-
-move_setup:
-apply_move:
         position[0] = ((S_80172AB4_5 *)motion)->unk_02;
         position[1] = ((S_80172AB4_5 *)motion)->unk_06;
         position[2] = ((S_80172AB4_5 *)motion)->unk_0A;
@@ -285,7 +273,8 @@ state_2:
         D_80174DA4[((gameWork.view.viewAngle + ((S_80172AB4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_80172AB4_5 *)motion)->unk_14 = 0;
-    goto advance_state;
+    ((S_80172AB4_0 *)action)->unk_9B++;
+    return;
 
 state_3:
     if (func_8003F270() != 0) {

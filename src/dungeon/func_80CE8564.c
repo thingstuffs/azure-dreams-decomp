@@ -101,164 +101,135 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     saved_y = sprite_y;
     object = func_8003FD64(mode_or_object, (void *)kind_or_position);
     init_flags = saved_flags;
-    if (object == 0) {
-        goto done;
-    }
+    if (object != 0) {
+        result = (u8 *)object + 0x20;
+        ((S_80171D64_0 *)object)->unk_10 = D_801720B4;
+        ((S_80171D64_1 *)result)->unk_13 = 0x16;
+        func_8004491C(object, func_80045340);
 
-    result = (u8 *)object + 0x20;
-    ((S_80171D64_0 *)object)->unk_10 = D_801720B4;
-    ((S_80171D64_1 *)result)->unk_13 = 0x16;
-    func_8004491C(object, func_80045340);
-
-    default_frames = (s32)D_80175E24;
-    kind_or_position = 0xE;
-    position = ((S_80171D64_0 *)object)->unk_08;
-    alternate_kind = 0xF;
-    ((S_80171D64_2 *)position)->unk_0A = saved_height;
-    height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
-    ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    mode_or_object = saved_flags & 3;
-    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = (void *)default_frames;
-    default_frames = 0x20;
-    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = saved_y;
-    height = (s32)result;
-    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_24 = saved_x;
-    ((S_80171D64_1 *)result)->unk_4B = default_frames;
-    ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
-    ((S_80171D64_1 *)result)->unk_49 = alternate_kind;
-
-    if (mode_or_object == 1) {
-        (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
-        branch_flags = ((S_80171D64_1 *)result)->unk_1C;
-        global_kind = (u8)D_800E2968;
-        ((S_80171D64_1 *)result)->unk_1C = branch_flags | 0x6000;
-        if (global_kind >= 0xA) {
-            if (global_kind < 0xD) {
-                ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
-            } else {
-                ((S_80171D64_1 *)result)->unk_48 = 0xD;
-            }
-        }
-        goto setup;
-    }
-
-    default_frames = mode_or_object < 2;
-    if (!default_frames) {
-        ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
-        ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
-        goto setup;
-    }
-
-    global_kind = (u8)D_800E2968;
-    if (global_kind < 0xA) {
+        default_frames = (s32)D_80175E24;
+        kind_or_position = 0xE;
+        position = ((S_80171D64_0 *)object)->unk_08;
+        alternate_kind = 0xF;
+        ((S_80171D64_2 *)position)->unk_0A = saved_height;
+        height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
+        ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        mode_or_object = saved_flags & 3;
+        ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = (void *)default_frames;
+        default_frames = 0x20;
+        ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = saved_y;
+        height = (s32)result;
+        ((S_80171D64_3 *)((void *)height_or_sprite))->unk_24 = saved_x;
+        ((S_80171D64_1 *)result)->unk_4B = default_frames;
         ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
-    } else if (global_kind < 0xD) {
-        ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
-    } else {
-        ((S_80171D64_1 *)result)->unk_48 = 0xD;
-    }
+        ((S_80171D64_1 *)result)->unk_49 = alternate_kind;
 
-    if (((init_flags & ~3) << 16) == 0) {
-        mode_or_object = (s32)object;
-        kind_or_position = (s32)position;
-        if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
-            state_flags = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
-            mode_or_object = (s32)object;
-            if (state_flags & 1) {
-                func_800A48F0(result, 1,
-                    (func_800A6D30((void *)mode_or_object) & 0x3F) | 0x20);
-                kind = ((S_80171D64_1 *)result)->unk_48;
-                if (kind == 0xE) {
-                    goto callback_e;
+        if (mode_or_object == 1) {
+            (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
+            branch_flags = ((S_80171D64_1 *)result)->unk_1C;
+            global_kind = (u8)D_800E2968;
+            ((S_80171D64_1 *)result)->unk_1C = branch_flags | 0x6000;
+            if (global_kind >= 0xA) {
+                if (global_kind < 0xD) {
+                    ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
+                } else {
+                    ((S_80171D64_1 *)result)->unk_48 = 0xD;
                 }
-                if (kind < 0xF) {
-                    if (kind == 0xD) {
-                        goto callback_d;
-                    }
-                    goto setup;
-                }
-                if (kind == 0xF) {
-                    goto callback_f;
-                }
-                goto setup;
-
-callback_d:
-                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-                new_frames = D_80175E54;
-                goto callback_compare;
-callback_e:
-                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-                new_frames = D_80175E5C;
-                goto callback_compare;
-callback_f:
-                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-                new_frames = D_80175E64;
-callback_compare:
-                if (current_frames != new_frames) {
-                    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = new_frames;
-                }
-            } else {
-                goto setup_args_ready;
             }
         } else {
-            kind_or_position = (s32)position;
-            goto setup_args2_ready;
+            default_frames = mode_or_object < 2;
+            if (!default_frames) {
+                ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
+                ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
+            } else {
+                global_kind = (u8)D_800E2968;
+                if (global_kind < 0xA) {
+                    ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
+                } else if (global_kind < 0xD) {
+                    ((S_80171D64_1 *)result)->unk_48 = alternate_kind;
+                } else {
+                    ((S_80171D64_1 *)result)->unk_48 = 0xD;
+                }
+
+                if (((init_flags & ~3) << 16) == 0) {
+                    mode_or_object = (s32)object;
+                    kind_or_position = (s32)position;
+                    if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
+                        state_flags = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
+                        mode_or_object = (s32)object;
+                        if (state_flags & 1) {
+                            func_800A48F0(result, 1,
+                                (func_800A6D30((void *)mode_or_object) & 0x3F) | 0x20);
+                            kind = ((S_80171D64_1 *)result)->unk_48;
+                            switch (kind) {
+                            case 0xD:
+                                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                                new_frames = D_80175E54;
+                                if (current_frames != new_frames) {
+                                    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = new_frames;
+                                }
+                                break;
+                            case 0xE:
+                                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                                new_frames = D_80175E5C;
+                                if (current_frames != new_frames) {
+                                    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = new_frames;
+                                }
+                                break;
+                            case 0xF:
+                                current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+                                new_frames = D_80175E64;
+                                if (current_frames != new_frames) {
+                                    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = new_frames;
+                                }
+                                break;
+                            }
+                        } else {
+                            goto setup_args_ready;
+                        }
+                    } else {
+                        kind_or_position = (s32)position;
+                        goto setup_args2_ready;
+                    }
+                }
+            }
+        }
+
+        mode_or_object = (s32)object;
+    setup_args_ready:
+        kind_or_position = (s32)position;
+    setup_args2_ready:
+        func_800A9C18((void *)mode_or_object, (void *)kind_or_position, (void *)height_or_sprite,
+            (s16)init_flags);
+        ((S_80171D64_4 *)((void *)height))->unk_9A = 0xFF;
+        ((S_80171D64_4 *)((void *)height))->unk_9C = -1;
+        ((S_80171D64_4 *)((void *)height))->unk_8C = D_801724BC;
+        func_800AA36C((void *)height, position, (void *)height_or_sprite, result);
+
+        kind = ((S_80171D64_1 *)result)->unk_48;
+        switch (kind) {
+        case 0xD:
+            current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+            frame_table = D_80175E24;
+            break;
+        case 0xE:
+            current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+            frame_table = D_80175E2C;
+            break;
+        case 0xF:
+            current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
+            frame_table = D_80175E34;
+            break;
+        default:
+            return result;
+        }
+        if (current_frames != frame_table) {
+            (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
+            default_frames = ((gameWork.view.viewAngle + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
+            func_80047784((void *)height_or_sprite,
+                *(u8 *)((u32)default_frames + (u32)frame_table),
+                0);
         }
     }
-
-setup:
-    mode_or_object = (s32)object;
-setup_args_ready:
-    kind_or_position = (s32)position;
-setup_args2_ready:
-    func_800A9C18((void *)mode_or_object, (void *)kind_or_position, (void *)height_or_sprite,
-        (s16)init_flags);
-    ((S_80171D64_4 *)((void *)height))->unk_9A = 0xFF;
-    ((S_80171D64_4 *)((void *)height))->unk_9C = -1;
-    ((S_80171D64_4 *)((void *)height))->unk_8C = D_801724BC;
-    func_800AA36C((void *)height, position, (void *)height_or_sprite, result);
-
-    kind = ((S_80171D64_1 *)result)->unk_48;
-    if (kind == 0xE) {
-        goto select_e;
-    }
-    if (kind < 0xF) {
-        if (kind == 0xD) {
-            goto select_d;
-        }
-        return result;
-    }
-    if (kind == 0xF) {
-        goto select_f;
-    }
-    return result;
-
-select_d:
-    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-    frame_table = D_80175E24;
-    if (current_frames == frame_table) {
-        goto done;
-    }
-    goto table_store;
-select_e:
-    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-    frame_table = D_80175E2C;
-    if (current_frames == frame_table) {
-        goto done;
-    }
-    goto table_store;
-select_f:
-    current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
-    frame_table = D_80175E34;
-    if (current_frames == frame_table) {
-        return result;
-    }
-table_store:
-    (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
-    default_frames = ((gameWork.view.viewAngle + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
-    func_80047784((void *)height_or_sprite,
-        *(u8 *)((u32)default_frames + (u32)frame_table),
-        0);
-done:
     return result;
 }

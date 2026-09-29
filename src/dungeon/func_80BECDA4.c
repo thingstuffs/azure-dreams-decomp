@@ -83,21 +83,8 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object)
     s32 state;
     state = ((S_801725A4_0 *)owner)->unk_9B;
     is_special = 0;
-    if (state == 1) {
-        goto L_state1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto L_state0;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto L_state2;
-    }
-    return;
-
-L_state0:
+    switch (state) {
+    case 0:
     if (((S_801725A4_1 *)object)->unk_1C & 0x2000) {
         kind_index = (((S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
         switch (kind_index) {
@@ -122,22 +109,24 @@ L_state0:
     }
 
     kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
-    if (kind == 2) {
-        goto L_kind2;
-    }
-    if (kind < 3) {
-        if (kind == 1) {
-            goto L_kind1;
-        }
-        action_data = 0;
-        goto L_selected;
-    }
-    if (kind == 3) {
-L_kind3:
+    switch (kind) {
+    case 3:
         action_data = (u8 *)object + 0xE;
-        goto L_selected;
+        break;
+    case 2:
+        action_data = (u8 *)object + 0xB;
+        break;
+    case 1:
+        action_data = (u8 *)object + 8;
+        break;
+    default:
+        action_data = 0;
+        break;
     }
-    goto L_after_jt;
+    goto L_selected;
+L_kind3:
+    action_data = (u8 *)object + 0xE;
+    goto L_selected;
 L_kind2:
     action_data = (u8 *)object + 0xB;
     goto L_selected;
@@ -155,44 +144,46 @@ L_selected:
         if (x) {
             spawn = D_800814A8;
             ((S_801725A4_1 *)object)->unk_60 = spawn;
-            goto L_record;
-        }
-
-        action_table = D_8006DE24;
-        action_id = *action_data;
-        action_entry = action_table + (action_id * 20);
-        if (action_entry[0x12] == 2) {
-            spawn = ((S_801725A4_1 *)object)->unk_60;
-            if (spawn == 0) {
-                goto L_spawn_ready;
-            }
-L_record:
             record = *(u8 **)((u8 *)spawn - 0x14);
             x = record[0x24];
             ((S_801725A4_1 *)object)->unk_72.s = x;
             x = record[0x25];
             ((S_801725A4_1 *)object)->unk_73.s = x;
-            goto L_spawn_ready;
+        } else {
+            action_table = D_8006DE24;
+            action_id = *action_data;
+            action_entry = action_table + (action_id * 20);
+            if (action_entry[0x12] == 2) {
+                spawn = ((S_801725A4_1 *)object)->unk_60;
+                if (spawn != 0) {
+                record = *(u8 **)((u8 *)spawn - 0x14);
+                x = record[0x24];
+                ((S_801725A4_1 *)object)->unk_72.s = x;
+                x = record[0x25];
+                ((S_801725A4_1 *)object)->unk_73.s = x;
+                }
+            } else {
+                spawn = func_800A05A4(
+                    object,
+                    ((S_801725A4_2 *)actor)->unk_24,
+                    ((S_801725A4_2 *)actor)->unk_25,
+                    ((S_801725A4_1 *)object)->unk_2A,
+                    0x10);
+                ((S_801725A4_1 *)object)->unk_60 = spawn;
+    
+                x = ((S_801725A4_1 *)object)->unk_72.u;
+                y = ((S_801725A4_1 *)object)->unk_73.u;
+                if (x < 0) {
+                    x = -x;
+                }
+                if (y < 0) {
+                    y = -y;
+                }
+                ((S_801725A4_1 *)object)->unk_72.s = x;
+                ((S_801725A4_1 *)object)->unk_73.s = y;
+    
+            }
         }
-
-        spawn = func_800A05A4(
-            object,
-            ((S_801725A4_2 *)actor)->unk_24,
-            ((S_801725A4_2 *)actor)->unk_25,
-            ((S_801725A4_1 *)object)->unk_2A,
-            0x10);
-        ((S_801725A4_1 *)object)->unk_60 = spawn;
-
-        x = ((S_801725A4_1 *)object)->unk_72.u;
-        y = ((S_801725A4_1 *)object)->unk_73.u;
-        if (x < 0) {
-            x = -x;
-        }
-        if (y < 0) {
-            y = -y;
-        }
-        ((S_801725A4_1 *)object)->unk_72.s = x;
-        ((S_801725A4_1 *)object)->unk_73.s = y;
 
 L_spawn_ready:
         if (func_800A94A0(object, action_data, is_special,
@@ -218,7 +209,7 @@ L_spawn_ready:
     ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
     return;
 
-L_state1:
+    case 1:
     if (func_8003F270() != 0) {
         ((S_801725A4_2 *)actor)->unk_14 |= 0x0800;
         return;
@@ -226,17 +217,12 @@ L_state1:
     ((S_801725A4_2 *)actor)->unk_14 &= 0xF7FF;
     ((S_801725A4_0 *)owner)->unk_9B++;
 
-L_state2:
-    if (((S_801725A4_2 *)actor)->unk_04 == 4) {
-        if (((S_801725A4_2 *)actor)->unk_14 & 0x1000) {
-            goto L_state2_ready;
+    case 2:
+    if (((S_801725A4_2 *)actor)->unk_04 != 4 || !(((S_801725A4_2 *)actor)->unk_14 & 0x1000)) {
+        if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
+            return;
         }
     }
-    if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
-        return;
-    }
-
-L_state2_ready:
     ((S_801725A4_0 *)owner)->unk_98 |= 0x80;
     if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
         return;
@@ -271,4 +257,8 @@ L_state2_ready:
     ((S_801725A4_1 *)object)->unk_6D--;
     ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
+    return;
+    default:
+        return;
+    }
 }

@@ -128,14 +128,15 @@ selection_done:
             if (action_value != 0) {
                 action_value = (s32)D_800814A8;
                 actor->target = (void *)action_value;
-                goto set_from_object;
+                action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
+                actor->unk_72 = action_control[0x24];
+                actor->unk_73 = action_control[0x25];
             } else {
                 u8 *action_defs = D_8006DE24;
                 action_value = (s32)(action_defs + *action_slot * 20);
                 if (((u8 *)action_value)[0x12] == 2) {
                     action_value = (s32)actor->target;
                     if (action_value != 0) {
-set_from_object:
                         action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
                         actor->unk_72 = action_control[0x24];
                         actor->unk_73 = action_control[0x25];

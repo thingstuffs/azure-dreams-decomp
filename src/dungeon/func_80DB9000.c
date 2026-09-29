@@ -221,7 +221,7 @@ __asm__(".globl func_80170800\n"
 #endif
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_bias_arg) {
+void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;
@@ -264,10 +264,6 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     register u32 address_mask;
     register u32 load_dependency;
     S_80DB9000_9 *packet;
-    S_80DB9000_1 *sprite_size = size_arg;
-    register S_80DB9000_2 *position = position_arg;
-    register S_80DB9000_3 *sprite ASM_REG("$20") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s16 depth_bias = depth_bias_arg;
     register u8 *work_src ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *work_dst ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register u8 *work_aux ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -278,8 +274,6 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     scratch_page = (S_80DB9000_4 *)0x1F800000;
     ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(sprite_size);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(depth_bias);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     work_aux = (u8 *)((u32)work_aux | 0xD0);
     uv_right = (u32)(((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);
@@ -533,12 +527,19 @@ next_entry:
             if (draw_callback != NULL) {
                 packet = draw_callback(sprite_size, position, sprite, render_data, packet);
             }
+            if ((s8)render_data->unk_00 >= 0) {
+                entry_uv = (S_80DB9000_8 *)((u8 *)entry_uv + 0xC);
+                render_data = (S_80DB9000_7 *)((u8 *)render_data + 0xC);
+                goto next_entry;
+            }
+            goto entry_done;
         }
         if ((s8)render_data->unk_00 >= 0) {
             entry_uv = (S_80DB9000_8 *)((u8 *)entry_uv + 0xC);
             render_data = (S_80DB9000_7 *)((u8 *)render_data + 0xC);
             goto next_entry;
         }
+entry_done:
         func_80064A40();
     }
     ((S_80DB9000_6 *)render_state->unk_00)->unk_8D0 = packet;

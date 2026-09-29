@@ -104,8 +104,8 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     s32 coord_diff;
     s32 origin_coord;
     s32 floor_height;
-    s32 cell_x;
-    s16 cell_y;
+    u16 cell_x;
+    u16 cell_y;
     u16 source_z;
     s32 state;
     u32 elapsed;
@@ -180,8 +180,8 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
 
         steps = 0;
         lookup_2 = root_prefix->lookup;
-        cell_y = lookup_2->cell_y;
         cell_x = lookup_2->cell_x;
+        cell_y = lookup_2->cell_y;
         end_x = cell_x;
         end_y = cell_y;
 
@@ -218,22 +218,14 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             }
 
             {
-                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s16 next_y;
-                s16 *step_x;
-                s16 *step_y;
                 s32 direction;
 
                 direction = (s16)input_ctrl->angle;
-                step_x = &dirStepX[direction];
                 steps++;
-                step_y = &dirStepY[direction];
-                next_x = cell_x + (u16)*step_x;
-                cell_x = next_x;
-                next_y = cell_y + (u16)*step_y;
-                cell_y = next_y;
-                end_x = next_x;
-                end_y = next_y;
+                cell_x += dirStepX[direction];
+                cell_y += dirStepY[direction];
+                end_x = cell_x;
+                end_y = cell_y;
             }
         } while (steps < 8);
 
