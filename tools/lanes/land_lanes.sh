@@ -113,13 +113,22 @@ echo "== cascade: the cheap generators over every changed row until a pass appli
 for pass in 1 2 3 4; do
   IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
   [ -z "$IDS" ] && break
+  # round 80: pin generators only see changed rows that still carry pins (a 254-row goto batch spent ~20 min in
+  # t51/t53 on pin-free rows); the goto-shape generators keep every changed row
+  PIDS=$(python3 -c "
+import sys; sys.path.insert(0, 'tools')
+from pin_census import sites_of
+ids = [i for i in sys.argv[1].split(',') if i]
+print(','.join(i for i in ids if sites_of(open('src/' + i + '.c', errors='replace').read())))" "$IDS")
   n=0
   for T in t36_paramwidth t37_localwidth t37b_localwidth_keep t38_unstage t39_signbit t41_gotoloop t41b_gotoloop_while \
            t41c_gotoloop_greedy t42_sinkcopy t44_doloop_greedy t48_gotoreturn t49_looptest t16_absidiom t16b_fieldabs \
            t51_sched_order t53_reg_state t53k_keep t54_pagebase t57_keepafterstore t57b_keepafternext t59_offsetsym t63_memdep t66_sameregmerge t69_prologue t71_updateaftercall t72_stmtperm t38b_unstage_run t74_multiset t76_arity t78_aggcopy t80_derivecall t81_reuselocal t82_armsink t83_storeafterproducer t84_narrowparams t86_symaddr t87_lifetimemerge \
            ${EXTRA_T:-} t2_pins; do
     P=""; case $T in t53_reg_state|t53k_keep) P="--processes";; esac   # Python-bound; t54 stays threaded (cell switches)
-    out=$(python3 tools/sweep.py $T --only "$IDS" --workers 8 $P 2>&1 | tail -1); echo "pass $pass $T: $out"
+    ONLY=$PIDS; case $T in t41_*|t41b_*|t41c_*|t44_*|t48_*|t49_*) ONLY=$IDS;; esac
+    [ -z "$ONLY" ] && { echo "pass $pass $T: no rows"; continue; }
+    out=$(python3 tools/sweep.py $T --only "$ONLY" --workers 8 $P 2>&1 | tail -1); echo "pass $pass $T: $out"
     a=$(echo "$out" | grep -o "'applied': [0-9]*" | grep -o "[0-9]*$"); n=$((n + ${a:-0}))
   done
   echo "pass $pass applied $n"; [ $n -eq 0 ] && break
