@@ -30,15 +30,16 @@ void func_800DC650(u8 *object_data) {
     delta = target - current;
 
     if (delta < 0) {
-        current -= 0x80;
         if (delta >= -0x80) {
-            goto set_target;
+            current = target;
+        } else {
+            current -= 0x80;
         }
     } else {
-        current += 0x80;
         if (delta < 0x81) {
-set_target:
             current = target;
+        } else {
+            current += 0x80;
         }
     }
 

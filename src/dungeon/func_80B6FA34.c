@@ -21,14 +21,11 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
     u8 phase;
 
     phase = action[0x9B];
-    if (phase != 0) {
-        if (phase != 1) {
+    switch (phase) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
             return;
         }
-        goto active;
-    }
-
-    if (dungeonStatus.unk_0A == 0) {
         status_flags = *(s32 *)(actor + 0x14);
         if (status_flags & 0x4000) {
             if (!(status_flags & 0x20000000)) {
@@ -38,8 +35,8 @@ void func_80173234(u8 *action, s32 unused, u8 *tile, u8 *actor)
 
         action[0x9B]++;
         func_800A56E0(0x805);
-
-active:
+        /* fall through */
+    case 1:
         if (*(u16 *)(tile + 0x14) & 0xE000) {
             if (((s32)dungeonStatus.unk_10) == (s32)(actor - 0x20)) {
                 *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
@@ -61,5 +58,6 @@ active:
             *(u16 *)(actor - 2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
+        break;
     }
 }
