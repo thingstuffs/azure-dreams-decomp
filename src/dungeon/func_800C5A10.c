@@ -38,35 +38,16 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *objec
     u8 shade;
     s32 one = 1;
 
-    {
-        s32 current_state = state->state_9b;
-        if (current_state != one) {
-            if (current_state < 2) {
-                if (current_state == 0) {
-                    goto state_zero;
-                }
-                return;
-            }
-            if (current_state != 2) {
-                return;
-            }
-            goto state_two;
+    switch (state->state_9b) {
+    case 0:
+        if ((func_800A2C78(object) << 16) != 0) {
+            return;
         }
-        goto state_one;
-    }
-
-state_zero:
-    if ((func_800A2C78(object) << 16) == 0) {
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         state->value_b2 = 4;
         state->value_96 = 0;
         state->state_9b = state->state_9b + 1;
-        goto state_one;
-    }
-    return;
-
-state_one:
-    {
+    case 1:
         counter = state->value_96 + 1;
         state->value_96 = counter;
         motion->value_1c = motion->value_1c + func_800644B8((counter << 16) >> 11);
@@ -77,28 +58,26 @@ state_one:
             state->state_9b = state->state_9b + 1;
         }
         return;
+    case 2:
+        counter = state->value_96 - 1;
+        state->value_96 = counter;
+        if ((counter << 16) <= 0) {
+            state->value_96 = one;
+        }
+        motion->value_1c = motion->value_1c - func_800644B8((s16)state->value_96 << 5) * 2;
+        motion->value_1e = motion->value_1e + func_800644B8((s16)state->value_96 << 5) * 4;
+        position->value_14 = position->value_14 + (s32)0xfffe0000;
+        shade = motion->value_0e - 4;
+        motion->value_0e = shade;
+        motion->pad_0d = shade;
+        motion->pad_0c = shade;
+        if ((s16)motion->value_1c <= 0) {
+            dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
+            func_800A32A4(object);
+            func_8009A028(object);
+            ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        }
+        return;
     }
-
-state_two:
-    counter = state->value_96 - 1;
-    state->value_96 = counter;
-    if ((counter << 16) <= 0) {
-        state->value_96 = one;
-    }
-    motion->value_1c = motion->value_1c - func_800644B8((s16)state->value_96 << 5) * 2;
-    motion->value_1e = motion->value_1e + func_800644B8((s16)state->value_96 << 5) * 4;
-    position->value_14 = position->value_14 + (s32)0xfffe0000;
-    shade = motion->value_0e - 4;
-    motion->value_0e = shade;
-    motion->pad_0d = shade;
-    motion->pad_0c = shade;
-    if ((s16)motion->value_1c <= 0) {
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-        func_800A32A4(object);
-        func_8009A028(object);
-        ((u16 *)object)[-1] = ((u16 *)object)[-1] | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-    }
-
-    return;
 }

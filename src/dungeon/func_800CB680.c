@@ -38,13 +38,7 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
         if (first_y < 0 || first_y >= (1 << settings->shiftY)) {
             first_stopped = 1;
         }
-        {
-            s32 stopped = first_stopped;
-            if (stopped != 0) {
-                goto check_second;
-            }
-        }
-        {
+        if (!first_stopped) {
             DungeonTile *tile = &D_800EA000[first_x + (first_y << settings->shiftX)];
             if (tile->flags & 4) {
                 first_count++;
@@ -54,25 +48,18 @@ s16 func_800D0DE0(s32 direction, s32 origin_x, s32 origin_y) {
                               tile->flags & 8);
                 first_x += dirStepX[plus_dir];
                 first_y += dirStepY[plus_dir];
-                goto check_second;
+            } else {
+                first_stopped = 1;
             }
-            first_stopped = 1;
         }
 
-check_second:
         if (second_x < 0 || second_x >= (1 << settings->shiftX)) {
             second_stopped = 1;
         }
         if (second_y < 0 || second_y >= (1 << settings->shiftY)) {
             second_stopped = 1;
         }
-        {
-            s32 stopped = second_stopped;
-            if (stopped != 0) {
-                goto next_iteration;
-            }
-        }
-        {
+        if (!second_stopped) {
             DungeonTile *tile = &D_800EA000[second_x + (second_y << settings->shiftX)];
             if (tile->flags & 4) {
                 second_count++;
@@ -82,13 +69,10 @@ check_second:
                               tile->flags & 8);
                 second_x += dirStepX[minus_dir];
                 second_y += dirStepY[minus_dir];
-                goto next_iteration;
+            } else {
+                second_stopped = 1;
             }
-            second_stopped = 1;
         }
-
-next_iteration:
-        ;
     } while (++step < 10);
 
     return first_count + second_count;

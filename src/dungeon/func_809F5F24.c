@@ -110,14 +110,11 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     case 2:
     status_flags = ((S_80173724_1 *)entity)->unk_14;
-    if (!(status_flags & 0x4000)) {
-        goto block_10;
+    if (status_flags & 0x4000) {
+        if (!(status_flags & 0x20000000)) {
+            func_800ACF88(entity);
+        }
     }
-    if (status_flags & 0x20000000) {
-        goto block_10;
-    }
-    func_800ACF88(entity);
-block_10:
     ((S_80173724_3 *)sprite)->unk_10 = 0x60;
     ((S_80173724_3 *)sprite)->unk_14 |= 0xC;
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
@@ -141,21 +138,17 @@ block_10:
     if ((s16)next_brightness >= 0x18) {
         return;
     }
-    if (((s32)dungeonStatus.unk_10) != (entity - 0x20)) {
-        goto block_17;
+    if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
+        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
-    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
-block_17:
     func_800A2FE0(entity, phase, direction_x, direction_y);
     func_800A32A4(entity);
     sound_x = ((S_80173724_3 *)sprite)->unk_24;
     sound_y = ((S_80173724_3 *)sprite)->unk_25;
     sound_flags = 0x3000;
-    if (!(((S_80173724_1 *)entity)->unk_1C.s & 0x2000)) {
-        goto block_19;
+    if (((S_80173724_1 *)entity)->unk_1C.s & 0x2000) {
+        sound_flags = 0x300;
     }
-    sound_flags = 0x300;
-block_19:
     func_8009A3D0(sound_x, sound_y, sound_flags);
     func_8009A028(entity);
     ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
