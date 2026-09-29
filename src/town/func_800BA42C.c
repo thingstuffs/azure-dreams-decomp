@@ -13,7 +13,6 @@ extern u8 D_80111EC8[];
 extern u8 D_80111EE8[];
 extern u8 D_80111F08[];
 extern u8 D_80111F28[];
-extern void *D_80089348[];
 
 extern void func_800672D8();
 
@@ -24,7 +23,6 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
     s32 dispatch_index;
     s16 *rect;
     s32 tile_width;
-    static void *const keepalive[] = { &&L0, &&L4, &&L8, &&L12 };
 
     next_tick = *anim_tick + 1;
     *anim_tick = next_tick;
@@ -34,48 +32,50 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
 
     phase = *(s16 *)anim_tick % 24;
     dispatch_index = phase;
-    if ((u32)dispatch_index >= 21) {
-        goto Lafter_first;
+    switch (dispatch_index) {
+    case 0:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x328;
+        rect[1] = 0x80;
+        rect[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_80110EC8, upload_arg);
+        break;
+
+    case 4:
+    case 20:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x328;
+        rect[1] = 0x80;
+        rect[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_801110C8, upload_arg);
+        break;
+
+    case 8:
+    case 16:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x328;
+        rect[1] = 0x80;
+        rect[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_801112C8, upload_arg);
+        break;
+
+    case 12:
+        rect = (s16 *)D_80111FA8;
+
+        *(s16 *)D_80111FA8 = 0x328;
+        rect[1] = 0x80;
+        rect[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_801114C8, upload_arg);
+        break;
+
+    default:
+        break;
     }
-    goto *D_80089348[dispatch_index];
 
-L0:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x328;
-    rect[1] = 0x80;
-    rect[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_80110EC8, upload_arg);
-    goto Lafter_first;
-
-L4:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x328;
-    rect[1] = 0x80;
-    rect[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_801110C8, upload_arg);
-    goto Lafter_first;
-
-L8:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x328;
-    rect[1] = 0x80;
-    rect[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_801112C8, upload_arg);
-    goto Lafter_first;
-
-L12:
-    rect = (s16 *)D_80111FA8;
-
-    *(s16 *)D_80111FA8 = 0x328;
-    rect[1] = 0x80;
-    rect[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_801114C8, upload_arg);
-
-Lafter_first:
     phase = *(s16 *)anim_tick % 16;
     if (phase == 4) {
         goto Lsecond_4;
