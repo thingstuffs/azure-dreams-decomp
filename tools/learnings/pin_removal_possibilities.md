@@ -158,3 +158,21 @@ the stores because memory already holds the value - insn in `.lreg`, gone in `.g
 source, not a fake dependency: retail's unconsumed loads REQUIRE a consumer that existed until after allocation.
 Check before using it: the store must be in .lreg and absent in .greg. Literal constants for call arguments that the
 base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets as retail does.
+
+## Round-80 Opus harvest, lanes p5/p6 (town/func_800AB37C, dungeon/func_819715D4, func_80AC55DC, func_800A2564, func_800A3D40)
+
+- **Aggregate copy = movstrsi.** lw/sw triples off one base register with scratch $3/$4/$5 (+ KEEP_NV on a numeric
+  page, + fake trailing call arguments keeping $5/$6 alive) is gcc's block-move pattern for `dst = SYMBOL;` of a
+  struct: write the typed struct assignment and the call at its real arity.
+- **Parameter width decides register vs stack.** An s16 parameter gets a conversion pseudo that lives in a register;
+  an s32 stack parameter stays tied to its slot and is reloaded. With `p[i] = param` then `p[i] += src[k]`, cse
+  replaces the read-back with the parameter (retail `lhu; move $2,$sN; addu`) - declare params at the element width.
+- **Natural divisions.** Hand-expanded signed divisions with ASM_REG quotients: write `/8`, `/2`, `/4` inline with the
+  divisor expression shared inline (cse keeps the sign-extended divisor canonical: `move $3,$4; bgez $4; addiu
+  $3,$4,7`); a temp reused for a later quarter adds output/anti dependences that keep sched1 from hoisting it.
+- **Set-once symbol pointer + ASM_USE, retail reloads via $8:** hoist its constant initialiser to the function top;
+  it then lives across everything, spills, and reload rebuilds it through $8 as retail does.
+- **Byte-loaded s16 re-extended at each use + KEEP_NV:** reassign it from the s16-returning call
+  (`v = f(v)`): combine otherwise drops the re-extensions (nonzero_bits 0xFF).
+- REG_EQUIV live doubling (local-alloc.c:1058) halves a symbol-set pseudo's priority - check prio.py before reading
+  an allocation swap as a spelling problem.
