@@ -125,10 +125,6 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s16 *update_y_base;
     s16 *update_y_ptr;
     s32 update_y_offset;
-    register s32 motion_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u32 motion_y;
-    s32 motion_dy;
-    s32 motion_damp_y;
     u16 linked_flags;
     ObjectFlagBlock *linked_global;
     s16 frame_toggle;
@@ -299,26 +295,11 @@ move_to_tile:
     goto update_direction;
 
 fade:
-    motion_x = ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at00.v;
-    y_step = ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v;
-    motion_y = ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at00.v;
-    motion_dy = ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v;
-    motion_x += y_step;
-    motion_y += motion_dy;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at00.v = motion_y;
-    motion_y = ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v;
-    y_step = ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at00.v;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at00.v = motion_x;
-    motion_x = ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v;
-    motion_y += y_step;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v = motion_y;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    motion_x -= motion_x >> 2;
-    motion_damp_y = motion_dy;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v = motion_x;
-    ASM_KEEP(motion_damp_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    motion_damp_y -= motion_x >> 2;
-    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v = motion_damp_y;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at00.v;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v >> 2;
+    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v >> 2;
     if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10) < ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v) {
         ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
     }

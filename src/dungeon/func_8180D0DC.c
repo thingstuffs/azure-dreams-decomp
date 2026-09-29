@@ -38,7 +38,6 @@ void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
     s32 raw_shade;
     s16 linked_shade;
     s32 final_coord;
-    register s32 final_adjust ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 final_state;
     u16 final_z;
     s32 previous_z;
@@ -89,26 +88,20 @@ interpolate:
         s32 x_target;
         s32 x_current;
 
-        x_target = room->tileX + *x_adjust;
+        x_target = (room->tileX + *x_adjust) << 6;
         frames_left = S16_AT(obj, 0x66);
-        ASM_KEEP(x_target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        x_current = S16_AT(obj, 0x0E);
-        U16_AT(obj, 0x0E) += ((x_target << 6) -
-                              ((x_current -= 0x20), x_current)) / frames_left;
+        x_current = S16_AT(obj, 0x0E) - 0x20;
+        U16_AT(obj, 0x0E) += (x_target - x_current) / frames_left;
     }
     y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
     {
         s32 y_target;
         s32 y_current;
 
-        y_target = room->tileY;
-        y_target += *y_adjust;
-        ASM_KEEP(y_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        y_current = S16_AT(obj, 0x12);
-        U16_AT(obj, 0x12) += ((y_target << 6) -
-                              ((y_current -= 0x20), y_current)) / frames_left;
+        y_target = (room->tileY + *y_adjust) << 6;
+        y_current = S16_AT(obj, 0x12) - 0x20;
+        U16_AT(obj, 0x12) += (y_target - y_current) / frames_left;
     }
-
     S32_AT(obj, 0x14) +=
         (D_80083780.z.v -
          (func_800644B8(frames_left * 42, frames_left) << 12) -
@@ -127,18 +120,10 @@ interpolate:
         goto copy_out;
     }
 
-    final_coord = room->tileX;
-    final_adjust = *x_adjust;
-    final_coord += final_adjust;
-    final_coord <<= 6;
-    final_coord += 0x20;
-    U16_AT(obj, 0x0E) = final_coord;
-    final_coord = room->tileY;
-    final_adjust = *y_adjust;
-    final_coord += final_adjust;
-    final_coord <<= 6;
-    final_coord += 0x20;
-    U16_AT(obj, 0x12) = final_coord;
+    final_coord = (room->tileX + *x_adjust) << 6;
+    U16_AT(obj, 0x0E) = final_coord + 0x20;
+    final_coord = (room->tileY + *y_adjust) << 6;
+    U16_AT(obj, 0x12) = final_coord + 0x20;
     final_state = U16_AT(obj, 0x64);
     final_z = U16_AT(((HeightData *)&D_80083780), 0x0A);
     U16_AT(obj, 0x64) = final_state + 1;
