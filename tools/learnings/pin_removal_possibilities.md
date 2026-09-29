@@ -244,3 +244,8 @@ pin is exempt, which is all the `$4` pin did. u16 cells make the copies SUBREGs 
 and load the x cell FIRST (y-first lets cse swap the copy so target_x becomes the load's destination, refs 8 -> 7).
 Related: a volatile local whose latch delay slot needs an earlier insn is a NON-volatile memory local (reorg will not
 move insns past a volatile store); never name `$8` in C when reload rebuilds a loop-hoisted table HIGH there (o6).
+- **`a = b + a` operand order** (r80_opus_ds1, dungeon/func_80289BD4): expand_binop (optabs.c:399-415) swaps the operands
+  when the target is the second operand; a FRESH single-assignment target gives retail's `addu $4,$13,$4`. local-alloc
+  ties a register only between a dying block-local temp and its result, never with a multi-role variable.
+- **dirStep offset locals**: `*(u8*)((u8*)dirStepX + ((f>>8)&0xE))` through a pinned/reused offset local ->
+  `dirStepX[(f>>9)&7]` inline (fresh temp created first takes $2; dungeon/func_800A5544).
