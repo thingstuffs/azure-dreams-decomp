@@ -56,8 +56,8 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     void *position = effect_pos;
     register void *effect_context ASM_REG("$18") = effect_data;
     u32 neutral_color;
-    register void *model_color ASM_REG("$6");
-    register void *animation_m ASM_REG("$5");
+    void *model_color;
+    void *animation_m;
     static void *const state_labels[] = { &&init, &&wait_ready, &&emit_trail, &&emit_burst, &&finish };
     s32 enabled;
     void *sprite;
@@ -256,9 +256,7 @@ emit_trail:
         do {
             bits = (u32)func_80069EF8();
             particle_color = 0x200000;
-            ASM_KEEP_NV(particle_color);
-            bits &= 0x7F;
-            particle_alpha = (s32)(bits | 0x60);
+            particle_alpha = particle_alpha_from_random(bits);
             particle_level = F(effect_base, s16, 0x26);
             particle_x = F(effect_base, s16, 0x18);
             particle_color |= 0x20F0;
@@ -273,7 +271,7 @@ emit_trail:
         spawn_data = D_8002492C;
         world_offset = &D_80083780;
         effect_context = 0x80;
-        do {
+        loop_4: {
             particle = func_8003FC64(0x212);
             if (particle != 0) {
                 F(particle, s16, 0x4A) = 8;
@@ -324,23 +322,20 @@ emit_trail:
                         F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
                         func_8003DB94((void *)neutral_color, animation, anim_context);
                     } else {
-                        animation_m = D_800DEB28;
-                        model_color = 0;
-                        ASM_USE2(animation_m, model_color);
+                        void *animation = D_800DEB28;
+                        void *anim_context = 0;
                         F((void *)neutral_color, u16, 0x1E) = 0x2000;
                         F((void *)neutral_color, u16, 0x1C) = 0x2000;
-                        ASM_SCHED_BARRIER();
-                        bits = 0x20;
-                        F((void *)neutral_color, u16, 0x10) = (u16)bits;
+                        F((void *)neutral_color, u16, 0x10) = (u16)0x20;
                         F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
                         F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
                         F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
-                        func_8003DB94((void *)neutral_color, animation_m, model_color);
+                        func_8003DB94((void *)neutral_color, animation, anim_context);
                     }
                 }
             }
             particle_index++;
-        } while (particle_index < 4);
+        } if (particle_index < 4) goto loop_4;
     }
     {
         bits = F(effect_base, u16, 0xC);
@@ -488,16 +483,15 @@ fade_model:
 
 finish:
     if (F(D_8002571C, s16, 0) == 0) {
-        void *actor_model =
-            F(D_800814A8, void *, 0x60);
-        if (actor_model != 0) {
+        animation_m = F(D_800814A8, void *, 0x60);
+        if (animation_m != 0) {
             bits = (u32)0xEFFFFFFF;
             neutral_color = 0x00808080;
-            component = (s32)F(actor_model, u32, 0x1C);
-            particle_color = (s32)F(actor_model, void *, -20);
+            component = (s32)F(animation_m, u32, 0x1C);
+            model_color = F(animation_m, void *, -20);
             component &= (s32)bits;
-            F(actor_model, u32, 0x1C) = (u32)component;
-            F((void *)particle_color, u32, 0xC) = (u32)neutral_color;
+            F(animation_m, u32, 0x1C) = (u32)component;
+            F(model_color, u32, 0xC) = (u32)neutral_color;
         }
         {
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
