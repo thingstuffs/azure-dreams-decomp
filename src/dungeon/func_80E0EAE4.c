@@ -54,13 +54,12 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
     void *actor_base;
     S_801722E4_2 *target;
     u8 *direction_frames;
-    s8 *angle_page;
 
     actor->unk_71 =
         (u8)(actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2008)) {
-        actor_base = (s8 *)actor - 0x20;
         if ((func_800A2B5C(actor) << 0x10) == 0) {
+            actor_base = (s8 *)actor - 0x20;
             func_800C7930(actor_base, event_context, 8, 0x300);
             if ((func_800A2B5C(actor) << 0x10) == 0) {
                 target = ((S_801722E4_5_pre *)(actor->target))[-1].unk_00;
@@ -72,16 +71,12 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
                     &distance);
                 direction_frames = D_801764A0;
                 action_state->unk_9A = 0x17;
-                do {
-                    angle_page = (s8 *)0x80080000;
-                } while (0);
-                ASM_KEEP(angle_page);
                 action_state->unk_9B = 0;
                 action_state->unk_8C = 0;
                 sprite->unk_2C = direction_frames;
                 func_80047784(
                     sprite,
-                    direction_frames[((s32)(*(s16 *)(angle_page + 0x3228) +
+                    direction_frames[((s32)(gameWork.view.viewAngle +
                                     actor->facing + 0x100) >> 9) &
                              7],
                     0);
@@ -95,7 +90,3 @@ void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4
         }
     }
 }
-
-/* MECHANISM: Keep the natural 56-byte frame, sibling scalar stack local, and five
-   saved value roles. Materialize the table base before the 0x9A store, then fence
-   and pin the 0x8008 page in v0 after it; this produces retail's la/sb/lui order. */
