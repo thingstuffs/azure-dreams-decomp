@@ -45,31 +45,21 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
 
     {
         GameWork *context_addr = &gameWork;
-        register u32 address_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        u32 address_mask = 0x00FFFFFF;
         Context *context = gameWork.unk_000;
         u32 length_mask = 0xFF000000;
         Scratch *scratch = (Scratch *)0x1F800000;
-        register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register u8 green ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register u32 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 zero_arg;
-        register s32 mode_flag ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register u32 pixel_ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         u8 *prim;
-        u32 texture_page;
+        union { void *pointer; u32 value; } state_prim;
+        u32 prim_addr;
         u8 *packet_start;
         void *linked_object;
-
-        ASM_KEEP(object_bytes);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(context_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(length_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         packet_start = context->field_8D0;
         scratch->ot = (u32 *)((u8 *)context + 0xB0);
         scratch->next = packet_start;
     next_object:
-        scratch->x = *(volatile u16 *)(position_bytes + 2);
+        scratch->x = *(u16 *)(position_bytes + 2);
         prim = scratch->next;
         scratch->y = *(u16 *)(position_bytes + 6);
         scratch->z = *(u16 *)(position_bytes + 0xA);
@@ -82,55 +72,45 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
         }
 
         if (scratch->index < 0x1E0U) {
-            s32 pixel_command;
-
-            zero_arg = 0;
-            mode_flag = 1;
-            ASM_KEEP_NV(zero_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            pixel_ot_tag = *(u32 *)(object_bytes + 8);
+            *(s32 *)(prim + 4) = *(u32 *)(object_bytes + 8);
             *(s8 *)(prim + 3) = 2;
-            pixel_command = 0x6A;
-            *(s32 *)(prim + 4) = pixel_ot_tag;
-            red = *(volatile u8 *)(prim + 4);
-            green = *(volatile u8 *)(prim + 5);
-            blue = *(volatile u8 *)(prim + 6);
-            ASM_KEEP(blue);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            *(s8 *)(prim + 7) = pixel_command;
-
+            {
+                register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register u8 green ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                register u8 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                red = *(volatile u8 *)(prim + 4);
+                green = *(volatile u8 *)(prim + 5);
+                blue = *(volatile u8 *)(prim + 6);
+            }
+            *(s8 *)(prim + 7) = 0x6A;
             *(u32 *)prim = (*(u32 *)prim & length_mask) |
                 (scratch->ot[scratch->index] & address_mask);
             {
-                pixel_ot_tag = scratch->ot[scratch->index];
-                scratch->ot[scratch->index] =
-                    (pixel_ot_tag & length_mask) | ((u32)prim & address_mask);
+                u32 *ot_entry;
+                ot_entry = (u32 *)((scratch->index << 2) + (u32)scratch->ot);
+                {
+                    state_prim.value = *ot_entry;
+                    prim_addr = (u32)prim & address_mask;
+                    state_prim.value &= length_mask;
+                    state_prim.value |= prim_addr;
+                    *ot_entry = state_prim.value;
+                }
             }
-
-            prim = scratch->next;
-            *(u8 **)((u8 *)scratch + 0x1C) = prim + 0xC;
-            texture_page = func_80066460(zero_arg, mode_flag, zero_arg, zero_arg);
-            {
-                void *mode_prim = prim;
-
-                mode_flag = 0;
-                func_80067F20(mode_prim, mode_flag, mode_flag, texture_page & 0xFFFF, 0);
-            }
-
-            *(u32 *)prim = (*(u32 *)prim & length_mask) |
+            state_prim.pointer = scratch->next;
+            *(u8 **)((u8 *)scratch + 0x1C) = (u8 *)state_prim.pointer + 0xC;
+            prim_addr = func_80066460(0, 1, 0, 0);
+            func_80067F20(state_prim.pointer, 0, 0, prim_addr & 0xFFFF, 0);
+            *(u32 *)state_prim.pointer = (*(u32 *)state_prim.pointer & length_mask) |
                 (scratch->ot[scratch->index] & address_mask);
-            {
-                u32 mode_ot_tag;
-                mode_ot_tag = scratch->ot[scratch->index];
-                prim = (u8 *)((u32)prim & address_mask);
-                scratch->ot[scratch->index] =
-                    (mode_ot_tag & length_mask) | (u32)prim;
-            }
+            scratch->ot[scratch->index] =
+                (scratch->ot[scratch->index] & length_mask) | ((u32)state_prim.pointer & address_mask);
         }
 
         linked_object = *(void **)(object_bytes - 8);
         if (linked_object != 0) {
             object_bytes = (u8 *)linked_object + 0x20;
             position_bytes = *(u8 **)((u8 *)linked_object + 8);
-            ASM_KEEP(object_bytes);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): this second, opaque definition keeps combine from rewriting scratch+4/+0xD0/+0xD4 as ori; the source shape that makes it unnecessary has not been found */
             {
                 u32 scratch_addr;
 #ifdef NON_MATCHING
