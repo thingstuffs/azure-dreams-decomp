@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    volatile u16 x;
+    u16 x;
     volatile u16 y;
 }
 DungeonPosition;
@@ -36,7 +36,7 @@ extern void func_8006671C(u8 *arg0);
 /* Emit textured ellipse segments around the given position. */
 void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32 draw_order, s32 blend_mode)
 {
-    volatile u8 *scratchpad;
+    u8 *scratchpad;
     u8 *cursor;
     u8 *packet_code;
     s32 blend_setting;
@@ -55,16 +55,16 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     register s32 scratch ASM_REG("$8");
     packet_order = (s32)(((u8 *)(&gameWork)) - 0x3160);
     cursor = (*((DungeonState **) (((u8 *)packet_order) + 0x3160)))->cursor;
-    scratchpad = (volatile u8 *) 0x1F800000;
-    *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x74)) = 0;
-    *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7C)) = 0;
+    scratchpad = (u8 *) 0x1F800000;
+    *((u16 *) (((u8 *) scratchpad) + 0x74)) = 0;
+    *((volatile u16 *) (((u8 *) scratchpad) + 0x7C)) = 0;
     offset = parameters->x2;
-    *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + offset;
-    *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7A)) = position->y;
-    *((volatile s32 *) (((volatile u8 *) scratchpad) + 8)) = parameters->x0;
-    *((volatile s32 *) (((volatile u8 *) scratchpad) + 0xC)) = parameters->y0;
-    *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10)) = parameters->x1;
-    *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14)) = parameters->y1;
+    *((volatile u16 *) (((u8 *) scratchpad) + 0x78)) = position->x + offset;
+    *((u16 *) (((u8 *) scratchpad) + 0x7A)) = position->y;
+    *((s32 *) (((u8 *) scratchpad) + 8)) = parameters->x0;
+    *((s32 *) (((u8 *) scratchpad) + 0xC)) = parameters->y0;
+    *((s32 *) (((u8 *) scratchpad) + 0x10)) = parameters->x1;
+    *((s32 *) (((u8 *) scratchpad) + 0x14)) = parameters->y1;
     segment = 0;
     if ((*(u16 *)((u8 *)parameters + 0xE)) != 0) {
         blend_setting = blend_mode & 0xFFFF;
@@ -72,31 +72,29 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
         angle_step = segment;
 loop_0:
         {
-            *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x70)) =
-                *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x78));
-            center_u = ((*((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10))) >> 1)
-                + (*((volatile u8 *) (((volatile u8 *) scratchpad) + 8)));
-            *((volatile u8 *) (((volatile u8 *) packet_code) + 17)) = center_u;
-            *((volatile u8 *) (((volatile u8 *) packet_code) + 5)) = center_u;
-            center_v = ((*((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14))) >> 1)
-                + (*((volatile u8 *) (((volatile u8 *) scratchpad) + 0xC)));
-            *((volatile u8 *) (((volatile u8 *) packet_code) + 18)) = center_v;
-            *((volatile u8 *) (((volatile u8 *) packet_code) + 6)) = center_v;
+            *((s32 *) (((u8 *) scratchpad) + 0x70)) =
+                *((s32 *) (((u8 *) scratchpad) + 0x78));
+            center_u = (*((u8 *) (((u8 *) scratchpad) + 8)))
+                + ((*((s32 *) (((u8 *) scratchpad) + 0x10))) >> 1);
+            *((u8 *) (((u8 *) packet_code) + 17)) = center_u;
+            *((u8 *) (((u8 *) packet_code) + 5)) = center_u;
+            center_v = (*((u8 *) (((u8 *) scratchpad) + 0xC)))
+                + ((*((s32 *) (((u8 *) scratchpad) + 0x14))) >> 1);
+            *((u8 *) (((u8 *) packet_code) + 18)) = center_v;
+            *((u8 *) (((u8 *) packet_code) + 6)) = center_v;
             trig_value = func_80064584(angle_step / parameters->count);
             segment += 1;
             ASM_USE(segment);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
+                offset = *((s32 *) (((u8 *) scratchpad) + 0x10));
                 scratch = offset * trig_value;
                 ASM_USE2_NV(offset, scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 offset = scratch >> 13;
-                *((volatile u8 *) (((volatile u8 *) packet_code) + 41)) =
-                    (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + offset;
+                *((u8 *) (((u8 *) packet_code) + 41)) =
+                    (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
             }
             trig_value = func_800644B8(angle_step / parameters->count);
-            do {
-                angle_step += 0x1000;
-            } while (0);
+            angle_step += 0x1000;
             {
                 offset = *((s32 *) (((u8 *) scratchpad) + 0x14));
                 scratch = offset * trig_value;

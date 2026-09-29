@@ -65,13 +65,13 @@ extern void func_80041E70(S_80042710 *a0);
 /* Copy record fields, merge flags, update the tagged group, and refresh the destination. */
 void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
 {
-    register S_80042710 *src ASM_REG("$10") = src_record;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    register S_80042710 *src ASM_REG("$10") = src_record;
+    s32 index;
     u8 field_00;
     field_00 = src->f00;
     ASM_USE(field_00);
     {
-        register S_80042710 *dst ASM_REG("$9") = dst_record;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+        register S_80042710 *dst ASM_REG("$9") = dst_record;
         ASM_KEEP(dst);
         dst->f00 = field_00;
         dst->f01 = src->f01;
@@ -110,16 +110,10 @@ loop_0:
         dst->f2a = src->f2a;
         index = 3;
         {
-            register s8 *src_slot2 ASM_REG("$8") = (s8 *)src + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-            register s8 *dst_slot2 ASM_REG("$7") = (s8 *)dst + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-            register s32 slot_a ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-            register s32 slot_b;
+            s8 *src_slot2 = (s8 *)src + 6;
+            s8 *dst_slot2 = (s8 *)dst + 6;
             do {
-                slot_a = src_slot2[44];
-                slot_b = src_slot2[45];
-                dst_slot2[44] = slot_a;
-                dst_slot2[45] = slot_b;
-                ASM_USE2(slot_a, slot_b);
+                *(Slot2_80042710 *)(dst_slot2 + 44) = *(Slot2_80042710 *)(src_slot2 + 44);
                 src_slot2 -= 2;
                 index--;
                 dst_slot2 -= 2;
