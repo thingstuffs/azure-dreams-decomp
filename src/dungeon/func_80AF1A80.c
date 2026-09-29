@@ -57,7 +57,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void D_80170CF8(void *, s32, s32, s32, s32, s32, s32);
 
-extern u8 D_80170838[16];
 extern u8 D_801717F4[];
 extern u8 D_80175988[];
 
@@ -72,10 +71,6 @@ void func_80173280(void *actor, EntityRec *motion, void *tile_arg, EntityRec *ac
     s32 state;
     s16 effect_flags;
     s16 action_dep;
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_7, &&kind_6, &&kind_5
-    };
 
 #ifdef NON_MATCHING
     action_dep = 0;
@@ -103,20 +98,23 @@ state_0:
     if (action->flags1C & 0x2000) {
         u32 kind = (action->unk_46 & 0x3FFF) - 1;
 
-        if (kind >= 7) {
+        switch (kind) {
+        case 6:
+            effect_flags = 1;
+        case 2:
+            goto kind_3;
+        case 5:
+            effect_flags = 1;
+        case 1:
+            goto kind_2;
+        case 4:
+            effect_flags = 1;
+        case 0:
+            goto kind_1;
+        case 3:
+        default:
             goto kind_default;
         }
-        goto *(((void **)D_80170838)[kind]);
-
-kind_5:
-        effect_flags = 1;
-        goto kind_3;
-kind_6:
-        effect_flags = 1;
-        goto kind_2;
-kind_7:
-        effect_flags = 1;
-        goto kind_1;
     } else {
         u32 kind = action->unk_46 & 0x3FFF;
 
