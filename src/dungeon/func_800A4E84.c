@@ -38,10 +38,8 @@ void func_800AA5E4(Rec_func_800A9E70_arg0 *entity, void *unused, void *position,
     }
     func_8009A3D0(tile_x, tile_y, tile_mask);
     tile_x_ptr = (u8 *)position + 0x24;
-retry_position:
-    if ((s16)func_800A4E2C(tile_x_ptr, (u8 *)position + 0x25) < 0) {
+    while ((s16)func_800A4E2C(tile_x_ptr, (u8 *)position + 0x25) < 0) {
         tile_x_ptr = (u8 *)position + 0x24;
-        goto retry_position;
     }
     ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24,
         ((Rec_D_80082E80 *)position)->unk_25);

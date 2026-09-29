@@ -86,11 +86,12 @@ void func_800B328C(void *state, void *position) {
             ((S_800B328C_0 *)state)->unk_8C = 1;
         }
     } else if (((S_800B328C_0 *)state)->unk_8C != 0) {
-        goto mark_finished;
+        (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags |= 0x8000;
+        return;
     }
     if (ticks_left = ((S_800B328C_0 *)state)->unk_8E - 1, ((S_800B328C_0 *)state)->unk_8E = ticks_left,
         ((s16) ticks_left < 0)) {
-mark_finished:
         (*(u16 *)((u8 *)state + -2)) = (u16) (((S_800B328C_0_pre *)state)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }

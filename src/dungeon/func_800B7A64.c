@@ -83,7 +83,6 @@ s32 func_800BD1C4(DungeonObject *obj, u8 *payload, s16 effect_arg) {
             }
             obj->amount = 1;
             effect_state = 1;
-            goto after_amount;
         }
     } else {
         remaining = obj->limit - obj->current;
@@ -93,7 +92,6 @@ s32 func_800BD1C4(DungeonObject *obj, u8 *payload, s16 effect_arg) {
         obj->amount = amount;
     }
 
-after_amount:
     if (func_800AD568(obj) != 0) {
         s32 display_mode;
 
