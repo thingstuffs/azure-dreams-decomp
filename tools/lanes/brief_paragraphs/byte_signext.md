@@ -21,3 +21,10 @@ inside the s16 expression.
 All six spellings tried on the exemplar were exact. On a row where the destination is NOT a 16-bit store the
 mechanism differs (an s32 destination keeps the REG_EQUAL note, so `lb` appears): measure first, and look for the
 narrowing the original had (an s16 local, an s16 field, a `(s16)` cast of the whole expression).
+
+**Round-80 family results (r79_opus_fam1, 17 pins on 3 rows):** an s32 byte local with `<<24>>24` + keep feeding
+s16 stores -> `s16 v = S8_AT(p, n)` (extendqihi2 into an HImode local: combine never forms `lb`); a negation after an
+if/else join held by a keep -> `x = -(a)` / `x = -(b)` in both arms (jump2 cross-jumps them back); a signed byte is
+doubled with `<< 1`, never `* 2`; a squared extended byte -> `s8 t; s16 copy = t; s32 d = t * copy` (two users stop
+the fold); field read-modify-write (`F += G; F <<= 8`) makes cse emit the copy retail keeps. On 2.8.1 cells any s32
+use of the byte gives `lb` - the family does not carry over there.
