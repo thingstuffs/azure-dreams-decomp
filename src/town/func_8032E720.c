@@ -52,38 +52,30 @@ s32 func_80018F20(s32 *slot_list)
 
     slot_cursor = slot_list;
     initial_page = (u8 *)0x80010000;
-    do {
-        initial_root = ((S_80018F20_0 *)initial_page)->unk_6000;
-    } while (0);
+    initial_root = ((S_80018F20_0 *)initial_page)->unk_6000;
     loaded_base = ((S_80018F20_1 *)initial_root)->unk_38;
-    do {
-        slot_base = (s32)loaded_base + 0x248;
-    } while (0);
+    slot_base = (s32)loaded_base + 0x248;
     func_800193F4(used_slots, 0x14);
-    used_map = used_slots;
     if (*slot_cursor != 0) {
         u8 *page;
-        u8 *message_page;
+        u8 *message;
 
+        used_map = used_slots;
         page = (u8 *)0x80010000;
         next_slot_addr = *slot_cursor;
         do {
-            message_page = (u8 *)0x80010000;
+            message = D_8001605C;
             if (used_map[(u32)(next_slot_addr - slot_base) >> 2] != 0) {
                 u8 *root;
                 u8 *call_table;
                 TownCall3 report_error;
-                u8 *name_page;
+                u8 *name;
 
                 root = ((S_80018F20_2 *)page)->unk_6000.p;
                 call_table = ((S_80018F20_3 *)root)->unk_20;
-                do {
-                    name_page = (u8 *)0x80010000;
-                } while (0);
-                ASM_KEEP(name_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                name = D_80016034;
                 report_error = (*(TownCall3 *)((u8 *)call_table + 0x168));
-                ASM_KEEP(message_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                report_error(name_page + 0x6034, message_page + 0x605C, 0x71);
+                report_error(name, message, 0x71);
                 (*(TownCall1 *)((u8 *)(((S_80018F20_4 *)(((S_80018F20_2 *)page)->unk_6000.p2))->unk_20) + 0x174))(1);
                 slot_addr = *slot_cursor;
             } else {
@@ -91,9 +83,7 @@ s32 func_80018F20(s32 *slot_list)
             }
             used_flag = used_map + ((u32)(slot_addr - slot_base) >> 2);
             *used_flag = 1;
-            do {
-                slot_cursor++;
-            } while (0);
+            slot_cursor++;
             next_slot_addr = *slot_cursor;
         } while (next_slot_addr != 0);
     }
@@ -115,18 +105,11 @@ s32 func_80018F20(s32 *slot_list)
         TownCall3 report_error;
 
         page = (u8 *)0x80010000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         root = ((S_80018F20_2 *)page)->unk_6000.p;
         call_table = ((S_80018F20_3 *)root)->unk_20;
         report_error = (*(TownCall3 *)((u8 *)call_table + 0x168));
-        do {
-            report_error(D_80016034, D_8001605C, 0x76);
-        } while (0);
+        report_error(D_80016034, D_8001605C, 0x76);
         (*(TownCall1 *)((u8 *)(((S_80018F20_4 *)(((S_80018F20_2 *)page)->unk_6000.p2))->unk_20) + 0x174))(1);
     }
     return slot_base + free_slot * 4;
 }
-
-/* MECHANISM: A 256-byte byte-map at sp+0x10 supplies the retail 0x128 frame.
-   Cursor/object/map roles span calls, while separate block-local 0x80010000
-   page bases reproduce the s3 loop hold and final s0 rematerialization. */
