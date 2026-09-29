@@ -15,7 +15,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_8017586C(void *, void *, void *);
 
-extern void *D_80170860[6];
 extern u8 D_80171FA4[9];
 extern u8 D_80175C68[8];
 extern u8 D_80175C70[8];
@@ -39,22 +38,17 @@ typedef struct S_80173930_0 {
 void func_80173930(void *motion, EntityRec *velocity, void *sprite, EntityRec *actor)
 {
     u8 state;
-    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
 
     state = ((S_80173930_0 *)motion)->unk_9B;
-    if ((u32)state >= 6) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170860[state];
+    switch (state) {
 
-L0:
+case 0:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         func_800A56E0(0x80E);
     }
     ((S_80173930_0 *)motion)->unk_9B++;
 
-L1:
+case 1:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173930_0 *)motion)->unk_96.u = 0x100;
         ((S_80173930_0 *)motion)->unk_9B = 5;
@@ -79,7 +73,7 @@ L1:
         ((S_80173930_0 *)motion)->unk_9B++;
     }
 
-L2:
+case 2:
     {
         u16 height = ((S_80173930_0 *)motion)->unk_A0.at02.v + 0x10;
 
@@ -113,7 +107,7 @@ L2:
                   (u8 *)motion + 0x9B);
     return;
 
-L3:
+case 3:
     {
         u8 *direction_x = (u8 *)((s8 *)dirStepX);
         u8 *direction_y = (u8 *)((s8 *)dirStepY);
@@ -155,13 +149,13 @@ L3:
         return;
     }
 
-L4:
+case 4:
     velocity->unk_0C -= ((S_80173930_0 *)motion)->unk_A8;
     velocity->unk_10 -= ((S_80173930_0 *)motion)->unk_AC;
     ((S_80173930_0 *)motion)->unk_A0.at00.v =
         func_800644B8(((S_80173930_0 *)motion)->unk_96.s * 146) * 160 + 0x100000;
 
-L5:
+case 5:
     {
         u16 frame = ((S_80173930_0 *)motion)->unk_96.u + 1;
 
@@ -179,4 +173,8 @@ L5:
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     actor->unk_46 &= 0x7FFF;
+    break;
+    default:
+        return;
+    }
 }

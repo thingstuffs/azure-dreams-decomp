@@ -32,7 +32,6 @@ typedef struct S_80173C5C_4 {
 extern u8 D_80173FD0[];
 extern u8 D_80173FB8[];
 extern s32 D_80170F68;
-extern void *D_80170878[];
 M2C_UNK func_800A2B04();
 M2C_UNK func_800A48F0();
 M2C_UNK func_800A4ACC();
@@ -43,7 +42,6 @@ extern M2C_UNK D_80173FE0;
 
 /* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
 void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b, EntityRec *actor) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     u8 *unused_ptr;
     s32 value;
     u16 flags;
@@ -54,12 +52,9 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
 
     state = work->unk_9B;
     work->unk_96.s = (u16) (work->unk_96.s - 1);
-    if (state >= 8U) {
-        return;
-    }
-    (void)jt_keep; goto *D_80170878[(u32)(state)];
-jt_c0:
-jt_c4:
+    switch (state) {
+case 0:
+case 4:
     func_800A56E0(0x51C);
     flags = part_b->unk_14.at00_u16.v;
     if (!(flags & 0x8000)) {
@@ -81,8 +76,8 @@ block_5:
     state = 10;
     work->unk_96.s = state;
     goto block_e60;
-jt_c1:
-jt_c5:
+case 1:
+case 5:
     accum = work->unk_90;
     value = work->unk_A0;
     timer = work->unk_96.u;
@@ -106,8 +101,8 @@ block_10:
     work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
     actor->flags1C = (s32) (actor->flags1C | 0x8000000);
     goto block_e5c;
-jt_c2:
-jt_c6:
+case 2:
+case 6:
     work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
     part_a->flags14 = 0;
     part_a->unk_10 = 0;
@@ -116,7 +111,7 @@ jt_c6:
     part_b->unk_2C.as_pu8 = &D_80173FE0;
     func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
     goto block_e5c;
-jt_c3:
+case 3:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -127,7 +122,7 @@ jt_c3:
     block_e60:
     work->unk_9B = (u8) (state_now + 1);
     return;
-jt_c7:
+case 7:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -142,4 +137,7 @@ jt_c7:
     work->unk_AE = (s16) ((func_800A6D30() & 7) + 8);
     func_800A48F0(actor, 0x1A, (s8) work->unk_AE);
     return;
+    default:
+        return;
+    }
 }
