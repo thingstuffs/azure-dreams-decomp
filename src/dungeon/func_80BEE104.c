@@ -67,44 +67,23 @@ extern u8 D_80173738;
 
 /* Creates and positions a sprite effect around the source at the given angle. */
 void func_80173904(
-    s32 unused_0, void *origin, s32 unused_2, s32 unused_3, s32 angle, u16 depth_offset)
+    s32 unused_0, S_80173904_3 *origin, s32 unused_2, s32 unused_3, s16 angle, u16 depth_offset)
 {
-    register s32 product ASM_REG("$7");
-    s32 value;
-    register s32 factor ASM_REG("$3");
-    register s32 wrapped_angle ASM_REG("$16");
-    register s32 angle_work ASM_REG("$19");
-    register void *source;
-    s32 depth_delta;
-    S_80173904_2 *display;
-    S_80173904_0 *state;
     void *object;
-    register void *transform ASM_REG("$20");
-    void *texture;
-    void *target;
-    void *target_2;
-    void *object_data;
-    s32 texture_flags;
+    S_80173904_0 *state;
+    S_80173904_2 *display;
+    S_80173904_4 *transform;
+    s16 wrapped_angle;
 
-    (void)unused_0;
-    (void)unused_2;
-    (void)unused_3;
-    source = origin;
-    target = (void *)0x212;
-    object = func_8003FC64((s32)target);
-    ASM_KEEP_NV(angle);
-    ASM_KEEP_NV(source);
-    depth_delta = depth_offset;
+    object = func_8003FC64(0x212);
+    wrapped_angle = angle;
     if (object != NULL) {
-        angle_work = angle;
-        target_2 = object;
-        object_data = func_80045340;
-        state = (u8 *)object + 0x20;
+        state = (S_80173904_0 *)((u8 *)object + 0x20);
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
-        state->unk_1E = (s16)angle;
+        state->unk_1E = angle;
         ((S_80173904_1 *)object)->unk_10 = &D_80173738;
-        func_8004491C(target_2, object_data);
+        func_8004491C(object, func_80045340);
 
         display = ((S_80173904_1 *)object)->unk_0C;
         display->unk_10 = 0x60;
@@ -114,60 +93,27 @@ void func_80173904(
         }
 
         transform = ((S_80173904_1 *)object)->unk_08;
-        state->unk_40 = ((S_80173904_3 *)source)->unk_00;
-        value = ((S_80173904_3 *)source)->unk_04;
-        state->unk_44 = value;
-        value = (s16)angle;
-        for (;;) {
-            value = value < 0x1001;
-            if (value)
-                break;
-            value = angle_work - 0x1000;
-            angle_work = value;
-            value = (s16)value;
+        state->unk_40 = origin->unk_00;
+        state->unk_44 = origin->unk_04;
+        while (wrapped_angle >= 0x1001) {
+            wrapped_angle -= 0x1000;
         }
 
-        wrapped_angle = (s16)angle_work;
-        value = func_80064584(wrapped_angle);
-        factor = state->unk_20;
-        product = factor * value;
-        value = state->unk_40;
-        factor = product << 4;
-        value += factor;
-        ((S_80173904_4 *)transform)->unk_00 = value;
-        value = func_800644B8(wrapped_angle);
-        factor = state->unk_20;
-        product = factor * value;
-        texture = D_800DEC70;
-        value = state->unk_44;
-        factor = product << 4;
-        value += factor;
-        ((S_80173904_4 *)transform)->unk_04 = value;
-        ((S_80173904_4 *)transform)->unk_0A = ((S_80173904_3 *)source)->unk_0A + depth_delta;
+        transform->unk_00 = state->unk_40 + ((state->unk_20 * func_80064584(wrapped_angle)) << 4);
+        transform->unk_04 = state->unk_44 + ((state->unk_20 * func_800644B8(wrapped_angle)) << 4);
+        transform->unk_0A = origin->unk_0A + depth_offset;
 
         display = ((S_80173904_1 *)object)->unk_0C;
         display->unk_1E = 0x1000;
         display->unk_1C = 0x1000;
-        ASM_SCHED_BARRIER();
-        value = 0x40;
-        display->unk_0C = value;
-        ASM_KEEP(value);
-        factor = value;
-        display->unk_0E = value;
-        value = 0xC0;
-        display->unk_0D = value;
-        state->unk_00 = factor;
-        value = display->unk_0D;
-        texture_flags = 0;
-        ASM_KEEP_NV(texture_flags);
-        state->unk_01 = value;
-        value = display->unk_0E;
-        ASM_SCHED_BARRIER();
-        target = display;
-        state->unk_02 = value;
-        func_8003DB94(target, texture, texture_flags);
+        display->unk_0C = 0x40;
+        display->unk_0E = 0x40;
+        display->unk_0D = 0xC0;
+        state->unk_00 = display->unk_0C;
+        state->unk_01 = display->unk_0D;
+        state->unk_02 = display->unk_0E;
+        func_8003DB94(display, D_800DEC70, 0);
         display->unk_12 = 0x7DCF;
         display->unk_14 |= 0x100;
     }
 }
-
