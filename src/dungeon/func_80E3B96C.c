@@ -108,7 +108,6 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     s32 owner_byte;
     s32 offset_y_index;
     u32 initial_result;
-    register u8 *table_or_owner ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Context *context;
 
     context = context_arg;
@@ -139,20 +138,22 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
 
     {
         register u16 *x_steps;
+        u16 *y_steps;
         u16 *trial_x_step;
         u16 *first_x_step;
         u16 *first_y_step;
-        register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 direction_offset;
 
         trial_dir = 0;
         x_steps = ((u16 *)dirStepX);
+        y_steps = ((u16 *)dirStepY);
         {
 
-            ASM_SET(direction_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            direction_offset = direction << 1;
-            first_x_step = (u16 *)(direction_offset + (s32)x_steps);
-            table_or_owner = (u8 *)((u16 *)dirStepY);
-            first_y_step = (u16 *)(direction_offset + (s32)table_or_owner);
+            s32 first_offset;
+
+            first_offset = direction << 1;
+            first_x_step = (u16 *)(first_offset + (s32)x_steps);
+            first_y_step = (u16 *)(first_offset + (s32)y_steps);
         }
 search:
         trial_x_step = (u16 *)func_8017506C(
@@ -182,9 +183,7 @@ trial_success:
 
             direction_offset = trial_dir << 1;
             trial_x_step = (u16 *)(direction_offset + (s32)x_steps);
-            table_or_owner = (u8 *)((u16 *)dirStepY);
-            trial_y_address = direction_offset + (s32)table_or_owner;
-            ASM_KEEP(trial_x_step);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            trial_y_address = direction_offset + (s32)y_steps;
             target_x = trial_x_step[0] + (source_arg->x + first_x_step[0]);
             target_y = *(u16 *)trial_y_address + (source_arg->y + first_y_step[0]);
             goto search_done;
@@ -205,8 +204,7 @@ initial_success:
     }
 
 allocate:
-    table_or_owner = *(u8 * *)&owner_data;
-    object = func_8003FD64(0x100, table_or_owner - 0x20);
+    object = func_8003FD64(0x100, owner_data - 0x20);
     if (object == 0) {
         return;
     }
@@ -243,8 +241,7 @@ allocate:
     work->hit = hit;
     work->flags = context->f14 & 0x2007;
     (*(u16 *)((u8 *)work + 0x3A)) = source_arg->f12;
-    table_or_owner = owner_data;
-    owner_byte = table_or_owner[0xAC];
+    owner_byte = owner_data[0xAC];
     work->owner_minus20 = (u8 *)context - 0x20;
     work->context = context;
     work->owner_byte = owner_byte;
