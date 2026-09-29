@@ -51,15 +51,14 @@ void func_8002789C(void *menu)
             func_80027BF4();
             if (D_80082E6B == 3) {
                 func_80040AA0(3);
-                goto selection_check;
+            } else {
+                func_80044144(0, 0, 0, 0);
+                object = (*(s32 * *)((u8 *)menu + 0x14));
+                ((S_8002789C_0 *)object)->unk_1E |= 0x2000;
+                if ((*(s32 *)((u8 *)menu + 0)) == 2) {
+                    func_800A68F4();
+                }
             }
-            func_80044144(0, 0, 0, 0);
-            object = (*(s32 * *)((u8 *)menu + 0x14));
-            ((S_8002789C_0 *)object)->unk_1E |= 0x2000;
-            if ((*(s32 *)((u8 *)menu + 0)) == 2) {
-                func_800A68F4();
-            }
-            goto selection_check;
         } else if (button_flags & 0x40) {
             SD_Call(0x503);
             func_80020924((*(s32 *)((u8 *)menu + 0xC)));
@@ -82,7 +81,6 @@ void func_8002789C(void *menu)
             }
         }
 
-selection_check:
         if (selection_changed != 0) {
             SD_Call(0x502);
             func_80026FD4((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));

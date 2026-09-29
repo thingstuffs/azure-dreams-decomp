@@ -75,21 +75,20 @@ void func_800550E8(void)
     if (mode_bits != 0) {
         D_800848F8.unk4 = 1;
         D_800848F8.unk8 = 0;
-        if (mode_bits != 0x8000) {
-            if (mode_bits != 0x9000) {
-                goto set_default;
-            }
+        switch (mode_bits) {
+        case 0x9000:
             D_800848F8.unk16 = 4;
-        } else {
+            break;
+        case 0x8000:
             D_800848F8.unk16 = 2;
+            break;
+        default:
+            D_800848F8.unk16 = 0xA;
+            break;
         }
-        goto done;
-set_default:
-        D_800848F8.unk16 = 0xA;
     } else {
         D_800848FC[0] = 3;
     }
-done:
     D_800847D0.unk0 |= 0x100;
     func_800552C8();
     func_8005AE90(D_800847D0.unk22, 1, 1);
