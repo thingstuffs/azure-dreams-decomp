@@ -510,11 +510,9 @@ place_creature:
         goto init_creature_stats;
     }
     level_table = level_thresholds;
-level_up_creature:
-    func_800A1D4C(creature, 0);
-    if (level_table[creature->unk_11] <= (u32) creature->unk_18) {
-        goto level_up_creature;
-    }
+    do {
+        func_800A1D4C(creature, 0);
+    } while (level_table[creature->unk_11] <= (u32) creature->unk_18);
 init_creature_stats:
     creature->unk_28 = (u8) creature->unk_29;
     creature->unk_26 = (u8) creature->unk_68;
@@ -600,13 +598,11 @@ save_creature:
     copy_src = actor->unk_60;
     copy_dst = save_data;
     copy_end = copy_src + 0x80;
-copy_creature:
-    *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-    copy_src += 0x10;
-    copy_dst += 0x10;
-    if (copy_src != copy_end) {
-        goto copy_creature;
-    }
+    do {
+        *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
+        copy_src += 0x10;
+        copy_dst += 0x10;
+    } while (copy_src != copy_end);
     ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     *(Copy12 *)copy_dst = *(Copy12 *)copy_src;
     stored_creature = actor->unk_60;

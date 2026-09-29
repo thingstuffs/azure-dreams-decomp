@@ -88,15 +88,13 @@ redraw_transition:
     if (buttons & 0x8000) {
         u8 index_count = 0x32;
         state->old_index = state->index;
-decrement_loop:
-        if (state->index == 0) {
-            state->index = index_count;
-        }
-        state->index--;
-        if (!(func_80123200(state->index) & 0xFF) &&
-            state->index != state->old_index) {
-            goto decrement_loop;
-        }
+        do {
+            if (state->index == 0) {
+                state->index = index_count;
+            }
+            state->index--;
+        } while (!(func_80123200(state->index) & 0xFF) &&
+            state->index != state->old_index);
 
         if (state->index == 0x31) {
             state->digit1 = 1;
@@ -151,16 +149,14 @@ decrement_loop:
     if (buttons & 0x2000) {
         s32 wrap_limit = 0x32;
         state->old_index = state->index;
-increment_loop:
-        next_index = state->index + 1;
-        state->index = next_index;
-        if ((next_index & 0xFF) == wrap_limit) {
-            state->index = 0;
-        }
-        if (!(func_80123200(state->index) & 0xFF) &&
-            state->index != state->old_index) {
-            goto increment_loop;
-        }
+        do {
+            next_index = state->index + 1;
+            state->index = next_index;
+            if ((next_index & 0xFF) == wrap_limit) {
+                state->index = 0;
+            }
+        } while (!(func_80123200(state->index) & 0xFF) &&
+            state->index != state->old_index);
 
         if (state->index == 0x31) {
             state->digit1 = 1;
