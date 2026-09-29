@@ -375,7 +375,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     S_818FF710_6 *parent_position;
     void *parent;
     void *third_object;
-    register void *fourth_object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *fourth_object;
     register void *first_object ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *second_object;
     S_818FF710_11 *target_hit_flags;
@@ -596,16 +596,12 @@ update_hit:
     texture_start = rect_start;
     rect_end = &texture_rect.half[4];
     texture_end = rect_end;
-    ASM_SET(rect_left);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     rect_left = 0x340;
-    rect_value = 0x154;
-    texture_rect.half[1] = (s16) rect_value;
-    rect_value = 0x60;
-    texture_rect.half[2] = (s16) rect_value;
+    texture_rect.half[0] = (s16) rect_left;
+    texture_rect.half[1] = 0x154;
+    texture_rect.half[2] = 0x60;
     rect_height = 0x54;
     rect_right = 0x370;
-    texture_rect.half[0] = (s16) rect_left;
     texture_rect.half[3] = (s16) rect_height;
     texture_rect.half[4] = (s16) rect_right;
     texture_rect.half[5] = (s16) 0x19A;
