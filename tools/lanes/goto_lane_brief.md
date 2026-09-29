@@ -60,6 +60,9 @@ duplicated shared calls per arm measured 46-51: keep the original test order and
     python3 <REPO>/tools/lanes/lanekit/why.py <row> --pass loop --variant cand.c
     python3 <REPO>/tools/lanes/lanekit/lab.py report
 
+Control-flow rewrites move labels around, so a byte-identical listing can still differ in label ORDER: `--score`
+byte-scores every candidate within `LANEKIT_SCORE_NEAR` listing lines (default 24); export `LANEKIT_SCORE_NEAR=200`
+before calling a structural rewrite a failure (r79_sonnet_g27: exact at listing distance 21).
 `lab.py ... --score` stages an exact candidate to `out/<container>/<name>.c` automatically when it has the same
 pins (none) and **strictly fewer plain gotos** and adds nothing banned; otherwise it prints `NOT staged (reason)`.
 Stage only your best candidate per row: each later exact one with fewer gotos overwrites it. `lab.py` refuses more
