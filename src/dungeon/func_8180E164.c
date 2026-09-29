@@ -50,12 +50,9 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
             duration = 0x38;
             effect->count = duration;
             state = effect->state;
-            goto increment_state;
+            effect->state = state + 1;
         }
-        goto update;
-    }
-
-    if (effect->state == 1) {
+    } else if (effect->state == 1) {
         if (dungeon->unk_004 & 1) {
             brightness = (u16)((s32)(effect->value.u << 0x10) >> 0x11);
         } else {
@@ -73,37 +70,28 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
             duration = 0x1c;
             effect->count = duration;
             state = effect->state;
-            goto increment_state;
+            effect->state = state + 1;
         }
-        goto update;
-    }
-
-    goto state_other;
-
-increment_state:
-    effect->state = state + 1;
-    goto update;
-
-state_other:
-    if (dungeon->unk_004 & 1) {
-        *(u32 *)&output->color[0] = 0;
     } else {
-        if (effect->value.s > 0) {
-            effect->value.u = effect->value.u - 8;
+        if (dungeon->unk_004 & 1) {
+            *(u32 *)&output->color[0] = 0;
+        } else {
+            if (effect->value.s > 0) {
+                effect->value.u = effect->value.u - 8;
+            }
+            brightness = effect->value.b;
+            output->color[2] = (u8)brightness;
+            output->color[1] = (u8)brightness;
+            output->color[0] = (u8)brightness;
         }
-        brightness = effect->value.b;
-        output->color[2] = (u8)brightness;
-        output->color[1] = (u8)brightness;
-        output->color[0] = (u8)brightness;
-    }
-    tick = effect->count - 1;
-    effect->count = tick;
-    if ((tick << 0x10) <= 0) {
-        ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        tick = effect->count - 1;
+        effect->count = tick;
+        if ((tick << 0x10) <= 0) {
+            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        }
     }
 
-update:
     tick = effect->frame + 1;
     effect->frame = tick;
     if (effect->state != 0) {

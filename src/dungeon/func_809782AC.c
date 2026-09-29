@@ -32,24 +32,8 @@ void func_80173AAC(void *actor, void *context, void *animation, EntityRec *entit
     s32 state;
 
     state = ((Rec_func_8017360C_arg0 *)actor)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto at_least_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-at_least_two:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     {
         u8 *direction_anims;
 
@@ -63,10 +47,10 @@ state_zero:
         func_80047784(animation,
             direction_anims[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
             0);
-        goto increment_state;
+        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+        return;
     }
-
-state_one:
+    case 1:
     {
         u32 entity_flags;
 
@@ -78,7 +62,8 @@ state_one:
                 0);
             entity->flags1C |= 0x40000;
             dungeonStatus.unk_0A++;
-            goto increment_state;
+            ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
+            return;
         }
 
         if (dungeonStatus.flags & 0x1000) {
@@ -137,13 +122,10 @@ state_one:
             0);
         entity->flags1C |= 0x40000;
         dungeonStatus.unk_0A++;
+        ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
     }
-
-increment_state:
-    ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
-    return;
-
-state_two:
+    break;
+    case 2:
     if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
 
         dungeonStatus.unk_0A--;
@@ -152,4 +134,5 @@ state_two:
     }
 
     return;
+    }
 }

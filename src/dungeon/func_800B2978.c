@@ -39,59 +39,39 @@ void func_800B80D8(void *object, void *motion, void *display)
     u16 scale;
 
     state = ((S_800B80D8_0 *)object)->unk_A2.s;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto state_ge_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_ge_two:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    if (!(((S_800B80D8_1 *)display)->unk_14 & 0x8000)) {
-        goto zero_continue;
-    }
-    ((S_800B80D8_0 *)object)->unk_A2.u = 2;
-    return;
-
-zero_continue:
-    ((S_800B80D8_0 *)object)->unk_A4 = 12;
-    ((S_800B80D8_0 *)object)->unk_A2.u++;
-state_one:
-    velocity = ((S_800B80D8_2 *)motion)->unk_14 + 0x30000;
-    ((S_800B80D8_2 *)motion)->unk_14 = velocity;
-    ((S_800B80D8_2 *)motion)->unk_08.at00.v += velocity;
-    scale = ((S_800B80D8_1 *)display)->unk_1C;
-    if (scale < 0x1000) {
-        ((S_800B80D8_1 *)display)->unk_1C = scale + 0x50;
-        ((S_800B80D8_1 *)display)->unk_1E += 0x50;
-    }
-    frames_left = ((S_800B80D8_0 *)object)->unk_A4 - 1;
-    ((S_800B80D8_0 *)object)->unk_A4 = frames_left;
-    if ((frames_left << 16) != 0) {
+    switch (state) {
+    case 0:
+        if (((S_800B80D8_1 *)display)->unk_14 & 0x8000) {
+            ((S_800B80D8_0 *)object)->unk_A2.u = 2;
+            return;
+        }
+        ((S_800B80D8_0 *)object)->unk_A4 = 12;
+        ((S_800B80D8_0 *)object)->unk_A2.u++;
+    case 1:
+        velocity = ((S_800B80D8_2 *)motion)->unk_14 + 0x30000;
+        ((S_800B80D8_2 *)motion)->unk_14 = velocity;
+        ((S_800B80D8_2 *)motion)->unk_08.at00.v += velocity;
+        scale = ((S_800B80D8_1 *)display)->unk_1C;
+        if (scale < 0x1000) {
+            ((S_800B80D8_1 *)display)->unk_1C = scale + 0x50;
+            ((S_800B80D8_1 *)display)->unk_1E += 0x50;
+        }
+        frames_left = ((S_800B80D8_0 *)object)->unk_A4 - 1;
+        ((S_800B80D8_0 *)object)->unk_A4 = frames_left;
+        if ((frames_left << 16) != 0) {
+            return;
+        }
+        ((S_800B80D8_2 *)motion)->unk_14 = 0;
+        ((S_800B80D8_0 *)object)->unk_A2.u++;
+        return;
+    case 2:
+        func_800A7A7C(((S_800B80D8_0 *)object)->unk_B0,
+                      ((S_800B80D8_0 *)object)->unk_B2,
+                      (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
+                      &D_8006E240,
+                      (u8 *)object + 0x98);
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
-    ((S_800B80D8_2 *)motion)->unk_14 = 0;
-    ((S_800B80D8_0 *)object)->unk_A2.u++;
-    return;
-
-state_two:
-    func_800A7A7C(((S_800B80D8_0 *)object)->unk_B0,
-                  ((S_800B80D8_0 *)object)->unk_B2,
-                  (s16)(((S_800B80D8_2 *)motion)->unk_08.at02.v - 0x20),
-                  &D_8006E240,
-                  (u8 *)object + 0x98);
-    (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

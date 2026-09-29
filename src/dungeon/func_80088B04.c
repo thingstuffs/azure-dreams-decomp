@@ -17,18 +17,12 @@ M2C_UNK func_80099F04();                         /* extern */
 M2C_UNK func_80099F70();                         /* extern */
 M2C_UNK func_800A2B04();              /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
-extern void *D_80088810[];
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DD040[];
 extern u8 D_800DD058[];
 
 /* Updates movement toward a target tile and advances the actor's animation state. */
 void func_8008E264(void *actor, EntityRec *motion, void *sprite, EntityRec *model) {
-    static void *const state_labels[13] = {
-        &&start_move, &&update_move, &&done, &&done,
-        &&done, &&done, &&done, &&done,
-        &&start_move, &&update_move, &&start_move, &&update_move, &&wait_animation
-    };
     s16 ticks_left;
     s32 coord_or_ticks;
     s32 motion_value;
@@ -38,12 +32,10 @@ void func_8008E264(void *actor, EntityRec *motion, void *sprite, EntityRec *mode
 
     state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
     state_index = state;
-    if (state_index >= 13) {
-        goto done;
-    }
-    (void)state_labels;
-    goto *D_80088810[state_index];
-start_move:
+    switch (state_index) {
+    case 0:
+    case 8:
+    case 10:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             launch_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
             if (launch_state != 0) {
@@ -71,9 +63,12 @@ launch_ready:
             func_800A56E0(0x50A);
             return;
         }
-done:
+    case 2: case 3: case 4: case 5: case 6: case 7:
+    default:
         return;
-update_move:
+    case 1:
+    case 9:
+    case 11:
         if (dungeonStatus.unk_04 != 0) {
             motion_value = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
             coord_or_ticks = motion->x.w.i;
@@ -106,12 +101,13 @@ update_move:
             goto finish_move;
         }
         return;
-wait_animation:
+    case 12:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             dungeonStatus.unk_04 = 0;
             goto finish_move;
         }
         return;
+    }
 finish_move:
         if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
             ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;

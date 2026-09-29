@@ -58,51 +58,41 @@ void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
     motion_flags = ((S_800D4158_2 *)entity)->unk_98;
     if (motion_flags & 8) {
         ((S_800D4158_2 *)entity)->unk_9D.u = 0;
-        goto apply_vertical_motion;
-    }
-    motion->unk_14 += ((S_800D4158_2 *)entity)->unk_9D.s * 0x14000;
-    ((S_800D4158_2 *)entity)->unk_9D.s = ((S_800D4158_2 *)entity)->unk_9D.u + 1;
-apply_vertical_motion:
-    ((S_800D4158_2 *)entity)->unk_90.at00.v += motion->unk_14;
-    if (((S_800D4158_2 *)entity)->unk_98 & 4) {
-        goto clear_grounded;
-    }
-    ground_height_raw = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
-                        (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
-    ground_height = (s16)ground_height_raw;
-    if (ground_height >= 0x200) {
-        goto clear_grounded;
-    }
-    if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
-        (void)*(volatile u16 *)((s8 *)entity + 0x98);
-        goto check_base_height;
-    }
-    if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
-        ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;
     } else {
-        ((S_800D4158_2 *)entity)->unk_90.at02.v = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
+        motion->unk_14 += ((S_800D4158_2 *)entity)->unk_9D.s * 0x14000;
+        ((S_800D4158_2 *)entity)->unk_9D.s = ((S_800D4158_2 *)entity)->unk_9D.u + 1;
     }
-    motion->unk_14 = 0;
-    (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
-    ((S_800D4158_2 *)entity)->unk_9D.s = 0;
-check_base_height:
-    entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
-    if (entity_flags & 0x40000000) {
-        (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
-        ground_height_raw = func_800BCB04(
-            (sprite->unk_24 << 6) | 0x20,
-            (sprite->unk_25 << 6) | 0x20,
-            (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
-        ((S_800D4158_2 *)entity)->unk_90.at02.v += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
-        (*(s16 *)((u8 *)entity_ref + 0x88)) = ground_height_raw;
+    ((S_800D4158_2 *)entity)->unk_90.at00.v += motion->unk_14;
+    if (!(((S_800D4158_2 *)entity)->unk_98 & 4) &&
+        (ground_height = (s16)(ground_height_raw = func_800BCB04(motion->unk_00.at02.v, motion->unk_04.at02.v,
+                        (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20)))) < 0x200) {
+        if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
+            (void)*(volatile u16 *)((s8 *)entity + 0x98);
+        } else {
+                if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
+                    ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;
+                } else {
+                    ((S_800D4158_2 *)entity)->unk_90.at02.v = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
+                }
+                motion->unk_14 = 0;
+                (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
+                ((S_800D4158_2 *)entity)->unk_9D.s = 0;
+        }
+        entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
+        if (entity_flags & 0x40000000) {
+            (*(u32 *)((u8 *)entity_ref + 0x1c)) = entity_flags & 0xbfffffff;
+            ground_height_raw = func_800BCB04(
+                (sprite->unk_24 << 6) | 0x20,
+                (sprite->unk_25 << 6) | 0x20,
+                (s16)((*(u16 *)((u8 *)entity_ref + 0x88)) - 0x20));
+            ((S_800D4158_2 *)entity)->unk_90.at02.v += (*(u16 *)((u8 *)entity_ref + 0x88)) - ground_height_raw;
+            (*(s16 *)((u8 *)entity_ref + 0x88)) = ground_height_raw;
+        }
+    } else {
+        (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;
     }
-    goto update_height;
-clear_grounded:
-    (*(u32 *)((u8 *)entity_ref + 0x1c)) &= 0xf7ffffff;
-update_height:
     motion->unk_0A = (*(u16 *)((u8 *)entity_ref + 0x88)) +
                                    ((S_800D4158_2 *)entity)->unk_90.at02.v;
-update_brightness:
     pulse_phase = ((S_800D4158_2 *)entity)->unk_9E;
     pulse_phase++;
     pulse_phase %= 96;

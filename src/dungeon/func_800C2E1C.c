@@ -45,35 +45,33 @@ u32 func_800C857C(void *attacker, void *target) {
                 if ((func_80042900(target, 0xC) << 0x10) != 0) {
                     func_80042B68(target, 0xC);
                     status = 0;
-                    goto block_success;
+                } else {
+                    status = func_800A48F0(target, 0xB, 0x10);
+                    if ((status << 0x10) < 0) {
+                        goto block_error;
+                    }
+                    {
+                        s32 session = func_800990FC();
+                        s32 saved = session;
+                        session = func_80099194(&D_800E1987, session);
+                        func_80099290(func_80099194(&D_8008942C, func_80099734(target, session)));
+                        func_800A5720(saved);
+                    }
                 }
-                status = func_800A48F0(target, 0xB, 0x10);
-                if ((status << 0x10) < 0) {
-                    goto block_error;
-                }
-                {
-                    s32 session = func_800990FC();
-                    s32 saved = session;
-                    session = func_80099194(&D_800E1987, session);
-                    func_80099290(func_80099194(&D_8008942C, func_80099734(target, session)));
-                    func_800A5720(saved);
-                }
-                goto block_success;
             }
         } else if (*(s32 *)((s8 *)target + 0x1C) & 0x2000) {
             if ((func_80042900(target, 0xB) << 0x10) != 0) {
                 func_80042B68(target, 0xB);
                 status = 0;
-                goto block_success;
+            } else {
+                status = func_800A48F0(target, 0xC, 0x10);
+                if ((status << 0x10) < 0) {
+                    goto block_error;
+                }
+                func_80099844(target, &D_800E1996);
             }
-            status = func_800A48F0(target, 0xC, 0x10);
-            if ((status << 0x10) < 0) {
-                goto block_error;
-            }
-            func_80099844(target, &D_800E1996);
         }
     }
-block_success:
     shifted = status << 0x10;
     if (shifted < 0) {
 block_error:

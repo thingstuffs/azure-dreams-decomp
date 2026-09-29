@@ -23,77 +23,59 @@ void func_8002663C(void *effect, void *control)
     u8 light_next_color;
 
     state = S16_AT(effect, 0xE);
-    if (state == 1) {
-        goto light;
-    }
-    if (state >= 2) {
-        goto check_dark;
-    }
-    if (state == 0) {
-        goto initialize;
-    }
-    return;
-
-check_dark:
-    if (state == 3) {
-        goto start_dark;
-    }
-    if (state == 4) {
-        goto dark;
-    }
-    return;
-
-initialize:
-    func_8004491C((u8 *)effect - 0x20, &D_80026F68);
-    S16_AT(effect, 0) = 0x50;
-    S16_AT(effect, 4) = 0xA0;
-    S16_AT(effect, 2) = 0x58;
-    S16_AT(effect, 6) = 0xB0;
-    S16_AT(control, 0xA) = 0x40;
-    S16_AT(effect, 0xC) = 8;
-    S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-
-light:
-    light_frames = S16_AT(effect, 0xC);
-    if (light_frames != 0) {
-        light_color = U8_AT(effect, 0xA);
-        light_next_color =
-            light_color + ((0x60 - light_color) / light_frames);
-        U8_AT(effect, 0xA) = light_next_color;
-        U8_AT(effect, 9) = light_next_color;
-        U8_AT(effect, 8) = light_next_color;
-    }
-    light_frames_left = U16_AT(effect, 0xC) - 1;
-    S16_AT(effect, 0xC) = light_frames_left;
-    if ((light_frames_left << 0x10) > 0) {
+    switch (state) {
+    case 0:
+        func_8004491C((u8 *)effect - 0x20, &D_80026F68);
+        S16_AT(effect, 0) = 0x50;
+        S16_AT(effect, 4) = 0xA0;
+        S16_AT(effect, 2) = 0x58;
+        S16_AT(effect, 6) = 0xB0;
+        S16_AT(control, 0xA) = 0x40;
+        S16_AT(effect, 0xC) = 8;
+        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        /* fall through */
+    case 1:
+        light_frames = S16_AT(effect, 0xC);
+        if (light_frames != 0) {
+            light_color = U8_AT(effect, 0xA);
+            light_next_color =
+                light_color + ((0x60 - light_color) / light_frames);
+            U8_AT(effect, 0xA) = light_next_color;
+            U8_AT(effect, 9) = light_next_color;
+            U8_AT(effect, 8) = light_next_color;
+        }
+        light_frames_left = U16_AT(effect, 0xC) - 1;
+        S16_AT(effect, 0xC) = light_frames_left;
+        if ((light_frames_left << 0x10) > 0) {
+            return;
+        }
+        U8_AT(effect, 0xA) = 0x60;
+        U8_AT(effect, 9) = 0x60;
+        U8_AT(effect, 8) = 0x60;
+        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        return;
+    case 3:
+        S16_AT(effect, 0xC) = 8;
+        S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
+        /* fall through */
+    case 4:
+        dark_frames = S16_AT(effect, 0xC);
+        if (dark_frames != 0) {
+            dark_color = U8_AT(effect, 0xA);
+            dark_next_color = dark_color + ((0 - dark_color) / dark_frames);
+            U8_AT(effect, 0xA) = dark_next_color;
+            U8_AT(effect, 9) = dark_next_color;
+            U8_AT(effect, 8) = dark_next_color;
+        }
+        dark_frames_left = U16_AT(effect, 0xC) - 1;
+        S16_AT(effect, 0xC) = dark_frames_left;
+        if ((dark_frames_left << 0x10) > 0) {
+            return;
+        }
+        U16_AT(effect, -2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
+    default:
         return;
     }
-    U8_AT(effect, 0xA) = 0x60;
-    U8_AT(effect, 9) = 0x60;
-    U8_AT(effect, 8) = 0x60;
-    S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-    return;
-
-start_dark:
-    S16_AT(effect, 0xC) = 8;
-    S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-
-dark:
-    dark_frames = S16_AT(effect, 0xC);
-    if (dark_frames != 0) {
-        dark_color = U8_AT(effect, 0xA);
-        dark_next_color = dark_color + ((0 - dark_color) / dark_frames);
-        U8_AT(effect, 0xA) = dark_next_color;
-        U8_AT(effect, 9) = dark_next_color;
-        U8_AT(effect, 8) = dark_next_color;
-    }
-    dark_frames_left = U16_AT(effect, 0xC) - 1;
-    S16_AT(effect, 0xC) = dark_frames_left;
-    if ((dark_frames_left << 0x10) > 0) {
-        return;
-    }
-    U16_AT(effect, -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

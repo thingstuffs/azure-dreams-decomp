@@ -43,12 +43,10 @@ void func_8002593C(u8 *object)
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 0) {
                 func_8002592C(object);
                 needs_refresh = 1;
-                goto direction_check;
+            } else {
+                func_800258C8(object);
             }
-            func_800258C8(object);
-            goto direction_check;
-        }
-        if (held_buttons & 0x5000) {
+        } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 ((Rec_func_80025030_arg0 *)object)->unk_30 = 0;
                 pressed_buttons = ((s32)gameWork.unk_010);
@@ -71,20 +69,15 @@ void func_8002593C(u8 *object)
                     ((Rec_func_80025030_arg0 *)object)->unk_30 = repeat_ticks + 1;
                 }
             }
-            goto direction_check;
-        }
-
-        if (held_buttons & 0xA000) {
+        } else if (held_buttons & 0xA000) {
             if (held_buttons & 0x2000) {
                 ((Rec_func_80025030_arg0 *)object)->unk_48 = 1;
-                needs_refresh = 1;
-                goto direction_check;
+            } else {
+                ((Rec_func_80025030_arg0 *)object)->unk_48 = 0;
             }
-            ((Rec_func_80025030_arg0 *)object)->unk_48 = 0;
             needs_refresh = 1;
         }
 
-direction_check:
         if (selection_step != 0) {
             SD_Call(0x502);
             if (((Rec_func_80025030_arg0 *)object)->unk_48 == 1) {
@@ -100,18 +93,13 @@ direction_check:
 
     update_status = func_8002168C();
     func_80021904();
-    if (update_status == 0) {
-        goto changed_check;
-    }
-    if (update_status == 1) {
-        goto changed_check;
+    if (update_status != 0) {
+        if (update_status != 1) {
+            func_80025D34(object - 0x20);
+            func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
+        }
     }
 
-forced_tail:
-    func_80025D34(object - 0x20);
-    func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
-
-changed_check:
     if (needs_refresh != 0) {
         func_80025030(object);
     }

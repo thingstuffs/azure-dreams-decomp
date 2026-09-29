@@ -32,7 +32,6 @@ typedef struct S_80091C64_1 {
 
 
 
-extern void *D_800889A8[];
 void func_80048A44();
 s32 func_800644B8();
 s32 func_80064584();
@@ -45,7 +44,6 @@ extern u8 D_800DD058[];
 
 /* Animate a hop and return to the entity's tile, then restore its facing and behavior. */
 void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     M2C_UNK *next_behavior;
     s16 frames_left;
     u8 phase;
@@ -61,11 +59,8 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
     u16 return_frames_left;
 
     phase = ((S_80091C64_0 *)motion)->unk_9B;
-    if (phase >= 5U) {
-        return;
-    }
-    (void)jt_keep; goto *D_800889A8[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
     if ((s16) delay_left >= 9) {
@@ -77,7 +72,7 @@ jt_c0:
     ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
     func_800A56E0(0x701);
     return;
-jt_c1:
+    case 1:
     if (((S_80091C64_0 *)motion)->unk_96.u == 0) {
         goto tick_hop;
     }
@@ -95,7 +90,7 @@ tick_hop:
     ((S_80091C64_0 *)motion)->unk_92 = 0;
     ((S_80091C64_0 *)motion)->unk_9B++;
     return;
-jt_c2:
+    case 2:
     if (((s32)dungeonStatus.unk_0C) != 0) {
         return;
     }
@@ -105,7 +100,7 @@ jt_c2:
     ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
     ((S_80091C64_0 *)motion)->unk_9B++;
     return;
-jt_c3:
+    case 3:
     frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
     if (frames_left == 0) {
         goto tick_return;
@@ -137,7 +132,7 @@ tick_return:
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
     func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     return;
-jt_c4:
+    case 4:
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
     if (!(((S_80091C64_1 *)actor)->unk_1C & 0x100000)) {
@@ -153,4 +148,5 @@ restore_behavior:
     ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
     ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
     return;
+    }
 }

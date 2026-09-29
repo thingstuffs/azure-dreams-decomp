@@ -129,82 +129,77 @@ void func_8008A288(Menu *menu)
         if (row > 0)
         {
           channel_or_color = row - 1;
-          if (row < 4)
+          if (row >= 4)
           {
-            goto adjust_volume;
+            if (row >= 7)
+              goto check_confirm;
+            goto adjust_color;
           }
-          if (row >= 7)
+          levels = D_8008B2F0;
+
+          level_slot = levels + channel_or_color;
+          adjusted_value = *level_slot + delta;
+          *level_slot = adjusted_value;
+          if (adjusted_value < 0)
           {
-            goto check_confirm;
+            *level_slot = 0;
           }
-          goto adjust_color;
+          else if (adjusted_value >= 0x101)
+          {
+            *level_slot = 0x100;
+          }
+          if (channel_or_color == 1)
+          {
+            SD_Call(0x516);
+          }
+          volume_a = &D_80080A98;
+          scaled_a = 0x7FFF;
+          level = D_8008B2F0[0];
+          if (level < 0x100)
+          {
+            scaled_a = level << 7;
+          }
+          scaled_b = 0x7FFF;
+          do
+          {
+            *volume_a = scaled_a;
+          }
+          while (0);
+          volume_b = &D_80080A9C;
+          level = D_8008B2F0[1];
+          if (level < 0x100)
+          {
+            scaled_b = level << 7;
+          }
+          *volume_b = scaled_b;
+          volume_c = &D_80080A94;
+          volume_or_red = 0x7FFF;
+          level = D_8008B2F0[2];
+          if (level < 0x100)
+          {
+            volume_or_red = level << 7;
+          }
+          *volume_c = volume_or_red;
+          func_80053DF0(*((s16 *) volume_a));
+          func_80053E14(*((s16 *) volume_b));
+          func_80053DCC(*((s16 *) (&D_80080A94)));
+          goto check_confirm;
+        adjust_color:
+          channel_or_color = menu->row - 4;
+          color_base = (s16 *) ((u32) (channel_or_color * 2) + (u32) menu);
+
+          adjusted_value = ((u16) color_base[7]) + delta;
+          color_base[7] = adjusted_value;
+          adjusted_value = (s16) adjusted_value;
+          if (adjusted_value < 0)
+          {
+            color_base[7] = 0;
+          }
+          else if (adjusted_value >= 0x101)
+          {
+            color_base[7] = 0x100;
+          }
         }
-      }
-      goto check_confirm;
-    adjust_volume:
-      levels = D_8008B2F0;
-
-      level_slot = levels + channel_or_color;
-      adjusted_value = *level_slot + delta;
-      *level_slot = adjusted_value;
-      if (adjusted_value < 0)
-      {
-        *level_slot = 0;
-      }
-      else if (adjusted_value >= 0x101)
-      {
-        *level_slot = 0x100;
-      }
-      if (channel_or_color == 1)
-      {
-        SD_Call(0x516);
-      }
-      volume_a = &D_80080A98;
-      scaled_a = 0x7FFF;
-      level = D_8008B2F0[0];
-      if (level < 0x100)
-      {
-        scaled_a = level << 7;
-      }
-      scaled_b = 0x7FFF;
-      do
-      {
-        *volume_a = scaled_a;
-      }
-      while (0);
-      volume_b = &D_80080A9C;
-      level = D_8008B2F0[1];
-      if (level < 0x100)
-      {
-        scaled_b = level << 7;
-      }
-      *volume_b = scaled_b;
-      volume_c = &D_80080A94;
-      volume_or_red = 0x7FFF;
-      level = D_8008B2F0[2];
-      if (level < 0x100)
-      {
-        volume_or_red = level << 7;
-      }
-      *volume_c = volume_or_red;
-      func_80053DF0(*((s16 *) volume_a));
-      func_80053E14(*((s16 *) volume_b));
-      func_80053DCC(*((s16 *) (&D_80080A94)));
-      goto check_confirm;
-    adjust_color:
-      channel_or_color = menu->row - 4;
-      color_base = (s16 *) ((u32) (channel_or_color * 2) + (u32) menu);
-
-      adjusted_value = ((u16) color_base[7]) + delta;
-      color_base[7] = adjusted_value;
-      adjusted_value = (s16) adjusted_value;
-      if (adjusted_value < 0)
-      {
-        color_base[7] = 0;
-      }
-      else if (adjusted_value >= 0x101)
-      {
-        color_base[7] = 0x100;
       }
     check_confirm:
       if ((pad->buttons & 9) == 9)
@@ -305,19 +300,8 @@ void func_8008A288(Menu *menu)
       func_80088BD0();
       settings_flags = &objectFlagBlock;
       ((u16 *) menu)[-1] |= 0x8000;
-      do
-      {
-        settings_flags->flags |= 0x8000;
-      }
-      while (0);
-      if (((Gfx *) 0x80010000)->flags)
-      {
-        return;
-      }
-      else
-      {
-        return;
-      }
+      settings_flags->flags |= 0x8000;
+      return;
 
   }
 

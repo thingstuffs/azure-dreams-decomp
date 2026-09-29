@@ -33,18 +33,8 @@ void func_801730E0(S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *actio
     u8 *next_script;
 
     phase = state->unk_9B;
-    if (phase == 1)
-        goto wait_action;
-    if (phase < 2) {
-        if (phase == 0)
-            goto start_action;
-        return;
-    }
-    if (phase == 2)
-        goto finish_action;
-    return;
-
-start_action:
+    switch (phase) {
+    case 0:
         func_800AD4D0(entity);
         motion->unk_10 = 0;
         motion->unk_0C = 0;
@@ -64,24 +54,21 @@ start_action:
             if (entity->flags1C & 0x228)
                 wait_ticks = 8;
             state->unk_96.s = wait_ticks;
-            goto update_wait;
+        } else {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(state, motion, action, &D_801752E4);
+            return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(state, motion, action, &D_801752E4);
-        return;
-
-wait_action:
-update_wait:
+    case 1:
         if (state->unk_96.u > 0) {
             ticks_left = state->unk_96.s - 1;
             state->unk_96.s = ticks_left;
-            goto check_wait;
+        } else {
+            if (action->unk_14.at00_u16.v & 0x6000)
+                state->unk_96.s = 0;
         }
-        if (action->unk_14.at00_u16.v & 0x6000)
-            state->unk_96.s = 0;
-check_wait:
         if (state->unk_96.u != 0)
             return;
         if (entity->unk_28 == 0) {
@@ -95,8 +82,7 @@ check_wait:
         state->unk_96.s = 8;
         state->unk_9B = state->unk_9B + 1;
         return;
-
-finish_action:
+    case 2:
         ticks_left = state->unk_96.s - 1;
         state->unk_96.s = ticks_left;
         if ((ticks_left << 0x10) > 0)
@@ -111,6 +97,5 @@ finish_action:
         next_script = D_8017102C;
         state->unk_8C = next_script;
         return;
-
-    return;
+    }
 }

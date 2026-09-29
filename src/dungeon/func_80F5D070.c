@@ -96,34 +96,25 @@ void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
         if (kind == 1) {
             primary_flags = work->unk_14 | 0x6000;
             secondary_flags = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        primary_flags = work->unk_14 | 0x2000;
-        secondary_flags = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = primary_flags;
-        work->unk_1C = secondary_flags;
-        goto post_kind;
-
-normal_kind:
-        init_obj = obj;
-        if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            work->unk_14 = primary_flags;
+            work->unk_1C = secondary_flags;
+        } else if (kind >= 2) {
+            primary_flags = work->unk_14 | 0x2000;
+            secondary_flags = work->unk_1C | 0x2000;
+            work->unk_14 = primary_flags;
+            work->unk_1C = secondary_flags;
+        } else {
+            init_obj = obj;
+            if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 init_part = part_a;
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
                               (func_800A6D30(init_obj, init_part) & 0x3F) | 0x20);
                 part_b->unk_2C = D_801741DC;
-                goto post_kind;
+            } else {
+                goto init_actor;
             }
         }
-        goto init_actor;
-
-post_kind:
         init_obj = obj;
 init_actor:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);

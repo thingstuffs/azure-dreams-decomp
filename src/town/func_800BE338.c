@@ -48,46 +48,34 @@ void func_800BBA98(void *effect, void *motion_data, void *display_data) {
     motion = (State *)motion_data;
     display = display_data;
     phase_value = ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.s;
-    if (phase_value == 0) {
-        goto advance_motion;
+    switch (phase_value) {
+    case 0:
+        motion->f0 += (motion->fc / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
+        motion->f4 += (motion->f10 / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
+        ticks_left = (u16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A - 1;
+        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A = ticks_left;
+        phase_value = 0x60;
+        if ((ticks_left << 0x10) <= 0) {
+            ((Arg2State *)display)->f10 = phase_value;
+            ((Arg2State *)display)->f14 |= 0xC;
+            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.u += 1;
+        }
+        break;
+    case 1:
+        motion->f0 += motion->fc;
+        motion->f4 += motion->f10;
+        x_velocity = motion->fc;
+        x_decay = x_velocity >> 1;
+        motion->fc = x_velocity - x_decay;
+        motion->f10 -= (motion->f10 >> 1);
+        fade_step = (void *)0xFFEFEFF0;
+        ((Arg2State *)display)->fc += (s32)fade_step;
+        if ((u8) ((Arg2State *)display)->fc < 0x11U) {
+            ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (phase_value == 1) {
-        goto fade_motion;
-    }
-    goto update_display;
-advance_motion:
-    motion->f0 += (motion->fc / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
-    motion->f4 += (motion->f10 / (s16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A);
-    ticks_left = (u16) ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A - 1;
-    ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4A = ticks_left;
-    phase_value = 0x60;
-    if ((ticks_left << 0x10) <= 0) {
-        ((Arg2State *)display)->f10 = phase_value;
-        ((Arg2State *)display)->f14 |= 0xC;
-        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_4E.u += 1;
-        goto update_display;
-    }
-    goto update_display;
-fade_motion:
-    motion->f0 += motion->fc;
-    motion->f4 += motion->f10;
-    x_velocity = motion->fc;
-    x_decay = x_velocity >> 1;
-    motion->fc = x_velocity - x_decay;
-    motion->f10 -= (motion->f10 >> 1);
-    fade_step = (void *)0xFFEFEFF0;
-    ((Arg2State *)display)->fc += (s32)fade_step;
-    if ((u8) ((Arg2State *)display)->fc < 0x11U) {
-        ((S_800BBA98_0 *)((u8 *)effect_data - 0x2))->unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-    random_drop = (rand() & 7) << 0xF;
-    height = motion->f8;
-    height -= random_drop;
-    motion->f8 = height;
-    func_800478B8(display);
-    return;
-update_display:
     random_drop = (rand() & 7) << 0xF;
     height = motion->f8;
     height -= random_drop;

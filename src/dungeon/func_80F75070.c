@@ -96,34 +96,25 @@ void *func_80158870(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 pa
         if (kind == 1) {
             flags_14 = work->unk_14 | 0x6000;
             flags_1c = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        flags_14 = work->unk_14 | 0x2000;
-        flags_1c = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = flags_14;
-        work->unk_1C = flags_1c;
-        goto post_kind;
-
-normal_kind:
-        init_obj = obj;
-        if (((kind_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else if (kind >= 2) {
+            flags_14 = work->unk_14 | 0x2000;
+            flags_1c = work->unk_1C | 0x2000;
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else {
+            init_obj = obj;
+            if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
                 query_part = part_a;
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
                               (func_800A6D30(init_obj, query_part) & 0x3F) | 0x20);
                 part_b->unk_2C = D_8015C1DC;
-                goto post_kind;
+            } else {
+                goto init_actor;
             }
         }
-        goto init_actor;
-
-post_kind:
         init_obj = obj;
 init_actor:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);

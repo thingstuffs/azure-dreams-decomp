@@ -96,23 +96,22 @@ void func_80170AD0(void *state, void *position, void *effect_arg)
     ticks_left = ((S_80170AD0_0 *)state)->unk_96.s;
     if (ticks_left >= 0x2B) {
         effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x2BC;
-        goto set_amount;
-    }
-    if (ticks_left >= 0x28) {
+        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+    } else if (ticks_left >= 0x28) {
         effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x226;
-        goto set_amount;
-    }
-    if (ticks_left >= 0x26) {
+        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+    } else if (ticks_left >= 0x26) {
         effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x190;
-        goto set_amount;
-    }
-    if (ticks_left >= 0x24) {
+        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+    } else if (ticks_left >= 0x24) {
         effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0xC8;
-        goto set_amount;
-    }
-    if (ticks_left >= 0x1A) {
+        ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
+        ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
+    } else if (ticks_left >= 0x1A) {
         effect_size = ((S_80170AD0_1 *)effect)->unk_1E + 0x64;
-set_amount:
         ((S_80170AD0_1 *)effect)->unk_1E = effect_size;
         ((S_80170AD0_1 *)effect)->unk_1C = effect_size;
     }
@@ -143,11 +142,9 @@ set_amount:
         reference_value = func_80065420(coord_work.xyz, &coord_work.out18, &coord_work.out20, &coord_work.out24);
         ((S_80170AD0_1 *)effect)->unk_06 = position_value - reference_value -
             (D_800DCECC[((gameWork.view.viewAngle + ((S_80170AD0_0 *)state)->unk_94 + 0x100) >> 9) & 7] * 2);
-        goto position_done;
+    } else {
+        ((S_80170AD0_1 *)effect)->unk_06 = 4;
     }
-
-    ((S_80170AD0_1 *)effect)->unk_06 = 4;
-position_done:
     func_800478B8(effect);
     next_ticks = ((S_80170AD0_0 *)state)->unk_96.u - 1;
     ((S_80170AD0_0 *)state)->unk_96.u = next_ticks;
