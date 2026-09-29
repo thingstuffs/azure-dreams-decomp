@@ -9,7 +9,6 @@
 
 
 
-extern u8 D_80170838[16];
 extern u8 D_80170E54;
 extern u8 D_80174148[8];
 extern u8 D_80174180[8];
@@ -40,10 +39,6 @@ typedef struct S_80172CC0_2 {
 
 /* Updates an entity's item action, animation, and completion state. */
 void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
-    static void *const item_targets[7] = {
-        &&item_8, &&item_b, &&item_e, &&item_none,
-        &&item_8, &&item_b, &&item_e
-    };
     u16 pos[3];
     s16 is_special;
     register u8 *item ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -58,20 +53,25 @@ void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
     case 0:
         if ((*(u32 *)((u8 *)entity + 0x1C)) & 0x2000) {
             u32 kind = ((*(u16 *)((u8 *)entity + 0x46)) & 0x3FFF) - 1;
-            if (kind >= 7) {
+            switch (kind) {
+            case 0:
+                goto item_8_value;
+            case 1:
+                goto item_b_value;
+            case 2:
+                goto item_e_value;
+            case 4:
+                is_special = 1;
+                goto item_e_value;
+            case 5:
+                is_special = 1;
+                goto item_b_value;
+            case 6:
+                is_special = 1;
+                goto item_8_value;
+            default:
                 goto item_none;
             }
-            (void)item_targets;
-            goto *(((void **)D_80170838)[kind]);
-item_e:
-            is_special = 1;
-            goto item_e_value;
-item_b:
-            is_special = 1;
-            goto item_b_value;
-item_8:
-            is_special = 1;
-            goto item_8_value;
         }
 
         {

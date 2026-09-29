@@ -63,16 +63,12 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800BB044(void *);
 
-extern u8 D_80170838[28];
 extern u8 D_80171014[];
 extern u8 D_8017420C[];
 
 /* Advances an object action through spawning, actor synchronization, and cleanup. */
 void func_801725A4(void *owner, void *motion, void *actor, void *object)
 {
-    static void *const dispatch_labels[] = {
-        &&L_tail_b0, &&L_tail_b8, &&L_tail_c0, &&L_after_jt
-    };
     register s32 is_special;
     u8 *action_data;
     register s32 x ASM_REG("$2");
@@ -84,7 +80,6 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object)
     u8 *record;
     u8 *action_table;
     u32 action_id;
-    void **dispatch_table;
     s32 state;
     state = ((S_801725A4_0 *)owner)->unk_9B;
     is_special = 0;
@@ -105,22 +100,25 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object)
 L_state0:
     if (((S_801725A4_1 *)object)->unk_1C & 0x2000) {
         kind_index = (((S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
-        if (kind_index >= 7U) {
+        switch (kind_index) {
+        case 0:
+            goto L_kind1;
+        case 1:
+            goto L_kind2;
+        case 2:
+            goto L_kind3;
+        case 4:
+            is_special = 1;
+            goto L_kind3;
+        case 5:
+            is_special = 1;
+            goto L_kind2;
+        case 6:
+            is_special = 1;
+            goto L_kind1;
+        default:
             goto L_after_jt;
         }
-        dispatch_table = (void **)D_80170838;
-        (void)dispatch_labels;
-        goto *dispatch_table[kind_index];
-
-L_tail_b0:
-        is_special = 1;
-        goto L_kind3;
-L_tail_b8:
-        is_special = 1;
-        goto L_kind2;
-L_tail_c0:
-        is_special = 1;
-        goto L_kind1;
     }
 
     kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;

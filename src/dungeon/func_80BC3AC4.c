@@ -25,8 +25,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_80170D28(void *, s32, s32, s32, s32, s32, s32);
 extern void func_80170F2C(void *, s32, s32, s32, s32, s32, s32);
 
-extern void *D_80170850[];
-extern void *D_80170868[];
 extern u8 D_80171080[];
 extern s32 D_801719DC;
 extern u8 D_80174634[];
@@ -98,13 +96,6 @@ typedef struct S_801732C4_7 {
 /* Advances an actor's item-use sequence, animation, and particle effects. */
 void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
 {
-    static void *const state_labels[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
-    };
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_7, &&kind_6, &&kind_5
-    };
     u8 *item_slot;
     s32 special;
     u8 state;
@@ -113,32 +104,31 @@ void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
 
     special = 0;
     state = ((S_801732C4_0 *)action)->unk_9B;
-    if ((u32)state >= 6) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170850[state];
-
-state_0:
+    switch (state) {
+    case 0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
         u32 kind_index;
 
         kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        if (kind_index >= 7) {
+        switch (kind_index) {
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        case 4:
+            special = 1;
+            goto kind_3;
+        case 5:
+            special = 1;
+            goto kind_2;
+        case 6:
+            special = 1;
+            goto kind_1;
+        default:
             goto kind_default;
         }
-        (void)kind_labels;
-        goto *D_80170868[kind_index];
-
-kind_5:
-        special = 1;
-        goto kind_3;
-kind_6:
-        special = 1;
-        goto kind_2;
-kind_7:
-        special = 1;
-        goto kind_1;
     }
 
     {
@@ -249,7 +239,7 @@ empty_selection:
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
     return;
 
-state_1:
+    case 1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
         return;
@@ -258,7 +248,7 @@ state_1:
     ((S_801732C4_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
 
-state_2:
+    case 2:
     {
         u16 flags;
         s16 timer;
@@ -350,7 +340,7 @@ particle_done:
     }
     return;
 
-state_3:
+    case 3:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 5 &&
          (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -375,7 +365,7 @@ do {
     }
     return;
 
-state_4:
+    case 4:
     {
         s16 timer;
 
@@ -397,7 +387,7 @@ increment_state_loaded:
         return;
     }
 
-state_5:
+    case 5:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -438,4 +428,5 @@ state_5:
     }
 
     return;
+    }
 }
