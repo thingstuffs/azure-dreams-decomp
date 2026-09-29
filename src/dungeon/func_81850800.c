@@ -4,6 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
+extern int abs(int);
+
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
@@ -217,7 +219,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 off_x;
     s32 off_y;
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 dx ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 dx;
     register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
     s32 tile_y;
@@ -302,7 +304,6 @@ state_0:
             tile_pixel_x = caster_sprite->unk_24;
             magnitude = caster_sprite->unk_25;
             tile_pixel_x = (tile_pixel_x + off_x) << 6;
-            ASM_KEEP(tile_pixel_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dx = tile_pixel_x + 0x20;
             magnitude = (magnitude + off_y) << 6;
             ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -341,11 +342,7 @@ state_0_tail:
         return;
     }
 span_magnitude:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (reorg steals this block's head `magnitude = dx` into the incoming `j`'s delay slot and redirects past it, which then costs the `bgez` its own slot); the source shape that makes it unnecessary has not been found */
-    effect_data.value = dx;
-    if (dx < 0) {
-        effect_data.value = -effect_data.value;
-    }
+    effect_data.value = abs(dx);
     pixel_offset = facing_shift;
     if (facing_shift < 0) {
         pixel_offset = -pixel_offset;
