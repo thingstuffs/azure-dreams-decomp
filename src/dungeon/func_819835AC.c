@@ -211,7 +211,6 @@ typedef struct S_819835AC_12 {
 } S_819835AC_12;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80024020[];
 M2C_UNK func_8002470C();     /* extern */
 M2C_UNK func_80024938();     /* extern */
 M2C_UNK func_80024B2C();     /* extern */
@@ -241,7 +240,6 @@ extern M2C_UNK D_800E3D7C;
 
 /* Update a homing effect's movement, target hits, appearance, and attached copies. */
 void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *visual) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16 };
     M2C_VEC3S emit_offset;
     s32 aim_angle;
     s32 angle_mask;
@@ -356,11 +354,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
         goto block_138;
     }
     state = effect->unk_30;
-    if ((u32) state >= 0x11U) {
-        goto block_128;
-    }
-    (void)state_labels; goto *D_80024020[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
     heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
     boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
@@ -397,7 +392,7 @@ jt_c0:
     height_frames = 16;
     motion->unk_14.word = height_numerator_2 / height_frames;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
-jt_c1:
+    case 1:
     aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16, (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
     approach_heading = effect->unk_38;
     if (approach_heading & 0x800) {
@@ -509,7 +504,7 @@ block_24:
     state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
     goto block_128;
-jt_c2:
+    case 2:
     aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16, (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);
     travel_heading = effect->unk_38;
     if (travel_heading & 0x800) {
@@ -616,8 +611,8 @@ block_57:
     D_80026B28 = 0;
     effect->unk_44 = (u16) ((state2_angle >> 9) & 7);
     goto block_128;
-jt_c3:
-jt_c4:
+    case 3:
+    case 4:
     state34_base = &D_80082E80;
     if (func_8003DE58(state34_base->unk_008, state34_base, &emit_offset, 0) == 0) {
         goto block_63;
@@ -662,7 +657,7 @@ block_65:
     effect->unk_99 = (u8) tile_coord;
     func_800A56E0(tile_call_arg, rise_speed);
     goto block_129;
-jt_c5:
+    case 5:
     motion->unk_0C.word = (s32) (func_80064584((s16) effect->unk_38) << 8);
     motion->unk_10.word = (s32) (func_800644B8((s16) effect->unk_38) << 8);
     motion->unk_14.word = 0;
@@ -733,7 +728,7 @@ block_83:
     effect->unk_9C = NULL;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
     goto block_128;
-jt_c6:
+    case 6:
     target = effect->unk_9C;
     if (target == NULL) {
         goto block_117;
@@ -910,7 +905,7 @@ block_123:
     motion->unk_04.word = (s32) (motion->unk_04.word + motion->unk_10.word);
     motion->unk_08.word = (s32) (motion->unk_08.word + motion->unk_14.word);
     goto block_128;
-jt_c16:
+    case 16:
     fade_speed_x = motion->unk_0C.word;
     fade_speed_y = motion->unk_10.word;
     motion->unk_0C.word = (s32) (fade_speed_x - (fade_speed_x >> 3));
@@ -936,15 +931,7 @@ block_126:
     }
     D_80027C94 = 0;
     goto block_139;
-jt_c7:
-jt_c8:
-jt_c9:
-jt_c10:
-jt_c11:
-jt_c12:
-jt_c13:
-jt_c14:
-jt_c15:
+    }
 block_128:
 block_129:
     visual->unk_1A = (u16) (func_800A07D0(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);

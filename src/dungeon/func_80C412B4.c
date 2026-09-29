@@ -83,7 +83,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(u16 *, s32);
 
-extern void *D_80170838[];
 extern u8 D_80170E7C;
 extern u8 D_80174D4C[];
 extern u8 D_80174D94[];
@@ -93,10 +92,6 @@ extern u8 D_80174DA4[];
 /* Updates the actor's move, animation, and recovery state. */
 void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *actor_in)
 {
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_none,
-        &&special_1, &&special_2, &&special_3
-    };
     u8 *move_id;
     s32 state;
     s16 use_player;
@@ -147,21 +142,25 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
 state_0:
     if (((S_80172AB4_1 *)actor)->unk_1C & 0x2000) {
         move_kind = (((S_80172AB4_1 *)actor)->unk_46 & 0x3FFF) - 1;
-        if ((u32)move_kind >= 7U) {
+        switch (move_kind) {
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        case 6:
+            use_player = 1;
+            goto kind_3;
+        case 5:
+            use_player = 1;
+            goto kind_2;
+        case 4:
+            use_player = 1;
+            goto kind_1;
+        default:
             goto kind_none;
         }
-        (void)kind_labels;
-        goto *D_80170838[move_kind];
-
-special_3:
-        use_player = 1;
-        goto kind_3;
-special_2:
-        use_player = 1;
-        goto kind_2;
-special_1:
-        use_player = 1;
-        goto kind_1;
     }
 
     move_kind = ((S_80172AB4_1 *)actor)->unk_46 & 0x3FFF;

@@ -69,7 +69,6 @@ extern u8 D_80173A40[];
 extern u8 D_80175392[];
 extern u8 D_80175DC0;
 extern u8 D_80175DC1;
-extern void *D_80164948[];
 
 /* Advances the actor sequence, then resets its state and updates world objects. */
 void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_arg)
@@ -90,18 +89,9 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
     u16 control_count;
     u8 state_index;
 
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
-    };
-
-    (void)state_labels;
     state_index = ((S_8016BE20_0 *)state)->unk_9B.n;
-    if ((u32)state_index >= 6) {
-        return;
-    }
-    goto *D_80164948[(u32)state_index];
-
-jt_c0:
+    switch (state_index) {
+    case 0:
         ((S_8016BE20_1 *)work)->unk_14 = 0;
         ((S_8016BE20_1 *)work)->unk_10 = 0;
         ((S_8016BE20_1 *)work)->unk_0C = 0;
@@ -110,7 +100,7 @@ jt_c0:
         D_80175DC1 = 0;
         return;
 
-jt_c1:
+    case 1:
     {
         if (D_80175DC1 == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
@@ -134,7 +124,7 @@ jt_c1:
         return;
     }
 
-jt_c2:
+    case 2:
         timer = ((S_8016BE20_0 *)state)->unk_96.u + 1;
         ((S_8016BE20_0 *)state)->unk_96.u = timer;
         if ((s16)timer == 0x11) {
@@ -148,7 +138,7 @@ jt_c2:
         func_800A56E0(0x804);
         return;
 
-jt_c3:
+    case 3:
         if (!(((S_8016BE20_3 *)actor)->unk_14 & 0xE000)) {
             return;
         }
@@ -167,7 +157,7 @@ jt_c3:
         ((S_8016BE20_0 *)state)->unk_9B.n += 2;
         return;
 
-jt_c4:
+    case 4:
         timer = ((S_8016BE20_0 *)state)->unk_96.u + 1;
         ((S_8016BE20_0 *)state)->unk_96.u = timer;
         if ((s16)timer < 0x28) {
@@ -178,7 +168,7 @@ increment_state:
         ((S_8016BE20_0 *)state)->unk_9B.n = state_index + 1;
         return;
 
-jt_c5:
+    case 5:
         world = *(u8 **)((u8 *)(&D_800E3D7C));
         if (((S_8016BE20_4 *)world)->unk_28 >= 2) {
             goto case5_failure;
@@ -224,4 +214,7 @@ case5_failure:
         func_800A4ACC(ctx);
         ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
         return;
+    default:
+        return;
+    }
 }
