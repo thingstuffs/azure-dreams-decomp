@@ -106,124 +106,103 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
         return -1;
     }
     func_800C7930((u8 *)actor - 0x20, facing, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) == 0) {
-        goto ready;
+    if ((func_800A2B5C(actor) << 16) != 0) {
+        return -1;
     }
-    return -1;
-
-ready:
 
     ((S_80173734_3 *)action_state)->unk_9B = 0;
     ((S_80173734_3 *)action_state)->unk_8C = 0;
     ((S_80173734_3 *)action_state)->unk_9A = 0x11;
 
     switch (((S_80173734_0 *)actor)->unk_48) {
-    case 13:
+        case 13:
         ((S_80173734_0 *)actor)->unk_84 = 0x78;
         ((S_80173734_0 *)actor)->unk_85 = 8;
         break;
-    case 14:
+        case 14:
         ((S_80173734_0 *)actor)->unk_84 = 0x70;
         ((S_80173734_0 *)actor)->unk_85 = 2;
         break;
-    case 15:
+        case 15:
         ((S_80173734_0 *)actor)->unk_84 = 0x74;
         ((S_80173734_0 *)actor)->unk_85 = result;
         break;
     }
 
     ((S_80173734_0 *)actor)->unk_6D--;
-    if (((S_80173734_0 *)actor)->unk_48 != 15) {
-        goto not_fifteen;
-    }
+    if (((S_80173734_0 *)actor)->unk_48 == 15) {
 
-    ((S_80173734_0 *)actor)->unk_60 =
-        func_800A05A4(actor, ((S_80173734_2 *)origin)->unk_24,
-                      ((S_80173734_2 *)origin)->unk_25, ((S_80173734_0 *)actor)->unk_2A, 10);
-    ((S_80173734_3 *)action_state)->unk_AC = 0;
-    if (((S_80173734_0 *)actor)->unk_60 == 0) {
-        goto initial_null;
-    }
-
-    {
-        s16 target_distance = func_8009FD40(
-            ((S_80173734_4_pre *)(((S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
-        ((S_80173734_3 *)action_state)->unk_AA = target_distance;
-        func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, target_distance,
-                      ((S_80173734_0 *)actor)->unk_60);
-    }
-
-    if (((S_80173734_0 *)actor)->unk_14 & 0x04000000) {
-        range_left = 10;
-        origin_x = ((S_80173734_2 *)origin)->unk_24;
-        origin_y = ((S_80173734_2 *)origin)->unk_25;
-
-loop:
-        next_x = ((S_80173734_0 *)actor)->unk_72;
-        next_y = ((S_80173734_0 *)actor)->unk_73;
-        func_8009C12C(actor, origin, ((S_80173734_0 *)actor)->unk_2A,
-                      ((S_80173734_3 *)action_state)->unk_AA);
-        range_left -= ((S_80173734_3 *)action_state)->unk_AA;
-        if (range_left == 0) {
-            goto restore_coords;
-        }
-
-        ((S_80173734_2 *)origin)->unk_24 = next_x;
-        ((S_80173734_2 *)origin)->unk_25 = next_y;
         ((S_80173734_0 *)actor)->unk_60 =
             func_800A05A4(actor, ((S_80173734_2 *)origin)->unk_24,
-                          ((S_80173734_2 *)origin)->unk_25,
-                          ((S_80173734_0 *)actor)->unk_2A, (s16)range_left);
-        if (((S_80173734_0 *)actor)->unk_60 == 0) {
-            goto loop_null;
+                          ((S_80173734_2 *)origin)->unk_25, ((S_80173734_0 *)actor)->unk_2A, 10);
+        ((S_80173734_3 *)action_state)->unk_AC = 0;
+        if (((S_80173734_0 *)actor)->unk_60 != 0) {
+            {
+                s16 target_distance = func_8009FD40(
+                    ((S_80173734_4_pre *)(((S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
+                ((S_80173734_3 *)action_state)->unk_AA = target_distance;
+                func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, target_distance,
+                              ((S_80173734_0 *)actor)->unk_60);
+            }
+
+            if (((S_80173734_0 *)actor)->unk_14 & 0x04000000) {
+                range_left = 10;
+                origin_x = ((S_80173734_2 *)origin)->unk_24;
+                origin_y = ((S_80173734_2 *)origin)->unk_25;
+
+loop:
+                next_x = ((S_80173734_0 *)actor)->unk_72;
+                next_y = ((S_80173734_0 *)actor)->unk_73;
+                func_8009C12C(actor, origin, ((S_80173734_0 *)actor)->unk_2A,
+                              ((S_80173734_3 *)action_state)->unk_AA);
+                range_left -= ((S_80173734_3 *)action_state)->unk_AA;
+                if (range_left != 0) {
+                    ((S_80173734_2 *)origin)->unk_24 = next_x;
+                    ((S_80173734_2 *)origin)->unk_25 = next_y;
+                    ((S_80173734_0 *)actor)->unk_60 =
+                        func_800A05A4(actor, ((S_80173734_2 *)origin)->unk_24,
+                                      ((S_80173734_2 *)origin)->unk_25,
+                                      ((S_80173734_0 *)actor)->unk_2A, (s16)range_left);
+                    if (((S_80173734_0 *)actor)->unk_60 != 0) {
+                        ((S_80173734_2 *)origin)->unk_24 = origin_x;
+                        ((S_80173734_2 *)origin)->unk_25 = origin_y;
+                        {
+                            s16 target_distance = func_8009FD40(
+                                ((S_80173734_4_pre *)(((S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
+                            ((S_80173734_3 *)action_state)->unk_AA = target_distance;
+                            func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, target_distance,
+                                          ((S_80173734_0 *)actor)->unk_60);
+                        }
+                        if (((S_80173734_0 *)actor)->unk_14 & 0x04000000) {
+                            goto loop;
+                        }
+                    } else {
+                        func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
+                        ((S_80173734_3 *)action_state)->unk_AA = 1;
+                    }
+                }
+                ((S_80173734_2 *)origin)->unk_24 = origin_x;
+                ((S_80173734_2 *)origin)->unk_25 = origin_y;
+            }
+        } else {
+            func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
+            ((S_80173734_3 *)action_state)->unk_AA = 1;
         }
 
-        ((S_80173734_2 *)origin)->unk_24 = origin_x;
-        ((S_80173734_2 *)origin)->unk_25 = origin_y;
         {
-            s16 target_distance = func_8009FD40(
-                ((S_80173734_4_pre *)(((S_80173734_0 *)actor)->unk_60))[-1].unk_00, origin);
-            ((S_80173734_3 *)action_state)->unk_AA = target_distance;
-            func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, target_distance,
-                          ((S_80173734_0 *)actor)->unk_60);
+            u32 direction_offset = (((S_80173734_0 *)actor)->unk_6A >> 8) & 0xE;
+            func_800C78A0(
+                (u8 *)actor - 0x20,
+                (((S_80173734_2 *)origin)->unk_24 << 6) +
+                    ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
+                (((S_80173734_2 *)origin)->unk_25 << 6) +
+                    ((s16)*(u16 *)((u8 *)D_800DCEBC + direction_offset) >> 1) + 0x20,
+                ((S_80173734_0 *)actor)->unk_88, 8, 0x300);
         }
-        if (((S_80173734_0 *)actor)->unk_14 & 0x04000000) {
-            goto loop;
-        }
-        goto restore_coords;
+    } else {
+        func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
+        ((S_80173734_3 *)action_state)->unk_AA = 1;
     }
-    goto render;
 
-loop_null:
-    func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
-    ((S_80173734_3 *)action_state)->unk_AA = 1;
-
-restore_coords:
-    ((S_80173734_2 *)origin)->unk_24 = origin_x;
-    ((S_80173734_2 *)origin)->unk_25 = origin_y;
-    goto render;
-
-initial_null:
-    func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
-    ((S_80173734_3 *)action_state)->unk_AA = 1;
-
-render:
-    {
-        u32 direction_offset = (((S_80173734_0 *)actor)->unk_6A >> 8) & 0xE;
-        func_800C78A0(
-            (u8 *)actor - 0x20,
-            (((S_80173734_2 *)origin)->unk_24 << 6) +
-                ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
-            (((S_80173734_2 *)origin)->unk_25 << 6) +
-                ((s16)*(u16 *)((u8 *)D_800DCEBC + direction_offset) >> 1) + 0x20,
-            ((S_80173734_0 *)actor)->unk_88, 8, 0x300);
-    }
-    goto done;
-
-not_fifteen:
-    func_8009C93C(actor, origin, ((S_80173734_0 *)actor)->unk_2A, 1, 0);
-    ((S_80173734_3 *)action_state)->unk_AA = 1;
-
-done:
     return result;
 }

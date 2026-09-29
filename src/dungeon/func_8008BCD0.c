@@ -7,7 +7,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
-extern volatile s32 D_80082EB0[];
+extern s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
 extern s32 D_800E4940[];
 extern u8 D_8004F5F4[];
@@ -91,58 +91,35 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
     S_80091430_6 *selection;
 
     phase = (*(u8 *)((u8 *)state + 0x9B));
-    if (phase == 1) {
-        goto update_selection;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto begin_selection;
-        }
-        {
-            return;
-        }
-    } else {
-        s32 exit_phase;
-
-        exit_phase = 2;
-        if (phase == exit_phase) {
-            goto finish_selection;
-        }
-        return;
-    }
-begin_selection:
-    {
+    switch (phase) {
+    case 0:
         selection_ready = func_800B9964(state + 0x104);
         (*(s32 *)((u8 *)state + 0xC8)) = selection_ready;
-        if (selection_ready != 0) {
-            func_8004DCE0(2);
-            func_8004DCEC();
-            if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
-                if (D_80012D6D == 0) {
-                    func_8004DD2C(&D_80088904);
-                } else {
-                    func_8004DD2C(&D_80088934);
-                }
-            } else {
-                func_8004DD2C(&D_80088970);
-            }
-            (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
-            goto update_selection;
+        if (selection_ready == 0) {
+            return;
         }
-    }
-    return;
-
-update_selection:
-    selection_result = func_8009074C((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state + 0x104)) + 0x2A);
-    selection_code = (s16) selection_result;
-    if (selection_code != 0xFFF) {
-        ((S_80091430_7 *)((*(void **)((u8 *)state + 0x104))))->unk_2A = selection_result;
-        func_8009F644(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)), (selection_result << 0x10 >> 0x19) & 7);
-    }
-    if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
-        selection_data = (*(void **)((u8 *)state + 0x104));
-        if (selection_data != NULL) {
-            if (((s32)dungeon_state->unk_010) & 0x80) {
+        func_8004DCE0(2);
+        func_8004DCEC();
+        if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
+            if (D_80012D6D == 0) {
+                func_8004DD2C(&D_80088904);
+            } else {
+                func_8004DD2C(&D_80088934);
+            }
+        } else {
+            func_8004DD2C(&D_80088970);
+        }
+        (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
+    case 1:
+        selection_result = func_8009074C((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state + 0x104)) + 0x2A);
+        selection_code = (s16) selection_result;
+        if (selection_code != 0xFFF) {
+            ((S_80091430_7 *)((*(void **)((u8 *)state + 0x104))))->unk_2A = selection_result;
+            func_8009F644(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)), (selection_result << 0x10 >> 0x19) & 7);
+        }
+        if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
+            selection_data = (*(void **)((u8 *)state + 0x104));
+            if (selection_data != NULL && (((s32)dungeon_state->unk_010) & 0x80)) {
                 if ((func_80094208(0) == 0) && !(actor->unk_1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
                     D_80082EB0[0] = 0;
@@ -162,115 +139,113 @@ update_selection:
                     return;
                 }
             } else {
-                if (((s32)dungeon_state->unk_010) & 0x10) {
-                    func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
-                    slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
-                    actor->unk_8A = slot_index;
-                    *D_800E4940 = (s32) slot_index;
-                    func_8008CF6C(state, context_a, context_b, &D_8001EF2C);
-                    ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
-                    (*(s32 *)((u8 *)state + 0xC8)) = 0;
-                    (*(void **)((u8 *)state + 0x104)) = NULL;
-                    func_8004E130();
-                    return;
-                }
-                if (((s32)dungeon_state->unk_010) & 0x20) {
-                    slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
-                    actor->unk_8A = slot_index;
-                    *D_800E4940 = (s32) slot_index;
-                    func_8008CF6C(state, context_a, context_b, &D_80023C58);
-                    ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
-                    (*(s32 *)((u8 *)state + 0xC8)) = 0;
-                    (*(void **)((u8 *)state + 0x104)) = NULL;
-                    func_8004E130();
-                    return;
-                }
-                if (((s32)dungeon_state->unk_010) & 0x40) {
-                    func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
-                    slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
-                    actor->unk_8A = slot_index;
-                    *D_800E4940 = (s32) slot_index;
-                    func_8008CF6C(state, context_a, context_b, D_8004F5F4);
-                    ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
-                    (*(s32 *)((u8 *)state + 0xC8)) = 0;
-                    (*(void **)((u8 *)state + 0x104)) = NULL;
-                    func_8004E130();
-                    return;
-                }
-                goto check_selection;
-            }
-        } else {
-check_selection:
-            selection = (*(void **)((u8 *)state + 0x104));
-            if ((selection == (*(s32 *)((u8 *)state + 0xAC)))
-                ? !(dungeon_state->buttons & 2)
-                : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(dungeon_state->buttons & 1))) {
-                if (dungeon_state->buttons & 3) {
-                    candidate_slot = state + 0xAC;
-                    if (!(dungeon_state->buttons & 2)) {
-                        candidate_slot = state + 0xB0;
+                if (selection_data != NULL) {
+                    if (((s32)dungeon_state->unk_010) & 0x10) {
+                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        actor->unk_8A = slot_index;
+                        *D_800E4940 = (s32) slot_index;
+                        func_8008CF6C(state, context_a, context_b, &D_8001EF2C);
+                        ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
+                        (*(s32 *)((u8 *)state + 0xC8)) = 0;
+                        (*(void **)((u8 *)state + 0x104)) = NULL;
+                        func_8004E130();
+                        return;
                     }
-                    candidate = *candidate_slot;
-                    if ((candidate != NULL) && ((*(void *volatile *)((u8 *)state + 0x104)) != candidate)) {
-                        candidate_flags = candidate->unk_1C;
-                        if (candidate_flags & 0x20000) {
-                            if (!(candidate_flags & 0x80000)) {
-                                (*(void **)((u8 *)state + 0x104)) = candidate;
-                                func_800B0F50(candidate);
-                                return;
+                    if (((s32)dungeon_state->unk_010) & 0x20) {
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        actor->unk_8A = slot_index;
+                        *D_800E4940 = (s32) slot_index;
+                        func_8008CF6C(state, context_a, context_b, &D_80023C58);
+                        ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
+                        (*(s32 *)((u8 *)state + 0xC8)) = 0;
+                        (*(void **)((u8 *)state + 0x104)) = NULL;
+                        func_8004E130();
+                        return;
+                    }
+                    if (((s32)dungeon_state->unk_010) & 0x40) {
+                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
+                        slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
+                        actor->unk_8A = slot_index;
+                        *D_800E4940 = (s32) slot_index;
+                        func_8008CF6C(state, context_a, context_b, D_8004F5F4);
+                        ((Rec_D_80082EB0 *)D_80082EB0)->unk_00.as_s32 = 0;
+                        (*(s32 *)((u8 *)state + 0xC8)) = 0;
+                        (*(void **)((u8 *)state + 0x104)) = NULL;
+                        func_8004E130();
+                        return;
+                    }
+                }
+                selection = (*(void **)((u8 *)state + 0x104));
+                if ((selection == (*(s32 *)((u8 *)state + 0xAC)))
+                    ? !(dungeon_state->buttons & 2)
+                    : ((selection != (*(s32 *)((u8 *)state + 0xB0))) || !(dungeon_state->buttons & 1))) {
+                    if (dungeon_state->buttons & 3) {
+                        candidate_slot = state + 0xAC;
+                        if (!(dungeon_state->buttons & 2)) {
+                            candidate_slot = state + 0xB0;
+                        }
+                        candidate = *candidate_slot;
+                        if ((candidate != NULL) && ((*(void **)((u8 *)state + 0x104)) != candidate)) {
+                            candidate_flags = candidate->unk_1C;
+                            if (candidate_flags & 0x20000) {
+                                if (!(candidate_flags & 0x80000)) {
+                                    (*(void **)((u8 *)state + 0x104)) = candidate;
+                                    func_800B0F50(candidate);
+                                    return;
+                                }
                             }
                         }
+                    } else {
+                        (*(void **)((u8 *)state + 0x104)) = NULL;
+                        (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
+                        return;
                     }
-                } else {
-                    (*(void **)((u8 *)state + 0x104)) = NULL;
-                    (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
-                    return;
                 }
             }
-        }
-    } else {
-        preview = (*(void **)((u8 *)state + 0x104));
-        func_800BA810(preview, preview->unk_46);
-        if (((s32)dungeon_state->unk_010) & 0x60) {
-            if (((s32)dungeon_state->unk_010) & 0x20) {
-                func_800A56E0(0x515);
-                selection = (*(void **)((u8 *)state + 0x104));
-                selection->unk_46 &= 0x7FFF;
-            } else {
-                func_800A56E0(0x503);
-            }
-            (*(void **)((u8 *)state + 0x104)) = NULL;
-            func_8004E130();
-            D_800E296C &= ~0x2000;
-            {
-                void *callback;
-                if (actor->unk_1C & 0x100000) {
-                    callback = D_8008EAC8;
-                } else {
-                    callback = D_8008ACDC;
-                }
-                (*(void **)((u8 *)state + 0x8C)) = callback;
-            }
-            func_800BA810(NULL, 0U);
-            return;
-        }
-    }
-    return;
-
-finish_selection:
-    (*(s32 *)((u8 *)state + 0xC8)) = 0;
-    func_8004E130();
-    D_800E296C &= ~0x2000;
-    {
-        void *callback;
-        if (actor->unk_1C & 0x100000) {
-            callback = D_8008EAC8;
         } else {
-            callback = D_8008ACDC;
+            preview = (*(void **)((u8 *)state + 0x104));
+            func_800BA810(preview, preview->unk_46);
+            if (((s32)dungeon_state->unk_010) & 0x60) {
+                if (((s32)dungeon_state->unk_010) & 0x20) {
+                    func_800A56E0(0x515);
+                    selection = (*(void **)((u8 *)state + 0x104));
+                    selection->unk_46 &= 0x7FFF;
+                } else {
+                    func_800A56E0(0x503);
+                }
+                (*(void **)((u8 *)state + 0x104)) = NULL;
+                func_8004E130();
+                D_800E296C &= ~0x2000;
+                {
+                    void *callback;
+                    if (actor->unk_1C & 0x100000) {
+                        callback = D_8008EAC8;
+                    } else {
+                        callback = D_8008ACDC;
+                    }
+                    (*(void **)((u8 *)state + 0x8C)) = callback;
+                }
+                func_800BA810(NULL, 0U);
+                return;
+            }
         }
-        (*(void **)((u8 *)state + 0x8C)) = callback;
+        return;
+    case 2:
+        (*(s32 *)((u8 *)state + 0xC8)) = 0;
+        func_8004E130();
+        D_800E296C &= ~0x2000;
+        {
+            void *callback;
+            if (actor->unk_1C & 0x100000) {
+                callback = D_8008EAC8;
+            } else {
+                callback = D_8008ACDC;
+            }
+            (*(void **)((u8 *)state + 0x8C)) = callback;
+        }
+        return;
+    default:
+        return;
     }
-
-    return;
 }
-/* Warning: struct S_8003E2D8 is not defined (only forward-declared) */

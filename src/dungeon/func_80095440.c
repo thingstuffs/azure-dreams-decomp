@@ -100,21 +100,18 @@ object_failure:
 
 compare:
     signed_height = (target_height << 16) >> 16;
-    if (signed_height >= 0x200) {
-        goto return_minus2;
-    }
-    level_result = 1;
-    if (signed_height == (s16)saved_height) {
-        return level_result;
-    }
-    if ((s16)saved_height < signed_height) {
-        if ((signed_height - (s16)saved_height) >= 0x41) {
-            return 4;
+    if (signed_height < 0x200) {
+        level_result = 1;
+        if (signed_height == (s16)saved_height) {
+            return level_result;
         }
-        return 2;
+        if ((s16)saved_height < signed_height) {
+            if ((signed_height - (s16)saved_height) >= 0x41) {
+                return 4;
+            }
+            return 2;
+        }
+        return 3;
     }
-    return 3;
-
-return_minus2:
     return -2;
 }

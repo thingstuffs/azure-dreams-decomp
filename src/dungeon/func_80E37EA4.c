@@ -151,116 +151,105 @@ void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor
                 ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
                 return;
             }
-            if (((S_801716A4_1 *)actor_in)->unk_14 & 0x80000000) {
-                goto init_loop;
+            if (!(((S_801716A4_1 *)actor_in)->unk_14 & 0x80000000)) {
+                ((S_801716A4_1 *)actor_in)->unk_14 |= 0x80000000;
+                ((S_801716A4_1 *)actor_in)->unk_2A.u +=
+                    (func_800A6D30() & 7) << 9;
             }
-            ((S_801716A4_1 *)actor_in)->unk_14 |= 0x80000000;
-            ((S_801716A4_1 *)actor_in)->unk_2A.u +=
-                (func_800A6D30() & 7) << 9;
-            goto init_loop;
-        }
-
-        if (func_800A04F0(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
+        } else if (func_800A04F0(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
                           ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                          ((S_801716A4_1 *)actor_in)->unk_2A.s) == 0) {
-            goto init_loop;
+                          ((S_801716A4_1 *)actor_in)->unk_2A.s) != 0) {
+            ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
+            return;
         }
-        goto success;
-    }
+    } else if (actor_flags & 0x2000) {
+        if (!(((S_801716A4_1 *)actor_in)->unk_46 & 0x8000)) {
+            if (actor_flags & 0x20000) {
+                s16 target_angle;
+                s32 target_x;
+                s32 target_y;
+                u8 *turn_data;
+                {
+                    u8 *origin = D_80082E80_initial;
+                    s32 direction = ((u16)D_800814A8->facing);
+                    s32 table_index =
+                        ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
+                    target_x = origin[0x24] +
+                        *(u16 *)((u8 *)((s8 *)dirStepX) + table_index);
+                    target_y = origin[0x25] +
+                        *(u16 *)((u8 *)((s8 *)dirStepY) + table_index);
+                }
 
-    if (actor_flags & 0x2000) {
-        if (((S_801716A4_1 *)actor_in)->unk_46 & 0x8000) {
-            goto init_loop;
+                if (((S_801716A4_2 *)tile_in)->unk_24.at00.v == (u16)target_x &&
+                    ((S_801716A4_2 *)tile_in)->unk_24.at01.v == (u16)target_y) {
+                    ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
+                    return;
+                }
+
+                turn_data = (u8 *)move_data_in + 0x98;
+                target_angle = func_800A0818(
+                    ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                    (s16)target_x, (s16)target_y, turn_data);
+                ((S_801716A4_1 *)actor_in)->unk_2A.s = target_angle;
+                if (func_8009A66C(target_angle, tile_in, actor_in, 0x20) <= 0) {
+                    ((S_801716A4_1 *)actor_in)->unk_2A.s = func_800A0818(
+                        ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY, turn_data);
+                }
+                if (func_8009FD7C(
+                        ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                    stop_on_wide_turn = 1;
+                }
+            } else {
+                func_800A0E6C(tile_in, ((S_801716A4_5 *)move_data_in)->unk_9C.s, actor_in,
+                              (u8 *)move_data_in + 0x98);
+            }
         }
-        if (actor_flags & 0x20000) {
-            s16 target_angle;
-            s32 target_x;
-            s32 target_y;
-            u8 *turn_data;
-            {
-                u8 *origin = D_80082E80_initial;
-                s32 direction = ((u16)D_800814A8->facing);
-                s32 table_index =
-                    ((((S_801716A4_1 *)actor_in)->unk_45 + ((s16)direction >> 9)) & 7) << 1;
-                target_x = origin[0x24] +
-                    *(u16 *)((u8 *)((s8 *)dirStepX) + table_index);
-                target_y = origin[0x25] +
-                    *(u16 *)((u8 *)((s8 *)dirStepY) + table_index);
+    } else {
+        if (((S_801716A4_2 *)tile_in)->unk_26.s >= 0 &&
+            (((DungeonRecord *)D_800E2970)[((S_801716A4_2 *)tile_in)->unk_26.s].flags & 2)) {
+            func_800A0E6C(tile_in, ((S_801716A4_5 *)move_data_in)->unk_9C.s, actor_in,
+                          (u8 *)move_data_in + 0x98);
+        } else if (!(((S_801716A4_1 *)actor_in)->unk_46 & 0x8000)) {
+            current_angle = (s32)func_800A04F0(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
+                                  ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                                  ((S_801716A4_1 *)actor_in)->unk_2A.s);
+            if (((void *)current_angle) != 0 &&
+                (((S_801716A4_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
+                (s16)func_800A0134((void *)current_angle, actor_in) < 0x81) {
+                if (func_8009A540(
+                        ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
+                        ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                        (s16)(((S_801716A4_1 *)actor_in)->unk_88.u - 0x20)) != 0) {
+                    ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
+                    return;
+                }
             }
 
-            if (((S_801716A4_2 *)tile_in)->unk_24.at00.v == (u16)target_x &&
-                ((S_801716A4_2 *)tile_in)->unk_24.at01.v == (u16)target_y) {
-                goto success;
-            }
-
-            turn_data = (u8 *)move_data_in + 0x98;
-            target_angle = func_800A0818(
-                ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                (s16)target_x, (s16)target_y, turn_data);
-            ((S_801716A4_1 *)actor_in)->unk_2A.s = target_angle;
-            if (func_8009A66C(target_angle, tile_in, actor_in, 0x20) <= 0) {
+            if (((S_801716A4_1 *)actor_in)->unk_1C & 0x20000) {
+                u8 *origin = ((u8 *)(&D_80082E80));
                 ((S_801716A4_1 *)actor_in)->unk_2A.s = func_800A0818(
                     ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY, turn_data);
+                    origin[0x24], origin[0x25], (u8 *)move_data_in + 0x98);
+                if (func_8009FD7C(
+                        ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                        origin[0x24], origin[0x25]) != 0) {
+                    if (func_8009A540(
+                            ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
+                            ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
+                            (s16)(((S_801716A4_1 *)actor_in)->unk_88.u - 0x20)) != 0) {
+                        ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
+                        return;
+                    }
+                }
+            } else {
+                func_800A0E6C(tile_in, ((S_801716A4_5 *)move_data_in)->unk_9C.s, actor_in,
+                              (u8 *)move_data_in + 0x98);
             }
-            if (func_8009FD7C(
-                    ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
-                stop_on_wide_turn = 1;
-            }
-            goto init_loop;
-        }
-        goto direct_move;
-    }
-
-    if (((S_801716A4_2 *)tile_in)->unk_26.s >= 0) {
-        DungeonRecord *records = (DungeonRecord *)D_800E2970;
-        if (records[((S_801716A4_2 *)tile_in)->unk_26.s].flags & 2) {
-            goto direct_move;
-        }
-    }
-    if (((S_801716A4_1 *)actor_in)->unk_46 & 0x8000) {
-        goto init_loop;
-    }
-
-    current_angle = (s32)func_800A04F0(actor_in, ((S_801716A4_2 *)tile_in)->unk_24.at00.v,
-                          ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                          ((S_801716A4_1 *)actor_in)->unk_2A.s);
-    if (((void *)current_angle) != 0 &&
-        (((S_801716A4_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
-        (s16)func_800A0134((void *)current_angle, actor_in) < 0x81) {
-        if (func_8009A540(
-                ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
-                ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                (s16)(((S_801716A4_1 *)actor_in)->unk_88.u - 0x20)) != 0) {
-            goto success;
         }
     }
 
-    if (((S_801716A4_1 *)actor_in)->unk_1C & 0x20000) {
-        u8 *origin = ((u8 *)(&D_80082E80));
-        ((S_801716A4_1 *)actor_in)->unk_2A.s = func_800A0818(
-            ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-            origin[0x24], origin[0x25], (u8 *)move_data_in + 0x98);
-        if (func_8009FD7C(
-                ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                origin[0x24], origin[0x25]) == 0) {
-            goto init_loop;
-        }
-        if (func_8009A540(
-                ((s16)((S_801716A4_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
-                ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
-                (s16)(((S_801716A4_1 *)actor_in)->unk_88.u - 0x20)) == 0) {
-            goto init_loop;
-        }
-        goto success;
-    }
-
-direct_move:
-    func_800A0E6C(tile_in, ((S_801716A4_5 *)move_data_in)->unk_9C.s, actor_in,
-                  (u8 *)move_data_in + 0x98);
-
-init_loop:
     turn_or_height = -1;
 
     while (++turn_or_height < 8) {
@@ -332,7 +321,6 @@ init_loop:
         dungeonStatus.unk_08++;
     }
     if (((S_801716A4_1 *)actor_in)->unk_6D.s == 0) {
-success:
         ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
         return;
     }

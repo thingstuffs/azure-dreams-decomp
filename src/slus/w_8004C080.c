@@ -72,10 +72,7 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
         ((S_8004C080_1 *)packet)->unk_14 = ((S_8004C080_1 *)packet)->unk_20;
         ((S_8004C080_1 *)packet)->unk_04.at03.v = ((S_8004C080_0 *)command)->unk_01;
-        goto done;
-    }
-
-    if (primitive_type == 0x48) {
+    } else if (primitive_type == 0x48) {
         packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
         func_8004C010(packet_color, tint0);
@@ -86,10 +83,7 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         ((S_8004C080_1 *)packet)->unk_08 = ((S_8004C080_1 *)packet)->unk_10;
         ((S_8004C080_1 *)packet)->unk_0C = ((S_8004C080_1 *)packet)->unk_20;
         ((S_8004C080_1 *)packet)->unk_10 = ((S_8004C080_1 *)packet)->unk_18;
-        goto done;
-    }
-
-    if (primitive_type == 0x38) {
+    } else if (primitive_type == 0x38) {
         packet_color = packet + 4;
         ((S_8004C080_1 *)packet)->unk_04.at00.v = ((S_8004C080_0 *)command)->unk_04.at00.v;
         func_8004C010(packet_color, tint0);
@@ -112,41 +106,29 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
         func_8004C010(packet_color, tint0);
         func_8004C010(packet_color, tint1);
         return record;
-    }
-
-    if (primitive_type == 0x3C) {
+    } else if (primitive_type == 0x3C) {
         record = func_8004BDDC(tint0, tint1, packet, record, command);
-        goto done;
-    }
-
-    if (!(opcode & 0x80)) {
+    } else if (!(opcode & 0x80)) {
         return record;
+    } else {
+        length_or_code = opcode & 0x7F;
+        if (length_or_code == 0) {
+            tex_window[0] = ((S_8004C080_0 *)command)->unk_08;
+            tex_window[1] = ((S_8004C080_0 *)command)->unk_09;
+            tex_window[2] = ((S_8004C080_0 *)command)->unk_0A + 1;
+            tex_window[3] = ((S_8004C080_0 *)command)->unk_0B + 1;
+            SetTexWindow(packet, tex_window);
+        } else {
+            extended_type = length_or_code & 0x7C;
+            if (length_or_code == 1) {
+                SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
+                              ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
+            } else if (extended_type == 0x30) {
+                record = func_8004B954(tint0, tint1, packet, record, command, count, 1);
+            } else if (extended_type == 0x20) {
+                record = func_8004B954(tint0, tint1, packet, record, command, count, 0);
+            }
+        }
     }
-
-    length_or_code = opcode & 0x7F;
-    if (length_or_code == 0) {
-        tex_window[0] = ((S_8004C080_0 *)command)->unk_08;
-        tex_window[1] = ((S_8004C080_0 *)command)->unk_09;
-        tex_window[2] = ((S_8004C080_0 *)command)->unk_0A + 1;
-        tex_window[3] = ((S_8004C080_0 *)command)->unk_0B + 1;
-        SetTexWindow(packet, tex_window);
-        goto done;
-    }
-
-    extended_type = length_or_code & 0x7C;
-    if (length_or_code == 1) {
-        SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
-                      ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
-        goto done;
-    }
-
-    if (extended_type == 0x30) {
-        record = func_8004B954(tint0, tint1, packet, record, command, count, 1);
-        goto done;
-    }
-    if (extended_type == 0x20) {
-        record = func_8004B954(tint0, tint1, packet, record, command, count, 0);
-    }
-done:
     return record;
 }

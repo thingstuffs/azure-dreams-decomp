@@ -156,120 +156,117 @@ void func_80164DA8(void *entity, void *motion, void *sprite)
                         (*(u8 *)((u8 *)entity + 0x9D)) = 0;
                         ((S_80164DA8_0 *)motion)->unk_14 = 0;
                         ((S_80164DA8_2 *)entity_state)->unk_1C.u |= 0x08000000;
-                        goto final_adjustment;
                     }
                 }
-                goto final_adjustment;
-            }
-        }
-
-        if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
-            if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
-                if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
-                    (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+            } else {
+                if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
+                    if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
+                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
+                            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+                        }
+                        bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                        bob_phase = (s32)((u32)bob_tick << 16) >> 16;
+                        bob_angle = bob_phase * 0xE3;
+                        (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
+                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
+                            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
+                            func_80047784(sprite, D_801680E8[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                        }
+                    } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
+                        bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                        bob_phase = (s32)((u32)bob_tick << 16) >> 16;
+                        bob_angle = bob_phase * 0xE3;
+                        (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
+                        if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
+                            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
+                            func_80047784(sprite, D_801680E0[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                        }
+                    }
                 }
-                bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
-                bob_phase = (s32)((u32)bob_tick << 16) >> 16;
-                bob_angle = bob_phase * 0xE3;
-                (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
-                    func_80047784(sprite, D_801680E8[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+
+                if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                    s32 height_work = -0x20;
+                    height = (*(s16 *)((u8 *)entity + 0x92));
+                    entity_flags = (*(u16 *)((u8 *)entity + 0x92));
+                    if (height_work < height) {
+                        height_work = entity_flags - 8;
+                        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                    } else {
+                        height_work = height < -0x28;
+                        if (height_work) {
+                            height_work = entity_flags + 8;
+                            (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                        }
+                    }
                 }
-            } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
-                bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
-                bob_phase = (s32)((u32)bob_tick << 16) >> 16;
-                bob_angle = bob_phase * 0xE3;
-                (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-                if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
-                    func_80047784(sprite, D_801680E0[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+            }
+        }
+    } else {
+        ((S_80164DA8_1 *)sprite)->unk_14 = (sprite_flags & 0x800)
+            ? (sprite_flags & 0x8FFF)
+            : (sprite_flags | 0x7000);
+        ((S_80164DA8_2 *)entity_state)->unk_1C.u &= 0xF7FFFFFF;
+        if (!(((S_80164DA8_2 *)entity_state)->unk_1C.u & 0x40000)) {
+            bob_offset = (*(s32 *)((u8 *)entity + 0xA0));
+            (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA0)) = 0;
+            (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                ground_height = func_800BCB04(((S_80164DA8_0 *)motion)->unk_00.at02.v,
+                    ((S_80164DA8_0 *)motion)->unk_04.at02.v,
+                    (s16)(((S_80164DA8_2 *)entity_state)->unk_88 - 0x20));
+                ground_delta = ground_height - ((S_80164DA8_2 *)entity_state)->unk_88;
+                if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    ((S_80164DA8_0 *)motion)->unk_14 = 0;
+                    ((S_80164DA8_2 *)entity_state)->unk_1C.u |= 0x08000000;
                 }
             }
-        }
-
-        if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-            s32 height_work = -0x20;
-            height = (*(s16 *)((u8 *)entity + 0x92));
-            entity_flags = (*(u16 *)((u8 *)entity + 0x92));
-            if (height_work < height) {
-                height_work = entity_flags - 8;
-                (*(s16 *)((u8 *)entity + 0x92)) = height_work;
-                goto final_adjustment;
-            }
-            goto low_height_adjustment;
-        }
-        goto final_adjustment;
-    }
-
-    ((S_80164DA8_1 *)sprite)->unk_14 = (sprite_flags & 0x800)
-        ? (sprite_flags & 0x8FFF)
-        : (sprite_flags | 0x7000);
-    ((S_80164DA8_2 *)entity_state)->unk_1C.u &= 0xF7FFFFFF;
-    if (!(((S_80164DA8_2 *)entity_state)->unk_1C.u & 0x40000)) {
-        bob_offset = (*(s32 *)((u8 *)entity + 0xA0));
-        (*(u16 *)((u8 *)entity + 0x9E)) = 0;
-        (*(s32 *)((u8 *)entity + 0xA0)) = 0;
-        (*(s32 *)((u8 *)entity + 0x90)) -= bob_offset;
-        if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-            ground_height = func_800BCB04(((S_80164DA8_0 *)motion)->unk_00.at02.v,
-                ((S_80164DA8_0 *)motion)->unk_04.at02.v,
-                (s16)(((S_80164DA8_2 *)entity_state)->unk_88 - 0x20));
-            ground_delta = ground_height - ((S_80164DA8_2 *)entity_state)->unk_88;
-            if (ground_delta < (*(s16 *)((u8 *)entity + 0x92))) {
-                (*(s16 *)((u8 *)entity + 0x92)) = ground_delta;
-                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                ((S_80164DA8_0 *)motion)->unk_14 = 0;
-                ((S_80164DA8_2 *)entity_state)->unk_1C.u |= 0x08000000;
-                goto final_adjustment;
-            }
-        }
-        goto final_adjustment;
-    }
-
-    if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
-        if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
-            if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
-                (*(u16 *)((u8 *)entity + 0x9E)) = 0;
-            }
-            bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
-            bob_phase = (s32)((u32)bob_tick << 16) >> 16;
-            bob_angle = bob_phase * 0xE3;
-            (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-            if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
-                func_80047784(sprite, D_801680E8[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
-            }
-        } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
-            bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
-            bob_phase = (s32)((u32)bob_tick << 16) >> 16;
-            bob_angle = bob_phase * 0xE3;
-            (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
-            if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
-                func_80047784(sprite, D_801680E0[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
-            }
-        }
-    }
-
-    if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
-        s32 height_work = -0x20;
-        height = (*(s16 *)((u8 *)entity + 0x92));
-        entity_flags = (*(u16 *)((u8 *)entity + 0x92));
-        if (height_work < height) {
-            height_work = entity_flags - 8;
-            (*(s16 *)((u8 *)entity + 0x92)) = height_work;
         } else {
-low_height_adjustment:
-            height_work = height < -0x28;
-            if (height_work) {
-                height_work = entity_flags + 8;
-                (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+            if (!(((S_80164DA8_1 *)sprite)->unk_14 & 0x40)) {
+                if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E0) {
+                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x100) {
+                        (*(u16 *)((u8 *)entity + 0x9E)) = 0;
+                    }
+                    bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                    bob_phase = (s32)((u32)bob_tick << 16) >> 16;
+                    bob_angle = bob_phase * 0xE3;
+                    (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
+                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
+                        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E8;
+                        func_80047784(sprite, D_801680E8[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                    }
+                } else if (((S_80164DA8_1 *)sprite)->unk_2C == D_801680E8) {
+                    bob_tick = (*(u16 *)((u8 *)entity + 0x9E))++;
+                    bob_phase = (s32)((u32)bob_tick << 16) >> 16;
+                    bob_angle = bob_phase * 0xE3;
+                    (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
+                    if (((S_80164DA8_1 *)sprite)->unk_04.u16 == 0x103) {
+                        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801680E0;
+                        func_80047784(sprite, D_801680E0[((gameWork.view.viewAngle + ((S_80164DA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
+                    }
+                }
+            }
+
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                s32 height_work = -0x20;
+                height = (*(s16 *)((u8 *)entity + 0x92));
+                entity_flags = (*(u16 *)((u8 *)entity + 0x92));
+                if (height_work < height) {
+                    height_work = entity_flags - 8;
+                    (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                } else {
+                    height_work = height < -0x28;
+                    if (height_work) {
+                        height_work = entity_flags + 8;
+                        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                    }
+                }
             }
         }
     }
 
-final_adjustment:
     entity_flags = ((S_80164DA8_2 *)entity_state)->unk_1C.u;
     if (entity_flags & 0x40000000) {
         ((S_80164DA8_2 *)entity_state)->unk_1C.u = entity_flags & 0xBFFFFFFF;

@@ -85,7 +85,6 @@ s32 func_801732A4(Entity *entity, s32 action_value, Aux *aux)
     u16 timer;
     s32 event_state;
     u16 old_flags;
-    s32 turn_opcode;
 
     actor = entity;
 top:
@@ -97,336 +96,235 @@ top:
     command_byte = (u8) command;
     if (command_byte == 0) {
         entity->fieldAF = 0;
-        goto common;
-    }
-    duration = script[0];
-    timer = (u16)(D_80175DC8 + 1);
-    D_80175DC8 = (s16)timer;
-    if (duration < (s16)timer) {
-        D_80175DC4 = script + 2;
-        D_80175DC8 = 0;
-    }
-    old_flags = actor->flags46;
-    actor->angle = (s16)((command & 7) << 9);
-    turn_opcode = 0xD8;
-    actor->flags46 = (u16)(old_flags | 0x8000);
-    opcode = command_byte & 0xF8;
-    if (opcode == turn_opcode) {
-        goto case_D8;
-    }
-    if (opcode >= 0xD9) {
-        goto dispatch_hi;
-    }
-    if (opcode == 0x10) {
-        goto case_10;
-    }
-    if (opcode >= 0x11) {
-        goto dispatch_mid;
-    }
-    if (opcode == 8) {
-        goto case_08;
-    }
-    goto common;
-
-dispatch_mid:
-    if (opcode == 0xC8) {
-        goto case_C8;
-    }
-    if (opcode == 0xD0) {
-        goto case_D0;
-    }
-    goto common;
-
-dispatch_hi:
-    if (opcode == 0xE8) {
-        goto case_E8;
-    }
-    if (opcode >= 0xE9) {
-        goto dispatch_higher;
-    }
-    if (opcode == 0xE0) {
-        goto case_E0;
-    }
-    goto common;
-
-dispatch_higher:
-    if (opcode == 0xF0) {
-        goto case_F0;
-    }
-    if (opcode == 0xF8) {
-        goto case_F8;
-    }
-    goto common;
-
-case_D0:
-    jump_script = D_80175DC4;
-    D_80175DC8 = 0;
-    jump_script += *(s8 *)jump_script * 2;
-    D_80175DC4 = jump_script;
-    goto top;
-
-case_08:
-    func_8016B230(entity, action_value, aux, actor);
-    return 0;
-
-case_F0:
-    func_8016DAC0(entity, action_value, aux, actor);
-    return 0;
-
-case_E8:
-    actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80.tileX, D_80082E80.tileY, angle_out);
-    func_8016D6F8(entity, action_value, aux, actor);
-    return 0;
-
-case_10:
-    animation = entity->animation;
-    if (animation == 1) {
-        goto sequence_1;
-    }
-    if (animation >= 2) {
-        goto sequence_ge_2;
-    }
-    if (animation == 0) {
-        goto sequence_0;
-    }
-    goto common;
-
-sequence_ge_2:
-    if (animation == 2) {
-        goto sequence_2;
-    }
-    if (animation == 3) {
-        goto sequence_3;
-    }
-    goto common;
-
-sequence_0:
-    old_sequence = aux->sequence;
-    sequence = D_801739A0;
-    goto sequence_join;
-
-sequence_1:
-    old_sequence = aux->sequence;
-    sequence = D_801739A8;
-    goto sequence_join;
-
-sequence_2:
-    old_sequence = aux->sequence;
-    sequence = D_801739B0;
-    goto sequence_join;
-
-sequence_3:
-    old_sequence = aux->sequence;
-    sequence = D_801739B8;
-
-sequence_join:
-    {
-        s16 *angle_base;
-
-        if (old_sequence == sequence) {
-            goto common;
-        }
-        angle_base = &gameWork.view.viewAngle;
-        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
-        goto common;
-    }
-
-case_F8:
-    state = entity->state;
-    if (state == 0) {
-        goto case_F8_state0;
-    }
-    if (state == 1) {
-        goto case_F8_state1;
-    }
-    goto common;
-
-case_F8_state0:
-    {
-        s16 *angle_base;
-
-        if (entity->animation != 0) {
-            goto common;
-        }
-        old_sequence = aux->sequence;
-        start_sequence = D_80173A88;
-        if (old_sequence == start_sequence) {
-            goto common;
-        }
-        angle_base = &gameWork.view.viewAngle;
-        (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, start_sequence), aux->field04);
-        entity->state++;
-        entity->timer = 0;
-        goto common;
-    }
-case_F8_state1:
-    {
-        s16 *angle_base;
-
-        timer = (u16)(entity->timer + 1);
-        entity->timer = timer;
-        if ((s16)timer < 0x28) {
-            goto common;
-        }
-        entity->animation = 2;
-        angle_base = &gameWork.view.viewAngle;
-        sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
-        entity->state++;
-        goto common;
-    }
-
-case_E0:
-    event_state = entity->state;
-    if (event_state == 0) {
-        goto case_E0_state0;
-    }
-    if (event_state == 1) {
-        goto case_E0_state1;
-    }
-    goto common;
-
-case_E0_state0:
-    {
-        s16 *angle_base;
-        u8 *event_sequence;
-
-        if (entity->animation != 2) {
-            goto common;
-        }
-        event_sequence = D_80173A60;
-        if (aux->sequence == event_sequence) {
-            goto common;
-        }
-        angle_base = &gameWork.view.viewAngle;
-        (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, event_sequence), aux->field04);
-        entity->state++;
-        entity->timer = 0;
-        goto common;
-    }
-case_E0_state1:
-    {
-        s16 *angle_base;
-
-        timer = (u16)(entity->timer + 1);
-        entity->timer = timer;
-        if ((s16)timer == 0x1A) {
-            func_80170510();
-            func_8016EB68();
-            D_80173AF8 = event_state;
-            func_80170838();
-        }
-        if ((s16)entity->timer == 0x24) {
-            func_800A56E0(0x819);
-        }
-        if ((s16)entity->timer < 0x2C) {
-            goto common;
-        }
-        entity->animation = 3;
-        angle_base = &gameWork.view.viewAngle;
-        sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
-        entity->state++;
-        goto common;
-    }
-
-case_D8:
-    state = entity->state;
-    next_phase = 1;
-    if (state == 0) {
-        goto case_D8_state0;
-    }
-    if (state == next_phase) {
-        goto case_D8_state1;
-    }
-    goto common;
-
-case_D8_state0:
-    {
-        entity->state = next_phase;
-        entity->timer = 0;
-        entity->direction = 0;
-    }
-case_D8_state1:
-    actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80.tileX, D_80082E80.tileY, angle_out);
-    timer = (u16)(entity->timer + 1);
-    entity->timer = timer;
-    if (timer & 1) {
-        entity->direction = -1;
     } else {
-        entity->direction = 1;
-    }
-    goto common;
-
-case_C8:
-    state = entity->state;
-    if (state == 1) {
-        goto case_C8_state1;
-    }
-    if ((s32)state >= 2) {
-        goto case_C8_ge2;
-    }
-    if (state == 0) {
-        goto case_C8_state0;
-    }
-    goto common;
-
-case_C8_ge2:
-    if (state == 2) {
-        goto update_angle;
-    }
-    goto common;
-
-case_C8_state0:
-    actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80.tileX, D_80082E80.tileY, angle_out);
-    entity->state++;
-    entity->timer = 0;
-    entity->direction = 0;
-    entity->fieldB0 = 2;
-    goto common;
-
-case_C8_state1:
-    {
-        s16 *angle_base;
-        u8 *idle_sequence;
-
-        timer = (u16)(entity->timer + 1);
-        entity->timer = timer;
-        if ((s16)timer < 4) {
-            goto update_angle;
+        duration = script[0];
+        timer = (u16)(D_80175DC8 + 1);
+        D_80175DC8 = (s16)timer;
+        if (duration < (s16)timer) {
+            D_80175DC4 = script + 2;
+            D_80175DC8 = 0;
         }
-        entity->timer = 0;
-        entity->state = (u8)(entity->state + 1);
-        actor->angle = func_800A0818(aux->x24, aux->y25,
-            D_80082E80.tileX, D_80082E80.tileY, angle_out);
-        idle_sequence = D_801739A0;
-        angle_base = &gameWork.view.viewAngle;
-        entity->animation = 0;
-        (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
-        sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
-        SEQUENCE_INDEX_ADVANCE(sequence_index, idle_sequence);
-        func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, idle_sequence), 0);
-    }
+        old_flags = actor->flags46;
+        actor->angle = (s16)((command & 7) << 9);
+        actor->flags46 = (u16)(old_flags | 0x8000);
+        opcode = command_byte & 0xF8;
+        switch (opcode) {
+        case 0xD0:
+            jump_script = D_80175DC4;
+            D_80175DC8 = 0;
+            jump_script += *(s8 *)jump_script * 2;
+            D_80175DC4 = jump_script;
+            goto top;
 
-update_angle:
-    actor->angle = func_800A0818(aux->x24, aux->y25,
-        D_80082E80.tileX, D_80082E80.tileY, angle_out);
+        case 0x08:
+            func_8016B230(entity, action_value, aux, actor);
+            return 0;
+
+        case 0xF0:
+            func_8016DAC0(entity, action_value, aux, actor);
+            return 0;
+
+        case 0xE8:
+            actor->angle = func_800A0818(aux->x24, aux->y25,
+                D_80082E80.tileX, D_80082E80.tileY, angle_out);
+            func_8016D6F8(entity, action_value, aux, actor);
+            return 0;
+
+        case 0x10:
+            animation = entity->animation;
+            switch (animation) {
+            case 0:
+                old_sequence = aux->sequence;
+                sequence = D_801739A0;
+                break;
+            case 1:
+                old_sequence = aux->sequence;
+                sequence = D_801739A8;
+                break;
+            case 2:
+                old_sequence = aux->sequence;
+                sequence = D_801739B0;
+                break;
+            case 3:
+                old_sequence = aux->sequence;
+                sequence = D_801739B8;
+                break;
+            default:
+                func_800A9A0C(actor);
+                return 0;
+            }
+            {
+                s16 *angle_base;
+
+                if (old_sequence == sequence) {
+                    break;
+                }
+                angle_base = &gameWork.view.viewAngle;
+                (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
+                sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
+                func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
+            }
+            break;
+
+
+        case 0xF8:
+            state = entity->state;
+            switch (state) {
+            case 0: {
+                s16 *angle_base;
+
+                if (entity->animation != 0) {
+                    break;
+                }
+                old_sequence = aux->sequence;
+                start_sequence = D_80173A88;
+                if (old_sequence == start_sequence) {
+                    break;
+                }
+                angle_base = &gameWork.view.viewAngle;
+                (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
+                sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
+                func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, start_sequence), aux->field04);
+                entity->state++;
+                entity->timer = 0;
+                break;
+            }
+            case 1: {
+                s16 *angle_base;
+
+                timer = (u16)(entity->timer + 1);
+                entity->timer = timer;
+                if ((s16)timer < 0x28) {
+                    break;
+                }
+                entity->animation = 2;
+                angle_base = &gameWork.view.viewAngle;
+                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
+                sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
+                func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
+                entity->state++;
+                break;
+            }
+            }
+            break;
+
+        case 0xE0:
+            event_state = entity->state;
+            switch (event_state) {
+            case 0: {
+                s16 *angle_base;
+                u8 *event_sequence;
+
+                if (entity->animation != 2) {
+                    break;
+                }
+                event_sequence = D_80173A60;
+                if (aux->sequence == event_sequence) {
+                    break;
+                }
+                angle_base = &gameWork.view.viewAngle;
+                (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
+                sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
+                func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, event_sequence), aux->field04);
+                entity->state++;
+                entity->timer = 0;
+                break;
+            }
+            case 1: {
+                s16 *angle_base;
+
+                timer = (u16)(entity->timer + 1);
+                entity->timer = timer;
+                if ((s16)timer == 0x1A) {
+                    func_80170510();
+                    func_8016EB68();
+                    D_80173AF8 = event_state;
+                    func_80170838();
+                }
+                if ((s16)entity->timer == 0x24) {
+                    func_800A56E0(0x819);
+                }
+                if ((s16)entity->timer < 0x2C) {
+                    break;
+                }
+                entity->animation = 3;
+                angle_base = &gameWork.view.viewAngle;
+                sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
+                sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
+                func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
+                entity->state++;
+                break;
+            }
+            }
+            break;
+
+        case 0xD8:
+            state = entity->state;
+            next_phase = 1;
+            switch (state) {
+            case 0:
+                entity->state = next_phase;
+                entity->timer = 0;
+                entity->direction = 0;
+            case 1:
+                actor->angle = func_800A0818(aux->x24, aux->y25,
+                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                timer = (u16)(entity->timer + 1);
+                entity->timer = timer;
+                if (timer & 1) {
+                    entity->direction = -1;
+                } else {
+                    entity->direction = 1;
+                }
+                break;
+            }
+            break;
+
+
+        case 0xC8:
+            state = entity->state;
+            switch (state) {
+            case 0:
+                actor->angle = func_800A0818(aux->x24, aux->y25,
+                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                entity->state++;
+                entity->timer = 0;
+                entity->direction = 0;
+                entity->fieldB0 = 2;
+                break;
+            case 1: {
+                s16 *angle_base;
+                u8 *idle_sequence;
+
+                timer = (u16)(entity->timer + 1);
+                entity->timer = timer;
+                if ((s16)timer >= 4) {
+                    entity->timer = 0;
+                    entity->state = (u8)(entity->state + 1);
+                    actor->angle = func_800A0818(aux->x24, aux->y25,
+                        D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                    idle_sequence = D_801739A0;
+                    angle_base = &gameWork.view.viewAngle;
+                    entity->animation = 0;
+                    (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
+                    sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
+                    SEQUENCE_INDEX_ADVANCE(sequence_index, idle_sequence);
+                    func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, idle_sequence), 0);
+                }
+            }
+            case 2:
+                actor->angle = func_800A0818(aux->x24, aux->y25,
+                    D_80082E80.tileX, D_80082E80.tileY, angle_out);
+                break;
+            }
+            break;
+        }
+    }
 
 common:
     func_800A9A0C(actor);

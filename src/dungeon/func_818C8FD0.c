@@ -151,196 +151,182 @@ void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_fu
     frame_count++;
     state->unk_82 = frame_count;
 
-    if (mode == one)
-        goto mode1;
-    if (mode < 2) {
-        if (mode == 0)
-            goto mode0;
-        return;
-    }
-    if (mode == 2)
-        goto mode2;
-    if (mode == 3) {
-        goto mode3;
-    }
-    return;
-
-mode0:
-    part->unk_0C = 0x00808080;
-    part->unk_1E = 0x1000;
-    part->unk_1C = 0x1000;
-    func_8003DB94(part, D_800DEC00, 0);
-    angle = object->unk_2A;
-    D_80024D04[0] = one;
-    state->unk_7E.s16 = (angle >> 9) & 7;
-    ((volatile S_func_818C8FD0_1 *)state)->unk_0A.u16++;
-
-mode1:
-    {
-        S_func_818C8FD0_6 *owner_part;
-        u16 position_z;
-        u16 final_z;
-        u16 delta_z;
-
-        owner_part = owner_node->unk_0C;
-
-        if ((func_8003DF74(owner_part->unk_08, owner_part, delta, 0) != 0) ||
-            (((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
-            output_pos->unk_00.u16.unk_02 = owner_pos->unk_00.u16.unk_02;
-            output_pos->unk_04.u16.unk_06 = owner_pos->unk_04.u16.unk_06;
-            position_z = owner_pos->unk_08.u16.unk_0A;
-            output_pos->unk_08.u16.unk_0A = position_z;
-
-            if (!(((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
-                output_pos->unk_00.u16.unk_02 += (u16)delta[0];
-                output_pos->unk_04.u16.unk_06 += (u16)delta[1];
-                final_z = output_pos->unk_08.u16.unk_0A;
-                delta_z = (u16)delta[2];
-                final_z += delta_z;
-                output_pos->unk_08.u16.unk_0A = final_z;
-            } else {
-                final_z = position_z - 0x40;
-                output_pos->unk_08.u16.unk_0A = final_z;
-            }
-
-            if (((S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
-                state->unk_84.s16 = 0;
-                state->unk_0A.u16++;
-                return;
-            }
-        }
-        return;
-    }
-
-mode2:
-    {
-
-        effect_node = func_8003FC64(0x12);
-
-        if (effect_node != 0) {
-            S_func_818C8FD0_7 *effect;
-            s32 direction_index;
-            S_func_818C8FD0_8 *tile;
-
-            effect = (S_func_818C8FD0_7 *)((u8 *)effect_node + 0x20);
-
-            {
-                s16 *direction_offset;
-
-                direction_index = state->unk_7E.s16;
-                direction_offset = (s16 *)((u8 *)offset_table + direction_index * 4);
-                effect->unk_58 = (s32)direction_offset[0] << 16;
-            }
-            {
-                u16 *direction_offset;
-
-                direction_index = state->unk_7E.s16;
-                direction_offset = (u16 *)((u8 *)offset_table + direction_index * 4);
-                effect->unk_5C = (s32)direction_offset[1] << 16;
-            }
-            effect->unk_2C = object;
-            effect->unk_30 = object->unk_60.s32;
-            effect->unk_0A = (state->unk_84.s16 - 1) / 2;
-            effect->unk_15 = state->unk_09;
-            effect->unk_16 = state->unk_7E.u16;
-
-            {
-                u8 *table_base = (u8 *)((s8 *)dirStepX);
-
-                direction_index = state->unk_7E.s16 * 2;
-                tile = ((S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
-                state->unk_A0 =
-                    tile->unk_24 + table_base[direction_index];
-            }
-            {
-                u8 *table_base = (u8 *)((s8 *)dirStepY);
-
-                direction_index = state->unk_7E.s16 * 2;
-                state->unk_A1 =
-                    tile->unk_25 + table_base[direction_index];
-            }
-
-            if (object->unk_60.ptr != 0) {
-                s32 tile_distance;
-                s32 duration;
-                S_func_818C8FD0_4 *target_pos;
-                u16 end_time;
-                u32 tile_coord;
-
-                effect->unk_08 = one;
-                tile_distance = object->unk_72;
-                tile_coord = tile->unk_24;
-                if (tile_distance != tile_coord) {
-                    tile_distance -= tile_coord;
-                } else {
-                    tile_distance = object->unk_73;
-                    tile_coord = tile->unk_25;
-                    tile_distance -= tile_coord;
-                }
-                if (tile_distance < 0) {
-                    tile_distance = -tile_distance;
-                    effect->unk_02.s16 = tile_distance * 2;
-                } else {
-                    effect->unk_02.s16 = tile_distance * 2;
-                }
-
-                target_pos = ((S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
-                duration = effect->unk_02.s16;
-                if (duration != 0) {
-                    effect->unk_60 =
-                        (target_pos->unk_08.s32 - output_pos->unk_08.s32 - 0x200000) /
-                        (duration - 1);
-                }
-                end_time = effect->unk_02.u16;
-                end_time += 0x3C;
-                state->unk_86 = end_time;
-            } else {
-                effect->unk_02.s16 = 0x20;
-                effect->unk_08 = 0;
-                state->unk_86 = effect->unk_02.s16 + 0x1E;
-            }
-
-            effect_node->unk_10 = D_80024270;
-            {
-                effect_pos = effect_node->unk_08;
-
-                effect_pos->unk_00.s32 = output_pos->unk_00.s32;
-                effect_pos->unk_04.s32 = output_pos->unk_04.s32;
-                effect_pos->unk_08.s32 = output_pos->unk_08.s32;
-                {
-                    S_func_818C8FD0_9 *effect_part = effect_node->unk_0C;
-
-                    effect_part->unk_0E = 0x80;
-                    effect_part->unk_0D = 0x80;
-                    effect_part->unk_0C = 0x80;
-                    effect_part->unk_1E = 0x1000;
-                    effect_part->unk_1C = 0x1000;
-                }
-                state->unk_A8 = effect_node;
-                state->unk_AC = effect_pos;
-                state->unk_88 = 0x63;
-            }
-        }
+    switch (mode) {
+    case 0:
+        part->unk_0C = 0x00808080;
+        part->unk_1E = 0x1000;
+        part->unk_1C = 0x1000;
+        func_8003DB94(part, D_800DEC00, 0);
+        angle = object->unk_2A;
+        D_80024D04[0] = one;
+        state->unk_7E.s16 = (angle >> 9) & 7;
         state->unk_0A.u16++;
+    case 1:
+        {
+            S_func_818C8FD0_6 *owner_part;
+            u16 position_z;
+            u16 final_z;
+            u16 delta_z;
+
+            owner_part = owner_node->unk_0C;
+
+            if ((func_8003DF74(owner_part->unk_08, owner_part, delta, 0) != 0) ||
+                (((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+                output_pos->unk_00.u16.unk_02 = owner_pos->unk_00.u16.unk_02;
+                output_pos->unk_04.u16.unk_06 = owner_pos->unk_04.u16.unk_06;
+                position_z = owner_pos->unk_08.u16.unk_0A;
+                output_pos->unk_08.u16.unk_0A = position_z;
+
+                if (!(((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
+                    output_pos->unk_00.u16.unk_02 += (u16)delta[0];
+                    output_pos->unk_04.u16.unk_06 += (u16)delta[1];
+                    final_z = output_pos->unk_08.u16.unk_0A;
+                    delta_z = (u16)delta[2];
+                    final_z += delta_z;
+                    output_pos->unk_08.u16.unk_0A = final_z;
+                } else {
+                    final_z = position_z - 0x40;
+                    output_pos->unk_08.u16.unk_0A = final_z;
+                }
+
+                if (((S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
+                    state->unk_84.s16 = 0;
+                    state->unk_0A.u16++;
+                    return;
+                }
+            }
+            return;
+        }
+    case 2:
+        {
+
+            effect_node = func_8003FC64(0x12);
+
+            if (effect_node != 0) {
+                S_func_818C8FD0_7 *effect;
+                s32 direction_index;
+                S_func_818C8FD0_8 *tile;
+
+                effect = (S_func_818C8FD0_7 *)((u8 *)effect_node + 0x20);
+
+                {
+                    s16 *direction_offset;
+
+                    direction_index = state->unk_7E.s16;
+                    direction_offset = (s16 *)((u8 *)offset_table + direction_index * 4);
+                    effect->unk_58 = (s32)direction_offset[0] << 16;
+                }
+                {
+                    u16 *direction_offset;
+
+                    direction_index = state->unk_7E.s16;
+                    direction_offset = (u16 *)((u8 *)offset_table + direction_index * 4);
+                    effect->unk_5C = (s32)direction_offset[1] << 16;
+                }
+                effect->unk_2C = object;
+                effect->unk_30 = object->unk_60.s32;
+                effect->unk_0A = (state->unk_84.s16 - 1) / 2;
+                effect->unk_15 = state->unk_09;
+                effect->unk_16 = state->unk_7E.u16;
+
+                {
+                    u8 *table_base = (u8 *)((s8 *)dirStepX);
+
+                    direction_index = state->unk_7E.s16 * 2;
+                    tile = ((S_func_818C8FD0_3 *)((u8 *)object - 0x20))->unk_0C;
+                    state->unk_A0 =
+                        tile->unk_24 + table_base[direction_index];
+                }
+                {
+                    u8 *table_base = (u8 *)((s8 *)dirStepY);
+
+                    direction_index = state->unk_7E.s16 * 2;
+                    state->unk_A1 =
+                        tile->unk_25 + table_base[direction_index];
+                }
+
+                if (object->unk_60.ptr != 0) {
+                    s32 tile_distance;
+                    s32 duration;
+                    S_func_818C8FD0_4 *target_pos;
+                    u16 end_time;
+                    u32 tile_coord;
+
+                    effect->unk_08 = one;
+                    tile_distance = object->unk_72;
+                    tile_coord = tile->unk_24;
+                    if (tile_distance != tile_coord) {
+                        tile_distance -= tile_coord;
+                    } else {
+                        tile_distance = object->unk_73;
+                        tile_coord = tile->unk_25;
+                        tile_distance -= tile_coord;
+                    }
+                    if (tile_distance < 0) {
+                        tile_distance = -tile_distance;
+                        effect->unk_02.s16 = tile_distance * 2;
+                    } else {
+                        effect->unk_02.s16 = tile_distance * 2;
+                    }
+
+                    target_pos = ((S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
+                    duration = effect->unk_02.s16;
+                    if (duration != 0) {
+                        effect->unk_60 =
+                            (target_pos->unk_08.s32 - output_pos->unk_08.s32 - 0x200000) /
+                            (duration - 1);
+                    }
+                    end_time = effect->unk_02.u16;
+                    end_time += 0x3C;
+                    state->unk_86 = end_time;
+                } else {
+                    effect->unk_02.s16 = 0x20;
+                    effect->unk_08 = 0;
+                    state->unk_86 = effect->unk_02.s16 + 0x1E;
+                }
+
+                effect_node->unk_10 = D_80024270;
+                {
+                    effect_pos = effect_node->unk_08;
+
+                    effect_pos->unk_00.s32 = output_pos->unk_00.s32;
+                    effect_pos->unk_04.s32 = output_pos->unk_04.s32;
+                    effect_pos->unk_08.s32 = output_pos->unk_08.s32;
+                    {
+                        S_func_818C8FD0_9 *effect_part = effect_node->unk_0C;
+
+                        effect_part->unk_0E = 0x80;
+                        effect_part->unk_0D = 0x80;
+                        effect_part->unk_0C = 0x80;
+                        effect_part->unk_1E = 0x1000;
+                        effect_part->unk_1C = 0x1000;
+                    }
+                    state->unk_A8 = effect_node;
+                    state->unk_AC = effect_pos;
+                    state->unk_88 = 0x63;
+                }
+            }
+            state->unk_0A.u16++;
+            return;
+        }
+    case 3:
+        if (state->unk_88 == 0x63) {
+            effect_node = state->unk_A8;
+            effect_pos = state->unk_AC;
+
+            if (effect_node->unk_1E & 0x8000) {
+                state->unk_88 = 0;
+            } else {
+                output_pos->unk_00.s32 = effect_pos->unk_00.s32;
+                output_pos->unk_04.s32 = effect_pos->unk_04.s32;
+                output_pos->unk_08.s32 = effect_pos->unk_08.s32;
+            }
+        }
+        break;
+    default:
         return;
     }
 
-mode3:
-    if (state->unk_88 == 0x63) {
-        effect_node = state->unk_A8;
-        effect_pos = state->unk_AC;
-
-        if (effect_node->unk_1E & 0x8000) {
-            state->unk_88 = 0;
-            goto finish;
-        }
-        output_pos->unk_00.s32 = effect_pos->unk_00.s32;
-        output_pos->unk_04.s32 = effect_pos->unk_04.s32;
-        output_pos->unk_08.s32 = effect_pos->unk_08.s32;
-    }
-    goto finish;
-
-finish:
     {
         u16 old_timer = state->unk_84.u16;
         s16 timer = old_timer + 1;

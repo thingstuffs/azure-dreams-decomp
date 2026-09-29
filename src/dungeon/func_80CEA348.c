@@ -97,45 +97,7 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
             func_800A05A4(actor, ((S_80173B48_2 *)position_input)->unk_24,
                           ((S_80173B48_2 *)position_input)->unk_25, ((S_80173B48_0 *)actor)->unk_2A, 10);
         ((S_80173B48_1 *)action_input)->unk_AC = 0;
-        if (((S_80173B48_0 *)actor)->unk_60 == 0) {
-            goto initial_null;
-        }
-
-        {
-            s16 travel_steps = func_8009FD40(
-                ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
-            ((S_80173B48_1 *)action_input)->unk_AA = travel_steps;
-            func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
-                          ((S_80173B48_0 *)actor)->unk_60);
-        }
-
-        if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
-            remaining_steps = 10;
-            saved_x = ((S_80173B48_2 *)position_input)->unk_24;
-            saved_y = ((S_80173B48_2 *)position_input)->unk_25;
-
-loop:
-            next_x = ((S_80173B48_0 *)actor)->unk_72;
-            next_y = ((S_80173B48_0 *)actor)->unk_73;
-            func_8009C12C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A,
-                          ((S_80173B48_1 *)action_input)->unk_AA);
-            remaining_steps -= ((S_80173B48_1 *)action_input)->unk_AA;
-            if (remaining_steps == 0) {
-                goto restore_coords;
-            }
-
-            ((S_80173B48_2 *)position_input)->unk_24 = next_x;
-            ((S_80173B48_2 *)position_input)->unk_25 = next_y;
-            ((S_80173B48_0 *)actor)->unk_60 =
-                func_800A05A4(actor, ((S_80173B48_2 *)position_input)->unk_24,
-                              ((S_80173B48_2 *)position_input)->unk_25,
-                              ((S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
-            if (((S_80173B48_0 *)actor)->unk_60 == 0) {
-                goto loop_null;
-            }
-
-            ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
-            ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
+        if (((S_80173B48_0 *)actor)->unk_60 != 0) {
             {
                 s16 travel_steps = func_8009FD40(
                     ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
@@ -143,27 +105,52 @@ loop:
                 func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
                               ((S_80173B48_0 *)actor)->unk_60);
             }
+
             if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
-                goto loop;
+                remaining_steps = 10;
+                saved_x = ((S_80173B48_2 *)position_input)->unk_24;
+                saved_y = ((S_80173B48_2 *)position_input)->unk_25;
+
+loop:
+                next_x = ((S_80173B48_0 *)actor)->unk_72;
+                next_y = ((S_80173B48_0 *)actor)->unk_73;
+                func_8009C12C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A,
+                              ((S_80173B48_1 *)action_input)->unk_AA);
+                remaining_steps -= ((S_80173B48_1 *)action_input)->unk_AA;
+                if (remaining_steps != 0) {
+                    ((S_80173B48_2 *)position_input)->unk_24 = next_x;
+                    ((S_80173B48_2 *)position_input)->unk_25 = next_y;
+                    ((S_80173B48_0 *)actor)->unk_60 =
+                        func_800A05A4(actor, ((S_80173B48_2 *)position_input)->unk_24,
+                                      ((S_80173B48_2 *)position_input)->unk_25,
+                                      ((S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
+                    if (((S_80173B48_0 *)actor)->unk_60 != 0) {
+                        ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
+                        ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
+                        {
+                            s16 travel_steps = func_8009FD40(
+                                ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
+                            ((S_80173B48_1 *)action_input)->unk_AA = travel_steps;
+                            func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                                          ((S_80173B48_0 *)actor)->unk_60);
+                        }
+                        if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
+                            goto loop;
+                        }
+                    } else {
+                        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+                        ((S_80173B48_1 *)action_input)->unk_AA = 1;
+                    }
+                }
+
+                ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
+                ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
             }
-            goto restore_coords;
+        } else {
+            func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+            ((S_80173B48_1 *)action_input)->unk_AA = 1;
         }
-        goto render;
 
-loop_null:
-        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
-        ((S_80173B48_1 *)action_input)->unk_AA = 1;
-
-restore_coords:
-        ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
-        ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
-        goto render;
-
-initial_null:
-        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
-        ((S_80173B48_1 *)action_input)->unk_AA = 1;
-
-render:
         {
             u32 direction_offset = (((S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
             func_800C78A0(
@@ -174,43 +161,28 @@ render:
                     ((s16)*(u16 *)((u8 *)D_800DCEBC + direction_offset) >> 1) + 0x20,
                 ((S_80173B48_0 *)actor)->unk_88, 8, 0x300);
         }
-        goto final_state;
+    } else {
+        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        ((S_80173B48_1 *)action_input)->unk_AA = 1;
     }
 
-    func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
-    ((S_80173B48_1 *)action_input)->unk_AA = 1;
-
-final_state:
     action_state = ((S_80173B48_0 *)actor)->unk_48;
-    if (action_state == 14) {
-        goto state_14;
-    }
-    if (action_state < 15) {
-        if (action_state == 13) {
-            goto state_13;
-        }
+    switch (action_state) {
+    case 13:
+        ((S_80173B48_0 *)actor)->unk_84 = 0x78;
+        state_param = 8;
+        break;
+    case 14:
+        ((S_80173B48_0 *)actor)->unk_84 = 0x70;
+        state_param = 2;
+        break;
+    case 15:
+        ((S_80173B48_0 *)actor)->unk_84 = 0x74;
+        state_param = 1;
+        break;
+    default:
         return;
     }
-    if (action_state == 15) {
-        goto state_15;
-    }
-    return;
-
-state_13:
-    ((S_80173B48_0 *)actor)->unk_84 = 0x78;
-    state_param = 8;
-    goto store_state;
-
-state_14:
-    ((S_80173B48_0 *)actor)->unk_84 = 0x70;
-    state_param = 2;
-    goto store_state;
-
-state_15:
-    ((S_80173B48_0 *)actor)->unk_84 = 0x74;
-    state_param = 1;
-
-store_state:
     ((S_80173B48_0 *)actor)->unk_85 = state_param;
 
     return;

@@ -125,14 +125,12 @@ void func_8016B3A8(void *self, EntityRec *motion, void *sprite)
         if (!(((S_8016B3A8_2 *)actor_base)->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);
-                goto clear_ground_contact;
             }
         } else {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x7000;
             ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xFFFBFFFF;
         }
 
-clear_ground_contact:
         ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xF7FFFFFF;
         actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
         if (actor_flags & 0x40000) {
@@ -149,13 +147,11 @@ clear_ground_contact:
                     (*(s32 *)((u8 *)self + 0xAC)) += (*(s32 *)((u8 *)self + 0xB0));
                     if ((*(s32 *)((u8 *)self + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)self + 0xA4)) = 0;
-                        goto airborne_motion;
                     }
                 } else if (anim_table == D_8016E644 || anim_table == D_8016E66C) {
                     (*(s32 *)((u8 *)self + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)self + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)self + 0xA4)) = 0;
-                        goto airborne_motion;
                     }
                 } else if (anim_table != D_8016E654 && anim_table != D_8016E65C &&
                            anim_table != D_8016E664) {
@@ -163,7 +159,6 @@ clear_ground_contact:
                 }
             }
 
-airborne_motion:
             adjustment = (*(u16 *)((u8 *)self + 0x98)) & 8;
             if (adjustment == 0) {
                 height_offset = (*(s16 *)((u8 *)self + 0x92));
@@ -171,102 +166,94 @@ airborne_motion:
                 if (adjustment < height_offset) {
                     adjustment = height_bits - 8;
                     (*(s16 *)((u8 *)self + 0x92)) = adjustment;
-                    goto finish_motion;
+                } else {
+                    adjustment = height_offset < -8;
+                    if (adjustment != 0) {
+                        adjustment = height_bits + 8;
+                        (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+                    }
                 }
-                adjustment = height_offset < -8;
-                if (adjustment != 0) {
-                    adjustment = height_bits + 8;
-                    (*(s16 *)((u8 *)self + 0x92)) = adjustment;
-                }
-                goto finish_motion;
             }
-            goto finish_motion;
-        }
+        } else {
 
-        adjustment = (*(s32 *)((u8 *)self + 0xA4));
-        height_sum = (*(s32 *)((u8 *)self + 0x90));
-        motion_flags = (*(u16 *)((u8 *)self + 0x98));
-        (*(s16 *)((u8 *)self + 0xB8)) = 0;
-        (*(s32 *)((u8 *)self + 0xA4)) = 0;
-        height_sum += adjustment;
-        (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        height_offset = motion_flags & 8;
-        if (height_offset != 0) {
-            goto finish_motion;
-        }
-        goto ground_call;
-    }
-
-    if (initial_sprite_flags & 0x800) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags & 0x8FFF;
-    } else {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
-    }
-    ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xF7FFFFFF;
-    actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
-
-    if (!(actor_flags & 0x40000)) {
-        adjustment = (*(s32 *)((u8 *)self + 0xA4));
-        height_sum = (*(s32 *)((u8 *)self + 0x90));
-        motion_flags = (*(u16 *)((u8 *)self + 0x98));
-        (*(s16 *)((u8 *)self + 0xB8)) = 0;
-        (*(s32 *)((u8 *)self + 0xA4)) = 0;
-        height_sum -= adjustment;
-        (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        height_offset = motion_flags & 8;
-        if (height_offset == 0) {
-ground_call:
-            floor_height = func_800BCB04(((u16)motion->x.w.i),
-                                  ((u16)motion->y.w.i),
-                                  (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
-                    ((S_8016B3A8_2 *)actor_base)->unk_88;
-            if (floor_height < (*(s16 *)((u8 *)self + 0x92))) {
-                (*(s16 *)((u8 *)self + 0x92)) = floor_height;
-                (*(u8 *)((u8 *)self + 0x9D)) = 0;
-                motion->flags14 = 0;
-                ((S_8016B3A8_2 *)actor_base)->unk_1C |= 0x08000000;
-                goto finish_motion;
-            }
-        }
-        goto finish_motion;
-    }
-
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-        u8 *anim_table = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
-
-        if (anim_table == D_8016E634) {
-            (*(s32 *)((u8 *)self + 0xAC)) = 0;
-            goto clear_height;
-        }
-        if (anim_table == D_8016E644 || anim_table == D_8016E66C) {
-            (*(s32 *)((u8 *)self + 0xA4)) -= 0x40000;
-            if ((*(s32 *)((u8 *)self + 0xA4)) <= 0) {
-                (*(s32 *)((u8 *)self + 0xA4)) = 0;
-                goto grounded_motion;
-            }
-        } else if (anim_table != D_8016E654 && anim_table != D_8016E65C &&
-                   anim_table != D_8016E664) {
-clear_height:
+            adjustment = (*(s32 *)((u8 *)self + 0xA4));
+            height_sum = (*(s32 *)((u8 *)self + 0x90));
+            motion_flags = (*(u16 *)((u8 *)self + 0x98));
+            (*(s16 *)((u8 *)self + 0xB8)) = 0;
             (*(s32 *)((u8 *)self + 0xA4)) = 0;
+            height_sum += adjustment;
+            (*(s32 *)((u8 *)self + 0x90)) = height_sum;
+            height_offset = motion_flags & 8;
+            if (height_offset != 0) {
+                goto finish_motion;
+            }
+            goto ground_call;
         }
-    }
+    } else {
+        if (initial_sprite_flags & 0x800) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags & 0x8FFF;
+        } else {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
+        }
+        ((S_8016B3A8_2 *)actor_base)->unk_1C &= 0xF7FFFFFF;
+        actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
 
-grounded_motion:
-    adjustment = (*(u16 *)((u8 *)self + 0x98)) & 8;
-    if (adjustment == 0) {
-        height_offset_2 = (*(s16 *)((u8 *)self + 0x92));
-        height_bits = (*(u16 *)((u8 *)self + 0x92));
-        if (adjustment < height_offset_2) {
-            adjustment = height_bits - 8;
-            (*(s16 *)((u8 *)self + 0x92)) = adjustment;
-            goto finish_motion;
+        if (!(actor_flags & 0x40000)) {
+            adjustment = (*(s32 *)((u8 *)self + 0xA4));
+            height_sum = (*(s32 *)((u8 *)self + 0x90));
+            motion_flags = (*(u16 *)((u8 *)self + 0x98));
+            (*(s16 *)((u8 *)self + 0xB8)) = 0;
+            (*(s32 *)((u8 *)self + 0xA4)) = 0;
+            height_sum -= adjustment;
+            (*(s32 *)((u8 *)self + 0x90)) = height_sum;
+            height_offset = motion_flags & 8;
+            if (height_offset == 0) {
+ground_call:
+                floor_height = func_800BCB04(((u16)motion->x.w.i),
+                                      ((u16)motion->y.w.i),
+                                      (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
+                        ((S_8016B3A8_2 *)actor_base)->unk_88;
+                if (floor_height < (*(s16 *)((u8 *)self + 0x92))) {
+                    (*(s16 *)((u8 *)self + 0x92)) = floor_height;
+                    (*(u8 *)((u8 *)self + 0x9D)) = 0;
+                    motion->flags14 = 0;
+                    ((S_8016B3A8_2 *)actor_base)->unk_1C |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                u8 *anim_table = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
+
+                if (anim_table == D_8016E634) {
+                    (*(s32 *)((u8 *)self + 0xAC)) = 0;
+                    (*(s32 *)((u8 *)self + 0xA4)) = 0;
+                } else if (anim_table == D_8016E644 || anim_table == D_8016E66C) {
+                    (*(s32 *)((u8 *)self + 0xA4)) -= 0x40000;
+                    if ((*(s32 *)((u8 *)self + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)self + 0xA4)) = 0;
+                    }
+                } else if (anim_table != D_8016E654 && anim_table != D_8016E65C &&
+                           anim_table != D_8016E664) {
+                    (*(s32 *)((u8 *)self + 0xA4)) = 0;
+                }
+            }
+
+            adjustment = (*(u16 *)((u8 *)self + 0x98)) & 8;
+            if (adjustment == 0) {
+                height_offset_2 = (*(s16 *)((u8 *)self + 0x92));
+                height_bits = (*(u16 *)((u8 *)self + 0x92));
+                if (adjustment < height_offset_2) {
+                    adjustment = height_bits - 8;
+                    (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+                } else {
+                    adjustment = height_offset_2 < -8;
+                    if (adjustment != 0) {
+                        adjustment = height_bits + 8;
+                        (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+                    }
+                }
+            }
         }
-        adjustment = height_offset_2 < -8;
-        if (adjustment != 0) {
-            adjustment = height_bits + 8;
-            (*(s16 *)((u8 *)self + 0x92)) = adjustment;
-        }
-        goto finish_motion;
     }
 finish_motion:
     actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;
