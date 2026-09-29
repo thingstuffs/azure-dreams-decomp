@@ -152,14 +152,6 @@ extern void *D_80170820[];
 
 void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-    static void *const sw_keep[] = {
-        &&sw_case123, &&sw_generic, &&sw_case89,
-        &&sw_case567, &&sw_case12
-    };
-    static void *const sw1_keep[] = {
-        &&sw1_case0, &&sw1_case1, &&sw1_case2,
-        &&sw1_case3, &&sw1_case4
-    };
     u16 initial_flags = dungeonStatus.flags;
     void *post_current;
     u8 *post_table;
@@ -221,18 +213,8 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         }
 
         if (((S_80170F6C_1 *)arg3)->unk_14 & 0x20000) {
-            {
-                s32 switch_index = ((S_80170F6C_0 *)arg0)->unk_A8.s;
-                if ((u32)switch_index >= 5) {
-                    return;
-                }
-                (void)sw1_keep;
-                {
-                    void **switch_table = D_80170808;
-                    goto *switch_table[switch_index];
-                }
-            }
-sw1_case0:
+            switch (((S_80170F6C_0 *)arg0)->unk_A8.s) {
+            case 0:
                 if (((S_80170F6C_2 *)arg2)->unk_2C != D_801752A0) {
                     dungeonStatus.unk_0A++;
                     ((S_80170F6C_0 *)arg0)->unk_AA = ((S_80170F6C_1 *)arg3)->unk_2A.u;
@@ -244,7 +226,7 @@ sw1_case0:
                 ((S_80170F6C_0 *)arg0)->unk_A8.u++;
                 return;
 
-sw1_case1: {
+            case 1: {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
 
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
@@ -271,7 +253,7 @@ sw1_case1: {
                 return;
             }
 
-sw1_case2: {
+            case 2: {
                 s32 scale;
                 S_80170F6C_4 *object;
                 void *part;
@@ -333,7 +315,7 @@ sw1_case2: {
                 return;
             }
 
-sw1_case3: {
+            case 3: {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
 
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
@@ -348,7 +330,7 @@ sw1_case3: {
                 return;
             }
 
-sw1_case4: {
+            case 4: {
                 s32 x;
                 s32 y;
                 s32 coord;
@@ -382,6 +364,9 @@ sw1_case4: {
                     ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
                     return;
                 }
+                return;
+            }
+            default:
                 return;
             }
         } else {
@@ -427,20 +412,9 @@ sw1_case4: {
             }
         }
 
-        {
-            u32 swi = (((S_80170F6C_1 *)arg3)->unk_46 & 0x3FFF) - 1;
-
-            if (swi >= 12) {
-                goto sw_generic;
-            }
-            (void)sw_keep;
-            {
-                void **switch_table = D_80170820;
-                goto *switch_table[swi];
-            }
-        }
-
-sw_case89:
+        switch (((S_80170F6C_1 *)arg3)->unk_46 & 0x3FFF) {
+        case 8:
+        case 9:
         {
             u32 case_flags;
             if ((((S_80170F6C_1 *)arg3)->unk_46 & 0x3FFF) == 9) {
@@ -456,7 +430,9 @@ sw_case89:
         func_80172514(arg0, arg1, arg2, arg3);
         return;
 
-sw_case567:
+        case 5:
+        case 6:
+        case 7:
         {
             s16 next_position;
             void *status_object;
@@ -471,17 +447,26 @@ sw_case567:
                 goto sw_case123;
             }
         }
+        case 12:
 sw_case12:
-        func_800A9A0C(arg3);
-        return;
+            func_800A9A0C(arg3);
+            return;
 
+        case 1:
+        case 2:
+        case 3:
 sw_case123:
-        func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
-        return;
+            func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
+            return;
 
+        case 4:
+        case 10:
+        case 11:
+        default:
 sw_generic:
-        func_80171B68(arg0, arg1, arg2, arg3);
-        return;
+            func_80171B68(arg0, arg1, arg2, arg3);
+            return;
+        }
     }
 
     {

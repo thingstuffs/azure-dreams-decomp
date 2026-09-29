@@ -159,29 +159,8 @@ void func_80170EA8(void *actor, void *context, void *sprite, EntityRec *entity)
             }
         }
 
-#ifdef __mips__
-        {
-            static void *volatile dispatch_labels[] = {
-                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
-                &&ordinary_cleanup,
-                &&coords_case, &&coords_case, &&coords_case,
-                &&case8_setup, &&handler_case,
-                &&ordinary_cleanup, &&ordinary_cleanup,
-                &&special_cleanup,
-            };
-            s32 dispatch_index;
-
-            dispatch_index = (entity->unk_46 & 0x3FFF) - 1;
-            if ((u32)dispatch_index >= 12) {
-                goto ordinary_cleanup;
-            }
-            goto *D_80170808[dispatch_index];
-        }
-case8_setup:
-#else
         switch (entity->unk_46 & 0x3FFF) {
         case 8:
-#endif
             ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
             if (((u32)entity->flags1C) & 0x2000) {
                 if ((entity->unk_46 & 0x3FFF) == 8) {
@@ -189,24 +168,16 @@ case8_setup:
                 }
             }
 
-#ifdef __mips__
-handler_case:
-#else
         case 9:
-#endif
             if ((s16)func_80171E28(actor, context, sprite, entity) == 0) {
                 func_8017208C(actor, context, sprite, entity);
                 return;
             }
             return;
 
-#ifdef __mips__
-coords_case:
-#else
         case 5:
         case 6:
         case 7:
-#endif
         {
             EntityRec *global_actor;
             s32 direction;
@@ -222,7 +193,6 @@ coords_case:
             }
             goto special_cleanup;
         }
-#ifndef __mips__
         case 1:
         case 2:
         case 3:
@@ -234,7 +204,6 @@ coords_case:
         default:
             goto ordinary_cleanup;
         }
-#endif
 
 special_cleanup:
         func_800A9A0C(entity);

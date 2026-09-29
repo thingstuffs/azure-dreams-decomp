@@ -145,26 +145,8 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
 
 #define motion motion
 
-#ifdef __mips__
-    {
-        static void *volatile dispatch_labels[] = {
-            &&state_0, &&state_1, &&state_2, &&state_3,
-            &&state_4, &&state_5, &&state_6, &&state_7,
-            &&state_8, &&state_9, &&end, &&end, &&end,
-            &&end, &&end, &&end, &&state_16,
-        };
-        u32 state = ((S_801757E0_0 *)actor)->unk_9B;
-
-        if (state >= 17) {
-            return;
-        }
-        goto *D_80170890[state];
-    }
-state_0:
-#else
     switch (((S_801757E0_0 *)actor)->unk_9B) {
     case 0:
-#endif
     if (((S_801757E0_1 *)animation)->unk_14 & 0x8000) {
         ((S_801757E0_0 *)actor)->unk_9B = 2;
         ((S_801757E0_1 *)animation)->unk_14 |= 0x6000;
@@ -180,11 +162,7 @@ state_0:
     func_800A56E0(0x80A);
     return;
 
-#ifdef __mips__
-state_1:
-#else
     case 1:
-#endif
     for (particle_index = 0; particle_index < 2; particle_index++) {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
@@ -243,11 +221,7 @@ state_1:
     ((S_801757E0_0 *)actor)->unk_9B++;
     return;
 
-#ifdef __mips__
-state_2:
-#else
     case 2:
-#endif
     if ((((S_801757E0_1 *)animation)->unk_04 == 2 &&
          (((S_801757E0_1 *)animation)->unk_14 & 0x1000)) ||
         (((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
@@ -338,11 +312,7 @@ final_flags:
     ((S_801757E0_0 *)actor)->unk_9B = 0x10;
     return;
 
-#ifdef __mips__
-state_3:
-#else
     case 3:
-#endif
     {
         s16 spin_timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
 
@@ -363,11 +333,7 @@ state_3:
     }
     goto bump_state;
 
-#ifdef __mips__
-state_4:
-#else
     case 4:
-#endif
     timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer < 0x0A && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
@@ -381,11 +347,7 @@ state_4:
         0);
     return;
 
-#ifdef __mips__
-state_5:
-#else
     case 5:
-#endif
     if (((S_801757E0_1 *)animation)->unk_14 & 0xE000) {
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017609C;
         func_80047784(animation,
@@ -395,11 +357,7 @@ state_5:
     }
     return;
 
-#ifdef __mips__
-state_6:
-#else
     case 6:
-#endif
     timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer < 0x14 && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
@@ -407,11 +365,7 @@ state_6:
     }
     goto bump_state;
 
-#ifdef __mips__
-state_7:
-#else
     case 7:
-#endif
     {
         s16 spin_timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
 
@@ -432,11 +386,7 @@ state_7:
     }
     goto bump_state;
 
-#ifdef __mips__
-state_8:
-#else
     case 8:
-#endif
     if (((S_801757E0_0 *)actor)->unk_AC.s != 0x4D) {
         return;
     }
@@ -448,21 +398,13 @@ bump_state_loaded:
     ((S_801757E0_0 *)actor)->unk_9B++;
     goto end;
 
-#ifdef __mips__
-state_9:
-#else
     case 9:
-#endif
     func_800AD594(entity, 0x800);
     ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
     dungeonStatus.unk_0C = 0;
     (entity->unk_46) &= 0x7FFF;
 
-#ifdef __mips__
-state_16:
-#else
     case 16:
-#endif
     timer = ((S_801757E0_0 *)actor)->unk_96.u + 1;
     ((S_801757E0_0 *)actor)->unk_96.u = timer;
     if (timer >= 0x1E) {
@@ -471,11 +413,9 @@ state_16:
     }
     goto end;
 
-#ifndef __mips__
     default:
         break;
     }
-#endif
 
 end:
     return;

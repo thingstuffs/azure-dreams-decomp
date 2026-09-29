@@ -122,10 +122,6 @@ extern u8 D_80174078[];
 /* Updates item use, its visual effect, and the actor's return to idle. */
 void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 *sprite, S_func_80FDD1A0_3 *actor_data)
 {
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_5, &&kind_6, &&kind_7
-    };
     s16 use_player = 0;
     S_func_80FDD1A0_4 *effect = 0;
     void *target;
@@ -133,31 +129,27 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
     S_func_80FDD1A0_2 *effect_sprite;
     ShortVec sound_pos;
     u8 phase;
+    u32 kind_index;
 
     phase = actor->unk_9B;
     switch (phase) {
     case 0:
-        if (actor_data->unk_1C & 0x2000) {
-            u32 kind_index;
-
-            kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
-            if (kind_index >= 7) {
-                goto kind_default;
-            }
-            (void)kind_labels;
-            goto *(((void **)D_80170838)[kind_index]);
-
-kind_7:
+        if (!(actor_data->unk_1C & 0x2000)) {
+            goto not_special;
+        }
+        kind_index = (actor_data->unk_46 & 0x3FFF) - 1;
+        switch (kind_index) {
+        case 6:
             use_player = 1;
             goto kind_3;
-kind_6:
+        case 5:
             use_player = 1;
             goto kind_2;
-kind_5:
+        case 4:
             use_player = 1;
             goto kind_1;
-        }
 
+not_special:
         {
             s32 action_kind;
 
@@ -178,17 +170,22 @@ kind_5:
             }
         }
 
+        case 2:
 kind_3:
-        item_slot = &actor_data->unk_0E;
-        goto selection_ready;
+            item_slot = &actor_data->unk_0E;
+            goto selection_ready;
+        case 1:
 kind_2:
-        item_slot = &actor_data->unk_0B;
-        goto selection_ready;
+            item_slot = &actor_data->unk_0B;
+            goto selection_ready;
+        case 0:
 kind_1:
-        item_slot = &actor_data->unk_08;
-        goto selection_ready;
-kind_default:
-        item_slot = 0;
+            item_slot = &actor_data->unk_08;
+            goto selection_ready;
+        case 3:
+        default:
+            item_slot = 0;
+        }
 
 selection_ready:
         if (*item_slot == 0) {
