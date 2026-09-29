@@ -38,7 +38,6 @@ typedef struct DungeonEffect {
     void *resource;
 } DungeonEffect;
 
-extern void *D_80170908[];
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
@@ -145,32 +144,24 @@ typedef struct S_80175398_7 {
 
 /* Advances the actor transition, updating effects and restoring the linked actor's facing. */
 void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, void *actor) {
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
-    };
     u8 *object_data = ((u8 *)(&gameWork));
     u8 state;
     u32 next_state;
 
     state = ((S_80175398_0 *)transition)->unk_9B;
-    if (state >= 9U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170908[state];
+    switch (state) {
 
-jt_c0:
+    case 0:
     next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
     goto store_next_state;
 
-jt_c1:
+    case 1:
     func_80041588(D_801759F8, D_80175A80, 0);
     ((S_80175398_0 *)transition)->unk_AC = 0;
     ((S_80175398_0 *)transition)->unk_9B++;
     ((S_80175398_1 *)actor)->unk_8A = ((S_80175398_1 *)actor)->unk_2A.u;
 
-jt_c2:
+    case 2:
     {
         s32 direction;
         u16 angle;
@@ -201,7 +192,7 @@ direction_ready:
         ((S_80175398_0 *)transition)->unk_9B++;
     }
 
-jt_c3:
+    case 3:
     {
         u16 old_timer = ((S_80175398_0 *)transition)->unk_96.u;
         u16 timer = old_timer - 1;
@@ -232,7 +223,7 @@ jt_c3:
         return;
     }
 
-jt_c4:
+    case 4:
     object_data = func_8003FC64(0x12);
     if (object_data == NULL) {
         return;
@@ -269,7 +260,7 @@ store_next_state:
     ((S_80175398_0 *)transition)->unk_9B = next_state;
     return;
 
-jt_c5:
+    case 5:
     {
         u16 old_timer = ((S_80175398_0 *)transition)->unk_96.u;
         ((S_80175398_0 *)transition)->unk_96.u = old_timer + 1;
@@ -287,7 +278,7 @@ jt_c5:
         ((S_80175398_0 *)transition)->unk_9B++;
     }
 
-jt_c6:
+    case 6:
     if (((S_80175398_0 *)transition)->unk_9B != 6) {
         return;
     }
@@ -303,7 +294,7 @@ jt_c6:
     ((S_80175398_2 *)object_data)->unk_10 |= 0x80000000;
     return;
 
-jt_c7:
+    case 7:
     {
         u8 *linked_actor = func_800A504C(record, actor);
         ((S_80175398_1 *)actor)->unk_60 = linked_actor;
@@ -326,7 +317,7 @@ jt_c7:
         ((S_80175398_2 *)object_data)->unk_14 &= 0xFFFE;
     }
 
-jt_c8:
+    case 8:
     {
         u16 timer = ((S_80175398_0 *)transition)->unk_96.u - 1;
         ((S_80175398_0 *)transition)->unk_96.u = timer;
@@ -344,4 +335,7 @@ jt_c8:
     ((S_80175398_1 *)actor)->unk_6D = 0;
 
     return;
+    default:
+        return;
+    }
 }
