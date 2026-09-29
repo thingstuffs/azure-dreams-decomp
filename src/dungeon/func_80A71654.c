@@ -85,7 +85,6 @@ extern void func_80173EF4(void *, void *, void *, void *);
 
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
-extern void *D_80170808[];
 extern u8 D_80170E54;
 extern u8 D_80174140[];
 extern u8 D_80174148[];
@@ -95,12 +94,6 @@ extern u8 D_80174190[];
 
 void func_80170E54(void *arg0, EntityRec *arg1, void *arg2, EntityRec *arg3)
 {
-    static void *const jt_keep[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-        &&normal_state, &&timer_table_reload,
-    };
     s32 scratch;
     s16 offset[3];
     s8 result;
@@ -213,23 +206,18 @@ normal_state:
         }
 
         state = arg3->unk_46 & 0x3FFF;
-        if ((u32)(state - 1) >= 12) {
-            goto generic;
-        }
-        (void)jt_keep;
-        goto *D_80170808[(u32)(state - 1)];
-
-jt_c8:
-jt_c9:
+        switch (state) {
+        case 8:
+        case 9:
         if ((func_80171FC0(arg0, arg1, arg2, arg3) << 16) != 0) {
             return;
         }
         func_80172184(arg0, arg1, arg2, arg3);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *player;
             s16 coordinate;
@@ -245,24 +233,24 @@ jt_c7:
             }
         }
 
-jt_c12:
+        case 12:
 case_12:
         func_800A9A0C(arg3);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+        case 1:
+        case 2:
+        case 3:
 case_123:
         func_800AAF00(arg0, arg1, arg2, D_80174140, &D_80170E54);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+        case 11:
+        default:
 generic:
         func_801717B4(arg0, arg1, arg2, arg3);
         return;
+        }
     }
 
     if (!(((u32)arg3->flags1C) & 0x2000)) {
@@ -305,17 +293,11 @@ generic:
         if (timer < 0) {
             ((Rec_func_800A9E70_arg0 *)arg0)->unk_AA = (func_80069EF8() & 0x1F) + 0x20;
         }
-        {
-            void *next_state;
-
-            if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
-                next_state = D_80174148;
-            } else {
-                next_state = D_80174140;
-            }
-            ((S_80170E54_2 *)arg2)->unk_2C.p = next_state;
+        if (((Rec_func_800A9E70_arg0 *)arg0)->unk_AA < 2) {
+            ((S_80170E54_2 *)arg2)->unk_2C.p = D_80174148;
+        } else {
+            ((S_80170E54_2 *)arg2)->unk_2C.p = D_80174140;
         }
-timer_table_reload:
         func_80047784(arg2,
             ((S_80170E54_2 *)arg2)->unk_2C.p2[
                 ((gameWork.view.viewAngle + arg3->facing + 0x100) >> 9) & 7],

@@ -23,7 +23,6 @@ typedef struct S_801724BC_2 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *const D_80170808[];
 void func_80047784();         /* extern */
 s32 func_8009A180();                     /* extern */
 s8 func_8009FB34();                           /* extern */
@@ -63,7 +62,6 @@ extern M2C_UNK D_80175E94;
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
 void func_801724BC(void *actor, M2C_UNK context, void *sprite, EntityRec *state) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     M2C_UNK path_info;
     u8 *next_row;
     M2C_UNK *current_row;
@@ -308,21 +306,17 @@ block_70:
     }
 block_72:
     action_id = state->unk_46 & 0x3FFF;
-    if ((u32) (action_id - 1) >= 0xCU) {
-        goto block_87;
-    }
-    (void)action_labels;
-    goto *D_80170808[(u32)((action_id) - 1)];
-jt_c8:
-jt_c9:
+    switch (action_id) {
+    case 8:
+    case 9:
     if ((func_80173734(actor, context, sprite, state) << 0x10) != 0) {
         return;
     }
     func_80173B48(actor, context, sprite, state);
     return;
-jt_c5:
-jt_c6:
-jt_c7:
+    case 5:
+    case 6:
+    case 7:
     {
         heading = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &path_info);
     }
@@ -331,13 +325,13 @@ jt_c7:
     if (player->unk_9A == 0x11) {
         goto block_78;
     }
-jt_c12:
+    case 12:
 block_77:
     func_800A9A0C(state);
     return;
-jt_c1:
-jt_c2:
-jt_c3:
+    case 1:
+    case 2:
+    case 3:
 block_78:
     action_mode = state->unk_48;
     if (action_mode == 0xE) {
@@ -364,13 +358,13 @@ block_85:
 block_86:
     func_800AAF00(actor, context, sprite, &D_80175E04, &D_801724BC);
     return;
-jt_c4:
-jt_c10:
-jt_c11:
+    case 11:
+    default:
 block_87:
 block_88:
     func_80172F58(actor, context, sprite, state);
     return;
+    }
 block_89:
     state_flags = state->flags1C;
     if (state_flags & 0x2000) {

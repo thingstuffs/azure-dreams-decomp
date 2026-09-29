@@ -16,7 +16,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 
-extern void *D_80170850[];
 extern u8 D_80170E9C[];
 extern u8 D_80174EE0[];
 
@@ -53,10 +52,6 @@ typedef struct S_8017293C_5 {
 /* Runs the actor's selected item action and handles its wait and completion phases. */
 void func_8017293C(void *action, EntityRec *motion, void *sprite, void *actor)
 {
-    static void *const kind_keep[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_7, &&kind_6, &&kind_5
-    };
     s32 is_special;
     u8 *item_slot;
     void *target;
@@ -79,22 +74,26 @@ state_0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
         u32 kind_index;
 
-        kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        if (kind_index >= 7) {
+        kind_index = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+        switch (kind_index) {
+        case 1:
+            goto kind_1;
+        case 2:
+            goto kind_2;
+        case 3:
+            goto kind_3;
+        case 7:
+            is_special = 1;
+            goto kind_3;
+        case 6:
+            is_special = 1;
+            goto kind_2;
+        case 5:
+            is_special = 1;
+            goto kind_1;
+        default:
             goto kind_default;
         }
-        (void)kind_keep;
-        goto *D_80170850[kind_index];
-
-kind_5:
-        is_special = 1;
-        goto kind_3;
-kind_6:
-        is_special = 1;
-        goto kind_2;
-kind_7:
-        is_special = 1;
-        goto kind_1;
     }
 
     {
