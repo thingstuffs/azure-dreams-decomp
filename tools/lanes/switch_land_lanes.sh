@@ -8,7 +8,7 @@
 # land_lanes.sh then ends with GATE_RC=1 and the landed texts still in src/.  This wrapper runs the normal isolated
 # landing, and on GATE_RC != 0 reverts exactly the rows the failing windows name (`.text.func_XXXX` in the gate
 # record, mapped to rows via their true_name), re-gates, and commits only a MATCH tree.  Any other failure reverts
-# every row this landing touched.  The file name contains "land_lanes.sh" on purpose: autocommit.sh skips while a
+# every row this landing touched; a SLUS SHA-1 NO MATCH reverts the touched slus rows.  The file name contains "land_lanes.sh" on purpose: autocommit.sh skips while a
 # process with that name runs, so a failing tree is never snapshotted in between.
 set -u
 cd "$(dirname "$0")/../.."
@@ -37,9 +37,13 @@ for l in open("ledger/gate.jsonl"):
     d = json.loads(l)
     if d.get("at", "") >= start: last[d["window"]] = d.get("result")
 failing = {w for w, r in last.items() if r != "MATCH"}
+slus = [json.loads(l) for l in open("ledger/gate_slus.jsonl") if l.strip()]
+slus_bad = bool(slus) and slus[-1].get("at", "") >= start and slus[-1].get("result") != "MATCH"
 bad = []
 for f in touched:
     rid = f[4:-2]
+    if slus_bad and f.startswith("src/slus/"): bad.append(f); continue      # SLUS NO MATCH: its rows (a real
+    # switch's own .rdata table shifts the linked SLUS data layout - sw23 08:53Z)
     if rid in by and failing & {w.replace(".overlay.yaml", "") for w in promote.windows_of(by[rid])}: bad.append(f)
 print(" ".join(sorted(bad)))
 PY
