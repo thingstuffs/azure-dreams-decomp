@@ -57,167 +57,153 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
     u8 shade;
 
     state = controller->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        shade = sprite->unk_0E - 0xC;
+        sprite->unk_0E = shade;
+        sprite->unk_0D = shade;
+        sprite->unk_0C = shade;
+        if (!(sprite->unk_14 & 0xE000)) {
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
+        sprite->unk_2C.s = D_80174F00;
+        sprite->unk_0E = 0x40;
+        sprite->unk_0D = 0x40;
+        sprite->unk_0C = 0x40;
+        func_80047784(sprite,
+            sprite->unk_2C.u[
+                ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        {
 
-state_zero:
-    shade = sprite->unk_0E - 0xC;
-    sprite->unk_0E = shade;
-    sprite->unk_0D = shade;
-    sprite->unk_0C = shade;
-    if (!(sprite->unk_14 & 0xE000)) {
-        return;
-    }
-    sprite->unk_2C.s = D_80174F00;
-    sprite->unk_0E = 0x40;
-    sprite->unk_0D = 0x40;
-    sprite->unk_0C = 0x40;
-    func_80047784(sprite,
-        sprite->unk_2C.u[
-            ((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
-        0);
-    {
+            dungeonStatus.unk_0A--;
+        }
+        {
+            u8 next_state = controller->unk_9B + 1;
 
-        dungeonStatus.unk_0A--;
-    }
-    {
-        u8 next_state = controller->unk_9B + 1;
+            controller->unk_9B = next_state;
+            return;
+        }
 
-        controller->unk_9B = next_state;
-        return;
-    }
+    case 1:
+        if ((func_80042900(entity, 1) << 16) == 0) {
+            if (sprite->unk_14 & 0x8000) {
+                s32 cleared_flags;
 
-state_one:
-    if ((func_80042900(entity, 1) << 16) == 0) {
-        if (sprite->unk_14 & 0x8000) {
+                sprite->unk_0E = 0x80;
+                sprite->unk_0D = 0x80;
+                sprite->unk_0C = 0x80;
+                cleared_flags = entity->flags1C & 0xEFFFFFFF;
+                entity->flags1C = cleared_flags & ~0x200;
+                controller->unk_8C = D_80170E9C;
+                return;
+            }
+        } else {
+            if (dungeonStatus.flags & 0x1000) {
+                return;
+            }
+            if (entity->unk_64 != 0) {
+                if (func_800AA6B4(controller, context, sprite, 0) != 0) {
+                    return;
+                }
+            }
+            if (entity->tileY == 0) {
+                if (dungeonStatus.flags & 0x2008) {
+                    return;
+                }
+                func_800AA79C(controller, context, sprite, entity);
+                return;
+            }
+            if ((func_800A2C34(entity) << 16) != 0) {
+                return;
+            }
+            entity_flags = entity->flags1C;
+            if (entity_flags & 0x100) {
+                func_800AA258(controller, context, sprite, entity);
+                return;
+            }
+            if (entity_flags & 0x80000) {
+                func_800AA888(controller, context, sprite, entity);
+                func_801737C4(controller, context, sprite, entity);
+                return;
+            }
+            if (entity->unk_6D == 0) {
+                return;
+            }
+            if ((func_800A2C34(entity) << 16) != 0) {
+                EntityRec *owner = D_800814A8;
+
+                if ((func_8009A180(entity,
+                        (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+            func_800A9A0C(entity);
+            func_800A9A04(entity);
+            if ((func_80042900(entity, 1) << 16) != 0) {
+                TileObject *origin = &D_80082E80;
+                s8 tile = sprite->unk_26;
+
+                if (((tile == origin->unk_026) && (tile >= 0)) ||
+                    ((s16)func_8009FD40(origin, sprite) < 2)) {
+                    if (!(func_800A6D30() & 7)) {
+                        func_80042B68(entity, 1);
+                    }
+                }
+            }
+            if ((func_80042900(entity, 1) << 16) != 0) {
+                return;
+            }
+
+            if (sprite->unk_14 & 0x8000) {
+                s32 cleared_flags;
+
+                sprite->unk_0E = 0x80;
+                sprite->unk_0D = 0x80;
+                sprite->unk_0C = 0x80;
+                cleared_flags = entity->flags1C & 0xEFFFFFFF;
+                entity->flags1C = cleared_flags & ~0x200;
+                controller->unk_8C = D_80170E9C;
+                return;
+            }
+        }
+        {
+
+            dungeonStatus.unk_0A++;
+        }
+        controller->unk_96 = 6;
+        {
+            u8 next_state = controller->unk_9B + 1;
+
+            controller->unk_9B = next_state;
+            return;
+        }
+
+    case 2:
+        {
             s32 cleared_flags;
 
+            shade = sprite->unk_0E + 0xC;
+            sprite->unk_0E = shade;
+            sprite->unk_0D = shade;
+            sprite->unk_0C = shade;
+            fade_ticks = controller->unk_96 - 1;
+            controller->unk_96 = fade_ticks;
+            if ((fade_ticks << 16) > 0) {
+                return;
+            }
+            {
+
+                dungeonStatus.unk_0A--;
+            }
             sprite->unk_0E = 0x80;
             sprite->unk_0D = 0x80;
             sprite->unk_0C = 0x80;
             cleared_flags = entity->flags1C & 0xEFFFFFFF;
             entity->flags1C = cleared_flags & ~0x200;
             controller->unk_8C = D_80170E9C;
-            return;
         }
-        goto advance_state_one;
-    }
-    if (dungeonStatus.flags & 0x1000) {
+
         return;
     }
-    if (entity->unk_64 != 0) {
-        if (func_800AA6B4(controller, context, sprite, 0) != 0) {
-            return;
-        }
-    }
-    if (entity->tileY == 0) {
-        if (dungeonStatus.flags & 0x2008) {
-            return;
-        }
-        func_800AA79C(controller, context, sprite, entity);
-        return;
-    }
-    if ((func_800A2C34(entity) << 16) != 0) {
-        return;
-    }
-    entity_flags = entity->flags1C;
-    if (entity_flags & 0x100) {
-        func_800AA258(controller, context, sprite, entity);
-        return;
-    }
-    if (entity_flags & 0x80000) {
-        func_800AA888(controller, context, sprite, entity);
-        func_801737C4(controller, context, sprite, entity);
-        return;
-    }
-    if (entity->unk_6D == 0) {
-        return;
-    }
-    if ((func_800A2C34(entity) << 16) != 0) {
-        EntityRec *owner = D_800814A8;
-
-        if ((func_8009A180(entity,
-                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-            return;
-        }
-    }
-    func_800A9A0C(entity);
-    func_800A9A04(entity);
-    if ((func_80042900(entity, 1) << 16) != 0) {
-        TileObject *origin = &D_80082E80;
-        s8 tile = sprite->unk_26;
-
-        if (((tile == origin->unk_026) && (tile >= 0)) ||
-            ((s16)func_8009FD40(origin, sprite) < 2)) {
-            if (!(func_800A6D30() & 7)) {
-                func_80042B68(entity, 1);
-            }
-        }
-    }
-    if ((func_80042900(entity, 1) << 16) != 0) {
-        return;
-    }
-
-    if (sprite->unk_14 & 0x8000) {
-        s32 cleared_flags;
-
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        cleared_flags = entity->flags1C & 0xEFFFFFFF;
-        entity->flags1C = cleared_flags & ~0x200;
-        controller->unk_8C = D_80170E9C;
-        return;
-    }
-
-advance_state_one:
-    {
-
-        dungeonStatus.unk_0A++;
-    }
-    controller->unk_96 = 6;
-    {
-        u8 next_state = controller->unk_9B + 1;
-
-        controller->unk_9B = next_state;
-        return;
-    }
-
-state_two:
-    {
-        s32 cleared_flags;
-
-        shade = sprite->unk_0E + 0xC;
-        sprite->unk_0E = shade;
-        sprite->unk_0D = shade;
-        sprite->unk_0C = shade;
-        fade_ticks = controller->unk_96 - 1;
-        controller->unk_96 = fade_ticks;
-        if ((fade_ticks << 16) > 0) {
-            return;
-        }
-        {
-
-            dungeonStatus.unk_0A--;
-        }
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        cleared_flags = entity->flags1C & 0xEFFFFFFF;
-        entity->flags1C = cleared_flags & ~0x200;
-        controller->unk_8C = D_80170E9C;
-    }
-
-    return;
 }

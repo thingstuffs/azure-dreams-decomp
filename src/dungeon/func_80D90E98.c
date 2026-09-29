@@ -28,68 +28,55 @@ void func_80172698(void *action, void *motion, void *sprite, void *actor)
     u16 delay_ticks;
 
     phase = U8(action, 0x9B);
-    if (phase == 1) {
-        goto wait_delay;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto begin_action;
+    switch (phase) {
+    case 0:
+        if (U16(sprite, 0x14) & 0x8000) {
+            U8(action, 0x9B) = 2;
+            U16(sprite, 0x14) |= 0x6000;
+            func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
+            return;
         }
-        return;
-    }
-    if (phase == 2) {
-        goto finish_action;
-    }
-    return;
 
-begin_action:
-    if (U16(sprite, 0x14) & 0x8000) {
-        U8(action, 0x9B) = 2;
-        U16(sprite, 0x14) |= 0x6000;
+        S32(motion, 0x14) = 0;
+        S32(motion, 0x10) = 0;
+        S32(motion, 0x0C) = 0;
+        PTR(sprite, 0x2C) = D_80173894;
+        func_80047784(sprite,
+            D_80173894[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
+            0);
+        loaded_phase = U8(action, 0x9B);
+        U16(action, 0x96) = 0;
+        U8(action, 0x9B) = loaded_phase + 1;
+        return;
+
+    case 1:
+        delay_ticks = U16(action, 0x96) + 1;
+        U16(action, 0x96) = delay_ticks;
+        if ((s16)delay_ticks != 10) {
+            return;
+        }
+        func_800A56E0(0x808);
         func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
+        loaded_phase = U8(action, 0x9B);
+
+        U8(action, 0x9B) = loaded_phase + 1;
+        return;
+
+    case 2:
+        if (!(U16(sprite, 0x14) & 0xE000)) {
+            return;
+        }
+        func_800A2B04(motion, U8(sprite, 0x24), U8(sprite, 0x25));
+        func_800AD594(actor, 0x100);
+        PTR(action, 0x8C) = &D_80170E68;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        if (S8(actor, 0x6D) == 0) {
+            U16(actor, 0x46) &= 0x7FFF;
+        } else {
+            D_800E3DE8 = (u8 *)actor - 0x20;
+        }
+
         return;
     }
-
-    S32(motion, 0x14) = 0;
-    S32(motion, 0x10) = 0;
-    S32(motion, 0x0C) = 0;
-    PTR(sprite, 0x2C) = D_80173894;
-    func_80047784(sprite,
-        D_80173894[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7],
-        0);
-    loaded_phase = U8(action, 0x9B);
-    U16(action, 0x96) = 0;
-    goto advance_phase;
-
-wait_delay:
-    delay_ticks = U16(action, 0x96) + 1;
-    U16(action, 0x96) = delay_ticks;
-    if ((s16)delay_ticks != 10) {
-        return;
-    }
-    func_800A56E0(0x808);
-    func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
-    loaded_phase = U8(action, 0x9B);
-
-advance_phase:
-    U8(action, 0x9B) = loaded_phase + 1;
-    return;
-
-finish_action:
-    if (!(U16(sprite, 0x14) & 0xE000)) {
-        return;
-    }
-    func_800A2B04(motion, U8(sprite, 0x24), U8(sprite, 0x25));
-    func_800AD594(actor, 0x100);
-    PTR(action, 0x8C) = &D_80170E68;
-    dungeonStatus.unk_0C = 0;
-    func_800A4ACC(actor);
-    if (S8(actor, 0x6D) == 0) {
-        U16(actor, 0x46) &= 0x7FFF;
-    } else {
-        D_800E3DE8 = (u8 *)actor - 0x20;
-    }
-
-    return;
 }
-

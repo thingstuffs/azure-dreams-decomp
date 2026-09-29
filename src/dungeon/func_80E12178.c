@@ -33,39 +33,30 @@ void func_80175978(FuncState *motion, void *position, FuncOutput *output) {
 
     frame_count = motion->count + 1;
     motion->count = frame_count;
-    if (motion->state != 0) {
-        if (motion->state == 1)
-            goto special_case;
-        object = (void *)((s8 *)motion - 0x20);
-        goto common_call;
+    switch (motion->state) {
+    case 0:
+        output->value = output->value + 0x40;
+        output->count = output->value;
+        motion->value0 = motion->value0 + motion->step0;
+        ((s32 *)position)[0] = motion->value0;
+        motion->value1 = motion->value1 + motion->step1;
+        ((s32 *)position)[1] = motion->value1;
+        motion->value2 = motion->value2 + motion->step2;
+        ((s32 *)position)[2] = motion->value2 - ((func_800644B8((s16)motion->count << 6) >> 4) * 0xC000);
+        if ((s16)motion->count >= 0x20) {
+            motion->count = 0;
+            motion->state = motion->state + 1;
+        }
+        break;
+    case 1:
+        if ((s16)frame_count < 4) {
+            break;
+        }
+        *((u16 *)motion - 1) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
     }
-
-    output->value = output->value + 0x40;
-    output->count = output->value;
-    motion->value0 = motion->value0 + motion->step0;
-    ((s32 *)position)[0] = motion->value0;
-    motion->value1 = motion->value1 + motion->step1;
-    ((s32 *)position)[1] = motion->value1;
-    motion->value2 = motion->value2 + motion->step2;
-    ((s32 *)position)[2] = motion->value2 - ((func_800644B8((s16)motion->count << 6) >> 4) * 0xC000);
-    if ((s16)motion->count >= 0x20) {
-        motion->count = 0;
-        motion->state = motion->state + 1;
-    }
-    goto state0_tail;
-
-special_case:
-    if ((s16)frame_count < 4) {
-        goto state0_tail;
-    }
-    *((u16 *)motion - 1) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
-
-state0_tail:
     object = (void *)((s8 *)motion - 0x20);
-
-common_call:
     func_800C77D0(object, position, 8, 0x300);
     func_800478B8(output);
     if (output->flags & 0x6000) {

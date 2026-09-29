@@ -41,102 +41,87 @@ void func_80172C98(void *action, EntityRec *motion, void *animation, EntityRec *
     s32 state;
 
     state = ((S_80172C98_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    return;
-
-state_zero:
-    ((S_80172C98_0 *)action)->unk_AE.s = 6;
-    motion->unk_0C =
-        -(((func_80064584(actor->facing) >> 4) << 13) /
-          ((S_80172C98_0 *)action)->unk_AE.s);
-    motion->unk_10 =
-        -(((func_800644B8(actor->facing) >> 4) << 13) /
-          ((S_80172C98_0 *)action)->unk_AE.s);
-    ((S_80172C98_0 *)action)->unk_9B++;
-
-state_one:
-    if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172C98_0 *)action)->unk_9B = 3;
-        motion->unk_0C =
-            motion->unk_10 =
-                motion->flags14 = 0;
-        ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, animation, actor->facing, 1);
-        return;
-    }
-
-    timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
-    ((S_80172C98_0 *)action)->unk_AE.u = timer;
-    if ((s16)timer < 0) {
-        motion->unk_0C =
-            motion->unk_10 =
-                motion->flags14 = 0;
-    }
-
-    if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x6000) {
-        u8 *direction_anims = D_80176488;
-
-        (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
-        func_80047784(
-            animation,
-            direction_anims[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
+    switch (state) {
+    case 0:
         ((S_80172C98_0 *)action)->unk_AE.s = 6;
         motion->unk_0C =
-            ((func_80064584(actor->facing) >> 4) << 14) /
-            ((S_80172C98_0 *)action)->unk_AE.s;
+            -(((func_80064584(actor->facing) >> 4) << 13) /
+              ((S_80172C98_0 *)action)->unk_AE.s);
         motion->unk_10 =
-            ((func_800644B8(actor->facing) >> 4) << 14) /
-            ((S_80172C98_0 *)action)->unk_AE.s;
-        ((S_80172C98_0 *)action)->unk_AE.u--;
-        func_801752EC(action, motion, animation);
-        func_801755A8(action, motion, animation);
-        func_800A56E0(0x80E);
+            -(((func_800644B8(actor->facing) >> 4) << 13) /
+              ((S_80172C98_0 *)action)->unk_AE.s);
         ((S_80172C98_0 *)action)->unk_9B++;
-        ((S_80172C98_0 *)action)->unk_96 = 0;
-    }
-    return;
 
-state_two:
-    timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
-    ((S_80172C98_0 *)action)->unk_AE.u = timer;
-    if ((s16)timer < 0) {
-        motion->unk_0C =
+    case 1:
+        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
+            ((S_80172C98_0 *)action)->unk_9B = 3;
+            motion->unk_0C =
+                motion->unk_10 =
+                    motion->flags14 = 0;
+            ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(actor, animation, actor->facing, 1);
+            return;
+        }
+
+        timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
+        ((S_80172C98_0 *)action)->unk_AE.u = timer;
+        if ((s16)timer < 0) {
+            motion->unk_0C =
+                motion->unk_10 =
+                    motion->flags14 = 0;
+        }
+
+        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x6000) {
+            u8 *direction_anims = D_80176488;
+
+            (*(u8 * *)((u8 *)animation + 0x2C)) = direction_anims;
+            func_80047784(
+                animation,
+                direction_anims[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80172C98_0 *)action)->unk_AE.s = 6;
+            motion->unk_0C =
+                ((func_80064584(actor->facing) >> 4) << 14) /
+                ((S_80172C98_0 *)action)->unk_AE.s;
             motion->unk_10 =
-                motion->flags14 = 0;
-    }
+                ((func_800644B8(actor->facing) >> 4) << 14) /
+                ((S_80172C98_0 *)action)->unk_AE.s;
+            ((S_80172C98_0 *)action)->unk_AE.u--;
+            func_801752EC(action, motion, animation);
+            func_801755A8(action, motion, animation);
+            func_800A56E0(0x80E);
+            ((S_80172C98_0 *)action)->unk_9B++;
+            ((S_80172C98_0 *)action)->unk_96 = 0;
+        }
+        return;
 
-    timer = ((S_80172C98_0 *)action)->unk_96 + 1;
-    ((S_80172C98_0 *)action)->unk_96 = timer;
-    if (((s16)timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, animation, actor->facing, 1);
-        func_800A56E0(0x808);
-    }
+    case 2:
+        timer = ((S_80172C98_0 *)action)->unk_AE.u - 1;
+        ((S_80172C98_0 *)action)->unk_AE.u = timer;
+        if ((s16)timer < 0) {
+            motion->unk_0C =
+                motion->unk_10 =
+                    motion->flags14 = 0;
+        }
 
-state_three:
-    if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(actor, 0x100);
-        func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
-        motion->unk_0C =
-            motion->unk_10 =
-                motion->flags14 = 0;
-        ((S_80172C98_0 *)action)->unk_8C = D_80171094;
-        dungeonStatus.unk_0C = 0;
-        (actor->unk_46) &= 0x7FFF;
-        func_800A4ACC(actor);
+        timer = ((S_80172C98_0 *)action)->unk_96 + 1;
+        ((S_80172C98_0 *)action)->unk_96 = timer;
+        if (((s16)timer == 5) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, animation, actor->facing, 1);
+            func_800A56E0(0x808);
+        }
+
+    case 3:
+        if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
+            func_800AD594(actor, 0x100);
+            func_800A2B04(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
+            motion->unk_0C =
+                motion->unk_10 =
+                    motion->flags14 = 0;
+            ((S_80172C98_0 *)action)->unk_8C = D_80171094;
+            dungeonStatus.unk_0C = 0;
+            (actor->unk_46) &= 0x7FFF;
+            func_800A4ACC(actor);
+        }
     }
 }
