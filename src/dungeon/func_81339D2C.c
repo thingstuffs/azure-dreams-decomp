@@ -10,9 +10,9 @@ typedef struct S_80170D2C_0 {
     u16 unk_1E;
     u16 unk_20;
     u8 pad_22[0x3A];
-    volatile s32 unk_5C;
-    volatile s32 unk_60;
-    volatile s32 unk_64;
+    s32 unk_5C;
+    s32 unk_60;
+    s32 unk_64;
     s32 unk_68;
     s32 unk_6C;
     s32 unk_70;
@@ -62,15 +62,7 @@ extern u8 D_80173B88[];
 
 /* Create an offset object and initialize its motion and render data. */
 void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
-    s32 duration_value;
-    s32 step_divisor;
-    s32 delta_z;
-    s32 delta_y;
-    s32 delta_x;
     s32 fixed_value;
-    s32 fixed_value_2;
-    s32 rounded_y;
-    s32 rounded_z;
     u8 *obj;
     u8 *work;
     u8 *prim;
@@ -96,34 +88,13 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         ((S_80170D2C_0 *)work)->unk_1C = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_00.at02.v;
         fixed_value = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_04.at02.v;
         ((S_80170D2C_0 *)work)->unk_1E = fixed_value;
-        fixed_value = duration << 16;
-        duration_value = fixed_value >> 16;
         ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)((u8 *)(&D_80083780)))->unk_08.at02.v;
-        step_divisor = duration_value;
-        fixed_value_2 = -(offset_x << 16);
-        if (duration_value < 0) {
-            step_divisor = duration_value + 7;
-        }
-        step_divisor >>= 3;
-        delta_x = fixed_value_2 / step_divisor;
-        ((S_80170D2C_0 *)work)->unk_5C = delta_x / 2;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        delta_y = -(offset_y << 16) / step_divisor;
-        ((S_80170D2C_0 *)work)->unk_60 = delta_y / 2;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        delta_z = -(offset_z << 16) / step_divisor;
-        ((S_80170D2C_0 *)work)->unk_64 = delta_z / 2;
-        ASM_KEEP(duration_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        rounded_y = delta_x;
-        if (rounded_y < 0) rounded_y += 3;
-        ((S_80170D2C_0 *)work)->unk_68 = rounded_y >> 2;
-        ASM_KEEP(delta_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        rounded_y = delta_y;
-        if (rounded_y < 0) rounded_y += 3;
-        ((S_80170D2C_0 *)work)->unk_6C = rounded_y >> 2;
-        rounded_z = delta_z;
-        if (rounded_z < 0) rounded_z += 3;
-        ((S_80170D2C_0 *)work)->unk_70 = rounded_z >> 2;
+        ((S_80170D2C_0 *)work)->unk_5C = (-(offset_x << 16) / (duration / 8)) / 2;
+        ((S_80170D2C_0 *)work)->unk_60 = (-(offset_y << 16) / (duration / 8)) / 2;
+        ((S_80170D2C_0 *)work)->unk_64 = (-(offset_z << 16) / (duration / 8)) / 2;
+        ((S_80170D2C_0 *)work)->unk_68 = (-(offset_x << 16) / (duration / 8)) / 4;
+        ((S_80170D2C_0 *)work)->unk_6C = (-(offset_y << 16) / (duration / 8)) / 4;
+        ((S_80170D2C_0 *)work)->unk_70 = (-(offset_z << 16) / (duration / 8)) / 4;
         packet = ((S_80170D2C_1 *)obj)->unk_0C;
         ((S_80170D2C_2 *)packet)->unk_1E = 0x1000;
         ((S_80170D2C_2 *)packet)->unk_1C = 0x1000;

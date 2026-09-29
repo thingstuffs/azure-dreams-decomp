@@ -41,7 +41,7 @@ typedef struct S_81959E04_2 {
 /* Spawn a ring of 32 spark objects around (x, y, z), each with the velocity of its angle step. */
 void *func_81959E04(s16 x, s16 y, s16 z) {
     s32 angle;
-    register S_81959E04_1 *part ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_81959E04_1 *part;
     void *obj;
     s32 i;
     s32 scale;
@@ -63,12 +63,7 @@ void *func_81959E04(s16 x, s16 y, s16 z) {
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
         register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
         call_arg1 = D_800C95C0;
-#else
-        call_arg1 = (void *)0x800D0000;
-        call_arg1 = D_800C95C0;
-#endif
         call_arg0 = obj;
         ((S_81959E04_0 *)obj)->unk_10 = &D_80025528;
         func_8004491C(call_arg0, call_arg1);
@@ -76,16 +71,8 @@ void *func_81959E04(s16 x, s16 y, s16 z) {
         part->unk_02 = pos_x;
         part->unk_06 = pos_y;
         part->unk_0A = pos_z;
-        if (func_80064584(angle) & 0x800) {
-            part->unk_0C = (s32) ((func_80064584(angle) | sign_bits) << 0xB);
-        } else {
-            part->unk_0C = (s32) ((func_80064584(angle) & 0x7FF) << 0xB);
-        }
-        if (func_800644B8(angle) & 0x800) {
-            part->unk_10 = (s32) ((func_800644B8(angle) | sign_bits) << 0xB);
-        } else {
-            part->unk_10 = (s32) ((func_800644B8(angle) & 0x7FF) << 0xB);
-        }
+        part->unk_0C = ((func_80064584(angle) & 0x800) ? (func_80064584(angle) | sign_bits) : (func_80064584(angle) & 0x7FF)) << 0xB;
+        part->unk_10 = ((func_800644B8(angle) & 0x800) ? (func_800644B8(angle) | sign_bits) : (func_800644B8(angle) & 0x7FF)) << 0xB;
         part->unk_14 = 0xFFFE0000;
         info = obj + 0x20;
         (*(s16 *)((u8 *)obj + 0x20)) = scale;
