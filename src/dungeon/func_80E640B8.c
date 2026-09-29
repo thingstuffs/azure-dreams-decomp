@@ -71,14 +71,16 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
         ((S_801738B8_0 *)object)->unk_96.s = 4;
         ((S_801738B8_0 *)object)->unk_9B++;
         if (((S_801738B8_1 *)room)->unk_28 == 0) {
-            goto start_action;
+            ((S_801738B8_3 *)motion)->unk_14 = 0;
+            ((S_801738B8_3 *)motion)->unk_10 = 0;
+            ((S_801738B8_3 *)motion)->unk_0C = 0;
+            func_800AAA54(object, motion, actor, D_8017558C);
+            return;
         }
         if (!(((S_801738B8_2 *)actor)->unk_14 & 0x8000)) {
             return;
         }
-        do {
-            ((S_801738B8_0 *)object)->unk_96.s = 0;
-        } while (0);
+        ((S_801738B8_0 *)object)->unk_96.s = 0;
         ((S_801738B8_0 *)object)->unk_9B = 3;
         return;
 
@@ -109,7 +111,6 @@ void func_801738B8(void *object_arg, void *motion_arg, void *actor_arg, void *ro
 
     case 2:
         if (((S_801738B8_1 *)room)->unk_28 == 0) {
-start_action:
             ((S_801738B8_3 *)motion)->unk_14 = 0;
             ((S_801738B8_3 *)motion)->unk_10 = 0;
             ((S_801738B8_3 *)motion)->unk_0C = 0;
@@ -144,9 +145,7 @@ start_action:
         ((S_801738B8_3 *)motion)->unk_10 = 0;
         ((S_801738B8_3 *)motion)->unk_0C = 0;
         ((S_801738B8_0 *)object)->unk_9B++;
-        do {
-            return;
-        } while (0);
+        return;
 
     case 3:
         ((S_801738B8_3 *)motion)->unk_14 = 0;

@@ -78,117 +78,127 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     }
     buffer = (u8 *)buffer_addr;
 
-dispatch:
-    command_idx = cmd->type - 1;
-    words = (u32 *)cmd;
-    if ((u32)command_idx >= 9) {
-        return;
-    }
-    goto *table[command_idx];
-
-case_1:
-    func_8004068C(base + words[1], buffer);
-    LoadImage(&cmd->x, buffer);
-    goto sync;
-
-case_2:
-    LoadImage(&cmd->x, base + words[1]);
-    goto sync;
-
-case_3:
-    vram_offset = cmd->x;
-    tile_count = cmd->y;
-    tile_src = (void *)words[1];
-    flags = cmd->flags;
-    src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
-    goto call_tile;
-
-case_4:
-    raw_flags = (u16)cmd->flags;
-    vram_offset = cmd->x;
-    tile_count = cmd->y;
-    tile_src = (void *)words[1];
-    raw_flags |= 2;
-    src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
-    goto convert_flags;
-
-case_5:
-    src_addr = (s32)(base + words[1]);
-    item_count = (s32)cmd->y << 4;
-    data = (u8 *)src_addr;
-    color = (u16 *)(data + 2);
-    item_idx = 1;
-    while (item_idx < item_count) {
-        *color |= 0x8000;
-        item_idx++;
-        color++;
-    }
-    goto masked_tile;
-
-case_6:
-    src_addr = (s32)(base + words[1]);
-    item_count = cmd->y;
-    data = (u8 *)src_addr;
-    color = (u16 *)data;
-    item_idx = 0;
-    if (item_count != 0) {
-        do {
-            color++;
-            color_idx = 1;
-loop_1:
-            {
-                *color |= 0x8000;
-                color_idx++;
-                color++;
-            }
-            if (color_idx < 16)
-                goto loop_1;
-            item_idx++;
-        } while (item_idx < item_count);
-    }
-
-masked_tile:
-    raw_flags = (u16)cmd->flags;
-    vram_offset = cmd->x;
-    tile_count = cmd->y;
-    raw_flags |= 2;
-convert_flags:
-    flags = (u32)raw_flags << 16;
-    flags >>= 16;
-call_tile:
-    func_8003F80C(src_addr, vram_offset, tile_count, flags);
-sync:
-    DrawSync(0);
-    goto advance;
-
-case_7:
-    func_8004068C(base + words[1], (u8 *)words[2]);
-    goto advance;
-
-case_8:
-    memcpy((void *)words[2], base + words[1], words[3]);
-    goto advance;
-
-case_9:
-    item_idx = cmd->x;
-    data = base + words[1];
-    if (item_idx > 0) {
-        u32 reloc_base = (u32)base | 0x80000000;
-        data += 4;
-loop_1_:
-        {
-            *(u32 *)data += reloc_base;
-            item_idx--;
-            data += 8;
+    while (1) {
+        command_idx = cmd->type - 1;
+        words = (u32 *)cmd;
+        if ((u32)command_idx >= 9) {
+            return;
         }
-        if (item_idx > 0)
-            goto loop_1_;
+        goto *table[command_idx];
+
+    case_1:
+        func_8004068C(base + words[1], buffer);
+        LoadImage(&cmd->x, buffer);
+        DrawSync(0);
+        if (cmd->next == 0) {
+            return;
+        }
+        cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
+        continue;
+
+    case_2:
+        LoadImage(&cmd->x, base + words[1]);
+        DrawSync(0);
+        if (cmd->next == 0) {
+            return;
+        }
+        cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
+        continue;
+
+    case_3:
+        vram_offset = cmd->x;
+        tile_count = cmd->y;
+        tile_src = (void *)words[1];
+        flags = cmd->flags;
+        src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
+        goto call_tile;
+
+    case_4:
+        raw_flags = (u16)cmd->flags;
+        vram_offset = cmd->x;
+        tile_count = cmd->y;
+        tile_src = (void *)words[1];
+        raw_flags |= 2;
+        src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
+        goto convert_flags;
+
+    case_5:
+        src_addr = (s32)(base + words[1]);
+        item_count = (s32)cmd->y << 4;
+        data = (u8 *)src_addr;
+        color = (u16 *)(data + 2);
+        item_idx = 1;
+        while (item_idx < item_count) {
+            *color |= 0x8000;
+            item_idx++;
+            color++;
+        }
+        goto masked_tile;
+
+    case_6:
+        src_addr = (s32)(base + words[1]);
+        item_count = cmd->y;
+        data = (u8 *)src_addr;
+        color = (u16 *)data;
+        item_idx = 0;
+        if (item_count != 0) {
+            do {
+                color++;
+                color_idx = 1;
+                do {
+                    *color |= 0x8000;
+                    color_idx++;
+                    color++;
+                } while (color_idx < 16);
+                item_idx++;
+            } while (item_idx < item_count);
+        }
+
+    masked_tile:
+        raw_flags = (u16)cmd->flags;
+        vram_offset = cmd->x;
+        tile_count = cmd->y;
+        raw_flags |= 2;
+    convert_flags:
+        flags = (u32)raw_flags << 16;
+        flags >>= 16;
+    call_tile:
+        func_8003F80C(src_addr, vram_offset, tile_count, flags);
+        DrawSync(0);
+        goto advance;
+
+    case_7:
+        func_8004068C(base + words[1], (u8 *)words[2]);
+        if (cmd->next == 0) {
+            return;
+        }
+        cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
+        continue;
+
+    case_8:
+        memcpy((void *)words[2], base + words[1], words[3]);
+        if (cmd->next == 0) {
+            return;
+        }
+        cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
+        continue;
+
+    case_9:
+        item_idx = cmd->x;
+        data = base + words[1];
+        if (item_idx > 0) {
+            u32 reloc_base = (u32)base | 0x80000000;
+            data += 4;
+            do {
+                *(u32 *)data += reloc_base;
+                item_idx--;
+                data += 8;
+            } while (item_idx > 0);
+        }
+    advance:
+        if (cmd->next == 0) {
+            return;
+        }
+        cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
     }
-advance:
-    if (cmd->next == 0) {
-        return;
-    }
-    cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
-    goto dispatch;
-    return;
 }

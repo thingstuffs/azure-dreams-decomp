@@ -83,7 +83,8 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, Entit
     case 1:
         fade_ticks = ((S_8017427C_0 *)actor_state)->unk_96.s;
         if (fade_ticks == 0) {
-            goto advance_state;
+            ((S_8017427C_0 *)actor_state)->unk_9B++;
+            break;
         }
         brightness = sprite->unk_0C.at00u.v;
         brightness += (0x80 - brightness) / fade_ticks;
@@ -108,7 +109,6 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, Entit
         sprite->unk_14 &= 0xFFF3;
         func_80174B90(actor_base, (u8 *)actor_data + 0x2A,
                       (u8 *)actor_state + 0x9A, (u8 *)actor_state + 0x98);
-advance_state:
         ((S_8017427C_0 *)actor_state)->unk_9B++;
         break;
 

@@ -34,7 +34,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     u8 *coords;
     void *effect_data;
     GameWork *angle_table;
-    register s32 facing_index ASM_REG("$16");
+
     s32 facing_check;
     u8 *saved_effect;
     void *appearance_type;
@@ -73,12 +73,16 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     angle_table = &gameWork;
     angle_sector =
         (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
-    facing_index = angle_sector & 7;
-    facing_check = facing_index;
-    angle_sector = S16(((u8 *)(owner_data)), 0x94);
-    if (angle_sector != facing_check) {
-        func_80047784(entity, PTR(entity, 0x2C)[facing_check], 0);
-        S16(((u8 *)(owner_data)), 0x94) = facing_index;
+    {
+        u8 sector_check;
+        direction_index = angle_sector & 7;
+        sector_check = direction_index;
+
+        angle_sector = S16(((u8 *)(owner_data)), 0x94);
+        if (angle_sector != sector_check) {
+            func_80047784(entity, PTR(entity, 0x2C)[sector_check], 0);
+            S16(((u8 *)(owner_data)), 0x94) = direction_index;
+        }
     }
 
     U16(entity, 0x14) = U16(appearance, 0x14);
@@ -88,7 +92,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
 
     direction_index =
         (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9 & 7;
-    S16(entity, 6) = (s32)D_800DCECC[direction_index] * 4;
+    S16(entity, 6) = (s32)D_800DCECC[(u8)direction_index] * 4;
     U16(entity, 0x1C) = U16(appearance, 0x1C);
     U16(entity, 0x1E) = U16(appearance, 0x1E);
     U16(entity, 0x12) = U16(appearance, 0x12);

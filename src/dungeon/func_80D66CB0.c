@@ -74,18 +74,14 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, EntityRec *move_d
         }
 
         move_data->facing = heading;
-        if (x == 3) {
-            if (!(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
-                func_80172E0C(motion, actor_index, actor, move_data);
-                ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
-                goto post_state;
-            }
+        if (x == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
+            func_80172E0C(motion, actor_index, actor, move_data);
+            ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
+        } else {
+            ((Rec_func_801724B0_arg0 *)motion)->unk_9A = 0xF;
+            ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
         }
 
-        ((Rec_func_801724B0_arg0 *)motion)->unk_9A = 0xF;
-        ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;
-
-post_state:
         (move_data->flags1C) |= 0x40000000;
         if (dungeonStatus.flags & 0x80) {
             ((Rec_func_801724B0_arg0 *)motion)->unk_96 = 0;
