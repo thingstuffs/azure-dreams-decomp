@@ -62,62 +62,54 @@ void func_80173F0C(void *effect, void *position, void *visual)
     u16 angle;
 
     state = ((S_80173F0C_0 *)effect)->unk_4C.s;
-    if (state == 0) {
-        goto state_zero;
+    switch (state) {
+    case 0:
+        func_800478B8(visual);
+        if (((Rec_D_80082E80 *)visual)->unk_14.at00_u16.v & 0x6000) {
+            ((Rec_D_80082E80 *)visual)->unk_04.as_s8 = 0;
+            ((Rec_D_80082E80 *)visual)->unk_05.as_s8 = 0;
+        }
+        ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v += 0xFFE7E7E8;
+        if ((u8)((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v < 0x30U) {
+            ((S_80173F0C_0 *)effect)->unk_4C.u++;
+        }
+
+        angle = ((S_80173F0C_0 *)effect)->unk_08 + 10;
+        quarter_angle = (s32)(angle << 16) >> 18;
+        ((S_80173F0C_0 *)effect)->unk_08 = angle;
+        ((S_80173F0C_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
+
+        {
+            s32 height_jitter;
+            s32 height;
+
+            height_jitter = rand() & 0x7F;
+
+            height = ((S_80173F0C_0 *)effect)->unk_14;
+            height += 0x140;
+            height += height_jitter;
+            ((S_80173F0C_0 *)effect)->unk_14 = height;
+        }
+        ((S_80173F0C_0 *)effect)->unk_04 += (s32)(((S_80173F0C_0 *)effect)->unk_48 << 16) >> 17;
+        if (((S_80173F0C_0 *)effect)->unk_48 & 1) {
+            ((S_80173F0C_0 *)effect)->unk_08++;
+        }
+
+        transform.field0 = (u8 *)effect + 4;
+        transform.field4 = &transformed_pos;
+        transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
+        transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
+        transform.field18 = 1;
+        transform.field1A = 1;
+        func_800DBA90(&transform);
+        ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
+        ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
+        ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
+        ((S_80173F0C_0 *)effect)->unk_48--;
+        break;
+    case 1:
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    func_800478B8(visual);
-    if (((Rec_D_80082E80 *)visual)->unk_14.at00_u16.v & 0x6000) {
-        ((Rec_D_80082E80 *)visual)->unk_04.as_s8 = 0;
-        ((Rec_D_80082E80 *)visual)->unk_05.as_s8 = 0;
-    }
-    ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v += 0xFFE7E7E8;
-    if ((u8)((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v < 0x30U) {
-        ((S_80173F0C_0 *)effect)->unk_4C.u++;
-    }
-
-    angle = ((S_80173F0C_0 *)effect)->unk_08 + 10;
-    quarter_angle = (s32)(angle << 16) >> 18;
-    ((S_80173F0C_0 *)effect)->unk_08 = angle;
-    ((S_80173F0C_0 *)effect)->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
-
-    {
-        s32 height_jitter;
-        s32 height;
-
-        height_jitter = rand() & 0x7F;
-
-        height = ((S_80173F0C_0 *)effect)->unk_14;
-        height += 0x140;
-        height += height_jitter;
-        ((S_80173F0C_0 *)effect)->unk_14 = height;
-    }
-    ((S_80173F0C_0 *)effect)->unk_04 += (s32)(((S_80173F0C_0 *)effect)->unk_48 << 16) >> 17;
-    if (((S_80173F0C_0 *)effect)->unk_48 & 1) {
-        ((S_80173F0C_0 *)effect)->unk_08++;
-    }
-
-    transform.field0 = (u8 *)effect + 4;
-    transform.field4 = &transformed_pos;
-    transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
-    transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
-    transform.field18 = 1;
-    transform.field1A = 1;
-    func_800DBA90(&transform);
-    ((S_80173F0C_2 *)position)->unk_02 = transformed_pos.x;
-    ((S_80173F0C_2 *)position)->unk_06 = transformed_pos.y;
-    ((S_80173F0C_2 *)position)->unk_0A = transformed_pos.z;
-    ((S_80173F0C_0 *)effect)->unk_48--;
-    return;
-
-state_one:
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

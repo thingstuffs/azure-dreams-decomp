@@ -31,7 +31,6 @@ s32 func_80059E94(s32 size)
     if (first_entry->unk00 != 0) {
         goto loop_start;
     }
-    ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     initial_end = alloc_size + 0x1010;
     {
         u8 initial_reserve_index = D_8007382B[0];

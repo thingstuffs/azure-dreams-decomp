@@ -29,48 +29,34 @@ void func_8016E300(Entity *entity, Position *pos)
     initial_state = entity->state;
     context = context_base + 0x20;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (*(s16 *)(context + 0xAC) == 0x11) {
+            entity->state = initial_state + 1;
+            entity->timer = 0;
+            return;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
+    case 1:
+        pos->y += 0xFFF80000;
+        entity->timer++;
+        if ((s16)entity->timer >= 11) {
+            entity->timer = 0;
+            entity->state++;
+            func_800A56E0(0x516, pos, initial_state, context);
+            return;
+        }
+        return;
+    case 2:
+        pos->y += 0xFFFE0000;
+        entity->timer++;
+        if ((s16)entity->timer >= 20) {
+            u8 *active_context = D_80174CC8[0] + 0x20;
+            *(u16 *)(active_context - 2) |= 0x8000;
+            D_80174CC8[0] = 0;
+            objectFlagBlock.flags |= 0x8000;
+        }
 
-state_0:
-    if (*(s16 *)(context + 0xAC) == 0x11) {
-        entity->state = initial_state + 1;
-        entity->timer = 0;
         return;
     }
-    return;
-
-state_1:
-    pos->y += 0xFFF80000;
-    entity->timer++;
-    if ((s16)entity->timer >= 11) {
-        entity->timer = 0;
-        entity->state++;
-        func_800A56E0(0x516, pos, initial_state, context);
-        return;
-    }
-    return;
-
-state_2:
-    pos->y += 0xFFFE0000;
-    entity->timer++;
-    if ((s16)entity->timer >= 20) {
-        u8 *active_context = D_80174CC8[0] + 0x20;
-        *(u16 *)(active_context - 2) |= 0x8000;
-        D_80174CC8[0] = 0;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-    return;
 }

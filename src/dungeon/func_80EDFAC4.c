@@ -33,48 +33,40 @@ void func_801712C4(void *effect, void *position, s32 update_param)
 
     state = ((S_801712C4_0 *)effect)->unk_17;
     ((S_801712C4_0 *)effect)->unk_32.u = ((S_801712C4_0 *)effect)->unk_32.u - 1;
-    if (state == 0) {
-        goto state_zero;
+    switch (state) {
+    case 0:
+        func_801710B8(effect, position, update_param);
+        func_801710B8(effect, position, update_param);
+        if (((S_801712C4_0 *)effect)->unk_32.s == 0) {
+            ((S_801712C4_0 *)effect)->unk_32.u = 0x10;
+            ((S_801712C4_0 *)effect)->unk_34 = 0x10;
+            ((S_801712C4_0 *)effect)->unk_17++;
+        }
+        ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_00.at00.v;
+        break;
+    case 1:
+        ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
+        ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
+        ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
+        ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
+        ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
+        ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
+
+        ((S_801712C4_0 *)effect)->unk_04.at00.v =
+            (((S_801712C4_0 *)effect)->unk_00.at00u.v * ((S_801712C4_0 *)effect)->unk_32.s) /
+            ((S_801712C4_0 *)effect)->unk_34;
+        ((S_801712C4_0 *)effect)->unk_04.at01.v =
+            (((S_801712C4_0 *)effect)->unk_00.at01.v * ((S_801712C4_0 *)effect)->unk_32.s) /
+            ((S_801712C4_0 *)effect)->unk_34;
+        ((S_801712C4_0 *)effect)->unk_04.at02.v =
+            (((S_801712C4_0 *)effect)->unk_00.at02.v * ((S_801712C4_0 *)effect)->unk_32.s) /
+            ((S_801712C4_0 *)effect)->unk_34;
+        ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_04.at00u.v;
+
+        if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    func_801710B8(effect, position, update_param);
-    func_801710B8(effect, position, update_param);
-    if (((S_801712C4_0 *)effect)->unk_32.s == 0) {
-        ((S_801712C4_0 *)effect)->unk_32.u = 0x10;
-        ((S_801712C4_0 *)effect)->unk_34 = 0x10;
-        ((S_801712C4_0 *)effect)->unk_17++;
-    }
-    ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_00.at00.v;
-    return;
-
-state_one:
-    ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
-    ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
-    ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
-    ((S_801712C4_1 *)position)->unk_00 += ((S_801712C4_0 *)effect)->unk_40;
-    ((S_801712C4_1 *)position)->unk_04 += ((S_801712C4_0 *)effect)->unk_44;
-    ((S_801712C4_1 *)position)->unk_08 += ((S_801712C4_0 *)effect)->unk_48;
-
-    ((S_801712C4_0 *)effect)->unk_04.at00.v =
-        (((S_801712C4_0 *)effect)->unk_00.at00u.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-        ((S_801712C4_0 *)effect)->unk_34;
-    ((S_801712C4_0 *)effect)->unk_04.at01.v =
-        (((S_801712C4_0 *)effect)->unk_00.at01.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-        ((S_801712C4_0 *)effect)->unk_34;
-    ((S_801712C4_0 *)effect)->unk_04.at02.v =
-        (((S_801712C4_0 *)effect)->unk_00.at02.v * ((S_801712C4_0 *)effect)->unk_32.s) /
-        ((S_801712C4_0 *)effect)->unk_34;
-    ((S_801712C4_0 *)effect)->unk_08 = ((S_801712C4_0 *)effect)->unk_04.at00u.v;
-
-    if (((S_801712C4_0 *)effect)->unk_32.s <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-    return;
 }

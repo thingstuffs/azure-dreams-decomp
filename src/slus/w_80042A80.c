@@ -29,8 +29,8 @@ s32 func_80042A80(S_80042A80_Item *item)
 {
   S_80042A80_CategoryEntry *category;
   s32 item_flags;
-  s16 record_flags;
   u8 kind;
+  u32 category_index;
   if (D_80082E6A[0] != 2)
   {
     return 0;
@@ -51,14 +51,14 @@ s32 func_80042A80(S_80042A80_Item *item)
   }
   {
     S_80042A80_CategoryEntry *categories = itemCategoryTable;
-    u32 category_index = ((volatile S_80042A80_Item *) item)->f1;
+    category_index = ((volatile S_80042A80_Item *) item)->f1;
     category = &categories[category_index];
   }
   if (category->kind != 0)
   {
     return 0;
   }
-  record_flags = category->records[item->f0].f0 & 0x400;
-  ASM_KEEP(record_flags);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-  return record_flags;
+  category_index = category->records[item->f0].f0;
+  category_index &= 0x400;
+  return (s16)category_index;
 }

@@ -58,15 +58,13 @@ void func_800163F4(void) {
         D_8001022C++;
         func_80017068();
         func_8004A918();
-        goto check_init;
+    } else {
+        saved_init_value = 0x80010000;
+
+        saved_init_value = *(u16 *)(saved_init_value + 0x234);
+
+        D_8008146C = (u16)saved_init_value;
     }
-    saved_init_value = 0x80010000;
-
-    saved_init_value = *(u16 *)(saved_init_value + 0x234);
-
-    D_8008146C = (u16)saved_init_value;
-
-check_init:
     globals_base = (u8 *)0x80010000;
     if (D_800DCF4E == 0) {
         D_80080A80 = func_80048D00();
@@ -89,12 +87,10 @@ check_init:
         func_8003F320();
         D_800E3D1C = 0x384;
         *(u16 *)(globals_base + 0x3714) |= 5;
-        goto finish;
+    } else {
+        func_80040AA0(0x11);
+        D_800E3D1C = 0;
     }
-    func_80040AA0(0x11);
-    D_800E3D1C = 0;
-
-finish:
     func_8009FAC4();
     func_800499BC();
     D_800E3CD0 = 0;

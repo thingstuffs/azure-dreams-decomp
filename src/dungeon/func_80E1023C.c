@@ -51,29 +51,26 @@ void func_80173A3C(void *fade_state, void *position, void *sprite, void *entity)
     u16 frames_left;
 
     fade_phase = ((S_80173A3C_0 *)fade_state)->unk_9B;
-    if (fade_phase == 0) {
-        goto begin_fade;
-    }
-    if (fade_phase == 1) {
-        goto update_fade;
-    }
-    return;
+    switch (fade_phase) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
 
-begin_fade:
-    if (dungeonStatus.unk_0A != 0) {
+        ((S_80173A3C_0 *)fade_state)->unk_9B = 1;
+        ((S_80173A3C_1 *)sprite)->unk_10 = 0x20;
+        ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
+        ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
+        ((EntityRec *)entity)->flags1C |= 0x10000000;
+        func_800A56E0(0x805);
+        ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
+        ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
+    case 1:
+        break;
+    default:
         return;
     }
 
-    ((S_80173A3C_0 *)fade_state)->unk_9B = 1;
-    ((S_80173A3C_1 *)sprite)->unk_10 = 0x20;
-    ((S_80173A3C_1 *)sprite)->unk_12 -= 0x80;
-    ((S_80173A3C_1 *)sprite)->unk_14 |= 0xC;
-    ((EntityRec *)entity)->flags1C |= 0x10000000;
-    func_800A56E0(0x805);
-    ((S_80173A3C_1 *)sprite)->unk_0C.at00.v = 0x00808080;
-    ((S_80173A3C_0 *)fade_state)->unk_96.s = 0xC;
-
-update_fade:
     ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at00u.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
     ((S_80173A3C_1 *)sprite)->unk_0C.at01.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at01.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;
     ((S_80173A3C_1 *)sprite)->unk_0C.at02.v -= ((S_80173A3C_1 *)sprite)->unk_0C.at02.v / ((S_80173A3C_0 *)fade_state)->unk_96.s;

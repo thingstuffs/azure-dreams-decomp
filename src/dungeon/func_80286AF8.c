@@ -255,19 +255,21 @@ s32 func_80019AF8(void)
       i = 0;
       do
       {
-        if ((flags[k] > 0) && (rp[k].active != 0))
+        if (!((flags[k] > 0) && (rp[k].active != 0)))
         {
-          goto srch;
+          k++;
+          k = k % n;
+          i++;
         }
-        k++;
-        k = k % n;
-        i++;
+        else
+        {
+          break;
+        }
       }
       while (i < n);
-      srch:
       if (i >= (D_8001F664 * D_8001F660))
       {
-        goto tally;
+        break;
       }
       i = 4;
       oy = k / D_8001F660;
@@ -346,18 +348,17 @@ s32 func_80019AF8(void)
       if (tries < 0)
       {
         i = (D_8001F664 * D_8001F660) - 1;
+        for (; i >= 0; i--)
+        {
+          if ((rp[i].link == 0) && (rp[i].active != 0))
+          {
+            func_8001DC34(&rp[i]);
+          }
+        }
         break;
       }
     }
     while (1);
-    for (; i >= 0; i--)
-    {
-      if ((rp[i].link == 0) && (rp[i].active != 0))
-      {
-        func_8001DC34(&rp[i]);
-      }
-    }
-
     tally:
     D_8001F66A = 0;
 

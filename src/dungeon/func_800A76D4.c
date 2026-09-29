@@ -35,47 +35,46 @@ s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
     u16 effect_count;
     StructArg0 *owner;
 
-    if (phase == 0) goto restore_color;
-    if (phase == 1) goto countdown;
-    return 0;
-
-restore_color:
-    red = effect->unk0C;
-    effect->unk0F++;
-    unused = 0x80 - red;
-    unused = unused / *(volatile u8 *)&effect->unk0F;
-    green = effect->unk0D;
-    green_step = 0x80 - green;
-    green_step = green_step / *(u8 *)&effect->unk0F;
-    blue = effect->unk0E;
-    blue_step = 0x80 - blue;
-    blue_step = blue_step / *(volatile u8 *)&effect->unk0F;
-    red += unused;
-    effect->unk0C = red;
-    green += green_step;
-    effect->unk0D = green;
-    blue += blue_step;
-    effect->unk0E = blue;
-    if (*(volatile u8 *)&effect->unk0F >= 8) {
-        effect->unk0E = 0x80;
-        effect->unk0D = 0x80;
-        effect->unk0C = 0x80;
-        object->unk9B++;
-    }
-    return 0;
-
-countdown:
-    effect->unk0F--;
-    if (effect->unk0F != 0) {
+    switch (phase) {
+    case 0:
+        red = effect->unk0C;
+        effect->unk0F++;
+        unused = 0x80 - red;
+        unused = unused / *(volatile u8 *)&effect->unk0F;
+        green = effect->unk0D;
+        green_step = 0x80 - green;
+        green_step = green_step / *(u8 *)&effect->unk0F;
+        blue = effect->unk0E;
+        blue_step = 0x80 - blue;
+        blue_step = blue_step / *(volatile u8 *)&effect->unk0F;
+        red += unused;
+        effect->unk0C = red;
+        green += green_step;
+        effect->unk0D = green;
+        blue += blue_step;
+        effect->unk0E = blue;
+        if (*(u8 *)&effect->unk0F >= 8) {
+            effect->unk0E = 0x80;
+            effect->unk0D = 0x80;
+            effect->unk0C = 0x80;
+            object->unk9B++;
+        }
+        return 0;
+    case 1:
+        effect->unk0F--;
+        if (effect->unk0F != 0) {
+            return 0;
+        }
+        owner = (StructArg0 *)((u8 *)object - 0x20);
+        func_80044A50(owner);
+        effect->unk12 += 0x80;
+        effect->unk14 &= 0xFFF3;
+        func_8004491C(owner, func_80045340);
+        effect_count = ((u16)dungeonStatus.unk_0A);
+        effect_count--;
+        dungeonStatus.unk_0A = effect_count;
+        return 1;
+    default:
         return 0;
     }
-    owner = (StructArg0 *)((u8 *)object - 0x20);
-    func_80044A50(owner);
-    effect->unk12 += 0x80;
-    effect->unk14 &= 0xFFF3;
-    func_8004491C(owner, func_80045340);
-    effect_count = ((u16)dungeonStatus.unk_0A);
-    effect_count--;
-    dungeonStatus.unk_0A = effect_count;
-    return 1;
 }

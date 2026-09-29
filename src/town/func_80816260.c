@@ -30,51 +30,33 @@ void func_80020260(void *effect) {
     state = ((S_80020260_0 *)effect)->unk_00.s;
     object = ((S_80020260_0 *)effect)->unk_04;
 
-    if (state == 1) {
-        goto state_1;
+    switch (state) {
+    case 0:
+        if (((S_80020260_1 *)object)->unk_36 != 0xFF) {
+            break;
+        }
+        ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
+        ((S_80020260_0 *)effect)->unk_00.u++;
+        break;
+    case 1:
+        color = ((S_80020260_0 *)effect)->unk_08;
+        if (color <= 0x40403F) {
+            ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
+        }
+        if ((((S_80020260_1 *)object)->unk_2A & 1) == 0) {
+            break;
+        }
+        ((S_80020260_0 *)effect)->unk_00.u++;
+        break;
+    case 2:
+        faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
+        ((S_80020260_0 *)effect)->unk_08 = faded_color;
+        if (faded_color <= 0x80808) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (state >= 2) {
-        goto state_ge_2;
-    }
-    if (state == 0) {
-        goto state_0;
-    }
-    return;
-
-state_ge_2:
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
-
-state_0:
-    if (((S_80020260_1 *)object)->unk_36 != 0xFF) {
-        return;
-    }
-    ((S_80020260_0 *)effect)->unk_16 &= 0xFFFD;
-    ((S_80020260_0 *)effect)->unk_00.u++;
-    return;
-
-state_1:
-    color = ((S_80020260_0 *)effect)->unk_08;
-    if (color <= 0x40403F) {
-        ((S_80020260_0 *)effect)->unk_08 = color + 0x80808;
-    }
-    if ((((S_80020260_1 *)object)->unk_2A & 1) == 0) {
-        return;
-    }
-    ((S_80020260_0 *)effect)->unk_00.u++;
-    return;
-
-state_2:
-    faded_color = ((S_80020260_0 *)effect)->unk_08 + (s32)0xFFF7F7F8;
-    ((S_80020260_0 *)effect)->unk_08 = faded_color;
-    if (faded_color <= 0x80808) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-    return;
 }
 
 /* MECHANISM: Retail is a frameless leaf; 0x80020358 is its local epilogue.

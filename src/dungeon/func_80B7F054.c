@@ -116,8 +116,6 @@ void *func_80B7F054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
                 func_800A48F0(work, 1,
                               (func_800A6D30(obj) & 0x3F) | 0x20);
                 part_b->unk_2C = D_80161D4C;
-            } else {
-                goto init_actor;
             }
         }
         saved_part_a = obj;

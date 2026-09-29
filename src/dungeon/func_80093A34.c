@@ -23,17 +23,15 @@ u8 *func_80099194(u8 *src, u8 *dst)
 
         raw_byte = *src;
         byte_test = raw_byte;
-        if (byte_test != 0) {
-            goto nonzero;
+        if (byte_test == 0) {
+            if (table_mode == 0) {
+                break;
+            }
+            table_mode = 0;
+            src++;
+            continue;
         }
-        if (table_mode == 0) {
-            goto done;
-        }
-        table_mode = 0;
-        src++;
-        continue;
 
-nonzero:
         byte_test = byte_test < 0x80;
         if (table_mode != 0) {
             raw_byte = *(volatile u8 *)src;
@@ -49,7 +47,5 @@ nonzero:
             *dst++ = *src++;
         }
     }
-
-done:
     return dst;
 }

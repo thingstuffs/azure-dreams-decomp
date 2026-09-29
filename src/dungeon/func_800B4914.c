@@ -124,17 +124,13 @@ do {
         (*object_slot)->state = D_800B9A78;
         if (part_index == last_part) {
             func_8004491C(objects[2], D_80045C34);
-            goto after_call;
-        }
-
-        {
+        } else {
             Obj *object;
             void *state_def;
             object = *object_slot;
             state_def = func_80045340;
             func_8004491C(object, state_def);
         }
-    after_call:
         transform = (*object_slot)->subA;
         transform->f2 = ((u16)layout->x.w.i);
         transform->f6 = ((u16)layout->y.w.i);
@@ -175,9 +171,7 @@ do {
                 if (part_state->f12 == last_part) {
                     sprite->fC = 0x101080;
                 }
-                goto next;
-            }
-            if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
+            } else if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_B0) != 0) {
                 part_state->fE = 8;
                 part_state->f0 = ((S_800BA074_1 *)global_page)->unk_3D7C + 0xB0;
                 if (part_state->f12 == last_part) {
@@ -187,7 +181,6 @@ do {
         }
     }
 
-next:
     part_index++;
     object_slot++;
     } while (part_index < 3);

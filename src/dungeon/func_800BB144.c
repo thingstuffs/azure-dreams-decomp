@@ -69,14 +69,10 @@ s32 func_800C08A4(u8 *source, u8 *target, s16 action, M2C_UNK context) {
 
     entity = source;
     if (action == 0xD) {
-        if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B == 0x16) {
-            if ((func_800A6D30() & 1) == 0) {
-                goto main_path;
-            }
+        if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((func_800A6D30() & 1) != 0)) {
+            return func_80098864(target, context);
         }
-        return func_80098864(target, context);
     }
-main_path:
     compare_ptr = ((u8 *)D_800E3D7C);
     if (entity == compare_ptr) {
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_128 = target;
@@ -92,7 +88,9 @@ main_path:
                 return 1;
             }
             func_80098B38(target);
-            goto decrement;
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            return 1;
+
         }
         position = ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_00;
         ((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 = (u8) (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_63 & 0xDF);
@@ -121,30 +119,29 @@ main_path:
         }
         func_800A5720(script);
         func_80098B38(target);
-        goto decrement;
-    }
-    script = func_800990FC();
-    external_entity_value = func_80099734(entity, script);
-    external_event_value = func_80099194(&D_800E13E9, external_entity_value);
-    {
-        s32 node_offset;
-        s32 result;
-
-        external_entity_value = func_80099978(external_event_value);
-        result = func_80099194(&D_80089378, external_entity_value);
-        node_offset = external_entity_value - 2;
-        external_entity_value = result;
-        result = func_80099368(target, external_entity_value);
+    } else {
+        script = func_800990FC();
+        external_entity_value = func_80099734(entity, script);
+        external_event_value = func_80099194(&D_800E13E9, external_entity_value);
         {
+            s32 node_offset;
+            s32 result;
 
-            entity_value = external_entity_value;
+            external_entity_value = func_80099978(external_event_value);
+            result = func_80099194(&D_80089378, external_entity_value);
+            node_offset = external_entity_value - 2;
             external_entity_value = result;
-            func_800998C0(node_offset, entity_value);
+            result = func_80099368(target, external_entity_value);
+            {
+
+                entity_value = external_entity_value;
+                external_entity_value = result;
+                func_800998C0(node_offset, entity_value);
+            }
+            func_80099290(func_80099194(&D_8008937C, external_entity_value));
         }
-        func_80099290(func_80099194(&D_8008937C, external_entity_value));
+        func_800A5720(script);
     }
-    func_800A5720(script);
-decrement:
     {
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }

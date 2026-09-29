@@ -56,7 +56,6 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
             ((S_800A5AF0_0 *)transition)->unk_06 = 0x30;
             appearance->unk_1C = 0x1000;
             ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
-            goto end;
         }
     } else if (state == 1) {
         if (((s32)gameWork.unk_010) != 0) {
@@ -71,7 +70,6 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
             ((S_800A5AF0_0 *)transition)->unk_06 = 0x20;
             next_state = next_state + 1;
             ((S_800A5AF0_0 *)transition)->unk_04.u = next_state;
-            goto end;
         }
     } else {
         appearance->unk_0E = (u8)(
@@ -91,5 +89,4 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
             objectFlagBlock.flags |= 0x8000;
         }
     }
-end:
 }

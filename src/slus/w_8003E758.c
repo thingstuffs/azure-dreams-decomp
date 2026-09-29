@@ -432,7 +432,7 @@ process_queue:
                 if (status & 0x40) goto finish;
                 if (status & 0x20) {
                     u8 *status_ptr = &D_800814D2_P[0];
-                    register SlusCdQueueEntry *stream_queue ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                    SlusCdQueueEntry *stream_queue;
                     SlusCdQueueEntry *stream_command;
                     stream_command = 0xFF;
                     stream_queue = D_80083968;

@@ -62,10 +62,7 @@ void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
     S_800B8228_3 *grid_position;
 
     effect = func_8003FC64(0x12);
-    if (effect == NULL)
-        goto failure;
-
-    {
+    if (effect != NULL) {
         func_8004491C(effect, func_80045340);
         ((S_800B8228_0 *)effect)->unk_10 = D_800B80D8;
         position = ((S_800B8228_0 *)effect)->unk_08;
@@ -84,16 +81,11 @@ void *func_800B8228(u32 x, u32 y, s32 z, void *effect_data) {
         *(PackedWord *)((u8 *)effect + 0xB8) = *(PackedWord *)effect_data;
         func_800BC26C(effect, 0, 0, 0);
         func_800A56E0(0x51C);
+    } else {
+        func_800A7A7C((s32)(x << 0xA) >> 0x10,
+                      (s32)(y << 0xA) >> 0x10,
+                      (s32)(z << 0x10) >> 0x10,
+                      D_8006E240, effect_data);
     }
-
-    goto done;
-
-failure:
-    func_800A7A7C((s32)(x << 0xA) >> 0x10,
-                  (s32)(y << 0xA) >> 0x10,
-                  (s32)(z << 0x10) >> 0x10,
-                  D_8006E240, effect_data);
-
-done:
     return effect;
 }

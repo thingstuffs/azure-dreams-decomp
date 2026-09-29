@@ -26,7 +26,7 @@ s32 func_8008CE08(ScratchQuad *scratch) {
         return 1;
     }
     if (scratch->quad.words[3] == 0) {
-        goto return_one;
+        return 1;
     }
 
     scratch->angle0 = func_80065F90(scratch->quad.vals[1], scratch->quad.vals[0]);
@@ -37,7 +37,7 @@ s32 func_8008CE08(ScratchQuad *scratch) {
         return 0;
     }
     if (scratch->quad.words[2] == 0) {
-        goto return_one;
+        return 1;
     }
 
     scratch->angle2 = func_80065F90(scratch->quad.vals[5], scratch->quad.vals[4]);
@@ -46,14 +46,10 @@ s32 func_8008CE08(ScratchQuad *scratch) {
     if (scratch->diff2 >= 2049) {
         return 0;
     }
-    if (scratch->quad.words[1] != 0) {
-        goto have_angle1;
+    if (scratch->quad.words[1] == 0) {
+        return 1;
     }
 
-return_one:
-    return 1;
-
-have_angle1:
     scratch->angle1 = func_80065F90(scratch->quad.vals[3], scratch->quad.vals[2]);
     scratch->angle1 = (scratch->angle1 - scratch->angle0) & 0xFFF;
     if (scratch->angle1 >= 2049) {

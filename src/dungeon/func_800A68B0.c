@@ -48,7 +48,6 @@ s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos,
     s32 axis_pos;
     s16 ticks_left;
     s16 ground_height;
-    u16 steps_left;
     void *hit_object;
 
     move_ticks = ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16;
@@ -101,48 +100,43 @@ object_move_ok:
             actor->unk_71 = 0;
             return 1;
         }
-        if ((func_8009B164(((s16)actor->unk_6A), motion, tile_pos) << 0x10) != 0) {
-            steps_left = ((u16)actor->unk_8A) - 1;
-            actor->unk_8A = steps_left;
-            if ((steps_left << 0x10) > 0) {
-                tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepX));
-                tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepY));
-                ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
-                goto movement_return;
+        if ((func_8009B164(((s16)actor->unk_6A), motion, tile_pos) << 0x10) != 0 && --actor->unk_8A > 0) {
+            tile_pos->unk_24 = (u8) (tile_pos->unk_24 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepX));
+            tile_pos->unk_25 = (u8) (tile_pos->unk_25 + *(((u16) ((s16)actor->unk_6A) >> 9 & 7) + dirStepY));
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 2;
+        } else {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
+            tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
+            func_800A19E4(tile_pos, actor, 3, 6, move_state + 0x9C);
+            ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20, (s16) (((u16)motion->z.w.i) - 0x20));
+            if (ground_height < 0x200) {
+                ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
+                actor->unk_88 = ground_height;
             }
-        }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        ((Rec_func_800A9E70_arg0 *)move_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 0xFFF7);
-        ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_u8 = (u8) tile_pos->unk_26.as_u8;
-        tile_pos->unk_26.as_u8 = func_8009FB34(tile_pos->unk_24, tile_pos->unk_25);
-        func_800A19E4(tile_pos, actor, 3, 6, move_state + 0x9C);
-        ground_height = func_800BCB04((tile_pos->unk_24 << 6) | 0x20, (tile_pos->unk_25 << 6) | 0x20, (s16) (((u16)motion->z.w.i) - 0x20));
-        if (ground_height < 0x200) {
-            ((Rec_func_800A9E70_arg0 *)move_state)->unk_90.at02_s16.v = 0;
-            actor->unk_88 = ground_height;
-        }
-        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-        ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
-        actor->flags1C = (s32) ((actor->flags1C | 0x40000000) & 0xFFDFFFFF);
-        if ((func_8009B88C(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) != 0) {
-            tile_pos->unk_24 = resolved_x;
-            tile_pos->unk_25 = resolved_y;
-            func_800A2B04(motion, tile_pos->unk_24, tile_pos->unk_25);
-            stop_flags = actor->flags1C;
-            stop_x = tile_pos->unk_24;
-            stop_y = tile_pos->unk_25;
-            stop_tile_mask = 0x3000;
-            if (stop_flags & 0x2000) {
-                stop_tile_mask = 0x300;
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+            ((Rec_func_800A9E70_arg0 *)move_state)->unk_96.as_s16 = 0;
+            actor->flags1C = (s32) ((actor->flags1C | 0x40000000) & 0xFFDFFFFF);
+            if ((func_8009B88C(actor, tile_pos->unk_24, tile_pos->unk_25, &resolved_x, &resolved_y) << 0x10) != 0) {
+                tile_pos->unk_24 = resolved_x;
+                tile_pos->unk_25 = resolved_y;
+                func_800A2B04(motion, tile_pos->unk_24, tile_pos->unk_25);
+                stop_flags = actor->flags1C;
+                stop_x = tile_pos->unk_24;
+                stop_y = tile_pos->unk_25;
+                stop_tile_mask = 0x3000;
+                if (stop_flags & 0x2000) {
+                    stop_tile_mask = 0x300;
+                }
+                func_8009A21C(stop_x, stop_y, stop_tile_mask);
+                actor->unk_71 = 0;
+                return 1;
             }
-            func_8009A21C(stop_x, stop_y, stop_tile_mask);
-            actor->unk_71 = 0;
-            return 1;
+            goto common_fail;
         }
-        goto common_fail;
     }
-movement_return:
     return 0;
 }

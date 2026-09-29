@@ -201,10 +201,9 @@ typedef struct S_func_800CDFD8_9 {
 } S_func_800CDFD8_9;
 
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
-void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_bias_in) {
+void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
     s32 screen_y3;
     s32 left_x;
-    s16 half_left_x;
     s32 first_three_visible;
     s16 edge_y;
     s16 bottom_left_x;
@@ -216,7 +215,6 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     s32 *ot_link;
     u32 address_mask;
     u32 packet_address;
-    u32 tag_mask;
     u32 packet_tag;
     u32 packet_header;
     u32 ot_tag;
@@ -224,29 +222,13 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     s32 color3;
     s32 half_width;
     s32 first_two_visible;
-    s32 camera_rot_x;
-    s32 camera_rot_y;
-    s32 camera_rot_z;
-    s32 rotation_delta;
-    s32 rotation_z;
-    s32 rotation_y;
-    u32 scale_x;
-    u32 scale_y;
     s32 vertex2_visible;
     s32 vertex0_visible;
     s32 vertex1_visible;
     s32 vertex3_visible;
-    s32 camera_y;
     u16 height;
-    u16 coord;
-    u16 pivot_x;
-    u16 pivot_y;
-    register u32 width ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 texture_u;
+    u32 width;
     u32 flipped_width;
-    u32 texture_v;
-    register u32 texture_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 packed_v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 screen_bound;
     u32 any_visible;
     u32 depth;
@@ -261,64 +243,40 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     u8 flipped_bottom_v;
     S_func_800CDFD8_8 *quad;
     S_func_800CDFD8_1 *scratch;
-    register u8 *globals_page ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *page_dependency;
     S_func_800CDFD8_6 *matrix_or_part;
     S_func_800CDFD8_7 *part;
     S_func_800CDFD8_4 *render_state;
     S_func_800CDFD8_9 *packet;
-    S_func_800CDFD8_5 *sprite;
-    register s16 depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    S_func_800CDFD8_3 *render_root;
+    s32 camera_rot_x;
+    s32 camera_rot_y;
+    s32 camera_rot_z;
+    s32 rotation_delta;
+    s32 rotation_z;
+    s32 rotation_y;
+    s32 camera_y;
+    void *angles;
+    u32 scale_y;
+    u16 pivot_x;
+    u16 pivot_y;
 
-    texture_right = (u32)(position_in);
-    sprite = sprite_in;
-    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    depth_bias = depth_bias_in;
-    ASM_KEEP_NV(depth_bias);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    {
-        u8 *world_pos;
-        void *screen_pos;
-        void *depth_out;
-        register void *projection_flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        register S_func_800CDFD8_3 *render_root ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        world_pos = (u8 *)0x1F800000;
-        screen_pos = world_pos;
-        ASM_KEEP_NV(screen_pos);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        screen_pos = (void *) ((u32) screen_pos | 0xB8);
-        depth_out = world_pos;
-        ASM_KEEP_NV(depth_out);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_MEMDEP_NV(world_pos, page_dependency, *(void **)((u8 *)(&gameWork)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        scratch = (S_func_800CDFD8_1 *)world_pos;
-        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        render_root = *(void **)((u8 *)(&gameWork));
-        depth_out = (void *) ((u32) depth_out | 0x90);
-        scratch->unk_EC = 0;
-        scratch->unk_8C = 0;
-        scratch->unk_84 = 0;
-        scratch->unk_7C = 0;
-        scratch->unk_74 = 0;
-        scratch->unk_20 = (u8 *)render_root + 0xB0;
-        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_02;
-        projection_flags = world_pos;
-        scratch->unk_00 = coord;
-        ASM_KEEP_MEMDEP_NV(scratch, page_dependency, *(void **)((u8 *)(&gameWork)));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-        globals_page = ((u8 *)(&gameWork)) - 0x3160;
-#else
-        ASM_SET(globals_page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-#endif
-        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_06;
-        projection_flags = (void *) ((u32) projection_flags | 0x94);
-        scratch->unk_02 = coord;
-        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_0A;
-        scratch->unk_04 = coord;
-        packet = render_root->unk_8D0;
-        scratch->unk_C0 = func_80065420((render_state = (S_func_800CDFD8_4 *)(globals_page + 0x3160), world_pos), screen_pos, depth_out, projection_flags);
-    }
-    sprite->unk_14 = (u16) (sprite->unk_14 | 0x8000);
+    scratch = (S_func_800CDFD8_1 *)0x1F800000;
+    render_state = (S_func_800CDFD8_4 *)&gameWork;
+    render_root = gameWork.unk_000;
+    scratch->unk_EC = 0;
+    scratch->unk_8C = 0;
+    scratch->unk_84 = 0;
+    scratch->unk_7C = 0;
+    scratch->unk_74 = 0;
+    scratch->unk_20 = (u8 *)render_root + 0xB0;
+    scratch->unk_00 = position->unk_02;
+    scratch->unk_02 = position->unk_06;
+    scratch->unk_04 = position->unk_0A;
+    packet = render_root->unk_8D0;
+    scratch->unk_C0 = func_80065420((void *)0x1F800000, (void *)0x1F8000B8, (void *)0x1F800090, (void *)0x1F800094);
+    sprite->unk_14 |= 0x8000;
     depth = scratch->unk_C0;
     matrix_or_part = (S_func_800CDFD8_6 *)&D_8006CD30;
-    ASM_KEEP_NV(matrix_or_part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_20 = (s32) (depth * 4);
     depth -= 0xA;
     ot_depth = depth - depth_bias;
@@ -326,102 +284,41 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     if (ot_depth < 0x1D6U) {
         quad = (S_func_800CDFD8_8 *)((u8 *)packet + 7);
         func_800649A0();
-        {
-            void *angles;
-            void *local_matrix;
-            u16 screen_offset;
-            u16 screen_offset_2;
-            angles = scratch;
-            ASM_KEEP_NV(angles);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            screen_offset = scratch->unk_B8;
-            angles = (void *) ((u32) angles | 0x100);
-            ASM_KEEP_NV(angles);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            screen_offset -= 0xA0;
-            scratch->unk_B8 = screen_offset;
-            screen_offset_2 = scratch->unk_BA;
-            camera_rot_x = render_state->unk_C4;
-            camera_rot_y = render_state->unk_C6;
-            camera_rot_z = render_state->unk_C8;
-            screen_offset_2 -= 0x78;
-            scratch->unk_BA = screen_offset_2;
-            scratch->unk_30 = (u32) camera_rot_x;
-            scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
-            scratch->unk_38 = (u32) camera_rot_z;
-            camera_y = scratch->unk_34.unk_34_u16;
-            scratch->unk_100 = (u16) sprite->unk_16;
-            rotation_delta = sprite->unk_1A;
-            rotation_z = render_state->unk_B8;
-            rotation_delta -= camera_y;
-            rotation_z += rotation_delta;
-            scratch->unk_104 = (s16) rotation_z;
-            rotation_y = sprite->unk_18 - 0x100;
-            rotation_y += ((u16) scratch->unk_38 + 0x100) & 0x1FF;
-            scratch->unk_102 = (s16) rotation_y;
-            pivot_x = sprite->unk_20;
-            ASM_SET(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            local_matrix = scratch;
-            ASM_KEEP_NV(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            scratch->unk_E4 = (u32) pivot_x;
-            do {
-                scratch->unk_108 = pivot_x;
-            } while (0);
-            pivot_y = sprite->unk_22;
-            local_matrix = (void *) ((u32) local_matrix | 0xD0);
-            scratch->unk_E8 = (u32) pivot_y;
-            scratch->unk_10A = pivot_y;
-            func_80065820(angles, local_matrix, camera_y);
-        }
-        {
-            void *local_matrix;
-            void *scale;
-            local_matrix = scratch;
-            ASM_KEEP_NV(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            local_matrix = (void *) ((u32) local_matrix | 0xD0);
-            ASM_SET(scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            scale = scratch;
-            ASM_KEEP_NV(scale);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            scale_x = sprite->unk_1C;
-            scale = (void *) ((u32) scale | 0x30);
-            scratch->unk_30 = scale_x;
-            scale_y = sprite->unk_1E;
-            scratch->unk_38 = 0x1000;
-            scratch->unk_34.unk_34_u32 = scale_y;
-            func_80064BC0(local_matrix, scale);
-        }
-        {
-            void *view_matrix;
-            void *local_matrix;
-            void *combined_matrix;
-            view_matrix = matrix_or_part;
-            do {
-                local_matrix = scratch;
-            } while (0);
-            ASM_KEEP_NV(local_matrix);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            local_matrix = (void *) ((u32) local_matrix | 0xD0);
-            ASM_SET(combined_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            combined_matrix = scratch;
-            ASM_KEEP_NV(combined_matrix);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            combined_matrix = (void *) ((u32) combined_matrix | 0x50);
-            func_80064840(view_matrix, local_matrix, combined_matrix);
-        }
-        {
-            void *matrix;
-            matrix = scratch;
-            ASM_KEEP_NV(matrix);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            matrix = (void *) ((u32) matrix | 0x50);
-            func_80064D80(matrix);
-        }
-        {
-            void *matrix;
-            matrix = scratch;
-            ASM_KEEP_NV(matrix);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            matrix = (void *) ((u32) matrix | 0x50);
-            func_80064CF0(matrix);
-        }
+        angles = (void *)0x1F800100;
+        ASM_KEEP_NV(angles);
+        scratch->unk_B8 -= 0xA0;
+        scratch->unk_BA -= 0x78;
+        camera_rot_x = render_state->unk_C4;
+        camera_rot_y = render_state->unk_C6;
+        camera_rot_z = render_state->unk_C8;
+        scratch->unk_30 = (u32) camera_rot_x;
+        scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
+        scratch->unk_38 = (u32) camera_rot_z;
+        camera_y = scratch->unk_34.unk_34_u16;
+        scratch->unk_100 = (u16) sprite->unk_16;
+        rotation_delta = sprite->unk_1A;
+        rotation_z = render_state->unk_B8;
+        rotation_delta -= camera_y;
+        rotation_z += rotation_delta;
+        scratch->unk_104 = (s16) rotation_z;
+        rotation_y = sprite->unk_18 - 0x100;
+        rotation_y += ((u16) scratch->unk_38 + 0x100) & 0x1FF;
+        scratch->unk_102 = (s16) rotation_y;
+        scratch->unk_108 = scratch->unk_E4 = sprite->unk_20;
+        scratch->unk_10A = scratch->unk_E8 = sprite->unk_22;
+        func_80065820(angles, (void *)0x1F8000D0, camera_y);
+        scratch->unk_30 = sprite->unk_1C;
+        scale_y = sprite->unk_1E;
+        scratch->unk_38 = 0x1000;
+        scratch->unk_34.unk_34_u32 = scale_y;
+        func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
+        func_80064840(matrix_or_part, (void *)0x1F8000D0, (void *)0x1F800050);
+        func_80064D80((void *)0x1F800050);
+        func_80064CF0((void *)0x1F800050);
         part = sprite->unk_08;
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
         scratch->unk_24.unk_24_u16 = (u16) sprite->unk_14;
-next_part:
+        for (;;) {
         if (!(part->unk_00 & 0x20)) {
             part_u = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_08;
             scratch->unk_08 = (u32) part_u;
@@ -446,20 +343,17 @@ next_part:
                 scratch->unk_78 = (s16) (flipped_top_x - ((u16) scratch->unk_10 + half_width));
                 scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02) - scratch->unk_108);
                 scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
-                goto x_ready;
-            }
+            } else {
             left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - ((volatile S_func_800CDFD8_1 *)scratch)->unk_108;
-            width = ((volatile S_func_800CDFD8_1 *)scratch)->unk_10;
-            half_left_x = (s16) left_x;
-            half_left_x = (s32) (half_left_x + ((u32) (left_x << 0x10) >> 0x1F)) >> 1;
-            left_x += half_left_x;
+            width = scratch->unk_10;
+            left_x += (s16) left_x / 2;
             scratch->unk_70 = left_x;
-            left_x += (u16) scratch->unk_10 + ((s32) (width + (width >> 0x1F)) >> 1);
+            left_x += (u16) scratch->unk_10 + (s32) width / 2;
             scratch->unk_78 = left_x;
             bottom_left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - scratch->unk_108;
             scratch->unk_80 = bottom_left_x;
             scratch->unk_88 = (s16) (bottom_left_x + (u16) scratch->unk_10);
-x_ready:
+            }
             if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
                 edge_y = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03) - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
                 height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
@@ -468,8 +362,7 @@ x_ready:
                 edge_y -= height;
                 scratch->unk_8A = edge_y;
                 scratch->unk_82 = edge_y;
-                goto y_done;
-            }
+            } else {
             edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03 - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
             height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
             ((volatile S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
@@ -477,7 +370,7 @@ x_ready:
             edge_y = height + edge_y;
             scratch->unk_8A = edge_y;
             scratch->unk_82 = edge_y;
-y_done:
+            }
             func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
             ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A = (u16) (scratch->unk_F2 + scratch->unk_BA);
@@ -513,21 +406,11 @@ y_done:
             any_visible = first_three_visible | vertex3_visible;
             if (any_visible != 0) {
                 sprite->unk_14 = (u16) (sprite->unk_14 & 0x7FFF);
-                texture_right = ((volatile S_func_800CDFD8_1 *)scratch)->unk_10;
-                texture_u = ((volatile S_func_800CDFD8_1 *)scratch)->unk_08;
-                packed_v = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u32;
-                texture_v = ((volatile S_func_800CDFD8_1 *)scratch)->unk_0C;
-                texture_right += texture_u;
-                packed_v += texture_v;
-                packed_v <<= 8;
-                scratch->unk_14.unk_14_u32 = packed_v;
-                packed_v = texture_v;
-                ASM_KEEP_NV(packed_v);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                scratch->unk_10 = texture_right;
-                texture_right = scratch->unk_24.unk_24_u16;
-                packed_v <<= 8;
-                scratch->unk_0C = packed_v;
-                if (texture_right & 0x100) {
+                scratch->unk_10 += scratch->unk_08;
+                scratch->unk_14.unk_14_u32 += scratch->unk_0C;
+                scratch->unk_14.unk_14_u32 <<= 8;
+                scratch->unk_0C <<= 8;
+                if (scratch->unk_24.unk_24_u16 & 0x100) {
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
                 } else {
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_06);
@@ -576,29 +459,24 @@ y_done:
                 }
                 address_mask = 0xFFFFFF;
                 quad = (S_func_800CDFD8_8 *)((u8 *)quad + 0x34);
-                tag_mask = 0xFF000000;
                 ot_entry = (scratch->unk_C0 * 4) + scratch->unk_20;
                 packet_header = packet->unk_00;
                 ot_tag = *ot_entry;
-                packet_tag = (packet_header & tag_mask) | (ot_tag & address_mask);
+                packet_tag = (packet_header & 0xFF000000) | (ot_tag & address_mask);
                 packet_address = (u32) packet & address_mask;
                 packet->unk_00 = packet_tag;
                 ot_link = (scratch->unk_C0 * 4) + scratch->unk_20;
                 packet = (S_func_800CDFD8_9 *)((u8 *)packet + 0x34);
-                *ot_link = (*ot_link & tag_mask) | packet_address;
-                goto advance_part;
+                *ot_link = (*ot_link & 0xFF000000) | packet_address;
             }
-            goto advance_part;
         }
-advance_part:
-        if ((s8) part->unk_00 >= 0) {
-            matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)matrix_or_part + 0xC);
-            part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
-            goto next_part;
+        if ((s8) part->unk_00 < 0) {
+            break;
+        }
+        matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)matrix_or_part + 0xC);
+        part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
         }
         func_80064A40();
-        ((S_func_800CDFD8_3 *)render_state->unk_00)->unk_8D0 = packet;
-        return;
     }
     ((S_func_800CDFD8_3 *)render_state->unk_00)->unk_8D0 = packet;
 }

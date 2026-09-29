@@ -78,93 +78,88 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                           *(s16 *)(actor_bytes + 0x2A));
-    if (target == NULL) {
-        goto return_zero;
-    }
-    if (target == (void *)D_800E3D7C[0]) {
-        if (func_800C8310(target, target) != 0) {
+    if (target != NULL) {
+        if (target == (void *)D_800E3D7C[0]) {
+            if (func_800C8310(target, target) != 0) {
+                return 0;
+            }
+            {
+    #ifdef __mips__
+                s32 slot_index;
+                s16 item_count;
+                s32 *slot_scan;
+    #else
+                s32 slot_index;
+                s16 item_count;
+                s32 *slot_scan;
+    #endif
+                s32 count;
+                slot_index = 0;
+                count = 0;
+                slot_scan = (s32 *)0x80010000;
+                for (;;) {
+                    if (slot_scan[167] != 0) {
+                        count++;
+                    }
+                    slot_scan++;
+                    if (++slot_index >= 20) {
+                        break;
+                    }
+                }
+                item_count = count;
+                if (item_count == 0) {
+                    return 0;
+                }
+                count =
+                    (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
+                slot_index = count + 0x80010000;
+                if (*(u8 *)(slot_index + 0x249) == 0 || *(u8 *)(slot_index + 0x249) == 0x13) {
+                    return 0;
+                }
+                if (*(u8 *)(slot_index + 0x24B) & 0x20) {
+                    return 0;
+                }
+                {
+                    s32 item_data;
+                    s32 *shared_base;
+
+                    item_ptr = (u8 *)(count + 0x80010248);
+                    item_data = *(s32 *)item_ptr;
+                    shared_base = D_80162FE4;
+                    shared_base[0] = item_data;
+
+
+                    func_80098B38(item_ptr, (void *)slot_index);
+                    return (s32)shared_base;
+                }
+            }
+        }
+        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+            return 0;
+        }
+        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
             return 0;
         }
         {
-#ifdef __mips__
-            s32 slot_index;
-            s16 item_count;
-            s32 *slot_scan;
-#else
-            s32 slot_index;
-            s16 item_count;
-            s32 *slot_scan;
-#endif
-            s32 count;
-            slot_index = 0;
-            count = 0;
-            slot_scan = (s32 *)0x80010000;
-            for (;;) {
-                if (slot_scan[167] != 0) {
-                    count++;
-                }
-                slot_scan++;
-                if (++slot_index >= 20) {
-                    break;
-                }
-            }
-            item_count = count;
-            if (item_count == 0) {
-                return 0;
-            }
-            count =
-                (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
-            slot_index = count + 0x80010000;
-            if (*(u8 *)(slot_index + 0x249) == 0) {
-                goto return_zero;
-            }
-            if (*(u8 *)(slot_index + 0x249) == 0x13) {
-                return 0;
-            }
-            if (*(u8 *)(slot_index + 0x24B) & 0x20) {
-                goto entry_zero;
-            }
-            {
-                s32 item_data;
-                s32 *shared_base;
+    #ifdef __mips__
+            s32 *shared_base;
+            s32 *shared_slot;
+    #else
+            s32 *shared_base;
+            s32 *shared_slot;
+    #endif
+            s32 item_data;
 
-                item_ptr = (u8 *)(count + 0x80010248);
-                item_data = *(s32 *)item_ptr;
-                shared_base = D_80162FE4;
-                shared_base[0] = item_data;
+            shared_base = D_80162FE4;
 
+            item_data = *(s32 *)((u8 *)target + 0x48);
+            shared_slot = shared_base;
+            shared_base[0] = item_data;
 
-                func_80098B38(item_ptr, (void *)slot_index);
-                return (s32)shared_base;
-            }
+            *(s32 *)((u8 *)target + 0x48) = 0;
+            return (s32)shared_slot;
         }
+    entry_zero:
     }
-    if (*(u8 *)((u8 *)target + 0x49) == 0) {
-        return 0;
-    }
-    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
-        return 0;
-    }
-    {
-#ifdef __mips__
-        s32 *shared_base;
-        s32 *shared_slot;
-#else
-        s32 *shared_base;
-        s32 *shared_slot;
-#endif
-        s32 item_data;
-
-        shared_base = D_80162FE4;
-
-        item_data = *(s32 *)((u8 *)target + 0x48);
-        shared_slot = shared_base;
-        shared_base[0] = item_data;
-
-        *(s32 *)((u8 *)target + 0x48) = 0;
-        return (s32)shared_slot;
-    }
-entry_zero:
-return_zero:
     return 0;
 }

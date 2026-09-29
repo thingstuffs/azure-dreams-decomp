@@ -263,7 +263,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     register s32 x_step ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 other_x ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 state;
-    register s32 pair_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 pair_value;
     s32 transition_timer;
     register s32 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 phase_value;
@@ -286,9 +286,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     s32 fall_random;
     s32 drop_random;
     s32 init_value;
-    s32 reverse_x_gap;
     s32 bounce_y;
-    s32 other_reverse_x_gap;
     s32 object_index;
     s32 moving_index;
     s32 partner_index;
@@ -297,8 +295,6 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     s32 forward_y_gap;
     s32 other_speed_y;
     s32 other_forward_y_gap;
-    s32 reverse_y_gap;
-    s32 other_reverse_y_gap;
     u16 settle_timer;
     u16 exit_timer;
     u16 start_timer;
@@ -355,10 +351,9 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         loop_1: {
             init_object = ((S_800218E4_2 *)init_slot)->unk_20;
             object_index -= 1;
-            init_object_base = init_object;
-            ASM_KEEP(init_object);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            object_motion = init_object_base + 0x20;
             ((S_800218E4_2 *)init_slot)->unk_04 = (s32) init_object->unk_08;
+            init_object_base = ((S_800218E4_2 *)init_slot)->unk_20;
+            object_motion = init_object_base + 0x20;
             object_motion->unk_18 = init_value;
             object_motion->unk_04.s = 0;
             object_motion->unk_16 = 0;
@@ -372,24 +367,20 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         angle_slot = game + 6;
         init_slot = game + 0xC;
         init_value = 0x04A00000;
-        do {
+        loop_3: {
             ((S_800218E4_6 *)(*(void **) init_slot))->unk_00 = init_flags;
             object_index -= 1;
             ((S_800218E4_6 *)(*(void **) init_slot))->unk_04 = init_value;
             init_position = *(void **) init_slot;
             init_slot -= 4;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            state_value = 0xFFC00000;
-            init_value += state_value;
+            init_value += 0xFFC00000;
             init_position->unk_14 = 0;
-            do {
-                init_position->unk_10 = 0;
-            } while (0);
+            init_position->unk_10 = 0;
             init_position->unk_0C = 0;
             init_position->unk_08 = 0;
             ((S_800218E4_8 *)angle_slot)->unk_3C = 0;
             angle_slot -= 2;
-        } while (object_index >= 0);
+        } if (object_index >= 0) goto loop_3;
         ((S_800218E4_0 *)game)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)game)->unk_2C.s + 1);
         /* fallthrough */
     case 1:
@@ -707,16 +698,18 @@ do {
                 state_value -= pair_value;
                 state_value = abs(state_value);
                 if (state_value < 0x40) {
-                    pair_value = object_position->unk_02;
+                    s32 near_x;
+
+                    near_x = object_position->unk_02;
                     state_value = partner_position->unk_02;
                     collision_value = partner_position->unk_06;
-                    pair_value -= state_value;
+                    near_x -= state_value;
                     state_value = object_position->unk_06;
-                    pair_value = abs(pair_value);
+                    near_x = abs(near_x);
                     state_value -= collision_value;
                     state_value = abs(state_value);
-                    pair_value += state_value;
-                    if (pair_value < 0x38) {
+                    near_x += state_value;
+                    if (near_x < 0x38) {
                         state_value = 0x3FFFF;
                         pair_value = object_position->unk_0C;
                         collision_value = object_position->unk_10;
@@ -740,11 +733,12 @@ do {
                         forward_y_gap = (pair_value - y_step) - other_y;
                         forward_y_gap = abs(forward_y_gap);
                         bounce_x = collision_value + forward_y_gap;
-                        reverse_x_gap = (x_or_distance - x_step) - other_x;
-                        reverse_x_gap = abs(reverse_x_gap);
-                        reverse_y_gap = (pair_value + y_step) - other_y;
-                        reverse_y_gap = abs(reverse_y_gap);
-                        x_or_distance = reverse_x_gap + reverse_y_gap;
+                        x_or_distance = (x_or_distance - x_step) - other_x;
+                        x_or_distance = abs(x_or_distance);
+                        pair_value += y_step;
+                        pair_value -= other_y;
+                        pair_value = abs(pair_value);
+                        x_or_distance += pair_value;
                         state_value = x_or_distance < bounce_x;
                         if (state_value) {
                             state_value = object_velocity->unk_0C.at00.v;
@@ -788,11 +782,12 @@ do {
                         other_forward_y_gap = (pair_value - y_step) - other_y;
                         other_forward_y_gap = abs(other_forward_y_gap);
                         bounce_x = collision_value + other_forward_y_gap;
-                        other_reverse_x_gap = (x_or_distance - x_step) - other_x;
-                        other_reverse_x_gap = abs(other_reverse_x_gap);
-                        other_reverse_y_gap = (pair_value + y_step) - other_y;
-                        other_reverse_y_gap = abs(other_reverse_y_gap);
-                        x_or_distance = other_reverse_x_gap + other_reverse_y_gap;
+                        x_or_distance = (x_or_distance - x_step) - other_x;
+                        x_or_distance = abs(x_or_distance);
+                        pair_value += y_step;
+                        pair_value -= other_y;
+                        pair_value = abs(pair_value);
+                        x_or_distance += pair_value;
                         state_value = x_or_distance < bounce_x;
                         if (state_value) {
                             state_value = partner_velocity->unk_0C.at00.v;

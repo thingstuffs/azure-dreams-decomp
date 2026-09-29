@@ -185,42 +185,36 @@ flags_done:
 
     (*(s32 *)((u8 *)entity_arg + 0x90)) += motion->unk_14;
 
-    if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4)) {
-        floor_height = func_800BCB04(motion->unk_00.at02.v,
+    if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4) && (floor_height = func_800BCB04(motion->unk_00.at02.v,
                               motion->unk_04.at02.v,
-                              (s16)(actor->unk_88.u - 0x20));
-        if (floor_height < 0x200) {
-            actor_height = actor->unk_88.s;
-            if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
-                actor->unk_1C &= 0xF7FFFFFF;
-            } else if (floor_height >= actor_height) {
-                (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
-                motion->unk_14 = 0;
-                actor->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
-            } else {
-                (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - actor->unk_88.u;
-                motion->unk_14 = 0;
-                actor->unk_1C |= 0x08000000;
-                (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
-            }
-            if (actor->unk_1C & 0x40000000) {
-                actor->unk_1C &= 0xBFFFFFFF;
-                floor_height = func_800BCB04(
-                    (((S_8017103C_0 *)monster)->unk_24 << 6) | 0x20,
-                    (((S_8017103C_0 *)monster)->unk_25 << 6) | 0x20,
-                    (s16)(actor->unk_88.u - 0x20));
-                (*(s16 *)((u8 *)entity_arg + 0x92)) +=
-                    actor->unk_88.u - floor_height;
-                actor->unk_88.u = floor_height;
-            }
-            goto finish;
+                              (s16)(actor->unk_88.u - 0x20))) < 0x200) {
+        actor_height = actor->unk_88.s;
+        if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
+            actor->unk_1C &= 0xF7FFFFFF;
+        } else if (floor_height >= actor_height) {
+            (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
+            motion->unk_14 = 0;
+            actor->unk_1C |= 0x08000000;
+            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
+        } else {
+            (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - actor->unk_88.u;
+            motion->unk_14 = 0;
+            actor->unk_1C |= 0x08000000;
+            (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
         }
+        if (actor->unk_1C & 0x40000000) {
+            actor->unk_1C &= 0xBFFFFFFF;
+            floor_height = func_800BCB04(
+                (((S_8017103C_0 *)monster)->unk_24 << 6) | 0x20,
+                (((S_8017103C_0 *)monster)->unk_25 << 6) | 0x20,
+                (s16)(actor->unk_88.u - 0x20));
+            (*(s16 *)((u8 *)entity_arg + 0x92)) +=
+                actor->unk_88.u - floor_height;
+            actor->unk_88.u = floor_height;
+        }
+    } else {
+        actor->unk_1C &= 0xF7FFFFFF;
     }
-
-    actor->unk_1C &= 0xF7FFFFFF;
-
-finish:
     motion->unk_0A =
         actor->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
     ((S_8017103C_0 *)monster)->unk_14 |= 0x40;

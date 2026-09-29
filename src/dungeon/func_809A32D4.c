@@ -166,8 +166,10 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         ((S_80174AD4_3 *)region_page)->unk_8D0 = (u8 *)region_packet + 0xC;
         func_80067E2C(region_packet, (void *)&draw_region);
         func_8006658C(packet_list, region_packet);
+        actor->state++;
     } else if (state == 1) {
         func_8004491C((u8 *)actor - 0x20, D_800CEEFC);
+        actor->state++;
     } else if (state == 3) {
         decay_level = ((S_80174AD4_4 *)effect_data)->unk_0C;
         if (decay_level != 0) {
@@ -178,18 +180,15 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
                 objectFlagBlock.flags |= 0x8000;
             }
         }
-        goto update_output;
     } else {
         rise_level = ((S_80174AD4_4 *)effect_data)->unk_0C;
         if (rise_level < 0xC0) {
             ((S_80174AD4_4 *)effect_data)->unk_0C = rise_level + 0x20;
         }
-        if (actor->field16 == *actor->field10) {
-            goto update_output;
+        if (actor->field16 != *actor->field10) {
+            actor->state++;
         }
     }
-    actor->state++;
-update_output:
     steps_left = 4;
     if (actor->state != 3) {
         output->field02 = ((S_80174AD4_5 *)(actor->field1C))->unk_02;

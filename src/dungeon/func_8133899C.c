@@ -72,9 +72,10 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
             return;
         }
         if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
-            goto clear_58;
+            *(void **)D_80175D58 = 0;
+        } else {
+            *(void **)D_80175D5C = 0;
         }
-        *(void **)D_80175D5C = 0;
         goto finish;
 
     case 10:
@@ -92,7 +93,6 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
             return;
         }
         if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
-clear_58:
             *(void **)D_80175D58 = 0;
         } else {
             *(void **)D_80175D5C = 0;

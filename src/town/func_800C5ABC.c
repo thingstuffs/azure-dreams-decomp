@@ -3,9 +3,9 @@
 
 typedef struct {
     u8 pad0[0x0C];
-    M2C_UNK * volatile field0c;
+    M2C_UNK *field0c;
     u8 pad10[0x40];
-    M2C_UNK (* volatile callback)(void *, s32, void *);
+    M2C_UNK (*callback)(void *, s32, void *);
     u8 pad54[0x10];
     s16 field64;
     u8 pad66[0x0A];
@@ -53,18 +53,15 @@ void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
         if (!(obj->flags71 & 1)) {
             if ((func_800C2F14(obj->field72, obj->field64) << 0x10) == 0) {
                 motion_flags = (u16)(*(u16 *)((u8 *)motion + 0x14) & 0xfffe);
-                goto store_motion_flags;
+            } else {
+                motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
             }
-            goto set_motion_flag;
-        }
-        if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
+        } else if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
             motion_flags = *(u16 *)((u8 *)motion + 0x14);
-            motion_flags &= 0xfffe;
-            goto store_motion_flags;
+                motion_flags &= 0xfffe;
+        } else {
+            motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
         }
-set_motion_flag:
-        motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
-store_motion_flags:
         *(u16 *)((u8 *)motion + 0x14) = motion_flags;
         func_800C2C80(obj, motion, 0, 0);
     }

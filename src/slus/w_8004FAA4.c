@@ -22,9 +22,7 @@ M2C_UNK SD_Call();
 
 /* Update menu selection from directional and side-switch input, with key repeat and sound. */
 void func_8004FAA4(S_8004FAA4_1 *menu) {
-    M2C_UNK target_side;
     GameWork *input;
-    void *target_menu;
     s32 next_index;
     s32 repeat_ticks;
     s32 held_buttons;
@@ -36,11 +34,10 @@ void func_8004FAA4(S_8004FAA4_1 *menu) {
         if (input->buttons & 0xA000) {
             if (((s32)input->unk_010) & 0x2000) {
                 index_delta = 1;
-                goto start_repeat;
-            }
-            if (((s32)input->unk_010) & 0x8000) {
+                menu->unk_38 = 0;
+                menu->unk_28 = 4;
+            } else if (((s32)input->unk_010) & 0x8000) {
                 index_delta = -1;
-start_repeat:
                 menu->unk_38 = 0;
                 menu->unk_28 = 4;
             } else {
@@ -50,11 +47,9 @@ start_repeat:
                     held_buttons = input->buttons;
                     if (held_buttons & 0x2000) {
                         index_delta = 1;
-                        goto repeat_move;
-                    }
-                    if (held_buttons & 0x8000) {
+                        menu->unk_28 = 3;
+                    } else if (held_buttons & 0x8000) {
                         index_delta = -1;
-repeat_move:
                         menu->unk_28 = 3;
                     }
                 } else {
@@ -65,25 +60,19 @@ repeat_move:
         if (index_delta == 0) {
             if (((s32)input->unk_010) & 1) {
                 if (((s32)D_800814A8->unk_B0) != 0) {
-                    target_menu = menu;
-                    target_side = 1;
-                    goto select_target;
+                    next_index = func_8004FD78(menu, 1);
+                    menu->unk_28 = 4;
+                    index_delta = next_index - menu->unk_30;
                 }
             } else if (((s32)input->unk_010) & 2) {
                 if (((s32)D_800814A8->unk_AC) != 0) {
-                    target_menu = menu;
-                    target_side = 0;
-select_target:
-                    next_index = func_8004FD78(target_menu, target_side);
+                    next_index = func_8004FD78(menu, 0);
                     menu->unk_28 = 4;
                     index_delta = next_index - menu->unk_30;
                 }
             }
-            if (index_delta != 0) {
-                goto apply_move;
-            }
-        } else {
-apply_move:
+        }
+        if (index_delta != 0) {
             SD_Call(0x504);
             func_8004FA2C(menu, index_delta);
         }

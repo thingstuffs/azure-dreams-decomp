@@ -123,16 +123,15 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     u8 saved_matrix[0x20];
     register s32 depth_bias ASM_REG("$17") = depth_offset;
     register u8 *scratch ASM_REG("$19");
-    register u32 output_addr ASM_REG("$8");
     register u8 *vector_arg ASM_REG("$4");
     u8 *screen_arg;
-    void *volatile perspective_out;
-    void *volatile flags_out;
+    void *perspective_out;
+    void *flags_out;
     u8 *descriptor;
-    register u8 *vertices ASM_REG("$21");
+    u8 *vertices;
     register u8 *face_end ASM_REG("$20");
-    register u8 *face ASM_REG("$22");
-    u8 *packet_code;
+    u8 *face;
+    u8 *packet_code = (u8 *)0x80080000;
     u8 *render_state;
     u8 *packet;
     u8 packet_flags;
@@ -143,23 +142,19 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     void *vertex_arg;
     void *perspective_arg;
     void *flags_arg;
+    S_800C55F4_9 *global_base;
 
-    ASM_KEEP4_NV(params, record, mesh_data, packet_code);
-    output_addr = 0x1F800000;
-    output_addr |= 0x90;
-    perspective_out = (void *)output_addr;
-    output_addr = 0x1F800000;
+
+    perspective_out = (void *)0x1F800090;
 
     descriptor = (*(u8 ** *)((u8 *)mesh_data + 8));
-    output_addr |= 0x94;
-    flags_out = (void *)output_addr;
-    ASM_CLOBBER("$18");
+    flags_out = (void *)0x1F800094;
+
     vertices = ((S_800C55F4_0 *)descriptor)->unk_00;
     face = ((S_800C55F4_0 *)descriptor)->unk_08;
 
     func_800649A0();
 
-    packet_code = (u8 *)0x80080000;
     vector_arg = (u8 *)0x1F800028;
     screen_arg = (u8 *)0x1F800000;
     ASM_KEEP_NV(screen_arg);
@@ -201,6 +196,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 
+    global_base = (S_800C55F4_9 *)&gameWork;
     render_state = ((S_800C55F4_4 *)packet_code)->unk_3160;
     face_end = face + 0xB;
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
@@ -373,7 +369,5 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         break;
     }
     func_80064A40();
-    output_addr = (u32)(((u8 *)(&gameWork)));
-    ASM_KEEP(output_addr);
-    ((S_800C55F4_10 *)(((S_800C55F4_9 *)(u8 *)output_addr)->unk_00))->unk_8D0 = record;
+    ((S_800C55F4_10 *)(global_base->unk_00))->unk_8D0 = record;
 }

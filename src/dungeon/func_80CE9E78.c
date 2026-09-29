@@ -29,50 +29,38 @@ void func_80173678(Rec_func_80172CC0_arg0 *state, s32 unused, Rec_D_80082E80 *di
     state->unk_9A.as_s8 = 0x10;
     state->unk_9B.as_s8 = 0;
     kind = entity->unk_48;
-    if (kind == 0xE) {
-        goto case_14;
-    }
-    if ((s32) kind < 0xF) {
-        if (kind == 0xD) {
-            goto case_13;
+    switch (kind) {
+    case 0xD:
+        direction_table = D_80175E9C;
+        previous_table = display->unk_2C.as_pu8;
+        if (previous_table == direction_table) {
+            return;
         }
+        display->unk_2C.as_pu8 = direction_table;
+        func_80047784(display,
+                      direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      0);
         return;
-    }
-    if (kind == 0xF) {
-        goto case_15;
-    }
-    return;
-
-case_13:
-    direction_table = D_80175E9C;
-    previous_table = display->unk_2C.as_pu8;
-    if (previous_table == direction_table) {
+    case 0xE:
+        direction_table = D_80175EA4;
+        previous_table = display->unk_2C.as_pu8;
+        if (previous_table == direction_table) {
+            return;
+        }
+        display->unk_2C.as_pu8 = direction_table;
+        func_80047784(display,
+                      direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      0);
         return;
+    case 0xF:
+        direction_table = D_80175EAC;
+        previous_table = display->unk_2C.as_pu8;
+        if (previous_table == direction_table) {
+            return;
+        }
+        display->unk_2C.as_pu8 = direction_table;
+        func_80047784(display,
+                      direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
+                      0);
     }
-    display->unk_2C.as_pu8 = direction_table;
-    func_80047784(display,
-                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
-                  0);
-    return;
-case_14:
-    direction_table = D_80175EA4;
-    previous_table = display->unk_2C.as_pu8;
-    if (previous_table == direction_table) {
-        return;
-    }
-    display->unk_2C.as_pu8 = direction_table;
-    func_80047784(display,
-                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
-                  0);
-    return;
-case_15:
-    direction_table = D_80175EAC;
-    previous_table = display->unk_2C.as_pu8;
-    if (previous_table == direction_table) {
-        return;
-    }
-    display->unk_2C.as_pu8 = direction_table;
-    func_80047784(display,
-                  direction_table[((gameWork.view.viewAngle + entity->unk_2A + 0x100) >> 9) & 7],
-                  0);
 }

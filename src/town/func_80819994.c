@@ -39,10 +39,7 @@ void func_80023994(void *unused, EntityRec *object)
     if (D_800272CA > 0) {
         D_800272CA--;
         D_80083780.unk_0C -= D_80083780.unk_0C >> 1;
-        goto update_height;
-    }
-
-    {
+    } else {
         s16 choice_index;
         u16 choice_id;
         s32 buttons;
@@ -60,21 +57,16 @@ void func_80023994(void *unused, EntityRec *object)
             record_base->unk_0C = (s32)0xFFD00000;
             D_800272CA = 3;
             func_80093CEC(D_800D00C0);
-            goto update_height;
+        } else if ((((s32)button_base->unk_010) & 0x2000) && D_800272C8 < 2) {
+            D_800272C8++;
+            D_80083780.unk_0C = 0x300000;
+            D_800272CA = 3;
+            func_80093CEC(D_800D00C0);
+        } else if (D_80082E80.unk_014 & 0x6000) {
+            func_80093CEC(D_800D0128);
         }
     }
-    if ((((s32)button_base->unk_010) & 0x2000) && D_800272C8 < 2) {
-        D_800272C8++;
-        D_80083780.unk_0C = 0x300000;
-        D_800272CA = 3;
-        func_80093CEC(D_800D00C0);
-        goto update_height;
-    }
-    if (D_80082E80.unk_014 & 0x6000) {
-        func_80093CEC(D_800D0128);
-    }
 
-update_height:
     object->flags14 += 0x1D000;
     if (height_limit < object->z.w.i) {
         object->z.w.i = height_limit;

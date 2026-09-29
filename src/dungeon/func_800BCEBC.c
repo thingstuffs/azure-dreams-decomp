@@ -50,8 +50,11 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
                 return 1;
             }
             if (func_800C2C7C(entity) != 0) {
+                DungeonGlobalStatus *counter;
                 func_80098B38(item);
-                goto finish_action;
+                counter = &dungeonStatus;
+                (*(u16 *)&counter->unk_0A)--;
+                return 1;
             }
             return 0;
         }
@@ -71,12 +74,13 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
     }
     if ((u32)(entity->unk_13 - 3) < 0x2B) {
         if (func_800C2C7C(entity) != 0) {
-            goto finish_action;
+            DungeonGlobalStatus *counter = &dungeonStatus;
+            (*(u16 *)&counter->unk_0A)--;
+            return 1;
         }
         return 0;
     }
     func_800A63B8(entity, item, action_type);
-finish_action:
     {
         DungeonGlobalStatus *counter = &dungeonStatus;
         (*(u16 *)&counter->unk_0A)--;

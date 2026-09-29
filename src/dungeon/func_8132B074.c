@@ -8,7 +8,7 @@ typedef struct S_80172874_0_pre {
 
 typedef struct S_80172874_0 {
     u8 pad_00[0x12];
-    union { s16 s; volatile u16 u; u16 p; } unk_12;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_12;   /* accessed as both */
     u8 pad_14[0x2];
     union { u16 s; s16 u; } unk_16;   /* accessed as both */
     s16 unk_18;
@@ -96,62 +96,53 @@ void func_80172874(void *effect, EntityRec *position, S_80172874_2 *transform)
     current_mode = ((S_80172874_0 *)base)->unk_12.u;
     switch (mode) {
     case 0:
-        goto grow;
+        grow_step = ((S_80172874_0 *)base)->unk_16.s + 1;
+        duration = ((S_80172874_0 *)base)->unk_18;
+        grow_scale = ((s32)(grow_step << 16) >> 9) / duration;
+        ((S_80172874_0 *)base)->unk_16.s = grow_step;
+        transform->unk_0C = grow_scale;
+        transform->unk_0D = grow_scale;
+        transform->unk_0E = grow_scale;
+        if (((S_80172874_0 *)base)->unk_16.u >= 5) {
+            ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
+            return;
+        }
+        return;
     case 1:
-        goto track;
+        {
+            u32 flag_base;
+            flag_base = 0x80170000;
+            if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
+                ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
+                ((S_80172874_0 *)base)->unk_18 = 0x14;
+                ((S_80172874_0 *)base)->unk_16.s = 0x14;
+            }
+            if (owner->unk_2C == D_80174C8C) {
+                ((S_80172874_0 *)base)->unk_18 = 0x14;
+                ((S_80172874_0 *)base)->unk_16.s = 0x14;
+                ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
+            }
+            position->x.v = source->unk_00;
+            position->y.v = source->unk_04;
+            position->z.v = source->unk_08;
+            return;
+        }
     case 2:
-        goto shrink;
+        shrink_step = ((S_80172874_0 *)base)->unk_16.s - 1;
+        shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
+        ((S_80172874_0 *)base)->unk_16.s = shrink_step;
+        transform->unk_0C = shrink_scale;
+        transform->unk_0D = shrink_scale;
+        transform->unk_0E = shrink_scale;
+        if (((S_80172874_0 *)base)->unk_16.u <= 0) {
+            s32 *global_base;
+            global_base = (s32 *)0x80080000;
+            ((S_80172874_0_pre *)base)[-1].unk_00 |= 0x8000;
+            ((S_80172874_7 *)global_base)->unk_14A0 |= 0x8000;
+        }
+
+        return;
     default:
         return;
     }
-
-grow:
-    grow_step = ((S_80172874_0 *)base)->unk_16.s + 1;
-    duration = ((S_80172874_0 *)base)->unk_18;
-    grow_scale = ((s32)(grow_step << 16) >> 9) / duration;
-    ((S_80172874_0 *)base)->unk_16.s = grow_step;
-    transform->unk_0C = grow_scale;
-    transform->unk_0D = grow_scale;
-    transform->unk_0E = grow_scale;
-    if (((S_80172874_0 *)base)->unk_16.u >= 5) {
-        ((S_80172874_0 *)base)->unk_12.p = ((S_80172874_0 *)base)->unk_12.p + 1;
-        return;
-    }
-    return;
-
-track:
-    {
-        u32 flag_base;
-        flag_base = 0x80170000;
-        if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
-            ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
-            ((S_80172874_0 *)base)->unk_18 = 0x14;
-            ((S_80172874_0 *)base)->unk_16.s = 0x14;
-        }
-        if (owner->unk_2C == D_80174C8C) {
-            ((S_80172874_0 *)base)->unk_18 = 0x14;
-            ((S_80172874_0 *)base)->unk_16.s = 0x14;
-            ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
-        }
-        position->x.v = source->unk_00;
-        position->y.v = source->unk_04;
-        position->z.v = source->unk_08;
-        return;
-    }
-
-shrink:
-    shrink_step = ((S_80172874_0 *)base)->unk_16.s - 1;
-    shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;
-    ((S_80172874_0 *)base)->unk_16.s = shrink_step;
-    transform->unk_0C = shrink_scale;
-    transform->unk_0D = shrink_scale;
-    transform->unk_0E = shrink_scale;
-    if (((S_80172874_0 *)base)->unk_16.u <= 0) {
-        s32 *global_base;
-        global_base = (s32 *)0x80080000;
-        ((S_80172874_0_pre *)base)[-1].unk_00 |= 0x8000;
-        ((S_80172874_7 *)global_base)->unk_14A0 |= 0x8000;
-    }
-
-    return;
 }

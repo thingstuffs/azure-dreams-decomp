@@ -41,17 +41,17 @@ s32 func_801745B4(DungeonArg *selection, u8 *context)
     original_class = D_80073414[selection->group].entries[selection->index].flags & 0x3000;
     item_category_table = D_80073414;
 
-    do {
+    for (; retries_left >= 0; retries_left--) {
         category_index = func_800A6DA4(1, 19);
         candidate_category = (DungeonGroup *)((u32)((u8)category_index * sizeof(DungeonGroup)) + (u32)item_category_table);
 
         if (candidate_category->count == 1 || (u8)category_index == 18 || (u8)category_index == 14) {
-            goto next_try;
+            continue;
         }
 
         item_index = func_800A6DA4(1, (u16)(candidate_category->count - 1));
         if (candidate_category->entries[(u8)item_index].flags & 0x10) {
-            goto next_try;
+            continue;
         }
 
         if (retries_left >= 12) {
@@ -84,10 +84,7 @@ s32 func_801745B4(DungeonArg *selection, u8 *context)
             }
             return 1;
         }
-
-next_try:
-        retries_left--;
-    } while (retries_left >= 0);
+    }
 
     return 0;
 }

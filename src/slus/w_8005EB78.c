@@ -26,25 +26,18 @@ s32 func_8005EB78(s32 voice_mask)
     voice = -1;
     voice_index = 0;
     bit_base = 1;
-    while (voice_index < 24) {
+    for (; voice_index < 24; voice_index++) {
         if ((voice_mask & (bit_base << voice_index)) != 0) {
-            goto found;
+            voice = voice_index;
+            break;
         }
-        voice_index++;
     }
 
-after_loop:
     result = -1;
-    if (voice != result) {
-        goto has_voice;
+    if (voice == result) {
+        return result;
     }
-    return result;
 
-found:
-    voice = voice_index;
-    goto after_loop;
-
-has_voice:
     voice_mask = voice << 4;
     result = (s32)D_80079958.ptr;
     voice_index = D_800794F0[0];

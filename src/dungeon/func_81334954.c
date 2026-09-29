@@ -26,7 +26,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
     actor->unk_71 &= 0x7F;
 
     if (dungeonStatus.flags & 0x2000) {
-        goto shared_failure;
+        return -1;
     }
 
     target_direction = func_800A04F0(
@@ -59,22 +59,18 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
     func_800C7930((u8 *)actor - 0x20, action_id, 8, 0x300);
 
     if ((func_800A2B5C(actor) << 16) == 0) {
-        goto success;
+        action_state->unk_9A.as_s8 = 0x11;
+        action_state->unk_9B.as_s8 = 0;
+        action_state->unk_8C = 0;
+        *(unsigned char *)&actor->unk_84 = 0x80;
+        actor->unk_85 = 32;
+        actor->unk_6D--;
+    
+        func_8009C93C(actor, target, actor->facing, 1, 0);
+        return 1;
     }
 
-shared_failure:
     return -1;
-
-success:
-    action_state->unk_9A.as_s8 = 0x11;
-    action_state->unk_9B.as_s8 = 0;
-    action_state->unk_8C = 0;
-    *(unsigned char *)&actor->unk_84 = 0x80;
-    actor->unk_85 = 32;
-    actor->unk_6D--;
-
-    func_8009C93C(actor, target, actor->facing, 1, 0);
-    return 1;
 }
 
 /* MECHANISM: An unused volatile u64 frame object plus the natural long-lived
