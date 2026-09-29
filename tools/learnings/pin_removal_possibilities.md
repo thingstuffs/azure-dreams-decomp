@@ -109,3 +109,15 @@ combine never links the andi into D's copy; (3) `optimize_reg_copy_1` (local-all
 cfg with -fno-expensive-optimizations cannot produce it - such rows pinned it as `ASM_KEEP_NV(direction)`.
 Side effect: the extra reference optimize_reg_copy_1 adds raises D's allocation priority (prio.py), which can move
 D to an earlier callee-saved register. Candidate shape: `s32 arg = (f >> 9) & 7; u8 check = arg; s32 dir = arg;`.
+
+## Clone transplant + latch keep (round 80, r80_opus_p1: 6 dungeon TILE/DR_MODE clone rows, 57 -> 27 pins)
+
+When several rows are one clone body, the cleanest sibling's body is the canonical text: transplant it (literal call
+arguments such as GetTPage(0,1,0,0), the shared union), write the prologue as plain initialisers, and let the
+schedulers order it (an unfenced prologue reached retail by sched1 birthing boost + LUID ties). A keep that only makes
+a base register OPAQUE to combine (`checks.py` OPAQUE-BASE: without it, PLUS->IOR turns `scratch+4` into `ori`)
+does its job from the loop LATCH as well as from the prologue - moving it there freed every prologue pin.
+Colour/argument register pins: a dead read pinned to $6 next to an `a2 = 0` argument imitates a sched1 dependence
+(the pin's output dep keeps the argument set after the read). Reusing the local as the zero argument
+(`green = zero; f(zero, 1, green, 0)`) gives the true dependence and the a2 preference (func_80AE9000: pin gone,
+retail `move $6,$4`). It does not stack: a second such local is merged by cse (`move $7,$6`).
