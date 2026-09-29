@@ -52,35 +52,28 @@ void func_800A7548(FuncState *effect, FuncArg1 *motion, FuncArg2 *visual) {
         updated_value = effect->remaining - 1;
         effect->remaining = updated_value;
         if ((s16)updated_value > 0) {
-            goto done;
+            break;
         }
         effect->state.unsigned_value = effect->state.unsigned_value + 1;
-        goto done;
-
+        break;
     case 2:
-        goto state_two;
-    default:
-        goto done;
+        updated_value = effect->counter - 1;
+        effect->counter = updated_value;
+        if ((s16)updated_value <= 0) {
+            effect->counter = min_counter;
+        }
+        visual->value_1c = visual->value_1c - (func_800644B8(((s16)effect->counter) << 5) * 2);
+        visual->value_1e = visual->value_1e + (func_800644B8(((s16)effect->counter) << 5) * 4);
+        motion->value_14 = motion->value_14 - 0x20000;
+        updated_value = visual->value_e - 4;
+        visual->value_e = updated_value;
+        visual->value_d = updated_value;
+        visual->value_c = updated_value;
+        if ((s16)visual->value_1c <= 0) {
+            ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        }
+        break;
     }
-
-state_two:
-    updated_value = effect->counter - 1;
-    effect->counter = updated_value;
-    if ((s16)updated_value <= 0) {
-        effect->counter = min_counter;
-    }
-    visual->value_1c = visual->value_1c - (func_800644B8(((s16)effect->counter) << 5) * 2);
-    visual->value_1e = visual->value_1e + (func_800644B8(((s16)effect->counter) << 5) * 4);
-    motion->value_14 = motion->value_14 - 0x20000;
-    updated_value = visual->value_e - 4;
-    visual->value_e = updated_value;
-    visual->value_d = updated_value;
-    visual->value_c = updated_value;
-    if ((s16)visual->value_1c <= 0) {
-        ((u16 *)effect)[-1] = ((u16 *)effect)[-1] | 0x8000;
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-    }
-
-done:
     motion->value_8 = motion->value_8 + motion->value_14;
 }

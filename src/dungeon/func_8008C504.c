@@ -73,13 +73,11 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
     func_800A56E0(0x701);
     return;
     case 1:
-    if (((S_80091C64_0 *)motion)->unk_96.u == 0) {
-        goto tick_hop;
+    if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
+        position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+        position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+        ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
     }
-    position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-    position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-    ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
-tick_hop:
     hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
     if ((hop_frames_left << 0x10) > 0) {
@@ -102,25 +100,23 @@ tick_hop:
     return;
     case 3:
     frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
-    if (frames_left == 0) {
-        goto tick_return;
-    }
-    target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
-    current_x = position->x.w.i - 0x20;
-    position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
-    y_step = ((Rec_D_80082E80 *)entity)->unk_25;
-    y_step <<= 6;
-    y_origin = position->y.w.i - 0x20;
-    {
-        s32 y_numerator = (y_step - y_origin) << 0x10;
+    if (frames_left != 0) {
+        target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
+        current_x = position->x.w.i - 0x20;
+        position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
+        y_step = ((Rec_D_80082E80 *)entity)->unk_25;
+        y_step <<= 6;
+        y_origin = position->y.w.i - 0x20;
+        {
+            s32 y_numerator = (y_step - y_origin) << 0x10;
 
-        y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
-        y_step = y_numerator / y_remaining;
+            y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
+            y_step = y_numerator / y_remaining;
+        }
+        y_work = position->y.v + y_step;
+        position->y.v = y_work;
+        ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
     }
-    y_work = position->y.v + y_step;
-    position->y.v = y_work;
-    ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
-tick_return:
     return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
     ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
     if ((return_frames_left << 0x10) > 0) {
@@ -135,14 +131,11 @@ tick_return:
     case 4:
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
-    if (!(((S_80091C64_1 *)actor)->unk_1C & 0x100000)) {
-        goto default_behavior;
+    if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
+        next_behavior = &D_8008EAC8;
+    } else {
+        next_behavior = &D_8008ACDC;
     }
-    next_behavior = &D_8008EAC8;
-    goto restore_behavior;
-default_behavior:
-    next_behavior = &D_8008ACDC;
-restore_behavior:
     ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
     ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
     ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
