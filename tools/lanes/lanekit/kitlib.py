@@ -208,7 +208,8 @@ def goto_count(text):
     """`goto` statements outside comments: plain `goto label;` AND computed `goto *table[i];` (round 80: an
     honest `switch` in place of a computed-goto dispatch is a readability win the gate must see)."""
     t = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
-    return len(re.findall(r"\bgoto\s+\w+\s*;", t)) + len(re.findall(r"\bgoto\s*\*", t))
+    # each `&&label` in a label array is a jump site too: a switch that replaces the array may add a plain goto
+    return len(re.findall(r"\bgoto\s+\w+\s*;", t)) + len(re.findall(r"\bgoto\s*\*", t)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", t))
 
 
 def admissible(base, cand):
