@@ -40,7 +40,7 @@ failing = {w for w, r in last.items() if r != "MATCH"}
 bad = []
 for f in touched:
     rid = f[4:-2]
-    if rid in by and failing & set(promote.windows_of(by[rid])): bad.append(f)
+    if rid in by and failing & {w.replace(".overlay.yaml", "") for w in promote.windows_of(by[rid])}: bad.append(f)
 print(" ".join(sorted(bad)))
 PY
 )
