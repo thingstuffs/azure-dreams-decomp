@@ -65,7 +65,6 @@ typedef struct S_80173724_4 {
 
 /* Advance an entity through directional motion, fading, and removal. */
 void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     M2C_UNK sound_flags;
     s32 direction_x;
     s32 direction_y;
@@ -81,12 +80,8 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
     direction_offset = ((u16) ((S_80173724_1 *)entity)->unk_6A >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
     direction_y = *(s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
-    if (phase >= 5U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_801708A0[(u32)phase];
-jt_c0:
+    switch (phase) {
+    case 0:
     {
         u32 clear_bit_27 = 0xF7FFFFFF;
         u32 clear_bit_18;
@@ -107,13 +102,13 @@ jt_c0:
         func_800A56E0(0x805);
         ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     }
-jt_c1:
+    case 1:
     (*(s32 *)((u8 *)motion + (0x14))) += 0x1C000;
     if (dungeonStatus.unk_0A != 0) {
         return;
     }
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
-jt_c2:
+    case 2:
     status_flags = ((S_80173724_1 *)entity)->unk_14;
     if (!(status_flags & 0x4000)) {
         goto block_10;
@@ -126,7 +121,7 @@ block_10:
     ((S_80173724_3 *)sprite)->unk_10 = 0x60;
     ((S_80173724_3 *)sprite)->unk_14 |= 0xC;
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
-jt_c3:
+    case 3:
     ((S_80173724_2 *)motion)->unk_14 += 0x1C000;
     if (!(((S_80173724_3 *)sprite)->unk_14 & 0x6000)) {
         return;
@@ -134,7 +129,7 @@ jt_c3:
     ((S_80173724_0 *)anim_state)->unk_96 = 0x80U;
     ((S_80173724_0 *)anim_state)->unk_9B = ((S_80173724_0 *)anim_state)->unk_9B + 1;
     return;
-jt_c4:
+    case 4:
     ((S_80173724_1 *)entity)->unk_1C.s |= 0x10000000;
     ((S_80173724_2 *)motion)->unk_14 += 0x20000;
     brightness = (u8)((S_80173724_0 *)anim_state)->unk_96;
@@ -166,4 +161,7 @@ block_19:
     ((S_80173724_1_pre *)entity)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
     return;
+    default:
+        return;
+    }
 }

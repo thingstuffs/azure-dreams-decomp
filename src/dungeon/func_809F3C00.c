@@ -180,19 +180,9 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
             }
         }
 
-        {
-            static void *const case_labels[] = {
-                &&case_123, &&generic, &&sw_case89, &&sw_case567, &&case_12
-            };
-            u32 action_index = (u32)((((S_80171400_1 *)entity)->unk_46 & 0x3FFF) - 1);
-
-            if (action_index >= 12) {
-                goto generic;
-            }
-            (void)case_labels;
-            goto *D_80170808[action_index];
-        }
-
+        switch ((((S_80171400_1 *)entity)->unk_46 & 0x3FFF) - 1) {
+        case 7:
+        case 8:
 sw_case89:
         if ((func_80172270(actor, context, sprite_in, entity) << 16) != 0) {
             return;
@@ -200,6 +190,9 @@ sw_case89:
         func_80172434(actor, context, sprite_in, entity);
         return;
 
+        case 4:
+        case 5:
+        case 6:
 sw_case567:
         {
             EntityRec *player;
@@ -216,10 +209,14 @@ sw_case567:
         }
         /* fallthrough */
 
+        case 11:
 case_12:
         func_800A9A0C(entity);
         return;
 
+        case 0:
+        case 1:
+        case 2:
 case_123:
         {
             void *anim_table;
@@ -233,9 +230,11 @@ case_123:
             return;
         }
 
+        default:
 generic:
         func_80171B28(actor, context, sprite_in, entity);
         return;
+        }
     }
 
     if (!(((S_80171400_1 *)entity)->unk_1C & 0x2000)) {

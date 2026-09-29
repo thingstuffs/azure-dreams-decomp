@@ -206,19 +206,9 @@ void func_8014D0EC(void *actor, void *context, void *sprite, EntityRec *entity)
             }
         }
 
-        {
-            static void *const dispatch_labels[] = {
-                &&case_123, &&generic, &&sw_case89, &&sw_case567, &&case_12
-            };
-            extern void *const D_8014C808[];
-            u32 behavior_index = (u32)((entity->unk_46 & 0x3FFF) - 1);
-
-            if (behavior_index >= 12) {
-                goto generic;
-            }
-            (void)dispatch_labels;
-            goto *D_8014C808[behavior_index];
-        }
+        switch ((entity->unk_46 & 0x3FFF) - 1) {
+        case 7:
+        case 8:
 sw_case89:
             if ((func_8014DF9C(actor, context, sprite, entity) << 16) != 0) {
                 return;
@@ -226,6 +216,9 @@ sw_case89:
             func_8014E234(actor, context, sprite, entity);
             return;
 
+        case 4:
+        case 5:
+        case 6:
 sw_case567:
         {
             EntityRec *player;
@@ -243,17 +236,23 @@ sw_case567:
         }
             /* fallthrough */
 
+        case 11:
 case_12:
             func_800A9A0C(entity);
             return;
 
+        case 0:
+        case 1:
+        case 2:
 case_123:
             func_800AAF00(actor, context, sprite, D_80151E98, func_8014D0EC);
             return;
 
+        default:
 generic:
             func_8014D854(actor, context, sprite, entity);
             return;
+        }
     }
 
     if (!(((u32)entity->flags1C) & 0x2000)) {
