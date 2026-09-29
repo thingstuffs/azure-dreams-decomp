@@ -163,7 +163,6 @@ typedef struct S_func_800B1364_19 {
 } S_func_800B1364_19;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80089310[];
 s32 func_8003C06C();
 s32 func_8003DE58();
 M2C_UNK func_8003E188();
@@ -224,7 +223,6 @@ extern u8 D_800E3E48[];
 
 /* Advances the item interaction, spawning, initializing, and saving a linked creature. */
 void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_func_800B1364_3 *sprite, S_func_800B1364_4 *actor) {
-    static void *const state_labels[] = { &&align_actor, &&wait_open_anim, &&handle_item_input, &&wait_use_anim, &&finish_cancel, &&create_item_effect, &&show_spawn_effect, &&spawn_creature, &&wait_spawn, &&save_creature, &&finish_creature, &&restore_idle };
     s16 spawn_offset[3];
     register u8 *direction_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 spawn_height;
@@ -273,11 +271,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((M2C_UNK *)&gameWork.unk_000);
 
     state = action->unk_9B;
-    if (state >= 0xCU) {
-        return;
-    }
-    (void)state_labels; goto *D_80089310[(u32)(state)];
-align_actor: {
+    switch ((u32)(state)) {
+    case 0: {
     direction_anim = (u8 *)0x80080000;
     ASM_KEEP_NV(direction_anim);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     direction_base = direction_anim + 0x3160;
@@ -294,7 +289,7 @@ align_actor: {
 turn_actor:
     actor->unk_2A = (s16) ((u16) actor->unk_2A + 0x200);
     return;
-wait_open_anim:
+    case 1:
     sound_timer = action->unk_96 - 1;
     action->unk_96 = sound_timer;
     if ((sound_timer << 0x10) != 0) {
@@ -327,7 +322,7 @@ save_item: {
     D_80081484 = item_word;
     return;
 }
-handle_item_input:
+    case 2:
     sprite_flags = sprite->unk_14;
     if (sprite_flags & 0xE000) {
         goto set_input_anim_flags;
@@ -420,7 +415,7 @@ start_cancel:
     action->unk_8C = NULL;
     action->unk_9B = 4U;
     return;
-wait_use_anim:
+    case 3:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
@@ -434,7 +429,7 @@ wait_use_anim:
 resume_input:
     action->unk_9B = 2U;
     return;
-finish_cancel:
+    case 4:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
@@ -446,7 +441,7 @@ finish_cancel:
         (*(s32 *)&D_800E296C) = event_flags;
     }
     return;
-create_item_effect:
+    case 5:
     item_effect = func_80098CF8(action, position, sprite, &D_80081484);
     if (item_effect == NULL) {
         return;
@@ -455,7 +450,7 @@ create_item_effect:
     action->unk_9A = 0x22;
     action->unk_9B = 6U;
     return;
-show_spawn_effect:
+    case 6:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
@@ -468,7 +463,7 @@ show_spawn_effect:
 place_spawn_effect:
     func_800B8024(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1], position->unk_0A + spawn_offset[2]);
     goto read_next_state;
-spawn_creature:
+    case 7:
     spawn_item = action->unk_C0;
     D_800E2968 = 1;
     creature_variant = func_800A1618(*spawn_item, 2);
@@ -556,7 +551,7 @@ decrement_summon_count:
     }
     summon_state->unk_0A = (s16) ((u16) summon_state->unk_0A - 1);
     return;
-wait_spawn:
+    case 8:
     if (dungeonStatus.unk_0A != 0) {
         return;
     }
@@ -578,7 +573,7 @@ start_store_anim:
     direction_anim = (u8 *) ((u32) (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + (u32) direction_base);
     copy_src = NULL;
     goto play_direction_anim;
-save_creature:
+    case 9:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
@@ -611,7 +606,7 @@ save_creature:
     hidden_creature->unk_14 = (s32) (hidden_creature->unk_14 & 0xFFEFFFFF);
     func_800A56E0(0x704);
     goto read_next_state;
-finish_creature:
+    case 10:
     finished_creature = actor->unk_60;
     if (!(finished_creature->unk_1C & 0x800000)) {
         return;
@@ -639,7 +634,7 @@ play_direction_anim:
 read_next_state:
     action->unk_9B = (u8) (action->unk_9B + 1);
     return;
-restore_idle:
+    case 11:
     final_flags = sprite->unk_14;
     if (!(final_flags & 0xE000)) {
         return;
@@ -647,4 +642,7 @@ restore_idle:
     sprite->unk_14 = (u16) (final_flags & 0xFDFF);
     action->unk_8C = &D_8008ACDC;
     return;
+    default:
+        return;
+    }
 }

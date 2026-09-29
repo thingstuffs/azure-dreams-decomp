@@ -136,7 +136,6 @@ typedef struct {
     Packed4 part[2];
 } Packed8;
 
-extern void *D_80024008[];
 void func_8002401C();
 void func_80024494();
 void func_800249E4();
@@ -154,7 +153,6 @@ extern s32 D_800E3D18;
 
 /* Updates a three-way effect, selects its target, and animates the target color. */
 void func_80024B54(void *effect, void *position) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     M2C_UNK fallback_pos[6];
     Packed8 direction;
     FourWords transform[2];
@@ -195,12 +193,8 @@ void func_80024B54(void *effect, void *position) {
     source_pos = position;
     state_or_heading = ((S_80024B54_0 *)effect)->unk_0A.s;
     ((S_80024B54_0 *)effect)->unk_10 = (u16)(((S_80024B54_0 *)effect)->unk_10 + 1);
-    if ((u32)state_or_heading >= 5U) {
-        goto block_46;
-    }
-    (void)state_labels;
-    goto *D_80024008[(u32)state_or_heading];
-jt_c0:
+    switch ((u32)state_or_heading) {
+    case 0:
     effect_data = (void *)0x800E0000;
     actor_value = (void *)0x80080000;
     next_state_c0 = ((S_80024B54_0 *)effect)->unk_0A.u;
@@ -212,7 +206,7 @@ jt_c0:
     ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c0 + 1);
     ((S_80024B54_1 *)actor_value)->unk_F4 = 0;
     func_80024494(((S_80024B54_0 *)effect)->unk_00 - 0x20, ((S_80024B54_0 *)effect)->unk_04, effect_data);
-jt_c1:
+    case 1:
     if (!(*((S_80024B54_0 *)effect)->unk_04 & 0x80)) {
         goto block_46;
     }
@@ -237,7 +231,7 @@ block_6:
     func_800A56E0(0x4300);
     ((S_80024B54_0 *)effect)->unk_1A = 0;
     return;
-jt_c2:
+    case 2:
     start_delay = ((S_80024B54_0 *)effect)->unk_18 - 1;
     ((S_80024B54_0 *)effect)->unk_18 = start_delay;
     if ((start_delay << 0x10) > 0) {
@@ -344,7 +338,7 @@ block_21:
     ((S_80024B54_0 *)effect)->unk_18 = 0x18U;
     ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c2 + 1);
     goto block_46;
-jt_c3:
+    case 3:
     actor_or_frame = ((S_80024B54_0 *)effect)->unk_14;
     if (actor_or_frame == NULL) {
         goto block_36;
@@ -424,7 +418,7 @@ block_43:
 block_43_store:
     ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c3 + 1);
     goto block_46;
-jt_c4:
+    case 4:
     if (((S_80024B54_0 *)effect)->unk_1A != 0) {
         goto block_46;
     }
@@ -437,6 +431,9 @@ block_45:
     (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_80024B54_0_pre *)effect)[-1].unk_00 | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32)((*(s32 *)((u8 *)(&objectFlagBlock.flags) + 0)) | 0x8000);
     return;
+    default:
+        break;
+    }
 block_46:
     ((S_80024B54_0 *)effect)->unk_1A = 0;
     return;
