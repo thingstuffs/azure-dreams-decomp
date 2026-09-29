@@ -21,10 +21,6 @@ typedef struct S_8014EB4C_0 {
 } S_8014EB4C_0;   /* arg0 in func_8014EB4C */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -59,24 +55,24 @@ void func_8014EB4C(void *action, void *motion, void *sprite, void *actor)
     state = ((S_8014EB4C_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        {
-            u8 *state_anims;
+    {
+        u8 *state_anims;
 
-            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-                break;
-            }
-            state_anims = D_80151574;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
-            func_80047784(sprite,
-                state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
-                0);
-            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
-            ((S_8014EB4C_0 *)action)->unk_98 |= 8;
-            ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
-            ((S_8014EB4C_0 *)action)->unk_9E.s = 5;
-            ((S_8014EB4C_0 *)action)->unk_A4 = 0;
-            ((S_8014EB4C_0 *)action)->unk_9B++;
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+            break;
         }
+        state_anims = D_80151574;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
+        func_80047784(sprite,
+            state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            0);
+        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0x1000;
+        ((S_8014EB4C_0 *)action)->unk_98 |= 8;
+        ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
+        ((S_8014EB4C_0 *)action)->unk_9E.s = 5;
+        ((S_8014EB4C_0 *)action)->unk_A4 = 0;
+        ((S_8014EB4C_0 *)action)->unk_9B++;
+    }
     case 1:
         move_frames = ((S_8014EB4C_0 *)action)->unk_9E.s;
         ((S_8014EB4C_0 *)action)->unk_90 -= ((S_8014EB4C_0 *)action)->unk_A4;
@@ -111,24 +107,24 @@ void func_8014EB4C(void *action, void *motion, void *sprite, void *actor)
             ((S_8014EB4C_0 *)action)->unk_9B++;
         }
     case 2:
-        {
-            u8 *state_anims;
+    {
+        u8 *state_anims;
 
-            if (((EntityRec *)actor)->flags1C & 0x08000000) {
-                ((S_8014EB4C_0 *)action)->unk_98 &= 0xFFF7;
-                ((EntityRec *)motion)->flags14 = 0;
-                ((EntityRec *)motion)->unk_10 = 0;
-                ((EntityRec *)motion)->unk_0C = 0;
-                func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-                state_anims = D_8015157C;
-                (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
-                func_80047784(sprite,
-                    state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
-                    0);
-                ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
-                ((S_8014EB4C_0 *)action)->unk_9B++;
-            }
+        if (((EntityRec *)actor)->flags1C & 0x08000000) {
+            ((S_8014EB4C_0 *)action)->unk_98 &= 0xFFF7;
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            state_anims = D_8015157C;
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = state_anims;
+            func_80047784(sprite,
+                state_anims[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                0);
+            ((Rec_D_80082E80 *)sprite)->unk_1C.at02_s16.v = 0xC00;
+            ((S_8014EB4C_0 *)action)->unk_9B++;
         }
+    }
         break;
     case 3:
         anim_table = D_80151554;

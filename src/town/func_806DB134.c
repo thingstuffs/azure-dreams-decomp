@@ -4,9 +4,6 @@
 #include "m2c_compat.h"
 
 
-
-
-
 typedef struct S_806DB134_1 {
     u8 pad_00[0x50];
     M2C_UNK (*unk_50)(s8 *);
@@ -14,7 +11,6 @@ typedef struct S_806DB134_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 
 
 /* Pass the two-byte command 0x0A, 0x17 to the state callback. */

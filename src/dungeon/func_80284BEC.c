@@ -91,7 +91,7 @@ start:
                 if (--steps > 0) {
                     continue;
                 }
-            success:
+success:
                 result = 1;
                 return result;
             }

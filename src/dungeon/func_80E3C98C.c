@@ -61,7 +61,6 @@ typedef struct S_80E3C98C_7 {
 } S_80E3C98C_7;   /* ((S_80E3C98C_3_pre *)var_s1)[-1].unk_00 in func_80E3C98C */
 
 
-
 extern s32 func_8003F320();
 extern s32 func_80042640();
 extern s32 func_80042710();
@@ -93,7 +92,8 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
         entity = func_800B23F8(((u32)spawn_data->unk_1C.at00_u32.v >> 0xD) & 1,
                                position->unk_24, position->unk_25,
                                spawn_data->unk_88.as_s16,
-                               func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE) + D_800E3548));
+                               func_800A7A38(((s32)(((u16)spawn_data->unk_60.as_s32 - 1) << 0x10) >> 0xE)
+                                   + D_800E3548));
         if (entity != NULL) {
             ((S_80E3C98C_2 *)entity)->unk_14 = 0;
             ((S_80E3C98C_2 *)entity)->unk_1C = 0;
@@ -139,8 +139,8 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
         table_offset = func_800A1BD0(spawn_data);
         table_base = ((u8 *)D_800E3D7C);
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
-                           (s32)table_base);
-        
+                               (s32)table_base);
+
         previous_entity = table_entry->unk_AC;
         table_entry->unk_AC = entity;
         table_entry->unk_E4 = previous_entity;

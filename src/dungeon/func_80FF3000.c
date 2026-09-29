@@ -55,7 +55,7 @@ extern M2C_UNK D_8015C088;
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80FF3000")
-    __attribute__((section(".text.func_80FF3000"), aligned(4))) = {
+__attribute__((section(".text.func_80FF3000"), aligned(4))) = {
     0x801588a8, 0x80158a7c, 0x801592b8, 0x801592b8,
     0x801592b8, 0x801592e4, 0x80159264, 0x80159264,
     0x80159264, 0x801591f4, 0x801591e4, 0x801592e4,
@@ -77,9 +77,9 @@ __asm__(".globl func_80FF3000\n"
 
 void *BODY_NAME(s16, s32, s32, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_80FF3000")))
+__attribute__((section(".text.func_80FF3000")))
 #endif
-    ;
+;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
 void *BODY_NAME(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {

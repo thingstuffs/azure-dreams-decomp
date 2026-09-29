@@ -201,28 +201,36 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
         }
         for (col = 1; col >= 0; col--) {
             pixel_pair_0 = scratch->n[0];
-            if ((scratch->word >> (col + 6)) & 1) pixel_pair_0 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 6)) & 1)
+                pixel_pair_0 |= 1 << (col * 4);
             scratch->n[0] = pixel_pair_0;
             pixel_pair_1 = scratch->n[1];
-            if ((scratch->word >> (col + 4)) & 1) pixel_pair_1 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 4)) & 1)
+                pixel_pair_1 |= 1 << (col * 4);
             scratch->n[1] = pixel_pair_1;
             pixel_pair_2 = scratch->n[2];
-            if ((scratch->word >> (col + 2)) & 1) pixel_pair_2 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 2)) & 1)
+                pixel_pair_2 |= 1 << (col * 4);
             scratch->n[2] = pixel_pair_2;
             pixel_pair_3 = scratch->n[3];
-            if ((scratch->word >> col) & 1) pixel_pair_3 |= 1 << (col * 4);
+            if ((scratch->word >> col) & 1)
+                pixel_pair_3 |= 1 << (col * 4);
             scratch->n[3] = pixel_pair_3;
             pixel_pair_4 = scratch->n[4];
-            if ((scratch->word >> (col + 14)) & 1) pixel_pair_4 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 14)) & 1)
+                pixel_pair_4 |= 1 << (col * 4);
             scratch->n[4] = pixel_pair_4;
             pixel_pair_5 = scratch->n[5];
-            if ((scratch->word >> (col + 12)) & 1) pixel_pair_5 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 12)) & 1)
+                pixel_pair_5 |= 1 << (col * 4);
             scratch->n[5] = pixel_pair_5;
             pixel_pair_6 = scratch->n[6];
-            if ((scratch->word >> (col + 10)) & 1) pixel_pair_6 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 10)) & 1)
+                pixel_pair_6 |= 1 << (col * 4);
             scratch->n[6] = pixel_pair_6;
             pixel_pair_7 = scratch->n[7];
-            if ((scratch->word >> (col + 8)) & 1) pixel_pair_7 |= 1 << (col * 4);
+            if ((scratch->word >> (col + 8)) & 1)
+                pixel_pair_7 |= 1 << (col * 4);
             scratch->n[7] = pixel_pair_7;
         }
         *scratch->p0++ = 0;
@@ -247,14 +255,38 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
             if (scratch->p0[0] & 0xF0) {
                 scratch->mask = 0;
                 scratch->cnt = 0;
-                if (scratch->p0[-11] & 0x0F) { scratch->mask |= 0x80; scratch->cnt++; }
-                if (scratch->p0[-10] & 0xF0) { scratch->mask |= 0x40; scratch->cnt++; }
-                if (scratch->p0[-10] & 0x0F) { scratch->mask |= 0x20; scratch->cnt++; }
-                if (scratch->p0[-1] & 0x0F) { scratch->mask |= 0x01; scratch->cnt++; }
-                if (scratch->p0[0] & 0x0F) { scratch->mask |= 0x10; scratch->cnt++; }
-                if (scratch->p0[9] & 0x0F) { scratch->mask |= 0x02; scratch->cnt++; }
-                if (scratch->p0[10] & 0xF0) { scratch->mask |= 0x04; scratch->cnt++; }
-                if (scratch->p0[10] & 0x0F) { scratch->mask |= 0x08; scratch->cnt++; }
+                if (scratch->p0[-11] & 0x0F) {
+                    scratch->mask |= 0x80;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[-10] & 0xF0) {
+                    scratch->mask |= 0x40;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[-10] & 0x0F) {
+                    scratch->mask |= 0x20;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[-1] & 0x0F) {
+                    scratch->mask |= 0x01;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[0] & 0x0F) {
+                    scratch->mask |= 0x10;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[9] & 0x0F) {
+                    scratch->mask |= 0x02;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[10] & 0xF0) {
+                    scratch->mask |= 0x04;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[10] & 0x0F) {
+                    scratch->mask |= 0x08;
+                    scratch->cnt++;
+                }
 
                 switch (scratch->cnt) {
                 case 0:
@@ -291,15 +323,18 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
                     break;
                 case 2:
                     for (neighbor_bit = 0; neighbor_bit < 7; neighbor_bit++) {
-                        if ((scratch->mask >> neighbor_bit) & 1) break;
+                        if ((scratch->mask >> neighbor_bit) & 1)
+                            break;
                     }
                     scratch->first = neighbor_bit++;
                     for (; neighbor_bit < 8; neighbor_bit++) {
-                        if ((scratch->mask >> neighbor_bit) & 1) break;
+                        if ((scratch->mask >> neighbor_bit) & 1)
+                            break;
                     }
                     scratch->second = neighbor_bit;
                     gap_offset = neighbor_bit - scratch->first - 3;
-                    if (gap_offset < 3) break;
+                    if (gap_offset < 3)
+                        break;
 
                     scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
                     for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {
@@ -341,14 +376,38 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
             if (scratch->p0[0] & 0x0F) {
                 scratch->mask = 0;
                 scratch->cnt = 0;
-                if (scratch->p0[-10] & 0xF0) { scratch->mask |= 0x80; scratch->cnt++; }
-                if (scratch->p0[-10] & 0x0F) { scratch->mask |= 0x40; scratch->cnt++; }
-                if (scratch->p0[-9] & 0xF0) { scratch->mask |= 0x20; scratch->cnt++; }
-                if (scratch->p0[0] & 0xF0) { scratch->mask |= 0x01; scratch->cnt++; }
-                if (scratch->p0[1] & 0xF0) { scratch->mask |= 0x10; scratch->cnt++; }
-                if (scratch->p0[10] & 0xF0) { scratch->mask |= 0x02; scratch->cnt++; }
-                if (scratch->p0[10] & 0x0F) { scratch->mask |= 0x04; scratch->cnt++; }
-                if (scratch->p0[11] & 0xF0) { scratch->mask |= 0x08; scratch->cnt++; }
+                if (scratch->p0[-10] & 0xF0) {
+                    scratch->mask |= 0x80;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[-10] & 0x0F) {
+                    scratch->mask |= 0x40;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[-9] & 0xF0) {
+                    scratch->mask |= 0x20;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[0] & 0xF0) {
+                    scratch->mask |= 0x01;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[1] & 0xF0) {
+                    scratch->mask |= 0x10;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[10] & 0xF0) {
+                    scratch->mask |= 0x02;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[10] & 0x0F) {
+                    scratch->mask |= 0x04;
+                    scratch->cnt++;
+                }
+                if (scratch->p0[11] & 0xF0) {
+                    scratch->mask |= 0x08;
+                    scratch->cnt++;
+                }
 
                 switch (scratch->cnt) {
                 case 0:
@@ -385,15 +444,18 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
                     break;
                 case 2:
                     for (neighbor_bit = 0; neighbor_bit < 7; neighbor_bit++) {
-                        if ((scratch->mask >> neighbor_bit) & 1) break;
+                        if ((scratch->mask >> neighbor_bit) & 1)
+                            break;
                     }
                     scratch->first = neighbor_bit++;
                     for (; neighbor_bit < 8; neighbor_bit++) {
-                        if ((scratch->mask >> neighbor_bit) & 1) break;
+                        if ((scratch->mask >> neighbor_bit) & 1)
+                            break;
                     }
                     scratch->second = neighbor_bit;
                     gap_offset = neighbor_bit - scratch->first - 3;
-                    if (gap_offset < 3) break;
+                    if (gap_offset < 3)
+                        break;
 
                     scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
                     for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {

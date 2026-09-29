@@ -3,7 +3,6 @@
 #include "records/Rec_D_80174CD8.h"
 
 
-
 extern Rec_D_80174CD8 *D_80174CD8;
 
 /* Returns whether the current record's unk_D2 field is zero. */

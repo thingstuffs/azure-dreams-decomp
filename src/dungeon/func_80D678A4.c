@@ -6,8 +6,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
-
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
@@ -24,10 +22,12 @@ void func_801730A4(void *action_state, M2C_UNK action_context, void *sprite, Ent
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x11;
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             entity->unk_6D = (u8) (((u8)entity->unk_6D) - 1);
-            ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0xFFF7);
+            ((Rec_func_800A9E70_arg0 *)action_state)->unk_98 =
+                (u16) (((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0xFFF7);
             entity->flags1C = (s32) (entity->flags1C & 0xFFFBFFFF);
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_800E2378;
-            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_800E2378), 0);
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7)
+                + &D_800E2378), 0);
             func_8009C93C(entity, sprite, entity->facing, 1, 0);
             entity->unk_84 = 0x7C;
             entity->unk_85 = 0;

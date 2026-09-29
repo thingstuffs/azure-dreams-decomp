@@ -22,13 +22,13 @@ s32 func_808B1704(Func8094D708Object *object)
     func_800166A0(object->field14, object->field1A);
 
 L_CALLBACK:
-{
-    void *callbackObject = object;
-    callbackAddress = (u8 *)((s32)(callbackIndex << 4) + (s32)object->callbacks);
-    callback = *(Func8094D708Callback *)callbackAddress;
-    if (callback(callbackObject, callbackIndex) == 0)
-        return callbackIndex;
-    callbackIndex++;
-    goto L_CALLBACK;
-}
+    {
+        void *callbackObject = object;
+        callbackAddress = (u8 *)((s32)(callbackIndex << 4) + (s32)object->callbacks);
+        callback = *(Func8094D708Callback *)callbackAddress;
+        if (callback(callbackObject, callbackIndex) == 0)
+            return callbackIndex;
+        callbackIndex++;
+        goto L_CALLBACK;
+    }
 }

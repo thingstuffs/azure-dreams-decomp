@@ -102,7 +102,7 @@ typedef struct S_func_819B2800_8 {
 /* Existing-identity DATA-BANK composite: the row owns these seven retail words;
  * the C body begins at the true interior entry 0x819B281C. */
 static const u32 bank_words[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x8002401C, 0x00000000, 0x80024080, 0x800240E8,
     0x800241E8, 0x80024224, 0x80024310
 };
@@ -119,7 +119,9 @@ __asm__(".globl func_80024000\n.type func_80024000,@function\n.size func_8002400
 BODY_STORAGE void BODY_NAME(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) BODY_ATTR;
 /* Advances a timed effect, spawns its visuals, and applies it to nearby targets. */
 BODY_STORAGE void BODY_NAME(S_func_819B2800_0 *effect, S_func_819B2800_1 *position) {
-    static void *const phase_labels[] = { &&init_effect, &&wait_trigger, &&start_effect, &&spawn_visual, &&apply_effect };
+    static void * const phase_labels[] = {
+        && init_effect, && wait_trigger, && start_effect, && spawn_visual, && apply_effect
+    };
     s16 offset[3];
     u16 next_phase;
     u16 timer;
@@ -260,7 +262,8 @@ check_completion:
     }
     dungeonStatus.unk_0C = 0;
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-    ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 | 0x8000);
+    ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00
+        | 0x8000);
     objectFlagBlock.flags |= 0x8000;
     return;
 }

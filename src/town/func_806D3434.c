@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 
-
 M2C_UNK func_80016098();                            /* extern */
 M2C_UNK func_80016510();                    /* extern */
 M2C_UNK func_800168B4();   /* extern */

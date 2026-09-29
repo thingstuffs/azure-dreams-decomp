@@ -10,7 +10,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 #ifdef __mips__
 static const u32 prefix_words[] __asm__("func_80AD7000")
-    __attribute__((section(".text.func_80AD7000"), aligned(4))) = {
+__attribute__((section(".text.func_80AD7000"), aligned(4))) = {
     0x8015F158, 0x8015F320, 0x8015FB54, 0x8015FB54,
     0x8015FB54, 0x8015FB80, 0x8015FB00, 0x8015FB00,
     0x8015FB00, 0x8015FAAC, 0x8015FAE4, 0x8015FB80,

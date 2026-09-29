@@ -5,7 +5,13 @@
 typedef struct S_8196BFB0_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; struct { u8 pad[0x2]; u16 v; } at02p; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+        struct { u8 pad[0x2]; u16 v; } at02p;
+    } unk_08;   /* overlapping accesses */
 } S_8196BFB0_0;   /* arg1 in func_8196BFB0 */
 
 typedef struct S_8196BFB0_1 {
@@ -38,7 +44,6 @@ typedef struct S_8196BFB0_3 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_8196BFB0_3;   /* camera in func_8196BFB0 */
-
 
 
 extern void func_80024AF8(void *arg0, void *arg1, void *arg2,

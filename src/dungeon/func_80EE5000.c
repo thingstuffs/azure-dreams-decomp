@@ -104,7 +104,7 @@ __asm__(".set D_8016A828, 0x8016A828");
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8016A800")
-    __attribute__((section(".text.func_8016A800"), aligned(4))) = {
+__attribute__((section(".text.func_8016A800"), aligned(4))) = {
     0x8016B718, 0x8016B8E0, 0x00000001, 0x00010001,
     0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
     0xFFFF0000, 0xFFFF0001, 0x8016A9E8, 0x8016A9F0,
@@ -127,7 +127,7 @@ __asm__(".globl func_8016A800\n"
 
 void BODY_NAME(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80EE5000_2 *display)
 #ifdef __mips__
-    __attribute__((section(".text.func_8016A800")))
+__attribute__((section(".text.func_8016A800")))
 #endif
 ;
 
@@ -267,7 +267,7 @@ fall:
                       (motion->unk_5D << 6) & 0xFFC0,
                       (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 7 >=
         fall_height)
-        goto repeat_fall;
+    goto repeat_fall;
     position->unk_08.parts.unk_0A = func_800BCB04(
         (motion->unk_5C << 6) & 0xFFC0,
         (motion->unk_5D << 6) & 0xFFC0,
@@ -323,7 +323,8 @@ move:
         if (interp_goal != coord)
             goto update_height;
     }
-    if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16, position->unk_08.parts.unk_0A) << 16) == 0) {
+    if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+        position->unk_08.parts.unk_0A) << 16) == 0) {
         if (func_800BCB04(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
                           position->unk_08.parts.unk_0A) < 0x200)
             goto advance_tile;
@@ -346,7 +347,8 @@ update_height:
     position->unk_08.s32 += motion->unk_74;
     motion->unk_74 += motion->unk_80;
     move_height = position->unk_08.parts.unk_0A;
-    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0, (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+        (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
         position->unk_08.parts.unk_0A = func_800BCB04(
             (motion->unk_5C << 6) & 0xFFC0,
             (motion->unk_5D << 6) & 0xFFC0,
@@ -361,7 +363,7 @@ update_height:
                            (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
                            &position->unk_0E, &position->unk_12,
                            &position->unk_16) << 16) != 0)
-            return;
+        return;
         motion->unk_2C = 2;
         motion->unk_74 = (s32)0xFFF80000;
         return;

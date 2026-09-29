@@ -26,6 +26,7 @@ void func_8065C250(void) {
     s32 *sharedArguments = D_800183D8;
     s32 callbackResult;
 
-    callbackResult = ((S_func_8065C250_2 *)((S_func_8065C250_1 *)dispatchRoot->unk_00)->unk_20)->unk_48(D_800183D0[0], sharedArguments);
+    callbackResult = ((S_func_8065C250_2 *)((S_func_8065C250_1 *)dispatchRoot->unk_00)->unk_20)->unk_48(D_800183D0[0],
+        sharedArguments);
     ((S_func_8065C250_2 *)((S_func_8065C250_1 *)dispatchRoot->unk_00)->unk_20)->unk_3C(sharedArguments, callbackResult);
 }

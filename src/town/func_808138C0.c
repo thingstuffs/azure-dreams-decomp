@@ -35,7 +35,6 @@ typedef struct S_808138C0_2 {
 } S_808138C0_2;   /* ((S_808138C0_0 *)temp_v0)->unk_08 in func_808138C0 */
 
 
-
 extern void *func_800373DC();
 extern void func_8003BC18();
 extern u8 D_8003C558[12];

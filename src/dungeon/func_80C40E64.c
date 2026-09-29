@@ -121,15 +121,15 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         return;
 
     case 2:
-        {
-            s32 velocity_x = ((S_80172664_3 *)motion)->unk_0C;
-            s32 velocity_y = ((S_80172664_3 *)motion)->unk_10;
-            s32 velocity_z = ((S_80172664_3 *)motion)->unk_14;
+    {
+        s32 velocity_x = ((S_80172664_3 *)motion)->unk_0C;
+        s32 velocity_y = ((S_80172664_3 *)motion)->unk_10;
+        s32 velocity_z = ((S_80172664_3 *)motion)->unk_14;
 
-            ((S_80172664_3 *)motion)->unk_0C = velocity_x - (velocity_x >> 3);
-            ((S_80172664_3 *)motion)->unk_10 = velocity_y - (velocity_y >> 3);
-            ((S_80172664_3 *)motion)->unk_14 = velocity_z - (velocity_z >> 3);
-        }
+        ((S_80172664_3 *)motion)->unk_0C = velocity_x - (velocity_x >> 3);
+        ((S_80172664_3 *)motion)->unk_10 = velocity_y - (velocity_y >> 3);
+        ((S_80172664_3 *)motion)->unk_14 = velocity_z - (velocity_z >> 3);
+    }
         if (((S_80172664_1 *)animation)->unk_96.u == 4) {
             ((S_80172664_3 *)motion)->unk_0C = 0;
             ((S_80172664_3 *)motion)->unk_10 = 0;
@@ -175,11 +175,11 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         return;
 
     case 0xFF:
-        {
-            s32 tile_x = ((S_80172664_2 *)sprite)->unk_24 << 6;
-            s32 position_x = ((S_80172664_3 *)motion)->unk_02 - 0x20;
-            ((S_80172664_3 *)motion)->unk_0C = ((tile_x - position_x) << 15) >> 1;
-        }
+    {
+        s32 tile_x = ((S_80172664_2 *)sprite)->unk_24 << 6;
+        s32 position_x = ((S_80172664_3 *)motion)->unk_02 - 0x20;
+        ((S_80172664_3 *)motion)->unk_0C = ((tile_x - position_x) << 15) >> 1;
+    }
         {
             s32 tile_y = ((S_80172664_2 *)sprite)->unk_25 << 6;
             s32 position_y = ((S_80172664_3 *)motion)->unk_06 - 0x20;

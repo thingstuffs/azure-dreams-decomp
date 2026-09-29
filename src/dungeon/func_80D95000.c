@@ -44,7 +44,7 @@ typedef struct S_80D95000_4 {
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80D95000")
-    __attribute__((section(".text.func_80D95000"), aligned(4))) = {
+__attribute__((section(".text.func_80D95000"), aligned(4))) = {
     0x8016A874, 0x8016AA3C, 0x8016B208, 0x8016B208,
     0x8016B208, 0x8016B234, 0x8016B1B4, 0x8016B1B4,
     0x8016B1B4, 0x8016B144, 0x8016B134, 0x8016B234,

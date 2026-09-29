@@ -13,9 +13,6 @@ typedef struct S_80173A14_0 {
 } S_80173A14_0;   /* arg0 in func_80173A14 */
 
 
-
-
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -55,7 +52,7 @@ void func_80173A14(S_80173A14_0 *action, EntityRec *motion, Rec_D_80082E80 *acti
             delay = -1;
         }
         action->unk_96.s = delay;
-        /* fall through */
+                /* fall through */
 
     case 1:
         motion->unk_10 = 0;

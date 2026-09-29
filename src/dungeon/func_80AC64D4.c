@@ -28,8 +28,6 @@ typedef struct S_80171CD4_0 {
 } S_80171CD4_0;   /* state in func_80171CD4 */
 
 
-
-
 typedef struct S_80171CD4_4 {
     u8 pad_00[0x74];
     u8 unk_74;

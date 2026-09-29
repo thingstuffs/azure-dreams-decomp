@@ -1,7 +1,7 @@
 #include "common.h"
 
 #define VOLATILE_FIELD(ptr, type, off) \
-    (*(volatile type *)((u8 *)(ptr) + (off)))
+(*(volatile type *)((u8 *)(ptr) + (off)))
 
 extern void func_8005D704(void);
 extern void func_8005D730(void);

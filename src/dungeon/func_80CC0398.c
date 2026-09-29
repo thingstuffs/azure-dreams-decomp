@@ -15,17 +15,19 @@ typedef struct S_set_map_0 {
 } S_set_map_0;   /* arg3 in set_map */
 
 
-
 typedef struct S_80173B98_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80173B98_2;   /* arg2 in func_80173B98 */
-
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -56,7 +58,8 @@ extern M2C_UNK D_80176370;
 
 static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) {
     (*(void **)((u8 *)sprite + 0x2C)) = (void *)direction_map;
-    func_80047784(sprite, direction_map[((s32) (gameWork.view.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100) >> 9) & 7], 0);
+    func_80047784(sprite, direction_map[((s32) (gameWork.view.viewAngle + ((S_set_map_0 *)creature)->unk_2A + 0x100)
+        >> 9) & 7], 0);
 }
 
 /* Updates dungeon creature actions, facing direction, and animation. */
@@ -173,8 +176,10 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, EntityRec *creatu
     if (!(status_flags & 0x2000)) {
         if (tile_index >= 0 && (D_800E2970[tile_index].flags & 2)) {
         } else if (!(status_flags & 0x430)) {
-            if ((func_8009FD7C(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
-                creature->facing = func_800A0818(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+            if ((func_8009FD7C(((S_80173B98_2 *)sprite)->unk_24.at00.v, ((S_80173B98_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
+                creature->facing = func_800A0818(((S_80173B98_2 *)sprite)->unk_24.at00.v,
+                    ((S_80173B98_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
             }
         }
     }

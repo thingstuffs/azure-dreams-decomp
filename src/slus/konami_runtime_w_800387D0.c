@@ -55,7 +55,8 @@ scroll_row:
             anim->size_c / 4,
             *(s16 *)&row_heights[anim->frame_2a],
             (s16)anim->x0 + (s16)anim->x8,
-            ((SignedAnimPrefix *)anim)->y2 + ((SignedAnimPrefix *)anim)->frame_a + row_heights[anim->frame_2a] * row + 2);
+            ((SignedAnimPrefix *)anim)->y2 + ((SignedAnimPrefix *)anim)->frame_a + row_heights[anim->frame_2a] * row
+                + 2);
         row += 1;
         if (row < anim->count_25 - 1) {
             goto scroll_row;

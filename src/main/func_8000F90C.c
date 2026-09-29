@@ -14,9 +14,6 @@ typedef struct S_8002290C_3 {
 } S_8002290C_3;   /* ((S_8002290C_2 *)temp_v1)->unk_04 in func_8002290C */
 
 
-
-
-
 typedef struct S_8002290C_1 {
     void * unk_00;
 } S_8002290C_1;   /* temp_v1 in func_8002290C */

@@ -80,7 +80,6 @@ typedef struct S_800254A4_7 {
 } S_800254A4_7;   /* final_part in func_800254A4 */
 
 
-
 extern u8 D_8002012C[];
 extern u8 D_80020134[];
 extern u8 D_8002013C[];
@@ -111,8 +110,8 @@ extern void tw_sd_sq_ld_call(s32, s32);
 s32 func_800254A4(void)
 {
     u8 *parent_state = NULL;
-    void *left_data[2] = {D_8002012C, D_80020134};
-    void *right_data[2] = {D_8002013C, D_80020140};
+    void * left_data[2] = { D_8002012C, D_80020134 };
+    void * right_data[2] = { D_8002013C, D_80020140 };
     void *object;
     S_800254A4_3 *child_state;
     S_800254A4_5 *left_state;

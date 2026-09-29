@@ -94,7 +94,6 @@ typedef struct S_80172494_8 {
 } S_80172494_8;   /* (void *)temp_v1 in func_80172494 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);

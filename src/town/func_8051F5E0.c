@@ -10,7 +10,6 @@ typedef struct S_80016DE0_1 {
 } S_80016DE0_1;   /* temp_v1 in func_80016DE0 */
 
 
-
 /* Scale the linked record's value by 64 and add 0x220. */
 void func_80016DE0(void) {
     S_80016DE0_1 *record;

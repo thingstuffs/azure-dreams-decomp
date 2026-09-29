@@ -12,8 +12,6 @@ typedef struct S_81911B9C_2 {
 } S_81911B9C_2;   /* ((S_81911B9C_1 *)temp_v0)->unk_0C in func_81911B9C */
 
 
-
-
 void *func_8003FC64();                       /* extern */
 extern M2C_UNK D_8002528C;
 

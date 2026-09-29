@@ -11,12 +11,10 @@ s32 *allocBufferArray(s32 *buffer_array, s32 buffer_count)
     s32 index;
     s32 buffer;
 
-    for (index = 0; index < count; index++)
-    {
+    for (index = 0; index < count; index++) {
         buffer = func_8004B404(0x82);
         buffers[index] = buffer;
-        if (buffer == 0)
-        {
+        if (buffer == 0) {
             func_8004B248(buffers);
             buffers = 0;
             break;

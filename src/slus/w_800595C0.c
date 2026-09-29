@@ -76,50 +76,55 @@ L_case_46:
 L_case_47:
     func_80057948(ent->field_4C, ent->field_4A, 0);
     return 1;
-L_case_48: {
-    s32 next_byte = func_800589B8(ent);
-    u32 slot_count;
-    operand = next_byte;
-    slot_count = D_800869B4[0];
-    ASM_KEEP(slot_count);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-    if (slot_count != 0) {
-        u32 slot_index = 0;
-        s32 slot_value = ((next_byte & 0x7F) << 1) + 2;
-        do {
-            D_80085FA8[slot_index].field_24 = slot_value;
-            slot_index++;
-        } while (slot_index < slot_count);
+L_case_48:
+    {
+        s32 next_byte = func_800589B8(ent);
+        u32 slot_count;
+        operand = next_byte;
+        slot_count = D_800869B4[0];
+        ASM_KEEP(slot_count);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+        if (slot_count != 0) {
+            u32 slot_index = 0;
+            s32 slot_value = ((next_byte & 0x7F) << 1) + 2;
+            do {
+                D_80085FA8[slot_index].field_24 = slot_value;
+                slot_index++;
+            } while (slot_index < slot_count);
+        }
+        return 0 < (operand & 0x80);
     }
-    return 0 < (operand & 0x80);
-}
-L_case_49: {
-    s32 next_byte = func_800589B8(ent);
-    operand = next_byte;
-    func_80058494(ent->field_4C, 0, next_byte & 0x7F);
-    goto ret_bool;
-}
-L_case_4A: {
-    s32 next_byte = func_800589B8(ent);
-    operand = next_byte;
-    func_8005845C(ent->field_4C, next_byte & 0x7F);
-    goto ret_bool;
-}
-L_case_4B: {
-    s32 next_byte = func_800589B8(ent);
-    operand = next_byte;
-    ent->field_4C = next_byte & 0xF;
-    goto ret_bool;
-}
+L_case_49:
+    {
+        s32 next_byte = func_800589B8(ent);
+        operand = next_byte;
+        func_80058494(ent->field_4C, 0, next_byte & 0x7F);
+        goto ret_bool;
+    }
+L_case_4A:
+    {
+        s32 next_byte = func_800589B8(ent);
+        operand = next_byte;
+        func_8005845C(ent->field_4C, next_byte & 0x7F);
+        goto ret_bool;
+    }
+L_case_4B:
+    {
+        s32 next_byte = func_800589B8(ent);
+        operand = next_byte;
+        ent->field_4C = next_byte & 0xF;
+        goto ret_bool;
+    }
 L_case_7F:
     operand = func_800589B8(ent);
     ent->field_2C = 1;
     goto ret_bool;
-L_default: {
-    s32 next_byte = func_800589B8(ent);
-    operand = next_byte;
-    func_8005914C(ent, (ent->field_4C + 0xB0) & 0xFF,
-                  saved_command & 0x7F, next_byte & 0x7F);
-}
+L_default:
+    {
+        s32 next_byte = func_800589B8(ent);
+        operand = next_byte;
+        func_8005914C(ent, (ent->field_4C + 0xB0) & 0xFF,
+                      saved_command & 0x7F, next_byte & 0x7F);
+    }
 
 ret_bool:
     return 0 < (operand & 0x80);

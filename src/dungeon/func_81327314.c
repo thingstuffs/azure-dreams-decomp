@@ -121,7 +121,7 @@ void func_8016EB14(void)
                            (u32)direction_table);
         ((S_8016EB14_3 *)object_state)->unk_4C = x << 18;
         direction_y = *(s16 *)((u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
-                                  (u32)direction_table) + 2);
+                                      (u32)direction_table) + 2);
         ((S_8016EB14_3 *)object_state)->unk_54 = 0xFFF80000;
         ((S_8016EB14_3 *)object_state)->unk_60 = 0x14900;
         ((S_8016EB14_3 *)object_state)->unk_50 = direction_y << 18;

@@ -42,7 +42,6 @@ typedef struct S_80158894_4 {
 } S_80158894_4;   /* (void *)actor_ptr in func_80158894 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800A6D30(void);

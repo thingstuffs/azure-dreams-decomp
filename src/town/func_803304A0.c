@@ -15,9 +15,6 @@ typedef struct S_8001ACA0_4 {
 } S_8001ACA0_4;   /* ((S_8001ACA0_3 *)(((Rec_D_80016000 *)D_80016000)->unk_24))->unk_68 in func_8001ACA0 */
 
 
-
-
-
 typedef struct S_8001ACA0_0 {
     u16 unk_00;
     u16 unk_02;

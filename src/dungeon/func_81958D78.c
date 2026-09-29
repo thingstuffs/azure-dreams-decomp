@@ -40,7 +40,6 @@ typedef struct S_80024578_3 {
 } S_80024578_3;   /* effect in func_80024578 */
 
 
-
 extern void *func_8003FC64();
 extern s32 func_800B835C();
 extern u8 D_800243C4[9];

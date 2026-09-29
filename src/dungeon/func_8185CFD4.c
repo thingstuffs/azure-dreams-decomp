@@ -67,14 +67,16 @@ typedef struct S_800247D4_4 {
 } S_800247D4_4;   /* (void *)scaled_index in func_800247D4 */
 
 
-
 extern void *D_80024008[];
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 
-static __inline__ s32 endpoint_delta(u16 end, u16 start) { return (end - start) << 16; }
+static __inline__ s32 endpoint_delta(u16 end, u16 start)
+{
+    return (end - start) << 16;
+}
 
 /* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
 s32 func_800247D4(void *effect_data)
@@ -147,56 +149,56 @@ s32 func_800247D4(void *effect_data)
         goto *D_80024008[stage_index];
 
 case_early:
-    {
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-        start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
-        fixed_delta &= delta_mask;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
-
-        offset_or_depth = fixed_delta >> 16;
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
-        y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - y_or_blue) << 16;
-        fixed_delta &= delta_mask;
-        ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade + offset_or_depth;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
-
-        offset_or_depth = fixed_delta >> 16;
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
-        start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - start_or_fade) << 16;
-        fixed_delta &= delta_mask;
-        y_or_blue += offset_or_depth;
-        ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
-        ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade + (fixed_delta >> 16);
-
-        start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
         {
-            s32 red_offset =
-                (start_or_fade + 1) * red_scale;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
+            start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
+            fixed_delta &= delta_mask;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
 
-            y_or_blue = (start_or_fade + 1) * blue_scale;
-            ((S_800247D4_2 *)packet)->unk_04 = color_base;
-            ((S_800247D4_2 *)packet)->unk_05 = color_base;
-            ((S_800247D4_2 *)packet)->unk_06 = color_base;
-            ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - start_or_fade) * 8);
+            offset_or_depth = fixed_delta >> 16;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
+            y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= (end_or_blue - y_or_blue) << 16;
+            fixed_delta &= delta_mask;
+            ((S_800247D4_0 *)scratch)->unk_6C = start_or_fade + offset_or_depth;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+
+            offset_or_depth = fixed_delta >> 16;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
+            start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= (end_or_blue - start_or_fade) << 16;
+            fixed_delta &= delta_mask;
+            y_or_blue += offset_or_depth;
+            ((S_800247D4_0 *)scratch)->unk_6E = y_or_blue;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
+            ((S_800247D4_0 *)scratch)->unk_70 = start_or_fade + (fixed_delta >> 16);
+
+            start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
             {
-                red = 0x40 + red_offset;
+                s32 red_offset =
+                    (start_or_fade + 1) * red_scale;
 
-                ((S_800247D4_2 *)packet)->unk_0C = red;
+                y_or_blue = (start_or_fade + 1) * blue_scale;
+                ((S_800247D4_2 *)packet)->unk_04 = color_base;
+                ((S_800247D4_2 *)packet)->unk_05 = color_base;
+                ((S_800247D4_2 *)packet)->unk_06 = color_base;
+                ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - start_or_fade) * 8);
+                {
+                    red = 0x40 + red_offset;
+
+                    ((S_800247D4_2 *)packet)->unk_0C = red;
+                }
+                ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y_or_blue;
+                goto shared;
             }
-            ((S_800247D4_2 *)packet)->unk_0E = 0x40 + y_or_blue;
-            goto shared;
         }
-    }
 
 case_middle:
         ((S_800247D4_2 *)packet)->unk_04 = color_base;
@@ -208,60 +210,60 @@ case_middle:
         goto shared;
 
 case_late:
-    {
-        s32 color_step;
-
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-        start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
-        fixed_delta &= delta_mask;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
-
-        offset_or_depth = fixed_delta >> 16;
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
-        y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - y_or_blue) << 16;
-        fixed_delta &= delta_mask;
-        ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade + offset_or_depth;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
-
-        offset_or_depth = fixed_delta >> 16;
-        end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
-        start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
-        fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - start_or_fade) << 16;
-        fixed_delta &= delta_mask;
-        y_or_blue += offset_or_depth;
-        ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
-        fixed_delta >>= 3;
-        fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
-        ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade + (fixed_delta >> 16);
-
-        start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
-        color_step = start_or_fade - 7;
         {
-            s32 red_offset =
-                color_step * red_scale;
+            s32 color_step;
 
-            y_or_blue = color_step * blue_scale;
-            ((S_800247D4_2 *)packet)->unk_0D = 0;
-            color_step = 0xFF;
-            ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
-            start_or_fade = (red_scale - start_or_fade) * 8;
-            ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
+            start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
+            fixed_delta &= delta_mask;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+
+            offset_or_depth = fixed_delta >> 16;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_6E;
+            y_or_blue = ((S_800247D4_0 *)scratch)->unk_66;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= (end_or_blue - y_or_blue) << 16;
+            fixed_delta &= delta_mask;
+            ((S_800247D4_0 *)scratch)->unk_64 = start_or_fade + offset_or_depth;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+
+            offset_or_depth = fixed_delta >> 16;
+            end_or_blue = ((S_800247D4_0 *)scratch)->unk_70;
+            start_or_fade = ((S_800247D4_0 *)scratch)->unk_68;
+            fixed_delta &= 0xFFFF;
+            fixed_delta |= (end_or_blue - start_or_fade) << 16;
+            fixed_delta &= delta_mask;
+            y_or_blue += offset_or_depth;
+            ((S_800247D4_0 *)scratch)->unk_66 = y_or_blue;
+            fixed_delta >>= 3;
+            fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;
+            ((S_800247D4_0 *)scratch)->unk_68 = start_or_fade + (fixed_delta >> 16);
+
+            start_or_fade = ((S_800247D4_3 *)effect)->unk_10;
+            color_step = start_or_fade - 7;
             {
-                red = 0x40 + red_offset;
+                s32 red_offset =
+                    color_step * red_scale;
 
-                ((S_800247D4_2 *)packet)->unk_04 = red;
+                y_or_blue = color_step * blue_scale;
+                ((S_800247D4_2 *)packet)->unk_0D = 0;
+                color_step = 0xFF;
+                ((S_800247D4_2 *)packet)->unk_0C = (u8)red_cap;
+                start_or_fade = (red_scale - start_or_fade) * 8;
+                ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
+                {
+                    red = 0x40 + red_offset;
+
+                    ((S_800247D4_2 *)packet)->unk_04 = red;
+                }
+                ((S_800247D4_2 *)packet)->unk_05 = (u8)start_or_fade;
+                ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y_or_blue;
             }
-            ((S_800247D4_2 *)packet)->unk_05 = (u8)start_or_fade;
-            ((S_800247D4_2 *)packet)->unk_06 = 0x40 + y_or_blue;
         }
-    }
 
 shared:
         project_work_a = scratch + 0x84;

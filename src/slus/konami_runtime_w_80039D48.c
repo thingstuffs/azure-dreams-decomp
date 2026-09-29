@@ -32,7 +32,7 @@ void func_80039D48(Func80039D48Reader *reader) {
     Func80039D48Table *table = reader->table;
 
     handler = (Func80039D48Handler)(addr_byte_0 + (addr_byte_1 << 8) +
-                                   (addr_byte_2 << 16) + (addr_byte_3 << 24));
+                                    (addr_byte_2 << 16) + (addr_byte_3 << 24));
     read_ptr += 4;
     reader->read_ptr = (u8 *)read_ptr;
     table->result = handler(table->arg0, table->arg1, table->arg2, table->arg3);

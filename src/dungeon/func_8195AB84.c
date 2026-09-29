@@ -54,7 +54,6 @@ typedef struct S_8195AB84_4 {
 } S_8195AB84_4;   /* tail in func_8195AB84 */
 
 
-
 extern void func_80025B5C();
 extern s32 func_8003FA44(s32);
 extern void *func_8003FD64(s32, void *);
@@ -98,7 +97,8 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
         state_page = (u8 *)0x80080000;
         objects_base = objects;
         slot = objects_base;
-        loop_0: {
+loop_0:
+        {
             if (object_index != 0) {
                 call_context = objects[0];
             } else {
@@ -155,7 +155,9 @@ fail_return:
 loop_continue:
             object_index++;
             slot++;
-        } if (object_index < 18) goto loop_0;
+        }
+        if (object_index < 18)
+            goto loop_0;
         func_80025B5C(objects[0], saved_angle);
         return objects[0];
     } else {

@@ -55,13 +55,16 @@ void func_80123A60(S_80123A60_0 *state) {
     entry_id = group * 0x10;
     entry_table_3 = &D_80126E98;
     entry = ((group * 0x20) + entry_id) + entry_table_3;
-    loop_0: {
+loop_0:
+    {
         if (func_80123200(entry_id & 0xFF) & 0xFF) {
             func_80123928(*entry, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
         }
         slot += 1;
         entry += 3;
         entry_id += 1;
-    } if (slot < 0x10) goto loop_0;
+    }
+    if (slot < 0x10)
+        goto loop_0;
     func_80067014(0);
 }

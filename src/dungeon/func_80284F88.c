@@ -42,7 +42,7 @@ s32 func_80017F88(s16 rect_index, s16 *out_x, s16 *out_y, s16 check_flags)
                         + (row_index << state->shiftX)].flags;
                     if (!(flags & 0x8400)
                         && ((check_flags == 0)
-                        || ((flags & 0x300) == 0x200))) {
+                            || ((flags & 0x300) == 0x200))) {
                         tile_value = func_800BCB04(
                             (((s16)tile_x << 6) + 0x20) & 0xFFE0,
                             tile_center_y & 0xFFFF,

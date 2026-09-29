@@ -8,7 +8,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_8009FB34(s32, s32);
@@ -41,11 +40,13 @@ extern u8 D_801759E0[];
 extern u8 D_801759E8[];
 
 
-
-
 typedef struct S_801717F4_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -153,7 +154,8 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         }
     }
 
-    tile_record = func_8009FB34(((S_801717F4_2 *)sprite_arg)->unk_24.at00.v, ((S_801717F4_2 *)sprite_arg)->unk_24.at01.v);
+    tile_record = func_8009FB34(((S_801717F4_2 *)sprite_arg)->unk_24.at00.v,
+        ((S_801717F4_2 *)sprite_arg)->unk_24.at01.v);
     ((S_801717F4_2 *)sprite_arg)->unk_26 = tile_record;
 
     if (entity_arg->unk_6D > 0) {

@@ -78,11 +78,11 @@ void func_800277A8(void *menu) {
     if (buttons & 0x40) {
         SD_Call(0x503);
         func_80027454((u8 *)menu + 0x38, ((S_800277A8_1 *)menu)->unk_14,
-                     (((S_800277A8_1 *)menu)->unk_08 / 72) * 72,
-                     ((S_800277A8_1 *)menu)->unk_28);
+                      (((S_800277A8_1 *)menu)->unk_08 / 72) * 72,
+                      ((S_800277A8_1 *)menu)->unk_28);
         func_8002661C(func_8002553C(((S_800277A8_1 *)menu)->unk_44),
-                     ((S_800277A8_1 *)menu)->unk_40 +
-                         (((S_800277A8_1 *)menu)->unk_08 % 72) * 2);
+                      ((S_800277A8_1 *)menu)->unk_40 +
+                      (((S_800277A8_1 *)menu)->unk_08 % 72) * 2);
         return;
     }
 

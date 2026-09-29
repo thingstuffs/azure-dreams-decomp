@@ -14,14 +14,12 @@ typedef struct S_801723F0_0 {
 } S_801723F0_0;   /* arg0 in func_801723F0 */
 
 
-
 typedef struct S_801723F0_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
 } S_801723F0_3;   /* arg1 in func_801723F0 */
-
 
 
 extern void func_80047784(void *, u8, s32);

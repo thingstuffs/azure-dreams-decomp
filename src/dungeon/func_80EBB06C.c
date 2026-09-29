@@ -84,7 +84,6 @@ typedef struct S_8016A86C_9 {
 } S_8016A86C_9;   /* ((S_8016A86C_8 *)base)->unk_A4 in func_8016A86C */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_800A6D30();

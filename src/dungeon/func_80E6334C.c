@@ -21,10 +21,6 @@ typedef struct S_80172B4C_0 {
 } S_80172B4C_0;   /* arg0 in func_80172B4C */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -77,7 +73,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
         ((S_80172B4C_0 *)action)->unk_A4 = 0;
         ((S_80172B4C_0 *)action)->unk_9B++;
     }
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         move_ticks = ((S_80172B4C_0 *)action)->unk_9E.s;
         ((S_80172B4C_0 *)action)->unk_90 -= ((S_80172B4C_0 *)action)->unk_A4;
@@ -111,7 +107,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80172B4C_0 *)action)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
     case 2:
     {
         u8 *phase_anims;
@@ -131,7 +127,7 @@ void func_80172B4C(void *action, void *motion, void *sprite, void *actor)
             ((S_80172B4C_0 *)action)->unk_9B++;
         }
     }
-    break;
+        break;
     case 3:
         idle_anims = D_80175554;
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != idle_anims) {

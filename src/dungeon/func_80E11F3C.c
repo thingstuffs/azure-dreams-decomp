@@ -9,8 +9,6 @@ typedef struct S_8017573C_0 {
 } S_8017573C_0;   /* arg0 in func_8017573C */
 
 
-
-
 extern void func_80047784(void *, u8, s32);
 extern void func_800478B8(void *);
 extern u8 D_80176460[8];

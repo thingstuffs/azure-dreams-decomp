@@ -8,12 +8,10 @@
 #include "records/Rec_func_80173DD4_arg0.h"
 
 
-
 typedef struct S_80173DD4_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173DD4_3;   /* counter_base in func_80173DD4 */
-
 
 
 extern s32 func_80042900(void *, s32);

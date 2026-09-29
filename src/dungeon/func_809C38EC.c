@@ -30,14 +30,15 @@ typedef struct S_8014D0EC_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_8014D0EC_2;   /* arg2 in func_8014D0EC */
-
-
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -220,21 +221,21 @@ sw_case89:
         case 5:
         case 6:
 sw_case567:
-        {
-            EntityRec *player;
-            s16 facing_angle;
+            {
+                EntityRec *player;
+                s16 facing_angle;
 
-            facing_angle = func_800A0818(
-                ((S_8014D0EC_2 *)sprite)->unk_24.at00.v, ((S_8014D0EC_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_scratch);
-            player = D_800814A8;
-            entity->facing = facing_angle;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
+                facing_angle = func_800A0818(
+                    ((S_8014D0EC_2 *)sprite)->unk_24.at00.v, ((S_8014D0EC_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_scratch);
+                player = D_800814A8;
+                entity->facing = facing_angle;
+                if (player->unk_9A == 0x11) {
+                    goto case_123;
+                }
             }
-        }
-            /* fallthrough */
+                        /* fallthrough */
 
         case 11:
 case_12:

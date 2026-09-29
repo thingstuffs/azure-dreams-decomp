@@ -57,7 +57,11 @@ typedef struct S_801714D4_2 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
@@ -192,7 +196,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             stats->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
                 func_80171C34(actor_arg, context_arg, sprite, stats);
-            return;
+                return;
             }
         }
 
@@ -200,41 +204,41 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         switch (action_index) {
         case 7:
         case 8:
-        if ((s16)func_8017237C(actor_arg, context_arg, sprite, stats) != 0) {
+            if ((s16)func_8017237C(actor_arg, context_arg, sprite, stats) != 0) {
+                return;
+            }
+            func_80172548(actor_arg, context_arg, sprite, stats);
             return;
-        }
-        func_80172548(actor_arg, context_arg, sprite, stats);
-        return;
 
         case 4:
         case 5:
         case 6:
-        angle = func_800A0818(
-            ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &distance);
-        owner = D_800814A8;
-        stats->facing = angle;
-        if (owner->unk_9A == 0x11) {
-            callback = (void *)func_801714D4;
-            func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
-            return;
-        }
+            angle = func_800A0818(
+                ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY, &distance);
+            owner = D_800814A8;
+            stats->facing = angle;
+            if (owner->unk_9A == 0x11) {
+                callback = (void *)func_801714D4;
+                func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
+                return;
+            }
 
         case 11:
-        func_800A9A0C(stats);
-        return;
+            func_800A9A0C(stats);
+            return;
 
         case 0:
         case 1:
         case 2:
-        callback = (void *)func_801714D4;
+            callback = (void *)func_801714D4;
 
-        func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
-        return;
+            func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
+            return;
 
         default:
-        func_80171C34(actor_arg, context_arg, sprite, stats);
-        return;
+            func_80171C34(actor_arg, context_arg, sprite, stats);
+            return;
         }
     }
 

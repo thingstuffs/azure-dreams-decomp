@@ -128,7 +128,6 @@ typedef struct S_818E0800_15 {
 } S_818E0800_15;   /* ((S_818E0800_1 *)object)->unk_60 in BODY_NAME */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
@@ -148,7 +147,7 @@ extern void func_80024594(void);
 #ifdef __mips__
 void func_818E0800(void);
 static const u32 split_prefix[] __asm__("func_818E0800")
-    __attribute__((section(".text.func_818E0800"), aligned(4))) = {
+__attribute__((section(".text.func_818E0800"), aligned(4))) = {
     0x8002401C, 0x10001000, 0x14000E10, 0x18000D48,
     0x0FA01000, 0x0DAC1800, 0x0BB82000,
 };
@@ -291,14 +290,15 @@ void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_sta
         }
         ((S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((s16)effect_arg->unk_50);
         ground_z = (s16)(((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_0A - 0x30);
-        ground_z = func_800BCB04(((S_818E0800_2 *)motion_arg)->unk_00.at02.v, ((S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
+        ground_z = func_800BCB04(((S_818E0800_2 *)motion_arg)->unk_00.at02.v,
+            ((S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
         ((S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((S_818E0800_2 *)motion_arg)->unk_08.at02.v;
         ((S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((s16)effect_arg->unk_50);
         func_800A56E0(0x300);
         (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
     case 1:
-{
+    {
         s32 next_timer;
         ((S_818E0800_2 *)motion_arg)->unk_00.at00.v += ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v;
         ((S_818E0800_2 *)motion_arg)->unk_04.at00.v += ((S_818E0800_2 *)motion_arg)->unk_10.at00.v;
@@ -316,7 +316,7 @@ void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_sta
         return;
     }
     case 2:
-{
+    {
         s32 sound_id;
         void *active_target;
         if (((s16)effect_arg->unk_50) > 0) {

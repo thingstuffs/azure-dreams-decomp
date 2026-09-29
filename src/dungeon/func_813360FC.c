@@ -39,8 +39,6 @@ typedef struct S_8016D0FC_3 {
 } S_8016D0FC_3;   /* actor in func_8016D0FC */
 
 
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);

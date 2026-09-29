@@ -48,7 +48,7 @@ void func_80526A0C(void *arg0) {
     temp_v1 = ((S_8080BE0C_0 *)arg0)->unk_00.s;
     switch (temp_v1) {
     case 0:
-            temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
+        temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
         ((S_8080BE0C_0 *)arg0)->unk_02 = temp_v0_2;
         if ((temp_v0_2 << 0x10) > 0) {
             return;
@@ -61,7 +61,7 @@ void func_80526A0C(void *arg0) {
         ((S_8080BE0C_0 *)arg0)->unk_00.u = state_value;
         return;
     case 1:
-            func_80058588(var_s1, func_80071424(((S_8080BE0C_0 *)arg0)->unk_04), ((S_8080BE0C_0 *)arg0)->unk_04);
+        func_80058588(var_s1, func_80071424(((S_8080BE0C_0 *)arg0)->unk_04), ((S_8080BE0C_0 *)arg0)->unk_04);
         if (((S_8080BE0C_1 *)temp_s2)->unk_2A & 1) {
             (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_8080BE0C_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;

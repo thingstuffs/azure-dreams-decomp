@@ -63,7 +63,7 @@ extern u8 D_8016F298[];
 
 #ifdef __mips__
 static const u32 bank_words[41] __asm__("func_80FB7000")
-    __attribute__((section(".text.func_80FB7000"), aligned(4))) = {
+__attribute__((section(".text.func_80FB7000"), aligned(4))) = {
     0x8016A8A4, (u32)D_8016AB40,
     0x8016B12C, 0x8016B198, 0x8016B26C, 0x8016B3FC,
     0x8016B444, 0x00000000,
@@ -86,9 +86,9 @@ __asm__(".globl func_80FB7000\n"
 
 void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 #ifdef __mips__
-    __attribute__((section(".text.func_80FB7000")))
+__attribute__((section(".text.func_80FB7000")))
 #endif
-    ;
+;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
 void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
@@ -163,7 +163,7 @@ normal_kind:
                     ((S_80FB7000_1 *)work)->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
                                   (func_800A6D30() & 0x3F) |
-                                      0x20);
+                                  0x20);
                     part_b->unk_2C = D_8016F298;
                 }
             }
@@ -182,7 +182,7 @@ post_kind:
         ((S_80FB7000_4 *)pin_actor)->unk_AE = actor_value;
 
         entry = part_b->unk_08;
-    scan_entries:
+scan_entries:
         twice_index = entry_index << 1;
         if (*entry & 0x20) {
             entry += 12;
@@ -206,10 +206,13 @@ post_kind:
         rect[2] = 0x10;
         rect[0] = 0x30;
         rect[1] -= 1;
-        loop_0: {
+loop_0:
+        {
             func_800673A0(rect, rect[0] - 0x30, rect[1]);
             rect[0] += 0x40;
-        } if (rect[0] < 0x100) goto loop_0;
+        }
+        if (rect[0] < 0x100)
+            goto loop_0;
 
         func_800AA36C(pin_actor, pin_part_a, part_b, work);
     }

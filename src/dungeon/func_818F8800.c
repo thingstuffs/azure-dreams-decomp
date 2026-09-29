@@ -55,7 +55,7 @@ typedef struct Scratchpad {
  * the function body; keep it in the function's named text section so the
  * isolated overlay linker preserves the composite table+body layout. */
 static const u32 data_bank[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x8002592C, 0x01540340, 0x00540060, 0x01000340,
     0x00540060, 0x00000020, 0x00200020, 0x00200000,
     0x0020FFE0, 0x0000FFE0, 0xFFE0FFE0, 0xFFE00000,
@@ -142,8 +142,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     *((u16 *) (((u8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) screen_link) + 2))) - 0x78);
     saved_draw_control = (u16) draw_control;
     tag_mask = 0;
-    if ((draw_control << 0x10) != 0)
-    {
+    if ((draw_control << 0x10) != 0) {
         func_80067EF4(packet, 0, 0);
         tag_mask = 0xFF000000;
         *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
@@ -159,8 +158,10 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     *((s32 *) (((u8 *) scratch) + 0x34)) = *((s16 *) (globals + 0xC6));
     *((s32 *) (((u8 *) scratch) + 0x38)) = *((s16 *) (globals + 0xC8));
     *((u16 *) (((u8 *) scratch) + 0x100)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x16)));
-    *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((u8 *) scratch) + 0x34))));
-    *((u16 *) (((u8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((u8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100) + (*((u16 *) (((s8 *) sprite) + 0x18))));
+    *((u16 *) (((u8 *) scratch) + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite) + 0x1A))) - (*((u16 *) (((u8 *) scratch)
+        + 0x34))));
+    *((u16 *) (((u8 *) scratch) + 0x102)) = (s16) (((((*((u16 *) (((u8 *) scratch) + 0x38))) + 0x100) & 0x1FF) - 0x100)
+        + (*((u16 *) (((s8 *) sprite) + 0x18))));
     origin_x = *((u16 *) (((s8 *) sprite) + 0x20));
     *((s32 *) (((u8 *) scratch) + 0xE4)) = origin_x;
     *((u16 *) (((u8 *) scratch) + 0x108)) = origin_x;
@@ -176,16 +177,13 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
     func_80064D80((void *) 0x1F800050);
     func_80064CF0((void *) 0x1F800050);
     *((u16 *) (((u8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
-    for (;;)
-    {
-        if (!((*((u8 *) (((s8 *) part) + 0))) & 0x20))
-        {
+    for (;;) {
+        if (!((*((u8 *) (((s8 *) part) + 0))) & 0x20)) {
             *((s32 *) (((u8 *) scratch) + 0x08)) = *((u8 *) (((s8 *) part) + 8));
             *((s32 *) (((u8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) part) + 9)));
             *((s32 *) (((u8 *) scratch) + 0x10)) = (s32) (*((u8 *) (((s8 *) part) + 10)));
             *((s32 *) (((u8 *) scratch) + 0x14)) = (s32) (*((u8 *) (((s8 *) part) + 11)));
-            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 1)
-            {
+            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 1) {
                 flipped_x = (0 - ((s8) (*((u8 *) (((s8 *) part) + 2))))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
                 *((u16 *) (((u8 *) scratch) + 0x80)) = flipped_x;
                 *((u16 *) (((u8 *) scratch) + 0x70)) = flipped_x;
@@ -193,8 +191,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                 *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
                 *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
             }
-            else
-            {
+            else {
                 start_x = ((s8) (*((u8 *) (((s8 *) part) + 2)))) - (*((u16 *) (((u8 *) scratch) + 0x108)));
                 *((u16 *) (((u8 *) scratch) + 0x80)) = start_x;
                 *((u16 *) (((u8 *) scratch) + 0x70)) = start_x;
@@ -202,8 +199,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                 *((u16 *) (((u8 *) scratch) + 0x88)) = end_x;
                 *((u16 *) (((u8 *) scratch) + 0x78)) = end_x;
             }
-            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 2)
-            {
+            if (((*((u8 *) (((s8 *) part) + 0))) ^ (*((u16 *) (((u8 *) scratch) + 0x24)))) & 2) {
                 flipped_y = (0 - ((s8) (*((u8 *) (((s8 *) part) + 3))))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
                 *((u16 *) (((u8 *) scratch) + 0x7A)) = flipped_y;
                 *((u16 *) (((u8 *) scratch) + 0x72)) = flipped_y;
@@ -211,8 +207,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                 *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
                 *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
             }
-            else
-            {
+            else {
                 start_y = ((s8) (*((u8 *) (((s8 *) part) + 3)))) - (*((u16 *) (((u8 *) scratch) + 0x10A)));
                 *((u16 *) (((u8 *) scratch) + 0x7A)) = start_y;
                 *((u16 *) (((u8 *) scratch) + 0x72)) = start_y;
@@ -220,69 +215,75 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                 *((u16 *) (((u8 *) scratch) + 0x8A)) = end_y;
                 *((u16 *) (((u8 *) scratch) + 0x82)) = end_y;
             }
-            func_800654B0((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78), (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88), (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4), (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC), (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
-            *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF0))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF2))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF4))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF6))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF8))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
-            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFA))) + (*((u16 *) (((u8 *) scratch) + 0xBA))));
-            *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFC))) + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            func_800654B0((void *) (((u8 *) scratch) + 0x70), (void *) (((u8 *) scratch) + 0x78),
+                (void *) (((u8 *) scratch) + 0x80), (void *) (((u8 *) scratch) + 0x88),
+                (void *) (((u8 *) scratch) + 0xF0), (void *) (((u8 *) scratch) + 0xF4),
+                (void *) (((u8 *) scratch) + 0xF8), (void *) (((u8 *) scratch) + 0xFC),
+                (void *) (((u8 *) scratch) + 0x90), (void *) (((u8 *) scratch) + 0x94));
+            *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF0)))
+                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF2)))
+                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x10)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF4)))
+                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0x12)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF6)))
+                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x18)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xF8)))
+                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
+            *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFA)))
+                + (*((u16 *) (((u8 *) scratch) + 0xBA))));
+            *((s16 *) (((s8 *) packet) + 0x20)) = (s16) ((*((u16 *) (((u8 *) scratch) + 0xFC)))
+                + (*((u16 *) (((u8 *) scratch) + 0xB8))));
             projected_y = *((u16 *) (((u8 *) scratch) + 0xFE));
             screen_y = *((u16 *) (((u8 *) scratch) + 0xBA));
             *((s8 *) (((s8 *) packet) + 3)) = 9;
             *((s16 *) (((s8 *) packet) + 0x22)) = (s16) (projected_y + screen_y);
             texture_right = (*((s32 *) (((u8 *) scratch) + 0x10))) + ((*((s32 *) (((u8 *) scratch) + 0x08))) - 1);
             *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right;
-            if (texture_right & 0x100)
-            {
+            if (texture_right & 0x100) {
                 *((s32 *) (((u8 *) scratch) + 0x10)) = texture_right - 1;
             }
             texture_bottom = (*((s32 *) (((u8 *) scratch) + 0x14))) + ((*((s32 *) (((u8 *) scratch) + 0x0C))) - 1);
             *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom;
-            if (texture_bottom & 0x100)
-            {
+            if (texture_bottom & 0x100) {
                 *((s32 *) (((u8 *) scratch) + 0x14)) = texture_bottom - 1;
             }
             *((s32 *) (((u8 *) scratch) + 0x14)) <<= 8;
             *((s32 *) (((u8 *) scratch) + 0x0C)) <<= 8;
             clut_base = *((u16 *) (((s8 *) sprite) + 0x12));
-            if (clut_base != 0)
-            {
-                if ((*((u16 *) (((u8 *) scratch) + 0x24))) & 0x100)
-                {
+            if (clut_base != 0) {
+                if ((*((u16 *) (((u8 *) scratch) + 0x24))) & 0x100) {
                     *((u16 *) (((s8 *) packet) + 0xE)) = clut_base;
                 }
-                else
-                {
+                else {
                     *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (clut_base + (*((u16 *) (((s8 *) part) + 6))));
                 }
             }
-            else
-            {
+            else {
                 *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) part) + 6)));
             }
-            *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-            *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C)))) + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
+            *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C))))
+                + ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
+            *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x0C))))
+                + ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
             texture_page = *((u16 *) (((s8 *) sprite) + 0x10));
-            if (texture_page != 0)
-            {
-                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (texture_page + ((*((u16 *) (((s8 *) part) + 4))) & 0xFF9F));
+            if (texture_page != 0) {
+                *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (texture_page + ((*((u16 *) (((s8 *) part)
+                    + 4))) & 0xFF9F));
             }
-            else
-            {
+            else {
                 *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) part) + 4)));
             }
-            *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
-            *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14)))) | ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
-            if ((*((s16 *) (((s8 *) packet) + 8))) > (*((s16 *) (((s8 *) packet) + 0x20))))
-            {
+            *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14))))
+                | ((u16) (*((s32 *) (((u8 *) scratch) + 0x08)))));
+            *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((s32 *) (((u8 *) scratch) + 0x14))))
+                | ((u16) (*((s32 *) (((u8 *) scratch) + 0x10)))));
+            if ((*((s16 *) (((s8 *) packet) + 8))) > (*((s16 *) (((s8 *) packet) + 0x20)))) {
                 right_u = *((u8 *) (((s8 *) packet) + 0x24));
                 *((u8 *) (((s8 *) packet) + 0x24)) = (u8) (right_u + 0xFF);
                 *((u8 *) (((s8 *) packet) + 0x14)) = right_u;
             }
-            if ((*((s16 *) (((s8 *) packet) + 0xA))) > (*((s16 *) (((s8 *) packet) + 0x22))))
-            {
+            if ((*((s16 *) (((s8 *) packet) + 0xA))) > (*((s16 *) (((s8 *) packet) + 0x22)))) {
                 bottom_v = *((u8 *) (((s8 *) packet) + 0x25));
                 *((u8 *) (((s8 *) packet) + 0x25)) = (u8) (bottom_v + 0xFF);
                 *((u8 *) (((s8 *) packet) + 0x1D)) = bottom_v;
@@ -290,14 +291,11 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
             part_command = *((u8 *) (((s8 *) part) + 1));
             *((u8 *) (((s8 *) sprite) + 0xF)) = part_command;
             sprite_flags = *((u16 *) (((u8 *) scratch) + 0x24));
-            if (sprite_flags & 8)
-            {
-                if (sprite_flags & 4)
-                {
+            if (sprite_flags & 8) {
+                if (sprite_flags & 4) {
                     draw_command = part_command | 2;
                 }
-                else
-                {
+                else {
                     draw_command = part_command & 0xFD;
                 }
                 *((u8 *) (((s8 *) sprite) + 0xF)) = draw_command;
@@ -308,25 +306,26 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
             strip_quad = base_quad;
             phase = *((s16 *) (((s8 *) wave) + 0x98));
             wave_index = 0;
-            if ((*((s16 *) (((s8 *) wave) + 0x9C))) == 0)
-            {
-                do
-                {
+            if ((*((s16 *) (((s8 *) wave) + 0x9C))) == 0) {
+                do {
                     *((s8 *) (((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
-                    *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index)) + 0x38))))) >> 0x10));
+                    *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
+                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
+                        + 0x38))))) >> 0x10));
                     ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10)))
+                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     row_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
-                    if (row_phase >= 0x1001)
-                    {
+                    if (row_phase >= 0x1001) {
                         row_phase -= 0x1000;
                     }
-                    *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18))) + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    *((u16 *) (((s8 *) packet) + 0x18)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x18)))
+                        + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     wave_index += 1;
-                    *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20))) + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
-                    if (wave_index >= 0x60)
-                    {
+                    *((u16 *) (((s8 *) packet) + 0x20)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x20)))
+                        + (((s32) (func_800644B8(row_phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
+                    if (wave_index >= 0x60) {
                         wave_index = 0;
                     }
                     do {
@@ -340,7 +339,8 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                                 *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
                                 *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
                                 *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
-                                *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                *packet = ((*packet) & 0xFF000000)
+                                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                                 row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
                                 *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
                                 strip_quad = *((Quad40 *) packet);
@@ -352,36 +352,42 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                             } while (0);
                         } while (0);
                     } while (0);
-                    if (phase >= 0x1001)
-                    {
+                    if (phase >= 0x1001) {
                         phase -= 0x1000;
                     }
                 }
                 while (((s16) next_y) < (base_quad.h26));
             }
-            else
-            {
-                do
-                {
+            else {
+                do {
                     *((s8 *) (((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
-                    *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index)) + 0x38))))) >> 0x10));
+                    *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA)))
+                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
+                        + 0x38))))) >> 0x10));
                     ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                    *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A)))
+                        + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
-                    if (column_phase >= 0x1001)
-                    {
+                    if (column_phase >= 0x1001) {
                         column_phase -= 0x1000;
-                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
+                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            >> 0x10));
                         wave_index += 1;
-                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
+                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            >> 0x10));
                     } else {
-                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
+                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            >> 0x10));
                         wave_index += 1;
-                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
+                            + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
+                            >> 0x10));
                     }
-                    if (wave_index >= 0x60)
-                    {
+                    if (wave_index >= 0x60) {
                         wave_index = 0;
                     }
                     do {
@@ -395,7 +401,8 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                                 *((u8 *) (((s8 *) packet) + 0x1C)) = strip_quad.b12;
                                 *((s8 *) (((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
                                 *((s8 *) (((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
-                                *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                *packet = ((*packet) & 0xFF000000)
+                                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                                 column_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
                                 *column_link = ((*column_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
                                 strip_quad = *((Quad40 *) packet);
@@ -407,31 +414,26 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                             } while (0);
                         } while (0);
                     } while (0);
-                    if (phase >= 0x1001)
-                    {
+                    if (phase >= 0x1001) {
                         phase -= 0x1000;
                     }
                 }
                 while (((s16) next_x) < (base_quad.h16));
             }
         }
-        else
-        {
+        else {
             draw_part = (s32 *(*)(void *, s32, void *, void *, s32 *)) (*((s32 *) (((s8 *) part) + 8)));
-            if (draw_part != 0)
-            {
+            if (draw_part != 0) {
                 packet = draw_part(context, callback_arg, sprite, part, packet);
             }
         }
-        if (((s8) (*((u8 *) (((s8 *) part) + 0)))) < 0)
-        {
+        if (((s8) (*((u8 *) (((s8 *) part) + 0)))) < 0) {
             break;
         }
         part = (void *) (((u8 *) part) + 0xC);
     }
     end_packet = packet;
-    if ((saved_draw_control << 0x10) != 0)
-    {
+    if ((saved_draw_control << 0x10) != 0) {
         func_80067EF4(end_packet, 0, 1);
         *packet = ((*packet) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
         end_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));

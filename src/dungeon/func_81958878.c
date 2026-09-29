@@ -22,7 +22,6 @@ typedef struct S_80024078_4 {
 } S_80024078_4;   /* arg0->child in func_80024078 */
 
 
-
 typedef struct {
     s16 x;
     s16 y;
@@ -64,7 +63,8 @@ void func_80024078(State *ctx)
 {
     GameWork *screen = &gameWork;
     switch (ctx->state) {
-    case 0: {
+    case 0:
+    {
         s32 rect_words[2];
         s32 phase;
         s32 fade_duration;

@@ -21,7 +21,7 @@ extern s32 D_800E1C64;
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8186E800")
-    __attribute__((section(".text.func_8186E800"), aligned(4))) = {
+__attribute__((section(".text.func_8186E800"), aligned(4))) = {
     0x800248C4, 0x88827382, 0x92828582, 0x40818582,
     0x81829782, 0x40819382, 0x8F828E82, 0x85824081,
     0x86828682, 0x83828582, 0x40819482, 0x8E828F82,
@@ -53,7 +53,7 @@ BODY_STORAGE void BODY_NAME(S_func_8186E800_0 *entity, s32 effect_param)
 
     if (func_8009D218(entity, 1) == 0) {
         if ((func_800A48F0(entity, 0x12,
-                          (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
+                           (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
             if (entity->unk_14 & 0x4000) {
                 func_80099844(entity, &D_800E1C64);
                 return;

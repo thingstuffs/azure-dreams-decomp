@@ -40,14 +40,11 @@ typedef struct S_80172F5C_4 {
 } S_80172F5C_4;   /* arg2 in func_80172F5C */
 
 
-
 typedef struct S_80172F5C_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172F5C_7;   /* block in func_80172F5C */
-
-
 
 
 extern s32 func_8003F270(void);
@@ -79,7 +76,7 @@ void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *a
     switch (((S_80172F5C_0 *)state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void *const dispatch_labels[] = {&&sw_c, &&sw_b, &&sw_a, &&sel_none};
+            static void * const dispatch_labels[] = { && sw_c, && sw_b, && sw_a, && sel_none };
             extern void *const D_80170878[];
             u32 action_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
 
@@ -89,37 +86,37 @@ void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *a
             }
             (void)dispatch_labels;
             goto *D_80170878[action_index];
-        sw_c:
+sw_c:
             use_player = 1;
             goto kind_c;
-        sw_b:
+sw_b:
             use_player = 1;
             goto kind_b;
-        sw_a:
+sw_a:
             use_player = 1;
             goto kind_a;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        kind_c:
+kind_c:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        kind_b:
+kind_b:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        kind_a:
+kind_a:
             motion = (u8 *)actor + 8;
             break;
         default:
-        sel_none:
+sel_none:
             motion = (u8 *)0;
             break;
         }
 
-    have_motion:
+have_motion:
         if (*motion != 0) {
             ((S_80172F5C_0 *)state)->unk_98 &= 0xFF7F;
             {
@@ -136,7 +133,7 @@ void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *a
                 if (target == 0) {
                     goto do_step;
                 }
-            have_obj:
+have_obj:
                 action_state = ((S_80172F5C_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172F5C_3 *)action_state)->unk_24;
                 actor->unk_73 = ((S_80172F5C_3 *)action_state)->unk_25;
@@ -149,7 +146,7 @@ void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *a
             abs_y = abs(actor->unk_73);
             actor->unk_72 = abs_x;
             actor->unk_73 = abs_y;
-        do_step:
+do_step:
             saved_pos[0] = ((u16)transform->x.w.i);
             saved_pos[1] = ((u16)transform->y.w.i);
             saved_pos[2] = ((u16)transform->z.w.i);

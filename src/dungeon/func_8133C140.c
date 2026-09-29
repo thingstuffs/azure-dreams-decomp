@@ -57,7 +57,10 @@ extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
 extern void *D_80175D54;
 
-static __inline__ u16 active_flag(u32 value) { return value & 0x2000; }
+static __inline__ u16 active_flag(u32 value)
+{
+    return value & 0x2000;
+}
 
 /* Create and initialize a dungeon object and store it as the active object. */
 void func_80173140(void) {
@@ -84,7 +87,8 @@ void func_80173140(void) {
         st->unk_13 = 2;
         func_8004491C(object, func_80045340);
         object_attrs = ((S_80173140_0 *)object)->unk_08;
-        ((S_80173140_2 *)object_attrs)->unk_0A = (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_80083498.next)))->z)))->unk_0A;
+        ((S_80173140_2 *)object_attrs)->unk_0A =
+            (u16) ((S_80173140_5 *)((*(void * *)&((EntityRec *)(((M2C_UNK *)&D_80083498.next)))->z)))->unk_0A;
         sprite = ((S_80173140_0 *)object)->unk_0C;
         origin_x = D_80082E80.tileX;
         ((S_80173140_4 *)sprite)->unk_24 = (u8) (origin_x - 1);
@@ -93,7 +97,8 @@ void func_80173140(void) {
         ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
         func_800A9C18(object, object_attrs, sprite, 0);
         (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
-        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.view.viewAngle + 0xD00) >> 9) & 7], 0);
+        func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (gameWork.view.viewAngle + 0xD00)
+            >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
         flag_mask = 0x40000;

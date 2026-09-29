@@ -23,8 +23,6 @@ typedef struct S_80170920_1 {
 } S_80170920_1;   /* arg2 in func_80170920 */
 
 
-
-
 /* Expands and brightens the effect, then shrinks and fades it until expiration. */
 void func_80170920(void *effect, void *unused, void *visual)
 {

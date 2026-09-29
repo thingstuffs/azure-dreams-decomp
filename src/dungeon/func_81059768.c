@@ -8,7 +8,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
@@ -41,7 +40,6 @@ extern u8 D_80173FF8[];
 extern u8 D_80174000[];
 
 
-
 typedef struct S_80170F68_1 {
     u8 pad_00[0x1C];
     u32 unk_1C;
@@ -61,7 +59,11 @@ typedef struct S_80170F68_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -92,7 +94,8 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             inactive_anims = D_80173FF8;
             (*(void * *)((u8 *)map_object_arg + (0x2C))) = inactive_anims;
             func_80047784(map_object_arg,
-                inactive_anims[((gameWork.view.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
+                inactive_anims[((gameWork.view.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100)
+                    >> 9) & 7],
                 0);
         }
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_AE = 0;
@@ -126,7 +129,8 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             if (((S_80170F68_2 *)map_object_arg)->unk_2C != anim_table) {
                 (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
                 func_80047784(map_object_arg,
-                    anim_table[((gameWork.view.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
+                    anim_table[((gameWork.view.viewAngle + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100)
+                        >> 9) & 7],
                     0);
             }
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = next_state;
@@ -150,7 +154,8 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
         }
     }
 
-    tile_id = func_8009FB34(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v);
+    tile_id = func_8009FB34(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
+        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v);
     ((S_80170F68_2 *)map_object_arg)->unk_26 = tile_id;
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
@@ -273,7 +278,8 @@ ordinary_cleanup:
                         ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, D_80082E80.tileX,
                         D_80082E80.tileY) != 0) {
                     ((S_80170F68_1 *)actor_state_arg)->unk_2A = func_800A0818(
-                        ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
+                        ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
+                            ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,
                         &distance);
                 }

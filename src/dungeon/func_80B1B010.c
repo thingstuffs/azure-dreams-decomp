@@ -39,14 +39,11 @@ typedef struct S_80172810_4 {
 } S_80172810_4;   /* arg2 in func_80172810 */
 
 
-
 typedef struct S_80172810_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172810_7;   /* block in func_80172810 */
-
-
 
 
 extern s32 func_8003F270(void);
@@ -99,19 +96,19 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        motion_3:
+motion_3:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        motion_2:
+motion_2:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        motion_1:
+motion_1:
             motion = (u8 *)actor + 8;
             break;
         default:
-        no_motion:
+no_motion:
             motion = (u8 *)0;
             break;
         }
@@ -132,7 +129,7 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
                 if (target == 0) {
                     goto apply_motion;
                 }
-            have_target:
+have_target:
                 action_globals = ((S_80172810_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172810_3 *)action_globals)->unk_24;
                 actor->unk_73 = ((S_80172810_3 *)action_globals)->unk_25;
@@ -145,7 +142,7 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
             offset_y = abs(actor->unk_73);
             actor->unk_72 = offset_x;
             actor->unk_73 = offset_y;
-        apply_motion:
+apply_motion:
             saved_position[0] = ((u16)((EntityRec *)position)->x.w.i);
             saved_position[1] = ((u16)((EntityRec *)position)->y.w.i);
             saved_position[2] = ((u16)((EntityRec *)position)->z.w.i);
@@ -181,7 +178,7 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
         }
         ((S_80172810_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172810_0 *)action_state)->unk_9B = ((S_80172810_0 *)action_state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if ((((S_80172810_4 *)sprite)->unk_04 == 14 && (((S_80172810_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172810_4 *)sprite)->unk_14 & 0xE000)) {

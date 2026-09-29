@@ -113,17 +113,20 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
         case 13:
             anim_table = D_80175E54;
             ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
             break;
         case 14:
             anim_table = D_80175E5C;
             ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
             break;
         case 15:
             anim_table = D_80175E64;
             ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
             break;
         }
         starting_task = task;
@@ -140,7 +143,8 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             next_anim_table = D_80175E54;
             if (old_anim_table != next_anim_table) {
                 ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         case 14:
@@ -148,7 +152,8 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             next_anim_table = D_80175E5C;
             if (old_anim_table != next_anim_table) {
                 ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         case 15:
@@ -156,7 +161,8 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             next_anim_table = D_80175E64;
             if (old_anim_table != next_anim_table) {
                 ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
             }
             break;
         }
@@ -167,17 +173,20 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             case 13:
                 anim_table = D_80175E6C;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             case 14:
                 anim_table = D_80175E6C + 8;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             case 15:
                 anim_table = D_80175E7C;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             }
         } else {
@@ -236,17 +245,20 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             case 13:
                 anim_table = D_80175E6C;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             case 14:
                 anim_table = D_80175E74;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             case 15:
                 anim_table = D_80175E7C;
                 ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A
+                    + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
                 break;
             }
         }

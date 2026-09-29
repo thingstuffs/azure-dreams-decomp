@@ -27,7 +27,13 @@ typedef struct S_BODY_2 {
     u8 unk_03;
     u16 unk_04;
     u16 unk_06;
-    union { struct { u8 v; } at00; struct { void * v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_08;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { void * v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_08;   /* overlapping accesses */
 } S_BODY_2;   /* sp in BODY */
 
 typedef struct S_BODY_3 {
@@ -84,14 +90,17 @@ typedef struct S_BODY_7 {
     u8 pad_1A[0x2];
     union { u16 u; s16 s; } unk_1C;   /* accessed as both */
     union { u16 u; s16 s; } unk_1E;   /* accessed as both */
-    union { struct { s16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_20;   /* overlapping accesses */
+    union {
+        struct { s16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_20;   /* overlapping accesses */
 } S_BODY_7;   /* ent in BODY */
 
 typedef struct S_BODY_8 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
 } S_BODY_8;   /* gp[0] in BODY */
-
 
 
 #define DM_U8(o)  (*(u8  *)(scratch + (o)))
@@ -136,15 +145,15 @@ extern void func_800258E4(void);
 /* The carved retail range starts with ten words of local table data followed
  * by nine callback addresses, immediately ahead of the executable body. */
 static const u32 func_818F2800_prefix[]
-    __asm__("func_818F2800")
-    __attribute__((section(".text.func_818F2800"), aligned(4))) = {
+__asm__("func_818F2800")
+__attribute__((section(".text.func_818F2800"), aligned(4))) = {
     (u32)func_80024FA4,
     0x00000020, 0x00200020, 0x00200000, 0x0020FFE0,
     0x0000FFE0, 0xFFE0FFE0, 0xFFE00000, 0xFFE00020, 0x00000000,
 };
 
 static void (*const func_818F2800_table[])(void)
-    __attribute__((section(".text.func_818F2800"), aligned(4))) = {
+__attribute__((section(".text.func_818F2800"), aligned(4))) = {
     func_80025090, func_80025150, func_80025418,
     func_80025798, func_800257CC, func_80025874,
     func_800258B0, func_80025948, func_800258E4,
@@ -282,7 +291,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                         texture_v = texture_v + state_flags;
                         DM_U32(0x0C) = texture_v;
                     }
-                    /* --- shared tail of the two arms (retail word 146) --- */
+                                        /* --- shared tail of the two arms (retail word 146) --- */
                     {
                         s32 half_height;
                         half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
@@ -467,7 +476,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 packed_uv = packed_uv + ((S_BODY_2 *)part)->unk_06;
                                 ((S_BODY_7 *)quad)->unk_0A = (s16)packed_uv;
                             }
-                            /* --- retail word 404 --- */
+                                                        /* --- retail word 404 --- */
                             packed_uv = DM_U16(0x0C);
                             packed_uv = packed_uv + DM_U16(0x08);
                             ((S_BODY_7 *)quad)->unk_08 = (s16)packed_uv;
@@ -484,7 +493,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 } else {
                                     texture_page = ((S_BODY_2 *)part)->unk_04;
                                 }
-                                /* --- retail word 424 --- */
+                                                                /* --- retail word 424 --- */
                                 ((S_BODY_7 *)quad)->unk_12 = (u16)texture_page;
                             }
                             packed_uv = DM_U16(0x14);
@@ -543,7 +552,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                             }
                             ((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] =
                                 (((u32 *)((u8 *)DM_U32(0x20)))[DM_S32(0xC0)] & 0xFF000000)
-                                | ((s32)packet & 0xFFFFFF);
+                            | ((s32)packet & 0xFFFFFF);
                             packet += 0x28;
                         }
                     }

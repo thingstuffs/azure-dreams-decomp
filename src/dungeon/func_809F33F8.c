@@ -128,25 +128,33 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
         if (update_callback != NULL) {
             update_callback(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
         }
-        ((void (*)(void *, void *, void *, void *))D_80175198[((S_80170BF8_0 *)actor_arg)->unk_9A])(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
+        ((void (*)(void *, void *, void *, void *))D_80175198[((S_80170BF8_0 *)actor_arg)->unk_9A])(actor_arg,
+            ((void *)(motion_arg)), object_arg, actor_arg);
         if ((s16) state_or_facing != (s8) ((S_80170BF8_0 *)actor_arg)->unk_6D) {
             func_800AA36C(actor_arg, ((void *)(motion_arg)), object_arg, actor_arg);
         }
-        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v = (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_0C);
-        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at00.v = (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at00.v + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_10);
+        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v =
+            (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at00.v
+            + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_0C);
+        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at00.v =
+            (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at00.v
+            + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_10);
         if (!(((S_80170BF8_0 *)actor_arg)->unk_1C & 0x40000) && !(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-            ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 + (((S_80170BF8_0 *)actor_arg)->unk_9D.s * 0x14000));
+            ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14 = (s32) (((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14
+                + (((S_80170BF8_0 *)actor_arg)->unk_9D.s * 0x14000));
             ((S_80170BF8_0 *)actor_arg)->unk_9D.u = (u8) (((S_80170BF8_0 *)actor_arg)->unk_9D.u + 1);
         } else {
             ((S_80170BF8_0 *)actor_arg)->unk_9D.s = 0;
         }
-        ((S_80170BF8_0 *)actor_arg)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)actor_arg)->unk_90.at00.v + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
+        ((S_80170BF8_0 *)actor_arg)->unk_90.at00.v = (s32) (((S_80170BF8_0 *)actor_arg)->unk_90.at00.v
+            + ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_14);
         object_flags = ((S_80170BF8_2 *)object_arg)->unk_14;
         if (!(object_flags & 0x8000)) {
             facing = ((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             state_or_facing = (s16) facing;
             if (((S_80170BF8_0 *)actor_arg)->unk_94 != state_or_facing) {
-                func_80047738(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing), ((S_80170BF8_2 *)object_arg)->unk_04);
+                func_80047738(object_arg, *(((S_80170BF8_2 *)object_arg)->unk_2C + state_or_facing),
+                    ((S_80170BF8_2 *)object_arg)->unk_04);
                 ((S_80170BF8_0 *)actor_arg)->unk_94 = facing;
             }
             if (dirSpriteFlag[state_or_facing] != 0) {
@@ -192,7 +200,8 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
                         }
                         next_anim = (u8 *) anim_addr;
                         ((S_80170BF8_2 *)object_arg)->unk_2C = next_anim;
-                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
+                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            + 0x100) >> 9) & 7));
                         frame_addr += (u32) next_anim;
                         func_80047784(object_arg, *(u8 *) frame_addr, 0);
                     }
@@ -207,11 +216,16 @@ update_bob:
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    hover_ground_offset = (s16) (func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u);
+                    hover_ground_offset = (s16) (func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                        (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20))
+                        - ((S_80170BF8_3 *)actor_base)->unk_88.u);
                     if (((S_80170BF8_0 *)actor_arg)->unk_90.at02.v > (hover_ground_offset - 0x20)) {
-                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v =
+                            (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
                     } else if (((S_80170BF8_0 *)actor_arg)->unk_90.at02.v < (hover_ground_offset - 0x2A)) {
-                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v =
+                            (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
                     }
                 }
             } else {
@@ -219,7 +233,9 @@ update_bob:
                 ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
                 ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (motion_flags & 0x7FFF);
                 if (!(motion_flags & 8)) {
-                    ground_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
+                    ground_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                        (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
                     ground_height = (s16) ground_offset;
                     base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
                     ground_offset_2 = (s32) ground_height - base_height;
@@ -232,15 +248,19 @@ update_bob:
                 }
             }
         } else {
-            ((S_80170BF8_2 *)object_arg)->unk_14 = (object_flags & 0x800) ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
+            ((S_80170BF8_2 *)object_arg)->unk_14 = (object_flags & 0x800)
+                ? (object_flags & 0x8FFF) : (object_flags | 0x7000);
             hidden_actor_flags = ((S_80170BF8_3 *)actor_base)->unk_1C & 0xF7FFFFFF;
             ((S_80170BF8_3 *)actor_base)->unk_1C = hidden_actor_flags;
             if (!(hidden_actor_flags & 0x40000)) {
                 ((S_80170BF8_0 *)actor_arg)->unk_A8 = 0;
-                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v - bob_offset);
+                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v
+                    - bob_offset);
                 bob_offset = 0;
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    ground_offset_3 = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
+                    ground_offset_3 = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                        (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
                     hidden_ground_height = (s16) ground_offset_3;
                     hidden_base_height = ((S_80170BF8_3 *)actor_base)->unk_88.s;
                     ground_offset_4 = (s32) hidden_ground_height - hidden_base_height;
@@ -274,7 +294,8 @@ update_bob:
                         }
                         hidden_next_anim = (u8 *) anim_addr;
                         ((S_80170BF8_2 *)object_arg)->unk_2C = hidden_next_anim;
-                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7));
+                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                            + 0x100) >> 9) & 7));
                         frame_addr += (u32) hidden_next_anim;
                         func_80047784(object_arg, *(u8 *) frame_addr, 0);
                     }
@@ -289,12 +310,16 @@ update_hidden_bob:
                     ((S_80170BF8_0 *)actor_arg)->unk_A8 = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_A8 + 1);
                 }
                 if (!(((S_80170BF8_0 *)actor_arg)->unk_98 & 8)) {
-                    hidden_hover_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v, ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u;
+                    hidden_hover_offset = func_800BCB04(((S_80170BF8_1 *)((void *)(motion_arg)))->unk_00.at02.v,
+                        ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_04.at02.v,
+                        (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20)) - ((S_80170BF8_3 *)actor_base)->unk_88.u;
                     height_offset = ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v;
                     if (height_offset > (hidden_hover_offset - 0x20)) {
-                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v =
+                            (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) - 8);
                     } else if (height_offset < (hidden_hover_offset - 0x2A)) {
-                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
+                        ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v =
+                            (s16) (((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v) + 8);
                     }
                 }
             }
@@ -304,13 +329,17 @@ update_hidden_bob:
         height_flags = ((S_80170BF8_3 *)actor_base)->unk_1C;
         if (height_flags & 0x40000000) {
             ((S_80170BF8_3 *)actor_base)->unk_1C = (s32) (height_flags & 0xBFFFFFFF);
-            tile_height = func_800BCB04((((S_80170BF8_2 *)object_arg)->unk_24 << 6) | 0x20, (((S_80170BF8_2 *)object_arg)->unk_25 << 6) | 0x20, (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
+            tile_height = func_800BCB04((((S_80170BF8_2 *)object_arg)->unk_24 << 6) | 0x20,
+                (((S_80170BF8_2 *)object_arg)->unk_25 << 6) | 0x20,
+                (s16) (((S_80170BF8_3 *)actor_base)->unk_88.u - 0x20));
             if (tile_height < 0x200) {
-                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v + (((S_80170BF8_3 *)actor_base)->unk_88.u - tile_height));
+                ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v = (s16) ((u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v
+                    + (((S_80170BF8_3 *)actor_base)->unk_88.u - tile_height));
                 ((S_80170BF8_3 *)actor_base)->unk_88.u = (u16) tile_height;
             }
         }
-        display_height = (s32) (((S_80170BF8_3 *)actor_base)->unk_88.u + (u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v + bob_offset);
+        display_height = (s32) (((S_80170BF8_3 *)actor_base)->unk_88.u
+            + (u16) ((S_80170BF8_0 *)actor_arg)->unk_90.at02.v + bob_offset);
         ((S_80170BF8_1 *)((void *)(motion_arg)))->unk_0A = (s16) display_height;
         ((S_80170BF8_2 *)object_arg)->unk_14 = (u16) (((S_80170BF8_2 *)object_arg)->unk_14 | 0x40);
     }

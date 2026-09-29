@@ -32,7 +32,11 @@ typedef struct S_80172F58_1 {
 
 typedef struct S_80172F58_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_80172F58_2;   /* arg2 in func_80172F58 */
 
@@ -75,7 +79,6 @@ typedef struct S_80172F58_13 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_80172F58_13;   /* arg3 + (((S_80172F58_1 *)arg3)->unk_71.u & 0x7F) in func_80172F58 */
-
 
 
 extern s32 func_8009A180();
@@ -145,7 +148,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     actor_flags = ((S_80172F58_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found_target = func_800A02AC(actor, ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v);
+            found_target = func_800A02AC(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
+                ((S_80172F58_2 *)position)->unk_24.at01.v);
             if (found_target != NULL) {
                 object = ((S_80172F58_3_pre *)found_target)[-1].unk_00;
                 ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
@@ -169,7 +173,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
             }
             goto init_loop;
         }
-        found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+        found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
+            ((S_80172F58_2 *)position)->unk_24.at01.v,
                               ((S_80172F58_1 *)actor)->unk_2A.s);
         attempt = 0;
         if (found_target == NULL) {
@@ -203,7 +208,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                 ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
-            new_angle = func_800A0818(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+            new_angle = func_800A0818(((S_80172F58_2 *)position)->unk_24.at00.v,
+                ((S_80172F58_2 *)position)->unk_24.at01.v,
                                       target_x, (s16)target_y, move_input + 0x98);
             ((S_80172F58_1 *)actor)->unk_2A.u = new_angle;
             if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
@@ -243,7 +249,8 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         if (((S_80172F58_1 *)actor)->unk_46 & 0x8000) {
             goto setup_loop;
         }
-        found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
+        found_target = func_800A04F0(actor, ((S_80172F58_2 *)position)->unk_24.at00.v,
+            ((S_80172F58_2 *)position)->unk_24.at01.v,
                               ((S_80172F58_1 *)actor)->unk_2A.s);
         if ((found_target != NULL) && (((S_80172F58_3 *)found_target)->unk_1C & 0x2000) &&
             (func_800A0134(found_target, actor) < 0x81) &&
@@ -333,7 +340,8 @@ loop:
         func_8009A21C(next_x, next_y, tile_mask);
     } else {
         if (attempt == 0) {
-            if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v) &&
+            if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v)
+                &&
                 ((s16)func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
                 return;
             }

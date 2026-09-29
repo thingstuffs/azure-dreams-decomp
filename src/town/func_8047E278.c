@@ -10,11 +10,10 @@ typedef struct S_8047E278_2 {
 } S_8047E278_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_8047E278 */
 
 
-
-
 extern M2C_UNK D_8001601C;
 
 /* Invoke the context callback with the global data and offset context value. */
 void func_8047E278(void) {
-    ((S_8047E278_2 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20))->unk_26C(&D_8001601C, ((Rec_D_80016000 *)D_80016000)->unk_38.as_s32 + 0x20C);
+    ((S_8047E278_2 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20))->unk_26C(&D_8001601C,
+        ((Rec_D_80016000 *)D_80016000)->unk_38.as_s32 + 0x20C);
 }

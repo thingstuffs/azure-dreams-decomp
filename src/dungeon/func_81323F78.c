@@ -10,10 +10,13 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_8016B778_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     union { u8 * p; void * p2; } unk_2C;   /* accessed as both */
@@ -189,40 +192,41 @@ block_33:
     switch (action_id) {
     case 8:
     case 9:
-    if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
+        if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
+            return;
+        }
+        func_8016C8AC(actor, context, map_actor, entity);
         return;
-    }
-    func_8016C8AC(actor, context, map_actor, entity);
-    return;
     case 5:
     case 6:
     case 7:
-    target_angle = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
-    active_actor = (u8 *)*((int *)(&D_800814A8));
-    entity->facing = target_angle;
-    if (((S_8016B778_4 *)active_actor)->unk_9A == 0x11) {
-        action_data = (u8 *)0x80170000;
-        goto block_53_low;
-    }
+        target_angle = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
+            D_80082E80.tileY, &target_distance);
+        active_actor = (u8 *)*((int *)(&D_800814A8));
+        entity->facing = target_angle;
+        if (((S_8016B778_4 *)active_actor)->unk_9A == 0x11) {
+            action_data = (u8 *)0x80170000;
+            goto block_53_low;
+        }
     case 12:
 block_50:
-    func_800A9A0C(entity);
-    return;
+        func_800A9A0C(entity);
+        return;
     case 1:
     case 2:
     case 3:
-    action_data = (u8 *)0x80170000;
+        action_data = (u8 *)0x80170000;
 block_53_low:
-    action_data -= 0x4888;
+        action_data -= 0x4888;
 block_53:
-    func_800AAF00(actor, context, map_actor, &D_801746BC, action_data);
-    return;
+        func_800AAF00(actor, context, map_actor, &D_801746BC, action_data);
+        return;
     case 11:
     default:
 block_55:
 block_56:
-    func_8016BF74(actor, context, map_actor, entity);
-    return;
+        func_8016BF74(actor, context, map_actor, entity);
+        return;
     }
 block_58:
     entity_flags = entity->flags1C;
@@ -242,9 +246,11 @@ block_58:
     if (entity_flags & 0x430) {
         return;
     }
-    if ((func_8009FD7C(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
+    if ((func_8009FD7C(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10)
+        == 0) {
         return;
     }
-    entity->facing = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+    entity->facing = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX,
+        D_80082E80.tileY, &target_distance);
     return;
 }

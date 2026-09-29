@@ -15,8 +15,6 @@ typedef struct S_81984AF4_1 {
 } S_81984AF4_1;   /* owner in func_81984AF4 */
 
 
-
-
 /* Resolve the current entry, apply an index step, and enforce the index bounds. */
 void func_81984AF4(void *object, s16 *index_step, s32 min_index, s32 max_index) {
     s16 step;

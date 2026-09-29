@@ -341,9 +341,11 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
             address_mask = 0x00FFFFFF;
             tag_mask = 0xFF000000;
             ((S_8195F43C_7 *)packet)->unk_00.at00.v = (((S_8195F43C_7 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & address_mask);
+                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20)
+                    + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & address_mask);
             (*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20) + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & tag_mask) |
+                ((*(u32 *)((u8 *)(((S_8195F43C_0 *)scratch)->unk_20)
+                    + ((S_8195F43C_0 *)scratch)->unk_C0 * 4)) & tag_mask) |
                 ((u32)packet & address_mask);
             packet += 0x28;
         }

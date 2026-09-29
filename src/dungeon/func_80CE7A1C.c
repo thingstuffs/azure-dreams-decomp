@@ -82,7 +82,6 @@ typedef struct S_8017121C_10 {
 } S_8017121C_10;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_8017121C */
 
 
-
 typedef struct Vec3u16 {
     u16 raw_y;
     u16 y;
@@ -257,5 +256,6 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
 
 /* MECHANISM: The 0x38 frame and guarded register live ranges preserve the retail prologue, held bases, and table pipelines.
    Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening artifacts.
-   Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one expression (single-set pseudos
+   Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one expression (single
+       -set pseudos
    are scheduled as births), which keeps the second half in source order around the zero store. */

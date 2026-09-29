@@ -18,7 +18,6 @@ typedef struct S_800251E8_1 {
 } S_800251E8_1;   /* linked in func_800251E8 */
 
 
-
 extern void *D_80024008[];
 
 typedef struct LoopEntry {

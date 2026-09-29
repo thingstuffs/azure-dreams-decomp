@@ -132,4 +132,5 @@ void func_80171790(void *source, void *position) {
 
 /* MECHANISM: The fixed s0/s1/s2 object roles leave natural argument holds to allocate as s4/s3,
    reproducing the 0x28 frame and prologue schedule; s0 holds object+0x20 across the body.
-   Two scheduler seams retain the random_byte_1 load-delay nop, while a split random_byte_2 live range hoists its lbu. */
+   Two scheduler seams retain the random_byte_1 load-delay nop,
+       while a split random_byte_2 live range hoists its lbu. */

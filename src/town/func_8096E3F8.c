@@ -11,7 +11,6 @@ typedef struct S_80126890_0 {
 } S_80126890_0;   /* node in func_80126890 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8004B248(void *);

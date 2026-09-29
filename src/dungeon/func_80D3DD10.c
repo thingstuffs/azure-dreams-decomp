@@ -85,185 +85,185 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
         return;
 
     case 1:
-        {
-            s16 *direction_x;
-            s16 *direction_y;
-            u16 timer;
+    {
+        s16 *direction_x;
+        s16 *direction_y;
+        u16 timer;
 
-            timer = ((S_80173510_0 *)action)->unk_96.u;
-            ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-            if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                return;
-            }
-
-            ((S_80173510_0 *)action)->unk_96.u = 0x12;
-            direction_x = (s16 *)((s8 *)dirStepX);
-            ((S_80173510_0 *)action)->unk_9B.n++;
-            direction_y = (s16 *)((s8 *)dirStepY);
-            ((S_80173510_3 *)motion)->unk_0C =
-                -*(s16 *)((u8 *)direction_x +
-                  ((((u16)actor->facing) >> 8) & 0xE)) << 18;
-            ((S_80173510_3 *)motion)->unk_10 =
-                -*(s16 *)((u8 *)direction_y +
-                  ((((u16)actor->facing) >> 8) & 0xE)) << 18;
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
+
+        ((S_80173510_0 *)action)->unk_96.u = 0x12;
+        direction_x = (s16 *)((s8 *)dirStepX);
+        ((S_80173510_0 *)action)->unk_9B.n++;
+        direction_y = (s16 *)((s8 *)dirStepY);
+        ((S_80173510_3 *)motion)->unk_0C =
+            -*(s16 *)((u8 *)direction_x +
+              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
+        ((S_80173510_3 *)motion)->unk_10 =
+            -*(s16 *)((u8 *)direction_y +
+              ((((u16)actor->facing) >> 8) & 0xE)) << 18;
+        return;
+    }
 
     case 2:
-        {
-            s16 *direction_x;
-            s16 *direction_y;
-            s32 eight;
-            s8 entity_kind;
-            u16 timer;
+    {
+        s16 *direction_x;
+        s16 *direction_y;
+        s32 eight;
+        s8 entity_kind;
+        u16 timer;
 
-            if (((S_80173510_0 *)action)->unk_96.s == 0xB) {
-                ((S_80173510_3 *)motion)->unk_0C = 0;
-                ((S_80173510_3 *)motion)->unk_10 = 0;
-            }
-
-            eight = 8;
-            if (((S_80173510_0 *)action)->unk_96.s == eight) {
-                u8 *animation_ids;
-
-                animation_ids = D_800E2400;
-                (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
-                func_80047784(record,
-                    animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                    1);
-
-                direction_x = (s16 *)((s8 *)dirStepX);
-                direction_y = (s16 *)((s8 *)dirStepY);
-                ((S_80173510_3 *)motion)->unk_0C =
-                    *(s16 *)((u8 *)direction_x +
-                      ((((u16)actor->facing) >> 8) & 0xE)) << 19;
-                ((S_80173510_3 *)motion)->unk_10 =
-                    *(s16 *)((u8 *)direction_y +
-                      ((((u16)actor->facing) >> 8) & 0xE)) << 19;
-            }
-
-            entity_kind = ((Rec_D_80082E80 *)record)->unk_04.as_s8;
-            if (entity_kind == 4 || entity_kind == eight) {
-                s32 particles_left;
-
-                func_800A56E0(0x706);
-                particles_left = 0x14;
-                do {
-                    s32 particle_random;
-
-                    particles_left--;
-                    particle_random = rand();
-                    func_800D5DCC((u8 *)action - 0x20,
-                        actor->facing, 0x8080FF,
-                        (particle_random & 0xFF) | 0x80);
-                } while (particles_left >= 0);
-            }
-
-            timer = ((S_80173510_0 *)action)->unk_96.u;
-            ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-            if ((s16)timer <= 0 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                ((S_80173510_0 *)action)->unk_96.u = 4;
-                ((S_80173510_0 *)action)->unk_9B.n++;
-            }
-
-            if (((Rec_D_80082E80 *)record)->unk_2C.as_pu8 != D_800E2400) {
-                return;
-            }
-            ((Rec_D_80082E80 *)record)->unk_05.as_u8 = 0;
-            return;
-        }
-
-    case 3:
-        {
-            s16 timer;
-
-            timer = ((S_80173510_0 *)action)->unk_96.u - 1;
-            ((S_80173510_0 *)action)->unk_96.u = timer;
-            if (timer == 3 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                u8 *animation_ids;
-
-                ((S_80173510_3 *)motion)->unk_14 = 0;
-                ((S_80173510_3 *)motion)->unk_10 = 0;
-                ((S_80173510_3 *)motion)->unk_0C = 0;
-                func_8009C12C(actor, record, actor->facing, 1);
-
-                animation_ids = D_800E23E0;
-                (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
-                func_80047784(record,
-                    animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                    0);
-                ((S_80173510_0 *)action)->unk_92 = -0x20;
-                if (((S_80173510_0 *)action)->unk_B0 == 0) {
-                    func_801708B8(action, motion, record);
-                }
-            }
-
-            if (((S_80173510_0 *)action)->unk_96.s > 0 &&
-                !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                return;
-            }
-            state = ((S_80173510_0 *)action)->unk_9B.n;
-            next_timer = 2;
-            goto advance_state;
-        }
-
-    case 4:
-        {
-            u16 timer;
-
-            timer = ((S_80173510_0 *)action)->unk_96.u;
-            ((S_80173510_0 *)action)->unk_96.u = timer - 1;
-            if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                return;
-            }
-            state = ((S_80173510_0 *)action)->unk_9B.n;
-            next_timer = 6;
-    advance_state:
-            do {
-                ((S_80173510_0 *)action)->unk_96.u = next_timer;
-            } while (0);
-             /* MATCH: Keep the timer store before the shared state increment. */
-            ((S_80173510_0 *)action)->unk_9B.n = state + 1;
-            return;
-        }
-
-    case 5:
-        {
-            s32 distance;
-            s32 axis_position;
-            s16 timer;
-
-            timer = ((S_80173510_0 *)action)->unk_96.s;
-            if (timer != 0) {
-                distance = ((Rec_D_80082E80 *)record)->unk_24 << 6;
-                axis_position = ((S_80173510_3 *)motion)->unk_02;
-                axis_position -= 0x20;
-                distance -= axis_position;
-                ((S_80173510_3 *)motion)->unk_0C = (distance << 16) / timer;
-
-                axis_position = ((S_80173510_3 *)motion)->unk_06;
-                distance = ((Rec_D_80082E80 *)record)->unk_25 << 6;
-                axis_position -= 0x20;
-                distance -= axis_position;
-                ((S_80173510_3 *)motion)->unk_10 =
-                    (distance << 16) / ((S_80173510_0 *)action)->unk_96.s;
-            }
-
-            ((S_80173510_0 *)action)->unk_96.u--;
-            if (((S_80173510_0 *)action)->unk_96.s > 0 &&
-                !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-                return;
-            }
-
-            func_800AD594(actor, 0x100);
-            ((S_80173510_0 *)action)->unk_8C = D_80171A80;
-            dungeonStatus.unk_0C = 0;
-            func_800A4ACC(actor);
+        if (((S_80173510_0 *)action)->unk_96.s == 0xB) {
             ((S_80173510_3 *)motion)->unk_0C = 0;
             ((S_80173510_3 *)motion)->unk_10 = 0;
-            ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;
-            ((S_80173510_3 *)motion)->unk_06 = ((Rec_D_80082E80 *)record)->unk_25 * 0x40 + 0x20;
-            actor->unk_46 &= 0x7FFF;
         }
+
+        eight = 8;
+        if (((S_80173510_0 *)action)->unk_96.s == eight) {
+            u8 *animation_ids;
+
+            animation_ids = D_800E2400;
+            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            func_80047784(record,
+                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                1);
+
+            direction_x = (s16 *)((s8 *)dirStepX);
+            direction_y = (s16 *)((s8 *)dirStepY);
+            ((S_80173510_3 *)motion)->unk_0C =
+                *(s16 *)((u8 *)direction_x +
+                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
+            ((S_80173510_3 *)motion)->unk_10 =
+                *(s16 *)((u8 *)direction_y +
+                  ((((u16)actor->facing) >> 8) & 0xE)) << 19;
+        }
+
+        entity_kind = ((Rec_D_80082E80 *)record)->unk_04.as_s8;
+        if (entity_kind == 4 || entity_kind == eight) {
+            s32 particles_left;
+
+            func_800A56E0(0x706);
+            particles_left = 0x14;
+            do {
+                s32 particle_random;
+
+                particles_left--;
+                particle_random = rand();
+                func_800D5DCC((u8 *)action - 0x20,
+                    actor->facing, 0x8080FF,
+                    (particle_random & 0xFF) | 0x80);
+            } while (particles_left >= 0);
+        }
+
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            ((S_80173510_0 *)action)->unk_96.u = 4;
+            ((S_80173510_0 *)action)->unk_9B.n++;
+        }
+
+        if (((Rec_D_80082E80 *)record)->unk_2C.as_pu8 != D_800E2400) {
+            return;
+        }
+        ((Rec_D_80082E80 *)record)->unk_05.as_u8 = 0;
+        return;
+    }
+
+    case 3:
+    {
+        s16 timer;
+
+        timer = ((S_80173510_0 *)action)->unk_96.u - 1;
+        ((S_80173510_0 *)action)->unk_96.u = timer;
+        if (timer == 3 || (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            u8 *animation_ids;
+
+            ((S_80173510_3 *)motion)->unk_14 = 0;
+            ((S_80173510_3 *)motion)->unk_10 = 0;
+            ((S_80173510_3 *)motion)->unk_0C = 0;
+            func_8009C12C(actor, record, actor->facing, 1);
+
+            animation_ids = D_800E23E0;
+            (*(u8 * *)((u8 *)record + (0x2C))) = animation_ids;
+            func_80047784(record,
+                animation_ids[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80173510_0 *)action)->unk_92 = -0x20;
+            if (((S_80173510_0 *)action)->unk_B0 == 0) {
+                func_801708B8(action, motion, record);
+            }
+        }
+
+        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+        state = ((S_80173510_0 *)action)->unk_9B.n;
+        next_timer = 2;
+        goto advance_state;
+    }
+
+    case 4:
+    {
+        u16 timer;
+
+        timer = ((S_80173510_0 *)action)->unk_96.u;
+        ((S_80173510_0 *)action)->unk_96.u = timer - 1;
+        if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+        state = ((S_80173510_0 *)action)->unk_9B.n;
+        next_timer = 6;
+advance_state:
+        do {
+            ((S_80173510_0 *)action)->unk_96.u = next_timer;
+        } while (0);
+                     /* MATCH: Keep the timer store before the shared state increment. */
+        ((S_80173510_0 *)action)->unk_9B.n = state + 1;
+        return;
+    }
+
+    case 5:
+    {
+        s32 distance;
+        s32 axis_position;
+        s16 timer;
+
+        timer = ((S_80173510_0 *)action)->unk_96.s;
+        if (timer != 0) {
+            distance = ((Rec_D_80082E80 *)record)->unk_24 << 6;
+            axis_position = ((S_80173510_3 *)motion)->unk_02;
+            axis_position -= 0x20;
+            distance -= axis_position;
+            ((S_80173510_3 *)motion)->unk_0C = (distance << 16) / timer;
+
+            axis_position = ((S_80173510_3 *)motion)->unk_06;
+            distance = ((Rec_D_80082E80 *)record)->unk_25 << 6;
+            axis_position -= 0x20;
+            distance -= axis_position;
+            ((S_80173510_3 *)motion)->unk_10 =
+                (distance << 16) / ((S_80173510_0 *)action)->unk_96.s;
+        }
+
+        ((S_80173510_0 *)action)->unk_96.u--;
+        if (((S_80173510_0 *)action)->unk_96.s > 0 &&
+            !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+
+        func_800AD594(actor, 0x100);
+        ((S_80173510_0 *)action)->unk_8C = D_80171A80;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        ((S_80173510_3 *)motion)->unk_0C = 0;
+        ((S_80173510_3 *)motion)->unk_10 = 0;
+        ((S_80173510_3 *)motion)->unk_02 = ((Rec_D_80082E80 *)record)->unk_24 * 0x40 + 0x20;
+        ((S_80173510_3 *)motion)->unk_06 = ((Rec_D_80082E80 *)record)->unk_25 * 0x40 + 0x20;
+        actor->unk_46 &= 0x7FFF;
+    }
     }
 }

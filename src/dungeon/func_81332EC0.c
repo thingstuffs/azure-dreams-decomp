@@ -197,7 +197,8 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
     (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) &&
-        ((terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v, ((S_80169EC0_5 *)motion)->unk_04.at02.v,
+        ((terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v,
+            ((S_80169EC0_5 *)motion)->unk_04.at02.v,
                            (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20))),
          (s16)terrain_height < 0x200)) {
         height_offset = (*(s16 *)((u8 *)owner_arg + (0x92)));

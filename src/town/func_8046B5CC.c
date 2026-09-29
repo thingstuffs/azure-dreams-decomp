@@ -11,7 +11,8 @@ s32 func_8001C5CC(void) {
 
     if (func_8001A5D0() >= 2) {
         callback_result = (*(Callback *)((s8 *)*(void **)((s8 *)D_80016000 + 0x20) + 0x2D4))(0);
-        if (callback_result == 2) return 1;
+        if (callback_result == 2)
+            return 1;
     }
     return 0;
 }

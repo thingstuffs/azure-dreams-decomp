@@ -82,7 +82,6 @@ typedef struct S_80172610_8 {
 } S_80172610_8;   /* saved_base in func_80172610 */
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 extern void func_800A020C(void *, void *);

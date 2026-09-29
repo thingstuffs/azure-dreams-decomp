@@ -9,7 +9,6 @@ typedef struct S_80016BD4_2 {
 } S_80016BD4_2;   /* ((temp_a1 * 0x10) + temp_a0->unk_10) in func_80016BD4 */
 
 
-
 typedef struct S_80016BD4_1 {
     u8 unk_00;
     u8 pad_01[0xF];

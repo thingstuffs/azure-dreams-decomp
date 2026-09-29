@@ -71,39 +71,39 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 #endif
     switch (state) {
     case 0:
-    S32_AT(display, 0x0C) = 0x00808080;
-    U16_AT(display, 0x1E) = 0x1000;
-    U16_AT(display, 0x1C) = 0x1000;
+        S32_AT(display, 0x0C) = 0x00808080;
+        U16_AT(display, 0x1E) = 0x1000;
+        U16_AT(display, 0x1C) = 0x1000;
 #ifdef NON_MATCHING
-    copy_page = D_800252FC - 0x52FC;
+        copy_page = D_800252FC - 0x52FC;
 #else
-    copy_page = (u8 *)0x80020000;
+        copy_page = (u8 *)0x80020000;
 #endif
-    copy_source = D_800252FC;
-    memcpy(effect_data + 0x94, copy_source, 12);
-    {
-        u8 *copy_dest = effect_data + 0x94;
-        ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        PTR_AT(display, 0x08) = copy_dest;
-    }
-    {
-        u32 owner_bits;
-        s32 next_state;
+        copy_source = D_800252FC;
+        memcpy(effect_data + 0x94, copy_source, 12);
+        {
+            u8 *copy_dest = effect_data + 0x94;
+            ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            PTR_AT(display, 0x08) = copy_dest;
+        }
+        {
+            u32 owner_bits;
+            s32 next_state;
 
 #ifdef NON_MATCHING
-        flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
+            flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
 #else
-        flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
+            flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
 #endif
-        owner_bits = U16_AT(owner, 0x2A);
-        next_state = 1;
-        *(s16 *)((u8 *)flag_base + 0x5308) = next_state;
-        next_state = U16_AT(effect_data, 0x0A);
-        owner_bits = (owner_bits >> 9) & 7;
-        next_state++;
-        S16_AT(effect_data, 0x7E) = owner_bits;
-        S16_AT(effect_data, 0x0A) = next_state;
-    }
+            owner_bits = U16_AT(owner, 0x2A);
+            next_state = 1;
+            *(s16 *)((u8 *)flag_base + 0x5308) = next_state;
+            next_state = U16_AT(effect_data, 0x0A);
+            owner_bits = (owner_bits >> 9) & 7;
+            next_state++;
+            S16_AT(effect_data, 0x7E) = owner_bits;
+            S16_AT(effect_data, 0x0A) = next_state;
+        }
 
     case 1:
     {
@@ -146,63 +146,64 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             goto done;
         }
 
-        { u32 target = (u32)PTR_AT(owner, 0x60);
-        if (target != 0) {
-            u8 *sprite;
-            s32 delta;
+        {
+            u32 target = (u32)PTR_AT(owner, 0x60);
+            if (target != 0) {
+                u8 *sprite;
+                s32 delta;
 
-            {
+                {
 
-                u32 table;
+                    u32 table;
 
-                copy_source = PTR_AT((u8 *)target, -0x18);
-                table = (u32)D_800DDC40;
-                target = U8_AT((u8 *)target, 0x13);
-                target += table;
-                table = U8_AT((u8 *)target, 0x00);
-                target = U16_AT(copy_source, 0x0A);
-                table += 0x20;
-                target -= table;
+                    copy_source = PTR_AT((u8 *)target, -0x18);
+                    table = (u32)D_800DDC40;
+                    target = U8_AT((u8 *)target, 0x13);
+                    target += table;
+                    table = U8_AT((u8 *)target, 0x00);
+                    target = U16_AT(copy_source, 0x0A);
+                    table += 0x20;
+                    target -= table;
 
-                table = (u32)((u8 *)dirStepX);
-                S16_AT(effect_data, 0x78) = target;
-                target = S16_AT(effect_data, 0x7E);
-                sprite = PTR_AT(owner, -0x14);
-                target <<= 1;
-                target += table;
-                table = U8_AT(sprite, 0x24);
-                target = U8_AT((u8 *)target, 0x00);
-                table += target;
-                U8_AT(effect_data, 0xA0) = table;
+                    table = (u32)((u8 *)dirStepX);
+                    S16_AT(effect_data, 0x78) = target;
+                    target = S16_AT(effect_data, 0x7E);
+                    sprite = PTR_AT(owner, -0x14);
+                    target <<= 1;
+                    target += table;
+                    table = U8_AT(sprite, 0x24);
+                    target = U8_AT((u8 *)target, 0x00);
+                    table += target;
+                    U8_AT(effect_data, 0xA0) = table;
 
-                table = (u32)((u8 *)dirStepY);
-                target = S16_AT(effect_data, 0x7E);
-                target <<= 1;
-                target += table;
-                table = U8_AT(sprite, 0x25);
-                target = U8_AT((u8 *)target, 0x00);
-                table += target;
-                U8_AT(effect_data, 0xA1) = table;
-            }
-
-            {
-                s32 owner_axis = S8_AT(owner, 0x72);
-                u32 sprite_axis = U8_AT(sprite, 0x24);
-
-                if (owner_axis != sprite_axis) {
-                } else {
-                    owner_axis = S8_AT(owner, 0x73);
-                    sprite_axis = U8_AT(sprite, 0x25);
+                    table = (u32)((u8 *)dirStepY);
+                    target = S16_AT(effect_data, 0x7E);
+                    target <<= 1;
+                    target += table;
+                    table = U8_AT(sprite, 0x25);
+                    target = U8_AT((u8 *)target, 0x00);
+                    table += target;
+                    U8_AT(effect_data, 0xA1) = table;
                 }
-                delta = owner_axis - sprite_axis;
+
+                {
+                    s32 owner_axis = S8_AT(owner, 0x72);
+                    u32 sprite_axis = U8_AT(sprite, 0x24);
+
+                    if (owner_axis != sprite_axis) {
+                    } else {
+                        owner_axis = S8_AT(owner, 0x73);
+                        sprite_axis = U8_AT(sprite, 0x25);
+                    }
+                    delta = owner_axis - sprite_axis;
+                }
+                delta = abs(delta);
+                U8_AT(effect_data, 0x7B) = (u8)((delta * 2) - 1);
+            } else {
+                s32 height = U16_AT(owner, 0x88);
+                U8_AT(effect_data, 0x7B) = 0x20;
+                S16_AT(effect_data, 0x78) = (s16)(height - 0x50);
             }
-            delta = abs(delta);
-            U8_AT(effect_data, 0x7B) = (u8)((delta * 2) - 1);
-        } else {
-            s32 height = U16_AT(owner, 0x88);
-            U8_AT(effect_data, 0x7B) = 0x20;
-            S16_AT(effect_data, 0x78) = (s16)(height - 0x50);
-        }
 
         }
         S32_AT(effect_pos, 0x0C) = direction_offsets[S16_AT(effect_data, 0x7E)].x << 16;
@@ -226,18 +227,25 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 
     case 2:
     {
-        entity = 0; if ((s32)entity < 4) { loop_0: {
-            s32 random = func_80069EF8();
-            u8 *task;
-            s32 particle_color;
-            s32 particle_param;
+        entity = 0;
+        if ((s32)entity < 4) {
+loop_0:
+            {
+                s32 random = func_80069EF8();
+                u8 *task;
+                s32 particle_color;
+                s32 particle_param;
 
-            task = effect_data - 0x20;
-            particle_color = 0x002020E0;
-            random &= 0xFF;
-            particle_param = random | 0x80;
-            D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
-        } entity++; if ((s32)entity < 4) goto loop_0; }
+                task = effect_data - 0x20;
+                particle_color = 0x002020E0;
+                random &= 0xFF;
+                particle_param = random | 0x80;
+                D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+            }
+            entity++;
+            if ((s32)entity < 4)
+                goto loop_0;
+        }
 
         if (S16_AT(effect_data, 0x92) == 0) {
             S16_AT(effect_data, 0x92) = 1;
@@ -388,18 +396,25 @@ enter_state8:
                 U8_AT(effect_data, 0x9C) -= 0x18;
             }
 
-            entity = 0; if ((s32)entity < 4) { loop_0_: {
-                s32 random = func_80069EF8();
-                u8 *task;
-                s32 particle_color;
-                s32 particle_param;
+            entity = 0;
+            if ((s32)entity < 4) {
+loop_0_:
+                {
+                    s32 random = func_80069EF8();
+                    u8 *task;
+                    s32 particle_color;
+                    s32 particle_param;
 
-                task = effect_data - 0x20;
-                particle_color = 0x002020E0;
-                random &= 0xFF;
-                particle_param = random | 0x80;
-                D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
-            } entity++; if ((s32)entity < 4) goto loop_0_; }
+                    task = effect_data - 0x20;
+                    particle_color = 0x002020E0;
+                    random &= 0xFF;
+                    particle_param = random | 0x80;
+                    D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
+                }
+                entity++;
+                if ((s32)entity < 4)
+                    goto loop_0_;
+            }
         }
 
         if (S16_AT(effect_data, 0x82) >= 50) {
@@ -455,7 +470,7 @@ enter_state8:
     }
 
     default:
-    done:
+done:
         return;
     }
 }

@@ -23,7 +23,12 @@ typedef struct S_8183EFD8_1 {
 
 typedef struct S_8183EFD8_2 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
 } S_8183EFD8_2;   /* arg2 in func_8183EFD8 */
 
 typedef struct S_8183EFD8_3 {
@@ -141,10 +146,12 @@ void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite)
                         particle_motion->unk_08 = (s32) (motion->unk_08 + ((random & 0x1F) << 0x10));
                         random = func_80069EF8();
                     }
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_0C = (s32) (((random & 0xFFF) - 0x7FF) << 8);
+                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_0C =
+                        (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     random = func_80069EF8();
                     color = 0x800000;
-                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_10 = (s32) (((random & 0xFFF) - 0x7FF) << 8);
+                    ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_10 =
+                        (s32) (((random & 0xFFF) - 0x7FF) << 8);
                     particle_sprite->unk_1E = 0x1000;
                     particle_sprite->unk_1C = 0x1000;
                     particle_sprite->unk_10 = 0x20;

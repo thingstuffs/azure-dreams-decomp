@@ -29,7 +29,8 @@ void func_800249A0(void *entry) {
 
     text_info = ((S_800249A0_0 *)entry)->unk_0C;
     if (((S_800249A0_0 *)entry)->unk_00 == 0) {
-        func_800537D0(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04), ((S_800249A0_0 *)entry)->unk_04);
+        func_800537D0(*((S_800249A0_0 *)entry)->unk_08, strlen(((S_800249A0_0 *)entry)->unk_04),
+            ((S_800249A0_0 *)entry)->unk_04);
         if (text_info->unk_0C & 2) {
             ((S_800249A0_0_pre *)entry)[-1].unk_00 = (u16) (((S_800249A0_0_pre *)entry)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);

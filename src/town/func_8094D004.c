@@ -5,7 +5,7 @@ extern u8 *D_80016D08[3];
 
 #ifdef __mips__
 static const u32 data_bank[6] __asm__("func_8094D004")
-    __attribute__((section(".text.func_8094D004"), aligned(4))) = {
+__attribute__((section(".text.func_8094D004"), aligned(4))) = {
     [0] = 0x4c070707,
     [1] = 0x80016af4,
     [2] = 0x00000001,

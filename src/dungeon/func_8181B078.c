@@ -28,7 +28,6 @@ typedef struct S_8181B078_2 {
 } S_8181B078_2;   /* arg2 in func_8181B078 */
 
 
-
 extern s16 D_80025914;
 
 

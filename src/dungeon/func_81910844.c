@@ -73,7 +73,7 @@ void func_81910844(void *state, S_81910844_2 *motion, S_81910844_3 *visual) {
     motion->unk_08 =
         ((S_81910844_0 *)state)->unk_0C -
         ((func_800644B8((0x800 / (s16) ((S_81910844_0 *)state)->unk_08) *
-                       (s16) ((S_81910844_0 *)state)->unk_06.s) >> 4) << 0xE);
+                        (s16) ((S_81910844_0 *)state)->unk_06.s) >> 4) << 0xE);
     scale_step = 0x200 / (s16) ((S_81910844_0 *)state)->unk_08;
     angle = visual->unk_1A;
     scale = visual->unk_1E;

@@ -10,7 +10,11 @@ typedef struct S_800224E0_0 {
     u8 * unk_0C;
     void * unk_10;
     u8 pad_14[0xC];
-    union { struct { void * v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_20;   /* overlapping accesses */
+    union {
+        struct { void * v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_20;   /* overlapping accesses */
     u8 pad_24[0x4];
     s16 unk_28;
 } S_800224E0_0;   /* obj in func_800224E0 */
@@ -48,7 +52,6 @@ typedef struct S_800224E0_4 {
     s16 unk_1E;
     s16 unk_20;
 } S_800224E0_4;   /* draw in func_800224E0 */
-
 
 
 extern u8 D_80020224[];

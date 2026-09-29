@@ -171,7 +171,8 @@ top:
         case 0xF8:
             state = entity->state;
             switch (state) {
-            case 0: {
+            case 0:
+            {
                 s16 *angle_base;
 
                 if (entity->animation != 0) {
@@ -191,7 +192,8 @@ top:
                 entity->timer = 0;
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 s16 *angle_base;
 
                 timer = (u16)(entity->timer + 1);
@@ -214,7 +216,8 @@ top:
         case 0xE0:
             event_state = entity->state;
             switch (event_state) {
-            case 0: {
+            case 0:
+            {
                 s16 *angle_base;
                 u8 *event_sequence;
 
@@ -234,7 +237,8 @@ top:
                 entity->timer = 0;
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 s16 *angle_base;
 
                 timer = (u16)(entity->timer + 1);
@@ -297,7 +301,8 @@ top:
                 entity->direction = 0;
                 entity->fieldB0 = 2;
                 break;
-            case 1: {
+            case 1:
+            {
                 s16 *angle_base;
                 u8 *idle_sequence;
 

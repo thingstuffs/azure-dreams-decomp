@@ -30,14 +30,15 @@ typedef struct S_8016B0EC_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_8016B0EC_2;   /* arg2 in func_8016B0EC */
-
-
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -210,53 +211,53 @@ void func_8016B0EC(void *actor, void *context, void *sprite, EntityRec *creature
             u32 action_index = (u32)((creature->unk_46 & 0x3FFF) - 1);
 
             switch (action_index) {
-        case 7:
-        case 8:
-            if ((func_8016BF9C(actor, context, sprite, creature) << 16) != 0) {
+            case 7:
+            case 8:
+                if ((func_8016BF9C(actor, context, sprite, creature) << 16) != 0) {
+                    return;
+                }
+                func_8016C234(actor, context, sprite, creature);
+                return;
+
+            case 4:
+            case 5:
+            case 6:
+            {
+                EntityRec *player;
+                s16 facing_angle;
+
+                facing_angle = func_800A0818(
+                    ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                creature->facing = facing_angle;
+                if (player->unk_9A == 0x11) {
+                    goto case_123;
+                }
+            }
+                            /* fallthrough */
+
+            case 11:
+case_12:
+                func_800A9A0C(creature);
+                return;
+
+            case 0:
+            case 1:
+            case 2:
+case_123:
+                func_800AAF00(actor, context, sprite, D_8016FE98, func_8016B0EC);
+                return;
+
+            case 3:
+            case 9:
+            case 10:
+            default:
+generic:
+                func_8016B854(actor, context, sprite, creature);
                 return;
             }
-            func_8016C234(actor, context, sprite, creature);
-            return;
-
-        case 4:
-        case 5:
-        case 6:
-        {
-            EntityRec *player;
-            s16 facing_angle;
-
-            facing_angle = func_800A0818(
-                ((S_8016B0EC_2 *)sprite)->unk_24.at00.v, ((S_8016B0EC_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            creature->facing = facing_angle;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
-            }
-        }
-            /* fallthrough */
-
-        case 11:
-case_12:
-            func_800A9A0C(creature);
-            return;
-
-        case 0:
-        case 1:
-        case 2:
-case_123:
-            func_800AAF00(actor, context, sprite, D_8016FE98, func_8016B0EC);
-            return;
-
-        case 3:
-        case 9:
-        case 10:
-        default:
-generic:
-            func_8016B854(actor, context, sprite, creature);
-            return;
-        }
         }
     }
 

@@ -49,7 +49,6 @@ typedef struct S_80174214_6 {
 } S_80174214_6;   /* ((S_80174214_1 *)held_arg0)->unk_08 in func_80174214 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *, void *);

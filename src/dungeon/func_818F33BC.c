@@ -49,7 +49,6 @@ typedef struct S_80024BBC_6 {
 } S_80024BBC_6;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80024BBC */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);

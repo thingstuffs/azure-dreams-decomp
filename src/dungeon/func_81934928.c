@@ -67,7 +67,6 @@ typedef struct S_81934928_6 {
 } S_81934928_6;   /* ((S_81934928_0 *)self)->unk_04 in func_81934928 */
 
 
-
 typedef struct {
     s32 word[6];
 } Copy24;
@@ -103,13 +102,16 @@ void func_81934928(void *effect, void *output)
     state = ((S_81934928_0 *)self)->unk_0A.s;
     effect = ((S_81934928_0 *)self)->unk_00;
     output_data = output;
-    if (state == 1) goto main_state;
+    if (state == 1)
+        goto main_state;
     if (state < 2) {
-        if (state == 0) goto state_zero;
+        if (state == 0)
+            goto state_zero;
         return;
     }
 
-    if (state == 0xFF) goto state_ff;
+    if (state == 0xFF)
+        goto state_ff;
     return;
 state_zero:
     {

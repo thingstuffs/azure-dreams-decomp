@@ -2,8 +2,6 @@
 #include "records/Rec_func_801237A4_arg0.h"
 
 
-
-
 extern s32 func_80123200(s32);
 extern void func_801232DC(void);
 extern void func_801234F0(void);

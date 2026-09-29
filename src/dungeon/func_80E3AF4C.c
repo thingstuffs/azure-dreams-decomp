@@ -86,7 +86,6 @@ typedef struct S_8017474C_8 {
 } S_8017474C_8;   /* ((S_8017474C_0 *)arg0)->unk_14 in func_8017474C */
 
 
-
 extern s32 func_80042900(void *, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);

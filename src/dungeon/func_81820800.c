@@ -40,17 +40,17 @@ __asm__(".set func_8002453C, 0x8002453c");
  * func_81844800.c). */
 #ifdef __mips__
 static void (*const func_80024000_table[])(void)
-    __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
-        func_80024020,
-        0,
-        func_80024148,
-        func_8002439C,
-        func_8002439C,
-        func_800244D4,
-        func_80024518,
-        func_8002453C,
-    };
+__asm__("func_80024000")
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
+    func_80024020,
+    0,
+    func_80024148,
+    func_8002439C,
+    func_8002439C,
+    func_800244D4,
+    func_80024518,
+    func_8002453C,
+};
 __asm__(".globl func_80024000\n"
         ".type func_80024000,@function\n"
         ".size func_80024000, 1460");
@@ -155,7 +155,9 @@ typedef struct S_func_81820800_8 {
 BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) BODY_ATTR;
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
 BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) {
-    static void *const state_labels[] = { &&state_aim, &&state_move, &&state_trail, &&state_hit, &&state_wait, &&state_finish };
+    static void * const state_labels[] = {
+        && state_aim, && state_move, && state_trail, && state_hit, && state_wait, && state_finish
+    };
     S_func_81820800_1 *state_obj;
     S_func_81820800_4 *owner;
     S_func_81820800_5 *source;
@@ -196,7 +198,8 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     if (state_obj->unk_0A == 1) {
         motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
         motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-        delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06, (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
+        delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
+            (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
         if (delta_x < 0x200) {
             motion->unk_0A = delta_x;
         }
@@ -240,7 +243,8 @@ state_aim:
             coord_y = tile_top + 0x20;
             ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         }
-        if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
+        if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400),
+            (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
             goto set_endpoint;
         }
         distance_or_script += 1;

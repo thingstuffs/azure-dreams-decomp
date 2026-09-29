@@ -102,9 +102,9 @@ void func_8016BD14(void *actor, void *action, void *entity, void *path_arg) {
     func_8009A3D0(tile_x, tile_y, old_tile_flags ? 0x300 : 0x3000);
 
     heading = func_800A0818(tile_x, tile_y,
-                         ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
-                         ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
-                         (u8 *)actor + 0x98);
+                            ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74,
+                            ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_7C,
+                            (u8 *)actor + 0x98);
     raw_result = func_8009A66C(heading, entity, path, 0x20);
 
     next_x = ((S_8016BD14_5 *)((u8 *)path + ((S_8016BD14_0 *)path)->unk_8A.s))->unk_74;

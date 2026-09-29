@@ -11,7 +11,6 @@ typedef struct S_804027F8_0 {
 } S_804027F8_0;   /* arg0 in func_804027F8 */
 
 
-
 extern s32 D_801379A8;
 extern s32 D_801379B0;
 extern u8 D_80408ADE[];

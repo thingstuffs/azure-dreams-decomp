@@ -106,7 +106,10 @@ typedef struct {
 } RenderContext;
 typedef struct {} EmptyArg;
 
-static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius) { return center + (((trig >> 4) * radius) << 8); }
+static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius)
+{
+    return center + (((trig >> 4) * radius) << 8);
+}
 
 /* Build and queue interpolated vertical quads around five perimeter points. */
 void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 duration_in)
@@ -215,13 +218,13 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         SP16(0x68) = bottom_z;
         top_z = origin->unk_0A;
         SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
-                                  scratch + 0x74, scratch + 0x7C,
-                                  scratch + 0xD8, scratch + 0xDC,
-                                  scratch + 0xE0, scratch + 0xE4,
-                                  scratch + 0x84, scratch + 0x88,
-                                  (SP16(0x78) = top_z,
-                                   SP16(0x80) = top_z,
-                                   empty_arg));
+                                   scratch + 0x74, scratch + 0x7C,
+                                   scratch + 0xD8, scratch + 0xDC,
+                                   scratch + 0xE0, scratch + 0xE4,
+                                   scratch + 0x84, scratch + 0x88,
+                                   (SP16(0x78) = top_z,
+                                    SP16(0x80) = top_z,
+                                    empty_arg));
         ((S_819112CC_2 *)prim)->unk_08 = SP16(0xD8);
         ((S_819112CC_2 *)prim)->unk_0A = SP16(0xDA);
         ((S_819112CC_2 *)prim)->unk_10 = SP16(0xDC);
@@ -247,8 +250,8 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                 ctx->nextPrim = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
-                         func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
-                         0);
+                          func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          0);
             ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
             link = (u32 *)SP32(0xB4);
@@ -303,14 +306,14 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         next_end_y = ((S_819112CC_3 *)point)->unk_2C.at02.v;
         y_step = SP16(0x10E);
         SP32(0xB4) = func_80065590(vertex_base, scratch + 0x6C,
-                                  scratch + 0x74, scratch + 0x7C,
-                                  scratch + 0xD8, scratch + 0xDC,
-                                  scratch + 0xE0, scratch + 0xE4,
-                                  scratch + 0x84, scratch + 0x88,
-                                  (next_end_y += y_step,
-                                   SP16(0x7E) = next_end_y,
-                                   SP16(0x6E) = next_end_y,
-                                   empty_arg));
+                                   scratch + 0x74, scratch + 0x7C,
+                                   scratch + 0xD8, scratch + 0xDC,
+                                   scratch + 0xE0, scratch + 0xE4,
+                                   scratch + 0x84, scratch + 0x88,
+                                   (next_end_y += y_step,
+                                    SP16(0x7E) = next_end_y,
+                                    SP16(0x6E) = next_end_y,
+                                    empty_arg));
         ((S_819112CC_5 *)prim)->unk_08 = SP16(0xD8);
         ((S_819112CC_5 *)prim)->unk_0A = SP16(0xDA);
         ((S_819112CC_5 *)prim)->unk_10 = SP16(0xDC);
@@ -336,8 +339,8 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                 ctx->nextPrim = prim + 0xC;
             }
             func_80067F20(prim, 0, 0,
-                         func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
-                         0);
+                          func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
+                          0);
             ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
             link = (u32 *)SP32(0xB4);

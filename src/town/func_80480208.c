@@ -10,8 +10,6 @@ typedef struct S_80480208_1 {
 } S_80480208_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_ppv in func_80480208 */
 
 
-
-
 /* Initialize the three context fields to 1, 11, and 3. */
 void func_80480208(void) {
     (*(s32 * *)((u8 *)(((void **)D_80016000->unk_1C)) + 0)) = 1;

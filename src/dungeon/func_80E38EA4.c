@@ -15,14 +15,12 @@ typedef struct S_801726A4_0 {
 } S_801726A4_0;   /* arg0 in func_801726A4 */
 
 
-
 typedef struct S_801726A4_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
 } S_801726A4_3;   /* arg1 in func_801726A4 */
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -48,7 +46,7 @@ void func_801726A4(void *action, void *motion, void *sprite, EntityRec *actor)
     case 0:
         ((S_801726A4_0 *)action)->unk_98 |= 1;
         ((S_801726A4_0 *)action)->unk_9B++;
-        /* fall through */
+                /* fall through */
     case 1:
         sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
         if (sprite_flags & 0x8000) {

@@ -30,7 +30,6 @@ typedef struct S_818E0D94_3 {
 } S_818E0D94_3;   /* arg1 in func_818E0D94 */
 
 
-
 typedef struct {
     u8 bytes[8];
 } Unaligned8;

@@ -34,20 +34,20 @@ extern u8 D_80080000[];
 __asm__(".section .text.func_8199A800,\"a\",@progbits\n.globl func_8199A800\n.type func_8199A800,@function\nfunc_8199A800:");
 
 static void (*const func_8199A800_table[])(void)
-    __attribute__((section(".text.func_8199A800"))) = {
-        func_8002401C,
-        0,
-        func_8002406C,
-        func_800240A0,
-        func_80024124,
-        func_8002414C,
-        func_80024218,
-    };
+__attribute__((section(".text.func_8199A800"))) = {
+    func_8002401C,
+    0,
+    func_8002406C,
+    func_800240A0,
+    func_80024124,
+    func_8002414C,
+    func_80024218,
+};
 #endif
 
 #ifdef __mips__
 void func_8199A800(void *state_data) __asm__("func_8199A800_body")
-    __attribute__((section(".text.func_8199A800")));
+__attribute__((section(".text.func_8199A800")));
 #endif
 
 /* Advances a timed effect sequence, updates the entry tint, and draws the animation. */

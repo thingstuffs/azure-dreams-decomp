@@ -8,7 +8,11 @@
 typedef struct S_801725D0_1 {
     u8 pad_00[0x8C];
     s32 * unk_8C;
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_90;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_90;   /* overlapping accesses */
     u8 pad_94[0x2];
     union { u16 s; s16 u; } unk_96;   /* accessed as both */
     u16 unk_98;
@@ -28,8 +32,6 @@ typedef struct S_801725D0_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_801725D0_4;   /* entry in func_801725D0 */
-
-
 
 
 extern void func_80047784(void *, s32, s32);

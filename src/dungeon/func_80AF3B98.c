@@ -152,14 +152,14 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
     switch (state) {
 
     case 0:
-    next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
-    goto store_next_state;
+        next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
+        goto store_next_state;
 
     case 1:
-    func_80041588(D_801759F8, D_80175A80, 0);
-    ((S_80175398_0 *)transition)->unk_AC = 0;
-    ((S_80175398_0 *)transition)->unk_9B++;
-    ((S_80175398_1 *)actor)->unk_8A = ((S_80175398_1 *)actor)->unk_2A.u;
+        func_80041588(D_801759F8, D_80175A80, 0);
+        ((S_80175398_0 *)transition)->unk_AC = 0;
+        ((S_80175398_0 *)transition)->unk_9B++;
+        ((S_80175398_1 *)actor)->unk_8A = ((S_80175398_1 *)actor)->unk_2A.u;
 
     case 2:
     {
@@ -222,41 +222,41 @@ direction_ready:
     }
 
     case 4:
-    object_data = func_8003FC64(0x12);
-    if (object_data == NULL) {
-        return;
-    }
-    {
-        DungeonEffect *effect = (DungeonEffect *)object_data;
-
-        effect->resource = D_8017526C;
-        func_8004491C(effect, D_80174BE4);
-        ((S_80175398_0 *)transition)->unk_A8.p = effect;
-        effect->child->x = ((DungeonCopy3 *)position)->x;
-        effect->child->y = ((DungeonCopy3 *)position)->y;
-        D_80175A18 = -2;
-        effect->child->z = ((DungeonCopy3 *)position)->z;
-        object_data = (u8 *)effect->tail;
-        ((DungeonTail *)object_data)->value1e = 0x1000;
-        ((DungeonTail *)object_data)->value1c = 0x1000;
-        ((DungeonTail *)object_data)->color = 0x00808080;
-    }
-    {
-        s16 resource_index = func_800498A0(actor) - 1;
-
-        if (resource_index < 0) {
-            s32 random_value = func_80069EF8();
-
-            resource_index = random_value % 3;
+        object_data = func_8003FC64(0x12);
+        if (object_data == NULL) {
+            return;
         }
-        func_8003DB94(object_data, D_8014A000 + D_80175A00[resource_index], 0);
-    }
-    record->unk_14.at00_u16.v |= 0x80;
-    ((S_80175398_0 *)transition)->unk_96.u = 0;
-    next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
+        {
+            DungeonEffect *effect = (DungeonEffect *)object_data;
+
+            effect->resource = D_8017526C;
+            func_8004491C(effect, D_80174BE4);
+            ((S_80175398_0 *)transition)->unk_A8.p = effect;
+            effect->child->x = ((DungeonCopy3 *)position)->x;
+            effect->child->y = ((DungeonCopy3 *)position)->y;
+            D_80175A18 = -2;
+            effect->child->z = ((DungeonCopy3 *)position)->z;
+            object_data = (u8 *)effect->tail;
+            ((DungeonTail *)object_data)->value1e = 0x1000;
+            ((DungeonTail *)object_data)->value1c = 0x1000;
+            ((DungeonTail *)object_data)->color = 0x00808080;
+        }
+        {
+            s16 resource_index = func_800498A0(actor) - 1;
+
+            if (resource_index < 0) {
+                s32 random_value = func_80069EF8();
+
+                resource_index = random_value % 3;
+            }
+            func_8003DB94(object_data, D_8014A000 + D_80175A00[resource_index], 0);
+        }
+        record->unk_14.at00_u16.v |= 0x80;
+        ((S_80175398_0 *)transition)->unk_96.u = 0;
+        next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
 store_next_state:
-    ((S_80175398_0 *)transition)->unk_9B = next_state;
-    return;
+        ((S_80175398_0 *)transition)->unk_9B = next_state;
+        return;
 
     case 5:
     {
@@ -270,27 +270,27 @@ store_next_state:
             } while (update_count < 8);
         }
     }
-    object_data = ((S_80175398_0 *)transition)->unk_A8.p2;
-    object_data = ((S_80175398_2 *)object_data)->unk_0C;
-    if (((S_80175398_2 *)object_data)->unk_14 & 0xE000) {
-        ((S_80175398_0 *)transition)->unk_9B++;
-    }
+        object_data = ((S_80175398_0 *)transition)->unk_A8.p2;
+        object_data = ((S_80175398_2 *)object_data)->unk_0C;
+        if (((S_80175398_2 *)object_data)->unk_14 & 0xE000) {
+            ((S_80175398_0 *)transition)->unk_9B++;
+        }
 
     case 6:
-    if (((S_80175398_0 *)transition)->unk_9B != 6) {
+        if (((S_80175398_0 *)transition)->unk_9B != 6) {
+            return;
+        }
+        if (func_800ADC4C(position, D_80175A84, D_80175A18, D_800DCF5C) == 0) {
+            return;
+        }
+        ((S_80175398_0 *)transition)->unk_96.u = 0x10;
+        ((S_80175398_0 *)transition)->unk_9B++;
+        func_800A18E8(((S_80175398_1 *)actor)->unk_13, 3);
+        func_8009A3D0(record->unk_24, record->unk_25, 0x300);
+        func_8009A028(actor);
+        object_data = (u8 *)actor - 0x20;
+        ((S_80175398_2 *)object_data)->unk_10 |= 0x80000000;
         return;
-    }
-    if (func_800ADC4C(position, D_80175A84, D_80175A18, D_800DCF5C) == 0) {
-        return;
-    }
-    ((S_80175398_0 *)transition)->unk_96.u = 0x10;
-    ((S_80175398_0 *)transition)->unk_9B++;
-    func_800A18E8(((S_80175398_1 *)actor)->unk_13, 3);
-    func_8009A3D0(record->unk_24, record->unk_25, 0x300);
-    func_8009A028(actor);
-    object_data = (u8 *)actor - 0x20;
-    ((S_80175398_2 *)object_data)->unk_10 |= 0x80000000;
-    return;
 
     case 7:
     {
@@ -330,9 +330,9 @@ store_next_state:
             dungeonStatus.unk_0A--;
         }
     }
-    ((S_80175398_1 *)actor)->unk_6D = 0;
+        ((S_80175398_1 *)actor)->unk_6D = 0;
 
-    return;
+        return;
     default:
         return;
     }

@@ -22,6 +22,7 @@ void func_80024F7C(void *object_data) {
     flags = object_header->unk_1E;
     if (flags & 0x2000) {
         object_header->unk_1E = (u16) (flags & 0xDFFF);
-        ((S_80024F7C_1 *)((u8 *)object_data - 0x10))->unk_00 = (s32) ((S_80024F7C_1 *)((u8 *)object_data - 0x10))->unk_44;
+        ((S_80024F7C_1 *)((u8 *)object_data - 0x10))->unk_00 = (s32) ((S_80024F7C_1 *)((u8 *)object_data
+            - 0x10))->unk_44;
     }
 }

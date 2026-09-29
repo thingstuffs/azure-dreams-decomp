@@ -45,7 +45,9 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&gameWork));
-    do { prim = *(void **)(context + 0x8D0); } while (0);
+    do {
+        prim = *(void **)(context + 0x8D0);
+    } while (0);
     U32_AT(scratch, 0x20) = (u32)(context + 0x70);
     U32_AT(scratch, 0x38) = 0x1000;
     U32_AT(scratch, 0x48) = 0;

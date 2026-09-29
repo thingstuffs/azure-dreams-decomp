@@ -29,7 +29,6 @@ typedef struct S_8187BE9C_1 {
 } S_8187BE9C_1;   /* arg2 in func_8187BE9C */
 
 
-
 extern s16 D_8002694C[5];
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */

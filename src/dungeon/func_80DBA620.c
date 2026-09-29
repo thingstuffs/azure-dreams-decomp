@@ -34,14 +34,15 @@ typedef struct S_80171E20_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
 } S_80171E20_2;   /* arg2 in func_80171E20 */
-
-
-
 
 
 extern void func_80047784(void *, u8, s32);

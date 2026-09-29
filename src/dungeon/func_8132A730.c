@@ -53,7 +53,6 @@ typedef struct S_80171F30_6 {
 } S_80171F30_6;   /* ((S_80171F30_1 *)arg0)->unk_08 in func_80171F30 */
 
 
-
 extern u8 D_80171704[];
 extern u8 D_80171CC0[];
 extern u8 D_80171D90[];

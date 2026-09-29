@@ -71,7 +71,6 @@ typedef struct S_8016E4E8_6 {
 } S_8016E4E8_6;   /* src_word in func_8016E4E8 */
 
 
-
 typedef struct {
     u8 bytes[12];
 } Data12;
@@ -165,89 +164,92 @@ increment_state_reload:
     top_y = -0x20;
     ((S_8016E4E8_0 *)animation)->unk_1E++;
 outer_loop:
-        object = func_8003FC64(0x12);
-        part = (u8 *)object + 0x20;
-        if (object != NULL) {
-            ((S_8016E4E8_2 *)part)->unk_18 = one;
-            ((S_8016E4E8_2 *)part)->unk_1A = one;
-            ((S_8016E4E8_3 *)object)->unk_10 = D_8016E4A4;
-            func_8004491C(object, D_8016E450);
+    object = func_8003FC64(0x12);
+    part = (u8 *)object + 0x20;
+    if (object != NULL) {
+        ((S_8016E4E8_2 *)part)->unk_18 = one;
+        ((S_8016E4E8_2 *)part)->unk_1A = one;
+        ((S_8016E4E8_3 *)object)->unk_10 = D_8016E4A4;
+        func_8004491C(object, D_8016E450);
 
-            effect = ((S_8016E4E8_3 *)object)->unk_0C;
-            effect_flags = ((S_8016E4E8_4 *)effect)->unk_14;
-            ((S_8016E4E8_4 *)effect)->unk_10 = 0x20;
-            ((S_8016E4E8_4 *)effect)->unk_14 = effect_flags | 0xC;
+        effect = ((S_8016E4E8_3 *)object)->unk_0C;
+        effect_flags = ((S_8016E4E8_4 *)effect)->unk_14;
+        ((S_8016E4E8_4 *)effect)->unk_10 = 0x20;
+        ((S_8016E4E8_4 *)effect)->unk_14 = effect_flags | 0xC;
 
-            position = ((S_8016E4E8_3 *)object)->unk_08;
-            position[0] = origin[0];
-            position[1] = origin[1];
-            color_index = 0;
-            position[2] = origin[2];
-            color_dst = part;
+        position = ((S_8016E4E8_3 *)object)->unk_08;
+        position[0] = origin[0];
+        position[1] = origin[1];
+        color_index = 0;
+        position[2] = origin[2];
+        color_dst = part;
 
-            effect = ((S_8016E4E8_3 *)object)->unk_0C;
-            ((S_8016E4E8_4 *)effect)->unk_1E = 0x1000;
-            ((S_8016E4E8_4 *)effect)->unk_1C = 0x1000;
-            ((S_8016E4E8_4 *)effect)->unk_0E = 0x80;
-            ((S_8016E4E8_4 *)effect)->unk_0D = 0x80;
-            ((S_8016E4E8_4 *)effect)->unk_0C = 0x80;
+        effect = ((S_8016E4E8_3 *)object)->unk_0C;
+        ((S_8016E4E8_4 *)effect)->unk_1E = 0x1000;
+        ((S_8016E4E8_4 *)effect)->unk_1C = 0x1000;
+        ((S_8016E4E8_4 *)effect)->unk_0E = 0x80;
+        ((S_8016E4E8_4 *)effect)->unk_0D = 0x80;
+        ((S_8016E4E8_4 *)effect)->unk_0C = 0x80;
 
-            loop_0: {
-                color_dst[0] = ((S_8016E4E8_1 *)color)->unk_0C;
-                color_dst[1] = ((S_8016E4E8_1 *)color)->unk_0D;
-                color_dst[2] = ((S_8016E4E8_1 *)color)->unk_0E;
-                color_index++;
-                color_dst += 4;
-            } if (color_index < 4) goto loop_0;
+loop_0:
+        {
+            color_dst[0] = ((S_8016E4E8_1 *)color)->unk_0C;
+            color_dst[1] = ((S_8016E4E8_1 *)color)->unk_0D;
+            color_dst[2] = ((S_8016E4E8_1 *)color)->unk_0E;
+            color_index++;
+            color_dst += 4;
+        }
+        if (color_index < 4)
+            goto loop_0;
 
-            if (row == one) {
-                part[6] = 0;
-                part[5] = 0;
-                part[4] = 0;
-                part[2] = 0;
-                part[1] = 0;
-                part[0] = 0;
-            }
+        if (row == one) {
+            part[6] = 0;
+            part[5] = 0;
+            part[4] = 0;
+            part[2] = 0;
+            part[1] = 0;
+            part[0] = 0;
+        }
 
-            ((S_8016E4E8_4 *)effect)->unk_06 = 0;
-            memcpy(part + 0x28, &D_80173B4C, 12);
+        ((S_8016E4E8_4 *)effect)->unk_06 = 0;
+        memcpy(part + 0x28, &D_80173B4C, 12);
 
-            vertex_index = 0;
-            src_vertices = (u8 *)animation;
-            dst_vertices = part;
-            texture = part + 0x28;
-            ((S_8016E4E8_4 *)effect)->unk_08.s = texture;
-            texture[8] += ((S_8016E4E8_0 *)animation)->unk_1C * 4;
-            texture = ((S_8016E4E8_4 *)effect)->unk_08.u;
-            frame_count = ((S_8016E4E8_0 *)animation)->unk_1E;
-            texture[9] += (frame_count & 3) << 3;
+        vertex_index = 0;
+        src_vertices = (u8 *)animation;
+        dst_vertices = part;
+        texture = part + 0x28;
+        ((S_8016E4E8_4 *)effect)->unk_08.s = texture;
+        texture[8] += ((S_8016E4E8_0 *)animation)->unk_1C * 4;
+        texture = ((S_8016E4E8_4 *)effect)->unk_08.u;
+        frame_count = ((S_8016E4E8_0 *)animation)->unk_1E;
+        texture[9] += (frame_count & 3) << 3;
 
+        do {
+            axis = 0;
+            dst_coord = dst_vertices + 0x74;
+            src_coord = src_vertices + 0x74;
             do {
-                axis = 0;
-                dst_coord = dst_vertices + 0x74;
-                src_coord = src_vertices + 0x74;
-                do {
-                    ((S_8016E4E8_5 *)dst_coord)->unk_00 = ((S_8016E4E8_6 *)src_coord)->unk_00;
-                    src_coord += 2;
-                    axis++;
-                    dst_coord += 2;
-                } while (axis < 3);
-                src_vertices += 6;
-                vertex_index++;
-                dst_vertices += 6;
-            } while (vertex_index < 4);
+                ((S_8016E4E8_5 *)dst_coord)->unk_00 = ((S_8016E4E8_6 *)src_coord)->unk_00;
+                src_coord += 2;
+                axis++;
+                dst_coord += 2;
+            } while (axis < 3);
+            src_vertices += 6;
+            vertex_index++;
+            dst_vertices += 6;
+        } while (vertex_index < 4);
 
-            ((S_8016E4E8_2 *)part)->unk_7E = top_y;
-            ((S_8016E4E8_2 *)part)->unk_78 = top_y;
-            bottom_y = -(row << 5);
-            ((S_8016E4E8_2 *)part)->unk_8A = bottom_y;
-            ((S_8016E4E8_2 *)part)->unk_84 = bottom_y;
-        }
-        row++;
-        top_y -= 0x20;
-        if (row < 2) {
-            goto outer_loop;
-        }
+        ((S_8016E4E8_2 *)part)->unk_7E = top_y;
+        ((S_8016E4E8_2 *)part)->unk_78 = top_y;
+        bottom_y = -(row << 5);
+        ((S_8016E4E8_2 *)part)->unk_8A = bottom_y;
+        ((S_8016E4E8_2 *)part)->unk_84 = bottom_y;
+    }
+    row++;
+    top_y -= 0x20;
+    if (row < 2) {
+        goto outer_loop;
+    }
 
     if (((S_8016E4E8_0 *)animation)->unk_12.s < 5) {
         tick_count = ((S_8016E4E8_0 *)animation)->unk_1A;

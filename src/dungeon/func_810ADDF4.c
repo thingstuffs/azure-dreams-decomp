@@ -36,7 +36,11 @@ typedef struct S_801715F4_1 {
 
 typedef struct S_801715F4_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_801715F4_2;   /* arg2 in func_801715F4 */
 
@@ -86,7 +90,6 @@ typedef struct S_801715F4_10 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_801715F4_10;   /* (u8 *)arg3 + (((S_801715F4_1 *)arg3)->unk_71.u & 0x7F) in func_801715F4 */
-
 
 
 extern s32 func_8009A180(void *, void *);
@@ -218,7 +221,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             }
 
             ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
-                ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, target_x, target_y,
+                ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, target_x,
+                    target_y,
                 angle_context = (u8 *)move_state + 0x98);
             if (func_8009A66C(((S_801715F4_1 *)actor_arg)->unk_2A.s, position_arg, actor_arg, 0x20) <=
                 0) {
@@ -229,9 +233,9 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             }
             {
                 s16 path_ok = func_8009FD7C(((S_801715F4_2 *)position_arg)->unk_24.at00.v,
-                                             ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-                                             D_80082E80_b[0x24],
-                                             D_80082E80_b[0x25]);
+                                            ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
+                                            D_80082E80_b[0x24],
+                                            D_80082E80_b[0x25]);
 
                 if (path_ok != 0) {
                     limit_turns = 1;
@@ -274,9 +278,9 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                 D_80082E80.tileX, D_80082E80.tileY,
                 follow_context);
             if ((s16)func_8009FD7C(((S_801715F4_2 *)position_arg)->unk_24.at00.v,
-                                    ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
-                                    D_80082E80.tileX,
-                                    D_80082E80.tileY) == 0) {
+                                   ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
+                                   D_80082E80.tileX,
+                                   D_80082E80.tileY) == 0) {
                 goto reset_turn_index;
             }
             if (func_800A0134(D_800814A8, actor_arg) >= 0x81) {
@@ -298,7 +302,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             dx = abs(dx);
             if (dx >= 2 || (dy = abs(((S_801715F4_2 *)position_arg)->unk_24.at01.v - (u16)target_y)) >= 2) {
                 ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
-                    ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
+                    ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
+                        (s16)target_x_wide, target_y,
                     follow_context);
                 goto reset_turn_index;
             }
@@ -311,7 +316,8 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             dx = abs(dx);
             if (dx >= 2 || (dy = abs(((S_801715F4_2 *)position_arg)->unk_24.at01.v - (u16)target_y)) >= 2) {
                 ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
-                    ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, (s16)target_x_wide, target_y,
+                    ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
+                        (s16)target_x_wide, target_y,
                     (u8 *)move_state + 0x98);
                 goto reset_turn_index;
             }
@@ -416,8 +422,8 @@ loop_setup:
     }
 
     turn_index = func_800BCB04((((S_801715F4_2 *)position_arg)->unk_24.at00.v << 6) | 0x20,
-                            (((S_801715F4_2 *)position_arg)->unk_24.at01.v << 6) | 0x20,
-                            (s16)(((S_801715F4_1 *)actor_arg)->unk_88 - 0x20));
+                               (((S_801715F4_2 *)position_arg)->unk_24.at01.v << 6) | 0x20,
+                               (s16)(((S_801715F4_1 *)actor_arg)->unk_88 - 0x20));
     if (turn_index < 0x200) {
         ((S_801715F4_1 *)actor_arg)->unk_88 = turn_index;
     }

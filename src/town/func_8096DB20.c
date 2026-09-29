@@ -17,7 +17,6 @@ typedef struct S_80125FB8_3 {
 } S_80125FB8_3;   /* object_data in func_80125FB8 */
 
 
-
 typedef struct TownInitialPosition {
     void *data;
     u16 x;
@@ -82,7 +81,7 @@ void func_80125FB8(Rec_func_801237A4_arg0 *state)
         } while (object_index < 0x62);
     case 12:
     default:
-            break;
+        break;
     }
 }
 

@@ -193,7 +193,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         } else {
             return 0;
         }
-        continue_loop:
+continue_loop:
         slot_offset = object_index + 1;
         object_index = slot_offset;
     } while ((s16)slot_offset < 21);

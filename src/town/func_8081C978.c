@@ -54,7 +54,6 @@ typedef struct S_80026978_4 {
 } S_80026978_4;   /* temp_s0 in func_80026978 */
 
 
-
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern s32 rand();

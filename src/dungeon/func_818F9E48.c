@@ -64,7 +64,6 @@ typedef struct S_818F9E48_6 {
 } S_818F9E48_6;   /* ((S_818F9E48_0 *)arg0)->unk_30 in func_818F9E48 */
 
 
-
 typedef struct PackedVector {
     u16 x;
     u16 y;

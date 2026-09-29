@@ -196,7 +196,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             ((S_800251F4_4 *)z_position)->unk_0A = coord_bits;
 
             quad_template = func_80024064(template_x, template_y,
-                                           (s16)signed_z);
+                                          (s16)signed_z);
             quad_word_0 = UNALIGNED(quad_template, 0);
             quad_word_1 = UNALIGNED(quad_template, 4);
             quad_word_2 = UNALIGNED(quad_template, 8);

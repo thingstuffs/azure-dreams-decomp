@@ -44,7 +44,6 @@ typedef struct S_80F99000_4 {
 } S_80F99000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_800A6D30();
@@ -61,7 +60,7 @@ extern void *func_8015E800();
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8015E800")
-    __attribute__((section(".text.func_8015E800"), aligned(4))) = {
+__attribute__((section(".text.func_8015E800"), aligned(4))) = {
     0x8015E880, 0x8015EA70, 0x8015F56C, 0x8015F56C,
     0x8015F56C, 0x8015F598, 0x8015F518, 0x8015F518,
     0x8015F518, 0x8015F4E0, 0x8015F4C4, 0x8015F598,
@@ -80,9 +79,9 @@ __asm__(".globl func_8015E800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_8015E800")))
+__attribute__((section(".text.func_8015E800")))
 #endif
-    ;
+;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)

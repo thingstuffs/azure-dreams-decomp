@@ -23,8 +23,6 @@ typedef struct S_801741A0_0 {
 } S_801741A0_0;   /* arg0 in func_801741A0 */
 
 
-
-
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -40,7 +38,8 @@ void func_801741A0(void *effect, EntityRec *position, Rec_D_80082E80 *primitive)
     angle = ((S_801741A0_0 *)effect)->unk_1E - 0x12C;
     ((S_801741A0_0 *)effect)->unk_1E = (u16) angle;
     position->x.v = (s32) (((S_801741A0_0 *)effect)->unk_40 + (func_80064584(angle) * 0x280));
-    position->y.v = (s32) (((S_801741A0_0 *)effect)->unk_44 + (func_800644B8((s16) ((S_801741A0_0 *)effect)->unk_1E) * 0x280));
+    position->y.v = (s32) (((S_801741A0_0 *)effect)->unk_44
+        + (func_800644B8((s16) ((S_801741A0_0 *)effect)->unk_1E) * 0x280));
     position->z.v = (s32) (position->z.v + 0xFFF60000);
     func_800478B8(primitive);
     if ((((S_801741A0_0 *)effect)->unk_1A < 0x11) && (((S_801741A0_0 *)effect)->unk_20 == 0) && !(rand() & 0xF)) {

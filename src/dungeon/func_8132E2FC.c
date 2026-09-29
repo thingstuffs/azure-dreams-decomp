@@ -66,7 +66,6 @@ typedef struct S_801652FC_4 {
 } S_801652FC_4;   /* ((S_801652FC_2 *)saved_arg0)->unk_08 in func_801652FC */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C();
 extern u8 D_80164BC4[];

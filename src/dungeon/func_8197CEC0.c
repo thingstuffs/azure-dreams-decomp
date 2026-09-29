@@ -188,7 +188,8 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                         coord_magnitude = 1;
                     }
                     x_offset = func_80069EF8() % coord_magnitude;
-                    spawn->position->x.half.coord = (s16)((((s16)target->x.half.coord + (s16)start_pos[0]) >> 1) + x_offset - (coord_magnitude >> 1));
+                    spawn->position->x.half.coord = (s16)((((s16)target->x.half.coord + (s16)start_pos[0]) >> 1)
+                        + x_offset - (coord_magnitude >> 1));
                     target_y = (s16)target->y.half.coord;
                     start_y = (s16)start_pos[1];
                     start_y_bits = start_pos[1];
@@ -196,7 +197,8 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     if (coord_magnitude == 0) {
                         spawn->position->y.word = target->y.word;
                     } else {
-                        ((Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
+                        ((Vec3 *)spawn->position)->y.half.coord =
+                            (s16)(start_y_bits + ((target_y - start_y) * x_offset) / coord_magnitude);
                     }
                     spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);

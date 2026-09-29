@@ -19,7 +19,7 @@ void func_80039C74(Func80039C74State *state) {
         u8 *target_ptr = state->read_ptr;
 
         state->read_ptr = (u8 *)(target_ptr[0] + (target_ptr[1] << 8) +
-                                  (target_ptr[2] << 16) + (target_ptr[3] << 24));
+                                 (target_ptr[2] << 16) + (target_ptr[3] << 24));
     } else {
         state->read_ptr += 4;
     }

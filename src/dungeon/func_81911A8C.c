@@ -59,7 +59,8 @@ void func_81911A8C(void *effect, void *unused, void *fade_state) {
     effect_state = ((S_81911A8C_0 *)effect)->unk_00;
     ((S_81911A8C_1 *)effect_state)->unk_14 = (u16) (((S_81911A8C_1 *)effect_state)->unk_14 + 1);
     overlay = ((S_81911A8C_5 *)(((S_81911A8C_2 *)(((M2C_UNK *)&gameWork.unk_000)))->unk_00.s))->unk_8D0;
-    ((S_81911A8C_5 *)(((S_81911A8C_2 *)(((M2C_UNK *)&gameWork.unk_000)))->unk_00.s))->unk_8D0 = (void *) (overlay + 0x10);
+    ((S_81911A8C_5 *)(((S_81911A8C_2 *)(((M2C_UNK *)&gameWork.unk_000)))->unk_00.s))->unk_8D0 =
+        (void *) (overlay + 0x10);
     ((S_81911A8C_3 *)overlay)->unk_0C = 0x140;
     ((S_81911A8C_3 *)overlay)->unk_0E = 0xE0;
     ((S_81911A8C_3 *)overlay)->unk_08 = 0;

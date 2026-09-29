@@ -33,8 +33,6 @@ typedef struct S_8017558C_0 {
 } S_8017558C_0;   /* arg0 in func_8017558C */
 
 
-
-
 typedef struct S_8017558C_4 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -135,7 +133,8 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         position->flags14 = 0;
         position->unk_10 = 0;
         position->unk_0C = 0;
-        height_delta = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88) - 0x20));
+        height_delta = func_800BCB04(((u16)position->x.w.i), ((u16)position->y.w.i), (s16) (((u16)actor->unk_88)
+            - 0x20));
         height = ((u16)actor->unk_88);
         height_delta -= height;
         if (((S_8017558C_0 *)action)->unk_92.s < height_delta) {
@@ -145,7 +144,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             }
         }
         ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
-    check_height:
+check_height:
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
             sprite->unk_2C.as_pu8 = D_800E2438;
             func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -236,7 +235,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             goto finish_restore;
         }
         return;
-    restore_position:
+restore_position:
         restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
         ((S_8017558C_0 *)action)->unk_96 = restore_timer;
         if ((s16) restore_timer == 1) {
@@ -256,7 +255,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
         sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
         return;
-    wait_pause:
+wait_pause:
         pause_timer = ((S_8017558C_0 *)action)->unk_96;
         ((S_8017558C_0 *)action)->unk_96 = (u16) (pause_timer + 1);
         if ((s16) pause_timer < 4) {
@@ -269,7 +268,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
         func_800A56E0(0x801);
         return;
-    finish_restore:
+finish_restore:
         if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
             return;
         }

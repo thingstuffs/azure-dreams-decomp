@@ -31,6 +31,7 @@ void func_800189BC(void) {
     counter_obj = ((S_800189BC_2 *)(((Rec_D_80016000 *)(((M2C_UNK *)(&D_80016000))))->unk_00.at00_pv.v))->unk_38;
     counter_obj->unk_2D5C = (u32) (counter_obj->unk_2D5C - D_8001C368[0]);
     if (func_8001890C(counter_obj) != 0) {
-        ((S_800189BC_3 *)(((S_800189BC_2 *)(((Rec_D_80016000 *)(((M2C_UNK *)(&D_80016000))))->unk_00.at00_pv.v))->unk_20))->unk_4C(0x10, 5);
+        ((S_800189BC_3 *)(((S_800189BC_2 *)(((Rec_D_80016000 *)(((M2C_UNK *)(&D_80016000))))->unk_00.at00_pv.v))->unk_20))->unk_4C(0x10,
+            5);
     }
 }

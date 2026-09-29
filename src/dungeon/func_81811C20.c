@@ -14,7 +14,7 @@ typedef struct S_80026C20_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern u8 D_80029510[12];
 

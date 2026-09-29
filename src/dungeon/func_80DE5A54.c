@@ -35,8 +35,6 @@ typedef struct S_80173254_0 {
 } S_80173254_0;   /* arg0 in func_80173254 */
 
 
-
-
 /* Updates the entity action state and selects its directional animation. */
 void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
 {
@@ -121,7 +119,7 @@ void func_80173254(void *action, void *context, void *sprite, EntityRec *entity)
                 coordinate = ((Rec_D_80082E80 *)sprite)->unk_26.as_s8;
                 if ((((coordinate == origin->unk_026) &&
                             (coordinate >= 0)) ||
-                        (func_8009FD40(origin, sprite) < 2)) &&
+                     (func_8009FD40(origin, sprite) < 2)) &&
                     ((func_800A6D30() & 7) == 0)) {
                     func_80042B68(entity, 1);
                 }

@@ -52,7 +52,6 @@ typedef struct S_81977D08_5 {
 } S_81977D08_5;   /* ((S_81977D08_4 *)arg0)->unk_14 in func_81977D08 */
 
 
-
 extern s32 func_8003DB94();
 extern void *func_8003FD64();
 extern s32 func_8004491C();

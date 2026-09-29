@@ -44,13 +44,16 @@ void func_801262B4(TownObject *obj)
 
     case 7:
     case 8:
-    case 9: {
+    case 9:
+    {
         s32 entry_index;
         Entry **entries;
         Entry *entry;
         Inner *inner;
 
-        do { entry_index = 14; } while (0);
+        do {
+            entry_index = 14;
+        } while (0);
         entries = D_80129728;
         do {
             entry = entries[entry_index];
@@ -61,7 +64,8 @@ void func_801262B4(TownObject *obj)
         break;
     }
 
-    case 10: {
+    case 10:
+    {
         s32 entry_index;
         Entry **entries;
         Entry *entry;
@@ -74,9 +78,9 @@ void func_801262B4(TownObject *obj)
             entry_index++;
         } while (entry_index < 28);
 
-    case 11:
-    case 12:
-    case 13:
+        case 11:
+        case 12:
+        case 13:
         entry_index = 14;
         entries = D_80129728;
         do {
@@ -88,7 +92,8 @@ void func_801262B4(TownObject *obj)
         break;
     }
 
-    case 14: {
+    case 14:
+    {
         s32 entry_index;
         Entry **entries;
         Entry *entry;

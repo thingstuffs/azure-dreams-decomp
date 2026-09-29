@@ -131,8 +131,8 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
         if (move_result == 3 && (((S_80172144_1 *)actor)->unk_B5 == 0) && !(dungeonStatus.flags & 0x80) &&
             !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
             func_80172B4C(actor, actor_slot, entity, state);
-                ((S_80172144_1 *)actor)->unk_8C = 0;
-                ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
+            ((S_80172144_1 *)actor)->unk_8C = 0;
+            ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         } else {
             ((S_80172144_1 *)actor)->unk_9A = 0xF;
             ((S_80172144_1 *)actor)->unk_8C = 0;

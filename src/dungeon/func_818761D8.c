@@ -47,7 +47,15 @@ typedef struct S_800259D8_1 {
 typedef struct S_800259D8_2 {
     u8 pad_00[0x8];
     void * unk_08;
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { s8 v; } at00p; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x1]; s8 v; } at01u; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x2]; s8 v; } at02u; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { s8 v; } at00p;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x1]; s8 v; } at01u;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x2]; s8 v; } at02u;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
@@ -73,18 +81,42 @@ typedef struct S_800259D8_3 {
 } S_800259D8_3;   /* obj in func_800259D8 */
 
 typedef struct S_800259D8_4 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
 } S_800259D8_4;   /* arg1 in func_800259D8 */
 
 typedef struct S_800259D8_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     s16 unk_0C;
     s16 unk_0E;
     s16 unk_10;
@@ -186,7 +218,6 @@ typedef struct S_800259D8_15 {
 } S_800259D8_15;   /* ((S_800259D8_3 *)obj)->unk_60 in func_800259D8 */
 
 
-
 typedef struct {
     u8 bytes[32];
 } Copy32;
@@ -269,7 +300,6 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
     s32 i;
 
 
-
     obj = ((S_800259D8_0 *)arg0)->unk_00;
     copy = D_80024058;
     state = ((S_800259D8_0 *)arg0)->unk_0A.s;
@@ -285,295 +315,178 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
         arg2->unk_1E = setup;
         arg2->unk_1C = setup;
     }
-    *(Copy12 *)((u8 *)arg0 + 0xA2) = D_80026634;
-    {
-        s32 init_value;
-        u16 init_count;
-        arg2->unk_08 = (u8 *)arg0 + 0xA2;
-        init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
-        D_80026664[0] = 1;
-        init_count = ((S_800259D8_0 *)arg0)->unk_0A.u + 1;
-        ((S_800259D8_0 *)arg0)->unk_80 = init_value;
-        ((S_800259D8_0 *)arg0)->unk_0A.u = init_count;
-    }
+        *(Copy12 *)((u8 *)arg0 + 0xA2) = D_80026634;
+        {
+            s32 init_value;
+            u16 init_count;
+            arg2->unk_08 = (u8 *)arg0 + 0xA2;
+            init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
+            D_80026664[0] = 1;
+            init_count = ((S_800259D8_0 *)arg0)->unk_0A.u + 1;
+            ((S_800259D8_0 *)arg0)->unk_80 = init_value;
+            ((S_800259D8_0 *)arg0)->unk_0A.u = init_count;
+        }
     case 1:
-    result = func_8003DF74(
-        ((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_08,
-        ((S_800259D8_1 *)base)->unk_0C, &delta, 0);
-    if (result == 0) {
-        if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
+        result = func_8003DF74(
+            ((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_08,
+            ((S_800259D8_1 *)base)->unk_0C, &delta, 0);
+        if (result == 0) {
+            if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
+                return;
+            }
+        }
+        {
+            u16 z_value;
+            ((S_800259D8_4 *)arg1)->unk_00.at02.v = ((S_800259D8_5 *)entry)->unk_00.at02.v;
+            ((S_800259D8_4 *)arg1)->unk_04.at02.v = ((S_800259D8_5 *)entry)->unk_04.at02.v;
+            z_value = ((S_800259D8_5 *)entry)->unk_08.at02.v;
+            ((S_800259D8_4 *)arg1)->unk_08.at02.v = z_value;
+            if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
+                ((S_800259D8_4 *)arg1)->unk_00.at02.v += delta.x;
+                ((S_800259D8_4 *)arg1)->unk_04.at02.v += delta.y;
+                ((S_800259D8_4 *)arg1)->unk_08.at02u.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v + delta.z;
+            } else {
+L0_adjust_z:
+                           /* MATCH: retain the alternate z calculation's scheduling boundary. */
+                ((S_800259D8_4 *)arg1)->unk_08.at02u.v = z_value - 0x40;
+            }
+        }
+        if (!(((S_800259D8_14 *)(((S_800259D8_0 *)arg0)->unk_04))->unk_00 & 0x80U)) {
             return;
         }
-    }
-    {
-    u16 z_value;
-    ((S_800259D8_4 *)arg1)->unk_00.at02.v = ((S_800259D8_5 *)entry)->unk_00.at02.v;
-    ((S_800259D8_4 *)arg1)->unk_04.at02.v = ((S_800259D8_5 *)entry)->unk_04.at02.v;
-    z_value = ((S_800259D8_5 *)entry)->unk_08.at02.v;
-    ((S_800259D8_4 *)arg1)->unk_08.at02.v = z_value;
-    if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
-        ((S_800259D8_4 *)arg1)->unk_00.at02.v += delta.x;
-        ((S_800259D8_4 *)arg1)->unk_04.at02.v += delta.y;
-        ((S_800259D8_4 *)arg1)->unk_08.at02u.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v + delta.z;
-    } else {
-L0_adjust_z:
-           /* MATCH: retain the alternate z calculation's scheduling boundary. */
-((S_800259D8_4 *)arg1)->unk_08.at02u.v = z_value - 0x40;
-    }
-    }
-    if (!(((S_800259D8_14 *)(((S_800259D8_0 *)arg0)->unk_04))->unk_00 & 0x80U)) {
-        return;
-    }
-    if (!(((S_800259D8_0 *)arg0)->unk_7A & 4U)) {
-        func_8004491C((u8 *)arg0 - 0x20, func_80045340);
-        arg2->unk_10 = 0x20;
-        arg2->unk_0C.at02.v = 0x80;
-        arg2->unk_0C.at01.v = 0x80;
-        arg2->unk_0C.at00u.v = 0x80;
-        arg2->unk_14 |= 0xC;
-        ((S_800259D8_0 *)arg0)->unk_7A |= 4;
-    }
-    if (((S_800259D8_3 *)obj)->unk_60 != 0) {
-        void *resident_work;
-        entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-        ((S_800259D8_0 *)arg0)->unk_74.u = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
-        ((S_800259D8_0 *)arg0)->unk_76.u = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
-        {
-            s32 depth_bias;
-            s32 resident_value;
-            depth_bias = D_800DDC40[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
-            resident_value = ((S_800259D8_5 *)entry)->unk_08.at02.v - depth_bias - 0x60;
-            ((S_800259D8_0 *)arg0)->unk_78.u = resident_value;
-        }
-        resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
-        ((S_800259D8_0 *)arg0)->unk_AE = ((S_800259D8_6 *)resident_work)->unk_24 +
-            ((u8 *)dirStepX)[((S_800259D8_0 *)arg0)->unk_80 << 1];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_800259D8_0 *)arg0)->unk_AF = ((S_800259D8_6 *)resident_work)->unk_25 +
-            ((u8 *)dirStepY)[((S_800259D8_0 *)arg0)->unk_80 << 1];
-        entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-        {
-            if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {
-                s32 resident_delta;
-                s32 resident_copy;
-                resident_delta = ((S_800259D8_4 *)arg1)->unk_00.at02.v;
-                resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_00.at02.v;
-                resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2));
-                resident_delta = abs(resident_delta);
-                resident_copy = abs(resident_copy);
-                ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
-            } else {
-                Pair *cp;
-                s32 cidx;
-                s32 resident_delta;
-                s32 resident_copy;
-                resident_delta = ((S_800259D8_4 *)arg1)->unk_04.at02.v;
-                cidx = ((S_800259D8_0 *)arg0)->unk_80 << 2;
-                resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_04.at02.v;
-                cp = (Pair *)&copy;
-                resident_copy = ((Pair *)((u8 *)cp + cidx))->y.u;
-                resident_delta = abs(resident_delta);
-                resident_copy = (s32)((u32)resident_copy << 16) >> 16;
-                resident_copy = abs(resident_copy);
-                ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
-            }
-        }
-    } else {
-        {
-        ((S_800259D8_0 *)arg0)->unk_7C.s = 0x80;
-        ((S_800259D8_0 *)arg0)->unk_74.s = ((S_800259D8_4 *)arg1)->unk_00.at02u.v +
-            (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->x.u << 7);
-        ((S_800259D8_0 *)arg0)->unk_76.s = ((S_800259D8_4 *)arg1)->unk_04.at02u.v +
-            (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->y.u *
-             ((S_800259D8_0 *)arg0)->unk_7C.u);
-        ((S_800259D8_0 *)arg0)->unk_78.s = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
-        }
-    }
-    {
-    Pair *cp = (Pair *)&copy;
-    ((S_800259D8_4 *)arg1)->unk_0C =
-        ((Pair *)((u8 *)cp + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->x.s << 16;
-    ((S_800259D8_4 *)arg1)->unk_10 =
-        ((Pair *)((u8 *)cp + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->y.u << 16;
-    }
-    ((S_800259D8_4 *)arg1)->unk_14 =
-        ((((S_800259D8_0 *)arg0)->unk_78.s << 16) - ((S_800259D8_4 *)arg1)->unk_08.at00.v) /
-        ((S_800259D8_0 *)arg0)->unk_7C.s;
-    ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-    ((S_800259D8_0 *)arg0)->unk_9C = 55;
-    ((S_800259D8_0 *)arg0)->unk_0A.u++;
-    i = 0;
-    do {
-        void *spawn;
-        spawn = func_8003FC64(0x12);
-        if (spawn != 0) {
-                entry = (u8 *)spawn + 0x20;
-            {
-            void *sp0 = spawn;
-            u8 *tbl = D_80024704;
-                ((S_800259D8_5 *)entry)->unk_38 = obj;
-                ((S_800259D8_5 *)entry)->unk_44 = arg1;
-                ((S_800259D8_5 *)entry)->unk_48 = arg2;
-                ((S_800259D8_5 *)entry)->unk_4C = arg0;
-            ((S_800259D8_7 *)spawn)->unk_10 = (void *)D_80025814;
-            func_8004491C(sp0, tbl);
-            }
-            work = ((S_800259D8_7 *)spawn)->unk_0C;
-            work->unk_14 |= 0xC;
-            work->unk_10 = 0x20;
-            dst = ((S_800259D8_7 *)spawn)->unk_08;
-            ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
-            ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
-            work->unk_16 = (func_80069EF8() & 0xFF) << 4;
-            work->unk_18 = (func_80069EF8() & 0xFF) << 4;
-            work->unk_1A = (func_80069EF8() & 0xFF) << 4;
-            value = func_80064584(((S_800259D8_5 *)entry)->unk_0C);
-            ((S_800259D8_9 *)dst)->unk_00 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
-            value = func_800644B8(((S_800259D8_5 *)entry)->unk_0C);
-            ((S_800259D8_9 *)dst)->unk_04 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
-            ((S_800259D8_9 *)dst)->unk_08.at02.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v;
-            work = ((S_800259D8_7 *)spawn)->unk_0C;
-            {
-                s32 scale1;
-                scale1 = 0x1000;
-                work->unk_1E = scale1;
-                work->unk_1C = scale1;
-            }
-            {
-                s32 alpha;
-                alpha = 0x80;
-                work->unk_0E = alpha;
-                work->unk_0D = alpha;
-                work->unk_0C = alpha;
-            }
-            *(Copy12 *)((u8 *)spawn + 0x4C) = D_80026640;
-            work->unk_08 = (u8 *)spawn + 0x4C;
-        }
-        i++;
-        if (i < 8) {
-            continue;
-        }
-    } while (i < 8);
-    return;
-
-    case 2:
-    if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
-        ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
-    } else {
-        ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
-        ((S_800259D8_0 *)arg0)->unk_A0 = 0;
-    }
-    result = func_800A4778(((S_800259D8_4 *)arg1)->unk_00.at02u.v, ((S_800259D8_4 *)arg1)->unk_04.at02u.v,
-                           ((S_800259D8_4 *)arg1)->unk_08.at02u.v, ((S_800259D8_3 *)obj)->unk_60);
-    if ((result << 16) == 0) {
-        node = ((S_800259D8_3 *)obj)->unk_60;
-        if (node == 0) {
-            arg2->unk_0C.at00u.v -= 4;
-            arg2->unk_0C.at01.v -= 4;
-            arg2->unk_0C.at02.v -= 4;
-            if (arg2->unk_0C.at00u.v == 0) {
-                ((S_800259D8_0 *)arg0)->unk_7C.u = 1;
-            }
-        }
-        count = ((S_800259D8_0 *)arg0)->unk_7C.u - 1;
-        ((S_800259D8_0 *)arg0)->unk_7C.u = count;
-        if (count > 0) {
-            goto L1_calc;
+        if (!(((S_800259D8_0 *)arg0)->unk_7A & 4U)) {
+            func_8004491C((u8 *)arg0 - 0x20, func_80045340);
+            arg2->unk_10 = 0x20;
+            arg2->unk_0C.at02.v = 0x80;
+            arg2->unk_0C.at01.v = 0x80;
+            arg2->unk_0C.at00u.v = 0x80;
+            arg2->unk_14 |= 0xC;
+            ((S_800259D8_0 *)arg0)->unk_7A |= 4;
         }
         if (((S_800259D8_3 *)obj)->unk_60 != 0) {
-            ((S_800259D8_0 *)arg0)->unk_0A.u = 3;
-            ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+            void *resident_work;
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-            ((S_800259D8_4 *)arg1)->unk_00.at02u.v = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
-            ((S_800259D8_4 *)arg1)->unk_04.at02u.v = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
-            ((S_800259D8_4 *)arg1)->unk_08.at02.v = ((S_800259D8_0 *)arg0)->unk_78.u;
-            func_800A56E0(0x300);
-            return;
+            ((S_800259D8_0 *)arg0)->unk_74.u = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
+            ((S_800259D8_0 *)arg0)->unk_76.u = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
+            {
+                s32 depth_bias;
+                s32 resident_value;
+                depth_bias = D_800DDC40[((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13];
+                resident_value = ((S_800259D8_5 *)entry)->unk_08.at02.v - depth_bias - 0x60;
+                ((S_800259D8_0 *)arg0)->unk_78.u = resident_value;
+            }
+            resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
+            ((S_800259D8_0 *)arg0)->unk_AE = ((S_800259D8_6 *)resident_work)->unk_24 +
+                ((u8 *)dirStepX)[((S_800259D8_0 *)arg0)->unk_80 << 1];
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            ((S_800259D8_0 *)arg0)->unk_AF = ((S_800259D8_6 *)resident_work)->unk_25 +
+                ((u8 *)dirStepY)[((S_800259D8_0 *)arg0)->unk_80 << 1];
+            entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+            {
+                if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {
+                    s32 resident_delta;
+                    s32 resident_copy;
+                    resident_delta = ((S_800259D8_4 *)arg1)->unk_00.at02.v;
+                    resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_00.at02.v;
+                    resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2));
+                    resident_delta = abs(resident_delta);
+                    resident_copy = abs(resident_copy);
+                    ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
+                } else {
+                    Pair *cp;
+                    s32 cidx;
+                    s32 resident_delta;
+                    s32 resident_copy;
+                    resident_delta = ((S_800259D8_4 *)arg1)->unk_04.at02.v;
+                    cidx = ((S_800259D8_0 *)arg0)->unk_80 << 2;
+                    resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_04.at02.v;
+                    cp = (Pair *)&copy;
+                    resident_copy = ((Pair *)((u8 *)cp + cidx))->y.u;
+                    resident_delta = abs(resident_delta);
+                    resident_copy = (s32)((u32)resident_copy << 16) >> 16;
+                    resident_copy = abs(resident_copy);
+                    ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
+                }
+            }
+        } else {
+            {
+                ((S_800259D8_0 *)arg0)->unk_7C.s = 0x80;
+                ((S_800259D8_0 *)arg0)->unk_74.s = ((S_800259D8_4 *)arg1)->unk_00.at02u.v +
+                    (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->x.u << 7);
+                ((S_800259D8_0 *)arg0)->unk_76.s = ((S_800259D8_4 *)arg1)->unk_04.at02u.v +
+                    (((Pair *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->y.u *
+                     ((S_800259D8_0 *)arg0)->unk_7C.u);
+                ((S_800259D8_0 *)arg0)->unk_78.s = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
+            }
         }
-    }
-    ((S_800259D8_0 *)arg0)->unk_0A.u = 7;
-    ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-    arg2->unk_0C.at02.v = 0;
-    arg2->unk_0C.at01.v = 0;
-    arg2->unk_0C.at00u.v = 0;
-    return;
-
-L1_calc:
-    ((S_800259D8_4 *)arg1)->unk_0C =
-        ((((S_800259D8_0 *)arg0)->unk_74.s << 16) - ((S_800259D8_4 *)arg1)->unk_00.at00.v) / count;
-    ((S_800259D8_4 *)arg1)->unk_10 =
-        ((((S_800259D8_0 *)arg0)->unk_76.s << 16) - ((S_800259D8_4 *)arg1)->unk_04.at00.v) /
-        ((S_800259D8_0 *)arg0)->unk_7C.s;
-    ((S_800259D8_4 *)arg1)->unk_14 =
-        ((((S_800259D8_0 *)arg0)->unk_78.s << 16) - ((S_800259D8_4 *)arg1)->unk_08.at00.v) /
-        ((S_800259D8_0 *)arg0)->unk_7C.s;
-    ((S_800259D8_4 *)arg1)->unk_00.at00.v += ((S_800259D8_4 *)arg1)->unk_0C;
-    ((S_800259D8_4 *)arg1)->unk_04.at00.v += ((S_800259D8_4 *)arg1)->unk_10;
-    ((S_800259D8_4 *)arg1)->unk_08.at00.v += ((S_800259D8_4 *)arg1)->unk_14;
-    return;
-
-    case 3:
-    if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
-        ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
-    } else {
-        ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
-        ((S_800259D8_0 *)arg0)->unk_A0 = 0;
-    }
-    {
-    void *spawn;
-    spawn = func_8003FC64(0x12);
-    if (spawn != 0) {
-        entry = (u8 *)spawn + 0x20;
-        ((S_800259D8_5 *)entry)->unk_00.at02.v = 0;
-        ((S_800259D8_5 *)entry)->unk_38 = obj;
-        ((S_800259D8_5 *)entry)->unk_3C = ((S_800259D8_3 *)obj)->unk_60;
-        ((S_800259D8_5 *)entry)->unk_40 = arg0;
-        ((S_800259D8_5 *)entry)->unk_08.at02u.v = 0x0C;
-        ((S_800259D8_5 *)entry)->unk_0C = 8;
-        ((S_800259D8_5 *)entry)->unk_0E = 0;
-        ((S_800259D8_5 *)entry)->unk_10 = 0;
-        ((S_800259D8_5 *)entry)->unk_12 = 0;
-        ((S_800259D8_5 *)entry)->unk_1C = 0;
-        ((S_800259D8_5 *)entry)->unk_1A = 0x40;
-        entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
-        ((S_800259D8_7 *)spawn)->unk_10 = D_80025470;
-        func_8004491C(spawn, D_80024FD4);
-        work = ((S_800259D8_7 *)spawn)->unk_0C;
-        work->unk_10 = 0x20;
-        work->unk_14 |= 0x000C;
-        dst = ((S_800259D8_7 *)spawn)->unk_08;
-        ((S_800259D8_9 *)dst)->unk_00 = ((S_800259D8_5 *)entry)->unk_00.at00.v;
-        ((S_800259D8_9 *)dst)->unk_04 = ((S_800259D8_5 *)entry)->unk_04.at00.v;
-        index = ((S_800259D8_3 *)obj)->unk_60 != 0;
-        index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
-        ((S_800259D8_9 *)dst)->unk_08.at00.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
-            (D_800DDC40[index] << 15);
-        work = ((S_800259D8_7 *)spawn)->unk_0C;
         {
-            s16 scale2 = 0x1000;
-            work->unk_1E = scale2;
-            work->unk_1C = scale2;
+            Pair *cp = (Pair *)&copy;
+            ((S_800259D8_4 *)arg1)->unk_0C =
+                ((Pair *)((u8 *)cp + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->x.s << 16;
+            ((S_800259D8_4 *)arg1)->unk_10 =
+                ((Pair *)((u8 *)cp + (((S_800259D8_0 *)arg0)->unk_80 << 2)))->y.u << 16;
         }
-        work->unk_0E = 0x80;
-        work->unk_0D = 0x80;
-        work->unk_0C = 0x80;
-        *(Copy12 *)((u8 *)spawn + 0x4C) = D_8002664C;
-        work->unk_08 = (u8 *)spawn + 0x4C;
-    }
-    }
-        ((S_800259D8_0 *)arg0)->unk_0A.u = 4;
-    ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-    return;
+        ((S_800259D8_4 *)arg1)->unk_14 =
+            ((((S_800259D8_0 *)arg0)->unk_78.s << 16) - ((S_800259D8_4 *)arg1)->unk_08.at00.v) /
+            ((S_800259D8_0 *)arg0)->unk_7C.s;
+        ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+        ((S_800259D8_0 *)arg0)->unk_9C = 55;
+        ((S_800259D8_0 *)arg0)->unk_0A.u++;
+        i = 0;
+        do {
+            void *spawn;
+            spawn = func_8003FC64(0x12);
+            if (spawn != 0) {
+                entry = (u8 *)spawn + 0x20;
+                {
+                    void *sp0 = spawn;
+                    u8 *tbl = D_80024704;
+                    ((S_800259D8_5 *)entry)->unk_38 = obj;
+                    ((S_800259D8_5 *)entry)->unk_44 = arg1;
+                    ((S_800259D8_5 *)entry)->unk_48 = arg2;
+                    ((S_800259D8_5 *)entry)->unk_4C = arg0;
+                    ((S_800259D8_7 *)spawn)->unk_10 = (void *)D_80025814;
+                    func_8004491C(sp0, tbl);
+                }
+                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                work->unk_14 |= 0xC;
+                work->unk_10 = 0x20;
+                dst = ((S_800259D8_7 *)spawn)->unk_08;
+                ((S_800259D8_5 *)entry)->unk_08.at02u.v = (func_80069EF8() & 7) + 12;
+                ((S_800259D8_5 *)entry)->unk_0C = func_80069EF8() & 0xFFF;
+                work->unk_16 = (func_80069EF8() & 0xFF) << 4;
+                work->unk_18 = (func_80069EF8() & 0xFF) << 4;
+                work->unk_1A = (func_80069EF8() & 0xFF) << 4;
+                value = func_80064584(((S_800259D8_5 *)entry)->unk_0C);
+                ((S_800259D8_9 *)dst)->unk_00 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
+                value = func_800644B8(((S_800259D8_5 *)entry)->unk_0C);
+                ((S_800259D8_9 *)dst)->unk_04 = (((S_800259D8_5 *)entry)->unk_08.at02u.v * value) << 4;
+                ((S_800259D8_9 *)dst)->unk_08.at02.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v;
+                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                {
+                    s32 scale1;
+                    scale1 = 0x1000;
+                    work->unk_1E = scale1;
+                    work->unk_1C = scale1;
+                }
+                {
+                    s32 alpha;
+                    alpha = 0x80;
+                    work->unk_0E = alpha;
+                    work->unk_0D = alpha;
+                    work->unk_0C = alpha;
+                }
+                *(Copy12 *)((u8 *)spawn + 0x4C) = D_80026640;
+                work->unk_08 = (u8 *)spawn + 0x4C;
+            }
+            i++;
+            if (i < 8) {
+                continue;
+            }
+        } while (i < 8);
+        return;
 
-    case 4:
-    count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
-    ((S_800259D8_0 *)arg0)->unk_84.u = count;
-    if (count < 30) {
-        arg2->unk_0C.at00p.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0x80) / 30;
-        arg2->unk_0C.at01u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0x80) / 30;
-        arg2->unk_0C.at02u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0xE0) / 30;
+    case 2:
         if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
             ((S_800259D8_0 *)arg0)->unk_A0 = 1;
             ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
@@ -581,86 +494,204 @@ L1_calc:
             ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
             ((S_800259D8_0 *)arg0)->unk_A0 = 0;
         }
-        i = 0;
-        while (1) {
-            value = func_80069EF8();
-            func_80025338((u8 *)arg0 - 0x20, ((S_800259D8_0 *)arg0)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0, 0, 0);
-            i++;
-            if (i >= 4) {
+        result = func_800A4778(((S_800259D8_4 *)arg1)->unk_00.at02u.v, ((S_800259D8_4 *)arg1)->unk_04.at02u.v,
+                               ((S_800259D8_4 *)arg1)->unk_08.at02u.v, ((S_800259D8_3 *)obj)->unk_60);
+        if ((result << 16) == 0) {
+            node = ((S_800259D8_3 *)obj)->unk_60;
+            if (node == 0) {
+                arg2->unk_0C.at00u.v -= 4;
+                arg2->unk_0C.at01.v -= 4;
+                arg2->unk_0C.at02.v -= 4;
+                if (arg2->unk_0C.at00u.v == 0) {
+                    ((S_800259D8_0 *)arg0)->unk_7C.u = 1;
+                }
+            }
+            count = ((S_800259D8_0 *)arg0)->unk_7C.u - 1;
+            ((S_800259D8_0 *)arg0)->unk_7C.u = count;
+            if (count > 0) {
+                goto L1_calc;
+            }
+            if (((S_800259D8_3 *)obj)->unk_60 != 0) {
+                ((S_800259D8_0 *)arg0)->unk_0A.u = 3;
+                ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+                entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+                ((S_800259D8_4 *)arg1)->unk_00.at02u.v = ((S_800259D8_5 *)entry)->unk_00.at02u.v;
+                ((S_800259D8_4 *)arg1)->unk_04.at02u.v = ((S_800259D8_5 *)entry)->unk_04.at02u.v;
+                ((S_800259D8_4 *)arg1)->unk_08.at02.v = ((S_800259D8_0 *)arg0)->unk_78.u;
+                func_800A56E0(0x300);
                 return;
             }
         }
-    }
-    ((S_800259D8_0 *)arg0)->unk_0A.u++;
-    ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-    arg2->unk_14 |= 0x80;
-    return;
+        ((S_800259D8_0 *)arg0)->unk_0A.u = 7;
+        ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+        arg2->unk_0C.at02.v = 0;
+        arg2->unk_0C.at01.v = 0;
+        arg2->unk_0C.at00u.v = 0;
+        return;
+
+L1_calc:
+        ((S_800259D8_4 *)arg1)->unk_0C =
+            ((((S_800259D8_0 *)arg0)->unk_74.s << 16) - ((S_800259D8_4 *)arg1)->unk_00.at00.v) / count;
+        ((S_800259D8_4 *)arg1)->unk_10 =
+            ((((S_800259D8_0 *)arg0)->unk_76.s << 16) - ((S_800259D8_4 *)arg1)->unk_04.at00.v) /
+            ((S_800259D8_0 *)arg0)->unk_7C.s;
+        ((S_800259D8_4 *)arg1)->unk_14 =
+            ((((S_800259D8_0 *)arg0)->unk_78.s << 16) - ((S_800259D8_4 *)arg1)->unk_08.at00.v) /
+            ((S_800259D8_0 *)arg0)->unk_7C.s;
+        ((S_800259D8_4 *)arg1)->unk_00.at00.v += ((S_800259D8_4 *)arg1)->unk_0C;
+        ((S_800259D8_4 *)arg1)->unk_04.at00.v += ((S_800259D8_4 *)arg1)->unk_10;
+        ((S_800259D8_4 *)arg1)->unk_08.at00.v += ((S_800259D8_4 *)arg1)->unk_14;
+        return;
+
+    case 3:
+        if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
+            ((S_800259D8_0 *)arg0)->unk_A0 = 1;
+            ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
+        } else {
+            ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
+            ((S_800259D8_0 *)arg0)->unk_A0 = 0;
+        }
+        {
+            void *spawn;
+            spawn = func_8003FC64(0x12);
+            if (spawn != 0) {
+                entry = (u8 *)spawn + 0x20;
+                ((S_800259D8_5 *)entry)->unk_00.at02.v = 0;
+                ((S_800259D8_5 *)entry)->unk_38 = obj;
+                ((S_800259D8_5 *)entry)->unk_3C = ((S_800259D8_3 *)obj)->unk_60;
+                ((S_800259D8_5 *)entry)->unk_40 = arg0;
+                ((S_800259D8_5 *)entry)->unk_08.at02u.v = 0x0C;
+                ((S_800259D8_5 *)entry)->unk_0C = 8;
+                ((S_800259D8_5 *)entry)->unk_0E = 0;
+                ((S_800259D8_5 *)entry)->unk_10 = 0;
+                ((S_800259D8_5 *)entry)->unk_12 = 0;
+                ((S_800259D8_5 *)entry)->unk_1C = 0;
+                ((S_800259D8_5 *)entry)->unk_1A = 0x40;
+                entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
+                ((S_800259D8_7 *)spawn)->unk_10 = D_80025470;
+                func_8004491C(spawn, D_80024FD4);
+                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                work->unk_10 = 0x20;
+                work->unk_14 |= 0x000C;
+                dst = ((S_800259D8_7 *)spawn)->unk_08;
+                ((S_800259D8_9 *)dst)->unk_00 = ((S_800259D8_5 *)entry)->unk_00.at00.v;
+                ((S_800259D8_9 *)dst)->unk_04 = ((S_800259D8_5 *)entry)->unk_04.at00.v;
+                index = ((S_800259D8_3 *)obj)->unk_60 != 0;
+                index = ((S_800259D8_15 *)(((S_800259D8_3 *)obj)->unk_60))->unk_13;
+                ((S_800259D8_9 *)dst)->unk_08.at00.v = ((S_800259D8_5 *)entry)->unk_08.at00.v -
+                    (D_800DDC40[index] << 15);
+                work = ((S_800259D8_7 *)spawn)->unk_0C;
+                {
+                    s16 scale2 = 0x1000;
+                    work->unk_1E = scale2;
+                    work->unk_1C = scale2;
+                }
+                work->unk_0E = 0x80;
+                work->unk_0D = 0x80;
+                work->unk_0C = 0x80;
+                *(Copy12 *)((u8 *)spawn + 0x4C) = D_8002664C;
+                work->unk_08 = (u8 *)spawn + 0x4C;
+            }
+        }
+        ((S_800259D8_0 *)arg0)->unk_0A.u = 4;
+        ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+        return;
+
+    case 4:
+        count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
+        ((S_800259D8_0 *)arg0)->unk_84.u = count;
+        if (count < 30) {
+            arg2->unk_0C.at00p.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0x80) / 30;
+            arg2->unk_0C.at01u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0x80) / 30;
+            arg2->unk_0C.at02u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0xE0) / 30;
+            if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
+                ((S_800259D8_0 *)arg0)->unk_A0 = 1;
+                ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
+            } else {
+                ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
+                ((S_800259D8_0 *)arg0)->unk_A0 = 0;
+            }
+            i = 0;
+            while (1) {
+                value = func_80069EF8();
+                func_80025338((u8 *)arg0 - 0x20, ((S_800259D8_0 *)arg0)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
+                    0, 0);
+                i++;
+                if (i >= 4) {
+                    return;
+                }
+            }
+        }
+        ((S_800259D8_0 *)arg0)->unk_0A.u++;
+        ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+        arg2->unk_14 |= 0x80;
+        return;
 
     case 5:
-    if (((S_800259D8_0 *)arg0)->unk_88 == 0) {
-        return;
-    }
+        if (((S_800259D8_0 *)arg0)->unk_88 == 0) {
+            return;
+        }
+        {
+            ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+            ((S_800259D8_0 *)arg0)->unk_0A.u++;
+            return;
+        }
+
+    case 6:
     {
-        ((S_800259D8_0 *)arg0)->unk_84.u = 0;
+        void *fade_node;
+        void *fade_entry;
+        count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
+        ((S_800259D8_0 *)arg0)->unk_84.u = count;
+        fade_node = ((S_800259D8_3 *)obj)->unk_60;
+        ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
+        fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
+        if (((S_800259D8_0 *)arg0)->unk_84.s >= 36) {
+            ((S_800259D8_11 *)fade_entry)->unk_0C += 2;
+            ((S_800259D8_11 *)fade_entry)->unk_0D += 2;
+            ((S_800259D8_11 *)fade_entry)->unk_0E -= 3;
+        } else {
+            ((S_800259D8_11 *)fade_entry)->unk_0C -= 2;
+            ((S_800259D8_11 *)fade_entry)->unk_0D -= 2;
+            ((S_800259D8_11 *)fade_entry)->unk_0E += 3;
+        }
+        if (((S_800259D8_0 *)arg0)->unk_84.s < 71) {
+            return;
+        }
+        {
+            void *tail_node;
+            tail_node = ((S_800259D8_3 *)obj)->unk_60;
+            ((S_800259D8_12 *)tail_node)->unk_1C &= 0xEFFFFFFF;
+            fade_entry = ((S_800259D8_12_pre *)tail_node)[-1].unk_00;
+            ((S_800259D8_11 *)fade_entry)->unk_0E = 0x80;
+            ((S_800259D8_11 *)fade_entry)->unk_0D = 0x80;
+            ((S_800259D8_11 *)fade_entry)->unk_0C = 0x80;
+            func_80024098(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)arg0)->unk_09, obj);
+        }
+        ((S_800259D8_0 *)arg0)->unk_84.u = 13;
         ((S_800259D8_0 *)arg0)->unk_0A.u++;
         return;
     }
 
-    case 6:
-    {
-    void *fade_node;
-    void *fade_entry;
-    count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
-    ((S_800259D8_0 *)arg0)->unk_84.u = count;
-    fade_node = ((S_800259D8_3 *)obj)->unk_60;
-    ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
-    fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
-    if (((S_800259D8_0 *)arg0)->unk_84.s >= 36) {
-        ((S_800259D8_11 *)fade_entry)->unk_0C += 2;
-        ((S_800259D8_11 *)fade_entry)->unk_0D += 2;
-        ((S_800259D8_11 *)fade_entry)->unk_0E -= 3;
-    } else {
-        ((S_800259D8_11 *)fade_entry)->unk_0C -= 2;
-        ((S_800259D8_11 *)fade_entry)->unk_0D -= 2;
-        ((S_800259D8_11 *)fade_entry)->unk_0E += 3;
-    }
-    if (((S_800259D8_0 *)arg0)->unk_84.s < 71) {
-        return;
-    }
-    {
-        void *tail_node;
-        tail_node = ((S_800259D8_3 *)obj)->unk_60;
-        ((S_800259D8_12 *)tail_node)->unk_1C &= 0xEFFFFFFF;
-        fade_entry = ((S_800259D8_12_pre *)tail_node)[-1].unk_00;
-        ((S_800259D8_11 *)fade_entry)->unk_0E = 0x80;
-        ((S_800259D8_11 *)fade_entry)->unk_0D = 0x80;
-        ((S_800259D8_11 *)fade_entry)->unk_0C = 0x80;
-        func_80024098(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)arg0)->unk_09, obj);
-    }
-    ((S_800259D8_0 *)arg0)->unk_84.u = 13;
-    ((S_800259D8_0 *)arg0)->unk_0A.u++;
-    return;
-    }
-
     case 7:
-    old_count = ((S_800259D8_0 *)arg0)->unk_84.u;
-    ((S_800259D8_0 *)arg0)->unk_84.u = old_count + 1;
-    if ((s16)old_count < 15) {
-        return;
-    }
-    {
-        s32 seen;
-        seen = D_80026664[0];
-        ((S_800259D8_0 *)arg0)->unk_84.u = old_count;
-        if (seen == 0) {
-            dungeonStatus.unk_0C = 0;
-            ((S_800259D8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+        old_count = ((S_800259D8_0 *)arg0)->unk_84.u;
+        ((S_800259D8_0 *)arg0)->unk_84.u = old_count + 1;
+        if ((s16)old_count < 15) {
             return;
         }
-    }
-    D_80026664[0] = 0;
-    return;
+        {
+            s32 seen;
+            seen = D_80026664[0];
+            ((S_800259D8_0 *)arg0)->unk_84.u = old_count;
+            if (seen == 0) {
+                dungeonStatus.unk_0C = 0;
+                ((S_800259D8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+                return;
+            }
+        }
+        D_80026664[0] = 0;
+        return;
     }
 
     return;

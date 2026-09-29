@@ -95,9 +95,12 @@ void func_7FFE79F4(void *emitter, void *position, M2C_UNK init_arg) {
     void *particle;
 
     parent = ((S_7FFE79F4_0 *)emitter)->unk_24;
-    ((S_7FFE79F4_1 *)position)->unk_02 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_02 + ((S_7FFE79F4_0 *)emitter)->unk_3C);
-    ((S_7FFE79F4_1 *)position)->unk_06 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_06 + ((S_7FFE79F4_0 *)emitter)->unk_3E);
-    ((S_7FFE79F4_1 *)position)->unk_0A = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_0A + ((S_7FFE79F4_0 *)emitter)->unk_40);
+    ((S_7FFE79F4_1 *)position)->unk_02 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_02
+        + ((S_7FFE79F4_0 *)emitter)->unk_3C);
+    ((S_7FFE79F4_1 *)position)->unk_06 = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_06
+        + ((S_7FFE79F4_0 *)emitter)->unk_3E);
+    ((S_7FFE79F4_1 *)position)->unk_0A = (u16) (((S_7FFE79F4_5 *)(((S_7FFE79F4_2 *)parent)->unk_08))->unk_0A
+        + ((S_7FFE79F4_0 *)emitter)->unk_40);
     age = ((S_7FFE79F4_0 *)emitter)->unk_16 + 1;
     ((S_7FFE79F4_0 *)emitter)->unk_16 = age;
     if ((s16) age < 0x14) {
@@ -119,7 +122,8 @@ void func_7FFE79F4(void *emitter, void *position, M2C_UNK init_arg) {
                 ((S_7FFE79F4_4 *)particle_pos)->unk_02 = (s16) ((product >> 0xC) + ((S_7FFE79F4_3 *)particle)->unk_58);
                 product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DC5C(((S_7FFE79F4_3 *)particle)->unk_48);
                 ((S_7FFE79F4_4 *)particle_pos)->unk_06 = (s16) ((product >> 0xC) + ((S_7FFE79F4_3 *)particle)->unk_5A);
-                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16) (((S_7FFE79F4_1 *)position)->unk_0A - (func_700750E0() & 0x3F));
+                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16) (((S_7FFE79F4_1 *)position)->unk_0A
+                    - (func_700750E0() & 0x3F));
             }
         } while (spawn_count < 4);
     }

@@ -33,7 +33,8 @@ s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
 
     mode = D_8001E950[5];
     if (mode == 2) {
-        if ((*(Callback *)((u8 *)(((S_8001BFF4_2 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20) + 0x2D4))(0) == mode) {
+        if ((*(Callback *)((u8 *)(((S_8001BFF4_2 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
+            + 0x2D4))(0) == mode) {
             if (func_8001A58C(D_8001E950[4]) != 0) {
                 ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
                     func_8001A86C(D_8001E950[4]);

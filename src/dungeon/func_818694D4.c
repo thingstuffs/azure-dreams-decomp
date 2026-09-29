@@ -282,7 +282,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         }
         func_80024060(input_ctrl->cell_x, input_ctrl->cell_y, root, input_ctrl->kind);
 
-    advance:
+advance:
         input_ctrl->timer = 0;
         input_ctrl->state++;
         goto finish;

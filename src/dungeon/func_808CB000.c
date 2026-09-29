@@ -3,7 +3,7 @@
 /* Existing-identity bank: words 0..84 are byte-proven data, not C code. */
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_808CB000")
-    __attribute__((section(".text.func_808CB000"), aligned(4))) = {
+__attribute__((section(".text.func_808CB000"), aligned(4))) = {
     0x1DA909C9, 0x25A811AA, 0x0DAA19A9, 0x15A921A8, 0x11A91DA8,
     0x19A82589, 0x21890DA9, 0x09A915A8, 0x118A1D89, 0x198911A8,
     0x0DA80D8A, 0x15892188, 0x1D8809A8, 0x19881189, 0x15880D89,

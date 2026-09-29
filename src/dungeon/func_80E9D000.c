@@ -17,7 +17,7 @@ extern s32 D_80162FE4[];
 typedef struct { s32 value; } ItemWord;
 #ifdef __mips__
 static const u32 identity_bank[] __asm__("func_80E9D000")
-    __attribute__((section(".text.func_80E9D000"), aligned(4))) = {
+__attribute__((section(".text.func_80E9D000"), aligned(4))) = {
     0x8015EAF4, 0x8015ECC8, 0x8015F504, 0x8015F504,
     0x8015F504, 0x8015F530, 0x8015F4B0, 0x8015F4B0,
     0x8015F4B0, 0x8015F430, 0x8015F484, 0x8015F468,
@@ -77,22 +77,22 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
-                          *(s16 *)(actor_bytes + 0x2A));
+                           *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
                 return 0;
             }
             {
-    #ifdef __mips__
+#ifdef __mips__
                 s32 slot_index;
                 s16 item_count;
                 s32 *slot_scan;
-    #else
+#else
                 s32 slot_index;
                 s16 item_count;
                 s32 *slot_scan;
-    #endif
+#endif
                 s32 count;
                 slot_index = 0;
                 count = 0;
@@ -141,13 +141,13 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             return 0;
         }
         {
-    #ifdef __mips__
+#ifdef __mips__
             s32 *shared_base;
             s32 *shared_slot;
-    #else
+#else
             s32 *shared_base;
             s32 *shared_slot;
-    #endif
+#endif
             s32 item_data;
 
             shared_base = D_80162FE4;
@@ -159,7 +159,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             *(s32 *)((u8 *)target + 0x48) = 0;
             return (s32)shared_slot;
         }
-    entry_zero:
+entry_zero:
     }
     return 0;
 }

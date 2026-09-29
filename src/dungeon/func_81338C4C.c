@@ -128,7 +128,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     } while (count >= 0);
     phase = ((S_8016FC4C_3 *)effect)->unk_9A;
     switch (phase) {
-    case 0: {
+    case 0:
+    {
         s32 shrink_step;
         s32 scaled_step;
         heading->unk_2A = func_800A0818(
@@ -144,7 +145,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         scaled_step <<= 6;
         scaled_step = 0 - scaled_step;
         object->unk_1C = width;
-        if (scaled_step < 0) scaled_step += 0xFFF;
+        if (scaled_step < 0)
+            scaled_step += 0xFFF;
         rounded_step = scaled_step;
         count = 0;
         shrink_step = rounded_step >> 0xC;
@@ -154,7 +156,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
             count += 1;
             shrink_source = effect - 0x20;
         } while (count < 6);
-        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 == 1) func_800A56E0(0xB1);
+        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 == 1)
+            func_800A56E0(0xB1);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 120);
         if (phase_active == 0) {
             ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
@@ -162,14 +165,16 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         }
         break;
     }
-    case 1: {
+    case 1:
+    {
         s32 burst_step;
         s32 scaled_step;
         heading->unk_2A = func_800A0818(
             object->unk_24, object->unk_25,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
         scaled_step = 0 - (object->unk_1E.s << 6);
-        if (scaled_step < 0) scaled_step += 0xFFF;
+        if (scaled_step < 0)
+            scaled_step += 0xFFF;
         count = 0;
         burst_step = scaled_step >> 0xC;
         burst_source = effect - 0x20;
@@ -186,7 +191,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
             burst_y = (s16)((func_80069EF8() & 0x1F) - 0xF);
             func_801655EC(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
         }
-        if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7)) func_800A56E0(0x817);
+        if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7))
+            func_800A56E0(0x817);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 20);
         if (phase_active == 0) {
             ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
@@ -197,7 +203,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     case 2:
         sustain_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = sustain_ticks;
-        if (!(sustain_ticks & 7)) func_800A56E0(0x817);
+        if (!(sustain_ticks & 7))
+            func_800A56E0(0x817);
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 1)) {
             random_bits = func_80069EF8();
             sustain_x = (random_bits & 0x1F) - 0xF;
@@ -214,10 +221,12 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
             angle = heading->unk_2A;
             turned_angle = angle - 0x200;
             angle = turned_angle;
-            if (turned_angle < 0) angle += 0x1000;
+            if (turned_angle < 0)
+                angle += 0x1000;
             heading->unk_2A = angle;
         }
-        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE) break;
+        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE)
+            break;
         turn_phase = ((S_8016FC4C_3 *)effect)->unk_9A;
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
         table_page = (u32)D_80173AFC;
@@ -236,7 +245,8 @@ void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
         entity->unk_04.at00.v = (s32)(entity->unk_04.at00.v + entity->unk_10);
         move_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = move_ticks;
-        if ((s16)move_ticks < 6) break;
+        if ((s16)move_ticks < 6)
+            break;
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
         ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
         break;

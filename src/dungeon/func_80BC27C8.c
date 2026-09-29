@@ -48,7 +48,6 @@ typedef struct S_80171FC8_4 {
 } S_80171FC8_4;   /* (u8 *)arg3 + ((S_80171FC8_0 *)arg3)->unk_8A.s in func_80171FC8 */
 
 
-
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
@@ -79,8 +78,8 @@ void func_80171FC8(void *motion_state, s32 unused, void *entity, void *path_stat
     if (((S_80171FC8_1 *)entity)->unk_2C != D_80174634) {
         (*(u8 * *)((u8 *)entity + 0x2C)) = D_80174634;
         func_80047784(entity,
-                     D_80174634[((gameWork.view.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
-                     0);
+                      D_80174634[((gameWork.view.viewAngle + ((S_80171FC8_0 *)path_state)->unk_2A + 0x100) >> 9) & 7],
+                      0);
     }
 
     path_entry = (u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s;
@@ -100,11 +99,13 @@ void func_80171FC8(void *motion_state, s32 unused, void *entity, void *path_stat
         if (flags & 0x2000) {
             distance = 0x300;
         }
-    
+
         func_8009A3D0(old_x, old_y, distance);
 
-        ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
-        ((S_80171FC8_1 *)entity)->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
+        ((S_80171FC8_1 *)entity)->unk_24 = ((S_80171FC8_4 *)((u8 *)path_state
+            + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_74;
+        ((S_80171FC8_1 *)entity)->unk_25 = ((S_80171FC8_4 *)((u8 *)path_state
+            + ((S_80171FC8_0 *)path_state)->unk_8A.s))->unk_7C;
         ((S_80171FC8_0 *)path_state)->unk_8A.u += 1;
 
         func_8009A21C(((S_80171FC8_1 *)entity)->unk_24, ((S_80171FC8_1 *)entity)->unk_25,

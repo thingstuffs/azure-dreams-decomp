@@ -129,7 +129,7 @@ void func_800890EC(Obj *obj, s32 *position) {
         obj->f1a = 0;
         obj->f1c = 8;
         obj->state = 17;
-        /* fallthrough */
+                /* fallthrough */
     case 17:
         if ((s16) func_80053604((u8 *) obj + 24)) {
             position[1] = 0;
@@ -176,7 +176,8 @@ void func_800890EC(Obj *obj, s32 *position) {
             *(void **) ((u8 *) child + 16) = (void *) D_80088930;
             obj->state = 253;
             break;
-        case 1: {
+        case 1:
+        {
             u8 *globals_base;
             u16 mode_value;
             u16 phase_value;
@@ -209,7 +210,8 @@ void func_800890EC(Obj *obj, s32 *position) {
         objectFlagBlock.flags |= 0x8000;
         return;
 
-    case 254: {
+    case 254:
+    {
         u8 demo_index;
         D_80080A84[0] = 2;
         demo_index = D_80080A78[0];

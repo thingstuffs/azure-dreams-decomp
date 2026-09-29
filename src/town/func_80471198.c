@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 
-
 M2C_UNK func_80018824();                /* extern */
 
 /* Pass the two context regions to func_80018824 with their sizes. */

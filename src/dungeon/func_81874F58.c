@@ -131,16 +131,18 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                 *(s16 *)(scratch + 0xBC) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(latitude)) >> 0x14);
                 *(s16 *)(scratch + 0xC0) = (next_ring_radius * func_800644B8(longitude)) >> 0xC;
                 *(s16 *)(scratch + 0xC2) = (next_ring_radius * func_80064584(longitude)) >> 0xC;
-                *(s16 *)(scratch + 0xC4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude)) >> 0x14);
+                *(s16 *)(scratch + 0xC4) = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude))
+                    >> 0x14);
                 *(s16 *)(scratch + 0xC8) = (next_ring_radius * func_800644B8(next_longitude)) >> 0xC;
                 *(s16 *)(scratch + 0xCA) = (next_ring_radius * func_80064584(next_longitude)) >> 0xC;
                 last_vertex_z = -(((*(s32 *)((u8 *)mesh + 0x68) >> 8) * func_800644B8(next_latitude)) >> 0x14);
-                depth_index = (func_80065590(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (void *)(scratch + 0xD4),
+                depth_index = (func_80065590(scratch + 0xB0, scratch + 0xB8, scratch + 0xC0, scratch + 0xC8, quad + 8,
+                    quad + 0x10, quad + 0x18, quad + 0x20, scratch + 0xD0, (void *)(scratch + 0xD4),
                        ({
-                           EmptyArg empty;
-                           *(s16 *)(scratch + 0xCC) = last_vertex_z;
-                           empty;
-                       })) - (s16)saved_depth_bias) - 6;
+                        EmptyArg empty;
+                        *(s16 *)(scratch + 0xCC) = last_vertex_z;
+                        empty;
+                        })) - (s16)saved_depth_bias) - 6;
                 *(s32 *)(scratch + 0x100) = depth_index;
                 if ((u32)depth_index < 0x1E0U) {
                     corner_0_visible = 0;
@@ -195,7 +197,7 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                             clut = *(u16 *)(texture + 6);
                         }
                         *(u16 *)(quad + 0xE) = clut;
-                    set_uvs:
+set_uvs:
                         *(s16 *)(quad + 0xC) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x0C);
                         *(s16 *)(quad + 0x14) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x14);
                         tpage_override = *(u16 *)((u8 *)material + 0x10);
@@ -232,7 +234,8 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                             u32 tag_mask = 0xFF000000;
                             s32 *ordering_slot;
                             *(s32 *)(quad + 4) = *(s32 *)((u8 *)material + 0xC);
-                            ((P_TAG *)&*(s32 *)quad)->addr = ((P_TAG *)&*(s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24)))->addr;
+                            ((P_TAG *)&*(s32 *)quad)->addr = ((P_TAG *)&*(s32 *)((*(s32 *)(scratch + 0x100) * 4)
+                                + *(s32 *)(scratch + 0x24)))->addr;
                             ordering_slot = (s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24));
                             ((P_TAG *)&*ordering_slot)->addr = (u32)((s32)quad);
                         }

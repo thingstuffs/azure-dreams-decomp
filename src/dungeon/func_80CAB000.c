@@ -60,7 +60,7 @@ extern void func_8015D138(void);
 extern void func_8015D1C0(void);
 
 static void (*const bank_table[])(void)
-    __attribute__((section(".text.func_80CAB000"))) = {
+__attribute__((section(".text.func_80CAB000"))) = {
     func_80158A5C, func_80158C24, func_80159410, func_80159410,
     func_80159410, func_8015943C, func_801593BC, func_801593BC,
     func_801593BC, func_80159384, func_80159384, func_8015943C,

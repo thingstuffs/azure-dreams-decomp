@@ -28,16 +28,17 @@ M2C_UNK *func_8001628C(s32 arg0, s32 arg1) {
             var_s0 = &D_8001E634;
         } else if ((func_8001A510(0x79C) == 0) && ((temp_s0 < 0xF) || (func_80016224(0x47E, 0x79C) != 0))) {
             var_s0 = &D_8001E79C;
-        } else if ((func_8001A510(0x79D) == 0) && (((temp_s0 < 0x19) && (func_800161C8() != 0)) || (func_80016224(0x47E, 0x79D) != 0))) {
+        } else if ((func_8001A510(0x79D) == 0) && (((temp_s0 < 0x19) && (func_800161C8() != 0))
+            || (func_80016224(0x47E, 0x79D) != 0))) {
             var_s0 = &D_8001E9C0;
         } else {
             goto use_default;
         }
         func_8001A418(0x47E);
         goto finalize;
-    use_default:
+use_default:
         var_s0 = &D_8001EB10;
-    finalize:
+finalize:
         func_8001A418(0x7A3);
     }
     return var_s0;

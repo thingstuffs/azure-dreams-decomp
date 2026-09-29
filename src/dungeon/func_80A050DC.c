@@ -131,34 +131,34 @@ void *func_8015E8DC(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_value
     root = allocated;
     if (allocated != 0) {
 
-    {
-        void *init_root;
-        void *setup;
+        {
+            void *init_root;
+            void *setup;
 
-        object = (u8 *)allocated + 0x20;
-        init_root = allocated;
-        setup = func_80045340;
-        ((S_8015E8DC_0 *)init_root)->unk_10 = D_8015EBF8;
-        ((S_8015E8DC_1 *)object)->unk_13 = 4;
-        func_8004491C(init_root, setup);
-    }
+            object = (u8 *)allocated + 0x20;
+            init_root = allocated;
+            setup = func_80045340;
+            ((S_8015E8DC_0 *)init_root)->unk_10 = D_8015EBF8;
+            ((S_8015E8DC_1 *)object)->unk_13 = 4;
+            func_8004491C(init_root, setup);
+        }
 
-    {
-        void *part_callback;
+        {
+            void *part_callback;
 
-        part_callback = D_80163140;
-        copy = ((S_8015E8DC_2 *)root)->unk_08.at00.v;
-        ((S_8015E8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
-        stable_object = object;
-        part = ((S_8015E8DC_2 *)root)->unk_0C;
-        ((S_8015E8DC_3 *)part)->unk_2C = part_callback;
-    }
-    ((S_8015E8DC_3 *)part)->unk_24 = saved_part_byte_24;
-    ((S_8015E8DC_3 *)part)->unk_25 = saved_part_byte_25;
+            part_callback = D_80163140;
+            copy = ((S_8015E8DC_2 *)root)->unk_08.at00.v;
+            ((S_8015E8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
+            stable_object = object;
+            part = ((S_8015E8DC_2 *)root)->unk_0C;
+            ((S_8015E8DC_3 *)part)->unk_2C = part_callback;
+        }
+        ((S_8015E8DC_3 *)part)->unk_24 = saved_part_byte_24;
+        ((S_8015E8DC_3 *)part)->unk_25 = saved_part_byte_25;
 
-    {
-        s32 flags_14;
-        s32 flags_1c;
+        {
+            s32 flags_14;
+            s32 flags_1c;
 
             if ((saved_kind & 3) == 1) {
                 flags_14 = ((S_8015E8DC_1 *)object)->unk_14 | 0x6000;

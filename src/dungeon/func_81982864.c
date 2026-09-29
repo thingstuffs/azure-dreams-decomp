@@ -135,7 +135,8 @@ void func_80024064(void *transition) {
         result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
         goto increment_loaded;
     case 3:
-        levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x80 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_1A));
+        levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x80
+            - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_1A));
         restore_frames = ((S_80024064_0 *)transition)->unk_1A;
         levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x80 - levels->view.unk_090) / restore_frames));
         restore_left = (u16) ((S_80024064_0 *)transition)->unk_1A - 1;
@@ -145,9 +146,9 @@ void func_80024064(void *transition) {
         }
         levels->view.unk_091 = 0x80U;
         levels->view.unk_090 = 0x80U;
-    increment_state:
+increment_state:
         result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
-    increment_loaded:
+increment_loaded:
         ((S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
         break;
     case 4:
@@ -163,8 +164,10 @@ void func_80024064(void *transition) {
     }
 update_dimming:
     if (((S_80024064_0 *)transition)->unk_20 < 0) {
-        levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x20 - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_22));
-        levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x20 - levels->view.unk_090) / (s16) ((S_80024064_0 *)transition)->unk_22));
+        levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x20
+            - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_22));
+        levels->view.unk_090 = (u8) (levels->view.unk_090 + ((s32) (0x20
+            - levels->view.unk_090) / (s16) ((S_80024064_0 *)transition)->unk_22));
         dim_left = (u16) ((S_80024064_0 *)transition)->unk_22 - 1;
         ((S_80024064_0 *)transition)->unk_22 = dim_left;
         if ((dim_left << 0x10) <= 0) {

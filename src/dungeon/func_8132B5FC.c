@@ -26,8 +26,6 @@ typedef struct S_80172DFC_1 {
 } S_80172DFC_1;   /* arg1 in func_80172DFC */
 
 
-
-
 extern void func_800478B8(void *);
 
 /* Advance effect motion and animation, and flag completion when its lifetime ends. */

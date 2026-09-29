@@ -15,5 +15,5 @@ s32 func_800177FC(s32 context, s32 unused, M2C_UNK entry_id) {
     entry_result = func_80019DFC(&D_8001BB7C, &D_8001C358, context, entry_id);
     return func_80019D44(&D_8001BB7C, context, entry_id) != 0
         ? (s32)&D_8001E891
-        : entry_result;
+    : entry_result;
 }

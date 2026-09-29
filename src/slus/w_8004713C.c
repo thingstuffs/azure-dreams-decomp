@@ -33,7 +33,8 @@ void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
         rect = (RECT *)&D_80080B00[4];
         tile = tile_id & 0xFFFF;
         tile_y_bits = tile << 4;
-        loop_0: {
+loop_0:
+        {
             s32 x = (tile << 6) & 0x3C0;
             if ((block_index / 2) != 0) {
                 x += 0x20;
@@ -49,6 +50,8 @@ void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
             LoadImage(rect, (void *)image_data);
             block_index += 1;
             image_data += 0x2000;
-        } if (block_index < (block_count & 0xFFFF)) goto loop_0;
+        }
+        if (block_index < (block_count & 0xFFFF))
+            goto loop_0;
     }
 }

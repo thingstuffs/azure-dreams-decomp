@@ -203,11 +203,13 @@ void func_80089608(void *effect) {
             func_8004491C(element, &D_80044BB0);
             x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
             axis_offset = x_product >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_02 = (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
+            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_02 =
+                (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
             y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
             axis_offset = y_product >> 0xC;
-            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 = (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
+            ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 =
+                (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
             ((S_80089608_4 *)sprite)->unk_1E = 0x1000;
             ((S_80089608_4 *)sprite)->unk_1C = 0x1000;
             if (color_step_or_index == 0) {
@@ -220,7 +222,8 @@ void func_80089608(void *effect) {
             ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)style_cursor)->unk_00;
             ((S_80089608_4 *)sprite)->unk_04 = 0;
             ((S_80089608_4 *)sprite)->unk_05 = 0;
-            ((S_80089608_4 *)sprite)->unk_0C = (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)style_cursor)->unk_40);
+            ((S_80089608_4 *)sprite)->unk_0C =
+                (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)style_cursor)->unk_40);
             ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
         }
         style_cursor -= 4;

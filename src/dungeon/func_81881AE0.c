@@ -62,7 +62,6 @@ typedef struct S_800252E0_8 {
 } S_800252E0_8;   /* ((S_800252E0_6 *)global_slot)->unk_00 in func_800252E0 */
 
 
-
 extern s32 func_80025340();
 extern u32 func_80065420();
 extern s32 func_80066460();

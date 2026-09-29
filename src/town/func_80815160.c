@@ -29,7 +29,8 @@ void func_80815160(void *record) {
 
     linked_record = ((S_80815160_0 *)record)->unk_0C;
     if (((S_80815160_0 *)record)->unk_00 == 0) {
-        func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04), ((S_80815160_0 *)record)->unk_04);
+        func_80058588(*((S_80815160_0 *)record)->unk_08, func_80071424(((S_80815160_0 *)record)->unk_04),
+            ((S_80815160_0 *)record)->unk_04);
         if (((S_80815160_1 *)linked_record)->unk_1A & 8) {
             (*(u16 *)((u8 *)record + -2)) = (u16) (((S_80815160_0_pre *)record)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;

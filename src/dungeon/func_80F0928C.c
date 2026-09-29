@@ -28,7 +28,7 @@ extern s32 func_800BCB04(s32, s32, s16);
 
 #ifndef __mips__
 static const u32 D_80F0928C[]
-    __attribute__((section(".text.func_80170A8C"))) = {
+__attribute__((section(".text.func_80170A8C"))) = {
     0x3C028008,
     0x94423462,
 };

@@ -31,8 +31,6 @@ typedef struct S_80016BF0_4 {
 } S_80016BF0_4;   /* temp_v1_5 in func_80016BF0 */
 
 
-
-
 /* Apply tile type flags to a map rectangle and mark adjacent tiles where required. */
 void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
 {
@@ -85,7 +83,8 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
                         tile_x = col + start_x;
                         if (*flags & 2) {
                             if (tile_x > 0) {
-                                ((S_80016BF0_2_pre *)tile)[-1].unk_00 = (u16)(((S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
+                                ((S_80016BF0_2_pre *)tile)[-1].unk_00 =
+                                    (u16)(((S_80016BF0_2_pre *)tile)[-1].unk_00 | 1);
                             }
                             if (tile_x < ((1 << map->unk_14) - 1)) {
                                 ((S_80016BF0_2 *)tile)->unk_0A = (u16)(((S_80016BF0_2 *)tile)->unk_0A | 1);

@@ -40,7 +40,6 @@ typedef struct S_80FFF000_4 {
 } S_80FFF000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_800A48F0();
@@ -70,7 +69,7 @@ extern u8 D_8014EA64[];
 extern void *func_8014C8A8(s16, s32, s32, s32);
 
 static const u32 bank_words[] __asm__("func_8014C800")
-    __attribute__((section(".text.func_8014C800"), aligned(4))) = {
+__attribute__((section(".text.func_8014C800"), aligned(4))) = {
     (u32)func_8014C8A8,
     (u32)D_8014CA7C,
     (u32)D_8014D2B8,

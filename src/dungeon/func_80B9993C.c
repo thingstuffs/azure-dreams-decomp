@@ -28,8 +28,6 @@ typedef struct S_8017313C_1 {
 } S_8017313C_1;   /* arg2 in func_8017313C */
 
 
-
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
@@ -180,29 +178,29 @@ void func_8017313C(S_8017313C_0 *controller, void *context, S_8017313C_1 *sprite
         }
 
     case 2:
-        {
-            s32 cleared_flags;
+    {
+        s32 cleared_flags;
 
-            shade = sprite->unk_0E + 0xC;
-            sprite->unk_0E = shade;
-            sprite->unk_0D = shade;
-            sprite->unk_0C = shade;
-            fade_ticks = controller->unk_96 - 1;
-            controller->unk_96 = fade_ticks;
-            if ((fade_ticks << 16) > 0) {
-                return;
-            }
-            {
-
-                dungeonStatus.unk_0A--;
-            }
-            sprite->unk_0E = 0x80;
-            sprite->unk_0D = 0x80;
-            sprite->unk_0C = 0x80;
-            cleared_flags = entity->flags1C & 0xEFFFFFFF;
-            entity->flags1C = cleared_flags & ~0x200;
-            controller->unk_8C = D_80170E9C;
+        shade = sprite->unk_0E + 0xC;
+        sprite->unk_0E = shade;
+        sprite->unk_0D = shade;
+        sprite->unk_0C = shade;
+        fade_ticks = controller->unk_96 - 1;
+        controller->unk_96 = fade_ticks;
+        if ((fade_ticks << 16) > 0) {
+            return;
         }
+        {
+
+            dungeonStatus.unk_0A--;
+        }
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        cleared_flags = entity->flags1C & 0xEFFFFFFF;
+        entity->flags1C = cleared_flags & ~0x200;
+        controller->unk_8C = D_80170E9C;
+    }
 
         return;
     }

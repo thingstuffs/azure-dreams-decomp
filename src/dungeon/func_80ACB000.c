@@ -10,8 +10,8 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 #ifdef __mips__
 /* The row starts with a typed constant/jump table; the routine follows it. */
 static const u32 func_80ACB000_table[41]
-    __asm__("func_80ACB000")
-    __attribute__((section(".text.func_80ACB000"), aligned(4))) = {
+__asm__("func_80ACB000")
+__attribute__((section(".text.func_80ACB000"), aligned(4))) = {
     0x8016B158U, 0x8016B320U, 0x8016BB54U, 0x8016BB54U,
     0x8016BB54U, 0x8016BB80U, 0x8016BB00U, 0x8016BB00U,
     0x8016BB00U, 0x8016BAACU, 0x8016BAE4U, 0x8016BB80U,

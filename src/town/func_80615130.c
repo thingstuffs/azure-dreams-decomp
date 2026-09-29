@@ -10,8 +10,6 @@ typedef struct S_80016930_1 {
 } S_80016930_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80016930 */
 
 
-
-
 M2C_UNK func_80018BD0();                     /* extern */
 
 

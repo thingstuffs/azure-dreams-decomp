@@ -10,10 +10,6 @@ typedef struct S_80614978_1 {
 } S_80614978_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_80614978 */
 
 
-
-
-
-
 /* Return whether the referenced record's unk_38 field is nonzero. */
 s32 func_80614978(void) {
     return ((S_80614978_1 *)(D_80016000->unk_1C))->unk_38 != 0;

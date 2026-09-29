@@ -4,9 +4,6 @@
 #include "m2c_compat.h"
 
 
-
-
-
 typedef struct S_80018544_1 {
     u8 pad_00[0x78];
     M2C_UNK (*unk_78)(M2C_UNK);

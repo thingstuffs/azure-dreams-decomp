@@ -17,6 +17,7 @@ void func_8001EA3C(void *record_data) {
     flags = ((S_8001EA3C_0 *)((u8 *)record_data - 0x10))->unk_0E;
     if (flags & 0x2000) {
         ((S_8001EA3C_0 *)((u8 *)record_data - 0x10))->unk_0E = (u16) (flags & 0xDFFF);
-        ((S_8001EA3C_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_8001EA3C_0 *)((u8 *)record_data - 0x10))->unk_44;
+        ((S_8001EA3C_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_8001EA3C_0 *)((u8 *)record_data
+            - 0x10))->unk_44;
     }
 }

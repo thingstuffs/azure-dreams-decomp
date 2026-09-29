@@ -65,7 +65,11 @@ void func_81977E0C(void *effect, void *position, void *sprite) {
         objectFlagBlock.flags |= 0x8000;
         return;
     }
-    ((S_81977E0C_2 *)position)->unk_00 = (s32) (*D_80026208 + (((func_800644B8((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06) << 8));
-    ((S_81977E0C_2 *)position)->unk_04 = (s32) (D_80026208[1] + (((func_80064584((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06) << 8));
-    ((S_81977E0C_2 *)position)->unk_0A = (s16) (((S_81977E0C_3 *)D_80026208)->unk_0A + ((S_81977E0C_0 *)effect)->unk_0A);
+    ((S_81977E0C_2 *)position)->unk_00 = (s32) (*D_80026208 + (((func_800644B8((s16) ((S_81977E0C_0 *)effect)->unk_08)
+        >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06) << 8));
+    ((S_81977E0C_2 *)position)->unk_04 = (s32) (D_80026208[1]
+        + (((func_80064584((s16) ((S_81977E0C_0 *)effect)->unk_08) >> 4) * (s16) ((S_81977E0C_0 *)effect)->unk_06)
+        << 8));
+    ((S_81977E0C_2 *)position)->unk_0A = (s16) (((S_81977E0C_3 *)D_80026208)->unk_0A
+        + ((S_81977E0C_0 *)effect)->unk_0A);
 }

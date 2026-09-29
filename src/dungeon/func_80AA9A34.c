@@ -24,9 +24,6 @@ typedef struct S_80167234_1 {
 } S_80167234_1;   /* arg1 in func_80167234 */
 
 
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
@@ -54,11 +51,11 @@ void func_80167234(void *motion_state, void *motion, void *sprite, void *actor)
         ((S_80167234_0 *)motion_state)->unk_9B++;
 
         if (((EntityRec *)actor)->unk_28 == 0) {
-        ((S_80167234_1 *)motion)->unk_14 = 0;
-        ((S_80167234_1 *)motion)->unk_10 = 0;
-        ((S_80167234_1 *)motion)->unk_0C = 0;
-        func_800AAA54(motion_state, motion, sprite, D_80168C74);
-        return;
+            ((S_80167234_1 *)motion)->unk_14 = 0;
+            ((S_80167234_1 *)motion)->unk_10 = 0;
+            ((S_80167234_1 *)motion)->unk_0C = 0;
+            func_800AAA54(motion_state, motion, sprite, D_80168C74);
+            return;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80167234_0 *)motion_state)->unk_96.s = 0;
@@ -75,7 +72,7 @@ void func_80167234(void *motion_state, void *motion, void *sprite, void *actor)
 
         ((S_80167234_1 *)motion)->unk_0C -= ((S_80167234_1 *)motion)->unk_0C / 4;
         ((S_80167234_1 *)motion)->unk_10 -= ((S_80167234_1 *)motion)->unk_10 / 4;
-        /* fall through */
+                /* fall through */
 
     case 1:
         ((S_80167234_1 *)motion)->unk_0C +=

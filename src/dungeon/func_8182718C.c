@@ -23,8 +23,6 @@ typedef struct S_8182718C_1 {
 } S_8182718C_1;   /* temp_v1 in func_8182718C */
 
 
-
-
 /* Advance a timed two-state action and propagate target status flags. */
 void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
     s16 state;

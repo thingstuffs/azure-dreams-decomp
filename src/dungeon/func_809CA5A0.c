@@ -14,8 +14,6 @@ typedef struct S_80171DA0_1 {
 } S_80171DA0_1;   /* held_arg2 in func_80171DA0 */
 
 
-
-
 extern void func_80047784();
 extern void func_8009C93C();
 extern s32 func_800A0134();

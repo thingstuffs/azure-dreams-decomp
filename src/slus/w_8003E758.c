@@ -1,7 +1,6 @@
 #include "slus/cd_cohort_types.h"
 
 
-
 typedef struct S_80083164 {
     u16 unk0; /* Observed prefix; enclosing extent is unknown. */
 } S_80083164;
@@ -78,7 +77,7 @@ process_queue:
     if (state == 0xFF) {
         queue = D_80083968;
         head_index = D_800814D0;
-        /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
+                /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
          * the whole chain outranks the address %hi in local-alloc
          * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
          * carriers do not, so the %hi keeps retail's $v0.  Same 3 insns. */
@@ -93,11 +92,13 @@ process_queue:
 
         case 1:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 2;
             driver->unk4 = 2;
@@ -106,29 +107,35 @@ process_queue:
 
         case 2:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
             command = &queue[D_800814D0];
             CdIntToPos(command->unk04, location);
-            if (CdControl(2, location, CDBUF) == 0) goto finish;
+            if (CdControl(2, location, CDBUF) == 0)
+                goto finish;
             D_800814D0 = D_800814D0 + 1;
             goto finish;
 
-        case 6: {
+        case 6:
+        {
             u32 *read_info;
             u32 read_word, read_addr, sector_count;
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
@@ -149,7 +156,8 @@ process_queue:
             }
             D_800814CC = (read_addr + (sector_count << 11)) - 4;
             D_800814D4 = 0x80;
-            if (CdControl(0xE, &D_800814D3[1], 0) == 0) return;
+            if (CdControl(0xE, &D_800814D3[1], 0) == 0)
+                return;
             sync_result = CdSync(1, sync_status);
             if (sync_result != 0) {
                 int disk_error;
@@ -160,7 +168,8 @@ process_queue:
                 }
             }
             CdIntToPos(read_info[1], location);
-            if (CdControl(2, location, 0) == 0) return;
+            if (CdControl(2, location, 0) == 0)
+                return;
             sync_result = CdSync(1, sync_status);
             if (sync_result != 0) {
                 int disk_error;
@@ -170,37 +179,44 @@ process_queue:
                     return;
                 }
             }
-            if (CdRead(sector_count, (u32 *)read_addr, 0x80) == 0) return;
+            if (CdRead(sector_count, (u32 *)read_addr, 0x80) == 0)
+                return;
             goto mark_pending;
         }
 
         case 9:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
-            if (CdControl(9, 0, CDBUF) == 0) goto finish;
+            if (CdControl(9, 0, CDBUF) == 0)
+                goto finish;
             goto mark_pending;
 
         case 0xD:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
             {
                 int command_offset = D_800814D0 * 24;
                 u8 *params = queue->unk08;
-                if (CdControl(0xD, command_offset + params, CDBUF) == 0) goto finish;
+                if (CdControl(0xD, command_offset + params, CDBUF) == 0)
+                    goto finish;
             }
             D_800814D3_8[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
@@ -208,18 +224,21 @@ process_queue:
 
         case 0xE:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
             {
                 int command_offset = D_800814D0 * 24;
                 u8 *params = queue->unk08;
-                if (CdControl(0xE, command_offset + params, CDBUF) == 0) goto finish;
+                if (CdControl(0xE, command_offset + params, CDBUF) == 0)
+                    goto finish;
             }
             D_800814D3_9[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
@@ -227,54 +246,65 @@ process_queue:
 
         case 0x15:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
             command = &queue[D_800814D0];
             CdIntToPos(command->unk04, location);
-            if (CdControlF(0x15, location) == 0) goto finish;
+            if (CdControlF(0x15, location) == 0)
+                goto finish;
             goto mark_pending;
 
         case 0x1B:
             sync_result = CdSync(1, sync_status);
-            if (sync_result == 0) goto finish;
+            if (sync_result == 0)
+                goto finish;
             {
                 int disk_error;
                 disk_error = 5;
-                if (sync_result == disk_error) func_8003E70C();
+                if (sync_result == disk_error)
+                    func_8003E70C();
             }
             D_800814D2[0] = 0;
             driver->unk4 = 0;
             command = &queue[D_800814D0];
             CdIntToPos(command->unk04, location);
             retries = 0x10;
-            if (CdControl(2, location, 0) == 0) return;
+            if (CdControl(2, location, 0) == 0)
+                return;
             {
                 int disk_error = 5;
                 for (;;) {
                     sync_result = CdSync(1, sync_status);
                     retries--;
-                    if (sync_result == 0) goto wait_stream_seek;
+                    if (sync_result == 0)
+                        goto wait_stream_seek;
                     retries = 0x10;
-                    if (sync_result != disk_error) goto start_stream;
-                stream_error:
+                    if (sync_result != disk_error)
+                        goto start_stream;
+stream_error:
                     func_8003E70C();
                     return;
-                wait_stream_seek:
-                    if (retries != 0) continue;
+wait_stream_seek:
+                    if (retries != 0)
+                        continue;
                     goto stream_error;
-                start_stream:
+start_stream:
                     for (;;) {
-                        if (CdRead2(0xC8) != 0) break;
-                        if (--retries == 0) goto stream_error;
+                        if (CdRead2(0xC8) != 0)
+                            break;
+                        if (--retries == 0)
+                            goto stream_error;
                     }
                     D_80083958[0].unk4 = 0;
-                mark_pending:
+mark_pending:
                     D_800814D3_11[0] = 1;
                     goto finish;
                 }
@@ -285,8 +315,10 @@ process_queue:
             driver->unk4 = 0;
             retries = 0x10;
             for (;;) {
-                if (CdReset(0) != 0) break;
-                if (--retries == 0) goto stream_error;
+                if (CdReset(0) != 0)
+                    break;
+                if (--retries == 0)
+                    goto stream_error;
             }
             D_800814D3[0] = 0xFF;
             D_800814D0 = D_800814D0 + 1;
@@ -312,7 +344,7 @@ process_queue:
             goto finish;
         }
     } else if (state == 1) {
-        /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
+                /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
          * in .rodata but is unreferenced from .text, so the linker discards it.
          * Idiom from src/w_800595C0.c / w_8004CECC.c / w_80042BDC.c. */
         static void *const dispatch_labels[] = {
@@ -323,16 +355,18 @@ process_queue:
         (void)dispatch_labels;
         active_queue = D_80083968;
         head_index = D_800814D0;
-        /* Keep one byte-offset accumulator for this completion lookup. */
+                /* Keep one byte-offset accumulator for this completion lookup. */
         completion_offset = head_index << 1;
         completion_offset += head_index;
         completion_offset <<= 3;
         active_command = (SlusCdQueueEntry *)((u8 *)active_queue + completion_offset);
         opcode = active_command->unk00;
-        if (opcode >= 0x1C) goto finish;
+        if (opcode >= 0x1C)
+            goto finish;
         goto *jtbl_8002D5C0[opcode];
         {
-            complete_noop: {
+complete_noop:
+            {
                 u8 *state_ptr;
                 s16 idle_state;
                 int old_head;
@@ -346,110 +380,124 @@ process_queue:
                 goto process_queue;
             }
 
-            complete_read:
-                sync_result = CdSync(1, CDBUF);
-                if (sync_result == 0) goto finish;
-                {
-                    int disk_error;
-                    disk_error = 5;
-                    if (sync_result == disk_error) goto command_failed;
-                }
-                D_80080AD8 = CdReadSync(1, D_800814D8);
-                if (D_80080AD8 > 0) goto finish;
-                if (D_80080AD8 == 0) {
-                    if (D_80080AD0 != 0) {
-                        if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000) goto finish;
-                        func_8003E70C();
-                        D_800814D2[0] = 0;
-                        D_80080AD2 = D_80080AD2 + 1;
-                        if ((D_80080AD2 & 3) == 3) {
-                            CdReset(0);
-                            func_8003F5EC();
-                        }
-                        D_800814D3[0] = 0xFF;
-                        goto finish;
-                    }
-                    {
-                        u8 *state_ptr = &D_800814D3_15[0];
-                        SlusCdDriverPrefix *read_driver = &D_80083958[0];
-                        D_800814D3[0] = 0xFF;
-                        read_driver->unk4 = 2;
-                        state_ptr[-3] += 1;
-                        D_800814D2[0] = D_800814D2_R[0] | 1;
-                        read_driver->unk5 = read_driver->unk5 + 1;
-                        goto finish;
-                    }
-                }
-                if (D_80080AD8 >= 0) goto finish;
-                goto command_failed;
-
-            complete_pause:
-                sync_result = CdSync(1, CDBUF);
-                if (sync_result == 0) goto finish;
-                {
-                    int disk_error;
-                    disk_error = 5;
-                    if (sync_result == disk_error) goto command_failed;
-                }
-                goto check_drive_status;
-
-            complete_seek:
-                sync_result = CdSync(1, sync_status);
-                if (sync_result == 0) goto finish;
-                if (sync_result != 5) goto check_drive_status;
-                goto command_failed;
-
-            command_failed:
-                func_8003E70C();
-                D_800814D3[0] = 0xFF;
-                D_80083958[0].unk4 = 0;
-                D_800814D2[0] = 0;
+complete_read:
+            sync_result = CdSync(1, CDBUF);
+            if (sync_result == 0)
                 goto finish;
-
-            check_drive_status:
-                if (CdControl(1, 0, CDBUF) == 0) goto finish;
-                if ((D_80081450.bytes[0] & 0xFD) != 0) goto finish;
-                D_80083958[0].unk4 = 2;
-                D_800814D3[0] = 0xFF;
-                D_800814D0 = D_800814D0 + 1;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error)
+                    goto command_failed;
+            }
+            D_80080AD8 = CdReadSync(1, D_800814D8);
+            if (D_80080AD8 > 0)
                 goto finish;
-
-            complete_stream:
-                if (CdSync(1, CDBUF) == 5) {
+            if (D_80080AD8 == 0) {
+                if (D_80080AD0 != 0) {
+                    if ((*(u32 *)D_800814CC & 0xFFFF0000) == 0x10120000)
+                        goto finish;
+                    func_8003E70C();
+                    D_800814D2[0] = 0;
+                    D_80080AD2 = D_80080AD2 + 1;
+                    if ((D_80080AD2 & 3) == 3) {
+                        CdReset(0);
+                        func_8003F5EC();
+                    }
                     D_800814D3[0] = 0xFF;
                     goto finish;
                 }
-                retries = 0x10;
-                for (;;) {
-                    if (CdControl(1, 0, CDBUF) != 0) break;
-                    if (--retries == 0) {
-                        func_8003E70C();
-                        D_800814D3[0] = 0xFF;
-                        return;
-                    }
-                }
-                status = D_80081450.bytes[0];
-                if (status & 0x40) goto finish;
-                if (status & 0x20) {
-                    u8 *status_ptr = &D_800814D2_P[0];
-                    SlusCdQueueEntry *stream_queue;
-                    SlusCdQueueEntry *stream_command;
-                    stream_command = 0xFF;
-                    stream_queue = D_80083968;
-                    ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                    D_800814D2[0] = 0;
-                    D_800814D3[0] = stream_command;
-                    head_index = status_ptr[-2];
-                    stream_command = &stream_queue[head_index];
-                    if (stream_command->unk17 != 0xFF) {
-                        D_80083958[0].unk4 = 4;
-                        D_80080AD4 = 1;
-                    }
-                    status_ptr[-2] += 1;
+                {
+                    u8 *state_ptr = &D_800814D3_15[0];
+                    SlusCdDriverPrefix *read_driver = &D_80083958[0];
+                    D_800814D3[0] = 0xFF;
+                    read_driver->unk4 = 2;
+                    state_ptr[-3] += 1;
+                    D_800814D2[0] = D_800814D2_R[0] | 1;
+                    read_driver->unk5 = read_driver->unk5 + 1;
                     goto finish;
                 }
-                if (status & 0x80) D_800814D3[0] = 0xFF;
+            }
+            if (D_80080AD8 >= 0)
                 goto finish;
+            goto command_failed;
+
+complete_pause:
+            sync_result = CdSync(1, CDBUF);
+            if (sync_result == 0)
+                goto finish;
+            {
+                int disk_error;
+                disk_error = 5;
+                if (sync_result == disk_error)
+                    goto command_failed;
+            }
+            goto check_drive_status;
+
+complete_seek:
+            sync_result = CdSync(1, sync_status);
+            if (sync_result == 0)
+                goto finish;
+            if (sync_result != 5)
+                goto check_drive_status;
+            goto command_failed;
+
+command_failed:
+            func_8003E70C();
+            D_800814D3[0] = 0xFF;
+            D_80083958[0].unk4 = 0;
+            D_800814D2[0] = 0;
+            goto finish;
+
+check_drive_status:
+            if (CdControl(1, 0, CDBUF) == 0)
+                goto finish;
+            if ((D_80081450.bytes[0] & 0xFD) != 0)
+                goto finish;
+            D_80083958[0].unk4 = 2;
+            D_800814D3[0] = 0xFF;
+            D_800814D0 = D_800814D0 + 1;
+            goto finish;
+
+complete_stream:
+            if (CdSync(1, CDBUF) == 5) {
+                D_800814D3[0] = 0xFF;
+                goto finish;
+            }
+            retries = 0x10;
+            for (;;) {
+                if (CdControl(1, 0, CDBUF) != 0)
+                    break;
+                if (--retries == 0) {
+                    func_8003E70C();
+                    D_800814D3[0] = 0xFF;
+                    return;
+                }
+            }
+            status = D_80081450.bytes[0];
+            if (status & 0x40)
+                goto finish;
+            if (status & 0x20) {
+                u8 *status_ptr = &D_800814D2_P[0];
+                SlusCdQueueEntry *stream_queue;
+                SlusCdQueueEntry *stream_command;
+                stream_command = 0xFF;
+                stream_queue = D_80083968;
+                ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                D_800814D2[0] = 0;
+                D_800814D3[0] = stream_command;
+                head_index = status_ptr[-2];
+                stream_command = &stream_queue[head_index];
+                if (stream_command->unk17 != 0xFF) {
+                    D_80083958[0].unk4 = 4;
+                    D_80080AD4 = 1;
+                }
+                status_ptr[-2] += 1;
+                goto finish;
+            }
+            if (status & 0x80)
+                D_800814D3[0] = 0xFF;
+            goto finish;
 
         }
     }

@@ -23,8 +23,6 @@ typedef struct S_800260C8_7 {
 } S_800260C8_7;   /* ((S_800260C8_5 *)(((temp_v0 * 4) + ((S_800260C8_1 *)arg0)->unk_20)))->unk_0C in func_800260C8 */
 
 
-
-
 typedef struct ResidentPage {
     u8 pad0[0x2094];
     u16 table[1];
@@ -71,7 +69,8 @@ void func_800260C8(void *object, s16 new_index) {
             ((S_800260C8_6 *)(((S_800260C8_4 *)(((old_index * 4) + entries)))->unk_0C))->unk_B6 = 4;
             resident_page = (ResidentPage *)0x80010000;
             entry_index = index_state->unk_26;
-            entry_offsets = ((S_800260C8_7 *)(((S_800260C8_5 *)(((entry_index * 4) + ((S_800260C8_1 *)object)->unk_20)))->unk_0C))->unk_0C;
+            entry_offsets = ((S_800260C8_7 *)(((S_800260C8_5 *)(((entry_index * 4)
+                + ((S_800260C8_1 *)object)->unk_20)))->unk_0C))->unk_0C;
             direction = (resident_page->table[entry_index] + 2) & 7;
             entry_offsets->unk_24 = (s8) (dirStepX[direction] + 1);
             entry_offsets->unk_25 = (s8) (dirStepY[direction] + 1);

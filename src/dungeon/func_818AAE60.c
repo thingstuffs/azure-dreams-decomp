@@ -33,9 +33,21 @@ typedef struct S_80024660_4 {
 } S_80024660_4;   /* temp_a1 in func_80024660 */
 
 typedef struct S_80024660_5 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
@@ -136,233 +148,245 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = elapsed + 1;
     switch (state) {
     case 0:
-    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
-    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
-    ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((S_80024660_1 *)source)->unk_2A >> 9) & 7);
-    ((S_80024660_2 *)appearance)->unk_0C = 0x808080;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
+        ((Rec_func_800243B8_arg0 *)effect)->unk_0E = (u16) (((u16) ((S_80024660_1 *)source)->unk_2A >> 9) & 7);
+        ((S_80024660_2 *)appearance)->unk_0C = 0x808080;
     case 1:
-    source_record = source - 0x20;
-    source_info = ((S_80024660_3 *)source_record)->unk_0C;
-    if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+        source_record = source - 0x20;
+        source_info = ((S_80024660_3 *)source_record)->unk_0C;
+        if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
+            if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
+                goto finish;
+            }
+        }
+        source_pos = ((S_80024660_3 *)source_record)->unk_08;
+        ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_02;
+        ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_06;
+        source_z = ((S_80024660_6 *)source_pos)->unk_0A;
+        ((S_80024660_5 *)motion)->unk_08.at02.v = source_z;
         if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
+            ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
+            ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
+            ((S_80024660_5 *)motion)->unk_08.at02.v = (u16) (((S_80024660_5 *)motion)->unk_08.at02.v + scratch.dist[2]);
+        } else {
+            ((S_80024660_5 *)motion)->unk_08.at02.v = source_z - 0x40;
+        }
+        if (!(*((Rec_func_800243B8_arg0 *)effect)->unk_04 & 0x80)) {
             goto finish;
         }
-    }
-    source_pos = ((S_80024660_3 *)source_record)->unk_08;
-    ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_02;
-    ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_06;
-    source_z = ((S_80024660_6 *)source_pos)->unk_0A;
-    ((S_80024660_5 *)motion)->unk_08.at02.v = source_z;
-    if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
-        ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
-        ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
-        ((S_80024660_5 *)motion)->unk_08.at02.v = (u16) (((S_80024660_5 *)motion)->unk_08.at02.v + scratch.dist[2]);
-    } else {
-        ((S_80024660_5 *)motion)->unk_08.at02.v = source_z - 0x40;
-    }
-    if (!(*((Rec_func_800243B8_arg0 *)effect)->unk_04 & 0x80)) {
-        goto finish;
-    }
-    target = ((S_80024660_1 *)source)->unk_60;
-    index = 1;
-    if (target != NULL) {
-        destination = ((S_80024660_7_pre *)target)[-1].unk_00;
-        target_x_dist = ((S_80024660_8 *)destination)->unk_00.at02.v;
-        target_x_dist -= ((S_80024660_5 *)motion)->unk_00.at02u.v;
-        if (target_x_dist < 0) {
-            target_x_dist = 0 - target_x_dist;
-        }
-        scratch.dist[0] = (u16) target_x_dist;
-        axis_dist = ((S_80024660_8 *)destination)->unk_04.at02.v;
-        origin_coord = ((S_80024660_5 *)motion)->unk_04.at02u.v;
-        target_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-        axis_dist -= origin_coord;
-        axis_dist = abs(axis_dist);
-        scratch.dist[1] = (u16) axis_dist;
-        origin_coord = ((S_80024660_5 *)motion)->unk_08.at02u.v;
-        origin_coord += 0x20;
-        axis_dist = ((S_80024660_8 *)destination)->unk_08.at02.v - origin_coord;
-        axis_dist = abs(axis_dist);
-        scratch.dist[2] = (u16) axis_dist;
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
-do {
-        if (target_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) target_dist_cursor[12];
-        }
-        index += 1;
-        target_dist_cursor += 1;
-        } while (index < 3);
-        target_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
-        target_frames = (target_dist_fixed >> 0x14) + (target_dist_fixed >> 0x15);
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_frames;
-        if (target_frames == 0) {
-            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
-        }
-        ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        func_800A56E0(0x300, target_dist_cursor);
-        z_or_state = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1;
-        goto spawn_children;
-    } else {
-        register s32 probe_y_dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s16 last_tile_x;
-        s32 path_tile_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 path_tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        index = 0;
-        tile_info = ((S_80024660_3 *)source_record)->unk_0C;
-        ASM_KEEP(tile_info);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        path_z_dist = (s32)(0x80070000);
-        ASM_USE(path_z_dist);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        path_tile_x = ((S_80024660_9 *)tile_info)->unk_24;
-        path_tile_y = ((S_80024660_9 *)tile_info)->unk_25;
-        last_tile_x = path_tile_x;
-        scratch.saved_y = (u16) path_tile_y;
-        do {
-            tile_x = (void *)((s16)path_tile_x);
-            tile_y = (s16)path_tile_y;
-            if ((func_800A44E0((((s32)tile_x) << 6) & 0xFFC0, (tile_y << 6) & 0xFFC0, ((S_80024660_1 *)source)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) << 0x10) != 0) {
-                break;
-            }
-            direction = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
-            step_table = dirStepX;
-            tile_info = (void *)(&step_table[direction]);
-            probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
-            probe_z = (s16) (probe_z - 32);
-            step_table = dirStepY;
-            probe_x_dest_y = *((u16 *)tile_info);
-            probe_y_dest_x = step_table[direction];
-            probe_x_dest_y = (((((s32)tile_x) + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
-            probe_y_dest_x = (((tile_y + (s16)probe_y_dest_x) << 6) + 32) & 0xFFE0;
-            floor_z = func_800BCB04(probe_x_dest_y, probe_y_dest_x, probe_z);
-            if (floor_z >= 513) {
-                break;
-            }
-            if ((s16) (floor_z - (u16) ((S_80024660_1 *)source)->unk_88) < -63) {
-                break;
-            }
-            {
-                register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                u16 *x_step;
-                u16 *y_step;
-                step_table = D_8006CCD8_2;
-                step_index = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
-                index += 1;
-                x_step = (u16 *) (((unsigned long) step_index << 1) + (unsigned long) step_table);
-                step_table = D_8006CCE8_2;
-                y_step = step_index + step_table;
-                probe_x_dest_y = *x_step;
-                path_z_dist = (s32)((u32)(*y_step));
-                probe_x_dest_y = path_tile_x + probe_x_dest_y;
-                path_tile_x = probe_x_dest_y;
-                path_z_dist = (s32)((u32)(path_tile_y + (s32)(u32)path_z_dist));
-                path_tile_y = (s32)(u32)path_z_dist;
-                scratch.saved_y = (u16) (s32)(u32)path_z_dist;
-                last_tile_x = probe_x_dest_y;
-            }
-        } while (index < 8);
-set_path_destination:
-        destination = (M2C_UNK *)&scratch;
+        target = ((S_80024660_1 *)source)->unk_60;
         index = 1;
-        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        {
-            s16 *edge_steps;
-            probe_y_dest_x = last_tile_x << 16;
-            edge_steps = D_8006CCD8_3;
-            ASM_KEEP(edge_steps);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            probe_y_dest_x >>= 10;
-            path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-            probe_y_dest_x += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
-            edge_steps = D_8006CCE8_3;
-            ((S_80024660_8 *)destination)->unk_00.at02.v = probe_y_dest_x;
-            probe_y_dest_x = (s16) probe_y_dest_x;
-            saved_tile_y = scratch.saved_y;
-            probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
-            probe_x_dest_y = (probe_x_dest_y >> 0xA) + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
-            ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
-            z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v + 32;
-            probe_x_dest_y <<= 16;
-            ((S_80024660_8 *)destination)->unk_08.at02.v = z_or_state;
-            origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
-            probe_x_dest_y >>= 16;
-            path_x_dist = probe_y_dest_x - origin_x;
-            path_x_dist = abs(path_x_dist);
-            scratch.dist[0] = path_x_dist;
-            path_z_dist = z_or_state << 16;
-            path_y_dist = probe_x_dest_y - ((S_80024660_5 *)motion)->unk_04.at02u.v;
-            path_y_dist = abs(path_y_dist);
-            scratch.dist[1] = path_y_dist;
-            path_z_dist >>= 16;
-            path_z_dist -= ((S_80024660_5 *)motion)->unk_08.at02u.v;
-            scratch.dist[2] = abs(path_z_dist);
-            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
-        }
-        do {
-                    if (path_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-                        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
-                    }
+        if (target != NULL) {
+            destination = ((S_80024660_7_pre *)target)[-1].unk_00;
+            target_x_dist = ((S_80024660_8 *)destination)->unk_00.at02.v;
+            target_x_dist -= ((S_80024660_5 *)motion)->unk_00.at02u.v;
+            if (target_x_dist < 0) {
+                target_x_dist = 0 - target_x_dist;
+            }
+            scratch.dist[0] = (u16) target_x_dist;
+            axis_dist = ((S_80024660_8 *)destination)->unk_04.at02.v;
+            origin_coord = ((S_80024660_5 *)motion)->unk_04.at02u.v;
+            target_dist_cursor = (s16 *)((u8 *)&scratch + 2);
+            axis_dist -= origin_coord;
+            axis_dist = abs(axis_dist);
+            scratch.dist[1] = (u16) axis_dist;
+            origin_coord = ((S_80024660_5 *)motion)->unk_08.at02u.v;
+            origin_coord += 0x20;
+            axis_dist = ((S_80024660_8 *)destination)->unk_08.at02.v - origin_coord;
+            axis_dist = abs(axis_dist);
+            scratch.dist[2] = (u16) axis_dist;
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
+            do {
+                if (target_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+                    ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) target_dist_cursor[12];
+                }
+                index += 1;
+                target_dist_cursor += 1;
+            } while (index < 3);
+            target_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
+            target_frames = (target_dist_fixed >> 0x14) + (target_dist_fixed >> 0x15);
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_frames;
+            if (target_frames == 0) {
+                ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
+            }
+            ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v
+                - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v
+                - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v
+                - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            func_800A56E0(0x300, target_dist_cursor);
+            z_or_state = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1;
+            goto spawn_children;
+        } else {
+            register s32 probe_y_dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s16 last_tile_x;
+            s32 path_tile_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 path_tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            index = 0;
+            tile_info = ((S_80024660_3 *)source_record)->unk_0C;
+            ASM_KEEP(tile_info);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            path_z_dist = (s32)(0x80070000);
+            ASM_USE(path_z_dist);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            path_tile_x = ((S_80024660_9 *)tile_info)->unk_24;
+            path_tile_y = ((S_80024660_9 *)tile_info)->unk_25;
+            last_tile_x = path_tile_x;
+            scratch.saved_y = (u16) path_tile_y;
+            do {
+                tile_x = (void *)((s16)path_tile_x);
+                tile_y = (s16)path_tile_y;
+                if ((func_800A44E0((((s32)tile_x) << 6) & 0xFFC0, (tile_y << 6) & 0xFFC0,
+                    ((S_80024660_1 *)source)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) << 0x10)
+                    != 0) {
+                    break;
+                }
+                direction = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
+                step_table = dirStepX;
+                tile_info = (void *)(&step_table[direction]);
+                probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
+                probe_z = (s16) (probe_z - 32);
+                step_table = dirStepY;
+                probe_x_dest_y = *((u16 *)tile_info);
+                probe_y_dest_x = step_table[direction];
+                probe_x_dest_y = (((((s32)tile_x) + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
+                probe_y_dest_x = (((tile_y + (s16)probe_y_dest_x) << 6) + 32) & 0xFFE0;
+                floor_z = func_800BCB04(probe_x_dest_y, probe_y_dest_x, probe_z);
+                if (floor_z >= 513) {
+                    break;
+                }
+                if ((s16) (floor_z - (u16) ((S_80024660_1 *)source)->unk_88) < -63) {
+                    break;
+                }
+                {
+                    register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    u16 *x_step;
+                    u16 *y_step;
+                    step_table = D_8006CCD8_2;
+                    step_index = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
                     index += 1;
-                    path_dist_cursor += 1;
-        } while (index < 3);
-        path_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
-        path_frames = (path_dist_fixed >> 0x14) + (path_dist_fixed >> 0x15);
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_frames;
-        if (path_frames == 0) {
-            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
+                    x_step = (u16 *) (((unsigned long) step_index << 1) + (unsigned long) step_table);
+                    step_table = D_8006CCE8_2;
+                    y_step = step_index + step_table;
+                    probe_x_dest_y = *x_step;
+                    path_z_dist = (s32)((u32)(*y_step));
+                    probe_x_dest_y = path_tile_x + probe_x_dest_y;
+                    path_tile_x = probe_x_dest_y;
+                    path_z_dist = (s32)((u32)(path_tile_y + (s32)(u32)path_z_dist));
+                    path_tile_y = (s32)(u32)path_z_dist;
+                    scratch.saved_y = (u16) (s32)(u32)path_z_dist;
+                    last_tile_x = probe_x_dest_y;
+                }
+            } while (index < 8);
+set_path_destination:
+            destination = (M2C_UNK *)&scratch;
+            index = 1;
+            ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            {
+                s16 *edge_steps;
+                probe_y_dest_x = last_tile_x << 16;
+                edge_steps = D_8006CCD8_3;
+                ASM_KEEP(edge_steps);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                probe_y_dest_x >>= 10;
+                path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
+                probe_y_dest_x += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                edge_steps = D_8006CCE8_3;
+                ((S_80024660_8 *)destination)->unk_00.at02.v = probe_y_dest_x;
+                probe_y_dest_x = (s16) probe_y_dest_x;
+                saved_tile_y = scratch.saved_y;
+                probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
+                probe_x_dest_y = (probe_x_dest_y >> 0xA)
+                    + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
+                z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v + 32;
+                probe_x_dest_y <<= 16;
+                ((S_80024660_8 *)destination)->unk_08.at02.v = z_or_state;
+                origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
+                probe_x_dest_y >>= 16;
+                path_x_dist = probe_y_dest_x - origin_x;
+                path_x_dist = abs(path_x_dist);
+                scratch.dist[0] = path_x_dist;
+                path_z_dist = z_or_state << 16;
+                path_y_dist = probe_x_dest_y - ((S_80024660_5 *)motion)->unk_04.at02u.v;
+                path_y_dist = abs(path_y_dist);
+                scratch.dist[1] = path_y_dist;
+                path_z_dist >>= 16;
+                path_z_dist -= ((S_80024660_5 *)motion)->unk_08.at02u.v;
+                scratch.dist[2] = abs(path_z_dist);
+                ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
+            }
+            do {
+                if (path_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+                    ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
+                }
+                index += 1;
+                path_dist_cursor += 1;
+            } while (index < 3);
+            path_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
+            path_frames = (path_dist_fixed >> 0x14) + (path_dist_fixed >> 0x15);
+            ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_frames;
+            if (path_frames == 0) {
+                ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = 1;
+            }
+            ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v
+                - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v
+                - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v
+                - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            z_or_state = 5;
         }
-        ((S_80024660_5 *)motion)->unk_0C = (s32) ((s32) (((S_80024660_8 *)destination)->unk_00.at00.v - ((S_80024660_5 *)motion)->unk_00.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        ((S_80024660_5 *)motion)->unk_10 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_04.at00.v - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        z_or_state = 5;
-    }
 spawn_children:
-    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
-    index = 0x1F;
-    tile_x = effect + 0x7C;
-    do {
-        ((S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
-        index -= 1;
-        tile_x -= 4;
-    } while (index >= 0);
-    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
-    break;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
+        index = 0x1F;
+        tile_x = effect + 0x7C;
+        do {
+            ((S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
+            index -= 1;
+            tile_x -= 4;
+        } while (index >= 0);
+        ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+        break;
     case 3:
-    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
-        break;
-    }
-    func_8002403C(((S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
-    goto advance_state;
+        if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
+            break;
+        }
+        func_8002403C(((S_80024660_1 *)source)->unk_60, ((Rec_func_800243B8_arg0 *)effect)->unk_09, source);
+        goto advance_state;
     case 4:
-    if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
+        if (((Rec_func_800243B8_arg0 *)effect)->unk_14 != 0) {
+            break;
+        }
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
         break;
-    }
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    break;
     case 2:
     case 5:
-    ((S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((S_80024660_5 *)motion)->unk_00.at00.v + ((S_80024660_5 *)motion)->unk_0C);
-    ((S_80024660_5 *)motion)->unk_04.at00.v = (s32) (((S_80024660_5 *)motion)->unk_04.at00.v + ((S_80024660_5 *)motion)->unk_10);
-    ((S_80024660_5 *)motion)->unk_08.at00.v = (s32) (((S_80024660_5 *)motion)->unk_08.at00.v + ((S_80024660_5 *)motion)->unk_14);
-    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-        break;
-    }
+        ((S_80024660_5 *)motion)->unk_00.at00.v = (s32) (((S_80024660_5 *)motion)->unk_00.at00.v
+            + ((S_80024660_5 *)motion)->unk_0C);
+        ((S_80024660_5 *)motion)->unk_04.at00.v = (s32) (((S_80024660_5 *)motion)->unk_04.at00.v
+            + ((S_80024660_5 *)motion)->unk_10);
+        ((S_80024660_5 *)motion)->unk_08.at00.v = (s32) (((S_80024660_5 *)motion)->unk_08.at00.v
+            + ((S_80024660_5 *)motion)->unk_14);
+        if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+            break;
+        }
 advance_state:
-    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
-    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
-    break;
-    case 6:
-    if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
+        ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_0A = (s16) ((u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1);
         break;
-    }
-    ((Rec_func_800243B8_arg0 *)effect)->unk_0A = 4;
-    ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
+    case 6:
+        if ((s16) ((Rec_func_800243B8_arg0 *)effect)->unk_10 < 0x28) {
+            break;
+        }
+        ((Rec_func_800243B8_arg0 *)effect)->unk_0A = 4;
+        ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
     default:
         break;
     }

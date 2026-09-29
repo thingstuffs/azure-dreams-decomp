@@ -22,10 +22,6 @@ typedef struct S_80176084_0 {
 } S_80176084_0;   /* arg0 in func_80176084 */
 
 
-
-
-
-
 extern M2C_UNK func_80042B68();
 extern M2C_UNK func_80047784();
 extern M2C_UNK func_800A2B04();
@@ -60,8 +56,10 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
                 (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E2448;
-                func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
-                if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) || (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
+                func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                    0);
+                if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)
+                    || (func_800A56E0(0x801), ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) != 0)))) {
                     return;
                 }
             }
@@ -76,7 +74,8 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
                 (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E23E0;
-                func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+                func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                    0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
                 ((S_80176084_0 *)state)->unk_9B++;
                 ((S_80176084_0 *)state)->unk_B1++;

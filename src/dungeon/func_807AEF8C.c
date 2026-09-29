@@ -23,7 +23,7 @@ extern void func_80043A68(void);
 extern void func_80094E34(void);
 
 #define CLEAR_HIGH_BIT(ptr) \
-    (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
+(*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
 /* Reveal the fixed-map cheat: set the map mode from the item used, clear the hidden bit on every listed tile and finish the owner. */
 void func_807AEF8C(void *owner) {

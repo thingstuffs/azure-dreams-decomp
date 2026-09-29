@@ -11,5 +11,5 @@ s32 func_801704BC(void) {
 
     state = *(u8 **)(D_80175D50 + 0xC);
     return (func_800A0818(state[0x24], state[0x25], D_80082E80.tileX,
-                           D_80082E80.tileY, &value) << 0x10) >> 0x19;
+                          D_80082E80.tileY, &value) << 0x10) >> 0x19;
 }

@@ -30,14 +30,15 @@ typedef struct S_8015F0EC_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_8015F0EC_2;   /* arg2 in func_8015F0EC */
-
-
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -210,48 +211,48 @@ void func_8015F0EC(void *actor, void *context, void *sprite, EntityRec *entity)
         case 7:
         case 8:
 sw_case89:
-        if ((func_8015FF9C(actor, context, sprite, entity) << 16) != 0) {
+            if ((func_8015FF9C(actor, context, sprite, entity) << 16) != 0) {
+                return;
+            }
+            func_80160234(actor, context, sprite, entity);
             return;
-        }
-        func_80160234(actor, context, sprite, entity);
-        return;
 
         case 4:
         case 5:
         case 6:
 sw_case567:
-        {
-            EntityRec *player;
-            s16 heading;
+            {
+                EntityRec *player;
+                s16 heading;
 
-            heading = func_800A0818(
-                ((S_8015F0EC_2 *)sprite)->unk_24.at00.v, ((S_8015F0EC_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            entity->facing = heading;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
+                heading = func_800A0818(
+                    ((S_8015F0EC_2 *)sprite)->unk_24.at00.v, ((S_8015F0EC_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                entity->facing = heading;
+                if (player->unk_9A == 0x11) {
+                    goto case_123;
+                }
             }
-        }
-        /* fallthrough */
+                    /* fallthrough */
 
         case 11:
 case_12:
-        func_800A9A0C(entity);
-        return;
+            func_800A9A0C(entity);
+            return;
 
         case 0:
         case 1:
         case 2:
 case_123:
-        func_800AAF00(actor, context, sprite, D_80163E98, func_8015F0EC);
-        return;
+            func_800AAF00(actor, context, sprite, D_80163E98, func_8015F0EC);
+            return;
 
         default:
 generic:
-        func_8015F854(actor, context, sprite, entity);
-        return;
+            func_8015F854(actor, context, sprite, entity);
+            return;
         }
     }
 

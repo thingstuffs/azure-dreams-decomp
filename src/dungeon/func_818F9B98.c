@@ -32,7 +32,6 @@ typedef struct S_80025398_2 {
 } S_80025398_2;   /* cursor in func_80025398 */
 
 
-
 typedef struct PackedVector {
     u16 x;
     u16 y;

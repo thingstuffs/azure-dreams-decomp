@@ -115,8 +115,8 @@ extern void SetDrawMode(DR_MODE *, s32, s32, s32, void *);
 extern void AddPrim(void *, void *);
 
 #define ON_SCREEN(v) \
-    (((u16)((v).xy.half.x + 0x20) < 0x181U) && \
-     ((u16)((v).xy.half.y + 0x20) < 0x121U))
+(((u16)((v).xy.half.x + 0x20) < 0x181U) && \
+    ((u16)((v).xy.half.y + 0x20) < 0x121U))
 
 /* Project and enqueue visible textured and translucent blue gradient rectangles. */
 void func_80037714(DRAW_DESC *desc) {
@@ -201,7 +201,7 @@ void func_80037714(DRAW_DESC *desc) {
         SetSemiTrans(gradient_quad, 1);
 
         gradient_quad->r0 = gradient_quad->g0 = gradient_quad->b0 = gradient_quad->r1 = gradient_quad->g1 =
-        gradient_quad->r2 = gradient_quad->g2 = gradient_quad->b2 = gradient_quad->r3 = gradient_quad->g3 = 0;
+            gradient_quad->r2 = gradient_quad->g2 = gradient_quad->b2 = gradient_quad->r3 = gradient_quad->g3 = 0;
         gradient_quad->b1 = gradient_quad->b3 = 0x40;
 
         gradient_quad->xy0 = projected[0].xy.word;

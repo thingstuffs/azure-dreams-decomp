@@ -53,51 +53,51 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
         work_copy = (long)work;
         *(u8 *)((u8 *)part_b + 0x24) = held_a;
 
-    if ((held_flags & 3) == 1) {
-        *(Callback *)(work + 0x8C) = func_8014CE5C;
-        *(u32 *)(work + 0x14) |= 0x6000;
-        *(u32 *)(work + 0x1C) |= 0x6000;
-        *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
-    } else if ((held_flags & 3) >= 2) {
-        *(Callback *)(work + 0x8C) = func_8014CE5C;
-        flags0 = *(u32 *)(work + 0x14) | 0x2000;
-        flags1 = *(u32 *)(work + 0x1C) | 0x2000;
-        *(u32 *)(work + 0x14) = flags0;
-        *(u32 *)(work + 0x1C) = flags1;
-        *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
-    } else {
-        masked = held_flags & -4;
-        if ((s16)masked == 0) {
-            if ((*(u32 *)(work + 0x14) & 0x200) == 0) {
-                if ((func_800A6D30() & 1) != 0) {
-                    random = func_800A6D30();
-                    func_800A48F0(work, 1, (random & 0x3F) | 0x20);
-                    *(Callback *)((u8 *)part_b + 0x2C) = func_80150538;
-                }
-            }
-#ifdef NON_MATCHING
-            *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-#else
-            callback_page = 0x80150000;
-            ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            callback_page -= 0x31A4;
-            *(Callback *)((u8 *)work_copy + 0x8C) = (Callback)callback_page;
-#endif
-        } else {
-#ifdef NON_MATCHING
+        if ((held_flags & 3) == 1) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
+            *(u32 *)(work + 0x14) |= 0x6000;
+            *(u32 *)(work + 0x1C) |= 0x6000;
+            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+        } else if ((held_flags & 3) >= 2) {
+            *(Callback *)(work + 0x8C) = func_8014CE5C;
+            flags0 = *(u32 *)(work + 0x14) | 0x2000;
+            flags1 = *(u32 *)(work + 0x1C) | 0x2000;
+            *(u32 *)(work + 0x14) = flags0;
+            *(u32 *)(work + 0x1C) = flags1;
+            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
+        } else {
+            masked = held_flags & -4;
+            if ((s16)masked == 0) {
+                if ((*(u32 *)(work + 0x14) & 0x200) == 0) {
+                    if ((func_800A6D30() & 1) != 0) {
+                        random = func_800A6D30();
+                        func_800A48F0(work, 1, (random & 0x3F) | 0x20);
+                        *(Callback *)((u8 *)part_b + 0x2C) = func_80150538;
+                    }
+                }
+#ifdef NON_MATCHING
+                *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
 #else
-            callback_page = 0x80150000;
-            ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            callback_page -= 0x31A4;
-            *(Callback *)(work + 0x8C) = (Callback)callback_page;
+                callback_page = 0x80150000;
+                ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                callback_page -= 0x31A4;
+                *(Callback *)((u8 *)work_copy + 0x8C) = (Callback)callback_page;
 #endif
+            } else {
+#ifdef NON_MATCHING
+                *(Callback *)(work + 0x8C) = func_8014CE5C;
+#else
+                callback_page = 0x80150000;
+                ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                callback_page -= 0x31A4;
+                *(Callback *)(work + 0x8C) = (Callback)callback_page;
+#endif
+            }
+            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
         }
-        *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
-    }
 
-    *(Callback *)(object + 0x10) = func_8014CA58;
-    func_800A9C18(object, part_a, (u8 *)part_b, (s16)flags_s16);
+        *(Callback *)(object + 0x10) = func_8014CA58;
+        func_800A9C18(object, part_a, (u8 *)part_b, (s16)flags_s16);
 
         *(u8 *)((u8 *)work_copy + 0x9A) = 0xFF;
         *(s8 *)((u8 *)work_copy + 0x9C) = -1;

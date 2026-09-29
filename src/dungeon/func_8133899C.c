@@ -22,7 +22,6 @@ typedef struct S_8016F99C_1 {
 } S_8016F99C_1;   /* arg1 in func_8016F99C */
 
 
-
 extern void *D_801649E8[];
 extern void *D_80175D58[];
 extern void *D_80175D5C[];

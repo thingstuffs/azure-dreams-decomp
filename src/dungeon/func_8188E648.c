@@ -222,7 +222,7 @@ state_3:
         ((S_80025E48_0 *)effect)->unk_18.u += angle_step;
         ((S_80025E48_0 *)effect)->unk_66.u +=
             (((s32)(((S_80025E48_0 *)effect)->unk_64.u << 16) >> 17) -
-            ((S_80025E48_0 *)effect)->unk_66.s) / ((S_80025E48_0 *)effect)->unk_1A.s;
+             ((S_80025E48_0 *)effect)->unk_66.s) / ((S_80025E48_0 *)effect)->unk_1A.s;
 
         if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
             (((S_80025E48_0 *)effect)->unk_22 == 0)) {

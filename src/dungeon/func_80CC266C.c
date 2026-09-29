@@ -59,7 +59,8 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
     }
     direction = 0;
 scan_neighbors:
-    neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, (s16) (direction << 9));
+    neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
+        (s16) (direction << 9));
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)D_800E3D7C)) {
             reference_found = 1;
@@ -85,9 +86,12 @@ scan_neighbors:
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
         ((Rec_func_800A9E70_arg0 *)action_state)->unk_8C = 0;
         target_pos = ((S_80175E6C_6_pre *)(((EntityRec *)actor)->target))[-1].unk_00;
-        ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24, ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
+        ((EntityRec *)actor)->facing = func_800A0818(((S_80175E6C_1 *)actor_pos_arg)->unk_24,
+            ((S_80175E6C_1 *)actor_pos_arg)->unk_25, ((S_80175E6C_5 *)target_pos)->unk_24,
+            ((S_80175E6C_5 *)target_pos)->unk_25, &distance);
         (*(u8 **)((u8 *)actor_pos_arg + 0x2C)) = D_80176348;
-        func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+            >> 9) & 7], 0);
         func_80175E14(actor);
         result = 1;
         return result;

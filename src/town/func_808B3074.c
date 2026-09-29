@@ -11,7 +11,6 @@ typedef struct S_808B3074_1 {
 } S_808B3074_1;   /* status in func_808B3074 */
 
 
-
 extern s32 func_8070021C();
 extern s32 func_807002A4();
 extern s32 func_807002D4();

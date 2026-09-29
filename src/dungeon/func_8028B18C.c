@@ -142,7 +142,9 @@ void func_8001E18C(void)
         }
     }
 
-    else { count = 0; }
+    else {
+        count = 0;
+    }
     spawn_check = (s32)((u8 *)0x80010000);
     item_category_table = D_80073414;
     item_state = (DungeonState *)D_800E3548;

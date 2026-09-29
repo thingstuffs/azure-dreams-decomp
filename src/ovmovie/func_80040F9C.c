@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80177A9C(void *arg0, s32 arg1);

@@ -17,7 +17,6 @@ typedef struct S_801267B8_0 {
 } S_801267B8_0;   /* obj in func_801267B8 */
 
 
-
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_8004B248();

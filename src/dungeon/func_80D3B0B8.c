@@ -109,11 +109,14 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
 
         copy_end = (Copy16 *)(source_sprite + 0x30);
         copy_dst = (Copy16 *)sprite;
-        loop_0: {
+loop_0:
+        {
             *copy_dst = *copy_src;
             copy_src++;
             copy_dst++;
-        } if (copy_src != copy_end) goto loop_0;
+        }
+        if (copy_src != copy_end)
+            goto loop_0;
 
         func_8004491C(object, func_80045340);
         direction_table = D_800E23F0;

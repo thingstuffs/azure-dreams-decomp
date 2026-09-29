@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_800280FC_4 {

@@ -35,7 +35,11 @@ typedef struct S_801716A4_1 {
 
 typedef struct S_801716A4_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_801716A4_2;   /* arg2 in func_801716A4 */
 
@@ -74,7 +78,6 @@ typedef struct S_801716A4_8 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_801716A4_8;   /* (u8 *)arg3 + (((S_801716A4_1 *)arg3)->unk_71.u & 0x7F) in func_801716A4 */
-
 
 
 typedef struct DungeonRecord {

@@ -23,7 +23,7 @@ void func_8003B64C(void)
 
                 if (record_code >= 0) {
                     itm_mon_koyaw_set(record_code & 0x3F, entry,
-                                  (u8 *)(0x800102F0 +
+                                      (u8 *)(0x800102F0 +
                                       (entry[3] & 0x1F) * 84), 0);
                     del_t_item_w_ptr((u8 *)*entry_slot);
                     continue;

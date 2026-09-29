@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_80016D18_1 {

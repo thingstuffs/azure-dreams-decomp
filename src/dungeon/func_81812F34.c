@@ -27,7 +27,9 @@ extern M2C_UNK D_80027A68;
 void func_80027F34(void *state) {
     s32 nextStep;
 
-    ((S_80027F34_2 *)(((S_80027F34_1 *)state)->unk_80))->unk_02 = (s16) (0x400 - ((s32) (((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 << 0xA) / (s32) ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_14));
+    ((S_80027F34_2 *)(((S_80027F34_1 *)state)->unk_80))->unk_02 =
+        (s16) (0x400 - ((s32) (((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10
+        << 0xA) / (s32) ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_14));
     nextStep = ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 + 1;
     ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = nextStep;
     if (((S_80027F34_0 *)((u8 *)state - 0x10))->unk_14 < nextStep) {

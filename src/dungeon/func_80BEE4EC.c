@@ -16,8 +16,6 @@ typedef struct S_80173CEC_12 {
 } S_80173CEC_12;   /* ((S_80173CEC_11 *)temp_v0_2)->unk_08 in func_80173CEC */
 
 
-
-
 typedef struct S_80173CEC_2 {
     u8 unk_00;
 } S_80173CEC_2;   /* &D_801742E5 in func_80173CEC */
@@ -57,7 +55,6 @@ typedef struct S_80173CEC_9 {
     s16 unk_1C;
     s16 unk_1E;
 } S_80173CEC_9;   /* temp_s0 in func_80173CEC */
-
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -119,127 +116,132 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     phase = state->unk_9B;
     switch (phase) {
     case 0:
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    return;
-    case 1:
-    func_80041588(&D_801742CC, &D_801742E4, 0);
-    state->unk_A6 = 0;
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
-    ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v = (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
-    case 2:
-    direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
-    if ((*(u8 *)&D_801742E4) != 0) {
-        if (direction == 2) {
-            goto start_effect;
-        }
-    }
-    if (direction == 2) {
+        state->unk_9B = (u8) (state->unk_9B + 1);
         return;
-    }
-    ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
-    return;
-start_effect:
-    func_80041588(&D_801742CC, &D_801742E4, 1);
-    func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
-    Control_CD(0x15, func_800445E0(), NULL);
-    (*(s8 *)&D_801742E5) = 0;
-    Control_CD(0xFF, &D_8003E140, &D_801742E5);
-    func_800C77D0(model - 0x20, position, 8, 0x300);
-    state->unk_96 = 0x10U;
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    case 3:
-    fade_timer = state->unk_96;
-    fade_left = fade_timer - 1;
-    state->unk_96 = fade_left;
-    if ((fade_left << 0x10) <= 0) {
-        event_done = ((S_80173CEC_2 *)(&D_801742E5))->unk_00;
-        state->unk_96 = fade_timer;
-        if (event_done == 0) {
+    case 1:
+        func_80041588(&D_801742CC, &D_801742E4, 0);
+        state->unk_A6 = 0;
+        state->unk_9B = (u8) (state->unk_9B + 1);
+        ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
+        ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v =
+            (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
+    case 2:
+        direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
+            >> 9) & 7;
+        if ((*(u8 *)&D_801742E4) != 0) {
+            if (direction == 2) {
+                goto start_effect;
+            }
+        }
+        if (direction == 2) {
             return;
         }
+        ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
+        return;
+start_effect:
+        func_80041588(&D_801742CC, &D_801742E4, 1);
+        func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        Control_CD(0x15, func_800445E0(), NULL);
+        (*(s8 *)&D_801742E5) = 0;
+        Control_CD(0xFF, &D_8003E140, &D_801742E5);
+        func_800C77D0(model - 0x20, position, 8, 0x300);
+        state->unk_96 = 0x10U;
         state->unk_9B = (u8) (state->unk_9B + 1);
-        func_800A56E0(0x300);
+    case 3:
+        fade_timer = state->unk_96;
+        fade_left = fade_timer - 1;
+        state->unk_96 = fade_left;
+        if ((fade_left << 0x10) <= 0) {
+            event_done = ((S_80173CEC_2 *)(&D_801742E5))->unk_00;
+            state->unk_96 = fade_timer;
+            if (event_done == 0) {
+                return;
+            }
+            state->unk_9B = (u8) (state->unk_9B + 1);
+            func_800A56E0(0x300);
+            return;
+        }
+        target_color = (*(void **)((u8 *)(&D_800DCEEC) + func_800498A0(model) * 4));
+        scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
+            - scene_color->view.unk_090) / (s16) state->unk_96));
+        scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01
+            - scene_color->view.unk_091) / (s16) state->unk_96));
+        scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02
+            - scene_color->view.unk_092) / (s16) state->unk_96));
         return;
-    }
-    target_color = (*(void **)((u8 *)(&D_800DCEEC) + func_800498A0(model) * 4));
-    scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00 - scene_color->view.unk_090) / (s16) state->unk_96));
-    scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01 - scene_color->view.unk_091) / (s16) state->unk_96));
-    scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02 - scene_color->view.unk_092) / (s16) state->unk_96));
-    return;
     case 4:
-    effect = func_8003FC64(0x12);
-    if (effect == NULL) {
-        return;
-    }
-    effect->unk_10 = &D_80173B94;
-    func_8004491C(effect, &D_801736AC);
-    color = 0x808080;
-    state->unk_AC = effect;
-    effect_model = model;
-    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
-    ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
-    effect_position = effect->unk_08;
-    effect_value_2 = position->z.v;
-    D_801742E0 = -8;
-    effect_position->unk_08 = effect_value_2;
-    effect_sprite = effect->unk_0C;
-    effect_sprite->unk_1E = 0x1000;
-    effect_sprite->unk_1C = 0x1000;
-    effect_sprite->unk_0C.s = color;
-    variant_index = func_800498A0(effect_model) - 1;
-    effect_value = variant_index;
-    if ((variant_index << 0x10) < 0) {
-        effect_value = func_80069EF8() % 3;
-    }
-    func_8003DB94(effect_sprite, D_801742D4[(s16) effect_value] + (s8 *) &D_8014A000, 0);
-    actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
-    spawn_count = 0;
-    state->unk_96 = 0U;
-    state->unk_9B = (u8) (state->unk_9B + 1);
-do {
-    func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
-    next_spawn = spawn_count + 1;
-    spawn_count = next_spawn;
-    if (next_spawn >= 8) {
-        return;
-    }
-    } while (1);
-    case 5:
-    elapsed = state->unk_96;
-    state->unk_96 = (u16) (elapsed + 1);
-    if ((s16) elapsed < 0x1E) {
-        trail_count = 0;
+        effect = func_8003FC64(0x12);
+        if (effect == NULL) {
+            return;
+        }
+        effect->unk_10 = &D_80173B94;
+        func_8004491C(effect, &D_801736AC);
+        color = 0x808080;
+        state->unk_AC = effect;
+        effect_model = model;
+        ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+        ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
+        effect_position = effect->unk_08;
+        effect_value_2 = position->z.v;
+        D_801742E0 = -8;
+        effect_position->unk_08 = effect_value_2;
+        effect_sprite = effect->unk_0C;
+        effect_sprite->unk_1E = 0x1000;
+        effect_sprite->unk_1C = 0x1000;
+        effect_sprite->unk_0C.s = color;
+        variant_index = func_800498A0(effect_model) - 1;
+        effect_value = variant_index;
+        if ((variant_index << 0x10) < 0) {
+            effect_value = func_80069EF8() % 3;
+        }
+        func_8003DB94(effect_sprite, D_801742D4[(s16) effect_value] + (s8 *) &D_8014A000, 0);
+        actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+        spawn_count = 0;
+        state->unk_96 = 0U;
+        state->unk_9B = (u8) (state->unk_9B + 1);
         do {
             func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
-            next_trail = trail_count + 1;
-            trail_count = next_trail;
-        } while (next_trail < 8);
-    }
-    effect_sprite = state->unk_AC;
-    effect_sprite = effect_sprite->unk_0C.u;
-    if (!(effect_sprite->unk_14 & 0xE000)) {
-        goto check_movement;
-    }
-    state->unk_9B = (u8) (state->unk_9B + 1);
+            next_spawn = spawn_count + 1;
+            spawn_count = next_spawn;
+            if (next_spawn >= 8) {
+                return;
+            }
+        } while (1);
+    case 5:
+        elapsed = state->unk_96;
+        state->unk_96 = (u16) (elapsed + 1);
+        if ((s16) elapsed < 0x1E) {
+            trail_count = 0;
+            do {
+                func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
+                next_trail = trail_count + 1;
+                trail_count = next_trail;
+            } while (next_trail < 8);
+        }
+        effect_sprite = state->unk_AC;
+        effect_sprite = effect_sprite->unk_0C.u;
+        if (!(effect_sprite->unk_14 & 0xE000)) {
+            goto check_movement;
+        }
+        state->unk_9B = (u8) (state->unk_9B + 1);
     case 6:
 check_movement:
-    if (state->unk_9B != 6) {
+        if (state->unk_9B != 6) {
+            return;
+        }
+        if (func_800ADC4C(position, D_801742E8, D_801742E0, &D_800DCF5C) == 0) {
+            return;
+        }
+        state->unk_96 = 0x10U;
+        state->unk_9B = (u8) (state->unk_9B + 1);
+        func_800A18E8(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
+        func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
+        func_8009A028(model);
+        effect_sprite = model - 0x20;
+        effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);
         return;
-    }
-    if (func_800ADC4C(position, D_801742E8, D_801742E0, &D_800DCF5C) == 0) {
-        return;
-    }
-    state->unk_96 = 0x10U;
-    state->unk_9B = (u8) (state->unk_9B + 1);
-    func_800A18E8(((Rec_D_80082E80 *)model)->unk_12.at01_u8.v, 3);
-    func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
-    func_8009A028(model);
-    effect_sprite = model - 0x20;
-    effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);
-    return;
     case 7:
-    ((Rec_D_80082E80 *)model)->unk_60.as_s32 = func_800A504C(actor, model);
-    return;
+        ((Rec_D_80082E80 *)model)->unk_60.as_s32 = func_800A504C(actor, model);
+        return;
     }
 }

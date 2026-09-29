@@ -42,7 +42,6 @@ typedef struct S_80026ED0_3 {
 } S_80026ED0_3;   /* temp_v1_2 in func_80026ED0 */
 
 
-
 extern void *func_8003FD64();
 extern s32 func_8004491C();
 extern s32 D_80026E3C;

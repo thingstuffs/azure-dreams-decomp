@@ -24,7 +24,6 @@ typedef struct S_801735E8_0 {
 } S_801735E8_0;   /* base0 in func_801735E8 */
 
 
-
 typedef struct S_801735E8_3 {
     u8 pad_00[0xC];
     s32 unk_0C;

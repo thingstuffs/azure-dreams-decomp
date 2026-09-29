@@ -114,20 +114,20 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
             goto no_item;
         }
 
-    item_3:
+item_3:
         item = (u8 *)actor + 0x0E;
         goto have_item;
-    item_2:
+item_2:
         item = (u8 *)actor + 0x0B;
         goto have_item;
-    item_1:
+item_1:
         item = (u8 *)actor;
         item += 8;
         goto have_item;
-    no_item:
+no_item:
         item = 0;
 
-    have_item:
+have_item:
         if (*item != 0) {
 
             ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;

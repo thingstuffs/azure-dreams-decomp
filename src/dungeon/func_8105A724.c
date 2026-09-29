@@ -7,9 +7,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
-
-
 void func_80047784(void *, u8, s32);
 void func_8009C93C(void *, void *, s16, s32, s32);
 s32 func_800A0134(s32, void *);
@@ -35,8 +32,8 @@ s32 func_80171F24(void *action_state, s32 action_id, void *sprite, EntityRec *ac
         ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
 
     if ((((Rec_func_800A9E70_arg0 *)action_state)->unk_98 & 0x8000)
-            ? target_direction == 0
-            : (func_800A2CB8(actor, target_direction) << 0x10) == 0) {
+        ? target_direction == 0
+        : (func_800A2CB8(actor, target_direction) << 0x10) == 0) {
         return 0;
     }
 

@@ -19,10 +19,6 @@ typedef struct S_8017406C_0 {
 } S_8017406C_0;   /* arg0 in func_8017406C */
 
 
-
-
-
-
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
 extern void func_800A2B04(void *, s32, s32);
@@ -57,7 +53,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
         animation->unk_9E.s = 5;
         animation->unk_A0 = 0;
         animation->unk_9B++;
-        /* fall through */
+                /* fall through */
     case 1:
         arc_ticks = animation->unk_9E.s;
         animation->unk_90 -= animation->unk_A0;
@@ -66,7 +62,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
             world_x = motion->x.w.i;
             target_x <<= 6;
             world_x -= 0x20;
-        
+
             motion->unk_0C =
                 ((target_x - world_x) << 16) / arc_ticks;
 
@@ -93,7 +89,7 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
             actor->flags1C |= 0x08000000;
             animation->unk_9B++;
         }
-        /* fall through */
+                /* fall through */
     case 2:
         if (actor->flags1C & 0x08000000) {
             animation->unk_98 &= 0xFFF7;
@@ -133,12 +129,12 @@ void func_8017406C(S_8017406C_0 *animation, EntityRec *motion, Rec_D_80082E80 *t
         }
     } else if (!(actor_flags & 0x410)) {
         if (actor_flags & 0x20000) {
-        actor->facing = func_800A0818(
-            tile->unk_24,
-            tile->unk_25,
-            D_80082E80.tileX,
-            D_80082E80.tileY,
-            &coord_result);
+            actor->facing = func_800A0818(
+                tile->unk_24,
+                tile->unk_25,
+                D_80082E80.tileX,
+                D_80082E80.tileY,
+                &coord_result);
         }
     }
     if ((func_800AD9B4(tile, actor) << 16) > 0) {

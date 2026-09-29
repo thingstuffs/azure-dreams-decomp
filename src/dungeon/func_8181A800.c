@@ -13,7 +13,7 @@ typedef s32 M2C_UNK;
 
 #ifdef __mips__
 static const u32 func_8181A800_bank[] __asm__("func_8181A800")
-    __attribute__((section(".text.func_8181A800"), aligned(4))) = {
+__attribute__((section(".text.func_8181A800"), aligned(4))) = {
     0x80024BE8, 0x00000020, 0x00200020, 0x00200000,
     0x0020FFE0, 0x0000FFE0, 0xFFE0FFE0, 0xFFE00000,
     0xFFE00020, 0x00000000, 0x80024CE8, 0x80024D54,
@@ -31,7 +31,7 @@ extern s16 D_80025914[9];
 
 #ifdef __mips__
 static void BODY_NAME(void *record_data, void *unused, void *update_data)
-    __attribute__((section(".text.func_8181A84C")));
+__attribute__((section(".text.func_8181A84C")));
 #endif
 
 /* Decrement the record counter, process update data, and flag depletion. */

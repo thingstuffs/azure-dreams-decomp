@@ -49,7 +49,8 @@ void func_808B3620(s8 *overlay_state) {
     s32 word_1;
     s32 word_3;
 
-    loop_0: {
+loop_0:
+    {
         word_0 = ((S_808B3620_0 *)src_words)->unk_00;
         word_1 = ((S_808B3620_0 *)src_words)->unk_04;
         overlay_state = ((S_808B3620_0 *)src_words)->unk_08;
@@ -62,12 +63,15 @@ void func_808B3620(s8 *overlay_state) {
             src_words += 4;
         } while (0);
         dst_words += 4;
-    } if (src_words != chunk_end) goto loop_0;
+    }
+    if (src_words != chunk_end)
+        goto loop_0;
     do {
         ((S_808B3620_1 *)dst_words)->unk_00 = ((S_808B3620_0 *)src_words)->unk_00;
     } while (0);
     kind_format = D_A0700000 + 0x144;
-    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.s(kind_format, D_A0700150, ((S_808B3620_2 *)p)->unk_08, dst_words);
+    ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.s(kind_format, D_A0700150, ((S_808B3620_2 *)p)->unk_08,
+        dst_words);
     ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(kind_format, D_A0700158, *(s32 *)(D_A0700000 + 0xF48));
     ((S_808B3620_4 *)(*(void **)(D_A0700000 + 0xF58)))->unk_64.u(D_A0700168, D_A070017C, 0x30);
     ((S_808B3620_3 *)(*(void **)(D_A0700000 + 0xF58)))->unk_6C(0);

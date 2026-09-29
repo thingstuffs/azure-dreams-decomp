@@ -48,7 +48,6 @@ typedef struct S_80171D64_4 {
 } S_80171D64_4;   /* (void *)reused_arg2 in func_80171D64 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
@@ -196,9 +195,9 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         }
 
         mode_or_object = (s32)object;
-    setup_args_ready:
+setup_args_ready:
         kind_or_position = (s32)position;
-    setup_args2_ready:
+setup_args2_ready:
         func_800A9C18((void *)mode_or_object, (void *)kind_or_position, (void *)height_or_sprite,
             (s16)init_flags);
         ((S_80171D64_4 *)((void *)height))->unk_9A = 0xFF;

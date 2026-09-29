@@ -31,7 +31,6 @@ typedef struct S_80174898_2 {
 } S_80174898_2;   /* arg2 in func_80174898 */
 
 
-
 typedef struct OffsetPair {
     s16 x;
     s16 y;

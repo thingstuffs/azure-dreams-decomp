@@ -12,8 +12,6 @@ typedef struct S_800249B4_4 {
 } S_800249B4_4;   /* ((S_800249B4_3 *)temp_v0)->unk_04 in func_800249B4 */
 
 
-
-
 extern void *func_8004DA74(void *a0, u8 *a1, s32 a2);
 extern u8 *D_800283EC[];
 

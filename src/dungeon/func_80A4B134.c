@@ -55,7 +55,6 @@ typedef struct S_80174934_4 {
 } S_80174934_4;   /* pos in func_80174934 */
 
 
-
 typedef struct Vec3w {
     s32 x;
     s32 y;

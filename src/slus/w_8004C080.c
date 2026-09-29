@@ -4,7 +4,11 @@ typedef struct S_8004C080_0 {
     u8 pad_00[0x1];
     u8 unk_01;
     u8 pad_02[0x2];
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_04;   /* overlapping accesses */
     u8 unk_08;
     u8 unk_09;
     u8 unk_0A;
@@ -29,7 +33,6 @@ typedef struct S_8004C080_2 {
     s32 unk_04;
     s32 unk_08;
 } S_8004C080_2;   /* record in func_8004C080 */
-
 
 
 typedef struct Tint8004C080 {
@@ -122,7 +125,7 @@ void *func_8004C080(Tint8004C080 *tint0, Tint8004C080 *tint1,
             extended_type = length_or_code & 0x7C;
             if (length_or_code == 1) {
                 SetDrawMode(packet, 1, ((S_8004C080_0 *)command)->unk_04.at02.v,
-                              ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
+                            ((S_8004C080_0 *)command)->unk_04.at00u.v, 0);
             } else if (extended_type == 0x30) {
                 record = func_8004B954(tint0, tint1, packet, record, command, count, 1);
             } else if (extended_type == 0x20) {

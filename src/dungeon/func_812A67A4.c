@@ -7,7 +7,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -62,7 +61,11 @@ typedef struct S_80171FA4_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -209,11 +212,11 @@ void func_80171FA4(void *actor, void *actor_aux, void *sprite, EntityRec *entity
         switch (action_state - 1) {
         case 7:
         case 8:
-        if ((func_80172E10(actor, actor_aux, sprite, entity) << 16) != 0) {
+            if ((func_80172E10(actor, actor_aux, sprite, entity) << 16) != 0) {
+                return;
+            }
+            func_801730A8(actor, actor_aux, sprite, entity);
             return;
-        }
-        func_801730A8(actor, actor_aux, sprite, entity);
-        return;
 
         case 4:
         case 5:
@@ -235,23 +238,23 @@ void func_80171FA4(void *actor, void *actor_aux, void *sprite, EntityRec *entity
 
         case 11:
 case_12:
-        func_800A9A0C(entity);
-        return;
+            func_800A9A0C(entity);
+            return;
 
         case 0:
         case 1:
         case 2:
 case_123:
-        func_800AAF00(actor, actor_aux, sprite, D_80175C88, D_80171FA4);
-        return;
+            func_800AAF00(actor, actor_aux, sprite, D_80175C88, D_80171FA4);
+            return;
 
         case 3:
         case 9:
         case 10:
         default:
 generic:
-        func_801726C8(actor, actor_aux, sprite, entity);
-        return;
+            func_801726C8(actor, actor_aux, sprite, entity);
+            return;
         }
     }
 

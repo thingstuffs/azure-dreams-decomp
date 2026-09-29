@@ -8,17 +8,17 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_801713A8_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
 } S_801713A8_2;   /* arg2 in func_801713A8 */
-
-
-
 
 
 extern void func_80047784(void *, u8, s32);
@@ -163,17 +163,17 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
         action_index = (status->unk_46 & 0x3FFF) - 1;
         switch (action_index) {
 
-    case 7:
-    case 8:
-        if ((s16)func_801721E0(actor, context, sprite, status) != 0) {
+        case 7:
+        case 8:
+            if ((s16)func_801721E0(actor, context, sprite, status) != 0) {
+                return;
+            }
+            func_801723A4(actor, context, sprite, status);
             return;
-        }
-        func_801723A4(actor, context, sprite, status);
-        return;
 
-    case 4:
-    case 5:
-    case 6:
+        case 4:
+        case 5:
+        case 6:
         {
             s16 target_angle;
             EntityRec *active_actor;
@@ -187,30 +187,30 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
                 goto case_12;
             }
         }
-        resume_handler = (void *)func_801713A8;
-        goto case_call;
+            resume_handler = (void *)func_801713A8;
+            goto case_call;
 
-    case 11:
+        case 11:
 case_12:
-        func_800A9A0C(status);
-        return;
+            func_800A9A0C(status);
+            return;
 
-    case 0:
-    case 1:
-    case 2:
-        resume_handler = (void *)func_801713A8;
+        case 0:
+        case 1:
+        case 2:
+            resume_handler = (void *)func_801713A8;
 
 case_call:
-        func_800AAF00(actor, context, sprite, D_801744D4, resume_handler);
-        return;
+            func_800AAF00(actor, context, sprite, D_801744D4, resume_handler);
+            return;
 
-    case 3:
-    case 9:
-    case 10:
-    default:
+        case 3:
+        case 9:
+        case 10:
+        default:
 case_default:
-        func_80171A98(actor, context, sprite, status);
-        return;
+            func_80171A98(actor, context, sprite, status);
+            return;
         }
     }
 

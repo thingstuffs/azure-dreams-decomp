@@ -41,7 +41,6 @@ typedef struct S_800206D0_2 {
 } S_800206D0_2;   /* arg2 in func_800206D0 */
 
 
-
 extern void func_800478B8(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
@@ -120,21 +119,21 @@ state0_compute:
     }
 
     case 2:
-    func_800478B8(sprite);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_00 += ((Rec_func_800206D0_arg1 *)motion)->unk_0C;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_04 += ((Rec_func_800206D0_arg1 *)motion)->unk_10;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
-    timer = --((S_800206D0_0 *)pickup)->unk_02.s;
-    if ((s16)timer > 0) {
+        func_800478B8(sprite);
+        ((Rec_func_800206D0_arg1 *)motion)->unk_00 += ((Rec_func_800206D0_arg1 *)motion)->unk_0C;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_04 += ((Rec_func_800206D0_arg1 *)motion)->unk_10;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_08 += ((Rec_func_800206D0_arg1 *)motion)->unk_14;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
+        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        if ((s16)timer > 0) {
+            return;
+        }
+        SD_Call(0x501);
+        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0xFFC00000;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
+        ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
+        ((S_800206D0_0 *)pickup)->unk_00 = 3;
         return;
-    }
-    SD_Call(0x501);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0xFFC00000;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
-    ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
-    ((S_800206D0_0 *)pickup)->unk_00 = 3;
-    return;
 
     case 3:
     {
@@ -172,46 +171,46 @@ state0_compute:
     }
 
     case 4:
-    if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
-        SD_Call(0x516);
-        reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
-        D_80012D5C[0] += reward;
-        D_80024628[0] += reward;
-        ((S_800206D0_0 *)pickup)->unk_00 = 6;
-    }
-    timer = --((S_800206D0_0 *)pickup)->unk_02.s;
-    if ((s16)timer > 0) {
+        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+            SD_Call(0x516);
+            reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
+            D_80012D5C[0] += reward;
+            D_80024628[0] += reward;
+            ((S_800206D0_0 *)pickup)->unk_00 = 6;
+        }
+        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        if ((s16)timer > 0) {
+            return;
+        }
+        ((S_800206D0_0 *)pickup)->unk_02.u = 31;
+        ((S_800206D0_0 *)pickup)->unk_00 = 5;
         return;
-    }
-    ((S_800206D0_0 *)pickup)->unk_02.u = 31;
-    ((S_800206D0_0 *)pickup)->unk_00 = 5;
-    return;
 
     case 5:
-    if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
-        ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
-    } else {
-        ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
-    }
-    if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
-        SD_Call(0x516);
-        reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
-        D_80012D5C[0] += reward;
-        D_80024628[0] += reward;
+        if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
+            ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
+        } else {
+            ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
+        }
+        if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+            SD_Call(0x516);
+            reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
+            D_80012D5C[0] += reward;
+            D_80024628[0] += reward;
+            ((S_800206D0_0 *)pickup)->unk_00 = 6;
+        }
+        timer = --((S_800206D0_0 *)pickup)->unk_02.s;
+        if ((s16)timer > 0) {
+            return;
+        }
         ((S_800206D0_0 *)pickup)->unk_00 = 6;
-    }
-    timer = --((S_800206D0_0 *)pickup)->unk_02.s;
-    if ((s16)timer > 0) {
         return;
-    }
-    ((S_800206D0_0 *)pickup)->unk_00 = 6;
-    return;
 
     case 6:
-    func_8008F134((u8 *)pickup + 8);
-    (*(u16 *)((u8 *)pickup + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+        func_8008F134((u8 *)pickup + 8);
+        (*(u16 *)((u8 *)pickup + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 
-    return;
+        return;
     }
 }

@@ -18,7 +18,6 @@ typedef struct S_80025D28_2 {
 } S_80025D28_2;   /* arg2 in func_80025D28 */
 
 
-
 extern s32 func_800644B8();
 extern s32 func_80064584();
 extern u8 D_80027452[16];
@@ -47,10 +46,12 @@ void func_80025D28(void *state, void *points, void *appearance) {
     *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
     start_wave_x = func_800644B8(phase_angle);
     ((S_80025D28_1 *)points)->unk_00 = (((Rec_func_80025D28_arg0 *)state)->unk_1C << 0x10) +
-        ((s32)(start_wave_x * func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
+        ((s32)(start_wave_x * func_80064584(((Rec_func_80025D28_arg0 *)state)->unk_36
+            + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
     start_wave_y = func_800644B8(phase_angle);
     ((S_80025D28_1 *)points)->unk_04 = (((Rec_func_80025D28_arg0 *)state)->unk_1E << 0x10) +
-        ((s32)(start_wave_y * func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36 + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
+        ((s32)(start_wave_y * func_800644B8(((Rec_func_80025D28_arg0 *)state)->unk_36
+            + 0x400) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) >> 7);
     ((S_80025D28_1 *)points)->unk_08 = (((Rec_func_80025D28_arg0 *)state)->unk_20 << 0x10) +
         ((func_80064584(phase_angle) * ((Rec_func_80025D28_arg0 *)state)->unk_3E) << 5);
     end_wave_x = func_800644B8(phase_angle);

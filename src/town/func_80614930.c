@@ -19,7 +19,6 @@ typedef struct S_80614930_2 {
 } S_80614930_2;   /* temp_v1_2 in func_80614930 */
 
 
-
 /* Advance the two position components by their corresponding increments. */
 void func_80614930(void) {
     S_80614930_1 *x_state;

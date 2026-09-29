@@ -16,8 +16,6 @@ typedef struct S_80174600_1 {
 } S_80174600_1;   /* p in func_80174600 */
 
 
-
-
 /* Animate primitive colors and mark the effect finished when its timer expires. */
 void func_80174600(void *effect_state, s32 unused, void *primitive)
 {

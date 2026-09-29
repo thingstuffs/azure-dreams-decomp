@@ -163,7 +163,8 @@ void func_81814EDC(void *effect, void *position) {
         if (!(((S_81814EDC_0 *)effect)->unk_0A & 1)) {
             spark_kind = func_80069EF8() & 7;
             spark_speed = (func_80069EF8() & 0xFF) | 0x80;
-            func_800245BC(effect - 0x20, spark_kind, 0xF0, spark_speed, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+            func_800245BC(effect - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
+                (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
         }
         particle = func_8003FC64(0x212);
         if (particle != NULL) {
@@ -219,7 +220,8 @@ loop_effects:
                 effect_index += 1;
                 burst_kind = func_80069EF8() & 7;
                 burst_speed = (func_80069EF8() & 0xFF) | 0x80;
-                func_800245BC(effect - 0x20, burst_kind, 0xF0, burst_speed, 0, 0, (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
+                func_800245BC(effect - 0x20, burst_kind, 0xF0, burst_speed, 0, 0,
+                    (s32) (s16) (-0x20 - (func_80069EF8() & 0x1F)));
                 if (effect_index < 4) {
                     goto loop_effects;
                 }
@@ -271,7 +273,7 @@ loop_effects:
                     if (particle != NULL) {
                         s32 random_offset = 0xB;
                         s32 coordinate;
-                        
+
                         ((S_81814EDC_1 *)particle)->unk_22 = random_offset;
                         owner_position = ((S_81814EDC_7_pre *)(((S_81814EDC_0 *)effect)->unk_30))[-1].unk_00;
                         ((S_81814EDC_1 *)particle)->unk_10 = &D_80024280;
@@ -309,7 +311,8 @@ loop_effects:
                 } while (effect_index < 2);
                 effect_type = (s16) ((S_81814EDC_0 *)effect)->unk_0A;
                 if (effect_type == 4) {
-                    func_8009CE1C(((S_81814EDC_0 *)effect)->unk_30, 0x10, ((S_81814EDC_0 *)effect)->unk_15, 1, (s32) (s16) (((S_81814EDC_0 *)effect)->unk_16 << 9), ((S_81814EDC_0 *)effect)->unk_2C, 2);
+                    func_8009CE1C(((S_81814EDC_0 *)effect)->unk_30, 0x10, ((S_81814EDC_0 *)effect)->unk_15, 1,
+                        (s32) (s16) (((S_81814EDC_0 *)effect)->unk_16 << 9), ((S_81814EDC_0 *)effect)->unk_2C, 2);
                     if ((s16) ((S_81814EDC_0 *)effect)->unk_0A == effect_type) {
                         owner = ((S_81814EDC_0 *)effect)->unk_30;
                         ((S_81814EDC_0 *)effect)->unk_00 = 1;
@@ -320,14 +323,15 @@ loop_effects:
                         owner_sprite->unk_0C.s = 0x30;
                         ((S_81814EDC_0 *)effect)->unk_02.u = 0;
                     } else {
-                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 =
+                            (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
                         objectFlagBlock.flags |= 0x8000;
                         return;
                     }
                 } else {
-                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
-                        objectFlagBlock.flags |= 0x8000;
-                        return;
+                    ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                    objectFlagBlock.flags |= 0x8000;
+                    return;
                 }
             } else {
                 ((S_81814EDC_0 *)effect)->unk_00 = 1;
@@ -335,13 +339,17 @@ loop_effects:
         }
         {
 
-            if ((func_800A4778(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v, (s16) ((S_81814EDC_10 *)position)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
+            if ((func_800A4778(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v,
+                (s16) ((S_81814EDC_10 *)position)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
                 {
                     s32 velocity = ((S_81814EDC_0 *)effect)->unk_58;
-                    ((S_81814EDC_10 *)position)->unk_00.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_00.at00.v + velocity);
+                    ((S_81814EDC_10 *)position)->unk_00.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_00.at00.v
+                        + velocity);
                 }
-                ((S_81814EDC_10 *)position)->unk_04.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_04.at00.v + ((S_81814EDC_0 *)effect)->unk_5C);
-                ((S_81814EDC_10 *)position)->unk_08.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_08.at00.v + ((S_81814EDC_0 *)effect)->unk_60);
+                ((S_81814EDC_10 *)position)->unk_04.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_04.at00.v
+                    + ((S_81814EDC_0 *)effect)->unk_5C);
+                ((S_81814EDC_10 *)position)->unk_08.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_08.at00.v
+                    + ((S_81814EDC_0 *)effect)->unk_60);
             } else {
                 ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
                 objectFlagBlock.flags |= 0x8000;

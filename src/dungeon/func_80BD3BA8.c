@@ -175,8 +175,8 @@ void func_8015F3A8(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0x90)) += state_check_2;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
                 ground_height = func_800BCB04(((u16)motion->x.w.i),
-                                             ((u16)motion->y.w.i),
-                                             (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20)) -
+                                              ((u16)motion->y.w.i),
+                                              (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20)) -
                                 ((S_8015F3A8_2 *)entity_base)->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
@@ -204,8 +204,8 @@ void func_8015F3A8(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0x90)) -= landing_step;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
                 ground_height = func_800BCB04(((u16)motion->x.w.i),
-                                             ((u16)motion->y.w.i),
-                                             (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20)) -
+                                              ((u16)motion->y.w.i),
+                                              (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20)) -
                                 ((S_8015F3A8_2 *)entity_base)->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
@@ -253,8 +253,8 @@ void func_8015F3A8(void *entity, EntityRec *motion, void *sprite)
     if (flags & 0x40000000) {
         ((S_8015F3A8_2 *)entity_base)->unk_1C = flags & 0xBFFFFFFF;
         ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
-                                     (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
-                                     (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20));
+                                      (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
+                                      (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + 0x92)) =
                 (u16)(*(s16 *)((u8 *)entity + 0x92)) +

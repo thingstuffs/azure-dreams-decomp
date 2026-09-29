@@ -28,7 +28,7 @@ void func_80026128(UA32 *buffer, s32 config, s32 mode) {
     u8 *state_base;
     s16 is_mode_two;
 
-    /* &D_80028064 == 0x80030000 - 32668 */
+        /* &D_80028064 == 0x80030000 - 32668 */
     source_page = 0x80030000;
     ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     source_page -= 32668;

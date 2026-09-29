@@ -40,7 +40,6 @@ typedef struct S_8016C190_5 {
 } S_8016C190_5;   /* control in func_8016C190 */
 
 
-
 extern s32 func_8003F270();
 extern void func_80047784(void *, u8, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
@@ -191,7 +190,7 @@ selection_done:
         ((S_8016C190_3 *)sprite)->unk_14 &= 0xF7FF;
         ((S_8016C190_0 *)action)->unk_9B++;
         func_800A56E0(0x703);
-        /* fall through */
+                /* fall through */
 
     case 2:
         ((S_8016C190_0 *)action)->unk_96.u--;
@@ -243,7 +242,7 @@ selection_done:
                 sprite,
                 *(u8 *)((unsigned long)(((gameWork.view.viewAngle +
                     actor->facing + 0x100) >> 9) & 7) +
-                    (unsigned long)direction_table),
+                        (unsigned long)direction_table),
                 0);
         }
 

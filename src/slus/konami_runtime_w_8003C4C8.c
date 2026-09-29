@@ -19,7 +19,7 @@ void func_8003C4C8(
     s32 *active_flag,
     Func8003C4C8State *unused_state,
     Func8003C4C8State *fade_state
-) {
+    ) {
     s32 intensity;
     u16 timer;
 

@@ -94,8 +94,8 @@ extern void func_8014EEA8(void);
 extern void *func_8014C8A4(s16, s16, s16, s32);
 
 static const ActorDefinition extent_prefix
-    __asm__("func_8014C800")
-    __attribute__((used, section(".text.func_8014C800"), aligned(4))) = {
+__asm__("func_8014C800")
+__attribute__((used, section(".text.func_8014C800"), aligned(4))) = {
     {
         (Callback)func_8014C8A4,
         (Callback)&D_8014CB40,
@@ -214,7 +214,7 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         actor->unk_AE = appearance_id;
 
         entry = (S_80FD5000_4 *)monster->unk_08;
-    scan_entry:
+scan_entry:
         twice_index = entry_index << 1;
         if (entry->unk_00 & 0x20) {
             entry = (S_80FD5000_4 *)((u8 *)entry + 12);

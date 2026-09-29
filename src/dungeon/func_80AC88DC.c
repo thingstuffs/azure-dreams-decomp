@@ -29,8 +29,6 @@ typedef struct S_801740DC_0 {
 } S_801740DC_0;   /* arg0 in func_801740DC */
 
 
-
-
 /* Updates actor state, directional animation, and the shared transition counter. */
 void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
 {

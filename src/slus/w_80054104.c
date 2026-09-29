@@ -22,7 +22,7 @@ void func_80054104(void) {
         entry_index = 0;
         slot_group = (u32)(slot & 0xFF) >> 4;
         region_offset = ((slot & 0xF) << 10) + 0x1C00;
-    inner:
+inner:
         entry = lookup.v[entry_index];
         code = ((entry << 8) & 0xFF00) | slot_group;
         if (entry == 0) {

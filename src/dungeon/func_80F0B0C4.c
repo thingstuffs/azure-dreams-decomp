@@ -49,7 +49,8 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
-void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation, S_func_801728C4_3 *actor) {
+void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation,
+    S_func_801728C4_3 *actor) {
     u16 delay_ticks;
     s32 state;
 

@@ -57,7 +57,7 @@ extern M2C_UNK D_801508E0;
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8014C800")
-    __attribute__((section(".text.func_8014C800"), aligned(4))) = {
+__attribute__((section(".text.func_8014C800"), aligned(4))) = {
     0x8014C88C, 0x8014CA78, 0x8014D4EC, 0x8014D4EC,
     0x8014D4EC, 0x8014D518, 0x8014D498, 0x8014D498,
     0x8014D498, 0x8014D460, 0x8014D404, 0x8014D518,
@@ -77,9 +77,9 @@ __asm__(".globl func_8014C800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_8014C800")))
+__attribute__((section(".text.func_8014C800")))
 #endif
-    ;
+;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
@@ -123,7 +123,7 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
             if (((spawn_flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     left = func_800A6D30();
-                            if (left & 1) {
+                    if (left & 1) {
                         work->unk_1C |= 0x200;
                         func_800A48F0(work, 1,
                                       (func_800A6D30() & 0x3F) | 0x20);

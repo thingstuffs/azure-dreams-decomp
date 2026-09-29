@@ -21,7 +21,6 @@ typedef struct S_8002017C_1 {
 } S_8002017C_1;   /* sub in func_8002017C */
 
 
-
 /* Advance a delayed fade after the linked object signals, then flag completion. */
 void func_8002017C(void *effect) {
     s16 state;

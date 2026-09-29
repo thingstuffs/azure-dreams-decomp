@@ -49,7 +49,6 @@ typedef struct S_818FECCC_6 {
 } S_818FECCC_6;   /* ((S_818FECCC_1 *)held_arg0)->unk_08 in func_818FECCC */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8004491C(void *, void *, void *);

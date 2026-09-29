@@ -24,7 +24,6 @@ typedef struct S_8196BE48_1 {
 } S_8196BE48_1;   /* arg2 in func_8196BE48 */
 
 
-
 extern s16 D_800269B4;
 
 /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */

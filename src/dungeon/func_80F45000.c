@@ -57,7 +57,7 @@ extern u8 D_80162AD4[];
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80F45000")
-    __attribute__((section(".text.func_80F45000"), aligned(4))) = {
+__attribute__((section(".text.func_80F45000"), aligned(4))) = {
     0x8015E894, 0x8015EA68, 0x8015F278, 0x8015F278,
     0x8015F278, 0x8015F2A4, 0x8015F224, 0x8015F224,
     0x8015F224, 0x8015F1D0, 0x8015F208, 0x8015F2A4,
@@ -78,7 +78,7 @@ __asm__(".globl func_80F45000\n"
 
 #ifdef __mips__
 void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
-    __attribute__((section(".text.func_80F45000")));
+__attribute__((section(".text.func_80F45000")));
 #endif
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
 void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)

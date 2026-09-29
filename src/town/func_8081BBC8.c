@@ -56,7 +56,7 @@ void func_80025BC8(TownState *state)
 
     phase = state->state;
     switch (phase) {
-case 0:
+    case 0:
     {
         TownState *init_state = state;
         s32 target_offset;
@@ -83,109 +83,109 @@ case 0:
         break;
     }
 
-case 1:
-    D_800834C8[0] = 0x400;
-    {
-        u16 flags = state->flags;
+    case 1:
+        D_800834C8[0] = 0x400;
+        {
+            u16 flags = state->flags;
 
-        if (flags & 1) {
-            state->flags = flags & ~1;
-            state->table_x++;
-            if (state->table_x >= 10) {
-                state->state = 3;
-                state->timer = 30;
+            if (flags & 1) {
+                state->flags = flags & ~1;
+                state->table_x++;
+                if (state->table_x >= 10) {
+                    state->state = 3;
+                    state->timer = 30;
+                    return;
+                }
+                state->timer = *(u16 *)(D_80026F80 +
+                                        state->table_x * 40 + state->table_y * 400);
                 return;
             }
-            state->timer = *(u16 *)(D_80026F80 +
-                                    state->table_x * 40 + state->table_y * 400);
-            return;
         }
-    }
 
-    state->timer--;
-    if (state->timer > 0) {
-        break;
-    }
-    state->flags |= 1;
-    do {
-        TownObject **object_slot;
-
-        loop_index = 2;
-        object_slot = &state->objects[2];
+        state->timer--;
+        if (state->timer > 0) {
+            break;
+        }
+        state->flags |= 1;
         do {
-            (*object_slot)->random76 = rand() % 3;
-            object_slot--;
-            loop_index--;
-        } while (loop_index >= 0);
-    } while (state->objects[0]->random76 == state->objects[1]->random76 ||
-             state->objects[1]->random76 == state->objects[2]->random76 ||
-             state->objects[2]->random76 == state->objects[0]->random76);
-    break;
+            TownObject **object_slot;
 
-case 2:
-    if (state->flags & 4) {
+            loop_index = 2;
+            object_slot = &state->objects[2];
+            do {
+                (*object_slot)->random76 = rand() % 3;
+                object_slot--;
+                loop_index--;
+            } while (loop_index >= 0);
+        } while (state->objects[0]->random76 == state->objects[1]->random76 ||
+                 state->objects[1]->random76 == state->objects[2]->random76 ||
+                 state->objects[2]->random76 == state->objects[0]->random76);
         break;
-    }
-    state->timer--;
-    if (state->timer > 0) {
+
+    case 2:
+        if (state->flags & 4) {
+            break;
+        }
+        state->timer--;
+        if (state->timer > 0) {
+            break;
+        }
+        SD_Call(0xB1);
+        {
+            TownObject **object_slot;
+            s32 object_state;
+
+            loop_index = 2;
+            object_state = loop_index;
+            object_slot = &state->objects[2];
+            do {
+                u8 *object_body = (u8 *)*object_slot + 0x20;
+
+                object_slot--;
+                loop_index--;
+                *(s16 *)(object_body + 0x52) = 0;
+                *(s16 *)(object_body + 0x50) = object_state;
+            } while (loop_index >= 0);
+        }
+        func_8009AC8C();
+        func_8009AC0C();
+        state->timer = 25;
+        state->state = 4;
         break;
-    }
-    SD_Call(0xB1);
-    {
-        TownObject **object_slot;
-        s32 object_state;
 
-        loop_index = 2;
-        object_state = loop_index;
-        object_slot = &state->objects[2];
-        do {
-            u8 *object_body = (u8 *)*object_slot + 0x20;
+    case 3:
+        if (state->timer < 15) {
+            scene_data->view.unk_094 >>= 1;
+        }
+        state->timer--;
+        if (state->timer >= 0) {
 
-            object_slot--;
-            loop_index--;
-            *(s16 *)(object_body + 0x52) = 0;
-            *(s16 *)(object_body + 0x50) = object_state;
-        } while (loop_index >= 0);
-    }
-    func_8009AC8C();
-    func_8009AC0C();
-    state->timer = 25;
-    state->state = 4;
-    break;
-
-case 3:
-    if (state->timer < 15) {
-        scene_data->view.unk_094 >>= 1;
-    }
-    state->timer--;
-    if (state->timer >= 0) {
-
-        loop_index = 7;
-        D_80082E80.unk_00E += (0x90 - D_80082E80.unk_00E) >> 1;
-        D_80082E80.unk_00D = D_80082E80.unk_00E;
-        D_80082E80.unk_00C = D_80082E80.unk_00E;
-        do {
-            particle_x = D_80083780.x.v +
-                (((rand() & 0x3F) - 0x20) << 16);
-            func_800252B8(0xF0F0F0, particle_x,
-                          D_80083780.y.v +
+            loop_index = 7;
+            D_80082E80.unk_00E += (0x90 - D_80082E80.unk_00E) >> 1;
+            D_80082E80.unk_00D = D_80082E80.unk_00E;
+            D_80082E80.unk_00C = D_80082E80.unk_00E;
+            do {
+                particle_x = D_80083780.x.v +
+                    (((rand() & 0x3F) - 0x20) << 16);
+                func_800252B8(0xF0F0F0, particle_x,
+                              D_80083780.y.v +
                               (((rand() & 0x3F) - 0x20) << 16),
-                          0);
-            loop_index--;
-        } while (loop_index >= 0);
-    }
-    if (state->flags & 2) {
+                              0);
+                loop_index--;
+            } while (loop_index >= 0);
+        }
+        if (state->flags & 2) {
+            break;
+        }
+        if (state->timer > 0) {
+            break;
+        }
+        scene_data->view.unk_094 = 0;
+        state->state = 5;
+        state->flags |= 8;
         break;
-    }
-    if (state->timer > 0) {
-        break;
-    }
-    scene_data->view.unk_094 = 0;
-    state->state = 5;
-    state->flags |= 8;
-    break;
 
-case 4:
+    case 4:
     {
         u16 progress;
         s32 threshold;
@@ -212,7 +212,7 @@ case 4:
         break;
     }
 
-case 5:
+    case 5:
     default:
         break;
     }

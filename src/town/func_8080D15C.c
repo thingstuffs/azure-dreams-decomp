@@ -26,7 +26,7 @@ M2C_UNK func_80290318();                      /* extern */
 M2C_UNK func_80528950();                      /* extern */
 M2C_UNK func_80528910();                      /* extern */
 M2C_UNK func_80526B18();                      /* extern */
-M2C_UNK func_80243A38();                      
+M2C_UNK func_80243A38();
 typedef struct S_80527D5C_0_pre {
     u16 unk_00;
 } S_80527D5C_0_pre;   /* the 0x2 bytes before arg0 in func_80527D5C, addressed as arg0[-1] */
@@ -194,14 +194,17 @@ void func_80527D5C(void *sequence) {
         ((S_80527D5C_3 *)(&D_801328E8))->unk_04 = (s32) &func_80529134;
 
     case 1:
-        (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
+        (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10)))
+            + 0x200) & 0xFFF);
         start_ticks = ((S_80527D5C_0 *)sequence)->unk_28 - 1;
         ((S_80527D5C_0 *)sequence)->unk_28 = start_ticks;
         if ((start_ticks << 0x10) <= 0) {
             ((S_80527D5C_0 *)sequence)->unk_28 = 0x10U;
             ((S_80527D5C_0 *)sequence)->unk_36.s = 2;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
-            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32) << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_0C = (s32) ((0x420 - (s16) ((S_80527D5C_0 *)sequence)->unk_30)
+                << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
+            ((S_80527D5C_2 *)(&D_80132AE8))->unk_10 = (s32) ((0x460 - (s16) ((S_80527D5C_0 *)sequence)->unk_32)
+                << 0x10) / (s16) ((S_80527D5C_0 *)sequence)->unk_28;
             ((S_80527D5C_2 *)(&D_80132AE8))->unk_14 = 0xFFF40000;
         }
         break;
@@ -222,32 +225,32 @@ void func_80527D5C(void *sequence) {
         break;
 
     case 3:
-        {
-            s32 *position_y = (s32 *)((s8 *)&D_80132AE8 + 4);
-            s32 current_y = *position_y;
+    {
+        s32 *position_y = (s32 *)((s8 *)&D_80132AE8 + 4);
+        s32 current_y = *position_y;
 
-            if (current_y <= 0x44FFFFF) {
-                eased_y = ((0x4500000 - current_y) >> 1) + current_y;
-                *position_y = eased_y;
-            }
-            current_y = *position_y;
-            if (current_y > 0x4700000) {
-                eased_y = ((0x4700000 - current_y) >> 1) + current_y;
-                *position_y = eased_y;
-            }
-            position = position_y - 1;
-            (*(u16 *)((u8 *)render_or_counts + (0x10))) =
-                (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
-            height_or_index = (s16) func_8025E01C(position);
-            if (!(((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index)) {
-                if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
-                    ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
-                    func_80526D34(sequence);
-                    func_80244660(render_or_counts, position, D_80095AA0);
-                }
-            }
-            break;
+        if (current_y <= 0x44FFFFF) {
+            eased_y = ((0x4500000 - current_y) >> 1) + current_y;
+            *position_y = eased_y;
         }
+        current_y = *position_y;
+        if (current_y > 0x4700000) {
+            eased_y = ((0x4700000 - current_y) >> 1) + current_y;
+            *position_y = eased_y;
+        }
+        position = position_y - 1;
+        (*(u16 *)((u8 *)render_or_counts + (0x10))) =
+            (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10))) + 0x200) & 0xFFF);
+        height_or_index = (s16) func_8025E01C(position);
+        if (!(((S_80527D5C_2 *)(&D_80132AE8))->unk_0A < height_or_index)) {
+            if ((*(s16 *)((u8 *)render_or_counts + (0x10))) == 0x800) {
+                ((S_80527D5C_0 *)sequence)->unk_36.s = 4;
+                func_80526D34(sequence);
+                func_80244660(render_or_counts, position, D_80095AA0);
+            }
+        }
+        break;
+    }
 
     case 4:
         if (((S_80527D5C_1 *)owner)->unk_88 == 7) {
@@ -343,7 +346,8 @@ void func_80527D5C(void *sequence) {
             }
             ((S_80527D5C_0 *)sequence)->unk_2A.u = direction_flags;
         }
-        ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28 + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
+        ((S_80527D5C_0 *)sequence)->unk_28 = (u16) ((((S_80527D5C_0 *)sequence)->unk_28
+            + ((S_80527D5C_0 *)sequence)->unk_2E.u + 0x1000) & 0xFFF);
         func_80528998(sequence);
         if (((S_80527D5C_4 *)phase_data)->unk_68 == 0xA) {
             func_802441A4();

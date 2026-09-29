@@ -40,7 +40,6 @@ typedef struct S_8002082C_4 {
 } S_8002082C_4;   /* object_data in func_8002082C */
 
 
-
 extern s32 func_8003DB94();
 extern void *func_8003FD64();
 extern s32 func_8004491C();

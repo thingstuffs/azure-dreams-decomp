@@ -9,8 +9,6 @@ typedef struct S_801761AC_0 {
 } S_801761AC_0;   /* actor in func_801761AC */
 
 
-
-
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();
 

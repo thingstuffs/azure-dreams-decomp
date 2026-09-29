@@ -30,7 +30,6 @@ typedef struct S_80023A00_3 {
 } S_80023A00_3;   /* caller_obj in func_80023A00 */
 
 
-
 typedef struct {
     s32 words[6];
 } Copy24;
@@ -79,41 +78,41 @@ void func_80023A00(void *object, void *output, void *entity_data)
         ((S_80023A00_0 *)object)->unk_18.u++;
         if (((S_80023A00_1 *)state_base)->unk_08 != 2) {
             break;
-    }
-    (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
-    func_80047784(entity_data,
-        D_800D2398[((*(s16 *)(D_80083220 + 8) +
-            ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80023A00_0 *)object)->unk_18.u++;
-    break;
+        }
+        (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
+        func_80047784(entity_data,
+            D_800D2398[((*(s16 *)(D_80083220 + 8) +
+                ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80023A00_0 *)object)->unk_18.u++;
+        break;
 
     case 2:
-    magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-    magnitude = abs(magnitude);
-    if (0xFFFF < magnitude) {
+        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+        magnitude = abs(magnitude);
+        if (0xFFFF < magnitude) {
+            break;
+        }
+        (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
+        func_80047784(entity_data,
+            D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80023A00_0 *)object)->unk_18.u++;
         break;
-    }
-    (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
-    func_80047784(entity_data,
-        D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80023A00_0 *)object)->unk_18.u++;
-    break;
 
     case 3:
-    magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-    magnitude = abs(magnitude);
-    if (0xFFFF >= magnitude) {
+        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+        magnitude = abs(magnitude);
+        if (0xFFFF >= magnitude) {
+            break;
+        }
+        direction_table = D_800D2398;
+        (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
+        func_80047784(entity_data,
+            direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80023A00_0 *)object)->unk_18.u--;
         break;
-    }
-    direction_table = D_800D2398;
-    (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
-    func_80047784(entity_data,
-        direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80023A00_0 *)object)->unk_18.u--;
-    break;
 
     case 4:
     default:

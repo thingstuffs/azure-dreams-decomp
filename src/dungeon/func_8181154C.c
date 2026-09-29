@@ -11,7 +11,6 @@ typedef struct S_8002654C_0 {
 } S_8002654C_0;   /* obj in func_8002654C */
 
 
-
 extern s32 memset();
 extern s32 func_800263C0();
 extern s32 func_80026370();

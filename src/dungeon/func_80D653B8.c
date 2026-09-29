@@ -66,7 +66,6 @@ typedef struct S_80D653B8_5 {
 } S_80D653B8_5;   /* arg1 in func_80D653B8 */
 
 
-
 typedef struct {
     s32 word0;
     s32 word1;

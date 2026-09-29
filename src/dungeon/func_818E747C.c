@@ -71,7 +71,6 @@ typedef struct S_80024C7C_6_pre {
 } S_80024C7C_6_pre;   /* the 0x8 bytes before arg0 in func_80024C7C, addressed as arg0[-1] */
 
 
-
 extern void func_80065770();
 extern s32 func_80069EF8();
 extern s32 func_800666F4();

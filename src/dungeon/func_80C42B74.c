@@ -45,7 +45,6 @@ typedef struct S_80174374_4 {
 } S_80174374_4;   /* pos in func_80174374 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80064584(s32);
@@ -57,7 +56,8 @@ extern s32 D_800DEC00;
 extern u8 D_801741A0;
 
 /* Creates a yellow effect at an angular offset from the supplied position. */
-void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3, s16 angle, u16 height_offset) {
+void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3,
+    s16 angle, u16 height_offset) {
     void *effect;
     S_80174374_0 *effect_state;
     void *sprite;

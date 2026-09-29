@@ -50,7 +50,6 @@ typedef struct S_801741D0_3 {
 } S_801741D0_3;   /* arg1 in func_801741D0 */
 
 
-
 typedef struct {
     u32 words[3];
 } Packed12 __attribute__((packed));

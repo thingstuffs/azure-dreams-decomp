@@ -69,7 +69,6 @@ typedef struct S_80170CEC_7 {
 } S_80170CEC_7;   /* copy_source in func_80170CEC */
 
 
-
 extern s32 func_80042900();
 extern u8 D_800E23F8[];
 extern u8 D_800E2408[];

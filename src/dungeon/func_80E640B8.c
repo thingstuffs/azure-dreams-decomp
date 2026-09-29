@@ -44,7 +44,6 @@ typedef struct S_801738B8_3 {
 } S_801738B8_3;   /* motion in func_801738B8 */
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);

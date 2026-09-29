@@ -27,7 +27,6 @@ typedef struct S_80023C80_1 {
 } S_80023C80_1;   /* (void *)work in func_80023C80 */
 
 
-
 /* Advances object state, updates coordinates and size, or sets status flags. */
 void func_80023C80(void *object) {
     void *obj;
@@ -44,7 +43,8 @@ void func_80023C80(void *object) {
     case 0:
         ((S_80023C80_0 *)obj)->unk_00.u = state_bits + 1;
         break;
-    case 1: {
+    case 1:
+    {
         void **coords_ref;
         s32 coord;
         s32 offset;

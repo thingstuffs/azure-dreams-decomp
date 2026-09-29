@@ -50,7 +50,8 @@ void func_80173738(void *effect, FuncArg1 *position, Rec_D_80082E80 *primitive) 
 
     ((S_80173738_0 *)effect)->unk_1E = (u16) (((S_80173738_0 *)effect)->unk_1E - 0x12C);
     ((S_80173738_0 *)effect)->unk_20 = (u16) (((S_80173738_0 *)effect)->unk_20 + 2);
-    position->unk00 = (s32) (((S_80173738_0 *)effect)->unk_40 + ((s16) ((S_80173738_0 *)effect)->unk_20 * func_80064584((s16) ((S_80173738_0 *)effect)->unk_1E) * 0x10));
+    position->unk00 = (s32) (((S_80173738_0 *)effect)->unk_40
+        + ((s16) ((S_80173738_0 *)effect)->unk_20 * func_80064584((s16) ((S_80173738_0 *)effect)->unk_1E) * 0x10));
     y_offset = (s16) ((S_80173738_0 *)effect)->unk_20 * func_800644B8((s16) ((S_80173738_0 *)effect)->unk_1E);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
@@ -71,6 +72,7 @@ void func_80173738(void *effect, FuncArg1 *position, Rec_D_80082E80 *primitive) 
     ((S_80173738_0 *)effect)->unk_1A = next_life;
     if ((next_life << 0x10) <= 0) {
         ((S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
-        ((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+        ((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 =
+            (s32) (((S_80173738_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
     }
 }

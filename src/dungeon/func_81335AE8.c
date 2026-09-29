@@ -22,7 +22,7 @@ void func_8016CAE8(void *controller, void *unused_1, void *unused_2, u8 *active_
 
     flags_page = (u8 *)0x80010000;
     state = &dungeonStatus;
-    
+
     state_flags = *(u16 *)(flags_page + 0x3714);
     update_count = ((u16)state->unk_0A);
     *(u16 *)(flags_page + 0x3714) = state_flags | 8;

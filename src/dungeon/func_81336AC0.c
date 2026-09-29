@@ -12,9 +12,8 @@ extern void func_800A4ACC(void *);
 extern u8 D_801739E0[];
 
 
-
 static __inline__ void dispatch_table(void *sprite, EntityRec *actor, u8 *direction_table) {
- u32 direction_entry;
+    u32 direction_entry;
     *(void **)((u8 *)sprite + 0x2C) = direction_table;
     direction_entry = (((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7);
     direction_entry = direction_entry + (u32)direction_table;

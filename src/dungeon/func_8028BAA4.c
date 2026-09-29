@@ -11,7 +11,6 @@ typedef struct S_8001EAA4_1 {
 } S_8001EAA4_1;   /* temp_a3 in func_8001EAA4 */
 
 
-
 extern s32 func_800A6D30(s8 *, s8 *, s32, s32);
 extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
@@ -71,7 +70,8 @@ loop_1:
         selected_category = scan_value >> 16;
         table_cursor_or_item_offset = (u8 *)0x14;
 loop_6:
-        item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
+        item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table
+            + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
         if (!(item_flags & 0x10)) {
             if (item_flags & 0x40) {
                 category_scale_or_weight = category_index * 4;

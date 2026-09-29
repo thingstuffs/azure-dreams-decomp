@@ -19,7 +19,7 @@ extern s32 D_8015CFE4[];
 typedef struct { s32 value; } ItemWord;
 #ifdef __mips__
 static const u32 identity_bank[] __asm__("func_80EA3000")
-    __attribute__((section(".text.func_80EA3000"), aligned(4))) = {
+__attribute__((section(".text.func_80EA3000"), aligned(4))) = {
     0x80158AF4, 0x80158CC8, 0x80159504, 0x80159504,
     0x80159504, 0x80159530, 0x801594B0, 0x801594B0,
     0x801594B0, 0x80159430, 0x80159484, 0x80159468,
@@ -79,7 +79,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
-                          *(s16 *)(actor_bytes + 0x2A));
+                           *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
@@ -136,13 +136,13 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             return 0;
         }
         {
-    #ifdef __mips__
+#ifdef __mips__
             s32 *item_dest;
             s32 *item_slot;
-    #else
+#else
             s32 *item_dest;
             s32 *item_slot;
-    #endif
+#endif
             s32 item_data;
 
             item_dest = D_8015CFE4;

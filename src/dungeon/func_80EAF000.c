@@ -19,7 +19,7 @@ extern s32 D_80150FE4[];
 
 #ifdef __mips__
 static const u32 identity_bank[] __asm__("func_80EAF000")
-    __attribute__((section(".text.func_80EAF000"), aligned(4))) = {
+__attribute__((section(".text.func_80EAF000"), aligned(4))) = {
     0x8014caf4, 0x8014ccc8, 0x8014d504, 0x8014d504,
     0x8014d504, 0x8014d530, 0x8014d4b0, 0x8014d4b0,
     0x8014d4b0, 0x8014d430, 0x8014d484, 0x8014d468,
@@ -72,7 +72,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
-                          *(s16 *)(actor_bytes + 0x2A));
+                           *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
@@ -90,12 +90,12 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 slot_index = 0;
                 item_count = slot_index;
                 item_ptr = (u8 *)0x80010000;
-    scan_loop:
-                    if (((s32 *)item_ptr)[167] != 0) {
-                        item_count++;
-                    }
-                    slot_index++;
-                    item_ptr += sizeof(s32);
+scan_loop:
+                if (((s32 *)item_ptr)[167] != 0) {
+                    item_count++;
+                }
+                slot_index++;
+                item_ptr += sizeof(s32);
                 if (slot_index < 20) {
                     goto scan_loop;
                 }

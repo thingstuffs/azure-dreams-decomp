@@ -59,7 +59,7 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         action->unk_9E.s = 5;
         action->unk_A4 = 0;
         action->unk_9B = (u8) (action->unk_9B + 1);
-        /* fall through */
+                /* fall through */
     case 1:
         frames_left = action->unk_9E.s;
         action->unk_90 = (s32) (action->unk_90 - action->unk_A4);
@@ -89,7 +89,7 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             entity->flags1C = (s32) (entity->flags1C | 0x08000000);
             action->unk_9B = (u8) (action->unk_9B + 1);
         }
-        /* fall through */
+                /* fall through */
     case 2:
         if (entity->flags1C & 0x08000000) {
             action->unk_98 = (u16) (action->unk_98 & 0xFFF7);
@@ -127,7 +127,8 @@ void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         } else {
             if (!(entity_flags & 0x410)) {
                 if (entity_flags & 0x20000) {
-                    entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                    entity->facing = func_800A0818(tile->unk_24, tile->unk_25, D_80082E80.tileX, D_80082E80.tileY,
+                        &facing_aux);
                 }
             }
         }

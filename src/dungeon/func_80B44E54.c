@@ -123,7 +123,8 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
         return;
     case 1:
         shifted_timer = timer << 16;
-        if (shifted_timer > 0) return;
+        if (shifted_timer > 0)
+            return;
         ((S_80172654_4 *)motion)->unk_10 = 0;
         ((S_80172654_4 *)motion)->unk_0C = 0;
         (*(void **)((u8 *)entity + 0x2C)) = D_80175A8C;
@@ -173,7 +174,8 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
             func_8009C12C(actor, entity, ((S_80172654_1 *)actor)->unk_2A.u, 1);
             func_800A56E0(0x813);
         }
-        if (((S_80172654_0 *)action)->unk_96.u > 0) return;
+        if (((S_80172654_0 *)action)->unk_96.u > 0)
+            return;
         ((S_80172654_0 *)action)->unk_96.s = 8;
         ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v &= 0xF7FF;
         next_state = ((S_80172654_0 *)action)->unk_9B.u;
@@ -181,7 +183,8 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
         ((S_80172654_0 *)action)->unk_9B.s = next_state;
         return;
     case 4:
-        if ((timer << 16) > 0) return;
+        if ((timer << 16) > 0)
+            return;
         (*(void **)((u8 *)entity + 0x2C)) = D_80175A4C;
         func_80047784(entity,
             D_80175A4C[((gameWork.view.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
@@ -202,7 +205,7 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
             ((S_80172654_4 *)motion)->unk_10 = 0;
             ((S_80172654_4 *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)entity)->unk_24,
-                         ((Rec_D_80082E80 *)entity)->unk_25);
+                          ((Rec_D_80082E80 *)entity)->unk_25);
             func_800AD594(actor, 0x100);
             ((S_80172654_0 *)action)->unk_8C = &D_80170E70;
             dungeonStatus.unk_0C = 0;

@@ -67,53 +67,53 @@ void func_80173514(void *action, void *motion, void *sprite, EntityRec *actor)
     }
 
     case 1:
-    if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
-        ((S_80173514_0 *)action)->unk_96.u = 0;
-        ((S_80173514_0 *)action)->unk_9B++;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5) {
+            ((S_80173514_0 *)action)->unk_96.u = 0;
+            ((S_80173514_0 *)action)->unk_9B++;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            return;
+        }
         return;
-    }
-    return;
 
     case 2:
-    if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        ((S_80173514_0 *)action)->unk_96.u = 0;
-        ((S_80173514_0 *)action)->unk_9B++;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        func_800A56E0(0x804);
+        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 6 ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            ((S_80173514_0 *)action)->unk_96.u = 0;
+            ((S_80173514_0 *)action)->unk_9B++;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            func_800A56E0(0x804);
+            return;
+        }
         return;
-    }
-    return;
 
     case 3:
-    if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
-    }
-    if (((S_80173514_0 *)action)->unk_96.s == 12 ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        ((S_80173514_0 *)action)->unk_96.u = 0;
-        ((S_80173514_0 *)action)->unk_9B++;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-    }
-    call_actor = actor;
-    if (((S_80173514_0 *)action)->unk_96.s == 1 ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        call_sprite = sprite;
+        if ((s16)++((S_80173514_0 *)action)->unk_96.u == 5 ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+        }
+        if (((S_80173514_0 *)action)->unk_96.s == 12 ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            ((S_80173514_0 *)action)->unk_96.u = 0;
+            ((S_80173514_0 *)action)->unk_9B++;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        }
+        call_actor = actor;
+        if (((S_80173514_0 *)action)->unk_96.s == 1 ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            call_sprite = sprite;
 call_tail:
-        func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
+            func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
+            return;
+        }
         return;
-    }
-    return;
 
     case 4:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(actor, 0x100);
-        ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
-        dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
-        actor->unk_46 &= 0x7FFF;
-    }
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            func_800AD594(actor, 0x100);
+            ((S_80173514_0 *)action)->unk_8C = &D_80171CE8;
+            dungeonStatus.unk_0C = 0;
+            func_800A4ACC(actor);
+            actor->unk_46 &= 0x7FFF;
+        }
     }
 }

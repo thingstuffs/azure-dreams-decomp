@@ -29,7 +29,8 @@ void func_800350D4(void *controller)
         u8 *owner = (u8 *)PPTR(U32AT(node, 0x00));
         u8 *object;
 
-        if (U32AT(owner, 0x00) != 0) func_80033C84(PPTR(U32AT(owner, 0x00)));
+        if (U32AT(owner, 0x00) != 0)
+            func_80033C84(PPTR(U32AT(owner, 0x00)));
         func_80035090(node);
         object = owner - 32;
         func_80044A50(object);

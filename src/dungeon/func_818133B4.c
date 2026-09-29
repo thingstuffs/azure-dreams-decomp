@@ -35,7 +35,6 @@ typedef struct S_800283B4_2 {
 } S_800283B4_2;   /* ((S_800283B4_0 *)temp_s0)->unk_48 in func_800283B4 */
 
 
-
 extern s32 func_80027454();
 extern s32 func_80027FA4();
 extern s32 func_80027FF4();
@@ -53,7 +52,8 @@ void func_800283B4(s32 object_addr) {
     ((S_800283B4_0 *)object_state)->unk_08 = 0;
     ((S_800283B4_0 *)object_state)->unk_28 = ((S_800283B4_2 *)(((S_800283B4_0 *)object_state)->unk_48))->unk_1C;
     ((S_800283B4_0 *)object_state)->unk_38 = ((S_800283B4_0 *)object_state)->unk_18;
-    func_80027454(object_addr + 0x58, ((S_800283B4_0 *)object_state)->unk_14, 0, ((S_800283B4_0 *)object_state)->unk_28);
+    func_80027454(object_addr + 0x58, ((S_800283B4_0 *)object_state)->unk_14, 0,
+        ((S_800283B4_0 *)object_state)->unk_28);
     func_80027FF4(((S_800283B4_0 *)object_state)->unk_4C, ((S_800283B4_0 *)object_state)->unk_14);
     ((S_800283B4_0 *)object_state)->unk_84 = func_80027FA4(((S_800283B4_0 *)object_state)->unk_88);
     func_80028534(((S_800283B4_0 *)object_state)->unk_88);

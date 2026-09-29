@@ -11,7 +11,6 @@ typedef struct S_808152DC_0 {
 } S_808152DC_0;   /* record in func_808152DC */
 
 
-
 extern s32 func_80058F88();
 extern s32 D_80084D5C;
 

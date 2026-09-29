@@ -250,8 +250,13 @@ void func_8004A8D8(void)
 
 /* shared D_80084960 table (0x9C stride) */
 typedef struct {
-    int unk00; int unk04; char pad08[4]; int unk0C;
-    char pad10[0xC]; int unk1C; char pad20[0x9C-0x20];
+    int unk00;
+    int unk04;
+    char pad08[4];
+    int unk0C;
+    char pad10[0xC];
+    int unk1C;
+    char pad20[0x9C - 0x20];
 } Entry80084960;
 extern Entry80084960 D_80084960[];
 

@@ -24,9 +24,6 @@ typedef struct S_80172458_0 {
 } S_80172458_0;   /* arg0 in func_80172458 */
 
 
-
-
-
 M2C_UNK func_800419EC();            /* extern */
 M2C_UNK func_80047784();         /* extern */
 s32 func_800644B8();                             /* extern */
@@ -69,9 +66,10 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
         ((S_80172458_0 *)action)->unk_9E = 5;
         ((S_80172458_0 *)action)->unk_A0 = 0;
         ((S_80172458_0 *)action)->unk_9B = (u8) (((S_80172458_0 *)action)->unk_9B + 1);
-        ((S_80172458_0 *)action)->unk_A6 = func_800BCB04((((Rec_D_80082E80 *)map_entry)->unk_24 << 6) | 0x20, (((Rec_D_80082E80 *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->unk_88) - 0x20));
+        ((S_80172458_0 *)action)->unk_A6 = func_800BCB04((((Rec_D_80082E80 *)map_entry)->unk_24 << 6) | 0x20,
+            (((Rec_D_80082E80 *)map_entry)->unk_25 << 6) | 0x20, (s16) (((u16)actor->unk_88) - 0x20));
         ((S_80172458_0 *)action)->unk_A8 = (u16) ((u16)motion->z.w.i);
-        /* fall through */
+                /* fall through */
     case 1:
         move_frames = ((S_80172458_0 *)action)->unk_9E;
         ((S_80172458_0 *)action)->unk_90 = (s32) (((S_80172458_0 *)action)->unk_90 - ((S_80172458_0 *)action)->unk_A0);
@@ -91,7 +89,8 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             move_value = (move_value << 0x10) / move_operand;
             motion->unk_10 = move_value;
             if (((S_80172458_0 *)action)->unk_A4 == 3) {
-                ((S_80172458_0 *)action)->unk_A0 = (s32) ((0 - func_800644B8(((S_80172458_0 *)action)->unk_9E * 0x155)) << 9);
+                ((S_80172458_0 *)action)->unk_A0 = (s32) ((0 - func_800644B8(((S_80172458_0 *)action)->unk_9E * 0x155))
+                    << 9);
                 ((S_80172458_0 *)action)->unk_90 += ((S_80172458_0 *)action)->unk_A0;
             } else {
                 motion->flags14 = 0;
@@ -99,18 +98,21 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
                 switch (height_frame) {
                 case 6:
                     flags_mask = 0xF7FF0000;
-                    ((S_80172458_0 *)action)->unk_90 = (s32) (0xFFFE0000 - ((((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10));
+                    ((S_80172458_0 *)action)->unk_90 = (s32) (0xFFFE0000 - ((((S_80172458_0 *)action)->unk_A6
+                        - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 5:
                     flags_mask = 0xF7FF0000;
-                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10));
+                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((((S_80172458_0 *)action)->unk_A6
+                        - (s16) ((S_80172458_0 *)action)->unk_A8) << 0x10));
                     flags_mask |= 0xFFFF;
                     actor->flags1C = (s32) (actor->flags1C & flags_mask);
                     break;
                 case 4:
-                    scaled_height_delta = (((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) * 3;
+                    scaled_height_delta = (((S_80172458_0 *)action)->unk_A6
+                        - (s16) ((S_80172458_0 *)action)->unk_A8) * 3;
                     if (scaled_height_delta < 0) {
                         scaled_height_delta += 3;
                     }
@@ -118,7 +120,8 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
                     actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
                     break;
                 case 3:
-                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((((((S_80172458_0 *)action)->unk_A6 - (s16) ((S_80172458_0 *)action)->unk_A8) * 2) / 5) << 0x10));
+                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((((((S_80172458_0 *)action)->unk_A6
+                        - (s16) ((S_80172458_0 *)action)->unk_A8) * 2) / 5) << 0x10));
                     break;
                 default:
                     ((S_80172458_0 *)action)->unk_90 = 0;
@@ -134,7 +137,7 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             actor->flags1C = (s32) (actor->flags1C | 0x08000000);
             ((S_80172458_0 *)action)->unk_9B = (u8) (((S_80172458_0 *)action)->unk_9B + 1);
         }
-        /* fall through */
+                /* fall through */
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_80172458_0 *)action)->unk_98 = (u16) (((S_80172458_0 *)action)->unk_98 & 0xFFF7);
@@ -172,7 +175,8 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
             }
         } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
-            actor->facing = func_800A0818(((Rec_D_80082E80 *)map_entry)->unk_24, ((Rec_D_80082E80 *)map_entry)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_output);
+                actor->facing = func_800A0818(((Rec_D_80082E80 *)map_entry)->unk_24,
+                    ((Rec_D_80082E80 *)map_entry)->unk_25, D_80082E80.tileX, D_80082E80.tileY, &facing_output);
             }
         }
         if ((func_800AD9B4(map_entry, actor) << 0x10) > 0) {

@@ -90,24 +90,28 @@ void *func_80025198(s32 value_00, s32 value_10, s32 value_18, void *descriptor, 
         }
         display_ids = &D_80029498;
         ((S_80025198_1 *)state)->unk_2C = func_8004A330(display_flags, 0xEC, 0x64, 0xEC, 0x64, 0x50, 1, D_80029498);
-        ((S_80025198_1 *)state)->unk_30 = func_8004A330(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1, ((S_80025198_3 *)display_ids)->unk_04);
-        ((S_80025198_1 *)state)->unk_34 = func_8004A330(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1, ((S_80025198_3 *)display_ids)->unk_08);
-        ((S_80025198_1 *)state)->unk_20 = func_80026168(object, ((S_80025198_1 *)state)->unk_14, ((S_80025198_1 *)state)->unk_04);
+        ((S_80025198_1 *)state)->unk_30 = func_8004A330(4, 0xEC, 0x64, 0xEC, 0x74, 0x50, 1,
+            ((S_80025198_3 *)display_ids)->unk_04);
+        ((S_80025198_1 *)state)->unk_34 = func_8004A330(0x10, 0xEC, 0x64, 0xEC, 0x84, 0x50, 1,
+            ((S_80025198_3 *)display_ids)->unk_08);
+        ((S_80025198_1 *)state)->unk_20 = func_80026168(object, ((S_80025198_1 *)state)->unk_14,
+            ((S_80025198_1 *)state)->unk_04);
         ((S_80025198_1 *)state)->unk_24 = func_8002845C(object, ((S_80025198_1 *)state)->unk_14);
-        ((S_80025198_1 *)state)->unk_28 = func_80026A64(object, ((S_80025198_1 *)state)->unk_14, ((S_80025198_1 *)state)->unk_04);
+        ((S_80025198_1 *)state)->unk_28 = func_80026A64(object, ((S_80025198_1 *)state)->unk_14,
+            ((S_80025198_1 *)state)->unk_04);
         globals_base = (s32 *) 0x80080000;
         resource_index = 0;
         resource_cursor = state;
         do {
-                    resource_index += 1;
-                    if (((S_80025198_4 *)resource_cursor)->unk_20 == 0) {
-                        func_800253C0(state);
-                        ((S_80025198_1_pre *)state)[-1].unk_00 = (u16) (((S_80025198_1_pre *)state)[-1].unk_00 | 0x8000);
-                        object = NULL;
-                        ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
-                        goto done;
-                    }
-                    resource_cursor += 4;
+            resource_index += 1;
+            if (((S_80025198_4 *)resource_cursor)->unk_20 == 0) {
+                func_800253C0(state);
+                ((S_80025198_1_pre *)state)[-1].unk_00 = (u16) (((S_80025198_1_pre *)state)[-1].unk_00 | 0x8000);
+                object = NULL;
+                ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
+                goto done;
+            }
+            resource_cursor += 4;
         } while (resource_index < 3);
     }
 done:

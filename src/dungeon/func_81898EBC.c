@@ -270,7 +270,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 probe[2] = delta_z;
                 state->duration = delta_x;
             }
-                    do {
+            do {
                 s32 axis_delta;
 
                 axis_delta = S16_AT(delta_ptr, 24);
@@ -342,7 +342,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         }
         if (state->status != 0) {
             void *effect = func_800D24A8(state->status, state->x, state->y,
-                                        state->z);
+                                         state->z);
             s32 intensity;
             s16 clamped_intensity;
             u32 effect_id;

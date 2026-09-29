@@ -13,7 +13,6 @@ typedef struct S_80404364_1 {
 } S_80404364_1;   /* body in func_80404364 */
 
 
-
 extern s32 func_80047FD8(void *arg0);
 extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
 extern void func_80040560(void *arg0, void *arg1);

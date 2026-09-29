@@ -112,7 +112,13 @@ typedef struct S_800253C0_16_pre {
 
 typedef struct S_800253C0_17 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { volatile u8 v; } at00u; struct { u32 v; } at00p; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { volatile u8 v; } at00u;
+        struct { u32 v; } at00p;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     union { u16 u; s16 s; } unk_12;   /* accessed as both */
     union { s16 s; u16 u; } unk_14;   /* accessed as both */
@@ -125,8 +131,6 @@ typedef struct S_800253C0_18 {
     u8 pad_00[0xAC];
     void * unk_AC;
 } S_800253C0_18;   /* (void *)((i << 2) + (s32)arg0) in func_800253C0 */
-
-
 
 
 extern void *D_8006CD58[];
@@ -205,45 +209,45 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         return;
 
     case 1:
-        {
-            s32 index;
-            GameWork *turn_scene;
-            u16 old_angle;
+    {
+        s32 index;
+        GameWork *turn_scene;
+        u16 old_angle;
 
-            turn_scene = &gameWork;
-            old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
-            index = ((turn_scene->view.viewAngle +
-                ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
-            if (index == 2) {
-                ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
-                anim_entry = D_800DD148 + ((((turn_scene->view.viewAngle +
-                    ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
-                func_80048A44(actor, *anim_entry, 0, 1);
-                ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
-                return;
-            }
-            ((S_800253C0_1 *)owner)->unk_2A.s = old_angle + 0x200;
+        turn_scene = &gameWork;
+        old_angle = ((S_800253C0_1 *)owner)->unk_2A.u;
+        index = ((turn_scene->view.viewAngle +
+            ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
+        if (index == 2) {
+            ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
+            anim_entry = D_800DD148 + ((((turn_scene->view.viewAngle +
+                ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
+            func_80048A44(actor, *anim_entry, 0, 1);
+            ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
             return;
         }
+        ((S_800253C0_1 *)owner)->unk_2A.s = old_angle + 0x200;
+        return;
+    }
 
     case 2:
-        {
+    {
 
-            u32 mask;
-            object_index_m = 0;
-            mask = 0x20000000;
-            slot_cursor = sequence;
+        u32 mask;
+        object_index_m = 0;
+        mask = 0x20000000;
+        slot_cursor = sequence;
 
-            do {
-                object_m = ((S_800253C0_4 *)slot_cursor)->unk_AC;
-                if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
-                    func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
-                        ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
-                }
-                object_index_m++;
-                slot_cursor = (u8 *)slot_cursor + 4;
-            } while (object_index_m < 2);
-        }
+        do {
+            object_m = ((S_800253C0_4 *)slot_cursor)->unk_AC;
+            if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
+                func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
+                    ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
+            }
+            object_index_m++;
+            slot_cursor = (u8 *)slot_cursor + 4;
+        } while (object_index_m < 2);
+    }
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
         ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
         return;
@@ -386,54 +390,54 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         }
 
     case 4:
-        {
-            s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
-                return;
-            }
-            func_80026C88(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
-                ((S_800253C0_10 *)position)->unk_0A.s, actor);
-            {
-                coord_delta = 32;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
-            }
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+    {
+        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        if (timer > 0) {
             return;
         }
+        func_80026C88(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
+            ((S_800253C0_10 *)position)->unk_0A.s, actor);
+        {
+            coord_delta = 32;
+            state = ((S_800253C0_0 *)sequence)->unk_9B.v;
+            ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+        }
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
+    }
 
     case 5:
-        {
-            s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            s32 object_index;
+    {
+        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        s32 object_index;
 
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
-                return;
-            }
-            object_index = 0;
-            slot_cursor = (u8 *)sequence;
-            do {
-                void *call_position = position;
-                void *call_actor = actor;
-                object_m = ((S_800253C0_4 *)(void *)slot_cursor)->unk_AC;
-                func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
-                slot_cursor = (u8 *)slot_cursor + 4;
-                object_index++;
-            } while (object_index < 2);
-            {
-                s16 texture_rect[4];
-                ((S_800253C0_0 *)sequence)->unk_9B.n++;
-                ((S_800253C0_0 *)sequence)->unk_96.n = 60;
-                texture_rect[0] = 0x340;
-                texture_rect[1] = 0x180;
-                texture_rect[3] = 0x40;
-                texture_rect[2] = 0x40;
-                func_800B835C(D_800287F0, texture_rect, 1, 0);
-            }
+        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        if (timer > 0) {
             return;
         }
+        object_index = 0;
+        slot_cursor = (u8 *)sequence;
+        do {
+            void *call_position = position;
+            void *call_actor = actor;
+            object_m = ((S_800253C0_4 *)(void *)slot_cursor)->unk_AC;
+            func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
+            slot_cursor = (u8 *)slot_cursor + 4;
+            object_index++;
+        } while (object_index < 2);
+        {
+            s16 texture_rect[4];
+            ((S_800253C0_0 *)sequence)->unk_9B.n++;
+            ((S_800253C0_0 *)sequence)->unk_96.n = 60;
+            texture_rect[0] = 0x340;
+            texture_rect[1] = 0x180;
+            texture_rect[3] = 0x40;
+            texture_rect[2] = 0x40;
+            func_800B835C(D_800287F0, texture_rect, 1, 0);
+        }
+        return;
+    }
 
     case 6:
         func_80025FF4(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
@@ -636,7 +640,8 @@ animate_objects:
             s32 object_index = 0;
             GameWork *restore_scene = &gameWork;
             s16 *table_x = (s16 *)((s8 *)dirStepX);
-            loop_7: {
+loop_7:
+            {
                 object_m =
                     ((S_800253C0_18 *)((void *)((object_index << 2) + (s32)sequence)))->unk_AC;
                 if (object_m != 0) {
@@ -665,7 +670,9 @@ animate_objects:
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index++;
-            } if (object_index < 2) goto loop_7;
+            }
+            if (object_index < 2)
+                goto loop_7;
             {
                 coord_delta = 64;
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
@@ -676,114 +683,114 @@ animate_objects:
         }
 
     case 9:
-        {
-            s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
-                return;
-            }
-            {
-                coord_delta = 32;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
-            }
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+    {
+        s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        if (timer > 0) {
             return;
         }
+        {
+            coord_delta = 32;
+            state = ((S_800253C0_0 *)sequence)->unk_9B.v;
+            ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+        }
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
+    }
 
     case 10:
-        {
-            void *object_slot;
-            s32 target_level;
-            void *child;
-            register void *final_slot;
-            s16 timer;
-            s32 step;
-            s32 brightness;
-            s32 old_coord;
-            s32 delta;
-            s32 x;
-            s32 current_angle;
-            u16 old_angle;
-            u32 saved_angle;
-            register u32 clear_flags;
+    {
+        void *object_slot;
+        s32 target_level;
+        void *child;
+        register void *final_slot;
+        s16 timer;
+        s32 step;
+        s32 brightness;
+        s32 old_coord;
+        s32 delta;
+        s32 x;
+        s32 current_angle;
+        u16 old_angle;
+        u32 saved_angle;
+        register u32 clear_flags;
 
-            step = (128 - ((S_800253C0_6 *)scene)->unk_A8) / ((S_800253C0_0 *)sequence)->unk_96.n;
-            message_text = (s32)(scene + 0xA8);
-            object_index_m = 0;
-            object_slot = sequence;
-            brightness = ((S_800253C0_6 *)scene)->unk_A8 + step;
-            ((S_800253C0_6 *)scene)->unk_A8 = brightness;
-            ((u8 *)message_text)[2] = brightness;
-            ((u8 *)message_text)[1] = brightness;
-            do {
-                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
-                if (object_m != 0) {
-                    child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
-                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                    coord_delta = (s32)((S_800253C0_17 *)child)->unk_24;
-                    coord_delta = coord_delta << 6;
-                    next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
-                    coord_delta = coord_delta - next_state;
-                    ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u +
-                        coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
-                    {
-                        s32 y;
-                        s32 old_y;
-                        y = (s32)((S_800253C0_17 *)child)->unk_25;
-                        y = y << 6;
-                        old_y = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
-                        y = y - old_y;
-                        ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
-                            y / ((S_800253C0_0 *)sequence)->unk_96.n;
-                    }
-                    {
-                        s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
-                        s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;
-                        ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
-                            z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
-                    }
-                    saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
-                    ((S_800253C0_5 *)object_m)->unk_2A.v =
-                        ((S_800253C0_5 *)object_m)->unk_2A.n & 0xFFF;
-                    current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
-                    old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
-                    saved_angle = saved_angle & 0xFFF;
-                    ((S_800253C0_5 *)object_m)->unk_8A = saved_angle;
-                    if (current_angle != (s16)saved_angle) {
-                        ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
-                    }
+        step = (128 - ((S_800253C0_6 *)scene)->unk_A8) / ((S_800253C0_0 *)sequence)->unk_96.n;
+        message_text = (s32)(scene + 0xA8);
+        object_index_m = 0;
+        object_slot = sequence;
+        brightness = ((S_800253C0_6 *)scene)->unk_A8 + step;
+        ((S_800253C0_6 *)scene)->unk_A8 = brightness;
+        ((u8 *)message_text)[2] = brightness;
+        ((u8 *)message_text)[1] = brightness;
+        do {
+            object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+            if (object_m != 0) {
+                child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
+                prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                coord_delta = (s32)((S_800253C0_17 *)child)->unk_24;
+                coord_delta = coord_delta << 6;
+                next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+                coord_delta = coord_delta - next_state;
+                ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u +
+                    coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                {
+                    s32 y;
+                    s32 old_y;
+                    y = (s32)((S_800253C0_17 *)child)->unk_25;
+                    y = y << 6;
+                    old_y = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+                    y = y - old_y;
+                    ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
+                        y / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
-                object_index_m++;
-                object_slot = (u8 *)object_slot + 4;
-            } while (object_index_m < 2);
-            timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
-                return;
+                {
+                    s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
+                    s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;
+                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
+                        z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                }
+                saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
+                ((S_800253C0_5 *)object_m)->unk_2A.v =
+                    ((S_800253C0_5 *)object_m)->unk_2A.n & 0xFFF;
+                current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                saved_angle = saved_angle & 0xFFF;
+                ((S_800253C0_5 *)object_m)->unk_8A = saved_angle;
+                if (current_angle != (s16)saved_angle) {
+                    ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
+                }
             }
-            ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C808080;
-            object_index_m = 0;
-            clear_flags = 0xFFEFFFFF;
-            final_slot = sequence;
-            do {
-                object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
-                if (object_m != 0) {
-                    child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
-                    x = ((S_800253C0_17 *)child)->unk_24;
-                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
-                    ((S_800253C0_9 *)prim_m)->unk_06.s = ((s32)((S_800253C0_17 *)child)->unk_25 << 6) + 0x20;
-                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
-                    ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
-                }
-                object_index_m++;
-                final_slot = (u8 *)final_slot + 4;
-            } while (object_index_m < 2);
-            state = ((S_800253C0_0 *)sequence)->unk_9B.n;
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            object_index_m++;
+            object_slot = (u8 *)object_slot + 4;
+        } while (object_index_m < 2);
+        timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        if (timer > 0) {
             return;
         }
+        ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C808080;
+        object_index_m = 0;
+        clear_flags = 0xFFEFFFFF;
+        final_slot = sequence;
+        do {
+            object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
+            if (object_m != 0) {
+                child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
+                x = ((S_800253C0_17 *)child)->unk_24;
+                prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
+                ((S_800253C0_9 *)prim_m)->unk_06.s = ((s32)((S_800253C0_17 *)child)->unk_25 << 6) + 0x20;
+                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
+                ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
+            }
+            object_index_m++;
+            final_slot = (u8 *)final_slot + 4;
+        } while (object_index_m < 2);
+        state = ((S_800253C0_0 *)sequence)->unk_9B.n;
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
+    }
 
     case 11:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;

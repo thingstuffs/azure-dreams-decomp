@@ -57,7 +57,6 @@ typedef struct S_80E3CC80_4 {
 } S_80E3CC80_4;   /* arg0 in func_80E3CC80 */
 
 
-
 extern void *func_8003FC64(s32 size);
 extern void func_8004491C(void *object, void *data);
 extern void func_80047784(void *object, s32 arg1, s32 arg2);

@@ -1,17 +1,19 @@
 #include "common.h"
 #include "shared/game_work.h"
-typedef struct 
+typedef struct
 {
-  u8 *value;
-  u8 pad[8];
-} Global83160;
-typedef struct 
+    u8 *value;
+    u8 pad[8];
+}
+Global83160;
+typedef struct
 {
-  u16 x;
-  u16 y;
-  u16 z;
-  u16 pad;
-} TableEntry;
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 pad;
+}
+TableEntry;
 extern s16 D_8002632A;
 extern u8 D_80026478[];
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -21,104 +23,105 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 /* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
 s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
 {
-  {
-    u8 *render_data = gameWork.unk_000;
-    void *owner = first_owner;
-    void *vertex_data = first_vertices;
-    void *line_data = first_line;
-    u8 *scratch = (u8 *) 0x1F800000;
-    u8 *line_packet;
-    u8 *packet;
-    u16 red_blue;
-    u8 green;
-    void *next_node;
-    s32 avg_depth;
-    s16 blend;
-    s32 point_index;
-    s32 color_word;
-    register u8 **render_state = (u8 **) ((Global83160 *)&gameWork);
-    *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
-    *(u8 **)(scratch + 0x20) = render_data + 0xB0;
-    for (;;)
     {
-      line_packet = *(u8 **)(scratch + 0x18);
-      *(u8 **)(scratch + 0x18) = line_packet + 0x14;
-      blend = *(s16 *)((u8 *) line_data + 6);
-      if (blend >= 0)
-      {
-        *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 0xE);
-        *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 0x12);
-        *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0x16);
-        *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
-        *(u16 *)(scratch + 0) =
-            (*(u16 *)((u8 *) vertex_data + 0xE)) + ((((*(s16 *)((u8 *) vertex_data + 2)) - (*(s16 *)((u8 *) vertex_data + 0xE))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-        *(u16 *)(scratch + 2) =
-            (*(u16 *)((u8 *) vertex_data + 0x12)) + ((((*(s16 *)((u8 *) vertex_data + 6)) - (*(s16 *)((u8 *) vertex_data + 0x12))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-        *(u16 *)(scratch + 4) =
-            (*(u16 *)((u8 *) vertex_data + 0x16)) + ((((*(s16 *)((u8 *) vertex_data + 0xA)) - (*(s16 *)((u8 *) vertex_data + 0x16))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-        point_index = (*(s16 *)((u8 *) owner + 0x22)) + 0x10;
-        if (D_8002632A < point_index)
-        {
-          register TableEntry *point_table = (TableEntry *) D_80026478;
-          s32 table_index;
-          u16 coord;
-          point_table[point_index].x = *(u16 *)(scratch + 0);
-          table_index = *(s16 *)((u8 *) owner + 0x22);
-          coord = *(u16 *)(scratch + 2);
-          table_index += 0x10;
-          point_table[table_index].y = coord;
-          table_index = *(s16 *)((u8 *) owner + 0x22);
-          coord = *(u16 *)(scratch + 4);
-          table_index += 0x10;
-          point_table[table_index].z = coord;
+        u8 *render_data = gameWork.unk_000;
+        void *owner = first_owner;
+        void *vertex_data = first_vertices;
+        void *line_data = first_line;
+        u8 *scratch = (u8 *) 0x1F800000;
+        u8 *line_packet;
+        u8 *packet;
+        u16 red_blue;
+        u8 green;
+        void *next_node;
+        s32 avg_depth;
+        s16 blend;
+        s32 point_index;
+        s32 color_word;
+        register u8 **render_state = (u8 **) ((Global83160 *)&gameWork);
+        *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
+        *(u8 **)(scratch + 0x20) = render_data + 0xB0;
+        for (;;) {
+            line_packet = *(u8 **)(scratch + 0x18);
+            *(u8 **)(scratch + 0x18) = line_packet + 0x14;
+            blend = *(s16 *)((u8 *) line_data + 6);
+            if (blend >= 0) {
+                *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 0xE);
+                *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 0x12);
+                *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0x16);
+                *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
+                *(u16 *)(scratch + 0) =
+                    (*(u16 *)((u8 *) vertex_data + 0xE)) + ((((*(s16 *)((u8 *) vertex_data + 2))
+                        - (*(s16 *)((u8 *) vertex_data + 0xE))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
+                *(u16 *)(scratch + 2) =
+                    (*(u16 *)((u8 *) vertex_data + 0x12)) + ((((*(s16 *)((u8 *) vertex_data + 6))
+                        - (*(s16 *)((u8 *) vertex_data + 0x12))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
+                *(u16 *)(scratch + 4) =
+                    (*(u16 *)((u8 *) vertex_data + 0x16)) + ((((*(s16 *)((u8 *) vertex_data + 0xA))
+                        - (*(s16 *)((u8 *) vertex_data + 0x16))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
+                point_index = (*(s16 *)((u8 *) owner + 0x22)) + 0x10;
+                if (D_8002632A < point_index) {
+                    register TableEntry *point_table = (TableEntry *) D_80026478;
+                    s32 table_index;
+                    u16 coord;
+                    point_table[point_index].x = *(u16 *)(scratch + 0);
+                    table_index = *(s16 *)((u8 *) owner + 0x22);
+                    coord = *(u16 *)(scratch + 2);
+                    table_index += 0x10;
+                    point_table[table_index].y = coord;
+                    table_index = *(s16 *)((u8 *) owner + 0x22);
+                    coord = *(u16 *)(scratch + 4);
+                    table_index += 0x10;
+                    point_table[table_index].z = coord;
+                }
+            }
+            else {
+                *(u16 *)(scratch + 0) = (*(u16 *)((u8 *) vertex_data + 2)) - ((((*(s16 *)((u8 *) vertex_data + 0xE))
+                    - (*(s16 *)((u8 *) vertex_data + 2))) * blend) >> 8);
+                *(u16 *)(scratch + 2) =
+                    (*(u16 *)((u8 *) vertex_data + 6)) - ((((*(s16 *)((u8 *) vertex_data + 0x12))
+                        - (*(s16 *)((u8 *) vertex_data + 6))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
+                *(u16 *)(scratch + 4) =
+                    (*(u16 *)((u8 *) vertex_data + 0xA)) - ((((*(s16 *)((u8 *) vertex_data + 0x16))
+                        - (*(s16 *)((u8 *) vertex_data + 0xA))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
+                *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
+                *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 2);
+                *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 6);
+                *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0xA);
+            }
+            avg_depth = ((*(s32 *)(scratch + 0xC0)) + func_80065420(scratch, line_packet + 0x10, scratch + 0x90,
+                scratch + 0x94)) >> 1;
+            *(s32 *)(scratch + 0xC0) = avg_depth;
+            if (((u32) avg_depth) < 0x1E0U) {
+                packet = line_packet;
+                *(u8 *)(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
+                *(s32 *)(packet + 4) = color_word;
+                red_blue = *(u8 *)(packet + 4);
+                *(u8 *)(packet + 7) = 0x52;
+                green = *(u8 *)(packet + 5);
+                red_blue >>= 1;
+                *(u8 *)(packet + 0xC) = red_blue;
+                red_blue = *(u8 *)(packet + 6);
+                green >>= 1;
+                *(u8 *)(packet + 0xD) = green;
+                red_blue >>= 1;
+                *(u8 *)(packet + 0xE) = red_blue;
+                func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
+                vertex_data = *(u8 **)(scratch + 0x18);
+                *(u8 **)(scratch + 0x18) = ((u8 *) vertex_data) + 0xC;
+                func_80067F20(vertex_data, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+                func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), vertex_data);
+            }
+            next_node = *(void **)((u8 *) owner + (-8));
+            if (next_node != 0) {
+                owner = ((u8 *) next_node) + 0x20;
+                vertex_data = *(void **)((u8 *) next_node + 8);
+                line_data = *(void **)((u8 *) next_node + 0xC);
+                continue;
+            }
+            break;
         }
-      }
-      else
-      {
-        *(u16 *)(scratch + 0) = (*(u16 *)((u8 *) vertex_data + 2)) - ((((*(s16 *)((u8 *) vertex_data + 0xE)) - (*(s16 *)((u8 *) vertex_data + 2))) * blend) >> 8);
-        *(u16 *)(scratch + 2) =
-            (*(u16 *)((u8 *) vertex_data + 6)) - ((((*(s16 *)((u8 *) vertex_data + 0x12)) - (*(s16 *)((u8 *) vertex_data + 6))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-        *(u16 *)(scratch + 4) =
-            (*(u16 *)((u8 *) vertex_data + 0xA)) - ((((*(s16 *)((u8 *) vertex_data + 0x16)) - (*(s16 *)((u8 *) vertex_data + 0xA))) * (*(s16 *)((u8 *) line_data + 6))) >> 8);
-        *(s32 *)(scratch + 0xC0) = func_80065420(scratch, line_packet + 8, scratch + 0x90, scratch + 0x94);
-        *(u16 *)(scratch + 0) = *(u16 *)((u8 *) vertex_data + 2);
-        *(u16 *)(scratch + 2) = *(u16 *)((u8 *) vertex_data + 6);
-        *(u16 *)(scratch + 4) = *(u16 *)((u8 *) vertex_data + 0xA);
-      }
-      avg_depth = ((*(s32 *)(scratch + 0xC0)) + func_80065420(scratch, line_packet + 0x10, scratch + 0x90, scratch + 0x94)) >> 1;
-      *(s32 *)(scratch + 0xC0) = avg_depth;
-      if (((u32) avg_depth) < 0x1E0U)
-      {
-        packet = line_packet;
-        *(u8 *)(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
-        *(s32 *)(packet + 4) = color_word;
-        red_blue = *(u8 *)(packet + 4);
-        *(u8 *)(packet + 7) = 0x52;
-        green = *(u8 *)(packet + 5);
-        red_blue >>= 1;
-        *(u8 *)(packet + 0xC) = red_blue;
-        red_blue = *(u8 *)(packet + 6);
-        green >>= 1;
-        *(u8 *)(packet + 0xD) = green;
-        red_blue >>= 1;
-        *(u8 *)(packet + 0xE) = red_blue;
-        func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);
-        vertex_data = *(u8 **)(scratch + 0x18);
-        *(u8 **)(scratch + 0x18) = ((u8 *) vertex_data) + 0xC;
-        func_80067F20(vertex_data, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-        func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), vertex_data);
-      }
-      next_node = *(void **)((u8 *) owner + (-8));
-      if (next_node != 0)
-      {
-        owner = ((u8 *) next_node) + 0x20;
-        vertex_data = *(void **)((u8 *) next_node + 8);
-        line_data = *(void **)((u8 *) next_node + 0xC);
-        continue;
-      }
-      break;
+        *(u8 **)(*render_state + 0x8D0) = *(u8 **)(scratch + 0x18);
+        return 0;
     }
-    *(u8 **)(*render_state + 0x8D0) = *(u8 **)(scratch + 0x18);
-    return 0;
-  }
 }

@@ -68,7 +68,6 @@ typedef struct S_807B040C_7 {
 } S_807B040C_7;   /* motion in func_807B040C */
 
 
-
 typedef struct DirectionOffsets {
     u16 x0;
     u16 y0;

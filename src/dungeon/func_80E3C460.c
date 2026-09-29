@@ -26,8 +26,6 @@ typedef struct S_80175C60_2 {
 } S_80175C60_2;   /* arg2 in func_80175C60 */
 
 
-
-
 /* Advance motion and rotation, update facing, and flag the object when its timer expires. */
 void func_80175C60(void *object, void *motion_data, void *rotation)
 {

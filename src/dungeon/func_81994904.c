@@ -29,7 +29,6 @@ typedef struct S_80024104_2_pre {
 } S_80024104_2_pre;   /* the 0x18 bytes before D_800814A8 in func_80024104, addressed as D_800814A8[-1] */
 
 
-
 typedef struct {
     u16 x;
     u16 y;

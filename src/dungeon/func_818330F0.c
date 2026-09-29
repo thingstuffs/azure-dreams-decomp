@@ -38,12 +38,16 @@ void func_818330F0(void *effect, void *position, void *primitive) {
     s16 current_z;
     void *owner;
 
-    ((S_818330F0_0 *)position)->unk_02 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_02 + ((((S_818330F0_1 *)effect)->unk_0C - ((S_818330F0_0 *)position)->unk_02) / 12));
-    ((S_818330F0_0 *)position)->unk_06 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_06 + ((((S_818330F0_1 *)effect)->unk_0E - ((S_818330F0_0 *)position)->unk_06) / 12));
+    ((S_818330F0_0 *)position)->unk_02 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_02
+        + ((((S_818330F0_1 *)effect)->unk_0C - ((S_818330F0_0 *)position)->unk_02) / 12));
+    ((S_818330F0_0 *)position)->unk_06 = (s16) ((u16) ((S_818330F0_0 *)position)->unk_06
+        + ((((S_818330F0_1 *)effect)->unk_0E - ((S_818330F0_0 *)position)->unk_06) / 12));
     target_z = ((S_818330F0_1 *)effect)->unk_10;
     current_z = ((S_818330F0_0 *)position)->unk_0A;
-    ((S_818330F0_0 *)position)->unk_0A = (s16) ((u16) ((S_818330F0_0 *)position)->unk_0A + ((target_z - current_z) / 10));
-    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v + 0xC0C0C);
+    ((S_818330F0_0 *)position)->unk_0A = (s16) ((u16) ((S_818330F0_0 *)position)->unk_0A + ((target_z
+        - current_z) / 10));
+    ((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)primitive)->unk_0C.at00_s32.v
+        + 0xC0C0C);
     owner = ((S_818330F0_1 *)effect)->unk_00;
     ((S_818330F0_3 *)owner)->unk_52 = (u16) (((S_818330F0_3 *)owner)->unk_52 | 0x8000);
     func_800478B8(primitive);

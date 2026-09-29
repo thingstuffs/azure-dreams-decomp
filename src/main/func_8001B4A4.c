@@ -11,14 +11,14 @@ void func_8001B4A4(void *object) {
     if (object != 0) {
         **(s32 ***)(object + 0x20) = func_800484A4(*(s32 *)(object + 0x24) + 6, *(s32 *)(object + 0x20));
         asm (
-            "lhu $2, 30(%0)\n\t"
-            "lui $3, 0x8009\n\t"
-            "lw $3, -9548($3)\n\t"
-            "ori $2, $2, 0x8000\n\t"
-            "ori $3, $3, 0x8000\n\t"
-            "sh $2, 30(%0)\n\t"
-            "lui $1, 0x8009\n\t"
-            "sw $3, -9548($1)"
-            : : "r"(object) : "$1", "$2", "$3", "memory");
+             "lhu $2, 30(%0)\n\t"
+             "lui $3, 0x8009\n\t"
+             "lw $3, -9548($3)\n\t"
+             "ori $2, $2, 0x8000\n\t"
+             "ori $3, $3, 0x8000\n\t"
+             "sh $2, 30(%0)\n\t"
+             "lui $1, 0x8009\n\t"
+             "sw $3, -9548($1)"
+             : : "r"(object) : "$1", "$2", "$3", "memory");
     }
 }

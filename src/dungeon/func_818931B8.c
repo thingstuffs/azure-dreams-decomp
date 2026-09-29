@@ -22,7 +22,6 @@ typedef struct S_818931B8_2 {
 } S_818931B8_2;   /* arg1 in func_818931B8 */
 
 
-
 M2C_UNK func_800478B8();                      /* extern */
 
 /* Increment the linked counter, reduce the source value by four, and process and flag the target status. */

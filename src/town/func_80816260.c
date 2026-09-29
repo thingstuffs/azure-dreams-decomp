@@ -18,8 +18,6 @@ typedef struct S_80020260_1 {
 } S_80020260_1;   /* object in func_80020260 */
 
 
-
-
 /* Fades an effect in and out around an object event, then marks completion. */
 void func_80020260(void *effect) {
     s16 state;

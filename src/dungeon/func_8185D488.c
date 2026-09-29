@@ -195,9 +195,9 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
 
             do {
                 if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
-                                     ((s16)cell_y << 6) & 0xFFC0,
-                                     *(s16 *)(root + 0x88),
-                                     (s16)(ctrl->angle << 9)) != 0) {
+                                       ((s16)cell_y << 6) & 0xFFC0,
+                                       *(s16 *)(root + 0x88),
+                                       (s16)(ctrl->angle << 9)) != 0) {
                     break;
                 }
 
@@ -215,8 +215,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
                     height = (s16)(root_z - 32);
                     y_step = &dirStepY[direction];
                     floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,
-                                               (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
-                                               height);
+                                                 (((s16)cell_y + *y_step) << 6) + 32 & 0xFFE0,
+                                                 height);
                 }
                 if ((s16)floor_height >= 513) {
                     break;
@@ -248,7 +248,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
                 target[1].h.hi = ((target_cell_y[0] << 16) >> 10) + 32;
                 target[2].h.hi = -1024;
                 target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
-                                            (u16)target[1].h.hi, -1024);
+                                               (u16)target[1].h.hi, -1024);
                 if ((s16)target[2].h.hi >= 513) {
                     target[2].h.hi = motion->z.h.hi + 32;
                 }
@@ -324,7 +324,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             index = 7;
             global_page = (u8 *)0x80080000;
             child_slot = &ctrl->children[1];
-            loop_3: {
+loop_3:
+            {
                 child = child_slot[6];
                 if (child != 0) {
                     s32 child_flags;
@@ -340,7 +341,9 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
                 }
                 index--;
                 child_slot--;
-            } if (index >= 0) goto loop_3;
+            }
+            if (index >= 0)
+                goto loop_3;
         }
         goto finish;
 

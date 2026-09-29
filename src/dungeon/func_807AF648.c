@@ -157,7 +157,7 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
                 packet_cursor += 12;
                 object->count = particle_count + 1;
             }
-        advance:
+advance:
             {
                 s16 next_particle = particle_index + 1;
                 particle_index = next_particle;

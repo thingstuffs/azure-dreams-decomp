@@ -41,7 +41,6 @@ typedef struct S_80024170_4 {
 } S_80024170_4;   /* temp_v0_2 in func_80024170 */
 
 
-
 typedef struct {
     s32 f0;
     s32 f1;

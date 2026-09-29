@@ -30,10 +30,10 @@ char *func_8001747C(long long forwarded_arg, s32 event_id)
             goto case_18_zero;
         }
 
-    return_result:
+return_result:
         return (char *)result_addr;
 
-    case_18_zero:
+case_18_zero:
         return D_80020E44;
     case 40:
     case 41:

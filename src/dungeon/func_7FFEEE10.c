@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern s32 func_8008CFE8(s32 *, s32, s32);

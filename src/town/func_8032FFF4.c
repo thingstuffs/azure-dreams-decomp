@@ -14,8 +14,6 @@ typedef struct S_8001A7F4_1 {
 } S_8001A7F4_1;   /* dst in func_8001A7F4 */
 
 
-
-
 /* Scale and offset the two coordinates stored in the global destination. */
 void func_8001A7F4(s32 unused, s32 x, s32 y)
 {

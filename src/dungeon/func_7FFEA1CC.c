@@ -79,7 +79,8 @@ void func_7FFEA1CC(void *source, M2C_UNK spawn_arg1, M2C_UNK spawn_arg2) {
             ((S_7FFEA1CC_1 *)effect)->unk_40 = 0x1E;
             ((S_7FFEA1CC_1 *)effect)->unk_10 = &D_8010C460;
             effect_position = ((S_7FFEA1CC_1 *)effect)->unk_08;
-            ((S_7FFEA1CC_2 *)effect_position)->unk_0A = (u16) (((S_7FFEA1CC_2 *)effect_position)->unk_0A - (D_800E0F20[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
+            ((S_7FFEA1CC_2 *)effect_position)->unk_0A = (u16) (((S_7FFEA1CC_2 *)effect_position)->unk_0A
+                - (D_800E0F20[((S_7FFEA1CC_4 *)(((S_7FFEA1CC_0 *)source)->unk_00))->unk_13] >> 1));
             render_state = ((S_7FFEA1CC_1 *)effect)->unk_0C;
             memcpy((s8 *) effect + 0x62, &D_8010C984, 0xC);
             ((S_7FFEA1CC_3 *)render_state)->unk_08 = (void *) (effect + 0x62);

@@ -6,7 +6,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -30,7 +29,6 @@ typedef struct S_801739F8_0 {
     u8 pad_9C[0x4];
     s16 unk_A0;
 } S_801739F8_0;   /* arg0 in func_801739F8 */
-
 
 
 typedef struct S_801739F8_4 {

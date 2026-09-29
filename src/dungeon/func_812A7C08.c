@@ -29,7 +29,11 @@ typedef struct S_80173408_0 {
     u8 pad_98[0x3];
     union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_A0;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_A0;   /* overlapping accesses */
     u8 pad_A4[0x4];
     s32 unk_A8;
     s32 unk_AC;
@@ -59,7 +63,7 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
     state = ((S_80173408_0 *)jump)->unk_9B.n;
     switch (state) {
 
-case 0:
+    case 0:
     {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173408_0 *)jump)->unk_9B.n = 4;
@@ -69,36 +73,36 @@ case 0:
         }
     }
 
-case 1:
-    motion->unk_0C -=
-        *(s16 *)((u8 *)((s8 *)dirStepX) +
-                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-    motion->unk_10 -=
-        *(s16 *)((u8 *)((s8 *)dirStepY) +
-                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-    ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
-    if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
-        ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
-    }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        return;
-    }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
-        return;
-    }
-    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
-    func_80047784(sprite,
-        D_80175C48[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-        0);
-    func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
-    state = ((S_80173408_0 *)jump)->unk_9B.v;
-    ((S_80173408_0 *)jump)->unk_96.s = 0;
-    goto increment_state;
+    case 1:
+        motion->unk_0C -=
+            *(s16 *)((u8 *)((s8 *)dirStepX) +
+                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+        motion->unk_10 -=
+            *(s16 *)((u8 *)((s8 *)dirStepY) +
+                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+        ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
+        if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
+            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
+        }
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
+            return;
+        }
+        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
+        func_80047784(sprite,
+            D_80175C48[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            0);
+        func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
+        state = ((S_80173408_0 *)jump)->unk_9B.v;
+        ((S_80173408_0 *)jump)->unk_96.s = 0;
+        goto increment_state;
 
-case 2:
+    case 2:
     {
         s16 *x_table;
         s16 *y_table;
@@ -126,17 +130,17 @@ case 2:
             return;
         }
     }
-    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
-    func_80047784(sprite,
-        D_80175C50[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-        0);
-    func_800A56E0(0x808);
-    state = ((S_80173408_0 *)jump)->unk_9B.n;
+        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
+        func_80047784(sprite,
+            D_80175C50[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+            0);
+        func_800A56E0(0x808);
+        state = ((S_80173408_0 *)jump)->unk_9B.n;
 increment_state:
-    ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
-    return;
+        ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
+        return;
 
-case 3:
+    case 3:
     {
         s16 *x_table;
         s16 *y_table;
@@ -187,31 +191,31 @@ case 3:
         ((S_80173408_0 *)jump)->unk_A8 = motion->unk_0C / 24;
         ((S_80173408_0 *)jump)->unk_AC = motion->unk_10 / 24;
     }
-    ((S_80173408_0 *)jump)->unk_96.s = 12;
-    ((S_80173408_0 *)jump)->unk_9B.n++;
-    return;
-
-case 4:
-    motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
-    motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
-    if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
-        ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
-    } else {
-        ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
-    }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        ((S_80173408_0 *)jump)->unk_96.s = 12;
+        ((S_80173408_0 *)jump)->unk_9B.n++;
         return;
-    }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_800AD594(actor, 0x100);
-    ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
-    dungeonStatus.unk_0C = 0;
-    func_800A4ACC(actor);
-    ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
-    break;
+
+    case 4:
+        motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
+        motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
+        if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
+            ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
+        } else {
+            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
+        }
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800AD594(actor, 0x100);
+        ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
+        break;
     default:
         return;
     }

@@ -12,7 +12,8 @@ extern u8 D_80700000[8];
 s32 func_80702110(s32 list_index) {
     s16 *entry;
 
-    entry = (*(s16 **)((u8 *)((D_80700000 + (((S_80702110_0 *)((D_80700000 + (list_index * 4))))->unk_1DFE * 4))) + 0x1DEC));
+    entry = (*(s16 **)((u8 *)((D_80700000 + (((S_80702110_0 *)((D_80700000 + (list_index * 4))))->unk_1DFE * 4)))
+        + 0x1DEC));
     while (func_80702714(*entry) != 0) {
         entry += 1;
     }

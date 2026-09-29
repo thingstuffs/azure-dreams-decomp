@@ -44,7 +44,8 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     flag_bits = half_bits << 24;
     tag_bits = (tag & 0xFF) << 16;
     header_or_addr = (u32)record;
-    loop_0: {
+loop_0:
+    {
         func_8001941C((void *)header_or_addr, entry, 5);
         packed_word = 0xC0000000;
         if (record_flags != 0) {
@@ -64,6 +65,8 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
             entry += 0x14;
         }
         header_or_addr = (u32)record;
-    } if (*(entry - 0x13) != 0x80) goto loop_0;
+    }
+    if (*(entry - 0x13) != 0x80)
+        goto loop_0;
     return record;
 }

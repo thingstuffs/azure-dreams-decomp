@@ -72,8 +72,6 @@ typedef struct S_8001C8C8_12 {
 } S_8001C8C8_12;   /* ((S_8001C8C8_7 *)(((S_8001C8C8_2 *)var_a0)->unk_1E0))->unk_04 in func_8001C8C8 */
 
 
-
-
 M2C_UNK func_80403698();                      /* extern */
 M2C_UNK func_80403738();       /* extern */
 M2C_UNK func_804037F4(void *);                            /* extern */

@@ -28,15 +28,11 @@ typedef struct S_80172A24_3 {
 } S_80172A24_3;   /* rec in func_80172A24 */
 
 
-
-
 typedef struct S_80172A24_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172A24_7;   /* block in func_80172A24 */
-
-
 
 
 extern int abs(int);
@@ -87,19 +83,19 @@ void func_80172A24(void *action_state, void *transform, void *sprite, EntityRec 
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        motion_3:
+motion_3:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        motion_2:
+motion_2:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        motion_1:
+motion_1:
             motion = (u8 *)actor + 8;
             break;
         default:
-        no_motion:
+no_motion:
             motion = (u8 *)0;
             break;
         }
@@ -164,9 +160,10 @@ void func_80172A24(void *action_state, void *transform, void *sprite, EntityRec 
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172A24_0 *)action_state)->unk_9B = ((S_80172A24_0 *)action_state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 4 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 4 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000))
+            ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             ((S_80172A24_0 *)action_state)->unk_96 = 0x3;

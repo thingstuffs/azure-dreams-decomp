@@ -12,7 +12,6 @@ typedef struct S_80022524_0 {
 } S_80022524_0;   /* arg0 in func_80022524 */
 
 
-
 extern void SD_Call(s32 code);
 extern s32 func_800231E4(s32 mode);
 extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);

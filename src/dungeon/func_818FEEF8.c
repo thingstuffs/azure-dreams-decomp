@@ -10,7 +10,7 @@ void func_818FEEF8(void *state_data, s32 unused, void *scale_data)
     s32 remaining_ticks;
     u8 *scale = scale_data;
 
-    
+
     *(u16 *)(state + 2) = *(u16 *)(state + 2) - 1;
     *(s16 *)(scale + 0x1C) = 0x1000;
     *(s16 *)(scale + 0x1E) = 0x1000;

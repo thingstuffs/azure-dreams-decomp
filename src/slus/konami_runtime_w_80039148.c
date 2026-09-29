@@ -5,7 +5,6 @@
 #include "records/Rec_func_800381D0_arg0.h"
 
 
-
 extern M2C_UNK func_800381A4;
 extern M2C_UNK func_800387D0;
 

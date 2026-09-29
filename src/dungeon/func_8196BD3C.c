@@ -21,7 +21,6 @@ typedef struct S_8196BD3C_2_pre {
 } S_8196BD3C_2_pre;   /* the 0x18 bytes before arg0 in func_8196BD3C, addressed as arg0[-1] */
 
 
-
 typedef struct {
     u32 word[3];
 } __attribute__((packed)) PackedVec3;

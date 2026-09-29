@@ -35,7 +35,6 @@ typedef struct S_801750F8_3 {
 } S_801750F8_3;   /* counter in func_801750F8 */
 
 
-
 extern s32 func_801744E0(void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800A56E0(s32);
@@ -91,17 +90,17 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
     }
 
     case 1:
-    if (!(((S_801750F8_2 *)sprite)->unk_14 & 0x6000)) {
+        if (!(((S_801750F8_2 *)sprite)->unk_14 & 0x6000)) {
+            return;
+        }
+        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+        ((S_801750F8_0 *)action_in)->unk_9B++;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
+        func_80047784(sprite,
+            D_801755CC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
         return;
-    }
-    ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-    ((S_801750F8_0 *)action_in)->unk_9B++;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
-    func_80047784(sprite,
-        D_801755CC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
-    return;
 
     case 2:
     {
@@ -160,7 +159,7 @@ timer_ge_11:
 
             ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
         }
-        store_xy_done:
+store_xy_done:
         ;
         ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
 

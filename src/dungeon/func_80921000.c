@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 
 
-
 typedef struct {
     s8 a;
     s8 b;
@@ -29,7 +28,7 @@ extern u8 D_800F6D48[];
 
 #ifdef __mips__
 static const u32 split_prefix[] __asm__("func_80921000")
-    __attribute__((section(".text.func_80921000"), aligned(4))) = {
+__attribute__((section(".text.func_80921000"), aligned(4))) = {
     0x00000001, 0x00010001, 0x00010000, 0x0001FFFF,
     0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001,
 };

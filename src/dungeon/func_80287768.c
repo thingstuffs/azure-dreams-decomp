@@ -104,9 +104,9 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
                     turn_dir = (forward_dir + D_8001F66C[side]) & 6;
                     turn_offset = turn_dir * 2;
                     next_x = start_x + *(s16 *)(forward_offset + x_steps_base) * forward_steps
-                                     + *(s16 *)(turn_offset + x_steps_base) * side_steps;
+                    + *(s16 *)(turn_offset + x_steps_base) * side_steps;
                     next_y = start_y + *(s16 *)(forward_offset + y_steps_base) * forward_steps
-                                     + *(s16 *)(turn_offset + y_steps_base) * side_steps;
+                    + *(s16 *)(turn_offset + y_steps_base) * side_steps;
                     if (((s16)next_x >= 0) && ((s16)next_x < D_8001F660) &&
                         ((s16)next_y >= 0) && ((s16)next_y < D_8001F664)) {
                         map_base = D_8001F6E8;

@@ -21,10 +21,6 @@ typedef struct S_80B09454_0 {
 } S_80B09454_0;   /* arg0 in func_80B09454 */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);

@@ -56,7 +56,8 @@ M2C_UNK func_818FEDEC(void *anim_state, s32 unused_arg, void *render_state) {
     if ((u32) frame >= 8U) {
         goto block_10;
     }
-    (void)jt_keep; goto *D_80024008[(u32)(frame)];
+    (void)jt_keep;
+    goto * D_80024008[(u32)(frame)];
 jt_c0:
 jt_c1:
 jt_c2:

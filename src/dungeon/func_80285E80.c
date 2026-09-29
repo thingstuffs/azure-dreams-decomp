@@ -29,7 +29,6 @@ typedef struct DungeonGlobals80285E80 {
 } DungeonGlobals80285E80;
 
 
-
 #define DUNGEON_GLOBALS ((DungeonGlobals80285E80 *)0x80010000)
 extern s8 D_80080A88[12];
 extern u8 D_80081468[12];
@@ -166,57 +165,57 @@ s32 func_80018E80(void)
             floor_data = (s16 *)D_80081468;
             if (floor_data[2] == 1) {
                 s32 i;
-            {
+                {
 
-                u8 *even_ids;
-                u8 *odd_ids;
+                    u8 *even_ids;
+                    u8 *odd_ids;
 
-                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
-                level = floor_data[2] + (func_800A6D30() & 1);
-                if (level >= 100) {
-                    level = 99;
+                    monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                    level = floor_data[2] + (func_800A6D30() & 1);
+                    if (level >= 100) {
+                        level = 99;
+                    }
+                    i = 0;
+                    dungeon = ((DungeonState80285E80 *)&dungeonStatus);
+                    base = D_800DDC9C[0];
+                    even_ids = base;
+                    odd_ids = even_ids + 1;
+                    do {
+                        dungeon->records[i].value = monster_id;
+                        dungeon->records[i].level = level;
+                        i++;
+                        *odd_ids = monster_id;
+                        *even_ids = monster_id;
+                        even_ids += 2;
+                        odd_ids += 2;
+                    } while (i < 4);
                 }
-                i = 0;
-                dungeon = ((DungeonState80285E80 *)&dungeonStatus);
-                base = D_800DDC9C[0];
-                even_ids = base;
-                odd_ids = even_ids + 1;
-                do {
-                    dungeon->records[i].value = monster_id;
-                    dungeon->records[i].level = level;
-                    i++;
-                    *odd_ids = monster_id;
-                    *even_ids = monster_id;
-                    even_ids += 2;
-                    odd_ids += 2;
-                } while (i < 4);
-            }
 
-            {
+                {
 
-                u8 *even_ids;
-                u8 *odd_ids;
+                    u8 *even_ids;
+                    u8 *odd_ids;
 
-                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
-                level = D_8008146C[0] + (func_800A6D30() & 1);
-                if (level >= 100) {
-                    level = 99;
+                    monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                    level = D_8008146C[0] + (func_800A6D30() & 1);
+                    if (level >= 100) {
+                        level = 99;
+                    }
+                    i = 0;
+                    dungeon = ((DungeonState80285E80 *)&dungeonStatus);
+                    base = D_800DDC9C[1];
+                    even_ids = base;
+                    odd_ids = even_ids + 1;
+                    do {
+                        dungeon->records[i + 4].value = monster_id;
+                        dungeon->records[i + 4].level = level;
+                        i++;
+                        *odd_ids = monster_id;
+                        *even_ids = monster_id;
+                        even_ids += 2;
+                        odd_ids += 2;
+                    } while (i < 4);
                 }
-                i = 0;
-                dungeon = ((DungeonState80285E80 *)&dungeonStatus);
-                base = D_800DDC9C[1];
-                even_ids = base;
-                odd_ids = even_ids + 1;
-                do {
-                    dungeon->records[i + 4].value = monster_id;
-                    dungeon->records[i + 4].level = level;
-                    i++;
-                    *odd_ids = monster_id;
-                    *even_ids = monster_id;
-                    even_ids += 2;
-                    odd_ids += 2;
-                } while (i < 4);
-            }
             } else {
                 *(Packed16_80285E80 *)dungeonStatus.unk_18 =
                     *(Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
@@ -226,59 +225,65 @@ s32 func_80018E80(void)
 
             {
 
-            s32 level_bonus;
-            u8 *even_ids;
-            u8 *odd_ids;
+                s32 level_bonus;
+                u8 *even_ids;
+                u8 *odd_ids;
 
-            monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
-            level_bonus = func_800A6D30() & 1;
-            i_m = 0;
-            base = ((DungeonState80285E80 *)&dungeonStatus);
-            dungeon = base;
-            final_floor = (s32)D_800DDC9C[2];
-            even_ids = (u8 *)final_floor;
-            odd_ids = even_ids + 1;
-            final_floor = D_8008146C[0];
-            do {
-                level = final_floor + level_bonus;
-            } while (0);
-            loop_2: {
-                dungeon->records[i_m + 8].value = monster_id;
-                dungeon->records[i_m + 8].level = level;
-                i_m++;
-                *odd_ids = monster_id;
-                *even_ids = monster_id;
-                even_ids += 2;
-                odd_ids += 2;
-            } if (i_m < 4) goto loop_2;
-        }
+                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                level_bonus = func_800A6D30() & 1;
+                i_m = 0;
+                base = ((DungeonState80285E80 *)&dungeonStatus);
+                dungeon = base;
+                final_floor = (s32)D_800DDC9C[2];
+                even_ids = (u8 *)final_floor;
+                odd_ids = even_ids + 1;
+                final_floor = D_8008146C[0];
+                do {
+                    level = final_floor + level_bonus;
+                } while (0);
+loop_2:
+                {
+                    dungeon->records[i_m + 8].value = monster_id;
+                    dungeon->records[i_m + 8].level = level;
+                    i_m++;
+                    *odd_ids = monster_id;
+                    *even_ids = monster_id;
+                    even_ids += 2;
+                    odd_ids += 2;
+                }
+                if (i_m < 4)
+                    goto loop_2;
+            }
 
             {
 
-            s32 level_bonus;
-            u8 *even_ids;
-            u8 *odd_ids;
+                s32 level_bonus;
+                u8 *even_ids;
+                u8 *odd_ids;
 
-            monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
-            level_bonus = func_800A6D30() & 1;
-            i_m = 0;
-            dungeon = ((DungeonState80285E80 *)&dungeonStatus);
-            final_floor = (s32)D_800DDC9C[3];
-            even_ids = (u8 *)final_floor;
-            odd_ids = even_ids + 1;
-            final_floor = D_8008146C[0];
-            do {
-                level = final_floor + level_bonus;
-            } while (0);
-            loop_2_: {
-                dungeon->records[i_m + 12].value = monster_id;
-                dungeon->records[i_m + 12].level = level;
-                i_m++;
-                *odd_ids = monster_id;
-                *even_ids = monster_id;
-                even_ids += 2;
-                odd_ids += 2;
-            } if (i_m < 4) goto loop_2_;
+                monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
+                level_bonus = func_800A6D30() & 1;
+                i_m = 0;
+                dungeon = ((DungeonState80285E80 *)&dungeonStatus);
+                final_floor = (s32)D_800DDC9C[3];
+                even_ids = (u8 *)final_floor;
+                odd_ids = even_ids + 1;
+                final_floor = D_8008146C[0];
+                do {
+                    level = final_floor + level_bonus;
+                } while (0);
+loop_2_:
+                {
+                    dungeon->records[i_m + 12].value = monster_id;
+                    dungeon->records[i_m + 12].level = level;
+                    i_m++;
+                    *odd_ids = monster_id;
+                    *even_ids = monster_id;
+                    even_ids += 2;
+                    odd_ids += 2;
+                }
+                if (i_m < 4)
+                    goto loop_2_;
             }
         }
     }

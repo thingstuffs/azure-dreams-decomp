@@ -89,7 +89,8 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     owner->flagsC |= 1;
 
     switch (actor->state68) {
-    case 0: {
+    case 0:
+    {
         s32 duration;
         duration_roll = rand() & 0xF;
         if (owner->kindA >= 25) {
@@ -129,7 +130,8 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
         break;
     }
 
-    case 1: {
+    case 1:
+    {
         s32 initial_duration;
         if (actor->timerA2 <= 0) {
             motion->vy = 0;
@@ -145,7 +147,8 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
         break;
     }
 
-    case 2: {
+    case 2:
+    {
         s32 duration;
         if (actor->timerA2 <= 0) {
             s32 initial_duration;

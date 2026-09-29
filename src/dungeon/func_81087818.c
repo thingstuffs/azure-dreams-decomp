@@ -138,261 +138,261 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     state = (u32)motion->unk_00.s;
     switch (state) {
     case 0:
-{
-    S_81087818_1 *actor = motion->unk_40;
-    S_81087818_2 *source;
-    s32 base_x;
-    s32 base_y;
-    register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 distance_y;
-    u32 direction_offset;
-    s16 *direction_table;
-    s32 tile_x;
-
-    motion->unk_28.word = motion->unk_2C.word = motion->unk_30.word = 0;
-    motion->unk_34 = motion->unk_38 = motion->unk_3C = 0;
-    switch (actor->unk_AE) {
-    case 1:
-        source = motion->unk_4C;
-        tile_x = actor->unk_A8;
-        direction_offset = (source->unk_2A.u >> 8) & 0xE;
-        direction_table = dirStepX;
-        motion->unk_28.half.unk_2A =
-            (tile_x * 64) +
-            ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
-        motion->unk_2C.half.unk_2E =
-            (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
-            ((*(s16 *)((u8 *)dirStepY + direction_offset) + 1) * 32);
-        distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
-        motion->unk_30.half.unk_32.u = distance_x;
-
-        distance_x = motion->unk_28.half.unk_2A;
-        base_x = ((S_81087818_4 *)&base)->unk_02.s;
-        base_y = ((S_81087818_4 *)&base)->unk_06.s;
-        distance_x -= base_x;
-        if (distance_x < 0) {
-            distance_x = -distance_x;
-        }
-        delta[0] = distance_x;
-        distance_y = motion->unk_2C.half.unk_2E - base_y;
-        distance_y = abs(distance_y);
-        delta[1] = distance_y;
-        motion->unk_04.s = delta[0];
-        if (motion->unk_04.s < (s16)delta[1]) {
-            motion->unk_04.u = delta[1];
-        }
-        motion->unk_04.s = (s16)motion->unk_04.u >> 5;
-        if (motion->unk_04.s == 0) {
-            motion->unk_04.u = 1;
-        }
-        trajectory->dx = motion->unk_28.word - base.x;
-        trajectory->dy = motion->unk_2C.word - base.y;
-        trajectory->dz = 0;
-        break;
-
-    case 2:
     {
-        S_81087818_3 *node;
-        s32 axis = 1;
-        s32 distance_x;
+        S_81087818_1 *actor = motion->unk_40;
+        S_81087818_2 *source;
+        s32 base_x;
+        s32 base_y;
+        register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 distance_y;
-        s32 distance_z;
-        u8 *delta_scan;
-        s32 origin_x;
-        s32 origin_y;
-        s32 origin_z;
-        s32 height;
-        s32 position_z;
+        u32 direction_offset;
+        s16 *direction_table;
+        s32 tile_x;
 
-        node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
-        distance_x = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
-        motion->unk_28.word = ((s32 *)distance_x)[0];
-        motion->unk_2C.word = ((s32 *)distance_x)[1];
-        height = D_800DDC40[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
-        position_z = ((s32 *)distance_x)[2];
-        distance_x = motion->unk_28.half.unk_2A;
-        motion->unk_30.word = position_z - (height << 15);
+        motion->unk_28.word = motion->unk_2C.word = motion->unk_30.word = 0;
+        motion->unk_34 = motion->unk_38 = motion->unk_3C = 0;
+        switch (actor->unk_AE) {
+        case 1:
+            source = motion->unk_4C;
+            tile_x = actor->unk_A8;
+            direction_offset = (source->unk_2A.u >> 8) & 0xE;
+            direction_table = dirStepX;
+            motion->unk_28.half.unk_2A =
+                (tile_x * 64) +
+                ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
+            motion->unk_2C.half.unk_2E =
+                (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
+                ((*(s16 *)((u8 *)dirStepY + direction_offset) + 1) * 32);
+            distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
+            motion->unk_30.half.unk_32.u = distance_x;
 
-        origin_x = ((S_81087818_4 *)&base)->unk_02.s;
-        origin_y = ((S_81087818_4 *)&base)->unk_06.s;
-        distance_x -= origin_x;
-        distance_x = abs(distance_x);
-        delta[0] = distance_x;
-        distance_y = motion->unk_2C.half.unk_2E - origin_y;
-        distance_y = abs(distance_y);
-        delta[1] = distance_y;
-        distance_z = motion->unk_30.half.unk_32.s;
-        origin_z = ((S_81087818_4 *)&base)->unk_0A.s;
-        delta_scan = (u8 *)&base + 2;
-        distance_z -= origin_z;
-        distance_z = abs(distance_z);
-        delta[2] = distance_z;
-
-        motion->unk_04.s = delta[0];
-        for (axis = 1; axis < 3; axis++, delta_scan += 2) {
-            if (((S_81087818_5 *)delta_scan)->unk_18.s > motion->unk_04.s) {
-                motion->unk_04.u = ((S_81087818_5 *)delta_scan)->unk_18.u;
+            distance_x = motion->unk_28.half.unk_2A;
+            base_x = ((S_81087818_4 *)&base)->unk_02.s;
+            base_y = ((S_81087818_4 *)&base)->unk_06.s;
+            distance_x -= base_x;
+            if (distance_x < 0) {
+                distance_x = -distance_x;
             }
-        }
-        motion->unk_04.s = (s16)motion->unk_04.u >> 5;
-        if (motion->unk_04.s == 0) {
-            motion->unk_04.u = 1;
-        }
-        trajectory->dx = motion->unk_28.word - base.x;
-        trajectory->dy = motion->unk_2C.word - base.y;
-        trajectory->dz = motion->unk_30.word - base.z;
-        break;
-    }
-    case 0:
-    default:
-        break;
-    }
+            delta[0] = distance_x;
+            distance_y = motion->unk_2C.half.unk_2E - base_y;
+            distance_y = abs(distance_y);
+            delta[1] = distance_y;
+            motion->unk_04.s = delta[0];
+            if (motion->unk_04.s < (s16)delta[1]) {
+                motion->unk_04.u = delta[1];
+            }
+            motion->unk_04.s = (s16)motion->unk_04.u >> 5;
+            if (motion->unk_04.s == 0) {
+                motion->unk_04.u = 1;
+            }
+            trajectory->dx = motion->unk_28.word - base.x;
+            trajectory->dy = motion->unk_2C.word - base.y;
+            trajectory->dz = 0;
+            break;
 
-    trajectory->x = base.x;
-    trajectory->y = base.y;
-    trajectory->z = base.z;
-    motion->unk_00.u++;
-    motion->unk_02.u = 0;
-    break;
-}
+        case 2:
+        {
+            S_81087818_3 *node;
+            s32 axis = 1;
+            s32 distance_x;
+            s32 distance_y;
+            s32 distance_z;
+            u8 *delta_scan;
+            s32 origin_x;
+            s32 origin_y;
+            s32 origin_z;
+            s32 height;
+            s32 position_z;
+
+            node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
+            distance_x = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
+            motion->unk_28.word = ((s32 *)distance_x)[0];
+            motion->unk_2C.word = ((s32 *)distance_x)[1];
+            height = D_800DDC40[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
+            position_z = ((s32 *)distance_x)[2];
+            distance_x = motion->unk_28.half.unk_2A;
+            motion->unk_30.word = position_z - (height << 15);
+
+            origin_x = ((S_81087818_4 *)&base)->unk_02.s;
+            origin_y = ((S_81087818_4 *)&base)->unk_06.s;
+            distance_x -= origin_x;
+            distance_x = abs(distance_x);
+            delta[0] = distance_x;
+            distance_y = motion->unk_2C.half.unk_2E - origin_y;
+            distance_y = abs(distance_y);
+            delta[1] = distance_y;
+            distance_z = motion->unk_30.half.unk_32.s;
+            origin_z = ((S_81087818_4 *)&base)->unk_0A.s;
+            delta_scan = (u8 *)&base + 2;
+            distance_z -= origin_z;
+            distance_z = abs(distance_z);
+            delta[2] = distance_z;
+
+            motion->unk_04.s = delta[0];
+            for (axis = 1; axis < 3; axis++, delta_scan += 2) {
+                if (((S_81087818_5 *)delta_scan)->unk_18.s > motion->unk_04.s) {
+                    motion->unk_04.u = ((S_81087818_5 *)delta_scan)->unk_18.u;
+                }
+            }
+            motion->unk_04.s = (s16)motion->unk_04.u >> 5;
+            if (motion->unk_04.s == 0) {
+                motion->unk_04.u = 1;
+            }
+            trajectory->dx = motion->unk_28.word - base.x;
+            trajectory->dy = motion->unk_2C.word - base.y;
+            trajectory->dz = motion->unk_30.word - base.z;
+            break;
+        }
+        case 0:
+        default:
+            break;
+        }
+
+        trajectory->x = base.x;
+        trajectory->y = base.y;
+        trajectory->z = base.z;
+        motion->unk_00.u++;
+        motion->unk_02.u = 0;
+        break;
+    }
 
     case 1:
-{
-    trajectory->dx /= 2;
-    trajectory->dy /= 2;
-    trajectory->dz /= 2;
-    trajectory->x += trajectory->dx;
-    trajectory->y += trajectory->dy;
-    trajectory->z += trajectory->dz;
-    if (motion->unk_02.s < motion->unk_04.s) {
-        goto call_helper;
-    }
-
-    trajectory->x = motion->unk_28.word;
-    trajectory->y = motion->unk_2C.word;
-    trajectory->z = motion->unk_30.word;
-    motion->unk_02.u = 0;
     {
-        S_81087818_1 *actor = motion->unk_40;
-        if (actor->unk_AE != 2) {
-            s32 return_dz;
-
-            trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
-            trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
-            return_dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            next_state = 3;
-            trajectory->dz = return_dz;
-        } else {
-            next_state = motion->unk_00.u + 1;
-        }
-    }
-    goto commit_state;
-}
-
-    case 2:
-{
-    s32 elevation_factor;
-    s32 azimuth_factor;
-    {
-        s32 random_angle = func_80069EF8();
-        s32 biased_angle = random_angle;
-        s32 base_angle = motion->unk_06.u + 0x400;
-        s32 quotient;
-        s32 remainder;
-
-        if (random_angle < 0) {
-            biased_angle = random_angle + 0x7FF;
-        }
-        quotient = biased_angle >> 11;
-        remainder = random_angle - (quotient << 11);
-        motion->unk_06.u = base_angle + remainder;
-    }
-    {
-        s32 random_angle = func_80069EF8();
-        s32 biased_angle = random_angle;
-        s32 base_angle = motion->unk_08.u + 0x400;
-        s32 quotient;
-        s32 remainder;
-
-        if (random_angle < 0) {
-            biased_angle = random_angle + 0x7FF;
-        }
-        quotient = biased_angle >> 11;
-        remainder = random_angle - (quotient << 11);
-        motion->unk_08.u = base_angle + remainder;
-    }
-
-    trajectory->x = motion->unk_28.word + (((func_800644B8(motion->unk_06.s) >> 4) *
-        (func_800644B8(motion->unk_08.s) >> 4)) << 5);
-    trajectory->y = motion->unk_2C.word + (((func_800644B8(motion->unk_06.s) >> 4) *
-        (func_80064584(motion->unk_08.s) >> 4)) << 5);
-    trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
-
-    if (motion->unk_02.s < 8) {
-        goto call_helper;
-    }
-    {
-        S_81087818_1 *actor = motion->unk_40;
-        if (actor->unk_AE == 2) {
-            S_81087818_2 *source = motion->unk_4C;
-            func_8009C12C(source, motion->unk_48,
-                          source->unk_2A.s, actor->unk_AC);
-        }
-    }
-    trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
-    trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
-    trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
-    motion->unk_02.u = 0;
-
-    next_state = motion->unk_00.u + 1;
-commit_state:
-    motion->unk_00.u = next_state;
-call_helper:
-    func_80175A90(&base, trajectory);
-    break;
-}
-
-    case 3:
-{
-    if (motion->unk_02.s < motion->unk_04.s) {
-        trajectory->dx *= 2;
-        trajectory->dy *= 2;
-        trajectory->dz *= 2;
+        trajectory->dx /= 2;
+        trajectory->dy /= 2;
+        trajectory->dz /= 2;
         trajectory->x += trajectory->dx;
         trajectory->y += trajectory->dy;
         trajectory->z += trajectory->dz;
+        if (motion->unk_02.s < motion->unk_04.s) {
+            goto call_helper;
+        }
+
+        trajectory->x = motion->unk_28.word;
+        trajectory->y = motion->unk_2C.word;
+        trajectory->z = motion->unk_30.word;
+        motion->unk_02.u = 0;
+        {
+            S_81087818_1 *actor = motion->unk_40;
+            if (actor->unk_AE != 2) {
+                s32 return_dz;
+
+                trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
+                trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
+                return_dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                next_state = 3;
+                trajectory->dz = return_dz;
+            } else {
+                next_state = motion->unk_00.u + 1;
+            }
+        }
+        goto commit_state;
+    }
+
+    case 2:
+    {
+        s32 elevation_factor;
+        s32 azimuth_factor;
+        {
+            s32 random_angle = func_80069EF8();
+            s32 biased_angle = random_angle;
+            s32 base_angle = motion->unk_06.u + 0x400;
+            s32 quotient;
+            s32 remainder;
+
+            if (random_angle < 0) {
+                biased_angle = random_angle + 0x7FF;
+            }
+            quotient = biased_angle >> 11;
+            remainder = random_angle - (quotient << 11);
+            motion->unk_06.u = base_angle + remainder;
+        }
+        {
+            s32 random_angle = func_80069EF8();
+            s32 biased_angle = random_angle;
+            s32 base_angle = motion->unk_08.u + 0x400;
+            s32 quotient;
+            s32 remainder;
+
+            if (random_angle < 0) {
+                biased_angle = random_angle + 0x7FF;
+            }
+            quotient = biased_angle >> 11;
+            remainder = random_angle - (quotient << 11);
+            motion->unk_08.u = base_angle + remainder;
+        }
+
+        trajectory->x = motion->unk_28.word + (((func_800644B8(motion->unk_06.s) >> 4) *
+            (func_800644B8(motion->unk_08.s) >> 4)) << 5);
+        trajectory->y = motion->unk_2C.word + (((func_800644B8(motion->unk_06.s) >> 4) *
+            (func_80064584(motion->unk_08.s) >> 4)) << 5);
+        trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
+
+        if (motion->unk_02.s < 8) {
+            goto call_helper;
+        }
+        {
+            S_81087818_1 *actor = motion->unk_40;
+            if (actor->unk_AE == 2) {
+                S_81087818_2 *source = motion->unk_4C;
+                func_8009C12C(source, motion->unk_48,
+                              source->unk_2A.s, actor->unk_AC);
+            }
+        }
+        trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
+        trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
+        trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
+        motion->unk_02.u = 0;
+
+        next_state = motion->unk_00.u + 1;
+commit_state:
+        motion->unk_00.u = next_state;
+call_helper:
         func_80175A90(&base, trajectory);
         break;
     }
-    trajectory->x = base.x;
-    trajectory->y = base.y;
-    trajectory->z = base.z;
+
+    case 3:
     {
-        S_81087818_1 *actor = motion->unk_48;
-        u16 flags = actor->unk_14;
-        if (!(flags & 0x800)) {
+        if (motion->unk_02.s < motion->unk_04.s) {
+            trajectory->dx *= 2;
+            trajectory->dy *= 2;
+            trajectory->dz *= 2;
+            trajectory->x += trajectory->dx;
+            trajectory->y += trajectory->dy;
+            trajectory->z += trajectory->dz;
+            func_80175A90(&base, trajectory);
             break;
         }
-        actor->unk_14 = flags & 0xF7FF;
+        trajectory->x = base.x;
+        trajectory->y = base.y;
+        trajectory->z = base.z;
+        {
+            S_81087818_1 *actor = motion->unk_48;
+            u16 flags = actor->unk_14;
+            if (!(flags & 0x800)) {
+                break;
+            }
+            actor->unk_14 = flags & 0xF7FF;
+        }
+        motion->unk_00.u++;
+        motion->unk_02.u = 0;
     }
-    motion->unk_00.u++;
-    motion->unk_02.u = 0;
-}
 
     case 4:
-{
-    S_81087818_1 *actor = motion->unk_48;
-    if (actor->unk_2C != &D_80175F68) {
-        (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
+    {
+        S_81087818_1 *actor = motion->unk_48;
+        if (actor->unk_2C != &D_80175F68) {
+            (*(u16 *)((u8 *)motion - 2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+        actor->unk_14 &= 0xF7FF;
+        trajectory->x = base.x;
+        trajectory->y = base.y;
+        trajectory->z = base.z;
     }
-    actor->unk_14 &= 0xF7FF;
-    trajectory->x = base.x;
-    trajectory->y = base.y;
-    trajectory->z = base.z;
-}
     }
 
     if (motion->unk_00.s != 0) {

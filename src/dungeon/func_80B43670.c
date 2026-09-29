@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(u8, u8);
@@ -70,7 +69,11 @@ typedef struct S_80170E70_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -216,43 +219,43 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
         switch (action_index) {
         case 7:
         case 8:
-        if ((s16)func_80171DD8(entity, context, sprite, actor) != 0) {
+            if ((s16)func_80171DD8(entity, context, sprite, actor) != 0) {
+                return;
+            }
+            func_80171F9C(entity, context, sprite, actor);
             return;
-        }
-        func_80171F9C(entity, context, sprite, actor);
-        return;
 
         case 4:
         case 5:
         case 6:
-        target_angle = func_800A0818(
-            ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &path_distance);
-        owner = D_800814A8;
-        ((S_80170E70_1 *)actor)->unk_2A = target_angle;
-        if (owner->unk_9A == 0x11) {
-            continuation = D_80170E70;
-            goto jt_call;
-        }
+            target_angle = func_800A0818(
+                ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY, &path_distance);
+            owner = D_800814A8;
+            ((S_80170E70_1 *)actor)->unk_2A = target_angle;
+            if (owner->unk_9A == 0x11) {
+                continuation = D_80170E70;
+                goto jt_call;
+            }
 
         case 11:
 jt_c12:
-        func_800A9A0C(actor);
-        return;
+            func_800A9A0C(actor);
+            return;
 
         case 0:
         case 1:
         case 2:
-        continuation = D_80170E70;
+            continuation = D_80170E70;
 
 jt_call:
-        func_800AAF00(entity, context, sprite, D_80175A8C, continuation);
-        return;
+            func_800AAF00(entity, context, sprite, D_80175A8C, continuation);
+            return;
 
         default:
 jt_default:
-        func_8017162C(entity, context, sprite, actor);
-        return;
+            func_8017162C(entity, context, sprite, actor);
+            return;
         }
     }
 

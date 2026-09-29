@@ -35,7 +35,11 @@ typedef struct S_8016BF74_1 {
 
 typedef struct S_8016BF74_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
 } S_8016BF74_2;   /* arg2 in func_8016BF74 */
 
@@ -157,7 +161,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
     state_flags = dungeonStatus.flags;
     near_target = 0;
     if ((state_flags & 0x4000) || (((S_8016BF74_1 *)actor)->unk_71.s >= 0)) {
-        if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10) == 0)) {
+        if (((u8) ((S_8016BF74_1 *)actor)->unk_12 >= 2U) || ((func_8016C720(motion, context, position, actor) << 0x10)
+            == 0)) {
             func_800A9A0C(actor);
             return;
         }
@@ -196,7 +201,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                 }
                 turn_index = 0;
             } else {
-                x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
+                x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v,
+                    (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
                 turn_index = 0;
                 if (x_offset != NULL) {
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -207,7 +213,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
             turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                 if (actor_flags & 0x20000) {
-                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)D_800814A8->facing) << 0x10) >> 0x19)) & 7) * 2;
+                    direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)D_800814A8->facing) << 0x10)
+                        >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
                     x_offset = (void *)(*(u16 *)((u8 *)(((M2C_UNK *)dirStepX)) + direction_offset));
@@ -216,16 +223,20 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;
                     if ((current_x != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
-                        target_angle = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x, (s16) target_y, motion + 0x98);
+                        target_angle = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x,
+                            (s16) target_y, motion + 0x98);
                         ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) target_angle;
                         if ((func_8009A66C(target_angle, position, actor, 0x20) << 0x10) <= 0) {
                             u8 *fallback_position;
 
                             fallback_position = (u8 *)&D_80082EA4 - 0x24;
-                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, fallback_position[0x24], fallback_position[0x25], motion + 0x98);
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
+                                position->unk_24.at01.v, fallback_position[0x24], fallback_position[0x25],
+                                motion + 0x98);
                         }
                         world_position = (u8 *)&D_80082EA4 - 0x24;
-                        result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24], world_position[0x25]);
+                        result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24],
+                            world_position[0x25]);
                         ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         turn_index = 0;
                         if ((result << 0x10) != 0) {
@@ -245,18 +256,28 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
             if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
                 turn_index = 0;
                 if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
-                    initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
-                    if (((void *)initialized_bit == NULL) || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000) || (func_800A0134((void *)initialized_bit, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
+                    initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v,
+                        (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
+                    if (((void *)initialized_bit == NULL)
+                        || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000)
+                        || (func_800A0134((void *)initialized_bit, actor) >= 0x81)
+                        || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF,
+                        position->unk_24.at00.v, position->unk_24.at01.v,
+                        (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
                         if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
                             u8 *world_origin;
 
                             world_origin = (u8 *)&D_80082E80;
-                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
-                            if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24], world_origin[0x25]) << 0x10) != 0) {
+                            ((S_8016BF74_1 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
+                                position->unk_24.at01.v, world_origin[0x24], world_origin[0x25], motion + 0x98);
+                            if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24],
+                                world_origin[0x25]) << 0x10) != 0) {
                                 actor_distance = func_800A0134(D_800814A8, actor);
                                 turn_index = 0;
                                 if (actor_distance < 0x81) {
-                                    result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
+                                    result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10)
+                                        >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v,
+                                        (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
                                     ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                                     turn_index = 0;
                                     if ((result << 0x10) != 0) {
@@ -301,8 +322,10 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                     }
                 }
                 ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
-                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
-                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
+                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 =
+                    (u8) position->unk_24.at00.v;
+                ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C =
+                    (u8) position->unk_24.at01.v;
                 next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
                 x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);
                 ((S_8016BF74_1 *)actor)->unk_71.s = (s8) next_path_index;
@@ -329,7 +352,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                 func_8009A21C(next_x, tile_y, new_tile_mask);
                 break;
             }
-            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v) || (result = func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10, (result == 0))) {
+            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v)
+                || (result = func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10, (result == 0))) {
                 turn_index += 1;
                 angle_offsets += 2;
                 if (turn_index < 8) {
@@ -355,7 +379,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                 ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                 return;
             }
-            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
+            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
+                (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
             result = turn_index < 0x200;
             if (result != 0) {
                 ((S_8016BF74_1 *)actor)->unk_88 = (u16) turn_index;

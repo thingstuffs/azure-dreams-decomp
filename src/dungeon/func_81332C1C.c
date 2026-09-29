@@ -51,7 +51,6 @@ extern u8 D_80169754[9];
 extern u8 D_80173B40[12];
 
 
-
 typedef struct S_80169C1C_0 {
     u8 pad_00[0x6];
     s16 unk_06;

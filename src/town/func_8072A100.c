@@ -11,8 +11,6 @@ typedef struct SceneStateVtbl {
 } SceneStateVtbl;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80016100 */
 
 
-
-
 M2C_UNK func_80017684();                         /* extern */
 M2C_UNK func_800176FC();                         /* extern */
 s32 func_8001777C();                         /* extern */

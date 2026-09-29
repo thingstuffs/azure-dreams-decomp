@@ -2,7 +2,6 @@
 extern int abs(int);
 
 
-
 typedef struct S_8001A8DC_0 {
     s16 unk_00;
     s16 unk_02;
@@ -46,7 +45,7 @@ s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 oth
     base_x = ((S_8001A8DC_1 *)base)->unk_00;
     ((S_8001A8DC_2 *)out)->unk_00 =
         base_x
-        + ((other_x - (s16)((S_8001A8DC_1 *)base)->unk_00) * weight) / total_weight;
+    + ((other_x - (s16)((S_8001A8DC_1 *)base)->unk_00) * weight) / total_weight;
     other_y = ((S_8001A8DC_0 *)other)->unk_02;
     base_y = ((S_8001A8DC_1 *)base)->unk_02;
     scaled_y_delta =

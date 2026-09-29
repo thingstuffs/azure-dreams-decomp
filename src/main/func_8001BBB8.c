@@ -13,8 +13,6 @@ typedef struct S_8001BBB8_3 {
 } S_8001BBB8_3;   /* ((S_8001BBB8_2 *)temp_v1)->unk_04 in func_8001BBB8 */
 
 
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct S_8001BBB8_0 {
     u8 pad_00[0x69C];

@@ -48,7 +48,6 @@ typedef struct S_80171A18_4 {
 } S_80171A18_4;   /* (u8 *)arg3 + ((S_80171A18_0 *)arg3)->unk_8A.s in func_80171A18 */
 
 
-
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();
@@ -86,7 +85,8 @@ void func_80171A18(void *motion, s32 unused, void *actor, void *move_state) {
     }
 
     next_cell = (u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s;
-    if (((S_80171A18_1 *)actor)->unk_24 == ((S_80171A18_2 *)next_cell)->unk_74 && ((S_80171A18_1 *)actor)->unk_25 == ((S_80171A18_2 *)next_cell)->unk_7C) {
+    if (((S_80171A18_1 *)actor)->unk_24 == ((S_80171A18_2 *)next_cell)->unk_74
+        && ((S_80171A18_1 *)actor)->unk_25 == ((S_80171A18_2 *)next_cell)->unk_7C) {
         move_offset = ((S_80171A18_3 *)motion)->unk_92;
         remaining_offset = ((S_80171A18_0 *)move_state)->unk_88;
         ((S_80171A18_3 *)motion)->unk_92 = move_offset + 0x20;
@@ -101,8 +101,10 @@ void func_80171A18(void *motion, s32 unused, void *actor, void *move_state) {
         }
         func_8009A3D0(old_x, old_y, occupancy_mask);
 
-        ((S_80171A18_1 *)actor)->unk_24 = ((S_80171A18_4 *)((u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_74;
-        ((S_80171A18_1 *)actor)->unk_25 = ((S_80171A18_4 *)((u8 *)move_state + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_7C;
+        ((S_80171A18_1 *)actor)->unk_24 = ((S_80171A18_4 *)((u8 *)move_state
+            + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_74;
+        ((S_80171A18_1 *)actor)->unk_25 = ((S_80171A18_4 *)((u8 *)move_state
+            + ((S_80171A18_0 *)move_state)->unk_8A.s))->unk_7C;
         ((S_80171A18_0 *)move_state)->unk_8A.u++;
 
         new_x = ((S_80171A18_1 *)actor)->unk_24;

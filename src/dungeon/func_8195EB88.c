@@ -55,7 +55,6 @@ typedef struct S_8195EB88_5 {
 } S_8195EB88_5;   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_80024388 */
 
 
-
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_80027204(void *);
 extern void func_8004491C(void *, void *);

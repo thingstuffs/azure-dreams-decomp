@@ -14,7 +14,7 @@ void func_8016EB68(void) {
     do {
         state = *object_entry + 0x20;
         count = *(u16 *)(state + 0x12);
-        
+
         *(s16 *)(state + 0x18) = 0;
         *(u16 *)(state + 0x12) = count + 1;
         object_entry += 1;

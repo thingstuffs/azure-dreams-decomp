@@ -21,7 +21,6 @@ typedef struct S_8190AEB4_2 {
 } S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in func_800246B4 */
 
 
-
 typedef struct {
     u16 x;
     u16 y;
@@ -135,18 +134,18 @@ store_xy:
         return;
 
     case 5:
-        {
-            u8 *cursor;
+    {
+        u8 *cursor;
 
-            entry = 0x2F;
-            cursor = D_80025648;
-            cursor += 0x2F;
-            do {
-                *cursor = entry;
-                entry--;
-                cursor--;
-            } while (entry >= 0);
-        }
+        entry = 0x2F;
+        cursor = D_80025648;
+        cursor += 0x2F;
+        do {
+            *cursor = entry;
+            entry--;
+            cursor--;
+        } while (entry >= 0);
+    }
         {
             u8 *cursor;
 
@@ -183,7 +182,7 @@ store_xy:
         D_80025638[3] = 0;
         ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
         ((S_8190AEB4_0 *)effect)->unk_00.p++;
-        /* fallthrough */
+                /* fallthrough */
 
     case 6:
     {

@@ -10,7 +10,6 @@ typedef struct S_8059E700_1 {
 } S_8059E700_1;   /* record in func_8059E700 */
 
 
-
 /* Subtracts an amount from the record's value at offset 0x2D5C. */
 void func_8059E700(s32 amount) {
     S_8059E700_1 *record;

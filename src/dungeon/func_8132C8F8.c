@@ -56,7 +56,8 @@ void func_801740F8(void *actor, EntityRec *transform, void *animation, void *mot
             (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
             func_80047784(
                 animation,
-                *(u8 *)(((((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
+                *(u8 *)(((((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7))
+                    + (u32)anim_table),
                 0);
         }
         ((S_801740F8_0 *)actor)->unk_98 |= 8;

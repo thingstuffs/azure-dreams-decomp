@@ -23,7 +23,6 @@ typedef struct S_801671AC_1 {
 } S_801671AC_1;   /* obj in func_801671AC */
 
 
-
 /* Pulse the color through three phases and mark the effect finished when its timer expires. */
 void func_801671AC(void *state_data, void *unused, void *color) {
     void *state;

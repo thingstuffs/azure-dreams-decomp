@@ -73,7 +73,6 @@ typedef struct S_80172AB4_6 {
 } S_80172AB4_6;   /* globals in func_80172AB4 */
 
 
-
 extern s32 func_8003F270();
 extern void func_80047784(void *, s32, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);

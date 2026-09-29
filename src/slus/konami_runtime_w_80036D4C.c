@@ -66,7 +66,8 @@ extern M2C_UNK func_80033D54;
 extern M2C_UNK func_80036F24;
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
-void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value, s32 setup_id) {
+void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,
+    s32 setup_id) {
     S_80036D4C_1 *state;
     S_80036D4C_3 *display;
     void *node;

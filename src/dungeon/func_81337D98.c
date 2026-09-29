@@ -18,7 +18,6 @@ typedef struct S_8016ED98_2 {
 } S_8016ED98_2;   /* D_800E3D7C + i * 4 in func_8016ED98 */
 
 
-
 extern void func_8009FAC4(void);
 extern void func_8016ECFC(void);
 extern void func_80099FDC(void *);

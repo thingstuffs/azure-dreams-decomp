@@ -21,7 +21,7 @@ extern u8 D_8002D5B4[10];
 
 #if !defined(NON_MATCHING) && __GNUC__ < 3
 #define ASM_KEEP(value) \
-    __asm__ __volatile__("" : "=r"(value) : "0"(value))
+__asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
 #endif
 

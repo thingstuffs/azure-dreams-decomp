@@ -5,9 +5,22 @@ typedef struct S_808106E0_0 {
     void * unk_10;
     u8 pad_14[0x10];
     union { u16 u16; u32 u32; void * p32; } unk_24;   /* accessed as both */
-    union { struct { void * v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_28;   /* overlapping accesses */
-    union { struct { u16 v; } at00; struct { void * v; } at00u; struct { s16 v; } at00p; struct { u8 pad[0x2]; u16 v; } at02; } unk_2C;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_30;   /* overlapping accesses */
+    union {
+        struct { void * v; } at00;
+        struct { u32 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_28;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { void * v; } at00u;
+        struct { s16 v; } at00p;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_2C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_30;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_34;   /* accessed as both */
     u16 unk_36;
     u16 unk_38;
@@ -18,7 +31,6 @@ typedef struct S_808106E0_1 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_808106E0_1;   /* part in func_808106E0 */
-
 
 
 typedef struct Triple {

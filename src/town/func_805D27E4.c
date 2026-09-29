@@ -31,7 +31,6 @@ typedef struct S_800167E4_4 {
 } S_800167E4_4;   /* index * 8 + ((S_800167E4_2 *)town2)->unk_40 in func_800167E4 */
 
 
-
 extern s32 func_8001776C(void);
 extern void func_80017E1C(void);
 extern void func_80018308(void *, s32);

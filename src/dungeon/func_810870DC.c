@@ -37,7 +37,8 @@ typedef struct S_func_810870DC_3 {
 } S_func_810870DC_3;
 
 /* Updates directional animation and entity state when the transition flags allow. */
-void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation, S_func_810870DC_2 *orientation)
+void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *animation,
+    S_func_810870DC_2 *orientation)
 {
     GameWork *scene_data = &gameWork;
     u8 state = entity->unk_9B;
@@ -53,19 +54,19 @@ void func_801748DC(S_func_810870DC_0 *entity, void *unused, S_func_810870DC_1 *a
         }
         break;
     case 1:
-        {
-            s32 scene_flags = scene_data->buttons;
+    {
+        s32 scene_flags = scene_data->buttons;
 
-            if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
-                animation->unk_2C = D_80175F10;
-                func_80047784(animation,
-                    D_80175F10[((scene_data->view.viewAngle +
-                        orientation->unk_2A + 0x100) >> 9) & 7], 0);
-                entity->unk_8C = D_80170E94;
-                entity->unk_A6 = 0;
-                dungeonStatus.unk_0A--;
-            }
+        if (!(scene_flags & 0x100) && (scene_flags & 0xFFFF)) {
+            animation->unk_2C = D_80175F10;
+            func_80047784(animation,
+                D_80175F10[((scene_data->view.viewAngle +
+                    orientation->unk_2A + 0x100) >> 9) & 7], 0);
+            entity->unk_8C = D_80170E94;
+            entity->unk_A6 = 0;
+            dungeonStatus.unk_0A--;
         }
+    }
         break;
     }
 }

@@ -39,9 +39,6 @@ typedef struct S_8191CA88_4 {
 } S_8191CA88_4;   /* global_base in func_8191CA88 */
 
 
-
-
-
 /* Updates object motion and timers through movement, waiting, falling, and completion states. */
 void func_8191CA88(void *object, S_8191CA88_3 *motion, S_8191CA88_2 *effect) {
     s32 state;
@@ -84,7 +81,8 @@ void func_8191CA88(void *object, S_8191CA88_3 *motion, S_8191CA88_2 *effect) {
         motion->unk_08 += z_velocity;
         move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
         move_duration = ((S_8191CA88_0 *)object)->unk_14;
-        if (move_timer < move_duration) return;
+        if (move_timer < move_duration)
+            return;
         next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
         ((S_8191CA88_0 *)object)->unk_10.u = 0;
         ((S_8191CA88_0 *)object)->unk_0E.p = next_state;

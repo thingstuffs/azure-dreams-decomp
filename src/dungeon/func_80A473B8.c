@@ -273,7 +273,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                         ground_offset = (s16)(func_800BCB04(
                             ((S_80170BB8_0 *)motion)->unk_00.at02.v, ((S_80170BB8_0 *)motion)->unk_04.at02.v,
                             (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
-                                                 ((S_80170BB8_1 *)subject)->unk_88);
+                                              ((S_80170BB8_1 *)subject)->unk_88);
                         height_offset = (*(s16 *)((u8 *)actor + 0x92));
                         loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
                         height_raw = loaded_height;
@@ -310,7 +310,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                 subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
 
                 if (!(subject_flags & 0x00040000)) {
-        ground_reset:
+ground_reset:
                     bob_offset = (*(s32 *)((u8 *)actor + 0xB4));
                     (*(u16 *)((u8 *)actor + 0xB8)) = 0;
                     (*(s32 *)((u8 *)actor + 0xB4)) = 0;
@@ -329,38 +329,38 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                     }
                     subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
                 } else {
-                if (!(((S_80170BB8_4 *)entity)->unk_14 & 0x40) &&
-                    ((S_80170BB8_4 *)entity)->unk_2C == D_8017586C) {
-                    u16 bob_frame = (*(u16 *)((u8 *)actor + 0xB8));
+                    if (!(((S_80170BB8_4 *)entity)->unk_14 & 0x40) &&
+                        ((S_80170BB8_4 *)entity)->unk_2C == D_8017586C) {
+                        u16 bob_frame = (*(u16 *)((u8 *)actor + 0xB8));
 
-                    (*(u16 *)((u8 *)actor + 0xB8)) = bob_frame + 1;
-                    (*(s32 *)((u8 *)actor + 0xB4)) +=
-                        func_800644B8((s16)bob_frame * 0xAA) << 5;
-                }
+                        (*(u16 *)((u8 *)actor + 0xB8)) = bob_frame + 1;
+                        (*(s32 *)((u8 *)actor + 0xB4)) +=
+                            func_800644B8((s16)bob_frame * 0xAA) << 5;
+                    }
 
-                if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
-                    ground_offset = (s16)(func_800BCB04(
-                        ((S_80170BB8_0 *)motion)->unk_00.at02.v, ((S_80170BB8_0 *)motion)->unk_04.at02.v,
-                        (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
-                                             ((S_80170BB8_1 *)subject)->unk_88);
-                    height_offset = (*(s16 *)((u8 *)actor + 0x92));
-                    loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
-                    height_raw = loaded_height;
-                    height_limit = ground_offset - 0x18;
-                    if (height_limit < height_offset) {
-                        global_flags = height_raw - 8;
-                        (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
-                    } else {
-                        height_limit = ground_offset;
-                        height_limit -= 0x20;
-                        height_limit = height_offset < height_limit;
-                        if (height_limit) {
-                            global_flags = height_raw + 8;
+                    if (!((*(u16 *)((u8 *)actor + 0x98)) & 8)) {
+                        ground_offset = (s16)(func_800BCB04(
+                            ((S_80170BB8_0 *)motion)->unk_00.at02.v, ((S_80170BB8_0 *)motion)->unk_04.at02.v,
+                            (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
+                                              ((S_80170BB8_1 *)subject)->unk_88);
+                        height_offset = (*(s16 *)((u8 *)actor + 0x92));
+                        loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
+                        height_raw = loaded_height;
+                        height_limit = ground_offset - 0x18;
+                        if (height_limit < height_offset) {
+                            global_flags = height_raw - 8;
                             (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                        } else {
+                            height_limit = ground_offset;
+                            height_limit -= 0x20;
+                            height_limit = height_offset < height_limit;
+                            if (height_limit) {
+                                global_flags = height_raw + 8;
+                                (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                            }
                         }
                     }
-                }
-                subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+                    subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
                 }
             }
             if (subject_flags & 0x40000000) {

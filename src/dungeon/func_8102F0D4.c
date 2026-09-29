@@ -35,7 +35,6 @@ typedef struct S_8102F0D4_2 {
 } S_8102F0D4_2;   /* temp_v1 in func_8102F0D4 */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s8 D_800DCECC[];
@@ -63,7 +62,8 @@ void func_8102F0D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) 
     coords[1] = reference_pos->unk_06;
     coords[2] = reference_pos->unk_0A;
     reference_depth = func_80065420(coords, &transform_result, &transform_aux, &transform_flags);
-    direction_offset = &D_800DCECC[((s32) (gameWork.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100) >> 9) & 7];
+    direction_offset = &D_800DCECC[((s32) (gameWork.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
+        >> 9) & 7];
     entity->unk_06.as_s16 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
     func_800478B8(entity, direction_offset);
     ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;

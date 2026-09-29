@@ -41,7 +41,6 @@ typedef struct S_801737F8_1 {
 } S_801737F8_1;   /* arg1 in func_801737F8 */
 
 
-
 /* Advance the actor animation state, timers, and downward movement. */
 void func_801737F8(void *action, void *motion, void *sprite, EntityRec *actor)
 {
@@ -81,23 +80,23 @@ void func_801737F8(void *action, void *motion, void *sprite, EntityRec *actor)
         return;
 
     case 2:
-        {
-            s32 duration = 10;
-            u16 timer = ((S_801737F8_0 *)action)->unk_96.u + 1;
+    {
+        s32 duration = 10;
+        u16 timer = ((S_801737F8_0 *)action)->unk_96.u + 1;
 
-            ((S_801737F8_0 *)action)->unk_96.u = timer;
-            if ((s16)timer == duration || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-                func_8009C12C(actor, sprite, actor->facing, 1);
-                ((S_801737F8_0 *)action)->unk_96.u = duration;
-                ((S_801737F8_0 *)action)->unk_9B++;
-                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
-            }
-            if (((S_801737F8_0 *)action)->unk_96.s == 9) {
-                func_800A56E0(0x809);
-                return;
-            }
+        ((S_801737F8_0 *)action)->unk_96.u = timer;
+        if ((s16)timer == duration || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, sprite, actor->facing, 1);
+            ((S_801737F8_0 *)action)->unk_96.u = duration;
+            ((S_801737F8_0 *)action)->unk_9B++;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+        }
+        if (((S_801737F8_0 *)action)->unk_96.s == 9) {
+            func_800A56E0(0x809);
             return;
         }
+        return;
+    }
 
     case 3:
         if (((S_801737F8_0 *)action)->unk_96.s > 0) {

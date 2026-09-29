@@ -10,8 +10,6 @@ typedef struct S_80017BF0_1 {
 } S_80017BF0_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_40.as_pv in func_80017BF0 */
 
 
-
-
 M2C_UNK func_80019814();                /* extern */
 M2C_UNK func_8001A418();                     /* extern */
 

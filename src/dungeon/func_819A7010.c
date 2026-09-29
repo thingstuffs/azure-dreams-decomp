@@ -75,14 +75,19 @@ void func_80024810(void *effect) {
         ((S_80024810_0 *)effect)->unk_06 = (u16) (((S_80024810_0 *)effect)->unk_06 + coord_delta[1]);
         ((S_80024810_0 *)effect)->unk_08 = (u16) (((S_80024810_0 *)effect)->unk_08 + coord_delta[2]);
     }
-    coord_delta[0] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 2);
+    coord_delta[0] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04)
+        >> 2);
     point_index = 1;
-    coord_delta[1] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 2);
+    coord_delta[1] = (u16) ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06)
+        >> 2);
     coord_delta[2] = (u16) ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 2);
     do {
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((((S_80024810_0 *)effect)->unk_04 + ((s16) coord_delta[0] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((((S_80024810_0 *)effect)->unk_06 + ((s16) coord_delta[1] * point_index) + (rand() & 0x3F)) - 0x20);
-        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((((S_80024810_0 *)effect)->unk_08 + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 4)) = (s16) ((((S_80024810_0 *)effect)->unk_04
+            + ((s16) coord_delta[0] * point_index) + (rand() & 0x3F)) - 0x20);
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 6)) = (s16) ((((S_80024810_0 *)effect)->unk_06
+            + ((s16) coord_delta[1] * point_index) + (rand() & 0x3F)) - 0x20);
+        (*(s16 *)((u8 *)effect + (point_index * 8) + 8)) = (s16) ((((S_80024810_0 *)effect)->unk_08
+            + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
         point_index += 1;
     } while (point_index < 4);
     ((S_80024810_0 *)effect)->unk_2C = (s16) (((((S_80024810_0 *)effect)->unk_3E & 3) << 5) + 0x80);
@@ -90,11 +95,14 @@ void func_80024810(void *effect) {
     phase = ((S_80024810_0 *)effect)->unk_3C;
     switch (phase) {
     case 0:
-        ((S_80024810_0 *)effect)->unk_24 = (u16) (((S_80024810_0 *)effect)->unk_04 + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 1));
-        ((S_80024810_0 *)effect)->unk_26 = (u16) (((S_80024810_0 *)effect)->unk_06 + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 1));
-        ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_0 *)effect)->unk_08 + ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 1));
+        ((S_80024810_0 *)effect)->unk_24 = (u16) (((S_80024810_0 *)effect)->unk_04
+            + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_24 - (s16) ((S_80024810_0 *)effect)->unk_04) >> 1));
+        ((S_80024810_0 *)effect)->unk_26 = (u16) (((S_80024810_0 *)effect)->unk_06
+            + ((s32) ((s16) ((S_80024810_0 *)effect)->unk_26 - (s16) ((S_80024810_0 *)effect)->unk_06) >> 1));
+        ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_0 *)effect)->unk_08
+            + ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 1));
         ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 6) {
             ((S_80024810_0 *)effect)->unk_3E = 2U;

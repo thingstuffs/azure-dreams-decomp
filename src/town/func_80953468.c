@@ -18,11 +18,11 @@ typedef struct S_80020468_0 {
 } S_80020468_0;   /* arg0 in func_80020468; pointer addresses record offset 0x2 */
 
 
-
 /* Propagate bit 15 from the linked record to the record and global flags. */
 void func_80020468(void *record) {
     if (((S_80020468_2 *)(((S_80020468_1 *)record)->unk_04))->unk_04 & 0x8000) {
-        ((S_80020468_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_80020468_0 *)((u8 *)record - 0x2))->unk_00 | 0x8000);
+        ((S_80020468_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_80020468_0 *)((u8 *)record - 0x2))->unk_00
+            | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

@@ -57,7 +57,8 @@ void func_80174214(void *actor, void *context, void *animation, void *entity)
 
     state = ((S_80174214_0 *)actor)->unk_9B;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         u8 *direction_anims;
 
         if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
@@ -75,7 +76,8 @@ void func_80174214(void *actor, void *context, void *animation, void *entity)
         ((S_80174214_0 *)actor)->unk_9B++;
         return;
     }
-    case 1: {
+    case 1:
+    {
         u32 entity_flags;
 
         if (((EntityRec *)entity)->tileY != 0) {

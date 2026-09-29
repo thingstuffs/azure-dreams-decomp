@@ -18,7 +18,6 @@ typedef struct S_80035068_0 {
 } S_80035068_0;   /* arg1 in func_80035068 */
 
 
-
 /* Insert a node at the front of the owner's doubly linked list. */
 void func_80035068(void *owner, S_80035068_0 *node) {
     node->unk_04 = (s32) (owner + 8);

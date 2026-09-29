@@ -48,8 +48,6 @@ typedef struct S_800270E0_8 {
 } S_800270E0_8;   /* ((S_800270E0_4 *)(((Rec_func_80027018_arg0 *)arg0)->unk_F8.as_pv))->unk_04 in func_800270E0 */
 
 
-
-
 M2C_UNK func_80027018();                      /* extern */
 M2C_UNK func_80027054(void *);                            /* extern */
 M2C_UNK func_80027080();       /* extern */

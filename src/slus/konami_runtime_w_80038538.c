@@ -5,7 +5,6 @@
 #include "records/Rec_func_800384A8_arg0.h"
 
 
-
 M2C_UNK SD_Call();                     /* extern */
 extern M2C_UNK func_80038A10;
 

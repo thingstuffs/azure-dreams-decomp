@@ -48,7 +48,6 @@ typedef struct S_800248EC_5 {
 } S_800248EC_5;   /* final_ctx in func_800248EC */
 
 
-
 typedef struct {
     u16 x;
     u16 y;
@@ -110,7 +109,7 @@ s32 func_800248EC(void *first_point, void *first_position)
         scratch->z = ((S_800248EC_1 *)position)->unk_0A;
         scratch->cursor = (u8 *)tile + 0xC;
         scratch->index = func_80065420(scratch, (u8 *)tile + 8,
-                                      &scratch->xy, &scratch->depth);
+                                       &scratch->xy, &scratch->depth);
 
         if (scratch->index < 0x1E0U) {
             ((S_800248EC_2 *)tile)->unk_04.at00.v = ((S_800248EC_3 *)point)->unk_08;

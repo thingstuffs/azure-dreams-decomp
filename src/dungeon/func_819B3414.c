@@ -142,7 +142,8 @@ s32 func_80024C14(void *effect_data) {
                             color_column = (u8 *)(column_byte_offset + (u32)color_table);
                         }
 
-                        quad_loop: {
+quad_loop:
+                        {
                             u8 *quad;
                             u32 first_screen_xy;
                             u8 *vertex_colors;
@@ -216,7 +217,9 @@ s32 func_80024C14(void *effect_data) {
                                     }
                                 }
                             }
-                        } if (column < column_limit && (color_column += 4, 1)) goto quad_loop;
+                        }
+                        if (column < column_limit && (color_column += 4, 1))
+                            goto quad_loop;
                     }
                     seed_colors = (u32 *)((u8 *)(saved_row_limit));
                     row++;

@@ -23,7 +23,6 @@ extern s32 D_800CEEFC[3];
 extern u8 D_800DDC40[9];
 
 
-
 typedef struct S_80026A84_1 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -117,7 +116,9 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     }
     callback = D_80026680;
     effect_index = 0;
-    do { effect_entry = D_80028820; } while (0);
+    do {
+        effect_entry = D_80028820;
+    } while (0);
     do {
         effect = func_8003FD64(0x12, ((s32 *)(&D_80083498)));
         if (effect != NULL) {

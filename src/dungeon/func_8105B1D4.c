@@ -104,33 +104,33 @@ state_0:
         goto no_1;
 
 no_special:
-    anim_kind = actor->unk_46 & 0x3FFF;
-    if (anim_kind == 2) {
-        goto no_2;
-    }
-    if (anim_kind < 3) {
-        if (anim_kind == 1) {
-            goto no_1;
+        anim_kind = actor->unk_46 & 0x3FFF;
+        if (anim_kind == 2) {
+            goto no_2;
         }
-        animation = 0;
-        goto selected;
-    }
-    if (anim_kind != 3) {
-        animation = 0;
-        goto selected;
-    }
+        if (anim_kind < 3) {
+            if (anim_kind == 1) {
+                goto no_1;
+            }
+            animation = 0;
+            goto selected;
+        }
+        if (anim_kind != 3) {
+            animation = 0;
+            goto selected;
+        }
 no_3:
     case 2:
-    animation = (u8 *)actor + 0xE;
-    goto selected;
+        animation = (u8 *)actor + 0xE;
+        goto selected;
 no_2:
     case 1:
-    animation = (u8 *)actor + 0xB;
-    goto selected;
+        animation = (u8 *)actor + 0xB;
+        goto selected;
 no_1:
     case 0:
-    animation = (u8 *)actor + 8;
-    goto selected;
+        animation = (u8 *)actor + 8;
+        goto selected;
     case 3:
     default:
         animation = 0;

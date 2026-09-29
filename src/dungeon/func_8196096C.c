@@ -79,8 +79,8 @@ extern void func_80064A40(void);
 extern void func_80064CF0(void *arg0);
 extern void func_80064D80(void *arg0);
 extern void func_800654B0(void *arg0, void *arg1, void *arg2, void *arg3,
-                           u16 *arg4, u16 *arg5, u16 *arg6, u16 *arg7,
-                           s32 *arg8, s32 *arg9);
+                          u16 *arg4, u16 *arg5, u16 *arg6, u16 *arg7,
+                          s32 *arg8, s32 *arg9);
 extern void func_80065820(void *arg0, void *arg1);
 extern void func_8006658C(s32 arg0, Record *record);
 extern void func_800666F4(Record *record);

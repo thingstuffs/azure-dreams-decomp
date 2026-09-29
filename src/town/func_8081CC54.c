@@ -18,8 +18,6 @@ typedef struct S_80026C54_1 {
 } S_80026C54_1;   /* temp_v0 in func_80026C54 */
 
 
-
-
 /* Waits for the linked object flag, then fades the stored value and marks completion. */
 void func_80026C54(void *effect) {
     S_80026C54_1 *linked_object;

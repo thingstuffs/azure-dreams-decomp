@@ -104,7 +104,7 @@ void func_81820DB4(DungeonObj *obj)
                 break;
             }
             obj->state++;
-            /* fall through */
+                        /* fall through */
         case 2:
             obj->timer = 12;
             obj->dx *= 2;
@@ -114,9 +114,9 @@ void func_81820DB4(DungeonObj *obj)
     }
 
     if (obj->state == 1 && *(s16 *)((u8 *)obj + 0x52) < 5) {
-            obj->aux = 1;
-            obj->red += (0xFF - obj->red) >> 2;
-            obj->green += (0x80 - obj->green) >> 2;
+        obj->aux = 1;
+        obj->red += (0xFF - obj->red) >> 2;
+        obj->green += (0x80 - obj->green) >> 2;
     } else if (obj->state < 2) {
         height_or_index = (-*(s16 *)((u8 *)obj + 0x0E) >> 2) + 15;
         if (height_or_index < 16) {
@@ -187,11 +187,11 @@ void func_81820DB4(DungeonObj *obj)
         packet.h8 = 0;
         packet.angle = obj->angle;
         packet.x = *(u16 *)((u8 *)obj + 6)
-                 + (func_80064584(*(s16 *)((u8 *)obj + 0x4E)
-                    + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
+        + (func_80064584(*(s16 *)((u8 *)obj + 0x4E)
+            + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         packet.y = *(u16 *)((u8 *)obj + 0x0A)
-                 + (func_800644B8(*(s16 *)((u8 *)obj + 0x4E)
-                    + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
+        + (func_800644B8(*(s16 *)((u8 *)obj + 0x4E)
+            + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
             LocalPacket *packet_ptr = &packet;
             z_offset = *(u16 *)((u8 *)obj + 0x0E);

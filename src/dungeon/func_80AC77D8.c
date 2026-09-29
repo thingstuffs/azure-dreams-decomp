@@ -25,7 +25,6 @@ typedef struct S_80172FD8_0 {
 } S_80172FD8_0;   /* arg0 in func_80172FD8 */
 
 
-
 typedef struct S_80172FD8_3 {
     u8 pad_00[0xC];
     s32 unk_0C;

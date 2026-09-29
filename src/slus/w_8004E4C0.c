@@ -13,9 +13,10 @@ char *func_8004E4C0(u32 value, s32 width, char *buf, s32 pad) {
     if (char_count < (s32)quotient_or_width) {
         digit_limit = quotient_or_width;
         do {
-        top:
+top:
             value = value / 10u;
-            if (value == 0) break;
+            if (value == 0)
+                break;
             char_count++;
             quotient = value / 10u;
             ASM_KEEP_NV(quotient);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */

@@ -69,8 +69,8 @@ void func_809A0B58(S_func_809A0B58_0 *actor_state, void *unused, S_func_809A0B58
             direction_frames = D_80175EA8;
             *(u8 **)((u8 *)sprite + 0x2C) = direction_frames;
             func_80047784(sprite,
-                           direction_frames[((s32)(gameWork.view.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
-                           0);
+                          direction_frames[((s32)(gameWork.view.viewAngle + entity->unk_2A.unk_00_s + 0x100) >> 9) & 7],
+                          0);
             actor_state->unk_B0 = (u16)entity->unk_2A.unk_00;
             entity->unk_1C = (s32)(entity->unk_1C & 0xFFFBFFFF);
             counter_value = actor_state->unk_92 - actor_state->unk_A2;

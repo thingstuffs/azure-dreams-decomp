@@ -3,7 +3,6 @@
 #include "shared/town_root.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_80016844_2 {

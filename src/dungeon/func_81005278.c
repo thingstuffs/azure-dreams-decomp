@@ -166,7 +166,8 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
             (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
         if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v, ((S_80170A78_0 *)motion)->unk_04.at02.v,
+            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                ((S_80170A78_0 *)motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
             height_offset = (*(s16 *)((u8 *)obj + 0x92));
@@ -193,7 +194,8 @@ reset_height:
         (*(s32 *)((u8 *)obj + 0xA4)) = 0;
         (*(s32 *)((u8 *)obj + 0x90)) -= bob_offset;
         if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v, ((S_80170A78_0 *)motion)->unk_04.at02.v,
+            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                ((S_80170A78_0 *)motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
             if (floor_delta < (*(s16 *)((u8 *)obj + 0x92))) {
@@ -212,7 +214,8 @@ reset_height:
             (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
         if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v, ((S_80170A78_0 *)motion)->unk_04.at02.v,
+            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v,
+                ((S_80170A78_0 *)motion)->unk_04.at02.v,
                         (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
                     ((S_80170A78_2 *)state)->unk_88;
             height_offset = (*(s16 *)((u8 *)obj + 0x92));

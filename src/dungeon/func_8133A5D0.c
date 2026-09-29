@@ -141,4 +141,5 @@ void func_801715D0(void) {
 
 /* MECHANISM: Last-use pins hold the object+0x20 base in s3 and the a0/v0/v1 live-range roles, yielding the retail 0x28 frame.
    A held 0x80170000 page plus addiu 0x3AFC prevents the direction_table low half from folding into its signed halfword loads.
-   Named integer-form index+base sums preserve addu v0,v0,a1; shared v0 normalization and u8 color stores close the tail. */
+   Named integer-form index+base sums preserve addu v0,v0,
+       a1; shared v0 normalization and u8 color stores close the tail. */

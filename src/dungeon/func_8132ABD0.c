@@ -38,7 +38,8 @@ void func_801723D0(void *record_data, S_801723D0_0 *offset_record, S_801723D0_1 
     remaining = ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_18 - 1;
     ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_18 = remaining;
     if ((remaining << 0x10) <= 0) {
-        ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+        ((S_801723D0_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801723D0_2 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

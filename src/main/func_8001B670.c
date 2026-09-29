@@ -7,7 +7,7 @@ static __inline__ void store_first_coord(
     s32 *record,
     void *object,
     u32 column_tripled
-) {
+    ) {
     *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 8) =
         (s16)((s32)(column_tripled << 1) - (*(s32 *)((u8 *)object + 0x18) / 2) + 0xA2);
 }

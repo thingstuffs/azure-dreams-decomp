@@ -16,10 +16,6 @@ typedef struct S_80172D04_0 {
 } S_80172D04_0;   /* script in func_80172D04 */
 
 
-
-
-
-
 extern void func_800A2B04(void *, u8, u8);
 extern s32 func_800A6D30(void);
 extern void func_800AAA54(void *, void *, void *, void *);
@@ -82,7 +78,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         } else {
             script->unk_A8.u = one;
         }
-        /* fall through */
+                /* fall through */
     case 1:
         value = motion->unk_0C;
         adjusted = value;

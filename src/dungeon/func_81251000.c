@@ -70,7 +70,6 @@ typedef struct S_81251000_6 {
 } S_81251000_6;   /* callee_part in BODY_NAME */
 
 
-
 extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
@@ -107,7 +106,7 @@ extern void func_80173250(void);
 extern void func_801732C0(void);
 
 static void (*const bank_table[])(void)
-    __asm__("func_81251000") __attribute__((section(".text.func_81251000"))) = {
+__asm__("func_81251000") __attribute__((section(".text.func_81251000"))) = {
     func_80170F84, func_8017112C,
     func_801718C0, func_801718C0, func_801718C0,
     func_801718E8,
@@ -132,7 +131,7 @@ static void (*const bank_table[])(void)
 #endif
 
 void BODY_NAME(void *root_data, void *position_out, void *part_out)
-    __attribute__((section(".text.func_81251000")));
+__attribute__((section(".text.func_81251000")));
 /* Copies part state, smooths position offsets, and applies phase-dependent brightness. */
 void BODY_NAME(void *root_data, void *position_out, void *part_out)
 {
@@ -228,7 +227,7 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
 
 #ifdef __mips__
 __asm__(
-    ".globl func_81251000\n"
-    ".type func_81251000,@function\n"
-    ".size func_81251000,848\n");
+        ".globl func_81251000\n"
+        ".type func_81251000,@function\n"
+        ".size func_81251000,848\n");
 #endif

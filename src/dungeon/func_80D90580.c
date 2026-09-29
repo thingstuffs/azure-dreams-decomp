@@ -6,10 +6,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
-
-
-
 extern s32 func_80047784();
 extern s32 func_8009C93C();
 extern s32 func_800A0134();

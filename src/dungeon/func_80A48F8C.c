@@ -26,8 +26,6 @@ typedef struct S_8017278C_0 {
 } S_8017278C_0;   /* arg0 in func_8017278C */
 
 
-
-
 /* Advances an actor action through animation setup, delay, and completion. */
 void func_8017278C(S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, void *actor) {
     u16 ticks_left;
@@ -52,7 +50,8 @@ void func_8017278C(S_8017278C_0 *action, EntityRec *motion, Rec_D_80082E80 *spri
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         sprite->unk_2C.as_pu8 = direction_frames;
-        func_80047784(sprite, direction_frames[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, direction_frames[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
+            >> 9) & 7], 0);
         action->unk_96 = 9;
         action->unk_9B++;
         return;

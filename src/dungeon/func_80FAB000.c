@@ -66,7 +66,7 @@ __asm__(".set D_8015D138, 0x8014D138");
 
 #ifdef __mips__
 static const u32 prefix_words[] __asm__("func_8014C800")
-    __attribute__((section(".text.func_8014C800"), aligned(4))) = {
+__attribute__((section(".text.func_8014C800"), aligned(4))) = {
     0x8014C880, 0x8014CA70, 0x8014D56C, 0x8014D56C,
     0x8014D56C, 0x8014D598, 0x8014D518, 0x8014D518,
     0x8014D518, 0x8014D4E0, 0x8014D4C4, 0x8014D598,
@@ -84,7 +84,7 @@ __asm__(".globl func_8014C800\n"
 #endif
 
 void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
-    __attribute__((section(".text.func_8014C800")));
+__attribute__((section(".text.func_8014C800")));
 void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;

@@ -46,7 +46,8 @@ void func_80028320(s32 object_addr, s32 initial_value) {
     ((S_80028320_2 *)(((S_80028320_1 *)state)->unk_80))->unk_02 = 0;
     ((S_80028320_0 *)((u8 *)state - 0x10))->unk_48 = initial_value;
     ((S_80028320_0 *)((u8 *)state - 0x10))->unk_18 = 0;
-    func_80027454(object_addr + 0x58, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24, 0, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_38);
+    func_80027454(object_addr + 0x58, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24, 0,
+        ((S_80028320_0 *)((u8 *)state - 0x10))->unk_38);
     func_80027FF4(((S_80028320_0 *)((u8 *)state - 0x10))->unk_5C, ((S_80028320_0 *)((u8 *)state - 0x10))->unk_24);
     ((S_80028320_0 *)((u8 *)state - 0x10))->unk_94 = func_80027FA4(((S_80028320_0 *)((u8 *)state - 0x10))->unk_98);
     func_80028534(((S_80028320_0 *)((u8 *)state - 0x10))->unk_98);

@@ -10,7 +10,6 @@ typedef struct S_80016874_1 {
 } S_80016874_1;   /* temp_v1 in func_80016874 */
 
 
-
 /* Increment the byte counter in the record at offset 0x68. */
 void func_80016874(void) {
     S_80016874_1 *counter_record;

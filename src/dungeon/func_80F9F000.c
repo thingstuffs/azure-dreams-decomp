@@ -44,7 +44,6 @@ typedef struct S_80F9F000_4 {
 } S_80F9F000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_800A6D30(void); /* Retail RNG reads no argument registers. */
@@ -61,7 +60,7 @@ extern void *func_80158800();
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80158800")
-    __attribute__((section(".text.func_80158800"), aligned(4))) = {
+__attribute__((section(".text.func_80158800"), aligned(4))) = {
     0x80158880, 0x80158A70, 0x8015956C, 0x8015956C,
     0x8015956C, 0x80159598, 0x80159518, 0x80159518,
     0x80159518, 0x801594E0, 0x801594C4, 0x80159598,
@@ -80,9 +79,9 @@ __asm__(".globl func_80158800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_80158800")))
+__attribute__((section(".text.func_80158800")))
 #endif
-    ;
+;
 
 void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {

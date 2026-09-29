@@ -26,7 +26,11 @@ typedef struct S_8017405C_0 {
 
 typedef struct S_8017405C_1 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_8017405C_1;   /* c in func_8017405C */
 
@@ -50,7 +54,6 @@ typedef struct S_8017405C_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8017405C_4;   /* root in func_8017405C */
-
 
 
 typedef struct S_8017405C_7_pre {
@@ -81,7 +84,6 @@ typedef struct S_8017405C_11 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_8017405C_11;   /* (u8 *)d + (((S_8017405C_0 *)d)->unk_71.u & 0x7F) in func_8017405C */
-
 
 
 typedef struct {
@@ -165,7 +167,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                     ((S_8017405C_0 *)movement)->unk_2A.u += (func_800A6D30() & 7) << 9;
                 }
             }
-        } else if (func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v, ((S_8017405C_0 *)movement)->unk_2A.s) != 0) {
+        } else if (func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
+            ((S_8017405C_0 *)movement)->unk_2A.s) != 0) {
             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
             return;
         }
@@ -208,7 +211,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                 }
                 {
                     void *path_state = (u8 *)context + 0x98;
-                    u16 target_heading = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v, (s16)target_x, (s16)target_y, path_state);
+                    u16 target_heading = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v, (s16)target_x,
+                        (s16)target_y, path_state);
                     ((S_8017405C_0 *)movement)->unk_2A.u = target_heading;
                     if (func_8009A66C((s16)target_heading, actor, movement, 0x20) <= 0) {
                         u8 *leader_pos = (u8 *)&D_80082EA4 - 0x24;
@@ -224,8 +228,10 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             func_800A0E6C(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
         } else {
             if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
-                target = func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v, ((S_8017405C_0 *)movement)->unk_2A.s);
-                if (target != 0 && (((S_8017405C_2 *)target)->unk_1C & 0x2000) && func_800A0134(target, movement) < 0x81) {
+                target = func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v,
+                    ((S_8017405C_0 *)movement)->unk_2A.s);
+                if (target != 0 && (((S_8017405C_2 *)target)->unk_1C & 0x2000)
+                    && func_800A0134(target, movement) < 0x81) {
                     if (func_8009A540((((s16)((S_8017405C_0 *)movement)->unk_2A.u >> 9) & 0xFFFF),
                                       actor->unk_24.at00.v, actor->unk_24.at01.v,
                                       (s16)(((S_8017405C_0 *)movement)->unk_88 - 0x20)) != 0) {
@@ -269,7 +275,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                         root = *root_page;
                         actor_x = actor->unk_24.at00.v;
                         actor_y = actor->unk_24.at01.v;
-                        y_lookup = (((S_8017405C_0 *)movement)->unk_45 + ((s16)((S_8017405C_4 *)root)->unk_2A >> 9)) & 7;
+                        y_lookup = (((S_8017405C_0 *)movement)->unk_45 + ((s16)((S_8017405C_4 *)root)->unk_2A
+                            >> 9)) & 7;
                         target_x_sum = *(volatile u8 *)(leader_pos + 0x24);
                         y_lookup <<= 1;
                         x_lookup += y_lookup;
@@ -306,19 +313,23 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                     s16 first_distance = func_8009FD40(first_pos, actor);
                     if (first_distance < func_8009FD40(second_pos, actor)) {
                         ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                                            ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25,
+                                                            ((S_8017405C_9 *)first_pos)->unk_24,
+                                                                ((S_8017405C_9 *)first_pos)->unk_25,
                                                             (u8 *)context + 0x98);
                         if (func_8009FD7C(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25) != 0) {
+                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
+                                              != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                             return;
                         }
                     } else {
                         ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                                            ((S_8017405C_10 *)second_pos)->unk_24, ((S_8017405C_10 *)second_pos)->unk_25,
+                                                            ((S_8017405C_10 *)second_pos)->unk_24,
+                                                                ((S_8017405C_10 *)second_pos)->unk_25,
                                                             (u8 *)context + 0x98);
                         if (func_8009FD7C(actor->unk_24.at00.v, actor->unk_24.at01.v,
-                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25) != 0) {
+                                          ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25)
+                                              != 0) {
                             ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                             return;
                         }
@@ -362,8 +373,10 @@ try_heading:
                     }
                 }
                 ((S_8017405C_0 *)movement)->unk_2A.u = heading;
-                ((S_8017405C_11 *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->unk_74 = actor->unk_24.at00.v;
-                ((S_8017405C_11 *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->unk_7C = actor->unk_24.at01.v;
+                ((S_8017405C_11 *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->unk_74 =
+                    actor->unk_24.at00.v;
+                ((S_8017405C_11 *)((u8 *)movement + (((S_8017405C_0 *)movement)->unk_71.u & 0x7F)))->unk_7C =
+                    actor->unk_24.at01.v;
                 ((S_8017405C_0 *)movement)->unk_71.u = ((S_8017405C_0 *)movement)->unk_71.u + 1;
                 func_8009A3D0(actor->unk_24.at00.v, actor->unk_24.at01.v,
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);

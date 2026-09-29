@@ -45,7 +45,6 @@ typedef struct S_80CBD000_4 {
 } S_80CBD000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_800A48F0(void *, s32, s32);
@@ -64,7 +63,7 @@ extern u8 D_80176320[];
 #ifdef __mips__
 void func_80170800(void);
 static const u32 split_prefix[] __asm__("func_80170800")
-    __attribute__((section(".text.func_80170800"), aligned(4))) = {
+__attribute__((section(".text.func_80170800"), aligned(4))) = {
     0x801708A4, 0x00000000,
     0x801712E8, 0x801712E8, 0x801712E8, 0x80171314,
     0x80171294, 0x80171294, 0x80171294,

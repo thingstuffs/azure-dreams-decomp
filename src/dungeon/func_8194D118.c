@@ -22,7 +22,6 @@ typedef struct S_80024918_1 {
 } S_80024918_1;   /* temp_v1 in func_80024918 */
 
 
-
 extern s32 func_80024700();
 extern u32 func_800644B8();
 

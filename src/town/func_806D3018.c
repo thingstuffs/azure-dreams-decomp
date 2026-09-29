@@ -33,7 +33,7 @@ s32 func_80016818(S_80016818_0 *context) {
                       context->unk_1A);
     }
     callback_index = 0;
-    
+
     while (context->unk_10[callback_index].callback(context, callback_index) != 0) {
         callback_index++;
     }

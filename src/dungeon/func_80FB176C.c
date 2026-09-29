@@ -44,7 +44,11 @@ typedef struct S_80170F6C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -104,7 +108,6 @@ typedef struct S_80170F6C_10 {
     u8 pad_00[0x9A];
     u8 unk_9A;
 } S_80170F6C_10;   /* status_object in func_80170F6C */
-
 
 
 typedef struct {
@@ -226,7 +229,8 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 ((S_80170F6C_0 *)arg0)->unk_A8.u++;
                 return;
 
-            case 1: {
+            case 1:
+            {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
 
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
@@ -253,7 +257,8 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 return;
             }
 
-            case 2: {
+            case 2:
+            {
                 s32 scale;
                 S_80170F6C_4 *object;
                 void *part;
@@ -304,18 +309,19 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                     u16 old_timer = ((S_80170F6C_0 *)arg0)->unk_A6;
                     ((S_80170F6C_0 *)arg0)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
-                    ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                    ((S_80170F6C_3 *)arg1)->unk_10 = 0;
-                    ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u++;
-                    return;
-                }
+                        ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
+                        ((S_80170F6C_3 *)arg1)->unk_10 = 0;
+                        ((S_80170F6C_3 *)arg1)->unk_0C = 0;
+                        ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
+                        ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                        return;
+                    }
                 }
                 return;
             }
 
-            case 3: {
+            case 3:
+            {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
 
                 ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
@@ -330,7 +336,8 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 return;
             }
 
-            case 4: {
+            case 4:
+            {
                 s32 x;
                 s32 y;
                 s32 coord;
@@ -424,11 +431,11 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             }
             ((S_80170F6C_0 *)arg0)->unk_98 = case_flags;
         }
-        if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
+            if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
+                return;
+            }
+            func_80172514(arg0, arg1, arg2, arg3);
             return;
-        }
-        func_80172514(arg0, arg1, arg2, arg3);
-        return;
 
         case 5:
         case 6:
@@ -438,9 +445,9 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             void *status_object;
 
             next_position = func_800A0818(
-            ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY,
-            &scratch);
+                ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &scratch);
             status_object = D_800814A8[0];
             ((S_80170F6C_1 *)arg3)->unk_2A.s = next_position;
             if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
@@ -478,17 +485,17 @@ sw_generic:
                     final_flags & 0x430;
                 if (!final_mask) {
 
-                if ((func_8009FD7C(
-                        ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                    ((S_80170F6C_1 *)arg3)->unk_2A.s = func_800A0818(
-                        ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY,
-                        &scratch);
+                    if ((func_8009FD7C(
+                            ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                            D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                        ((S_80170F6C_1 *)arg3)->unk_2A.s = func_800A0818(
+                            ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                            D_80082E80.tileX, D_80082E80.tileY,
+                            &scratch);
+                    }
                 }
             }
         }
-    }
     }
 
     if (!(dungeonStatus.flags & 0x2000) &&
@@ -505,7 +512,7 @@ post_compare:
                 ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
             func_80047784(arg2,
                 *(u8 *)((unsigned long)post_index +
-                    (unsigned long)post_table),
+                        (unsigned long)post_table),
                 0);
         }
     }

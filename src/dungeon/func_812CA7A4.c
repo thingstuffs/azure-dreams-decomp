@@ -30,14 +30,15 @@ typedef struct S_8014DFA4_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_8014DFA4_2;   /* arg2 in func_8014DFA4 */
-
-
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -218,20 +219,20 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, EntityRec *entity
         case 5:
         case 6:
         case 7:
-            {
-                EntityRec *player;
-                s16 heading;
+        {
+            EntityRec *player;
+            s16 heading;
 
-                heading = func_800A0818(
-                    ((S_8014DFA4_2 *)sprite)->unk_24.at00.v, ((S_8014DFA4_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &direction_aux);
-                player = D_800814A8;
-                entity->facing = heading;
-                if (player->unk_9A == 0x11) {
-                    goto case_123;
-                }
+            heading = func_800A0818(
+                ((S_8014DFA4_2 *)sprite)->unk_24.at00.v, ((S_8014DFA4_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &direction_aux);
+            player = D_800814A8;
+            entity->facing = heading;
+            if (player->unk_9A == 0x11) {
+                goto case_123;
             }
+        }
 
         case 12:
 case_12:

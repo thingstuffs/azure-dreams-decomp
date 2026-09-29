@@ -71,7 +71,8 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
     s32 current_state;
 
     switch (state->state_9b) {
-    case 0: {
+    case 0:
+    {
         u16 next_count;
 
         next_count = state->count_9e.u - 1;
@@ -88,8 +89,9 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
         state->value_a4 = 0;
         state->state_9b += 1;
     }
-    /* fall through */
-    case 1: {
+            /* fall through */
+    case 1:
+    {
         s16 frames_left;
         s32 target_x;
         s32 current_x;
@@ -139,7 +141,7 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
             state->state_9b += 1;
         }
     }
-    /* fall through */
+            /* fall through */
     case 2:
         if (actor->flags_1c & 0x08000000) {
             state->flags_98 &= 0xfff7;
@@ -162,7 +164,7 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
         break;
     }
 
-{
+    {
         u16 next_timer;
 
         next_timer = state->value_96 - 1;
@@ -189,8 +191,8 @@ void func_80172B6C(State *state, Motion *motion, Sprite *sprite, Actor *actor) {
                 if (!(actor_flags & 0x410)) {
                     if (actor_flags & 0x20000) {
                         actor->value_2a = func_800A0818(sprite->value_24, sprite->value_25,
-                                                         D_80082E80.tileX, D_80082E80.tileY,
-                                                         &direction_scratch);
+                                                        D_80082E80.tileX, D_80082E80.tileY,
+                                                        &direction_scratch);
                     }
                 }
             }

@@ -150,7 +150,6 @@ typedef struct S_81844800_17 {
 } S_81844800_17;   /* ((S_81844800_11 *)base_after)->unk_08 in BODY_NAME */
 
 
-
 typedef struct Vec3 {
     s16 x;
     s16 y;
@@ -210,17 +209,17 @@ __asm__(".set func_8002472C, 0x8002472c");
  * toolchain quirks. */
 #ifdef __mips__
 static void (*const func_81844800_table[])(void)
-    __asm__("func_81844800")
-    __attribute__((section(".text.func_81844800"), aligned(4))) = {
-        func_80024020,
-        0,
-        func_800241AC,
-        func_800243D8,
-        func_80024430,
-        func_8002447C,
-        func_80024684,
-        func_800246B4,
-    };
+__asm__("func_81844800")
+__attribute__((section(".text.func_81844800"), aligned(4))) = {
+    func_80024020,
+    0,
+    func_800241AC,
+    func_800243D8,
+    func_80024430,
+    func_8002447C,
+    func_80024684,
+    func_800246B4,
+};
 __asm__(".globl func_81844800\n"
         ".type func_81844800,@function\n"
         ".size func_81844800, 1836");
@@ -358,21 +357,26 @@ case0:
             }
             {
                 s32 target_x;
-                ((S_81844800_3 *)motion)->unk_00.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
-                ((S_81844800_3 *)motion)->unk_04.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
-                ((S_81844800_3 *)motion)->unk_08.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A + delta.z;
+                ((S_81844800_3 *)motion)->unk_00.at02.v =
+                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
+                ((S_81844800_3 *)motion)->unk_04.at02.v =
+                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
+                ((S_81844800_3 *)motion)->unk_08.at02.v =
+                    ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A + delta.z;
                 ((S_81844800_0 *)effect)->unk_50.s = 8;
                 {
                     target_x = ((S_81844800_1 *)owner)->unk_72.u;
                     {
-                        ((S_81844800_3 *)motion)->unk_0C.at02.v = delta_axis(target_x, ((S_81844800_3 *)motion)->unk_00.at02.v);
+                        ((S_81844800_3 *)motion)->unk_0C.at02.v =
+                            delta_axis(target_x, ((S_81844800_3 *)motion)->unk_00.at02.v);
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_0C.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
                 {
                     target_x = ((S_81844800_1 *)owner)->unk_73.u;
                     {
-                        ((S_81844800_3 *)motion)->unk_10.at02.v = delta_axis(target_x, ((S_81844800_3 *)motion)->unk_04.at02.v);
+                        ((S_81844800_3 *)motion)->unk_10.at02.v =
+                            delta_axis(target_x, ((S_81844800_3 *)motion)->unk_04.at02.v);
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_10.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
@@ -466,7 +470,8 @@ case3:
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.u = ((S_81844800_3 *)motion)->unk_00.at00.v;
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.u = ((S_81844800_3 *)motion)->unk_04.at00.v;
             state = (func_80069EF8() & 0x3F) - 176;
-            ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at02.v = ((S_81844800_3 *)motion)->unk_08.at02.v - state;
+            ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_08.at02.v =
+                ((S_81844800_3 *)motion)->unk_08.at02.v - state;
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_0E = (func_80069EF8() & 0xF) - 8;
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_12 = (func_80069EF8() & 0xF) - 8;
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_16 = -(func_80069EF8() & 7);

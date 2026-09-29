@@ -57,7 +57,6 @@ typedef struct S_80025E4C_2 {
 } S_80025E4C_2;   /* obj in func_80025E4C */
 
 
-
 extern s32 func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
@@ -113,13 +112,13 @@ s32 func_80025E4C(void *quad) {
             func_80066708(packet);
             ((S_80025E4C_2 *)packet)->unk_04.at03.v = (u8)(((S_80025E4C_2 *)packet)->unk_04.at03.v | 2);
             func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
+                          (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
             packet = ((S_80025E4C_0 *)scratch)->unk_18;
             ((S_80025E4C_0 *)scratch)->unk_18 = (u8 *)packet + 0xC;
             func_80067F20(packet, 0, 0,
                           (u16)func_80066460(0, 1, 0, 0), 0);
             func_8006658C((u8 *)((S_80025E4C_0 *)scratch)->unk_20 +
-                              (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
+                          (((S_80025E4C_0 *)scratch)->unk_C0 * 4), packet);
         }
         next_node = ((S_80025E4C_1_pre *)quad)[-1].unk_00;
         if (next_node == 0) {

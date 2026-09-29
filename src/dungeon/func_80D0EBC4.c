@@ -23,10 +23,6 @@ typedef struct S_801503C4_1 {
 } S_801503C4_1;   /* arg1 in func_801503C4 */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *, void *, s32, s32);
 extern void func_800A4ACC(void *);

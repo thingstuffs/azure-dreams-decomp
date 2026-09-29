@@ -20,7 +20,6 @@ typedef struct S_800249FC_1 {
 } S_800249FC_1;   /* arg0 in func_800249FC */
 
 
-
 extern s32 func_8002406C(s32 arg0);
 extern s16 D_80025B60[5];
 

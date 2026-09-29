@@ -129,7 +129,8 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
         payload = allocated->payload;
         payload->value0 = (((block->field4c << 6) + 0x20) << 0x10);
         payload->value4 = (((block->field4d << 6) + 0x20) << 0x10);
-        payload->value8 = func_800BCB04(*(u16 *)((u8 *)payload + 2), *(u16 *)((u8 *)payload + 6), (s16)(height_source->height - 0x20)) << 0x10;
+        payload->value8 = func_800BCB04(*(u16 *)((u8 *)payload + 2), *(u16 *)((u8 *)payload + 6),
+            (s16)(height_source->height - 0x20)) << 0x10;
         block->angle_copy = owner->angle;
         block->angle_index = (owner->angle >> 9) & 7;
         child = allocated->child;
@@ -140,7 +141,8 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
         child->fieldc = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
         child->ptr8 = (u8 *)allocated + 0x54;
-        secondary = func_801748FC(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, *(s16 *)((u8 *)payload + 0xa));
+        secondary = func_801748FC(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, *(s16 *)((u8 *)payload
+            + 0xa));
         block->field30 = secondary;
         if (secondary != 0) {
             secondary_block = (SecondaryBlock *)((u8 *)secondary + 0x20);

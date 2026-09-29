@@ -9,8 +9,6 @@ typedef struct S_80018108_1 {
 } S_80018108_1;   /* D_80016000->unk_20 in func_80018108 */
 
 
-
-
 M2C_UNK func_80018824();          /* extern */
 M2C_UNK func_80018914();                   /* extern */
 extern M2C_UNK D_8001B218;

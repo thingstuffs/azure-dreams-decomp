@@ -73,7 +73,8 @@ extern M2C_UNK D_80082BC0;
 extern M2C_UNK func_80033D54;
 
 /* Initializes a sprite node, links it to its owner, and applies its initial display state. */
-void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base, s32 owner) {
+void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base,
+    s32 owner) {
     s32 render_data;
     S_8003719C_1 *state;
     S_8003719C_3 *sprite;

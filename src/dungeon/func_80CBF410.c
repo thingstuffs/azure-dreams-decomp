@@ -18,10 +18,6 @@ typedef struct S_80172C10_0 {
 } S_80172C10_0;   /* arg0 in func_80172C10 */
 
 
-
-
-
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -75,7 +71,7 @@ void func_80172C10(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile,
         }
         state->unk_96.s =
             (((EntityRec *)entity)->flags1C & 0x228) ? 8 : -1;
-        /* fall through */
+                /* fall through */
 
     case 1:
         motion->unk_0C -= motion->unk_0C / 4;
@@ -112,7 +108,8 @@ void func_80172C10(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile,
         state->unk_9B++;
         return;
 
-    case 2: {
+    case 2:
+    {
         s32 x_step;
         s32 y_distance;
         s32 position_offset;

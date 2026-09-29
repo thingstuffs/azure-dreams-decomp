@@ -52,8 +52,9 @@ void func_81868B84(void *effect, void *position) {
     ((S_81868B84_0 *)effect)->unk_02.s = (u16) (((S_81868B84_0 *)effect)->unk_02.s + 1);
     state = *(s16 *)effect;
     switch (state) {
-case 0:
-        ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
+    case 0:
+        ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v =
+            (u16) (((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v - 4);
         func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
         if (((S_81868B84_0 *)effect)->unk_02.u < 8) {
             return;
@@ -66,7 +67,7 @@ case 0:
             ((S_81868B84_0 *)effect)->unk_00 = next_state;
         }
         return;
-case 1:
+    case 1:
         grow_point = 0;
         grow_angle_fixed = grow_point;
         ((S_81868B84_0 *)effect)->unk_06 = (u16) (((S_81868B84_0 *)effect)->unk_06 + 6);
@@ -75,11 +76,17 @@ case 1:
         ((S_81868B84_0 *)effect)->unk_08 = (u16) (((S_81868B84_0 *)effect)->unk_08 + angular_speed);
         do {
             grow_angle = grow_angle_fixed >> 0x10;
-            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle)
+                >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
+                (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + grow_angle)
+                >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
+                (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
+                ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
+                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
             grow_angle_fixed += 0x05550000;
@@ -96,18 +103,24 @@ case 1:
             ((S_81868B84_0 *)effect)->unk_00 = next_state;
         }
         return;
-case 2:
+    case 2:
         grow_point = 0;
         fade_angle_fixed = grow_point;
         ((S_81868B84_0 *)effect)->unk_06 = (u16) (((S_81868B84_0 *)effect)->unk_06 + 6);
         ((S_81868B84_0 *)effect)->unk_08 = (u16) (((S_81868B84_0 *)effect)->unk_08 + ((S_81868B84_0 *)effect)->unk_0A);
         do {
             fade_angle = fade_angle_fixed >> 0x10;
-            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
-            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle) >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
-            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v = (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
-            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v, ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v, (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+            radial_product = (func_800644B8((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle)
+                >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v =
+                (u16) (((Rec_func_80024264_arg1 *)position)->unk_0C.at02_u16.v + (radial_product >> 8));
+            radial_product = (func_80064584((s16) ((S_81868B84_0 *)effect)->unk_08 + fade_angle)
+                >> 4) * (s16) ((S_81868B84_0 *)effect)->unk_06;
+            ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v =
+                (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
+            if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
+                ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
+                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
             fade_angle_fixed += 0x05550000;
@@ -125,7 +138,7 @@ case 2:
             ((S_81868B84_0 *)effect)->unk_00 = next_state;
         }
         return;
-case 3:
+    case 3:
 
         ((S_81868B84_3 *)(((S_81868B84_0 *)effect)->unk_0C))->unk_16 = 1;
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81868B84_0_pre *)effect)[-1].unk_00 | 0x8000);
@@ -135,7 +148,7 @@ case 3:
             global_flags->flags |= 0x8000;
         }
         return;
-default:
+    default:
         ((S_81868B84_0 *)effect)->unk_00 = 3;
     }
 }

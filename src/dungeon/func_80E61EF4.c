@@ -8,7 +8,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
 extern s32 func_8009A180(void *, void *);
@@ -41,13 +40,15 @@ extern u8 D_8017559C[];
 extern u8 D_801755A4[];
 
 
-
-
 typedef struct S_801716F4_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -182,15 +183,15 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         action_flags = entity_arg->unk_46 & 0x3FFF;
         switch (action_flags) {
         case 8:
-        if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
+            if ((func_801726B0(actor_arg, context_arg, sprite, entity_arg) << 16) != 0) {
+                return;
+            }
+            func_80172874(actor_arg, context_arg, sprite, entity_arg);
             return;
-        }
-        func_80172874(actor_arg, context_arg, sprite, entity_arg);
-        return;
 
         case 9:
-        func_80174FE4(actor_arg, context_arg, sprite, entity_arg);
-        return;
+            func_80174FE4(actor_arg, context_arg, sprite, entity_arg);
+            return;
 
         case 5:
         case 6:
@@ -212,20 +213,20 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 
         case 12:
 case_12:
-        func_800A9A0C(entity_arg);
-        return;
+            func_800A9A0C(entity_arg);
+            return;
 
         case 1:
         case 2:
         case 3:
 case_123:
-        func_800AAF00(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
-        return;
+            func_800AAF00(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
+            return;
 
         default:
 generic:
-        func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
-        return;
+            func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+            return;
         }
     } else if (!(((u32)entity_arg->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;

@@ -10,10 +10,6 @@ typedef struct S_8051FCE8_1 {
 } S_8051FCE8_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_8051FCE8 */
 
 
-
-
-
-
 /* Dispatches the supplied value with bit 0x8000 set. */
 void func_8051FCE8(s32 value) {
     ((S_8051FCE8_1 *)(D_80016000->unk_20))->unk_280(value | 0x8000);

@@ -9,9 +9,9 @@ M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
 
 
-
 /* Clear the actor flag and update its action state when both checks pass. */
-void func_8016C8AC(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, M2C_UNK effect_context, EntityRec *actor) {
+void func_8016C8AC(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, M2C_UNK effect_context,
+    EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);

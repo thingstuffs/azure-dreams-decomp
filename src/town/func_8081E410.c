@@ -135,111 +135,111 @@ position_done:
     switch (phase) {
 
     case 0:
-    value_idle = U8(effect_arg, 0xE);
-    value_idle += (128 - value_idle) >> 1;
-    U8(effect_arg, 0xE) = value_idle;
-    U8(effect_arg, 0xD) = value_idle;
-    U8(effect_arg, 0xC) = value_idle;
-    S32(state_arg, 0x6C) = 0x00080000;
-    break;
+        value_idle = U8(effect_arg, 0xE);
+        value_idle += (128 - value_idle) >> 1;
+        U8(effect_arg, 0xE) = value_idle;
+        U8(effect_arg, 0xD) = value_idle;
+        U8(effect_arg, 0xC) = value_idle;
+        S32(state_arg, 0x6C) = 0x00080000;
+        break;
 
     case 1:
-    reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
-    value_accel = U16(state_arg, 0x72) + reduced_speed;
-    U16(state_arg, 0x72) = value_accel;
-    if ((s16)value_accel > speed_limit) {
-        U16(state_arg, 0x72) = speed_limit;
-        S16(state_arg, 0x70) = 2;
-    }
-    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-    break;
+        reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
+        value_accel = U16(state_arg, 0x72) + reduced_speed;
+        U16(state_arg, 0x72) = value_accel;
+        if ((s16)value_accel > speed_limit) {
+            U16(state_arg, 0x72) = speed_limit;
+            S16(state_arg, 0x70) = 2;
+        }
+        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
+        break;
 
     case 2:
-    U16(effect_arg, 0x1A) += speed_limit;
-    if (distance >= 161 && S32(((u8 *)(&D_80083780)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
-        S16(state_arg, 0x72) = speed_limit;
-        S16(state_arg, 0x70) = 3;
-    }
-    break;
+        U16(effect_arg, 0x1A) += speed_limit;
+        if (distance >= 161 && S32(((u8 *)(&D_80083780)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
+            S16(state_arg, 0x72) = speed_limit;
+            S16(state_arg, 0x70) = 3;
+        }
+        break;
 
     case 3:
-    dx = U16(effect_arg, 0x1A) & 0x7FF;
-    if (dx >= 0x6AB) {
-        S16(spin_data, 0x24) = 0;
-    } else {
-        dy = 0x155;
-        distance = 4;
-        sector_start = 0x554;
-        for (; distance >= 0; distance--, sector_start -= dy) {
-            if (dx >= sector_start) {
-                break;
+        dx = U16(effect_arg, 0x1A) & 0x7FF;
+        if (dx >= 0x6AB) {
+            S16(spin_data, 0x24) = 0;
+        } else {
+            dy = 0x155;
+            distance = 4;
+            sector_start = 0x554;
+            for (; distance >= 0; distance--, sector_start -= dy) {
+                if (dx >= sector_start) {
+                    break;
+                }
+            }
+            value_sector = distance & 1;
+            if (value_sector) {
+                S16(spin_data, 0x24) = 1;
+            } else {
+                S16(spin_data, 0x24) = 2;
             }
         }
-        value_sector = distance & 1;
-        if (value_sector) {
-            S16(spin_data, 0x24) = 1;
-        } else {
-            S16(spin_data, 0x24) = 2;
-        }
-    }
-    S16(spin_data, 0x1A) = 0;
+        S16(spin_data, 0x1A) = 0;
 
     case 4:
-    if (S16(spin_data, 0x22) == 2) {
-        dx = 6;
-    } else {
-        dx = 5;
-    }
-    value_decel = S16(state_arg, 0x72) >> dx;
-    reduced_speed = U16(state_arg, 0x72) - value_decel;
-    U16(state_arg, 0x72) = reduced_speed;
-    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-    U16(spin_data, 0x1A) += U16(state_arg, 0x72);
-    if (S16(state_arg, 0x72) < (1 << dx)) {
-        S16(state_arg, 0x74) = 0;
-        S16(state_arg, 0x70) = 5;
-    }
-    break;
+        if (S16(spin_data, 0x22) == 2) {
+            dx = 6;
+        } else {
+            dx = 5;
+        }
+        value_decel = S16(state_arg, 0x72) >> dx;
+        reduced_speed = U16(state_arg, 0x72) - value_decel;
+        U16(state_arg, 0x72) = reduced_speed;
+        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
+        U16(spin_data, 0x1A) += U16(state_arg, 0x72);
+        if (S16(state_arg, 0x72) < (1 << dx)) {
+            S16(state_arg, 0x74) = 0;
+            S16(state_arg, 0x70) = 5;
+        }
+        break;
 
     case 5:
-    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-    U16(spin_data, 0x1A) += U16(state_arg, 0x72);
-    value_stop = U16(state_arg, 0x74) + 1;
-    U16(state_arg, 0x74) = value_stop;
-    if ((value_stop & 3) == 0) {
-        U16(state_arg, 0x72) -= 2;
-    }
-    if (S16(state_arg, 0x72) < 4) {
-        S16(state_arg, 0x70) = 0;
-    }
-    break;
+        U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
+        U16(spin_data, 0x1A) += U16(state_arg, 0x72);
+        value_stop = U16(state_arg, 0x74) + 1;
+        U16(state_arg, 0x74) = value_stop;
+        if ((value_stop & 3) == 0) {
+            U16(state_arg, 0x72) -= 2;
+        }
+        if (S16(state_arg, 0x72) < 4) {
+            S16(state_arg, 0x70) = 0;
+        }
+        break;
 
     case 6:
-    S16(state_arg, 0x70) = 7;
-    S16(state_arg, 0x72) = 0;
+        S16(state_arg, 0x70) = 7;
+        S16(state_arg, 0x72) = 0;
 
     case 7:
-    dx = 0;
-    spin_data = (void *)6;
-    dy = (s32)D_800245DC;
-    icon_x = 122;
+        dx = 0;
+        spin_data = (void *)6;
+        dy = (s32)D_800245DC;
+        icon_x = 122;
 icon_loop:
-    {
-        point.x = icon_x;
-        point.y = (s32)spin_data;
-        icon_frame = (S16(state_arg, 0x72) >> 1) + dx;
-        func_800672D8(&point, (void *)((icon_frame % 3) * 32 + dy));
-        icon_x += 16;
-        dx++;
-    }
-    if (dx < 3) {
-        goto icon_loop;
-    }
-    value_draw = U16(state_arg, 0x72);
-    U16(state_arg, 0x72) = value_draw + 1;
-    if ((s16)value_draw >= 198) {
-        S16(state_arg, 0x70) = 0;
-    }
+        {
+            point.x = icon_x;
+            point.y = (s32)spin_data;
+            icon_frame = (S16(state_arg, 0x72) >> 1) + dx;
+            func_800672D8(&point, (void *)((icon_frame % 3) * 32 + dy));
+            icon_x += 16;
+            dx++;
+        }
+        if (dx < 3) {
+            goto icon_loop;
+        }
+        value_draw = U16(state_arg, 0x72);
+        U16(state_arg, 0x72) = value_draw + 1;
+        if ((s16)value_draw >= 198) {
+            S16(state_arg, 0x70) = 0;
+        }
 
     }
 

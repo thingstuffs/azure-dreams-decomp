@@ -60,7 +60,8 @@ extern s32 func_800AD4D0();
 extern s32 func_80047784();
 
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
-u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity, S_func_81325A04_3 *actor) {
+u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
+    S_func_81325A04_3 *actor) {
     s32 state;
     s16 timer;
     s16 next_timer;

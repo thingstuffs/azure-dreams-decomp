@@ -92,29 +92,29 @@ void func_800517CC(
         }
         goto check_trigger;
     case 5:
-        {
-            s32 cos_value;
-            s32 accel;
-            s32 displacement;
-            s32 center_offset;
-            s32 round_bias;
-            s32 next_vx;
-            s32 next_x;
+    {
+        s32 cos_value;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vx;
+        s32 next_x;
 
-            cos_value = rcos(((s16)effect->timer + 0x100) << 3) >> 4;
-            accel = (cos_value * 3) << 11;
-            displacement = motion->x;
-            center_offset = (s32)0xFF280000;
-            displacement += center_offset;
-            accel -= displacement;
-            round_bias = (s32)((u32)accel >> 31);
-            accel += round_bias;
-            accel >>= 1;
-            next_vx = motion->vx + accel;
-            next_x = motion->x + next_vx;
-            motion->vx = next_vx;
-            motion->x = next_x;
-        }
+        cos_value = rcos(((s16)effect->timer + 0x100) << 3) >> 4;
+        accel = (cos_value * 3) << 11;
+        displacement = motion->x;
+        center_offset = (s32)0xFF280000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vx = motion->vx + accel;
+        next_x = motion->x + next_vx;
+        motion->vx = next_vx;
+        motion->x = next_x;
+    }
 
         {
             s32 accel;
@@ -149,29 +149,29 @@ void func_800517CC(
         }
         goto check_trigger;
     case 6:
-        {
-            s32 cos_value;
-            s32 accel;
-            s32 displacement;
-            s32 center_offset;
-            s32 round_bias;
-            s32 next_vx;
-            s32 next_x;
+    {
+        s32 cos_value;
+        s32 accel;
+        s32 displacement;
+        s32 center_offset;
+        s32 round_bias;
+        s32 next_vx;
+        s32 next_x;
 
-            cos_value = rcos((s16)effect->timer << 4) >> 4;
-            accel = (cos_value * 3) << 11;
-            displacement = motion->x;
-            center_offset = (s32)0xFF280000;
-            displacement += center_offset;
-            accel -= displacement;
-            round_bias = (s32)((u32)accel >> 31);
-            accel += round_bias;
-            accel >>= 1;
-            next_vx = motion->vx + accel;
-            next_x = motion->x + next_vx;
-            motion->vx = next_vx;
-            motion->x = next_x;
-        }
+        cos_value = rcos((s16)effect->timer << 4) >> 4;
+        accel = (cos_value * 3) << 11;
+        displacement = motion->x;
+        center_offset = (s32)0xFF280000;
+        displacement += center_offset;
+        accel -= displacement;
+        round_bias = (s32)((u32)accel >> 31);
+        accel += round_bias;
+        accel >>= 1;
+        next_vx = motion->vx + accel;
+        next_x = motion->x + next_vx;
+        motion->vx = next_vx;
+        motion->x = next_x;
+    }
 
         {
             s32 accel;
@@ -202,7 +202,7 @@ void func_800517CC(
             effect->state = 4;
         }
 
-    check_trigger:
+check_trigger:
         if (effect->trigger != 0) {
             effect->trigger = 0;
             effect->timer = 0;

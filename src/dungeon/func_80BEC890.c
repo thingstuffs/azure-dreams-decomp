@@ -13,8 +13,6 @@ s16 func_800A2B5C();                          /* extern */
 s32 func_800C7930(); /* extern */
 
 
-
-
 /* Start the actor action and animation when input and actor checks allow it. */
 void func_80172090(Rec_func_800A9E70_arg0 *action_state, M2C_UNK context, Rec_D_80082E80 *animation, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);

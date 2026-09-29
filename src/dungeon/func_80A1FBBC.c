@@ -67,7 +67,6 @@ typedef struct S_801733BC_5 {
 } S_801733BC_5;   /* objectPart in func_801733BC */
 
 
-
 typedef struct S_801733BC_8 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -88,7 +87,6 @@ typedef struct S_801733BC_10 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_801733BC_10;   /* ((S_801733BC_2 *)object)->unk_08 in func_801733BC */
-
 
 
 typedef struct {
@@ -218,7 +216,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
             }
         }
         ((S_801733BC_1 *)effect_state)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         if (!(((S_801733BC_0 *)render_part)->unk_14 & 0xE000)) {
             break;

@@ -6,7 +6,6 @@
 typedef void (*Callback)(s32, s32);
 
 
-
 extern void func_80018B58();
 extern void func_80018BD0();
 extern s32 func_80018C50();

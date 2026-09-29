@@ -50,7 +50,6 @@ typedef struct S_80171BEC_5 {
 } S_80171BEC_5;   /* owner in func_80171BEC */
 
 
-
 typedef struct {
     u16 x;
     u16 y;

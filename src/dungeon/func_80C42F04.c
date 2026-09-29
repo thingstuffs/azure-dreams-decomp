@@ -10,7 +10,6 @@
 #endif
 
 
-
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern u8 *D_800DCEEC[];
@@ -153,11 +152,11 @@ void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
     }
 
     case 1:
-    func_80041588(D_80174E24, D_80174E3C, 0);
-    ((S_80174704_0 *)action)->unk_B0.s = 0;
-    ((S_80174704_0 *)action)->unk_9B++;
-    ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
-    ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
+        func_80041588(D_80174E24, D_80174E3C, 0);
+        ((S_80174704_0 *)action)->unk_B0.s = 0;
+        ((S_80174704_0 *)action)->unk_9B++;
+        ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
+        ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
 
     case 2:
     {
@@ -220,42 +219,42 @@ direction_ready:
     }
 
     case 4:
-    object = func_8003FC64(0x12);
-    if (object == NULL) {
-        return;
-    }
-    ((S_80174704_3 *)object)->unk_10.p = D_801745D8;
-    func_8004491C(object, D_80173F68);
-    color = 0x00808080;
-    ((S_80174704_0 *)action)->unk_AC.p = object;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_00 = position->x.v;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_04 = position->y.v;
-    ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_08 = position->z.v;
-    {
-        S_80174704_6 *effect_pos = ((S_80174704_3 *)object)->unk_08;
-        s32 pos_z = position->z.v;
-
-        D_80174E38[0] = -0x10;
-        effect_pos->unk_08 = pos_z;
-    }
-    object = ((S_80174704_3 *)object)->unk_0C.p;
-    ((S_80174704_3 *)object)->unk_1E = 0x1000;
-    ((S_80174704_3 *)object)->unk_1C = 0x1000;
-    ((S_80174704_3 *)object)->unk_0C.i = color;
-    {
-        s16 effect_index = func_800498A0(actor) - 1;
-
-        if (effect_index < 0) {
-            effect_index = func_80069EF8() % 3;
+        object = func_8003FC64(0x12);
+        if (object == NULL) {
+            return;
         }
-        func_8003DB94(object, D_8014A000 + D_80174E2C[effect_index], 0);
-    }
-    entity->unk_14.at00_u16.v |= 0x80;
-    ((S_80174704_0 *)action)->unk_96.u = 0;
-    next_state = ((S_80174704_0 *)action)->unk_9B + 1;
+        ((S_80174704_3 *)object)->unk_10.p = D_801745D8;
+        func_8004491C(object, D_80173F68);
+        color = 0x00808080;
+        ((S_80174704_0 *)action)->unk_AC.p = object;
+        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_00 = position->x.v;
+        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_04 = position->y.v;
+        ((S_80174704_10 *)(((S_80174704_3 *)object)->unk_08))->unk_08 = position->z.v;
+        {
+            S_80174704_6 *effect_pos = ((S_80174704_3 *)object)->unk_08;
+            s32 pos_z = position->z.v;
+
+            D_80174E38[0] = -0x10;
+            effect_pos->unk_08 = pos_z;
+        }
+        object = ((S_80174704_3 *)object)->unk_0C.p;
+        ((S_80174704_3 *)object)->unk_1E = 0x1000;
+        ((S_80174704_3 *)object)->unk_1C = 0x1000;
+        ((S_80174704_3 *)object)->unk_0C.i = color;
+        {
+            s16 effect_index = func_800498A0(actor) - 1;
+
+            if (effect_index < 0) {
+                effect_index = func_80069EF8() % 3;
+            }
+            func_8003DB94(object, D_8014A000 + D_80174E2C[effect_index], 0);
+        }
+        entity->unk_14.at00_u16.v |= 0x80;
+        ((S_80174704_0 *)action)->unk_96.u = 0;
+        next_state = ((S_80174704_0 *)action)->unk_9B + 1;
 store_next_state:
-    ((S_80174704_0 *)action)->unk_9B = next_state;
-    return;
+        ((S_80174704_0 *)action)->unk_9B = next_state;
+        return;
 
     case 5:
     {
@@ -265,13 +264,29 @@ store_next_state:
             s32 angle_step = ((S_80174704_0 *)action)->unk_B0.s;
 
             func_80174374(action, position, entity, actor,
-                         (s16)(angle_step << 7), 0);
+                          (s16)(angle_step << 7), 0);
             ((S_80174704_0 *)action)->unk_B0.u++;
         }
     }
-    object = ((S_80174704_0 *)action)->unk_AC.p2;
-    object = ((S_80174704_3 *)object)->unk_0C.p;
-    if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
+        object = ((S_80174704_0 *)action)->unk_AC.p2;
+        object = ((S_80174704_3 *)object)->unk_0C.p;
+        if (((S_80174704_3 *)object)->unk_14 & 0xE000) {
+            ((S_80174704_0 *)action)->unk_96.u = 0x10;
+            ((S_80174704_0 *)action)->unk_9B++;
+            func_800A18E8(((S_80174704_1 *)actor)->unk_13, 3);
+            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+            func_8009A028(actor);
+            object = (u8 *)actor - 0x20;
+            ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
+        }
+
+    case 6:
+        if (((S_80174704_0 *)action)->unk_9B != 6) {
+            return;
+        }
+        if (func_800ADC4C(position, D_80174E40[0], D_80174E38[0], D_800DCF5C) == 0) {
+            return;
+        }
         ((S_80174704_0 *)action)->unk_96.u = 0x10;
         ((S_80174704_0 *)action)->unk_9B++;
         func_800A18E8(((S_80174704_1 *)actor)->unk_13, 3);
@@ -279,23 +294,7 @@ store_next_state:
         func_8009A028(actor);
         object = (u8 *)actor - 0x20;
         ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
-    }
-
-    case 6:
-    if (((S_80174704_0 *)action)->unk_9B != 6) {
         return;
-    }
-    if (func_800ADC4C(position, D_80174E40[0], D_80174E38[0], D_800DCF5C) == 0) {
-        return;
-    }
-    ((S_80174704_0 *)action)->unk_96.u = 0x10;
-    ((S_80174704_0 *)action)->unk_9B++;
-    func_800A18E8(((S_80174704_1 *)actor)->unk_13, 3);
-    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-    func_8009A028(actor);
-    object = (u8 *)actor - 0x20;
-    ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
-    return;
 
     case 7:
     {
@@ -328,15 +327,15 @@ store_next_state:
             return;
         }
     }
-    {
+        {
 
-        ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
-        ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        dungeonStatus.unk_0A--;
-        ((S_80174704_1 *)actor)->unk_6D = 0;
-    }
+            ((S_80174704_11 *)(((S_80174704_1 *)actor)->unk_60))->unk_2A = ((S_80174704_1 *)actor)->unk_8A;
+            ((S_80174704_0_pre *)action)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            dungeonStatus.unk_0A--;
+            ((S_80174704_1 *)actor)->unk_6D = 0;
+        }
 
-    return;
+        return;
     }
 }

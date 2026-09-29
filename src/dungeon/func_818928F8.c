@@ -9,7 +9,6 @@ typedef struct S_818928F8_0 {
 } S_818928F8_0;   /* fields in func_818928F8 */
 
 
-
 typedef struct Copy24 {
     s32 word[6];
 } Copy24;

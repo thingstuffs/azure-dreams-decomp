@@ -60,7 +60,6 @@ typedef struct S_801731C8_2 {
 } S_801731C8_2;   /* linked in func_801731C8 */
 
 
-
 typedef struct S_801731C8_5 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -368,21 +367,21 @@ state_2:
                 ((S_801731C8_6 *)particle_part)->unk_12 = color_roll + 0x7DC6;
                 ((S_801731C8_6 *)particle_part)->unk_14 |= 0x100;
                 switch (color_choice) {
-                    case 1:
-                        ((S_801731C8_6 *)particle_part)->unk_0C = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
-                        break;
-                    case 2:
-                        ((S_801731C8_6 *)particle_part)->unk_0E = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
-                        break;
-                    case 3:
-                        ((S_801731C8_6 *)particle_part)->unk_0D = high_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
-                        ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
-                        break;
+                case 1:
+                    ((S_801731C8_6 *)particle_part)->unk_0C = high_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
+                    break;
+                case 2:
+                    ((S_801731C8_6 *)particle_part)->unk_0E = high_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0D = low_color;
+                    break;
+                case 3:
+                    ((S_801731C8_6 *)particle_part)->unk_0D = high_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0E = low_color;
+                    ((S_801731C8_6 *)particle_part)->unk_0C = low_color;
+                    break;
                 }
             }
         }

@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 
-
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
@@ -28,7 +27,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 #ifdef __mips__
 static const u32 func_81970800_prefix[] __asm__("func_81970800")
-    __attribute__((section(".text.func_81970800"))) = {
+__attribute__((section(".text.func_81970800"))) = {
     0x8002512C,
     0x00000000,
     0x80024D5C,

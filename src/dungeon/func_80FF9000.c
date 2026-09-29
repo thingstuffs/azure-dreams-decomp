@@ -42,9 +42,10 @@ typedef struct S_80FF9000_4 {
 } S_80FF9000_4;   /* actor in BODY_NAME */
 
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
-         seen by the real compiler; satisfies the tool's textual defines()
-         check for the proven-region rename of func_80152800. */
-void func_80152800(void);
+seen by the real compiler;
+satisfies the tool's textual defines()
+check for the proven-region rename of func_80152800. */
+    void func_80152800(void);
 #endif
 
 void *func_8003FD64();
@@ -62,7 +63,7 @@ extern M2C_UNK D_80156088;
 
 #ifdef __mips__
 static const u32 data_prefix[] __asm__("func_80152800")
-    __attribute__((section(".text.func_80152800"), aligned(4))) = {
+__attribute__((section(".text.func_80152800"), aligned(4))) = {
     0x801528A8, 0x80152A7C,
     0x801532B8, 0x801532B8, 0x801532B8, 0x801532E4,
     0x80153264, 0x80153264, 0x80153264, 0x801531F4,

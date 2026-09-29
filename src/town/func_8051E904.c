@@ -7,8 +7,6 @@ typedef struct S_8051E904_1 {
 } S_8051E904_1;   /* ((temp_s0 * 8) + arg0) in func_8051E904 */
 
 
-
-
 extern s32 func_80017710(s32, M2C_UNK);
 extern M2C_UNK func_80018A64();
 

@@ -4,9 +4,10 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 #if 0 /* rowbase_rename_reverify precondition marker: dead declaration, never
-         seen by the real compiler; satisfies the tool's textual defines()
-         check for the proven-region rename of func_8015E800. */
-void func_8015E800(void);
+seen by the real compiler;
+satisfies the tool's textual defines()
+check for the proven-region rename of func_8015E800. */
+    void func_8015E800(void);
 #endif
 
 typedef struct DungeonSub2 DungeonSub2;
@@ -77,7 +78,7 @@ extern void *func_80160A6C(void);
 extern void *func_80160A64(void);
 
 static const u32 data_prefix[] __asm__("func_8015E800")
-    __attribute__((section(".text.func_8015E800"), aligned(4))) = {
+__attribute__((section(".text.func_8015E800"), aligned(4))) = {
     (u32)func_8015E8A8,
     (u32)D_8015EA7C,
     (u32)func_8015F2B8,
@@ -196,7 +197,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
             status_flags |= 0x2000;
 store_flags:
             state->field14 = state_flags;
-            shared_tail:
+shared_tail:
             state->field1c = status_flags;
             goto final_call;
         }

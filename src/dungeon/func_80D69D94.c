@@ -48,7 +48,6 @@ typedef struct S_80175594_3 {
 } S_80175594_3;   /* object in func_80175594 */
 
 
-
 extern u8 D_800E2348[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
@@ -92,194 +91,197 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
     object = object_in;
     switch (((S_80175594_0 *)motion)->unk_9B) {
     case 0:
-    ((S_80175594_1 *)position)->unk_14 = 0;
-    ((S_80175594_1 *)position)->unk_10 = 0;
-    ((S_80175594_1 *)position)->unk_0C = 0;
-    if (((Rec_func_800D6DC0_arg2 *)entity)->unk_14 & 0x8000) {
-        ((S_80175594_0 *)motion)->unk_9B = 7;
-        ((Rec_func_800D6DC0_arg2 *)entity)->unk_14 |= 0x6000;
+        ((S_80175594_1 *)position)->unk_14 = 0;
+        ((S_80175594_1 *)position)->unk_10 = 0;
+        ((S_80175594_1 *)position)->unk_0C = 0;
+        if (((Rec_func_800D6DC0_arg2 *)entity)->unk_14 & 0x8000) {
+            ((S_80175594_0 *)motion)->unk_9B = 7;
+            ((Rec_func_800D6DC0_arg2 *)entity)->unk_14 |= 0x6000;
+            return;
+        }
+        if (((S_80175594_0 *)motion)->unk_A0.at00.v <= 0x6FFFF) {
+            return;
+        }
+        ((S_80175594_0 *)motion)->unk_98 |= 8;
+        ((S_80175594_3 *)object)->unk_1C &= ~0x40000;
+        ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
+        ((S_80175594_0 *)motion)->unk_92.s -= 8;
+        ((S_80175594_0 *)motion)->unk_9B++;
+        ((S_80175594_0 *)motion)->unk_B6 =
+            ((S_80175594_1 *)position)->unk_0A.s + ((S_80175594_0 *)motion)->unk_92.s;
         return;
-    }
-    if (((S_80175594_0 *)motion)->unk_A0.at00.v <= 0x6FFFF) {
-        return;
-    }
-    ((S_80175594_0 *)motion)->unk_98 |= 8;
-    ((S_80175594_3 *)object)->unk_1C &= ~0x40000;
-    ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
-    ((S_80175594_0 *)motion)->unk_92.s -= 8;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    ((S_80175594_0 *)motion)->unk_B6 =
-        ((S_80175594_1 *)position)->unk_0A.s + ((S_80175594_0 *)motion)->unk_92.s;
-    return;
 
     case 1:
-    (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
-    func_80047784(entity,
-        D_800E23B8[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    return;
+        (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
+        func_80047784(entity,
+            D_800E23B8[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
+        return;
 
     case 2:
-    if (++((S_80175594_0 *)motion)->unk_96 < 9) {
+        if (++((S_80175594_0 *)motion)->unk_96 < 9) {
+            return;
+        }
+        (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
+        func_80047784(entity,
+            D_800E23C0[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
         return;
-    }
-    (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
-    func_80047784(entity,
-        D_800E23C0[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    return;
 
     case 3:
-    if (((S_80175594_0 *)motion)->unk_96++ < 3) {
+        if (((S_80175594_0 *)motion)->unk_96++ < 3) {
+            return;
+        }
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
         return;
-    }
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    return;
 
     case 4:
-    if (((S_80175594_0 *)motion)->unk_96++ < 0xB) {
+        if (((S_80175594_0 *)motion)->unk_96++ < 0xB) {
+            return;
+        }
+        particle_index = 0;
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
+        ((S_80175594_1 *)position)->unk_14 = 0;
+        ((S_80175594_0 *)motion)->unk_AC = 0;
+        do {
+            burst_x = (s16)(func_8017165C(0x2C) - 0x16);
+            random_y = func_8017165C(0x2C) - 0x16;
+            func_80171010(motion, position, entity, burst_x, random_y, 0x1E);
+            particle_index++;
+        } while (particle_index < 6);
+        func_800D6DC0(motion, position, entity, object);
         return;
-    }
-    particle_index = 0;
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    ((S_80175594_1 *)position)->unk_14 = 0;
-    ((S_80175594_0 *)motion)->unk_AC = 0;
-    do {
-        burst_x = (s16)(func_8017165C(0x2C) - 0x16);
-        random_y = func_8017165C(0x2C) - 0x16;
-        func_80171010(motion, position, entity, burst_x, random_y, 0x1E);
-        particle_index++;
-    } while (particle_index < 6);
-    func_800D6DC0(motion, position, entity, object);
-    return;
 
     case 5:
-    switch (((S_80175594_0 *)motion)->unk_96) {
-    case 0:
-        ((S_80175594_1 *)position)->unk_14 = -0x140000;
-        ((S_80175594_0 *)motion)->unk_AC = 0x30000;
-        break;
-    case 6:
-        ((S_80175594_1 *)position)->unk_14 = -0x180000;
-        ((S_80175594_0 *)motion)->unk_AC = -0x10000;
-        break;
-    case 12:
-        ((S_80175594_0 *)motion)->unk_AC = -0x20000;
-        break;
-    }
-    ((S_80175594_1 *)position)->unk_14 += ((S_80175594_0 *)motion)->unk_AC;
+        switch (((S_80175594_0 *)motion)->unk_96) {
+        case 0:
+            ((S_80175594_1 *)position)->unk_14 = -0x140000;
+            ((S_80175594_0 *)motion)->unk_AC = 0x30000;
+            break;
+        case 6:
+            ((S_80175594_1 *)position)->unk_14 = -0x180000;
+            ((S_80175594_0 *)motion)->unk_AC = -0x10000;
+            break;
+        case 12:
+            ((S_80175594_0 *)motion)->unk_AC = -0x20000;
+            break;
+        }
+        ((S_80175594_1 *)position)->unk_14 += ((S_80175594_0 *)motion)->unk_AC;
 
-    if (((S_80175594_0 *)motion)->unk_96 < 2) {
-        particle_index = 0;
-        do {
-            scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
-            random_y = (func_80069EF8() & 0x1F) - 0x10;
-            func_80171010(motion, position, entity, scatter_x, random_y, 0x1E);
-            particle_index++;
-        } while (particle_index < 4);
-    }
-    if (((S_80175594_0 *)motion)->unk_96 == 1) {
-        func_80170BB8(motion, position, entity, object, 1);
-        func_800A56E0(0x80A);
-    }
-    if (((S_80175594_0 *)motion)->unk_96 == 2) {
-        func_80170A44(motion, position, entity, object);
-    }
-    if (((S_80175594_0 *)motion)->unk_96 == 6) {
-        func_80170BB8(motion, position, entity, object, 0x1A);
-        func_800A56E0(0x705);
-    }
-    if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
+        if (((S_80175594_0 *)motion)->unk_96 < 2) {
+            particle_index = 0;
+            do {
+                scatter_x = (s16)((func_80069EF8() & 0x1F) - 0x10);
+                random_y = (func_80069EF8() & 0x1F) - 0x10;
+                func_80171010(motion, position, entity, scatter_x, random_y, 0x1E);
+                particle_index++;
+            } while (particle_index < 4);
+        }
+        if (((S_80175594_0 *)motion)->unk_96 == 1) {
+            func_80170BB8(motion, position, entity, object, 1);
+            func_800A56E0(0x80A);
+        }
+        if (((S_80175594_0 *)motion)->unk_96 == 2) {
+            func_80170A44(motion, position, entity, object);
+        }
+        if (((S_80175594_0 *)motion)->unk_96 == 6) {
+            func_80170BB8(motion, position, entity, object, 0x1A);
+            func_800A56E0(0x705);
+        }
+        if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
+            return;
+        }
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
         return;
-    }
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    return;
 
     case 6:
-    ((S_80175594_1 *)position)->unk_0A.s = ((S_80175594_0 *)motion)->unk_B6;
+        ((S_80175594_1 *)position)->unk_0A.s = ((S_80175594_0 *)motion)->unk_B6;
 
-    ((S_80175594_0 *)motion)->unk_96 = 0;
-    ((S_80175594_0 *)motion)->unk_9B++;
-    return;
+        ((S_80175594_0 *)motion)->unk_96 = 0;
+        ((S_80175594_0 *)motion)->unk_9B++;
+        return;
 
     case 7:
-    func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
-        (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-    tries_left = 0x20;
-    old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
-    old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
-    do {
-        loop_3: {
-            tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
-        } if (tile_result < 0) goto loop_3;
+        func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+            (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        tries_left = 0x20;
+        old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
+        old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
+        do {
+loop_3:
+            {
+                tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
+            }
+            if (tile_result < 0)
+                goto loop_3;
 
-        dx = D_80082E80.tileX;
-        dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
-        entity_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
-        dx -= dy;
-        dy = D_80082E80.tileY;
-        if (dx < 0) {
-            dx = -dx;
-        }
-        dy -= entity_y;
-        if (dy < 0) {
-            dy = -dy;
-        }
-        if (dx + dy >= 0x21) {
-            goto coordinates_ready;
-        }
-    } while (--tries_left >= 0);
-    ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
-    ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
+            dx = D_80082E80.tileX;
+            dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
+            entity_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
+            dx -= dy;
+            dy = D_80082E80.tileY;
+            if (dx < 0) {
+                dx = -dx;
+            }
+            dy -= entity_y;
+            if (dy < 0) {
+                dy = -dy;
+            }
+            if (dx + dy >= 0x21) {
+                goto coordinates_ready;
+            }
+        } while (--tries_left >= 0);
+        ((Rec_func_800D6DC0_arg2 *)entity)->unk_24 = old_x;
+        ((Rec_func_800D6DC0_arg2 *)entity)->unk_25 = old_y;
 
 coordinates_ready:
-    ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
-    ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
-    ground_z = func_800BCB04(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
-        -0x200);
-    ground_z -= 0x11;
-    height_offset = -0x20;
-    ((S_80175594_1 *)position)->unk_0A.u = ground_z;
-    ((S_80175594_0 *)motion)->unk_92.u = height_offset;
-    ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
-    ((S_80175594_3 *)object)->unk_88 = -0x200;
-    ground_z = func_800BCB04(
-        (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) | 0x20,
-        (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) | 0x20,
-        -0x200);
-    ((S_80175594_3 *)object)->unk_88 = ground_z;
+        ((S_80175594_1 *)position)->unk_02.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) + 0x20;
+        ((S_80175594_1 *)position)->unk_06.s = (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) + 0x20;
+        ground_z = func_800BCB04(((S_80175594_1 *)position)->unk_02.u, ((S_80175594_1 *)position)->unk_06.u,
+            -0x200);
+        ground_z -= 0x11;
+        height_offset = -0x20;
+        ((S_80175594_1 *)position)->unk_0A.u = ground_z;
+        ((S_80175594_0 *)motion)->unk_92.u = height_offset;
+        ((S_80175594_0 *)motion)->unk_A0.at00.v = 0;
+        ((S_80175594_3 *)object)->unk_88 = -0x200;
+        ground_z = func_800BCB04(
+            (((Rec_func_800D6DC0_arg2 *)entity)->unk_24 << 6) | 0x20,
+            (((Rec_func_800D6DC0_arg2 *)entity)->unk_25 << 6) | 0x20,
+            -0x200);
+        ((S_80175594_3 *)object)->unk_88 = ground_z;
 
-    func_8009A21C(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
-        (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-    func_800AA53C(object);
-    func_800AD594(object, 0x1000);
-    ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
-    dungeonStatus.unk_0C = 0;
-    ((S_80175594_1 *)position)->unk_14 = 0;
-    ((S_80175594_1 *)position)->unk_10 = 0;
-    ((S_80175594_1 *)position)->unk_0C = 0;
-    ((S_80175594_0 *)motion)->unk_92.u = height_offset;
-    ((S_80175594_3 *)object)->unk_1C |= 0x40000;
-    (*(u16 *)((u8 *)motion + 0x98)) |= 8;
+        func_8009A21C(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
+            (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+        func_800AA53C(object);
+        func_800AD594(object, 0x1000);
+        ((S_80175594_0 *)motion)->unk_8C = &D_80171F1C;
+        dungeonStatus.unk_0C = 0;
+        ((S_80175594_1 *)position)->unk_14 = 0;
+        ((S_80175594_1 *)position)->unk_10 = 0;
+        ((S_80175594_1 *)position)->unk_0C = 0;
+        ((S_80175594_0 *)motion)->unk_92.u = height_offset;
+        ((S_80175594_3 *)object)->unk_1C |= 0x40000;
+        (*(u16 *)((u8 *)motion + 0x98)) |= 8;
 
-    animations = D_800E2348;
-    if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
-        func_80047784(entity,
-            animations[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
-        ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;
-        ((S_80175594_0 *)motion)->unk_9E = 0;
-    }
-    ((S_80175594_3 *)object)->unk_46 &= 0x7FFF;
+        animations = D_800E2348;
+        if (((Rec_func_800D6DC0_arg2 *)entity)->unk_2C != animations) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = animations;
+            func_80047784(entity,
+                animations[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((Rec_func_800D6DC0_arg2 *)entity)->unk_05 = 1;
+            ((S_80175594_0 *)motion)->unk_A0.at02.v = 0;
+            ((S_80175594_0 *)motion)->unk_9E = 0;
+        }
+        ((S_80175594_3 *)object)->unk_46 &= 0x7FFF;
 
     default:
         return;

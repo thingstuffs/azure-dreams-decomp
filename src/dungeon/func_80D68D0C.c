@@ -179,46 +179,46 @@ state_2:
     switch ((u32)(s16)((S_8017450C_0 *)state)->unk_96.s) {
     case 1:
     case 2:
-    ((S_8017450C_0 *)state)->unk_AE = 0x30;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x30;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+        break;
 
     case 3:
     case 8:
-    ((S_8017450C_0 *)state)->unk_AE = 0x28;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x28;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
+        break;
 
     case 9:
     case 10:
-    ((S_8017450C_0 *)state)->unk_AE = 0x30;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x30;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+        break;
 
     case 11:
     case 14:
-    ((S_8017450C_0 *)state)->unk_AE = 0x70;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x70;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+        break;
 
     case 15:
     case 17:
-    ((S_8017450C_0 *)state)->unk_AE = 0x60;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x60;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
+        break;
 
     case 18:
     case 21:
-    ((S_8017450C_0 *)state)->unk_AE = 0x50;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
-    break;
+        ((S_8017450C_0 *)state)->unk_AE = 0x50;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
+        break;
 
     case 0:
     default:
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
+        ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
     }
 
-    /* angle_store */
+        /* angle_store */
     if (((S_8017450C_1 *)monster)->unk_1A.u >= 0x1000) {
         ((S_8017450C_1 *)monster)->unk_1A.u -= 0x1000;
     }
@@ -335,26 +335,26 @@ state_4:
     }
 
 cleanup:
-{
-    u32 tracked_actor;
-    s32 tile_flags;
+    {
+        u32 tracked_actor;
+        s32 tile_flags;
 
-    tracked_actor = ((u32)dungeonStatus.unk_10);
-    if (tracked_actor == actor - 0x20) {
-        dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+        tracked_actor = ((u32)dungeonStatus.unk_10);
+        if (tracked_actor == actor - 0x20) {
+            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+        }
+        func_800A2FE0((void *)actor);
+        func_800A32A4((void *)actor);
+        tile_x = ((S_8017450C_1 *)monster)->unk_24;
+        tile_y = ((S_8017450C_1 *)monster)->unk_25;
+        if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
+            tile_flags = 0x300;
+        } else {
+            tile_flags = 0x3000;
+        }
+        func_8009A3D0(tile_x, tile_y, tile_flags);
+        func_8009A028((void *)actor);
+        (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
-    func_800A2FE0((void *)actor);
-    func_800A32A4((void *)actor);
-    tile_x = ((S_8017450C_1 *)monster)->unk_24;
-    tile_y = ((S_8017450C_1 *)monster)->unk_25;
-    if (((S_8017450C_3 *)actor)->unk_1C & 0x2000) {
-        tile_flags = 0x300;
-    } else {
-        tile_flags = 0x3000;
-    }
-    func_8009A3D0(tile_x, tile_y, tile_flags);
-    func_8009A028((void *)actor);
-    (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-}
 }

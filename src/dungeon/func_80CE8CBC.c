@@ -9,17 +9,19 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_801724BC_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     M2C_UNK * unk_2C;
 } S_801724BC_2;   /* arg2 in func_801724BC */
-
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -196,19 +198,22 @@ block_33:
     case 0xD:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E24) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E24;
-            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E24)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                >> 9) & 7], 0);
         }
         break;
     case 0xE:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E2C) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E2C;
-            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E2C)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                >> 9) & 7], 0);
         }
         break;
     case 0xF:
         if (((S_801724BC_2 *)sprite)->unk_2C != &D_80175E34) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80175E34;
-            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, ((u8 *)&D_80175E34)[((s32) (gameWork.view.viewAngle + state->facing + 0x100)
+                >> 9) & 7], 0);
         }
         break;
     default:
@@ -290,59 +295,60 @@ block_64:
     switch (action_id) {
     case 8:
     case 9:
-    if ((func_80173734(actor, context, sprite, state) << 0x10) != 0) {
+        if ((func_80173734(actor, context, sprite, state) << 0x10) != 0) {
+            return;
+        }
+        func_80173B48(actor, context, sprite, state);
         return;
-    }
-    func_80173B48(actor, context, sprite, state);
-    return;
     case 5:
     case 6:
     case 7:
     {
-        heading = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &path_info);
+        heading = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            D_80082E80.tileX, D_80082E80.tileY, &path_info);
     }
-    player = D_800814A8;
-    state->facing = heading;
-    if (player->unk_9A == 0x11) {
-        goto block_78;
-    }
+        player = D_800814A8;
+        state->facing = heading;
+        if (player->unk_9A == 0x11) {
+            goto block_78;
+        }
     case 12:
 block_77:
-    func_800A9A0C(state);
-    return;
+        func_800A9A0C(state);
+        return;
     case 1:
     case 2:
     case 3:
 block_78:
-    action_mode = state->unk_48;
-    if (action_mode == 0xE) {
-        goto block_85;
-    }
-    if ((s32) action_mode < 0xF) {
-        if (action_mode == 0xD) {
-            goto block_84;
+        action_mode = state->unk_48;
+        if (action_mode == 0xE) {
+            goto block_85;
+        }
+        if ((s32) action_mode < 0xF) {
+            if (action_mode == 0xD) {
+                goto block_84;
+            }
+            return;
+        }
+        if (action_mode == 0xF) {
+            goto block_86;
         }
         return;
-    }
-    if (action_mode == 0xF) {
-        goto block_86;
-    }
-    return;
 block_84:
-    func_800AAF00(actor, context, sprite, &D_80175DF4, &D_801724BC);
-    return;
+        func_800AAF00(actor, context, sprite, &D_80175DF4, &D_801724BC);
+        return;
 block_85:
-    func_800AAF00(actor, context, sprite, &D_80175DFC, &D_801724BC);
-    return;
+        func_800AAF00(actor, context, sprite, &D_80175DFC, &D_801724BC);
+        return;
 block_86:
-    func_800AAF00(actor, context, sprite, &D_80175E04, &D_801724BC);
-    return;
+        func_800AAF00(actor, context, sprite, &D_80175E04, &D_801724BC);
+        return;
     case 11:
     default:
 block_87:
 block_88:
-    func_80172F58(actor, context, sprite, state);
-    return;
+        func_80172F58(actor, context, sprite, state);
+        return;
     }
 block_89:
     state_flags = state->flags1C;
@@ -367,10 +373,12 @@ block_89:
         goto block_97;
     }
     {
-        if ((func_8009FD7C(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
+        if ((func_8009FD7C(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
             goto block_95;
         }
-        state->facing = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &path_info);
+        state->facing = func_800A0818(((S_801724BC_2 *)sprite)->unk_24.at00.v, ((S_801724BC_2 *)sprite)->unk_24.at01.v,
+            D_80082E80.tileX, D_80082E80.tileY, &path_info);
     }
 block_95:
     if (dungeonStatus.flags & 0x2000) {
@@ -411,6 +419,7 @@ block_107:
     }
 block_108:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_row;
-    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (unsigned long)next_row), 0);
+    func_80047784(sprite, *(u8 *)((unsigned long)(((s32) (gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7)
+        + (unsigned long)next_row), 0);
     return;
 }

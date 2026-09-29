@@ -34,8 +34,6 @@ typedef struct S_80AC5820_2 {
 } S_80AC5820_2;   /* other in func_80AC5820 */
 
 
-
-
 extern void func_800478B8();
 extern s32 func_80065420(void *, void *, void *, void *);
 

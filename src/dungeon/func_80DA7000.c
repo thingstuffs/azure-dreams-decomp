@@ -44,7 +44,7 @@ typedef struct S_80DA7000_4 {
 
 #ifdef __mips__
 static const u32 func_80DA7000_prefix[] __asm__("func_80DA7000")
-    __attribute__((used, section(".text.func_80DA7000"), aligned(4))) = {
+__attribute__((used, section(".text.func_80DA7000"), aligned(4))) = {
     0x80158874, 0x80158A3C, 0x80159208, 0x80159208,
     0x80159208, 0x80159234, 0x801591B4, 0x801591B4,
     0x801591B4, 0x80159144, 0x80159134, 0x80159234,

@@ -40,7 +40,8 @@ count_entries:
                 compare_offset = compare_index * 8;
                 sort_entry = entry;
                 compare_entry = (void *)(compare_offset + (s32)entries);
-                loop_1: {
+loop_1:
+                {
                     compare_offset = *(s32 *)sort_entry > *(s32 *)compare_entry;
                     if (compare_offset != 0) {
                         saved_entry[1] = *(s32 *)((s8 *)sort_entry + 4);
@@ -52,7 +53,9 @@ count_entries:
                     }
                     compare_index--;
                     compare_entry = (s8 *)compare_entry - 8;
-                } if (entry_index < compare_index) goto loop_1;
+                }
+                if (entry_index < compare_index)
+                    goto loop_1;
             }
             entry_index++;
             entry = (s8 *)entry + 8;

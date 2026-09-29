@@ -134,7 +134,7 @@ extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
 
 #ifdef __mips__
 static const u32 func_819A6800_table[] __asm__("func_819A6800")
-    __attribute__((used, section(".text.func_819A6800"), aligned(4))) = {
+__attribute__((used, section(".text.func_819A6800"), aligned(4))) = {
     0x80024020,
     0,
     0x80024080,
@@ -152,7 +152,7 @@ __asm__(".globl func_819A6800\n.size func_819A6800, 1212");
 
 #ifdef __mips__
 void FUNC_819A6800_BODY(void *, void *)
-    __attribute__((section(".text.func_819A6800")));
+__attribute__((section(".text.func_819A6800")));
 #endif
 
 #define SELF ((S_func_819A6800_1 *)sequence)
@@ -203,10 +203,10 @@ state2:
         ((S_func_819A6800_5 *)(out_position))->unk_08.u = ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.u;
 
         new_object = func_800A05A4(reloaded_object,
-                                D_80082E80.tileX,
-                                D_80082E80.tileY,
-                                reloaded_object->unk_2A,
-                                7);
+                                   D_80082E80.tileX,
+                                   D_80082E80.tileY,
+                                   reloaded_object->unk_2A,
+                                   7);
         owner->unk_60.p = new_object;
         if (new_object == 0) {
             owner->unk_72 = record->unk_24;

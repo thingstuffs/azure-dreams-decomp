@@ -29,11 +29,21 @@ extern s16 D_800838D8[64];
 extern void *D_80083160[3];
 
 typedef union { struct { u8 u, v; } c; u16 word; } UVPair;
-typedef struct { union { u32 word; u8 bytes[4]; } tag; u8 r,g,b,code;
- s16 x0,y0; UVPair uv0; u16 clut;
- s16 x1,y1; UVPair uv1; u16 tpage;
- s16 x2,y2; UVPair uv2; u16 pad2;
- s16 x3,y3; UVPair uv3; u16 pad3;
+typedef struct {
+    union { u32 word; u8 bytes[4]; } tag;
+    u8 r, g, b, code;
+    s16 x0, y0;
+    UVPair uv0;
+    u16 clut;
+    s16 x1, y1;
+    UVPair uv1;
+    u16 tpage;
+    s16 x2, y2;
+    UVPair uv2;
+    u16 pad2;
+    s16 x3, y3;
+    UVPair uv3;
+    u16 pad3;
 } SpriteQuad;
 
 /* Draw fourteen sprites with interpolated positions and pulsing color. */

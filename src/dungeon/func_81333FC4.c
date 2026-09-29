@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_8016AFC4_3 {
     u8 pad_00[0x74];
     u8 unk_74;
@@ -20,7 +19,6 @@ typedef struct S_8016AFC4_4 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_8016AFC4_4;   /* (u8 *)arg3 + ((S_8016AFC4_0 *)arg3)->unk_8A.s in func_8016AFC4 */
-
 
 
 extern s32 func_80047784();
@@ -130,6 +128,7 @@ void func_8016AFC4(void *actor, s32 unused, void *sprite, EntityRec *movement)
     }
     step_count = movement->unk_71;
     if (step_count > 0) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 = ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 / step_count;
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 =
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_96.as_s16 / step_count;
     }
 }

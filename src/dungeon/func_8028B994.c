@@ -62,31 +62,31 @@ void func_8001E994(void)
                             }
                         }
                     }
-                        weight_bits =
-                            *(u16 *)(item_offset + *(s32 *)(group_copy + 0xC)) & 0x3000;
-                        if (weight_bits < 0) {
-                            weight_bits += 0xFFF;
-                        }
-                        weight_bits >>= 0xC;
-                        {
+                    weight_bits =
+                        *(u16 *)(item_offset + *(s32 *)(group_copy + 0xC)) & 0x3000;
+                    if (weight_bits < 0) {
+                        weight_bits += 0xFFF;
+                    }
+                    weight_bits >>= 0xC;
+                    {
 
-                            item_flags = weight_bits & 3;
-                            item_weight = 0x80;
-                            if (item_flags != 0) {
-                                s32 one;
+                        item_flags = weight_bits & 3;
+                        item_weight = 0x80;
+                        if (item_flags != 0) {
+                            s32 one;
 
-                                one = 1;
-                                ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                item_weight = 0x55;
-                                if (item_flags != one) {
-                                    item_weight = one;
-                                    if (item_flags == two) {
-                                        item_weight = 0x20;
-                                    }
+                            one = 1;
+                            ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                            item_weight = 0x55;
+                            if (item_flags != one) {
+                                item_weight = one;
+                                if (item_flags == two) {
+                                    item_weight = 0x20;
                                 }
                             }
-                            total_weight += item_weight;
                         }
+                        total_weight += item_weight;
+                    }
                 }
 next_item:
                 item_offset += 0x14;

@@ -69,11 +69,11 @@ void func_80024E4C(void *self)
 
     do {
         ((S_819A764C_2 *)point_slot)->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
-                            + (func_80069EF8() & 0x3F) - 0x20;
+        + (func_80069EF8() & 0x3F) - 0x20;
         ((S_819A764C_2 *)point_slot)->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
-                            + (func_80069EF8() & 0x3F) - 0x20;
+        + (func_80069EF8() & 0x3F) - 0x20;
         ((S_819A764C_2 *)point_slot)->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index++
-                            - (func_80069EF8() & 0x3F);
+        - (func_80069EF8() & 0x3F);
         point_slot += 8;
     } while (point_index < 4);
 

@@ -21,10 +21,6 @@ typedef struct S_8016CBAC_0 {
 } S_8016CBAC_0;   /* arg0 in func_8016CBAC */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -69,7 +65,7 @@ void func_8016CBAC(void *action, void *motion, void *sprite, void *actor)
         ((S_8016CBAC_0 *)action)->unk_9E.s = 5;
         ((S_8016CBAC_0 *)action)->unk_A4 = 0;
         ((S_8016CBAC_0 *)action)->unk_9B++;
-        /* fall through */
+                /* fall through */
 
     case 1:
         move_ticks = ((S_8016CBAC_0 *)action)->unk_9E.s;
@@ -100,12 +96,12 @@ void func_8016CBAC(void *action, void *motion, void *sprite, void *actor)
         ((S_8016CBAC_0 *)action)->unk_9E.u = next_tick;
         ((S_8016CBAC_0 *)action)->unk_90 = height_offset;
         if ((next_tick << 16) < 0) {
-        ((S_8016CBAC_0 *)action)->unk_90 = 0;
-        ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
-        ((EntityRec *)actor)->flags1C |= 0x08000000;
-        ((S_8016CBAC_0 *)action)->unk_9B++;
+            ((S_8016CBAC_0 *)action)->unk_90 = 0;
+            ((S_8016CBAC_0 *)action)->unk_98 &= 0xFFF7;
+            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((S_8016CBAC_0 *)action)->unk_9B++;
         }
-        /* fall through */
+                /* fall through */
 
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {
@@ -125,11 +121,11 @@ void func_8016CBAC(void *action, void *motion, void *sprite, void *actor)
 
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_8016EDEC) {
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EDEC;
-        func_80047784(
-            sprite,
-            D_8016EDEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
-            0);
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_8016EDEC;
+            func_80047784(
+                sprite,
+                D_8016EDEC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                0);
         }
         break;
 

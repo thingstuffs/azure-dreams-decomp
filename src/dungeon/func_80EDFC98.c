@@ -61,7 +61,6 @@ typedef struct S_80171498_5 {
 } S_80171498_5;   /* ((S_80171498_1 *)arg0)->unk_08 in func_80171498 */
 
 
-
 void *func_8003FD64();
 s32 func_8003DE58();
 s32 func_8004491C();

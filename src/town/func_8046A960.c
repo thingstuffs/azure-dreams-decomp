@@ -11,7 +11,6 @@ typedef struct S_8001B960_1 {
 } S_8001B960_1;   /* (index * 0x10) + ((S_8001B960_0 *)obj)->unk_10 in func_8001B960 */
 
 
-
 extern u8 *D_8001E950;
 extern s32 func_8001A73C(void);
 

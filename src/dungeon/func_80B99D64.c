@@ -13,8 +13,6 @@ typedef struct S_80173564_0 {
 } S_80173564_0;   /* arg0 in func_80173564 */
 
 
-
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -39,7 +37,8 @@ void func_80173564(void *controller, void *context, void *sprite, EntityRec *act
 
     state = ((S_80173564_0 *)controller)->unk_9B;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         u8 *initial_effects;
 
         if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {

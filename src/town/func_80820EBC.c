@@ -12,7 +12,6 @@ typedef struct Vec3 {
 } Vec3;
 
 
-
 typedef struct S_800236BC_1 {
     void * unk_00;
     union { s16 s; u16 u; } unk_04;   /* accessed as both */

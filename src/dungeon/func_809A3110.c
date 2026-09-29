@@ -33,8 +33,6 @@ typedef struct S_80174910_10 {
 } S_80174910_10;   /* ((S_80174910_7 *)temp_v0)->unk_0C in func_80174910 */
 
 
-
-
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_800672D8();              /* extern */

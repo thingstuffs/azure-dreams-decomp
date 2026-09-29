@@ -68,7 +68,9 @@ s32 func_81845068(u8 *first_node)
     render_state = &gameWork;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     uv_choices[0] = 0xA0;
-    do { uv_choices[1] = 0x80; } while (0);
+    do {
+        uv_choices[1] = 0x80;
+    } while (0);
     screen_base = &screen_coords[0];
     uv_choices[2] = 0;
     uv_choices[3] = 0x20;

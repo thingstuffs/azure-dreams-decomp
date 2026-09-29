@@ -11,7 +11,7 @@ typedef struct {
 } __attribute__((packed)) Packed12;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_7003CF18();
 M2C_UNK func_7010C274();

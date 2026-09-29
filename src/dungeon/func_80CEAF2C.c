@@ -45,7 +45,6 @@ typedef struct S_8017472C_6 {
 } S_8017472C_6;   /* control in func_8017472C */
 
 
-
 extern s32 func_8003F270();
 extern int abs(int);
 extern void func_80047784();
@@ -279,16 +278,16 @@ state_3:
     }
 
 state3_kind_d:
-        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        anim_table = D_80175E24;
-        goto table_ready;
+    current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+    anim_table = D_80175E24;
+    goto table_ready;
 state3_kind_e:
-        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        anim_table = D_80175E2C;
-        goto table_ready;
+    current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+    anim_table = D_80175E2C;
+    goto table_ready;
 state3_kind_f:
-        current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        anim_table = D_80175E34;
+    current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
+    anim_table = D_80175E34;
 
 table_ready:
     if (current_anim != anim_table) {

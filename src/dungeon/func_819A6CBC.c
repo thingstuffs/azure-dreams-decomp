@@ -89,15 +89,19 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
     case 0:
         ((S_800244BC_0 *)object)->unk_48 = 0xAU;
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
-        /* fall through */
+                /* fall through */
     case 1:
         if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xE));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xE));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xE));
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
+                - position->unk_00.at02.v) << 0xE));
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i)
+                - position->unk_04.at02.v) << 0xE));
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i)
+                - position->unk_08.at02.v) << 0xE));
             effects_left = 0;
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v
+                - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
             do {
                 effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
                 effect_data = effect + 0x20;
@@ -126,9 +130,12 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
     case 2:
         if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
             func_800478B8(context);
-            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xF));
-            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xF));
-            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xF));
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i)
+                - position->unk_00.at02.v) << 0xF));
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i)
+                - position->unk_04.at02.v) << 0xF));
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i)
+                - position->unk_08.at02.v) << 0xF));
         }
         if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
             ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);

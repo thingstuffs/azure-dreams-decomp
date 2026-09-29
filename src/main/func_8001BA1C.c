@@ -60,35 +60,35 @@ void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
     } while (0);
     layout->unk_1C = height;
 loop:
-        do {
-            size_ptr[-1] = (u8)half_width;
-            size_ptr[0] = (u8)half_height;
-            size_ptr[-0xA] = (u8)opcode;
-            *(u32 *)(size_ptr - 7) = shade;
-            size_ptr += 0xC;
-            write_ptr[0] = *id_ptr;
-            write_ptr += 0xC;
-            size_ptr[-1] = (u8)outer_half_width;
-            size_ptr[0] = (u8)((u32)outer_height >> 1);
-            size_ptr[-0xA] = (u8)opcode;
-            *(u32 *)(size_ptr - 7) = shade;
-            command_id = *id_ptr;
-            size_ptr += 0xC;
-            write_ptr[0] = command_id;
-            write_ptr += 0xC;
-            memcpy(write_ptr, D_80410000 - 0x7394, 0x18);
-            *(u32 *)(size_ptr - 7) = 0x30BFC0;
-            *(u32 *)(size_ptr + 1) = 0x30BFC0;
-            *(u32 *)(size_ptr + 5) = 0x30BFC0;
-            *(u32 *)(size_ptr + 9) = 0x30BFC0;
-            size_ptr[-1] = (u8)half_width;
-            size_ptr[0] = (u8)half_height;
-            size_ptr += 0x18;
-            command_id = *id_ptr;
-            id_ptr += 1;
-            write_ptr[0] = command_id;
-            write_ptr += 0x18;
-        } while (0);
+    do {
+        size_ptr[-1] = (u8)half_width;
+        size_ptr[0] = (u8)half_height;
+        size_ptr[-0xA] = (u8)opcode;
+        *(u32 *)(size_ptr - 7) = shade;
+        size_ptr += 0xC;
+        write_ptr[0] = *id_ptr;
+        write_ptr += 0xC;
+        size_ptr[-1] = (u8)outer_half_width;
+        size_ptr[0] = (u8)((u32)outer_height >> 1);
+        size_ptr[-0xA] = (u8)opcode;
+        *(u32 *)(size_ptr - 7) = shade;
+        command_id = *id_ptr;
+        size_ptr += 0xC;
+        write_ptr[0] = command_id;
+        write_ptr += 0xC;
+        memcpy(write_ptr, D_80410000 - 0x7394, 0x18);
+        *(u32 *)(size_ptr - 7) = 0x30BFC0;
+        *(u32 *)(size_ptr + 1) = 0x30BFC0;
+        *(u32 *)(size_ptr + 5) = 0x30BFC0;
+        *(u32 *)(size_ptr + 9) = 0x30BFC0;
+        size_ptr[-1] = (u8)half_width;
+        size_ptr[0] = (u8)half_height;
+        size_ptr += 0x18;
+        command_id = *id_ptr;
+        id_ptr += 1;
+        write_ptr[0] = command_id;
+        write_ptr += 0x18;
+    } while (0);
     if ((s32)id_ptr < (s32)stack_end)
         goto loop;
     ASM_SET(stack_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

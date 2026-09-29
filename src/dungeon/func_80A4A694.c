@@ -29,7 +29,13 @@ typedef struct S_80173E94_2 {
 
 typedef struct S_80173E94_3 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_04;   /* overlapping accesses */
 } S_80173E94_3;   /* packet in func_80173E94 */
 
 typedef struct S_80173E94_4_pre {
@@ -53,8 +59,6 @@ typedef struct S_80173E94_6 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
 } S_80173E94_6;   /* final_state in func_80173E94 */
-
-
 
 
 extern s32 func_80065420(void *, void *, void *, void *);
@@ -137,7 +141,8 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
 
             ((S_80173E94_3 *)packet)->unk_00.at00.v =
                 (((S_80173E94_3 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
+                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
+                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
             {
                 u32 *ot_entry;
                 u32 ot_tag;
@@ -145,7 +150,7 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
 
                 ot_entry = (u32 *)(((S_80173E94_1 *)scratch)->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
-                                (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
+                                   (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
                 *ot_entry = ((u32)((ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask))));
             }
@@ -157,10 +162,12 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
 
             ((S_80173E94_3 *)packet)->unk_00.at00.v =
                 (((S_80173E94_3 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
+                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
+                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
             packet = (u8 *)((u32)packet & addr_mask);
             (*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & tag_mask) |
+                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
+                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & tag_mask) |
                 (u32)packet;
         }
 

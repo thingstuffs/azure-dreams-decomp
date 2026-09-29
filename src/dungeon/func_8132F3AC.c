@@ -113,7 +113,11 @@ typedef struct S_801663AC_5 {
     u32 unk_28;
     union { u16 u; s16 s; } unk_2C;   /* accessed as both */
     union { u16 u; s16 s; } unk_2E;   /* accessed as both */
-    union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_30;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_30;   /* overlapping accesses */
 } S_801663AC_5;   /* packet in func_801663AC */
 
 typedef struct S_801663AC_6 {
@@ -121,7 +125,6 @@ typedef struct S_801663AC_6 {
     u16 unk_04;
     u16 unk_06;
 } S_801663AC_6;   /* texture in func_801663AC */
-
 
 
 typedef struct {
@@ -196,10 +199,10 @@ void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bia
     ((S_801663AC_0 *)scratch)->unk_CC = ((S_801663AC_4 *)quad)->unk_8A;
 
     ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                          scratch + 0xC0, scratch + 0xC8,
-                          packet + 8, packet + 0x14,
-                          packet + 0x20, packet + 0x2C,
-                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+                             scratch + 0xC0, scratch + 0xC8,
+                             packet + 8, packet + 0x14,
+                             packet + 0x20, packet + 0x2C,
+                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
     ((S_801663AC_0 *)scratch)->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
@@ -278,10 +281,12 @@ void func_801663AC(void *quad, void *position, void *render_state, s16 depth_bia
 
             ((S_801663AC_5 *)packet)->unk_04.at03.v |= ((S_801663AC_2 *)render_state)->unk_0F;
             ((S_801663AC_5 *)packet)->unk_00 = (((S_801663AC_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2)
+                    + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
 
             (*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2) + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_801663AC_0 *)scratch)->unk_24.p2)
+                    + ((S_801663AC_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

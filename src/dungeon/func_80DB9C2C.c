@@ -21,9 +21,12 @@ typedef struct S_8017142C_0 {
 typedef struct S_8017142C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_08;   /* overlapping accesses */
 } S_8017142C_1;   /* arg1 in func_8017142C */
-
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -52,7 +55,8 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_00.at00.v += ((S_8017142C_0 *)effect)->unk_60;
         velocity_x = ((S_8017142C_0 *)effect)->unk_60;
         ((S_8017142C_0 *)effect)->unk_60 = (velocity_x * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
+        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+            ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_00.at00.v -= ((S_8017142C_0 *)effect)->unk_60;
             ((S_8017142C_0 *)effect)->unk_60 = 0;
             ((S_8017142C_0 *)effect)->unk_6C = 0;
@@ -60,7 +64,8 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_04.at00.v += ((S_8017142C_0 *)effect)->unk_64;
         velocity_y = ((S_8017142C_0 *)effect)->unk_64;
         ((S_8017142C_0 *)effect)->unk_64 = (velocity_y * 2) / 3;
-        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
+        if ((func_800A45D8(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+            ((S_8017142C_1 *)position)->unk_08.at02.v) << 0x10) != 0) {
             ((S_8017142C_1 *)position)->unk_04.at00.v -= ((S_8017142C_0 *)effect)->unk_64;
             ((S_8017142C_0 *)effect)->unk_64 = 0;
             ((S_8017142C_0 *)effect)->unk_70 = 0;
@@ -68,9 +73,12 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
         move_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < move_height) {
+        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+            (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < move_height) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
-            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x11;
+            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
+                ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
+                - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
             if (((S_8017142C_0 *)effect)->unk_1A == 0) {
                 ((S_8017142C_0 *)effect)->unk_1A = 1;
@@ -125,9 +133,12 @@ void func_8017142C(void *effect, void *position, void *sprite) {
         ((S_8017142C_1 *)position)->unk_08.at00.v += ((S_8017142C_0 *)effect)->unk_68;
         ((S_8017142C_0 *)effect)->unk_68 += ((S_8017142C_0 *)effect)->unk_74;
         fade_height = ((S_8017142C_1 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < fade_height) {
+        if ((func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v,
+            (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x10) < fade_height) {
             ((S_8017142C_0 *)effect)->unk_68 = 0;
-            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v, ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4)) - 0x11;
+            ((S_8017142C_1 *)position)->unk_08.at02.v = func_800BCB04(((S_8017142C_1 *)position)->unk_00.at02.v,
+                ((S_8017142C_1 *)position)->unk_04.at02.v, (s16)((u16)((S_8017142C_1 *)position)->unk_08.at02.v - 4))
+                - 0x11;
             ((S_8017142C_1 *)position)->unk_08.at00u.v = 0;
             if (((S_8017142C_0 *)effect)->unk_1A == 0) {
                 ((S_8017142C_0 *)effect)->unk_1A = phase;

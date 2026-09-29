@@ -8,7 +8,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 rand(void);
 extern s32 func_8009A180(void *, void *);
@@ -41,13 +40,15 @@ extern u8 D_80174EE8[];
 extern u8 D_80174EF0[];
 
 
-
-
 typedef struct S_80171760_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -169,15 +170,15 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *
         action_state = actor->unk_46 & 0x3FFF;
         switch (action_state) {
         case 8:
-        if ((func_801726D0(motion, render_ctx, map_entity, actor) << 16) != 0) {
+            if ((func_801726D0(motion, render_ctx, map_entity, actor) << 16) != 0) {
+                return;
+            }
+            func_80172894(motion, render_ctx, map_entity, actor);
             return;
-        }
-        func_80172894(motion, render_ctx, map_entity, actor);
-        return;
 
         case 9:
-        func_8017476C(motion, render_ctx, map_entity, actor);
-        return;
+            func_8017476C(motion, render_ctx, map_entity, actor);
+            return;
 
         case 5:
         case 6:
@@ -199,21 +200,21 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *
 
         case 12:
 case_12:
-        func_800A9A0C(actor);
-        return;
+            func_800A9A0C(actor);
+            return;
 
         case 1:
         case 2:
         case 3:
 case_123:
-        func_800AAF00(motion, render_ctx, map_entity, D_80174EE0, D_80171760);
-        return;
+            func_800AAF00(motion, render_ctx, map_entity, D_80174EE0, D_80171760);
+            return;
 
         case 11:
         default:
 generic:
-        func_80171F1C(motion, render_ctx, map_entity, actor);
-        return;
+            func_80171F1C(motion, render_ctx, map_entity, actor);
+            return;
         }
     } else if (!(((u32)actor->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;

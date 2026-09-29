@@ -58,7 +58,6 @@ typedef struct S_801232DC_10 {
 } S_801232DC_10;   /* ((S_801232DC_1 *)object)->unk_08.at00.v in func_801232DC */
 
 
-
 typedef struct TownInitialPosition {
     void *data;
     volatile u16 x;

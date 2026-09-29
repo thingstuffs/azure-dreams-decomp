@@ -58,7 +58,6 @@ typedef struct S_80025A14_4 {
 } S_80025A14_4;   /* p in func_80025A14 */
 
 
-
 extern void func_800489F4(void *, u8, s8, s32);
 extern void func_80048AC8(void *, s32);
 extern s16 D_8002715A;
@@ -104,7 +103,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
         ((S_80025A14_2 *)obj_arg)->unk_14 |= 0x200;
         ((S_80025A14_0 *)state)->unk_73.s = 8;
         ((S_80025A14_0 *)state)->unk_72.s = ((S_80025A14_0 *)state)->unk_72.u + 1;
-        /* fall through */
+                /* fall through */
     case 1:
         fade_ticks = (s32)((S_80025A14_0 *)state)->unk_73.s;
         if (fade_ticks != 0) {
@@ -124,7 +123,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
             ((S_80025A14_0 *)state)->unk_73.u = 0;
             ((S_80025A14_0 *)state)->unk_72.u = current_phase + 1;
         }
-        /* fall through */
+                /* fall through */
     case 2:
         if (D_8002715A != 0) {
             ((S_80025A14_0 *)state)->unk_73.u = 8;
@@ -159,7 +158,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
     if (((S_80025A14_0 *)state)->unk_46 != direction) {
         ((S_80025A14_0 *)state)->unk_46 = direction;
         func_800489F4(obj_arg, ((u8 *)((S_80025A14_2 *)obj_arg)->unk_2C)[direction],
-                       ((S_80025A14_2 *)obj_arg)->unk_04, 2);
+                      ((S_80025A14_2 *)obj_arg)->unk_04, 2);
     }
     func_80048AC8(obj_arg, 2);
     if (dirSpriteFlag[direction] != 0) {

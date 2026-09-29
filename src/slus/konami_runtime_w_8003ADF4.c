@@ -21,6 +21,9 @@ void func_8003ADF4(s16 x, s16 y, s16 width, s16 height, const void *pixels)
 {
     s16 rect[4];
 
-    rect[0] = x; rect[1] = y; rect[2] = width; rect[3] = height;
+    rect[0] = x;
+    rect[1] = y;
+    rect[2] = width;
+    rect[3] = height;
     LoadImage(rect, pixels);
 }

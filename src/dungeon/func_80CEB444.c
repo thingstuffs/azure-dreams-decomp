@@ -14,13 +14,10 @@ typedef struct S_80174C44_0 {
 } S_80174C44_0;   /* arg0 in func_80174C44 */
 
 
-
-
 typedef struct S_80174C44_4 {
     u8 pad_00[0x10];
     s32 unk_10;
 } S_80174C44_4;   /* global in func_80174C44 */
-
 
 
 extern u8 D_801724BC[];

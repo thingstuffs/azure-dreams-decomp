@@ -131,11 +131,11 @@ void func_801714FC(void *source_object, void *source_pos, void *sprite_template,
         u8 *direction_offsets = (u8 *)&D_80175EBC;
         linked_pos = ((S_801714FC_8_pre *)(actor->target))[-1].unk_00;
         ((S_801714FC_3 *)effect_data)->unk_02 = ((S_801714FC_4 *)linked_pos)->unk_02
-            - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
+        - ((*(s16 *)((u8 *)direction_offsets + ((((u16)actor->facing) >> 7) & 0x1c))) * 0x10);
         ((S_801714FC_3 *)effect_data)->unk_06 = ((S_801714FC_4 *)linked_pos)->unk_06
-            - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
+        - ((*(s16 *)((u8 *)direction_offsets + (((((u16)actor->facing) >> 7) & 0x1c) + 2))) * 0x10);
         ((S_801714FC_3 *)effect_data)->unk_0A = ((S_801714FC_4 *)linked_pos)->unk_0A
-            - (D_800DDC40[((S_801714FC_8 *)(actor->target))->unk_13] >> 1);
+        - (D_800DDC40[((S_801714FC_8 *)(actor->target))->unk_13] >> 1);
         return;
     }
     if (actor->unk_72 < 0) {

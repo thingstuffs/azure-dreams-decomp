@@ -52,7 +52,7 @@ u8 *func_8004068C(u8 *src, u8 *dst) {
                 src = src + 1;
             }
             offset = offset >> 4;
-        
+
         } else {
             bits_left = bits_left - 1;
             flags = flags >> 1;

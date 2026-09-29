@@ -14,9 +14,6 @@ typedef struct S_801727EC_0 {
 } S_801727EC_0;   /* arg0 in func_801727EC */
 
 
-
-
-
 extern void func_80047784(void *, u8, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A2B04(s32, u8, u8);
@@ -45,8 +42,8 @@ void func_801727EC(void *action_state, s32 actor_id, void *animation, EntityRec 
         ((S_801727EC_0 *)action_state)->unk_96 = 7;
         (*(u8 * *)((u8 *)animation + 0x2C)) = D_80174060;
         func_80047784(animation,
-                     D_80174060[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                     0);
+                      D_80174060[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      0);
         ((S_801727EC_0 *)action_state)->unk_9B++;
         break;
 

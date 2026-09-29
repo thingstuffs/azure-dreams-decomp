@@ -31,7 +31,7 @@ s32 func_80017604(s32 kind, s32 value)
     if (func_8001991C(kind, value) == 0) {
         func_8001A7AC();
         ((S_80017604_1 *)(((S_80017604_0 *)(*(void **)((s8 *)(&D_80016000))))->unk_20))
-            ->unk_2F8(0xE, 0x200);
+        ->unk_2F8(0xE, 0x200);
         result = 0;
     } else {
         func_8001A554(0x931);

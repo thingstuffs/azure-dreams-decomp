@@ -12,7 +12,7 @@ s32 func_800F6D28(s16 *target_pos)
         return 9;
     }
 
-    compare:
+compare:
     if (D_80083780.x.w.i < target_pos[1]) {
         if (D_80083780.y.w.i < target_pos[3]) {
             return 5;

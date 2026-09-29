@@ -61,7 +61,8 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
 
     switch (obj->state) {
     case 0:
-    case 0x40: {
+    case 0x40:
+    {
         s32 y;
         u16 score;
         s16 signed_score;
@@ -152,7 +153,8 @@ store_timer:
         obj->state = (u16)obj->state + 1;
         return;
 
-    case 0x21: {
+    case 0x21:
+    {
         TownTarget *target = D_80083780;
         s32 target_z = target->z;
         s32 z = motion->z;
@@ -166,12 +168,13 @@ store_timer:
         break;
     }
 
-    case 0x41: {
+    case 0x41:
+    {
 
         if ((ticks_left << 16) > 0) {
             break;
         }
-        
+
         if (*(s16 *)0x800135C2 == child->count) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
         } else {
@@ -187,7 +190,8 @@ store_timer:
         obj->state = state + 1;
         return;
 
-    case 0x42: {
+    case 0x42:
+    {
         child->flags |= 2;
         {
             s32 x = motion->x;
@@ -209,7 +213,8 @@ set_state_ff:
         obj->state = 0xFF;
         return;
 
-    case 0xFF: {
+    case 0xFF:
+    {
         u16 *object_flags = (u16 *)obj - 1;
         s32 *global_flags_ptr = ((s32 *)(&objectFlagBlock));
         s32 updated_flags;

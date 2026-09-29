@@ -16,8 +16,6 @@ typedef struct S_80161238_1 {
 } S_80161238_1;   /* arg0 in func_80161238 */
 
 
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
 extern void func_800AAA54(void *, void *, void *, void *);
@@ -66,7 +64,7 @@ void func_80161238(void *action, EntityRec *motion, void *actor, EntityRec *enti
 
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-        /* fall through */
+                /* fall through */
     case 1:
         motion->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
         motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;

@@ -12,9 +12,9 @@ void func_8016F144(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
     u8 *p;
     void *item;
-    /* MATCH: keep the byte-store constant in v0, independent of outgoing a2. */
+        /* MATCH: keep the byte-store constant in v0, independent of outgoing a2. */
     s32 one;
-    /* MATCH: prepare outgoing a0 before materializing the byte-store constant. */
+        /* MATCH: prepare outgoing a0 before materializing the byte-store constant. */
     u8 *callp;
 
     i = 0;

@@ -2,9 +2,8 @@
 #include "shared/slus_callbacks.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((u8 *)(expr) + (offset)))
+(*(type_ptr)((u8 *)(expr) + (offset)))
 #ifndef NULL
 #define NULL 0
 #endif

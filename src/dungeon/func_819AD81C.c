@@ -19,8 +19,18 @@ typedef struct S_819AD81C_0 {
     s16 unk_36;
     s16 unk_38;
     u8 pad_3A[0x2];
-    union { struct { s16 v; } at00; struct { s32 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_3C;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_40;   /* overlapping accesses */
+    union {
+        struct { s16 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_3C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_40;   /* overlapping accesses */
     u16 unk_44;
     union { s16 s; u16 u; } unk_46;   /* accessed as both */
     s16 unk_48;
@@ -30,7 +40,12 @@ typedef struct S_819AD81C_1 {
     s32 unk_00;
     s8 unk_04;
     u8 pad_05[0x7];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
     u16 unk_16;
@@ -201,14 +216,20 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
             vel_x = ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
             ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (vel_x - (vel_x >> (level + 1)));
             sub_dest = ((S_819AD81C_2 *)motion)->unk_10.at00.v;
-            ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (sub_dest - (sub_dest >> (((S_819AD81C_1 *)gfx)->unk_04 + 1)));
+            ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (sub_dest - (sub_dest >> (((S_819AD81C_1 *)gfx)->unk_04
+                + 1)));
         }
-        ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v - ((S_819AD81C_2 *)motion)->unk_14);
-        ((S_819AD81C_2 *)motion)->unk_00.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_00.at00.v + ((S_819AD81C_2 *)motion)->unk_0C.at00.v);
-        ((S_819AD81C_2 *)motion)->unk_04.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_04.at00.v + ((S_819AD81C_2 *)motion)->unk_10.at00.v);
-        ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v + ((S_819AD81C_2 *)motion)->unk_14);
+        ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
+            - ((S_819AD81C_2 *)motion)->unk_14);
+        ((S_819AD81C_2 *)motion)->unk_00.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_00.at00.v
+            + ((S_819AD81C_2 *)motion)->unk_0C.at00.v);
+        ((S_819AD81C_2 *)motion)->unk_04.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_04.at00.v
+            + ((S_819AD81C_2 *)motion)->unk_10.at00.v);
+        ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
+            + ((S_819AD81C_2 *)motion)->unk_14);
         ((S_819AD81C_1 *)gfx)->unk_16 = 0x400U;
-        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (func_800A07D0(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v, ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
+        ((S_819AD81C_1 *)gfx)->unk_1A = (u16) (func_800A07D0(0, 0, ((S_819AD81C_2 *)motion)->unk_0C.at02.v,
+            ((S_819AD81C_2 *)motion)->unk_10.at02.v) - 0x400);
         func_80025840(gfx, entity + 0x32, ((S_819AD81C_0 *)entity)->unk_38, ((S_819AD81C_0 *)entity)->unk_36);
         func_800257D0(entity, ((S_819AD81C_1 *)gfx)->unk_00);
         if (((S_819AD81C_1 *)gfx)->unk_14 & 0x4000) {
@@ -219,7 +240,8 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
             tile_y = (s16) ((S_819AD81C_2 *)motion)->unk_04.at02.v / 64;
             ((S_819AD81C_0 *)entity)->unk_3C.at02.v = (s16) tile_y;
             if (((S_819AD81C_0 *)entity)->unk_40.at00.v != ((S_819AD81C_0 *)entity)->unk_3C.at00u.v) {
-                if ((func_800A45D8(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0, ((tile_y << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)motion)->unk_08.at02.v) << 0x10) != 0) {
+                if ((func_800A45D8(((((S_819AD81C_0 *)entity)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0,
+                    ((tile_y << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)motion)->unk_08.at02.v) << 0x10) != 0) {
                     ((S_819AD81C_0 *)entity)->unk_30 = 4;
                     ((S_819AD81C_0 *)entity)->unk_2C.s = 3;
                     return;
@@ -240,7 +262,8 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
                                     dz = 0 - dz;
                                 }
                                 if (dz < 0x40) {
-                                    func_8009CE1C(node, 0xC, D_800287A2, 0xA, (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), D_800287A4, 2);
+                                    func_8009CE1C(node, 0xC, D_800287A2, 0xA,
+                                        (s32) (s16) (((S_819AD81C_0 *)entity)->unk_44 << 9), D_800287A4, 2);
                                 }
                             }
                         }
@@ -260,7 +283,8 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
                 }
             }
         }
-        func_80025FCC(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v, ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
+        func_80025FCC(((S_819AD81C_2 *)motion)->unk_00.at02.v, ((S_819AD81C_2 *)motion)->unk_04.at02.v,
+            ((S_819AD81C_2 *)motion)->unk_08.at02.v, ((S_819AD81C_0 *)entity)->unk_34);
         func_80025B78(entity, motion, gfx);
         return;
     } else {

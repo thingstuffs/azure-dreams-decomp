@@ -33,7 +33,8 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 
     state = sequence->unk_00.s;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         u8 channel_value;
         u16 high_word;
         u16 low_word;
@@ -51,7 +52,8 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
         record->unk_1C.at00_u16.v = low_word;
         break;
     }
-    case 1: {
+    case 1:
+    {
         u8 channel_value;
         u16 low_word;
 
@@ -67,7 +69,8 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
         record->unk_1C.at02_u16.v = next_high_word;
         break;
     }
-    case 2: {
+    case 2:
+    {
         u8 channel_value;
         s32 frame;
 

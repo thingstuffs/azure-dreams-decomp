@@ -46,7 +46,6 @@ typedef struct S_80173078_2 {
 } S_80173078_2;   /* linked in func_80173078 */
 
 
-
 /* Updates an item action, its animation, particle effects, and completion state. */
 void func_80173078(void *action, EntityRec *movement, void *sprite, void *actor)
 {

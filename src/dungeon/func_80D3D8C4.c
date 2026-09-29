@@ -38,7 +38,6 @@ typedef struct S_801730C4_4 {
 } S_801730C4_4;   /* global in func_801730C4 */
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
 extern s32 func_800A0818(u8, u8, u8, u8, void *);
@@ -79,45 +78,45 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
         ((S_801730C4_0 *)action)->unk_A8 = 5;
         ((S_801730C4_0 *)action)->unk_A4 = 0;
         ((S_801730C4_0 *)action)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
-        {
-            s32 move_ticks;
-            s16 next_move_ticks;
+    {
+        s32 move_ticks;
+        s16 next_move_ticks;
 
-            move_ticks = ((S_801730C4_0 *)action)->unk_A8;
-            ((S_801730C4_0 *)action)->unk_90.at00.v -= ((S_801730C4_0 *)action)->unk_A4;
-            if (move_ticks != 0) {
-                s32 tile_delta;
-                s32 axis_pos;
+        move_ticks = ((S_801730C4_0 *)action)->unk_A8;
+        ((S_801730C4_0 *)action)->unk_90.at00.v -= ((S_801730C4_0 *)action)->unk_A4;
+        if (move_ticks != 0) {
+            s32 tile_delta;
+            s32 axis_pos;
 
-                tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-                axis_pos = ((EntityRec *)motion)->x.w.i;
-                axis_pos -= 0x20;
-                tile_delta -= axis_pos;
-                ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
+            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+            axis_pos = ((EntityRec *)motion)->x.w.i;
+            axis_pos -= 0x20;
+            tile_delta -= axis_pos;
+            ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
 
-                axis_pos = ((EntityRec *)motion)->y.w.i;
-                tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-                axis_pos -= 0x20;
-                tile_delta -= axis_pos;
-                ((EntityRec *)motion)->unk_10 =
-                    (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
-                ((S_801730C4_0 *)action)->unk_A4 =
-                    -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
-            }
-
-            ((S_801730C4_0 *)action)->unk_90.at00.v += ((S_801730C4_0 *)action)->unk_A4;
-            next_move_ticks = (u16)((S_801730C4_0 *)action)->unk_A8 - 1;
-            ((S_801730C4_0 *)action)->unk_A8 = next_move_ticks;
-            if (next_move_ticks < 0) {
-                ((S_801730C4_0 *)action)->unk_90.at02.v = -0x10;
-                ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
-                ((S_801730C4_2 *)actor)->unk_1C.s |= 0x08000000;
-                ((S_801730C4_0 *)action)->unk_9B++;
-            }
+            axis_pos = ((EntityRec *)motion)->y.w.i;
+            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+            axis_pos -= 0x20;
+            tile_delta -= axis_pos;
+            ((EntityRec *)motion)->unk_10 =
+                (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
+            ((S_801730C4_0 *)action)->unk_A4 =
+                -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
         }
-        /* fallthrough */
+
+        ((S_801730C4_0 *)action)->unk_90.at00.v += ((S_801730C4_0 *)action)->unk_A4;
+        next_move_ticks = (u16)((S_801730C4_0 *)action)->unk_A8 - 1;
+        ((S_801730C4_0 *)action)->unk_A8 = next_move_ticks;
+        if (next_move_ticks < 0) {
+            ((S_801730C4_0 *)action)->unk_90.at02.v = -0x10;
+            ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
+            ((S_801730C4_2 *)actor)->unk_1C.s |= 0x08000000;
+            ((S_801730C4_0 *)action)->unk_9B++;
+        }
+    }
+                /* fallthrough */
     case 2:
         if (((S_801730C4_2 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
@@ -137,7 +136,7 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
         }
         break;
     case 3:
-        {
+    {
         u8 *anim_table = D_800E23E0;
 
         if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
@@ -150,7 +149,7 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
             }
         }
     }
-    break;
+        break;
     }
 
     {

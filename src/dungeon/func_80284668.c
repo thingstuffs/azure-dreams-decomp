@@ -2,7 +2,6 @@
 #include "shared/game_work.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern u8 D_800EA000[];
@@ -23,7 +22,9 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
     u16 *cell;
 
     rows_left = height;
-    do { cell_value = fill_value; } while (0);
+    do {
+        cell_value = fill_value;
+    } while (0);
     grid_settings = &gameWork.map;
     span_left <<= 16;
     if (span_left > 0) {

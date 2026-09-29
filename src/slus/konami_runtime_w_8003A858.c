@@ -28,7 +28,7 @@ void func_8003A858(Func8003A858State *state) {
     src_offset = (u32)src_index << 2;
 
     base_address = (u32)cursor[1] + ((u32)address_bytes[1] << 8)
-            + ((u32)address_bytes[2] << 16) + ((u32)address_bytes[3] << 24);
+    + ((u32)address_bytes[2] << 16) + ((u32)address_bytes[3] << 24);
     state->read_ptr = cursor + 5;
     {
         u32 *values = state->values;

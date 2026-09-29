@@ -27,7 +27,6 @@ typedef struct S_80025874_1 {
 } S_80025874_1;   /* fields in func_80025874 */
 
 
-
 typedef struct {
     s32 words[6];
 } Copy24;

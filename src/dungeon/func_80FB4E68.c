@@ -116,7 +116,6 @@ typedef struct S_80174668_12 {
 } S_80174668_12;   /* ((S_80174668_5 *)alloc)->unk_08 in func_80174668 */
 
 
-
 typedef struct {
     s16 x;
     s16 y;

@@ -40,8 +40,6 @@ typedef struct S_801727C8_5 {
 } S_801727C8_5;   /* temp_s6 in func_801727C8 */
 
 
-
-
 extern void *D_80170838[];
 s32 func_8003F270();
 void func_80047784();
@@ -105,8 +103,8 @@ block_7:
     {
         u32 idx = special_slot - 1;
         if (idx >= 7U) {
-        goto block_21;
-    }
+            goto block_21;
+        }
         (void)case_labels;
         goto *D_80170838[idx];
     }
@@ -188,7 +186,8 @@ block_28:
     {
         void *spawned_owner;
 
-        spawned_owner = func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing, 0x10);
+        spawned_owner = func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+            actor->facing, 0x10);
         actor->target = spawned_owner;
     }
     abs_x = abs(actor->unk_72);
@@ -201,7 +200,8 @@ block_34:
     anim_table += 0x41B4;
     ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 & 0x7FFF);
     (*(M2C_UNK **)((u8 *)effect_sprite + 0x2C)) = anim_table;
-    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (s32) anim_table)), 0);
+    func_80047784(effect_sprite, *((u8 *) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+        + (s32) anim_table)), 0);
     if (func_800A94A0(actor, entry, is_special, action + 0x98) == 0) {
         return;
     }
@@ -268,7 +268,8 @@ block_45:
             ((S_801727C8_5 *)visual_flags)->unk_04 = (u16) (((S_801727C8_5 *)visual_flags)->unk_04 | 0x8000);
             ((S_801727C8_0 *)action)->unk_A8 = 0;
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + &D_8017418C), 0);
+            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                + &D_8017418C), 0);
         }
     }
     if (((s32)dungeonStatus.unk_0C) != 0) {

@@ -33,7 +33,8 @@ s32 func_80017EB8(S_80017EB8_0 *position) {
 
     row = position->unk_01;
     column = position->unk_00;
-    entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14) + ((S_80017EB8_2 *)(D_80016000->unk_24))->unk_6C)))->unk_0C))->unk_00;
+    entry_value = ((S_80017EB8_4 *)((column * 0x14) + ((S_80017EB8_3 *)(((row * 0x14)
+        + ((S_80017EB8_2 *)(D_80016000->unk_24))->unk_6C)))->unk_0C))->unk_00;
     if (func_800186D8(column, row) == 0) {
         if ((u32)(entry_value - 8) < 2U) {
             return 1;

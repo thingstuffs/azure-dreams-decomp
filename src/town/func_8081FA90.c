@@ -37,7 +37,6 @@ typedef struct S_80022290_3 {
 } S_80022290_3;   /* data2 in func_80022290 */
 
 
-
 typedef struct {
     s32 word[2];
 } __attribute__((packed)) Packed8;

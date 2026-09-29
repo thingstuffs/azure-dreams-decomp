@@ -69,7 +69,8 @@ void func_801727CC(Obj0 *action, M2C_UNK context, Obj2 *sprite, Obj3 *actor) {
             ticks_left = 4;
         }
         action->field96 = ticks_left;
-        func_80047784(sprite, sprite->field2C[(((s32) (gameWork.view.viewAngle + actor->field2A + 0x100) >> 9) & 7)], 0);
+        func_80047784(sprite, sprite->field2C[(((s32) (gameWork.view.viewAngle + actor->field2A + 0x100) >> 9) & 7)],
+            0);
         action->field9B++;
         return;
     case 1:

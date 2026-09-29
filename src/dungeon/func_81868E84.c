@@ -50,7 +50,6 @@ typedef struct S_81868E84_4 {
 } S_81868E84_4;   /* temp_v0_3 in func_81868E84 */
 
 
-
 extern void *func_8003FC64(s32);
 extern u8 D_80024384[];
 

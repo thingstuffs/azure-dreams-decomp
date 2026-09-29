@@ -30,7 +30,6 @@ typedef struct S_80174320_2 {
 } S_80174320_2;   /* ctx in func_80174320 */
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800A152C(s32, s32);
@@ -114,7 +113,7 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
         return result;
     case 0xC0:
         ((S_80174320_1 *)obj)->unk_9B = 0;
-        /* fall through */
+                /* fall through */
     case 0xC8:
         func_801740F8(call_obj, context_arg, entity, obj);
         break;

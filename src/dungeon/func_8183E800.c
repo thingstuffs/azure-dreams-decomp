@@ -24,7 +24,7 @@ extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
 
 #ifdef __mips__
 static const u32 func_80024000_prefix[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x80024020,
     0,
     0x800241A8,
@@ -65,11 +65,11 @@ FUNC_8183E800_LINKAGE void FUNC_8183E800_BODY(u8 *self, u8 *motion)
     static void *const state_labels[] = {
         &&state_2,
         0,
-        &&state_3,
-        &&state_4,
-        &&state_5,
-        &&advance_state,
-        &&state_7,
+            &&state_3,
+            &&state_4,
+            &&state_5,
+            &&advance_state,
+            &&state_7,
     };
 
     owner = F(self, u8 *, 0);
@@ -124,7 +124,8 @@ state_2:
     animation = F(self, u8 *, 4);
     if ((F(animation, u16, 0) & 0x80) == 0)
         return;
-    if ((F(owner, u8 *, 96) = func_800A05A4( owner, F(owner_record, u8, 36), F(owner_record, u8, 37), F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
+    if ((F(owner, u8 *, 96) = func_800A05A4( owner, F(owner_record, u8, 36), F(owner_record, u8, 37),
+        F(owner, s16, 42), (s16)func_800A3820(8))) == 0) {
         F(owner, u8, 114) = F(owner_record, u8, 36);
         F(owner, u8, 115) = F(owner_record, u8, 37);
     } else {

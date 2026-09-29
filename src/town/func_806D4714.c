@@ -16,7 +16,6 @@ typedef struct S_80016714_2 {
                   ((Rec_D_80016000 *)D_80016000)->unk_40.as_pu8 in func_80016714 */
 
 
-
 extern u8 D_800189DC[16];
 extern u8 D_80018B94[16];
 extern u8 D_8001A3AE[];

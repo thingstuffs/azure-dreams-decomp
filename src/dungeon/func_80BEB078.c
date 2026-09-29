@@ -42,7 +42,6 @@ typedef struct S_80170878_4 {
 } S_80170878_4;   /* actor in func_80170878 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_800A48F0();

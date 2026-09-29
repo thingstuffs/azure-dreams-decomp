@@ -9,7 +9,9 @@ s32 func_8001B038(s32 target_value) {
     void *entry;
 
     entry = (void *)(*(s32 *)((s8 *)D_80016000 + 0x38) + 0x33A4);
-    do { entry_index = 0; } while (0);
+    do {
+        entry_index = 0;
+    } while (0);
     do {
         if (*(u8 *)((s8 *)entry + 1) == target_value) {
             result = 1;

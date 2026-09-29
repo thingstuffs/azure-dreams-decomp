@@ -297,11 +297,13 @@ void func_8052A0A4(S_func_8080F4A4_1 *game) {
         } else {
             game->unk_1A = 5U;
         }
-        if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
+        if (((input->unk_10 & 0x1000) || ((input->unk_08 & 0x1000) && ((s16) game->unk_1A <= 0)))
+            && (game->unk_14 <= 0x1869F) && ((u32) D_80012BCC[0] >= 0x3E8U)) {
             D_80012BC8[1] = D_80012BCC[0] - 0x3E8;
             new_bet = game->unk_14 + 0x3E8;
             game->unk_14 = new_bet;
-        } else if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0))) && (game->unk_14 >= 0x3E8)) {
+        } else if (((input->unk_10 & 0x4000) || ((input->unk_08 & 0x4000) && ((s16) game->unk_1A <= 0)))
+            && (game->unk_14 >= 0x3E8)) {
             D_80012BC8[1] = D_80012BCC[0] + 0x3E8;
             new_bet = game->unk_14 - 0x3E8;
             game->unk_14 = new_bet;
@@ -346,7 +348,8 @@ void func_8052A0A4(S_func_8080F4A4_1 *game) {
             game->unk_18 = 0xC;
         }
         break;
-    case 12: {
+    case 12:
+    {
         s32 landing_z;
         s32 *position_z;
         position_z = &D_80132AE8[2];
@@ -496,7 +499,8 @@ settle_done:
             }
         }
         break;
-    case 8: {
+    case 8:
+    {
         s32 payout;
         payout_steps = game->unk_1E - 2;
         game->unk_1E = payout_steps;
@@ -546,7 +550,9 @@ settle_done:
                         coin_counts = (S_func_8080F4A4_8 *) (((s32) (random_kind << 0x10) >> 0xF) + (s32) spawn_data);
                         coins_left = coin_counts->unk_70;
                     } while (coins_left <= 0);
-                    do { coin_counts->unk_70 = (s16) (coins_left - 1); } while (0);
+                    do {
+                        coin_counts->unk_70 = (s16) (coins_left - 1);
+                    } while (0);
                     spawn_x = 0x03600000;
                     coin_angle = (s32) (payout_or_index << 0xC) / coin_count;
                     payout_or_index += 1;

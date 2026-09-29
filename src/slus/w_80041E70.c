@@ -90,7 +90,8 @@ void func_80041E70(void *entity)
         s32 slot_index = 2;
         u8 *slot = (u8 *)entity + 6;
 
-        loop_0: {
+loop_0:
+        {
             if (slot[8] != 0) {
                 if (S32(0x54, entity) & 0x80) {
                     boosted_stat = slot[0xA] * 2;
@@ -104,7 +105,9 @@ void func_80041E70(void *entity)
             }
             slot_index--;
             slot -= 3;
-        } if (slot_index >= 0) goto loop_0;
+        }
+        if (slot_index >= 0)
+            goto loop_0;
     }
 
     if (S32(0x54, entity) & 0x04000000) {

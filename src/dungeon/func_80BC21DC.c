@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -47,7 +46,11 @@ typedef struct S_801719DC_0 {
     u8 unk_9A;
     u8 unk_9B;
     u8 pad_9C[0x8];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_A4;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_A4;   /* overlapping accesses */
     s32 unk_A8;
     s32 unk_AC;
     s32 unk_B0;
@@ -76,7 +79,11 @@ typedef struct S_801719DC_2 {
     u8 pad_06[0xE];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -145,7 +152,8 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
                 if (current_anim != anim_table) {
                     (*(void * *)((u8 *)entity_in + (0x2C))) = anim_table;
                     func_80047784(entity_in,
-                        ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100) >> 9) & 7],
+                        ((u8 *)anim_table)[((gameWork.view.viewAngle + ((S_801719DC_1 *)actor_in)->unk_2A + 0x100)
+                            >> 9) & 7],
                         1);
                     ((S_801719DC_2 *)entity_in)->unk_05 = 1;
                     motion_value = ((S_801719DC_0 *)motion_in)->unk_A4.at00.v;
@@ -222,17 +230,17 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
         action_state = ((S_801719DC_1 *)actor_in)->unk_46 & 0x3FFF;
         switch (action_state - 1) {
 
-    case 7:
-    case 8:
-        if ((func_80172920(motion_in, context_in, entity_in, actor_in) << 16) != 0) {
+        case 7:
+        case 8:
+            if ((func_80172920(motion_in, context_in, entity_in, actor_in) << 16) != 0) {
+                return;
+            }
+            func_80172AAC(motion_in, context_in, entity_in, actor_in);
             return;
-        }
-        func_80172AAC(motion_in, context_in, entity_in, actor_in);
-        return;
 
-    case 4:
-    case 5:
-    case 6:
+        case 4:
+        case 5:
+        case 6:
         {
             EntityRec *player;
             s16 heading;
@@ -248,25 +256,25 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
             }
         }
 
-    case 11:
+        case 11:
 case_12:
-        func_800A9A0C(actor_in);
-        return;
+            func_800A9A0C(actor_in);
+            return;
 
-    case 0:
-    case 1:
-    case 2:
+        case 0:
+        case 1:
+        case 2:
 case_123:
-        func_800AAF00(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
-        return;
+            func_800AAF00(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+            return;
 
-    case 3:
-    case 9:
-    case 10:
-    default:
+        case 3:
+        case 9:
+        case 10:
+        default:
 generic:
-        func_801721D8(motion_in, context_in, entity_in, actor_in);
-        return;
+            func_801721D8(motion_in, context_in, entity_in, actor_in);
+            return;
         }
     }
 

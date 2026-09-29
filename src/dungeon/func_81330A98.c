@@ -49,7 +49,6 @@ typedef struct S_80167A98_2 {
 } S_80167A98_2;   /* temp_a1 in func_80167A98 */
 
 
-
 /* Creates a visual object with a source-indexed position offset and appearance. */
 void func_80167A98(Rec_func_80167A98_arg0 *source, Rec_func_80167A98_arg1 *origin) {
     S_80167A98_2 *position;

@@ -25,6 +25,8 @@ void func_80019394(s32 group_index, s32 entry_index) {
     } while (0);
     level = ((Entry *)root->unk_24);
     groups = *(Entry **)((u8 *)level + 0x6C);
-    do { entries = groups[group_index].next; } while (0);
+    do {
+        entries = groups[group_index].next;
+    } while (0);
     func_8001A5E4(entries[entry_index].value);
 }

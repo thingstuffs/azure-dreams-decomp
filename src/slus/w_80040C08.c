@@ -4,7 +4,8 @@ typedef struct LargeWord
 {
     s32 field_0;
     s8 pad[8];
-} LargeWord;
+}
+LargeWord;
 
 typedef struct State
 {
@@ -22,7 +23,8 @@ typedef struct State
     u8 field_F;
     u8 pad10[8];
     s8 field_18;
-} State;
+}
+State;
 
 extern LargeWord D_80080A7C;
 extern LargeWord D_8008148C;

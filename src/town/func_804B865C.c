@@ -15,7 +15,6 @@ typedef struct S_80016E5C_2 {
 } S_80016E5C_2;   /* temp_v1_2 in func_80016E5C */
 
 
-
 /* Scale both position components by 64 and add the 0x220 offset. */
 void func_80016E5C(void) {
     S_80016E5C_1 *first_position;

@@ -17,7 +17,6 @@ typedef struct S_80023994_1 {
 } S_80023994_1;   /* record_base in func_80023994 */
 
 
-
 extern s32 func_800C2AE8(void *);
 extern void func_80093CEC(void *);
 

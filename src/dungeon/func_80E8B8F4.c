@@ -8,7 +8,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -40,13 +39,15 @@ extern u8 D_80174F40;
 extern u8 D_80174F48;
 
 
-
-
 typedef struct S_801710F4_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -88,7 +89,7 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
             (*(void * *)((u8 *)sprite + 0x2C)) = next_anim_table;
             func_80047784(sprite,
                 *(u8 *)((u32)(((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) +
-                    (u32)next_anim_table),
+                        (u32)next_anim_table),
                 0);
         }
         return;
@@ -195,20 +196,20 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
         case 5:
         case 6:
         case 7:
-            {
-                EntityRec *player;
-                s16 facing_angle;
+        {
+            EntityRec *player;
+            s16 facing_angle;
 
-                facing_angle = func_800A0818(
-                    ((S_801710F4_2 *)sprite)->unk_24.at00.v, ((S_801710F4_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &distance);
-                player = D_800814A8;
-                entity->facing = facing_angle;
-                if (player->unk_9A == 0x11) {
-                    goto aaf_cleanup;
-                }
+            facing_angle = func_800A0818(
+                ((S_801710F4_2 *)sprite)->unk_24.at00.v, ((S_801710F4_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &distance);
+            player = D_800814A8;
+            entity->facing = facing_angle;
+            if (player->unk_9A == 0x11) {
+                goto aaf_cleanup;
             }
+        }
 
         case 12:
 special_cleanup:
@@ -263,6 +264,6 @@ generic:
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     func_80047784(sprite,
         *(u8 *)((u32)(((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) +
-            (u32)anim_table),
+                (u32)anim_table),
         0);
 }

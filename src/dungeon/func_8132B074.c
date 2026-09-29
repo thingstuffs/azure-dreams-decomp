@@ -58,7 +58,6 @@ typedef struct S_80172874_7 {
 } S_80172874_7;   /* global_base in func_80172874 */
 
 
-
 extern u8 D_80174C8C[];
 extern s32 D_80174CE0;
 
@@ -109,24 +108,24 @@ void func_80172874(void *effect, EntityRec *position, S_80172874_2 *transform)
         }
         return;
     case 1:
-        {
-            u32 flag_base;
-            flag_base = 0x80170000;
-            if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
-                ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
-                ((S_80172874_0 *)base)->unk_18 = 0x14;
-                ((S_80172874_0 *)base)->unk_16.s = 0x14;
-            }
-            if (owner->unk_2C == D_80174C8C) {
-                ((S_80172874_0 *)base)->unk_18 = 0x14;
-                ((S_80172874_0 *)base)->unk_16.s = 0x14;
-                ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
-            }
-            position->x.v = source->unk_00;
-            position->y.v = source->unk_04;
-            position->z.v = source->unk_08;
-            return;
+    {
+        u32 flag_base;
+        flag_base = 0x80170000;
+        if (((S_80172874_4 *)flag_base)->unk_4CE0 == 0) {
+            ((S_80172874_0 *)base)->unk_12.s = current_mode + 1;
+            ((S_80172874_0 *)base)->unk_18 = 0x14;
+            ((S_80172874_0 *)base)->unk_16.s = 0x14;
         }
+        if (owner->unk_2C == D_80174C8C) {
+            ((S_80172874_0 *)base)->unk_18 = 0x14;
+            ((S_80172874_0 *)base)->unk_16.s = 0x14;
+            ((S_80172874_0 *)base)->unk_12.s = ((S_80172874_0 *)base)->unk_12.p + 1;
+        }
+        position->x.v = source->unk_00;
+        position->y.v = source->unk_04;
+        position->z.v = source->unk_08;
+        return;
+    }
     case 2:
         shrink_step = ((S_80172874_0 *)base)->unk_16.s - 1;
         shrink_scale = ((s32)(shrink_step << 16) >> 9) / ((S_80172874_0 *)base)->unk_18;

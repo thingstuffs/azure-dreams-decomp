@@ -47,7 +47,6 @@ typedef struct S_80D23000_3 {
 } S_80D23000_3;   /* other in BODY_NAME */
 
 
-
 extern void func_800478B8(void *);
 extern s32 func_80065420(void *, void *, void *, void *);
 
@@ -63,7 +62,7 @@ typedef struct StackWork {
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80D23000")
-    __attribute__((section(".text.func_80D23000"), aligned(4))) = {
+__attribute__((section(".text.func_80D23000"), aligned(4))) = {
     0x8015F190, 0x8015F358, 0x8015FB58, 0x8015FB58,
     0x8015FB58, 0x8015FB84, 0x8015FB04, 0x8015FB04,
     0x8015FB04, 0x8015FAB0, 0x8015FAE8, 0x8015FB84,

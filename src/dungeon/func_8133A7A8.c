@@ -52,143 +52,112 @@ void func_801717A8(Entity *entity) {
     register s16 *focus_pos ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     switch (state) {
-    case 0: {
-    u16 offset_x;
-    u16 offset_y;
-    u16 offset_z;
+    case 0:
+    {
+        u16 offset_x;
+        u16 offset_y;
+        u16 offset_z;
 
-    camera_mode = 1;
-    entity->timer = 0;
-    entity->phase = 2;
-    entity->state++;
-    offset_x = D_800DCE60[0];
-    *(s16 *)&D_801760E0[0] = offset_x;
-    offset_y = D_800DCE60[1];
-    offset_z = D_800DCE60[2];
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    camera_offset = D_801760E0;
-    camera_offset[1] = offset_y;
-    camera_offset[2] = offset_z - 0x600;
-    D_801760E8[0] = actor->x;
-    focus_pos = D_801760E8;
-    coord_sum = (u16)actor->y - 0x100;
-    goto jt_case0_tail;
-}
+        camera_mode = 1;
+        entity->timer = 0;
+        entity->phase = 2;
+        entity->state++;
+        offset_x = D_800DCE60[0];
+        *(s16 *)&D_801760E0[0] = offset_x;
+        offset_y = D_800DCE60[1];
+        offset_z = D_800DCE60[2];
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        camera_offset = D_801760E0;
+        camera_offset[1] = offset_y;
+        camera_offset[2] = offset_z - 0x600;
+        D_801760E8[0] = actor->x;
+        focus_pos = D_801760E8;
+        coord_sum = (u16)actor->y - 0x100;
+        goto jt_case0_tail;
+    }
 
     case 1:
-    entity->timer++;
-    if (entity->timer < 0x28) {
-        return;
-    } else {
-        focus_arg = D_801760E8;
-        offset_arg = D_801760E0;
+        entity->timer++;
+        if (entity->timer < 0x28) {
+            return;
+        } else {
+            focus_arg = D_801760E8;
+            offset_arg = D_801760E0;
+            previous_state = entity->state;
+            transition_ticks = 0x14;
+            entity->timer = 0;
+            entity->state = previous_state + 1;
+            func_8004D294(focus_arg, offset_arg, transition_ticks);
+            return;
+        }
+
+    case 2:
+        entity->timer++;
+        if (entity->timer < 0x28) {
+            return;
+        }
+        focus_arg = 0;
+        offset_arg = D_800DCE60;
         previous_state = entity->state;
-        transition_ticks = 0x14;
+        transition_ticks = 0xA;
+
         entity->timer = 0;
         entity->state = previous_state + 1;
         func_8004D294(focus_arg, offset_arg, transition_ticks);
         return;
-    }
 
-    case 2:
-    entity->timer++;
-    if (entity->timer < 0x28) {
-        return;
-    }
-    focus_arg = 0;
-    offset_arg = D_800DCE60;
-    previous_state = entity->state;
-    transition_ticks = 0xA;
+    case 4:
+    {
+        s16 *height_base;
+        u8 *globals;
 
-    entity->timer = 0;
-    entity->state = previous_state + 1;
-    func_8004D294(focus_arg, offset_arg, transition_ticks);
-    return;
-
-    case 4: {
-    s16 *height_base;
-    u8 *globals;
-
-    entity->timer = 0;
-    entity->state++;
-    phase_slot = func_8016F4FC(actor);
-    height_slot = phase_slot + 3;
-    D_801760E0[0] = D_800DCE60[0];
-    D_801760E0[1] = D_800DCE60[1];
-    if (height_slot >= 8) {
-        height_slot = phase_slot - 5;
-    }
-    camera_offset = D_801760E0;
-    height_base = heights.values - 8;
-    coord_sum = (s32)&height_base[height_slot];
-    camera_mode = 1;
-    ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    camera_offset[2] = ((s16 *)coord_sum)[8] * 0x200;
-    coord_sum = actor->x;
-    coord_sum += D_80083780.x.w.i;
-    D_801760E8[0] = coord_sum / 2;
-    coord_sum = actor->y;
-    coord_sum += D_80083780.y.w.i;
-    focus_pos = D_801760E8;
-    coord_sum /= 2;
-jt_case0_tail:
-    *(s16 *)&focus_pos[1] = coord_sum;
-    focus_pos[2] = actor->z;
-    globals = ((u8 *)(&gameWork));
-    *(s32 *)(globals + 0x154) = 0;
-    *(s32 *)(globals + 0xCC) = 0;
-    func_8004D7A8(camera_mode);
-    func_8004D7A8(0);
-    func_8004D294(focus_pos, camera_offset, 0xA);
-    return;
-}
-
-    case 6: {
-    s16 *height_base;
-    u8 *globals;
-
-    entity->timer = 0;
-    entity->state++;
-    phase_slot = func_8016F4FC(actor);
-    height_slot = phase_slot + 2;
-    D_801760E0[0] = D_800DCE60[0];
-    D_801760E0[1] = D_800DCE60[1];
-    if (height_slot >= 8) {
-        height_slot = phase_slot - 6;
-    }
-    height_base = heights.values - 8;
-    coord_sum = (s32)&height_base[height_slot];
-    camera_mode = 1;
-    ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
-    coord_sum = actor->x;
-    coord_sum += D_80083780.x.w.i;
-    D_801760E8[0] = coord_sum / 2;
-    coord_sum = actor->y;
-    coord_sum += D_80083780.y.w.i;
-    D_801760E8[1] = coord_sum / 2;
-    D_801760E8[2] = actor->z;
-    globals = ((u8 *)(&gameWork));
-    *(s32 *)(globals + 0x154) = 0;
-    *(s32 *)(globals + 0xCC) = 0;
-    func_8004D7A8(camera_mode);
-    func_8004D7A8(0);
-    func_8004D294(D_801760E8, D_801760E0, 2);
-    break;
-}
-
-    case 20: {
-    s16 *height_base;
-    u8 *globals;
-
-    if ((entity->timer & 0xF) == 0) {
-        height_slot = func_8016F4FC(actor);
+        entity->timer = 0;
+        entity->state++;
+        phase_slot = func_8016F4FC(actor);
+        height_slot = phase_slot + 3;
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
-        entity->phase++;
-        height_slot += entity->phase;
         if (height_slot >= 8) {
-            height_slot -= 8;
+            height_slot = phase_slot - 5;
+        }
+        camera_offset = D_801760E0;
+        height_base = heights.values - 8;
+        coord_sum = (s32)&height_base[height_slot];
+        camera_mode = 1;
+        ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        camera_offset[2] = ((s16 *)coord_sum)[8] * 0x200;
+        coord_sum = actor->x;
+        coord_sum += D_80083780.x.w.i;
+        D_801760E8[0] = coord_sum / 2;
+        coord_sum = actor->y;
+        coord_sum += D_80083780.y.w.i;
+        focus_pos = D_801760E8;
+        coord_sum /= 2;
+jt_case0_tail:
+        *(s16 *)&focus_pos[1] = coord_sum;
+        focus_pos[2] = actor->z;
+        globals = ((u8 *)(&gameWork));
+        *(s32 *)(globals + 0x154) = 0;
+        *(s32 *)(globals + 0xCC) = 0;
+        func_8004D7A8(camera_mode);
+        func_8004D7A8(0);
+        func_8004D294(focus_pos, camera_offset, 0xA);
+        return;
+    }
+
+    case 6:
+    {
+        s16 *height_base;
+        u8 *globals;
+
+        entity->timer = 0;
+        entity->state++;
+        phase_slot = func_8016F4FC(actor);
+        height_slot = phase_slot + 2;
+        D_801760E0[0] = D_800DCE60[0];
+        D_801760E0[1] = D_800DCE60[1];
+        if (height_slot >= 8) {
+            height_slot = phase_slot - 6;
         }
         height_base = heights.values - 8;
         coord_sum = (s32)&height_base[height_slot];
@@ -207,16 +176,51 @@ jt_case0_tail:
         *(s32 *)(globals + 0xCC) = 0;
         func_8004D7A8(camera_mode);
         func_8004D7A8(0);
-        func_8004D294(D_801760E8, D_801760E0, 4);
+        func_8004D294(D_801760E8, D_801760E0, 2);
+        break;
     }
-}
 
-    entity->timer++;
-    if (entity->timer >= 0x79) {
-        entity->timer = 0;
-        entity->phase = 0;
-        entity->state++;
+    case 20:
+    {
+        s16 *height_base;
+        u8 *globals;
+
+        if ((entity->timer & 0xF) == 0) {
+            height_slot = func_8016F4FC(actor);
+            D_801760E0[0] = D_800DCE60[0];
+            D_801760E0[1] = D_800DCE60[1];
+            entity->phase++;
+            height_slot += entity->phase;
+            if (height_slot >= 8) {
+                height_slot -= 8;
+            }
+            height_base = heights.values - 8;
+            coord_sum = (s32)&height_base[height_slot];
+            camera_mode = 1;
+            ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
+            coord_sum = actor->x;
+            coord_sum += D_80083780.x.w.i;
+            D_801760E8[0] = coord_sum / 2;
+            coord_sum = actor->y;
+            coord_sum += D_80083780.y.w.i;
+            D_801760E8[1] = coord_sum / 2;
+            D_801760E8[2] = actor->z;
+            globals = ((u8 *)(&gameWork));
+            *(s32 *)(globals + 0x154) = 0;
+            *(s32 *)(globals + 0xCC) = 0;
+            func_8004D7A8(camera_mode);
+            func_8004D7A8(0);
+            func_8004D294(D_801760E8, D_801760E0, 4);
+        }
     }
+
+        entity->timer++;
+        if (entity->timer >= 0x79) {
+            entity->timer = 0;
+            entity->phase = 0;
+            entity->state++;
+        }
 
     case 21:
     default:

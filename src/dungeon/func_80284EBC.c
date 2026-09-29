@@ -31,7 +31,8 @@ s16 func_80017EBC(s16 entry_index) {
         DungeonEntry *entry = region;
 
         while (rows_left > 0) {
-            DungeonCell *cell = (DungeonCell *)((u8 *)((DungeonCell *)state->cells) + (((s16)y << state->shiftX) * 6) + (entry->x * 6));
+            DungeonCell *cell = (DungeonCell *)((u8 *)((DungeonCell *)state->cells) + (((s16)y << state->shiftX) * 6)
+                + (entry->x * 6));
             s16 cols_left = entry->width;
 
             while (cols_left > 0) {

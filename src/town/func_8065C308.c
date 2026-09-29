@@ -10,8 +10,6 @@ typedef struct S_8065C308_1 {
 } S_8065C308_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_8065C308 */
 
 
-
-
 extern s32 D_800183C8;
 extern s32 D_800183D0;
 

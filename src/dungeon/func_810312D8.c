@@ -21,10 +21,6 @@ typedef struct S_80172AD8_0 {
 } S_80172AD8_0;   /* arg0 in func_80172AD8 */
 
 
-
-
-
-
 extern void func_80047784(void *, s16, s16);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -70,7 +66,7 @@ void func_80172AD8(void *action, void *motion, void *sprite, void *actor)
         ((S_80172AD8_0 *)action)->unk_9E.s = 5;
         ((S_80172AD8_0 *)action)->unk_A4 = 0;
         ((S_80172AD8_0 *)action)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         ((S_80172AD8_0 *)action)->unk_90 -= ((S_80172AD8_0 *)action)->unk_A4;
         ((Rec_D_80082E80 *)sprite)->unk_1C.at00_s16.v = 0xC00;
@@ -104,7 +100,7 @@ void func_80172AD8(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80172AD8_0 *)action)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {
             ((S_80172AD8_0 *)action)->unk_98 &= 0xFFF7;

@@ -26,7 +26,6 @@ typedef struct S_8001A760_3 {
 } S_8001A760_3;   /* out2 in func_8001A760 */
 
 
-
 extern u8 D_80016000[0x10];
 
 /* Set destination coordinates from the tile center and scaled offsets. */

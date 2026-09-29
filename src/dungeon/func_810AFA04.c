@@ -19,12 +19,10 @@ typedef struct S_80173204_1 {
 } S_80173204_1;   /* arg2 in func_80173204 */
 
 
-
 typedef struct S_80173204_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_80173204_7;   /* counter in func_80173204 */
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -66,95 +64,23 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
     state = controller->unk_9B;
     switch (state) {
     case 0:
-            entity->flags1C |= 0x10000000;
-            if (!(sprite->unk_14 & 0xE000)) {
-                return;
-            }
-            sprite->unk_2C = D_80173C9C;
-            func_80047784(
-                sprite,
-                D_80173C9C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                0);
-            counter_base = &dungeonStatus;
-            counter_base->unk_0A =
-                ((u16)counter_base->unk_0A) - 1;
-            controller->unk_9B++;
+        entity->flags1C |= 0x10000000;
+        if (!(sprite->unk_14 & 0xE000)) {
             return;
+        }
+        sprite->unk_2C = D_80173C9C;
+        func_80047784(
+            sprite,
+            D_80173C9C[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        counter_base = &dungeonStatus;
+        counter_base->unk_0A =
+            ((u16)counter_base->unk_0A) - 1;
+        controller->unk_9B++;
+        return;
 
     case 1:
-            if ((func_80042900(entity, 1) << 16) == 0) {
-                sprite->unk_2C = D_80173CA4;
-                func_80047784(
-                    sprite,
-                    D_80173CA4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                    0);
-                if (sprite->unk_14 & 0x8000) {
-                    entity->flags1C &= ~0x200;
-                    entity->flags1C &= 0xEFFFFFFF;
-                    sprite->unk_0C.s32 = 0x808080;
-                    controller->unk_8C.as_pu8 = &D_80170E54;
-                    return;
-                }
-                dungeonStatus.unk_0A++;
-                controller->unk_9B++;
-                return;
-            }
-
-            if (dungeonStatus.flags & 0x1000) {
-                return;
-            }
-            if (entity->unk_64 != 0) {
-                if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
-                    return;
-                }
-            }
-            if (entity->tileY == 0) {
-                if (dungeonStatus.flags & 0x2008) {
-                    return;
-                }
-                func_800AA79C(controller, update_mode, sprite, entity);
-                return;
-            }
-            if ((func_800A2C34(entity) << 16) != 0) {
-                return;
-            }
-
-            flags = entity->flags1C;
-            if (flags & 0x100) {
-                func_800AA258(controller, update_mode, sprite, entity);
-                return;
-            }
-            if (flags & 0x80000) {
-                func_800AA888(controller, update_mode, sprite, entity);
-                func_80173A20(controller, update_mode, sprite, entity);
-                return;
-            }
-            if (entity->unk_6D == 0) {
-                return;
-            }
-            if ((func_800A2C34(entity) << 16) != 0) {
-                if ((func_8009A180(
-                         entity,
-                         ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
-                    return;
-                }
-            }
-            func_800A9A0C(entity);
-            func_800A9A04(entity);
-            if ((func_80042900(entity, 1) << 16) != 0) {
-                floor_base = &D_80082E80;
-                floor = sprite->unk_26;
-                if (((floor == floor_base->unk_026) && (floor >= 0)) ||
-                    func_8009FD40(floor_base, sprite) < 2) {
-                    if ((func_800A6D30() & 7) == 0) {
-                        func_80042B68(entity, 1);
-                    }
-                }
-            }
-
-            if ((func_80042900(entity, 1) << 16) != 0) {
-                return;
-            }
+        if ((func_80042900(entity, 1) << 16) == 0) {
             sprite->unk_2C = D_80173CA4;
             func_80047784(
                 sprite,
@@ -167,32 +93,104 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
                 controller->unk_8C.as_pu8 = &D_80170E54;
                 return;
             }
-            {
-                u8 *counter;
-
-                counter = ((u8 *)(&dungeonStatus));
-                ((S_80173204_7 *)counter)->unk_0A++;
-            }
-
+            dungeonStatus.unk_0A++;
             controller->unk_9B++;
             return;
+        }
 
-    case 2:
-            if (!(sprite->unk_14 & 0x8000)) {
-                if (sprite->unk_0C.u8 < 0x80U) {
-                    return;
+        if (dungeonStatus.flags & 0x1000) {
+            return;
+        }
+        if (entity->unk_64 != 0) {
+            if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
+                return;
+            }
+        }
+        if (entity->tileY == 0) {
+            if (dungeonStatus.flags & 0x2008) {
+                return;
+            }
+            func_800AA79C(controller, update_mode, sprite, entity);
+            return;
+        }
+        if ((func_800A2C34(entity) << 16) != 0) {
+            return;
+        }
+
+        flags = entity->flags1C;
+        if (flags & 0x100) {
+            func_800AA258(controller, update_mode, sprite, entity);
+            return;
+        }
+        if (flags & 0x80000) {
+            func_800AA888(controller, update_mode, sprite, entity);
+            func_80173A20(controller, update_mode, sprite, entity);
+            return;
+        }
+        if (entity->unk_6D == 0) {
+            return;
+        }
+        if ((func_800A2C34(entity) << 16) != 0) {
+            if ((func_8009A180(
+                     entity,
+                     ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
+                return;
+            }
+        }
+        func_800A9A0C(entity);
+        func_800A9A04(entity);
+        if ((func_80042900(entity, 1) << 16) != 0) {
+            floor_base = &D_80082E80;
+            floor = sprite->unk_26;
+            if (((floor == floor_base->unk_026) && (floor >= 0)) ||
+                func_8009FD40(floor_base, sprite) < 2) {
+                if ((func_800A6D30() & 7) == 0) {
+                    func_80042B68(entity, 1);
                 }
             }
-            {
-                u8 *counter = ((u8 *)(&dungeonStatus));
-                ((S_80173204_7 *)counter)->unk_0A--;
-            }
+        }
+
+        if ((func_80042900(entity, 1) << 16) != 0) {
+            return;
+        }
+        sprite->unk_2C = D_80173CA4;
+        func_80047784(
+            sprite,
+            D_80173CA4[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+            0);
+        if (sprite->unk_14 & 0x8000) {
+            entity->flags1C &= ~0x200;
             entity->flags1C &= 0xEFFFFFFF;
             sprite->unk_0C.s32 = 0x808080;
-            entity->flags1C &= ~0x200;
             controller->unk_8C.as_pu8 = &D_80170E54;
-
             return;
+        }
+        {
+            u8 *counter;
+
+            counter = ((u8 *)(&dungeonStatus));
+            ((S_80173204_7 *)counter)->unk_0A++;
+        }
+
+        controller->unk_9B++;
+        return;
+
+    case 2:
+        if (!(sprite->unk_14 & 0x8000)) {
+            if (sprite->unk_0C.u8 < 0x80U) {
+                return;
+            }
+        }
+        {
+            u8 *counter = ((u8 *)(&dungeonStatus));
+            ((S_80173204_7 *)counter)->unk_0A--;
+        }
+        entity->flags1C &= 0xEFFFFFFF;
+        sprite->unk_0C.s32 = 0x808080;
+        entity->flags1C &= ~0x200;
+        controller->unk_8C.as_pu8 = &D_80170E54;
+
+        return;
     default:
         return;
     }

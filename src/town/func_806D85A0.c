@@ -111,7 +111,8 @@ next_entry:
                             cell_value = x_offset + y_offset;
                             cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
                             cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
-                            ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x, cell_y, cell_value);
+                            ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x,
+                                cell_y, cell_value);
                             y_offset += 1;
                         } while (y_offset < 2);
                         x_offset += 1;

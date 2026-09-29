@@ -35,7 +35,6 @@ typedef struct S_81976BC0_2 {
 } S_81976BC0_2;   /* child in func_81976BC0 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
 extern u8 D_80024050[];

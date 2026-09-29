@@ -20,10 +20,6 @@ typedef struct S_801722BC_0 {
 } S_801722BC_0;   /* arg0 in func_801722BC */
 
 
-
-
-
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(u8, u8, u8, u8, s32 *);
@@ -68,7 +64,7 @@ void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((S_801722BC_0 *)action)->unk_9E.s = 5;
         ((S_801722BC_0 *)action)->unk_A0 = 0;
         ((S_801722BC_0 *)action)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
 
     case 1:
         ((S_801722BC_0 *)action)->unk_90 -= ((S_801722BC_0 *)action)->unk_A0;
@@ -99,7 +95,7 @@ void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *act
             actor->flags1C |= 0x08000000;
             ((S_801722BC_0 *)action)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
 
     case 2:
         if (actor->flags1C & 0x08000000) {
@@ -145,8 +141,8 @@ void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *act
             if (actor_flags & 0x20000) {
                 actor->facing =
                     func_800A0818(((Rec_D_80082E80 *)sprite)->unk_24,
-                                   ((Rec_D_80082E80 *)sprite)->unk_25,
-                                   D_80082E80.tileX, D_80082E80.tileY, &target_distance);
+                                  ((Rec_D_80082E80 *)sprite)->unk_25,
+                                  D_80082E80.tileX, D_80082E80.tileY, &target_distance);
             }
         }
 

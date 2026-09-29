@@ -102,8 +102,10 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
         motion->unk_00.at02.v = (u16) (motion->unk_00.at02.v + x_offset);
         motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + saved_y_offset);
         motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + saved_z_offset);
-        motion->unk_0C = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C))) * 0x180000);
-        motion->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
+        motion->unk_0C = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A
+            >> 7) & 0x1C))) * 0x180000);
+        motion->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
+            + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A >> 7) & 0x1C)))->unk_02 * 0x180000);
         sprite = effect->unk_0C;
         sprite->unk_1E = 0x800;
         sprite->unk_1C = 0x800;

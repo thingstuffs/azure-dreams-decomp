@@ -21,7 +21,6 @@ typedef struct S_80172D08_0 {
 } S_80172D08_0;   /* arg0 in func_80172D08 */
 
 
-
 typedef struct S_80172D08_4_pre {
     void * unk_00;
     u8 pad_04[0x14];
@@ -36,7 +35,6 @@ typedef struct S_80172D08_5 {
     u8 pad_00[0x13];
     u8 unk_13;
 } S_80172D08_5;   /* ((S_80172D08_2 *)arg3)->unk_60 in func_80172D08 */
-
 
 
 extern s32 func_800644B8(s32);
@@ -60,7 +58,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
 
     state = ((S_80172D08_0 *)action)->unk_9B;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         s32 direction;
 
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
@@ -98,7 +97,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         ((S_80172D08_0 *)action)->unk_9B++;
     }
 
-    case 1: {
+    case 1:
+    {
         s16 timer;
         s32 direction;
 
@@ -123,7 +123,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         return;
     }
 
-    case 2: {
+    case 2:
+    {
         s16 timer;
         s16 next_timer;
         s32 next_height;
@@ -195,7 +196,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         return;
     }
 
-    case 3: {
+    case 3:
+    {
         s32 direction;
 
         if (((((Rec_D_80082E80 *)record)->unk_04.as_s8 == 0xC) &&
@@ -223,7 +225,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         return;
     }
 
-    case 4: {
+    case 4:
+    {
         s16 timer;
 
         ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
@@ -286,7 +289,7 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
             ((S_80172D08_0 *)action)->unk_A0 = 0;
         }
 
-    vertical_done:
+vertical_done:
         ((S_80172D08_0 *)action)->unk_90 += ((S_80172D08_0 *)action)->unk_A0;
         if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0xE000) {
             ((Rec_func_80172D08_arg1 *)motion)->unk_14 = 0;

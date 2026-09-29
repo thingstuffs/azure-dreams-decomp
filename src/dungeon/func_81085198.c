@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80172998_0 {
     u8 pad_00[0x8C];
     M2C_UNK * unk_8C;
@@ -19,9 +18,6 @@ typedef struct S_80172998_0 {
     s32 unk_A0;
     s16 unk_A4;
 } S_80172998_0;   /* arg0 in func_80172998 */
-
-
-
 
 
 extern s32 func_800644B8(s32);

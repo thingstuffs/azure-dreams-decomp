@@ -35,7 +35,11 @@ typedef struct S_8017163C_1 {
 
 typedef struct S_8017163C_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_8017163C_2;   /* arg2 in func_8017163C */
 
@@ -74,7 +78,6 @@ typedef struct S_8017163C_8 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_8017163C_8;   /* (u8 *)arg3 + (((S_8017163C_1 *)arg3)->unk_71.u & 0x7F) in func_8017163C */
-
 
 
 typedef struct DungeonRecord {
@@ -239,7 +242,8 @@ void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void 
                     if ((s16)func_800A0134(D_800814A8, actor_in) < 0x81) {
                         if (func_8009A540(
                                 ((s16)((S_8017163C_1 *)actor_in)->unk_2A.u >> 9) & 0xFFFF,
-                                ((S_8017163C_2 *)position_in)->unk_24.at00.v, ((S_8017163C_2 *)position_in)->unk_24.at01.v,
+                                ((S_8017163C_2 *)position_in)->unk_24.at00.v,
+                                    ((S_8017163C_2 *)position_in)->unk_24.at01.v,
                                 (s16)(((S_8017163C_1 *)actor_in)->unk_88.u - 0x20)) != 0) {
                             ((S_8017163C_1 *)actor_in)->unk_71.u &= 0x7F;
                             return;

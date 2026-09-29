@@ -34,8 +34,8 @@ void func_8003A904(Func8003A904State *state) {
     address_byte_2 = address_bytes[2];
     table_offset <<= 2;
     entry = (u8 *)((u32)operands[1] + ((u32)address_bytes[1] << 8)
-               + (address_byte_2 << 16) + ((u32)address_bytes[3] << 24)
-               + table_offset);
+                   + (address_byte_2 << 16) + ((u32)address_bytes[3] << 24)
+                   + table_offset);
     state->read_ptr = operands + 5;
 
     value = entry[0];

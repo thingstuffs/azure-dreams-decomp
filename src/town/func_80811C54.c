@@ -194,61 +194,61 @@ void func_8052C854(void *machine, void *position)
         }
 
     case 2:
-        {
-            s32 ticks_left = self->unk_5E.u - 1;
-            self->unk_5E.u = ticks_left;
-            if ((s16)ticks_left > 0) {
-                return;
-            }
-            COUNT_STORE(COUNT_VALUE + (s32)self->unk_64 * 1000);
-            func_80232A08(D_80530598[0]);
-            self->unk_5C = 0;
+    {
+        s32 ticks_left = self->unk_5E.u - 1;
+        self->unk_5E.u = ticks_left;
+        if ((s16)ticks_left > 0) {
             return;
         }
+        COUNT_STORE(COUNT_VALUE + (s32)self->unk_64 * 1000);
+        func_80232A08(D_80530598[0]);
+        self->unk_5C = 0;
+        return;
+    }
 
     case 3:
-        {
-            s32 ticks_left = self->unk_5E.u - 1;
-            self->unk_5E.u = ticks_left;
-            if ((s16)ticks_left > 0) {
-                return;
-            }
-            {
-                S_func_80811C54_1 *reel_slot;
-                scan_index = 2;
-                symbol_index = 2;
-                reel_slot = (S_func_80811C54_1 *)((u8 *)self + 8);
-                do {
-                    S_func_80811C54_3 *reel = reel_slot->unk_4C;
-                    reel->unk_24 = symbol_index;
-                    reel_slot = (S_func_80811C54_1 *)((u8 *)reel_slot - 4);
-                    scan_index--;
-                } while (scan_index >= 0);
-            }
-            self->unk_5C = 5;
+    {
+        s32 ticks_left = self->unk_5E.u - 1;
+        self->unk_5E.u = ticks_left;
+        if ((s16)ticks_left > 0) {
             return;
         }
+        {
+            S_func_80811C54_1 *reel_slot;
+            scan_index = 2;
+            symbol_index = 2;
+            reel_slot = (S_func_80811C54_1 *)((u8 *)self + 8);
+            do {
+                S_func_80811C54_3 *reel = reel_slot->unk_4C;
+                reel->unk_24 = symbol_index;
+                reel_slot = (S_func_80811C54_1 *)((u8 *)reel_slot - 4);
+                scan_index--;
+            } while (scan_index >= 0);
+        }
+        self->unk_5C = 5;
+        return;
+    }
 
     case 4:
-        {
-            s16 reel_index = self->unk_5E.s;
-            S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
-            if (reel->unk_24 != 3) {
-                return;
-            }
-            self->unk_5C = 6;
-            self->unk_60.u = 0;
+    {
+        s16 reel_index = self->unk_5E.s;
+        S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
+        if (reel->unk_24 != 3) {
             return;
         }
+        self->unk_5C = 6;
+        self->unk_60.u = 0;
+        return;
+    }
 
     case 5:
-        {
-            u16 ticks_left = self->unk_60.u;
-            self->unk_60.u = ticks_left - 1;
-            if ((s16)ticks_left <= 0) {
-                self->unk_60.u = 0;
-            }
+    {
+        u16 ticks_left = self->unk_60.u;
+        self->unk_60.u = ticks_left - 1;
+        if ((s16)ticks_left <= 0) {
+            self->unk_60.u = 0;
         }
+    }
 
         if ((input->unk_10 & 0x20) &&
             self->unk_60.s == 0) {
@@ -264,7 +264,7 @@ void func_8052C854(void *machine, void *position)
         }
         self->unk_58 = 0;
         {
-            /* Padding preserves the retail stack frame, including a dead spill slot. */
+                        /* Padding preserves the retail stack frame, including a dead spill slot. */
             struct MatrixFrame {
                 s32 pad[22];
                 s32 values[9];
@@ -283,7 +283,7 @@ void func_8052C854(void *machine, void *position)
             matrix_cursor = (u8 *)matrix_frame.pad + 24;
             row_or_digit_sum = 2;
 
-    matrix_outer:
+matrix_outer:
             {
                 u8 *reel_strip;
                 s32 *symbol_dst;
@@ -296,7 +296,7 @@ void func_8052C854(void *machine, void *position)
                     {
                         reel = reel_slot->unk_4C;
                         symbol_index = reel->unk_2A;
-                        /* These no-ops preserve loop placement and register allocation. */
+                                                /* These no-ops preserve loop placement and register allocation. */
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
@@ -306,7 +306,7 @@ void func_8052C854(void *machine, void *position)
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
-                        /* Keep this expression together to preserve temporary register allocation. */
+                                                /* Keep this expression together to preserve temporary register allocation. */
                         *symbol_dst = reel_strip[(row_or_digit_sum + symbol_index) % 12];
                         symbol_dst--;
                         row_or_digit_sum--;
@@ -324,14 +324,15 @@ void func_8052C854(void *machine, void *position)
 
             bet_count = self->unk_64;
             {
-                /* This zero seed preserves reel_slot's reference count and a dead spill slot. */
+                                /* This zero seed preserves reel_slot's reference count and a dead spill slot. */
                 s32 slot_offset = (u8 *)reel_slot - (u8 *)self;
                 scan_index = slot_offset * 3 - slot_offset - slot_offset - slot_offset;
                 if (bet_count > 0) {
                     payout_table = D_805301CC;
                     do {
                         switch (scan_index) {
-                        case 0: {
+                        case 0:
+                        {
                             u16 win_flags;
                             if (matrix_frame.values[1] != matrix_frame.values[4] ||
                                 matrix_frame.values[1] != matrix_frame.values[7]) {
@@ -484,15 +485,15 @@ void func_8052C854(void *machine, void *position)
         }
 
     case 7:
-        {
-            self->unk_5E.u++;
-            if ((s16)self->unk_5E.u == 9) {
-                func_802441A4(input);
-            }
-            if (self->unk_5E.u & 3) {
-                return;
-            }
+    {
+        self->unk_5E.u++;
+        if ((s16)self->unk_5E.u == 9) {
+            func_802441A4(input);
         }
+        if (self->unk_5E.u & 3) {
+            return;
+        }
+    }
 
         payout_digits = (s16 *)D_80530590;
         {

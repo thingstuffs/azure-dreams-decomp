@@ -4,7 +4,11 @@
 #include "m2c_compat.h"
 
 typedef struct S_81839358_0 {
-    union { struct { s32 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
     union { s32 v; s32 n; } unk_0C;   /* accessed as both */
@@ -37,7 +41,12 @@ typedef struct S_81839358_3 {
     s8 unk_05;
     u8 pad_06[0x2];
     s32 unk_08;
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
     u8 pad_16[0x6];
@@ -137,12 +146,14 @@ void func_81839358(void *effect, void *motion, void *sprite) {
             sprite_scale = ((S_81839358_3 *)sprite)->unk_1E - 0x200;
             ((S_81839358_3 *)sprite)->unk_1E = sprite_scale;
             ((S_81839358_3 *)sprite)->unk_1C = sprite_scale;
-            ((S_81839358_3 *)sprite)->unk_0C.at00.v = (u8) (((S_81839358_3 *)sprite)->unk_0C.at00.v - (u8) ((S_81839358_1 *)effect)->unk_4A);
-            green_blue = ((S_81839358_3 *)sprite)->unk_0C.at02.v - ((s32) ((u16) ((S_81839358_1 *)effect)->unk_4A << 0x10) >> 0x12);
+            ((S_81839358_3 *)sprite)->unk_0C.at00.v = (u8) (((S_81839358_3 *)sprite)->unk_0C.at00.v
+                - (u8) ((S_81839358_1 *)effect)->unk_4A);
+            green_blue = ((S_81839358_3 *)sprite)->unk_0C.at02.v - ((s32) ((u16) ((S_81839358_1 *)effect)->unk_4A
+                << 0x10) >> 0x12);
             ((S_81839358_3 *)sprite)->unk_0C.at02.v = green_blue;
             ((S_81839358_3 *)sprite)->unk_0C.at01.v = green_blue;
         }
-        /* fall through */
+                /* fall through */
     case 2:
         func_800478B8(sprite);
         if (((S_81839358_3 *)sprite)->unk_14 & 0x6000) {

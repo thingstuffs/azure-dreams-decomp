@@ -60,7 +60,10 @@ void func_80174C70(void *effect, void *motion, void *render)
 
     frame = (u32)((S_80174C70_0 *)effect)->unk_1A.s;
     switch (frame) {
-    case 0: case 1: case 2: case 3:
+    case 0:
+    case 1:
+    case 2:
+    case 3:
         brightness = ((S_80174C70_1 *)((void *)render_or_step))->unk_0E + 0x18;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;
@@ -71,14 +74,31 @@ void func_80174C70(void *effect, void *motion, void *render)
         ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.s = 0xA00;
         break;
 
-    case 5: case 6: case 7: case 8: case 9:
-    case 10: case 11: case 12: case 13: case 14:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
         ((S_80174C70_0 *)effect)->unk_62 = 0x18;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x180;
         break;
 
-    case 15: case 16: case 17: case 18: case 19:
-    case 20: case 21: case 22: case 23: case 24: case 25:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
         brightness = ((S_80174C70_1 *)((void *)render_or_step))->unk_0E - 0xE;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_0E = brightness;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_0D = brightness;

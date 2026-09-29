@@ -158,11 +158,11 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
 
             if (segment_index == 0) {
                 payload->unk_00 = payload->unk_01 = payload->unk_02 =
-                payload->unk_04 = payload->unk_05 = payload->unk_06 = 0;
+                    payload->unk_04 = payload->unk_05 = payload->unk_06 = 0;
             }
             if (segment_index == 6) {
                 payload->unk_08 = payload->unk_09 = payload->unk_0A =
-                payload->unk_0C = payload->unk_0D = payload->unk_0E = 0;
+                    payload->unk_0C = payload->unk_0D = payload->unk_0E = 0;
             }
 
             sprite->unk_06 = 0;

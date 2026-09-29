@@ -40,14 +40,11 @@ typedef struct S_80172870_4 {
 } S_80172870_4;   /* arg2 in func_80172870 */
 
 
-
 typedef struct S_80172870_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172870_7;   /* block in func_80172870 */
-
-
 
 
 extern s32 func_8003F270(void);
@@ -75,7 +72,7 @@ void func_80172870(void *action_state, void *position, void *sprite, EntityRec *
     switch (((S_80172870_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void *const dispatch_labels[] = {&&sw_c, &&sw_b, &&sw_a, &&sel_none};
+            static void * const dispatch_labels[] = { && sw_c, && sw_b, && sw_a, && sel_none };
             extern void *const D_80170838[];
             u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
 
@@ -85,36 +82,36 @@ void func_80172870(void *action_state, void *position, void *sprite, EntityRec *
             }
             (void)dispatch_labels;
             goto *D_80170838[motion_index];
-        sw_c:
+sw_c:
             special_mode = 1;
             goto kind_c;
-        sw_b:
+sw_b:
             special_mode = 1;
             goto kind_b;
-        sw_a:
+sw_a:
             special_mode = 1;
             goto kind_a;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        kind_c:
+kind_c:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        kind_b:
+kind_b:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        kind_a:
+kind_a:
             motion = (u8 *)actor + 8;
             break;
         default:
-        sel_none:
+sel_none:
             motion = (u8 *)0;
             break;
         }
-    have_motion:
+have_motion:
 
         if (*motion != 0) {
             ((S_80172870_0 *)action_state)->unk_98 &= 0xFF7F;
@@ -132,7 +129,7 @@ void func_80172870(void *action_state, void *position, void *sprite, EntityRec *
                 if (target == 0) {
                     goto do_step;
                 }
-            have_obj:
+have_obj:
                 action_counters = ((S_80172870_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172870_3 *)action_counters)->unk_24;
                 actor->unk_73 = ((S_80172870_3 *)action_counters)->unk_25;
@@ -143,7 +140,7 @@ void func_80172870(void *action_state, void *position, void *sprite, EntityRec *
                               actor->facing, 0x10);
             actor->unk_72 = abs(actor->unk_72);
             actor->unk_73 = abs(actor->unk_73);
-        do_step:
+do_step:
             saved_position[0] = ((u16)((EntityRec *)position)->x.w.i);
             saved_position[1] = ((u16)((EntityRec *)position)->y.w.i);
             saved_position[2] = ((u16)((EntityRec *)position)->z.w.i);
@@ -178,7 +175,7 @@ void func_80172870(void *action_state, void *position, void *sprite, EntityRec *
         }
         ((S_80172870_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172870_0 *)action_state)->unk_9B = ((S_80172870_0 *)action_state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if ((((S_80172870_4 *)sprite)->unk_04 == 5 && (((S_80172870_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172870_4 *)sprite)->unk_14 & 0xE000)) {

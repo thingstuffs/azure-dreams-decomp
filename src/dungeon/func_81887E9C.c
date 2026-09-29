@@ -7,8 +7,6 @@ typedef struct S_8002569C_6 {
 } S_8002569C_6;   /* temp_v0 in func_8002569C */
 
 
-
-
 void *func_8003FD64();                  /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */

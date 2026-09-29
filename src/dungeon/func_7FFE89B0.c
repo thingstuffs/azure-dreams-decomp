@@ -91,9 +91,12 @@ void func_7FFE89B0(void *emitter, void *position, M2C_UNK spawn_context) {
     void *particle;
 
     parent = ((S_7FFE89B0_0 *)emitter)->unk_24;
-    ((S_7FFE89B0_1 *)position)->unk_02 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_02 + ((S_7FFE89B0_0 *)emitter)->unk_3C);
-    ((S_7FFE89B0_1 *)position)->unk_06 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_06 + ((S_7FFE89B0_0 *)emitter)->unk_3E);
-    ((S_7FFE89B0_1 *)position)->unk_0A = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_0A + ((S_7FFE89B0_0 *)emitter)->unk_40);
+    ((S_7FFE89B0_1 *)position)->unk_02 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_02
+        + ((S_7FFE89B0_0 *)emitter)->unk_3C);
+    ((S_7FFE89B0_1 *)position)->unk_06 = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_06
+        + ((S_7FFE89B0_0 *)emitter)->unk_3E);
+    ((S_7FFE89B0_1 *)position)->unk_0A = (s16) (((S_7FFE89B0_5 *)(((S_7FFE89B0_2 *)parent)->unk_08))->unk_0A
+        + ((S_7FFE89B0_0 *)emitter)->unk_40);
     age = ((S_7FFE89B0_0 *)emitter)->unk_16 + 1;
     ((S_7FFE89B0_0 *)emitter)->unk_16 = age;
     if ((s16) age < 0x14) {
@@ -110,7 +113,8 @@ void func_7FFE89B0(void *emitter, void *position, M2C_UNK spawn_context) {
                 ((S_7FFE89B0_4 *)particle_state)->unk_0C = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
                 ((S_7FFE89B0_4 *)particle_state)->unk_10 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
                 ((S_7FFE89B0_4 *)particle_state)->unk_14 = (s32) (((func_700750E0() & 0x7FFF) - 0x4000) << 7);
-                ((S_7FFE89B0_4 *)particle_state)->unk_0A = (u16) (((S_7FFE89B0_4 *)particle_state)->unk_0A - (D_800E0F20[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)emitter)->unk_00))->unk_13] >> 1));
+                ((S_7FFE89B0_4 *)particle_state)->unk_0A = (u16) (((S_7FFE89B0_4 *)particle_state)->unk_0A
+                    - (D_800E0F20[((S_7FFE89B0_6 *)(((S_7FFE89B0_0 *)emitter)->unk_00))->unk_13] >> 1));
             }
         } while (spawn_index < 4);
     }

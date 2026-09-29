@@ -22,7 +22,6 @@ typedef struct S_801743EC_2 {
 } S_801743EC_2;   /* arg1 in func_801743EC */
 
 
-
 typedef struct {
     u8 bytes[8];
 } Unaligned8;
@@ -84,7 +83,7 @@ void func_801743EC(void *effect, void *position, void *sprite)
         ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
         ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
         ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
-    
+
         break;
     case 1:
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;

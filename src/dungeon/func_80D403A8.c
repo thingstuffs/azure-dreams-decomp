@@ -93,7 +93,6 @@ typedef struct S_80175BA8_7 {
 } S_80175BA8_7;   /* temp_v1_2 in func_80175BA8 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80047784();
@@ -128,7 +127,7 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
         ((S_80175BA8_1 *)position)->unk_0C = 0;
         target_offset = func_800BCB04(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
                                 (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
-                  - ((S_80175BA8_2 *)actor_info)->unk_88;
+        - ((S_80175BA8_2 *)actor_info)->unk_88;
         if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
             next_offset = ((S_80175BA8_0 *)actor_state)->unk_92.u + 0xC;
             ((S_80175BA8_0 *)actor_state)->unk_92.u = next_offset;
@@ -173,7 +172,8 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
         if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
             func_80047784(sprite,
-                          D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                          D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                              >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
@@ -191,7 +191,8 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
         if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
             func_80047784(sprite,
-                          D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                          D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100)
+                              >> 9) & 7],
                           0);
             ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
             ((S_80175BA8_0 *)actor_state)->unk_9B++;
@@ -216,7 +217,7 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
-            return;
+        return;
     default:
         return;
     }

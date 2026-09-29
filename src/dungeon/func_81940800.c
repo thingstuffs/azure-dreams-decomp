@@ -37,7 +37,7 @@ __asm__(".globl func_81940800\n.type func_81940800,@function\n.size func_8194080
 extern s16 D_8002571C;
 void BODY_NAME(void *effect, void *unused, void *primitive)
 #ifdef __mips__
-    __attribute__((section(".text.func_81940800")))
+__attribute__((section(".text.func_81940800")))
 #endif
 ;
 /* Advance the effect fade and mark it finished when its countdown expires. */

@@ -20,8 +20,6 @@ typedef struct S_8196BF24_1 {
 } S_8196BF24_1;   /* arg2 in func_8196BF24 */
 
 
-
-
 /* Advance the effect animation and flag completion when its countdown expires. */
 void func_8196BF24(void *effect, s32 unused, S_8196BF24_1 *transform) {
     u8 next_u;

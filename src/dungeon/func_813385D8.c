@@ -23,7 +23,6 @@ typedef struct S_8016F5D8_2 {
 } S_8016F5D8_2;   /* arg1 in func_8016F5D8 */
 
 
-
 s32 func_800644B8();                        /* extern */
 extern M2C_UNK D_80173DA4;
 extern M2C_UNK D_80173DB4;

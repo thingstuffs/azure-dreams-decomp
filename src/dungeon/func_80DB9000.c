@@ -203,7 +203,7 @@ typedef struct S_80DB9000_9 {
 
 #ifdef __mips__
 static const u32 split_prefix[] __asm__("func_80170800")
-    __attribute__((section(".text.func_80170800"), aligned(4))) = {
+__attribute__((section(".text.func_80170800"), aligned(4))) = {
     0x80171850, 0x80171A18,
     0x80172204, 0x80172204, 0x80172204, 0x80172230,
     0x801721B0, 0x801721B0, 0x801721B0, 0x8017215C,
@@ -417,7 +417,10 @@ next_entry:
                 scratch_page->unk_CA = bottom_y;
                 scratch_page->unk_C2 = bottom_y;
             }
-            func_800654B0((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0, (u8 *)scratch_page + 0xC8, (u8 *)scratch_page + 0x94, (u8 *)scratch_page + 0x98, (u8 *)scratch_page + 0x9C, (u8 *)scratch_page + 0xA0, (u8 *)scratch_page + 0xD0, (u8 *)scratch_page + 0xD4);
+            func_800654B0((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0,
+                (u8 *)scratch_page + 0xC8, (u8 *)scratch_page + 0x94, (u8 *)scratch_page + 0x98,
+                (u8 *)scratch_page + 0x9C, (u8 *)scratch_page + 0xA0, (u8 *)scratch_page + 0xD0,
+                (u8 *)scratch_page + 0xD4);
             packet->unk_08 = scratch_page->unk_94 + scratch_page->unk_F8;
             packet->unk_0A = scratch_page->unk_96 + scratch_page->unk_FA;
             packet->unk_10 = scratch_page->unk_98 + scratch_page->unk_F8;
@@ -517,7 +520,8 @@ next_entry:
                 }
                 packet->unk_04 = (s32)sprite->unk_0C.s32;
                 packet_addr = (u32)packet & address_mask;
-                packet->unk_00.s32 = (s32)((packet->unk_00.s32 & 0xFF000000) | (*((u32 *)((scratch_page->unk_100 * 4) + scratch_page->unk_24)) & address_mask));
+                packet->unk_00.s32 = (s32)((packet->unk_00.s32 & 0xFF000000) | (*((u32 *)((scratch_page->unk_100 * 4)
+                    + scratch_page->unk_24)) & address_mask));
                 ot_entry = (s32 *)((scratch_page->unk_100 * 4) + scratch_page->unk_24);
                 packet = (S_80DB9000_9 *)((u8 *)packet + 0x28);
                 *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;

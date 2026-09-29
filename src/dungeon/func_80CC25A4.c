@@ -16,14 +16,14 @@ extern u8 D_80176455[9];
 /* Builds and displays a message containing the record's name between fixed text. */
 void func_80175DA4(s32 record, s32 unused_1, s32 unused_2, s32 unused_3)
 {
-  s32 text_arg;
-  s32 message;
-  unsigned int cursor;
+    s32 text_arg;
+    s32 message;
+    unsigned int cursor;
 
-  text_arg = func_800990FC(record, unused_1, unused_2, unused_3);
-  message = text_arg;
-  cursor = func_80099194(D_80176440, message);
-  text_arg = record;
-  func_80099290(func_80099194(D_80176455, func_80099734(text_arg, cursor)));
-  func_800A5720(message);
+    text_arg = func_800990FC(record, unused_1, unused_2, unused_3);
+    message = text_arg;
+    cursor = func_80099194(D_80176440, message);
+    text_arg = record;
+    func_80099290(func_80099194(D_80176455, func_80099734(text_arg, cursor)));
+    func_800A5720(message);
 }

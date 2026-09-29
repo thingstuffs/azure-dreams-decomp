@@ -117,8 +117,8 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
             }
         } else {
             work_value = (s32)func_800A04F0(actor, U8_AT(position, 0x24),
-                                        U8_AT(position, 0x25),
-                                        S16_AT(actor, 0x2A));
+                                            U8_AT(position, 0x25),
+                                            S16_AT(actor, 0x2A));
             if (work_value != 0) {
                 U8_AT(actor, 0x71) &= 0x7F;
                 return;
@@ -176,11 +176,12 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
         u8 *tile_record;
 
         tile_type = S8_AT(position, 0x26);
-        if (tile_type >= 0 && (tile_records = D_800E2970, tile_record = tile_records + tile_type * 0x14, U16_AT(tile_record, 0xC) & 2)) {
+        if (tile_type >= 0 && (tile_records = D_800E2970, tile_record = tile_records + tile_type * 0x14,
+            U16_AT(tile_record, 0xC) & 2)) {
             func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
         } else if (!(U16_AT(actor, 0x46) & 0x8000)) {
             node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                  S16_AT(actor, 0x2A));
+                                 S16_AT(actor, 0x2A));
             if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
                 (func_800A0134(node, actor) < 0x81) &&
                 ((func_8009A540(

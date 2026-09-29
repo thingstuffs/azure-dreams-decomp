@@ -45,7 +45,8 @@ void func_8191C848(void *motion, S_8191C848_3 *position, Rec_D_80082E80 *status)
         ((S_8191C848_0_pre *)motion)[-1].unk_00 = (u16) (((S_8191C848_0_pre *)motion)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
-    position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A) >> 8));
+    position->unk_02 = (u16) (position->unk_02 + ((s32) ((func_800644B8(((S_8191C848_0 *)motion)->unk_08)
+        >> 4) * ((S_8191C848_0 *)motion)->unk_0A) >> 8));
     y_step_scaled = (func_80064584(((S_8191C848_0 *)motion)->unk_08) >> 4) * ((S_8191C848_0 *)motion)->unk_0A;
     position->unk_0A = (u16) (position->unk_0A - 4);
     position->unk_06 = (u16) (position->unk_06 + (y_step_scaled >> 8));

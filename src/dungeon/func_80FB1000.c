@@ -61,8 +61,8 @@ BODY_STORAGE void *BODY_NAME(void *, s32, s8, s16) BODY_ATTR;
 
 #ifdef __mips__
 static const ActorDefinition actor_definition
-    __asm__("func_80170800")
-    __attribute__((section(".text.func_80170800"), aligned(4))) = {
+__asm__("func_80170800")
+__attribute__((section(".text.func_80170800"), aligned(4))) = {
     {
         (Callback)BODY_NAME,
         func_80170B40,
@@ -128,7 +128,7 @@ typedef struct S_80FB1000_2 {
 
 BODY_STORAGE void *BODY_NAME(void *arg0, s32 arg1, s8 arg2, s16 arg3)
 {
-        s16 arg0_copy;
+    s16 arg0_copy;
     s32 arg1_role;
     register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 arg3_role;

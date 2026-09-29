@@ -36,14 +36,15 @@ typedef struct S_80170E5C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80170E5C_2;   /* arg2 in func_80170E5C */
-
-
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -192,30 +193,30 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         case 4:
         case 5:
         case 6:
-            {
-                EntityRec *global_actor;
-                s32 direction;
+        {
+            EntityRec *global_actor;
+            s32 direction;
 
-                direction = func_800A0818(
-                    ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &direction_aux);
-                global_actor = D_800814A8;
-                ((S_80170E5C_1 *)status)->unk_2A = direction;
-                if (global_actor->unk_9A == 0x11) {
-                    goto aaf_cleanup;
-                }
+            direction = func_800A0818(
+                ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &direction_aux);
+            global_actor = D_800814A8;
+            ((S_80170E5C_1 *)status)->unk_2A = direction;
+            if (global_actor->unk_9A == 0x11) {
+                goto aaf_cleanup;
             }
+        }
 
         case 11:
-        special_cleanup:
+special_cleanup:
             func_800A9A0C(status);
             return;
 
         case 0:
         case 1:
         case 2:
-        aaf_cleanup:
+aaf_cleanup:
             func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
             return;
 
@@ -223,7 +224,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         case 9:
         case 10:
         default:
-        ordinary_cleanup:
+ordinary_cleanup:
             func_8017162C(actor, context, sprite, status);
             return;
 

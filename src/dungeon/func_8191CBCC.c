@@ -106,7 +106,7 @@ s32 func_8191CBCC(void *params_input, void *transform_input) {
             *(Blk24 *) transform = *(Blk24 *) source_transform;
             depth_scale = state->unk_14.u;
             adjusted_depth = ((transform->unk_14 * depth_scale) -
-                          (params->unk_10.u << 0x13)) / depth_scale;
+                              (params->unk_10.u << 0x13)) / depth_scale;
             transform->unk_14 = adjusted_depth;
             return (s32)object;
         }

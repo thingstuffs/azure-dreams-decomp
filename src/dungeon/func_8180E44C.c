@@ -27,8 +27,6 @@ typedef struct S_8002744C_2 {
 } S_8002744C_2;   /* arg2 in func_8002744C */
 
 
-
-
 /* Advance effect positions, fade the color, and flag expiration when the timer ends. */
 void func_8002744C(void *effect, void *positions, void *color) {
     s16 ticks_left;

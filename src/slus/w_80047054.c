@@ -25,7 +25,6 @@ typedef struct S_80047054_2 {
 } S_80047054_2;   /* coords in func_80047054 */
 
 
-
 /* Offset coordinates in unprocessed type-2 part chains and mark them processed. */
 void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
 {
@@ -56,7 +55,8 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
                 if (!(flags & 8)) {
                     *part = flags | 8;
                     coords = part + 6;
-                    loop_1: {
+loop_1:
+                    {
                         if (*part & 0x40) {
                             x_or_end_flag = ((S_80047054_2_pre *)coords)[-1].unk_00 + flagged_x_offset;
                         } else {
@@ -69,7 +69,9 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
                         coords += 0xC;
                         x_or_end_flag = *part & 0x80;
                         part += 0xC;
-                    } if (!x_or_end_flag) goto loop_1;
+                    }
+                    if (!x_or_end_flag)
+                        goto loop_1;
                 }
                 entries_end = ((S_80047054_0 *)header)->unk_08;
             } else {

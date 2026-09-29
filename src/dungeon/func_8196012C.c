@@ -55,7 +55,6 @@ typedef struct S_8196012C_3 {
 } S_8196012C_3;   /* primitive in func_8196012C */
 
 
-
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern s16 func_800644B8();

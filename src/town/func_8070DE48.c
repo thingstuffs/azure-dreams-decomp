@@ -39,7 +39,8 @@ s32 func_80016E48(s32 arg0)
     if (*slot == 0) {
         count = func_8001A934();
         less = count < 5;
-        if (less || (event_base = (s16 *)((u8 *)D_8001AA6C - 0x14), events = &event_base[index * 3], func_8001A64C(events[0])) == 0) {
+        if (less || (event_base = (s16 *)((u8 *)D_8001AA6C - 0x14), events = &event_base[index * 3],
+            func_8001A64C(events[0])) == 0) {
             award_base = D_8001AA58;
             func_8001A554(award_base[index * 3]);
             result = 1;

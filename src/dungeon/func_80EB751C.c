@@ -73,7 +73,6 @@ typedef struct S_80172D1C_8 {
 } S_80172D1C_8;   /* ((S_80172D1C_1 *)obj)->unk_08 in func_80172D1C */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784();

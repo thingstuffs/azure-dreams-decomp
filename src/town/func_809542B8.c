@@ -164,19 +164,20 @@ s32 func_800212B8(void) {
     }
     AT(u16, owner, 0x38) = *(u16 *)timer;
     {
-        
+
         s32 value_offset;
         s16 value_y;
         Packed8 *text_buffers;
         Packed8 *text_buffer;
         s32 handler_page;
-index = 4;
+        index = 4;
         template_page = (s32)0x80020000;
         value_offset = 0x38;
         value_y = 0x44;
         text_buffers = D_80024310;
         text_buffer = text_buffers + 4;
-value_loop: {
+value_loop:
+        {
             register Packed8 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_src = (Packed8 *)(template_page + 0x144);
             ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -191,7 +192,9 @@ value_loop: {
             value_y -= 0xC;
             index--;
             text_buffer--;
-        } if (index >= 0) goto value_loop;
+        }
+        if (index >= 0)
+            goto value_loop;
     }
 
     {
@@ -201,7 +204,8 @@ value_loop: {
         u8 *grid_sprite;
         sprite_handler = D_80023158;
         sprite = (u8 *)0x1000;
-        loop_3: {
+loop_3:
+        {
             obj = func_8003FC64(0x136);
             if (obj != 0) {
                 func_8004491C(obj, D_80046398);
@@ -218,7 +222,9 @@ value_loop: {
                 AT(void *, obj, 0x20) = owner;
             }
             sprite_index--;
-        } if (sprite_index >= 0) goto loop_3;
+        }
+        if (sprite_index >= 0)
+            goto loop_3;
     }
 
     index = 3;

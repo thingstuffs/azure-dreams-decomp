@@ -5,9 +5,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
-
-
 extern s32 func_80047784();
 extern s32 func_800A2B5C();
 extern s32 func_800A4ACC();
@@ -25,9 +22,9 @@ void func_80174928(void *action_state, s32 effect_arg, void *anim_state, EntityR
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9B.as_s8 = 0;
             (*(s32 * *)((u8 *)anim_state + 0x2C)) = &D_80174E3C;
             func_80047784(anim_state,
-                         *((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                           + (u8 *)&D_80174E3C),
-                         0);
+                          *((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                            + (u8 *)&D_80174E3C),
+                          0);
             func_800A4ACC(actor);
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }

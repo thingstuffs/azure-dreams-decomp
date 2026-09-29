@@ -42,20 +42,20 @@ extern void func_800478B8(void *, s16, void *, void *);
 #ifdef __mips__
 void func_80025000(void *, void *, void *);
 static const u32 prefix_words[] __asm__("func_80025000")
-    __attribute__((section(".text.func_80025000"), aligned(4))) = {
+__attribute__((section(".text.func_80025000"), aligned(4))) = {
     0x8002527C, 0x800252C0, 0x800253B4, 0x800257F0, 0x80025844,
 };
 __asm__(
-    ".globl func_80025000\n"
-    ".type func_80025000,@function\n"
-    ".size func_80025000,368\n");
+        ".globl func_80025000\n"
+        ".type func_80025000,@function\n"
+        ".size func_80025000,368\n");
 #define BODY_NAME func_80025014
 #else
 #define BODY_NAME func_80025000
 #endif
 
 void BODY_NAME(void *motion_state, void *position, void *draw_state)
-    __attribute__((section(".text.func_80025000")));
+__attribute__((section(".text.func_80025000")));
 /* Move the position toward the selected target and update the blink flag. */
 void BODY_NAME(void *motion_state, void *position, void *draw_state) {
     s16 move_ticks;
@@ -78,13 +78,18 @@ void BODY_NAME(void *motion_state, void *position, void *draw_state) {
     target_pos = ((S_81809800_3 *)target_node)->unk_08;
     target_y = ((S_81809800_4 *)target_pos)->unk_00.at02.v;
     update_counts[0] = (s16) ((u16) update_counts[0] + 1);
-    if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v != ((S_81809800_2 *)position)->unk_04.at02.v)) {
+    if ((target_y != current_y) || (((S_81809800_4 *)target_pos)->unk_04.at02.v
+        != ((S_81809800_2 *)position)->unk_04.at02.v)) {
         ((EntityRec *)motion_state)->z.w.i = 2;
     }
     move_ticks = ((EntityRec *)motion_state)->z.w.i;
     if (move_ticks != 0) {
-        ((S_81809800_2 *)position)->unk_00.at00.v = (s32) (((S_81809800_2 *)position)->unk_00.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v - ((S_81809800_2 *)position)->unk_00.at00.v) / move_ticks));
-        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
+        ((S_81809800_2 *)position)->unk_00.at00.v = (s32) (((S_81809800_2 *)position)->unk_00.at00.v
+            + ((s32) (((S_81809800_4 *)target_pos)->unk_00.at00.v
+            - ((S_81809800_2 *)position)->unk_00.at00.v) / move_ticks));
+        ((S_81809800_2 *)position)->unk_04.at00.v = (s32) (((S_81809800_2 *)position)->unk_04.at00.v
+            + ((s32) (((S_81809800_4 *)target_pos)->unk_04.at00.v
+            - ((S_81809800_2 *)position)->unk_04.at00.v) / (s16) ((EntityRec *)motion_state)->z.w.i));
         ticks_left = (u16) ((EntityRec *)motion_state)->z.w.i - 1;
         ((EntityRec *)motion_state)->z.w.i = ticks_left;
         if ((ticks_left << 0x10) <= 0) {

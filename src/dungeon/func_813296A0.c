@@ -90,7 +90,8 @@ void func_80170EA0(void) {
             sprite->field_10 = 0x20;
             sprite->field_2C = D_80174B30;
             sprite->flags_14 |= 0xC;
-            func_80047784(sprite, D_80174B30[((gameWork.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7], 0);
+            func_80047784(sprite, D_80174B30[((gameWork.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
+                0);
         }
         break;
 

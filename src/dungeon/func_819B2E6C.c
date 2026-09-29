@@ -102,7 +102,6 @@ typedef struct S_8002466C_10 {
 } S_8002466C_10;   /* ((S_8002466C_6 *)obj)->unk_08 in func_8002466C */
 
 
-
 extern s16 GetTPage(s32, s32, s32, s32);
 extern s16 GetClut(s32, s32);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
@@ -138,72 +137,72 @@ void func_8002466C(void *effect)
     last_particle = -1;
     state = ((S_8002466C_0 *)effect)->unk_4C.s;
     switch (state) {
-        case 0:
-            ((S_8002466C_0 *)effect)->unk_50 = GetTPage(0, 1, 0x2C0, 0x100);
-            ((S_8002466C_0 *)effect)->unk_52 = GetClut(0xC0, 0x1F7);
-            ((S_8002466C_0 *)effect)->unk_46 = 0x1F;
-            ((S_8002466C_0 *)effect)->unk_44 = 0x1F;
-            ((S_8002466C_0 *)effect)->unk_48.s = 0;
-            ((S_8002466C_0 *)effect)->unk_4E = 0x30;
+    case 0:
+        ((S_8002466C_0 *)effect)->unk_50 = GetTPage(0, 1, 0x2C0, 0x100);
+        ((S_8002466C_0 *)effect)->unk_52 = GetClut(0xC0, 0x1F7);
+        ((S_8002466C_0 *)effect)->unk_46 = 0x1F;
+        ((S_8002466C_0 *)effect)->unk_44 = 0x1F;
+        ((S_8002466C_0 *)effect)->unk_48.s = 0;
+        ((S_8002466C_0 *)effect)->unk_4E = 0x30;
+        ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
+    case 1:
+        last_particle = 0xE;
+        approach_target = &D_80082E80;
+        if (func_8003DE58(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
+            ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
+                ((target_pos[0] + D_80083780.x.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
+            ((S_8002466C_0 *)effect)->unk_20.at00.v +=
+                ((target_pos[1] + D_80083780.y.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_20.at02.v) << 14;
+            ((S_8002466C_0 *)effect)->unk_24.at00.v +=
+                ((target_pos[2] + D_80083780.z.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
+            ((S_8002466C_0 *)effect)->unk_24.at00.v -=
+                func_800644B8((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
+        }
+        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xA) {
+            ((S_8002466C_0 *)effect)->unk_4A = 0x10;
             ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
-        case 1:
-            last_particle = 0xE;
-            approach_target = &D_80082E80;
-            if (func_8003DE58(((void *)approach_target->unk_008), approach_target, target_pos, 0) != 0) {
-                ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                    ((target_pos[0] + D_80083780.x.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 14;
-                ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                    ((target_pos[1] + D_80083780.y.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_20.at02.v) << 14;
-                ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                    ((target_pos[2] + D_80083780.z.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_24.at02.v) << 14;
-                ((S_8002466C_0 *)effect)->unk_24.at00.v -=
-                    func_800644B8((((S_8002466C_0 *)effect)->unk_48.u << 11) / 10) << 9;
-            }
-            if (((S_8002466C_0 *)effect)->unk_48.u >= 0xA) {
-                ((S_8002466C_0 *)effect)->unk_4A = 0x10;
-                ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
-            }
-            break;
+        }
+        break;
 
-        case 2:
-            last_particle = 9;
-            if (((S_8002466C_0 *)effect)->unk_48.u >= 0xB) {
-                last_particle = 4;
-            }
-            ((S_8002466C_0 *)effect)->unk_4E += 2;
-            follow_target = &D_80082E80;
-            if (func_8003DE58(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
-                ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
-                    ((target_pos[0] + D_80083780.x.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
-                ((S_8002466C_0 *)effect)->unk_20.at00.v +=
-                    ((target_pos[1] + D_80083780.y.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_20.at02.v) << 15;
-                ((S_8002466C_0 *)effect)->unk_24.at00.v +=
-                    ((target_pos[2] + D_80083780.z.w.i) -
-                     ((S_8002466C_0 *)effect)->unk_24.at02.v) << 15;
-            }
-            if (((S_8002466C_0 *)effect)->unk_48.u >= 0xD) {
-                ((S_8002466C_0 *)effect)->unk_48.s = 8;
-            }
-            frames_left = ((S_8002466C_0 *)effect)->unk_4A - 1;
-            ((S_8002466C_0 *)effect)->unk_4A = frames_left;
-            if (((s32)(frames_left << 16) <= 0) &&
-                (((S_8002466C_0 *)effect)->unk_48.u == 0xC)) {
-                ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
-            }
-            break;
+    case 2:
+        last_particle = 9;
+        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xB) {
+            last_particle = 4;
+        }
+        ((S_8002466C_0 *)effect)->unk_4E += 2;
+        follow_target = &D_80082E80;
+        if (func_8003DE58(((void *)follow_target->unk_008), follow_target, target_pos, 0) != 0) {
+            ((S_8002466C_0 *)effect)->unk_1C.at00.v +=
+                ((target_pos[0] + D_80083780.x.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_1C.at02.v) << 15;
+            ((S_8002466C_0 *)effect)->unk_20.at00.v +=
+                ((target_pos[1] + D_80083780.y.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_20.at02.v) << 15;
+            ((S_8002466C_0 *)effect)->unk_24.at00.v +=
+                ((target_pos[2] + D_80083780.z.w.i) -
+                 ((S_8002466C_0 *)effect)->unk_24.at02.v) << 15;
+        }
+        if (((S_8002466C_0 *)effect)->unk_48.u >= 0xD) {
+            ((S_8002466C_0 *)effect)->unk_48.s = 8;
+        }
+        frames_left = ((S_8002466C_0 *)effect)->unk_4A - 1;
+        ((S_8002466C_0 *)effect)->unk_4A = frames_left;
+        if (((s32)(frames_left << 16) <= 0) &&
+            (((S_8002466C_0 *)effect)->unk_48.u == 0xC)) {
+            ((S_8002466C_0 *)effect)->unk_4C.s = ((S_8002466C_0 *)effect)->unk_4C.u + 1;
+        }
+        break;
 
-        case 3:
-            last_particle = 5;
-            if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
-                (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
-            }
-            break;
+    case 3:
+        last_particle = 5;
+        if (((S_8002466C_0 *)effect)->unk_48.u == 0xF) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
     particle_index = last_particle;
 

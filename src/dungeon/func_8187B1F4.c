@@ -39,7 +39,14 @@ typedef struct S_8187B1F4_3 {
 
 typedef struct S_8187B1F4_4 {
     union { struct { u32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s8 v; } at00u; struct { u8 v; } at00p; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s8 v; } at00u;
+        struct { u8 v; } at00p;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; s8 v; } at03;
+    } unk_04;   /* overlapping accesses */
 } S_8187B1F4_4;   /* temp_s0 in func_8187B1F4 */
 
 typedef struct S_8187B1F4_5 {
@@ -160,15 +167,18 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                 projection_flags = scratch + 0xD4;
                 state->next = point_packet + 0xC;
                 depth = func_80065420(vertex, point_packet + 8,
-                                        depth_cue, projection_flags);
+                                      depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
                 if (depth < 0x1E0U) {
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = ((S_8187B1F4_3 *)points)->unk_00;
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00u.v = (s8)((((S_8187B1F4_4 *)point_packet)->unk_04.at00p.v *
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00u.v =
+                        (s8)((((S_8187B1F4_4 *)point_packet)->unk_04.at00p.v *
                         ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at01.v = (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at01.v *
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at01.v =
+                        (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at01.v *
                         ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at02.v = (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at02.v *
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at02.v =
+                        (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at02.v *
                         ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_00.at03.v = 2;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at03.v = 0x6A;
@@ -192,7 +202,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                                VFIELD(scratch, u32, 0x100) * 4))->unk_00 & tag_addr_mask);
                     tag_state = (GlobalState *)(VFIELD(scratch, u32, 0x100) * 4);
                     tag_state = (GlobalState *)((u8 *)tag_state +
-                                            (u32)VFIELD(scratch, void *, 0x24));
+                                                (u32)VFIELD(scratch, void *, 0x24));
                     ((S_8187B1F4_8 *)tag_state)->unk_00 =
                         (((S_8187B1F4_8 *)tag_state)->unk_00 & tag_length_mask) |
                         ((u32)draw_mode_packet & tag_addr_mask);

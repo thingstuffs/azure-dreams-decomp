@@ -12,8 +12,6 @@ typedef struct S_80170224_0 {
 } S_80170224_0;   /* base in func_80170224 */
 
 
-
-
 extern s16 func_800ADDA0(s32, s32, void *, s32, s32, void *);
 extern void func_8016FCE4(void *, s32, s32, void *);
 extern void func_800A9A0C(void *);
@@ -53,7 +51,7 @@ s32 func_80170224(Rec_func_800A9E70_arg0 *entity, s32 target_x, s32 target_y, s1
             ((S_80170224_0 *)entity_data)->unk_46 &= 0x7FFF;
             return 0;
         }
-        /* fallthrough */
+                /* fallthrough */
     default:
         ((S_80170224_0 *)entity_data)->unk_71 &= 0x7F;
         if (!(dungeonStatus.flags & 8)) {

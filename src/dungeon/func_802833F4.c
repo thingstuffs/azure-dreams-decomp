@@ -82,7 +82,7 @@ void func_800163F4(void) {
         floor_index = dungeon_state[0xB] - 0x12;
         func_80040AA0(0x11);
         func_8003F6D4(0xC, (void *)0x80010000, &floor_data,
-                     (floor_index * 0xC) + 0x399D);
+                      (floor_index * 0xC) + 0x399D);
         Control_CD(6, &floor_data, 0);
         func_8003F320();
         D_800E3D1C = 0x384;

@@ -26,9 +26,23 @@ typedef struct S_801747F0_0 {
 } S_801747F0_0;   /* arg0 in func_801747F0 */
 
 typedef struct S_801747F0_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; struct { u8 pad[0x2]; u16 v; } at02p; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+        struct { u8 pad[0x2]; u16 v; } at02p;
+    } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x2];
     s16 unk_0E;
     u8 pad_10[0x2];
@@ -52,7 +66,6 @@ typedef struct S_801747F0_3 {
     s16 unk_00;
     s16 unk_02;
 } S_801747F0_3;   /* tile in func_801747F0 */
-
 
 
 extern u8 D_801755E0[16];

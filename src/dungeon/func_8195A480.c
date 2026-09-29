@@ -53,7 +53,12 @@ typedef struct S_80025C80_1 {
     u8 unk_04;
     u8 pad_05[0x3];
     s32 unk_08;
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
     u16 unk_16;
@@ -154,12 +159,14 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     sprite = sprite_in;
     D_800281F8 = D_800281F8 + 1;
     if (linked_monster == NULL) {
-        func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38, ((S_80025C80_0 *)effect_in)->unk_36);
+        func_8002660C(sprite, effect_in + 0x32, ((S_80025C80_0 *)effect_in)->unk_38,
+            ((S_80025C80_0 *)effect_in)->unk_36);
         func_80026548(effect_in, ((S_80025C80_1 *)sprite)->unk_00);
         phase = ((S_80025C80_0 *)effect_in)->unk_2C;
         switch (phase) {
         case 0:
-            ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v = (s32) (((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v + 0xFFFF0000);
+            ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v =
+                (s32) (((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v + 0xFFFF0000);
             brightness = ((S_80025C80_1 *)sprite)->unk_0C.at00.v;
             next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) ((S_80025C80_0 *)effect_in)->unk_30.n);
             ((S_80025C80_1 *)sprite)->unk_0C.at00.v = next_brightness;
@@ -191,7 +198,8 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             transform_result = func_8003DE58(((S_80025C80_1 *)sprite)->unk_08, sprite, effect_in + 0x24, 0);
             follow_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = follow_ticks;
-            if ((follow_ticks << 0x10) <= 0 || transform_result == 0 || (((S_80025C80_1 *)sprite)->unk_14 & 0x8000) != 0) {
+            if ((follow_ticks << 0x10) <= 0 || transform_result == 0
+                || (((S_80025C80_1 *)sprite)->unk_14 & 0x8000) != 0) {
                 if (D_80082E80.unk_014 & 0x8000) {
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = ((u16)D_80083780.x.w.i);
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = ((u16)D_80083780.y.w.i);
@@ -200,17 +208,27 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
                 ((S_80025C80_0 *)effect_in)->unk_30.n = 0;
                 ((S_80025C80_0 *)effect_in)->unk_2C = (u16) ((S_80025C80_0 *)effect_in)->unk_2C + 1;
             } else {
-                ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (s16) (((u16)D_80083780.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
-                ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (s16) (((u16)D_80083780.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
-                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (((u16)D_80083780.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
+                ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v =
+                    (s16) (((u16)D_80083780.x.w.i) + ((S_80025C80_0 *)effect_in)->unk_24);
+                ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v =
+                    (s16) (((u16)D_80083780.y.w.i) + ((S_80025C80_0 *)effect_in)->unk_26);
+                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
+                    (s16) (((u16)D_80083780.z.w.i) + ((S_80025C80_0 *)effect_in)->unk_28);
             }
             break;
         case 2:
             if (((S_80025C80_0 *)effect_in)->unk_30.n == 0) {
-                if ((func_800A44E0(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0, ((((S_80025C80_0 *)effect_in)->unk_3E.n << 6) + 0x20) & 0xFFE0, (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x20), (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9)) << 0x10) != 0 || (steps_left = ((S_80025C80_0 *)effect_in)->unk_42 - 1, ((S_80025C80_0 *)effect_in)->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
+                if ((func_800A44E0(((((S_80025C80_0 *)effect_in)->unk_3C << 6) + 0x20) & 0xFFE0,
+                    ((((S_80025C80_0 *)effect_in)->unk_3E.n << 6) + 0x20) & 0xFFE0,
+                    (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x20),
+                    (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9)) << 0x10) != 0
+                    || (steps_left = ((S_80025C80_0 *)effect_in)->unk_42 - 1,
+                    ((S_80025C80_0 *)effect_in)->unk_42 = steps_left, (steps_left << 0x10) <= 0)) {
                     ((S_80025C80_0 *)effect_in)->unk_2C = 0x10;
-                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v = dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
-                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at02.v = dirStepY[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at02.v =
+                        dirStepX[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
+                    ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at02.v =
+                        dirStepY[((S_80025C80_0 *)effect_in)->unk_40.s] * 8;
                     x_step = 8;
                     ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at02.v = x_step;
                     ((S_80025C80_0 *)effect_in)->unk_30.n = x_step;
@@ -231,22 +249,28 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             }
             target_x = ((S_80025C80_0 *)effect_in)->unk_3C << 6;
             delta_x = ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v - 0x20;
-            ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v = (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v =
+                (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v
+                + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
             target_y = ((S_80025C80_0 *)effect_in)->unk_3E.n << 6;
             delta_y = ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v - 0x20;
             y_step = (target_y - delta_y) / ((S_80025C80_0 *)effect_in)->unk_30.n;
             next_z = (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v + 5;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = next_z;
-            ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v = (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v + y_step;
+            ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v =
+                (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v + y_step;
             if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10) < next_z) {
-                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
+                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
+                    (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = move_ticks;
             if (move_ticks == 2) {
-                tile_object = func_8009B4B0(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C, (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
+                tile_object = func_8009B4B0(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
+                    (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
                 if (tile_object != 0) {
-                    func_8009CE1C(tile_object, 0xC, D_8002966E, 9, (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), D_80029670, 5);
+                    func_8009CE1C(tile_object, 0xC, D_8002966E, 9,
+                        (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), D_80029670, 5);
                 }
             }
             func_8002589C(effect_in - 0x20, (s16) ((S_80025C80_0 *)effect_in)->unk_40.u, 0xF0);
@@ -255,14 +279,21 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at00.v += ((S_80025C80_2 *)((void *)(motion_in)))->unk_14.at00.v;
-            ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v >> 2;
-            ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v >> 2;
-            if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10) < ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v) {
-                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
+            ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v
+                >> 2;
+            ((S_80025C80_2 *)((void *)(motion_in)))->unk_10.at00.v -= ((S_80025C80_2 *)((void *)(motion_in)))->unk_0C.at00.v
+                >> 2;
+            if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10)
+                < ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v) {
+                ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
+                    (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
             }
-            ((S_80025C80_1 *)sprite)->unk_0C.at00.v = ((S_80025C80_1 *)sprite)->unk_0C.at00.v - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at00.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
-            ((S_80025C80_1 *)sprite)->unk_0C.at01.v = ((S_80025C80_1 *)sprite)->unk_0C.at01.v - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at01.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
-            ((S_80025C80_1 *)sprite)->unk_0C.at02.v = ((S_80025C80_1 *)sprite)->unk_0C.at02.v - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at02.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            ((S_80025C80_1 *)sprite)->unk_0C.at00.v = ((S_80025C80_1 *)sprite)->unk_0C.at00.v
+                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at00.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            ((S_80025C80_1 *)sprite)->unk_0C.at01.v = ((S_80025C80_1 *)sprite)->unk_0C.at01.v
+                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at01.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
+            ((S_80025C80_1 *)sprite)->unk_0C.at02.v = ((S_80025C80_1 *)sprite)->unk_0C.at02.v
+                - ((s32) ((S_80025C80_1 *)sprite)->unk_0C.at02.v / ((S_80025C80_0 *)effect_in)->unk_30.n);
             fade_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {

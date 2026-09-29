@@ -7,7 +7,8 @@ int func_8004A6C0(int first_value, int second_value) {
     int entry_index = 0;
     struct Entry *entry = D_80013564;
     for (; entry_index < 20; entry_index++, entry++) {
-        if (entry->a == first_value && entry->b == second_value) break;
+        if (entry->a == first_value && entry->b == second_value)
+            break;
     }
     return entry_index;
 }

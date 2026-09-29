@@ -63,7 +63,6 @@ typedef struct S_8016AEDC_6 {
 } S_8016AEDC_6;   /* spawned in func_8016AEDC */
 
 
-
 extern void *func_8003FD64();
 extern void func_80042640();
 extern void func_8004491C();

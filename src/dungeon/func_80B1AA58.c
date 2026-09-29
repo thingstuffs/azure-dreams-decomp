@@ -6,7 +6,6 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_80172258_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -19,8 +18,6 @@ typedef struct S_80172258_0 {
     u8 pad_9C[0xC];
     s32 unk_A8;
 } S_80172258_0;   /* arg0 in func_80172258 */
-
-
 
 
 typedef struct S_80172258_4 {

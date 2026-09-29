@@ -10,8 +10,6 @@ typedef struct S_806DB17C_1 {
 } S_806DB17C_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv in func_806DB17C */
 
 
-
-
 u32 func_80016134(s32, s32);                                /* extern */
 
 

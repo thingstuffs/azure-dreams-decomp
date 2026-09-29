@@ -13,12 +13,10 @@ void func_80043674(void)
     cube_base = 4;
     bonus_base = -20;
     D_800835E8[0] = 0;
-    for (index = 1; index < 100; index++, cube_base++)
-    {
+    for (index = 1; index < 100; index++, cube_base++) {
         bonus_base++;
         D_800835E8[index] = ((u32)(cube_base * cube_base * cube_base) >> 3) + D_800835E8[index - 1];
-        if (bonus_base > 0)
-        {
+        if (bonus_base > 0) {
             D_800835E8[index] = D_800835E8[index] + ((bonus_base * bonus_base) << 5);
         }
     }

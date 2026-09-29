@@ -48,16 +48,16 @@ typedef struct OverlayInitData {
 } OverlayInitData;
 
 const OverlayInitData func_8094ECC4
-    __attribute__((section(".text.func_8094ECC4"))) = {
-        0x8000, { 0 }, 1, 0x8000, { 0 },
-        0x101, 0x3F0, 0, 0x16000, D_80016128,
-        0, 0x626F2064, { 0 },
-        0x14000, 1, D_80016070, 0x50, 0x02600180,
-        0x14000, 1, 0, 0x66, 0x01200180,
-        0x14000, 1, 0, 0x67, 0x01400140,
-        0x8000, { 0 }, 0x4C070707, D_80016AF0, 1,
-        0x4C070707, D_80016A90, 0x10F48,
-    };
+__attribute__((section(".text.func_8094ECC4"))) = {
+    0x8000, { 0 }, 1, 0x8000, { 0 },
+    0x101, 0x3F0, 0, 0x16000, D_80016128,
+    0, 0x626F2064, { 0 },
+    0x14000, 1, D_80016070, 0x50, 0x02600180,
+    0x14000, 1, 0, 0x66, 0x01200180,
+    0x14000, 1, 0, 0x67, 0x01400140,
+    0x8000, { 0 }, 0x4C070707, D_80016AF0, 1,
+    0x4C070707, D_80016A90, 0x10F48,
+};
 #endif
 
 /* Initializes the first buffer pointer to D_80016034. */

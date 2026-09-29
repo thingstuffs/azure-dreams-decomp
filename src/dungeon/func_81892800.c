@@ -50,18 +50,18 @@ extern void func_800252A4(void);
  * gate's `.text.func_81892800`-scoped KEEP rule finds nothing there and the
  * table silently zero-fills. */
 static void (*const func_81892800_table[])(void)
-    __attribute__((section(".text.func_81892800"))) = {
-        func_80024C74,
-        0,
-        func_80024CD4,
-        func_80024D7C,
-        func_8002511C,
-        func_80025178,
-        func_8002519C,
-        func_800251D0,
-        func_8002526C,
-        func_800252A4,
-    };
+__attribute__((section(".text.func_81892800"))) = {
+    func_80024C74,
+    0,
+    func_80024CD4,
+    func_80024D7C,
+    func_8002511C,
+    func_80025178,
+    func_8002519C,
+    func_800251D0,
+    func_8002526C,
+    func_800252A4,
+};
 #endif
 
 /* Advance motion and rotation, then set completion flags when the timer exceeds its limit. */

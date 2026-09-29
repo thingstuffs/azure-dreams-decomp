@@ -92,7 +92,7 @@ void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
                 ((S_80025160_0 *)effect)->unk_1C.u = angle;
                 angle_shifted = angle << 16;
                 func_8002569C(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
-                             angle_shifted >> 16, owner);
+                              angle_shifted >> 16, owner);
             }
             ((S_80025160_0 *)effect)->unk_0A.u++;
             if (((S_80025160_0 *)effect)->unk_22 == 0x6F) {
@@ -115,7 +115,7 @@ void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
             break;
         }
         ((S_80025160_0 *)effect)->unk_0A.u++;
-        /* fall through */
+                /* fall through */
     case 3:
         value = visual->unk_06.s + 0x80;
         visual->unk_06.s = value;

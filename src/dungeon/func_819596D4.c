@@ -109,7 +109,8 @@ void *func_80024ED4(Rec_func_800243C4_arg1 *position) {
                 segment_state->unk_14 = (s16) (coords->unk_02 + (func_80064584(angle) >> 5));
                 segment_state->unk_16 = (s16) (coords->unk_06 + (func_800644B8(angle) >> 5));
                 segment_state->unk_18 = (s16) (coords->unk_0A - 0x40);
-                func_80024654((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14, (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
+                func_80024654((s16) coords->unk_02, (s16) coords->unk_06, (s16) coords->unk_0A, segment_state->unk_14,
+                    (s32) segment_state->unk_16, (s32) segment_state->unk_18, segment + 0x2C);
                 setup_params[0] = 0x01200340;
                 setup_params[1] = 0x200020;
                 func_800B835C(D_800DF334, setup_params, 1, 0);

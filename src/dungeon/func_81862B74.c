@@ -18,7 +18,6 @@ typedef struct S_81862B74_1 {
 } S_81862B74_1;   /* temp_v1 in func_81862B74 */
 
 
-
 M2C_UNK func_8002425C();             /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 

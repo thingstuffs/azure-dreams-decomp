@@ -32,7 +32,6 @@ typedef struct S_80022E64_1 {
 } S_80022E64_1;   /* data in func_80022E64 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern u8 D_80046398[];

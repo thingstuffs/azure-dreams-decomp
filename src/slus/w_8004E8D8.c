@@ -14,15 +14,15 @@ s32 func_8004E8D8(u8 *text)
         newline = 0x0A;
 
         do {
-                character = text_byte & 0xFF;
-                if (character != space) {
-                    if (character != newline) {
-                        has_content = 1;
-                        goto done;
-                    }
+            character = text_byte & 0xFF;
+            if (character != space) {
+                if (character != newline) {
+                    has_content = 1;
+                    goto done;
                 }
-                text++;
-                text_byte = *text;
+            }
+            text++;
+            text_byte = *text;
         } while (text_byte != 0);
     }
 done:
