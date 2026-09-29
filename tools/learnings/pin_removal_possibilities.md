@@ -249,3 +249,11 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
   ties a register only between a dying block-local temp and its result, never with a multi-role variable.
 - **dirStep offset locals**: `*(u8*)((u8*)dirStepX + ((f>>8)&0xE))` through a pinned/reused offset local ->
   `dirStepX[(f>>9)&7]` inline (fresh temp created first takes $2; dungeon/func_800A5544).
+- **CORRECTION (r80_opus_r1, dungeon/func_818B1664 10 -> 0):** retail's `lhu $8,48($sp)` for saved_y is RELOAD, not a
+  memory object: a plain `u16 saved_y` scalar that global.c leaves unallocated (low priority, spilled) is reloaded into
+  spill register $8. Memory spellings (arrays, addressed scalars) create a load local-alloc ties into another value's
+  register - which is what o6/o10/a7 kept hitting. Also: abs + store written in BOTH arms of a test replaced a
+  barrier (jump2 merges the identical arm tails after reload); a reused multi-block local gets $3 once a block-local
+  takes the value that overlapped it. And for pinned rows with a pin-free SIBLING on the same table/callee
+  (8028516C <- func_80017F88): transplant the sibling's natural body first; nested ifs where retail branches twice
+  (`&&` merges the two tests into one andi).
