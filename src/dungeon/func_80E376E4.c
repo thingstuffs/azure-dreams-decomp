@@ -31,7 +31,6 @@ extern s32 func_80172114(void *, void *, void *, s32);
 extern void func_801737B8(void *, void *, void *, void *);
 extern void func_80173C40(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80170EE4[];
 extern u8 D_801765D8[];
 extern u8 D_801765E0[];
@@ -80,16 +79,11 @@ typedef struct S_80170EE4_2 {
 /* Update dungeon actor behavior, facing, and directional animation. */
 void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object_in, void *actor_data_in)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
-        &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
-    };
     void *map_object = map_object_in;
     register void *actor_data ASM_REG("$18") = actor_data_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 dungeon_flags = dungeonStatus.flags;
     s16 distance;
     s32 status_flags;
-    s32 action_index;
     s8 tile_index;
     s16 facing_angle;
     u16 action_flags;
@@ -196,20 +190,14 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
             }
         }
 
-        action_index = (((S_80170EE4_1 *)actor_data)->unk_46 & 0x3FFF) - 1;
-        if ((u32)action_index >= 12U) {
-            goto jt_default;
-        }
-        (void)action_labels;
-        goto *D_80170808[action_index];
-
-jt_c9:
+        switch (((S_80170EE4_1 *)actor_data)->unk_46 & 0x3FFF) {
+        case 9:
         if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
             return;
         }
         goto call_80171FFC;
 
-jt_c8:
+        case 8:
         if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
             func_80173C40(actor_state_in, update_context_in, map_object, actor_data);
             return;
@@ -218,9 +206,9 @@ call_80171FFC:
         func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         facing_angle = func_800A0818(
             ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
@@ -230,23 +218,24 @@ jt_c7:
             goto jt_call;
         }
 
+        case 12:
 jt_c12:
         func_800A9A0C(actor_data);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+        case 1:
+        case 2:
+        case 3:
 jt_call:
         func_800AAF00(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+        case 11:
+        default:
 jt_default:
         func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
         return;
+        }
     }
 
     status_flags = ((S_80170EE4_1 *)actor_data)->unk_1C;

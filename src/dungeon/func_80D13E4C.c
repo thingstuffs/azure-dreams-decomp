@@ -26,7 +26,6 @@ typedef struct S_8017364C_2 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80170858[];
 s32 func_8003F270(void);                 /* extern */
 void func_80047784();         /* extern */
 s32 func_80069EF8();                                /* extern */
@@ -41,7 +40,6 @@ extern u8 D_80174E88[9];
 
 /* Updates an actor's ability action, effects, and completion state. */
 void func_8017364C(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
-    static void *const ability_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     s16 next_effect;
     s16 effect_count;
     s32 ability_id;
@@ -78,20 +76,25 @@ start_ability:
         goto select_normal_ability;
     }
     ability_id = actor->unk_46 & 0x3FFF;
-    if ((u32) (ability_id - 1) >= 7U) {
+    switch (ability_id) {
+    case 7:
+        use_player = 1;
+        goto select_third_ability;
+    case 6:
+        use_player = 1;
+        goto select_second_ability;
+    case 5:
+        use_player = 1;
+        goto select_first_ability;
+    case 1:
+        goto select_first_ability;
+    case 2:
+        goto select_second_ability;
+    case 3:
+        goto select_third_ability;
+    default:
         goto clear_ability;
     }
-    (void)ability_labels;
-    goto *D_80170858[(u32)((ability_id) - 1)];
-jt_c7:
-    use_player = 1;
-    goto select_third_ability;
-jt_c6:
-    use_player = 1;
-    goto select_second_ability;
-jt_c5:
-    use_player = 1;
-    goto select_first_ability;
 select_normal_ability:
     normal_ability = actor->unk_46 & 0x3FFF;
     if (normal_ability == 2) {
@@ -110,19 +113,15 @@ check_third_ability:
     if (normal_ability != 3) {
         goto check_ability;
     }
-jt_c3:
 select_third_ability:
     ability = (u8 *)actor + 0xE;
     goto check_ability;
-jt_c2:
 select_second_ability:
     ability = (u8 *)actor + 0xB;
     goto check_ability;
-jt_c1:
 select_first_ability:
     ability = (u8 *)actor + 8;
     goto check_ability;
-jt_c4:
 clear_ability:
     ability = NULL;
 check_ability:

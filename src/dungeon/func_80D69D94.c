@@ -52,7 +52,6 @@ typedef struct S_80175594_3 {
 extern u8 D_800E2348[];
 extern u8 D_800E23B8[];
 extern u8 D_800E23C0[];
-extern void *const D_80170920[];
 extern s32 D_80171F1C;
 
 extern void func_80047784(void *, u8, s32);
@@ -90,22 +89,9 @@ void func_80175594(void *motion, void *position, void *entity, void *object_in)
     u8 *animations;
 
 
-    {
-        static void *const state_labels[] = {
-            &&case_0, &&case_1, &&case_2, &&case_3,
-            &&case_4, &&case_5, &&case_6, &&case_7
-        };
-        u32 state = ((S_80175594_0 *)motion)->unk_9B;
-
-        object = object_in;
-        if (state >= 8) {
-            return;
-        }
-        (void)state_labels;
-        goto *D_80170920[state];
-    }
-
-case_0:
+    object = object_in;
+    switch (((S_80175594_0 *)motion)->unk_9B) {
+    case 0:
     ((S_80175594_1 *)position)->unk_14 = 0;
     ((S_80175594_1 *)position)->unk_10 = 0;
     ((S_80175594_1 *)position)->unk_0C = 0;
@@ -126,7 +112,7 @@ case_0:
         ((S_80175594_1 *)position)->unk_0A.s + ((S_80175594_0 *)motion)->unk_92.s;
     return;
 
-case_1:
+    case 1:
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
     func_80047784(entity,
         D_800E23B8[((gameWork.view.viewAngle + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
@@ -135,7 +121,7 @@ case_1:
     ((S_80175594_0 *)motion)->unk_9B++;
     return;
 
-case_2:
+    case 2:
     if (++((S_80175594_0 *)motion)->unk_96 < 9) {
         return;
     }
@@ -147,7 +133,7 @@ case_2:
     ((S_80175594_0 *)motion)->unk_9B++;
     return;
 
-case_3:
+    case 3:
     if (((S_80175594_0 *)motion)->unk_96++ < 3) {
         return;
     }
@@ -155,7 +141,7 @@ case_3:
     ((S_80175594_0 *)motion)->unk_9B++;
     return;
 
-case_4:
+    case 4:
     if (((S_80175594_0 *)motion)->unk_96++ < 0xB) {
         return;
     }
@@ -173,7 +159,7 @@ case_4:
     func_800D6DC0(motion, position, entity, object);
     return;
 
-case_5:
+    case 5:
     switch (((S_80175594_0 *)motion)->unk_96) {
     case 0:
         ((S_80175594_1 *)position)->unk_14 = -0x140000;
@@ -216,15 +202,14 @@ case_5:
     ((S_80175594_0 *)motion)->unk_9B++;
     return;
 
-case_6:
+    case 6:
     ((S_80175594_1 *)position)->unk_0A.s = ((S_80175594_0 *)motion)->unk_B6;
 
-next_state:
     ((S_80175594_0 *)motion)->unk_96 = 0;
     ((S_80175594_0 *)motion)->unk_9B++;
     return;
 
-case_7:
+    case 7:
     func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,
         (((S_80175594_3 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     tries_left = 0x20;
@@ -296,8 +281,9 @@ coordinates_ready:
     }
     ((S_80175594_3 *)object)->unk_46 &= 0x7FFF;
 
-done:
-    return;
+    default:
+        return;
+    }
 }
 
 #undef FIELD

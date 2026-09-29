@@ -28,7 +28,6 @@ extern u8 D_800D58D8[];
 extern s8 D_800DCECC[];
 extern u8 D_800E23E0[];
 extern u8 D_800E2410[];
-extern void *D_80170868[];
 extern u8 D_80171A80[];
 
 
@@ -104,10 +103,6 @@ typedef struct S_80173A60_9 {
 /* Advances an actor's item action, spawning its visual effect and restoring idle state. */
 void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *actor)
 {
-    static void *const kind_labels[] = {
-        &&L_kind1, &&L_kind2, &&L_kind3, &&L_kind4,
-        &&L_kind5, &&L_kind6, &&L_kind7
-    };
     s16 use_player;
     u8 *item_id;
 
@@ -118,21 +113,25 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
             u32 kind_index;
 
             kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-            if (kind_index >= 7) {
+            switch (kind_index) {
+            case 6:
+                use_player = 1;
+                goto L_kind3;
+            case 5:
+                use_player = 1;
+                goto L_kind2;
+            case 4:
+                use_player = 1;
+                goto L_kind1;
+            case 0:
+                goto L_kind1;
+            case 1:
+                goto L_kind2;
+            case 2:
+                goto L_kind3;
+            default:
                 goto L_kind4;
             }
-            (void)kind_labels;
-            goto *D_80170868[kind_index];
-
-L_kind7:
-            use_player = 1;
-            goto L_kind3;
-L_kind6:
-            use_player = 1;
-            goto L_kind2;
-L_kind5:
-            use_player = 1;
-            goto L_kind1;
         }
 
         switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {

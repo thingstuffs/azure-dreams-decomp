@@ -67,7 +67,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern void *D_80170858[];
 extern u8 D_801713A8[];
 extern u8 D_8017449C[];
 extern u8 D_801744EC[];
@@ -81,13 +80,6 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     void *motion = motion_arg;
     void *sprite = sprite_arg;
     void *entity = entity_arg;
-    static void *const state_labels[] = {
-        &&state_zero, &&state_one, &&state_two, &&state_three,
-        &&state_four, &&done, &&done, &&done,
-        &&done, &&done, &&done, &&done,
-        &&done, &&done, &&done, &&done,
-        &&state_sixteen,
-    };
     DungeonGlobalStatus *global_state;
     u8 *anim_table;
     u32 clear_mask;
@@ -95,13 +87,8 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     u8 state;
 
     state = ((S_801738E0_0 *)actor)->unk_9B;
-    if (state >= 17U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170858[state];
-
-state_zero:
+    switch (state) {
+    case 0:
     if (((S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
         ((S_801738E0_0 *)actor)->unk_90 = 0;
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801744FC;
@@ -131,7 +118,7 @@ state_zero:
     ((S_801738E0_0 *)actor)->unk_9B++;
     return;
 
-state_one:
+    case 1:
     if (((S_801738E0_3 *)motion)->unk_14 <= 0xFFFFF) {
         ((S_801738E0_3 *)motion)->unk_14 += 0x20000;
     }
@@ -156,7 +143,7 @@ state_to_two:
     ((S_801738E0_0 *)actor)->unk_9B = 2;
     return;
 
-state_two:
+    case 2:
     ((S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
     ((S_801738E0_2 *)entity)->unk_1C |= 0x08000000;
     if ((func_80042900(entity, 1) << 16) == 0) {
@@ -258,7 +245,7 @@ state_two:
     ((S_801738E0_0 *)actor)->unk_9B++;
     goto done;
 
-state_three:
+    case 3:
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     } else {
@@ -274,7 +261,7 @@ advance_state:
     ((S_801738E0_0 *)actor)->unk_9B++;
     goto done;
 
-state_four:
+    case 4:
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
@@ -292,7 +279,7 @@ state_four:
     ((S_801738E0_0 *)actor)->unk_9B = 0x10;
     goto done;
 
-state_sixteen:
+    case 16:
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
@@ -307,6 +294,9 @@ state_sixteen:
     ((S_801738E0_2 *)entity)->unk_1C &= ~0x200;
     ((S_801738E0_0 *)actor)->unk_8C = D_801713A8;
     goto done;
+    default:
+        goto done;
+    }
 
 clear_200:
     ((S_801738E0_2 *)entity)->unk_1C = clear_mask & entity_flags;
