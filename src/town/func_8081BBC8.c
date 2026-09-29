@@ -25,7 +25,6 @@ typedef struct TownState {
 } TownState;
 
 extern u16 D_800135BE;
-extern void *D_80020164[6];
 extern u8 D_80026F80[];
 extern s16 D_800834C8[1];
 
@@ -48,24 +47,16 @@ void func_80025BC8(TownState *state)
     s32 phase;
     s32 loop_index;
     s32 particle_x;
-    static void *const case_labels[6] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
-    };
 
     scene_data = &gameWork;
-    (void)case_labels;
     if (((u32)scene_data->unk_010) & 0x40) {
         state->counter = 0;
     }
     state->counter++;
 
     phase = state->state;
-    if ((u32)phase >= 6) {
-        goto cleanup;
-    }
-    goto *D_80020164[phase];
-
-case_0:
+    switch (phase) {
+case 0:
     {
         TownState *init_state = state;
         s32 target_offset;
@@ -81,7 +72,7 @@ case_0:
             (target_offset - scene_data->view.unk_094) >> 1;
         first_object = *(TownObject **)init_state;
         if (first_object->state != 1) {
-            goto cleanup;
+            break;
         }
         scene_data->view.unk_094 = target_offset;
         init_state->counter = 0;
@@ -89,10 +80,10 @@ case_0:
                         init_state->table_x * 40 + init_state->table_y * 400);
         init_state->state = 2;
         init_state->timer = round_delay;
-        goto cleanup;
+        break;
     }
 
-case_1:
+case 1:
     D_800834C8[0] = 0x400;
     {
         u16 flags = state->flags;
@@ -113,7 +104,7 @@ case_1:
 
     state->timer--;
     if (state->timer > 0) {
-        goto cleanup;
+        break;
     }
     state->flags |= 1;
     do {
@@ -129,15 +120,15 @@ case_1:
     } while (state->objects[0]->random76 == state->objects[1]->random76 ||
              state->objects[1]->random76 == state->objects[2]->random76 ||
              state->objects[2]->random76 == state->objects[0]->random76);
-    goto cleanup;
+    break;
 
-case_2:
+case 2:
     if (state->flags & 4) {
-        goto cleanup;
+        break;
     }
     state->timer--;
     if (state->timer > 0) {
-        goto cleanup;
+        break;
     }
     SD_Call(0xB1);
     {
@@ -160,9 +151,9 @@ case_2:
     func_8009AC0C();
     state->timer = 25;
     state->state = 4;
-    goto cleanup;
+    break;
 
-case_3:
+case 3:
     if (state->timer < 15) {
         scene_data->view.unk_094 >>= 1;
     }
@@ -184,17 +175,17 @@ case_3:
         } while (loop_index >= 0);
     }
     if (state->flags & 2) {
-        goto cleanup;
+        break;
     }
     if (state->timer > 0) {
-        goto cleanup;
+        break;
     }
     scene_data->view.unk_094 = 0;
     state->state = 5;
     state->flags |= 8;
-    goto cleanup;
+    break;
 
-case_4:
+case 4:
     {
         u16 progress;
         s32 threshold;
@@ -218,11 +209,13 @@ case_4:
         *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto cleanup;
+        break;
     }
 
-case_5:
-cleanup:
+case 5:
+    default:
+        break;
+    }
     state->flags &= ~6;
     return;
 }

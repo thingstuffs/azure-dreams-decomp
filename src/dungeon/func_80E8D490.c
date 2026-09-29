@@ -61,8 +61,6 @@ extern void func_800A4ACC(void *);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
 
-extern u8 D_80170838[0x44];
-extern u8 D_80170880[0x1C];
 extern u8 D_801710F4[];
 extern u8 D_80174EF8[];
 extern u8 D_80174F00[];
@@ -77,14 +75,11 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
     s32 dir_y;
     u16 timer;
     u32 state;
+    u32 action_index;
     u8 *selector;
     s32 special;
     s32 tail_state; /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
-    static void *const dispatch_labels[] = {
-        &&L0, &&L1, &&L2, &&L3, &&L4, &&L5, &&L6, &&L16,
-        &&I1, &&I2, &&I3, &&I4, &&I5, &&I6, &&I7
-    };
 
     ASM_KEEP_DEP_NV(special, actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dir_x_table = dirStepX;
@@ -98,35 +93,30 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
     state = ((S_80172C90_1 *)action)->unk_9B;
     ((S_80172C90_1 *)action)->unk_96.s = timer - 1;
     special = 0;
-    if ((u32)state >= 17U) {
-        return;
-    }
-    goto *(((void **)D_80170838)[state]);
+    switch (state) {
 
-L0:
+case 0:
     ((S_80172C90_1 *)action)->unk_AC.s = motion->unk_0A.s;
     if (((u32)actor->flags1C) & 0x2000) {
         u16 action_kind;
-        u32 action_index;
 
         action_kind = actor->unk_46 & 0x3FFF;
         action_index = action_kind - 1;
-        if (action_index >= 7U) {
-            goto I4;
-        }
-        goto *(((void **)D_80170880)[action_index]);
+        goto dispatch_action;
     }
     goto IDirect;
 
-I7:
-    special = 1;
-    goto I3;
-I6:
-    special = 1;
-    goto I2;
-I5:
-    special = 1;
-    goto I1;
+dispatch_action:
+    switch (action_index) {
+    case 6:
+        special = 1;
+        goto I3;
+    case 5:
+        special = 1;
+        goto I2;
+    case 4:
+        special = 1;
+        goto I1;
 
 IDirect:
     {
@@ -147,19 +137,25 @@ IDirect:
     }
     }
 
+    case 2:
 I3:
     selector = (u8 *)actor + 0xE;
     goto IEnd;
+    case 1:
 I2:
     selector = (u8 *)actor + 0xB;
     I2_done:
     ;
     goto IEnd;
+    case 0:
 I1:
     selector = (u8 *)actor + 8;
     goto IEnd;
+    case 3:
+    default:
 I4:
     selector = 0;
+    }
 
 IEnd:
     if (*selector != 0) {
@@ -258,7 +254,7 @@ OwnerDone:
     actor->unk_46 &= 0x7FFF;
     return;
 
-L1:
+case 1:
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         ((S_80172C90_1 *)action)->unk_9B = 16;
         ((S_80172C90_1 *)action)->unk_98 |= 0x80;
@@ -280,7 +276,7 @@ L1:
     motion->unk_10.s *= 2;
     return;
 
-L2:
+case 2:
     if (func_8003F270()) {
         sprite->unk_14.at00_u16.v |= 0x0800;
         return;
@@ -288,7 +284,7 @@ L2:
     sprite->unk_14.at00_u16.v &= 0xF7FF;
     ((S_80172C90_1 *)action)->unk_9B++;
 
-L3:
+case 3:
     motion->unk_14.s += 0x30000;
     if (sprite->unk_04.as_s8 == 4) {
         if (sprite->unk_14.at00_u16.v & 0x1000) {
@@ -310,7 +306,7 @@ L3Activate:
         tail_flags |= 0x80;
         goto UpdateFlags;
 
-L4:
+case 4:
     motion->unk_14.s += 0x20000;
     if (((u32)actor->flags1C) & 0x08000000) {
         if (motion->unk_0A.u <= ((S_80172C90_1 *)action)->unk_AC.u) {
@@ -346,7 +342,7 @@ UpdateFlags:
     }
     }
 
-L5:
+case 5:
     {
         s32 ticks;
         s32 ticks_squared;
@@ -368,7 +364,7 @@ L5:
     ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
     return;
 
-L6:
+case 6:
     {
     s32 current_coord;
     {
@@ -404,7 +400,7 @@ L6:
     ((S_80172C90_1 *)action)->unk_9B = 16;
     return;
 
-L16:
+case 16:
     {
 
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
@@ -434,5 +430,8 @@ L16:
     actor->unk_72 = 0;
     actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
+    }
+    default:
+        return;
     }
 }

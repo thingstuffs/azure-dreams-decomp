@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80088A58[];
 s32 Control_CD(); /* extern */
 void func_800424E0();          /* extern */
 void func_80042560();                      /* extern */
@@ -173,7 +172,6 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
     void *map = map_arg;
     void *entity = entity_arg;
     register void *context ASM_REG("$19") = context_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     M2C_UNK *remove_text;
     M2C_UNK *create_text;
     s32 remove_message;
@@ -199,11 +197,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
     ScratchS1 message_or_list;
 
     state = ((S_8009345C_0 *)actor)->unk_9B;
-    if (state >= 0xAU) {
-        return;
-    }
-    (void)state_labels; goto *D_80088A58[(u32)(state)];
-jt_c0:
+    switch (state) {
+case 0:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
         return;
     }
@@ -221,7 +216,7 @@ jt_c0:
     ((S_8009345C_4 *)(&D_800DD262))->unk_00.u = slot_bits;
     ((S_8009345C_2 *)context)->unk_60 = selected_object;
     goto advance_state;
-jt_c1:
+case 1:
     start_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
     ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
     if ((start_ticks << 0x10) > 0) {
@@ -235,7 +230,7 @@ jt_c1:
 skip_removal:
     next_state = ((S_8009345C_0 *)actor)->unk_9B + 2;
     goto set_state;
-jt_c2:
+case 2:
     if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
         return;
     }
@@ -266,7 +261,7 @@ show_removal:
     ((S_8009345C_0 *)actor)->unk_96 = 0U;
     next_state = ((S_8009345C_0 *)actor)->unk_9B + 4;
     goto set_state;
-jt_c3:
+case 3:
     message_or_list.base = D_80082EB0;
     if ((func_800A2BDC(0) << 0x10) != 0) {
         return;
@@ -280,7 +275,7 @@ jt_c3:
     (*(s8 *)&D_800E3E40) = 0;
     Control_CD(0xFF, &D_8003E140, &D_800E3E40);
     goto advance_state;
-jt_c4:
+case 4:
     if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {
         return;
     }
@@ -289,7 +284,7 @@ jt_c4:
     }
     func_80047FF4(((S_8009345C_9 *)(D_80082EB0[0]))->unk_00, D_80081488);
     goto advance_state;
-jt_c5:
+case 5:
     message_or_list.base = D_80082EB0;
     create_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
     if (create_id == 0) {
@@ -340,10 +335,9 @@ show_creation:
     func_800A56E0(0x704);
 start_end_delay:
     next_state = ((S_8009345C_0 *)actor)->unk_9B;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_8009345C_0 *)actor)->unk_96 = 0x10U;
     goto increment_state;
-jt_c7:
+case 7:
     end_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
     ((S_8009345C_0 *)actor)->unk_96 = end_ticks;
     if ((end_ticks << 0x10) > 0) {
@@ -352,7 +346,7 @@ jt_c7:
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
     func_80048A44(entity, D_800DD140[((s32) (gameWork.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     goto advance_state;
-jt_c8:
+case 8:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
         return;
     }
@@ -361,7 +355,7 @@ jt_c8:
     func_80099F04(((S_8009345C_2 *)context)->unk_5C);
     dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
     ((S_8009345C_1 *)entity)->unk_14 = (u16) (((S_8009345C_1 *)entity)->unk_14 & 0xFDFF);
-jt_c6:
+case 6:
 advance_state:
     next_state = ((S_8009345C_0 *)actor)->unk_9B;
 increment_state:
@@ -369,4 +363,8 @@ increment_state:
 set_state:
     ((S_8009345C_0 *)actor)->unk_9B = next_state;
     return;
+    case 9:
+    default:
+        return;
+    }
 }

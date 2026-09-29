@@ -19,7 +19,6 @@ extern u8 D_805266C0[];
 extern u8 D_805266CC[];
 extern u8 D_805266D8[];
 extern u8 D_8053013C[];
-extern void *D_805266DC[];
 
 typedef struct S_8052BCCC_0 {
     u8 pad_00[0x48];
@@ -68,12 +67,8 @@ typedef struct S_8052BCCC_3 {
 
 /* Per-frame step for the town cutscene actor: integrate its motion, then run its ten-state dispatch. */
 void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
-    static void *const keepalive[10] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7, &&case_8, &&case_9
-    };
     void *aux;
-    register void *out ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *out;
     u16 table[14];
     s32 a0;
     s32 a1;
@@ -109,11 +104,8 @@ void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
 
     state = ((S_8052BCCC_0 *)obj)->unk_68;
     out = incoming_out;
-    if ((u32)state >= 10)
-        goto state7_finished;
-    goto *D_805266DC[state];
-
-case_0: {
+    switch (state) {
+case 0: {
             s32 state0_flag;
             a1 = func_80071494() & 0xF;
             if (((S_8052BCCC_2 *)aux)->unk_0A >= 25) {
@@ -164,7 +156,7 @@ state0_finish:
             goto set_state;
 }
 
-case_1: {
+case 1: {
             s32 case1_value;
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
@@ -181,7 +173,7 @@ case_1: {
             goto state7_finished;
 }
 
-case_2: {
+case 2: {
             u16 phase;
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 phase = ((S_8052BCCC_0 *)obj)->unk_A6;
@@ -205,7 +197,7 @@ case_2: {
             goto state7_finished;
 }
 
-case_3:
+case 3:
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
                 (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
@@ -240,7 +232,7 @@ case_3:
             }
             goto state7_finished;
 
-case_4:
+case 4:
             if (((S_8052BCCC_1 *)motion)->unk_08 <= (s32)0xFFA80000 &&
                 !(((S_8052BCCC_0 *)obj)->unk_A4 & 2)) {
                 ((S_8052BCCC_3 *)out)->unk_06 = 0;
@@ -262,7 +254,7 @@ case_4:
             }
             goto state7_finished;
 
-case_5:
+case 5:
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 ((S_8052BCCC_0 *)obj)->unk_A2 = 6;
                 ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFFD80000 - ((S_8052BCCC_1 *)motion)->unk_08) /
@@ -271,7 +263,7 @@ case_5:
             }
             goto state7_finished;
 
-case_6:
+case 6:
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
 	                ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
 	                next_state = (s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08;
@@ -282,7 +274,7 @@ case_6:
             }
             goto state7_finished;
 
-case_7: {
+case 7: {
             void *call_out;
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 call_out = out;
@@ -314,7 +306,7 @@ case_7: {
             goto state7_finished;
 }
 
-case_8:
+case 8:
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
                 func_8023FB18(obj);
                 ptr = ((S_8052BCCC_0 *)obj)->unk_98;
@@ -326,7 +318,7 @@ case_8:
             }
             goto state7_finished;
 
-case_9: {
+case 9: {
             s32 phase;
             phase = (*(s16 *)((u8 *)(obj) + (0xA2)));
             if (phase == 1) {
@@ -343,6 +335,9 @@ case_9: {
 	            next_state = 8;
 	            goto set_state;
 }
+    default:
+        goto state7_finished;
+    }
 
 set_state:
     ((S_8052BCCC_0 *)obj)->unk_68 = next_state;
