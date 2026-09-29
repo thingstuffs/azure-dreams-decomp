@@ -261,3 +261,10 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
   per-case locals in the SAME callee-saved register across cases, the source had ONE function-wide variable per register
   role (merged pseudo crosses calls and ranks high: message_id 288 -> 1862). Share a child pointer that is live beside the
   merged object so it conflicts and does not inherit the object's $6/$7 argument preferences (expand_preferences).
+- **Shared join label fed by a KEEP_NV'd local** (r80_opus_r3, dungeon/func_8187C45C 9 -> 7): a label whose only statement
+  is `F = local + 1;`, reached by gotos that each set `local = K` + `ASM_KEEP_NV(local)`, was per-path tails in the source:
+  write `F_store = K; F += 1; return;` in every path and let jump2 cross-jumping re-merge the identical tails after reload
+  (retail's shared `addiu; sh` join). The multi-block local was a global pseudo that lost $2 to a neighbouring literal.
+- **Residue class: a compared constant held in an ASM_REG variable** (r80_opus_r3, 8187C45C/818D4E68): where retail copies
+  a register (`move a1,v0`) that plain C gets as `li a1,255`, cse folded the constant the pinned text kept in a hard
+  register; and an `lbu; sll 24; sra 24` vs `lb` word is combine refusing across a store (use_crosses_set_p). Both open.
