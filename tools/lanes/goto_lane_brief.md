@@ -127,3 +127,9 @@ One block per row:
       the shapes that never worked - precise enough that a script can sweep 900 more rows tomorrow.
 
 End REPORT.md with a table: shape, times tried, times exact.
+
+**Measured round 80 (gd1-gd3):** when a goto ladder becomes a `switch`, write the cases in the labelled blocks' SOURCE
+order, not numeric order (numeric order scored 24-25 on two rows). A goto from one switch into another switch's shared
+case bodies stays a goto (0 of 4 structured spellings exact: the jump table collapses or registers swap). A switch
+changes cse's extended basic block: a constant held in a register before the dispatch can be re-materialised in the
+target block (`li a1,2` hoisted into a delay slot) - one row stayed at distance 1 for that reason.
