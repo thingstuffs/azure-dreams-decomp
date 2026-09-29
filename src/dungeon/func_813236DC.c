@@ -107,11 +107,11 @@ void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
         func_8004491C(object, func_80045340);
 
         callback = D_8017467C;
-        do { part_a = ((S_8016AEDC_0 *)object)->unk_08; } while (0);
+        part_a = ((S_8016AEDC_0 *)object)->unk_08;
         work_copy = work;
         ((S_8016AEDC_2 *)part_a)->unk_0A = config_0a;
         part_b = ((S_8016AEDC_0 *)object)->unk_0C;
-        do { mode_kind = mode_flags & 3; } while (0);
+        mode_kind = mode_flags & 3;
         ((S_8016AEDC_3 *)part_b)->unk_2C = callback;
         ((S_8016AEDC_3 *)part_b)->unk_24 = saved_config_24;
 

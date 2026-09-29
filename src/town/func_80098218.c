@@ -43,9 +43,7 @@ s32 func_80095978(s32 *position, s32 *out_value) {
         min_result = 64;
     }
     result = min_result;
-    do {
-        return result;
-    } while (0);
+    return result;
 }
 
 /* MECHANISM: A 24-byte escaping record at sp+0x18 followed by the sibling

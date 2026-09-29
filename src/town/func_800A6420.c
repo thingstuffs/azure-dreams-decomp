@@ -227,9 +227,7 @@ reverse_segment:
                            (object->unk_00 << 5)) >> 1);
     }
     result = reverse_angle - 0x80;
-    do {
-        reverse_angle = result;
-    } while (0);
+    reverse_angle = result;
     next_angle = (s16)result;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;
@@ -272,9 +270,7 @@ reverse_segment:
                            (object->unk_00 << 5)) >> 1);
     }
     result = reverse_angle - 0x80;
-    do {
-        reverse_angle = result;
-    } while (0);
+    reverse_angle = result;
     next_angle = (s16)result;
     scratch->data8A = coord_value;
     scratch->data7A = coord_value;

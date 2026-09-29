@@ -8,7 +8,5 @@ extern void func_800BB57C(void *, void *, void *);
 void func_800BB720(void *object, void *context, void *state) {
     *(void **)((u8 *)object - 0x10) = D_800BB640;
     func_800BB57C(object, context, state);
-    do {
-        ((s32 *)state)[2] = 14;
-    } while (0);
+    ((s32 *)state)[2] = 14;
 }

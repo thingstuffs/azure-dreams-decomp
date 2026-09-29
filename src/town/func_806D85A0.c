@@ -91,9 +91,7 @@ void func_806D85A0(void) {
         dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     }
     count_offset = variant * 8;
-    do {
-        dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
-    } while (0);
+    dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;
     group_flags = entry_flags;
     ((M2C_UNK (*)(M2C_UNK, M2C_UNK, M2C_UNK))dispatch_ptr)(initial_x, initial_y, initial_value);
     do {

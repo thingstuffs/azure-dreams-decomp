@@ -69,9 +69,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
         func_80171D7C(actor_arg, context_arg, sprite_arg, entity_arg);
-        do {
-            return;
-        } while (0);
+        return;
     }
 
 

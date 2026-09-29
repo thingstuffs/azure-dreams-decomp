@@ -140,7 +140,6 @@ blocked:
         return (s16) (step - 1);
 advance_step:
         step = next_step;
-        do { } while (0);
         {
             s32 shifted_next_step;
 

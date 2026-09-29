@@ -80,9 +80,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
         func_80171510(actor_arg, context_arg, map_object_arg, actor_state_arg);
-        do {
-            return;
-        } while (0);
+        return;
     }
 
 

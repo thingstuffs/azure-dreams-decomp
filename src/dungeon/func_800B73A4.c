@@ -178,8 +178,6 @@ done:
     {
         s32 best_height = (s16)work->best;
          /* MATCH: keep best_height sign extension before the shared epilogue. */
-        do {
-            return best_height;
-        } while (0);
+        return best_height;
     }
 }

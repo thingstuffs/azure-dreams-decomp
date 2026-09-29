@@ -44,7 +44,7 @@ void func_80878A78(s32 scene, s32 mode)
 
     D_807030AC->data = D_8070306C[scene];
 have_data:
-    do { ptr = D_807030AC->data; } while (0);
+    ptr = D_807030AC->data;
     first = ptr[1];
     sentinel = 0x80;
     if (first != sentinel) {

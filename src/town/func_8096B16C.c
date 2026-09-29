@@ -84,8 +84,6 @@ void func_80123604(void) {
         object_slot = (void **)(D_80129728 + 0x38);
         source_entry = (volatile SourceEntry *)D_80126A18;
 #else
-        do {
-        } while (0);
         address_base = (u8 *)&D_80129728;
         object_slot = (void **)(address_base + 0x38);
         source_entry = (volatile SourceEntry *)D_80126A18;

@@ -41,9 +41,7 @@ void func_800ABD74(void *source) {
     origin = source;
     effect_count = (rand() & 7) | 4;
     angle_step = 0x1000 / effect_count;
-    do {
-        effects_spawned = 0;
-    } while (0);
+    effects_spawned = 0;
     angle = rand();
     effect.z = origin->unk_0A;
     effect.c = -4;

@@ -16,9 +16,7 @@ void func_800D1648(void)
 
     object = func_8003FC64(0);
     func_8004491C(object, &D_800D1824);
-    do {
-        D_80081508 = ((u8 *)object) + 0x20;
-        *((s8 *)(((u8 *)object) + 0x20)) = 0;
-        D_80080B04 = 0;
-    } while (0);
+    D_80081508 = ((u8 *)object) + 0x20;
+    *((s8 *)(((u8 *)object) + 0x20)) = 0;
+    D_80080B04 = 0;
 }

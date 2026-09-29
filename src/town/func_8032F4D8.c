@@ -15,9 +15,7 @@ s32 func_80019CD8(s16 *values) {
     if (firstValue != 0) {
 check_value:
         if (func_8001ADE0((s16)currentValue) != 0) {
-            do {
-                valueCursor++;
-            } while (0);
+            valueCursor++;
             currentValue = *(u16 *)valueCursor;
             if (*valueCursor != 0) {
                 goto check_value;

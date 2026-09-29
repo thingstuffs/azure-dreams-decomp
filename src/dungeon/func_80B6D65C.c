@@ -87,9 +87,7 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
     if (initial_flags & 0x1000) {
         ((S_80170E5C_0 *)actor)->unk_9A = 0xE;
         func_801713D4(actor, context, sprite, status);
-        do {
-            return;
-        } while (0);
+        return;
     }
 
 
