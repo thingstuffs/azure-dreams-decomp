@@ -418,5 +418,310 @@ class TestEraseCfg(unittest.TestCase):
         self.assertIn("byte scores at 2.8.1-G0", ER.render(res))
 
 
+# ---------------------------------------------------------------- r80_fable_n1 harvest: trace / deps /
+# classify / checks.  Fixture dump texts in the exact format gcc 2.7.2 sched.c prints (commentary first,
+# then the RTL); the numbers are small and hand-made, the line shapes are copied from real dumps.
+
+SCHED2 = """;; Function f
+
+;;\t -- basic block number 0 from 10 to 16 --
+;; ready list initially:
+;; 16
+
+;; insn[  10]: priority =    3, ref_count =    1
+;; insn[  11]: priority =    2, ref_count =    1
+;; insn[  12]: priority =    2, ref_count =    1
+;; insn[  13]: priority =    1, ref_count =    1
+;; insn[  14]: priority =    1, ref_count =    1
+;; insn[  16]: priority = 2147483390, ref_count =    0
+;; ready list at T-1: 16 (7ffffefe), now 16
+;; ready list at T-2: 13 (1) 14 (1), now 14 13
+;; ready list at T-3: 13 (1) 12 (2) 11 (2), now 12 11 13
+;; insn 11 has a greater potential hazard, now 11 12 13
+;; ready list at T-4: 13 (1) 12 (2), now 12 13
+;; ready list at T-5: 13 (1)
+;; blocking insn 13 for 1 cycles
+;; launching 13 before 12 with no stalls at T-6
+;; ready list at T-6: 13 (1), now 13
+;; ready list at T-7: 10 (3), now 10
+;; total time = 7
+;; new basic block head = 10
+;; new basic block end = 16
+
+(insn 10 9 11 (set (reg:SI 2 v0) (mem:SI (reg:SI 4 a0))) -1 (nil)
+    (nil))
+(insn 11 10 12 (set (reg:SI 3 v1) (plus:SI (reg:SI 2 v0) (const_int 1))) -1 (insn_list 10 (nil))
+    (nil))
+(insn:HI 12 11 13 (set (reg:SI 8 t0) (high:SI (symbol_ref:SI ("g")))) -1 (nil)
+    (nil))
+(insn 13 12 14 (set (reg:SI 8 t0) (lo_sum:SI (reg:SI 8 t0) (symbol_ref:SI ("g")))) -1 (insn_list 12 (nil))
+    (nil))
+(insn 14 13 16 (set (reg:SI 9 t1) (asm_operands/v ("") ("=r") 0[ (reg:SI 3 v1) ] [ (asm_input:SI ("0")) ] ("f.c") 5)) -1 (insn_list 11 (insn_list:REG_DEP_ANTI 13 (nil)))
+    (nil))
+(jump_insn 16 14 17 (set (pc) (label_ref 20)) -1 (insn_list 14 (nil))
+    (nil))
+"""
+GREG_PRE = SCHED2[SCHED2.index("(insn 10"):]        # chain order 10 11 12 13 14 16 = the LUIDs
+
+SCHED1 = """;; Function f
+
+;;\t -- basic block number 0 from 20 to 23 --
+;; insn[  20]: priority =    1, ref_count =    2
+;; insn[  21]: priority =    1, ref_count =    1
+;; insn[  22]: priority =    1, ref_count =    1
+;; insn[  23]: priority =    1, ref_count =    0
+;; ready list at T-1: 23 (1), now 23
+;; ready list at T-2: 21 (7f000001) 22 (1), now 21 22
+;; ready list at T-3: 22 (1) 20 (7f000001), now 20 22
+;; ready list at T-4: 22 (1), now 22
+;; total time = 4
+
+(insn 22 0 20 (set (reg/v:SI 17 s1) (const_int 5)) -1 (nil) (nil))
+(insn 20 22 21 (set (reg:SI 80) (high:SI (symbol_ref:SI ("g")))) -1 (nil) (nil))
+(insn 21 20 23 (set (reg:SI 81) (lo_sum:SI (reg:SI 80) (symbol_ref:SI ("g")))) -1 (insn_list 20 (nil)) (nil))
+(insn 23 21 24 (set (reg/v:SI 17 s1) (asm_operands/v ("") ("=r") 0[ (reg:SI 81) ] [ ] ("f.c") 3)) -1 (insn_list 21 (insn_list 20 (insn_list 22 (nil)))) (nil))
+"""
+COMBINE_PRE = """(insn 20 0 22 (set (reg:SI 80) (high:SI (symbol_ref:SI ("g")))) -1 (nil) (nil))
+(insn 22 20 21 (set (reg/v:SI 17 s1) (const_int 5)) -1 (nil) (nil))
+(insn 21 22 23 (set (reg:SI 81) (lo_sum:SI (reg:SI 80) (symbol_ref:SI ("g")))) -1 (insn_list 20 (nil)) (nil))
+(insn 23 21 24 (set (reg/v:SI 17 s1) (asm_operands/v ("") ("=r") 0[ (reg:SI 81) ] [ ] ("f.c") 3)) -1 (nil) (nil))
+"""
+
+SCORER = """NO MATCH func_80000000 2.7.2-G0
+  disasm (got | tgt):
+    [ 0] addiu sp,sp,-24              | addiu sp,sp,-24
+!   [ 1] lui t0,0x8008                | lw v0,0(a0)
+!   [ 2] lw v0,0(a0)                  | lui t0,0x8008
+!   [ 3] addu v1,v0,a1                | addu a2,v0,a1
+!   [ 4] ori a0,s1,0x30               | addiu a0,s1,48  raw 0x30002436 vs 0x30002426
+!   [ 5] sll v0,v0,0x2                | jr ra
+!   [ 6] jr ra                        | nop
+!   [ 7] nop                          |
+"""
+
+DAP_ASM = """\t.ent\tf
+f:
+\tsubu\t$sp,$sp,24  # 5 subsi3_internal
+\tlw\t$2,0($4)  # 7 movsi_internal2/5
+\t#nop
+\tli\t$8,528482304\t\t\t# 0x1f800000  # 9 movsi_internal2/3
+\tli\t$9,0x12345678  # 10 movsi_internal2/3
+\tlw\t$3,gameWork  # 11 movsi_internal2/5
+\tj\t$31  # 12 return_internal
+\t.end\tf
+"""
+DAP_GEN = [(0, "addiu sp,sp,-24"), (1, "lw v0,0(a0)"), (2, "nop"), (3, "lui t0,0x1f80"), (4, "lui t1,0x1234"),
+           (5, "ori t1,t1,0x5678"), (6, "lui v1,0x8008"), (7, "lw v1,1234(v1)"), (8, "jr ra"), (9, "nop")]
+
+FLOW = """(insn 30 0 31 (set (reg/v:SI 95) (const_int 528482304)) -1 (nil) (nil))
+(insn 31 30 32 (set (reg:SI 5 a1) (plus:SI (reg/v:SI 95) (const_int 48))) -1 (insn_list 30 (nil)) (nil))
+(insn 40 31 41 (set (reg/v:SI 96) (const_int 16)) -1 (nil) (nil))
+(insn 41 40 42 (set (reg/v:SI 96) (reg:SI 2 v0)) -1 (nil) (nil))
+(insn 42 41 43 (set (reg:SI 6 a2) (plus:SI (reg/v:SI 96) (const_int 1))) -1 (nil) (nil))
+"""
+COMBINE = """(insn 31 30 42 (set (reg:SI 5 a1) (ior:SI (reg/v:SI 95) (const_int 48))) -1 (insn_list 30 (nil)) (nil))
+(insn 42 31 43 (set (reg:SI 6 a2) (ior:SI (reg/v:SI 96) (const_int 1))) -1 (nil) (nil))
+"""
+
+import sched_trace as ST                                                  # noqa: E402
+import retailmap as RM                                                    # noqa: E402
+import why as WY                                                          # noqa: E402
+import checks as CK                                                       # noqa: E402
+
+
+class TestBlockTraces(unittest.TestCase):
+    def setUp(self):
+        self.b = ST.block_traces(SCHED2)[0]
+        self.t = {t["t"]: t for t in self.b["ticks"]}
+
+    def test_block_priorities_and_total(self):
+        self.assertEqual((self.b["function"], self.b["n"], self.b["total"]), ("f", 0, 7))
+        self.assertEqual(self.b["prio"][16], (2147483390, 0))
+
+    def test_hazard_line_carries_the_final_order(self):
+        t = self.t[3]
+        self.assertEqual((t["sorted"], t["now"], t["pick"], t["hazard"]), ([12, 11, 13], [11, 12, 13], 11, 11))
+
+    def test_all_blocked_tick_has_no_pick_and_launch_joins_next_tick(self):
+        self.assertEqual((self.t[5]["pick"], self.t[5]["blocked"]), (None, [(13, 1)]))
+        self.assertEqual(self.t[6]["launched"], [(13, 0)])
+        self.assertEqual(self.b["launches"][0], {"uid": 13, "before": 12, "stalls": 0, "t": 6})
+
+    def test_mode_insns_only_with_modes(self):
+        self.assertNotIn(12, [x["uid"] for x in ST.instructions(SCHED2)])          # historical reading kept
+        self.assertIn(12, [x["uid"] for x in ST.instructions(SCHED2, modes=True)])
+
+
+class TestPickReason(unittest.TestCase):
+    def setUp(self):
+        self.b = ST.block_traces(SCHED2)[0]
+        self.t = {t["t"]: t for t in self.b["ticks"]}
+        self.recs = {x["uid"]: x for x in WY.insns_of(SCHED2, True)}
+        self.luid = {x["uid"]: i for i, x in enumerate(WY.insns_of(GREG_PRE, True))}
+
+    def reason(self, t, last=None, phase="sched2", luid=None):
+        return WY.pick_reason(t, self.luid if luid is None else luid, self.recs, {}, last, phase)
+
+    def test_labels(self):
+        self.assertEqual(self.reason(self.t[1])[0], "sole")
+        self.assertEqual(self.reason(self.t[2])[0], "LUID tie")          # 14 over 13, equal priority 1
+        self.assertEqual(self.reason(self.t[3])[0], "hazard")
+        self.assertIn("the sort had 12 first", self.reason(self.t[3])[1])
+        self.assertEqual(self.reason(self.t[4])[0], "priority")
+        self.assertEqual(self.reason(self.t[5])[0], "stall")
+        self.assertEqual(self.reason(self.t[6])[0], "sole")
+
+    def test_lower_luid_winner_is_class_or_stale_sort_and_names_the_link_fact(self):
+        t = dict(self.t[2], now=[13, 14], pick=13)
+        lab, why = WY.pick_reason(t, self.luid, self.recs, {16: [(14, "true")]}, 16, "sched2")
+        self.assertEqual(lab, "class/stale-sort")
+        self.assertIn("14 is a LOG_LINK of the last-scheduled 16", why)
+
+    def test_unknown_luid_is_said(self):
+        self.assertEqual(self.reason(self.t[2], luid={13: 0})[0], "tie")
+
+    def test_launched_boost_only_in_sched1(self):
+        recs = {x["uid"]: x for x in WY.insns_of(SCHED1, True)}
+        t = ST.block_traces(SCHED1)[0]["ticks"][1]
+        lab, why = WY.pick_reason(t, {}, recs, {}, 23, "sched")
+        self.assertEqual(lab, "priority")
+        self.assertIn("launched: birthing boost", why)
+        self.assertTrue(WY.is_launched(21, 0x7f000001, recs, "sched"))
+        self.assertFalse(WY.is_launched(21, 0x7f000001, recs, "sched2"))
+        self.assertFalse(WY.is_launched(16, 0x7ffffefe, self.recs, "sched"))      # a jump is tail, not launched
+
+    def test_loss_reasons(self):
+        self.assertEqual(WY.loss_reason(self.t[3], 13, self.luid), "priority 2 > 1")
+        self.assertTrue(WY.loss_reason(self.t[3], 12, self.luid).startswith("potential hazard"))
+        self.assertTrue(WY.loss_reason(self.t[2], 13, self.luid).startswith("LUID tie"))
+        self.assertTrue(WY.loss_reason(self.t[5], 13, self.luid).startswith("blocked for 1"))
+
+
+class TestTraceCli(unittest.TestCase):
+    def setUp(self):
+        self.blocks = ST.block_traces(SCHED2)
+
+    def test_resolve_block_forms(self):
+        self.assertEqual(WY.resolve_block(self.blocks, "13")[1], "insn uid 13")
+        self.assertIn("read as basic block number 0", WY.resolve_block(self.blocks, "0")[1])
+        self.assertEqual(WY.resolve_block(self.blocks, "b0")[0]["n"], 0)
+        self.assertIn("retail word [4] = insn uid 12", WY.resolve_block(self.blocks, "r4", {4: 12})[1])
+        with self.assertRaises(SystemExit):
+            WY.resolve_block(self.blocks, "r4")                   # exact text: no retail listing
+        with self.assertRaises(SystemExit):
+            WY.resolve_block(self.blocks, "b7")
+
+    def test_insn_history(self):
+        recs = {x["uid"]: x for x in WY.insns_of(SCHED2, True)}
+        luid = {x["uid"]: i for i, x in enumerate(WY.insns_of(GREG_PRE, True))}
+        out = "\n".join(WY.explain_trace({}, "sched2", self.blocks[0], recs, luid, "insn uid 13", insn=13))
+        self.assertIn("its dependents (it becomes ready when the last of these is scheduled): 14 anti @T-2", out)
+        self.assertIn("ready from T-2", out)
+        self.assertIn("T-2   lost to 14: LUID tie", out)
+        self.assertIn("T-5   lost to nothing (stall): blocked for 1 cycles", out)
+        self.assertIn("T-6   PICKED  sole", out)
+
+    def test_block_table_and_ticks_with_retail_columns(self):
+        recs = {x["uid"]: x for x in WY.insns_of(SCHED2, True)}
+        retail = {"by_uid": {12: [3]}, "gen_ret": {3: 1}, "note": "fixture"}
+        out = WY.explain_trace({}, "sched2", self.blocks[0], recs, {}, "b0", retail=retail)
+        head = next(l for l in out if l.startswith("pos"))
+        self.assertIn("gen  retail", head)
+        self.assertTrue(any(l.startswith("T-3   11     hazard") for l in out))
+
+    def test_deps(self):
+        out = "\n".join(WY.explain_deps({"sched2": SCHED2}, "sched2", 13, (1, 1)))
+        self.assertIn("12   true", out)
+        self.assertIn("14   anti", out)
+        with self.assertRaises(SystemExit):
+            WY.explain_deps({"sched2": SCHED2}, "sched2", 99)
+
+
+class TestRetailMap(unittest.TestCase):
+    def test_classify_labels_each_kind(self):
+        rows = RM.scorer_rows(SCORER)
+        self.assertEqual(len(rows), 8)
+        self.assertEqual(rows[-1], (7, "nop", ""))
+        regions, tot = RM.classify(rows)
+        self.assertEqual(tot, {"ORDER": 1, "COLOUR": 1, "OPCODE": 1, "COUNT": 1})
+        kinds = {x["kind"]: x for r in regions for x in r["items"]}
+        self.assertEqual((kinds["COLOUR"]["got"], kinds["COLOUR"]["tgt"]), ("addu v1,v0,a1", "addu a2,v0,a1"))
+        self.assertEqual((kinds["OPCODE"]["got"], kinds["OPCODE"]["tgt"]), ("ori a0,s1,0x30", "addiu a0,s1,48"))
+        self.assertEqual((kinds["COUNT"]["got"], kinds["COUNT"]["ret"]), ("sll v0,v0,0x2", None))
+
+    def test_moved_instruction_keeps_its_text_and_drift(self):
+        m, _regions, moved = RM.align(RM.scorer_rows(SCORER))
+        self.assertEqual(len(moved), 1)
+        g, r = next(iter(moved.items()))
+        self.assertEqual({g, r}, {1, 2})
+        self.assertEqual((RM.drift_at(m, moved, 0), RM.drift_at(m, moved, 6)), (0, -1))   # sll inserted before jr
+
+    def test_branch_targets_and_colour_key(self):
+        self.assertEqual(RM.mask("bnez v0,0x8001f0"), "bnez v0,TGT")
+        self.assertEqual(RM.colour_key("lw s1,4(sp)"), RM.colour_key("lw s3,4(sp)"))
+        self.assertNotEqual(RM.colour_key("lw s1,4(sp)"), RM.colour_key("lw s1,4(gp)"))
+
+    def test_uid_map_expands_macros(self):
+        by_uid, by_gen, cov = RM.uid_map(DAP_ASM, DAP_GEN)
+        self.assertEqual(by_uid, {5: [0], 7: [1], 9: [3], 10: [4, 5], 11: [6, 7], 12: [8]})
+        self.assertEqual(by_gen[7], 11)
+        self.assertEqual(cov, (9, 9, 10))
+
+    def test_classify_lines_on_match(self):
+        out = D.classify_lines("MATCH func_80000000 2.7.2-G0\n", "2.7.2-G0", "v1")
+        self.assertIn("nothing to classify", out[0])
+        out = D.classify_lines(SCORER, "2.7.2-G0", "v1")
+        self.assertIn("ORDER 1, COLOUR 1, OPCODE 1, COUNT 1", out[0])
+
+    def test_diff_classify_needs_scorer(self):
+        with self.assertRaises(SystemExit):
+            D.main(["dungeon/func_80000000", "pinned", "--classify"])
+
+
+class TestChecks(unittest.TestCase):
+    ROW = {"func": "f"}
+
+    def test_const_base(self):
+        self.assertEqual(CK.const_base(FLOW, COMBINE, 31), {"base": 95, "value": 528482304, "sets": 1, "c": 48})
+        v, ev = CK.check_const_base({"flow": FLOW, "combine": COMBINE}, 31, "ori a1,s1,0x30", "addiu a1,s1,48")
+        self.assertEqual(v, "OPAQUE-BASE")
+        self.assertIn("pseudo 95 has ONE set, from const_int 0x1f800000", ev)
+        v, ev = CK.check_const_base({"flow": FLOW, "combine": COMBINE}, 42, "ori a2,s2,0x1", "addiu a2,s2,1")
+        self.assertEqual(v, "UNKNOWN")
+        self.assertIn("2 set(s)", ev)
+        self.assertIsNone(CK.check_const_base({}, 31, "addu a1,s1,v0", "addiu a1,s1,48"))
+
+    def test_barrier(self):
+        p = CK.Pass({"sched2": SCHED2, "greg": GREG_PRE}, "sched2", self.ROW)
+        v, ev = CK.check_barrier(p, 13)
+        self.assertEqual(v, "BARRIER-GOVERNED")
+        self.assertIn("volatile asm 14; insn 13 is before 14 (direct LOG_LINK with 14)", ev)
+        p1 = CK.Pass({"sched": SCHED1.replace("asm_operands/v", "asm_operands")}, "sched", self.ROW)
+        self.assertIsNone(CK.check_barrier(p1, 20))
+
+    def test_sole_ready(self):
+        p = CK.Pass({"sched2": SCHED2, "greg": GREG_PRE}, "sched2", self.ROW)
+        self.assertEqual(CK.check_sole_ready(p, 10, "earlier")[0], "NOT-REORDERABLE")     # sole at T-7
+        self.assertEqual(CK.check_sole_ready(p, 14, "earlier")[0], "REORDERABLE")         # LUID tie at T-2
+        v, ev = CK.check_sole_ready(p, 13, "later")
+        self.assertEqual(v, "REORDERABLE")
+        self.assertIn("lost a LUID tie to 14 at T-2", ev)
+        self.assertIsNone(CK.check_sole_ready(p, 13, None))
+
+    def test_launched_vs_early_group(self):
+        p = CK.Pass({"sched": SCHED1, "combine": COMBINE_PRE}, "sched", self.ROW)
+        gen = {22: 0, 20: 1, 21: 2}
+        ret = {20: 0, 22: 1, 21: 2}
+        v, ev = CK.check_launched(p, 20, gen.get, ret.get)
+        self.assertEqual(v, "NOT-REORDERABLE")
+        self.assertIn("no non-launched consumer of 20 has a LUID below 22 (consumers: 21*, 23", ev)
+        early = COMBINE_PRE.replace("(insn 22 20 21", "(insn 99 0 0").replace("(insn 23 21 24", "(insn 23 0 0")
+        early = early.replace("(insn 99 0 0", "(insn 22 20 21")
+        lines = early.splitlines()
+        p2 = CK.Pass({"sched": SCHED1, "combine": "\n".join([lines[0], lines[3], lines[1], lines[2]])}, "sched", self.ROW)
+        self.assertEqual(CK.check_launched(p2, 20, gen.get, ret.get)[0], "REORDERABLE")   # 23 now below 22
+        self.assertIsNone(CK.check_launched(p, 21, gen.get, ret.get))                   # no inversion
+
+
 if __name__ == "__main__":
     unittest.main()

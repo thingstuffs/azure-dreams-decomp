@@ -253,8 +253,12 @@ PASS_SUFFIX = {
 }
 
 
-def dumps(row, text, want=None, timeout=None):
+def dumps(row, text, want=None, timeout=None, asm_names=False):
     """{'asm': ..., '<pass>': dump text} for `text` compiled as `row` with `-da`.
+
+    `asm_names=True` compiles with `-dap` instead: gcc annotates the first assembler line of every
+    insn with `# <uid> <pattern name>` (`final.c` flag_print_asm_name) - the uid -> assembly map
+    `why.py --trace --retail` and `checks.py` read.  The dumps themselves are unchanged.
 
     One compile gives every pass, so `why.py` never needs a second one for a second pass.  The
     compile runs inside a TemporaryDirectory, which `bootstrap()` has already placed inside the
@@ -285,7 +289,7 @@ def dumps(row, text, want=None, timeout=None):
                 return {"error": "module context changed during diagnostic compile; re-run"}
             if r.returncode:
                 return {"error": (r.stderr or r.stdout)[-800:]}
-            r = subprocess.run(NICE + [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-da",
+            r = subprocess.run(NICE + [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-dap" if asm_names else "-da",
                                        "-o", "f.s"], cwd=d, capture_output=True, text=True,
                                env=env, timeout=to)
             if stale_context():

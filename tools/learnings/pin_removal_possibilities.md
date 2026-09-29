@@ -94,3 +94,6 @@ dependencies, one-trip blocks, or unused declarations with no credible source ro
    make it opaque are imitating that, not scheduling.
 4. **Barrier rule.** Any asm-volatile pin makes every earlier insn a predecessor of every later one: residue insns it
    governs are inert to order experiments while it stands - erase it first or reason about the graph without it.
+
+All four run in one command: `tools/lanes/lanekit/checks.py <row> cand.c [--cfg CFG]` (a verdict and the evidence
+line per residue insn); `why.py --trace --block/--insn` and `why.py --deps` show the trace each verdict reads.

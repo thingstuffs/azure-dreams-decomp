@@ -63,6 +63,10 @@ Before writing a helper of your own, check this table - 26 lanes rebuilt the lis
 | the global-allocation priority table of one text | `python3 {kit}/prio.py <row> cand.c [--cfg CFG] [--all]` |
 | the REPORT.md table, from what was measured | `python3 {kit}/lab.py report` |
 | WHY the scheduler emitted that order | `python3 {kit}/why.py <row> --pass sched --around <var>` |
+| which pass the residue is: ORDER / COLOUR / OPCODE / COUNT per region | `python3 {kit}/diff.py <row> cand.c --scorer --classify [--cfg CFG]` |
+| one block tick by tick: ready lists, each pick's reason, uid -> retail word | `python3 {kit}/why.py <row> --pass sched2 --block <uid\\|bN\\|rN> --trace --variant cand.c [--retail] [--insn N] [--cfg CFG]` |
+| one insn's LOG_LINKS (kind) and the insns that depend on it | `python3 {kit}/why.py <row> --deps <uid> [--pass sched2] --variant cand.c [--cfg CFG]` |
+| the four proof checks, a verdict per residue insn (run BEFORE sweeping an axis) | `python3 {kit}/checks.py <row> cand.c [--cfg CFG]` |
 | WHY that variable got that register | `python3 {kit}/why.py <row> --pass greg --around <var>` |
 | WHY that constant stayed in the loop | `python3 {kit}/why.py <row> --pass loop` |
 | what changed at cse / combine / flow / jump | `python3 {kit}/why.py <row> --pass combine --around <var>` |

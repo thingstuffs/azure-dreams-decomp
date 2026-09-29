@@ -19,12 +19,13 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 |---|---|
 | `lab.py` | listing distance, pins left, byte score, and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell` |
 | `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |
-| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell) |
-| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff) |
+| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents |
+| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff; `--scorer --classify`: ORDER / COLOUR / OPCODE / COUNT per region) |
+| `checks.py` | the four proof checks (sole-ready, launched group, known-constant base, barrier): a verdict per residue insn |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
-| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py` | plumbing; you never call these |
+| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py` | plumbing; you never call these |
 
 ## Pin-removal source-shape possibilities
 
@@ -117,6 +118,7 @@ lab.test("narrow_param", text, note="s16 parameter", score=True)
 ```
 python3 .../diff.py <row> <cand.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
                     [--cfg CFG] [--scorer [--norm-regs]]
+python3 .../diff.py <row> cand.c --scorer --classify [--cfg CFG]
 python3 .../prio.py <row> <cand.c|pinned|erased> [--cfg CFG] [--top N] [--all]
 python3 .../dump.py <row> <cand.c|pinned|erased> <outdir> [--cfg CFG] [--pass sched|greg|lreg|loop|combine|cse|jump|all]
 ```
@@ -125,6 +127,13 @@ python3 .../dump.py <row> <cand.c|pinned|erased> <outdir> [--cfg CFG] [--pass sc
 scorer's retail-vs-generated disassembly diff (`-` retail, `+` generated; what `cdkdiff.py` / `sd.py` did)
 at the row's cfg or `--cfg`; **`--norm-regs`** first renames each side's registers by first appearance and
 masks branch targets, so a pure register renaming disappears and only real differences remain (`adiff.py`).
+
+**`--scorer --classify`** labels every differing region of the scorer's listing, with counts: **ORDER** (the
+same instruction, moved - identical text outside the LCS, paired nearest first), **COLOUR** (equal once the
+allocatable registers v/a/t/s/fp are renamed), **OPCODE** (a different instruction or constant) and
+**COUNT** (an insertion or deletion). It names the residue's pass before anything is swept: ORDER = a
+scheduler (`why.py --trace`), COLOUR = allocation (`why.py --pass greg`, `prio.py`), OPCODE = cse / combine /
+loop. An exact text prints "nothing to classify".
 
 **`prio.py`** prints, for ONE text at a cfg, the `global.c` allocation table in allocno order: pseudo,
 variable, refs, live length, calls crossed, `floor_log2(refs)`, the priority
@@ -167,6 +176,41 @@ python3 .../why.py <row> --pass sched|sched2|greg|lreg|loop|cse|cse2|combine|flo
 
 `--cfg CFG` compiles both texts at that cell (the round-80 `why_cfg.py` wrapper).
 
+**One text, one block, tick by tick** (round 80, `r80_fable_n1` read these by hand from the raw dump):
+
+```
+python3 .../why.py <row> --pass sched2 --block <N|bN|uN|rN> --trace [--variant F] [--cfg X] [--retail]
+python3 .../why.py <row> --pass sched2 --trace --insn 781 --variant cand.c [--block ...]
+python3 .../why.py <row> --deps 781 [--pass sched2] [--variant cand.c] [--cfg X]
+```
+
+* **`--trace`** compiles ONE text (`--variant`, default the erased text; `pinned` or a file) with `-dap` and
+  prints, for the block `--block` names, the table in emitted order - `pos` (forward position), uid, `src`
+  (INSN_LUID rank, from the previous pass's chain; `?` = not in that dump, e.g. prologue insns or sched1's
+  split insns), static `prio`/`refs`, the tick it became `ready`, the tick it was `picked` and `why` - then
+  every tick: the pick, its reason and the full ready list with dynamic priorities (`[launch U]` = a queue
+  release). Reasons: `sole` (the only ready insn: always issued), `priority` (tagged `[launched: birthing
+  boost]` in sched1 for `adjust_priority`'s 0x7f000001, `[tail: ...]` for the jump/call kept at the end),
+  `hazard` (`schedule_select`'s `greater potential hazard`, with what the sort had first), `LUID tie`
+  (equal priority, the higher LUID goes first: the statement-order lever), `class/stale-sort` (equal
+  priority but the LOWER LUID won: `rank_for_schedule`'s dependence class, whose cost is not in the dump, or
+  a list SCHED_SORT did not re-sort - the one checkable fact, whether the loser is a LOG_LINK of the
+  last-scheduled insn, is printed), `tie` (a LUID is unknown), `stall` (every ready insn blocked).
+* **`--block`**: plain `N` = an insn uid when some block holds it, else the basic block number (the header
+  says which reading it took); `bN` block number, `uN` uid, `rN` retail word index (scores the text).
+* **`--retail`** byte-scores the text and adds `gen` / `retail` columns: uid -> generated word (the `-dap`
+  `# <uid> <pattern>` annotations, aligned to the scorer's disassembly on mnemonic with li/la/symbolic
+  loads expanded - a model of the assembler whose coverage is printed; `-` = not placed) -> retail word (LCS,
+  moved instructions paired by identical text). On an exact text the scorer prints no listing and it says so.
+* **`--insn N`** narrows to one insn: its dependents (it becomes ready when the last of them is issued),
+  the tick it became ready, what it lost at each tick and why, and the tick it was picked.
+* **`--deps UID`** prints the insn's LOG_LINKS with their kind (true / anti / output) and the insns whose
+  LOG_LINKS name it (its `ref_count` owners), at `--pass` (default `sched2`; any pass dump works).
+
+Smoke (r80_fable_n1's 819B3414 `g_seed` at 2.7.2-cdk-G0): uid 781 -> gen [180] -> retail [172], ready from
+T-19 after 528, loses T-19 on priority, T-20 on `potential hazard` to 521, T-21..T-23 on priority, and at
+T-24 is `sole` - the report's whole mechanism, in one command.
+
 Two `-da` compiles (one per text; every pass comes out of each), then the decisions that differ:
 
 * **`sched` / `sched2`** - per basic block: each insn's `priority` and `ref_count`, the scheduler's
@@ -198,6 +242,31 @@ register (`$19`, `a0`), a bare pseudo number, `L<n>` for a source line (its vari
 comment is not), or an RTL substring. Mapping an assembly line back to RTL is **not** supported:
 name the register or the variable.
 
+## checks.py - the four proof checks, per residue insn
+
+```
+python3 .../checks.py <row> cand.c [--cfg CFG]
+```
+
+One `-dap` compile and one byte score of `cand.c` (at `--cfg`: nothing written), the residue classified as
+`diff.py --classify` does, and for every residue insn one verdict with the evidence line of each check that
+applies (`tools/learnings/pin_removal_possibilities.md`, "Proof checks"):
+
+| verdict | check | meaning |
+|---|---|---|
+| `OPAQUE-BASE` | (iii) | `ori` where retail has `addiu`, made by combine's PLUS->IOR on a pseudo with ONE set from a CONST_INT: the base must be opaque (multi-set, parameter, HIGH/load); order is irrelevant |
+| `BARRIER-GOVERNED` | (iv) | a volatile asm (`ASM_KEEP`, ...) shares the insn's sched2/sched1 block: order experiments are inert while it stands |
+| `NOT-REORDERABLE` | (i) / (ii) | sched2: retail has it earlier but it was issued as the lone ready insn or on priority; sched1: retail's "non-launched N after launched H" with no non-launched consumer of H below N and H not a load |
+| `REORDERABLE` | (i) / (ii) | the deciding pick was a LUID tie (or H has the consumer the rule needs) |
+| `UNKNOWN` | - | the dumps cannot decide: no uid (an assembler `nop`), COUNT/COLOUR residue, an unknown LUID, a hazard or class pick |
+
+The precedence is the table's order; every check's evidence is printed, so a `BARRIER-GOVERNED` insn also
+shows what (i)/(ii) would say once the barrier is gone. Directions use the drift of the nearest unmoved
+word, so an indel earlier in the function does not flip "earlier" and "later". Smoke: both r80_fable_n1 rows
+reproduce the report (819B3414 g_seed: 780/781 BARRIER-GOVERNED by ASM_KEEP uid 483, 781's (i) line = sole at
+T-24; 800AFA68 a_t2: (ii) NOT-REORDERABLE, consumers 30*/41* launched, 49 above 44; c_nokeep_noreg: 19
+OPAQUE-BASE `ori`s on pseudo 95 = 0x1f800000).
+
 ## Honest limits
 
 * `--score` runs `tools/verify.py`, which scores inside `build_ovl/`. That is the one sanctioned
@@ -209,6 +278,11 @@ name the register or the variable.
 * `why.py --pass sched` needs the two texts to have the same block count; when they do not, it says
   so and points at `--pass jump` / `--pass flow`, because the scheduler is then not the first
   difference.
+* The uid -> generated-word map (`--retail`, `checks.py`) is a mnemonic alignment of gcc's `-dap` assembly
+  against the scorer's disassembly with a small table of assembler macro expansions, not the assembler
+  itself; a word it cannot place prints `-` and a check without a retail position says `UNKNOWN`.
+* `--trace` reads gcc 2.6-2.8 `sched.c` commentary; the haifa scheduler of 2.91.66 / 2.95.2 prints another
+  format and the trace refuses rather than guesses.
 * `alloc_sim`'s `find_reg` model does not reproduce every disposition (30 of 38 on one smoke row).
   Read the `got` column, which is the dump.
 * `--pass greg` / `--pass lreg` need `alloc_sim.FIRST`'s FIRST_PSEUDO_REGISTER for the cell, which

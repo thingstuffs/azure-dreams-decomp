@@ -19,6 +19,12 @@ the BYTE scorer's diff instead of the cc1 listing: the generated | retail disass
 (or `--cfg`) - what `cdkdiff.py` / `sd.py` did in round 80.  `--norm-regs` renames the registers of
 each side by first appearance and masks branch targets before diffing, so a pure register renaming
 ($s1<->$s2 all through a function) vanishes and only the real differences stay (`adiff.py`).
+
+`--scorer --classify` prints, instead of the diff, every differing region of the scorer's listing with a
+label and counts: ORDER (the same instruction, moved: identical text outside the LCS, paired nearest
+first), COLOUR (equal once the allocatable registers v/a/t/s/fp are renamed: allocation), OPCODE (a
+different instruction or constant: cse/combine/loop territory) and COUNT (an insertion or deletion) -
+`retailmap.classify`, the r80_fable_n1 "which pass is the residue" answer for a foreign-cfg score.
 """
 from __future__ import annotations
 
@@ -108,6 +114,33 @@ def scorer_diff(text, ctx=3, norm_regs=False):
     return list(difflib.unified_diff(tgt, got, "retail", "generated", lineterm="", n=ctx))
 
 
+def _span(xs):
+    return "-" if not xs else "[%d]" % xs[0] if len(xs) == 1 else "[%d..%d]" % (xs[0], xs[-1])
+
+
+def classify_lines(text, cfg, name="candidate"):
+    """The `--classify` printout of one scorer text (pure: the tests feed it a fixture)."""
+    import retailmap as RM                                               # noqa: E402
+    rows = RM.scorer_rows(text)
+    if not rows:
+        return ["# %s at %s: the scorer printed no listing (exact, or no disassembly) - nothing to classify"
+                % (name, cfg)] + [l for l in (text or "").splitlines() if l.startswith(("MATCH", "NO MATCH"))][:1]
+    regions, tot = RM.classify(rows)
+    out = ["# residue of %s at %s: %s   (%d regions)" % (
+        name, cfg, ", ".join("%s %d" % (k, v) for k, v in tot.items()), len(regions))]
+    for r in regions:
+        out.append("")
+        out.append("region %d  gen %s  retail %s  %s  (%s)" % (
+            r["region"], _span(r["gen"]), _span(r["ret"]), r["label"],
+            ", ".join("%s %d" % (k, v) for k, v in r["counts"].items() if v)))
+        for x in r["items"]:
+            g = "-" if x["gen"] is None else "[%d]" % x["gen"]
+            t = "-" if x["ret"] is None else "[%d]" % x["ret"]
+            txt = x["got"] if x["kind"] == "ORDER" else "%s | %s" % (x["got"] or "", x["tgt"] or "")
+            out.append("   %-7s gen %-6s retail %-6s %s" % (x["kind"], g, t, txt))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
@@ -120,9 +153,13 @@ def main(argv=None):
                     help="print the byte scorer's retail-vs-generated disassembly diff (at --cfg) instead of the listing")
     ap.add_argument("--norm-regs", action="store_true",
                     help="--scorer: rename registers by first appearance + mask branch targets (pure renaming vanishes)")
+    ap.add_argument("--classify", action="store_true",
+                    help="--scorer: label each differing region ORDER / COLOUR / OPCODE / COUNT, with counts")
     a = ap.parse_args(argv)
     if a.norm_regs and not a.scorer:
         raise SystemExit("diff.py: --norm-regs applies to --scorer")
+    if a.classify and not a.scorer:
+        raise SystemExit("diff.py: --classify applies to --scorer")
 
     lane = kitlib.bootstrap()
     row = kitlib.row_of(a.row_id)
@@ -130,7 +167,13 @@ def main(argv=None):
         row = kitlib.row_at_cfg(row, a.cfg)
     ref_name, ref = text_of(a.vs, row, lane)
     cand_name, cand = text_of(a.candidate, row, lane)
-    if a.scorer:
+    if a.scorer and a.classify:
+        v = kitlib.score_at(row, cand, diff=True)
+        print("\n".join(classify_lines(v.get("text"), row["cfg"], cand_name)))
+        if not a.score:
+            return
+        lines, dist = [], None
+    elif a.scorer:
         v = kitlib.score_at(row, cand, diff=True)
         lines = scorer_diff(v.get("text"), a.ctx, a.norm_regs)
         print("# byte scorer at %s: - retail, + generated%s"

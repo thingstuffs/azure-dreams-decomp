@@ -107,14 +107,18 @@ def close_paren(s, i):
     return None
 
 
-def instructions(src, abstract=False):
+def instructions(src, abstract=False, modes=False):
     """Ordered pattern records, ignoring linkage UIDs/notes but retaining operands.
 
     Abstract signatures rename registers by first appearance over the whole
     stream. This is a useful negative control, not graph-isomorphism proof.
+    `modes=True` also reads insns printed with a mode, `(insn:HI 409 ...)` - reload marks them, so the
+    .greg and .sched2 dumps carry them; the default keeps the historical reading (they are skipped).
     """
     out, regs = [], {}
-    for m in re.finditer(r"^\((insn|jump_insn|call_insn)(?:/\w+)?\s+(\d+)\s+[-\d]+\s+[-\d]+\s+", src, re.M):
+    head = (r"^\((insn|jump_insn|call_insn)(?:[/:]\w+)*\s+(\d+)\s+[-\d]+\s+[-\d]+\s+" if modes else
+            r"^\((insn|jump_insn|call_insn)(?:/\w+)?\s+(\d+)\s+[-\d]+\s+[-\d]+\s+")
+    for m in re.finditer(head, src, re.M):
         a = m.end()
         if src[a:a + 1] != "(":
             continue
@@ -199,3 +203,97 @@ def diagnose(before, after):
         rec["inversions"] = pairs
         report["phases"][phase] = rec
     return report
+
+
+# ------------------------------------------------------------------ per-tick scheduler trace (lane kit)
+# gcc 2.x `sched.c` schedule_block prints, per basic block and BEFORE the function's RTL is dumped:
+#   ;;	 -- basic block number N from H to E --          ;; insn[ U]: priority = P, ref_count = R
+#   ;; launching U before L with no|K stalls at T-t        (U leaves the queue and joins the ready list)
+#   ;; ready list at T-t: U (hexprio) ...[, now U U ...]   (the list before SCHED_SORT, then the order after)
+#   ;; blocking insn U for K cycles                         (schedule_select queued U: a unit hazard)
+#   ;; insn U has a greater potential hazard, now U ...     (schedule_select moved U to the front)
+# The last `, now` of a tick is the final order and its first uid is the pick; a tick whose every ready
+# insn was blocked has no pick.  The block is scheduled BACKWARDS: T-1 is the block's last insn.
+
+_BLOCK_HEAD = re.compile(r"^;;\s+-- basic block number (\d+) from (\d+) to (\d+) --")
+_PRIO = re.compile(r"^;; insn\[\s*(\d+)\]: priority =\s*(-?\d+), ref_count =\s*(-?\d+)")
+_READY = re.compile(r"^;; ready list at T-(\d+):(.*)$")
+_BLOCKING = re.compile(r"^;; blocking insn (\d+) for (\d+) cycles(.*)$")
+_HAZARD = re.compile(r"^;; insn (\d+) has a greater potential hazard(.*)$")
+_LAUNCH = re.compile(r"^;; launching (\d+) before (\d+) with (no|\d+) stalls at T-(\d+)")
+_TOTAL = re.compile(r"^;; total time = (\d+)")
+LAUNCH_PRIORITY = 0x7f000001
+
+
+def _now(rest):
+    """`', now 1 2 3'` -> [1, 2, 3]; None when the line carries no `, now`."""
+    if ", now" not in rest:
+        return None
+    return [int(x) for x in rest.split(", now", 1)[1].split() if x.isdigit()]
+
+
+def block_traces(src):
+    """[{function, n, from, to, prio: {uid: (priority, ref_count)}, ticks, launches, total}] for every
+    scheduled block of a `.sched` / `.sched2` dump, in dump order.
+
+    A tick is {t, ready: [(uid, dynamic priority)] as printed before SCHED_SORT, sorted: SCHED_SORT's
+    order when schedule_select printed a later one (else None), now: the final order, pick: its first
+    uid (None when every ready insn was blocked), blocked: [(uid, cycles)], hazard: uid or None,
+    launched: [(uid, stalls)] (queue releases printed just before this tick)}."""
+    out, blk, func, tick, pending = [], None, None, None, []
+    for line in src.splitlines():
+        m = re.match(r";; Function (\S+)", line)
+        if m:
+            func, blk, tick = m[1], None, None
+            continue
+        m = _BLOCK_HEAD.match(line)
+        if m:
+            blk = {"function": func, "n": int(m[1]), "from": int(m[2]), "to": int(m[3]), "prio": {},
+                   "ticks": [], "launches": [], "total": None}
+            out.append(blk)
+            tick, pending = None, []
+            continue
+        if blk is None or not line.startswith(";;"):
+            continue
+        m = _PRIO.match(line)
+        if m:
+            blk["prio"][int(m[1])] = (int(m[2]), int(m[3]))
+            continue
+        m = _LAUNCH.match(line)
+        if m:
+            rec = {"uid": int(m[1]), "before": int(m[2]), "stalls": 0 if m[3] == "no" else int(m[3]),
+                   "t": int(m[4])}
+            blk["launches"].append(rec)
+            pending.append((rec["uid"], rec["stalls"]))
+            continue
+        m = _READY.match(line)
+        if m:
+            body = m[2].split(", now", 1)[0]
+            tick = {"t": int(m[1]), "ready": [(int(u), int(p, 16)) for u, p in
+                                              re.findall(r"(\d+) \(([0-9a-f]+)\)", body)],
+                    "sorted": None, "now": _now(m[2]), "pick": None, "blocked": [], "hazard": None,
+                    "launched": pending}
+            pending = []
+            blk["ticks"].append(tick)
+            continue
+        m = _TOTAL.match(line)
+        if m:
+            blk["total"] = int(m[1])
+            continue
+        if tick is None:
+            continue
+        m = _BLOCKING.match(line)
+        if m:
+            tick["blocked"].append((int(m[1]), int(m[2])))
+            if _now(m[3]) is not None:
+                tick["sorted"], tick["now"] = tick["now"], _now(m[3])
+            continue
+        m = _HAZARD.match(line)
+        if m:
+            tick["hazard"] = int(m[1])
+            if _now(m[2]) is not None:
+                tick["sorted"], tick["now"] = tick["now"], _now(m[2])
+    for b in out:
+        for t in b["ticks"]:
+            t["pick"] = t["now"][0] if t["now"] else None
+    return out

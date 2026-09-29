@@ -52,6 +52,18 @@ supported: name the register or the variable instead.
 
 Texts: `--vs` is the reference (default `pinned`, the row's own text) and `--variant` the subject
 (default `erased`, every pin erased).  Either may be a path to a candidate `.c`.
+
+ONE text (`--variant`), one `-dap` compile (round 80, the r80_fable_n1 harvest):
+
+    why.py <row> --pass sched2 --block <N|bN|uN|rN> --trace [--variant F] [--cfg X] [--retail] [--insn N]
+    why.py <row> --deps <uid> [--pass sched2] [--variant F] [--cfg X]
+
+`--trace` prints one block's priority/ref_count table in emitted order and, tick by tick, the ready list
+with dynamic priorities and WHY the pick won (sole / priority [launched, tail] / hazard / LUID tie /
+class/stale-sort / tie / stall); `--insn N` only that insn's history (ready when, lost to whom and why,
+picked when); `--retail` byte-scores the text and adds uid -> generated word -> retail word.  `--block N` is
+a uid when a block holds it, else a block number; `bN` block, `uN` uid, `rN` retail word.  `--deps` prints
+an insn's LOG_LINKS with their kind and the insns that depend on it.
 """
 from __future__ import annotations
 
@@ -85,13 +97,14 @@ def anon(pat, table):
     return PSEUDO_RE.sub(sub, pat)
 
 
-def insns_of(dump):
-    """[{uid, kind, pattern, links, anon}] for a `-da` dump, in the order the dump prints them."""
+def insns_of(dump, modes=False):
+    """[{uid, kind, pattern, links, anon}] for a `-da` dump, in the order the dump prints them.
+    `modes=True` also reads reload's `(insn:HI N ...)` (the --trace/--deps/checks paths use it)."""
     kitlib.add_paths()
     from sched_trace import instructions                                 # noqa: E402
     table = {}
     out = []
-    for rec in instructions(dump):
+    for rec in instructions(dump, modes=modes):
         rec = dict(rec)
         rec["anon"] = anon(rec["pattern"], table)
         out.append(rec)
@@ -170,7 +183,7 @@ def sched_blocks(dump):
 PRE_PASS = {"sched": "combine", "sched2": "greg"}      # the pass whose chain order sets INSN_LUID
 
 
-def pre_order(d, phase):
+def pre_order(d, phase, modes=False):
     """{uid: position} from the dump of the pass BEFORE this scheduler runs.
 
     `sched.c` assigns INSN_LUID by walking the insn chain at pass entry, and that chain order is
@@ -180,7 +193,7 @@ def pre_order(d, phase):
     src = d.get(PRE_PASS.get(phase, ""))
     if not src:
         return None
-    return {x["uid"]: i for i, x in enumerate(insns_of(src))}
+    return {x["uid"]: i for i, x in enumerate(insns_of(src, modes))}
 
 
 def explain_sched(a, b, names, around, phase, top):
@@ -481,6 +494,341 @@ def explain_diff(a, b, names, around, phase, top, context):
     return out
 
 
+# ------------------------------------------------------------ one block, tick by tick (--trace)
+
+LAUNCH_BITS = 0x7f000000        # sched.c: LAUNCH_PRIORITY 0x7f000001, TAIL_PRIORITY 0x7ffffffe - i
+
+
+def fmt_prio(p):
+    return "%#x" % p if p is not None and p >= LAUNCH_BITS else str(p)
+
+
+def boost_tag(uid, prio, recs, phase):
+    """' [launched: birthing boost]' / ' [tail: kept at block end]' / '' for a dynamic priority.
+
+    `adjust_priority` gives a birthing insn (a single-set register it makes live, sched1 only:
+    `reload_completed` turns it off) `max_priority` = MAX(prio(ready[0]), LAUNCH_PRIORITY) - so a
+    launched insn can inherit a TAIL value while a jump/call is still ready.  The kind decides."""
+    if prio is None or not prio & LAUNCH_BITS:
+        return ""
+    rec = recs.get(uid) or {}
+    if rec.get("kind") in ("jump_insn", "call_insn") or rec.get("pattern", "").startswith("(use"):
+        return " [tail: kept at block end]"
+    return " [launched: birthing boost]" if phase == "sched" else " [high priority]"
+
+
+def is_launched(uid, prio, recs, phase):
+    return phase == "sched" and "launched" in boost_tag(uid, prio, recs, phase)
+
+
+def pick_reason(tick, luid, recs, links_of, last, phase):
+    """(label, detail) - why `tick['pick']` was chosen, from the tick's own lines.
+
+    Labels: sole, priority, hazard (schedule_select), LUID tie, class/stale-sort, stall (all blocked),
+    tie (an insn of the tie is not in the previous pass's dump, so its LUID is not known).
+    `class/stale-sort`: equal priority, no hazard line, and the pick has the LOWER LUID - either
+    rank_for_schedule's class rule (a ready insn that the last-scheduled insn depends on with a cost > 1
+    ranks below the others; the cost is not in the dump) or a list SCHED_SORT did not re-sort (it sorts
+    only when two or more insns joined).  The one checkable fact - is the loser a LOG_LINK of the
+    last-scheduled insn? - is printed; nothing more is claimed."""
+    pick = tick["pick"]
+    pr = dict(tick["ready"])
+    blocked = dict(tick["blocked"])
+    bl = ("; blocked: " + ", ".join("%d for %d" % b for b in tick["blocked"])) if blocked else ""
+    if pick is None:
+        return "stall", "every ready insn was blocked by a unit hazard - nothing issues this tick" + bl
+    others = [u for u in pr if u != pick and u not in blocked]
+    if not others:
+        return "sole", "the only ready insn - sched.c always issues it" + bl
+    top = max(pr[u] for u in others)
+    if pr[pick] > top:
+        return "priority", "%s > %s (%s)%s%s" % (
+            fmt_prio(pr[pick]), fmt_prio(top), ",".join(str(u) for u in others if pr[u] == top),
+            boost_tag(pick, pr[pick], recs, phase), bl)
+    ties = [u for u in others if pr[u] == pr[pick]]
+    if not ties:
+        return "unexplained", "a lower priority than %s was issued - read the raw lines" % fmt_prio(top)
+    if tick["hazard"] == pick:
+        was = (tick["sorted"] or [None])[0]
+        return "hazard", "equal priority %s with %s; schedule_select: `insn %d has a greater potential " \
+                         "hazard`%s%s" % (fmt_prio(pr[pick]), ",".join(map(str, ties)), pick,
+                                          " (the sort had %s first)" % was if was not in (None, pick) else "", bl)
+    unknown = [u for u in ties + [pick] if u not in luid]
+    if unknown:
+        return "tie", "equal priority %s with %s; INSN_LUID unknown for %s (not in the .%s dump - " \
+                      "prologue/epilogue insns are emitted after it), so the tie rule cannot be read" % (
+                          fmt_prio(pr[pick]), ",".join(map(str, ties)), ",".join(map(str, unknown)),
+                          PRE_PASS.get(phase, "?"))
+    higher = [u for u in ties if luid[u] > luid[pick]]
+    if not higher:
+        return "LUID tie", "equal priority %s with %s; the higher INSN_LUID (later in the chain) goes " \
+                           "first%s" % (fmt_prio(pr[pick]), ",".join(map(str, ties)), bl)
+    fed = [u for u in higher if last is not None and u in {k for k, _ in links_of.get(last, [])}]
+    return "class/stale-sort", "equal priority %s, but %s has a higher LUID; %s%s" % (
+        fmt_prio(pr[pick]), ",".join(map(str, higher)),
+        "%s is a LOG_LINK of the last-scheduled %d (class rule, cost > 1 if it is a load)" % (
+            ",".join(map(str, fed)), last) if fed else
+        "no loser is a LOG_LINK of the last-scheduled insn %s (stale sort order?)" % last, bl)
+
+
+def loss_reason(tick, uid, luid):
+    """Why `uid`, ready at this tick, lost to the pick."""
+    pr, win = dict(tick["ready"]), tick["pick"]
+    if uid in dict(tick["blocked"]):
+        return "blocked for %d cycles (function-unit hazard)" % dict(tick["blocked"])[uid]
+    if win is None:
+        return "nothing issued (stall)"
+    if pr[win] > pr[uid]:
+        return "priority %s > %s" % (fmt_prio(pr[win]), fmt_prio(pr[uid]))
+    if tick["hazard"] == win:
+        return "potential hazard (equal priority %s)" % fmt_prio(pr[uid])
+    if win not in luid or uid not in luid:
+        return "tie (equal priority; INSN_LUID unknown for %s)" % ",".join(str(u) for u in (win, uid) if u not in luid)
+    if luid[win] > luid[uid]:
+        return "LUID tie (equal priority; %d is later in the chain)" % win
+    return "class/stale-sort (equal priority; %d has the LOWER LUID)" % win
+
+
+def dependents(recs):
+    """{uid: [(dependent uid, kind)]} - the insns whose LOG_LINKS name each insn (its ref_count owners)."""
+    out = collections.defaultdict(list)
+    for r in recs.values():
+        for k, t in r.get("links", []):
+            out[k].append((r["uid"], t))
+    return out
+
+
+def dep_kind(t):
+    return {"true": "true", "REG_DEP_ANTI": "anti", "REG_DEP_OUTPUT": "output"}.get(t, t)
+
+
+def pick_ticks(blk):
+    return {t["pick"]: t["t"] for t in blk["ticks"] if t["pick"] is not None}
+
+
+def block_positions(blk):
+    """{uid: forward position in the block} - the picks, reversed (the block is filled from its end)."""
+    picks = [t["pick"] for t in blk["ticks"] if t["pick"] is not None]
+    return {u: len(picks) - 1 - i for i, u in enumerate(picks)}
+
+
+def main_function(blocks, row):
+    """The blocks of the row's function (a text with static helpers dumps several functions)."""
+    funcs = [b["function"] for b in blocks]
+    names = {row.get("func"), row.get("true_name")}
+    pick = next((f for f in reversed(funcs) if f in names), funcs[-1] if funcs else None)
+    return [b for b in blocks if b["function"] == pick], sorted(set(funcs) - {pick}, key=str)
+
+
+def resolve_block(blocks, spec, ret_to_uid=None):
+    """(block, reading) for `--block`: `b<N>` block number, `u<N>` uid, `r<N>` retail word index,
+    plain N = a uid when some block's priority table holds it, else the block number."""
+    s = spec.strip().lower()
+    by_uid = {u: b for b in blocks for u in b["prio"]}
+    for b in blocks:                      # insns without a priority line (priority 0) still appear in ticks
+        for t in b["ticks"]:
+            for u, _ in t["ready"]:
+                by_uid.setdefault(u, b)
+    def by_n(n):
+        hit = [b for b in blocks if b["n"] == n]
+        if not hit:
+            raise SystemExit("why: no basic block number %d (blocks %s)" % (n, ", ".join(str(b["n"]) for b in blocks)))
+        return hit[0]
+    m = re.fullmatch(r"([bur]?)(\d+)", s)
+    if not m:
+        raise SystemExit("why: --block takes N, bN (block number), uN (insn uid) or rN (retail word index)")
+    kind, n = m.group(1), int(m.group(2))
+    if kind == "b":
+        return by_n(n), "basic block number %d" % n
+    if kind == "u" or (kind == "" and n in by_uid):
+        if n not in by_uid:
+            raise SystemExit("why: no scheduled block holds insn uid %d" % n)
+        return by_uid[n], "insn uid %d" % n
+    if kind == "r":
+        if ret_to_uid is None:
+            raise SystemExit("why: --block r%d needs the retail map, and the scorer printed no listing "
+                             "(the variant is exact: retail index == generated index). Give a uid or bN." % n)
+        uid = ret_to_uid.get(n)
+        if uid is None or uid not in by_uid:
+            raise SystemExit("why: retail word [%d] maps to no scheduled insn of this text (%s)"
+                             % (n, "uid %s" % uid if uid is not None else "unplaced or retail-only"))
+        return by_uid[uid], "retail word [%d] = insn uid %d" % (n, uid)
+    return by_n(n), "no insn uid %d; read as basic block number %d" % (n, n)
+
+
+def explain_trace(d, phase, blk, recs, luid, where, insn=None, retail=None):
+    """The block's table and its ticks (or one insn's history with `insn`)."""
+    links_of = {u: r.get("links", []) for u, r in recs.items()}
+    deps = dependents(recs)
+    picks = pick_ticks(blk)
+    pos = block_positions(blk)
+    first_ready = {}
+    for t in blk["ticks"]:
+        for u, _ in t["ready"]:
+            first_ready.setdefault(u, t["t"])
+    uids = sorted(set(blk["prio"]) | set(picks), key=lambda u: pos.get(u, 10 ** 6))
+    src = {u: i for i, u in enumerate(sorted((u for u in uids if u in luid), key=luid.get))}
+    by_uid, gen_ret = (retail or {}).get("by_uid", {}), (retail or {}).get("gen_ret", {})
+
+    def gen_of(u):
+        g = by_uid.get(u)
+        return None if not g else g[0]
+
+    def ret_of(u):
+        g = gen_of(u)
+        return None if g is None else gen_ret.get(g)
+
+    reasons, last = {}, None
+    for t in blk["ticks"]:                              # T-1 first: the order sched.c ran
+        if t["pick"] is not None:
+            reasons[t["pick"]] = pick_reason(t, luid, recs, links_of, last, phase)
+            last = t["pick"]
+    out = ["# block %d (%s .. %s) of %s: %d insns, %d ticks - %s"
+           % (blk["n"], blk["from"], blk["to"], blk["function"], len(uids), blk["total"] or 0, where),
+           "# the block is scheduled BACKWARDS: T-1 issues its LAST insn; `pos` is the forward position."]
+    if retail:
+        out.append("# retail map: %s" % retail["note"])
+    body = []
+    for u in uids:
+        if insn is not None and u != insn:
+            continue
+        pr, rc = blk["prio"].get(u, (None, None))
+        rec = recs.get(u, {})
+        lab = reasons.get(u, ("-", ""))[0]
+        g, r = gen_of(u), ret_of(u)
+        row = [pos.get(u, "-"), u, src.get(u, "?"), fmt_prio(pr), rc,
+               "T-%d" % first_ready[u] if u in first_ready else "-",
+               "T-%d" % picks[u] if u in picks else "-", lab]
+        if retail:
+            row += ["-" if g is None else g, "-" if r is None else r]
+        row.append(short(rec.get("pattern", "?"), 60))
+        body.append(row)
+    head = ["pos", "uid", "src", "prio", "refs", "ready", "picked", "why"] + (["gen", "retail"] if retail else []) + ["insn"]
+    out.append(kitlib.fmt_table(head, body))
+    out.append("   `src` = INSN_LUID rank in the block (chain order the previous pass left; `?` = not in that "
+               "dump); `prio`/`refs` = sched.c's static table; `ready` = first tick on the ready list.")
+    if insn is None:
+        out.append("")
+        out.append("## ticks")
+        for t in blk["ticks"]:
+            lab, why = pick_reason(t, luid, recs, links_of, None, phase) if t["pick"] is None else reasons[t["pick"]]
+            ready = " ".join("%d(%s)" % (u, fmt_prio(p)) for u, p in t["ready"])
+            extra = "".join(" [launch %d%s]" % (u, " +%d stalls" % s if s else "") for u, s in t["launched"])
+            out.append("T-%-3d %-6s %-16s %s" % (t["t"], t["pick"] if t["pick"] is not None else "-", lab, why))
+            out.append("       ready: %s%s" % (ready, extra))
+        return out
+    # one insn's history
+    out.append("")
+    out.append("## insn %d: %s" % (insn, short(recs.get(insn, {}).get("pattern", "?"), 110)))
+    succ = [(v, dep_kind(k), picks.get(v)) for v, k in deps.get(insn, [])]
+    if succ:
+        out.append("   its dependents (it becomes ready when the last of these is scheduled): " +
+                   ", ".join("%d %s%s" % (v, k, " @T-%d" % p if p else " (other block)") for v, k, p in succ))
+    launches = [l for l in blk["launches"] if l["uid"] == insn]
+    for l in launches:
+        out.append("   queued, then launched before %d at T-%d%s" % (l["before"], l["t"],
+                   " after %d stalls" % l["stalls"] if l["stalls"] else ""))
+    seen = False
+    for t in blk["ticks"]:
+        pr = dict(t["ready"])
+        if insn not in pr:
+            continue
+        if not seen:
+            within = [p for v, _, p in succ if p is not None]
+            out.append("   ready from T-%d%s" % (t["t"], " (last dependent picked at T-%d)" % max(within) if within else ""))
+            seen = True
+        if t["pick"] == insn:
+            lab, why = reasons[insn]
+            out.append("   T-%-3d PICKED  %s: %s" % (t["t"], lab, why))
+            break
+        out.append("   T-%-3d lost to %s: %s" % (t["t"], t["pick"] if t["pick"] is not None else "nothing (stall)", loss_reason(t, insn, luid)))
+    if not seen:
+        out.append("   never on a ready list of this block")
+    return out
+
+
+def explain_deps(d, phase, uid, prio=None):
+    """LOG_LINKS of one insn (with dependence kind) and the insns that depend on it."""
+    recs = {x["uid"]: x for x in insns_of(d[phase], True)}
+    if uid not in recs:
+        raise SystemExit("why: no insn uid %d in the .%s dump" % (uid, phase))
+    rec = recs[uid]
+    out = ["insn %d (%s): %s" % (uid, rec["kind"], short(rec["pattern"], 110))]
+    if prio:
+        out.append("   sched.c: priority %s, ref_count %s" % (fmt_prio(prio[0]), prio[1]))
+    out.append("")
+    out.append("depends on (its LOG_LINKS in the .%s dump):" % phase)
+    rows_ = [[k, dep_kind(t), short(recs[k]["pattern"], 80) if k in recs else "(not in this dump)"]
+             for k, t in rec.get("links", [])]
+    out.append(kitlib.fmt_table(["uid", "kind", "insn"], rows_) if rows_ else "   (none)")
+    out.append("")
+    out.append("depended on by (insns whose LOG_LINKS name %d - its ref_count owners):" % uid)
+    rows_ = [[v, dep_kind(t), short(recs[v]["pattern"], 80)] for v, t in dependents(recs).get(uid, [])]
+    out.append(kitlib.fmt_table(["uid", "kind", "insn"], rows_) if rows_ else "   (none)")
+    return out
+
+
+def retail_for(row, text, asm):
+    """{by_uid, gen_ret, note} - uid -> generated words -> retail words, or None on an exact text."""
+    import retailmap as RM                                               # noqa: E402
+    v = kitlib.score_at(row, text, diff=True)
+    rows_ = RM.scorer_rows(v.get("text"))
+    if not rows_:
+        return None
+    gen = [(i, g) for i, g, _ in rows_ if g]
+    by_uid, by_gen, cov = RM.uid_map(asm, gen)
+    m, _regions, moved = RM.align(rows_)
+    return {"by_uid": by_uid, "by_gen": by_gen, "gen_ret": m, "moved": moved, "rows": rows_,
+            "note": "%d of %d predicted words placed on %d generated words (the `-dap` assembly aligned "
+                    "on mnemonic; `-` = not placed); gen -> retail by LCS + moved identical instructions"
+                    % cov}
+
+
+def run_single(a, row, lane, base):
+    """--trace / --block / --insn / --deps: one text, one compile."""
+    text, name = resolve_text(a.variant, row, lane, base)
+    d = kitlib.dumps(row, text, asm_names=True)
+    if d.get("error"):
+        raise SystemExit("why: %s does not build: %s" % (name, d["error"]))
+    phase = a.phase or "sched2"
+    if phase not in d:
+        raise SystemExit("why: this recipe produced no .%s dump" % phase)
+    kitlib.add_paths()
+    import sched_trace                                                   # noqa: E402
+    print("# why %s  --pass %s  %s   (%s, recipe %s)" % (row["id"], phase, "--deps %d" % a.deps if a.deps is not None
+          else "--trace", name, row["cfg"]))
+    blocks, others = main_function(sched_trace.block_traces(d[phase]), row) if phase in ("sched", "sched2") else ([], [])
+    if others:
+        print("# (the dump also schedules %s; only %s is read)" % (", ".join(others), blocks[0]["function"]))
+    if a.deps is not None:
+        prio = next((b["prio"][a.deps] for b in blocks if a.deps in b["prio"]), None)
+        print("\n".join(explain_deps(d, phase, a.deps, prio)))
+        return
+    if phase not in ("sched", "sched2"):
+        raise SystemExit("why: --trace reads the scheduler: --pass sched or sched2")
+    if not blocks:
+        raise SystemExit("why: the .%s dump carries no `;; ready list` commentary (haifa-sched cells, 2.91.66/"
+                         "2.95.2, print another format); use --pass %s without --trace" % (phase, phase))
+    retail = retail_for(row, text, d["asm"]) if (a.retail or (a.block or "").lower().startswith("r")) else None
+    if (a.retail or (a.block or "").lower().startswith("r")) and retail is None:
+        print("# retail map: the scorer printed no listing for %s (exact at %s) - generated == retail" % (name, row["cfg"]))
+    ret_to_uid = None
+    if retail:
+        inv = {r: g for g, r in retail["gen_ret"].items()}
+        ret_to_uid = {r: retail["by_gen"].get(g) for r, g in inv.items()}
+    if a.block:
+        blk, where = resolve_block(blocks, a.block, ret_to_uid)
+    else:
+        blk, where = resolve_block(blocks, "u%d" % a.insn)
+    recs = {x["uid"]: x for x in insns_of(d[phase], True)}
+    luid = pre_order(d, phase, True) or {u: u for u in recs}
+    if pre_order(d, phase, True) is None:
+        print("# NOTE: no .%s dump: LUID = uid order (approximate)" % PRE_PASS[phase])
+    if a.insn is not None and a.insn not in blk["prio"] and not any(a.insn == u for t in blk["ticks"] for u, _ in t["ready"]):
+        raise SystemExit("why: insn %d is not in block %d" % (a.insn, blk["n"]))
+    print("\n".join(explain_trace(d, phase, blk, recs, luid, where, a.insn, retail)))
+
+
 # ---------------------------------------------------------------------------------------- CLI
 
 def resolve_text(spec, row, lane, base):
@@ -497,20 +845,36 @@ def resolve_text(spec, row, lane, base):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
-    ap.add_argument("--pass", dest="phase", required=True, choices=PASSES)
+    ap.add_argument("--pass", dest="phase", choices=PASSES,
+                    help="required, except with --deps (default sched2)")
     ap.add_argument("--variant", default="erased", help="the subject text (default: all pins erased)")
     ap.add_argument("--vs", default="pinned", help="the reference text (default: the row's pinned text)")
     ap.add_argument("--around", help="variable name, $reg, pseudo number, L<line> or an RTL substring")
     ap.add_argument("--top", type=int, default=12, help="most blocks/rows/hunks to print")
     ap.add_argument("--context", type=int, default=2, help="insns of context in a pass diff")
     ap.add_argument("--cfg", help="compile both texts as if the row were registered at this cfg (no ledger write)")
+    ap.add_argument("--trace", action="store_true",
+                    help="sched/sched2, ONE text (--variant): one block's table and every tick's pick + reason")
+    ap.add_argument("--block", help="the block to trace: N (a uid, else a block number), bN, uN, rN (retail word)")
+    ap.add_argument("--insn", type=int, help="with --trace: only this insn's history (ready, losses, pick)")
+    ap.add_argument("--retail", action="store_true",
+                    help="with --trace: byte-score the text and add uid -> generated -> retail word columns")
+    ap.add_argument("--deps", type=int, metavar="UID",
+                    help="ONE text (--variant): this insn's LOG_LINKS (kind) and its dependents, at --pass")
     a = ap.parse_args()
+    single = a.trace or a.block or a.insn is not None or a.deps is not None
+    if not a.phase and a.deps is None:
+        ap.error("--pass is required (except with --deps)")
+    if single and a.deps is None and a.block is None and a.insn is None:
+        ap.error("--trace needs --block (N, bN, uN or rN) or --insn")
 
     lane = kitlib.bootstrap()
     row = kitlib.row_of(a.row_id)
     if a.cfg:
         row = kitlib.row_at_cfg(row, a.cfg)
     base = kitlib.base_text(row, lane)
+    if single:
+        return run_single(a, row, lane, base)
     ta, na = resolve_text(a.vs, row, lane, base)
     tb, nb = resolve_text(a.variant, row, lane, base)
     names = (na, nb)
