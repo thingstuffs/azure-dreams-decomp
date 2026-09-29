@@ -445,8 +445,7 @@ start_sequence:
             }
             {
                 coord_delta = 8;
-                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ASM_SCHED_BARRIER();
+                state = ((S_800253C0_0 *)sequence)->unk_9B.n;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
             goto store_next_state;
