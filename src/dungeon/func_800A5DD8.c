@@ -66,95 +66,78 @@ s32 func_800AB538(void *animation_data, void *motion_data, void *scale_data, voi
     s32 next_state;
 
     state = ((S_800AB538_0 *)animation)->unk_9B;
-    if (state == 1) {
-        goto state_1;
-    }
-    if ((s32)state >= 2) {
-        goto state_ge_2;
-    }
-    if (state == 0) {
-        goto state_0;
-    }
-    return 0;
-
-state_ge_2:
-    if (state == 2) {
-        goto state_2;
-    }
-    return 0;
-
-state_0:
-    ((S_800AB538_0 *)animation)->unk_96.s = 0x10;
-    ((S_800AB538_1 *)render)->unk_1C &= 0xFFFBFFFF;
-    (*(u16 *)((u8 *)animation + 0x98)) |= 8;
-    if (D_80013714 & 2) {
-        ((S_800AB538_0 *)animation)->unk_9B = 2;
-        return 0;
-    }
-    ((S_800AB538_1 *)render)->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
-    next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
-    goto increment_state;
-
-state_1:
-    move_frames = ((S_800AB538_0 *)animation)->unk_96.s - 2;
-    if (move_frames > 0) {
-        u8 *target = D_80083780;
-
-        (*(s32 *)((u8 *)motion + 0xC)) =
-            ((((S_800AB538_2 *)target)->unk_02.s - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
-        ((S_800AB538_3 *)motion)->unk_10 =
-            ((((S_800AB538_2 *)target)->unk_06.s - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
-            (((S_800AB538_0 *)animation)->unk_96.s - 2);
-    } else {
-        u8 *target = D_80083780;
-
-        (*(s32 *)((u8 *)motion + 0x10)) = 0;
-        (*(s32 *)((u8 *)motion + 0xC)) = 0;
-        (*(u16 *)((u8 *)motion + 2)) = ((S_800AB538_2 *)target)->unk_02.u;
-        ((S_800AB538_3 *)motion)->unk_06.u = ((S_800AB538_2 *)target)->unk_06.u;
-    }
-
-    frames_left = ((S_800AB538_0 *)animation)->unk_96.s;
-    if (frames_left != 0) {
-        height_offset = func_800644B8(frames_left << 6);
-        {
-            s16 *target_height = &D_8008378A;
-
-            height_offset >>= 4;
-            ((S_800AB538_3 *)motion)->unk_14 =
-                ((*target_height - height_offset - ((S_800AB538_3 *)motion)->unk_0A.s) << 16) /
-                ((S_800AB538_0 *)animation)->unk_96.s;
+    switch (state) {
+    case 0:
+        ((S_800AB538_0 *)animation)->unk_96.s = 0x10;
+        ((S_800AB538_1 *)render)->unk_1C &= 0xFFFBFFFF;
+        (*(u16 *)((u8 *)animation + 0x98)) |= 8;
+        if (D_80013714 & 2) {
+            ((S_800AB538_0 *)animation)->unk_9B = 2;
+            return 0;
         }
-    }
-
-    scale_value = ((S_800AB538_4 *)scale)->unk_1C - ((S_800AB538_1 *)render)->unk_8A;
-    ((S_800AB538_4 *)scale)->unk_1C = scale_value;
-    ((S_800AB538_4 *)scale)->unk_1E = scale_value;
-
-    frames_left = ((S_800AB538_0 *)animation)->unk_96.u - 1;
-    ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
-    if (frames_left < 0) {
-        (*(s32 *)((u8 *)motion + 0x14)) = 0;
-        ((S_800AB538_1 *)render)->unk_88 = (u16)D_8008378A;
-        ((S_800AB538_3 *)motion)->unk_0A.u = (u16)D_8008378A;
-        ((S_800AB538_0 *)animation)->unk_92 = 0;
+        ((S_800AB538_1 *)render)->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
         next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
+        goto increment_state;
+    case 1:
+        move_frames = ((S_800AB538_0 *)animation)->unk_96.s - 2;
+        if (move_frames > 0) {
+            u8 *target = D_80083780;
+
+            (*(s32 *)((u8 *)motion + 0xC)) =
+                ((((S_800AB538_2 *)target)->unk_02.s - ((S_800AB538_3 *)motion)->unk_02) << 16) / move_frames;
+            ((S_800AB538_3 *)motion)->unk_10 =
+                ((((S_800AB538_2 *)target)->unk_06.s - ((S_800AB538_3 *)motion)->unk_06.s) << 16) /
+                (((S_800AB538_0 *)animation)->unk_96.s - 2);
+        } else {
+            u8 *target = D_80083780;
+
+            (*(s32 *)((u8 *)motion + 0x10)) = 0;
+            (*(s32 *)((u8 *)motion + 0xC)) = 0;
+            (*(u16 *)((u8 *)motion + 2)) = ((S_800AB538_2 *)target)->unk_02.u;
+            ((S_800AB538_3 *)motion)->unk_06.u = ((S_800AB538_2 *)target)->unk_06.u;
+        }
+
+        frames_left = ((S_800AB538_0 *)animation)->unk_96.s;
+        if (frames_left != 0) {
+            height_offset = func_800644B8(frames_left << 6);
+            {
+                s16 *target_height = &D_8008378A;
+
+                height_offset >>= 4;
+                ((S_800AB538_3 *)motion)->unk_14 =
+                    ((*target_height - height_offset - ((S_800AB538_3 *)motion)->unk_0A.s) << 16) /
+                    ((S_800AB538_0 *)animation)->unk_96.s;
+            }
+        }
+
+        scale_value = ((S_800AB538_4 *)scale)->unk_1C - ((S_800AB538_1 *)render)->unk_8A;
+        ((S_800AB538_4 *)scale)->unk_1C = scale_value;
+        ((S_800AB538_4 *)scale)->unk_1E = scale_value;
+
+        frames_left = ((S_800AB538_0 *)animation)->unk_96.u - 1;
+        ((S_800AB538_0 *)animation)->unk_96.s = frames_left;
+        if (frames_left < 0) {
+            (*(s32 *)((u8 *)motion + 0x14)) = 0;
+            ((S_800AB538_1 *)render)->unk_88 = (u16)D_8008378A;
+            ((S_800AB538_3 *)motion)->unk_0A.u = (u16)D_8008378A;
+            ((S_800AB538_0 *)animation)->unk_92 = 0;
+            next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
 increment_state:
-        ((S_800AB538_0 *)animation)->unk_9B = next_state;
+            ((S_800AB538_0 *)animation)->unk_9B = next_state;
+            return 0;
+        }
         return 0;
+    case 2:
+        ((S_800AB538_4 *)scale)->unk_1E = 0;
+        ((S_800AB538_4 *)scale)->unk_1C = 0;
+
+        {
+            s32 flags = ((S_800AB538_1 *)render)->unk_1C;
+
+            flags |= 0x800000;
+            ((S_800AB538_1 *)render)->unk_1C = flags;
+        }
+        break;
     }
-    goto return_zero;
-
-state_2:
-    ((S_800AB538_4 *)scale)->unk_1E = 0;
-    ((S_800AB538_4 *)scale)->unk_1C = 0;
-
-    {
-        s32 flags = ((S_800AB538_1 *)render)->unk_1C;
-
-        flags |= 0x800000;
-        ((S_800AB538_1 *)render)->unk_1C = flags;
-    }
-return_zero:
     return 0;
 }

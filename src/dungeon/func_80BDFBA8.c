@@ -166,110 +166,102 @@ void func_801533A8(void *entity, EntityRec *motion, void *sprite)
                 if (adjustment < height_offset) {
                     adjustment = entity_flags - 8;
                     (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
-                    goto finish_motion;
+                } else {
+                    adjustment = height_offset < -8;
+                    if (adjustment != 0) {
+                        adjustment = entity_flags + 8;
+                        (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+                    }
                 }
-                goto adjust_positive;
             }
-            goto finish_motion;
-        }
-
-        adjustment = (*(s32 *)((u8 *)entity + 0xA4));
-        height_fixed = (*(s32 *)((u8 *)entity + 0x90));
-        height_flags = (*(u16 *)((u8 *)entity + 0x98));
-        (*(s16 *)((u8 *)entity + 0xB8)) = 0;
-        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-        height_fixed += adjustment;
-        (*(s32 *)((u8 *)entity + 0x90)) = height_fixed;
-        height_offset = height_flags & 8;
-        if (height_offset == 0) {
-            floor_height = func_800BCB04(((u16)motion->x.w.i),
-                                  ((u16)motion->y.w.i),
-                                  (s16)(((S_801533A8_2 *)entity_base)->unk_88 - 0x20)) -
-                    ((S_801533A8_2 *)entity_base)->unk_88;
-            if (floor_height < (*(s16 *)((u8 *)entity + 0x92))) {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor_height;
-                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                motion->flags14 = 0;
-                ((S_801533A8_2 *)entity_base)->unk_1C |= 0x08000000;
-                goto finish_motion;
-            }
-        }
-        goto finish_motion;
-    }
-
-    if (initial_sprite_flags & 0x800) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags & 0x8FFF;
-    } else {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
-    }
-    ((S_801533A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-    entity_flags = ((S_801533A8_2 *)entity_base)->unk_1C;
-
-    if (!(entity_flags & 0x40000)) {
-        adjustment = (*(s32 *)((u8 *)entity + 0xA4));
-        height_fixed = (*(s32 *)((u8 *)entity + 0x90));
-        height_flags = (*(u16 *)((u8 *)entity + 0x98));
-        (*(s16 *)((u8 *)entity + 0xB8)) = 0;
-        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-        height_fixed -= adjustment;
-        (*(s32 *)((u8 *)entity + 0x90)) = height_fixed;
-        height_offset = height_flags & 8;
-        if (height_offset == 0) {
-            floor_height = func_800BCB04(((u16)motion->x.w.i),
-                                  ((u16)motion->y.w.i),
-                                  (s16)(((S_801533A8_2 *)entity_base)->unk_88 - 0x20)) -
-                    ((S_801533A8_2 *)entity_base)->unk_88;
-            if (floor_height < (*(s16 *)((u8 *)entity + 0x92))) {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor_height;
-                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                motion->flags14 = 0;
-                ((S_801533A8_2 *)entity_base)->unk_1C |= 0x08000000;
-                goto finish_motion;
-            }
-        }
-        goto finish_motion;
-    }
-
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
-        u8 *direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
-
-        if (direction_frames == D_80156634) {
-            (*(s32 *)((u8 *)entity + 0xAC)) = 0;
-            goto clear_amount;
-        }
-        if (direction_frames == D_80156644 || direction_frames == D_8015666C) {
-            (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
-            if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
-                (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-            }
-        } else if (direction_frames != D_80156654 && direction_frames != D_8015665C &&
-                   direction_frames != D_80156664) {
-clear_amount:
-            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-        }
-    }
-
-    adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;
-    if (adjustment == 0) {
-        height_offset = (*(s16 *)((u8 *)entity + 0x92));
-        entity_flags = (*(u16 *)((u8 *)entity + 0x92));
-        if (adjustment < height_offset) {
-            adjustment = entity_flags - 8;
-            (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
-            goto store_adjustment_done;
-        }
-adjust_positive:
-        adjustment = height_offset < -8;
-        if (adjustment != 0) {
-            adjustment = entity_flags + 8;
         } else {
-            goto finish_motion;
+
+            adjustment = (*(s32 *)((u8 *)entity + 0xA4));
+            height_fixed = (*(s32 *)((u8 *)entity + 0x90));
+            height_flags = (*(u16 *)((u8 *)entity + 0x98));
+            (*(s16 *)((u8 *)entity + 0xB8)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+            height_fixed += adjustment;
+            (*(s32 *)((u8 *)entity + 0x90)) = height_fixed;
+            height_offset = height_flags & 8;
+            if (height_offset == 0) {
+                floor_height = func_800BCB04(((u16)motion->x.w.i),
+                                      ((u16)motion->y.w.i),
+                                      (s16)(((S_801533A8_2 *)entity_base)->unk_88 - 0x20)) -
+                        ((S_801533A8_2 *)entity_base)->unk_88;
+                if (floor_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->flags14 = 0;
+                    ((S_801533A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                }
+            }
         }
-        (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
-        store_adjustment_done:
-        ;
+    } else {
+        if (initial_sprite_flags & 0x800) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags & 0x8FFF;
+        } else {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
+        }
+        ((S_801533A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
+        entity_flags = ((S_801533A8_2 *)entity_base)->unk_1C;
+
+        if (!(entity_flags & 0x40000)) {
+            adjustment = (*(s32 *)((u8 *)entity + 0xA4));
+            height_fixed = (*(s32 *)((u8 *)entity + 0x90));
+            height_flags = (*(u16 *)((u8 *)entity + 0x98));
+            (*(s16 *)((u8 *)entity + 0xB8)) = 0;
+            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+            height_fixed -= adjustment;
+            (*(s32 *)((u8 *)entity + 0x90)) = height_fixed;
+            height_offset = height_flags & 8;
+            if (height_offset == 0) {
+                floor_height = func_800BCB04(((u16)motion->x.w.i),
+                                      ((u16)motion->y.w.i),
+                                      (s16)(((S_801533A8_2 *)entity_base)->unk_88 - 0x20)) -
+                        ((S_801533A8_2 *)entity_base)->unk_88;
+                if (floor_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->flags14 = 0;
+                    ((S_801533A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
+                u8 *direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
+
+                if (direction_frames == D_80156634) {
+                    (*(s32 *)((u8 *)entity + 0xAC)) = 0;
+                    (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+                } else if (direction_frames == D_80156644 || direction_frames == D_8015666C) {
+                    (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
+                    if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                        (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+                    }
+                } else if (direction_frames != D_80156654 && direction_frames != D_8015665C &&
+                           direction_frames != D_80156664) {
+                    (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+                }
+            }
+
+            adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;
+            if (adjustment == 0) {
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
+                entity_flags = (*(u16 *)((u8 *)entity + 0x92));
+                if (adjustment < height_offset) {
+                    adjustment = entity_flags - 8;
+                    (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+                } else {
+                    adjustment = height_offset < -8;
+                    if (adjustment != 0) {
+                        adjustment = entity_flags + 8;
+                        (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+                    }
+                }
+            }
+        }
     }
-finish_motion:
     entity_flags = ((S_801533A8_2 *)entity_base)->unk_1C;
     if (entity_flags & 0x40000000) {
         ((S_801533A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;

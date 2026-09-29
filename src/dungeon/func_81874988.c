@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 
 typedef struct {
     s16 m[3][3];
@@ -167,130 +166,118 @@ void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
     texture = ((S_81874988_3 *)material)->unk_08;
     ((S_81874988_0 *)scratch)->unk_28 = ((S_81874988_3 *)material)->unk_14;
 
-    if (texture[0] & 0x20) {
-        goto callback_tail;
-    }
+    if (!(texture[0] & 0x20)) {
+        ((S_81874988_0 *)scratch)->unk_0C = texture[8];
+        ((S_81874988_0 *)scratch)->unk_10 = texture[9];
+        ((S_81874988_0 *)scratch)->unk_14 = texture[0xA];
+        ((S_81874988_0 *)scratch)->unk_18 = texture[0xB];
 
-    ((S_81874988_0 *)scratch)->unk_0C = texture[8];
-    ((S_81874988_0 *)scratch)->unk_10 = texture[9];
-    ((S_81874988_0 *)scratch)->unk_14 = texture[0xA];
-    ((S_81874988_0 *)scratch)->unk_18 = texture[0xB];
+        ((S_81874988_0 *)scratch)->unk_B0 = ((S_81874988_4 *)quad)->unk_50;
+        ((S_81874988_0 *)scratch)->unk_B8 = ((S_81874988_4 *)quad)->unk_52;
+        ((S_81874988_0 *)scratch)->unk_C0 = ((S_81874988_4 *)quad)->unk_54;
+        ((S_81874988_0 *)scratch)->unk_C8 = ((S_81874988_4 *)quad)->unk_56;
+        ((S_81874988_0 *)scratch)->unk_B2 = ((S_81874988_4 *)quad)->unk_58;
+        ((S_81874988_0 *)scratch)->unk_BA = ((S_81874988_4 *)quad)->unk_5A;
+        ((S_81874988_0 *)scratch)->unk_C2 = ((S_81874988_4 *)quad)->unk_5C;
+        ((S_81874988_0 *)scratch)->unk_CA = ((S_81874988_4 *)quad)->unk_5E;
+        ((S_81874988_0 *)scratch)->unk_B4 = ((S_81874988_4 *)quad)->unk_60;
+        ((S_81874988_0 *)scratch)->unk_BC = ((S_81874988_4 *)quad)->unk_62;
+        ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)quad)->unk_64;
+        ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)quad)->unk_66;
 
-    ((S_81874988_0 *)scratch)->unk_B0 = ((S_81874988_4 *)quad)->unk_50;
-    ((S_81874988_0 *)scratch)->unk_B8 = ((S_81874988_4 *)quad)->unk_52;
-    ((S_81874988_0 *)scratch)->unk_C0 = ((S_81874988_4 *)quad)->unk_54;
-    ((S_81874988_0 *)scratch)->unk_C8 = ((S_81874988_4 *)quad)->unk_56;
-    ((S_81874988_0 *)scratch)->unk_B2 = ((S_81874988_4 *)quad)->unk_58;
-    ((S_81874988_0 *)scratch)->unk_BA = ((S_81874988_4 *)quad)->unk_5A;
-    ((S_81874988_0 *)scratch)->unk_C2 = ((S_81874988_4 *)quad)->unk_5C;
-    ((S_81874988_0 *)scratch)->unk_CA = ((S_81874988_4 *)quad)->unk_5E;
-    ((S_81874988_0 *)scratch)->unk_B4 = ((S_81874988_4 *)quad)->unk_60;
-    ((S_81874988_0 *)scratch)->unk_BC = ((S_81874988_4 *)quad)->unk_62;
-    ((S_81874988_0 *)scratch)->unk_C4 = ((S_81874988_4 *)quad)->unk_64;
-    ((S_81874988_0 *)scratch)->unk_CC = ((S_81874988_4 *)quad)->unk_66;
+        depth_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
+                              scratch + 0xC0, scratch + 0xC8,
+                              packet + 8, packet + 0x10,
+                              packet + 0x18, packet + 0x20,
+                              scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+        ((S_81874988_0 *)scratch)->unk_100 = depth_index;
 
-    depth_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                          scratch + 0xC0, scratch + 0xC8,
-                          packet + 8, packet + 0x10,
-                          packet + 0x18, packet + 0x20,
-                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
-    ((S_81874988_0 *)scratch)->unk_100 = depth_index;
+        if ((u32)depth_index < 0x1E0) {
+            if (
+                    (((u16)(((S_81874988_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
+                     ((u16)(((S_81874988_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
+                    (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
+                     ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
+                    (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
+                     ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
+                    (((u16)(((S_81874988_5 *)packet)->unk_20.u + 0x20) < 0x181) &&
+                     ((u16)(((S_81874988_5 *)packet)->unk_22.u + 0x20) < 0x121))
+                ) {
+                ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
+                ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
+                ((S_81874988_3 *)material)->unk_14 &= 0x7FFF;
 
-    if ((u32)depth_index >= 0x1E0) {
-        goto done;
-    }
-    if (
-            (((u16)(((S_81874988_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
-             ((u16)(((S_81874988_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
-            (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
-             ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
-            (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
-             ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
-            (((u16)(((S_81874988_5 *)packet)->unk_20.u + 0x20) < 0x181) &&
-             ((u16)(((S_81874988_5 *)packet)->unk_22.u + 0x20) < 0x121))
-        ) {
-        goto visible;
-    }
-    goto done;
+                ((S_81874988_0 *)scratch)->unk_14 += ((S_81874988_0 *)scratch)->unk_0C;
+                if (((S_81874988_0 *)scratch)->unk_14 & 0x100) {
+                    ((S_81874988_0 *)scratch)->unk_14--;
+                }
+                ((S_81874988_0 *)scratch)->unk_18 += ((S_81874988_0 *)scratch)->unk_10;
+                if (((S_81874988_0 *)scratch)->unk_18 & 0x100) {
+                    ((S_81874988_0 *)scratch)->unk_18--;
+                }
+                ((S_81874988_0 *)scratch)->unk_10 <<= 8;
+                ((S_81874988_0 *)scratch)->unk_18 <<= 8;
 
-visible:
-    ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
-    ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
-    ((S_81874988_3 *)material)->unk_14 &= 0x7FFF;
+                tex_adjust = ((S_81874988_3 *)material)->unk_12;
+                if (tex_adjust) {
+                    if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
+                        ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
+                    } else {
+                        tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
+                        (*(u16 *)((u8 *)packet + 0xE)) = tex_attr;
+                    }
+                } else {
+                    (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
+                }
 
-    ((S_81874988_0 *)scratch)->unk_14 += ((S_81874988_0 *)scratch)->unk_0C;
-    if (((S_81874988_0 *)scratch)->unk_14 & 0x100) {
-        ((S_81874988_0 *)scratch)->unk_14--;
-    }
-    ((S_81874988_0 *)scratch)->unk_18 += ((S_81874988_0 *)scratch)->unk_10;
-    if (((S_81874988_0 *)scratch)->unk_18 & 0x100) {
-        ((S_81874988_0 *)scratch)->unk_18--;
-    }
-    ((S_81874988_0 *)scratch)->unk_10 <<= 8;
-    ((S_81874988_0 *)scratch)->unk_18 <<= 8;
+                (*(u16 *)((u8 *)packet + 0xC)) = (*(u16 *)(scratch + 0x10)) +
+                                          (*(u16 *)(scratch + 0xC));
+                ((S_81874988_5 *)packet)->unk_14.u16 = (*(u16 *)(scratch + 0x10)) +
+                                           (*(u16 *)(scratch + 0x14));
 
-    tex_adjust = ((S_81874988_3 *)material)->unk_12;
-    if (tex_adjust) {
-        if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
-            ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
-            goto after_texattr;
+                tex_adjust = ((S_81874988_3 *)material)->unk_10;
+                if (tex_adjust) {
+                    (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
+                                   ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
+                } else {
+                    (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
+                }
+
+                ((S_81874988_5 *)packet)->unk_1C.at00.v = (*(u16 *)(scratch + 0x18)) +
+                                           (*(u16 *)(scratch + 0xC));
+                ((S_81874988_5 *)packet)->unk_24.at00.v = (*(u16 *)(scratch + 0x18)) +
+                                           (*(u16 *)(scratch + 0x14));
+
+                if (((S_81874988_5 *)packet)->unk_08.s > ((S_81874988_5 *)packet)->unk_20.s) {
+                    ((S_81874988_5 *)packet)->unk_14.u8--;
+                    ((S_81874988_5 *)packet)->unk_24.at00u.v--;
+                }
+                if (((S_81874988_5 *)packet)->unk_0A.s > ((S_81874988_5 *)packet)->unk_22.s) {
+                    ((S_81874988_5 *)packet)->unk_1C.at01.v--;
+                    ((S_81874988_5 *)packet)->unk_24.at01.v--;
+                }
+
+                tex_flags = texture[1];
+                ((S_81874988_3 *)material)->unk_0C.at03.v = tex_flags;
+                draw_flags = ((S_81874988_0 *)scratch)->unk_28;
+                if (draw_flags & 8) {
+                    ((S_81874988_3 *)material)->unk_0C.at03.v = (draw_flags & 4) ?
+                        (tex_flags | 2) : (tex_flags & 0xFD);
+                }
+
+                ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)material)->unk_0C.at00.v;
+                ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
+                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
+                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                    ((u32)packet & 0x00FFFFFF);
+            }
         }
-        tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
-        (*(u16 *)((u8 *)packet + 0xE)) = tex_attr;
     } else {
-        (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
+        callback = (*(Callback *)((u8 *)texture + 8));
+        if (callback != 0) {
+            callback(quad, position, material, texture);
+        }
     }
-after_texattr:
-
-    (*(u16 *)((u8 *)packet + 0xC)) = VFIELD(scratch, u16, 0x10) +
-                              VFIELD(scratch, u16, 0xC);
-    ((S_81874988_5 *)packet)->unk_14.u16 = VFIELD(scratch, u16, 0x10) +
-                               VFIELD(scratch, u16, 0x14);
-
-    tex_adjust = ((S_81874988_3 *)material)->unk_10;
-    if (tex_adjust) {
-        (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
-                       ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
-    } else {
-        (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
-    }
-
-    ((S_81874988_5 *)packet)->unk_1C.at00.v = VFIELD(scratch, u16, 0x18) +
-                               VFIELD(scratch, u16, 0xC);
-    ((S_81874988_5 *)packet)->unk_24.at00.v = VFIELD(scratch, u16, 0x18) +
-                               VFIELD(scratch, u16, 0x14);
-
-    if (((S_81874988_5 *)packet)->unk_08.s > ((S_81874988_5 *)packet)->unk_20.s) {
-        ((S_81874988_5 *)packet)->unk_14.u8--;
-        ((S_81874988_5 *)packet)->unk_24.at00u.v--;
-    }
-    if (((S_81874988_5 *)packet)->unk_0A.s > ((S_81874988_5 *)packet)->unk_22.s) {
-        ((S_81874988_5 *)packet)->unk_1C.at01.v--;
-        ((S_81874988_5 *)packet)->unk_24.at01.v--;
-    }
-
-    tex_flags = texture[1];
-    ((S_81874988_3 *)material)->unk_0C.at03.v = tex_flags;
-    draw_flags = ((S_81874988_0 *)scratch)->unk_28;
-    if (draw_flags & 8) {
-        ((S_81874988_3 *)material)->unk_0C.at03.v = (draw_flags & 4) ?
-            (tex_flags | 2) : (tex_flags & 0xFD);
-    }
-
-    ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)material)->unk_0C.at00.v;
-    ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
-        ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
-    (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
-        ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
-        ((u32)packet & 0x00FFFFFF);
-    goto done;
-
-callback_tail:
-    callback = (*(Callback *)((u8 *)texture + 8));
-    if (callback != 0) {
-        callback(quad, position, material, texture);
-    }
-
-done:
     func_80064A40();
 }

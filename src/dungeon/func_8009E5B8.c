@@ -76,100 +76,72 @@ void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
     special_score = 0x100;
     base = candidate;
 
-    if ((s16)score_limit >= 0) {
-        goto nonnegative;
-    }
-    best_score = -score_limit;
-    goto initial;
-
-set_special:
-    special = candidate;
-    special_score = 1;
-    goto done;
-
-nonnegative:
-    best_score = 0x100;
-    if (((S_800A3D18_0 *)owner_arg)->unk_26 < 0) {
-        best_score = score_limit;
+    if ((s16)score_limit < 0) {
+        best_score = -score_limit;
+    } else {
+        best_score = 0x100;
+        if (((S_800A3D18_0 *)owner_arg)->unk_26 < 0) {
+            best_score = score_limit;
+        }
     }
 
-initial:
     next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
     candidate = (u8 *)next_link + 0x20;
-    if (candidate == base) {
-        goto done;
-    }
-    global_page = (u8 *)0x800e0000;
-
-do {
-    void *next_link;
-    if ((s16)func_800A2CB8(base, candidate) == 0) {
-        goto advance;
-    }
-    if ((s16)func_800A41F0(candidate) == 0) {
-        goto advance;
-    }
-
-    candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
-    if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
-        score = func_8009FD40(candidate_owner, owner_arg);
-        if ((s16)score >= best_score) {
-            goto advance;
+    if (candidate != base) {
+        global_page = (u8 *)0x800e0000;
+        while (candidate != base) {
+            void *next_link;
+            if ((s16)func_800A2CB8(base, candidate) != 0 && (s16)func_800A41F0(candidate) != 0) {
+                candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
+                if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
+                    score = func_8009FD40(candidate_owner, owner_arg);
+                    if ((s16)score < best_score) {
+                        if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+                            special = candidate;
+                            special_score = score;
+                        } else {
+                            best = candidate;
+                            best_score = score;
+                        }
+                    }
+                } else if ((s16)func_8009FE94(((S_800A3D18_0 *)owner_arg)->unk_24,
+                                              ((S_800A3D18_0 *)owner_arg)->unk_25,
+                                              base->unk_88,
+                                              candidate_owner->unk_24,
+                                              candidate_owner->unk_25,
+                                              ((S_800A3D18_1 *)candidate)->unk_88) != 0) {
+                    if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
+                        special = candidate;
+                        special_score = 1;
+                    } else {
+                        best = candidate;
+                        best_score = 1;
+                    }
+                    break;
+                }
+            }
+            next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
+            candidate = (u8 *)next_link + 0x20;
         }
-        if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
-            special = candidate;
-            special_score = score;
-        } else {
-            best = candidate;
-            best_score = score;
-        }
-        goto advance;
     }
 
-    if ((s16)func_8009FE94(((S_800A3D18_0 *)owner_arg)->unk_24,
-                           ((S_800A3D18_0 *)owner_arg)->unk_25,
-                           base->unk_88,
-                           candidate_owner->unk_24,
-                           candidate_owner->unk_25,
-                           ((S_800A3D18_1 *)candidate)->unk_88) == 0) {
-        goto advance;
-    }
-    if (candidate == ((S_800A3D18_3 *)global_page)->unk_3D7C) {
-        goto set_special;
-    }
-    best = candidate;
-    best_score = 1;
-    goto done;
-
-advance:
-    next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
-    candidate = (u8 *)next_link + 0x20;
-    } while (candidate != base);
-
-done:
     if (special == 0) {
         return best;
     }
     if (best == 0) {
         best = special;
-        goto out;
-    }
-    special_cmp = (s16)special_score;
-    best_cmp = (s16)best_score;
-    if (special_cmp == best_cmp) {
-        if (((S_800A3D18_5 *)best)->unk_1C & 8) {
+    } else {
+        special_cmp = (s16)special_score;
+        best_cmp = (s16)best_score;
+        if (special_cmp == best_cmp) {
+            if (((S_800A3D18_5 *)best)->unk_1C & 8) {
+                best = special;
+            } else if (!((((EntityRec *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
+                best = special;
+            }
+        } else if (special_cmp < best_cmp) {
             best = special;
-            goto out;
         }
-        if ((((EntityRec *)((u8 *)D_800E3D7C))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3) {
-            goto out;
-        }
-        best = special;
-        goto out;
-    } else if (special_cmp < best_cmp) {
-        best = special;
     }
-
-out:
     return best;
 }

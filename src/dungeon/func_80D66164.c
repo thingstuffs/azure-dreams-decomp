@@ -163,78 +163,77 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
             height_adjust = -0x20;
             height = *(s16 *)((u8 *)object_arg + 0x92);
-            part_flags = *(volatile u16 *)((u8 *)object_arg + 0x92);
+            part_flags = *(u16 *)((u8 *)object_arg + 0x92);
             if (height_adjust < height) {
                 height_adjust = part_flags - 8;
                 *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
-                goto common_tail;
+            } else {
+                height_adjust = height < -0x28;
+                if (height_adjust) {
+                    height_adjust = part_flags + 8;
+                    *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+                }
             }
-            goto raise_floor;
         }
-        goto common_tail;
-    }
-
-    if (part_flags & 0x800) {
-        ((S_80171964_1 *)part_arg)->unk_14 = part_flags & 0x8FFF;
     } else {
-        ((S_80171964_1 *)part_arg)->unk_14 = part_flags | 0x7000;
-    }
-    flags = ((S_80171964_2 *)base)->unk_1C.u;
-    flags &= 0xF7FFFFFF;
-    ((S_80171964_2 *)base)->unk_1C.u = flags;
-    flags &= 0x40000;
-    if (!flags) {
-clear_velocity:
-        bob_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
-        (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
-        (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
-        (*(s32 *)((u8 *)object_arg + (0x90))) -= bob_offset;
-        if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
-            ground_height = func_800BCB04(((S_80171964_0 *)motion_arg)->unk_00.at02.v,
-                                  ((S_80171964_0 *)motion_arg)->unk_04.at02.v,
-                                  (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
-                    ((S_80171964_2 *)base)->unk_88;
-            if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
-                (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
-                (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
-                ((S_80171964_0 *)motion_arg)->unk_14 = 0;
-                ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
-                goto common_tail;
-            }
-        }
-        goto common_tail;
-    }
-
-    if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
-        ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
-        if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
-            (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
-        }
-        {
-            u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
-
-            (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
-            (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
-        }
-    }
-    if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
-        height_adjust = -0x20;
-        height = *(s16 *)((u8 *)object_arg + 0x92);
-        part_flags = *(volatile u16 *)((u8 *)object_arg + 0x92);
-        if (height_adjust < height) {
-            height_adjust = part_flags - 8;
-            *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+        if (part_flags & 0x800) {
+            ((S_80171964_1 *)part_arg)->unk_14 = part_flags & 0x8FFF;
         } else {
-raise_floor:
-            height_adjust = height < -0x28;
-            if (height_adjust) {
-                height_adjust = part_flags + 8;
-                *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+            ((S_80171964_1 *)part_arg)->unk_14 = part_flags | 0x7000;
+        }
+        flags = ((S_80171964_2 *)base)->unk_1C.u;
+        flags &= 0xF7FFFFFF;
+        ((S_80171964_2 *)base)->unk_1C.u = flags;
+        flags &= 0x40000;
+        if (!flags) {
+clear_velocity:
+            bob_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= bob_offset;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                ground_height = func_800BCB04(((S_80171964_0 *)motion_arg)->unk_00.at02.v,
+                                      ((S_80171964_0 *)motion_arg)->unk_04.at02.v,
+                                      (s16)(((S_80171964_2 *)base)->unk_88 - 0x20)) -
+                        ((S_80171964_2 *)base)->unk_88;
+                if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
+                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    ((S_80171964_0 *)motion_arg)->unk_14 = 0;
+                    ((S_80171964_2 *)base)->unk_1C.u |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(((S_80171964_1 *)part_arg)->unk_14 & 0x40) &&
+                ((S_80171964_1 *)part_arg)->unk_2C == D_800E2348) {
+                if (((S_80171964_1 *)part_arg)->unk_04.u16 == 0x400) {
+                    (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+                }
+                {
+                    u16 bob_frame = (*(u16 *)((u8 *)object_arg + (0x9E)));
+
+                    (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_frame + 1;
+                    (*(s32 *)((u8 *)object_arg + (0xA0))) = -func_800644B8((s16)bob_frame * 0xC3) << 7;
+                }
+            }
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                height_adjust = -0x20;
+                height = *(s16 *)((u8 *)object_arg + 0x92);
+                part_flags = *(u16 *)((u8 *)object_arg + 0x92);
+                if (height_adjust < height) {
+                    height_adjust = part_flags - 8;
+                    *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+                } else {
+                    height_adjust = height < -0x28;
+                    if (height_adjust) {
+                        height_adjust = part_flags + 8;
+                        *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
+                    }
+                }
             }
         }
     }
 
-common_tail:
     flags = ((S_80171964_2 *)base)->unk_1C.u;
     if (flags & 0x40000000) {
         ((S_80171964_2 *)base)->unk_1C.u = flags & 0xBFFFFFFF;

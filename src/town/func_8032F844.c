@@ -142,16 +142,8 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                         group_entry = (void *)(group_bits & 0x7E0);
                         group_bank = ((S_8001A044_1 *)group_bank)->unk_00;
                         group_entry = (void *)((u32)group_entry + (u32)group_bank);
-                        if (((S_8001A044_2 *)group_entry)->unk_0A != 0) {
+                        if (((S_8001A044_2 *)group_entry)->unk_0A != 0 || bank_bits != 0) {
                             record = (void *)((u32)(record_index * 0x1C) + (u32)records);
-                            goto process_record;
-                        }
-                        if (bank_bits != 0) {
-                            record = (void *)((u32)(record_index * 0x1C) + (u32)records);
-                            goto process_record;
-                        }
-                        goto advance_record;
-                process_record:
                             if (record->unk_08 != 0) {
                                 ((S_8001A044_10 *)(((S_8001A044_0 *)data_page)->unk_6000))->unk_14 = record_index;
                                 variant_index = func_80019F94(record, group_bits);
@@ -174,7 +166,7 @@ void func_8001A044(s32 *records, void *ost_w, void *osel_w)
                                 p = func_8001976C(p,
                                     (void *)direct_record->unk_10, 0, record_index);
                             }
-                advance_record:
+                        }
                         record_index += 1;
                         scaled_index = record_index * 8;
             } while (*(s32 *)(((scaled_index - record_index) * 4) + (u8 *)records) != 0);

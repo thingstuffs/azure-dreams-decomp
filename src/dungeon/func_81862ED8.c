@@ -151,9 +151,68 @@ s32 func_800246D8(void *line)
     case 3:
     case 4:
     case 5:
-        goto case_early;
+        {
+            s32 x0;
+            s32 mask;
+            s32 y0;
+            s32 z0;
+            s32 step_x;
+            s32 step_y;
+            s32 end_z;
+
+            delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+
+            y0 = ((S_800246D8_0 *)scratch)->unk_66;
+            mask = 0xFFFF0000;
+            step_x = (delta.word & mask) >> 16;
+            delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
+            delta.word &= mask;
+            ((S_800246D8_0 *)scratch)->unk_6C = x0 + step_x;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+
+            end_z = ((S_800246D8_0 *)scratch)->unk_70;
+            z0 = ((S_800246D8_0 *)scratch)->unk_68;
+            step_y = delta.half.high;
+            delta.half.high = end_z - z0;
+            delta.word &= mask;
+            ((S_800246D8_0 *)scratch)->unk_6E = y0 + step_y;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
+            z0 += delta.half.high;
+            ((S_800246D8_0 *)scratch)->unk_70 = z0;
+        }
+        {
+            s32 level;
+
+            mask_or_phase = ((S_800246D8_3 *)line_or_red)->unk_10;
+            multiplier = 15;
+            level = mask_or_phase + 1;
+            line_or_red = (u8 *)(level * multiplier);
+            multiplier = 23;
+            y = level * multiplier;
+            level = 0x40;
+            ((S_800246D8_2 *)packet)->unk_04 = level;
+            ((S_800246D8_2 *)packet)->unk_05 = level;
+            ((S_800246D8_2 *)packet)->unk_06 = level;
+            level -= (7 - mask_or_phase) * 8;
+            multiplier = (s32)line_or_red + 0x40;
+            ((S_800246D8_2 *)packet)->unk_0D = level;
+            ((S_800246D8_2 *)packet)->unk_0C = multiplier;
+            multiplier = y + 0x40;
+            ((S_800246D8_2 *)packet)->unk_0E = multiplier;
+        }
+        break;
     case 6:
-        goto case_middle;
+        ((S_800246D8_2 *)packet)->unk_04 = 0x40;
+        ((S_800246D8_2 *)packet)->unk_05 = 0x40;
+        ((S_800246D8_2 *)packet)->unk_06 = 0x40;
+        ((S_800246D8_2 *)packet)->unk_0C = 0x7F;
+        ((S_800246D8_2 *)packet)->unk_0D = 0;
+        ((S_800246D8_2 *)packet)->unk_0E = 0xFF;
+        break;
     case 7:
     case 8:
     case 9:
@@ -162,133 +221,63 @@ s32 func_800246D8(void *line)
     case 12:
     case 13:
     case 14:
-        goto case_late;
-    default:
-        goto shared;
+        {
+            s32 x0;
+            s32 mask;
+            s32 y0;
+            s32 z0;
+            s32 step_x;
+            s32 step_y;
+            s32 end_z;
+
+            delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+
+            y0 = ((S_800246D8_0 *)scratch)->unk_66;
+            mask = 0xFFFF0000;
+            step_x = (delta.word & mask) >> 16;
+            delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
+            delta.word &= mask;
+            ((S_800246D8_0 *)scratch)->unk_64 = x0 + step_x;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+
+            end_z = ((S_800246D8_0 *)scratch)->unk_70;
+            z0 = ((S_800246D8_0 *)scratch)->unk_68;
+            step_y = delta.half.high;
+            delta.half.high = end_z - z0;
+            delta.word &= mask;
+            ((S_800246D8_0 *)scratch)->unk_66 = y0 + step_y;
+            delta.word >>= 3;
+            delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
+            z0 += delta.half.high;
+            ((S_800246D8_0 *)scratch)->unk_68 = z0;
+        }
+        {
+            s32 k;
+            s32 k23;
+
+            y = ((S_800246D8_3 *)line_or_red)->unk_10;
+            k = 15;
+            mask_or_phase = y - 7;
+            line_or_red = (u8 *)(mask_or_phase * k);
+            k23 = 23;
+            mask_or_phase *= k23;
+            ((S_800246D8_2 *)packet)->unk_0D = 0;
+            ((S_800246D8_2 *)packet)->unk_05 = (k - y) * 8;
+            multiplier = 0x7F;
+            ((S_800246D8_2 *)packet)->unk_0C = multiplier;
+            multiplier = 0xFF;
+            ((S_800246D8_2 *)packet)->unk_0E = multiplier;
+            multiplier = (s32)line_or_red + 0x40;
+            ((S_800246D8_2 *)packet)->unk_04 = multiplier;
+            multiplier = mask_or_phase + 0x40;
+            ((S_800246D8_2 *)packet)->unk_06 = multiplier;
+        }
+        break;
     }
 
-case_early:
-    {
-        s32 x0;
-        s32 mask;
-        s32 y0;
-        s32 z0;
-        s32 step_x;
-        s32 step_y;
-        s32 end_z;
-
-        delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
-
-        y0 = ((S_800246D8_0 *)scratch)->unk_66;
-        mask = 0xFFFF0000;
-        step_x = (delta.word & mask) >> 16;
-        delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
-        delta.word &= mask;
-        ((S_800246D8_0 *)scratch)->unk_6C = x0 + step_x;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
-
-        end_z = ((S_800246D8_0 *)scratch)->unk_70;
-        z0 = ((S_800246D8_0 *)scratch)->unk_68;
-        step_y = delta.half.high;
-        delta.half.high = end_z - z0;
-        delta.word &= mask;
-        ((S_800246D8_0 *)scratch)->unk_6E = y0 + step_y;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
-        z0 += delta.half.high;
-        ((S_800246D8_0 *)scratch)->unk_70 = z0;
-    }
-    {
-        s32 level;
-
-        mask_or_phase = ((S_800246D8_3 *)line_or_red)->unk_10;
-        multiplier = 15;
-        level = mask_or_phase + 1;
-        line_or_red = (u8 *)(level * multiplier);
-        multiplier = 23;
-        y = level * multiplier;
-        level = 0x40;
-        ((S_800246D8_2 *)packet)->unk_04 = level;
-        ((S_800246D8_2 *)packet)->unk_05 = level;
-        ((S_800246D8_2 *)packet)->unk_06 = level;
-        level -= (7 - mask_or_phase) * 8;
-        multiplier = (s32)line_or_red + 0x40;
-        ((S_800246D8_2 *)packet)->unk_0D = level;
-        ((S_800246D8_2 *)packet)->unk_0C = multiplier;
-        multiplier = y + 0x40;
-        ((S_800246D8_2 *)packet)->unk_0E = multiplier;
-    }
-    goto shared;
-
-case_middle:
-    ((S_800246D8_2 *)packet)->unk_04 = 0x40;
-    ((S_800246D8_2 *)packet)->unk_05 = 0x40;
-    ((S_800246D8_2 *)packet)->unk_06 = 0x40;
-    ((S_800246D8_2 *)packet)->unk_0C = 0x7F;
-    ((S_800246D8_2 *)packet)->unk_0D = 0;
-    ((S_800246D8_2 *)packet)->unk_0E = 0xFF;
-    goto shared;
-
-case_late:
-    {
-        s32 x0;
-        s32 mask;
-        s32 y0;
-        s32 z0;
-        s32 step_x;
-        s32 step_y;
-        s32 end_z;
-
-        delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64)) << 16;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
-
-        y0 = ((S_800246D8_0 *)scratch)->unk_66;
-        mask = 0xFFFF0000;
-        step_x = (delta.word & mask) >> 16;
-        delta.half.high = ((S_800246D8_0 *)scratch)->unk_6E - y0;
-        delta.word &= mask;
-        ((S_800246D8_0 *)scratch)->unk_64 = x0 + step_x;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
-
-        end_z = ((S_800246D8_0 *)scratch)->unk_70;
-        z0 = ((S_800246D8_0 *)scratch)->unk_68;
-        step_y = delta.half.high;
-        delta.half.high = end_z - z0;
-        delta.word &= mask;
-        ((S_800246D8_0 *)scratch)->unk_66 = y0 + step_y;
-        delta.word >>= 3;
-        delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
-        z0 += delta.half.high;
-        ((S_800246D8_0 *)scratch)->unk_68 = z0;
-    }
-    {
-        s32 k;
-        s32 k23;
-
-        y = ((S_800246D8_3 *)line_or_red)->unk_10;
-        k = 15;
-        mask_or_phase = y - 7;
-        line_or_red = (u8 *)(mask_or_phase * k);
-        k23 = 23;
-        mask_or_phase *= k23;
-        ((S_800246D8_2 *)packet)->unk_0D = 0;
-        ((S_800246D8_2 *)packet)->unk_05 = (k - y) * 8;
-        multiplier = 0x7F;
-        ((S_800246D8_2 *)packet)->unk_0C = multiplier;
-        multiplier = 0xFF;
-        ((S_800246D8_2 *)packet)->unk_0E = multiplier;
-        multiplier = (s32)line_or_red + 0x40;
-        ((S_800246D8_2 *)packet)->unk_04 = multiplier;
-        multiplier = mask_or_phase + 0x40;
-        ((S_800246D8_2 *)packet)->unk_06 = multiplier;
-    }
-
-shared:
     projection_out_a = scratch + 0x84;
     projection_out_b = scratch + 0x88;
     first_z = func_80065420((void *)((u32)scratch | 0x64),

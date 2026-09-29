@@ -133,13 +133,11 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
             if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
                 func_800478B8(sprite_arg);
             }
-            goto clear_motion_flag;
+        } else {
+            ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x7000;
+            object->unk_1C &= 0xFFFBFFFF;
         }
 
-        ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x7000;
-        object->unk_1C &= 0xFFFBFFFF;
-
-clear_motion_flag:
         object->unk_1C &= 0xF7FFFFFF;
         if (object->unk_1C & 0x40000) {
             if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
@@ -163,94 +161,83 @@ phase_update_a:
                 if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
                     (*(s16 *)((u8 *)entity + (0x92))) =
                         (u16)(*(s16 *)((u8 *)entity + (0x92))) - 8;
-                    goto reset_bob;
-                }
-                if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
+                } else if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
                     (*(s16 *)((u8 *)entity + (0x92))) =
                         (u16)(*(s16 *)((u8 *)entity + (0x92))) + 8;
-                    goto reset_bob;
                 }
             }
-            goto reset_bob;
-        }
-
-        (*(s16 *)((u8 *)entity + (0xA0))) = 0;
-        if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-
-            ground_delta = (s16)func_800BCB04(
-                ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
-                (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
-            if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
-                (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
-                object->unk_1C |= 0x08000000;
-                goto reset_bob;
-            }
-        }
-        goto reset_bob;
-    }
-
-    if (sprite_flags & 0x800) {
-        ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
-    } else {
-        ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
-    }
-    object->unk_1C &= 0xF7FFFFFF;
-
-    if (!(object->unk_1C & 0x40000)) {
-        (*(s16 *)((u8 *)entity + (0xA0))) = 0;
-        (*(s16 *)((u8 *)entity + (0x92))) = (u16)(*(s16 *)((u8 *)entity + (0x92))) - bob_offset;
-        bob_offset = 0;
-        if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-
-            ground_delta = (s16)func_800BCB04(
-                ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
-                (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
-            if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
-                (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
-                (*(u8 *)((u8 *)entity + (0x9D))) = 0;
-                ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
-                object->unk_1C |= 0x08000000;
-                goto finish_height;
-            }
-        }
-        goto finish_height;
-    }
-
-    if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
-        {
-            s32 bob_wave = func_800644B8(
-                ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
-            bob_offset = bob_wave >> 9;
-            if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
-                bob_offset = bob_wave >> 10;
-            }
-        }
-phase_update_b:
-        (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
-    }
-
-    if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-        ground_height = (s16)(func_800BCB04(
-            ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
-            (s16)(object->unk_88.u - 0x20)) -
-            object->unk_88.u);
-        if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
-            (*(s16 *)((u8 *)entity + (0x92))) =
-                (u16)(*(s16 *)((u8 *)entity + (0x92))) - 8;
-        } else if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
-            (*(s16 *)((u8 *)entity + (0x92))) =
-                (u16)(*(s16 *)((u8 *)entity + (0x92))) + 8;
         } else {
-            goto finish_height;
+
+            (*(s16 *)((u8 *)entity + (0xA0))) = 0;
+            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+
+                ground_delta = (s16)func_800BCB04(
+                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
+                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
+                    (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
+                    (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                    ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
+                    object->unk_1C |= 0x08000000;
+                }
+            }
         }
+    } else {
+        if (sprite_flags & 0x800) {
+            ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
+        } else {
+            ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
+        }
+        object->unk_1C &= 0xF7FFFFFF;
+
+        if (!(object->unk_1C & 0x40000)) {
+            (*(s16 *)((u8 *)entity + (0xA0))) = 0;
+            (*(s16 *)((u8 *)entity + (0x92))) = (u16)(*(s16 *)((u8 *)entity + (0x92))) - bob_offset;
+            bob_offset = 0;
+            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+
+                ground_delta = (s16)func_800BCB04(
+                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    (s16)(object->unk_88.u - 0x20)) - object->unk_88.s;
+                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_delta) {
+                    (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
+                    (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                    ((S_80170A70_0 *)motion_arg)->unk_14 = 0;
+                    object->unk_1C |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
+                {
+                    s32 bob_wave = func_800644B8(
+                        ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
+                    bob_offset = bob_wave >> 9;
+                    if ((*(u8 *)((u8 *)entity + (0x9A))) == 0x12) {
+                        bob_offset = bob_wave >> 10;
+                    }
+                }
+phase_update_b:
+                (*(s16 *)((u8 *)entity + (0xA0))) = ((*(s16 *)((u8 *)entity + (0xA0))) + 1) % 40;
+            }
+
+            if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+                ground_height = (s16)(func_800BCB04(
+                    ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
+                    (s16)(object->unk_88.u - 0x20)) -
+                    object->unk_88.u);
+                if ((*(s16 *)((u8 *)entity + (0x92))) > ground_height - 0x30) {
+                    (*(s16 *)((u8 *)entity + (0x92))) =
+                        (u16)(*(s16 *)((u8 *)entity + (0x92))) - 8;
+                } else if (ground_height - 0x3A > (*(s16 *)((u8 *)entity + (0x92)))) {
+                    (*(s16 *)((u8 *)entity + (0x92))) =
+                        (u16)(*(s16 *)((u8 *)entity + (0x92))) + 8;
+                }
+            }
+        }
+
+        (*(s16 *)((u8 *)entity + (0xA0))) = 0;
     }
 
-finish_height:
-    (*(s16 *)((u8 *)entity + (0xA0))) = 0;
-
-reset_bob:
     if (object->unk_1C & 0x40000000) {
         object->unk_1C &= 0xBFFFFFFF;
         ground_height = func_800BCB04(

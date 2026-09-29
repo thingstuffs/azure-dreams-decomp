@@ -98,90 +98,83 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
     }
     D_80175A1C[(*(u8 *)((u8 *)actor + 0x9A))](actor, motion, object, actor);
 
-    if ((*(u8 *)((u8 *)actor + 0x9A)) != 0xE) {
+    if ((*(u8 *)((u8 *)actor + 0x9A)) != 0xE ||
+        (((S_80171104_0 *)object)->unk_14.n & 0x40) ||
+        ((*(u32 *)((u8 *)actor + 0x1C)) & 0x20)) {
         shifted_direction = (s32)old_direction << 16;
-        goto compare_direction;
-    }
-    if (((S_80171104_0 *)object)->unk_14.n & 0x40) {
-        shifted_direction = (s32)old_direction << 16;
-        goto compare_direction;
-    }
-    if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x20) {
-        shifted_direction = (s32)old_direction << 16;
-        goto compare_direction;
-    }
-    if (((S_80171104_0 *)object)->unk_2C != D_80175988 &&
-        ((S_80171104_0 *)object)->unk_2C != D_801759A0 &&
-        ((S_80171104_0 *)object)->unk_2C != D_801759B0 &&
-        ((S_80171104_0 *)object)->unk_2C != D_801759B8) {
-        (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
-        func_80047784(object,
-            D_80175988[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
-        (*(u16 *)((u8 *)actor + 0x9E)) = 0;
-        (*(s16 *)((u8 *)actor + 0xA0)) = 10;
-    }
-
-    if (((S_80171104_0 *)object)->unk_2C == D_80175988) {
-        timer = (*(u16 *)((u8 *)actor + 0x9E));
-        (*(u16 *)((u8 *)actor + 0x9E)) = timer + 1;
-        if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
-            (*(u8 * *)((u8 *)object + 0x2C)) = D_801759A0;
+    } else {
+        if (((S_80171104_0 *)object)->unk_2C != D_80175988 &&
+            ((S_80171104_0 *)object)->unk_2C != D_801759A0 &&
+            ((S_80171104_0 *)object)->unk_2C != D_801759B0 &&
+            ((S_80171104_0 *)object)->unk_2C != D_801759B8) {
+            (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
             func_80047784(object,
-                D_801759A0[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
-            func_800478B8(object);
-            (*(s16 *)((u8 *)actor + 0xA0)) = 3;
+                D_80175988[((gameWork.view.viewAngle + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7], 0);
+            (*(u16 *)((u8 *)actor + 0x9E)) = 0;
+            (*(s16 *)((u8 *)actor + 0xA0)) = 10;
         }
-    }
 
-    if (((S_80171104_0 *)object)->unk_2C == D_801759A0) {
+        if (((S_80171104_0 *)object)->unk_2C == D_80175988) {
+            timer = (*(u16 *)((u8 *)actor + 0x9E));
+            (*(u16 *)((u8 *)actor + 0x9E)) = timer + 1;
+            if (timer >= (*(s16 *)((u8 *)actor + 0xA0))) {
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_801759A0;
+                func_80047784(object,
+                    D_801759A0[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_800478B8(object);
+                (*(s16 *)((u8 *)actor + 0xA0)) = 3;
+            }
+        }
+
+        if (((S_80171104_0 *)object)->unk_2C == D_801759A0) {
+            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
+            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+            if ((timer << 16) <= 0 &&
+                (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B0;
+                func_80047784(object,
+                    D_801759B0[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_800478B8(object);
+                (*(s16 *)((u8 *)actor + 0xA0)) = 6;
+                (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
+                ((S_80171104_2 *)motion)->unk_14 = 0;
+                (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+            }
+        }
+
+        if (((S_80171104_0 *)object)->unk_2C == D_801759B0) {
+            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
+            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+            if ((timer << 16) <= 0 &&
+                (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B8;
+                func_80047784(object,
+                    D_801759B8[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_800478B8(object);
+                (*(s16 *)((u8 *)actor + 0xA0)) = 3;
+            }
+        }
+
+        if (((S_80171104_0 *)object)->unk_2C != D_801759B8) {
+            shifted_direction = (s32)old_direction << 16;
+        } else {
         timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
         (*(s16 *)((u8 *)actor + 0xA0)) = timer;
-        if ((timer << 16) <= 0 &&
-            (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
-            (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B0;
-            func_80047784(object,
-                D_801759B0[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
-            func_800478B8(object);
-            (*(s16 *)((u8 *)actor + 0xA0)) = 6;
-            (*(s32 *)((u8 *)actor + 0x90)) += 0xFFE00000;
-            ((S_80171104_2 *)motion)->unk_14 = 0;
-            (*(s8 *)((u8 *)actor + 0x9D)) = 0;
+        if ((timer << 16) > 0) {
+            shifted_direction = (s32)old_direction << 16;
+        } else {
+            if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
+                func_80047784(object,
+                    D_80175988[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
+                (*(u16 *)((u8 *)actor + 0x9E)) = 0;
+                (*(s16 *)((u8 *)actor + 0xA0)) = 20;
+            }
+            shifted_direction = (s32)old_direction << 16;
+        }
         }
     }
 
-    if (((S_80171104_0 *)object)->unk_2C == D_801759B0) {
-        timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-        (*(s16 *)((u8 *)actor + 0xA0)) = timer;
-        if ((timer << 16) <= 0 &&
-            (((S_80171104_0 *)object)->unk_14.n & 0xE000)) {
-            (*(u8 * *)((u8 *)object + 0x2C)) = D_801759B8;
-            func_80047784(object,
-                D_801759B8[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
-            func_800478B8(object);
-            (*(s16 *)((u8 *)actor + 0xA0)) = 3;
-        }
-    }
-
-    if (((S_80171104_0 *)object)->unk_2C != D_801759B8) {
-        shifted_direction = (s32)old_direction << 16;
-        goto compare_direction;
-    }
-    timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-    (*(s16 *)((u8 *)actor + 0xA0)) = timer;
-    if ((timer << 16) > 0) {
-        shifted_direction = (s32)old_direction << 16;
-        goto compare_direction;
-    }
-    if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
-        (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
-        func_80047784(object,
-            D_80175988[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
-        (*(u16 *)((u8 *)actor + 0x9E)) = 0;
-        (*(s16 *)((u8 *)actor + 0xA0)) = 20;
-    }
-    shifted_direction = (s32)old_direction << 16;
-
-compare_direction:
     if ((shifted_direction >> 16) != ((S_80171104_1 *)actor_copy)->unk_6D) {
         func_800AA36C(actor, motion, object, actor_copy);
     }
@@ -205,43 +198,33 @@ compare_direction:
 
         if (dirSpriteFlag[view_index_copy] != 0) {
             object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
-            goto store_object_flags;
+        } else {
+            object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
         }
-
-        object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
-store_object_flags:
         ((S_80171104_0 *)object)->unk_14.v = object_flags;
         if (!(((S_80171104_1 *)actor_copy)->unk_1C.u & 0x20)) {
             if (!(((S_80171104_0 *)object)->unk_14.n & 0x40)) {
                 func_800478B8(object);
-                goto call_collision;
             }
         } else {
-            ((S_80171104_0 *)object)->unk_14.v |= 0x7000;
+            ((S_80171104_0 *)object)->unk_14.n |= 0x7000;
         }
-call_collision:
         func_800A020C(((S_80171104_1 *)actor_copy)->unk_1C.s, object + 0xC);
-        goto motion_update;
-    }
-
-    if (flags & 0x800) {
+    } else if (flags & 0x800) {
         ((S_80171104_0 *)object)->unk_14.n = flags & 0x8FFF;
     } else {
         ((S_80171104_0 *)object)->unk_14.n = flags | 0x7000;
     }
 
-motion_update:
     ((S_80171104_2 *)motion)->unk_00.at00.v += ((S_80171104_2 *)motion)->unk_0C;
     ((S_80171104_2 *)motion)->unk_04.at00.v += ((S_80171104_2 *)motion)->unk_10;
 
     if ((*(u16 *)((u8 *)actor + 0x98)) & 8) {
         (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-        goto update_actor_position;
+    } else {
+        ((S_80171104_2 *)motion)->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
+        (*(u8 *)((u8 *)actor + 0x9D))++;
     }
-
-    ((S_80171104_2 *)motion)->unk_14 += (*(s8 *)((u8 *)actor + 0x9D)) * 0x14000;
-    (*(u8 *)((u8 *)actor + 0x9D))++;
-update_actor_position:
     (*(s32 *)((u8 *)actor + 0x90)) += ((S_80171104_2 *)motion)->unk_14;
 
     if (!((*(u16 *)((u8 *)actor + 0x98)) & 4)) {
@@ -251,21 +234,18 @@ update_actor_position:
             actor_height = ((S_80171104_1 *)actor_copy)->unk_88.s;
             if ((*(s16 *)((u8 *)actor + 0x92)) + actor_height < floor_height) {
                 ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xF7FFFFFF;
-                goto test_special_height;
-            }
-            if (floor_height >= actor_height) {
-                (*(s32 *)((u8 *)actor + 0x90)) = 0;
-                goto landed;
+            } else {
+                if (floor_height >= actor_height) {
+                    (*(s32 *)((u8 *)actor + 0x90)) = 0;
+                } else {
+                    height_delta = floor_height - ((S_80171104_1 *)actor_copy)->unk_88.u;
+                    (*(s16 *)((u8 *)actor + 0x92)) = height_delta;
+                }
+                ((S_80171104_2 *)motion)->unk_14 = 0;
+                ((S_80171104_1 *)actor_copy)->unk_1C.u |= 0x08000000;
+                (*(s8 *)((u8 *)actor + 0x9D)) = 0;
             }
 
-            height_delta = floor_height - ((S_80171104_1 *)actor_copy)->unk_88.u;
-            (*(s16 *)((u8 *)actor + 0x92)) = height_delta;
-landed:
-            ((S_80171104_2 *)motion)->unk_14 = 0;
-            ((S_80171104_1 *)actor_copy)->unk_1C.u |= 0x08000000;
-            (*(s8 *)((u8 *)actor + 0x9D)) = 0;
-
-test_special_height:
             if (((S_80171104_1 *)actor_copy)->unk_1C.u & 0x40000000) {
                 ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = func_800BCB04((((S_80171104_0 *)object)->unk_24 << 6) | 0x20,
@@ -273,17 +253,16 @@ test_special_height:
                                        (s16)(((S_80171104_1 *)actor_copy)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) += ((S_80171104_1 *)actor_copy)->unk_88.u - floor_height;
                 ((S_80171104_1 *)actor_copy)->unk_88.s = floor_height;
-                goto update_object;
             }
-            goto update_object;
+        } else {
+            ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xF7FFFFFF;
     }
 
-    ((S_80171104_1 *)actor_copy)->unk_1C.u &= 0xF7FFFFFF;
-
-update_object:
     ((S_80171104_2 *)motion)->unk_0A = ((S_80171104_1 *)actor_copy)->unk_88.u + (*(s16 *)((u8 *)actor + 0x92));
-    ((S_80171104_0 *)object)->unk_14.v |= 0x40;
+    ((S_80171104_0 *)object)->unk_14.n |= 0x40;
 
     return;
 }

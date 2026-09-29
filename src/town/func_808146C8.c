@@ -143,50 +143,32 @@ void func_8052F2C8(void *obj, void *state_in, void *input) {
         mode = ((S_8052F2C8_0 *)obj_held)->unk_0C.s;
         if (mode == 1 && ((S_8052F2C8_2 *)state_held)->unk_00 <= 0x04DFFFFF) {
             state = ((S_8052F2C8_1 *)root)->unk_56;
-            if (state == mode) {
-                goto state_1;
-            }
-            if (state < 2) {
-                if (state == 0) {
-                    goto state_0;
-                }
-                goto dispatch;
-            }
-            if (state == 2) {
-                goto state_2;
-            }
-            goto dispatch;
-
-state_0:
+            switch (state) {
+            case 0:
                 ((S_8052F2C8_3 *)work)->unk_0C.u8 = 0xFF;
                 count = 3;
-intro_loop:
-                func_8052F960(state_held);
-                count--;
-                if (count < 0) {
-                    goto dispatch;
-                }
-                goto intro_loop;
-
-state_1:
+                do {
+                    func_8052F960(state_held);
+                    count--;
+                } while (count >= 0);
+                break;
+            case 1:
                 ((S_8052F2C8_3 *)work)->unk_14 |= 0xC;
                 count = 2;
-intro_loop_2:
-                func_8052FB08(state_held);
-                count--;
-                if (count < 0) {
-                    goto dispatch;
-                }
-                goto intro_loop_2;
-
-state_2:
+                do {
+                    func_8052FB08(state_held);
+                    count--;
+                } while (count >= 0);
+                break;
+            case 2:
                 timer = ((S_8052F2C8_3 *)work)->unk_1E + 0x200;
                 ((S_8052F2C8_3 *)work)->unk_1E = timer;
                 ((S_8052F2C8_3 *)work)->unk_1C = timer;
+                break;
+            }
         }
     }
 
-dispatch:
     switch (((S_8052F2C8_0 *)obj_held)->unk_0C.s) {
     case 0:
         if (((S_8052F2C8_0 *)obj_held)->unk_0E == 0x10) {
@@ -211,20 +193,17 @@ dispatch:
         ((S_8052F2C8_0 *)obj_held)->unk_04 = step;
         sum = ((S_8052F2C8_2 *)state_held)->unk_00 + ((S_8052F2C8_0 *)obj_held)->unk_04;
         ((S_8052F2C8_2 *)state_held)->unk_00 = sum;
-        if (sum > 0x0427FFFF) {
-            goto high_sum;
+        if (sum <= 0x0427FFFF) {
+            ((S_8052F2C8_0 *)obj_held)->unk_0E = 6;
+            money = &D_80095AAC;
+            if (*(u8 *)money >= 9U) {
+                *money += 0xFFF7F7F8;
+            }
+            ((S_8052F2C8_3 *)work)->unk_14 |= 0x80;
+            func_80058F88(0x506);
+            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 2;
+            break;
         }
-        ((S_8052F2C8_0 *)obj_held)->unk_0E = 6;
-        money = &D_80095AAC;
-        if (*(u8 *)money >= 9U) {
-            *money += 0xFFF7F7F8;
-        }
-        ((S_8052F2C8_3 *)work)->unk_14 |= 0x80;
-        func_80058F88(0x506);
-        ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 2;
-        break;
-
-high_sum:
         {
             s32 current_y;
             s32 delta;
@@ -305,21 +284,19 @@ high_sum:
 
     case 2:
         count = 7;
-case_2_loop:
-        count--;
-        x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
-        rnd = func_80071494();
-        func_8052E4C0(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
-                     ((rnd % 80) << 16) + 0xFFB00000);
-        if (count < 0) {
-            timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
-            ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
-            if ((timer_end << 16) <= 0) {
-                ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
-            }
-            break;
+        do {
+            count--;
+            x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
+            rnd = func_80071494();
+            func_8052E4C0(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
+                         ((rnd % 80) << 16) + 0xFFB00000);
+        } while (count >= 0);
+        timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
+        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
+        if ((timer_end << 16) <= 0) {
+            ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
         }
-        goto case_2_loop;
+        break;
 
     case 3:
         ((S_8052F2C8_1 *)root)->unk_58 |= 2;
@@ -347,7 +324,6 @@ case_4_loop:
             goto case_4_loop;
         }
 
-decrement_timer:
         timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
         ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
         if ((timer_end << 16) <= 0) {

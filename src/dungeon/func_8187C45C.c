@@ -81,11 +81,11 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *spawn_sprite;
     void *target;
     register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register PointTable *template_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 render_flags;
     s32 trail_color;
     s32 state_index;
+    s32 particle_index;
     s32 finish_tick;
     s32 particle_color;
     s32 effect_busy;
@@ -99,7 +99,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     s32 tile_distance;
 
     owner = PTR(effect, 0);
-    template_data = (PointTable *)&D_80024074;
     direction_steps = D_80024074;
     state_index = S16(effect, 0xA);
     object = (u8 *)owner - 0x20;
@@ -226,12 +225,12 @@ await_launch:
         table_value = (void **)(u32)U16(motion, 2);
         offset_value = (void *)((u32)offset_value << 4);
         table_value = (void **)((u32)table_value + (u32)offset_value);
-        U16(effect, 0x74) = (u32)table_value;
-        table_value = (void **)(u32)U8(effect, 0x7B);
-        offset_value = (void *)(u32)U16(target_data, 2);
-        ASM_KEEP4_NV(table_value, offset_value, target_data, effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        table_value = (void **)((u32)table_value << 24);
-        table_value = (void **)((s32)table_value >> 24);
+        {
+            u8 travel_ticks = U8(effect, 0x7B);
+            U16(effect, 0x74) = (u32)table_value;
+            offset_value = (void *)(u32)U16(target_data, 2);
+            table_value = (void **)(s32)(s8)travel_ticks;
+        }
         U16(effect, 0x76) = U16(motion, 6) +
             (u32)offset_value * (s32)table_value;
         U16(effect, 0x78) = U16(owner, 0x88) - 0x50;
@@ -379,22 +378,20 @@ do {
         U8(effect, 0xA0) = U8(effect, 0xA0) - 0x18;
     }
 
-    object_data = 0;
+    particle_index = 0;
     loop_0: {
-        object_data = (u8 *)object_data + 1;
         particle_color = func_80069EF8();
         {
             s32 base_color;
             s32 brightness;
             target = (u8 *)effect - 0x20;
             base_color = 0x0020E0E0;
-            ASM_KEEP(base_color);
             particle_color &= 0xFF;
             brightness = particle_color | 0x80;
-            ASM_KEEP(brightness);
             func_800250B0(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
         }
-    } if ((s32)object_data < 4) goto loop_0;
+        particle_index += 1;
+    } if (particle_index < 4) goto loop_0;
     return;
 
 finish_fade:
@@ -405,7 +402,7 @@ finish_fade:
 
     case 5:
     U16(effect, 0x82) = U16(effect, 0x82) + 1;
-    object_data = 0;
+    particle_index = 0;
     blue_scaled = S16(effect, 0x82) * 0x20;
     table_value = (void **)(blue_scaled / 0x28);
     U8(effect, 0x92) = (s32)table_value;
@@ -422,15 +419,13 @@ finish_fade:
     motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
     loop_1: {
-        template_data = (PointTable *)0x80;
-        object_data = (u8 *)object_data + 1;
-        ASM_KEEP(object_data);
         particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
         func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
-                      particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
+                      particle_color, 0x80, S16(object, 2), S16(object, 6),
                       (s16)(U16(object, 0xA) -
                             (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-    } if ((s32)object_data < 2) goto loop_1;
+        particle_index += 1;
+    } if (particle_index < 2) goto loop_1;
     if (S16(effect, 0x82) >= 0x28) {
         next_state = U16(effect, 0xA);
         U16(effect, 0x82) = 0;
@@ -444,7 +439,7 @@ finish_fade:
         target_tick = (s16)next_tick;
         U16(effect, 0x82) = next_tick;
     }
-    object_data = 0;
+    particle_index = 0;
     if (target_tick >= 0x24) {
         U8(effect, 0x92) = ((0x46 - target_tick) * 0x20) / 0x23;
         U8(effect, 0x91) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
@@ -455,15 +450,13 @@ finish_fade:
     motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
     loop_1_: {
-        template_data = (PointTable *)0x80;
-        object_data = (u8 *)object_data + 1;
-        ASM_KEEP(object_data);
         particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
         func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
-                      particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
+                      particle_color, 0x80, S16(object, 2), S16(object, 6),
                       (s16)(U16(object, 0xA) -
                             (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-    } if ((s32)object_data < 2) goto loop_1_;
+        particle_index += 1;
+    } if (particle_index < 2) goto loop_1_;
 
     target = PTR(owner, 0x60);
     table_value = (void **)(u32)U32(target, 0x1C);

@@ -319,15 +319,20 @@ loop_effects:
                         owner_sprite->unk_0D.s = 0x30;
                         owner_sprite->unk_0C.s = 0x30;
                         ((S_81814EDC_0 *)effect)->unk_02.u = 0;
-                        goto move_effect;
+                    } else {
+                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                        objectFlagBlock.flags |= 0x8000;
+                        return;
                     }
+                } else {
+                        ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                        objectFlagBlock.flags |= 0x8000;
+                        return;
                 }
-                goto finish_effect;
+            } else {
+                ((S_81814EDC_0 *)effect)->unk_00 = 1;
             }
-            ((S_81814EDC_0 *)effect)->unk_00 = 1;
-            goto move_effect;
         }
-move_effect:
         {
 
             if ((func_800A4778(((S_81814EDC_10 *)position)->unk_00.at02.v, ((S_81814EDC_10 *)position)->unk_04.at02.v, (s16) ((S_81814EDC_10 *)position)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
@@ -337,12 +342,13 @@ move_effect:
                 }
                 ((S_81814EDC_10 *)position)->unk_04.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_04.at00.v + ((S_81814EDC_0 *)effect)->unk_5C);
                 ((S_81814EDC_10 *)position)->unk_08.at00.v = (s32) (((S_81814EDC_10 *)position)->unk_08.at00.v + ((S_81814EDC_0 *)effect)->unk_60);
-                goto update_fade;
+            } else {
+                ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
+                objectFlagBlock.flags |= 0x8000;
+                return;
             }
-            goto finish_effect;
         }
     }
-update_fade:
     state = ((S_81814EDC_0 *)effect)->unk_00;
     if (state == 1) {
         fade_ticks = ((S_81814EDC_0 *)effect)->unk_02.s + 1;
@@ -356,7 +362,6 @@ update_fade:
                 owner_sprite->unk_0D.u = 0x80;
                 owner_sprite->unk_0C.u = 0x80;
             }
-finish_effect:
             ((S_81814EDC_0_pre *)effect)[-1].unk_00 = (u16) (((S_81814EDC_0_pre *)effect)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags |= 0x8000;
         }

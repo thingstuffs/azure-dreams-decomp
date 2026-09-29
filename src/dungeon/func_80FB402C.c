@@ -81,24 +81,8 @@ void func_8017382C(void *action, void *context, void *sprite, EntityRec *actor)
     u8 *effect_state;
 
     state = ((S_8017382C_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     {
         s32 index_twice;
         s32 word_offset;
@@ -115,15 +99,14 @@ state_zero:
 
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12;
         record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
-scan_zero:
-        index_twice = record_index << 1;
-        if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
-            goto scan_zero_done;
+        while (1) {
+            index_twice = record_index << 1;
+            if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
+                break;
+            }
+            record += 0xC;
+            record_index++;
         }
-        record += 0xC;
-        record_index++;
-        goto scan_zero;
-scan_zero_done:
         word_offset = index_twice + record_index;
         facing_record = (u8 *)((unsigned long)(word_offset << 2) +
                        (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
@@ -152,10 +135,11 @@ scan_zero_done:
             ((S_8017382C_7 *)effect_state)->unk_96 = 0;
             ((S_8017382C_7 *)effect_state)->unk_9E = 0;
         }
-        goto increment_state;
+        ((S_8017382C_0 *)action)->unk_9B++;
+        return;
     }
 
-state_one:
+    case 1:
     {
         s32 angle_shifted;
         s32 signed_angle;
@@ -184,10 +168,11 @@ state_one:
             }
         }
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE - 0x40;
-        goto increment_state;
+        ((S_8017382C_0 *)action)->unk_9B++;
+        return;
     }
 
-state_two:
+    case 2:
     {
         s32 index_twice;
         s32 word_offset;
@@ -202,15 +187,14 @@ state_two:
         if (((S_8017382C_0 *)action)->unk_AC.u == 0) {
             record_index = 0;
             record = ((Rec_func_800AA258_arg2 *)sprite)->unk_08;
-scan_two:
-            index_twice = record_index << 1;
-            if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
-                goto scan_two_done;
+            while (1) {
+                index_twice = record_index << 1;
+                if (!(((S_8017382C_2 *)record)->unk_00 & 0x20)) {
+                    break;
+                }
+                record += 0xC;
+                record_index++;
             }
-            record += 0xC;
-            record_index++;
-            goto scan_two;
-scan_two_done:
             word_offset = index_twice + record_index;
             facing_record = (u8 *)((unsigned long)(word_offset << 2) +
                            (unsigned long)((Rec_func_800AA258_arg2 *)sprite)->unk_08);
@@ -218,40 +202,36 @@ scan_two_done:
                 ((S_8017382C_3 *)facing_record)->unk_06 & 0xFFC0;
         }
 
-        if ((s16)func_80042900(actor, 1) != 0) {
-            goto state_two_active;
+        if ((s16)func_80042900(actor, 1) == 0) {
+            direction_table = D_80175298;
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+            func_80047784(
+                sprite,
+                direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+
+            effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
+            effect_state = (u8 *)effect + 0x20;
+            if (effect != 0) {
+                ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
+                ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
+                facing = ((S_8017382C_0 *)action)->unk_AC.s;
+                ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+                ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+                ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+                ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
+                ((S_8017382C_0 *)action)->unk_96 = 8;
+                ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+                ((S_8017382C_7 *)effect_state)->unk_9E = 1;
+            }
+
+            ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
+            dungeonStatus.unk_0A++;
+
+            ((S_8017382C_0 *)action)->unk_9B++;
+            return;
         }
 
-        direction_table = D_80175298;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-        func_80047784(
-            sprite,
-            direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-
-        effect = func_8003FD64(0x10, ((u8 *)(&D_80083498)));
-        effect_state = (u8 *)effect + 0x20;
-        if (effect != 0) {
-            ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
-            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
-            facing = ((S_8017382C_0 *)action)->unk_AC.s;
-            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
-            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
-            ((S_8017382C_0 *)action)->unk_96 = 8;
-            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
-            ((S_8017382C_7 *)effect_state)->unk_9E = 1;
-        }
-
-        ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
-        dungeonStatus.unk_0A++;
-
-increment_state:
-        ((S_8017382C_0 *)action)->unk_9B++;
-        return;
-
-state_two_active:
         if (dungeonStatus.flags & 0x1000) {
             return;
         }
@@ -353,7 +333,7 @@ second_call:
         return;
     }
 
-state_three:
+    case 3:
     {
         s32 angle_shifted;
         s32 signed_angle;
@@ -386,6 +366,7 @@ state_three:
         actor->flags1C &= ~0x200;
         ((S_8017382C_0 *)action)->unk_8C = D_80170F6C;
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
+    }
     }
 
     return;

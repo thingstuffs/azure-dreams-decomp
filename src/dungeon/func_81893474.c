@@ -127,7 +127,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         owner_node = PTR_AT(owner_data, 0xC);
         if (func_8003DE58(PTR_AT(owner_node, 8), owner_node, probe, 0) == 0) {
             if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
-                goto done;
+                break;
             }
         }
         owner_motion = PTR_AT(owner_data, 8);
@@ -143,7 +143,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             U16_AT(motion, 0xA) = source_z - 0x40;
         }
         if (!(U16_AT(state->image, 0) & 0x80)) {
-            goto done;
+            break;
         }
         target_pos = scratch.work;
         /* This expression is intentionally kept in its retail form. */
@@ -223,36 +223,42 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         func_800240F8(state, motion, state->duration);
         func_800240F8(state, motion, state->duration);
         state->timer = 0;
-        goto done;
+        break;
 
     case 2:
         S32_AT(motion, 0) += S32_AT(motion, 0xC);
         S32_AT(motion, 4) += S32_AT(motion, 0x10);
         S32_AT(motion, 8) += S32_AT(motion, 0x14);
         if (state->timer < state->duration) {
-            goto done;
+            break;
         }
         func_800242F0(state, motion, 12);
-        goto advance;
+        state->timer = 0;
+        state->state++;
+        break;
 
     case 3:
         if (state->timer < 8) {
-            goto done;
+            break;
         }
         func_800A56E0(0x300);
-        goto advance;
+        state->timer = 0;
+        state->state++;
+        break;
 
     case 4:
         if (state->timer < 5) {
-            goto done;
+            break;
         }
         func_80024A44(state, motion, 16);
         func_800419EC(8, 36);
-        goto advance;
+        state->timer = 0;
+        state->state++;
+        break;
 
     case 5:
         if (state->timer < 0x11) {
-            goto done;
+            break;
         }
         if (state->status != 0) {
             s32 strength;
@@ -275,19 +281,18 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             U8_AT(spawned_effect, 0x28) = clamped_strength;
             U8_AT(spawned_effect, 0x29) = clamped_strength;
         }
-    advance:
         state->timer = 0;
         state->state++;
-        goto done;
+        break;
 
     case 6:
         if (state->field_14 != 0) {
-            goto done;
+            break;
         }
         dungeonStatus.unk_0C = 0;
         U16_AT(state, -2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        break;
 
     case 7:
         S32_AT(motion, 0) += S32_AT(motion, 0xC);
@@ -298,6 +303,5 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         }
     }
 
-done:
     state->field_14 = 0;
 }

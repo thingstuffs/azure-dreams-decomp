@@ -140,22 +140,8 @@ void func_800242D4(void *self, void *coords)
     D_80024A70++;
 
     state = ((S_8199AAD4_0 *)self)->unk_28.s;
-    if (state != 1) {
-        if (state < 2) {
-            if (state == 0) {
-                goto state_zero;
-            }
-            return;
-        }
-
-        tail_z = 2;
-        iteration = NULL;
-        if (state == (s32)tail_z) {
-            goto state_two;
-        }
-        return;
-
-state_zero:
+    switch (state) {
+    case 0:
         source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
         if ((((S_8199AAD4_1 *)source)->unk_14 & 0x8000) ||
             func_8003DE58(((S_8199AAD4_1 *)source)->unk_08, source, delta, 0)) {
@@ -165,22 +151,17 @@ state_zero:
             position_z = position->unk_0A;
             ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z;
 
-            if (((S_8199AAD4_1 *)source)->unk_14 & 0x8000) {
-                goto fixed_position;
+            if (!(((S_8199AAD4_1 *)source)->unk_14 & 0x8000)) {
+                ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
+                ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
+                tail_z_2 = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
+                tail_z_2 += delta[2];
+                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z_2;
+            } else {
+                tail_z = position_z - 0x20;
+
+                ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
             }
-            ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
-            ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
-            tail_z_2 = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
-            tail_z_2 += delta[2];
-            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z_2;
-            goto store_z_done;
-
-fixed_position:
-            tail_z = position_z - 0x20;
-
-            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
-            store_z_done:
-            ;
         }
 
         if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
@@ -188,93 +169,90 @@ fixed_position:
             tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
             target_node = 9;
             ((S_8199AAD4_0 *)self)->unk_30.s = target_node;
-            goto advance_state;
+            ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
         }
         return;
-    }
-
-    count = ((S_8199AAD4_0 *)self)->unk_30.u - 1;
-    ((S_8199AAD4_0 *)self)->unk_30.u = count;
-    if ((s16)count > 0) {
+    case 1:
+        count = ((S_8199AAD4_0 *)self)->unk_30.u - 1;
+        ((S_8199AAD4_0 *)self)->unk_30.u = count;
+        if ((s16)count > 0) {
+            return;
+        }
+        tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
+        ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
         return;
+    finish:
+        ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
+        ((S_8199AAD4_2 *)coords)->unk_04.at00.v = target[1];
+        ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
+        func_800B8D64(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
+                      ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
+        tail_z = ((S_8199AAD4_0_pre *)self)[-1].unk_00;
+        global_flags = (s32 *)0x80080000;
+        ((S_8199AAD4_0_pre *)self)[-1].unk_00 = tail_z | 0x8000;
+        count = ((S_8199AAD4_0 *)self)->unk_28.p;
+        flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
+        count++;
+        flags_value |= 0x8000;
+        ((S_8199AAD4_0 *)self)->unk_28.p = count;
+        ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
+        return;
+
+    case 2:
+        iteration = NULL;
+        table_end = &D_80024AE0;
+        table_start_2 = table_end - 0x54;
+    loop_top:
+        object_entry = ((S_8199AAD4_0 *)self)->unk_04;
+        start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
+        start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
+        target_node = object_entry->unk_08;
+        start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
+        target[0] = target_node->unk_00;
+        target[1] = target_node->unk_04;
+        target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
+
+        entry_offset = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
+        delta_out = delta;
+        entry_base = D_800E3D18;
+        entry_offset &= 0x1C;
+        call_node = ((S_8199AAD4_0 *)self)->unk_04;
+        if (func_8003DE58(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out, 0)) {
+            target[0] += (s32)(s16)delta[0] << 16;
+            target[1] += (s32)(s16)delta[1] << 16;
+            target[2] += (s32)(s16)delta[2] << 16;
+        }
+
+        ((S_8199AAD4_2 *)coords)->unk_00.at00.v +=
+            (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
+        ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
+            (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
+        arc_height = func_800644B8(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
+        ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
+            (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
+            (arc_height << 7);
+
+        created = func_80024924(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
+                                coords, ((S_8199AAD4_0 *)self)->unk_10.s, 4,
+                                ((S_8199AAD4_0 *)self)->unk_14, iteration);
+        if (created != NULL) {
+            ((S_8199AAD4_0 *)self)->unk_08 = created;
+            ((S_8199AAD4_0 *)self)->unk_14 = created->unk_08;
+        }
+
+        count = ((S_8199AAD4_0 *)self)->unk_2E.p - 1;
+        ((S_8199AAD4_0 *)self)->unk_2E.p = count;
+        if ((s16)count <= 0) {
+            goto finish;
+        }
+
+        ((S_8199AAD4_0 *)self)->unk_10.u += 0xC;
+        if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
+            ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
+        }
+        iteration = (u8 *)iteration + 1;
+        goto loop_top;
     }
-    tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
-advance_state:
-    ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
-    return;
-
-finish:
-    ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
-    ((S_8199AAD4_2 *)coords)->unk_04.at00.v = target[1];
-    ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
-    func_800B8D64(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
-                  ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
-    tail_z = ((S_8199AAD4_0_pre *)self)[-1].unk_00;
-    global_flags = (s32 *)0x80080000;
-    ((S_8199AAD4_0_pre *)self)[-1].unk_00 = tail_z | 0x8000;
-    count = ((S_8199AAD4_0 *)self)->unk_28.p;
-    flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
-    count++;
-    flags_value |= 0x8000;
-    ((S_8199AAD4_0 *)self)->unk_28.p = count;
-    ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
-    return;
-
-state_two:
-    table_end = &D_80024AE0;
-    table_start_2 = table_end - 0x54;
-loop_top:
-    object_entry = ((S_8199AAD4_0 *)self)->unk_04;
-    start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
-    start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
-    target_node = object_entry->unk_08;
-    start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
-    target[0] = target_node->unk_00;
-    target[1] = target_node->unk_04;
-    target[2] = (((S_8199AAD4_0 *)self)->unk_38 - 0x50) << 16;
-
-    entry_offset = (gameWork.view.viewAngle + D_800814A8->facing + 0x100) >> 7;
-    delta_out = delta;
-    entry_base = D_800E3D18;
-    entry_offset &= 0x1C;
-    call_node = ((S_8199AAD4_0 *)self)->unk_04;
-    if (func_8003DE58(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out, 0)) {
-        target[0] += (s32)(s16)delta[0] << 16;
-        target[1] += (s32)(s16)delta[1] << 16;
-        target[2] += (s32)(s16)delta[2] << 16;
-    }
-
-    ((S_8199AAD4_2 *)coords)->unk_00.at00.v +=
-        (target[0] - ((S_8199AAD4_2 *)coords)->unk_00.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
-    ((S_8199AAD4_2 *)coords)->unk_04.at00.v +=
-        (target[1] - ((S_8199AAD4_2 *)coords)->unk_04.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u;
-    arc_height = func_800644B8(((S_8199AAD4_0 *)self)->unk_2E.u * 170);
-    ((S_8199AAD4_2 *)coords)->unk_08.at00.v +=
-        (target[2] - ((S_8199AAD4_2 *)coords)->unk_08.at00.v) / ((S_8199AAD4_0 *)self)->unk_2E.u -
-        (arc_height << 7);
-
-    created = func_80024924(((S_8199AAD4_0 *)self)->unk_08, start_x, start_y, start_z,
-                            coords, ((S_8199AAD4_0 *)self)->unk_10.s, 4,
-                            ((S_8199AAD4_0 *)self)->unk_14, iteration);
-    if (created != NULL) {
-        ((S_8199AAD4_0 *)self)->unk_08 = created;
-        ((S_8199AAD4_0 *)self)->unk_14 = created->unk_08;
-    }
-
-    count = ((S_8199AAD4_0 *)self)->unk_2E.p - 1;
-    ((S_8199AAD4_0 *)self)->unk_2E.p = count;
-    if ((s16)count <= 0) {
-        goto finish;
-    }
-
-    ((S_8199AAD4_0 *)self)->unk_10.u += 0xC;
-    if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
-        ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
-    }
-    iteration = (u8 *)iteration + 1;
-    goto loop_top;
-
-    return;
 }
 
 /* MECHANISM: The census baseline holds the 0x68 sibling-local frame and retail saved-register set.

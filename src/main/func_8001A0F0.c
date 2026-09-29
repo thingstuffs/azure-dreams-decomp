@@ -41,18 +41,15 @@ state_one:
         if (*slot_flag != 0) {
             D_804094E8 = 0;
             status = 1;
-            goto done;
+        } else if (((func_80408644(0) & 1) != 0) ||
+                   ((func_80408644(1) & 1) != 0)) {
+            func_804014E4();
+            while (func_80408674(D_804094EC) == 0) {
+            }
+            D_80409500 = 0;
+            D_804094E8 = 3;
         }
-        if (((func_80408644(0) & 1) == 0) &&
-            ((func_80408644(1) & 1) == 0)) {
-            goto done;
-        }
-        func_804014E4();
-        while (func_80408674(D_804094EC) == 0) {
-        }
-        D_80409500 = 0;
-        D_804094E8 = 3;
-        goto done;
+        return status;
 
 state_three:
         selected_slot = D_804094EC;
