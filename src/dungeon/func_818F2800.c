@@ -281,6 +281,11 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                         texture_v = (*(u8 *)((u8 *)part + 9));
                         DM_U32(0x10) = 1;
                         DM_U32(0x0C) = texture_v;
+                        {
+                            s32 half_height;
+                            half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
+                            DM_U32(0x14) = half_height;
+                        }
                     } else {
                         s32 texture_v;
                         DM_U32(0x08) = texture_u;
@@ -290,14 +295,12 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                         state_flags = (u32)state_flags >> 1;
                         texture_v = texture_v + state_flags;
                         DM_U32(0x0C) = texture_v;
+                        {
+                            s32 half_height;
+                            half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
+                            DM_U32(0x14) = half_height;
+                        }
                     }
-                                                            /* --- shared tail of the two arms (retail word 146) --- */
-                    {
-                        s32 half_height;
-                        half_height = (u32)((S_BODY_2 *)part)->unk_08.at03.v >> 1;
-                        DM_U32(0x14) = half_height;
-                    }
-                    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                     {
                         s32 left_z;
                         left_z = (func_800644B8(angle) * geometry->unk_38) >> 0x10;
@@ -361,6 +364,8 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
                                 edge_y = edge_y - height;
+                                DM_S16(0x8A) = (s16)edge_y;
+                                DM_S16(0x82) = (s16)edge_y;
                             } else {
                                 s32 height;
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
@@ -373,6 +378,8 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
                                 edge_y = edge_y - next_height_m;
+                                DM_S16(0x8A) = (s16)edge_y;
+                                DM_S16(0x82) = (s16)edge_y;
                             }
                         } else {
                             if (half == 0) {
@@ -384,6 +391,8 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
                                 edge_y = edge_y + height;
+                                DM_S16(0x8A) = (s16)edge_y;
+                                DM_S16(0x82) = (s16)edge_y;
                             } else {
                                 s32 height;
                                 edge_y = ((S_BODY_2 *)part)->unk_03;
@@ -396,12 +405,11 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
                                 DM_S16(0x7A) = (s16)edge_y;
                                 DM_S16(0x72) = (s16)edge_y;
                                 edge_y = edge_y + next_height_m;
+                                DM_S16(0x8A) = (s16)edge_y;
+                                DM_S16(0x82) = (s16)edge_y;
                             }
                         }
-                        DM_S16(0x8A) = (s16)edge_y;
-                        DM_S16(0x82) = (s16)edge_y;
                     }
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                     DM_S32(0xC0) = (func_80065590(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88,
                                                   packet + 8, packet + 0x10, packet + 0x18, packet + 0x20,
                                                   scratch + 0x90, scratch + 0x94)
