@@ -66,7 +66,6 @@ extern s32 func_80172258(void *, void *, void *, s32);
 extern void func_80173D38(void *, void *, void *, void *);
 extern void func_801740F4(void *, void *, void *, void *);
 
-extern void *const D_80170808[];
 extern u8 D_80171138[];
 extern u8 D_80174AD4[];
 extern u8 D_80174ADC[];
@@ -77,11 +76,6 @@ extern u8 D_80174AFC[];
 /* Updates actor behavior, animation, and facing from its status and dungeon state. */
 void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stats_in)
 {
-    static void *const action_labels[] = {
-        &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7, &&case_8,
-        &&case_9, &&case_10, &&case_11, &&case_12,
-    };
     void *actor;
     void *context;
     void *sprite;
@@ -195,30 +189,21 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
             }
         }
 
-        {
-            u32 action_index = (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) - 1;
-
-            if (action_index >= 12) {
-                goto default_case;
-            }
-            (void)action_labels;
-            goto *D_80170808[action_index];
-        }
-
-case_8:
+        switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
+        case 8:
         func_801740F4(actor, context, sprite, stats);
         return;
 
-case_9:
+        case 9:
         if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
             return;
         }
         func_80172138(actor, context, sprite, stats);
         return;
 
-case_5:
-case_6:
-case_7:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *player;
             s16 facing_angle;
@@ -234,23 +219,26 @@ case_7:
             }
         }
 
+        case 12:
 case_12:
         func_800A9A0C(stats);
         return;
 
-case_1:
-case_2:
-case_3:
+        case 1:
+        case 2:
+        case 3:
 call_aaf:
         func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
         return;
 
-case_4:
-case_10:
-case_11:
+        case 4:
+        case 10:
+        case 11:
+        default:
 default_case:
         func_8017182C(actor, context, sprite, stats);
         return;
+        }
     }
 
     status_flags = ((S_80171138_1 *)stats)->unk_1C;

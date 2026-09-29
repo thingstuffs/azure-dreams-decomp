@@ -22,7 +22,6 @@ extern u8 D_80174AA4[];
 extern u8 D_80174AAC[];
 extern u8 D_80170E94[];
 extern void *D_800E3DE8[];
-extern void *D_80170860[];
 s32 func_8003DE58();
 void *func_8003FD64(s32, void *);
 M2C_UNK func_8004491C();
@@ -82,7 +81,6 @@ typedef struct S_801727B4_4 {
 
 /* Updates a staged movement animation, emits effects, and restores the actor at its starting position. */
 void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, EntityRec *actor) {
-    static void *const state_labels[] = { &&start_motion, &&start_jump, &&update_jump, &&emit_effect, &&finish_animation, &&return_to_start };
     Vec3sTable effect_vectors_a;
     Vec3sTable effect_vectors_b;
     s32 reverse_facing;
@@ -105,12 +103,10 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
     effect_vectors_a = D_80170838;
     effect_vectors_b = D_8017084C;
     state = ((S_801727B4_0 *)action)->unk_9B;
-    if (state >= 6U) {
+    switch (state) {
+    default:
         return;
-    }
-    (void)state_labels;
-    goto *D_80170860[(u32)(state)];
-start_motion:
+    case 0:
     ((S_801727B4_0 *)action)->unk_A8 = (u16) ((u16)motion->x.w.i);
     ((S_801727B4_0 *)action)->unk_AA = (u16) ((u16)motion->y.w.i);
     if (!(animation->unk_14.at00_u16.v & 0x8000)) {
@@ -135,7 +131,7 @@ apply_velocity:
     animation->unk_2C.as_pu8 = &D_80174A8C;
     func_80047784(animation, (&D_80174A8C)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     goto increment_state_load;
-start_jump:
+    case 1:
     if (!(animation->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -145,7 +141,7 @@ start_jump:
     ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
     motion->flags14 = 0xFFF40000;
     goto increment_state_load;
-update_jump:
+    case 2:
     vertical_speed = motion->flags14 + 0x20000;
     motion->flags14 = vertical_speed;
     ((S_801727B4_0 *)action)->unk_90 = (s32) (((S_801727B4_0 *)action)->unk_90 + vertical_speed);
@@ -159,7 +155,7 @@ update_jump:
     ((S_801727B4_0 *)action)->unk_96 = 7;
     ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
     return;
-emit_effect:
+    case 3:
     if (animation->unk_04.as_s8 >= 3) {
         goto create_effect;
     }
@@ -242,7 +238,7 @@ check_animation:
     ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 & 0xFFF7);
     ((S_801727B4_0 *)action)->unk_9B = (u8) (((S_801727B4_0 *)action)->unk_9B + 1);
     return;
-finish_animation:
+    case 4:
     if (!(animation->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -258,7 +254,7 @@ increment_state_load:
 increment_state:
     ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
     return;
-return_to_start:
+    case 5:
     axis_distance = (s16) ((u16)motion->x.w.i);
     start_coord = (s16) ((S_801727B4_0 *)action)->unk_A8;
     axis_distance = axis_distance - start_coord;
@@ -312,4 +308,5 @@ update_actor_handle:
     }
     func_800C8EFC(actor_handle, 0x10);
     return;
+    }
 }
