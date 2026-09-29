@@ -6,12 +6,14 @@
 #include "records/Rec_func_801724B0_arg0.h"
 
 
+
 typedef struct S_801724B0_3 {
     u8 pad_00[0x74];
     u8 unk_74;
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_801724B0_3;   /* (u8 *)arg3 + ((S_801724B0_0 *)arg3)->unk_8A.s in func_801724B0 */
+
 
 
 extern s32 func_80047784();
@@ -102,5 +104,4 @@ post_state:
 
 /* MECHANISM: The four live arguments and two call results naturally produce the retail 0x38 frame and saved-register order.
    A guarded s0 pin holds the signed func_8009A66C result; placing ASM_KEEP before the result store lets that sh fill the bne delay slot.
-   Explicit mode initialization plus scoped next-coordinate locals reproduce the post
-       -call load/store and branch emission order. */
+   Explicit mode initialization plus scoped next-coordinate locals reproduce the post-call load/store and branch emission order. */

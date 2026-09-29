@@ -83,14 +83,12 @@ void func_8016604C(S_8016604C_0 *source) {
                     jitter_or_scale = rand();
                     x_base = ((S_8016604C_3 *)(source->unk_08))->unk_02 + (grid_x << 6);
                     x_base -= 0x20;
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_02 =
-                        (s16) (x_base + (jitter_or_scale & 0x3F));
+                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_02 = (s16) (x_base + (jitter_or_scale & 0x3F));
                     y_random = rand();
                     y_base = ((S_8016604C_3 *)(source->unk_08))->unk_06 + (grid_y << 6);
                     y_base -= 0x20;
                     ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_06 = (s16) (y_base + (y_random & 0x3F));
-                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_0A =
-                        (s16) (((S_8016604C_3 *)(source->unk_08))->unk_0A - 0x100);
+                    ((S_8016604C_4 *)((*(void **)((u8 *)particle + 8))))->unk_0A = (s16) (((S_8016604C_3 *)(source->unk_08))->unk_0A - 0x100);
                     motion = (*(void **)((u8 *)particle + 8));
                     motion->unk_10 = 0;
                     motion->unk_0C = 0;
@@ -115,6 +113,5 @@ void func_8016604C(S_8016604C_0 *source) {
 }
 
 /* MECHANISM: True-space nested loops plus a held D_80165AB8 base produce the exact 0x30 frame and s5/s4/s3/s2 roles at cdk-G0.
-   A byte-aligned 12
-       -byte aggregate produces the retail lwl/lwr/swl/swr copy; distinct RNG/coordinate locals preserve v1/a0 allocation.
+   A byte-aligned 12-byte aggregate produces the retail lwl/lwr/swl/swr copy; distinct RNG/coordinate locals preserve v1/a0 allocation.
    The final 0xFF field is u8 so GCC materializes 0xff rather than canonicalizing it to -1. */
