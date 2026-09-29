@@ -65,12 +65,10 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
     } while (0);
 
     {
-        u8 *data_page;
         Engine *engine;
         u8 *item_slot;
         u8 *block_a;
         u8 *dispatch_a;
-        u8 *engine_b;
         u8 *block_b;
         u8 *dispatch_b;
 
@@ -84,16 +82,15 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         do {
             dispatch_a = (u8 *)((CallbackBlock *)block_a)->callback;
         } while (0);
-        data_page = (u8 *)0x80020000;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((Callback)dispatch_a)(data_page - 0x6E94, D_80019178, n, group);
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        block_a = (u8 *)D_8001916C;
+        ((Callback)dispatch_a)(block_a, D_80019178, n, group);
 
-        engine_b = *(u8 **)D_80016000;
-        block_b = (u8 *)((Engine *)engine_b)->callbacks;
+        block_a = *(u8 **)D_80016000;
+        block_b = (u8 *)((Engine *)block_a)->callbacks;
         dispatch_b = (u8 *)((CallbackBlock *)block_b)->callback;
         do {
-            ((Callback)dispatch_b)(data_page - 0x6E94, &D_8001917C, head);
+            block_a = (u8 *)D_8001916C;
+            ((Callback)dispatch_b)(block_a, &D_8001917C, head);
         } while (0);
     }
 
