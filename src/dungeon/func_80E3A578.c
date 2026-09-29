@@ -52,7 +52,6 @@ typedef struct S_80173D78_5 {
 } S_80173D78_5;   /* base in func_80173D78 */
 
 
-extern void *D_801708A0[];
 extern M2C_UNK D_800C6AEC;
 extern M2C_UNK D_8017086C;
 extern M2C_UNK D_80170898;
@@ -81,7 +80,6 @@ void *func_8017618C();
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
 void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     S_80173D78_3 *target;
     void *effect;
     S_80173D78_5 *object;
@@ -101,13 +99,8 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
     u8 state;
 
     state = ((Rec_func_80173D78_arg0 *)action)->unk_9B;
-    if (state >= 5U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_801708A0[(u32)state];
-
-jt_c0:
+    switch (state) {
+    case 0:
     sprite_flags = sprite->unk_14;
     if (!(sprite_flags & 0xE000)) {
         return;
@@ -123,7 +116,7 @@ jt_c0:
     ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0x10;
     return;
 
-jt_c1:
+    case 1:
     if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
         if (!(sprite->unk_14 & 0x8000)) {
             func_80175DD0(action, context, sprite, 0);
@@ -219,7 +212,7 @@ jt_c1:
     actor->unk_1C &= 0xFFFEFFFF;
     return;
 
-jt_c2:
+    case 2:
     state = sprite->unk_0C.at03.v;
     if (state < 7U) {
         sprite->unk_0C.at03.v = state + 1;
@@ -248,9 +241,9 @@ jt_c2:
     sprite->unk_14 &= 0xFFF3;
 advance_state:
     ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
-    goto jt_c4;
+    break;
 
-jt_c3:
+    case 3:
 {
 
     ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
@@ -262,6 +255,7 @@ jt_c3:
     actor->unk_1C &= 0xEFFFFFFF;
     actor->unk_46 &= 0x7FFF;
 }
-jt_c4:
+    case 4:
     return;
+    }
 }
