@@ -8,8 +8,6 @@ typedef s32 M2C_UNK;
 
 extern void func_800419EC(s32, s32);
 extern void func_800A56E0(u32);
-extern void *jtbl_80164A38[];
-__asm__(".set jtbl_80164A38, 0x80164A38");
 extern s16 D_801760D8[5];
 
 
@@ -33,10 +31,6 @@ typedef struct S_80170534_1 {
 
 /* Advances a timed blinking effect, triggers sounds, and sets completion flags. */
 void func_80170534(void *state_data, void *unused, void *color_data) {
-    static void *const state_labels[] = {
-        &&state_end, &&state_1, &&state_2, &&state_end, &&state_4
-    };
-    void * volatile *dispatch;
     s32 phase;
     s32 bright_shade;
     u16 dim_shade;
@@ -45,93 +39,87 @@ void func_80170534(void *state_data, void *unused, void *color_data) {
     u16 blink_frame;
 
     phase = ((S_80170534_0 *)state_data)->unk_12.s;
-    if ((u32) phase >= 5) {
-        goto state_end;
-    }
-    dispatch = jtbl_80164A38;
-    (void)state_labels;
-    goto *dispatch[(u32) phase];
-
-state_1:
-    frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
-    ((S_80170534_0 *)state_data)->unk_18 = frame;
-    if (!(frame & 3)) {
-        func_800419EC(6, 0xC);
-        func_800A56E0(0x818);
-    }
-    if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
-        bright_shade = 0xFF;
-        if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
-            ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
-            ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
-            ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
-        } else {
-            dim_shade = 0x80;
-            ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
-            ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
-            ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
+    switch ((u32) phase) {
+    case 1:
+        frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
+        ((S_80170534_0 *)state_data)->unk_18 = frame;
+        if (!(frame & 3)) {
+            func_800419EC(6, 0xC);
+            func_800A56E0(0x818);
         }
-    }
-    if ((s16) ((S_80170534_0 *)state_data)->unk_18 == 0x28) {
+        if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
+            bright_shade = 0xFF;
+            if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
+                ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
+                ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
+                ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
+            } else {
+                dim_shade = 0x80;
+                ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
+                ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
+                ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
+            }
+        }
+        if ((s16) ((S_80170534_0 *)state_data)->unk_18 == 0x28) {
 #ifdef NON_MATCHING
-        D_801760D8[0] = 1;
+            D_801760D8[0] = 1;
 #else
+            {
+                u8 *flag_page = (u8 *) 0x80170000;
+                *(u16 *)((u8 *)&D_801760D8) = 1;
+            }
+#endif
+        }
+        if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x28) {
+            next_phase = ((S_80170534_0 *)state_data)->unk_12.u + 1;
+            ((S_80170534_0 *)state_data)->unk_12.u = next_phase;
+            return;
+        }
+        break;
+    case 2:
+        blink_frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
+        ((S_80170534_0 *)state_data)->unk_18 = blink_frame;
+        if (!(blink_frame & 3)) {
+            func_800A56E0(0x818);
+        }
+        if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
+            bright_shade = 0xFF;
+            if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
+                ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
+                ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
+                ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
+            } else {
+                dim_shade = 0x80;
+                ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
+                ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
+                ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
+            }
+        }
+        if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x3C) {
+            ((S_80170534_0 *)state_data)->unk_18 = 0U;
+            ((S_80170534_0 *)state_data)->unk_12.s = (s16) ((u16) ((S_80170534_0 *)state_data)->unk_12.s + 1);
+            ((S_80170534_1 *)color_data)->unk_0E.u = 0x80;
+            ((S_80170534_1 *)color_data)->unk_0D.u = 0x80;
+            ((S_80170534_1 *)color_data)->unk_0C = 0x80;
+            return;
+        }
+        break;
+    case 4:
         {
-            u8 *flag_page = (u8 *) 0x80170000;
-            *(u16 *)((u8 *)&D_801760D8) = 1;
-        }
-#endif
-    }
-    if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x28) {
-        next_phase = ((S_80170534_0 *)state_data)->unk_12.u + 1;
-        ((S_80170534_0 *)state_data)->unk_12.u = next_phase;
-        return;
-    }
-    goto state_end;
-
-state_2:
-    blink_frame = ((S_80170534_0 *)state_data)->unk_18 + 1;
-    ((S_80170534_0 *)state_data)->unk_18 = blink_frame;
-    if (!(blink_frame & 3)) {
-        func_800A56E0(0x818);
-    }
-    if (!(((S_80170534_0 *)state_data)->unk_18 & 7)) {
-        bright_shade = 0xFF;
-        if (((S_80170534_1 *)color_data)->unk_0C != bright_shade) {
-            ((S_80170534_1 *)color_data)->unk_0E.s = bright_shade;
-            ((S_80170534_1 *)color_data)->unk_0D.s = bright_shade;
-            ((S_80170534_1 *)color_data)->unk_0C = bright_shade;
-        } else {
-            dim_shade = 0x80;
-            ((S_80170534_1 *)color_data)->unk_0E.u = dim_shade;
-            ((S_80170534_1 *)color_data)->unk_0D.u = dim_shade;
-            ((S_80170534_1 *)color_data)->unk_0C = dim_shade;
-        }
-    }
-    if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x3C) {
-        ((S_80170534_0 *)state_data)->unk_18 = 0U;
-        ((S_80170534_0 *)state_data)->unk_12.s = (s16) ((u16) ((S_80170534_0 *)state_data)->unk_12.s + 1);
-        ((S_80170534_1 *)color_data)->unk_0E.u = 0x80;
-        ((S_80170534_1 *)color_data)->unk_0D.u = 0x80;
-        ((S_80170534_1 *)color_data)->unk_0C = 0x80;
-        return;
-    }
-    goto state_end;
-
-state_4:
-    {
-        u8 *flags_page;
-        u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
-        flags_page = (u8 *) 0x80080000;
-        flags = (u16) (flags | 0x8000);
-        ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
+            u8 *flags_page;
+            u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
+            flags_page = (u8 *) 0x80080000;
+            flags = (u16) (flags | 0x8000);
+            ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
 #ifdef NON_MATCHING
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
 #else
-        *(s32 *)(flags_page + 0x14A0) |= 0x8000;
+            *(s32 *)(flags_page + 0x14A0) |= 0x8000;
 #endif
+        }
+    case 0:
+    case 3:
+    default:
+            break;
     }
-
-state_end:
-    ;
 }

@@ -37,35 +37,12 @@ extern void func_80123898(void *);
 extern void func_801238E4(void *);
 extern void func_80124728(void *);
 extern void func_801247F8(void *);
-extern void *D_8011AD90[];
 extern TownInitialPosition D_80126AF8[5];
 extern void *D_80129728[];
 
 /* Initializes, updates, or clears town objects according to the current action. */
 void func_801260E8(Rec_func_801237A4_arg0 *context)
 {
-    static void *const switch_labels[] = {
-        &&case_0,
-        &&done,
-        &&done,
-        &&done,
-        &&done,
-        &&done,
-        &&done,
-        &&case_7,
-        &&case_8_10,
-        &&case_8_10,
-        &&case_8_10,
-        &&case_11,
-        &&case_12_14,
-        &&case_12_14,
-        &&case_12_14,
-        &&done,
-        &&case_16,
-        &&done,
-        &&done,
-        &&done
-    };
     s32 action_index;
     s32 object_index;
     s32 initial_offset;
@@ -77,19 +54,14 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
     u16 object_word;
 
     action_index = (s16)(context->unk_04.as_u16 - 1);
-    if ((u32)action_index >= 20) {
-        return;
-    }
-    (void)switch_labels;
-    goto *D_8011AD90[action_index];
+    switch (action_index) {
+    case 0:
+        {
+            S_801260E8_1 *clear_target;
 
-case_0:
-    {
-        S_801260E8_1 *clear_target;
-
-        clear_target = context->unk_58;
-        clear_target = clear_target->unk_70;
-        clear_target->unk_00 = 0;
+            clear_target = context->unk_58;
+            clear_target = clear_target->unk_70;
+            clear_target->unk_00 = 0;
     }
     func_80123700();
     func_80124728(context);
@@ -116,8 +88,7 @@ case_0:
         } while (clear_index < 16);
     }
     return;
-
-case_7:
+    case 7:
     object_index = 14;
     initial_base = (s8 *)D_80126AF8;
     initial_offset = 0;
@@ -129,8 +100,9 @@ case_7:
         object_index += 1;
         target_object->unk_00 = data_word;
     } while (object_index < 16);
-
-case_8_10:
+    case 8:
+    case 9:
+    case 10:
     object_index = 14;
     do {
         object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
@@ -139,11 +111,11 @@ case_8_10:
         object_data->unk_02 = (u16)(object_word - 0x100);
     } while (object_index < 28);
     return;
-
-case_11:
+    case 11:
     func_801238E4(context);
-
-case_12_14:
+    case 12:
+    case 13:
+    case 14:
     object_index = 14;
     do {
         object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
@@ -151,9 +123,8 @@ case_12_14:
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);
     } while (object_index < 28);
-    goto done;
-
-case_16:
+    break;
+    case 16:
     func_801237E8(context);
     {
         s32 clear_index;
@@ -173,9 +144,10 @@ case_16:
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
         } while (clear_index < 28);
     }
-
-done:
-    return;
+    case 19:
+    default:
+        break;
+    }
 }
 
 /* MECHANISM: The one-argument ABI plus external 20-way table/local epilogue edges yields the
