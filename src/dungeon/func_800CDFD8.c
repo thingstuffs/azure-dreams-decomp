@@ -369,7 +369,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                 } else {
                     edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03
                         - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
-                    height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
+                    height = ((S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
                     ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                     ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
                     edge_y = height + edge_y;

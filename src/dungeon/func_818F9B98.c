@@ -23,7 +23,7 @@ typedef struct S_80025398_1 {
     u16 unk_14;
     u8 pad_16[0x6];
     union { u16 s; u16 u; } unk_1C;   /* accessed as both */
-    union { u16 s; volatile u16 u; } unk_1E;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
 } S_80025398_1;   /* out in func_80025398 */
 
 typedef struct S_80025398_2 {

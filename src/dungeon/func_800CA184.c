@@ -554,18 +554,18 @@ L_CFE98:
                                 register u16 third_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_10;
-                                cell_x = *(volatile u16 *)(ram_base + 0x014);
-                                *(volatile s32 *)(ram_base + 0x170) = vertex_value;
+                                cell_x = *(u16 *)(ram_base + 0x014);
+                                *(s32 *)(ram_base + 0x170) = vertex_value;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_00;
                                 vertex_offset = ((S_800CF8E4_6 *)face)->unk_14;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                *(volatile s32 *)(ram_base + 0x16C) = vertex_offset;
+                                *(s32 *)(ram_base + 0x16C) = vertex_offset;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
-                                vertex_offset = *(volatile u16 *)(ram_base + 0x12C);
-                                *(volatile s32 *)(ram_base + 0x164) = vertex_value;
+                                vertex_offset = *(u16 *)(ram_base + 0x12C);
+                                *(s32 *)(ram_base + 0x164) = vertex_value;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_00;
-                                vertex_x = *(volatile u16 *)(ram_base + 0x164);
+                                vertex_x = *(u16 *)(ram_base + 0x164);
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_xy = cell_x + vertex_x;
@@ -573,7 +573,7 @@ L_CFE98:
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
                                 *(volatile u16 *)(ram_base + 0x0E4) = (u16)vertex_value;
-                                vertex_value = *(volatile u16 *)(ram_base + 0x166);
+                                vertex_value = *(u16 *)(ram_base + 0x166);
                                 vertex_offset = *(volatile s32 *)(ram_base + 0x00C);
                                 vertex_value = (s16)vertex_value;
                                 vertex_offset += vertex_value;
@@ -583,10 +583,10 @@ L_CFE98:
                                 *(volatile s32 *)(ram_base + 0x0E0) = vertex_xy;
 
                                 cell_x = *(volatile u16 *)(ram_base + 0x014);
-                                vertex_offset = *(volatile u16 *)(ram_base + 0x12C);
+                                vertex_offset = *(u16 *)(ram_base + 0x12C);
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                *(volatile s32 *)(ram_base + 0x164) = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
+                                *(s32 *)(ram_base + 0x164) = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
                                 vertex_x = *(u16 *)(ram_base + 0x164);
                                 vertex_value <<= 3;
@@ -678,7 +678,7 @@ L_D0130:
                                                     s32 row_offset_mask;
 
                                                     neighbor_offset = *(u16 *)(ram_base + 0x010);
-                                                    error_step = *(volatile s32 *)(ram_base + 0x134);
+                                                    error_step = *(s32 *)(ram_base + 0x134);
                                                     neighbor_row_step = *(volatile u16 *)(ram_base + 0x012);
                                                     row_offset_mask = *(volatile s32 *)(ram_base + 0x120);
                                                     render_arg = *(s32 *)(ram_base + 0x124);

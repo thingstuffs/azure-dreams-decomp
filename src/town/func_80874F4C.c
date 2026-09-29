@@ -49,25 +49,21 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 callback;
     s32 tail_arg;
 
-    if (func_80700D84(arg0, arg1, arg2, arg3) < 2) {
-        goto callback_path;
+    if (func_80700D84(arg0, arg1, arg2, arg3) >= 2) {
+        old_value = D_80700000.values[arg0];
+        value = old_value;
+        index = value;
+        if (value < 0) {
+            index = value + 31;
+        }
+        index >>= 5;
+        offset = index * 4;
+        word = (s32 *)(offset + (s32)D_80701968[0]);
+        shift = value - (index << 5);
+        old_value = *word;
+        *word = ((1) << shift) | old_value;
+        return func_80701060(word, old_value);
     }
-
-    old_value = D_80700000.values[arg0];
-    value = old_value;
-    index = value;
-    if (value < 0) {
-        index = value + 31;
-    }
-    index >>= 5;
-    offset = index * 4;
-    word = (s32 *)(offset + (s32)D_80701968[0]);
-    shift = value - (index << 5);
-    old_value = *word;
-    *word = ((1) << shift) | old_value;
-    return func_80701060(word, old_value);
-
-callback_path:
     callback = D_80701984[0]->callback(2);
     tail_arg = 0x40000000;
     if (callback == 0) {
