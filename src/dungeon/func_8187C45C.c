@@ -50,7 +50,6 @@ extern void *memcpy(void *, const void *, unsigned int);
 extern void func_80045340(void);
 extern void func_8002569C(void);
 extern void func_800257E0(void);
-extern void *D_80024098[];
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
 #define S8(p, o) (*(s8 *)((u8 *)(p) + (o)))
@@ -62,10 +61,6 @@ extern void *D_80024098[];
 
 /* Update a projectile effect, its trail, and the target hit animation. */
 void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
-    static void *const dispatch_keepalive[] = {
-        &&initialize, &&await_launch, &&move_projectile, &&spawn_impact,
-        &&fade_projectile, &&brighten_target, &&animate_target, &&finish_effect
-    };
     u16 origin_offset[4];
     PointTable direction_steps;
     void *effect = effect_data;
@@ -110,12 +105,9 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     object = (u8 *)owner - 0x20;
     object_data = PTR(object, 8);
 
-    if ((u32)state_index >= 8) {
-        return;
-    }
-    goto *D_80024098[state_index];
+    switch (state_index) {
 
-initialize:
+    case 0:
     U32(sprite, 0xC) = 0x00808080;
     U16(sprite, 0x1E) = 0x1000;
     U16(sprite, 0x1C) = 0x1000;
@@ -150,6 +142,7 @@ initialize:
     }
     U16(motion, 0xA) = owner_z - 0x40;
 
+    case 1:
 await_launch:
     if (!(U16(PTR(effect, 4), 0) & 0x80)) {
         return;
@@ -252,7 +245,7 @@ await_launch:
     ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
-move_projectile:
+    case 2:
     trail_color = 0x60;
 do {
     object = func_8003FC64(0x12);
@@ -331,7 +324,7 @@ do {
     S32(motion, 8) = (s32)offset_value;
     } while (1);
 
-spawn_impact:
+    case 3:
     if (S16(effect, 0x96) == 0) {
         U16(effect, 0x96) = 1;
         U8(effect, 0xA0) = U8(effect, 0xA0) + 0x18;
@@ -365,7 +358,7 @@ spawn_impact:
     U16(effect, 0x82) = 0;
     return;
 
-fade_projectile:
+    case 4:
     {
         u16 next_tick = U16(effect, 0x82) + 1;
         fade_out_tick = (s16)next_tick;
@@ -410,7 +403,7 @@ finish_fade:
     ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto advance_state;
 
-brighten_target:
+    case 5:
     U16(effect, 0x82) = U16(effect, 0x82) + 1;
     object_data = 0;
     blue_scaled = S16(effect, 0x82) * 0x20;
@@ -445,7 +438,7 @@ brighten_target:
     }
     return;
 
-animate_target:
+    case 6:
     {
         u16 next_tick = U16(effect, 0x82) + 1;
         target_tick = (s16)next_tick;
@@ -506,7 +499,7 @@ advance_state:
     U16(effect, 0xA) = next_state + 1;
     return;
 
-finish_effect:
+    case 7:
     finish_tick = U16(effect, 0x82);
     U16(effect, 0x82) = finish_tick + 1;
     if ((s16)finish_tick < 0x15) {
@@ -522,6 +515,9 @@ finish_effect:
         return;
     }
     goto clear_busy;
+    default:
+        return;
+    }
 collision_hit:
     U16(effect, 0xA) = 7;
     U16(effect, 0x82) = 0;

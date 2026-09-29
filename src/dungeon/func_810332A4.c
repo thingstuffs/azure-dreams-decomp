@@ -96,17 +96,11 @@ extern void func_801746EC();
 extern void *func_801748FC(void *, s32, s32, s16);
 extern s32 func_80174A00(void *, s32, s32, s16);
 
-extern void *D_80170858[];
 extern Pair16 D_8017610C[];
 
 /* Update a moving effect, its pushed objects, and its collision and end animations. */
 void func_80174AA4(void *effect, void *motion, void *sprite)
 {
-    static void *const state_labels[] = {
-        &&state_0, &&state_1, &&state_2,
-        &&end, &&end, &&end, &&end, &&end, &&end, &&end,
-        &&state_10, &&state_11, &&state_12,
-    };
     u16 collision_flags;
     S_func_810332A4_4 *owner;
     S_func_810332A4_5 *object;
@@ -156,13 +150,8 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     effect_owner = effect->unk_28;
     state = effect->unk_16.s;
     owner = effect_owner;
-    if ((u32)state >= 13U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170858[state];
-
-state_0:
+    switch (state) {
+    case 0:
     timer = effect->unk_1E.u + 1;
     effect->unk_1E.u = timer;
     fade_value = ((s16)timer << 7) / 10;
@@ -177,7 +166,7 @@ state_0:
     effect->unk_16.u++;
     return;
 
-state_1:
+    case 1:
     timer = effect->unk_1E.u + 1;
     effect->unk_1E.u = timer;
     if ((s16)timer < 30) {
@@ -190,7 +179,7 @@ state_1:
     func_800A56E0(0x808);
     return;
 
-state_2:
+    case 2:
     if ((effect->unk_4C.s << 6) + 0x20 != motion->unk_00.half.unk_02) {
         goto object_common;
     }
@@ -460,7 +449,7 @@ secondary_object:
     motion->unk_04.word += motion->unk_10;
     return;
 
-state_10:
+    case 10:
     for (burst_index = 0; burst_index < 16; burst_index++) {
         func_801744DC(effect, motion, sprite);
     }
@@ -472,7 +461,7 @@ state_10:
     effect->unk_16.u++;
     sprite->unk_14 |= 0x80;
 
-state_11:
+    case 11:
     timer = effect->unk_1E.u + 1;
     effect->unk_1E.u = timer;
     delay_pending = (s16)timer < 10;
@@ -481,13 +470,21 @@ state_11:
     }
     effect->unk_1E.u = 0;
     effect->unk_16.u++;
-    goto end;
+    return;
 
-state_12:
+    case 12:
     effect_owner->unk_AC = 0x4D;
     *(u16 *)((u8 *)effect - 2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-end:
-    return;
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    default:
+        return;
+    }
 }

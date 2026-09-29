@@ -21,7 +21,6 @@ typedef union {
 } Local38;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80024058[];
 M2C_UNK func_8002407C();          /* extern */
 M2C_UNK func_800244CC(); /* extern */
 M2C_UNK func_80024DB8(); /* extern */
@@ -332,7 +331,6 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     Local38 direction_steps;
     register void *particle_owner ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 particle_size;
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c8 };
     s32 spawn_tick;
     s32 state;
     s32 effect_active;
@@ -399,11 +397,8 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     state = (*(s16 *)((u8 *)effect + 0xA));
     parent_object = parent - 0x20;
     parent_position = parent_object->unk_08;
-    if ((u32) state >= 9U) {
-        return;
-    }
-    (void)state_labels; goto *D_80024058[(u32)(state)];
-jt_c0:
+    switch ((u32)(state)) {
+    case 0:
     ((S_818FF710_1 *)sprite)->unk_0C.at00.v = 0x808080;
     (*(Packed12 *)((u8 *)effect + 0x96)) = D_80025E70;
     ((S_818FF710_1 *)sprite)->unk_08 = (void *) (effect + 0x96);
@@ -411,7 +406,7 @@ jt_c0:
     ((S_818FF710_3 *)(&D_80025E80))->unk_00 = 1;
     (*(s16 *)((u8 *)effect + 0x7E)) = (s16) ((parent_flags >> 9) & 7);
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
-jt_c1:
+    case 1:
     parent_sprite = parent_object->unk_0C;
     if (func_8003DE58(parent_sprite->unk_08, parent_sprite, &offset[0], 0) != 0) {
         goto set_launch_position;
@@ -489,7 +484,7 @@ flight_setup:
     (*(s16 *)((u8 *)effect + 0x8A)) = (s16) ((s8) flight_ticks * (s8) flight_ticks);
     func_80024DB8(effect, motion, sprite);
     return;
-jt_c2:
+    case 2:
     launch_particle = 0;
 launch_particles:
     launch_particle += 1;
@@ -573,7 +568,7 @@ move_effect:
     ((S_818FF710_5 *)motion)->unk_08.at00.v += ((S_818FF710_5 *)motion)->unk_14;
     func_80024DB8(effect, motion, sprite);
     return;
-jt_c3: {
+    case 3: {
     s32 impact_tick;
     s32 rect_value;
     register s16 *rect_start ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -782,7 +777,7 @@ finish_spawn:
     (*(s16 *)((u8 *)effect + 0x90)) = 0;
     return;
 }
-jt_c4:
+    case 4:
     impact_particle = 0;
     (*(u16 *)((u8 *)effect + 0x82)) = (u16) ((*(u16 *)((u8 *)effect + 0x82)) + 1);
 impact_particles:
@@ -824,7 +819,7 @@ check_impact_duration:
         goto next_state;
     }
     return;
-jt_c5:
+    case 5:
     if ((*(s16 *)((u8 *)effect + 0x90)) == 0) {
         return;
     }
@@ -839,7 +834,7 @@ next_state:
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
     return;
-jt_c6:
+    case 6:
     release_tick = (*(u16 *)((u8 *)effect + 0x82)) + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = release_tick;
     if ((s16) release_tick < 0x1F) {
@@ -852,7 +847,7 @@ jt_c6:
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
     (*(u16 *)((u8 *)effect + 0x82)) = 0x1EU;
     return;
-jt_c8:
+    case 8:
     old_cleanup_tick = (*(u16 *)((u8 *)effect + 0x82));
     cleanup_tick = old_cleanup_tick + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = cleanup_tick;
@@ -871,4 +866,7 @@ jt_c8:
 clear_active:
     (*(s16 *)&D_80025E80) = 0;
     return;
+    default:
+        return;
+    }
 }
