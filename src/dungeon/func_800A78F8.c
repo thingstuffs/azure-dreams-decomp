@@ -92,117 +92,104 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
 
     switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
-            return 0;
-        }
-        ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
-        goto start_fade;
+            if (dungeonStatus.unk_0A != 0) {
+                return 0;
+            }
+            ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
     case 1:
-        goto start_fade;
+        ((S_800AD058_1 *)sprite)->unk_10 = 0x20;
+        ((S_800AD058_1 *)sprite)->unk_12 = (u16) (((S_800AD058_1 *)sprite)->unk_12 - 0x80);
+        ((S_800AD058_1 *)sprite)->unk_14 = (u16) (((S_800AD058_1 *)sprite)->unk_14 | 0xC);
+        ((S_800AD058_2 *)entity)->unk_1C = (s32) (((S_800AD058_2 *)entity)->unk_1C | 0x10000000);
+        entity_type = ((S_800AD058_2 *)entity)->unk_13;
+        if ((entity_type == 5) || (sound_id = 0x805, (entity_type == 0x1E))) {
+            sound_id = 0x806;
+        }
+        func_800A56E0(sound_id);
+        ((S_800AD058_1 *)sprite)->unk_0C.at00.v = 0x808080;
+        ((Rec_func_800AD058_arg0 *)state)->unk_96 = 0x10;
+        ((Rec_func_800AD058_arg0 *)state)->unk_9B = (u8) (((Rec_func_800AD058_arg0 *)state)->unk_9B + 1);
     case 2:
-        goto update_fade;
+        red = (u8) ((S_800AD058_1 *)sprite)->unk_0C.at00.v;
+        ((S_800AD058_1 *)sprite)->unk_0C.at00u.v = (s8) (red + ((s32) (0x20 - red) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        green = ((S_800AD058_1 *)sprite)->unk_0C.at01.v;
+        blue = ((S_800AD058_1 *)sprite)->unk_0C.at02.v;
+        ((S_800AD058_1 *)sprite)->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        fade_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
+        ((Rec_func_800AD058_arg0 *)state)->unk_96 = fade_ticks;
+        if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
+            if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
+                s32 *shared_state = ((s32 *)(&dungeonStatus));
+                if (shared_state[4] == (s32) (entity - 0x20)) {
+                    shared_state[4] = (s32) (shared_state[4] & 0x7FFFFFFF);
+                }
+            }
+            entity_flags = ((S_800AD058_2 *)entity)->unk_14;
+            if (!(entity_flags & 0x4000)) {
+                func_800A2FE0(entity);
+                func_800A32A4(entity);
+                if (((S_800AD058_2 *)entity)->unk_49 != 0 && !(((S_800AD058_2 *)entity)->unk_4B & 0x20)) {
+                    func_800B8228(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v, ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
+                }
+                break;
+            }
+            if (!(entity_flags & 0x20000000)) {
+                func_800ACF88(entity);
+            }
+            func_800A2FE0(entity);
+            func_800A32A4(entity);
+            if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
+                effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
+                tile_x = ((S_800AD058_1 *)sprite)->unk_24;
+                tile_y = ((S_800AD058_1 *)sprite)->unk_25;
+                special_tile_mask = 0x3000;
+                if (effect_flags & 0x2000) {
+                    special_tile_mask = 0x300;
+                }
+                func_8009A3D0(tile_x, tile_y, special_tile_mask);
+            }
+            func_8009A028(entity);
+            ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+            func_800A56E0(0x609);
+            return 1;
+        }
+        return finished;
+
     case 3:
-        goto update_spiral;
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
+        ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->x.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
+        ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->y.v + orbit_offset - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
+        {
+            s32 vertical_step;
+
+            vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
+            ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
+                ((((EntityRec *)((u8 *)(&D_80083780)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88) >> 4));
+        }
+        scale_x = ((S_800AD058_1 *)sprite)->unk_1C;
+        scale_y = ((S_800AD058_1 *)sprite)->unk_1E;
+        ((S_800AD058_1 *)sprite)->unk_1C = (u16) (scale_x - ((s32) scale_x / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_1E = (u16) (scale_y - ((s32) scale_y / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
+        spiral_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
+        ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;
+        finished = 0;
+        if ((spiral_ticks << 0x10) <= 0) {
+            register s32 *shared_state ASM_REG("$2") = ((s32 *)(&dungeonStatus));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
+            ((S_800AD058_5 *)shared_state)->unk_0A = (u16) (((S_800AD058_5 *)shared_state)->unk_0A - 1);
+            func_800A2FE0(entity);
+            func_800A32A4(entity);
+        } else {
+            return finished;
+        }
+        break;
     default:
         return 0;
     }
-start_fade:
-    ((S_800AD058_1 *)sprite)->unk_10 = 0x20;
-    ((S_800AD058_1 *)sprite)->unk_12 = (u16) (((S_800AD058_1 *)sprite)->unk_12 - 0x80);
-    ((S_800AD058_1 *)sprite)->unk_14 = (u16) (((S_800AD058_1 *)sprite)->unk_14 | 0xC);
-    ((S_800AD058_2 *)entity)->unk_1C = (s32) (((S_800AD058_2 *)entity)->unk_1C | 0x10000000);
-    entity_type = ((S_800AD058_2 *)entity)->unk_13;
-    if ((entity_type == 5) || (sound_id = 0x805, (entity_type == 0x1E))) {
-        sound_id = 0x806;
-    }
-    func_800A56E0(sound_id);
-    ((S_800AD058_1 *)sprite)->unk_0C.at00.v = 0x808080;
-    ((Rec_func_800AD058_arg0 *)state)->unk_96 = 0x10;
-    ((Rec_func_800AD058_arg0 *)state)->unk_9B = (u8) (((Rec_func_800AD058_arg0 *)state)->unk_9B + 1);
-update_fade:
-    red = (u8) ((S_800AD058_1 *)sprite)->unk_0C.at00.v;
-    ((S_800AD058_1 *)sprite)->unk_0C.at00u.v = (s8) (red + ((s32) (0x20 - red) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-    green = ((S_800AD058_1 *)sprite)->unk_0C.at01.v;
-    blue = ((S_800AD058_1 *)sprite)->unk_0C.at02.v;
-    ((S_800AD058_1 *)sprite)->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-    ((S_800AD058_1 *)sprite)->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-    fade_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
-    ((Rec_func_800AD058_arg0 *)state)->unk_96 = fade_ticks;
-    if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
-        if (!(((S_800AD058_2 *)entity)->unk_14 & 0x20000000)) {
-            s32 *shared_state = ((s32 *)(&dungeonStatus));
-            if (shared_state[4] == (s32) (entity - 0x20)) {
-                shared_state[4] = (s32) (shared_state[4] & 0x7FFFFFFF);
-            }
-        }
-        entity_flags = ((S_800AD058_2 *)entity)->unk_14;
-        if (!(entity_flags & 0x4000)) {
-            func_800A2FE0(entity);
-            func_800A32A4(entity);
-            if (((S_800AD058_2 *)entity)->unk_49 == 0) {
-                goto finish_removal;
-            }
-            {
-                if (((S_800AD058_2 *)entity)->unk_4B & 0x20) {
-                    goto finish_removal;
-                }
-                func_800B8228(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v, ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
-                goto finish_removal;
-            }
-        }
-        if (!(entity_flags & 0x20000000)) {
-            func_800ACF88(entity);
-        }
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
-        if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
-            effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
-            tile_x = ((S_800AD058_1 *)sprite)->unk_24;
-            tile_y = ((S_800AD058_1 *)sprite)->unk_25;
-            special_tile_mask = 0x3000;
-            if (effect_flags & 0x2000) {
-                special_tile_mask = 0x300;
-            }
-            func_8009A3D0(tile_x, tile_y, special_tile_mask);
-        }
-        func_8009A028(entity);
-        ((S_800AD058_2_pre *)entity)[-1].unk_00 = (u16) (((S_800AD058_2_pre *)entity)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-        func_800A56E0(0x609);
-        return 1;
-    }
-    return finished;
-
-update_spiral:
-    orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->x.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
-    orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-    ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->y.v + orbit_offset - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
-    {
-        s32 vertical_step;
-
-        vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
-        ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
-            ((((EntityRec *)((u8 *)(&D_80083780)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88) >> 4));
-    }
-    scale_x = ((S_800AD058_1 *)sprite)->unk_1C;
-    scale_y = ((S_800AD058_1 *)sprite)->unk_1E;
-    ((S_800AD058_1 *)sprite)->unk_1C = (u16) (scale_x - ((s32) scale_x / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-    ((S_800AD058_1 *)sprite)->unk_1E = (u16) (scale_y - ((s32) scale_y / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-    ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
-    spiral_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
-    ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;
-    finished = 0;
-    if ((spiral_ticks << 0x10) <= 0) {
-        register s32 *shared_state ASM_REG("$2") = ((s32 *)(&dungeonStatus));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        ((S_800AD058_5 *)shared_state)->unk_0A = (u16) (((S_800AD058_5 *)shared_state)->unk_0A - 1);
-        func_800A2FE0(entity);
-        func_800A32A4(entity);
-    } else {
-        return finished;
-    }
-finish_removal:
     if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
         effect_flags = ((S_800AD058_2 *)entity)->unk_1C;
         tile_x = ((S_800AD058_1 *)sprite)->unk_24;

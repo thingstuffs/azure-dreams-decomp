@@ -159,7 +159,7 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     S_func_81820800_1 *state_obj;
     S_func_81820800_4 *owner;
     S_func_81820800_5 *source;
-    register S_func_81820800_3 *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81820800_3 *actor;
     u32 header_raw;
     S_func_81820800_5 *target_data;
     S_func_81820800_7 *effect_data;
@@ -167,17 +167,18 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     S_func_81820800_5 *actor_data;
     s32 step_x;
     s32 step_y;
-    register s32 offset_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 offset_x;
     register s32 offset_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK distance_or_script;
     register s32 delta_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 delta_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s8 *x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 abs_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 effects_left;
     s32 velocity_x;
     s32 velocity_y;
     s32 phase;
+    s32 start_y;
+    s32 end_x;
     s32 coord_y;
     u16 duration;
     s32 coord_x;
@@ -213,9 +214,12 @@ state_aim:
     }
     {
         S_func_81820800_5 *tile_data;
-        s32 search_mode = func_800A3820(3) << 0x10;
+        s32 search_mode;
+        start_y = func_800A3820(3);
+        search_mode = start_y << 0x10;
         tile_data = actor_data;
-        header_raw = (u32)func_800A05A4(actor, tile_data->unk_24, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        end_x = tile_data->unk_24;
+        header_raw = (u32)func_800A05A4(actor, end_x, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
     actor->unk_60 = (S_func_81820800_3 *)header_raw;
     if (((S_func_81820800_3 *)header_raw) != NULL) {
@@ -263,27 +267,21 @@ use_target:
 start_motion:
     {
         S_func_81820800_5 *tile_data;
-        s32 end_x;
 
-        s32 start_x;
-        s32 start_y;
         tile_data = actor_data;
         end_x = (s8)actor->unk_72;
         abs_y = (s8)actor->unk_73;
-        start_x = tile_data->unk_24;
+        phase = tile_data->unk_24;
         start_y = tile_data->unk_25;
-        delta_x = end_x - start_x;
-        delta_y = abs_y - start_y;
-        ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(end_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        delta_x = end_x - phase;
+        coord_y = abs_y - start_y;
     }
     distance_or_script = delta_x;
     if (delta_x < 0) {
         distance_or_script = 0 - distance_or_script;
     }
-    abs_y = delta_y;
-    if (delta_y < 0) {
+    abs_y = coord_y;
+    if (coord_y < 0) {
         abs_y = 0 - abs_y;
     }
     if (distance_or_script < abs_y) {

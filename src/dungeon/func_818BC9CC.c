@@ -115,7 +115,7 @@ typedef struct S_func_818BC9CC_6 {
     s16 unk_C8;
 } S_func_818BC9CC_6;
 
-#define OT_ADDR(sc) ((u32 *)((((volatile S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
+#define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -194,101 +194,86 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         packet->unk_2A = 0;
         packet->unk_06 = intensity;
 
-        if (quad_index == 1) {
-            goto L_case1;
+        switch (quad_index) {
+        case 0:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 + x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            coord = position->unk_06 - y_extent;
+            scratch->unk_7E = coord;
+            scratch->unk_6E = coord;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            z_extent = effect->unk_08.as_u16;
+            far_z = far_z + z_extent;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        case 1:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 - x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            coord = position->unk_06 + y_extent;
+            scratch->unk_7E = coord;
+            scratch->unk_6E = coord;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z = far_z + effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
+        case 2:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 + x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            far_y = (u32)position->unk_06 - y_extent;
+            goto store_y;
+        case 3:
+            coord = position->unk_02;
+            scratch->unk_74 = coord;
+            scratch->unk_64 = coord;
+            coord = position->unk_02 - x_extent;
+            scratch->unk_7C = coord;
+            scratch->unk_6C = coord;
+            coord = position->unk_06;
+            scratch->unk_76 = coord;
+            scratch->unk_66 = coord;
+            far_y = (u32)position->unk_06 + y_extent;
+        store_y:
+            scratch->unk_7E = far_y;
+            scratch->unk_6E = far_y;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z -= effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
         }
-        if (quad_index < 2) {
-            if (quad_index == 0) {
-                goto L_case0;
-            }
-            goto L_common;
-        } else {
-            if (quad_index == 2) {
-                goto L_case2;
-            }
-            if (quad_index == 3) {
-                goto L_case3;
-            }
-            goto L_common;
-        }
-    L_case0:
-        coord = position->unk_02;
-        scratch->unk_74 = coord;
-        scratch->unk_64 = coord;
-        coord = position->unk_02 + x_extent;
-        scratch->unk_7C = coord;
-        scratch->unk_6C = coord;
-        coord = position->unk_06;
-        scratch->unk_76 = coord;
-        scratch->unk_66 = coord;
-        coord = position->unk_06 - y_extent;
-        scratch->unk_7E = coord;
-        scratch->unk_6E = coord;
-        coord = position->unk_0A;
-        scratch->unk_70 = coord;
-        scratch->unk_68 = coord;
-        far_z = position->unk_0A;
-        z_extent = effect->unk_08.as_u16;
-        far_z = far_z + z_extent;
-        scratch->unk_80 = far_z;
-        goto store_z_done;
-    L_case1:
-        coord = position->unk_02;
-        scratch->unk_74 = coord;
-        scratch->unk_64 = coord;
-        coord = position->unk_02 - x_extent;
-        scratch->unk_7C = coord;
-        scratch->unk_6C = coord;
-        coord = position->unk_06;
-        scratch->unk_76 = coord;
-        scratch->unk_66 = coord;
-        coord = position->unk_06 + y_extent;
-        scratch->unk_7E = coord;
-        scratch->unk_6E = coord;
-        coord = position->unk_0A;
-        scratch->unk_70 = coord;
-        scratch->unk_68 = coord;
-        far_z = position->unk_0A;
-        far_z = far_z + effect->unk_08.as_u16;
-        scratch->unk_80 = far_z;
-        goto store_z_done;
-    L_case2:
-        coord = position->unk_02;
-        scratch->unk_74 = coord;
-        scratch->unk_64 = coord;
-        coord = position->unk_02 + x_extent;
-        scratch->unk_7C = coord;
-        scratch->unk_6C = coord;
-        coord = position->unk_06;
-        scratch->unk_76 = coord;
-        scratch->unk_66 = coord;
-        far_y = (u32)position->unk_06 - y_extent;
-        goto store_y;
-    L_case3:
-        coord = position->unk_02;
-        scratch->unk_74 = coord;
-        scratch->unk_64 = coord;
-        coord = position->unk_02 - x_extent;
-        scratch->unk_7C = coord;
-        scratch->unk_6C = coord;
-        coord = position->unk_06;
-        scratch->unk_76 = coord;
-        scratch->unk_66 = coord;
-        far_y = (u32)position->unk_06 + y_extent;
-    store_y:
-        scratch->unk_7E = far_y;
-        scratch->unk_6E = far_y;
-        coord = position->unk_0A;
-        scratch->unk_70 = coord;
-        scratch->unk_68 = coord;
-        far_z = position->unk_0A;
-        far_z -= effect->unk_08.as_u16;
-        scratch->unk_80 = far_z;
-        store_z_done:
-        ;
-        scratch->unk_78 = far_z;
 
-    L_common:
         {
             void *vertex0 = (u8 *)scratch + 0x64;
             void *vertex1 = (u8 *)scratch + 0x6C;

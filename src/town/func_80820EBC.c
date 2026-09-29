@@ -61,151 +61,130 @@ void func_800236BC(void *object, void *motion, void *sprite)
     ((S_800236BC_3 *)(((S_800236BC_1 *)object)->unk_00))->unk_62 |= 2;
 
     state = ((S_800236BC_1 *)object)->unk_04.s;
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state < 3) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        func_800478B8(sprite);
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
+        ((S_800236BC_1 *)object)->unk_1D = 0;
+        if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
+            return;
         }
-        if (state == 1) {
-            goto state_1;
-        }
-        return;
-    }
-    if (state == 4) {
-        goto state_4;
-    }
-    if (state < 4) {
-        goto state_3;
-    }
-    if (state == 255) {
-        goto state_255;
-    }
-    return;
-
-state_0:
-    func_800478B8(sprite);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
-    ((S_800236BC_1 *)object)->unk_1D = 0;
-    if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
-        return;
-    }
-    SD_Call(0x501);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
-    ((S_800236BC_1 *)object)->unk_06.s = 15;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_0C = ((rand() % 320) - 64) << 12;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_10 = (rand() % 96 + 128) << 12;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0xFFF00000;
-    ((S_800236BC_1 *)object)->unk_04.u++;
-    return;
-
-state_1:
-    func_800478B8(sprite);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
-    ((S_800236BC_1 *)object)->unk_06.u--;
-    if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
-        return;
-    }
-    SD_Call(0x501);
-    if (((S_800236BC_1 *)object)->unk_06.s > 0) {
+        SD_Call(0x501);
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
-        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14;
-        return;
-    }
-    ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_10 = 0;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_0C = 0;
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) - 0x150000;
-    ((S_800236BC_1 *)object)->unk_06.s = (rand() & 0xF) + 30;
-    ((S_800236BC_1 *)object)->unk_04.u++;
-    return;
-
-state_2:
-    func_800478B8(sprite);
-    ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
-    ((S_800236BC_1 *)object)->unk_06.u--;
-    collision_addr = 0x80020000;
-    if (((Rec_func_800206D0_arg1 *)motion)->unk_08 >= 0) {
-        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
-        if (((S_800236BC_1 *)object)->unk_06.s < 0) {
-            sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
-            ((Rec_D_80082E80 *)sprite)->unk_12.at00_s16.v = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_04.as_u8 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 0;
-            ((Rec_D_80082E80 *)sprite)->unk_08 = sprite_data;
-            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
-            ((S_800236BC_1 *)object)->unk_06.s = 150;
-            ((S_800236BC_1 *)object)->unk_04.u++;
-        } else {
-            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
-        }
-    }
-    collision_addr = (u32)&D_80024488;
-    if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
-        return;
-    }
-    SD_Call(0x516);
-    {
-        u8 *stack_base;
-        stack_base = __builtin_alloca(0);
-        reward_units = *(s32 *)(((S_800236BC_1 *)object)->unk_54 * 4 + stack_base);
-        reward_page = 0x80010000;
-        goto collision_reward;
-    }
-
-state_3:
-    ((S_800236BC_1 *)object)->unk_06.u--;
-    if (((S_800236BC_1 *)object)->unk_06.s < 0) {
-        ((S_800236BC_1 *)object)->unk_06.s = 31;
+        ((S_800236BC_1 *)object)->unk_06.s = 15;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_0C = ((rand() % 320) - 64) << 12;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_10 = (rand() % 96 + 128) << 12;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0xFFF00000;
         ((S_800236BC_1 *)object)->unk_04.u++;
-    }
-    if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
         return;
-    }
-    SD_Call(0x516);
-    reward_units = reward_table[((S_800236BC_1 *)object)->unk_54];
-    reward_page = 0x80010000;
-collision_reward:
-    {
-        s32 reward_total, collected_total;
-        u32 collected_page = 0x80020000;
-        ASM_KEEP(collected_page); /* MATCH: prepare the second global page before the reward arithmetic. */
-        reward_amount = reward_units * 100;
-        reward_total = *(s32 *)(reward_page + 0x2D5C);
-        collected_total = *(s32 *)(collected_page + 0x4628);
-        *(s32 *)(reward_page + 0x2D5C) = reward_total + reward_amount;
-        *(s32 *)(collected_page + 0x4628) = collected_total + reward_amount;
-    }
-    ((S_800236BC_1 *)object)->unk_04.s = 255;
-    return;
 
-state_4:
-    if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
-        SD_Call(0x516);
-        reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
-        D_80012D5C[0] += reward_amount;
-        D_80024628[0] += reward_amount;
-        ((S_800236BC_1 *)object)->unk_04.s = 255;
-    }
-    {
-        s32 sprite_flags;
-        if ((((S_800236BC_1 *)object)->unk_06.u >> 2) & 1) {
-            sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x80;
-        } else {
-            sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFF7F;
+    case 1:
+        func_800478B8(sprite);
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x40000;
+        ((S_800236BC_1 *)object)->unk_06.u--;
+        if (((Rec_func_800206D0_arg1 *)motion)->unk_08 < 0) {
+            return;
         }
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags;
-    }
-    ((S_800236BC_1 *)object)->unk_06.u--;
-    if (((S_800236BC_1 *)object)->unk_06.s > 0) {
+        SD_Call(0x501);
+        if (((S_800236BC_1 *)object)->unk_06.s > 0) {
+            ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
+            ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14;
+            return;
+        }
+        ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_10 = 0;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_0C = 0;
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) - 0x150000;
+        ((S_800236BC_1 *)object)->unk_06.s = (rand() & 0xF) + 30;
+        ((S_800236BC_1 *)object)->unk_04.u++;
         return;
-    }
-    ((S_800236BC_1 *)object)->unk_04.s = 255;
-    return;
 
-state_255:
-    func_8008F134((u8 *)object + 8);
-    (*(u16 *)((u8 *)object + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    case 2:
+        func_800478B8(sprite);
+        ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
+        ((S_800236BC_1 *)object)->unk_06.u--;
+        collision_addr = 0x80020000;
+        if (((Rec_func_800206D0_arg1 *)motion)->unk_08 >= 0) {
+            ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0;
+            if (((S_800236BC_1 *)object)->unk_06.s < 0) {
+                sprite_data = D_800244DC[((S_800236BC_1 *)object)->unk_54];
+                ((Rec_D_80082E80 *)sprite)->unk_12.at00_s16.v = 0;
+                ((Rec_D_80082E80 *)sprite)->unk_04.as_u8 = 0;
+                ((Rec_D_80082E80 *)sprite)->unk_05.as_u8 = 0;
+                ((Rec_D_80082E80 *)sprite)->unk_08 = sprite_data;
+                ((Rec_func_800206D0_arg1 *)motion)->unk_14 = 0;
+                ((S_800236BC_1 *)object)->unk_06.s = 150;
+                ((S_800236BC_1 *)object)->unk_04.u++;
+            } else {
+                ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
+            }
+        }
+        collision_addr = (u32)&D_80024488;
+        if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+            return;
+        }
+        SD_Call(0x516);
+        {
+            u8 *stack_base;
+            stack_base = __builtin_alloca(0);
+            reward_units = *(s32 *)(((S_800236BC_1 *)object)->unk_54 * 4 + stack_base);
+            reward_page = 0x80010000;
+            goto collision_reward;
+        }
+
+    case 3:
+        ((S_800236BC_1 *)object)->unk_06.u--;
+        if (((S_800236BC_1 *)object)->unk_06.s < 0) {
+            ((S_800236BC_1 *)object)->unk_06.s = 31;
+            ((S_800236BC_1 *)object)->unk_04.u++;
+        }
+        if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) == 0) {
+            return;
+        }
+        SD_Call(0x516);
+        reward_units = reward_table[((S_800236BC_1 *)object)->unk_54];
+        reward_page = 0x80010000;
+collision_reward:
+        {
+            s32 reward_total, collected_total;
+            u32 collected_page = 0x80020000;
+            ASM_KEEP(collected_page); /* MATCH: prepare the second global page before the reward arithmetic. */
+            reward_amount = reward_units * 100;
+            reward_total = *(s32 *)(reward_page + 0x2D5C);
+            collected_total = *(s32 *)(collected_page + 0x4628);
+            *(s32 *)(reward_page + 0x2D5C) = reward_total + reward_amount;
+            *(s32 *)(collected_page + 0x4628) = collected_total + reward_amount;
+        }
+        ((S_800236BC_1 *)object)->unk_04.s = 255;
+        return;
+
+    case 4:
+        if (func_8008FD9C(D_80024488, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
+            SD_Call(0x516);
+            reward_amount = reward_table[((S_800236BC_1 *)object)->unk_54] * 100;
+            D_80012D5C[0] += reward_amount;
+            D_80024628[0] += reward_amount;
+            ((S_800236BC_1 *)object)->unk_04.s = 255;
+        }
+        {
+            s32 sprite_flags;
+            if ((((S_800236BC_1 *)object)->unk_06.u >> 2) & 1) {
+                sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x80;
+            } else {
+                sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFF7F;
+            }
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags;
+        }
+        ((S_800236BC_1 *)object)->unk_06.u--;
+        if (((S_800236BC_1 *)object)->unk_06.s > 0) {
+            return;
+        }
+        ((S_800236BC_1 *)object)->unk_04.s = 255;
+        return;
+
+    case 255:
+        func_8008F134((u8 *)object + 8);
+        (*(u16 *)((u8 *)object + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    }
 }

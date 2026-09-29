@@ -255,7 +255,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
             scaled_z = (((Rec_func_80167A98_arg0 *)effect_data)->unk_64 * 0x14) + 0x200000;
             ((Rec_func_80167A98_arg0 *)effect_data)->unk_70 = (s32) ((s32) ((target_pos->unk_08 - scaled_z) - (origin->unk_08 + (*(s16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + case_base + 4) << 0x11))) >> 7);
             ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = 0U;
-            goto load_motion_table;
+            break;
         }
         break;
     case 1:
@@ -274,13 +274,12 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C + ((Rec_func_80167A98_arg0 *)effect_data)->unk_68);
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_60 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_60 + ((Rec_func_80167A98_arg0 *)effect_data)->unk_6C);
         ((Rec_func_80167A98_arg0 *)effect_data)->unk_64 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_64 + ((Rec_func_80167A98_arg0 *)effect_data)->unk_70);
-        goto load_motion_table;
+        break;
     default:
         motion_table = (u8 *)D_80175DD8;
         goto update_positions;
     }
 
-load_motion_table:
     motion_table = (u8 *)D_80175DD8;
 update_positions:
     table_join = motion_table;
