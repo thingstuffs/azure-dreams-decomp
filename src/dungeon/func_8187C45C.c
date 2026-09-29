@@ -81,7 +81,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *spawn_sprite;
     void *target;
     register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 next_state;
     u16 render_flags;
     s32 trail_color;
     s32 state_index;
@@ -239,10 +238,9 @@ await_launch:
         S32(motion, 0xC) = direction_steps.p[S16(effect, 0x7E)].x << 16;
         S32(motion, 0x10) = direction_steps.p[S16(effect, 0x7E)].y << 16;
         S32(motion, 0x14) = ((S16(effect, 0x78) << 16) - S32(motion, 8)) / S8(effect, 0x7B);
-        next_state = U16(effect, 0xA);
         U16(effect, 0x82) = 0;
-        ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        goto advance_state;
+        U16(effect, 0xA) += 1;
+        return;
 
     case 2:
         trail_color = 0x60;
@@ -398,10 +396,9 @@ loop_0:
         return;
 
 finish_fade:
-        next_state = U16(effect, 0xA);
         U16(effect, 0x82) = 0;
-        ASM_KEEP_NV(next_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        goto advance_state;
+        U16(effect, 0xA) += 1;
+        return;
 
     case 5:
         U16(effect, 0x82) = U16(effect, 0x82) + 1;
@@ -433,9 +430,9 @@ loop_1:
         if (particle_index < 2)
             goto loop_1;
         if (S16(effect, 0x82) >= 0x28) {
-            next_state = U16(effect, 0xA);
             U16(effect, 0x82) = 0;
-            goto advance_state;
+            U16(effect, 0xA) += 1;
+            return;
         }
         return;
 
@@ -496,12 +493,8 @@ loop_1_:
         U8(target_data, 0xD) = 0x80;
         U8(target_data, 0xC) = 0x80;
         func_800240B8(PTR(owner, 0x60), U8(effect, 9), owner);
-        next_state = U16(effect, 0xA);
-        offset_value = (void *)0x14;
-        U16(effect, 0x82) = (u32)offset_value;
-
-advance_state:
-        U16(effect, 0xA) = next_state + 1;
+        U16(effect, 0x82) = 0x14;
+        U16(effect, 0xA) += 1;
         return;
 
     case 7:
