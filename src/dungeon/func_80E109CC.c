@@ -55,45 +55,90 @@ void func_801741CC(void *actor, void *action_ctx, void *anim, void *entity)
     s32 action_state;
 
     action_state = ((S_801741CC_0 *)actor)->unk_9B;
-    if (action_state == 1) {
-        goto state_one;
-    }
-    if (action_state >= 2) {
-        goto at_least_two;
-    }
-    if (action_state == 0) {
-        goto state_zero;
-    }
-    return;
+    switch (action_state) {
+    case 0:
+        {
+            u8 *direction_anims;
 
-at_least_two:
-    if (action_state == 2) {
-        goto state_two;
-    }
-    return;
+            if (!(((Rec_func_800AA258_arg2 *)anim)->unk_14 & 0xE000)) {
+                return;
+            }
 
-state_zero:
-    {
-        u8 *direction_anims;
-
-        if (!(((Rec_func_800AA258_arg2 *)anim)->unk_14 & 0xE000)) {
+            dungeonStatus.unk_0A--;
+            direction_anims = D_80176470;
+            (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
+            func_80047784(anim,
+                direction_anims[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_801741CC_0 *)actor)->unk_9B++;
             return;
         }
 
-        dungeonStatus.unk_0A--;
-        direction_anims = D_80176470;
-        (*(void * *)((u8 *)anim + 0x2C)) = direction_anims;
-        func_80047784(anim,
-            direction_anims[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
-            0);
-        goto increment_state;
-    }
+    case 1:
+        {
+            u32 entity_flags;
 
-state_one:
-    {
-        u32 entity_flags;
+            if (((EntityRec *)entity)->tileY != 0) {
 
-        if (((EntityRec *)entity)->tileY != 0) {
+                (*(void * *)((u8 *)anim + 0x2C)) = D_80176478;
+                func_80047784(anim,
+                    D_80176478[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
+                    0);
+                ((EntityRec *)entity)->flags1C |= 0x40000;
+                dungeonStatus.unk_0A++;
+                ((S_801741CC_0 *)actor)->unk_9B++;
+                return;
+            }
+
+            if (dungeonStatus.flags & 0x1000) {
+                return;
+            }
+
+            if (((EntityRec *)entity)->unk_64 != 0) {
+                if (func_800AA6B4(actor, action_ctx, anim, 0) != 0) {
+                    return;
+                }
+            }
+
+            if ((func_800A2C34(entity) << 16) != 0) {
+                return;
+            }
+
+            entity_flags = ((u32)((EntityRec *)entity)->flags1C);
+            if (entity_flags & 0x100) {
+                func_800AA258(actor, action_ctx, anim, entity);
+                return;
+            }
+
+            if (entity_flags & 0x80000) {
+                u16 stat_value;
+                u16 stat_delta;
+
+                func_800AA888(actor, action_ctx, anim, entity);
+                stat_value = ((S_801741CC_0 *)actor)->unk_92;
+                stat_delta = ((S_801741CC_0 *)actor)->unk_A6;
+                ((S_801741CC_0 *)actor)->unk_A6 = 0;
+                ((S_801741CC_0 *)actor)->unk_AC = 0;
+                ((S_801741CC_0 *)actor)->unk_92 = stat_value - stat_delta;
+                func_80174520(actor, action_ctx, anim, entity);
+                return;
+            }
+
+            if (((EntityRec *)entity)->unk_6D == 0) {
+                return;
+            }
+            if ((func_800A2C34(entity) << 16) != 0) {
+                if ((func_8009A180(entity,
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+
+            func_800A9A0C(entity);
+            func_800A9A04(entity);
+            if (((EntityRec *)entity)->tileY == 0) {
+                return;
+            }
 
             (*(void * *)((u8 *)anim + 0x2C)) = D_80176478;
             func_80047784(anim,
@@ -101,79 +146,18 @@ state_one:
                 0);
             ((EntityRec *)entity)->flags1C |= 0x40000;
             dungeonStatus.unk_0A++;
-            ((S_801741CC_0 *)actor)->unk_9B++;
-            return;
         }
 
-        if (dungeonStatus.flags & 0x1000) {
-            return;
+        ((S_801741CC_0 *)actor)->unk_9B++;
+        return;
+    case 2:
+        if (((Rec_func_800AA258_arg2 *)anim)->unk_14 & 0xE000) {
+
+            dungeonStatus.unk_0A--;
+            ((EntityRec *)entity)->flags1C &= ~8;
+            ((S_801741CC_0 *)actor)->unk_8C = &D_80171094;
         }
 
-        if (((EntityRec *)entity)->unk_64 != 0) {
-            if (func_800AA6B4(actor, action_ctx, anim, 0) != 0) {
-                return;
-            }
-        }
-
-        if ((func_800A2C34(entity) << 16) != 0) {
-            return;
-        }
-
-        entity_flags = ((u32)((EntityRec *)entity)->flags1C);
-        if (entity_flags & 0x100) {
-            func_800AA258(actor, action_ctx, anim, entity);
-            return;
-        }
-
-        if (entity_flags & 0x80000) {
-            u16 stat_value;
-            u16 stat_delta;
-
-            func_800AA888(actor, action_ctx, anim, entity);
-            stat_value = ((S_801741CC_0 *)actor)->unk_92;
-            stat_delta = ((S_801741CC_0 *)actor)->unk_A6;
-            ((S_801741CC_0 *)actor)->unk_A6 = 0;
-            ((S_801741CC_0 *)actor)->unk_AC = 0;
-            ((S_801741CC_0 *)actor)->unk_92 = stat_value - stat_delta;
-            func_80174520(actor, action_ctx, anim, entity);
-            return;
-        }
-
-        if (((EntityRec *)entity)->unk_6D == 0) {
-            return;
-        }
-        if ((func_800A2C34(entity) << 16) != 0) {
-            if ((func_8009A180(entity,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                return;
-            }
-        }
-
-        func_800A9A0C(entity);
-        func_800A9A04(entity);
-        if (((EntityRec *)entity)->tileY == 0) {
-            return;
-        }
-
-        (*(void * *)((u8 *)anim + 0x2C)) = D_80176478;
-        func_80047784(anim,
-            D_80176478[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
-            0);
-        ((EntityRec *)entity)->flags1C |= 0x40000;
-        dungeonStatus.unk_0A++;
+        return;
     }
-
-increment_state:
-    ((S_801741CC_0 *)actor)->unk_9B++;
-    return;
-
-state_two:
-    if (((Rec_func_800AA258_arg2 *)anim)->unk_14 & 0xE000) {
-
-        dungeonStatus.unk_0A--;
-        ((EntityRec *)entity)->flags1C &= ~8;
-        ((S_801741CC_0 *)actor)->unk_8C = &D_80171094;
-    }
-
-    return;
 }

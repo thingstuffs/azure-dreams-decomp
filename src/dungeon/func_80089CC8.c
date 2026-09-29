@@ -101,18 +101,17 @@ void func_8008F428(void *effect_state, void *saved_effect_id, void *animation, v
             D_800E3DA8[1] = 0;
             entity_flags = ((S_8008F428_6 *)(((S_8008F428_0 *)effect_state)->unk_124))->unk_1C;
             effect_target = animation;
-            if (entity_flags & 0x2000) {
-                goto use_effect;
+            if (!(entity_flags & 0x2000)) {
+                if (!(entity_flags & 0x228)) {
+                    wait_roll = func_800A6DA4(0, 0x10);
+                    effect_target = animation;
+                    if ((s16)wait_roll < 6) {
+                        ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
+                        ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
+                        return;
+                    }
+                }
             }
-            if (entity_flags & 0x228) {
-                goto use_effect;
-            }
-            wait_roll = func_800A6DA4(0, 0x10);
-            effect_target = animation;
-            if ((s16)wait_roll < 6) {
-                goto start_wait;
-            }
-use_effect:
             ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
             (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
             func_80048A44(effect_target,
@@ -162,7 +161,12 @@ use_effect:
         func_80099F70(((S_8008F428_4 *)owner)->unk_5C);
         func_80099F04(((S_8008F428_4 *)owner)->unk_5C);
         target = animation;
-        goto reset_effect;
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
+        (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
+        func_80048A44(target,
+            D_800DCFB0[((gameWork.view.viewAngle + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+            0, 1);
+        return;
     }
 
     state = ((S_8008F428_0 *)effect_state)->unk_9B;
@@ -171,7 +175,6 @@ use_effect:
             return;
         }
         ((S_8008F428_1 *)animation)->unk_14 |= 0x800;
-start_wait:
         ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
         ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
         return;
@@ -195,7 +198,6 @@ start_wait:
         func_80099290(func_80099194(D_800E0683, effect_result));
         func_800A5720(saved_effect_id);
         target = animation;
-reset_effect:
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
         (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
