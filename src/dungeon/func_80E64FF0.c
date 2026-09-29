@@ -55,7 +55,6 @@ typedef struct S_801747F0_3 {
 
 
 
-extern void *D_80170870[];
 extern u8 D_801755E0[16];
 
 extern s32 func_800A45D8(u16, u16, s16);
@@ -66,7 +65,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 /* Update motion and terrain collisions, then settle at a target or finish falling. */
 void func_801747F0(void *motion, void *position, void *object)
 {
-    static void *const jump_targets[] = { &&distance_zero, &&distance_one, &&distance_two, &&distance_three, &&distance_four };
     u8 colors[4];
     s32 move_frames;
     s32 fall_height;
@@ -106,27 +104,24 @@ settle:
         dy = -dy;
     }
     tile_distance = dx + dy;
-    if (tile_distance >= 5U) {
-        goto max_duration;
+    switch (tile_distance) {
+    case 0:
+        move_frames = 4;
+        break;
+    case 1:
+        move_frames = 8;
+        break;
+    case 2:
+        move_frames = 0xC;
+        break;
+    case 3:
+        move_frames = 0xE;
+        break;
+    case 4:
+    default:
+        move_frames = 0x10;
+        break;
     }
-    (void)jump_targets;
-    goto *D_80170870[tile_distance];
-distance_zero:
-    move_frames = 4;
-    goto set_duration;
-distance_one:
-    move_frames = 8;
-    goto set_duration;
-distance_two:
-    move_frames = 0xC;
-    goto set_duration;
-distance_three:
-    move_frames = 0xE;
-    goto set_duration;
-distance_four:
-max_duration:
-    move_frames = 0x10;
-set_duration:
     ((S_801747F0_0 *)motion)->unk_26.u = move_frames;
 interpolate:
     frames_left = ((S_801747F0_0 *)motion)->unk_26.u - 1;

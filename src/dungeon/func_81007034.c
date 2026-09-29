@@ -39,17 +39,12 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, u16 *);
 extern void func_800DA840(u16 *, s32);
 
-extern void *D_80170858[];
 extern u8 D_80171058[];
 extern u8 D_80174888[];
 
 /* Starts the selected actor action, waits for completion, and resets its state. */
 void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRec *actor)
 {
-    static void *const switch_keep[] = {
-        &&special_3, &&special_2, &&special_1, &&kind_none,
-        &&kind_none, &&kind_none, &&kind_none
-    };
     u8 *action_data;
     s32 phase;
     s32 is_special;
@@ -78,21 +73,21 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
 state_0:
     if (((u32)actor->flags1C) & 0x2000) {
         action_kind = (actor->unk_46 & 0x3FFF) - 1;
-        if ((u32)action_kind >= 7U) {
+        switch (action_kind) {
+        case 0:
+            is_special = 1;
+            goto kind_3;
+        case 1:
+            is_special = 1;
+            goto kind_2;
+        case 2:
+            is_special = 1;
+            goto kind_1;
+        case 3:
+        case 6:
+        default:
             goto kind_none;
         }
-        (void)switch_keep;
-        goto *D_80170858[action_kind];
-
-special_3:
-        is_special = 1;
-        goto kind_3;
-special_2:
-        is_special = 1;
-        goto kind_2;
-special_1:
-        is_special = 1;
-        goto kind_1;
     }
 
     action_kind = actor->unk_46 & 0x3FFF;
