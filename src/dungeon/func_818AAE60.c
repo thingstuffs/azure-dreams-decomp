@@ -155,22 +155,13 @@ copy_source_pos:
     ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) ((S_80024660_6 *)source_pos)->unk_06;
     source_z = ((S_80024660_6 *)source_pos)->unk_0A;
     ((S_80024660_5 *)motion)->unk_08.at02.v = source_z;
-    if (((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000) {
-        goto lower_source_z;
+    if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
+        ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
+        ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
+        ((S_80024660_5 *)motion)->unk_08.at02.v = (u16) (((S_80024660_5 *)motion)->unk_08.at02.v + scratch.dist[2]);
+    } else {
+        ((S_80024660_5 *)motion)->unk_08.at02.v = source_z - 0x40;
     }
-    ((S_80024660_5 *)motion)->unk_00.at02.v = (u16) (((S_80024660_5 *)motion)->unk_00.at02.v + scratch.dist[0]);
-    ((S_80024660_5 *)motion)->unk_04.at02.v = (u16) (((S_80024660_5 *)motion)->unk_04.at02.v + scratch.dist[1]);
-    z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v;
-    ASM_KEEP(z_or_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    {
-        source_z = scratch.dist[2];
-        z_or_state = z_or_state + source_z;
-    }
-    goto set_start_z;
-lower_source_z:
-    z_or_state = source_z - 0x40;
-set_start_z:
-    ((S_80024660_5 *)motion)->unk_08.at02.v = z_or_state;
     if (!(*((Rec_func_800243B8_arg0 *)effect)->unk_04 & 0x80)) {
         goto finish;
     }

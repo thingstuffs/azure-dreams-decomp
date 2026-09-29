@@ -114,33 +114,14 @@ case_0: {
         action_choice = rand();
         quotient = action_choice / 4;
         action_choice -= quotient * 4;
-        if (action_choice == 1) {
-            goto random_case_1;
-        }
-        if (action_choice >= 2) {
-            goto random_high;
-        }
-        if (action_choice == 0) {
-            goto random_case_0;
-        }
-        goto random_done;
-
-random_high:
-        if (action_choice == 2) {
-            goto random_case_2;
-        }
-        if (action_choice == 4) {
-            goto random_case_4;
-        }
-        goto random_done;
-
-random_case_0:
+        switch (action_choice) {
+        case 0:
             sequence = (s32 *)D_800E9E7C;
             ((Rec_D_80082D58 *)actor)->unk_68 = wait_state;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() % 2) + 2;
-            goto random_done;
+            break;
 
-random_case_1: {
+        case 1: {
             s32 limit;
             s32 hop_vx;
 
@@ -155,29 +136,26 @@ random_case_1: {
             limit = limit < home_distance;
             if (!limit) {
                 ((S_800BCE78_1 *)motion)->unk_0C.s = 0x10000;
-                if (!(rand() & 1)) {
-                    goto case_1_after_store;
+                if (rand() & 1) {
+                    hop_vx = -((S_800BCE78_1 *)motion)->unk_0C.s;
+                    ((S_800BCE78_1 *)motion)->unk_0C.s = hop_vx;
                 }
-                hop_vx = -((S_800BCE78_1 *)motion)->unk_0C.s;
-                goto case_1_store;
             } else {
                 hop_vx = -0x10000;
                 if (home_dx < 0) {
                     hop_vx = 0x10000;
                 }
+                ((S_800BCE78_1 *)motion)->unk_0C.s = hop_vx;
             }
-case_1_store:
-            ((S_800BCE78_1 *)motion)->unk_0C.s = hop_vx;
-case_1_after_store:
             if (((S_800BCE78_1 *)motion)->unk_0C.s > 0) {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
             } else {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
             }
-            goto random_done;
+            break;
         }
 
-random_case_2: {
+        case 2: {
             s32 limit;
             s32 random_speed;
             s32 *launch_sequence;
@@ -208,14 +186,14 @@ random_case_2: {
                 ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
             }
             ((S_800BCE78_1 *)motion)->unk_14 = -0x20000;
-            goto random_done;
+            break;
         }
 
-random_case_4:
+        case 4:
             ((Rec_D_80082D58 *)actor)->unk_68 = 0x40;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 0x14;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-random_done:
+        }
         goto tail;
     }
 
@@ -414,7 +392,6 @@ case_FF:
         func_80033D08(actor);
         (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto tail;
 
 tail:
     func_800478B8(sprite);
