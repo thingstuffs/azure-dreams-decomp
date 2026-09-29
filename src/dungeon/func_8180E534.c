@@ -1,6 +1,5 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
@@ -14,122 +13,71 @@ extern s32 D_800CEEFC[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
 {
-    register u16 facing_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    struct
-    {
-        s32 sp10;
-        s32 sp14;
-        u16 sp18;
-        u16 sp1A;
-        u8 pad1C[4];
-        u16 sp20;
-        u8 pad22[6];
-        s32 sp28;
-    }
-    sp;
-    s32 angle_value;
-    s32 sample_angle;
+    s32 rect[2];
+    s32 angle;
+    u16 facing;
+    s32 base_angle;
+    s32 motion_angle;
     s32 scale_shift;
-    register s32 motion_angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 sample_angle;
     s32 sample_index;
     s32 group_index;
-    register s32 setup_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 setup_size;
-    register void *setup_asset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *setup_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 base_shift;
-    s16 index_step;
-    s32 trig_result;
-    void *effect_state;
     void *effect;
-    *(u16 *)((u8 *)&sp + 0xA) = pos_z;
-    setup_origin = 0x01800380;
-    setup_size = 0x400040;
-    setup_asset = D_8002888C;
-    *(u16 *)((u8 *)&sp + 8) = pos_y;
-    setup_data = (void *) (&sp.sp10);
-    ASM_USE_G_NV(D_80083228);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    sp.sp10 = setup_origin;
-    sp.sp14 = setup_size;
-    angle_value = (((s32) (D_80083228 + 0x500)) >> 9) & 7;
-    group_index = 0;
-    ASM_USE2_NV(setup_asset, setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    {
-        facing_angle = (u8)angle_value << 9;
-        *((u16 *) ((void *) (&sp.sp20))) = facing_angle;
-    }
-    func_800B835C(setup_asset, setup_data, 1, group_index);
-    sp.sp28 = angle_value << 9;
-    do {
-        register s32 base_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        sample_index = 0;
-        {
-            base_angle = sp.sp28;
-            index_step = 1;
-            base_shift = 5;
-            scale_shift = base_shift - group_index;
-            motion_angle = base_angle + 0x400;
-        }
-spawn_sample:
-        effect = func_8003FC64(0x202);
+    u8 *positions;
+    u8 *effect_state;
+    u8 *sprite;
+    void *data;
+    void *callback = D_8002744C;
 
-        if (effect != 0) {
-            {
-                setup_asset = (void *)((s32)(effect));
-                setup_data = D_800CEEFC;
-                ASM_USE2(setup_asset, setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                base_angle = (s32)(D_8002744C);
-                *((M2C_UNK **) (((s8 *) effect) + 0x10)) = (void *)base_angle;
-                func_8004491C((void *)(s32)setup_asset, setup_data);
-            }
-            {
-                void *positions;
-                positions = *((void **) (((s8 *) effect) + 8));
-                *((s16 *) (((s8 *) positions) + 2)) = pos_x;
-                *((s16 *) (((s8 *) positions) + 0xE)) = pos_x;
-                facing_angle = sp.sp18;
-                *((u16 *) (((s8 *) positions) + 6)) = facing_angle;
-                *((u16 *) (((s8 *) positions) + 0x12)) = facing_angle;
-                facing_angle = sp.sp1A;
-                *((u16 *) (((s8 *) positions) + 0xA)) = facing_angle;
-                *((u16 *) (((s8 *) positions) + 0x16)) = facing_angle;
-            }
-            sample_angle = sample_index << 7;
-            effect_state = effect + 0x20;
-            base_angle = func_80064584(motion_angle) * func_80064584(sample_angle);
-            base_shift = base_angle >> scale_shift;
-            *((s32 *) (((s8 *) effect_state) + 0xC)) = base_shift;
-            base_angle = func_800644B8(motion_angle) * func_80064584(sample_angle);
-            base_shift = base_angle >> scale_shift;
-            *((s32 *) (((s8 *) effect_state) + 0x10)) = base_shift;
-            trig_result = func_800644B8(sample_angle);
-            {
-                setup_data = (void *)(0x808080);
-                *((s32 *) (((s8 *) effect_state) + 0x14)) = (s32) (trig_result << ((group_index >> index_step) + 7));
-                setup_asset = (void *)((s32)(*((void **) (((s8 *) effect) + 0xC))));
-                *((s16 *) (((s8 *) (void *)(s32)setup_asset) + 0x1E)) = 0x400;
-                *((s16 *) (((s8 *) (void *)(s32)setup_asset) + 0x1C)) = 0x400;
-                {
-                    void *render_asset = D_80028880;
-                    *((M2C_UNK **) (((s8 *) (void *)(s32)setup_asset) + 8)) = render_asset;
-                }
-                *((s16 *) (((s8 *) (void *)(s32)setup_asset) + 0x10)) = 0x20;
-                *((s32 *) (((s8 *) (void *)(s32)setup_asset) + 0xC)) = (s32)setup_data;
-                *((u16 *) (((s8 *) (void *)(s32)setup_asset) + 0x14)) =
-                    (u16) ((*((u16 *) (((s8 *) (void *)(s32)setup_asset) + 0x14))) | 0xC);
-                *((s16 *) (((s8 *) effect_state) + 0x66)) = 0xC;
-                {
-                    facing_angle = sp.sp20;
-                    *((u16 *) (((s8 *) effect_state) + 0x74)) = facing_angle;
-                }
-            }
-        }
-        sample_index += index_step;
-        if (sample_index < 0x20) {
-            goto spawn_sample;
-        }
-        group_index += index_step;
+    rect[0] = 0x01800380;
+    rect[1] = 0x400040;
+    angle = ((D_80083228 + 0x500) >> 9) & 7;
+    facing = (u8)angle << 9;
+    sprite = D_8002888C;
+    data = rect;
+    func_800B835C(sprite, data, 1, 0);
+    base_angle = angle << 9;
+    group_index = 0;
+next_group:
+    sample_index = 0;
+    motion_angle = base_angle + 0x400;
+    scale_shift = 5 - group_index;
+spawn:
+    effect = func_8003FC64(0x202);
+    if (effect != 0) {
+        *(void **)((u8 *)effect + 0x10) = callback;
+        data = D_800CEEFC;
+        func_8004491C(effect, data);
+        positions = *(u8 **)((u8 *)effect + 8);
+        *(s16 *)(positions + 2) = pos_x;
+        *(s16 *)(positions + 0xE) = pos_x;
+        *(s16 *)(positions + 6) = pos_y;
+        *(s16 *)(positions + 0x12) = pos_y;
+        *(s16 *)(positions + 0xA) = pos_z;
+        *(s16 *)(positions + 0x16) = pos_z;
+        sample_angle = sample_index << 7;
+        effect_state = (u8 *)effect + 0x20;
+        *(s32 *)(effect_state + 0xC) = (func_80064584(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
+        *(s32 *)(effect_state + 0x10) = (func_800644B8(motion_angle) * func_80064584(sample_angle)) >> scale_shift;
+        *(s32 *)(effect_state + 0x14) = func_800644B8(sample_angle) << ((group_index >> 1) + 7);
+        sprite = *(u8 **)((u8 *)effect + 0xC);
+        data = (void *)0x808080;
+        *(s16 *)(sprite + 0x1E) = 0x400;
+        *(s16 *)(sprite + 0x1C) = 0x400;
+        *(void **)(sprite + 8) = D_80028880;
+        *(s16 *)(sprite + 0x10) = 0x20;
+        *(s32 *)(sprite + 0xC) = (s32)data;
+        *(u16 *)(sprite + 0x14) |= 0xC;
+        *(s16 *)(effect_state + 0x66) = 0xC;
+        *(u16 *)(effect_state + 0x74) = facing;
     }
-    while (group_index < 4);
+    sample_index++;
+    if (sample_index < 0x20) {
+        goto spawn;
+    }
+    group_index++;
+    if (group_index < 4) {
+        goto next_group;
+    }
     return effect;
 }

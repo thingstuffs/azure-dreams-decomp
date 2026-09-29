@@ -11,7 +11,7 @@ extern u16 D_80162004[];
 #define OUTPUT_TILE(value) do { \
     scratch = (s16)x; \
     scratch *= 2; \
-    scratch += (s32)tilemap; \
+    scratch += (s32)D_80162004; \
     dst_tile = (u16 *)scratch; \
     tile = (value); \
     goto store; \
@@ -20,7 +20,7 @@ extern u16 D_80162004[];
 #define OUTPUT_TILE_INDEX(value) do { \
     scratch = (s16)tile_index; \
     scratch *= 2; \
-    scratch += (s32)tilemap; \
+    scratch += (s32)D_80162004; \
     dst_tile = (u16 *)scratch; \
     tile = (value); \
     goto store; \
@@ -29,7 +29,7 @@ extern u16 D_80162004[];
 /* Copies nonzero tiles into the town tilemap, selecting variants by map coordinate parity. */
 void func_800B7428(s32 x, s32 y, u16 *src_tiles)
 {
-    s32 width;
+    register s32 width ASM_REG("$7");
     s32 height;
     s32 row;
     s32 tile;
@@ -44,7 +44,6 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
     s32 origin_x;
     register s32 origin_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *dst_tile;
-    register u16 *tilemap ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     width = *src_tiles++;
     height = *src_tiles++;
@@ -70,9 +69,6 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
                         scratch >>= 16;
                         scratch += origin_y_s16;
                         map_row_odd = scratch & 1;
-                        scratch = (s32)TOWN_TILE_PAGE;
-                        ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                        tilemap = (u16 *)(scratch + 0x2004);
             do {
                         ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                         scratch = row;
@@ -175,7 +171,7 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
                             }
 
                         default:
-                            tilemap[(s16)x] = *src_tiles;
+                            D_80162004[(s16)x] = *src_tiles;
                             break;
             store:
                             *dst_tile = tile;
