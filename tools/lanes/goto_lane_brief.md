@@ -143,3 +143,9 @@ stay rejected.
 wide jump table is treated like an invented case and not landed, even when it restates compares retail shows
 (slus/w_80058E6C, r80_sonnet_gd19). Copying one call or store into a second arm is fine; copying more than about
 six lines is not.
+
+**Original control flow, do not rewrite (r80_opus_skipcopy, traced 2026-09-29):** the "skip-copy" goto -
+`v = obj; if (!c) goto L; ... v = obj; L: call(v, ...)` (or `} else { goto L; }`), fingerprint the m2c juggling
+`v = part_a; r = f(); v = obj;` - is the source's own structure: reorg's fill_simple_delay_slots (reorg.c:4330) fills
+the beq slot from the pre-test copy, and relax_delay_slots' redundant_insn refuses the redirect, so every goto-free
+spelling is one branch word off (24 rows, 0 of 12 spellings). Leave it; measure once at most.
