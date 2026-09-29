@@ -119,6 +119,20 @@ edit `src/`. Never run git or a gate.
 11. **Keep the negatives**, including confounded ones you re-ran. An honest "distance 10 and here is
     the word that resists" is worth more than a story.
 
+## TRACE BEFORE YOU SWEEP (round 80, from the Fable escalation r80_fable_n1: ~20 measurements vs hundreds)
+
+1. Re-measure the best candidate and print its retail diff (`diff.py <row> cand.c --scorer [--cfg X]`).
+2. Name the deciding pass from the diff's SHAPE: instructions moved inside one block = sched (sched2 if post-reload
+   insns move, sched1 if the LUID order must change); only register letters differ = allocation (`prio.py`, `why.py
+   --pass greg`); opcodes/constants differ = cse/combine/loop.
+3. Dump that pass for the candidate and, for EVERY residue insn, write one sentence: "ready at T-a, picked at T-b
+   because <rule>" (sched) or "priority P vs Q because refs/live" (alloc). Read the deciding rule in
+   toolchain/gcc-src/<version>/ when unsure.
+4. Only then compile - one variant per falsifiable hypothesis, predicting its result first. Sweep statement orders
+   ONLY when step 3's sentence says "LUID tie". Stop an axis when the trace proves it cannot reach retail, and name
+   the RTL fact that must differ instead.
+Mechanical checks that end a hypothesis early are in tools/learnings/pin_removal_possibilities.md ("proof checks").
+
 ## EFFORT RULE
 
 **Breadth before depth, then depth, then keep going.**

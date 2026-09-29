@@ -79,3 +79,18 @@ Aggregate copies are a common source family and easy to overclaim.
 These possibilities may explain legacy `volatile`, hard-register, or keep scaffolding.
 They do not relax lane legitimacy: do not add `volatile`, inline assembly, fake
 dependencies, one-trip blocks, or unused declarations with no credible source role.
+
+
+## Proof checks (round 80, r80_fable_n1 retrospective) - run these before sweeping an axis
+
+1. **Sole-ready-at-stall (sched2).** For residue insn R: t_r = max pick tick of R's successors; at the first tick
+   >= t_r where R is ready and alone (or wins on priority) R is emitted. If retail has R EARLIER than that, no source
+   reorder can move it: a successor of R must exist in retail's graph (the RTL must differ). -> NOT-REORDERABLE.
+2. **Launched vs early group (sched1).** Retail "non-launched X after launched H" is reachable only if H has a
+   non-launched consumer with LUID below X, or H's last consumer link costs > 1. Otherwise statement order is inert.
+3. **Known-constant base (combine).** A single-set pseudo whose source is a CONST_INT, feeding an argument copy
+   (plus B c) with (c & value) == 0, becomes `ori` (combine PLUS->IOR via nonzero_bits, reg_n_sets == 1). If retail
+   has `addiu`, the original base was OPAQUE to combine (multi-set, a parameter, or a HIGH/LO_SUM symbol) - pins that
+   make it opaque are imitating that, not scheduling.
+4. **Barrier rule.** Any asm-volatile pin makes every earlier insn a predecessor of every later one: residue insns it
+   governs are inert to order experiments while it stands - erase it first or reason about the graph without it.
