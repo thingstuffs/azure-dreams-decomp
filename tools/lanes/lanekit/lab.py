@@ -58,6 +58,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -140,7 +141,10 @@ class Lab:
                "status": "no-build" if d is None else "measured", "pins": len(kitlib.sites(text))}
         if self.cfg:
             rec["cfg"] = self.cfg
-        if score and (dist == 0 or (self.cfg and d is not None)):
+        # round 80: also byte-score near candidates - label ORDER (not numbering) can differ in a byte-identical
+        # listing (r79_sonnet_g20 main/func_8000F524: dist 7, verify exact; the lane had to stage it by hand)
+        near = int(os.environ.get("LANEKIT_SCORE_NEAR", "8"))
+        if score and (dist == 0 or (dist is not None and dist <= near) or (self.cfg and d is not None)):
             v = scr.exact(text)
             rec["score"] = kitlib.score_fields(v)
             rec["status"] = "exact" if v.get("exact") else "scored"
