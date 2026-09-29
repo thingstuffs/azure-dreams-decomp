@@ -24,39 +24,37 @@ void func_8183EE88(void *effect, StateBlock *motion, void *sprite) {
     owner = *(void **)effect;
     *(u16 *)((u8 *)owner + 0x52) |= 0x8000;
     phase = *(s16 *)((u8 *)effect + 0x4C);
-    if (phase != 0) {
-        if (phase == 1) {
-            goto update_sprite;
+    switch (phase) {
+    case 0:
+        delay = *(u16 *)((u8 *)effect + 0x48) - 1;
+        *(u16 *)((u8 *)effect + 0x48) = delay;
+        if ((delay << 0x10) <= 0) {
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
+            *(u16 *)((u8 *)effect + 0x4C) += 1;
         }
-        return;
-    }
-    delay = *(u16 *)((u8 *)effect + 0x48) - 1;
-    *(u16 *)((u8 *)effect + 0x48) = delay;
-    if ((delay << 0x10) <= 0) {
-        func_8004491C((u8 *)effect - 0x20, func_80045340);
-        *(u16 *)((u8 *)effect + 0x4C) += 1;
-    }
-    return;
+        break;
 
-update_sprite:
-    position->f0 += position->fC;
-    position->f4 += position->f10;
-    func_800478B8(sprite);
+    case 1:
+        position->f0 += position->fC;
+        position->f4 += position->f10;
+        func_800478B8(sprite);
 
-    if (*(u16 *)((u8 *)sprite + 0x14) & 0x6000) {
-        *(u8 *)((u8 *)sprite + 4) = 0;
-        *(u8 *)((u8 *)sprite + 5) = 0;
+        if (*(u16 *)((u8 *)sprite + 0x14) & 0x6000) {
+            *(u8 *)((u8 *)sprite + 4) = 0;
+            *(u8 *)((u8 *)sprite + 5) = 0;
+        }
+
+        if ((s32)*(u8 *)((u8 *)sprite + 0xC) <= *(s16 *)((u8 *)effect + 0x4A)) {
+            *(s32 *)((u8 *)sprite + 0xC) = 0;
+            *(u16 *)((u8 *)effect - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+
+        shade = *(u8 *)((u8 *)sprite + 0xD) - *(u8 *)((u8 *)effect + 0x4A);
+        *(u8 *)((u8 *)sprite + 0xD) = shade;
+        *(u8 *)((u8 *)sprite + 0xC) = shade;
+        *(u8 *)((u8 *)sprite + 0xE) -= *(u8 *)((u8 *)effect + 0x4A) * 2;
+        break;
     }
-
-    if ((s32)*(u8 *)((u8 *)sprite + 0xC) <= *(s16 *)((u8 *)effect + 0x4A)) {
-        *(s32 *)((u8 *)sprite + 0xC) = 0;
-        *(u16 *)((u8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
-
-    shade = *(u8 *)((u8 *)sprite + 0xD) - *(u8 *)((u8 *)effect + 0x4A);
-    *(u8 *)((u8 *)sprite + 0xD) = shade;
-    *(u8 *)((u8 *)sprite + 0xC) = shade;
-    *(u8 *)((u8 *)sprite + 0xE) -= *(u8 *)((u8 *)effect + 0x4A) * 2;
 }

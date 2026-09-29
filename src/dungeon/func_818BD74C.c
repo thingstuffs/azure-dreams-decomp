@@ -52,7 +52,7 @@ extern void func_80024D2C(void *, void *, s16, s16);
 extern s32 func_80069EF8(void);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
-void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
+void func_818BD74C(void *effect_arg, S_func_818BD74C_1 *motion, void *sprite) {
     s16 color_step;
     s32 random_value;
     s16 state;
@@ -73,17 +73,14 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
     u16 angle;
     s32 scaled_magnitude;
     S_func_818BD74C_0 *effect;
-    S_func_818BD74C_1 *motion;
     S_func_818BD74C_2 *owner;
     u8 *magnitude_table;
 
     effect = effect_arg;
     owner = effect->unk_00;
     owner->unk_14 = (s16)(owner->unk_14 + 1);
-    motion = motion_arg;
     state_ticks = effect->unk_10.u;
     color_ticks = effect->unk_12;
-    ASM_SCHED_BARRIER();   /* retained from the base: preserves the initial argument/tick schedule */
     effect->unk_10.u = (u16)(state_ticks + 1);
     effect->unk_12 = (u16)(color_ticks + 1);
     angle = effect->unk_16.u;
@@ -100,7 +97,8 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
         }
         color_half = (s32)(color_bits + (color_shifted >> 0x1F)) >> 1;
         ((S_func_818BD74C_3 *)sprite)->unk_0C = (s8)(((color_quarter_bias >> 2) << 7) + 0x40);
-        ((S_func_818BD74C_3 *)sprite)->unk_0D = (s8)(((s32)(((s16)color_half - (((s32)((s16)color_half + ((u32)(color_half << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) + 0x40);
+        ((S_func_818BD74C_3 *)sprite)->unk_0D = (s8)(((s32)(((s16)color_half - (((s32)((s16)color_half
+            + ((u32)(color_half << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) + 0x40);
         ((S_func_818BD74C_3 *)sprite)->unk_0E = (s8)(((s32)((color_bits - (color_half * 2)) << 0x10) >> 9) + 0x40);
     }
     ((S_func_818BD74C_3 *)sprite)->unk_1A = (u16)(((S_func_818BD74C_3 *)sprite)->unk_1A + 0x300);
@@ -115,7 +113,7 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
         return;
     }
     state_or_scale = 2;
-    
+
     if (state != state_or_scale) {
         return;
     }

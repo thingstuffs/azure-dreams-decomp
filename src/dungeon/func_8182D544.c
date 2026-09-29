@@ -69,38 +69,35 @@ void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
     motion->unk_08 += delta_z;
 
     state = ((S_8182D544_0 *)effect)->unk_4C.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto fade_out;
+    switch (state) {
+    case 0:
+        timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
+        ((S_8182D544_0 *)effect)->unk_48 = timer;
+        if ((timer << 16) <= 0) {
+            func_8004491C((u8 *)effect - 0x20, func_80045340, delta_z);
+            ((S_8182D544_0 *)effect)->unk_4C.u++;
         }
-        return;
-    }
-    timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
-    ((S_8182D544_0 *)effect)->unk_48 = timer;
-    if ((timer << 16) <= 0) {
-        func_8004491C((u8 *)effect - 0x20, func_80045340, delta_z);
-        ((S_8182D544_0 *)effect)->unk_4C.u++;
-        return;
-    }
-    return;
+        break;
 
-fade_out:
-    func_800478B8(sprite);
-    if (sprite->unk_14 & 0x6000) {
-        sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
-    }
+    case 1:
+        func_800478B8(sprite);
+        if (sprite->unk_14 & 0x6000) {
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+        }
 
-    fade_step = (rand() & 0xF) + 9;
-    if (fade_step >= sprite->unk_0C.at00.v) {
-        sprite->unk_0C.at00u.v = 0;
-        ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
+        fade_step = (rand() & 0xF) + 9;
+        if (fade_step >= sprite->unk_0C.at00.v) {
+            sprite->unk_0C.at00u.v = 0;
+            ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
 
-    brightness = sprite->unk_0C.at02.v - fade_step;
-    sprite->unk_0C.at02.v = brightness;
-    sprite->unk_0C.at01.v = brightness;
-    sprite->unk_0C.at00.v = brightness;
+        brightness = sprite->unk_0C.at02.v - fade_step;
+        sprite->unk_0C.at02.v = brightness;
+        sprite->unk_0C.at01.v = brightness;
+        sprite->unk_0C.at00.v = brightness;
+        break;
+    }
 }

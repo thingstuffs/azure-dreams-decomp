@@ -7,7 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-
 s32 func_80042900(void *, s32);
 void func_80042B68(void *, s32);
 void func_80047784(void *, s32, s32);
@@ -28,7 +27,6 @@ extern u8 D_801746AC[];
 extern u8 D_801746C4[];
 extern u8 D_80080000[];
 
-
 typedef struct S_8016D6F0_0 {
     u8 pad_00[0x8C];
     void * unk_8C;
@@ -38,7 +36,6 @@ typedef struct S_8016D6F0_0 {
     u8 unk_B4;
 } S_8016D6F0_0;   /* arg0 in func_8016D6F0 */
 
-
 typedef struct S_8016D6F0_2 {
     u8 pad_00[0x14A8];
     u8 * unk_14A8;
@@ -47,7 +44,6 @@ typedef struct S_8016D6F0_2 {
     u8 pad_322A[0x238];
     u16 unk_3462;
 } S_8016D6F0_2;   /* base8008 in func_8016D6F0 */
-
 
 typedef struct S_8016D6F0_5 {
     u8 pad_00[0x3714];
@@ -67,7 +63,6 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
     u8 *flags_page;
     DungeonGlobalStatus *reference_base;
     void *action_actor;
-    register DungeonGlobalStatus *counter_update ASM_REG("$2");
     s32 state;
     s32 entity_flags;
     s32 action_flag;
@@ -89,7 +84,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
                 0);
         }
         counter_base = &dungeonStatus;
-        (*(u16 *)&counter_base->unk_0A)--;
+        counter_base->unk_0A--;
         actor->unk_9B++;
         return;
     case 1:
@@ -165,16 +160,20 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
             actor->unk_8C = D_8016B778;
             return;
         }
-        counter_update = &dungeonStatus;
-        (*(u16 *)&counter_update->unk_0A)++;
+        {
+            DungeonGlobalStatus *counter_update = &dungeonStatus;
+            counter_update->unk_0A++;
+        }
         actor->unk_9B++;
         return;
     case 2:
         if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        counter_update = &dungeonStatus;
-        (*(u16 *)&counter_update->unk_0A)--;
+        {
+            DungeonGlobalStatus *counter_update = &dungeonStatus;
+            counter_update->unk_0A--;
+        }
         actor->unk_8C = D_8016B778;
         break;
     default:
