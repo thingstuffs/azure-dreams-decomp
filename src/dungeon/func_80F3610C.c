@@ -86,82 +86,64 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     s32 angle;
 
     state = actor->unk_9B;
-    if (state == 1) {
-        goto active;
-    }
-    if (state >= 2) {
-        goto high_state;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
+    switch (state) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        actor->unk_9B = 1;
+    case 1:
+        if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
+            spawned_obj = func_8003FC64(0x12);
+            if (spawned_obj != 0) {
+                init_obj = spawned_obj;
+                spawned_transform = ((S_8017390C_2 *)spawned_obj)->unk_08;
+                pos_x = ((S_8017390C_3 *)transform)->unk_00;
+                spawned_render = ((S_8017390C_2 *)spawned_obj)->unk_0C;
+                spawned_transform->unk_00 = pos_x;
+                spawned_transform->unk_04 = ((S_8017390C_3 *)transform)->unk_04;
+                pos_z = ((S_8017390C_3 *)transform)->unk_08;
+                spawned_transform->unk_10 = 0;
+                spawned_transform->unk_0C = 0;
+                spawned_transform->unk_14 = 0xFFEE0000;
+                spawned_transform->unk_08 = pos_z;
+                angle = 0xC90;
+                func_8004491C(init_obj, func_80045340, pos_z);
+                spawned_render->unk_0C = 0x808080;
+                spawned_render->unk_1E = angle;
+                spawned_data = (u8 *)spawned_obj + 0x20;
+                spawned_render->unk_1C = angle;
+                work_data = spawned_data;
+                if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
+                    render_asset = &D_8006E240;
+                    spawned_render->unk_08 = render_asset;
+                } else {
+                    render_asset = (void *)func_8004A658(
+                        ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
+                    spawned_render->unk_08 = render_asset;
+                }
+                ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
+                ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
+                *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
+                    *(Unaligned32 *)((u8 *)actor_data + 0x48);
+                func_800BC26C(spawned_obj, 0, 0, 0);
+                ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
+            }
+            ((S_8017390C_1 *)actor_data)->unk_48 = 0;
+            ((S_8017390C_1 *)actor_data)->unk_49 = 0;
+        }
 
-high_state:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    if (dungeonStatus.unk_0A != 0) {
+        render->unk_10 = 0x20;
+        render->unk_12 -= 0x80;
+        render->unk_14 |= 0xC;
+        ((S_8017390C_1 *)actor_data)->unk_1C |= 0x10000000;
+        render->unk_0C = 0x808080;
+        actor->unk_96 = 0x10;
+        actor->unk_9B++;
+        func_800A56E0(0x805);
+        return;
+    case 2:
+        func_800AD058(actor, transform, render, actor_data);
         return;
     }
-    actor->unk_9B = 1;
-
-active:
-    if (((S_8017390C_1 *)actor_data)->unk_49 != 0) {
-        spawned_obj = func_8003FC64(0x12);
-        if (spawned_obj != 0) {
-            init_obj = spawned_obj;
-            spawned_transform = ((S_8017390C_2 *)spawned_obj)->unk_08;
-            pos_x = ((S_8017390C_3 *)transform)->unk_00;
-            spawned_render = ((S_8017390C_2 *)spawned_obj)->unk_0C;
-            spawned_transform->unk_00 = pos_x;
-            spawned_transform->unk_04 = ((S_8017390C_3 *)transform)->unk_04;
-            pos_z = ((S_8017390C_3 *)transform)->unk_08;
-            spawned_transform->unk_10 = 0;
-            spawned_transform->unk_0C = 0;
-            spawned_transform->unk_14 = 0xFFEE0000;
-            spawned_transform->unk_08 = pos_z;
-            angle = 0xC90;
-            func_8004491C(init_obj, func_80045340, pos_z);
-            spawned_render->unk_0C = 0x808080;
-            spawned_render->unk_1E = angle;
-            spawned_data = (u8 *)spawned_obj + 0x20;
-            spawned_render->unk_1C = angle;
-            work_data = spawned_data;
-            if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
-                render_asset = &D_8006E240;
-                spawned_render->unk_08 = render_asset;
-            } else {
-                render_asset = (void *)func_8004A658(
-                    ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
-                spawned_render->unk_08 = render_asset;
-            }
-            ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
-            ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
-            *(Unaligned32 *)((u8 *)spawned_data + 0x48) =
-                *(Unaligned32 *)((u8 *)actor_data + 0x48);
-            func_800BC26C(spawned_obj, 0, 0, 0);
-            ((S_8017390C_2 *)spawned_obj)->unk_10 = &D_80173770;
-        }
-        ((S_8017390C_1 *)actor_data)->unk_48 = 0;
-        ((S_8017390C_1 *)actor_data)->unk_49 = 0;
-    }
-
-    render->unk_10 = 0x20;
-    render->unk_12 -= 0x80;
-    render->unk_14 |= 0xC;
-    ((S_8017390C_1 *)actor_data)->unk_1C |= 0x10000000;
-    render->unk_0C = 0x808080;
-    actor->unk_96 = 0x10;
-    actor->unk_9B++;
-    func_800A56E0(0x805);
-    return;
-
-state_two:
-    func_800AD058(actor, transform, render, actor_data);
-
-    return;
 }

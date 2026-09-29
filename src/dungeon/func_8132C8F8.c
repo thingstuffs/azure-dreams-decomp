@@ -49,76 +49,55 @@ void func_801740F8(void *actor, EntityRec *transform, void *animation, void *mot
     u8 *anim_table;
 
     state = ((S_801740F8_0 *)actor)->unk_9B;
-    if (state == 1) {
-        goto update_offset;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto init_animation;
+    switch (state) {
+    case 0:
+        anim_table = D_80170000 + 0x4A7C;
+        if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
+            (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
+            func_80047784(
+                animation,
+                *(u8 *)(((((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
+                0);
         }
-        return;
-    } else {
-        if (state == 2) {
-            goto check_done;
-        }
-        if (state == 3) {
-            goto restore_animation;
-        }
-        return;
-    }
-
-init_animation:
-    anim_table = D_80170000 + 0x4A7C;
-    if (((S_801740F8_1 *)animation)->unk_2C != anim_table) {
-        (*(u8 * *)((u8 *)animation + (0x2C))) = anim_table;
-        func_80047784(
-            animation,
-            *(u8 *)(((((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7)) + (u32)anim_table),
-            0);
-    }
-    ((S_801740F8_0 *)actor)->unk_98 |= 8;
-    ((S_801740F8_2 *)motion)->unk_1C &= 0xF7FFFFFF;
-    ((S_801740F8_0 *)actor)->unk_9E = 5;
-    ((S_801740F8_0 *)actor)->unk_A4 = 0;
-    ((S_801740F8_0 *)actor)->unk_9B++;
-
-update_offset:
-    timer = ((S_801740F8_0 *)actor)->unk_9E;
-    ((S_801740F8_0 *)actor)->unk_90 -= ((S_801740F8_0 *)actor)->unk_A4;
-    if (timer != 0) {
-        ((S_801740F8_0 *)actor)->unk_A4 = -func_800644B8(timer * 0x199) << 10;
-    }
-
-    ((S_801740F8_0 *)actor)->unk_90 += ((S_801740F8_0 *)actor)->unk_A4;
-    next_timer = (u16)((S_801740F8_0 *)actor)->unk_9E - 1;
-    ((S_801740F8_0 *)actor)->unk_9E = next_timer;
-    if (next_timer < 0) {
-        ((S_801740F8_0 *)actor)->unk_90 = 0;
-        ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
-        ((S_801740F8_2 *)motion)->unk_1C |= 0x08000000;
+        ((S_801740F8_0 *)actor)->unk_98 |= 8;
+        ((S_801740F8_2 *)motion)->unk_1C &= 0xF7FFFFFF;
+        ((S_801740F8_0 *)actor)->unk_9E = 5;
+        ((S_801740F8_0 *)actor)->unk_A4 = 0;
         ((S_801740F8_0 *)actor)->unk_9B++;
-    }
+    case 1:
+        timer = ((S_801740F8_0 *)actor)->unk_9E;
+        ((S_801740F8_0 *)actor)->unk_90 -= ((S_801740F8_0 *)actor)->unk_A4;
+        if (timer != 0) {
+            ((S_801740F8_0 *)actor)->unk_A4 = -func_800644B8(timer * 0x199) << 10;
+        }
 
-check_done:
-    if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
+        ((S_801740F8_0 *)actor)->unk_90 += ((S_801740F8_0 *)actor)->unk_A4;
+        next_timer = (u16)((S_801740F8_0 *)actor)->unk_9E - 1;
+        ((S_801740F8_0 *)actor)->unk_9E = next_timer;
+        if (next_timer < 0) {
+            ((S_801740F8_0 *)actor)->unk_90 = 0;
+            ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+            ((S_801740F8_2 *)motion)->unk_1C |= 0x08000000;
+            ((S_801740F8_0 *)actor)->unk_9B++;
+        }
+    case 2:
+        if (!(((S_801740F8_2 *)motion)->unk_1C & 0x08000000)) {
+            return;
+        }
+        ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
+        transform->flags14 = 0;
+        transform->unk_10 = 0;
+        transform->unk_0C = 0;
+        func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
+        ((S_801740F8_0 *)actor)->unk_9B++;
         return;
+    case 3:
+        if (((S_801740F8_1 *)animation)->unk_2C != D_80174A7C - 0x50) {
+            (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
+            func_80047784(
+                animation,
+                (D_80174A7C - 0x50)[((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
+                0);
+        }
     }
-    ((S_801740F8_0 *)actor)->unk_98 &= 0xFFF7;
-    transform->flags14 = 0;
-    transform->unk_10 = 0;
-    transform->unk_0C = 0;
-    func_800A2B04(transform, ((S_801740F8_1 *)animation)->unk_24, ((S_801740F8_1 *)animation)->unk_25);
-    ((S_801740F8_0 *)actor)->unk_9B++;
-    return;
-
-restore_animation:
-    if (((S_801740F8_1 *)animation)->unk_2C != D_80174A7C - 0x50) {
-        (*(u8 * *)((u8 *)animation + (0x2C))) = D_80174A7C - 0x50;
-        func_80047784(
-            animation,
-            (D_80174A7C - 0x50)[((gameWork.view.viewAngle + ((S_801740F8_2 *)motion)->unk_2A + 0x100) >> 9) & 7],
-            0);
-    }
-
-    return;
 }

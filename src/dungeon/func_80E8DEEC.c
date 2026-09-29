@@ -25,30 +25,13 @@ void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800
 
     phase = action->unk_9B;
     one = 1;
-    if (phase == one) {
-        goto initialize;
-    }
-    if (phase >= 2) {
-        goto check_update;
-    }
-    if (phase == 0) {
-        goto wait_ready;
-    }
-    return;
-
-check_update:
-    if (phase == 2) {
-        goto update;
-    }
-    return;
-
-wait_ready:
-    if (dungeonStatus.unk_0A != 0) {
-        return;
-    }
-    action->unk_9B = (u8)one;
-
-initialize:
+    switch (phase) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        action->unk_9B = (u8)one;
+    case 1:
     if (entity->unk_49 != 0) {
         func_80174D48(context, visual, entity);
         do {
@@ -67,10 +50,9 @@ initialize:
     action->unk_96 = 0x10;
     action->unk_9B = (u8)(action->unk_9B + 1);
     func_800A56E0(0x805, color);
-    return;
-
-update:
-    func_800AD058(action, context, visual, entity);
-
-    return;
+        return;
+    case 2:
+        func_800AD058(action, context, visual, entity);
+        return;
+    }
 }

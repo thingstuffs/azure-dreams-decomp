@@ -99,32 +99,25 @@ void *func_8014C870(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
         if (kind == 1) {
             flags_14 = ((Work *)work)->flags14 | 0x6000;
             flags_1c = ((Work *)work)->flags1c | 0x6000;
-            goto write_kind;
+            ((Work *)work)->flags14 = flags_14;
+            ((Work *)work)->flags1c = flags_1c;
+        } else if (kind >= 2) {
+            flags_14 = ((Work *)work)->flags14 | 0x2000;
+            flags_1c = ((Work *)work)->flags1c | 0x2000;
+            ((Work *)work)->flags14 = flags_14;
+            ((Work *)work)->flags1c = flags_1c;
+        } else {
+            init_obj = obj;
+            if (((kind_flags & ~3) << 16) != 0) {
+                goto join_kind;
+            }
+            if (!(((Work *)work)->flags14 & 0x200)) {
+                ((Work *)work)->flags1c |= 0x200;
+                func_800A48F0(work, 1,
+                              (func_800A6D30(init_obj) & 0x3F) | 0x20);
+                part_b->unk_2C = D_801501DC;
+            }
         }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        flags_14 = ((Work *)work)->flags14 | 0x2000;
-        flags_1c = ((Work *)work)->flags1c | 0x2000;
-write_kind:
-        ((Work *)work)->flags14 = flags_14;
-        ((Work *)work)->flags1c = flags_1c;
-        goto post_kind;
-
-normal_kind:
-        init_obj = obj;
-        if (((kind_flags & ~3) << 16) != 0) {
-            goto join_kind;
-        }
-        if (!(((Work *)work)->flags14 & 0x200)) {
-            ((Work *)work)->flags1c |= 0x200;
-            func_800A48F0(work, 1,
-                          (func_800A6D30(init_obj) & 0x3F) | 0x20);
-            part_b->unk_2C = D_801501DC;
-        }
-
-post_kind:
         init_obj = obj;
 join_kind:
         func_800A9C18(init_obj, part_a, part_b, kind_flags);
