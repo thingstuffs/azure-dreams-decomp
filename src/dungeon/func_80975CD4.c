@@ -29,7 +29,6 @@ extern void func_80172548(void *, void *, void *, void *);
 extern s32 func_80172628(void *, void *, void *, s32);
 extern void func_80173E00(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_801740E0[];
 extern u8 D_801740E8[];
 extern u8 D_801740F0[];
@@ -68,10 +67,6 @@ typedef struct S_801714D4_2 {
 /* Updates actor behavior, animation, and facing from its status and current tile. */
 void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
-        &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
-    };
     register void *actor_head = actor_arg;
     register void *context = context_arg;
     register void *sprite = sprite_arg;
@@ -199,23 +194,18 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         }
 
         action_index = (stats->unk_46 & 0x3FFF) - 1;
-        if ((u32)action_index >= 12U) {
-            goto jt_default;
-        }
-        (void)action_labels;
-        goto *D_80170808[action_index];
-
-jt_c8:
-jt_c9:
+        switch (action_index) {
+        case 7:
+        case 8:
         if ((s16)func_8017237C(actor_arg, context_arg, sprite, stats) != 0) {
             return;
         }
         func_80172548(actor_arg, context_arg, sprite, stats);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 4:
+        case 5:
+        case 6:
         angle = func_800A0818(
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
             D_80082E80.tileX, D_80082E80.tileY, &distance);
@@ -225,25 +215,25 @@ jt_c7:
             goto jt_c1;
         }
 
+        case 11:
 jt_c12:
         func_800A9A0C(stats);
         return;
 
+        case 0:
+        case 1:
+        case 2:
 jt_c1:
-jt_c2:
-jt_c3:
         callback = (void *)func_801714D4;
 
-jt_call:
         func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+        default:
 jt_default:
         func_80171C34(actor_arg, context_arg, sprite, stats);
         return;
+        }
     }
 
     flags = ((u32)stats->flags1C);

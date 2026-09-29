@@ -122,7 +122,6 @@ typedef struct S_800C2824_16 {
     s32 unk_14;
 } S_800C2824_16;   /* ((S_800C2824_0 *)arg0)->unk_00 in func_800C2824 */
 
-extern void *D_8008938C[];
 extern u8 D_80010000[];
 s32 func_80042900();
 s32 func_8004491C();
@@ -154,7 +153,6 @@ typedef struct {
 
 /* Advance the object effect through fading, tile cleanup, and completion. */
 void func_800C2824(void *effect, void *vertices, void *sprite) {
-    static void *const state_labels[] = { &&state_init, &&state_fade, &&state_release, &&state_finish, &&state_start_wait, &&state_wait };
     StackArgs effect_args;
     M2C_UNK object_slot;
     M2C_UNK release_flags;
@@ -192,11 +190,8 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     u8 *slots_page;
 
     state = ((S_800C2824_0 *)effect)->unk_04;
-    if ((u32) state >= 0x12U) {
-        return;
-    }
-    (void)state_labels; goto *D_8008938C[(u32)(state)];
-state_init:
+    switch (state) {
+    case 0:
     if (((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000) {
         goto init_fade;
     }
@@ -231,7 +226,7 @@ init_fade:
     ((S_800C2824_0 *)effect)->unk_06 = 0x10;
     func_800A56E0(1);
     ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
-state_fade:
+    case 1:
     shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
     faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
     ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
@@ -244,7 +239,7 @@ state_fade:
     }
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
-state_release:
+    case 2:
     linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
     if (linked_object == 0) {
         goto release_tile;
@@ -278,7 +273,7 @@ finish_release:
     func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
-state_finish: {
+    case 3: {
 
     object_coords = ((u8 *)(&D_80082E80));
     effect_object = D_800E3D7C;
@@ -294,7 +289,7 @@ state_finish: {
     ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
     goto mark_done;
 }
-state_start_wait:
+    case 16:
     source_object = ((S_800C2824_0 *)effect)->unk_00;
     object_coords = (*(void **)((u8 *)source_object + -0x14));
     effect_object = source_object;
@@ -306,7 +301,7 @@ state_start_wait:
     ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
-state_wait:
+    case 17:
     wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
     ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
     if ((wait_ticks << 0x10) > 0) {
@@ -351,4 +346,7 @@ mark_done:
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
     return;
+    default:
+        return;
+    }
 }

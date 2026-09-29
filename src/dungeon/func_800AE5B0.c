@@ -11,7 +11,6 @@ typedef struct S_800B3D10_6 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80089200[];
 s32 func_800981F8();                          /* extern */
 s32 func_800A9400();                             /* extern */
 extern u8 D_800E3D68;
@@ -38,7 +37,6 @@ typedef struct S_800B3D10_4 {
 
 /* Apply effect flags and value bonuses based on the effect and attached record data. */
 void func_800B3D10(s16 effect_id, s32 unused_arg, EntityRec *record) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20, &&jt_c21, &&jt_c22, &&jt_c23, &&jt_c30, &&jt_c31, &&jt_c32, &&jt_c33, &&jt_c34, &&jt_c35, &&jt_c36, &&jt_c37, &&jt_c38, &&jt_c39, &&jt_c40, &&jt_c41, &&jt_c42, &&jt_c43, &&jt_c44 };
     s32 effect_offset;
     s32 effect_index;
     s16 unused_value;
@@ -50,11 +48,8 @@ void func_800B3D10(s16 effect_id, s32 unused_arg, EntityRec *record) {
 
     effect_offset = func_800A9400(effect_id) - 1;
     effect_index = (s16) effect_offset;
-    if ((u32) (s32) effect_index < 0x31U) {
-        (void)jt_keep; goto *D_80089200[(u32) (s32) effect_index];
-    }
-    return;
-jt_c0:
+    switch (effect_index) {
+case 0:
 {
     s32 value_bonus = (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1);
     s32 flags = record->flags14 | 1;
@@ -62,7 +57,7 @@ jt_c0:
     record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
     return;
 }
-jt_c1:
+case 1:
 {
     s32 value_bonus = (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1);
     s32 flags = record->flags14 | 2;
@@ -70,7 +65,7 @@ jt_c1:
     record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
     return;
 }
-jt_c2:
+case 2:
 {
     s32 value_bonus = (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1);
     s32 flags = record->flags14 | 4;
@@ -78,7 +73,7 @@ jt_c2:
     record->unk_20 = (s16) ((u16) record->unk_20 + value_bonus);
     return;
 }
-jt_c6:
+case 6:
     type6_data = record->unk_4C;
     record->flags14 = (s32) (record->flags14 | 1);
     if (type6_data->unk_01 == 0x10) {
@@ -99,7 +94,7 @@ jt_c6:
         record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1)));
     }
     return;
-jt_c7:
+case 7:
     type7_data = record->unk_4C;
     record->flags14 = (s32) (record->flags14 | 2);
     if (type7_data->unk_01 == 0x10) {
@@ -120,7 +115,7 @@ jt_c7:
         record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1)));
     }
     return;
-jt_c8:
+case 8:
     type8_data = record->unk_4C;
     record->flags14 = (s32) (record->flags14 | 4);
     if (type8_data->unk_01 == 0x10) {
@@ -141,51 +136,54 @@ jt_c8:
         record->unk_20 = (s16) ((u16) record->unk_20 + ((bonus_base * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1)));
     }
     return;
-jt_c12:
-jt_c39:
-jt_c42:
+case 12:
+case 39:
+case 42:
     record->flags14 = record->flags14 | 1;
     return;
-jt_c13:
-jt_c40:
-jt_c43:
+case 13:
+case 40:
+case 43:
     record->flags14 = record->flags14 | 2;
     return;
-jt_c15:
-jt_c18:
+case 15:
+case 18:
     record->flags14 = record->flags14 | 1;
     return;
-jt_c16:
-jt_c19:
+case 16:
+case 19:
     record->flags14 = record->flags14 | 2;
     return;
-jt_c21:
+case 21:
     record->flags14 = record->flags14 | 1;
     return;
-jt_c22:
+case 22:
     record->flags14 = record->flags14 | 2;
     return;
-jt_c30:
-jt_c33:
-jt_c36:
+case 30:
+case 33:
+case 36:
     record->flags14 = record->flags14 | 1;
     return;
-jt_c31:
-jt_c34:
-jt_c37:
+case 31:
+case 34:
+case 37:
     record->flags14 = record->flags14 | 2;
     return;
-jt_c14:
-jt_c17:
-jt_c20:
-jt_c23:
-jt_c32:
-jt_c35:
-jt_c38:
-jt_c41:
-jt_c44:
+case 14:
+case 17:
+case 20:
+case 23:
+case 32:
+case 35:
+case 38:
+case 41:
+case 44:
     updated_flags = record->flags14 | 4;
-block_42:
     record->flags14 = updated_flags;
     return;
+    case 48:
+    default:
+        return;
+    }
 }

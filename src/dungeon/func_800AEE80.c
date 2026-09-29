@@ -58,13 +58,11 @@ typedef struct S_800B45E0_5 {
 } S_800B45E0_5;   /* ((S_800B45E0_0 *)arg0)->unk_14 in func_800B45E0 */
 
 
-extern void *D_800892CC[];
 s32 func_8004491C();
 extern M2C_UNK D_80044C54;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */
 void func_800B45E0(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     s32 phase;
     s16 next_phase;
     s32 rebound_speed;
@@ -104,11 +102,8 @@ follow_anchor:
     ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
 update_phase:
     phase = ((S_800B45E0_0 *)effect)->unk_08;
-    if ((u32) phase >= 5U) {
-        goto update_motion;
-    }
-    (void)jt_keep; goto *D_800892CC[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     motion->unk_14 = 0x200000;
     motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - 0x40);
     ((S_800B45E0_0 *)effect)->unk_04.at00.v = 0x200000;
@@ -117,7 +112,7 @@ jt_c0:
     func_8004491C(effect - 0x20, &D_80044C54);
     ((S_800B45E0_0 *)effect)->unk_0A = 0x10U;
     ((S_800B45E0_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B45E0_0 *)effect)->unk_08 + 1);
-jt_c1:
+    case 1:
     fade_in_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
     ((S_800B45E0_0 *)effect)->unk_0A = fade_in_ticks;
     if ((s16) fade_in_ticks <= 0) {
@@ -132,7 +127,7 @@ jt_c1:
 finish_fade_in:
     next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
     goto advance_phase;
-jt_c3:
+    case 3:
     hold_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
     ((S_800B45E0_0 *)effect)->unk_0A = hold_ticks;
     if ((hold_ticks << 0x10) > 0) {
@@ -144,7 +139,7 @@ jt_c3:
 advance_phase:
     ((S_800B45E0_0 *)effect)->unk_08 = next_phase;
     goto update_motion;
-jt_c4:
+    case 4:
     fade_out_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
     ((S_800B45E0_0 *)effect)->unk_0A = fade_out_ticks;
     if ((s16) fade_out_ticks <= 0) {
@@ -159,7 +154,8 @@ jt_c4:
 expire:
     ((S_800B45E0_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B45E0_0_pre *)effect)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
-jt_c2:
+    case 2:
+    default:
 update_motion:
     motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
     frame = ((S_800B45E0_0 *)effect)->unk_0C + 1;
@@ -208,4 +204,5 @@ update_flash:
 apply_flash:
     sprite->unk_0C.at00u.v = update_value;
     return;
+    }
 }

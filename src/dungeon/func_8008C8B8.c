@@ -57,7 +57,6 @@ typedef struct S_80092018_7 {
 
 struct D83460_VIEW { s16 pad[3]; s16 divisor[1]; };
 
-extern void *D_800889C0[];
 void func_80048A44();
 s32 func_8009074C();
 s32 func_80094EA4();
@@ -72,7 +71,6 @@ extern u8 D_800DD028[];
 
 /* Updates actor movement and animation through the action states. */
 void func_80092018(void *actor, void *motion, void *sprite, void *model) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19 };
     s16 settle_frames;
     s16 move_frames_left;
     s32 heading_or_coord;
@@ -84,11 +82,8 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
     M2C_UNK *move_state;
 
     action_state = ((S_80092018_0 *)actor)->unk_9B;
-    if (action_state >= 0x14U) {
-        return;
-    }
-    (void)jt_keep; goto *D_800889C0[(u32)(action_state)];
-jt_c0:
+    switch (action_state) {
+    case 0:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto block_5;
     }
@@ -110,7 +105,7 @@ block_5:
         return;
     }
     goto block_28;
-jt_c16:
+case 16:
     ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
     ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
     start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
@@ -126,14 +121,14 @@ jt_c16:
     ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_60 = model;
     ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
     return;
-jt_c17:
+case 17:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto block_13;
     }
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD020;
     func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD020), 0, 1);
     ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
-jt_c18:
+case 18:
 block_13:
     move_state = &dungeonStatus.unk_00;
     if (((S_80092018_5 *)move_state)->unk_04 == 0) {
@@ -181,7 +176,7 @@ block_17:
     ((S_80092018_0 *)actor)->unk_96.s = 2U;
     ((S_80092018_0 *)actor)->unk_9B = 0x13U;
     return;
-jt_c19:
+case 19:
     settle_frames = (s16) ((S_80092018_0 *)actor)->unk_96.s;
     if (settle_frames == 0) {
         goto block_23;
@@ -245,4 +240,7 @@ block_27:
 block_28:
     ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
     return;
+    default:
+        return;
+    }
 }

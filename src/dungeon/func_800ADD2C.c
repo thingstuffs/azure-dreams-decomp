@@ -29,7 +29,6 @@ extern u8 D_800DD0A8[];
 extern u8 D_800DD0B0[];
 extern s32 D_800DF244[];
 extern s16 D_800DF248[];
-extern void *D_800891C0[];
 
 
 typedef struct S_800B348C_0 {
@@ -94,30 +93,16 @@ void func_800B348C(void *action_state, void *motion, void *animation, EntityRec 
     u8 jt_index;
     u8 action_phase;
 
-    static void *const jt_keep[] = {
-        &&jt_0, &&jt_1, &&jt_2, &&jt_3,
-        &&jt_4, &&jt_5, &&jt_6, &&jt_7,
-        &&jt_8, &&jt_9, &&jt_10, &&jt_default,
-        &&jt_default, &&jt_default, &&jt_default, &&jt_15
-    };
-
 #define motion motion
 #define animation animation
     jt_index = ((S_800B348C_0 *)action_state)->unk_9B;
-    (void)jt_keep;
-    if (jt_index >= 16) {
-        goto jt_default;
-    }
-    goto *D_800891C0[jt_index];
-    switch (((S_800B348C_0 *)action_state)->unk_9B) {
+    switch (jt_index) {
     case 0:
-jt_0:
         actor->flags14 = (s32) (actor->flags14 & ~7);
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
         D_800DF248[0] = 0;
         return;
     case 1:
-jt_1:
         if (((S_800B348C_0 *)action_state)->unk_A6 != 0) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD030;
             func_80048A44(animation, D_800DD030[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);
@@ -132,7 +117,6 @@ block_7:
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
     case 2:
-jt_2:
         if (((S_800B348C_0 *)action_state)->unk_A6 == 0) {
             func_800C77D0((u8 *)actor - 0x20, motion, 8, 0x300);
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
@@ -143,7 +127,6 @@ jt_2:
         }
         break;
     case 3:
-jt_3:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             launch_direction_offset = ((u16) actor->facing >> 8) & 0xE;
             ((EntityRec *)motion)->unk_0C = (s32) (*(s16 *)((u8 *)((s8 *)dirStepX) + launch_direction_offset) << 0x11);
@@ -167,7 +150,6 @@ jt_3:
         }
         break;
     case 4:
-jt_4:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             windup_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = windup_animations;
@@ -187,7 +169,6 @@ jt_4:
         }
         break;
     case 5:
-jt_5:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             if (((S_800B348C_0 *)action_state)->unk_A8 != 0) {
                 D_800DF248[0] = 1;
@@ -199,7 +180,6 @@ jt_5:
         }
         break;
     case 15:
-jt_15:
         attack_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
         ((S_800B348C_0 *)action_state)->unk_96.u = attack_delay;
         if (((attack_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
@@ -218,7 +198,6 @@ jt_15:
         }
         break;
     case 6:
-jt_6:
         ((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v | 0x800);
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 | 8);
         vertical_velocity = ((EntityRec *)motion)->flags14;
@@ -247,7 +226,6 @@ jt_6:
         }
         break;
     case 7:
-jt_7:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000) {
             ((S_800B348C_0 *)action_state)->unk_96.u = 0U;
         } else {
@@ -289,7 +267,6 @@ check_mix_delay:
         }
         /* fallthrough */
     case 8:
-jt_8:
         if (((S_800B348C_0 *)action_state)->unk_A2 & 0x10) {
             ((EntityRec *)motion)->flags14 = 0;
             ((EntityRec *)motion)->unk_10 = 0;
@@ -310,7 +287,6 @@ jt_8:
         s32 delta_x;
         s32 delta_y;
 
-jt_9:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             ((EntityRec *)motion)->flags14 = 0;
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD098;
@@ -335,8 +311,6 @@ bump_state_9b:
         s32 *end_base;
         s32 end_mask;
         s32 end_timer_state;
-
-jt_10:
         return_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
         ((S_800B348C_0 *)action_state)->unk_96.u = return_delay;
         if (((return_delay << 0x10) <= 0) || (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0x8000)) {
@@ -365,7 +339,6 @@ jt_10:
         break;
     }
     default:
-jt_default:
         break;
     }
 }
