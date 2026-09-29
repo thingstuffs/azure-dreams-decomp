@@ -68,7 +68,6 @@ typedef struct S_800930F0_9 {
 } S_800930F0_9;   /* store_base in func_800930F0 */
 
 
-extern void *D_80088A10[];
 void func_80040AA0();
 void func_80041094();
 s32 func_800429E4();
@@ -100,7 +99,6 @@ extern M2C_UNK D_800E4938;
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
 void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_2 *actor) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17 };
     M2C_UNK *transition_base;
     u8 *saved_state_base;
     s32 *slot_cursor;
@@ -113,11 +111,8 @@ void func_800930F0(EntityRec *state, s32 unused, S_800930F0_1 *tile, S_800930F0_
     s16 *type_values;
 
     phase = state->unk_9B;
-    if (phase >= 0x12U) {
-        goto block_25;
-    }
-    (void)jt_keep; goto *D_80088A10[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     slot_index = 1;
     state->unk_96 = 0U;
     func_800B2074((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20);
@@ -133,17 +128,17 @@ jt_c0:
         slot_cursor -= 1;
     } while (slot_index >= 0);
     state->unk_9B = (u8) (state->unk_9B + 1);
-jt_c1:
+    case 1:
     wait_ticks = state->unk_96 + 1;
     state->unk_96 = wait_ticks;
     if ((s16) wait_ticks < 0x3D) {
-        goto block_26;
+        break;
     }
     transition_base = (M2C_UNK *)0x800E0000;
     saved_state_base = (u8 *)0x80010000;
     if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
         if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
-            goto block_26;
+            break;
         }
         goto set_wait;
     }
@@ -187,44 +182,44 @@ block_13:
     D_80082E80.unk_038 = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
     state->unk_9B = (u8) (state->unk_9B + 1);
-    goto block_24_done;
-jt_c2:
+    break;
+    case 2:
     load_status = func_800A613C();
     D_800DCF64 = load_status;
     if (load_status == 0) {
-        goto block_25;
+        break;
     }
     state->unk_9B = (u8) (state->unk_9B + 1);
-    goto block_24_done;
-jt_c3:
+    break;
+    case 3:
     created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
     state->unk_C8 = created_object;
     if (created_object == NULL) {
         return;
     }
     state->unk_9B = (u8) (state->unk_9B + 1);
-jt_c4:
+    case 4:
     if (!(((S_800930F0_12 *)(state->unk_C8))->unk_1E & 0x8000)) {
-        goto block_25;
+        break;
     }
     func_80040AA0(D_80082E6B);
     D_8008146C = *(u16 *)0x80010234;
     func_800481E0();
     state->unk_9B = (u8) (state->unk_9B + 1);
-    goto block_24_done;
-jt_c16:
+    break;
+    case 16:
     transition_base = (M2C_UNK *)0x800E0000;
     if (!(((S_800930F0_7 *)(((M2C_UNK *)&D_80013714)))->unk_00 & 4)) {
         goto block_23;
     }
 block_21:
     if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
-        goto block_26;
+        break;
     }
 set_wait:
     ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
     func_80040AA0(3U);
-    goto block_26;
+    break;
 block_23:
     func_800945E8(state);
     func_800948BC();
@@ -246,23 +241,10 @@ block_23:
         func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
     }
     state->unk_9B = (u8) (state->unk_9B + 1);
-    block_24_done:
-    ;
-jt_c5:
-jt_c6:
-jt_c7:
-jt_c8:
-jt_c9:
-jt_c10:
-jt_c11:
-jt_c12:
-jt_c13:
-jt_c14:
-jt_c15:
-jt_c17:
-block_25:
-    goto block_26;
-block_26:
+    case 17:
+    default:
+        break;
+    }
     gameWork.view.slot[0].callback = 0;
     gameWork.view.slot[2].callback = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
