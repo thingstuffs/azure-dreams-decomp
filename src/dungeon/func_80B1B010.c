@@ -78,24 +78,23 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
     switch (((S_80172810_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void *const dispatch_labels[] = {&&player_motion_3, &&player_motion_2, &&player_motion_1, &&no_motion};
-            extern void *const D_80170838[];
-            u32 action_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (action_index >= 7) {
+            switch ((actor->unk_46 & 0x3FFF) - 1) {
+            case 0:
+                use_player = 1;
+                goto motion_3;
+            case 1:
+                use_player = 1;
+                goto motion_2;
+            case 2:
+                use_player = 1;
+                goto motion_1;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            default:
                 goto no_motion;
             }
-            (void)dispatch_labels;
-            goto *D_80170838[action_index];
-        player_motion_3:
-            use_player = 1;
-            goto motion_3;
-        player_motion_2:
-            use_player = 1;
-            goto motion_2;
-        player_motion_1:
-            use_player = 1;
-            goto motion_1;
         }
 
         switch (actor->unk_46 & 0x3FFF) {

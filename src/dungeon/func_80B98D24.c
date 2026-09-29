@@ -8,7 +8,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *D_80170838[];
 void func_80047784();
 M2C_UNK func_8009C12C();
 M2C_UNK func_800A2B04();
@@ -33,17 +32,13 @@ typedef struct S_80172524_0 {
 
 /* Advance the action phases, updating movement and directional animation. */
 void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
-    static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5 };
     u16 move_ticks;
     u16 settle_ticks;
     u8 phase;
 
     phase = ((S_80172524_0 *)action)->unk_9B.n;
-    if (phase >= 6U) {
-        return;
-    }
-    (void)phase_labels; goto *D_80170838[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     ((S_80172524_0 *)action)->unk_98 = (u16) (((S_80172524_0 *)action)->unk_98 | 8);
     motion->flags14 = 0;
     motion->unk_10 = 0;
@@ -60,7 +55,7 @@ start_motion:
     motion->unk_0C = (s32) (*(s16 *)(((u8 *)dirStepX) + (((u16) ((EntityRec *)actor)->facing >> 8) & 0xE)) << 0x14);
     motion->unk_10 = (s32) (*(s16 *)(((u8 *)dirStepY) + (((u16) ((EntityRec *)actor)->facing >> 8) & 0xE)) << 0x14);
     goto advance_phase;
-jt_c1:
+    case 1:
     motion->unk_0C = (s32) ((s32) motion->unk_0C >> 1);
     motion->unk_10 = (s32) ((s32) motion->unk_10 >> 1);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -69,7 +64,7 @@ jt_c1:
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F30;
     func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F30), 0);
     goto advance_phase;
-jt_c2:
+    case 2:
     motion->unk_0C = (s32) ((s32) motion->unk_0C >> 1);
     motion->unk_10 = (s32) ((s32) motion->unk_10 >> 1);
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -79,7 +74,7 @@ jt_c2:
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F38;
     func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7) + (u32)&D_80174F38), 0);
     goto advance_phase;
-jt_c3:
+    case 3:
     if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 != 2) {
         goto check_animation;
     }
@@ -103,7 +98,7 @@ check_animation:
     ((S_80172524_0 *)action)->unk_9B.n = 5U;
     ((S_80172524_0 *)action)->unk_96.u = 0;
     return;
-jt_c4:
+    case 4:
     move_ticks = ((S_80172524_0 *)action)->unk_96.u - 1;
     ((S_80172524_0 *)action)->unk_96.u = move_ticks;
     if ((s16) move_ticks <= 0) {
@@ -133,7 +128,7 @@ check_move_done:
 advance_phase:
     ((S_80172524_0 *)action)->unk_9B.n += 1;
     return;
-jt_c5:
+    case 5:
     settle_ticks = ((S_80172524_0 *)action)->unk_96.u - 1;
     ((S_80172524_0 *)action)->unk_96.u = settle_ticks;
     if ((s16) settle_ticks <= 0) {
@@ -169,4 +164,7 @@ check_settle_done:
     ((EntityRec *)actor)->unk_46 = (u16) ((*(u16 *)((u8 *)actor + (0x46))) & 0x7FFF);
     func_800A4ACC(actor);
     return;
+    default:
+        return;
+    }
 }

@@ -12,7 +12,6 @@ extern u16 D_8008000A;
 extern u8 *D_800DCEEC[];
 extern s32 D_800DCF5C;
 extern u8 D_8014A000[200000];
-extern void *D_80170858[];
 extern u8 D_8017458C[];
 extern u8 D_80175318[];
 extern u8 D_80175B0C[];
@@ -105,10 +104,6 @@ typedef struct S_80175470_5 {
 
 /* Advance the actor's effect sequence, fading colors and restoring its model and facing. */
 void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void *actor) {
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
-    };
     GameWork *scene_color = &gameWork;
     S_80175470_2 *node;
     S_80175470_3 *model;
@@ -126,24 +121,20 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
     s16 effect_index;
 
     state = ((S_80175470_0 *)sequence)->unk_9B.n;
-    if (state >= 9U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170858[state];
+    switch (state) {
 
-jt_c0:
+    case 0:
     next_state = ((S_80175470_0 *)sequence)->unk_9B.v + 1;
     goto store_next_state;
 
-jt_c1:
+    case 1:
     func_80041588(D_80175B0C, &D_80175B24, 0);
     ((S_80175470_0 *)sequence)->unk_AC = 0;
     ((S_80175470_0 *)sequence)->unk_9B.n++;
     ((S_80175470_1 *)actor)->unk_8A = ((S_80175470_1 *)actor)->unk_2A.u;
     return;
 
-jt_c2:
+    case 2:
     direction = ((gameWork.view.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
     if (D_80175B24 == 0) {
         goto check_facing;
@@ -169,7 +160,7 @@ start_effect:
     ((S_80175470_0 *)sequence)->unk_9B.n++;
     func_80175180(sequence, position, record);
 
-jt_c3:
+    case 3:
     timer = ((S_80175470_0 *)sequence)->unk_96.u;
     next_timer = timer - 1;
     ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
@@ -190,7 +181,7 @@ jt_c3:
     scene_color->view.unk_092 += ((s32)target_color[2] - scene_color->view.unk_092) / ((S_80175470_0 *)sequence)->unk_96.s;
     return;
 
-jt_c4:
+    case 4:
     node = func_8003FC64(0x12);
     if (node == 0) {
         return;
@@ -220,7 +211,7 @@ store_next_state:
     ((S_80175470_0 *)sequence)->unk_9B.n = next_state;
     return;
 
-jt_c5:
+    case 5:
     node = ((S_80175470_0 *)sequence)->unk_A8;
     model = node->unk_0C;
     if (model->unk_14 & 0xE000) {
@@ -233,7 +224,7 @@ jt_c5:
         node->unk_10.i |= 0x80000000;
     }
 
-jt_c6:
+    case 6:
     if (((S_80175470_0 *)sequence)->unk_9B.n != 6) {
         return;
     }
@@ -249,7 +240,7 @@ jt_c6:
     node->unk_10.i |= 0x80000000;
     return;
 
-jt_c7:
+    case 7:
     ((S_80175470_1 *)actor)->unk_60 = func_800A504C(record, actor);
     if (((S_80175470_1 *)actor)->unk_60 == 0) {
         return;
@@ -264,7 +255,7 @@ jt_c7:
                   model->unk_04);
     model->unk_14 &= 0xFFFE;
 
-jt_c8:
+    case 8:
     next_timer = ((S_80175470_0 *)sequence)->unk_96.u - 1;
     ((S_80175470_0 *)sequence)->unk_96.u = next_timer;
     if ((s16)next_timer > 0) {
@@ -275,4 +266,7 @@ jt_c8:
     objectFlagBlock.flags |= 0x8000;
     dungeonStatus.unk_0A--;
     ((S_80175470_1 *)actor)->unk_6D = 0;
+    default:
+        return;
+    }
 }

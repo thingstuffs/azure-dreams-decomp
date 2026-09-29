@@ -67,7 +67,6 @@ extern void func_80171F9C(void *, void *, void *, void *);
 extern s32 func_801720B4(void *, void *, void *, s32);
 extern void func_80173AC0(void *, void *, void *, void *);
 
-extern void *const D_80170808[];
 extern u8 D_80173D0C[];
 extern u8 D_80173D14[];
 extern u8 D_80173D1C[];
@@ -184,57 +183,53 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
             }
         }
 
-        {
-            static void *const action_labels[] = {
-                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
-                &&ordinary_cleanup,
-                &&coords_case, &&coords_case, &&coords_case,
-                &&handler_case, &&handler_case,
-                &&ordinary_cleanup, &&ordinary_cleanup,
-                &&special_cleanup,
-            };
-            u32 action_index = (((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) - 1;
-
-            if (action_index >= 12) {
-                goto ordinary_cleanup;
+        switch ((((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) - 1) {
+        case 7:
+        case 8:
+            if ((s16)func_80171DD8(actor, context, sprite, status) == 0) {
+                func_80171F9C(actor, context, sprite, status);
             }
-            (void)action_labels;
-            goto *D_80170808[action_index];
-        }
+            return;
 
-handler_case:
-        if ((s16)func_80171DD8(actor, context, sprite, status) == 0) {
-            func_80171F9C(actor, context, sprite, status);
-        }
-        return;
+        case 4:
+        case 5:
+        case 6:
+            {
+                EntityRec *global_actor;
+                s32 direction;
 
-coords_case:
-        {
-            EntityRec *global_actor;
-            s32 direction;
-
-            direction = func_800A0818(
-                ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_aux);
-            global_actor = D_800814A8;
-            ((S_80170E5C_1 *)status)->unk_2A = direction;
-            if (global_actor->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                direction = func_800A0818(
+                    ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_aux);
+                global_actor = D_800814A8;
+                ((S_80170E5C_1 *)status)->unk_2A = direction;
+                if (global_actor->unk_9A == 0x11) {
+                    goto aaf_cleanup;
+                }
             }
+
+        case 11:
+        special_cleanup:
+            func_800A9A0C(status);
+            return;
+
+        case 0:
+        case 1:
+        case 2:
+        aaf_cleanup:
+            func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
+            return;
+
+        case 3:
+        case 9:
+        case 10:
+        default:
+        ordinary_cleanup:
+            func_8017162C(actor, context, sprite, status);
+            return;
+
         }
-
-special_cleanup:
-        func_800A9A0C(status);
-        return;
-
-aaf_cleanup:
-        func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
-        return;
-
-ordinary_cleanup:
-        func_8017162C(actor, context, sprite, status);
-        return;
     }
 
     if (!(((S_80170E5C_1 *)status)->unk_1C & 0x2000)) {
