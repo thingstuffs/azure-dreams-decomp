@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void *D_80016020[43];
 extern void *D_8001B16C[];
 extern char D_8001B14C[];
 extern char D_8001B8CC[];
@@ -18,52 +17,39 @@ extern void func_8001A554(s32);
 void *func_80016FE0(s32 handler_arg_a, s32 handler_arg_b, s32 selector)
 {
     void *response;
-    u32 case_index;
-    static void *const case_labels[] = {
-        &&case_19, &&case_18, &&case_52, &&case_12, &&case_default
-    };
 
-    case_index = selector - 12;
-    if (case_index >= 43) {
-        goto case_default;
+    switch (selector) {
+    case 19:
+        do {
+            response = func_80016CE4(handler_arg_a, handler_arg_b);
+        } while (0);
+        D_8001B16C[0] = response;
+        if (response != 0) {
+            return response;
+        }
+        if (func_8001A64C(0x92C) == 0) {
+            func_8001A554(0x92C);
+            return D_8001B8CC;
+        }
+        return D_8001B9E0;
+    case 18:
+        response = func_80016D18();
+        D_8001B16C[0] = response;
+        if (response != 0) {
+            return response;
+        }
+        if (func_8001A64C(0xAC) == 0) {
+            func_8001A554(0xAC);
+        }
+        func_8001A554(0x943);
+        return D_800206CC;
+    case 52:
+    case 53:
+    case 54:
+        return func_80016E48(selector);
+    case 12:
+        return D_8001C6D0;
+    default:
+        return D_8001B14C;
     }
-    goto *D_80016020[case_index];
-
-case_19:
-    do {
-        response = func_80016CE4(handler_arg_a, handler_arg_b);
-    } while (0);
-    D_8001B16C[0] = response;
-    if (response != 0) {
-        return response;
-    }
-    if (func_8001A64C(0x92C) == 0) {
-        func_8001A554(0x92C);
-        return D_8001B8CC;
-    }
-    return D_8001B9E0;
-
-case_18:
-    response = func_80016D18();
-    D_8001B16C[0] = response;
-    if (response != 0) {
-        return response;
-    }
-    if (func_8001A64C(0xAC) == 0) {
-        func_8001A554(0xAC);
-    }
-    func_8001A554(0x943);
-    return D_800206CC;
-
-case_52:
-    {
-        s32 reward_selector = selector;
-        return func_80016E48(reward_selector);
-    }
-
-case_12:
-    return D_8001C6D0;
-
-case_default:
-    return D_8001B14C;
 }
