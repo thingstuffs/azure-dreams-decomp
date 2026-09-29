@@ -234,3 +234,13 @@ blaming the assembler, check the symbol's `.extern SYM, n` size (n <= 8 -> small
 prove a larger object (dungeon/func_807B0B3C: `extern u8 *D_80083160[]` gives the split and the filled slot). Second
 "assembler fills a slot" idea disproved with genuine ASPSX (after the 655-record tail-jump one) - test with
 aspsx_diff before any maspsx change. Kit gap: listing distance treats `la SYM` as equal to `lui/addiu`.
+
+## dirStep terrain walks: `next_x ASM_REG("$4")` = optimize_reg_copy_1 on an s32 latch (r80_opus_o10, 3 clone rows 1 -> 0)
+
+With an s32 sum, `cell_x = next_x` is a reg-reg copy and local-alloc's optimize_reg_copy_1 (local-alloc.c:700) rewrites
+the later `target_x = next_x` to read cell_x, raising its refs (8 -> 10) and recolouring the function; a hard-register
+pin is exempt, which is all the `$4` pin did. u16 cells make the copies SUBREGs (also exempt): write
+`u16 cell_x, cell_y; ... cell_x += dirStepX[dir]; cell_y += dirStepY[dir]; target_x = cell_x; target_y = cell_y;`
+and load the x cell FIRST (y-first lets cse swap the copy so target_x becomes the load's destination, refs 8 -> 7).
+Related: a volatile local whose latch delay slot needs an earlier insn is a NON-volatile memory local (reorg will not
+move insns past a volatile store); never name `$8` in C when reload rebuilds a loop-hoisted table HIGH there (o6).
