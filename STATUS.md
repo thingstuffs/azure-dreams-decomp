@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-28T23:48:25Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-29T00:34:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -65,7 +65,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 789 | 310,932 | 12.2% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 788 | 308,456 | 12.1% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 736 | 732,396 | 28.6% |
 | goto | 1545 | 1,318,412 | 51.5% | 1597 | 1,364,660 | 53.3% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
@@ -79,7 +79,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3067 | 1,580,920 | 61.8% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4278 | 830,564 | 32.5% |
 
-Pin sites now: 2,787 in 735 rows; REG 1,338, KEEP 610, KEEP_NV 386, SCHED_BARRIER 139, KEEP_DEP_NV 72, USE_NV 45, USE 34, CLOBBER 31.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 2,766 in 735 rows; REG 1,337, KEEP 602, KEEP_NV 378, SCHED_BARRIER 136, KEEP_DEP_NV 72, USE_NV 45, USE 34, CLOBBER 31.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 108 (a second typed name for one symbol: a missing type); file-scope asm directives 430.
 

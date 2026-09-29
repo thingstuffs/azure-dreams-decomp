@@ -325,10 +325,10 @@ create_spawn:
                     flags_or_result = (u32)(((s32)flags_or_result) - (coord_or_variant));
                 }
                 if ((s32)flags_or_result < 0) {
-                    flags_or_result = (u32)(-(s32)flags_or_result);
+                    ((SpawnData *)data_base)->step2 = -(s32)flags_or_result * 2;
+                } else {
+                    ((SpawnData *)data_base)->step2 = (s32)flags_or_result * 2;
                 }
-                ((SpawnData *)data_base)->step2 = (s32)flags_or_result * 2;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
                 flags_or_result = (u32)(*(s32 *)((u8 *)entity->path60 - 0x18));
                 steps = ((SpawnData *)data_base)->step2;

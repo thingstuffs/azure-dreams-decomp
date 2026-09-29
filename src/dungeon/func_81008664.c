@@ -125,15 +125,11 @@ extern u8 D_801748F0[];
 extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
-void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *volatile entity) {
+void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity) {
     static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
-    struct {
-        void *sp10;
-        s16 sp14;
-        s16 sp16;
-        s32 sp18;
-        u8 *sp1C;
-    } locals;
+    S_func_81008664_5 *partner_motion;
+    s16 saved_x;
+    s16 saved_y;
     M2C_UNK partner_tile_mask;
     M2C_UNK tile_mask;
     M2C_UNK restore_tile_mask;
@@ -146,7 +142,6 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     s16 return_ticks;
     s32 step_offset;
     s32 direction;
-    register s32 search_step_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 tile_blocked;
     s32 reverse_angle;
     register s32 attempts ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -156,7 +151,6 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     u32 partner_flags;
     u32 entity_flags;
     u32 actor_flags;
-    u32 clear_mask;
     u32 cleared_flags;
     u32 sprite_grounded;
     u32 partner_x;
@@ -180,10 +174,6 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     u32 height_offset;
     s32 entity_height;
     u32 height_adjust;
-    u8 *search_x_steps;
-    u32 y_step_value;
-    u32 landing_y;
-    u32 landing_x;
     s32 world_coord;
     u8 next_state;
     register u8 *animation_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -201,13 +191,10 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     register S_func_81008664_4 *sprite = sprite_arg;
 
     partner = actor->unk_A8;
-    ASM_KEEP(partner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = actor->unk_9B;
-    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     partner_actor = (S_func_81008664_11 *) partner;
+    partner_motion = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_00;
     partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
-    search_step_offset = (s32)(((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_00);
-    locals.sp10 = (S_func_81008664_5 *)search_step_offset;
     if (state >= 5U) {
         goto done;
     }
@@ -246,11 +233,8 @@ jt_c0:
     partner_tile_mask = 0x300;
 clear_partner_tile:
     func_8009A3D0(partner_x, partner_y, partner_tile_mask);
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    ASM_KEEP_NV(search_step_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     sprite_x = sprite->unk_24;
-    ASM_KEEP_NV(sprite_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    entity_flags = ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C;
+    entity_flags = ((S_func_81008664_3 *)entity)->unk_1C;
     entity_flags &= 0x2000;
     tile_mask = 0x3000;
     sprite_y = sprite->unk_25;
@@ -260,16 +244,13 @@ clear_partner_tile:
     tile_mask = 0x300;
 clear_sprite_tile:
     func_8009A3D0(sprite_x, sprite_y, tile_mask);
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    clear_mask = 0xFFFB0000;
-    cleared_flags = ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C;
-    clear_mask |= 0xFFFF;
-    cleared_flags &= clear_mask;
-    ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C = cleared_flags;
+    angle = 0xFFFB0000;
+    cleared_flags = ((S_func_81008664_3 *)entity)->unk_1C;
+    angle |= 0xFFFF;
+    cleared_flags &= angle;
+    ((S_func_81008664_3 *)entity)->unk_1C = cleared_flags;
     actor_flags = (*(u16 *)((u8 *)actor + 0x98));
-    ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    angle = ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A;
-    ASM_KEEP_NV(angle);
+    angle = ((S_func_81008664_3 *)entity)->unk_2A;
     actor_flags |= 0xC;
     angle >>= 9;
     actor->unk_98 = actor_flags;
@@ -313,9 +294,8 @@ clear_sprite_tile:
     {
         u32 anim_flags;
 
-        search_step_offset = (s32)((S_func_81008664_5 *)(entity));
         launch_anim = (s16) *angle_or_count;
-        angle = (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A;
+        angle = (s16) ((S_func_81008664_3 *)entity)->unk_2A;
         anim_flags = 0;
         launch_anim = ((s32) (launch_anim + angle + 0x100) >> 9) & 7;
         launch_anim = launch_anim + (u32) animation_table;
@@ -330,11 +310,9 @@ jt_c1:
     }
     height_value = (u32) D_800DDC40;
     height_offset = partner->unk_13;
-    search_step_offset = (s32)((u32) locals.sp10);
     height_offset += height_value;
-    height_value = ((S_func_81008664_12 *) (u32)search_step_offset)->unk_0A;
-    search_step_offset = (s32)((u32) entity);
-    entity_height = (*(s16 *)((u8 *)(u32)search_step_offset + 0x88));
+    height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
+    entity_height = (*(s16 *)((u8 *)entity + 0x88));
     height_offset = ((S_func_81008664_9 *) height_offset)->unk_00;
     motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10) << 0x10) / launch_ticks);
     partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
@@ -354,16 +332,13 @@ check_launch_end:
     }
     angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
+    fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
     fall_anim = fall_anim + (u32) animation_table;
     func_80047784(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
     goto advance_state;
 restore_tile:
-    search_step_offset = (s32)((u8) locals.sp14);
-    partner_sprite->unk_24 = (u32)search_step_offset;
-    search_step_offset = (s32)((u8) locals.sp16);
-    partner_sprite->unk_25 = (u32)search_step_offset;
+    partner_sprite->unk_24 = saved_x;
+    partner_sprite->unk_25 = saved_y;
     goto place_actors;
 jt_c2:
     motion->unk_14 = (s32) (motion->unk_14 + 0xFFFE0000);
@@ -378,111 +353,67 @@ jt_c2:
         goto done;
     }
 prepare_tile_search:
-    search_step_offset = (s32)(partner_sprite->unk_24);
-    ASM_KEEP_NV(search_step_offset);
-    locals.sp14 = (s16) (u32)search_step_offset;
-    search_step_offset = (s32)(entity);
-    ASM_KEEP_NV(search_step_offset);
+    saved_x = partner_sprite->unk_24;
     attempts = 0x40;
-    ASM_KEEP(attempts);
-    reverse_angle = (s16) ((S_func_81008664_3 *)search_step_offset)->unk_2A;
-    search_step_offset = (s32)(partner_sprite->unk_25);
+    reverse_angle = (s16) ((S_func_81008664_3 *)entity)->unk_2A;
+    saved_y = partner_sprite->unk_25;
     reverse_angle = (reverse_angle + 0x800) & 0xFFF;
     direction = reverse_angle >> 9;
-    ASM_KEEP(direction);
-    search_x_steps = ((u8 *)dirStepX);
-    locals.sp16 = (s16) (u32)search_step_offset;
-    search_step_offset = direction * 2;
-    locals.sp18 = search_step_offset;
-    search_x_steps = (u8 *) (search_step_offset + (u32) search_x_steps);
-    locals.sp1C = search_x_steps;
-    ASM_SCHED_BARRIER();
-search_tile:
-    attempts -= 1;
-check_attempts: do {
-    tile_x_ptr = &partner_sprite->unk_24;
-    if (attempts <= 0) {
-        goto restore_tile;
+    for (;;) {
+        attempts -= 1;
+        tile_x_ptr = &partner_sprite->unk_24;
+        if (attempts <= 0) {
+            goto restore_tile;
+        }
+        tile_type = (s16) func_800A4E2C(tile_x_ptr, &partner_sprite->unk_25);
+        if (tile_type < 0) {
+            continue;
+        }
+        if (tile_type == ((S_func_81008664_7 *)&D_80082E80)->unk_26) {
+            angle_or_count = &D_8008146E;
+            if (*angle_or_count >= 2) {
+                continue;
+            }
+        }
+        tile_blocked = func_8009A2B8(partner_sprite->unk_24, partner_sprite->unk_25, direction);
+        if ((tile_blocked << 0x10) != 0) {
+            continue;
+        }
+        partner_sprite->unk_26 = (s8) tile_type;
+        sprite->unk_26 = (s8) tile_type;
+        sprite->unk_24 = partner_sprite->unk_24 + dirStepX[direction];
+        sprite->unk_25 = partner_sprite->unk_25 + dirStepY[direction];
+        landing_height = func_800BCB04((sprite->unk_24 << 6) | 0x20, (sprite->unk_25 << 6) | 0x20, (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
+        ((S_func_81008664_3 *)entity)->unk_88 = landing_height;
+        if (landing_height >= 0x201) {
+            continue;
+        }
+        partner_height = func_800BCB04((partner_sprite->unk_24 << 6) | 0x20, (partner_sprite->unk_25 << 6) | 0x20, (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
+        partner->unk_88 = partner_height;
+        if ((s16) partner_height >= 0x201) {
+            continue;
+        }
+        if (((S_func_81008664_3 *)entity)->unk_88 == (s16) partner_height) {
+            break;
+        }
     }
-    tile_type = (s16) func_800A4E2C(tile_x_ptr, &partner_sprite->unk_25);
-    attempts -= 1;
-    if (tile_type < 0) {
-        goto check_attempts;
-    }
-    attempts += 1;
-    ASM_KEEP(attempts);
-    search_step_offset = (s32)((u32)((S_func_81008664_7 *) ((u8 *)(&D_80082E80))));
-    ASM_KEEP_NV(search_step_offset);
-    if (tile_type != ((S_func_81008664_7 *)(u32)search_step_offset)->unk_26) {
-        goto check_tile_path;
-    }
-    angle_or_count = &D_8008146E;
-    attempts -= 1;
-    if (*angle_or_count >= 2) {
-        goto check_attempts;
-    }
-    attempts += 1;
-check_tile_path:
-    tile_blocked = func_8009A2B8(partner_sprite->unk_24, partner_sprite->unk_25, direction);
-    attempts -= 1;
-    if ((tile_blocked << 0x10) != 0) {
-        goto check_attempts;
-    }
-    attempts += 1;
-    ASM_KEEP(attempts);
-    partner_sprite->unk_26 = (s8) tile_type;
-    sprite->unk_26 = (s8) tile_type;
-    search_step_offset = (s32)((u32)(locals.sp1C));
-    sprite->unk_24 = (u8) (partner_sprite->unk_24 + *(u8 *)(u32)search_step_offset);
-    ASM_SCHED_BARRIER();
-    y_step_value = (u32) ((u8 *)dirStepY);
-    search_step_offset = (s32)((u32)((u8 *)((u32) locals.sp18)));
-    landing_y = partner_sprite->unk_25;
-    landing_x = sprite->unk_24;
-    y_step_value = (u32)(u8 *)(u32)search_step_offset + y_step_value;
-    landing_x <<= 6;
-    y_step_value = ((S_func_81008664_9 *) y_step_value)->unk_00;
-    landing_x |= 0x20;
-    landing_y += y_step_value;
-    sprite->unk_25 = (u8) landing_y;
-    landing_height = func_800BCB04(landing_x, (sprite->unk_25 << 6) | 0x20, (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_88 = landing_height;
-    attempts -= 1;
-    if (landing_height >= 0x201) {
-        goto check_attempts;
-    }
-    attempts += 1;
-    partner_height = func_800BCB04((partner_sprite->unk_24 << 6) | 0x20, (partner_sprite->unk_25 << 6) | 0x20, (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
-    partner->unk_88 = partner_height;
-    attempts -= 1;
-    if ((s16) partner_height >= 0x201) {
-        goto check_attempts;
-    }
-    attempts += 1;
-    ASM_KEEP(attempts);
-    attempts -= 1;
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    } while (((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_88 != (s16) partner_height);
 place_actors:
     world_coord = partner_sprite->unk_24;
-    search_step_offset = (s32)(locals.sp10);
     world_coord = ((world_coord << 6) + 0x20) << 0x10;
-    ((S_func_81008664_5 *)search_step_offset)->unk_00 = world_coord;
+    partner_motion->unk_00 = world_coord;
     motion->unk_00 = world_coord;
     world_coord = partner_sprite->unk_25;
     world_coord = ((world_coord << 6) + 0x20) << 0x10;
-    ((S_func_81008664_5 *)search_step_offset)->unk_04 = world_coord;
+    partner_motion->unk_04 = world_coord;
     motion->unk_04 = world_coord;
     motion->unk_08.unk_08 = (s32) (((s16) partner->unk_88 - 0x100) << 0x10);
     partner_actor->unk_90.unk_90 = (s32) actor->unk_90.unk_90;
     *(s16 *)((u8 *)actor + 0x96) = 8;
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_88 << 0x10) - motion->unk_08.unk_08) / (s16) actor->unk_96);
+    motion->unk_14 = (s32) ((s32) ((((S_func_81008664_3 *)entity)->unk_88 << 0x10) - motion->unk_08.unk_08) / (s16) actor->unk_96);
     animation_table = D_801748F8;
     angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
-    rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
+    rise_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
     rise_anim = rise_anim + (u32) animation_table;
     func_80047784(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
     func_800AA53C(entity);
@@ -519,14 +450,13 @@ restore_partner_flag:
     }
     partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFFB);
 set_return_motion:
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C = (s32) (((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C | 0x40000000);
+    ((S_func_81008664_3 *)entity)->unk_1C = (s32) (((S_func_81008664_3 *)entity)->unk_1C | 0x40000000);
     partner->unk_1C = (s32) (partner->unk_1C | 0x40000000);
     {
         s16 angle_or_duration;
         s32 return_step_offset;
 
-        angle_or_duration = ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A;
+        angle_or_duration = ((S_func_81008664_3 *)entity)->unk_2A;
         height_value = (u32)(8);
         motion->unk_14 = 0;
         actor->unk_96 = (s32)height_value;
@@ -534,7 +464,8 @@ set_return_motion:
         direction = angle_or_duration >> 8;
         return_step_offset = direction & 0xE;
         height_value = (u32)(return_step_offset + (s32)height_value);
-        height_value = (u32)(((S_func_81008664_10 *) (s32)height_value)->unk_00);
+        direction = (u32)(((S_func_81008664_10 *) (s32)height_value)->unk_00);
+        height_value = direction;
         angle_or_duration = 8;
         height_value = (u32)(((s32)height_value) << (0x16));
         height_value = (u32)(0 - (s32)height_value);
@@ -548,8 +479,7 @@ set_return_motion:
         height_value = (u32)(0 - (s32)height_value);
         height_value = (u32)(((s32)height_value) / ((s32) angle_or_duration));
         motion->unk_10 = (s32)height_value;
-        search_step_offset = (s32)((S_func_81008664_5 *)((S_func_81008664_3 *)((u32) locals.sp10)));
-        ((S_func_81008664_5 *) (u32)(S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_14 = 0;
+        partner_motion->unk_14 = 0;
         motion->unk_14 = 0;
         goto advance_state;
     }
@@ -583,7 +513,6 @@ finish_movement:
     dungeonStatus.unk_0A = active_count;
     func_800A4ACC(finish_entity);
     *(u16 *)((u8 *)actor + 0x98) = (u16) (actor->unk_98 & 0xFFF3);
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
 
     {
         u32 restore_flags;
@@ -591,10 +520,10 @@ finish_movement:
         u32 restore_x;
         u32 restore_y;
 
-        restore_flags = ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C;
+        restore_flags = ((S_func_81008664_3 *)entity)->unk_1C;
         restore_mask = 0x40000;
         restore_flags |= restore_mask;
-        ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_1C = restore_flags;
+        ((S_func_81008664_3 *)entity)->unk_1C = restore_flags;
         restore_flags &= 0x2000;
         restore_x = sprite->unk_24;
         restore_y = sprite->unk_25;
@@ -626,13 +555,11 @@ restore_partner_tile:
     animation_table = D_80174888;
     angle_or_count = &gameWork.view.viewAngle;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_2A + 0x100) >> 9) & 7;
+    idle_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
     idle_anim = idle_anim + (u32) animation_table;
     func_80047784(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);
-    search_step_offset = (s32)((S_func_81008664_5 *)(entity));
-    ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_6D = 0;
-    ((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_46 = (u16) (((S_func_81008664_3 *)(S_func_81008664_5 *)search_step_offset)->unk_46 & 0x7FFF);
+    ((S_func_81008664_3 *)entity)->unk_6D = 0;
+    ((S_func_81008664_3 *)entity)->unk_46 = (u16) (((S_func_81008664_3 *)entity)->unk_46 & 0x7FFF);
 advance_state:
     next_state = actor->unk_9B + 1;
 store_state:

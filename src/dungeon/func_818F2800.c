@@ -349,15 +349,12 @@ next_half:
             DM_S16(0x78) = (s16)edge_x;
         }
         {
-            s32 part_flags;
-            u16 flip_flags;
+            u16 part_flags;
             s32 edge_y;
             part_flags = ((S_BODY_2 *)part)->unk_00;
-            flip_flags = part_flags;
-            ASM_KEEP(flip_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             state_flags = *(volatile u16 *)(scratch + 0x24);
-            flip_flags ^= state_flags;
-            if (flip_flags & 2) {
+            part_flags = state_flags ^ part_flags;
+            if (part_flags & 2) {
                 if (half == 0) {
                     s32 height;
                     edge_y = ((S_BODY_2 *)part)->unk_03;
