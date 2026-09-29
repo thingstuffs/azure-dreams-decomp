@@ -11,9 +11,9 @@ void func_800177A8(void) {
     entry = D_800E2970;
     entry += 0x2BC;
     do {
-        *(volatile s16 *)(entry + 0xA) = 0;
-        *(volatile s16 *)(entry + 0xE) = 0;
-        *(volatile s32 *)(entry + 0x10) = 0;
+        *(s16 *)(entry + 0xA) = 0;
+        *(s16 *)(entry + 0xE) = 0;
+        *(s32 *)(entry + 0x10) = 0;
         entry -= 0x14;
     } while (--entry_index >= 0);
 }
