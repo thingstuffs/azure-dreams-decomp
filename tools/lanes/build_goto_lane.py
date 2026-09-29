@@ -2,7 +2,7 @@
 """Build a goto-readability lane pack (round 80; pilot r79_sonnet_g1, Sonnet 5.5: 35 -> 5 gotos on 6 rows).
 
     python3 tools/lanes/build_goto_lane.py <lane> --rows id,id,...       # exactly these rows
-    python3 tools/lanes/build_goto_lane.py <lane> --pick 8 [--seed S] [--busy FILE]
+    python3 tools/lanes/build_goto_lane.py <lane> --pick 8 [--seed S] [--busy FILE] [--densest] [--min-size N --max-size N]
 
 --pick chooses pin-free rows with plain gotos (no computed goto, no NON_MATCHING arm), 1,000-9,000 bytes, that the
 CPU generators t122_gotowhile / t123_returntail do not match, or tried at this exact text without applying, that no earlier goto
@@ -47,9 +47,9 @@ def tried_by_generators():
     return out
 
 
-def pickable(rid, text, tried=frozenset()):
+def pickable(rid, text, tried=frozenset(), max_size=9000, min_size=1000):
     if "goto" not in text or "goto *" in text or "NON_MATCHING" in text: return False
-    if not (1000 <= len(text) <= 9000) or sites_of(text): return False
+    if not (min_size <= len(text) <= max_size) or sites_of(text): return False
     if not t122_gotowhile.gotos(text): return False
     if (rid, sha(text)) in tried: return True          # a generator tried this exact text and could not rewrite it
     return not t122_gotowhile.loops(text) and not t123_returntail.sites(text)
@@ -60,6 +60,8 @@ def main():
     ap.add_argument("lane"); ap.add_argument("--rows"); ap.add_argument("--pick", type=int)
     ap.add_argument("--seed", type=int, default=80); ap.add_argument("--busy", action="append", default=[])
     ap.add_argument("--budget", type=int, default=150)
+    ap.add_argument("--densest", action="store_true", help="pick the rows with the most gotos first (not random)")
+    ap.add_argument("--min-size", type=int, default=1000); ap.add_argument("--max-size", type=int, default=9000)
     a = ap.parse_args()
     by = {r["id"]: r for r in rows()}
     lane = ROOT / "work/native_lane" / a.lane
@@ -74,9 +76,12 @@ def main():
             rid = "/".join(f.split("/")[-2:])[:-2]
             if rid not in by or rid in busy: continue
             t = Path(f).read_text(errors="replace")
-            if (rid, sha(t)) in seen or not pickable(rid, t, tried): continue
-            pool.append(rid)
-        random.seed(a.seed); ids = sorted(random.sample(pool, min(a.pick, len(pool))))
+            if (rid, sha(t)) in seen or not pickable(rid, t, tried, a.max_size, a.min_size): continue
+            pool.append((t122_gotowhile.gotos(t), rid))
+        if a.densest:
+            ids = sorted(r for _, r in sorted(pool, key=lambda x: (-x[0], x[1]))[:a.pick])
+        else:
+            random.seed(a.seed); ids = sorted(r for _, r in random.sample(pool, min(a.pick, len(pool))))
         print("pool %d rows; picked %d" % (len(pool), len(ids)))
     table = ["| row | gotos now | cell |", "|---|---:|---|"]; shas = {}
     for rid in ids:
