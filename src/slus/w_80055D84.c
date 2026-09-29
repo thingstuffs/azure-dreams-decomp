@@ -12,7 +12,7 @@ extern void *D_80084538[];
 extern void *D_800847C0[];
 extern void *D_80084758[];
 
-extern s32 func_8005A778(void *a0, s32 a1, void *a2);
+extern s32 func_8005A778(void *a0, s16 a1, void *a2);
 extern s32 func_8005AAA8(void *a0, s32 a1);
 extern void func_80055C50(s32 a0);
 extern void func_8003F52C(s32 a0);
