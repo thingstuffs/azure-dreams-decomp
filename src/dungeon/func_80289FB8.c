@@ -35,27 +35,26 @@ void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
         slot_index = 0;
         slot_info = D_800E3648;
         slot_data = &D_800E39C8;
-check_slot:
-        if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
-            x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF, room_area) & 0xFFFF;
-            y_roll = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
-            y_offset = y_roll & 0xFFFF;
-            *((s8 *) (((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
-            *((s8 *) (((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);
-            *((u8 *) (((s8 *) slot_info) + 0)) = 0x13;
-            *((u8 *) (((s8 *) slot_info) + 1)) = 0x15U;
-            *((u8 *) (((s8 *) slot_info) + 3)) = (u8) 0xC0;
-            *((s8 *) (((s8 *) slot_info) + 2)) = (s8) size;
-            *((s32 *) (((s8 *) slot_data) + 8)) = 0;
-            return;
-        }
-        slot_index += 1;
-        slot_info += 4;
-        slot_data += 0x18;
-        if (slot_index >= 0x20) {
-        }
-        else {
-            goto check_slot;
+        while (1) {
+            if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
+                x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF, room_area) & 0xFFFF;
+                y_roll = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
+                y_offset = y_roll & 0xFFFF;
+                *((s8 *) (((s8 *) slot_data) + 6)) = (s8) ((*((u8 *) (((s8 *) room) + 0))) + x_offset);
+                *((s8 *) (((s8 *) slot_data) + 7)) = (s8) ((*((u8 *) (((s8 *) room) + 2))) + y_offset);
+                *((u8 *) (((s8 *) slot_info) + 0)) = 0x13;
+                *((u8 *) (((s8 *) slot_info) + 1)) = 0x15U;
+                *((u8 *) (((s8 *) slot_info) + 3)) = (u8) 0xC0;
+                *((s8 *) (((s8 *) slot_info) + 2)) = (s8) size;
+                *((s32 *) (((s8 *) slot_data) + 8)) = 0;
+                return;
+            }
+            slot_index += 1;
+            slot_info += 4;
+            slot_data += 0x18;
+            if (slot_index >= 0x20) {
+                break;
+            }
         }
     }
 }
