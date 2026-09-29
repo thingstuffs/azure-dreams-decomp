@@ -50,22 +50,18 @@ mode_zero:
     countdown = ((S_80022514_0 *)effect)->unk_02.u;
     color += color_step;
     ((S_80022514_0 *)effect)->unk_08 = color;
-    if (countdown >= 0) {
-        goto done;
+    if (countdown < 0) {
+        next_phase = ((S_80022514_0 *)effect)->unk_00.u;
+        ((S_80022514_0 *)effect)->unk_02.s = 0x10E;
+        next_phase++;
+        ((S_80022514_0 *)effect)->unk_00.u = next_phase;
     }
-    next_phase = ((S_80022514_0 *)effect)->unk_00.u;
-    ((S_80022514_0 *)effect)->unk_02.s = 0x10E;
-    next_phase++;
-    ((S_80022514_0 *)effect)->unk_00.u = next_phase;
     goto done;
 }
 
 mode_one:
 {
-    if ((s16)frames_left >= 0) {
-        goto done;
-    }
-    {
+    if ((s16)frames_left < 0) {
         s32 next_phase;
 
         do {

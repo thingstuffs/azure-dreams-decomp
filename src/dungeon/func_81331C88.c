@@ -172,33 +172,26 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     phase = ((S_80168C88_0 *)effect)->unk_12.s;
     phase_bits = *(volatile u16 *)(effect + 0x12);
     color = color_in;
-    if (phase != 0) {
-        if (phase == 1) {
-            goto status_one;
+    switch (phase) {
+    case 0:
+        if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
+            ((S_80168C88_0 *)effect)->unk_12.u = phase_bits + 1;
         }
-        step = 1;
-        goto table_setup;
+        break;
+    case 1:
+        red_scaled = ((S_80168C88_0 *)effect)->unk_00 * ((S_80168C88_0 *)effect)->unk_18.s;
+        if (red_scaled < 0) {
+            red_scaled += 3;
+        }
+        ((S_80168C88_1 *)color)->unk_0C = red_scaled >> 2;
+        green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
+        if (green_scaled < 0) {
+            green_scaled += 3;
+        }
+        ((S_80168C88_1 *)color)->unk_0D = green_scaled >> 2;
+        break;
     }
-    if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
-        ((S_80168C88_0 *)effect)->unk_12.u = phase_bits + 1;
-    }
-    goto table_start;
-
-status_one:
-    red_scaled = ((S_80168C88_0 *)effect)->unk_00 * ((S_80168C88_0 *)effect)->unk_18.s;
-    if (red_scaled < 0) {
-        red_scaled += 3;
-    }
-    ((S_80168C88_1 *)color)->unk_0C = red_scaled >> 2;
-    green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
-    if (green_scaled < 0) {
-        green_scaled += 3;
-    }
-    ((S_80168C88_1 *)color)->unk_0D = green_scaled >> 2;
-
-table_start:
     step = 1;
-table_setup:
     table_base = D_80175DD8;
     step_offset = 0xC;
     do {

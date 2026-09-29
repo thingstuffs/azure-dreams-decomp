@@ -231,30 +231,34 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                     ((S_80024E5C_2 *)motion)->unk_10 = 0;
                     ((S_80024E5C_2 *)motion)->unk_0C = 0;
                     ((S_80024E5C_0 *)effect)->unk_56 = 0x1E;
-                    goto emit_trail;
                 }
-                goto emit_trail;
-            }
-            ((S_80024E5C_0 *)effect)->unk_5A.u = 0xAU;
-            ((S_80024E5C_0 *)effect)->unk_5C = (u16) (((S_80024E5C_0 *)effect)->unk_5C - 1);
-            ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v + ((S_80024E5C_0 *)effect)->unk_98);
-            ((S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_04.at00.v + ((S_80024E5C_0 *)effect)->unk_9C);
-            ((S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_08.at00.v + ((S_80024E5C_0 *)effect)->unk_A0);
-            if ((s16) ((S_80024E5C_0 *)effect)->unk_5C > 0) {
-emit_trail:
-                if ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u >= 5) {
-                    trail_index = 0;
-                    do {
-                        func_80024D34(effect, motion, sprite);
-                        next_trail = trail_index + 1;
-                        trail_index = next_trail;
-                    } while (next_trail < 4);
+            } else {
+                ((S_80024E5C_0 *)effect)->unk_5A.u = 0xAU;
+                ((S_80024E5C_0 *)effect)->unk_5C = (u16) (((S_80024E5C_0 *)effect)->unk_5C - 1);
+                ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v + ((S_80024E5C_0 *)effect)->unk_98);
+                ((S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_04.at00.v + ((S_80024E5C_0 *)effect)->unk_9C);
+                ((S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_08.at00.v + ((S_80024E5C_0 *)effect)->unk_A0);
+                if ((s16) ((S_80024E5C_0 *)effect)->unk_5C <= 0) {
+                    ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+                    (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
+                    objectFlagBlock.flags |= 0x8000;
+                    return;
                 }
-                goto update_impact;
             }
-            goto destroy;
+            if ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u >= 5) {
+                trail_index = 0;
+                do {
+                    func_80024D34(effect, motion, sprite);
+                    next_trail = trail_index + 1;
+                    trail_index = next_trail;
+                } while (next_trail < 4);
+            }
+        } else {
+            ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+            return;
         }
-        goto destroy;
     }
 update_impact:
     impact_state = (s16) ((S_80024E5C_0 *)effect)->unk_58.u;
@@ -336,15 +340,11 @@ update_impact:
             end_frame = ((S_80024E5C_0 *)effect)->unk_5A.s;
         }
         if (end_frame >= 0x1B) {
-            goto destroy;
+            ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
+            (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+            return;
         }
     }
-    goto normal_return;
-destroy:
-    ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
-    (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
-    return;
-normal_return:
     func_800478B8(sprite);
 }

@@ -282,41 +282,28 @@ next_record:
     ((S_800C9088_1 *)scratch)->unk_C0 = depth;
 
     flags = ((S_800C9088_0 *)model)->unk_14 & 3;
-    if (flags == 1) {
-        goto mirrored_x;
+    switch (flags) {
+    case 0:
+        screen_xy0 = (*(s32 *)((u8 *)packet_code + 1));
+        screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
+        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
+        break;
+    case 1:
+        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0xD));
+        screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
+        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
+        break;
+    case 2:
+        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
+        screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
+        screen_xy2 = (*(s32 *)((u8 *)packet_code + 1));
+        break;
+    default:
+        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
+        screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
+        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0xD));
+        break;
     }
-    if (flags < 2) {
-        if (flags == 0) {
-            goto unmirrored;
-        }
-        goto mirrored_xy;
-    }
-    if (flags == 2) {
-        goto mirrored_y;
-    }
-    goto mirrored_xy;
-
-unmirrored:
-    screen_xy0 = (*(s32 *)((u8 *)packet_code + 1));
-    screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
-    screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
-    goto check_winding;
-mirrored_x:
-    screen_xy0 = (*(s32 *)((u8 *)packet_code + 0xD));
-    screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
-    screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
-    goto check_winding;
-mirrored_y:
-    screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
-    screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
-    screen_xy2 = (*(s32 *)((u8 *)packet_code + 1));
-    goto check_winding;
-
-mirrored_xy:
-    screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
-    screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
-    screen_xy2 = (*(s32 *)((u8 *)packet_code + 0xD));
-check_winding:
     winding = func_80065480(screen_xy0, screen_xy1, screen_xy2);
     ((S_800C9088_1 *)scratch)->unk_114 = winding;
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {

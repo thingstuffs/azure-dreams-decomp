@@ -150,38 +150,25 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
             work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x6000;
             ((S_8017087C_1 *)work)->unk_14 = setup_value;
             ((S_8017087C_1 *)work)->unk_1C = work_flags;
-            goto post_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        setup_value = ((S_8017087C_1 *)work)->unk_14 | 0x2000;
-        work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x2000;
-
-set_flags:
-        ((S_8017087C_1 *)work)->unk_14 = setup_value;
-        ((S_8017087C_1 *)work)->unk_1C = work_flags;
-        goto post_kind;
-
-normal_kind:
-        if (((kind_flags & ~3) << 16) == 0) {
-            if (!(((S_8017087C_1 *)work)->unk_14 & 0x200)) {
-                setup_value = func_800A6D30();
-                if (!(setup_value & 1)) {
-                    goto init_parts;
+        } else if (kind >= 2) {
+            setup_value = ((S_8017087C_1 *)work)->unk_14 | 0x2000;
+            work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x2000;
+            ((S_8017087C_1 *)work)->unk_14 = setup_value;
+            ((S_8017087C_1 *)work)->unk_1C = work_flags;
+        } else {
+            if (((kind_flags & ~3) << 16) == 0) {
+                if (!(((S_8017087C_1 *)work)->unk_14 & 0x200)) {
+                    setup_value = func_800A6D30();
+                    if (setup_value & 1) {
+                        ((S_8017087C_1 *)work)->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        ((S_8017087C_3 *)part_b)->unk_2C = D_80175894;
+                    }
                 }
-                ((S_8017087C_1 *)work)->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
-                ((S_8017087C_3 *)part_b)->unk_2C = D_80175894;
-                goto post_kind;
             }
         }
-        goto init_parts;
 
-post_kind:
-init_parts:
         func_800A9C18(obj, part_a, part_b, kind_flags);
 
         child_index = 0;

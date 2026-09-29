@@ -388,11 +388,9 @@ state1:
         }
         actor->countdown--;
         if (actor->countdown <= 0) {
-            if (entity->link60 != 0) {
+            if ((linked_pos = (Packed12 *)entity->link60) != 0) {
                 s32 sound_id;
-                linked_pos = (Packed12 *)(entity->link60);
                 sound_id = 0x300;
-                ASM_KEEP(sound_id);
                 linked_pos = (Packed12 *)((void *)(*(Motion **)((u8 *)(void *)linked_pos - 0x18)));
                 motion->x.half.hi = ((Motion *)(void *)linked_pos)->x.half.hi;
                 motion->y.half.hi = ((Motion *)(void *)linked_pos)->y.half.hi;
@@ -579,11 +577,11 @@ state5:
 
 state6:
     {
-        u16 old_timer;
+        s32 old_timer;
         old_timer = actor->timer82;
         actor->timer82 = old_timer + 1;
         if ((s16)(old_timer + 1) >= 21) {
-            register s16 *flag_page ASM_REG("$4");
+            s16 *flag_page;
             s32 active_flag;
             flag_page = (s16 *)0x80020000;
             ASM_KEEP_NV(flag_page);

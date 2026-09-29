@@ -163,9 +163,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (animation_table == (s32)&D_8017418C) {
                         ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
-                        goto adjust_animated_hover;
-                    }
-                    if (animation_table == (s32)&D_80174174) {
+                    } else if (animation_table == (s32)&D_80174174) {
                         ((S_80170B64_0 *)actor)->unk_A0.u++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
                             ((S_80170B64_0 *)actor)->unk_A0.u = 0;
@@ -176,11 +174,8 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
                         } else {
                             ((S_80170B64_0 *)actor)->unk_AC.at00.v += 0x12492;
                         }
-                        goto adjust_animated_hover;
                     }
-                    goto adjust_animated_hover;
                 }
-adjust_animated_hover:
                 if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
                     hover_floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
                         ((S_80170B64_1 *)motion)->unk_04.at02.v,
@@ -195,74 +190,68 @@ adjust_animated_hover:
                             ((S_80170B64_0 *)actor)->unk_90.at02u.v + 8;
                     }
                 }
-                goto update_world_height;
+            } else {
+                goto apply_floor_height;
             }
-            goto apply_floor_height;
-        }
-        if (sprite_flags & 0x800) {
-            ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
         } else {
-            ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
-        }
-        static_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
-        ((S_80170B64_3 *)actor_base)->unk_1C.s = static_flags;
-        if (!(static_flags & 0x40000)) {
+            if (sprite_flags & 0x800) {
+                ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
+            } else {
+                ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
+            }
+            static_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
+            ((S_80170B64_3 *)actor_base)->unk_1C.s = static_flags;
+            if (!(static_flags & 0x40000)) {
 apply_floor_height:
-            height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
-            ((S_80170B64_0 *)actor)->unk_A8 = 0;
-            ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
-            ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
-            if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-                floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
-                    ((S_80170B64_1 *)motion)->unk_04.at02.v,
-                    (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                    ((S_80170B64_3 *)actor_base)->unk_88;
-                if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
-                    ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
-                    ((S_80170B64_0 *)actor)->unk_9D.s = 0;
-                    ((S_80170B64_1 *)motion)->unk_14 = 0;
-                    ((S_80170B64_3 *)actor_base)->unk_1C.u |= 0x08000000;
-                    goto update_world_height;
-                }
-            }
-            goto update_world_height;
-        }
-        if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
-            static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
-            if (static_animation_table == (s32)&D_8017418C) {
+                height_adjustment = ((S_80170B64_0 *)actor)->unk_AC.at00.v;
+                ((S_80170B64_0 *)actor)->unk_A8 = 0;
                 ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
-                goto adjust_static_hover;
-            }
-            if (static_animation_table == (s32)&D_80174174) {
-                ((S_80170B64_0 *)actor)->unk_A0.u++;
-                if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
-                    ((S_80170B64_0 *)actor)->unk_A0.u = 0;
-                    ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                ((S_80170B64_0 *)actor)->unk_90.at00.v -= height_adjustment;
+                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                    floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
+                        ((S_80170B64_1 *)motion)->unk_04.at02.v,
+                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
+                        ((S_80170B64_3 *)actor_base)->unk_88;
+                    if (floor_offset < ((S_80170B64_0 *)actor)->unk_90.at02.v) {
+                        ((S_80170B64_0 *)actor)->unk_90.at02.v = floor_offset;
+                        ((S_80170B64_0 *)actor)->unk_9D.s = 0;
+                        ((S_80170B64_1 *)motion)->unk_14 = 0;
+                        ((S_80170B64_3 *)actor_base)->unk_1C.u |= 0x08000000;
+                    }
                 }
-                if (((S_80170B64_0 *)actor)->unk_A0.s < 5) {
-                    ((S_80170B64_0 *)actor)->unk_AC.at00.v += -0x33333;
-                } else {
-                    ((S_80170B64_0 *)actor)->unk_AC.at00.v += 0x12492;
+            } else {
+                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                    static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
+                    if (static_animation_table == (s32)&D_8017418C) {
+                        ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                    } else if (static_animation_table == (s32)&D_80174174) {
+                        ((S_80170B64_0 *)actor)->unk_A0.u++;
+                        if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
+                            ((S_80170B64_0 *)actor)->unk_A0.u = 0;
+                            ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
+                        }
+                        if (((S_80170B64_0 *)actor)->unk_A0.s < 5) {
+                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += -0x33333;
+                        } else {
+                            ((S_80170B64_0 *)actor)->unk_AC.at00.v += 0x12492;
+                        }
+                    }
                 }
-                goto adjust_static_hover;
-            }
-            goto adjust_static_hover;
-        }
-adjust_static_hover:
-        if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
-            hover_floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
-                ((S_80170B64_1 *)motion)->unk_04.at02.v,
-                (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-            ((S_80170B64_3 *)actor_base)->unk_88;
-            if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
-                ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                    ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
-            } else if (((S_80170B64_0 *)actor)->unk_90.at02.v < ((s16)hover_floor_offset - 0x28)) {
-                ((S_80170B64_0 *)actor)->unk_90.at02.v =
-                    ((S_80170B64_0 *)actor)->unk_90.at02u.v + 8;
+                if (!(((S_80170B64_0 *)actor)->unk_98 & 8)) {
+                    hover_floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
+                        ((S_80170B64_1 *)motion)->unk_04.at02.v,
+                        (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
+                    ((S_80170B64_3 *)actor_base)->unk_88;
+                    if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
+                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
+                            ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;
+                    } else if (((S_80170B64_0 *)actor)->unk_90.at02.v < ((s16)hover_floor_offset - 0x28)) {
+                        ((S_80170B64_0 *)actor)->unk_90.at02.v =
+                            ((S_80170B64_0 *)actor)->unk_90.at02u.v + 8;
+                    }
+                }
             }
         }
-update_world_height:
         actor_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s;
         if (actor_flags & 0x40000000) {
             ((S_80170B64_3 *)actor_base)->unk_1C.s = actor_flags & 0xBFFFFFFF;
