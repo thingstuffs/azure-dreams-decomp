@@ -96,6 +96,12 @@ for lane in lanes:
         # round 80 (readability lanes): with pins equal, fewer `goto` statements (and none added) is a landing too
         gc, gu = gotos(cand), gotos(cur)
         if gc < gu: fell.append("goto")
+        # round 80 (format lanes): a candidate that differs from the current text ONLY in whitespace outside string
+        # literals and preprocessor lines is a formatting landing (C tokens and comment text identical; the byte gate decides)
+        TOK = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[A-Za-z_]\w*|\d[\w.]*|>>=|<<=|->|\+\+|--|&&|\|\||<<|>>|[<>=!+\-*/%&|^]=|\.\.\.|\S')
+        ws = lambda t: TOK.findall("\n".join(l for l in t.split("\n") if not l.lstrip().startswith("#")))
+        pp = lambda t: [l.strip() for l in t.split("\n") if l.lstrip().startswith("#")]
+        if cand != cur and not fell and ws(cand) == ws(cur) and pp(cand) == pp(cur): fell.append("format")
         # round 78: a byte-exact candidate that removes scaffolding (volatile, while(0), __asm__, an ASM_* kind)
         # with no pin growth lands too - r78_opus_b1's `volatile ShortArg` parameter was refused for "no pin fell"
         if len(sites_of(cand)) == len(sites_of(cur)) and gc > gu: grew.append("goto")
