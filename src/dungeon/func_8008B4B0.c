@@ -84,7 +84,6 @@ typedef struct DdcbcEntry {
 } DdcbcEntry;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_800888B0[];
 M2C_UNK func_8002534C(); /* extern */
 void func_8003DB94();        /* extern */
 s32 func_80042900();                 /* extern */
@@ -137,7 +136,6 @@ extern M2C_UNK D_800E4938;
 
 /* Wait for the menu to close, then dispatch the selected item or companion action. */
 void func_80090C10(void *state, M2C_UNK context, void *sprite, EntityRec *actor) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20, &&jt_c21 };
     s16 tile_x;
     s16 tile_y;
     u8 *anim_table;
@@ -221,11 +219,8 @@ block_18:
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;
     }
-    if ((u32) (D_80082EB8 - 1) >= 0x15U) {
-        goto block_64;
-    }
-    (void)action_labels; goto *D_800888B0[(u32)((D_80082EB8) - 1)];
-jt_c1:
+    switch (D_80082EB8) {
+case 1:
     func_8009F644(actor, 0x48, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv), 0);
     if (((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_01 != 0x11) {
         goto block_23;
@@ -235,7 +230,7 @@ jt_c1:
 block_23:
     func_800982A8(actor, (*(void **)&D_80082EB0));
     goto block_64;
-jt_c2:
+case 2:
     if (((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_01 != 0x11) {
         goto block_26;
     }
@@ -246,7 +241,7 @@ block_26:
     func_8009F644(actor, 0x48, func_80098C80(actor->unk_4C), 0);
     func_800982A8(actor, NULL);
     goto block_64;
-jt_c21:
+case 21:
     if (!(((S_80090C10_13 *)(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv))->unk_03 & 0x20)) {
         goto block_29;
     }
@@ -265,9 +260,9 @@ block_31:
 block_32:
     func_800997FC(&D_800E0571);
     goto block_64;
-jt_c3:
-jt_c4:
-jt_c20:
+case 3:
+case 4:
+case 20:
     item_result = func_80098920(actor, ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, 3, 0);
     if (item_result < 0) {
         goto block_36;
@@ -286,12 +281,12 @@ block_36:
     }
     ((Rec_func_8008D024_arg0 *)state)->unk_9B.as_u8 = 3U;
     return;
-jt_c5:
+case 5:
     func_8009F644(actor, 0x58, 0, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
     func_80098CF8(state, context, sprite, (*(void **)&D_80082EB0));
     goto block_64;
-jt_c8:
-jt_c9:
+case 8:
+case 9:
     func_8009F644(actor, 0x98, 0, func_80098C80(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv));
     if (!(((S_80090C10_6 *)((*(void **)&D_80082EB0)))->unk_03 & 0x20)) {
         goto block_41;
@@ -317,15 +312,15 @@ block_43:
     func_80099290(func_80099194(&D_800E06E0, text_end));
     func_800A5720(text_buffer);
     goto block_64;
-jt_c10:
+case 10:
     func_8002534C(state, context, sprite, actor);
     ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
     return;
-jt_c14:
+case 14:
     func_8008D330(state, context, sprite, actor);
     ((Rec_func_8008D024_arg0 *)state)->unk_C8 = NULL;
     goto block_64;
-jt_c12:
+case 12:
     companion_value = (s32) ((S_80090C10_14 *)((((s32) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv * 4) + state)))->unk_AC;
     if (((S_80090C10_8 *)((void *)companion_value))->unk_1C & 0x80000) {
         goto block_50;
@@ -358,16 +353,16 @@ block_56:
         return;
     }
     D_80082EB8 = 0;
-    goto block_66;
-jt_c16:
+    break;
+case 16:
     ((Rec_func_8008D024_arg0 *)state)->unk_BC = (void *) ((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv;
     if (func_8008D388(state, context, sprite, actor) != 0) {
         return;
     }
     D_80082EB8 = 0;
-    goto block_66;
-jt_c6:
-jt_c7:
+    break;
+case 6:
+case 7:
     {
         u8 *action_data = (u8 *)&D_80082EB0;
         action_index = ((S_80090C10_11 *)action_data)->unk_08 - 6;
@@ -376,20 +371,20 @@ jt_c7:
             return;
         }
         D_80082EB8 = 0;
-        goto block_66;
+        break;
     }
-jt_c17:
-jt_c18:
+case 17:
+case 18:
     func_80097F84(((Rec_D_80082EB0 *)(&D_80082EB0))->unk_00.as_pv, &D_800E0462, &D_800E0472, 1);
     goto block_64;
-jt_c19:
+case 19:
     func_8008D9F0(state, context, sprite, actor);
     return;
-jt_c11:
-jt_c13:
-jt_c15:
+case 15:
+    default:
 block_64:
     D_80082EB8 = 0;
+    }
 block_66:
     if (((Rec_func_8008D024_arg0 *)state)->unk_C8 != NULL) {
         return;
