@@ -34,7 +34,7 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, EntityRe
 
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (dungeonStatus.flags & 0x2000) {
-        goto return_minus_one;
+        return -1;
     }
     move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
     if ((func_800A2CB8(actor, move_heading) << 0x10) == 0) {
@@ -57,20 +57,17 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, EntityRe
     }
     func_800C7930((u8 *)actor - 0x20, action_ctx, 8, 0x300);
     if ((func_800A2B5C(actor) << 0x10) == 0) {
-        goto success;
+        ((S_80171E00_3 *)action_state)->unk_9A = 0x11;
+        ((S_80171E00_3 *)action_state)->unk_9B = 0;
+        ((S_80171E00_3 *)action_state)->unk_8C = 0;
+        actor->unk_84 = 0x7C;
+        actor->unk_85 = 0;
+        direction_table = &D_80174F28;
+        (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
+        func_80047784(sprite, direction_table[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
+        func_8009C93C(actor, sprite, actor->facing, 1, 0);
+        return 1;
     }
-return_minus_one:
     return -1;
-success:
-    ((S_80171E00_3 *)action_state)->unk_9A = 0x11;
-    ((S_80171E00_3 *)action_state)->unk_9B = 0;
-    ((S_80171E00_3 *)action_state)->unk_8C = 0;
-    actor->unk_84 = 0x7C;
-    actor->unk_85 = 0;
-    direction_table = &D_80174F28;
-    (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-    func_80047784(sprite, direction_table[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-    actor->unk_6D = (u8) (((u8)actor->unk_6D) - 1);
-    func_8009C93C(actor, sprite, actor->facing, 1, 0);
-    return 1;
 }

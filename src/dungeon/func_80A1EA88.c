@@ -59,79 +59,66 @@ void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor
 
     frame_path = *(PathTable *)D_80170838;
     phase = ((S_80172288_0 *)motion)->unk_9B;
-    if (phase == 1) {
-        goto airborne;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto takeoff;
+
+    switch (phase) {
+    case 0:
+        if (((S_80172288_0 *)motion)->unk_96 < 8) {
+            ((S_80172288_0 *)motion)->unk_98 |= 8;
+            position->flags14 = 0xFFEE0000;
+            actor->flags1C &= 0xF7FFFFFF;
+            phase_value = ((S_80172288_0 *)motion)->unk_9B;
+            ((S_80172288_0 *)motion)->unk_A0 = 0;
+            ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
         }
-        goto tick_timer;
-    }
-    if (phase == 2) {
-        goto landing;
-    }
-    goto tick_timer;
+        break;
+    case 1:
+        frames_left = ((S_80172288_0 *)motion)->unk_96;
+        ((S_80172288_0 *)motion)->unk_90 -= ((S_80172288_0 *)motion)->unk_A0;
+        if (frames_left != 0) {
+            {
+                s32 target_x;
+                s32 current_x;
 
-takeoff:
-    if (((S_80172288_0 *)motion)->unk_96 < 8) {
-        ((S_80172288_0 *)motion)->unk_98 |= 8;
-        position->flags14 = 0xFFEE0000;
-        actor->flags1C &= 0xF7FFFFFF;
-        phase_value = *(volatile u8 *)(motion + 0x9B);
-        ((S_80172288_0 *)motion)->unk_A0 = 0;
-        goto advance_phase;
-    }
-    goto tick_timer;
-
-airborne:
-    frames_left = ((S_80172288_0 *)motion)->unk_96;
-    ((S_80172288_0 *)motion)->unk_90 -= ((S_80172288_0 *)motion)->unk_A0;
-    if (frames_left != 0) {
-        {
-            s32 target_x;
-            s32 current_x;
-
-            target_x = sprite[0x24];
-            current_x = position->x.w.i;
-            target_x <<= 6;
-            current_x -= 0x20;
-            position->unk_0C =
-                ((target_x - current_x) << 16) / frames_left;
+                target_x = sprite[0x24];
+                current_x = position->x.w.i;
+                target_x <<= 6;
+                current_x -= 0x20;
+                position->unk_0C =
+                    ((target_x - current_x) << 16) / frames_left;
+            }
+            current_y = position->y.w.i - 0x20;
+            position->unk_10 =
+                (((sprite[0x25] << 6) - current_y) << 16) /
+                ((S_80172288_0 *)motion)->unk_96;
+            ((S_80172288_0 *)motion)->unk_A0 += position->flags14;
+            position->flags14 += 0x40000;
         }
-        current_y = position->y.w.i - 0x20;
-        position->unk_10 =
-            (((sprite[0x25] << 6) - current_y) << 16) /
-            ((S_80172288_0 *)motion)->unk_96;
-        ((S_80172288_0 *)motion)->unk_A0 += position->flags14;
-        position->flags14 += 0x40000;
-    }
-    ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
-    if (((S_80172288_0 *)motion)->unk_96 < 3) {
-        ((S_80172288_0 *)motion)->unk_90 = 0;
-        ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x08000000;
-        ((S_80172288_0 *)motion)->unk_9B++;
-    }
-
-landing:
-    if (actor->flags1C & 0x08000000) {
-        ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        func_800A2B04(position, sprite[0x24], sprite[0x25]);
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
-        func_80047784(
-            sprite,
-            D_80174820[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        phase_value = ((S_80172288_0 *)motion)->unk_9B;
-advance_phase:
-        ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
+        ((S_80172288_0 *)motion)->unk_90 += ((S_80172288_0 *)motion)->unk_A0;
+        if (((S_80172288_0 *)motion)->unk_96 < 3) {
+            ((S_80172288_0 *)motion)->unk_90 = 0;
+            ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
+            actor->flags1C |= 0x08000000;
+            ((S_80172288_0 *)motion)->unk_9B++;
+        }
+        /* fall through */
+    case 2:
+        if (actor->flags1C & 0x08000000) {
+            ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;
+            position->flags14 = 0;
+            position->unk_10 = 0;
+            position->unk_0C = 0;
+            func_800A2B04(position, sprite[0x24], sprite[0x25]);
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174820;
+            func_80047784(
+                sprite,
+                D_80174820[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            phase_value = ((S_80172288_0 *)motion)->unk_9B;
+            ((S_80172288_0 *)motion)->unk_9B = phase_value + 1;
+        }
+        break;
     }
 
-tick_timer:
     timer = ((S_80172288_0 *)motion)->unk_96 - 1;
     ((S_80172288_0 *)motion)->unk_96 = timer;
     if ((timer << 16) <= 0) {
@@ -142,6 +129,7 @@ tick_timer:
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
 
+
         global_counter = &dungeonStatus;
         if (global_counter->unk_08 != 0) {
             (*(u16 *)&global_counter->unk_08)--;
@@ -151,33 +139,21 @@ tick_timer:
         if (actor_flags & 0x2000) {
             if (actor->unk_46 & 0x8000) {
                 actor->unk_46 &= 0x7FFF;
-                goto update_actor;
             }
-            goto update_actor;
+        } else if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                actor->facing = func_800A0818(
+                    sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
+                    &facing_result);
+            }
         }
-        if (actor_flags & 0x410) {
-            goto update_actor;
-        }
-        if (!(actor_flags & 0x20000)) {
-            goto update_actor;
-        }
-        actor->facing = func_800A0818(
-            sprite[0x24], sprite[0x25], D_80082E80.tileX, D_80082E80.tileY,
-            &facing_result);
 
-update_actor:
-        if ((func_800AD9B4(sprite, actor) << 16) > 0) {
-            ((S_80172288_0 *)motion)->unk_8C = &D_80170E84;
-            func_800A9A04(actor);
-            goto update_position;
+        if ((func_800AD9B4(sprite, actor) << 16) <= 0) {
+            return;
         }
-    } else {
-update_position:
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;
-        ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].y;
+        ((S_80172288_0 *)motion)->unk_8C = &D_80170E84;
+        func_800A9A04(actor);
     }
+    ((Rec_D_80082E80 *)sprite)->unk_1C.at00_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].x;
+    ((Rec_D_80082E80 *)sprite)->unk_1C.at02_u16.v = frame_path.point[((S_80172288_0 *)motion)->unk_96].y;
 }
-
-/* MECHANISM: The 32-byte PathTable copy fixes the 0x58 frame and stack slots.
-   Block-scoped target_x/current_x ranges force retail's lbu/lh/sll/addiu order.
-   A dedicated u8 phase_value merges both predecessors at the load-delay nop. */

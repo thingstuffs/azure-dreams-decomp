@@ -105,144 +105,129 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
 
     state_or_text = ((S_800927E4_0 *)action)->unk_9B;
-    if (state_or_text == 1) {
-        goto state_one;
-    }
-    if (state_or_text < 2) {
-           /* Pin: removal changes a delay-slot fill. */
-        if (state_or_text == 0) {
-            goto state_zero;
-        }
-        goto done;
-    } else if (state_or_text == 2) {
-        goto state_two;
-    }
-done:
-    return;
+    switch (state_or_text) {
+    case 0:
+        if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
+            void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
+            u8 *anim_table = D_800DD0B8;
 
-state_zero:
-    if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
-        void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
-        u8 *anim_table = D_800DD0B8;
-
-           /* Pin: removal changes a delay-slot fill. */
-        ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
-        func_80048A44(
-            anim_sprite,
-            anim_table[((((S_800927E4_2 *)D_80080000)->unk_3228 +
-                    actor->facing + 0x100) >> 9) & 7],
-            0,
-            1);
-        ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
-        return;
-    }
-
-       /* Pin: removal changes a delay-slot fill. */
-    {
-        s32 base_angle = gameWork.view.viewAngle;
-        s32 signed_angle = actor->facing;
-        s32 angle_or_sprite;
-        s32 next_angle;
-
-           /* Pin: removal changes the callee-saved set / frame layout. */
-        angle_or_sprite = ((u16)actor->facing);
-        if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
-            angle_or_sprite = (s32)sprite;
-            {
-                u8 *anim_table = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
-
-                ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
-                func_80048A44(
-                    (void *)angle_or_sprite,
-                    anim_table[((gameWork.view.viewAngle +
-                            actor->facing + 0x100) >> 9) & 7],
-                    0,
-                    1);
-                ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
-                return;
-            }
-        }
-
-        next_angle = angle_or_sprite + 0x200;
-        actor->facing = next_angle;
-    }
-    return;
-
-state_one:
-    if (func_8003DE58(sprite->unk_08, sprite, offset, 0) == 0 &&
-        !(sprite->unk_14.at00_u16.v & 0x8000)) {
-        return;
-    }
-
-    if (!(actor->flags1C & 0x100000)) {
-        void *owner_obj = (u8 *)action - 0x20;
-        s32 zero = 0;   /* Pin: removal changes the whole function shape. */
-           /* Pin: removal reorders the instructions (same instructions, different order). */
-           /* Pin: removal changes the register colouring. */
-        effect_obj = func_800A8608(
-            owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
-        if (effect_obj != 0) {
-
-            ((S_800927E4_7 *)effect_obj)->unk_10 = D_8008D470;
-            effect_prim = ((S_800927E4_7 *)effect_obj)->unk_08;
-            effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
-            effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;
-
-            effect = (u8 *)effect_obj + 0x20;
-            if (sprite->unk_14.at00_u16.v & 0x8000) {
-                effect_prim->unk_0A = ((u16)actor->unk_88) - 0x50;
-            } else {
-                effect_prim->unk_02 += offset[0];
-                effect_prim->unk_06 += offset[1];
-                tail_value = offset[2];
-                tail_value += ((u16)actor->unk_88);
-                effect_prim->unk_0A = tail_value;
-            }
-            effect->unk_A8 = 0x1E;
-            effect->unk_AA = 2;
-            effect->unk_90 = sprite;
-            effect->unk_8C = actor_id;
-            effect->unk_9C = (u8 *)action + 0x108;
-
-            entity = ((S_800927E4_0 *)action)->unk_110;
-            if (entity != 0 && entity->unk_01 == 4 &&
-                entity->unk_02 != 0) {
-                effect->unk_AE = 1;
-                effect->unk_A8 = 0x3C;
-            }
-        }
-
-        text_root = func_800990FC();
-        state_or_text = func_80099734(actor, func_8009929C(8, text_root));
-        state_or_text = func_80099194(D_800E06EE, state_or_text);
-        state_or_text = func_80099368(((S_800927E4_0 *)action)->unk_110, state_or_text);
-        text = func_80099194(D_800E06F7, state_or_text);
-        entity = ((S_800927E4_0 *)action)->unk_110;
-        if (entity->unk_01 != 4) {
-            text = func_8009965C(entity, text);
-        }
-        func_80099290(text);
-        func_800A5720(text_root);
-    }
-
-    ((S_800927E4_0 *)action)->unk_96 = 0x1E;
-    ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
-    return;
-
-state_two:
-    if ((sprite->unk_14.at00_u16.v & 0x8000) ||
-        (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
-         ((S_800927E4_0 *)action)->unk_96 = timer,
-         (s32)(timer << 16) <= 0)) {
-        if (((S_800927E4_0 *)action)->unk_110 != 0) {
-            func_80091934(action, actor_id, sprite, actor);
+               /* Pin: removal changes a delay-slot fill. */
+            ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
+            func_80048A44(
+                anim_sprite,
+                anim_table[((((S_800927E4_2 *)D_80080000)->unk_3228 +
+                        actor->facing + 0x100) >> 9) & 7],
+                0,
+                1);
+            ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
             return;
         }
-        func_80099F70(actor->unk_5C);
-        func_80099F04(actor->unk_5C);
-           /* Pin: removal changes the whole function shape. */
-        dungeonStatus.flags |= 0x812;
-        ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
+
+           /* Pin: removal changes a delay-slot fill. */
+        {
+            s32 base_angle = gameWork.view.viewAngle;
+            s32 signed_angle = actor->facing;
+            s32 angle_or_sprite;
+            s32 next_angle;
+
+               /* Pin: removal changes the callee-saved set / frame layout. */
+            angle_or_sprite = ((u16)actor->facing);
+            if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
+                angle_or_sprite = (s32)sprite;
+                {
+                    u8 *anim_table = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
+
+                    ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
+                    func_80048A44(
+                        (void *)angle_or_sprite,
+                        anim_table[((gameWork.view.viewAngle +
+                                actor->facing + 0x100) >> 9) & 7],
+                        0,
+                        1);
+                    ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+                    return;
+                }
+            }
+
+            next_angle = angle_or_sprite + 0x200;
+            actor->facing = next_angle;
+        }
+        return;
+    case 1:
+        if (func_8003DE58(sprite->unk_08, sprite, offset, 0) == 0 &&
+            !(sprite->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+
+        if (!(actor->flags1C & 0x100000)) {
+            void *owner_obj = (u8 *)action - 0x20;
+            s32 zero = 0;   /* Pin: removal changes the whole function shape. */
+               /* Pin: removal reorders the instructions (same instructions, different order). */
+               /* Pin: removal changes the register colouring. */
+            effect_obj = func_800A8608(
+                owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
+            if (effect_obj != 0) {
+
+                ((S_800927E4_7 *)effect_obj)->unk_10 = D_8008D470;
+                effect_prim = ((S_800927E4_7 *)effect_obj)->unk_08;
+                effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
+                effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;
+
+                effect = (u8 *)effect_obj + 0x20;
+                if (sprite->unk_14.at00_u16.v & 0x8000) {
+                    effect_prim->unk_0A = ((u16)actor->unk_88) - 0x50;
+                } else {
+                    effect_prim->unk_02 += offset[0];
+                    effect_prim->unk_06 += offset[1];
+                    tail_value = offset[2];
+                    tail_value += ((u16)actor->unk_88);
+                    effect_prim->unk_0A = tail_value;
+                }
+                effect->unk_A8 = 0x1E;
+                effect->unk_AA = 2;
+                effect->unk_90 = sprite;
+                effect->unk_8C = actor_id;
+                effect->unk_9C = (u8 *)action + 0x108;
+
+                entity = ((S_800927E4_0 *)action)->unk_110;
+                if (entity != 0 && entity->unk_01 == 4 &&
+                    entity->unk_02 != 0) {
+                    effect->unk_AE = 1;
+                    effect->unk_A8 = 0x3C;
+                }
+            }
+
+            text_root = func_800990FC();
+            state_or_text = func_80099734(actor, func_8009929C(8, text_root));
+            state_or_text = func_80099194(D_800E06EE, state_or_text);
+            state_or_text = func_80099368(((S_800927E4_0 *)action)->unk_110, state_or_text);
+            text = func_80099194(D_800E06F7, state_or_text);
+            entity = ((S_800927E4_0 *)action)->unk_110;
+            if (entity->unk_01 != 4) {
+                text = func_8009965C(entity, text);
+            }
+            func_80099290(text);
+            func_800A5720(text_root);
+        }
+
+        ((S_800927E4_0 *)action)->unk_96 = 0x1E;
+        ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+        return;
+    case 2:
+        if ((sprite->unk_14.at00_u16.v & 0x8000) ||
+            (timer = ((S_800927E4_0 *)action)->unk_96 - 1,
+             ((S_800927E4_0 *)action)->unk_96 = timer,
+             (s32)(timer << 16) <= 0)) {
+            if (((S_800927E4_0 *)action)->unk_110 != 0) {
+                func_80091934(action, actor_id, sprite, actor);
+                return;
+            }
+            func_80099F70(actor->unk_5C);
+            func_80099F04(actor->unk_5C);
+               /* Pin: removal changes the whole function shape. */
+            dungeonStatus.flags |= 0x812;
+            ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
+        }
+        return;
     }
-    return;
 }

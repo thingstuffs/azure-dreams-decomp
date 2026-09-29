@@ -50,77 +50,67 @@ void func_80172158(void *action, EntityRec *motion, void *sprite, EntityRec *act
     DungeonGlobalStatus *counter_base;
 
     phase = ((S_80172158_0 *)action)->unk_9B;
-    if (phase == 1) {
-        goto update_move;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto start_move;
+    switch (phase) {
+    case 0:
+        if (!((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 1 &&
+               (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000))) {
+            break;
         }
-        goto update_timer;
-    }
-    if (phase == 2) {
-        goto finish_move;
-    }
-    goto update_timer;
-
-start_move:
-    if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 1) &&
-         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         ((S_80172158_0 *)action)->unk_98 |= 8;
         (*(u32 *)&actor->flags1C) &= 0xF7FFFFFF;
         ((S_80172158_0 *)action)->unk_9E = 6;
         ((S_80172158_0 *)action)->unk_A0 = 0;
         ((S_80172158_0 *)action)->unk_9B++;
-        goto update_move;
-    }
-    goto update_timer;
+        /* fall through */
+    case 1:
+        move_ticks = ((S_80172158_0 *)action)->unk_9E;
+        ((S_80172158_0 *)action)->unk_90 =
+            ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
+        if (move_ticks != 0) {
+            x_delta = ((Rec_D_80082E80 *)sprite)->unk_24;
+            axis_pos = motion->x.w.i;
+            x_delta <<= 6;
+            axis_pos -= 0x20;
+            x_delta -= axis_pos;
+            x_delta <<= 16;
+            motion->unk_0C = x_delta / move_ticks;
+            axis_pos = motion->y.w.i - 0x20;
+            motion->unk_10 =
+                (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - axis_pos) << 16) /
+                (s16)((S_80172158_0 *)action)->unk_9E;
+            ((S_80172158_0 *)action)->unk_A0 =
+                (-func_800644B8(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
+        }
+        ((S_80172158_0 *)action)->unk_90 += ((S_80172158_0 *)action)->unk_A0;
+        next_move_ticks = --((S_80172158_0 *)action)->unk_9E;
+        if (next_move_ticks < 0) {
+            ((S_80172158_0 *)action)->unk_90 = 0;
+            ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
+            (*(u32 *)&actor->flags1C) |= 0x08000000;
+            ((S_80172158_0 *)action)->unk_9B++;
+        }
 
-update_move:
-    move_ticks = ((S_80172158_0 *)action)->unk_9E;
-    ((S_80172158_0 *)action)->unk_90 =
-        ((S_80172158_0 *)action)->unk_90 - ((S_80172158_0 *)action)->unk_A0;
-    if (move_ticks != 0) {
-        x_delta = ((Rec_D_80082E80 *)sprite)->unk_24;
-        axis_pos = motion->x.w.i;
-        x_delta <<= 6;
-        axis_pos -= 0x20;
-        x_delta -= axis_pos;
-        x_delta <<= 16;
-        motion->unk_0C = x_delta / move_ticks;
-        axis_pos = motion->y.w.i - 0x20;
-        motion->unk_10 =
-            (((((Rec_D_80082E80 *)sprite)->unk_25 << 6) - axis_pos) << 16) /
-            (s16)((S_80172158_0 *)action)->unk_9E;
-        ((S_80172158_0 *)action)->unk_A0 =
-            (-func_800644B8(((S_80172158_0 *)action)->unk_9E * 0x155)) << 9;
-    }
-    ((S_80172158_0 *)action)->unk_90 += ((S_80172158_0 *)action)->unk_A0;
-    next_move_ticks = --((S_80172158_0 *)action)->unk_9E;
-    if (next_move_ticks < 0) {
-        ((S_80172158_0 *)action)->unk_90 = 0;
-        ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-        (*(u32 *)&actor->flags1C) |= 0x08000000;
-        ((S_80172158_0 *)action)->unk_9B++;
-    }
+        /* fall through */
+    case 2:
+        if (((u32)actor->flags1C) & 0x08000000) {
+            ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174EE0;
+            func_80047784(
+                sprite,
+                D_80174EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80172158_0 *)action)->unk_9B++;
+        }
 
-finish_move:
-    if (((u32)actor->flags1C) & 0x08000000) {
-        ((S_80172158_0 *)action)->unk_98 &= 0xFFF7;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174EE0;
-        func_80047784(
-            sprite,
-            D_80174EE0[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_80172158_0 *)action)->unk_9B++;
+        break;
+    default:
+        break;
     }
-
-update_timer:
     action_ticks = ((S_80172158_0 *)action)->unk_96 - 1;
     ((S_80172158_0 *)action)->unk_96 = action_ticks;
     if ((action_ticks << 16) <= 0) {
@@ -141,19 +131,13 @@ update_timer:
             if (actor->unk_46 & 0x8000) {
                 actor->unk_46 &= 0x7FFF;
             }
-            goto check_followup;
+        } else if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                actor->facing = func_800A0818(
+                    ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                    D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+            }
         }
-        if (actor_flags & 0x410) {
-            goto check_followup;
-        }
-        if (!(actor_flags & 0x20000)) {
-            goto check_followup;
-        }
-        actor->facing = func_800A0818(
-            ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-            D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
-
-check_followup:
         if ((func_800AD9B4(sprite, actor) << 16) > 0) {
             ((S_80172158_0 *)action)->unk_8C = D_80170E9C;
             func_800A9A04(actor);

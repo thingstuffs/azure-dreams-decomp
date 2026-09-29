@@ -64,59 +64,129 @@ void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_
     s32 state;
 
     state = ((S_80173880_0 *)in_action)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto state_ge_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
+    switch (state) {
+    case 0:
+        if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
+            u8 *anim_table;
+            DungeonGlobalStatus *system_state;
 
-state_ge_two:
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    return;
-
-state_zero:
-    if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
-        u8 *anim_table;
-        DungeonGlobalStatus *system_state;
-
-        anim_table = D_80174F50;
-        (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
-        func_80047784(in_sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        system_state = &dungeonStatus;
-        (*(u16 *)&system_state->unk_0A)--;
-        ((S_80173880_0 *)in_action)->unk_9B++;
+            anim_table = D_80174F50;
+            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            func_80047784(in_sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            system_state = &dungeonStatus;
+            (*(u16 *)&system_state->unk_0A)--;
+            ((S_80173880_0 *)in_action)->unk_9B++;
+            return;
+        }
         return;
-    }
-    return;
+    case 1:
+        if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
+            u8 *anim_table;
 
-state_one:
-    if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
-        u8 *anim_table;
+            anim_table = D_80174F48;
+            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            func_80047784(in_sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+        }
 
-        anim_table = D_80174F48;
-        (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
-        func_80047784(in_sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-    }
+        if ((func_80042900(actor, 1) << 16) == 0) {
+            {
+                u8 *anim_table;
 
-    if ((func_80042900(actor, 1) << 16) != 0) {
-        goto state_one_long;
-    }
+                anim_table = D_80174F50;
+                (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+                func_80047784(in_sprite,
+                    anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    0);
+            }
 
-    {
+            if (((S_80173880_1 *)in_sprite)->unk_14 & 0x8000) {
+                break;
+            }
+
+            {
+                DungeonGlobalStatus *system_state = &dungeonStatus;
+
+                (*(u16 *)&system_state->unk_0A)++;
+            }
+            ((S_80173880_0 *)in_action)->unk_9B++;
+            return;
+        }
+
+        {
+            s32 actor_flags;
+
+            input_state = &dungeonStatus;
+            if (input_state->flags & 0x1000) {
+                return;
+            }
+
+            if (((S_80173880_2 *)actor)->unk_64 != 0) {
+                if (func_800AA6B4(in_action, context, in_sprite, 0) != 0) {
+                    return;
+                }
+            }
+
+            if (((S_80173880_2 *)actor)->unk_25 == 0) {
+                if (input_state->flags & 0x2008) {
+                    return;
+                }
+                func_800AA79C(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if ((func_800A2C34(actor) << 16) != 0) {
+                return;
+            }
+
+            actor_flags = ((S_80173880_2 *)actor)->unk_1C.s;
+            if (actor_flags & 0x100) {
+                func_800AA258(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if (actor_flags & 0x80000) {
+                func_800AA888(in_action, context, in_sprite, actor);
+                func_80174060(in_action, context, in_sprite, actor);
+                return;
+            }
+
+            if (((S_80173880_2 *)actor)->unk_6D == 0) {
+                return;
+            }
+
+            if ((func_800A2C34(actor) << 16) != 0) {
+                if ((func_8009A180(actor,
+                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                TileObject *origin;
+                s8 coordinate;
+
+                origin = &D_80082E80;
+                coordinate = ((S_80173880_1 *)in_sprite)->unk_26;
+                if ((((coordinate == origin->unk_026) &&
+                            (coordinate >= 0)) ||
+                        (func_8009FD40(origin, in_sprite) < 2)) &&
+                    ((func_800A6D30() & 7) == 0)) {
+                    func_80042B68(actor, 1);
+                }
+            }
+
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                return;
+            }
+        }
+
         {
             u8 *anim_table;
 
@@ -128,145 +198,47 @@ state_one:
         }
 
         if (((S_80173880_1 *)in_sprite)->unk_14 & 0x8000) {
-            goto finish;
+            break;
         }
 
         {
             DungeonGlobalStatus *system_state = &dungeonStatus;
+            u16 state_count;
 
-            (*(u16 *)&system_state->unk_0A)++;
+            state_count = ((u16)system_state->unk_0A);
+            state_count++;
+            system_state->unk_0A = state_count;
         }
         ((S_80173880_0 *)in_action)->unk_9B++;
         return;
-    }
+    case 2:
+        if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
+            u8 *anim_table;
 
-state_one_long:
-    {
-        s32 actor_flags;
-
-        input_state = &dungeonStatus;
-        if (input_state->flags & 0x1000) {
+            anim_table = D_80174F40;
+            (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
+            func_80047784(in_sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_80173880_0 *)in_action)->unk_9B++;
             return;
         }
-
-        if (((S_80173880_2 *)actor)->unk_64 != 0) {
-            if (func_800AA6B4(in_action, context, in_sprite, 0) != 0) {
-                return;
-            }
-        }
-
-        if (((S_80173880_2 *)actor)->unk_25 == 0) {
-            if (input_state->flags & 0x2008) {
-                return;
-            }
-            func_800AA79C(in_action, context, in_sprite, actor);
+        return;
+    case 3:
+        if (!(((S_80173880_1 *)in_sprite)->unk_14 & 0xE000)) {
             return;
         }
+        {
+            DungeonGlobalStatus *system_state;
 
-        if ((func_800A2C34(actor) << 16) != 0) {
-            return;
+            system_state = &dungeonStatus;
+            (*(u16 *)&system_state->unk_0A)--;
         }
-
-        actor_flags = ((S_80173880_2 *)actor)->unk_1C.s;
-        if (actor_flags & 0x100) {
-            func_800AA258(in_action, context, in_sprite, actor);
-            return;
-        }
-
-        if (actor_flags & 0x80000) {
-            func_800AA888(in_action, context, in_sprite, actor);
-            func_80174060(in_action, context, in_sprite, actor);
-            return;
-        }
-
-        if (((S_80173880_2 *)actor)->unk_6D == 0) {
-            return;
-        }
-
-        if ((func_800A2C34(actor) << 16) != 0) {
-            if ((func_8009A180(actor,
-                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                return;
-            }
-        }
-
-        func_800A9A0C(actor);
-        func_800A9A04(actor);
-
-        if ((func_80042900(actor, 1) << 16) != 0) {
-            TileObject *origin;
-            s8 coordinate;
-
-            origin = &D_80082E80;
-            coordinate = ((S_80173880_1 *)in_sprite)->unk_26;
-            if ((((coordinate == origin->unk_026) &&
-                        (coordinate >= 0)) ||
-                    (func_8009FD40(origin, in_sprite) < 2)) &&
-                ((func_800A6D30() & 7) == 0)) {
-                func_80042B68(actor, 1);
-            }
-        }
-
-        if ((func_80042900(actor, 1) << 16) != 0) {
-            return;
-        }
-    }
-
-    {
-        u8 *anim_table;
-
-        anim_table = D_80174F50;
-        (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
-        func_80047784(in_sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-    }
-
-    if (((S_80173880_1 *)in_sprite)->unk_14 & 0x8000) {
-        goto finish;
-    }
-
-    {
-        DungeonGlobalStatus *system_state = &dungeonStatus;
-        u16 state_count;
-
-        state_count = ((u16)system_state->unk_0A);
-        state_count++;
-        system_state->unk_0A = state_count;
-    }
-    ((S_80173880_0 *)in_action)->unk_9B++;
-    return;
-
-state_two:
-    if (((S_80173880_1 *)in_sprite)->unk_14 & 0xE000) {
-        u8 *anim_table;
-
-        anim_table = D_80174F40;
-        (*(void * *)((u8 *)in_sprite + 0x2C)) = anim_table;
-        func_80047784(in_sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_80173880_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80173880_0 *)in_action)->unk_9B++;
+        break;
+    default:
         return;
     }
-    return;
 
-
-state_three:
-    if (!(((S_80173880_1 *)in_sprite)->unk_14 & 0xE000)) {
-        return;
-    }
-    {
-        DungeonGlobalStatus *system_state;
-
-        system_state = &dungeonStatus;
-        (*(u16 *)&system_state->unk_0A)--;
-    }
-
-finish:
     ((S_80173880_2 *)actor)->unk_1C.u &= ~0x200;
     ((S_80173880_0 *)in_action)->unk_8C = D_801710F4;
-
-done:
-    return;
 }

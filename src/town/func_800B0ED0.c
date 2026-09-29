@@ -68,15 +68,11 @@ void func_800AE630(void *object) {
         scaled_z += 3;
     }
     position->unk_0C = (s16) (((S_800AE630_0 *)((u8 *)object - 0x10))->unk_20 + (scaled_z >> 2));
-    ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 = (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 << 8) - 0x400);
+    ((S_800AE630_3 *)(((S_800AE630_2 *)object)->unk_D0))->unk_02 = (s16) ((((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 * 256) - 0x400);
     next_step = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 + 1;
     ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_34 = next_step;
     if (next_step >= 5) {
-        register u8 *page;
-
-        page = (u8 *)0x800B0000;
-        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = (M2C_UNK *)(page - 0x1A00);
+        ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = &D_800AE600;
     }
     next_step = (s32)((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
     if (next_step != 0) {

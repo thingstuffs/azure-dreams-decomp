@@ -42,25 +42,12 @@ void func_80172288(void *jump, EntityRec *motion, void *map_entity, EntityRec *a
     s32 jump_ticks;
     s16 ticks_left;
     s32 actor_flags;
-    s32 state;
 
-    state = ((S_80172288_0 *)jump)->unk_9B;
-    if (state == 1) {
-        goto update_jump;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto start_jump;
+    switch (((S_80172288_0 *)jump)->unk_9B) {
+    case 0:
+        if (!(((Rec_D_80082E80 *)map_entity)->unk_14.at00_u16.v & 0x6000)) {
+            break;
         }
-        goto tick;
-    }
-    if (state == 2) {
-        goto land;
-    }
-    goto tick;
-
-start_jump:
-    if (((Rec_D_80082E80 *)map_entity)->unk_14.at00_u16.v & 0x6000) {
         (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741B4;
         func_80047784(
             map_entity,
@@ -71,54 +58,54 @@ start_jump:
         actor->flags1C &= 0xF7FFFFFF;
         ((S_80172288_0 *)jump)->unk_A4 = 0;
         ((S_80172288_0 *)jump)->unk_9B++;
-        goto update_jump;
-    }
-    goto tick;
 
-update_jump:
-    jump_ticks = ((S_80172288_0 *)jump)->unk_96.s;
-    ((S_80172288_0 *)jump)->unk_90 -= ((S_80172288_0 *)jump)->unk_A4;
-    if (jump_ticks != 0) {
-        {
-            s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
-            s32 current_x = motion->x.w.i - 0x20;
+    case 1:
+        jump_ticks = ((S_80172288_0 *)jump)->unk_96.s;
+        ((S_80172288_0 *)jump)->unk_90 -= ((S_80172288_0 *)jump)->unk_A4;
+        if (jump_ticks != 0) {
+            {
+                s32 target_x = ((Rec_D_80082E80 *)map_entity)->unk_24 << 6;
+                s32 current_x = motion->x.w.i - 0x20;
 
-            motion->unk_0C = ((target_x - current_x) << 16) / jump_ticks;
+                motion->unk_0C = ((target_x - current_x) << 16) / jump_ticks;
+            }
+            {
+                s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
+                s32 current_y = motion->y.w.i - 0x20;
+
+                motion->unk_10 = ((target_y - current_y) << 16) /
+                    ((S_80172288_0 *)jump)->unk_96.s;
+            }
+            ((S_80172288_0 *)jump)->unk_A4 += motion->flags14;
+            motion->flags14 += 0x40000;
         }
-        {
-            s32 target_y = ((Rec_D_80082E80 *)map_entity)->unk_25 << 6;
-            s32 current_y = motion->y.w.i - 0x20;
-
-            motion->unk_10 = ((target_y - current_y) << 16) /
-                ((S_80172288_0 *)jump)->unk_96.s;
+        ((S_80172288_0 *)jump)->unk_90 += ((S_80172288_0 *)jump)->unk_A4;
+        if (((S_80172288_0 *)jump)->unk_96.s < 2) {
+            ((S_80172288_0 *)jump)->unk_90 = 0;
+            ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
+            actor->flags1C |= 0x08000000;
+            ((S_80172288_0 *)jump)->unk_9B++;
         }
-        ((S_80172288_0 *)jump)->unk_A4 += motion->flags14;
-        motion->flags14 += 0x40000;
-    }
-    ((S_80172288_0 *)jump)->unk_90 += ((S_80172288_0 *)jump)->unk_A4;
-    if (((S_80172288_0 *)jump)->unk_96.s < 2) {
-        ((S_80172288_0 *)jump)->unk_90 = 0;
-        ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x08000000;
-        ((S_80172288_0 *)jump)->unk_9B++;
+
+    case 2:
+        if (((u32)actor->flags1C) & 0x08000000) {
+            ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
+            (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741BC;
+            func_80047784(
+                map_entity,
+                D_801741BC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80172288_0 *)jump)->unk_9B++;
+        }
+
+    default:
+        break;
     }
 
-land:
-    if (((u32)actor->flags1C) & 0x08000000) {
-        ((S_80172288_0 *)jump)->unk_98 &= 0xFFF7;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)map_entity)->unk_24, ((Rec_D_80082E80 *)map_entity)->unk_25);
-        (*(u8 * *)((u8 *)map_entity + 0x2C)) = D_801741BC;
-        func_80047784(
-            map_entity,
-            D_801741BC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_80172288_0 *)jump)->unk_9B++;
-    }
-
-tick:
     ticks_left = ((S_80172288_0 *)jump)->unk_96.u - 1;
     ((S_80172288_0 *)jump)->unk_96.s = ticks_left;
     if ((ticks_left << 16) <= 0) {
@@ -149,7 +136,6 @@ tick:
             }
         }
 
-finish:
         if ((func_800AD9B4(map_entity, actor) << 16) > 0) {
             ((S_80172288_0 *)jump)->unk_8C = &D_80170E68;
             func_800A9A04(actor);
