@@ -17,8 +17,6 @@ extern void func_800A56E0();
 extern s32 func_800A94A0();
 extern void func_80170E18();
 
-extern void *D_80170838[];
-extern void *D_80170860[];
 extern M2C_UNK D_80171514;
 extern u8 D_80173E8C[8];
 extern u8 D_80173EDC[8];
@@ -93,15 +91,6 @@ typedef struct S_8017256C_6 {
 /* Advances an actor's action state, updating its target, animation, and completion. */
 void func_8017256C(void *action, void *motion, void *sprite, void *actor)
 {
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4,
-        &&state5, &&state6, &&state7, &&state8
-    };
-    static void *const kind_labels[] = {
-        &&kind8_special, &&kind11_special, &&kind14_special,
-        &&kind8_special, &&kind11_special, &&kind14_special,
-        &&kind8_special
-    };
     register s32 is_special = 0;
     u8 *action_entry;
     u32 state;
@@ -114,32 +103,29 @@ void func_8017256C(void *action, void *motion, void *sprite, void *actor)
 
 
     state = ((S_8017256C_0 *)action)->unk_9B;
-    if (state >= 9) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170838[state];
-
-state0:
+    switch (state) {
+    case 0:
     if (!(((S_8017256C_1 *)actor)->unk_1C & 0x2000)) {
         goto kind_normal;
     }
     kind_index = (((S_8017256C_1 *)actor)->unk_46 & 0x3FFF) - 1;
-    if (kind_index >= 7) {
+    switch (kind_index) {
+    case 2:
+    case 5:
+        is_special = 1;
+        goto kind3;
+    case 1:
+    case 4:
+        is_special = 1;
+        goto kind2;
+    case 0:
+    case 3:
+    case 6:
+        is_special = 1;
+        goto kind1;
+    default:
         goto kind_default;
     }
-    (void)kind_labels;
-    goto *D_80170860[kind_index];
-
-kind14_special:
-    is_special = 1;
-    goto kind3;
-kind11_special:
-    is_special = 1;
-    goto kind2;
-kind8_special:
-    is_special = 1;
-    goto kind1;
 
 kind_normal:
     kind = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
@@ -242,7 +228,7 @@ state0_empty:
     ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
     return;
 
-state1:
+    case 1:
     if (func_8003F270() != 0) {
         ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
         return;
@@ -261,7 +247,7 @@ state1:
     ((S_8017256C_0 *)action)->unk_96 = 0;
     goto increment_state;
 
-state2:
+    case 2:
     if (((S_8017256C_0 *)action)->unk_A2 != 0) {
         ticks = ((S_8017256C_0 *)action)->unk_96;
         next_ticks = ticks + 1;
@@ -280,7 +266,7 @@ state2:
         0);
     return;
 
-state3:
+    case 3:
     func_80170E18(action, motion, sprite, actor);
     ticks = ((S_8017256C_0 *)action)->unk_96;
     next_ticks = ticks + 1;
@@ -294,7 +280,7 @@ increment_state:
     ((S_8017256C_0 *)action)->unk_9B = prior_state + 1;
     return;
 
-state4:
+    case 4:
     ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
     ticks = ((S_8017256C_0 *)action)->unk_96;
     next_ticks = ticks + 1;
@@ -307,14 +293,14 @@ state4:
     ((S_8017256C_4 *)sprite)->unk_14 &= 0xF7FF;
     return;
 
-state5:
-state6:
+    case 5:
+    case 6:
     ((S_8017256C_0 *)action)->unk_98 |= 0x80;
     ((S_8017256C_0 *)action)->unk_96 = 0;
     ((S_8017256C_0 *)action)->unk_9B++;
     return;
 
-state7:
+    case 7:
     if (!(((S_8017256C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
@@ -335,7 +321,7 @@ state7:
     ((S_8017256C_0 *)action)->unk_92 = -0x20;
     return;
 
-state8:
+    case 8:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
@@ -349,6 +335,7 @@ state8:
         ((S_8017256C_1 *)actor)->unk_72.u = 0;
         ((S_8017256C_1 *)actor)->unk_46 &= 0x7FFF;
         func_800A56E0(0xB4);
+    }
     }
 }
 
