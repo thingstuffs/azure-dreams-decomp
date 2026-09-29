@@ -117,65 +117,59 @@ void func_800DAB50(void *effect_data) {
 
     state = ((S_800DAB50_0 *)effect_data)->unk_00.s;
     switch (state) {
-    case 0: goto init_color;
-    case 1: goto brighten;
-    case 2: goto dim_color;
-    case 3: goto fade_out;
-    default: goto update_angle;
-    }
-
-init_color:
-    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
-    ((S_800DAB50_0 *)effect_data)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
-    ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
-    ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
-    goto brighten;
-
-brighten:
-    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v + ((S_800DAB50_0 *)effect_data)->unk_0C;
-    color_step = 0;
-    if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
-        phase_value = func_80066460(0, 3, 0x2C0, 0x100);
-        color_value = 0xFFFFFF;
-        goto advance_state;
-    }
-    goto update_angle;
-
-dim_color:
-    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - ((S_800DAB50_0 *)effect_data)->unk_0C;
-    color_step = 0;
-    if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
-        phase_value = func_80066460(0, 3, 0x2C0, 0x100);
-        color_value = 0xA0A0A0;
-advance_state:
-        color_step = 0x101010;
-        state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
-        ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
-
-        ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
-        state += 1;
-        ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
-        goto update_angle;
-    }
-    goto update_angle;
-
-fade_out:
-    color_step = ((S_800DAB50_0 *)effect_data)->unk_0C;
-    color_value = color_step;
-    updated_value = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - color_step;
-    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = updated_value;
-    if (color_value > 0x80808) {
-        ((S_800DAB50_0 *)effect_data)->unk_0C = color_value + 0xFFFEFEFF;
-    }
-    if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
+    case 0:
         ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
-        ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
+        ((S_800DAB50_0 *)effect_data)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
+        ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
+        ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
+    case 1:
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v + ((S_800DAB50_0 *)effect_data)->unk_0C;
+        color_step = 0;
+        if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
+            phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+            color_value = 0xFFFFFF;
+            color_step = 0x101010;
+            state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
+            ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
+            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
+
+            ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
+            state += 1;
+            ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
+        }
+        break;
+    case 2:
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - ((S_800DAB50_0 *)effect_data)->unk_0C;
+        color_step = 0;
+        if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
+            phase_value = func_80066460(0, 3, 0x2C0, 0x100);
+            color_value = 0xA0A0A0;
+            color_step = 0x101010;
+            state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
+            ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
+            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
+
+            ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
+            state += 1;
+            ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
+        }
+        break;
+    case 3:
+        color_step = ((S_800DAB50_0 *)effect_data)->unk_0C;
+        color_value = color_step;
+        updated_value = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - color_step;
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = updated_value;
+        if (color_value > 0x80808) {
+            ((S_800DAB50_0 *)effect_data)->unk_0C = color_value + 0xFFFEFEFF;
+        }
+        if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
+            ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
+            ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
 
-
-update_angle:
     phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
     phase_value <<= 0x10;
     updated_value = phase_value >> 0xE;

@@ -22,33 +22,29 @@ s16 func_800BCB04(s32, s32, s32);
 /* Scans a dungeon record's rectangle for the first qualifying cell result and outputs its coordinates. */
 s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
 {
-    register s8 *records_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    DungeonRecord *record;
     MapGrid *state;
     s8 *records_page;
-    register s32 record_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 record_index;
     s32 record_addr;
     s32 scan_record_index;
     DungeonCell *cell;
     s16 cells_left;
     s32 start_x;
     s32 row_width;
-    register s32 row ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 row_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 row;
+    s32 row_offset;
     s32 x;
     s16 next_cells_left;
     s16 cell_result;
     u16 y;
-    register s32 center_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 center_y;
     s16 rows_left;
     u16 flags;
 
-    records_page = (s8 *)0x800E0000;
-    ASM_KEEP_NV(records_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    records_base = records_page + 0x2970;
+    start_x = (s32)&D_800E2970;
     record_index = record_id;
     record_addr = record_index * 20;
-    record_addr += (s32)records_base;
+    record_addr += start_x;
     records_page = (s8 *)record_addr;
     rows_left = *(s16 *)(records_page + 6);
     y = *(u16 *)(records_page + 2);
@@ -57,69 +53,62 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     if (rows_left > 0) {
         register s16 *y_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         scan_record_index = record_index;
-    scan_row:
-        {
-            s32 record_offset;
+        do {
+            {
+                row_width = scan_record_index << 2;
+                row_width += scan_record_index;
+                row_width <<= 2;
+                y_ptr = (s16 *)((DungeonRecord *)&D_800E2970);
+                row_width += (s32)y_ptr;
+            }
+            record_addr = (s32)y << 16;
+            row = record_addr >> 16;
+            start_x = ((DungeonRecord *)row_width)->x;
+            row_offset = state->shiftX;
+            row_width = ((DungeonRecord *)row_width)->count;
+            x = start_x;
+            ASM_KEEP_NV(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            record_addr = ((s32)(row << row_offset)) * sizeof(DungeonCell);
+            row_offset = (s32)((DungeonCell *)state->cells);
+            cells_left = row_width;
+            row_offset += record_addr;
+            record_addr = start_x * sizeof(DungeonCell);
+            cell = (DungeonCell *)(row_offset + record_addr);
 
-            record_offset = scan_record_index << 2;
-            record_offset += scan_record_index;
-            record_offset <<= 2;
-            y_ptr = (s16 *)((DungeonRecord *)&D_800E2970);
-            record = (DungeonRecord *)(record_offset + (s32)(DungeonRecord *)y_ptr);
-        }
-        record_addr = (s32)y << 16;
-        row = record_addr >> 16;
-        start_x = record->x;
-        row_offset = state->shiftX;
-        ASM_KEEP_DEP_NV(record, row_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        row_width = record->count;
-        x = start_x;
-        ASM_KEEP_NV(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        row_offset = row << row_offset;
-        record_addr = row_offset * sizeof(DungeonCell);
-        row_offset = (s32)((DungeonCell *)state->cells);
-        cells_left = row_width;
-        row_offset += record_addr;
-        record_addr = start_x * sizeof(DungeonCell);
-        cell = (DungeonCell *)(row_offset + record_addr);
+            if (row_width > 0) {
+                records_page = (s8 *)(row << 6);
+                center_y = (s32)records_page + 0x20;
+                do {
+                    flags = cell->flags;
+                    if (!(flags & 0x8400)) {
+                        if ((flags & 0x300) == 0x200) {
+                            cell_result = func_800BCB04(
+                                ((((s32)x << 16) >> 10) + 0x20) & 0xFFE0,
+                                (u16)center_y,
+                                -0x400);
+                            if (cell_result < 0x200) {
 
-        if (row_width > 0) {
-            records_page = (s8 *)(row << 6);
-            ASM_KEEP_NV(records_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            center_y = (s32)records_page + 0x20;
-            do {
-                flags = cell->flags;
-                if (!(flags & 0x8400)) {
-                    if ((flags & 0x300) == 0x200) {
-                        cell_result = func_800BCB04(
-                            ((((s32)x << 16) >> 10) + 0x20) & 0xFFE0,
-                            (u16)center_y,
-                            -0x400);
-                        if (cell_result < 0x200) {
-
-                            *out_x = x;
-                            y_ptr = *(s16 **)&out_y;
-                            *y_ptr = y;
-                            return cell_result;
+                                *out_x = x;
+                                y_ptr = *(s16 **)&out_y;
+                                *y_ptr = y;
+                                return cell_result;
+                            }
                         }
                     }
-                }
 
-                x++;
-                next_cells_left = cells_left - 1;
-                cells_left = next_cells_left;
-                cell++;
-                if ((next_cells_left << 16) <= 0) {
-                    break;
-                }
-            } while (1);
-        }
+                    x++;
+                    next_cells_left = cells_left - 1;
+                    cells_left = next_cells_left;
+                    cell++;
+                    if ((next_cells_left << 16) <= 0) {
+                        break;
+                    }
+                } while (1);
+            }
 
-        rows_left--;
-        y++;
-        if ((rows_left << 16) > 0) {
-            goto scan_row;
-        }
+            rows_left--;
+            y++;
+        } while ((rows_left << 16) > 0);
     }
 
     return 0x200;
