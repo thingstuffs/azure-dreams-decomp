@@ -257,3 +257,7 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
   takes the value that overlapped it. And for pinned rows with a pin-free SIBLING on the same table/callee
   (8028516C <- func_80017F88): transplant the sibling's natural body first; nested ifs where retail branches twice
   (`&&` merges the two tests into one andi).
+- **Switch-scope `ASM_REG($s*)` pins on case-locals** (r80_opus_r4, dungeon/func_8180C3C0 11 -> 7): where retail keeps
+  per-case locals in the SAME callee-saved register across cases, the source had ONE function-wide variable per register
+  role (merged pseudo crosses calls and ranks high: message_id 288 -> 1862). Share a child pointer that is live beside the
+  merged object so it conflicts and does not inherit the object's $6/$7 argument preferences (expand_preferences).
