@@ -1,7 +1,5 @@
 #include "common.h"
 
-extern void *D_80016650[43];
-
 extern char D_8001B14C[];
 extern char D_8001C018[];
 extern char D_8001C6D0[];
@@ -18,98 +16,81 @@ extern char *func_80016E48(s32, s32, s32, s32);
 char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
 {
     s32 selector = selection;
-    s32 forward_value = value;
-    s32 forward_selection;
-    s32 forward_extra = extra;
+    s32 arg2_val;
     u32 table_index;
-    void **jump_table;
-    void *handler;
-    static void *const handlers[] = {
-        &&L0, &&L1, &&L2, &&L12, &&Ldefault
-    };
 
     table_index = selector - 12;
-    forward_selection = selection;
-    if (table_index >= 43) {
-        goto Ldefault;
-    }
-    jump_table = D_80016650;
-    handler = jump_table[table_index];
-    goto *handler;
-
-L0:
-    return D_8001C018;
-
-L1:
-    return D_80022694;
-
-L2:
-    if (func_8001A8EC(6) != 0) {
-        func_8001A554(0x93A);
-    }
-    if (func_8001A8EC(0xB) != 0) {
-        func_8001A554(0x93B);
-    }
-    goto L5;
-
-L5:
-    if (func_8001A64C(0x93A) != 0) {
-        goto L9;
-    }
-    if (func_8001A64C(0x93B) != 0) {
-        goto L9;
-    }
-    if (func_8001A64C(0x948) == 0) {
-        goto L6;
-    }
-    {
-        s32 flag_94a_set = func_8001A64C(0x94A);
-        if (flag_94a_set == 0) {
-            goto L7tail;
+    arg2_val = selector;
+    switch (table_index) {
+    case 7:
+        return D_8001C018;
+    case 6:
+        return D_80022694;
+    case 0:
+        if (func_8001A8EC(6) != 0) {
+            func_8001A554(0x93A);
         }
-    }
-    goto L6;
+        if (func_8001A8EC(0xB) != 0) {
+            func_8001A554(0x93B);
+        }
+        if (func_8001A64C(0x93A) != 0) {
+            goto L9;
+        }
+        if (func_8001A64C(0x93B) != 0) {
+            goto L9;
+        }
+        if (func_8001A64C(0x948) == 0) {
+            goto L6;
+        }
+        {
+            s32 flag_94a_set = func_8001A64C(0x94A);
+            if (flag_94a_set == 0) {
+                goto L7tail;
+            }
+        }
+        goto L6;
 
 L9:
-    if (func_8001A64C(0x93A) == 0) {
-        goto L10;
-    }
-    if (func_8001A64C(0x93B) == 0) {
-        goto L7tail;
-    }
+        if (func_8001A64C(0x93A) == 0) {
+            goto L10;
+        }
+        if (func_8001A64C(0x93B) == 0) {
+            goto L7tail;
+        }
 
 L10:
-    if (func_8001A64C(0x93A) != 0) {
-        goto L7;
-    }
-    if (func_8001A64C(0x93B) == 0) {
-        goto L7;
-    }
-    goto L6;
+        if (func_8001A64C(0x93A) != 0) {
+            goto L7;
+        }
+        if (func_8001A64C(0x93B) == 0) {
+            goto L7;
+        }
+        goto L6;
 
 L6:
-    func_8001A554(0x948);
-    return D_8001D000;
+        func_8001A554(0x948);
+        return D_8001D000;
 
 L7:
-    if (func_8001A64C(0x93A) == 0) {
-        goto L8;
-    }
-    if (func_8001A64C(0x93B) == 0) {
-        goto L8;
-    }
+        if (func_8001A64C(0x93A) == 0) {
+            goto L8;
+        }
+        if (func_8001A64C(0x93B) == 0) {
+            goto L8;
+        }
 
 L7tail:
-    func_8001A554(0x94A);
-    func_8001A554(0x12C7);
-    return D_8001D3CC;
+        func_8001A554(0x94A);
+        func_8001A554(0x12C7);
+        return D_8001D3CC;
 
 L8:
-    return D_8001C6D0;
-
-L12:
-    return func_80016E48(selector, forward_value, forward_selection, forward_extra);
-
-Ldefault:
-    return D_8001B14C;
+        return D_8001C6D0;
+    case 40:
+    case 41:
+    case 42:
+        return func_80016E48(selector, value, arg2_val, extra);
+    default:
+        return D_8001B14C;
+    }
 }
