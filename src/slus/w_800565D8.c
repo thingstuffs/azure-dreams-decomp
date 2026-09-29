@@ -17,7 +17,7 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
         s32 scaled_delta;
 
         if (scales->unk21 == 0) {
-            goto zero;
+            return 0;
         }
         delta = 0x3F - level;
         doubled_scale = scales->unk21;

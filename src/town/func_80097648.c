@@ -42,14 +42,7 @@ void func_80094DA8(TownObject *object) {
         limit_abs_x = limit_x;
         limit_abs_x = abs(limit_abs_x);
         current_abs_x = abs(current_abs_x);
-#ifdef __mips__
-        if (!(limit_abs_x < current_abs_x)) {
-            clamp_work_x = (u32)(u16)direction << 16;
-            goto x_done;
-        }
-#else
         if (limit_abs_x < current_abs_x) {
-#endif
             component_x = func_800644B8(direction);
             current_x = object->x;
             step_x = component_x << 6;
@@ -62,27 +55,13 @@ void func_80094DA8(TownObject *object) {
             clamp_abs_x = abs(clamp_abs_x);
             clamp_cur = abs(clamp_cur);
             clamp_work_x = clamp_cur < clamp_abs_x;
-#ifdef __mips__
-            __asm__ __volatile__(".set\tnoreorder\n\t.set\tnomacro");
-            if (!clamp_work_x) {
-                goto x_done;
-            }
-            clamp_work_x = (u32)(u16)direction << 16;
-            object->x = limit_x;
-            __asm__ __volatile__(".set\tmacro\n\t.set\treorder");
-#else
             if (clamp_work_x) {
                 object->x = limit_x;
             }
             clamp_work_x = (u32)(u16)direction << 16;
-#endif
-#ifndef __mips__
         } else {
             clamp_work_x = (u32)(u16)direction << 16;
         }
-#else
-x_done:
-#endif
 
         y_direction = (s32)clamp_work_x >> 16;
         component_y = func_80064584(y_direction);

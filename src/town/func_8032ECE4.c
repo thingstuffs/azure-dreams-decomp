@@ -52,18 +52,16 @@ check_entry:
                 goto check_entry;
             }
         }
-        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 == 0) {
-            goto missing_entry;
+        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 != 0) {
+            return entry_index;
         }
-    } else {
-missing_entry:
-        root = (*(void **)((u8 *)D_80010000 + 0x6000));
-        do {
-            callbacks = ((S_800194E4_2 *)root)->unk_20;
-        } while (0);
-        report_error = (*(Callback3 *)((u8 *)callbacks + 0x168));
-        report_error(&D_80016064, &D_8001608C, 0x28);
-        ((S_800194E4_4 *)(((S_800194E4_3 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->unk_174(1);
     }
+    root = (*(void **)((u8 *)D_80010000 + 0x6000));
+    do {
+        callbacks = ((S_800194E4_2 *)root)->unk_20;
+    } while (0);
+    report_error = (*(Callback3 *)((u8 *)callbacks + 0x168));
+    report_error(&D_80016064, &D_8001608C, 0x28);
+    ((S_800194E4_4 *)(((S_800194E4_3 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20))->unk_174(1);
     return entry_index;
 }

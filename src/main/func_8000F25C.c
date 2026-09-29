@@ -20,12 +20,7 @@ void func_8002225C(
         do {
             *prior_chars_out += word_length;
             if (*text == space) {
-                s32 skip_space;
-                if (byte_offset != 0) {
-                    skip_space = 0x20;
-                } else {
-                    skip_space = 0x20;
-                }
+                s32 skip_space = 0x20;
                 do {
                     text++;
                     byte_offset++;
@@ -35,24 +30,17 @@ void func_8002225C(
             lead_byte = *text;
             word_length = 0;
             if (lead_byte != space) {
-                s32 scan_space;
-                if (lead_byte != 0) {
-                    scan_space = 0x20;
-                } else {
-                    scan_space = 0x20;
-                }
+                s32 scan_space = 0x20;
 scan:
                 if (lead_byte != 0) {
                     text += 2;
                     lead_byte = *text;
                     word_length++;
-                    if (lead_byte == scan_space) {
-                        goto post_scan;
+                    if (lead_byte != scan_space) {
+                        goto scan;
                     }
-                    goto scan;
                 }
             }
-post_scan:
             byte_offset += word_length * 2;
             word_count++;
             *length_out = word_length;
