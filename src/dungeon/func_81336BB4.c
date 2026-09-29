@@ -8,7 +8,6 @@
 extern u8 D_8016A36C[];
 extern s16 D_801760D8[];
 extern u8 D_801739A0[];
-extern void *D_801649B8[];
 
 extern void func_800419EC(s32, s32, void *);
 extern void func_80047784(void *, u8, s32);
@@ -20,7 +19,6 @@ extern void func_80169C1C(void *, void *, void *);
 
 /* Advances a timed actor sequence, updating effects and directional animation before clearing completion flags. */
 void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5 };
     u8 state;
     s32 anim_mode;
     u8 *anim_table;
@@ -33,13 +31,8 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     u8 *sprite = sprite_arg;
     u8 *actor = actor_arg;
     state = sequence[0x9B];
-    if (state >= 6U) {
-        return;
-    }
-    (void)jt_keep;
-    goto *D_801649B8[(u32)state];
-
-jt_c0:
+    switch (state) {
+    case 0:
     func_801676CC(transform);
     *(u16 *)(sequence + 0x96) = 5;
     sequence[0x9B] = sequence[0x9B] + 1;
@@ -47,7 +40,7 @@ jt_c0:
     D_801760D8[0] = 0;
     return;
 
-jt_c1:
+    case 1:
     timer = *(u16 *)(sequence + 0x96) - 1;
     *(u16 *)(sequence + 0x96) = timer;
     if ((timer << 0x10) <= 0) {
@@ -58,7 +51,7 @@ jt_c1:
     }
     goto advance;
 
-jt_c2:
+    case 2:
     timer = *(u16 *)(sequence + 0x96) + 1;
     *(u16 *)(sequence + 0x96) = timer;
     if ((s16)timer == 1) {
@@ -77,7 +70,7 @@ jt_c2:
     }
     return;
 
-jt_c3:
+    case 3:
     if (!( *(u16 *)(sprite + 0x14) & 0xE000)) {
         return;
     }
@@ -128,7 +121,7 @@ shared_base:
     }
     goto advance;
 
-jt_c4:
+    case 4:
     old_timer = *(u16 *)(sequence + 0x96);
     next_timer = old_timer + 1;
     *(u16 *)(sequence + 0x96) = next_timer;
@@ -143,7 +136,7 @@ advance:
     sequence[0x9B] = state + 1;
     return;
 
-jt_c5:
+    case 5:
     actor[0x73] = 0;
     actor[0x72] = 0;
     *(u8 **)(sequence + 0x8C) = D_8016A36C;
@@ -151,4 +144,7 @@ jt_c5:
     *(u16 *)(actor + 0x46) &= 0x7FFF;
 
     return;
+    default:
+        return;
+    }
 }
