@@ -559,9 +559,7 @@ block_high107:
         temp_v1_3 |= 0xC;
         ((S_8080C650_3 *)arg2)->unk_14 = temp_v1_3;
         temp_v0_6 = (u16) ((S_8080C650_0 *)in0)->unk_68.u;
-        do {
-            var_s2 = (s32)D_8028940C;
-        } while (0);
+        var_s2 = (s32)D_8028940C;
         temp_v0_6 += 1;
         ((S_8080C650_0 *)in0)->unk_68.s = (s16) temp_v0_6;
         goto block_160;

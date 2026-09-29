@@ -47,9 +47,7 @@ s32 func_80095760(void *entries)
             if (direction == *direction_ptr) {
                 slot = *slot_ptr;
                 if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
-                    do {
-                        entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
-                    } while (0);
+                    entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
                     state = entry->unk_14;
                      /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
                     if (state == blocked_state) {

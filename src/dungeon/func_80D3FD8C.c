@@ -124,9 +124,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
         }
         {
             s32 finish_phase;
-            do {
-                func_8009D8A4();
-            } while (0);
+            func_8009D8A4();
             finish_phase = 5;
             global_flags = D_800E296C;
             ((S_8017558C_0 *)action)->unk_96 = finish_phase;

@@ -391,9 +391,7 @@ check_item_use:
     actor->unk_8A = func_8009904C(action->unk_BC);
 show_item_progress:
     func_800B4C7C(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
-    do {
-        return;
-    } while (0);
+    return;
 check_cancel:
     {
         s32 cancel_test;

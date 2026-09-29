@@ -20,11 +20,9 @@ extern u8 D_80080F98;
 void func_800C1854(void)
 {
   u8 *resource_data;
-  do {
-    func_8003AFE0(1, 0x73);
-    func_80066F78(1);
-    file_load_com(&D_80080E28);
-  } while (0);
+  func_8003AFE0(1, 0x73);
+  func_80066F78(1);
+  file_load_com(&D_80080E28);
   resource_data = &D_800D1D54;
   file_load_com(resource_data);
   func_8003C758(&D_80080F48);

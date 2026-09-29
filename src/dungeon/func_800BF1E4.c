@@ -116,9 +116,7 @@ void func_800C4944(FuncArg *source) {
                 effect_block->field10 = 0x60;
             }
             effect_state->field2 = 8;
-            do {
-                effect_state->field18 = effect_index;
-            } while (0);
+            effect_state->field18 = effect_index;
         }
         effect_index -= 1;
     } while (effect_index >= 0);

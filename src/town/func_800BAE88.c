@@ -75,9 +75,7 @@ case_4_8:
         {
             u32 link_id;
 
-            do {
-                link_id = selected_entry[6];
-            } while (0);
+            link_id = selected_entry[6];
             if (link_id == 0) {
                 goto case_default;
             }

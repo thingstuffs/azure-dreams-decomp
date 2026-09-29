@@ -18,6 +18,5 @@ void func_800C1920(void)
   func_8003AF58(&D_800717D0, &D_800D429C);
   enabled = 1;
   D_80080A88 = enabled;
- do { } while (0);
   D_80080A88 = 1;
 }

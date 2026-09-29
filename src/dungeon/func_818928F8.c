@@ -52,7 +52,7 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
     if (obj != 0) {
         obj->callback = D_80024028;
         state = (u8 *)obj + 0x20;
-        do { state->unk_0C = context; } while (0);
+        state->unk_0C = context;
         state->unk_10 = 0;
         state->unk_12 = state_value;
 
@@ -63,7 +63,7 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
         sprite->callback = D_80025308;
         random_rotation = rand();
         sprite_obj = obj;
-        do { sprite->rotation = random_rotation % 0x1000; } while (0);
+        sprite->rotation = random_rotation % 0x1000;
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
 

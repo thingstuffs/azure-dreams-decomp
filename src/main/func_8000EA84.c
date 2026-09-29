@@ -35,7 +35,5 @@ s32 func_80021A84(s32 card_slot) {
         }
     }
     result = status;
-    do {
-        return result;
-    } while (0);
+    return result;
 }

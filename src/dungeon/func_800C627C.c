@@ -159,9 +159,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 u16 actor_count;
                 u16 removal_flags;
 
-                do {
-                    status_page = (u8 *)0x80080000;
-                } while (0);
+                status_page = (u8 *)0x80080000;
                 actor_counts = &dungeonStatus;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;

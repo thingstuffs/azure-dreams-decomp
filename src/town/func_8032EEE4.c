@@ -30,9 +30,7 @@ Func8032EEE4Record *func_800196E4(void *context, Func8032EEE4Record *source) {
         data_offset = data_offset + 4;
         *offset_slot = data_offset;
         address = (s32) source->unk8;
-        do {
-            record->unk4 = (void *) address;
-        } while (0);
+        record->unk4 = (void *) address;
         record->unk0 = record_key;
         record->unkC = 0;
     }

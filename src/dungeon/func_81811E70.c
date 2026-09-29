@@ -20,10 +20,8 @@ loop:
         if ((value == target_value) && (entry[-1] == prefix_value)) {
             count++;
         }
-        do {
-            index++;
-            entry += 0x13;
-        } while (0);
+        index++;
+        entry += 0x13;
         if (index < 0x40) {
             goto loop;
         }

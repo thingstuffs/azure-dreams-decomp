@@ -105,7 +105,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     s32 shade;
     register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    do { record = root->record; } while (0);
+    record = root->record;
     globals = &gameWork;
     scratch_words = (s32 *)0x1F800000;
     scratch_words[8] = draw_depth;

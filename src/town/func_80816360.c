@@ -64,8 +64,6 @@ state_one:
     if (status_data->unk_2A & 1) {
         page = 0x80080000;
         ((S_80020360_0_pre *)object)[-1].unk_00 |= 0x8000;
-        do {
-            ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
-        } while (0);
+        ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
     }
 }
