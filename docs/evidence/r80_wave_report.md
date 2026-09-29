@@ -184,3 +184,20 @@ default (table size = evidence); steering cases rejected; rows whose table lives
 Kit harvest (owner request: harvest what lanes needed/wrote): the same private helpers recurred across lanes (gen.py x8,
 scorer-diff-at-cfg x7, port.py x4, prio.py, erase-at-cfg). A Sonnet tooling lane folded them into the kit (5c9d4620):
 lab.py --base / stage-cell, --cfg on diff/why/erase, diff --scorer [--norm-regs], prio.py (global-alloc priority table).
+
+## Fable escalation r80_fable_n1 + harvest (owner request)
+
+Rows dungeon/func_819B3414 (13 pins / total 4 at 2.7.2-cdk-G0, two Opus lanes deep) and dungeon/func_800AFA68 (12/20
+pins / total 2): nothing staged; 458,958 tokens, 50 tool uses, 69 min. Both residues PROVEN outside statement order:
+819B3414 - the gameWork rematerialisation `addiu t0` is the sole ready insn at the xy2 load delay in cdk sched2, so the
+xy block's RTL must differ (an insn in retail [173]-[181] must reference the reload register); 800AFA68 - the two
+scratch pins are one mechanism, an OPAQUE non-launched base register (combine's PLUS->IOR fires on a single-set
+constant register; retail's s1 was opaque) - "likely unreachable in pure C at 2.7.2-cdk; the pins are the honest
+imitation". Method difference, quantified: ~20 lab measurements (Opus lanes on the same rows: hundreds; c2 339 variants)
+- trace first, one variant per falsifiable hypothesis.
+
+Harvest (per the owner's instruction, memory feedback-harvest-lane-logs-20260929): the lane's retrospective became
+(1) "TRACE BEFORE YOU SWEEP" in tools/lanes/duck_pack_brief_v2.md, (2) four proof checks in
+tools/learnings/pin_removal_possibilities.md (sole-ready-at-stall, launched-vs-early-group, known-constant-base,
+barrier rule) - 8e7bfd06, (3) an Opus worktree tooling lane building why.py --trace/--deps, diff --classify and
+lanekit/checks.py. Tools it hand-wrote: cdkdiff.py (now diff.py --scorer --cfg, 5c9d4620), prio.py (now in the kit).
