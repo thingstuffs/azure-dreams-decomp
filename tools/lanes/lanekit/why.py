@@ -205,11 +205,12 @@ def explain_sched(a, b, names, around, phase, top):
                    "which prints `;; Ready list (t = N)`).  Falling back to the filtered RTL diff "
                    "of the same pass." % phase)
         return out + explain_diff(a, b, names, around, phase, top, 2)
-    pa_rank, pb_rank = pre_order(a, phase), pre_order(b, phase)
-    ia = {x["uid"]: x for x in insns_of(a[phase])}
-    ib = {x["uid"]: x for x in insns_of(b[phase])}
-    oa = [x["uid"] for x in insns_of(a[phase])]
-    ob = [x["uid"] for x in insns_of(b[phase])]
+    # modes=True: reload's `(insn:HI N ...)` insns count too (they vanished from this table and skewed `src`)
+    pa_rank, pb_rank = pre_order(a, phase, True), pre_order(b, phase, True)
+    ia = {x["uid"]: x for x in insns_of(a[phase], True)}
+    ib = {x["uid"]: x for x in insns_of(b[phase], True)}
+    oa = [x["uid"] for x in insns_of(a[phase], True)]
+    ob = [x["uid"] for x in insns_of(b[phase], True)]
     if pa_rank is None or pb_rank is None:
         out.append("NOTE: no `.%s` dump, so the `src` column below is UID order, which is only "
                    "approximately the chain order INSN_LUID follows.  Read the tie rule with care."

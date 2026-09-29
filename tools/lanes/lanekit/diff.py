@@ -73,7 +73,8 @@ def run(row, ref_text, cand_text, ctx=3, ref_name="pinned", cand_name="candidate
 
 SCORER_LINE = re.compile(r"^\s*[!X~ ]?\s*\[\s*(\d+)\] (.*?)\s*\|\s*(.*?)(?:\s+raw .*)?$")
 FIXED_REGS = {"zero", "at", "sp", "fp", "ra", "gp", "k0", "k1"}
-REG_RE = re.compile(r"\$(\w+)")
+# `$2`-style names (cc1 listings) and bare MIPS names (the scorer's objdump disassembly has no `$`)
+REG_RE = re.compile(r"\$(\w+)|\b(zero|at|v[01]|a[0-3]|t[0-9]|s[0-8]|k[01]|gp|sp|fp|ra)\b")
 BRANCH_RE = re.compile(r"^(b\w*|j)\s")
 
 
@@ -92,7 +93,7 @@ def canon_regs(lines):
     table = {}
 
     def sub(m):
-        n = m.group(1)
+        n = m.group(1) or m.group(2)
         return m.group(0) if n in FIXED_REGS else "$" + table.setdefault(n, "r%d" % len(table))
     return [REG_RE.sub(sub, l) for l in lines]
 
