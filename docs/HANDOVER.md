@@ -1,3 +1,27 @@
+# Handover (2026-09-29 late night, round 80: Sol 6.1, scaffolding lanes, JUMP-TABLE FIDELITY HOLE) - start here
+
+**FIX FIRST - switch jump tables are not compared.** The overlay window gate (tools/gate/overlay_local_gate.py) and
+match.py build_text compare function .text only, so a `switch` whose jump table routes cases to the wrong bodies still
+shows MATCH. r80_opus_rodatawin measured 63 landed rows with wrong tables (41 from round-80 switch lanes, 22 since
+import); confirmed by hand on dungeon/func_81862ED8 (C groups cases 0-5/6/7-14, retail's table 0-6/7/8-14) and
+main/func_8001A6D0. The same lane found why ~16 switch conversions were "reverted for discarded .rodata": a true-name
+lookup miss (overlay_local_gate.py:358-365 vs the synthetic name the TU defines), not a real discard. Its patch
+(work/native_lane/r80_opus_rodatawin/patch/rodata_windows.patch: name fallback + local_table_mismatches) turns 86 windows
+red on its own, so it must land WITH the repair: relabel permutation rows, restore structural ones, land the 11 correct
+conversions. The repair is being built in that lane (REPORT_REPAIR.md, repair/). Until the kit (verify.py / match.py)
+compares tables too, hold all switch-producing lane work.
+
+**State:** 1,993 pins in 617 rows (2,493 / 696 at this session's pickup). Goto count (incl. `&&label`) ~3,950.
+**Sol 6.1 (gpt-6.1-sol, `launch_lane.sh <lane> sol61`, codex CLI >= 0.159):** ~60% on 1-pin rows (15/25), 0 on 2-pin and
+big rows; tidy its texts (identical-arm NON_MATCHING splits, orphaned pin comments) before landing.
+**Sonnet scaffolding lanes (vol1-4)** clear volatile/one-trip blocks on pin-free rows (vol2 7/10); patterns in
+tools/learnings/pin_removal_possibilities.md "Scaffolding" section. **t126_ppcollapse** collapses dead #if splits.
+**Owner rulings 09-29 evening:** copied blocks OK; case ranges OK when meaningful (w_80058E6C MIDI text events); common
+byte-neutral flag trades for gotos OK; w_8003E4FC (Control_CD: one two-command group somewhere in 0x0F-0x14, bytes cannot
+say which) - recommended a documented guess (GetlocL/GetlocP) unless another build pins it. The skip-copy goto family
+(24 rows) is original control flow (reorg trace) - leave it. Cell moves land through scratchpad coh.sh (land_coherence.sh
+with the queue runner paused).
+
 # Handover (2026-09-29 evening, round 80 continued: Opus harvest lanes, goto-lane scale-out, batch lander) - start here
 
 **State:** ~2,200 pins in ~650 rows (from 2,493 / 696 at this session's pickup, 2,762 / 735 at round start); plain gotos
