@@ -68,6 +68,16 @@ class TestAdmissible(unittest.TestCase):
     def test_same_pin_count_refused(self):
         self.assertTrue(any("not reduced" in r for r in kitlib.admissible(BASE, BASE)))
 
+    def test_goto_reduction_with_equal_pins_is_admissible(self):
+        base = BASE + "\nvoid g(s32 a) { if (a) goto out; a = 1; out: return; }\n"
+        cand = BASE + "\nvoid g(s32 a) { if (!a) { a = 1; } return; }\n"
+        self.assertEqual(kitlib.admissible(base, cand), [])
+
+    def test_goto_in_comment_does_not_count(self):
+        cand = BASE + "\n/* goto out; */\n"
+        self.assertEqual(kitlib.goto_count(cand), kitlib.goto_count(BASE))
+        self.assertTrue(any("not reduced" in r for r in kitlib.admissible(cand, BASE)))
+
     def test_new_volatile_refused(self):
         cand = BASE.replace("    ASM_KEEP(node);\n", "    volatile s32 w = 1;\n")
         self.assertIn("adds volatile", kitlib.admissible(BASE, cand))

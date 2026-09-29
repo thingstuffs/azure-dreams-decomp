@@ -1,8 +1,9 @@
 #!/bin/bash
 # Land lane wins, then the cascade, tidy, T2 and ONE gate:  bash tools/lanes/land_lanes.sh <tag> <lane>...
 #   A lane output (work/native_lane/<lane>/out/<container>/<name>.c) lands only when its base is current (the
-#   .base_sha next to it), its pins fell (or, round 78, stayed equal while a scaffolding kind fell) and no
-#   scaffolding kind grew (ASM_*, while (0), __asm__, volatile);
+#   .base_sha next to it), its pins fell (or, round 78, stayed equal while a scaffolding kind fell; round 80, or
+#   stayed equal while plain `goto` statements fell) and no scaffolding kind grew (ASM_*, while (0), __asm__,
+#   volatile; with pins equal, `goto` too);
 #   it goes through apply_candidates.py as transform lane_<lane>. CELLS=<jsonl> passes cell switches
 #   (apply_candidates --cells). EXTRA_T adds generators to the cascade. The caller reviews and commits.
 #   Run ONLY after every lane has exited (verify.py shares build_ovl with the gate), and from its own command
@@ -81,6 +82,7 @@ sys.path.insert(0, "tools")
 from pin_census import sites_of
 stage, lanes = sys.argv[1], sys.argv[2:]
 bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
+gotos = lambda t: len(re.findall(r"\bgoto\s+\w+\s*;", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 for lane in lanes:
     for f in sorted(glob.glob("work/native_lane/%s/out/*/*.c" % lane)):
@@ -90,8 +92,12 @@ for lane in lanes:
         if hashlib.sha256(cur.encode()).hexdigest() != base:
             print("skip", lane, rid, "stale base"); continue
         fell = [k for k in ku if kc[k] < ku[k]]
+        # round 80 (readability lanes): with pins equal, fewer `goto` statements (and none added) is a landing too
+        gc, gu = gotos(cand), gotos(cur)
+        if gc < gu: fell.append("goto")
         # round 78: a byte-exact candidate that removes scaffolding (volatile, while(0), __asm__, an ASM_* kind)
         # with no pin growth lands too - r78_opus_b1's `volatile ShortArg` parameter was refused for "no pin fell"
+        if len(sites_of(cand)) == len(sites_of(cur)) and gc > gu: grew.append("goto")
         if len(sites_of(cand)) > len(sites_of(cur)) or grew or (len(sites_of(cand)) == len(sites_of(cur)) and not fell):
             print("skip", lane, rid, "pins", len(sites_of(cur)), "->", len(sites_of(cand)), "grew", grew); continue
         d = "%s/%s/%s" % (stage, lane, rid.split("/")[0]); os.makedirs(d, exist_ok=True)
