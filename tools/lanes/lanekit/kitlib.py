@@ -204,16 +204,29 @@ def pin_keys(text):
     return collections.Counter((s[0], s[1], s[2]) for s in sites(text))
 
 
+def goto_count(text):
+    """Plain `goto label;` statements outside comments (a computed `goto *p` is not counted)."""
+    t = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+    return len(re.findall(r"\bgoto\s+\w+\s*;", t))
+
+
 def admissible(base, cand):
     """[] when `cand` may be staged against `base`, else the reasons it may not.
 
     The checks `publish_local.py`, `finalize.py`, `stage.py`, `prepare_outputs.py`, `finish.py`
-    (seven lanes) each re-derived: strictly fewer pin sites, the remaining pins a SUBSET of the
-    base's, no new volatile/`__asm__`, no new one-trip block."""
+    (seven lanes) each re-derived: strictly fewer pin sites (round 80: or equal pins and strictly fewer
+    plain gotos), the remaining pins a SUBSET of the base's, no new volatile/`__asm__`, no new one-trip block."""
     bad = []
     b, c = pin_keys(base), pin_keys(cand)
-    if sum(c.values()) >= sum(b.values()):
-        bad.append("pin sites not reduced (%d -> %d)" % (sum(b.values()), sum(c.values())))
+    gb, gc = goto_count(base), goto_count(cand)
+    # equal pins also stage when scaffolding fell (land_lanes.sh, round 78: volatile, while (0), __asm__) or
+    # plain `goto` statements fell (round 80 readability lanes) - nothing banned may grow either way (below)
+    scaffold_fell = any(len(rx.findall(cand)) < len(rx.findall(base)) for rx, _ in BANNED + ONE_TRIP)
+    if sum(c.values()) > sum(b.values()) or (sum(c.values()) == sum(b.values()) and gc >= gb and not scaffold_fell):
+        bad.append("pin sites not reduced (%d -> %d), no scaffolding removed, gotos not reduced (%d -> %d)"
+                   % (sum(b.values()), sum(c.values()), gb, gc))
+    if sum(c.values()) == sum(b.values()) and gc > gb:
+        bad.append("adds %d goto(s) with pins unchanged" % (gc - gb))
     extra = c - b
     if extra:
         bad.append("pins the base did not have: %s" % ", ".join("%s %s(%s)" % k for k in extra))
