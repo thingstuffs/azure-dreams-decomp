@@ -74,77 +74,71 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
                           *(s16 *)(actor_bytes + 0x2A));
-    if (target == NULL) {
-        goto return_zero;
-    }
-    if (target == (void *)D_800E3D7C[0]) {
-        if (func_800C8310(target, target) != 0) {
+    if (target != NULL) {
+        if (target == (void *)D_800E3D7C[0]) {
+            if (func_800C8310(target, target) != 0) {
+                return 0;
+            }
+            {
+    #ifdef __mips__
+                s16 occupied_count;
+                register s32 slot_index;
+    #else
+                s32 slot_index;
+                s16 occupied_count;
+                s32 *slot_scan;
+    #endif
+                slot_index = 0;
+                occupied_count = slot_index;
+                item_slot = (u8 *)0x80010000;
+    scan_loop:
+                    if (((s32 *)item_slot)[167] != 0) {
+                        occupied_count++;
+                    }
+                    slot_index++;
+                    item_slot += sizeof(s32);
+                if (slot_index < 20) {
+                    goto scan_loop;
+                }
+                if (occupied_count == 0) {
+                    return 0;
+                }
+                item_offset =
+                    (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);
+                inventory_base = (u8 *)(item_offset + 0x80010000);
+                item_slot = (u8 *)(u32)*(u8 *)(inventory_base + 0x249);
+                if ((u32)item_slot == 0 || (u32)item_slot == 0x13) {
+                    return 0;
+                }
+                if (*(u8 *)(inventory_base + 0x24B) & 0x20) {
+                    return 0;
+                }
+                {
+                    s32 item_data;
+
+                    item_slot = (u8 *)0x80010248;
+                    item_slot += item_offset;
+                    item_data = *(s32 *)item_slot;
+                    D_8016EFE4[0] = item_data;
+                    func_80098B38(item_slot, inventory_base);
+                    return (s32)D_8016EFE4;
+                }
+            }
+        }
+        if (*(u8 *)((u8 *)target + 0x49) == 0) {
+            return 0;
+        }
+        if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
             return 0;
         }
         {
-#ifdef __mips__
-            s16 occupied_count;
-            register s32 slot_index;
-#else
-            s32 slot_index;
-            s16 occupied_count;
-            s32 *slot_scan;
-#endif
-            slot_index = 0;
-            occupied_count = slot_index;
-            item_slot = (u8 *)0x80010000;
-scan_loop:
-                if (((s32 *)item_slot)[167] != 0) {
-                    occupied_count++;
-                }
-                slot_index++;
-                item_slot += sizeof(s32);
-            if (slot_index < 20) {
-                goto scan_loop;
-            }
-            if (occupied_count == 0) {
-                return 0;
-            }
-            item_offset =
-                (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);
-            inventory_base = (u8 *)(item_offset + 0x80010000);
-            item_slot = (u8 *)(u32)*(u8 *)(inventory_base + 0x249);
-            if ((u32)item_slot == 0) {
-                goto return_zero;
-            }
-            if ((u32)item_slot == 0x13) {
-                return 0;
-            }
-            if (*(u8 *)(inventory_base + 0x24B) & 0x20) {
-                goto entry_zero;
-            }
-            {
-                s32 item_data;
+            s32 item_data;
 
-                item_slot = (u8 *)0x80010248;
-                item_slot += item_offset;
-                item_data = *(s32 *)item_slot;
-                D_8016EFE4[0] = item_data;
-                func_80098B38(item_slot, inventory_base);
-                return (s32)D_8016EFE4;
-            }
+            item_data = *(s32 *)((u8 *)target + 0x48);
+            D_8016EFE4[0] = item_data;
+            *(s32 *)((u8 *)target + 0x48) = 0;
+            return (s32)D_8016EFE4;
         }
     }
-    if (*(u8 *)((u8 *)target + 0x49) == 0) {
-        return 0;
-    }
-    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {
-        return 0;
-    }
-    {
-        s32 item_data;
-
-        item_data = *(s32 *)((u8 *)target + 0x48);
-        D_8016EFE4[0] = item_data;
-        *(s32 *)((u8 *)target + 0x48) = 0;
-        return (s32)D_8016EFE4;
-    }
-entry_zero:
-return_zero:
     return 0;
 }

@@ -41,24 +41,17 @@ void func_8187BE9C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
     ((S_8187BE9C_0 *)effect)->unk_02.s--;
 
     phase = ((S_8187BE9C_0 *)effect)->unk_42;
-    if (phase == 0) {
-        goto state_0;
+    switch (phase) {
+    case 0:
+        ((S_8187BE9C_0 *)effect)->unk_42 = 1;
+        ((S_8187BE9C_0 *)effect)->unk_4C += 24;
+        break;
+    case 1:
+        ((S_8187BE9C_0 *)effect)->unk_42 = 0;
+        ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
+        break;
     }
-    if (phase == 1) {
-        goto state_1;
-    }
-    goto tail;
 
-state_0:
-    ((S_8187BE9C_0 *)effect)->unk_42 = 1;
-    ((S_8187BE9C_0 *)effect)->unk_4C += 24;
-    goto tail;
-
-state_1:
-    ((S_8187BE9C_0 *)effect)->unk_42 = 0;
-    ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
-
-tail:
     primitive->unk_0C =
         ((S_8187BE9C_0 *)effect)->unk_36 * ((S_8187BE9C_0 *)effect)->unk_02.u /
         ((S_8187BE9C_0 *)effect)->unk_04;

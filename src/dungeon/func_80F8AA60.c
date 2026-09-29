@@ -53,111 +53,99 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
     U16_AT(state_input, 0xA0)--;
     state = U8_AT(state_input, 0x9B);
 
-    if (state == active_state) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        animation_flags = U16_AT(animation_input, 0x14);
+        if (animation_flags & 0x8000) {
+            effect_data = S32_AT(actor_input, 0x60);
+            if (effect_data != 0) {
+                func_800C8150(effect_data, 0x10, 0x10);
+                U8_AT(state_input, 0x9B) = 2;
+            } else {
+                U8_AT(state_input, 0x9B) = 2;
+            }
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
 
-state_zero:
-    animation_flags = U16_AT(animation_input, 0x14);
-    if (animation_flags & 0x8000) {
+        if (!(animation_flags & 0x6000)) {
+            return;
+        }
+
+        if (func_8003DE58(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
+            spawn_offset[2] = 0;
+            spawn_offset[1] = 0;
+            spawn_offset[0] = 0;
+        }
+
+        effect_object = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
+        if (effect_object != NULL) {
+            func_8004491C(effect_object, D_80174688);
+            PTR_AT(effect_object, 0x10) = D_801745E0;
+            spawned_data = (u8 *)effect_object + 0x20;
+            S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
+            S16_AT(spawned_data, 0x0E) = U16_AT(motion, 6) + spawn_offset[1];
+            S16_AT(spawned_data, 0x10) = U16_AT(motion, 0xA) + spawn_offset[2];
+            S32_AT(spawned_data, 0x58) = 0x80;
+            S16_AT(spawned_data, 0x48) = active_state;
+        }
+        func_800A56E0(0x815);
+        {
+
+            next_state = U8_AT(state_input, 0x9B);
+            state = 0x1E;
+            S16_AT(state_input, 0x96) = state;
+        }
+        U8_AT(state_input, 0x9B) = next_state + 1;
+        return;
+    case 1:
         effect_data = S32_AT(actor_input, 0x60);
         if (effect_data != 0) {
-            func_800C8150(effect_data, 0x10, 0x10);
-            U8_AT(state_input, 0x9B) = 2;
-        } else {
-            U8_AT(state_input, 0x9B) = 2;
-        }
-        return;
-    }
-
-    if (!(animation_flags & 0x6000)) {
-        return;
-    }
-
-    if (func_8003DE58(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
-        spawn_offset[2] = 0;
-        spawn_offset[1] = 0;
-        spawn_offset[0] = 0;
-    }
-
-    effect_object = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
-    if (effect_object != NULL) {
-        func_8004491C(effect_object, D_80174688);
-        PTR_AT(effect_object, 0x10) = D_801745E0;
-        spawned_data = (u8 *)effect_object + 0x20;
-        S16_AT(spawned_data, 0x0C) = U16_AT(motion, 2) + spawn_offset[0];
-        S16_AT(spawned_data, 0x0E) = U16_AT(motion, 6) + spawn_offset[1];
-        S16_AT(spawned_data, 0x10) = U16_AT(motion, 0xA) + spawn_offset[2];
-        S32_AT(spawned_data, 0x58) = 0x80;
-        S16_AT(spawned_data, 0x48) = active_state;
-    }
-    func_800A56E0(0x815);
-    {
-
-        next_state = U8_AT(state_input, 0x9B);
-        state = 0x1E;
-        S16_AT(state_input, 0x96) = state;
-    }
-    goto advance_state;
-state_one:
-    effect_data = S32_AT(actor_input, 0x60);
-    if (effect_data != 0) {
-        timer = S16_AT(state_input, 0x96);
-        if (timer >= 0x12) {
-            effect_object = (u8 *)(long)effect_data - 0x20;
-            if (timer < 0x17) {
-                U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
-                U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_input, 0x96) - 0x12];
+            timer = S16_AT(state_input, 0x96);
+            if (timer >= 0x12) {
+                effect_object = (u8 *)(long)effect_data - 0x20;
+                if (timer < 0x17) {
+                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
+                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_input, 0x96) - 0x12];
+                }
             }
         }
-    }
 
-    if (S16_AT(state_input, 0x96) == 0x14) {
-        effect_data = S32_AT(actor_input, 0x60);
-        if (effect_data != 0) {
-            func_800C8150(effect_data, 0x10, 0x10);
+        if (S16_AT(state_input, 0x96) == 0x14) {
+            effect_data = S32_AT(actor_input, 0x60);
+            if (effect_data != 0) {
+                func_800C8150(effect_data, 0x10, 0x10);
+            }
         }
-    }
 
-    timer = U16_AT(state_input, 0x96) - 1;
-    S16_AT(state_input, 0x96) = timer;
-    if (timer > 0) {
-        return;
-    }
+        timer = U16_AT(state_input, 0x96) - 1;
+        S16_AT(state_input, 0x96) = timer;
+        if (timer > 0) {
+            return;
+        }
 
-    PTR_AT(animation_input, 0x2C) = D_80174B14;
-    func_80047784(animation_input,
-        D_80174B14[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
-        0);
-    next_state = U8_AT(state_input, 0x9B);
-advance_state:
-    U8_AT(state_input, 0x9B) = next_state + 1;
-    return;
-state_two:
-    if (U16_AT(animation_input, 0x14) & 0xE000) {
-
-        S32_AT(motion, 0x10) = 0;
-        S32_AT(motion, 0x0C) = 0;
-        func_800AD594(actor_input, 0x800);
-        PTR_AT(animation_input, 0x2C) = D_80174ACC;
+        PTR_AT(animation_input, 0x2C) = D_80174B14;
         func_80047784(animation_input,
-            D_80174ACC[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+            D_80174B14[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
             0);
-        dungeonStatus.unk_0A--;
-        func_800A4ACC(actor_input);
-        U8_AT(actor_input, 0x6D) = 0;
-        U16_AT(actor_input, 0x46) &= 0x7FFF;
-        PTR_AT(state_input, 0x8C) = D_80171138;
+        next_state = U8_AT(state_input, 0x9B);
+        U8_AT(state_input, 0x9B) = next_state + 1;
+        return;
+    case 2:
+        if (U16_AT(animation_input, 0x14) & 0xE000) {
+
+            S32_AT(motion, 0x10) = 0;
+            S32_AT(motion, 0x0C) = 0;
+            func_800AD594(actor_input, 0x800);
+            PTR_AT(animation_input, 0x2C) = D_80174ACC;
+            func_80047784(animation_input,
+                D_80174ACC[((gameWork.view.viewAngle + S16_AT(actor_input, 0x2A) + 0x100) >> 9) & 7],
+                0);
+            dungeonStatus.unk_0A--;
+            func_800A4ACC(actor_input);
+            U8_AT(actor_input, 0x6D) = 0;
+            U16_AT(actor_input, 0x46) &= 0x7FFF;
+            PTR_AT(state_input, 0x8C) = D_80171138;
+        }
+        break;
     }
-    return;
 }
