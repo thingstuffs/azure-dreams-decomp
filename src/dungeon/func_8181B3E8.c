@@ -254,7 +254,6 @@ extern u8 D_8006CCE8[];
 extern s32 D_800814A0[3];
 extern u8 D_800DE870[];
 extern u8 D_800DE9D0[];
-extern u8 D_80024028;
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
 void func_80024BE8(void *effect, void *motion, void *sprite) {
@@ -272,24 +271,14 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     {
         S_80024BE8_1 *task;
         S_80024BE8_6 *origin;
-        void **jump_table;
-        static void *const state_labels[] = {
-            &&state_0, &&state_1, &&state_2, &&state_3, &&state_4,
-            &&state_5, &&state_6, &&common, &&state_8
-        };
 
         task = (u8 *)source - 0x20;
         origin = task->unk_08;
         ((S_80024BE8_0 *)effect)->unk_82++;
         state = ((S_80024BE8_0 *)effect)->unk_0A.s;
 
-        if ((u32)state >= 9U) {
-            goto common;
-        }
-        jump_table = (void **)&D_80024028;
-        goto *jump_table[state];
-
-state_0:
+        switch (state) {
+        case 0:
         {
             S_80024BE8_4 *source_sprite;
             void *target;
@@ -395,9 +384,8 @@ state_0:
             }
             goto common;
         }
-    }
 
-state_1:
+        case 1:
     {
         void *target_position;
         void *animation;
@@ -483,9 +471,10 @@ state_1:
             ((S_80024BE8_2 *)sprite)->unk_0C.at01.v = 0;
             ((S_80024BE8_2 *)sprite)->unk_0C.at00u.v = 0;
         }
-        goto common;
+        break;
     }
 
+        case 2:
 state_2:
     {
 
@@ -531,10 +520,10 @@ state_2:
         impact_sprite = (s16)(impact_sprite - 8);
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        goto common;
+        break;
     }
 
-state_3:
+        case 3:
     {
         s32 color_step;
         u16 prev_state;
@@ -553,10 +542,10 @@ state_3:
             ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
             goto common;
         }
-        goto common;
+        break;
     }
 
-state_4:
+        case 4:
     {
         void *animation;
         register void *particle ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
@@ -657,10 +646,10 @@ state_4:
             ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
             goto common;
         }
-        goto common;
+        break;
     }
 
-state_5:
+        case 5:
     {
         void *target;
         void *current_target;
@@ -698,10 +687,10 @@ state_5:
             func_8009CE1C(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
                 (s16)(((S_80024BE8_0 *)effect)->unk_7E.u << 9), source, 2);
         }
-        goto common;
+        break;
     }
 
-state_6:
+        case 6:
     {
         u16 elapsed;
 
@@ -711,10 +700,10 @@ state_6:
             ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
             ((S_80024BE8_0 *)effect)->unk_82 = 0x1E;
         }
-        goto common;
+        break;
     }
 
-state_8:
+        case 8:
     {
         u16 elapsed;
         s32 active;
@@ -732,7 +721,12 @@ state_8:
                 D_80025914[0] = 0;
             }
         }
+        break;
+    }
+    case 7:
+    default:
         goto common;
+    }
     }
 
 common:

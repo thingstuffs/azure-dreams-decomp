@@ -70,9 +70,7 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     s32 edge_coord_2;
     register s32 edge_delta_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 zone_y_m ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    static void *const case_labels[] = {&&diagonal_2, &&diagonal_3, &&diagonal_4, &&diagonal_5, &&clear};
 
-    (void)case_labels;
     candidate = 0;
     box_id = *zone_id + 1;
     while (box_id >= *zone_id - 1) {
@@ -220,16 +218,13 @@ store_x:
 
 check_edges:
     zone_kind = CURRENT_ZONE(kind);
-    if ((u32)zone_kind >= 6) {
-        goto push_back;
-    }
-    goto *D_80020180[zone_kind];
+    switch (zone_kind) {
 zone_found:
     *zone_id = candidate;
     candidate = -1;
     goto check_zone;
 
-diagonal_2:
+    case 0:
     {
         register s32 zone_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 edge_delta;
@@ -263,7 +258,7 @@ diagonal_2:
     }
     return 0;
 
-diagonal_3:
+    case 1:
     {
         s32 edge_delta;
         s32 current_zone;
@@ -297,7 +292,7 @@ diagonal_3:
     }
     return 0;
 
-diagonal_4:
+    case 2:
     {
         s32 current_zone;
         s32 zone_x;
@@ -331,7 +326,7 @@ diagonal_4:
     }
     return 0;
 
-diagonal_5:
+    case 3:
     {
         s32 zone_width;
         s32 zone_y;
@@ -366,8 +361,12 @@ diagonal_5:
     }
     return 0;
 
-clear:
-    return 0;
+    case 4:
+        return 0;
+    case 5:
+    default:
+        break;
+    }
 push_back:
     *offset_x -= actor->dx * 3;
     *offset_y -= actor->dy * 3;

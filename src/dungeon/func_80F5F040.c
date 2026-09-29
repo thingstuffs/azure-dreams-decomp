@@ -219,26 +219,23 @@ state_0:
 
     if (((S_80172840_0 *)actor)->unk_1C & 0x2000) {
         u32 kind_index = (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) - 1;
-        static void *const switch_keep[] = {
-            &&special_3, &&special_2, &&special_1, &&kind_none,
-            &&special_3, &&special_2, &&special_1
-        };
 
-        if (kind_index >= 7) {
+        switch (kind_index) {
+        case 0:
+        case 4:
+            is_special = 1;
+            goto kind_3;
+        case 1:
+        case 5:
+            is_special = 1;
+            goto kind_2;
+        case 2:
+        case 6:
+            is_special = 1;
+            goto kind_1;
+        default:
             goto kind_none;
         }
-        (void)switch_keep;
-        goto *D_80170838[kind_index];
-
-special_3:
-        is_special = 1;
-        goto kind_3;
-special_2:
-        is_special = 1;
-        goto kind_2;
-special_1:
-        is_special = 1;
-        goto kind_1;
     }
 
     move_kind = ((S_80172840_0 *)actor)->unk_46 & 0x3FFF;
