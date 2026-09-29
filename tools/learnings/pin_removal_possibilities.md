@@ -176,3 +176,18 @@ base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets
   (`v = f(v)`): combine otherwise drops the re-extensions (nonzero_bits 0xFF).
 - REG_EQUIV live doubling (local-alloc.c:1058) halves a symbol-set pseudo's priority - check prio.py before reading
   an allocation swap as a spelling problem.
+
+## Round-80 Opus harvest, lanes p7/p9
+
+- **KEEP_DEP_NV on a numeric page whose page+offset is a named symbol** imitates symbol opacity (combine folds an
+  integer page to `ori`/absolute `lw`): use the typed symbol (dungeon/func_8194D354 12->9).
+- **Sibling blocks loading the same fields while $4 is busy:** one shared local pair for both blocks makes them global
+  allocnos that see the busy $4 and take $5/$6 - the $5/$6 pins imitated that (dungeon/func_81941338 8->3).
+- **Fall-through `addiu +c` right after a back edge whose delay slot holds `addiu -c`** is reorg filling the slot with
+  the loop-top decrement and emitting the inverse on the exit: write the decrement as the first do/while statement
+  (town/func_800A4978 4->0).
+- **Per-axis hand-expanded divisions with barriers between them:** write each stored field's full natural quotient
+  (`(-(o << 16) / (duration / 8)) / 2`); every `duration / 8` leaves an empty sign-fix branch until jump2, which splits
+  sched1 blocks exactly where the barriers stood; cse removes the repeated divides (dungeon/func_81339D2C 4->0).
+- **A pinned pointer whose stores are duplicated in both arms of an if/else:** one conditional-expression store per
+  field (fewer refs -> the allocation order flips; dungeon/func_81959E04).
