@@ -53,7 +53,6 @@ extern u8 D_801739A0[];
 extern u8 D_801739A8[];
 extern u8 D_801739B0[];
 extern u8 D_8016A36C[];
-extern void *D_80164998[];
 
 extern void func_80047784(DungeonObject *, u8, s32);
 extern void func_800A2B04(DungeonWork *, u8, u8);
@@ -65,16 +64,9 @@ extern void func_801685CC(DungeonState *, DungeonWork *, DungeonObject *, u8 *, 
 void func_8016D754(DungeonState *state, DungeonWork *work,
                   DungeonObject *object, DungeonInput *input) {
     u32 state_index;
-    static void *const state_labels[] = {
-        &&case0, &&case1, &&case2, &&case3, &&case4, &&case5, &&case6
-    };
     state_index = state->state;
-    if (state_index >= 7)
-        return;
-    (void)state_labels;
-    goto *D_80164998[state_index];
-
-case1:
+    switch (state_index) {
+    case 1:
     {
         s32 mode;
         register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -109,7 +101,7 @@ case1_common:
     func_800A56E0(0x703);
     return;
 
-case2:
+    case 2:
     {
         u16 timer;
 
@@ -123,7 +115,7 @@ case2:
         goto case0;
     }
 
-case3:
+    case 3:
     {
         u16 timer;
         s16 current_timer;
@@ -144,7 +136,7 @@ case3:
         goto case0;
     }
 
-case4:
+    case 4:
     {
         s32 mode;
         u8 *direction_table;
@@ -187,7 +179,7 @@ case4:
         goto case0;
     }
 
-case5:
+    case 5:
     {
         u16 timer;
 
@@ -199,11 +191,12 @@ case5:
     }
 
 case0:
+    case 0:
     state->timer.unsigned_value = 0;
     state->state = state->state + 1;
     return;
 
-case6:
+    case 6:
     input->unk_73 = 0;
     input->unk_72 = 0;
     state->unk_8C = D_8016A36C;
@@ -211,4 +204,5 @@ case6:
     input->unk_46 = input->unk_46 & 0x7FFF;
 
     return;
+    }
 }
