@@ -8,7 +8,6 @@
 typedef s32 M2C_UNK;
 
 
-extern u8 D_80170838[16];
 extern u8 D_80170E7C;
 extern u8 D_80174C3C[8];
 extern u8 D_80174C7C[8];
@@ -59,10 +58,6 @@ typedef struct S_80172CE8_3 {
 
 /* Updates item activation, actor animation, and action cleanup. */
 void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
-    static void *const item_targets[7] = {
-        &&item_8, &&item_b, &&item_e, &&item_none,
-        &&item_8, &&item_b, &&item_e
-    };
     u16 position[3];
     s16 is_special;
     u8 *item_slot;
@@ -75,20 +70,22 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
     case 0:
         if ((*(u32 *)((u8 *)object + 0x1C)) & 0x2000) {
             u32 kind = ((*(u16 *)((u8 *)object + 0x46)) & 0x3FFF) - 1;
-            if (kind >= 7) {
+            switch (kind) {
+            case 6:
+                is_special = 1;
+            case 2:
+                goto item_e_value;
+            case 5:
+                is_special = 1;
+            case 1:
+                goto item_b_value;
+            case 4:
+                is_special = 1;
+            case 0:
+                goto item_8_value;
+            default:
                 goto item_none;
             }
-            (void)item_targets;
-            goto *(((void **)D_80170838)[kind]);
-item_e:
-            is_special = 1;
-            goto item_e_value;
-item_b:
-            is_special = 1;
-            goto item_b_value;
-item_8:
-            is_special = 1;
-            goto item_8_value;
         }
 
         {

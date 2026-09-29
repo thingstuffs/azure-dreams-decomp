@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-extern void *D_80170858[];
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern u8 *D_800DCEEC[];
@@ -129,25 +128,16 @@ typedef struct S_80175270_10 {
 /* Advances an actor's transition sequence, updating effects and restoring its child's angle. */
 void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
-    static void *const state_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_4, &&case_4, &&case_7, &&case_8
-    };
     S_80175270_2 *work = ((u8 *)(&gameWork));
     u8 state;
 
     state = ((S_80175270_0 *)action)->unk_9B;
-    if (state >= 9) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170858[state];
-
-case_0:
+    switch (state) {
+    case 0:
     ((S_80175270_0 *)action)->unk_9B++;
     return;
 
-case_1:
+    case 1:
   {
     s32 effect_id;
     s32 direction;
@@ -180,7 +170,7 @@ case_1:
     ((S_80175270_0 *)action)->unk_9B++;
   }
 
-case_2:
+    case 2:
   {
     s32 frames_left;
     u8 *target_color;
@@ -205,7 +195,7 @@ case_2:
     return;
   }
 
-case_3:
+    case 3:
   {
     s16 asset_index;
     s32 *position_y_dst;
@@ -246,7 +236,9 @@ case_3:
     return;
   }
 
-case_4:
+    case 4:
+    case 5:
+    case 6:
   {
     work = D_80175924[0];
     work = work->unk_0C.p;
@@ -264,7 +256,6 @@ case_4:
     }
   }
 
-case_6:
   {
     if (func_800ADC4C(position, D_80175928[0], (s16)D_8017591C[0], D_800DCF5C) == 0) {
         return;
@@ -279,7 +270,7 @@ case_6:
     return;
   }
 
-case_7:
+    case 7:
   {
     void *child;
     S_80175270_7 *child_obj;
@@ -299,7 +290,7 @@ case_7:
     child_obj->unk_14 &= 0xFFFE;
   }
 
-case_8:
+    case 8:
   {
 
     ((S_80175270_0 *)action)->unk_96.u--;
@@ -312,4 +303,7 @@ case_8:
     dungeonStatus.unk_0A--;
     ((S_80175270_1 *)actor)->unk_6D = 0;
   }
+    default:
+        break;
+    }
 }

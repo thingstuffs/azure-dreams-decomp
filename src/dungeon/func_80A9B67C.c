@@ -38,7 +38,6 @@ extern void func_80174470(void *, void *, void *, void *);
 
 extern u8 D_800D79B0[];
 extern u8 D_800DEA68[];
-extern void *D_80170808[];
 extern u8 D_80170E7C;
 extern u8 D_80174C34[];
 extern u8 D_80174C3C[];
@@ -97,11 +96,6 @@ typedef struct S_80170E7C_9 {
 /* Updates actor behavior, directional animation, and its attached visual effect. */
 void func_80170E7C(void *actor, EntityRec *position, void *object, EntityRec *actor_data)
 {
-    static void *const case_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 distance;
     s16 effect_offset[3];
     s8 room_id;
@@ -217,57 +211,52 @@ void func_80170E7C(void *actor, EntityRec *position, void *object, EntityRec *ac
         action_state = actor_data->unk_46 & 0x3FFF;
         {
             u32 idx = action_state - 1;
-            if (idx >= 12) {
-                goto generic;
-            }
-            (void)case_labels;
-            goto *D_80170808[idx];
-        }
+            switch (idx) {
 
-jt_c8:
-jt_c9:
-        if ((func_80171FA4(actor, position, object, actor_data) << 16) != 0) {
-            return;
-        }
-        func_80172168(actor, position, object, actor_data);
-        return;
+            case 7:
+            case 8:
+                if ((func_80171FA4(actor, position, object, actor_data) << 16) != 0) {
+                    return;
+                }
+                func_80172168(actor, position, object, actor_data);
+                return;
 
-jt_c5:
-jt_c6:
-jt_c7:
-        {
-            EntityRec *player;
-            s16 facing;
+            case 4:
+            case 5:
+            case 6:
+                {
+                    EntityRec *player;
+                    s16 facing;
 
-            facing = func_800A0818(
-                ((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            actor_data->facing = facing;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
-            }
-        }
+                    facing = func_800A0818(
+                        ((S_80170E7C_2 *)object)->unk_24.at00.v, ((S_80170E7C_2 *)object)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY,
+                        &distance);
+                    player = D_800814A8;
+                    actor_data->facing = facing;
+                    if (player->unk_9A == 0x11) {
+                        goto case_123;
+                    }
+                }
 
-jt_c12:
+            case 11:
 case_12:
-        func_800A9A0C(actor_data);
-        return;
+                func_800A9A0C(actor_data);
+                return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+            case 0:
+            case 1:
+            case 2:
 case_123:
-        func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
-        return;
+                func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
+                return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+            default:
 generic:
-        func_801717F8(actor, position, object, actor_data);
-        return;
+                func_801717F8(actor, position, object, actor_data);
+                return;
+            }
+        }
     }
 
     if (!(((u32)actor_data->flags1C) & 0x2000)) {
