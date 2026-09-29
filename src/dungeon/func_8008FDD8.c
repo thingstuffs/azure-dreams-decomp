@@ -61,14 +61,14 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
             equipment_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
         func_800982A8(actor_base, equipment_item);
-        goto shift_result;
+        break;
     case 17:
         accessory_item = NULL;
         if (((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u != ((S_80095538_0 *)((u8 *)actor_base - 0x18))->unk_68) {
             accessory_item = ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         }
         func_80098614(actor_base, accessory_item);
-        goto shift_result;
+        break;
     case 1:
     case 2:
     case 3:
@@ -84,17 +84,16 @@ s32 func_80095538(Rec_func_8008ACDC_arg0 *actor, s16 item_id, s16 other_item_id)
     case 13:
     case 14:
         result = func_80098920(actor_base, ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u, 3, 0);
-        goto shift_result;
+        break;
     case 18:
         actor->unk_BC = (void *) ((S_80095538_1 *)(&D_80082E80.unk_030))->unk_00.u;
         func_8008D388(actor, saved_x, saved_y, actor_base);
-        goto shift_result;
+        break;
     case 19:
     case 20:
     case 21:
     default:
-        goto shift_result;
+        break;
     }
-shift_result:
     return result;
 }

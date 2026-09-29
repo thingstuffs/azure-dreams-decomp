@@ -42,34 +42,32 @@ s32 open_twin_souko(s32 option) {
 
     task = func_8003FC64(0);
     state = task + 0x20;
-    if (task == NULL) {
-        goto tail;
+    if (task != NULL) {
+        func_800B2B60(state);
+        if (func_800B29D0(state) == 0) {
+            goto fail;
+        }
+        func_800B2394(state, 0);
+        resource_08 = func_800B4588(task);
+        ((S_800B2BA0_0 *)state)->unk_08 = resource_08;
+        if (resource_08 == 0) {
+            goto fail;
+        }
+        resource_00 = func_800B3924(task);
+        ((S_800B2BA0_1 *)task)->unk_20 = resource_00;
+        if (resource_00 == 0) {
+            goto fail;
+        }
+        resource_04 = func_800B4F60(task);
+        ((S_800B2BA0_0 *)state)->unk_04 = resource_04;
+        if (resource_04 == 0) {
+            goto fail;
+        }
+        came_bright_set(5);
+        obj_disp23_cancel_sw_set(1);
+        ((S_800B2BA0_0 *)state)->unk_48 = option;
+        ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &D_800B260C;
     }
-    func_800B2B60(state);
-    if (func_800B29D0(state) == 0) {
-        goto fail;
-    }
-    func_800B2394(state, 0);
-    resource_08 = func_800B4588(task);
-    ((S_800B2BA0_0 *)state)->unk_08 = resource_08;
-    if (resource_08 == 0) {
-        goto fail;
-    }
-    resource_00 = func_800B3924(task);
-    ((S_800B2BA0_1 *)task)->unk_20 = resource_00;
-    if (resource_00 == 0) {
-        goto fail;
-    }
-    resource_04 = func_800B4F60(task);
-    ((S_800B2BA0_0 *)state)->unk_04 = resource_04;
-    if (resource_04 == 0) {
-        goto fail;
-    }
-    came_bright_set(5);
-    obj_disp23_cancel_sw_set(1);
-    ((S_800B2BA0_0 *)state)->unk_48 = option;
-    ((S_800B2BA0_0_pre *)state)[-1].unk_00 = &D_800B260C;
-tail:
     return (s32)task;
 fail:
     func_800B2C6C(state);

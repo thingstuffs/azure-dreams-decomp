@@ -83,134 +83,116 @@ void func_80172620(void *action, void *transform, void *sprite, EntityRec *actor
 
     ((S_80172620_0 *)action)->unk_96--;
     state = ((S_80172620_0 *)action)->unk_9B;
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state < 3) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+            ((S_80172620_0 *)action)->unk_9B = 0xFF;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(actor, sprite, actor->facing, 1);
+            return;
         }
-        if (state == 1) {
-            goto state_one;
-        }
-        return;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    if (state == 0xFF) {
-        goto state_ff;
-    }
-    return;
 
-state_zero:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
-        ((S_80172620_0 *)action)->unk_9B = 0xFF;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, sprite, actor->facing, 1);
-        return;
-    }
-
-    if (rand() & 3) {
-        ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_80173CBC;
-        (*(s32 *)((u8 *)action + 0xA4)) = 0;
-        func_80047784(sprite,
-            ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8
-                [((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_80172620_0 *)action)->unk_9B = 3;
-        return;
-    }
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CA4;
-    func_80047784(sprite,
-        D_80173CA4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    ((S_80172620_0 *)action)->unk_9B++;
-    return;
-
-state_one:
-    if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) {
-        allocated_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-        ((S_80172620_0 *)action)->unk_A4.s = allocated_effect;
-        effect = allocated_effect;
-        if (effect != 0) {
-            s32 sprite_link;
-            s32 sprite_data;
-
-            func_8004491C(effect, func_80045340);
-            ((S_80172620_3 *)effect)->unk_10 = D_800D7960;
-            effect_transform = ((S_80172620_3 *)effect)->unk_08;
-            *(Copy24 *)effect_transform = *(Copy24 *)transform;
-            ((S_80172620_3 *)effect)->unk_BB = 0;
-            ((S_80172620_3 *)effect)->unk_4A = ((u16)actor->facing);
-
-            effect_sprite = ((S_80172620_3 *)effect)->unk_0C;
-            sprite_link = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
-            ((S_80172620_4 *)effect_sprite)->unk_1E = 0x1000;
-            ((S_80172620_4 *)effect_sprite)->unk_1C = 0x1000;
-            ((S_80172620_4 *)effect_sprite)->unk_28 = sprite_link;
-            ((S_80172620_4 *)effect_sprite)->unk_14 = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
-            ((S_80172620_4 *)effect_sprite)->unk_12 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
-            sprite_data = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
-            ((S_80172620_4 *)effect_sprite)->unk_2C = D_80173CB4;
-            ((S_80172620_4 *)effect_sprite)->unk_0C = sprite_data;
-            func_80047784(effect_sprite,
-                D_80173CB4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        if (rand() & 3) {
+            ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 = D_80173CBC;
+            (*(s32 *)((u8 *)action + 0xA4)) = 0;
+            func_80047784(sprite,
+                ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8
+                    [((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
+            ((S_80172620_0 *)action)->unk_9B = 3;
+            return;
         }
-    }
-
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        return;
-    }
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CAC;
-    func_80047784(sprite,
-        D_80173CAC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-        0);
-    ((S_80172620_0 *)action)->unk_9B++;
-    return;
-
-state_two:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        void *active_effect;
-
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CBC;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CA4;
         func_80047784(sprite,
-            D_80173CBC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            D_80173CA4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        active_effect = ((S_80172620_0 *)action)->unk_A4.s;
-        if (active_effect != 0) {
-            ((S_80172620_5 *)active_effect)->unk_BB = 0xFF;
-            ((S_80172620_0 *)action)->unk_A4.u = 0;
-        }
         ((S_80172620_0 *)action)->unk_9B++;
-    }
+        return;
 
-state_three:
-    if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
-         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_800A56E0(0x808);
-        func_8009C12C(actor, sprite, actor->facing, 1);
-        ((S_80172620_0 *)action)->unk_9B = 0xFF;
-    }
-    return;
+    case 1:
+        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) {
+            allocated_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            ((S_80172620_0 *)action)->unk_A4.s = allocated_effect;
+            effect = allocated_effect;
+            if (effect != 0) {
+                s32 sprite_link;
+                s32 sprite_data;
 
-state_ff:
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+                func_8004491C(effect, func_80045340);
+                ((S_80172620_3 *)effect)->unk_10 = D_800D7960;
+                effect_transform = ((S_80172620_3 *)effect)->unk_08;
+                *(Copy24 *)effect_transform = *(Copy24 *)transform;
+                ((S_80172620_3 *)effect)->unk_BB = 0;
+                ((S_80172620_3 *)effect)->unk_4A = ((u16)actor->facing);
+
+                effect_sprite = ((S_80172620_3 *)effect)->unk_0C;
+                sprite_link = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
+                ((S_80172620_4 *)effect_sprite)->unk_1E = 0x1000;
+                ((S_80172620_4 *)effect_sprite)->unk_1C = 0x1000;
+                ((S_80172620_4 *)effect_sprite)->unk_28 = sprite_link;
+                ((S_80172620_4 *)effect_sprite)->unk_14 = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+                ((S_80172620_4 *)effect_sprite)->unk_12 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
+                sprite_data = ((Rec_D_80082E80 *)sprite)->unk_0C.at00_s32.v;
+                ((S_80172620_4 *)effect_sprite)->unk_2C = D_80173CB4;
+                ((S_80172620_4 *)effect_sprite)->unk_0C = sprite_data;
+                func_80047784(effect_sprite,
+                    D_80173CB4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    0);
+            }
+        }
+
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CAC;
+        func_80047784(sprite,
+            D_80173CAC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        ((S_80172620_0 *)action)->unk_9B++;
+        return;
+
+    case 2:
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            void *active_effect;
+
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173CBC;
+            func_80047784(sprite,
+                D_80173CBC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            active_effect = ((S_80172620_0 *)action)->unk_A4.s;
+            if (active_effect != 0) {
+                ((S_80172620_5 *)active_effect)->unk_BB = 0xFF;
+                ((S_80172620_0 *)action)->unk_A4.u = 0;
+            }
+            ((S_80172620_0 *)action)->unk_9B++;
+        }
+
+    case 3:
+        if (((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
+             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            func_800A56E0(0x808);
+            func_8009C12C(actor, sprite, actor->facing, 1);
+            ((S_80172620_0 *)action)->unk_9B = 0xFF;
+        }
+        return;
+
+    case 0xFF:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
+        func_800A2B04(transform, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_800AD594(actor, 0x180);
+        ((S_80172620_0 *)action)->unk_8C = &D_80170E54;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        if (actor->unk_6D == 0) {
+            actor->unk_46 &= 0x7FFF;
+        } else {
+            D_800E3DE8 = (u8 *)actor - 0x20;
+        }
+
         return;
     }
-    func_800A2B04(transform, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_800AD594(actor, 0x180);
-    ((S_80172620_0 *)action)->unk_8C = &D_80170E54;
-    dungeonStatus.unk_0C = 0;
-    func_800A4ACC(actor);
-    if (actor->unk_6D == 0) {
-        actor->unk_46 &= 0x7FFF;
-    } else {
-        D_800E3DE8 = (u8 *)actor - 0x20;
-    }
-
-    return;
 }

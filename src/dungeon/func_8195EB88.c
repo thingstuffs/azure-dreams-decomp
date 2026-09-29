@@ -90,15 +90,12 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
             if (func_8003DE58(source_state->unk_08, source_state,
                               (u8 *)effect + 0x40, 0) != 0) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
-                goto check_done;
-            }
-            if (source_state->unk_14 & 0x8000) {
+            } else if (source_state->unk_14 & 0x8000) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
                 ((S_8195EB88_0 *)effect)->unk_44.s = -0x40;
             }
-        check_done:
             if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
-                goto end;
+                return;
             }
         }
 
@@ -112,15 +109,13 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
         if (func_80027204(position) != 0) {
             func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
-            goto end;
         }
     } else if (phase == 1) {
         if (primitive->unk_0C.u8 < 0xC0) {
             primitive->unk_0C.u32 += 0x202020;
-            goto end;
+        } else {
+            ((S_8195EB88_0 *)effect)->unk_48.u = phase_value + 1;
         }
-        ((S_8195EB88_0 *)effect)->unk_48.u = phase_value + 1;
-        goto end;
     } else if (phase == 2) {
         primitive->unk_0C.u32 += 0xFFEFEFF0;
         if (primitive->unk_0C.u8 == 0) {
@@ -128,6 +123,4 @@ void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
             objectFlagBlock.flags |= 0x8000;
         }
     }
-end:
-    ;
 }

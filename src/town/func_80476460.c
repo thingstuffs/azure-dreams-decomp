@@ -21,26 +21,17 @@ void func_80017460(void **out_data) {
 
     condition_table = (TownValues *)(D_80010000 + 0x7134);
     condition_ids = *condition_table;
-    if (func_800198D0(0x1391) == 0) {
-        goto second_call;
+    if (func_800198D0(0x1391) != 0) {
+        selected_data = &D_80017530;
+    } else if (func_800198D0(0x14) != 0) {
+        state_index = *(s32 *)(*(void **)((s8 *)(&D_80016000)) + 8);
+        if (func_800198D0(condition_ids.values[state_index]) == 0) {
+            selected_data = &D_80017598;
+        } else {
+            selected_data = &D_800175A4;
+        }
+    } else {
+        selected_data = &D_8001753C;
     }
-    selected_data = &D_80017530;
-    goto out;
-second_call:
-    if (func_800198D0(0x14) == 0) {
-        goto set_3c;
-    }
-    state_index = *(s32 *)(*(void **)((s8 *)(&D_80016000)) + 8);
-    if (func_800198D0(condition_ids.values[state_index]) != 0) {
-        goto set_a4;
-    }
-    selected_data = &D_80017598;
-    goto out;
-set_a4:
-    selected_data = &D_800175A4;
-    goto out;
-set_3c:
-    selected_data = &D_8001753C;
-out:
     *out_data = selected_data;
 }

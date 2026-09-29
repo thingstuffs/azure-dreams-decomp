@@ -11,7 +11,6 @@
 
 typedef struct { u8 pad0[2]; u16 field2; s16 field4; u8 pad6[6]; } D_80083460_t;
 extern u8 D_80096384[];
-extern void *D_80088B18[];
 extern void func_80095DD0(void *, void *, void *, void *);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
@@ -24,15 +23,11 @@ void func_800971A8(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_8008
     u8 state;
     s32 vertical_speed;
     void *fallback_data;
-    static void *const state_labels[] = {
-        &&case_a, &&case_b, &&done, &&done, &&done, &&done, &&done,
-        &&done, &&case_a, &&case_b, &&case_a, &&case_b, &&case_c
-    };
-    (void)state_labels;
     state = action->unk_9B.as_u8;
-    if (state >= 13) return;
-    goto *D_80088B18[state];
-case_a:
+    switch (state) {
+    case 0:
+    case 8:
+    case 10:
     delay = action->unk_96.as_u16 - 1;
     action->unk_96.as_u16 = delay;
     if ((s16)delay > 0) return;
@@ -53,7 +48,9 @@ store_selected:
     action->unk_9B.as_u8++;
     func_800A56E0(0x50A);
     return;
-case_b:
+    case 1:
+    case 9:
+    case 11:
     if (dungeonStatus.unk_04 == 0) goto after_div;
     {
         s32 target_x, current_x, current_y;
@@ -81,7 +78,7 @@ after_div:
     }
     fallback_data = D_80096384;
     goto store_tail;
-case_c:
+    case 12:
     if (destination->unk_14.at00_u16.v & 0x6000) {
         dungeonStatus.unk_04 = 0;
         if (action->unk_100 >= 0) {
@@ -91,9 +88,10 @@ case_c:
         fallback_data = D_80096384;
         goto store_tail;
     }
-    goto done;
+    return;
+    default:
+        return;
+    }
 store_tail:
     action->unk_8C.as_pv = fallback_data;
-done:
-    return;
 }

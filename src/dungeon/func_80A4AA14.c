@@ -62,28 +62,25 @@ void func_80174214(
     s16 value_34,
     s32 value_28,
     s16 value_52,
-    s32 x_offset,
-    s32 y_offset,
-    s32 z_offset)
+    s16 x_offset,
+    s16 y_offset,
+    s16 z_offset)
 {
     S_80174214_1 *source_obj = source;
-    register s16 saved_value_34 ASM_REG("$21") = value_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u32 saved_value_28 ASM_REG("$23") = value_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 saved_value_52 ASM_REG("$22") = value_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_y_offset = y_offset;
-    s32 saved_z_offset = z_offset;
+    s16 saved_value_34 = value_34;
+    u32 saved_value_28 = value_28;
+    s16 saved_value_52 = value_52;
     S_80174214_0 *object_fields;
+    S_80174214_0 *fields;
     s32 x_jitter;
     s32 y_jitter;
     s32 z_jitter;
-    s32 x_bias;
-    s32 y_bias;
-    s32 z_bias;
-    s32 x_pos;
-    s32 y_pos;
-    s32 z_pos;
-    u32 descriptor_page;
-    register void *new_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 x_bias;
+    s16 y_bias;
+    s16 z_bias;
+    s16 x_pos;
+    s16 y_pos;
+    s16 z_pos;
     void *init_data;
     S_80174214_2 *x_dest;
     S_80174214_3 *y_dest;
@@ -91,9 +88,7 @@ void func_80174214(
 
     object_fields = func_8003FD64(0x211, source_obj);
     if (object_fields != NULL) {
-        descriptor_page = 0x80170000;
-        ASM_KEEP(descriptor_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        object_fields->unk_10 = descriptor_page + 0x40E4;
+        object_fields->unk_10 = (s32)D_801740E4;
         x_jitter = rand() & 0x1F;
         x_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_02;
         x_dest = object_fields->unk_08.s;
@@ -106,29 +101,26 @@ void func_80174214(
         y_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_06;
         y_dest = object_fields->unk_08.s;
         y_pos += y_jitter;
-        y_bias = saved_y_offset - 0x10;
+        y_bias = y_offset - 0x10;
         y_pos += y_bias;
         y_dest->unk_06 = (s16)y_pos;
 
         z_jitter = rand();
-        new_object = object_fields;
         init_data = &D_80173E94;
         z_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_0A;
         z_jitter &= 0x1F;
-        object_fields = (u8 *)new_object + 0x20;
-        z_dest = ((S_80174214_4 *)new_object)->unk_08;
+        fields = (S_80174214_0 *)((u8 *)object_fields + 0x20);
+        z_dest = ((S_80174214_4 *)object_fields)->unk_08;
         z_pos += z_jitter;
-        z_bias = saved_z_offset - 0x10;
+        z_bias = z_offset - 0x10;
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        object_fields->unk_14 = saved_value_34;
-        object_fields->unk_32 = saved_value_52;
-        func_8004491C(new_object, init_data, z_dest);
-        object_fields->unk_08.u = saved_value_28;
+        fields->unk_14 = saved_value_34;
+        fields->unk_32 = saved_value_52;
+        func_8004491C(object_fields, init_data, z_dest);
+        fields->unk_08.u = saved_value_28;
     }
 }
 
-/* MECHANISM: The true-space definition and guarded s0-s7 role map reproduce the 0x38 frame.
-   Separate random/value/destination/offset lifetimes plus the three-argument callee ABI align the body.
-   A kept 0x80170000 page plus 0x40E4 exposes the branch-delay lui; the tail keep anchors s0 stores. */
+/* MECHANISM: a splitting cell (2.8.0-G0) emits D_801740E4 / D_80173E94 as HIGH/LO pairs itself (the lui in the beqz delay slot).
+   The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */

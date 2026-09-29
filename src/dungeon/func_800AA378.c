@@ -19,50 +19,32 @@ void func_800AFAD8(Obj *obj)
     u16 tick;
 
     state = obj->state;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
-        }
+    switch (state) {
+    case 0:
+        offset = obj->field_6;
+        tick = obj->field_0;
+        offset += 2;
+        tick++;
+        obj->field_6 = offset;
+        obj->field_0 = tick;
+        return;
+    case 1:
+        offset = obj->field_6;
+        tick = obj->field_0;
+        offset += 4;
+        tick++;
+        obj->field_6 = offset;
+        obj->field_0 = tick;
+        return;
+    case 2:
+        phase = obj->field_8 + 0x40;
+        obj->field_8 = phase % 0x1C00;
+        return;
+    case 3:
+        obj->field_6 += 8;
+        phase = (func_800644B8(obj->field_0 << 5) >> 1) + 0xC00;
+        obj->field_0++;
+        obj->field_8 = phase % 0x1C00;
         return;
     }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0:
-    offset = obj->field_6;
-    tick = obj->field_0;
-    offset += 2;
-    goto update_0_1;
-
-state_1:
-    offset = obj->field_6;
-    tick = obj->field_0;
-    offset += 4;
-
-update_0_1:
-    tick++;
-    obj->field_6 = offset;
-    obj->field_0 = tick;
-    return;
-
-state_2:
-    phase = obj->field_8 + 0x40;
-    obj->field_8 = phase % 0x1C00;
-    return;
-
-state_3:
-    obj->field_6 += 8;
-    phase = (func_800644B8(obj->field_0 << 5) >> 1) + 0xC00;
-    obj->field_0++;
-    obj->field_8 = phase % 0x1C00;
-
-    return;
 }

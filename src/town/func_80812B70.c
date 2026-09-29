@@ -50,30 +50,8 @@ void func_80812B70(void *obj, void *motion, void *part) {
     U16_AT(PTR_AT(obj, 0), 0x62) |= 2;
     state = S16_AT(obj, 4);
 
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state < 3) {
-        if (state == 0) {
-            goto state_0;
-        }
-        if (state == 1) {
-            goto state_1;
-        }
-        return;
-    }
-    if (state == 4) {
-        goto state_4;
-    }
-    if (state < 4) {
-        goto state_3;
-    }
-    if (state == 255) {
-        goto state_255;
-    }
-    return;
-
-state_0:
+    switch (state) {
+    case 0:
         func_8003EA54(part);
         S32_AT(motion, 0x14) += 0x40000;
         S8_AT(obj, 0x1D) = 0;
@@ -87,8 +65,7 @@ state_0:
         S32_AT(motion, 0x14) = -0x100000;
         U16_AT(obj, 4)++;
         return;
-
-state_1:
+    case 1:
         func_8003EA54(part);
         S32_AT(motion, 0x14) += 0x40000;
         timer1 = U16_AT(obj, 6) - 1;
@@ -108,8 +85,7 @@ state_1:
         U16_AT(obj, 6) = (func_80071494() & 0xF) + 30;
         U16_AT(obj, 4)++;
         return;
-
-state_2:
+    case 2:
         func_8003EA54(part);
         S32_AT(motion, 0x14) += 0x30000;
         U16_AT(obj, 6)--;
@@ -135,8 +111,7 @@ state_2:
             return;
         }
         return;
-
-state_3:
+    case 3:
         timer3 = U16_AT(obj, 6);
         timer3--;
         U16_AT(obj, 6) = timer3;
@@ -151,8 +126,7 @@ state_3:
             return;
         }
         return;
-
-state_4:
+    case 4:
         if (func_80240810(D_8053016C, motion, D_80290704, D_80132AE8) != 0) {
             D_80012BCC_store3[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load3[0];
             S16_AT(obj, 4) = 255;
@@ -170,11 +144,10 @@ state_4:
         }
         U16_AT(obj, 4) = 255;
         return;
-
-state_255:
+    case 255:
         func_8023FB18((u8 *)obj + 8);
         U16_AT(obj, -2) |= 0x8000;
         D_80084D5C |= 0x8000;
         return;
-
+    }
 }

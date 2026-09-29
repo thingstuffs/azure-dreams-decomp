@@ -98,64 +98,56 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
 
     state = ((S_8008D470_0 *)effect)->unk_A2.s;
     position_updated = 0;
-    if (state != 0) {
-        if (state != 1) {
-            goto update_light;
-        }
-    } else {
+    switch (state) {
+    case 0:
         ((S_8008D470_0 *)effect)->unk_A4.s = 6;
         ((S_8008D470_0 *)effect)->unk_A2.s = ((S_8008D470_0 *)effect)->unk_A2.u + 1;
-    }
+    case 1:
+        target = ((S_8008D470_0 *)effect)->unk_90;
+        if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&
+            ((S_8008D470_2 *)(D_800E3D7C))->unk_124 != 0) {
+            visual->unk_1C = 0x1000;
+            steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
+            ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
+            if ((s16)steps_left > 0) {
+                current_x = position->unk_00.at00.v;
+                position->unk_00.at00.v = current_x +
+                    (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at00.v +
+                     (offsets[0] << 16) - current_x) / (s16)steps_left;
 
-    target = ((S_8008D470_0 *)effect)->unk_90;
-    if (func_8003DE58(target->unk_08, target, offsets, 0) != 0 &&
-        ((S_8008D470_2 *)(D_800E3D7C))->unk_124 != 0) {
-        visual->unk_1C = 0x1000;
-        steps_left = ((S_8008D470_0 *)effect)->unk_A4.s - 1;
-        ((S_8008D470_0 *)effect)->unk_A4.s = steps_left;
-        if ((s16)steps_left > 0) {
-            current_x = position->unk_00.at00.v;
-            position->unk_00.at00.v = current_x +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at00.v +
-                 (offsets[0] << 16) - current_x) / (s16)steps_left;
+                current_y = position->unk_04.at00.v;
+                position->unk_04.at00.v = current_y +
+                    (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
+                     (offsets[1] << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
 
-            current_y = position->unk_04.at00.v;
-            position->unk_04.at00.v = current_y +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at00.v +
-                 (offsets[1] << 16) - current_y) / ((S_8008D470_0 *)effect)->unk_A4.u;
-
-            current_z = position->unk_08.at00.v;
-            position->unk_08.at00.v = current_z +
-                (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
-                 (offsets[2] << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
-                ((S_8008D470_0 *)effect)->unk_A4.u;
+                current_z = position->unk_08.at00.v;
+                position->unk_08.at00.v = current_z +
+                    (((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at00.v +
+                     (offsets[2] << 16) - (((S_8008D470_0 *)effect)->unk_A4.u << 21) - current_z) /
+                    ((S_8008D470_0 *)effect)->unk_A4.u;
+            } else {
+                ((S_8008D470_0 *)effect)->unk_A4.s = 0;
+                position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
+                position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
+                position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
+            }
+            if (((S_8008D470_0 *)effect)->unk_AA == 0) {
+                ((S_8008D470_0 *)effect)->unk_AA = 1;
+            }
+            position_updated = 1;
         } else {
-            ((S_8008D470_0 *)effect)->unk_A4.s = 0;
-            position->unk_00.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_00.at02.v + (u16)offsets[0];
-            position->unk_04.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_04.at02.v + (u16)offsets[1];
-            position->unk_08.at02.v = ((S_8008D470_6 *)(((S_8008D470_0 *)effect)->unk_8C))->unk_08.at02.v + (u16)offsets[2];
-        }
-        if (((S_8008D470_0 *)effect)->unk_AA == 0) {
-            ((S_8008D470_0 *)effect)->unk_AA = 1;
-        }
-        position_updated = 1;
-    } else {
-        state = ((S_8008D470_0 *)effect)->unk_AA;
-        if (state != 0) {
-            goto nonzero_state;
-        }
-        visual->unk_1C = 0;
-        goto update_light;
-nonzero_state:
-        if (state == 1) {
-            if (((S_8008D470_0 *)effect)->unk_AE == 0) {
-                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+            state = ((S_8008D470_0 *)effect)->unk_AA;
+            if (state == 0) {
+                visual->unk_1C = 0;
+            } else if (state == 1) {
+                if (((S_8008D470_0 *)effect)->unk_AE == 0) {
+                    ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
+                }
             }
         }
     }
 
-update_light:
     if (((S_8008D470_0 *)effect)->unk_AE != 0) {
         brightness = (func_800644B8(((S_8008D470_0 *)effect)->unk_B4.s << 8) >> 6) + 0x80;
         intensity = visual->unk_0C;
@@ -180,22 +172,18 @@ update_light:
                 entity->unk_1C |= 0x80000;
                 ((S_8008D470_7 *)(target->unk_124))->unk_60 = target;
                 target->unk_1C |= 0x100000;
-                goto set_flag;
+                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
             }
-        } else {
-            if (expiry_mode == 2) {
-                goto set_flag;
-            }
-            if (expiry_mode != 0) {
-                return;
-            }
-            update_result = position_updated;
-            if (update_result != 0) {
-                return;
-            }
-set_flag:
+        } else if (expiry_mode == 2) {
             ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
+        } else if (expiry_mode == 0) {
+            update_result = position_updated;
+            if (update_result == 0) {
+                ((S_8008D470_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            }
         }
     }
 }

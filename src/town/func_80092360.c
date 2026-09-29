@@ -40,7 +40,7 @@ Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
     a_max_x = a_min_x + a_bounds[3];
     overlap_x_alt = a_max_x - b_min_x;
     x_shallower_z = 0;
-    if (overlap_x_alt < 0) goto no_overlap;
+    if (overlap_x_alt < 0) return 0;
 
     a_min_y = a_coords[1] + a_offset[1];
     b_min_y = b_coords[1] + b_bounds[1];
@@ -48,7 +48,7 @@ Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
     if (overlap_y > 0) return 0;
     overlap_y_alt = (a_min_y + a_bounds[4]) - b_min_y;
     x_shallower_z = 0;
-    if (overlap_y_alt < 0) goto no_overlap;
+    if (overlap_y_alt < 0) return 0;
 
     a_min_z = a_coords[2] + a_offset[2];
     b_min_z = b_coords[2] + b_bounds[2];
@@ -73,33 +73,29 @@ Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
         if (overlap_y == 0) return 0;
         if (overlap_z == 0) return 0;
     }
-    if (overlap_y != 0) goto choose_axis;
-    if (overlap_z != 0) goto choose_axis;
-no_overlap:
-    return 0;
+    if (overlap_y == 0) {
+        if (overlap_z == 0) return 0;
+    }
 
-choose_axis:
     depth_x = __builtin_abs(overlap_x);
     depth_y = __builtin_abs(overlap_y);
     if (depth_x < depth_y) {
         depth_z_for_x = __builtin_abs(overlap_z);
         y_shallower_z = depth_y < depth_z_for_x;
-        if (y_shallower_z) goto use_x;
-        x_shallower_z = depth_x < depth_z_for_x;
-        if (!x_shallower_z) goto use_z;
-use_x:
-        D_800CFE60[0].axis = 0;
-        D_800CFE60[0].amount = overlap_x;
-        return D_800CFE60;
+        if (y_shallower_z || (x_shallower_z = depth_x < depth_z_for_x) != 0) {
+            D_800CFE60[0].axis = 0;
+            D_800CFE60[0].amount = overlap_x;
+            return D_800CFE60;
+        }
+    } else {
+        depth_z_for_y = __builtin_abs(overlap_z);
+        y_shallower_z_alt = depth_y < depth_z_for_y;
+        if (y_shallower_z_alt) {
+            D_800CFE60[0].axis = 1;
+            D_800CFE60[0].amount = overlap_y;
+            return D_800CFE60;
+        }
     }
-    depth_z_for_y = __builtin_abs(overlap_z);
-    y_shallower_z_alt = depth_y < depth_z_for_y;
-    if (y_shallower_z_alt) {
-        D_800CFE60[0].axis = 1;
-        D_800CFE60[0].amount = overlap_y;
-        return D_800CFE60;
-    }
-use_z:
     D_800CFE60[0].axis = 2;
     D_800CFE60[0].amount = overlap_z;
     return D_800CFE60;

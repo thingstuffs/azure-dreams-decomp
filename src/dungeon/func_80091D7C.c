@@ -34,7 +34,6 @@ typedef struct S_800974DC_6 {
 } S_800974DC_6;   /* ((S_800974DC_4_pre *)temp_a2)[-1].unk_00 in func_800974DC */
 
 
-extern void *D_80088B50[];
 void func_8003DB94();
 M2C_UNK func_80099F04();
 s32 func_8009C12C();
@@ -46,7 +45,6 @@ extern M2C_UNK D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
 void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     s32 dir_offset;
     u16 ticks_left;
     s32 dir_y;
@@ -54,11 +52,8 @@ void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *act
     EntityRec *linked_object;
 
     phase = ((S_800974DC_0 *)action)->unk_9B;
-    if (phase >= 5U) {
-        return;
-    }
-    (void)jt_keep; goto *D_80088B50[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     func_800C77D0((u8 *)actor - 0x20, motion, 8, 0x300);
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD294;
     func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD294 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
@@ -71,7 +66,7 @@ jt_c0:
     ((S_800974DC_0 *)action)->unk_98 = (u16) (((S_800974DC_0 *)action)->unk_98 & 0xFFF7);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
     return;
-jt_c1:
+    case 1:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         goto block_5;
     }
@@ -108,7 +103,7 @@ block_12:
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
     func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
-jt_c2:
+    case 2:
 block_15:
     if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
         return;
@@ -123,7 +118,7 @@ block_15:
     func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
     ((S_800974DC_0 *)action)->unk_9B = 3U;
     return;
-jt_c3: {
+    case 3: {
     s32 coord;
     u32 delta;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -141,7 +136,7 @@ jt_c3: {
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
     return;
 }
-jt_c4:
+    case 4:
     ticks_left = ((S_800974DC_0 *)action)->unk_96.s - 1;
     ((S_800974DC_0 *)action)->unk_96.s = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
@@ -161,4 +156,5 @@ block_22:
     dungeonStatus.unk_0C = 0;
     ((S_800974DC_0 *)action)->unk_96.s = 0U;
     return;
+    }
 }

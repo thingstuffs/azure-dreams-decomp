@@ -40,58 +40,35 @@ void func_80024398(void *effect)
     D_8002992E[0] = 1;
 
     {
-        s32 below_31;
         S_80024398_1 *parent;
 
         parent = ((S_80024398_0 *)effect)->unk_20;
-        below_31 = ticks_left < 0x1F;
         node = parent->unk_0C;
-        if (below_31) {
-            goto later_phases;
-        }
     }
 
-    {
+    if (ticks_left >= 0x1F) {
         scale_x = node->unk_1C;
         scale_y = node->unk_1E;
         scale_x += 0x88;
         scale_y += 0x88;
         node->unk_1C = scale_x;
-        goto store_scale_done;
-    }
-
-later_phases:
-    {
-        s32 below_phase;
-
-        below_phase = ticks_left < 0x19;
-        if (!below_phase) {
-            goto shrink;
-        }
-        below_phase = ticks_left < 0x10;
-        if (!below_phase) {
-            scale_x = node->unk_1C + 0x88;
-            scale_y = node->unk_1E + 0x88;
-            node->unk_1C = scale_x;
-            goto store_scale_done;
-        }
-        below_phase = ticks_left < 0xA;
-        if (below_phase) {
-            goto restore_scale;
-        }
-
-shrink:
-        {
-            scale_x = node->unk_1C - 0x88;
-            scale_y = node->unk_1E - 0x88;
-            node->unk_1C = scale_x;
-            store_scale_done:
-            ;
-            node->unk_1E = scale_y;
-            goto update_timer;
-        }
-
-restore_scale:
+        node->unk_1E = scale_y;
+    } else if (ticks_left >= 0x19) {
+        scale_x = node->unk_1C - 0x88;
+        scale_y = node->unk_1E - 0x88;
+        node->unk_1C = scale_x;
+        node->unk_1E = scale_y;
+    } else if (ticks_left >= 0x10) {
+        scale_x = node->unk_1C + 0x88;
+        scale_y = node->unk_1E + 0x88;
+        node->unk_1C = scale_x;
+        node->unk_1E = scale_y;
+    } else if (ticks_left >= 0xA) {
+        scale_x = node->unk_1C - 0x88;
+        scale_y = node->unk_1E - 0x88;
+        node->unk_1C = scale_x;
+        node->unk_1E = scale_y;
+    } else {
         old_scale = node->unk_1C;
         if (old_scale < 0x1000U) {
             new_scale = old_scale + 0x88;
@@ -109,16 +86,14 @@ restore_scale:
                 node->unk_1E = 0x1000U;
             }
         }
+    }
 
-update_timer:
-        next_ticks = ((S_80024398_0 *)effect)->unk_28.u - 1;
-        ((S_80024398_0 *)effect)->unk_28.s = next_ticks;
-        if ((next_ticks << 16) <= 0) {
-            node->unk_1E = 0x1000U;
-            node->unk_1C = 0x1000U;
-            ((S_80024398_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-        }
-        return;
+    next_ticks = ((S_80024398_0 *)effect)->unk_28.u - 1;
+    ((S_80024398_0 *)effect)->unk_28.s = next_ticks;
+    if ((next_ticks << 16) <= 0) {
+        node->unk_1E = 0x1000U;
+        node->unk_1C = 0x1000U;
+        ((S_80024398_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 }

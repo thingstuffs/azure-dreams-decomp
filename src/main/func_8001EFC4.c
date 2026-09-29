@@ -53,45 +53,37 @@ void func_8001EFC4(u8 *root)
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
             func_80405F24(root);
-            goto common;
-        }
-        flags5000 = D_801379A8;
-        if (flags5000 & 0x5000) {
-            side = flags10 & 0x5000;
-            if (side != 0) {
-                (*(s32 *)((u8 *)root + 0x30)) = 0;
-                flags10 = D_801379B0;
-                if (flags10 & 0x1000) {
-                    action = -1;
-                    goto common;
+        } else {
+            flags5000 = D_801379A8;
+            if (flags5000 & 0x5000) {
+                side = flags10 & 0x5000;
+                if (side != 0) {
+                    (*(s32 *)((u8 *)root + 0x30)) = 0;
+                    flags10 = D_801379B0;
+                    if (flags10 & 0x1000) {
+                        action = -1;
+                    } else if (flags10 & 0x4000) {
+                        action = 1;
+                    }
+                } else {
+                    value = ((S_8001EFC4_0 *)root)->unk_30;
+                    if (value >= 13) {
+                        side = value - 2;
+                        (*(s32 *)((u8 *)root + 0x30)) = side;
+                        flags8 = D_801379A8;
+                        if (flags8 & 0x1000) {
+                            action = -1;
+                        } else if (flags8 & 0x4000) {
+                            action = 1;
+                        }
+                    } else {
+                        side = value + 1;
+                        ((S_8001EFC4_0 *)root)->unk_30 = side;
+                    }
                 }
-                if (flags10 & 0x4000) {
-                    action = 1;
-                }
-                goto common;
-            }
-            value = ((S_8001EFC4_0 *)root)->unk_30;
-            if (value < 13) {
-                side = value + 1;
-                goto store_counter;
-            }
-            side = value - 2;
-            (*(s32 *)((u8 *)root + 0x30)) = side;
-            flags8 = D_801379A8;
-            if (flags8 & 0x1000) {
-                action = -1;
-                goto common;
-            }
-            if (flags8 & 0x4000) {
-                action = 1;
             }
         }
-        goto common;
 
-store_counter:
-        ((S_8001EFC4_0 *)root)->unk_30 = side;
-
-common:
         if (action != 0) {
             func_80063FF8(0x502);
             value = func_80058FF0(((S_8001EFC4_0 *)root)->unk_28, action, 5);

@@ -47,32 +47,25 @@ s32 func_80059BC4(void)
                 delay_ticks = entity->f10;
                 entity->f3c = tick_total & 0xFF;
                 if (delay_ticks == 0) {
-
-process_action:
-                    if (D_800737C8[0] != 2) {
-                        func_8005947C(entity);
-                        if (entity->f2c != 0) {
-                            goto update_delay;
+                    do {
+                        if (D_800737C8[0] != 2) {
+                            func_8005947C(entity);
+                            if (entity->f2c != 0) {
+                                break;
+                            }
+                            entity->f10 = func_80058A04(entity);
+                        } else if ((func_800595C0(entity) & 0xFF) == 0) {
+                            if (entity->f2c != 0) {
+                                break;
+                            }
+                            entity->f10 = func_80058A04(entity);
+                        } else if (entity->f2c != 0) {
+                            break;
                         }
-                        entity->f10 = func_80058A04(entity);
-                    } else if ((func_800595C0(entity) & 0xFF) == 0) {
-                        if (entity->f2c != 0) {
-                            goto update_delay;
+                        if (entity->f10 != 0 && D_800737C4[0] != 0) {
+                            func_80059814(entity);
                         }
-                        entity->f10 = func_80058A04(entity);
-                    } else if (entity->f2c != 0) {
-                        goto update_delay;
-                    }
-                    if (entity->f10 == 0) {
-                        goto process_action;
-                    }
-                    if (D_800737C4[0] != 0) {
-                        func_80059814(entity);
-                    }
-                    if (entity->f10 == 0) {
-                        goto process_action;
-                    }
-update_delay:
+                    } while (entity->f10 == 0);
                     if (entity->f10 != 0) {
                         entity->f10 -= 1;
                     }

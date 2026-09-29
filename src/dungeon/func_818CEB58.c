@@ -59,30 +59,27 @@ extern u8 D_8002428C[];
 /* Creates an object at a randomized offset from the source and initializes its fields. */
 void func_818CEB58(
     void *source,
-    s32 field_34,
+    s16 field_34,
     s32 field_28,
     s16 field_52,
-    s32 offset_x,
-    s32 offset_y,
-    s32 offset_z)
+    s16 offset_x,
+    s16 offset_y,
+    s16 offset_z)
 {
     void *source_obj = source;
     u32 saved_field_28 = field_28;
-    register s16 saved_field_52 ASM_REG("$22") = field_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_offset_y = offset_y;
-    s32 saved_offset_z = offset_z;
+    s16 saved_field_52 = field_52;
     void *object_cursor;
+    S_818CEB58_0 *fields;
     s32 jitter_x;
     s32 jitter_y;
     s32 jitter_z;
-    s32 bias_x;
-    s32 bias_y;
-    s32 bias_z;
-    s32 position_x;
-    s32 position_y;
-    s32 position_z;
-    u32 descriptor_page;
-    register void *new_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 bias_x;
+    s16 bias_y;
+    s16 bias_z;
+    s16 position_x;
+    s16 position_y;
+    s16 position_z;
     void *init_data;
     S_818CEB58_2 *dest_x;
     S_818CEB58_3 *dest_y;
@@ -90,9 +87,7 @@ void func_818CEB58(
 
     object_cursor = func_8003FD64(0x211, source_obj);
     if (object_cursor != NULL) {
-        descriptor_page = 0x80020000;
-        ASM_KEEP(descriptor_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_818CEB58_0 *)object_cursor)->unk_10 = descriptor_page + 0x428C;
+        ((S_818CEB58_0 *)object_cursor)->unk_10 = (s32)D_8002428C;
         jitter_x = rand() & 0x1F;
         position_x = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_02;
         dest_x = ((S_818CEB58_0 *)object_cursor)->unk_08.s;
@@ -105,29 +100,26 @@ void func_818CEB58(
         position_y = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_06;
         dest_y = ((S_818CEB58_0 *)object_cursor)->unk_08.s;
         position_y += jitter_y;
-        bias_y = saved_offset_y - 0x10;
+        bias_y = offset_y - 0x10;
         position_y += bias_y;
         dest_y->unk_06 = (s16)position_y;
 
         jitter_z = rand();
-        new_object = object_cursor;
         init_data = &D_8002403C;
         jitter_z &= 0x1F;
         position_z = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
-        object_cursor = (u8 *)new_object + 0x20;
-        dest_z = ((S_818CEB58_4 *)new_object)->unk_08;
+        fields = (S_818CEB58_0 *)((u8 *)object_cursor + 0x20);
+        dest_z = ((S_818CEB58_4 *)object_cursor)->unk_08;
         position_z += jitter_z;
-        bias_z = saved_offset_z - 0x10;
+        bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->unk_0A = (s16)position_z;
-        ASM_KEEP(object_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_818CEB58_0 *)object_cursor)->unk_14 = field_34;
-        ((S_818CEB58_0 *)object_cursor)->unk_32 = saved_field_52;
-        func_8004491C(new_object, init_data, dest_z);
-        ((S_818CEB58_0 *)object_cursor)->unk_08.u = saved_field_28;
+        fields->unk_14 = field_34;
+        fields->unk_32 = saved_field_52;
+        func_8004491C(object_cursor, init_data, dest_z);
+        fields->unk_08.u = saved_field_28;
     }
 }
 
-/* MECHANISM: The true-space definition and guarded s0-s7 role map reproduce the 0x38 frame.
-   Separate random/value/destination/offset lifetimes plus the three-argument callee ABI align the body.
-   A kept 0x80020000 page plus 0x40E4 exposes the branch-delay lui; the tail keep anchors s0 stores. */
+/* MECHANISM: 2.7.2-cdk-G0 splits D_8002428C / D_8002403C itself (the lui in the beqz delay slot).
+   The s16 stack offsets stay in s2-s4 from the prologue, and fields is the 0x20-advanced record. */
