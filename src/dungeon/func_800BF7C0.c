@@ -133,143 +133,150 @@ void func_800C4F20(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) 
     state_or_mode = ((S_800C4F20_0 *)anim)->unk_28.s;
     switch (state_or_mode) {
     case 0:
-    grow_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
-    if (grow_ticks != 0) {
-        grow_scale = transform->unk_1E;
-        grown_scale = grow_scale + ((s32) (0x1000 - grow_scale) / grow_ticks);
-        grow_height = transform->unk_20;
-        transform->unk_1E = grown_scale;
-        transform->unk_1C = grown_scale;
-        transform->unk_20 = (u16) (grow_height + ((s32) (0x1000 - grow_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
-        grow_target = ((S_800C4F20_0 *)anim)->unk_20;
-        start_scale = grow_target->unk_1E;
-        next_scale = start_scale + ((s32) (0x400 - start_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
-        grow_target->unk_1E = next_scale;
-        grow_target->unk_1C = next_scale;
-        ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 - ((s16) ((S_800C4F20_0 *)anim)->unk_32 / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
-    }
-    grow_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
-    ((S_800C4F20_0 *)anim)->unk_2A = grow_left;
-    if ((grow_left << 0x10) > 0) {
+        grow_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+        if (grow_ticks != 0) {
+            grow_scale = transform->unk_1E;
+            grown_scale = grow_scale + ((s32) (0x1000 - grow_scale) / grow_ticks);
+            grow_height = transform->unk_20;
+            transform->unk_1E = grown_scale;
+            transform->unk_1C = grown_scale;
+            transform->unk_20 = (u16) (grow_height + ((s32) (0x1000
+                - grow_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+            grow_target = ((S_800C4F20_0 *)anim)->unk_20;
+            start_scale = grow_target->unk_1E;
+            next_scale = start_scale + ((s32) (0x400 - start_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
+            grow_target->unk_1E = next_scale;
+            grow_target->unk_1C = next_scale;
+            ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32
+                - ((s16) ((S_800C4F20_0 *)anim)->unk_32 / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+        }
+        grow_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+        ((S_800C4F20_0 *)anim)->unk_2A = grow_left;
+        if ((grow_left << 0x10) > 0) {
+            break;
+        }
+        transform->unk_1E = 0x1000U;
+        transform->unk_1C = 0x1000U;
+        transform->unk_20 = 0x1000U;
+        {
+            S_800C4F20_3 *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
+            target_transform->unk_1E = 0x800U;
+            target_transform->unk_1C = 0x800U;
+        }
+        ((S_800C4F20_0 *)anim)->unk_32 = 0;
+        ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
+        ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
         break;
-    }
-    transform->unk_1E = 0x1000U;
-    transform->unk_1C = 0x1000U;
-    transform->unk_20 = 0x1000U;
-    {
-        S_800C4F20_3 *target_transform = ((S_800C4F20_0 *)anim)->unk_20;
-        target_transform->unk_1E = 0x800U;
-        target_transform->unk_1C = 0x800U;
-    }
-    ((S_800C4F20_0 *)anim)->unk_32 = 0;
-    ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
-    ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
-    break;
     case 1:
-    orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
-    orbit_center = &D_80083780;
-    target_x = orbit_center->x.w.i + (orbit_offset >> 6);
-    target_y = orbit_center->y.w.i + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
-    x_delta = target_x - position->unk_02;
-    if (x_delta < 0) {
-        x_delta += 3;
-    }
-    position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
-    position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
-    orbit_offset = (func_800644B8(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
-    height_delta = orbit_center->z.w.i - position->unk_0A;
-    position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
-    ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40 + (func_80069EF8(height_delta) & 0x1F));
-    exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
-    if (exit_mode == 0) {
+        orbit_offset = func_80064584(((S_800C4F20_0 *)anim)->unk_2E);
+        orbit_center = &D_80083780;
+        target_x = orbit_center->x.w.i + (orbit_offset >> 6);
+        target_y = orbit_center->y.w.i + (func_800644B8(((S_800C4F20_0 *)anim)->unk_2E) >> 6);
+        x_delta = target_x - position->unk_02;
+        if (x_delta < 0) {
+            x_delta += 3;
+        }
+        position->unk_02 = (s16) ((u16) position->unk_02 + (x_delta >> 2));
+        position->unk_06 = (s16) ((u16) position->unk_06 + ((s32) (target_y - position->unk_06) / 4));
+        orbit_offset = (func_800644B8(((S_800C4F20_0 *)anim)->unk_2C << 5, target_y) >> 6) + 0x40;
+        height_delta = orbit_center->z.w.i - position->unk_0A;
+        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (height_delta - orbit_offset) / 4));
+        ((S_800C4F20_0 *)anim)->unk_2E = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_2E + 0x40
+            + (func_80069EF8(height_delta) & 0x1F));
+        exit_mode = ((S_800C4F20_0 *)anim)->unk_36;
+        if (exit_mode == 0) {
+            break;
+        }
+        orbit_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+        ((S_800C4F20_0 *)anim)->unk_2A = orbit_left;
+        if ((orbit_left << 0x10) > 0) {
+            break;
+        }
+        state_or_mode = exit_mode;
+        if (state_or_mode == 1 || state_or_mode == 3) {
+            ((S_800C4F20_0 *)anim)->unk_2A = 0x10;
+            ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
+        } else {
+            ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
+            ((S_800C4F20_0 *)anim)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_28.s + 0x10);
+            func_800A56E0(0x518);
+        }
         break;
-    }
-    orbit_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
-    ((S_800C4F20_0 *)anim)->unk_2A = orbit_left;
-    if ((orbit_left << 0x10) > 0) {
-        break;
-    }
-    state_or_mode = exit_mode;
-    if (state_or_mode == 1 || state_or_mode == 3) {
+    case 2:
+        move_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+        if (move_ticks != 0) {
+            s32 x_work;
+            s32 x_step;
+
+            x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
+            x_step = ((S_800C4F20_6 *)((void *) x_work))->unk_24;
+            x_work = position->unk_02;
+            x_step <<= 6;
+            x_work -= 0x20;
+            x_step -= x_work;
+            x_step /= move_ticks;
+            position->unk_02 = (s16) ((u16) position->unk_02 + x_step);
+            {
+                s32 y_work;
+                s32 y_step;
+
+                y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
+                height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
+                y_step = ((S_800C4F20_6 *)((void *) y_work))->unk_25;
+                y_work = position->unk_06;
+                y_step <<= 6;
+                y_work -= 0x20;
+                y_step -= y_work;
+                y_step /= height_delta;
+                position->unk_06 = (s16) ((u16) position->unk_06 + y_step);
+            }
+            position->unk_0A = (s16) ((u16) position->unk_0A
+                + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88
+                - position->unk_0A) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+        }
+        move_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+        ((S_800C4F20_0 *)anim)->unk_2A = move_left;
+        if ((move_left << 0x10) > 0) {
+            break;
+        }
         ((S_800C4F20_0 *)anim)->unk_2A = 0x10;
         ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
-    } else {
-        ((S_800C4F20_0 *)anim)->unk_2A = 0x20;
-        ((S_800C4F20_0 *)anim)->unk_28.s = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_28.s + 0x10);
-        func_800A56E0(0x518);
-    }
-    break;
-    case 2:
-    move_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
-    if (move_ticks != 0) {
-        s32 x_work;
-        s32 x_step;
-
-        x_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
-        x_step = ((S_800C4F20_6 *)((void *) x_work))->unk_24;
-        x_work = position->unk_02;
-        x_step <<= 6;
-        x_work -= 0x20;
-        x_step -= x_work;
-        x_step /= move_ticks;
-        position->unk_02 = (s16) ((u16) position->unk_02 + x_step);
-        {
-            s32 y_work;
-            s32 y_step;
-
-            y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
-            height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
-            y_step = ((S_800C4F20_6 *)((void *) y_work))->unk_25;
-            y_work = position->unk_06;
-            y_step <<= 6;
-            y_work -= 0x20;
-            y_step -= y_work;
-            y_step /= height_delta;
-            position->unk_06 = (s16) ((u16) position->unk_06 + y_step);
-        }
-        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88 - position->unk_0A) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
-        }
-    move_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
-    ((S_800C4F20_0 *)anim)->unk_2A = move_left;
-    if ((move_left << 0x10) > 0) {
         break;
-    }
-    ((S_800C4F20_0 *)anim)->unk_2A = 0x10;
-    ((S_800C4F20_0 *)anim)->unk_28.s = (s16) (((S_800C4F20_0 *)anim)->unk_28.u + 1);
-    break;
     case 3:
-    shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
-    if (shrink_ticks != 0) {
-        shrink_scale = transform->unk_1E;
-        shrunk_scale = shrink_scale - ((s32) shrink_scale / shrink_ticks);
-        transform->unk_1E = shrunk_scale;
-        transform->unk_1C = shrunk_scale;
-        stretch_height = transform->unk_20;
-        transform->unk_20 = (u16) (stretch_height + ((s32) (0x2000 - stretch_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
-        shrink_target = ((S_800C4F20_0 *)anim)->unk_20;
-        end_scale = shrink_target->unk_1E;
-        final_scale = end_scale + ((s32) (0x1000 - end_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
-        shrink_target->unk_1E = final_scale;
-        shrink_target->unk_1C = final_scale;
-        ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400 - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
-    }
-    goto tick_finish;
+        shrink_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+        if (shrink_ticks != 0) {
+            shrink_scale = transform->unk_1E;
+            shrunk_scale = shrink_scale - ((s32) shrink_scale / shrink_ticks);
+            transform->unk_1E = shrunk_scale;
+            transform->unk_1C = shrunk_scale;
+            stretch_height = transform->unk_20;
+            transform->unk_20 = (u16) (stretch_height + ((s32) (0x2000
+                - stretch_height) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+            shrink_target = ((S_800C4F20_0 *)anim)->unk_20;
+            end_scale = shrink_target->unk_1E;
+            final_scale = end_scale + ((s32) (0x1000 - end_scale) / (s16) ((S_800C4F20_0 *)anim)->unk_2A);
+            shrink_target->unk_1E = final_scale;
+            shrink_target->unk_1C = final_scale;
+            ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400
+                - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
+        }
+        goto tick_finish;
     case 17:
-    rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
-    if (rise_ticks != 0) {
-        position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (-0x400 - position->unk_0A) / rise_ticks));
-    }
+        rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
+        if (rise_ticks != 0) {
+            position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (-0x400 - position->unk_0A) / rise_ticks));
+        }
 tick_finish:
-    finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
-    ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
-    if ((finish_left << 0x10) > 0) {
-        break;
-    }
-    owner = ((S_800C4F20_0 *)anim)->unk_24;
-    owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
-    ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
-    (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
-    return;
+        finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+        ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
+        if ((finish_left << 0x10) > 0) {
+            break;
+        }
+        owner = ((S_800C4F20_0 *)anim)->unk_24;
+        owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
+        ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
+        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        return;
     }
     if (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_14 & 0x100000) {
         ((S_800C4F20_12 *)(((S_800C4F20_10 *)anim)->unk_1C))->unk_02 = (u16) position->unk_02;

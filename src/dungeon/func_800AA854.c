@@ -24,10 +24,34 @@ typedef struct S_800AFFB4_1 {
     u8 pad_8E[0x2];
     union { s32 s32; u16 u16; } unk_90;   /* accessed as both */
     u8 pad_94[0x5C];
-    union { struct { u16 v; } at00; struct { s32 v; } at00u; struct { s16 v; } at00p; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_F0;   /* overlapping accesses */
-    union { struct { u16 v; } at00; struct { s32 v; } at00u; struct { s16 v; } at00p; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_F4;   /* overlapping accesses */
-    union { struct { u16 v; } at00; struct { s32 v; } at00u; struct { s16 v; } at00p; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_F8;   /* overlapping accesses */
-    union { struct { u16 v; } at00; struct { s32 v; } at00u; struct { s16 v; } at00p; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_FC;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { s32 v; } at00u;
+        struct { s16 v; } at00p;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_F0;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { s32 v; } at00u;
+        struct { s16 v; } at00p;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_F4;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { s32 v; } at00u;
+        struct { s16 v; } at00p;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_F8;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { s32 v; } at00u;
+        struct { s16 v; } at00p;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_FC;   /* overlapping accesses */
     u8 pad_100[0x18];
     s32 unk_118;
 } S_800AFFB4_1;   /* arg2 in func_800AFFB4 */
@@ -107,7 +131,6 @@ typedef struct S_800AFFB4_4_pre {
 typedef struct S_800AFFB4_4 {
     volatile u8 unk_00;
 } S_800AFFB4_4;   /* var_s0 in func_800AFFB4 */
-
 
 
 typedef struct TwelveByteEntry {
@@ -212,16 +235,20 @@ next_strip:
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_1C = ((S_800AFFB4_1 *)render_data_in)->unk_F8.at00u.v;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_44 = ((S_800AFFB4_1 *)render_data_in)->unk_F4.at00u.v;
             ((S_800AFFB4_2 *)far_vertex)->unk_10 = ((S_800AFFB4_1 *)render_data_in)->unk_FC.at00u.v;
-            near_mid_x = (((S_800AFFB4_1 *)render_data_in)->unk_F0.at00p.v + ((S_800AFFB4_1 *)render_data_in)->unk_F4.at00p.v) >> 1;
+            near_mid_x = (((S_800AFFB4_1 *)render_data_in)->unk_F0.at00p.v
+                + ((S_800AFFB4_1 *)render_data_in)->unk_F4.at00p.v) >> 1;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_38 = near_mid_x;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_10 = near_mid_x;
-            far_mid_x = (((S_800AFFB4_1 *)render_data_in)->unk_F8.at00p.v + ((S_800AFFB4_1 *)render_data_in)->unk_FC.at00p.v) >> 1;
+            far_mid_x = (((S_800AFFB4_1 *)render_data_in)->unk_F8.at00p.v
+                + ((S_800AFFB4_1 *)render_data_in)->unk_FC.at00p.v) >> 1;
             ((S_800AFFB4_2 *)far_vertex)->unk_04 = far_mid_x;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_28 = far_mid_x;
-            near_mid_y = (((S_800AFFB4_1 *)render_data_in)->unk_F0.at02u.v + ((S_800AFFB4_1 *)render_data_in)->unk_F4.at02u.v) >> 1;
+            near_mid_y = (((S_800AFFB4_1 *)render_data_in)->unk_F0.at02u.v
+                + ((S_800AFFB4_1 *)render_data_in)->unk_F4.at02u.v) >> 1;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_3A = near_mid_y;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_12 = near_mid_y;
-            far_mid_y = (((S_800AFFB4_1 *)render_data_in)->unk_F8.at02u.v + ((S_800AFFB4_1 *)render_data_in)->unk_FC.at02u.v) >> 1;
+            far_mid_y = (((S_800AFFB4_1 *)render_data_in)->unk_F8.at02u.v
+                + ((S_800AFFB4_1 *)render_data_in)->unk_FC.at02u.v) >> 1;
             ((S_800AFFB4_2 *)far_vertex)->unk_06 = far_mid_y;
             ((S_800AFFB4_2_pre *)far_vertex)[-1].unk_2A = far_mid_y;
             depth_step = (s16)((S_800AFFB4_1 *)render_data_in)->unk_74 % 3584;
@@ -299,7 +326,8 @@ next_strip:
             coord_bits <<= 2;
             texture_entry = (TwelveByteEntry *)((u8 *)vertex_value + coord_bits);
             texture_info = (u8 *)texture_entry + 4;
-            loop_0: {
+loop_0:
+            {
                 func_8006671C(packet);
                 ((S_800AFFB4_1 *)render_data_in)->unk_08.s32 = ((S_800AFFB4_3 *)texture_info)->unk_04;
                 shade_u = ((S_800AFFB4_1 *)render_data_in)->unk_08.s32;
@@ -364,7 +392,9 @@ next_strip:
                 func_8006658C(((S_800AFFB4_1 *)render_data_in)->unk_20 + (bucket_index * 4),
                     (void *)shade_u, texture_height);
                 packet += 0x34;
-            } if (quad_index < 2) goto loop_0;
+            }
+            if (quad_index < 2)
+                goto loop_0;
             visible_strips += 1;
         }
     }

@@ -122,7 +122,6 @@ typedef struct S_800C9088_13 {
 } S_800C9088_13;   /* table + (*(u16 *)((u8 *)ptr_s1 + -0x1D)) * 8 in func_800C9088 */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -275,10 +274,10 @@ next_record:
     ((S_800C9088_1 *)scratch)->unk_8C = vertex3_z;
     ASM_JALDELAY_PIN(vertex3_z);
     depth = func_80065590(vertex0, vertex1,
-                              vertex2, vertex3,
-                              screen_pos, packet + 0x14,
-                              packet + 0x20, packet + 0x2C,
-                              scratch + 0x90, scratch + 0x94);
+                          vertex2, vertex3,
+                          screen_pos, packet + 0x14,
+                          packet + 0x20, packet + 0x2C,
+                          scratch + 0x90, scratch + 0x94);
     ((S_800C9088_1 *)scratch)->unk_C0 = depth;
 
     flags = ((S_800C9088_0 *)model)->unk_14 & 3;
@@ -341,7 +340,7 @@ next_record:
             }
             packet_code += 0x34;
             func_8006658C((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
-                              ((S_800C9088_1 *)scratch)->unk_C0 * 4,
+                          ((S_800C9088_1 *)scratch)->unk_C0 * 4,
                           queued_packet);
             packet += 0x34;
             ((S_800C9088_0 *)model)->unk_14 &= 0x7FFF;

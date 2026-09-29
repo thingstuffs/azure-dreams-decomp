@@ -9,8 +9,6 @@ typedef struct S_800C838C_1 {
 } S_800C838C_1;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800C838C */
 
 
-
-
 M2C_UNK func_800C3050(); /* extern */
 extern M2C_UNK D_800D6244;
 extern M2C_UNK D_800D62D8;

@@ -264,7 +264,7 @@ void func_8052C854(void *machine, void *position)
         }
         self->unk_58 = 0;
         {
-                        /* Padding preserves the retail stack frame, including a dead spill slot. */
+                                    /* Padding preserves the retail stack frame, including a dead spill slot. */
             struct MatrixFrame {
                 s32 pad[22];
                 s32 values[9];
@@ -296,7 +296,7 @@ matrix_outer:
                     {
                         reel = reel_slot->unk_4C;
                         symbol_index = reel->unk_2A;
-                                                /* These no-ops preserve loop placement and register allocation. */
+                                                                        /* These no-ops preserve loop placement and register allocation. */
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
@@ -306,7 +306,7 @@ matrix_outer:
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
                         symbol_index = symbol_index * 3 - symbol_index - symbol_index;
-                                                /* Keep this expression together to preserve temporary register allocation. */
+                                                                        /* Keep this expression together to preserve temporary register allocation. */
                         *symbol_dst = reel_strip[(row_or_digit_sum + symbol_index) % 12];
                         symbol_dst--;
                         row_or_digit_sum--;
@@ -324,7 +324,7 @@ matrix_outer:
 
             bet_count = self->unk_64;
             {
-                                /* This zero seed preserves reel_slot's reference count and a dead spill slot. */
+                                                /* This zero seed preserves reel_slot's reference count and a dead spill slot. */
                 s32 slot_offset = (u8 *)reel_slot - (u8 *)self;
                 scan_index = slot_offset * 3 - slot_offset - slot_offset - slot_offset;
                 if (bet_count > 0) {

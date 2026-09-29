@@ -272,6 +272,6 @@ jt_default:
     func_80047784(
         map_object,
         *(u8 *)((((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7)
-            + (u32)animation_table),
+                + (u32)animation_table),
         0);
 }

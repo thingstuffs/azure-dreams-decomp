@@ -64,7 +64,7 @@ void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((S_801722BC_0 *)action)->unk_9E.s = 5;
         ((S_801722BC_0 *)action)->unk_A0 = 0;
         ((S_801722BC_0 *)action)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
 
     case 1:
         ((S_801722BC_0 *)action)->unk_90 -= ((S_801722BC_0 *)action)->unk_A0;
@@ -95,7 +95,7 @@ void func_801722BC(void *action, EntityRec *motion, void *sprite, EntityRec *act
             actor->flags1C |= 0x08000000;
             ((S_801722BC_0 *)action)->unk_9B++;
         }
-                /* fallthrough */
+                        /* fallthrough */
 
     case 2:
         if (actor->flags1C & 0x08000000) {

@@ -11,8 +11,6 @@ extern void func_800ACD74(void *arg0, s32 arg1, s32 arg2, void *arg3);
 extern s16 D_800DCE68;
 
 
-
-
 typedef struct S_800B253C_2 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -40,9 +38,9 @@ void func_800B253C(Rec_func_800A9E70_arg0 *actor, s32 update_arg1, s32 update_ar
                     active_entity = dungeonStatus.unk_0C;
                     if (active_entity != entity) {
                         if (!((((s32)dungeonStatus.unk_10) == 0) && (active_entity == 0) &&
-                            (dungeonStatus.unk_08 == 0) &&
-                            !(dungeonStatus.flags & 0x2008) &&
-                            (entity->unk_43 == 0xFD))) {
+                              (dungeonStatus.unk_08 == 0) &&
+                              !(dungeonStatus.flags & 0x2008) &&
+                              (entity->unk_43 == 0xFD))) {
                             return;
                         }
                         dungeonStatus.unk_0C = entity;

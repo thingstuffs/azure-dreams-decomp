@@ -13,10 +13,6 @@ typedef struct S_80094548_1 {
 } S_80094548_1;   /* ((S_80094548_0 *)(temp_a0 + temp_v0))->unk_AC in func_80094548 */
 
 
-
-
-
-
 /* Store the value scaled by 512 in the indexed object's field. */
 void func_80094548(s32 index, s32 value) {
     s32 entry_offset;

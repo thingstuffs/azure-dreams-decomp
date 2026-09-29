@@ -13,7 +13,10 @@ extern s32 func_800A0134(void *, void *);
 extern s32 func_800A0548(s32, s32);
 extern s32 func_800BCB04(s32, s32, s32);
 
-static __inline__ s16 offset_tile(u16 center, u16 offset) { return center + offset; }
+static __inline__ s16 offset_tile(u16 center, u16 offset)
+{
+    return center + offset;
+}
 
 /* Find an unoccupied valid position at the target or within two tiles. */
 s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
@@ -95,7 +98,7 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
             }
         }
 
-    next_entry:
+next_entry:
         entry = *(u8 **)(entry + 92) + 32;
     } while (entry != actor || (wrap_check = wrap_pending) != 0);
 
@@ -126,12 +129,12 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
 
 found_near:
     {
-    s16 near_result_x, near_result_y;
-    near_result_x = near_dx[0];
-    *out_x = target_x + near_result_x;
-    near_result_y = near_dy[0];
-    *out_y = target_y + near_result_y;
-    return 1;
+        s16 near_result_x, near_result_y;
+        near_result_x = near_dx[0];
+        *out_x = target_x + near_result_x;
+        near_result_y = near_dy[0];
+        *out_y = target_y + near_result_y;
+        return 1;
 
     }
 
@@ -186,7 +189,8 @@ search_nearby:
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
                  func_800A0548(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&
                 ((tile_offset_x = far_dx[0], tile_offset_y = far_dy[0],
-                  func_8009A350((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags)) << 16) != 0 &&
+                  func_8009A350((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags))
+                      << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
                 (s16)func_800BCB04((((far_x + (s16)far_dx[0]) << 6) + 32) & 0xffe0,

@@ -63,7 +63,8 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
         base = (u8 *)(((S_800A6E8C_0 *)entry_filter)->unk_01);
         filter_or_addr = match_id;
         ASM_KEEP(filter_or_addr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if ((((s32)base) == filter_or_addr) && ((match_type == 0) || (((S_800A6E8C_0 *)entry_filter)->unk_00 == match_type))) {
+        if ((((s32)base) == filter_or_addr) && ((match_type == 0) || (((S_800A6E8C_0 *)entry_filter)->unk_00
+            == match_type))) {
             entry_x = ((S_800A6E8C_1 *)entry_position)->unk_00;
             entry_y = ((S_800A6E8C_1 *)entry_position)->unk_01;
             if ((s16)func_8009FB34(entry_x, entry_y) == entity->kind) {

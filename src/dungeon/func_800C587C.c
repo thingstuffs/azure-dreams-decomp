@@ -14,8 +14,6 @@ typedef struct S_800CAFDC_5 {
 } S_800CAFDC_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_800CAFDC */
 
 
-
-
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */

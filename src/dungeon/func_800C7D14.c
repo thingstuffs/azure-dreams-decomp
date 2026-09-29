@@ -24,14 +24,18 @@ typedef struct S_800CD474_1 {
 
 typedef struct S_800CD474_2 {
     u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
 } S_800CD474_2;   /* arg2 in func_800CD474 */
 
 typedef struct S_800CD474_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_800CD474_3;   /* global_base in func_800CD474 */
-
 
 
 extern s32 func_800419EC();

@@ -189,7 +189,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         sprite->color0c = 0xa0a0a0;
         sprite->flags14 |= 0xc;
         state->mode04++;
-                /* fallthrough */
+                        /* fallthrough */
     case 0x101:
         sprite->color0c += (s32)0xffdfdfe0;
         if ((u8)sprite->color0c < 0x20) {

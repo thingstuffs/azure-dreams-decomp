@@ -23,9 +23,9 @@ typedef struct S_80097898_1 {
 } S_80097898_1;   /* saved in func_80097898 */
 
 void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
-    /* MATCH: retain retail's a0 table base after the explicit argument call. */
+        /* MATCH: retain retail's a0 table base after the explicit argument call. */
     u8 *temp;
-    /* MATCH: save a2 then a3 before loading the state-byte constant. */
+        /* MATCH: save a2 then a3 before loading the state-byte constant. */
     void *saved2 = arg2;
     void *saved = arg3;
     ((S_80097898_0 *)arg0)->unk_9A = 0x39;
@@ -36,5 +36,6 @@ void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     }
     temp = D_800DD294;
     (*(u8 **)((u8 *)saved2 + (0x2C))) = temp;
-    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A + 0x100) >> 7) & 0x1C))), 0);
+    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A
+        + 0x100) >> 7) & 0x1C))), 0);
 }

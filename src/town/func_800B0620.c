@@ -22,7 +22,8 @@ void func_800ADD80(s32 *menu) {
     pad_state = &gameWork;
     held_buttons = pad_state->buttons;
     selection_step = 0;
-    if (held_buttons == 0) return;
+    if (held_buttons == 0)
+        return;
     if (menu[2] == 0) {
         if (((s32)pad_state->unk_010) & 0x20) {
             SD_Call(0x515);
@@ -46,20 +47,29 @@ void func_800ADD80(s32 *menu) {
         selected_entry[3] |= 0x20;
         return;
     }
-    if (!(held_buttons & 0xF000)) return;
+    if (!(held_buttons & 0xF000))
+        return;
     if (((s32)pad_state->unk_010) & 0xF000) {
         *(volatile s32 *)&menu[5] = 0;
         pressed_buttons = *(s32 *)((s32 *)&pad_state->unk_010);
-        if (pressed_buttons & 0x8000) selection_step = -5;
-        else if (pressed_buttons & 0x2000) selection_step = 5;
-        else if (pressed_buttons & 0x1000) selection_step = -1;
-        else if (pressed_buttons & 0x4000) selection_step = 1;
+        if (pressed_buttons & 0x8000)
+            selection_step = -5;
+        else if (pressed_buttons & 0x2000)
+            selection_step = 5;
+        else if (pressed_buttons & 0x1000)
+            selection_step = -1;
+        else if (pressed_buttons & 0x4000)
+            selection_step = 1;
     } else {
         if (menu[5] >= 9) {
-            if (held_buttons & 0x8000) selection_step = -5;
-            else if (held_buttons & 0x2000) selection_step = 5;
-            else if (held_buttons & 0x1000) selection_step = -1;
-            else if (held_buttons & 0x4000) selection_step = 1;
+            if (held_buttons & 0x8000)
+                selection_step = -5;
+            else if (held_buttons & 0x2000)
+                selection_step = 5;
+            else if (held_buttons & 0x1000)
+                selection_step = -1;
+            else if (held_buttons & 0x4000)
+                selection_step = 1;
             repeat_ticks = *(s32 *)&menu[5];
             menu[5] = repeat_ticks - 1;
         } else {
@@ -69,7 +79,8 @@ void func_800ADD80(s32 *menu) {
     }
     selection = func_80049E1C(menu[1], selection_step, menu[2]);
     row = selection / 5;
-    if (selection == menu[1]) return;
+    if (selection == menu[1])
+        return;
     SD_Call(0x502);
     menu[1] = selection;
     if (row != menu[3]) {

@@ -71,7 +71,7 @@ set_control:
 
         dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
     }
-     /* MATCH: keep the control arm's a0 reload after its store. */
+         /* MATCH: keep the control arm's a0 reload after its store. */
     do {
         entity_arg = entity;
     } while (0);
@@ -105,7 +105,8 @@ after_control:
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else
-        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0, 1);
+        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0,
+            1);
 #endif
     }
 }

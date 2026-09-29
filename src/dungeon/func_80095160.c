@@ -91,7 +91,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     offset_work += 0x20;
                     center_y = offset_work;
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
-                                          (s16)(height - height_offset)) << 0x10;
+                                           (s16)(height - height_offset)) << 0x10;
                     if (result != 0) {
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
@@ -129,7 +129,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                                     sample_x = target_x;
                                     target_y_u16 = coord_work & 0xFFFF;
                                     floor_height = func_800BCB04(sample_x, target_y_u16,
-                                                                (s16)(height - height_offset));
+                                                                 (s16)(height - height_offset));
                                 }
                                 tile_coord = target_x >> 6;
                                 y_or_direction = target_y_u16 >> 6;
@@ -152,7 +152,7 @@ move_failed:
                         }
                         {
                             floor_height = func_800BCB04(target_x & 0xFFFF, coord_work & 0xFFFF,
-                                                        (s16)(height - height_offset));
+                                                         (s16)(height - height_offset));
                         }
                         coord_or_height = floor_height << 0x10;
 check_height:

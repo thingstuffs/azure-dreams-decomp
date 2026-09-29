@@ -67,7 +67,6 @@ typedef struct S_800CD004_6 {
 } S_800CD004_6;   /* counter in func_800CD004 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);

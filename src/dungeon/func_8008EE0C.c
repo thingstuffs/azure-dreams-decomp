@@ -13,10 +13,6 @@ typedef struct S_8009456C_1 {
 } S_8009456C_1;   /* ((S_8009456C_0 *)(temp_a0 + temp_v0))->unk_AC in func_8009456C */
 
 
-
-
-
-
 /* Set the byte at offset 0x45 in the object referenced by the selected entry. */
 void func_8009456C(s32 entry_index, s8 value) {
     s32 entry_offset;

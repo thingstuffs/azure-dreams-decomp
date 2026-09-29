@@ -5,7 +5,7 @@
 #define ASM_KEEP4(p, x, y, z) ((void)0)
 #else
 #define ASM_KEEP4(p, x, y, z) \
-    __asm__ __volatile__("" : "+r"(p), "+r"(x), "+r"(y), "+r"(z))
+__asm__ __volatile__("" : "+r"(p), "+r"(x), "+r"(y), "+r"(z))
 #endif
 
 extern u8 D_80162004[];

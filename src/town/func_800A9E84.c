@@ -40,7 +40,6 @@ typedef struct S_800A75E4_4 {
 } S_800A75E4_4;   /* body in fukidasi_set */
 
 
-
 typedef struct {
     s32 unk0;
     void *value;

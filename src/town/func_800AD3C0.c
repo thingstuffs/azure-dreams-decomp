@@ -20,7 +20,6 @@ typedef struct S_800AAB20_0_pre {
 } S_800AAB20_0_pre;   /* the 0x2 bytes before arg0 in func_800AAB20, addressed as arg0[-1] */
 
 
-
 /* Updates an object and its display state, or removes it when requested. */
 void func_800AAB20(void *object, M2C_UNK update_ctx, Rec_D_80082E80 *display) {
     s32 frame_index;

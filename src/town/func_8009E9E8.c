@@ -10,8 +10,6 @@ extern M2C_UNK D_8009B8E8;
 extern s32 D_800D0428[];
 
 
-
-
 /* Initializes the target parameters and updates the owner's state. */
 void func_8009C148(Rec_func_8009B828_arg0 *owner, Rec_D_800CFCB4 *target, EntityRec *parameters) {
     s32 combinedValue;

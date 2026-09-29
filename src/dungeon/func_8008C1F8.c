@@ -23,7 +23,6 @@ typedef struct S_80091958_3 {
 } S_80091958_3;   /* ((S_80091958_0 *)arg0)->unk_C8 in func_80091958 */
 
 
-
 extern s32 D_8008ACDC;
 extern u8 D_8008EAC8[];
 

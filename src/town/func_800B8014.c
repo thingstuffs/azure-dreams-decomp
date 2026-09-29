@@ -4,7 +4,7 @@ extern void func_8004E5A0(u32 value, s32 width, u8 *dst);
 extern u8 *func_8004E69C(u8 *text);
 extern u8 *strcat(u8 *dst, const u8 *src);
 extern void func_800B53BC(s32 arg0, const u8 *arg1, s32 arg2, s32 arg3,
-                         s32 arg4);
+                          s32 arg4);
 extern u8 *func_800B544C(u8 *text, void *arg1);
 
 extern s32 D_80089308[2];
@@ -35,7 +35,7 @@ void func_800B5774(void *stats, void *panels) {
 
     func_800B53BC(*(s32 *)((u8 *)panels + 0x10), text, 0, 0x6C, 0x98);
     func_800B53BC(*(s32 *)((u8 *)panels + 0x4C), D_80089324, 0, 0x48,
-                    0xB8);
+                  0xB8);
     func_800B53BC(*(s32 *)((u8 *)panels + 0x14),
-                    func_800B544C(text, stats), 0, 0x48, 0xC0);
+                  func_800B544C(text, stats), 0, 0x48, 0xC0);
 }

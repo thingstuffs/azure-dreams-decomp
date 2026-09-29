@@ -19,8 +19,6 @@ typedef struct S_80094270_5 {
 } S_80094270_5;   /* ((S_80094270_4 *)entry)->unk_AC in func_80094270 */
 
 
-
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800E3DF0[];
 s16 func_8009402C(); /* extern */
@@ -80,7 +78,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         if (entry->unk_D0 == item) {
             hdr3 = (M2C_UNK *)((s32) actor);
             if (!(((S_80094270_5 *)(((S_80094270_4 *)entry)->unk_AC))->unk_1C & 0x20000)) {
-                /* retail: a single shared "jal func_80099194(hdr,.)" call is
+                                /* retail: a single shared "jal func_80099194(hdr,.)" call is
                  * reached from BOTH arms of the (s16)slot check below (hdr
                  * chosen per arm, computed BEFORE the call, not two separate
                  * calls); the "-3" applies UNIFORMLY to the result regardless
@@ -149,18 +147,18 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
                 hdr3 = &D_800E078A;
             }
             text = call_result;
-        call3:
-            /* one physical "jal func_80099194(hdr3,.)" call shared by all
+call3:
+                        /* one physical "jal func_80099194(hdr3,.)" call shared by all
              * three arms above (each pre-selects hdr3 and text, then
              * merges here). */
             text = func_80099194(hdr3, text);
             hdr3 = (M2C_UNK *)(text);
-        call_290:
-            /* one physical "jal func_80099290(text,text)" call shared
+call_290:
+                        /* one physical "jal func_80099290(text,text)" call shared
              * by ALL FOUR endings (the single-arg I-block ending above jumps
              * straight here too), followed by the shared finish tail. */
             func_80099290((s32)hdr3, text);
-        finish:
+finish:
             func_800A5720(msg);
             func_800A56E0(0x506);
             return 1;
@@ -169,7 +167,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         D_80082E80.unk_030 = (s32) item;
         func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
         func_80094E34();
-    return_zero:
+return_zero:
         return 0;
     }
     return 1;

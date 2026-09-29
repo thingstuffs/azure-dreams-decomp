@@ -16,7 +16,6 @@ typedef struct S_800BA930_1 {
 } S_800BA930_1;   /* particlePrim in func_800BA930 */
 
 
-
 typedef struct Position {
     s32 x;
     s32 y;

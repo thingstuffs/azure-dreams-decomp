@@ -33,7 +33,7 @@ void func_8002663C(void *effect, void *control)
         S16_AT(control, 0xA) = 0x40;
         S16_AT(effect, 0xC) = 8;
         S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-                /* fall through */
+                        /* fall through */
     case 1:
         light_frames = S16_AT(effect, 0xC);
         if (light_frames != 0) {
@@ -57,7 +57,7 @@ void func_8002663C(void *effect, void *control)
     case 3:
         S16_AT(effect, 0xC) = 8;
         S16_AT(effect, 0xE) = (s16)(U16_AT(effect, 0xE) + 1);
-                /* fall through */
+                        /* fall through */
     case 4:
         dark_frames = S16_AT(effect, 0xC);
         if (dark_frames != 0) {

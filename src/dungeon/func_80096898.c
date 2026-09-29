@@ -42,7 +42,7 @@ void func_8009BFF8(void *source, void *target, s32 passthru_2, s32 passthru_3) {
                 *(u8 *)((s8 *)target_entity + 0x24),
                 *(u8 *)((s8 *)target_entity + 0x25),
                 &direction_aux
-            );
+                );
             func_800B4C7C(3, target, -amount, 0);
             message_end = func_800990FC();
             message_start = message_end;

@@ -7,8 +7,6 @@ typedef struct S_800B260C_1 {
 } S_800B260C_1;   /* arg0 in func_800B260C */
 
 
-
-
 extern void SD_Call(s32);
 extern void func_800B1DCC(void *);
 extern void func_800B1F80(void *, s32);

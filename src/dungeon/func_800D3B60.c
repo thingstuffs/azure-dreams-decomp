@@ -34,7 +34,11 @@ typedef struct S_800D92C0_1 {
 
 typedef struct S_800D92C0_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
 } S_800D92C0_2;   /* arg2 in func_800D92C0 */
 
@@ -120,21 +124,26 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                 if (actor_flags & 0x20000) {
                     {
                         u8 *coord_base = D_80082E80_initial;
-                        target_direction = (((S_800D92C0_0 *)actor)->unk_45 + ((s32) (((S_800D92C0_1 *)(((int)D_800814A8)))->unk_2A << 0x10) >> 0x19)) & 7;
+                        target_direction = (((S_800D92C0_0 *)actor)->unk_45
+                            + ((s32) (((S_800D92C0_1 *)(((int)D_800814A8)))->unk_2A << 0x10) >> 0x19)) & 7;
                         target_x = coord_base[0x24] + ((u16 *)dirStepX)[target_direction];
                         target_y = coord_base[0x25] + ((u16 *)dirStepY)[target_direction];
                     }
-                    if ((position->unk_24.at00.v != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
+                    if ((position->unk_24.at00.v != (target_x & 0xFFFF))
+                        || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
                         turn_flags = move_state + 0x98;
-                        target_heading = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16)target_x, (s16)target_y, turn_flags);
+                        target_heading = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16)target_x,
+                            (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
                         if ((func_8009A66C(target_heading, position, actor, 0x20) << 0x10) <= 0) {
                             u8 *coord_later = D_80082E80_later;
-                            ((S_800D92C0_0 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, coord_later[0x24], coord_later[0x25], turn_flags);
+                            ((S_800D92C0_0 *)actor)->unk_2A.u = func_800A0818(position->unk_24.at00.v,
+                                position->unk_24.at01.v, coord_later[0x24], coord_later[0x25], turn_flags);
                         }
                         {
                             u8 *coord_later = D_80082E80_later;
-                            move_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, coord_later[0x24], coord_later[0x25]);
+                            move_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
+                                coord_later[0x24], coord_later[0x25]);
                             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                             turn_index = 0;
                             if ((move_result << 0x10) != 0) {
@@ -183,8 +192,10 @@ try_heading:
                 }
                 {
                     ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) candidate_heading;
-                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
-                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
+                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_74 =
+                        (u8) position->unk_24.at00.v;
+                    ((S_800D92C0_4 *)((actor + ((u8) ((S_800D92C0_0 *)actor)->unk_71 & 0x7F))))->unk_7C =
+                        (u8) position->unk_24.at01.v;
                     ((S_800D92C0_0 *)actor)->unk_71 = (s8) ((u8) ((S_800D92C0_0 *)actor)->unk_71 + 1);
                     func_8009A3D0(position->unk_24.at00.v, position->unk_24.at01.v,
                                   (((S_800D92C0_0 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
@@ -247,7 +258,8 @@ mask_and_return:
             return;
 
 final_update:
-            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20, (s16) (((S_800D92C0_0 *)actor)->unk_88 - 0x20));
+            turn_index = func_800BCB04((position->unk_24.at00.v << 6) | 0x20, (position->unk_24.at01.v << 6) | 0x20,
+                (s16) (((S_800D92C0_0 *)actor)->unk_88 - 0x20));
             if (turn_index < 0x200) {
                 ((S_800D92C0_0 *)actor)->unk_88 = (u16) turn_index;
             }

@@ -13,8 +13,16 @@ extern s32 D_800D5018[4];
 
 
 typedef struct S_800C355C_0 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
     u8 pad_08[0x2];
     s16 unk_0A;
     s32 unk_0C;
@@ -65,15 +73,15 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
     case 0:
         if (entity->unk_84.s + entity->unk_8C.s < ((S_800C355C_0 *)motion)->unk_00.at02.v) {
             ((S_800C355C_0 *)motion)->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
-        func_800C37C4(entity, motion, context);
-        return;
+            func_800C37C4(entity, motion, context);
+            return;
         }
         break;
     case 1:
         if (entity->unk_86.s + entity->unk_8E.s < ((S_800C355C_0 *)motion)->unk_04.at02.v) {
             ((S_800C355C_0 *)motion)->unk_04.at02u.v = entity->unk_86.u + entity->unk_8E.u;
-        func_800C37C4(entity, motion, context);
-        return;
+            func_800C37C4(entity, motion, context);
+            return;
         }
         break;
     case 2:
@@ -83,8 +91,8 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
             center = entity->unk_84.u;
             extent = entity->unk_8C.u;
             ((S_800C355C_0 *)motion)->unk_00.at02u.v = center - extent;
-        func_800C37C4(entity, motion, context);
-        return;
+            func_800C37C4(entity, motion, context);
+            return;
         }
         break;
     default:
@@ -94,8 +102,8 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
             center = entity->unk_86.u;
             extent = entity->unk_8E.u;
             ((S_800C355C_0 *)motion)->unk_04.at02u.v = center - extent;
-        func_800C37C4(entity, motion, context);
-        return;
+            func_800C37C4(entity, motion, context);
+            return;
         }
         break;
     }

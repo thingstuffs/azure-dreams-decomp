@@ -15,7 +15,6 @@ extern s32 func_800C0C88();
 extern s32 D_800D09C8[];
 
 
-
 /* Updates motion toward the target and resolves the entity when its countdown expires. */
 void func_8009EF88(void *entity, s32 context, EntityRec *motion, s32 mode) {
     s32 result[5];

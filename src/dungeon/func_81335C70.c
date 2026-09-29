@@ -146,7 +146,7 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
                 room_base = &D_80082E80;
                 target_room = ((S_8016CC70_1 *)target)->unk_26;
                 if (!(((target_room != room_base->unk_026) || (target_room < 0))
-                    && func_8009FD40(room_base, target) >= 2)) {
+                      && func_8009FD40(room_base, target) >= 2)) {
                     if ((func_800A6D30() & 7) == 0) {
                         func_80042B68(actor, 1);
                     }

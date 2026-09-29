@@ -217,7 +217,8 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         (*(void **)((u8 *)object + 0x10)) = callback;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         text_position = state + 0x20;
-        func_800B1320(text_position, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(text)))->unk_02 + 0x88) / 2), (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
+        func_800B1320(text_position, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(text)))->unk_02 + 0x88) / 2),
+            (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
         func_800B13CC(text_position, 0x20);
     }
     return object;

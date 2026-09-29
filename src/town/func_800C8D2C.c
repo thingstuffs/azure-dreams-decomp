@@ -14,7 +14,6 @@ typedef struct S_800C648C_1 {
 } S_800C648C_1;   /* ((S_800C648C_0 *)arg0)->unk_80 in func_800C648C */
 
 
-
 extern unk32 D_800D58B8;
 
 /* Check whether both actor data references match D_800D58B8. */

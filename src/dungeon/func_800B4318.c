@@ -114,7 +114,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 entity = ((Node *)height_base)->entity;
                 entity = (Entity *)(u32)entity->kind;
                 entity = (Entity *)((u8 *)entity + (u32)D_800DDC40);
-                height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (*(s16 *)((u8 *)work + 0xE));
+                height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (*(s16 *)((u8 *)work
+                    + 0xE));
                 height_step -= (trig_value * work->timer) << 6;
                 work->y.whole += height_step;
                 if (work->node->entity->flags & 0x80000) {
@@ -221,7 +222,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                     amount = (s16)result;
                     object = *(GlobalObj **)((GlobalObj * *)(&D_800E3D7C));
                     func_8009F644(object, 0x50,
-                                   work->node->entity == object->right, amount);
+                                  work->node->entity == object->right, amount);
                 }
             }
         }
@@ -237,7 +238,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)entity - 0x18);
             func_800C77D0((u8 *)entity - 0x20, target_pos, count,
-                           *(s16 *)(counter_base_2 - 0x319A));
+                          *(s16 *)(counter_base_2 - 0x319A));
             result = func_80098920(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
                 return;

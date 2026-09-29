@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 
-
 extern s8 D_800DD878;
 
 /* Save and clear bit 4 of the current record flags. */

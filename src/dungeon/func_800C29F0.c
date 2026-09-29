@@ -14,7 +14,6 @@ typedef struct S_800C8150_2 {
 } S_800C8150_2;   /* object in func_800C8150 */
 
 
-
 typedef struct TablePage {
     u8 pad[0x2098];
     s16 entries[1];

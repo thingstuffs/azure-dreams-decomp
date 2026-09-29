@@ -10,7 +10,6 @@ typedef struct S_8008DB0C_1 {
 } S_8008DB0C_1;   /* call_obj in func_8008DB0C */
 
 
-
 extern void func_80048A44(void *, u8, s32, s32);
 extern s32 func_80098C80(s32);
 extern void func_8009F644(void *, s32, s16, s32);

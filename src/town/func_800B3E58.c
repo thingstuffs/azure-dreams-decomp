@@ -2,13 +2,10 @@
 #include "records/Rec_func_800B15B8_arg0.h"
 
 
-
-
-
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8004E99C();
 
@@ -31,7 +28,8 @@ void func_800B15B8(Rec_func_800B15B8_arg0 *owner) {
 
     slot_index = 0;
     slot_cursor = owner->unk_CC;
-    loop_0: {
+loop_0:
+    {
         *((S_800B15B8_1 *)slot_cursor)->unk_10 = 0;
         slot_index += 1;
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_38);
@@ -41,5 +39,7 @@ void func_800B15B8(Rec_func_800B15B8_arg0 *owner) {
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_60);
         *((S_800B15B8_1 *)slot_cursor)->unk_60 = 0;
         slot_cursor += 4;
-    } if (slot_index < 5) goto loop_0;
+    }
+    if (slot_index < 5)
+        goto loop_0;
 }

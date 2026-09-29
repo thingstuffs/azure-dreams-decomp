@@ -60,7 +60,7 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
 
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         motion->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;

@@ -77,7 +77,6 @@ typedef struct S_800D5DCC_10 {
 } S_800D5DCC_10;   /* ((S_800D5DCC_0 *)temp_v0)->unk_0C in func_800D5DCC */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 rand();

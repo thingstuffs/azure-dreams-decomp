@@ -216,7 +216,7 @@ selected:
         }
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
         ((S_80172A40_0 *)owner_input)->unk_9B++;
-                /* fall through */
+                        /* fall through */
 
     case 2:
         ((S_80172A40_0 *)owner_input)->unk_92 +=

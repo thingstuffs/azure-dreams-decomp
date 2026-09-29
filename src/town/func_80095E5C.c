@@ -14,7 +14,6 @@ typedef struct S_800935BC_1 {
 } S_800935BC_1;   /* arg0 in func_800935BC */
 
 
-
 extern void func_80093D48(S_800935BC_1 *, S_800935BC_0 *, s32);
 
 /* Move the fixed-point position halfway toward the target and advance when the countdown expires. */

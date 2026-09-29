@@ -29,7 +29,6 @@ typedef struct S_8009DA50_2 {
 } S_8009DA50_2;   /* var_s0 in func_8009DA50 */
 
 
-
 extern s32 func_80033B2C();
 extern s32 func_8008CC90();
 extern s32 func_8009D424();
@@ -101,10 +100,13 @@ process_entry:
                         *entry = 1;
                     }
                     if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) {
-                        loop_0: {
+loop_0:
+                        {
                             entry_data += 0x14;
                             entry += 0x14;
-                        } if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) goto loop_0;
+                        }
+                        if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0))
+                            goto loop_0;
                     }
                 }
             }

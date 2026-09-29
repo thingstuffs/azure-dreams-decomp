@@ -63,7 +63,7 @@ void func_80161234(void *action, EntityRec *motion, void *sprite, EntityRec *ent
 
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         motion->unk_0C +=

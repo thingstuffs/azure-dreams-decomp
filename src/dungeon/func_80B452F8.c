@@ -174,7 +174,7 @@ step_motion:
         }
         ((S_80172AF8_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AF8_0 *)action)->unk_9B = ((S_80172AF8_0 *)action)->unk_9B + 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if ((((S_80172AF8_4 *)sprite)->unk_04 == 4 && (((S_80172AF8_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172AF8_4 *)sprite)->unk_14 & 0xE000)) {

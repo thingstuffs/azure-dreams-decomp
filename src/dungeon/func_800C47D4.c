@@ -17,8 +17,6 @@ extern M2C_UNK func_800CA93C();
 extern M2C_UNK func_800CAA94();
 
 
-
-
 typedef struct S_800C9F34_3 {
     u8 pad_00[0x24];
     u8 unk_24;

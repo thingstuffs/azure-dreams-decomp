@@ -54,7 +54,6 @@ extern M2C_UNK D_800E3544;
 extern s32 D_800E4940;
 
 
-
 typedef struct S_8008EAC8_1 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -67,7 +66,6 @@ typedef struct S_8008EAC8_1 {
     u8 pad_66[0x24];
     s16 unk_8A;
 } S_8008EAC8_1;   /* arg3 in func_8008EAC8 */
-
 
 
 typedef struct S_8008EAC8_4 {
@@ -178,11 +176,13 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
             u8 *table = (u8 *) &D_800DCFB0;
             ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8C.as_pv = callback;
             (*(u8 **)((u8 *)call_arg + (0x2C))) = table;
-            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) table), 0, 1);
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u
+                + 0x100) >> 9) & 7) + (u32) table), 0, 1);
         }
         return;
     }
-    if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
+    if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0)
+        || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
         if (!(dungeonStatus.flags & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
                 if (!((*(u16 *)0x80013714) & 1) && (((u32)held_D_80083160->buttons) & 0x80)) {
@@ -261,7 +261,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                         func_8009F988(temp_a0);
                         call_arg = arg2;
                         (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
-                        func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+                        func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle
+                            + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                         return;
                     }
                     ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = (s8) (((S_8008EAC8_6 *)temp_v0)->unk_01 & 0xF8);
@@ -271,7 +272,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                         func_8008C7B4(arg0, arg1, arg2, arg3);
                         return;
                     case 0x48:
-                        if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F, ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
+                        if (func_80095538(arg0, ((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x1F,
+                            ((S_8008EAC8_6 *)temp_v0)->unk_02 & 0x1F) >= 0) {
                             func_8009FAAC();
                             return;
                         }
@@ -281,7 +283,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                         temp_a0_2 = ((S_8008EAC8_6 *)temp_v0)->unk_00;
                         temp_v0 = (void *) ((u32) (temp_a0_2 & 0x60) >> 5);
                         temp_v0_2 = func_8009FADC(temp_a0_2 & 0x1F, temp_a1);
-                        if (func_80098920(((S_8008EAC8_7 *)(((((u32) temp_v0) * 4) + arg0)))->unk_AC, temp_v0_2, 0x15, 0) < 0) {
+                        if (func_80098920(((S_8008EAC8_7 *)(((((u32) temp_v0) * 4) + arg0)))->unk_AC, temp_v0_2, 0x15,
+                            0) < 0) {
                             func_8009F988();
                             return;
                         }
@@ -334,16 +337,16 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                         D_800DD830[((S_8008EAC8_6 *)temp_v0)->unk_00 & 0x7F](temp_a0, temp_a1);
                         return;
                     case 8:
-                            code8_a0 = arg0;
-                            func_8008C13C(code8_a0, arg1, arg2, arg3);
-                            return;
+                        code8_a0 = arg0;
+                        func_8008C13C(code8_a0, arg1, arg2, arg3);
+                        return;
                     case 0x28:
-                            func_8008F6EC(arg0, arg1, arg2, arg3);
-                            return;
+                        func_8008F6EC(arg0, arg1, arg2, arg3);
+                        return;
                     case 0x30:
-                            ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
-                            func_8008FA14(arg0, arg1, arg2, arg3);
-                            return;
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_96.as_s16 = 6;
+                        func_8008FA14(arg0, arg1, arg2, arg3);
+                        return;
                     default:
                         return;
                     }
@@ -354,8 +357,10 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                 flag_200 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0x200;
                 ((S_8008EAC8_10 *)(&D_800E3544))->unk_00 = 0;
                 if (flag_200 && ((func_800A2C34(arg3) << 0x10) == 0) && !(dungeonStatus.flags & 4)) {
-                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
-                    if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10) != 0) {
+                    ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 =
+                        (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFDFF);
+                    if ((func_800A4474(((Rec_D_80082E80 *)arg2)->unk_24, ((Rec_D_80082E80 *)arg2)->unk_25) << 0x10)
+                        != 0) {
                         func_8008CF6C(arg0, arg1, arg2, &D_800245A8);
                         return;
                         return;
@@ -365,7 +370,9 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                     func_8008CF6C(arg0, arg1, arg2, &D_80050CAC);
                     return;
                 }
-                if ((((u32)held_D_80083160->buttons) & 0x10) || !(((u32)held_D_80083160->buttons) & 3) || (func_8008D024(arg0, arg1, arg2, (((u32) ((u32)held_D_80083160->buttons) >> 1) ^ 1) & 1, 0) == 0)) {
+                if ((((u32)held_D_80083160->buttons) & 0x10) || !(((u32)held_D_80083160->buttons) & 3)
+                    || (func_8008D024(arg0, arg1, arg2, (((u32) ((u32)held_D_80083160->buttons) >> 1) ^ 1) & 1, 0)
+                    == 0)) {
                     temp_v0_3 = func_8009074C(((Rec_func_8008ACDC_arg0 *)arg0)->unk_9E, arg0 + 0xA2, arg3 + 0x2A);
                     if (temp_v0_3 != 0xFFF) {
                         ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) temp_v0_3;
@@ -375,7 +382,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_6 & 0xFFFE);
                                 code8_a0 = arg0;
                                 if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x400) {
-                                    ((S_8008EAC8_1 *)arg3)->unk_2A.u = (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
+                                    ((S_8008EAC8_1 *)arg3)->unk_2A.u =
+                                        (u16) (((S_8008EAC8_1 *)arg3)->unk_2A.u + (func_800A6D30(code8_a0) & 0xE00));
                                     do {
                                         code8_a0 = arg0;
                                     } while (0);
@@ -387,7 +395,8 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                     }
                     tail_data_flags = ((u32)held_D_80083160->buttons);
                     if ((tail_data_flags & 0x30) == 0x30) {
-                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
+                        ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 =
+                            (u16) (((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 & 0xFFFE);
                         func_8008C7B4(arg0, arg1, arg2, arg3);
                         return;
                     }
@@ -413,13 +422,15 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                     }
                     call_arg = arg2;
                     (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
-                    func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+                    func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle
+                        + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
                 }
             }
         } else {
             call_arg = arg2;
             (*(u8 **)((u8 *)call_arg + (0x2C))) = D_800DD0B8;
-            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
+            func_80048A44(call_arg, *((u8 *) (((s32) (gameWork.view.viewAngle + (s16) ((S_8008EAC8_1 *)arg3)->unk_2A.u
+                + 0x100) >> 9) & 7) + (u32) D_800DD0B8), 0, 1);
         }
     }
 }

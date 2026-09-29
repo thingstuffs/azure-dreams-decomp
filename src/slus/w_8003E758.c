@@ -77,7 +77,7 @@ process_queue:
     if (state == 0xFF) {
         queue = D_80083968;
         head_index = D_800814D0;
-                /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
+                        /* head_index*24 SPLIT into two carriers (head_index*3, then <<3): one 4-ref temp for
          * the whole chain outranks the address %hi in local-alloc
          * (floor_log2(4)*4/5 vs floor_log2(2)*2/4) and steals $v0; two 2-ref
          * carriers do not, so the %hi keeps retail's $v0.  Same 3 insns. */
@@ -344,7 +344,7 @@ mark_pending:
             goto finish;
         }
     } else if (state == 1) {
-                /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
+                        /* `dispatch_labels` exists only to stop gcc deleting the case labels; it lands
          * in .rodata but is unreferenced from .text, so the linker discards it.
          * Idiom from src/w_800595C0.c / w_8004CECC.c / w_80042BDC.c. */
         static void *const dispatch_labels[] = {
@@ -355,7 +355,7 @@ mark_pending:
         (void)dispatch_labels;
         active_queue = D_80083968;
         head_index = D_800814D0;
-                /* Keep one byte-offset accumulator for this completion lookup. */
+                        /* Keep one byte-offset accumulator for this completion lookup. */
         completion_offset = head_index << 1;
         completion_offset += head_index;
         completion_offset <<= 3;

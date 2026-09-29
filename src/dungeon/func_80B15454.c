@@ -67,7 +67,7 @@ void func_8014EC54(void *action, void *motion, void *sprite, void *entity)
         ((S_8014EC54_0 *)action)->unk_9E.s = 5;
         ((S_8014EC54_0 *)action)->unk_A4 = 0;
         ((S_8014EC54_0 *)action)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         hop_frames = ((S_8014EC54_0 *)action)->unk_9E.s;
         ((S_8014EC54_0 *)action)->unk_90 -= ((S_8014EC54_0 *)action)->unk_A4;
@@ -102,7 +102,7 @@ void func_8014EC54(void *action, void *motion, void *sprite, void *entity)
             ((EntityRec *)entity)->flags1C |= 0x08000000;
             ((S_8014EC54_0 *)action)->unk_9B++;
         }
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if (((EntityRec *)entity)->flags1C & 0x08000000) {
             ((S_8014EC54_0 *)action)->unk_98 &= 0xFFF7;

@@ -23,7 +23,13 @@ typedef struct S_800C6B40_1 {
     u8 pad_01[0x3];
     u16 unk_04;
     u16 unk_06;
-    union { struct { u8 v; } at00; struct { void * v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_08;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { void * v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_08;   /* overlapping accesses */
 } S_800C6B40_1;   /* var_s3 in func_800C6B40 */
 
 typedef struct S_800C6B40_2_pre {
@@ -161,7 +167,8 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
         *(u32 *)(scratch + 0x038) = render_globals->view.viewAngle;
         *(u16 *)(scratch + 0x100) = (u16)(*(u16 *)((u8 *)sprite + 0x16));
         *(u16 *)(scratch + 0x104) = (s16)(((S_800C6B40_0 *)sprite)->unk_1A - (u16)*(u32 *)(scratch + 0x034));
-        *(u16 *)(scratch + 0x102) = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF) + (angle_offset = (s32)((S_800C6B40_0 *)sprite)->unk_18 - 0x100));
+        *(u16 *)(scratch + 0x102) = (s16)((((u16)*(u32 *)(scratch + 0x038) + 0x100) & 0x1FF)
+            + (angle_offset = (s32)((S_800C6B40_0 *)sprite)->unk_18 - 0x100));
         rotation = scratch + 0x100;
         ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         origin_x = ((S_800C6B40_0 *)sprite)->unk_20;
@@ -218,7 +225,8 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                 *(u16 *)(scratch + 0x08A) = local_y;
                 do {
                     *(u16 *)(scratch + 0x082) = local_y;
-                    func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
+                    func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
+                        scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
                 } while (0);
                 width = *(u32 *)(scratch + 0x010);
                 if (width < 0) {
@@ -352,7 +360,8 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                             packet = packet_next;
                             packet_next = packet + 0x28;
                             quad += 0x28;
-                            func_8006658C((u8 *)*(u32 *)(scratch + 0x020) + ((u32)*(u32 *)(scratch + 0x0C0) * 4), packet);
+                            func_8006658C((u8 *)*(u32 *)(scratch + 0x020) + ((u32)*(u32 *)(scratch + 0x0C0) * 4),
+                                packet);
                         }
                         column += 1;
                         matrix_or_u += u_step;

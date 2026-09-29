@@ -32,16 +32,21 @@ M2C_UNK func_800CC5F0(); /* extern */
 void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {
     u16 ticks_left;
 
-    position->unk_0E = (u16) (position->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06) >> 6));
-    position->unk_12 = (u16) (position->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06) >> 6));
+    position->unk_0E = (u16) (position->unk_0E + (func_80064584(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
+        >> 6));
+    position->unk_12 = (u16) (position->unk_12 + (func_800644B8(((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06)
+        >> 6));
     if (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_08 == 0) {
-        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 0, 1);
-        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A, ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 1, 1);
+        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+            ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 0, 1);
+        func_800CC5F0((u16) position->unk_02 >> 6, (u16) position->unk_06 >> 6, position->unk_0A,
+            ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_06, 1, 1);
     }
     ticks_left = ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_04 - 1;
     ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_04 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
+        ((S_800CC4F0_1 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800CC4F0_1 *)((u8 *)effect_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

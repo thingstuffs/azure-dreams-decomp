@@ -301,13 +301,15 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                         func_8008C514(actor, motion, sprite, stats);
                         return;
                     case 0x48:
-                        if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F, ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
+                        if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
+                            ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
                             func_8009F988();
                             return;
                         }
                         func_8009FAAC();
                         return;
-                    case 0x50: {
+                    case 0x50:
+                    {
                         u8 target_cmd;
                         s32 target_slot_addr;
                         s32 action_kind;
@@ -316,17 +318,19 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                         target_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         target_slot_addr = target_cmd & 0x60;
                         command = (void *) ((u32) target_slot_addr >> 5);
-                        
+
                         action_kind = 0x15;
-                        
-                        if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC, func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
+
+                        if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC,
+                            func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
                             return;
                         }
                     }
                         func_8009F988();
                         return;
                     case 0x58:
-                        func_80098CF8(actor, motion, sprite, func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle));
+                        func_80098CF8(actor, motion, sprite, func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F,
+                            old_angle));
                         return;
                     case 0x68:
                         selected_target = func_8009FADC(((S_8008ACDC_6 *)command)->unk_00 & 0x1F, old_angle);
@@ -379,7 +383,8 @@ apply_target_action:
                         func_8002534C(actor, motion, sprite, stats);
                         return;
                     case 0xC8:
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
+                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 =
+                            (s16) (((S_8008ACDC_6 *)command)->unk_00 & 0x7F);
                         func_8008D368(actor, motion, sprite, &D_800DD148, 2);
                         return;
                     case 0xD8:
@@ -399,9 +404,12 @@ apply_target_action:
                     if ((func_80094EA4(input_flags) << 0x10) != 0) {
                         ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                     }
-                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0) && !(dungeonStatus.flags & 4)) {
-                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
-                        if ((func_800A4474(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10) != 0) {
+                    if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x200) && ((func_800A2C34(stats) << 0x10) == 0)
+                        && !(dungeonStatus.flags & 4)) {
+                        ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 =
+                            (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFDFF);
+                        if ((func_800A4474(((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25) << 0x10)
+                            != 0) {
                             func_8008CF6C(actor, motion, sprite, &D_800245A8);
                             return;
                         }
@@ -410,8 +418,11 @@ apply_target_action:
                         func_8008CF6C(actor, motion, sprite, &D_80050CAC);
                         return;
                     }
-                    if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3) || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0) == 0)) {
-                        input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats + 0x2A);
+                    if ((((u32)input->buttons) & 0x10) || !(((u32)input->buttons) & 3)
+                        || (func_8008D024(actor, motion, sprite, (((u32) ((u32)input->buttons) >> 1) ^ 1) & 1, 0)
+                        == 0)) {
+                        input_angle = func_8009074C(((Rec_func_8008ACDC_arg0 *)actor)->unk_9E, actor + 0xA2, stats
+                            + 0x2A);
                         if (input_angle != 0xFFF) {
                             ((S_8008ACDC_4 *)stats)->unk_2A.s = (u16) input_angle;
                             if (!(((u32)input->buttons) & 0x10)) {
@@ -419,7 +430,8 @@ apply_target_action:
                                 if (!(move_flags & 0x400)) {
                                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (move_flags & 0xFFFE);
                                     if (((S_8008ACDC_4 *)stats)->unk_1C & 0x400) {
-                                        ((S_8008ACDC_4 *)stats)->unk_2A.s = (u16) (((S_8008ACDC_4 *)stats)->unk_2A.s + (func_800A6D30() & 0xE00));
+                                        ((S_8008ACDC_4 *)stats)->unk_2A.s =
+                                            (u16) (((S_8008ACDC_4 *)stats)->unk_2A.s + (func_800A6D30() & 0xE00));
                                     }
                                     func_8008B9FC(actor, motion, sprite, stats);
                                     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
@@ -434,7 +446,8 @@ apply_target_action:
                         }
                         button_bits = ((u32)input->buttons);
                         if ((button_bits & 0x30) == 0x30) {
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
+                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 =
+                                (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);
                             func_8008C7B4(actor, motion, sprite, stats);
                             return;
                         }
@@ -459,7 +472,7 @@ apply_target_action:
                             }
                         } else {
 update_idle:
-                                                    if ((*(u16 *)0x80013714) & 9) {
+                            if ((*(u16 *)0x80013714) & 9) {
                                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                             }
                             if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 == 0xE) {
@@ -482,12 +495,14 @@ update_facing:
             if (turn_flags & 1) {
                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (turn_flags & 0xFFFE);
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD058;
-                func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DD058[((s32) (gameWork.view.viewAngle
+                    + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
 update_animation:
             if (((S_8008ACDC_1 *)sprite)->unk_14 & 0xE000) {
                 (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DCFB0;
-                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.view.viewAngle + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
+                func_80048A44(sprite, D_800DCFB0[((s32) (gameWork.view.viewAngle
+                    + (s16) ((S_8008ACDC_4 *)stats)->unk_2A.s + 0x100) >> 9) & 7], 0, 1);
             }
         }
     }

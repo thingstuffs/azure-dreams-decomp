@@ -22,7 +22,7 @@ typedef struct S_800BFB00_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64(s32, void *);
 extern void func_800BFB8C(void);

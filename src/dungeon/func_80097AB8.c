@@ -5,7 +5,7 @@
 
 s32 func_80042900();                 /* extern */
 s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
-M2C_UNK func_800CB82C();         
+M2C_UNK func_800CB82C();
 
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
@@ -24,11 +24,13 @@ s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
                 return 1;
             }
         } else if (arg1 & 2) {
-            if ((((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x17) << 0x10) != 0)) && (arg2->unk_13 >= 0)) {
+            if ((((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x17) << 0x10) != 0))
+                && (arg2->unk_13 >= 0)) {
                 func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
                 return 1;
             }
-        } else if ((arg1 & 4) && (((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x15) << 0x10) != 0)) && (arg2->unk_13 >= 0)) {
+        } else if ((arg1 & 4) && (((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x15) << 0x10)
+            != 0)) && (arg2->unk_13 >= 0)) {
             func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
             return 1;
         }
@@ -37,16 +39,16 @@ s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
                 temp_v0 = (*(u8 * *)&arg0->unk_50);
                 if (temp_v0 != NULL) {
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
-                        /* Duplicate return node #22. Try simplifying control flow for better match */
+                                                /* Duplicate return node #22. Try simplifying control flow for better match */
                         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
                         return 1;
                     }
-                    /* Duplicate return node #25. Try simplifying control flow for better match */
+                                        /* Duplicate return node #25. Try simplifying control flow for better match */
                     return 0;
                 }
                 return 0;
             }
-            /* Duplicate return node #25. Try simplifying control flow for better match */
+                        /* Duplicate return node #25. Try simplifying control flow for better match */
             return 0;
         }
     }

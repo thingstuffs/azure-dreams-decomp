@@ -13,7 +13,6 @@ typedef struct S_800D4DE8_0_pre {
 } S_800D4DE8_0_pre;   /* the 0x2 bytes before arg0 in func_800D4DE8, addressed as arg0[-1] */
 
 
-
 typedef struct S_800D4DE8_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -58,7 +57,6 @@ typedef struct S_800D4DE8_8 {
     u8 pad_00[0x13];
     u8 unk_13;
 } S_800D4DE8_8;   /* ((Rec_func_800D4BD4_arg1 *)arg0)->unk_00 in func_800D4DE8 */
-
 
 
 extern void *func_8003FC64(s32);

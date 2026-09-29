@@ -19,7 +19,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E1350[];
 
 
-
 /* Handles an entity action, advancing capped counters and updating dungeon state. */
 s32 func_800BFC00(void *entity, s32 action_id, s16 action_param)
 {

@@ -8,7 +8,6 @@ void func_800B1F10(s32 arg0, s32 arg1);
 void func_800B1F48(s32 arg0, s32 arg1, s32 arg2);
 
 
-
 typedef struct S_800B1F80_1 {
     s32 unk_00;
     u8 pad_04[0x4];

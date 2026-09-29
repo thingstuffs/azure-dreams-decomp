@@ -64,7 +64,8 @@ s32 func_80095854(void *arg0, s32 arg1, void *arg2_in, s32 arg3_in) {
     }
     func_80094E34();
     (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = &D_800DD130;
-    func_80048A44(arg2, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)arg0)->unk_2A + 0x100) >> 9) & 7) + &D_800DD130), 0, 1);
+    func_80048A44(arg2, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)arg0)->unk_2A + 0x100) >> 9) & 7)
+        + &D_800DD130), 0, 1);
     D_80082E80.unk_030 = arg3;
     temp_a2 = ((u16) (*(s16 *)((u8 *)arg0 + 0x2A)) >> 8) & 0xE;
     ((S_80095854_0 *)arg0)->unk_72 = (s8) (((S_80095854_2 *)arg2)->unk_24 + *(temp_a2 + ((s8 *)dirStepX)));

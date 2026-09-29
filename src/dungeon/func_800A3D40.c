@@ -168,7 +168,8 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             if (!((u16) *((s16 *)&D_80013714) & 1)) {
                 linked_object = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_78;
                 if (linked_object != NULL) {
-                    func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04, ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
+                    func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
+                        ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
                 }
             }
             func_800C77D0(effect, effect_position, 8, 0x300);
@@ -177,12 +178,15 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             map_state = &D_80082E80;
             if (!(actor_state->unk_14 & 0x8000)) {
                 if (!(map_state->unk_014 & 0x8000)) {
-                    func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
+                    func_800C7A3C(map_state, actor_state, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88,
+                        ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_A0, 8, 0x300);
                     goto set_effect_scale;
                 }
             }
             direction_offset = ((u16) ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_2A >> 8) & 0xE;
-            func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
+            func_800C78A0(actor - 0x20, (map_state->tileX << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset)
+                << 0x10) >> 0x11) + 0x20, (map_state->tileY << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC
+                + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(((u8 *)D_800E3D7C)))->unk_88, 8, 0x300);
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {

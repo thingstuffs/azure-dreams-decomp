@@ -3,7 +3,6 @@
 #include "shared/slus_callbacks.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif

@@ -317,7 +317,7 @@ record_loop:
                         *((s32 *) (scratch + 0x18)) = v_end_bits;
                         *((s32 *) (scratch + 0x10)) = v_start_bits;
                         *((u32 *) (prim + 0x0C)) = (v_start_bits + (*((s32 *) (scratch + 0x0C))))
-                            + (((*((u16 *) (render_state + 0x12))) + (*((u16 *) (sprite_data + 5)))) << 16);
+                        + (((*((u16 *) (render_state + 0x12))) + (*((u16 *) (sprite_data + 5)))) << 16);
                         if (copy_index != 0) {
                             packed_uv = *((u16 *) (scratch + 0x10));
                             packed_uv += *((u16 *) (scratch + 0x14));

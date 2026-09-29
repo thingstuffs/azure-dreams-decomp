@@ -42,7 +42,12 @@ typedef struct S_800C2824_3 {
 typedef struct S_800C2824_4 {
     u8 pad_00[0x8];
     M2C_UNK * unk_08;
-    union { struct { s32 v; } at00; struct { s8 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s8 v; } at00u;
+        struct { u8 pad[0x1]; s8 v; } at01;
+        struct { u8 pad[0x2]; s8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
@@ -192,148 +197,152 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     state = ((S_800C2824_0 *)effect)->unk_04;
     switch (state) {
     case 0:
-    if (!(((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000)) {
-        ((S_800C2824_0 *)effect)->unk_04 = 0x10;
-        return;
-    }
-    effect_args.sp20 = 0x01800340;
-    effect_args.sp24 = 0x400040;
-    effect_args.sp28 = 0x360;
-    effect_args.sp2A = 0x1B8;
-    func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.sp20, &effect_args.sp28, 1, 2);
-    object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
-    func_80044A50(object_base);
-    func_800BC318(object_base);
-    object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
-    vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
-    ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
-    ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
-    vertex_y = ((S_800C2824_2 *)object_vertices)->unk_06;
-    ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
-    ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
-    vertex_z = ((S_800C2824_2 *)object_vertices)->unk_0A;
-    ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
-    ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
-    func_8004491C(effect - 0x20, &D_800CEF54);
-    ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
-    ((S_800C2824_4 *)sprite)->unk_08 = &D_800DF4A4;
-    ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
-    ((S_800C2824_4 *)sprite)->unk_1E = 0x1000;
-    ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;
-    ((S_800C2824_4 *)sprite)->unk_14 = (u16) (((S_800C2824_4 *)sprite)->unk_14 | 0xC);
-    ((S_800C2824_0 *)effect)->unk_06 = 0x10;
-    func_800A56E0(1);
-    ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
+        if (!(((S_800C2824_16 *)(((S_800C2824_0 *)effect)->unk_00))->unk_14 & 0x4000)) {
+            ((S_800C2824_0 *)effect)->unk_04 = 0x10;
+            return;
+        }
+        effect_args.sp20 = 0x01800340;
+        effect_args.sp24 = 0x400040;
+        effect_args.sp28 = 0x360;
+        effect_args.sp2A = 0x1B8;
+        func_800B8FC8(((S_800C2824_0 *)effect)->unk_00, &effect_args.sp20, &effect_args.sp28, 1, 2);
+        object_base = ((S_800C2824_0 *)effect)->unk_00 - 0x20;
+        func_80044A50(object_base);
+        func_800BC318(object_base);
+        object_vertices = ((S_800C2824_1 *)object_base)->unk_08;
+        vertex_x = ((S_800C2824_2 *)object_vertices)->unk_02;
+        ((S_800C2824_3 *)vertices)->unk_02 = vertex_x;
+        ((S_800C2824_3 *)vertices)->unk_0E = vertex_x;
+        vertex_y = ((S_800C2824_2 *)object_vertices)->unk_06;
+        ((S_800C2824_3 *)vertices)->unk_06 = vertex_y;
+        ((S_800C2824_3 *)vertices)->unk_12 = vertex_y;
+        vertex_z = ((S_800C2824_2 *)object_vertices)->unk_0A;
+        ((S_800C2824_3 *)vertices)->unk_0A = vertex_z;
+        ((S_800C2824_3 *)vertices)->unk_16 = vertex_z;
+        func_8004491C(effect - 0x20, &D_800CEF54);
+        ((S_800C2824_4 *)sprite)->unk_10 = 0x20;
+        ((S_800C2824_4 *)sprite)->unk_08 = &D_800DF4A4;
+        ((S_800C2824_4 *)sprite)->unk_0C.at00.v = 0x808080;
+        ((S_800C2824_4 *)sprite)->unk_1E = 0x1000;
+        ((S_800C2824_4 *)sprite)->unk_1C = 0x1000;
+        ((S_800C2824_4 *)sprite)->unk_14 = (u16) (((S_800C2824_4 *)sprite)->unk_14 | 0xC);
+        ((S_800C2824_0 *)effect)->unk_06 = 0x10;
+        func_800A56E0(1);
+        ((S_800C2824_0 *)effect)->unk_04 = (s16) ((u16) ((S_800C2824_0 *)effect)->unk_04 + 1);
     case 1:
-    shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
-    faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
-    ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
-    ((S_800C2824_4 *)sprite)->unk_0C.at02.v = faded_shade;
-    ((S_800C2824_4 *)sprite)->unk_0C.at01.v = faded_shade;
-    fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
-    ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
-    if ((fade_ticks << 0x10) > 0) {
+        shade = (u8) ((S_800C2824_4 *)sprite)->unk_0C.at00.v;
+        faded_shade = shade - ((s32) shade / (s16) ((S_800C2824_0 *)effect)->unk_06);
+        ((S_800C2824_4 *)sprite)->unk_0C.at00u.v = faded_shade;
+        ((S_800C2824_4 *)sprite)->unk_0C.at02.v = faded_shade;
+        ((S_800C2824_4 *)sprite)->unk_0C.at01.v = faded_shade;
+        fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
+        ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
+        if ((fade_ticks << 0x10) > 0) {
+            return;
+        }
+        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
         return;
-    }
-    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-    return;
     case 2:
-    linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
-    if (linked_object != 0) {
-        object_slot = func_800A6620(linked_object, 0);
-        if (object_slot < 0x40) {
-            slots_page = (u8 *)0x80010000;
-            ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
-            ((s32 *)0x80010980)[object_slot] = 0;
+        linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+        if (linked_object != 0) {
+            object_slot = func_800A6620(linked_object, 0);
+            if (object_slot < 0x40) {
+                slots_page = (u8 *)0x80010000;
+                ((S_800C2824_5 *)(slots_page + (object_slot * 0x54)))->unk_A93 = 0;
+                ((s32 *)0x80010980)[object_slot] = 0;
+            }
         }
-    }
-    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
-        release_object = ((S_800C2824_0 *)effect)->unk_00;
-        release_status = ((S_800C2824_6 *)release_object)->unk_1C;
-        release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
-        release_status &= 0x2000;
-        release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
-        release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
-        release_flags = 0x3000;
-        if (release_status) {
-            release_flags = 0x300;
+        if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) == 0) {
+            release_object = ((S_800C2824_0 *)effect)->unk_00;
+            release_status = ((S_800C2824_6 *)release_object)->unk_1C;
+            release_coord = (u32)((S_800C2824_6_pre *)release_object)[-1].unk_00;
+            release_status &= 0x2000;
+            release_x = ((S_800C2824_7 *)((void *)release_coord))->unk_24;
+            release_coord = ((S_800C2824_7 *)((void *)release_coord))->unk_25;
+            release_flags = 0x3000;
+            if (release_status) {
+                release_flags = 0x300;
+            }
+            func_8009A3D0(release_x, release_coord, release_flags);
         }
-        func_8009A3D0(release_x, release_coord, release_flags);
-    }
-    func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-    func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
-    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-    return;
-    case 3: {
+        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+        func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
+        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+        return;
+    case 3:
+    {
 
-    object_coords = ((u8 *)(&D_80082E80));
-    effect_object = D_800E3D7C;
-    D_800DF55C = effect_object;
-    if (func_800BBA40(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
-        return;
-    }
-    flags_page = (u8 *)0x80080000;
-    marked_object = ((S_800C2824_0 *)effect)->unk_00;
-    ((S_800C2824_9_pre *)marked_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)marked_object)[-1].unk_00 | 0x8000);
-    effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
-    effect_flags |= 0x8000;
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-    goto mark_done;
-}
-    case 16:
-    source_object = ((S_800C2824_0 *)effect)->unk_00;
-    object_coords = (*(void **)((u8 *)source_object + -0x14));
-    effect_object = source_object;
-    effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
-    D_800DF55C = effect_object;
-    if (func_800BBA40(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25, effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
-        return;
-    }
-    ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
-    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-    return;
-    case 17:
-    wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
-    ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
-    if ((wait_ticks << 0x10) > 0) {
-        return;
-    }
-    func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
-    if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
-        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-        finished_object = ((S_800C2824_0 *)effect)->unk_00;
-        (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
-        final_object = D_800DF560;
-        flags_page = (u8 *)0x80080000;
-        effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
-    } else {
-        expired_object = ((S_800C2824_0 *)effect)->unk_00;
-        expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
-        expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
-        expired_status &= 0x2000;
-        expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
-        expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
-        tile_flags = 0x3000;
-        if (expired_status) {
-            tile_flags = 0x300;
+        object_coords = ((u8 *)(&D_80082E80));
+        effect_object = D_800E3D7C;
+        D_800DF55C = effect_object;
+        if (func_800BBA40(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25],
+            ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
+            return;
         }
-        func_8009A3D0(expired_x, expired_coord, tile_flags);
-        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
-        finished_object = ((S_800C2824_0 *)effect)->unk_00;
-        (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
-        final_object = D_800DF560;
         flags_page = (u8 *)0x80080000;
+        marked_object = ((S_800C2824_0 *)effect)->unk_00;
+        ((S_800C2824_9_pre *)marked_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)marked_object)[-1].unk_00
+            | 0x8000);
         effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+        effect_flags |= 0x8000;
+        ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
+        goto mark_done;
     }
-    ;
-    final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
-    effect_flags |= 0x8000;
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-    ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
+    case 16:
+        source_object = ((S_800C2824_0 *)effect)->unk_00;
+        object_coords = (*(void **)((u8 *)source_object + -0x14));
+        effect_object = source_object;
+        effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
+        D_800DF55C = effect_object;
+        if (func_800BBA40(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25,
+            effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
+            return;
+        }
+        ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
+        ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+        return;
+    case 17:
+        wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
+        ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
+        if ((wait_ticks << 0x10) > 0) {
+            return;
+        }
+        func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
+        if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
+            func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+            finished_object = ((S_800C2824_0 *)effect)->unk_00;
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+            final_object = D_800DF560;
+            flags_page = (u8 *)0x80080000;
+            effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+        } else {
+            expired_object = ((S_800C2824_0 *)effect)->unk_00;
+            expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
+            expired_coord = (u32)((S_800C2824_12_pre *)expired_object)[-1].unk_00;
+            expired_status &= 0x2000;
+            expired_x = ((S_800C2824_13 *)((void *)expired_coord))->unk_24;
+            expired_coord = ((S_800C2824_13 *)((void *)expired_coord))->unk_25;
+            tile_flags = 0x3000;
+            if (expired_status) {
+                tile_flags = 0x300;
+            }
+            func_8009A3D0(expired_x, expired_coord, tile_flags);
+            func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+            finished_object = ((S_800C2824_0 *)effect)->unk_00;
+            (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+            final_object = D_800DF560;
+            flags_page = (u8 *)0x80080000;
+            effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+        }
+        ;
+        final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
+        effect_flags |= 0x8000;
+        ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
+        ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
 mark_done:
-    (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-    return;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
+        return;
     default:
         return;
     }

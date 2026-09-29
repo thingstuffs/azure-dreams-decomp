@@ -204,9 +204,14 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
                                 {
                                     s16 vertex_coord;
                                     s32 normal_x;
-                                    height = ((normal_x = scratch->planes[*(u16 *)(flags_ptr - 6)].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
-                                           + scratch->planes[*(u16 *)(flags_ptr - 6)].z * ((vertex_coord = vertices[record->vertex0].z) - (s16)scratch->z)
-                                           + scratch->planes[*(u16 *)(flags_ptr - 6)].y * vertices[record->vertex0].y) / scratch->planes[*(u16 *)(flags_ptr - 6)].y;
+                                    height = ((normal_x = scratch->planes[*(u16 *)(flags_ptr
+                                        - 6)].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
+                                              + scratch->planes[*(u16 *)(flags_ptr
+                                                  - 6)].z * ((vertex_coord = vertices[record->vertex0].z)
+                                                  - (s16)scratch->z)
+                                              + scratch->planes[*(u16 *)(flags_ptr
+                                                  - 6)].y * vertices[record->vertex0].y) / scratch->planes[*(u16 *)(flags_ptr
+                                                  - 6)].y;
                                 }
                                 scratch->y = height;
                                 scratch->y += scratch->outer_bias;

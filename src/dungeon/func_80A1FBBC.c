@@ -216,7 +216,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
             }
         }
         ((S_801733BC_1 *)effect_state)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         if (!(((S_801733BC_0 *)render_part)->unk_14 & 0xE000)) {
             break;

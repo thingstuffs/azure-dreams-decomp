@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_800D6AD4_6 {
@@ -33,7 +32,7 @@ typedef struct S_800D6AD4_9 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FD64();
 extern M2C_UNK func_8004491C();

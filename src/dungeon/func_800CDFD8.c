@@ -319,162 +319,181 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
         matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)part + 4);
         scratch->unk_24.unk_24_u16 = (u16) sprite->unk_14;
         for (;;) {
-        if (!(part->unk_00 & 0x20)) {
-            part_u = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_08;
-            scratch->unk_08 = (u32) part_u;
-            part_width = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0A;
-            scratch->unk_10 = (u32) part_width;
-            if (((part_u + part_width) >= 0x100) || (sprite->unk_1A != 0)) {
-                scratch->unk_10 = part_width - 1;
-            }
-            part_v = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_09;
-            scratch->unk_0C = (u32) part_v;
-            part_height = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0B;
-            scratch->unk_14.unk_14_u32 = (u32) part_height;
-            if (((part_v + part_height) >= 0x100) || (sprite->unk_1A != 0)) {
-                scratch->unk_14.unk_14_u32 = part_height - 1;
-            }
-            if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 1) {
-                flipped_width = scratch->unk_10;
-                flipped_x = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02) - scratch->unk_108;
-                flipped_top_x = flipped_x + ((s32) ((s16) flipped_x + ((u32) (flipped_x << 0x10) >> 0x1F)) >> 1);
-                half_width = (s32) (flipped_width + (flipped_width >> 0x1F)) >> 1;
-                scratch->unk_70 = flipped_top_x;
-                scratch->unk_78 = (s16) (flipped_top_x - ((u16) scratch->unk_10 + half_width));
-                scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02) - scratch->unk_108);
-                scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
-            } else {
-            left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - ((S_func_800CDFD8_1 *)scratch)->unk_108;
-            width = scratch->unk_10;
-            left_x += (s16) left_x / 2;
-            scratch->unk_70 = left_x;
-            left_x += (u16) scratch->unk_10 + (s32) width / 2;
-            scratch->unk_78 = left_x;
-            bottom_left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - scratch->unk_108;
-            scratch->unk_80 = bottom_left_x;
-            scratch->unk_88 = (s16) (bottom_left_x + (u16) scratch->unk_10);
-            }
-            if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
-                edge_y = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03) - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
-                height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
-                ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
-                ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
-                edge_y -= height;
-                scratch->unk_8A = edge_y;
-                scratch->unk_82 = edge_y;
-            } else {
-            edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03 - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
-            height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
-            ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
-            ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
-            edge_y = height + edge_y;
-            scratch->unk_8A = edge_y;
-            scratch->unk_82 = edge_y;
-            }
-            func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A = (u16) (scratch->unk_F2 + scratch->unk_BA);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_14 = (u16) (scratch->unk_F4 + scratch->unk_B8);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_16 = (u16) (scratch->unk_F6 + scratch->unk_BA);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_20 = (u16) (scratch->unk_F8 + scratch->unk_B8);
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_22 = (u16) (scratch->unk_FA + scratch->unk_BA);
-            vertex0_visible = 0;
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C = (u16) (scratch->unk_FC + scratch->unk_B8);
-            screen_y3 = scratch->unk_FE + scratch->unk_BA;
-            ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2E = screen_y3;
-            if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 + 0x20) & 0xFFFF) < 0x181U) {
-                screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A + 0x20) & 0xFFFF;
-                vertex0_visible = screen_bound < 0x121U;
-            }
-            vertex1_visible = 0;
-            if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
-                screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_16 + 0x20) & 0xFFFF;
-                vertex1_visible = screen_bound < 0x121U;
-            }
-            vertex2_visible = 0;
-            first_two_visible = vertex0_visible | vertex1_visible;
-            if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_20 + 0x20) & 0xFFFF) < 0x181U) {
-                screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_22 + 0x20) & 0xFFFF;
-                vertex2_visible = screen_bound < 0x121U;
-            }
-            vertex3_visible = 0;
-            first_three_visible = first_two_visible | vertex2_visible;
-            if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C + 0x20) & 0xFFFF) < 0x181U) {
-                screen_bound = (screen_y3 + 0x20) & 0xFFFF;
-                vertex3_visible = screen_bound < 0x121U;
-            }
-            any_visible = first_three_visible | vertex3_visible;
-            if (any_visible != 0) {
-                sprite->unk_14 = (u16) (sprite->unk_14 & 0x7FFF);
-                scratch->unk_10 += scratch->unk_08;
-                scratch->unk_14.unk_14_u32 += scratch->unk_0C;
-                scratch->unk_14.unk_14_u32 <<= 8;
-                scratch->unk_0C <<= 8;
-                if (scratch->unk_24.unk_24_u16 & 0x100) {
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
+            if (!(part->unk_00 & 0x20)) {
+                part_u = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_08;
+                scratch->unk_08 = (u32) part_u;
+                part_width = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0A;
+                scratch->unk_10 = (u32) part_width;
+                if (((part_u + part_width) >= 0x100) || (sprite->unk_1A != 0)) {
+                    scratch->unk_10 = part_width - 1;
+                }
+                part_v = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_09;
+                scratch->unk_0C = (u32) part_v;
+                part_height = ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_0B;
+                scratch->unk_14.unk_14_u32 = (u32) part_height;
+                if (((part_v + part_height) >= 0x100) || (sprite->unk_1A != 0)) {
+                    scratch->unk_14.unk_14_u32 = part_height - 1;
+                }
+                if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 1) {
+                    flipped_width = scratch->unk_10;
+                    flipped_x = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02)
+                        - scratch->unk_108;
+                    flipped_top_x = flipped_x + ((s32) ((s16) flipped_x + ((u32) (flipped_x << 0x10) >> 0x1F)) >> 1);
+                    half_width = (s32) (flipped_width + (flipped_width >> 0x1F)) >> 1;
+                    scratch->unk_70 = flipped_top_x;
+                    scratch->unk_78 = (s16) (flipped_top_x - ((u16) scratch->unk_10 + half_width));
+                    scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02)
+                        - scratch->unk_108);
+                    scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
                 } else {
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_06);
+                    left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02
+                        - ((S_func_800CDFD8_1 *)scratch)->unk_108;
+                    width = scratch->unk_10;
+                    left_x += (s16) left_x / 2;
+                    scratch->unk_70 = left_x;
+                    left_x += (u16) scratch->unk_10 + (s32) width / 2;
+                    scratch->unk_78 = left_x;
+                    bottom_left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - scratch->unk_108;
+                    scratch->unk_80 = bottom_left_x;
+                    scratch->unk_88 = (s16) (bottom_left_x + (u16) scratch->unk_10);
                 }
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_s16 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10);
-                if (sprite->unk_10 != 0) {
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A = (u16) (sprite->unk_10 + (((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_04 & 0xFF9F));
+                if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
+                    edge_y = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03)
+                        - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
+                    height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
+                    ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
+                    ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
+                    edge_y -= height;
+                    scratch->unk_8A = edge_y;
+                    scratch->unk_82 = edge_y;
                 } else {
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A = (u16) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_04;
+                    edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03
+                        - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
+                    height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
+                    ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
+                    ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
+                    edge_y = height + edge_y;
+                    scratch->unk_8A = edge_y;
+                    scratch->unk_82 = edge_y;
                 }
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_24_s16 = (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_08);
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16 = (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_10);
-                matrix_xx = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_50;
-                if (matrix_xx >= 0x1800) {
-                    scaled_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (scaled_right_u + 0xFF);
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = scaled_right_u;
+                func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+                    (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+                    (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A = (u16) (scratch->unk_F2 + scratch->unk_BA);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_14 = (u16) (scratch->unk_F4 + scratch->unk_B8);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_16 = (u16) (scratch->unk_F6 + scratch->unk_BA);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_20 = (u16) (scratch->unk_F8 + scratch->unk_B8);
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_22 = (u16) (scratch->unk_FA + scratch->unk_BA);
+                vertex0_visible = 0;
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C = (u16) (scratch->unk_FC + scratch->unk_B8);
+                screen_y3 = scratch->unk_FE + scratch->unk_BA;
+                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2E = screen_y3;
+                if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 + 0x20) & 0xFFFF) < 0x181U) {
+                    screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A + 0x20) & 0xFFFF;
+                    vertex0_visible = screen_bound < 0x121U;
                 }
-                matrix_yy = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_58;
-                if (matrix_yy >= 0x1800) {
-                    scaled_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 = (u8) (scaled_bottom_v + 0xFF);
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_25_u8.unk_25 = scaled_bottom_v;
+                vertex1_visible = 0;
+                if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
+                    screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_16 + 0x20) & 0xFFFF;
+                    vertex1_visible = screen_bound < 0x121U;
                 }
-                if ((s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 > (s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C) {
-                    flipped_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (flipped_right_u + 0xFF);
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = flipped_right_u;
+                vertex2_visible = 0;
+                first_two_visible = vertex0_visible | vertex1_visible;
+                if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_20 + 0x20) & 0xFFFF) < 0x181U) {
+                    screen_bound = (((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_22 + 0x20) & 0xFFFF;
+                    vertex2_visible = screen_bound < 0x121U;
                 }
-                if ((s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A > ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2E) {
-                    flipped_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 = (u8) (flipped_bottom_v + 0xFF);
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_25_u8.unk_25 = flipped_bottom_v;
+                vertex3_visible = 0;
+                first_three_visible = first_two_visible | vertex2_visible;
+                if ((u32) ((((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C + 0x20) & 0xFFFF) < 0x181U) {
+                    screen_bound = (screen_y3 + 0x20) & 0xFFFF;
+                    vertex3_visible = screen_bound < 0x121U;
                 }
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_04_s32 = 0;
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_10 = 0;
-                color2 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1C = color2;
-                color3 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_03 = 0xC;
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3C;
-                ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_28 = color3;
-                if ((scratch->unk_24.unk_24_u32 & 0xC) == 0xC) {
-                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3E;
+                any_visible = first_three_visible | vertex3_visible;
+                if (any_visible != 0) {
+                    sprite->unk_14 = (u16) (sprite->unk_14 & 0x7FFF);
+                    scratch->unk_10 += scratch->unk_08;
+                    scratch->unk_14.unk_14_u32 += scratch->unk_0C;
+                    scratch->unk_14.unk_14_u32 <<= 8;
+                    scratch->unk_0C <<= 8;
+                    if (scratch->unk_24.unk_24_u16 & 0x100) {
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
+                    } else {
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E =
+                            (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_06);
+                    }
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0C =
+                        (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_s16 =
+                        (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10);
+                    if (sprite->unk_10 != 0) {
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
+                            (u16) (sprite->unk_10 + (((S_func_800CDFD8_6 *)((u8 *)matrix_or_part
+                            - 4))->unk_04 & 0xFF9F));
+                    } else {
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1A =
+                            (u16) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_04;
+                    }
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_24_s16 =
+                        (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_08);
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16 =
+                        (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_10);
+                    matrix_xx = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_50;
+                    if (matrix_xx >= 0x1800) {
+                        scaled_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (scaled_right_u + 0xFF);
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = scaled_right_u;
+                    }
+                    matrix_yy = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_58;
+                    if (matrix_yy >= 0x1800) {
+                        scaled_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 =
+                            (u8) (scaled_bottom_v + 0xFF);
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_25_u8.unk_25 = scaled_bottom_v;
+                    }
+                    if ((s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08
+                        > (s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2C) {
+                        flipped_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (flipped_right_u + 0xFF);
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = flipped_right_u;
+                    }
+                    if ((s16) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A
+                        > ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_2E) {
+                        flipped_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 =
+                            (u8) (flipped_bottom_v + 0xFF);
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_25_u8.unk_25 = flipped_bottom_v;
+                    }
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_04_s32 = 0;
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_10 = 0;
+                    color2 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1C = color2;
+                    color3 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_03 = 0xC;
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3C;
+                    ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_28 = color3;
+                    if ((scratch->unk_24.unk_24_u32 & 0xC) == 0xC) {
+                        ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3E;
+                    }
+                    address_mask = 0xFFFFFF;
+                    quad = (S_func_800CDFD8_8 *)((u8 *)quad + 0x34);
+                    ot_entry = (scratch->unk_C0 * 4) + scratch->unk_20;
+                    packet_header = packet->unk_00;
+                    ot_tag = *ot_entry;
+                    packet_tag = (packet_header & 0xFF000000) | (ot_tag & address_mask);
+                    packet_address = (u32) packet & address_mask;
+                    packet->unk_00 = packet_tag;
+                    ot_link = (scratch->unk_C0 * 4) + scratch->unk_20;
+                    packet = (S_func_800CDFD8_9 *)((u8 *)packet + 0x34);
+                    *ot_link = (*ot_link & 0xFF000000) | packet_address;
                 }
-                address_mask = 0xFFFFFF;
-                quad = (S_func_800CDFD8_8 *)((u8 *)quad + 0x34);
-                ot_entry = (scratch->unk_C0 * 4) + scratch->unk_20;
-                packet_header = packet->unk_00;
-                ot_tag = *ot_entry;
-                packet_tag = (packet_header & 0xFF000000) | (ot_tag & address_mask);
-                packet_address = (u32) packet & address_mask;
-                packet->unk_00 = packet_tag;
-                ot_link = (scratch->unk_C0 * 4) + scratch->unk_20;
-                packet = (S_func_800CDFD8_9 *)((u8 *)packet + 0x34);
-                *ot_link = (*ot_link & 0xFF000000) | packet_address;
             }
-        }
-        if ((s8) part->unk_00 < 0) {
-            break;
-        }
-        matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)matrix_or_part + 0xC);
-        part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
+            if ((s8) part->unk_00 < 0) {
+                break;
+            }
+            matrix_or_part = (S_func_800CDFD8_6 *)((u8 *)matrix_or_part + 0xC);
+            part = (S_func_800CDFD8_7 *)((u8 *)part + 0xC);
         }
         func_80064A40();
     }

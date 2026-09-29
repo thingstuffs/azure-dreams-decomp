@@ -102,7 +102,7 @@ void func_80024810(void *effect) {
         ((S_80024810_0 *)effect)->unk_28 = (s16) (((S_80024810_0 *)effect)->unk_08
             + ((s32) (((S_80024810_0 *)effect)->unk_28 - (s16) ((S_80024810_0 *)effect)->unk_08) >> 1));
         ((S_80024810_0 *)effect)->unk_3C = (s16) ((u16) ((S_80024810_0 *)effect)->unk_3C + 1);
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         if ((s16) ((S_80024810_0 *)effect)->unk_3E >= 6) {
             ((S_80024810_0 *)effect)->unk_3E = 2U;

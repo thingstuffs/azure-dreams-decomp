@@ -54,7 +54,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
             return;
         }
         ((S_801735B8_0 *)fade_state)->unk_9B = 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
         if (entity_flags & 0x4000) {
@@ -66,7 +66,7 @@ void func_801735B8(void *fade_state, void *unused, void *visual_data, void *enti
         ((S_801735B8_0 *)fade_state)->unk_9B =
             (u8)(((S_801735B8_0 *)fade_state)->unk_9B + 1);
         ((S_801735B8_3 *)visual_data)->unk_12 = 0xFF80;
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         ((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v |= 0x10000000;
         countdown = ((S_801735B8_0 *)fade_state)->unk_96.u - 1;

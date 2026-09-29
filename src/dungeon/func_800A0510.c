@@ -6,8 +6,6 @@
 extern int abs(int);
 
 
-
-
 typedef struct S_800A5C70_0_pre {
     void * unk_00;
     u8 pad_04[0x10];

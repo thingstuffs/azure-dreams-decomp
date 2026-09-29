@@ -222,7 +222,7 @@ advance_state:
         do {
             ((S_80173510_0 *)action)->unk_96.u = next_timer;
         } while (0);
-                     /* MATCH: Keep the timer store before the shared state increment. */
+                             /* MATCH: Keep the timer store before the shared state increment. */
         ((S_80173510_0 *)action)->unk_9B.n = state + 1;
         return;
     }

@@ -45,8 +45,6 @@ typedef struct S_800D4BD4_5 {
 } S_800D4BD4_5;   /* temp_a0_2 in func_800D4BD4 */
 
 
-
-
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 extern s32 D_800DECF8;

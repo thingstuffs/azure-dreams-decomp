@@ -3,7 +3,6 @@
 #include "records/Rec_D_8001E950.h"
 
 
-
 M2C_UNK func_8001A414(void);                                     /* extern */
 extern Rec_D_8001E950 *D_8001E950;
 

@@ -21,25 +21,28 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
         y = point_y & 0xFFFF;
         count = initial_count;
         record = D_800E2970;
-        loop_0: {
+loop_0:
+        {
             if ((*(s16 *)(record + 10) != 0) &&
                 (x >= *(u16 *)(record + 0)) &&
                 ({
-                    bound_base = *(volatile u16 *)(record + 0);
-                    bound_span = *(volatile u16 *)(record + 4);
-                    (s32)x < (s32)bound_span + (s32)bound_base;
-                }) &&
+                 bound_base = *(volatile u16 *)(record + 0);
+                 bound_span = *(volatile u16 *)(record + 4);
+                 (s32)x < (s32)bound_span + (s32)bound_base;
+                 }) &&
                 (y >= *(u16 *)(record + 2)) &&
                 ({
-                    bound_base = *(volatile u16 *)(record + 2);
-                    bound_span = *(volatile u16 *)(record + 6);
-                    (s32)y < (s32)bound_span + (s32)bound_base;
-                })) {
+                 bound_base = *(volatile u16 *)(record + 2);
+                 bound_span = *(volatile u16 *)(record + 6);
+                 (s32)y < (s32)bound_span + (s32)bound_base;
+                 })) {
                 return (s16)index;
             }
             index++;
             record += 20;
-        } if (index < count) goto loop_0;
+        }
+        if (index < count)
+            goto loop_0;
     }
     return -1;
 }

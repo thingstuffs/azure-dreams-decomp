@@ -98,7 +98,7 @@ entry_valid:
             entry[0] = flag_bit | -0x80 | (saved_extra & 0x1F);
             return;
         }
-        /* fall through */
+                /* fall through */
     case 72:
     case 80:
     case 96:

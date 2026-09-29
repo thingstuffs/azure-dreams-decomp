@@ -46,9 +46,6 @@ typedef struct S_800A3D18_5 {
 } S_800A3D18_5;   /* best in func_800A3D18 */
 
 
-
-
-
 extern s32 func_8009FD40(void *, void *);
 extern s32 func_8009FE94(u8, u8, s16, u8, u8, s16);
 extern s32 func_800A2CB8(void *, void *);

@@ -71,7 +71,6 @@ typedef struct S_800DAEF4_7 {
 } S_800DAEF4_7;   /* ((S_800DAEF4_0 *)object)->unk_08 in func_800DAEF4 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_80069EF8(void);
@@ -119,7 +118,8 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
 
             spread_roll_a = func_80069EF8();
             spread_roll_b = func_80069EF8();
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
+            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 =
+                ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
             ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;

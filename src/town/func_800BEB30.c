@@ -14,7 +14,6 @@ typedef struct S_800BC290_1 {
 } S_800BC290_1;   /* arg2 in func_800BC290 */
 
 
-
 extern void func_8004E994(void *);
 extern u8 D_80111FB0[8];
 
@@ -40,7 +39,8 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
         }
         break;
 
-    case 1: {
+    case 1:
+    {
         s32 color;
         s32 color_step;
 

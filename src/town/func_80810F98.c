@@ -18,7 +18,7 @@ typedef struct S_80810F98_1 {
 
 s32 func_8052BB98(void *arg0)
 {
-        /* retail reserves 8 bytes of frame and never touches them - no sw/lw/sh/sb with (sp) exists
+            /* retail reserves 8 bytes of frame and never touches them - no sw/lw/sh/sb with (sp) exists
        anywhere in the row's 39 words, and there is no `sw ra` (a leaf).  An unused local of frame
        size is the honest cause; without it the prologue/epilogue pair disappears (length-drift). */
     s32 unused_slot[2];

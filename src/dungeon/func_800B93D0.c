@@ -20,7 +20,6 @@ typedef struct S_800BEB30_2 {
 } S_800BEB30_2;   /* decrement_base in func_800BEB30 */
 
 
-
 extern s32 func_8008D344();
 extern s32 func_8008D368();
 extern s32 func_80098864();

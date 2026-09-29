@@ -8,6 +8,6 @@ void tcame_return_plus(void) {
     s32 *camera_state = &D_80100DE0[0];
 
     tcame_return();
-    
+
     *(s32 *)((s8 *)camera_state + 4) = 0;
 }

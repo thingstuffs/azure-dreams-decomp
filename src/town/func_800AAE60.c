@@ -29,13 +29,13 @@ void func_800A85C0(void *origin, void *spread, s32 count) {
         while (index < count) {
             index++;
             record.x = (*(u16 *)((u8 *)origin + 2) +
-                       func_800374F4(*(u16 *)spread)) -
+                        func_800374F4(*(u16 *)spread)) -
                       (*(s32 *)spread / 2);
             record.y = (*(u16 *)((u8 *)origin + 6) +
-                       func_800374F4(*(u16 *)((u8 *)spread + 4))) -
+                        func_800374F4(*(u16 *)((u8 *)spread + 4))) -
                       (*(s32 *)((u8 *)spread + 4) / 2);
             z = (*(u16 *)((u8 *)origin + 0xA) -
-                     func_800374F4(*(u16 *)((u8 *)spread + 8))) -
+                 func_800374F4(*(u16 *)((u8 *)spread + 8))) -
                     (*(s32 *)((u8 *)spread + 8) / 2);
             record.z = z;
             func_800A84D0(&record, z);

@@ -84,7 +84,7 @@ void func_800240F0(void *effect, void *motion, void *sprite)
     case 0:
         func_8004491C((u8 *)effect - 0x20, func_80045340);
         ((S_800240F0_0 *)effect)->unk_0C.n2 = ((S_800240F0_0 *)effect)->unk_0C.n2 + 1;
-                /* fall through */
+                        /* fall through */
 
     case 1:
     {

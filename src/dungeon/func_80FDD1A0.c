@@ -320,7 +320,7 @@ empty_selection:
         }
         sprite->unk_14 &= 0xF7FF;
         actor->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
 
     case 2:
         if (actor->unk_A8 != 0) {

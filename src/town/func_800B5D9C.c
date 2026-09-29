@@ -25,7 +25,8 @@ extern M2C_UNK D_800B34A8;
 void func_800B34FC(void *sub_object) {
     s32 next_step;
 
-    ((S_800B34FC_2 *)(((S_800B34FC_1 *)sub_object)->unk_9C))->unk_06 = (s16) ((((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 << 0xC) / 5);
+    ((S_800B34FC_2 *)(((S_800B34FC_1 *)sub_object)->unk_9C))->unk_06 =
+        (s16) ((((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 << 0xC) / 5);
     next_step = ((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 + 1;
     ((S_800B34FC_0 *)((u8 *)sub_object - 0x10))->unk_18 = next_step;
     if (next_step >= 6) {

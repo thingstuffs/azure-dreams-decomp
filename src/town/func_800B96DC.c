@@ -38,7 +38,8 @@ s32 func_800B6E3C(void *state) {
         *((((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + D_80083D78) = -1;
     }
     cached_state = (((Rec_func_800B683C_arg0 *)state)->unk_08 * 2) + D_80083D78;
-    if ((cached_state->unk_00 != ((Rec_func_800B683C_arg0 *)state)->unk_0A) || (cached_state->unk_02 != ((Rec_func_800B683C_arg0 *)state)->unk_10)) {
+    if ((cached_state->unk_00 != ((Rec_func_800B683C_arg0 *)state)->unk_0A)
+        || (cached_state->unk_02 != ((Rec_func_800B683C_arg0 *)state)->unk_10)) {
         cached_state->unk_00 = -1;
         cache_addr = ((Rec_func_800B683C_arg0 *)state)->unk_08;
         cache_addr <<= 2;

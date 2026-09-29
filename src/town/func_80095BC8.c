@@ -16,7 +16,6 @@ extern M2C_UNK D_800D0078;
 extern s32 D_800FE518;
 
 
-
 /* Updates the entity and dispatches a state transition when its countdown expires. */
 void func_80093328(void *state, void *entity, s32 transition_arg) {
     s16 countdown;

@@ -53,7 +53,8 @@ void func_800C96E8(S_Rect *copy_rect, S_Arg1 *source) {
             width = copy_rect->x;
             if (((dest_x + width) < 320) && (dest_y >= 0)) {
                 height = copy_rect->y;
-                if (((dest_y + height) < 224) && (source_x >= 0) && ((source_x + width) < 320) && (source_y >= 0) && ((source_y + height) < 224)) {
+                if (((dest_y + height) < 224) && (source_x >= 0) && ((source_x + width) < 320) && (source_y >= 0)
+                    && ((source_y + height) < 224)) {
                     source_rect.x = source->x;
                     buffer_y = source->y;
                     if ((s16)second_buffer) {

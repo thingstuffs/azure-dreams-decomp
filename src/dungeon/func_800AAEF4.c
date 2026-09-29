@@ -31,5 +31,6 @@ void func_800B0654(S_800B0654_1 *sourceValues, S_800B0654_2 *resultAdjustment, v
     ((S_800B0654_0 *)destinationState)->unk_28 = (u16) sourceValues->unk_02;
     ((S_800B0654_0 *)destinationState)->unk_2A = (u16) sourceValues->unk_06;
     ((S_800B0654_0 *)destinationState)->unk_2C = (u16) sourceValues->unk_0A;
-    ((S_800B0654_0 *)destinationState)->unk_C0 = (s32) (func_80065420(destinationState + 0x28, destinationState + 0xB8, destinationState + 0x90, destinationState + 0x94) + resultAdjustment->unk_04);
+    ((S_800B0654_0 *)destinationState)->unk_C0 = (s32) (func_80065420(destinationState + 0x28, destinationState + 0xB8,
+        destinationState + 0x90, destinationState + 0x94) + resultAdjustment->unk_04);
 }

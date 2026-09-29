@@ -14,13 +14,13 @@ extern void func_800A5720(s32 arg0);
 /* Adjusts a computed value for application to the source and finalizes the original value. */
 void func_80099844(s32 context, void *source, s32 first_input, s32 second_input)
 {
-  void *source_copy;
-  s32 original_value;
-  s32 current_value;
-  s32 adjusted_value;
-  adjusted_value = func_80099734(context, current_value = func_800990FC(context, source, first_input, second_input));
-  original_value = current_value;
-  current_value = adjusted_value;
-  func_80099290(func_80099194(source_copy = source, current_value));
-  func_800A5720(original_value);
+    void *source_copy;
+    s32 original_value;
+    s32 current_value;
+    s32 adjusted_value;
+    adjusted_value = func_80099734(context, current_value = func_800990FC(context, source, first_input, second_input));
+    original_value = current_value;
+    current_value = adjusted_value;
+    func_80099290(func_80099194(source_copy = source, current_value));
+    func_800A5720(original_value);
 }

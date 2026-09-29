@@ -162,7 +162,7 @@ void func_800C5FA8(u8 *w) {
         func_800A5720(hnd);
         *(s16 *)(w + 22) = 0x40;
         return;
-    L_found:
+L_found:
         *(s16 *)(w + 6) = phase;
         t = *(u16 *)(room + 0);
         t = t - 1;
@@ -173,7 +173,7 @@ void func_800C5FA8(u8 *w) {
         *(s16 *)(w + 10) = t;
         *(s16 *)(w + 14) = t + *(u16 *)(room + 6) + 2;
         goto L_zero;
-    L_third:
+L_third:
         r = func_80099194(D_800E0BA1, hnd);
         *(s16 *)(w + 22) = 0;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
@@ -203,7 +203,7 @@ void func_800C5FA8(u8 *w) {
                 phase = (phase + 1) % *(s16 *)(cnt2 + 6);
             } while (st > 0);
         }
-    L_zero:
+L_zero:
         if (st == 0) {
             *(s16 *)(w + 6) = -1;
         }

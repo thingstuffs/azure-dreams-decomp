@@ -53,8 +53,6 @@ typedef struct S_800B19F8_9 {
 } S_800B19F8_9;   /* ((S_800B19F8_5 *)(((S_800B19F8_1 *)arg0)->unk_50))->unk_04 in func_800B19F8 */
 
 
-
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern void *func_8004DA74(void *a0, u8 *a1, s32 a2);

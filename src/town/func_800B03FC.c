@@ -49,16 +49,24 @@ close_shop:
 
     if (((s32)pad_state->unk_010) & 0xF000) {
         menu[5] = 0;
-        if (((s32)pad_state->unk_010) & 0x8000) selection_step = -5;
-        else if (((s32)pad_state->unk_010) & 0x2000) selection_step = 5;
-        else if (((s32)pad_state->unk_010) & 0x1000) selection_step = -1;
-        else if (((s32)pad_state->unk_010) & 0x4000) selection_step = 1;
+        if (((s32)pad_state->unk_010) & 0x8000)
+            selection_step = -5;
+        else if (((s32)pad_state->unk_010) & 0x2000)
+            selection_step = 5;
+        else if (((s32)pad_state->unk_010) & 0x1000)
+            selection_step = -1;
+        else if (((s32)pad_state->unk_010) & 0x4000)
+            selection_step = 1;
     } else {
         if (menu[5] >= 9) {
-            if (held_buttons & 0x8000) selection_step = -5;
-            else if (held_buttons & 0x2000) selection_step = 5;
-            else if (held_buttons & 0x1000) selection_step = -1;
-            else if (held_buttons & 0x4000) selection_step = 1;
+            if (held_buttons & 0x8000)
+                selection_step = -5;
+            else if (held_buttons & 0x2000)
+                selection_step = 5;
+            else if (held_buttons & 0x1000)
+                selection_step = -1;
+            else if (held_buttons & 0x4000)
+                selection_step = 1;
             menu[5] = *(s32 *)&menu[5] - 1;
         } else {
             menu[5]++;

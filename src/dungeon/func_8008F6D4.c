@@ -14,7 +14,6 @@ typedef struct S_80094E34_1 {
 } S_80094E34_1;   /* object in func_80094E34 */
 
 
-
 extern s32 D_80081484;
 extern s32 D_800E3540;
 

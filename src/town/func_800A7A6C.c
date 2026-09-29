@@ -2,10 +2,18 @@
 #include "shared/game_work.h"
 
 typedef struct S_800A51CC_0 {
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_00;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_04;   /* accessed as both */
     u8 pad_06[0xA];
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_10;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_10;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_14;   /* accessed as both */
     u8 pad_16[0x2];
     s32 unk_18;
@@ -15,10 +23,13 @@ typedef struct S_800A51CC_0 {
 
 typedef struct S_800A51CC_1 {
     u8 pad_00[0xAC];
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; } unk_AC;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+    } unk_AC;   /* overlapping accesses */
     union { s16 s; u16 u; } unk_B0;   /* accessed as both */
 } S_800A51CC_1;   /* base in func_800A51CC */
-
 
 
 extern u8 D_800A526C[16];

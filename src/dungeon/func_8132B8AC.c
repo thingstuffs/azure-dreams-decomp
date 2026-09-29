@@ -540,7 +540,7 @@ update_animation:
         func_80047784(sprite, tail_sprite[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
 #else
         tail_state = (((s32) (((S_func_8132B8AC_4 *)tail_state)->unk_3228 + beldo->unk_2A.s + 0x100) >> 9) & 7)
-            + (s32) tail_sprite;
+        + (s32) tail_sprite;
         func_80047784(sprite, ((S_func_8132B8AC_5 *)tail_state)->unk_00, 0);
 #endif
         break;

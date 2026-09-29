@@ -88,7 +88,7 @@ void func_80024B20(void *effect) {
         ((S_80024B20_2 *)effect)->unk_42.u = 0;
         ((S_80024B20_2 *)effect)->unk_0C = 0;
         ((S_80024B20_2 *)effect)->unk_40.s = ((S_80024B20_2 *)effect)->unk_40.u + 1;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
     {
         s32 color = ((S_80024B20_2 *)effect)->unk_0C;

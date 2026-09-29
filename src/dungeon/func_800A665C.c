@@ -84,7 +84,8 @@ s32 func_800ABDBC(State *state, Motion *motion, Params *params, Extra *extra) {
             }
         }
         if (state->field96 != 0) {
-            motion->field14 = ((-(func_800644B8(state->field96 << 6) >> 4) - (height_offset = state->field92 + 0x20)) << 16) / state->field96;
+            motion->field14 = ((-(func_800644B8(state->field96 << 6) >> 4) - (height_offset = state->field92 + 0x20))
+                << 16) / state->field96;
         }
         scale = params->field1C + extra->field8A;
         params->field1C = scale;

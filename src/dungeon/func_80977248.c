@@ -385,7 +385,7 @@ selection_ready:
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
         func_800A56E0(0x703);
-            /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
+                    /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
         (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
         func_80047784(actor,
             *((u8 *)((((gameWork.view.viewAngle + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7)

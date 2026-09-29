@@ -32,7 +32,6 @@ typedef struct S_800CCA14_2 {
 } S_800CCA14_2;   /* temp_v0_2 in func_800CCA14 */
 
 
-
 void *func_8003FE78();      /* extern */
 s32 func_8009B390();                   /* extern */
 M2C_UNK func_8009CE1C(); /* extern */

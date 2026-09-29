@@ -69,7 +69,6 @@ typedef struct S_800C035C_7 {
 } S_800C035C_7;   /* ((temp_v1_9 * 2) + (s8 *) temp_s5) in func_800C035C */
 
 
-
 typedef struct S_800C035C_10 {
     u8 pad_00[0x30];
     s16 unk_30;
@@ -203,8 +202,10 @@ apply_drag:
 wrap_heading:
         ((S_800C035C_0 *)actor)->unk_10.s = (u16) (heading_or_speed & 0xFFF);
     }
-    motion->unk_0C = (s32) (func_800644B8((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
-    motion->unk_10 = (s32) (func_80064584((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
+    motion->unk_0C =
+        (s32) (func_800644B8((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
+    motion->unk_10 =
+        (s32) (func_80064584((s16) ((S_800C035C_0 *)actor)->unk_10.s) * ((s32) ((S_800C035C_0 *)actor)->unk_48 >> 0xC));
     angle_base = controls->unk_C8.s - 0x800;
     angle_value = ((S_800C035C_0 *)actor)->unk_10.u;
     angle_delta = angle_value - angle_base;
@@ -296,7 +297,7 @@ align_view:
             ((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 =
                 (u16) (((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 + 1);
         }
-    stop_motion:
+stop_motion:
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;

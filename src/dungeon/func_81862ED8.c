@@ -160,7 +160,7 @@ s32 func_800246D8(void *line)
         s32 end_z;
 
         delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64))
-            << 16;
+        << 16;
         delta.word >>= 3;
         delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 + 1;
 
@@ -231,7 +231,7 @@ s32 func_800246D8(void *line)
         s32 end_z;
 
         delta.word = first_delta_s32_s32(((S_800246D8_0 *)scratch)->unk_6C, (x0 = ((S_800246D8_0 *)scratch)->unk_64))
-            << 16;
+        << 16;
         delta.word >>= 3;
         delta.word *= ((S_800246D8_3 *)line_or_red)->unk_10 - 7;
 

@@ -31,7 +31,6 @@ typedef struct S_80091C64_1 {
 } S_80091C64_1;   /* arg3 in func_80091C64 */
 
 
-
 void func_80048A44();
 s32 func_800644B8();
 s32 func_80064584();
@@ -61,85 +60,91 @@ void func_80091C64(void *motion, EntityRec *position, void *entity, void *actor)
     phase = ((S_80091C64_0 *)motion)->unk_9B;
     switch (phase) {
     case 0:
-    delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-    ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
-    if ((s16) delay_left >= 9) {
-        return;
-    }
-    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
-    ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
-    func_800A56E0(0x701);
-    return;
-    case 1:
-    if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
-        position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-        position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
-        ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
-    }
-    hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-    ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
-    if ((hop_frames_left << 0x10) > 0) {
-        return;
-    }
-    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    ((S_80091C64_0 *)motion)->unk_92 = 0;
-    ((S_80091C64_0 *)motion)->unk_9B++;
-    return;
-    case 2:
-    if (((s32)dungeonStatus.unk_0C) != 0) {
-        return;
-    }
-    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
-    func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    return_duration = 8U;
-    ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
-    ((S_80091C64_0 *)motion)->unk_9B++;
-    return;
-    case 3:
-    frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
-    if (frames_left != 0) {
-        target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
-        current_x = position->x.w.i - 0x20;
-        position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
-        y_step = ((Rec_D_80082E80 *)entity)->unk_25;
-        y_step <<= 6;
-        y_origin = position->y.w.i - 0x20;
-        {
-            s32 y_numerator = (y_step - y_origin) << 0x10;
-
-            y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
-            y_step = y_numerator / y_remaining;
+        delay_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+        ((S_80091C64_0 *)motion)->unk_96.s = delay_left;
+        if ((s16) delay_left >= 9) {
+            return;
         }
-        y_work = position->y.v + y_step;
-        position->y.v = y_work;
-        ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);
-    }
-    return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
-    ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
-    if ((return_frames_left << 0x10) > 0) {
+        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+        func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+            >> 9) & 7], 0, 1);
+        ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 | 0xC);
+        ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
+        func_800A56E0(0x701);
         return;
-    }
-    func_800A2B04(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
-    ((S_80091C64_0 *)motion)->unk_92 = 0;
-    ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
-    (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
-    func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    return;
+    case 1:
+        if (((S_80091C64_0 *)motion)->unk_96.u != 0) {
+            position->x.v = (s32) (position->x.v + (func_80064584(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+            position->y.v = (s32) (position->y.v + (func_800644B8(((S_80091C64_1 *)actor)->unk_2A + 0x400) << 6));
+            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s
+                << 8)) >> 8);
+        }
+        hop_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+        ((S_80091C64_0 *)motion)->unk_96.s = hop_frames_left;
+        if ((hop_frames_left << 0x10) > 0) {
+            return;
+        }
+        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+        func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+            >> 9) & 7], 0, 1);
+        ((S_80091C64_0 *)motion)->unk_92 = 0;
+        ((S_80091C64_0 *)motion)->unk_9B++;
+        return;
+    case 2:
+        if (((s32)dungeonStatus.unk_0C) != 0) {
+            return;
+        }
+        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
+        func_80048A44(entity, D_800DD038[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+            >> 9) & 7], 0, 1);
+        return_duration = 8U;
+        ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
+        ((S_80091C64_0 *)motion)->unk_9B++;
+        return;
+    case 3:
+        frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
+        if (frames_left != 0) {
+            target_x = ((Rec_D_80082E80 *)entity)->unk_24 << 6;
+            current_x = position->x.w.i - 0x20;
+            position->x.v = (s32) (position->x.v + ((target_x - current_x) << 0x10) / frames_left);
+            y_step = ((Rec_D_80082E80 *)entity)->unk_25;
+            y_step <<= 6;
+            y_origin = position->y.w.i - 0x20;
+            {
+                s32 y_numerator = (y_step - y_origin) << 0x10;
+
+                y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
+                y_step = y_numerator / y_remaining;
+            }
+            y_work = position->y.v + y_step;
+            position->y.v = y_work;
+            ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s
+                << 8)) >> 8);
+        }
+        return_frames_left = ((S_80091C64_0 *)motion)->unk_96.s - 1;
+        ((S_80091C64_0 *)motion)->unk_96.s = return_frames_left;
+        if ((return_frames_left << 0x10) > 0) {
+            return;
+        }
+        func_800A2B04(position, ((Rec_D_80082E80 *)entity)->unk_24, ((Rec_D_80082E80 *)entity)->unk_25);
+        ((S_80091C64_0 *)motion)->unk_92 = 0;
+        ((S_80091C64_0 *)motion)->unk_9B = (u8) (((S_80091C64_0 *)motion)->unk_9B + 1);
+        (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
+        func_80048A44(entity, D_800DD058[((s32) (gameWork.view.viewAngle + ((S_80091C64_1 *)actor)->unk_2A + 0x100)
+            >> 9) & 7], 0, 1);
+        return;
     case 4:
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
-    ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
-    if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
-        next_behavior = &D_8008EAC8;
-    } else {
-        next_behavior = &D_8008ACDC;
-    }
-    ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
-    ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
-    ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
-    ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
-    return;
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
+        ((S_80091C64_1 *)actor)->unk_2A = (s16) ((S_80091C64_0 *)motion)->unk_11A;
+        if (((S_80091C64_1 *)actor)->unk_1C & 0x100000) {
+            next_behavior = &D_8008EAC8;
+        } else {
+            next_behavior = &D_8008ACDC;
+        }
+        ((S_80091C64_0 *)motion)->unk_8C = next_behavior;
+        ((S_80091C64_1 *)actor)->unk_14 = (s32) (((S_80091C64_1 *)actor)->unk_14 & 0xFFFDFFFF);
+        ((S_80091C64_0 *)motion)->unk_98 = (u16) (((S_80091C64_0 *)motion)->unk_98 & 0xFFF3);
+        ((S_80091C64_0 *)motion)->unk_A2 = (u16) (((S_80091C64_0 *)motion)->unk_A2 | 0x10);
+        return;
     }
 }

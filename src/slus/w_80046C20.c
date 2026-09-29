@@ -60,7 +60,7 @@ loop_0:
             edge_state[-3] = height;
             edge_state[-6] = edge_value;
 
-                        /* reuse edge_value ($v0) for dx so lh lands in v0 like retail */
+                                    /* reuse edge_value ($v0) for dx so lh lands in v0 like retail */
             edge_value = ((s16 *)bottom_vertex)[0];
             edge_value = edge_value - *edge_x;
             edge_state[-2] = edge_value;

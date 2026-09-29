@@ -388,7 +388,7 @@ loop_3:
         if (object_index >= 0)
             goto loop_3;
         ((S_800218E4_0 *)game)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)game)->unk_2C.s + 1);
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         start_timer = ((S_800218E4_0 *)game)->unk_2E.s - 1;
         ((S_800218E4_0 *)game)->unk_2E.s = start_timer;
@@ -437,7 +437,7 @@ loop_3:
         if ((fall_timer << 0x10) <= 0) {
             ((S_800218E4_5 *)base_object)->unk_08 = 2;
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-                         /* MATCH: the state load precedes timer materialization. */
+                                     /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;
@@ -556,7 +556,7 @@ loop_3:
             } else {
                 state_value = ((S_800218E4_0 *)game)->unk_2C.u;
             }
-                         /* MATCH: the state load precedes timer materialization. */
+                                     /* MATCH: the state load precedes timer materialization. */
             ((S_800218E4_0 *)game)->unk_2E.s = 0x10;
             goto store_next_state;
         }
@@ -579,7 +579,7 @@ loop_3:
         ((S_800218E4_0 *)game)->unk_4A.s = state_value;
         if (transition_timer <= 0) {
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-                         /* MATCH: the state load precedes timer materialization. */
+                                     /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;
@@ -622,7 +622,7 @@ loop_3:
                 func_800B1DBC(payout_handle);
             }
             state_value = ((S_800218E4_0 *)game)->unk_2C.u;
-                         /* MATCH: the state load precedes timer materialization. */
+                                     /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
             ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
             goto store_next_state;

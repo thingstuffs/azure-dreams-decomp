@@ -84,7 +84,7 @@ void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
             s32 delta;
 
             delta = 0xE0E0E0;
-            /*A*/
+                        /*A*/
             func_800D6AD4((void *)((s8 *)effect - 0x20), delta, 0, 0, emit_offset >> 0x10, (s16) index);
             delta = -0x40000;
             emit_offset += delta;

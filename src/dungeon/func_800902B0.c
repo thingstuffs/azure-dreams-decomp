@@ -140,101 +140,106 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
     resource_info = ((u8 *)D_80082E80.unk_030);
     switch (state) {
     case 0:
-    if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
-    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD138), 0, 1);
-    ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
-    func_80093C70(actor, position, animation);
-    func_80093D8C(actor, position, animation);
-    goto advance_state;
-    case 1:
-    load_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
-    if (load_resource == 0) {
-        goto advance_state;
-    }
-    D_80081488 = func_80047DB8(((S_80095A10_3 *)resource_info)->unk_00);
-    func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
-    (*(s8 *)&D_800E3E40) = 0;
-    Control_CD(0xFF, &D_8003E140, &D_800E3E40);
-    goto advance_state;
-    case 2:
-    if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
-        return;
-    }
-    func_80047DF0(state);
-    goto advance_state;
-    case 3:
-    spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
-    if (spawn_resource == 0) {
-        return;
-    }
-    func_80043914(((u8 *)D_80082E80.unk_030));
-    object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6, ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73, (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
-    if (object != NULL) {
-        ((S_80095A10_2 *)context)->unk_60 = object;
-        D_800E3DF0[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
-        object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
-        ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
-        ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
-        object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-        ((S_80095A10_7 *)object_position)->unk_02 = (u16) ((S_80095A10_8 *)position)->unk_02;
-        ((S_80095A10_7 *)object_position)->unk_06 = (u16) ((S_80095A10_8 *)position)->unk_06;
-        ((S_80095A10_7 *)object_position)->unk_0A = (s16) (((S_80095A10_8 *)position)->unk_0A - 0x10);
-        func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
-        func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
-        object_flags = ((S_80095A10_5 *)object)->unk_1C;
-        object_flags |= 0x02000000;
-        object_flags |= 0x20000;
-        ((S_80095A10_5 *)object)->unk_1C = object_flags;
-        func_80042560(object);
-        func_800A56E0(0x704);
-        func_80042B68(object, 3);
-        func_80042B68(object, 1);
-        if (((S_80095A10_5 *)object)->unk_25 == 0) {
-            ((S_80095A10_5 *)object)->unk_25 = 1U;
+        if (!(((S_80095A10_1 *)animation)->unk_14 & 0xE000)) {
+            return;
         }
-    }
-    previous_state = ((S_80095A10_0 *)actor)->unk_9B;
-    {
-        animation_flags = 0x10U;
-        ((S_80095A10_0 *)actor)->unk_96 = animation_flags;
-        goto store_next_state;
-    }
+        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD138;
+        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+            >> 9) & 7) + D_800DD138), 0, 1);
+        ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
+        func_80093C70(actor, position, animation);
+        func_80093D8C(actor, position, animation);
+        goto advance_state;
+    case 1:
+        load_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        if (load_resource == 0) {
+            goto advance_state;
+        }
+        D_80081488 = func_80047DB8(((S_80095A10_3 *)resource_info)->unk_00);
+        func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
+        (*(s8 *)&D_800E3E40) = 0;
+        Control_CD(0xFF, &D_8003E140, &D_800E3E40);
+        goto advance_state;
+    case 2:
+        if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
+            return;
+        }
+        func_80047DF0(state);
+        goto advance_state;
+    case 3:
+        spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
+        if (spawn_resource == 0) {
+            return;
+        }
+        func_80043914(((u8 *)D_80082E80.unk_030));
+        object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6,
+            ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73,
+            (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
+        if (object != NULL) {
+            ((S_80095A10_2 *)context)->unk_60 = object;
+            D_800E3DF0[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
+            object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
+            ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
+            ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
+            object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
+            ((S_80095A10_7 *)object_position)->unk_02 = (u16) ((S_80095A10_8 *)position)->unk_02;
+            ((S_80095A10_7 *)object_position)->unk_06 = (u16) ((S_80095A10_8 *)position)->unk_06;
+            ((S_80095A10_7 *)object_position)->unk_0A = (s16) (((S_80095A10_8 *)position)->unk_0A - 0x10);
+            func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
+            func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
+            object_flags = ((S_80095A10_5 *)object)->unk_1C;
+            object_flags |= 0x02000000;
+            object_flags |= 0x20000;
+            ((S_80095A10_5 *)object)->unk_1C = object_flags;
+            func_80042560(object);
+            func_800A56E0(0x704);
+            func_80042B68(object, 3);
+            func_80042B68(object, 1);
+            if (((S_80095A10_5 *)object)->unk_25 == 0) {
+                ((S_80095A10_5 *)object)->unk_25 = 1U;
+            }
+        }
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        {
+            animation_flags = 0x10U;
+            ((S_80095A10_0 *)actor)->unk_96 = animation_flags;
+            goto store_next_state;
+        }
     case 4:
-    ticks_left = ((S_80095A10_0 *)actor)->unk_96 - 1;
-    ((S_80095A10_0 *)actor)->unk_96 = ticks_left;
-    if ((ticks_left << 0x10) > 0) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
-    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + D_800DD140), 0, 1);
-    goto advance_state;
+        ticks_left = ((S_80095A10_0 *)actor)->unk_96 - 1;
+        ((S_80095A10_0 *)actor)->unk_96 = ticks_left;
+        if ((ticks_left << 0x10) > 0) {
+            return;
+        }
+        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
+        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+            >> 9) & 7) + D_800DD140), 0, 1);
+        goto advance_state;
     case 5:
-    animation_flags = ((S_80095A10_1 *)animation)->unk_14;
-    if (!(animation_flags & 0x6000)) {
-        return;
-    }
-    animation_table = D_800DCFB0;
-    ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
+        animation_flags = ((S_80095A10_1 *)animation)->unk_14;
+        if (!(animation_flags & 0x6000)) {
+            return;
+        }
+        animation_table = D_800DCFB0;
+        ((S_80095A10_1 *)animation)->unk_14 = (u16) (animation_flags & 0xFDFF);
 set_animation:
-    (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
-    func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100) >> 9) & 7) + animation_table), 0, 1);
+        (*(M2C_UNK **)((u8 *)animation + 0x2C)) = animation_table;
+        func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
+            >> 9) & 7) + animation_table), 0, 1);
 advance_state:
-    previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
 store_next_state:
-    ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
-    return;
-    case 6:
-    if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
         return;
-    }
-    func_800956B8(actor, position, animation, resource_info);
-    ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
-    func_80099F70(((S_80095A10_2 *)context)->unk_5C);
-    func_80099F04(((S_80095A10_2 *)context)->unk_5C);
-    dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
-    return;
+    case 6:
+        if (((S_80095A10_10 *)(((S_80095A10_2 *)context)->unk_60))->unk_14 & 0x100000) {
+            return;
+        }
+        func_800956B8(actor, position, animation, resource_info);
+        ((S_80095A10_0 *)actor)->unk_8C = &D_8008ACDC;
+        func_80099F70(((S_80095A10_2 *)context)->unk_5C);
+        func_80099F04(((S_80095A10_2 *)context)->unk_5C);
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
+        return;
     }
 }

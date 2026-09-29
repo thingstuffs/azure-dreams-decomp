@@ -78,7 +78,7 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, Entit
         sprite->unk_14 |= 0xC;
         (*(u32 *)&actor_data->flags1C) |= 0x40000000;
         ((S_8017427C_0 *)actor_state)->unk_9B++;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         fade_ticks = ((S_8017427C_0 *)actor_state)->unk_96.s;

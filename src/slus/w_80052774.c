@@ -64,7 +64,7 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
     }
     *(u32 *)center_line = (*(u32 *)center_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
     ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000)
-        | ((u32)center_line & 0xFFFFFF);
+    | ((u32)center_line & 0xFFFFFF);
 
     blue = blue / 3;
     blue = blue * 2;
@@ -91,7 +91,7 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
     }
     *(u32 *)upper_line = (*(u32 *)upper_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
     ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000)
-        | ((u32)upper_line & 0xFFFFFF);
+    | ((u32)upper_line & 0xFFFFFF);
 
     lower_line = (LineF2 *)((Ctx *)render_state->unk_000)->prim;
     ((Ctx *)render_state->unk_000)->prim = (u8 *)lower_line + 0x10;
@@ -113,5 +113,5 @@ void func_80052774(s16 x, s16 y, s16 width, s16 shade_step)
     }
     *(u32 *)lower_line = (*(u32 *)lower_line & 0xFF000000) | (((Ctx *)render_state->unk_000)->ot & 0xFFFFFF);
     ((Ctx *)render_state->unk_000)->ot = (((Ctx *)render_state->unk_000)->ot & 0xFF000000)
-        | ((u32)lower_line & 0xFFFFFF);
+    | ((u32)lower_line & 0xFFFFFF);
 }

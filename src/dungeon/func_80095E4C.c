@@ -62,9 +62,9 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     direction = (source->index_field >> 9) & 7;
 
     probe_result = func_8009A540(direction,
-                                (s16)(target_x - dirStepX[direction]),
-                                (s16)(target_y - dirStepY[direction]),
-                                (s16)(source->height - 0x20));
+                                 (s16)(target_x - dirStepX[direction]),
+                                 (s16)(target_y - dirStepY[direction]),
+                                 (s16)(source->height - 0x20));
     spawn_x = (u16)target_x;
     spawn_y = (u16)target_y;
     probe_result <<= 0x10;
@@ -74,7 +74,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     }
 
     spawned = func_8009B25C(source, spawn_x, spawn_y,
-                           source->height);
+                            source->height);
     if (spawned != (void *)0) {
         if ((spawned->flags & 0x80000) && source == *active_source) {
             D_80081484[0] = spawned->kind;
@@ -101,9 +101,9 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     if (flags3c >= 0) {
         entry = &D_800E3548[flags3c * 4];
         spawned = func_800A8E74(source,
-                               ((Context *)((u8 *)source - 0x20))->x,
-                               ((Context *)((u8 *)source - 0x20))->y,
-                               source, entry, flags3c);
+                                ((Context *)((u8 *)source - 0x20))->x,
+                                ((Context *)((u8 *)source - 0x20))->y,
+                                source, entry, flags3c);
         if (spawned == (void *)0) {
             return (void *)1;
         }

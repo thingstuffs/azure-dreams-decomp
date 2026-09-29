@@ -6,7 +6,6 @@ typedef struct S_800981D4_0 {
 } S_800981D4_0;   /* arg1 in func_800981D4 */
 
 
-
 extern s32 func_80098DC0(s32 arg0, S_800981D4_0 *arg1, s32 arg2);
 
 s32 func_800981D4(s32 arg0, S_800981D4_0 *arg1, s32 arg2)

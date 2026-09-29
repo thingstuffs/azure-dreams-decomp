@@ -7,7 +7,6 @@ typedef struct S_8001ADF8_2 {
 } S_8001ADF8_2;   /* ((arg1 * 0x10) + arg0->unk_10) in func_8001ADF8 */
 
 
-
 typedef struct S_8001ADF8_1 {
     u8 pad_00[0x10];
     s32 unk_10;

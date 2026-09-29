@@ -194,7 +194,7 @@ no_item:
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
-                /* fall through */
+                        /* fall through */
 
     case 2:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {

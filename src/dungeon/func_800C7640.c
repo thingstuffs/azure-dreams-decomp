@@ -37,7 +37,6 @@ typedef struct S_800CCDA0_3 {
 } S_800CCDA0_3;   /* arg2 in func_800CCDA0 */
 
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern void func_8009CE1C(s32, s32, s32, s32, s32, s32, s32);

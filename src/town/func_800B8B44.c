@@ -8,7 +8,6 @@ typedef struct S_800B62A4_0 {
 } S_800B62A4_0;   /* var_s2 in func_800B62A4 */
 
 
-
 M2C_UNK bzero();            /* extern */
 M2C_UNK func_800B58B8();             /* extern */
 M2C_UNK func_800B6094();            /* extern */

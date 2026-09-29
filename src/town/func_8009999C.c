@@ -211,15 +211,20 @@ s32 func_800970FC(void) {
                 color = texture_depth;
                 texture_rect = D_800D04D0;
                 page_mask = ~0xFF;
-                ((S_800970FC_4 *)primitive)->unk_16 = func_80066460(texture_depth, color, (s16) (((S_800970FC_5 *)D_800D04D0)->unk_00.u & page_mask), (s16) (((S_800970FC_6 *)texture_rect)->unk_02.u & page_mask));
+                ((S_800970FC_4 *)primitive)->unk_16 = func_80066460(texture_depth, color,
+                    (s16) (((S_800970FC_5 *)D_800D04D0)->unk_00.u & page_mask),
+                    (s16) (((S_800970FC_6 *)texture_rect)->unk_02.u & page_mask));
                 func_80066640(primitive, 1);
                 ((S_800970FC_4 *)primitive)->unk_0C = (s8) (((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_0D = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100) + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
+                ((S_800970FC_4 *)primitive)->unk_14 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100)
+                    + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
                 ((S_800970FC_4 *)primitive)->unk_15 = (s8) (((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100);
                 ((S_800970FC_4 *)primitive)->unk_1C = (s8) (((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100);
-                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100) + ((S_800970FC_6 *)texture_rect)->unk_06.u8);
-                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100) + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
+                ((S_800970FC_4 *)primitive)->unk_1D = (s8) ((((S_800970FC_6 *)texture_rect)->unk_02.s % 0x100)
+                    + ((S_800970FC_6 *)texture_rect)->unk_06.u8);
+                ((S_800970FC_4 *)primitive)->unk_24 = (s8) ((((S_800970FC_5 *)D_800D04D0)->unk_00.s % 0x100)
+                    + ((S_800970FC_6 *)texture_rect)->unk_04.u8);
                 texture_y = ((S_800970FC_6 *)texture_rect)->unk_02.s;
                 if (texture_y < 0) {
                     rounded_texture_y = texture_y + 0xFF;

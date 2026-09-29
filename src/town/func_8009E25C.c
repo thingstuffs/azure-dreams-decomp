@@ -88,22 +88,26 @@ void func_8009B9BC(void *object, S_8009B9BC_1 *owner, EntityRec *resolved_pos, s
     dispatched = 1;
 
     if (current_state == (s32)&D_800930E4 || current_state == (s32)&D_80093250) {
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_08)(object, owner, resolved_pos, dispatch_param);
+        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_08)(object, owner, resolved_pos,
+            dispatch_param);
     } else if (current_state == (s32)&D_800AA5F8) {
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14)(object, owner, resolved_pos, dispatch_param);
+        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_14)(object, owner, resolved_pos,
+            dispatch_param);
     } else if (current_state == (s32)&D_80093328) {
-        /* MATCH: preserve the fourth argument register allocation. */
-        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos, dispatch_param);
+                /* MATCH: preserve the fourth argument register allocation. */
+        ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_0C)(object, owner, resolved_pos,
+            dispatch_param);
     } else if (current_state == (s32)&D_80093638) {
         func_8009C340(object, owner, resolved_pos, dispatch_param);
     } else {
         if (!(current_state == (s32)&D_80092698 || current_state == (s32)&D_800927EC ||
-            current_state == (s32)&D_80092A84 || current_state == (s32)&D_80092FF0 ||
-            current_state == (s32)&D_80092CD4 || current_state == (s32)&D_80092DA8 ||
-            current_state == (s32)&D_80092ECC || current_state == (s32)&D_800933FC ||
-            current_state == (s32)&D_80090A6C || func_800352FC() != 0) ||
+              current_state == (s32)&D_80092A84 || current_state == (s32)&D_80092FF0 ||
+              current_state == (s32)&D_80092CD4 || current_state == (s32)&D_80092DA8 ||
+              current_state == (s32)&D_80092ECC || current_state == (s32)&D_800933FC ||
+              current_state == (s32)&D_80090A6C || func_800352FC() != 0) ||
             previous_owner != (s32)owner) {
-            ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_10)(object, owner, resolved_pos, dispatch_param);
+            ((DispatchFn)((S_8009B9BC_4 *)(((Rec_D_80082D58 *)object)->unk_58))->unk_10)(object, owner, resolved_pos,
+                dispatch_param);
         } else {
             dispatched = 0;
         }

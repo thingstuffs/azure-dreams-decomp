@@ -130,7 +130,7 @@ jt_c0:
         (s16)(D_80082E80.tileY +
               (dirStepY[direction_offset >> 1] * 4)));
     ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
-            /* fallthrough */
+                /* fallthrough */
 
 jt_c1:
     if ((((S_8002401C_4 *)(((S_8002401C_0 *)object_bytes)->unk_04))->unk_00 & 0x80) != 0) {
@@ -151,7 +151,7 @@ jt_c2:
     if (((S_8002401C_0 *)object_bytes)->unk_1C.s < 0) {
         func_800A56E0(0x300);
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
-                    /* fallthrough */
+                            /* fallthrough */
 
 jt_c3:
         if (D_800273BC == 0) {

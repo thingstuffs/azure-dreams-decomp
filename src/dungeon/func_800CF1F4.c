@@ -52,7 +52,6 @@ typedef struct S_800D4954_5 {
 } S_800D4954_5;   /* temp_s1 in func_800D4954 */
 
 
-
 extern s32 func_80042900(void *, s32);
 
 /* Updates an attached effect's position, color, growth, and removal flags. */

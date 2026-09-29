@@ -4,7 +4,6 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 
-
 typedef s32 M2C_UNK;
 
 
@@ -17,8 +16,6 @@ typedef struct S_800AA888_4 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_8009A3D0();
-
-
 
 
 /* Reset action state, update the tile, and refresh entity flags and data. */

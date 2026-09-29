@@ -14,7 +14,6 @@ typedef struct S_8009A3A4_2 {
 } S_8009A3A4_2;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_44 in func_8009A3A4 */
 
 
-
 extern s32 func_80094984();
 extern s32 func_80098928();
 

@@ -9,8 +9,6 @@ extern s32 func_80064584(s32);
 extern void func_8008F134(void *);
 
 
-
-
 typedef struct S_800B9D64_1 {
     u8 pad_00[0x8];
     s32 unk_08;

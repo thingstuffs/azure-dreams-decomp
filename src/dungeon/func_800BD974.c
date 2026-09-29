@@ -46,13 +46,15 @@ s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, item, action_type);
-        if (func_800AD6FC(entity, (*((u16 *)(D_800DDE84 + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2)) >> 6) & 3, 0) == 0) {
+        if (func_800AD6FC(entity, (*((u16 *)(D_800DDE84 + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
+            >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, item);
             return 1;
         }
     }
     tile = ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_00;
-    func_800C5BBC((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20, ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
+    func_800C5BBC((tile->unk_24 << 6) | 0x20, (tile->unk_25 << 6) | 0x20,
+        ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_9C, 0x802080, 0x20, 1);
     if (((func_800A48F0(entity, 5, 8) << 0x10) != 0) && (((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_28 & 0x4000)) {
         func_80099844(entity, &D_800E1729);
     }

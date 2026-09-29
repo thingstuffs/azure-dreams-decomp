@@ -22,8 +22,6 @@ typedef struct S_800A6F48_15 {
 } S_800A6F48_15;   /* ((S_800A6F48_13 *)temp_v0_3)->unk_08 in func_800A6F48 */
 
 
-
-
 void *func_800A75B8();                         /* extern */
 M2C_UNK func_800ABD74();               /* extern */
 extern M2C_UNK D_800A70EC;
@@ -140,7 +138,8 @@ void func_800A6F48(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2
     first_object->unk_B0 = 0;
     func_800ABD74(position, first_object);
     second_offset_data = spawn_state->unk_0C;
-    position[0] = origin->unk_00 - ((((S_800A6F48_7 *)second_offset_data)->unk_04 + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
+    position[0] = origin->unk_00 - ((((S_800A6F48_7 *)second_offset_data)->unk_04
+        + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
     first_object = func_800A75B8(position);
     ((S_800A6F48_15 *)(((S_800A6F48_13 *)first_object)->unk_08))->unk_0C = -0x8000;
     second_y_data = first_object->unk_08;

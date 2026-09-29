@@ -69,7 +69,7 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
             func_800AAA54(state, motion, info, 0);
             return;
         }
-        /* fall through */
+                /* fall through */
     case 1:
     {
         s32 velocity_x;

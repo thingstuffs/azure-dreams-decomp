@@ -7,8 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
-
 extern u16 D_800DDE84[];
 extern u8 D_800E1258[];
 
@@ -36,8 +34,8 @@ s32 func_800BF478(EntityRec *target, s32 item, s16 use_type, s32 use_context)
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, item, use_type);
         if (func_800AD6FC(target,
-                         D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
-                         item) == 0) {
+                          D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] & 3,
+                          item) == 0) {
             func_800A5F38(target, item);
             return 1;
         }

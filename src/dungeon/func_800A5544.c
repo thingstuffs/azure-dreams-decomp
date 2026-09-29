@@ -15,7 +15,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern s16 func_800BCB04(s32, s32, s16);
 
 
-
 typedef struct S_800AACA4_1 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -50,7 +49,6 @@ typedef struct S_800AACA4_5 {
     u8 pad_00[0x4];
     void * unk_04;
 } S_800AACA4_5;   /* entry in func_800AACA4 */
-
 
 
 typedef struct S_800AACA4_8 {
@@ -98,7 +96,8 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082
     entity_data = entity->unk_60;
     source_object = ((S_800AACA4_2_pre *)entity_data)[-1].unk_04;
     resource_table = ((S_800AACA4_9 *)(source_object->unk_28))->unk_00;
-    resource_entry = (*(void * *)((u8 *)(resource_table->unk_00) + ((S_800AACA4_10 *)(source_object->unk_2C))->unk_02 * 4));
+    resource_entry = (*(void * *)((u8 *)(resource_table->unk_00)
+        + ((S_800AACA4_10 *)(source_object->unk_2C))->unk_02 * 4));
     if (func_8003DE58(resource_entry->unk_04, source_object, &height_adjustment, 0) == 0) {
         height_adjustment.value = -0x60;
     }

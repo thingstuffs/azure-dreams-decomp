@@ -12,7 +12,6 @@ typedef struct S_800B70EC_0 {
 } S_800B70EC_0;   /* work in func_800B70EC */
 
 
-
 extern void func_80046E38();
 extern void func_80067014();
 extern void func_8006733C();
@@ -29,7 +28,10 @@ extern u16 D_80111FA8[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
-static __inline__ s16 scene_below(s32 scene, s32 bound) { return scene < bound; }
+static __inline__ s16 scene_below(s32 scene, s32 bound)
+{
+    return scene < bound;
+}
 
 /* Initialize town asset state and load graphics for the current scene. */
 void func_800B70EC(void) {

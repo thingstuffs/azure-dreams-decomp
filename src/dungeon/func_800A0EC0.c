@@ -31,7 +31,6 @@ typedef struct S_800A6620_3 {
 } S_800A6620_3;   /* owner in func_800A6620 */
 
 
-
 extern void func_800422DC(void *arg0, void *arg1);
 extern s32 func_80042900(void *arg0, s32 arg1);
 extern void func_80098B38(void *arg0);

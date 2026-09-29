@@ -42,7 +42,6 @@ typedef struct S_8008E504_4 {
 } S_8008E504_4;   /* arg2 in func_8008E504 */
 
 
-
 extern s32 D_80081484;
 extern s32 D_800E3540;
 extern u8 D_8008ACDC[];
@@ -88,7 +87,7 @@ void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *spri
             actor->unk_96 = 1U;
         }
         actor->unk_9B = (u8)(actor->unk_9B + 1);
-        /* fall through */
+                /* fall through */
     case 1:
         if (entity->unk_1C & 0x100000) {
             actor->unk_8C = D_8008EAC8;

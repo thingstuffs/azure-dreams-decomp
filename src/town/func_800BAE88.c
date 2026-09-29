@@ -83,7 +83,8 @@ case_4_8:
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
         filter_entry = selected_entry;
-        loop_0: {
+loop_0:
+        {
             slot_offset = slot & 0xFF;
             slot_offset *= 2;
             slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
@@ -94,7 +95,9 @@ case_4_8:
                 slot_count++;
             }
             slot++;
-        } if ((u8)slot < 0x21) goto loop_0;
+        }
+        if ((u8)slot < 0x21)
+            goto loop_0;
         *slot_out = 0;
         goto return_count;
     }

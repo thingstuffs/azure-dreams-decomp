@@ -23,7 +23,6 @@ extern void func_800B4C7C(s32, void *, s32, s32);
 extern void func_800C4D78(s32, s16);
 
 
-
 typedef struct S_800BF9EC_2_pre {
     void * unk_00;
     u8 pad_04[0x10];

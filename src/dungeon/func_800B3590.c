@@ -12,10 +12,13 @@ typedef struct S_800B8CF0_0 {
 
 typedef struct S_800B8CF0_1 {
     u8 pad_00[0xC];
-    union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; s8 v; } at01;
+        struct { u8 pad[0x2]; s8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
 } S_800B8CF0_1;   /* arg2 in func_800B8CF0 */
-
-
 
 
 /* Count down the effect, alternating its shade until marking it finished. */

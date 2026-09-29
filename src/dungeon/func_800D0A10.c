@@ -159,10 +159,10 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
             packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
             ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
             ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                                  scratch + 0xC0, scratch + 0xC8,
-                                  packet + 8, packet + 0xC,
-                                  packet + 0x10, packet + 0x14,
-                                  scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+                                     scratch + 0xC0, scratch + 0xC8,
+                                     packet + 8, packet + 0xC,
+                                     packet + 0x10, packet + 0x14,
+                                     scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
             ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
 
             if ((u32)ot_index < 0x1E0) {
@@ -179,9 +179,11 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
                     func_800666E0(packet);
 
                     ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & length_mask) |
-                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & address_mask);
+                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
+                            + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & address_mask);
                     (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
-                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & length_mask) |
+                        ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
+                            + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & length_mask) |
                         ((u32)packet & address_mask);
                 }
             }
@@ -206,10 +208,10 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
         packet = ((S_800D6170_3 *)(*render_context))->unk_8D0;
         ((S_800D6170_3 *)(*render_context))->unk_8D0 = packet + 0x18;
         ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                              scratch + 0xC0, scratch + 0xC8,
-                              packet + 8, packet + 0xC,
-                              packet + 0x10, packet + 0x14,
-                              scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+                                 scratch + 0xC0, scratch + 0xC8,
+                                 packet + 8, packet + 0xC,
+                                 packet + 0x10, packet + 0x14,
+                                 scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
         ((S_800D6170_0 *)scratch)->unk_100 = ot_index;
 
         if ((u32)ot_index < 0x1E0) {
@@ -226,9 +228,11 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
                 func_800666E0(packet);
 
                 ((S_800D6170_4 *)packet)->unk_00 = (((S_800D6170_4 *)packet)->unk_00 & 0xFF000000) |
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
+                        + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
                 (*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2) + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                    ((*(u32 *)((u8 *)(((S_800D6170_0 *)scratch)->unk_24.p2)
+                        + ((S_800D6170_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
         }

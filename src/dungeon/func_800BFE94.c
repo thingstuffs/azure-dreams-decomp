@@ -99,7 +99,6 @@ typedef struct S_800C55F4_10 {
 } S_800C55F4_10;   /* ((S_800C55F4_9 *)global_base)->unk_00 in func_800C55F4 */
 
 
-
 extern s32 func_8004CECC();
 extern s32 func_80064840();
 extern s32 func_800649A0();
@@ -115,7 +114,10 @@ extern s32 func_8006658C();
 extern s32 func_800666B8();
 extern s32 func_80067F20();
 
-static __inline__ s32 narrow_depth(s32 value) { return (s16)value; }
+static __inline__ s32 narrow_depth(s32 value)
+{
+    return (s16)value;
+}
 
 /* Transform mesh triangles, shade visible vertices, and append draw packets to the ordering table. */
 void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
@@ -185,7 +187,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     }
 
     result = func_80065420(vector_arg, screen_arg,
-                          (void *)0x1F800090, (void *)0x1F800094);
+                           (void *)0x1F800090, (void *)0x1F800094);
     vector_arg = saved_matrix;
     depth_bias = narrow_depth(depth_bias);
     ((S_800C55F4_1 *)scratch)->unk_CC = result - depth_bias;

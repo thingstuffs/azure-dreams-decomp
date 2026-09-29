@@ -76,7 +76,7 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
             cleared = arg2->unk_14.at00_u16.v;
-             /* MATCH: keep each clear load in its own arm. */
+                         /* MATCH: keep each clear load in its own arm. */
             cleared = (u16)(cleared - (cleared & 1));
         } else {
             cleared = arg2->unk_14.at00_u16.v | 1;
@@ -85,14 +85,14 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
         if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
                                (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
             cleared = arg2->unk_14.at00_u16.v;
-            
+
             cleared &= 0xFFFE;
         } else {
             cleared = arg2->unk_14.at00_u16.v | 1;
         }
     }
 
-     /* MATCH: keep the flag store in the common tail. */
+         /* MATCH: keep the flag store in the common tail. */
     arg2->unk_14.at00_u16.v = cleared;
     func_800C2C80(arg0, arg2, 0, 0);
 }

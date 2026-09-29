@@ -35,11 +35,11 @@ typedef struct S_800A2000_2 {
 } S_800A2000_2;   /* display in func_800A2000 */
 
 
-
 extern void *func_8003FD64();
 
 /* Allocate an object and initialize its payload, display transform, and color. */
-void *func_800A2000(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param, s32 object_value) {
+void *func_800A2000(s32 object_key, s32 payload_value, s32 payload_param, s32 payload_halfword, s32 object_param,
+    s32 object_value) {
     void *obj = func_8003FD64(0x136, object_key - 0x20);
     S_800A2000_2 *display;
     S_800A2000_1 *payload;

@@ -14,7 +14,6 @@ typedef struct S_800CC070_1 {
 } S_800CC070_1;   /* arg1 in func_800CC070 */
 
 
-
 extern void func_80095388(void *);
 extern s16 func_800C2AE8(void *);
 extern void func_800C2E84(void *, s32, void *);

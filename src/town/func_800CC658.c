@@ -25,7 +25,8 @@ void func_800C9DB8(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, M2C_UNK con
 retry:
         attempts -= 1;
         action = 0;
-        if (attempts <= 0) break;
+        if (attempts <= 0)
+            break;
         {
             action = func_800374F4(3) & 0xFFFF;
             if (action == 1) {

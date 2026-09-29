@@ -28,7 +28,6 @@ typedef struct S_80096AE0_3 {
 } S_80096AE0_3;   /* part in func_80096AE0 */
 
 
-
 extern void func_800419EC(s32, s32);
 extern s32 func_80094EA4(void);
 extern u8 D_80096384[];

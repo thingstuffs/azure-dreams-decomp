@@ -13,8 +13,6 @@ typedef struct S_800C4C00_0 {
 } S_800C4C00_0;   /* arg0 in func_800C4C00 */
 
 
-
-
 /* Fades the color toward the target, then back to neutral, and marks completion. */
 void func_800C4C00(void *fade)
 {

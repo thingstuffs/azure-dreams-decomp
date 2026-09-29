@@ -111,11 +111,13 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
         }
         (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
     case 1:
-        selection_result = func_8009074C((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state + 0x104)) + 0x2A);
+        selection_result = func_8009074C((*(s16 *)((u8 *)state + 0x9E)), state + 0xA2, (*(void **)((u8 *)state
+            + 0x104)) + 0x2A);
         selection_code = (s16) selection_result;
         if (selection_code != 0xFFF) {
             ((S_80091430_7 *)((*(void **)((u8 *)state + 0x104))))->unk_2A = selection_result;
-            func_8009F644(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)), (selection_result << 0x10 >> 0x19) & 7);
+            func_8009F644(actor, 0x70, (s32) (*(void **)((u8 *)state + 0x104)) == (*(s32 *)((u8 *)state + 0xB0)),
+                (selection_result << 0x10 >> 0x19) & 7);
         }
         if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
             selection_data = (*(void **)((u8 *)state + 0x104));
@@ -123,7 +125,8 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
                 if ((func_80094208(0) == 0) && !(actor->unk_1C & 0x100000)) {
                     actor->unk_8A = (s16) ((s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC)));
                     D_80082EB0[0] = 0;
-                    if ((func_8009402C(state, context_a, context_b, &action_id, &action_arg, D_80082EB0[0]) << 0x10) != 0) {
+                    if ((func_8009402C(state, context_a, context_b, &action_id, &action_arg, D_80082EB0[0]) << 0x10)
+                        != 0) {
                         func_800997FC(&D_800E2004);
                     } else {
                         func_8004E130();
@@ -141,7 +144,8 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
             } else {
                 if (selection_data != NULL) {
                     if (((s32)dungeon_state->unk_010) & 0x10) {
-                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
+                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
+                            *D_800DCE66);
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                         actor->unk_8A = slot_index;
                         *D_800E4940 = (s32) slot_index;
@@ -164,7 +168,8 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
                         return;
                     }
                     if (((s32)dungeon_state->unk_010) & 0x40) {
-                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8, *D_800DCE66);
+                        func_800C77D0(selection_data - 0x20, ((S_80091430_2_pre *)selection_data)[-1].unk_00, 8,
+                            *D_800DCE66);
                         slot_index = (s32) (*(void **)((u8 *)state + 0x104)) != (*(s32 *)((u8 *)state + 0xAC));
                         actor->unk_8A = slot_index;
                         *D_800E4940 = (s32) slot_index;

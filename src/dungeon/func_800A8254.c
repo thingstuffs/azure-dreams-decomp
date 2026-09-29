@@ -23,7 +23,6 @@ typedef struct S_800AD9B4_0_pre {
 } S_800AD9B4_0_pre;   /* the 0x2 bytes before arg1 in func_800AD9B4, addressed as arg1[-1] */
 
 
-
 /* Process an eligible dungeon entry and apply its state updates. */
 s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
 {

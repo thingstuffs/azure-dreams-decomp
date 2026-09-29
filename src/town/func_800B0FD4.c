@@ -72,13 +72,19 @@ void func_800AE734(S_800AE734_0 *collection) {
     if (collection->unk_28 > 0) {
         do {
             entry_offset = entry_index * 4;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_08 = 0x20;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_38))->unk_04.s))->unk_08 = 0x20;
             *((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.u = 0x68;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_01 = 0x68;
-            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_38))->unk_04.s))->unk_02 = 0x60;
-            ((S_800AE734_7 *)(((S_800AE734_3 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_08))->unk_04))->unk_08 = 9;
-            ((S_800AE734_8 *)(((S_800AE734_4 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_20))->unk_04))->unk_08 = 0x39;
-            ((S_800AE734_9 *)(((S_800AE734_5 *)(((S_800AE734_1 *)((entry_offset + collection->unk_D8)))->unk_50))->unk_04))->unk_08 = 0x8F;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_38))->unk_04.s))->unk_01 = 0x68;
+            ((S_800AE734_6 *)(((S_800AE734_2 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_38))->unk_04.s))->unk_02 = 0x60;
+            ((S_800AE734_7 *)(((S_800AE734_3 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_08))->unk_04))->unk_08 = 9;
+            ((S_800AE734_8 *)(((S_800AE734_4 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_20))->unk_04))->unk_08 = 0x39;
+            ((S_800AE734_9 *)(((S_800AE734_5 *)(((S_800AE734_1 *)((entry_offset
+                + collection->unk_D8)))->unk_50))->unk_04))->unk_08 = 0x8F;
             entry_index += 1;
         } while (entry_index < collection->unk_28);
     }

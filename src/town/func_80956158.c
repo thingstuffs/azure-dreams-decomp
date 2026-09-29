@@ -14,8 +14,6 @@ typedef struct S_80023158_1 {
 } S_80023158_1;   /* obj in func_80023158 */
 
 
-
-
 extern s32 rand(void *);
 extern void func_800ABD74(void *);
 
@@ -31,7 +29,8 @@ void func_80023158(S_80023158_0 *sequence, EntityRec *target)
     owner = sequence->unk_00;
 
     switch (state) {
-    case 0: {
+    case 0:
+    {
 
         if (owner->unk_2C != 3) {
             break;

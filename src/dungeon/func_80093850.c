@@ -21,20 +21,20 @@ s32 func_80098FB0(void) {
     run_start = -1;
     entry_index = 0x13;
     entry_address = (s8 *)0x8001004C;
-for (;;) {
+    for (;;) {
 loop_1:
-    if (((S_80098FB0_0 *)entry_address)->unk_249 == 0) {
-        run_start = entry_index;
-    } else if (run_start >= 0) {
-        break;
+        if (((S_80098FB0_0 *)entry_address)->unk_249 == 0) {
+            run_start = entry_index;
+        } else if (run_start >= 0) {
+            break;
+        }
+        entry_index -= 1;
+        entry_address -= 4;
+        if (entry_index < 0) {
+            break;
+        }
+        goto loop_1;
     }
-    entry_index -= 1;
-    entry_address -= 4;
-    if (entry_index < 0) {
-        break;
-    }
-    goto loop_1;
-}
 done:
     shifted_index = run_start << 0x10;
     return shifted_index >> 0x10;

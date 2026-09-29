@@ -174,7 +174,8 @@ void func_800C9AAC(void *state, void *object_motion, void *object_part)
             (*(s32 *)((u8 *)state + (0x90))) = height_position;
 
             if (!(motion_flags & 8)) {
-                target_height = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v, ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
+                target_height = func_800BCB04(((S_800C9AAC_1 *)motion)->unk_00.at02.v,
+                    ((S_800C9AAC_1 *)motion)->unk_04.at02.v,
                     (s16)(((S_800C9AAC_2 *)secondary)->unk_88 - 0x20)) -
                     ((S_800C9AAC_2 *)secondary)->unk_88;
                 old_height = (*(u16 *)((u8 *)state + (0x92)));

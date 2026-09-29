@@ -271,7 +271,7 @@ jt_c0:
     goto update_height;
 jt_c1:
     ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
-        + ((S_80171D74_3 *)motion_in)->unk_10.n;
+    + ((S_80171D74_3 *)motion_in)->unk_10.n;
     rise_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
     ((S_80171D74_1 *)state_in)->unk_96 = rise_frame;
     if ((s16) rise_frame >= 0x38) {
@@ -320,7 +320,7 @@ jt_c3:
     goto update_height;
 jt_c4:
     ((S_80171D74_3 *)motion_in)->unk_04.at00.v = ((S_80171D74_3 *)motion_in)->unk_04.at00.v
-        + ((S_80171D74_3 *)motion_in)->unk_10.n;
+    + ((S_80171D74_3 *)motion_in)->unk_10.n;
     lift_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
     ((S_80171D74_1 *)state_in)->unk_96 = lift_frame;
     if ((s16) lift_frame >= 0x10) {
@@ -430,7 +430,7 @@ jt_c13:
 jt_c15:
     ((S_80171D74_1 *)state_in)->unk_96 = 0x1EU;
     ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            /* fallthrough */
+                /* fallthrough */
 jt_c16:
     {
         s32 target_x = ((Rec_D_800E3D7C *)(((s32 *)(&D_80083780))))->unk_00.at00_vs32.v;
@@ -542,7 +542,7 @@ jt_c19:
     ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) target_pos->unk_00.at00.v;
     ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) target_pos->unk_04.at00.v;
     ((S_80171D74_3 *)motion_in)->unk_14 = (void *) target_pos->unk_08;
-            /* fallthrough */
+                /* fallthrough */
 jt_c20:
     ((S_80171D74_3 *)motion_in)->unk_00.at00.v += (((S_80171D74_3 *)motion_in)->unk_0C.n
         - ((S_80171D74_3 *)motion_in)->unk_00.at00.v) / (s16) ((S_80171D74_1 *)state_in)->unk_96;
@@ -746,7 +746,7 @@ jt_c33:
         owner_state->unk_2A.n = (u16) facing_angle;
         func_80047784(sprite_in, *(((S_80171D74_5 *)sprite_in)->unk_2C.p2
             + (((s32) (((S_80171D74_6 *)((s16 *)(&gameWork.view.viewAngle)))->unk_00 + facing_angle + 0x100)
-            >> 9) & 7)), 0);
+                >> 9) & 7)), 0);
     }
     goto update_sprite;
 jt_c34:

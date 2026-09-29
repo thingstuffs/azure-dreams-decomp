@@ -55,15 +55,15 @@ s16 *func_800C1034(s32 unused, s32 index) {
                 func_800C0FE4(output, entry_index);
                 break;
             default:
-                {
-                    TownEntry *entry;
+            {
+                TownEntry *entry;
 
-                    copy_dest = (u16 *)&D_80110004[0x31FC];
-                    copy_entries = (TownEntry *)&D_800D0004[0x4090];
-                    entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
-                    copy_dest[2] = entry->unk6;
-                    copy_dest[3] = entry->unk8;
-                }
+                copy_dest = (u16 *)&D_80110004[0x31FC];
+                copy_entries = (TownEntry *)&D_800D0004[0x4090];
+                entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
+                copy_dest[2] = entry->unk6;
+                copy_dest[3] = entry->unk8;
+            }
                 break;
             }
             return D_80113200;

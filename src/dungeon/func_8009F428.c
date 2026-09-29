@@ -48,95 +48,97 @@ void func_800A4B88(void *object, s32 action) {
     action_index = (s16) (action - 1);
     switch (action_index) {
     case 0:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x200);
-    break;
-    case 1:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x400);
-    break;
-    case 2:
-    ((EntityRec *)object)->flags1C = (s32) ((((EntityRec *)object)->flags1C & 0xFFFDFFFF) | 0x10);
-    break;
-    case 3:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x20);
-    break;
-    case 4:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x40);
-    break;
-    case 5:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x80);
-    break;
-    case 7:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x800);
-    break;
-    case 8:
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x1000);
-    break;
-    case 26:
-    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-    tile_x = ((S_800A4B88_1 *)position)->unk_24;
-    tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    clear_mask = 0x3000;
-    if (((EntityRec *)object)->flags1C & 0x2000) {
-        clear_mask = 0x300;
-    }
-    func_8009A3D0(tile_x, tile_y, clear_mask);
-    break;
-    case 10:
-    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-    tile_x = ((S_800A4B88_1 *)position)->unk_24;
-    tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    enable_clear_mask = 0x3000;
-    if (((EntityRec *)object)->flags1C & 0x2000) {
-        enable_clear_mask = 0x300;
-    }
-    func_8009A3D0(tile_x, tile_y, enable_clear_mask);
-    updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
-    ((EntityRec *)object)->flags1C = updated_flags;
-    tile_x = ((S_800A4B88_1 *)position)->unk_24;
-    tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    set_mask = 0x3000;
-    if (updated_flags & 0x2000) {
-        set_mask = 0x300;
-    }
-    func_8009A21C(tile_x, tile_y, set_mask);
-    break;
-    case 11:
-    position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
-    tile_x = ((S_800A4B88_1 *)position)->unk_24;
-    tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    disable_clear_mask = 0x3000;
-    if (((EntityRec *)object)->flags1C & 0x2000) {
-        disable_clear_mask = 0x300;
-    }
-    func_8009A3D0(tile_x, tile_y, disable_clear_mask);
-    ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
-    tile_x = ((S_800A4B88_1 *)position)->unk_24;
-    tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    set_mask = 0x3000;
-    func_8009A21C(tile_x, tile_y, set_mask);
-    break;
-    case 9:
-    func_8003E188(0x2E, 0);
-    if (((EntityRec *)object)->flags14 & 0x20000000) {
-        func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04, object);
-        return;
-    }
-    func_800D8590(object);
-    if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x200);
         break;
-    }
-    func_80096088(object, object);
-    update_state = &D_80082E80;
-    (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
-    func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
-    reset_index = 3;
-    reset_slot = D_80083110;
-    reset_slot += 3;
-    do {
-        *reset_slot = 0;
-        reset_index -= 1;
-        reset_slot -= 1;
-    } while (reset_index >= 0);
+    case 1:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x400);
+        break;
+    case 2:
+        ((EntityRec *)object)->flags1C = (s32) ((((EntityRec *)object)->flags1C & 0xFFFDFFFF) | 0x10);
+        break;
+    case 3:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x20);
+        break;
+    case 4:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x40);
+        break;
+    case 5:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x80);
+        break;
+    case 7:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x800);
+        break;
+    case 8:
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C | 0x1000);
+        break;
+    case 26:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((S_800A4B88_1 *)position)->unk_24;
+        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            clear_mask = 0x300;
+        }
+        func_8009A3D0(tile_x, tile_y, clear_mask);
+        break;
+    case 10:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((S_800A4B88_1 *)position)->unk_24;
+        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        enable_clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            enable_clear_mask = 0x300;
+        }
+        func_8009A3D0(tile_x, tile_y, enable_clear_mask);
+        updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
+        ((EntityRec *)object)->flags1C = updated_flags;
+        tile_x = ((S_800A4B88_1 *)position)->unk_24;
+        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        set_mask = 0x3000;
+        if (updated_flags & 0x2000) {
+            set_mask = 0x300;
+        }
+        func_8009A21C(tile_x, tile_y, set_mask);
+        break;
+    case 11:
+        position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
+        tile_x = ((S_800A4B88_1 *)position)->unk_24;
+        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        disable_clear_mask = 0x3000;
+        if (((EntityRec *)object)->flags1C & 0x2000) {
+            disable_clear_mask = 0x300;
+        }
+        func_8009A3D0(tile_x, tile_y, disable_clear_mask);
+        ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
+        tile_x = ((S_800A4B88_1 *)position)->unk_24;
+        tile_y = ((S_800A4B88_1 *)position)->unk_25;
+        set_mask = 0x3000;
+        func_8009A21C(tile_x, tile_y, set_mask);
+        break;
+    case 9:
+        func_8003E188(0x2E, 0);
+        if (((EntityRec *)object)->flags14 & 0x20000000) {
+            func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04,
+                object);
+            return;
+        }
+        func_800D8590(object);
+        if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
+            break;
+        }
+        func_80096088(object, object);
+        update_state = &D_80082E80;
+        (((M2C_UNK *)update_state->unk_02C)) = D_800DD274;
+        func_8003DB94(update_state, *(s32 *)(D_800DD274 + ((((s32) (gameWork.view.viewAngle + (*(s16 *)((u8 *)object
+            + 0x2A)) + 0x100) >> 7) & 0x1C))), 0);
+        reset_index = 3;
+        reset_slot = D_80083110;
+        reset_slot += 3;
+        do {
+            *reset_slot = 0;
+            reset_index -= 1;
+            reset_slot -= 1;
+        } while (reset_index >= 0);
     }
     func_80041E70(object);
     return;

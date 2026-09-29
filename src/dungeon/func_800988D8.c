@@ -81,7 +81,8 @@ typedef struct S_func_8009E038_8 {
 } S_func_8009E038_8;
 
 /* Update the viewport transition, blending its bounds, center, scale, and brightness. */
-void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params, M2C_UNK *context) {
+void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_func_8009E038_2 *render_params,
+    M2C_UNK *context) {
     s32 top_step;
     GameWork *input;
     s16 reset_frames;
@@ -177,10 +178,14 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
             render->unk_22.u16 = (u16) (offset_y + ((s32) (0x20 - offset_y) / (s16) transition->unk_1C));
             center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (0xA0 - center->unk_02) / (s16) transition->unk_1C));
             center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (0x78 - center->unk_06) / (s16) transition->unk_1C));
-            transition->unk_04 = (s16) ((u16) transition->unk_04 + ((s32) (0 - transition->unk_04) / (s16) transition->unk_1C));
-            transition->unk_06 = (s16) ((u16) transition->unk_06 + ((s32) (0 - transition->unk_06) / (s16) transition->unk_1C));
-            transition->unk_08 = (s16) ((u16) transition->unk_08 + ((s32) (0x140 - transition->unk_08) / (s16) transition->unk_1C));
-            transition->unk_0A = (s16) ((u16) transition->unk_0A + ((s32) (0xE0 - transition->unk_0A) / (s16) transition->unk_1C));
+            transition->unk_04 = (s16) ((u16) transition->unk_04 + ((s32) (0
+                - transition->unk_04) / (s16) transition->unk_1C));
+            transition->unk_06 = (s16) ((u16) transition->unk_06 + ((s32) (0
+                - transition->unk_06) / (s16) transition->unk_1C));
+            transition->unk_08 = (s16) ((u16) transition->unk_08 + ((s32) (0x140
+                - transition->unk_08) / (s16) transition->unk_1C));
+            transition->unk_0A = (s16) ((u16) transition->unk_0A + ((s32) (0xE0
+                - transition->unk_0A) / (s16) transition->unk_1C));
         }
         reset_remaining = (u16) transition->unk_1C - 1;
         transition->unk_1C = reset_remaining;
@@ -226,15 +231,20 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
             moving_scale = ((s32) (transition->unk_1E - render->unk_1E) / move_frames) + render->unk_1E;
             render->unk_1E = moving_scale;
             render->unk_1C = moving_scale;
-            center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (transition->unk_14 - center->unk_02) / (s16) transition->unk_1C));
-            center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_16 - center->unk_06) / (s16) transition->unk_1C));
-            render->unk_20.u16 = (u16) (((s32) (D_80082E80.tileX - render->unk_20.u16) / (s16) transition->unk_1C) + render->unk_20.u16);
-            render->unk_22.u16 = (u16) (((s32) (D_80082E80.tileY - render->unk_22.u16) / (s16) transition->unk_1C) + render->unk_22.u16);
+            center->unk_02 = (s16) ((u16) center->unk_02 + ((s32) (transition->unk_14
+                - center->unk_02) / (s16) transition->unk_1C));
+            center->unk_06 = (s16) ((u16) center->unk_06 + ((s32) (transition->unk_16
+                - center->unk_06) / (s16) transition->unk_1C));
+            render->unk_20.u16 = (u16) (((s32) (D_80082E80.tileX - render->unk_20.u16) / (s16) transition->unk_1C)
+                + render->unk_20.u16);
+            render->unk_22.u16 = (u16) (((s32) (D_80082E80.tileY - render->unk_22.u16) / (s16) transition->unk_1C)
+                + render->unk_22.u16);
             left_step = (s32) (transition->unk_0C - transition->unk_04) / (s16) transition->unk_1C;
             transition->unk_04 = (s16) ((u16) transition->unk_04 + left_step);
             top_step = (s32) (transition->unk_0E - transition->unk_06) / (s16) transition->unk_1C;
             transition->unk_06 = (s16) ((u16) transition->unk_06 + top_step);
-            transition->unk_08 = (s16) ((u16) transition->unk_08 + ((s32) (transition->unk_10 - transition->unk_08) / (s16) transition->unk_1C));
+            transition->unk_08 = (s16) ((u16) transition->unk_08 + ((s32) (transition->unk_10
+                - transition->unk_08) / (s16) transition->unk_1C));
             height_step = (s32) (transition->unk_12 - transition->unk_0A) / (s16) transition->unk_1C;
             transition->unk_0A = (s16) ((u16) transition->unk_0A + height_step);
             move_remaining = (u16) transition->unk_1C - 1;
@@ -294,7 +304,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         transition->unk_2C = 0U;
         transition->unk_1A = 0;
         transition->unk_1C = 1;
-    store_flags:
+store_flags:
         flags_page->unk_296C = shared_flags & flags_mask;
         break;
     case 32:

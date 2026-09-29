@@ -27,7 +27,7 @@ void func_800B2A38(S_800B52D8 *table, void *unused) {
         read_index = 0;
         if (table->count > 0) {
             value_write = values;
-        copy_items:
+copy_items:
             item = table->items[read_index];
             read_index += 1;
             if (item != 0) {
@@ -42,7 +42,7 @@ void func_800B2A38(S_800B52D8 *table, void *unused) {
         if (table->count > 0) {
             value_read = values;
             dest_base = (u8 *)0x80010000;
-        write_values:
+write_values:
             if (table->items[write_index] != 0) {
                 *(UA32 *)(dest_base + 0x1F80) = *value_read;
                 value_read += 1;

@@ -380,9 +380,9 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
                     }
 
                     ((S_80024BE8_5 *)motion)->unk_0C = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].x
-                        << 16;
+                    << 16;
                     ((S_80024BE8_5 *)motion)->unk_10 = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].y
-                        << 16;
+                    << 16;
                     ((S_80024BE8_5 *)motion)->unk_14 =
                         ((((S_80024BE8_0 *)effect)->unk_78.s << 16) - ((S_80024BE8_5 *)motion)->unk_08.at00.v) /
                         ((S_80024BE8_0 *)effect)->unk_7B;

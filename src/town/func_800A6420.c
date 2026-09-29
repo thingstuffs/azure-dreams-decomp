@@ -36,7 +36,6 @@ typedef struct S_800A3B80_5 {
 } S_800A3B80_5;   /* end_town in func_800A3B80 */
 
 
-
 typedef struct TownGlobals {
     void *root;
     u8 pad04[0xC4];

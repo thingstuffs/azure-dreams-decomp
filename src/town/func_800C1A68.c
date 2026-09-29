@@ -71,18 +71,18 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
             func_800673A0(&entries.entries[entry_index], 0x188, 0x180);
         } while (0);
     case 3:
+    {
+        x_range_check = 0x3FFFFF;
+        current_x = D_80083780.x.v;
+        target_x = position->x;
         {
-            x_range_check = 0x3FFFFF;
-            current_x = D_80083780.x.v;
-            target_x = position->x;
-            {
-                s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
-                x_range_check = x_range_check < x_distance;
-            }
-            if (x_range_check != 0) {
-                return;
-            }
+            s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
+            x_range_check = x_range_check < x_distance;
         }
+        if (x_range_check != 0) {
+            return;
+        }
+    }
         if (func_800352FC() == 0) {
             return;
         }
@@ -120,7 +120,7 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
 
     case 4:
         cursor_data->cursor += 0x20;
-    wait_for_counter:
+wait_for_counter:
         if ((s16)self->counter > 0) {
             return;
         }

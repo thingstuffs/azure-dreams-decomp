@@ -17,7 +17,6 @@ extern u16 D_800DDE84[];
 extern u8 D_800E1843[];
 
 
-
 typedef struct S_800C3C08_1 {
     u8 pad_00[0xA];
     u16 unk_0A;

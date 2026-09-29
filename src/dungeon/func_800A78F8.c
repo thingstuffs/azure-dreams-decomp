@@ -21,10 +21,14 @@ s32 func_80042900();
 M2C_UNK func_800B8228();
 
 
-
 typedef struct S_800AD058_1 {
     u8 pad_00[0xC];
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u16 unk_12;
     u16 unk_14;
@@ -92,10 +96,10 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
 
     switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
     case 0:
-            if (dungeonStatus.unk_0A != 0) {
-                return 0;
-            }
-            ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
+        if (dungeonStatus.unk_0A != 0) {
+            return 0;
+        }
+        ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
     case 1:
         ((S_800AD058_1 *)sprite)->unk_10 = 0x20;
         ((S_800AD058_1 *)sprite)->unk_12 = (u16) (((S_800AD058_1 *)sprite)->unk_12 - 0x80);
@@ -111,11 +115,14 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         ((Rec_func_800AD058_arg0 *)state)->unk_9B = (u8) (((Rec_func_800AD058_arg0 *)state)->unk_9B + 1);
     case 2:
         red = (u8) ((S_800AD058_1 *)sprite)->unk_0C.at00.v;
-        ((S_800AD058_1 *)sprite)->unk_0C.at00u.v = (s8) (red + ((s32) (0x20 - red) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_0C.at00u.v = (s8) (red + ((s32) (0x20
+            - red) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
         green = ((S_800AD058_1 *)sprite)->unk_0C.at01.v;
         blue = ((S_800AD058_1 *)sprite)->unk_0C.at02.v;
-        ((S_800AD058_1 *)sprite)->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-        ((S_800AD058_1 *)sprite)->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_0C.at01.v = (u8) (green + ((s32) (0x20
+            - green) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_0C.at02.v = (u8) (blue + ((s32) (0x20
+            - blue) / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
         fade_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
         ((Rec_func_800AD058_arg0 *)state)->unk_96 = fade_ticks;
         if (((fade_ticks << 0x10) <= 0) || (finished = 0, ((((S_800AD058_1 *)sprite)->unk_14 & 0x8000) != 0))) {
@@ -130,7 +137,8 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
                 func_800A2FE0(entity);
                 func_800A32A4(entity);
                 if (((S_800AD058_2 *)entity)->unk_49 != 0 && !(((S_800AD058_2 *)entity)->unk_4B & 0x20)) {
-                    func_800B8228(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v, ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
+                    func_800B8228(((S_800AD058_3 *)position)->unk_00.at02.v, ((S_800AD058_3 *)position)->unk_04.at02.v,
+                        ((S_800AD058_2 *)entity)->unk_88, entity + 0x48);
                 }
                 break;
             }
@@ -158,21 +166,28 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         return finished;
 
     case 3:
-        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-        ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->x.v + orbit_offset - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
-        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27 << 7)) << 5;
-        ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->y.v + orbit_offset - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_80064584(((S_800AD058_1 *)sprite)->unk_27
+            << 7)) << 5;
+        ((S_800AD058_3 *)position)->unk_00.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->x.v + orbit_offset
+            - ((S_800AD058_3 *)position)->unk_00.at00.v) >> 2);
+        orbit_offset = (((Rec_func_800AD058_arg0 *)state)->unk_96 * func_800644B8(((S_800AD058_1 *)sprite)->unk_27
+            << 7)) << 5;
+        ((S_800AD058_3 *)position)->unk_04.at00.v += (s32) ((((EntityRec *)((u8 *)(&D_80083780)))->y.v + orbit_offset
+            - ((S_800AD058_3 *)position)->unk_04.at00.v) >> 2);
         {
             s32 vertical_step;
 
             vertical_step = func_800644B8(((Rec_func_800AD058_arg0 *)state)->unk_96 * 8) >> 6;
             ((S_800AD058_2 *)entity)->unk_88 = (s16) ((u16) ((S_800AD058_2 *)entity)->unk_88 +
-                ((((EntityRec *)((u8 *)(&D_80083780)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88) >> 4));
+                ((((EntityRec *)((u8 *)(&D_80083780)))->z.w.i - vertical_step - ((S_800AD058_2 *)entity)->unk_88)
+                    >> 4));
         }
         scale_x = ((S_800AD058_1 *)sprite)->unk_1C;
         scale_y = ((S_800AD058_1 *)sprite)->unk_1E;
-        ((S_800AD058_1 *)sprite)->unk_1C = (u16) (scale_x - ((s32) scale_x / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
-        ((S_800AD058_1 *)sprite)->unk_1E = (u16) (scale_y - ((s32) scale_y / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_1C = (u16) (scale_x
+            - ((s32) scale_x / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
+        ((S_800AD058_1 *)sprite)->unk_1E = (u16) (scale_y
+            - ((s32) scale_y / (s16) ((Rec_func_800AD058_arg0 *)state)->unk_96));
         ((S_800AD058_1 *)sprite)->unk_27 = (u8) (((S_800AD058_1 *)sprite)->unk_27 + 1);
         spiral_ticks = (u16) ((Rec_func_800AD058_arg0 *)state)->unk_96 - 1;
         ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;

@@ -52,8 +52,8 @@ typedef struct OutputPair {
 
 
 extern s32 func_800654B0(InputPair *, InputPair *, InputPair *, InputPair *,
-                        OutputPair *, OutputPair *, OutputPair *, OutputPair *,
-                        u32 *, u32 *);
+                         OutputPair *, OutputPair *, OutputPair *, OutputPair *,
+                         u32 *, u32 *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8006658C(void *, void *);
 extern void func_80066640(void *, s32);

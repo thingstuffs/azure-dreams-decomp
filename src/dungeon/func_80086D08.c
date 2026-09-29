@@ -29,7 +29,8 @@ void func_8008C468(void *entity, void *unused, void *animation, EntityRec *state
         if (current_page != page) {
             entity = animation;
             (*(u8 * *)((u8 *)entity + 0x2C)) = page;
-            func_80048A44(entity, *(u8 *)((((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page), 0, 1);
+            func_80048A44(entity, *(u8 *)((((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7) + (u32)page),
+                0, 1);
         }
     }
 }

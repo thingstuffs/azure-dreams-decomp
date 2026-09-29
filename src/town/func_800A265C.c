@@ -15,7 +15,9 @@ void func_8009FDBC(void) {
     u8 state;
 
     entry_count = D_800D0728[func_800B28A0()];
-    do { entry_index = 0; } while (0);
+    do {
+        entry_index = 0;
+    } while (0);
     if (entry_count > 0) {
         sound_id = D_800D253C;
         entry = (u8 *)0x80010000;

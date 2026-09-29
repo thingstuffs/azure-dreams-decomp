@@ -18,13 +18,16 @@ s32 func_8008CC90(
     s32 angle_work;
 
     if (((u32)first_y << 16) == 0) {
-        if (((u32)first_x << 16) == 0) return 1;
+        if (((u32)first_x << 16) == 0)
+            return 1;
     }
     if (((u32)second_y << 16) == 0) {
-        if (((u32)second_x << 16) == 0) return 1;
+        if (((u32)second_x << 16) == 0)
+            return 1;
     }
     if (third_y == 0) {
-        if (third_x == 0) return 1;
+        if (third_x == 0)
+            return 1;
     }
     if (fourth_y == 0) {
         if (fourth_x == 0) {
@@ -51,9 +54,15 @@ s32 func_8008CC90(
     closing_gap = angle_work - closing_gap;
 
     if (second_angle < 0x801 && second_gap < 0x801) {
-        if (third_gap >= 0x801) { within_limits = 0; return within_limits; }
+        if (third_gap >= 0x801) {
+            within_limits = 0;
+            return within_limits;
+        }
         closing_gap = closing_gap < 0x801;
-        if (closing_gap != 0) { within_limits = 1; return within_limits; }
+        if (closing_gap != 0) {
+            within_limits = 1;
+            return within_limits;
+        }
     }
     within_limits = 0;
     return within_limits;

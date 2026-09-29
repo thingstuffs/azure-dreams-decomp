@@ -53,8 +53,6 @@ typedef struct S_800A2690_4 {
 } S_800A2690_4;   /* ((S_800A2690_0 *)arg0)->unk_14 in func_800A2690 */
 
 
-
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80066460(s32, s32, s32, s32);

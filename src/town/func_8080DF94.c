@@ -194,7 +194,7 @@ void func_8080DF94(void *obj, void *motion, void *part) {
         ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
         ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
         ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
-                /* fall through */
+                        /* fall through */
     case 0x101:
         ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
         if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {

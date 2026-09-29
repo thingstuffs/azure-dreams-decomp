@@ -7,7 +7,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_8008C13C_2 {
     u8 pad_00[0x8C];
     union { s32 s; void * u; } unk_8C;   /* accessed as both */

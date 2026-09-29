@@ -28,7 +28,8 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     status_entry = &D_800E3548;
 #endif
     do {
-        if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first) && (*((u8 *) key_entry + 1) == match_second)) {
+        if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first)
+            && (*((u8 *) key_entry + 1) == match_second)) {
             match_count += 1;
         }
         key_entry += 3;

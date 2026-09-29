@@ -13,13 +13,17 @@ typedef struct S_800D6804_1 {
     u8 unk_01;
     u8 unk_02;
     u8 pad_03[0x1];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_04;   /* overlapping accesses */
     s32 unk_08;
     u8 pad_0C[0x26];
     union { s16 s; u16 u; } unk_32;   /* accessed as both */
     s16 unk_34;
 } S_800D6804_1;   /* arg0 in func_800D6804 */
-
 
 
 /* Advance the state with a decaying delta and fade the effect color until its timer expires. */

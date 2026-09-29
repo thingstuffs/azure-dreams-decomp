@@ -17,7 +17,6 @@ typedef struct S_80095760_2 {
 } S_80095760_2;   /* temp_v0_2 in func_80095760 */
 
 
-
 extern s16 D_800D0464;
 extern s32 D_800D046C;
 
@@ -49,7 +48,7 @@ s32 func_80095760(void *entries)
                 if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
                     entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
                     state = entry->unk_14;
-                     /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
+                                         /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
                     if (state == blocked_state) {
                         return -1;
                     }

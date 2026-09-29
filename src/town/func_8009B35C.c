@@ -9,7 +9,6 @@ extern M2C_UNK D_80097EFC;
 extern M2C_UNK D_800D0170;
 
 
-
 /* Initialize the object and its transform with fixed placement and settings. */
 void func_80098ABC(Rec_func_80094268_arg0 *object, EntityRec *transform) {
     func_80094984(&D_800D0170, object);

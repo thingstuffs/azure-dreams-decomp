@@ -51,7 +51,6 @@ typedef struct S_800BB218_5 {
 } S_800BB218_5;   /* next in func_800BB218 */
 
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);

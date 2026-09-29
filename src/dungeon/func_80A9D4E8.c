@@ -223,7 +223,7 @@ increment_state:
         }
         ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
         ((S_80172CE8_0 *)action)->unk_9B++;
-                /* fall through */
+                        /* fall through */
 
     case 3:
         if ((((S_80172CE8_3 *)actor)->unk_04 == 5 &&

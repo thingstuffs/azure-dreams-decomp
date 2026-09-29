@@ -53,7 +53,6 @@ typedef struct S_800AFF00_7 {
 } S_800AFF00_7;   /* ((S_800AFF00_4 *)arg0)->unk_08 in func_800AFF00 */
 
 
-
 extern s32 D_8002E5D8[4];
 extern s32 D_8002E5E8[3];
 

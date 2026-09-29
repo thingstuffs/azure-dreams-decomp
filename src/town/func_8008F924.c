@@ -16,7 +16,7 @@ void func_8008D084(void)
     TownViewState *state;
 
     state = (TownViewState *)((u8 *)(&gameWork));
-    
+
     state = (TownViewState *)((u8 *)state + 0x1DC);
 
     D_800FE480[0] = 0x40 << state->unk14;

@@ -7,7 +7,9 @@ s32 func_8009F9A4(void) {
     s32 *entry;
     s32 entry_count;
 
-    do { entry_count = 0; } while (0);
+    do {
+        entry_count = 0;
+    } while (0);
     entry = D_8001029C;
 loop:
     if (*entry != 0) {

@@ -100,7 +100,11 @@ typedef struct S_800CEFB8_8 {
     u8 pad_1A[0x2];
     union { u16 u; s16 s; } unk_1C;   /* accessed as both */
     u16 unk_1E;
-    union { struct { s16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_20;   /* overlapping accesses */
+    union {
+        struct { s16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_20;   /* overlapping accesses */
 } S_800CEFB8_8;   /* temp_s0 in func_800CEFB8 */
 
 typedef struct S_800CEFB8_9 {
@@ -207,9 +211,9 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     state_alias = render_state;
     SP16(0x04) = (u16) ((S_800CEFB8_2 *)endpoints)->unk_0A;
     start_depth = func_80065420(scratch_base,
-                                 screen_out,
-                                 depth_out,
-                                 (void *)0x1F800094);
+                                screen_out,
+                                depth_out,
+                                (void *)0x1F800094);
     SP32(0xC0) = start_depth;
     second_coord = ((S_800CEFB8_2 *)endpoints)->unk_0E;
     SP16(0x00) = second_coord;
@@ -357,8 +361,8 @@ entry_loop:
                 ;
             }
             func_800654B0(SPA(0x70), SPA(0x78), SPA(0x80), SPA(0x88),
-                         packet_next + 8, packet_next + 0x10, packet_next + 0x18,
-                         packet_next + 0x20, SPA(0x90), SPA(0x94));
+                          packet_next + 8, packet_next + 0x10, packet_next + 0x18,
+                          packet_next + 0x20, SPA(0x90), SPA(0x94));
             if (((u32)draw_mode << 0x10) != 0) {
                 if ((SP16(0xBA) << 0x10) < (SP16(0xF2) << 0x10)) {
                     ((S_800CEFB8_8 *)quad)->unk_04.u = (u16) (((S_800CEFB8_8 *)quad)->unk_04.u + SP16(0xB8));

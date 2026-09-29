@@ -105,45 +105,45 @@ void func_800D7A78(DungeonState *effect) {
         effect->state += 1;
 
     case 1:
-        {
-            s32 spawn_index = 7;
-            u8 *object_data = D_800D7D30;
-            DungeonGlobalStatus *object_counter = &dungeonStatus;
-            DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
+    {
+        s32 spawn_index = 7;
+        u8 *object_data = D_800D7D30;
+        DungeonGlobalStatus *object_counter = &dungeonStatus;
+        DungeonTemplate *object_template = (DungeonTemplate *)D_800DEA68;
 
-            do {
-                DungeonObject *object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-                if (object != NULL) {
-                    object->unk10 = (DungeonInner *)object_data;
-                    object_counter->unk_0A += 1;
-                    func_8004491C(object, func_80045340);
-                    {
-                        DungeonInner *object_inner = object->unkC;
-                        DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
-                        u16 saved_flags;
+        do {
+            DungeonObject *object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            if (object != NULL) {
+                object->unk10 = (DungeonInner *)object_data;
+                object_counter->unk_0A += 1;
+                func_8004491C(object, func_80045340);
+                {
+                    DungeonInner *object_inner = object->unkC;
+                    DungeonObjectTail *object_tail = (DungeonObjectTail *)((u8 *)object + 0x20);
+                    u16 saved_flags;
 
-                        *(s32 *)((u8 *)object->unk8 + 0x14) = 0xFFFC0000;
-                        saved_flags = object_inner->unk14;
-                        object_inner->unk1E = 0x600;
-                        object_inner->unk1C = 0x600;
-                        object_inner->unk10 = 0x20;
-                        object_inner->unk0 = object_template;
-                        object_inner->unk14 = saved_flags | 0xC;
-                        object_inner->unk8 = object_template->unk4;
-                        object_inner->unk4 = 0;
-                        object_inner->unk5 = 0;
-                        object_inner->unkC = effect->unkC;
-                        ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
-                        *(u16 *)((u8 *)object->unk8 + 0xA) = effect->z;
-                        object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));
-                        object_tail->unk1C = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
-                        object_tail->unk2A = 6;
-                        object_tail->unk34 = ((s16)effect->timer - 0x3C) << 0xC;
-                    }
+                    *(s32 *)((u8 *)object->unk8 + 0x14) = 0xFFFC0000;
+                    saved_flags = object_inner->unk14;
+                    object_inner->unk1E = 0x600;
+                    object_inner->unk1C = 0x600;
+                    object_inner->unk10 = 0x20;
+                    object_inner->unk0 = object_template;
+                    object_inner->unk14 = saved_flags | 0xC;
+                    object_inner->unk8 = object_template->unk4;
+                    object_inner->unk4 = 0;
+                    object_inner->unk5 = 0;
+                    object_inner->unkC = effect->unkC;
+                    ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
+                    *(u16 *)((u8 *)object->unk8 + 0xA) = effect->z;
+                    object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));
+                    object_tail->unk1C = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
+                    object_tail->unk2A = 6;
+                    object_tail->unk34 = ((s16)effect->timer - 0x3C) << 0xC;
                 }
-                spawn_index -= 1;
-            } while (spawn_index >= 0);
-        }
+            }
+            spawn_index -= 1;
+        } while (spawn_index >= 0);
+    }
 
         {
             u16 ticks_left = effect->timer - 1;
@@ -155,15 +155,15 @@ void func_800D7A78(DungeonState *effect) {
         }
         return;
     case 0xFF:
-        {
-            u16 ticks_left = effect->timer - 1;
-            effect->timer = ticks_left;
-            if ((s16)ticks_left <= 0) {
-                ((DungeonCounter *)((u8 *)(&dungeonStatus)))->count -= 1;
-                *(u16 *)((u8 *)effect - 2) |= 0x8000;
-                *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
-            }
+    {
+        u16 ticks_left = effect->timer - 1;
+        effect->timer = ticks_left;
+        if ((s16)ticks_left <= 0) {
+            ((DungeonCounter *)((u8 *)(&dungeonStatus)))->count -= 1;
+            *(u16 *)((u8 *)effect - 2) |= 0x8000;
+            *(u32 *)((u8 *)(&objectFlagBlock)) |= 0x8000;
         }
+    }
         return;
     }
 }

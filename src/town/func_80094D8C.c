@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 
 
-
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 extern s32 func_80033B2C(s32);
@@ -36,51 +35,40 @@ void func_800924EC(void *context, EntityRec *entity, s32 update_arg)
     func_80095C80(entity);
     func_80095094(entity);
     reference_value = func_80095978(entity, D_800FE488);
-    if ((reference_value - entity->z.w.i) >= 4)
-    {
-        if (D_800CFCEF == 0)
-        {
+    if ((reference_value - entity->z.w.i) >= 4) {
+        if (D_800CFCEF == 0) {
             func_80094378(context, entity, update_arg);
             return;
         }
     }
-    else if (D_800CFCEF == 0)
-    {
+    else if (D_800CFCEF == 0) {
         func_80095A94(entity, reference_value, D_800FE488);
     }
 
     state_flags = ((s32)state->unk_010);
-    if (state_flags & 0x10)
-    {
+    if (state_flags & 0x10) {
         func_800942B0(context, entity, update_arg);
         return;
     }
-    if (state_flags & 0x40)
-    {
+    if (state_flags & 0x40) {
         check_result = func_80095840(context, &D_800CFCB4);
-        if (check_result != 0)
-        {
-            if (check_result == 2)
-            {
+        if (check_result != 0) {
+            if (check_result == 2) {
                 func_8009451C(context, entity, update_arg);
                 return;
             }
             func_800944BC(context, entity, update_arg);
             return;
         }
-        if (func_80033B2C(0xA4) != 0)
-        {
+        if (func_80033B2C(0xA4) != 0) {
             func_80094088(context, entity, update_arg);
             return;
         }
     }
-    else
-    {
-        if (state->buttons & 0xF000)
-        {
+    else {
+        if (state->buttons & 0xF000) {
             func_80094C1C(context);
-            if (func_8009567C(&D_800CFCB4) > 0)
-            {
+            if (func_8009567C(&D_800CFCB4) > 0) {
                 return;
             }
         }

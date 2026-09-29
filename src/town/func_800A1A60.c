@@ -8,7 +8,6 @@ typedef struct S_8009F1C0_0 {
 } S_8009F1C0_0;   /* arg1 in func_8009F1C0 */
 
 
-
 extern u32 D_8009EF88;
 
 typedef struct {
@@ -36,6 +35,6 @@ void func_8009F1C0(Rec_func_8009EE9C_arg0 *entity, S_8009F1C0_0 *action)
         u8 *record_map = (u8 *)0x80010000;
 
         D_80100AF8 = records
-            [record_map[entity->unk_95 * 4 + 0x983] & 0x3F];
+        [record_map[entity->unk_95 * 4 + 0x983] & 0x3F];
     }
 }

@@ -7,7 +7,6 @@ extern M2C_UNK D_800C907C;
 extern M2C_UNK D_800D6268;
 
 
-
 typedef struct S_800C8FF0_1 {
     u8 pad_00[0x4];
     s32 unk_04;

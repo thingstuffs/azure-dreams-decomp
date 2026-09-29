@@ -48,23 +48,23 @@ void func_800C4640(EffectState *state, EffectWork *work, EffectColor *color) {
     stage = state->type;
     switch (stage) {
     case 0:
-        {
-            u8 old_brightness;
-            s32 brightness;
-            s32 old_pair_value;
-            u16 pair_value;
+    {
+        u8 old_brightness;
+        s32 brightness;
+        s32 old_pair_value;
+        u16 pair_value;
 
-            old_brightness = color->b;
-            brightness = old_brightness + (((state->mode != 0 ? 0xf0 : 0x40) - old_brightness) / ((s16 *)state)[1]);
-            old_pair_value = color->value_1e;
-            color->b = brightness;
-            color->g = brightness;
-            color->r = brightness;
-            pair_value = old_pair_value + (((state->mode != 0 ? 0x100 : 0x400) - old_pair_value) / ((s16 *)state)[1]);
-            color->value_1e = pair_value;
-            color->value_1c = pair_value;
-            work->offset -= 0x200;
-        }
+        old_brightness = color->b;
+        brightness = old_brightness + (((state->mode != 0 ? 0xf0 : 0x40) - old_brightness) / ((s16 *)state)[1]);
+        old_pair_value = color->value_1e;
+        color->b = brightness;
+        color->g = brightness;
+        color->r = brightness;
+        pair_value = old_pair_value + (((state->mode != 0 ? 0x100 : 0x400) - old_pair_value) / ((s16 *)state)[1]);
+        color->value_1e = pair_value;
+        color->value_1c = pair_value;
+        work->offset -= 0x200;
+    }
         if (((state->count = state->count - 1) << 16) <= 0) {
             state->count = 8;
             state->type++;
@@ -72,21 +72,21 @@ void func_800C4640(EffectState *state, EffectWork *work, EffectColor *color) {
         break;
 
     case 1:
-        {
-            u8 brightness;
+    {
+        u8 brightness;
 
-            work->offset += 0x1800;
-            if (state->mode != 0) {
-                if (rand() & 3) {
-                    brightness = 0x10;
-                } else {
-                    brightness = 0xf0;
-                }
-                color->b = brightness;
-                color->g = brightness;
-                color->r = brightness;
+        work->offset += 0x1800;
+        if (state->mode != 0) {
+            if (rand() & 3) {
+                brightness = 0x10;
+            } else {
+                brightness = 0xf0;
             }
+            color->b = brightness;
+            color->g = brightness;
+            color->r = brightness;
         }
+    }
         if (((state->count = state->count - 1) << 16) <= 0) {
             state->count = 0x20;
             state->type++;
@@ -94,23 +94,23 @@ void func_800C4640(EffectState *state, EffectWork *work, EffectColor *color) {
         break;
 
     case 2:
-        {
-            u8 brightness;
-            s16 ticks_left;
+    {
+        u8 brightness;
+        s16 ticks_left;
 
-            work->offset += 0x2000;
-            if (state->mode != 0) {
-                if ((rand() & 3) == 0) {
-                    ticks_left = state->count;
-                    brightness = ((ticks_left << 4) - ticks_left) >> 1;
-                } else {
-                    brightness = 0x10;
-                }
-                color->b = brightness;
-                color->g = brightness;
-                color->r = brightness;
+        work->offset += 0x2000;
+        if (state->mode != 0) {
+            if ((rand() & 3) == 0) {
+                ticks_left = state->count;
+                brightness = ((ticks_left << 4) - ticks_left) >> 1;
+            } else {
+                brightness = 0x10;
             }
+            color->b = brightness;
+            color->g = brightness;
+            color->r = brightness;
         }
+    }
         if (((state->count = state->count - 1) << 16) <= 0) {
             u16 *flags;
 

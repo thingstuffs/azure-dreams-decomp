@@ -42,7 +42,8 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
         D_800E3DA0[0] = 0;
         return result;
     }
-    if (short_id == 0x39) slot_id = 2;
+    if (short_id == 0x39)
+        slot_id = 2;
     if ((s16)slot_type == 3) {
         u8 *scan_base;
         u8 *scan_start;
@@ -100,14 +101,18 @@ scan:
                         goto return_type_two;
                     }
                     candidate = entry;
-                    if ((*entry_id == match_id) || (*(s8 *)((unsigned long)slot_index + (unsigned long)slot_ids) == match_id)) break;
+                    if ((*entry_id == match_id) || (*(s8 *)((unsigned long)slot_index + (unsigned long)slot_ids)
+                        == match_id))
+                        break;
                 }
-            } else break;
+            } else
+                break;
             slot_index++;
             entry_id += 8;
             entry += 8;
         } while (slot_index < 6);
     }
-    if (candidate) func_80048224((s16)slot_id, slot_type, slot_index, match_id);
+    if (candidate)
+        func_80048224((s16)slot_id, slot_type, slot_index, match_id);
     return candidate;
 }

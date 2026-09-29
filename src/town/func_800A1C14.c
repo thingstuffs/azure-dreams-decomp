@@ -8,7 +8,6 @@ s32 func_800644B8();                             /* extern */
 M2C_UNK func_8009F148(); /* extern */
 
 
-
 typedef struct S_8009F374_2 {
     u8 pad_00[0x1C];
     s16 unk_1C;

@@ -63,23 +63,23 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
 
     case 2:
     case 3:
-        {
-            s32 no_match;
-            s32 other_entity_index;
-            u8 *other_entity_base;
-            u8 *other_entity;
-            u8 *other_link_page;
+    {
+        s32 no_match;
+        s32 other_entity_index;
+        u8 *other_entity_base;
+        u8 *other_entity;
+        u8 *other_link_page;
 
-            no_match = 0;
-            other_entity_base = D_800D2644;
-            other_link_page = (u8 *)0x80010000;
-            other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
-            other_entity = other_entity_base + (other_entity_index << 5);
-            if (other_entity[7] != (entity_id & 0xFF)) {
-                return no_match;
-            }
-            break;
+        no_match = 0;
+        other_entity_base = D_800D2644;
+        other_link_page = (u8 *)0x80010000;
+        other_entity_index = other_link_page[((record_id & 0xFF) << 1) + 0x33A4];
+        other_entity = other_entity_base + (other_entity_index << 5);
+        if (other_entity[7] != (entity_id & 0xFF)) {
+            return no_match;
         }
+        break;
+    }
 
     default:
         break;

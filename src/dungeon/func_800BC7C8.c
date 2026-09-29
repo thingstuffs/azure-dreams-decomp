@@ -82,13 +82,13 @@ void *func_800C1F28(void *object, s16 action_arg) {
             ((Entry *)task_data)->value = source_height;
         } else {
             target_height = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
-                                       ((tile_y << 6) + 0x20) & 0xFFE0,
-                                       (s16)(((Rec_D_80082E80 *)object)->unk_88.as_u16 - 0x20));
+                                          ((tile_y << 6) + 0x20) & 0xFFE0,
+                                          (s16)(((Rec_D_80082E80 *)object)->unk_88.as_u16 - 0x20));
             *(u16 *)(task_data + 8) = target_height;
             if ((s16)target_height >= 0x201) {
                 *(u16 *)(task_data + 8) = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0,
-                                                       ((tile_y << 6) + 0x20) & 0xFFE0,
-                                                       -0x400);
+                                                        ((tile_y << 6) + 0x20) & 0xFFE0,
+                                                        -0x400);
             }
         }
         position[0x24] = (u8)tile_x;

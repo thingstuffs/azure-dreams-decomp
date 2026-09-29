@@ -247,14 +247,17 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     }
     {
         if ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x200000) {
-            (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data + (0x60)))))->unk_2A;
+            (*(u16 *)((u8 *)object_data + (0x2A))) = (u16) ((S_800A871C_19 *)((*(void **)((u8 *)object_data
+                + (0x60)))))->unk_2A;
             if (func_8003DE58(
-                    ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28 +
+                    ((S_800A871C_26 *)(((S_800A871C_25 *)(**((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_28
+                        +
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00))->unk_04,
                     ((S_800A871C_1 *)object)->unk_90, offset, 0) == 0) {
                 ((S_800A871C_2 *)(&offset[2]))->unk_00 = -0x30;
             }
-            ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
+            ((S_800A871C_3 *)motion)->unk_08.at02.v =
+                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2]);
             ((S_800A871C_4 *)tile)->unk_24.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_24;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
@@ -269,7 +272,10 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
                 dir_offset = direction * 2;
                 y_steps = (u8 *)((s8 *)dirStepY);
                 y_step = (u8 *)((unsigned long)dir_offset + (unsigned long)y_steps);
-                target_height = func_800BCB04((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0, (((((S_800A871C_4 *)tile)->unk_25.n + (((S_800A871C_6 *)y_step)->unk_00 * travel_steps)) << 6) + 0x20) & 0xFFE0, ((S_800A871C_3 *)motion)->unk_08.at02.v);
+                target_height = func_800BCB04((((((S_800A871C_4 *)tile)->unk_24.n + (*(s16 *)((u8 *)x_steps
+                    + dir_offset) * travel_steps)) << 6) + 0x20) & 0xFFE0,
+                    (((((S_800A871C_4 *)tile)->unk_25.n + (((S_800A871C_6 *)y_step)->unk_00 * travel_steps)) << 6)
+                    + 0x20) & 0xFFE0, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (target_height < 0x200) {
                     height_delta = target_height - ((S_800A871C_3 *)motion)->unk_08.at02.v;
                 } else {
@@ -277,21 +283,27 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
                     height_delta = ((S_800A871C_19 *)((*(void **)((u8 *)object_data + (0x60)))))->unk_88;
                     height_delta -= target_height;
                 }
-                ((S_800A871C_3 *)motion)->unk_14 = (s32) (height_delta << 0xF) / (s16) (*(u16 *)((u8 *)object_data + (0x8A)));
+                ((S_800A871C_3 *)motion)->unk_14 = (s32) (height_delta << 0xF) / (s16) (*(u16 *)((u8 *)object_data
+                    + (0x8A)));
             }
             launch_x_steps = (u8 *)((s8 *)dirStepX);
             launch_dir_offset = direction * 2;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
+            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
+                + ((S_800A871C_7 *)((u8 *)((unsigned long)launch_dir_offset + (unsigned long)launch_x_steps)))->unk_00);
             launch_y_step = (u8 *)((s8 *)dirStepY) + launch_dir_offset;
-            ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + ((S_800A871C_8 *)launch_y_step)->unk_00);
+            ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n
+                + ((S_800A871C_8 *)launch_y_step)->unk_00);
             ((S_800A871C_1 *)object)->unk_A4 = 2;
             return;
         }
         source_sprite = ((S_800A871C_1 *)object)->unk_90;
-        if ((func_8003DE58(source_sprite->unk_08, source_sprite, offset, 0) != 0) && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
+        if ((func_8003DE58(source_sprite->unk_08, source_sprite, offset, 0) != 0)
+            && ((*(s32 *)((u8 *)object_data + (0x1C))) & 0x80000)) {
             ((S_800A871C_1 *)object)->unk_A2 = 1;
-            ((S_800A871C_3 *)motion)->unk_00.at02.v = (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_02 + offset[0]);
-            ((S_800A871C_3 *)motion)->unk_04.at02.v = (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
+            ((S_800A871C_3 *)motion)->unk_00.at02.v =
+                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_02 + offset[0]);
+            ((S_800A871C_3 *)motion)->unk_04.at02.v =
+                (s16) (((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_06 + offset[1]);
             source_height = ((S_800A871C_21 *)(((S_800A871C_1 *)object)->unk_8C))->unk_0A + offset[2];
             height_source = D_800814A8;
             ((S_800A871C_3 *)motion)->unk_08.at02.v = (s16) (source_height + 8);
@@ -310,19 +322,25 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
                 drop_sprite = ((S_800A871C_11_pre *)drop_source)[-1].unk_00;
                 (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) drop_heading;
                 drop_dir_offset = (drop_heading >> 8) & 0xE;
-                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_24 + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset + (unsigned long)drop_x_steps)))->unk_00);
-                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25 + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
+                ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_24
+                    + ((S_800A871C_13 *)((u8 *)((unsigned long)drop_dir_offset
+                    + (unsigned long)drop_x_steps)))->unk_00);
+                ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_12 *)drop_sprite)->unk_25
+                    + ((S_800A871C_14 *)((u8 *)((s8 *)dirStepY) + drop_dir_offset))->unk_00);
                 func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
-                drop_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
+                drop_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
+                    (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
                 if (drop_height >= 0x201) {
                     drop_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
                 }
-                func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height, ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
+                func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, drop_height,
+                    ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
                 ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
                 dungeon_flags = objectFlagBlock.flags;
                 height = ((S_800A871C_3 *)motion)->unk_08.at02.v;
                 objectFlagBlock.flags = (s32) (dungeon_flags | 0x8000);
-                ((S_800A871C_3 *)motion)->unk_08.at02.v = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
+                ((S_800A871C_3 *)motion)->unk_08.at02.v = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20,
+                    (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, height);
                 func_800B66C8(motion);
                 func_8009A028(object_data);
                 return;
@@ -356,14 +374,16 @@ update_motion:
         axis_origin = ((S_800A871C_3 *)motion)->unk_04.at02.v;
         axis_origin -= 0x20;
         axis_target <<= 6;
-        ((S_800A871C_3 *)motion)->unk_10 = (s32) (((axis_target - axis_origin) << 0x10) / (s16) ((S_800A871C_1 *)object)->unk_A4);
+        ((S_800A871C_3 *)motion)->unk_10 = (s32) (((axis_target - axis_origin)
+            << 0x10) / (s16) ((S_800A871C_1 *)object)->unk_A4);
     }
     ticks_left = (u16) ((S_800A871C_1 *)object)->unk_A4 - 1;
     ((S_800A871C_1 *)object)->unk_A4 = ticks_left;
     if ((ticks_left << 0x10) > 0) {
         goto advance_position;
     }
-    hit_object = func_8009B25C(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, (*(s16 *)((u8 *)object_data + (0x88))));
+    hit_object = func_8009B25C(object_data, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n,
+        (*(s16 *)((u8 *)object_data + (0x88))));
     if (hit_object != NULL) {
         if ((hit_object->unk_13 == 0x1F) && !(hit_object->unk_1C & 0x228) && (D_800DD7DC[0] != 0)) {
             hit_object->unk_14 = (s32) (hit_object->unk_14 | 0x800000);
@@ -386,24 +406,31 @@ finish_collision:
             func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
             next_x_steps = (u8 *)((s8 *)dirStepX);
             next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
+            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n
+                + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset
+                + (unsigned long)(u8 *)((s8 *)dirStepX))))->unk_00);
             next_y_step = (u8 *)((s8 *)dirStepY) + next_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
             ((S_800A871C_1 *)object)->unk_A4 = 2;
             goto advance_position;
         }
     }
-    land_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6) | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
+    land_height = func_800BCB04((((S_800A871C_4 *)tile)->unk_24.n << 6) | 0x20, (((S_800A871C_4 *)tile)->unk_25.n << 6)
+        | 0x20, ((S_800A871C_3 *)motion)->unk_08.at02.v);
     if (land_height >= 0x201) {
         land_height = (s16) (u16) ((S_800A871C_3 *)motion)->unk_08.at02.v;
     }
-    func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height, ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
+    func_800A7A7C(((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n, land_height,
+        ((S_800A871C_4 *)tile)->unk_08, ((S_800A871C_1 *)object)->unk_9C);
     ((S_800A871C_1_pre *)object)[-1].unk_00 = (u16) (((S_800A871C_1_pre *)object)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     func_8009A028(object_data);
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
 advance_position:
-    ((S_800A871C_3 *)motion)->unk_00.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_00.at00.v + ((S_800A871C_3 *)motion)->unk_0C);
-    ((S_800A871C_3 *)motion)->unk_04.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_04.at00.v + ((S_800A871C_3 *)motion)->unk_10);
-    ((S_800A871C_3 *)motion)->unk_08.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_08.at00.v + ((S_800A871C_3 *)motion)->unk_14);
+    ((S_800A871C_3 *)motion)->unk_00.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_00.at00.v
+        + ((S_800A871C_3 *)motion)->unk_0C);
+    ((S_800A871C_3 *)motion)->unk_04.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_04.at00.v
+        + ((S_800A871C_3 *)motion)->unk_10);
+    ((S_800A871C_3 *)motion)->unk_08.at00.v = (s32) (((S_800A871C_3 *)motion)->unk_08.at00.v
+        + ((S_800A871C_3 *)motion)->unk_14);
 }

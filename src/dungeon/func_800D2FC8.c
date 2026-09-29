@@ -223,8 +223,8 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
 
     if (!(entity->unk_98 & 4)) {
         floor_height = func_800BCB04(motion->unk_00.half.unk_02,
-                                   motion->unk_04.half.unk_06,
-                                   (s16)(actor->unk_88.u16 - 0x20));
+                                     motion->unk_04.half.unk_06,
+                                     (s16)(actor->unk_88.u16 - 0x20));
         if (floor_height < 0x200) {
             if (entity->unk_90.half.unk_92.s16 + actor->unk_88.s16 < floor_height) {
                 actor->unk_1C &= 0xF7FFFFFF;
@@ -243,8 +243,8 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
                 floor_height = func_800BCB04((monster->unk_24 << 6) | 0x20,
-                                           (monster->unk_25 << 6) | 0x20,
-                                           (s16)(actor->unk_88.u16 - 0x20));
+                                             (monster->unk_25 << 6) | 0x20,
+                                             (s16)(actor->unk_88.u16 - 0x20));
                 entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor_height;
                 actor->unk_88.u16 = floor_height;
             }

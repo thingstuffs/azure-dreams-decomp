@@ -67,8 +67,8 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
     if ((u32)target <= 0x9FFFFFFF) {
         func_800A6480(target, (s32)item, action);
         if (func_800AD6FC(target,
-                         D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
-                         (s32)item) == 0) {
+                          D_800DDE84[(*(u8 *)((u8 *)&((EntityRec *)target)->unk_10 + 3))] & 3,
+                          (s32)item) == 0) {
             func_800A5F38(target, (s32)item);
             return 1;
         }
@@ -77,9 +77,9 @@ s32 func_800BF7FC(void *target, u8 *item, s16 action, s32 action_param)
         record_index = ((S_800BF7FC_1 *)record_obj)->unk_26;
         if (record_index >= 0 && !(D_800E2970[record_index].flags & 2)) {
             if (func_800C4EB4(((S_800BF7FC_1 *)record_obj)->unk_24,
-                             ((S_800BF7FC_1 *)record_obj)->unk_25,
-                             ((EntityRec *)target)->unk_88,
-                             item[0], record_index) == 0) {
+                              ((S_800BF7FC_1 *)record_obj)->unk_25,
+                              ((EntityRec *)target)->unk_88,
+                              item[0], record_index) == 0) {
                 return 0;
             }
 

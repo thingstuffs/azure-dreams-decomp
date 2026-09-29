@@ -111,7 +111,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
             u8 *anim_table = D_800DD0B8;
 
-               /* Pin: removal changes a delay-slot fill. */
+                           /* Pin: removal changes a delay-slot fill. */
             ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
             func_80048A44(
                 anim_sprite,
@@ -123,14 +123,14 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             return;
         }
 
-           /* Pin: removal changes a delay-slot fill. */
+                   /* Pin: removal changes a delay-slot fill. */
         {
             s32 base_angle = gameWork.view.viewAngle;
             s32 signed_angle = actor->facing;
             s32 angle_or_sprite;
             s32 next_angle;
 
-               /* Pin: removal changes the callee-saved set / frame layout. */
+                           /* Pin: removal changes the callee-saved set / frame layout. */
             angle_or_sprite = ((u16)actor->facing);
             if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
                 angle_or_sprite = (s32)sprite;
@@ -162,8 +162,8 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
         if (!(actor->flags1C & 0x100000)) {
             void *owner_obj = (u8 *)action - 0x20;
             s32 zero = 0;   /* Pin: removal changes the whole function shape. */
-               /* Pin: removal reorders the instructions (same instructions, different order). */
-               /* Pin: removal changes the register colouring. */
+                           /* Pin: removal reorders the instructions (same instructions, different order). */
+                           /* Pin: removal changes the register colouring. */
             effect_obj = func_800A8608(
                 owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
             if (effect_obj != 0) {
@@ -224,7 +224,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec
             }
             func_80099F70(actor->unk_5C);
             func_80099F04(actor->unk_5C);
-               /* Pin: removal changes the whole function shape. */
+                           /* Pin: removal changes the whole function shape. */
             dungeonStatus.flags |= 0x812;
             ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
         }

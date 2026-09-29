@@ -6,7 +6,7 @@
 M2C_UNK func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 M2C_UNK func_800C9C94();     /* extern */
-M2C_UNK func_800C9DB8();     
+M2C_UNK func_800C9DB8();
 
 
 /* extern */

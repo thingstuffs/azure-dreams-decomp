@@ -64,7 +64,7 @@ void func_80161238(void *action, EntityRec *motion, void *actor, EntityRec *enti
 
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-                /* fall through */
+                        /* fall through */
     case 1:
         motion->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
         motion->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;

@@ -44,7 +44,6 @@ typedef struct S_800C4AFC_3 {
 } S_800C4AFC_3;   /* (void *)temp in func_800C4AFC */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_800B835C(void *, s32 *, s32, s32);
 extern void func_800A56E0(s32, void *);

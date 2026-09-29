@@ -19,7 +19,8 @@ void func_800B9830(void)
     entry_index = 0;
     source_record = D_800D2EA4;
     page = (u8 *)0x80010000;
-    loop_0: {
+loop_0:
+    {
         entry_index++;
         page[0x33A4] = source_record[6];
         {
@@ -28,7 +29,9 @@ void func_800B9830(void)
             page[0x33A5] = second_byte;
         }
         page += 2;
-    } if (entry_index < 0x22) goto loop_0;
+    }
+    if (entry_index < 0x22)
+        goto loop_0;
 
     entry_index = 0;
     page = (u8 *)0x80010000;

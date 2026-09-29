@@ -640,7 +640,7 @@ int func_8004B4DC(Unk8004B4DC *record) {
     return count;
 }
 
- extern int D_80080B48[4];
+extern int D_80080B48[4];
 /* Process the fixed global record with command six. */
 void func_8004B634(void)
 {
@@ -692,13 +692,13 @@ void *func_8004D064(void *object) {
     unsigned char type = *((unsigned char *)object + 1) & 0xF0;
 
     switch (type) {
-        case 0x30:
-            object = (char *)object + 0x18;
-            break;
-        case 0x20:
-        default:
-            object = (char *)object + 0xC;
-            break;
+    case 0x30:
+        object = (char *)object + 0x18;
+        break;
+    case 0x20:
+    default:
+        object = (char *)object + 0xC;
+        break;
     }
     return object;
 }
@@ -1243,8 +1243,7 @@ extern void func_80058700(void);
 /* Invoke func_80058700 when the global value is nonzero. */
 void func_8005A3A8(void)
 {
-    if (D_80073824[0])
-    {
+    if (D_80073824[0]) {
         func_80058700();
     }
 }

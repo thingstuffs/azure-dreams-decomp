@@ -74,7 +74,7 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
         func_800A2B04(position, tile->field24, tile->field25);
         height_offset = -0x400;
         actor->field88 = func_800BCB04(position->field2, position->field6,
-                                    (D_800DCF58[0] = 1, height_offset));
+                                       (D_800DCF58[0] = 1, height_offset));
         motion->field92 = -0x200;
         motion->field96 = 0x10;
         motion->field98 &= 0xFFF7;

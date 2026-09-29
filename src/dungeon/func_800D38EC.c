@@ -90,9 +90,9 @@ void func_800D904C(void *action, s32 action_id, void *actor, void *move_state)
 
         step = (u8 *)state + ((S_800D904C_0 *)state)->unk_8A;
         direction = func_800A0818(old_x, old_y,
-                                    ((S_800D904C_2 *)step)->unk_74,
-                                    ((S_800D904C_2 *)step)->unk_7C,
-                                    (u8 *)action + 0x98);
+                                  ((S_800D904C_2 *)step)->unk_74,
+                                  ((S_800D904C_2 *)step)->unk_7C,
+                                  (u8 *)action + 0x98);
         move_result = func_8009A66C(direction, actor, state, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =

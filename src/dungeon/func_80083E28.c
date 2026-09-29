@@ -13,7 +13,6 @@ typedef struct S_80089588_4 {
 } S_80089588_4;   /* ((S_80089588_3 *)temp_s1)->unk_00 in func_80089588 */
 
 
-
 typedef struct S_80089588_1 {
     u8 pad_00[0x3];
     s8 unk_03;
@@ -33,7 +32,8 @@ typedef struct S_80089588_2 {
 } S_80089588_2;   /* temp_s1 in func_80089588 */
 
 
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
+struct S_8003E2D8;
+typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_801C9E40[16];
 M2C_UNK func_8006658C(void *, void *);
 M2C_UNK func_80067E2C();

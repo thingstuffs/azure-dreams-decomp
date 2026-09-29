@@ -170,7 +170,7 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
 
     {
         s32 best_height = (s16)work->best;
-         /* MATCH: keep best_height sign extension before the shared epilogue. */
+                 /* MATCH: keep best_height sign extension before the shared epilogue. */
         return best_height;
     }
 }

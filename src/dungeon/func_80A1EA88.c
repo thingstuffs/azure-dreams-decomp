@@ -96,7 +96,7 @@ void func_80172288(u8 *motion, EntityRec *position, u8 *sprite, EntityRec *actor
             actor->flags1C |= 0x08000000;
             ((S_80172288_0 *)motion)->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
         if (actor->flags1C & 0x08000000) {
             ((S_80172288_0 *)motion)->unk_98 &= 0xFFF7;

@@ -15,6 +15,6 @@ void func_8009CDB4(void) {
         ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
         page_base;
-    }) + 0x240);
-    page_base[0x240] = 0;
-}
+        }) + 0x240);
+        page_base[0x240] = 0;
+    }

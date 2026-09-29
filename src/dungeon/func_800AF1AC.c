@@ -46,7 +46,12 @@ typedef struct S_800B490C_3 {
 
 typedef struct S_800B490C_4 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
@@ -102,9 +107,11 @@ void func_800B490C(void *effect, S_800B490C_2 *motion, S_800B490C_4 *sprite) {
     if (parent_pos != NULL) {
         motion->unk_02 = (u16) (motion->unk_02 - (((S_800B490C_0 *)effect)->unk_18 - parent_pos->unk_02));
         ((S_800B490C_0 *)effect)->unk_18 = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_02;
-        motion->unk_06 = (u16) (motion->unk_06 - (((S_800B490C_0 *)effect)->unk_1A - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_06));
+        motion->unk_06 = (u16) (motion->unk_06 - (((S_800B490C_0 *)effect)->unk_1A
+            - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_06));
         ((S_800B490C_0 *)effect)->unk_1A = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_06;
-        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B490C_0 *)effect)->unk_1C - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A));
+        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B490C_0 *)effect)->unk_1C
+            - ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A));
         ((S_800B490C_0 *)effect)->unk_1C = (u16) ((S_800B490C_5 *)(((S_800B490C_0 *)effect)->unk_14))->unk_0A;
     }
     phase = ((S_800B490C_0 *)effect)->unk_08;

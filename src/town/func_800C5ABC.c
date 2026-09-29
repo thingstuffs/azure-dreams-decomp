@@ -29,7 +29,7 @@ extern M2C_UNK D_800D5058;
 void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
     s32 table_index;
     u8 state;
-    
+
     void *motion = motion_data;
 
     u32 motion_flags;
@@ -58,7 +58,7 @@ void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
             }
         } else if ((func_800C2F14(obj->field72, obj->field64) << 0x10) != 0) {
             motion_flags = *(u16 *)((u8 *)motion + 0x14);
-                motion_flags &= 0xfffe;
+            motion_flags &= 0xfffe;
         } else {
             motion_flags = *(u16 *)((u8 *)motion + 0x14) | 1;
         }

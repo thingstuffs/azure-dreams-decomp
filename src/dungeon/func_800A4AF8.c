@@ -5,7 +5,6 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_800AA258_2 {
     u8 pad_00[0x24];
     u8 unk_24;

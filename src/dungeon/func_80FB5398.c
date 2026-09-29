@@ -299,7 +299,7 @@ loop_0:
                         *((s16 *) (((u8 *) poly) + 0x12)) = (s16) strip_y;
                         poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*((u8 **) render_state)))) + 0xB0));
                         *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000)
-                            | (poly_link & left_bound);
+                        | (poly_link & left_bound);
                         depth_bucket = (u8 *) (depth_offset + ((s32) (*((u8 **) render_state))));
                         bucket_link = *((s32 *) (((u8 *) depth_bucket) + 0xB0));
                         *((s32 *) (((u8 *) depth_bucket) + 0xB0)) =

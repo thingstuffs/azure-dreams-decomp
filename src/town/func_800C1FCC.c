@@ -12,7 +12,6 @@ typedef struct S_800BF72C_4 {
 } S_800BF72C_4;   /* ((S_800BF72C_3 *)arg0)->unk_A0 in func_800BF72C */
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_800BC574(void *, s16);
@@ -92,7 +91,7 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         } else {
             return;
         }
-    block_15:
+block_15:
         object->unk_68 =
             (s16)((u16)object->unk_68 + 1);
         return;
@@ -105,7 +104,7 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         position->unk_04 = 0x02300000;
         object->unk_68 = 0;
         return;
-    block_18:
+block_18:
         object->unk_68 = 0;
     case 0:
         return;

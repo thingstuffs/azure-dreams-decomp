@@ -31,7 +31,8 @@ void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *prim
     motion->unk_08 += motion->unk_14;
     motion->unk_14 += 0x2000;
     func_800478B8(primitive);
-    brightness = primitive->unk_0C.at00_u8.v - ((s32) primitive->unk_0C.at00_u8.v / (s16) ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12);
+    brightness = primitive->unk_0C.at00_u8.v
+        - ((s32) primitive->unk_0C.at00_u8.v / (s16) ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_12);
     primitive->unk_0C.at00_u8.v = brightness;
     primitive->unk_0C.at01_u8.v = brightness;
     primitive->unk_0C.at02_u8.v = brightness;
@@ -42,7 +43,8 @@ void func_800C5D80(void *effect_data, S_800C5D80_0 *motion, Rec_D_80082E80 *prim
 
             dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
         }
-        ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 | 0x8000);
+        ((S_800C5D80_2 *)((u8 *)effect_data - 0x2))->unk_00 = (u16) (((S_800C5D80_2 *)((u8 *)effect_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

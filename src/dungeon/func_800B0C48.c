@@ -32,7 +32,6 @@ typedef struct S_800B63A8_1 {
 } S_800B63A8_1;   /* arg0 in func_800B63A8 */
 
 
-
 M2C_UNK func_800478B8();            /* extern */
 
 /* Advance effect motion, fade its color, and flag it when its lifetime expires. */

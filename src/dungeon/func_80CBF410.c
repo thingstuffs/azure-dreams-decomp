@@ -71,7 +71,7 @@ void func_80172C10(S_80172C10_0 *state, EntityRec *motion, Rec_D_80082E80 *tile,
         }
         state->unk_96.s =
             (((EntityRec *)entity)->flags1C & 0x228) ? 8 : -1;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         motion->unk_0C -= motion->unk_0C / 4;

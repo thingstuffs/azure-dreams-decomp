@@ -10,7 +10,8 @@ extern unsigned short D_80084778[5];
 short func_80055778(int value)
 {
     unsigned short count = D_80084778[0];
-    if (count >= 0x20) return -1;
+    if (count >= 0x20)
+        return -1;
     D_80084778[0] = count + 1;
     D_80084778[*(unsigned short *)D_80084778] = value;
     return 0;
@@ -19,8 +20,13 @@ short func_80055778(int value)
 
 /* shared D_80084960 table (0x9C stride) */
 typedef struct {
-    int unk00; int unk04; char pad08[4]; int unk0C;
-    char pad10[0xC]; int unk1C; char pad20[0x9C-0x20];
+    int unk00;
+    int unk04;
+    char pad08[4];
+    int unk0C;
+    char pad10[0xC];
+    int unk1C;
+    char pad20[0x9C - 0x20];
 } Entry80084960;
 extern Entry80084960 D_80084960[];
 

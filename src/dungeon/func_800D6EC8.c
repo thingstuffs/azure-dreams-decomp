@@ -12,8 +12,6 @@ typedef struct S_800DC628_3 {
 } S_800DC628_3;   /* ((S_800DC628_2 *)arg0)->unk_08 in func_800DC628 */
 
 
-
-
 typedef struct S_800DC628_0 {
     u8 pad_00[0x8];
     void * unk_08;

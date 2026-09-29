@@ -80,7 +80,7 @@ void func_80172E5C(S810AF65C_0 *animation, S810AF65C_1 *motion,
             animation->field_9b = 3;
             return;
         }
-                /* fall through */
+                        /* fall through */
     case 1:
         if ((s16)animation->field_96 > 0) {
             return;

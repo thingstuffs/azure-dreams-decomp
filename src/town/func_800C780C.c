@@ -59,7 +59,7 @@ void func_800C4F6C(void *object, S_800C4F6C_0 *position, S_800C4F6C_2 *display_s
     EntityRec *shared_position;
 
     func_800C3050(object, 0x1D, &D_800D5120, &D_800D5124,
-                 &D_800D50F0, &D_800D50F8);
+                  &D_800D50F0, &D_800D50F8);
     position->unk_08 = 0xFF800000;
     ((S_800C4F6C_6 *)(((S_800C4F6C_5 *)object)->unk_80))->unk_04 = &D_800D50DC;
     ((S_800C4F6C_1 *)((u8 *)object - 0x10))->unk_00 = &D_800C5064;

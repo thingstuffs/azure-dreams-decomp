@@ -15,9 +15,9 @@ void func_800B6D94(void *texture) {
     func_80067014(0);
 
     rect[0] = (*(u8 *)((u8 *)texture + 8) >> 2)
-            + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
+    + ((*(u16 *)((u8 *)texture + 4) << 6) & 0x3C0);
     rect[1] = ((*(u16 *)((u8 *)texture + 4) << 4) & 0x100)
-            + *(u8 *)((u8 *)texture + 9);
+    + *(u8 *)((u8 *)texture + 9);
     rect[2] = *(u8 *)((u8 *)texture + 10) >> 2;
     rect[3] = *(u8 *)((u8 *)texture + 11);
 

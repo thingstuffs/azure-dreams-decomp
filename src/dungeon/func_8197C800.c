@@ -172,12 +172,11 @@ typedef struct S_FUNC_8197C800_BODY_25 {
 } S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in FUNC_8197C800_BODY */
 
 
-
 /* The first seven words are the retail function bank.  The actual C body
  * starts at +0x1c; its dispatch table is the resident table at 0x80024008. */
 #ifdef __mips__
 static const u32 func_8197C800_bank[] __asm__("func_8197C800")
-    __attribute__((section(".text.func_8197C800"), aligned(4))) = {
+__attribute__((section(".text.func_8197C800"), aligned(4))) = {
     0x8002401C, 0x00000000, 0x80024090, 0x800240EC,
     0x80024248, 0x80024284, 0x800245E0,
 };
@@ -210,7 +209,7 @@ static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
 }
 
 void FUNC_8197C800_BODY(void *input, void *output)
-    __attribute__((section(".text.func_8197C800")));
+__attribute__((section(".text.func_8197C800")));
 
 /* Updates a timed effect, spawns particles, and completes its owner's action. */
 void FUNC_8197C800_BODY(void *input, void *output)
@@ -264,9 +263,12 @@ void FUNC_8197C800_BODY(void *input, void *output)
 
 case_zero:
     ((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_F4 = 0;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_04;
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_08;
+    ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
+        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
+    ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 =
+        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_04;
+    ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 =
+        ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_08;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u += 1;
 
 case_one:
@@ -469,7 +471,8 @@ case_three:
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
                 }
                 result = func_80069EF8();
-                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A = height - (result & 0x1F);
+                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A =
+                    height - (result & 0x1F);
                 result = func_80069EF8();
                 {
                     u32 color;
@@ -530,7 +533,7 @@ case_four:
 
 #ifdef __mips__
 __asm__(
-    ".globl func_8197C800\n"
-    ".type func_8197C800,@function\n"
-    ".size func_8197C800,1728\n");
+        ".globl func_8197C800\n"
+        ".type func_8197C800,@function\n"
+        ".size func_8197C800,1728\n");
 #endif

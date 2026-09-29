@@ -9,8 +9,6 @@ typedef struct S_800C30A4_0_pre {
 } S_800C30A4_0_pre;   /* the 0x2 bytes before arg0 in func_800C30A4, addressed as arg0[-1] */
 
 
-
-
 /* Clears the object slot and sets the object and global removal flags. */
 void func_800C30A4(void *object) {
     s32 slot_offset;

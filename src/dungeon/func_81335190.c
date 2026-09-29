@@ -190,7 +190,7 @@ selection_done:
         ((S_8016C190_3 *)sprite)->unk_14 &= 0xF7FF;
         ((S_8016C190_0 *)action)->unk_9B++;
         func_800A56E0(0x703);
-                /* fall through */
+                        /* fall through */
 
     case 2:
         ((S_8016C190_0 *)action)->unk_96.u--;

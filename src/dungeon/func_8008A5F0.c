@@ -23,8 +23,10 @@ void func_8008FD50(void *actor, EntityRec *motion, void *sprite, EntityRec *faci
         dungeonStatus.unk_04 = 0;
     }
     if (dungeonStatus.unk_04 != 0) {
-        motion->unk_0C = (s32) ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 0x10) - motion->x.v) / dungeonStatus.unk_04);
-        motion->unk_10 = (s32) ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 0x10) - motion->y.v) / dungeonStatus.unk_04);
+        motion->unk_0C = (s32) ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 0x10)
+            - motion->x.v) / dungeonStatus.unk_04);
+        motion->unk_10 = (s32) ((s32) ((((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 0x10)
+            - motion->y.v) / dungeonStatus.unk_04);
     }
     if ((((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0x100) && (dungeonStatus.unk_04 == 6)) {
         func_8008D94C(actor, motion, sprite, facing);
@@ -35,7 +37,8 @@ void func_8008FD50(void *actor, EntityRec *motion, void *sprite, EntityRec *faci
         u8 *anim_table = D_800DD0E0;
         if (old_anim_table != anim_table) {
             (*(u8 **)((u8 *)sprite + (0x2C))) = anim_table;
-            func_80048A44(sprite, anim_table[((s32) (gameWork.view.viewAngle + facing->facing + 0x100) >> 9) & 7], 0, 1);
+            func_80048A44(sprite, anim_table[((s32) (gameWork.view.viewAngle + facing->facing + 0x100) >> 9) & 7], 0,
+                1);
         }
     }
     ticks_left = dungeonStatus.unk_04 - 1;

@@ -193,7 +193,7 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 height_table = D_800DDC40;
                 travel_frames = (s16) ((S_80024E5C_0 *)effect)->unk_5A.u;
                 target_z = ((S_80024E5C_3 *)target_position)->unk_08
-                    - (((u8) *(((S_80024E5C_4 *)(((S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
+                - (((u8) *(((S_80024E5C_4 *)(((S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
                     << 0x10);
                 near_target = travel_frames < 0xE;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

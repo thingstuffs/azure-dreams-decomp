@@ -208,11 +208,11 @@ void func_800A17CC(void *sprite, s32 position) {
         vertex2, vertex3,
         screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags,
         (top_z = SCRATCH(u16, 0x78),
-            height *= 2,
-            top_z -= height,
-            SCRATCH(u16, 0x78) = top_z,
-            SCRATCH(u16, 0x80) = top_z,
-            unused_arg)) - 8;
+         height *= 2,
+         top_z -= height,
+         SCRATCH(u16, 0x78) = top_z,
+         SCRATCH(u16, 0x80) = top_z,
+         unused_arg)) - 8;
 
     ((S_800A17CC_1 *)textured_quad)->unk_08 = SCRATCH(u16, 0xE8);
     ((S_800A17CC_1 *)textured_quad)->unk_0A = SCRATCH(u16, 0xEA);

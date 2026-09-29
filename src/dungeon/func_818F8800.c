@@ -340,7 +340,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                                 *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
                                 *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
                                 *packet = ((*packet) & 0xFF000000)
-                                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                                 row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
                                 *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
                                 strip_quad = *((Quad40 *) packet);
@@ -373,19 +373,19 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                         column_phase -= 0x1000;
                         *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
                             + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                            >> 0x10));
+                               >> 0x10));
                         wave_index += 1;
                         *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
                             + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                            >> 0x10));
+                               >> 0x10));
                     } else {
                         *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12)))
                             + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                            >> 0x10));
+                               >> 0x10));
                         wave_index += 1;
                         *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22)))
                             + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38)))))
-                            >> 0x10));
+                               >> 0x10));
                     }
                     if (wave_index >= 0x60) {
                         wave_index = 0;
@@ -402,7 +402,7 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                                 *((s8 *) (((s8 *) packet) + 0x14)) = (s8) ((strip_quad.b12) + 1);
                                 *((s8 *) (((s8 *) packet) + 0x24)) = (s8) ((strip_quad.b12) + 1);
                                 *packet = ((*packet) & 0xFF000000)
-                                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                                | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
                                 column_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
                                 *column_link = ((*column_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
                                 strip_quad = *((Quad40 *) packet);

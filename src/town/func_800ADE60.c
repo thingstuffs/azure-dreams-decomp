@@ -9,7 +9,6 @@ extern u8 D_800AB408[];
 extern u8 D_800AB708[];
 
 
-
 typedef struct S_800AB5C0_1 {
     u8 pad_00[0x2];
     union { u16 u; s16 s; } unk_02;   /* accessed as both */

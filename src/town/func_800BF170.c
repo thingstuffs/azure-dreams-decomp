@@ -10,8 +10,6 @@ typedef struct S_800BC8D0_1_pre {
 } S_800BC8D0_1_pre;   /* the 0x10 bytes before arg0 in func_800BC8D0, addressed as arg0[-1] */
 
 
-
-
 extern void func_8003DB94(void *, s32, s32);
 extern void func_8004491C(void *, void *);
 extern void func_8008F104(void *, s32, void *);

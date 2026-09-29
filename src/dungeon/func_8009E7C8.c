@@ -22,7 +22,6 @@ typedef struct S_800A3F28_1 {
 } S_800A3F28_1;   /* data in func_800A3F28 */
 
 
-
 extern s32 func_8009FB34(u16, u16);
 extern s32 func_800A41F0(void *);
 

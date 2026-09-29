@@ -73,7 +73,7 @@ void func_80154B4C(void *action, EntityRec *motion, void *sprite, EntityRec *act
         ((S_80154B4C_0 *)action)->unk_A4 = 0;
         ((S_80154B4C_0 *)action)->unk_9B++;
     }
-                /* fall through */
+                        /* fall through */
     case 1:
         move_frames = ((S_80154B4C_0 *)action)->unk_9E.s;
         ((S_80154B4C_0 *)action)->unk_90 -= ((S_80154B4C_0 *)action)->unk_A4;
@@ -107,7 +107,7 @@ void func_80154B4C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             actor->flags1C |= 0x08000000;
             ((S_80154B4C_0 *)action)->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
     case 2:
     {
         u8 *state_anims;

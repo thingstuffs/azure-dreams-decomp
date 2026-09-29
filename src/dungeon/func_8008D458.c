@@ -90,7 +90,8 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
             controller->field8c = D_8008ACDC;
         }
         break;
-    case 0x10: {
+    case 0x10:
+    {
         u16 countdown;
 
         countdown = controller->countdown - 1;

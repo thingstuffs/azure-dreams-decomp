@@ -37,7 +37,12 @@ typedef struct S_800D1C70_2 {
 
 typedef struct S_800D1C70_3 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
     u8 pad_16[0x6];

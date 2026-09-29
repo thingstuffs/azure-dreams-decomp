@@ -78,7 +78,7 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
             func_800A4300(&D_80082E80.unk_000, ((s32)D_800E3D7C));
         }
         dungeonStatus.unk_0A--;
-        /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
+                /* the u16 two bytes BEFORE the object: a negative offset, which the field-typing
            pass (tools/xform/t4_fields.py) refuses to fold into a struct; a `_pre` struct
            spelling was tried here and costs 9 words (const-remat), so it stays an explicit cast */
         *(u16 *)((u8 *)obj - 2) |= 0x8000;

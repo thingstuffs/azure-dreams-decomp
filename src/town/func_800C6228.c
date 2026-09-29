@@ -10,7 +10,6 @@ extern M2C_UNK D_800CFCB4[5];
 extern volatile M2C_UNK D_800D5084[20];
 
 
-
 typedef struct S_800C3988_1_pre {
     M2C_UNK (*unk_00)(void *, M2C_UNK, M2C_UNK);
     u8 pad_04[0x54];
@@ -52,7 +51,7 @@ void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK
             dispatch_record = record;
             handler_base = dispatch_record->unk_5C;
             handler = ((S_800C3988_1_pre *)((((s8) handler_id * 4) + handler_base)))[-1].unk_00;
-        dispatch:
+dispatch:
             handler(dispatch_record, saved_arg, dispatch_data);
             return;
         }

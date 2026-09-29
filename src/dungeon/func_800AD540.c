@@ -81,7 +81,7 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
             initial_delay = 8;
         }
         motion_state->delay = initial_delay;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         velocity_x = motion->dx;
         biased_dx = velocity_x;
@@ -108,46 +108,46 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
             goto begin_approach;
         }
 stop_motion:
-    {
-        DungeonGlobalStatus *shared_state = &dungeonStatus;
-        motion->unk14 = 0;
-        motion->dy = 0;
-        motion->dx = 0;
-        if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
-            *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
+        {
+            DungeonGlobalStatus *shared_state = &dungeonStatus;
+            motion->unk14 = 0;
+            motion->dy = 0;
+            motion->dx = 0;
+            if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
+            }
+            shared_state->unk_0A++;
+            func_8009A028(entity, shared_state);
+            ((u16 *)motion_state)[-1] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
-        shared_state->unk_0A++;
-        func_8009A028(entity, shared_state);
-        ((u16 *)motion_state)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
         return;
 begin_approach:
         motion_state->delay = 8;
         motion_state->state++;
         return;
     case 2:
-        {
-            s16 frames_left = motion_state->delay;
-            if (frames_left != 0) {
-                s32 target_x = (s32)params->x << 6;
-                s32 pos_x = motion->x - 0x20;
-                motion->dx = ((target_x - pos_x) << 0xf) / frames_left;
-                {
-                    s32 pos_y = motion->y - 0x20;
-                    s32 target_y = (s32)params->y << 6;
-                    motion->dy = ((target_y - pos_y) << 0xf) / motion_state->delay;
-                }
-            }
+    {
+        s16 frames_left = motion_state->delay;
+        if (frames_left != 0) {
+            s32 target_x = (s32)params->x << 6;
+            s32 pos_x = motion->x - 0x20;
+            motion->dx = ((target_x - pos_x) << 0xf) / frames_left;
             {
-                u16 delay = motion_state->delay;
-                delay -= 1;
-                motion_state->delay = delay;
-                if ((delay << 0x10) > 0) {
-                    return;
-                }
+                s32 pos_y = motion->y - 0x20;
+                s32 target_y = (s32)params->y << 6;
+                motion->dy = ((target_y - pos_y) << 0xf) / motion_state->delay;
             }
         }
+        {
+            u16 delay = motion_state->delay;
+            delay -= 1;
+            motion_state->delay = delay;
+            if ((delay << 0x10) > 0) {
+                return;
+            }
+        }
+    }
 
         motion->unk14 = 0;
         motion->dy = 0;

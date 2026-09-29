@@ -65,7 +65,7 @@ void func_8016CBAC(void *action, void *motion, void *sprite, void *actor)
         ((S_8016CBAC_0 *)action)->unk_9E.s = 5;
         ((S_8016CBAC_0 *)action)->unk_A4 = 0;
         ((S_8016CBAC_0 *)action)->unk_9B++;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         move_ticks = ((S_8016CBAC_0 *)action)->unk_9E.s;
@@ -101,7 +101,7 @@ void func_8016CBAC(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_8016CBAC_0 *)action)->unk_9B++;
         }
-                /* fall through */
+                        /* fall through */
 
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {

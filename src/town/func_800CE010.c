@@ -2,8 +2,6 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 
-
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_800C3050();

@@ -64,7 +64,6 @@ typedef struct S_800D1824_6 {
 } S_800D1824_6;   /* ((S_800D1824_1 *)globals)->unk_00 in func_800D1824 */
 
 
-
 extern void func_80065034(void *arg0, void *arg1, void *arg2);
 extern void func_8006658C(s32 arg0, void *arg1);
 
@@ -151,7 +150,7 @@ void func_800D1824(u8 *tiles)
                         gte_stsxy(prim + 0x20);
                         draw_prim = prim;
                         func_80065034(scratch + 0x28, (u8 *)globals + 0xA8,
-                                     prim + 4);
+                                      prim + 4);
 
                         (*(u32 *)((u8 *)packet_len + 9)) = ((S_800D1824_4 *)style)->unk_08;
                         (*(u32 *)((u8 *)packet_len + 0x11)) = ((S_800D1824_4 *)style)->unk_0C;

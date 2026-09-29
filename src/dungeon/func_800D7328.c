@@ -14,9 +14,6 @@ typedef struct S_800DCA88_1 {
 } S_800DCA88_1;   /* ((S_800DCA88_0 *)arg0)->unk_04 in func_800DCA88 */
 
 
-
-
-
 /* Set the attached object position according to the alternate-position flag. */
 void func_800DCA88(S_800DCA88_0 *object, s32 alternate_position) {
     if (alternate_position != 0) {

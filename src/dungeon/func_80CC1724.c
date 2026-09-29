@@ -76,7 +76,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
         } else {
             break;
         }
-                /* fall through */
+                        /* fall through */
 
     case 1:
     {
@@ -115,7 +115,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             ((S_80174F24_0 *)action)->unk_9B++;
         }
     }
-                /* fall through */
+                        /* fall through */
 
     case 2:
         if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {

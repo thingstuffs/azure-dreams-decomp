@@ -158,7 +158,7 @@ set_state2_from_zero:
             }
             motion->unk_96 = 3;
             motion->unk_B2++;
-                        /* fall through */
+                                    /* fall through */
 
         case 1:
         {
@@ -230,7 +230,7 @@ state1_test:
 
                             if (history_x == (*(signed short *)((u8 *)history_entry + 0x62)) &&
                                 (*(signed short *)((u8 *)history_base + 0x68))
-                                    == (*(signed short *)((u8 *)history_entry + 0x64))) {
+                                == (*(signed short *)((u8 *)history_entry + 0x64))) {
                                 goto set_state3;
                             }
                             history_index++;
@@ -251,7 +251,7 @@ state1_call:
         }
         motion->unk_B1 = 1;
         motion->unk_B2 = 0;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         switch (motion->unk_B2) {
@@ -292,7 +292,7 @@ state1_case2:
         case 0:
             motion->unk_B2 = (turn_phase == 0);
             motion->unk_96 = 3;
-                        /* fall through */
+                                    /* fall through */
 
         case 1:
         {

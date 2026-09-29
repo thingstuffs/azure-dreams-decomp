@@ -79,11 +79,15 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
     s32 target;
 
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
-    if ((func_8009A540(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
-        target = func_8009B25C(entity, (((S_8008C8BC_1 *)position_arg)->unk_24 + ((u16 *)dirStepX)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25 + ((u16 *)dirStepY)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+    if ((func_8009A540(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25,
+        (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
+        target = func_8009B25C(entity, (((S_8008C8BC_1 *)position_arg)->unk_24
+            + ((u16 *)dirStepX)[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25
+            + ((u16 *)dirStepY)[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
-        if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0) && (((S_8008C8BC_3 *)target)->unk_14 & 0x4000)
+        if (!(((S_8008C8BC_2 *)page_or_entity)->unk_3714 & 1) && (target != 0)
+            && (((S_8008C8BC_3 *)target)->unk_14 & 0x4000)
             && (((S_8008C8BC_2 *)page_or_entity)->unk_3186 & 1) && !(((S_8008C8BC_0 *)entity)->unk_1C & 0x410)) {
             ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
             return 0;

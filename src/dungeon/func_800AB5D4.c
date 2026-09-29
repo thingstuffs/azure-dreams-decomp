@@ -106,7 +106,7 @@ void func_800B0D34(void *object, void *position, void *anim_state) {
 
     color = (u8 *)color + 4;
     if ((s32)((S_800B0D34_1 *)info)->unk_29 /
-            (s32)((((S_800B0D34_1 *)info)->unk_11 >> 1) + 2) >=
+        (s32)((((S_800B0D34_1 *)info)->unk_11 >> 1) + 2) >=
         (s32)((S_800B0D34_1 *)info)->unk_28) {
         ((S_800B0D34_2 *)color)->unk_00 = -0x80 - phase * 8;
         ((S_800B0D34_2 *)color)->unk_02 = 0x10;
@@ -135,7 +135,7 @@ void func_800B0D34(void *object, void *position, void *anim_state) {
         }
         ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
     }
-    break;
+        break;
     case 1:
     {
         s16 signed_offset = ((S_800B0D34_3 *)anim_state)->unk_18.s;
@@ -164,7 +164,7 @@ void func_800B0D34(void *object, void *position, void *anim_state) {
             return;
         }
     }
-    break;
+        break;
     default:
         ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
     }

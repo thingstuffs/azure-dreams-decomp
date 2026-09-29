@@ -19,8 +19,6 @@ typedef struct S_800AF448_2 {
 } S_800AF448_2;   /* ((S_800AF448_0 *)arg0)->unk_A8 in func_800AF448 */
 
 
-
-
 M2C_UNK func_8004CBFC();      /* extern */
 extern M2C_UNK D_80071244;
 extern M2C_UNK D_800792DC;

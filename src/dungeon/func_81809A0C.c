@@ -251,7 +251,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
         appearance->unk_1C = 0x1000U;
         ((S_8002520C_0 *)menu)->unk_22 = 8;
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
-            /* fallthrough */
+                    /* fallthrough */
     case 1:
         enter_ticks = ((S_8002520C_0 *)menu)->unk_22;
         if (enter_ticks != 0) {

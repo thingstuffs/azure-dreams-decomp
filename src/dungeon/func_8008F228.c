@@ -220,7 +220,7 @@ loop_1:
     if (entry_idx != ff) {
         entry_idx32 = entry_idx;
         entry_addr = (void *)((u32)(entry_idx32 * sizeof(S_800E3E48)) +
-                             (u32)scratch);
+                              (u32)scratch);
         ((S_80094988_3 *)table_ptr)->unk_00 = (s32)entry_addr;
         table_ptr += 4;
         src_ptr += 1;
@@ -246,7 +246,8 @@ loop_1:
     ff2 = 0xFF;
     dispatch_table = (void **)(save_page + 0x248);
     dispatch_ptr = dungeon;
-    loop_0: {
+loop_0:
+    {
         entry_idx32 = (s32)((u8 *)(i + (u32)page_base));
         cursor_ptr = (u8 *)(((S_80094988_5 *)(u8 *)entry_idx32)->unk_2D52);
         if (((u8)cursor_ptr) != ff2) {
@@ -257,7 +258,9 @@ loop_1:
         }
         i += 1;
         dispatch_ptr += 4;
-    } if (i < 2) goto loop_0;
+    }
+    if (i < 2)
+        goto loop_0;
 
     probe = 0x80010000;
     probe = ((S_80094988_7 *)((void *)probe))->unk_21E0;
@@ -288,76 +291,79 @@ loop_1:
     slot_ptr = (u8 *)0x80010248;
     slot_i = 0;
     slot_flags = (u8 *)0x8001024B;
-            do {
-                if (((S_80094988_9_pre *)slot_flags)[-1].unk_00 == 0x13) {
-                    probe_i = 0;
-                    if (((S_80094988_9 *)slot_flags)->unk_00 & 0x20) {
-                        scratch = 0;
-                        cursor = dungeon;
-                        loop_1_: {
-                            if (((S_80094988_10 *)cursor)->unk_D0 == slot_ptr) {
-                                scratch = probe_i + 1;
+    do {
+        if (((S_80094988_9_pre *)slot_flags)[-1].unk_00 == 0x13) {
+            probe_i = 0;
+            if (((S_80094988_9 *)slot_flags)->unk_00 & 0x20) {
+                scratch = 0;
+                cursor = dungeon;
+loop_1_:
+                {
+                    if (((S_80094988_10 *)cursor)->unk_D0 == slot_ptr) {
+                        scratch = probe_i + 1;
+                    }
+                    probe_i += 1;
+                    cursor += 4;
+                }
+                if (probe_i < 2)
+                    goto loop_1_;
+                if ((scratch << 0x10) != 0) {
+                    scratch -= 1;
+                    kind = func_800A1618(*slot_ptr, 3);
+                    if (kind != 0) {
+                        if ((func_8009B88C(0, (s16)spawn_x, (s16)spawn_y,
+                                           &place_x, &place_y) << 0x10) == 0) {
+                            do {
+                            } while ((func_800A4E2C(&rand_x, &rand_y) << 16) < 0);
+                            place_x = (s16)rand_x;
+                            place_y = (s16)rand_y;
+                        }
+                        spawned = func_800A0B94(*slot_ptr, kind, 1)(
+                            1, place_x, place_y,
+                            actor->unk_88);
+                        sign_shift = scratch << 16;
+                        slot_index = sign_shift >> 16;
+                        slot_offset = slot_index * 4;
+                        slot_rec = (void *)((u32)slot_offset +
+                                            (u32)dungeon);
+                        slot_rec->unk_AC = spawned;
+                        if (spawned != NULL) {
+                            func_80042640(spawned,
+                                          spawned->unk_13);
+                            func_800424E0(spawned,
+                                          spawned->unk_13,
+                                          slot_ptr);
+                            slot_rec->unk_D0 = slot_ptr;
+                            ((S_80094988_9 *)slot_flags)->unk_00 =
+                                (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
+                            ((s32 *)&D_800E3D74)[slot_index] = 0;
+                            if (spawned->unk_25 == 0) {
+                                spawned->unk_1C =
+                                    (s32)(spawned->unk_1C | 8);
                             }
-                            probe_i += 1;
-                            cursor += 4;
-                        } if (probe_i < 2) goto loop_1_;
-                        if ((scratch << 0x10) != 0) {
-                            scratch -= 1;
-                            kind = func_800A1618(*slot_ptr, 3);
-                            if (kind != 0) {
-                                if ((func_8009B88C(0, (s16)spawn_x, (s16)spawn_y,
-                                                   &place_x, &place_y) << 0x10) == 0) {
-                                    do {
-                                    } while ((func_800A4E2C(&rand_x, &rand_y) << 16) < 0);
-                                    place_x = (s16)rand_x;
-                                    place_y = (s16)rand_y;
-                                }
-                                spawned = func_800A0B94(*slot_ptr, kind, 1)(
-                                    1, place_x, place_y,
-                                    actor->unk_88);
-                                sign_shift = scratch << 16;
-                                slot_index = sign_shift >> 16;
-                                slot_offset = slot_index * 4;
-                                slot_rec = (void *)((u32)slot_offset +
-                                                     (u32)dungeon);
-                                slot_rec->unk_AC = spawned;
-                                if (spawned != NULL) {
-                                    func_80042640(spawned,
-                                                  spawned->unk_13);
-                                    func_800424E0(spawned,
-                                                  spawned->unk_13,
-                                                  slot_ptr);
-                                    slot_rec->unk_D0 = slot_ptr;
-                                    ((S_80094988_9 *)slot_flags)->unk_00 =
-                                        (u8)(((S_80094988_9 *)slot_flags)->unk_00 | 0x20);
-                                    ((s32 *)&D_800E3D74)[slot_index] = 0;
-                                    if (spawned->unk_25 == 0) {
-                                        spawned->unk_1C =
-                                            (s32)(spawned->unk_1C | 8);
-                                    }
-                                    D_800E3DF0[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
-                                        (s32)spawned;
-                                    func_80042984(spawned);
-                                    func_800A152C(*slot_ptr, 3);
-                                    func_80042560(spawned);
-                                    func_800C542C(
-                                        spawned,
-                                        D_800DCED4[(scratch = func_800429E4(spawned))],
-                                        slot_index, 1);
-                                }
-                            }
+                            D_800E3DF0[((S_80094988_9 *)slot_flags)->unk_00 & 0x1F] =
+                                (s32)spawned;
+                            func_80042984(spawned);
+                            func_800A152C(*slot_ptr, 3);
+                            func_80042560(spawned);
+                            func_800C542C(
+                                spawned,
+                                D_800DCED4[(scratch = func_800429E4(spawned))],
+                                slot_index, 1);
                         }
                     }
                 }
-                slot_i += 1;
-                slot_flags += 4;
-                slot_ptr += 4;
-            } while (slot_i < 0x14);
-            if (flag_was_set == 0) {
-                save_page = (u8 *)0x80010000;
-                ((S_80094988_15 *)save_page)->unk_3714 =
-                    (s16)((u16)((S_80094988_15 *)save_page)->unk_3714 & 0xFFFD);
             }
-            func_80035208(D_800E045C);
-            return;
+        }
+        slot_i += 1;
+        slot_flags += 4;
+        slot_ptr += 4;
+    } while (slot_i < 0x14);
+    if (flag_was_set == 0) {
+        save_page = (u8 *)0x80010000;
+        ((S_80094988_15 *)save_page)->unk_3714 =
+            (s16)((u16)((S_80094988_15 *)save_page)->unk_3714 & 0xFFFD);
+    }
+    func_80035208(D_800E045C);
+    return;
 }

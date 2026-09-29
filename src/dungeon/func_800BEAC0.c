@@ -6,7 +6,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 M2C_UNK func_8008D330();
@@ -29,8 +28,8 @@ s32 func_800C4220(EntityRec *entity, s32 item, s16 use_type) {
     if ((s32)entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, item, use_type);
         if (func_800AD6FC(entity,
-                         (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
-                         0) == 0) {
+                          (D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] >> 6) & 3,
+                          0) == 0) {
             func_800A5F38(entity, item);
             return 1;
         }

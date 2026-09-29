@@ -7,7 +7,7 @@ s32 func_8004DC14();                    /* extern */
 u32 func_80069E98();                             /* extern */
 M2C_UNK func_800DBD5C(); /* extern */
 M2C_UNK func_800DBE98();                            /* extern */
-M2C_UNK func_800DBEE8();                            
+M2C_UNK func_800DBEE8();
 typedef struct S_800DC1F8_0 {
     u8 pad_00[0x10];
     s32 unk_10;

@@ -29,7 +29,7 @@ typedef struct S_800AB1C0_2 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_800A2B04(Motion *, s32, s32);
 u16 func_800BCB04(s32, s32, s32);
@@ -60,7 +60,7 @@ s32 func_800AB1C0(ObjA0 *move_state, Motion *motion, TilePos *target_tile, Entit
         adjusted_y -= 0x20;
         ((S_800AB1C0_2 *)motion)->unk_10 =
             (s32)(((s32)(((((Rec_D_80082E80 *)target_tile)->unk_25 << 6) - adjusted_y)
-                          << 0x10)) /
+                         << 0x10)) /
                   (s16)((S_800AB1C0_0 *)move_state)->unk_96);
     }
     next_frames = (u16)((S_800AB1C0_0 *)move_state)->unk_96 - 1;

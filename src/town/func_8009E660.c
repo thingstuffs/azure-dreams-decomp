@@ -85,7 +85,8 @@ void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
     s32 control_index;
     s32 *actor_value;
 
-    if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1) || ((town_callback = &D_80083498.current), (*town_callback != D_800924EC))) {
+    if ((control->subject != subject) || ((control_index = control->index), ((u8 *)control)[control_index + 0x3A] != 1)
+        || ((town_callback = &D_80083498.current), (*town_callback != D_800924EC))) {
         func_8009BFD8(actor, subject, motion, context);
     } else {
         town_state = &D_80083498;

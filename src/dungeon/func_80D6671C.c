@@ -238,7 +238,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
                 goto aaf_cleanup;
             }
         }
-                        /* fallthrough */
+                                    /* fallthrough */
         case 12:
 special_cleanup:
             func_800A9A0C(move_data);

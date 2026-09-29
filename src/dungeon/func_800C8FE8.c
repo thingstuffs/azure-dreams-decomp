@@ -84,7 +84,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 var_s1 = is_one;
             }
             if (*D_800E3D40 == 0) {
-                /* garbage-passthru: a1/a3 are residue from func_800C80F0, without a defined C value. */
+                                /* garbage-passthru: a1/a3 are residue from func_800C80F0, without a defined C value. */
                 temp_a0_2 = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
                     random_mod = temp_a0_2 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
@@ -113,7 +113,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 var_s1 |= 2;
             }
             if (*D_800E3D40 == 0) {
-                /* garbage-passthru: a1/a3 remain residue from earlier calls. */
+                                /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 temp_a0 = func_800A6D30(temp_a0_3) & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
                     random_mod = temp_a0 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
@@ -136,10 +136,10 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_28 & 0x4000) {
         if ((var_s2 << 0x10) == 0) {
-            /* garbage-passthru: a3 remains residue from earlier calls. */
+                        /* garbage-passthru: a3 remains residue from earlier calls. */
             func_800A6508();
         } else {
-            /* garbage-passthru: a3 remains residue from earlier calls. */
+                        /* garbage-passthru: a3 remains residue from earlier calls. */
             temp_v0 = func_800990FC();
             var_a1 = temp_v0;
             if (var_s2 & 1) {
@@ -174,7 +174,8 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if ((var_s2 << 0x10) != 0) {
         temp_v1_2 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_00;
         if (!(temp_v1_2->unk_14 & 0x8000)) {
-            func_800C5BBC((temp_v1_2->unk_24 << 6) | 0x20, (temp_v1_2->unk_25 << 6) | 0x20, ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_9C, 0xC0C040, 0x20, 0);
+            func_800C5BBC((temp_v1_2->unk_24 << 6) | 0x20, (temp_v1_2->unk_25 << 6) | 0x20,
+                ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_9C, 0xC0C040, 0x20, 0);
             func_800A56E0(0x615);
         }
     }

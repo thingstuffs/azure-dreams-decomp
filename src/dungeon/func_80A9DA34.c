@@ -72,7 +72,7 @@ void func_80173234(void *action, void *motion, void *sprite, void *entity)
 
         ((S_80173234_1 *)motion)->unk_0C -= ((S_80173234_1 *)motion)->unk_0C / 4;
         ((S_80173234_1 *)motion)->unk_10 -= ((S_80173234_1 *)motion)->unk_10 / 4;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         ((S_80173234_1 *)motion)->unk_0C +=

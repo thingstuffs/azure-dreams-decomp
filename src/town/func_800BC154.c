@@ -2,7 +2,6 @@
 #include "m2c_compat.h"
 
 
-
 #define M2C_BREAK() M2C_ERROR(0)
 #define M2C_SYNC() M2C_ERROR(0)
 
@@ -59,7 +58,8 @@ void func_800B98B4(void) {
             if (entry->unk_01 != 0) {
                 func_800B7934(((S_800B98B4_1 *)slot_data)->unk_00, ((S_800B98B4_1 *)slot_data)->unk_01, entry->unk_00);
             }
-            reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5) + (u32)entry_table);
+            reloaded_entry = (void *)((u32)(((S_800B98B4_3 *)((u8 *)state_base + (slot_index * 2)))->unk_33A4 << 5)
+                + (u32)entry_table);
             if (reloaded_entry->unk_00 == 1) {
                 func_80033AA8(0x12C3);
             }

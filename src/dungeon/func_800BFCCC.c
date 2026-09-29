@@ -62,7 +62,6 @@ typedef struct S_800C542C_5 {
 } S_800C542C_5;   /* record in func_800C542C */
 
 
-
 extern u8 D_800C4F20[];
 extern u8 D_800C55A0[];
 extern u8 D_800DF630[];

@@ -82,7 +82,7 @@ void func_8017240C(State *action, Motion *motion, Actor *actor, Entity *entity)
         action->timerA4 = 5;
         action->velocityA0 = 0;
         action->state9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 1:
         action->position90 -= action->velocityA0;
         if (action->timerA4 != 0) {
@@ -109,7 +109,7 @@ void func_8017240C(State *action, Motion *motion, Actor *actor, Entity *entity)
             entity->flags1C |= 0x08000000;
             action->state9B++;
         }
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if ((entity->flags1C & 0x08000000) == 0) {
             break;

@@ -59,7 +59,6 @@ typedef struct S_800B6814_4 {
 } S_800B6814_4;   /* image in func_800B6814 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s16);
@@ -90,7 +89,7 @@ void func_800B6814(S_800B6814_2 *origin)
     if ((u16)particle_count != 0) {
         do {
             particle = func_8003FC64(0x212);
-            
+
             if (particle != NULL) {
                 motion = ((S_800B6814_0 *)particle)->unk_08;
                 sprite = ((S_800B6814_0 *)particle)->unk_0C;

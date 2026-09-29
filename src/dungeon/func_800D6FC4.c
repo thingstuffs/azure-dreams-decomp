@@ -26,7 +26,6 @@ typedef struct S_800DC724_3 {
 } S_800DC724_3;   /* temp_a0 in func_800DC724 */
 
 
-
 extern s32 SD_Call();
 extern s32 func_800DC650();
 extern u8 D_800E2924[];

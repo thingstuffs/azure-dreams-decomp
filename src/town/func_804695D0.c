@@ -14,7 +14,9 @@ s32 func_8001A5D0(void) {
     if (D_80017BD0[0] == 0) {
         return match_count;
     }
-    do { records = D_8001791C; } while (0);
+    do {
+        records = D_8001791C;
+    } while (0);
     record_ids = D_80017BD0;
     do {
         if (func_8001E670(*(s16 *)(records + (*record_ids * 0xC) + 4)) != 0) {

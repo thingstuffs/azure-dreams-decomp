@@ -5,7 +5,6 @@
 typedef void (*Callback)(void *, void *, void *, s32);
 
 
-
 typedef struct S_8009B6B4_2_pre {
     u16 unk_00;
 } S_8009B6B4_2_pre;   /* the 0x2 bytes before arg0 in func_8009B6B4, addressed as arg0[-1] */
@@ -14,7 +13,6 @@ typedef struct S_8009B6B4_2 {
     u8 pad_00[0x50];
     void * unk_50;
 } S_8009B6B4_2;   /* arg0 in func_8009B6B4 */
-
 
 
 extern void func_80095388(void *);

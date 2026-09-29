@@ -44,7 +44,7 @@ void func_801729A8(void *action, void *motion, void *sprite, void *actor)
     switch (state) {
     case 0:
         ((S_801729A8_0 *)action)->unk_9B = start_state;
-                /* fall through */
+                        /* fall through */
     case 1:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_801729A8_0 *)action)->unk_9B = 3;

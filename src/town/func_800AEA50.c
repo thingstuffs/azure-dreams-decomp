@@ -63,7 +63,7 @@ scan_next:
     x_shifted = x << 0x10;
     tile_x = x_shifted >> 0x10;
     if (!(*(u16 *)((u8 *)tiles +
-                  ((tile_x + (y << config->shiftX)) << 1)) & 0x8000) ||
+                   ((tile_x + (y << config->shiftX)) << 1)) & 0x8000) ||
         (flagged_count += 1,
          (func_800ABEEC((s16)(direction_shifted >> 0x10), tile_x, y) < 2))) {
         next_x = x + *x_step;

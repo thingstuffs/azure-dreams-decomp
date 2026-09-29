@@ -533,7 +533,7 @@ block_28:
                         *(s32 *)(ram_base + 0x018) = map_width;
                     }
                     *(s32 *)(ram_base + 0x138) = (((u32) *(s32 *)(ram_base + 0x00C) >> 6) & *(s32 *)(ram_base + 0x120))
-                        << *(s32 *)(ram_base + 0x124);
+                    << *(s32 *)(ram_base + 0x124);
                     *(s32 *)(ram_base + 0x134) = ((u32) *(s32 *)(ram_base + 0x014) >> 6) & *(s32 *)(ram_base + 0x11C);
                     if (*(s32 *)(ram_base + 0x018) >= *(s32 *)(ram_base + 0x014)) {
 loop_36:
@@ -749,7 +749,7 @@ block_64:
                                         ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
                                     *(s32 *)(ram_base + 0x0F8) = (((u16) *(s32 *)(ram_base + 0x014)
                                         + (u16) *(s32 *)(ram_base + 0x164)) & 0xFFFF)
-                                        | ((*(s32 *)(ram_base + 0x00C) + (s16) *(s32 *)(ram_base + 0x166)) << 0x10);
+                                    | ((*(s32 *)(ram_base + 0x00C) + (s16) *(s32 *)(ram_base + 0x166)) << 0x10);
                                     gte_ldv0(ram_base + 0xF8);
                                     (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)face)->unk_08;
                                     gte_rtps_nn();
@@ -783,9 +783,9 @@ block_64:
                                                 && !(face_flags & 2)
                                                 && ((view_height = *(s32 *)(ram_base + 0x158),
                                                 (((s16) *(u16 *)(ram_base + 0x0E4) < view_height) != 0))
-                                                || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height)
-                                                || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height)
-                                                || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
+                                                    || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height)
+                                                    || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height)
+                                                    || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
                                                 (*(s32 *)((u8 *)packet_code + 5)) =
                                                     (s32) (*(s32 *)((u8 *)packet_code + 9));
                                                 (*(s32 *)((u8 *)packet_code + 9)) =
@@ -797,7 +797,7 @@ block_64:
                                                 (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
                                                 packet_code += 0x28;
                                                 *(s32 *)packet = (*(s32 *)packet & tag_mask)
-                                                    | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4)
+                                                | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4)
                                                     + *(s32 *)(ram_base + 0x0BC)) & address_mask);
                                                 overlay_ot_entry =
                                                     (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4)

@@ -40,7 +40,6 @@ typedef struct S_800BC3E4_5 {
 } S_800BC3E4_5;   /* ((S_800BC3E4_4 *)state)->unk_00 in func_800BC3E4 */
 
 
-
 extern s32 func_80045310(void *);
 extern void func_800BC4D4(void *, void *, s16, s32);
 extern s16 func_800BCB04(u16, u16, s16);

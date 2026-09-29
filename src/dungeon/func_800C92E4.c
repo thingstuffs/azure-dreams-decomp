@@ -102,8 +102,8 @@ void func_800CEA44(void *den_event) {
                             entry_y += y;
                             y = entry_y;
                             if (!(((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
-                                                    &flags) == 0) ||
-                                ((flags & 0xB700) != 0))) {
+                                                      &flags) == 0) ||
+                                  ((flags & 0xB700) != 0))) {
                                 break;
                             }
                             retries_left--;
@@ -115,7 +115,7 @@ void func_800CEA44(void *den_event) {
                             D_800E2968 = 1;
                             spawn_type = monster_type;
                             monster = func_800A0B94(spawn_type, spawn_availability, 1)
-                                (0, (u8)spawn_x, (u8)y, -0x400);
+                            (0, (u8)spawn_x, (u8)y, -0x400);
                             if (monster != 0) {
                                 func_800A152C(spawn_type, 1);
                                 func_80042640(monster, spawn_type);
@@ -152,7 +152,7 @@ void func_800CEA44(void *den_event) {
         next_state = *(u16 *)(den_event + 6);
         tail_value = 10;
         *(u16 *)(den_event + 4) = tail_value;
-         /* MATCH: keep the timer store before the state increment. */
+                 /* MATCH: keep the timer store before the state increment. */
         *(u16 *)(den_event + 6) = next_state + 1;
     } else if (state == 1) {
         delay_timer = *(u16 *)(den_event + 4) - 1;
@@ -166,7 +166,7 @@ void func_800CEA44(void *den_event) {
         next_state = *(u16 *)(den_event + 6);
         tail_value = 0x10;
         *(u16 *)(den_event + 4) = tail_value;
-         /* MATCH: keep the timer store before the state increment. */
+                 /* MATCH: keep the timer store before the state increment. */
         *(u16 *)(den_event + 6) = next_state + 1;
     } else {
         delay_timer = *(u16 *)(den_event + 4) - 1;

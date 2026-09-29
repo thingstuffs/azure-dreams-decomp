@@ -106,7 +106,8 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
         threshold = query_height - 0x14;
         scratch->origin_x = masked_x;
         scratch->origin_y = masked_y;
-        do { } while (0);
+        do {
+        } while (0);
         planes = world->planes;
         scratch->x_base = masked_x;
         left_half = (s32)masked_x < 0x20;
@@ -203,13 +204,13 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
                         scratch->quad.halves[7] -= local_y;
                         if (func_8008CE08(scratch) != 0) {
                             height = ((s16)scratch->planes[*(u16 *)(face + 0x10)].xy *
-                                          ((s16)vertices[*(u16 *)face].xy -
-                                           (s16)scratch->origin_x) +
+                                      ((s16)vertices[*(u16 *)face].xy -
+                                       (s16)scratch->origin_x) +
                                       (s16)(scratch->planes[*(u16 *)(face + 0x10)].xy >> 16) *
-                                          ((s16)(vertices[*(u16 *)face].xy >> 16) -
-                                           (s16)scratch->origin_y) +
+                                      ((s16)(vertices[*(u16 *)face].xy >> 16) -
+                                       (s16)scratch->origin_y) +
                                       scratch->planes[*(u16 *)(face + 0x10)].z *
-                                          vertices[*(u16 *)face].z) /
+                                      vertices[*(u16 *)face].z) /
                                      scratch->planes[*(u16 *)(face + 0x10)].z;
                             scratch->height = height;
                             if (height >= scratch->threshold && height < scratch->best) {

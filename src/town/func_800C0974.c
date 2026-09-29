@@ -50,9 +50,9 @@ void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
             return;
         }
         callValue = obj->fieldA0;
-    Lcall:
+Lcall:
         func_8003DB94(dst, callValue, 0);
-    Linc:
+Linc:
         obj->state = (u16)obj->state + 1;
         return;
     case 4:

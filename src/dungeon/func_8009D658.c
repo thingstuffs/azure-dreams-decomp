@@ -7,7 +7,6 @@
 #endif
 
 
-
 extern void func_800A2D68(void *, s32);
 extern void func_800B4C7C(s32, void *, s16, s32);
 

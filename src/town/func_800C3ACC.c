@@ -23,13 +23,25 @@ void func_800C122C(void)
     u16 saved_slot_0;
 
     pending = D_800D4258;
-    if (pending[1] == -5) { pending[1] = -1; D_800D4262[0] = -1; }
-    if (pending[2] == -5) { pending[2] = -1; D_800D4264[0] = -1; }
-    if (pending[3] == -5) { pending[3] = -1; D_800D4266[0] = -1; }
+    if (pending[1] == -5) {
+        pending[1] = -1;
+        D_800D4262[0] = -1;
+    }
+    if (pending[2] == -5) {
+        pending[2] = -1;
+        D_800D4264[0] = -1;
+    }
+    if (pending[3] == -5) {
+        pending[3] = -1;
+        D_800D4266[0] = -1;
+    }
     unset = -1;
-    if (pending[1] != unset) D_800D4262[0] = (u16)pending[1];
-    if (pending[2] != unset) D_800D4264[0] = (u16)pending[2];
-    if (pending[3] != unset) D_800D4266[0] = (u16)pending[3];
+    if (pending[1] != unset)
+        D_800D4262[0] = (u16)pending[1];
+    if (pending[2] != unset)
+        D_800D4264[0] = (u16)pending[2];
+    if (pending[3] != unset)
+        D_800D4266[0] = (u16)pending[3];
 
     active = D_800D4260;
     selection = active[2];
@@ -39,7 +51,8 @@ void func_800C122C(void)
             SD_Call(0x71);
             func_800542BC();
             func_8004437C(active[2], 0);
-            if (active[3] == unset) goto finish;
+            if (active[3] == unset)
+                goto finish;
             goto play_active_floor;
         }
         if (active[3] != unset) {
@@ -48,7 +61,8 @@ void func_800C122C(void)
                 func_800542BC();
                 goto play_active_floor;
             }
-            if (D_80080A88[0] != 0) goto finish;
+            if (D_80080A88[0] != 0)
+                goto finish;
             SD_Call(0x71);
             func_800542BC();
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
@@ -68,7 +82,8 @@ play_active_floor:
 finish:
     active = D_800D4260;
     unset = -1;
-    if (active[1] != unset) SD_Call((u16)active[1]);
+    if (active[1] != unset)
+        SD_Call((u16)active[1]);
     D_800D4258[0] = unset;
     {
         s16 *pending_reset = D_800D4258;

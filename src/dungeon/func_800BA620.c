@@ -6,8 +6,6 @@
 #include "shared/dungeon_status.h"
 
 
-
-
 extern void func_80041E70(void *);
 extern void func_8008D330(void *, void *, void *, void *);
 extern void func_80098B38(u32);

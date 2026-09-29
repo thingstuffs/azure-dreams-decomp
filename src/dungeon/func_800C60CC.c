@@ -82,7 +82,6 @@ typedef struct S_800CB82C_7 {
 } S_800CB82C_7;   /* temp_v1 in func_800CB82C */
 
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */

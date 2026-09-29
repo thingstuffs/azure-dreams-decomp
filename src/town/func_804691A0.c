@@ -10,8 +10,6 @@ typedef struct S_8001A1A0_1 {
 } S_8001A1A0_1;   /* ((S_8001A1A0_0 *)(D_80016000[0]))->unk_20 in func_8001A1A0 */
 
 
-
-
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 

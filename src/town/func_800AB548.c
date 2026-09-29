@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 #ifdef NON_MATCHING
@@ -90,7 +89,8 @@ void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *ext
     ((S_800A8CA8_0 *)object)->unk_7E = (u16) (((S_800A8CA8_0 *)object)->unk_7E + y_offset);
     z_extent = extent->unk_20;
     ((S_800A8CA8_0 *)object)->unk_80 = (u16) (((S_800A8CA8_0 *)object)->unk_80 + ((s16) z_extent / 2));
-    ((S_800A8CA8_0 *)object)->unk_C4 = ((((S_800A8CA8_0 *)object)->unk_C4 + func_80065420(mid_point, object + 0xEC, projection_scale, projection_flags)) / 2) - 8;
+    ((S_800A8CA8_0 *)object)->unk_C4 = ((((S_800A8CA8_0 *)object)->unk_C4 + func_80065420(mid_point, object + 0xEC,
+        projection_scale, projection_flags)) / 2) - 8;
     ((S_800A8CA8_0 *)object)->unk_84 = (u16) (((S_800A8CA8_0 *)object)->unk_84 + x_offset);
     ((S_800A8CA8_0 *)object)->unk_86 = (u16) (((S_800A8CA8_0 *)object)->unk_86 + y_offset);
     ((S_800A8CA8_0 *)object)->unk_88 = (u16) (((S_800A8CA8_0 *)object)->unk_88 + extent->unk_20);

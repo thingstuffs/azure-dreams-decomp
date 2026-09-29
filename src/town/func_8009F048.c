@@ -14,7 +14,8 @@ typedef struct S_8009C7A8_1 {
 } S_8009C7A8_1;   /* arg2 in func_8009C7A8 */
 
 /* Select a state value and update the record according to its mode flag. */
-void func_8009C7A8(Rec_D_800CFCB4 *record, M2C_UNK context, S_8009C7A8_1 *state, s32 default_value, s32 alternate_value, s32 update_value) {
+void func_8009C7A8(Rec_D_800CFCB4 *record, M2C_UNK context, S_8009C7A8_1 *state, s32 default_value,
+    s32 alternate_value, s32 update_value) {
     if (record->unk_94 != 0) {
         state->unk_08 = alternate_value;
         func_8008F104(record, context, update_value);

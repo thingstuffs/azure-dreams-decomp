@@ -84,145 +84,156 @@ void func_80092018(void *actor, void *motion, void *sprite, void *model) {
     action_state = ((S_80092018_0 *)actor)->unk_9B;
     switch (action_state) {
     case 0:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800DD028) {
-            (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
-            func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
-            return;
-        }
-    } else {
-        heading_or_coord = func_8009074C(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
-        if ((heading_or_coord >> 0x10) == 0xFFF) {
-            return;
-        }
-        if ((((u16) ((S_80092018_2 *)model)->unk_2A >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
-            return;
-        }
-        if ((func_80094EA4(heading_or_coord) << 0x10) == 0) {
-            return;
-        }
-    }
-    ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
-    return;
-case 16:
-    ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
-    ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
-    start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
-    ((S_80092018_0 *)actor)->unk_96.s = start_frames_left;
-    if ((start_frames_left << 0x10) > 0) {
-        return;
-    }
-    (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD018;
-    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD018), 0, 1);
-    attachment = ((S_80092018_0 *)actor)->unk_124;
-    ((S_80092018_4 *)attachment)->unk_1C = (s32) (((S_80092018_4 *)attachment)->unk_1C | 0x100);
-    ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_6A = (u16) ((S_80092018_2 *)model)->unk_2A;
-    ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_60 = model;
-    ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
-    return;
-case 17:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD020;
-        func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD020), 0, 1);
-        ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
-    }
-case 18:
-    move_state = &dungeonStatus.unk_00;
-    if (((S_80092018_5 *)move_state)->unk_04 != 0) {
-        heading_or_coord = ((S_80092018_3 *)motion)->unk_02;
-        {
-            s32 delta;
-            s32 direction_offset;
-            delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            direction_offset = *((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
-            direction_offset += 0x20;
-            delta += direction_offset;
-            delta -= heading_or_coord;
-            ((S_80092018_3 *)motion)->unk_0C.at00.v = (s32) ((delta << 0x10) / (s16) ((S_80092018_5 *)move_state)->unk_04);
-        }
-        heading_or_coord = ((S_80092018_3 *)motion)->unk_06;
-        {
-            s32 delta;
-            s32 direction_offset;
-            delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-            direction_offset = *((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 0x10;
-            direction_offset += 0x20;
-            delta += direction_offset;
-            delta -= heading_or_coord;
-            ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta << 0x10) / ((struct D83460_VIEW *) move_state)->divisor[-1]);
-        }
-    }
-    if (!((u16) ((S_80092018_5 *)move_state)->unk_04 & 3)) {
-        func_800B653C(motion, ((S_80092018_2 *)model)->unk_2A);
-    }
-    move_frames_left = (u16) ((S_80092018_5 *)move_state)->unk_04 - 1;
-    ((S_80092018_5 *)move_state)->unk_04 = move_frames_left;
-    if ((move_frames_left << 0x10) > 0) {
-        return;
-    }
-    ((S_80092018_5 *)move_state)->unk_04 = 0;
-    ((S_80092018_3 *)motion)->unk_14 = 0;
-    ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
-    ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
-    (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
-    func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7) + D_800DD028), 0, 1);
-    ((S_80092018_0 *)actor)->unk_96.s = 2U;
-    ((S_80092018_0 *)actor)->unk_9B = 0x13U;
-    return;
-case 19:
-    settle_frames = (s16) ((S_80092018_0 *)actor)->unk_96.s;
-    if (settle_frames != 0) {
-        {
-            s32 delta;
-            s32 origin;
-            delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            origin = ((S_80092018_3 *)motion)->unk_02;
-            origin -= 0x20;
-            delta -= origin;
-            ((S_80092018_3 *)motion)->unk_0C.at00.v = (s32) ((delta << 0x10) / settle_frames);
-        }
-        {
-            s32 delta;
-            s32 origin;
-            origin = ((S_80092018_3 *)motion)->unk_06;
-            origin -= 0x20;
-            delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-            delta -= origin;
-            ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta << 0x10) / (s16) ((S_80092018_0 *)actor)->unk_96.s);
-        }
-        if (((S_80092018_0 *)actor)->unk_96.u != 0) {
-            settle_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
-            ((S_80092018_0 *)actor)->unk_96.s = settle_frames_left;
-            if ((settle_frames_left << 0x10) == 0) {
-                ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
-                ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != D_800DD028) {
+                (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
+                func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
+                    >> 9) & 7) + D_800DD028), 0, 1);
+                return;
+            }
+        } else {
+            heading_or_coord = func_8009074C(((S_80092018_0 *)actor)->unk_9E, actor + 0xA2, model + 0x2A) << 0x10;
+            if ((heading_or_coord >> 0x10) == 0xFFF) {
+                return;
+            }
+            if ((((u16) ((S_80092018_2 *)model)->unk_2A >> 9) & 7) == ((heading_or_coord >> 0x19) & 7)) {
+                return;
+            }
+            if ((func_80094EA4(heading_or_coord) << 0x10) == 0) {
+                return;
             }
         }
-    }
-    anim_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
-    if (!(anim_flags & 0x8000)) {
-        if (!(anim_flags & 0x6000)) {
+        ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
+        return;
+    case 16:
+        ((S_80092018_3 *)motion)->unk_0C.at02.v = (s16) (*((s16 *)(((u8 *)dirStepX)
+            + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
+        ((S_80092018_3 *)motion)->unk_10.at02.v = (s16) (*((s16 *)(((u8 *)dirStepY)
+            + (((u16) ((S_80092018_2 *)model)->unk_2A >> 8) & 0xE))) * 8);
+        start_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
+        ((S_80092018_0 *)actor)->unk_96.s = start_frames_left;
+        if ((start_frames_left << 0x10) > 0) {
             return;
         }
-        if (((S_80092018_0 *)actor)->unk_96.u != 0) {
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD018;
+        func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
+            + D_800DD018), 0, 1);
+        attachment = ((S_80092018_0 *)actor)->unk_124;
+        ((S_80092018_4 *)attachment)->unk_1C = (s32) (((S_80092018_4 *)attachment)->unk_1C | 0x100);
+        ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_6A = (u16) ((S_80092018_2 *)model)->unk_2A;
+        ((S_80092018_7 *)(((S_80092018_0 *)actor)->unk_124))->unk_60 = model;
+        ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
+        return;
+    case 17:
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD020;
+            func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100)
+                >> 9) & 7) + D_800DD020), 0, 1);
+            ((S_80092018_0 *)actor)->unk_9B = (u8) (((S_80092018_0 *)actor)->unk_9B + 1);
+        }
+    case 18:
+        move_state = &dungeonStatus.unk_00;
+        if (((S_80092018_5 *)move_state)->unk_04 != 0) {
+            heading_or_coord = ((S_80092018_3 *)motion)->unk_02;
+            {
+                s32 delta;
+                s32 direction_offset;
+                delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                direction_offset = *((s16 *)(((u8 *)dirStepX) + (((u16) ((S_80092018_2 *)model)->unk_2A
+                    >> 8) & 0xE))) * 0x10;
+                direction_offset += 0x20;
+                delta += direction_offset;
+                delta -= heading_or_coord;
+                ((S_80092018_3 *)motion)->unk_0C.at00.v = (s32) ((delta
+                    << 0x10) / (s16) ((S_80092018_5 *)move_state)->unk_04);
+            }
+            heading_or_coord = ((S_80092018_3 *)motion)->unk_06;
+            {
+                s32 delta;
+                s32 direction_offset;
+                delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                direction_offset = *((s16 *)(((u8 *)dirStepY) + (((u16) ((S_80092018_2 *)model)->unk_2A
+                    >> 8) & 0xE))) * 0x10;
+                direction_offset += 0x20;
+                delta += direction_offset;
+                delta -= heading_or_coord;
+                ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
+                    << 0x10) / ((struct D83460_VIEW *) move_state)->divisor[-1]);
+            }
+        }
+        if (!((u16) ((S_80092018_5 *)move_state)->unk_04 & 3)) {
+            func_800B653C(motion, ((S_80092018_2 *)model)->unk_2A);
+        }
+        move_frames_left = (u16) ((S_80092018_5 *)move_state)->unk_04 - 1;
+        ((S_80092018_5 *)move_state)->unk_04 = move_frames_left;
+        if ((move_frames_left << 0x10) > 0) {
             return;
         }
-    }
-    ((S_80092018_3 *)motion)->unk_14 = 0;
-    ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
-    ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    func_80099F70(((S_80092018_2 *)model)->unk_5C);
-    func_80099F04(((S_80092018_2 *)model)->unk_5C);
-    {
-        DungeonGlobalStatus *action_status = &dungeonStatus;
-        u16 action_flags;
-        action_flags = action_status->flags;
-        action_flags = (u16) (action_flags | 0x812);
-        action_status->flags = action_flags;
-    }
-    ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
-    return;
+        ((S_80092018_5 *)move_state)->unk_04 = 0;
+        ((S_80092018_3 *)motion)->unk_14 = 0;
+        ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
+        ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
+        (*(u8 **)((u8 *)sprite + 0x2C)) = D_800DD028;
+        func_80048A44(sprite, *((((s32) (gameWork.view.viewAngle + ((S_80092018_2 *)model)->unk_2A + 0x100) >> 9) & 7)
+            + D_800DD028), 0, 1);
+        ((S_80092018_0 *)actor)->unk_96.s = 2U;
+        ((S_80092018_0 *)actor)->unk_9B = 0x13U;
+        return;
+    case 19:
+        settle_frames = (s16) ((S_80092018_0 *)actor)->unk_96.s;
+        if (settle_frames != 0) {
+            {
+                s32 delta;
+                s32 origin;
+                delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                origin = ((S_80092018_3 *)motion)->unk_02;
+                origin -= 0x20;
+                delta -= origin;
+                ((S_80092018_3 *)motion)->unk_0C.at00.v = (s32) ((delta << 0x10) / settle_frames);
+            }
+            {
+                s32 delta;
+                s32 origin;
+                origin = ((S_80092018_3 *)motion)->unk_06;
+                origin -= 0x20;
+                delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                delta -= origin;
+                ((S_80092018_3 *)motion)->unk_10.at00.v = (s32) ((delta
+                    << 0x10) / (s16) ((S_80092018_0 *)actor)->unk_96.s);
+            }
+            if (((S_80092018_0 *)actor)->unk_96.u != 0) {
+                settle_frames_left = ((S_80092018_0 *)actor)->unk_96.s - 1;
+                ((S_80092018_0 *)actor)->unk_96.s = settle_frames_left;
+                if ((settle_frames_left << 0x10) == 0) {
+                    ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
+                    ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
+                }
+            }
+        }
+        anim_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        if (!(anim_flags & 0x8000)) {
+            if (!(anim_flags & 0x6000)) {
+                return;
+            }
+            if (((S_80092018_0 *)actor)->unk_96.u != 0) {
+                return;
+            }
+        }
+        ((S_80092018_3 *)motion)->unk_14 = 0;
+        ((S_80092018_3 *)motion)->unk_10.at00.v = 0;
+        ((S_80092018_3 *)motion)->unk_0C.at00.v = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        func_80099F70(((S_80092018_2 *)model)->unk_5C);
+        func_80099F04(((S_80092018_2 *)model)->unk_5C);
+        {
+            DungeonGlobalStatus *action_status = &dungeonStatus;
+            u16 action_flags;
+            action_flags = action_status->flags;
+            action_flags = (u16) (action_flags | 0x812);
+            action_status->flags = action_flags;
+        }
+        ((S_80092018_0 *)actor)->unk_8C = &D_8008ACDC;
+        return;
     default:
         return;
     }

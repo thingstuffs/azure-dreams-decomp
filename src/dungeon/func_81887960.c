@@ -115,7 +115,7 @@ void func_80025160(void *effect, s32 context, S_80025160_1 *visual) {
             break;
         }
         ((S_80025160_0 *)effect)->unk_0A.u++;
-                /* fall through */
+                        /* fall through */
     case 3:
         value = visual->unk_06.s + 0x80;
         visual->unk_06.s = value;

@@ -11,7 +11,6 @@ extern void func_800C8D34(void *, void *, s32);
 extern s32 D_800D636C[2];
 
 
-
 /* Advance motion and handle ground contact or continued movement. */
 void func_800C8C3C(Rec_D_80082D58 *entity, EntityRec *motion, s32 context)
 {

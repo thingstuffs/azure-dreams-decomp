@@ -4,12 +4,11 @@
 #include "records/Rec_func_800A5DFC_arg1.h"
 
 M2C_UNK func_800B4C7C(); /* extern */
-M2C_UNK func_800C5BBC(); 
+M2C_UNK func_800C5BBC();
 typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];
 } S_800A5DFC_0_pre;   /* the 0x14 bytes before arg0 in func_800A5DFC, addressed as arg0[-1] */
-
 
 
 typedef struct S_800A5DFC_2 {
@@ -43,7 +42,8 @@ void func_800A5DFC(EntityRec *entity, Rec_func_800A5DFC_arg1 *effect_pos) {
             if (!(((S_800A5DFC_2 *)(((S_800A5DFC_0_pre *)entity)[-1].unk_00))->unk_14 & 0x8000)) {
                 func_800B4C7C(3, entity, (s16) damage, 0);
                 entity->unk_64 = (s16) ((u16) entity->unk_64 - damage);
-                func_800C5BBC(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20, 1);
+                func_800C5BBC(effect_pos->unk_02, effect_pos->unk_06, (s16) (effect_pos->unk_0A - 8), 0x802080, 0x20,
+                    1);
                 return;
             }
             entity->unk_28 = (u8) (entity->unk_28 - damage);

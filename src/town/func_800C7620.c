@@ -26,7 +26,6 @@ typedef struct S_800C4D80_2 {
 } S_800C4D80_2;   /* child in trget_psn_ang_set */
 
 
-
 typedef struct {
     s32 unused;
     void *object;

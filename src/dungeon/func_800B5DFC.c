@@ -113,8 +113,10 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
         line_angle = func_800A07D0(start_xy[0], start_xy[1], end_xy[0], end_y);
-        end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30) >> 0xB);
-        end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30) >> 0xB);
+        end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30)
+            >> 0xB);
+        end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30)
+            >> 0xB);
         ((S_800BB55C_1 *)slot_or_angle)->unk_3C = base_angle;
         base_angle += 0x999;
         func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
@@ -171,7 +173,9 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             arc_or_count = (DungeonWork *)((s32) arc_or_count + 1);
             rotation = ((S_800BB55C_0 *)effect)->unk_4E + 0x400;
             ((S_800BB55C_0 *)effect)->unk_4E = rotation;
-            func_800BC0A8(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation, (s32) ((S_800BB55C_0 *)effect)->unk_50, (s32) ((S_800BB55C_0 *)effect)->unk_58, ((S_800BB55C_0 *)effect)->unk_5C, 6);
+            func_800BC0A8(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation,
+                (s32) ((S_800BB55C_0 *)effect)->unk_50, (s32) ((S_800BB55C_0 *)effect)->unk_58,
+                ((S_800BB55C_0 *)effect)->unk_5C, 6);
         } while ((s32) arc_or_count < 4);
         if (((S_800BB55C_0 *)effect)->unk_58 < 0x20) {
             ((S_800BB55C_0 *)effect)->unk_58 = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_58 + 1);

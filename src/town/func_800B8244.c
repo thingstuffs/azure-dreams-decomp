@@ -17,8 +17,6 @@ typedef struct S_800B59A4_5 {
 } S_800B59A4_5;   /* ((S_800B59A4_4 *)(((S_800B59A4_3 *)var_s1)->unk_30))->unk_04 in func_800B59A4 */
 
 
-
-
 s32 func_8004A658();
 s32 func_8004AC3C();
 M2C_UNK bzero(void **, M2C_UNK);
@@ -66,11 +64,13 @@ next_row:
     entry_slot = (void **)((s32)(row_index << 2) + (s32)&scratch[0]);
     entry = *entry_slot;
     if (entry != NULL) {
-        func_800B5264(((S_800B59A4_0 *)row_display)->unk_18, func_8004AC3C(entry, &scratch[8]), scratch[8], 0x58, text_y);
+        func_800B5264(((S_800B59A4_0 *)row_display)->unk_18, func_8004AC3C(entry, &scratch[8]), scratch[8], 0x58,
+            text_y);
         func_800B53BC(((S_800B59A4_0 *)row_display)->unk_24, func_800B5918(*entry_slot, &scratch[4]), 0, 0xA0, text_y);
         entry_info = *entry_slot;
         row_index += 1;
-        ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_00 = func_8004A658(entry_info->unk_01, entry_info->unk_00);
+        ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_00 =
+            func_8004A658(entry_info->unk_01, entry_info->unk_00);
         ((S_800B59A4_5 *)(((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_04))->unk_08 = -0x30;
         text_y += 0x10;
         icon = ((S_800B59A4_4 *)(((S_800B59A4_3 *)row_display)->unk_30))->unk_04;

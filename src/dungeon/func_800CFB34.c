@@ -25,7 +25,6 @@ typedef struct S_800D5294_0_pre {
 } S_800D5294_0_pre;   /* the 0x2 bytes before arg0 in func_800D5294, addressed as arg0[-1] */
 
 
-
 typedef struct S_800D5294_2 {
     u8 pad_00[0x1E];
     s16 unk_1E;
@@ -71,9 +70,12 @@ void func_800D5294(void *emitter, Rec_func_800D4BD4_arg2 *position, M2C_UNK spaw
     S_800D5294_2 *particle_state;
 
     parent = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_24;
-    position->unk_02.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_02 + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
-    position->unk_06.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_06 + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
-    position->unk_0A.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_0A + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
+    position->unk_02.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_02
+        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3C);
+    position->unk_06.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_06
+        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_3E);
+    position->unk_0A.as_s16 = (s16) (((S_800D5294_6 *)(parent->unk_08))->unk_0A
+        + ((Rec_func_800D4BD4_arg1 *)emitter)->unk_40);
     tick_or_offset = ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 + 1;
     ((Rec_func_800D4BD4_arg1 *)emitter)->unk_16 = tick_or_offset;
     if ((s16) tick_or_offset < 0x14) {

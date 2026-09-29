@@ -143,7 +143,8 @@ fallback:
     entries_base = D_800718E4;
     entry_slot = (void **)(entry_count << 2);
     next_entry = (void **)((unsigned long)entry_slot + (unsigned long)entries_base);
-    loop_0: {
+loop_0:
+    {
         selector = town_state[6];
         entry_count++;
         entry_slot = (void **)(u32)*(u8 *)(((unsigned long)selector << 5) + (unsigned long)fallback_records);
@@ -153,7 +154,9 @@ fallback:
         *next_entry = entry;
         choice_index++;
         next_entry++;
-    } if (choice_index < 2) goto loop_0;
+    }
+    if (choice_index < 2)
+        goto loop_0;
 
 finish:
     entry_slot = D_800718E4;

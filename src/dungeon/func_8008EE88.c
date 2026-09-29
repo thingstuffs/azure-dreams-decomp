@@ -5,7 +5,8 @@ typedef struct __attribute__((packed)) {
     u32 copy_src;
     u8 pad024c[0x21E8 - 0x24C];
     u32 copy_dst;
-} Global1004C;
+}
+Global1004C;
 
 typedef struct {
     u32 word[35];

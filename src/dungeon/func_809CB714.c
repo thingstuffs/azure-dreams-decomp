@@ -69,7 +69,7 @@ void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *
             s32 velocity = motion->unk_10;
             motion->unk_10 = velocity - velocity / 4;
         }
-                /* fall through */
+                        /* fall through */
 
     case 1:
         speed_limit = 0x7FFF;

@@ -15,8 +15,6 @@ typedef struct S_800B5264_2 {
 } S_800B5264_2;   /* ((S_800B5264_1 *)arg0)->unk_04 in func_800B5264 */
 
 
-
-
 s32 func_8004DC14();                /* extern */
 M2C_UNK func_8004E99C();                         /* extern */
 

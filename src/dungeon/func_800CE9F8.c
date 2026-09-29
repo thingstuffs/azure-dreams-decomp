@@ -69,14 +69,14 @@ void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
         if (((S_800D4158_2 *)entity)->unk_90.at02.v + (*(s16 *)((u8 *)entity_ref + 0x88)) < ground_height) {
             (void)*(volatile u16 *)((s8 *)entity + 0x98);
         } else {
-                if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
-                    ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;
-                } else {
-                    ((S_800D4158_2 *)entity)->unk_90.at02.v = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
-                }
-                motion->unk_14 = 0;
-                (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
-                ((S_800D4158_2 *)entity)->unk_9D.s = 0;
+            if (ground_height >= (*(s16 *)((u8 *)entity_ref + 0x88))) {
+                ((S_800D4158_2 *)entity)->unk_90.at00.v = 0;
+            } else {
+                ((S_800D4158_2 *)entity)->unk_90.at02.v = ground_height_raw - (*(u16 *)((u8 *)entity_ref + 0x88));
+            }
+            motion->unk_14 = 0;
+            (*(s32 *)((u8 *)entity_ref + 0x1c)) |= 0x08000000;
+            ((S_800D4158_2 *)entity)->unk_9D.s = 0;
         }
         entity_flags = (*(u32 *)((u8 *)entity_ref + 0x1c));
         if (entity_flags & 0x40000000) {

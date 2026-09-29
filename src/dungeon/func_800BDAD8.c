@@ -26,8 +26,8 @@ s32 func_800C3238(EntityRec *target, s32 item, s16 use_type) {
     if ((s32)target <= 0x9FFFFFFFU) {
         func_800A63B8(target, item, use_type);
         if (func_800AD6FC(target,
-                         (D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
-                         0) == 0) {
+                          (D_800DDE84[(*(u8 *)((u8 *)&target->unk_10 + 3))] >> 6) & 3,
+                          0) == 0) {
             func_800A5F38(target, item);
             return 1;
         }

@@ -106,16 +106,24 @@ confirm:
     }
     if (((s32)gameWork.unk_010) & 0xF000) {
         obj->counter = 0;
-        if (((s32)gameWork.unk_010) & 0x8000) move_step = -5;
-        else if (((s32)gameWork.unk_010) & 0x2000) move_step = 5;
-        else if (((s32)gameWork.unk_010) & 0x1000) move_step = -1;
-        else if (((s32)gameWork.unk_010) & 0x4000) move_step = 1;
+        if (((s32)gameWork.unk_010) & 0x8000)
+            move_step = -5;
+        else if (((s32)gameWork.unk_010) & 0x2000)
+            move_step = 5;
+        else if (((s32)gameWork.unk_010) & 0x1000)
+            move_step = -1;
+        else if (((s32)gameWork.unk_010) & 0x4000)
+            move_step = 1;
     } else {
         if (obj->counter >= 5) {
-            if (held_buttons & 0x8000) move_step = -5;
-            else if (held_buttons & 0x2000) move_step = 5;
-            else if (held_buttons & 0x1000) move_step = -1;
-            else if (held_buttons & 0x4000) move_step = 1;
+            if (held_buttons & 0x8000)
+                move_step = -5;
+            else if (held_buttons & 0x2000)
+                move_step = 5;
+            else if (held_buttons & 0x1000)
+                move_step = -1;
+            else if (held_buttons & 0x4000)
+                move_step = 1;
             obj->counter = *(s32 *)&obj->counter - 1;
         } else {
             obj->counter++;

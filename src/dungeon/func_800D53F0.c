@@ -107,10 +107,13 @@ void func_800DAB50(void *effect_data) {
     {
         s16 *vertex = (s16 *)((s8 *)effect_data + 0x18);
         do {
-            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28 + ((S_800DAB50_0 *)effect_data)->unk_20);
-            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A + ((S_800DAB50_0 *)effect_data)->unk_22);
+            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28
+                + ((S_800DAB50_0 *)effect_data)->unk_20);
+            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A
+                + ((S_800DAB50_0 *)effect_data)->unk_22);
             index -= 1;
-            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C + ((S_800DAB50_0 *)effect_data)->unk_24);
+            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C
+                + ((S_800DAB50_0 *)effect_data)->unk_24);
             vertex -= 4;
         } while (index >= 0);
     }
@@ -123,7 +126,8 @@ void func_800DAB50(void *effect_data) {
         ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
         ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
     case 1:
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v + ((S_800DAB50_0 *)effect_data)->unk_0C;
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v
+            + ((S_800DAB50_0 *)effect_data)->unk_0C;
         color_step = 0;
         if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
             phase_value = func_80066460(0, 3, 0x2C0, 0x100);
@@ -139,7 +143,8 @@ void func_800DAB50(void *effect_data) {
         }
         break;
     case 2:
-        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - ((S_800DAB50_0 *)effect_data)->unk_0C;
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v
+            - ((S_800DAB50_0 *)effect_data)->unk_0C;
         color_step = 0;
         if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
             phase_value = func_80066460(0, 3, 0x2C0, 0x100);

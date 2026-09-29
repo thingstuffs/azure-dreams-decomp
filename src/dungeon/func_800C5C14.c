@@ -20,7 +20,12 @@ typedef struct S_800CB374_1 {
     u8 pad_00[0x6];
     u16 unk_06;
     u8 pad_08[0x4];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
@@ -49,8 +54,10 @@ void func_800CB374(void *effect, void *unused, S_800CB374_1 *primitive) {
 
     func_800478B8(primitive);
     if (((S_800CB374_0 *)effect)->unk_B4 != 0) {
-        primitive->unk_0C.at00.v = (u8) (primitive->unk_0C.at00.v - ((s32) primitive->unk_0C.at00.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
-        primitive->unk_0C.at01.v = (u8) (primitive->unk_0C.at01.v - ((s32) primitive->unk_0C.at01.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        primitive->unk_0C.at00.v = (u8) (primitive->unk_0C.at00.v
+            - ((s32) primitive->unk_0C.at00.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
+        primitive->unk_0C.at01.v = (u8) (primitive->unk_0C.at01.v
+            - ((s32) primitive->unk_0C.at01.v / (s16) ((S_800CB374_0 *)effect)->unk_96));
         blue = primitive->unk_0C.at02.v - ((s32) primitive->unk_0C.at02.v / (s16) ((S_800CB374_0 *)effect)->unk_96);
         primitive->unk_0C.at02.v = blue;
         primitive->unk_06 = (u16) (primitive->unk_06 - 1);

@@ -30,9 +30,11 @@ s32 func_800A02AC(void *entity, u16 x, u16 y) {
     entity_data = *(void **)((s8 *)entity - 0x14);
     direction = dungeonStatus.unk_1E & 7;
     for (attempt = 0; attempt < 8; attempt++, direction = (direction + 1) & 7) {
-        result = func_8009B25C(entity, (base_x + x_offsets[direction]) & 0xFFFF, (base_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity + 0x88));
+        result = func_8009B25C(entity, (base_x + x_offsets[direction]) & 0xFFFF,
+            (base_y + y_offsets[direction]) & 0xFFFF, *(s16 *)((s8 *)entity + 0x88));
         if (result != 0) {
-            if (((func_8009A540(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25), (s16)((u16)*(s16 *)((s8 *)entity + 0x88) - 0x20)) << 16) == 0)) {
+            if (((func_8009A540(direction, *(u8 *)((s8 *)entity_data + 0x24), *(u8 *)((s8 *)entity_data + 0x25),
+                (s16)((u16)*(s16 *)((s8 *)entity + 0x88) - 0x20)) << 16) == 0)) {
                 continue;
             }
             return result;

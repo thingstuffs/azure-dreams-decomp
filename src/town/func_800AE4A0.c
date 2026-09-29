@@ -49,7 +49,6 @@ typedef struct S_800ABC00_3 {
 } S_800ABC00_3;   /* temp_s2 in func_800ABC00 */
 
 
-
 typedef struct {
     u8 pad0[8];
     s32 unk8;

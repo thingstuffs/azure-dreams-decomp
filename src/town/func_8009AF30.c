@@ -11,7 +11,8 @@ void func_80098690(u8 *motion, u8 *position, s32 callback_arg) {
     steps_left = (*(u16 *)(motion + 0xA) -= 1);
     if (steps_left > 0) {
         *(s32 *)(position + 0) += (((s32) *(s16 *)(motion + 0x30) << 16) - *(s32 *)(position + 0)) / steps_left;
-        *(s32 *)(position + 4) += (((s32) *(s16 *)(motion + 0x32) << 16) - *(s32 *)(position + 4)) / (y_steps_left = *(s16 *)(motion + 0xA));
+        *(s32 *)(position + 4) += (((s32) *(s16 *)(motion + 0x32) << 16)
+            - *(s32 *)(position + 4)) / (y_steps_left = *(s16 *)(motion + 0xA));
         return;
     }
     *(u16 *)(position + 2) = *(u16 *)(motion + 0x30);

@@ -5,9 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
-
-
 extern s32 func_8009A3D0();
 extern s8 func_8009FB34();
 extern s32 func_800A4E2C();
@@ -16,7 +13,6 @@ typedef struct {
     u8 pad[10];
     u16 counter;
 } DungeonState;
-
 
 
 /* Resets entity state, selects a new position, and increments the dungeon counter. */
@@ -47,7 +43,8 @@ retry_position:
         tile_x_ptr = (u8 *)position + 0x24;
         goto retry_position;
     }
-    ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24, ((Rec_D_80082E80 *)position)->unk_25);
+    ((Rec_D_80082E80 *)position)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)position)->unk_24,
+        ((Rec_D_80082E80 *)position)->unk_25);
     func_800AA53C(entity_state);
     dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
 }

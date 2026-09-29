@@ -30,7 +30,7 @@ s32 func_808BB138(s32 arg0) {
             func_80000A38();
             func_80000A24();
         }
-                /* Duplicate return node #10. Try simplifying control flow for better match */
+                        /* Duplicate return node #10. Try simplifying control flow for better match */
         func_80000858(arg0, 0);
         return arg0;
     }

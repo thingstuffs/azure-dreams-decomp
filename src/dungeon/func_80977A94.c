@@ -59,7 +59,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             timer = 8;
         }
         motion_state->unk_96.s = timer;
-                /* fall through */
+                        /* fall through */
 
     case 1:
         x_speed_or_entity = motion->unk_0C;

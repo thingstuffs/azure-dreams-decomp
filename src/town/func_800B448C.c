@@ -18,7 +18,6 @@ typedef struct S_800B1BEC_1 {
 } S_800B1BEC_1;   /* object in func_800B1BEC */
 
 
-
 extern void *func_8003FC64(s32);
 extern void *func_8004B404(s32);
 extern void func_8004B1A4(void *);

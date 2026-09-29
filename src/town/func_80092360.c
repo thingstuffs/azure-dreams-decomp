@@ -36,45 +36,57 @@ Result92360 *func_8008FAC0(Object92360 *box_a, Object92360 *box_b)
     a_min_x = a_coords[0] + a_offset[0];
     b_min_x = b_coords[0] + b_bounds[0];
     overlap_x = a_min_x - (b_min_x + b_extents[3]);
-    if (overlap_x > 0) return 0;
+    if (overlap_x > 0)
+        return 0;
     a_max_x = a_min_x + a_bounds[3];
     overlap_x_alt = a_max_x - b_min_x;
     x_shallower_z = 0;
-    if (overlap_x_alt < 0) return 0;
+    if (overlap_x_alt < 0)
+        return 0;
 
     a_min_y = a_coords[1] + a_offset[1];
     b_min_y = b_coords[1] + b_bounds[1];
     overlap_y = a_min_y - (b_min_y + b_extents[4]);
-    if (overlap_y > 0) return 0;
+    if (overlap_y > 0)
+        return 0;
     overlap_y_alt = (a_min_y + a_bounds[4]) - b_min_y;
     x_shallower_z = 0;
-    if (overlap_y_alt < 0) return 0;
+    if (overlap_y_alt < 0)
+        return 0;
 
     a_min_z = a_coords[2] + a_offset[2];
     b_min_z = b_coords[2] + b_bounds[2];
     overlap_z = a_min_z - (b_min_z + b_extents[5]);
-    if (overlap_z > 0) return 0;
+    if (overlap_z > 0)
+        return 0;
     overlap_z_alt = (a_min_z + a_bounds[5]) - b_min_z;
-    if (overlap_z_alt < 0) return 0;
+    if (overlap_z_alt < 0)
+        return 0;
 
     do {
         abs_x = __builtin_abs(overlap_x);
     } while (0);
     abs_x_alt = __builtin_abs(overlap_x_alt);
-    if (abs_x_alt < abs_x) overlap_x = overlap_x_alt;
+    if (abs_x_alt < abs_x)
+        overlap_x = overlap_x_alt;
     abs_y = __builtin_abs(overlap_y);
     abs_y_alt = __builtin_abs(overlap_y_alt);
-    if (abs_y_alt < abs_y) overlap_y = overlap_y_alt;
+    if (abs_y_alt < abs_y)
+        overlap_y = overlap_y_alt;
     abs_z = __builtin_abs(overlap_z);
     abs_z_alt = __builtin_abs(overlap_z_alt);
-    if (abs_z_alt < abs_z) overlap_z = overlap_z_alt;
+    if (abs_z_alt < abs_z)
+        overlap_z = overlap_z_alt;
 
     if (overlap_x == 0) {
-        if (overlap_y == 0) return 0;
-        if (overlap_z == 0) return 0;
+        if (overlap_y == 0)
+            return 0;
+        if (overlap_z == 0)
+            return 0;
     }
     if (overlap_y == 0) {
-        if (overlap_z == 0) return 0;
+        if (overlap_z == 0)
+            return 0;
     }
 
     depth_x = __builtin_abs(overlap_x);

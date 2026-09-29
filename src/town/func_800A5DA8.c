@@ -14,7 +14,6 @@ typedef struct S_800A3508_1 {
 } S_800A3508_1;   /* obj in func_800A3508 */
 
 
-
 extern s32 func_800374F4(s32);
 extern void func_8003DB94(void *, s32, s32);
 extern void func_8004491C(void *, void *);
@@ -32,8 +31,8 @@ void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
 {
     register u8 *obj ASM_REG("$21") = object; /* MATCH: Preserve object register allocation across the shared tail. */
     register s32 *vec ASM_REG("$20") = vector_data; /* MATCH: Preserve vector register allocation across the shared tail. */
-    s32 color;  
-    s32 tilt_angle;  
+    s32 color;
+    s32 tilt_angle;
     s32 scale;
     s32 direction_angle;
     s32 direction_term;

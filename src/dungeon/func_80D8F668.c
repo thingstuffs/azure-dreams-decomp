@@ -140,7 +140,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
         switch (action_kind) {
         case 9:
             actor->unk_98 |= 0x8000;
-                        /* fallthrough */
+                                    /* fallthrough */
         case 8:
             if ((((u32)state->flags1C) & 0x2000) &&
                 ((state->unk_46 & 0x3FFF) == 8)) {
@@ -163,7 +163,7 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
             if (player->unk_9A == 0x11) {
                 goto case_1_3_common;
             }
-                        /* fallthrough */
+                                    /* fallthrough */
         case 12:
 case_12:
             func_800A9A0C(state);

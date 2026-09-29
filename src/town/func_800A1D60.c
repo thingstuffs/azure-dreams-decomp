@@ -19,8 +19,6 @@ typedef struct S_8009F4C0_5 {
 } S_8009F4C0_5;   /* ((temp_s3 * 0x54) + (u8 *)baseD) in func_8009F4C0 */
 
 
-
-
 struct PackedTownEntry {
     s32 word0;
     s32 word4;

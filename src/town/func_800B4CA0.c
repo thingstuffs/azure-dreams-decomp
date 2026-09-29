@@ -23,8 +23,6 @@ typedef struct S_800B2400_11 {
 } S_800B2400_11;   /* (temp_a0->unk_24 * 4) + ((S_800B2400_8 *)(((temp_v1 * 4) + arg0)))->unk_3C in func_800B2400 */
 
 
-
-
 typedef struct {
     s32 value;
 } __attribute__((packed)) M2C_UNALIGNED_WORD;
@@ -100,17 +98,22 @@ s32 func_800B2400(void *state) {
         if (source_list->unk_28 == 0) {
             result = 4;
         } else {
-            selected_item = ((S_800B2400_11 *)((source_list->unk_24 * 4) + ((S_800B2400_8 *)(((source_index * 4) + state)))->unk_3C))->unk_00;
+            selected_item = ((S_800B2400_11 *)((source_list->unk_24 * 4) + ((S_800B2400_8 *)(((source_index * 4)
+                + state)))->unk_3C))->unk_00;
             if (((Rec_func_800B1DCC_arg0 *)state)->unk_0C == 0 && selected_item->unk_01 == 0x13) {
                 result = 3;
             } else {
-                dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C + (func_800B29A4(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C) * 4);
-                new_item = func_800B2280(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
+                dest_slot = ((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4) + state)))->unk_3C
+                    + (func_800B29A4(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                    + state)))->unk_3C) * 4);
+                new_item = func_800B2280(((S_800B2400_9 *)(((((Rec_func_800B1DCC_arg0 *)state)->unk_18 * 4)
+                    + state)))->unk_3C, ((Rec_func_800B1DCC_arg0 *)state)->unk_18, dest_capacity);
                 *(M2C_UNALIGNED_WORD *)new_item = *(M2C_UNALIGNED_WORD *)selected_item;
                 dest_slot->unk_00 = new_item;
                 dest_slot->unk_04 = 0;
                 remove_index = ((Rec_func_800B1DCC_arg0 *)state)->unk_14;
-                func_800B2190(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C, (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
+                func_800B2190(((S_800B2400_10 *)(((remove_index * 4) + state)))->unk_3C,
+                    (source_selection = state + (remove_index * 0x10), source_selection->unk_24));
                 source_count = (((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + state;
                 source_count->unk_28 = (s32) (source_count->unk_28 - 1);
                 func_800B23C0(state + ((((Rec_func_800B1DCC_arg0 *)state)->unk_14 * 0x10) + 0x1C));

@@ -1,10 +1,14 @@
 #include "common.h"
 typedef struct { s32 x; s32 y; s32 z; } Vec3;
 typedef struct { s16 field_0; s16 angle; } Rotation;
-extern s32 func_800644B8(s32); extern s32 func_80064584(s32);
-extern void func_800A2AF8(Vec3 *, Vec3 *); extern void func_800A9E68(Vec3 *, Vec3 *);
-extern s32 D_80100D1C; extern u16 D_80100D40, D_80100D42, D_80100D80, D_80100D82;
-extern Vec3 D_80100D48, D_80100D68; extern Rotation D_80100D60;
+extern s32 func_800644B8(s32);
+extern s32 func_80064584(s32);
+extern void func_800A2AF8(Vec3 * , Vec3 *);
+extern void func_800A9E68(Vec3 * , Vec3 *);
+extern s32 D_80100D1C;
+extern u16 D_80100D40, D_80100D42, D_80100D80, D_80100D82;
+extern Vec3 D_80100D48, D_80100D68;
+extern Rotation D_80100D60;
 
 static inline s32 add_x_and_get_angle(Vec3 *position, s32 x_offset, Rotation *rotation)
 {

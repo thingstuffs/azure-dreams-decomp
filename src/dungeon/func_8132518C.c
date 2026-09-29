@@ -56,7 +56,7 @@ s32 func_8016C98C(Rec_func_800A9E70_arg0 *actor, s32 x, s32 y, s32 force_action)
             ((S_8016C98C_0 *)base)->unk_46 &= 0x7FFF;
             return result;
         }
-                /* fall through */
+                        /* fall through */
 
     default:
         ((S_8016C98C_0 *)base)->unk_71 &= 0x7F;

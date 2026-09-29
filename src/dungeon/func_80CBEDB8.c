@@ -65,7 +65,7 @@ void func_801725B8(void *action, void *motion, void *anim, EntityRec *actor)
         }
         func_8009C12C(actor, anim, actor->facing, 1);
         ((S_801725B8_0 *)action)->unk_9B++;
-                /* fallthrough */
+                        /* fallthrough */
     case 2:
         if (!(((Rec_D_80082E80 *)anim)->unk_14.at00_u16.v & 0xE000)) {
             return;

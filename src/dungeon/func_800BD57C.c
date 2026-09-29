@@ -107,7 +107,7 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
                         func_80099368(object_data, object)))));
 
         if (!(((S_800C2CDC_0 *)actor)->unk_1C & 0x2000) &&
-                ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
+            ((S_800C2CDC_0 *)actor)->unk_13 < 0x31) {
             func_8009A3D0(entity->unk_24,
                           entity->unk_25, 0x3000);
             ((S_800C2CDC_0 *)actor)->unk_1C |= 0x2000;

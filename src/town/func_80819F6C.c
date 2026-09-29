@@ -44,5 +44,5 @@ void func_80023F6C(void *entry) {
         break;
     }
 
-         /* Retains the register allocation required for a byte-exact match. */
+             /* Retains the register allocation required for a byte-exact match. */
 }

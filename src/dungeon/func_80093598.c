@@ -11,7 +11,11 @@ typedef struct S_80098CF8_0 {
 } S_80098CF8_0;   /* s0 in func_80098CF8 */
 
 typedef struct S_80098CF8_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_00;   /* overlapping accesses */
 } S_80098CF8_1;   /* s2 in func_80098CF8 */
 
 typedef struct S_80098CF8_2 {
@@ -67,7 +71,6 @@ typedef struct S_80098CF8_7 {
     u8 pad_00[0x1484];
     s32 unk_1484;
 } S_80098CF8_7;   /* (void *)a1 in func_80098CF8 */
-
 
 
 extern void func_80048A44();

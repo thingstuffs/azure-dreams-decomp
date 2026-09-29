@@ -81,7 +81,7 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         if (dungeonStatus.unk_0A != 0)
             return;
         ((S_80173294_2 *)effect_data)->unk_9B++;
-                /* fall through */
+                        /* fall through */
     case 1:
     {
         s32 flags;

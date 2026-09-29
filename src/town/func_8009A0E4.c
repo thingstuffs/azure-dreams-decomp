@@ -40,9 +40,9 @@ void func_80097844(void *source, s32 effect_count)
             do {
                 spawned++;
                 effect.x = (*(u16 *)((u8 *)source + 2) +
-                          (rand() & 0x1F)) - 0x10;
+                            (rand() & 0x1F)) - 0x10;
                 effect.y = (*(u16 *)((u8 *)source + 6) +
-                          (rand() & 0x1F)) - 0x10;
+                            (rand() & 0x1F)) - 0x10;
                 effect.field_C = func_80064584(angle) << 5;
                 effect.field_10 = func_800644B8(angle) << 5;
                 func_800ABC00(&effect, (s16)angle);

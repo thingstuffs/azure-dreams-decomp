@@ -45,12 +45,14 @@ void func_800CA134(void *state, void *position) {
         return;
     }
     target_table = &D_80083498;
-    x_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_02 - ((S_800CA134_1 *)position)->unk_02;
+    x_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_02
+        - ((S_800CA134_1 *)position)->unk_02;
     if (x_delta < 0) {
         x_delta += 3;
     }
     (*(s16 *)((u8 *)position + (2))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_02 + (x_delta >> 2));
-    y_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_06 - ((S_800CA134_1 *)position)->unk_06;
+    y_delta = ((S_800CA134_3 *)((*(void * volatile *)((u8 *)target_table + (8)))))->unk_06
+        - ((S_800CA134_1 *)position)->unk_06;
     if (y_delta < 0) {
         y_delta += 3;
     }

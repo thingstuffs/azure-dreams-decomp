@@ -29,13 +29,13 @@ extern s32 func_800A5C70(Resource *);
 
 void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     s32 state;
-    /* MATCH: Keep the guard result in v0 across argument setup. */
+        /* MATCH: Keep the guard result in v0 across argument setup. */
     s32 guard;
     GameWork *ctx;
-    /* MATCH: Keep the shared flag table in its retail saved register. */
+        /* MATCH: Keep the shared flag table in its retail saved register. */
     DungeonGlobalStatus *flags;
-    /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
-    /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
+        /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
+        /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
     Resource *callResource;
 
     state = arg0->state;
@@ -46,7 +46,7 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
         arg0->state += 1;
         break;
     case 1:
-        /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
+                /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
         if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
             guard = ctx->buttons & 0x20;
             callResource = arg3;
