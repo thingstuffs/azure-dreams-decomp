@@ -1,9 +1,31 @@
 {
  "_doc": "Default runaway caps for tools/lanes/launch_lane.sh when LANE_TOKEN_CAP / LANE_WALL_CAP are unset (round 78, 2026-09-27). tokens = codex uncached-input + output (lane_cap.py meter). Scaled by the official credit rates (Astra/Sol/Luna 6 = 100/20/1 at an equal token mix, docs/CLAUDE_CODEX_RESTART_PLAN_20260927.md): r78_luna6_red1 was capped at a Sol-sized 150k tokens after 12 min with only erasures done. These are ceilings, not targets; a smaller pack may pass a smaller cap.",
- "gpt-6-astra": {"tokens": 750000, "minutes": 90},
- "gpt-6-sol": {"tokens": 250000, "minutes": 45},
- "gpt-5.6-sol": {"tokens": 250000, "minutes": 45},
- "gpt-6-luna": {"tokens": 1000000, "minutes": 45},
- "gpt-5.6-luna": {"tokens": 1000000, "minutes": 45},
- "gemini-3.8-flash-high": {"tokens": 0, "minutes": 90}
+ "gpt-6-astra": {
+  "tokens": 750000,
+  "minutes": 90
+ },
+ "gpt-6-sol": {
+  "tokens": 250000,
+  "minutes": 45
+ },
+ "gpt-5.6-sol": {
+  "tokens": 250000,
+  "minutes": 45
+ },
+ "gpt-6-luna": {
+  "tokens": 1000000,
+  "minutes": 45
+ },
+ "gpt-5.6-luna": {
+  "tokens": 1000000,
+  "minutes": 45
+ },
+ "gemini-3.8-flash-high": {
+  "tokens": 0,
+  "minutes": 90
+ },
+ "gpt-6.1-sol": {
+  "tokens": 400000,
+  "minutes": 75
+ }
 }
