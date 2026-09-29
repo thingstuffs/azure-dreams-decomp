@@ -78,9 +78,7 @@ void func_80171498(
     s16 held_offset_x = offset_x;
     s16 held_offset_y = offset_y;
     s16 held_offset_z = offset_z;
-    volatile u16 source_offset_x;
-    volatile u16 source_offset_y;
-    volatile u16 source_offset_z;
+    struct { u16 x; u16 y; u16 z; } source_offset;
     s16 step;
     s32 color_high;
     s32 color_mid;
@@ -100,10 +98,10 @@ void func_80171498(
             ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset_x, 0) != 0) {
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += source_offset_x;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += source_offset_y;
-            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += source_offset_z;
+        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_02 += source_offset.x;
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_06 += source_offset.y;
+            ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A += source_offset.z;
         }
 
         effect_data = (u8 *)effect + 0x20;
@@ -112,10 +110,10 @@ void func_80171498(
         ((S_80171498_3 *)effect_data)->unk_62 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A;
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
-        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset_x, 0) != 0) {
-            (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset_x;
-            (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset_y;
-            ((S_80171498_3 *)effect_data)->unk_62 += source_offset_z;
+        if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset, 0) != 0) {
+            (*(s16 *)((u8 *)effect_data + 0x5A)) += source_offset.x;
+            (*(s16 *)((u8 *)effect_data + 0x5E)) += source_offset.y;
+            ((S_80171498_3 *)effect_data)->unk_62 += source_offset.z;
         }
 
         ((S_80171498_3 *)effect_data)->unk_36 = ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_02;

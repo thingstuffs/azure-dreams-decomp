@@ -100,8 +100,8 @@ void func_80027164(Effect *effect, void *unused, Output *output) {
         output->scale_x = scale;
         output->phase = output->phase + 0x555;
         linked_output = ((Link *)((u8 *)effect->link - 0x14))->output;
-        linked_output->color[0] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
-        linked_output->color[1] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
-        linked_output->color[2] = (u8)(((*(volatile u16 *)&effect->frame & 3) << 4) + 0x40);
+        linked_output->color[0] = (u8)(((effect->frame % 4) << 4) + 0x40);
+        linked_output->color[1] = (u8)(((effect->frame % 4) << 4) + 0x40);
+        linked_output->color[2] = (u8)(((effect->frame % 4) << 4) + 0x40);
     }
 }
