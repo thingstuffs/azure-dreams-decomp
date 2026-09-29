@@ -23,7 +23,6 @@ typedef struct S80083780 {
 extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
 extern void SD_Call(s32);
-extern void *D_80089900[];
 
 #ifndef NON_MATCHING
 #else
@@ -40,7 +39,6 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     s32 next_value;
     s32 next_value_2;
     s32 base_y;
-    static void *const state_labels[4] = {&&L_CHECK_DISTANCE, &&L_MOVE, &&L_CHECK_STATE, &&L_RAISE_TARGET};
 
     {
         s32 countdown;
@@ -53,12 +51,9 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     }
     next_value_2 = 0x800000;
     y_limit = base_y + next_value_2;
-    if ((u32)state < 6) {
-        goto *D_80089900[state];
-    }
-    return;
-
-L_CHECK_DISTANCE: {
+    switch (state) {
+    case 0:
+    case 3: {
         register s32 threshold;
         register s32 x_distance;
         s32 target_x;
@@ -88,7 +83,7 @@ L_CHECK_DISTANCE: {
         goto L_NEXT_STATE;
     }
 
-L_MOVE: {
+    case 1: {
         s32 below_limit;
 
         below_limit = D_80083780.y.v < y_limit;
@@ -99,7 +94,8 @@ L_MOVE: {
         goto L_STORE_TARGET;
     }
 
-L_CHECK_STATE:
+    case 2:
+    case 5:
     if (func_800352FC((s32)self, position, target) != 0) {
         if (func_800C2AB4(object) != 0) {
             return;
@@ -108,7 +104,7 @@ L_CHECK_STATE:
     object->f68 = (object->f68 + 1) % 6;
     return;
 
-L_RAISE_TARGET:
+    case 4:
     next_value = target->f1A + 32;
 L_STORE_TARGET:
     target->f1A = next_value;
@@ -119,4 +115,7 @@ L_STORE_TARGET:
 L_NEXT_STATE:
     object->f68 = next_value + 1;
     return;
+    default:
+        return;
+    }
 }
