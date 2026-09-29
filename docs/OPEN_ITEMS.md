@@ -23,6 +23,7 @@ Newest first within each section. Evidence links point at the record that measur
 
 | item | fix | commit |
 |---|---|---|
+| t2_pins looped forever on pins inside a macro expansion (unchanged candidate verified exact); t16/t16b/t18 wasted budget the same way | skip unchanged candidates | 6c78cac0 |
 | F0 clone family (11 rows x 6 pins): Astra's discarded-clamp reconstruction | DECIDED (coordinator, owner delegated 09-28): rejected under charter rule 3 (dead assignments between statements = fake dependency; the 09-23 dead-init ruling covers declaration initializers only). Reopen only with a real consumer for the three colour reads; no more F0 spelling lanes. Item 7 keeps the call_one mechanism question | r79 decision record |
 | stats group D_80084808.. declared at several sizes; 11 D_8006DE24 base-form rows; phase-9 full apply reverting | volumeScale[8] (size must exceed 8 bytes: stock-2.7.2 store-macro expansion); DefEntry field spelling; root cause found by the phase-9 agent with a scratch-build repro | phase 9 (this commit) |
 | apply_names.py refused data rows; lab.py API ignored the 60-variant cap; verify.py include_root could not test a changed header | `apply_names.py --data [--rewrite]`; cap enforced in Lab.test/test_subs (`more=True` override); explicit include_root wins (overlay -isystem/-iquote ordering, SLUS -I before row flags) - 219 tests, whole-tree verify 6,767/6,767 exact with the new verify.py | this commit (r78_sol_tools, gpt-6-sol) |

@@ -260,7 +260,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     void *(*draw_callback)(void *, void *, void *, void *, void *);
     S_80DB9000_8 *entry_uv;
     S_80DB9000_7 *render_data;
-    register S_80DB9000_5 *render_state ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_80DB9000_5 *render_state;
     register u32 address_mask;
     register u32 load_dependency;
     S_80DB9000_9 *packet;
@@ -271,7 +271,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     register u8 *work_src ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *work_dst ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register u8 *work_aux ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *state_page ASM_REG("$8") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *state_page = (u8 *)0x80080000;
     register S_80DB9000_4 *scratch_page;
     register u8 *projection_flags;
     ASM_KEEP_MEMDEP_NV(position, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -298,7 +298,8 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     scratch_page->unk_08 = position->unk_0A;
     projection_flags = (u8 *)((u32)projection_flags | 0xD4);
     packet = ((S_80DB9000_6 *)uv_right)->unk_8D0;
-    render_state = (S_80DB9000_5 *)(state_page + 0x3160);
+    render_state = (S_80DB9000_5 *)state_page;
+    render_state = (S_80DB9000_5 *)((u8 *)render_state + 0x3160);
     scratch_page->unk_100 = func_80065420(work_src, work_dst, work_aux, projection_flags);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;
@@ -349,8 +350,8 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
         scratch_page->unk_AC = field_value;
         coord_value = sprite->unk_22;
         ASM_KEEP_DEP_NV(address_mask, coord_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        address_mask |= 0xFFFF;
-        ASM_KEEP_NV(address_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        address_mask |= 0xFF00;
+        address_mask |= 0xFF;
         scratch_page->unk_8C = coord_value;
         scratch_page->unk_AE = coord_value;
         func_80065820(work_src, work_dst, view_y_angle, view_rot_z);

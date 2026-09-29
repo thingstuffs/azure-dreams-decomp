@@ -605,10 +605,8 @@ loop_setup_b:
             bucket_ptr_m = *render_slot_m;
             render_slot_m = (u8 **)(0xFF000000);
             bucket_ptr_m = (u8 *)((u32)bucket_offset + (u32)bucket_ptr_m);
-            bucket_tag =
-                (((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & (u32)render_slot_m) |
-                ((u32)prim & addr_mask);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            bucket_tag = ((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & (u32)render_slot_m;
+            bucket_tag |= (u32)prim & addr_mask;
             render_slot_m = &D_80083160;
             ASM_KEEP_NV(render_slot_m);
             (*(u32 *)((u8 *)bucket_ptr_m + 0xB0)) = bucket_tag;
