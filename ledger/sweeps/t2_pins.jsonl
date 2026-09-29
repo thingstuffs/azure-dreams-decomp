@@ -24220,3 +24220,4 @@
 {"id":"town/func_800AEA50","transform":"t2_pins","in_sha":"f4818577022a9779e68e42e94f6c977d061e80351efc069d8d74f6e9bd70407d","from_clean":true,"size":460,"outcome":"refused","reason":"no pin sites","at":"2026-09-29T23:30:06Z"}
 {"id":"town/func_8046A148","transform":"t2_pins","in_sha":"38c5c6e9330c68de345d35e4da5518083ecc79bd6d56bc60c6f3244142bcc483","from_clean":true,"size":156,"outcome":"refused","reason":"no pin sites","at":"2026-09-29T23:30:06Z"}
 {"id":"slus/w_800565D8","transform":"t2_pins","in_sha":"53b3b88f91c801e75dfbed236d9d0d2f2cd6e20ff179aafbac9f276f25e5c00a","from_clean":true,"size":124,"outcome":"refused","reason":"no pin sites","at":"2026-09-29T23:35:25Z"}
+{"id":"dungeon/func_802847A8","transform":"t2_pins","in_sha":"0713693e6c787ebd085c4b4ebe1d3b70fee0b1c36343e866256a97acf39c1104","from_clean":true,"size":48,"outcome":"refused","reason":"no pin sites","at":"2026-09-29T23:37:03Z"}
