@@ -10,7 +10,6 @@ typedef struct {
 } LocalPoint;
 
 extern u8 D_8002004C[];
-extern void *D_80020058[];
 extern u8 D_800245DC[];
 
 extern s32 func_80064710(s32);
@@ -51,10 +50,6 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     s32 value_draw;
     s32 value_wrap;
     u32 phase;
-    static void *const phase_labels[] = {
-        &&idle, &&accelerate, &&spin, &&select_sector,
-        &&decelerate, &&stop_spin, &&start_icons, &&draw_icons,
-    };
 
     spin_data = *(void **)state_arg;
     prev_angle = U16(effect_arg, 0x1A);
@@ -139,22 +134,18 @@ position_done:
     }
 
     phase = S16(state_arg, 0x70);
-    if (phase >= 8) {
-        goto wrap_angle;
-    }
-    (void)phase_labels;
-    goto *D_80020058[phase];
+    switch (phase) {
 
-idle:
+    case 0:
     value_idle = U8(effect_arg, 0xE);
     value_idle += (128 - value_idle) >> 1;
     U8(effect_arg, 0xE) = value_idle;
     U8(effect_arg, 0xD) = value_idle;
     U8(effect_arg, 0xC) = value_idle;
     S32(state_arg, 0x6C) = 0x00080000;
-    goto wrap_angle;
+    break;
 
-accelerate:
+    case 1:
     reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
     value_accel = U16(state_arg, 0x72) + reduced_speed;
     U16(state_arg, 0x72) = value_accel;
@@ -163,17 +154,17 @@ accelerate:
         S16(state_arg, 0x70) = 2;
     }
     U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
-    goto wrap_angle;
+    break;
 
-spin:
+    case 2:
     U16(effect_arg, 0x1A) += speed_limit;
     if (distance >= 161 && S32(((u8 *)(&D_80083780)), 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
         S16(state_arg, 0x72) = speed_limit;
         S16(state_arg, 0x70) = 3;
     }
-    goto wrap_angle;
+    break;
 
-select_sector:
+    case 3:
     dx = U16(effect_arg, 0x1A) & 0x7FF;
     if (dx >= 0x6AB) {
         S16(spin_data, 0x24) = 0;
@@ -196,7 +187,7 @@ select_sector:
 reset_spin_angle:
     S16(spin_data, 0x1A) = 0;
 
-decelerate:
+    case 4:
     if (S16(spin_data, 0x22) == 2) {
         dx = 6;
     } else {
@@ -211,9 +202,9 @@ decelerate:
         S16(state_arg, 0x74) = 0;
         S16(state_arg, 0x70) = 5;
     }
-    goto wrap_angle;
+    break;
 
-stop_spin:
+    case 5:
     U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     U16(spin_data, 0x1A) += U16(state_arg, 0x72);
     value_stop = U16(state_arg, 0x74) + 1;
@@ -224,13 +215,13 @@ stop_spin:
     if (S16(state_arg, 0x72) < 4) {
         S16(state_arg, 0x70) = 0;
     }
-    goto wrap_angle;
+    break;
 
-start_icons:
+    case 6:
     S16(state_arg, 0x70) = 7;
     S16(state_arg, 0x72) = 0;
 
-draw_icons:
+    case 7:
     dx = 0;
     spin_data = (void *)6;
     dy = (s32)D_800245DC;
@@ -253,7 +244,8 @@ icon_loop:
         S16(state_arg, 0x70) = 0;
     }
 
-wrap_angle:
+    }
+
     value_wrap = U16(effect_arg, 0x1A) & 0xFFF;
     U16(effect_arg, 0x1A) = value_wrap;
     if ((prev_angle >> 8) != ((u32)value_wrap >> 8)) {

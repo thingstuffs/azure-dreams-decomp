@@ -12,28 +12,16 @@ typedef struct S_80023404_0 {
 
 
 
-extern void *D_80020264[5];
 extern void func_80023578(s16, s16, s16);
 
 /* Updates scrolling through 12 positions, accelerating or settling according to state. */
 void func_80023404(S_80023404_0 *scroll)
 {
-    static void *const switch_labels[] = {
-        &&case_0,
-        &&case_1,
-        &&case_2,
-        &&case_3,
-        &&case_4
-    };
     s32 state;
     state = scroll->unk_04.s;
-    if ((u32)state >= 5) {
-        return;
-    }
-    (void)switch_labels;
-    goto *D_80020264[state];
+    switch (state) {
 
-case_0:
+    case 0:
     scroll->unk_0E.s = 0;
     scroll->unk_0C.s = 0;
     func_80023578(scroll->unk_08,
@@ -42,7 +30,7 @@ case_0:
     scroll->unk_04.s = 1;
     return;
 
-case_2:
+    case 2:
     {
         u16 tick;
         tick = scroll->unk_06;
@@ -56,7 +44,7 @@ case_2:
         }
     }
 
-case_3:
+    case 3:
     scroll->unk_0E.u = scroll->unk_0E.u - scroll->unk_0C.u;
     if ((s16)scroll->unk_0E.u < 0) {
         do {
@@ -66,7 +54,7 @@ case_3:
     }
     goto common_call;
 
-case_4:
+    case 4:
     scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
     if ((s16)scroll->unk_0E.u < 4) {
         scroll->unk_0E.u = 0;
@@ -78,6 +66,7 @@ common_call:
                   scroll->unk_0E.s);
     return;
 
-case_1:
+    case 1:
     return;
+    }
 }

@@ -44,9 +44,6 @@ typedef struct {
     s16 digits[3];
 } EffectFrame;
 
-extern void *D_80020078[13];
-extern void *D_800200B0[63];
-extern void *D_800201B0[27];
 
 extern u8 D_800220A8[];
 extern u8 D_80024450[];
@@ -161,29 +158,13 @@ void func_800211A4(TownEffect *input)
 #define scratch frame.scratch
 #define digits frame.digits
 
-    static void *const state_labels[14] = {
-        &&state_0, &&state_1, &&state_2, &&state_3,
-        &&state_4, &&state_5, &&state_6, &&state_7,
-        &&state_8, &&state_9, &&state_10, &&state_11,
-        &&state_12, &&state_12_amount
-    };
-    static void *const counter_labels[12] = {
-        &&counter_a, &&counter_b, &&counter_c, &&counter_d,
-        &&counter_e, &&counter_f, &&counter_g, &&counter_h,
-        &&counter_i, &&counter_j, &&counter_k, &&counter_l
-    };
-
     controls = &gameWork;
     child = (u8 *)effect->child + 0x20;
     state = effect->state;
     primitive = D_800834B8;
-    if ((u32)state >= 13) {
-        goto common_done;
-    }
-    (void)state_labels;
-    goto *D_80020078[(u32)state];
+    switch (state) {
 
-state_0:
+    case 0:
 {
     void *object;
     S_800211A4_1 *object_child;
@@ -252,16 +233,16 @@ state_0:
             ((S_800211A4_2 *)object_link)->unk_04 = effect;
         }
     }
-    goto common_done;
+    break;
 }
 
-state_1:
+    case 1:
 {
     EntityRec *motion;
     s32 handle;
     s32 payout_scale;
     if (effect->phase == 3) {
-        goto common_done;
+        break;
     }
     SD_Call(0x523);
     handle = func_800B1BEC(0, -80, 64);
@@ -283,10 +264,10 @@ state_1:
     ((S_800211A4_6 *)child)->unk_74 = 20;
     effect->timer = 5;
     effect->state = 2;
-    goto common_done;
+    break;
 }
 
-state_2:
+    case 2:
 {
     s32 pressed_buttons;
     if ((controls->buttons & 0x5000) != 0) {
@@ -308,7 +289,6 @@ state_2:
         goto state_3_after_shake;
     }
 
-state_3:
 state_3_body:
     if ((((s32)controls->unk_010) & 0x4000) == 0) {
         if ((controls->buttons & 0x4000) == 0 || effect->timer > 0) {
@@ -333,21 +313,21 @@ state_3_after_shake:
             effect->state = 3;
             effect->timer = 9;
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = -0x240000;
-            goto common_done;
+            break;
         }
-        goto common_done;
+        break;
     }
     if ((pressed_buttons & 0x20) == 0) {
-        goto common_done;
+        break;
     }
     if (((S_800211A4_6 *)child)->unk_70 != 0) {
         ((S_800211A4_6 *)child)->unk_70 = 3;
     }
     effect->state = 10;
-    goto common_done;
+    break;
 }
 
-state_4:
+    case 3:
 {
     EntityRec *motion;
     u16 *prim_angle;
@@ -370,10 +350,10 @@ state_4:
         motion_words->unk_10 = (target_y - current_y) / effect->timer;
         effect->state = 11;
     }
-    goto common_done;
+    break;
 }
 
-state_5:
+    case 11:
 {
     u16 *prim_angle;
     u16 *timer_ptr;
@@ -391,10 +371,10 @@ state_5:
         ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = 0x00180000;
         effect->state = 12;
     }
-    goto common_done;
+    break;
 }
 
-state_6:
+    case 12:
 {
     EntityRec *motion;
     s32 angle;
@@ -402,21 +382,21 @@ state_6:
     angle = (((S_800211A4_5 *)primitive)->unk_10 + 0x200) & 0xFFF;
     ((S_800211A4_5 *)primitive)->unk_10 = angle;
     if (motion->z.v < (s32)0xFF000000 || angle != 0) {
-        goto common_done;
+        break;
     }
     motion->z.v = (s32)0xFF000000;
     effect->state = 4;
     func_80093D48(primitive, motion, ((u8 *)(&D_80082E80)), (s32)0xFF000000);
     func_80093C70();
-    goto common_done;
+    break;
 }
 
-state_7:
+    case 4:
 {
     EntityRec *motion;
     if ((((s32)controls->unk_010) & 0x40) == 0 ||
         ((S_800211A4_6 *)child)->unk_70 != 2) {
-        goto common_done;
+        break;
     }
     SD_Call(0x50A);
     func_80093CEC(D_800D00A0);
@@ -425,10 +405,10 @@ state_7:
     motion->flags14 = (s32)0xFFF40000;
     effect->count = 0;
     effect->state = 5;
-    goto common_done;
+    break;
 }
 
-state_8:
+    case 5:
 {
     EntityRec *motion;
     s32 old_count;
@@ -444,19 +424,15 @@ state_8:
     old_count = (u16)effect->count;
     effect->count = (s16)(old_count + 1);
     frame_index = (s16)old_count;
-    if ((u32)frame_index < 63) {
-        (void)counter_labels;
-        goto *D_800200B0[(u32)frame_index];
-    }
-    goto counter_done;
+    switch (frame_index) {
 
-counter_a:
+    case 0:
     func_80093CEC(D_800D00A8);
-    goto counter_done;
-counter_b:
+    break;
+    case 5:
     func_80093CEC(D_800D00B8);
-    goto counter_done;
-counter_c:
+    break;
+    case 20:
     SD_Call(0x508);
     {
         s32 y_speed = 0x18000;
@@ -467,14 +443,17 @@ counter_c:
         motion->unk_10 = y_speed;
         func_80093CEC(animation);
     }
-    goto counter_done;
-counter_d:
+    break;
+    case 25:
     func_80093CEC(D_800D00B8);
-    goto counter_done;
-counter_e:
+    break;
+    case 21:
+    case 37:
+    case 49:
+    case 62:
     func_80093CEC(D_800D00A8);
-    goto counter_done;
-counter_f:
+    break;
+    case 36:
     SD_Call(0x508);
     {
         u8 *animation = D_800D0078;
@@ -484,20 +463,21 @@ counter_f:
         motion->unk_10 = 0x20000;
         func_80093CEC(animation);
     }
-    goto counter_done;
-counter_g:
+    break;
+    case 48:
     SD_Call(0x508);
     ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
-    goto counter_done;
-counter_h:
+    break;
+    case 59:
     SD_Call(0x508);
     ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC8000;
     func_80093CEC(D_800D0078);
 
-counter_done:
+    }
+
     if (((S_800211A4_6 *)child)->unk_70 != 3) {
-        goto common_done;
+        break;
     }
     {
         u8 *animation = D_800D0078;
@@ -510,10 +490,10 @@ counter_done:
     }
     effect->count = 0;
     effect->state = 6;
-    goto common_done;
+    break;
 }
 
-state_9:
+    case 6:
 {
     EntityRec *motion;
     EntityRec *motion_words;
@@ -529,24 +509,22 @@ state_9:
     count_or_addr = old_count + 1;
     effect->count = (s16)count_or_addr;
     frame_index = (s16)old_count;
-    if ((u32)frame_index < 27) {
-        (void)counter_labels;
-        goto *D_800201B0[(u32)frame_index];
-    }
-    goto counter9_done;
+    switch (frame_index) {
 
-counter_i:
+    case 0:
+    case 11:
+    case 19:
     func_80093CEC(D_800D00A8);
-    goto counter9_done;
-counter_j:
+    break;
+    case 5:
     func_80093CEC(D_800D00B8);
-    goto counter9_done;
-counter_k:
+    break;
+    case 10:
     SD_Call(0x508);
     ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
     func_80093CEC(D_800D0078);
-    goto counter9_done;
-counter_l:
+    break;
+    case 18:
     SD_Call(0x508);
     {
         s32 z_speed;
@@ -554,11 +532,13 @@ counter_l:
         z_speed = (s32)0xFFFD0000;
         ((S_800211A4_10 *)((u8 *)count_or_addr))->unk_14 = z_speed;
     }
-    func_80093CEC(D_800D0078);
+    case 26:
+        func_80093CEC(D_800D0078);
+        break;
+    }
 
-counter9_done:
     if (effect->count != 28) {
-        goto common_done;
+        break;
     }
     {
         u8 *animation = D_800D0078;
@@ -571,10 +551,10 @@ counter9_done:
     }
     effect->count = 3;
     effect->state = 7;
-    goto common_done;
+    break;
 }
 
-state_10:
+    case 7:
 {
     s32 orbit_component;
     EntityRec *motion;
@@ -592,7 +572,7 @@ state_10:
         func_80093CEC(D_800D0080);
     }
     if (((S_800211A4_6 *)child)->unk_70 != 0) {
-        goto common_done;
+        break;
     }
     if (effect->phase == effect->phase2) {
         ((S_800211A4_6 *)child)->unk_70 = 6;
@@ -602,10 +582,10 @@ state_10:
         effect->amount = 0;
         effect->state = 10;
     }
-    goto common_done;
+    break;
 }
 
-state_11:
+    case 8:
 {
     s32 particle_index;
     s32 tick_dec;
@@ -632,7 +612,7 @@ state_11:
     timer_dec = (u16)effect->timer - 1;
     effect->timer = (s16)timer_dec;
     if ((s16)timer_dec > 0 || (effect->flags & 8) == 0) {
-        goto common_done;
+        break;
     }
 
     particle_index = (((S_800211A4_3 *)effect)->unk_14 * ((S_800211A4_3 *)effect)->unk_10) / 100;
@@ -688,24 +668,24 @@ state_11:
         particle_index++;
     }
     effect->state = 9;
-    goto common_done;
+    break;
 }
 
-state_12:
+    case 9:
 {
     s32 timer_left;
     timer_left = (u16)effect->timer - 1;
     effect->timer = (s16)timer_left;
     if ((s16)timer_left > 0) {
-        goto common_done;
+        break;
     }
     func_800B1DBC(D_80024558[0]);
     effect->state = 0;
     effect->flags |= 2;
-    goto common_done;
+    break;
 }
 
-state_12_amount:
+    case 10:
 {
     s32 ticks_left;
     s32 money;
@@ -720,7 +700,7 @@ state_12_amount:
     ticks_left = (u16)effect->ticks - 2;
     effect->ticks = (s16)ticks_left;
     if ((s16)ticks_left > 0) {
-        goto common_done;
+        break;
     }
     func_800B1DBC(D_80024558[0]);
     effect->ticks = 0;
@@ -728,6 +708,7 @@ state_12_amount:
     effect->flags |= 0xA;
     func_80093D48(primitive, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)));
 }
+    }
 
 common_done:
     effect->flags &= ~1;

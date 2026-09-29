@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void *D_8002014C[5];
 extern u8 D_80026F80[];
 extern u8 D_800F7968[16];
 extern u8 D_800F79E8[16];
@@ -65,7 +64,6 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
     s32 particles_left;
     s32 random_value;
     s32 particle_x;
-    static void *const keepalive[5] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
 
     if (entity->flags & 2) {
         if (sprite->f0c.b) {
@@ -90,12 +88,9 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
     }
 
     state = entity->state;
-    if ((u32)state >= 5U) {
-        goto END;
-    }
-    goto *D_8002014C[state];
+    switch (state) {
 
-L0:
+    case 0:
     if (motion->w8 > 0) {
         motion->w8 += motion->w20;
         particles_left = 3;
@@ -113,9 +108,9 @@ L0:
     motion->w8 = 0;
     motion->w20 = 0;
     entity->state = 1;
-    goto END;
+        break;
 
-L1:
+    case 1:
     if (cell->field1a & 1) {
         Local effect;
         u8 *effect_entry = D_80026F80 + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
@@ -127,9 +122,9 @@ L1:
         effect.p = entity;
         func_800253BC(&effect, motion->w4, 0);
     }
-    goto END;
+        break;
 
-L2:
+    case 2:
     {
         s32 timer_left = entity->timer - 1;
         entity->timer = timer_left;
@@ -141,9 +136,9 @@ L2:
             entity->state = 3;
         }
     }
-    goto END;
+        break;
 
-L3:
+    case 3:
     if (motion->w8 > 0x7fffff) {
         goto L3_over;
     }
@@ -166,14 +161,14 @@ L3:
             }
         }
     }
-    goto END;
+        break;
 
 L3_over:
     entity->timer = 2;
     entity->state = 4;
-    goto END;
+        break;
 
-L4:
+    case 4:
     {
         s32 timer_left = entity->timer - 1;
         entity->timer = timer_left;
@@ -184,6 +179,7 @@ L4:
         }
     }
 
+    }
 END:
     entity->flags &= ~2;
 }
