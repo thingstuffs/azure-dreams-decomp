@@ -121,3 +121,16 @@ Colour/argument register pins: a dead read pinned to $6 next to an `a2 = 0` argu
 (the pin's output dep keeps the argument set after the read). Reusing the local as the zero argument
 (`green = zero; f(zero, 1, green, 0)`) gives the true dependence and the a2 preference (func_80AE9000: pin gone,
 retail `move $6,$4`). It does not stack: a second such local is merged by cse (`move $7,$6`).
+
+## Same-register `bgez; nop; negu` = abs() (round 80, r80_opus_p2 on dungeon/func_800A8714)
+
+Retail `bgez rX; nop; negu rX,rX` on ONE register is the mips.md `abssi2` template (ISA 1, source == destination):
+the source was `v = abs(v)`, not an if-negate. With an if-negate, reorg fills the delay slot with an independent insn
+and keeps are placed to stop that. Caveat measured: abs() makes v block-local, which can reorder allocation ($2/$3).
+
+## Symbol argument on a reassigned local keeps retail's shared `lui` + per-call `%lo` (r80_opus_p2, town/func_8046C280)
+
+At a splitting cell a symbol argument is HIGH + LO_SUM; cse folds `(lo_sum (high X) X)` to X, so a second use of the
+same symbol reuses the full address. Retail keeps only the HIGH in a callee-saved register and re-adds `%lo` per call,
+which happens when the local holding the address is REASSIGNED between the calls. A numeric page constant always
+folds to `lui/ori`. APPEARS: ASM_KEEP(page) pairs around calls; RESOLVES: pass the typed symbol via a reassigned local.
