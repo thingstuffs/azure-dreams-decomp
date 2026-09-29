@@ -210,7 +210,6 @@ void func_800165B8(void) {
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;
     u8 *defaults_page;
-    u8 *status_page;
     s32 status_value;
     u16 init_flags;
     register s32 neutral_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -385,14 +384,11 @@ load_entries:
         call_target = ((u8 *)(&D_80083498));
     }
     bind_count = 1;
-    bind_state = state + 0x2C;
     bind_angle = obj + 0x2A;
-    ASM_KEEP(bind_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    delta_page = (u8 *)(-1);
-    (*(s16 *)((u8 *)obj + 0x94)) = (s32)delta_page;
+    (*(s16 *)((u8 *)obj + 0x94)) = -1;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.view.viewAngle + 0x100) & 0xE00);
-    func_800BC26C(call_target, bind_count, bind_state, bind_angle);
+    func_800BC26C(call_target, bind_count, state + 0x2C, bind_angle);
     {
         s32 clear_flag_mask;
 
@@ -475,12 +471,11 @@ load_entries:
         D_80081470 = 0;
         func_800172A0(call_target, actor_lift);
     }
-    status_page = (u8 *)0x80080000;
+    call_target = (u8 *)0x80080000;
     init_flags = ((S_800165B8_10 *)settings_page)->unk_3714;
-    ASM_KEEP(init_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     status_value = -0x24;
-    ((S_800165B8_11 *)status_page)->unk_2A3B = status_value;
+    ((S_800165B8_11 *)call_target)->unk_2A3B = status_value;
     if (init_flags & 4) {
-        func_800A6C00(status_page);
+        func_800A6C00(call_target);
     }
 }
