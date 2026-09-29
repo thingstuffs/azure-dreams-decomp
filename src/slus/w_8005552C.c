@@ -31,7 +31,7 @@ void func_8005552C(s32 selector) {
         }
                         /* default: selected_code→dispatch_code then jump past merge (delay-slot duplicate of merge) */
         selected_code = 1;
-        goto setcode_after;
+        goto merge;
     }
     selected_code = 2;
     goto merge;
@@ -42,10 +42,7 @@ case_800:
     selected_code = 0;
 merge:
     dispatch_code = selected_code;
-    goto after;
-setcode_after:
-    dispatch_code = selected_code;
-after:
+
     if ((func_8005405C(dispatch_code) << 0x10) != 0) {
         entry_index = (dispatch_code << 8) | ((u32)(saved_selector & 0xFF) >> 4);
         entry_offset = ((saved_selector & 0xF) << 0xA) + 0x1C00;
