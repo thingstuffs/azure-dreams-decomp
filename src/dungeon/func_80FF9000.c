@@ -131,38 +131,33 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
         if (kind == 1) {
             flags_14 = work->unk_14 | 0x6000;
             flags_1c = work->unk_1C | 0x6000;
-        } else {
-            if (kind < 2) {
-                goto normal_kind;
-            }
-
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else if (kind >= 2) {
             flags_14 = work->unk_14 | 0x2000;
             flags_1c = work->unk_1C | 0x2000;
+            work->unk_14 = flags_14;
+            work->unk_1C = flags_1c;
+        } else {
+            extra_flags = (spawn_flags & ~3) << 0x10;
+            alloc_kind = (s32)obj;
+            if (extra_flags != 0) {
+                goto set_part_arg;
+            }
+            alloc_desc = part_a;
+            if (work->unk_14 & 0x200) {
+                goto init_actor;
+            }
+            random_bits = func_800A6D30(alloc_kind, alloc_desc);
+            alloc_kind = (s32)obj;
+            if (!(random_bits & 1)) {
+                goto set_part_arg;
+            }
+            work->unk_1C = (s32) (work->unk_1C | 0x200);
+            func_800A48F0(work, 1, (func_800A6D30(alloc_kind) & 0x3F) | 0x20);
+            part_b->unk_2C = &D_80156088;
         }
-        work->unk_14 = flags_14;
-        work->unk_1C = flags_1c;
-        goto post_kind;
 
-normal_kind:
-        extra_flags = (spawn_flags & ~3) << 0x10;
-        alloc_kind = (s32)obj;
-        if (extra_flags != 0) {
-            goto set_part_arg;
-        }
-        alloc_desc = part_a;
-        if (work->unk_14 & 0x200) {
-            goto init_actor;
-        }
-        random_bits = func_800A6D30(alloc_kind, alloc_desc);
-        alloc_kind = (s32)obj;
-        if (!(random_bits & 1)) {
-            goto set_part_arg;
-        }
-        work->unk_1C = (s32) (work->unk_1C | 0x200);
-        func_800A48F0(work, 1, (func_800A6D30(alloc_kind) & 0x3F) | 0x20);
-        part_b->unk_2C = &D_80156088;
-
-post_kind:
         alloc_kind = (s32)obj;
 set_part_arg:
         alloc_desc = part_a;
