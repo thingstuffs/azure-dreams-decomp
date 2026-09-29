@@ -38,21 +38,17 @@ void func_8008E264(void *actor, EntityRec *motion, void *sprite, EntityRec *mode
     case 10:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             launch_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9B.as_u8;
-            if (launch_state != 0) {
-                goto check_launch_state;
+            if (launch_state == 0) {
+                motion->flags14 = 0xFFF00000;
+            } else {
+                motion_value = 8;
+                if (launch_state != motion_value) {
+                    motion_value = 0xFFEC0000;
+                } else {
+                    motion_value = 0xFFF80000;
+                }
+                motion->flags14 = motion_value;
             }
-            motion->flags14 = 0xFFF00000;
-            goto launch_ready;
-check_launch_state:
-            motion_value = 8;
-            if (launch_state != motion_value) {
-                motion_value = 0xFFEC0000;
-                goto apply_launch;
-            }
-            motion_value = 0xFFF80000;
-apply_launch:
-            motion->flags14 = motion_value;
-launch_ready:
             func_80099F70(model->unk_5C);
             func_80099F04(model->unk_5C);
             dungeonStatus.flags = (u16) (dungeonStatus.flags | 0x812);
@@ -98,18 +94,20 @@ launch_ready:
                 dungeonStatus.unk_04 = 1;
                 return;
             }
-            goto finish_move;
+            if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;
+            }
+            return;
         }
         return;
     case 12:
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             dungeonStatus.unk_04 = 0;
-            goto finish_move;
+            if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;
+            }
+            return;
         }
         return;
     }
-finish_move:
-        if ((func_80094F74(actor, motion, sprite, model) << 0x10) > 0) {
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_8C.as_pm = &D_8008ACDC;
-        }
 }

@@ -108,30 +108,27 @@ void func_80172A24(void *action_state, void *transform, void *sprite, EntityRec 
             ((S_80172A24_0 *)action_state)->unk_98 &= 0xFF7F;
             {
                 s16 player_target = use_player_target;
-
                 if (player_target != 0) {
                     target = D_800814A8;
                     actor->target = target;
-                    goto have_target;
+                    action_status = (u8 *)((S_80172A24_2_pre *)target)[-1].unk_00;
+                    actor->unk_72 = ((S_80172A24_3 *)action_status)->unk_24;
+                    actor->unk_73 = ((S_80172A24_3 *)action_status)->unk_25;
+                } else if (D_8006DE24[*motion].kind == 2) {
+                    target = actor->target;
+                    if (target != 0) {
+                        action_status = (u8 *)((S_80172A24_2_pre *)target)[-1].unk_00;
+                        actor->unk_72 = ((S_80172A24_3 *)action_status)->unk_24;
+                        actor->unk_73 = ((S_80172A24_3 *)action_status)->unk_25;
+                    }
+                } else {
+                    actor->target =
+                        func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                                      actor->facing, 0x10);
+                    actor->unk_72 = abs(actor->unk_72);
+                    actor->unk_73 = abs(actor->unk_73);
                 }
             }
-            if (D_8006DE24[*motion].kind == 2) {
-                target = actor->target;
-                if (target == 0) {
-                    goto advance_motion;
-                }
-            have_target:
-                action_status = (u8 *)((S_80172A24_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172A24_3 *)action_status)->unk_24;
-                actor->unk_73 = ((S_80172A24_3 *)action_status)->unk_25;
-                goto advance_motion;
-            }
-            actor->target =
-                func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                              actor->facing, 0x10);
-            actor->unk_72 = abs(actor->unk_72);
-            actor->unk_73 = abs(actor->unk_73);
-        advance_motion:
             position[0] = ((u16)((EntityRec *)transform)->x.w.i);
             position[1] = ((u16)((EntityRec *)transform)->y.w.i);
             position[2] = ((u16)((EntityRec *)transform)->z.w.i);

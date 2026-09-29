@@ -81,128 +81,106 @@ void func_800B45E0(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
     S_800B45E0_3 *anchor;
 
     owner = ((S_800B45E0_0 *)effect)->unk_00;
-    if (owner == NULL) {
-        goto follow_anchor;
+    if (owner != NULL) {
+        if (owner->unk_1E & 0x8000) {
+            ((S_800B45E0_0 *)effect)->unk_00 = NULL;
+            ((S_800B45E0_0 *)effect)->unk_14 = NULL;
+        }
     }
-    if (!(owner->unk_1E & 0x8000)) {
-        goto follow_anchor;
-    }
-    ((S_800B45E0_0 *)effect)->unk_00 = NULL;
-    ((S_800B45E0_0 *)effect)->unk_14 = NULL;
-follow_anchor:
     anchor = ((S_800B45E0_0 *)effect)->unk_14;
-    if (anchor == NULL) {
-        goto update_phase;
+    if (anchor != NULL) {
+        motion->unk_02 = (u16) (motion->unk_02 - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
+        ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_02;
+        motion->unk_06 = (u16) (motion->unk_06 - (((S_800B45E0_0 *)effect)->unk_1A - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06));
+        ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06;
+        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B45E0_0 *)effect)->unk_1C - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A));
+        ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
     }
-    motion->unk_02 = (u16) (motion->unk_02 - (((S_800B45E0_0 *)effect)->unk_18 - anchor->unk_02));
-    ((S_800B45E0_0 *)effect)->unk_18 = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_02;
-    motion->unk_06 = (u16) (motion->unk_06 - (((S_800B45E0_0 *)effect)->unk_1A - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06));
-    ((S_800B45E0_0 *)effect)->unk_1A = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_06;
-    motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - (((S_800B45E0_0 *)effect)->unk_1C - ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A));
-    ((S_800B45E0_0 *)effect)->unk_1C = (u16) ((S_800B45E0_5 *)(((S_800B45E0_0 *)effect)->unk_14))->unk_0A;
-update_phase:
     phase = ((S_800B45E0_0 *)effect)->unk_08;
     switch (phase) {
     case 0:
-    motion->unk_14 = 0x200000;
-    motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - 0x40);
-    ((S_800B45E0_0 *)effect)->unk_04.at00.v = 0x200000;
-    sprite->unk_1E = 0x1000;
-    sprite->unk_1C = 0x1000;
-    func_8004491C(effect - 0x20, &D_80044C54);
-    ((S_800B45E0_0 *)effect)->unk_0A = 0x10U;
-    ((S_800B45E0_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B45E0_0 *)effect)->unk_08 + 1);
+        motion->unk_14 = 0x200000;
+        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v - 0x40);
+        ((S_800B45E0_0 *)effect)->unk_04.at00.v = 0x200000;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        func_8004491C(effect - 0x20, &D_80044C54);
+        ((S_800B45E0_0 *)effect)->unk_0A = 0x10U;
+        ((S_800B45E0_0 *)effect)->unk_08 = (s16) ((u16) ((S_800B45E0_0 *)effect)->unk_08 + 1);
     case 1:
-    fade_in_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
-    ((S_800B45E0_0 *)effect)->unk_0A = fade_in_ticks;
-    if ((s16) fade_in_ticks <= 0) {
-        goto finish_fade_in;
-    }
-    brightness_2 = sprite->unk_0C.at02.v;
-    next_brightness = brightness_2 + ((s32) (0x80 - brightness_2) / (s16) fade_in_ticks);
-    sprite->unk_0C.at02.v = next_brightness;
-    sprite->unk_0C.at01.v = next_brightness;
-    sprite->unk_0C.at00.v = next_brightness;
-    goto update_motion;
-finish_fade_in:
-    next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
-    goto advance_phase;
+        fade_in_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
+        ((S_800B45E0_0 *)effect)->unk_0A = fade_in_ticks;
+        if ((s16) fade_in_ticks > 0) {
+            brightness_2 = sprite->unk_0C.at02.v;
+            next_brightness = brightness_2 + ((s32) (0x80 - brightness_2) / (s16) fade_in_ticks);
+            sprite->unk_0C.at02.v = next_brightness;
+            sprite->unk_0C.at01.v = next_brightness;
+            sprite->unk_0C.at00.v = next_brightness;
+        } else {
+            next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
+            ((S_800B45E0_0 *)effect)->unk_08 = next_phase;
+        }
+        break;
     case 3:
-    hold_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
-    ((S_800B45E0_0 *)effect)->unk_0A = hold_ticks;
-    if ((hold_ticks << 0x10) > 0) {
-        goto update_motion;
-    }
-    update_value = 8;
-    ((S_800B45E0_0 *)effect)->unk_0A = update_value;
-    next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
-advance_phase:
-    ((S_800B45E0_0 *)effect)->unk_08 = next_phase;
-    goto update_motion;
+        hold_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
+        ((S_800B45E0_0 *)effect)->unk_0A = hold_ticks;
+        if ((hold_ticks << 0x10) <= 0) {
+            update_value = 8;
+            ((S_800B45E0_0 *)effect)->unk_0A = update_value;
+            next_phase = (u16) ((S_800B45E0_0 *)effect)->unk_08 + 1;
+            ((S_800B45E0_0 *)effect)->unk_08 = next_phase;
+        }
+        break;
     case 4:
-    fade_out_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
-    ((S_800B45E0_0 *)effect)->unk_0A = fade_out_ticks;
-    if ((s16) fade_out_ticks <= 0) {
-        goto expire;
-    }
-    brightness = sprite->unk_0C.at02.v;
-    next_brightness = brightness + ((s32) (0 - brightness) / (s16) fade_out_ticks);
-    sprite->unk_0C.at02.v = next_brightness;
-    sprite->unk_0C.at01.v = next_brightness;
-    sprite->unk_0C.at00.v = next_brightness;
-    goto update_motion;
-expire:
-    ((S_800B45E0_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B45E0_0_pre *)effect)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
+        fade_out_ticks = ((S_800B45E0_0 *)effect)->unk_0A - 1;
+        ((S_800B45E0_0 *)effect)->unk_0A = fade_out_ticks;
+        if ((s16) fade_out_ticks > 0) {
+            brightness = sprite->unk_0C.at02.v;
+            next_brightness = brightness + ((s32) (0 - brightness) / (s16) fade_out_ticks);
+            sprite->unk_0C.at02.v = next_brightness;
+            sprite->unk_0C.at01.v = next_brightness;
+            sprite->unk_0C.at00.v = next_brightness;
+        } else {
+            ((S_800B45E0_0_pre *)effect)[-1].unk_00 = (u16) (((S_800B45E0_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     case 2:
     default:
-update_motion:
+        break;
+    }
     motion->unk_08.at00.v = (s32) (motion->unk_08.at00.v + motion->unk_14);
     frame = ((S_800B45E0_0 *)effect)->unk_0C + 1;
     ((S_800B45E0_0 *)effect)->unk_0C = frame;
-    if (!(frame & 1)) {
-        goto update_flash;
+    if (frame & 1) {
+        velocity = motion->unk_14;
+        update_value = velocity >> 1;
+        half_speed = velocity >> 0x11;
+        if (half_speed < 0) {
+            half_speed = 0 - half_speed;
+        }
+        motion->unk_14 = update_value;
+        if (half_speed < 2) {
+            rebound_velocity = 0 - ((s32) ((S_800B45E0_0 *)effect)->unk_04.at00.v >> 1);
+            ((S_800B45E0_0 *)effect)->unk_04.at00.v = rebound_velocity;
+            motion->unk_14 = rebound_velocity;
+            rebound_speed = ((S_800B45E0_0 *)effect)->unk_04.at02.v;
+            if (rebound_speed < 0) {
+                rebound_speed = 0 - rebound_speed;
+            }
+            if (rebound_speed < 2) {
+                if (((S_800B45E0_0 *)effect)->unk_08 < 3) {
+                    ((S_800B45E0_0 *)effect)->unk_08 = 3;
+                    ((S_800B45E0_0 *)effect)->unk_0A = 8U;
+                }
+            }
+        }
     }
-    velocity = motion->unk_14;
-    update_value = velocity >> 1;
-    half_speed = velocity >> 0x11;
-    if (half_speed >= 0) {
-        goto apply_decay;
-    }
-    half_speed = 0 - half_speed;
-apply_decay:
-    motion->unk_14 = update_value;
-    if (half_speed >= 2) {
-        goto update_flash;
-    }
-    rebound_velocity = 0 - ((s32) ((S_800B45E0_0 *)effect)->unk_04.at00.v >> 1);
-    ((S_800B45E0_0 *)effect)->unk_04.at00.v = rebound_velocity;
-    motion->unk_14 = rebound_velocity;
-    rebound_speed = ((S_800B45E0_0 *)effect)->unk_04.at02.v;
-    if (rebound_speed >= 0) {
-        goto check_settled;
-    }
-    rebound_speed = 0 - rebound_speed;
-check_settled:
-    if (rebound_speed >= 2) {
-        goto update_flash;
-    }
-    if (((S_800B45E0_0 *)effect)->unk_08 >= 3) {
-        goto update_flash;
-    }
-    ((S_800B45E0_0 *)effect)->unk_08 = 3;
-    ((S_800B45E0_0 *)effect)->unk_0A = 8U;
-update_flash:
-    if (((S_800B45E0_0 *)effect)->unk_0E == 0) {
-        return;
-    }
-    update_value = 0x2CF0F0F0;
-    if (!(((S_800B45E0_0 *)effect)->unk_0C & 3)) {
-        goto apply_flash;
-    }
-    update_value = 0x2C404040;
-apply_flash:
-    sprite->unk_0C.at00u.v = update_value;
-    return;
+    if (((S_800B45E0_0 *)effect)->unk_0E != 0) {
+        update_value = 0x2CF0F0F0;
+        if (((S_800B45E0_0 *)effect)->unk_0C & 3) {
+            update_value = 0x2C404040;
+        }
+        sprite->unk_0C.at00u.v = update_value;
     }
 }

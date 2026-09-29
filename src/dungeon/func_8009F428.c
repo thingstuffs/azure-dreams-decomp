@@ -76,11 +76,9 @@ void func_800A4B88(void *object, s32 action) {
     tile_x = ((S_800A4B88_1 *)position)->unk_24;
     tile_y = ((S_800A4B88_1 *)position)->unk_25;
     clear_mask = 0x3000;
-    if (!(((EntityRec *)object)->flags1C & 0x2000)) {
-        goto block_12;
+    if (((EntityRec *)object)->flags1C & 0x2000) {
+        clear_mask = 0x300;
     }
-    clear_mask = 0x300;
-block_12:
     func_8009A3D0(tile_x, tile_y, clear_mask);
     break;
     case 10:
@@ -88,50 +86,41 @@ block_12:
     tile_x = ((S_800A4B88_1 *)position)->unk_24;
     tile_y = ((S_800A4B88_1 *)position)->unk_25;
     enable_clear_mask = 0x3000;
-    if (!(((EntityRec *)object)->flags1C & 0x2000)) {
-        goto block_15;
+    if (((EntityRec *)object)->flags1C & 0x2000) {
+        enable_clear_mask = 0x300;
     }
-    enable_clear_mask = 0x300;
-block_15:
     func_8009A3D0(tile_x, tile_y, enable_clear_mask);
     updated_flags = ((EntityRec *)object)->flags1C | 0x2000;
     ((EntityRec *)object)->flags1C = updated_flags;
     tile_x = ((S_800A4B88_1 *)position)->unk_24;
     tile_y = ((S_800A4B88_1 *)position)->unk_25;
     set_mask = 0x3000;
-    if (!(updated_flags & 0x2000)) {
-        goto block_20;
+    if (updated_flags & 0x2000) {
+        set_mask = 0x300;
     }
-    set_mask = 0x300;
-    goto block_20;
+    func_8009A21C(tile_x, tile_y, set_mask);
+    break;
     case 11:
     position = ((S_800A4B88_0_pre *)object)[-1].unk_04;
     tile_x = ((S_800A4B88_1 *)position)->unk_24;
     tile_y = ((S_800A4B88_1 *)position)->unk_25;
     disable_clear_mask = 0x3000;
-    if (!(((EntityRec *)object)->flags1C & 0x2000)) {
-        goto block_19;
+    if (((EntityRec *)object)->flags1C & 0x2000) {
+        disable_clear_mask = 0x300;
     }
-    disable_clear_mask = 0x300;
-block_19:
     func_8009A3D0(tile_x, tile_y, disable_clear_mask);
     ((EntityRec *)object)->flags1C = (s32) (((EntityRec *)object)->flags1C & ~0x2000);
     tile_x = ((S_800A4B88_1 *)position)->unk_24;
     tile_y = ((S_800A4B88_1 *)position)->unk_25;
-    do {
-        set_mask = 0x3000;
-    } while (0);
-block_20:
+    set_mask = 0x3000;
     func_8009A21C(tile_x, tile_y, set_mask);
     break;
     case 9:
     func_8003E188(0x2E, 0);
-    if (!(((EntityRec *)object)->flags14 & 0x20000000)) {
-        goto block_23;
+    if (((EntityRec *)object)->flags14 & 0x20000000) {
+        func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04, object);
+        return;
     }
-    func_800ACB98(object, ((S_800A4B88_0_pre *)object)[-1].unk_00, ((S_800A4B88_0_pre *)object)[-1].unk_04, object);
-    return;
-block_23:
     func_800D8590(object);
     if ((*(u8 *)((u8 *)&((EntityRec *)object)->unk_10 + 3)) != 0) {
         break;

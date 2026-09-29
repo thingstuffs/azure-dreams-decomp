@@ -62,23 +62,10 @@ void func_80172478(void *action, void *motion, void *sprite, void *actor)
     DungeonGlobalStatus *global_base;
 
     state = ((S_80172478_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        goto tick;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    goto tick;
-
-state_zero:
+    switch (state) {
+    case 0:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        goto tick;
+        break;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80174160;
     func_80047784(
@@ -91,7 +78,7 @@ state_zero:
     ((S_80172478_0 *)action)->unk_A4 = 0;
     ((S_80172478_0 *)action)->unk_9B++;
 
-state_one:
+    case 1:
     move_ticks = ((S_80172478_0 *)action)->unk_A8.s;
     ((S_80172478_0 *)action)->unk_90 -= ((S_80172478_0 *)action)->unk_A4;
     if (move_ticks != 0) {
@@ -120,15 +107,15 @@ state_one:
     ((S_80172478_0 *)action)->unk_A8.u = next_move_ticks;
     ((S_80172478_0 *)action)->unk_90 = height_offset;
     if ((next_move_ticks << 16) >= 0) {
-        goto tick;
+        break;
     }
 
     ((S_80172478_0 *)action)->unk_90 = 0;
     ((S_80172478_0 *)action)->unk_98 &= 0xFFF7;
     ((S_80172478_2 *)actor)->unk_1C.s |= 0x08000000;
-    goto advance_state;
-
-state_two:
+    ((S_80172478_0 *)action)->unk_9B++;
+    break;
+    case 2:
     if (((S_80172478_2 *)actor)->unk_1C.s & 0x08000000) {
         ((S_80172478_0 *)action)->unk_98 &= 0xFFF7;
         ((EntityRec *)motion)->flags14 = 0;
@@ -141,11 +128,10 @@ state_two:
             D_80174168[((gameWork.view.viewAngle + ((S_80172478_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
 
-advance_state:
         ((S_80172478_0 *)action)->unk_9B++;
     }
-
-tick:
+    break;
+    }
     action_ticks = ((S_80172478_0 *)action)->unk_96 - 1;
     ((S_80172478_0 *)action)->unk_96 = action_ticks;
     if ((action_ticks << 16) > 0) {
