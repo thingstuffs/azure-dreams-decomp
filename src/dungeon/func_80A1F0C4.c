@@ -117,7 +117,6 @@ typedef struct S_801728C4_10 {
 
 
 
-extern void *D_80170858[];
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
 extern u8 D_80174850[];
@@ -140,9 +139,6 @@ extern void func_801740FC(void);
 /* Updates actor action states, movement, and impact effects. */
 void func_801728C4(void *action, void *motion, void *sprite, void *actor)
 {
-    static void *const dispatch_labels[] = {
-        &&jt_1, &&jt_2, &&jt_3, &&jt_4, &&jt_5, &&jt_6, &&jt_7
-    };
     u16 pos[3];
     u16 delta[3];
     s32 state;
@@ -193,21 +189,22 @@ state_0:
     }
     action_kind = ((S_801728C4_1 *)actor)->unk_46 & 0x3FFF;
     dispatch_index = action_kind - 1;
-    if (dispatch_index >= 7) {
+    switch (dispatch_index) {
+    case 6:
+        special_mode = 1;
+    case 2:
+        goto no_3;
+    case 5:
+        special_mode = 1;
+    case 1:
+        goto no_2;
+    case 4:
+        special_mode = 1;
+    case 0:
+        goto no_1;
+    default:
         goto jt_4;
     }
-    (void)dispatch_labels;
-    goto *D_80170858[dispatch_index];
-
-jt_7:
-    special_mode = 1;
-    goto no_3;
-jt_6:
-    special_mode = 1;
-    goto no_2;
-jt_5:
-    special_mode = 1;
-    goto no_1;
 
 no_special:
     normal_action = ((S_801728C4_1 *)actor)->unk_46 & 0x3FFF;
@@ -226,15 +223,12 @@ no_special:
         goto selected;
     }
 no_3:
-jt_3:
     anim = (u8 *)actor + 0xE;
     goto selected;
 no_2:
-jt_2:
     anim = (u8 *)actor + 0xB;
     goto selected;
 no_1:
-jt_1:
     anim = (u8 *)actor + 8;
     goto selected;
 jt_4:
