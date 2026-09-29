@@ -205,9 +205,10 @@ def pin_keys(text):
 
 
 def goto_count(text):
-    """Plain `goto label;` statements outside comments (a computed `goto *p` is not counted)."""
+    """`goto` statements outside comments: plain `goto label;` AND computed `goto *table[i];` (round 80: an
+    honest `switch` in place of a computed-goto dispatch is a readability win the gate must see)."""
     t = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
-    return len(re.findall(r"\bgoto\s+\w+\s*;", t))
+    return len(re.findall(r"\bgoto\s+\w+\s*;", t)) + len(re.findall(r"\bgoto\s*\*", t))
 
 
 def admissible(base, cand):

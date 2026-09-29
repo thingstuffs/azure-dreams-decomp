@@ -82,7 +82,7 @@ sys.path.insert(0, "tools")
 from pin_census import sites_of
 stage, lanes = sys.argv[1], sys.argv[2:]
 bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
-gotos = lambda t: len(re.findall(r"\bgoto\s+\w+\s*;", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
+gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.findall(r"\bgoto\s*\*", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 for lane in lanes:
     for f in sorted(glob.glob("work/native_lane/%s/out/*/*.c" % lane)):
