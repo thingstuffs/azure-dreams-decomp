@@ -45,11 +45,6 @@ void func_80043EB8(void)
     s32 saved_value;
     u32 skip_vsync;
     u32 vsync_mode;
-#ifdef NON_MATCHING
-    u8 *state_base;
-#else
-    register u8 *state_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#endif
 
     PutDispEnv(((u8 *) D_80083160[0]) + 0x5C);
     PutDrawEnv(D_80083160[0]);
@@ -57,12 +52,7 @@ void func_80043EB8(void)
     func_8003E758();
     func_800542BC();
     saved_value = D_8008148C.field_0;
-#ifdef NON_MATCHING
-    state_base = (u8 *)&D_80081480 - 0x1480;
-#else
-    state_base = (u8 *)0x80080000;
-#endif
-    *(s32 *)(state_base + 0x1480) = saved_value;
+    *(s32 *)0x80081480 = saved_value;
     func_800411AC();
     func_8003E2D8();
     next_buffer = D_801C9E40;

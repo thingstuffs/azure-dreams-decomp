@@ -39,7 +39,6 @@ typedef struct S_800BC3E4_5 {
     void * unk_8D0;
 } S_800BC3E4_5;   /* ((S_800BC3E4_4 *)state)->unk_00 in func_800BC3E4 */
 
-
 extern s32 func_80045310(void *);
 extern void func_800BC4D4(void *, void *, s16, s32);
 extern s16 func_800BCB04(u16, u16, s16);
@@ -49,7 +48,7 @@ s32 func_800BC3E4(void *start_node) {
     void *node = start_node;
     GameWork *state = &gameWork;
     u16 *scratch = (u16 *)0x1F800000;
-    register void *previous ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *previous;
 
     scratch[0x80] = -((u16)state->view.unk_0AC);
     scratch[0x81] = -((u16)state->view.unk_0AE);
@@ -68,10 +67,10 @@ s32 func_800BC3E4(void *start_node) {
             }
         }
         previous = ((S_800BC3E4_0_pre *)node)[-1].unk_00;
-        node = (u8 *)previous + 0x20;
         if (previous == 0) {
             break;
         }
+        node = (u8 *)previous + 0x20;
     }
     return 0;
 }

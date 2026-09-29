@@ -2,7 +2,6 @@
 
 #include "common.h"
 
-
 typedef struct S_800477F4_Sub {
     u16 f0;
     s16 typeB;
@@ -33,7 +32,7 @@ void func_800477F4(S_800477F4_Actor *actor)
 {
     u16 old_flags;
     s32 flags;
-    S_800477F4_Node *node;
+    void *node;
     S_800477F4_Sub *step;
 
     old_flags = actor->flags;
@@ -51,12 +50,13 @@ void func_800477F4(S_800477F4_Actor *actor)
     }
 
     node = (S_800477F4_Node *)actor->cur;
-    step = &node->step;
-    if (node->typeA == 0) {
+
+    if (((S_800477F4_Node *)node)->typeA == 0) {
         goto store_flags;
     }
-    ASM_KEEP(node);
 
+    node = (u8 *)node + 8;
+    step = (S_800477F4_Sub *)node;
     {
         s16 step_type = *(s16 *)((char *)step + 2);
         if (step_type == 0) {
