@@ -24,6 +24,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `checks.py` | the four proof checks (sole-ready, launched group, known-constant base, barrier): a verdict per residue insn |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
+| `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py` | plumbing; you never call these |
 
@@ -140,6 +141,14 @@ variable, refs, live length, calls crossed, `floor_log2(refs)`, the priority
 (`floor_log2(refs) * refs / live * 10000`, `alloc_sim.priority`), the rank that priority alone gives
 (`!` where the dump's own order differs) and the hard register got (`--all` adds the local-allocation
 pseudos). It is `r80_cell_c1b/prio.py`; `why.py --pass greg` is the two-text comparison.
+
+**`regcmp.py <row> cand.c [--ref ref.c] [--cfg CFG]`** is a progress measure for big register rows, where the
+listing distance moves in dozens of lines per allocno: it compiles the candidate and the reference (default the
+row's src text), takes `prio.py`'s table and prints every C variable that got a different hard register
+(`name: was -> now (refs/live=priority)`) and the count; unnamed temporaries are ignored. **`--subsets`** erases
+every subset of the candidate's live pins (`kitlib.sites` / `kitlib.erase`, as `erase.py`; refuses above
+`--max-pins`, default 8) and ranks them by that count, writing the texts to `regcmp/`. It is
+`r80_opus_r2`'s `pcmp.py` + `combo.py`.
 
 `diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
 then the distance line; without `--score` it writes nothing. `dump.py` is `kitlib.dumps` (the compile

@@ -22,6 +22,7 @@ import diff as D                                                          # noqa
 import dump as DP                                                         # noqa: E402
 import erase as ER                                                        # noqa: E402
 import prio as PR                                                         # noqa: E402
+import regcmp as RC                                                       # noqa: E402
 
 ROW = {"id": "dungeon/func_80000000", "func": "func_80000000", "container": "dungeon",
        "c_path": "src/dungeon/func_80000000.c", "cfg": "2.7.2-G0", "cell": "2.7.2",
@@ -394,6 +395,47 @@ class TestPrio(unittest.TestCase):
         self.assertEqual([r[1] for r in rows], [99, 89, 100])
         self.assertEqual(rows[0][8], "1!")                  # dump ranks 99 first, the formula says 89
         self.assertEqual((rows[2][0], rows[2][8]), ("-", "-"))
+
+
+class TestRegcmp(unittest.TestCase):
+    def tab(self, greg):
+        return RC.reg_table(PR.priority_rows(LREG, greg, {89: "linked_body", 99: "cursor"}))
+
+    def test_table_keeps_only_named_variables(self):
+        t = self.tab(GREG)
+        self.assertEqual(sorted(t), ["cursor", "linked_body"])
+        self.assertEqual(t["linked_body"], (6, 3, 40000, "$v0"))
+        rows = PR.priority_rows(LREG, GREG, {89: "linked_body"})
+        self.assertEqual(sorted(RC.reg_table(rows)), ["linked_body"])      # pseudo 99 has no name
+
+    def test_mismatches_count_only_shared_names_with_a_new_register(self):
+        ref = self.tab(GREG)
+        cand = self.tab(GREG.replace("89 in 2", "89 in 3"))
+        cand["only_here"] = (1, 1, 1, "$s0")
+        bad = RC.mismatches(ref, cand)
+        self.assertEqual([m[:3] for m in bad], [("linked_body", "$v0", "$v1")])
+        self.assertEqual(RC.fmt_mismatch(bad[0]), "linked_body: $v0 -> $v1 (6/3=40000)")
+        self.assertEqual(RC.mismatches(ref, ref), [])
+
+    def test_subsets_smallest_first_and_ranking(self):
+        s = RC.subset_indices(3)
+        self.assertEqual(len(s), 8)
+        self.assertEqual((s[0], s[1], s[-1]), ((), (0,), (0, 1, 2)))
+        res = [(2, 1, (0,), []), (0, 2, (0, 1), []), (0, 1, (1,), []), (RC.NO_BUILD, 0, (), None)]
+        self.assertEqual([r[2] for r in RC.rank_subsets(res)], [(1,), (0, 1), (0,), ()])
+
+    def test_subsets_refused_above_max_pins(self):
+        many = [("stmt", "ASM_KEEP", "v%d" % i) for i in range(4)]
+        with mock.patch.object(kitlib, "bootstrap", return_value=Path(tempfile.gettempdir())), \
+                mock.patch.object(kitlib, "row_of", return_value=ROW), \
+                mock.patch.object(kitlib, "base_text", return_value=FREE), \
+                mock.patch.object(RC, "table_of", return_value={}), \
+                mock.patch.object(kitlib, "sites", return_value=many), \
+                tempfile.TemporaryDirectory() as d:
+            c = Path(d) / "c.c"
+            c.write_text(PINNED)
+            with self.assertRaises(SystemExit):
+                RC.main(["dungeon/func_80000000", str(c), "--subsets", "--max-pins", "3"])
 
 
 class TestEraseCfg(unittest.TestCase):
