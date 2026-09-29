@@ -26,59 +26,41 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
     result = func_800ADDA0(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     result <<= 0x10;
     state_type = result >> 0x10;
-    {
-        result = 0;
-        if (state_type < 0) {
-            goto done;
-        }
+    result = 0;
+    if (state_type >= 0) {
         if ((force_state << 0x10) != 0) {
             func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
-            goto call_state_done;
+            result = 0;
+            return result;
         }
-        if (state_type == 1) {
-            goto type_one;
-        }
-        if (state_type < 2) {
-            if (state_type == 0) {
-                goto type_zero;
+        switch (state_type) {
+        case 0:
+            ((S_80172628_0 *)entity)->unk_9A = 0xE;
+            func_800A9A0C(entity);
+            result = 0;
+            return result;
+        case 2:
+            func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
+            result = 0;
+            return result;
+        case 1:
+            ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
+            if ((func_800A2BDC(entity) << 0x10) != 0) {
+                break;
             }
-            goto reset_state;
+            /* fall through */
+        default:
+            ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
+            if ((dungeonStatus.flags & 8) == 0) {
+                result = 1;
+                return result;
+            }
+            break;
         }
-        if (state_type == 2) {
-            goto call_state;
-        }
-        goto reset_state;
-
-    type_zero:
-        ((S_80172628_0 *)entity)->unk_9A = 0xE;
-        func_800A9A0C(entity);
-        result = 0;
-        return result;
-
-    call_state:
-        func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
-        call_state_done:
-        ;
-        result = 0;
-        goto done;
-
-    type_one:
-        ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((func_800A2BDC(entity) << 0x10) != 0) {
-            goto clear_state;
-        }
-    reset_state:
-        ((S_80172628_0 *)entity)->unk_71 = (u8) (((S_80172628_0 *)entity)->unk_71 & 0x7F);
-        if ((dungeonStatus.flags & 8) == 0) {
-            result = 1;
-            goto done;
-        }
-    clear_state:
         result = 0;
         ((S_80172628_0 *)entity)->unk_46 = (u16) (((S_80172628_0 *)entity)->unk_46 & 0x7FFF);
-    done:
-        return result;
     }
+    return result;
 }
 
 /* MECHANISM: The 0x80172714/0x8017274c words are true-space local joins,

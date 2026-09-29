@@ -149,29 +149,27 @@ void func_8001E18C(void)
     item_record = (DungeonRecord *)D_800E36C8;
 main_loop:
     if (item_state->active == 0) {
-            if (count >= slot_limit) {
-                goto cleanup;
+        if (count >= slot_limit) {
+            goto cleanup;
+        }
+
+        if ((s16)func_8001E660(&item_category, &item_subtype, 0, 0) == 0) {
+            if (item_category == 0) {
+                goto next_entry;
             }
 
-            if ((s16)func_8001E660(&item_category, &item_subtype, 0, 0) == 0) {
-                if (item_category == 0) {
-                    goto next_entry;
-                }
+            special_flag = crystal_pending;
+            if (special_flag != 0) {
+                s32 page_value;
 
-                special_flag = crystal_pending;
-                if (special_flag != 0) {
-                    s32 page_value;
-
-                    page_value = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
-                    item_subtype = page_value;
-                    crystal_pending = 0;
-                    page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
-                    item_category = 2;
-                    page_value &= 0xF;
-                    *(u16 *)(((u8 *)spawn_check) + 0x209E) = page_value;
-                    goto commit_state;
-                }
-
+                page_value = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
+                item_subtype = page_value;
+                crystal_pending = 0;
+                page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
+                item_category = 2;
+                page_value &= 0xF;
+                *(u16 *)(((u8 *)spawn_check) + 0x209E) = page_value;
+            } else {
                 special_flag = category18_pending;
                 if (special_flag != 0) {
                     u32 item_flags;
@@ -188,35 +186,33 @@ main_loop:
                     *(u16 *)(((u8 *)spawn_check) + 0x3626) &= 0x3F;
                 }
             }
-
-commit_state:
-            item_state->active = item_category;
-            item_state->kind = item_subtype;
-            func_8001E824(item_state);
-
-            do {
-            } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
-
-            if (func_8001E110(count, tile_x, tile_y) != 0) {
-                item_state->active = 0;
-                goto next_entry;
-            }
-
-            item_record->x = tile_x;
-            item_record->y = tile_y;
-            goto place_record;
         }
 
+        item_state->active = item_category;
+        item_state->kind = item_subtype;
+        func_8001E824(item_state);
+
+        do {
+        } while ((s16)func_800A4E2C(&tile_x, &tile_y) < 0);
+
+        if (func_8001E110(count, tile_x, tile_y) != 0) {
+            item_state->active = 0;
+            goto next_entry;
+        }
+
+        item_record->x = tile_x;
+        item_record->y = tile_y;
+    } else {
         tile_x = item_record->x;
         tile_y = item_record->y;
         func_8001E824(item_state);
+    }
 
-place_record:
-        item_record->field4 = func_800BCA68((tile_x << 6) | 0x20,
-                                       (tile_y << 6) | 0x20);
-        item_record->field7 = 0;
-        func_8009A21C(tile_x, tile_y, 0x800);
-        item_record->field8 = func_800A7A38(item_state);
+    item_record->field4 = func_800BCA68((tile_x << 6) | 0x20,
+                                        (tile_y << 6) | 0x20);
+    item_record->field7 = 0;
+    func_8009A21C(tile_x, tile_y, 0x800);
+    item_record->field8 = func_800A7A38(item_state);
 
 next_entry:
     item_state++;

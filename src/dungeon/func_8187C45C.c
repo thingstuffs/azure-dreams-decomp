@@ -81,7 +81,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *spawn_sprite;
     void *target;
     register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 next_state;
     u16 render_flags;
     s32 trail_color;
     s32 state_index;
@@ -480,13 +480,16 @@ finish_fade:
 
     offset_value = PTR(owner, 0x60);
     target_data = PTR(offset_value, -0x14);
-    U32(offset_value, 0x1C) &= 0xEFFFFFFF;
+    table_value = (void **)(u32)U32(offset_value, 0x1C);
+    table_value = (void **)((u32)table_value & 0xEFFFFFFF);
+    U32(offset_value, 0x1C) = (u32)table_value;
     U8(target_data, 0xE) = 0x80;
     U8(target_data, 0xD) = 0x80;
     U8(target_data, 0xC) = 0x80;
     func_800240B8(PTR(owner, 0x60), U8(effect, 9), owner);
     next_state = U16(effect, 0xA);
-    U16(effect, 0x82) = 0x14;
+    offset_value = (void *)0x14;
+    U16(effect, 0x82) = (u32)offset_value;
 
 advance_state:
     U16(effect, 0xA) = next_state + 1;

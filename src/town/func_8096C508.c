@@ -136,10 +136,7 @@ check_five:
 
     input_flags = ((u32)input_state->buttons);
     if (input_flags & 0x1000) {
-        if (object->field_F == 3) {
-            goto reset_four;
-        }
-        {
+        if (object->field_F != 3) {
             u32 selection_value;
             s32 previous_selection;
 
@@ -152,51 +149,45 @@ check_five:
             object->field_6 = 4;
             (*(u8 *)&object->field_11) &= 7;
             object->field_12 = previous_selection;
+            if ((*(u8 *)&object->field_11) != 7) {
+                object->field_A = 2;
+                return;
+            }
+            side_value = object->field_10;
+            object->field_A = 3;
+            object->field_10 = side_value ^ 1;
+            return;
         }
-        if ((*(u8 *)&object->field_11) != 7) {
-            goto set_two;
+    } else {
+        if (!(input_flags & 0x4000)) {
+            return;
         }
-        side_value = object->field_10;
-        object->field_A = 3;
-        object->field_10 = side_value ^ 1;
-        goto toggle_done;
-    }
-    if (!(input_flags & 0x4000)) {
-        return;
-    }
-    {
-        u32 selection_value;
-        s32 previous_selection;
-
         input_flags = 1;
-        if (object->field_F == 3) {
-            goto reset_four;
-        }
-        selection_value = object->field_11;
-        previous_selection = selection_value;
-        selection_value += 1;
+        if (object->field_F != 3) {
+            u32 selection_value;
+            s32 previous_selection;
+
+            selection_value = object->field_11;
+            previous_selection = selection_value;
+            selection_value += 1;
             *(volatile u8 *)&object->field_11 = selection_value;
-        object->field_4 = input_flags;
-        (*(u8 *)&object->field_11) &= 7;
-        object->field_12 = previous_selection;
+            object->field_4 = input_flags;
+            (*(u8 *)&object->field_11) &= 7;
+            object->field_12 = previous_selection;
+            object->field_6 = 4;
+            if ((*(u8 *)&object->field_11) == 0) {
+                side_value = object->field_10;
+                object->field_A = 3;
+                object->field_10 = side_value ^ 1;
+                return;
+            }
+            object->field_A = 2;
+            return;
+        }
     }
-    object->field_6 = 4;
-    if ((*(u8 *)&object->field_11) == 0) {
-        side_value = object->field_10;
-        object->field_A = 3;
-        object->field_10 = side_value ^ 1;
-        goto toggle_done;
-    }
-set_two:
-    object->field_A = 2;
-    return;
-reset_four:
     side_value = 1;
     object->field_4 = side_value;
     object->field_6 = 4;
     object->field_A = 4;
     object->field_10 = object->field_10 ^ 1;
-    toggle_done:
-    ;
-    return;
 }

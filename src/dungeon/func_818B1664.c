@@ -118,13 +118,13 @@ extern void func_80024050(void *, u8);
 void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
 {
     WorkFrame work;
-    s16 saved_y;
+    u16 saved_y;
     DrawInfo *draw = draw_info;
     Entity *entity;
-    register EntityHeader *header ASM_REG("$17");
+    EntityHeader *header;
     s32 dispatch_state;
     s32 direction;
-    register s32 color ASM_REG("$3");
+    s32 color;
     u16 source_z;
     TargetInfo *target_info;
     Motion *step_x;
@@ -132,12 +132,11 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     u8 *angle_clear;
     u8 *angle_build;
     u8 *effect_clear;
-    register Effect **effect_create ASM_REG("$18");
+    Effect **effect_create;
     Effect **effect_grow;
     Effect **effect_shrink;
     Effect **effect_cleanup;
     s32 index;
-    s32 child_delta;
     s32 next_state;
     s32 angle;
     s32 effect_angle;
@@ -147,23 +146,14 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s16 *target_cursor;
     s16 *distance_cursor;
     s32 target_x;
-    register s32 target_y ASM_REG("$4");
-    s32 target_z;
+    s32 target_y;
     u16 angle_raw;
     s32 angle_signed;
     s32 angle_adjusted;
     u16 lowered_z;
-    s32 direction_index;
-    s32 axis_step;
-    register s32 table_addr ASM_REG("$8");
-    s32 table_offset;
-    s32 update_offset;
     s16 *step_y;
-    u16 *update_x;
     s32 target;
-    u16 next_y;
-    u32 table_page;
-    register s32 tile_x ASM_REG("$20");
+    u16 tile_x;
     u16 tile_y;
     s16 grid_x;
     s16 grid_y;
@@ -265,29 +255,15 @@ case_0:
         cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
 
         color = motion_arg->x.half.hi;
-        child_delta = ((Motion *)cleanup_base)->x.half.hi;
-        child_delta -= color;
-        child_delta = abs(child_delta);
-        work.distance[0] = child_delta;
-
-        child_delta = ((Motion *)cleanup_base)->y.half.hi;
-        color = motion_arg->y.half.hi;
-        child_delta -= color;
-        child_delta = abs(child_delta);
-        work.distance[1] = child_delta;
-
+        work.distance[0] = abs(((Motion *)cleanup_base)->x.half.hi - color);
+        work.distance[1] = abs(((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
         if (entity->child->flags & 0x40000) {
-            color = motion_arg->z.half.hi - 16;
-            child_delta = ((Motion *)cleanup_base)->z.half.hi;
-            child_delta -= color;
-        } else {
-            child_delta = ((Motion *)cleanup_base)->z.half.hi;
             color = motion_arg->z.half.hi;
-            child_delta -= color;
+            color -= 16;
+            work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - color);
+        } else {
+            work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
         }
-        child_delta = abs(child_delta);
-        work.distance[2] = child_delta;
-        ASM_SCHED_BARRIER();
         index = 1;
 
         state_arg->duration = work.distance[0];
@@ -309,12 +285,10 @@ case_0:
         motion_arg->dy.half.hi =
             (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
         if (entity->child->flags & 0x40000) {
-            s32 child_delta;
-            color = motion_arg->z.half.hi;
-            child_delta = ((Motion *)cleanup_base)->z.half.hi;
-            color -= 16;
-            child_delta -= color;
-            motion_arg->dz.half.hi = child_delta / state_arg->duration;
+            s32 coord;
+            coord = motion_arg->z.half.hi - 16;
+            motion_arg->dz.half.hi =
+                (((Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
         } else {
             motion_arg->dz.half.hi =
                 (((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
@@ -328,9 +302,7 @@ case_0:
         TargetInfo *tile_info;
 
         tile_info = header->info;
-        table_page = 0x80070000;
         tile_x = tile_info->tileX;
-        ASM_KEEP(table_page);
         tile_y = tile_info->tileY;
     }
     final_x = tile_x;
@@ -347,86 +319,38 @@ case_0:
         if ((s16)collision_result != 0) {
             break;
         }
-
-        table_addr = (s32)dirStepX;
-        table_offset = (s16)state_arg->direction;
+        step_x = (Motion *)&dirStepX[state_arg->direction];
         target = (u16)entity->height;
-        table_offset *= 2;
-        step_x = (Motion *)((s16 *)(table_offset + table_addr));
         target -= 32;
         target = (u32)target << 16;
         target >>= 16;
-        table_addr = (s32)dirStepY;
-        step_y = (s16 *)(table_offset + table_addr);
-        ASM_KEEP(step_y);
+        step_y = &dirStepY[state_arg->direction];
         terrain_height = func_800BCB04(
-            ((grid_x + *((s16 *)step_x)) << 6) + 32 & 0xFFE0,
+            ((grid_x + *(s16 *)step_x) << 6) + 32 & 0xFFE0,
             ((grid_y + *step_y) << 6) + 32 & 0xFFE0,
             target);
         if ((s16)terrain_height >= 513 ||
             (s16)(terrain_height - entity->height) < -63) {
             break;
         }
-
-        table_addr = (s32)dirStepY - 0x10;
-        update_offset = (s16)state_arg->direction;
         index++;
-        update_offset *= 2;
-        update_x = (u16 *)(update_offset + table_addr);
-        table_addr = (s32)dirStepX + 0x10;
-        color = (s32)((s16 *)((u16 *)(update_offset + table_addr)));
-        ASM_KEEP(color);
-        target_y = tile_x + *update_x;
-        tile_x = target_y;
-        next_y = tile_y + *(u16 *)(s16 *)color;
-        tile_y = next_y;
-        saved_y = next_y;
-        final_x = target_y;
+        tile_x += dirStepX[state_arg->direction];
+        tile_y += dirStepY[state_arg->direction];
+        saved_y = tile_y;
+        final_x = tile_x;
     }
 
     target = (s32)(&work.target);
     index = 1;
-    target_x = (u32)final_x << 16;
-    color = (s32)(dirStepX);
-    target_x = (s32)target_x >> 10;
-    direction_index = (s16)state_arg->direction;
     target_cursor = &work.target.x.half.hi;
-    axis_step = ((s16 *)color)[direction_index];
-    color = (s32)(dirStepY);
-    target_x = target_x + ((axis_step + 1) << 5);
-    (*(s16 *)((u8 *)((Motion *)target) + 2)) = target_x;
-    target_x = (u32)target_x << 16;
-    target_x >>= 16;
-    table_addr = *(u16 *)&saved_y;
-    direction_index = (s16)state_arg->direction;
-    target_y = (u32)(u16)table_addr << 16;
-    axis_step = ((s16 *)color)[direction_index];
-    target_y = (s32)target_y >> 10;
-    target_y += (axis_step + 1) << 5;
+    target_x = ((final_x << 16) >> 10) + ((dirStepX[state_arg->direction] + 1) << 5);
+    ((Motion *)target)->x.half.hi = target_x;
+    target_y = ((saved_y << 16) >> 10) + ((dirStepY[state_arg->direction] + 1) << 5);
     ((Motion *)target)->y.half.hi = target_y;
-    target_y = (u32)target_y << 16;
-    target_z = (u16)motion_arg->z.half.hi + 32;
-    ((Motion *)target)->z.half.hi = target_z;
-
-    {
-        s32 source_coord;
-
-        source_coord = motion_arg->x.half.hi;
-        target_y = (s32)target_y >> 16;
-        work.distance[0] = abs(target_x - source_coord);
-
-        source_coord = motion_arg->y.half.hi;
-        target_z = (u32)target_z << 16;
-        target_y -= source_coord;
-        target_y = abs(target_y);
-        work.distance[1] = target_y;
-
-        source_coord = motion_arg->z.half.hi;
-        target_z = (s32)target_z >> 16;
-        target_z -= source_coord;
-        target_z = abs(target_z);
-        work.distance[2] = target_z;
-    }
+    ((Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
+    work.distance[0] = abs(((Motion *)target)->x.half.hi - motion_arg->x.half.hi);
+    work.distance[1] = abs(((Motion *)target)->y.half.hi - motion_arg->y.half.hi);
+    work.distance[2] = abs(((Motion *)target)->z.half.hi - motion_arg->z.half.hi);
 
     state_arg->duration = work.distance[0];
     do {
