@@ -130,13 +130,17 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         value = st->kind;
         if (value == 0) {
             act->height += 5;
+            st->field1D = 0;
+            st->state = 2;
         } else if (value == 1) {
             act->height -= 5;
+            st->field1D = 0;
+            st->state = 2;
+        } else {
+            st->field1D = 0;
+            st->state = 2;
         }
-        st->field1D = 0;
-        st->state = 2;
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_8003EA54(act);
         mot->x += mot->dx;
         mot->y += mot->dy;

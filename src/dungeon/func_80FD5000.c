@@ -214,12 +214,13 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         actor->unk_AE = appearance_id;
 
         entry = (S_80FD5000_4 *)monster->unk_08;
-scan_entry:
-        twice_index = entry_index << 1;
-        if (entry->unk_00 & 0x20) {
+        while (1) {
+            twice_index = entry_index << 1;
+            if (!(entry->unk_00 & 0x20)) {
+                break;
+            }
             entry = (S_80FD5000_4 *)((u8 *)entry + 12);
             entry_index++;
-            goto scan_entry;
         }
 
         palette_rect = &palette_strip;

@@ -33,13 +33,8 @@ void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
     linked_data = ((S_8182718C_0 *)state_data)->unk_00;
     linked_data->unk_52 = (s16) (linked_data->unk_52 | 0x8000);
     state = ((S_8182718C_0 *)state_data)->unk_4C.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto one_state;
-        }
-        return;
-    }
-    {
+    switch (state) {
+    case 0: {
         u16 old_state;
         u16 interval;
 
@@ -52,11 +47,9 @@ void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
             ((S_8182718C_0 *)state_data)->unk_48 = interval;
             ((S_8182718C_0 *)state_data)->unk_4C.u = (u16) (old_state + 1);
         }
-        return;
+        break;
     }
-
-one_state:
-    {
+    case 1: {
         timer = ((S_8182718C_0 *)state_data)->unk_48;
         ((S_8182718C_0 *)state_data)->unk_48 = (u16) (timer - 1);
         if ((timer << 0x10) <= 0) {
@@ -67,5 +60,7 @@ one_state:
             ((S_8182718C_0_pre *)state_data)[-1].unk_00 = (u16) (((S_8182718C_0_pre *)state_data)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
         }
+        break;
+    }
     }
 }

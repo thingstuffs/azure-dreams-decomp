@@ -35,38 +35,34 @@ void func_81845484(void *effect, VecState *motion, void *sprite) {
     motion->z += motion->vz;
 
     state = *(s16 *)((s8 *)effect + 0x4C);
-    if (state != 0) {
-        if (state == 1) {
-            goto fade_sprite;
+    switch (state) {
+    case 0:
+        timer = *(u16 *)((s8 *)effect + 0x48) - 1;
+        *(u16 *)((s8 *)effect + 0x48) = timer;
+        if ((s16)timer <= 0) {
+            func_8004491C((s8 *)effect - 0x20, func_80045340);
+            *(u16 *)((s8 *)effect + 0x4C) += 1;
         }
-        return;
-    }
+        break;
 
-    timer = *(u16 *)((s8 *)effect + 0x48) - 1;
-    *(u16 *)((s8 *)effect + 0x48) = timer;
-    if ((s16)timer <= 0) {
-        func_8004491C((s8 *)effect - 0x20, func_80045340);
-        *(u16 *)((s8 *)effect + 0x4C) += 1;
-        return;
-    }
-    return;
-
-fade_sprite:
-    func_800478B8(sprite);
-    if (*(u16 *)((s8 *)sprite + 0x14) & 0x6000) {
-        *(s8 *)((s8 *)sprite + 4) = 0;
-        *(s8 *)((s8 *)sprite + 5) = 0;
-    }
-    if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
-        *(u32 *)((s8 *)sprite + 0xC) = 0;
-        *(u16 *)((s8 *)effect - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
-    {
-        u8 brightness = *(u8 *)((s8 *)sprite + 0xE) - *(u8 *)((s8 *)effect + 0x4A);
-        *(u8 *)((s8 *)sprite + 0xE) = brightness;
-        *(u8 *)((s8 *)sprite + 0xD) = brightness;
-        *(u8 *)((s8 *)sprite + 0xC) = brightness;
+    case 1:
+        func_800478B8(sprite);
+        if (*(u16 *)((s8 *)sprite + 0x14) & 0x6000) {
+            *(s8 *)((s8 *)sprite + 4) = 0;
+            *(s8 *)((s8 *)sprite + 5) = 0;
+        }
+        if (*(u8 *)((s8 *)sprite + 0xC) <= *(s16 *)((s8 *)effect + 0x4A)) {
+            *(u32 *)((s8 *)sprite + 0xC) = 0;
+            *(u16 *)((s8 *)effect - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+        {
+            u8 brightness = *(u8 *)((s8 *)sprite + 0xE) - *(u8 *)((s8 *)effect + 0x4A);
+            *(u8 *)((s8 *)sprite + 0xE) = brightness;
+            *(u8 *)((s8 *)sprite + 0xD) = brightness;
+            *(u8 *)((s8 *)sprite + 0xC) = brightness;
+        }
+        break;
     }
 }
