@@ -1,31 +1,31 @@
-# Handover (2026-09-29, round 80: Sonnet 5.5 live, goto readability campaign, phase 11) - start here
+# Handover (2026-09-29, round 80: Sonnet 5.5, goto/switch readability, cell moves, phase 11) - start here
 
-**State.** 2,762 / 735 at pickup -> **2,754 / 734** landed (86ed9a80), plus ~100 pins STAGED in finished Opus lanes and
-~60 goto lanes waiting for the lander (land_finished2.sh, pid 536862 from the r79 session, lands `r7[0-9]_*` lanes every
-15 min; name new lanes r79_*). Record: [r80 wave record](evidence/r80_wave_report.md). Type consolidation phase 11
-landed (a70acf15: 430 EntityRec params, include/shared/town_root.h).
+**State.** 2,762 / 735 at pickup (f5c32120) -> **2,493 / 696** committed. Plain gotos ~8,157 -> 6,780; computed-goto
+files 315 -> 190. Record: [r80 wave record](evidence/r80_wave_report.md). Everything landed is committed; nothing staged
+is pending except lanes still running at hand-over (check `ls work/native_lane/r80_*` for out/ without a commit).
 
-**Routing (owner 09-29, measured this round).** Agent `sonnet` = claude-sonnet-5-5. Sonnet = readability/cleanup lanes
-(goto lanes: ~7 gotos per 10k tokens, densest-first packs ~100 gotos/lane, ~100k tokens) and bounded tooling (built
-clone_transfer --metric gotos in a worktree, 76k tokens). Sonnet pin lanes paid 1.5 pins/lane (< Opus 2.8): pins stay
-Opus. Opus fresh/family/big-row lanes paid 88+ pins this round (families with an exemplar pay best: byte sign-extension
-39 pins in 2 lanes). Fable: last resort, candidate dungeon/func_800AFA68 (total 2 at 12/20 pins after two Opus lanes).
+**What paid (in order):** (1) fidelity step-4 CELL MOVES - rows registered at a non-splitting cell whose retail shows
+split addresses (docs/evidence/fidelity_step2_split_fingerprint.md) solved AT the retail-proven cell by Opus lanes
+r80_cell_c* (brief paragraph cell_move.md, staging out/ + cells.jsonl, lander tools/fidelity/land_recipe_move.py):
+~120 pins on ~35 rows, SLUS included (slus_iso). (2) Opus fresh/family lanes (byte sign-extension family 39 pins in 2
+lanes). (3) Sonnet 5.5 goto lanes (build_goto_lane.py --densest; ~100 gotos/lane) + CPU generators t122/t123 + clone
+replay (clone_transfer --metric gotos). (4) Sonnet 5.5 SWITCH lanes: computed-goto dispatch -> real switch
+(build_switch_lanes.py --pool; lanes named r80_*; land ONLY with tools/lanes/switch_land_lanes.sh - some deep/truebase
+window builds discard the compiler's .rodata jump table, the wrapper reverts exactly those rows and re-gates).
 
-**Goto campaign.** Generators t122_gotowhile / t123_returntail (449 rows landed). Sonnet lanes via
-`python3 tools/lanes/build_goto_lane.py <lane> --pick 8 --densest --busy <files>` (brief: tools/lanes/goto_lane_brief.md
-with every coordinator ruling: no dummy cases, no labels moved into blocks, copies <= ~6 lines only instead of a goto
-into a block). Lander + kitlib accept equal-pin candidates with fewer gotos. Clone replay:
-`clone_transfer.py --metric gotos --lanes-glob 'r79_sonnet_g*'` (63 rows staged in r79_clone_goto). Remaining pool:
-~400 pin-free rows / ~2,000 gotos + 48 big files; goto loops mostly stay (loop.c evidence, recorded per row).
+**Routing (owner 09-29):** Sonnet 5.5 for readability + bounded tooling (worktree); Opus for pins; Fable only as a
+last resort (r80_fable_n1 proved two near-misses unreachable by statement order - see its REPORT). Harvest every
+escalation lane (tools it wrote, method, ask for a retrospective) - memory feedback-harvest-lane-logs-20260929.
 
-**Rules learned (do these):** commit sweep results BEFORE a landing starts (the lander's cascade runs over `git diff`);
-a type phase apply stales goto candidates on its rows (46 conflicted -> port lanes r79_sonnet_p1-p6 with prior/);
-review Sonnet candidates for compiler-steering spellings (the brief lists the rejected ones).
+**New tools this round:** kit gate/lander accept equal-pin fewer-goto (incl. computed) candidates; lanekit --base,
+--cfg on diff/why/erase, diff --scorer [--norm-regs|--classify], lab stage-cell, prio.py, why --trace/--insn/--deps,
+checks.py (four proof checks); brief rule TRACE BEFORE YOU SWEEP (duck_pack_brief_v2.md).
 
-**Open question (next).** Cell audit: 47 non-cdk pinned dungeon rows carry the heaviest pins (2.7.2-G0: 29 rows / 161
-pins incl. 818D4E68 37, 819B3414 34, 818CFB74 29). Opus lanes bo1/b6 saw split-address signatures only cdk makes. Round
-56 rule: cdk always splits, FSF never; a retail `$at` expansion rules cdk out (merged TUs). Run that discriminator
-before any cell-move lane; moves are recipe trades (ledger/recipe_trades.jsonl, CELLS= on the lander).
+**Next:** remaining switch pool (~40 pin-free 2.6.3/2.7.x rows; 2.8.x rows need `-mno-split-addresses`, a cell
+change); pinned computed-goto rows via Opus; goto pool (~400 rows, --densest); switch rows reverted for discarded
+.rodata (list in the switch lane commits) could keep their pin removals without the switch (81978140/81978428 2 pins
+each); open near-misses 819B3414 / 800AFA68 / 800C4A80 (0 pins at total 7 at cdk). The r79 lander
+(land_finished2.sh, pid 536862) still lands r7x lanes every 15 min; commit sweeps before landings.
 
 # Handover (2026-09-29, round 79: short wave, paused for a Sonnet 5.5 restart) - start here
 
