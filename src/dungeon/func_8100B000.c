@@ -57,7 +57,7 @@ extern M2C_UNK D_8016E8E0;
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_8016A800")
-    __attribute__((section(".text.func_8016A800"), aligned(4))) = {
+__attribute__((section(".text.func_8016A800"), aligned(4))) = {
     0x8016A88C, 0x8016AA78, 0x8016B4EC, 0x8016B4EC,
     0x8016B4EC, 0x8016B518, 0x8016B498, 0x8016B498,
     0x8016B498, 0x8016B460, 0x8016B404, 0x8016B518,
@@ -77,9 +77,9 @@ __asm__(".globl func_8016A800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_8016A800")))
+__attribute__((section(".text.func_8016A800")))
 #endif
-    ;
+;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
@@ -123,7 +123,7 @@ void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) {
             if (((flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     left = func_800A6D30();
-                            if (left & 1) {
+                    if (left & 1) {
                         work->unk_1C |= 0x200;
                         func_800A48F0(work, 1,
                                       (func_800A6D30() & 0x3F) | 0x20);

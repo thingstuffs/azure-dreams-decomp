@@ -17,7 +17,13 @@ typedef struct S_8017427C_0 {
 
 typedef struct S_8017427C_1 {
     u8 pad_00[0xC];
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u16 unk_12;
     u16 unk_14;
@@ -30,7 +36,6 @@ typedef struct S_8017427C_4 {
     u8 pad_00[0xD0];
     s32 unk_D0;
 } S_8017427C_4;   /* D_800E3D7C + index * 4 in func_8017427C */
-
 
 
 extern s8 func_80042518(void *, s32);
@@ -73,7 +78,7 @@ void func_8017427C(void *actor_state, void *context, S_8017427C_1 *sprite, Entit
         sprite->unk_14 |= 0xC;
         (*(u32 *)&actor_data->flags1C) |= 0x40000000;
         ((S_8017427C_0 *)actor_state)->unk_9B++;
-        /* fall through */
+                /* fall through */
 
     case 1:
         fade_ticks = ((S_8017427C_0 *)actor_state)->unk_96.s;

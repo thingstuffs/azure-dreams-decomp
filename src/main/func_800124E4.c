@@ -13,7 +13,6 @@ typedef struct S_800254E4_0 {
 } S_800254E4_0;   /* base in func_800254E4 */
 
 
-
 typedef struct TableEntry {
     s32 value;
     u8 pad[0x7C];

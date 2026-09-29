@@ -21,7 +21,6 @@ typedef struct S_80124DB0_1 {
 } S_80124DB0_1;   /* (u8 *)arg0 + ((S_80124DB0_0 *)arg0)->unk_16 in func_80124DB0 */
 
 
-
 typedef struct {
     s16 x;
     s16 y;

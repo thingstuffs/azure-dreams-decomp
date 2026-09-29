@@ -30,7 +30,6 @@ typedef struct S_80036B10_3 {
 } S_80036B10_3;   /* temp_s6 in func_80036B10 */
 
 
-
 typedef struct S_80036B10_4 {
     u8 pad_00[0x20];
     void * unk_20;

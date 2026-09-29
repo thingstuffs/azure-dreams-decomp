@@ -64,7 +64,7 @@ extern M2C_UNK D_80150000;
 #ifdef __mips__
 void func_8014C800(void);
 static const u32 bank_words[] __asm__("func_8014C800")
-    __attribute__((section(".text.func_8014C800"), aligned(4))) = {
+__attribute__((section(".text.func_8014C800"), aligned(4))) = {
     0x8014C898, 0x8014CAA4, 0x8014D394, 0x8014D394,
     0x8014D394, 0x8014D3C0, 0x8014D340, 0x8014D340,
     0x8014D340, 0x8014D2EC, 0x8014D324, 0x8014D3C0,

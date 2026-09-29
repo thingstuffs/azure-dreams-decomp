@@ -25,7 +25,6 @@ typedef struct S_80173080_0 {
 } S_80173080_0;   /* arg0 in func_80173080 */
 
 
-
 typedef struct S_80173080_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -62,8 +61,8 @@ void func_80173080(void *action, void *motion, void *sprite, EntityRec *actor)
 
             (*(u8 * *)((u8 *)sprite + (0x2C))) = direction_table;
             func_80047784(sprite,
-                         direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                         0);
+                          direction_table[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                          0);
             ((S_80173080_0 *)action)->unk_96.u = 0;
             ((S_80173080_0 *)action)->unk_9B++;
             return;

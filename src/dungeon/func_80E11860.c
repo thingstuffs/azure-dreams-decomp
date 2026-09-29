@@ -38,7 +38,6 @@ typedef struct S_80175060_3 {
 } S_80175060_3;   /* temp_v1_2 in func_80175060 */
 
 
-
 void func_8003DB94(void *, void *, s32);  /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */

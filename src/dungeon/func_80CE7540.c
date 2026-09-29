@@ -21,8 +21,6 @@ typedef struct S_80170D40_1 {
 } S_80170D40_1;   /* arg2 in func_80170D40 */
 
 
-
-
 /* Fade the primitive color by one step and flag completion when the counter reaches zero. */
 void func_80170D40(void *fade_state, void *unused, S_80170D40_1 *primitive)
 {

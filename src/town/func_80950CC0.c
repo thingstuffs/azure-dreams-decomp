@@ -41,14 +41,14 @@ typedef struct OverlayInitData {
 } OverlayInitData;
 
 static const OverlayInitData s_overlay_init __asm__("func_80950CC0")
-    __attribute__((section(".text.func_80950CC0"))) = {
-        0x8000, { 0 }, 1, 0x8000, { 0 },
-        0x101, 0x3F0, 0, 0x16000, D_80016124, { 0 },
-        0x14000, 1, D_8001606C, 0x50, 0x01A000E0,
-        0x14000, 1, 0, 9, 0x01200180,
-        0x8000, { 0 }, 0x4C070707, D_80016AF0, 1,
-        0x4C070707, D_80016A90, 0x10F48,
-    };
+__attribute__((section(".text.func_80950CC0"))) = {
+    0x8000, { 0 }, 1, 0x8000, { 0 },
+    0x101, 0x3F0, 0, 0x16000, D_80016124, { 0 },
+    0x14000, 1, D_8001606C, 0x50, 0x01A000E0,
+    0x14000, 1, 0, 9, 0x01200180,
+    0x8000, { 0 }, 0x4C070707, D_80016AF0, 1,
+    0x4C070707, D_80016A90, 0x10F48,
+};
 #endif
 
 /* Initialize the first data pointer to D_80016034. */

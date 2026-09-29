@@ -59,7 +59,11 @@ typedef struct S_80171F1C_2 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -220,36 +224,36 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         case 5:
         case 6:
         case 7:
-            {
-                EntityRec *player;
-                s16 heading;
+        {
+            EntityRec *player;
+            s16 heading;
 
-                heading = func_800A0818(
-                    ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &direction_flags);
-                player = D_800814A8;
-                move_data->facing = heading;
-                if (player->unk_9A == 0x11) {
-                    goto aaf_cleanup;
-                }
+            heading = func_800A0818(
+                ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &direction_flags);
+            player = D_800814A8;
+            move_data->facing = heading;
+            if (player->unk_9A == 0x11) {
+                goto aaf_cleanup;
             }
-            /* fallthrough */
+        }
+                        /* fallthrough */
         case 12:
-        special_cleanup:
+special_cleanup:
             func_800A9A0C(move_data);
             return;
 
         case 1:
         case 2:
         case 3:
-        aaf_cleanup:
+aaf_cleanup:
             func_800AAF00(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
             return;
 
         case 4:
         default:
-        ordinary_cleanup:
+ordinary_cleanup:
             func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
         }

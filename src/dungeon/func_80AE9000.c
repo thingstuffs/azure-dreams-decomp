@@ -8,8 +8,8 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 #ifdef __mips__
 static const u32 func_80AE9000_extent_prefix[41]
-    __asm__("func_80AE9000")
-    __attribute__((used, section(".text.func_80AE9000"), aligned(4))) = {
+__asm__("func_80AE9000")
+__attribute__((used, section(".text.func_80AE9000"), aligned(4))) = {
     0x8014D158, 0x8014D320, 0x8014DB54, 0x8014DB54,
     0x8014DB54, 0x8014DB80, 0x8014DB00, 0x8014DB00,
     0x8014DB00, 0x8014DAAC, 0x8014DAE4, 0x8014DB80,

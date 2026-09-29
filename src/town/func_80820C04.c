@@ -11,7 +11,6 @@ typedef struct S_80023404_0 {
 } S_80023404_0;   /* arg0 in func_80023404 */
 
 
-
 extern void func_80023578(s16, s16, s16);
 
 /* Updates scrolling through 12 positions, accelerating or settling according to state. */
@@ -22,13 +21,13 @@ void func_80023404(S_80023404_0 *scroll)
     switch (state) {
 
     case 0:
-    scroll->unk_0E.s = 0;
-    scroll->unk_0C.s = 0;
-    func_80023578(scroll->unk_08,
-                  scroll->unk_0A,
-                  scroll->unk_0E.s);
-    scroll->unk_04.s = 1;
-    return;
+        scroll->unk_0E.s = 0;
+        scroll->unk_0C.s = 0;
+        func_80023578(scroll->unk_08,
+                      scroll->unk_0A,
+                      scroll->unk_0E.s);
+        scroll->unk_04.s = 1;
+        return;
 
     case 2:
     {
@@ -45,28 +44,28 @@ void func_80023404(S_80023404_0 *scroll)
     }
 
     case 3:
-    scroll->unk_0E.u = scroll->unk_0E.u - scroll->unk_0C.u;
-    if ((s16)scroll->unk_0E.u < 0) {
-        do {
-            scroll->unk_0E.u += 32;
-            scroll->unk_0A = (scroll->unk_0A + 1) % 12;
-        } while ((s16)scroll->unk_0E.u < 0);
-    }
-    goto common_call;
+        scroll->unk_0E.u = scroll->unk_0E.u - scroll->unk_0C.u;
+        if ((s16)scroll->unk_0E.u < 0) {
+            do {
+                scroll->unk_0E.u += 32;
+                scroll->unk_0A = (scroll->unk_0A + 1) % 12;
+            } while ((s16)scroll->unk_0E.u < 0);
+        }
+        goto common_call;
 
     case 4:
-    scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
-    if ((s16)scroll->unk_0E.u < 4) {
-        scroll->unk_0E.u = 0;
-        scroll->unk_04.u = 0;
-    }
+        scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
+        if ((s16)scroll->unk_0E.u < 4) {
+            scroll->unk_0E.u = 0;
+            scroll->unk_04.u = 0;
+        }
 common_call:
-    func_80023578(scroll->unk_08,
-                  scroll->unk_0A,
-                  scroll->unk_0E.s);
-    return;
+        func_80023578(scroll->unk_08,
+                      scroll->unk_0A,
+                      scroll->unk_0E.s);
+        return;
 
     case 1:
-    return;
+        return;
     }
 }

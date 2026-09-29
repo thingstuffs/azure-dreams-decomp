@@ -66,7 +66,7 @@ void func_80018D14(u8 *object_ref)
 
     object_offset = slot * 4;
     entry = (u8 *)((u32)(((object_offset + slot) * 4 + slot) * 4) +
-                    (u32)object_table);
+                   (u32)object_table);
     entry[0x13] = 0;
     entry = (u8 *)entry[0x43];
     slot = ((u32)entry) & 0x3F;

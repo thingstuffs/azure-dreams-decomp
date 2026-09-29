@@ -28,8 +28,6 @@ typedef struct S_80173450_3 {
 } S_80173450_3;   /* global in func_80173450 */
 
 
-
-
 void func_8009A028(void *);
 void func_8009A3D0(s32, s32, s32);
 void func_800A2FE0(void *);
@@ -55,7 +53,7 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
             return;
         }
         ((S_80173450_0 *)action)->unk_9B = 1;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
         if (entity_flags & 0x4000) {
@@ -67,7 +65,7 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
         ((S_80173450_0 *)action)->unk_96 = 4;
         ((S_80173450_0 *)action)->unk_9B++;
         ((S_80173450_2 *)sprite)->unk_12 -= 0x80;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         break;
     default:

@@ -19,7 +19,7 @@ extern s32 D_8016EFE4[];
 
 #ifdef __mips__
 static const u32 identity_bank[] __asm__("func_80E91000")
-    __attribute__((section(".text.func_80E91000"), aligned(4))) = {
+__attribute__((section(".text.func_80E91000"), aligned(4))) = {
     0x8016AAF4, 0x8016ACC8, 0x8016B504, 0x8016B504,
     0x8016B504, 0x8016B530, 0x8016B4B0, 0x8016B4B0,
     0x8016B4B0, 0x8016B430, 0x8016B484, 0x8016B468,
@@ -73,30 +73,30 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
-                          *(s16 *)(actor_bytes + 0x2A));
+                           *(s16 *)(actor_bytes + 0x2A));
     if (target != NULL) {
         if (target == (void *)D_800E3D7C[0]) {
             if (func_800C8310(target, target) != 0) {
                 return 0;
             }
             {
-    #ifdef __mips__
+#ifdef __mips__
                 s16 occupied_count;
                 register s32 slot_index;
-    #else
+#else
                 s32 slot_index;
                 s16 occupied_count;
                 s32 *slot_scan;
-    #endif
+#endif
                 slot_index = 0;
                 occupied_count = slot_index;
                 item_slot = (u8 *)0x80010000;
-    scan_loop:
-                    if (((s32 *)item_slot)[167] != 0) {
-                        occupied_count++;
-                    }
-                    slot_index++;
-                    item_slot += sizeof(s32);
+scan_loop:
+                if (((s32 *)item_slot)[167] != 0) {
+                    occupied_count++;
+                }
+                slot_index++;
+                item_slot += sizeof(s32);
                 if (slot_index < 20) {
                     goto scan_loop;
                 }

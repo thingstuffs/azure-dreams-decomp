@@ -28,7 +28,12 @@ typedef struct S_819598B4_0 {
 
 typedef struct S_819598B4_1 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xE];
     u16 unk_1E;
 } S_819598B4_1;   /* arg2 in func_819598B4 */
@@ -46,7 +51,6 @@ typedef struct S_819598B4_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
 } S_819598B4_3;   /* D_800E3D7C[0] in func_819598B4 */
-
 
 
 extern s32 func_80025604();
@@ -72,21 +76,24 @@ void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
     temp_v1 = ((S_819598B4_0 *)arg0)->unk_2C.s;
     switch (temp_v1) {
     case 0:
-            temp_v1_2 = arg2->unk_1E;
-            temp_a0 = arg2->unk_0C.at00.v;
-            arg2->unk_1E = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / ((S_819598B4_0 *)arg0)->unk_30));
-            temp_x = 0x80 - temp_a0;
-            temp_a1 = ((S_819598B4_0 *)arg0)->unk_3C;
-            temp_a0_2 = temp_a0 + ((temp_x - temp_a1) / ((S_819598B4_0 *)arg0)->unk_30);
-            arg2->unk_0C.at00.v = temp_a0_2;
-            arg2->unk_0C.at01.v = temp_a0_2;
-            arg2->unk_0C.at02.v = temp_a0_2;
-            arg1->unk_02 = (s16)((u16)arg1->unk_02 + ((s32)(((S_819598B4_0 *)arg0)->unk_14 - arg1->unk_02) / ((S_819598B4_0 *)arg0)->unk_30));
-            arg1->unk_06 = (s16)((u16)arg1->unk_06 + ((s32)(((S_819598B4_0 *)arg0)->unk_16 - arg1->unk_06) / ((S_819598B4_0 *)arg0)->unk_30));
-            temp_a0_3 = arg1->unk_0A.n;
-            arg1->unk_0A.n = (s16)(arg1->unk_0A.v + ((s32)(((S_819598B4_0 *)arg0)->unk_18 - temp_a0_3) / ((S_819598B4_0 *)arg0)->unk_30));
-            temp_v0 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-            ((S_819598B4_0 *)arg0)->unk_30 = temp_v0;
+        temp_v1_2 = arg2->unk_1E;
+        temp_a0 = arg2->unk_0C.at00.v;
+        arg2->unk_1E = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / ((S_819598B4_0 *)arg0)->unk_30));
+        temp_x = 0x80 - temp_a0;
+        temp_a1 = ((S_819598B4_0 *)arg0)->unk_3C;
+        temp_a0_2 = temp_a0 + ((temp_x - temp_a1) / ((S_819598B4_0 *)arg0)->unk_30);
+        arg2->unk_0C.at00.v = temp_a0_2;
+        arg2->unk_0C.at01.v = temp_a0_2;
+        arg2->unk_0C.at02.v = temp_a0_2;
+        arg1->unk_02 = (s16)((u16)arg1->unk_02 + ((s32)(((S_819598B4_0 *)arg0)->unk_14
+            - arg1->unk_02) / ((S_819598B4_0 *)arg0)->unk_30));
+        arg1->unk_06 = (s16)((u16)arg1->unk_06 + ((s32)(((S_819598B4_0 *)arg0)->unk_16
+            - arg1->unk_06) / ((S_819598B4_0 *)arg0)->unk_30));
+        temp_a0_3 = arg1->unk_0A.n;
+        arg1->unk_0A.n = (s16)(arg1->unk_0A.v + ((s32)(((S_819598B4_0 *)arg0)->unk_18
+            - temp_a0_3) / ((S_819598B4_0 *)arg0)->unk_30));
+        temp_v0 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
+        ((S_819598B4_0 *)arg0)->unk_30 = temp_v0;
         if ((temp_v0 << 0x10) <= 0) {
             ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
             arg2->unk_1E = 0x1000;
@@ -100,22 +107,24 @@ void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
         break;
     case 1:
         if (((S_819598B4_0 *)arg0)->unk_38 == 0) {
-            if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
+            if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E,
+                ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
                 break;
             }
-            func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E, ((S_819598B4_0 *)arg0)->unk_20);
+            func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E,
+                ((S_819598B4_0 *)arg0)->unk_20);
         }
         ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
         ((S_819598B4_0 *)arg0)->unk_2C.s++;
         break;
     case 2:
-            temp_v1_3 = arg2->unk_0C.at00.v;
-            temp_v1_3 -= (s32)temp_v1_3 / ((S_819598B4_0 *)arg0)->unk_30;
-            arg2->unk_0C.at00.v = temp_v1_3;
-            arg2->unk_0C.at01.v = temp_v1_3;
-            arg2->unk_0C.at02.v = temp_v1_3;
-            temp_v0_2 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-            ((S_819598B4_0 *)arg0)->unk_30 = temp_v0_2;
+        temp_v1_3 = arg2->unk_0C.at00.v;
+        temp_v1_3 -= (s32)temp_v1_3 / ((S_819598B4_0 *)arg0)->unk_30;
+        arg2->unk_0C.at00.v = temp_v1_3;
+        arg2->unk_0C.at01.v = temp_v1_3;
+        arg2->unk_0C.at02.v = temp_v1_3;
+        temp_v0_2 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
+        ((S_819598B4_0 *)arg0)->unk_30 = temp_v0_2;
         if ((temp_v0_2 << 0x10) <= 0) {
             ((S_819598B4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

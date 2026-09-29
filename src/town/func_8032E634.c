@@ -9,7 +9,9 @@ void func_80018E34(s32 slotIndex) {
     void **objectSlot;
     void *object;
 
-    do { objectTableBase = *(void ***)((u8 *)D_80016000 + 0x38); } while (0);
+    do {
+        objectTableBase = *(void ***)((u8 *)D_80016000 + 0x38);
+    } while (0);
     objectSlot = (void **)((u8 *)objectTableBase + 0x29C);
     objectSlot += slotIndex;
     object = *objectSlot;

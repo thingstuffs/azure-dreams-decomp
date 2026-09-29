@@ -42,8 +42,6 @@ typedef struct S_80173A2C_0 {
 } S_80173A2C_0;   /* arg0 in func_80173A2C */
 
 
-
-
 /* Updates an actor's action state and animation before restoring its default callback. */
 void func_80173A2C(void *controller_in, void *motion_in, void *sprite_in, void *actor_in)
 {

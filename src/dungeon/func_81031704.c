@@ -36,7 +36,6 @@ typedef struct S_80172F04_4 {
 } S_80172F04_4;   /* (u8 *)work in func_80172F04 */
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);

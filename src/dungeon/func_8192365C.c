@@ -57,8 +57,16 @@ typedef struct S_80024E5C_1 {
 } S_80024E5C_1;   /* arg2 in func_80024E5C */
 
 typedef struct S_80024E5C_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
@@ -162,7 +170,8 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
     }
     completion_state = ((S_80024E5C_0 *)effect)->unk_58.s;
     if (completion_state == 1) {
-        if ((func_800A4778(((S_80024E5C_2 *)motion)->unk_00.at02.v, ((S_80024E5C_2 *)motion)->unk_04.at02.v, (s16) ((S_80024E5C_2 *)motion)->unk_08.at02.v, ((S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
+        if ((func_800A4778(((S_80024E5C_2 *)motion)->unk_00.at02.v, ((S_80024E5C_2 *)motion)->unk_04.at02.v,
+            (s16) ((S_80024E5C_2 *)motion)->unk_08.at02.v, ((S_80024E5C_0 *)effect)->unk_88) << 0x10) == 0) {
             if (((S_80024E5C_0 *)effect)->unk_60 != 0) {
                 target_position = ((S_80024E5C_4_pre *)(((S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
                 ((S_80024E5C_1 *)sprite)->unk_06 = 8;
@@ -183,42 +192,59 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 }
                 height_table = D_800DDC40;
                 travel_frames = (s16) ((S_80024E5C_0 *)effect)->unk_5A.u;
-                target_z = ((S_80024E5C_3 *)target_position)->unk_08 - (((u8) *(((S_80024E5C_4 *)(((S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1) << 0x10);
+                target_z = ((S_80024E5C_3 *)target_position)->unk_08
+                    - (((u8) *(((S_80024E5C_4 *)(((S_80024E5C_0 *)effect)->unk_88))->unk_13 + height_table) >> 1)
+                    << 0x10);
                 near_target = travel_frames < 0xE;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 target_x_or_z_step = ((S_80024E5C_3 *)target_position)->unk_00.at00.v;
                 target_y = ((S_80024E5C_3 *)target_position)->unk_04.at00.v;
                 if (near_target == 0) {
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
-                    ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 0xB));
-                    ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 0xB));
-                    ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 0xB);
+                    ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames
+                        - 0xB));
+                    ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
+                        - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u
+                        - 0xB));
+                    ((S_80024E5C_2 *)motion)->unk_14 = (target_z
+                        - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 0xB);
                 } else {
                     if (travel_frames >= 0xB) {
                         current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
-                        ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 9));
-                        ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 9));
-                        ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 9);
+                        ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
+                            - current_x) / (s32) (travel_frames - 9));
+                        ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
+                            - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u
+                            - 9));
+                        ((S_80024E5C_2 *)motion)->unk_14 = (target_z
+                            - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 9);
                     } else {
                         if (travel_frames >= 5) {
                             s32 divisor;
                             current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
-                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 4));
-                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 4));
+                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step
+                                - current_x) / (s32) (travel_frames - 4));
+                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
+                                - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u
+                                - 4));
                             target_x_or_z_step = target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v;
                             divisor = ((S_80024E5C_0 *)effect)->unk_5A.s - 4;
                             target_x_or_z_step /= divisor;
                             ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
                         } else {
-                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step - ((S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
-                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
-                            ((S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
+                            ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((s32) (target_x_or_z_step
+                                - ((S_80024E5C_2 *)motion)->unk_00.at00.v) / travel_frames);
+                            ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y
+                                - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
+                            ((S_80024E5C_2 *)motion)->unk_14 = (s32) ((s32) (target_z
+                                - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (s16) ((S_80024E5C_0 *)effect)->unk_5A.u);
                         }
                     }
                 }
                 velocity_y = ((S_80024E5C_2 *)motion)->unk_10;
                 velocity_z = ((S_80024E5C_2 *)motion)->unk_14;
-                ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v + ((S_80024E5C_2 *)motion)->unk_0C);
+                ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v
+                    + ((S_80024E5C_2 *)motion)->unk_0C);
                 ((S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_04.at00.v + velocity_y);
                 ((S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_08.at00.v + velocity_z);
                 frames_left = ((S_80024E5C_0 *)effect)->unk_5A.u - 1;
@@ -235,9 +261,12 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
             } else {
                 ((S_80024E5C_0 *)effect)->unk_5A.u = 0xAU;
                 ((S_80024E5C_0 *)effect)->unk_5C = (u16) (((S_80024E5C_0 *)effect)->unk_5C - 1);
-                ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v + ((S_80024E5C_0 *)effect)->unk_98);
-                ((S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_04.at00.v + ((S_80024E5C_0 *)effect)->unk_9C);
-                ((S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_08.at00.v + ((S_80024E5C_0 *)effect)->unk_A0);
+                ((S_80024E5C_2 *)motion)->unk_00.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_00.at00.v
+                    + ((S_80024E5C_0 *)effect)->unk_98);
+                ((S_80024E5C_2 *)motion)->unk_04.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_04.at00.v
+                    + ((S_80024E5C_0 *)effect)->unk_9C);
+                ((S_80024E5C_2 *)motion)->unk_08.at00.v = (s32) (((S_80024E5C_2 *)motion)->unk_08.at00.v
+                    + ((S_80024E5C_0 *)effect)->unk_A0);
                 if ((s16) ((S_80024E5C_0 *)effect)->unk_5C <= 0) {
                     ((S_80024E5C_5 *)(((S_80024E5C_0 *)effect)->unk_8C))->unk_86 = completion_state;
                     (*(u16 *)((u8 *)effect + (-2))) = (u16) (((S_80024E5C_0_pre *)effect)[-1].unk_00 | 0x8000);

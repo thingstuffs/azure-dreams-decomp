@@ -22,7 +22,6 @@ typedef struct S_80016B0C_2 {
                 + ((S_80016B0C_1 *)(*(void **)D_80016000))->unk_08 * 8 in func_80016B0C */
 
 
-
 extern s32 D_80019AFC;
 extern void *D_80019B90;
 

@@ -467,7 +467,7 @@ block_27:
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
             if (!(dungeonStatus.flags & 0x2000) && ((func_800A2C34(entity) << 0x10) == 0)
                 && (event_0 = (u8 *)((u8 *)(&D_80082E80)), position_0 = (u8 *)((u8 *)(&D_80083780)),
-                (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02))
+                    (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02))
                 && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
                 actor_kind = ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A;
                 if ((actor_kind != 0x19) && (actor_kind != 0x1B) && !(((S_812A524C_4 *)entity)->unk_1C & 0x80000)) {
@@ -505,11 +505,11 @@ block_27:
                             current_kind = ((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A;
                             if ((current_kind != 0x19) && (current_kind != 0x1B)
                                 && ((((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1B)
-                                || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
-                                || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x20)
-                                || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1B)
-                                || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1F)
-                                || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x20))) {
+                                    || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x1F)
+                                    || (((S_812A524C_0 *)(&D_800FBE22))->unk_00.s == 0x20)
+                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1B)
+                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x1F)
+                                    || (((S_812A524C_1 *)(&D_800FBE20))->unk_00.s == 0x20))) {
                                 func_800353F4(&D_8006F9D0);
                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -547,12 +547,12 @@ block_27:
                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x200)
                                     && (event_3 = (u8 *)((u8 *)(&D_80082E80)),
-                                    ((u32) (((S_812A524C_14 *)event_3)->unk_24.at00.v - 0xB36) < 2U))
+                                        ((u32) (((S_812A524C_14 *)event_3)->unk_24.at00.v - 0xB36) < 2U))
                                     && (position_3 = (u8 *)((u8 *)(&D_80083780)),
-                                    event_x_1 = ((S_812A524C_14 *)event_3)->unk_24.at00u.v,
-                                    (((event_x_1 << 6) + 0x20) == ((S_812A524C_15 *)position_3)->unk_02))
+                                        event_x_1 = ((S_812A524C_14 *)event_3)->unk_24.at00u.v,
+                                        (((event_x_1 << 6) + 0x20) == ((S_812A524C_15 *)position_3)->unk_02))
                                     && (((((S_812A524C_14 *)event_3)->unk_24.at01.v << 6) + 0x20)
-                                    == ((S_812A524C_15 *)position_3)->unk_06)) {
+                                        == ((S_812A524C_15 *)position_3)->unk_06)) {
                                     func_800353F4(&D_80070684);
                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -563,12 +563,12 @@ block_27:
                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x8000)
                                         && (event_4 = (u8 *)((u8 *)(&D_80082E80)),
-                                        ((u32) (((S_812A524C_16 *)event_4)->unk_24.at00.v - 0x1236) < 2U))
+                                            ((u32) (((S_812A524C_16 *)event_4)->unk_24.at00.v - 0x1236) < 2U))
                                         && (position_4 = (u8 *)((u8 *)(&D_80083780)),
-                                        event_x_1 = ((S_812A524C_16 *)event_4)->unk_24.at00u.v,
-                                        (((event_x_1 << 6) + 0x20) == ((S_812A524C_17 *)position_4)->unk_02))
+                                            event_x_1 = ((S_812A524C_16 *)event_4)->unk_24.at00u.v,
+                                            (((event_x_1 << 6) + 0x20) == ((S_812A524C_17 *)position_4)->unk_02))
                                         && (((((S_812A524C_16 *)event_4)->unk_24.at01.v << 6) + 0x20)
-                                        == ((S_812A524C_17 *)position_4)->unk_06)) {
+                                            == ((S_812A524C_17 *)position_4)->unk_06)) {
                                         func_800353F4(&D_800FBAD7);
                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                         ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -594,7 +594,7 @@ block_27:
                                                 }
                                             }
                                             if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                != 0x19) && (((s32)flag_base->unk_010) & 0x20)) {
+                                                 != 0x19) && (((s32)flag_base->unk_010) & 0x20)) {
                                                 func_800353F4(&D_8006F47A);
                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -621,7 +621,7 @@ block_27:
                                                     }
                                                 }
                                                 if ((((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                    != 0x19) && (flag_base->buttons & 0x10)) {
+                                                     != 0x19) && (flag_base->buttons & 0x10)) {
                                                     func_800353F4(&D_8006F50D);
                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -633,7 +633,7 @@ block_27:
                                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x10)
                                                     && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                    != 0x23)) {
+                                                        != 0x23)) {
                                                     scan_index_10 = 0;
                                                     scan_kind = 0xF;
                                                     scan_group = 2;
@@ -654,7 +654,7 @@ block_105:
                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x80)
                                                         && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                        != 0x23)) {
+                                                            != 0x23)) {
                                                         scan_index_80 = 0;
                                                         scan_kind = 0x12;
                                                         scan_group = 0x15;
@@ -675,7 +675,7 @@ block_112:
                                                     if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                         if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x100)
                                                             && (((S_812A524C_39 *)((*(void * *)&((EntityRec *)D_800E3D7C)->x)))->unk_9A
-                                                            != 0x23)) {
+                                                                != 0x23)) {
                                                             scan_index_100 = 0;
                                                             scan_kind = 4;
                                                             scan_group = 1;
@@ -683,7 +683,7 @@ block_112:
 loop_116:
                                                             if ((scan_100[0x249] != scan_kind)
                                                                 || (scan_type = scan_100[0x248],
-                                                                (scan_type != scan_group))) {
+                                                                    (scan_type != scan_group))) {
                                                                 scan_index_100 += 1;
                                                                 scan_100 += 4;
                                                                 if (scan_index_100 < 0x14) {
@@ -697,11 +697,12 @@ block_119:
                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x40)
                                                                 && (event_7 = (u8 *)((u8 *)(&D_80082E80)),
-                                                                ((u32) (((S_812A524C_23 *)event_7)->unk_24.at00.v
+                                                                    ((u32) (((S_812A524C_23 *)event_7)->unk_24.at00.v
                                                                 - 0x161C) < 7U))
                                                                 && (position_7 = (u8 *)((u8 *)(&D_80083780)),
-                                                                event_x_1 = ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
-                                                                (((event_x_1 << 6) + 0x20)
+                                                                    event_x_1 =
+                                                                        ((S_812A524C_23 *)event_7)->unk_24.at00u.v,
+                                                                    (((event_x_1 << 6) + 0x20)
                                                                 == ((S_812A524C_24 *)position_7)->unk_02))
                                                                 && (((((S_812A524C_23 *)event_7)->unk_24.at01.v << 6)
                                                                 + 0x20) == ((S_812A524C_24 *)position_7)->unk_06)) {
@@ -715,16 +716,16 @@ block_119:
                                                             if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                 if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x400)
                                                                     && (event_8 = (u8 *)((u8 *)(&D_80082E80)),
-                                                                    ((u32) (((S_812A524C_25 *)event_8)->unk_24.at00.v
+                                                                        ((u32) (((S_812A524C_25 *)event_8)->unk_24.at00.v
                                                                     - 0x2036) < 2U))
                                                                     && (position_8 = (u8 *)((u8 *)(&D_80083780)),
-                                                                    event_x_1 =
-                                                                    ((S_812A524C_25 *)event_8)->unk_24.at00u.v,
-                                                                    (((event_x_1 << 6) + 0x20)
+                                                                        event_x_1 =
+                                                                        ((S_812A524C_25 *)event_8)->unk_24.at00u.v,
+                                                                        (((event_x_1 << 6) + 0x20)
                                                                     == ((S_812A524C_26 *)position_8)->unk_02))
                                                                     && (((((S_812A524C_25 *)event_8)->unk_24.at01.v
                                                                     << 6) + 0x20)
-                                                                    == ((S_812A524C_26 *)position_8)->unk_06)) {
+                                                                        == ((S_812A524C_26 *)position_8)->unk_06)) {
                                                                     func_800353F4(&D_80070AF8);
                                                                     ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                     ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -736,14 +737,14 @@ block_119:
                                                                 if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x800)
                                                                         && ((*(u16 *)(&D_80082E80.tileX) == 0x31E)
-                                                                        || (*(u16 *)(&D_80082E80.tileX) == 0x41E)
-                                                                        || (*(u16 *)(&D_80082E80.tileX) == 0x51E)
-                                                                        || (*(u16 *)(&D_80082E80.tileX) == 0x61E)
-                                                                        || (*(u16 *)(&D_80082E80.tileX) == 0x71E)
-                                                                        || (*(u16 *)(&D_80082E80.tileX) == 0x81E))
+                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x41E)
+                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x51E)
+                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x61E)
+                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x71E)
+                                                                            || (*(u16 *)(&D_80082E80.tileX) == 0x81E))
                                                                         && (event_9 = (u8 *)((u8 *)(&D_80082E80)),
-                                                                        position_9 = (u8 *)((u8 *)(&D_80083780)),
-                                                                        (((((S_812A524C_27 *)event_9)->unk_24 << 6)
+                                                                            position_9 = (u8 *)((u8 *)(&D_80083780)),
+                                                                            (((((S_812A524C_27 *)event_9)->unk_24 << 6)
                                                                         + 0x20) == ((S_812A524C_28 *)position_9)->unk_02))
                                                                         && (((((S_812A524C_27 *)event_9)->unk_25 << 6)
                                                                         + 0x20) == ((S_812A524C_28 *)position_9)->unk_06)) {
@@ -760,17 +761,18 @@ block_119:
                                                                             if (((u32) (*(u16 *)(&D_80082E80.tileX)
                                                                                 - 0x2C1E) < 3U)
                                                                                 || (*(u16 *)(&D_80082E80.tileX)
-                                                                                == 0x2D1E)
+                                                                                    == 0x2D1E)
                                                                                 || (*(u16 *)(&D_80082E80.tileX)
-                                                                                == 0x2D1F)
+                                                                                    == 0x2D1F)
                                                                                 || (*(u16 *)(&D_80082E80.tileX)
-                                                                                == 0x2D20)) {
+                                                                                    == 0x2D20)) {
                                                                                 event_10 = (u8 *)((u8 *)(&D_80082E80));
                                                                                 if ((((((S_812A524C_29 *)event_10)->unk_24
-                                                                                    << 6) + 0x20) == D_80083780.x.w.i)
+                                                                                       << 6) + 0x20)
+                                                                                           == D_80083780.x.w.i)
                                                                                     && (((((S_812A524C_29 *)event_10)->unk_25
                                                                                     << 6) + 0x20)
-                                                                                    == D_80083780.y.w.i)) {
+                                                                                        == D_80083780.y.w.i)) {
                                                                                     func_800353F4(&D_80070E63);
                                                                                     ((S_812A524C_4 *)entity)->unk_6D =
                                                                                         0U;
@@ -787,16 +789,16 @@ block_119:
                                                                         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
                                                                             if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x2000)
                                                                                 && (event_11 = (u8 *)((u8 *)(&D_80082E80)),
-                                                                                ((u32) (((S_812A524C_31 *)event_11)->unk_24.at00.v
+                                                                                    ((u32) (((S_812A524C_31 *)event_11)->unk_24.at00.v
                                                                                 - 0x121C) < 7U))
                                                                                 && (position_11 = (u8 *)((u8 *)(&D_80083780)),
-                                                                                event_x_1 =
-                                                                                ((S_812A524C_31 *)event_11)->unk_24.at00u.v,
-                                                                                (((event_x_1 << 6) + 0x20)
+                                                                                    event_x_1 =
+                                                                                    ((S_812A524C_31 *)event_11)->unk_24.at00u.v,
+                                                                                    (((event_x_1 << 6) + 0x20)
                                                                                 == ((S_812A524C_32 *)position_11)->unk_02))
                                                                                 && (((((S_812A524C_31 *)event_11)->unk_24.at01.v
                                                                                 << 6) + 0x20)
-                                                                                == ((S_812A524C_32 *)position_11)->unk_06)) {
+                                                                                    == ((S_812A524C_32 *)position_11)->unk_06)) {
                                                                                 func_800353F4(&D_800FB3C8);
                                                                                 ((S_812A524C_4 *)entity)->unk_6D = 0U;
                                                                                 ((S_812A524C_3 *)actor_in)->unk_9B = 0;
@@ -834,7 +836,7 @@ block_119:
                                                                                             if (distance_y < 4) {
                                                                                                 scaled_x = event_x << 6;
                                                                                                 if (((scaled_x + 0x20)
-                                                                                                    == D_80083780.x.w.i)
+                                                                                                     == D_80083780.x.w.i)
                                                                                                     && (((event_y << 6)
                                                                                                     + 0x20) == D_80083780.y.w.i)) {
                                                                                                     func_800353F4(&D_800FBD96);

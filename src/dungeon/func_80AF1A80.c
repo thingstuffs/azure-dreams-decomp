@@ -33,7 +33,6 @@ typedef struct S_80173280_3 {
 } S_80173280_3;   /* tile in func_80173280 */
 
 
-
 typedef struct S_80173280_6 {
     u8 pad_00[0xA6];
     u16 unk_A6;
@@ -44,7 +43,6 @@ typedef struct S_80173280_7 {
     u16 unk_0A;
     s32 unk_0C;
 } S_80173280_7;   /* kindp in func_80173280 */
-
 
 
 extern s32 func_8003F270(void);

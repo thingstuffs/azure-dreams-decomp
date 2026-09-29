@@ -77,7 +77,7 @@ extern void func_800A56E0(s32);
 #ifdef __mips__
 
 static const u32 bank_words[] __asm__("func_81269000")
-    __attribute__((section(".text.func_81269000"), aligned(4))) = {
+__attribute__((section(".text.func_81269000"), aligned(4))) = {
     0x80158F84, 0x8015912C, 0x801598C0, 0x801598C0,
     0x801598C0, 0x801598E8, 0x80159894, 0x80159894,
     0x80159894, 0x80159894, 0x80159894, 0x801598E8,
@@ -96,7 +96,7 @@ static const u32 bank_words[] __asm__("func_81269000")
 #endif
 
 void BODY_NAME(void *root_data, void *position_data, void *render_data)
-    __attribute__((section(".text.func_81269000")));
+__attribute__((section(".text.func_81269000")));
 /* Updates part position, render state, and brightness from the current motion phase. */
 void BODY_NAME(void *root_data, void *position_data, void *render_data)
 {
@@ -192,7 +192,7 @@ void BODY_NAME(void *root_data, void *position_data, void *render_data)
 
 #ifdef __mips__
 __asm__(
-    ".globl func_81269000\n"
-    ".type func_81269000,@function\n"
-    ".size func_81269000,848\n");
+        ".globl func_81269000\n"
+        ".type func_81269000,@function\n"
+        ".size func_81269000,848\n");
 #endif

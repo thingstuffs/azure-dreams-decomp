@@ -47,8 +47,6 @@ typedef struct S_801738E0_4 {
 } S_801738E0_4;   /* global in func_801738E0 */
 
 
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -88,7 +86,7 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
             0);
         ((S_801738E0_0 *)entity)->unk_9B++;
         return;
-        }
+    }
     case 1:
     {
         u8 *scene_state;
@@ -165,20 +163,20 @@ void func_801738E0(void *entity, void *context, void *anim, void *actor)
             0);
         ((S_801738E0_3 *)actor)->unk_1C |= 0x40000;
         ((S_801738E0_4 *)scene_state)->unk_0A++;
-        }
-    ((S_801738E0_0 *)entity)->unk_9B++;
-    return;
-    case 2:
-    if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
-        s32 *scene_state;
-
-        scene_state = &dungeonStatus.unk_00;
-        ((S_801738E0_2 *)scene_state)->unk_0A--;
-        ((S_801738E0_3 *)actor)->unk_1C &= ~0x208;
-        ((S_801738E0_0 *)entity)->unk_8C = &D_8017140C;
     }
+        ((S_801738E0_0 *)entity)->unk_9B++;
+        return;
+    case 2:
+        if (((S_801738E0_1 *)anim)->unk_14 & 0xE000) {
+            s32 *scene_state;
 
-    return;
+            scene_state = &dungeonStatus.unk_00;
+            ((S_801738E0_2 *)scene_state)->unk_0A--;
+            ((S_801738E0_3 *)actor)->unk_1C &= ~0x208;
+            ((S_801738E0_0 *)entity)->unk_8C = &D_8017140C;
+        }
+
+        return;
     default:
         return;
     }

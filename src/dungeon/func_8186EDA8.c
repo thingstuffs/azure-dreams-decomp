@@ -67,7 +67,8 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
     s32 first_angle = anim->angle;
 
 
-    position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((*(u16 *)&D_80025308 = 1, first_angle)) * 0x10));
+    position->unk_00 = (s32) (anim->base0 + (anim->count * func_800644B8((*(u16 *)&D_80025308 = 1,
+        first_angle)) * 0x10));
     position->unk_04 = (s32) (anim->base1 + (anim->count * func_80064584(anim->angle) * 0x10));
     func_800478B8(effect);
     phase = anim->state;
@@ -76,11 +77,13 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
         delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = delay_timer;
         if ((delay_timer << 0x10) <= 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim
+                - 0x2))->unk_02.u + 1);
         }
         break;
     case 1:
-        shrink_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
+        shrink_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim
+            - 0x2))->unk_10;
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = shrink_angle;
         if (shrink_angle < 0) {
             ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E = (s16) (shrink_angle + 0x1000);
@@ -99,7 +102,8 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
             } else {
                 radius_step = 1;
             }
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C - radius_step);
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C
+                - radius_step);
             effect_x = ((DungeonEffect *)effect)->x1C;
             effect_c = ((DungeonEffect *)effect)->c;
             effect_x -= 0x46;
@@ -117,7 +121,8 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
             break;
         }
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
-        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u
+            + 1);
         break;
     case 2:
         fade_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;
@@ -140,7 +145,8 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
         }
         if (effect->c == 0) {
             ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0U;
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim
+                - 0x2))->unk_02.u + 1);
         }
         effect->x1C -= 0x14;
         effect->y1E += 0xC8;
@@ -149,7 +155,8 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
         finish_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = finish_timer;
         if ((finish_timer << 0x10) <= 0) {
-            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 | 0x8000);
+            ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00 = (u16) (((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_00
+                | 0x8000);
             objectFlagBlock.flags |= 0x8000;
         }
         break;

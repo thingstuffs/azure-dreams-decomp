@@ -10,7 +10,6 @@ typedef struct S_80016E38_1 {
 } S_80016E38_1;   /* temp_v1 in func_80016E38 */
 
 
-
 /* Adds 0x20 to the linked record's unk_04 value. */
 void func_80016E38(void) {
     S_80016E38_1 *linked_record;

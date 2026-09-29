@@ -30,7 +30,11 @@ typedef struct S_80171A80_2 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -41,8 +45,6 @@ typedef struct S_80171A80_6 {
     u8 pad_00[0xA6];
     u16 unk_A6;
 } S_80171A80_6;   /* global in func_80171A80 */
-
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -212,87 +214,87 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
         switch (action_state) {
         case 8:
         case 9:
-        if ((func_80172BB0(entity, context, sprite, actor) << 16) != 0) {
+            if ((func_80172BB0(entity, context, sprite, actor) << 16) != 0) {
+                return;
+            }
+            func_80172D88(entity, context, sprite, actor);
             return;
-        }
-        func_80172D88(entity, context, sprite, actor);
-        return;
 
         case 1:
-        if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            func_801754AC(entity, context, sprite, actor);
+            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                func_801754AC(entity, context, sprite, actor);
+                return;
+            }
+            func_80175F44(entity, context, sprite, 1, 0);
             return;
-        }
-        func_80175F44(entity, context, sprite, 1, 0);
-        return;
 
         case 2:
-        if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            func_800D6068(entity, context, sprite, actor);
+            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                func_800D6068(entity, context, sprite, actor);
+                return;
+            }
+            func_80175F44(entity, context, sprite, 1, 0);
             return;
-        }
-        func_80175F44(entity, context, sprite, 1, 0);
-        return;
 
         case 5:
         case 6:
         case 7:
-        if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            EntityRec *player;
-            s16 facing;
+            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                EntityRec *player;
+                s16 facing;
 
-            facing = func_800A0818(
-                ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            actor->facing = facing;
-            if (player->unk_9A == 0x11) {
-                goto coords_continue;
+                facing = func_800A0818(
+                    ((S_80171A80_2 *)sprite)->unk_24.at00.v, ((S_80171A80_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                actor->facing = facing;
+                if (player->unk_9A == 0x11) {
+                    goto coords_continue;
+                }
+            } else {
+                goto global_continue;
             }
-        } else {
-            goto global_continue;
-        }
 
         case 12:
 case_12:
-        func_800A9A0C(actor);
-        return;
+            func_800A9A0C(actor);
+            return;
 
 coords_continue:
-        if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            func_801717D0(entity, context, sprite, D_800E2418, D_80171A80);
-            return;
-        }
-global_continue:
-        {
-            void *leader = D_800E3D7C;
-
-            if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
-                goto ordinary_cleanup;
+            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                func_801717D0(entity, context, sprite, D_800E2418, D_80171A80);
+                return;
             }
-            ((S_80171A80_6 *)leader)->unk_A6 = 2;
-            func_80175F44(entity, context, sprite, 1, 2);
-            return;
-        }
+global_continue:
+            {
+                void *leader = D_800E3D7C;
+
+                if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
+                    goto ordinary_cleanup;
+                }
+                ((S_80171A80_6 *)leader)->unk_A6 = 2;
+                func_80175F44(entity, context, sprite, 1, 2);
+                return;
+            }
 
         case 3:
-        if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
-            func_800AAF00(entity, context, sprite, D_800E2418, D_80171A80);
-            return;
-        } else {
-            s32 action_mode = 1;
+            if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
+                func_800AAF00(entity, context, sprite, D_800E2418, D_80171A80);
+                return;
+            } else {
+                s32 action_mode = 1;
 
-            func_80175F44(entity, context, sprite,
-                1, action_mode);
-            return;
-        }
+                func_80175F44(entity, context, sprite,
+                    1, action_mode);
+                return;
+            }
 
         case 11:
         default:
 ordinary_cleanup:
-        func_801723F8(entity, context, sprite, actor);
-        return;
+            func_801723F8(entity, context, sprite, actor);
+            return;
         }
     }
 

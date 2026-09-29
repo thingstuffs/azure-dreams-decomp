@@ -41,7 +41,6 @@ typedef struct S_80024B20_5 {
 } S_80024B20_5;   /* page in func_80024B20 */
 
 
-
 extern s32 func_800644B8();
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
@@ -89,52 +88,56 @@ void func_80024B20(void *effect) {
         ((S_80024B20_2 *)effect)->unk_42.u = 0;
         ((S_80024B20_2 *)effect)->unk_0C = 0;
         ((S_80024B20_2 *)effect)->unk_40.s = ((S_80024B20_2 *)effect)->unk_40.u + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
-        {
-            s32 color = ((S_80024B20_2 *)effect)->unk_0C;
-            s32 phase = ((S_80024B20_2 *)effect)->unk_42.s;
-            color += 0xC0C0C;
-            ((S_80024B20_2 *)effect)->unk_0C = color;
-            ((S_80024B20_2 *)effect)->unk_3A = func_800644B8(phase << 9) >> 7;
-            if (((S_80024B20_2 *)effect)->unk_0C > 0x60605F) {
-                ((S_80024B20_2 *)effect)->unk_42.u = 0x38;
-                ((S_80024B20_2 *)effect)->unk_40.u++;
-                return;
-            }
+    {
+        s32 color = ((S_80024B20_2 *)effect)->unk_0C;
+        s32 phase = ((S_80024B20_2 *)effect)->unk_42.s;
+        color += 0xC0C0C;
+        ((S_80024B20_2 *)effect)->unk_0C = color;
+        ((S_80024B20_2 *)effect)->unk_3A = func_800644B8(phase << 9) >> 7;
+        if (((S_80024B20_2 *)effect)->unk_0C > 0x60605F) {
+            ((S_80024B20_2 *)effect)->unk_42.u = 0x38;
+            ((S_80024B20_2 *)effect)->unk_40.u++;
             return;
         }
+        return;
+    }
     case 2:
-        {
-            segment_index = 7;
-            base_speed = 0xD0;
-            segment = (u8 *)effect + 0x2A;
-            do {
-                s32 index_squared = segment_index * segment_index;
-                s32 speed_bias;
-                segment_index--;
-                speed_bias = base_speed - ((S_80024B20_2 *)effect)->unk_42.u;
-                base_speed -= 0x18;
-                ((S_80024B20_3 *)segment)->unk_14 = speed_bias + ((index_squared >> 2) * 0x14);
-                segment -= 6;
-            } while (segment_index >= 0);
-        }
+    {
+        segment_index = 7;
+        base_speed = 0xD0;
+        segment = (u8 *)effect + 0x2A;
+        do {
+            s32 index_squared = segment_index * segment_index;
+            s32 speed_bias;
+            segment_index--;
+            speed_bias = base_speed - ((S_80024B20_2 *)effect)->unk_42.u;
+            base_speed -= 0x18;
+            ((S_80024B20_3 *)segment)->unk_14 = speed_bias + ((index_squared >> 2) * 0x14);
+            segment -= 6;
+        } while (segment_index >= 0);
+    }
         {
             s32 gap_limit;
             segment_index = 6;
             gap_limit = 0x160;
             segment = (u8 *)effect + 0x24;
             base_speed = 0x2A;
-            loop_3: {
+loop_3:
+            {
                 u16 position = ((S_80024B20_3 *)segment)->unk_12.v;
-                if (gap_limit < (((S_80024B20_4 *)((u8 *)effect + base_speed))->unk_12 - ((S_80024B20_3 *)segment)->unk_12.n)) {
+                if (gap_limit < (((S_80024B20_4 *)((u8 *)effect + base_speed))->unk_12
+                    - ((S_80024B20_3 *)segment)->unk_12.n)) {
                     ((S_80024B20_3 *)segment)->unk_12.n = position + (gap_limit + (gap_limit >> 1));
                 }
                 gap_limit -= 0x10;
                 segment -= 6;
                 segment_index--;
                 base_speed -= 6;
-            } if (segment_index >= 0) goto loop_3;
+            }
+            if (segment_index >= 0)
+                goto loop_3;
         }
         if (((S_80024B20_2 *)effect)->unk_42.s < 8) {
             ((S_80024B20_2 *)effect)->unk_0C += (s32)0xFFF3F3F4;
@@ -147,11 +150,11 @@ void func_80024B20(void *effect) {
         }
         return;
     case 3:
-        {
-            u32 globals_base = 0x80080000;
-            ((S_80024B20_2_pre *)effect)[-1].unk_00 |= 0x8000;
-            ((S_80024B20_5 *)globals_base)->unk_14A0 |= 0x8000;
-        }
+    {
+        u32 globals_base = 0x80080000;
+        ((S_80024B20_2_pre *)effect)[-1].unk_00 |= 0x8000;
+        ((S_80024B20_5 *)globals_base)->unk_14A0 |= 0x8000;
+    }
         return;
     default:
         return;

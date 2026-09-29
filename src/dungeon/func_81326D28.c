@@ -50,7 +50,12 @@ typedef struct S_8016E528_1 {
 typedef struct S_8016E528_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x2];
     s16 unk_0E;
     u8 pad_10[0x2];
@@ -147,58 +152,69 @@ check_settling:
             s32 interp_current;
             interp_target = ((S_8016E528_2 *)position)->unk_0E << 6;
             interp_current = ((S_8016E528_2 *)position)->unk_00.at02.v - 0x20;
-            ((S_8016E528_2 *)position)->unk_00.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_00.at02.v + (interp_target - interp_current) / (s16) ticks_left);
+            ((S_8016E528_2 *)position)->unk_00.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_00.at02.v
+                + (interp_target - interp_current) / (s16) ticks_left);
         }
         {
             s32 interp_target;
             s32 interp_current;
             interp_target = ((S_8016E528_2 *)position)->unk_12 << 6;
             interp_current = ((S_8016E528_2 *)position)->unk_04.at02.v - 0x20;
-            ((S_8016E528_2 *)position)->unk_04.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_04.at02.v + (interp_target - interp_current) / (s16) ((S_8016E528_0 *)motion)->unk_1A);
+            ((S_8016E528_2 *)position)->unk_04.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_04.at02.v
+                + (interp_target - interp_current) / (s16) ((S_8016E528_0 *)motion)->unk_1A);
         }
-        ((S_8016E528_2 *)position)->unk_08.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v + ((s32) (((S_8016E528_2 *)position)->unk_16 - ((S_8016E528_2 *)position)->unk_08.at02.v) / (s16) ((S_8016E528_0 *)motion)->unk_1A));
+        ((S_8016E528_2 *)position)->unk_08.at02.v = (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
+            + ((s32) (((S_8016E528_2 *)position)->unk_16
+            - ((S_8016E528_2 *)position)->unk_08.at02.v) / (s16) ((S_8016E528_0 *)motion)->unk_1A));
     }
     if ((s16) ((S_8016E528_0 *)motion)->unk_1A <= 0) {
         item_data[0] = ((S_8016E528_0 *)motion)->unk_44;
         item_data[1] = ((S_8016E528_0 *)motion)->unk_45;
         item_data[2] = ((S_8016E528_0 *)motion)->unk_46;
         item_data[3] = ((S_8016E528_0 *)motion)->unk_47;
-        func_800A7A7C(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12, ((S_8016E528_2 *)position)->unk_16, ((S_8016E528_1 *)object)->unk_08, item_data);
+        func_800A7A7C(((S_8016E528_2 *)position)->unk_0E, ((S_8016E528_2 *)position)->unk_12,
+            ((S_8016E528_2 *)position)->unk_16, ((S_8016E528_1 *)object)->unk_08, item_data);
         goto mark_removed;
     }
     if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
         goto repeat_settling;
     }
     do {
-        check_falling:
-            if (((S_8016E528_0 *)motion)->unk_12 != 2) {
-                goto update_motion;
-            }
-            ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v + ((S_8016E528_0 *)motion)->unk_54);
-            ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
-            scale = ((S_8016E528_1 *)object)->unk_1E - 0xC8;
-            ((S_8016E528_1 *)object)->unk_1E = scale;
-            ((S_8016E528_1 *)object)->unk_1C = scale;
-            probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
-            fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-            if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
-                goto check_fall_repeat;
-            }
-            ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20));
-            ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
-        mark_removed:
-            (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags |= 0x8000;
-            return;
-        check_fall_repeat:
+check_falling:
+        if (((S_8016E528_0 *)motion)->unk_12 != 2) {
+            goto update_motion;
+        }
+        ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
+            + ((S_8016E528_0 *)motion)->unk_54);
+        ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
+        scale = ((S_8016E528_1 *)object)->unk_1E - 0xC8;
+        ((S_8016E528_1 *)object)->unk_1E = scale;
+        ((S_8016E528_1 *)object)->unk_1C = scale;
+        probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
+        fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
+        if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
+            (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
+            goto check_fall_repeat;
+        }
+        ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0,
+            (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v
+            - 0x20));
+        ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
+mark_removed:
+        (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags |= 0x8000;
+        return;
+check_fall_repeat:
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
 update_motion:
     if (((S_8016E528_0 *)motion)->unk_12 != 0) {
         return;
     }
-    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v + ((S_8016E528_0 *)motion)->unk_4C);
+    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+        + ((S_8016E528_0 *)motion)->unk_4C);
     ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
-    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v + ((S_8016E528_0 *)motion)->unk_50);
+    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+        + ((S_8016E528_0 *)motion)->unk_50);
     direction_table = &D_80174708;
     ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
     direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
@@ -218,36 +234,48 @@ update_motion:
     if (next_tile != (world_y >> 6)) {
         goto update_height;
     }
-    if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v, (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) == 0) {
-        if (func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v, (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) < 0x200) {
+    if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) == 0) {
+        if (func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+            (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) < 0x200) {
             goto advance_tile;
         }
     }
-    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v - ((S_8016E528_0 *)motion)->unk_4C);
+    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+        - ((S_8016E528_0 *)motion)->unk_4C);
     ((S_8016E528_0 *)motion)->unk_4C = 0;
     ((S_8016E528_0 *)motion)->unk_58 = 0;
-    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v - ((S_8016E528_0 *)motion)->unk_50);
+    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+        - ((S_8016E528_0 *)motion)->unk_50);
     ((S_8016E528_0 *)motion)->unk_50 = 0;
     ((S_8016E528_0 *)motion)->unk_5C = 0;
     goto clear_motion;
 advance_tile:
-    ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48 + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
-    ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
+    ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48
+        + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
+    ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
+        + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
 clear_motion:
     ((S_8016E528_1 *)object)->unk_06 = 0;
 update_height:
-    ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v + ((S_8016E528_0 *)motion)->unk_54);
+    ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
+        + ((S_8016E528_0 *)motion)->unk_54);
     ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
     move_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-    if ((func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
-        ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, ((S_8016E528_2 *)position)->unk_08.at02.v);
+    if ((func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0,
+        ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
+        ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6)
+            + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0,
+            ((S_8016E528_2 *)position)->unk_08.at02.v);
         ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
         ((S_8016E528_0 *)motion)->unk_5C = 0;
         ((S_8016E528_0 *)motion)->unk_50 = 0;
         ((S_8016E528_0 *)motion)->unk_58 = 0;
         ((S_8016E528_0 *)motion)->unk_4C = 0;
         ((S_8016E528_0 *)motion)->unk_12 = (s16) ((u16) ((S_8016E528_0 *)motion)->unk_12 + 1);
-        if ((func_800A7234(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12, position + 0x16) << 0x10) == 0) {
+        if ((func_800A7234(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49,
+            (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12,
+            position + 0x16) << 0x10) == 0) {
             ((S_8016E528_0 *)motion)->unk_12 = 2;
             ((S_8016E528_0 *)motion)->unk_54 = 0xFFF80000;
         }

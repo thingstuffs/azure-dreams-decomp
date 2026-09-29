@@ -110,7 +110,11 @@ typedef struct S_81874988_5 {
     u8 pad_1E[0x2];
     union { u16 u; s16 s; } unk_20;   /* accessed as both */
     union { u16 u; s16 s; } unk_22;   /* accessed as both */
-    union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
 } S_81874988_5;   /* packet in func_81874988 */
 
 
@@ -194,14 +198,14 @@ void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
 
         if ((u32)depth_index < 0x1E0) {
             if (
-                    (((u16)(((S_81874988_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
-                     ((u16)(((S_81874988_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
-                    (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
-                     ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
-                    (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
-                     ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
-                    (((u16)(((S_81874988_5 *)packet)->unk_20.u + 0x20) < 0x181) &&
-                     ((u16)(((S_81874988_5 *)packet)->unk_22.u + 0x20) < 0x121))
+                (((u16)(((S_81874988_5 *)packet)->unk_08.u + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_0A.u + 0x20) < 0x121)) |
+                (((u16)(((S_81874988_5 *)packet)->unk_10 + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_12 + 0x20) < 0x121)) |
+                (((u16)(((S_81874988_5 *)packet)->unk_18 + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_1A + 0x20) < 0x121)) |
+                (((u16)(((S_81874988_5 *)packet)->unk_20.u + 0x20) < 0x181) &&
+                 ((u16)(((S_81874988_5 *)packet)->unk_22.u + 0x20) < 0x121))
                 ) {
                 ((S_81874988_5 *)packet)->unk_00.at03.v = 9;
                 ((S_81874988_5 *)packet)->unk_04.at03.v = 0x2C;
@@ -267,9 +271,11 @@ void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
 
                 ((S_81874988_5 *)packet)->unk_04.at00.v = ((S_81874988_3 *)material)->unk_0C.at00.v;
                 ((S_81874988_5 *)packet)->unk_00.at00.v = (((S_81874988_5 *)packet)->unk_00.at00.v & 0xFF000000) |
-                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
+                        + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
                 (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                    ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2)
+                        + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                     ((u32)packet & 0x00FFFFFF);
             }
         }

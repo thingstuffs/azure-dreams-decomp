@@ -29,7 +29,6 @@ typedef struct S_8017085C_2 {
 } S_8017085C_2;   /* arg2 in func_8017085C */
 
 
-
 extern s32 func_800644B8();
 extern void func_800A7A7C();
 

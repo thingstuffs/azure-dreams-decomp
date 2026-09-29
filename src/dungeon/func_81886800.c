@@ -294,7 +294,7 @@ extern u8 D_800DDC40[];
 
 #ifdef __mips__
 static void (*const func_81886800_table[])(void) __asm__("func_81886800")
-    __attribute__((section(".text.func_81886800"), aligned(4))) = {
+__attribute__((section(".text.func_81886800"), aligned(4))) = {
     func_80024064,
     0,
     func_800240C8,
@@ -327,7 +327,7 @@ static void (*const func_81886800_table[])(void) __asm__("func_81886800")
 #endif
 
 void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
-    __attribute__((section(".text.func_81886800")));
+__attribute__((section(".text.func_81886800")));
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
 void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
@@ -698,7 +698,7 @@ end:
 
 #ifdef __mips__
 __asm__(
-    ".globl func_81886800\n"
-    ".type func_81886800,@function\n"
-    ".size func_81886800,2052\n");
+        ".globl func_81886800\n"
+        ".type func_81886800,@function\n"
+        ".size func_81886800,2052\n");
 #endif

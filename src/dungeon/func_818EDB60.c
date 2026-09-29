@@ -29,7 +29,6 @@ typedef struct S_80025360_2 {
 } S_80025360_2;   /* ((S_80025360_0 *)obj)->unk_40 in func_80025360 */
 
 
-
 extern s32 func_80024A5C();
 typedef struct Rect {
     s16 x;

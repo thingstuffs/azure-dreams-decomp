@@ -99,7 +99,6 @@ typedef struct S_8195FD40_6 {
                               ((S_8195FD40_0 *)scratch)->unk_20) in func_8195FD40 */
 
 
-
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -163,10 +162,10 @@ void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
     ((S_8195FD40_0 *)scratch)->unk_7C = 0;
     ((S_8195FD40_0 *)scratch)->unk_74 = 0;
     depth = func_80065590(scratch + 0x70, scratch + 0x78,
-                            scratch + 0x80, scratch + 0x88,
-                            packet + 8, packet + 0x10,
-                            packet + 0x18, packet + 0x20,
-                            scratch + 0x90, scratch + 0x94) - depth_bias;
+                          scratch + 0x80, scratch + 0x88,
+                          packet + 8, packet + 0x10,
+                          packet + 0x18, packet + 0x20,
+                          scratch + 0x90, scratch + 0x94) - depth_bias;
     ((S_8195FD40_0 *)scratch)->unk_C0 = depth;
 
     if (depth < 0x1E0U) {
@@ -214,7 +213,7 @@ void func_8195FD40(s32 unused, S_8195FD40_1 *position, S_8195FD40_3 *quad, s16 d
                 (((S_8195FD40_6 *)((u8 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
                               ((S_8195FD40_0 *)scratch)->unk_20)))->unk_00 & 0xFFFFFF);
             ot_entry = (s32 *)((((S_8195FD40_0 *)scratch)->unk_C0 * 4) +
-                              ((S_8195FD40_0 *)scratch)->unk_20);
+                               ((S_8195FD40_0 *)scratch)->unk_20);
             packet += 0x28;
             *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;
         }

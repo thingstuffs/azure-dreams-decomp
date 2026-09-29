@@ -74,17 +74,31 @@ void func_8005EDA0(SpuCommonAttr *attr)
             }
         }
         goto plain_l;
-    l_1: mode_bits = 0x8000; goto have_l;
-    l_2: mode_bits = 0x9000; goto have_l;
-    l_3: mode_bits = 0xA000; goto have_l;
-    l_4: mode_bits = 0xB000; goto have_l;
-    l_5: mode_bits = 0xC000; goto have_l;
-    l_6: mode_bits = 0xD000; goto have_l;
-    l_7: mode_bits = 0xE000; goto have_l;
-    plain_l:
+l_1:
+        mode_bits = 0x8000;
+        goto have_l;
+l_2:
+        mode_bits = 0x9000;
+        goto have_l;
+l_3:
+        mode_bits = 0xA000;
+        goto have_l;
+l_4:
+        mode_bits = 0xB000;
+        goto have_l;
+l_5:
+        mode_bits = 0xC000;
+        goto have_l;
+l_6:
+        mode_bits = 0xD000;
+        goto have_l;
+l_7:
+        mode_bits = 0xE000;
+        goto have_l;
+plain_l:
         left_volume = attr->mvol.left;
         mode_bits = 0;
-    have_l:
+have_l:
         if (mode_bits != 0) {
             left_level = attr->mvol.left;
             if (left_level > 0x7F) {
@@ -106,17 +120,31 @@ void func_8005EDA0(SpuCommonAttr *attr)
             }
         }
         goto plain_r;
-    r_1: mode_bits = 0x8000; goto have_r;
-    r_2: mode_bits = 0x9000; goto have_r;
-    r_3: mode_bits = 0xA000; goto have_r;
-    r_4: mode_bits = 0xB000; goto have_r;
-    r_5: mode_bits = 0xC000; goto have_r;
-    r_6: mode_bits = 0xD000; goto have_r;
-    r_7: mode_bits = 0xE000; goto have_r;
-    plain_r:
+r_1:
+        mode_bits = 0x8000;
+        goto have_r;
+r_2:
+        mode_bits = 0x9000;
+        goto have_r;
+r_3:
+        mode_bits = 0xA000;
+        goto have_r;
+r_4:
+        mode_bits = 0xB000;
+        goto have_r;
+r_5:
+        mode_bits = 0xC000;
+        goto have_r;
+r_6:
+        mode_bits = 0xD000;
+        goto have_r;
+r_7:
+        mode_bits = 0xE000;
+        goto have_r;
+plain_r:
         right_volume = attr->mvol.right;
         mode_bits = 0;
-    have_r:
+have_r:
         if (mode_bits != 0) {
             right_level = attr->mvol.right;
             right_level_s16 = attr->mvol.right;

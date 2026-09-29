@@ -31,11 +31,11 @@ void func_80039E1C(Func80039E1CReader *reader) {
 
     reader->read_ptr = read_ptr;
     table_ref = (u8 *)(read_ptr[0] + (read_ptr[1] << 8) +
-                      (read_ptr[2] << 16) + (read_ptr[3] << 24));
+                       (read_ptr[2] << 16) + (read_ptr[3] << 24));
     read_ptr += 4;
     handlers = (Func80039E1CHandler *)(table_ref[0] + (table_ref[1] << 8) +
-                                     (table_ref[2] << 16) + (table_ref[3] << 24));
+                                       (table_ref[2] << 16) + (table_ref[3] << 24));
     reader->read_ptr = read_ptr;
     table->result = handlers[handler_index](table->arg0, table->arg1,
-                                           table->arg2, table->arg3);
+                                            table->arg2, table->arg3);
 }

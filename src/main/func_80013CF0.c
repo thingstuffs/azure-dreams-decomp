@@ -24,8 +24,6 @@ typedef struct S_80026CF0_4 {
 } S_80026CF0_4;   /* ((S_80026CF0_2 *)temp_a2_2)->unk_04 in func_80026CF0 */
 
 
-
-
 M2C_UNK func_8004CBFC();   /* extern */
 extern M2C_UNK D_80027E68;
 

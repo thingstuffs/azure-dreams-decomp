@@ -418,7 +418,8 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 
     case 2:
         index = 0;
-        loop_0: {
+loop_0:
+        {
             s32 particle_color;
 
             index++;
@@ -429,7 +430,9 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             particle_shade = (random_bits & 0xFF) | 0x80;
             ASM_KEEP_NV(particle_shade);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80025080(effect_object, effect->unk_7E.s16, particle_color, particle_shade, 0, 0, 0);
-        } if (index < 4) goto loop_0;
+        }
+        if (index < 4)
+            goto loop_0;
         result = func_800A4778(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
                                motion->unk_08.s16_0A.unk_0A, owner->unk_60);
         if ((s16)result == 0) {
@@ -490,13 +493,14 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         render->unk_0C.u8 = 0;
         return;
 
-    update_coords:
+update_coords:
         motion->unk_00.u32 += motion->unk_0C;
         motion->unk_04.u32 += motion->unk_10;
         motion->unk_08.u32 += motion->unk_14.u32;
         return;
 
-    case 3: {
+    case 3:
+    {
         {
             u16 previous_angle = render->unk_1A;
             u16 angle = previous_angle + 0x190;
@@ -864,7 +868,8 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         effect->unk_82.u16 = 30;
         return;
 
-    case 8: {
+    case 8:
+    {
         u16 previous_timer = effect->unk_82.u16;
         u16 timer = previous_timer + 1;
 

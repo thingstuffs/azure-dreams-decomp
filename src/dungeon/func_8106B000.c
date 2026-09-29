@@ -64,7 +64,7 @@ extern M2C_UNK D_80162000;
 #ifdef __mips__
 void func_8015E800(void);
 static const u32 data_bank[] __asm__("func_8015E800")
-    __attribute__((section(".text.func_8015E800"), aligned(4))) = {
+__attribute__((section(".text.func_8015E800"), aligned(4))) = {
     0x8015E898, 0x8015EAA4, 0x8015F394, 0x8015F394,
     0x8015F394, 0x8015F3C0, 0x8015F340, 0x8015F340,
     0x8015F340, 0x8015F2EC, 0x8015F324, 0x8015F3C0,

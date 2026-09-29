@@ -62,7 +62,7 @@ extern u8 D_80163298[];
 
 extern void *func_8015E8A4(s32, s16, s16, s16);
 static const u32 bank_words[] __asm__("func_8015E800")
-    __attribute__((section(".text.func_8015E800"), aligned(4))) = {
+__attribute__((section(".text.func_8015E800"), aligned(4))) = {
     (u32)func_8015E8A4, (u32)D_8015EB40, 0x8015F12C, 0x8015F198,
     0x8015F26C, 0x8015F3FC, 0x8015F444, 0x00000000,
     0x8015F794, 0x8015F794, 0x8015F794, 0x8015F7C0,
@@ -79,7 +79,7 @@ __asm__(".globl func_8015E800\n"
         ".size func_8015E800, 832");
 
 void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
-    __attribute__((section(".text.func_8015E800")));
+__attribute__((section(".text.func_8015E800")));
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
@@ -148,7 +148,7 @@ normal_kind:
                     ((S_8015E8A4_1 *)work)->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
                                   (func_800A6D30() & 0x3F) |
-                                      0x20);
+                                  0x20);
                     part_b->unk_2C = D_80163298;
                 }
             }

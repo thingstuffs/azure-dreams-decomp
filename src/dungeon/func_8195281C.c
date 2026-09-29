@@ -55,7 +55,12 @@ typedef struct S_8195281C_5 {
 
 typedef struct S_8195281C_6 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
 } S_8195281C_6;   /* var_a1 in func_8195281C */
 
 typedef struct S_8195281C_7 {
@@ -115,7 +120,8 @@ void func_8195281C(void *effect, void *color_data) {
     if ((u32) stage >= 5U) {
         goto block_27;
     }
-    (void)jt_keep; goto *D_80024008[(s32) stage];
+    (void)jt_keep;
+    goto * D_80024008[(s32) stage];
 jt_c0:
     upload_rect[0] = 0x01000340;
     upload_rect[1] = 0x200020;
@@ -154,7 +160,8 @@ jt_c2:
     }
     model_owner = ((S_8195281C_1 *)((int *)(&D_800814A8)))->unk_00.p;
     ((S_8195281C_0 *)effect)->unk_18 = 0x20;
-    func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09, model_owner->unk_60);
+    func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09,
+        model_owner->unk_60);
     ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
     goto block_28;
 jt_c3:
@@ -198,7 +205,8 @@ jt_c4:
     dungeonStatus.unk_0C = 0;
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_8195281C_0_pre *)effect)[-1].unk_00 = (u16) (((S_8195281C_0_pre *)effect)[-1].unk_00 | 0x8000);
-    ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+    ((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 =
+        (s32) (((S_8195281C_9 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
 block_27:
 block_28:
     D_800249A6 = 0;

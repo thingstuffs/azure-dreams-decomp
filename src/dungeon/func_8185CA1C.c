@@ -20,8 +20,7 @@ void func_8185CA1C(s32 effect_param, void *source_pos)
     void *effect;
 
     effect = func_8003FC64(0x212);
-    if (effect != 0)
-    {
+    if (effect != 0) {
         *((M2C_UNK **)(((s8 *)effect) + 0x10)) = &D_8002418C;
         sprite = *((void **)(((s8 *)effect) + 0xC));
         *((s32 *)(((s8 *)effect) + 0x20)) = effect_param;

@@ -58,7 +58,6 @@ typedef struct S_80174DA0_5 {
 } S_80174DA0_5;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_80174DA0 */
 
 
-
 extern void *func_8003FD64();
 extern u8 D_80174AD4[9];
 extern u8 D_80175F90[9];

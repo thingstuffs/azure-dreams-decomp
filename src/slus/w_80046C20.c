@@ -24,7 +24,8 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
     edge_state = (s32 *)((char *)edges + 0x1C);
     vertex = vertices;
 
-    loop_0: {
+loop_0:
+    {
         top_vertex = vertex[1];
         top_vertex = top_vertex - vertex[5];
 
@@ -59,7 +60,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
             edge_state[-3] = height;
             edge_state[-6] = edge_value;
 
-            /* reuse edge_value ($v0) for dx so lh lands in v0 like retail */
+                        /* reuse edge_value ($v0) for dx so lh lands in v0 like retail */
             edge_value = ((s16 *)bottom_vertex)[0];
             edge_value = edge_value - *edge_x;
             edge_state[-2] = edge_value;
@@ -83,7 +84,9 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
         edge_index += 1;
         edge_state = (s32 *)((char *)edge_state + 0x28);
         edge_x = (s32 *)((char *)edge_x + 0x28);
-    } if (edge_index < 4) goto loop_0;
+    }
+    if (edge_index < 4)
+        goto loop_0;
 
     return min_y & -0x40;
 }

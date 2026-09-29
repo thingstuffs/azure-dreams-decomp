@@ -26,11 +26,11 @@ s32 func_800413C0(void) {
             polls_left = polls_left - 1;
             if (polls_left == timeout_value) {
                 asm (
-                    "lui $4,%%hi(D_8017681C)\n\t"
-                    "addiu $4,$4,%%lo(D_8017681C)"
-                    :
-                    :
-                    : "$4");
+                     "lui $4,%%hi(D_8017681C)\n\t"
+                     "addiu $4,$4,%%lo(D_8017681C)"
+                     :
+                     :
+                     : "$4");
                 func_80177D08();
                 func_80177C48();
                 return -1;

@@ -134,10 +134,10 @@ __asm__(".set func_80024004, 0x80024004");
  * stores. */
 #ifdef __mips__
 static void (*const func_81832800_table[])(void)
-    __asm__("func_81832800")
-    __attribute__((section(".text.func_81832800"), aligned(4))) = {
-        func_80024004,
-    };
+__asm__("func_81832800")
+__attribute__((section(".text.func_81832800"), aligned(4))) = {
+    func_80024004,
+};
 __asm__(".globl func_81832800\n"
         ".type func_81832800,@function\n"
         ".size func_81832800, 2024");
@@ -235,7 +235,8 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                 particle_data = (S_func_81832800_6 *) ((u8 *) object + 0x20);
                 jitter_count = 1;
                 ((S_func_81832800_4 *) object->unk_08)->unk_04.as_s32 = (s32) position->unk_04.as_s32;
-                loop_0: {
+loop_0:
+                {
                     spawn_value = func_80069EF8();
                     jitter_position_x = object->unk_08;
                     init_value = jitter_position_x->unk_00.parts.unk_02.as_u16;
@@ -259,14 +260,19 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
                     init_value = jitter_base + init_value;
                     jitter_count -= 1;
                     jitter_position_y->unk_04.parts.unk_06.as_u16 = (u16) init_value;
-                } if (jitter_count >= 0) goto loop_0;
+                }
+                if (jitter_count >= 0)
+                    goto loop_0;
                 particle_position = object->unk_08;
-                ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 = func_800BCB04(particle_position->unk_00.parts.unk_02.as_u16, particle_position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+                ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 =
+                    func_800BCB04(particle_position->unk_00.parts.unk_02.as_u16,
+                    particle_position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
                 height_position = object->unk_08;
                 if (height_position->unk_08.parts.unk_0A.as_s16 >= 0x200) {
                     height_position->unk_08.parts.unk_0A.as_s16 = (s16) position->unk_08.parts.unk_0A.as_u16;
                 }
-                position->unk_08.parts.unk_0A.as_u16 = (u16) ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16;
+                position->unk_08.parts.unk_0A.as_u16 =
+                    (u16) ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16;
                 color = 0xC0C0C0;
                 {
                     s32 scale = 0x1400;
@@ -317,7 +323,8 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
 
 state_0:
     if (*effect->unk_04 & 0x80) {
-        found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, (s16) source->unk_2A, (s32) func_800A3820(6));
+        found_target = func_800A05A4(source, source_sprite->unk_24, source_sprite->unk_25, (s16) source->unk_2A,
+            (s32) func_800A3820(6));
         source->unk_60 = found_target;
         if (found_target == NULL) {
             source->unk_72 = (u8) source_sprite->unk_24;
@@ -385,7 +392,8 @@ state_2:
 
 state_3:
     count = 3;
-    ground_height = (s16) func_800BCB04(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
+    ground_height = (s16) func_800BCB04(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16,
+        (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
     do {
         object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         if (object != NULL) {
@@ -403,7 +411,8 @@ state_3:
             if (random_x < 0) {
                 rounded_x = random_x + 0x7F;
             }
-            burst_position->unk_00.parts.unk_02.as_s16 = (s16) ((origin_x + (random_x - ((rounded_x >> 7) << 7))) - 0x40);
+            burst_position->unk_00.parts.unk_02.as_s16 = (s16) ((origin_x + (random_x - ((rounded_x >> 7) << 7)))
+                - 0x40);
             rounded_y = func_80069EF8((s32) origin_x, burst_position);
             random_y = rounded_y;
             burst_position_y = object->unk_08;
@@ -412,7 +421,8 @@ state_3:
             if (random_y < 0) {
                 rounded_y = random_y + 0x7F;
             }
-            burst_position_y->unk_04.parts.unk_06.as_s16 = (s16) ((origin_y + (random_y - ((rounded_y >> 7) << 7))) - 0x40);
+            burst_position_y->unk_04.parts.unk_06.as_s16 = (s16) ((origin_y + (random_y - ((rounded_y >> 7) << 7)))
+                - 0x40);
             rounded_height = func_80069EF8((s32) origin_y, burst_position_y);
             random_height = rounded_height;
             burst_position = object->unk_08;
@@ -420,7 +430,8 @@ state_3:
             if (random_height < 0) {
                 rounded_height = random_height + 0x3F;
             }
-            burst_position->unk_08.parts.unk_0A.as_s16 = (s16) ((ground_height + (random_height - ((rounded_height >> 6) << 6))) - 0x80);
+            burst_position->unk_08.parts.unk_0A.as_s16 = (s16) ((ground_height + (random_height - ((rounded_height
+                >> 6) << 6))) - 0x80);
             color = 0x101010;
             sprite_flags = sprite->unk_14;
             sprite->unk_1E.as_s16 = 0x1000;
@@ -444,7 +455,8 @@ state_3:
     height_delta = target_position->unk_08.parts.unk_0A.as_s16 - 0x18;
     height_delta = ground_height - height_delta;
     height_step = height_delta / 10;
-    target_position->unk_08.parts.unk_0A.as_s16 = (s16) ((u16) target_position->unk_08.parts.unk_0A.as_s16 + height_step);
+    target_position->unk_08.parts.unk_0A.as_s16 = (s16) ((u16) target_position->unk_08.parts.unk_0A.as_s16
+        + height_step);
     sprite = object->unk_0C;
     if ((u16) sprite->unk_1C.as_u16 >= 0x21C1U) {
         sprite->unk_1C.as_u16 = 0x2000U;
@@ -495,7 +507,8 @@ state_FF:
         return;
     }
     dungeonStatus.unk_0C = 0;
-    ((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 | 0x8000);
+    ((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00
+        | 0x8000);
     objectFlagBlock.flags |= 0x8000;
 }
 

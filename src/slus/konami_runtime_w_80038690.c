@@ -35,7 +35,7 @@ void func_80038690(Func80038690State *state) {
     s32 result;
 
     result = context->handlers[state->table_index](context->arg0, context->arg1,
-                                                  context->arg2, context->arg3);
+                                                   context->arg2, context->arg3);
     context->callback_result = result;
     if (result != 0) {
         state->result = result;

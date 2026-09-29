@@ -27,7 +27,8 @@ void func_801720D0(void *record_data, S_801720D0_0 *state) {
     ticks_left = ((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_18 - 1;
     ((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_18 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+        ((S_801720D0_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_801720D0_1 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

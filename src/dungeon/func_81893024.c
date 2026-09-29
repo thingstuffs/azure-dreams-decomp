@@ -41,7 +41,9 @@ void *func_81893024(s32 object_arg, void *source_data, s16 initial_value, s16 fi
     void *result;
 
     object = func_8003FC64(0x212);
-    do { result = NULL; } while (0);
+    do {
+        result = NULL;
+    } while (0);
     if (object != NULL) {
         src = (M2C_BLOCK *)source_data;
         object->callback = &D_800243F8;

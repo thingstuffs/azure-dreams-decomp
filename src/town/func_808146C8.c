@@ -82,7 +82,6 @@ typedef struct S_8052F2C8_9 {
 } S_8052F2C8_9;   /* entity_data in func_8052F2C8 */
 
 
-
 extern void *func_800373DC();
 extern void func_8003BC18();
 extern void func_80058F88();
@@ -289,7 +288,7 @@ void func_8052F2C8(void *obj, void *state_in, void *input) {
             x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
             rnd = func_80071494();
             func_8052E4C0(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
-                         ((rnd % 80) << 16) + 0xFFB00000);
+                          ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
         timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
         ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
@@ -319,7 +318,7 @@ case_4_loop:
         x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + base;
         rnd4 = func_80071494();
         func_8052E4C0(0, x4, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
-                     ((rnd4 & 0x3F) << 16) | mask);
+                      ((rnd4 & 0x3F) << 16) | mask);
         if (count4 >= 0) {
             goto case_4_loop;
         }

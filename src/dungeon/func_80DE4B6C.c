@@ -13,7 +13,6 @@ typedef struct S_8017236C_1 {
 } S_8017236C_1;   /* arg0 in func_8017236C */
 
 
-
 extern s32 func_80047784();
 extern s32 func_800A2B5C();
 extern s32 func_800A4ACC();
@@ -31,9 +30,9 @@ void func_8017236C(void *actor_state, s32 action_param, void *sprite, EntityRec 
             ((S_8017236C_1 *)actor_state)->unk_9B = 0;
             (*(s32 * *)((u8 *)sprite + 0x2C)) = &D_80174558;
             func_80047784(sprite,
-                         *((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                           + (u8 *)&D_80174558),
-                         0);
+                          *((((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
+                            + (u8 *)&D_80174558),
+                          0);
             func_800A4ACC(actor);
             actor->unk_6D = ((u8)actor->unk_6D) - 1;
         }

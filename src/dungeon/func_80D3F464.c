@@ -116,15 +116,15 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
             goto state0_done;
 
         case 1:
-            {
-                u16 timer = motion->unk_96;
+        {
+            u16 timer = motion->unk_96;
 
-                motion->unk_96 = timer - 1;
-                if ((timer << 16) <= 0) {
-                    motion->unk_B2 = 0;
-                }
-                goto state0_done;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) <= 0) {
+                motion->unk_B2 = 0;
             }
+            goto state0_done;
+        }
 
         case 2:
             next_angle = angle + 0x200;
@@ -158,20 +158,20 @@ set_state2_from_zero:
             }
             motion->unk_96 = 3;
             motion->unk_B2++;
-            /* fall through */
+                        /* fall through */
 
         case 1:
-            {
-                u16 timer = motion->unk_96;
+        {
+            u16 timer = motion->unk_96;
 
-                motion->unk_96 = timer - 1;
-                if ((timer << 16) <= 0) {
-                    motion->unk_B2 = 0;
-                }
-                (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-                (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
-                goto state0_done;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) <= 0) {
+                motion->unk_B2 = 0;
             }
+            (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
+            (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+            goto state0_done;
+        }
 
         default:
             goto state0_done;
@@ -229,7 +229,8 @@ state1_test:
                             u8 *history_entry = history_base + (history_index << 2);
 
                             if (history_x == (*(signed short *)((u8 *)history_entry + 0x62)) &&
-                                (*(signed short *)((u8 *)history_base + 0x68)) == (*(signed short *)((u8 *)history_entry + 0x64))) {
+                                (*(signed short *)((u8 *)history_base + 0x68))
+                                    == (*(signed short *)((u8 *)history_entry + 0x64))) {
                                 goto set_state3;
                             }
                             history_index++;
@@ -250,7 +251,7 @@ state1_call:
         }
         motion->unk_B1 = 1;
         motion->unk_B2 = 0;
-        /* fall through */
+                /* fall through */
 
     case 1:
         switch (motion->unk_B2) {
@@ -264,21 +265,21 @@ state1_plus_angle:
             goto state1_advance_sub;
 
         case 1:
-            {
-                u16 timer = motion->unk_96;
+        {
+            u16 timer = motion->unk_96;
 
-                motion->unk_96 = timer - 1;
-                if ((timer << 16) > 0) {
-                    goto state1_done;
-                }
-                if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
-                    motion->unk_B2 = 0;
-                    goto state1_plus_angle;
-                }
-                motion->unk_B1 = 0;
-                motion->unk_B2 = 0;
-                goto state1_call;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                goto state1_done;
             }
+            if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                motion->unk_B2 = 0;
+                goto state1_plus_angle;
+            }
+            motion->unk_B1 = 0;
+            motion->unk_B2 = 0;
+            goto state1_call;
+        }
 
         default:
             goto state1_done;
@@ -291,54 +292,56 @@ state1_case2:
         case 0:
             motion->unk_B2 = (turn_phase == 0);
             motion->unk_96 = 3;
-            /* fall through */
+                        /* fall through */
 
         case 1:
+        {
+            u16 timer;
+
+            (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
+            (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+
+            timer = motion->unk_96;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                goto state1_done;
+            }
+
             {
-                u16 timer;
+                void *history_copy = motion->unk_AC;
 
-                (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-                (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
-
-                timer = motion->unk_96;
-                motion->unk_96 = timer - 1;
-                if ((timer << 16) > 0) {
-                    goto state1_done;
-                }
-
-                {
-                    void *history_copy = motion->unk_AC;
-
-                    if (history_copy != 0) {
-                        history_base = (u8 *)history_copy + 0x20;
-                        for (history_index = 5; history_index >= 2; history_index--) {
-                            ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_62 =
-                                ((S_80174C64_3 *)((u8 *)((unsigned long)history_base + ((history_index - 1) << 2))))->unk_62;
-                            ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_64 =
-                                ((S_80174C64_3 *)((u8 *)((unsigned long)history_base + ((history_index - 1) << 2))))->unk_64;
-                        }
-                        (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)((u8 *)position + 2));
-                        (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)((u8 *)position + 6));
+                if (history_copy != 0) {
+                    history_base = (u8 *)history_copy + 0x20;
+                    for (history_index = 5; history_index >= 2; history_index--) {
+                        ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_62 =
+                            ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
+                                + ((history_index - 1) << 2))))->unk_62;
+                        ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_64 =
+                            ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
+                                + ((history_index - 1) << 2))))->unk_64;
                     }
+                    (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)((u8 *)position + 2));
+                    (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)((u8 *)position + 6));
                 }
+            }
 
-                saved_angle = (*(u16 *)((u8 *)object + 0x2A));
-                next_angle = saved_angle - 0x400;
-                (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
-                if ((next_angle << 16) < 0) {
-                    (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
-                }
-                if (func_800D5F80(position, object) != 0) {
-                    motion->unk_B2 = 0;
-                    motion->unk_B1 = 0;
-                    (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
-                    goto state1_done;
-                }
-                motion->unk_B1 = 3;
+            saved_angle = (*(u16 *)((u8 *)object + 0x2A));
+            next_angle = saved_angle - 0x400;
+            (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+            if ((next_angle << 16) < 0) {
+                (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
+            }
+            if (func_800D5F80(position, object) != 0) {
                 motion->unk_B2 = 0;
+                motion->unk_B1 = 0;
                 (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
                 goto state1_done;
             }
+            motion->unk_B1 = 3;
+            motion->unk_B2 = 0;
+            (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
+            goto state1_done;
+        }
 
         default:
             goto state1_done;
@@ -361,21 +364,21 @@ state1_advance_sub:
             goto state1_done;
 
         case 1:
-            {
-                u16 timer = motion->unk_96;
+        {
+            u16 timer = motion->unk_96;
 
-                motion->unk_96 = timer - 1;
-                if ((timer << 16) > 0) {
-                    goto state1_done;
-                }
-                if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
-                    motion->unk_B2 = 0;
-                    goto state1_minus_angle;
-                }
-                motion->unk_B1 = 2;
-                motion->unk_B2 = 0;
-                goto state1_case2;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                goto state1_done;
             }
+            if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                motion->unk_B2 = 0;
+                goto state1_minus_angle;
+            }
+            motion->unk_B1 = 2;
+            motion->unk_B2 = 0;
+            goto state1_case2;
+        }
 
         default:
             goto state1_done;
@@ -413,22 +416,22 @@ state3_test:
     switch (state) {
 
     case 0:
-        {
-            u16 next_state = motion->unk_B1;
+    {
+        u16 next_state = motion->unk_B1;
 
-            motion->unk_96 = 10;
-            motion->unk_B1 = next_state + 1;
-        }
+        motion->unk_96 = 10;
+        motion->unk_B1 = next_state + 1;
+    }
 
     case 1:
-        {
-            u16 timer = motion->unk_96;
+    {
+        u16 timer = motion->unk_96;
 
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                break;
-            }
+        motion->unk_96 = timer - 1;
+        if ((timer << 16) > 0) {
+            break;
         }
+    }
         motion->unk_B1++;
         break;
 
@@ -437,29 +440,29 @@ state3_test:
         goto state3_set_timer;
 
     case 3:
-        {
-            u16 timer = motion->unk_96;
+    {
+        u16 timer = motion->unk_96;
 
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                break;
-            }
+        motion->unk_96 = timer - 1;
+        if ((timer << 16) > 0) {
+            break;
         }
+    }
 
-    state3_set_timer:
+state3_set_timer:
         motion->unk_96 = 20;
         motion->unk_B1++;
         break;
 
     case 4:
-        {
-            u16 timer = motion->unk_96;
+    {
+        u16 timer = motion->unk_96;
 
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                break;
-            }
+        motion->unk_96 = timer - 1;
+        if ((timer << 16) > 0) {
+            break;
         }
+    }
         (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
         motion->unk_9B++;
         record->unk_14.at00_u16.v |= 0x80;

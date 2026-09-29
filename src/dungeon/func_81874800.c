@@ -18,7 +18,7 @@ extern s32 func_800A6870(s32);
 
 #ifdef __mips__
 static const u32 prefix_words[] __asm__("func_81874800")
-    __attribute__((section(".text.func_81874800"), aligned(4))) = {
+__attribute__((section(".text.func_81874800"), aligned(4))) = {
     0x800259D8, 0x88827382, 0x92828582, 0x40818582,
     0x81829782, 0x40819382, 0x8F828E82, 0x85824081,
     0x86828682, 0x83828582, 0x40819482, 0x8E828F82,

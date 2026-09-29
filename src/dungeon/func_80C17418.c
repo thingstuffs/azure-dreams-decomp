@@ -137,7 +137,7 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
                 goto slot2;
             case 4:
                 use_main_link = 1;
-                /* fall through */
+                                /* fall through */
             case 0:
                 goto slot1;
             case 1:
@@ -169,19 +169,19 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
             }
         }
 
-    slot3:
+slot3:
         item_slot = &ent->slots[6];
         goto have_slot;
-    slot2:
+slot2:
         item_slot = &ent->slots[3];
         goto have_slot;
-    slot1:
+slot1:
         item_slot = &ent->slots[0];
         goto have_slot;
-    slot4:
+slot4:
         item_slot = 0;
 
-    have_slot:
+have_slot:
         if (*item_slot != 0) {
             s32 main_link_test;
             u16 state_flags;

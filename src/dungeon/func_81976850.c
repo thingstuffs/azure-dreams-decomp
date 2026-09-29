@@ -74,7 +74,6 @@ typedef struct S_81976850_10 {
 } S_81976850_10;   /* ((S_81976850_0 *)arg0)->unk_04 in func_81976850 */
 
 
-
 typedef struct Vec16 {
     s16 x;
     s16 y;

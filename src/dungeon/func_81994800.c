@@ -37,7 +37,7 @@ __asm__(".globl func_81994800\n.type func_81994800,@function\n.size func_8199480
 extern s16 D_80025384;
 void BODY_NAME(void *arg0, void *arg1, void *arg2)
 #ifdef __mips__
-    __attribute__((section(".text.func_81994800")))
+__attribute__((section(".text.func_81994800")))
 #endif
 ;
 /* Advance the effect countdown, update its parameters, and flag completion. */

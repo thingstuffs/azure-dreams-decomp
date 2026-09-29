@@ -18,7 +18,7 @@ void func_800251A4(void *object) {
     s16 object_mode;
     s32 global_mode;
     u16 state_flags;
-    /* D_80013714 and D_80010208 sit on the same 64K page; retail keeps ONE
+        /* D_80013714 and D_80010208 sit on the same 64K page; retail keeps ONE
      * lui (0x8001) live in a callee-saved reg ($s1) across both accesses and
      * across the two intervening calls. Pin the page base to a saved hard
      * register so it survives the calls instead of being rematerialized. */

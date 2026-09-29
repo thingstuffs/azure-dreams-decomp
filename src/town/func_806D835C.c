@@ -43,51 +43,51 @@ s32 func_80016B5C(void)
 
     entry_index = 1;
     dispatch_table = D_8001601C;
-        do {
-                    entry_data = D_80010000.root->entries;
-                    entry_data += entry_index;
-                    entry_code = entry_data[0x3608];
-                    case_index = entry_code - 5;
-                    if ((u32)case_index >= 8) {
-                        goto default_case;
-                    }
-                    goto *dispatch_table[case_index];
+    do {
+        entry_data = D_80010000.root->entries;
+        entry_data += entry_index;
+        entry_code = entry_data[0x3608];
+        case_index = entry_code - 5;
+        if ((u32)case_index >= 8) {
+            goto default_case;
+        }
+        goto *dispatch_table[case_index];
 
-            case_0:
-                    selected_id = 0x9AF;
-                    goto selected_call;
-            case_1:
-                    selected_id = 0x9B0;
-                    goto selected_call;
-            case_2:
-                    selected_id = 0x9B1;
-                    goto selected_call;
-            case_3:
-                    selected_id = 0x9B2;
-                    goto selected_call;
-            case_4:
-                    selected_id = 0x9B3;
-                    goto selected_call;
-            case_5:
-                    selected_id = 0x9B4;
-                    goto selected_call;
-            case_6:
-                    selected_id = 0x9B5;
-                    goto selected_call;
+case_0:
+        selected_id = 0x9AF;
+        goto selected_call;
+case_1:
+        selected_id = 0x9B0;
+        goto selected_call;
+case_2:
+        selected_id = 0x9B1;
+        goto selected_call;
+case_3:
+        selected_id = 0x9B2;
+        goto selected_call;
+case_4:
+        selected_id = 0x9B3;
+        goto selected_call;
+case_5:
+        selected_id = 0x9B4;
+        goto selected_call;
+case_6:
+        selected_id = 0x9B5;
+        goto selected_call;
 
-            default_case:
-                    match_count -= 1;
-                    selected_id = 0x9B6;
-                    if (match_count != 0) {
-                        goto after_call;
-                    }
+default_case:
+        match_count -= 1;
+        selected_id = 0x9B6;
+        if (match_count != 0) {
+            goto after_call;
+        }
 
-            selected_call:
-                    func_80018548(selected_id);
+selected_call:
+        func_80018548(selected_id);
 
-            after_call:
-                    entry_index -= 1;
-        } while (entry_index >= 0);
+after_call:
+        entry_index -= 1;
+    } while (entry_index >= 0);
 
     return match_count;
 }

@@ -10,8 +10,6 @@ typedef struct S_8072A244_1 {
 } S_8072A244_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_8072A244 */
 
 
-
-
 M2C_UNK func_80016100(s32, s32);                            /* extern */
 extern M2C_UNK D_80017A7C;
 extern M2C_UNK *D_80017B90;

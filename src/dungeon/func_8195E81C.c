@@ -34,7 +34,6 @@ typedef struct S_8002401C_4 {
 } S_8002401C_4;   /* ((S_8002401C_0 *)obj)->unk_04 in func_8002401C */
 
 
-
 extern void *func_8002453C(void *, void *);
 extern void func_80025AD8(s16, s16);
 extern void func_80025C8C(void);
@@ -93,83 +92,83 @@ void func_8002401C(void *object)
     goto *D_80024008[(u32)state];
 
 jt_c0:
-        row_index = 0;
-        D_800273BC = 1;
-        config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
-        D_80027328 = 0;
-        source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
-        D_800273BE = config_byte;
-        D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
-        D_8002732C = source_obj;
+    row_index = 0;
+    D_800273BC = 1;
+    config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
+    D_80027328 = 0;
+    source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
+    D_800273BE = config_byte;
+    D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
+    D_8002732C = source_obj;
 
-        D_800814A8->unk_F4 = 0;
-        D_800814A8->unk_102 = 1;
-        D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
+    D_800814A8->unk_F4 = 0;
+    D_800814A8->unk_102 = 1;
+    D_800814A8->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
-        clear_row = D_800274DC;
+    clear_row = D_800274DC;
+    do {
+        col_index = 6;
+        clear_cell = clear_row + 6;
         do {
-            col_index = 6;
-            clear_cell = clear_row + 6;
-            do {
             *clear_cell = 0;
             clear_cell--;
             col_index--;
-            } while (col_index >= 0);
-            row_index++;
-            if (row_index >= 7) {
-                break;
-            }
-            clear_row += 8;
-        } while (1);
-
-        D_800273A8 = 0;
-        map_data = (u8 *)D_800E3D7C;
-        direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
-        func_80025AD8(
-            (s16)(D_80082E80.tileX +
-                  (dirStepX[direction_offset >> 1] * 4)),
-            (s16)(D_80082E80.tileY +
-                  (dirStepY[direction_offset >> 1] * 4)));
-        ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
-        /* fallthrough */
-
-jt_c1:
-        if ((((S_8002401C_4 *)(((S_8002401C_0 *)object_bytes)->unk_04))->unk_00 & 0x80) != 0) {
-            source = ((S_8002401C_0 *)object_bytes)->unk_00.u;
-            created_obj = func_8002453C(((S_8002401C_2_pre *)source)[-1].unk_00, source);
-            ((S_8002401C_0 *)object_bytes)->unk_0C = created_obj;
-            if (created_obj != 0) {
-                display = D_800814A8;
-                ((S_8002401C_0 *)object_bytes)->unk_1C.s = 0x10;
-                ((S_8002401C_3 *)display)->unk_A6--;
-                ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
-            }
+        } while (col_index >= 0);
+        row_index++;
+        if (row_index >= 7) {
+            break;
         }
-        goto dispatch_done;
+        clear_row += 8;
+    } while (1);
 
-jt_c2:
-        ((S_8002401C_0 *)object_bytes)->unk_1C.u--;
-        if (((S_8002401C_0 *)object_bytes)->unk_1C.s < 0) {
-            func_800A56E0(0x300);
-            ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+    D_800273A8 = 0;
+    map_data = (u8 *)D_800E3D7C;
+    direction_offset = (((u16)map_data->facing) >> 8) & 0xE;
+    func_80025AD8(
+        (s16)(D_80082E80.tileX +
+              (dirStepX[direction_offset >> 1] * 4)),
+        (s16)(D_80082E80.tileY +
+              (dirStepY[direction_offset >> 1] * 4)));
+    ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
             /* fallthrough */
 
-jt_c3:
-            if (D_800273BC == 0) {
-                func_80025C8C();
-                ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
-            }
+jt_c1:
+    if ((((S_8002401C_4 *)(((S_8002401C_0 *)object_bytes)->unk_04))->unk_00 & 0x80) != 0) {
+        source = ((S_8002401C_0 *)object_bytes)->unk_00.u;
+        created_obj = func_8002453C(((S_8002401C_2_pre *)source)[-1].unk_00, source);
+        ((S_8002401C_0 *)object_bytes)->unk_0C = created_obj;
+        if (created_obj != 0) {
+            display = D_800814A8;
+            ((S_8002401C_0 *)object_bytes)->unk_1C.s = 0x10;
+            ((S_8002401C_3 *)display)->unk_A6--;
+            ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         }
-        goto dispatch_done;
+    }
+    goto dispatch_done;
+
+jt_c2:
+    ((S_8002401C_0 *)object_bytes)->unk_1C.u--;
+    if (((S_8002401C_0 *)object_bytes)->unk_1C.s < 0) {
+        func_800A56E0(0x300);
+        ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+                    /* fallthrough */
+
+jt_c3:
+        if (D_800273BC == 0) {
+            func_80025C8C();
+            ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
+        }
+    }
+    goto dispatch_done;
 
 jt_c4:
-        if (D_80027330 == 0) {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
-            (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-        }
-        goto dispatch_done;
+    if (D_80027330 == 0) {
+        dungeonStatus.unk_0C = 0;
+        dungeonStatus.unk_0A--;
+        (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    }
+    goto dispatch_done;
 
 dispatch_done:
 

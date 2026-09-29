@@ -36,9 +36,21 @@ typedef struct S_8199AAD4_1 {
 } S_8199AAD4_1;   /* source in func_800242D4 */
 
 typedef struct S_8199AAD4_2 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
 } S_8199AAD4_2;   /* coords in func_800242D4 */
 
 typedef struct S_8199AAD4_3 {
@@ -181,7 +193,7 @@ void func_800242D4(void *self, void *coords)
         tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
         ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
         return;
-    finish:
+finish:
         ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
         ((S_8199AAD4_2 *)coords)->unk_04.at00.v = target[1];
         ((S_8199AAD4_2 *)coords)->unk_08.at00.v = target[2];
@@ -202,7 +214,7 @@ void func_800242D4(void *self, void *coords)
         iteration = NULL;
         table_end = &D_80024AE0;
         table_start_2 = table_end - 0x54;
-    loop_top:
+loop_top:
         object_entry = ((S_8199AAD4_0 *)self)->unk_04;
         start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
         start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
@@ -217,7 +229,8 @@ void func_800242D4(void *self, void *coords)
         entry_base = D_800E3D18;
         entry_offset &= 0x1C;
         call_node = ((S_8199AAD4_0 *)self)->unk_04;
-        if (func_8003DE58(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out, 0)) {
+        if (func_8003DE58(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out,
+            0)) {
             target[0] += (s32)(s16)delta[0] << 16;
             target[1] += (s32)(s16)delta[1] << 16;
             target[2] += (s32)(s16)delta[2] << 16;

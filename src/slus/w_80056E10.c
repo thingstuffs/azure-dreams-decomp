@@ -377,7 +377,8 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                         match_channel = channel_key;
                         match_note = note & 0xFF;
                         while (1) {
-                            if ((match_channel == D_80085458[voice_idx].f06) && (D_80085458[voice_idx].f0A == match_note)) {
+                            if ((match_channel == D_80085458[voice_idx].f06)
+                                && (D_80085458[voice_idx].f0A == match_note)) {
                                 break;
                             }
                             if (++voice_idx >= D_80073734_6[0]) {

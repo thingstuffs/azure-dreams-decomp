@@ -11,7 +11,7 @@ extern void func_8001670C(void *, void *, void *, void *);
  */
 #ifdef __mips__
 static const u32 data_bank[301] __asm__("func_806D23A4")
-    __attribute__((section(".text.func_806D23A4"), aligned(4))) = {
+__attribute__((section(".text.func_806D23A4"), aligned(4))) = {
     [0] = 0x08a908a8,
     [4] = 0x0000000b,
     [5] = 0x8001746c,

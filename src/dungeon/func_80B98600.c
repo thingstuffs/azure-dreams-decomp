@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80171E00_3 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -36,7 +35,8 @@ s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, EntityRe
     if (dungeonStatus.flags & 0x2000) {
         return -1;
     }
-    move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
+    move_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+        actor->facing);
     if ((func_800A2CB8(actor, move_heading) << 0x10) == 0) {
         return 0;
     }

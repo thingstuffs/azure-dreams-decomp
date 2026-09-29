@@ -5,7 +5,9 @@
 typedef struct {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
     s32 f30, f34, f38, f3c, f40, f44;
-    s8 f48; u8 f49; s8 f4a, f4b, f4c, f4d[3];
+    s8 f48;
+    u8 f49;
+    s8 f4a, f4b, f4c, f4d[3];
 } S_80058B70;
 
 extern S_80058B70 D_80085FA8[32];
@@ -38,13 +40,13 @@ s32 func_80058B70(void)
     D_800737D4[0] = 0;
     switch (D_800737C8[0]) {
     case 1:
-        {
-            s32 header_offset = func_80058850(0);
-            slot->f00 = header_offset;
-            if (header_offset == -1) {
-                return 0;
-            }
+    {
+        s32 header_offset = func_80058850(0);
+        slot->f00 = header_offset;
+        if (header_offset == -1) {
+            return 0;
         }
+    }
         D_80085FA0[0] = func_80058ABC(slot);
         D_800869B8[0] = func_80058B2C(slot) & 0xFFFF;
         D_800869B4[0] = func_80058B2C(slot) & 0xFFFF;

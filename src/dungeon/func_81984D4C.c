@@ -38,7 +38,8 @@ void func_81984D4C(void *tracker) {
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
     state = &gameWork.view;
     if (blend_ticks > 0) {
-        state->unk_098 = (u16) ((u16)state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - state->unk_098) / blend_ticks);
+        state->unk_098 = (u16) ((u16)state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26))
+            - state->unk_098) / blend_ticks);
     }
     next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
     (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
@@ -57,7 +58,8 @@ void func_81984D4C(void *tracker) {
     state->unk_0A6 = (u16) ((u16)state->unk_0A6) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - state->unk_0A6) >> 2);
     z_pending = D_80026BE4;
     if (((S_81984D4C_3 *)z_pending)->unk_00.u != 0) {
-        state->unk_0A8 = (u16) ((u16)state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - state->unk_0A8) >> 2);
+        state->unk_0A8 = (u16) ((u16)state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - state->unk_0A8)
+            >> 2);
     }
     ((S_81984D4C_3 *)z_pending)->unk_00.s = (s8) (state->unk_0A8 != (s16) (*(u16 *)((u8 *)tracker + 8)));
     state->unk_094 = (u16) ((s32) (((u16)state->unk_094) << 0x10) >> 0x12);

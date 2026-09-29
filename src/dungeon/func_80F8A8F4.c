@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_801740F4_1 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -53,11 +52,13 @@ void func_801740F4(void *work, void *part_a, void *part_b, EntityRec *actor) {
                 actor->facing = (u16)(((u16)actor->facing) + ((func_800A6D30() & 7) << 9));
             }
         }
-        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25, (s16)((u16)actor->facing));
+        field_60 = func_800A04F0(actor, ((Rec_D_80082E80 *)part_b)->unk_24, ((Rec_D_80082E80 *)part_b)->unk_25,
+            (s16)((u16)actor->facing));
         table_base = D_80174B0C;
         actor->target = field_60;
         (*(u8 **)((u8 *)part_b + 0x2C)) = table_base;
-        func_80047784(part_b, table_base[((s32)(gameWork.view.viewAngle + (s16)((u16)actor->facing) + 0x100) >> 9) & 7], 0);
+        func_80047784(part_b, table_base[((s32)(gameWork.view.viewAngle + (s16)((u16)actor->facing) + 0x100)
+            >> 9) & 7], 0);
         actor->unk_6D = (u8)(((u8)actor->unk_6D) - 1);
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
         raw_result = func_800990FC();

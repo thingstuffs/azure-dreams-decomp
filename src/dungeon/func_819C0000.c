@@ -126,65 +126,65 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
             }
             break;
         case 2:
-            {
-                s32 base_x;
-                s16 base_y;
-                s32 pos_x;
-                s32 pos_y;
-                register s32 biased_x ASM_REG("$4");
-                s32 biased_y;
+        {
+            s32 base_x;
+            s16 base_y;
+            s32 pos_x;
+            s32 pos_y;
+            register s32 biased_x ASM_REG("$4");
+            s32 biased_y;
 
-                S32_AT(position_in, 0x14) = S32_AT(position_in, 8);
-                rise_speed = S32_AT(effect_in, 0x50) + S32_AT(effect_in, 0x5C);
-                S32_AT(effect_in, 0x50) = rise_speed;
-                S32_AT(position_in, 8) += rise_speed;
-                pos_x = S16_AT(position_in, 2);
-                biased_x = pos_x - 0x20;
-                if (biased_x < 0) {
-                    biased_x = pos_x + 0x1F;
-                }
-                pos_y = S16_AT(position_in, 6);
-                biased_y = pos_y - 0x20;
-                if (biased_y < 0) {
-                    biased_y = pos_y + 0x1F;
-                }
-                base_x = (u32)biased_x >> 6;
-                base_y = (u32)biased_y >> 6;
-
-                column = 0;
-                do {
-                    row = 0;
-                    do {
-                        s32 point_offset;
-                        s32 offset_x;
-                        u32 tile_x;
-                        u16 tile_y;
-                        point_offset = column * sizeof(LocalPoint) +
-                                       row * 3 * sizeof(LocalPoint);
-                        point = (LocalPoint *)((u8 *)&offsets + point_offset);
-                        func_80025710(world,
-                                      (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
-                                      (tile_y = base_y + point->y),
-                                      S16_AT(position_in, 0xA),
-                                      (s16)(U16_AT(position_in, 0xA) - 0x40));
-                        offset_x = S16_AT(point, 0);
-                        func_80025648((u8 *)effect_in - 0x20,
-                                      (s16)(U16_AT(position_in, 2) + (offset_x << 6)),
-                                      (s16)(U16_AT(position_in, 6) + ((s32)(point->y << 16) >> 10)),
-                                      S16_AT(position_in, 0xA), S16_AT(position_in, 0x16));
-                        row++;
-                    } while (row < 3);
-                } while (++column < 3);
-
-                next_tick = U16_AT(effect_in, 0x30) + 1;
-                U16_AT(effect_in, 0x30) = next_tick;
-                if (next_tick >= 0x28) {
-                    D_8002992C = 0;
-                    D_80028630 = 0;
-                    U16_AT(effect_in, -2) |= 0x8000;
-                    objectFlagBlock.flags |= 0x8000;
-                }
+            S32_AT(position_in, 0x14) = S32_AT(position_in, 8);
+            rise_speed = S32_AT(effect_in, 0x50) + S32_AT(effect_in, 0x5C);
+            S32_AT(effect_in, 0x50) = rise_speed;
+            S32_AT(position_in, 8) += rise_speed;
+            pos_x = S16_AT(position_in, 2);
+            biased_x = pos_x - 0x20;
+            if (biased_x < 0) {
+                biased_x = pos_x + 0x1F;
             }
+            pos_y = S16_AT(position_in, 6);
+            biased_y = pos_y - 0x20;
+            if (biased_y < 0) {
+                biased_y = pos_y + 0x1F;
+            }
+            base_x = (u32)biased_x >> 6;
+            base_y = (u32)biased_y >> 6;
+
+            column = 0;
+            do {
+                row = 0;
+                do {
+                    s32 point_offset;
+                    s32 offset_x;
+                    u32 tile_x;
+                    u16 tile_y;
+                    point_offset = column * sizeof(LocalPoint) +
+                                   row * 3 * sizeof(LocalPoint);
+                    point = (LocalPoint *)((u8 *)&offsets + point_offset);
+                    func_80025710(world,
+                                  (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
+                                  (tile_y = base_y + point->y),
+                                  S16_AT(position_in, 0xA),
+                                  (s16)(U16_AT(position_in, 0xA) - 0x40));
+                    offset_x = S16_AT(point, 0);
+                    func_80025648((u8 *)effect_in - 0x20,
+                                  (s16)(U16_AT(position_in, 2) + (offset_x << 6)),
+                                  (s16)(U16_AT(position_in, 6) + ((s32)(point->y << 16) >> 10)),
+                                  S16_AT(position_in, 0xA), S16_AT(position_in, 0x16));
+                    row++;
+                } while (row < 3);
+            } while (++column < 3);
+
+            next_tick = U16_AT(effect_in, 0x30) + 1;
+            U16_AT(effect_in, 0x30) = next_tick;
+            if (next_tick >= 0x28) {
+                D_8002992C = 0;
+                D_80028630 = 0;
+                U16_AT(effect_in, -2) |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            }
+        }
             break;
         }
     } else {

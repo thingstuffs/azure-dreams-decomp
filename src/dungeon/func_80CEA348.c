@@ -48,7 +48,6 @@ typedef struct S_80173B48_3_pre {
 } S_80173B48_3_pre;   /* the 0x14 bytes before ((S_80173B48_0 *)arg3)->unk_60 in func_80173B48, addressed as ((S_80173B48_0 *)arg3)->unk_60[-1] */
 
 
-
 extern void func_8009C12C(void *, void *, s16, s16);
 extern void func_8009C93C(void *, void *, s16, s16, void *);
 extern s16 func_8009FD40(void *, void *);

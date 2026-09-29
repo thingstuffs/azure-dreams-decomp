@@ -66,7 +66,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
             return;
         }
         effect->state = 1;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         object_status = object->field14;
         if (object_status & 0x4000) {

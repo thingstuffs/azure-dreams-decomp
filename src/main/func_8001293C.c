@@ -3,9 +3,6 @@
 #include "records/Rec_func_80025030_arg0.h"
 
 
-
-
-
 extern void SD_Call(s32);
 extern void func_80025D34(void *);
 extern void func_80027AFC(s32, s32);

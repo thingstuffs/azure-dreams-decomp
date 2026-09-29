@@ -8,7 +8,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -39,13 +38,15 @@ extern u8 D_80174E44[];
 extern u8 D_80174E4C[];
 
 
-
-
 typedef struct S_80171728_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -175,15 +176,15 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec 
         switch (action_flags) {
         case 8:
         case 9:
-        if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
+            if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
+                return;
+            }
+            func_801728D4(actor_in, context_in, sprite, creature_in);
             return;
-        }
-        func_801728D4(actor_in, context_in, sprite, creature_in);
-        return;
 
         case 10:
-        func_80174928(actor_in, context_in, sprite, creature_in);
-        return;
+            func_80174928(actor_in, context_in, sprite, creature_in);
+            return;
 
         case 5:
         case 6:
@@ -205,20 +206,20 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec 
 
         case 12:
 jt_c12:
-        func_800A9A0C(creature_in);
-        return;
+            func_800A9A0C(creature_in);
+            return;
 
         case 1:
         case 2:
         case 3:
 case_123:
-        func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
-        return;
+            func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
+            return;
 
         default:
 generic:
-        func_80171F40(actor_in, context_in, sprite, creature_in);
-        return;
+            func_80171F40(actor_in, context_in, sprite, creature_in);
+            return;
         }
     }
 

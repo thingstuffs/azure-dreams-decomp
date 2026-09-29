@@ -9,7 +9,6 @@ typedef struct S_8001D048_3 {
 } S_8001D048_3;   /* callback_base in func_8001D048 */
 
 
-
 typedef struct S_8001D048_1 {
     u8 pad_00[0x3640];
     u8 unk_3640;

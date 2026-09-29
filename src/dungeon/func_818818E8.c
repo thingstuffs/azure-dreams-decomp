@@ -4,7 +4,11 @@
 typedef struct S_800250E8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x8];
     s32 unk_14;
 } S_800250E8_0;   /* arg1 in func_800250E8 */
@@ -25,7 +29,6 @@ typedef struct S_800250E8_2 {
     u8 pad_00[0x14];
     u16 unk_14;
 } S_800250E8_2;   /* tail_arg in func_800250E8 */
-
 
 
 extern s32 func_800644B8(s32);

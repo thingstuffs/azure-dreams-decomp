@@ -161,21 +161,21 @@ far_test:
             dy_abs = dy;
             dy_abs = abs(dy_abs);
             if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
-            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
-            if (dx > 0) {
-                ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
+                ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
+                if (dx > 0) {
+                    ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
+                    goto copy_position;
+                }
+                ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
                 goto copy_position;
-            }
-            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
-            goto copy_position;
-        } else {
-            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
-            if (dy > 0) {
-                ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
+            } else {
+                ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
+                if (dy > 0) {
+                    ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
+                    goto copy_position;
+                }
+                ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
                 goto copy_position;
-            }
-            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
-            goto copy_position;
             }
         }
     }
@@ -199,112 +199,112 @@ copy_position:
     goto switch_done;
 
 case_0:
-        case_x = ((S_8080EEC4_0 *)view)->unk_0E;
-        case_delta = 0x80 - case_x;
-        case_x = *(volatile u8 *)(view + 0xE) + (case_delta >> 1);
-        ((S_8080EEC4_0 *)view)->unk_0E = case_x;
-        ((S_8080EEC4_0 *)view)->unk_0D = case_x;
-        ((S_8080EEC4_0 *)view)->unk_0C = case_x;
-        ((S_8080EEC4_2 *)ctrl)->unk_6C = 0x00080000;
-        goto switch_done;
+    case_x = ((S_8080EEC4_0 *)view)->unk_0E;
+    case_delta = 0x80 - case_x;
+    case_x = *(volatile u8 *)(view + 0xE) + (case_delta >> 1);
+    ((S_8080EEC4_0 *)view)->unk_0E = case_x;
+    ((S_8080EEC4_0 *)view)->unk_0D = case_x;
+    ((S_8080EEC4_0 *)view)->unk_0C = case_x;
+    ((S_8080EEC4_2 *)ctrl)->unk_6C = 0x00080000;
+    goto switch_done;
 
 case_1:
-        case_value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
-        case_value += (case_value + 0x10) >> 4;
-        ((S_8080EEC4_2 *)ctrl)->unk_72.s = case_value;
-        if (step < (s16)case_value) {
-            ((S_8080EEC4_2 *)ctrl)->unk_72.s = step;
-            ((S_8080EEC4_2 *)ctrl)->unk_70 = 2;
-        }
-        ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        goto switch_done;
+    case_value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
+    case_value += (case_value + 0x10) >> 4;
+    ((S_8080EEC4_2 *)ctrl)->unk_72.s = case_value;
+    if (step < (s16)case_value) {
+        ((S_8080EEC4_2 *)ctrl)->unk_72.s = step;
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 2;
+    }
+    ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+    goto switch_done;
 
 case_2:
-        case_value_2 = ((S_8080EEC4_0 *)view)->unk_1A;
-        case_value_2 += step;
-        ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
-        step_copy = step;
-        if (distance >= 0xA1 && D_80132AEC > 0x03600000 &&
-            ((S_8080EEC4_3 *)work)->unk_18 == 5) {
-            ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
-            ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;
-            goto switch_done;
-        }
+    case_value_2 = ((S_8080EEC4_0 *)view)->unk_1A;
+    case_value_2 += step;
+    ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
+    step_copy = step;
+    if (distance >= 0xA1 && D_80132AEC > 0x03600000 &&
+        ((S_8080EEC4_3 *)work)->unk_18 == 5) {
+        ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;
         goto switch_done;
+    }
+    goto switch_done;
 
 case_3:
-        dx = ((S_8080EEC4_0 *)view)->unk_1A & 0x7FF;
-        dy = 0x155;
-        if (dx >= 0x6AB) {
-            ((S_8080EEC4_3 *)work)->unk_24 = 0;
-        } else {
-            distance = 4;
-            limit = 0x554;
-        limit_loop:
-            if (dx < limit) {
-                distance--;
-                if (distance >= 0) {
-                    limit -= dy;
-                    goto limit_loop;
-                }
+    dx = ((S_8080EEC4_0 *)view)->unk_1A & 0x7FF;
+    dy = 0x155;
+    if (dx >= 0x6AB) {
+        ((S_8080EEC4_3 *)work)->unk_24 = 0;
+    } else {
+        distance = 4;
+        limit = 0x554;
+limit_loop:
+        if (dx < limit) {
+            distance--;
+            if (distance >= 0) {
+                limit -= dy;
+                goto limit_loop;
             }
-            ((S_8080EEC4_3 *)work)->unk_24 = (distance & 1) ? 1 : 2;
         }
-        ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
-        do {
-            shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
-        } while (0);
-        value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
-        value -= value >> shift;
-        ((S_8080EEC4_2 *)ctrl)->unk_72.s = value;
-        ((S_8080EEC4_0 *)view)->unk_1A += value;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << shift)) {
-            ((S_8080EEC4_2 *)ctrl)->unk_74.s = 0;
-            ((S_8080EEC4_2 *)ctrl)->unk_70 = 5;
-            goto switch_done;
-        }
+        ((S_8080EEC4_3 *)work)->unk_24 = (distance & 1) ? 1 : 2;
+    }
+    ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
+    do {
+        shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
+    } while (0);
+    value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
+    value -= value >> shift;
+    ((S_8080EEC4_2 *)ctrl)->unk_72.s = value;
+    ((S_8080EEC4_0 *)view)->unk_1A += value;
+    ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+    if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << shift)) {
+        ((S_8080EEC4_2 *)ctrl)->unk_74.s = 0;
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 5;
         goto switch_done;
+    }
+    goto switch_done;
 
 case_4:
-        ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        case_value_3 = ((S_8080EEC4_2 *)ctrl)->unk_74.u + 1;
-        ((S_8080EEC4_2 *)ctrl)->unk_74.u = case_value_3;
-        if ((case_value_3 & 3) == 0) {
-            ((S_8080EEC4_2 *)ctrl)->unk_72.u -= 2;
-        }
-        if (((S_8080EEC4_2 *)ctrl)->unk_72.s < 4) {
-            ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
-            goto switch_done;
-        }
+    ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+    ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+    case_value_3 = ((S_8080EEC4_2 *)ctrl)->unk_74.u + 1;
+    ((S_8080EEC4_2 *)ctrl)->unk_74.u = case_value_3;
+    if ((case_value_3 & 3) == 0) {
+        ((S_8080EEC4_2 *)ctrl)->unk_72.u -= 2;
+    }
+    if (((S_8080EEC4_2 *)ctrl)->unk_72.s < 4) {
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
         goto switch_done;
+    }
+    goto switch_done;
 
 case_5:
-        ((S_8080EEC4_2 *)ctrl)->unk_70 = 7;
-        ((S_8080EEC4_2 *)ctrl)->unk_72.s = 0;
-        do {
-            dx = 0;
-        } while (0);
-        dy = 0x7A;
-            do {
-                local.rect.natural.x = dy;
-                local.rect.natural.w = 6;
-                x = ((s16)((S_8080EEC4_2 *)ctrl)->unk_72.u >> 1) + dx;
-                func_8006E854(&local, D_8053067C + ((x % 3) << 5));
-                dy += 0x10;
-                dx++;
-                if (dx >= 3) {
-                    break;
-                }
-            } while (1);
-        case5_old = ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-        case5_next = case5_old + 1;
-        ((S_8080EEC4_2 *)ctrl)->unk_72.u = case5_next;
-        if ((s16)case5_old >= 0xC6) {
-            ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
+    ((S_8080EEC4_2 *)ctrl)->unk_70 = 7;
+    ((S_8080EEC4_2 *)ctrl)->unk_72.s = 0;
+    do {
+        dx = 0;
+    } while (0);
+    dy = 0x7A;
+    do {
+        local.rect.natural.x = dy;
+        local.rect.natural.w = 6;
+        x = ((s16)((S_8080EEC4_2 *)ctrl)->unk_72.u >> 1) + dx;
+        func_8006E854(&local, D_8053067C + ((x % 3) << 5));
+        dy += 0x10;
+        dx++;
+        if (dx >= 3) {
+            break;
         }
-        goto switch_done;
+    } while (1);
+    case5_old = ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+    case5_next = case5_old + 1;
+    ((S_8080EEC4_2 *)ctrl)->unk_72.u = case5_next;
+    if ((s16)case5_old >= 0xC6) {
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
+    }
+    goto switch_done;
 
 switch_done:
 

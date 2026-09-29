@@ -12,7 +12,6 @@ typedef struct S_80024070_0 {
 } S_80024070_0;   /* arg0 in func_80024070 */
 
 
-
 /* Set record and global flags when the linked value is zero. */
 void func_80024070(void *record) {
     if (*((S_80024070_0 *)record)->unk_0C == 0) {

@@ -91,37 +91,37 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
     switch (state) {
 
     case 0:
-    if (motion->w8 > 0) {
-        motion->w8 += motion->w20;
-        particles_left = 3;
-        for (;;) {
-            random_value = rand();
-            particle_x = motion->w0;
-            particle_x += ((random_value & 0xff) - 128) << 14;
-            random_value = rand();
-            func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
-            if (--particles_left < 0) {
-                goto END;
+        if (motion->w8 > 0) {
+            motion->w8 += motion->w20;
+            particles_left = 3;
+            for (;;) {
+                random_value = rand();
+                particle_x = motion->w0;
+                particle_x += ((random_value & 0xff) - 128) << 14;
+                random_value = rand();
+                func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                if (--particles_left < 0) {
+                    goto END;
+                }
             }
         }
-    }
-    motion->w8 = 0;
-    motion->w20 = 0;
-    entity->state = 1;
+        motion->w8 = 0;
+        motion->w20 = 0;
+        entity->state = 1;
         break;
 
     case 1:
-    if (cell->field1a & 1) {
-        Local effect;
-        u8 *effect_entry = D_80026F80 + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
-        effect.d = *(u16 *)(effect_entry + 8);
-        effect.a = *(s32 *)(effect_entry + 0);
-        effect.b = *(s32 *)(effect_entry + 4);
-        effect.c = 0;
-        effect.e = 0;
-        effect.p = entity;
-        func_800253BC(&effect, motion->w4, 0);
-    }
+        if (cell->field1a & 1) {
+            Local effect;
+            u8 *effect_entry = D_80026F80 + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
+            effect.d = *(u16 *)(effect_entry + 8);
+            effect.a = *(s32 *)(effect_entry + 0);
+            effect.b = *(s32 *)(effect_entry + 4);
+            effect.c = 0;
+            effect.e = 0;
+            effect.p = entity;
+            func_800253BC(&effect, motion->w4, 0);
+        }
         break;
 
     case 2:
@@ -139,30 +139,30 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
         break;
 
     case 3:
-    if (motion->w8 <= 0x7fffff) {
-        {
-            s32 height = motion->w8 + motion->w20;
-            motion->w8 = height;
-            if (height <= 0x3fffff) {
-                particles_left = 3;
-                for (;;) {
-                    random_value = rand();
-                    particle_x = random_value & 0xff;
-                    particle_x -= 128;
-                    particle_x <<= 14;
-                    particle_x += 0x5600000;
-                    random_value = rand();
-                    func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
-                    if (--particles_left < 0) {
-                        goto END;
+        if (motion->w8 <= 0x7fffff) {
+            {
+                s32 height = motion->w8 + motion->w20;
+                motion->w8 = height;
+                if (height <= 0x3fffff) {
+                    particles_left = 3;
+                    for (;;) {
+                        random_value = rand();
+                        particle_x = random_value & 0xff;
+                        particle_x -= 128;
+                        particle_x <<= 14;
+                        particle_x += 0x5600000;
+                        random_value = rand();
+                        func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                        if (--particles_left < 0) {
+                            goto END;
+                        }
                     }
                 }
             }
-        }
             break;
-    }
-    entity->timer = 2;
-    entity->state = 4;
+        }
+        entity->timer = 2;
+        entity->state = 4;
         break;
 
     case 4:

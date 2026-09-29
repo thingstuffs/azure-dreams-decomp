@@ -18,7 +18,6 @@ typedef struct S_8001670C_2 {
 } S_8001670C_2;   /* pair in func_8001670C */
 
 
-
 extern s32 func_800161EC(u32, s32);
 extern void func_80016510(s32, s32);
 extern s32 func_80016654(s32);
@@ -32,7 +31,7 @@ s32 func_8001670C(u32 records, s32 condition_arg, u32 context, s32 record_select
 
     record_index = func_800161EC(records, record_selector);
     pair = (((S_8001670C_0 *)(record_index * 8 + records))->unk_02 * 4)
-         + ((S_8001670C_1 *)context)->unk_14;
+    + ((S_8001670C_1 *)context)->unk_14;
     func_80016510(((S_8001670C_2 *)pair)->unk_00, ((S_8001670C_2 *)pair)->unk_02);
     if (condition_arg != 0 && func_80016654(condition_arg) != 0) {
         func_80016CCC(((S_8001670C_1 *)context)->unk_18);

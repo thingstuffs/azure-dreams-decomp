@@ -174,13 +174,19 @@ void func_801690D8(S_801690D8_1 *source, void *origin, s32 unused, s32 effect_va
             effect->unk_82 = 0U;
             effect->unk_86 = 0U;
             effect->unk_80 = 0U;
-            effect->unk_74 = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A >> 7) & 0x1C)))) * 0xF);
-            effect->unk_7A = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A >> 7) & 0x1C)))) * 0xF);
-            effect->unk_76 = (u16) ((s16) *(u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
-            effect->unk_7C = (u16) ((s16) *(u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C)) + 2) * 0xF);
+            effect->unk_74 = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A
+                >> 7) & 0x1C)))) * 0xF);
+            effect->unk_7A = (u16) ((*(s16 *)((u8 *)directions + ((((u16) heading_source->unk_2A
+                >> 7) & 0x1C)))) * 0xF);
+            effect->unk_76 = (u16) ((s16) *(u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C))
+                + 2) * 0xF);
+            effect->unk_7C = (u16) ((s16) *(u16 *)(((s8 *) directions + (((u16) heading_source->unk_2A >> 7) & 0x1C))
+                + 2) * 0xF);
             prev_segment = segment - 1;
-            effect->unk_5C.s = (*(s16 *)((u8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2))) * 0x3333;
-            side_direction = (u16 *)((s8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7) << 2));
+            effect->unk_5C.s = (*(s16 *)((u8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19)
+                + 6) & 7) << 2))) * 0x3333;
+            side_direction = (u16 *)((s8 *)directions + (((((s32) (heading_source->unk_2A << 0x10) >> 0x19) + 6) & 7)
+                << 2));
             effect->unk_60 = (s32) ((s16) side_direction[1] * 0x3333);
             prev_tip_x = effect->unk_5C.s * prev_segment;
             if (prev_tip_x < 0) {

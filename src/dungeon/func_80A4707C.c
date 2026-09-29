@@ -83,7 +83,6 @@ typedef struct S_8017087C_9 {
 } S_8017087C_9;   /* callback_obj in func_8017087C */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800A6D30();

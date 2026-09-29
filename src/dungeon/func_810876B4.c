@@ -35,7 +35,6 @@ typedef struct S_80174EB4_2 {
 } S_80174EB4_2;   /* prim in func_80174EB4 */
 
 
-
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -49,7 +48,6 @@ typedef struct S_80174EB4_6 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174EB4_6;   /* query_arg in func_80174EB4 */
-
 
 
 extern void *func_8003FD64(s32, s32);

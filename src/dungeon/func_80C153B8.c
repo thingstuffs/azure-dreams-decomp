@@ -253,12 +253,14 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
                 if (animation_table == D_8017449C) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_80174494;
                     func_80047784(object,
-                        D_80174494[((gameWork.view.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                        D_80174494[((gameWork.view.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
+                            >> 9) & 7],
                         0);
                 } else if (animation_table == D_80174494) {
                     (*(u8 * *)((u8 *)object + (0x2C))) = D_8017449C;
                     func_80047784(object,
-                        D_8017449C[((gameWork.view.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                        D_8017449C[((gameWork.view.viewAngle + ((S_80170BB8_2 *)actor_state)->unk_2A + 0x100)
+                            >> 9) & 7],
                         0);
                 }
             }

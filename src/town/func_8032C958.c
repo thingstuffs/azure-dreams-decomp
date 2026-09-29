@@ -14,7 +14,8 @@ s32 func_80017158(void *record_field, s32 query_value) {
 
     query_result = func_80019C68(record_field, query_value);
     if (query_result == 0) {
-        ((S_80017158_0 *)((u8 *)record_field - 0x1C))->unk_00 = (s32) (((S_80017158_0 *)((u8 *)record_field - 0x1C))->unk_00 | 0x8000);
+        ((S_80017158_0 *)((u8 *)record_field - 0x1C))->unk_00 = (s32) (((S_80017158_0 *)((u8 *)record_field
+            - 0x1C))->unk_00 | 0x8000);
     }
     return query_result;
 }

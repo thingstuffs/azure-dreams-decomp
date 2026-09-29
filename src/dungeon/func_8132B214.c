@@ -57,7 +57,6 @@ typedef struct S_80172A14_6 {
 } S_80172A14_6;   /* temp_a0_2 in func_80172A14 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern u8 D_80045C34[];

@@ -2,7 +2,6 @@
 #include "shared/slus_callbacks.h"
 
 
-
 typedef s32 M2C_UNK;
 typedef struct Copy24 {
     s32 words[6];

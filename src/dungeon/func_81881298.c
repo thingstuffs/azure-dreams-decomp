@@ -38,7 +38,6 @@ typedef struct S_80024A98_3 {
 } S_80024A98_3;   /* part in func_80024A98 */
 
 
-
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_8003DB94();

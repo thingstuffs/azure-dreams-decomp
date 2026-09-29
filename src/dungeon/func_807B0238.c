@@ -28,8 +28,6 @@ typedef struct S_807B0238_6 {
 } S_807B0238_6;   /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in func_807B0238 */
 
 
-
-
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
@@ -69,9 +67,12 @@ void func_807B0238(EntityRec *source, s16 state_value, s32 render_value) {
     if (effect != NULL) {
         ((S_807B0238_0 *)effect)->unk_10 = &D_800F7910;
         func_8004491C(effect, func_80045340);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 = (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_06 = (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
-        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_0A = (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
+        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_02 =
+            (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_02 + (rand() & 0x3F)) - 0x20);
+        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_06 =
+            (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_06 + (rand() & 0x3F)) - 0x20);
+        ((S_807B0238_5 *)(((S_807B0238_3 *)effect)->unk_08))->unk_0A =
+            (s16) ((((S_807B0238_6 *)((*(void * *)&source->z)))->unk_0A + (rand() & 0x3F)) - 0x20);
         render_data = ((S_807B0238_0 *)effect)->unk_0C;
         effect_state = effect + 0x20;
         render_data->unk_08 = &D_800FBE24;

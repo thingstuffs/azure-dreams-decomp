@@ -14,7 +14,6 @@ typedef struct S_8187B540_1 {
 } S_8187B540_1;   /* obj in func_8187B540 */
 
 
-
 extern s16 D_8002694C;
 
 /* Add the object increment to the target and flag completion when its countdown expires. */

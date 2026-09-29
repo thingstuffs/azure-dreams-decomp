@@ -124,7 +124,8 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     vertex3 = scratch;
     scratch->input[18] = (s16)((scratch->values[14] + offsets[2]) >> 0x10);
     vertex3 = (void *)((u32)vertex3 | 0x28U);
-    scratch->ordering_index = func_80065590(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3, depth_cue, transform_flags);
+    scratch->ordering_index = func_80065590(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
+        depth_cue, transform_flags);
     quad->halfwords[8 / 2] = scratch->output[0];
     quad->halfwords[0xA / 2] = scratch->output[1];
     quad->halfwords[0x14 / 2] = scratch->output[2];

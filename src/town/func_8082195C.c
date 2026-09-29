@@ -19,7 +19,6 @@ typedef struct S_8002415C_1 {
 } S_8002415C_1;   /* record in func_8002415C */
 
 
-
 typedef struct PacketTag {
     unsigned addr : 24;
     unsigned len : 8;
@@ -28,8 +27,8 @@ typedef struct PacketTag {
 #define setaddr(packet, address) (((PacketTag *)(packet))->addr = (u32)(address))
 #define getaddr(packet) ((u32)(((PacketTag *)(packet))->addr))
 #define addPrim(ordering_table, primitive) \
-    (setaddr((primitive), getaddr(ordering_table)), \
-     setaddr((ordering_table), (primitive)))
+(setaddr((primitive), getaddr(ordering_table)), \
+    setaddr((ordering_table), (primitive)))
 
 typedef struct RenderState {
     u8 pad0[0x8D0];

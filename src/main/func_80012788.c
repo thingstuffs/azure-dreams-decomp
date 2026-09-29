@@ -21,7 +21,6 @@ typedef struct S_80025788_1 {
 } S_80025788_1;   /* cursor in func_80025788 */
 
 
-
 extern void func_80020984(void);
 extern s32 func_8002219C(s32 arg0);
 extern void func_8002316C(void *arg0);

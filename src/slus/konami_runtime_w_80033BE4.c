@@ -23,7 +23,8 @@ void *func_80033BE4(void)
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 20; slot_index++, slot += 100) {
-        if (*slot == 0) return slot;
+        if (*slot == 0)
+            return slot;
     }
     return NULL;
 }

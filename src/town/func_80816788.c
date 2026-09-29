@@ -7,7 +7,6 @@ typedef struct S_80020788_0 {
 } S_80020788_0;   /* object in func_80020788 */
 
 
-
 typedef struct {
     s32 words[10];
 } Record;

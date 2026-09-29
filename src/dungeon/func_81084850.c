@@ -36,7 +36,6 @@ typedef struct S_80172050_3 {
 } S_80172050_3;   /* acting_actor in func_80172050 */
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C93C(void *, void *, s32, s32, s32);
 extern s32 func_800A0134(s32, void *);

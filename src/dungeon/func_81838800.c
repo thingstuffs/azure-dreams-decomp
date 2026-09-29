@@ -121,7 +121,7 @@ __asm__(".set D_800DEA68, 0x800DEA68");
 
 #ifdef __mips__
 static const u32 func_80024000_prefix[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), used, aligned(4))) = {
+__attribute__((section(".text.func_80024000"), used, aligned(4))) = {
     0x80024020,
     0,
     0x80024310,
@@ -138,7 +138,7 @@ __asm__(".globl func_80024000\n.size func_80024000, 2296");
 #endif
 
 void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite)
-    __attribute__((section(".text.func_80024000")));
+__attribute__((section(".text.func_80024000")));
 /* Updates a projectile effect, spawning particles and moving toward its target before impact and cleanup. */
 void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite)
 {
@@ -260,8 +260,8 @@ launch:
     func_8004491C((u8 *)effect - 0x20, D_800248F8);
     range = (s16)func_800A3820(7);
     target = (void *)func_800A05A4(caster, caster_sprite->unk_24,
-                                caster_sprite->unk_25,
-                                caster->unk_2A.s, range);
+                                   caster_sprite->unk_25,
+                                   caster->unk_2A.s, range);
     caster->unk_60.p = target;
     if (target != 0) {
         goto target_found;
@@ -309,7 +309,7 @@ set_destination:
     target_tile = caster->unk_73.s;
     HI16(target_pos.y) = (target_tile << 6) + 32;
     HI16(target_pos.z) = func_800BCB04(HI16U(target_pos.x), HI16U(target_pos.y),
-                                   (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 48));
+                                       (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 48));
     if (HI16(target_pos.z) >= 512) {
         HI16(target_pos.z) = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A;
     }

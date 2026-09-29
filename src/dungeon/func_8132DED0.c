@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -76,19 +75,19 @@ void func_80164ED0(EntityRec *parent, s32 state_value, s16 pair_value, s16 offse
     if (effect != NULL) {
         ((S_80164ED0_0 *)effect)->unk_10 = D_80164DA4;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
-            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x);
+        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_02 + offset_x);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
-            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y);
+        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_06 + offset_y);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z);
+        (((S_80164ED0_5 *)((*(void * *)&parent->z)))->unk_0A + offset_z);
         ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
-            (((rand() & 0x7FFF) - 0x4000) << 6);
+        (((rand() & 0x7FFF) - 0x4000) << 6);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_10 = (s32)
-            (((rand() & 0x7FFF) - 0x4000) << 6);
+        (((rand() & 0x7FFF) - 0x4000) << 6);
         effect_data = effect + 0x20;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_14 = (s32)
-            (((rand() & 0x7FFF) - 0x4000) << 6);
+        (((rand() & 0x7FFF) - 0x4000) << 6);
         effect_data->unk_32 = pair_value;
         effect_data->unk_34 = pair_value;
         func_8004491C(effect, D_80164BC4);

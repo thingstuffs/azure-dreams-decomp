@@ -29,11 +29,6 @@ typedef struct S_80172DEC_3 {
 } S_80172DEC_3;   /* rec in func_80172DEC */
 
 
-
-
-
-
-
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, s32, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
@@ -84,19 +79,19 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        kind_c:
+kind_c:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        kind_b:
+kind_b:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        kind_a:
+kind_a:
             motion = (u8 *)actor + 8;
             break;
         default:
-        sel_none:
+sel_none:
             motion = (u8 *)0;
             break;
         }
@@ -120,7 +115,7 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
                 if (target == 0) {
                     goto do_step;
                 }
-            have_obj:
+have_obj:
                 target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
                 actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
@@ -133,7 +128,7 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
             abs_y = abs(actor->unk_73);
             actor->unk_72 = abs_x;
             actor->unk_73 = abs_y;
-        do_step:
+do_step:
             saved_position[0] = ((u16)transform->x.w.i);
             saved_position[1] = ((u16)transform->y.w.i);
             saved_position[2] = ((u16)transform->z.w.i);
@@ -168,9 +163,10 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
-        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000))
+            ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             ((S_80172DEC_0 *)action_state)->unk_96 = 0xE;

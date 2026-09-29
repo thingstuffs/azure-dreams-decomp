@@ -30,7 +30,6 @@ typedef struct S_801720EC_2 {
 } S_801720EC_2;   /* output in func_801720EC */
 
 
-
 extern s32 func_80047784();
 extern s32 func_8009B4B0();
 extern s32 func_800A2B5C();
@@ -98,7 +97,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     y = base_y;
     direction = (((S_801720EC_0 *)actor)->unk_2A.s >> 9) & 7;
     if ((s16)func_800A44E0(x << 6, y << 6, ((S_801720EC_0 *)actor)->unk_88.s, direction << 9) != 0) {
-        return_tail:
+return_tail:
         return result;
     }
 

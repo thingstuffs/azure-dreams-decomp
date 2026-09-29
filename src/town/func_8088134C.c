@@ -19,5 +19,5 @@ scan_entry:
         goto scan_entry;
     }
     ((Callback *)(D_80700000 + 0x6DC))
-        [((s8 *)(D_80700000 + 0x6E4))[index]](index);
+    [((s8 *)(D_80700000 + 0x6E4))[index]](index);
 }

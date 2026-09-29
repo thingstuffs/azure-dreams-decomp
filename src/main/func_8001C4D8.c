@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 typedef struct S_804034D8_0 {
     u8 pad_00[0x80];
     s32 unk_80;

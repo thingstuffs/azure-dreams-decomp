@@ -23,7 +23,6 @@ typedef struct S_80810454_2 {
 } S_80810454_2;   /* ((S_80810454_0 *)arg0)->unk_04 in func_8052B054 */
 
 
-
 extern s32 func_8006A3A4();
 extern s32 D_80084D5C;
 
@@ -35,7 +34,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
     }
     state = ((S_80810454_0 *)arg0)->unk_00;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         s32 position;
 
         position = arg1->unk_08.s;
@@ -50,7 +50,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         return;
     }
 
-    case 1: {
+    case 1:
+    {
         s32 old_speed;
         s32 position;
         s32 speed;
@@ -69,7 +70,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         return;
     }
 
-    case 2: {
+    case 2:
+    {
         s32 position;
         s32 speed;
 
@@ -85,7 +87,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         return;
     }
 
-    case 0xF0: {
+    case 0xF0:
+    {
         s32 result;
         u16 phase;
 
@@ -96,7 +99,8 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         return;
     }
 
-    case 3: {
+    case 3:
+    {
         s32 position;
 
         position = arg1->unk_08.s;

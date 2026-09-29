@@ -36,7 +36,7 @@ __asm__(".set D_800814A0_load, 0x800814A0");
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
 S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
-                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
+                                 s16 target_y, s16 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
     S_8004A330_Sub20 *state;
     s32 buffer_addr;

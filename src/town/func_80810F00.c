@@ -29,7 +29,8 @@ void func_80810F00(void *entry) {
 
     flag_data = ((S_80810F00_0 *)entry)->unk_0C;
     if (((S_80810F00_0 *)entry)->unk_00 == 0) {
-        func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04), ((S_80810F00_0 *)entry)->unk_04);
+        func_80058588(*((S_80810F00_0 *)entry)->unk_08, func_80071424(((S_80810F00_0 *)entry)->unk_04),
+            ((S_80810F00_0 *)entry)->unk_04);
         if (((S_80810F00_1 *)flag_data)->unk_0C & 2) {
             (*(u16 *)((u8 *)entry + -2)) = (u16) (((S_80810F00_0_pre *)entry)[-1].unk_00 | 0x8000);
             D_80084D5C |= 0x8000;

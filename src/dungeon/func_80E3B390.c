@@ -42,8 +42,6 @@ typedef struct S_80174B90_9 {
 } S_80174B90_9;   /* ((S_80174B90_6 *)arg0)->unk_08 in func_80174B90 */
 
 
-
-
 void *func_8003FD64();               /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80047784();    /* extern */
@@ -105,9 +103,12 @@ void func_80174B90(S_80174B90_2 *source, s32 state_00, s32 state_04, s32 state_0
         render_data->unk_0C = 0x808080;
         render_data->unk_28 = (s32) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_28;
         render_data->unk_12 = (u16) ((S_80174B90_7 *)(((S_80174B90_4 *)effect_state)->unk_14))->unk_12;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
-        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_0A = (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_02 =
+            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_02;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_06 =
+            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_06;
+        ((S_80174B90_8 *)(((S_80174B90_5 *)effect)->unk_08))->unk_0A =
+            (u16) ((S_80174B90_9 *)(((S_80174B90_6 *)source)->unk_08))->unk_0A;
         func_80047784(render_data, 0x46, 0);
         func_8004491C(effect, &D_80175540);
         ((S_80174B90_0 *)effect)->unk_20 = state_00;

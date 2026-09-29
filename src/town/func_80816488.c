@@ -17,8 +17,6 @@ typedef struct S_80020488_1 {
 } S_80020488_1;   /* entity in func_80020488 */
 
 
-
-
 /* Advances the context state and sets completion flags in response to entity fields. */
 void func_80020488(void *context) {
     s16 state;

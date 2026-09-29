@@ -50,7 +50,6 @@ typedef struct S_800262AC_3 {
 } S_800262AC_3;   /* state in func_800262AC */
 
 
-
 extern s32 func_8003FA44(s32);
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);

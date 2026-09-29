@@ -15,8 +15,6 @@ typedef struct S_8001B974_4 {
 } S_8001B974_4;   /* ((S_8001B974_3 *)arg0)->unk_04 in func_8001B974 */
 
 
-
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 D_8002D690[];

@@ -21,7 +21,6 @@ typedef struct S_801748FC_1 {
 } S_801748FC_1;   /* object in func_801748FC */
 
 
-
 extern s32 func_800A41F0(void *);
 
 /* Find the first eligible entry matching both object filters within 32 units of the target height. */

@@ -270,14 +270,14 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         goto finish;
 
     case 3:
-        {
-            u32 effect_tick;
+    {
+        u32 effect_tick;
 
-            effect_tick = (u16)ctrl->timer;
-            if ((effect_tick & 7) == 0) {
-                func_80024428(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
-            }
+        effect_tick = (u16)ctrl->timer;
+        if ((effect_tick & 7) == 0) {
+            func_80024428(ctrl, motion, (s16)effect_tick >> 3, &ctrl->slots[0]);
         }
+    }
         if (ctrl->timer < 24) {
             goto finish;
         }

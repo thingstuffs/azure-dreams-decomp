@@ -7,11 +7,6 @@
 #include "records/Rec_func_8017360C_arg0.h"
 
 
-
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -124,15 +119,15 @@ void func_80173AAC(void *actor, void *context, void *animation, EntityRec *entit
         dungeonStatus.unk_0A++;
         ((Rec_func_8017360C_arg0 *)actor)->unk_9B++;
     }
-    break;
+        break;
     case 2:
-    if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
+        if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
 
-        dungeonStatus.unk_0A--;
-        entity->flags1C &= ~8;
-        ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &D_801714D4;
-    }
+            dungeonStatus.unk_0A--;
+            entity->flags1C &= ~8;
+            ((Rec_func_8017360C_arg0 *)actor)->unk_8C.as_pv = &D_801714D4;
+        }
 
-    return;
+        return;
     }
 }

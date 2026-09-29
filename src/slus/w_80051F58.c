@@ -49,12 +49,12 @@ void func_80051F58(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, voi
         effect->state = advance_state + 1;
         return;
     case 1:
-        {
-            u8 intensity = color->unk0E + 2;
-            color->unk0E = intensity;
-            color->unk0D = intensity;
-            color->unk0C = intensity;
-        }
+    {
+        u8 intensity = color->unk0E + 2;
+        color->unk0E = intensity;
+        color->unk0D = intensity;
+        color->unk0C = intensity;
+    }
         if ((s16)effect->timer < 0x40) {
             return;
         }
@@ -73,12 +73,12 @@ void func_80051F58(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, voi
         effect->timer = 0;
         return;
     case 3:
-        {
-            u8 intensity = color->unk0E - 2;
-            color->unk0E = intensity;
-            color->unk0D = intensity;
-            color->unk0C = intensity;
-        }
+    {
+        u8 intensity = color->unk0E - 2;
+        color->unk0E = intensity;
+        color->unk0D = intensity;
+        color->unk0C = intensity;
+    }
         if ((s16)effect->timer < 0x40) {
             return;
         }

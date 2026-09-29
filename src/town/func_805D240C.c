@@ -25,7 +25,6 @@ typedef struct S_8001640C_3 {
                 ((S_8001640C_1 *)(((S_8001640C_0 *)page)->unk_00))->unk_40 in func_8001640C */
 
 
-
 extern s32 D_80019AFC;
 
 s32 func_80018618(void);

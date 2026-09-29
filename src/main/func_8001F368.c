@@ -13,7 +13,6 @@ typedef struct S_80406368_0 {
 } S_80406368_0;   /* arg0 in func_80406368 */
 
 
-
 extern s32 D_801379A8;
 extern s32 D_801379B0;
 

@@ -31,7 +31,7 @@ s32 func_80017584(s16 start_x, s16 start_y, s16 width, s16 height) {
     }
     shifted_width = width << 16;
     if ((shifted_x >> 16) + (shifted_width >> 16) >= (1 << config->shiftX)) {
-    ret_err:
+ret_err:
         return -1;
     }
     rows_left = height;

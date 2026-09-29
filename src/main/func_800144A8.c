@@ -23,6 +23,7 @@ void func_800274A8(void *record_part) {
     flags = base_record->unk_1E;
     if (flags & 0x2000) {
         base_record->unk_1E = (u16) (flags & 0xDFFF);
-        ((S_800274A8_1 *)((u8 *)record_part - 0x10))->unk_00 = (s32) ((S_800274A8_1 *)((u8 *)record_part - 0x10))->unk_3C;
+        ((S_800274A8_1 *)((u8 *)record_part - 0x10))->unk_00 = (s32) ((S_800274A8_1 *)((u8 *)record_part
+            - 0x10))->unk_3C;
     }
 }

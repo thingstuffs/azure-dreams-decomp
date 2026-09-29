@@ -5,7 +5,12 @@
 typedef struct S_8196C280_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
 } S_8196C280_0;   /* arg1 in func_8196C280 */
 
 typedef struct S_8196C280_1 {
@@ -29,7 +34,6 @@ typedef struct S_8196C280_2 {
     u16 unk_1C;
     u16 unk_1E;
 } S_8196C280_2;   /* arg2 in func_8196C280 */
-
 
 
 typedef struct PositionRef {
@@ -74,7 +78,8 @@ void func_8196C280(void *effect, void *position, void *sprite) {
     }
     ((S_8196C280_0 *)position)->unk_04.at00.v += ((S_8196C280_1 *)effect)->unk_90;
     ((S_8196C280_1 *)effect)->unk_90 += ((S_8196C280_1 *)effect)->unk_9C;
-    if ((func_800A45D8(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
+    if ((func_800A45D8(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+        ((S_8196C280_0 *)position)->unk_08.at02.v) << 0x10) != 0) {
         ((S_8196C280_0 *)position)->unk_04.at00.v -= ((S_8196C280_1 *)effect)->unk_90;
         ((S_8196C280_1 *)effect)->unk_90 = 0;
         ((S_8196C280_1 *)effect)->unk_9C = 0;
@@ -85,11 +90,14 @@ void func_8196C280(void *effect, void *position, void *sprite) {
         s32 height;
 
         height = ((S_8196C280_0 *)position)->unk_08.at02.v;
-        if ((func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
+        if ((func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v,
+            (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x10) < height) {
             ((S_8196C280_1 *)effect)->unk_94 = 0;
             ((S_8196C280_1 *)effect)->unk_90 = 0;
             ((S_8196C280_1 *)effect)->unk_8C = 0;
-            ((S_8196C280_0 *)position)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v, ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4)) - 0x11;
+            ((S_8196C280_0 *)position)->unk_08.at02.v = func_800BCB04(((S_8196C280_0 *)position)->unk_00.at02.v,
+                ((S_8196C280_0 *)position)->unk_04.at02.v, (s16)(((S_8196C280_0 *)position)->unk_08.at02u.v - 4))
+                - 0x11;
             ((S_8196C280_0 *)position)->unk_08.at00u.v = 0;
             ((S_8196C280_1 *)effect)->unk_2C = 0;
         }

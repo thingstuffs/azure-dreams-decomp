@@ -16,9 +16,6 @@ typedef struct S_80172D24_1 {
 } S_80172D24_1;   /* arg0 in func_80172D24 */
 
 
-
-
-
 extern void func_80047784();
 extern void func_800A2B04();
 extern void func_800AAA54();
@@ -126,15 +123,15 @@ void func_80172D24(void *action, void *motion, void *sprite, void *entity)
             return;
         }
         if (((EntityRec *)entity)->unk_28 == 0) {
-                ((EntityRec *)motion)->flags14 = 0;
-                ((EntityRec *)motion)->unk_10 = 0;
-                ((EntityRec *)motion)->unk_0C = 0;
-                func_800AAA54(action, motion, sprite, D_80173874);
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            func_800AAA54(action, motion, sprite, D_80173874);
         } else {
             duration = 8;
-                timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
-                ((S_80172D24_1 *)action)->unk_96.s = duration;
-                ((S_80172D24_1 *)action)->unk_9B = timer_or_state;
+            timer_or_state = ((S_80172D24_1 *)action)->unk_9B + 1;
+            ((S_80172D24_1 *)action)->unk_96.s = duration;
+            ((S_80172D24_1 *)action)->unk_9B = timer_or_state;
         }
         return;
     case 3:

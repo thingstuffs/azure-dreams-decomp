@@ -84,35 +84,35 @@ void func_800240F0(void *effect, void *motion, void *sprite)
     case 0:
         func_8004491C((u8 *)effect - 0x20, func_80045340);
         ((S_800240F0_0 *)effect)->unk_0C.n2 = ((S_800240F0_0 *)effect)->unk_0C.n2 + 1;
-        /* fall through */
+                /* fall through */
 
     case 1:
-        {
-            void *source;
-            source = ((S_800240F0_6 *)(((S_800240F0_0 *)effect)->unk_00))->unk_0C;
-            if ((((S_800240F0_1 *)source)->unk_14 & 0x8000) ||
-                func_8003DE58(((S_800240F0_1 *)source)->unk_08, source, offset, 0) != 0) {
-                void *position;
-                u16 source_z;
+    {
+        void *source;
+        source = ((S_800240F0_6 *)(((S_800240F0_0 *)effect)->unk_00))->unk_0C;
+        if ((((S_800240F0_1 *)source)->unk_14 & 0x8000) ||
+            func_8003DE58(((S_800240F0_1 *)source)->unk_08, source, offset, 0) != 0) {
+            void *position;
+            u16 source_z;
 
-                position = ((S_800240F0_6 *)(((S_800240F0_0 *)effect)->unk_00))->unk_08;
-                ((S_800240F0_2 *)motion)->unk_00.at02.v = ((S_800240F0_3 *)position)->unk_00.at02.v;
-                ((S_800240F0_2 *)motion)->unk_04.at02.v = ((S_800240F0_3 *)position)->unk_04.at02.v;
-                source_z = ((S_800240F0_3 *)position)->unk_0A;
-                ((S_800240F0_2 *)motion)->unk_08.at02.v = source_z;
+            position = ((S_800240F0_6 *)(((S_800240F0_0 *)effect)->unk_00))->unk_08;
+            ((S_800240F0_2 *)motion)->unk_00.at02.v = ((S_800240F0_3 *)position)->unk_00.at02.v;
+            ((S_800240F0_2 *)motion)->unk_04.at02.v = ((S_800240F0_3 *)position)->unk_04.at02.v;
+            source_z = ((S_800240F0_3 *)position)->unk_0A;
+            ((S_800240F0_2 *)motion)->unk_08.at02.v = source_z;
 
-                if (!(((S_800240F0_1 *)source)->unk_14 & 0x8000)) {
-                    u16 offset_z;
+            if (!(((S_800240F0_1 *)source)->unk_14 & 0x8000)) {
+                u16 offset_z;
 
-                    ((S_800240F0_2 *)motion)->unk_00.at02.v += offset[0];
-                    ((S_800240F0_2 *)motion)->unk_04.at02.v += offset[1];
-                    offset_z = ((S_800240F0_2 *)motion)->unk_08.at02.v + offset[2];
-                    ((S_800240F0_2 *)motion)->unk_08.at02.v = offset_z;
-                } else {
-                    ((S_800240F0_2 *)motion)->unk_08.at02.v = source_z - 0x20;
-                }
+                ((S_800240F0_2 *)motion)->unk_00.at02.v += offset[0];
+                ((S_800240F0_2 *)motion)->unk_04.at02.v += offset[1];
+                offset_z = ((S_800240F0_2 *)motion)->unk_08.at02.v + offset[2];
+                ((S_800240F0_2 *)motion)->unk_08.at02.v = offset_z;
+            } else {
+                ((S_800240F0_2 *)motion)->unk_08.at02.v = source_z - 0x20;
             }
         }
+    }
 
         if (((S_800240F0_7 *)(((S_800240F0_0 *)effect)->unk_08))->unk_00 & 0x80) {
             u16 travel_frames;
@@ -124,12 +124,12 @@ void func_800240F0(void *effect, void *motion, void *sprite)
         break;
 
     case 2:
-        {
-            u16 scale;
-            scale = ((S_800240F0_4 *)sprite)->unk_1E + 0x200;
-            ((S_800240F0_4 *)sprite)->unk_1E = scale;
-            ((S_800240F0_4 *)sprite)->unk_1C = scale;
-        }
+    {
+        u16 scale;
+        scale = ((S_800240F0_4 *)sprite)->unk_1E + 0x200;
+        ((S_800240F0_4 *)sprite)->unk_1E = scale;
+        ((S_800240F0_4 *)sprite)->unk_1C = scale;
+    }
         {
             void *position;
             position = ((S_800240F0_8 *)(((S_800240F0_0 *)effect)->unk_04))->unk_08;
@@ -176,17 +176,17 @@ void func_800240F0(void *effect, void *motion, void *sprite)
         break;
 
     case 3:
-        {
-            u16 scale;
-            u8 brightness;
-            scale = ((S_800240F0_4 *)sprite)->unk_1E + 0x200;
-            brightness = ((S_800240F0_4 *)sprite)->unk_0E + 8;
-            ((S_800240F0_4 *)sprite)->unk_1E = scale;
-            ((S_800240F0_4 *)sprite)->unk_1C = scale;
-            ((S_800240F0_4 *)sprite)->unk_0E = brightness;
-            ((S_800240F0_4 *)sprite)->unk_0D = brightness;
-            ((S_800240F0_4 *)sprite)->unk_0C = brightness;
-        }
+    {
+        u16 scale;
+        u8 brightness;
+        scale = ((S_800240F0_4 *)sprite)->unk_1E + 0x200;
+        brightness = ((S_800240F0_4 *)sprite)->unk_0E + 8;
+        ((S_800240F0_4 *)sprite)->unk_1E = scale;
+        ((S_800240F0_4 *)sprite)->unk_1C = scale;
+        ((S_800240F0_4 *)sprite)->unk_0E = brightness;
+        ((S_800240F0_4 *)sprite)->unk_0D = brightness;
+        ((S_800240F0_4 *)sprite)->unk_0C = brightness;
+    }
         {
             u16 frames_left;
             frames_left = ((S_800240F0_0 *)effect)->unk_10.u - 1;

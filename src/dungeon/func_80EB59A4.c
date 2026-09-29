@@ -9,12 +9,15 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_801711A4_2 {
     u8 pad_00[0x5];
     s8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     M2C_UNK * unk_2C;
@@ -27,7 +30,6 @@ typedef struct S_801711A4_3 {
     u8 unk_9A;
     s8 unk_9B;
 } S_801711A4_3;   /* saved0 in func_801711A4 */
-
 
 
 typedef struct EmptyArg {
@@ -87,7 +89,8 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
             return;
         }
         (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741C4;
-        func_80047784(sprite, *(((u8 *)&D_801741C4) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100) >> 9) & 7)), 0);
+        func_80047784(sprite, *(((u8 *)&D_801741C4) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100)
+            >> 9) & 7)), 0);
         return;
     }
     if (status->flags1C & 0x200) {
@@ -124,7 +127,8 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
         }
         if (((S_801711A4_2 *)sprite)->unk_2C != &D_8017418C) {
             (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
-            func_80047784(sprite, *(((u8 *)&D_8017418C) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100) >> 9) & 7)), 0);
+            func_80047784(sprite, *(((u8 *)&D_8017418C) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100)
+                >> 9) & 7)), 0);
             ((S_801711A4_2 *)sprite)->unk_05 = 1;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
             ((Rec_func_800A9E70_arg0 *)actor)->unk_A8 = 0;
@@ -176,39 +180,40 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
     switch (action_id) {
     case 8:
     case 9:
-    if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
+        if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
+            return;
+        }
+        func_80172190(actor, context, sprite, status);
         return;
-    }
-    func_80172190(actor, context, sprite, status);
-    return;
     case 5:
     case 6:
     case 7:
-    angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
-    active_actor = D_800814A8;
-    status->facing = angle;
-    if (active_actor->unk_9A == 0x11) {
-        next_handler = &D_801711A4;
-        goto block_44;
-    }
+        angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+            D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+        active_actor = D_800814A8;
+        status->facing = angle;
+        if (active_actor->unk_9A == 0x11) {
+            next_handler = &D_801711A4;
+            goto block_44;
+        }
     case 12:
 block_41:
-    func_800A9A0C(status);
-    return;
+        func_800A9A0C(status);
+        return;
     case 1:
     case 2:
     case 3:
-    next_handler = &D_801711A4;
+        next_handler = &D_801711A4;
 block_44:
-    func_800AAF00(actor, context, sprite, &D_801741AC, next_handler);
-    return;
+        func_800AAF00(actor, context, sprite, &D_801741AC, next_handler);
+        return;
     case 4:
     case 10:
     case 11:
     default:
 block_47:
-    func_80171884(actor, context, sprite, status);
-    return;
+        func_80171884(actor, context, sprite, status);
+        return;
     }
 block_49:
     status_flags = status->flags1C;
@@ -223,11 +228,13 @@ block_49:
     if (status_flags & 0x430) {
         return;
     }
-    if ((func_8009FD7C(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
+    if ((func_8009FD7C(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+        D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
         return;
     }
     direction_aux_ptr = &direction_aux;
-    angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, direction_aux_ptr, ({  empty_arg; }));
+    angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+        D_80082E80.tileX, D_80082E80.tileY, direction_aux_ptr, ({  empty_arg; }));
     status->facing = angle;
     return;
 }

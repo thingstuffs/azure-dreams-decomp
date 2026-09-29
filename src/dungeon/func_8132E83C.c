@@ -66,7 +66,8 @@ typedef struct S_8016583C_4 {
 } S_8016583C_4;   /* ((S_8016583C_0 *)arg0)->unk_08 in func_8016583C */
 
 /* Spawn an effect at an offset from the source with randomized horizontal velocity. */
-void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z, s32 velocity_z) {
+void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z,
+    s32 velocity_z) {
     S_8016583C_2 *sprite;
     S_8016583C_1 *effect_state;
     void *effect;
@@ -76,9 +77,12 @@ void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, 
     if (effect != NULL) {
         held_scale = scale;
         (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_801654F0;
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + offset_x);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_06 + offset_y);
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_0A + offset_z);
+        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 =
+            (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + offset_x);
+        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 =
+            (s16) (((S_8016583C_4 *)(source->unk_08))->unk_06 + offset_y);
+        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A =
+            (s16) (((S_8016583C_4 *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
         effect_state->unk_42 = (u16) ((S_8016583C_4 *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((S_8016583C_4 *)(source->unk_08))->unk_06;

@@ -26,7 +26,8 @@ void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
     s16 ticks_left;
     s32 intensity;
 
-    intensity = (s32) (((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 << 7) / (s16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
+    intensity = (s32) (((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98
+        << 7) / (s16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_AC;
     color->unk_0C.at02_s8.v = (s8) intensity;
     color->unk_0C.at01_s8.v = (s8) intensity;
     color->unk_0C.at00_s8.v = (s8) intensity;
@@ -34,7 +35,9 @@ void func_8014C8E8(void *record_data, void *unused, Rec_D_80082E80 *color)
     ticks_left = (u16) ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 - 1;
     ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_98 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
-        ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
-        ((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 = (s32) (((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
+        ((S_8014C8E8_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_8014C8E8_0 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
+        ((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 =
+            (s32) (((S_8014C8E8_2 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
     }
 }

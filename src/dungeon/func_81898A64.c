@@ -3,7 +3,6 @@
 #include "records/Rec_func_80024264_arg1.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif

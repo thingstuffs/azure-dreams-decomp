@@ -21,7 +21,6 @@ typedef struct S_80174BEC_0 {
 } S_80174BEC_0;   /* arg0 in func_80174BEC */
 
 
-
 typedef struct S_80174BEC_3 {
     u8 pad_00[0x24];
     s16 unk_24;
@@ -80,7 +79,6 @@ typedef struct S_80174BEC_7 {
     u8 pad_00[0x8];
     void * unk_08;
 } S_80174BEC_7;   /* map in func_80174BEC */
-
 
 
 typedef struct {
@@ -172,7 +170,8 @@ spawn_particles:
                 void *particle;
 
                 particle = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-                if (particle == 0) continue;
+                if (particle == 0)
+                    continue;
                 {
                     s32 offset_y;
                     s32 offset_x;
@@ -241,9 +240,11 @@ spawn_particles:
                     ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
 
                     direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x << 19;
+                    ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        << 19;
                     direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y << 19;
+                    ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        << 19;
                     ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
                     ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
                     ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
@@ -264,7 +265,8 @@ spawn_particles:
                 void *particle;
 
                 particle = func_8003FC64(0x212);
-                if (particle == 0) continue;
+                if (particle == 0)
+                    continue;
                 {
                     s32 offset_y;
                     s32 offset_x;
@@ -320,9 +322,11 @@ spawn_particles:
                     ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
 
                     direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x << 19;
+                    ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        << 19;
                     direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y << 19;
+                    ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        << 19;
                     ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
                     ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
                     ((S_80174BEC_5 *)render)->unk_1C = 0x800;

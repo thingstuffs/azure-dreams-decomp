@@ -3,7 +3,6 @@
 #include "shared/town_root.h"
 
 
-
 typedef s32 M2C_UNK;
 
 typedef struct S_8001AEC8_1 {
@@ -13,7 +12,6 @@ typedef struct S_8001AEC8_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 
 
 /* Invoke the callback at offset 0x30C with value 0x9000. */

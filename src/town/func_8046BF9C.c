@@ -8,8 +8,6 @@ typedef struct S_8001CF9C_1 {
 } S_8001CF9C_1;   /* ((arg1 * 0x10) + arg0->unk_10) in func_8001CF9C */
 
 
-
-
 extern struct {
     u8 *ptr;
     u8 pad[8];

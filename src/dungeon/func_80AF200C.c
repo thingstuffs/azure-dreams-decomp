@@ -15,10 +15,6 @@ typedef struct S_8017380C_0 {
 } S_8017380C_0;   /* arg0 in func_8017380C */
 
 
-
-
-
-
 extern u8 D_801717F4;
 extern u8 D_80175988[];
 extern u8 D_80175998[];
@@ -55,33 +51,33 @@ void func_8017380C(void *action, EntityRec *motion, void *entity, EntityRec *act
         return;
 
     case 1:
-        {
-            s16 frames_left;
+    {
+        s16 frames_left;
 
-            frames_left = ((S_8017380C_0 *)action)->unk_96.u - 1;
-            ((S_8017380C_0 *)action)->unk_96.s = frames_left;
-            if (frames_left > 0) {
-                motion->unk_0C =
-                    *(s16 *)((u8 *)((s8 *)dirStepX) +
-                        ((actor->unk_6A >> 8) & 0xE)) << 19;
-                motion->unk_10 =
-                    *(s16 *)((u8 *)((s8 *)dirStepY) +
-                        ((actor->unk_6A >> 8) & 0xE)) << 19;
-                return;
-            }
-            if (frames_left != 0) {
-                return;
-            }
+        frames_left = ((S_8017380C_0 *)action)->unk_96.u - 1;
+        ((S_8017380C_0 *)action)->unk_96.s = frames_left;
+        if (frames_left > 0) {
             motion->unk_0C =
                 *(s16 *)((u8 *)((s8 *)dirStepX) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 18;
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
             motion->unk_10 =
                 *(s16 *)((u8 *)((s8 *)dirStepY) +
-                    ((actor->unk_6A >> 8) & 0xE)) << 18;
-            ((S_8017380C_0 *)action)->unk_96.s = 6;
-            ((S_8017380C_0 *)action)->unk_9B++;
+                    ((actor->unk_6A >> 8) & 0xE)) << 19;
             return;
         }
+        if (frames_left != 0) {
+            return;
+        }
+        motion->unk_0C =
+            *(s16 *)((u8 *)((s8 *)dirStepX) +
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
+        motion->unk_10 =
+            *(s16 *)((u8 *)((s8 *)dirStepY) +
+                ((actor->unk_6A >> 8) & 0xE)) << 18;
+        ((S_8017380C_0 *)action)->unk_96.s = 6;
+        ((S_8017380C_0 *)action)->unk_9B++;
+        return;
+    }
 
     case 2:
         if (actor->unk_28 == 0) {

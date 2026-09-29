@@ -80,9 +80,12 @@ void func_7FFE9150(void *emitter, void *position, M2C_UNK spawn_context) {
     void *particle_render;
 
     parent = ((S_7FFE9150_0 *)emitter)->unk_24;
-    ((S_7FFE9150_1 *)position)->unk_02 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_02 + ((S_7FFE9150_0 *)emitter)->unk_3C);
-    ((S_7FFE9150_1 *)position)->unk_06 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_06 + ((S_7FFE9150_0 *)emitter)->unk_3E);
-    ((S_7FFE9150_1 *)position)->unk_0A = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_0A + ((S_7FFE9150_0 *)emitter)->unk_40);
+    ((S_7FFE9150_1 *)position)->unk_02 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_02
+        + ((S_7FFE9150_0 *)emitter)->unk_3C);
+    ((S_7FFE9150_1 *)position)->unk_06 = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_06
+        + ((S_7FFE9150_0 *)emitter)->unk_3E);
+    ((S_7FFE9150_1 *)position)->unk_0A = (s16)(((S_7FFE9150_5 *)(((S_7FFE9150_2 *)parent)->unk_08))->unk_0A
+        + ((S_7FFE9150_0 *)emitter)->unk_40);
     age = ((S_7FFE9150_0 *)emitter)->unk_16 + 1;
     ((S_7FFE9150_0 *)emitter)->unk_16 = age;
     if ((s16)age < 0x14) {
@@ -93,8 +96,10 @@ void func_7FFE9150(void *emitter, void *position, M2C_UNK spawn_context) {
             (*(s16 *)((u8 *)particle + 0x3E)) = 0x14;
             (*(s16 *)((u8 *)particle + 0x40)) = 0x14;
             (*(M2C_UNK **)((u8 *)particle + 0x10)) = &D_8010BA44;
-            ((S_7FFE9150_3 *)particle_coords)->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)particle_coords)->unk_00);
-            ((S_7FFE9150_3 *)particle_coords)->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7) + ((S_7FFE9150_3 *)particle_coords)->unk_04);
+            ((S_7FFE9150_3 *)particle_coords)->unk_00 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
+                + ((S_7FFE9150_3 *)particle_coords)->unk_00);
+            ((S_7FFE9150_3 *)particle_coords)->unk_04 = (s32)((((func_700750E0() & 0x7FFF) - 0x4000) << 7)
+                + ((S_7FFE9150_3 *)particle_coords)->unk_04);
             particle_render = (*(void **)((u8 *)particle + 0xC));
             (*(Copy12 *)((u8 *)particle + 0x62)) = D_8010BF30;
             ((S_7FFE9150_4 *)particle_render)->unk_08 = (void *)((u8 *)particle + 0x62);

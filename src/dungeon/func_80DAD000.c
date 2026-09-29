@@ -44,7 +44,7 @@ typedef struct S_80DAD000_4 {
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80DAD000")
-    __attribute__((section(".text.func_80DAD000"), aligned(4))) = {
+__attribute__((section(".text.func_80DAD000"), aligned(4))) = {
     0x80152874, 0x80152A3C, 0x80153208, 0x80153208,
     0x80153208, 0x80153234, 0x801531B4, 0x801531B4,
     0x801531B4, 0x80153144, 0x80153134, 0x80153234,

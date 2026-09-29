@@ -6,14 +6,16 @@ typedef struct S_8002E5D8
     s32 f4;
     s32 f8;
     s32 fC;
-} S_8002E5D8;
+}
+S_8002E5D8;
 
 typedef struct S_8002E5E8
 {
     s32 f0;
     s32 f4;
     s32 f8;
-} S_8002E5E8;
+}
+S_8002E5E8;
 
 typedef struct S_80049F68_Link
 {
@@ -21,7 +23,8 @@ typedef struct S_80049F68_Link
     void *self;
     void *parent;
     struct S_80049F68_Link *next;
-} S_80049F68_Link;
+}
+S_80049F68_Link;
 
 typedef struct S_80049F68_Elem
 {
@@ -30,7 +33,8 @@ typedef struct S_80049F68_Elem
     s32 f08;
     s32 f0C;
     S_80049F68_Link link;
-} S_80049F68_Elem;
+}
+S_80049F68_Elem;
 
 typedef struct S_80049F68_Obj
 {
@@ -39,7 +43,8 @@ typedef struct S_80049F68_Obj
     s32 unkA0;
     s32 unkA4;
     s32 unkA8;
-} S_80049F68_Obj;
+}
+S_80049F68_Obj;
 
 extern S_8002E5D8 D_8002E5D8;
 extern S_8002E5E8 D_8002E5E8;

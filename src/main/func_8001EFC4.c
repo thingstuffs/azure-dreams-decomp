@@ -15,7 +15,6 @@ typedef struct S_8001EFC4_0 {
 } S_8001EFC4_0;   /* root in func_8001EFC4 */
 
 
-
 extern void func_80063FF8(s32 code);
 extern void func_80405F24(void *obj);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);

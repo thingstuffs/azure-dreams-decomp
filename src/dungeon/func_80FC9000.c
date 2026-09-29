@@ -63,7 +63,7 @@ extern u8 D_8015D298[];
 #ifdef __mips__
 extern void *func_801588A4(s32, s16, s16, s16);
 static const u32 bank_words[] __asm__("func_80158800")
-    __attribute__((section(".text.func_80158800"), aligned(4))) = {
+__attribute__((section(".text.func_80158800"), aligned(4))) = {
     (u32)func_801588A4, (u32)D_80158B40, 0x8015912C, 0x80159198,
     0x8015926C, 0x801593FC, 0x80159444, 0x00000000,
     0x80159794, 0x80159794, 0x80159794, 0x801597C0,
@@ -85,9 +85,9 @@ __asm__(".globl func_80158800\n"
 
 void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
 #ifdef __mips__
-    __attribute__((section(".text.func_80158800")))
+__attribute__((section(".text.func_80158800")))
 #endif
-    ;
+;
 
 void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
@@ -157,7 +157,7 @@ normal_kind:
                     ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
                                   (func_800A6D30() & 0x3F) |
-                                      0x20);
+                                  0x20);
                     part_b->unk_2C = D_8015D298;
                 }
             }

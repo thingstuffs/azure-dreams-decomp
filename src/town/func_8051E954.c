@@ -3,9 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 
-
-
-
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
     M2C_UNK (*unk_208)(M2C_UNK);

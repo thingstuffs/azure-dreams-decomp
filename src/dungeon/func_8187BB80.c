@@ -15,7 +15,12 @@ typedef struct S_8187BB80_0 {
     u8 unk_37;
     u8 unk_38;
     u8 pad_39[0x7];
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; } unk_40;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_40;   /* overlapping accesses */
     u8 pad_44[0x8];
     u8 unk_4C;
     u8 unk_4D;
@@ -40,7 +45,6 @@ typedef struct S_8187BB80_1 {
     u8 pad_0F[0x5];
     u16 unk_14;
 } S_8187BB80_1;   /* aux in func_8187BB80 */
-
 
 
 extern s16 D_8002694C;

@@ -5,7 +5,12 @@
 typedef struct S_80D65534_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
 } S_80D65534_0;   /* arg1 in func_80D65534 */
 
 typedef struct S_80D65534_1_pre {
@@ -30,8 +35,6 @@ typedef struct S_80D65534_1 {
 } S_80D65534_1;   /* arg0 in func_80D65534 */
 
 
-
-
 extern void func_800478B8(void *arg0);
 extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
 extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
@@ -54,8 +57,8 @@ void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
     z = position->unk_08.at02.v;
     current_z = position->unk_08.at02u.v;
     terrain_z = func_800BCB04(x,
-                            position->unk_04.at02.v,
-                            (s16)(z - 4));
+                              position->unk_04.at02.v,
+                              (s16)(z - 4));
     if (terrain_z - 0x10 < current_z) {
         ((S_80D65534_1 *)effect)->unk_34 = 0;
         position->unk_08.at02u.v =
@@ -75,8 +78,8 @@ void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
                           position->unk_04.at02.v,
                           position->unk_08.at02u.v) < 0x200 &&
             (s16)func_800A45D8(position->unk_00.at02.v,
-                                position->unk_04.at02.v,
-                                position->unk_08.at02u.v) != 0) {
+                               position->unk_04.at02.v,
+                               position->unk_08.at02u.v) != 0) {
             position->unk_00.at00.v -= ((S_80D65534_1 *)effect)->unk_2C;
             ((S_80D65534_1 *)effect)->unk_2C = 0;
             ((S_80D65534_1 *)effect)->unk_38 = 0;
@@ -88,8 +91,8 @@ void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)
                           position->unk_04.at02.v,
                           position->unk_08.at02u.v) < 0x200 &&
             (s16)func_800A45D8(position->unk_00.at02.v,
-                                position->unk_04.at02.v,
-                                position->unk_08.at02u.v) != 0) {
+                               position->unk_04.at02.v,
+                               position->unk_08.at02u.v) != 0) {
             position->unk_04.at00.v -= ((S_80D65534_1 *)effect)->unk_30;
             ((S_80D65534_1 *)effect)->unk_30 = 0;
             ((S_80D65534_1 *)effect)->unk_3C = 0;

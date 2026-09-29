@@ -8,7 +8,6 @@
 #include "records/Rec_func_80172CC0_arg0.h"
 
 
-
 extern u8 D_80170E54;
 extern u8 D_80174148[8];
 extern u8 D_80174180[8];
@@ -23,7 +22,6 @@ extern s32 func_800A94A0();
 extern void func_800DA840();
 
 
-
 typedef struct S_80172CC0_1_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
@@ -34,7 +32,6 @@ typedef struct S_80172CC0_2 {
     u8 unk_24;
     u8 unk_25;
 } S_80172CC0_2;   /* owner in func_80172CC0 */
-
 
 
 /* Updates an entity's item action, animation, and completion state. */
@@ -197,7 +194,7 @@ no_item:
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
-        /* fall through */
+                /* fall through */
 
     case 2:
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -213,13 +210,13 @@ no_item:
         return;
 
     case 3:
-        {
-            s16 sound_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_A8 - 1;
-            ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = sound_timer;
-            if (sound_timer == 0) {
-                func_800A56E0(0x610);
-            }
+    {
+        s16 sound_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_A8 - 1;
+        ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = sound_timer;
+        if (sound_timer == 0) {
+            func_800A56E0(0x610);
         }
+    }
 
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 12 &&
              (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||

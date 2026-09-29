@@ -44,7 +44,6 @@ typedef struct S_80026D0C_7 {
 } S_80026D0C_7;   /* ((S_80026D0C_3 *)(((S_80026D0C_0 *)arg0)->unk_0C))->unk_04 in func_80026D0C */
 
 
-
 /* Position paired display elements in a repeating nine-column grid. */
 void func_80026D0C(S_80026D0C_0 *display, s32 cell_index) {
     s32 row_y;

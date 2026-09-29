@@ -10,7 +10,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80ADD000")
-    __attribute__((section(".text.func_80ADD000"), aligned(4))) = {
+__attribute__((section(".text.func_80ADD000"), aligned(4))) = {
     0x80159158, 0x80159320, 0x80159B54, 0x80159B54,
     0x80159B54, 0x80159B80, 0x80159B00, 0x80159B00,
     0x80159B00, 0x80159AAC, 0x80159AE4, 0x80159B80,

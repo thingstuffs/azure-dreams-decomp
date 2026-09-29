@@ -9,8 +9,16 @@ typedef struct S_80813AB0_0 {
     void * unk_20;
     void * unk_24;
     union { void * p; u32 i; } unk_28;   /* accessed as both */
-    union { struct { void * v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_2C;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_30;   /* overlapping accesses */
+    union {
+        struct { void * v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_2C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_30;   /* overlapping accesses */
     s16 unk_34;
     union { s16 n; u16 v; } unk_36;   /* accessed as both */
     s16 unk_38;
@@ -33,7 +41,6 @@ typedef struct S_80813AB0_2 {
     u8 pad_00[0xC];
     void * unk_0C;
 } S_80813AB0_2;   /* (u8 *)y in func_80813AB0 */
-
 
 
 typedef struct RootPair {

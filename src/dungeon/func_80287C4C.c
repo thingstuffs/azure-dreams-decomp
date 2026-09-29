@@ -239,7 +239,8 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
         src_height = D_800EA000[(src_room->y << dungeon->shiftX) + src_room->x].value;
     }
     if (D_800E2970[dest_idx].unk_0A) {
-        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x + dest_offset_x].value;
+        dest_height = D_800EA000[((dest_room->y + dest_offset_y) << dungeon->shiftX) + dest_room->x
+            + dest_offset_x].value;
     } else {
         dest_height = D_800EA000[(dest_room->y << dungeon->shiftX) + dest_room->x].value;
     }
@@ -249,7 +250,7 @@ s32 func_8001AC4C(s16 src_dir, s16 dest_dir, s16 src_idx, s16 dest_idx, u8 *room
     height_delta = dest_height - src_height;
     height_gap = __builtin_abs(height_delta);
     if ((height_gap + 31) / 32 > path_length) {
-    failed:
+failed:
         return 1;
     }
     height_step[0] = (height_gap << 16) / path_length;

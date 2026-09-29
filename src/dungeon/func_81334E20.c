@@ -55,7 +55,6 @@ typedef struct S_8016BE20_6 {
 } S_8016BE20_6;   /* header in func_8016BE20 */
 
 
-
 extern void func_800353F4(void *, void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
@@ -194,7 +193,8 @@ increment_state:
                     object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4));
                     if (object != 0) {
                         func_80164BA4(object);
-                        object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4)) - 0x20;
+                        object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC
+                            + object_index * 4)) - 0x20;
                         ((S_8016BE20_6 *)object_header)->unk_10 |= object_flag;
                     }
                     object_index++;

@@ -54,7 +54,6 @@ typedef struct S_80170AD0_4 {
 } S_80170AD0_4;   /* other in func_80170AD0 */
 
 
-
 extern void func_800478B8();
 extern s32 func_80065420();
 

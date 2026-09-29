@@ -277,7 +277,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
         }
     }
 
-case 1:
+    case 1:
     {
         u16 next_state;
         u16 base_z;
@@ -362,7 +362,7 @@ case 1:
         return;
     }
 
-case 2:
+    case 2:
     {
         u32 particle_index;
         u8 frames_left;
@@ -371,14 +371,17 @@ case 2:
         s32 elapsed_frames_3;
         s32 collision;
         particle_index = 0;
-        loop_0: {
+loop_0:
+        {
             s32 particle_shade;
             s32 random_bits = func_80069EF8();
             particle_shade = (random_bits & 0xFF) | 0x80;
             func_80024470((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
-        } if ((s32)particle_index < 4) goto loop_0;
+        }
+        if ((s32)particle_index < 4)
+            goto loop_0;
         {
             u16 angle = sprite->unk_1A + 400;
             sprite->unk_1A = angle;
@@ -389,7 +392,7 @@ case 2:
         }
         elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
         sprite->unk_C.u8 = (u8)((elapsed_frames * elapsed_frames * 108) /
-                                    effect->unk_8A + 20);
+                                effect->unk_8A + 20);
         elapsed_frames_2 = effect->unk_88 - effect->unk_7B.s8 + 1;
         sprite->unk_C.at_D_u8.unk_D = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
                                     effect->unk_8A + 20);
@@ -397,7 +400,7 @@ case 2:
         sprite->unk_C.at_E_u8.unk_E = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
         collision = func_800A4778(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
-                               motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);
+                                  motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);
         if ((collision << 16) != 0) {
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 0;
@@ -437,7 +440,7 @@ case 2:
         return;
     }
 
-case 3:
+    case 3:
     {
         S_func_8190B2D0_3 *child_pos;
         u32 child_data;
@@ -510,7 +513,7 @@ case 3:
         return;
     }
 
-case 4:
+    case 4:
     {
         s32 fade_frame;
         s32 green_frame;
@@ -575,7 +578,7 @@ case 4:
         return;
     }
 
-case 5:
+    case 5:
     {
         S_func_8190B2D0_6 *target;
         u8 target_mode;
@@ -597,7 +600,7 @@ case 5:
         return;
     }
 
-case 8:
+    case 8:
     {
         s16 old_frame;
         s16 frame;
@@ -611,7 +614,8 @@ case 8:
         cleanup_pending = D_80025630[0];
         effect->unk_82.u16 = old_frame;
         switch (cleanup_pending) {
-        case 0: {
+        case 0:
+        {
             dungeonStatus.unk_0C = 0;
             *(u16 *)((u8 *)effect - 2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

@@ -60,7 +60,7 @@ extern M2C_UNK D_8015C000;
 
 #ifdef __mips__
 static const u32 func_81071000_prefix_a[] __asm__("func_81071000")
-    __attribute__((used, section(".text.func_81071000"), aligned(4))) = {
+__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
     0x80158898, 0x80158AA4, 0x80159394, 0x80159394,
     0x80159394, 0x801593C0, 0x80159340, 0x80159340,
     0x80159340, 0x801592EC, 0x80159324, 0x801593C0,
@@ -69,13 +69,13 @@ static const u32 func_81071000_prefix_a[] __asm__("func_81071000")
     0x8015AA90,
 };
 static const u32 func_81071000_prefix_b[]
-    __attribute__((used, section(".text.func_81071000"), aligned(4))) = {
+__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
     0x97824081, 0x8E828582, 0x40819482, 0x85828282,
     0x93829282, 0x92828582, 0x44818B82, 0,
     0,
 };
 static const u32 func_81071000_prefix_c[]
-    __attribute__((used, section(".text.func_81071000"), aligned(4))) = {
+__attribute__((used, section(".text.func_81071000"), aligned(4))) = {
     0x8015BCBC, 0x8015BD60, 0x8015BDD8, 0x8015BE10,
     0x8015BCBC, 0x8015BD60, 0x8015BDD8, 0x8015BE70,
 };

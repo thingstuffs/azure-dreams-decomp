@@ -20,7 +20,6 @@ typedef struct S_80021028_1 {
 } S_80021028_1;   /* temp_a0 in func_80021028 */
 
 
-
 /* Updates the object's derived value and propagates the linked data's 0x8000 flag. */
 void func_80021028(void *object) {
     S_80021028_1 *objectData;

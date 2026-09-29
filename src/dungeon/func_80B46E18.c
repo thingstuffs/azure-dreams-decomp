@@ -81,7 +81,6 @@ typedef struct S_80174618_6 {
 } S_80174618_6;   /* packet2 in func_80174618 */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -221,7 +220,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
         zero = 0;
         ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         global_page = (u8 *)(0xFF000000);
-        ((S_80174618_5 *)line_packet)->unk_00.at00.v = (((S_80174618_5 *)line_packet)->unk_00.at00.v & (u32)global_page) |
+        ((S_80174618_5 *)line_packet)->unk_00.at00.v =
+            (((S_80174618_5 *)line_packet)->unk_00.at00.v & (u32)global_page) |
                                 (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
         ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
             (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & (u32)global_page) |

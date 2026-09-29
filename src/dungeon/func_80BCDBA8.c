@@ -25,7 +25,6 @@ extern u8 D_8016866C[8];
 extern Callback D_801686A0[];
 
 
-
 typedef struct S_801653A8_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;

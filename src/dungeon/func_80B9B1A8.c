@@ -61,7 +61,6 @@ typedef struct S_801749A8_3 {
 } S_801749A8_3;   /* temp_a1 in func_801749A8 */
 
 
-
 typedef struct S_801749A8_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -84,7 +83,8 @@ typedef struct S_801749A8_7 {
 
 extern s32 D_8006CD58[];
 extern s32 D_8003E140[];
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
+struct S_8003E2D8;
+typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
 M2C_UNK Control_CD();
@@ -136,128 +136,135 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
     state = ((S_801749A8_0 *)sequence)->unk_9B;
     switch (state) {
     case 0:
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
-    return;
-    case 1:
-    func_80041588(&D_80174FAC, &D_80174FCC, 0);
-    ((S_801749A8_0 *)sequence)->unk_A8 = 0;
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
-    case 2:
-    direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
-    if (D_80174FCC[0] != 0) {
-        if (direction == 2) {
-            goto start_fade;
-        }
-    }
-    if (direction == 2) {
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
         return;
-    }
-    turn_angle = ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x200;
-    ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
-    return;
-start_fade:
-    func_80041588(&D_80174FAC, &D_80174FCC, 1);
-    func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
-    Control_CD(0x15, func_800445E0(), NULL);
-    D_80174FCD[0] = 0;
-    Control_CD(0xFF, (s32) D_8003E140, &D_80174FCD);
-    func_800C77D0(target - 0x20, position, 8, 0x300);
-    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    case 3:
-    fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
-    fade_ticks = fade_timer - 1;
-    ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
-    if ((fade_ticks << 0x10) <= 0) {
-        ready = D_80174FCD[0];
-        ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
-        if (ready == 0) {
+    case 1:
+        func_80041588(&D_80174FAC, &D_80174FCC, 0);
+        ((S_801749A8_0 *)sequence)->unk_A8 = 0;
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
+    case 2:
+        direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100)
+            >> 9) & 7;
+        if (D_80174FCC[0] != 0) {
+            if (direction == 2) {
+                goto start_fade;
+            }
+        }
+        if (direction == 2) {
             return;
         }
+        turn_angle = ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x200;
+        ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v = turn_angle;
+        return;
+start_fade:
+        func_80041588(&D_80174FAC, &D_80174FCC, 1);
+        func_8003F540(0, *D_8006CD58, 0x04000AD4, 0x05000CC4);
+        Control_CD(0x15, func_800445E0(), NULL);
+        D_80174FCD[0] = 0;
+        Control_CD(0xFF, (s32) D_8003E140, &D_80174FCD);
+        func_800C77D0(target - 0x20, position, 8, 0x300);
+        ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
         ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-        func_800A56E0(0x300);
+    case 3:
+        fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
+        fade_ticks = fade_timer - 1;
+        ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
+        if ((fade_ticks << 0x10) <= 0) {
+            ready = D_80174FCD[0];
+            ((S_801749A8_0 *)sequence)->unk_96 = fade_timer;
+            if (ready == 0) {
+                return;
+            }
+            ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+            func_800A56E0(0x300);
+            return;
+        }
+        target_color = D_800DCEEC[func_800498A0(target)];
+        object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00
+            - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
+        object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01
+            - object->unk_A9) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
+        object->unk_AA = (u8) (object->unk_AA + ((s32) (((S_801749A8_3 *)target_color)->unk_02
+            - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
         return;
-    }
-    target_color = D_800DCEEC[func_800498A0(target)];
-    object->unk_A8 = (u8) (object->unk_A8 + ((s32) (((S_801749A8_3 *)target_color)->unk_00 - object->unk_A8) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
-    object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01 - object->unk_A9) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
-    object->unk_AA = (u8) (object->unk_AA + ((s32) (((S_801749A8_3 *)target_color)->unk_02 - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
-    return;
     case 4:
-    object = func_8003FC64(0x12);
-    if (object == 0) {
+        object = func_8003FC64(0x12);
+        if (object == 0) {
+            return;
+        }
+        object->unk_10.s = &D_8017487C;
+        func_8004491C(object, func_80045340);
+        ((S_801749A8_0 *)sequence)->unk_A4 = object;
+        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->x.v;
+        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->y.v;
+        ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->z.v;
+        object = object->unk_0C.s;
+        object->unk_1E = 0x1000;
+        object->unk_1C = 0x1000;
+        object->unk_0C.u = 0x808080;
+        effect_choice = func_800498A0(target) - 1;
+        effect_index = effect_choice;
+        if ((effect_choice << 0x10) < 0) {
+            effect_index = rand() % 3;
+        }
+        func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
+        actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
+        ((S_801749A8_0 *)sequence)->unk_96 = 0U;
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        func_801745E0(sequence, position, actor);
         return;
-    }
-    object->unk_10.s = &D_8017487C;
-    func_8004491C(object, func_80045340);
-    ((S_801749A8_0 *)sequence)->unk_A4 = object;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_00 = (s32) position->x.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_04 = (s32) position->y.v;
-    ((S_801749A8_10 *)(((S_801749A8_8 *)object)->unk_08))->unk_08 = (s32) position->z.v;
-    object = object->unk_0C.s;
-    object->unk_1E = 0x1000;
-    object->unk_1C = 0x1000;
-    object->unk_0C.u = 0x808080;
-    effect_choice = func_800498A0(target) - 1;
-    effect_index = effect_choice;
-    if ((effect_choice << 0x10) < 0) {
-        effect_index = rand() % 3;
-    }
-    func_8003DB94(object, &D_8014A000[*(((s32) (effect_index << 0x10) >> 0x10) + &D_80174FB4)], 0);
-    actor->unk_14.at00_u16.v = (u16) (actor->unk_14.at00_u16.v | 0x80);
-    ((S_801749A8_0 *)sequence)->unk_96 = 0U;
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    func_801745E0(sequence, position, actor);
-    return;
     case 5:
-    object = ((S_801749A8_0 *)sequence)->unk_A4;
-    object = object->unk_0C.s;
-    if (!(object->unk_14 & 0xE000)) {
-        goto check_movement;
-    }
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        object = ((S_801749A8_0 *)sequence)->unk_A4;
+        object = object->unk_0C.s;
+        if (!(object->unk_14 & 0xE000)) {
+            goto check_movement;
+        }
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     case 6:
 check_movement:
-    if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
+        if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
+            return;
+        }
+        movement_done = func_800ADC4C(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
+        if (movement_done == 0) {
+            return;
+        }
+        ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        func_800A18E8(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
+        func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
+        func_8009A028(target);
+        object = target - 0x20;
+        object->unk_10.u = object->unk_10.u | 0x80000000;
         return;
-    }
-    movement_done = func_800ADC4C(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
-    if (movement_done == 0) {
-        return;
-    }
-    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    func_800A18E8(((Rec_D_80082E80 *)target)->unk_12.at01_u8.v, 3);
-    func_8009A3D0(actor->unk_24, actor->unk_25, 0x300);
-    func_8009A028(target);
-    object = target - 0x20;
-    object->unk_10.u = object->unk_10.u | 0x80000000;
-    return;
     case 7:
-    model_addr = func_800A504C(actor, target);
-    ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
-    if (model_addr == 0) {
-        return;
-    }
-    ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
-    ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-    ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
-    model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
-    sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
-    func_80047738(sprite, *(sprite->unk_2C + (((s32) (gameWork.view.viewAngle + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
+        model_addr = func_800A504C(actor, target);
+        ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
+        if (model_addr == 0) {
+            return;
+        }
+        ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
+        ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
+        ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A =
+            (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
+        model = ((Rec_D_80082E80 *)target)->unk_60.as_pv;
+        sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
+        func_80047738(sprite, *(sprite->unk_2C + (((s32) (gameWork.view.viewAngle
+            + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
+        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
-    ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
-    ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;
-    if (ticks_left > 0) {
+        ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
+        ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;
+        if (ticks_left > 0) {
+            return;
+        }
+        ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A =
+            (u16) ((Rec_D_80082E80 *)target)->unk_8A;
+        ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+        ((Rec_D_80082E80 *)target)->unk_6D = 0;
         return;
-    }
-    ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_8A;
-    ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-    dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
-    ((Rec_D_80082E80 *)target)->unk_6D = 0;
-    return;
     }
 }

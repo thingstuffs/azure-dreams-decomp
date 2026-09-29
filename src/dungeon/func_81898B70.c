@@ -21,7 +21,6 @@ typedef struct S_80024370_2 {
 } S_80024370_2;   /* global_page in func_80024370 */
 
 
-
 extern void func_80024264(void *arg0);
 #ifndef NON_MATCHING
 __asm__(".set func_80024264_returning, func_80024264");

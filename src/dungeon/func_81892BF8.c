@@ -18,7 +18,6 @@ typedef struct S_81892BF8_1 {
 } S_81892BF8_1;   /* temp_v1 in func_81892BF8 */
 
 
-
 /* Increment both counters and set completion flags when the count reaches its limit. */
 void func_81892BF8(void *counterState) {
     u16 incrementedCount;

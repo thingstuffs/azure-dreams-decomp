@@ -91,7 +91,6 @@ typedef struct S_801748D0_11 {
 } S_801748D0_11;   /* link in func_801748D0 */
 
 
-
 extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -185,71 +184,72 @@ spawn_effect:
     }
     count = 0;
     do {
-    object_or_height = (s32)func_8003FD64(0x112, &D_80083498);
-    effect_body = (u8 *)((void *)object_or_height);
-    effect_body += 0x20;
-    if (((void *)object_or_height) == 0) {
-        continue;
-    }
-    ((S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
-    ((S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
-    ((S_801748D0_4 *)((void *)object_or_height))->unk_10 = D_80170AD0;
-    linked_body = actor->target;
-    if (linked_body == 0) {
-        ((S_801748D0_3 *)effect_body)->unk_A8 = position;
-        ((S_801748D0_3 *)effect_body)->unk_A2 = 0;
-    } else {
-        linked_owner = ((S_801748D0_6_pre *)linked_body)[-1].unk_00;
-        ((S_801748D0_3 *)effect_body)->unk_A2 = 1;
-        ((S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
-    }
-    ((S_801748D0_3 *)effect_body)->unk_94 = actor->facing;
-    effect_mesh = ((S_801748D0_4 *)((void *)object_or_height))->unk_0C;
-    anchor_pos = ((S_801748D0_3 *)effect_body)->unk_A8;
-    *(MeshCopy *)effect_mesh = *(MeshCopy *)source_mesh;
-    mesh_flags = effect_mesh->unk_14;
-    effect_mesh->unk_1E = 0x400;
-    effect_mesh->unk_1C = 0x400;
-    effect_mesh->unk_0E = 0x80;
-    effect_mesh->unk_0D = 0x80;
-    effect_mesh->unk_0C = 0x80;
-    effect_mesh->unk_10 = 0x20;
-    effect_mesh->unk_12 = 0xFF80;
-    mesh_flags |= 0xC;
-    effect_mesh->unk_14 = mesh_flags;
-    func_8004491C((void *)object_or_height, func_80045340);
-    call_value = D_80174ED0[0];
-    effect_mesh->unk_2C = D_80174ED0;
-    func_80047784(effect_mesh, call_value, 0);
-    object_or_height = (s32)((S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
-    ((S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((S_801748D0_9 *)anchor_pos)->unk_02;
-    ((S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((S_801748D0_9 *)anchor_pos)->unk_06;
-    anchor_z = ((S_801748D0_9 *)anchor_pos)->unk_0A;
-    ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
-    if (actor->target == 0) {
-        owner_link = ((S_801748D0_10 *)owner)->unk_0C;
-        if (func_8003DE58(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
-            ((S_801748D0_4 *)((void *)object_or_height))->unk_02 += frame.delta[0];
-            ((S_801748D0_4 *)((void *)object_or_height))->unk_06 += frame.delta[1];
-            ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v += frame.delta[2];
+        object_or_height = (s32)func_8003FD64(0x112, &D_80083498);
+        effect_body = (u8 *)((void *)object_or_height);
+        effect_body += 0x20;
+        if (((void *)object_or_height) == 0) {
+            continue;
         }
-        frame.pos[0] = ((S_801748D0_4 *)((void *)object_or_height))->unk_02;
-        frame.pos[1] = ((S_801748D0_4 *)((void *)object_or_height))->unk_06;
-        frame.pos[2] = ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v;
-        first_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
-        mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_02;
-        frame.pos[0] = mesh_flags;
-        mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_06;
-        frame.pos[1] = mesh_flags;
+        ((S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
+        ((S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
+        ((S_801748D0_4 *)((void *)object_or_height))->unk_10 = D_80170AD0;
+        linked_body = actor->target;
+        if (linked_body == 0) {
+            ((S_801748D0_3 *)effect_body)->unk_A8 = position;
+            ((S_801748D0_3 *)effect_body)->unk_A2 = 0;
+        } else {
+            linked_owner = ((S_801748D0_6_pre *)linked_body)[-1].unk_00;
+            ((S_801748D0_3 *)effect_body)->unk_A2 = 1;
+            ((S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
+        }
+        ((S_801748D0_3 *)effect_body)->unk_94 = actor->facing;
+        effect_mesh = ((S_801748D0_4 *)((void *)object_or_height))->unk_0C;
+        anchor_pos = ((S_801748D0_3 *)effect_body)->unk_A8;
+        *(MeshCopy *)effect_mesh = *(MeshCopy *)source_mesh;
+        mesh_flags = effect_mesh->unk_14;
+        effect_mesh->unk_1E = 0x400;
+        effect_mesh->unk_1C = 0x400;
+        effect_mesh->unk_0E = 0x80;
+        effect_mesh->unk_0D = 0x80;
+        effect_mesh->unk_0C = 0x80;
+        effect_mesh->unk_10 = 0x20;
+        effect_mesh->unk_12 = 0xFF80;
+        mesh_flags |= 0xC;
+        effect_mesh->unk_14 = mesh_flags;
+        func_8004491C((void *)object_or_height, func_80045340);
+        call_value = D_80174ED0[0];
+        effect_mesh->unk_2C = D_80174ED0;
+        func_80047784(effect_mesh, call_value, 0);
+        object_or_height = (s32)((S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
+        ((S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((S_801748D0_9 *)anchor_pos)->unk_02;
+        ((S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((S_801748D0_9 *)anchor_pos)->unk_06;
+        anchor_z = ((S_801748D0_9 *)anchor_pos)->unk_0A;
+        ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
+        if (actor->target == 0) {
+            owner_link = ((S_801748D0_10 *)owner)->unk_0C;
+            if (func_8003DE58(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
+                ((S_801748D0_4 *)((void *)object_or_height))->unk_02 += frame.delta[0];
+                ((S_801748D0_4 *)((void *)object_or_height))->unk_06 += frame.delta[1];
+                ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v += frame.delta[2];
+            }
+            frame.pos[0] = ((S_801748D0_4 *)((void *)object_or_height))->unk_02;
+            frame.pos[1] = ((S_801748D0_4 *)((void *)object_or_height))->unk_06;
+            frame.pos[2] = ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v;
+            first_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
+            mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_02;
+            frame.pos[0] = mesh_flags;
+            mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_06;
+            frame.pos[1] = mesh_flags;
             mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_0A;
-        frame.pos[2] = mesh_flags;
-        anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
-        lookup_value = D_800DCECC[((gameWork.view.viewAngle + (s16)((S_801748D0_3 *)effect_body)->unk_94 + 0x100) >> 9) & 7];
-        effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
-        continue;
-    }
-    ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z - 0x1E;
-    effect_mesh->unk_06 = 4;
+            frame.pos[2] = mesh_flags;
+            anchor_height = func_80065420(frame.pos, frame.out0, &frame.out1, &frame.out2);
+            lookup_value = D_800DCECC[((gameWork.view.viewAngle + (s16)((S_801748D0_3 *)effect_body)->unk_94 + 0x100)
+                >> 9) & 7];
+            effect_mesh->unk_06 = first_height - anchor_height - (lookup_value << 1);
+            continue;
+        }
+        ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z - 0x1E;
+        effect_mesh->unk_06 = 4;
 
     } while (++count < 1);
     ((S_801748D0_0 *)effect_state)->unk_96 = 0x2D;
@@ -261,7 +261,8 @@ wait_finish:
         if (((S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
             ((S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
             ((S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-            func_80047784(source_mesh, ((u8 *)((S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            func_80047784(source_mesh, ((u8 *)((S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle
+                + actor->facing + 0x100) >> 9) & 7], 0);
         }
     }
     if (!(((S_801748D0_2 *)source_mesh)->unk_14 & 0x8000)) {
@@ -278,7 +279,8 @@ wait_finish:
     if (((S_801748D0_2 *)source_mesh)->unk_2C != D_80174E88) {
         ((S_801748D0_2 *)source_mesh)->unk_2C = D_80174E88;
         ((S_801748D0_2 *)source_mesh)->unk_14 &= 0xF7FF;
-        func_80047784(source_mesh, ((u8 *)((S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        func_80047784(source_mesh, ((u8 *)((S_801748D0_2 *)source_mesh)->unk_2C)[((gameWork.view.viewAngle
+            + actor->facing + 0x100) >> 9) & 7], 0);
     }
     ((S_801748D0_0 *)effect_state)->unk_9B++;
     return;

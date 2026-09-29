@@ -173,7 +173,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         angle_bits = (u16)entity->angle;
         entity->angle = (angle_bits & 0x800)
             ? (angle_bits | 0xF800)
-            : (angle_bits & 0x7FF);
+        : (angle_bits & 0x7FF);
 
         normalized_target = target_angle & 0x800;
         if (normalized_target != 0) {

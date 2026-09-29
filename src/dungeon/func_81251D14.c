@@ -54,7 +54,11 @@ typedef struct S_80171514_1 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
@@ -193,34 +197,34 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         switch (jump_index) {
 case_stop:
         case 11:
-        func_800A9A0C(state);
-        return;
+            func_800A9A0C(state);
+            return;
 
         case 4:
         case 5:
         case 6:
         case 7:
         case 8:
-        callback_state = state;
-        (*(void * *)((u8 *)obj + (0x8C))) = &D_80171514;
+            callback_state = state;
+            (*(void * *)((u8 *)obj + (0x8C))) = &D_80171514;
 case_callback_tail:
-        func_800A9A0C(callback_state);
-        ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
-        return;
+            func_800A9A0C(callback_state);
+            ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+            return;
 
         case 0:
         case 1:
         case 2:
-        func_800AAF00(obj, motion, part, 0, &D_80171514);
-        return;
+            func_800AAF00(obj, motion, part, 0, &D_80171514);
+            return;
 
         case 3:
         case 9:
         case 10:
         default:
 case_default:
-        func_80171BE0(obj, motion, part, state);
-        return;
+            func_80171BE0(obj, motion, part, state);
+            return;
         }
     }
 

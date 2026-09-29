@@ -34,7 +34,6 @@ extern void func_8004A7D8();
 extern void strcpy();
 
 
-
 typedef struct S_800258B8_0 {
     u8 pad_00[0xC];
     s32 unk_0C;
@@ -66,7 +65,7 @@ void func_800258B8(void *item_object)
         if (subobject->unk_08 != 0) {
             func_8004A7D8(category, subobject->unk_1C);
             D_80073414[((S_800258B8_0 *)object)->unk_0C]
-                .records[subobject->unk_1C].value =
+            .records[subobject->unk_1C].value =
                 subobject->unk_08;
             return;
         }

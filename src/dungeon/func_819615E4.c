@@ -105,7 +105,8 @@ extern void func_800B8D64(s16, s16, s16);
    right after the default jump and jump.c inverts the test).  case 0 falls through into case 1.
    The `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from
    case 1 ends with the same `state->state = value + 1; return` tail as case 2 (written out
-   in both arms), and case 2's step != 0 path repeats case 3's flag-setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
+   in both arms), and case 2's step != 0 path repeats case 3's flag
+       -setting tail.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
    which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
 void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 {
@@ -127,7 +128,8 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         position.x = ((u16)D_80083780.x.w.i);
         position.y = ((u16)D_80083780.y.w.i);
         position.z = ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_88.u16_value - 0x50;
-        transform_offset = ((gameWork.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value + 0x100) >> 7) & 0x1C;
+        transform_offset = ((gameWork.view.viewAngle + ((S_func_819615E4_2 *)((u8 *)D_800E3D7C))->unk_2A.s16_value
+            + 0x100) >> 7) & 0x1C;
         func_8003DE58(((S_func_819615E4_3 *)((s32)transform_offset + (s32)D_800E3D18))->unk_00, ((u8 *)(&D_80082E80)),
                       &position_offset, 0);
         position.x += position_offset.x;
@@ -151,71 +153,71 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
         target->x = (u16)target->x +
             (current_coord + step_offset - target->x) / state->timer;
     }
-    {
-        s32 step_offset;
+        {
+            s32 step_offset;
 
-        current_coord = state->cur_y;
-        distance = state->y - current_coord;
-        if (distance < 0) {
-            distance += 7;
+            current_coord = state->cur_y;
+            distance = state->y - current_coord;
+            if (distance < 0) {
+                distance += 7;
+            }
+            step_offset = (distance >> 3) * (state->step + 1);
+            target->y = (u16)target->y +
+                (current_coord + step_offset - target->y) / state->timer;
         }
-        step_offset = (distance >> 3) * (state->step + 1);
-        target->y = (u16)target->y +
-            (current_coord + step_offset - target->y) / state->timer;
-    }
-    {
-        s32 step_offset;
+        {
+            s32 step_offset;
 
-        current_coord = state->cur_z;
-        distance = state->z - current_coord;
-        if (distance < 0) {
-            distance += 7;
+            current_coord = state->cur_z;
+            distance = state->z - current_coord;
+            if (distance < 0) {
+                distance += 7;
+            }
+            step_offset = (distance >> 3) * (state->step + 1);
+            target->z = (u16)target->z +
+                (current_coord + step_offset - target->z) / state->timer;
         }
-        step_offset = (distance >> 3) * (state->step + 1);
-        target->z = (u16)target->z +
-            (current_coord + step_offset - target->z) / state->timer;
-    }
 
-    smoothed_coord = (u16)state->cur_x + ((target->x - state->cur_x) >> 2);
-    state->cur_x = smoothed_coord;
-    target->cur_x = smoothed_coord;
-    smoothed_coord = (u16)state->cur_y + ((target->y - state->cur_y) >> 2);
-    state->cur_y = smoothed_coord;
-    target->cur_y = smoothed_coord;
-    smoothed_coord = (u16)state->cur_z + ((target->z - state->cur_z) >> 2);
-    state->cur_z = smoothed_coord;
-    target->cur_z = smoothed_coord;
+        smoothed_coord = (u16)state->cur_x + ((target->x - state->cur_x) >> 2);
+        state->cur_x = smoothed_coord;
+        target->cur_x = smoothed_coord;
+        smoothed_coord = (u16)state->cur_y + ((target->y - state->cur_y) >> 2);
+        state->cur_y = smoothed_coord;
+        target->cur_y = smoothed_coord;
+        smoothed_coord = (u16)state->cur_z + ((target->z - state->cur_z) >> 2);
+        state->cur_z = smoothed_coord;
+        target->cur_z = smoothed_coord;
 
-    phase_value = state->timer - 1;
-    state->timer = phase_value;
-    if ((s16)phase_value > 0) {
-        return;
-    }
-    func_800B8D64(state->x, state->y, state->z);
-    phase_value = state->state;
-    const_reg = 5;
-    state->timer = const_reg;
-    state->state = phase_value + 1;
-    return;
-
-    case 2:
-    color->unk_0C -= color->unk_0C / state->timer;
-    phase_value = state->timer - 1;
-    state->timer = phase_value;
-    if ((s16)phase_value > 0) {
-        return;
-    }
-    if (state->step == 0) {
-        color->unk_0C = 0;
-        const_reg = 4;
-        state->phase = const_reg;
+        phase_value = state->timer - 1;
+        state->timer = phase_value;
+        if ((s16)phase_value > 0) {
+            return;
+        }
+        func_800B8D64(state->x, state->y, state->z);
         phase_value = state->state;
+        const_reg = 5;
+        state->timer = const_reg;
         state->state = phase_value + 1;
         return;
-    }
-    *(u16 *)((u8 *)state - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
+
+    case 2:
+        color->unk_0C -= color->unk_0C / state->timer;
+        phase_value = state->timer - 1;
+        state->timer = phase_value;
+        if ((s16)phase_value > 0) {
+            return;
+        }
+        if (state->step == 0) {
+            color->unk_0C = 0;
+            const_reg = 4;
+            state->phase = const_reg;
+            phase_value = state->state;
+            state->state = phase_value + 1;
+            return;
+        }
+        *(u16 *)((u8 *)state - 2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
 
     case 3:
     {

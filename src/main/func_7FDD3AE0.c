@@ -18,11 +18,11 @@ typedef struct S_7FDD3AE0_0 {
 } S_7FDD3AE0_0;   /* arg0 in func_7FDD3AE0; pointer addresses record offset 0x2 */
 
 
-
 /* Propagates the linked record high flag to the record and global flags. */
 void func_7FDD3AE0(void *record) {
     if (((S_7FDD3AE0_2 *)(((S_7FDD3AE0_1 *)record)->unk_04))->unk_16 & 0x8000) {
-        ((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00 | 0x8000);
+        ((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00 = (u16) (((S_7FDD3AE0_0 *)((u8 *)record - 0x2))->unk_00
+            | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 }

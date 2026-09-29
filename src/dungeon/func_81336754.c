@@ -62,7 +62,7 @@ extern void func_801685CC(DungeonState *, DungeonWork *, DungeonObject *, u8 *, 
 
 /* Advance the timed dungeon object sequence and update its direction table. */
 void func_8016D754(DungeonState *state, DungeonWork *work,
-                  DungeonObject *object, DungeonInput *input) {
+                   DungeonObject *object, DungeonInput *input) {
     u32 state_index;
     state_index = state->state;
     switch (state_index) {
@@ -95,11 +95,11 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
             *((u8 *)((u32)direction_index + (u32)direction_table)), 0);
     }
 case1_common:
-    func_801676CC(work);
-    state->timer.unsigned_value = 6;
-    state->state = state->state + 1;
-    func_800A56E0(0x703);
-    return;
+        func_801676CC(work);
+        state->timer.unsigned_value = 6;
+        state->state = state->state + 1;
+        func_800A56E0(0x703);
+        return;
 
     case 2:
     {
@@ -192,17 +192,17 @@ case1_common:
 
 case0:
     case 0:
-    state->timer.unsigned_value = 0;
-    state->state = state->state + 1;
-    return;
+        state->timer.unsigned_value = 0;
+        state->state = state->state + 1;
+        return;
 
     case 6:
-    input->unk_73 = 0;
-    input->unk_72 = 0;
-    state->unk_8C = D_8016A36C;
-    dungeonStatus.unk_0C = 0;
-    input->unk_46 = input->unk_46 & 0x7FFF;
+        input->unk_73 = 0;
+        input->unk_72 = 0;
+        state->unk_8C = D_8016A36C;
+        dungeonStatus.unk_0C = 0;
+        input->unk_46 = input->unk_46 & 0x7FFF;
 
-    return;
+        return;
     }
 }

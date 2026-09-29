@@ -2,7 +2,6 @@
 #include "shared/entity.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -79,16 +78,16 @@ void func_801656F8(EntityRec *source, s16 effect_param, s32 state_value, s16 off
     if (effect != NULL) {
         ((S_801656F8_0 *)effect)->unk_10 = D_801654F0;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_02 = (s16)
-            (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_02 + offset_x);
+        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_02 + offset_x);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_06 = (s16)
-            (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_06 + offset_y);
+        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_06 + offset_y);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_0A + offset_z);
+        (((S_801656F8_5 *)((*(void * *)&source->z)))->unk_0A + offset_z);
         ((S_801656F8_6 *)(((S_801656F8_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0C = (s32)
-            (((rand() & 0x7FFF) - 0x4000) << 4);
+        (((rand() & 0x7FFF) - 0x4000) << 4);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_10 = (s32)
-            (((rand() & 0x7FFF) - 0x4000) << 4);
+        (((rand() & 0x7FFF) - 0x4000) << 4);
         effect_state = effect + 0x20;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_14 = motion_z;
         effect_state->unk_14 = effect_param;

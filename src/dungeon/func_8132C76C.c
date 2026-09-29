@@ -13,8 +13,6 @@ typedef struct S_80173F6C_5 {
 } S_80173F6C_5;   /* ((Rec_D_800E3D7C *)D_80083498)->unk_08.at00_pv.v in func_80173F6C */
 
 
-
-
 extern u8 D_80174C84[];
 extern void *D_80174CE0[];
 void *func_8003FD64();

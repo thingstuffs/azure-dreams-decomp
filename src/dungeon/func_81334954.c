@@ -5,12 +5,6 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
-
-
-
-
-
 extern void func_8009C93C(void *, void *, s16, s32, s32);
 extern s32 func_800A0134(s32, void *);
 extern s32 func_800A04F0(void *, u8, u8, s16);
@@ -65,7 +59,7 @@ s32 func_8016B954(Rec_func_800A9E70_arg0 *action_state, s32 action_id, Rec_D_800
         *(unsigned char *)&actor->unk_84 = 0x80;
         actor->unk_85 = 32;
         actor->unk_6D--;
-    
+
         func_8009C93C(actor, target, actor->facing, 1, 0);
         return 1;
     }

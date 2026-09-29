@@ -52,7 +52,6 @@ typedef struct S_7FFE7BE8_5 {
 } S_7FFE7BE8_5;   /* arg1 in func_7FFE7BE8 */
 
 
-
 extern void func_70040A18(void *, void *);
 extern void func_7003A7C4(void *, void *, s32);
 extern s32 D_8004136C;

@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(u8, u8);
@@ -69,7 +68,11 @@ typedef struct S_80170EE4_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
@@ -162,7 +165,8 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         }
     }
 
-    tile_index = func_8009FB34(((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v);
+    tile_index = func_8009FB34(((S_80170EE4_2 *)map_object)->unk_24.at00.v,
+        ((S_80170EE4_2 *)map_object)->unk_24.at01.v);
     ((S_80170EE4_2 *)map_object)->unk_26 = tile_index;
 
     if (((S_80170EE4_1 *)actor_data)->unk_6D > 0) {
@@ -192,49 +196,49 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
 
         switch (((S_80170EE4_1 *)actor_data)->unk_46 & 0x3FFF) {
         case 9:
-        if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
-            return;
-        }
-        goto call_80171FFC;
+            if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
+                return;
+            }
+            goto call_80171FFC;
 
         case 8:
-        if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
-            func_80173C40(actor_state_in, update_context_in, map_object, actor_data);
-            return;
-        }
+            if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
+                func_80173C40(actor_state_in, update_context_in, map_object, actor_data);
+                return;
+            }
 call_80171FFC:
-        func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
-        return;
+            func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
+            return;
 
         case 5:
         case 6:
         case 7:
-        facing_angle = func_800A0818(
-            ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &distance);
-        target_actor = D_800814A8;
-        ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
-        if (target_actor->unk_9A == 0x11) {
-            goto jt_call;
-        }
+            facing_angle = func_800A0818(
+                ((S_80170EE4_2 *)map_object)->unk_24.at00.v, ((S_80170EE4_2 *)map_object)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY, &distance);
+            target_actor = D_800814A8;
+            ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
+            if (target_actor->unk_9A == 0x11) {
+                goto jt_call;
+            }
 
         case 12:
 jt_c12:
-        func_800A9A0C(actor_data);
-        return;
+            func_800A9A0C(actor_data);
+            return;
 
         case 1:
         case 2:
         case 3:
 jt_call:
-        func_800AAF00(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
-        return;
+            func_800AAF00(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
+            return;
 
         case 11:
         default:
 jt_default:
-        func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
-        return;
+            func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
+            return;
         }
     }
 
@@ -267,6 +271,7 @@ jt_default:
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
         map_object,
-        *(u8 *)((((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7) + (u32)animation_table),
+        *(u8 *)((((gameWork.view.viewAngle + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7)
+            + (u32)animation_table),
         0);
 }

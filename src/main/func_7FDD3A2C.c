@@ -12,8 +12,6 @@ typedef struct S_7FDD3A2C_4 {
 } S_7FDD3A2C_4;   /* ((S_7FDD3A2C_3 *)temp_v0)->unk_08 in func_7FDD3A2C */
 
 
-
-
 void *func_7003FC64();                       /* extern */
 M2C_UNK func_7004491C();           /* extern */
 extern M2C_UNK D_80044BB0;

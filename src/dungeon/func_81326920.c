@@ -3,7 +3,6 @@
 #include "shared/entity.h"
 
 
-
 extern EntityRec *D_80174704;
 
 /* Return whether the current record's unk_D2 field is zero. */

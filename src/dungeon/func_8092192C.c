@@ -47,7 +47,10 @@ s32 func_8004491C();
 void func_8003DB94();
 extern M2C_UNK D_800F68AC;
 
-static __inline__ u32 set_flag_bits(u32 flags, u32 mask) { return flags | mask; }
+static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
+{
+    return flags | mask;
+}
 
 /* Creates and initializes an object at the supplied position plus coordinate offsets. */
 void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {

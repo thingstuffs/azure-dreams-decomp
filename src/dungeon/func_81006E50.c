@@ -49,7 +49,8 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 
 /* Advances the actor animation sequence and resets its action state on completion. */
-void func_80172650(S_func_81006E50_0 *action, S_func_81006E50_1 *motion, S_func_81006E50_2 *animation, S_func_81006E50_3 *actor) {
+void func_80172650(S_func_81006E50_0 *action, S_func_81006E50_1 *motion, S_func_81006E50_2 *animation,
+    S_func_81006E50_3 *actor) {
     u16 delay_ticks;
 
     switch (action->unk_9B) {

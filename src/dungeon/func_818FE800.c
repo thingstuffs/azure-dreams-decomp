@@ -38,21 +38,21 @@ extern void func_80025DF4(void);
 extern void func_80025D90(void);
 
 static void (*const func_80024000_bank[])(void)
-    __attribute__((section(".text.func_80024000"))) = {
+__attribute__((section(".text.func_80024000"))) = {
     func_80024F10, 0, func_80024658, func_80024658,
     func_80024658, func_80024674, func_80024658, func_80024658,
     func_80024658, func_8002469C,
 };
 
 static const u32 func_80024000_data[]
-    __attribute__((section(".text.func_80024000"))) = {
+__attribute__((section(".text.func_80024000"))) = {
     0x01000340, 0x00540060, 0x01540340, 0x00040004,
     0x00000020, 0x00200020, 0x00200000, 0x0020FFE0,
     0x0000FFE0, 0xFFE0FFE0, 0xFFE00000, 0xFFE00020,
 };
 
 static void (*const func_80024000_bank2[])(void)
-    __attribute__((section(".text.func_80024000"))) = {
+__attribute__((section(".text.func_80024000"))) = {
     func_80025030, func_800250A4, func_8002536C,
     func_8002561C, func_80025BB0, func_80025CDC,
     func_80025D20, func_80025DF4, func_80025D90,

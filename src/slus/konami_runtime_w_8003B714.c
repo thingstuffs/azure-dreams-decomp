@@ -30,7 +30,7 @@ loop:
             record_code = *(s8 *)(record_offset + data_page + 0x333);
             if (record_code >= 0) {
                 itm_mon_koyaw_set(record_code & 0x3F, entry,
-                              (void *)(record_offset + 0x800102F0), 1);
+                                  (void *)(record_offset + 0x800102F0), 1);
             }
         }
         cursor++;

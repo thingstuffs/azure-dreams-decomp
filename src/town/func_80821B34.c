@@ -38,7 +38,6 @@ typedef struct S_80024334_3 {
 } S_80024334_3;   /* arg1 in func_80024334 */
 
 
-
 /* Apply object flags and tint, and copy the selected value triplet. */
 void func_80024334(S_80024334_0 *state, S_80024334_3 *selected_values, S_80024334_2 *render_state) {
     S_80024334_1 *source;

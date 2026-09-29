@@ -86,7 +86,6 @@ typedef struct S_80166968_5 {
 } S_80166968_5;   /* packet in func_80166968 */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -188,9 +187,9 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
         ((S_80166968_0 *)scratch)->unk_BC = mid_b_z;
 
         ot_index = func_80065590(point_a, point_b, point_a_copy, point_b_copy,
-                              packet + 8, packet + 0xC,
-                              packet + 8, packet + 0xC,
-                              scratch + 0xD0, scratch + 0xD4) - (s16)saved_depth_bias - 6;
+                                 packet + 8, packet + 0xC,
+                                 packet + 8, packet + 0xC,
+                                 scratch + 0xD0, scratch + 0xD4) - (s16)saved_depth_bias - 6;
         ((S_80166968_0 *)scratch)->unk_100 = ot_index;
 
         render_flags = ((S_80166968_0 *)scratch)->unk_28;
@@ -210,9 +209,11 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
         ((S_80166968_5 *)packet)->unk_04.at03.v = 0x42;
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
         (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
             ((u32)packet & address_mask);
 
         packet = ((S_80166968_3 *)(*render_state_ref))->unk_8D0;
@@ -220,10 +221,12 @@ void func_80166968(S_80166968_4 *geometry, S_80166968_1 *position, u8 *render_da
         func_80067F20(packet, zero, zero, func_80066460(zero, 1, zero, zero) & 0xFFFF, zero);
 
         ((S_80166968_5 *)packet)->unk_00.at00.v = (((S_80166968_5 *)packet)->unk_00.at00.v & length_mask) |
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & address_mask);
         packet = (u8 *)((u32)packet & address_mask);
         (*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) =
-            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2) + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
+            ((*(u32 *)((u8 *)(((S_80166968_0 *)scratch)->unk_24.p2)
+                + ((S_80166968_0 *)scratch)->unk_100 * 4)) & length_mask) |
             (u32)packet;
 
         if (*texture_entry < 0) {

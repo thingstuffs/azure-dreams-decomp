@@ -362,11 +362,11 @@ mesh_loop:
         scratch->unk_CC.as_u16_CC = mesh->unk_6E.as_u16_6E;
 
         ot_index = func_80065590((u8 *)scratch + 0xB0, (u8 *)scratch + 0xB8,
-                              (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
-                              (u8 *)packet + 8, (u8 *)packet + 0x10,
-                              (u8 *)packet + 0x18, (u8 *)packet + 0x20,
-                              (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
-                              ({ EmptyArg empty; empty; })) - depth_offset - 6;
+                                 (u8 *)scratch + 0xC0, (u8 *)scratch + 0xC8,
+                                 (u8 *)packet + 8, (u8 *)packet + 0x10,
+                                 (u8 *)packet + 0x18, (u8 *)packet + 0x20,
+                                 (u8 *)scratch + 0xD0, (u8 *)scratch + 0xD4,
+                                 ({ EmptyArg empty; empty; })) - depth_offset - 6;
         scratch->unk_100 = ot_index;
 
         if ((u32)ot_index < 0x1E0 &&
@@ -394,19 +394,20 @@ mesh_loop:
             scratch->unk_18.as_s32_18 <<= 8;
 
             {
-            u32 palette_id;
-            texture_adjust = object->unk_12;
-            if (texture_adjust != 0) {
-                if (scratch->unk_28 & 0x100) {
-                    packet->unk_0E = texture_adjust;
-                    goto after_palette;
+                u32 palette_id;
+                texture_adjust = object->unk_12;
+                if (texture_adjust != 0) {
+                    if (scratch->unk_28 & 0x100) {
+                        packet->unk_0E = texture_adjust;
+                        goto after_palette;
+                    }
+                    palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
+                } else {
+                    palette_id = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
                 }
-                palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
-            } else {
-                palette_id = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
-            }
-            packet->unk_0E = palette_id;
-        after_palette: ;
+                packet->unk_0E = palette_id;
+after_palette:
+                ;
             }
 
             packet->unk_0C = scratch->unk_10.as_u16_10 +
@@ -519,17 +520,17 @@ mesh_loop:
         flags_out = (u8 *)scratch + 0xD4;
 
         ot_index = func_80065590(vertex_a, vertex_b,
-                              vertex_c, vertex_d,
-                              screen_a, screen_b,
-                              screen_a, screen_b,
-                              fog_out, flags_out,
-                              ({
+                                 vertex_c, vertex_d,
+                                 screen_a, screen_b,
+                                 screen_a, screen_b,
+                                 fog_out, flags_out,
+                                 ({
                                   EmptyArg empty;
                                   midpoint_z = (end_z_a + end_z_b) / 2;
                                   scratch->unk_CC.as_s16_CC = midpoint_z;
                                   scratch->unk_BC.as_s16_BC = midpoint_z;
                                   empty;
-                              })) - depth_offset - 6;
+                                  })) - depth_offset - 6;
         scratch->unk_100 = ot_index;
 
         render_flags = scratch->unk_28;
@@ -552,11 +553,12 @@ mesh_loop:
         ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u32_04 = color_code;
         ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u8_07.unk_07 = packet_code;
 
-        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 = (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 =
+            (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
             (((u32 *)scratch->unk_24)[scratch->unk_100] & addr_mask);
         ot_entry = (u32 *)
-            (((u32)scratch->unk_100 << 2) +
-             (u32)scratch->unk_24);
+        (((u32)scratch->unk_100 << 2) +
+            (u32)scratch->unk_24);
         ASM_KEEP(ot_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         {
             u32 ot_tag;
@@ -572,10 +574,11 @@ mesh_loop:
         raw_depth_bias = (s32)(render_state->unk_8D0);
         render_state->unk_8D0 = (u8 *)(S_func_8187A9A8_6 *)raw_depth_bias + 0x0C;
         func_80067F20((S_func_8187A9A8_6 *)raw_depth_bias, 0, 0,
-                     func_80066460(tpage_zero, blend_mode,
-                                   tpage_zero, tpage_zero) & 0xFFFF, 0);
+                      func_80066460(tpage_zero, blend_mode,
+                                    tpage_zero, tpage_zero) & 0xFFFF, 0);
 
-        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 = (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 =
+            (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
             (((u32 *)scratch->unk_24)[scratch->unk_100] & addr_mask);
         ((u32 *)scratch->unk_24)[scratch->unk_100] =
             (((u32 *)scratch->unk_24)[scratch->unk_100] & tag_mask) |

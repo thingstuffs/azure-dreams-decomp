@@ -105,7 +105,8 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
                 effect_object = (u8 *)(long)effect_data - 0x20;
                 if (timer < 0x17) {
                     U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
-                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_input, 0x96) - 0x12];
+                    U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_input, 0x96)
+                        - 0x12];
                 }
             }
         }

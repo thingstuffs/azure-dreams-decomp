@@ -38,7 +38,6 @@ typedef struct S_80174BC8_3 {
 } S_80174BC8_3;   /* dst in func_80174BC8 */
 
 
-
 typedef struct {
     s32 w[6];
 } Block24;

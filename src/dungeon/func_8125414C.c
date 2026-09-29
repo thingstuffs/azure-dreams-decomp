@@ -12,7 +12,6 @@ typedef struct S_8125414C_1 {
 } S_8125414C_1;   /* state in func_8125414C */
 
 
-
 extern u8 *D_80174710;
 
 extern void func_8009A3D0(s32, s32, s32);

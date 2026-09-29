@@ -49,7 +49,8 @@ typedef struct S_80F90E88_5 {
 } S_80F90E88_5;   /* temp_a0_3 in func_80F90E88 */
 
 
-struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
+struct S_8003E2D8;
+typedef struct S_8003E2D8 S_8003E2D8;
 extern struct S_8003E2D8 D_80083160_init __asm__("D_80083160");
 extern struct S_8003E2D8 D_80083160_alloc __asm__("D_80083160");
 extern struct S_8003E2D8 D_80083160_link __asm__("D_80083160");
@@ -191,7 +192,8 @@ draw_object:
     left_offset = 0 - half_width;
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     endpoint = (WorkCell *) (base + 8);
-    loop_0: {
+loop_0:
+    {
         endpoint->value = half_width;
         if (side != 0) {
             endpoint->value = left_offset;
@@ -202,7 +204,9 @@ draw_object:
         endpoint->zero2 = 0;
         side -= 1;
         endpoint -= 1;
-    } if (side >= 0) goto loop_0;
+    }
+    if (side >= 0)
+        goto loop_0;
     transform = &transform_input;
     ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     min_xy &= 0xFFFF;
@@ -238,7 +242,8 @@ draw_object:
     max_xy |= 0x8AD00000;
     max_xy &= (s32)base;
     max_xy |= 0x8AD0;
-    loop_1: {
+loop_1:
+    {
         quad_ot_slot = side * 8;
         screen_out = &screen_x;
         base = points;
@@ -282,7 +287,9 @@ draw_object:
             min_xy |= upper_coord;
         }
         side -= 1;
-    } if (side >= 0) goto loop_1;
+    }
+    if (side >= 0)
+        goto loop_1;
     if (depth < 0x1E0U) {
         half_width = (u32)max_xy << 16;
         half_width >>= 16;
@@ -353,7 +360,8 @@ setup_quad:
             s32 slot = ((s32)screen_out) + quad_ot_slot;
             quad_ot_slot = slot;
         }
-        ((S_80F90E88_3 *)quad_ot_slot)->unk_B0 = (s32) ((((S_80F90E88_3 *)quad_ot_slot)->unk_B0 & tag_mask) | ((s32) quad & address_mask));
+        ((S_80F90E88_3 *)quad_ot_slot)->unk_B0 = (s32) ((((S_80F90E88_3 *)quad_ot_slot)->unk_B0 & tag_mask)
+            | ((s32) quad & address_mask));
         if (side < 0) {
             draw_mode = ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0;
             ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);

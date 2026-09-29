@@ -42,7 +42,6 @@ typedef struct S_8017293C_2 {
 } S_8017293C_2;   /* linked in func_8017293C */
 
 
-
 typedef struct S_8017293C_5 {
     u8 pad_00[0xA];
     u16 unk_0A;

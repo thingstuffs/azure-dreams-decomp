@@ -6,7 +6,6 @@ typedef struct FlagPageState {
 } FlagPageState;   /* page_state in func_808B32AC */
 
 
-
 extern s32 func_8070021C();
 extern s32 func_807002A4();
 extern s32 func_807002D4();

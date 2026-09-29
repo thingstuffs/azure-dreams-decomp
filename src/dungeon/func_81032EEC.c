@@ -48,9 +48,6 @@ typedef struct S_801746EC_3 {
 } S_801746EC_3;   /* coords in func_801746EC */
 
 
-
-
-
 typedef struct {
     s16 x;
     s16 y;

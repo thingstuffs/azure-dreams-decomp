@@ -111,7 +111,6 @@ typedef struct S_80173E40_7 {
 } S_80173E40_7;   /* *(u8 **)global in func_80173E40 */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -196,10 +195,10 @@ void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias
     ((S_80173E40_0 *)scratch)->unk_CC = ((S_80173E40_6 *)quad)->unk_5A;
 
     ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                          scratch + 0xC0, scratch + 0xC8,
-                          packet + 8, packet + 0x10,
-                          packet + 0x18, packet + 0x20,
-                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+                             scratch + 0xC0, scratch + 0xC8,
+                             packet + 8, packet + 0x10,
+                             packet + 0x18, packet + 0x20,
+                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
     ((S_80173E40_0 *)scratch)->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
@@ -228,18 +227,22 @@ void func_80173E40(void *quad, void *position, void *render_info, s16 depth_bias
             ((S_80173E40_4 *)packet)->unk_04.at03.v |= 2;
 
             ((S_80173E40_4 *)packet)->unk_00 = (((S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2)
+                    + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2)
+                    + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
 
             packet = ((S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0;
             ((S_80173E40_7 *)(render_state_ptr->unk_000))->unk_8D0 = packet + 0xC;
             func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0), 0);
             ((S_80173E40_4 *)packet)->unk_00 = (((S_80173E40_4 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2)
+                    + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2) + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_80173E40_0 *)scratch)->unk_24.p2)
+                    + ((S_80173E40_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

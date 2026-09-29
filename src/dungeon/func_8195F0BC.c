@@ -113,8 +113,8 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                 }
                 if (!(func_80069EF8() & 7)) {
                     func_8002592C((s16)(tile_x << 6), (s16)(tile_y << 6),
-                                   *(s16 *)height_ptr, (s16)grid_x,
-                                   (s16)grid_y);
+                                  *(s16 *)height_ptr, (s16)grid_x,
+                                  (s16)grid_y);
                 }
                 grid_x++;
                 height_ptr++;
@@ -132,7 +132,8 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
             do {
                 grid_y_fixed = grid_y << 16;
                 grid_x_fixed = grid_x;
-                loop_3: {
+loop_3:
+                {
                     scratch = grid_x - 3;
                     lookup_x = (u16)origin->x;
                     page = *(void **)((u8 *)page_base + 0x3D7C);
@@ -154,7 +155,9 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                     func_80026BA8(grid_x_fixed >> 16, grid_y_fixed >> 16, origin);
                     grid_x_fixed += 0x10000;
                     grid_x++;
-                } if (grid_x < 7) goto loop_3;
+                }
+                if (grid_x < 7)
+                    goto loop_3;
                 grid_y++;
                 grid_x = 0;
             } while (grid_y < 7);

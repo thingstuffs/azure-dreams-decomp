@@ -93,7 +93,6 @@ typedef struct S_8187BFE0_5 {
 } S_8187BFE0_5;   /* source in func_800257E0 */
 
 
-
 typedef struct {
     u8 bytes[12];
 } Data12;
@@ -144,7 +143,7 @@ void func_800257E0(void *state_data, void *source_data) {
         ((S_8187BFE0_0 *)state_data)->unk_1C.s = 0;
         ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
         ((S_8187BFE0_0 *)state_data)->unk_00.u++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         if (((S_8187BFE0_0 *)state_data)->unk_02.s != 0) {
             goto update_state;
@@ -177,14 +176,14 @@ void func_800257E0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_22;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2A;
-        {
-            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
+            {
+                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-        }
-        break;
+                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+            }
+            break;
         case 1:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_22;
@@ -192,14 +191,14 @@ void func_800257E0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_26;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2E;
-        {
-            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
+            {
+                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-        }
-        break;
+                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+            }
+            break;
         case 2:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_26;
@@ -207,14 +206,14 @@ void func_800257E0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_20;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_32;
-        {
-            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
+            {
+                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-        }
-        break;
+                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+            }
+            break;
         case 3:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_20;
@@ -222,14 +221,14 @@ void func_800257E0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_24;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2C;
-        {
-            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
+            {
+                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-        }
-        break;
+                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+            }
+            break;
         case 4:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_24;
@@ -237,13 +236,13 @@ void func_800257E0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_1E;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_30;
-        {
-            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
+            {
+                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
 
-            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-        }
+                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+            }
             break;
         default:
             break;

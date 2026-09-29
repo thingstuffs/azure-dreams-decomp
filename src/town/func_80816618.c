@@ -17,7 +17,6 @@ typedef struct S_80020618_1 {
 } S_80020618_1;   /* owner in func_80020618 */
 
 
-
 extern void func_800537D0();
 extern s32 strlen();
 

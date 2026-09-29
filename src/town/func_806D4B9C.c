@@ -39,7 +39,7 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
     ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     data_base = (void *) (data_page - 0x75F4);
     result = func_80017960(data_base, (void *) (table_page - 0x746C),
-                          saved_context, event_id);
+                           saved_context, event_id);
     state_index = func_80018868(0x990, 2);
 
     if (event_id != 0xB) {

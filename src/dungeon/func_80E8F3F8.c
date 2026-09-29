@@ -5,7 +5,6 @@
 #include "records/Rec_func_800AD058_arg2.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
@@ -24,7 +23,6 @@ typedef struct S_80174BF8_0 {
     u8 pad_98[0x3];
     u8 unk_9B;
 } S_80174BF8_0;   /* arg0 in func_80174BF8 */
-
 
 
 typedef struct S_80174BF8_3 {

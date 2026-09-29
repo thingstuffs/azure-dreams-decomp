@@ -114,7 +114,9 @@ case_6:
 case_9:
     call_kind = (u8)event_code;
     call_arg = 0;
-    result = (ResultBox_8003E4FC){ 0 };
+    result = (ResultBox_8003E4FC) {
+        0
+    };
     goto call_three;
 
 case_13:

@@ -15,8 +15,6 @@ typedef struct S_80026FB0_1 {
 } S_80026FB0_1;   /* arg2 in func_80026FB0 */
 
 
-
-
 /* Waits, then fades the color channels toward 0x80 and flags completion. */
 void func_80026FB0(void *effect, s32 unused, void *color)
 {

@@ -117,7 +117,6 @@ typedef struct S_80168C88_14 {
 } S_80168C88_14;   /* lookup_final in func_80168C88 */
 
 
-
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern u8 D_80166914[];
@@ -269,13 +268,16 @@ interpolate_axis:
             ((S_80168C88_9 *)render_data)->unk_0D = 0x80;
             ((S_80168C88_9 *)render_data)->unk_0C = 0x80;
 
-            loop_2: {
+loop_2:
+            {
                 ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color)->unk_0C;
                 ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color)->unk_0D;
                 step += 1;
                 ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color)->unk_0E;
                 vertex_color += 4;
-            } if (step < 4) goto loop_2;
+            }
+            if (step < 4)
+                goto loop_2;
 
             if (segment == 0) {
                 ((S_80168C88_4 *)segment_data)->unk_06 = 0;

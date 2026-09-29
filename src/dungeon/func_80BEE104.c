@@ -55,7 +55,6 @@ typedef struct S_80173904_4 {
 } S_80173904_4;   /* transform in func_80173904 */
 
 
-
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
@@ -121,7 +120,8 @@ void func_80173904(
         value = (s16)angle;
         for (;;) {
             value = value < 0x1001;
-            if (value) break;
+            if (value)
+                break;
             value = angle_work - 0x1000;
             angle_work = value;
             value = (s16)value;

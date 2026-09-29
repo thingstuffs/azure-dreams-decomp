@@ -142,7 +142,8 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
     return;
 
 state_0:
-    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
+    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
+        + ((S_8197D468_3 *)motion)->unk_14);
     rise_random = func_80069EF8();
     rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
     rise_velocity += rise_random >> 1;
@@ -187,7 +188,8 @@ state_2:
         ((S_8197D468_2 *)sprite)->unk_05 = 0;
         ((S_8197D468_2 *)sprite)->unk_08 = effect_data;
     }
-    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
+    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
+        + ((S_8197D468_3 *)motion)->unk_14);
     fall_random = func_80069EF8();
     fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
     fall_velocity += fall_random >> 1;
@@ -195,7 +197,8 @@ state_2:
     if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
         ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
     }
-    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v, (s16) (((u16)D_80083780.z.w.i) - 0x80));
+    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
+        (s16) (((u16)D_80083780.z.w.i) - 0x80));
     if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
         particle_index = 4;
         do {
@@ -204,12 +207,18 @@ state_2:
                 ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
                 func_8004491C(particle, func_80045340);
                 particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 = (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 = (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 = (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 = (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =
+                    (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 =
+                    (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 =
+                    (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C =
+                    (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 =
+                    (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
+                    (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                 particle_color = 0xC00000;
                 ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
                 ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;

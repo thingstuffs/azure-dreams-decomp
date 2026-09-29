@@ -52,7 +52,6 @@ typedef struct S_819A1450_4 {
 } S_819A1450_4;   /* arg0 in func_819A1450 */
 
 
-
 typedef struct {
     s16 first;
     u16 second;

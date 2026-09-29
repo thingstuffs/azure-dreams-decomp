@@ -52,7 +52,6 @@ typedef struct S_8080E59C_3 {
 } S_8080E59C_3;   /* slot in func_8080E59C */
 
 
-
 typedef struct {
     u8 bytes[8];
 } Copy8;

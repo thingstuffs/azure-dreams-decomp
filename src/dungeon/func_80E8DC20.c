@@ -14,10 +14,6 @@ typedef struct S_80173420_0 {
 } S_80173420_0;   /* arg0 in func_80173420 */
 
 
-
-
-
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -92,7 +88,7 @@ void func_80173420(S_80173420_0 *action, EntityRec *motion, Rec_D_80082E80 *grid
             biased_velocity_y = velocity_y + 3;
         }
         motion->unk_10 = velocity_y - (biased_velocity_y >> 2);
-        /* fall through */
+                /* fall through */
     case 1:
         directions_x = (s16 *)((s8 *)dirStepX);
         decel_offset = direction * 2;

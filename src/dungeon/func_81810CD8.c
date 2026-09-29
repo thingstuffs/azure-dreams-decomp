@@ -12,7 +12,6 @@ typedef struct S_80025CD8_0 {
 } S_80025CD8_0;   /* arg0 in func_80025CD8 */
 
 
-
 /* Initialize the packet fields with a zero payload and set flag 0x80. */
 void func_80025CD8(S_80025CD8_0 *packet) {
     volatile s32 zero[1];

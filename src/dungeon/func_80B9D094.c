@@ -60,7 +60,7 @@ u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
                     if ((*(u32 *)(result + 20) & 0x200) == 0) {
                         if ((func_800A6D30() & 1) != 0) {
                             func_800A48F0(result, 1,
-                                           (func_800A6D30() & 0x3F) | 0x20);
+                                          (func_800A6D30() & 0x3F) | 0x20);
                             *(void (**)(void))(part_b + 44) = func_8016EF00;
                         }
                     }

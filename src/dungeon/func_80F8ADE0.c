@@ -16,7 +16,6 @@ typedef struct S_80F8ADE0_0 {
 } S_80F8ADE0_0;   /* arg0 in func_80F8ADE0 */
 
 
-
 /* Advances a timed state sequence and sets flags when it reaches stage 15. */
 void func_80F8ADE0(void *state) {
     u16 ticks_left;

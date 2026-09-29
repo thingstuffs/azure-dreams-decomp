@@ -4,9 +4,6 @@
 #include "m2c_compat.h"
 
 
-
-
-
 typedef struct S_800170DC_1 {
     u8 pad_00[0x2F8];
     M2C_UNK (*unk_2F8)(M2C_UNK, M2C_UNK);
@@ -14,7 +11,7 @@ typedef struct S_800170DC_1 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_80016CC4();
 extern M2C_UNK func_80016DBC();

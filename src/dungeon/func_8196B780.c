@@ -61,7 +61,6 @@ typedef struct S_8196B780_5 {
 } S_8196B780_5;   /* arg0 in func_8196B780 */
 
 
-
 typedef struct {
     u8 bytes[0x20];
 } LocalPoints;

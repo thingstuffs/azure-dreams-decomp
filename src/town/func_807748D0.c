@@ -23,12 +23,12 @@ void func_800160D0(s32 arg0, s32 arg1)
     s32 callbackIndex;
 
     callback = ((Runtime *)D_80016000);
-    
+
     callbackIndex = ((Runtime *)callback)->callbackIndex;
     callback = ((Runtime *)callback)->callbacks;
     callback = (u8 *)callback + callbackIndex * sizeof(CallbackEntry);
     callback = *(void **)callback;
-    
+
     if (callback == 0) {
         func_80016128(arg0, arg1);
         return;

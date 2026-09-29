@@ -12,7 +12,12 @@ typedef struct S_80173A3C_0 {
 
 typedef struct S_80173A3C_1 {
     u8 pad_00[0xC];
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     s16 unk_10;
     u16 unk_12;
     u16 unk_14;
@@ -31,7 +36,6 @@ typedef struct S_80173A3C_4 {
     u8 pad_04[0x2];
     s16 unk_06;
 } S_80173A3C_4;   /* arg1 in func_80173A3C */
-
 
 
 extern void func_800A56E0(s32);

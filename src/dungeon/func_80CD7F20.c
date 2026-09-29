@@ -36,13 +36,15 @@ void func_8015B720(void *owner_arg, void *context, void *anim_obj_arg, void *sta
             return;
         }
         *(void **)((u8 *)anim_obj + 0x2C) = D_8015E2C8;
-        func_80047784(anim_obj, D_8015E2C8[((gameWork.view.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(anim_obj, D_8015E2C8[((gameWork.view.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100)
+            >> 9) & 7], 0);
     } else if (current_table == D_8015E360) {
         if (*(s32 *)((u8 *)state + 0x1C) & 0x208) {
             return;
         }
         *(void **)((u8 *)anim_obj + 0x2C) = D_8015E328;
-        func_80047784(anim_obj, D_8015E328[((gameWork.view.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100) >> 9) & 7], 0);
+        func_80047784(anim_obj, D_8015E328[((gameWork.view.viewAngle + *(s16 *)((u8 *)state + 0x2A) + 0x100)
+            >> 9) & 7], 0);
     } else {
         return;
     }

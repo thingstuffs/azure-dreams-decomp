@@ -17,8 +17,6 @@ typedef struct S_8181B1A0_5 {
 } S_8181B1A0_5;   /* ((S_8181B1A0_4 *)arg0)->unk_08 in func_8181B1A0 */
 
 
-
-
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */

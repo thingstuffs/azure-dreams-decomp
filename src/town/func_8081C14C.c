@@ -57,10 +57,13 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         case 0:
             U8(sprite, 0xC) = 0xFF;
             remaining = 3;
-            loop_0: {
+loop_0:
+            {
                 func_800267DC(position);
                 remaining--;
-            } if (remaining >= 0) goto loop_0;
+            }
+            if (remaining >= 0)
+                goto loop_0;
             break;
         case 1:
             U16(sprite, 0x14) |= 0xC;

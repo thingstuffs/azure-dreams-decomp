@@ -12,8 +12,6 @@ typedef struct S_8195AED0_2 {
 } S_8195AED0_2;   /* ((S_8195AED0_1 *)arg0)->unk_08 in func_8195AED0 */
 
 
-
-
 typedef struct S_8195AED0_0 {
     s32 unk_00;
 } S_8195AED0_0;   /* arg0 in func_8195AED0 */

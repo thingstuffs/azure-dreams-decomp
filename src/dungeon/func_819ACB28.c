@@ -48,7 +48,6 @@ typedef struct S_819ACB28_5 {
 } S_819ACB28_5;   /* ((S_819ACB28_0 *)arg0)->unk_08 in func_80024328 */
 
 
-
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800249DC(void *);
 extern void func_8004491C(void *, void *);

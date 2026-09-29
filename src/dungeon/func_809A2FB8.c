@@ -2,8 +2,6 @@
 #include "shared/object_flags.h"
 
 
-
-
 typedef struct S_801747B8_0 {
     u8 pad_00[0x8];
     s32 unk_08;

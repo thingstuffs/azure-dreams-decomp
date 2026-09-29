@@ -8,7 +8,6 @@ typedef struct S_80019B54_1 {
 } S_80019B54_1;   /* (arg1 * 0x10) + ((Rec_func_800165F4_arg0 *)arg0)->unk_10 in func_80019B54 */
 
 
-
 extern s32 func_800199DC(Rec_func_800165F4_arg0 *);
 extern s32 func_8001ACE8(s16 value);
 extern s32 func_8001AD60(s16 value);

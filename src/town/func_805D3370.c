@@ -17,8 +17,6 @@ extern M2C_UNK D_8001A8BC;
 extern M2C_UNK D_8001A91D;
 
 
-
-
 M2C_UNK *func_805D3370(s32 arg0, s32 arg1, s32 arg2) {
     M2C_UNK *var_v1;
     s32 status;

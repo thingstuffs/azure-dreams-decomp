@@ -7,7 +7,6 @@
 #include "shared/dungeon_status.h"
 
 
-
 extern void func_8003DB94(void *, void *, s32);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern void *func_8003FC64(s32);
@@ -84,7 +83,11 @@ typedef struct S_801714B8_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -178,7 +181,7 @@ void func_801714B8(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             return;
         }
 
-        
+
         if (((S_801714B8_0 *)actor)->unk_9A != 0xE) {
             u8 state = 0xE;
             u8 *state_table = D_8017609C;
@@ -382,7 +385,7 @@ ordinary_cleanup:
 
 final_state_check:
     if (((S_801714B8_2 *)sprite)->unk_2C == D_801760A4 &&
-            (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
+        (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
         u8 *state_table = D_8017609C;
 
         (*(void * *)((u8 *)sprite + (0x2C))) = state_table;

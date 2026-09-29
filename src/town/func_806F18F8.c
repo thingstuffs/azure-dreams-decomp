@@ -3,8 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 
-
-
 typedef struct S_806F18F8_1 {
     u8 pad_00[0x1C];
     void * unk_1C;
@@ -34,7 +32,6 @@ typedef struct S_806F18F8_6 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 
 
 /* Builds a record from the current state and submits it after calling the first state callback. */

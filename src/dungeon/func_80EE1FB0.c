@@ -33,8 +33,6 @@ typedef struct S_801737B0_3 {
 } S_801737B0_3;   /* desc in func_801737B0 */
 
 
-
-
 extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
@@ -71,221 +69,221 @@ void func_801737B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
     use_player_target = 0;
     switch (state) {
     case 0:
-    if (actor->flags1C & 0x2000) {
-        raw_kind = actor->unk_46 & 0x3FFF;
-        kind_index = raw_kind - 1;
-        switch (kind_index) {
-        case 0:
-            goto kind_1;
-        case 1:
-            goto kind_2;
-        case 2:
-            goto kind_3;
-        case 6:
-            use_player_target = 1;
-            goto kind_3;
-        case 5:
-            use_player_target = 1;
-            goto kind_2;
-        case 4:
-            use_player_target = 1;
-            goto kind_1;
-        default:
-            goto kind_bad;
-        }
-    }
-
-    action_kind = actor->unk_46 & 0x3FFF;
-    if (action_kind == 2) {
-        goto kind_2;
-    }
-    if (action_kind < 3) {
-        action_data = 0;
-        if (action_kind == 1) {
-            goto kind_1;
-        }
-        goto kind_ready;
-    }
-    action_data = 0;
-    if (action_kind != 3) {
-        goto kind_ready;
-    }
-kind_3:
-    action_data = (u8 *)actor + 0xE;
-    goto kind_ready;
-kind_2:
-    action_data = (u8 *)actor + 0xB;
-    goto kind_ready;
-kind_1:
-    action_data = (u8 *)actor + 8;
-    goto kind_ready;
-kind_bad:
-    action_data = 0;
-
-kind_ready:
-    if (*action_data == 0) {
-        goto remove_actor;
-    }
-
-    direction = ((S_801737B0_0 *)action)->unk_98;
-    direction &= 0xFF7F;
-    ((S_801737B0_0 *)action)->unk_98 = direction;
-    direction = use_player_target;
-    if (((void *)direction) != 0) {
-        direction = (s32)D_800814A8;
-        actor->target = (void *)direction;
-        goto copy_facing;
-    }
-
-    if (D_8006DE24[*action_data].kind == 2) {
-        direction = (s32)(actor->target);
-        if (((void *)direction) != 0) {
-copy_facing:
-            {
-                u8 facing;
-
-                action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
-                facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
-                actor->unk_72 = facing;
-                facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
-                actor->unk_73 = facing;
+        if (actor->flags1C & 0x2000) {
+            raw_kind = actor->unk_46 & 0x3FFF;
+            kind_index = raw_kind - 1;
+            switch (kind_index) {
+            case 0:
+                goto kind_1;
+            case 1:
+                goto kind_2;
+            case 2:
+                goto kind_3;
+            case 6:
+                use_player_target = 1;
+                goto kind_3;
+            case 5:
+                use_player_target = 1;
+                goto kind_2;
+            case 4:
+                use_player_target = 1;
+                goto kind_1;
+            default:
+                goto kind_bad;
             }
         }
-    } else {
 
-        actor->target = func_800A05A4(
-            actor,
-            ((Rec_D_80082E80 *)sprite)->unk_24,
-            ((Rec_D_80082E80 *)sprite)->unk_25,
-            actor->facing,
-            0x10);
+        action_kind = actor->unk_46 & 0x3FFF;
+        if (action_kind == 2) {
+            goto kind_2;
+        }
+        if (action_kind < 3) {
+            action_data = 0;
+            if (action_kind == 1) {
+                goto kind_1;
+            }
+            goto kind_ready;
+        }
+        action_data = 0;
+        if (action_kind != 3) {
+            goto kind_ready;
+        }
+kind_3:
+        action_data = (u8 *)actor + 0xE;
+        goto kind_ready;
+kind_2:
+        action_data = (u8 *)actor + 0xB;
+        goto kind_ready;
+kind_1:
+        action_data = (u8 *)actor + 8;
+        goto kind_ready;
+kind_bad:
+        action_data = 0;
 
-        actor->unk_72 = abs(actor->unk_72);
-        actor->unk_73 = abs(actor->unk_73);
-    }
+kind_ready:
+        if (*action_data == 0) {
+            goto remove_actor;
+        }
 
-    if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
+        direction = ((S_801737B0_0 *)action)->unk_98;
+        direction &= 0xFF7F;
+        ((S_801737B0_0 *)action)->unk_98 = direction;
+        direction = use_player_target;
+        if (((void *)direction) != 0) {
+            direction = (s32)D_800814A8;
+            actor->target = (void *)direction;
+            goto copy_facing;
+        }
+
+        if (D_8006DE24[*action_data].kind == 2) {
+            direction = (s32)(actor->target);
+            if (((void *)direction) != 0) {
+copy_facing:
+                {
+                    u8 facing;
+
+                    action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
+                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
+                    actor->unk_72 = facing;
+                    facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
+                    actor->unk_73 = facing;
+                }
+            }
+        } else {
+
+            actor->target = func_800A05A4(
+                actor,
+                ((Rec_D_80082E80 *)sprite)->unk_24,
+                ((Rec_D_80082E80 *)sprite)->unk_25,
+                actor->facing,
+                0x10);
+
+            actor->unk_72 = abs(actor->unk_72);
+            actor->unk_73 = abs(actor->unk_73);
+        }
+
+        if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
+            return;
+        }
+        ((S_801737B0_0 *)action)->unk_9B++;
         return;
-    }
-    ((S_801737B0_0 *)action)->unk_9B++;
-    return;
 
 remove_actor:
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-    func_800A4ACC(actor);
-    actor->unk_6D--;
-    ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
-    actor->unk_73 = 0;
-    actor->unk_72 = 0;
-    actor->unk_46 &= 0x7FFF;
-    return;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        func_800A4ACC(actor);
+        actor->unk_6D--;
+        ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
+        return;
 
     case 1:
-    if (func_8003F270(motion) != 0) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        return;
-    }
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-    ((S_801737B0_0 *)action)->unk_9B++;
-    func_800A56E0(0x703);
+        if (func_8003F270(motion) != 0) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
+            return;
+        }
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((S_801737B0_0 *)action)->unk_9B++;
+        func_800A56E0(0x703);
 
     case 2:
-    sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
-    if (sprite_flags & 0x8000) {
-        ((S_801737B0_0 *)action)->unk_96.s = 0;
-        ((S_801737B0_0 *)action)->unk_9B++;
-        ((S_801737B0_0 *)action)->unk_98 |= 0x80;
-        return;
-    }
+        sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
+        if (sprite_flags & 0x8000) {
+            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            ((S_801737B0_0 *)action)->unk_9B++;
+            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+            return;
+        }
 
-    if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) && (sprite_flags & 0x1000)) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x800;
-        ((S_801737B0_0 *)action)->unk_96.s = 0x16;
-    }
-    if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
-        return;
-    }
+        if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) && (sprite_flags & 0x1000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = sprite_flags | 0x800;
+            ((S_801737B0_0 *)action)->unk_96.s = 0x16;
+        }
+        if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 < 2) {
+            return;
+        }
 
-    timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-    ((S_801737B0_0 *)action)->unk_96.s = timer;
-    if ((s16)timer <= 0) {
-        ((S_801737B0_0 *)action)->unk_96.s = 0;
-        ((S_801737B0_0 *)action)->unk_9B++;
-    }
-    if (((S_801737B0_0 *)action)->unk_96.u == 2) {
-        ((S_801737B0_0 *)action)->unk_98 |= 0x80;
-    }
-    if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
-        return;
-    }
+        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
+        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        if ((s16)timer <= 0) {
+            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            ((S_801737B0_0 *)action)->unk_9B++;
+        }
+        if (((S_801737B0_0 *)action)->unk_96.u == 2) {
+            ((S_801737B0_0 *)action)->unk_98 |= 0x80;
+        }
+        if (((S_801737B0_0 *)action)->unk_96.u < 0xA) {
+            return;
+        }
 
-    particle_count = 0;
-do {
-    particle_count++;
-    offset_x = (s16)((func_80069EF8() & 0x3F) - 0x20);
-    offset_y = (s16)((func_80069EF8() & 0x3F) - 0x20);
-    offset_z = func_80069EF8();
-    particle_origin = (u8 *)action - 0x20;
-    particle_zero = 0;
-    particle_color = 0xC0C0C0;
-    offset_z = (s16)((offset_z & 0x3F) - 0x20);
-    func_80171498(
-        particle_origin,
-        particle_zero,
-        particle_color,
-        (s16)(((S_801737B0_0 *)action)->unk_96.s - 2),
-        offset_x,
-        offset_y,
-        offset_z);
-    if ((u32)(particle_count & 0xFFFF) >= 3U) {
-        return;
-    }
-    } while (1);
+        particle_count = 0;
+        do {
+            particle_count++;
+            offset_x = (s16)((func_80069EF8() & 0x3F) - 0x20);
+            offset_y = (s16)((func_80069EF8() & 0x3F) - 0x20);
+            offset_z = func_80069EF8();
+            particle_origin = (u8 *)action - 0x20;
+            particle_zero = 0;
+            particle_color = 0xC0C0C0;
+            offset_z = (s16)((offset_z & 0x3F) - 0x20);
+            func_80171498(
+                particle_origin,
+                particle_zero,
+                particle_color,
+                (s16)(((S_801737B0_0 *)action)->unk_96.s - 2),
+                offset_x,
+                offset_y,
+                offset_z);
+            if ((u32)(particle_count & 0xFFFF) >= 3U) {
+                return;
+            }
+        } while (1);
 
     case 3:
-    ((S_801737B0_0 *)action)->unk_96.s = 0x14;
-    ((S_801737B0_0 *)action)->unk_9B++;
+        ((S_801737B0_0 *)action)->unk_96.s = 0x14;
+        ((S_801737B0_0 *)action)->unk_9B++;
 
     case 4:
-    if (((s32)dungeonStatus.unk_0C) == 0) {
-        ((S_801737B0_0 *)action)->unk_96.s = 0;
-    }
-    timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
-    ((S_801737B0_0 *)action)->unk_96.s = timer;
-    if ((s16)timer <= 0) {
-        ((S_801737B0_0 *)action)->unk_96.s = 0;
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-    }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        return;
-    }
+        if (((s32)dungeonStatus.unk_0C) == 0) {
+            ((S_801737B0_0 *)action)->unk_96.s = 0;
+        }
+        timer = ((S_801737B0_0 *)action)->unk_96.s - 1;
+        ((S_801737B0_0 *)action)->unk_96.s = timer;
+        if ((s16)timer <= 0) {
+            ((S_801737B0_0 *)action)->unk_96.s = 0;
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        }
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
 
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
 
-    if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174EB8) {
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174EB8;
-        direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
-        func_80047784(sprite, D_80174EB8[direction], 0);
-    }
-    if (((s32)dungeonStatus.unk_0C) != 0) {
-        return;
-    }
+        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pv != D_80174EB8) {
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174EB8;
+            direction = ((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7;
+            func_80047784(sprite, D_80174EB8[direction], 0);
+        }
+        if (((s32)dungeonStatus.unk_0C) != 0) {
+            return;
+        }
 
-    dungeonStatus.unk_0A--;
-    ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
-    func_800A4ACC(actor);
-    actor->unk_73 = 0;
-    actor->unk_72 = 0;
-    actor->unk_6D--;
-    actor->unk_46 &= 0x7FFF;
-    func_800A56E0(0xB4);
+        dungeonStatus.unk_0A--;
+        ((S_801737B0_0 *)action)->unk_8C = D_80171CE8;
+        func_800A4ACC(actor);
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_6D--;
+        actor->unk_46 &= 0x7FFF;
+        func_800A56E0(0xB4);
     }
 }

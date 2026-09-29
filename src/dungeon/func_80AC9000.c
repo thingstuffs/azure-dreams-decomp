@@ -40,7 +40,6 @@ typedef struct S_80174800_4 {
 } S_80174800_4;   /* actor in func_80174800 */
 
 
-
 extern s32 func_8009C93C();
 
 /* Update the actor for each eligible list entry at the target tile and height. */

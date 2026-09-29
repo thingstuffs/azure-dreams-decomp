@@ -18,8 +18,6 @@ typedef struct S_80172374_0 {
 } S_80172374_0;   /* arg0 in func_80172374 */
 
 
-
-
 typedef struct S_80172374_4 {
     u8 pad_00[0x8];
     s16 unk_08;
@@ -30,7 +28,6 @@ typedef struct S_80172374_5 {
     u8 unk_24;
     u8 unk_25;
 } S_80172374_5;   /* map in func_80172374 */
-
 
 
 extern s16 func_800A0818();
@@ -61,7 +58,7 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
         entity->flags1C &= 0xF7FFFFFF;
         motion->unk_A4 = 0;
         motion->unk_9B++;
-        /* fall through */
+                /* fall through */
     case 1:
         frames_left = motion->unk_96;
         motion->unk_90 -= motion->unk_A4;
@@ -88,7 +85,7 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
             entity->flags1C |= 0x08000000;
             motion->unk_9B++;
         }
-        /* fall through */
+                /* fall through */
     case 2:
         if (entity->flags1C & 0x08000000) {
             motion->unk_98 &= 0xFFF7;

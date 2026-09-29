@@ -54,7 +54,10 @@ extern s32 D_8006CD58;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void func_807AE960(u8 *state, u8 *actor, u8 *target) {
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19 };
+    static void * const jt_keep[] = {
+        && jt_c0, && jt_c1, && jt_c2, && jt_c3, && jt_c4, && jt_c5, && jt_c6, && jt_c7, && jt_c8, && jt_c9, && jt_c10,
+            && jt_c11, && jt_c12, && jt_c13, && jt_c14, && jt_c15, && jt_c16, && jt_c17, && jt_c18, && jt_c19
+    };
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -75,7 +78,8 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     if ((u32) dispatch_index >= 0x14U) {
         goto block_28;
     }
-    (void)jt_keep; goto *D_800F6000[(u32)dispatch_index];
+    (void)jt_keep;
+    goto * D_800F6000[(u32)dispatch_index];
 jt_c0:
 jt_c1:
     if (func_8003F270(dispatch_index) != 0) {
@@ -94,7 +98,8 @@ jt_c16:
 jt_c2:
     steps = ((S_807AE960_1 *)state)->unk_04.s;
     if (steps > 0) {
-        ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
+        ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A
+            + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
     }
     remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
     ((S_807AE960_1 *)state)->unk_04.u = remaining;

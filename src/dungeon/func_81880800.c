@@ -25,7 +25,7 @@ extern void func_80025760(void *, u8, void *);
 
 #ifdef __mips__
 static const u32 func_81880800_prefix[] __asm__("func_81880800")
-    __attribute__((section(".text.func_81880800"), aligned(4))) = {
+__attribute__((section(".text.func_81880800"), aligned(4))) = {
     0x80024050,
     0,
     0x800240B4,
@@ -120,7 +120,7 @@ initialize:
     F(self, u16, 0xA)++;
 
     if (func_8003DF74(F(F(owner_base, void *, 0xC), void *, 8),
-                       F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
+                      F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
         if ((F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
             goto finish;
         }
@@ -281,7 +281,7 @@ track_target:
     if (F(owner, void *, 0x60) != 0) {
         if (F(self, s16, 0x28) == 0) {
             if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
-                                    F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
+                                 F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
                 F(self, s16, 0x28) = 1;
                 func_800A56E0(0x300);
             }

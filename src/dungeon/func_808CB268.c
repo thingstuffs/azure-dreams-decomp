@@ -12,8 +12,6 @@ typedef struct S_80123700_1 {
 } S_80123700_1;   /* ((S_80123700_0 *)(*var_a0))->unk_08 in func_80123700 */
 
 
-
-
 extern s32 D_80126A88;
 extern M2C_UNK D_80129728;
 

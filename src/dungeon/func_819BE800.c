@@ -10,10 +10,34 @@ typedef struct S_FUNC_80024000_BODY_0 {
     s32 unk_14C;
     s16 unk_150;
     union { s16 s; u16 u; } unk_152;   /* accessed as both */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_154;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_158;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_15C;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_160;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_154;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_158;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_15C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_160;   /* overlapping accesses */
 } S_FUNC_80024000_BODY_0;   /* scratch in FUNC_80024000_BODY */
 
 typedef struct S_FUNC_80024000_BODY_2 {
@@ -70,7 +94,7 @@ extern s32 func_800BCE7C(void *);
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x80026418, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001, 0x0000FFFF,
     0x00000000, 0x00000001, 0x0001FFFF, 0x00010000, 0x00010001,
     0x00000001, 0x00010001, 0x00010000, 0x0001FFFF, 0x0000FFFF,
@@ -118,9 +142,11 @@ void *FUNC_80024000_BODY(s32 world_x, s32 world_y, s16 min_height) {
     best_polygon = 0;
     if (((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 != 0) {
         ((S_FUNC_80024000_BODY_0 *)scratch)->unk_152.s = -((S_FUNC_80024000_BODY_2 *)map_entry)->unk_02;
-        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->unk_04)) + ((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 * 4));
+        best_polygon = (*(u8 * *)((u8 *)(((u8 **)map_data->unk_04))
+            + ((S_FUNC_80024000_BODY_2 *)map_entry)->unk_00 * 4));
         polygon = best_polygon;
-        if (((S_FUNC_80024000_BODY_8 *)(planes + ((S_FUNC_80024000_BODY_3 *)best_polygon)->unk_10 * 8))->unk_04 < -0x7FF) {
+        if (((S_FUNC_80024000_BODY_8 *)(planes + ((S_FUNC_80024000_BODY_3 *)best_polygon)->unk_10 * 8))->unk_04
+            < -0x7FF) {
             do {
                 if ((((S_FUNC_80024000_BODY_4 *)polygon)->unk_17.u & 1) == 0) {
                     cell_x = ((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u;
@@ -169,20 +195,20 @@ void *FUNC_80024000_BODY(s32 world_x, s32 world_y, s16 min_height) {
                     if (func_800BCE7C(scratch) != 0) {
                         plane =
                             (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_10 *
-                                       8 +
+                                   8 +
                                    (unsigned long)planes);
                         plane_vertex =
                             (u8 *)((unsigned long)((S_FUNC_80024000_BODY_4 *)polygon)->unk_00 * 8 +
                                    (unsigned long)vertices);
                         height =
                             (((S_FUNC_80024000_BODY_6 *)plane)->unk_00 *
-                                 (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_00 -
-                                  (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u) +
+                             (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_00 -
+                              (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_140.u) +
                              ((S_FUNC_80024000_BODY_6 *)plane)->unk_02 *
-                                 (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_02 -
-                                  (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.u) +
+                             (((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_02 -
+                              (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_142.u) +
                              ((S_FUNC_80024000_BODY_6 *)plane)->unk_04 *
-                                 ((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_04) /
+                             ((S_FUNC_80024000_BODY_7 *)plane_vertex)->unk_04) /
                             ((S_FUNC_80024000_BODY_6 *)plane)->unk_04;
                         ((S_FUNC_80024000_BODY_0 *)scratch)->unk_144 = height;
                         height += (s16)((S_FUNC_80024000_BODY_0 *)scratch)->unk_152.u;

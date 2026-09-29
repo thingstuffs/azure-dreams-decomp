@@ -107,7 +107,7 @@ extern void func_800A56E0();
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x8002401C,
     0x00000000,
     0x80024080,
@@ -157,13 +157,14 @@ void BODY_NAME(void *state_data, void *position_data)
     }
 
 jt_c0:
-        D_800814A8->unk_102 = 1;
-        D_800814A8->unk_F4 = 0;
-        ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
-        ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
-        ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
-        ((S_81988800_0 *)state_data)->unk_0A.u++;
-jt_c1: {
+    D_800814A8->unk_102 = 1;
+    D_800814A8->unk_F4 = 0;
+    ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
+    ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
+    ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
+    ((S_81988800_0 *)state_data)->unk_0A.u++;
+jt_c1:
+    {
         u8 *spawn_data;
 
         if (0) {
@@ -177,7 +178,7 @@ jt_c1: {
             object = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
             if (object != 0) {
                 if (func_8003DE58(((S_81988800_12 *)(((S_81988800_3 *)work)->unk_0C))->unk_08,
-                                   ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
+                                  ((S_81988800_3 *)work)->unk_0C, offset, 0) == 0) {
                     offset[2] = 0;
                     offset[1] = 0;
                     offset[0] = 0;
@@ -187,13 +188,16 @@ jt_c1: {
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
-                ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
+                ((S_81988800_2 *)position_ref)->unk_00 =
+                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
                                       ((s32)offset[0] << 16);
                 ((S_81988800_6 *)spawn_data)->unk_1C = ((S_81988800_2 *)position_ref)->unk_00;
-                ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04 +
+                ((S_81988800_2 *)position_ref)->unk_04 =
+                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04 +
                                       ((s32)offset[1] << 16);
                 ((S_81988800_6 *)spawn_data)->unk_20 = ((S_81988800_2 *)position_ref)->unk_04;
-                ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08 +
+                ((S_81988800_2 *)position_ref)->unk_08.at00.v =
+                    ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08 +
                                       ((s32)offset[2] << 16);
                 ((S_81988800_6 *)spawn_data)->unk_24 = ((S_81988800_2 *)position_ref)->unk_08.at00.v;
             }
@@ -202,7 +206,8 @@ jt_c1: {
         goto done;
     }
 
-jt_c2: {
+jt_c2:
+    {
         s32 effect_id;
         s32 variant;
 
@@ -221,7 +226,8 @@ jt_c2: {
         goto done;
     }
 
-jt_c3: {
+jt_c3:
+    {
         u8 *entry_ptr;
         s32 entry_index;
 
@@ -252,7 +258,8 @@ jt_c3: {
         goto done;
     }
 
-jt_c4: {
+jt_c4:
+    {
         if (((S_81988800_0 *)state_data)->unk_50.s == 8) {
             object = D_800814A8;
             if (object != 0) {
@@ -266,7 +273,7 @@ loop:
                         goto loop;
                     }
                     func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
-                                 ((S_81988800_8 *)source)->unk_2A, source, 2);
+                                  ((S_81988800_8 *)source)->unk_2A, source, 2);
                     goto loop;
                 }
                 ;

@@ -21,13 +21,10 @@ typedef struct S_801721B0_0 {
 } S_801721B0_0;   /* arg0 in func_801721B0 */
 
 
-
-
 typedef struct S_801721B0_4 {
     u8 pad_00[0x8];
     s16 unk_08;
 } S_801721B0_4;   /* global in func_801721B0 */
-
 
 
 extern void func_80047784(void *, s16, s16);
@@ -63,8 +60,8 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
             func_80047784(
                 sprite,
                 D_801762D8[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
-                             9) &
-                            7],
+                            9) &
+                           7],
                 0);
             ((S_801721B0_0 *)action)->unk_98 |= 8;
             ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
@@ -74,7 +71,7 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
         } else {
             break;
         }
-        /* fallthrough */
+                /* fallthrough */
 
     case 1:
         hop_frames = ((S_801721B0_0 *)action)->unk_9E.s;
@@ -105,7 +102,7 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
             ((S_801721B0_0 *)action)->unk_9B++;
         }
 
-        /* fallthrough */
+                /* fallthrough */
 
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {
@@ -114,13 +111,13 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
             ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                         ((Rec_D_80082E80 *)sprite)->unk_25);
+                          ((Rec_D_80082E80 *)sprite)->unk_25);
             (*(void * *)((u8 *)sprite + 0x2C)) = D_801762E0;
             func_80047784(
                 sprite,
                 D_801762E0[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >>
-                             9) &
-                            7],
+                            9) &
+                           7],
                 0);
             ((S_801721B0_0 *)action)->unk_9B++;
         }
@@ -134,7 +131,7 @@ void func_801721B0(void *action, void *motion, void *sprite, void *actor)
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_10 = 0;
         ((Rec_func_800A5DFC_arg1 *)motion)->unk_0C = 0;
         func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24,
-                     ((Rec_D_80082E80 *)sprite)->unk_25);
+                      ((Rec_D_80082E80 *)sprite)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
         if (dungeonStatus.unk_08 != 0) {

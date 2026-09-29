@@ -17,7 +17,6 @@ typedef struct S_80024A34_0 {
 } S_80024A34_0;   /* temp_a0 in func_80024A34 */
 
 
-
 /* Initialize the object's visual state and apply a random spherical position offset. */
 void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E80 *visual) {
     s16 azimuth;

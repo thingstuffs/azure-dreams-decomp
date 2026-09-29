@@ -22,9 +22,9 @@ void func_8003A5B4(Func8003A5B4State *state) {
 
     if (((Func8003A5B4Entry *)((u8 *)state->table + table_index * 4))->value != 0) {
         u32 jump_address = (u32)command_ptr[0]
-                         + ((u32)command_ptr[1] << 8)
-                         + ((u32)command_ptr[2] << 16)
-                         + ((u32)command_ptr[3] << 24);
+        + ((u32)command_ptr[1] << 8)
+        + ((u32)command_ptr[2] << 16)
+        + ((u32)command_ptr[3] << 24);
         state->read_ptr = (u8 *)jump_address;
     } else {
         state->read_ptr = command_ptr + 4;

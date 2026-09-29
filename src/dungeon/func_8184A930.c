@@ -40,7 +40,6 @@ typedef struct S_80024130_3 {
 } S_80024130_3;   /* arg1 in func_80024130 */
 
 
-
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();

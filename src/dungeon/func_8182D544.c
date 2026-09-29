@@ -33,11 +33,15 @@ typedef struct S_8182D544_3 {
     s8 unk_04;
     s8 unk_05;
     u8 pad_06[0x6];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x4];
     u16 unk_14;
 } S_8182D544_3;   /* arg2 in func_8182D544 */
-
 
 
 extern void func_8004491C();

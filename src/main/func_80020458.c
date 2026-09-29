@@ -34,8 +34,6 @@ typedef struct S_80020458_7 {
 } S_80020458_7;   /* ((S_80020458_4 *)temp_a2_2)->unk_04 in func_80020458 */
 
 
-
-
 /* Callback function addresses outside this overlay's own window (0x8000D000-
    0x80022000); they belong to code loaded elsewhere and are only ever stored
    as raw pointers here, never called, so bind them as absolute symbols

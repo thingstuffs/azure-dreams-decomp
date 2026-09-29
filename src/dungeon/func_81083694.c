@@ -185,51 +185,52 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         action_index = (F(stats, u16, 0x46) & 0x3FFF) - 1;
         switch (action_index) {
         case 11:
-        if (func_80175ED4(actor, stats) == 0) {
+            if (func_80175ED4(actor, stats) == 0) {
+                func_800A9A0C(stats);
+                return;
+            }
+            next_anims = D_80175F10;
+            F(sprite, void *, 0x2C) = next_anims;
+            func_80047784(sprite,
+                next_anims[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
             func_800A9A0C(stats);
             return;
-        }
-        next_anims = D_80175F10;
-        F(sprite, void *, 0x2C) = next_anims;
-        func_80047784(sprite,
-            next_anims[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
-        func_800A9A0C(stats);
-        return;
 
         case 10:
-        func_801718F8(actor, context, sprite, stats);
-        func_80175ED4(actor, stats);
-        return;
+            func_801718F8(actor, context, sprite, stats);
+            func_80175ED4(actor, stats);
+            return;
 
         case 7:
-        func_80175ED4(actor, stats);
-        if ((s16)func_80172050(actor, context, sprite, stats) != 0) {
+            func_80175ED4(actor, stats);
+            if ((s16)func_80172050(actor, context, sprite, stats) != 0) {
+                return;
+            }
+            func_80172218(actor, context, sprite, stats);
             return;
-        }
-        func_80172218(actor, context, sprite, stats);
-        return;
 
         case 8:
-        if (F(actor, u8, 0xAE) != 0) {
-            if (F(stats, u32, 0x1C) & 0x400) {
-                register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                if (turn_flags >= 0) {
-                    void *random_actor = actor;
-                    void *random_context = context;
-                    F(stats, u32, 0x14) = (u32)turn_flags | 0x80000000;
-                    F(stats, u16, 0x2A) +=
-                        (func_800A6D30(random_actor, random_context) & 7) << 9;
+            if (F(actor, u8, 0xAE) != 0) {
+                if (F(stats, u32, 0x1C) & 0x400) {
+                    register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    if (turn_flags >= 0) {
+                        void *random_actor = actor;
+                        void *random_context = context;
+                        F(stats, u32, 0x14) = (u32)turn_flags | 0x80000000;
+                        F(stats, u16, 0x2A) +=
+                            (func_800A6D30(random_actor, random_context) & 7) << 9;
+                    }
                 }
+                func_80172504(actor, context, sprite, stats);
+                return;
             }
-            func_80172504(actor, context, sprite, stats);
+            func_801723D8(actor, context, sprite, stats);
             return;
-        }
-        func_801723D8(actor, context, sprite, stats);
-        return;
 
         case 4:
         case 5:
-        case 6: {
+        case 6:
+        {
             s16 heading;
             void *leader;
 
@@ -247,16 +248,16 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         case 0:
         case 1:
         case 2:
-        func_80175ED4(actor, stats);
-        func_800AAF00(actor, context, sprite, &D_80175F60, func_80170E94);
-        return;
+            func_80175ED4(actor, stats);
+            func_800AAF00(actor, context, sprite, &D_80175F60, func_80170E94);
+            return;
 
         default:
-        func_801718F8(actor, context, sprite, stats);
-        if (F(actor, u8, 0xAE) != 0) {
-            func_80175ED4(actor, stats);
-        }
-        return;
+            func_801718F8(actor, context, sprite, stats);
+            if (F(actor, u8, 0xAE) != 0) {
+                func_80175ED4(actor, stats);
+            }
+            return;
         }
     } else {
         if (F(actor, u8, 0xAE) == 0) {

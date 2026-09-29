@@ -25,7 +25,6 @@ extern u8 D_8015C66C[8];
 extern Callback D_8015C6A0[];
 
 
-
 typedef struct S_801593A8_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -226,15 +225,15 @@ ground_call:
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 } else
-                if (direction_frames == D_8015C644 || direction_frames == D_8015C66C) {
-                    (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
-                    if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                    if (direction_frames == D_8015C644 || direction_frames == D_8015C66C) {
+                        (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
+                        if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
+                            (*(s32 *)((u8 *)entity + 0xA4)) = 0;
+                        }
+                    } else if (direction_frames != D_8015C654 && direction_frames != D_8015C65C &&
+                               direction_frames != D_8015C664) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (direction_frames != D_8015C654 && direction_frames != D_8015C65C &&
-                           direction_frames != D_8015C664) {
-                    (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-                }
             }
 
             adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;

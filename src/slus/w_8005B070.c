@@ -41,7 +41,7 @@ void func_8005B070(s16 slot_index)
     if (D_80073734[0] > 0) {
         entry_id = D_80073740;
         entry = D_80085458;
-    loop:
+loop:
         if (*(u16 *)(entry + 6) < 0x10U) {
             if (*(u16 *)(entry + 0x1A) != 0) {
                 s32 request_type;
@@ -60,7 +60,8 @@ void func_8005B070(s16 slot_index)
             do {
                 entry_index++;
             } while (0);
-            if (entry_index < entry_count) goto loop;
+            if (entry_index < entry_count)
+                goto loop;
         }
     }
     slots = D_80086C00;

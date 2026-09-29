@@ -55,8 +55,6 @@ typedef struct S_80175DD0_4 {
 } S_80175DD0_4;   /* arg1 in func_80175DD0 */
 
 
-
-
 extern s32 func_8003DE58();
 extern void *func_8003FD64();
 extern s32 func_8004491C();

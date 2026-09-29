@@ -78,7 +78,6 @@ typedef struct S_800247C0_8 {
 } S_800247C0_8;   /* ((S_800247C0_1 *)temp_s2)->unk_08 in func_800247C0 */
 
 
-
 typedef struct {
     u16 x;
     u16 y;

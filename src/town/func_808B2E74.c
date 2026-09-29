@@ -6,7 +6,6 @@ typedef struct S_808B2E74_0 {
 } S_808B2E74_0;   /* (u32)D_A0700000 + index in func_808B2E74 */
 
 
-
 extern u8 D_A0700000[];
 
 /* Clears bitmap bits for three pairs of stored IDs. */

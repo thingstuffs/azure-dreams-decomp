@@ -20,7 +20,6 @@ typedef struct S_80017DBC_2 {
 } S_80017DBC_2;   /* var_s4 in func_80017DBC */
 
 
-
 extern s32 func_800198D0();
 extern s32 D_80016470;
 extern s32 D_80016608;

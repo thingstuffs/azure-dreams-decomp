@@ -16,16 +16,27 @@ typedef struct S_800564A8_85458 {
    element (&D_80084960[f06]); no field of it is read/written here. */
 typedef struct S_80084960 {
     s32 f00, f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
-    s8 f30; u8 pad31[9];
-    s16 f3a; u8 pad3c[4];
-    s16 f40; u8 pad42[2];
-    s32 f44, f48; u8 pad4c[4];
-    s16 f50; u8 pad52[0xD];
-    s8 f5f, f60, f61; u8 pad62[2];
-    s32 f64, f68; u8 pad6c[0xE];
-    s8 f7a, f7b, f7c; u8 pad7d[3];
-    s32 f80, f84; u8 pad88[0xC];
-    s32 f94; s8 f98; u8 pad99[3];
+    s8 f30;
+    u8 pad31[9];
+    s16 f3a;
+    u8 pad3c[4];
+    s16 f40;
+    u8 pad42[2];
+    s32 f44, f48;
+    u8 pad4c[4];
+    s16 f50;
+    u8 pad52[0xD];
+    s8 f5f, f60, f61;
+    u8 pad62[2];
+    s32 f64, f68;
+    u8 pad6c[0xE];
+    s8 f7a, f7b, f7c;
+    u8 pad7d[3];
+    s32 f80, f84;
+    u8 pad88[0xC];
+    s32 f94;
+    s8 f98;
+    u8 pad99[3];
 } S_80084960;
 
 extern s32 D_80073734[4];

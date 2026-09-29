@@ -44,7 +44,6 @@ typedef struct S_818FEF80_4 {
 } S_818FEF80_4;   /* linked in func_80024780 */
 
 
-
 extern s16 D_80025E80;
 
 /* Advance a timed visual effect, updating position, shading, and linked display flags. */

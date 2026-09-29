@@ -44,28 +44,28 @@ void func_80023EB0(void *state_ptr)
         kind = S16_AT(state, 0x22);
         switch (kind) {
         case 0:
-        target_pos = -0x60;
-        goto store_both;
+            target_pos = -0x60;
+            goto store_both;
         case 1:
-        target_pos = -0x98;
-        goto store_both;
+            target_pos = -0x98;
+            goto store_both;
         case 2:
-        target_pos = -0x30;
+            target_pos = -0x30;
 store_both:
-        S16_AT(state, 0x1E) = target_pos;
-        S16_AT(state, 0x1C) = target_pos;
-        break;
+            S16_AT(state, 0x1E) = target_pos;
+            S16_AT(state, 0x1C) = target_pos;
+            break;
         case 3:
-        target_pos = -0xB0;
-        S16_AT(state, 0x1C) = target_pos;
-        target_pos = -0x10;
-        goto store_second;
+            target_pos = -0xB0;
+            S16_AT(state, 0x1C) = target_pos;
+            target_pos = -0x10;
+            goto store_second;
         case 4:
-        target_pos = -0x10;
-        S16_AT(state, 0x1C) = target_pos;
-        target_pos = -0xB0;
+            target_pos = -0x10;
+            S16_AT(state, 0x1C) = target_pos;
+            target_pos = -0xB0;
 store_second:
-        S16_AT(state, 0x1E) = target_pos;
+            S16_AT(state, 0x1E) = target_pos;
         }
 
 

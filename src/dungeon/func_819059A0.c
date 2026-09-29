@@ -11,7 +11,6 @@ typedef struct S_800251A0_0 {
 } S_800251A0_0;   /* arg0 in func_800251A0 */
 
 
-
 typedef struct DungeonAnimSlot {
     u8 pad_00[0x50];
     s16 field_50;
@@ -51,7 +50,8 @@ void func_800251A0(void *anim_state)
 
     slot_index = 1;
     slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
-    loop_1: {
+loop_1:
+    {
         offset_delta = func_800644B8(slot->field_50) >> 9;
         offset = slot->field_62;
         phase = (u16)slot->field_50;
@@ -67,7 +67,9 @@ void func_800251A0(void *anim_state)
         }
         slot_index += 1;
         slot = (DungeonAnimSlot *)((u8 *)slot + 2);
-    } if (slot_index < 9) goto loop_1;
+    }
+    if (slot_index < 9)
+        goto loop_1;
 
 
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {

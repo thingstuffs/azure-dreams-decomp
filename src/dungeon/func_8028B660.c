@@ -29,7 +29,8 @@ s32 func_8001E660(s8 *out_group, s8 *out_index, s32 unused, s32 skip_special) {
                 return 1;
             }
         } else if (D_8008146C[0] == 15) {
-            if ((func_80033BC0(0x145E) != 0) && (func_80033BC0(0x1460) == 0) && ((func_800A697C(0xD, 1) << 0x10) == 0)) {
+            if ((func_80033BC0(0x145E) != 0) && (func_80033BC0(0x1460) == 0)
+                && ((func_800A697C(0xD, 1) << 0x10) == 0)) {
                 *out_group = 0xD;
                 *out_index = 1;
                 D_8001F6F0[0] = 1;

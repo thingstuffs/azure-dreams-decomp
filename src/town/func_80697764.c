@@ -10,8 +10,6 @@ typedef struct S_80697764_1 {
 } S_80697764_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_38.as_pv in func_80697764 */
 
 
-
-
 extern u32 D_80018AE0;
 
 

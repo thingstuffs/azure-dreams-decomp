@@ -26,7 +26,6 @@ typedef struct S_80173F0C_2 {
 } S_80173F0C_2;   /* arg1 in func_80173F0C */
 
 
-
 typedef struct {
     u8 bytes[8];
 } Unaligned8;

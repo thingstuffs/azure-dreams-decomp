@@ -11,10 +11,6 @@ typedef struct S_8001A6DC_1 {
 } S_8001A6DC_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_8001A6DC */
 
 
-
-
-
-
 /* Stores two values scaled by 32 in the current record's auxiliary data. */
 void func_8001A6DC(M2C_UNK unused, s32 value_04, s32 value_08) {
     ((S_8001A6DC_1 *)(D_80016000->unk_1C))->unk_04 = (s32) (value_04 << 5);

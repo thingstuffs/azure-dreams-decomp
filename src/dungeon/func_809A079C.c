@@ -12,9 +12,6 @@ typedef struct S_80171F9C_0 {
 } S_80171F9C_0;   /* held_arg2 in func_80171F9C */
 
 
-
-
-
 extern s32 func_80047784();
 extern s32 func_8009C93C();
 extern s32 func_800A0134();
@@ -44,7 +41,8 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             return -1;
         }
 
-        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25, actor->facing);
+        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25,
+            actor->facing);
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             return 0;
         }
@@ -106,7 +104,9 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             {
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;
-                func_80047784(((S_80171F9C_0 *)(visual_data)), ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100) >> 9) & 7], 0);
+                func_80047784(((S_80171F9C_0 *)(visual_data)),
+                    ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + actor->facing + 0x100)
+                    >> 9) & 7], 0);
             }
             actor->unk_6D--;
             func_8009C93C(actor, ((S_80171F9C_0 *)(visual_data)), actor->facing, 1, 0);

@@ -105,113 +105,113 @@ void func_8052EDB8(TownState *town_state)
     goto *D_805267C8[state];
 
 state0:
-        func_8003F8A8(5);
-        D_805305A0 = 0x05600000;
-        D_805305A4 = 0x03E00000;
-        D_805305A8 = 0;
-        D_805305B4 = 0;
-        D_805305B0 = 0;
-        D_805305AC = 0;
-        func_8024A884();
-        town_state->state = 1;
+    func_8003F8A8(5);
+    D_805305A0 = 0x05600000;
+    D_805305A4 = 0x03E00000;
+    D_805305A8 = 0;
+    D_805305B4 = 0;
+    D_805305B0 = 0;
+    D_805305AC = 0;
+    func_8024A884();
+    town_state->state = 1;
 checked:
-        if (town_state->actors[0]->field70 != 1) {
-            goto done;
-        }
-        town_state->counter = 0;
-        town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
-        town_state->state = 2;
+    if (town_state->actors[0]->field70 != 1) {
         goto done;
+    }
+    town_state->counter = 0;
+    town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
+    town_state->state = 2;
+    goto done;
 
 state1:
-        D_801328F8 = 0x400;
-        if (*(u16 *)((u8 *)town_state + 26) & 1) {
-            *(u16 *)((u8 *)town_state + 26) &= ~1;
-            town_state->index++;
-            if (town_state->index >= 10) {
-                town_state->state = 3;
-                town_state->timer = 30;
-                return;
-            }
-            town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
+    D_801328F8 = 0x400;
+    if (*(u16 *)((u8 *)town_state + 26) & 1) {
+        *(u16 *)((u8 *)town_state + 26) &= ~1;
+        town_state->index++;
+        if (town_state->index >= 10) {
+            town_state->state = 3;
+            town_state->timer = 30;
             return;
         }
+        town_state->timer = *(u16 *)&D_80530220[town_state->area * 400 + town_state->index * 40];
+        return;
+    }
 
-        town_state->timer--;
-        if (town_state->timer > 0) {
-            goto done;
-        }
-        town_state->flags |= 1;
-        do {
-            i = 2;
-            for (; i >= 0; i--) {
-                town_state->actors[i]->field76 = func_80071494() % 3;
-            }
-        } while (town_state->actors[0]->field76 == town_state->actors[1]->field76 ||
-                 town_state->actors[1]->field76 == town_state->actors[2]->field76 ||
-                 town_state->actors[2]->field76 == town_state->actors[0]->field76);
+    town_state->timer--;
+    if (town_state->timer > 0) {
         goto done;
+    }
+    town_state->flags |= 1;
+    do {
+        i = 2;
+        for (; i >= 0; i--) {
+            town_state->actors[i]->field76 = func_80071494() % 3;
+        }
+    } while (town_state->actors[0]->field76 == town_state->actors[1]->field76 ||
+             town_state->actors[1]->field76 == town_state->actors[2]->field76 ||
+             town_state->actors[2]->field76 == town_state->actors[0]->field76);
+    goto done;
 
 state2:
-        if (town_state->flags & 4) {
-            goto done;
-        }
-        town_state->timer--;
-        if (town_state->timer > 0) {
-            goto done;
-        }
-        i = 2;
-        value = 2;
-        do {
-            actor = town_state->actors[i];
-            i--;
-            actor->field72 = 0;
-            actor->field70 = value;
-        } while (i >= 0);
-        func_8024A900();
-        func_8024A884();
-        town_state->timer = 20;
-        town_state->state = 4;
+    if (town_state->flags & 4) {
         goto done;
+    }
+    town_state->timer--;
+    if (town_state->timer > 0) {
+        goto done;
+    }
+    i = 2;
+    value = 2;
+    do {
+        actor = town_state->actors[i];
+        i--;
+        actor->field72 = 0;
+        actor->field70 = value;
+    } while (i >= 0);
+    func_8024A900();
+    func_8024A884();
+    town_state->timer = 20;
+    town_state->state = 4;
+    goto done;
 
 state3:
-        town_state->timer--;
-        if (town_state->timer >= 0) {
-            color = D_80095AAE;
-            color += (0x90 - color) >> 1;
-            D_80095AAE = color;
-            D_80095AAD = color;
-            *(u8 *)&D_80095AAC = color;
+    town_state->timer--;
+    if (town_state->timer >= 0) {
+        color = D_80095AAE;
+        color += (0x90 - color) >> 1;
+        D_80095AAE = color;
+        D_80095AAD = color;
+        *(u8 *)&D_80095AAC = color;
 
-            for (i = 7; i >= 0; i--) {
-                x = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[0];
-                y = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[1];
-                func_8052E4C0(0x00F0F0F0, x, y, 0);
-            }
+        for (i = 7; i >= 0; i--) {
+            x = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[0];
+            y = (((func_80071494() & 0x3F) - 0x20) << 16) + D_80132AE8[1];
+            func_8052E4C0(0x00F0F0F0, x, y, 0);
         }
-        if (town_state->flags & 2) {
-            goto done;
-        }
-        if (town_state->timer > 0) {
-            goto done;
-        }
-        town_state->flags |= 8;
-        town_state->state = 5;
+    }
+    if (town_state->flags & 2) {
         goto done;
+    }
+    if (town_state->timer > 0) {
+        goto done;
+    }
+    town_state->flags |= 8;
+    town_state->state = 5;
+    goto done;
 
 state4:
-        func_8024A900();
-        if (D_8001339E < town_state->score) {
-            D_8001339E = town_state->score;
-            func_80050BFC(0xAE4);
-        } else {
-            func_80050BD8(0xAE4);
-        }
-        func_8003F75C(2);
-        D_80095AAC = 0x00808080;
-        *(u16 *)((u8 *)town_state - 2) |= 0x8000;
-        D_80084D5C |= 0x8000;
-        goto done;
+    func_8024A900();
+    if (D_8001339E < town_state->score) {
+        D_8001339E = town_state->score;
+        func_80050BFC(0xAE4);
+    } else {
+        func_80050BD8(0xAE4);
+    }
+    func_8003F75C(2);
+    D_80095AAC = 0x00808080;
+    *(u16 *)((u8 *)town_state - 2) |= 0x8000;
+    D_80084D5C |= 0x8000;
+    goto done;
 
 state5:
 done:

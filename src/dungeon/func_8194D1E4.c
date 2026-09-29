@@ -26,7 +26,8 @@ typedef struct S_800249E4_0 {
 } S_800249E4_0;   /* temp_a0 in func_800249E4 */
 
 /* Allocate an object and initialize its endpoints, one-eighth movement steps, and parameters. */
-void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting, FourWords params_a, FourWords params_b, Packed8 packed_params) {
+void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting, FourWords params_a,
+    FourWords params_b, Packed8 packed_params) {
     s32 start_x;
     s32 start_y;
     s32 start_z;
@@ -56,9 +57,12 @@ void func_800249E4(s32 object_value, void *start_pos, void *end_pos, s16 setting
         (*(s32 *)((u8 *)state + 4)) = (s32) (*(s32 *)((u8 *)end_pos + 0));
         (*(s32 *)((u8 *)state + 8)) = (s32) (*(s32 *)((u8 *)end_pos + 4));
         (*(s32 *)((u8 *)state + 0xC)) = (s32) (*(s32 *)((u8 *)end_pos + 8));
-        (*(s32 *)((u8 *)state + 0x40)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - (*(s32 *)((u8 *)start_pos + 0))) >> 3);
-        (*(s32 *)((u8 *)state + 0x44)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - (*(s32 *)((u8 *)start_pos + 4))) >> 3);
-        (*(s32 *)((u8 *)state + 0x48)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - (*(s32 *)((u8 *)start_pos + 8))) >> 3);
+        (*(s32 *)((u8 *)state + 0x40)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 0)) - (*(s32 *)((u8 *)start_pos + 0)))
+            >> 3);
+        (*(s32 *)((u8 *)state + 0x44)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 4)) - (*(s32 *)((u8 *)start_pos + 4)))
+            >> 3);
+        (*(s32 *)((u8 *)state + 0x48)) = (s32) ((s32) ((*(s32 *)((u8 *)end_pos + 8)) - (*(s32 *)((u8 *)start_pos + 8)))
+            >> 3);
         word_0 = params_a.words[0];
         word_1 = params_a.words[1];
         word_2 = params_a.words[2];

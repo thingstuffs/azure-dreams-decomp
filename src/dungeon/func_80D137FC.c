@@ -17,7 +17,6 @@ typedef struct S_80172FFC_0 {
 } S_80172FFC_0;   /* arg0 in func_80172FFC */
 
 
-
 typedef struct S_80172FFC_3 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -258,14 +257,22 @@ emit:
                 ((S_80172FFC_7 *)effect_motion)->unk_0A = (u16) ((S_80172FFC_3 *)motion)->unk_0A;
                 owner_sprite = ((S_80172FFC_8 *)owner)->unk_0C;
                 if (func_8003DE58(((S_80172FFC_9 *)owner_sprite)->unk_08, owner_sprite, spawn_offset, 0) != 0) {
-                    ((S_80172FFC_7 *)effect_motion)->unk_02 = (u16) (((S_80172FFC_7 *)effect_motion)->unk_02 + spawn_offset[0]);
-                    ((S_80172FFC_7 *)effect_motion)->unk_06 = (u16) (((S_80172FFC_7 *)effect_motion)->unk_06 + spawn_offset[1]);
-                    ((S_80172FFC_7 *)effect_motion)->unk_0A = (u16) (((S_80172FFC_7 *)effect_motion)->unk_0A + spawn_offset[2]);
+                    ((S_80172FFC_7 *)effect_motion)->unk_02 = (u16) (((S_80172FFC_7 *)effect_motion)->unk_02
+                        + spawn_offset[0]);
+                    ((S_80172FFC_7 *)effect_motion)->unk_06 = (u16) (((S_80172FFC_7 *)effect_motion)->unk_06
+                        + spawn_offset[1]);
+                    ((S_80172FFC_7 *)effect_motion)->unk_0A = (u16) (((S_80172FFC_7 *)effect_motion)->unk_0A
+                        + spawn_offset[2]);
                 }
-                ((S_80172FFC_7 *)effect_motion)->unk_14 = (s32) (((0xD - (s16) ((S_80172FFC_0 *)action)->unk_96) << 0x11) + 0xFFE80000);
+                ((S_80172FFC_7 *)effect_motion)->unk_14 = (s32) (((0xD - (s16) ((S_80172FFC_0 *)action)->unk_96)
+                    << 0x11) + 0xFFE80000);
                 ((S_80172FFC_4 *)effect_data)->unk_B4 = 0xC000;
-                ((S_80172FFC_7 *)effect_motion)->unk_0C = (s32) (((S_80172FFC_10 *)(&directions[((u16) ((S_80172FFC_4 *)effect_data)->unk_94 >> 7) & 0x1C]))->unk_00 << 0x11);
-                ((S_80172FFC_7 *)effect_motion)->unk_10 = (s32) (((S_80172FFC_10 *)(&directions[((u16) ((S_80172FFC_4 *)effect_data)->unk_94 >> 7) & 0x1C]))->unk_02 << 0x11);
+                ((S_80172FFC_7 *)effect_motion)->unk_0C =
+                    (s32) (((S_80172FFC_10 *)(&directions[((u16) ((S_80172FFC_4 *)effect_data)->unk_94
+                    >> 7) & 0x1C]))->unk_00 << 0x11);
+                ((S_80172FFC_7 *)effect_motion)->unk_10 =
+                    (s32) (((S_80172FFC_10 *)(&directions[((u16) ((S_80172FFC_4 *)effect_data)->unk_94
+                    >> 7) & 0x1C]))->unk_02 << 0x11);
                 random_value = rand();
                 velocity_base = ((S_80172FFC_7 *)effect_motion)->unk_0C + 0xFFFE0000;
                 velocity_base += (random_value & 0x3FFF) << 4;
@@ -286,7 +293,10 @@ emit:
                 position[0] = ((S_80172FFC_3 *)motion)->unk_02;
                 position[1] = ((S_80172FFC_3 *)motion)->unk_06;
                 position[2] = ((S_80172FFC_3 *)motion)->unk_0A;
-                ((S_80172FFC_6 *)effect_sprite)->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr, screen_pos, &projection_aux, &projection_flags)) - (D_800DCECC[((s32) (gameWork.view.viewAngle + (s16) ((S_80172FFC_4 *)effect_data)->unk_94 + 0x100) >> 9) & 7] * 2));
+                ((S_80172FFC_6 *)effect_sprite)->unk_06 = (s16) ((effect_depth - func_80065420(position_ptr,
+                    screen_pos, &projection_aux, &projection_flags))
+                    - (D_800DCECC[((s32) (gameWork.view.viewAngle + (s16) ((S_80172FFC_4 *)effect_data)->unk_94
+                    + 0x100) >> 9) & 7] * 2));
             }
             next_count = spawn_count + 1;
             spawn_count = next_count;

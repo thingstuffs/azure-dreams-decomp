@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 
 
-
 typedef s32 M2C_UNK;
 
 

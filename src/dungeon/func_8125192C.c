@@ -69,7 +69,11 @@ typedef struct S_8017112C_3 {
 typedef struct S_8017112C_4 {
     s32 unk_00;
     u8 pad_04[0x4];
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_14;   /* overlapping accesses */
@@ -128,7 +132,8 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     if (global_flags & 8) {
         s32 slot_index = 1;
         slot = ((u8 *)D_800E3D7C) + 4;
-        loop_0: {
+loop_0:
+        {
             node = ((S_8017112C_1 *)slot)->unk_AC;
             if (node != 0) {
                 record = ((S_8017112C_2_pre *)node)[-1].unk_00;
@@ -136,7 +141,9 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
             }
             slot_index--;
             slot -= 4;
-        } if (slot_index >= 0) goto loop_0;
+        }
+        if (slot_index >= 0)
+            goto loop_0;
     }
 
     if (dungeonStatus.flags & 0x2000) {
@@ -178,8 +185,8 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
         func_80047738(monster_arg,
-                     *((u8 *)((S_8017112C_5 *)monster_arg)->unk_2C + state_direction),
-                     ((S_8017112C_5 *)monster_arg)->unk_04);
+                      *((u8 *)((S_8017112C_5 *)monster_arg)->unk_2C + state_direction),
+                      ((S_8017112C_5 *)monster_arg)->unk_04);
         (*(s16 *)((u8 *)entity_arg + (0x94))) = state_direction;
     }
 

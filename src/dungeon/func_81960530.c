@@ -10,10 +10,34 @@ typedef struct S_81960530_0 {
     s32 unk_14C;
     s16 unk_150;
     union { s16 s; u16 u; } unk_152;   /* accessed as both */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_154;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_158;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_15C;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_160;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_154;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_158;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_15C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u16 v; } at00p;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_160;   /* overlapping accesses */
 } S_81960530_0;   /* scratch in func_81960530 */
 
 typedef struct S_81960530_2 {
@@ -63,7 +87,6 @@ typedef struct S_81960530_9 {
     u8 pad_00[0x4];
     s16 unk_04;
 } S_81960530_9;   /* planes + ((S_81960530_4 *)current)->unk_10 * 8 in func_81960530 */
-
 
 
 extern s32 func_800BCE7C(void *);
@@ -133,10 +156,13 @@ void *func_81960530(s32 world_x, s32 world_y, s16 min_height) {
 
                     if (func_800BCE7C(scratch) != 0) {
                         plane = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_10 * 8 + (unsigned long)planes);
-                        plane_vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8 + (unsigned long)vertices);
-                        height = (((S_81960530_6 *)plane)->unk_00 * (((S_81960530_7 *)plane_vertex)->unk_00 - (s16)((S_81960530_0 *)scratch)->unk_140.u) +
-                                 ((S_81960530_6 *)plane)->unk_02 * (((S_81960530_7 *)plane_vertex)->unk_02 - (s16)((S_81960530_0 *)scratch)->unk_142.u) +
-                                 ((S_81960530_6 *)plane)->unk_04 * ((S_81960530_7 *)plane_vertex)->unk_04) /
+                        plane_vertex = (u8 *)((unsigned long)((S_81960530_4 *)polygon)->unk_00 * 8
+                            + (unsigned long)vertices);
+                        height = (((S_81960530_6 *)plane)->unk_00 * (((S_81960530_7 *)plane_vertex)->unk_00
+                            - (s16)((S_81960530_0 *)scratch)->unk_140.u) +
+                                  ((S_81960530_6 *)plane)->unk_02 * (((S_81960530_7 *)plane_vertex)->unk_02
+                                      - (s16)((S_81960530_0 *)scratch)->unk_142.u) +
+                                  ((S_81960530_6 *)plane)->unk_04 * ((S_81960530_7 *)plane_vertex)->unk_04) /
                                 ((S_81960530_6 *)plane)->unk_04;
                         ((S_81960530_0 *)scratch)->unk_144 = height;
                         height += (s16)((S_81960530_0 *)scratch)->unk_152.u;

@@ -150,7 +150,12 @@ typedef struct S_8016B0E8_16 {
     s32 unk_AC;
 } S_8016B0E8_16;   /* (temp_s1 + ((S_8016B0E8_4 *)page_e)->unk_3D7C) in func_8016B0E8 */
 
-static __inline__ u16 clamp_level(u32 level) { if (level >= 26) level = 25; return level; }
+static __inline__ u16 clamp_level(u32 level)
+{
+    if (level >= 26)
+        level = 25;
+    return level;
+}
 
 /* Update actor state, animation, movement, and terrain height. */
 void func_8016B0E8(void *entity, void *motion, void *sprite) {
@@ -220,9 +225,12 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         ((S_8016B0E8_0 *)entity)->unk_18 = initial_exp;
         if (initial_exp >= (u32) exp_limits[((S_8016B0E8_0 *)entity)->unk_11]) {
             level_limits = exp_limits;
-            loop_0: {
+loop_0:
+            {
                 func_800A1D4C(actor, 0);
-            } if (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18)) goto loop_0;
+            }
+            if (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18))
+                goto loop_0;
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
@@ -247,7 +255,8 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                     func_8016A908(linked_actor);
                     actor_slot = (void *)(lookup_offset + ((S_8016B0E8_4 *)actors_page)->unk_3D7C);
                     actor_header = ((S_8016B0E8_5 *)actor_slot)->unk_AC - 0x20;
-                    ((S_8016B0E8_6 *)actor_header)->unk_10 = (s32) (((S_8016B0E8_6 *)actor_header)->unk_10 | inactive_mask);
+                    ((S_8016B0E8_6 *)actor_header)->unk_10 = (s32) (((S_8016B0E8_6 *)actor_header)->unk_10
+                        | inactive_mask);
                 }
                 actor_index += 1;
             } while (actor_index < 2);
@@ -338,12 +347,15 @@ update_sprite:
             }
             ((S_8016B0E8_14 *)sprite)->unk_14.n = display_flags;
         }
-        ((S_8016B0E8_15 *)motion)->unk_00.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_00.at00.v + ((S_8016B0E8_15 *)motion)->unk_0C);
-        ((S_8016B0E8_15 *)motion)->unk_04.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_04.at00.v + ((S_8016B0E8_15 *)motion)->unk_10);
+        ((S_8016B0E8_15 *)motion)->unk_00.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_00.at00.v
+            + ((S_8016B0E8_15 *)motion)->unk_0C);
+        ((S_8016B0E8_15 *)motion)->unk_04.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_04.at00.v
+            + ((S_8016B0E8_15 *)motion)->unk_10);
         if (((S_8016B0E8_0 *)entity)->unk_98 & 8) {
             ((S_8016B0E8_0 *)entity)->unk_9D = 0;
         } else {
-            ((S_8016B0E8_15 *)motion)->unk_14 = (s32) (((S_8016B0E8_15 *)motion)->unk_14 + (((S_8016B0E8_0 *)entity)->unk_9D * 0x14000));
+            ((S_8016B0E8_15 *)motion)->unk_14 = (s32) (((S_8016B0E8_15 *)motion)->unk_14
+                + (((S_8016B0E8_0 *)entity)->unk_9D * 0x14000));
             fall_ticks = (u8) ((S_8016B0E8_0 *)entity)->unk_9D + 1;
             ((S_8016B0E8_0 *)entity)->unk_9D = (s8) fall_ticks;
         }
@@ -353,7 +365,8 @@ update_sprite:
         motion_position += motion_delta;
         ((S_8016B0E8_0 *)entity)->unk_90.at00.v = motion_position;
         if (!(motion_flags & 4)) {
-            floor_height = func_800BCB04(((S_8016B0E8_15 *)motion)->unk_00.at02.v, ((S_8016B0E8_15 *)motion)->unk_04.at02.v, (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
+            floor_height = func_800BCB04(((S_8016B0E8_15 *)motion)->unk_00.at02.v,
+                ((S_8016B0E8_15 *)motion)->unk_04.at02.v, (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
             if (floor_height < 0x200) {
                 base_height = ((S_8016B0E8_2 *)actor)->unk_88.s;
                 if ((((S_8016B0E8_0 *)entity)->unk_90.at02.v + base_height) < floor_height) {
@@ -373,8 +386,11 @@ update_sprite:
                 actor_flags = ((S_8016B0E8_2 *)actor)->unk_1C;
                 if (actor_flags & 0x40000000) {
                     ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (actor_flags & 0xBFFFFFFF);
-                    floor_height = func_800BCB04((((S_8016B0E8_14 *)sprite)->unk_24 << 6) | 0x20, (((S_8016B0E8_14 *)sprite)->unk_25 << 6) | 0x20, (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
-                    ((S_8016B0E8_0 *)entity)->unk_90.at02.v = (s16) ((u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v + (((S_8016B0E8_2 *)actor)->unk_88.u - floor_height));
+                    floor_height = func_800BCB04((((S_8016B0E8_14 *)sprite)->unk_24 << 6) | 0x20,
+                        (((S_8016B0E8_14 *)sprite)->unk_25 << 6) | 0x20,
+                        (s16) (((S_8016B0E8_2 *)actor)->unk_88.u - 0x20));
+                    ((S_8016B0E8_0 *)entity)->unk_90.at02.v = (s16) ((u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v
+                        + (((S_8016B0E8_2 *)actor)->unk_88.u - floor_height));
                     ((S_8016B0E8_2 *)actor)->unk_88.s = floor_height;
                 }
                 goto update_height;
@@ -382,7 +398,8 @@ update_sprite:
         }
         ((S_8016B0E8_2 *)actor)->unk_1C = (s32) (((S_8016B0E8_2 *)actor)->unk_1C & 0xF7FFFFFF);
 update_height:
-        ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
+        ((S_8016B0E8_15 *)motion)->unk_0A = (s16) (((S_8016B0E8_2 *)actor)->unk_88.u
+            + (u16) ((S_8016B0E8_0 *)entity)->unk_90.at02.v);
         ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x40);
     }
     return;

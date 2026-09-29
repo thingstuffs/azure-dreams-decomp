@@ -95,7 +95,8 @@ void change_map(InputRecord *input)
     entry_index = input->field_02;
     D_8006ADEC.field_1A = entry_index;
     D_800D381A = entry_index;
-    do { } while (0);
+    do {
+    } while (0);
 
     if (input->field_00 == 11) {
         entry = (TableEntry *)((u8 *)D_800D2650 +

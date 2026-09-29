@@ -20,7 +20,9 @@ void func_800590E0(S_800590E0 *stream)
     byte_count = (u32)vlq_count;
     while (1) {
         bytes_read++;
-        if ((func_800589B8(stream) & 0xFF) == 0xF7) break;
-        if (!(bytes_read < byte_count)) break;
+        if ((func_800589B8(stream) & 0xFF) == 0xF7)
+            break;
+        if (!(bytes_read < byte_count))
+            break;
     }
 }

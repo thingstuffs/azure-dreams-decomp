@@ -43,7 +43,8 @@ s32 func_801745B4(DungeonArg *selection, u8 *context)
 
     for (; retries_left >= 0; retries_left--) {
         category_index = func_800A6DA4(1, 19);
-        candidate_category = (DungeonGroup *)((u32)((u8)category_index * sizeof(DungeonGroup)) + (u32)item_category_table);
+        candidate_category = (DungeonGroup *)((u32)((u8)category_index * sizeof(DungeonGroup))
+            + (u32)item_category_table);
 
         if (candidate_category->count == 1 || (u8)category_index == 18 || (u8)category_index == 14) {
             continue;

@@ -74,7 +74,7 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
                 }
             }
         }
-    return_linear_end:
+return_linear_end:
         return dst + 1;
     }
     if (header != 0) {

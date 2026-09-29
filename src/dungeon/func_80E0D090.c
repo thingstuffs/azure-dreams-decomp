@@ -49,7 +49,6 @@ typedef struct S_80170890_5 {
 } S_80170890_5;   /* (u8 *)(((index + count) << 2) + (u32)table) + 6 in func_80170890 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800A6D30(void);
@@ -99,12 +98,12 @@ void *func_80170890(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         if (kind == 1) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x6000;
             right = ((S_80170890_1 *)work)->unk_1C | 0x6000;
-                ((S_80170890_1 *)work)->unk_14 = left;
+            ((S_80170890_1 *)work)->unk_14 = left;
             ((S_80170890_1 *)work)->unk_1C = right;
         } else if (kind >= 2) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x2000;
             right = ((S_80170890_1 *)work)->unk_1C | 0x2000;
-                ((S_80170890_1 *)work)->unk_14 = left;
+            ((S_80170890_1 *)work)->unk_14 = left;
             ((S_80170890_1 *)work)->unk_1C = right;
         } else {
             if (((flags & ~3) << 16) == 0) {

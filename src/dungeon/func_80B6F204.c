@@ -40,14 +40,11 @@ typedef struct S_80172A04_4 {
 } S_80172A04_4;   /* arg2 in func_80172A04 */
 
 
-
 typedef struct S_80172A04_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172A04_7;   /* block in func_80172A04 */
-
-
 
 
 extern s32 func_8003F270(void);
@@ -97,19 +94,19 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        select_third:
+select_third:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        select_second:
+select_second:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        select_first:
+select_first:
             motion = (u8 *)actor + 8;
             break;
         default:
-        no_motion:
+no_motion:
             motion = (u8 *)0;
             break;
         }
@@ -130,7 +127,7 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
                 if (target == 0) {
                     goto run_motion;
                 }
-            have_target:
+have_target:
                 action_state = ((S_80172A04_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172A04_3 *)action_state)->unk_24;
                 actor->unk_73 = ((S_80172A04_3 *)action_state)->unk_25;
@@ -141,7 +138,7 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
                               actor->facing, 0x10);
             actor->unk_72 = abs(actor->unk_72);
             actor->unk_73 = abs(actor->unk_73);
-        run_motion:
+run_motion:
             effect_pos[0] = ((u16)((EntityRec *)position)->x.w.i);
             effect_pos[1] = ((u16)((EntityRec *)position)->y.w.i);
             effect_pos[2] = ((u16)((EntityRec *)position)->z.w.i);
@@ -177,7 +174,7 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
         }
         ((S_80172A04_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172A04_0 *)state)->unk_9B = ((S_80172A04_0 *)state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if ((((S_80172A04_4 *)sprite)->unk_04 == 4 && (((S_80172A04_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172A04_4 *)sprite)->unk_14 & 0xE000)) {

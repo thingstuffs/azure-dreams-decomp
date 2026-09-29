@@ -78,7 +78,7 @@ void func_8004425C(s16 record_id)
         Control_CD(6, record->field4, 0);
         func_8003F320();
         ready_value = 1;
-        /* == D_8008148C.field_0, but reached via the D_80081480 neighbour symbol
+                /* == D_8008148C.field_0, but reached via the D_80081480 neighbour symbol
          * (offset +12) so gcc treats it as a genuinely different SYMBOL_REF from
          * the EARLIER D_8008148C.field_0 read above and can't CSE the two %hi/%lo
          * address computations into one cached base register (retail recomputes

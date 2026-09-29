@@ -5,7 +5,6 @@
 #include "records/Rec_D_80081FDC.h"
 
 
-
 /* Initialize the state with the supplied value, zeroed fields, and unit scale. */
 void func_80033C1C(Rec_D_80081FDC *state, s32 initialValue) {
     state->unk_00 = 1;

@@ -47,8 +47,6 @@ typedef struct S_80170A84_3 {
 } S_80170A84_3;   /* ((S_80170A84_1_pre *)base)[-1].unk_00 in func_80170A84 */
 
 
-
-
 /* Updates effect rotation and fading, then copies three source words to the output. */
 void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
 {
@@ -75,18 +73,18 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
     switch (phase_index) {
 
     case 0:
-        {
-            u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
-            s16 duration = ((S_80170A84_0 *)effect)->unk_38;
-            s32 intensity;
+    {
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-            ticks++;
-            intensity = ((ticks << 16) >> 9) / duration;
-            ((S_80170A84_0 *)effect)->unk_36.s = ticks;
-            render_data->unk_0C = intensity;
-            render_data->unk_0D = intensity;
-            render_data->unk_0E = intensity;
-        }
+        ticks++;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
+    }
         if (((S_80170A84_0 *)effect)->unk_36.u < 5) {
             break;
         }
@@ -109,18 +107,18 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         break;
 
     case 1:
-        {
-            u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
-            s16 duration = ((S_80170A84_0 *)effect)->unk_38;
-            s32 intensity;
+    {
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-            ticks++;
-            intensity = ((ticks << 16) >> 9) / duration;
-            ((S_80170A84_0 *)effect)->unk_36.s = ticks;
-            render_data->unk_0C = intensity;
-            render_data->unk_0D = intensity;
-            render_data->unk_0E = intensity;
-        }
+        ticks++;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
+    }
         if (((S_80170A84_0 *)effect)->unk_36.u < ((S_80170A84_0 *)effect)->unk_38) {
             break;
         }
@@ -130,18 +128,18 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         goto common_counter;
 
     case 2:
-        {
-            u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
-            s16 duration = ((S_80170A84_0 *)effect)->unk_38;
-            s32 intensity;
+    {
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-            ticks--;
-            intensity = ((ticks << 16) >> 9) / duration;
-            ((S_80170A84_0 *)effect)->unk_36.s = ticks;
-            render_data->unk_0C = intensity;
-            render_data->unk_0D = intensity;
-            render_data->unk_0E = intensity;
-        }
+        ticks--;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
+    }
         if (((S_80170A84_0 *)effect)->unk_36.u > 0) {
             break;
         }
@@ -150,41 +148,41 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         break;
 
     case 3:
-        {
-            u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
-            s16 duration = ((S_80170A84_0 *)effect)->unk_38;
-            s32 intensity;
+    {
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+        s16 duration = ((S_80170A84_0 *)effect)->unk_38;
+        s32 intensity;
 
-            ticks--;
-            intensity = ((ticks << 16) >> 9) / duration;
-            ((S_80170A84_0 *)effect)->unk_36.s = ticks;
-            render_data->unk_0C = intensity;
-            render_data->unk_0D = intensity;
-            render_data->unk_0E = intensity;
-        }
+        ticks--;
+        intensity = ((ticks << 16) >> 9) / duration;
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks;
+        render_data->unk_0C = intensity;
+        render_data->unk_0D = intensity;
+        render_data->unk_0E = intensity;
+    }
         if (((S_80170A84_0 *)effect)->unk_36.u > 0) {
             break;
         }
         next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
         reset_ticks = 20;
 
-    common_counter:
+common_counter:
         ((S_80170A84_0 *)effect)->unk_36.s = reset_ticks;
         next_phase++;
 
-    skip_counter:
+skip_counter:
         ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
         break;
 
     case 4:
-        {
-            u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
+    {
+        u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
 
-            ((S_80170A84_0 *)effect)->unk_36.s = ticks - 1;
-            if ((ticks << 16) > 0) {
-                break;
-            }
+        ((S_80170A84_0 *)effect)->unk_36.s = ticks - 1;
+        if ((ticks << 16) > 0) {
+            break;
         }
+    }
         ((S_80170A84_0 *)effect)->unk_2C.u = 2;
         ((S_80170A84_0 *)effect)->unk_36.s = 0;
         ((S_80170A84_0 *)effect)->unk_38 = 20;

@@ -36,7 +36,7 @@ void func_8004B08C(S_8004AFE8 **entries) {
     group_category = 0;
     if (*group != 0) {
         work_buf = rank_table;
-    next_group:
+next_group:
         if (group != 0) {
             entry_category = (*group)->unk1;
             if (entry_category != group_category) {

@@ -62,9 +62,8 @@ void func_8001D0F4(DungeonRect *rect)
 
     if (slot_index >= 0) {
         item_category_table = D_80073414;
-        
-        
-        
+
+
         for (; slot_index >= 0; slot_index--) {
             x_offset = func_800A6DA4(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
             y_offset = func_800A6DA4(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
@@ -79,7 +78,7 @@ void func_8001D0F4(DungeonRect *rect)
                     kind_roll = func_800A6D30() & 0xFFFF;
                     item_kind = (kind_roll % 19) + 1;
                     item_flags = *(u16 *)(item_category_table[21].entries +
-                                           ((s16)item_kind * 12));
+                                          ((s16)item_kind * 12));
                     stored_kind = item_kind;
                     if ((item_flags & 0x3000) == 0x3000) {
                         continue;

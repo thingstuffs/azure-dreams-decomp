@@ -2,8 +2,18 @@
 #include "shared/object_flags.h"
 
 typedef struct S_801712C4_0 {
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_00;   /* overlapping accesses */
-    union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; s8 v; } at01;
+        struct { u8 pad[0x2]; s8 v; } at02;
+    } unk_04;   /* overlapping accesses */
     s32 unk_08;
     u8 pad_0C[0xB];
     u8 unk_17;
@@ -21,7 +31,6 @@ typedef struct S_801712C4_1 {
     s32 unk_04;
     s32 unk_08;
 } S_801712C4_1;   /* arg1 in func_801712C4 */
-
 
 
 extern void func_801710B8(void *, void *, s32);

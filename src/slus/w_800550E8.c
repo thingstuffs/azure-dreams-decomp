@@ -84,7 +84,7 @@ void func_800550E8(void)
             D_800848F8.unk16 = 2;
         }
         goto done;
-    set_default:
+set_default:
         D_800848F8.unk16 = 0xA;
     } else {
         D_800848FC[0] = 3;

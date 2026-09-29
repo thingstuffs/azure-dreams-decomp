@@ -44,7 +44,7 @@ typedef struct S_80175858_4 {
 
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
     s32 words[6];

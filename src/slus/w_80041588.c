@@ -135,11 +135,14 @@ case_6:
         do {
             color++;
             color_idx = 1;
-            loop_1: {
+loop_1:
+            {
                 *color |= 0x8000;
                 color_idx++;
                 color++;
-            } if (color_idx < 16) goto loop_1;
+            }
+            if (color_idx < 16)
+                goto loop_1;
             item_idx++;
         } while (item_idx < item_count);
     }
@@ -172,11 +175,14 @@ case_9:
     if (item_idx > 0) {
         u32 reloc_base = (u32)base | 0x80000000;
         data += 4;
-        loop_1_: {
+loop_1_:
+        {
             *(u32 *)data += reloc_base;
             item_idx--;
             data += 8;
-        } if (item_idx > 0) goto loop_1_;
+        }
+        if (item_idx > 0)
+            goto loop_1_;
     }
 advance:
     if (cmd->next == 0) {

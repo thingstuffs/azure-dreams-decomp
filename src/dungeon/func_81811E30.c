@@ -11,7 +11,7 @@ s32 func_80026E30(s32 target_value) {
     u8 value;
 
     count = 0;
-    index = count; 
+    index = count;
     entry = &D_800157D2;
 loop:
     value = *entry;

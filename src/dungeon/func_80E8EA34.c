@@ -91,7 +91,8 @@ void func_80174234(S_80174234_0 *owner, void *unused, S_80174234_1 *part, S_8017
             sprite = func_80170908(part, actor);
             if (sprite != NULL) {
                 actor->unk_48.at48 = *(Packed4 *) sprite;
-                anim = func_80099368(sprite, func_80099194(&D_801708AC, func_8009929C(0xA, func_80099194(&D_8017089C, func_80099734(actor, session)))));
+                anim = func_80099368(sprite, func_80099194(&D_801708AC, func_8009929C(0xA, func_80099194(&D_8017089C,
+                    func_80099734(actor, session)))));
                 anim = func_80099194(&D_801708B8, anim);
             } else {
                 anim = func_80099194(&D_801708BC, func_80099734(actor, session));

@@ -116,7 +116,6 @@ typedef struct S_801728C4_10 {
 } S_801728C4_10;   /* ((S_801728C4_7 *)entity)->unk_08 in func_801728C4 */
 
 
-
 extern u8 D_80170E84[];
 extern u8 D_80174820[];
 extern u8 D_80174850[];

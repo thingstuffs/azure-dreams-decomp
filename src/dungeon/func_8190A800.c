@@ -3,7 +3,7 @@
 #ifdef __mips__
 /* Proven 43-word literal/pointer prefix; this is row data, not C code. */
 static const u32 bank_words[] __asm__("func_8190A800")
-    __attribute__((section(".text.func_8190A800"), aligned(4))) = {
+__attribute__((section(".text.func_8190A800"), aligned(4))) = {
     0x80024AD0, 0x93826681, 0x8C824081, 0x96828582,
     0x8C828582, 0x84824081, 0x84828982, 0x66818E82,
     0x40819482, 0x85828482, 0x92828382, 0x81828582,

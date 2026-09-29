@@ -155,7 +155,8 @@ command:
     {
         opcode = U8_AT(work, 1);
         opcode &= 0xFC;
-        if (opcode != 0x2C) goto big;
+        if (opcode != 0x2C)
+            goto big;
     }
     {
         if (U8_AT(work, 8) + U8_AT(work, 0xA) >= 0x100) {

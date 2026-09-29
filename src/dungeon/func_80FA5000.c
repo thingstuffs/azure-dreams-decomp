@@ -44,7 +44,6 @@ typedef struct S_80FA5000_4 {
 } S_80FA5000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_800A6D30(void); /* Retail RNG reads no argument registers. */
@@ -61,7 +60,7 @@ extern void *func_80152800();
 
 #ifdef __mips__
 static const u32 data_prefix[] __asm__("func_80152800")
-    __attribute__((section(".text.func_80152800"), aligned(4))) = {
+__attribute__((section(".text.func_80152800"), aligned(4))) = {
     0x80152880, 0x80152A70,
     0x8015356C, 0x8015356C, 0x8015356C, 0x80153598,
     0x80153518, 0x80153518, 0x80153518, 0x801534E0,
@@ -81,9 +80,9 @@ __asm__(".globl func_80152800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_80152800")))
+__attribute__((section(".text.func_80152800")))
 #endif
-    ;
+;
 
 void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {

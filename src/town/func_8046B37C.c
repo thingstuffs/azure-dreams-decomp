@@ -3,7 +3,6 @@
 #include "records/Rec_D_8001E950.h"
 
 
-
 s32 func_8001E670();                             /* extern */
 extern s16 D_8001792C;
 extern Rec_D_8001E950 *D_8001E950;

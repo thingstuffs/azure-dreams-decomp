@@ -77,7 +77,7 @@ extern void func_800A56E0(s32);
 #ifdef __mips__
 
 static const u32 bank_words[] __asm__("func_81257000")
-    __attribute__((section(".text.func_81257000"), aligned(4))) = {
+__attribute__((section(".text.func_81257000"), aligned(4))) = {
     0x8016AF84, 0x8016B12C, 0x8016B8C0, 0x8016B8C0,
     0x8016B8C0, 0x8016B8E8, 0x8016B894, 0x8016B894,
     0x8016B894, 0x8016B894, 0x8016B894, 0x8016B8E8,
@@ -96,7 +96,7 @@ static const u32 bank_words[] __asm__("func_81257000")
 #endif
 
 void BODY_NAME(void *root_arg, void *out_pos_arg, void *dst_part_arg)
-    __attribute__((section(".text.func_81257000")));
+__attribute__((section(".text.func_81257000")));
 /* Copies part state, applies averaged position offsets, and updates phase-based shading. */
 void BODY_NAME(void *root_arg, void *out_pos_arg, void *dst_part_arg)
 {
@@ -192,7 +192,7 @@ void BODY_NAME(void *root_arg, void *out_pos_arg, void *dst_part_arg)
 
 #ifdef __mips__
 __asm__(
-    ".globl func_81257000\n"
-    ".type func_81257000,@function\n"
-    ".size func_81257000,848\n");
+        ".globl func_81257000\n"
+        ".type func_81257000,@function\n"
+        ".size func_81257000,848\n");
 #endif

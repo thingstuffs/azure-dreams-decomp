@@ -145,18 +145,24 @@ s32 func_80023258(S_80023258_0 *state)
         *offset_slot = next_offset;
         offset = ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C;
 
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8))->unk_04))->unk_08 =
+        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1C8))->unk_04))->unk_08 =
             offset + 0x24;
-        ((S_80023258_12 *)(((S_80023258_7 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1D8))->unk_04))->unk_08 =
+        ((S_80023258_12 *)(((S_80023258_7 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1D8))->unk_04))->unk_08 =
             offset + 0x8F;
-        ((S_80023258_13 *)(((S_80023258_8 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1A8))->unk_04))->unk_08 =
+        ((S_80023258_13 *)(((S_80023258_8 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1A8))->unk_04))->unk_08 =
             offset + 9;
-        ((S_80023258_14 *)(((S_80023258_9 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1B8))->unk_04))->unk_08 =
+        ((S_80023258_14 *)(((S_80023258_9 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1B8))->unk_04))->unk_08 =
             offset + 0x42;
 
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8))->unk_04))->unk_00 =
+        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1C8))->unk_04))->unk_00 =
             ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 3 + 0x68;
-        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8))->unk_04))->unk_01 =
+        ((S_80023258_11 *)(((S_80023258_6 *)(((S_80023258_4 *)((u8 *)state
+            + entry_index * 4))->unk_1C8))->unk_04))->unk_01 =
             ((S_80023258_3 *)((u8 *)state + entry_index))->unk_7C * 3 + 0x68;
         color_node = ((S_80023258_4 *)((u8 *)state + entry_index * 4))->unk_1C8;
         ((S_80023258_10 *)(((S_80023258_5 *)color_node)->unk_04))->unk_02 =

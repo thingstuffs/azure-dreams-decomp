@@ -1,7 +1,14 @@
 #include "common.h"
 #define F(p,t,o) (*(t)((u8 *)(p)+(o)))
-extern s16 D_80083228; extern s32 D_80045340, D_80083498, D_801714B0, D_80174C5C; extern void *D_80174CDC[3];
-extern void *func_8003FD64(); extern void func_8004491C(); extern void func_80047784(); extern void func_8009A028(); extern void func_8009A3D0(); extern void func_800A9C18();
+extern s16 D_80083228;
+extern s32 D_80045340, D_80083498, D_801714B0, D_80174C5C;
+extern void * D_80174CDC[3];
+extern void * func_8003FD64();
+extern void func_8004491C();
+extern void func_80047784();
+extern void func_8009A028();
+extern void func_8009A3D0();
+extern void func_800A9C18();
 
 /* Create and initialize an object at the supplied coordinates and store it globally. */
 void func_80171594(u16 x, u16 y, s32 z) {

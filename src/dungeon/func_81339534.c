@@ -105,21 +105,21 @@ void func_80170534(void *state_data, void *unused, void *color_data) {
         }
         break;
     case 4:
-        {
-            u8 *flags_page;
-            u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
-            flags_page = (u8 *) 0x80080000;
-            flags = (u16) (flags | 0x8000);
-            ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
+    {
+        u8 *flags_page;
+        u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
+        flags_page = (u8 *) 0x80080000;
+        flags = (u16) (flags | 0x8000);
+        ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
 #ifdef NON_MATCHING
-            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
 #else
-            *(s32 *)(flags_page + 0x14A0) |= 0x8000;
+        *(s32 *)(flags_page + 0x14A0) |= 0x8000;
 #endif
-        }
+    }
     case 0:
     case 3:
     default:
-            break;
+        break;
     }
 }

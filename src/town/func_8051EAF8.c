@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 
 
-
 typedef void (*Callback)(s32);
 
 

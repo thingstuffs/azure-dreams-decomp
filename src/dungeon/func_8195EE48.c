@@ -22,7 +22,6 @@ typedef struct S_8195EE48_1 {
 } S_8195EE48_1;   /* arg1 in func_8195EE48 */
 
 
-
 extern s32 rand();
 extern u16 D_80027330[5];
 

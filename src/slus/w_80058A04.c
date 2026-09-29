@@ -9,18 +9,15 @@ s32 func_80058A04(s32 stream)
     s32 value;
 
     byte = func_800589B8(stream);
-    if (byte == 0)
-    {
+    if (byte == 0) {
         return 0;
     }
     value = byte;
-    if (!(value & 0x80))
-    {
+    if (!(value & 0x80)) {
         return value;
     }
     value = value & 0x7F;
-    do
-    {
+    do {
         byte = func_800589B8(stream);
         value = (value << 7) + (byte & 0x7F);
     } while (byte & 0x80);

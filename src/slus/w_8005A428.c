@@ -26,20 +26,16 @@ void func_8005A428(void)
 
     func_80056C30();
 
-    if (D_80086D4C[0] > 0)
-    {
-        if (D_80086D4C[0] < 4)
-        {
+    if (D_80086D4C[0] > 0) {
+        if (D_80086D4C[0] < 4) {
             func_8005863C();
         }
     }
     slot_index = 0;
 
     slot = D_80086A40;
-    for (; slot_index < 8; slot_index++, slot++)
-    {
-        if (slot->unk00 >= 0)
-        {
+    for (; slot_index < 8; slot_index++, slot++) {
+        if (slot->unk00 >= 0) {
             func_8005A1D0(slot->unk10);
         }
     }

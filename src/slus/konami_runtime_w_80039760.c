@@ -23,5 +23,6 @@ void func_80039760(S_80039760_0 *vm) {
     S_80039760_1 *jump_entry;
 
     jump_entry = (vm->unk_27 * 4) + vm->unk_1C;
-    vm->unk_1C = (s32) (jump_entry->unk_00 + (jump_entry->unk_01 << 8) + (jump_entry->unk_02 << 0x10) + (jump_entry->unk_03 << 0x18));
+    vm->unk_1C = (s32) (jump_entry->unk_00 + (jump_entry->unk_01 << 8) + (jump_entry->unk_02 << 0x10)
+        + (jump_entry->unk_03 << 0x18));
 }

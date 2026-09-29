@@ -65,16 +65,17 @@ void func_8016DF94(void) {
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
 loop:
-        map_base = ((s32)entry_slot << 16) >> 14;
-        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
-        if (entry != 0) {
+    map_base = ((s32)entry_slot << 16) >> 14;
+    entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
+    if (entry != 0) {
 
-            func_8016A908(entry);
-            func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC]);
-            entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
-            entry -= 0x20;
-            *(u32 *)(entry + 0x10) |= 0x80000000;
-        }
-        entry_slot++;
-    if (entry_slot < 2) goto loop;
+        func_8016A908(entry);
+        func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC]);
+        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
+        entry -= 0x20;
+        *(u32 *)(entry + 0x10) |= 0x80000000;
+    }
+    entry_slot++;
+    if (entry_slot < 2)
+        goto loop;
 }

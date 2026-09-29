@@ -22,7 +22,7 @@ typedef void (*Callback)(void);
 
 #ifdef __mips__
 static Callback const func_8184A800_table[]
-    __attribute__((section(".text.func_8184A800"))) = {
+__attribute__((section(".text.func_8184A800"))) = {
     func_80025090,
     0,
     func_80025080,

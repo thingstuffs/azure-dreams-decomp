@@ -23,9 +23,9 @@ void func_8003A684(Func8003A684State *state) {
     state->read_ptr = stream_ptr;
     if (((Func8003A684Entry *)((u8 *)state->table + table_index * 4))->value < 0) {
         u32 jump_address = (u32)stream_ptr[0]
-                         + ((u32)stream_ptr[1] << 8)
-                         + ((u32)stream_ptr[2] << 16)
-                         + ((u32)stream_ptr[3] << 24);
+        + ((u32)stream_ptr[1] << 8)
+        + ((u32)stream_ptr[2] << 16)
+        + ((u32)stream_ptr[3] << 24);
         state->read_ptr = (u8 *)jump_address;
     } else {
         state->read_ptr = stream_ptr + 4;

@@ -15,9 +15,6 @@ typedef struct S_801724F4_1 {
 } S_801724F4_1;   /* arg0 in func_801724F4 */
 
 
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *, void *, s32, s32);
 extern void func_800A2B04(void *, s32, s32);
@@ -80,11 +77,11 @@ void func_801724F4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         }
         return;
     case 0xFF:
-        {
-            s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            s32 current_x = motion->x.w.i - 0x20;
-            motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
-        }
+    {
+        s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+        s32 current_x = motion->x.w.i - 0x20;
+        motion->unk_0C = ((target_x - current_x) << 0xF) >> 1;
+    }
         {
             s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
             s32 current_y = motion->y.w.i - 0x20;

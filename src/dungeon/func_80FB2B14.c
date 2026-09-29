@@ -5,7 +5,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80172314_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;
@@ -14,7 +13,6 @@ typedef struct S_80172314_2 {
     u8 unk_9A;
     u8 unk_9B;
 } S_80172314_2;   /* arg0 in func_80172314 */
-
 
 
 extern s32 func_80047784();

@@ -18,9 +18,6 @@ typedef struct S_80173354_1 {
 } S_80173354_1;   /* arg0 in func_80173354 */
 
 
-
-
-
 extern void func_80047784(void *, u8, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);

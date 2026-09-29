@@ -32,7 +32,6 @@ typedef struct S_80171570_3 {
 } S_80171570_3;   /* (u8 *)state + ((S_80171570_0 *)state)->unk_8A in func_80171570 */
 
 
-
 extern void func_80047784(void *, s16, s16);
 extern void func_8009A21C(s32, s32, s32);
 extern void func_8009A3D0(s32, s32, s32);
@@ -100,7 +99,8 @@ void func_80171570(void *action, s32 action_id, void *entity, void *move_state) 
     func_8009A21C(new_x, new_y, tile_mask);
     ((S_80171570_0 *)state)->unk_2A = direction;
 
-    if (move_result == 3 && !(dungeonStatus.flags & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
+    if (move_result == 3 && !(dungeonStatus.flags & 0x80)
+        && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
         func_80171EFC(action, action_id, entity, state);
         ((S_80171570_2 *)action)->unk_8C = 0;
     } else {

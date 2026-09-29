@@ -25,13 +25,15 @@ typedef struct S_80171400_1 {
 
 typedef struct S_80171400_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80171400_2;   /* arg2 in func_80171400 */
-
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -185,15 +187,15 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
         switch ((((S_80171400_1 *)entity)->unk_46 & 0x3FFF) - 1) {
         case 7:
         case 8:
-        if ((func_80172270(actor, context, sprite_in, entity) << 16) != 0) {
+            if ((func_80172270(actor, context, sprite_in, entity) << 16) != 0) {
+                return;
+            }
+            func_80172434(actor, context, sprite_in, entity);
             return;
-        }
-        func_80172434(actor, context, sprite_in, entity);
-        return;
 
         case 11:
-        func_800A9A0C(entity);
-        return;
+            func_800A9A0C(entity);
+            return;
 
         case 4:
         case 5:
@@ -229,8 +231,8 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
         }
 
         default:
-        func_80171B28(actor, context, sprite_in, entity);
-        return;
+            func_80171B28(actor, context, sprite_in, entity);
+            return;
         }
     }
 

@@ -116,7 +116,8 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
         func_8004491C(effect_object, func_80045340);
         ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
-        func_80047784(sprite, D_80174C74[((s32) (gameWork.view.viewAngle + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
+        func_80047784(sprite, D_80174C74[((s32) (gameWork.view.viewAngle
+            + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
         effect_pos = ((S_80172B00_1 *)effect_object)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;

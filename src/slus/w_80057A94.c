@@ -123,6 +123,6 @@ void func_80057A94(S_80057A94 *command) {
     case 21:
     case 22:
     default:
-            break;
+        break;
     }
 }

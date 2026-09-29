@@ -47,7 +47,6 @@ typedef struct S_80170F9C_4 {
 } S_80170F9C_4;   /* work_copy in func_80170F9C */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_800A48F0();

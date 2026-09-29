@@ -150,25 +150,25 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
             goto kind_1;
 
 not_special:
-        {
-            s32 action_kind;
+            {
+                s32 action_kind;
 
-            action_kind = actor_data->unk_46 & 0x3FFF;
-            if (action_kind == 2) {
-                goto kind_2;
-            }
-            if (action_kind < 3) {
-                item_slot = 0;
-                if (action_kind == 1) {
-                    goto kind_1;
+                action_kind = actor_data->unk_46 & 0x3FFF;
+                if (action_kind == 2) {
+                    goto kind_2;
                 }
-                goto selection_ready;
+                if (action_kind < 3) {
+                    item_slot = 0;
+                    if (action_kind == 1) {
+                        goto kind_1;
+                    }
+                    goto selection_ready;
+                }
+                if (action_kind != 3) {
+                    item_slot = 0;
+                    goto selection_ready;
+                }
             }
-            if (action_kind != 3) {
-                item_slot = 0;
-                goto selection_ready;
-            }
-        }
 
         case 2:
 kind_3:
@@ -320,7 +320,7 @@ empty_selection:
         }
         sprite->unk_14 &= 0xF7FF;
         actor->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
 
     case 2:
         if (actor->unk_A8 != 0) {

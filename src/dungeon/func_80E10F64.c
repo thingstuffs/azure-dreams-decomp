@@ -15,7 +15,6 @@ typedef struct S_80174764_0 {
 } S_80174764_0;   /* arg0 in func_80174764 */
 
 
-
 typedef struct S_80174764_3 {
     u8 pad_00[0x14];
     s32 unk_14;
@@ -25,7 +24,6 @@ typedef struct S_80174764_4 {
     u8 pad_00[0x14];
     s32 unk_14;
 } S_80174764_4;   /* ((Rec_D_800E3D7C *)arg3)->unk_60.as_pv in func_80174764 */
-
 
 
 extern void func_80047784(void *, s16, s16);

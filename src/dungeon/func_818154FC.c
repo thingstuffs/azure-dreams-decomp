@@ -224,46 +224,47 @@ initialize:
     ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
 
 update_position:
-  {
-    u16 position_z;
-    u16 final_z;
-    s32 delta_z;
+    {
+        u16 position_z;
+        u16 final_z;
+        s32 delta_z;
 
-    parent_sprite = parent_node->unk_0C;
-    if ((func_8003DF74(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0) || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-        position->unk_00.at02.v = (u16) parent_position->unk_02;
-        position->unk_04.at02.v = (u16) parent_position->unk_06;
-        position_z = parent_position->unk_0A;
-        position->unk_08.at02.v = position_z;
-        if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-            position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
-            position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
-            final_z = position->unk_08.at02.v;
-            delta_z = offset.z;
-            final_z += delta_z;
-            position->unk_08.at02.v = final_z;
-        } else {
-            final_z = position_z - 0x40;
-            position->unk_08.at02.v = final_z;
-        }
-        {
-            s32 coord;
-            s32 coord_2;
+        parent_sprite = parent_node->unk_0C;
+        if ((func_8003DF74(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
+            || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
+            position->unk_00.at02.v = (u16) parent_position->unk_02;
+            position->unk_04.at02.v = (u16) parent_position->unk_06;
+            position_z = parent_position->unk_0A;
+            position->unk_08.at02.v = position_z;
+            if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
+                position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
+                position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
+                final_z = position->unk_08.at02.v;
+                delta_z = offset.z;
+                final_z += delta_z;
+                position->unk_08.at02.v = final_z;
+            } else {
+                final_z = position_z - 0x40;
+                position->unk_08.at02.v = final_z;
+            }
+            {
+                s32 coord;
+                s32 coord_2;
 
-            ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
-            coord_2 = position->unk_04.at00.v;
-            ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
-            coord = position->unk_08.at00.v;
-            ((S_818154FC_0 *)effect)->unk_B8 = coord;
+                ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
+                coord_2 = position->unk_04.at00.v;
+                ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
+                coord = position->unk_08.at00.v;
+                ((S_818154FC_0 *)effect)->unk_B8 = coord;
+            }
+            if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
+                ((S_818154FC_0 *)effect)->unk_84.s = 0U;
+                ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
+                func_800A56E0(0x300);
+            }
         }
-        if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
-            ((S_818154FC_0 *)effect)->unk_84.s = 0U;
-            ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
-            func_800A56E0(0x300);
-        }
+        return;
     }
-    return;
-  }
 
 spawn_effects:
     spawn_tick = ((S_818154FC_0 *)effect)->unk_84.s + 1;
@@ -424,24 +425,24 @@ wait_effects:
         goto check_timeout;
     }
 check_timeout:
-  {
-    u16 old_counter = ((S_818154FC_0 *)effect)->unk_84.s;
-    s16 new_counter = old_counter + 1;
+    {
+        u16 old_counter = ((S_818154FC_0 *)effect)->unk_84.s;
+        s16 new_counter = old_counter + 1;
 
-    ((S_818154FC_0 *)effect)->unk_84.s = new_counter;
-    if (((S_818154FC_0 *)effect)->unk_86 < new_counter) {
-        s32 global_state = D_80025338[0];
+        ((S_818154FC_0 *)effect)->unk_84.s = new_counter;
+        if (((S_818154FC_0 *)effect)->unk_86 < new_counter) {
+            s32 global_state = D_80025338[0];
 
-        ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
-        if (global_state == 0) {
-            dungeonStatus.unk_0C = 0;
-            ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-        } else {
-            D_80025338[0] = 0;
+            ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
+            if (global_state == 0) {
+                dungeonStatus.unk_0C = 0;
+                ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            } else {
+                D_80025338[0] = 0;
+            }
         }
     }
-  }
 
     return;
 }

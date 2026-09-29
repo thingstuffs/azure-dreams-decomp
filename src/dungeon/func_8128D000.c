@@ -77,7 +77,7 @@ extern s32 D_800803D4[3];
 #ifdef __mips__
 
 static const u32 bank_words[] __asm__("func_8128D000")
-    __attribute__((section(".text.func_8128D000"), aligned(4))) = {
+__attribute__((section(".text.func_8128D000"), aligned(4))) = {
     0x8015DF84, 0x8015E12C, 0x8015E8C0, 0x8015E8C0,
     0x8015E8C0, 0x8015E8E8, 0x8015E894, 0x8015E894,
     0x8015E894, 0x8015E894, 0x8015E894, 0x8015E8E8,
@@ -96,7 +96,7 @@ static const u32 bank_words[] __asm__("func_8128D000")
 #endif
 
 void BODY_NAME(void *root_data, void *out_coords, void *dst_data)
-    __attribute__((section(".text.func_8128D000")));
+__attribute__((section(".text.func_8128D000")));
 /* Copy part state, apply smoothed motion offsets, and update transition brightness. */
 void BODY_NAME(void *root_data, void *out_coords, void *dst_data)
 {
@@ -194,7 +194,7 @@ void BODY_NAME(void *root_data, void *out_coords, void *dst_data)
 
 #ifdef __mips__
 __asm__(
-    ".globl func_8128D000\n"
-    ".type func_8128D000,@function\n"
-    ".size func_8128D000,848\n");
+        ".globl func_8128D000\n"
+        ".type func_8128D000,@function\n"
+        ".size func_8128D000,848\n");
 #endif

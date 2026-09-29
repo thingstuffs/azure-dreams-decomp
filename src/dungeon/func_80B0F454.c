@@ -21,10 +21,6 @@ typedef struct S_80154C54_0 {
 } S_80154C54_0;   /* arg0 in func_80154C54 */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -71,7 +67,7 @@ void func_80154C54(void *action, void *motion, void *sprite, void *actor)
         ((S_80154C54_0 *)action)->unk_9E.s = 5;
         ((S_80154C54_0 *)action)->unk_A4 = 0;
         ((S_80154C54_0 *)action)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         move_frames = ((S_80154C54_0 *)action)->unk_9E.s;
         ((S_80154C54_0 *)action)->unk_90 -= ((S_80154C54_0 *)action)->unk_A4;
@@ -106,7 +102,7 @@ void func_80154C54(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80154C54_0 *)action)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if (((EntityRec *)actor)->flags1C & 0x08000000) {
             ((S_80154C54_0 *)action)->unk_98 &= 0xFFF7;

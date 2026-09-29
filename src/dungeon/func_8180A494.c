@@ -155,46 +155,48 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
             sprite->unk_0E = next_fade_in;
             sprite->unk_0D = next_fade_in;
             sprite->unk_0C = next_fade_in;
-    }
-    fade_in_left = object->unk_73.u - 1;
-    object->unk_73.u = fade_in_left;
-    if ((fade_in_left << 0x18) <= 0) {
-        sprite->unk_0E = 0x80U;
-        sprite->unk_0D = 0x80U;
-        sprite->unk_0C = 0x80U;
-        object->unk_73.u = 0U;
-        object->unk_72.u = (u8) (object->unk_72.u + 1);
-    }
+        }
+        fade_in_left = object->unk_73.u - 1;
+        object->unk_73.u = fade_in_left;
+        if ((fade_in_left << 0x18) <= 0) {
+            sprite->unk_0E = 0x80U;
+            sprite->unk_0D = 0x80U;
+            sprite->unk_0C = 0x80U;
+            object->unk_73.u = 0U;
+            object->unk_72.u = (u8) (object->unk_72.u + 1);
+        }
     case 2:
-    if (D_8002715A != 0) {
-        object->unk_73.u = 8U;
-        position->unk_16 = 8;
-        object->unk_72.u = (u8) (object->unk_72.u + 1);
-    }
-    break;
+        if (D_8002715A != 0) {
+            object->unk_73.u = 8U;
+            position->unk_16 = 8;
+            object->unk_72.u = (u8) (object->unk_72.u + 1);
+        }
+        break;
     case 3:
-    fade_out_ticks = object->unk_73.s;
-    if (fade_out_ticks != 0) {
-        fade_out_level = sprite->unk_0E;
-        next_fade_out = fade_out_level + ((s32) (0 - fade_out_level) / fade_out_ticks);
-        sprite->unk_0E = next_fade_out;
-        sprite->unk_0D = next_fade_out;
-        sprite->unk_0C = next_fade_out;
-    }
-    fade_out_left = (u8) object->unk_73.s - 1;
-    object->unk_73.s = fade_out_left;
-    if ((fade_out_left << 0x18) <= 0) {
-        object->unk_72.u = (u8) (object->unk_72.u + 1);
-    }
-    break;
+        fade_out_ticks = object->unk_73.s;
+        if (fade_out_ticks != 0) {
+            fade_out_level = sprite->unk_0E;
+            next_fade_out = fade_out_level + ((s32) (0 - fade_out_level) / fade_out_ticks);
+            sprite->unk_0E = next_fade_out;
+            sprite->unk_0D = next_fade_out;
+            sprite->unk_0C = next_fade_out;
+        }
+        fade_out_left = (u8) object->unk_73.s - 1;
+        object->unk_73.s = fade_out_left;
+        if ((fade_out_left << 0x18) <= 0) {
+            object->unk_72.u = (u8) (object->unk_72.u + 1);
+        }
+        break;
     default:
-    motion->unk_96 = 0;
-    return;
+        motion->unk_96 = 0;
+        return;
     }
     move_ticks = motion->unk_96;
     if (move_ticks != 0) {
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->unk_24 - 1) << 6) - (s16) position->unk_00.at02.v) << 0x10) / move_ticks));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((s32) ((((sprite->unk_25 - 1) << 6) - (s16) position->unk_04.at02.v) << 0x10) / (s16) motion->unk_96));
+        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->unk_24 - 1) << 6)
+            - (s16) position->unk_00.at02.v) << 0x10) / move_ticks));
+        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((s32) ((((sprite->unk_25 - 1) << 6)
+            - (s16) position->unk_04.at02.v) << 0x10) / (s16) motion->unk_96));
         move_ticks_left = (u16) motion->unk_96 - 1;
         motion->unk_96 = move_ticks_left;
         if ((move_ticks_left << 0x10) <= 0) {

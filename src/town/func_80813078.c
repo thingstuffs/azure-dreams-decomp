@@ -7,7 +7,6 @@ typedef struct S_8052DC78_0 {
 } S_8052DC78_0;   /* arg0 in func_8052DC78 */
 
 
-
 extern void func_8006E854(s16 *rect, u8 *image);
 
 extern s32 D_80084D5C;

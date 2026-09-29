@@ -26,7 +26,6 @@ typedef struct S_801721A4_2 {
 } S_801721A4_2;   /* part in func_801721A4 */
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800A2BDC(void *);
 extern void func_800A56E0(s32);

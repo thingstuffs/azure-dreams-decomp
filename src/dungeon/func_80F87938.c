@@ -34,14 +34,15 @@ typedef struct S_80171138_1 {
 
 typedef struct S_80171138_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80171138_2;   /* arg2 in func_80171138 */
-
-
-
 
 
 extern void func_80047784(void *, u8, s32);
@@ -191,15 +192,15 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
 
         switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
         case 8:
-        func_801740F4(actor, context, sprite, stats);
-        return;
+            func_801740F4(actor, context, sprite, stats);
+            return;
 
         case 9:
-        if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
+            if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
+                return;
+            }
+            func_80172138(actor, context, sprite, stats);
             return;
-        }
-        func_80172138(actor, context, sprite, stats);
-        return;
 
         case 5:
         case 6:
@@ -221,23 +222,23 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
 
         case 12:
 case_12:
-        func_800A9A0C(stats);
-        return;
+            func_800A9A0C(stats);
+            return;
 
         case 1:
         case 2:
         case 3:
 call_aaf:
-        func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
-        return;
+            func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
+            return;
 
         case 4:
         case 10:
         case 11:
         default:
 default_case:
-        func_8017182C(actor, context, sprite, stats);
-        return;
+            func_8017182C(actor, context, sprite, stats);
+            return;
         }
     }
 

@@ -20,7 +20,12 @@ typedef struct S_80165AB8_0 {
 typedef struct S_80165AB8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
@@ -74,7 +79,8 @@ void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
         counter_check = (s16)counter_check < 60;
         goto check_counter;
 
-    case 1: {
+    case 1:
+    {
         s32 source_size = ((S_80165AB8_2 *)sprite)->unk_1E;
         next_tick = source_size << 1;
         next_tick += source_size;
@@ -116,10 +122,10 @@ check_counter:
         }
 
 finish:
-    (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+        (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
 
-    return;
+        return;
     default:
         return;
     }

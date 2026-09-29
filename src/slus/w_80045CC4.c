@@ -25,7 +25,11 @@ typedef struct S_80045CC4_0 {
     u8 pad_1A[0x2];
     union { u16 u; s16 s; } unk_1C;   /* accessed as both */
     union { u16 u; s16 s; } unk_1E;   /* accessed as both */
-    union { struct { s16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_20;   /* overlapping accesses */
+    union {
+        struct { s16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_20;   /* overlapping accesses */
 } S_80045CC4_0;   /* poly in func_80045CC4 */
 
 typedef struct S_80045CC4_1_pre {

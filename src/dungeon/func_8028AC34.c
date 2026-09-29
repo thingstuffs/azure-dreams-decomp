@@ -19,7 +19,6 @@ typedef struct S_8001DC34_1 {
 } S_8001DC34_1;   /* var_a0 in func_8001DC34 */
 
 
-
 extern u8 D_800E9FFA[];
 
 /* Clear a padded rectangle of grid entries and reset the region state. */

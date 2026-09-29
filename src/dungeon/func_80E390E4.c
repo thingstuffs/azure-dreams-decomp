@@ -102,82 +102,82 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
     goto *D_80170838[state];
 
 L0:
-{
-    void *source_entity;
+    {
+        void *source_entity;
 
-    item = 0;
-    if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
-        s32 kind_index = (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) - 1;
+        item = 0;
+        if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
+            s32 kind_index = (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) - 1;
 
-        if ((u32)kind_index >= 7) {
-            goto HaveSource;
-        }
-        goto *D_80170850[kind_index];
+            if ((u32)kind_index >= 7) {
+                goto HaveSource;
+            }
+            goto *D_80170850[kind_index];
 
 KESpecial:
-        use_global_source = 1;
-        goto KE;
+            use_global_source = 1;
+            goto KE;
 KBSpecial:
-        use_global_source = 1;
-        goto KB;
+            use_global_source = 1;
+            goto KB;
 K8Special:
-        use_global_source = 1;
-        goto K8;
-    }
+            use_global_source = 1;
+            goto K8;
+        }
 
-    item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
-    switch (item_kind) {
-    case 1:
-        goto K8;
-    case 2:
-        goto KB;
-    case 3:
-        goto KE;
-    default:
-        goto HaveSource;
-    }
+        item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
+        switch (item_kind) {
+        case 1:
+            goto K8;
+        case 2:
+            goto KB;
+        case 3:
+            goto KE;
+        default:
+            goto HaveSource;
+        }
 
 KE:
-    item = (u8 *)act + 0xE;
-    goto HaveSource;
+        item = (u8 *)act + 0xE;
+        goto HaveSource;
 KB:
-    item = (u8 *)act + 0xB;
-    goto HaveSource;
+        item = (u8 *)act + 0xB;
+        goto HaveSource;
 K8:
-    item = (u8 *)act + 8;
+        item = (u8 *)act + 8;
 KNone:
 HaveSource:
-    if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
-        return;
-    }
-
-    {
-        s16 global_source_test;
-
-        ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
-        global_source_test = use_global_source;
-        if (global_source_test) {
-            source_entity = D_800814A8;
-            ((S_801728E4_1 *)act)->unk_60 = source_entity;
-            goto CopyFacing;
+        if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
+            return;
         }
-    }
 
-    if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].kind != 2) {
-        goto MakeSource;
-    }
+        {
+            s16 global_source_test;
 
-    source_entity = ((S_801728E4_1 *)act)->unk_60;
-    if (source_entity == 0) {
-        goto CallUpdate;
-    }
+            ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
+            global_source_test = use_global_source;
+            if (global_source_test) {
+                source_entity = D_800814A8;
+                ((S_801728E4_1 *)act)->unk_60 = source_entity;
+                goto CopyFacing;
+            }
+        }
+
+        if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].kind != 2) {
+            goto MakeSource;
+        }
+
+        source_entity = ((S_801728E4_1 *)act)->unk_60;
+        if (source_entity == 0) {
+            goto CallUpdate;
+        }
 
 CopyFacing:
-    source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
-    ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-    ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
-    goto Update;
-}
+        source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+        ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+        ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+        goto Update;
+    }
 
 MakeSource:
     {

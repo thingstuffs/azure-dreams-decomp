@@ -61,7 +61,8 @@ void func_80023BCC(void *anim)
     rect[1] = 0x1F8;
     phase = (s16)((S_80023BCC_0 *)anim)->unk_5E % 3;
     switch (phase) {
-    case 0: {
+    case 0:
+    {
         u8 *image = D_800246C0;
 
         rect[0] = 0xC0;
@@ -71,7 +72,8 @@ void func_80023BCC(void *anim)
         func_800672D8(rect, image - 0x40);
         break;
     }
-    case 1: {
+    case 1:
+    {
         u8 *image = D_80024680;
 
         rect[0] = 0xE0;

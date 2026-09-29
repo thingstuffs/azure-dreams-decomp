@@ -105,175 +105,175 @@ void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_ar
     item_or_audio_base = 0;
     switch (state) {
     case 0:
-    action_value = ((S_80173560_1 *)actor)->unk_46 & 0x3FFF;
-    state = action_value - 1;
-    switch (state) {
-    case 0:
-        item_or_audio_base = 1;
-        item_addr = (s32)((u8 *)actor + 0xE);
-        break;
+        action_value = ((S_80173560_1 *)actor)->unk_46 & 0x3FFF;
+        state = action_value - 1;
+        switch (state) {
+        case 0:
+            item_or_audio_base = 1;
+            item_addr = (s32)((u8 *)actor + 0xE);
+            break;
 
-    case 1:
-        item_or_audio_base = 1;
-        item_addr = (s32)((u8 *)actor + 0xB);
-        break;
+        case 1:
+            item_or_audio_base = 1;
+            item_addr = (s32)((u8 *)actor + 0xB);
+            break;
 
-    case 2:
-        item_or_audio_base = 1;
-        item_addr = (s32)((u8 *)actor + 8);
-        break;
+        case 2:
+            item_or_audio_base = 1;
+            item_addr = (s32)((u8 *)actor + 8);
+            break;
 
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    default:
-        item_addr = 0;
-        break;
-    }
-    action_value = ((S_80173560_0 *)action)->unk_98;
-    has_item = item_or_audio_base;
-    ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
-    state = *(u8 *)item_addr;
-    if (has_item != 0) {
-        state |= 0x80;
-    }
-    D_80175F6E = state;
-    if (has_item != 0) {
-        target = D_800814A8;
-        ((S_80173560_1 *)actor)->unk_60 = target;
-        goto copy_target_pos;
-    }
-
-    item_index = *(u8 *)item_addr;
-    item_type = D_8006DE24[item_index].kind;
-    if (item_type == 2) {
-        target = ((S_80173560_1 *)actor)->unk_60;
-        if (target != 0) {
-copy_target_pos:
-            state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
-            ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
-            ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        default:
+            item_addr = 0;
+            break;
         }
-    } else {
-        resource = func_800A05A4(actor, ((S_80173560_4 *)sprite)->unk_24,
-                            ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
-        ((S_80173560_1 *)actor)->unk_60 = resource;
-        ((S_80173560_1 *)actor)->unk_72.u = abs(((S_80173560_1 *)actor)->unk_72.s);
-        ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
-    }
+        action_value = ((S_80173560_0 *)action)->unk_98;
+        has_item = item_or_audio_base;
+        ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
+        state = *(u8 *)item_addr;
+        if (has_item != 0) {
+            state |= 0x80;
+        }
+        D_80175F6E = state;
+        if (has_item != 0) {
+            target = D_800814A8;
+            ((S_80173560_1 *)actor)->unk_60 = target;
+            goto copy_target_pos;
+        }
 
-    if (func_800A94A0(actor, (void *)item_addr, item_or_audio_base, (u8 *)action + 0x98) == 0) {
-        return;
-    }
-    if (item_or_audio_base != 0) {
-        D_800DCF50 = *(u8 *)item_addr;
-        ((S_80173560_1 *)actor)->unk_13 |= 0x80;
-    }
-    direction = ((gameWork.view.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    func_80047784(sprite, ((u8 *)((S_80173560_4 *)sprite)->unk_2C)[direction], 2);
-    ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
-    if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
-        func_80175814(actor);
-        func_80175D7C(actor);
-        ((S_80173560_0 *)action)->unk_9B.n++;
-    } else {
-        ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
-        *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
-        func_800BB044(actor);
-        ((S_80173560_0 *)action)->unk_9B.n++;
-    }
-    item_addr = (s32)&D_80175F6E;
-    if (*(u16 *)item_addr & 0x80) {
-        if (func_8003F270() != 0) {
+        item_index = *(u8 *)item_addr;
+        item_type = D_8006DE24[item_index].kind;
+        if (item_type == 2) {
+            target = ((S_80173560_1 *)actor)->unk_60;
+            if (target != 0) {
+copy_target_pos:
+                state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
+                ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
+                ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
+            }
+        } else {
+            resource = func_800A05A4(actor, ((S_80173560_4 *)sprite)->unk_24,
+                                ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
+            ((S_80173560_1 *)actor)->unk_60 = resource;
+            ((S_80173560_1 *)actor)->unk_72.u = abs(((S_80173560_1 *)actor)->unk_72.s);
+            ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
+        }
+
+        if (func_800A94A0(actor, (void *)item_addr, item_or_audio_base, (u8 *)action + 0x98) == 0) {
             return;
         }
-        func_800A56E0(0x300);
-        {
-            s32 slot;
-
-            slot = (s16)func_800A9400(*(u16 *)item_addr & 0x7F);
-            ((S_80173560_0 *)action)->unk_96.s = D_80175F40[slot] - 0x10;
+        if (item_or_audio_base != 0) {
+            D_800DCF50 = *(u8 *)item_addr;
+            ((S_80173560_1 *)actor)->unk_13 |= 0x80;
         }
-        ((S_80173560_0 *)action)->unk_9B.n++;
+        direction = ((gameWork.view.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        func_80047784(sprite, ((u8 *)((S_80173560_4 *)sprite)->unk_2C)[direction], 2);
+        ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
+        if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
+            func_80175814(actor);
+            func_80175D7C(actor);
+            ((S_80173560_0 *)action)->unk_9B.n++;
+        } else {
+            ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
+            *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
+            func_800BB044(actor);
+            ((S_80173560_0 *)action)->unk_9B.n++;
+        }
+        item_addr = (s32)&D_80175F6E;
+        if (*(u16 *)item_addr & 0x80) {
+            if (func_8003F270() != 0) {
+                return;
+            }
+            func_800A56E0(0x300);
+            {
+                s32 slot;
+
+                slot = (s16)func_800A9400(*(u16 *)item_addr & 0x7F);
+                ((S_80173560_0 *)action)->unk_96.s = D_80175F40[slot] - 0x10;
+            }
+            ((S_80173560_0 *)action)->unk_9B.n++;
+            return;
+        }
+        action_value = ((S_80173560_0 *)action)->unk_9B.v;
+        action_value += 2;
+        ((S_80173560_0 *)action)->unk_9B.n = action_value;
         return;
-    }
-    action_value = ((S_80173560_0 *)action)->unk_9B.v;
-    action_value += 2;
-    ((S_80173560_0 *)action)->unk_9B.n = action_value;
-    return;
 
     case 1:
-    ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
-    if (((S_80173560_0 *)action)->unk_96.s < 3) {
-        ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
-    }
-    if (((S_80173560_0 *)action)->unk_96.s > 0) {
-        return;
-    }
-    item_id = D_80175F6E & 0x7F;
-    audio_base = (s32)D_800DDAB8;
-    audio_index = (s16)func_800A9400(item_id);
-    sound_id = 0x1300;
-    func_800A56E0(sound_id);
-    func_8003F540(0, D_8006CD58[0],
-                  ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
-                  ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
-    cd_param = func_800445E0();
-    Control_CD(0x15, cd_param, 0);
-    ((S_80173560_0 *)action)->unk_9B.n++;
+        ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
+        if (((S_80173560_0 *)action)->unk_96.s < 3) {
+            ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
+        }
+        if (((S_80173560_0 *)action)->unk_96.s > 0) {
+            return;
+        }
+        item_id = D_80175F6E & 0x7F;
+        audio_base = (s32)D_800DDAB8;
+        audio_index = (s16)func_800A9400(item_id);
+        sound_id = 0x1300;
+        func_800A56E0(sound_id);
+        func_8003F540(0, D_8006CD58[0],
+                      ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
+                      ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
+        cd_param = func_800445E0();
+        Control_CD(0x15, cd_param, 0);
+        ((S_80173560_0 *)action)->unk_9B.n++;
 
     case 2:
-    if (func_8003F270() != 0) {
-        ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
-        return;
-    }
-    ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
-    ((S_80173560_0 *)action)->unk_9B.n++;
+        if (func_8003F270() != 0) {
+            ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
+            return;
+        }
+        ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((S_80173560_0 *)action)->unk_9B.n++;
 
     case 3:
-    if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
-        ((S_80173560_4 *)sprite)->unk_05--;
-    }
+        if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
+            ((S_80173560_4 *)sprite)->unk_05--;
+        }
 
     case 4:
-    if (((S_80173560_4 *)sprite)->unk_04 == 4) {
-        if (!(((S_80173560_4 *)sprite)->unk_14 & 0x1000)) {
-            goto check_high_flags;
-        }
-    } else {
+        if (((S_80173560_4 *)sprite)->unk_04 == 4) {
+            if (!(((S_80173560_4 *)sprite)->unk_14 & 0x1000)) {
+                goto check_high_flags;
+            }
+        } else {
 check_high_flags:
+            if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
+                return;
+            }
+        }
+        ((S_80173560_0 *)action)->unk_98 |= 0x80;
         if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
-    }
-    ((S_80173560_0 *)action)->unk_98 |= 0x80;
-    if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
-        return;
-    }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
-    resource = D_80175E40;
-    if (((S_80173560_4 *)sprite)->unk_2C != resource) {
-        (*(void * *)((u8 *)sprite + (0x2C))) = resource;
-        direction = ((gameWork.view.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        func_80047784(sprite, D_80175E40[direction], 0);
-    }
-    {
-        if (((s32)dungeonStatus.unk_0C) != 0) {
-            return;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((S_80173560_4 *)sprite)->unk_24, ((S_80173560_4 *)sprite)->unk_25);
+        resource = D_80175E40;
+        if (((S_80173560_4 *)sprite)->unk_2C != resource) {
+            (*(void * *)((u8 *)sprite + (0x2C))) = resource;
+            direction = ((gameWork.view.viewAngle + ((S_80173560_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+            func_80047784(sprite, D_80175E40[direction], 0);
         }
-        dungeonStatus.unk_0A--;
-    }
-    ((S_80173560_0 *)action)->unk_8C = D_801710EC;
-    func_800A4ACC(actor);
-    ((S_80173560_1 *)actor)->unk_6D--;
-    ((S_80173560_1 *)actor)->unk_46 &= 0x7FFF;
-    ((S_80173560_0 *)action)->unk_98 &= 0xFFBF;
-    ((S_80173560_1 *)actor)->unk_73.u = 0;
-    ((S_80173560_1 *)actor)->unk_72.u = 0;
-    func_800A56E0(0xB4);
+        {
+            if (((s32)dungeonStatus.unk_0C) != 0) {
+                return;
+            }
+            dungeonStatus.unk_0A--;
+        }
+        ((S_80173560_0 *)action)->unk_8C = D_801710EC;
+        func_800A4ACC(actor);
+        ((S_80173560_1 *)actor)->unk_6D--;
+        ((S_80173560_1 *)actor)->unk_46 &= 0x7FFF;
+        ((S_80173560_0 *)action)->unk_98 &= 0xFFBF;
+        ((S_80173560_1 *)actor)->unk_73.u = 0;
+        ((S_80173560_1 *)actor)->unk_72.u = 0;
+        func_800A56E0(0xB4);
     }
 }

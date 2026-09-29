@@ -22,7 +22,6 @@ typedef struct S_8017360C_0 {
 } S_8017360C_0;   /* arg0 in func_8017360C */
 
 
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
@@ -58,24 +57,24 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
     case 0:
     {
         u8 *local_table_0;
-    {
-        DungeonGlobalStatus *dungeon_state;
-        if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
-            return;
-        }
+        {
+            DungeonGlobalStatus *dungeon_state;
+            if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
+                return;
+            }
 
-        local_table_0 = D_801740F8;
-        
-        (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
-        effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-        effect_entry &= 7;
-        effect_entry += (s32)local_table_0;
-        func_80047784(entity, *(u8 *)effect_entry, 0);
-        dungeon_state = &dungeonStatus;
-        (*(u16 *)&dungeon_state->unk_0A)--;
-        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        goto store_state;
-    }
+            local_table_0 = D_801740F8;
+
+            (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
+            effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+            effect_entry &= 7;
+            effect_entry += (s32)local_table_0;
+            func_80047784(entity, *(u8 *)effect_entry, 0);
+            dungeon_state = &dungeonStatus;
+            (*(u16 *)&dungeon_state->unk_0A)--;
+            next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
+            goto store_state;
+        }
 
     }
 
@@ -86,8 +85,8 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             return;
         }
         local_table_1 = D_80174150;
-        
-                (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
+
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
         effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_1;
@@ -105,8 +104,8 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             return;
         }
         local_table_2 = D_80174158;
-        
-                (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
+
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
         effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
         effect_entry += (s32)local_table_2;
@@ -152,19 +151,19 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             }
 
             {
-            u32 adjustment_flag = 0x80000;
-            if ((actor_flags & adjustment_flag) != 0) {
-                u16 remaining_amount;
+                u32 adjustment_flag = 0x80000;
+                if ((actor_flags & adjustment_flag) != 0) {
+                    u16 remaining_amount;
 
-                func_800AA888(action, context, entity, actor);
-                remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
-                remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
-                ((S_8017360C_0 *)action)->unk_A2 = 0;
-                ((S_8017360C_0 *)action)->unk_9E = 0;
-                ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
-                func_80173E00(action, context, entity, actor);
-                return;
-            }
+                    func_800AA888(action, context, entity, actor);
+                    remaining_amount = ((S_8017360C_0 *)action)->unk_92.u;
+                    remaining_amount -= ((S_8017360C_0 *)action)->unk_A2;
+                    ((S_8017360C_0 *)action)->unk_A2 = 0;
+                    ((S_8017360C_0 *)action)->unk_9E = 0;
+                    ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
+                    func_80173E00(action, context, entity, actor);
+                    return;
+                }
             }
 
             if (actor->unk_6D == 0) {
@@ -204,7 +203,7 @@ final_check:
         }
 
         local_table_3 = D_80174160;
-        
+
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
         effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
@@ -223,7 +222,7 @@ final_check:
     }
 
     case 4:
-        {
+    {
         u8 *local_table_4;
         u32 phase_flag = 0x40000;
         u32 phase_flags;
@@ -234,7 +233,7 @@ final_check:
 
         local_table_4 = D_801740F8;
         phase_flags = ((u32)actor->flags1C);
-        
+
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
 effect_common:
@@ -248,7 +247,7 @@ effect_common:
 store_state:
         ((S_8017360C_0 *)action)->unk_9B = next_state;
         return;
-        }
+    }
 
     case 5:
     {
@@ -258,7 +257,7 @@ store_state:
         }
 
         local_table_5 = D_801740F0;
-        
+
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
         effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
@@ -276,6 +275,6 @@ store_state:
     }
 
 finished:
-        ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
-        return;
+    ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
+    return;
 }

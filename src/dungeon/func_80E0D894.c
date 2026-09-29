@@ -42,14 +42,15 @@ typedef struct S_80171094_2 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
     u8 * unk_2C;
 } S_80171094_2;   /* arg2 in func_80171094 */
-
-
-
 
 
 extern void func_80047784(void *, u8, s32);

@@ -36,13 +36,15 @@ typedef struct S_80170E5C_2 {
     u8 pad_00[0x14];
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
 } S_80170E5C_2;   /* arg2 in func_80170E5C */
-
-
 
 
 extern void func_80047784(void *, s32, s32);
@@ -190,27 +192,27 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
         switch (((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) {
         case 8:
         case 9:
-        if ((s16)func_80171E10(actor_in, context_in, sprite_in, status) == 0) {
-            func_80171FD4(actor_in, context_in, sprite_in, status);
-        }
-        return;
+            if ((s16)func_80171E10(actor_in, context_in, sprite_in, status) == 0) {
+                func_80171FD4(actor_in, context_in, sprite_in, status);
+            }
+            return;
 
         case 4:
-        if (((S_80170E5C_1 *)status)->unk_1C & 0x400) {
-            register s32 movement_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            if (((S_80170E5C_1 *)status)->unk_1C & 0x400) {
+                register s32 movement_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            movement_flags = ((S_80170E5C_1 *)status)->unk_14;
+                movement_flags = ((S_80170E5C_1 *)status)->unk_14;
 
-            if (movement_flags >= 0) {
-                ((S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
-                ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30(actor_in) & 7) << 9;
+                if (movement_flags >= 0) {
+                    ((S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
+                    ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30(actor_in) & 7) << 9;
+                }
             }
-        }
-        if ((s16)func_801720EC(actor_in, context_in, sprite_in, status) != 0) {
+            if ((s16)func_801720EC(actor_in, context_in, sprite_in, status) != 0) {
+                return;
+            }
+            func_8017236C(actor_in, context_in, sprite_in, status);
             return;
-        }
-        func_8017236C(actor_in, context_in, sprite_in, status);
-        return;
 
         case 5:
         case 6:
@@ -232,21 +234,21 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
 
         case 12:
 special_cleanup:
-        func_800A9A0C(status);
-        return;
+            func_800A9A0C(status);
+            return;
 
         case 1:
         case 2:
         case 3:
 aaf_cleanup:
-        func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
-        return;
+            func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
+            return;
 
         case 11:
         default:
 ordinary_cleanup:
-        func_80171420(actor_in, context_in, sprite_in, status);
-        return;
+            func_80171420(actor_in, context_in, sprite_in, status);
+            return;
         }
     } else if (!(((S_80170E5C_1 *)status)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_record;
@@ -281,6 +283,6 @@ update_table:
     (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
     func_80047784(sprite_in,
         *(u8 *)((u32)(((gameWork.view.viewAngle + ((S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
-            (u32)anim_table),
+                (u32)anim_table),
         0);
 }

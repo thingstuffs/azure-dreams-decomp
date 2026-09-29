@@ -40,9 +40,12 @@ void func_808BB5EC(void) {
         s32 end_tag;
         end_tag = 0x80;
         record_tag = data + 1;
-        loop_0: {
+loop_0:
+        {
             *(s32 *)(record_tag + 0xB) = D_0000103C[0][*(s32 *)(record_tag + 0xB)];
             record_tag += 0x14;
-        } if (*record_tag != end_tag) goto loop_0;
+        }
+        if (*record_tag != end_tag)
+            goto loop_0;
     }
 }

@@ -85,179 +85,179 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object)
     is_special = 0;
     switch (state) {
     case 0:
-    if (((S_801725A4_1 *)object)->unk_1C & 0x2000) {
-        kind_index = (((S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
-        switch (kind_index) {
-        case 0:
-            goto L_kind1;
-        case 1:
-            goto L_kind2;
-        case 2:
-            goto L_kind3;
-        case 4:
-            is_special = 1;
-            goto L_kind3;
-        case 5:
-            is_special = 1;
-            goto L_kind2;
-        case 6:
-            is_special = 1;
-            goto L_kind1;
-        default:
-            goto L_after_jt;
+        if (((S_801725A4_1 *)object)->unk_1C & 0x2000) {
+            kind_index = (((S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
+            switch (kind_index) {
+            case 0:
+                goto L_kind1;
+            case 1:
+                goto L_kind2;
+            case 2:
+                goto L_kind3;
+            case 4:
+                is_special = 1;
+                goto L_kind3;
+            case 5:
+                is_special = 1;
+                goto L_kind2;
+            case 6:
+                is_special = 1;
+                goto L_kind1;
+            default:
+                goto L_after_jt;
+            }
         }
-    }
 
-    kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
-    switch (kind) {
-    case 3:
-        action_data = (u8 *)object + 0xE;
-        break;
-    case 2:
-        action_data = (u8 *)object + 0xB;
-        break;
-    case 1:
-        action_data = (u8 *)object + 8;
-        break;
-    default:
-        action_data = 0;
-        break;
-    }
-    goto L_selected;
+        kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
+        switch (kind) {
+        case 3:
+            action_data = (u8 *)object + 0xE;
+            break;
+        case 2:
+            action_data = (u8 *)object + 0xB;
+            break;
+        case 1:
+            action_data = (u8 *)object + 8;
+            break;
+        default:
+            action_data = 0;
+            break;
+        }
+        goto L_selected;
 L_kind3:
-    action_data = (u8 *)object + 0xE;
-    goto L_selected;
+        action_data = (u8 *)object + 0xE;
+        goto L_selected;
 L_kind2:
-    action_data = (u8 *)object + 0xB;
-    goto L_selected;
+        action_data = (u8 *)object + 0xB;
+        goto L_selected;
 L_kind1:
-    action_data = (u8 *)object + 8;
-    goto L_selected;
+        action_data = (u8 *)object + 8;
+        goto L_selected;
 
 L_after_jt:
-    action_data = 0;
+        action_data = 0;
 L_selected:
-    if (*action_data != 0) {
-        x = ((S_801725A4_0 *)owner)->unk_98 & 0xFF7F;
-        ((S_801725A4_0 *)owner)->unk_98 = x;
-        x = is_special;
-        if (x) {
-            spawn = D_800814A8;
-            ((S_801725A4_1 *)object)->unk_60 = spawn;
-            record = *(u8 **)((u8 *)spawn - 0x14);
-            x = record[0x24];
-            ((S_801725A4_1 *)object)->unk_72.s = x;
-            x = record[0x25];
-            ((S_801725A4_1 *)object)->unk_73.s = x;
-        } else {
-            action_table = D_8006DE24;
-            action_id = *action_data;
-            action_entry = action_table + (action_id * 20);
-            if (action_entry[0x12] == 2) {
-                spawn = ((S_801725A4_1 *)object)->unk_60;
-                if (spawn != 0) {
+        if (*action_data != 0) {
+            x = ((S_801725A4_0 *)owner)->unk_98 & 0xFF7F;
+            ((S_801725A4_0 *)owner)->unk_98 = x;
+            x = is_special;
+            if (x) {
+                spawn = D_800814A8;
+                ((S_801725A4_1 *)object)->unk_60 = spawn;
                 record = *(u8 **)((u8 *)spawn - 0x14);
                 x = record[0x24];
                 ((S_801725A4_1 *)object)->unk_72.s = x;
                 x = record[0x25];
                 ((S_801725A4_1 *)object)->unk_73.s = x;
-                }
             } else {
-                spawn = func_800A05A4(
-                    object,
-                    ((S_801725A4_2 *)actor)->unk_24,
-                    ((S_801725A4_2 *)actor)->unk_25,
-                    ((S_801725A4_1 *)object)->unk_2A,
-                    0x10);
-                ((S_801725A4_1 *)object)->unk_60 = spawn;
-    
-                x = ((S_801725A4_1 *)object)->unk_72.u;
-                y = ((S_801725A4_1 *)object)->unk_73.u;
-                if (x < 0) {
-                    x = -x;
+                action_table = D_8006DE24;
+                action_id = *action_data;
+                action_entry = action_table + (action_id * 20);
+                if (action_entry[0x12] == 2) {
+                    spawn = ((S_801725A4_1 *)object)->unk_60;
+                    if (spawn != 0) {
+                        record = *(u8 **)((u8 *)spawn - 0x14);
+                        x = record[0x24];
+                        ((S_801725A4_1 *)object)->unk_72.s = x;
+                        x = record[0x25];
+                        ((S_801725A4_1 *)object)->unk_73.s = x;
+                    }
+                } else {
+                    spawn = func_800A05A4(
+                        object,
+                        ((S_801725A4_2 *)actor)->unk_24,
+                        ((S_801725A4_2 *)actor)->unk_25,
+                        ((S_801725A4_1 *)object)->unk_2A,
+                        0x10);
+                    ((S_801725A4_1 *)object)->unk_60 = spawn;
+
+                    x = ((S_801725A4_1 *)object)->unk_72.u;
+                    y = ((S_801725A4_1 *)object)->unk_73.u;
+                    if (x < 0) {
+                        x = -x;
+                    }
+                    if (y < 0) {
+                        y = -y;
+                    }
+                    ((S_801725A4_1 *)object)->unk_72.s = x;
+                    ((S_801725A4_1 *)object)->unk_73.s = y;
+
                 }
-                if (y < 0) {
-                    y = -y;
-                }
-                ((S_801725A4_1 *)object)->unk_72.s = x;
-                ((S_801725A4_1 *)object)->unk_73.s = y;
-    
             }
-        }
 
 L_spawn_ready:
-        if (func_800A94A0(object, action_data, is_special,
-                          (u16 *)((u8 *)owner + 0x98)) == 0) {
+            if (func_800A94A0(object, action_data, is_special,
+                              (u16 *)((u8 *)owner + 0x98)) == 0) {
+                return;
+            }
+            func_800BB044(object);
+            ((S_801725A4_0 *)owner)->unk_9B++;
             return;
         }
-        func_800BB044(object);
-        ((S_801725A4_0 *)owner)->unk_9B++;
-        return;
-    }
 
-    ((S_801725A4_3 *)motion)->unk_14 = 0;
-    ((S_801725A4_3 *)motion)->unk_10 = 0;
-    ((S_801725A4_3 *)motion)->unk_0C = 0;
-    func_800A2B04(motion, ((S_801725A4_2 *)actor)->unk_24, ((S_801725A4_2 *)actor)->unk_25);
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
-    func_800A4ACC(object);
-    ((S_801725A4_1 *)object)->unk_6D--;
-    ((S_801725A4_0 *)owner)->unk_8C = D_80171014;
-    ((S_801725A4_1 *)object)->unk_73.s = 0;
-    ((S_801725A4_1 *)object)->unk_72.s = 0;
-    ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
-    return;
+        ((S_801725A4_3 *)motion)->unk_14 = 0;
+        ((S_801725A4_3 *)motion)->unk_10 = 0;
+        ((S_801725A4_3 *)motion)->unk_0C = 0;
+        func_800A2B04(motion, ((S_801725A4_2 *)actor)->unk_24, ((S_801725A4_2 *)actor)->unk_25);
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)D_800814A8 + 0xA6))--;
+        func_800A4ACC(object);
+        ((S_801725A4_1 *)object)->unk_6D--;
+        ((S_801725A4_0 *)owner)->unk_8C = D_80171014;
+        ((S_801725A4_1 *)object)->unk_73.s = 0;
+        ((S_801725A4_1 *)object)->unk_72.s = 0;
+        ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
+        return;
 
     case 1:
-    if (func_8003F270() != 0) {
-        ((S_801725A4_2 *)actor)->unk_14 |= 0x0800;
-        return;
-    }
-    ((S_801725A4_2 *)actor)->unk_14 &= 0xF7FF;
-    ((S_801725A4_0 *)owner)->unk_9B++;
+        if (func_8003F270() != 0) {
+            ((S_801725A4_2 *)actor)->unk_14 |= 0x0800;
+            return;
+        }
+        ((S_801725A4_2 *)actor)->unk_14 &= 0xF7FF;
+        ((S_801725A4_0 *)owner)->unk_9B++;
 
     case 2:
-    if (((S_801725A4_2 *)actor)->unk_04 != 4 || !(((S_801725A4_2 *)actor)->unk_14 & 0x1000)) {
+        if (((S_801725A4_2 *)actor)->unk_04 != 4 || !(((S_801725A4_2 *)actor)->unk_14 & 0x1000)) {
+            if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
+                return;
+            }
+        }
+        ((S_801725A4_0 *)owner)->unk_98 |= 0x80;
         if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
             return;
         }
-    }
-    ((S_801725A4_0 *)owner)->unk_98 |= 0x80;
-    if ((((S_801725A4_2 *)actor)->unk_14 & 0xE000) == 0) {
+
+        ((S_801725A4_3 *)motion)->unk_14 = 0;
+        ((S_801725A4_3 *)motion)->unk_10 = 0;
+        ((S_801725A4_3 *)motion)->unk_0C = 0;
+        func_800A2B04(motion, ((S_801725A4_2 *)actor)->unk_24, ((S_801725A4_2 *)actor)->unk_25);
+
+        {
+            u8 *direction_table = D_8017420C;
+            if (((S_801725A4_2 *)actor)->unk_2C != direction_table) {
+                (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
+                func_80047784(
+                    actor,
+                    direction_table[((gameWork.view.viewAngle + ((S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7],
+                    0);
+            }
+        }
+
+        {
+            if (((s32)dungeonStatus.unk_0C) != 0) {
+                return;
+            }
+            dungeonStatus.unk_0A--;
+        }
+        ((S_801725A4_0 *)owner)->unk_8C = D_80171014;
+        func_800A4ACC(object);
+        ((S_801725A4_1 *)object)->unk_73.s = 0;
+        ((S_801725A4_1 *)object)->unk_72.s = 0;
+        ((S_801725A4_1 *)object)->unk_6D--;
+        ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
+        func_800A56E0(0xB4);
         return;
-    }
-
-    ((S_801725A4_3 *)motion)->unk_14 = 0;
-    ((S_801725A4_3 *)motion)->unk_10 = 0;
-    ((S_801725A4_3 *)motion)->unk_0C = 0;
-    func_800A2B04(motion, ((S_801725A4_2 *)actor)->unk_24, ((S_801725A4_2 *)actor)->unk_25);
-
-    {
-        u8 *direction_table = D_8017420C;
-        if (((S_801725A4_2 *)actor)->unk_2C != direction_table) {
-            (*(u8 * *)((u8 *)actor + 0x2C)) = direction_table;
-            func_80047784(
-                actor,
-                direction_table[((gameWork.view.viewAngle + ((S_801725A4_1 *)object)->unk_2A + 0x100) >> 9) & 7],
-                0);
-        }
-    }
-
-    {
-        if (((s32)dungeonStatus.unk_0C) != 0) {
-            return;
-        }
-        dungeonStatus.unk_0A--;
-    }
-    ((S_801725A4_0 *)owner)->unk_8C = D_80171014;
-    func_800A4ACC(object);
-    ((S_801725A4_1 *)object)->unk_73.s = 0;
-    ((S_801725A4_1 *)object)->unk_72.s = 0;
-    ((S_801725A4_1 *)object)->unk_6D--;
-    ((S_801725A4_1 *)object)->unk_46 &= 0x7FFF;
-    func_800A56E0(0xB4);
-    return;
     default:
         return;
     }

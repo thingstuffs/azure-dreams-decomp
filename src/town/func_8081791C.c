@@ -75,7 +75,6 @@ typedef struct S_8002191C_9 {
 } S_8002191C_9;   /* compare in func_8002191C */
 
 
-
 typedef struct TownDraw32 {
     s16 h00;
     s16 h02;
@@ -149,7 +148,8 @@ void func_8002191C(void *scene)
     s32 i;
 
     switch (mode) {
-    case 0: {
+    case 0:
+    {
         u8 *motion;
         u16 t6;
         s32 t10;
@@ -169,9 +169,10 @@ void func_8002191C(void *scene)
         t10 = ((S_8002191C_3 *)global)->unk_10.s;
         ((S_8002191C_3 *)global)->unk_10.s = (t10 + 0x1000) & 0xFE00;
     }
-        /* fall through */
+                /* fall through */
 
-    case 1: {
+    case 1:
+    {
         u8 *motion;
 
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
@@ -196,7 +197,8 @@ void func_8002191C(void *scene)
         break;
     }
 
-    case 2: {
+    case 2:
+    {
         u8 *motion = ((u8 *)(&D_80083780));
         s32 h2;
         s32 rmw;
@@ -219,7 +221,8 @@ void func_8002191C(void *scene)
         break;
     }
 
-    case 3: {
+    case 3:
+    {
         s32 lim = 0x044FFFFF;
         s32 m1;
 
@@ -252,7 +255,8 @@ void func_8002191C(void *scene)
         }
         break;
 
-    case 5: {
+    case 5:
+    {
         u8 *motion;
 
         if (((S_8002191C_3 *)global)->unk_10.s >= 0xA00) {
@@ -279,7 +283,8 @@ void func_8002191C(void *scene)
         break;
     }
 
-    case 6: {
+    case 6:
+    {
         s32 magnitude;
         u16 old_flags;
         u16 selected_flags;
@@ -329,7 +334,8 @@ void func_8002191C(void *scene)
         break;
     }
 
-    case 7: {
+    case 7:
+    {
         s32 magnitude;
         u16 old_flags;
         u16 selected_flags;

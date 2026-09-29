@@ -13,7 +13,6 @@ void func_80047784(void *, s32, s32);
 void func_800478B8(void *);
 
 
-
 typedef struct S_80174D24_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
     u16 unk_02;

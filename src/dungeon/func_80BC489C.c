@@ -36,8 +36,6 @@ typedef struct S_8017409C_4 {
 } S_8017409C_4;   /* global in func_8017409C */
 
 
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -77,7 +75,7 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
             0);
         ((S_8017409C_0 *)actor)->unk_9B++;
         return;
-        }
+    }
     case 1:
     {
         u8 *dungeon_state;
@@ -159,19 +157,19 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
             0);
         (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
         ((S_8017409C_4 *)dungeon_state)->unk_0A++;
-        }
-    ((S_8017409C_0 *)actor)->unk_9B++;
-    return;
-    case 2:
-    if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
-        s32 *dungeon_state;
-
-        dungeon_state = &dungeonStatus.unk_00;
-        ((S_8017409C_2 *)dungeon_state)->unk_0A--;
-        ((S_8017409C_0 *)actor)->unk_8C = &D_801719DC;
     }
+        ((S_8017409C_0 *)actor)->unk_9B++;
+        return;
+    case 2:
+        if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
+            s32 *dungeon_state;
 
-    return;
+            dungeon_state = &dungeonStatus.unk_00;
+            ((S_8017409C_2 *)dungeon_state)->unk_0A--;
+            ((S_8017409C_0 *)actor)->unk_8C = &D_801719DC;
+        }
+
+        return;
     default:
         return;
     }

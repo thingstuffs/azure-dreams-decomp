@@ -11,5 +11,5 @@ typedef s8 M2C_UNK8;
 /* Stores 9 at offset 0x12F4 in the object referenced by 0xA0700F40. */
 int func_808B3490(void)
 {
-  *(s32 *) ((s8 *) *(void **) 0xA0700F40 + (u32) D_000012F4) = 9;
+    *(s32 *) ((s8 *) *(void **) 0xA0700F40 + (u32) D_000012F4) = 9;
 }

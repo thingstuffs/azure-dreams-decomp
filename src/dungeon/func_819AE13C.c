@@ -34,7 +34,6 @@ typedef struct S_8002593C_2 {
 } S_8002593C_2;   /* arg2 in func_8002593C */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;

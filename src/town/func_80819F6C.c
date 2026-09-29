@@ -13,8 +13,6 @@ typedef struct S_80023F6C_1 {
 } S_80023F6C_1;   /* object in func_80023F6C */
 
 
-
-
 /* Wait for the linked object to clear, then reduce the level and set completion flags. */
 void func_80023F6C(void *entry) {
     void *object;
@@ -46,5 +44,5 @@ void func_80023F6C(void *entry) {
         break;
     }
 
-     /* Retains the register allocation required for a byte-exact match. */
+         /* Retains the register allocation required for a byte-exact match. */
 }

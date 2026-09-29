@@ -27,7 +27,6 @@ typedef struct S_80024C0C_1 {
 } S_80024C0C_1;   /* object in func_80024C0C */
 
 
-
 /* Move the effect toward its target, then expand and fade it until completion. */
 void func_80024C0C(void *motion, void *position, void *effect) {
     s32 direction_scale;

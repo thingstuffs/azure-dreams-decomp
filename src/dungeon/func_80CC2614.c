@@ -12,7 +12,8 @@ void func_80175E14(s32 source_value, s32 input_value, s32 input_value_2, s32 inp
     s32 current_value;
     s32 adjusted_value;
 
-    adjusted_value = func_80099734(source_value, current_value = func_800990FC(source_value, input_value, input_value_2, input_value_3));
+    adjusted_value = func_80099734(source_value, current_value = func_800990FC(source_value, input_value,
+        input_value_2, input_value_3));
     original_value = current_value;
     current_value = adjusted_value;
     func_80099290(func_80099194(D_8017646B, current_value));

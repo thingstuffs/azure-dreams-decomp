@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif
@@ -13,7 +12,7 @@ typedef struct UnalignedWord {
 } __attribute__((packed)) UnalignedWord;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
 extern void *func_8003FC64(s32);

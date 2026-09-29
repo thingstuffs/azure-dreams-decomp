@@ -18,7 +18,7 @@ __asm__(".set D_8014C828, 0x8014C828");
 __asm__(".set D_8014C808, 0x8014C808");
 
 static const u32 split_prefix[] __asm__("func_8014C800")
-    __attribute__((section(".text.func_8014C800"), aligned(4))) = {
+__attribute__((section(".text.func_8014C800"), aligned(4))) = {
     0x8014D718, 0x8014D8E0,
     0x00000001, 0x00010001, 0x00010000, 0x0001FFFF,
     0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001,
@@ -42,7 +42,7 @@ __asm__(".globl func_8014C800\n"
 #endif
 
 void BODY_NAME(void *actor, void *position, void *effect)
-    __attribute__((section(".text.func_8014C800")));
+__attribute__((section(".text.func_8014C800")));
 
 typedef struct S_80F03000_0_pre {
     u16 unk_00;
@@ -70,9 +70,22 @@ typedef struct S_80F03000_0 {
 } S_80F03000_0;   /* actor in BODY_NAME */
 
 typedef struct S_80F03000_1 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     u8 pad_0C[0x2];
     s16 unk_0E;
     u8 pad_10[0x2];
@@ -256,30 +269,31 @@ state_one_end:
         goto state_one;
     }
 
-state_two_check: do {
-    if (((S_80F03000_0 *)actor)->unk_2C != 2) {
-        goto state_zero_check;
-    }
+state_two_check:
+    do {
+        if (((S_80F03000_0 *)actor)->unk_2C != 2) {
+            goto state_zero_check;
+        }
 
-    ((S_80F03000_1 *)position)->unk_08.at00.v += ((S_80F03000_0 *)actor)->unk_74;
-    ((S_80F03000_0 *)actor)->unk_74 += ((S_80F03000_0 *)actor)->unk_80;
-    ((S_80F03000_2 *)effect)->unk_1E -= 200;
-    ((S_80F03000_2 *)effect)->unk_1C = ((S_80F03000_2 *)effect)->unk_1E;
-    fall_z = ((S_80F03000_1 *)position)->unk_08.at02.v;
-    if (func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
-                      (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                      (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32)) - 7 < fall_z) {
-        ((S_80F03000_1 *)position)->unk_08.at02.v =
-            func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
+        ((S_80F03000_1 *)position)->unk_08.at00.v += ((S_80F03000_0 *)actor)->unk_74;
+        ((S_80F03000_0 *)actor)->unk_74 += ((S_80F03000_0 *)actor)->unk_80;
+        ((S_80F03000_2 *)effect)->unk_1E -= 200;
+        ((S_80F03000_2 *)effect)->unk_1C = ((S_80F03000_2 *)effect)->unk_1E;
+        fall_z = ((S_80F03000_1 *)position)->unk_08.at02.v;
+        if (func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
                           (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                          (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32));
-        ((S_80F03000_1 *)position)->unk_08.at00u.v = 0;
+                          (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32)) - 7 < fall_z) {
+            ((S_80F03000_1 *)position)->unk_08.at02.v =
+                func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
+                              (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
+                              (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32));
+            ((S_80F03000_1 *)position)->unk_08.at00u.v = 0;
 state_two_finish:
-        ((S_80F03000_3 *)(((S_80F03000_0 *)actor)->unk_40))->unk_A4 = 0;
-        ((S_80F03000_0_pre *)actor)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
+            ((S_80F03000_3 *)(((S_80F03000_0 *)actor)->unk_40))->unk_A4 = 0;
+            ((S_80F03000_0_pre *)actor)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
     } while (((S_80F03000_2 *)effect)->unk_14 & 0x8000);
 
 state_zero_check:
@@ -318,7 +332,8 @@ state_zero_check:
     if (next_tile_y != tile_y) {
         goto state_zero_z;
     }
-    if (func_800A45D8(((S_80F03000_1 *)position)->unk_00.at02u.v, ((S_80F03000_1 *)position)->unk_04.at02u.v, ((S_80F03000_1 *)position)->unk_08.at02.v) == 0) {
+    if (func_800A45D8(((S_80F03000_1 *)position)->unk_00.at02u.v, ((S_80F03000_1 *)position)->unk_04.at02u.v,
+        ((S_80F03000_1 *)position)->unk_08.at02.v) == 0) {
         if (func_800BCB04(((S_80F03000_1 *)position)->unk_00.at02u.v,
                           ((S_80F03000_1 *)position)->unk_04.at02u.v,
                           ((S_80F03000_1 *)position)->unk_08.at02.v) < 0x200) {

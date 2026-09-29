@@ -241,19 +241,19 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
             goto have_selector;
         }
 
-    kind_3:
+kind_3:
         move_slot = (u8 *)actor + 0x0E;
         goto have_selector;
-    kind_2:
+kind_2:
         move_slot = (u8 *)actor + 0x0B;
         goto have_selector;
-    kind_1:
+kind_1:
         move_slot = (u8 *)actor + 8;
         goto have_selector;
-    kind_none:
+kind_none:
         move_slot = 0;
 
-    have_selector:
+have_selector:
         if (*move_slot != 0) {
             ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
             special_flag = is_special;
@@ -265,7 +265,7 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
             if (D_8006DE24[*move_slot].kind == 2) {
                 move_object = ((S_80172840_0 *)actor)->unk_60;
                 if (move_object != 0) {
-    copy_record:
+copy_record:
                     {
                         register void *move_record ASM_REG("$3") =
                             ((S_80172840_2_pre *)move_object)[-1].unk_00;
@@ -375,7 +375,8 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
                         ((S_80172840_12 *)(((S_80172840_7 *)particle)->unk_08))->unk_06 =
                             ((S_80172840_5 *)position)->unk_06 + coords[5] +
                             ((s32)direction_y << 6) + (func_800A6D30() & 0x3F) - 0x1F;
-                        ((S_80172840_12 *)(((S_80172840_7 *)particle)->unk_08))->unk_08 = ((S_80172840_5 *)position)->unk_08.at00.v;
+                        ((S_80172840_12 *)(((S_80172840_7 *)particle)->unk_08))->unk_08 =
+                            ((S_80172840_5 *)position)->unk_08.at00.v;
                         source_x = ((S_80172840_5 *)position)->unk_02;
                         offset_x = coords[4];
                         particle_fields = (u8 *)particle + 0x20;

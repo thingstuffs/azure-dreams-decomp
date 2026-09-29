@@ -65,7 +65,9 @@ void func_80170BB0(ObjectState *obj, MotionVector *pos, ByteState *state)
     accel_x = obj->ddx;
     accel_y = obj->ddy;
     accel_z = obj->ddz;
-    do { *(s32 *)&obj->dx = velocity_x + accel_x; } while (0);
+    do {
+        *(s32 *)& obj->dx = velocity_x + accel_x;
+    } while (0);
     velocity_y = obj->dy;
     velocity_z = obj->dz;
     *(s32 *)&obj->dy = velocity_y + accel_y;

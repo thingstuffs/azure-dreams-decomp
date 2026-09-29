@@ -66,14 +66,16 @@ void func_80024C40(Entity *entity)
             entity->timer48 = 0;
             entity->field3A = 0;
             entity->delta44 = -0x1C;
-            loop_0: {
+loop_0:
+            {
                 *(u16 *)(point_cursor + 4) = entity->points[0].x;
                 *(u16 *)(point_cursor + 6) = entity->points[0].y;
                 *(u16 *)(point_cursor + 8) = entity->points[0].z + entity->delta44 * point_index;
                 point_cursor += 8;
                 point_index++;
             }
-            if (point_index < 5) goto loop_0;
+            if (point_index < 5)
+                goto loop_0;
         }
         state = (u16)entity->state4A + 1;
         entity->state4A = state;
@@ -125,12 +127,12 @@ void func_80024C40(Entity *entity)
             return;
         }
     case 2:
-        {
-            u32 *flags_page;
-            flags_page = (u32 *)0x80080000;
-            *(u16 *)((u8 *)entity - 2) |= 0x8000;
-            flags_page[0x528] |= 0x8000;
-        }
+    {
+        u32 *flags_page;
+        flags_page = (u32 *)0x80080000;
+        *(u16 *)((u8 *)entity - 2) |= 0x8000;
+        flags_page[0x528] |= 0x8000;
+    }
         return;
     }
 }

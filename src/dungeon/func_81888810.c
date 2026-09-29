@@ -116,39 +116,39 @@ void func_80026010(void) {
             fragment->unk_10 = D_80025A58;
             func_8004491C((void *)object_or_x, D_80025E4C);
 
-                row_start = quad_index & ~0xF;
-                column_or_coord = (quad_index + 1) & 0xF;
-                right_offset = (row_start + column_or_coord) * 8;
-                upper_right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
-                lower_left = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
-                lower_right = (Cell *)((unsigned long)((row_start + 0x10 + column_or_coord) * 8) + (unsigned long)vertices);
+            row_start = quad_index & ~0xF;
+            column_or_coord = (quad_index + 1) & 0xF;
+            right_offset = (row_start + column_or_coord) * 8;
+            upper_right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
+            lower_left = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
+            lower_right = (Cell *)((unsigned long)((row_start + 0x10 + column_or_coord) * 8) + (unsigned long)vertices);
 
-                motion = fragment->unk_08;
-                object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + lower_right->x) >> 2;
-                upper_right_y = (vertices[quad_index].y + upper_right->y + lower_left->y + lower_right->y) >> 2;
-                lower_left_y = (vertices[quad_index].z + upper_right->z + lower_left->z + lower_right->z) >> 2;
-                motion->unk_02 = object_or_x;
-                motion->unk_06 = upper_right_y;
-                motion->unk_0A = lower_left_y;
+            motion = fragment->unk_08;
+            object_or_x = (vertices[quad_index].x + upper_right->x + lower_left->x + lower_right->x) >> 2;
+            upper_right_y = (vertices[quad_index].y + upper_right->y + lower_left->y + lower_right->y) >> 2;
+            lower_left_y = (vertices[quad_index].z + upper_right->z + lower_left->z + lower_right->z) >> 2;
+            motion->unk_02 = object_or_x;
+            motion->unk_06 = upper_right_y;
+            motion->unk_0A = lower_left_y;
 
-                motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
-                motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
-                motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
+            motion->unk_0C = ((rand() & 0xF) - 8) << 0x10;
+            motion->unk_10 = ((rand() & 0xF) - 8) << 0x10;
+            motion->unk_14 = ((rand() & 0xF) - 8) << 0x10;
 
-                angles = fragment->unk_0C;
-                angles->unk_16 = (rand() & 0x1FF) - 0x100;
-                angles->unk_18 = (rand() & 0x1FF) - 0x100;
+            angles = fragment->unk_0C;
+            angles->unk_16 = (rand() & 0x1FF) - 0x100;
+            angles->unk_18 = (rand() & 0x1FF) - 0x100;
 
-                quad = (S_func_81888810_3 *)((u8 *)fragment + 0x20);
-                quad->unk_1A = 0x20;
-                quad->unk_30 = *(s32 *)&vertices[quad_index];
-                quad->unk_34 = vertices[quad_index].z;
-                quad->unk_38 = *(s32 *)upper_right;
-                quad->unk_3C = upper_right->z;
-                quad->unk_40 = *(s32 *)&D_800264F8[quad_index];
-                quad->unk_44 = lower_left->z;
-                quad->unk_48 = *(s32 *)((u8 *)D_800264F8 + right_offset);
-                quad->unk_4C = lower_right->z;
+            quad = (S_func_81888810_3 *)((u8 *)fragment + 0x20);
+            quad->unk_1A = 0x20;
+            quad->unk_30 = *(s32 *)&vertices[quad_index];
+            quad->unk_34 = vertices[quad_index].z;
+            quad->unk_38 = *(s32 *)upper_right;
+            quad->unk_3C = upper_right->z;
+            quad->unk_40 = *(s32 *)&D_800264F8[quad_index];
+            quad->unk_44 = lower_left->z;
+            quad->unk_48 = *(s32 *)((u8 *)D_800264F8 + right_offset);
+            quad->unk_4C = lower_right->z;
 
             if ((quad_index % 32) < 0x10) {
                 *(s32 *)((u8 *)quad + 0x50) = D_80026470;

@@ -23,10 +23,6 @@ typedef struct S_801683C4_1 {
 } S_801683C4_1;   /* arg1 in func_801683C4 */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *, void *, s32, s32);
 extern void func_800A4ACC(void *);
@@ -50,92 +46,92 @@ void func_801683C4(void *action, void *motion, void *sprite, EntityRec *actor)
     switch (state) {
 
     case 0:
-    ((S_801683C4_1 *)motion)->unk_14 = 0;
-    ((S_801683C4_1 *)motion)->unk_10 = 0;
-    ((S_801683C4_1 *)motion)->unk_0C = 0;
-    ((S_801683C4_0 *)action)->unk_96.s = 0;
-    ((S_801683C4_0 *)action)->unk_9B++;
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        return;
-    }
-
-    case 1:
-    timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
-    ((S_801683C4_0 *)action)->unk_96.s = timer;
-    if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        return;
-    }
-    ((S_801683C4_0 *)action)->unk_96.s = 0;
-    ((S_801683C4_0 *)action)->unk_9B++;
-    switch (actor->unk_48) {
-    case 13:
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DDC;
-        func_80047784(sprite,
-            D_80169DDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        return;
-    case 14:
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DE4;
-        func_80047784(sprite,
-            D_80169DE4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        return;
-    case 15:
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DEC;
-        func_80047784(sprite,
-            D_80169DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_801683C4_0 *)action)->unk_9B = 5;
-        func_800A56E0(0x60C);
-        return;
-    default:
-        return;
-    }
-
-    case 2:
-    timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
-    ((S_801683C4_0 *)action)->unk_96.s = timer;
-    if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, actor->facing, 1);
+        ((S_801683C4_1 *)motion)->unk_14 = 0;
+        ((S_801683C4_1 *)motion)->unk_10 = 0;
+        ((S_801683C4_1 *)motion)->unk_0C = 0;
         ((S_801683C4_0 *)action)->unk_96.s = 0;
         ((S_801683C4_0 *)action)->unk_9B++;
-    }
-    if (((S_801683C4_0 *)action)->unk_96.u == 3) {
-        func_800A56E0(0x804);
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+
+    case 1:
+        timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
+        ((S_801683C4_0 *)action)->unk_96.s = timer;
+        if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            return;
+        }
+        ((S_801683C4_0 *)action)->unk_96.s = 0;
+        ((S_801683C4_0 *)action)->unk_9B++;
+        switch (actor->unk_48) {
+        case 13:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DDC;
+            func_80047784(sprite,
+                D_80169DDC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 14:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DE4;
+            func_80047784(sprite,
+                D_80169DE4[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            return;
+        case 15:
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80169DEC;
+            func_80047784(sprite,
+                D_80169DEC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_801683C4_0 *)action)->unk_9B = 5;
+            func_800A56E0(0x60C);
+            return;
+        default:
+            return;
+        }
+
+    case 2:
+        timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
+        ((S_801683C4_0 *)action)->unk_96.s = timer;
+        if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, sprite, actor->facing, 1);
+            ((S_801683C4_0 *)action)->unk_96.s = 0;
+            ((S_801683C4_0 *)action)->unk_9B++;
+        }
+        if (((S_801683C4_0 *)action)->unk_96.u == 3) {
+            func_800A56E0(0x804);
+            return;
+        }
         return;
-    }
-    return;
 
     case 3:
-    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(actor, 0x100);
-        ((S_801683C4_0 *)action)->unk_8C = D_801664BC;
-        dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
-        actor->unk_46 &= 0x7FFF;
-    }
-    return;
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            func_800AD594(actor, 0x100);
+            ((S_801683C4_0 *)action)->unk_8C = D_801664BC;
+            dungeonStatus.unk_0C = 0;
+            func_800A4ACC(actor);
+            actor->unk_46 &= 0x7FFF;
+        }
+        return;
 
     case 5:
-    timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
-    ((S_801683C4_0 *)action)->unk_96.s = timer;
-    if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
-        func_800A56E0(0x804);
-        func_8016521C(action, motion, sprite, actor);
-        func_801654FC(action, motion, sprite, actor);
-    }
-    if ((((S_801683C4_0 *)action)->unk_96.u == 12) ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, sprite, actor->facing,
-            ((S_801683C4_0 *)action)->unk_AA);
-    }
-    if ((((S_801683C4_0 *)action)->unk_96.u == 20) ||
-        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-        ((S_801683C4_0 *)action)->unk_96.s = 0;
-        ((S_801683C4_0 *)action)->unk_9B = 3;
-    }
+        timer = ((S_801683C4_0 *)action)->unk_96.s + 1;
+        ((S_801683C4_0 *)action)->unk_96.s = timer;
+        if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
+            func_800A56E0(0x804);
+            func_8016521C(action, motion, sprite, actor);
+            func_801654FC(action, motion, sprite, actor);
+        }
+        if ((((S_801683C4_0 *)action)->unk_96.u == 12) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, sprite, actor->facing,
+                ((S_801683C4_0 *)action)->unk_AA);
+        }
+        if ((((S_801683C4_0 *)action)->unk_96.u == 20) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+            ((S_801683C4_0 *)action)->unk_96.s = 0;
+            ((S_801683C4_0 *)action)->unk_9B = 3;
+        }
     case 4:
     default:
         return;

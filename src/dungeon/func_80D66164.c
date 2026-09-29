@@ -251,7 +251,8 @@ clear_velocity:
             ((S_80171964_2 *)base)->unk_88 + (*(u16 *)((u8 *)object_arg + (0x92))) -
             (*(u16 *)((u8 *)object_arg + (0xA2)));
     } else {
-        ((S_80171964_0 *)motion_arg)->unk_0A = (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg + (0xA2)));
+        ((S_80171964_0 *)motion_arg)->unk_0A = (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg
+            + (0xA2)));
     }
     ((S_80171964_1 *)part_arg)->unk_14 |= 0x40;
 }

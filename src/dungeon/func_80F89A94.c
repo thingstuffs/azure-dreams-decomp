@@ -42,7 +42,6 @@ typedef struct S_80173294_3 {
 } S_80173294_3;   /* p2 in func_80173294 */
 
 
-
 extern void func_8009A028();
 extern void func_8009A3D0();
 extern void func_800A2FE0();
@@ -79,81 +78,87 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
         motion_value = direction_y << 16;
         (*(s32 *)((u8 *)motion_data + 0x10)) = motion_value;
         (*(s32 *)((u8 *)motion_data + 0x14)) = state;
-        if (dungeonStatus.unk_0A != 0) return;
-        ((S_80173294_2 *)effect_data)->unk_9B++;
-        /* fall through */
-    case 1:
-        {
-            s32 flags;
-            s32 object_flags;
-            u16 sprite_x;
-            u16 sprite_flags;
-            u16 status;
-            register s32 clear_bit_27;
-            s32 clear_bit_18;
-
-            flags = ((S_80173294_0 *)object_data)->unk_14;
-            if (flags & 0x4000) {
-                if (!(flags & 0x20000000)) func_800ACF88(object_data);
-            }
-            func_800A56E0(0x805);
-            clear_bit_27 = 0xF7FFFFFF;
-            status = ((S_80173294_2 *)effect_data)->unk_98;
-            clear_bit_18 = 0xFFFBFFFF;
-            status |= 8;
-            ((S_80173294_2 *)effect_data)->unk_98 = status;
-            object_flags = ((S_80173294_0 *)object_data)->unk_1C;
-            object_flags &= clear_bit_27;
-            object_flags &= clear_bit_18;
-            ((S_80173294_0 *)object_data)->unk_1C = object_flags;
-
-            ((S_80173294_3 *)sprite_data)->unk_10 = 0x60;
-            sprite_x = ((S_80173294_3 *)sprite_data)->unk_12;
-            sprite_flags = ((S_80173294_3 *)sprite_data)->unk_14;
-            sprite_x -= 0x80;
-            sprite_flags |= 0xC;
-            ((S_80173294_3 *)sprite_data)->unk_12 = sprite_x;
-            ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
-            ((S_80173294_2 *)effect_data)->unk_9B++;
+        if (dungeonStatus.unk_0A != 0)
             return;
+        ((S_80173294_2 *)effect_data)->unk_9B++;
+                /* fall through */
+    case 1:
+    {
+        s32 flags;
+        s32 object_flags;
+        u16 sprite_x;
+        u16 sprite_flags;
+        u16 status;
+        register s32 clear_bit_27;
+        s32 clear_bit_18;
+
+        flags = ((S_80173294_0 *)object_data)->unk_14;
+        if (flags & 0x4000) {
+            if (!(flags & 0x20000000))
+                func_800ACF88(object_data);
         }
+        func_800A56E0(0x805);
+        clear_bit_27 = 0xF7FFFFFF;
+        status = ((S_80173294_2 *)effect_data)->unk_98;
+        clear_bit_18 = 0xFFFBFFFF;
+        status |= 8;
+        ((S_80173294_2 *)effect_data)->unk_98 = status;
+        object_flags = ((S_80173294_0 *)object_data)->unk_1C;
+        object_flags &= clear_bit_27;
+        object_flags &= clear_bit_18;
+        ((S_80173294_0 *)object_data)->unk_1C = object_flags;
+
+        ((S_80173294_3 *)sprite_data)->unk_10 = 0x60;
+        sprite_x = ((S_80173294_3 *)sprite_data)->unk_12;
+        sprite_flags = ((S_80173294_3 *)sprite_data)->unk_14;
+        sprite_x -= 0x80;
+        sprite_flags |= 0xC;
+        ((S_80173294_3 *)sprite_data)->unk_12 = sprite_x;
+        ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
+        ((S_80173294_2 *)effect_data)->unk_9B++;
+        return;
+    }
     case 2:
-        if (!(((S_80173294_3 *)sprite_data)->unk_14 & 0x6000)) return;
+        if (!(((S_80173294_3 *)sprite_data)->unk_14 & 0x6000))
+            return;
         ((S_80173294_2 *)effect_data)->unk_96.s16 = 0x80;
         ((S_80173294_2 *)effect_data)->unk_9B++;
         return;
     case 3:
-        {
-            u8 brightness;
-            u16 fade_level;
-            s32 linked_object;
-            s32 flags;
-            s32 tile_mask;
-            u8 tile_x;
-            u8 tile_y;
+    {
+        u8 brightness;
+        u16 fade_level;
+        s32 linked_object;
+        s32 flags;
+        s32 tile_mask;
+        u8 tile_x;
+        u8 tile_y;
 
-            ((S_80173294_0 *)object_data)->unk_1C |= 0x10000000;
-            brightness = ((S_80173294_2 *)effect_data)->unk_96.u8;
-            ((S_80173294_3 *)sprite_data)->unk_0E = brightness;
-            ((S_80173294_3 *)sprite_data)->unk_0D = brightness;
-            ((S_80173294_3 *)sprite_data)->unk_0C = brightness;
-            fade_level = ((S_80173294_2 *)effect_data)->unk_96.u16 - 0x10;
-            ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
-            if ((s16)fade_level >= 0x10) return;
-            linked_object = ((s32)dungeonStatus.unk_10);
-            if (linked_object == (s32)(object_data - 0x20)) dungeonStatus.unk_10 = linked_object & 0x7FFFFFFF;
-            func_800A2FE0(object_data);
-            func_800A32A4(object_data);
-            flags = ((S_80173294_0 *)object_data)->unk_1C;
-            tile_x = ((S_80173294_3 *)sprite_data)->unk_24;
-            tile_y = ((S_80173294_3 *)sprite_data)->unk_25;
-            tile_mask = 0x3000;
-            if (flags & 0x2000) tile_mask = 0x300;
-            func_8009A3D0(tile_x, tile_y, tile_mask);
-            func_8009A028(object_data);
-            (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-        }
+        ((S_80173294_0 *)object_data)->unk_1C |= 0x10000000;
+        brightness = ((S_80173294_2 *)effect_data)->unk_96.u8;
+        ((S_80173294_3 *)sprite_data)->unk_0E = brightness;
+        ((S_80173294_3 *)sprite_data)->unk_0D = brightness;
+        ((S_80173294_3 *)sprite_data)->unk_0C = brightness;
+        fade_level = ((S_80173294_2 *)effect_data)->unk_96.u16 - 0x10;
+        ((S_80173294_2 *)effect_data)->unk_96.u16 = fade_level;
+        if ((s16)fade_level >= 0x10)
+            return;
+        linked_object = ((s32)dungeonStatus.unk_10);
+        if (linked_object == (s32)(object_data - 0x20))
+            dungeonStatus.unk_10 = linked_object & 0x7FFFFFFF;
+        func_800A2FE0(object_data);
+        func_800A32A4(object_data);
+        flags = ((S_80173294_0 *)object_data)->unk_1C;
+        tile_x = ((S_80173294_3 *)sprite_data)->unk_24;
+        tile_y = ((S_80173294_3 *)sprite_data)->unk_25;
+        tile_mask = 0x3000;
+        if (flags & 0x2000)
+            tile_mask = 0x300;
+        func_8009A3D0(tile_x, tile_y, tile_mask);
+        func_8009A028(object_data);
+        (*(u16 *)((u8 *)object_data + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+    }
         return;
     default:
         return;

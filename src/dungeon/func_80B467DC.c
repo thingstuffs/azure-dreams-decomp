@@ -158,7 +158,7 @@ s32 func_80173FDC(u8 *node)
         row = 0;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         col = 7;
-    grid_loop:
+grid_loop:
         {
             GridPoint *point;
             s32 height;

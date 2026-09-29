@@ -23,14 +23,11 @@ typedef struct S_80173730_0 {
 } S_80173730_0;   /* arg0 in func_80173730 */
 
 
-
-
 /* Updates staged movement toward a target tile and finalizes the action. */
 void func_80173730(void *action, EntityRec *motion, void *target, EntityRec *actor)
 {
     u8 state;
     s16 timer;
-
 
 
     state = ((S_80173730_0 *)action)->unk_9B;
@@ -102,7 +99,7 @@ void func_80173730(void *action, EntityRec *motion, void *target, EntityRec *act
                     s32 current_y = motion->y.w.i - 0x20;
 
                     motion->unk_10 = ((target_y - current_y) << 16)
-                        / ((S_80173730_0 *)action)->unk_96.s;
+                    / ((S_80173730_0 *)action)->unk_96.s;
                 }
             }
         }
@@ -121,20 +118,20 @@ void func_80173730(void *action, EntityRec *motion, void *target, EntityRec *act
         return;
 
     case 3:
-        {
-            s32 entity_addr;
+    {
+        s32 entity_addr;
 
-            motion->flags14 = 0;
-            motion->unk_10 = 0;
-            motion->unk_0C = 0;
-            func_800A2B04(motion, ((Rec_D_80082E80 *)target)->unk_24,
-                ((Rec_D_80082E80 *)target)->unk_25);
-            entity_addr = ((s32)dungeonStatus.unk_10);
-            if (entity_addr == (s32)((u8 *)actor - 0x20)) {
-                dungeonStatus.unk_10 = entity_addr & 0x7FFFFFFF;
-            }
-            ((S_80173730_0 *)action)->unk_8C = &D_801714B8;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)target)->unk_24,
+            ((Rec_D_80082E80 *)target)->unk_25);
+        entity_addr = ((s32)dungeonStatus.unk_10);
+        if (entity_addr == (s32)((u8 *)actor - 0x20)) {
+            dungeonStatus.unk_10 = entity_addr & 0x7FFFFFFF;
         }
+        ((S_80173730_0 *)action)->unk_8C = &D_801714B8;
+    }
         return;
     }
 }

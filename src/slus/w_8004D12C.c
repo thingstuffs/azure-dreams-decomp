@@ -34,16 +34,20 @@ void func_8004D12C(void *record_data) {
     S_8004D12C_1 *output;
 
     output = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_04;
-    progress = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 + ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_1C;
+    progress = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 + ((S_8004D12C_0 *)((u8 *)record_data
+        - 0x4))->unk_1C;
     ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 = progress;
     if (progress >= 0x1000) {
         ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18 = 0x1000;
         ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_00 = 0;
     }
     delta_x = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_08;
-    output->unk_00 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_10 - delta_x) + ((s32) ((s16) delta_x * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
+    output->unk_00 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_10 - delta_x)
+        + ((s32) ((s16) delta_x * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
     delta_y = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_0A;
-    output->unk_02 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_12 - delta_y) + ((s32) ((s16) delta_y * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
+    output->unk_02 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_12 - delta_y)
+        + ((s32) ((s16) delta_y * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
     delta_z = ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_0C;
-    output->unk_04 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_14 - delta_z) + ((s32) ((s16) delta_z * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
+    output->unk_04 = (s16) ((((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_14 - delta_z)
+        + ((s32) ((s16) delta_z * ((S_8004D12C_0 *)((u8 *)record_data - 0x4))->unk_18) >> 0xC));
 }

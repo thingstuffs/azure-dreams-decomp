@@ -124,7 +124,6 @@ typedef struct S_80024BF4_5 {
 } S_80024BF4_5;   /* packet in func_80024BF4 */
 
 
-
 typedef struct {
     s16 m[3][3];
     s16 pad;
@@ -193,10 +192,10 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
     ((S_80024BF4_0 *)scratch)->unk_CC = quad->unk_60;
 
     ot_index = func_80065590(scratch + 0xB0, scratch + 0xB8,
-                          scratch + 0xC0, scratch + 0xC8,
-                          packet + 8, packet + 0x14,
-                          packet + 0x20, packet + 0x2C,
-                          scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
+                             scratch + 0xC0, scratch + 0xC8,
+                             packet + 8, packet + 0x14,
+                             packet + 0x20, packet + 0x2C,
+                             scratch + 0xD0, scratch + 0xD4) - depth_bias - 6;
     ((S_80024BF4_0 *)scratch)->unk_100 = ot_index;
 
     if ((u32)ot_index < 0x1E0) {
@@ -236,10 +235,12 @@ void func_80024BF4(S_80024BF4_4 *quad, S_80024BF4_1 *position, S_80024BF4_2 *ren
 
             ((S_80024BF4_5 *)packet)->unk_04.at03.v |= render_state->unk_0F;
             ((S_80024BF4_5 *)packet)->unk_00 = (((S_80024BF4_5 *)packet)->unk_00 & 0xFF000000) |
-                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2) + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
+                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2)
+                    + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0x00FFFFFF);
 
             (*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2) + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) =
-                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2) + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
+                ((*(u32 *)((u8 *)(((S_80024BF4_0 *)scratch)->unk_24.p2)
+                    + ((S_80024BF4_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
                 ((u32)packet & 0x00FFFFFF);
         }
     }

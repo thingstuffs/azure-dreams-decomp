@@ -49,7 +49,6 @@ typedef struct S_80172620_5 {
 } S_80172620_5;   /* pending in func_80172620 */
 
 
-
 typedef struct Copy24 {
     s32 word[6];
 } Copy24;

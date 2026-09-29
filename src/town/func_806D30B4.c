@@ -3,7 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 typedef void (*ReportFunc)(void *, void *, u32);

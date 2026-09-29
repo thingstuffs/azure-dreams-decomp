@@ -15,10 +15,9 @@ void func_80175F44(void *, s32, void *, s32, s32);
 extern u8 D_80080000[];
 
 
-
-
 /* Turn toward the target and start an action once aligned. */
-s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target, EntityRec *actor) {
+s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target,
+    EntityRec *actor) {
     s32 target_angle;
     s32 result;
     u16 *global_flags;
@@ -52,7 +51,7 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
         return -1;
     }
     if ((u32)(((0 - func_800A0134(target_angle, actor)) + 0x40) & 0xFFFF) <
-            0x81U) {
+        0x81U) {
         result = 1;
         if ((func_800A2B5C(actor) << 0x10) != 0) {
             return -1;

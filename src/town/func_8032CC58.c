@@ -10,10 +10,6 @@ typedef struct S_80017458_1 {
 } S_80017458_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80017458 */
 
 
-
-
-
-
 /* Invoke the system object callback with 0x25 and 0x200. */
 void func_80017458(void) {
     ((S_80017458_1 *)(D_80016000->unk_20))->unk_238(0x25, 0x200);

@@ -18,8 +18,6 @@ typedef struct S_800203D8_1 {
 } S_800203D8_1;   /* temp_v0 in func_800203D8 */
 
 
-
-
 /* Waits for the linked object flag, then dims the color and sets completion flags. */
 void func_800203D8(void *fade) {
     S_800203D8_1 *linked_obj;

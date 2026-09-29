@@ -61,7 +61,6 @@ typedef struct S_81876014_6 {
 } S_81876014_6;   /* ((S_81876014_0 *)arg0)->unk_48 in func_81876014 */
 
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s16 D_80026664;

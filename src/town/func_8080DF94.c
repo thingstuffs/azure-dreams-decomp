@@ -115,7 +115,8 @@ void func_8080DF94(void *obj, void *motion, void *part) {
             }
         }
         break;
-    case 0x20: {
+    case 0x20:
+    {
         s16 floor_y;
 
         ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
@@ -149,7 +150,8 @@ void func_8080DF94(void *obj, void *motion, void *part) {
         ((S_8080DF94_3 *)motion)->unk_10 = vel_x;
         break;
     }
-    case 0x21: {
+    case 0x21:
+    {
         s16 floor_y;
 
         ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
@@ -183,7 +185,8 @@ void func_8080DF94(void *obj, void *motion, void *part) {
         if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
             ((S_8080DF94_2 *)part)->unk_0C = 0;
         }
-        if ((((S_8080DF94_1 *)owner)->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1, ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
+        if ((((S_8080DF94_1 *)owner)->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1,
+            ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
             ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         }
         break;
@@ -191,7 +194,7 @@ void func_8080DF94(void *obj, void *motion, void *part) {
         ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
         ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
         ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
-        /* fall through */
+                /* fall through */
     case 0x101:
         ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
         if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
@@ -199,7 +202,8 @@ void func_8080DF94(void *obj, void *motion, void *part) {
             ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         }
         break;
-    case 0xFFF: {
+    case 0xFFF:
+    {
         s32 global_flags;
 
         (*(u16 *)((u8 *)(obj) + (-2))) = (u16)((*(u16 *)((u8 *)(obj) + (-2))) | 0x8000);

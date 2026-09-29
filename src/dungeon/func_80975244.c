@@ -113,7 +113,8 @@ void func_80975244(void *unused, S_80975244_5 *source_pos, void *sprite_template
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         func_8004491C(effect, func_80045340, src, dst);
         sprite->unk_2C = &D_80174128;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7) + D_80174128), 0);
+        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + facing_source->unk_2A + 0x100) >> 9) & 7)
+            + D_80174128), 0);
         effect_pos = ((S_80975244_1 *)effect)->unk_08;
         effect_pos->unk_02 = (u16) source_pos->unk_02;
         effect_pos->unk_06 = (u16) source_pos->unk_06;

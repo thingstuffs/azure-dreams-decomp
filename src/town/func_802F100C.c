@@ -8,7 +8,7 @@ struct TownBlob {
 
 /* Stores town data and embedded MIPS instructions. */
 static const struct TownBlob town_blob __asm__("func_802F100C")
-    __attribute__((section(".text.func_802F100C"), aligned(4))) = {
+__attribute__((section(".text.func_802F100C"), aligned(4))) = {
     {
         0x0000, 0xB2B1, 0x80FF, 0x5FC0, 0x000F, 0x0000, 0x00C0,
         0x00C1, 0x00C2, 0x00C3, 0x0000, 0x01B0, 0x04E0, 0x0636,
@@ -19,7 +19,9 @@ static const struct TownBlob town_blob __asm__("func_802F100C")
         0x01F8, 0x0230, 0x01E6, 0x0248, 0x0DAE, 0x06D8, 0x0128,
         0x013E, 0x0110, 0x0000
     },
-    { 0 },
+    {
+        0
+    },
     {
         0x8E230014, 0x00000000, 0x9462001E, 0x00000000,
         0x34422000, 0x081020AB, 0xA462001E, 0x1040000B,
@@ -50,6 +52,6 @@ static const struct TownBlob town_blob __asm__("func_802F100C")
 
 #ifdef __mips__
 __asm__(
-    ".globl func_802F100C\n"
-    ".size func_802F100C,904\n");
+        ".globl func_802F100C\n"
+        ".size func_802F100C,904\n");
 #endif

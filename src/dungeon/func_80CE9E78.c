@@ -4,15 +4,12 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80173678_1 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x1C];
     u8 unk_48;
 } S_80173678_1;   /* arg3 in func_80173678 */
-
-
 
 
 extern void func_80047784();

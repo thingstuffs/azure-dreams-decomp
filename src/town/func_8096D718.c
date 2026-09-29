@@ -70,7 +70,8 @@ void func_80125BB0(TownObject *obj)
         }
         break;
 
-    case 2: {
+    case 2:
+    {
         HalfFields *primary = ((TownObject *)(obj))->pool->pair->first;
         primary->field6 = 0;
         primary->field4 = 0;

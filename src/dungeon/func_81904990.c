@@ -407,7 +407,9 @@ frame_loop:
             scratch->unk_8A = tail_value;
             scratch->unk_82 = tail_value;
         }
-        func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
+        func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88,
+            (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC,
+            (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
         packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
         packet->unk_10.as_s16_10 = (s16) (scratch->unk_F4 + scratch->unk_B8);
@@ -460,7 +462,7 @@ frame_loop:
             packet->unk_0E = tail_value;
         }
         packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
-        clut_done_done:
+clut_done_done:
         ;
         packet->unk_14.as_s16_14 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10.as_s32_10);
         tpage_offset = frame->unk_10;
@@ -532,13 +534,17 @@ frame_loop:
         quad_end = (u8 *)packet + 32;
         *second_link = (*second_link & length_mask) | second_addr;
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
-        next_row_done:
+next_row_done:
         ;
         *(Blk40 *)packet = *(Blk40 *)first_quad;
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_12 = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_1A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7C);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_22 = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7C);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base
+            - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_12 = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base
+            - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_1A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base
+            - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7C);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_22 = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base
+            - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7C);
         row_v_offset = row_index * 0x10;
         if (row_index < 4) {
             tail_value = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0C.as_u8_0D.unk_0D;
@@ -581,10 +587,14 @@ frame_loop:
         row_heights = (u8 *)row_heights + 2;
         row_index += 1;
         right_row_addr = (s32) packet & addr_mask;
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_08.as_u16_08 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_08.as_u16_08 + 0x40);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_10.as_u16_10 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_10.as_u16_10 + 0x40);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 + 0x40);
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 + 0x40);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_08.as_u16_08 =
+            (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_08.as_u16_08 + 0x40);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_10.as_u16_10 =
+            (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_10.as_u16_10 + 0x40);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 =
+            (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 + 0x40);
+        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 =
+            (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 + 0x40);
         {
             packet_tag = packet->unk_00.as_s32_00;
             packet->unk_00.as_s32_00 = (packet_tag & length_mask) | (*scratch->unk_20 & addr_mask);
@@ -605,7 +615,8 @@ frame_loop:
             callback_frame = frame;
             callback_param = callback_arg;
             callback_data = frame_header;
-            packet = (S_func_81904990_7 *)draw_callback(callback_sprite, callback_param, callback_frame, callback_data, (u8 *)packet);
+            packet = (S_func_81904990_7 *)draw_callback(callback_sprite, callback_param, callback_frame, callback_data,
+                (u8 *)packet);
         }
     }
     if ((s8) frame_header->unk_00 >= 0) {

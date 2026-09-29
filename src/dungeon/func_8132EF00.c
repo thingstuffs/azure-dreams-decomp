@@ -6,7 +6,7 @@ typedef struct Copy12 {
 } __attribute__((packed)) Copy12;
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_UNALIGNED32(expr) (expr)
 
 extern void *func_8003FC64();

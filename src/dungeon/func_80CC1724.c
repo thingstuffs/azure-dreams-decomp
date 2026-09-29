@@ -39,7 +39,6 @@ typedef struct S_80174F24_3 {
 } S_80174F24_3;   /* arg1 in func_80174F24 */
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -77,46 +76,46 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
         } else {
             break;
         }
-        /* fall through */
+                /* fall through */
 
     case 1:
-        {
-            s16 move_ticks;
-            s32 target_delta;
-            s32 axis_pos;
-            s32 x_velocity;
+    {
+        s16 move_ticks;
+        s32 target_delta;
+        s32 axis_pos;
+        s32 x_velocity;
 
-            ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
-            move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
-            if (move_ticks != 0) {
-                target_delta = ((S_80174F24_1 *)unit)->unk_24 << 6;
-                axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
-                target_delta -= axis_pos;
-                x_velocity = (target_delta << 16) / move_ticks;
+        ((S_80174F24_0 *)action)->unk_90 -= ((S_80174F24_0 *)action)->unk_A0;
+        move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
+        if (move_ticks != 0) {
+            target_delta = ((S_80174F24_1 *)unit)->unk_24 << 6;
+            axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
+            target_delta -= axis_pos;
+            x_velocity = (target_delta << 16) / move_ticks;
 
-                axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
-                ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
-                axis_pos -= 0x20;
-                target_delta = ((S_80174F24_1 *)unit)->unk_25 << 6;
-                target_delta -= axis_pos;
-                ((S_80174F24_3 *)motion_arg)->unk_10 =
-                    (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
+            axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
+            ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
+            axis_pos -= 0x20;
+            target_delta = ((S_80174F24_1 *)unit)->unk_25 << 6;
+            target_delta -= axis_pos;
+            ((S_80174F24_3 *)motion_arg)->unk_10 =
+                (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
 
-                ((S_80174F24_0 *)action)->unk_A0 =
-                    (-func_800644B8(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
-            }
-
-            ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;
-            move_ticks = ((S_80174F24_0 *)action)->unk_9E.u - 1;
-            ((S_80174F24_0 *)action)->unk_9E.s = move_ticks;
-            if (move_ticks < 0) {
-                ((S_80174F24_0 *)action)->unk_90 = 0;
-                ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-                ((EntityRec *)actor)->flags1C |= 0x08000000;
-                ((S_80174F24_0 *)action)->unk_9B++;
-            }
+            ((S_80174F24_0 *)action)->unk_A0 =
+                (-func_800644B8(((S_80174F24_0 *)action)->unk_9E.s * 409)) << 9;
         }
-        /* fall through */
+
+        ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;
+        move_ticks = ((S_80174F24_0 *)action)->unk_9E.u - 1;
+        ((S_80174F24_0 *)action)->unk_9E.s = move_ticks;
+        if (move_ticks < 0) {
+            ((S_80174F24_0 *)action)->unk_90 = 0;
+            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
+            ((EntityRec *)actor)->flags1C |= 0x08000000;
+            ((S_80174F24_0 *)action)->unk_9B++;
+        }
+    }
+                /* fall through */
 
     case 2:
         if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {

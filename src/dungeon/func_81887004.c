@@ -93,91 +93,95 @@ jt_0:
     }
     goto end;
 
-jt_1: {
-    u8 *primary_rgb;
-    u8 *secondary_rgb;
+jt_1:
+    {
+        u8 *primary_rgb;
+        u8 *secondary_rgb;
 
-    effect->timer++;
-    D_80026470[0] = effect->timer * 2;
-    primary_rgb = D_80026470;
-    primary_rgb[1] = effect->timer * 4;
-    primary_rgb[2] = effect->timer * 14;
-    D_80026474[0] = effect->timer * 10;
-    secondary_rgb = D_80026474;
-    secondary_rgb[1] = effect->timer * 11;
-    secondary_rgb[2] = effect->timer * 14;
+        effect->timer++;
+        D_80026470[0] = effect->timer * 2;
+        primary_rgb = D_80026470;
+        primary_rgb[1] = effect->timer * 4;
+        primary_rgb[2] = effect->timer * 14;
+        D_80026474[0] = effect->timer * 10;
+        secondary_rgb = D_80026474;
+        secondary_rgb[1] = effect->timer * 11;
+        secondary_rgb[2] = effect->timer * 14;
 
-    for (burst_index = 0; burst_index < 4; burst_index++) {
-        func_8002596C(pos->x, pos->y, pos->z);
-    }
-    if (effect->timer >= 0x10) {
-        effect->timer = 0xA0;
-        effect->state++;
+        for (burst_index = 0; burst_index < 4; burst_index++) {
+            func_8002596C(pos->x, pos->y, pos->z);
+        }
+        if (effect->timer >= 0x10) {
+            effect->timer = 0xA0;
+            effect->state++;
+            goto end;
+        }
         goto end;
     }
-    goto end;
-}
 
-jt_2: {
-    u8 *random_rgb;
+jt_2:
+    {
+        u8 *random_rgb;
 
-    D_80026474[0] = (func_80069EF8() % 0x3F) - 0x80;
-    random_rgb = D_80026474;
-    random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
-    effect->timer -= D_80080A87[0];
-    if (effect->timer <= 0) {
-        func_80026010();
-        effect->timer = 0x10;
-        effect->state++;
+        D_80026474[0] = (func_80069EF8() % 0x3F) - 0x80;
+        random_rgb = D_80026474;
+        random_rgb[1] = (func_80069EF8() % 0x3F) - 0x80;
+        effect->timer -= D_80080A87[0];
+        if (effect->timer <= 0) {
+            func_80026010();
+            effect->timer = 0x10;
+            effect->state++;
+            goto end;
+        }
         goto end;
     }
-    goto end;
-}
 
-jt_3: {
-    u8 *primary_rgb;
-    u8 *secondary_rgb;
+jt_3:
+    {
+        u8 *primary_rgb;
+        u8 *secondary_rgb;
 
-    D_80026470[0] += -(s32)D_80026470[0] / effect->timer;
-    primary_rgb = D_80026470;
-    primary_rgb[1] += -(s32)primary_rgb[1] / effect->timer;
-    primary_rgb[2] += -(s32)primary_rgb[2] / effect->timer;
-    D_80026474[0] += -(s32)D_80026474[0] / effect->timer;
-    secondary_rgb = D_80026474;
-    secondary_rgb[1] += -(s32)secondary_rgb[1] / effect->timer;
-    secondary_rgb[2] += -(s32)secondary_rgb[2] / effect->timer;
-}
-
-jt_4: {
-    s32 neutral_level;
-    s32 effect_count;
-    u32 flags;
-    u32 clear_effect_mask;
-    Object *fade_object;
-
-    color = *(ColorObject **)((u8 *)effect->object - 0x14);
-    neutral_level = 0x80;
-    color->r += (neutral_level - color->r) / effect->timer;
-    color->g += (neutral_level - color->g) / effect->timer;
-    color->b += (neutral_level - color->b) / effect->timer;
-    effect->timer--;
-    if (effect->timer <= 0) {
-        clear_effect_mask = 0xEFFFFFFF;
-        color->r = neutral_level;
-        color->g = neutral_level;
-        color->b = neutral_level;
-        fade_object = effect->object;
-        effect_count = D_80026324[0];
-        flags = fade_object->flags;
-        effect_count--;
-        D_80026324[0] = effect_count;
-        flags &= clear_effect_mask;
-        fade_object->flags = flags;
-        ((u16 *)effect)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+        D_80026470[0] += -(s32)D_80026470[0] / effect->timer;
+        primary_rgb = D_80026470;
+        primary_rgb[1] += -(s32)primary_rgb[1] / effect->timer;
+        primary_rgb[2] += -(s32)primary_rgb[2] / effect->timer;
+        D_80026474[0] += -(s32)D_80026474[0] / effect->timer;
+        secondary_rgb = D_80026474;
+        secondary_rgb[1] += -(s32)secondary_rgb[1] / effect->timer;
+        secondary_rgb[2] += -(s32)secondary_rgb[2] / effect->timer;
     }
-    goto end;
-}
+
+jt_4:
+    {
+        s32 neutral_level;
+        s32 effect_count;
+        u32 flags;
+        u32 clear_effect_mask;
+        Object *fade_object;
+
+        color = *(ColorObject **)((u8 *)effect->object - 0x14);
+        neutral_level = 0x80;
+        color->r += (neutral_level - color->r) / effect->timer;
+        color->g += (neutral_level - color->g) / effect->timer;
+        color->b += (neutral_level - color->b) / effect->timer;
+        effect->timer--;
+        if (effect->timer <= 0) {
+            clear_effect_mask = 0xEFFFFFFF;
+            color->r = neutral_level;
+            color->g = neutral_level;
+            color->b = neutral_level;
+            fade_object = effect->object;
+            effect_count = D_80026324[0];
+            flags = fade_object->flags;
+            effect_count--;
+            D_80026324[0] = effect_count;
+            flags &= clear_effect_mask;
+            fade_object->flags = flags;
+            ((u16 *)effect)[-1] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        goto end;
+    }
 
 end:
     effect->ticks++;

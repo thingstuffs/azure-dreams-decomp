@@ -16,7 +16,6 @@ typedef struct S_80172514_1 {
 } S_80172514_1;   /* arg0 in func_80172514 */
 
 
-
 extern M2C_UNK func_80047784();
 extern M2C_UNK func_8009C93C();
 extern s32 func_800A2B5C();

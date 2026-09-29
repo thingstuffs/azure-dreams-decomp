@@ -27,7 +27,11 @@ typedef struct S_80170B64_0 {
     u8 unk_71;
     u8 pad_72[0x1A];
     M2C_UNK (*unk_8C)(void *, void *, void *, void *);
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_90;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; s16 v; } at02;
+        struct { u8 pad[0x2]; u16 v; } at02u;
+    } unk_90;   /* overlapping accesses */
     s16 unk_94;
     u8 pad_96[0x2];
     u16 unk_98;
@@ -116,7 +120,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
             update_callback(actor, motion, sprite_arg, actor);
         }
         ((M2C_UNK (**)(void *, void *, void *, void *))&D_801741D4)
-            [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
+        [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
         if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
             func_800AA36C(actor, motion, sprite_arg, actor);
         }
@@ -241,7 +245,7 @@ apply_floor_height:
                     hover_floor_offset = func_800BCB04(((S_80170B64_1 *)motion)->unk_00.at02.v,
                         ((S_80170B64_1 *)motion)->unk_04.at02.v,
                         (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20)) -
-                    ((S_80170B64_3 *)actor_base)->unk_88;
+                        ((S_80170B64_3 *)actor_base)->unk_88;
                     if (((S_80170B64_0 *)actor)->unk_90.at02.v > ((s16)hover_floor_offset - 0x20)) {
                         ((S_80170B64_0 *)actor)->unk_90.at02.v =
                             ((S_80170B64_0 *)actor)->unk_90.at02u.v - 8;

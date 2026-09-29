@@ -61,7 +61,8 @@ void func_8052AE20(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
 
     state = arg0->unk_00;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         s32 value;
         value = arg1->unk_08 - 0x80000;
         arg1->unk_08 = value;
@@ -73,7 +74,8 @@ void func_8052AE20(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
         return;
     }
 
-    case 1: {
+    case 1:
+    {
         s32 called_v0;
         called_v0 = called;
         if (called_v0 != 0 && ((S_80810220_4 *)(arg0->unk_04))->unk_22 == 3) {
@@ -92,7 +94,8 @@ void func_8052AE20(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
         return;
     }
 
-    case 2: {
+    case 2:
+    {
         s32 value;
         value = arg1->unk_08 + 0x80000;
         arg1->unk_08 = value;

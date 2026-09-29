@@ -32,12 +32,16 @@ typedef struct S_81952B4C_1 {
 
 typedef struct S_81952B4C_2 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
 } S_81952B4C_2;   /* arg2 in func_8002434C */
-
 
 
 extern s32 func_800644B8(s32);

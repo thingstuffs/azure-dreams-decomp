@@ -27,7 +27,6 @@ typedef struct S_81977B40_1 {
 } S_81977B40_1;   /* base in func_81977B40 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 rand();
@@ -51,7 +50,9 @@ void func_81977B40(void *source_data)
     object = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
     entry_index = 0;
     if (object != NULL) {
-        do { ((S_81977B40_0 *)object)->unk_10 = D_800251E8; } while (0);
+        do {
+            ((S_81977B40_0 *)object)->unk_10 = D_800251E8;
+        } while (0);
         object_data = (u8 *)object + 0x20;
         ASM_KEEP(object_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         parent = ((S_81977B40_1 *)cursor)->unk_20;

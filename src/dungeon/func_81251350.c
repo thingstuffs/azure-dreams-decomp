@@ -122,7 +122,8 @@ void func_80170B50(void *owner_data, S_80170B50_5 *base_position, void *sprite_t
         } while (copy_src != (sprite_template + 0x30));
         func_8004491C(object, func_80045340, copy_dst, copy_src);
         ((S_80170B50_3 *)sprite)->unk_2C = &D_80173EB4;
-        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (gameWork.view.viewAngle + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
+        func_80047784(sprite, *((u8 *)&D_80173EB4 + ((((s32) (gameWork.view.viewAngle
+            + (s16) ((S_80170B50_2 *)((u8 *)owner_data - 0x14))->unk_3E + 0x100) >> 9) & 7))), 0);
         ((S_80170B50_3 *)sprite)->unk_10 = 0x20;
         sprite_flags = ((S_80170B50_3 *)sprite)->unk_14 | 0xC;
         ((S_80170B50_3 *)sprite)->unk_14 = sprite_flags;

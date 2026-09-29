@@ -97,9 +97,9 @@ init:
     F(D_800814A8, s32, 0xF4) = 0;
     F(((u8 *)(&D_80082E80)), u16, 6) = 6;
     F(effect_base, void *, 0x64) = func_800249F0(effect_base, position, effect_context, D_80025704,
-                                                enabled, 0x1000, 0x1000, initial_color);
+                                                 enabled, 0x1000, 0x1000, initial_color);
     F(effect_base, void *, 0x68) = func_800249F0(effect_base, position, effect_context, D_80025710,
-                                                2, 0xE00, 0xE00, 0x00E0E0E0);
+                                                 2, 0xE00, 0xE00, 0x00E0E0E0);
     old_state = F(effect_base, u16, 0xA);
     F(D_8002571C, u16, 0) = (u16)enabled;
     F(effect_base, u16, 0xA) = (u16)(old_state + 1);
@@ -167,7 +167,8 @@ emit_trail:
         }
     }
     particle_index = 0;
-    loop_0: {
+loop_0:
+    {
         bits = (u32)func_80069EF8();
         particle_color = 0x200000;
         particle_alpha = particle_alpha_from_random(bits);
@@ -180,12 +181,15 @@ emit_trail:
                       particle_x, F(effect_base, s16, 0xE),
                       F(effect_base, s16, 0x10));
         particle_index++;
-    } if (particle_index < 4) goto loop_0;
+    }
+    if (particle_index < 4)
+        goto loop_0;
     particle_index = 0;
     spawn_data = D_8002492C;
     world_offset = &D_80083780;
     effect_context = 0x80;
-    loop_1: {
+loop_1:
+    {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
             F(particle, s16, 0x4A) = 8;
@@ -244,7 +248,9 @@ emit_trail:
             F(sprite, u8, 0xC) = (u8)effect_context;
         }
         particle_index++;
-    } if (particle_index < 4) goto loop_1;
+    }
+    if (particle_index < 4)
+        goto loop_1;
     if (F(effect_base, s16, 0x20) < 6) {
         F(effect_base, s16, 0x18) =
             (F(effect_base, s16, 0xC) + F(effect_base, s16, 0x12)) / 2;
@@ -271,7 +277,8 @@ emit_trail:
         spawn_data = D_8002492C;
         world_offset = &D_80083780;
         effect_context = 0x80;
-        loop_4: {
+loop_4:
+        {
             particle = func_8003FC64(0x212);
             if (particle != 0) {
                 F(particle, s16, 0x4A) = 8;
@@ -335,7 +342,9 @@ emit_trail:
                 }
             }
             particle_index++;
-        } if (particle_index < 4) goto loop_4;
+        }
+        if (particle_index < 4)
+            goto loop_4;
     }
     {
         bits = F(effect_base, u16, 0xC);

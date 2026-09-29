@@ -273,7 +273,8 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                 state_m = (s32) ring_angles;
                 opening_angles = (void *) state_m;
                 radius = scale;
-                loop_1: {
+loop_1:
+                {
                     sector = 0;
                     ring_index_shifted = ring_index << 0x10;
                     signed_ring_index = ring_index_shifted >> 0x10;
@@ -317,7 +318,9 @@ opening_sector_loop:
                     }
                     next_opening_ring = ring_index + 1;
                     ring_index = next_opening_ring;
-                } if (next_opening_ring < 0xA) goto loop_1;
+                }
+                if (next_opening_ring < 0xA)
+                    goto loop_1;
                 state_m = (s32) *(void **)&effect;
                 opening_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
                 ((S_801749EC_1 *)state_m)->unk_0C = opening_progress;
@@ -340,81 +343,81 @@ opening_sector_loop:
         goto select_line_data;
     }
     {
-    s16 *angle_base;
-    s32 angle_limit;
-    scale = 0x1E;
-    ring_index = 8;
-    state_m = (s32) *(void *volatile *)&effect;
-    angle_base = ring_angles;
-    angle_limit = -0x400;
-    ring_angles[9] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
-    do {
-        closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
-        closing_angle_value = ((S_801749EC_4 *)closing_angle_slot)->unk_02 - 0xCC;
-        ((S_801749EC_4 *)closing_angle_slot)->unk_00 = closing_angle_value;
-        if (closing_angle_value < -0x400) {
-            ((S_801749EC_4 *)closing_angle_slot)->unk_00 = angle_limit;
-        }
-        prev_angle_index = ring_index - 1;
-        ring_index = prev_angle_index;
-    } while ((prev_angle_index << 0x10) != 0);
-    ring_index = 0;
-    state_m = (s32) ring_angles;
-    closing_angles = (void *) state_m;
-    radius = scale;
-    do {
-        sector = 0;
-        ring_index_shifted = ring_index << 0x10;
-        signed_ring_index = ring_index_shifted >> 0x10;
-        state_m = (s32) closing_angles;
-        {
-            s32 scaled_outer;
-            scaled_outer = signed_ring_index << 1;
-            closing_angle = (s16 *) (scaled_outer + state_m);
-        }
+        s16 *angle_base;
+        s32 angle_limit;
+        scale = 0x1E;
+        ring_index = 8;
+        state_m = (s32) *(void *volatile *)&effect;
+        angle_base = ring_angles;
+        angle_limit = -0x400;
+        ring_angles[9] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
+        do {
+            closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
+            closing_angle_value = ((S_801749EC_4 *)closing_angle_slot)->unk_02 - 0xCC;
+            ((S_801749EC_4 *)closing_angle_slot)->unk_00 = closing_angle_value;
+            if (closing_angle_value < -0x400) {
+                ((S_801749EC_4 *)closing_angle_slot)->unk_00 = angle_limit;
+            }
+            prev_angle_index = ring_index - 1;
+            ring_index = prev_angle_index;
+        } while ((prev_angle_index << 0x10) != 0);
+        ring_index = 0;
+        state_m = (s32) ring_angles;
+        closing_angles = (void *) state_m;
+        radius = scale;
+        do {
+            sector = 0;
+            ring_index_shifted = ring_index << 0x10;
+            signed_ring_index = ring_index_shifted >> 0x10;
+            state_m = (s32) closing_angles;
+            {
+                s32 scaled_outer;
+                scaled_outer = signed_ring_index << 1;
+                closing_angle = (s16 *) (scaled_outer + state_m);
+            }
 closing_sector_loop:
-        closing_sector_radius = sector << 0x10;
-        state_m = radius * func_800644B8(*closing_angle);
-        closing_sector_radius >>= 0x10;
-        vertex_offset = (closing_sector_radius * 6) + (signed_ring_index * 0x24);
-        closing_vertex = (s8 *)vertices + vertex_offset;
-        {
-            coordinate = state_m >> 0xC;
-            ((S_801749EC_5 *)closing_vertex)->unk_04 = (s16) coordinate;
+            closing_sector_radius = sector << 0x10;
+            state_m = radius * func_800644B8(*closing_angle);
+            closing_sector_radius >>= 0x10;
+            vertex_offset = (closing_sector_radius * 6) + (signed_ring_index * 0x24);
+            closing_vertex = (s8 *)vertices + vertex_offset;
+            {
+                coordinate = state_m >> 0xC;
+                ((S_801749EC_5 *)closing_vertex)->unk_04 = (s16) coordinate;
+            }
+            closing_azimuth = closing_sector_radius << 2;
+            state_m = radius * func_80064584(*closing_angle);
+            closing_azimuth += closing_sector_radius;
+            closing_azimuth += closing_azimuth << 4;
+            closing_azimuth <<= 2;
+            closing_azimuth += closing_sector_radius;
+            closing_azimuth <<= 1;
+            closing_sector_radius = state_m >> 0xC;
+            state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
+            {
+                coordinate = state_m >> 0xC;
+                ((S_801749EC_5 *)closing_vertex)->unk_00 = (s16) coordinate;
+            }
+            next_closing_sector = sector + 1;
+            sector = next_closing_sector;
+            state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
+            {
+                y_coordinate = state_m >> 0xC;
+                ((S_801749EC_5 *)closing_vertex)->unk_02 = (s16) y_coordinate;
+            }
+            if (next_closing_sector < 6) {
+                goto closing_sector_loop;
+            }
+            next_closing_ring = ring_index + 1;
+            ring_index = next_closing_ring;
+        } while (next_closing_ring < 0xA);
+        state_m = (s32) *(void **)&effect;
+        closing_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
+        ((S_801749EC_1 *)state_m)->unk_0C = closing_progress;
+        if ((s16) closing_progress >= 0x800) {
+            ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
         }
-        closing_azimuth = closing_sector_radius << 2;
-        state_m = radius * func_80064584(*closing_angle);
-        closing_azimuth += closing_sector_radius;
-        closing_azimuth += closing_azimuth << 4;
-        closing_azimuth <<= 2;
-        closing_azimuth += closing_sector_radius;
-        closing_azimuth <<= 1;
-        closing_sector_radius = state_m >> 0xC;
-        state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
-        {
-            coordinate = state_m >> 0xC;
-            ((S_801749EC_5 *)closing_vertex)->unk_00 = (s16) coordinate;
-        }
-        next_closing_sector = sector + 1;
-        sector = next_closing_sector;
-        state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
-        {
-            y_coordinate = state_m >> 0xC;
-            ((S_801749EC_5 *)closing_vertex)->unk_02 = (s16) y_coordinate;
-        }
-        if (next_closing_sector < 6) {
-            goto closing_sector_loop;
-        }
-        next_closing_ring = ring_index + 1;
-        ring_index = next_closing_ring;
-    } while (next_closing_ring < 0xA);
-    state_m = (s32) *(void **)&effect;
-    closing_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
-    ((S_801749EC_1 *)state_m)->unk_0C = closing_progress;
-    if ((s16) closing_progress >= 0x800) {
-        ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
-    }
-    meridian = 0;
+        meridian = 0;
     }
 select_line_data:
     line_data = &D_801749A8;
@@ -474,17 +477,17 @@ meridian_segment_loop:
     ring = 1;
     ring_data = &D_801749A8;
     angle_or_vertices = (s16 *)vertices;
-do {
-    ring_sector = 0;
-    {
-        s32 signed_outer;
-        s32 scaled_outer;
-        signed_outer = ring;
-        scaled_outer = (signed_outer << 3) + signed_outer;
-        vertex_base_or_offset = scaled_outer << 2;
-    }
-    sector_or_ring_start = (s8 *)angle_or_vertices + vertex_base_or_offset;
     do {
+        ring_sector = 0;
+        {
+            s32 signed_outer;
+            s32 scaled_outer;
+            signed_outer = ring;
+            scaled_outer = (signed_outer << 3) + signed_outer;
+            vertex_base_or_offset = scaled_outer << 2;
+        }
+        sector_or_ring_start = (s8 *)angle_or_vertices + vertex_base_or_offset;
+        do {
             ring_object = func_8003FC64(0x212);
             if (ring_object != NULL) {
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -531,9 +534,9 @@ do {
             }
             next_ring_sector = ring_sector + 1;
             ring_sector = next_ring_sector;
-    } while (next_ring_sector < 6);
-    next_ring = ring + 1;
-    ring = next_ring;
+        } while (next_ring_sector < 6);
+        next_ring = ring + 1;
+        ring = next_ring;
     } while (next_ring < 9);
     {
         state_m = (s32)(*(void **)&effect);

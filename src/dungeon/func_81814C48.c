@@ -21,7 +21,6 @@ typedef struct S_81814C48_2 {
 } S_81814C48_2;   /* arg2 in func_81814C48 */
 
 
-
 extern s32 rand();
 extern s16 func_800BCB04();
 extern s16 D_80025338;
@@ -45,12 +44,12 @@ void func_81814C48(void *state, void *position, void *linked_state)
     if ((s16)((S_81814C48_0 *)position)->unk_08.at02.v <
         func_800BCB04(x, y, (s16)(z + 2))) {
         x_step = ((*(s16 *)(((s8 *)dirStepX) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
-                    ((S_81814C48_1 *)state)->unk_32) << 9) +
+                   ((S_81814C48_1 *)state)->unk_32) << 9) +
                   (rand() & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_00.at00.v + x_step;
         ((S_81814C48_0 *)position)->unk_00.at00.v = coord_value;
         z_step = ((*(s16 *)(((s8 *)dirStepY) + (((S_81814C48_1 *)state)->unk_14 * 2)) *
-                      ((S_81814C48_1 *)state)->unk_32) << 9) +
+                   ((S_81814C48_1 *)state)->unk_32) << 9) +
                     (rand(x_step) & 0xFFFF);
         coord_value = ((S_81814C48_0 *)position)->unk_04.at00.v + z_step;
         ((S_81814C48_0 *)position)->unk_04.at00.v = coord_value;

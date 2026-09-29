@@ -6,13 +6,10 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 
-
 typedef struct S_80172E80_1 {
     u8 pad_00[0x2];
     u16 unk_02;
 } S_80172E80_1;   /* flags_base in func_80172E80 */
-
-
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))

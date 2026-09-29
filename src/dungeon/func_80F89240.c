@@ -93,7 +93,6 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
     s32 item_id;
 
 
-
     state = ((S_80172A40_0 *)owner_input)->unk_9B;
     special = 0;
     switch (state) {
@@ -136,18 +135,18 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
             item_slot = 0;
         }
         goto selected;
-    slot_three:
+slot_three:
         item_slot = (u8 *)object + 0xE;
         goto selected;
-    slot_two:
+slot_two:
         item_slot = (u8 *)object + 0xB;
         goto selected;
-    slot_one:
+slot_one:
         item_slot = (u8 *)object + 8;
         goto selected;
-    slot_none:
+slot_none:
         item_slot = 0;
-    selected:
+selected:
         if (*item_slot != 0) {
             ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFF7F;
 
@@ -217,7 +216,7 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         }
         ((S_80172A40_4 *)actor_input)->unk_14 &= 0xF7FF;
         ((S_80172A40_0 *)owner_input)->unk_9B++;
-        /* fall through */
+                /* fall through */
 
     case 2:
         ((S_80172A40_0 *)owner_input)->unk_92 +=

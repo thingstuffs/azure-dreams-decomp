@@ -19,13 +19,16 @@ typedef struct S_801654F0_1 {
     u8 unk_01;
     u8 unk_02;
     u8 pad_03[0x1];
-    union { struct { u8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_04;   /* overlapping accesses */
     s32 unk_08;
     u8 pad_0C[0x26];
     u16 unk_32;
 } S_801654F0_1;   /* arg0 in func_801654F0 */
-
-
 
 
 /* Advance effect motion, copy its color, and flag expiration when its lifetime ends. */

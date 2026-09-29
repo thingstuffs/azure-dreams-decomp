@@ -85,7 +85,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
             func_80047784(
                 sprite,
                 dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                        entity->facing + 0x100) >> 9) & 7],
+                            entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         counter_base = &dungeonStatus;
@@ -158,7 +158,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, En
             func_80047784(
                 sprite,
                 dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                        entity->facing + 0x100) >> 9) & 7],
+                            entity->facing + 0x100) >> 9) & 7],
                 0);
         }
         if (sprite->unk_14.at00_u16.v & 0x8000) {

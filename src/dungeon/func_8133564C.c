@@ -74,7 +74,8 @@ extern u8 D_80175DC0;
 extern u8 D_80175DC1;
 
 /* Move the actor back to its tile, update its animation, and advance its recovery state. */
-void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite, S_func_8016C64C_3 *actor)
+void func_8016C64C(S_func_8016C64C_0 *action, S_func_8016C64C_1 *motion, S_func_8016C64C_2 *sprite,
+    S_func_8016C64C_3 *actor)
 {
     s16 target_distance;
     s16 frame_count;

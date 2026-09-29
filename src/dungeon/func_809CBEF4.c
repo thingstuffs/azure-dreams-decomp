@@ -7,11 +7,6 @@
 #include "shared/entity.h"
 
 
-
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);
@@ -116,15 +111,15 @@ void func_801736F4(void *controller, void *context, void *sprite, EntityRec *ent
         dungeonStatus.unk_0A++;
         ((Rec_func_801736F4_arg0 *)controller)->unk_9B++;
     }
-    break;
+        break;
     case 2:
-    if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
+        if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
 
-        dungeonStatus.unk_0A--;
-        entity->flags1C &= ~0x208;
-        ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
-    }
+            dungeonStatus.unk_0A--;
+            entity->flags1C &= ~0x208;
+            ((Rec_func_801736F4_arg0 *)controller)->unk_8C = &D_80170E54;
+        }
 
-    return;
+        return;
     }
 }

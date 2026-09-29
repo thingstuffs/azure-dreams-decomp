@@ -115,15 +115,15 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
     ((S_80173734_3 *)action_state)->unk_9A = 0x11;
 
     switch (((S_80173734_0 *)actor)->unk_48) {
-        case 13:
+    case 13:
         ((S_80173734_0 *)actor)->unk_84 = 0x78;
         ((S_80173734_0 *)actor)->unk_85 = 8;
         break;
-        case 14:
+    case 14:
         ((S_80173734_0 *)actor)->unk_84 = 0x70;
         ((S_80173734_0 *)actor)->unk_85 = 2;
         break;
-        case 15:
+    case 15:
         ((S_80173734_0 *)actor)->unk_84 = 0x74;
         ((S_80173734_0 *)actor)->unk_85 = result;
         break;

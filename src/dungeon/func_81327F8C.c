@@ -69,14 +69,16 @@ void func_8016F78C(void *actor, M2C_UNK context, void *sprite, EntityRec *entity
             return;
         }
     }
-    ((Rec_D_80082E80 *)sprite)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    ((Rec_D_80082E80 *)sprite)->unk_26.as_s8 = func_8009FB34(((Rec_D_80082E80 *)sprite)->unk_24,
+        ((Rec_D_80082E80 *)sprite)->unk_25);
     if (entity->unk_6D > 0) {
         if (entity->flags1C & 0x20) {
             func_800A9A0C(entity);
             return;
         }
         if (!(entity->unk_46 & 0x8000)) {
-            if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) == 0)) {
+            if (!(dungeonStatus.flags & 0x2000) || ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10)
+                == 0)) {
                 if (D_80013714 & 8) {
                     func_80174320(actor, context, sprite);
                     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);

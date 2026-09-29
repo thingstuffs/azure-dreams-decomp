@@ -40,7 +40,6 @@ typedef struct S_80956E6C_4 {
 } S_80956E6C_4;   /* arg2 in func_80956E6C */
 
 
-
 typedef struct Palette {
     s32 value[5];
 } Palette;

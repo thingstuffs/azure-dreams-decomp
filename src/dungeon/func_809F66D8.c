@@ -6,7 +6,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_8009A180(void *, void *);
 extern s32 func_800A2C34(void *);

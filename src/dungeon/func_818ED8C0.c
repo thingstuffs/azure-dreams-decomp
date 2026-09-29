@@ -55,11 +55,13 @@ void func_800250C0(void *effect, s32 age, S_800250C0_1 *color, s32 fade_ticks) {
     case 4:
     case 5:
     case 6:
-        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20
+            + 1);
         ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A + 0x10);
         break;
     case 3:
-        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 + 1);
+        ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20 = (s16) ((u16) ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_20
+            + 1);
         ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2A - 0x30);
         ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B + 0x20);
         break;

@@ -10,11 +10,6 @@ typedef struct S_8001A51C_4 {
 } S_8001A51C_4;   /* ((S_8001A51C_3 *)(D_80016000[0]))->unk_24 in func_8001A51C */
 
 
-
-
-
-
-
 typedef struct S_8001A51C_0 {
     u8 pad_00[0x1DC];
     u16 * unk_1DC;

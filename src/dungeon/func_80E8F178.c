@@ -32,7 +32,6 @@ typedef struct S_80174978_2 {
 } S_80174978_2;   /* arg1 in func_80174978 */
 
 
-
 extern void func_800A7A7C(s16, s16, s16, s32, void *);
 
 /* Updates a timed movement animation and marks its completion. */
@@ -56,7 +55,7 @@ void func_80174978(void *actor, void *motion, void *visual) {
         ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
 
     case 1:
-        {
+    {
         s32 target_x;
         s32 current_x;
 
@@ -64,7 +63,7 @@ void func_80174978(void *actor, void *motion, void *visual) {
         current_x = ((S_80174978_2 *)motion)->unk_02 - 0x20;
         ((S_80174978_2 *)motion)->unk_02 = (u16)((S_80174978_2 *)motion)->unk_02 +
             ((target_x - current_x) >> 1);
-        }
+    }
         z_step = ((S_80174978_0 *)actor)->unk_AA;
         speed_or_z = ((S_80174978_2 *)motion)->unk_14 + 0x30000;
         next_height = ((S_80174978_2 *)motion)->unk_08.at00.v + speed_or_z;

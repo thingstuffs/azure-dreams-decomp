@@ -4,7 +4,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80172920_1 {
     u8 pad_00[0x2];
     u16 unk_02;
@@ -18,8 +17,6 @@ typedef struct S_80172920_3 {
     s8 unk_9A;
     s8 unk_9B;
 } S_80172920_3;   /* arg0 in func_80172920 */
-
-
 
 
 extern void func_8009C93C(void *, void *, s16, s32, s32);

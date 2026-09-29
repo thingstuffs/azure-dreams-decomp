@@ -23,7 +23,6 @@ typedef struct S_80174424_1 {
 } S_80174424_1;   /* out in func_80174424 */
 
 
-
 extern void func_80067014(s32 arg0);
 extern void func_800672D8(void *arg0, void *arg1);
 extern void func_8006733C(void *arg0, void *arg1);
@@ -84,56 +83,56 @@ void func_80174424(void *effect)
     do {
         palette_index = (palette_row << 4) + 15;
         do {
-                    sample_count = 0;
-                    channel_pair = buffer_base;
-                    sample_index = palette_index;
-            unpack_pair:
-                    sample_offset = sample_index << 1;
-                    sample_index += 0x30;
-                    packed_color = *(u16 *)(u32)(sample_offset + (u32)(s8 *)buffer_base + 8);
-                    sample_count++;
-                    ((S_80174424_1 *)channel_pair)->unk_208 = packed_color & 0x1F;
-                    ((S_80174424_1 *)channel_pair)->unk_210 = ((packed_color << 16) >> 21) & 0x1F;
-                    ((S_80174424_1 *)channel_pair)->unk_218 = ((packed_color << 16) >> 26) & 0x1F;
-                    channel_pair++;
-                    if (sample_count < 2) {
-                        goto unpack_pair;
-                    }
+            sample_count = 0;
+            channel_pair = buffer_base;
+            sample_index = palette_index;
+unpack_pair:
+            sample_offset = sample_index << 1;
+            sample_index += 0x30;
+            packed_color = *(u16 *)(u32)(sample_offset + (u32)(s8 *)buffer_base + 8);
+            sample_count++;
+            ((S_80174424_1 *)channel_pair)->unk_208 = packed_color & 0x1F;
+            ((S_80174424_1 *)channel_pair)->unk_210 = ((packed_color << 16) >> 21) & 0x1F;
+            ((S_80174424_1 *)channel_pair)->unk_218 = ((packed_color << 16) >> 26) & 0x1F;
+            channel_pair++;
+            if (sample_count < 2) {
+                goto unpack_pair;
+            }
 
-                    buffer[0x104] = (u16)buffer[0x104] +
-                        ((buffer[0x105] - buffer[0x104]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
-                    buffer[0x108] = (u16)buffer[0x108] +
-                        ((buffer[0x109] - buffer[0x108]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
-                    {
-                        s32 blue_step;
-                        s32 pixel_offset;
+            buffer[0x104] = (u16)buffer[0x104] +
+                ((buffer[0x105] - buffer[0x104]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
+            buffer[0x108] = (u16)buffer[0x108] +
+                ((buffer[0x109] - buffer[0x108]) * blend_scale) / ((S_80174424_0 *)effect)->unk_A8.s;
+            {
+                s32 blue_step;
+                s32 pixel_offset;
 
-                        blue_step = ((buffer[0x10D] - buffer[0x10C]) * blend_scale) /
-                            ((S_80174424_0 *)effect)->unk_A8.s;
-                        pixel_offset = palette_index << 1;
-                        palette_index--;
-                        buffer[0x10C] = (u16)buffer[0x10C] + blue_step;
-                        color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
-                        result_color = *(u16 *)((s8 *)color_ptr + 8);
-                        column--;
-                        result_color &= 0x8000;
-                        *(u16 *)((s8 *)color_ptr + 8) = result_color;
-                        {
-                            s16 red;
-                            s32 green;
-                            s32 blue;
+                blue_step = ((buffer[0x10D] - buffer[0x10C]) * blend_scale) /
+                    ((S_80174424_0 *)effect)->unk_A8.s;
+                pixel_offset = palette_index << 1;
+                palette_index--;
+                buffer[0x10C] = (u16)buffer[0x10C] + blue_step;
+                color_ptr = (s16 *)(u32)(pixel_offset + (u32)(s8 *)buffer_base);
+                result_color = *(u16 *)((s8 *)color_ptr + 8);
+                column--;
+                result_color &= 0x8000;
+                *(u16 *)((s8 *)color_ptr + 8) = result_color;
+                {
+                    s16 red;
+                    s32 green;
+                    s32 blue;
 
-                            blue = (u16)buffer[0x10C];
-                            green = (u16)buffer[0x108];
-                            red = (u16)buffer[0x104];
-                            blue <<= 10;
-                            green <<= 5;
-                            blue += green;
-                            red += blue;
-                            result_color += red;
-                            *(u16 *)((s8 *)color_ptr + 8) = result_color;
-                        }
-                    }
+                    blue = (u16)buffer[0x10C];
+                    green = (u16)buffer[0x108];
+                    red = (u16)buffer[0x104];
+                    blue <<= 10;
+                    green <<= 5;
+                    blue += green;
+                    red += blue;
+                    result_color += red;
+                    *(u16 *)((s8 *)color_ptr + 8) = result_color;
+                }
+            }
         } while (column >= 0);
         palette_row -= 4;
         column = 15;

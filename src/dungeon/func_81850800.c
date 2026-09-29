@@ -21,10 +21,10 @@ extern void func_80024004(void);
 
 #ifdef __mips__
 static void (*const func_81850800_table[])(void)
-    __asm__("func_81850800")
-    __attribute__((section(".text.func_81850800"), aligned(4))) = {
-        func_80024004,
-    };
+__asm__("func_81850800")
+__attribute__((section(".text.func_81850800"), aligned(4))) = {
+    func_80024004,
+};
 __asm__(".globl func_81850800\n"
         ".type func_81850800,@function\n"
         ".size func_81850800, 2012");

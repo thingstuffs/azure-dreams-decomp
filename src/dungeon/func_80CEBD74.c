@@ -13,10 +13,6 @@ typedef struct S_80175574_0 {
 } S_80175574_0;   /* arg0 in func_80175574 */
 
 
-
-
-
-
 typedef struct {
     u8 pad00[0x8c];
     void *field8c;
@@ -118,51 +114,51 @@ void func_80175574(Obj0 *controller, void *context, Obj2 *animation, Obj3 *actor
         return;
 
     case 1:
-        {
-            u8 *dir_table;
-            void *current_table;
+    {
+        u8 *dir_table;
+        void *current_table;
 
-            switch (((EntityRec *)actor)->unk_48) {
-            default:
-                break;
-            case 13:
-                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
-                dir_table = D_80175E54;
-                if (current_table != dir_table) {
-                    (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                    table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
-                    table_entry += (unsigned long)dir_table;
-                    func_80047784(animation,
-                        *(u8 *)table_entry,
-                        0);
-                }
-                break;
-            case 14:
-                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
-                dir_table = D_80175E5C;
-                if (current_table != dir_table) {
-                    (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                    table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
-                    table_entry += (unsigned long)dir_table;
-                    func_80047784(animation,
-                        *(u8 *)table_entry,
-                        0);
-                }
-                break;
-            case 15:
-                current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
-                dir_table = D_80175E64;
-                if (current_table != dir_table) {
-                    (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-                    table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
-                    table_entry += (unsigned long)dir_table;
-                    func_80047784(animation,
-                        *(u8 *)table_entry,
-                        0);
-                }
-                break;
+        switch (((EntityRec *)actor)->unk_48) {
+        default:
+            break;
+        case 13:
+            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            dir_table = D_80175E54;
+            if (current_table != dir_table) {
+                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)dir_table;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
             }
+            break;
+        case 14:
+            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            dir_table = D_80175E5C;
+            if (current_table != dir_table) {
+                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)dir_table;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
+            }
+            break;
+        case 15:
+            current_table = ((Rec_func_800AA258_arg2 *)animation)->unk_2C.as_pv;
+            dir_table = D_80175E64;
+            if (current_table != dir_table) {
+                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                table_entry = ((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)dir_table;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
+            }
+            break;
         }
+    }
 
         if (((EntityRec *)actor)->tileY != 0) {
             switch (((EntityRec *)actor)->unk_48) {

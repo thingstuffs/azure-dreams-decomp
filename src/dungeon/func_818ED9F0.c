@@ -22,7 +22,6 @@ typedef struct S_800251F0_1 {
 } S_800251F0_1;   /* page in func_800251F0 */
 
 
-
 extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */

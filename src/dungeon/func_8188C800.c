@@ -39,7 +39,7 @@ extern void func_80026404(void *, u8, void *);
 
 #ifdef __mips__
 static const u32 func_80024000_prefix[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
+__attribute__((section(".text.func_80024000"), aligned(4))) = {
     0x80024050, 0x00000000, 0x800240B4,
     0x80024160, 0x800243B4, 0x800245D4, 0x80024628,
     0x80024770, 0x80024770, 0x80024770, 0x80024770,
@@ -74,11 +74,26 @@ typedef struct S_FUNC_8188C800_BODY_0 {
     union { u16 u; s16 s; } unk_16;   /* accessed as both */
     union { s16 s; u16 u; } unk_18;   /* accessed as both */
     u8 pad_1A[0x2];
-    union { struct { u32 v; } at00; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; struct { u8 pad[0x2]; s8 v; } at02p; struct { u8 pad[0x3]; u8 v; } at03; struct { u8 pad[0x3]; s8 v; } at03u; } unk_1C;   /* overlapping accesses */
-    union { struct { u8 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_20;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 pad[0x2]; u8 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+        struct { u8 pad[0x2]; s8 v; } at02p;
+        struct { u8 pad[0x3]; u8 v; } at03;
+        struct { u8 pad[0x3]; s8 v; } at03u;
+    } unk_1C;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_20;   /* overlapping accesses */
     u8 pad_22[0xA];
     union { s32 i; void * p; } unk_2C;   /* accessed as both */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_30;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_30;   /* overlapping accesses */
 } S_FUNC_8188C800_BODY_0;   /* self in FUNC_8188C800_BODY */
 
 typedef struct S_FUNC_8188C800_BODY_1 {
@@ -90,7 +105,12 @@ typedef struct S_FUNC_8188C800_BODY_1 {
 typedef struct S_FUNC_8188C800_BODY_2 {
     u8 pad_00[0x8];
     void * unk_08;
-    union { struct { u32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_0C;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_0C;   /* overlapping accesses */
     u16 unk_10;
     u8 pad_12[0x2];
     u16 unk_14;
@@ -130,7 +150,11 @@ typedef struct S_FUNC_8188C800_BODY_8 {
     u8 pad_2C[0x34];
     union { u8 * p; void * p2; } unk_60;   /* accessed as both */
     u8 pad_64[0xC];
-    union { struct { u32 v; } at00; struct { u8 pad[0x2]; s8 v; } at02; struct { u8 pad[0x3]; s8 v; } at03; } unk_70;   /* overlapping accesses */
+    union {
+        struct { u32 v; } at00;
+        struct { u8 pad[0x2]; s8 v; } at02;
+        struct { u8 pad[0x3]; s8 v; } at03;
+    } unk_70;   /* overlapping accesses */
     u8 pad_74[0x14];
     u16 unk_88;
 } S_FUNC_8188C800_BODY_8;   /* owner in FUNC_8188C800_BODY */
@@ -146,9 +170,21 @@ typedef struct S_FUNC_8188C800_BODY_10 {
 } S_FUNC_8188C800_BODY_10;   /* addr in FUNC_8188C800_BODY */
 
 typedef struct S_FUNC_8188C800_BODY_11 {
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_00;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_04;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x2]; u16 v; } at02;
+        struct { u8 pad[0x2]; s16 v; } at02u;
+    } unk_08;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
 } S_FUNC_8188C800_BODY_11;   /* motion in FUNC_8188C800_BODY */
@@ -316,279 +352,283 @@ case_0:
         {
             u16 height;
 #else
-        {
-            u16 height;
+            {
+                u16 height;
 #endif
-            if (((S_FUNC_8188C800_BODY_21 *)(((S_FUNC_8188C800_BODY_1 *)base)->unk_0C))->unk_14 & 0x8000) {
-                height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A - 64;
-            } else {
-                height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A;
+                if (((S_FUNC_8188C800_BODY_21 *)(((S_FUNC_8188C800_BODY_1 *)base)->unk_0C))->unk_14 & 0x8000) {
+                    height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A - 64;
+                } else {
+                    height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A;
 #ifdef __mips__
-                {
-                    register u16 height_offset ASM_REG("$3") = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-                {
-                    u16 height_offset = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;
-#endif
-                    height = height + height_offset;
-                }
-            }
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = height;
-            ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02.v = height;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        }
-        if (!(((S_FUNC_8188C800_BODY_22 *)(((S_FUNC_8188C800_BODY_0 *)self)->unk_04))->unk_00 & 0x80)) {
-            goto done;
-        }
-        if (!(((S_FUNC_8188C800_BODY_0 *)self)->unk_12 & 4)) {
-            func_8004491C(self - 32, func_80045340);
-            ((S_FUNC_8188C800_BODY_2 *)part)->unk_10 = 32;
-            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v = 128;
-            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v = 128;
-            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v = 128;
-            ((S_FUNC_8188C800_BODY_2 *)part)->unk_14 |= 0xC;
-            ((S_FUNC_8188C800_BODY_0 *)self)->unk_12 |= 4;
-        }
-        {
-            u8 *target = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p;
-            if (target != 0) {
-                u8 *target_part = ((S_FUNC_8188C800_BODY_14_pre *)target)[-1].unk_00;
-                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0C = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_02;
-                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0E = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_06;
-                ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_0A -
-                                          D_800DDC40[0];
-                {
-                    u8 *target_record = ((S_FUNC_8188C800_BODY_8_pre *)owner)[-1].unk_00;
-                    u8 x = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24 +
-                           ((u8 *)dirStepX)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
-                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v = x;
-                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = x;
                     {
-                        u8 y = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25 +
-                               ((u8 *)dirStepY)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
-                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v = y;
-                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = y;
-                    }
-                    {
-#ifdef __mips__
-                        s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
-                        s32 record_coord =
-                            ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
+                        register u16 height_offset ASM_REG("$3") = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
-                        s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
-                        s32 record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
+                        {
+                            u16 height_offset = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;
 #endif
-                        s32 tile_distance;
-                        if (owner_coord == record_coord) {
-                            owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at03.v;
-                            record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25;
+                            height = height + height_offset;
                         }
-                        tile_distance = owner_coord - record_coord;
-                        tile_distance = abs(tile_distance);
-                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = tile_distance + 1;
+                    }
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = height;
+                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02.v = height;
+                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                }
+                if (!(((S_FUNC_8188C800_BODY_22 *)(((S_FUNC_8188C800_BODY_0 *)self)->unk_04))->unk_00 & 0x80)) {
+                    goto done;
+                }
+                if (!(((S_FUNC_8188C800_BODY_0 *)self)->unk_12 & 4)) {
+                    func_8004491C(self - 32, func_80045340);
+                    ((S_FUNC_8188C800_BODY_2 *)part)->unk_10 = 32;
+                    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v = 128;
+                    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v = 128;
+                    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v = 128;
+                    ((S_FUNC_8188C800_BODY_2 *)part)->unk_14 |= 0xC;
+                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_12 |= 4;
+                }
+                {
+                    u8 *target = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p;
+                    if (target != 0) {
+                        u8 *target_part = ((S_FUNC_8188C800_BODY_14_pre *)target)[-1].unk_00;
+                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0C = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_02;
+                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0E = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_06;
+                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u = ((S_FUNC_8188C800_BODY_15 *)target_part)->unk_0A -
+                                                  D_800DDC40[0];
+                        {
+                            u8 *target_record = ((S_FUNC_8188C800_BODY_8_pre *)owner)[-1].unk_00;
+                            u8 x = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24 +
+                                   ((u8 *)dirStepX)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
+                            ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v = x;
+                            ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = x;
+                            {
+                                u8 y = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25 +
+                                       ((u8 *)dirStepY)[((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2];
+                                ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v = y;
+                                ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = y;
+                            }
+                            {
+#ifdef __mips__
+                                s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
+                                s32 record_coord =
+                                    ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
+#else
+                                s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
+                                s32 record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
+#endif
+                                s32 tile_distance;
+                                if (owner_coord == record_coord) {
+                                    owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at03.v;
+                                    record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25;
+                                }
+                                tile_distance = owner_coord - record_coord;
+                                tile_distance = abs(tile_distance);
+                                ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = tile_distance + 1;
+                            }
+                        }
+                        goto case_0_finish_coords;
                     }
                 }
-                goto case_0_finish_coords;
-            }
-        }
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = 8;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0C = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0E = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_88 - 80;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = 8;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0C = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0E = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_88 - 80;
 
 case_0_finish_coords:
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dirStepX) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at02.v =
-            (*(s16 *)((u8 *)((u8 *)dirStepY) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
-        goto case_increment;
-    }
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at02.v =
+                    (*(s16 *)((u8 *)((u8 *)dirStepX) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at02.v =
+                    (*(s16 *)((u8 *)((u8 *)dirStepY) + ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.s * 2)) * 8;
+                goto case_increment;
+            }
 
 case_1:
-    {
+            {
 #ifdef __mips__
-        s32 velocity;
+                s32 velocity;
 #else
-        s32 velocity;
+                s32 velocity;
 #endif
-        s32 adjusted;
-        s32 magnitude;
-        velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
-        adjusted = velocity;
-        ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        (*(s32 *)((u8 *)motion + 0)) += velocity;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        adjusted += adjusted >> 4;
-        magnitude = adjusted;
-        magnitude = abs(magnitude);
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = adjusted;
-        if (magnitude > 0x200000) {
-            s32 limit = -0x200000;
-            if (adjusted > 0) {
-                limit = 0x200000;
+                s32 adjusted;
+                s32 magnitude;
+                velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
+                adjusted = velocity;
+                ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                (*(s32 *)((u8 *)motion + 0)) += velocity;
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                adjusted += adjusted >> 4;
+                magnitude = adjusted;
+                magnitude = abs(magnitude);
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = adjusted;
+                if (magnitude > 0x200000) {
+                    s32 limit = -0x200000;
+                    if (adjusted > 0) {
+                        limit = 0x200000;
+                    }
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = limit;
+                }
             }
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = limit;
-        }
-    }
-    {
+            {
 #ifdef __mips__
-        s32 velocity;
+                s32 velocity;
 #else
-        s32 velocity;
+                s32 velocity;
 #endif
-        s32 adjusted;
-        s32 magnitude;
-        velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
-        adjusted = velocity;
-        ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        (*(s32 *)((u8 *)motion + 4)) += velocity;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        adjusted += adjusted >> 4;
-        magnitude = adjusted;
-        magnitude = abs(magnitude);
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = adjusted;
-        if (magnitude > 0x200000) {
-            s32 limit = -0x200000;
-            if (adjusted > 0) {
-                limit = 0x200000;
+                s32 adjusted;
+                s32 magnitude;
+                velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
+                adjusted = velocity;
+                ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                (*(s32 *)((u8 *)motion + 4)) += velocity;
+                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                adjusted += adjusted >> 4;
+                magnitude = adjusted;
+                magnitude = abs(magnitude);
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = adjusted;
+                if (magnitude > 0x200000) {
+                    s32 limit = -0x200000;
+                    if (adjusted > 0) {
+                        limit = 0x200000;
+                    }
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = limit;
+                }
             }
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = limit;
-        }
-    }
-    {
-        s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at00.v;
-        s32 height_step = (((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) - height) >> 4;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at00.v = height + height_step;
-    }
-    {
-        s32 height = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v;
-        s32 height_step = (((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) - height) >> 4;
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v = height + height_step;
-    }
-    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v += func_800644B8((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_18.s << 7) << 6;
-    func_8002495C(motion, part);
-    {
-        s32 x = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02u.v;
-        if (x < 0) {
-            x += 63;
-        }
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v = x >> 6;
-        {
-            s32 y = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02u.v;
-            if (y < 0) {
-                y += 63;
+            {
+                s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at00.v;
+                s32 height_step = (((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) - height) >> 4;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at00.v = height + height_step;
             }
-            ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v = y >> 6;
-        }
-    }
-    if (((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00u.v == ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02u.v) {
-        goto done;
-    }
-    if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
-        if ((((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at00.v & 0xFFFF0000) ==
-            (((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at00.v & 0xFFFF0000)) {
-            s32 snap_x = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
-            s32 snap_y;
-            snap_x <<= 6;
-            snap_x += 32;
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v = snap_x;
-            snap_y = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at03.v;
-            snap_y <<= 6;
-            snap_y += 32;
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v = snap_y;
-            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u;
+            {
+                s32 height = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v;
+                s32 height_step = (((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) - height) >> 4;
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v = height + height_step;
+            }
+            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v += func_800644B8((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_18.s
+                << 7) << 6;
             func_8002495C(motion, part);
             {
-                u8 *target = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p;
-                u16 next_state = ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u + 1;
-                u16 height = ((S_FUNC_8188C800_BODY_14 *)target)->unk_88;
-                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u = next_state;
-                ((S_FUNC_8188C800_BODY_17 *)D_800269C8)->unk_00 = height;
+                s32 x = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02u.v;
+                if (x < 0) {
+                    x += 63;
+                }
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v = x >> 6;
+                {
+                    s32 y = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02u.v;
+                    if (y < 0) {
+                        y += 63;
+                    }
+                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v = y >> 6;
+                }
             }
-            goto done;
-        }
-    }
-
-case_0_count_tail:
-    {
-        u8 old_x = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v;
-        s16 steps_left = ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 - 1;
-        u8 old_y = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = steps_left;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = old_x;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = old_y;
-        if (steps_left != 0) {
-            s32 x = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02p.v);
-            s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02u.v;
-            s32 y;
-            y = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03u.v);
-            if ((func_800A45D8(x, y, height) << 16) == 0) {
+            if (((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00u.v == ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02u.v) {
                 goto done;
             }
-        }
-    }
-    ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u = 16;
-    goto done;
+            if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
+                if ((((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at00.v & 0xFFFF0000) ==
+                    (((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at00.v & 0xFFFF0000)) {
+                    s32 snap_x = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
+                    s32 snap_y;
+                    snap_x <<= 6;
+                    snap_x += 32;
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v = snap_x;
+                    snap_y = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at03.v;
+                    snap_y <<= 6;
+                    snap_y += 32;
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v = snap_y;
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = ((S_FUNC_8188C800_BODY_0 *)self)->unk_10.u;
+                    func_8002495C(motion, part);
+                    {
+                        u8 *target = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p;
+                        u16 next_state = ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u + 1;
+                        u16 height = ((S_FUNC_8188C800_BODY_14 *)target)->unk_88;
+                        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u = next_state;
+                        ((S_FUNC_8188C800_BODY_17 *)D_800269C8)->unk_00 = height;
+                    }
+                    goto done;
+                }
+            }
+
+case_0_count_tail:
+            {
+                u8 old_x = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02.v;
+                s16 steps_left = ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 - 1;
+                u8 old_y = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03.v;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = steps_left;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = old_x;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = old_y;
+                if (steps_left != 0) {
+                    s32 x = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02p.v);
+                    s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02u.v;
+                    s32 y;
+                    y = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03u.v);
+                    if ((func_800A45D8(x, y, height) << 16) == 0) {
+                        goto done;
+                    }
+                }
+            }
+            ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u = 16;
+            goto done;
 
 case_3:
-    func_80065F90(((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at02.v, ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at02.v);
-    ((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.i =
-        func_800262AC(((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02u.v, ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02u.v,
-                      ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02u.v);
-    if (((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.i == 0) {
-        goto done;
-    }
-    if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
-        func_800A56E0(0x300);
-    }
-    ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u++;
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v >> 2;
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v >> 2;
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v >> 2;
-    if (!(((S_FUNC_8188C800_BODY_23 *)(((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.p))->unk_1E & 0x8000)) {
-        goto done;
-    }
-    if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
-        func_80026404(((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2, ((S_FUNC_8188C800_BODY_0 *)self)->unk_09, owner);
-    }
-    goto case_5_tail_prepare;
+            func_80065F90(((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at02.v,
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at02.v);
+            ((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.i =
+                func_800262AC(((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02u.v,
+                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02u.v,
+                              ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02u.v);
+            if (((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.i == 0) {
+                goto done;
+            }
+            if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
+                func_800A56E0(0x300);
+            }
+            ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u++;
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v >> 2;
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v >> 2;
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v >> 2;
+            if (!(((S_FUNC_8188C800_BODY_23 *)(((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.p))->unk_1E & 0x8000)) {
+                goto done;
+            }
+            if (((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2 != 0) {
+                func_80026404(((S_FUNC_8188C800_BODY_8 *)owner)->unk_60.p2, ((S_FUNC_8188C800_BODY_0 *)self)->unk_09,
+                    owner);
+            }
+            goto case_5_tail_prepare;
 
 case_5:
-    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at00.v += ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
-    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at00.v += ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
-    {
-        s32 height_step = ((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) -
-                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v;
-        height_step >>= 4;
-        ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v += height_step;
-    }
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v >> 1;
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v >> 1;
-    ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v >> 1;
-    func_8002495C(motion, part);
-    if (((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v < 2) {
+            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at00.v += ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
+            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at00.v += ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
+            {
+                s32 height_step = ((s32)((S_FUNC_8188C800_BODY_0 *)self)->unk_10.s << 16) -
+                            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v;
+                height_step >>= 4;
+                ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at00.v += height_step;
+            }
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v >> 1;
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at01.v >> 1;
+            ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v -= ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at02.v >> 1;
+            func_8002495C(motion, part);
+            if (((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00u.v < 2) {
 case_increment:
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u++;
-    }
-    goto done;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.u++;
+            }
+            goto done;
 
 case_5_tail:
-    if (((S_FUNC_8188C800_BODY_18 *)D_80026472)->unk_00.s != 0) {
-        goto done;
-    }
+            if (((S_FUNC_8188C800_BODY_18 *)D_80026472)->unk_00.s != 0) {
+                goto done;
+            }
 case_5_tail_prepare:
-    tail_page0 = (u8 *)(D_80080000);
+            tail_page0 = (u8 *)(D_80080000);
 case_5_tail_effect:
-    ((S_FUNC_8188C800_BODY_19 *)tail_page0)->unk_346C = 0;
-    ((S_FUNC_8188C800_BODY_0_pre *)self)[-1].unk_00 |= 0x8000;
-    tail_page1 = (u8 *)0x80080000;
-    ((S_FUNC_8188C800_BODY_20 *)tail_page1)->unk_14A0 |= 0x8000;
-    goto done;
+            ((S_FUNC_8188C800_BODY_19 *)tail_page0)->unk_346C = 0;
+            ((S_FUNC_8188C800_BODY_0_pre *)self)[-1].unk_00 |= 0x8000;
+            tail_page1 = (u8 *)0x80080000;
+            ((S_FUNC_8188C800_BODY_20 *)tail_page1)->unk_14A0 |= 0x8000;
+            goto done;
 
 done:
-    {
-        u16 frame = ((S_FUNC_8188C800_BODY_0 *)self)->unk_18.u;
-        ((S_FUNC_8188C800_BODY_18 *)D_80026472)->unk_00.u = 0;
-        ((S_FUNC_8188C800_BODY_0 *)self)->unk_18.u = frame + 1;
-    }
-}
+            {
+                u16 frame = ((S_FUNC_8188C800_BODY_0 *)self)->unk_18.u;
+                ((S_FUNC_8188C800_BODY_18 *)D_80026472)->unk_00.u = 0;
+                ((S_FUNC_8188C800_BODY_0 *)self)->unk_18.u = frame + 1;
+            }
+        }

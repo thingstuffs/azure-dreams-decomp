@@ -10,8 +10,6 @@ typedef struct S_805D352C_2 {
 } S_805D352C_2;   /* ((Rec_D_80016000 *)D_80016000)->unk_1C.as_pv in func_805D352C */
 
 
-
-
 M2C_UNK func_800174CC();                            /* extern */
 extern M2C_UNK D_80019814;
 extern M2C_UNK D_80019884;
@@ -22,6 +20,7 @@ extern M2C_UNK *D_80019B90;
 void func_805D352C(void) {
     func_800174CC();
     D_80019B90 = &D_80019814;
-    D_80019AF8 = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32 + (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8);
+    D_80019AF8 = ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32
+        + (((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8);
     ((S_805D352C_2 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_1C.as_pv))->unk_40 = &D_80019884;
 }

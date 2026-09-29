@@ -8,11 +8,6 @@
 #include "records/Rec_func_801736F4_arg0.h"
 
 
-
-
-
-
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);

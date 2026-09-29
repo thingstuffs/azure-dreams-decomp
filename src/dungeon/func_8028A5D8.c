@@ -171,7 +171,7 @@ void func_8001D5D8(DungeonRect *rect) {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             alt_value = value - 0xC0;
-                                        apply_alt:
+apply_alt:
                                             func_8001DD48(patch_cell, (s16)alt_value);
                                         } else {
                                             func_8001DD08(patch_cell, style_value_hi >> 16);

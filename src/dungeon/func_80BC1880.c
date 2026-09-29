@@ -40,7 +40,6 @@ typedef struct S_80BC1880_2 {
 } S_80BC1880_2;   /* arg1 in func_80BC1880 */
 
 
-
 extern s32 func_80065420(void *, void *, void *, void *);
 
 typedef struct StackWork {

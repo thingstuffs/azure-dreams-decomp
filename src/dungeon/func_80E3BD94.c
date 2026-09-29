@@ -112,14 +112,17 @@ typedef struct S_80175594_7 {
     u8 pad_1E[0x2];
     union { s16 s; u16 u; } unk_20;   /* accessed as both */
     union { s16 s; u16 u; } unk_22;   /* accessed as both */
-    union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
 } S_80175594_7;   /* packet in func_80175594 */
 
 typedef struct S_80175594_8 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
 } S_80175594_8;   /* *global in func_80175594 */
-
 
 
 extern void func_80064840(void *, void *, void *);
@@ -170,7 +173,8 @@ typedef struct {
 } Texture;
 
 /* Projects textured sprite quads and queues visible packets for depth-sorted drawing. */
-void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render, s16 depth_bias)
+void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_func_800D6DC0_arg2 *render,
+    s16 depth_bias)
 {
     u8 **render_globals = (u8 **)((u8 *)(&gameWork));
     u8 *scratch = (u8 *)0x1F800000;
@@ -385,7 +389,7 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
                 }
 
                 func_8006658C(((S_80175594_1 *)scratch)->unk_20 +
-                                  ((S_80175594_1 *)scratch)->unk_C0 * 4,
+                              ((S_80175594_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet++;
             }

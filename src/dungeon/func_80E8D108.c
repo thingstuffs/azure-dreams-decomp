@@ -21,8 +21,6 @@ typedef struct S_80172908_1 {
 } S_80172908_1;   /* arg0 in func_80172908 */
 
 
-
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A2B04(void *, u8, u8);
@@ -98,12 +96,12 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
         ((S_80172908_1 *)action)->unk_98 &= 0xFFF7;
         return;
     case 0xFF:
-        {
-            s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
+    {
+        s32 target_x = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+        s32 current_x = ((EntityRec *)motion)->x.w.i - 0x20;
 
-            ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
-        }
+        ((EntityRec *)motion)->unk_0C = (target_x - current_x) << 14;
+    }
         {
             s32 target_y = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
             s32 current_y = ((EntityRec *)motion)->y.w.i - 0x20;

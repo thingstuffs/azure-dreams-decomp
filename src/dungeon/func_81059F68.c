@@ -159,45 +159,25 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
         if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
             func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
         } else
-        if (U16_AT(actor, 0x46) & 0x8000) {
-        } else {
-            target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
-            if (!(U16_AT(move_work, 0x98) & 0x8000)) {
-            } else if (target_link == 0) {
-            } else if ((func_8009A540(
-                     ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                     U8_AT(position, 0x24), U8_AT(position, 0x25),
-                     (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-                turn_flags = (s32)PTR_AT(target_link, -0x14);
-
-                U16_AT(actor, 0x2A) = func_800A0818(
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
-                U8_AT(actor, 0x71) &= 0x7F;
-                return;
+            if (U16_AT(actor, 0x46) & 0x8000) {
             } else {
-                if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                                  S16_AT(actor, 0x2A)) != 0) {
-                    if ((func_8009A540(
-                             ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                             U8_AT(position, 0x24), U8_AT(position, 0x25),
-                             (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
-                        U8_AT(actor, 0x71) &= 0x7F;
-                        return;
-                    }
-                }
-                if (!(S32_AT(actor, 0x1C) & 0x20000)) {
-                    func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
-                } else {
-                    u8 *goal = (u8 *)&D_80082EA4 - 0x24;
-                    u8 *angle_work = move_work + 0x98;
+                target_link = func_800A02AC(actor, U8_AT(position, 0x24), U8_AT(position, 0x25));
+                if (!(U16_AT(move_work, 0x98) & 0x8000)) {
+                } else if (target_link == 0) {
+                } else if ((func_8009A540(
+                         ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                         U8_AT(position, 0x24), U8_AT(position, 0x25),
+                         (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                    turn_flags = (s32)PTR_AT(target_link, -0x14);
 
                     U16_AT(actor, 0x2A) = func_800A0818(
                         U8_AT(position, 0x24), U8_AT(position, 0x25),
-                        U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
-                    if ((func_8009FD7C(
-                             U8_AT(position, 0x24), U8_AT(position, 0x25),
-                             U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) != 0) {
+                        U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
+                    U8_AT(actor, 0x71) &= 0x7F;
+                    return;
+                } else {
+                    if (func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                      S16_AT(actor, 0x2A)) != 0) {
                         if ((func_8009A540(
                                  ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
                                  U8_AT(position, 0x24), U8_AT(position, 0x25),
@@ -206,9 +186,29 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
                             return;
                         }
                     }
+                    if (!(S32_AT(actor, 0x1C) & 0x20000)) {
+                        func_800A0E6C(position, S8_AT(move_work, 0x9C), actor, move_work + 0x98);
+                    } else {
+                        u8 *goal = (u8 *)&D_80082EA4 - 0x24;
+                        u8 *angle_work = move_work + 0x98;
+
+                        U16_AT(actor, 0x2A) = func_800A0818(
+                            U8_AT(position, 0x24), U8_AT(position, 0x25),
+                            U8_AT(goal, 0x24), U8_AT(goal, 0x25), angle_work);
+                        if ((func_8009FD7C(
+                                 U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                 U8_AT(goal, 0x24), U8_AT(goal, 0x25)) << 16) != 0) {
+                            if ((func_8009A540(
+                                     ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                                     U8_AT(position, 0x24), U8_AT(position, 0x25),
+                                     (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0) {
+                                U8_AT(actor, 0x71) &= 0x7F;
+                                return;
+                            }
+                        }
+                    }
                 }
             }
-        }
     }
 
     step_index = 0;

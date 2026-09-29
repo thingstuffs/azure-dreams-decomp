@@ -21,10 +21,6 @@ typedef struct S_80166BAC_0 {
 } S_80166BAC_0;   /* arg0 in func_80166BAC */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -71,7 +67,7 @@ void func_80166BAC(void *action, EntityRec *motion, void *map_entity, EntityRec 
         ((S_80166BAC_0 *)action)->unk_9E.s = 5;
         ((S_80166BAC_0 *)action)->unk_A4 = 0;
         ((S_80166BAC_0 *)action)->unk_9B++;
-        /* fall through */
+                /* fall through */
 
     case 1:
         hop_frames = ((S_80166BAC_0 *)action)->unk_9E.s;
@@ -107,7 +103,7 @@ void func_80166BAC(void *action, EntityRec *motion, void *map_entity, EntityRec 
             actor->flags1C |= 0x08000000;
             ((S_80166BAC_0 *)action)->unk_9B++;
         }
-        /* fall through */
+                /* fall through */
 
     case 2:
         if (actor->flags1C & 0x08000000) {

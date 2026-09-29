@@ -25,7 +25,6 @@ typedef struct S_80174A00_1 {
 } S_80174A00_1;   /* data in func_80174A00 */
 
 
-
 /* Finds the first entry matching both keys, the value range, and the type filter. */
 void *func_80174A00(void *node, u16 key_a, u16 key_b, s16 range_center) {
     void *head = node;

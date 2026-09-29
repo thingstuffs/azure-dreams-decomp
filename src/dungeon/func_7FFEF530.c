@@ -18,13 +18,16 @@ s32 func_8008CC90(
     s32 angle_work;
 
     if (((u32)y_a << 16) == 0) {
-        if (((u32)x_a << 16) == 0) return 1;
+        if (((u32)x_a << 16) == 0)
+            return 1;
     }
     if (((u32)y_b << 16) == 0) {
-        if (((u32)x_b << 16) == 0) return 1;
+        if (((u32)x_b << 16) == 0)
+            return 1;
     }
     if (y_c == 0) {
-        if (x_c == 0) return 1;
+        if (x_c == 0)
+            return 1;
     }
     if (y_d == 0) {
         if (x_d == 0) {
@@ -51,9 +54,15 @@ s32 func_8008CC90(
     angle_d = angle_work - angle_d;
 
     if (angle_b < 0x801 && gap_bc < 0x801) {
-        if (gap_cd >= 0x801) { accepted = 0; return accepted; }
+        if (gap_cd >= 0x801) {
+            accepted = 0;
+            return accepted;
+        }
         angle_d = angle_d < 0x801;
-        if (angle_d != 0) { accepted = 1; return accepted; }
+        if (angle_d != 0) {
+            accepted = 1;
+            return accepted;
+        }
     }
     accepted = 0;
     return accepted;

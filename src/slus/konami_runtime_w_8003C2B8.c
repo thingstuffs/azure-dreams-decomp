@@ -10,7 +10,6 @@ typedef struct S_8003C2B8_0_pre {
 } S_8003C2B8_0_pre;   /* the 0x14 bytes before &D_80082D58 in func_8003C2B8, addressed as &D_80082D58[-1] */
 
 
-
 M2C_UNK func_80033D08();                   /* extern */
 M2C_UNK func_8003C0C0();              /* extern */
 extern M2C_UNK D_80082D58;

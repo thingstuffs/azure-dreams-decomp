@@ -6,7 +6,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-
 typedef struct S_80173A20_2 {
     u8 pad_00[0x1E];
     u16 unk_1E;
@@ -30,7 +29,6 @@ typedef struct S_80173A20_4 {
 } S_80173A20_4;   /* object in func_80173A20 */
 
 
-
 extern void func_80042640(void *, s32);
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800A56E0(s32);
@@ -48,7 +46,8 @@ extern u8 D_80170E5C[];
 void func_80173A20(void *actor, void *context, void *entity, void *creature)
 {
     switch (((Rec_func_80173204_arg0 *)actor)->unk_9B) {
-    case 0: {
+    case 0:
+    {
         u16 entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v;
 
         if (entity_flags & 0x8000) {
@@ -58,7 +57,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         }
         ((Rec_func_80173204_arg0 *)actor)->unk_9B = 1;
     }
-        /* fall through */
+                /* fall through */
     case 1:
         if (((((Rec_D_80082E80 *)entity)->unk_04.as_s8 == 8) &&
              (((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x1000)) ||
@@ -71,7 +70,8 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
         }
         return;
 
-    case 2: {
+    case 2:
+    {
         s16 object_value;
         s32 value_total;
         s32 value_bonus;
@@ -132,7 +132,7 @@ void func_80173A20(void *actor, void *context, void *entity, void *creature)
 
         func_800AD594(creature, 0x400);
         func_800A2B04(context, ((Rec_D_80082E80 *)entity)->unk_24,
-                     ((Rec_D_80082E80 *)entity)->unk_25);
+                      ((Rec_D_80082E80 *)entity)->unk_25);
         ((Rec_func_80173204_arg0 *)actor)->unk_8C.as_pv = D_80170E5C;
         dungeonStatus.unk_0C = 0;
         (*(u16 *)((u8 *)creature + 0x46)) &= 0x7FFF;

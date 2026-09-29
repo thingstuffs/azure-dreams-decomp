@@ -5,7 +5,6 @@
 #include "m2c_compat.h"
 
 
-
 typedef struct {
     s32 _0;
     s32 _4;
@@ -20,7 +19,6 @@ extern M2C_UNK D_80016178[3];
 extern M2C_UNK D_80017720[3];
 extern M2C_PTR_GLOBAL D_8001794C;
 extern M2C_UNK D_80017B88[3];
-
 
 
 typedef struct S_8047E130_1 {

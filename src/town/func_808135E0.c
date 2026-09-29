@@ -44,7 +44,8 @@ s32 func_808135E0(void *first_item)
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
 
-    loop_0: {
+loop_0:
+    {
         if ((*(u16 *)(item + 0x24) & 1) == 0) {
             after_line = 0;
             line_pool = *render_context;
@@ -112,7 +113,9 @@ s32 func_808135E0(void *first_item)
 
         work_ptr = *(u8 **)(item - 8);
         item = work_ptr + 0x20;
-    } if (work_ptr != 0) goto loop_0;
+    }
+    if (work_ptr != 0)
+        goto loop_0;
 
     return 0;
 }

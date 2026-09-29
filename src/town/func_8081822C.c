@@ -55,7 +55,6 @@ typedef struct S_8002222C_8 {
 } S_8002222C_8;   /* temp_a1_2 in func_8002222C */
 
 
-
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066640(void *, s32);
@@ -97,7 +96,7 @@ s32 func_8002222C(void *first_entry) {
     count_mask = 0xFF000000;
     do {
         func_80065770(entry + 8, screen_xy, depths, transform_work,
-                     transform_work, 2);
+                      transform_work, 2);
         {
             u8 *arena;
             s32 page_depth;

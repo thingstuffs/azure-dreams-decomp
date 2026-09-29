@@ -78,7 +78,8 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
             ((S_8001D328_1 *)coords)->unk_00 = (u8) coord;
             coord = region->unk_02 + y_offset;
             ((S_8001D328_1 *)coords)->unk_01 = (u8) coord;
-            if (((func_8009A350(((S_8001D328_1 *)coords)->unk_00 - 1, *(volatile u8 *) ((u8 *) coords + 1), 0, &tile_flags) << 0x10) == 0) || !(tile_flags & 0xFF20)) {
+            if (((func_8009A350(((S_8001D328_1 *)coords)->unk_00 - 1, *(volatile u8 *) ((u8 *) coords + 1), 0,
+                &tile_flags) << 0x10) == 0) || !(tile_flags & 0xFF20)) {
                 func_8009A21C(((S_8001D328_1 *)coords)->unk_00, ((S_8001D328_1 *)coords)->unk_01, 0x800);
                 func_8001E660(state, state_prefix, 0, 1);
             }

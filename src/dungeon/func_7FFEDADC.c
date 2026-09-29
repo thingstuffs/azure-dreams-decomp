@@ -24,7 +24,7 @@ void func_8008B23C(u8 *entries_in) {
                 (packed_fields >> 0x17) & 1,
                 (u32)(packed_fields & 0x3F000000) >> 0x18,
                 (u32)(packed_fields & 0x7F0000) >> 0x10
-            );
+                );
             entries_in += 8;
         } while (((S_8008B23C_0 *)entries_in)->unk_04 != 0);
     }

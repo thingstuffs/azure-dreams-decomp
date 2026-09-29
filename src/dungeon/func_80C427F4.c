@@ -25,7 +25,8 @@ void func_80173FF4(void *record_data, S_80173FF4_0 *state, M2C_UNK update_arg) {
     remaining_count = ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C - 1;
     ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;
     if ((remaining_count << 0x10) <= 0) {
-        ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+        ((S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80173FF4_1 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

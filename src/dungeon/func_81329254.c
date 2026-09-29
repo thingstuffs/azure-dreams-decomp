@@ -40,7 +40,8 @@ void func_80170A54(void *record_data) {
                           0x100) >> 9) & 7)];
         func_800489F4(state_data, direction_entry,
             4, 1);
-        ((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+        ((S_80170A54_2 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80170A54_2 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }
 }

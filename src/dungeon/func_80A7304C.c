@@ -31,8 +31,6 @@ typedef struct S_8017284C_0 {
 } S_8017284C_0;   /* arg0 in func_8017284C */
 
 
-
-
 /* Updates staged movement and animation, then places the actor on its destination tile. */
 void func_8017284C(S_8017284C_0 *action, EntityRec *motion, Rec_D_80082E80 *sprite, EntityRec *actor)
 {

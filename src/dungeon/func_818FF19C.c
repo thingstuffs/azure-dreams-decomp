@@ -38,7 +38,6 @@ typedef struct S_818FF19C_4 {
 } S_818FF19C_4;   /* ((S_818FF19C_0 *)arg0)->unk_30 in func_8002499C */
 
 
-
 typedef struct {
     s16 x;
     s16 y;

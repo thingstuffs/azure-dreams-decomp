@@ -33,8 +33,6 @@ typedef struct S_80173358_2 {
 } S_80173358_2;   /* arg3 in func_80173358 */
 
 
-
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, s32, s32);
@@ -154,7 +152,7 @@ state_one:
             coordinate = ((S_80173358_1 *)sprite)->unk_26;
             if ((((coordinate == origin->unk_026) &&
                         (coordinate >= 0)) ||
-                    (func_8009FD40(origin, sprite) < 2)) &&
+                 (func_8009FD40(origin, sprite) < 2)) &&
                 ((func_800A6D30() & 7) == 0)) {
                 func_80042B68(actor, 1);
             }

@@ -14,10 +14,6 @@ typedef struct S_80173294_0 {
 } S_80173294_0;   /* arg0 in func_80173294 */
 
 
-
-
-
-
 extern void func_800A2B04(void *, u8, u8);
 extern void func_800AAA54(void *, void *, void *, void *);
 extern void func_800AD4D0(void *);
@@ -63,7 +59,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
             timer = 8;
         }
         motion_state->unk_96.s = timer;
-        /* fall through */
+                /* fall through */
 
     case 1:
         x_speed_or_entity = motion->unk_0C;

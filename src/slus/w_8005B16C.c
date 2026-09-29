@@ -39,7 +39,7 @@ void func_8005B16C(s16 slot_index)
     if (D_80073734[0] > 0) {
         channel_flags = D_80073740;
         channel = D_80085458;
-    loop:
+loop:
         if (*(u16 *)(channel + 6) < 0x10U) {
             if (*(u16 *)(channel + 0x1A) != 0) {
                 s32 request_type;
@@ -58,7 +58,8 @@ void func_8005B16C(s16 slot_index)
             do {
                 channel_index++;
             } while (0);
-            if (channel_index < channel_count) goto loop;
+            if (channel_index < channel_count)
+                goto loop;
         }
     }
     slots = D_80086C00;

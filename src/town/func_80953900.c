@@ -110,7 +110,8 @@ void func_80020900(TownEntity *menu)
     state = entity->state;
     switch (state) {
     case 0:
-        if (func_80033BC0(0x592) != 0) return;
+        if (func_80033BC0(0x592) != 0)
+            return;
         panel_record.x = 0xC8;
         panel_record.y = 0x10;
         panel_record.width = 0x38;
@@ -192,8 +193,10 @@ void func_80020900(TownEntity *menu)
         if (entity->timer > 0) {
             entity->timer = (u16)entity->timer - 1;
         }
-        if (func_80033BC0(0x592) != 0) return;
-        if (entity->timer > 0) return;
+        if (func_80033BC0(0x592) != 0)
+            return;
+        if (entity->timer > 0)
+            return;
         if (entity->timer < 0) {
             entity->timer = 0x10;
         }
@@ -269,12 +272,12 @@ void func_80020900(TownEntity *menu)
         entity->state = (u16)entity->state + 1;
         return;
     case 0x101:
-        {
-            ObjectFlagBlock *global_flags = &objectFlagBlock;
+    {
+        ObjectFlagBlock *global_flags = &objectFlagBlock;
 
-            (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-            global_flags->flags |= 0x8000;
-        }
+        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
+        global_flags->flags |= 0x8000;
+    }
         return;
     case 0x200:
         if (func_80033BC0(0x592) == 0) {

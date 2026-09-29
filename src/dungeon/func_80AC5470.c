@@ -17,7 +17,12 @@ typedef struct S_80AC5470_1 {
     u8 unk_01;
     u8 unk_02;
     u8 pad_03[0x1];
-    union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } unk_04;   /* overlapping accesses */
+    union {
+        struct { s8 v; } at00;
+        struct { s32 v; } at00u;
+        struct { u8 pad[0x1]; s8 v; } at01;
+        struct { u8 pad[0x2]; s8 v; } at02;
+    } unk_04;   /* overlapping accesses */
     s32 unk_08;
     u8 pad_0C[0x26];
     s16 unk_32;
@@ -33,7 +38,6 @@ typedef struct S_80AC5470_1 {
 } S_80AC5470_1;   /* arg0 in func_80AC5470 */
 
 
-
 /* Updates effect motion and color fading, flagging completion near its target or at zero brightness. */
 void func_80AC5470(void *effect, void *position) {
     s16 next_brightness;
@@ -44,7 +48,8 @@ void func_80AC5470(void *effect, void *position) {
     register s32 accel_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_distance;
 
-    ((S_80AC5470_0 *)position)->unk_00.at00.v = (s32) (((S_80AC5470_0 *)position)->unk_00.at00.v + ((S_80AC5470_1 *)effect)->unk_40);
+    ((S_80AC5470_0 *)position)->unk_00.at00.v = (s32) (((S_80AC5470_0 *)position)->unk_00.at00.v
+        + ((S_80AC5470_1 *)effect)->unk_40);
     ((S_80AC5470_0 *)position)->unk_04 = (s32) (((S_80AC5470_0 *)position)->unk_04 + ((S_80AC5470_1 *)effect)->unk_44);
     ((S_80AC5470_0 *)position)->unk_08 = (s32) (((S_80AC5470_0 *)position)->unk_08 + ((S_80AC5470_1 *)effect)->unk_48);
     motion_or_shade = ((S_80AC5470_1 *)effect)->unk_40;

@@ -158,20 +158,21 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         if (((S_80171104_0 *)object)->unk_2C != D_801759B8) {
             shifted_direction = (s32)old_direction << 16;
         } else {
-        timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
-        (*(s16 *)((u8 *)actor + 0xA0)) = timer;
-        if ((timer << 16) > 0) {
-            shifted_direction = (s32)old_direction << 16;
-        } else {
-            if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
-                (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
-                func_80047784(object,
-                    D_80175988[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100) >> 9) & 7], 0);
-                (*(u16 *)((u8 *)actor + 0x9E)) = 0;
-                (*(s16 *)((u8 *)actor + 0xA0)) = 20;
+            timer = (*(u16 *)((u8 *)actor + 0xA0)) - 1;
+            (*(s16 *)((u8 *)actor + 0xA0)) = timer;
+            if ((timer << 16) > 0) {
+                shifted_direction = (s32)old_direction << 16;
+            } else {
+                if (((S_80171104_0 *)object)->unk_14.n & 0xE000) {
+                    (*(u8 * *)((u8 *)object + 0x2C)) = D_80175988;
+                    func_80047784(object,
+                        D_80175988[((gameWork.view.viewAngle + ((S_80171104_1 *)actor_copy)->unk_2A + 0x100)
+                            >> 9) & 7], 0);
+                    (*(u16 *)((u8 *)actor + 0x9E)) = 0;
+                    (*(s16 *)((u8 *)actor + 0xA0)) = 20;
+                }
+                shifted_direction = (s32)old_direction << 16;
             }
-            shifted_direction = (s32)old_direction << 16;
-        }
         }
     }
 

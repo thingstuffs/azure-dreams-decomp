@@ -4,7 +4,7 @@
 #ifdef __mips__
 /* Proven 31-word literal/pointer prefix; this is row data, not C code. */
 static const u32 bank_words[] __asm__("func_8196A800")
-    __attribute__((section(".text.func_8196A800"), aligned(4))) = {
+__attribute__((section(".text.func_8196A800"), aligned(4))) = {
     0x80025D68, 0x00000001, 0x00010001, 0x00010000,
     0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000,
     0xFFFF0001, 0x01400340, 0x00400040, 0x01800340,

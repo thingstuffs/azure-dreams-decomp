@@ -10,7 +10,6 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_80170E54_2 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -18,14 +17,17 @@ typedef struct S_80170E54_2 {
     void * unk_10;
     u16 unk_14;
     u8 pad_16[0xE];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     union { void * p; u8 * p2; } unk_2C;   /* accessed as both */
     u8 pad_30[0x8B];
     u8 unk_BB;
 } S_80170E54_2;   /* arg2 in func_80170E54 */
-
 
 
 typedef struct S_80170E54_7 {
@@ -55,7 +57,6 @@ typedef struct S_80170E54_9 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_80170E54_9;   /* ((S_80170E54_2 *)arg2)->unk_08 in func_80170E54 */
-
 
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
@@ -209,11 +210,11 @@ normal_state:
         switch (state) {
         case 8:
         case 9:
-        if ((func_80171FC0(arg0, arg1, arg2, arg3) << 16) != 0) {
+            if ((func_80171FC0(arg0, arg1, arg2, arg3) << 16) != 0) {
+                return;
+            }
+            func_80172184(arg0, arg1, arg2, arg3);
             return;
-        }
-        func_80172184(arg0, arg1, arg2, arg3);
-        return;
 
         case 5:
         case 6:
@@ -235,21 +236,21 @@ normal_state:
 
         case 12:
 case_12:
-        func_800A9A0C(arg3);
-        return;
+            func_800A9A0C(arg3);
+            return;
 
         case 1:
         case 2:
         case 3:
 case_123:
-        func_800AAF00(arg0, arg1, arg2, D_80174140, &D_80170E54);
-        return;
+            func_800AAF00(arg0, arg1, arg2, D_80174140, &D_80170E54);
+            return;
 
         case 11:
         default:
 generic:
-        func_801717B4(arg0, arg1, arg2, arg3);
-        return;
+            func_801717B4(arg0, arg1, arg2, arg3);
+            return;
         }
     }
 

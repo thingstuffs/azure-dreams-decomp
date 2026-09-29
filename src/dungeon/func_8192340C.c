@@ -33,7 +33,9 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
 
     ticks_left = *(u16 *)(entity_data + 0x5A);
 #ifdef NON_MATCHING
-    do { D_80025B60.value = 1; } while (0);
+    do {
+        D_80025B60.value = 1;
+    } while (0);
 #else
     *(s16 *)((u8 *)&D_80025B60) = 1;
 #endif

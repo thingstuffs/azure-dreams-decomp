@@ -28,7 +28,7 @@ s32 func_8016BBC0(Rec_func_800A9E70_arg0 *entity, s32 action_ctx, s32 position, 
     action_result = 0;
     if (delay == 0) {
         action_result = func_800ADDA0(action_ctx, position, actor, 3, 6,
-                                    (u8 *)actor + 0x9C);
+                                      (u8 *)actor + 0x9C);
         if ((s16)action_result < 0) {
             return 0;
         }

@@ -16,7 +16,7 @@ s32 func_8004AFE8(S_8004AFE8 **entries)
     first_value = (*entry)->unk1;
     count = 0;
     if (entry != 0) {
-    loop_1:
+loop_1:
         if ((*entry)->unk1 == first_value) {
             entry += 1;
             count += 1;

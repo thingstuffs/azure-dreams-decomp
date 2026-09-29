@@ -18,13 +18,10 @@ typedef struct S_8017357C_0 {
 } S_8017357C_0;   /* arg0 in func_8017357C */
 
 
-
 typedef struct S_8017357C_3 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_8017357C_3;   /* counter_base in func_8017357C */
-
-
 
 
 extern s32 func_80042900(void *, s32);
@@ -63,7 +60,8 @@ void func_8017357C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         func_80047784(sprite,
             D_80174AFC[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
-        ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A - 1;
+        ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A
+            - 1;
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
     case 1:
@@ -80,7 +78,8 @@ void func_8017357C(void *controller, EntityRec *motion, void *sprite, EntityRec 
             } else {
                 ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-                ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
+                ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A =
+                    ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
                 ((S_8017357C_0 *)controller)->unk_9B++;
             }
             return;
@@ -153,7 +152,8 @@ void func_8017357C(void *controller, EntityRec *motion, void *sprite, EntityRec 
         } else {
             ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-            ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
+            ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A =
+                ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
             ((S_8017357C_0 *)controller)->unk_9B++;
         }
         return;

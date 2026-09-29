@@ -89,7 +89,6 @@ typedef struct S_80174648_3 {
 } S_80174648_3;   /* vec in func_80174648 */
 
 
-
 typedef struct S_80174648_6_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -137,172 +136,176 @@ void func_80174648(void *effect_state, EntityRec *position, Rec_D_80082E80 *enti
     state = ((S_80174648_0 *)effect_state)->unk_9B;
     switch (state) {
     case 0:
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-    return;
+        ((S_80174648_0 *)effect_state)->unk_9B++;
+        return;
 
     case 1:
-  {
-    s32 effect_id;
-    s32 direction;
-    u8 mode;
-    u16 angle;
-    u16 saved_angle;
+    {
+        s32 effect_id;
+        s32 direction;
+        u8 mode;
+        u16 angle;
+        u16 saved_angle;
 
-    func_80041588(D_80174CF4, D_80174D18, 0);
-    ((S_80174648_0 *)effect_state)->unk_B0 = 0;
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-    do {
-        saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
-    } while (0);
-    ((S_80174648_1 *)actor)->unk_8A = saved_angle;
-    direction = ((gameWork.view.viewAngle + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-    mode = ((u8 *)D_80174D1C)[-4];
-    angle = ((S_80174648_1 *)actor)->unk_2A.u;
-    if ((mode == 0) || (direction != 2)) {
-        if (direction == 2) {
+        func_80041588(D_80174CF4, D_80174D18, 0);
+        ((S_80174648_0 *)effect_state)->unk_B0 = 0;
+        ((S_80174648_0 *)effect_state)->unk_9B++;
+        do {
+            saved_angle = ((S_80174648_1 *)actor)->unk_2A.u;
+        } while (0);
+        ((S_80174648_1 *)actor)->unk_8A = saved_angle;
+        direction = ((gameWork.view.viewAngle + ((S_80174648_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
+        mode = ((u8 *)D_80174D1C)[-4];
+        angle = ((S_80174648_1 *)actor)->unk_2A.u;
+        if ((mode == 0) || (direction != 2)) {
+            if (direction == 2) {
+                return;
+            }
+            ((S_80174648_1 *)actor)->unk_2A.u = angle + 0x200;
             return;
         }
-        ((S_80174648_1 *)actor)->unk_2A.u = angle + 0x200;
-        return;
+        func_80041588((u8 *)D_80174CFC - 8, (u8 *)D_80174D1C - 4, 1);
+        func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
+        effect_id = func_800445E0();
+        Control_CD(0x15, effect_id, 0);
+        D_80174D19[0] = 0;
+        Control_CD(0xFF, D_8003E140, D_80174D19);
+        func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
+        ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
+        ((S_80174648_0 *)effect_state)->unk_9B++;
     }
-    func_80041588((u8 *)D_80174CFC - 8, (u8 *)D_80174D1C - 4, 1);
-    func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
-    effect_id = func_800445E0();
-    Control_CD(0x15, effect_id, 0);
-    D_80174D19[0] = 0;
-    Control_CD(0xFF, D_8003E140, D_80174D19);
-    func_800C77D0((u8 *)actor - 0x20, position, 8, 0x300);
-    ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-  }
 
     case 2:
-  {
-    s32 frames_left;
-    u8 effect_ready;
-    u8 *target_color;
+    {
+        s32 frames_left;
+        u8 effect_ready;
+        u8 *target_color;
 
-    frames_left = ((S_80174648_0 *)effect_state)->unk_96.u;
-    ((S_80174648_0 *)effect_state)->unk_96.u = frames_left - 1;
-    if ((s16)(frames_left - 1) <= 0) {
-        effect_ready = D_80174D19[0];
-        ((S_80174648_0 *)effect_state)->unk_96.u = frames_left;
-        if (effect_ready != 0) {
-            ((S_80174648_0 *)effect_state)->unk_9B++;
-            func_800A56E0(0x300);
+        frames_left = ((S_80174648_0 *)effect_state)->unk_96.u;
+        ((S_80174648_0 *)effect_state)->unk_96.u = frames_left - 1;
+        if ((s16)(frames_left - 1) <= 0) {
+            effect_ready = D_80174D19[0];
+            ((S_80174648_0 *)effect_state)->unk_96.u = frames_left;
+            if (effect_ready != 0) {
+                ((S_80174648_0 *)effect_state)->unk_9B++;
+                func_800A56E0(0x300);
+                return;
+            }
             return;
         }
+        target_color = D_800DCEEC[func_800498A0(actor)];
+        effect_work->unk_A8 += (((S_80174648_3 *)target_color)->unk_00
+            - effect_work->unk_A8) / ((S_80174648_0 *)effect_state)->unk_96.s;
+        effect_work->unk_A9 += (((S_80174648_3 *)target_color)->unk_01
+            - effect_work->unk_A9) / ((S_80174648_0 *)effect_state)->unk_96.s;
+        effect_work->unk_AA += (((S_80174648_3 *)target_color)->unk_02
+            - effect_work->unk_AA) / ((S_80174648_0 *)effect_state)->unk_96.s;
         return;
     }
-    target_color = D_800DCEEC[func_800498A0(actor)];
-    effect_work->unk_A8 += (((S_80174648_3 *)target_color)->unk_00 - effect_work->unk_A8) / ((S_80174648_0 *)effect_state)->unk_96.s;
-    effect_work->unk_A9 += (((S_80174648_3 *)target_color)->unk_01 - effect_work->unk_A9) / ((S_80174648_0 *)effect_state)->unk_96.s;
-    effect_work->unk_AA += (((S_80174648_3 *)target_color)->unk_02 - effect_work->unk_AA) / ((S_80174648_0 *)effect_state)->unk_96.s;
-    return;
-  }
 
     case 3:
-  {
-    s16 variant;
-    s32 color;
-    s32 pos_z;
+    {
+        s16 variant;
+        s32 color;
+        s32 pos_z;
 
-    effect_work = func_8003FC64(0x12);
-    if (effect_work == 0) {
+        effect_work = func_8003FC64(0x12);
+        if (effect_work == 0) {
+            return;
+        }
+        effect_work->unk_10.p = D_8017451C;
+        func_8004491C(effect_work, D_801740F4);
+        color = 0x00808080;
+        ((S_80174648_0 *)effect_state)->unk_AC = effect_work;
+        ((S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;
+        ((S_80174648_9 *)(effect_work->unk_08))->unk_04 = position->y.v;
+        ((S_80174648_9 *)(effect_work->unk_08))->unk_08 =
+            (pos_z = position->z.v, D_80174D14[0] = 5, pos_z);
+        effect_work = effect_work->unk_0C.p;
+        effect_work->unk_1E = 0x1000;
+        effect_work->unk_1C = 0x1000;
+        effect_work->unk_0C.i = color;
+        variant = func_800498A0(actor) - 1;
+        if (variant < 0) {
+            variant = func_80069EF8() % 3;
+        }
+        func_8003DB94(effect_work, D_8014A000 + (s32)D_80174CFC[variant], 0);
+        entity->unk_14.at00_u16.v |= 0x80;
+        ((S_80174648_0 *)effect_state)->unk_96.s = 0;
+        ((S_80174648_0 *)effect_state)->unk_9B++;
+        func_801743BC(effect_state, position, entity);
         return;
     }
-    effect_work->unk_10.p = D_8017451C;
-    func_8004491C(effect_work, D_801740F4);
-    color = 0x00808080;
-    ((S_80174648_0 *)effect_state)->unk_AC = effect_work;
-    ((S_80174648_9 *)(effect_work->unk_08))->unk_00 = position->x.v;
-    ((S_80174648_9 *)(effect_work->unk_08))->unk_04 = position->y.v;
-    ((S_80174648_9 *)(effect_work->unk_08))->unk_08 =
-        (pos_z = position->z.v, D_80174D14[0] = 5, pos_z);
-    effect_work = effect_work->unk_0C.p;
-    effect_work->unk_1E = 0x1000;
-    effect_work->unk_1C = 0x1000;
-    effect_work->unk_0C.i = color;
-    variant = func_800498A0(actor) - 1;
-    if (variant < 0) {
-        variant = func_80069EF8() % 3;
-    }
-    func_8003DB94(effect_work, D_8014A000 + (s32)D_80174CFC[variant], 0);
-    entity->unk_14.at00_u16.v |= 0x80;
-    ((S_80174648_0 *)effect_state)->unk_96.s = 0;
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-    func_801743BC(effect_state, position, entity);
-    return;
-  }
 
     case 4:
     case 5:
-  {
-    effect_work = ((S_80174648_0 *)effect_state)->unk_AC;
-    effect_work = effect_work->unk_0C.p;
-    if (effect_work->unk_14 & 0xE000) {
-        ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-        ((S_80174648_0 *)effect_state)->unk_9B++;
-        func_800A18E8(((S_80174648_1 *)actor)->unk_13, 3);
-        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-        func_8009A028(actor);
-        effect_work = (u8 *)actor - 0x20;
-        effect_work->unk_10.i |= 0x80000000;
+    {
+        effect_work = ((S_80174648_0 *)effect_state)->unk_AC;
+        effect_work = effect_work->unk_0C.p;
+        if (effect_work->unk_14 & 0xE000) {
+            ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
+            ((S_80174648_0 *)effect_state)->unk_9B++;
+            func_800A18E8(((S_80174648_1 *)actor)->unk_13, 3);
+            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+            func_8009A028(actor);
+            effect_work = (u8 *)actor - 0x20;
+            effect_work->unk_10.i |= 0x80000000;
+        }
+        case 6:
+        if (((S_80174648_0 *)effect_state)->unk_9B != 6) {
+            return;
+        }
     }
-    case 6:
-    if (((S_80174648_0 *)effect_state)->unk_9B != 6) {
-        return;
-    }
-  }
 
-  {
-    if (func_800ADC4C(position, D_80174D1C[0], D_80174D14[0], D_800DCF5C) == 0) {
-        return;
-    }
-    ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-    func_800A18E8(((S_80174648_1 *)actor)->unk_13, 3);
-    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-    func_8009A028(actor);
-    effect_work = (u8 *)actor - 0x20;
-    effect_work->unk_10.i |= 0x80000000;
-    return;
-  }
+        {
+            if (func_800ADC4C(position, D_80174D1C[0], D_80174D14[0], D_800DCF5C) == 0) {
+                return;
+            }
+            ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
+            ((S_80174648_0 *)effect_state)->unk_9B++;
+            func_800A18E8(((S_80174648_1 *)actor)->unk_13, 3);
+            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+            func_8009A028(actor);
+            effect_work = (u8 *)actor - 0x20;
+            effect_work->unk_10.i |= 0x80000000;
+            return;
+        }
 
     case 7:
-  {
-    s32 child_or_angle;
-    S_80174648_7 *child_sprite;
-    s32 direction;
+    {
+        s32 child_or_angle;
+        S_80174648_7 *child_sprite;
+        s32 direction;
 
-    if ((((S_80174648_1 *)actor)->unk_60.p = func_800A504C(entity, actor)) == 0) {
-        return;
+        if ((((S_80174648_1 *)actor)->unk_60.p = func_800A504C(entity, actor)) == 0) {
+            return;
+        }
+        ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
+        ((S_80174648_0 *)effect_state)->unk_9B++;
+        ((S_80174648_10 *)(((S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((S_80174648_1 *)actor)->unk_2A.u;
+        child_or_angle = ((S_80174648_1 *)actor)->unk_60.i;
+        child_sprite = ((S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
+        child_or_angle = ((S_80174648_6 *)((void *)child_or_angle))->unk_2A;
+        direction = (gameWork.view.viewAngle + child_or_angle + 0x100) >> 9;
+        direction &= 7;
+        func_80047738(child_sprite, ((S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00,
+            child_sprite->unk_04);
+        child_sprite->unk_14 &= 0xFFFE;
     }
-    ((S_80174648_0 *)effect_state)->unk_96.s = 0x10;
-    ((S_80174648_0 *)effect_state)->unk_9B++;
-    ((S_80174648_10 *)(((S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((S_80174648_1 *)actor)->unk_2A.u;
-    child_or_angle = ((S_80174648_1 *)actor)->unk_60.i;
-    child_sprite = ((S_80174648_6_pre *)((void *)child_or_angle))[-1].unk_00;
-    child_or_angle = ((S_80174648_6 *)((void *)child_or_angle))->unk_2A;
-    direction = (gameWork.view.viewAngle + child_or_angle + 0x100) >> 9;
-    direction &= 7;
-    func_80047738(child_sprite, ((S_80174648_11 *)(child_sprite->unk_2C + direction))->unk_00, child_sprite->unk_04);
-    child_sprite->unk_14 &= 0xFFFE;
-  }
 
     case 8:
-  {
+    {
 
-    ((S_80174648_0 *)effect_state)->unk_96.u--;
-    if (((S_80174648_0 *)effect_state)->unk_96.s > 0) {
-        return;
+        ((S_80174648_0 *)effect_state)->unk_96.u--;
+        if (((S_80174648_0 *)effect_state)->unk_96.s > 0) {
+            return;
+        }
+        ((S_80174648_10 *)(((S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((S_80174648_1 *)actor)->unk_8A;
+        ((S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        dungeonStatus.unk_0A--;
+        ((S_80174648_1 *)actor)->unk_6D = 0;
     }
-    ((S_80174648_10 *)(((S_80174648_1 *)actor)->unk_60.p))->unk_2A = ((S_80174648_1 *)actor)->unk_8A;
-    ((S_80174648_0_pre *)effect_state)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    dungeonStatus.unk_0A--;
-    ((S_80174648_1 *)actor)->unk_6D = 0;
-  }
     default:
         break;
     }

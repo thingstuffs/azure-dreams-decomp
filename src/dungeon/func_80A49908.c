@@ -36,8 +36,9 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
             break;
         }
         U8(actor, 0x9B) = 1;
-        /* fallthrough */
-    case 1: {
+                /* fallthrough */
+    case 1:
+    {
         s32 entity_flags;
         s32 sprite_offset;
         u8 *group_cursor;
@@ -80,7 +81,8 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         break;
     }
 
-    case 2: {
+    case 2:
+    {
         u8 *group_cursor;
         u8 *sprite_entry;
         s32 fade_delta;
@@ -115,7 +117,8 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         break;
     }
 
-    case 3: {
+    case 3:
+    {
         u8 brightness;
         u8 tile_x;
         u8 tile_y;

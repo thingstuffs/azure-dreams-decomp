@@ -35,7 +35,7 @@ extern u8 D_800E3D68[];
 
 #ifdef __mips__
 static const u32 split_prefix[] __asm__("func_818E6800")
-    __attribute__((section(".text.func_818E6800"), aligned(4))) = {
+__attribute__((section(".text.func_818E6800"), aligned(4))) = {
     0x8002401C, 0x10001000, 0x14000E10, 0x18000D48,
     0x0FA01000, 0x0DAC1800, 0x0BB82000,
 };
@@ -47,7 +47,7 @@ __asm__(".globl func_818E6800\n"
 #endif
 
 void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg)
-    __attribute__((section(".text.func_818E6800")));
+__attribute__((section(".text.func_818E6800")));
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
 void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
@@ -108,12 +108,12 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
                 render_data = (u8 *)S32(particle, 12);
                 S32(particle, 16) = (s32)spawn_callback;
                 U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +
-                                             (func_80069EF8() & 0x1ff) - 256);
+                                                 (func_80069EF8() & 0x1ff) - 256);
                 U16(S32(particle, 8), 6) = (u16)(U16(motion, 6) +
-                                             (func_80069EF8() & 0x1ff) - 256);
+                                                 (func_80069EF8() & 0x1ff) - 256);
                 particle_data = particle + 32;
                 U16(S32(particle, 8), 10) = (u16)(U16(motion, 10) +
-                                              (func_80069EF8() & 0xf) - 8);
+                                                  (func_80069EF8() & 0xf) - 8);
                 S32(particle_data, 28) = S32(motion, 0);
                 S32(particle_data, 32) = S32(motion, 4);
                 S32(particle_data, 36) = S32(motion, 8);
@@ -148,7 +148,8 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
     {
         s32 mode = S16(effect, 10);
         switch (mode) {
-        case 0: {
+        case 0:
+        {
             s32 target;
             s32 delta_x;
             s32 abs_y;
@@ -159,7 +160,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
                     offset[2] = (U16(actor_data, 20) & 0x8000) ? -48 : 0;
                 }
                 target = func_800A05A4(actor, U8(actor_data, 36), U8(actor_data, 37), S16(actor, 42),
-                                     (s16)func_800A3820(36));
+                                       (s16)func_800A3820(36));
                 S32(actor, 96) = target;
                 if (target == 0) {
                     U8(actor, 114) = U8(actor_data, 36);
@@ -195,8 +196,10 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
                     abs_y = -abs_y;
                 } else {
                 }
-                if (distance < abs_y) distance = abs_y;
-                if (distance < 4) distance = 4;
+                if (distance < abs_y)
+                    distance = abs_y;
+                if (distance < 4)
+                    distance = 4;
                 original_count = distance << 2;
                 U16(effect, 80) = (u16)original_count;
                 abs_y = S8(actor, 114);
@@ -234,7 +237,8 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
             break;
         }
 
-        case 1: {
+        case 1:
+        {
             s16 frame_counter;
             if (S16(effect, 80) >= 0) {
                 S32(motion, 0) += S32(motion, 12);
@@ -254,7 +258,8 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
             break;
         }
 
-        case 2: {
+        case 2:
+        {
             u16 frame_counter = (u16)U16(effect, 82) + 1;
             U16(effect, 82) = frame_counter;
             if (S16(effect, 80) == mode) {
@@ -301,12 +306,14 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
                 S32(actor, 96) != 0) {
                 func_800C8900(S32(actor, 96), U8(D_800E3D68, 0) == 255 ? 255 : 16, 4);
             }
-            if (S16(effect, 80) > 0) break;
+            if (S16(effect, 80) > 0)
+                break;
             func_80044A50(effect - 32);
             U16(effect, 10) = 255;
             return;
 
-        case 255: {
+        case 255:
+        {
             s32 effect_flags;
             effect_flags = S32(effect, 16);
             if ((effect_flags & 0x8000) != 0) {

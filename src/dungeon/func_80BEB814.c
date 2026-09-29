@@ -7,7 +7,6 @@
 #include "shared/entity.h"
 
 
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
 extern s8 func_8009FB34(s32, s32);
@@ -58,7 +57,11 @@ typedef struct S_80171014_2 {
     u8 pad_00[0x5];
     u8 unk_05;
     u8 pad_06[0x1E];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
     u8 pad_27[0x5];
     void * unk_2C;
@@ -192,17 +195,17 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
         action_state = creature->unk_46 & 0x3FFF;
         switch (action_state - 1) {
 
-    case 7:
-    case 8:
-        if ((func_80171ECC(actor, actor_context, map_object, creature) << 16) != 0) {
+        case 7:
+        case 8:
+            if ((func_80171ECC(actor, actor_context, map_object, creature) << 16) != 0) {
+                return;
+            }
+            func_80172090(actor, actor_context, map_object, creature);
             return;
-        }
-        func_80172090(actor, actor_context, map_object, creature);
-        return;
 
-    case 4:
-    case 5:
-    case 6:
+        case 4:
+        case 5:
+        case 6:
         {
             EntityRec *player;
             s16 facing_angle;
@@ -218,25 +221,25 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
             }
         }
 
-    case 11:
+        case 11:
 case_12:
-        func_800A9A0C(creature);
-        return;
+            func_800A9A0C(creature);
+            return;
 
-    case 0:
-    case 1:
-    case 2:
+        case 0:
+        case 1:
+        case 2:
 case_123:
-        func_800AAF00(actor, actor_context, map_object, D_8017424C, D_80171014);
-        return;
+            func_800AAF00(actor, actor_context, map_object, D_8017424C, D_80171014);
+            return;
 
-    case 3:
-    case 9:
-    case 10:
-    default:
+        case 3:
+        case 9:
+        case 10:
+        default:
 generic:
-        func_80171784(actor, actor_context, map_object, creature);
-        return;
+            func_80171784(actor, actor_context, map_object, creature);
+            return;
         }
     }
 

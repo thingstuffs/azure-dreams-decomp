@@ -33,7 +33,8 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     index = 0;
     best_entry = index;
     if (count > 0) {
-        loop_0: {
+loop_0:
+        {
             value = func_8001AB20(entry, context);
             if (value < best_value) {
                 best_entry = entry;
@@ -41,7 +42,9 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
             }
             index++;
             entry += 8;
-        } if (index < count) goto loop_0;
+        }
+        if (index < count)
+            goto loop_0;
     }
 
     if (best_entry == 0) {

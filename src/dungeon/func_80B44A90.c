@@ -6,7 +6,6 @@
 #include "shared/entity.h"
 
 
-
 typedef struct S_80172290_0 {
     u8 pad_00[0x8C];
     u8 * unk_8C;
@@ -19,9 +18,6 @@ typedef struct S_80172290_0 {
     u8 pad_9C[0x4];
     s32 unk_A0;
 } S_80172290_0;   /* arg0 in func_80172290 */
-
-
-
 
 
 M2C_UNK func_80047784();
@@ -60,7 +56,7 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
         ((EntityRec *)actor)->flags1C &= 0xF7FFFFFF;
         ((S_80172290_0 *)action)->unk_A0 = 0;
         ((S_80172290_0 *)action)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         frames_left = ((S_80172290_0 *)action)->unk_96.s;
         ((S_80172290_0 *)action)->unk_90 -= ((S_80172290_0 *)action)->unk_A0;
@@ -88,7 +84,7 @@ void func_80172290(void *action, void *motion, void *map_actor, void *actor) {
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80172290_0 *)action)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
             ((S_80172290_0 *)action)->unk_98 &= 0xFFF7;

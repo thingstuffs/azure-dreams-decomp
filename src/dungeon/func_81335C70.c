@@ -78,7 +78,8 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
         obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-            func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+            func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100)
+                >> 9) & 7], 0);
         }
         counter_base = &dungeonStatus;
         (*(u16 *)&counter_base->unk_0A)--;
@@ -90,14 +91,16 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
         if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
             if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
                 (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
-                func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100)
+                    >> 9) & 7], 0);
             }
         }
         if ((func_80042900(actor, 1) << 0x10) == 0) {
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
-                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100)
+                    >> 9) & 7], 0);
             }
         } else {
             held_base = &dungeonStatus;
@@ -142,7 +145,8 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
             if ((func_80042900(actor, 1) << 0x10) != 0) {
                 room_base = &D_80082E80;
                 target_room = ((S_8016CC70_1 *)target)->unk_26;
-                if (!(((target_room != room_base->unk_026) || (target_room < 0)) && func_8009FD40(room_base, target) >= 2)) {
+                if (!(((target_room != room_base->unk_026) || (target_room < 0))
+                    && func_8009FD40(room_base, target) >= 2)) {
                     if ((func_800A6D30() & 7) == 0) {
                         func_80042B68(actor, 1);
                     }
@@ -154,7 +158,8 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
             obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
             if (obj_kind == 0xE || (obj_kind < 0xF ? obj_kind == 0xD : obj_kind == 0xF)) {
                 (*(u8 **)((u8 *)target + 0x2C)) = D_80173AD0;
-                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
+                func_80047784(target, D_80173AD0[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100)
+                    >> 9) & 7], 0);
             }
         }
         if (((S_8016CC70_1 *)target)->unk_14 & 0x8000) {

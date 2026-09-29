@@ -107,62 +107,62 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
         state->unk_9B = state->unk_9B + 1;
     }
     case 1:
-    motion->unk_14 += 0x1C000;
-    if (func_800BCB04(motion->unk_02, motion->unk_06, motion->unk_0A, velocity_y) >= 0x200) {
-        motion->unk_14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-    }
-    if (dungeonStatus.unk_0A != 0) {
-        return;
-    }
-    state->unk_9B = state->unk_9B + 1;
-    case 2:
-    status_flags = ((S_801731FC_1 *)entity)->unk_14;
-    if (status_flags & 0x4000) {
-        if (!(status_flags & 0x20000000)) {
-            func_800ACF88(entity);
+        motion->unk_14 += 0x1C000;
+        if (func_800BCB04(motion->unk_02, motion->unk_06, motion->unk_0A, velocity_y) >= 0x200) {
+            motion->unk_14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
         }
-    }
-    func_800A56E0(0x805);
-    sprite->unk_10 = 0x20;
-    sprite->unk_14 |= 0xC;
-    sprite->unk_12 -= 0x80;
-    state->unk_9B = state->unk_9B + 1;
+        if (dungeonStatus.unk_0A != 0) {
+            return;
+        }
+        state->unk_9B = state->unk_9B + 1;
+    case 2:
+        status_flags = ((S_801731FC_1 *)entity)->unk_14;
+        if (status_flags & 0x4000) {
+            if (!(status_flags & 0x20000000)) {
+                func_800ACF88(entity);
+            }
+        }
+        func_800A56E0(0x805);
+        sprite->unk_10 = 0x20;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_12 -= 0x80;
+        state->unk_9B = state->unk_9B + 1;
     case 3:
-    motion->unk_14 += 0x1C000;
-    if (!(sprite->unk_14 & 0x6000)) {
+        motion->unk_14 += 0x1C000;
+        if (!(sprite->unk_14 & 0x6000)) {
+            return;
+        }
+        state->unk_96 = 0x80U;
+        state->unk_9B = state->unk_9B + 1;
         return;
-    }
-    state->unk_96 = 0x80U;
-    state->unk_9B = state->unk_9B + 1;
-    return;
     case 4:
-    ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
-    brightness = (u8)state->unk_96;
-    sprite->unk_0E = brightness;
-    sprite->unk_0D = brightness;
-    sprite->unk_0C = brightness;
-    next_brightness = state->unk_96 - 0x18;
-    state->unk_96 = next_brightness;
-    if ((s16)next_brightness >= 0x18) {
+        ((S_801731FC_1 *)entity)->unk_1C.s |= 0x10000000;
+        brightness = (u8)state->unk_96;
+        sprite->unk_0E = brightness;
+        sprite->unk_0D = brightness;
+        sprite->unk_0C = brightness;
+        next_brightness = state->unk_96 - 0x18;
+        state->unk_96 = next_brightness;
+        if ((s16)next_brightness >= 0x18) {
+            return;
+        }
+        if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
+        func_800A2FE0(entity, phase, velocity_x, velocity_y);
+        func_800A32A4(entity);
+        sound_x = sprite->unk_24;
+        sound_y = sprite->unk_25;
+        sound_flags = 0x3000;
+        if (((S_801731FC_1 *)entity)->unk_1C.s & 0x2000) {
+            sound_flags = 0x300;
+        }
+        func_8009A3D0(sound_x, sound_y, sound_flags);
+        func_8009A028(entity);
+        ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
-    }
-    if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
-        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
-    }
-    func_800A2FE0(entity, phase, velocity_x, velocity_y);
-    func_800A32A4(entity);
-    sound_x = sprite->unk_24;
-    sound_y = sprite->unk_25;
-    sound_flags = 0x3000;
-    if (((S_801731FC_1 *)entity)->unk_1C.s & 0x2000) {
-        sound_flags = 0x300;
-    }
-    func_8009A3D0(sound_x, sound_y, sound_flags);
-    func_8009A028(entity);
-    ((S_801731FC_1_pre *)entity)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
     }
 }

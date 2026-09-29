@@ -42,7 +42,6 @@ typedef struct S_80172504_2 {
 } S_80172504_2;   /* (void *)scratch in func_80172504 */
 
 
-
 extern s32 func_8009B4B0();
 extern void func_8009C93C();
 extern s32 func_800A2B5C();
@@ -92,60 +91,60 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     }
     return -1;
 
-do {
-    ((S_80172504_1 *)state)->unk_AE = 2;
-    ((S_80172504_1 *)state)->unk_AC = step_count + 1;
-    ((S_80172504_0 *)actor)->unk_60 = check_result;
-    goto finish;
+    do {
+        ((S_80172504_1 *)state)->unk_AE = 2;
+        ((S_80172504_1 *)state)->unk_AC = step_count + 1;
+        ((S_80172504_0 *)actor)->unk_60 = check_result;
+        goto finish;
 
 initialize:
-    dir_index = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
-    direction_offset = dir_index * 2;
-    tile_x = ((S_80172504_2 *)origin)->unk_24;
-    tile_y = ((S_80172504_2 *)origin)->unk_25;
-    delta_x = (s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
-    direction = dir_index;
-    if (0) {
-    }
-    ((S_80172504_1 *)state)->unk_A8 = tile_x;
-    ((S_80172504_1 *)state)->unk_AA = tile_y;
-
-loop:
-    signed_x = (s16)tile_x;
-    world_x = (signed_x << 6) & 0xFFC0;
-    signed_y = (s16)tile_y;
-    world_y = (signed_y << 6) & 0xFFC0;
-    if ((func_800A44E0(world_x,
-                       world_y,
-                       ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
-        goto finish_pinned;
-    }
-
-    next_world_x = (((signed_x + *delta_x) << 6) + 0x20) & 0xFFE0;
-    delta_y = (s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
-    next_height = func_800BCB04(
-        next_world_x,
-        (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,
-        (s16)(((S_80172504_0 *)actor)->unk_88.u - 0x20));
-    if (next_height >= 0x201) {
-        goto finish;
-    }
-    if ((u16)(next_height - ((S_80172504_0 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
-        goto finish;
-    }
-
-    {
-        s32 step_x;
-        u32 step_y;
-
-        step_x = (u16)*delta_x;
-        step_y = (u16)*delta_y;
-        step_x = (u16)(tile_x + step_x);
-        step_y = (u16)(tile_y + step_y);
+        dir_index = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
+        direction_offset = dir_index * 2;
+        tile_x = ((S_80172504_2 *)origin)->unk_24;
+        tile_y = ((S_80172504_2 *)origin)->unk_25;
+        delta_x = (s16 *)((u8 *)((s8 *)dirStepX) + direction_offset);
+        direction = dir_index;
         if (0) {
         }
-        check_result = func_8009B4B0(actor, step_x, step_y);
-    }
+        ((S_80172504_1 *)state)->unk_A8 = tile_x;
+        ((S_80172504_1 *)state)->unk_AA = tile_y;
+
+loop:
+        signed_x = (s16)tile_x;
+        world_x = (signed_x << 6) & 0xFFC0;
+        signed_y = (s16)tile_y;
+        world_y = (signed_y << 6) & 0xFFC0;
+        if ((func_800A44E0(world_x,
+                           world_y,
+                           ((S_80172504_0 *)actor)->unk_88.s, direction << 9) << 16) != 0) {
+            goto finish_pinned;
+        }
+
+        next_world_x = (((signed_x + *delta_x) << 6) + 0x20) & 0xFFE0;
+        delta_y = (s16 *)((u8 *)((s8 *)dirStepY) + direction_offset);
+        next_height = func_800BCB04(
+            next_world_x,
+            (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,
+            (s16)(((S_80172504_0 *)actor)->unk_88.u - 0x20));
+        if (next_height >= 0x201) {
+            goto finish;
+        }
+        if ((u16)(next_height - ((S_80172504_0 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
+            goto finish;
+        }
+
+        {
+            s32 step_x;
+            u32 step_y;
+
+            step_x = (u16)*delta_x;
+            step_y = (u16)*delta_y;
+            step_x = (u16)(tile_x + step_x);
+            step_y = (u16)(tile_y + step_y);
+            if (0) {
+            }
+            check_result = func_8009B4B0(actor, step_x, step_y);
+        }
     } while (check_result != 0);
     {
         u16 next_y;

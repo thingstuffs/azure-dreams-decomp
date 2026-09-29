@@ -42,7 +42,6 @@ typedef struct S_801730B4_5 {
 } S_801730B4_5;   /* copy_arg0 in func_801730B4 */
 
 
-
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);
 extern void func_80047784(void *, u8, s32);
@@ -94,22 +93,22 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
 
     case 1:
         if ((func_80042900(entity_in, 1) << 16) == 0) {
-        (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
-        func_80047784(sprite_in,
-            D_801748E8[((gameWork.view.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
-        if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
+            (*(void * *)((u8 *)sprite_in + 0x2C)) = D_801748E8;
+            func_80047784(sprite_in,
+                D_801748E8[((gameWork.view.viewAngle + ((S_801730B4_2 *)entity_in)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_801730B4_2 *)entity_in)->unk_1C.s |= 0x40000;
+            if (!(((S_801730B4_1 *)sprite_in)->unk_14 & 0x8000)) {
 
-            state = ((u16)dungeonStatus.unk_0A);
-            state++;
-            dungeonStatus.unk_0A = state;
-            ((S_801730B4_0 *)actor_in)->unk_9B++;
+                state = ((u16)dungeonStatus.unk_0A);
+                state++;
+                dungeonStatus.unk_0A = state;
+                ((S_801730B4_0 *)actor_in)->unk_9B++;
+                return;
+            }
+            ((S_801730B4_2 *)entity_in)->unk_1C.s &= ~0x200;
+            ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
             return;
-        }
-        ((S_801730B4_2 *)entity_in)->unk_1C.s &= ~0x200;
-        ((S_801730B4_0 *)actor_in)->unk_8C = D_80171058;
-        return;
         }
         page_base = (u8 *)0x80080000;
         {

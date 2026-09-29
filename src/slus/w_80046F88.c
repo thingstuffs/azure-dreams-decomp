@@ -23,7 +23,7 @@ typedef struct S_80046F88 {
 s32 func_80046F88(void *object_addr)
 {
     S_80046F88 *obj = (S_80046F88 *)object_addr;
-    /* delta must live in $a3; counter entry_index takes $a2. Guarded pin for PC port. */
+        /* delta must live in $a3; counter entry_index takes $a2. Guarded pin for PC port. */
     register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 addr_or_count;
     s32 ptr_value;

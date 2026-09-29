@@ -12,8 +12,6 @@ typedef struct S_81984BF0_1 {
 } S_81984BF0_1;   /* object in func_81984BF0 */
 
 
-
-
 /* Clears flag 0x2000 on every object in the circular list. */
 void func_81984BF0(void)
 {

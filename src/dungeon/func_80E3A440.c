@@ -10,7 +10,6 @@ extern s32 func_800A2BDC();
 extern u8 D_80176670[16];
 
 
-
 typedef struct S_80173C40_2 {
     u8 pad_00[0x8C];
     s32 unk_8C;

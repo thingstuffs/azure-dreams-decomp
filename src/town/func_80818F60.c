@@ -86,8 +86,6 @@ typedef struct S_80022F60_6 {
 } S_80022F60_6;   /* image in func_80022F60 */
 
 
-
-
 extern void func_80033B78(s32);
 extern s32 func_80033BC0(s32);
 extern s32 func_800352FC(void);
@@ -190,124 +188,127 @@ void func_80022F60(void *state_obj) {
         break;
 
     case 2:
-        {
-            s32 raw;
+    {
+        s32 raw;
 
-            raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
-            state_obj = raw & 0xFFF;
-            ((S_80022F60_1 *)main_state)->unk_10.u = state_obj;
-            if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
-                u8 *motion = (u8 *)(&D_80083780);
+        raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
+        state_obj = raw & 0xFFF;
+        ((S_80022F60_1 *)main_state)->unk_10.u = state_obj;
+        if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
+            u8 *motion = (u8 *)(&D_80083780);
 
-                ((S_80022F60_2 *)motion)->unk_10 = 0;
-                ((S_80022F60_2 *)motion)->unk_0C = 0;
-                if (state_obj == 0) {
-                    ((S_80022F60_0 *)obj_held)->unk_00.u++;
-                }
+            ((S_80022F60_2 *)motion)->unk_10 = 0;
+            ((S_80022F60_2 *)motion)->unk_0C = 0;
+            if (state_obj == 0) {
+                ((S_80022F60_0 *)obj_held)->unk_00.u++;
             }
         }
+    }
         break;
 
     case 3:
-        {
-            u8 *motion = (u8 *)(&D_80083780);
-            u8 *loop_asset;
-            s32 *table_base;
-            s8 one;
-            s16 flag_one;
-            u8 *alloc_page;
+    {
+        u8 *motion = (u8 *)(&D_80083780);
+        u8 *loop_asset;
+        s32 *table_base;
+        s8 one;
+        s16 flag_one;
+        u8 *alloc_page;
 
-            ((S_80022F60_1 *)main_state)->unk_10.u =
-                (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
-            if (((S_80022F60_2 *)motion)->unk_0A >= func_800C2AE8(motion)) {
-                s32 cur_angle = ((S_80022F60_1 *)main_state)->unk_10.s;
+        ((S_80022F60_1 *)main_state)->unk_10.u =
+            (((S_80022F60_1 *)main_state)->unk_10.u + 0x200) & 0xFFF;
+        if (((S_80022F60_2 *)motion)->unk_0A >= func_800C2AE8(motion)) {
+            s32 cur_angle = ((S_80022F60_1 *)main_state)->unk_10.s;
 
-                ((S_80022F60_2 *)motion)->unk_10 = 0;
-                ((S_80022F60_2 *)motion)->unk_0C = 0;
-                if ((cur_angle == 0) && (func_800352FC() == 0)) {
-                    SD_Call(0x200);
-                    one = 1;
-                    alloc_page = main_state - 0x20;
-                    flag_one = D_800272C8;
-                    ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
-                    flag_one = 1;
-                    D_800272C8 = flag_one;
-                    ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
-                    (*(s32 *)((u8 *)motion + 0x10)) = 0;
-                    D_800272CA = 0;
-                    *(s32 *)(&D_80083780) = D_80026F26 << 16;
+            ((S_80022F60_2 *)motion)->unk_10 = 0;
+            ((S_80022F60_2 *)motion)->unk_0C = 0;
+            if ((cur_angle == 0) && (func_800352FC() == 0)) {
+                SD_Call(0x200);
+                one = 1;
+                alloc_page = main_state - 0x20;
+                flag_one = D_800272C8;
+                ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
+                flag_one = 1;
+                D_800272C8 = flag_one;
+                ((S_80022F60_2 *)motion)->unk_04 = 0x03800000;
+                (*(s32 *)((u8 *)motion + 0x10)) = 0;
+                D_800272CA = 0;
+                *(s32 *)(&D_80083780) = D_80026F26 << 16;
 
-                    obj = func_8003FD64(one, alloc_page);
-                    if (obj != NULL) {
-                        ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
-                        func_8004491C(obj, &D_80053A88);
-                        secondary = (u8 *)obj + 0x20;
-                        ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
-                        ((S_80022F60_4 *)secondary)->unk_0E.s = 0xA0;
-                        ((S_80022F60_4 *)secondary)->unk_10 = 0x60;
-                        ((S_80022F60_4 *)secondary)->unk_12 = 0x1C;
-                        ((S_80022F60_4 *)secondary)->unk_14 = 2;
-                        ((S_80022F60_4 *)secondary)->unk_16 = 1;
-                        ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
-                        ((S_80022F60_4 *)secondary)->unk_04 = obj_held;
-                    }
+                obj = func_8003FD64(one, alloc_page);
+                if (obj != NULL) {
+                    ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
+                    func_8004491C(obj, &D_80053A88);
+                    secondary = (u8 *)obj + 0x20;
+                    ((S_80022F60_4 *)secondary)->unk_0C.s = 0xC8;
+                    ((S_80022F60_4 *)secondary)->unk_0E.s = 0xA0;
+                    ((S_80022F60_4 *)secondary)->unk_10 = 0x60;
+                    ((S_80022F60_4 *)secondary)->unk_12 = 0x1C;
+                    ((S_80022F60_4 *)secondary)->unk_14 = 2;
+                    ((S_80022F60_4 *)secondary)->unk_16 = 1;
+                    ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
+                    ((S_80022F60_4 *)secondary)->unk_04 = obj_held;
+                }
 
-                    secondary = (u8 *)1;
-                    loop_asset = D_80023FF8;
-                    table_base = D_80026F2C;
-                    two = (s32)(table_base + 1);
-                    main_state = (u8 *)0xB0;
-                    loop_0: {
-                        obj = func_8003FD64(1, ((u8 *)(&D_80083498)));
-                        if (obj != NULL) {
-
-                            sprite = (u8 *)obj + 0x20;
-
-                            ((S_80022F60_3 *)obj)->unk_10 = loop_asset;
-                            func_8004491C(obj, D_80053858);
-                            ((S_80022F60_5 *)sprite)->unk_14 = 0xCC;
-                            ((S_80022F60_5 *)sprite)->unk_18 = 3;
-                            ((S_80022F60_5 *)sprite)->unk_16 = (s32)main_state;
-                            ((S_80022F60_5 *)sprite)->unk_1A = 0x7C80;
-                            ((S_80022F60_5 *)sprite)->unk_10 = 0x808080;
-                            ((S_80022F60_5 *)sprite)->unk_0C = obj_held;
-                            ((S_80022F60_5 *)sprite)->unk_08 =
-                                (s32)secondary ? (void *)(obj_held + 8)
-                                               : (void *)0x800135C2;
-                            ((S_80022F60_5 *)sprite)->unk_04 = *(s32 *)two;
-                        }
-                        two -= 4;
-                        secondary = (u8 *)((s32)secondary - 1);
-                        main_state -= 0xC;
-                    } if ((s32)secondary >= 0) goto loop_0;
-
-                    obj = func_8003FC64(0x136);
+                secondary = (u8 *)1;
+                loop_asset = D_80023FF8;
+                table_base = D_80026F2C;
+                two = (s32)(table_base + 1);
+                main_state = (u8 *)0xB0;
+loop_0:
+                {
+                    obj = func_8003FD64(1, ((u8 *)(&D_80083498)));
                     if (obj != NULL) {
 
                         sprite = (u8 *)obj + 0x20;
 
-                        ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                        func_8004491C(obj, func_80045340);
-                        image = ((S_80022F60_3 *)obj)->unk_0C;
-                        ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                        ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                        ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                        ((S_80022F60_6 *)image)->unk_04 = 0;
-                        ((S_80022F60_6 *)image)->unk_05 = 0;
-                        ((S_80022F60_6 *)image)->unk_0C = 0x808080;
-                        position = ((S_80022F60_3 *)obj)->unk_08;
-                        position[0] = 0x03800000;
-                        position[1] = 0x03C00000;
-                        position[2] = 0;
-                        ((S_80022F60_3 *)obj)->unk_20 = obj_held;
-                        ((S_80022F60_5 *)sprite)->unk_50 = 0x20;
-                        ((S_80022F60_5 *)sprite)->unk_52 = 4;
+                        ((S_80022F60_3 *)obj)->unk_10 = loop_asset;
+                        func_8004491C(obj, D_80053858);
+                        ((S_80022F60_5 *)sprite)->unk_14 = 0xCC;
+                        ((S_80022F60_5 *)sprite)->unk_18 = 3;
+                        ((S_80022F60_5 *)sprite)->unk_16 = (s32)main_state;
+                        ((S_80022F60_5 *)sprite)->unk_1A = 0x7C80;
+                        ((S_80022F60_5 *)sprite)->unk_10 = 0x808080;
+                        ((S_80022F60_5 *)sprite)->unk_0C = obj_held;
+                        ((S_80022F60_5 *)sprite)->unk_08 =
+                            (s32)secondary ? (void *)(obj_held + 8)
+                        : (void *)0x800135C2;
+                        ((S_80022F60_5 *)sprite)->unk_04 = *(s32 *)two;
                     }
-                    func_80093CEC(&D_800D0120);
-                    ((S_80022F60_0 *)obj_held)->unk_00.u++;
+                    two -= 4;
+                    secondary = (u8 *)((s32)secondary - 1);
+                    main_state -= 0xC;
                 }
+                if ((s32)secondary >= 0)
+                    goto loop_0;
+
+                obj = func_8003FC64(0x136);
+                if (obj != NULL) {
+
+                    sprite = (u8 *)obj + 0x20;
+
+                    ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                    func_8004491C(obj, func_80045340);
+                    image = ((S_80022F60_3 *)obj)->unk_0C;
+                    ((S_80022F60_6 *)image)->unk_1E = 0x1000;
+                    ((S_80022F60_6 *)image)->unk_1C = 0x1000;
+                    ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
+                    ((S_80022F60_6 *)image)->unk_04 = 0;
+                    ((S_80022F60_6 *)image)->unk_05 = 0;
+                    ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                    position = ((S_80022F60_3 *)obj)->unk_08;
+                    position[0] = 0x03800000;
+                    position[1] = 0x03C00000;
+                    position[2] = 0;
+                    ((S_80022F60_3 *)obj)->unk_20 = obj_held;
+                    ((S_80022F60_5 *)sprite)->unk_50 = 0x20;
+                    ((S_80022F60_5 *)sprite)->unk_52 = 4;
+                }
+                func_80093CEC(&D_800D0120);
+                ((S_80022F60_0 *)obj_held)->unk_00.u++;
             }
         }
+    }
         break;
 
     case 4:
@@ -318,16 +319,16 @@ void func_80022F60(void *state_obj) {
         break;
 
     case 5:
-        {
-            u16 angle;
+    {
+        u16 angle;
 
-            angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
-            ((S_80022F60_1 *)main_state)->unk_10.u = angle;
-            if (angle == 0xC00) {
-                func_80093CEC(&D_800D0138);
-                ((S_80022F60_0 *)obj_held)->unk_00.u++;
-            }
+        angle = (((S_80022F60_1 *)main_state)->unk_10.u + 0xE00) & 0xFFF;
+        ((S_80022F60_1 *)main_state)->unk_10.u = angle;
+        if (angle == 0xC00) {
+            func_80093CEC(&D_800D0138);
+            ((S_80022F60_0 *)obj_held)->unk_00.u++;
         }
+    }
         break;
 
     case 6:
@@ -340,137 +341,137 @@ void func_80022F60(void *state_obj) {
         break;
 
     case 0x20:
-        {
-            secondary = (u8 *)(state - (*(s16 *)0x800135C2 / 10));
-            if ((s32)secondary <= 0) {
-                secondary = (u8 *)1;
-            }
-            if (((s16)timer % (s32)secondary) == 0) {
-                obj = func_8003FC64(0x136);
+    {
+        secondary = (u8 *)(state - (*(s16 *)0x800135C2 / 10));
+        if ((s32)secondary <= 0) {
+            secondary = (u8 *)1;
+        }
+        if (((s16)timer % (s32)secondary) == 0) {
+            obj = func_8003FC64(0x136);
 
-                if (obj != NULL) {
-                    s32 random;
-                    u8 *sprite;
+            if (obj != NULL) {
+                s32 random;
+                u8 *sprite;
 
-                    sprite = (u8 *)obj + 0x20;
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                    func_8004491C(obj, func_80045340);
-                    image = ((S_80022F60_3 *)obj)->unk_0C;
-                    ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                    ((S_80022F60_6 *)image)->unk_04 = 0;
-                    ((S_80022F60_6 *)image)->unk_05 = 0;
-                    ((S_80022F60_6 *)image)->unk_0C = 0x808080;
-                    random = rand();
-                    ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
-                    ((S_80022F60_5 *)sprite)->unk_52 = (rand() & 0x1F) + 0x20;
-                    position = ((S_80022F60_3 *)obj)->unk_08;
-                    position[0] = 0x02A00000;
-                    position[1] = 0x03800000;
-                    position[2] = 0xFFC00000;
-                    position[3] =
-                        (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
-                           ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
-                        ((S_80022F60_5 *)sprite)->unk_52;
-                    position[5] = 0xFFF40000;
-                    position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
-                    ((S_80022F60_3 *)obj)->unk_20 = obj_held;
-                }
-            }
-            if (((S_80022F60_0 *)obj_held)->unk_06 & 1) {
-                ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
-                func_80093CEC(&D_800D0138);
-                D_800272CA = 0;
-                D_800272C8 = 1;
-                D_80083780.unk_0C = 0;
-                ((S_80022F60_0 *)obj_held)->unk_02.s = 0x40;
-                ((S_80022F60_0 *)obj_held)->unk_00.u++;
+                sprite = (u8 *)obj + 0x20;
+                ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                func_8004491C(obj, func_80045340);
+                image = ((S_80022F60_3 *)obj)->unk_0C;
+                ((S_80022F60_6 *)image)->unk_1E = 0x1000;
+                ((S_80022F60_6 *)image)->unk_1C = 0x1000;
+                ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
+                ((S_80022F60_6 *)image)->unk_04 = 0;
+                ((S_80022F60_6 *)image)->unk_05 = 0;
+                ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                random = rand();
+                ((S_80022F60_5 *)sprite)->unk_54 = random % 3;
+                ((S_80022F60_5 *)sprite)->unk_52 = (rand() & 0x1F) + 0x20;
+                position = ((S_80022F60_3 *)obj)->unk_08;
+                position[0] = 0x02A00000;
+                position[1] = 0x03800000;
+                position[2] = 0xFFC00000;
+                position[3] =
+                    (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
+                       ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
+                    ((S_80022F60_5 *)sprite)->unk_52;
+                position[5] = 0xFFF40000;
+                position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
+                ((S_80022F60_3 *)obj)->unk_20 = obj_held;
             }
         }
+        if (((S_80022F60_0 *)obj_held)->unk_06 & 1) {
+            ((S_80022F60_1 *)main_state)->unk_04 = D_80023934;
+            func_80093CEC(&D_800D0138);
+            D_800272CA = 0;
+            D_800272C8 = 1;
+            D_80083780.unk_0C = 0;
+            ((S_80022F60_0 *)obj_held)->unk_02.s = 0x40;
+            ((S_80022F60_0 *)obj_held)->unk_00.u++;
+        }
+    }
         break;
 
     case 0x21:
-        {
-            s32 current;
+    {
+        s32 current;
 
-            two = 0x03800000;
-            current = ((EntityRec *)(((MotionState *)&D_80083780)))->x.v;
-            ((EntityRec *)(((MotionState *)&D_80083780)))->x.v =
-                current + ((two - current) >> 1);
-            if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
-                obj = func_8003FC64(0x136);
+        two = 0x03800000;
+        current = ((EntityRec *)(((MotionState *)&D_80083780)))->x.v;
+        ((EntityRec *)(((MotionState *)&D_80083780)))->x.v =
+            current + ((two - current) >> 1);
+        if (((S_80022F60_0 *)obj_held)->unk_02.u <= 0) {
+            obj = func_8003FC64(0x136);
 
-                if (obj != NULL) {
-                    s32 *position;
+            if (obj != NULL) {
+                s32 *position;
 
-                    sprite = (u8 *)obj + 0x20;
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
-                    func_8004491C(obj, func_80045340);
-                    image = ((S_80022F60_3 *)obj)->unk_0C;
-                    ((S_80022F60_6 *)image)->unk_1E = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_1C = 0x1000;
-                    ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
-                    ((S_80022F60_6 *)image)->unk_04 = 0;
-                    ((S_80022F60_6 *)image)->unk_05 = 0;
-                    ((S_80022F60_6 *)image)->unk_0C = 0x808080;
-                    ((S_80022F60_5 *)sprite)->unk_54 = 1;
-                    ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
-                    position = ((S_80022F60_3 *)obj)->unk_08;
-                    position[0] = 0x02A00000;
-                    position[1] = two;
-                    position[2] = 0xFFC00000;
-                    position[3] =
-                        (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
-                           ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
-                        ((S_80022F60_5 *)sprite)->unk_52;
-                    position[5] = 0xFFF40000;
-                    position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
-                    ((S_80022F60_3 *)obj)->unk_20 = obj_held;
-                    ((S_80022F60_5 *)sprite)->unk_50 = 0x40;
-                }
-
-                obj = func_8003FD64(1, main_state - 0x20);
-                if (obj != NULL) {
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
-                    func_8004491C(obj, &D_80053A88);
-                    secondary = (u8 *)obj + 0x20;
-                    ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
-                    ((S_80022F60_4 *)secondary)->unk_0E.s = 0x72;
-                    ((S_80022F60_4 *)secondary)->unk_10 = 0x50;
-                    ((S_80022F60_4 *)secondary)->unk_12 = 0x10;
-                    ((S_80022F60_4 *)secondary)->unk_14 = 2;
-                    ((S_80022F60_4 *)secondary)->unk_16 = 1;
-                    ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
-                    ((S_80022F60_4 *)secondary)->unk_04 = obj_held;
-                }
-
-                obj = func_8003FD64(1, main_state - 0x20);
-                if (obj != NULL) {
-                    s32 first;
-                    s32 second;
-                    s32 color;
-                    s32 base;
-
-                    sprite = (u8 *)obj + 0x20;
-
-                    ((S_80022F60_3 *)obj)->unk_10 = D_80024070;
-                    func_8004491C(obj, D_80053858);
-                    first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
-                    ((S_80022F60_5 *)sprite)->unk_14 = first;
-                    second = ((S_80022F60_4 *)secondary)->unk_0E.u + 4;
-                    ((S_80022F60_5 *)sprite)->unk_18 = 3;
-                    base = D_80026F34;
-                    ((S_80022F60_5 *)sprite)->unk_1A = 0x7C80;
-                    color = 0x808080;
-                    ((S_80022F60_5 *)sprite)->unk_10 = color;
-                    ((S_80022F60_5 *)sprite)->unk_0C = obj_held;
-                    ((S_80022F60_5 *)sprite)->unk_04 = base;
-                    ((S_80022F60_5 *)sprite)->unk_16 = second;
-                }
-                ((S_80022F60_0 *)obj_held)->unk_00.u++;
+                sprite = (u8 *)obj + 0x20;
+                ((S_80022F60_3 *)obj)->unk_10 = D_80023B14;
+                func_8004491C(obj, func_80045340);
+                image = ((S_80022F60_3 *)obj)->unk_0C;
+                ((S_80022F60_6 *)image)->unk_1E = 0x1000;
+                ((S_80022F60_6 *)image)->unk_1C = 0x1000;
+                ((S_80022F60_6 *)image)->unk_08 = &D_800F9B40;
+                ((S_80022F60_6 *)image)->unk_04 = 0;
+                ((S_80022F60_6 *)image)->unk_05 = 0;
+                ((S_80022F60_6 *)image)->unk_0C = 0x808080;
+                ((S_80022F60_5 *)sprite)->unk_54 = 1;
+                ((S_80022F60_5 *)sprite)->unk_52 = 0x20;
+                position = ((S_80022F60_3 *)obj)->unk_08;
+                position[0] = 0x02A00000;
+                position[1] = two;
+                position[2] = 0xFFC00000;
+                position[3] =
+                    (((D_80026F24[((S_80022F60_5 *)sprite)->unk_54] +
+                       ((S_80022F60_5 *)sprite)->unk_54 * 8) << 16) - position[0]) /
+                    ((S_80022F60_5 *)sprite)->unk_52;
+                position[5] = 0xFFF40000;
+                position[4] = 0x180000 / ((S_80022F60_5 *)sprite)->unk_52;
+                ((S_80022F60_3 *)obj)->unk_20 = obj_held;
+                ((S_80022F60_5 *)sprite)->unk_50 = 0x40;
             }
+
+            obj = func_8003FD64(1, main_state - 0x20);
+            if (obj != NULL) {
+                ((S_80022F60_3 *)obj)->unk_10 = D_80023F6C;
+                func_8004491C(obj, &D_80053A88);
+                secondary = (u8 *)obj + 0x20;
+                ((S_80022F60_4 *)secondary)->unk_0C.s = 0x78;
+                ((S_80022F60_4 *)secondary)->unk_0E.s = 0x72;
+                ((S_80022F60_4 *)secondary)->unk_10 = 0x50;
+                ((S_80022F60_4 *)secondary)->unk_12 = 0x10;
+                ((S_80022F60_4 *)secondary)->unk_14 = 2;
+                ((S_80022F60_4 *)secondary)->unk_16 = 1;
+                ((S_80022F60_4 *)secondary)->unk_08 = 0x404040;
+                ((S_80022F60_4 *)secondary)->unk_04 = obj_held;
+            }
+
+            obj = func_8003FD64(1, main_state - 0x20);
+            if (obj != NULL) {
+                s32 first;
+                s32 second;
+                s32 color;
+                s32 base;
+
+                sprite = (u8 *)obj + 0x20;
+
+                ((S_80022F60_3 *)obj)->unk_10 = D_80024070;
+                func_8004491C(obj, D_80053858);
+                first = ((S_80022F60_4 *)secondary)->unk_0C.u + 4;
+                ((S_80022F60_5 *)sprite)->unk_14 = first;
+                second = ((S_80022F60_4 *)secondary)->unk_0E.u + 4;
+                ((S_80022F60_5 *)sprite)->unk_18 = 3;
+                base = D_80026F34;
+                ((S_80022F60_5 *)sprite)->unk_1A = 0x7C80;
+                color = 0x808080;
+                ((S_80022F60_5 *)sprite)->unk_10 = color;
+                ((S_80022F60_5 *)sprite)->unk_0C = obj_held;
+                ((S_80022F60_5 *)sprite)->unk_04 = base;
+                ((S_80022F60_5 *)sprite)->unk_16 = second;
+            }
+            ((S_80022F60_0 *)obj_held)->unk_00.u++;
         }
+    }
         break;
 
     case 0x22:

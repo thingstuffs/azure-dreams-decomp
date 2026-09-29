@@ -123,7 +123,8 @@ extern s32 func_800A94A0(void *, void *, s32, void *);
 extern void func_8017087C(void *, void *, void *);
 
 /* Advance the actor's item action, spawn its effect, and restore its position when finished. */
-void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_80C953CC_3 *entity, S_func_80C953CC_4 *actor)
+void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_80C953CC_3 *entity,
+    S_func_80C953CC_4 *actor)
 {
     S_func_80C953CC_9 *part;
     s32 alternate = 0;

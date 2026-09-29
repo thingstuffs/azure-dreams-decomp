@@ -49,11 +49,14 @@ void func_80878A78(s32 scene, s32 mode)
         s32 terminator;
         terminator = 0x80;
         ptr++;
-        loop_0: {
+loop_0:
+        {
             u32 index = *(u32 *)(ptr + 11);
             u8 **table = D_807030B4;
             *(u32 *)(ptr + 11) = (u32)table[index];
             ptr += 20;
-        } if (*ptr != terminator) goto loop_0;
+        }
+        if (*ptr != terminator)
+            goto loop_0;
     }
 }

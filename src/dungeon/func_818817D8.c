@@ -47,7 +47,6 @@ typedef struct S_80024FD8_4 {
 } S_80024FD8_4;   /* temp_v1_2 in func_80024FD8 */
 
 
-
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_8003DB94();

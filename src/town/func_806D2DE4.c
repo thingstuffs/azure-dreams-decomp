@@ -13,7 +13,6 @@ typedef struct S_800165E4_1 {
 } S_800165E4_1;   /* (void *)entry in func_800165E4 */
 
 
-
 extern s32 func_80016584();
 extern void func_80016CCC();
 extern void func_80016D20();

@@ -11,7 +11,6 @@ typedef struct S_800206F4_0 {
 } S_800206F4_0;   /* obj in func_800206F4 */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C(void *, void *);
 extern s32 D_80053858[4];

@@ -15,7 +15,12 @@ typedef struct S_800247B8_0 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-    union { struct { s32 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; } unk_18;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x2]; u8 v; } at02;
+    } unk_18;   /* overlapping accesses */
     s32 unk_1C;
     union { s16 s; u16 u; } unk_20;   /* accessed as both */
     union { s16 s; u16 u; } unk_22;   /* accessed as both */
@@ -66,8 +71,6 @@ typedef struct S_800247B8_4 {
     u8 pad_08[0x2];
     u16 unk_0A;
 } S_800247B8_4;   /* dest in func_800247B8 */
-
-
 
 
 extern s32 func_8002406C(s32);

@@ -53,13 +53,16 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     point_index = 0;
     point = effect;
     phase_offset = 0;
-    loop_0: {
+loop_0:
+    {
         point->x[0] = position[0] + (((func_800644B8(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
         point->y[0] = position[1] + (((func_80064584(phase_offset + effect->angle) >> 4) * effect->scale) << 8);
         point_index++;
         phase_offset += 0x333;
         point = (Obj81911BF4 *)((u8 *)point + 4);
-    } if (point_index < 5) goto loop_0;
+    }
+    if (point_index < 5)
+        goto loop_0;
 
     state = effect->state;
     if ((u32)state >= 7U) {
@@ -86,7 +89,8 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             state_value = *(u16 *)&effect->state;
             effect->timer = 0;
             effect->duration = next_duration;
-            effect->state = state_value + 1; return;
+            effect->state = state_value + 1;
+            return;
         }
         return;
 
@@ -103,7 +107,8 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             next_val = 0x10;
             effect->timer = 0;
             effect->duration = next_val;
-            effect->state = state_value + 1; return;
+            effect->state = state_value + 1;
+            return;
         }
         return;
 
@@ -148,7 +153,8 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             next_val = 0x20;
             effect->timer = 0;
             effect->duration = next_val;
-            effect->state = state_value + 1; return;
+            effect->state = state_value + 1;
+            return;
         }
         return;
 

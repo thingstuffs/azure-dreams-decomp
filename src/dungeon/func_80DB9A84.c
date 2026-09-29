@@ -29,8 +29,6 @@ typedef struct S_80171284_2 {
 } S_80171284_2;   /* arg2 in func_80171284 */
 
 
-
-
 /* Update the effect countdown and motion, fade its color, and flag expiration. */
 void func_80171284(void *effect, void *transform, void *color) {
     u16 next_value;

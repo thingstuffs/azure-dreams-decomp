@@ -18,8 +18,6 @@ typedef struct S_80024A30_1 {
 } S_80024A30_1;   /* temp_v0 in func_80024A30 */
 
 
-
-
 /* Waits for a trigger flag, then decreases the level and sets completion flags. */
 void func_80024A30(void *state) {
     S_80024A30_1 *trigger;

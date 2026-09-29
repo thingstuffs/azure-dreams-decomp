@@ -6,7 +6,7 @@ extern void func_8002233C(s32 arg0, s32 arg1, s32 arg2);
 static __inline__ u32 calculate_x(
     void *context,
     s32 column
-)
+    )
 {
     u32 x;
 

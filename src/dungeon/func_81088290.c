@@ -66,7 +66,6 @@ typedef struct S_80175A90_3 {
 } S_80175A90_3;   /* arg0 in func_80175A90 */
 
 
-
 extern s32 rand(void);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
 
@@ -175,7 +174,8 @@ void func_80175A90(S_80175A90_3 *start_pos, EntityRec *end_pos)
                     (((S_80175A90_2 *)prim)->unk_00.at00.v & length_mask) |
                     ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + depth * 4)) & addr_mask);
                 (*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) =
-                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2) + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) & length_mask) |
+                    ((*(u32 *)((u8 *)(((S_80175A90_0 *)scratch)->unk_18.p2)
+                        + ((S_80175A90_0 *)scratch)->unk_B4.u * 4)) & length_mask) |
                     ((u32)prim & addr_mask);
             }
         }

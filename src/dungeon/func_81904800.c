@@ -16,7 +16,7 @@ extern u8 D_800E20FC[];
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_81904800")
-    __attribute__((section(".text.func_81904800"), aligned(4))) = {
+__attribute__((section(".text.func_81904800"), aligned(4))) = {
     0x800257d0,
     0x01000340,
     0x00540060,

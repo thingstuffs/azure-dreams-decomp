@@ -21,10 +21,6 @@ typedef struct S_80E7B34C_0 {
 } S_80E7B34C_0;   /* arg0 in func_80E7B34C */
 
 
-
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -58,7 +54,8 @@ void func_80E7B34C(void *action, void *motion, void *sprite, void *actor)
 
     state = ((S_80E7B34C_0 *)action)->unk_9B;
     switch (state) {
-    case 0: {
+    case 0:
+    {
         u8 *phase_anims;
 
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
@@ -109,7 +106,8 @@ void func_80E7B34C(void *action, void *motion, void *sprite, void *actor)
             ((EntityRec *)actor)->flags1C |= 0x08000000;
             ((S_80E7B34C_0 *)action)->unk_9B++;
         }
-    case 2: {
+    case 2:
+    {
         u8 *phase_anims;
 
         if (((EntityRec *)actor)->flags1C & 0x08000000) {

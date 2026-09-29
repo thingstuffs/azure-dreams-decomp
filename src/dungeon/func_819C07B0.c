@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 typedef s32 M2C_UNK;
 typedef struct {
     s32 words[4];
@@ -37,7 +36,7 @@ void func_80025FB0(S_80025FB0_1 *dst, S_80025FB0_0 *src) {
 
     *(Copy16 *)dst = *(Copy16 *)src;
     signed_field = src->unk_10;
-    
+
     dst->unk_10 = signed_field;
     dst->unk_14 = (s32) src->unk_12;
     dst->unk_18 = (s32) src->unk_13;

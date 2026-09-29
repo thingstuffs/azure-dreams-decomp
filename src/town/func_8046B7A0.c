@@ -12,7 +12,6 @@ typedef struct S_8001C7A0_1 {
 } S_8001C7A0_1;   /* owner in func_8001C7A0 */
 
 
-
 extern s32 func_8001E670(s32);
 extern s16 D_80018740[];
 extern u8 D_80018748[];

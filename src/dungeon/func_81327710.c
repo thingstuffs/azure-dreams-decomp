@@ -33,7 +33,6 @@ typedef struct S_8016EF10_2 {
 } S_8016EF10_2;   /* global_base in func_8016EF10 */
 
 
-
 extern s32 func_80047784();
 extern s32 func_800A9A0C();
 extern s32 func_800BBA40();

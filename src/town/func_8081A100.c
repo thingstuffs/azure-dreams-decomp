@@ -22,8 +22,16 @@ typedef struct S_80024100_2 {
     u8 pad_00[0x4];
     union { s32 i; void * p; } unk_04;   /* accessed as both */
     union { void * p; s32 i; } unk_08;   /* accessed as both */
-    union { struct { void * v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_0C;   /* overlapping accesses */
-    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_10;   /* overlapping accesses */
+    union {
+        struct { void * v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_0C;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { s16 v; } at00u;
+        struct { u8 pad[0x2]; s16 v; } at02;
+    } unk_10;   /* overlapping accesses */
     s16 unk_14;
     union { s16 s; u16 u; } unk_16;   /* accessed as both */
     s16 unk_18;

@@ -25,7 +25,6 @@ typedef struct S_80F606C0_1 {
 } S_80F606C0_1;   /* arg1 in func_80F606C0 */
 
 
-
 /* cfail-repair: tf7-phase1-cache-v3 */
 /* Moves the effect toward its target, shrinks it, and marks completion after the countdown. */
 void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transform) {
@@ -39,8 +38,10 @@ void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transfo
         x_delta += 3;
     }
     position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((x_delta >> 2) << 0x10));
-    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_0E - position->unk_04.at02.v) / 4) << 0x10));
-    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10 - position->unk_08.at02.v) / 4) << 0x10));
+    position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_0E
+        - position->unk_04.at02.v) / 4) << 0x10));
+    position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10
+        - position->unk_08.at02.v) / 4) << 0x10));
     func_800478B8(transform);
     phase = ((S_80F606C0_0 *)effect)->unk_4C;
     switch (phase) {                              /* irregular */

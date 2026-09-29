@@ -2,16 +2,24 @@
 
 /* D_80085458[64]: same table layout inferred in src/w_80056A08.c (S_80085458). */
 typedef struct {
-    s16 f00, f02, f04; u16 f06;
+    s16 f00, f02, f04;
+    u16 f06;
     u8 pad08[0x10];
-    s16 f18, f1a; s8 f1c, f1d;
+    s16 f18, f1a;
+    s8 f1c, f1d;
     u8 pad1e[8];
-    s8 f26, f27, f28; u8 pad29[3];
-    s32 f2c, f30; u8 pad34[8];
-    s32 f3c; u8 pad40[2];
-    s8 f42, f43, f44; u8 pad45[3];
-    s32 f48, f4c; u8 pad50[8];
-    s32 f58; u8 pad5c[0x14];
+    s8 f26, f27, f28;
+    u8 pad29[3];
+    s32 f2c, f30;
+    u8 pad34[8];
+    s32 f3c;
+    u8 pad40[2];
+    s8 f42, f43, f44;
+    u8 pad45[3];
+    s32 f48, f4c;
+    u8 pad50[8];
+    s32 f58;
+    u8 pad5c[0x14];
     s32 f70, f74;
 } S_80056C30_85458;
 

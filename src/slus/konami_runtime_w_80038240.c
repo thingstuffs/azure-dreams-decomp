@@ -9,13 +9,11 @@ s32 func_80038240(s32 mode)
 {
     s32 result = 0;
 
-    if (mode == 0)
-    {
+    if (mode == 0) {
         return result;
     }
 
-    if (mode == 1)
-    {
+    if (mode == 1) {
         SD_Call(0xB4);
         return result;
     }

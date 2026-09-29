@@ -25,8 +25,6 @@ typedef struct S_8197D3B8_2 {
 } S_8197D3B8_2;   /* primitive in func_8197D3B8 */
 
 
-
-
 extern void func_800478B8(void *);
 
 /* Applies motion deltas, marks the primitive, and propagates status flags. */

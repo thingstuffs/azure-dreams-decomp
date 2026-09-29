@@ -66,7 +66,7 @@ void func_801728B4(void *obj, EntityRec *record, void *entity, void *actor) {
         } else {
             return;
         }
-        /* fall through */
+                /* fall through */
 
     case 2:
         if (!(((S_801728B4_1 *)entity)->unk_14 & 0xE000)) {

@@ -89,7 +89,8 @@ s32 func_80022C8C(void)
     right_x = 0x04900000;
     top_y = 0x02E00000;
     position[2] = (s32)0xFFE00000;
-    loop_0: {
+loop_0:
+    {
         if ((object_or_slot >> 1) != 0) {
             position[0] = left_x;
         } else {
@@ -112,7 +113,9 @@ s32 func_80022C8C(void)
         func_80022E64(spawn_position, spawn_kind, spawn_table, parent_link);
         object_or_slot--;
 
-    } if (object_or_slot >= 0) goto loop_0;
+    }
+    if (object_or_slot >= 0)
+        goto loop_0;
 
     object_or_slot = (s32)func_8003FC64(0x136);
     if (object_or_slot != 0) {

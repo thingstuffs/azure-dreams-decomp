@@ -56,7 +56,6 @@ typedef struct S_801745BC_5 {
 } S_801745BC_5;   /* position in func_801745BC */
 
 
-
 typedef struct OffsetPair {
     s16 x;
     u16 y;
@@ -122,7 +121,7 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
                         func_80099C58(
                             (s16)(((S_801745BC_5 *)position)->unk_02 + (offset->x * 32)),
                             (s16)(((S_801745BC_5 *)position)->unk_06 +
-                                ((s32)(offset->y << 16) >> 11)),
+                                  ((s32)(offset->y << 16) >> 11)),
                             (s16)(((S_801745BC_5 *)position)->unk_0A - 0x20),
                             ((S_801745BC_4 *)owner)->unk_14,
                             (s32)(s16)angle);

@@ -123,46 +123,46 @@ block_6:
     action_id = action->unk_46 & 0x3FFF;
     switch (action_id - 1) {
     case 6:
-    use_player = 1;
-    goto block_17;
+        use_player = 1;
+        goto block_17;
     case 5:
-    use_player = 1;
-    goto block_18;
-    case 4:
-    use_player = 1;
-    goto block_19;
-block_12:
-    action_value = action->unk_46 & 0x3FFF;
-    if (action_value == 2) {
+        use_player = 1;
         goto block_18;
-    }
-    if (action_value < 3) {
-        slot_or_effect = NULL;
-        if (action_value == 1) {
-            goto block_19;
+    case 4:
+        use_player = 1;
+        goto block_19;
+block_12:
+        action_value = action->unk_46 & 0x3FFF;
+        if (action_value == 2) {
+            goto block_18;
         }
-        goto block_21;
-    }
-    slot_or_effect = NULL;
-    if (action_value != 3) {
-        goto block_21;
-    }
+        if (action_value < 3) {
+            slot_or_effect = NULL;
+            if (action_value == 1) {
+                goto block_19;
+            }
+            goto block_21;
+        }
+        slot_or_effect = NULL;
+        if (action_value != 3) {
+            goto block_21;
+        }
     case 2:
 block_17:
-    slot_or_effect = (u8 *)action + 0xE;
-    goto block_21;
+        slot_or_effect = (u8 *)action + 0xE;
+        goto block_21;
     case 1:
 block_18:
-    slot_or_effect = (u8 *)action + 0xB;
-    goto block_21;
+        slot_or_effect = (u8 *)action + 0xB;
+        goto block_21;
     case 0:
 block_19:
-    slot_or_effect = (u8 *)action + 8;
-    goto block_21;
+        slot_or_effect = (u8 *)action + 8;
+        goto block_21;
     case 3:
     default:
 block_20:
-    slot_or_effect = NULL;
+        slot_or_effect = NULL;
     }
 block_21:
     if (*slot_or_effect == 0) {
@@ -193,7 +193,8 @@ block_26:
     action->unk_73 = (s8) ((S_801728B4_3 *)action_value)->unk_25;
     goto block_32;
 block_27:
-    action->target = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, action->facing, 0x10);
+    action->target = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+        action->facing, 0x10);
     action->unk_72 = abs(action->unk_72);
     action->unk_73 = abs(action->unk_73);
 block_32:

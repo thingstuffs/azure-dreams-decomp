@@ -59,7 +59,6 @@ typedef struct S_80171A38_6 {
 } S_80171A38_6;   /* ((S_80171A38_1 *)record)->unk_0C in func_80171A38 */
 
 
-
 typedef struct {
     s16 x;
     s16 y;

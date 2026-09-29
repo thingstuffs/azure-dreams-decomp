@@ -50,8 +50,6 @@ typedef struct S_801717D0_6 {
 } S_801717D0_6;   /* call_arg2 in func_801717D0 */
 
 
-
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800A05A4(void *, u8, u8, s16, u8);
 extern s32 func_800A2B5C(void *);

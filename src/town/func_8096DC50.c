@@ -23,7 +23,6 @@ typedef struct S_801260E8_4 {
 } S_801260E8_4;   /* object_data in func_801260E8 */
 
 
-
 typedef struct TownInitialPosition {
     void *data;
     u16 x;
@@ -56,94 +55,94 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
     action_index = (s16)(context->unk_04.as_u16 - 1);
     switch (action_index) {
     case 0:
-        {
-            S_801260E8_1 *clear_target;
-
-            clear_target = context->unk_58;
-            clear_target = clear_target->unk_70;
-            clear_target->unk_00 = 0;
-    }
-    func_80123700();
-    func_80124728(context);
-    func_801235EC();
-    func_801247F8(context);
-    func_801237E8(context);
-    func_80123898(context);
     {
-        s32 clear_index;
-        u8 *clear_base;
-        s32 **clear_cursor;
-        s32 *clear_entry;
+        S_801260E8_1 *clear_target;
 
-        clear_index = 14;
-        clear_base = (u8 *)D_80129728;
-        clear_cursor = (s32 **)(clear_base + 0x38);
-        do {
-            do {
-                clear_entry = *clear_cursor;
-            } while (0);
-            clear_index += 1;
-            *clear_entry = 0;
-            clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
-        } while (clear_index < 16);
+        clear_target = context->unk_58;
+        clear_target = clear_target->unk_70;
+        clear_target->unk_00 = 0;
     }
-    return;
+        func_80123700();
+        func_80124728(context);
+        func_801235EC();
+        func_801247F8(context);
+        func_801237E8(context);
+        func_80123898(context);
+        {
+            s32 clear_index;
+            u8 *clear_base;
+            s32 **clear_cursor;
+            s32 *clear_entry;
+
+            clear_index = 14;
+            clear_base = (u8 *)D_80129728;
+            clear_cursor = (s32 **)(clear_base + 0x38);
+            do {
+                do {
+                    clear_entry = *clear_cursor;
+                } while (0);
+                clear_index += 1;
+                *clear_entry = 0;
+                clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
+            } while (clear_index < 16);
+        }
+        return;
     case 7:
-    object_index = 14;
-    initial_base = (s8 *)D_80126AF8;
-    initial_offset = 0;
-    do {
-        initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
-        initial_offset += 8;
-        target_object = D_80129728[object_index];
-        data_word = *initial_data;
-        object_index += 1;
-        target_object->unk_00 = data_word;
-    } while (object_index < 16);
+        object_index = 14;
+        initial_base = (s8 *)D_80126AF8;
+        initial_offset = 0;
+        do {
+            initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
+            initial_offset += 8;
+            target_object = D_80129728[object_index];
+            data_word = *initial_data;
+            object_index += 1;
+            target_object->unk_00 = data_word;
+        } while (object_index < 16);
     case 8:
     case 9:
     case 10:
-    object_index = 14;
-    do {
-        object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
-        object_word = object_data->unk_02;
-        object_index += 1;
-        object_data->unk_02 = (u16)(object_word - 0x100);
-    } while (object_index < 28);
-    return;
+        object_index = 14;
+        do {
+            object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
+            object_word = object_data->unk_02;
+            object_index += 1;
+            object_data->unk_02 = (u16)(object_word - 0x100);
+        } while (object_index < 28);
+        return;
     case 11:
-    func_801238E4(context);
+        func_801238E4(context);
     case 12:
     case 13:
     case 14:
-    object_index = 14;
-    do {
-        object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
-        object_word = object_data->unk_02;
-        object_index += 1;
-        object_data->unk_02 = (u16)(object_word - 0x100);
-    } while (object_index < 28);
-    break;
-    case 16:
-    func_801237E8(context);
-    {
-        s32 clear_index;
-        u8 *clear_base;
-        s32 **clear_cursor;
-        s32 *clear_entry;
-
-        clear_index = 14;
-        clear_base = (u8 *)D_80129728;
-        clear_cursor = (s32 **)(clear_base + 0x38);
+        object_index = 14;
         do {
+            object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
+            object_word = object_data->unk_02;
+            object_index += 1;
+            object_data->unk_02 = (u16)(object_word - 0x100);
+        } while (object_index < 28);
+        break;
+    case 16:
+        func_801237E8(context);
+        {
+            s32 clear_index;
+            u8 *clear_base;
+            s32 **clear_cursor;
+            s32 *clear_entry;
+
+            clear_index = 14;
+            clear_base = (u8 *)D_80129728;
+            clear_cursor = (s32 **)(clear_base + 0x38);
             do {
-                clear_entry = *clear_cursor;
-            } while (0);
-            clear_index += 1;
-            *clear_entry = 0;
-            clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
-        } while (clear_index < 28);
-    }
+                do {
+                    clear_entry = *clear_cursor;
+                } while (0);
+                clear_index += 1;
+                *clear_entry = 0;
+                clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
+            } while (clear_index < 28);
+        }
     case 19:
     default:
         break;

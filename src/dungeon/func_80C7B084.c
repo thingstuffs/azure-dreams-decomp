@@ -77,7 +77,7 @@ s32 func_8015E884(u8 *entry_data, u16 *position)
 
         scratch->current = (u8 *)packet + 0xC;
         ot_index = func_80065420(&scratch->in0, (u8 *)packet + 8,
-                              &scratch->out0, &scratch->out1);
+                                 &scratch->out0, &scratch->out1);
         scratch->index = ot_index;
 
         if ((u32)ot_index < 480U) {

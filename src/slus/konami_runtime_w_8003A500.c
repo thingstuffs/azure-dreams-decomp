@@ -26,5 +26,5 @@ void func_8003A500(Func8003A500State *state) {
 
     state = state->table;
     state->result = ((Func8003A500Entry *)((u8 *)state + lhs_index * 4))->value
-                 - ((Func8003A500Entry *)((u8 *)state + rhs_index * 4))->value;
+    - ((Func8003A500Entry *)((u8 *)state + rhs_index * 4))->value;
 }

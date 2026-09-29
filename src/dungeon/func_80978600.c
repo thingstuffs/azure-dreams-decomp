@@ -5,10 +5,6 @@
 #include "records/Rec_func_8017360C_arg0.h"
 
 
-
-
-
-
 extern void func_80047784(void *, u8, s32);
 extern s32 func_800AC82C(s32, s32, void *, void *);
 extern s32 func_800AD9B4(void *, void *);

@@ -3,8 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 
-
-
 typedef struct S_8051FC84_1 {
     u8 pad_00[0x1];
     s8 unk_01;
@@ -25,6 +23,8 @@ extern void *D_800190E0;
 /* Calls func_80018A64, sets the indexed entry's state to 2, and invokes the context callback. */
 void func_8051FC84(void) {
     func_80018A64(0x5C8);
-    ((S_8051FC84_1 *)(((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8) + ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32)))->unk_01 = 2;
-    (*(M2C_UNK (*)(M2C_UNK *))((u8 *)(((S_8051FC84_3 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20))->unk_218) + 0))(&D_800190E0);
+    ((S_8051FC84_1 *)(((((Rec_D_80016000 *)D_80016000)->unk_08.at00_s32.v * 8)
+        + ((Rec_D_80016000 *)D_80016000)->unk_40.as_s32)))->unk_01 = 2;
+    (*(M2C_UNK (*)(M2C_UNK *))((u8 *)(((S_8051FC84_3 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20))->unk_218)
+        + 0))(&D_800190E0);
 }

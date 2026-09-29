@@ -44,7 +44,7 @@ typedef struct S_80BFD000_4 {
 
 
 static const u32 func_8015E800_bank[] __asm__("func_8015E800")
-    __attribute__((section(".text.func_8015E800"), aligned(4), used)) = {
+__attribute__((section(".text.func_8015E800"), aligned(4), used)) = {
     0x8015e878, 0x00000000, 0x8015f470, 0x8015f470,
     0x8015f470, 0x8015f49c, 0x8015f41c, 0x8015f41c,
     0x8015f41c, 0x8015f3e4, 0x8015f3e4, 0x8015f49c,

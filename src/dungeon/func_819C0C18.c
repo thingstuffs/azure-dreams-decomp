@@ -193,13 +193,13 @@ case_1:
                           (s16)(((u16)position->x.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
-                                  effect->unk_24 * 4);
+                                   effect->unk_24 * 4);
                               offset->x;
                           }) * 128),
                           (s16)(((u16)position->y.w.i) + ({
                               OffsetPair *offset = (OffsetPair *)
                                   ((u8 *)offset_base +
-                                  effect->unk_24 * 4);
+                                   effect->unk_24 * 4);
                               (s32)(offset->y << 16) >> 9;
                           })),
                           (s16)(((u16)position->z.w.i) - 0x74));

@@ -99,7 +99,7 @@ extern void func_80172624(void);
 extern void func_8017261C(void);
 
 static const u32 bank_words[] __asm__("func_8127B000")
-    __attribute__((section(".text.func_8127B000"), aligned(4))) = {
+__attribute__((section(".text.func_8127B000"), aligned(4))) = {
     0x8016FF84, 0x8017012C, 0x801708C0, 0x801708C0,
     0x801708C0, 0x801708E8, 0x80170894, 0x80170894,
     0x80170894, 0x80170894, 0x80170894, 0x801708E8,
@@ -118,7 +118,7 @@ static const u32 bank_words[] __asm__("func_8127B000")
 #endif
 
 void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
-    __attribute__((section(".text.func_8127B000")));
+__attribute__((section(".text.func_8127B000")));
 /* Copies part state and applies smoothed position offsets and phase-dependent shading. */
 void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
 {
@@ -218,7 +218,7 @@ void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
 
 #ifdef __mips__
 __asm__(
-    ".globl func_8127B000\n"
-    ".type func_8127B000,@function\n"
-    ".size func_8127B000,848\n");
+        ".globl func_8127B000\n"
+        ".type func_8127B000,@function\n"
+        ".size func_8127B000,848\n");
 #endif

@@ -50,7 +50,6 @@ typedef struct S_80024D90_4 {
 } S_80024D90_4;   /* temp_a0 in func_80024D90 */
 
 
-
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();

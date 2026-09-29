@@ -146,15 +146,19 @@ void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
     start_index = anim->unk_18;
     cursor_offset = (s32) ((anim->unk_1C - start_index) * (anim->unk_14 << 4)) / (s32) anim->unk_10;
     cursor_offset = cursor_offset - 0x28;
-    ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.s = (s16) ((start_index << 4) + cursor_offset);
-    ((S_800500B4_17 *)(((S_800500B4_9 *)(((S_800500B4_4 *)widgets)->unk_24))->unk_04))->unk_0A = (u16) ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.u;
+    ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.s =
+        (s16) ((start_index << 4) + cursor_offset);
+    ((S_800500B4_17 *)(((S_800500B4_9 *)(((S_800500B4_4 *)widgets)->unk_24))->unk_04))->unk_0A =
+        (u16) ((S_800500B4_16 *)(((S_800500B4_8 *)(((S_800500B4_4 *)widgets)->unk_20))->unk_04))->unk_0A.u;
     cursor_widget = widgets->unk_20;
     ((S_800500B4_10 *)(cursor_widget->unk_08))->unk_08 = (s16) (((S_800500B4_11 *)(cursor_widget->unk_04))->unk_0A - 2);
     target_index = anim->unk_1C;
     entry_index = 0;
     entry_base = widgets;
     highlight_base = anim;
-    ((S_800500B4_18 *)(((S_800500B4_12 *)(((S_800500B4_6 *)entry_base)->unk_20))->unk_08))->unk_04 = (s16) (-(target_index << 9) - ((s32) ((target_index - anim->unk_18) * -(anim->unk_14 << 9)) / (s32) anim->unk_10));
+    ((S_800500B4_18 *)(((S_800500B4_12 *)(((S_800500B4_6 *)entry_base)->unk_20))->unk_08))->unk_04 =
+        (s16) (-(target_index << 9) - ((s32) ((target_index - anim->unk_18) * -(anim->unk_14
+        << 9)) / (s32) anim->unk_10));
     do {
         highlight_ptr = (u8 *) ((s8 *) highlight_base + 0xA4);
         old_highlight = *highlight_ptr;
@@ -168,17 +172,25 @@ void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
         }
         *highlight_ptr = next_highlight;
         highlight = ((S_800500B4_2 *)highlight_base)->unk_A4;
-        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_08 = (s16) highlight;
+        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_08 =
+            (s16) highlight;
         entry_index += 1;
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_08 = (s16) (highlight + 0x1E);
-        *((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04 = (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_01 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_02 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
-        *((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04 = (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
-        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_01 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_08 =
+            (s16) (highlight + 0x1E);
+        *((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04 =
+            (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_01 =
+            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_02 =
+            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
+        *((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04 =
+            (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
+        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_01 =
+            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
         entry_widget = ((S_800500B4_3 *)entry_base)->unk_04;
         entry_base += 4;
-        ((S_800500B4_15 *)(entry_widget->unk_04))->unk_02 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
+        ((S_800500B4_15 *)(entry_widget->unk_04))->unk_02 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5)
+            + 0x58);
         highlight_base += 1;
     } while (entry_index < 6);
     frame = anim->unk_14;

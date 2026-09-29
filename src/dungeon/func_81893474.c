@@ -146,7 +146,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             break;
         }
         target_pos = scratch.work;
-        /* This expression is intentionally kept in its retail form. */
+                /* This expression is intentionally kept in its retail form. */
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             TileObject *position_base = &D_80082E80;
             void *direction_node = D_800814A8;

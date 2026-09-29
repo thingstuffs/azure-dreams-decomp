@@ -21,7 +21,8 @@ void func_80172274(void *record_data) {
     remaining = ((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_18 - 1;
     ((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_18 = remaining;
     if ((remaining << 0x10) <= 0) {
-        ((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_00 | 0x8000);
+        ((S_80172274_0 *)((u8 *)record_data - 0x2))->unk_00 = (u16) (((S_80172274_0 *)((u8 *)record_data
+            - 0x2))->unk_00 | 0x8000);
         objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     }
 }

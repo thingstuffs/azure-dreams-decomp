@@ -15,8 +15,6 @@ typedef struct S_80172DD0_1 {
 } S_80172DD0_1;   /* arg0 in func_80172DD0 */
 
 
-
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -63,7 +61,7 @@ void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         action->unk_96.s = timer;
         motion->unk_0C -= motion->unk_0C / 4;
         motion->unk_10 -= motion->unk_10 / 4;
-        /* fall through */
+                /* fall through */
 
     case 1:
         motion->unk_0C -=

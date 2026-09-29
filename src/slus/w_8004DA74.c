@@ -49,7 +49,9 @@ void *func_8004DA74(void *entries, u8 *text, s32 initial_octave)
                 u8 note_hi = cursor[0];
                 u8 note_lo = cursor[1];
                 u8 note = (u8)func_8004D880(note_lo | (note_hi << 8));
-                do { cursor += 2; } while (0);
+                do {
+                    cursor += 2;
+                } while (0);
                 if (note != ' ') {
                     func_8004D98C(note, octave, entry);
                     func_8004E264(entry, octave);

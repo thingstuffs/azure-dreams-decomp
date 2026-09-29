@@ -43,12 +43,20 @@ typedef struct S_800277F4_0 {
     u8 pad_18[0x4];
     s32 unk_1C;
     u8 pad_20[0x4];
-    union { struct { u16 v; } at00; struct { u8 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u16 v; } at00;
+        struct { u8 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 pad_26[0x1D];
     u8 unk_43;
     s8 unk_44;
     u8 pad_45[0x3];
-    union { struct { s32 v; } at00; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x3]; u8 v; } at03; } unk_48;   /* overlapping accesses */
+    union {
+        struct { s32 v; } at00;
+        struct { u8 pad[0x1]; u8 v; } at01;
+        struct { u8 pad[0x3]; u8 v; } at03;
+    } unk_48;   /* overlapping accesses */
     u8 pad_4C[0x8];
     s32 unk_54;
     u8 pad_58[0xE];
@@ -295,7 +303,8 @@ select_donor:
         ((S_800277F4_0 *)result)->unk_14.v = clear_shifted;
         clear_shifted |= element_mask;
         ((S_800277F4_0 *)result)->unk_14.n = clear_shifted;
-        loop_0: {
+loop_0:
+        {
             clear_shifted = clear_index << 0x10;
             next_clear = clear_index - 1;
             clear_index = next_clear;
@@ -306,7 +315,9 @@ select_donor:
             clear_donor_seen[clear_slot] = 0;
             clear_result_seen[clear_slot] = 0;
             ASM_KEEP_NV(next_clear);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        } if ((s16) next_clear >= 0) goto loop_0;
+        }
+        if ((s16) next_clear >= 0)
+            goto loop_0;
         ability_count = 0;
         result_primary = func_8002773C(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {
@@ -378,7 +389,8 @@ merge_donor_primary:
                 *visited_slot = 1;
                 if (((s16)merge_out) >= 0) {
                     result_ability = result + (((s16)merge_out) * 3);
-                    if ((u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
+                    if ((u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A
+                        < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
                         s32 copy_dst_index = (s16) ability_count;
                         s32 copy_dst_offset;
                         u8 *copy_dst;
@@ -437,7 +449,8 @@ scan_abilities:
             }
             ability_index = scan_index >> 1;
             ability_offset = ability_index * 3;
-            if ((((S_800277F4_9 *)((source + ability_offset)))->unk_08 != 0) && (*((source_side * 3) + ((u8 *)result_seen) + ability_index) == 0)) {
+            if ((((S_800277F4_9 *)((source + ability_offset)))->unk_08 != 0)
+                && (*((source_side * 3) + ((u8 *)result_seen) + ability_index) == 0)) {
                 other = donor;
                 if (source_side != 0) {
                     other = result;
@@ -468,7 +481,8 @@ scan_abilities:
                             other_data = result;
                         }
                         match_offset = other_match * 3;
-                        if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
+                        if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A
+                            < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
                             other_data = donor;
                             ability_data = merge_out + (ability_count * 3);
                             if (source_side != 0) {
@@ -507,7 +521,8 @@ copy_source_ability:
                     }
 
 
-                    ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source + fallback_offset))->unk_0A;
+                    ((S_800277F4_13 *)fallback_output)->unk_02 = ((S_800277F4_14 *)(second_source
+                        + fallback_offset))->unk_0A;
                 }
 finish_ability:
                 merged_entry = merge_out + (ability_count * 3);
@@ -590,7 +605,8 @@ store_ability:
             ((S_800277F4_0 *)result)->unk_54 = (s32) ((base_traits & result_mask) | donor_traits);
         }
         func_80041E70(update_target, donor_traits, donor_trait_bits);
-        ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
+        ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
+            + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
         level_cap = ((S_800277F4_0 *)result)->unk_66;
         if (level_cap < (u8) ((S_800277F4_0 *)result)->unk_24.at01.v) {
             ((S_800277F4_0 *)result)->unk_24.at01.v = level_cap;
@@ -692,7 +708,7 @@ store_ability:
             global_flags = *(s32 *) (D_80080000 + 0x14A0);
             global_flags |= 0x8000;
             *(s32 *) (D_80080000 + 0x14A0) = global_flags;
-            return_tail:
+return_tail:
             return result;
         }
         goto return_tail;

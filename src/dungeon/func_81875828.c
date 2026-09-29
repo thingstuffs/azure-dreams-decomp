@@ -63,7 +63,7 @@ s32 func_81875828(u8 *render_data, u8 *source_vertex)
                 u32 *ot_entry;
                 u32 ot_tag;
                 ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) +
-                                  (u32)FIELD_PTR(scratch, 0x20));
+                                   (u32)FIELD_PTR(scratch, 0x20));
                 ot_tag = *ot_entry;
                 *ot_entry = (ot_tag & length_mask) |
                            ((u32)point_packet & address_mask);

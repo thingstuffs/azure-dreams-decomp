@@ -113,7 +113,7 @@ void func_8001EF0C(void) {
             availability = func_800A1618(existing_type, 1);
             if (availability != 0) {
                 object = func_800A0B94(existing_type, availability, 1)
-                             (0, position[slot].x, position[slot].y, -0x400);
+                (0, position[slot].x, position[slot].y, -0x400);
                 if (object != 0) {
                     func_800A152C(existing_type, 1);
                     func_80042640(object, existing_type);
@@ -194,7 +194,7 @@ void func_8001EF0C(void) {
                         spawn_variant = (func_800A6D30() & 7) | 4;
                         spawn_marker = 0x80;
                         spawn_height = -0x400;
-                    restore_spawn:
+restore_spawn:
                         meta[slot].unk2 = spawn_variant;
                         meta[slot].unk3 = spawn_marker;
                         floor_height = func_800BCB04((x << 6) | 0x20,

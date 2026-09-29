@@ -2,13 +2,12 @@
 #include "shared/entity.h"
 
 
-
 #ifndef NULL
 #define NULL 0
 #endif
 
 #define M2C_FIELD(expr, type_ptr, offset) \
-    (*(type_ptr)((s8 *)(expr) + (offset)))
+(*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef s32 M2C_UNK;
 
@@ -111,37 +110,37 @@ void func_80D659DC(EntityRec *source, u32 angle, s32 effect_param) {
         base = &effect->base;
         ((S_80D659DC_0 *)effect)->unk_10 = &D_800D707C;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_02 = (u16)
-            ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_02;
+        ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_02;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_06 = (u16)
-            ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_06;
+        ((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_06;
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_0A - 0x58);
+        (((S_80D659DC_9 *)((*(void * *)&source->z)))->unk_0A - 0x58);
         direction = (void *)D_800E2468 + ((angle >> 7) & 0x1C);
         position_x = ((S_80D659DC_0 *)effect)->unk_08;
         position_x->unk_02 = (u16)
-            (position_x->unk_02 +
-             (direction->unk_00 * 0x12));
+        (position_x->unk_02 +
+            (direction->unk_00 * 0x12));
         position_y = ((S_80D659DC_0 *)effect)->unk_08;
         position_y->unk_06 = (u16)
-            (position_y->unk_06 +
-             (direction->unk_02 * 0x12));
+        (position_y->unk_06 +
+            (direction->unk_02 * 0x12));
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_0C = (s32)
-            (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        (((rand() & 0x7FFF) - 0x4000) * 0x10);
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_10 = (s32)
-            (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        (((rand() & 0x7FFF) - 0x4000) * 0x10);
         ((S_80D659DC_8 *)(((S_80D659DC_6 *)effect)->unk_08))->unk_14 = (s32)
-            (((rand() & 0x7FFF) - 0x4000) * 0x10);
+        (((rand() & 0x7FFF) - 0x4000) * 0x10);
         velocity_x = ((S_80D659DC_0 *)effect)->unk_08;
         velocity_x->unk_0C = (s32)
-            (velocity_x->unk_0C +
-             (direction->unk_00 * 0x1C0000));
+        (velocity_x->unk_0C +
+            (direction->unk_00 * 0x1C0000));
         {
             s32 direction_y = direction->unk_02;
 
             velocity_y = ((S_80D659DC_0 *)effect)->unk_08;
             velocity_y->unk_10 = (s32)
-                (velocity_y->unk_10 +
-                 (direction_y * 0x1C0000));
+            (velocity_y->unk_10 +
+                (direction_y * 0x1C0000));
             base->field14 = angle;
             base->field32 = 0xC;
             base->field34 = 0xC;

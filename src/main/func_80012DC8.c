@@ -15,7 +15,9 @@ void func_80025DC8(void *state) {
 loop:
     if (entry_index == *(s32 *)((u8 *)state + 0x2C)) {
         func_800241D4(*(void **)((u8 *)entry_cursor + 0xC), 1);
-        do { entry_cursor = (u8 *)entry_cursor + 4; } while (0);
+        do {
+            entry_cursor = (u8 *)entry_cursor + 4;
+        } while (0);
     } else {
         func_80024274(*(void **)((u8 *)entry_cursor + 0xC));
         entry_cursor = (u8 *)entry_cursor + 4;

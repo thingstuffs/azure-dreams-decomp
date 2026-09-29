@@ -9,9 +9,6 @@ typedef struct S_800181A0_1 {
 } S_800181A0_1;   /* D_80016000->unk_20 in func_800181A0 */
 
 
-
-
-
 /* Invoke the callback at offset 0x278 with settings (1, 1, 0, 0x1E). */
 void func_800181A0(void) {
     ((S_800181A0_1 *)(D_80016000->unk_20))->unk_278(1, 1, 0, 0x1E);

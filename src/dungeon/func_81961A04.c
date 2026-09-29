@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-
 typedef s32 M2C_UNK;
 
 #ifndef NULL
@@ -92,46 +91,46 @@ void *func_81961A04(void *position)
     object_handler = &D_80026DE4;
     control_handler = &D_800273B0;
     last_slot = 8;
-do {
-    object = func_8003FC64(2);
-    if (object != NULL) {
-        ((S_81961A04_0 *)object)->unk_10 = object_handler;
-        func_8004491C(object, &D_800CEEFC);
-        positions = ((S_81961A04_0 *)object)->unk_08;
-        pos_x = source_pos->unk_02;
-        state = object + 0x20;
-        positions->unk_02 = pos_x;
-        positions->unk_0E = pos_x;
-        state->unk_38 = pos_x;
-        pos_y = source_pos->unk_06;
-        positions->unk_06 = pos_y;
-        positions->unk_12 = pos_y;
-        state->unk_3A = pos_y;
-        pos_z = source_pos->unk_0A;
-        positions->unk_0A = pos_z;
-        positions->unk_16 = pos_z;
-        state->unk_3C = pos_z;
-        control = ((S_81961A04_0 *)object)->unk_0C;
-        control->unk_08 = control_handler;
-        if (slot != last_slot) {
-            control->unk_1E = 0x200U;
-        } else {
-            control->unk_1E = 0x800U;
+    do {
+        object = func_8003FC64(2);
+        if (object != NULL) {
+            ((S_81961A04_0 *)object)->unk_10 = object_handler;
+            func_8004491C(object, &D_800CEEFC);
+            positions = ((S_81961A04_0 *)object)->unk_08;
+            pos_x = source_pos->unk_02;
+            state = object + 0x20;
+            positions->unk_02 = pos_x;
+            positions->unk_0E = pos_x;
+            state->unk_38 = pos_x;
+            pos_y = source_pos->unk_06;
+            positions->unk_06 = pos_y;
+            positions->unk_12 = pos_y;
+            state->unk_3A = pos_y;
+            pos_z = source_pos->unk_0A;
+            positions->unk_0A = pos_z;
+            positions->unk_16 = pos_z;
+            state->unk_3C = pos_z;
+            control = ((S_81961A04_0 *)object)->unk_0C;
+            control->unk_08 = control_handler;
+            if (slot != last_slot) {
+                control->unk_1E = 0x200U;
+            } else {
+                control->unk_1E = 0x800U;
+            }
+            slot_offset = (last_slot - slot) * 4;
+            control_value = -0x80 - slot_offset;
+            control_scale = M2C_FIELD_V(control, u16 *, 0x1E);
+            control->unk_0C = (s8)control_value;
+            control->unk_1C = control_scale;
+            state->unk_54 = slot;
+            if (slot == last_slot) {
+                state->unk_54 = 7;
+            }
+            state->unk_4C = last_slot;
+            goto next_slot;
         }
-        slot_offset = (last_slot - slot) * 4;
-        control_value = -0x80 - slot_offset;
-        control_scale = M2C_FIELD_V(control, u16 *, 0x1E);
-        control->unk_0C = (s8)control_value;
-        control->unk_1C = control_scale;
-        state->unk_54 = slot;
-        if (slot == last_slot) {
-            state->unk_54 = 7;
-        }
-        state->unk_4C = last_slot;
-        goto next_slot;
-    }
 next_slot:
-    slot += 1;
+        slot += 1;
     } while (slot < 9);
     return object;
 }

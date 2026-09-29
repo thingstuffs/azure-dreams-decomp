@@ -179,7 +179,8 @@ s32 func_80174228(u8 *item_data)
         half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
         init_vertex = (S_func_80174228_1 *)(vertex_base + 0x18);
         left_x = -half_width;
-        loop_0: {
+loop_0:
+        {
             init_vertex->unk_00 = half_width;
             if (i < 2) {
                 init_vertex->unk_00 = left_x;
@@ -194,7 +195,9 @@ s32 func_80174228(u8 *item_data)
             }
             i--;
             init_vertex--;
-        } if (i >= 0) goto loop_0;
+        }
+        if (i >= 0)
+            goto loop_0;
 
         profile_storage = (S_func_80174228_0 *)(storage + 0x28);
         setup_source = (u8 *)render_state;

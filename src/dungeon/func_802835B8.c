@@ -117,7 +117,6 @@ typedef struct S_800165B8_11 {
 } S_800165B8_11;   /* final_base in func_800165B8 */
 
 
-
 typedef struct {
     u8 bytes[13];
 } __attribute__((packed)) Copy13;

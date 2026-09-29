@@ -144,7 +144,7 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         draw_region.v = draw_y;
 
         func_801750E4(0x10, 0x10, 0, 0, texture_u, draw_region.v,
-                     actor, (u8 *)actor + 4, packet_list, 0, 0x20);
+                      actor, (u8 *)actor + 4, packet_list, 0, 0x20);
 
         rect_page = DUNGEON_FROM_PAGE;
         rect_packet = ((S_80174AD4_1 *)rect_page)->unk_8D0;
@@ -195,7 +195,8 @@ void func_80174AD4(u8 *actor_data, u8 *output_data, u8 *effect_data)
         output->field06 = ((S_80174AD4_5 *)(actor->field1C))->unk_06;
         output->field0A = ((S_80174AD4_5 *)(actor->field1C))->unk_0A - 0xC;
         do {
-            func_80174FC0((u8 *)actor - 0x20, (((S_80174AD4_7 *)(((S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7, 0xFF);
+            func_80174FC0((u8 *)actor - 0x20, (((S_80174AD4_7 *)(((S_80174AD4_6 *)actor)->unk_0C))->unk_00 >> 9) & 7,
+                0xFF);
             next_steps = steps_left - 1;
             steps_left = next_steps;
         } while ((next_steps << 16) > 0);

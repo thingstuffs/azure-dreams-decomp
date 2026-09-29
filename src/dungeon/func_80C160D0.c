@@ -31,7 +31,6 @@ typedef struct S_801718D0_3 {
 } S_801718D0_3;   /* (u8 *)arg3 + ((S_801718D0_0 *)arg3)->unk_8A.s in func_801718D0 */
 
 
-
 extern s32 func_80047784();
 extern s32 func_8009A21C();
 extern s32 func_8009A3D0();

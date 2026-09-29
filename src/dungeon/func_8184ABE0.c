@@ -39,7 +39,6 @@ typedef struct S_800243E0_3 {
 } S_800243E0_3;   /* arg0 in func_800243E0 */
 
 
-
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();

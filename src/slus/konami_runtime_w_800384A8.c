@@ -5,7 +5,6 @@
 #include "records/Rec_func_800384A8_arg0.h"
 
 
-
 M2C_UNK func_80038538();                      /* extern */
 s32 func_80053EF0();                         /* extern */
 extern M2C_UNK func_800384F8;

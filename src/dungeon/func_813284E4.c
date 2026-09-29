@@ -33,7 +33,11 @@ typedef struct S_8016FCE4_0 {
 
 typedef struct S_8016FCE4_1 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     u8 unk_26;
 } S_8016FCE4_1;   /* arg2 in func_8016FCE4 */
 
@@ -52,7 +56,6 @@ typedef struct S_8016FCE4_4 {
     u8 pad_00[0x2A];
     u16 unk_2A;
 } S_8016FCE4_4;   /* heading_base in func_8016FCE4 */
-
 
 
 typedef struct S_8016FCE4_7 {
@@ -86,7 +89,10 @@ extern s16 D_8006CD00[];
 extern u8 D_80082E80_b[] __asm__("D_80082E80");
 extern u8 D_80082E80_c[] __asm__("D_80082E80");
 
-static __inline__ u8 advance_tile(u8 tile, const u8 *table, u16 index) { return tile + *(const u8 *)((u32)index + (u32)table); }
+static __inline__ u8 advance_tile(u8 tile, const u8 * table, u16 index)
+{
+    return tile + *(const u8 *)((u32)index + (u32)table);
+}
 
 /* Choose a movement heading, advance the actor_in, and update its movement state. */
 void func_8016FCE4(void *move_state, void *unused, void *position_in, void *actor_in) {
@@ -119,10 +125,13 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
         move_flags = ((S_8016FCE4_0 *)actor_in)->unk_1C;
         if (move_flags & 0x410) {
             if (move_flags & 0x400) {
-                target = func_800A02AC(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
+                target = func_800A02AC(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v);
                 if (target != NULL) {
                     target_position = ((S_8016FCE4_2_pre *)target)[-1].unk_00;
-                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25, move_state + 0x98);
+                    ((S_8016FCE4_0 *)actor_in)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, target_position->unk_24, target_position->unk_25,
+                        move_state + 0x98);
                     ((S_8016FCE4_0 *)actor_in)->unk_71.u = ((S_8016FCE4_0 *)actor_in)->unk_71.u & 0x7F;
                     return;
                 }
@@ -134,7 +143,8 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                 }
                 turn_index = 0;
             } else {
-                move_result = func_800A04F0(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
+                move_result = func_800A04F0(actor_in, ((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u);
                 turn_index = 0;
                 if (move_result != 0) {
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
@@ -153,26 +163,37 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
 
                     x_table_base = ((u8 *)dirStepX);
                     heading_base = *heading_ref;
-                    dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A << 0x10) >> 0x19)) & 7) * 2;
+                    dir_index = ((((S_8016FCE4_0 *)actor_in)->unk_45 + ((s32) (((S_8016FCE4_4 *)heading_base)->unk_2A
+                        << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tileX + *(u16 *)(x_table_base + dir_index);
                     target_y = D_80082E80.tileY + *(u16 *)(((u8 *)dirStepY) + dir_index);
-                    if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (target_x & 0xFFFF)) || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (target_y & 0xFFFF))) {
+                    if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (target_x & 0xFFFF))
+                        || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (target_y & 0xFFFF))) {
                         heading_state = move_state + 0x98;
-                        target_heading = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y, heading_state);
+                        target_heading = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y,
+                            heading_state);
                         ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) target_heading;
                         if ((func_8009A66C(target_heading, position_in, actor_in, 0x20) << 0x10) <= 0) {
-                            ((S_8016FCE4_0 *)actor_in)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25], heading_state);
+                            ((S_8016FCE4_0 *)actor_in)->unk_2A.u =
+                                func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                                ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25],
+                                heading_state);
                         }
-                        move_result = func_8009FD7C(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25]);
-                        if ((move_result << 0x10) != 0) { limit_turns = 1; }
+                        move_result = func_8009FD7C(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                            ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25]);
+                        if ((move_result << 0x10) != 0) {
+                            limit_turns = 1;
+                        }
                         turn_index = 0;
                     } else {
                         ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
                         return;
                     }
                 } else {
-                func_800A0E6C(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in, move_state + 0x98);
-                turn_index = 0;
+                    func_800A0E6C(position_in, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor_in,
+                        move_state + 0x98);
+                    turn_index = 0;
                 }
             }
         }
@@ -197,16 +218,21 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                 }
                 {
                     ((S_8016FCE4_0 *)actor_in)->unk_2A.u = (u16) trial_heading;
-                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 = (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
-                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C = (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
+                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_74 =
+                        (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
+                    ((S_8016FCE4_8 *)((actor_in + ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F))))->unk_7C =
+                        (u8) ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
                     ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s + 1);
-                    func_8009A3D0(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, ((S_8016FCE4_1 *)position_in)->unk_24.at01.v,
+                    func_8009A3D0(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
+                        ((S_8016FCE4_1 *)position_in)->unk_24.at01.v,
                                   (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                     step_coord = ((u16) ((S_8016FCE4_0 *)actor_in)->unk_2A.u >> 8) & 0xE;
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at00.v = advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, x_offsets, step_coord);
+                    ((S_8016FCE4_1 *)position_in)->unk_24.at00.v =
+                        advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at00.v, x_offsets, step_coord);
                     y_address = step_coord;
                     y_address += (s32)((u8 *)dirStepY);
-                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v = advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (u8 *)y_address, 0);
+                    ((S_8016FCE4_1 *)position_in)->unk_24.at01.v =
+                        advance_tile(((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (u8 *)y_address, 0);
                     step_coord = ((S_8016FCE4_1 *)position_in)->unk_24.at00.v;
                     tile_y = ((S_8016FCE4_1 *)position_in)->unk_24.at01.v;
                     if (((S_8016FCE4_0 *)actor_in)->unk_1C & 0x2000) {
@@ -218,7 +244,8 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                     break;
                 }
             }
-            if ((turn_index != 0) || (*(u16 *)(&D_80082E80.tileX) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v) || ((func_8009A180(actor_in, ((s32)((EntityRec *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
+            if ((turn_index != 0) || (*(u16 *)(&D_80082E80.tileX) == ((S_8016FCE4_1 *)position_in)->unk_24.at00u.v)
+                || ((func_8009A180(actor_in, ((s32)((EntityRec *)((u8 *)D_800814A8))->unk_58) + 0x20) << 0x10) == 0)) {
                 turn_index += 1;
                 turn_offsets += 1;
             } else {
@@ -240,7 +267,9 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
             ((S_8016FCE4_0 *)actor_in)->unk_71.s = (s8) ((u8) ((S_8016FCE4_0 *)actor_in)->unk_71.s & 0x7F);
             return;
         }
-        turn_index = (s16) func_800BCB04((((S_8016FCE4_1 *)position_in)->unk_24.at00.v << 6) | 0x20, (((S_8016FCE4_1 *)position_in)->unk_24.at01.v << 6) | 0x20, (s16) (((S_8016FCE4_0 *)actor_in)->unk_88 - 0x20));
+        turn_index = (s16) func_800BCB04((((S_8016FCE4_1 *)position_in)->unk_24.at00.v << 6) | 0x20,
+            (((S_8016FCE4_1 *)position_in)->unk_24.at01.v << 6) | 0x20,
+            (s16) (((S_8016FCE4_0 *)actor_in)->unk_88 - 0x20));
         if (turn_index < 0x200) {
             ((S_8016FCE4_0 *)actor_in)->unk_88 = (u16) turn_index;
         }

@@ -17,6 +17,7 @@ void func_80020D90(void *record_data) {
     flags = ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_0E;
     if (flags & 0x2000) {
         ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_0E = (u16) (flags & 0xDFFF);
-        ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_3C;
+        ((S_80020D90_0 *)((u8 *)record_data - 0x10))->unk_00 = (s32) ((S_80020D90_0 *)((u8 *)record_data
+            - 0x10))->unk_3C;
     }
 }

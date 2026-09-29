@@ -50,7 +50,7 @@ outer_loop:
             x = area->x;
             if (x < x_end) {
                 map_config_addr = (u32)((u8 *)(&gameWork.map));
-            x_loop_done:
+x_loop_done:
                 tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
                 if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);

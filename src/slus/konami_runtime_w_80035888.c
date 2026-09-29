@@ -54,7 +54,6 @@ typedef struct S_80035888_6 {
 } S_80035888_6;   /* ((S_80035888_1 *)object)->unk_74 in func_80035888 */
 
 
-
 extern void *func_8003FF2C(s32, void *, s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80033C1C(void *, s32);

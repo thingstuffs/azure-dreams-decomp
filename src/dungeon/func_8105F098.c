@@ -65,7 +65,9 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
     held_b = param_b;
     object = func_8003FD64(0x112, ((s32 *)(&D_80083498)));
     if (object != 0) {
-        do { flags_held = spawn_flags; } while (0);
+        do {
+            flags_held = spawn_flags;
+        } while (0);
         result = (u8 *)object + 0x20;
         (*(Callback *)((u8 *)object + 0x10)) = D_8016AAA4;
         ((S_8016A898_0 *)result)->unk_13 = 0x2B;

@@ -30,7 +30,6 @@ typedef struct S_80021E88_4 {
 } S_80021E88_4;   /* ((S_80021E88_0 *)arg0)->unk_04 in func_80021E88 */
 
 
-
 extern s32 func_800A2A18(void *, void *);
 extern u32 D_80012D5C;
 extern u8 D_800243F0[];

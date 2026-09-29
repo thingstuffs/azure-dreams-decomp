@@ -30,7 +30,6 @@ typedef struct S_80026748_3 {
 } S_80026748_3;   /* arg2 in func_80026748 */
 
 
-
 /* Advance effect motion and shrink its scale, marking completion at the threshold. */
 void func_80026748(void *effect, S_80026748_1 *motion, S_80026748_3 *transform) {
     u16 scale;

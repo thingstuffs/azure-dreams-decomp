@@ -46,17 +46,17 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
 #ifndef NON_MATCHING
         } while (slot_index < 12);
 #else
-        } while (slot_index < 12);
+    } while (slot_index < 12);
 #endif
 
-        entry_or_link = *(void **)((u8 *)state - 8);
-        if (entry_or_link == 0) {
-            break;
-        }
-        state = (u8 *)entry_or_link + 0x20;
-        value = *(s32 *)((u8 *)entry_or_link + 8);
-        entry = *(Entry **)((u8 *)entry_or_link + 0xC);
-        slot_index = 0;
+    entry_or_link = *(void **)((u8 *)state - 8);
+    if (entry_or_link == 0) {
+        break;
     }
-    return 0;
+    state = (u8 *)entry_or_link + 0x20;
+    value = *(s32 *)((u8 *)entry_or_link + 8);
+    entry = *(Entry **)((u8 *)entry_or_link + 0xC);
+    slot_index = 0;
+}
+return 0;
 }

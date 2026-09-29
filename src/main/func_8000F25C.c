@@ -3,7 +3,7 @@
 /* Finds a word's byte offset and character count, and counts preceding characters. */
 void func_8002225C(
     u8 *text, s32 word_index, s32 *offset_out, s32 *length_out, s32 *prior_chars_out
-)
+    )
 {
     s32 byte_offset;
     s32 word_length;

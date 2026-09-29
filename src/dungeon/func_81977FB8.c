@@ -13,105 +13,102 @@ s32 rand();
 extern M2C_UNK D_8002560C;
 extern M2C_UNK D_80026180;
 typedef struct TargetSub {
-  u8 pad0[4];
-  s16 field4;
-  s16 field6;
-  s16 field8;
-  u16 fieldA;
+    u8 pad0[4];
+    s16 field4;
+    s16 field6;
+    s16 field8;
+    u16 fieldA;
 } TargetSub;
 typedef struct TargetVec {
-  s32 field0;
-  s32 field4;
-  u8 pad8[2];
-  u16 fieldA;
+    s32 field0;
+    s32 field4;
+    u8 pad8[2];
+    u16 fieldA;
 } TargetVec;
 typedef struct TargetData {
-  u8 pad0[0xC];
-  u8 byteC;
-  u8 byteD;
-  u8 byteE;
-  u8 padF;
-  u16 field10;
-  u8 pad12[2];
-  u16 field14;
-  u8 pad16[6];
-  u16 field1C;
-  u16 field1E;
+    u8 pad0[0xC];
+    u8 byteC;
+    u8 byteD;
+    u8 byteE;
+    u8 padF;
+    u16 field10;
+    u8 pad12[2];
+    u16 field14;
+    u8 pad16[6];
+    u16 field1C;
+    u16 field1E;
 } TargetData;
 typedef struct TargetObj {
-  u8 pad0[8];
-  TargetVec *field8;
-  TargetData *fieldC;
-  void *field10;
-  u8 pad14[0xC];
-  TargetSub sub;
+    u8 pad0[8];
+    TargetVec *field8;
+    TargetData *fieldC;
+    void *field10;
+    u8 pad14[0xC];
+    TargetSub sub;
 } TargetObj;
 /* Creates an object at a random angle and height offset around the reference position. */
 void func_81977FB8(void)
 {
-  s32 axis_offset;
-  s32 angle_random;
-  s32 height_random;
-  s32 axis_factor;
-  s16 height_or_shade;
-  s32 angle_quotient;
-  s32 height_quotient;
-  TargetSub *motion;
-  TargetObj *obj;
-  obj = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
-  if (obj != 0)
-  {
-    motion = &obj->sub;
-    obj->field10 = &D_8002560C;
-    motion->field4 = 0;
-    motion->field6 = 0x20;
-    angle_random = rand();
-    angle_quotient = angle_random;
-    if (angle_random < 0)
-    {
-      angle_quotient += 0xFFF;
+    s32 axis_offset;
+    s32 angle_random;
+    s32 height_random;
+    s32 axis_factor;
+    s16 height_or_shade;
+    s32 angle_quotient;
+    s32 height_quotient;
+    TargetSub *motion;
+    TargetObj *obj;
+    obj = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
+    if (obj != 0) {
+        motion = &obj->sub;
+        obj->field10 = &D_8002560C;
+        motion->field4 = 0;
+        motion->field6 = 0x20;
+        angle_random = rand();
+        angle_quotient = angle_random;
+        if (angle_random < 0) {
+            angle_quotient += 0xFFF;
+        }
+        angle_quotient >>= 0xC;
+        motion->field8 = (s16) (angle_random - (angle_quotient << 0xC));
+        height_random = rand();
+        height_quotient = height_random;
+        if (height_random < 0) {
+            height_quotient += 0x1F;
+        }
+        height_quotient >>= 5;
+        height_or_shade = (height_quotient << 5) - height_random;
+        {
+            TargetData *render_data;
+            void *render_config;
+            render_config = &D_80026180;
+            motion->fieldA = (u16) height_or_shade;
+            render_data = obj->fieldC;
+            render_data->byteE = (height_or_shade = 0x80);
+            render_data->byteD = height_or_shade;
+            render_data->byteC = height_or_shade;
+            func_8003DB94(render_data, render_config, 0);
+            render_data->field1E = 0x200;
+            render_data->field1C = 0x200;
+            render_data->field14 = (u16) (render_data->field14 | 0xC);
+            render_data->field10 = (u16) (render_data->field10 | 0x20);
+        }
+        {
+            TargetVec *position;
+            TargetVec *origin;
+            s32 origin_y;
+            position = obj->field8;
+            axis_offset = (func_800644B8(motion->field8) >> 4) * motion->field6;
+            position->field0 = D_80026208[0]->field0 + (axis_offset << 8);
+            axis_factor = func_80064584(motion->field8);
+            axis_offset = (axis_factor >> 4) * motion->field6;
+            origin = D_80026208[0];
+            origin_y = origin->field4;
+            position->field4 = origin_y + (axis_offset << 8);
+            position->fieldA = (s16) (origin->fieldA + motion->fieldA);
+            func_8004491C(obj, func_80045340);
+        }
     }
-    angle_quotient >>= 0xC;
-    motion->field8 = (s16) (angle_random - (angle_quotient << 0xC));
-    height_random = rand();
-    height_quotient = height_random;
-    if (height_random < 0)
-    {
-      height_quotient += 0x1F;
-    }
-    height_quotient >>= 5;
-    height_or_shade = (height_quotient << 5) - height_random;
-    {
-      TargetData *render_data;
-      void *render_config;
-      render_config = &D_80026180;
-      motion->fieldA = (u16) height_or_shade;
-      render_data = obj->fieldC;
-      render_data->byteE = (height_or_shade = 0x80);
-      render_data->byteD = height_or_shade;
-      render_data->byteC = height_or_shade;
-      func_8003DB94(render_data, render_config, 0);
-      render_data->field1E = 0x200;
-      render_data->field1C = 0x200;
-      render_data->field14 = (u16) (render_data->field14 | 0xC);
-      render_data->field10 = (u16) (render_data->field10 | 0x20);
-    }
-    {
-      TargetVec *position;
-      TargetVec *origin;
-      s32 origin_y;
-      position = obj->field8;
-      axis_offset = (func_800644B8(motion->field8) >> 4) * motion->field6;
-      position->field0 = D_80026208[0]->field0 + (axis_offset << 8);
-      axis_factor = func_80064584(motion->field8);
-      axis_offset = (axis_factor >> 4) * motion->field6;
-      origin = D_80026208[0];
-      origin_y = origin->field4;
-      position->field4 = origin_y + (axis_offset << 8);
-      position->fieldA = (s16) (origin->fieldA + motion->fieldA);
-      func_8004491C(obj, func_80045340);
-    }
-  }
 }
 
 /* MECHANISM: pure scheduler rotation.  Retail materialises the `&D_80026180`

@@ -44,7 +44,6 @@ typedef struct S_80F93000_4 {
 } S_80F93000_4;   /* actor in BODY_NAME */
 
 
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern s32 func_800A6D30();
@@ -61,7 +60,7 @@ extern void *func_80164800();
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_80164800")
-    __attribute__((section(".text.func_80164800"), aligned(4))) = {
+__attribute__((section(".text.func_80164800"), aligned(4))) = {
     0x80164880, 0x80164A70, 0x8016556C, 0x8016556C,
     0x8016556C, 0x80165598, 0x80165518, 0x80165518,
     0x80165518, 0x801654E0, 0x801654C4, 0x80165598,
@@ -80,9 +79,9 @@ __asm__(".globl func_80164800\n"
 
 void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
-    __attribute__((section(".text.func_80164800")))
+__attribute__((section(".text.func_80164800")))
 #endif
-    ;
+;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)

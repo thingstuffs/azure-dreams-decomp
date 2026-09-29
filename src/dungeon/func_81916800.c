@@ -9,15 +9,15 @@ extern u8 D_800E3D20[16];
 
 #ifdef __mips__
 static const u32 bank_words[] __asm__("func_81916800")
-    __attribute__((section(".text.func_81916800"), aligned(4))) = {
+__attribute__((section(".text.func_81916800"), aligned(4))) = {
     0x80025408, 0x00000000, 0x8002547C, 0x800254C4,
     0x800257DC, 0x800258AC, 0x800259E0, 0x80025A2C,
     0x80025AA4,
 };
 __asm__(
-    ".globl func_81916800\n"
-    ".type func_81916800,@function\n"
-    ".size func_81916800,364\n");
+        ".globl func_81916800\n"
+        ".type func_81916800,@function\n"
+        ".size func_81916800,364\n");
 #define BODY_NAME func_81916824
 #else
 #define BODY_NAME func_81916800
@@ -57,7 +57,8 @@ void BODY_NAME(void *tracker) {
     blend_ticks = (*(s16 *)((u8 *)tracker + 0x24));
     blend_state = &gameWork.view;
     if (blend_ticks > 0) {
-        blend_state->unk_098 = (u16) ((u16)blend_state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26)) - blend_state->unk_098) / blend_ticks);
+        blend_state->unk_098 = (u16) ((u16)blend_state->unk_098) + ((s32) ((*(s16 *)((u8 *)tracker + 0x26))
+            - blend_state->unk_098) / blend_ticks);
     }
     next_ticks = (u16) (*(s16 *)((u8 *)tracker + 0x24)) - 1;
     (*(s16 *)((u8 *)tracker + 0x24)) = next_ticks;
@@ -72,11 +73,14 @@ void BODY_NAME(void *tracker) {
     (*(u16 *)((u8 *)tracker + 4)) = (u16) ((S_81916800_4 *)((*(void **)((u8 *)tracker + 0xC))))->unk_02;
     (*(u16 *)((u8 *)tracker + 6)) = (u16) target_values->unk_06;
     (*(u16 *)((u8 *)tracker + 8)) = (u16) target_values->unk_0A;
-    blend_state->unk_0A4 = (u16) ((u16)blend_state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4)) - blend_state->unk_0A4) >> 2);
-    blend_state->unk_0A6 = (u16) ((u16)blend_state->unk_0A6) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6)) - blend_state->unk_0A6) >> 2);
+    blend_state->unk_0A4 = (u16) ((u16)blend_state->unk_0A4) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 4))
+        - blend_state->unk_0A4) >> 2);
+    blend_state->unk_0A6 = (u16) ((u16)blend_state->unk_0A6) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 6))
+        - blend_state->unk_0A6) >> 2);
     third_pending = D_80025B1C;
     if (((S_81916800_3 *)third_pending)->unk_00.u != 0) {
-        blend_state->unk_0A8 = (u16) ((u16)blend_state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8)) - blend_state->unk_0A8) >> 2);
+        blend_state->unk_0A8 = (u16) ((u16)blend_state->unk_0A8) + ((s32) ((s16) (*(u16 *)((u8 *)tracker + 8))
+            - blend_state->unk_0A8) >> 2);
     }
     ((S_81916800_3 *)third_pending)->unk_00.s = (s8) (blend_state->unk_0A8 != (s16) (*(u16 *)((u8 *)tracker + 8)));
     blend_state->unk_094 = (u16) ((s32) (((u16)blend_state->unk_094) << 0x10) >> 0x12);

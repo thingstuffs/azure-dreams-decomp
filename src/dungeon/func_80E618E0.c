@@ -40,7 +40,6 @@ typedef struct S_801710E0_4 {
 } S_801710E0_4;   /* result_copy in func_801710E0 */
 
 
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 func_800A6D30(void);

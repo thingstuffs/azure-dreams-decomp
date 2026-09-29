@@ -101,11 +101,13 @@ void func_8002445C(void *effect) {
         ((S_81934C5C_0 *)effect)->unk_30.at02.v = 0x10;
         ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
 
-        /* fallthrough */
+                /* fallthrough */
     case 1:
-        ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
+        ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v
+            + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
         ticks_left = ((S_81934C5C_0 *)effect)->unk_48.u;
-        ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
+        ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v
+            + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
         if (ticks_left > 0) {
             return;
         }
@@ -116,10 +118,11 @@ void func_8002445C(void *effect) {
         ((S_81934C5C_0 *)effect)->unk_0C += (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2;
         ((S_81934C5C_0 *)effect)->unk_10 += (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2;
         ((S_81934C5C_0 *)effect)->unk_24.at00.v += ((S_81934C5C_0 *)effect)->unk_30.at00.v;
-        surface_height = func_800BCB04(((S_81934C5C_0 *)effect)->unk_1C.at02.v, ((S_81934C5C_0 *)effect)->unk_20.at02.v, -0x400);
+        surface_height = func_800BCB04(((S_81934C5C_0 *)effect)->unk_1C.at02.v,
+            ((S_81934C5C_0 *)effect)->unk_20.at02.v, -0x400);
         if (surface_height >= 0x201) {
             if (((S_81934C5C_0 *)effect)->unk_24.at02.v > 0) {
-            ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
+                ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
                 return;
             }
         }
@@ -156,7 +159,8 @@ void func_8002445C(void *effect) {
         ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
         return;
     case 3:
-        ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C + ((s32) (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2));
+        ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C
+            + ((s32) (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2));
         final_display_y = ((S_81934C5C_0 *)effect)->unk_10 + ((s32) (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2);
         ((S_81934C5C_0 *)effect)->unk_10 = final_display_y;
         if (((S_81934C5C_0 *)effect)->unk_24.at02.v < (s16) final_display_y) {

@@ -52,7 +52,8 @@ typedef struct S_800249F0_5 {
 } S_800249F0_5;   /* temp_a3_2 in func_800249F0 */
 
 /* Create an object with copied position and packed data, and initialize its rendering state. */
-void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode) {
+void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x,
+    s32 render_y, s32 render_mode) {
     s16 render_param_copy;
     S_800249F0_3 *position;
     void *render_state;

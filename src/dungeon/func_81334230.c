@@ -32,7 +32,11 @@ typedef struct S_8016B230_1 {
 
 typedef struct S_8016B230_2 {
     u8 pad_00[0x24];
-    union { struct { u8 v; } at00; struct { u16 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; } unk_24;   /* overlapping accesses */
+    union {
+        struct { u8 v; } at00;
+        struct { u16 v; } at00u;
+        struct { u8 pad[0x1]; u8 v; } at01;
+    } unk_24;   /* overlapping accesses */
     union { s8 s; u8 u; } unk_26;   /* accessed as both */
 } S_8016B230_2;   /* arg2 in func_8016B230 */
 
@@ -77,7 +81,6 @@ typedef struct S_8016B230_13 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_8016B230_13;   /* arg3 + (((S_8016B230_1 *)arg3)->unk_71.u & 0x7F) in func_8016B230 */
-
 
 
 extern s32 func_8009A180();
@@ -149,7 +152,8 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
     actor_flags = ((S_8016B230_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            found = func_800A02AC(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v);
+            found = func_800A02AC(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
+                ((S_8016B230_2 *)position)->unk_24.at01.v);
             if (found != NULL) {
                 object = ((S_8016B230_3_pre *)found)[-1].unk_00;
                 ((S_8016B230_1 *)actor)->unk_2A.u = func_800A0818(
@@ -170,7 +174,8 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
                 }
             }
         } else {
-            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
+                ((S_8016B230_2 *)position)->unk_24.at01.v,
                                   ((S_8016B230_1 *)actor)->unk_2A.s);
             if (found != NULL) {
                 ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
@@ -198,7 +203,8 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
                     ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
-                new_angle = func_800A0818(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                new_angle = func_800A0818(((S_8016B230_2 *)position)->unk_24.at00.v,
+                    ((S_8016B230_2 *)position)->unk_24.at01.v,
                                           target_x, (s16)target_y, movement_in + 0x98);
                 ((S_8016B230_1 *)actor)->unk_2A.u = new_angle;
                 if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
@@ -212,7 +218,8 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
                 {
                     TileObject *check_target = &D_80082E80;
 
-                    if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                    if ((func_8009FD7C(((S_8016B230_2 *)position)->unk_24.at00.v,
+                        ((S_8016B230_2 *)position)->unk_24.at01.v,
                                        check_target->tileX,
                                        check_target->tileY) << 16) != 0) {
                         near_target = 1;
@@ -229,7 +236,8 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
         if ((kind >= 0) && (((S_8016B230_10 *)((u8 *)D_800E2970 + kind * 0x14))->unk_0C & 2)) {
             func_800A0E6C(position, ((S_8016B230_5 *)movement_in)->unk_9C.s, actor, movement_in + 0x98);
         } else if (!(((S_8016B230_1 *)actor)->unk_46 & 0x8000)) {
-            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+            found = func_800A04F0(actor, ((S_8016B230_2 *)position)->unk_24.at00.v,
+                ((S_8016B230_2 *)position)->unk_24.at01.v,
                                   ((S_8016B230_1 *)actor)->unk_2A.s);
             if ((found != NULL) && (((S_8016B230_3 *)found)->unk_1C & 0x2000) &&
                 (func_800A0134(found, actor) < 0x81) &&
@@ -311,7 +319,8 @@ loop:
         func_8009A21C(next_x, next_y, tile_mask);
     } else {
         if (attempt == 0) {
-            if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v) &&
+            if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
+                &&
                 ((s16)func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
                 return;
             }

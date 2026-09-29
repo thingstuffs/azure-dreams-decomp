@@ -61,10 +61,12 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
     void *path_step;
     void *state = path_state;
 
-    if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71 > ((S_801716D8_0 *)state)->unk_8A)) {
+    if ((((S_801716D8_0 *)state)->unk_71 > 0) && ((s32) (u8) ((S_801716D8_0 *)state)->unk_71
+        > ((S_801716D8_0 *)state)->unk_8A)) {
         if (((Rec_D_80082E80 *)entity)->unk_2C.as_pv != D_80176460) {
             (*(void **)((u8 *)entity + 0x2C)) = D_80176460;
-            func_80047784(entity, D_80176460[((gameWork.view.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
+            func_80047784(entity, D_80176460[((gameWork.view.viewAngle + ((S_801716D8_0 *)state)->unk_2A + 0x100)
+                >> 9) & 7], 0);
         }
         old_x = ((Rec_D_80082E80 *)entity)->unk_24;
         old_y = ((Rec_D_80082E80 *)entity)->unk_25;
@@ -74,7 +76,8 @@ void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
         }
         func_8009A3D0(old_x, old_y, old_cell_mask);
         path_step = state + ((S_801716D8_0 *)state)->unk_8A;
-        heading = func_800A0818(old_x, old_y, ((S_801716D8_2 *)path_step)->unk_74, ((S_801716D8_2 *)path_step)->unk_7C, motion + 0x98);
+        heading = func_800A0818(old_x, old_y, ((S_801716D8_2 *)path_step)->unk_74, ((S_801716D8_2 *)path_step)->unk_7C,
+            motion + 0x98);
         func_8009A66C(heading, entity, state, 0x20);
         ((Rec_D_80082E80 *)entity)->unk_24 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_74;
         ((Rec_D_80082E80 *)entity)->unk_25 = (u8) ((S_801716D8_4 *)((state + ((S_801716D8_0 *)state)->unk_8A)))->unk_7C;

@@ -3,9 +3,6 @@
 #include "records/Rec_D_80016000.h"
 
 
-
-
-
 typedef struct S_8001659C_5 {
     u8 pad_00[0x1C];
     void * unk_1C;

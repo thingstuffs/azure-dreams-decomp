@@ -37,7 +37,6 @@ typedef struct S_8017237C_3 {
 } S_8017237C_3;   /* call0 in func_8017237C */
 
 
-
 extern void func_8009C93C(void *, void *, s32, s32, s32);
 extern s32 func_800A0134(s32, void *);
 extern s32 func_800A04F0(void *, u8, u8, s16);

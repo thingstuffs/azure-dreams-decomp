@@ -24,8 +24,6 @@ typedef struct S_80020360_2 {
 } S_80020360_2;   /* (void *)page in func_80020360 */
 
 
-
-
 /* Advances the countdown state, then sets object and global flags when the status bit is set. */
 void func_80020360(void *object)
 {

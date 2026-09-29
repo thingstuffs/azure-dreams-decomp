@@ -13,7 +13,6 @@ typedef struct S_80125DDC_2 {
 } S_80125DDC_2;   /* inner in func_80125DDC */
 
 
-
 extern void func_801235EC(void);
 extern void func_801247F8(void *);
 extern s8 D_80129728;
@@ -32,100 +31,100 @@ void func_80125DDC(Rec_func_801237A4_arg0 *request)
     case 7:
     case 8:
     case 9:
-        {
-            s32 entry_index;
-            u8 *entry_table;
-            void **entry_slot;
-            void *entry;
-            void *entry_data;
-            u16 field_value;
+    {
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
+        void *entry;
+        void *entry_data;
+        u16 field_value;
 
-            entry_index = 0x1C;
-            entry_table = (u8 *)&D_80129728;
-            entry_slot = (void **)(entry_table + 0x70);
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        do {
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
-                entry = *entry_slot;
-                entry_data = ((S_80125DDC_1 *)entry)->unk_08;
-                field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-                do {
-                    entry_index++;
-                } while (0);
-                field_value += 0x100;
-                ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
-                entry_slot = (void **)((u8 *)entry_slot + 4);
-            } while (entry_index < 0x62);
-        }
+                entry_index++;
+            } while (0);
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
+    }
         return;
     case 10:
-        {
-            s32 entry_index;
-            u8 *entry_table;
-            s32 **entry_slot;
-            s32 *entry;
+    {
+        s32 entry_index;
+        u8 *entry_table;
+        s32 **entry_slot;
+        s32 *entry;
 
-            entry_index = 0x1E;
-            entry_table = (u8 *)&D_80129728;
-            entry_slot = (s32 **)(entry_table + 0x78);
+        entry_index = 0x1E;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (s32 **)(entry_table + 0x78);
+        do {
             do {
-                do {
-                    entry = *entry_slot;
-                } while (0);
-                entry_index++;
-                *entry = 0;
-                entry_slot = (s32 **)((u8 *)entry_slot + 4);
-            } while (entry_index < 0x62);
-        }
+                entry = *entry_slot;
+            } while (0);
+            entry_index++;
+            *entry = 0;
+            entry_slot = (s32 **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
+    }
     case 11:
     case 12:
     case 13:
-        {
-            s32 entry_index;
-            u8 *entry_table;
-            void **entry_slot;
-            void *entry;
-            void *entry_data;
-            u16 field_value;
+    {
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
+        void *entry;
+        void *entry_data;
+        u16 field_value;
 
-            entry_index = 0x1C;
-            entry_table = (u8 *)&D_80129728;
-            entry_slot = (void **)(entry_table + 0x70);
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        do {
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
-                entry = *entry_slot;
-                entry_data = ((S_80125DDC_1 *)entry)->unk_08;
-                field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-                do {
-                    entry_index++;
-                } while (0);
-                field_value += 0x100;
-                ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
-                entry_slot = (void **)((u8 *)entry_slot + 4);
-            } while (entry_index < 0x62);
-        }
+                entry_index++;
+            } while (0);
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
+    }
         break;
     case 14:
-        {
-            s32 entry_index;
-            u8 *entry_table;
-            void **entry_slot;
-            void *entry;
-            void *entry_data;
-            u16 field_value;
+    {
+        s32 entry_index;
+        u8 *entry_table;
+        void **entry_slot;
+        void *entry;
+        void *entry_data;
+        u16 field_value;
 
-            entry_index = 0x1C;
-            entry_table = (u8 *)&D_80129728;
-            entry_slot = (void **)(entry_table + 0x70);
+        entry_index = 0x1C;
+        entry_table = (u8 *)&D_80129728;
+        entry_slot = (void **)(entry_table + 0x70);
+        do {
+            entry = *entry_slot;
+            entry_data = ((S_80125DDC_1 *)entry)->unk_08;
+            field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
             do {
-                entry = *entry_slot;
-                entry_data = ((S_80125DDC_1 *)entry)->unk_08;
-                field_value = ((S_80125DDC_2 *)entry_data)->unk_02;
-                do {
-                    entry_index++;
-                } while (0);
-                field_value += 0x100;
-                ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
-                entry_slot = (void **)((u8 *)entry_slot + 4);
-            } while (entry_index < 0x62);
-        }
+                entry_index++;
+            } while (0);
+            field_value += 0x100;
+            ((S_80125DDC_2 *)entry_data)->unk_02 = field_value;
+            entry_slot = (void **)((u8 *)entry_slot + 4);
+        } while (entry_index < 0x62);
+    }
         {
             s32 entry_index;
             u8 *entry_table;

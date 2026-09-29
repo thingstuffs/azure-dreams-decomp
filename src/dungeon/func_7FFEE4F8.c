@@ -30,7 +30,6 @@ typedef struct S_8008BC58_3 {
 } S_8008BC58_3;   /* record in func_8008BC58 */
 
 
-
 extern void func_80035208();
 extern void func_800478B8();
 extern void func_8008B620();

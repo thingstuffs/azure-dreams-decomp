@@ -4,7 +4,8 @@ typedef struct S_801EAFE8
 {
     struct S_801EAFE8 *next;
     u8 pad[0x124 - 4];
-} S_801EAFE8;
+}
+S_801EAFE8;
 
 extern S_801EAFE8 D_801EAFE8[0x100];
 

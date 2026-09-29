@@ -12,8 +12,6 @@ typedef struct S_819ACDA0_1 {
 } S_819ACDA0_1;   /* motion in func_819ACDA0 */
 
 
-
-
 typedef struct {
     u8 pad0[0x14];
     s16 target_x;
@@ -99,21 +97,21 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     case 1:
         position->next_x +=
             (motion->current_x +
-                 ((motion->target_x - motion->current_x) / 8) *
+             ((motion->target_x - motion->current_x) / 8) *
                      (motion->phase + 1) -
              position->next_x) /
             motion->timer;
 
         position->next_y +=
             (motion->current_y +
-                 ((motion->target_y - motion->current_y) / 8) *
+             ((motion->target_y - motion->current_y) / 8) *
                      (motion->phase + 1) -
              position->next_y) /
             motion->timer;
 
         position->next_z +=
             (motion->current_z +
-                 ((motion->target_z - motion->current_z) / 8) *
+             ((motion->target_z - motion->current_z) / 8) *
                      (motion->phase + 1) -
              position->next_z) /
             motion->timer;

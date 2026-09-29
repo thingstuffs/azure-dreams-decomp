@@ -40,14 +40,11 @@ typedef struct S_80172AA8_4 {
 } S_80172AA8_4;   /* arg2 in func_80172AA8 */
 
 
-
 typedef struct S_80172AA8_7 {
     u8 pad_00[0xA];
     u16 unk_0A;
     s32 unk_0C;
 } S_80172AA8_7;   /* block in func_80172AA8 */
-
-
 
 
 extern s32 func_8003F270(void);
@@ -76,7 +73,9 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, EntityRec 
     switch (((S_80172AA8_0 *)motion_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void *const dispatch_labels[] = {&&player_motion_3, &&player_motion_2, &&player_motion_1, &&no_motion};
+            static void * const dispatch_labels[] = {
+                && player_motion_3, && player_motion_2, && player_motion_1, && no_motion
+            };
             extern void *const D_80170838[];
             u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
 
@@ -85,32 +84,32 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, EntityRec 
             }
             (void)dispatch_labels;
             goto *D_80170838[motion_index];
-        player_motion_3:
+player_motion_3:
             use_player_target = 1;
             goto motion_3;
-        player_motion_2:
+player_motion_2:
             use_player_target = 1;
             goto motion_2;
-        player_motion_1:
+player_motion_1:
             use_player_target = 1;
             goto motion_1;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
         case 3:
-        motion_3:
+motion_3:
             motion = (u8 *)actor + 0xE;
             break;
         case 2:
-        motion_2:
+motion_2:
             motion = (u8 *)actor + 0xB;
             break;
         case 1:
-        motion_1:
+motion_1:
             motion = (u8 *)actor + 8;
             break;
         default:
-        no_motion:
+no_motion:
             motion = (u8 *)0;
             break;
         }
@@ -131,7 +130,7 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, EntityRec 
                 if (target == 0) {
                     goto advance_motion;
                 }
-            copy_target_position:
+copy_target_position:
                 action_state = ((S_80172AA8_2_pre *)target)[-1].unk_00;
                 actor->unk_72 = ((S_80172AA8_3 *)action_state)->unk_24;
                 actor->unk_73 = ((S_80172AA8_3 *)action_state)->unk_25;
@@ -142,7 +141,7 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, EntityRec 
                               actor->facing, 0x10);
             actor->unk_72 = abs(actor->unk_72);
             actor->unk_73 = abs(actor->unk_73);
-        advance_motion:
+advance_motion:
             saved_position[0] = ((u16)((EntityRec *)transform)->x.w.i);
             saved_position[1] = ((u16)((EntityRec *)transform)->y.w.i);
             saved_position[2] = ((u16)((EntityRec *)transform)->z.w.i);
@@ -178,7 +177,7 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, EntityRec 
         }
         ((S_80172AA8_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AA8_0 *)motion_state)->unk_9B = ((S_80172AA8_0 *)motion_state)->unk_9B + 1;
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if ((((S_80172AA8_4 *)sprite)->unk_04 == 5 && (((S_80172AA8_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172AA8_4 *)sprite)->unk_14 & 0xE000)) {

@@ -46,7 +46,6 @@ typedef struct S_8187B9E8_4 {
 } S_8187B9E8_4;   /* q in func_8187B9E8 */
 
 
-
 typedef union {
     u16 value;
     s32 word;

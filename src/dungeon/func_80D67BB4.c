@@ -32,9 +32,6 @@ typedef struct S_801733B4_1 {
 } S_801733B4_1;   /* arg3 in func_801733B4 */
 
 
-
-
-
 extern void func_80047784(void *, s32, s32);
 extern s32 func_800644B8(s32);
 extern s16 func_800A0818(s32, s32, s32, s32, void *);
@@ -74,7 +71,7 @@ void func_801733B4(void *motion, void *position, void *sprite, void *actor)
         ((S_801733B4_0 *)motion)->unk_AA.s = 5;
         ((S_801733B4_0 *)motion)->unk_A4 = 0;
         ((S_801733B4_0 *)motion)->unk_9B++;
-        /* fallthrough */
+                /* fallthrough */
     case 1:
         ((S_801733B4_0 *)motion)->unk_90.at00.v -= ((S_801733B4_0 *)motion)->unk_A4;
         if (((S_801733B4_0 *)motion)->unk_AA.u != 0) {
@@ -98,7 +95,7 @@ void func_801733B4(void *motion, void *position, void *sprite, void *actor)
             ((S_801733B4_1 *)actor)->unk_1C.s |= 0x08000000;
             ((S_801733B4_0 *)motion)->unk_9B++;
         }
-        /* fallthrough */
+                /* fallthrough */
     case 2:
         if (((S_801733B4_1 *)actor)->unk_1C.s & 0x08000000) {
             ((S_801733B4_0 *)motion)->unk_98 &= 0xFFF7;

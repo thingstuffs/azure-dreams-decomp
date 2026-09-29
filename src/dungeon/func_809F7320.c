@@ -182,152 +182,156 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     phase = ((Rec_func_80174800_arg0 *)state)->unk_9B;
     switch (phase) {
     case 0:
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    return;
-    case 1:
-    func_80041588(&D_801751F8, &D_8017521C, 0);
-    ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
-    ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
-    case 2:
-    direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-    if ((*(u8 *)&D_8017521C) != 0) {
-        if (direction == 2) {
-            goto start_effect;
-        }
-    }
-    if (direction == 2) {
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         return;
-    }
-    ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
-    return;
-start_effect:
-    func_80041588(&D_801751F8, &D_8017521C, 1);
-    func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
-    Control_CD(0x15, func_800445E0(), NULL);
-    (*(s8 *)&D_8017521D) = 0;
-    Control_CD(0xFF, &D_8003E140, &D_8017521D);
-    func_800C77D0(actor - 0x20, position, 8, 0x300);
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    case 3:
-    previous_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96;
-    fade_ticks = previous_ticks - 1;
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = fade_ticks;
-    if ((fade_ticks << 0x10) <= 0) {
-        effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
-        ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
-        if (effect_ready == 0) {
+    case 1:
+        func_80041588(&D_801751F8, &D_8017521C, 0);
+        ((Rec_func_80174800_arg0 *)state)->unk_B0 = 0;
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+        ((S_80174B20_1 *)actor)->unk_8A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+        ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
+    case 2:
+        direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
+        if ((*(u8 *)&D_8017521C) != 0) {
+            if (direction == 2) {
+                goto start_effect;
+            }
+        }
+        if (direction == 2) {
             return;
         }
+        ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
+        return;
+start_effect:
+        func_80041588(&D_801751F8, &D_8017521C, 1);
+        func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
+        Control_CD(0x15, func_800445E0(), NULL);
+        (*(s8 *)&D_8017521D) = 0;
+        Control_CD(0xFF, &D_8003E140, &D_8017521D);
+        func_800C77D0(actor - 0x20, position, 8, 0x300);
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
         ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-        func_800A56E0(0x300);
+    case 3:
+        previous_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96;
+        fade_ticks = previous_ticks - 1;
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = fade_ticks;
+        if ((fade_ticks << 0x10) <= 0) {
+            effect_ready = ((S_80174B20_2 *)(&D_8017521D))->unk_00;
+            ((Rec_func_80174800_arg0 *)state)->unk_96 = previous_ticks;
+            if (effect_ready == 0) {
+                return;
+            }
+            ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+            func_800A56E0(0x300);
+            return;
+        }
+        color_index = func_800498A0(actor);
+        target_color = D_800DCEEC[color_index];
+        scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00
+            - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+        scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01
+            - scene_color->view.unk_091) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
+        scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02
+            - scene_color->view.unk_092) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
         return;
-    }
-    color_index = func_800498A0(actor);
-    target_color = D_800DCEEC[color_index];
-    scene_color->view.unk_090 = (u8) (scene_color->view.unk_090 + ((s32) (target_color->unk_00 - scene_color->view.unk_090) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-    scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01 - scene_color->view.unk_091) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-    scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02 - scene_color->view.unk_092) / (s16) ((Rec_func_80174800_arg0 *)state)->unk_96));
-    return;
     case 4:
-    effect = func_8003FC64(0x12);
-    if (effect == NULL) {
-        return;
-    }
-    effect->unk_10 = &D_801749F4;
-    func_8004491C(effect, &D_80174574);
-    tint = 0x808080;
-    ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
-    ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
-    effect_position = effect->unk_08;
-    position_z = position->z.v;
-    D_80175218 = -4;
-    effect_position->unk_08 = position_z;
-    sprite = effect->unk_0C;
-    sprite->unk_1E = 0x1000;
-    sprite->unk_1C = 0x1000;
-    sprite->unk_0C.s = tint;
-    style_index = func_800498A0(actor) - 1;
-    style = style_index;
-    call_arg = sprite;
-    if ((style_index << 0x10) < 0) {
-        random_value = func_80069EF8(call_arg);
-        style = random_value % 3;
+        effect = func_8003FC64(0x12);
+        if (effect == NULL) {
+            return;
+        }
+        effect->unk_10 = &D_801749F4;
+        func_8004491C(effect, &D_80174574);
+        tint = 0x808080;
+        ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
+        ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->x.v;
+        ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->y.v;
+        effect_position = effect->unk_08;
+        position_z = position->z.v;
+        D_80175218 = -4;
+        effect_position->unk_08 = position_z;
+        sprite = effect->unk_0C;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0C.s = tint;
+        style_index = func_800498A0(actor) - 1;
+        style = style_index;
+        call_arg = sprite;
+        if ((style_index << 0x10) < 0) {
+            random_value = func_80069EF8(call_arg);
+            style = random_value % 3;
+            do {
+                call_arg = sprite;
+            } while (0);
+        }
+        func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+        entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
+        ray_index = 1;
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
         do {
-            call_arg = sprite;
-        } while (0);
-    }
-    func_8003DB94(call_arg, &D_8014A000[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
-    entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
-    ray_index = 1;
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0U;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    do {
-        func_80174800(state, position, entity, (s16) (ray_index << 0xA));
-        next_ray = ray_index + 1;
-        ray_index = next_ray;
-    } while (next_ray < 8);
-    return;
+            func_80174800(state, position, entity, (s16) (ray_index << 0xA));
+            next_ray = ray_index + 1;
+            ray_index = next_ray;
+        } while (next_ray < 8);
+        return;
     case 5:
-    sprite = ((Rec_func_80174800_arg0 *)state)->unk_AC;
-    sprite = sprite->unk_0C.u;
-    if (!(sprite->unk_14 & 0xE000)) {
-        goto check_motion;
-    }
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
-    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-    func_8009A028(actor);
-    sprite = actor - 0x20;
-    sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
+        sprite = ((Rec_func_80174800_arg0 *)state)->unk_AC;
+        sprite = sprite->unk_0C.u;
+        if (!(sprite->unk_14 & 0xE000)) {
+            goto check_motion;
+        }
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+        func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
+        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+        func_8009A028(actor);
+        sprite = actor - 0x20;
+        sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
     case 6:
 check_motion:
-    if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
+        if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
+            return;
+        }
+        if (func_800ADC4C(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
+            return;
+        }
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+        func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
+        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+        func_8009A028(actor);
+        sprite = actor - 0x20;
+        sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         return;
-    }
-    if (func_800ADC4C(position, D_80175220, D_80175218, &D_800DCF5C) == 0) {
-        return;
-    }
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
-    func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-    func_8009A028(actor);
-    sprite = actor - 0x20;
-    sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
-    return;
     case 7:
-    new_actor = func_800A504C(entity, actor);
-    ((S_80174B20_1 *)actor)->unk_60 = new_actor;
-    if (new_actor == NULL) {
-        return;
-    }
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
-    ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-    ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
-    replacement = ((S_80174B20_1 *)actor)->unk_60;
-    sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
-    func_80047738(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
+        new_actor = func_800A504C(entity, actor);
+        ((S_80174B20_1 *)actor)->unk_60 = new_actor;
+        if (new_actor == NULL) {
+            return;
+        }
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+        ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_2A;
+        replacement = ((S_80174B20_1 *)actor)->unk_60;
+        sprite = ((S_80174B20_11_pre *)replacement)[-1].unk_00;
+        func_80047738(sprite, sprite->unk_2C[((s32) (gameWork.view.viewAngle
+            + (s16) ((S_80174B20_11 *)replacement)->unk_2A + 0x100) >> 9) & 7], sprite->unk_04);
+        sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
     case 8:
-    finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;
-    ((Rec_func_80174800_arg0 *)state)->unk_96 = finish_ticks;
-    if ((finish_ticks << 0x10) > 0) {
+        finish_ticks = ((Rec_func_80174800_arg0 *)state)->unk_96 - 1;
+        ((Rec_func_80174800_arg0 *)state)->unk_96 = finish_ticks;
+        if ((finish_ticks << 0x10) > 0) {
+            return;
+        }
+        globals_base = (void *)0x80080000;
+        ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
+        ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
+        global_flags = globals_base->unk_14A0;
+        active_count = ((u16)dungeonStatus.unk_0A);
+        globals_base->unk_14A0 = global_flags | 0x8000;
+        dungeonStatus.unk_0A = active_count - 1;
+        ((S_80174B20_1 *)actor)->unk_6D = 0;
         return;
-    }
-    globals_base = (void *)0x80080000;
-    ((S_80174B20_16 *)(((S_80174B20_14 *)actor)->unk_60))->unk_2A = (u16) ((S_80174B20_1 *)actor)->unk_8A;
-    ((S_80174B20_0_pre *)state)[-1].unk_00 = (u16) (((S_80174B20_0_pre *)state)[-1].unk_00 | 0x8000);
-    global_flags = globals_base->unk_14A0;
-    active_count = ((u16)dungeonStatus.unk_0A);
-    globals_base->unk_14A0 = global_flags | 0x8000;
-    dungeonStatus.unk_0A = active_count - 1;
-    ((S_80174B20_1 *)actor)->unk_6D = 0;
-    return;
     default:
         return;
     }

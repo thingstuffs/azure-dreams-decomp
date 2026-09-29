@@ -14,9 +14,6 @@ typedef struct S_801730E0_0 {
 } S_801730E0_0;   /* arg0 in func_801730E0 */
 
 
-
-
-
 extern u8 D_8017102C[];
 extern M2C_UNK D_801752E4;
 extern void func_800A2B04(void *, u8, u8);
