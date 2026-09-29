@@ -21,9 +21,7 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
         }
         delta = 0x3F - level;
         doubled_scale = scales->unk21;
-        do {
-            doubled_scale *= 2;
-        } while (0);
+        doubled_scale <<= 1;
         scaled_delta = doubled_scale * delta;
         result = -scaled_delta;
         result = (s16)result;
