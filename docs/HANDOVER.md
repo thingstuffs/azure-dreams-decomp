@@ -1,3 +1,33 @@
+# Handover (2026-09-29 evening, round 80 continued: Opus harvest lanes, goto-lane scale-out, batch lander) - start here
+
+**State:** ~2,200 pins in ~650 rows (from 2,493 / 696 at this session's pickup, 2,762 / 735 at round start); plain gotos
+down by several thousand (Sonnet dense/big/pinned goto lanes gd1-18, gb1-11, gp1-15 + t124 tree pass). Landing is BATCHED:
+append `tag|lane|KIND|WHAT` to the scratchpad land_queue.txt; land_queue2.sh lands every queued lane in ONE gated run
+through tools/lanes/switch_land_lanes.sh (generic now: several lanes, KIND/WHAT commit text, SLUS NO MATCH attribution).
+If the session ended mid-queue: re-run `bash tools/lanes/switch_land_lanes.sh <tag> <lane>...` for lanes with out/ and no
+commit (check `git log --oneline | grep <lane>`).
+
+**What paid, per lane (Claude Agent lanes):** Opus with the round-80 harvest in the prompt (tools/lanes/brief_paragraphs/
+r80_harvest.md + tools/learnings/pin_removal_possibilities.md round-80 sections): fresh 4+-pin rows 5-109 pins/lane (clone
+families best: xxx084 109 pins), big re-served rows 0-28 (o1 29->1 with a -fno-strength-reduce byte-neutral recipe switch);
+1-3-pin plateau rows 3-6/lane (poor). Sonnet: dense goto rows ~30/lane, big pin-free goto rows 25-57/lane, PINNED goto rows
+at equal pins 30-217/lane - best readability lever; Sonnet on 1-pin rows 2 pins/lane (poor). Codex: astra 2-3 pins per
+2-row big-row lane (extra capacity, codex quota separate); sol 0-2 on 1-pin rows (capped); Gemini 0-1.
+
+**Rulings applied this block (coordinator; owner may review):** rejected label-into-block / label-moved-deeper candidates
+(gb11 w_80048734, gp7 808110CC), a contrived ternary spelling (gp15 813360FC), a case range the retail tree proves but does
+not identify (gb1 w_8003E4FC, held); accepted one 8-line duplicated tail (gp1 8133336C, 76 gotos), write-back stores
+(p3, post-reload CSE evidence), goto-loop spelling trades for pins (o3), recipe trades with rule 2 (o1, c7).
+
+**Open items:**
+- town/func_8087FEF0: 1 pin via literal 0/0xC9 + --aspsx-version=2.40 as-flag (t45 island; neighbours carry it; t45 skipped the row because of its NON_MATCHING arm) - candidate work/native_lane/r80_opus_q5/c/fe/v1.c, score through the real scorer
+- RESOLVED (r80_opus_lafill): the o2 "maspsx delay-slot gap" claim is FALSE - genuine ASPSX 2.56-2.86 leaves the nop; retail's filled slot is cc1 splitting a NON-small-data symbol (807B0B3C declares D_80083160 as a 4-byte extern = small data at -G8). Row lead: `extern u8 *D_80083160[]` (cand/v_arr.c) + reload pressure for the $9 rebuild.
+- HELD (owner call): slus/w_8003E4FC 29 -> 0 gotos needs a case range the retail tree proves exists but not WHICH values (any consecutive pair in 15..20 scores exact) - candidate work/native_lane/r80_sonnet_gb1/hold/slus/w_8003E4FC.c. Rejected as steering under the current brief. Also: lab.py/diff.py/why.py cannot score slus rows (PartitionError: plural compilation) - kit gap.
+- clone replay (pins + gotos over all r80 lanes) found 0 more siblings - families were covered by the lanes.
+- DONE: t124_skipgoto generator (79be74666) from gp1's rw.py; tree pass staged 239 rows (r80_t124_sweep) - rerun `sweep.py t124_skipgoto` after the queued lanes land (rows held in r80_t124_sweep/held/ were owned by lanes). Also: 8133336C carries one 8-line duplicated tail (over the ~6-line ceiling; accepted for 76 gotos gone) - owner may review.
+- after o8 lands: func_800654B0 prototype - o8 declares 10 plain s16* args in func_800B6D74.c; other TUs may declare struct args (GeomTailArgs) - align in a type-consolidation pass
+- CLEANUP: indentation of goto-lane rewrites is untidy in places (gp9 81912154/818FF710, gb4 80FB402C/80BC1BA8, crammed files 800AFA68/800BF6A0/800CA184/812A524C): a whitespace-only reformat pass (verify byte-exact per row) is worth a Sonnet lane
+
 # Handover (2026-09-29 later, round 80 continued: switch phase 2, SLUS rodata ownership, Opus family wins) - start here
 
 **Landing queue at writing (sequential, each gated; check `git log` and each lane's switch_land.out):** switch lanes
