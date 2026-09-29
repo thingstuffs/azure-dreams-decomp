@@ -21,8 +21,6 @@ extern void func_8017145C(void *, s32);
 extern u8 D_800E2348[];
 extern u8 D_800E2388[8];
 extern u8 D_800E2398[8];
-extern void *D_80170850[];
-extern u8 D_80170870[20];
 extern s32 D_80171F1C;
 
 
@@ -61,14 +59,6 @@ typedef struct S_80173B08_5 {
 /* Updates the actor's item-use state, animation, and effects. */
 void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
 {
-    static void *const state_labels[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3,
-        &&state_4, &&state_5, &&state_6, &&state_7
-    };
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
-        &&kind_7, &&kind_6, &&kind_5
-    };
     u8 *item_slot;
     register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 anim_addr;
@@ -79,32 +69,32 @@ void func_80173B08(void *action, EntityRec *motion, void *sprite, void *actor)
 
     mode_or_angle = 0;
     state = ((S_80173B08_0 *)action)->unk_9B;
-    if ((u32)state >= 8) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170850[state];
-
-state_0:
+    switch (state) {
+    case 0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
         u32 kind_index;
 
         kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        if (kind_index >= 7) {
+        switch (kind_index) {
+        case 6:
+            mode_or_angle = 1;
+            goto kind_3;
+        case 5:
+            mode_or_angle = 1;
+            goto kind_2;
+        case 4:
+            mode_or_angle = 1;
+            goto kind_1;
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        case 3:
+        default:
             goto kind_default;
         }
-        (void)kind_labels;
-        goto *(((void **)D_80170870)[kind_index]);
-
-kind_5:
-        mode_or_angle = 1;
-        goto kind_3;
-kind_6:
-        mode_or_angle = 1;
-        goto kind_2;
-kind_7:
-        mode_or_angle = 1;
-        goto kind_1;
     }
 
     {
@@ -215,7 +205,7 @@ empty_selection:
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
     return;
 
-state_1:
+    case 1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
         return;
@@ -224,7 +214,7 @@ state_1:
     ((S_80173B08_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
 
-state_2:
+    case 2:
     ((S_80173B08_0 *)action)->unk_9B++;
     ((S_80173B08_0 *)action)->unk_98 &= 0xFFF7;
     (*(u32 *)((u8 *)actor + 0x1C)) &= 0xFFFBFFFF;
@@ -234,7 +224,7 @@ state_2:
     ((Rec_D_80082E80 *)sprite)->unk_10.as_s16 = 0x20;
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0xC;
 
-state_3:
+    case 3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80173B08_0 *)action)->unk_9B = 7;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
@@ -260,7 +250,7 @@ state_3:
     anim_addr = 0x80080000;
     goto update_table;
 
-state_4:
+    case 4:
     {
         s16 timer;
 
@@ -282,7 +272,7 @@ state_4:
     } while ((s16)effect_count < 3);
     return;
 
-state_5:
+    case 5:
     if (((s32)dungeonStatus.unk_0C) == 0) {
         ((S_80173B08_0 *)action)->unk_96.u = 0;
     }
@@ -352,14 +342,14 @@ update_table:
     }
     return;
 
-state_6:
+    case 6:
     if (((S_80173B08_0 *)action)->unk_92.s >= -0x1F) {
         ((S_80173B08_0 *)action)->unk_92.u -= 4;
         return;
     }
     ((S_80173B08_0 *)action)->unk_9B++;
 
-state_7:
+    case 7:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -395,4 +385,5 @@ state_7:
     func_800A56E0(0xB4);
 
     return;
+    }
 }

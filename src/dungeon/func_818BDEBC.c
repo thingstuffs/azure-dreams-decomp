@@ -59,7 +59,6 @@ typedef struct ColorPart {
 #define S32_AT(p, n) (*(s32 *)((u8 *)(p) + (n)))
 #define PTR_AT(p, n) (*(void **)((u8 *)(p) + (n)))
 
-extern void *D_80024008[];
 extern u8 D_800DDC40[256];
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
@@ -111,23 +110,14 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     s32 offset_y;
     s32 end_tile_x;
     u16 end_tile_y;
-    static void *const state_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_3,
-        &&case_4, &&case_5, &&case_6
-    };
-
     timer_value = state->timer;
     state_index = state->state;
     timer_value++;
     owner = state->owner;
     state->timer = timer_value;
 
-    if ((u32)state_index >= 7) {
-        goto case_6;
-    }
-    goto *D_80024008[state_index];
-
-case_0:
+    switch (state_index) {
+    case 0:
     color = 0x00808080;
     state->timer = 0;
     state->state++;
@@ -139,7 +129,7 @@ case_0:
     owner_node = PTR_AT(owner_meta, 0xC);
     if (!func_8003DE58(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
         if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
-            goto case_6;
+            break;
         }
     }
 
@@ -158,7 +148,7 @@ case_0:
         S16_AT(motion, 0xA) = source_z - 0x40;
     }
     if (!(U16_AT(state->image, 0) & 0x80)) {
-        goto case_6;
+        break;
     }
 
     index = 1;
@@ -320,45 +310,45 @@ case_0:
     next_state = 6;
     goto set_state;
 
-case_1:
+    case 1:
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
     if (state->timer < state->duration) {
-        goto case_6;
+        break;
     }
     func_800A56E0(0x300);
     state->state++;
     state->timer = 0;
-    goto case_6;
+    break;
 
-case_2:
+    case 2:
     if (state->timer < 0x10) {
-        goto case_6;
+        break;
     }
     state->state++;
     state->timer = 0;
-    goto case_6;
+    break;
 
-case_3:
+    case 3:
     if (state->timer < 0x30) {
-        goto case_6;
+        break;
     }
     func_80024024(PTR_AT(owner, 0x60), state->id, owner);
     state->state++;
     state->timer = 0;
-    goto case_6;
+    break;
 
-case_4:
+    case 4:
     if (state->done != 0) {
-        goto case_6;
+        break;
     }
     dungeonStatus.unk_0C = 0;
     U16_AT(state, -2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto case_6;
+    break;
 
-case_5:
+    case 5:
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
@@ -366,11 +356,15 @@ case_5:
         next_state = 5;
         goto set_state;
     }
-    goto case_6;
+    break;
 
 set_state:
     state->state = next_state;
     state->timer = 0;
-case_6:
+    break;
+    case 6:
+    default:
+        break;
+    }
     state->done = 0;
 }

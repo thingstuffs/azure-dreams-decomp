@@ -146,7 +146,6 @@ extern PointTable D_80024054[];
 extern Blob12 D_80026180[];
 extern Blob12 D_8002618C[];
 extern Blob24 D_80026198[];
-extern void *D_80024078[];
 
 extern Task *func_8003FC64(s32);
 extern s32 func_8003DF74(void *, void *, void *, s32);
@@ -193,18 +192,11 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     entity->age++;
 
     {
-        static void *const switch_keepalive[] = {
-            &&case_0, &&case_1, &&case_2, &&switch_end, &&case_4
-        };
         s32 dispatch_state;
         s32 interp_work;
         dispatch_state = entity->state;
-        if ((u32)dispatch_state >= 5) {
-            goto switch_end;
-        }
-        goto *D_80024078[dispatch_state];
-
-    case_0: {
+        switch (dispatch_state) {
+    case 0: {
         EntityRec *start_world;
         World *hit_world;
         start_world = D_800814A8;
@@ -234,17 +226,17 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
             entity->state = next_state + 1;
             entity->age = 0;
             entity->point_index = (angle >> 9) & 7;
-            goto switch_end;
+            break;
         }
-        goto switch_end;
+        break;
     }
 
-    case_1:
+    case 1:
         entity->timer--;
         if (entity->timer <= 0) {
             entity->timer = 16;
             entity->state++;
-            goto switch_end;
+            break;
         }
 
         if (entity->timer == 18) {
@@ -723,12 +715,12 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                 *(Blob12 *)(task->data + 12) = *(Blob12 *)(copy_page + 12);
                 interp_work = (s32)(task->data);
                 sprite->data = (u8 *)interp_work;
-                goto switch_end;
+                break;
             }
         }
-        goto switch_end;
+        break;
 
-    case_2:
+    case 2:
         if ((D_80082E94[0] & 0x8000) == 0) {
             entity->timer--;
             if (entity->timer >= 0) {
@@ -738,7 +730,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
         entity->state = 4;
         /* fallthrough */
 
-    case_4:
+    case 4:
 cleanup:
         if (D_800261B0[0] == 0) {
             ((ControlGlobal *)&dungeonStatus)[0].active = 0;
@@ -746,12 +738,14 @@ cleanup:
             ((ControlGlobal *)&dungeonStatus)[0].count--;
             *((u16 *)entity - 1) |= 0x8000;
             D_800814A0[0].flags |= 0x8000;
-            goto switch_end;
+            break;
         }
         D_800261B0[0] = 0;
-        goto switch_end;
+        break;
 
-    switch_end:
-        (void)switch_keepalive;
+    case 3:
+    default:
+        break;
+        }
     }
 }
