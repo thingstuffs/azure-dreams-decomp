@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void *D_80164900[];
 
 extern s32 rand(void);
 extern void func_800A56E0(s32);
@@ -19,22 +18,14 @@ void func_80169754(void *effect_data)
     s32 particle_index;
     s32 state;
 
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c34, &&jt_c34
-    };
-    (void)state_labels;
 
     state = *(s16 *)(effect + 0x12);
-    if ((u32)state >= 5) {
-        return;
-    }
-    goto *D_80164900[(u32)state];
-
-jt_c0:
+    switch (state) {
+    case 0:
         *(u16 *)(effect + 0x12) += 1;
         *(s32 *)(effect + 0x64) = (s32)0xFFE80000;
 
-jt_c1:
+    case 1:
     {
         u16 frame;
         s32 next_frame;
@@ -89,7 +80,7 @@ jt_c1:
         within_duration = (s16)frame < 0x14;
         goto increment_common;
 
-jt_c2:
+    case 2:
         for (particle_index = 0; particle_index < 2; particle_index++) {
             s32 jitter_x;
             s32 jitter_y;
@@ -144,7 +135,8 @@ increment_common:
         return;
     }
 
-jt_c34:
+    case 3:
+    case 4:
     {
         u16 frame;
         s32 next_frame;
@@ -153,9 +145,6 @@ jt_c34:
         frame = *(u16 *)(effect + 0x18);
         next_frame = frame + 1;
         within_duration = (s16)frame < 0xA;
-        goto increment_short;
-
-increment_short:
         *(u16 *)(effect + 0x18) = next_frame;
         if (!within_duration) {
             *(u16 *)(effect - 2) |= 0x8000;
@@ -164,4 +153,7 @@ increment_short:
     }
 
         return;
+    default:
+        return;
+    }
 }

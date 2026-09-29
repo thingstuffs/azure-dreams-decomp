@@ -3,7 +3,6 @@
 
 
 extern s16 D_801760D8;
-extern void *D_80164808[];
 extern s16 func_800BCB04(u16, u16, s16);
 
 
@@ -44,21 +43,14 @@ typedef struct S_80165AB8_2 {
 /* Updates object motion, landing, and fading before marking it finished. */
 void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
 {
-    static void *const keep_cases[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
-    };
     s32 height;
     u32 state;
     s32 counter_check;
     s32 next_tick;
 
     state = ((S_80165AB8_0 *)object)->unk_17;
-    if (state >= 5) {
-        return;
-    }
-    goto *D_80164808[state];
-
-case_0:
+    switch (state) {
+    case 0:
         ((S_80165AB8_1 *)motion)->unk_00.at00.v += ((S_80165AB8_1 *)motion)->unk_0C;
         ((S_80165AB8_1 *)motion)->unk_04.at00.v += ((S_80165AB8_1 *)motion)->unk_10;
         ((S_80165AB8_1 *)motion)->unk_08.at00.v += ((S_80165AB8_1 *)motion)->unk_14;
@@ -82,7 +74,7 @@ case_0:
         counter_check = (s16)counter_check < 60;
         goto check_counter;
 
-case_1: {
+    case 1: {
         s32 source_size = ((S_80165AB8_2 *)sprite)->unk_1E;
         next_tick = source_size << 1;
         next_tick += source_size;
@@ -91,13 +83,13 @@ case_1: {
         goto advance_state;
     }
 
-case_2:
+    case 2:
         if (D_801760D8 == 0) {
             return;
         }
         goto advance_state;
 
-case_3:
+    case 3:
         if ((s16)((S_80165AB8_0 *)object)->unk_32.u++ < 20) {
             return;
         }
@@ -109,7 +101,7 @@ advance_state:
         ((S_80165AB8_0 *)object)->unk_17++;
         return;
 
-case_4:
+    case 4:
         ((S_80165AB8_2 *)sprite)->unk_0C =
             ((10 - ((S_80165AB8_0 *)object)->unk_32.s) * 255) / 10;
         ((S_80165AB8_2 *)sprite)->unk_0D = ((S_80165AB8_2 *)sprite)->unk_0E =
@@ -128,4 +120,7 @@ finish:
     objectFlagBlock.flags |= 0x8000;
 
     return;
+    default:
+        return;
+    }
 }
