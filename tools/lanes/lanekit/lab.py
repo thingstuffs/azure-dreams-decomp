@@ -478,7 +478,7 @@ def main():
     ap.add_argument("rest", nargs="*", help="variant .c files (after 'baseline': row ids; after 'cellscore' / "
                                             "'stage-cell': row cand.c)")
     ap.add_argument("--base", help="--subs/--grid start from this file instead of the pin-erased text")
-    ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base")
+    ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base; each pair replaces the FIRST occurrence, [old,new,\"all\"] every occurrence")
     ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
     ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
     ap.add_argument("--no-rule2", action="store_true", help="cellscore: skip scoring the pinned text at --cfg")
