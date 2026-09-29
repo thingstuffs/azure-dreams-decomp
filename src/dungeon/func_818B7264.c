@@ -60,6 +60,7 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     s32 jittered_inner;
     s32 raised_z;
     s32 jitter_limit;
+    s32 scaled;
 
     scratch = (u8 *)0x1F800000;
     if (effect->unk_06 < 8) {
@@ -146,9 +147,15 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     {
         s32 random_raw = func_80069EF8();
         s32 div5_magic = 0x66666667;
-        ASM_USE_NV(div5_magic);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        union {
+            long long full;
+            struct { s32 hi; u32 lo; } half;
+        } wide_product;
+        s32 quotient;
         radial_offset = random_raw;
-        radial_offset = radial_offset - (radial_offset / 5) * 5;
+        wide_product.full = (long long)radial_offset * div5_magic;
+        quotient = (wide_product.half.hi >> 1) - (radial_offset >> 31);
+        radial_offset = radial_offset - quotient * 5;
     }
     {
         s32 wave_x;
@@ -208,16 +215,15 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
                 radial_offset = radial_offset - quotient * 5;
             }
             {
-                s32 wave_x = func_800644B8(effect->unk_0E + (segment * 512));
-                s32 scaled_x = wave_x >> 4;
-                ASM_KEEP_DEP_NV(radial_offset, scaled_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                scaled = func_800644B8(effect->unk_0E + (segment * 512)) >> 4;
                 radial_offset = (s16)radial_offset;
                 radial_offset = (s16)outer_radius + radial_offset;
                 ((S_80024A64_2 *)scratch)->unk_30 = center->unk_00 +
-                    ((scaled_x * radial_offset) << 8);
+                    ((scaled * radial_offset) << 8);
             }
+            scaled = func_80064584(effect->unk_0E + (segment * 512)) >> 4;
             ((S_80024A64_2 *)scratch)->unk_34 = center->unk_04 +
-                (((func_80064584(effect->unk_0E + (segment * 512)) >> 4) * radial_offset) << 8);
+                ((scaled * radial_offset) << 8);
             ((S_80024A64_2 *)scratch)->unk_60 = center->unk_00 +
                 (((func_800644B8(effect->unk_0E + angle_step) >> 4) * (s16)inner_radius) << 8);
             ((S_80024A64_2 *)scratch)->unk_64 = center->unk_04 +
