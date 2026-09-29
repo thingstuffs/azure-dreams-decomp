@@ -38,25 +38,25 @@ void func_8001A678(s32 unused, u32 x, u32 y)
 
     entry_table = ((S_8001A678_0 *)root)->unk_30;
     entry_address = ((S_8001A678_0 *)root)->unk_08.s;
-    do {
+    {
         entry_address <<= 5;
-    } while (0);
-    do {
+    }
+    {
         entry_table = entry_table->unk_00;
-    } while (0);
+    }
     entry_address += (u32)entry_table;
     position = ((S_8001A678_0 *)root)->unk_1C;
-    do {
+    {
         x <<= 6;
-    } while (0);
+    }
     x_offset = ((S_8001A678_2 *)((void *)entry_address))->unk_0C;
     x_offset += 0x20;
     x += x_offset;
     position->unk_04 = x;
     root = ((S_8001A678_0 *)root)->unk_1C;
-    do {
+    {
         y <<= 6;
-    } while (0);
+    }
     y_offset = ((S_8001A678_2 *)((void *)entry_address))->unk_0E;
     y_offset += 0x20;
     y += y_offset;
