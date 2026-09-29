@@ -29,7 +29,6 @@ extern void func_80172AAC(void *, void *, void *, void *);
 extern s32 func_80172B8C(void *, void *, void *, void *);
 extern void func_801743F0(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern s32 D_801719DC;
 extern u8 D_80174634[];
 extern u8 D_80174644[];
@@ -87,11 +86,6 @@ typedef struct S_801719DC_2 {
 /* Update actor animation, facing, and action dispatch from dungeon state. */
 void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *actor_in)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 direction_aux;
     s8 room_id;
     u16 action_state;
@@ -226,26 +220,19 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
         }
 
         action_state = ((S_801719DC_1 *)actor_in)->unk_46 & 0x3FFF;
-        {
-            u32 idx = action_state - 1;
-            if (idx >= 12) {
-            goto generic;
-        }
-            (void)action_labels;
-            goto *D_80170808[idx];
-        }
+        switch (action_state - 1) {
 
-jt_c8:
-jt_c9:
+    case 7:
+    case 8:
         if ((func_80172920(motion_in, context_in, entity_in, actor_in) << 16) != 0) {
             return;
         }
         func_80172AAC(motion_in, context_in, entity_in, actor_in);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+    case 4:
+    case 5:
+    case 6:
         {
             EntityRec *player;
             s16 heading;
@@ -261,24 +248,26 @@ jt_c7:
             }
         }
 
-jt_c12:
+    case 11:
 case_12:
         func_800A9A0C(actor_in);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+    case 0:
+    case 1:
+    case 2:
 case_123:
         func_800AAF00(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+    case 3:
+    case 9:
+    case 10:
+    default:
 generic:
         func_801721D8(motion_in, context_in, entity_in, actor_in);
         return;
+        }
     }
 
     if (!(((S_801719DC_1 *)actor_in)->unk_1C & 0x2000)) {

@@ -87,7 +87,6 @@ extern s32 D_8003E140[];
 struct S_8003E2D8; typedef struct S_8003E2D8 S_8003E2D8;
 extern u8 D_8014A000[];
 extern s16 D_80174F48[];
-extern void *D_80170870[];
 M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
 void *func_8003FC64();
@@ -117,7 +116,6 @@ extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
 void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     M2C_UNK *target_color;
     s16 direction;
     s32 effect_choice;
@@ -136,20 +134,16 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
 
     object = ((struct S_8003E2D8 *)&gameWork);
     state = ((S_801749A8_0 *)sequence)->unk_9B;
-    ready = state < 9U;
-    if (ready == 0) {
-        return;
-    }
-    (void)state_labels; goto *D_80170870[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     ((S_801749A8_0 *)sequence)->unk_9B = (u8)(((S_801749A8_0 *)sequence)->unk_9B + 1);
     return;
-jt_c1:
+    case 1:
     func_80041588(&D_80174FAC, &D_80174FCC, 0);
     ((S_801749A8_0 *)sequence)->unk_A8 = 0;
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     ((Rec_D_80082E80 *)target)->unk_8A = (u16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v;
-jt_c2:
+    case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)target)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if (D_80174FCC[0] == 0) {
         goto turn_target;
@@ -173,7 +167,7 @@ start_fade:
     func_800C77D0(target - 0x20, position, 8, 0x300);
     ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-jt_c3:
+    case 3:
     fade_timer = ((S_801749A8_0 *)sequence)->unk_96;
     fade_ticks = fade_timer - 1;
     ((S_801749A8_0 *)sequence)->unk_96 = fade_ticks;
@@ -194,7 +188,7 @@ blend_color:
     object->unk_A9 = (u8) (object->unk_A9 + ((s32) (((S_801749A8_3 *)target_color)->unk_01 - object->unk_A9) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
     object->unk_AA = (u8) (object->unk_AA + ((s32) (((S_801749A8_3 *)target_color)->unk_02 - object->unk_AA) / (s16) ((S_801749A8_0 *)sequence)->unk_96));
     return;
-jt_c4:
+    case 4:
     object = func_8003FC64(0x12);
     if (object == 0) {
         return;
@@ -222,14 +216,14 @@ start_effect:
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
     func_801745E0(sequence, position, actor);
     return;
-jt_c5:
+    case 5:
     object = ((S_801749A8_0 *)sequence)->unk_A4;
     object = object->unk_0C.s;
     if (!(object->unk_14 & 0xE000)) {
         goto check_movement;
     }
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
-jt_c6:
+    case 6:
 check_movement:
     if (((S_801749A8_0 *)sequence)->unk_9B != 6) {
         return;
@@ -246,7 +240,7 @@ check_movement:
     object = target - 0x20;
     object->unk_10.u = object->unk_10.u | 0x80000000;
     return;
-jt_c7:
+    case 7:
     model_addr = func_800A504C(actor, target);
     ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
     if (model_addr == 0) {
@@ -259,7 +253,7 @@ jt_c7:
     sprite = ((S_801749A8_6_pre *)model)[-1].unk_00;
     func_80047738(sprite, *(sprite->unk_2C + (((s32) (gameWork.view.viewAngle + (s16) ((S_801749A8_6 *)model)->unk_2A + 0x100) >> 9) & 7)), sprite->unk_04);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFFFE);
-jt_c8:
+    case 8:
     ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
     ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;
     if (ticks_left > 0) {
@@ -271,4 +265,5 @@ jt_c8:
     dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)target)->unk_6D = 0;
     return;
+    }
 }

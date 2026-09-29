@@ -12,7 +12,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80170838[16];
 extern s32 D_801719DC;
 extern u8 D_8017464C[8];
 extern u8 D_80174654[8];
@@ -51,15 +50,11 @@ typedef struct S_80172DB0_3 {
 void func_80172DB0(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
-    static void *const state_labels[] = { &&start, &&windup, &&jump, &&land, &&recenter, &&finish };
 
     state = ((S_80172DB0_0 *)action)->unk_9B;
-    if ((u32)state >= 6) {
-        return;
-    }
-    goto *(((void **)D_80170838)[state]);
+    switch (state) {
 
-start:
+    case 0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172DB0_0 *)action)->unk_9B = 5;
         ((S_80172DB0_0 *)action)->unk_96.u = 0;
@@ -81,7 +76,7 @@ start:
     ((S_80172DB0_0 *)action)->unk_9B++;
     return;
 
-windup:
+    case 1:
     {
         u16 timer = ((S_80172DB0_0 *)action)->unk_96.u;
 
@@ -105,7 +100,7 @@ windup:
         -*(s16 *)(((s8 *)dirStepY) + (((u16)actor->facing >> 8) & 0xE)) << 18;
     return;
 
-jump:
+    case 2:
     ((S_80172DB0_0 *)action)->unk_A4 += ((S_80172DB0_0 *)action)->unk_AC;
     ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
     if (((S_80172DB0_0 *)action)->unk_96.s < 2) {
@@ -127,7 +122,7 @@ jump:
     func_800A56E0(0x804);
     return;
 
-land:
+    case 3:
     ((S_80172DB0_0 *)action)->unk_A4 += ((S_80172DB0_0 *)action)->unk_AC;
     ((S_80172DB0_0 *)action)->unk_AC += ((S_80172DB0_0 *)action)->unk_B0;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
@@ -143,7 +138,7 @@ land:
     ((S_80172DB0_0 *)action)->unk_A4 = 0;
     return;
 
-recenter:
+    case 4:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -170,7 +165,7 @@ recenter:
     }
     return;
 
-finish:
+    case 5:
     {
         s16 timer = ((S_80172DB0_0 *)action)->unk_96.s;
 
@@ -203,4 +198,5 @@ finish:
     ((S_80172DB0_3 *)motion)->unk_02 = (((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20;
     ((S_80172DB0_3 *)motion)->unk_06 = (((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20;
     actor->unk_46 &= 0x7FFF;
+    }
 }

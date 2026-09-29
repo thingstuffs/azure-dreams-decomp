@@ -42,7 +42,6 @@ extern void func_801723A4(void *, void *, void *, void *);
 extern s32 func_801724C4(void *, void *, void *, s32);
 extern void func_80174250(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80174494[];
 extern u8 D_8017449C[];
 extern u8 D_801744A4[];
@@ -53,11 +52,6 @@ extern u8 D_801744FC[];
 /* Update actor animation and dispatch actions based on status and target position. */
 void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
 {
-    static void *const action_labels[] = {
-        &&case_1, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7, &&case_8,
-        &&case_9, &&case_10, &&case_11, &&case_12,
-    };
     s32 distance;
     u32 flags;
     s32 action_index;
@@ -167,23 +161,19 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
         }
 
         action_index = (status->unk_46 & 0x3FFF) - 1;
-        if ((u32)action_index >= 12U) {
-            goto case_default;
-        }
-        (void)action_labels;
-        goto *D_80170808[action_index];
+        switch (action_index) {
 
-case_8:
-case_9:
+    case 7:
+    case 8:
         if ((s16)func_801721E0(actor, context, sprite, status) != 0) {
             return;
         }
         func_801723A4(actor, context, sprite, status);
         return;
 
-case_5:
-case_6:
-case_7:
+    case 4:
+    case 5:
+    case 6:
         {
             s16 target_angle;
             EntityRec *active_actor;
@@ -200,25 +190,28 @@ case_7:
         resume_handler = (void *)func_801713A8;
         goto case_call;
 
+    case 11:
 case_12:
         func_800A9A0C(status);
         return;
 
-case_1:
-case_2:
-case_3:
+    case 0:
+    case 1:
+    case 2:
         resume_handler = (void *)func_801713A8;
 
 case_call:
         func_800AAF00(actor, context, sprite, D_801744D4, resume_handler);
         return;
 
-case_4:
-case_10:
-case_11:
+    case 3:
+    case 9:
+    case 10:
+    default:
 case_default:
         func_80171A98(actor, context, sprite, status);
         return;
+        }
     }
 
     flags = ((u32)status->flags1C);
