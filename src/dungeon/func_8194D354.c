@@ -51,11 +51,6 @@ typedef struct S_80024B54_1 {
     void * unk_14A8;
 } S_80024B54_1;   /* temp_v1_2 in func_80024B54 */
 
-typedef struct S_80024B54_2 {
-    u8 pad_00[0x14A8];
-    void * unk_14A8;
-} S_80024B54_2;   /* case1_page in func_80024B54 */
-
 typedef struct S_80024B54_3 {
     u8 pad_00[0x14A8];
     void * unk_14A8;
@@ -117,7 +112,7 @@ typedef struct S_80024B54_11 {
 typedef struct S_80024B54_12 {
     u8 pad_00[0x88];
     u16 unk_88;
-} S_80024B54_12;   /* ((S_80024B54_3 *)case2_page)->unk_14A8 in func_80024B54 */
+} S_80024B54_12;   /* D_800814A8 in func_80024B54 */
 
 typedef struct S_80024B54_13_pre {
     void * unk_00;
@@ -163,7 +158,6 @@ void func_80024B54(void *effect, void *position) {
     u8 *x_steps;
     M2C_UNK *effect_pool;
     EntityRec *origin;
-    register u8 *actor_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *source_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 phase ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state_or_heading;
@@ -178,7 +172,6 @@ void func_80024B54(void *effect, void *position) {
     u16 ground_height;
     u16 near_height;
     u16 tint_delay;
-    u16 next_state_c0;
     u16 next_state_c1;
     u16 next_state_c2;
     u16 next_state_c3;
@@ -195,33 +188,21 @@ void func_80024B54(void *effect, void *position) {
     ((S_80024B54_0 *)effect)->unk_10 = (u16)(((S_80024B54_0 *)effect)->unk_10 + 1);
     switch ((u32)state_or_heading) {
     case 0:
-    effect_data = (void *)0x800E0000;
-    actor_value = (void *)0x80080000;
-    next_state_c0 = ((S_80024B54_0 *)effect)->unk_0A.u;
-    ASM_KEEP_DEP_NV(actor_value, next_state_c0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    actor_value = ((S_80024B54_1 *)actor_value)->unk_14A8;
-    ASM_KEEP_DEP_NV(effect_data, actor_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    effect_data = (u8 *)effect_data - 0x1A24;
     ((S_80024B54_0 *)effect)->unk_10 = 0U;
-    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c0 + 1);
-    ((S_80024B54_1 *)actor_value)->unk_F4 = 0;
-    func_80024494(((S_80024B54_0 *)effect)->unk_00 - 0x20, ((S_80024B54_0 *)effect)->unk_04, effect_data);
+    ((S_80024B54_0 *)effect)->unk_0A.s++;
+    D_800814A8->unk_F4 = 0;
+    func_80024494(((S_80024B54_0 *)effect)->unk_00 - 0x20, ((S_80024B54_0 *)effect)->unk_04, &D_800DE5DC);
     case 1:
     if (!(*((S_80024B54_0 *)effect)->unk_04 & 0x80)) {
         goto block_46;
     }
-    actor_page = (u8 *)0x80080000;
-    actor_value = ((S_80024B54_2 *)actor_page)->unk_14A8;
     ((S_80024B54_0 *)effect)->unk_18 = 0xAU;
-    ((S_80024B54_1 *)actor_value)->unk_A6 = (u16)(((S_80024B54_1 *)actor_value)->unk_A6 - 1);
-    actor_or_frame = (void *)4;
-    ((S_80024B54_1 *)actor_value)->unk_A8 = (u8)((S_80024B54_0 *)effect)->unk_08;
-    actor_value = ((S_80024B54_2 *)actor_page)->unk_14A8;
-    next_state_c1 = ((S_80024B54_0 *)effect)->unk_0A.u;
-    actor_value = (void *)(s32)((S_80024B54_1 *)actor_value)->unk_2A.u;
-    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c1 + 1);
-    ((S_80024B54_0 *)effect)->unk_0E = (u16)(s32)actor_value;
-    if (func_80053EF0((s32)actor_or_frame, actor_page) == 2) {
+    ((S_80024B54_1 *)D_800814A8)->unk_A6--;
+    ((S_80024B54_1 *)D_800814A8)->unk_A8 = ((S_80024B54_0 *)effect)->unk_08;
+    next_state_c1 = ((S_80024B54_1 *)D_800814A8)->unk_2A.u;
+    ((S_80024B54_0 *)effect)->unk_0A.s++;
+    ((S_80024B54_0 *)effect)->unk_0E = next_state_c1;
+    if (func_80053EF0(4) == 2) {
         goto block_6;
     }
     func_800A56E0(0x300);
