@@ -172,6 +172,7 @@ extern void func_80048A44(void *, s32, s32, s32);
 /* Advance the paired-object sequence, animating both objects and displaying the result. */
 void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *owner_in)
 {
+    s32 message_id;
     void *sequence = sequence_in;
     void *position = position_in;
     void *actor = actor_in;
@@ -184,9 +185,10 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     state = ((S_800253C0_0 *)sequence)->unk_9B.n;
     switch (state) {
         register s32 coord_delta ASM_REG("$3");
-        register void *object_m ASM_REG("$16");
+        void *object_m;
+        void *child;
         register s32 message_text ASM_REG("$18");
-        register s32 object_index_m ASM_REG("$17");
+        s32 object_index_m;
         register s32 next_state ASM_REG("$2");
         void *prim_m;
         s32 table_index_m;
@@ -410,13 +412,12 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     case 5:
     {
         s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-        s32 object_index;
 
         ((S_800253C0_0 *)sequence)->unk_96.n = timer;
         if (timer > 0) {
             return;
         }
-        object_index = 0;
+        object_index_m = 0;
         slot_cursor = (u8 *)sequence;
         do {
             void *call_position = position;
@@ -424,8 +425,8 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
             object_m = ((S_800253C0_4 *)(void *)slot_cursor)->unk_AC;
             func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
             slot_cursor = (u8 *)slot_cursor + 4;
-            object_index++;
-        } while (object_index < 2);
+            object_index_m++;
+        } while (object_index_m < 2);
         {
             s16 texture_rect[4];
             ((S_800253C0_0 *)sequence)->unk_9B.n++;
@@ -472,32 +473,34 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
             s32 work = (s32)&gameWork;
             s32 step_x = (s32)dirStepX;
             s32 step_y = (s32)dirStepY;
-            register s32 message_id ASM_REG("$22") = func_800990FC();
-            s32 text = func_8009929C(8, message_id);
+            s32 text;
             u32 saved_text;
+            message_id = func_800990FC();
+            text = func_8009929C(8, message_id);
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, text);
             text = func_80099194(D_80025000, text);
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, text);
             saved_text = func_80099194(D_80025024, text);
             {
-                void *object =
+                object_m =
                     func_800280F4(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0,
                     &result_flags);
-                ((S_800253C0_1 *)owner)->unk_60 = object;
-                if (object != 0) {
-                    s32 object_index = 0;
+                ((S_800253C0_1 *)owner)->unk_60 = object_m;
+                if (object_m != 0) {
                     void *other;
-                    register void *object_slot ASM_REG("$20") = sequence;
+                    register void *object_slot ASM_REG("$20");
+                    object_index_m = 0;
+                    object_slot = sequence;
 animate_objects:
                     {
                         register s32 slot_index ASM_REG("$19");
-                        next_state = object_index << 16;
+                        next_state = object_index_m << 16;
                         slot_index = next_state >> 16;
                         other = ((S_800253C0_4 *)object_slot)->unk_AC;
                         func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
-                            slot_index, object == other);
-                        if (object == ((S_800253C0_4 *)object_slot)->unk_AC) {
+                            slot_index, object_m == other);
+                        if (object_m == ((S_800253C0_4 *)object_slot)->unk_AC) {
                             s32 angle;
                             s32 index;
                             s32 x;
@@ -509,12 +512,12 @@ animate_objects:
                             y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(index + step_y);
                             func_80027070((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
-                                ((S_800253C0_1 *)owner)->unk_88, slot_index, object);
+                                ((S_800253C0_1 *)owner)->unk_88, slot_index, object_m);
                         }
-                        object_index++;
+                        object_index_m++;
                         object_slot = (u8 *)object_slot + 4;
                     }
-                    if (object_index < 2) {
+                    if (object_index_m < 2) {
                         goto animate_objects;
                     }
                     {
@@ -563,7 +566,6 @@ animate_objects:
             object_index_m = 0;
             do {
 
-                void *child;
                 u32 red;
                 u32 blue;
                 object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
@@ -596,25 +598,24 @@ animate_objects:
             }
         }
         {
-            void *object = ((S_800253C0_1 *)owner)->unk_60;
-            if (object != 0) {
+            object_m = ((S_800253C0_1 *)owner)->unk_60;
+            if (object_m != 0) {
                 void **first_slot;
                 void **text_slot;
                 void **removed_slot;
-                register s32 message_id ASM_REG("$22");
                 s32 text_cursor;
 
                 message_id = func_800990FC();
                 first_slot = (void **)((u8 *)sequence + 0xAC);
                 text_cursor = message_id;
                 text_slot = first_slot;
-                if (*first_slot != object) {
+                if (*first_slot != object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 text_cursor = func_80099734(*text_slot, text_cursor);
                 message_text = func_80099194(D_80025068, text_cursor);
                 text_slot = first_slot;
-                if (*first_slot == object) {
+                if (*first_slot == object_m) {
                     text_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 text_cursor = func_80099734(*text_slot, message_text);
@@ -623,27 +624,29 @@ animate_objects:
                 text_cursor = func_80099290(text_cursor);
                 text_cursor = func_8009929C(17, text_cursor);
                 func_800A5720(message_id);
-                object = func_800277F4(((S_800253C0_0 *)sequence)->unk_AC,
+                object_m = func_800277F4(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0, 0);
                 removed_slot = first_slot;
-                if (*first_slot == object) {
+                if (*first_slot == object_m) {
                     removed_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 *removed_slot = 0;
                 message_id = func_800990FC();
-                text_cursor = func_80028208(object, message_id);
+                text_cursor = func_80028208(object_m, message_id);
                 text_cursor = func_80099290(text_cursor);
                 func_800A5720(message_id);
             }
         }
         {
-            s32 object_index = 0;
-            GameWork *restore_scene = &gameWork;
-            s16 *table_x = (s16 *)((s8 *)dirStepX);
+            GameWork *restore_scene;
+            s16 *table_x;
+            object_index_m = 0;
+            restore_scene = &gameWork;
+            table_x = (s16 *)((s8 *)dirStepX);
 loop_7:
             {
                 object_m =
-                    ((S_800253C0_18 *)((void *)((object_index << 2) + (s32)sequence)))->unk_AC;
+                    ((S_800253C0_18 *)((void *)((object_index_m << 2) + (s32)sequence)))->unk_AC;
                 if (object_m != 0) {
                     s32 index;
                     u8 *y_table;
@@ -652,11 +655,11 @@ loop_7:
                     s32 y;
                     s32 z;
                     prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                    table_index_m = (s32)(((S_800253C0_5_pre *)object_m)[-1].unk_04);
-                    ((S_800253C0_17 *)(void *)table_index_m)->unk_0C.at00p.v = 0x808080;
-                    ((S_800253C0_17 *)(void *)table_index_m)->unk_10 = 0;
-                    ((S_800253C0_17 *)(void *)table_index_m)->unk_12.u &= 0x3F;
-                    ((S_800253C0_17 *)(void *)table_index_m)->unk_14.u &= 0xFFF3;
+                    child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
+                    ((S_800253C0_17 *)child)->unk_0C.at00p.v = 0x808080;
+                    ((S_800253C0_17 *)child)->unk_10 = 0;
+                    ((S_800253C0_17 *)child)->unk_12.u &= 0x3F;
+                    ((S_800253C0_17 *)child)->unk_14.u &= 0xFFF3;
                     index = (((-restore_scene->view.viewAngle + 0x500) >> 8) & 0xE);
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
                     ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
@@ -669,9 +672,9 @@ loop_7:
                     func_80027534(((S_800253C0_9 *)prim_m)->unk_02.s, ((S_800253C0_9 *)prim_m)->unk_06.s,
                         (s16)(z - 0x20), effect_size);
                 }
-                object_index++;
+                object_index_m++;
             }
-            if (object_index < 2)
+            if (object_index_m < 2)
                 goto loop_7;
             {
                 coord_delta = 64;
@@ -702,7 +705,6 @@ loop_7:
     {
         void *object_slot;
         s32 target_level;
-        void *child;
         register void *final_slot;
         s16 timer;
         s32 step;
