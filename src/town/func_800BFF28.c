@@ -108,7 +108,7 @@ void func_800BD688(void *pair_in) {
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     member_motion = (void *)0xFEC00000;
@@ -172,13 +172,12 @@ state_zero:
             ((S_800BD688_0 *)pair)->unk_20.u += 1;
         }
     }
-    goto done;
+    return;
 
 state_one:
     flag_page = (s32 *)0x80080000;
     ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
     flag_page[0x14A0 / 4] |= 0x8000;
 
-done:
     return;
 }

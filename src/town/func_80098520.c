@@ -134,7 +134,7 @@ void func_80095C80(S_80095C80_1 *position) {
                         goto resolve_y;
                     }
                     func_800961A8(position);
-                    goto done;
+                    return;
                 }
                 goto check_pos_xy_corner;
             }
@@ -155,7 +155,7 @@ check_pos_xy_corner:
             pos_xy_test ^= 1;
             if (pos_xy_test != 0) {
                 func_800961A8(position);
-                goto done;
+                return;
             }
             goto resolve_y;
         }
@@ -181,7 +181,7 @@ check_pos_xy_corner:
                     x_offset = x_offset < axis_test;
                     if (x_offset != 0) {
                         func_800961A8(position);
-                        goto done;
+                        return;
                     }
                     goto resolve_y;
                 }
@@ -202,7 +202,7 @@ check_pos_x_neg_y_corner:
             pos_x_neg_y_test = position->unk_00.at00.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
             if (pos_x_neg_y_test != 0) {
                 func_800961A8(position);
-                goto done;
+                return;
             } else {
                 goto resolve_y;
             }
@@ -251,7 +251,7 @@ check_neg_x:
                         y_offset &= 0x3F;
                         if (axis_test < y_offset) {
                             func_800961A8(position);
-                            goto done;
+                            return;
                         }
                         goto resolve_y;
                     }
@@ -274,7 +274,7 @@ check_neg_x_pos_y_corner:
                 axis_test ^= 1;
                 if (axis_test != 0) {
                     func_800961A8(position);
-                    goto done;
+                    return;
                 }
                 goto resolve_y;
             }
@@ -312,7 +312,7 @@ check_neg_x_pos_y_corner:
                             goto apply_y;
                         }
                         func_800961A8(position);
-                        goto done;
+                        return;
                     }
                     goto check_neg_xy_corner;
                 }
@@ -332,7 +332,7 @@ check_neg_xy_corner:
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->unk_00.at00.v;
                 if (axis_test != 0) {
                     func_800961A8(position);
-                    goto done;
+                    return;
                 }
                 goto resolve_y;
             }
@@ -348,16 +348,16 @@ check_single_axis:
             goto check_final_y;
         }
         if (((S_80095C80_7 *)axis_motion)->unk_10 != 0) {
-            goto done;
+            return;
         }
 
 resolve_x:
         func_800961A8(position);
-        goto done;
+        return;
 
 check_final_y:
         if (((S_80095C80_7 *)axis_motion)->unk_10 == 0) {
-            goto done;
+            return;
         }
 
 resolve_y:
@@ -365,6 +365,5 @@ apply_y:
         func_800961D8(position);
     }
 
-done:
     return;
 }

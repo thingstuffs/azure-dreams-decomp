@@ -63,14 +63,12 @@ void func_8195FB34(s16 x, s16 y, s16 z) {
     do {
         column_index = 0;
         row = (s8 *)(((s32) (row_index << 0x10) >> 0xC) + (u32)grid);
-clear_column:
-        column_shifted = column_index << 0x10;
-        *(s16 *)((column_shifted >> 0xF) + (u32)row) = 0;
-        next_column = column_index + 1;
-        column_index = next_column;
-        if (next_column < 8) {
-            goto clear_column;
-        }
+        do {
+            column_shifted = column_index << 0x10;
+            *(s16 *)((column_shifted >> 0xF) + (u32)row) = 0;
+            next_column = column_index + 1;
+            column_index = next_column;
+        } while (next_column < 8);
         next_row = row_index + 1;
         row_index = next_row;
     } while (next_row < 8);

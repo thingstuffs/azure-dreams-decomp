@@ -64,20 +64,20 @@ void func_801734E0(void *entity, void *context, void *sprite, void *actor)
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 at_least_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     {
         u8 *direction_table;
 
         if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         dungeonStatus.unk_0A--;
@@ -105,23 +105,23 @@ state_one:
         }
 
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((EntityRec *)actor)->unk_64 != 0) {
             if (func_800AA6B4(entity, context, sprite, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if ((func_800A2C34(actor) << 16) != 0) {
-            goto done;
+            return;
         }
 
         actor_flags = ((u32)((EntityRec *)actor)->flags1C);
         if (actor_flags & 0x100) {
             func_800AA258(entity, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if (actor_flags & 0x80000) {
@@ -135,23 +135,23 @@ state_one:
             ((S_801734E0_0 *)entity)->unk_B2 = 0;
             ((S_801734E0_0 *)entity)->unk_92 = previous_total - pending_decrease;
             func_80173834(entity, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if (((EntityRec *)actor)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(actor) << 16) != 0) {
             if ((func_8009A180(actor,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
         func_800A9A0C(actor);
         func_800A9A04(actor);
         if (((EntityRec *)actor)->tileY == 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801748E8;
@@ -164,7 +164,7 @@ state_one:
 
 increment_state:
     ((S_801734E0_0 *)entity)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000) {
@@ -174,6 +174,5 @@ state_two:
         ((S_801734E0_0 *)entity)->unk_8C = &D_80171058;
     }
 
-done:
     return;
 }

@@ -229,7 +229,7 @@ invoke_move:
             ((S_80173280_0 *)actor)->unk_9B++;
             return;
         }
-        goto done;
+        return;
     }
 
     ((EntityRec *)motion)->flags14 = 0;
@@ -280,7 +280,7 @@ state_2:
     ((S_80173280_0 *)actor)->unk_96.s--;
     if ((s16)((S_80173280_0 *)actor)->unk_96.s > 0 &&
         !(((S_80173280_3 *)tile_arg)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((S_80173280_0 *)actor)->unk_98 |= 0x80;
     ((S_80173280_0 *)actor)->unk_9B++;
@@ -299,7 +299,7 @@ state_3:
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }
     if (!(((S_80173280_3 *)tile_arg)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -314,7 +314,7 @@ state_3:
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }
     if (((S_80173280_7 *)kind_data)->unk_0C != 0) {
-        goto done;
+        return;
     }
     ((S_80173280_7 *)kind_data)->unk_0A--;
     ((S_80173280_0 *)actor)->unk_8C = D_801717F4;
@@ -325,6 +325,5 @@ state_3:
     ((S_80173280_1 *)action)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-done:
     return;
 }

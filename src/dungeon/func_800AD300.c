@@ -62,13 +62,13 @@ void func_800B2A60(u8 *actor, s32 action_context, u8 *destination, u8 *target)
             *(s8 *)(position + 0x26) = func_8009FB34(*(u8 *)(position + 0x24),
                                                   *(u8 *)(position + 0x25));
             if (*(s8 *)(entity + 0x6D) <= 0) {
-                goto done;
+                return;
             }
             if (dungeonStatus.flags & 0x1000) {
-                goto done;
+                return;
             }
             if ((func_800A2C34(0) << 16) != 0) {
-                goto done;
+                return;
             }
             if (func_800A03C4(entity, *(u8 *)(position + 0x24),
                               *(u8 *)(position + 0x25)) == 0) {
@@ -85,6 +85,5 @@ clear:
         *(s8 *)(entity + 0x6D) = 0;
     }
 
-done:
     return;
 }

@@ -11,13 +11,12 @@ s16 func_8003F794(s16 slot_id, s16 slot_value)
     slot_index = 7;
     last_slot_index = 7;
     slot = &D_80083120[last_slot_index];
-loop:
-    if (slot->type == 0)
-        goto found;
-    slot_index--;
-    slot--;
-    if (slot_index >= 0)
-        goto loop;
+    do {
+        if (slot->type == 0)
+            goto found;
+        slot_index--;
+        slot--;
+    } while (slot_index >= 0);
     return -1;
 found:
     slot->type = slot_id;

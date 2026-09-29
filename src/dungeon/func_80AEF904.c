@@ -80,10 +80,10 @@ void func_80171104(u8 *actor, u8 *motion, u8 *object)
         if (early_callback == (ActorCallback)&D_801717F4) {
             early_actor = actor;
             early_callback(early_actor, motion, object, early_actor);
-            goto function_return;
+            return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
-        goto function_return;
+        return;
     }
 
 
@@ -285,6 +285,5 @@ update_object:
     ((S_80171104_2 *)motion)->unk_0A = ((S_80171104_1 *)actor_copy)->unk_88.u + (*(s16 *)((u8 *)actor + 0x92));
     ((S_80171104_0 *)object)->unk_14.v |= 0x40;
 
-function_return:
     return;
 }

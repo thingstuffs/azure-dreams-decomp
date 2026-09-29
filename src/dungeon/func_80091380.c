@@ -49,16 +49,16 @@ void func_80096AE0(S_80096AE0_0 *actor, S_80096AE0_1 *record, S_80096AE0_3 *part
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if ((actor->unk_A2 & 0x10) == 0) {
-        goto done;
+        return;
     }
     record->unk_14 = 0;
     if ((range->unk_88 - range->unk_8A) >= 0x41) {
@@ -74,7 +74,7 @@ increment_state:
 state_one:
     part->unk_14 = part->unk_14 | 0x800;
     actor->unk_9B = actor->unk_9B + 1;
-    goto done;
+    return;
 
 state_two:
     countdown = actor->unk_96 - 1;
@@ -87,7 +87,6 @@ state_two:
         actor->unk_8C = D_80096384;
     }
 
-done:
     return;
 }
 

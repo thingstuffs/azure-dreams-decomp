@@ -67,13 +67,13 @@ void func_8017409C(void *actor, void *context, void *animation, void *entity)
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 at_least_two:
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     {
@@ -81,7 +81,7 @@ state_zero:
         u8 *direction_frames;
 
         if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         dungeon_state = &dungeonStatus.unk_00;
@@ -114,23 +114,23 @@ state_one:
 
         dungeon_state = (u8 *)&dungeonStatus.unk_00;
         if (((S_8017409C_4 *)dungeon_state)->unk_02 & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((EntityRec *)entity)->unk_64 != 0) {
             if (func_800AA6B4(actor, context, animation, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if ((func_800A2C34(entity) << 16) != 0) {
-            goto done;
+            return;
         }
 
         entity_flags = ((u32)((EntityRec *)entity)->flags1C);
         if (entity_flags & 0x100) {
             func_800AA258(actor, context, animation, entity);
-            goto done;
+            return;
         }
 
         if (entity_flags & 0x80000) {
@@ -149,23 +149,23 @@ state_one:
             ((S_8017409C_0 *)actor)->unk_92 = actor_value - value_delta;
             ((S_8017409C_0 *)actor)->unk_A8 = packed_delta;
             func_801743F0(actor, context, animation, entity);
-            goto done;
+            return;
         }
 
         if (((EntityRec *)entity)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
             if ((func_8009A180(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
         func_800A9A0C(entity);
         func_800A9A04(entity);
         if (((EntityRec *)entity)->tileY == 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)animation + 0x2C)) = D_8017468C;
@@ -178,7 +178,7 @@ state_one:
 
 increment_state:
     ((S_8017409C_0 *)actor)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
@@ -189,6 +189,5 @@ state_two:
         ((S_8017409C_0 *)actor)->unk_8C = &D_801719DC;
     }
 
-done:
     return;
 }

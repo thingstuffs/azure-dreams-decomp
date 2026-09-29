@@ -120,7 +120,7 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
 
     phase = ((S_8017558C_0 *)action)->unk_9B;
     if (phase >= 6) {
-        goto done;
+        return;
     }
     (void)phase_labels; goto *D_801708A0[(u32)(phase)];
 phase_start:
@@ -139,7 +139,7 @@ phase_start:
         ((S_8017558C_0 *)action)->unk_9B = finish_phase;
     }
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v | 0x6000);
-    goto done;
+    return;
 adjust_height:
     position->flags14 = 0;
     position->unk_10 = 0;
@@ -171,11 +171,11 @@ update_effect:
     effect_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
     ((S_8017558C_0 *)action)->unk_96 = effect_timer;
     if ((s16) effect_timer != 1) {
-        goto done;
+        return;
     }
     effect = func_8003FD64(0x12, action - 0x20);
     if (effect == NULL) {
-        goto done;
+        return;
     }
     ((S_8017558C_0 *)action)->unk_AC = effect;
     ((S_8017558C_4 *)effect)->unk_10 = D_80170A84;
@@ -198,7 +198,7 @@ update_effect:
     ((S_8017558C_6 *)effect_sprite)->unk_0D = 0;
     ((S_8017558C_6 *)effect_sprite)->unk_0C = 0;
     ((S_8017558C_6 *)effect_sprite)->unk_08 = D_800E2488;
-    goto done;
+    return;
 phase_wait:
     start_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
     ((S_8017558C_0 *)action)->unk_96 = start_timer;
@@ -206,7 +206,7 @@ phase_wait:
         goto start_windup;
     }
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
 start_windup:
     sprite->unk_2C.as_pu8 = D_800E2440;
@@ -216,12 +216,12 @@ start_windup:
     ((S_8017558C_0 *)action)->unk_B6 = (u16) ((u16)position->x.w.i);
     ((S_8017558C_0 *)action)->unk_B8 = (u16) ((u16)position->y.w.i);
     ((S_8017558C_0 *)action)->unk_BA = (u16) ((u16)actor->unk_88);
-    goto done;
+    return;
 phase_windup:
     windup_timer = ((S_8017558C_0 *)action)->unk_96 - 1;
     ((S_8017558C_0 *)action)->unk_96 = windup_timer;
     if ((windup_timer << 0x10) > 0) {
-        goto done;
+        return;
     }
     next_phase = ((S_8017558C_0 *)action)->unk_9B;
     ((S_8017558C_0 *)action)->unk_96 = 0x1EU;
@@ -232,10 +232,10 @@ phase_windup:
     ((S_8017558C_0 *)action)->unk_B3 = 0;
     next_phase += 1;
     ((S_8017558C_0 *)action)->unk_9B = next_phase;
-    goto done;
+    return;
 phase_active:
     func_80174C64(action, position, sprite, actor);
-    goto done;
+    return;
 phase_restore:
     restore_phase = ((S_8017558C_0 *)action)->unk_B1;
     if (restore_phase == 1) {
@@ -247,12 +247,12 @@ phase_restore:
     if (restore_phase == 0) {
         goto restore_position;
     }
-    goto done;
+    return;
 check_restore_end:
     if (restore_phase == 2) {
         goto finish_restore;
     }
-    goto done;
+    return;
 restore_position:
     restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
     ((S_8017558C_0 *)action)->unk_96 = restore_timer;
@@ -269,17 +269,17 @@ restore_position:
     ((S_8017558C_0 *)action)->unk_94 = view_dir;
 wait_restore:
     if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
-        goto done;
+        return;
     }
     ((S_8017558C_0 *)action)->unk_96 = 0U;
     ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
-    goto done;
+    return;
 wait_pause:
     pause_timer = ((S_8017558C_0 *)action)->unk_96;
     ((S_8017558C_0 *)action)->unk_96 = (u16) (pause_timer + 1);
     if ((s16) pause_timer < 4) {
-        goto done;
+        return;
     }
     ((S_8017558C_0 *)action)->unk_96 = 0U;
     ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
@@ -287,10 +287,10 @@ wait_pause:
     func_80047784(sprite, D_800E2448[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
     func_800A56E0(0x801);
-    goto done;
+    return;
 finish_restore:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     position->flags14 = 0;
     position->unk_10 = 0;
@@ -299,28 +299,27 @@ finish_restore:
     actor->flags1C = (s32) (actor->flags1C | 0x40000);
     ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
     if (sprite->unk_2C.as_pu8 == D_800E23E0) {
-        goto done;
+        return;
     }
     sprite->unk_2C.as_pu8 = D_800E23E0;
     func_80047784(sprite, D_800E23E0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     ((S_8017558C_0 *)action)->unk_96 = 5U;
     ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
     if (((S_8017558C_0 *)action)->unk_B0 != 0) {
-        goto done;
+        return;
     }
     func_801708B8(action, position, sprite);
-    goto done;
+    return;
 phase_finish:
     finish_timer = ((S_8017558C_0 *)action)->unk_96;
     ((S_8017558C_0 *)action)->unk_96 = (u16) (finish_timer - 1);
     if ((finish_timer << 0x10) > 0) {
-        goto done;
+        return;
     }
     sprite->unk_06.as_s16 = 0;
     func_800AD594(actor, 0x1000);
     ((S_8017558C_0 *)action)->unk_8C = D_80171A80;
     dungeonStatus.unk_0C = 0;
     actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-done:
     return;
 }

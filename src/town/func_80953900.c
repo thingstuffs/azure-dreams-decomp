@@ -113,19 +113,19 @@ void func_80020900(TownEntity *menu)
     if (state == 1) goto state_1;
     if (state >= 2) goto state_2;
     if (state == 0) goto state_0;
-    goto exit;
+    return;
 
 state_high:
     if (state == 0x101) goto state_101;
     if (state >= 0x102) goto state_200_check;
     if (state == 0x100) goto state_100;
-    goto exit;
+    return;
 state_200_check:
     if (state == 0x200) goto state_200;
-    goto exit;
+    return;
 
 state_0:
-    if (func_80033BC0(0x592) != 0) goto exit;
+    if (func_80033BC0(0x592) != 0) return;
     panel_record.x = 0xC8;
     panel_record.y = 0x10;
     panel_record.width = 0x38;
@@ -171,7 +171,7 @@ state_0:
     } while (option_index >= 0);
     entity->state = (u16)entity->state + 1;
     entity->timer = 0;
-    goto exit;
+    return;
 
 state_1:
     if ((((s32)input->unk_010) & 0x1000) &&
@@ -188,7 +188,7 @@ state_1:
         func_80033B9C(0x592);
         func_80033B9C(0x593);
         entity->state = 0x100;
-        goto exit;
+        return;
     }
     if (((s32)input->unk_010) & 0x40) {
         volatile s32 *money = &D_80012D5C;
@@ -201,26 +201,26 @@ state_1:
         D_80024300[0] = func_800B1BEC(0, -0x48, -0x28);
         entity->timer = -1;
         entity->state = (u16)entity->state + 1;
-        goto exit;
+        return;
     }
-    goto exit;
+    return;
 
 state_2:
     if (entity->timer > 0) {
         entity->timer = (u16)entity->timer - 1;
     }
-    if (func_80033BC0(0x592) != 0) goto exit;
-    if (entity->timer > 0) goto exit;
+    if (func_80033BC0(0x592) != 0) return;
+    if (entity->timer > 0) return;
     if (entity->timer < 0) {
         entity->timer = 0x10;
     }
     entity->state = (u16)entity->state + 1;
-    goto exit;
+    return;
 
 state_3:
     if (entity->timer > 0) {
         entity->timer = (u16)entity->timer - 1;
-        goto exit;
+        return;
     }
     if ((input->buttons & 0x2000) &&
         (entity->quantity < 10) &&
@@ -234,7 +234,7 @@ state_3:
         D_80012D5C -= 100;
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
-        goto exit;
+        return;
     }
     if ((input->buttons & 0x8000) &&
         (entity->quantity >= 2)) {
@@ -249,7 +249,7 @@ state_3:
         *money += 100;
         entity->timer = 0x10;
         entity->state = (u16)entity->state - 1;
-        goto exit;
+        return;
     }
     if (((s32)input->unk_010) & 0x40) {
         Pair04 *selected_pair;
@@ -278,15 +278,15 @@ state_3:
         func_80033B9C(0x592);
         func_80033B9C(0x593);
         entity->state = 0x200;
-        goto exit;
+        return;
     }
-    goto exit;
+    return;
 
 state_100:
     entity->flags |= 0x8000;
     func_80033B9C(0x590);
     entity->state = (u16)entity->state + 1;
-    goto exit;
+    return;
 
 state_101:
     {
@@ -295,15 +295,14 @@ state_101:
         (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
         global_flags->flags |= 0x8000;
     }
-    goto exit;
+    return;
 
 state_200:
     if (func_80033BC0(0x592) == 0) {
         entity->state = 1;
-        goto exit;
+        return;
     }
-    goto exit;
+    return;
 
-exit:
     return;
 }

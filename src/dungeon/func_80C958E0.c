@@ -38,11 +38,11 @@ void func_801730E0(S_801730E0_0 *state, EntityRec *motion, Rec_D_80082E80 *actio
     if (phase < 2) {
         if (phase == 0)
             goto start_action;
-        goto done;
+        return;
     }
     if (phase == 2)
         goto finish_action;
-    goto done;
+    return;
 
 start_action:
         func_800AD4D0(entity);
@@ -58,7 +58,7 @@ start_action:
             if (action->unk_14.at00_u16.v & 0x8000) {
                 state->unk_96.s = 0;
                 state->unk_9B = 2;
-                goto done;
+                return;
             }
             wait_ticks = -1U;
             if (((EntityRec *)entity)->flags1C & 0x228)
@@ -70,7 +70,7 @@ start_action:
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800AAA54(state, motion, action, &D_801752E4);
-        goto done;
+        return;
 
 wait_action:
 update_wait:
@@ -83,24 +83,24 @@ update_wait:
             state->unk_96.s = 0;
 check_wait:
         if (state->unk_96.u != 0)
-            goto done;
+            return;
         if (((EntityRec *)entity)->unk_28 == 0) {
             motion->flags14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
             func_800AAA54(state, motion, action, &D_801752E4);
-            goto done;
+            return;
         }
         func_800419EC(1, 1);
         state->unk_96.s = 8;
         state->unk_9B = state->unk_9B + 1;
-        goto done;
+        return;
 
 finish_action:
         ticks_left = state->unk_96.s - 1;
         state->unk_96.s = ticks_left;
         if ((ticks_left << 0x10) > 0)
-            goto done;
+            return;
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
@@ -110,8 +110,7 @@ finish_action:
         }
         next_script = D_8017102C;
         state->unk_8C = next_script;
-        goto done;
+        return;
 
-done:
     return;
 }

@@ -21,12 +21,11 @@ s32 func_800954E0(void *arg0) {
         }
         if (flags & 0x40) {
             result = 0;
-            goto done;
+            return result;
         }
         *((u8 *)cursor + 3) = flags & 0x7F;
         result = 0;
     }
-done:
     
     return result;
 }

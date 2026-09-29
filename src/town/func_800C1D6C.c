@@ -102,7 +102,7 @@ L_MOVE: {
 L_CHECK_STATE:
     if (func_800352FC((s32)self, position, target) != 0) {
         if (func_800C2AB4(object) != 0) {
-            goto L_EXIT;
+            return;
         }
     }
     object->f68 = (object->f68 + 1) % 6;
@@ -113,11 +113,10 @@ L_RAISE_TARGET:
 L_STORE_TARGET:
     target->f1A = next_value;
     if (object->f6C > 0) {
-        goto L_EXIT;
+        return;
     }
     next_value = (u16)object->f68;
 L_NEXT_STATE:
     object->f68 = next_value + 1;
-L_EXIT:
     return;
 }

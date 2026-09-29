@@ -14,7 +14,7 @@ s32 func_80099090(void)
     do {
         if (entry[0x13] == 0) {
             result = index;
-            goto done;
+            return result;
         }
 
         index++;
@@ -25,6 +25,5 @@ s32 func_80099090(void)
     } while (1);
 
     result = -1;
-done:
     return result;
 }

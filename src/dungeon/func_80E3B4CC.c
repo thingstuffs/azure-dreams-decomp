@@ -195,11 +195,11 @@ state_one:
     }
     if (func_800A1618(0x1E, 1) == 0) {
         if (func_800A1618(0x1E, 3) == 0) {
-            goto done;
+            return;
         }
     }
     if (func_8003FA44(3) == 0) {
-        goto done;
+        return;
     }
 
     spawn_kind = 4;
@@ -271,6 +271,5 @@ state_one:
 
 cleanup:
     func_800478B8(record);
-done:
     return;
 }

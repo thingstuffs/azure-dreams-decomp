@@ -107,7 +107,7 @@ L_case_0:
     goto L_default;
 
 L_case_20:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) goto L_return;
+    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
     func_8003DB94((struct Dst *)animation, (struct Elem *)animations[0], 0);
     actor->unk_6C = 0;
     actor->unk_A4 = 0;
@@ -115,7 +115,7 @@ L_case_20:
     goto L_block_16;
 
 L_case_23:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) goto L_return;
+    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
     actor->unk_6C = 6;
     actor->unk_A4 = 8;
     func_8003DB94((struct Dst *)animation, (struct Elem *)animations[8], 0);
@@ -123,7 +123,7 @@ L_case_23:
     goto L_default;
 
 L_case_24:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) goto L_return;
+    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
     func_8003DB94((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
     {
         StateWord next_state = { 0x20 };
@@ -132,12 +132,12 @@ L_case_24:
     goto L_default;
 
 L_case_25:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) goto L_return;
+    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
     func_8003DB94((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
     goto L_block_19;
 
 L_case_212227:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) goto L_return;
+    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
     goto L_block_16;
 
 L_block_16:
@@ -166,6 +166,5 @@ L_default:
         func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations + (actor->unk_A4 * 4)))->unk_00, 0);
     }
 
-L_return:
     return;
 }

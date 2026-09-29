@@ -103,13 +103,13 @@ case_2:
 
 case_ff:
     result.value = func_8003E39C(0xFF, event_data);
-    goto done;
+    return result.value;
 
 case_6:
     call_arg = event_data;
     D_80080ADC = ((EventSource_8003E4FC *)call_arg)->field4;
     result.value = func_8003E39C((u8)event_code, call_arg);
-    goto done;
+    return result.value;
 
 case_9:
     call_kind = (u8)event_code;
@@ -127,13 +127,13 @@ case_13:
     func_8003E39C(2, event_data, 0);
     result.value = func_8003E39C(27, event_data, 0);
     D_80080ADC = event_data;
-    goto done;
+    return result.value;
 
 case_14:
     null_kind = 14;
 call_null:
     result.value = func_8003E39C(null_kind, 0);
-    goto done;
+    return result.value;
 
 case_21:
     func_8003E39C(2, event_data, 0);

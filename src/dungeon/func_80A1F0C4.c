@@ -5,6 +5,7 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
+extern u8 D_801740FC[];
 extern int abs(int);
 
 typedef struct S_801728C4_0 {
@@ -158,7 +159,6 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     void *effect;
     void *effect_state;
     void *target_sprite;
-    u32 callback_page;
     void (*callback)(void);
     void *player_state;
     void *special_target;
@@ -177,7 +177,7 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -185,7 +185,7 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     if (!(((S_801728C4_1 *)actor)->unk_1C & 0x2000)) {
@@ -284,9 +284,9 @@ object_ready:
         current_state = ((S_801728C4_0 *)action)->unk_9B;
         ((S_801728C4_0 *)action)->unk_96 = 30000;
         ((S_801728C4_0 *)action)->unk_9B = current_state + 1;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 empty_anim:
     ((EntityRec *)motion)->flags14 = 0;
@@ -302,12 +302,12 @@ empty_anim:
     ((S_801728C4_1 *)actor)->unk_73.s = 0;
     ((S_801728C4_1 *)actor)->unk_72.s = 0;
     ((S_801728C4_1 *)actor)->unk_46 &= 0x7FFF;
-    goto done;
+    return;
 
 state_1:
     if (func_8003F270() != 0) {
         ((S_801728C4_4 *)sprite)->unk_14 |= 0x800;
-        goto done;
+        return;
     }
     ((S_801728C4_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_801728C4_0 *)action)->unk_9B++;
@@ -324,7 +324,7 @@ state_2:
         if (!(((S_801728C4_4 *)sprite)->unk_14 & 0x8000)) {
             flags = ((S_801728C4_0 *)action)->unk_98.s;
             ((S_801728C4_0 *)action)->unk_98.u = flags | 0x8000;
-            effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            effect = func_8003FD64(0x112, ((u8 *)&D_80083498));
             if (effect != 0) {
                 func_8004491C(effect, func_80045340);
                 effect_state = (u8 *)effect + 0x20;
@@ -357,12 +357,10 @@ state_2:
     }
 
     if (((S_801728C4_0 *)action)->unk_98.u & 0x8000) {
-        callback_page = 0x80170000;
-        ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         particle_count = 7;
-        callback = (void *)(callback_page + 0x40FC);
+        callback = (void *)D_801740FC;
         do {
-            effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            effect = func_8003FD64(0x112, ((u8 *)&D_80083498));
             if (effect != 0) {
                 func_8004491C(effect, func_80045340);
                 ((S_801728C4_7 *)effect)->unk_10 = callback;
@@ -404,13 +402,13 @@ state_2:
             D_80174850[((gameWork.view.viewAngle + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         ((S_801728C4_0 *)action)->unk_9B = ((S_801728C4_0 *)action)->unk_9B + 1;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state_3:
     if (!(((S_801728C4_4 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -437,6 +435,5 @@ state_3:
         func_800A56E0(0xB4);
     }
 
-done:
     return;
 }

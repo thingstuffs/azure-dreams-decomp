@@ -117,7 +117,7 @@ void func_8052C854(void *machine, void *position)
     position_or_effect = (S_func_80811C54_7 *)position;
     effect_config = D_80526704;
     if ((u32)state_or_buttons >= 8U) {
-        goto done;
+        return;
     }
     switch (state_or_buttons) {
     case 0: goto state_0;
@@ -137,10 +137,10 @@ state_0:
     bet_state = 1;
     *(s16 *)((u8 *)self + 0x5C) = bet_state;
     if (COUNT_VALUE < 1000U) {
-        goto done;
+        return;
     }
     if (func_80252550(D_80530154, position_or_effect) == 0) {
-        goto done;
+        return;
     }
     D_80530598[0] = func_80232868(0, -80, 64);
     D_801328F8[0] = 0;
@@ -149,7 +149,7 @@ state_0:
     *(u16 *)((u8 *)self + 0x64) = 1;
     *(u16 *)((u8 *)self + 0x5E) = 5;
     *(s16 *)((u8 *)self + 0x5C) = 2;
-    goto done;
+    return;
 
 state_1:
     if (input->unk_08 & 0x5000) {
@@ -169,14 +169,14 @@ check_bet_input:
          (self->unk_5E.s <= 0))) {
         if (self->unk_64 < 3U) {
             if (COUNT_VALUE < 1000U) {
-                goto done;
+                return;
             }
             ++*(u16 *)((u8 *)self + 0x64);
             {
                 u32 *balance = &D_80012BCC;
                 COUNT_STORE(*balance - 1000);
             }
-            goto done;
+            return;
         }
     }
 
@@ -186,7 +186,7 @@ check_bet_input:
         if (self->unk_64 >= 2U) {
             COUNT_STORE(COUNT_VALUE + 1000);
             (*(u16 *)((u8 *)self + 0x64))--;
-            goto done;
+            return;
         }
     }
 
@@ -195,14 +195,14 @@ check_bet_input:
         if (state_or_buttons & 0x40) {
             self->unk_5E.u = 10;
             self->unk_5C = 3;
-            goto done;
+            return;
         }
         if (!(state_or_buttons & 0x20) || self->unk_64 == 0) {
-            goto done;
+            return;
         }
         self->unk_5E.u = 20;
         self->unk_5C = 4;
-        goto done;
+        return;
     }
 
 state_2:
@@ -210,12 +210,12 @@ state_2:
         s32 ticks_left = self->unk_5E.u - 1;
         self->unk_5E.u = ticks_left;
         if ((s16)ticks_left > 0) {
-            goto done;
+            return;
         }
         COUNT_STORE(COUNT_VALUE + (s32)self->unk_64 * 1000);
         func_80232A08(D_80530598[0]);
         self->unk_5C = 0;
-        goto done;
+        return;
     }
 
 state_3:
@@ -223,7 +223,7 @@ state_3:
         s32 ticks_left = self->unk_5E.u - 1;
         self->unk_5E.u = ticks_left;
         if ((s16)ticks_left > 0) {
-            goto done;
+            return;
         }
         {
             S_func_80811C54_1 *reel_slot;
@@ -238,7 +238,7 @@ state_3:
             } while (scan_index >= 0);
         }
         self->unk_5C = 5;
-        goto done;
+        return;
     }
 
 state_4:
@@ -246,11 +246,11 @@ state_4:
         s16 reel_index = self->unk_5E.s;
         S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
         if (reel->unk_24 != 3) {
-            goto done;
+            return;
         }
         self->unk_5C = 6;
         self->unk_60.u = 0;
-        goto done;
+        return;
     }
 
 state_5:
@@ -272,7 +272,7 @@ state_5:
     }
 
     if (self->unk_5E.s != 3) {
-        goto done;
+        return;
     }
     self->unk_58 = 0;
     {
@@ -445,7 +445,7 @@ state_6:
         self->unk_5E.u = 10;
         self->unk_64 = 0;
         self->unk_5C = 3;
-        goto done;
+        return;
     }
 
     if (self->unk_62 & 1) {
@@ -495,7 +495,7 @@ state_6:
 start_payout:
         self->unk_5E.u = 0;
         self->unk_5C = 7;
-        goto done;
+        return;
     }
 
 state_7:
@@ -505,7 +505,7 @@ state_7:
             func_802441A4(input);
         }
         if (self->unk_5E.u & 3) {
-            goto done;
+            return;
         }
     }
 
@@ -521,7 +521,7 @@ state_7:
                 self->unk_5C = 3;
             }
             self->unk_62 &= 0xFFFD;
-            goto done;
+            return;
         }
     }
 
@@ -534,7 +534,7 @@ state_7:
         effect_obj = (S_func_80811C54_4 *)func_800373DC(0x136);
 
         if (effect_obj == 0) {
-            goto done;
+            return;
         }
         effect_obj->unk_10 = D_8052D770;
         ((S_func_80811C54_5 *)effect_obj->unk_08)->unk_00 =
@@ -584,6 +584,5 @@ configure_effect:
         func_8023FA58((u8 *)position_or_effect + 8, effect_obj->unk_08, D_8053016C);
     }
 
-done:
     return;
 }

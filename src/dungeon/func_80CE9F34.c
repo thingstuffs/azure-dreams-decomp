@@ -98,7 +98,7 @@ s32 func_80173734(void *action_state, s32 facing, void *origin, void *actor)
         return -1;
     }
     if ((u16)(-func_800A0134(initial_target, actor) + 0x40) >= 0x81) {
-        goto done;
+        return result;
     }
 
     result = 1;

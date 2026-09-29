@@ -100,7 +100,7 @@ block_3:
     return;
 block_7:
     if (func_800AA924(actor, context, map_actor, &D_8017469C) != 0) {
-        goto block_65;
+        return;
     }
 block_8:
     if (dungeonStatus.flags & 0x2000) {
@@ -189,7 +189,7 @@ block_33:
         goto block_39;
     }
     if ((func_8009A180(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
-        goto block_65;
+        return;
     }
 block_39:
     if (!((u16) *((s16 *)&D_80013714) & 8)) {
@@ -202,7 +202,7 @@ block_39:
     return;
 block_42:
     if ((func_8016C98C(actor, context, map_actor, 0) << 0x10) == 0) {
-        goto block_65;
+        return;
     }
     action_flags = ((EntityRec *)entity)->unk_46 | 0x4000;
     ((EntityRec *)entity)->unk_46 = action_flags;
@@ -218,7 +218,7 @@ block_44:
 jt_c8:
 jt_c9:
     if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
-        goto block_65;
+        return;
     }
     func_8016C8AC(actor, context, map_actor, entity);
     return;
@@ -255,10 +255,10 @@ block_56:
 block_58:
     entity_flags = ((EntityRec *)entity)->flags1C;
     if (entity_flags & 0x2000) {
-        goto block_65;
+        return;
     }
     if (*(u16 *)0x80013714 & 8) {
-        goto block_65;
+        return;
     }
     if (tile_index < 0) {
         goto block_62;
@@ -266,16 +266,15 @@ block_58:
     tile_table = D_800E2970;
     tile_entry = (tile_index * 0x14) + tile_table;
     if (((S_8016B778_5 *)tile_entry)->unk_0C & 2) {
-        goto block_65;
+        return;
     }
 block_62:
     if (entity_flags & 0x430) {
-        goto block_65;
+        return;
     }
     if ((func_8009FD7C(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
-        goto block_65;
+        return;
     }
     ((EntityRec *)entity)->facing = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
-block_65:
     return;
 }

@@ -53,7 +53,7 @@ void func_8014F238(void *action, void *motion, void *actor, void *entity)
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
@@ -61,7 +61,7 @@ void func_8014F238(void *action, void *motion, void *actor, void *entity)
     if (state == 3) {
         goto state_three;
     }
-    goto done;
+    return;
 
 state_zero:
     func_800AD4D0(entity);
@@ -75,7 +75,7 @@ state_zero:
     if (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000) {
         ((S_8014F238_1 *)action)->unk_96.s = 0;
         ((S_8014F238_1 *)action)->unk_9B = 3;
-        goto done;
+        return;
     }
 
     if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
@@ -99,7 +99,7 @@ state_one:
     }
 
     if (((S_8014F238_1 *)action)->unk_96.s != 0) {
-        goto done;
+        return;
     }
     if (((EntityRec *)entity)->unk_28 != 0) {
         goto continue_state_one;
@@ -110,7 +110,7 @@ stop_motion:
     ((S_8014F238_2 *)motion)->unk_10 = 0;
     ((S_8014F238_2 *)motion)->unk_0C = 0;
     func_800AAA54(action, motion, actor, D_80150178);
-    goto done;
+    return;
 
 continue_state_one:
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80150150;
@@ -119,13 +119,13 @@ continue_state_one:
         D_80150150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_8014F238_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     ((S_8014F238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
     ((S_8014F238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
     if (!(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x6000)) {
-        goto done;
+        return;
     }
 
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80150150;
@@ -135,7 +135,7 @@ state_two:
         0);
     ((S_8014F238_1 *)action)->unk_96.s = 8;
     ((S_8014F238_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_three:
     timer = ((S_8014F238_1 *)action)->unk_96.s;
@@ -156,7 +156,7 @@ state_three:
     timer = ((S_8014F238_1 *)action)->unk_96.u - 1;
     ((S_8014F238_1 *)action)->unk_96.s = timer;
     if ((s32)(timer << 16) > 0) {
-        goto done;
+        return;
     }
 
     ((S_8014F238_2 *)motion)->unk_14 = 0;
@@ -172,6 +172,5 @@ state_three:
     }
     ((S_8014F238_1 *)action)->unk_8C = &D_8014CE54;
 
-done:
     return;
 }

@@ -29,7 +29,7 @@ s32 func_8008CC90(
     if (fourth_y == 0) {
         if (fourth_x == 0) {
             within_limits = 1;
-            goto out;
+            return within_limits;
         }
         shifted_y = (s32)((u32)first_y << 16);
     } else {
@@ -51,11 +51,10 @@ s32 func_8008CC90(
     closing_gap = angle_work - closing_gap;
 
     if (second_angle < 0x801 && second_gap < 0x801) {
-        if (third_gap >= 0x801) { within_limits = 0; goto out; }
+        if (third_gap >= 0x801) { within_limits = 0; return within_limits; }
         closing_gap = closing_gap < 0x801;
-        if (closing_gap != 0) { within_limits = 1; goto out; }
+        if (closing_gap != 0) { within_limits = 1; return within_limits; }
     }
     within_limits = 0;
-out:
     return within_limits;
 }

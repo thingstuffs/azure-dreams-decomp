@@ -65,11 +65,11 @@ state_zero:
         return;
     }
     if ((flags & 0x6000) == 0) {
-        goto done;
+        return;
     }
     anim_table = 0x80170000;
     if (S16(action, 0x92) != 0) {
-        goto done;
+        return;
     }
     ASM_KEEP_NV(anim_table);
     anim_table += 0x5C78;
@@ -133,7 +133,7 @@ store_movement:
 
         anim_table = 0x80170000;
         if ((U16(object, 0x14) & 0x6000) == 0) {
-            goto done;
+            return;
         }
         ASM_KEEP_NV(anim_table);
         anim_table += 0x5CA8;
@@ -158,7 +158,7 @@ state_two:
     void *actor_arg;
 
     if ((U16(object, 0x14) & 0xE000) == 0) {
-        goto done;
+        return;
     }
     func_800AD594(actor, 0x100);
     actor_arg = actor;
@@ -168,6 +168,5 @@ state_two:
     U16(actor, 0x46) &= 0x7FFF;
 }
 
-done:
     return;
 }

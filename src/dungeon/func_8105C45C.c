@@ -55,7 +55,7 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
     state = work->unk_9B;
     work->unk_96.s = (u16) (work->unk_96.s - 1);
     if (state >= 8U) {
-        goto block_20;
+        return;
     }
     (void)jt_keep; goto *D_80170878[(u32)(state)];
 jt_c0:
@@ -66,10 +66,10 @@ jt_c4:
         goto block_5;
     }
     work->unk_9B = 7;
-    goto block_20;
+    return;
 block_5:
     if (!(flags & 0xE000)) {
-        goto block_20;
+        return;
     }
     part_b->unk_2C.as_pu8 = &D_80173FD8;
     func_80047784(part_b, (&D_80173FD8)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -100,7 +100,7 @@ block_10:
     timer = work->unk_96.u;
     work->unk_90 = accum + value;
     if (timer > 0) {
-        goto block_20;
+        return;
     }
     work->unk_90 = 0;
     work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
@@ -118,7 +118,7 @@ jt_c6:
     goto block_e5c;
 jt_c3:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
-        goto block_20;
+        return;
     }
     part_b->unk_2C.as_pu8 = D_80173FD0;
     func_80047784(part_b, D_80173FD0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -126,10 +126,10 @@ jt_c3:
     state_now = work->unk_9B;
     block_e60:
     work->unk_9B = (u8) (state_now + 1);
-    goto block_20;
+    return;
 jt_c7:
     if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
-        goto block_20;
+        return;
     }
     part_b->unk_2C.as_pu8 = D_80173FB8;
     func_80047784(part_b, D_80173FB8[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -141,6 +141,5 @@ jt_c7:
     work->unk_98 = (u16) (work->unk_98 | 0x8000);
     work->unk_AE = (s16) ((func_800A6D30() & 7) + 8);
     func_800A48F0(actor, 0x1A, (s8) work->unk_AE);
-block_20:
     return;
 }

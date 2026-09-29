@@ -87,7 +87,7 @@ void func_801725D0(void *action, void *motion, void *sprite, void *actor)
         if (state == 1) {
             goto state_1;
         }
-        goto done;
+        return;
     }
     if (state == 3) {
         goto state_3;
@@ -95,14 +95,14 @@ void func_801725D0(void *action, void *motion, void *sprite, void *actor)
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto done;
+    return;
 
 state_0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_801725D0_1 *)action)->unk_9B = 0xFF;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((S_801725D0_0 *)actor)->unk_2A.u, 1);
-        goto done;
+        return;
     }
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80173D34;
@@ -124,13 +124,13 @@ state_0:
     }
     ((S_801725D0_1 *)action)->unk_96.s = 2;
     ((S_801725D0_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_1:
     ((S_801725D0_1 *)action)->unk_90.at02.v +=
         (((S_801725D0_1 *)action)->unk_A6 - ((EntityRec *)motion)->z.w.i) / 3;
     if (((S_801725D0_1 *)action)->unk_96.u > 0) {
-        goto done;
+        return;
     }
 
     ((S_801725D0_1 *)action)->unk_98 |= 8;
@@ -141,19 +141,19 @@ state_1:
         (x_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
     ((EntityRec *)motion)->unk_10 = (y_step << 22) / ((S_801725D0_1 *)action)->unk_96.u;
     ((S_801725D0_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_2:
     ((S_801725D0_1 *)action)->unk_90.at00.v +=
         ((((S_801725D0_1 *)action)->unk_A6 - ((EntityRec *)motion)->z.w.i) / 3) << 16;
     if (((S_801725D0_1 *)action)->unk_96.u > 0) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     ((S_801725D0_1 *)action)->unk_96.s = 10;
     ((S_801725D0_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_3:
     height_delta = ((s32)(ticks_left << 16) >> 4) + 0x2000;
@@ -165,18 +165,18 @@ state_3:
         func_8009C12C(actor, sprite, ((S_801725D0_0 *)actor)->unk_2A.u, 1);
     }
     if (((S_801725D0_1 *)action)->unk_96.u > 0) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->unk_0C = (0 - x_step) << 19;
     ((EntityRec *)motion)->unk_10 = (0 - y_step) << 19;
     ((EntityRec *)motion)->flags14 = 0xFFF80000;
     ((S_801725D0_1 *)action)->unk_9B = 0xFF;
-    goto done;
+    return;
 
 state_ff:
     ((EntityRec *)motion)->flags14 += 0x18000;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -200,6 +200,5 @@ state_ff:
         D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
-done:
     return;
 }

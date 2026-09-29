@@ -128,7 +128,7 @@ block_7:
     return;
 block_11:
     if (func_800AA924(entity, context, sprite, &D_80174EF8) == 0) {
-        goto block_63;
+        return;
     }
     ((S_80170E9C_1 *)state)->unk_1C |= 0x10000000;
     return;
@@ -160,7 +160,7 @@ block_22:
         goto block_24;
     }
     if (func_800AA6B4(entity, context, sprite, &D_80174F10) != 0) {
-        goto block_63;
+        return;
     }
 block_24:
     if (!(((S_80170E9C_1 *)state)->unk_1C & 0x80000)) {
@@ -196,11 +196,11 @@ block_30:
         goto block_36;
     }
     if ((func_8009A180(state, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
-        goto block_63;
+        return;
     }
 block_36:
     if ((func_80173A08(entity, context, sprite, 0) << 0x10) == 0) {
-        goto block_63;
+        return;
     }
     action_flags = ((S_80170E9C_1 *)state)->unk_46 | 0x4000;
     ((S_80170E9C_1 *)state)->unk_46 = action_flags;
@@ -217,7 +217,7 @@ block_38:
 jt_c8:
 jt_c9:
     if ((func_80171E00(entity, context, sprite, state) << 0x10) != 0) {
-        goto block_63;
+        return;
     }
     func_80171FC4(entity, context, sprite, state);
     return;
@@ -270,16 +270,15 @@ block_55:
 block_58:
 block_59:
     if (dungeonStatus.flags & 0x2000) {
-        goto block_63;
+        return;
     }
     if (((S_80170E9C_2 *)sprite)->unk_14 & 0x40) {
-        goto block_63;
+        return;
     }
     if (((S_80170E9C_2 *)sprite)->unk_2C == (M2C_UNK *)D_80174EE0) {
-        goto block_63;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_80174EE0;
     func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
-block_63:
     return;
 }

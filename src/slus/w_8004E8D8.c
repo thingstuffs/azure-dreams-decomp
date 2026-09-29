@@ -15,23 +15,21 @@ s32 func_8004E8D8(u8 *text)
     space = 0x20;
     newline = 0x0A;
 
-loop:
-    character = text_byte & 0xFF;
-    if (character == space) {
-        goto next;
-    }
-    if (character == newline) {
-        goto next;
-    }
-    has_content = 1;
-    goto done;
+    do {
+            character = text_byte & 0xFF;
+            if (character == space) {
+                goto next;
+            }
+            if (character == newline) {
+                goto next;
+            }
+            has_content = 1;
+            goto done;
 
-next:
-    text++;
-    text_byte = *text;
-    if (text_byte != 0) {
-        goto loop;
-    }
+        next:
+            text++;
+            text_byte = *text;
+    } while (text_byte != 0);
 
 done:
     return has_content;

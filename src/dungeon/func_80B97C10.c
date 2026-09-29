@@ -77,18 +77,18 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   reject_entry:
   func_800A9A0C(actor);
 
-  goto done;
+  return;
   accepted_entry:
   if ((*((void **) (state + 0xC))) == actor)
   {
     *(u16 *)(actor + 0x46) = 0xC008;
   }
 
-  goto done;
+  return;
   negative_entry:
   if (!(state_flags & 0x2000))
   {
-    goto done;
+    return;
   }
 
   func_800A19E4(tile, actor, 3, 6, object + 0x9C);
@@ -113,7 +113,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     ASM_USE(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     *(u8 *)(actor + 0x71) = path_length;
   }
-  goto done;
+  return;
   no_found_actor:
   {
     s32 actor_state = *(s32 *)(actor + 0x14);
@@ -249,67 +249,64 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   {
     s16 turn_index = 0;
     s16 *angle_steps = D_8006CD00;
-    loop_body:
-    base_angle = *(s16 *)(actor + 0x2A);
+    do {
+        base_angle = *(s16 *)(actor + 0x2A);
 
-    if ((*(u16 *)(object + 0x98)) & 2)
-    {
-      angle = base_angle - angle_steps[turn_index];
-    }
-    else
-    {
-      angle = base_angle + angle_steps[turn_index];
-    }
-    if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) <= 0)
-    {
-      goto move_failed;
-    }
-    if (turn_index >= 3)
-    {
-      s32 turn_limited = limit_turn;
-      if (turn_limited)
-      {
-        goto strip_path;
-      }
-    }
-    *(u16 *)(actor + 0x2A) = angle;
-    *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
-    *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
-    (*(u8 *)(actor + 0x71))++;
-    func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
-    {
-      s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-      base_angle = (s32)(((s8 *)dirStepX));
-      *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
-      *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
-    }
-    func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
-    goto check_counter_limit;
-    move_failed:
-    if (turn_index == 0)
-    {
-      if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24)))
-      {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        if ((func_8009A180(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0)
+        if ((*(u16 *)(object + 0x98)) & 2)
         {
-          goto done;
+          angle = base_angle - angle_steps[turn_index];
         }
-      }
-    }
+        else
+        {
+          angle = base_angle + angle_steps[turn_index];
+        }
+        if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) <= 0)
+        {
+          goto move_failed;
+        }
+        if (turn_index >= 3)
+        {
+          s32 turn_limited = limit_turn;
+          if (turn_limited)
+          {
+            goto strip_path;
+          }
+        }
+        *(u16 *)(actor + 0x2A) = angle;
+        *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
+        *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
+        (*(u8 *)(actor + 0x71))++;
+        func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
+        {
+          s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
+          base_angle = (s32)(((s8 *)dirStepX));
+          *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
+          *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
+        }
+        func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
+        goto check_counter_limit;
+        move_failed:
+        if (turn_index == 0)
+        {
+          if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24)))
+          {
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            if ((func_8009A180(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0)
+            {
+              return;
+            }
+          }
+        }
 
-    turn_index++;
-    if (turn_index < 8)
-    {
-      goto loop_body;
-    }
+        turn_index++;
+    } while (turn_index < 8);
     check_counter_limit:
     if (turn_index >= 8)
     {
       *(u8 *)(actor + 0x71) &= 0x7F;
       *(u16 *)(actor + 0x46) &= 0x7FFF;
       func_800A9A0C(actor);
-      goto done;
+      return;
     }
 
   }
@@ -328,7 +325,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   strip_path:
   *(u8 *)(actor + 0x71) &= 0x7F;
 
-  goto done;
+  return;
   actor_survives:
   {
     register s16 floor_height ASM_REG("$17") = func_800BCB04(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -338,8 +335,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     }
   }
 
-  goto done;
-  done:
+  return;
   return;
 
 }

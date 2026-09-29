@@ -89,7 +89,7 @@ void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TA
       u16 header_flags = ((volatile u16 *) effect)[-1];
       ((u16 *) effect)[-1] = header_flags | 0x8000;
       objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-      goto done;
+      return;
     }
   }
   goto update_values;
@@ -131,6 +131,5 @@ void func_800BB14C(void *effect_data, register S_800BB14C *effect, S_800BB14C_TA
     }
   }
 
-  done:
   return;
 }

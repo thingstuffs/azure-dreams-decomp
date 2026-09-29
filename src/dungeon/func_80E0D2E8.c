@@ -90,10 +90,10 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
         special_callback = input_actor->callback;
         if (special_callback == (ActorCallback)&D_80171094) {
             special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));
-            goto function_end;
+            return;
         }
         input_actor->status71 &= 0x7F;
-        goto function_end;
+        return;
     }
 
 
@@ -263,6 +263,5 @@ final_collision:
                        *(u16 *)((u8 *)input_actor + 0xA6);
     input_entity->flags14 |= 0x40;
 
-function_end:
     return;
 }

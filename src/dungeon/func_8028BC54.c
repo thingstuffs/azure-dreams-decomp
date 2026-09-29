@@ -82,7 +82,7 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 loop:
         cell_index = (s16)func_800A71F4();
         if (cell_index < 0) {
-            goto done;
+            return;
         }
 
         if (budget >= 301) {
@@ -143,6 +143,5 @@ scan:
             goto loop;
         }
     }
-done:
     return;
 }

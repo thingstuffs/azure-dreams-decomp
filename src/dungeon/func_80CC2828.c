@@ -84,7 +84,7 @@ state_0:
         if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
             goto advance_state;
         }
-        goto done;
+        return;
     }
 
 state_1:
@@ -125,7 +125,7 @@ state_2:
         s32 tile_mask;
 
         if (!(((S_80176028_4 *)actor)->unk_1C & 0x00800000)) {
-            goto done;
+            return;
         }
 
         map = ((u8 *)D_800E3D7C);
@@ -167,6 +167,5 @@ state_3:
         work[0x6D]--;
     }
 
-done:
     return;
 }

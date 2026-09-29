@@ -53,7 +53,7 @@ void func_80124F98(TownState *state)
         state->state = 9;
         state->field4 = 1;
         state->field6 = 0x19;
-        goto done;
+        return;
     }
 
     buttons = ((u32)gameWork.buttons);
@@ -123,12 +123,12 @@ redraw_transition:
             side_choice = state->choices[state->side];
             if (side_choice != state->index) {
                 state->state = 0xC;
-                goto done;
+                return;
             }
             state->state = 0xA;
             state->field4 = 1;
             state->field6 = 0x19;
-            goto done;
+            return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
@@ -139,11 +139,11 @@ redraw_transition:
                 state->state = 0xB;
                 state->field4 = 1;
                 state->field6 = 0x19;
-                goto done;
+                return;
             }
             state->state = 0xC;
         }
-        goto done;
+        return;
     }
 
     if (buttons & 0x2000) {
@@ -184,12 +184,12 @@ redraw_transition:
             func_801237A4(state);
             if (state->choices[state->side] != state->index) {
                 state->state = 0xC;
-                goto done;
+                return;
             }
             state->state = 0xA;
             state->field4 = 1;
             state->field6 = 0x19;
-            goto done;
+            return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
@@ -200,11 +200,11 @@ redraw_transition:
                 state->state = 0xB;
                 state->field4 = 1;
                 state->field6 = 0x19;
-                goto done;
+                return;
             }
             state->state = 0xC;
         }
-        goto done;
+        return;
     }
 
     toggle_timer = state->field8 + 1;
@@ -217,6 +217,5 @@ redraw_transition:
 redraw:
     func_80124908(state);
 
-done:
     return;
 }

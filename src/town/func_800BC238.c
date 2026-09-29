@@ -61,7 +61,7 @@ void func_800B9998(void *object, void *position, void *rotation) {
         func_80033D08(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto epilogue;
+        return;
     }
 
     raw_speed = ((S_800B9998_0 *)object)->unk_66.s;
@@ -106,6 +106,5 @@ void func_800B9998(void *object, void *position, void *rotation) {
     ((S_800B9998_3 *)rotation_data)->unk_1A.u =
         ((S_800B9998_3 *)rotation_data)->unk_1A.u & 0xFFF;
 
-epilogue:
     return;
 }

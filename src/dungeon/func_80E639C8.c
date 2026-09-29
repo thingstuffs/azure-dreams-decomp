@@ -116,7 +116,7 @@ void func_801731C8(void *action, void *motion, void *sprite, void *actor)
         if (state == 0) {
             goto state_0;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -124,7 +124,7 @@ void func_801731C8(void *action, void *motion, void *sprite, void *actor)
     if (state == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_0:
     if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
@@ -234,7 +234,7 @@ copy_active_coords:
 
 invoke_item:
     if (func_800A94A0(actor, item_slot, is_special, (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     ((S_801731C8_0 *)action)->unk_96.u = 0x11;
     {
@@ -263,13 +263,13 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
 state_1_done:
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((S_801731C8_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
@@ -297,7 +297,7 @@ state_2:
             func_80047784(sprite, animations[direction], 0);
         }
         if (((S_801731C8_0 *)action)->unk_96.s < 2) {
-            goto end;
+            return;
         }
     }
 
@@ -393,7 +393,7 @@ state_2:
             }
         }
     }
-    goto end;
+    return;
 
 state_3:
     {
@@ -409,7 +409,7 @@ state_3:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            goto end;
+            return;
         }
         ((EntityRec *)motion)->flags14 = 0;
         ((EntityRec *)motion)->unk_10 = 0;
@@ -426,7 +426,7 @@ state_3:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_801731C8_0 *)action)->unk_8C = D_801716F4;
@@ -438,6 +438,5 @@ state_3:
         func_800A56E0(0xB4);
     }
 
-end:
     return;
 }

@@ -77,10 +77,9 @@ jt_c7:
     ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B = (u8) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_2B - 0x20);
 check_lifetime:
     if (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_06 < ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_04) {
-        goto done;
+        return;
     }
     ((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 = (u16) (((S_800250C0_0 *)((u8 *)effect - 0x2))->unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-done:
     return;
 }

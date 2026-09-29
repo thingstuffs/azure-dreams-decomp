@@ -70,7 +70,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     probe_result <<= 0x10;
     active_source = &D_800814A8;
     if (probe_result == 0) {
-        goto return_null;
+        return (void *)0;
     }
 
     spawned = func_8009B25C(source, spawn_x, spawn_y,

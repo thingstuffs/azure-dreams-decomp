@@ -70,12 +70,12 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
         if (state == 0) {
             goto init_motion;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto approach_target;
     }
-    goto done;
+    return;
 
 init_motion:
     func_800AD4D0(entity);
@@ -87,7 +87,7 @@ init_motion:
             goto stop_motion;
         }
         motion_state->state = 2;
-        goto done;
+        return;
     }
     initial_delay = -1;
     if (entity->flags & 0x228) {
@@ -119,7 +119,7 @@ decelerate:
     }
 after_delay:
     if (motion_state->delay != 0) {
-        goto done;
+        return;
     }
     if (entity->byte28 != 0) {
         goto begin_approach;
@@ -138,13 +138,13 @@ stop_motion:
         func_8009A028(entity, shared_state);
         ((u16 *)motion_state)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        return;
     }
 
 begin_approach:
     motion_state->delay = 8;
     motion_state->state++;
-    goto done;
+    return;
 
 approach_target:
     {
@@ -164,7 +164,7 @@ approach_target:
             delay -= 1;
             motion_state->delay = delay;
             if ((delay << 0x10) > 0) {
-                goto done;
+                return;
             }
         }
     }
@@ -180,6 +180,5 @@ approach_target:
         motion_state->next = D_800B2A60;
     }
 
-done:
     return;
 }

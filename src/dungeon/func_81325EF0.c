@@ -91,7 +91,7 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, vo
 
 state_zero:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     {
         u8 *dir_table = D_801746A4;
@@ -111,7 +111,7 @@ state_one:
         goto post_actions;
     }
     if (((S_8016D6F0_2 *)D_80080000)->unk_3462 & 0x1000) {
-        goto done;
+        return;
     }
     if (actor->unk_B4 == 0) {
         flags_page = (u8 *)0x80010000;
@@ -134,7 +134,7 @@ state_one:
 
 action_body:
     if ((func_800A2C34(entity) << 0x10) != 0) {
-        goto done;
+        return;
     }
     entity_flags = ((EntityRec *)entity)->flags1C;
     action_flag = entity_flags & 0x100;
@@ -149,14 +149,14 @@ action_body:
         return;
     }
     if (((EntityRec *)entity)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 0x10) != 0) {
         if ((func_8009A180(
                  entity,
                  ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)D_80080000)->unk_14A8))->unk_58 + 0x20)
              << 0x10) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(entity);
@@ -176,7 +176,7 @@ action_body:
 
 second_check:
     if ((func_80042900(entity, 1) << 0x10) != 0) {
-        goto done;
+        return;
     }
 
 post_actions:
@@ -200,7 +200,7 @@ advance_state:
 
 state_two:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     counter_update = &dungeonStatus;
     (*(u16 *)&counter_update->unk_0A)--;
@@ -208,6 +208,5 @@ state_two:
 set_callback:
     actor->unk_8C = D_8016B778;
 
-done:
     return;
 }

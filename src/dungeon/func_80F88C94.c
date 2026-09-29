@@ -159,7 +159,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             ((S_80172494_1 *)action)->unk_9B = 0xFF;
             ((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v |= 0x6000;
             func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
-            goto action_end;
+            return;
         }
         setup_value = 0xF7FFFFFF;
         operand = 0xFFFBFFFF;
@@ -182,12 +182,12 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         velocity_y = ((S_80172494_3 *)motion)->unk_14;
         ((S_80172494_3 *)motion)->unk_14 = velocity_y + (velocity_y >> 2);
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
-            goto action_end;
+            return;
         }
         result = ((S_80172494_1 *)action)->unk_9B;
         ((S_80172494_1 *)action)->unk_96.s = 8;
         ((S_80172494_1 *)action)->unk_9B = result + 1;
-        goto action_end;
+        return;
 
     case 2:
         velocity_x = ((S_80172494_3 *)motion)->unk_0C;
@@ -206,10 +206,10 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
             func_80047784(map_actor, D_80174AE4[direction_index & 7], 0);
         }
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
-            goto action_end;
+            return;
         }
         if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
-            goto action_end;
+            return;
         }
         ((S_80172494_1 *)action)->unk_96.s = 4;
         ((S_80172494_3 *)motion)->unk_0C = (direction_x << 18) + (direction_x << 17);
@@ -222,19 +222,19 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         ((S_80172494_3 *)motion)->unk_0C += direction_x << 18;
         ((S_80172494_3 *)motion)->unk_10 += direction_y << 18;
         if (((S_80172494_1 *)action)->unk_96.u > 0) {
-            goto action_end;
+            return;
         }
         func_800A56E0(0x808);
         func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
 
 advance_state:
         ((S_80172494_1 *)action)->unk_9B++;
-        goto action_end;
+        return;
 
     case 4:
         ((S_80172494_1 *)action)->unk_90 += 0x80000;
         if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
-            goto action_end;
+            return;
         }
         ((S_80172494_3 *)motion)->unk_14 = 0;
         ((S_80172494_1 *)action)->unk_98 &= 0xFFF7;
@@ -242,7 +242,7 @@ advance_state:
         ((S_80172494_0 *)actor_arg)->unk_1C |= 0x08000000;
         ((S_80172494_1 *)action)->unk_96.s = state;
         ((S_80172494_1 *)action)->unk_9B = 0xFF;
-        goto action_end;
+        return;
 
     case 0xFF:
         delta_x = ((Rec_D_80082E80 *)map_actor)->unk_24 << 6;
@@ -295,7 +295,7 @@ advance_state:
             } while (index >= 0);
         }
         if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0xE000)) {
-            goto action_end;
+            return;
         }
         ((S_80172494_3 *)motion)->unk_10 = 0;
         ((S_80172494_3 *)motion)->unk_0C = 0;
@@ -310,17 +310,16 @@ advance_state:
         func_800A4ACC(actor_arg);
         if (((S_80172494_0 *)actor_arg)->unk_6D == 0) {
             ((S_80172494_0 *)actor_arg)->unk_46 &= 0x7FFF;
-            goto action_end;
+            return;
         }
         operand = (s32)((u8 *)&D_800E3DE8 - 0x3DE8);
         actor_base = (s32)((u8 *)actor_arg - 0x20);
         ((S_80172494_8 *)((void *)operand))->unk_3DE8 = (void *)actor_base;
-        goto action_end;
+        return;
 
     default:
-        goto action_end;
+        return;
     }
 
-action_end:
     return;
 }

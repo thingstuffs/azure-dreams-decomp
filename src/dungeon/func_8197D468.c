@@ -134,12 +134,12 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
     }
-    goto done;
+    return;
 
 state_0:
     ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
@@ -163,9 +163,9 @@ state_0:
         ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
         ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
         ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state_1:
     ((S_8197D468_2 *)sprite)->unk_0C.s32 = 0x606060;
@@ -175,9 +175,9 @@ state_1:
     ((S_8197D468_0 *)effect)->unk_48 = frames_left;
     if ((frames_left << 0x10) <= 0) {
         ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state_2:
     if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
@@ -233,6 +233,5 @@ state_2:
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
     }
-done:
     return;
 }

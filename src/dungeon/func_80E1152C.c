@@ -74,7 +74,7 @@ state_0:
     if (sprite_flags & 0x8000) {
         sprite->flags = sprite_flags | 0x6000;
         action->state = 2;
-        goto epilogue;
+        return;
     }
     if (sprite->kind == 1) {
         if (sprite_flags & 0x1000) {
@@ -118,7 +118,7 @@ state_2:
     action->field_96 = ticks_left;
     if ((ticks_left << 16) != 0) {
         if (!(sprite->flags & 0xE000)) {
-            goto epilogue;
+            return;
         }
     }
     func_800AD594(actor, 0x400);
@@ -134,6 +134,5 @@ common:
         action->field_98 &= 0xFFF7;
     }
 
-epilogue:
     return;
 }

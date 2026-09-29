@@ -274,7 +274,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
 
     state = action->unk_9B;
     if (state >= 0xCU) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80089310[(u32)(state)];
 align_actor: {
@@ -303,7 +303,7 @@ wait_open_anim:
     func_800A56E0(0x701);
 check_open_anim:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
     func_80048A44(sprite, D_800DD110[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -341,7 +341,7 @@ set_input_anim_flags:
     sprite->unk_14 = (u16) (sprite_flags | 0x6800);
 check_input_ready:
     if (dungeonStatus.flags & 4) {
-        goto done;
+        return;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     use_item = 0;
@@ -404,11 +404,11 @@ check_cancel:
         s32 cancel_test;
         cancel_test = ((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1;
         if (cancel_test) {
-            goto done;
+            return;
         }
         cancel_test = global_state->unk_10 & 0x20;
         if (cancel_test == 0) {
-            goto done;
+            return;
         }
     }
     func_8009F644(actor, 0xA8, 0, 0);
@@ -422,7 +422,7 @@ start_cancel:
     return;
 wait_use_anim:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     global_state = (S_func_800B1364_7 *)&dungeonStatus.unk_00;
     if (global_state->unk_02 & 2) {
@@ -436,7 +436,7 @@ resume_input:
     return;
 finish_cancel:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     func_80098B38(&D_80081484);
     {
@@ -449,7 +449,7 @@ finish_cancel:
 create_item_effect:
     item_effect = func_80098CF8(action, position, sprite, &D_80081484);
     if (item_effect == NULL) {
-        goto done;
+        return;
     }
     item_effect->unk_CC = 2;
     action->unk_9A = 0x22;
@@ -457,7 +457,7 @@ create_item_effect:
     return;
 show_spawn_effect:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) != 0) {
         goto place_spawn_effect;
@@ -474,7 +474,7 @@ spawn_creature:
     creature_variant = func_800A1618(*spawn_item, 2);
     creature = func_800A0B94(*action->unk_C0, creature_variant, 1)(2, sprite->unk_24, sprite->unk_25, (s16) (actor->unk_88 - 0x20));
     if (creature == NULL) {
-        goto done;
+        return;
     }
     func_8003E188(creature->unk_13, 0);
     func_800A90E8(action->unk_C0);
@@ -545,20 +545,20 @@ show_spawn_message:
     }
     summon_state = &dungeonStatus;
     if ((s16) ((u16)summon_state->unk_0A) < 2) {
-        goto done;
+        return;
     }
     summon_state->unk_0A = (u16) (((u16)summon_state->unk_0A) - 1);
     return;
 decrement_summon_count:
     summon_state = &dungeonStatus;
     if (summon_state->unk_0A <= 0) {
-        goto done;
+        return;
     }
     summon_state->unk_0A = (s16) ((u16) summon_state->unk_0A - 1);
     return;
 wait_spawn:
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     wait_timer = action->unk_96 - 1;
     action->unk_96 = wait_timer;
@@ -570,7 +570,7 @@ wait_spawn:
         goto start_store_anim;
     }
     if (global_state->unk_10 == 0) {
-        goto done;
+        return;
     }
 start_store_anim:
     direction_base = D_800DD130;
@@ -580,7 +580,7 @@ start_store_anim:
     goto play_direction_anim;
 save_creature:
     if (!(sprite->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD138;
     func_80048A44(sprite, D_800DD138[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -614,7 +614,7 @@ save_creature:
 finish_creature:
     finished_creature = actor->unk_60;
     if (!(finished_creature->unk_1C & 0x800000)) {
-        goto done;
+        return;
     }
     func_8009A028(finished_creature);
     copy_src = NULL;
@@ -642,10 +642,9 @@ read_next_state:
 restore_idle:
     final_flags = sprite->unk_14;
     if (!(final_flags & 0xE000)) {
-        goto done;
+        return;
     }
     sprite->unk_14 = (u16) (final_flags & 0xFDFF);
     action->unk_8C = &D_8008ACDC;
-done:
     return;
 }

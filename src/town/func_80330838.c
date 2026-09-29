@@ -10,16 +10,14 @@ s32 func_8001B038(s32 target_value) {
 
     entry = (void *)(*(s32 *)((s8 *)D_80016000 + 0x38) + 0x33A4);
     do { entry_index = 0; } while (0);
-loop:
-    if (*(u8 *)((s8 *)entry + 1) == target_value) {
-        result = 1;
-        goto done;
-    }
-    entry_index++;
-    entry += 2;
-    if (entry_index < 0x22) {
-        goto loop;
-    }
+    do {
+        if (*(u8 *)((s8 *)entry + 1) == target_value) {
+            result = 1;
+            goto done;
+        }
+        entry_index++;
+        entry += 2;
+    } while (entry_index < 0x22);
     result = 0;
 done:
     return result;

@@ -52,7 +52,7 @@ void func_801748E0(void *action_work, void *position, void *sprite, void *actor)
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -60,7 +60,7 @@ void func_801748E0(void *action_work, void *position, void *sprite, void *actor)
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     S32_AT(position, 0x14) = 0;
@@ -69,7 +69,7 @@ state_0:
     timer = U16_AT(action_work, 0x96) + 1;
     U16_AT(action_work, 0x96) = timer;
     if (((s16)timer < 0x14) && !(U16_AT(sprite, 0x14) & 0x8000)) {
-        goto done;
+        return;
     }
     animations = D_80174F18;
     PTR_AT(sprite, 0x2C) = animations;
@@ -136,9 +136,9 @@ state_1:
     if (((s32)(timer << 16) <= 0) || (U16_AT(sprite, 0x14) & 0x8000)) {
         U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
         U16_AT(sprite, 0x14) &= 0xF7FF;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state_2:
     if (((S8_AT(sprite, 4) == state) && (U16_AT(sprite, 0x14) & 0x1000)) ||
@@ -153,21 +153,21 @@ state_2:
         U16_AT(sprite, 0x14) &= 0xF7FF;
     }
     if (!(U16_AT(sprite, 0x14) & 0xE000)) {
-        goto done;
+        return;
     }
     S32_AT(position, 0x14) = 0;
     S32_AT(position, 0x10) = 0;
     S32_AT(position, 0x0C) = 0;
     func_800A2B04(position, U8_AT(sprite, 0x24), U8_AT(sprite, 0x25));
     if (PTR_AT(sprite, 0x2C) == D_80174EB8) {
-        goto done;
+        return;
     }
     PTR_AT(sprite, 0x2C) = D_80174EB8;
     U16_AT(sprite, 0x14) &= 0xF7FF;
     direction_index = ((gameWork.view.viewAngle + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7;
     func_80047784(sprite, U8_AT(PTR_AT(sprite, 0x2C), direction_index), 0);
     U8_AT(action_work, 0x9B) = U8_AT(action_work, 0x9B) + 1;
-    goto done;
+    return;
 
 state_3:
     if (S16_AT(action_work, 0xA4) != 0x4D) {
@@ -177,6 +177,5 @@ state_3:
         U16_AT(actor, 0x46) &= 0x7FFF;
     }
 
-done:
     return;
 }

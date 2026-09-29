@@ -62,12 +62,12 @@ void func_800274F0(S_800274F0_Arg *menu) {
     input = &gameWork;
     held_buttons = input->buttons;
     if (held_buttons == 0)
-        goto done;
+        return;
     pressed_buttons = ((s32)input->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, input);
         func_800274A8(menu);
-        goto done;
+        return;
     }
     if (pressed_buttons & 0x10) {
         SD_Call(0x503, input);
@@ -82,7 +82,7 @@ void func_800274F0(S_800274F0_Arg *menu) {
         if (menu->unk14 == 1 ||
             func_80026BFC(menu->unk48->unk28) != 0)
             goto finish_effect;
-        goto done;
+        return;
     }
 
     goto direction_entry;
@@ -90,7 +90,7 @@ void func_800274F0(S_800274F0_Arg *menu) {
 finish_effect:
     func_800274A8(menu);
     func_800255AC(menu->unk44);
-    goto done;
+    return;
 
 direction_entry:
     if (!(held_buttons & 0xF000))
@@ -141,23 +141,22 @@ increment_done:
 
 direction_common:
     if (index_step == 0)
-        goto done;
+        return;
     SD_Call(0x502, input);
     selected_index = menu->unk8;
     item_count = menu->unk3C;
     next_index = selected_index + index_step;
     remaining_items = item_count - next_index;
     if (!(remaining_items > 0 && item_count >= remaining_items))
-        goto done;
+        return;
     menu->unk8 = next_index;
     if ((next_index - index_step) / 72 == next_index / 72) {
         func_80026D0C(menu->unk88);
-        goto done;
+        return;
     }
     func_80026CD8(menu->unk88);
     *(void **)((u8 *)menu - 0x10) = D_80027E84;
     menu->unk0 = menu->unk4;
 
-done:
     return;
 }

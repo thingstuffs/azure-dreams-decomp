@@ -254,7 +254,7 @@ case_0:
     ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     ASM_KEEP(coord_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
-        goto done;
+        return;
     }
     player_2 = D_800814A8;
     ((S_8197192C_0 *)effect)->unk_2C.s = 33;
@@ -353,13 +353,13 @@ case_3:
     EntityRec *world_pos;
     u8 *outer_point;
     if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
-        goto done;
+        return;
     }
     if (((S_8197192C_0 *)effect)->unk_2C.u >= 6) {
-        goto done;
+        return;
     }
     if (((S_8197192C_0 *)effect)->unk_2C.u == 3) {
-        goto done;
+        return;
     }
     segment = (((S_8197192C_0 *)effect)->unk_2C.u == 4);
     if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
@@ -602,7 +602,7 @@ after_coords:
         } while (step < 12);
     }
     if (((S_8197192C_0 *)effect)->unk_2C.u != 1) {
-        goto done;
+        return;
     }
     step = 0;
     do {
@@ -619,7 +619,7 @@ after_coords:
             spawn_x, spawn_y, spawn_z);
         step++;
     } while (step < 2);
-    goto done;
+    return;
 
 }
 
@@ -661,7 +661,7 @@ case_4_global_use:
         }
         ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
         if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
-            goto done;
+            return;
         }
 case_4_set_state:
         ((S_8197192C_0 *)effect)->unk_0A.u = next_state;

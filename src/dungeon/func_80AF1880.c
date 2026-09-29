@@ -87,7 +87,7 @@ advance_state:
         ((S_80173080_0 *)action)->unk_9B++;
         return;
     }
-    goto done;
+    return;
 
 state_2:
     timer = ((S_80173080_0 *)action)->unk_96.u + 1;
@@ -101,7 +101,7 @@ state_2:
         func_800A56E0(0x808);
         return;
     }
-    goto done;
+    return;
 
 state_3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -112,6 +112,5 @@ state_3:
         ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     }
 
-done:
     return;
 }

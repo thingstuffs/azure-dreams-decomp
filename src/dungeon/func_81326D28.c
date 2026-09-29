@@ -184,34 +184,32 @@ check_settle_repeat:
     if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
         goto repeat_settling;
     }
-repeat_falling:
-check_falling:
-    if (((S_8016E528_0 *)motion)->unk_12 != 2) {
-        goto update_motion;
-    }
-    ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v + ((S_8016E528_0 *)motion)->unk_54);
-    ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
-    scale = ((S_8016E528_1 *)object)->unk_1E - 0xC8;
-    ((S_8016E528_1 *)object)->unk_1E = scale;
-    ((S_8016E528_1 *)object)->unk_1C = scale;
-    probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
-    fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-    if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
-        goto check_fall_repeat;
-    }
-    ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20));
-    ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
-mark_removed:
-    (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
-    objectFlagBlock.flags |= 0x8000;
-    return;
-check_fall_repeat:
-    if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
-        goto repeat_falling;
-    }
+    do {
+        check_falling:
+            if (((S_8016E528_0 *)motion)->unk_12 != 2) {
+                goto update_motion;
+            }
+            ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v + ((S_8016E528_0 *)motion)->unk_54);
+            ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
+            scale = ((S_8016E528_1 *)object)->unk_1E - 0xC8;
+            ((S_8016E528_1 *)object)->unk_1E = scale;
+            ((S_8016E528_1 *)object)->unk_1C = scale;
+            probe_height = ((S_8016E528_2 *)position)->unk_08.at02u.v;
+            fall_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
+            if ((func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) (probe_height - 0x20)) - 7) >= fall_height) {
+                goto check_fall_repeat;
+            }
+            ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04((((S_8016E528_0 *)motion)->unk_48 << 6) & 0xFFC0, (((S_8016E528_0 *)motion)->unk_49 << 6) & 0xFFC0, (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20));
+            ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
+        mark_removed:
+            (*(u16 *)((u8 *)motion + (-2))) = (u16) (((S_8016E528_0_pre *)motion)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        check_fall_repeat:
+    } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
 update_motion:
     if (((S_8016E528_0 *)motion)->unk_12 != 0) {
-        goto done;
+        return;
     }
     ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v + ((S_8016E528_0 *)motion)->unk_4C);
     ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
@@ -281,6 +279,5 @@ check_motion_repeat:
     if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
         goto update_motion;
     }
-done:
     return;
 }

@@ -48,7 +48,7 @@ state_high:
 
 state_zero:
     if (!(U16_AT(sprite, 0x14) & 0xE000)) {
-        goto done;
+        return;
     }
     dungeonStatus.unk_0A--;
     PTR_AT(sprite, 0x2C) = D_800E262C;
@@ -60,15 +60,15 @@ state_zero:
 
 state_one:
     if (dungeonStatus.flags & 0x1000) {
-        goto done;
+        return;
     }
     if (S16_AT(actor, 0x64) != 0) {
         if (func_800AA6B4(controller, context, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if ((func_800A2C34(actor) << 0x10) != 0) {
-        goto done;
+        return;
     }
     actor_flags = S32_AT(actor, 0x1C);
     if (actor_flags & 0x100) {
@@ -81,21 +81,21 @@ state_one:
         return;
     }
     if (S8_AT(actor, 0x6D) == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 0x10) == 0) {
         goto permitted;
     }
     if ((func_8009A180(actor,
             *(s32 *)((u8 *)D_800814A8 + 0x58) + 0x20) << 0x10) != 0) {
-        goto done;
+        return;
     }
 
 permitted:
     func_800A9A0C(actor);
     func_800A9A04(actor);
     if (U8_AT(actor, 0x25) == 0) {
-        goto done;
+        return;
     }
     PTR_AT(sprite, 0x2C) = D_800E262C;
     func_8003DB94(sprite,
@@ -111,12 +111,11 @@ advance_state:
 
 state_two:
     if (!(U16_AT(sprite, 0x14) & 0xE000)) {
-        goto done;
+        return;
     }
     dungeonStatus.unk_0A--;
     S32_AT(actor, 0x1C) &= ~0x208;
     PTR_AT(controller, 0x8C) = D_800D8C64;
 
-done:
     return;
 }

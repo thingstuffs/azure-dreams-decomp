@@ -60,7 +60,7 @@ void func_80125FB8(Rec_func_801237A4_arg0 *state)
 
     state_index = (s16)(state->unk_04.as_u16 - 8);
     if ((u32)state_index >= 13) {
-        goto done;
+        return;
     }
     (void)switch_labels;
     goto *D_8011AD58[state_index];

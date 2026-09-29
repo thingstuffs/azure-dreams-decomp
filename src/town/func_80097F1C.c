@@ -45,26 +45,24 @@ s32 func_8009567C(void *record)
         special_type = 1;
         slot_ptr = &D_800D046C;
         direction_ptr = &D_800D0464;
-loop:
-        if (direction == *direction_ptr) {
-            slot = *slot_ptr;
-            if (((S_8009567C_0 *)((u8 *)record + slot))->unk_3A != 0) {
-                entry = ((S_8009567C_1 *)((u8 *)record + slot * 4))->unk_1C;
-                ((Rec_D_800CFCB4 *)record)->unk_18 = slot;
-                ((Rec_D_800CFCB4 *)record)->unk_10 = entry;
-                entry_type = entry->unk_14;
-                if (entry_type == special_type) {
-                    return -1;
+        do {
+            if (direction == *direction_ptr) {
+                slot = *slot_ptr;
+                if (((S_8009567C_0 *)((u8 *)record + slot))->unk_3A != 0) {
+                    entry = ((S_8009567C_1 *)((u8 *)record + slot * 4))->unk_1C;
+                    ((Rec_D_800CFCB4 *)record)->unk_18 = slot;
+                    ((Rec_D_800CFCB4 *)record)->unk_10 = entry;
+                    entry_type = entry->unk_14;
+                    if (entry_type == special_type) {
+                        return -1;
+                    }
+                    return 1;
                 }
-                return 1;
             }
-        }
-        slot_ptr++;
-        direction_index++;
-        direction_ptr++;
-        if (direction_index < 4) {
-            goto loop;
-        }
+            slot_ptr++;
+            direction_index++;
+            direction_ptr++;
+        } while (direction_index < 4);
     }
     return 0;
 }

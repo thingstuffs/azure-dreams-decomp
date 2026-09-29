@@ -33,7 +33,7 @@ s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
         goto return_one;
     }
     if (tile_flags & 0x8000) {
-        goto return_zero;
+        return 0;
     }
     next_x = position->x + ((u16 *)dirStepX)[direction];
     next_y = position->y + ((u16 *)dirStepY)[direction];

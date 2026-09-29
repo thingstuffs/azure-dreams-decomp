@@ -18,7 +18,7 @@ s32 func_80021298(void)
     state = D_800287C8;
     status = 0;
     if (state == 0) {
-        goto done;
+        return status;
     }
     if (state == 1) {
         goto state_one;

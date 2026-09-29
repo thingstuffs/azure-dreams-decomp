@@ -52,7 +52,7 @@ void func_801503C4(void *action, void *motion, void *sprite, void *actor)
 
     state = ((S_801503C4_0 *)action)->unk_9B;
     if (state >= 6) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *D_8014C838[state];
@@ -64,14 +64,14 @@ init_action:
     ((S_801503C4_0 *)action)->unk_96.s = 0;
     ((S_801503C4_0 *)action)->unk_9B++;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto done;
+        return;
     }
 
 start_animation:
     timer = ((S_801503C4_0 *)action)->unk_96.s + 1;
     ((S_801503C4_0 *)action)->unk_96.s = timer;
     if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto done;
+        return;
     }
     ((S_801503C4_0 *)action)->unk_96.s = 0;
     ((S_801503C4_0 *)action)->unk_9B++;
@@ -81,13 +81,13 @@ start_animation:
         func_80047784(sprite,
             D_80151DDC[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        goto done;
+        return;
     case 14:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151DE4;
         func_80047784(sprite,
             D_80151DE4[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
             0);
-        goto done;
+        return;
     case 15:
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80151DEC;
         func_80047784(sprite,
@@ -95,9 +95,9 @@ start_animation:
             0);
         ((S_801503C4_0 *)action)->unk_9B = 5;
         func_800A56E0(0x60C);
-        goto done;
+        return;
     default:
-        goto done;
+        return;
     }
 
 wait_action:
@@ -110,9 +110,9 @@ wait_action:
     }
     if (((S_801503C4_0 *)action)->unk_96.u == 3) {
         func_800A56E0(0x804);
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 finish_action:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
@@ -122,7 +122,7 @@ finish_action:
         func_800A4ACC(actor);
         ((EntityRec *)actor)->unk_46 &= 0x7FFF;
     }
-    goto done;
+    return;
 
 special_action:
     timer = ((S_801503C4_0 *)action)->unk_96.s + 1;

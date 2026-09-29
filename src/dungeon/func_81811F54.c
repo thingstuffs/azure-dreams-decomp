@@ -16,19 +16,17 @@ s32 func_80026F54(s32 target_value, s32 prefix_value, s32 target_occurrence)
     index = occurrence;
     entry = D_800157D2;
 
-loop:
-    if ((entry[0] == target_value) && (entry[-1] == prefix_value)) {
-        result = index;
-        if (occurrence == target_occurrence) {
-            return result;
+    do {
+        if ((entry[0] == target_value) && (entry[-1] == prefix_value)) {
+            result = index;
+            if (occurrence == target_occurrence) {
+                return result;
+            }
+            occurrence++;
         }
-        occurrence++;
-    }
 
-    index++;
-    entry += 0x13;
-    if (index < 0x40) {
-        goto loop;
-    }
+        index++;
+        entry += 0x13;
+    } while (index < 0x40);
     return -1;
 }

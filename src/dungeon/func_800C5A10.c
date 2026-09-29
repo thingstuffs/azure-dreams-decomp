@@ -45,10 +45,10 @@ void func_800CB170(State *state, Position *position, Motion *motion, void *objec
                 if (current_state == 0) {
                     goto state_zero;
                 }
-                goto done;
+                return;
             }
             if (current_state != 2) {
-                goto done;
+                return;
             }
             goto state_two;
         }
@@ -63,7 +63,7 @@ state_zero:
         state->state_9b = state->state_9b + 1;
         goto state_one;
     }
-    goto done;
+    return;
 
 state_one:
     {
@@ -76,7 +76,7 @@ state_one:
         if ((counter << 16) <= 0) {
             state->state_9b = state->state_9b + 1;
         }
-        goto done;
+        return;
     }
 
 state_two:
@@ -100,6 +100,5 @@ state_two:
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     }
 
-done:
     return;
 }

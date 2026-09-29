@@ -77,7 +77,7 @@ state_zero:
         u8 *direction_anims;
 
         if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         dungeonStatus.unk_0A--;
@@ -108,17 +108,17 @@ state_one:
         }
 
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
 
         if (((EntityRec *)entity)->unk_64 != 0) {
             if (func_800AA6B4(actor, context, animation, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if ((func_800A2C34(entity) << 16) != 0) {
-            goto done;
+            return;
         }
 
         entity_flags = ((u32)((EntityRec *)entity)->flags1C);
@@ -142,19 +142,19 @@ state_one:
         }
 
         if (((EntityRec *)entity)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((func_800A2C34(entity) << 16) != 0) {
             if ((func_8009A180(entity,
                     (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                goto done;
+                return;
             }
         }
 
         func_800A9A0C(entity);
         func_800A9A04(entity);
         if (((EntityRec *)entity)->tileY == 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)animation + (0x2C))) = D_80175EC0;
@@ -177,6 +177,5 @@ state_two:
         ((S_80174214_0 *)actor)->unk_8C = &D_801710EC;
     }
 
-done:
     return;
 }

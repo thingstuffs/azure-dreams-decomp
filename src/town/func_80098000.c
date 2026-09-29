@@ -43,27 +43,25 @@ s32 func_80095760(void *entries)
         blocked_state = 1;
         slot_ptr = &D_800D046C;
         direction_ptr = &D_800D0464;
-loop:
-        if (direction == *direction_ptr) {
-            slot = *slot_ptr;
-            if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
-                do {
-                    entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
-                } while (0);
-                state = entry->unk_14;
-                 /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
-                if (state == blocked_state) {
-                    return -1;
+        do {
+            if (direction == *direction_ptr) {
+                slot = *slot_ptr;
+                if (((S_80095760_0 *)((u8 *)entries + slot))->unk_3A != 0) {
+                    do {
+                        entry = ((S_80095760_1 *)((u8 *)entries + slot * 4))->unk_1C;
+                    } while (0);
+                    state = entry->unk_14;
+                     /* MATCH: preserve the loop pointers' live ranges through the byte load after removing the label call. */
+                    if (state == blocked_state) {
+                        return -1;
+                    }
+                    return 1;
                 }
-                return 1;
             }
-        }
-        slot_ptr++;
-        entry_index++;
-        direction_ptr++;
-        if (entry_index < 4) {
-            goto loop;
-        }
+            slot_ptr++;
+            entry_index++;
+            direction_ptr++;
+        } while (entry_index < 4);
     }
     return 0;
 }

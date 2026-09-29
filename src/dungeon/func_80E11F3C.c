@@ -39,16 +39,16 @@ void func_8017573C(S_8017573C_0 *animation, s32 unused, Rec_D_80082E80 *object) 
         goto grow;
     }
     if (phase >= 2) {
-        goto done;
+        return;
     }
     if (phase != 0) {
-        goto done;
+        return;
     }
     if (animation->unk_02.u < 8) {
-        goto done;
+        return;
     }
     animation->unk_00.u = phase_u + 1;
-    goto done;
+    return;
 
 grow:
     scale = object->unk_1C.at02_u16.v + 0x100;
@@ -58,7 +58,7 @@ grow:
         goto clamp;
     }
     if (object->unk_1C.at02_u16.v < 0x1000U) {
-        goto done;
+        return;
     }
 
 clamp:
@@ -66,6 +66,5 @@ clamp:
     object->unk_1C.at00_u16.v = 0x1000;
     animation->unk_00.u = animation->unk_00.u + 1;
 
-done:
     return;
 }

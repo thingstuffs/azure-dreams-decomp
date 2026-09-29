@@ -59,7 +59,7 @@ void func_80174D24(void *state, void *output, void *target)
     if (((S_80174D24_4 *)(((S_80174D24_0 *)state)->unk_08))->unk_2C != &D_80175F38) {
         (*(u16 *)((u8 *)state + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto out;
+        return;
     }
 
     source = ((S_80174D24_0 *)state)->unk_04;
@@ -86,32 +86,31 @@ void func_80174D24(void *state, void *output, void *target)
     if (phase == 1) {
         goto mode_one;
     }
-    goto out;
+    return;
 
 mode_zero:
     func_800478B8(target);
     target_flags = ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v;
     if ((target_flags & 0x6000) == 0) {
-        goto out;
+        return;
         ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
     } else {
         ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
     }
     ((S_80174D24_0 *)state)->unk_02 = 0;
     ((S_80174D24_0 *)state)->unk_00.u++;
-    goto out;
+    return;
 
 mode_one:
     signed_ticks = (s16)copy_word_a;
     if (signed_ticks < 0x40) {
-        goto out;
+        return;
     }
     ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v &= 0xFF7F;
     func_80047784(target, 0x38, 0);
     ((S_80174D24_0 *)state)->unk_02 = 0;
     ((S_80174D24_0 *)state)->unk_00.s = 0;
 
-out:
     return;
 }
 

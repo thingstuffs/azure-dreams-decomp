@@ -16,24 +16,21 @@ s32 func_800A404C(void) {
 
     index = 0;
     base = D_800814A8;
-loop:
-    object = *(void **)(base + 0xAC);
-    if ((object != NULL) &&
-        (state = *(u16 *)(object + 0x46), (state & 0x8000) != 0) &&
-        ((u32)((state & 0x3FFF) - 5) < 3U)) {
-        goto success;
-    }
+    do {
+        object = *(void **)(base + 0xAC);
+        if ((object != NULL) &&
+            (state = *(u16 *)(object + 0x46), (state & 0x8000) != 0) &&
+            ((u32)((state & 0x3FFF) - 5) < 3U)) {
+            goto success;
+        }
 
-    index++;
-    base += 4;
-    if (index < 2) {
-        goto loop;
-    }
+        index++;
+        base += 4;
+    } while (index < 2);
 
     result = 0;
-    goto done;
+    return result;
 success:
     result = 1;
-done:
     return result;
 }

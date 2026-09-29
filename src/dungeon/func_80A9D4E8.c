@@ -192,7 +192,7 @@ object_ready:
             func_800DA840(position, (s16)((*item_slot - 1) % 3));
             goto increment_state;
         }
-        goto end;
+        return;
 
 no_item:
         ((EntityRec *)motion)->flags14 = 0;
@@ -210,11 +210,11 @@ no_item:
         (*(u8 *)((u8 *)object + 0x73)) = 0;
         (*(u8 *)((u8 *)object + 0x72)) = 0;
         (*(u16 *)((u8 *)object + 0x46)) &= 0x7FFF;
-        goto end;
+        return;
 
     case 1:
         if (!(((S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
-            goto end;
+            return;
         }
         (*(void * *)((u8 *)actor + 0x2C)) = D_80174C7C;
         func_80047784(
@@ -223,12 +223,12 @@ no_item:
             0);
 increment_state:
         ((S_80172CE8_0 *)action)->unk_9B++;
-        goto end;
+        return;
 
     case 2:
         if (func_8003F270()) {
             ((S_80172CE8_3 *)actor)->unk_14 |= 0x800;
-            goto end;
+            return;
         }
         ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
         ((S_80172CE8_0 *)action)->unk_9B++;
@@ -253,7 +253,7 @@ increment_state:
         }
 
         if (!(((S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
-            goto end;
+            return;
         }
 
         ((EntityRec *)motion)->flags14 = 0;
@@ -271,7 +271,7 @@ increment_state:
 
         {
             if (((s32)dungeonStatus.unk_0C) != 0) {
-                goto end;
+                return;
             }
             dungeonStatus.unk_0A--;
         }
@@ -291,6 +291,5 @@ increment_state:
         break;
     }
 
-end:
     return;
 }

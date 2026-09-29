@@ -95,7 +95,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
         if (phase == 0) {
             goto init;
         }
-        goto end;
+        return;
     } else {
         if (phase == 2) {
             goto check_stop;
@@ -103,7 +103,7 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
         if (phase == 3) {
             goto fade_out;
         }
-        goto end;
+        return;
     }
 
 init:
@@ -184,6 +184,5 @@ final_update:
         render_flags = ((S_80025A14_2 *)obj_arg)->unk_14 & 0xFFFE;
     }
     ((S_80025A14_2 *)obj_arg)->unk_14 = render_flags;
-end:
     return;
 }

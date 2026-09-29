@@ -100,7 +100,7 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
     } while (0);
     state = ((S_80172A48_0 *)action)->unk_9B;
     if ((u32)state >= 24) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170850[state];
@@ -216,7 +216,7 @@ copy_active_coords:
 invoke_item:
     effect_special = is_special;
     if (func_800A94A0(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
@@ -224,10 +224,10 @@ invoke_item:
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     if ((u32)(*effect_slot - 0x2E) >= 3) {
-        goto end;
+        return;
     }
     if (effect_special == 1) {
-        goto end;
+        return;
     }
     ((S_80172A48_0 *)action)->unk_9B = 0x10;
     return;
@@ -262,7 +262,7 @@ state_2:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 8) {
             if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-                goto end;
+                return;
             }
         }
     }
@@ -280,7 +280,7 @@ state_3:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 15) {
             if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-                goto end;
+                return;
             }
         }
     }
@@ -302,13 +302,13 @@ state_4:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 3) {
             if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
-                goto end;
+                return;
             }
         }
     }
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
     ((S_80172A48_0 *)action)->unk_9B++;
-    goto end;
+    return;
 
 state_5:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
@@ -319,7 +319,7 @@ state_5:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 10) {
             if (!(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-                goto end;
+                return;
             }
         }
     }
@@ -336,7 +336,7 @@ state_6:
 
 state_7:
     if (!(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -344,7 +344,7 @@ state_7:
     func_800A2B04(motion, ((S_80172A48_3 *)actor)->unk_24, ((S_80172A48_3 *)actor)->unk_25);
     ((S_80172A48_0 *)action)->unk_9B++;
     if (((S_80172A48_3 *)actor)->unk_2C == D_801740E0) {
-        goto end;
+        return;
     }
     {
         u8 *model = D_801740E0;
@@ -362,7 +362,7 @@ state_8:
     {
 
         if (((s32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
         ((S_80172A48_0 *)action)->unk_8C = D_801714D4;
@@ -392,7 +392,7 @@ state_17:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 8 &&
             !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-            goto end;
+            return;
         }
     }
     next_state = ((S_80172A48_0 *)action)->unk_9B;
@@ -409,7 +409,7 @@ state_18:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 15 &&
             !(((S_80172A48_3 *)actor)->unk_14 & 0x8000)) {
-            goto end;
+            return;
         }
     }
     ((S_80172A48_0 *)action)->unk_96.u = 0;
@@ -431,7 +431,7 @@ state_19:
         ((S_80172A48_0 *)action)->unk_96.u = timer + 1;
         if ((s16)timer < 2 &&
             !(((S_80172A48_3 *)actor)->unk_14 & 0xE000)) {
-            goto end;
+            return;
         }
     }
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;

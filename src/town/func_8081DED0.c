@@ -76,7 +76,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
 
     state = (u32)((S_800206D0_0 *)pickup)->unk_00;
     if (state >= 7) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80020030[state];
@@ -106,7 +106,7 @@ state0_compute:
             ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
         }
         ((S_800206D0_0 *)pickup)->unk_1D = 0;
-        goto end;
+        return;
     }
 
 state1:
@@ -136,14 +136,14 @@ state2:
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 += 0x30000;
     timer = --((S_800206D0_0 *)pickup)->unk_02.s;
     if ((s16)timer > 0) {
-        goto end;
+        return;
     }
     SD_Call(0x501);
     ((Rec_func_800206D0_arg1 *)motion)->unk_08 = 0xFFC00000;
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 = ((rand() & 0xFF) << 11) + 0xFFE80000;
     ((S_800206D0_0 *)pickup)->unk_02.u = (rand() & 0xF) + 30;
     ((S_800206D0_0 *)pickup)->unk_00 = 3;
-    goto end;
+    return;
 
 state3:
     {
@@ -167,7 +167,7 @@ state3:
         }
         timer = --((S_800206D0_0 *)pickup)->unk_02.s;
         if ((s16)timer > 0) {
-            goto end;
+            return;
         }
         ((S_800206D0_0 *)pickup)->unk_02.u = 180;
         ((S_800206D0_0 *)pickup)->unk_00 = 4;
@@ -177,7 +177,7 @@ state3:
         ((S_800206D0_2 *)sprite)->unk_05 = 0;
         ((S_800206D0_2 *)sprite)->unk_08 = idle_frame;
         ((Rec_func_800206D0_arg1 *)motion)->unk_08 = floor_z;
-        goto end;
+        return;
     }
 
 state4:
@@ -190,11 +190,11 @@ state4:
     }
     timer = --((S_800206D0_0 *)pickup)->unk_02.s;
     if ((s16)timer > 0) {
-        goto end;
+        return;
     }
     ((S_800206D0_0 *)pickup)->unk_02.u = 31;
     ((S_800206D0_0 *)pickup)->unk_00 = 5;
-    goto end;
+    return;
 
 state5:
     if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
@@ -211,16 +211,15 @@ state5:
     }
     timer = --((S_800206D0_0 *)pickup)->unk_02.s;
     if ((s16)timer > 0) {
-        goto end;
+        return;
     }
     ((S_800206D0_0 *)pickup)->unk_00 = 6;
-    goto end;
+    return;
 
 state6:
     func_8008F134((u8 *)pickup + 8);
     (*(u16 *)((u8 *)pickup + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-end:
     return;
 }

@@ -89,10 +89,10 @@ s32 func_8008D5C4(s32 world_x, s32 world_y, s16 height) {
         scan_y = (u16)scratch->orig_y + (u16)scratch->outer_delta;
         row_y = scan_y;
         if (scratch->step_y < 0) goto negative_y;
-        if (row_y >= D_800FE484) goto done;
+        if (row_y >= D_800FE484) return (s16)(u16)scratch->best;
         goto scan_row;
 negative_y:
-        if (row_y < 0) goto done;
+        if (row_y < 0) return (s16)(u16)scratch->best;
 scan_row:
         scratch->inner_count = 0;
         scratch->inner_delta = 0;
@@ -182,6 +182,5 @@ scan_cell:
         scratch->outer_count += 1;
         scratch->outer_delta += scratch->step_y;
     }
-done:
     return (s16)(u16)scratch->best;
 }

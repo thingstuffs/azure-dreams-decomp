@@ -75,7 +75,7 @@ void func_80023A00(void *object, void *output, void *entity_data)
 
 case_0:
     ((S_80023A00_0 *)object)->unk_18.u++;
-    goto done;
+    return;
 
 case_1:
     initial_magnitude = D_80081458[0];
@@ -130,6 +130,5 @@ common:
         func_800211C4(caller_obj, object, entity_data);
     }
 
-done:
     return;
 }

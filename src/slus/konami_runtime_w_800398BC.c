@@ -49,7 +49,7 @@ void func_800398BC(Func800398BCOwner *owner)
 rewind:
     owner->field_10 = 0;
     owner->read_ptr--;
-    goto done;
+    return;
 
 decode:
     command_ptr = owner->read_ptr;
@@ -69,6 +69,5 @@ decode:
                   payload_word);
     SD_Call(0x300);
     owner->field_10 = 0;
-done:
     return;
 }

@@ -64,11 +64,11 @@ void func_800C1718(DungeonState *state, RenderSource *render_source, u8 *effect_
     if (mode < 2) {
         if (mode == 0)
             goto mode_zero;
-        goto done;
+        return;
     }
     if (mode == 2)
         goto mode_two;
-    goto done;
+    return;
 
 mode_zero:
     {
@@ -81,7 +81,7 @@ mode_zero:
     frames_left = (u16)state->count - 1;
     state->count = frames_left;
     if ((frames_left << 16) > 0)
-        goto done;
+        return;
 
     object_index = 0;
     reset_marker = 0xff;
@@ -108,7 +108,7 @@ mode_zero:
 
     state->count = 8;
     state->mode += 1;
-    goto done;
+    return;
 
 mode_one:
     state->field50 = (s16)((u16)state->field50 +
@@ -125,10 +125,10 @@ mode_one:
     frames_left = (u16)state->count - 1;
     state->count = frames_left;
     if ((frames_left << 16) > 0)
-        goto done;
+        return;
     state->count = 4;
     state->mode += 1;
-    goto done;
+    return;
 
 mode_two:
     state->field50 = (s16)((u16)state->field50 -
@@ -151,10 +151,9 @@ mode_two:
     frames_left = (u16)state->count - 1;
     state->count = frames_left;
     if ((frames_left << 16) > 0)
-        goto done;
+        return;
     *((u16 *)state - 1) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

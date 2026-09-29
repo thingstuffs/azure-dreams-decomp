@@ -58,12 +58,12 @@ void func_80125980(TownObject *object)
         if (state == 1) {
             goto state_1;
         }
-        goto end;
+        return;
     }
     if (state == 3) {
         goto state_3;
     }
-    goto end;
+    return;
 
 state_1:
     column = ((TownObject *)(object))->column;
@@ -84,7 +84,7 @@ state_2:
     hidden_sprite = ((TownObject *)(object))->town->display->src;
     hidden_sprite->f6 = 0;
     hidden_sprite->f4 = 0;
-    goto end;
+    return;
 
 state_3:
     ((TownObject *)(object))->town->display->src->f8 = D_80126B20[((TownObject *)(object))->row];
@@ -97,6 +97,5 @@ common:
     source_sprite->f6 = 0x800;
     source_sprite->f4 = 0x800;
 
-end:
     return;
 }

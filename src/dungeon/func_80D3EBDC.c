@@ -71,16 +71,16 @@ void func_801743DC(void *action, void *context, void *sprite, void *entity)
         if (phase == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2428;
     func_80047784(sprite,
@@ -92,32 +92,32 @@ state_zero:
         (*(u16 *)&counter_base->unk_0A)--;
     }
     ((S_801743DC_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     global_base = &dungeonStatus;
     if (global_base->flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((S_801743DC_2 *)entity)->unk_64 != 0) {
         if (func_800AA6B4(action, context, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((S_801743DC_2 *)entity)->unk_25 == 0) {
         if (global_base->flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(action, context, sprite, entity);
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
-        goto done;
+        return;
     }
     entity_flags = ((S_801743DC_2 *)entity)->unk_1C.s;
     if (entity_flags & 0x100) {
         func_800AA258(action, context, sprite, entity);
-        goto done;
+        return;
     }
     if (entity_flags & 0x80000) {
         func_800AA888(action, context, sprite, entity);
@@ -127,17 +127,17 @@ state_one:
         ((S_801743DC_0 *)action)->unk_9E = 0;
         ((S_801743DC_0 *)action)->unk_92 = action_value - value_offset;
         func_80174A68(action, context, sprite, entity);
-        goto done;
+        return;
     }
     if (((S_801743DC_2 *)entity)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
         EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(entity,
                 (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(entity);
@@ -154,7 +154,7 @@ state_one:
         }
     }
     if ((func_80042900(entity, 1) << 16) != 0) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
@@ -170,11 +170,11 @@ state_one:
         ((S_801743DC_0 *)action)->unk_9B++;
         (*(u16 *)&counter_base->unk_0A)++;
     }
-    goto done;
+    return;
 
 state_two:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     {
         DungeonGlobalStatus *counter_base;
@@ -188,6 +188,5 @@ state_two:
 set_callback:
     ((S_801743DC_0 *)action)->unk_8C = D_80171A80;
 
-done:
     return;
 }

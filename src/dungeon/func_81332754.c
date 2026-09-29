@@ -26,7 +26,7 @@ void func_80169754(void *effect_data)
 
     state = *(s16 *)(effect + 0x12);
     if ((u32)state >= 5) {
-        goto done;
+        return;
     }
     goto *D_80164900[(u32)state];
 
@@ -137,11 +137,11 @@ jt_c2:
 increment_common:
         *(u16 *)(effect + 0x18) = next_frame;
         if (within_duration) {
-            goto done;
+            return;
         }
         *(u16 *)(effect + 0x18) = 0;
         *(u16 *)(effect + 0x12) += 1;
-        goto done;
+        return;
     }
 
 jt_c34:
@@ -163,6 +163,5 @@ increment_short:
         }
     }
 
-done:
         return;
 }

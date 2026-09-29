@@ -48,7 +48,7 @@ void *func_800A3F28(s32 x, s32 y, void *end, void *owner)
     entry_data = (u8 *)((S_800A3F28_0 *)current)->unk_5C;
     current = entry_data + 0x20;
     if (current == sentinel) {
-        goto not_found;
+        return NULL;
     }
 
     lookup_id = (s16)scratch;
@@ -91,6 +91,5 @@ next:
         goto loop;
     }
 
-not_found:
     return NULL;
 }

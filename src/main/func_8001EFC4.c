@@ -103,14 +103,13 @@ common:
     result = func_804016D0();
     func_804018FC();
     if (result == 0) {
-        goto exit;
+        return;
     }
     if (result == 1) {
-        goto exit;
+        return;
     }
     func_80406720(root - 0x20);
     func_804083FC(((S_8001EFC4_0 *)root)->unk_20, 0);
 
-exit:
     return;
 }

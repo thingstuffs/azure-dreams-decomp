@@ -50,7 +50,7 @@ void func_80173964(void *action, void *motion, void *actor, void *entity)
         if (state == 0) {
             goto state_0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -58,7 +58,7 @@ void func_80173964(void *action, void *motion, void *actor, void *entity)
     if (state == 3) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_0:
     func_800AD4D0(entity);
@@ -71,7 +71,7 @@ state_0:
         ((S_80173964_0 *)action)->unk_96.s = 0;
         ((S_80173964_0 *)action)->unk_9B = 3;
     }
-    goto done;
+    return;
 
 state_1:
     timer_bits = ((S_80173964_0 *)action)->unk_96.u - 1;
@@ -85,24 +85,24 @@ state_1:
             *(s16 *)((u8 *)((s8 *)dirStepY) +
                      ((((EntityRec *)entity)->unk_6A >> 8) & 0xE)) << 20;
         ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v |= 0x800;
-        goto done;
+        return;
     }
     if (timer >= 7) {
         ((EntityRec *)motion)->unk_0C /= 4;
         ((EntityRec *)motion)->unk_10 /= 4;
-        goto done;
+        return;
     }
     if (timer >= 2) {
         ((EntityRec *)motion)->unk_10 = 0;
         ((EntityRec *)motion)->unk_0C = 0;
-        goto done;
+        return;
     }
     if (timer == state) {
         ((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v &= 0xF7FF;
-        goto done;
+        return;
     }
     if (timer != 0) {
-        goto done;
+        return;
     }
     next_state = ((S_80173964_0 *)action)->unk_9B;
     timer = 4;
@@ -119,7 +119,7 @@ initialize:
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
     func_800AAA54(action, motion, actor, D_80174E24);
-    goto done;
+    return;
 
 calculate:
     timer = ((S_80173964_0 *)action)->unk_96.s;
@@ -135,7 +135,7 @@ calculate:
     timer_bits = ((S_80173964_0 *)action)->unk_96.u;
     ((S_80173964_0 *)action)->unk_96.u = timer_bits - 1;
     if ((s32)(timer_bits << 16) > 0) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -144,7 +144,7 @@ calculate:
 
 increment_state:
     ((S_80173964_0 *)action)->unk_9B = next_state + 1;
-    goto done;
+    return;
 
 state_3:
     ((EntityRec *)motion)->flags14 = 0;
@@ -164,7 +164,6 @@ state_3:
     }
     ((S_80173964_0 *)action)->unk_8C = &D_80171728;
 
-done:
     return;
 }
 

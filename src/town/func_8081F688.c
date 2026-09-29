@@ -79,7 +79,7 @@ void func_80021E88(S_80021E88_0 *controller, Rec_func_80021E88_arg1 *position, S
 state_0:
     position->unk_08 += 0xFFF80000;
     if (position->unk_08 > 0) {
-        goto done;
+        return;
     }
     position->unk_08 = 0;
     display->unk_0C = 0x808080;
@@ -96,7 +96,7 @@ state_1:
         }
     }
     if (object->unk_22 == 3) {
-        goto done;
+        return;
     }
     if (((S_80021E88_4 *)(controller->unk_04))->unk_22 == controller->unk_54.s) {
         controller->unk_00 = 3;
@@ -111,7 +111,7 @@ state_2:
         position->unk_08 = 0x400000;
         return;
     }
-    goto done;
+    return;
 
 state_3:
     flags = object->unk_20;
@@ -120,6 +120,5 @@ state_3:
         display->unk_08 = D_80024444[controller->unk_54.s];
     }
 
-done:
     return;
 }

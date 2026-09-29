@@ -148,13 +148,11 @@ block_23:
     reset_index = 3;
     reset_slot = D_80083110;
     reset_slot += 3;
-loop_25:
-    *reset_slot = 0;
-    reset_index -= 1;
-    reset_slot -= 1;
-    if (reset_index >= 0) {
-        goto loop_25;
-    }
+    do {
+        *reset_slot = 0;
+        reset_index -= 1;
+        reset_slot -= 1;
+    } while (reset_index >= 0);
 jt_c6:
 jt_c12:
 jt_c13:

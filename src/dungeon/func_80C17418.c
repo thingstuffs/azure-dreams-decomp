@@ -133,7 +133,7 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
         if (state_index == 0) {
             goto state0;
         }
-        goto end;
+        return;
     }
     if (state_index == 2) {
         goto state2;
@@ -141,7 +141,7 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
     if (state_index == 3) {
         goto state3;
     }
-    goto end;
+    return;
 
 state0:
     if (ent->flags1C & 0x2000) {
@@ -243,7 +243,7 @@ copy_link:
             D_801744E4[((gameWork.view.viewAngle + ent->f2A + 0x100) >> 9) & 7],
             0);
         if (!func_800A94A0(ent, item_slot, use_main_link, &state->flags98)) {
-            goto end;
+            return;
         }
         actor->flags14 &= 0xF7FF;
         func_800DAE44(pos, 5);
@@ -252,7 +252,7 @@ copy_link:
         state->flags98 |= 8;
         ent->flags1C &= 0xF7FFFFFF;
         ent->flags1C &= 0xFFFBFFFF;
-        goto end;
+        return;
     }
 
     pos->f14 = 0;
@@ -272,7 +272,7 @@ copy_link:
     ent->f73 = 0;
     ent->f72 = 0;
     ent->f46 &= 0x7FFF;
-    goto end;
+    return;
 
 state1:
     state->u90.h.half92 += (-0x60 - (s16)state->u90.h.half92) >> 3;
@@ -285,12 +285,12 @@ state1:
         state->f96 = state_index;
         state->state9B++;
     }
-    goto end;
+    return;
 
 state2:
     if (func_8003F270()) {
         actor->flags14 |= 0x800;
-        goto end;
+        return;
     }
     actor->flags14 &= 0xF7FF;
     state->state9B++;
@@ -318,7 +318,7 @@ set_flag4000:
     state->flags98 |= 0x4000;
 no_flag4000:
     if (!(actor->flags14 & 0xE000)) {
-        goto end;
+        return;
     }
 
     sub_actor->flags4 |= 0x8000;
@@ -343,10 +343,10 @@ no_flag4000:
     {
 
         if (((u32)dungeonStatus.unk_0C) != 0) {
-            goto end;
+            return;
         }
         if (!(state->flags98 & 0x4000)) {
-            goto end;
+            return;
         }
         dungeonStatus.unk_0A--;
     }
@@ -361,6 +361,5 @@ no_flag4000:
     ent->f46 &= 0x7FFF;
     func_800A56E0(0xB4);
 
-end:
     return;
 }

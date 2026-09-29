@@ -221,8 +221,7 @@ BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *positi
         }
         particle_callback = &D_80024860;
         particle_texture = (S_func_81832800_7 *) D_800DEA68;
-        if (count >= 0) {
-first_spawn_loop:
+        while (count >= 0) {
             object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (object != NULL) {
                 void *callback;
@@ -288,9 +287,6 @@ first_spawn_loop:
                 particle_data->unk_4C = 0;
             }
             count -= 1;
-            if (count >= 0) {
-                goto first_spawn_loop;
-            }
         }
     }
     state = (s16) effect->unk_0A;

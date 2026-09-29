@@ -98,7 +98,7 @@ void func_80024B20(void *effect) {
     }
 
 tail_default:
-    goto tail_return;
+    return;
 
 mode_zero:
     ((S_80024B20_2 *)effect)->unk_42.u = 0;
@@ -159,9 +159,9 @@ mode_two:
         state = ((S_80024B20_2 *)effect)->unk_40.u;
         state++;
         ((S_80024B20_2 *)effect)->unk_40.u = state;
-        goto tail_return;
+        return;
     }
-    goto tail_return;
+    return;
 
 mode_three:
     {
@@ -169,6 +169,5 @@ mode_three:
         ((S_80024B20_2_pre *)effect)[-1].unk_00 |= 0x8000;
         ((S_80024B20_5 *)globals_base)->unk_14A0 |= 0x8000;
     }
-tail_return:
     return;
 }

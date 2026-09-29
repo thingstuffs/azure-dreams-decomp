@@ -113,7 +113,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     object_data = PTR(object, 8);
 
     if ((u32)state_index >= 8) {
-        goto end;
+        return;
     }
     goto *D_80024098[state_index];
 
@@ -141,7 +141,7 @@ initialize:
     origin_sprite = PTR(object, 0xC);
     if (func_8003DF74(PTR(origin_sprite, 8), origin_sprite, origin_offset, 0) == 0) {
         if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
-            goto end;
+            return;
         }
     }
 
@@ -160,7 +160,7 @@ initialize:
 
 await_launch:
     if (!(U16(PTR(effect, 4), 0) & 0x80)) {
-        goto end;
+        return;
     }
 
     if (!(U8(effect, 0x7A) & 4)) {
@@ -371,7 +371,7 @@ spawn_impact:
     U8(effect, 0x90) = 0;
     U16(effect, 0xA) = 4;
     U16(effect, 0x82) = 0;
-    goto end;
+    return;
 
 fade_projectile:
     {
@@ -410,7 +410,7 @@ fade_projectile:
             func_800250B0(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
         }
     } if ((s32)object_data < 4) goto loop_0;
-    goto end;
+    return;
 
 finish_fade:
     next_state = U16(effect, 0xA);
@@ -451,7 +451,7 @@ brighten_target:
         U16(effect, 0x82) = 0;
         goto advance_state;
     }
-    goto end;
+    return;
 
 animate_target:
     {
@@ -497,7 +497,7 @@ animate_target:
         U8(target_data, 0xE) -= 2;
     }
     if (S16(effect, 0x82) < 0x46) {
-        goto end;
+        return;
     }
 
     offset_value = PTR(owner, 0x60);
@@ -512,13 +512,13 @@ animate_target:
 
 advance_state:
     U16(effect, 0xA) = next_state + 1;
-    goto end;
+    return;
 
 finish_effect:
     finish_tick = U16(effect, 0x82);
     U16(effect, 0x82) = finish_tick + 1;
     if ((s16)finish_tick < 0x15) {
-        goto end;
+        return;
     }
     busy_base = (void *)0x80020000;
     ASM_KEEP_NV(busy_base);
@@ -529,7 +529,7 @@ finish_effect:
         S32(table_value, 0x346C) = 0;
         U16(effect, -2) |= 0x8000;
         U32((void *)D_80080000, 0x14A0) |= 0x8000;
-        goto end;
+        return;
     }
     goto clear_busy;
 collision_hit:
@@ -539,7 +539,7 @@ collision_hit:
 set_render_flag:
     render_flags |= 0x80;
     U16(sprite, 0x14) = render_flags;
-    goto end;
+    return;
 
 reach_target:
     U16(effect, 0xA) = 3;
@@ -550,11 +550,10 @@ reach_target:
     U16(motion, 6) = U16(object, 6);
     U16(motion, 0xA) = U16(effect, 0x78);
     func_800A56E0(0x300);
-    goto end;
+    return;
 
 clear_busy:
     S16(busy_base, 0x694C) = 0;
 
-end:
     return;
 }

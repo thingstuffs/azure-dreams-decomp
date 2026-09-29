@@ -93,12 +93,12 @@ void func_800BBCA0(void *effect, void *effect_origin)
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     object_type = D_800BC00C;
@@ -140,9 +140,9 @@ state_zero:
     if (func_80033BC0(0x97) != 0) {
         next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
         ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
-        goto done;
+        return;
     }
-    goto done;
+    return;
 
 state_one:
     spawn_count = 0x64;
@@ -192,7 +192,7 @@ state_one:
     next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
     ((S_800BBCA0_0 *)self)->unk_48 = 0x10;
     ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
-    goto done;
+    return;
 
 state_two:
     if ((s16)timer < 0) {
@@ -200,6 +200,5 @@ state_two:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

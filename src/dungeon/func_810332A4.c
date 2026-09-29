@@ -157,7 +157,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     state = effect->unk_16.s;
     owner = effect_owner;
     if ((u32)state >= 13U) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170858[state];
@@ -171,24 +171,24 @@ state_0:
     sprite->unk_0C = fade_value;
     fade_value = effect->unk_1E.s < 10;
     if (fade_value) {
-        goto end;
+        return;
     }
     effect->unk_1E.u = 0;
     effect->unk_16.u++;
-    goto end;
+    return;
 
 state_1:
     timer = effect->unk_1E.u + 1;
     effect->unk_1E.u = timer;
     if ((s16)timer < 30) {
-        goto end;
+        return;
     }
     effect->unk_16.u++;
     effect->unk_1E.u = 0;
     motion->unk_0C = D_8017610C[effect->unk_1C].x << 20;
     motion->unk_10 = D_8017610C[effect->unk_1C].y << 20;
     func_800A56E0(0x808);
-    goto end;
+    return;
 
 state_2:
     if ((effect->unk_4C.s << 6) + 0x20 != motion->unk_00.half.unk_02) {
@@ -259,7 +259,7 @@ checks_done:
         motion->unk_0C = 0;
         object = effect->unk_30;
         if (object == 0) {
-            goto end;
+            return;
         }
         object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
         display = object->unk_0C;
@@ -380,7 +380,7 @@ object_common:
 
     new_object = effect->unk_30;
     if (new_object == 0) {
-        goto end;
+        return;
     }
     object = new_object;
     object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
@@ -393,7 +393,7 @@ cleanup_object:
     func_8009A21C(display->unk_24, display->unk_25,
                   (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object_data);
-    goto end;
+    return;
 
 rollback_object:
     object_tile_x = display->unk_24;
@@ -458,7 +458,7 @@ secondary_object:
     }
     motion->unk_00.word += motion->unk_0C;
     motion->unk_04.word += motion->unk_10;
-    goto end;
+    return;
 
 state_10:
     for (burst_index = 0; burst_index < 16; burst_index++) {
@@ -477,7 +477,7 @@ state_11:
     effect->unk_1E.u = timer;
     delay_pending = (s16)timer < 10;
     if (delay_pending) {
-        goto end;
+        return;
     }
     effect->unk_1E.u = 0;
     effect->unk_16.u++;

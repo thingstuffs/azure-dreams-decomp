@@ -80,7 +80,7 @@ void func_801732EC(EffectState *effect, void *unused, Entity *entity, Object *ob
 
 wait_ready:
     if (*(s16 *)(((u8 *)(&dungeonStatus)) + 0xA) != 0) {
-        goto done;
+        return;
     }
     effect->state = 1;
 
@@ -103,7 +103,7 @@ start_fade:
 wait_transition:
     entity->value += 0xFFF7F7F8;
     if (!(entity->flags & 0x6000)) {
-        goto done;
+        return;
     }
     object->flags |= 0x10000000;
     entity->table = D_80175AA4;
@@ -156,6 +156,5 @@ countdown_done:
         objectFlagBlock.flags |= 0x8000;
     }
 
-done:
     return;
 }

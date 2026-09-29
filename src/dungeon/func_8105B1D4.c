@@ -201,7 +201,7 @@ set_position:
         ((S_801729D4_0 *)action)->unk_9B++;
         return;
     }
-    goto done;
+    return;
 
 empty_anim:
     ((EntityRec *)motion)->flags14 = 0;
@@ -266,6 +266,5 @@ state_2:
         }
     }
 
-done:
     return;
 }

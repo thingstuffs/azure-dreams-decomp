@@ -30,12 +30,12 @@ void func_800971A8(Rec_func_8008ACDC_arg0 *action, EntityRec *motion, Rec_D_8008
     };
     (void)state_labels;
     state = action->unk_9B.as_u8;
-    if (state >= 13) goto done;
+    if (state >= 13) return;
     goto *D_80088B18[state];
 case_a:
     delay = action->unk_96.as_u16 - 1;
     action->unk_96.as_u16 = delay;
-    if ((s16)delay > 0) goto done;
+    if ((s16)delay > 0) return;
     state = action->unk_9B.as_u8;
     vertical_speed = 8;
     if (state == 0) {
@@ -65,7 +65,7 @@ case_b:
     }
 after_div:
     dungeonStatus.unk_04--;
-    if (dungeonStatus.unk_04 > 0) goto done;
+    if (dungeonStatus.unk_04 > 0) return;
     dungeonStatus.unk_04 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;

@@ -41,291 +41,289 @@ void func_8008F664(void *collider, void *position) {
         goto clear_tail;
     }
 
-object_loop:
-    {
-        void *other;
-        void *object_ref;
+    do {
+            {
+                void *other;
+                void *object_ref;
 
-        other = SCPTR(scratch, 4);
-        SCPTR(scratch, 8) = PTR_AT(VSPTR(scratch, 4), 8);
-        other_bounds = PTR_AT(other, 0xC);
-        object_ref = SCPTR(scratch, 4);
-        SCPTR(scratch, 0xC) = other_bounds;
-        if (U8_AT(object_ref, 0x15) == 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *self_box;
-        s32 separation;
-        s32 self_offset;
-        s32 other_edge;
-        s32 other_offset;
-
-        self_box = VSPTR(scratch, 0);
-        do {
-            separation = S32_AT(position, 0);
-        } while (0);
-        self_offset = S32_AT(self_box, 0);
-        axis_operand = (s32)VSPTR(scratch, 8);
-        separation += self_offset;
-        other_edge = S32_AT(axis_operand, 0);
-        other_offset = S32_AT(other_bounds, 0);
-        box_operand = (void *)S32_AT(other_bounds, 0xC);
-        other_edge += other_offset;
-        other_edge += (s32)box_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x10) = separation;
-        if (separation > 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *other_pos;
-        s32 separation;
-        s32 self_offset;
-        s32 self_size;
-        s32 other_edge;
-
-        box_operand = VSPTR(scratch, 0);
-        separation = S32_AT(position, 0);
-        self_offset = S32_AT(box_operand, 0);
-        self_size = S32_AT(box_operand, 0xC);
-        box_operand = VSPTR(scratch, 0xC);
-        separation += self_offset;
-        other_pos = VSPTR(scratch, 8);
-        box_operand = (void *)S32_AT(box_operand, 0);
-        other_edge = S32_AT(other_pos, 0);
-        separation += self_size;
-        other_edge += (s32)box_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x14) = separation;
-        if (separation < 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *self_box;
-        void *other_pos;
-        void *other_box;
-        s32 separation;
-        s32 self_offset;
-        s32 other_edge;
-
-        self_box = VSPTR(scratch, 0);
-        do {
-            separation = S32_AT(position, 4);
-            self_offset = S32_AT(self_box, 4);
-        } while (0);
-        other_box = VSPTR(scratch, 0xC);
-        separation += self_offset;
-        other_pos = VSPTR(scratch, 8);
-        box_operand = (void *)S32_AT(other_box, 4);
-        other_edge = S32_AT(other_pos, 4);
-        axis_operand = S32_AT(other_box, 0x10);
-        other_edge += (s32)box_operand;
-        other_edge += axis_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x18) = separation;
-        if (separation > 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *other_pos;
-        s32 separation;
-        s32 self_offset;
-        s32 self_size;
-        s32 other_edge;
-
-        box_operand = VSPTR(scratch, 0);
-        separation = S32_AT(position, 4);
-        self_offset = S32_AT(box_operand, 4);
-        self_size = S32_AT(box_operand, 0x10);
-        box_operand = VSPTR(scratch, 0xC);
-        separation += self_offset;
-        other_pos = VSPTR(scratch, 8);
-        box_operand = (void *)S32_AT(box_operand, 4);
-        other_edge = S32_AT(other_pos, 4);
-        separation += self_size;
-        other_edge += (s32)box_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x1C) = separation;
-        if (separation < 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *self_box;
-        void *other_pos;
-        void *other_box;
-        s32 separation;
-        s32 self_offset;
-        s32 other_edge;
-
-        self_box = VSPTR(scratch, 0);
-        do {
-            separation = S32_AT(position, 8);
-            self_offset = S32_AT(self_box, 8);
-        } while (0);
-        other_box = VSPTR(scratch, 0xC);
-        separation += self_offset;
-        other_pos = VSPTR(scratch, 8);
-        box_operand = (void *)S32_AT(other_box, 8);
-        other_edge = S32_AT(other_pos, 8);
-        axis_operand = S32_AT(other_box, 0x14);
-        other_edge += (s32)box_operand;
-        other_edge += axis_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x20) = separation;
-        if (separation > 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        void *other_pos;
-        s32 separation;
-        s32 self_offset;
-        s32 self_size;
-        s32 other_edge;
-
-        box_operand = VSPTR(scratch, 0);
-        separation = S32_AT(position, 8);
-        self_offset = S32_AT(box_operand, 8);
-        self_size = S32_AT(box_operand, 0x14);
-        box_operand = VSPTR(scratch, 0xC);
-        separation += self_offset;
-        other_pos = VSPTR(scratch, 8);
-        box_operand = (void *)S32_AT(box_operand, 8);
-        other_edge = S32_AT(other_pos, 8);
-        separation += self_size;
-        other_edge += (s32)box_operand;
-        separation -= other_edge;
-        SC32(scratch, 0x24) = separation;
-        if (separation < 0) {
-            goto next_object;
-        }
-    }
-
-    {
-        s32 min_depth;
-        s32 max_shift;
-        s32 max_depth;
-
-        min_depth = SC32(scratch, 0x10);
-        max_shift = SC32(scratch, 0x14);
-        min_depth = abs(min_depth);
-        max_depth = max_shift;
-        max_depth = abs(max_depth);
-        axis_operand = min_depth < max_depth;
-        if (axis_operand) {
-            SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
-            SC32(scratch, 0x2C) = 2;
-        } else {
-            SC32(scratch, 0x10) = max_shift;
-            SCU8(scratch, 0x28) = U8_AT(collider, 0x36);
-            SC32(scratch, 0x2C) = 3;
-        }
-
-        min_depth = SC32(scratch, 0x18);
-        max_shift = SC32(scratch, 0x1C);
-        min_depth = abs(min_depth);
-        max_depth = max_shift;
-        max_depth = abs(max_depth);
-        axis_operand = min_depth < max_depth;
-        if (axis_operand) {
-            SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
-            SC32(scratch, 0x30) = 4;
-        } else {
-            SC32(scratch, 0x18) = max_shift;
-            SCU8(scratch, 0x29) = U8_AT(collider, 0x38);
-            SC32(scratch, 0x30) = 5;
-        }
-
-        min_depth = SC32(scratch, 0x20);
-        max_shift = SC32(scratch, 0x24);
-        min_depth = abs(min_depth);
-        max_depth = max_shift;
-        max_depth = abs(max_depth);
-        axis_operand = min_depth < max_depth;
-        if (axis_operand) {
-            SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
-            SC32(scratch, 0x34) = 0;
-        } else {
-            SC32(scratch, 0x20) = max_shift;
-            SCU8(scratch, 0x2A) = U8_AT(collider, 0x34);
-            SC32(scratch, 0x34) = 1;
-        }
-    }
-
-    shift_x = SC32(scratch, 0x10);
-    if (shift_x == 0) {
-        if (SC32(scratch, 0x18) == 0) {
-            goto next_object;
-        }
-        if (SC32(scratch, 0x20) == 0) {
-            goto next_object;
-        }
-    }
-    shift_y = SC32(scratch, 0x18);
-    if (shift_y == 0 && SC32(scratch, 0x20) == 0) {
-        goto next_object;
-    }
-    shift_z = SC32(scratch, 0x20);
-    if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
-        goto call_60c;
-    }
-
-    {
-        s32 abs_x;
-        s32 y_depth;
-        s32 z_depth;
-        s32 abs_z;
-
-        abs_x = abs(VSC32(scratch, 0x10));
-        y_depth = abs(VSC32(scratch, 0x18));
-        if (abs_x < y_depth) {
-            z_depth = VSC32(scratch, 0x20);
-            abs_z = z_depth;
-            abs_z = abs(abs_z);
-            z_depth = y_depth < abs_z;
-            if (z_depth) {
-                goto call_55c;
+                other = SCPTR(scratch, 4);
+                SCPTR(scratch, 8) = PTR_AT(VSPTR(scratch, 4), 8);
+                other_bounds = PTR_AT(other, 0xC);
+                object_ref = SCPTR(scratch, 4);
+                SCPTR(scratch, 0xC) = other_bounds;
+                if (U8_AT(object_ref, 0x15) == 0) {
+                    goto next_object;
+                }
             }
-            z_depth = abs_x < abs_z;
-            if (!z_depth) {
+
+            {
+                void *self_box;
+                s32 separation;
+                s32 self_offset;
+                s32 other_edge;
+                s32 other_offset;
+
+                self_box = VSPTR(scratch, 0);
+                do {
+                    separation = S32_AT(position, 0);
+                } while (0);
+                self_offset = S32_AT(self_box, 0);
+                axis_operand = (s32)VSPTR(scratch, 8);
+                separation += self_offset;
+                other_edge = S32_AT(axis_operand, 0);
+                other_offset = S32_AT(other_bounds, 0);
+                box_operand = (void *)S32_AT(other_bounds, 0xC);
+                other_edge += other_offset;
+                other_edge += (s32)box_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x10) = separation;
+                if (separation > 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                void *other_pos;
+                s32 separation;
+                s32 self_offset;
+                s32 self_size;
+                s32 other_edge;
+
+                box_operand = VSPTR(scratch, 0);
+                separation = S32_AT(position, 0);
+                self_offset = S32_AT(box_operand, 0);
+                self_size = S32_AT(box_operand, 0xC);
+                box_operand = VSPTR(scratch, 0xC);
+                separation += self_offset;
+                other_pos = VSPTR(scratch, 8);
+                box_operand = (void *)S32_AT(box_operand, 0);
+                other_edge = S32_AT(other_pos, 0);
+                separation += self_size;
+                other_edge += (s32)box_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x14) = separation;
+                if (separation < 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                void *self_box;
+                void *other_pos;
+                void *other_box;
+                s32 separation;
+                s32 self_offset;
+                s32 other_edge;
+
+                self_box = VSPTR(scratch, 0);
+                do {
+                    separation = S32_AT(position, 4);
+                    self_offset = S32_AT(self_box, 4);
+                } while (0);
+                other_box = VSPTR(scratch, 0xC);
+                separation += self_offset;
+                other_pos = VSPTR(scratch, 8);
+                box_operand = (void *)S32_AT(other_box, 4);
+                other_edge = S32_AT(other_pos, 4);
+                axis_operand = S32_AT(other_box, 0x10);
+                other_edge += (s32)box_operand;
+                other_edge += axis_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x18) = separation;
+                if (separation > 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                void *other_pos;
+                s32 separation;
+                s32 self_offset;
+                s32 self_size;
+                s32 other_edge;
+
+                box_operand = VSPTR(scratch, 0);
+                separation = S32_AT(position, 4);
+                self_offset = S32_AT(box_operand, 4);
+                self_size = S32_AT(box_operand, 0x10);
+                box_operand = VSPTR(scratch, 0xC);
+                separation += self_offset;
+                other_pos = VSPTR(scratch, 8);
+                box_operand = (void *)S32_AT(box_operand, 4);
+                other_edge = S32_AT(other_pos, 4);
+                separation += self_size;
+                other_edge += (s32)box_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x1C) = separation;
+                if (separation < 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                void *self_box;
+                void *other_pos;
+                void *other_box;
+                s32 separation;
+                s32 self_offset;
+                s32 other_edge;
+
+                self_box = VSPTR(scratch, 0);
+                do {
+                    separation = S32_AT(position, 8);
+                    self_offset = S32_AT(self_box, 8);
+                } while (0);
+                other_box = VSPTR(scratch, 0xC);
+                separation += self_offset;
+                other_pos = VSPTR(scratch, 8);
+                box_operand = (void *)S32_AT(other_box, 8);
+                other_edge = S32_AT(other_pos, 8);
+                axis_operand = S32_AT(other_box, 0x14);
+                other_edge += (s32)box_operand;
+                other_edge += axis_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x20) = separation;
+                if (separation > 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                void *other_pos;
+                s32 separation;
+                s32 self_offset;
+                s32 self_size;
+                s32 other_edge;
+
+                box_operand = VSPTR(scratch, 0);
+                separation = S32_AT(position, 8);
+                self_offset = S32_AT(box_operand, 8);
+                self_size = S32_AT(box_operand, 0x14);
+                box_operand = VSPTR(scratch, 0xC);
+                separation += self_offset;
+                other_pos = VSPTR(scratch, 8);
+                box_operand = (void *)S32_AT(box_operand, 8);
+                other_edge = S32_AT(other_pos, 8);
+                separation += self_size;
+                other_edge += (s32)box_operand;
+                separation -= other_edge;
+                SC32(scratch, 0x24) = separation;
+                if (separation < 0) {
+                    goto next_object;
+                }
+            }
+
+            {
+                s32 min_depth;
+                s32 max_shift;
+                s32 max_depth;
+
+                min_depth = SC32(scratch, 0x10);
+                max_shift = SC32(scratch, 0x14);
+                min_depth = abs(min_depth);
+                max_depth = max_shift;
+                max_depth = abs(max_depth);
+                axis_operand = min_depth < max_depth;
+                if (axis_operand) {
+                    SCU8(scratch, 0x28) = U8_AT(collider, 0x37);
+                    SC32(scratch, 0x2C) = 2;
+                } else {
+                    SC32(scratch, 0x10) = max_shift;
+                    SCU8(scratch, 0x28) = U8_AT(collider, 0x36);
+                    SC32(scratch, 0x2C) = 3;
+                }
+
+                min_depth = SC32(scratch, 0x18);
+                max_shift = SC32(scratch, 0x1C);
+                min_depth = abs(min_depth);
+                max_depth = max_shift;
+                max_depth = abs(max_depth);
+                axis_operand = min_depth < max_depth;
+                if (axis_operand) {
+                    SCU8(scratch, 0x29) = U8_AT(collider, 0x39);
+                    SC32(scratch, 0x30) = 4;
+                } else {
+                    SC32(scratch, 0x18) = max_shift;
+                    SCU8(scratch, 0x29) = U8_AT(collider, 0x38);
+                    SC32(scratch, 0x30) = 5;
+                }
+
+                min_depth = SC32(scratch, 0x20);
+                max_shift = SC32(scratch, 0x24);
+                min_depth = abs(min_depth);
+                max_depth = max_shift;
+                max_depth = abs(max_depth);
+                axis_operand = min_depth < max_depth;
+                if (axis_operand) {
+                    SCU8(scratch, 0x2A) = U8_AT(collider, 0x35);
+                    SC32(scratch, 0x34) = 0;
+                } else {
+                    SC32(scratch, 0x20) = max_shift;
+                    SCU8(scratch, 0x2A) = U8_AT(collider, 0x34);
+                    SC32(scratch, 0x34) = 1;
+                }
+            }
+
+            shift_x = SC32(scratch, 0x10);
+            if (shift_x == 0) {
+                if (SC32(scratch, 0x18) == 0) {
+                    goto next_object;
+                }
+                if (SC32(scratch, 0x20) == 0) {
+                    goto next_object;
+                }
+            }
+            shift_y = SC32(scratch, 0x18);
+            if (shift_y == 0 && SC32(scratch, 0x20) == 0) {
+                goto next_object;
+            }
+            shift_z = SC32(scratch, 0x20);
+            if (shift_z > 0 && S32_AT(position, 0x14) >= shift_z && shift_x != 0 && shift_y != 0) {
                 goto call_60c;
             }
-call_55c:
-            func_8008F55C(collider, position, scratch);
-            goto next_object;
-        } else {
-            z_depth = VSC32(scratch, 0x20);
-            z_depth = abs(z_depth);
-            if (y_depth < z_depth) {
-                goto call_5b4;
+
+            {
+                s32 abs_x;
+                s32 y_depth;
+                s32 z_depth;
+                s32 abs_z;
+
+                abs_x = abs(VSC32(scratch, 0x10));
+                y_depth = abs(VSC32(scratch, 0x18));
+                if (abs_x < y_depth) {
+                    z_depth = VSC32(scratch, 0x20);
+                    abs_z = z_depth;
+                    abs_z = abs(abs_z);
+                    z_depth = y_depth < abs_z;
+                    if (z_depth) {
+                        goto call_55c;
+                    }
+                    z_depth = abs_x < abs_z;
+                    if (!z_depth) {
+                        goto call_60c;
+                    }
+        call_55c:
+                    func_8008F55C(collider, position, scratch);
+                    goto next_object;
+                } else {
+                    z_depth = VSC32(scratch, 0x20);
+                    z_depth = abs(z_depth);
+                    if (y_depth < z_depth) {
+                        goto call_5b4;
+                    }
+                }
             }
-        }
-    }
 
-call_60c:
-    func_8008F60C(collider, position, scratch);
-    goto next_object;
+        call_60c:
+            func_8008F60C(collider, position, scratch);
+            goto next_object;
 
-call_5b4:
-    func_8008F5B4(collider, position, scratch);
+        call_5b4:
+            func_8008F5B4(collider, position, scratch);
 
-next_object:
-    SCPTR(scratch, 4) = PTR_AT(SCPTR(scratch, 4), 4);
-    if (SCPTR(scratch, 4) != collider) {
-        goto object_loop;
-    }
+        next_object:
+            SCPTR(scratch, 4) = PTR_AT(SCPTR(scratch, 4), 4);
+    } while (SCPTR(scratch, 4) != collider);
 
 clear_tail:
     SC32(scratch, 0x38) = 0;

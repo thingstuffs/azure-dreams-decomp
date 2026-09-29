@@ -148,7 +148,7 @@ advance:
 
 done:
     if (special == 0) {
-        goto out;
+        return best;
     }
     if (best == 0) {
         best = special;

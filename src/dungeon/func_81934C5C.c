@@ -125,7 +125,7 @@ block_state1:
     ticks_left = ((S_81934C5C_0 *)effect)->unk_48.u;
     ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
     if (ticks_left > 0) {
-        goto block_return;
+        return;
     }
     goto block_advance;
 
@@ -141,7 +141,7 @@ block_state2:
         }
     }
     if (surface_height >= ((S_81934C5C_0 *)effect)->unk_24.at02.v) {
-        goto block_return;
+        return;
     }
     ((S_81934C5C_0 *)effect)->unk_24.at02.v = surface_height;
     impact_effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
@@ -182,7 +182,7 @@ block_state3:
         ((S_81934C5C_0 *)effect)->unk_10 = (u16) ((S_81934C5C_0 *)effect)->unk_24.at02.v;
         goto block_tail_ff;
     }
-    goto block_return;
+    return;
 
 block_tail_ff:
     ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
@@ -192,6 +192,5 @@ block_state_ff:
     ((S_81934C5C_0_pre *)effect)[-1].unk_00 = (u16) (((S_81934C5C_0_pre *)effect)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
 
-block_return:
     return;
 }

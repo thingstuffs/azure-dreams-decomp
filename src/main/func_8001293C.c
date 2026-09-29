@@ -36,7 +36,7 @@ void func_8002593C(u8 *object)
             SD_Call(0x515);
             func_80025D34(object - 0x20);
             func_80027AFC(((Rec_func_80025030_arg0 *)object)->unk_20, 0);
-            goto epilogue;
+            return;
         }
         if (pressed_buttons & 0x40) {
             SD_Call(0x503);
@@ -115,6 +115,5 @@ changed_check:
     if (needs_refresh != 0) {
         func_80025030(object);
     }
-epilogue:
     return;
 }

@@ -60,7 +60,7 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
 
     state = ((S_801750F8_0 *)action_in)->unk_9B;
     if ((u32)state >= 6) {
-        goto end;
+        return;
     }
     (void)state_labels;
     goto *D_80170888[state];
@@ -79,12 +79,12 @@ L0:
         if (timer >= 0x78) {
             ((S_801750F8_0 *)action_in)->unk_9B = 5;
             ((S_801750F8_0 *)action_in)->unk_96.s = 0;
-            goto end;
+            return;
         }
 
         actor_flags = ((S_801750F8_1 *)actor)->unk_14;
         if (!(actor_flags & 0x00800000)) {
-            goto end;
+            return;
         }
         ((S_801750F8_1 *)actor)->unk_14 = actor_flags & 0xFF7FFFFF;
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
@@ -94,12 +94,12 @@ L0:
             D_801755BC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x51E);
-        goto end;
+        return;
     }
 
 L1:
     if (!(((S_801750F8_2 *)sprite)->unk_14 & 0x6000)) {
-        goto end;
+        return;
     }
     ((S_801750F8_0 *)action_in)->unk_96.s = 0;
     ((S_801750F8_0 *)action_in)->unk_9B++;
@@ -108,7 +108,7 @@ L1:
         D_801755CC[((gameWork.view.viewAngle + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     ((S_801750F8_2 *)sprite)->unk_14 |= 0x0800;
-    goto end;
+    return;
 
 L2:
     {
@@ -116,12 +116,12 @@ L2:
 
         timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer < 0xF) {
-            goto end;
+            return;
         }
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
         ((S_801750F8_0 *)action_in)->unk_9B++;
         ((S_801750F8_2 *)sprite)->unk_14 &= 0xF7FF;
-        goto end;
+        return;
     }
 
 L3:
@@ -182,7 +182,7 @@ check_17:
 
 after_xy:
         if (((S_801750F8_0 *)action_in)->unk_96.u < 0x14) {
-            goto end;
+            return;
         }
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
         ((S_801750F8_0 *)action_in)->unk_9B++;
@@ -194,7 +194,7 @@ after_xy:
             0);
         func_800A56E0(0x509);
         func_80174D98(action_in, direction_data, sprite, actor);
-        goto end;
+        return;
     }
 
 L4:
@@ -203,11 +203,11 @@ L4:
 
         timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer < 9) {
-            goto end;
+            return;
         }
         ((S_801750F8_0 *)action_in)->unk_96.s = 0;
         ((S_801750F8_0 *)action_in)->unk_9B++;
-        goto end;
+        return;
     }
 
 L5:
@@ -224,7 +224,6 @@ L5:
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }
 
-end:
     return;
 }
 

@@ -78,7 +78,7 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
 
     action_index = (s16)(context->unk_04.as_u16 - 1);
     if ((u32)action_index >= 20) {
-        goto done;
+        return;
     }
     (void)switch_labels;
     goto *D_8011AD90[action_index];
@@ -115,7 +115,7 @@ case_0:
             clear_cursor = (s32 **)((u8 *)clear_cursor + 4);
         } while (clear_index < 16);
     }
-    goto done;
+    return;
 
 case_7:
     object_index = 14;
@@ -138,7 +138,7 @@ case_8_10:
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);
     } while (object_index < 28);
-    goto done;
+    return;
 
 case_11:
     func_801238E4(context);

@@ -129,7 +129,7 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
     case 2:
         goto wait_second_animation;
     default:
-        goto done;
+        return;
     }
 
 update_height:
@@ -195,7 +195,7 @@ height_ready:
     }
 check_advance:
     if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
-        goto done;
+        return;
     }
 
 wait_first_animation:
@@ -228,6 +228,5 @@ wait_second_animation:
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
     }
-done:
     return;
 }

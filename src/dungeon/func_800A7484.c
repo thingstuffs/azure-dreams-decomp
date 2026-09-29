@@ -57,7 +57,7 @@ void func_800ACBE4(void *actor_data, s32 unused, void *visual, void *current_act
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     actor = (u8 *)actor_data - 0x20;
@@ -67,7 +67,7 @@ state_zero:
     func_8004491C(actor, &D_800C6AEC);
     ((S_800ACBE4_1 *)visual)->unk_0F.s = 0;
     ((S_800ACBE4_0 *)actor_data)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if (((S_800ACBE4_1 *)visual)->unk_0F.s < 8) {
@@ -77,7 +77,7 @@ state_one:
         ((S_800ACBE4_1 *)visual)->unk_0E = brightness;
         ((S_800ACBE4_1 *)visual)->unk_0D = brightness;
         ((S_800ACBE4_1 *)visual)->unk_0C = brightness;
-        goto done;
+        return;
     }
 
     if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
@@ -101,6 +101,5 @@ state_one:
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

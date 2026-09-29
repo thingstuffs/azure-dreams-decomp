@@ -42,7 +42,7 @@ void func_800D4158(void *entity, S_800D4158_1 *motion, Rec_D_80082E80 *sprite) {
 
     if (dungeonStatus.flags & 0x2000) {
         (*(u8 *)((u8 *)entity_ref + 0x71)) = (*(u8 *)((u8 *)entity_ref + 0x71)) & 0x7f;
-        goto epilogue;
+        return;
     }
     if ((*(Func4 *)((u8 *)entity_ref + 0x8c)) != NULL) {
         ((Func4)(*(Func4 *)((u8 *)entity_ref + 0x8c)))(entity_ref, motion, sprite, entity_ref);
@@ -120,6 +120,5 @@ update_brightness:
     }
     sprite->unk_14.at00_u16.v |= 0x40;
     (*(u32 *)((u8 *)entity_ref + 0x1c)) |= 0x200;
-epilogue:
     return;
 }

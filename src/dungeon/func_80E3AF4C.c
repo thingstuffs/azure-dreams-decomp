@@ -240,7 +240,7 @@ active:
 failure:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto done;
+    return;
 
 active_continue:
     ((S_8017474C_6 *)out_render)->unk_1E += 0x100;
@@ -248,6 +248,5 @@ active_continue:
 increment:
     ((S_8017474C_0 *)effect)->unk_20.u++;
 
-done:
     return;
 }

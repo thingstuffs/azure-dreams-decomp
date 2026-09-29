@@ -209,7 +209,7 @@ find_target:
 target_ready:
 activate_ability:
     if (func_800A94A0(actor, ability, use_player, action + 0x98) == 0) {
-        goto done;
+        return;
     }
     ((S_8017364C_0 *)action)->unk_96 = 0x13U;
     ((S_8017364C_0 *)action)->unk_9B = (u8) (((S_8017364C_0 *)action)->unk_9B + 1);
@@ -254,7 +254,7 @@ start_finish:
     ((S_8017364C_0 *)action)->unk_96 = 0xFU;
 check_effect_window:
     if ((u32) (((S_8017364C_0 *)action)->unk_96 - 9) >= 6U) {
-        goto done;
+        return;
     }
     effect_count = 0;
 do {
@@ -280,7 +280,7 @@ update_finish_timer:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
 check_animation:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -294,7 +294,7 @@ check_animation:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
 check_completion:
     if (((s32)dungeonStatus.unk_0C) != 0) {
-        goto done;
+        return;
     }
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_8017364C_0 *)action)->unk_8C = &D_80171760;
@@ -304,6 +304,5 @@ check_completion:
     ((S_8017364C_1 *)actor)->unk_6D = (u8) (((S_8017364C_1 *)actor)->unk_6D - 1);
     ((S_8017364C_1 *)actor)->unk_46 = (u16) (((S_8017364C_1 *)actor)->unk_46 & 0x7FFF);
     func_800A56E0(0xB4);
-done:
     return;
 }

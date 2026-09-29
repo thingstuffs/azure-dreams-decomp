@@ -160,7 +160,7 @@ state_3:
                     return;
                 }
                 func_800AA79C(action, context, entity, actor);
-                goto done;
+                return;
             }
 
             if ((s16)func_800A2C34(actor) != 0) {
@@ -170,7 +170,7 @@ state_3:
             actor_flags = ((S_8017360C_2 *)actor)->unk_1C.s;
             if ((actor_flags & 0x100) != 0) {
                 func_800AA258(action, context, entity, actor);
-                goto done;
+                return;
             }
 
             {
@@ -185,7 +185,7 @@ state_3:
                 ((S_8017360C_0 *)action)->unk_9E = 0;
                 ((S_8017360C_0 *)action)->unk_92.u = remaining_amount;
                 func_80173E00(action, context, entity, actor);
-                goto done;
+                return;
             }
             }
 
@@ -240,7 +240,7 @@ final_check:
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
             (*(u16 *)&dungeon_state->unk_0A)++;
         }
-        goto done;
+        return;
 
     }
 
@@ -269,7 +269,7 @@ effect_common:
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
 store_state:
         ((S_8017360C_0 *)action)->unk_9B = next_state;
-        goto done;
+        return;
         }
 
 state_5:
@@ -295,6 +295,5 @@ state_5:
 
 finished:
         ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
-done:
         return;
 }

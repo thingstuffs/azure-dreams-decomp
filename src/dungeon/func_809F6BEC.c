@@ -63,7 +63,7 @@ void func_801743EC(void *effect, void *position, void *sprite)
     if (state == 1) {
         goto state_one;
     }
-    goto done;
+    return;
 
 state_zero:
     func_800478B8(sprite);
@@ -91,12 +91,11 @@ state_zero:
     ((S_801743EC_2 *)position)->unk_02 = transformed_position.x;
     ((S_801743EC_2 *)position)->unk_06 = transformed_position.y;
     ((S_801743EC_2 *)position)->unk_0A = transformed_position.z;
-    goto done;
+    return;
 
 state_one:
     (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

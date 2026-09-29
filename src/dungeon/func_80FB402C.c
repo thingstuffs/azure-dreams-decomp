@@ -108,7 +108,7 @@ void func_8017382C(void *action, void *context, void *sprite, void *actor)
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
@@ -116,7 +116,7 @@ void func_8017382C(void *action, void *context, void *sprite, void *actor)
     if (state == 3) {
         goto state_three;
     }
-    goto done;
+    return;
 
 state_zero:
     {
@@ -130,7 +130,7 @@ state_zero:
 
         record_index = 0;
         if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
 
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12;
@@ -200,7 +200,7 @@ state_one:
         ((S_8017382C_0 *)action)->unk_96 = timer;
         if ((s16)timer > 0) {
             if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0x8000)) {
-                goto done;
+                return;
             }
         }
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE - 0x40;
@@ -269,28 +269,28 @@ scan_two_done:
 
 increment_state:
         ((S_8017382C_0 *)action)->unk_9B++;
-        goto done;
+        return;
 
 state_two_active:
         if (dungeonStatus.flags & 0x1000) {
-            goto done;
+            return;
         }
         if (((EntityRec *)actor)->unk_64 != 0) {
             if (func_800AA6B4(action, context, sprite, 0) != 0) {
-                goto done;
+                return;
             }
         }
 
         if (((EntityRec *)actor)->tileY == 0) {
             if (dungeonStatus.flags & 0x2008) {
-                goto done;
+                return;
             }
             func_800AA79C(action, context, sprite, actor);
-            goto done;
+            return;
         }
 
         if ((s16)func_800A2C34(actor) != 0) {
-            goto done;
+            return;
         }
 
         {
@@ -299,22 +299,22 @@ state_two_active:
             actor_flags = ((u32)((EntityRec *)actor)->flags1C);
             if (actor_flags & 0x100) {
                 func_800AA258(action, context, sprite, actor);
-                goto done;
+                return;
             }
             if (actor_flags & 0x80000) {
                 func_800AA888(action, context, sprite, actor);
                 func_80174250(action, context, sprite, actor);
-                goto done;
+                return;
             }
         }
 
         if (((EntityRec *)actor)->unk_6D == 0) {
-            goto done;
+            return;
         }
         if ((s16)func_800A2C34(actor) != 0) {
             if ((s16)func_8009A180(
                     actor, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
-                goto done;
+                return;
             }
         }
 
@@ -342,7 +342,7 @@ state_two_active:
         check_actor = actor;
 second_call:
         if ((s16)func_80042900(check_actor, 1) != 0) {
-            goto done;
+            return;
         }
 
         exit_table = D_80175298;
@@ -370,7 +370,7 @@ second_call:
         dungeonStatus.unk_0A++;
         ((S_8017382C_0 *)action)->unk_9B++;
         ((S_8017382C_0 *)action)->unk_AE = ((Rec_func_800AA258_arg2 *)sprite)->unk_12 + 0x40;
-        goto done;
+        return;
     }
 
 state_three:
@@ -398,7 +398,7 @@ state_three:
             timer = ((S_8017382C_0 *)action)->unk_96 - 1;
             ((S_8017382C_0 *)action)->unk_96 = timer;
             if ((s16)timer > 0) {
-                goto done;
+                return;
             }
         }
 
@@ -408,6 +408,5 @@ state_three:
         ((Rec_func_800AA258_arg2 *)sprite)->unk_12 = ((S_8017382C_0 *)action)->unk_AE;
     }
 
-done:
     return;
 }

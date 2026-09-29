@@ -53,7 +53,7 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
         if (state == 0) {
             goto init_motion;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto wait_animation;
@@ -61,7 +61,7 @@ void func_80155238(void *action, void *motion, void *sprite, void *entity)
     if (state == 3) {
         goto settle_motion;
     }
-    goto done;
+    return;
 
 init_motion:
     func_800AD4D0(entity);
@@ -75,7 +75,7 @@ init_motion:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80155238_1 *)action)->unk_96.s = 0;
         ((S_80155238_1 *)action)->unk_9B = 3;
-        goto done;
+        return;
     }
 
     if (((u32)((EntityRec *)entity)->flags1C) & 0x228) {
@@ -99,7 +99,7 @@ decelerate:
     }
 
     if (((S_80155238_1 *)action)->unk_96.s != 0) {
-        goto done;
+        return;
     }
     if (((EntityRec *)entity)->unk_28 != 0) {
         goto start_animation;
@@ -110,7 +110,7 @@ stop_motion:
     ((S_80155238_2 *)motion)->unk_10 = 0;
     ((S_80155238_2 *)motion)->unk_0C = 0;
     func_800AAA54(action, motion, sprite, D_80156178);
-    goto done;
+    return;
 
 start_animation:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
@@ -119,13 +119,13 @@ start_animation:
         D_80156150[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
         0);
     ((S_80155238_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 wait_animation:
     ((S_80155238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
     ((S_80155238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        goto done;
+        return;
     }
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80156150;
@@ -135,7 +135,7 @@ wait_animation:
         0);
     ((S_80155238_1 *)action)->unk_96.s = 8;
     ((S_80155238_1 *)action)->unk_9B++;
-    goto done;
+    return;
 
 settle_motion:
     timer = ((S_80155238_1 *)action)->unk_96.s;
@@ -156,7 +156,7 @@ settle_motion:
     timer = ((S_80155238_1 *)action)->unk_96.u - 1;
     ((S_80155238_1 *)action)->unk_96.s = timer;
     if ((s32)(timer << 16) > 0) {
-        goto done;
+        return;
     }
 
     ((S_80155238_2 *)motion)->unk_14 = 0;
@@ -172,6 +172,5 @@ settle_motion:
     }
     ((S_80155238_1 *)action)->unk_8C = &D_80152E54;
 
-done:
     return;
 }

@@ -98,21 +98,19 @@ void *func_80025198(s32 value_00, s32 value_10, s32 value_18, void *descriptor, 
         globals_base = (s32 *) 0x80080000;
         resource_index = 0;
         resource_cursor = state;
-check_resource:
-        resource_index += 1;
-        if (((S_80025198_4 *)resource_cursor)->unk_20 != 0) {
-            goto next_resource;
-        }
-        func_800253C0(state);
-        ((S_80025198_1_pre *)state)[-1].unk_00 = (u16) (((S_80025198_1_pre *)state)[-1].unk_00 | 0x8000);
-        object = NULL;
-        ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
-        goto done;
-next_resource:
-        resource_cursor += 4;
-        if (resource_index < 3) {
-            goto check_resource;
-        }
+        do {
+                    resource_index += 1;
+                    if (((S_80025198_4 *)resource_cursor)->unk_20 != 0) {
+                        goto next_resource;
+                    }
+                    func_800253C0(state);
+                    ((S_80025198_1_pre *)state)[-1].unk_00 = (u16) (((S_80025198_1_pre *)state)[-1].unk_00 | 0x8000);
+                    object = NULL;
+                    ((S_80025198_5 *)globals_base)->unk_14A0 |= 0x8000;
+                    goto done;
+            next_resource:
+                    resource_cursor += 4;
+        } while (resource_index < 3);
     }
 done:
     return object;

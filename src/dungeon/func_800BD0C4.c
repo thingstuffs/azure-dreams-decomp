@@ -193,7 +193,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
 
     state = ((S_800C2824_0 *)effect)->unk_04;
     if ((u32) state >= 0x12U) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_8008938C[(u32)(state)];
 state_init:
@@ -240,7 +240,7 @@ state_fade:
     fade_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
     ((S_800C2824_0 *)effect)->unk_06 = fade_ticks;
     if ((fade_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
@@ -284,7 +284,7 @@ state_finish: {
     effect_object = D_800E3D7C;
     D_800DF55C = effect_object;
     if (func_800BBA40(((u8 *)object_coords)[0x24], ((u8 *)object_coords)[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, 0x208020, &D_800C0180) == 0) {
-        goto done;
+        return;
     }
     flags_page = (u8 *)0x80080000;
     marked_object = ((S_800C2824_0 *)effect)->unk_00;
@@ -301,7 +301,7 @@ state_start_wait:
     effect_param = ((S_800C2824_8 *)effect_object)->unk_88;
     D_800DF55C = effect_object;
     if (func_800BBA40(((S_800C2824_11 *)object_coords)->unk_24, ((S_800C2824_11 *)object_coords)->unk_25, effect_param, &D_800DF45C, 0x2800, 0x208020, &D_800C27F0) == 0) {
-        goto done;
+        return;
     }
     ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
@@ -310,7 +310,7 @@ state_wait:
     wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;
     ((S_800C2824_0 *)effect)->unk_06 = wait_ticks;
     if ((wait_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
     if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
@@ -350,6 +350,5 @@ clear_expired_tile:
 mark_done:
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-done:
     return;
 }

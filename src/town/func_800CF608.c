@@ -32,7 +32,7 @@ void func_800CCD68(S_800CCD68_0 *sequence)
     if (state == 0) {
         goto set_value;
     }
-    goto done;
+    return;
 
 state_ge_2:
 #ifdef NON_MATCHING
@@ -46,12 +46,12 @@ state_ge_2:
     if (state == value) {
         goto state_3;
     }
-    goto done;
+    return;
 
 state_1:
     value = --sequence->unk_6C;
     if ((value << 16) != 0) {
-        goto done;
+        return;
     }
     value = 0x800;
     sequence->unk_72 = value;
@@ -60,7 +60,7 @@ state_1:
 state_2:
     value = --sequence->unk_6C;
     if ((value << 16) != 0) {
-        goto done;
+        return;
     }
     value = 0x400;
 set_value:
@@ -70,12 +70,12 @@ advance_state:
     sequence->unk_6C = 3;
     value_2++;
     sequence->unk_6A.u = value_2;
-    goto done;
+    return;
 
 state_3:
     value = --sequence->unk_6C;
     if ((value << 16) != 0) {
-        goto done;
+        return;
     }
     value = sequence->unk_68;
     sequence->unk_72 = 0;
@@ -83,7 +83,6 @@ state_3:
     sequence->unk_6A.s = 0;
     value++;
     sequence->unk_68 = value;
-done:
     return;
 }
 

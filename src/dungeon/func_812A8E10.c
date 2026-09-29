@@ -30,7 +30,7 @@ void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     case 2:
         goto reach_target;
     default:
-        goto done;
+        return;
     }
 
 init_motion:
@@ -42,7 +42,7 @@ init_motion:
         if (target->flags14 & 0x8000) {
             motion_state->count96 = 0;
             motion_state->state9b = 2;
-            goto done;
+            return;
         }
         motion->dxC = (-(*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
         motion->dy10 = (-(*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
@@ -58,9 +58,9 @@ slow_motion:
             }
             motion_state->count96 = 8;
             motion_state->state9b = (u8)(motion_state->state9b + 1);
-            goto done;
+            return;
         }
-        goto done;
+        return;
 reach_target:
         ticks_left = motion_state->count96;
         if (ticks_left != 0) {
@@ -87,7 +87,6 @@ reach_target:
                 motion_state->field8c = D_80171FA4;
             }
         }
-        goto done;
-done:
+        return;
     return;
 }

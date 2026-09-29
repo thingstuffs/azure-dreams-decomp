@@ -16,20 +16,19 @@ void func_80053E20(s16 value, s32 stat_index) {
     if (stat_index == 1) {
         goto L_case1;
     }
-    goto L_end;
+    return;
 L_ge3:
     if (stat_index != 4) {
-        goto L_end;
+        return;
     }
     volumeScale[2] = value;
     func_80054D64();
-    goto L_end;
+    return;
 L_case1:
     volumeScale[1] = value;
     func_800552C8();
-    goto L_end;
+    return;
 L_case2:
     volumeScale[0] = value;
-L_end:
     return;
 }

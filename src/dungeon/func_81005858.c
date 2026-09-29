@@ -59,7 +59,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
   {
     *((u8 *) (((u8 *) actor) + 0x9A)) = 0xE;
     func_801715F0(actor, context, sprite_arg, creature);
-    goto done;
+    return;
   }
   if ((*((u8 *) (((u8 *) creature) + 0x25))) == 0)
   {
@@ -72,7 +72,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     anim_table = D_801748D8;
     *((void **) (((u8 *) sprite_arg) + 0x2C)) = anim_table;
     func_80047784(sprite_arg, ((u8 *) anim_table)[(((gameWork.view.viewAngle + (*((s16 *) (((u8 *) creature) + 0x2A)))) + 0x100) >> 9) & 7], 0);
-    goto done;
+    return;
   }
   sprite = sprite_arg;
   if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x200)
@@ -83,7 +83,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       *((u8 *) (((u8 *) actor) + 0x9B)) = 1;
       *((s32 *) (((u8 *) actor) + 0x8C)) = 0;
       *((u32 *) (((u8 *) creature) + 0x1C)) &= 0xFFFBFFFF;
-      goto done;
+      return;
     }
     if (func_800AA924(actor, context, sprite, D_801748D8) != 0)
     {
@@ -95,7 +95,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x100)
     {
       func_800AA258(actor, context, sprite, creature);
-      goto done;
+      return;
     }
     {
       register void *current_anim;
@@ -140,7 +140,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       *((s16 *) (((u8 *) actor) + 0xB2)) = 0;
       *((s16 *) (((u8 *) actor) + 0x92)) = adjusted_offset;
       func_80173834(actor, context, sprite, creature);
-      goto done;
+      return;
     }
     if ((func_800A1C58(creature) << 16) != 0)
     {
@@ -237,7 +237,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33)
       {
         func_801722E0(actor, context, sprite, creature);
-        goto done;
+        return;
       }
       goto ordinary_cleanup;
     }
@@ -249,7 +249,7 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     }
 
     func_801721B8(actor, context, sprite, creature);
-    goto done;
+    return;
     face_player:
     {
       u8 *player_pos = ((u8 *)(&D_80082E80));
@@ -267,15 +267,15 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
     special_cleanup:
     func_800A9A0C(creature);
 
-    goto done;
+    return;
     aaf_cleanup:
     func_800AAF00(actor, context, sprite, &D_801748C8, func_80171058);
 
-    goto done;
+    return;
     ordinary_cleanup:
     func_80171848(actor, context, sprite, creature);
 
-    goto done;
+    return;
   }
   if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x2000))
   {
@@ -292,7 +292,6 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       }
     }
   }
-  done:
   return;
 
 }

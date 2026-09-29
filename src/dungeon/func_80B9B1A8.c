@@ -138,7 +138,7 @@ void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, v
     state = ((S_801749A8_0 *)sequence)->unk_9B;
     ready = state < 9U;
     if (ready == 0) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80170870[(u32)(state)];
 jt_c0:
@@ -197,7 +197,7 @@ blend_color:
 jt_c4:
     object = func_8003FC64(0x12);
     if (object == 0) {
-        goto done;
+        return;
     }
     object->unk_10.s = &D_8017487C;
     func_8004491C(object, func_80045340);
@@ -236,7 +236,7 @@ check_movement:
     }
     movement_done = func_800ADC4C(position, D_80174FD0[0], D_80174F48[0], &D_800DCF5C);
     if (movement_done == 0) {
-        goto done;
+        return;
     }
     ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
@@ -250,7 +250,7 @@ jt_c7:
     model_addr = func_800A504C(actor, target);
     ((Rec_D_80082E80 *)target)->unk_60.as_pv = (void *) model_addr;
     if (model_addr == 0) {
-        goto done;
+        return;
     }
     ((S_801749A8_0 *)sequence)->unk_96 = 0x10U;
     ((S_801749A8_0 *)sequence)->unk_9B = (u8) (((S_801749A8_0 *)sequence)->unk_9B + 1);
@@ -263,13 +263,12 @@ jt_c8:
     ticks_left = ((S_801749A8_0 *)sequence)->unk_96 - 1;
     ((S_801749A8_0 *)sequence)->unk_96 = ticks_left;
     if (ticks_left > 0) {
-        goto done;
+        return;
     }
     ((S_801749A8_11 *)(((Rec_D_80082E80 *)target)->unk_60.as_pv))->unk_2A = (u16) ((Rec_D_80082E80 *)target)->unk_8A;
     ((S_801749A8_0_pre *)sequence)[-1].unk_00 = (u16) (((S_801749A8_0_pre *)sequence)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
     dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)target)->unk_6D = 0;
-done:
     return;
 }

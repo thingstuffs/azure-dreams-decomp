@@ -74,19 +74,17 @@ void func_800AF520(void *context) {
             goto check_slots;
         }
     }
-clear_slot:
-    slot_offset = slot_index << 2;
     do {
-        slot_addr = (void *)(slot_offset + ctx->unk_A8);
-    } while (0);
-    empty_slot = *(s32 **)slot_addr;
-    slot_index += 1;
-    *empty_slot = 0;
-check_slots:
-    has_slot = slot_index < 0x10;
-clear_remaining:
-    if (has_slot != 0) {
-        goto clear_slot;
-    }
+            slot_offset = slot_index << 2;
+            do {
+                slot_addr = (void *)(slot_offset + ctx->unk_A8);
+            } while (0);
+            empty_slot = *(s32 **)slot_addr;
+            slot_index += 1;
+            *empty_slot = 0;
+        check_slots:
+            has_slot = slot_index < 0x10;
+        clear_remaining:
+    } while (has_slot != 0);
     return;
 }

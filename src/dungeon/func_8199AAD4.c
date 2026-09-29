@@ -190,13 +190,13 @@ fixed_position:
             ((S_8199AAD4_0 *)self)->unk_30.s = target_node;
             goto advance_state;
         }
-        goto done;
+        return;
     }
 
     count = ((S_8199AAD4_0 *)self)->unk_30.u - 1;
     ((S_8199AAD4_0 *)self)->unk_30.u = count;
     if ((s16)count > 0) {
-        goto done;
+        return;
     }
     tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
 advance_state:
@@ -274,7 +274,6 @@ loop_top:
     iteration = (u8 *)iteration + 1;
     goto loop_top;
 
-done:
     return;
 }
 

@@ -72,7 +72,7 @@ void func_8017293C(void *action, void *motion, void *sprite, void *actor)
     case 2:
         goto state_2;
     default:
-        goto end;
+        return;
     }
 
 state_0:
@@ -180,11 +180,11 @@ copy_active_coords:
 invoke_item:
     if (func_800A94A0(actor, item_slot, is_special,
                       (u8 *)action + 0x98) == 0) {
-        goto end;
+        return;
     }
     func_800BB044(actor);
     ((S_8017293C_0 *)action)->unk_9B++;
-    goto end;
+    return;
 
 empty_selection:
     ((EntityRec *)motion)->flags14 = 0;
@@ -199,12 +199,12 @@ empty_selection:
     (*(u8 *)((u8 *)actor + 0x73)) = 0;
     (*(u8 *)((u8 *)actor + 0x72)) = 0;
     (*(u16 *)((u8 *)actor + 0x46)) &= 0x7FFF;
-    goto end;
+    return;
 
 state_1:
     if (func_8003F270()) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
-        goto end;
+        return;
     }
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
     ((S_8017293C_0 *)action)->unk_9B++;
@@ -228,7 +228,7 @@ state_2:
         }
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((EntityRec *)motion)->unk_10 = 0;
@@ -246,7 +246,7 @@ state_2:
     {
         scratch_pointer = (u8 *)&dungeonStatus.unk_00;
         if (((S_8017293C_5 *)scratch_pointer)->unk_0C != 0) {
-            goto end;
+            return;
         }
         ((S_8017293C_5 *)scratch_pointer)->unk_0A--;
         ((S_8017293C_0 *)action)->unk_8C = D_80170E9C;
@@ -258,6 +258,5 @@ state_2:
         func_800A56E0(0xB4);
     }
 
-end:
     return;
 }

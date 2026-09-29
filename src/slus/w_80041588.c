@@ -37,7 +37,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     u8 *buffer;
     u8 *data;
     u16 *color;
-    register u32 *words ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u32 *words;
     void **table;
     s32 item_idx;
     s32 color_idx;
@@ -82,7 +82,7 @@ dispatch:
     command_idx = cmd->type - 1;
     words = (u32 *)cmd;
     if ((u32)command_idx >= 9) {
-        goto done;
+        return;
     }
     goto *table[command_idx];
 
@@ -172,18 +172,17 @@ case_9:
     if (item_idx > 0) {
         u32 reloc_base = (u32)base | 0x80000000;
         data += 4;
-        do {
+        loop_1_: {
             *(u32 *)data += reloc_base;
             item_idx--;
             data += 8;
-        } while (item_idx > 0);
+        } if (item_idx > 0) goto loop_1_;
     }
 advance:
     if (cmd->next == 0) {
-        goto done;
+        return;
     }
     cmd = (StreamCommand *)((u8 *)cmd + cmd->next);
     goto dispatch;
-done:
     return;
 }

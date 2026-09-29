@@ -58,7 +58,7 @@ void func_80172908(void *action, void *motion, void *sprite, void *actor)
     if (state == 0) {
         goto state_0;
     }
-    goto end;
+    return;
 
 state_ge_2:
     if (state == 2) {
@@ -67,14 +67,14 @@ state_ge_2:
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto end;
+    return;
 
 state_0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172908_1 *)action)->unk_9B = 0xFF;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
-        goto end;
+        return;
     }
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174F30;
@@ -97,11 +97,11 @@ state_1:
         ((EntityRec *)motion)->unk_10 = (direction_y << 23) / 5;
         goto bump_state;
     }
-    goto end;
+    return;
 
 bump_state:
     ((S_80172908_1 *)action)->unk_9B++;
-    goto end;
+    return;
 
 state_2:
     frames_left = ((S_80172908_1 *)action)->unk_96.s - 1;
@@ -117,12 +117,12 @@ state_2:
     ((EntityRec *)motion)->unk_0C -= (((EntityRec *)motion)->unk_0C << 2) / 5;
     ((EntityRec *)motion)->unk_10 -= (((EntityRec *)motion)->unk_10 << 2) / 5;
     if (((S_80172908_1 *)action)->unk_96.u > 0) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((S_80172908_1 *)action)->unk_9B = 0xFF;
     ((S_80172908_1 *)action)->unk_98 &= 0xFFF7;
-    goto end;
+    return;
 
 state_ff:
     {
@@ -138,7 +138,7 @@ state_ff:
         ((EntityRec *)motion)->unk_10 = (target_y - current_y) << 14;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto end;
+        return;
     }
     ((EntityRec *)motion)->unk_10 = 0;
     ((EntityRec *)motion)->unk_0C = 0;
@@ -152,6 +152,5 @@ state_ff:
     } else {
         D_800E3DE8[0] = (Node *)((u8 *)actor - 0x20);
     }
-end:
     return;
 }

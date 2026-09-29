@@ -383,9 +383,9 @@ state4_emit:
     dungeonStatus.unk_0A = state4_count;
     if (state4_owner == (s32)actor) {
         dungeonStatus.unk_0C = 0;
-        goto return_zero;
+        return 0;
     }
-    goto return_zero;
+    return 0;
 
 state_case16:
     ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x4000;

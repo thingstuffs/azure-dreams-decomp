@@ -261,7 +261,7 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
     state = effect->unk_A.s16;
 
     if ((u32)state >= 9U) {
-        goto done;
+        return;
     }
     (void)state_labels;
     goto *jtbl_80024088[(u32)state];
@@ -284,7 +284,7 @@ state0:
                            ((S_func_8190B2D0_2 *)owner_base)->unk_C, start_offset, 0);
         if (offset_ready == 0 &&
             !(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_14 & 0x8000)) {
-            goto done;
+            return;
         }
     }
 
@@ -323,7 +323,7 @@ state1:
                 effect->unk_7A |= 4;
             }
         } else {
-            goto done;
+            return;
         }
 
         target = owner->unk_60;
@@ -370,7 +370,7 @@ state1:
         effect->unk_8A =
             (s16)((s8)effect->unk_7B.u8 *
                   (s8)effect->unk_7B.u8);
-        goto done;
+        return;
     }
 
 state2:
@@ -417,7 +417,7 @@ state2:
             sprite->unk_C.u8 = 0;
             sprite->unk_1E = 0;
             sprite->unk_1C = 0;
-            goto done;
+            return;
         }
         frames_left = effect->unk_7B.u8 - 1;
         effect->unk_7B.u8 = frames_left;
@@ -431,7 +431,7 @@ state2:
                 motion_or_child->unk_0.at_2_u16.unk_2 = target_pos->unk_0.at_2_u16.unk_2;
                 motion_or_child->unk_4.at_6_u16.unk_6 = target_pos->unk_4.at_6_u16.unk_6;
                 motion_or_child->unk_8.at_A_u16.unk_A = effect->unk_78.u16;
-                goto done;
+                return;
             }
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 0;
@@ -440,12 +440,12 @@ state2:
             sprite->unk_C.u8 = 0;
             sprite->unk_1E = 0;
             sprite->unk_1C = 0;
-            goto done;
+            return;
         }
         motion_or_child->unk_0.s32 += motion_or_child->unk_C.s32;
         motion_or_child->unk_4.s32 += motion_or_child->unk_10.s32;
         motion_or_child->unk_8.s32 += motion_or_child->unk_14;
-        goto done;
+        return;
     }
 
 state3:
@@ -475,7 +475,7 @@ state3:
         }
         spawn_frame = effect->unk_82.s16;
         if ((s16)spawn_frame != 4) {
-            goto done;
+            return;
         }
         {
             motion_or_child = func_8003FC64(0x212);
@@ -513,12 +513,12 @@ state3:
         }
         current_frame = effect->unk_82.s16;
         if (current_frame != (s16)spawn_frame) {
-            goto done;
+            return;
         }
         effect->unk_A.u16 = current_frame;
         effect->unk_82.u16 = 0;
         effect->unk_90.u16 = 0;
-        goto done;
+        return;
     }
 
 state4:
@@ -583,7 +583,7 @@ state4:
             target_sprite->unk_C.u8 = 128;
             effect->unk_A.u16++;
         }
-        goto done;
+        return;
     }
 
 state5:
@@ -605,7 +605,7 @@ state5:
             effect->unk_A.u16 = 8;
             effect->unk_82.u16 = 30;
         }
-        goto done;
+        return;
     }
 
 state8:

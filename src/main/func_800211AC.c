@@ -62,7 +62,7 @@ void func_804081AC(void *menu)
             func_804008A0((*(s32 *)((u8 *)menu + 0xC)));
             (*(s32 *)((u8 *)menu + 0x34)) = 0;
             (*(void * *)((u8 *)menu + -0x10)) = func_804080A4;
-            goto function_return;
+            return;
         } else if (buttons & 0xA000) {
             if (buttons & 0x8000) {
                 old_selection = (*(s32 *)((u8 *)menu + 0xC));
@@ -96,6 +96,5 @@ selection_check:
     func_8003FA78(&D_80400860, D_804090F8[state->second]);
     func_804018FC();
 
-function_return:
     return;
 }

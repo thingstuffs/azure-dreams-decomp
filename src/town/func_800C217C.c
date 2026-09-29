@@ -20,11 +20,11 @@ void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 ch
             if (state == 0) {
                 goto check_distance;
             }
-            goto end;
+            return;
         }
         if (state != 2) {
             if (state != 3) {
-                goto end;
+                return;
             }
             goto check_release;
         }
@@ -50,7 +50,7 @@ check_distance:
                 distance++;
                 next_state = distance;
             } else {
-                goto end;
+                return;
             }
         }
     } else {
@@ -58,10 +58,9 @@ check_release:
         if ((func_800352FC(check_value, position, check_param, check_mode) == 0) || (func_800C2AB4(actor) == 0)) {
             next_state = ((u16) actor->unk_68 + 1) & 3;
         } else {
-            goto end;
+            return;
         }
     }
     actor->unk_68 = next_state;
-end:
     return;
 }

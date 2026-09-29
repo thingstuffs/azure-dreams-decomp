@@ -72,7 +72,7 @@ void func_8003931C(State *state)
         goto active;
     }
     if (entry_index == 0) {
-        goto done;
+        return;
     }
 
     do {
@@ -95,19 +95,19 @@ void func_8003931C(State *state)
         object_type != (void *)D_800C321C) {
         *(s16 *)((u8 *)object + 0x36) = aux->value_4c;
         *(s16 *)((u8 *)object + 0x38) = aux->value_50;
-        goto done;
+        return;
     }
 
     *(s16 *)((u8 *)object + 0x88) = aux->value_4c;
     *(s16 *)((u8 *)object + 0x8A) = aux->value_50;
-    goto done;
+    return;
 
 unavailable:
     state->callback = func_80038408;
     state->entry_index = index_byte;
     state->timer = 0x10;
     state->read_ptr -= 2;
-    goto done;
+    return;
 
 active:
     do {
@@ -116,6 +116,5 @@ active:
         state->callback = func_800383D4;
     } while (0);
 
-done:
     return;
 }

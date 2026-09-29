@@ -132,7 +132,7 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     global_flags |= 0x8000;
     (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
     ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
-    goto return_zero;
+    return zero_return;
 
 nonzero:
     call_obj = obj;
@@ -163,7 +163,6 @@ nonzero:
     ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
 done:
     return obj;
-return_zero:
     return zero_return;
 }
 

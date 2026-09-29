@@ -83,10 +83,10 @@ void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data
         goto state_1;
     }
     if (state >= 2) {
-        goto done;
+        return;
     }
     if (state != 0) {
-        goto done;
+        return;
     }
     if (func_8004CAE8(action_data->unk_08, 0) == 0) {
         target = action->unk_124;
@@ -122,6 +122,5 @@ state_1:
         action->unk_8C = &D_8008ACDC;
         dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     }
-done:
     return;
 }

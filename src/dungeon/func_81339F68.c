@@ -74,7 +74,7 @@ void func_80170F68(void *effect) {
         if (state == 0) {
             goto wait_actor;
         }
-        goto end;
+        return;
     }
     if (state == 2) {
         goto fade;
@@ -82,19 +82,19 @@ void func_80170F68(void *effect) {
     if (state == 3) {
         goto finish;
     }
-    goto end;
+    return;
 
 wait_actor:
     actor = D_800E3D7C;
     if (U8_AT(actor, 0x9A) != 0x11) {
-        goto end;
+        return;
     }
     U16_AT(actor, 0x96) += 0x3C;
     U16_AT(effect, 0x18) = 0;
     U16_AT(effect, 0x12)++;
     S8_AT(actor, 0xA8) = enabled;
     D_80175D50[0x47] = 0;
-    goto end;
+    return;
 
 brighten:
     U16_AT(effect, 0x18)++;
@@ -156,7 +156,7 @@ brighten:
         U16_AT(effect, 0x18) = 0;
         goto advance_state;
     }
-    goto end;
+    return;
 
 fade:
     old_timer = U16_AT(effect, 0x18);
@@ -187,7 +187,7 @@ fade:
         D_80082E80.e = shade;
         D_80082E80.d = shade;
         D_80082E80.c = shade;
-        goto end;
+        return;
     }
     render_flags = U32_AT(render_state, 0x1C);
     D_80082E80.e = 0x80;
@@ -198,13 +198,12 @@ fade:
     next_state = U16_AT(effect, 0x12);
 advance_state:
     U16_AT(effect, 0x12) = next_state + 1;
-    goto end;
+    return;
 
 finish:
     dungeonStatus.unk_0C = 0;
     U16_AT(effect, -2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-end:
     return;
 }

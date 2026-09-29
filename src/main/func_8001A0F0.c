@@ -72,7 +72,7 @@ state_three:
         D_804094E8 = 0;
         return status;
     } else {
-        goto done;
+        return status;
     }
 
 five_exit:

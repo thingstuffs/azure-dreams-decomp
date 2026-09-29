@@ -28,7 +28,7 @@ void func_804061C4(S_func_804061C4_0 *state)
 
     if (state->unk_38 != 0) {
         ((S_func_804061C4_1 *)((u8 *)state - 0x10))->unk_00 = func_80406368;
-        goto end;
+        return;
     }
 
     if (func_804022C8(state->unk_28) != 0) {
@@ -46,6 +46,5 @@ void func_804061C4(S_func_804061C4_0 *state)
         ((S_func_804061C4_1 *)((u8 *)state - 0x10))->unk_00 = func_80405A64;
     }
 
-end:
     return;
 }

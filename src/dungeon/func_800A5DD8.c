@@ -141,7 +141,7 @@ state_1:
         next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;
 increment_state:
         ((S_800AB538_0 *)animation)->unk_9B = next_state;
-        goto return_zero;
+        return 0;
     }
     goto return_zero;
 

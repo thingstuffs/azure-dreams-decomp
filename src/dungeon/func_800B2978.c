@@ -48,20 +48,20 @@ void func_800B80D8(void *object, void *motion, void *display)
     if (state == 0) {
         goto state_zero;
     }
-    goto exit;
+    return;
 
 state_ge_two:
     if (state == 2) {
         goto state_two;
     }
-    goto exit;
+    return;
 
 state_zero:
     if (!(((S_800B80D8_1 *)display)->unk_14 & 0x8000)) {
         goto zero_continue;
     }
     ((S_800B80D8_0 *)object)->unk_A2.u = 2;
-    goto exit;
+    return;
 
 zero_continue:
     ((S_800B80D8_0 *)object)->unk_A4 = 12;
@@ -78,11 +78,11 @@ state_one:
     frames_left = ((S_800B80D8_0 *)object)->unk_A4 - 1;
     ((S_800B80D8_0 *)object)->unk_A4 = frames_left;
     if ((frames_left << 16) != 0) {
-        goto exit;
+        return;
     }
     ((S_800B80D8_2 *)motion)->unk_14 = 0;
     ((S_800B80D8_0 *)object)->unk_A2.u++;
-    goto exit;
+    return;
 
 state_two:
     func_800A7A7C(((S_800B80D8_0 *)object)->unk_B0,
@@ -93,6 +93,5 @@ state_two:
     (*(u16 *)((u8 *)object + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-exit:
     return;
 }

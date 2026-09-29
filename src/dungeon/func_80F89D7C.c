@@ -61,16 +61,16 @@ void func_8017357C(void *controller, void *motion, void *sprite, void *actor)
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
     func_80047784(sprite,
@@ -78,7 +78,7 @@ state_zero:
         0);
     ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A - 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
-    goto done;
+    return;
 
 state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
@@ -95,43 +95,43 @@ state_one:
         goto increment_state;
     }
     if (dungeonStatus.flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((EntityRec *)actor)->unk_64 != 0) {
         if (func_800AA6B4(controller, motion, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if (((EntityRec *)actor)->tileY == 0) {
         if (dungeonStatus.flags & 0x2008) {
-            goto done;
+            return;
         }
         func_800AA79C(controller, motion, sprite, actor);
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((EntityRec *)actor)->flags1C;
     if (actor_flags & 0x100) {
         func_800AA258(controller, motion, sprite, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(controller, motion, sprite, actor);
         ((S_8017357C_0 *)controller)->unk_A0 = 0;
         func_80173D38(controller, motion, sprite, actor);
-        goto done;
+        return;
     }
     if (((EntityRec *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         EntityRec *owner = D_800814A8;
 
         if ((func_8009A180(actor,
                 (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
@@ -148,7 +148,7 @@ state_one:
         }
     }
     if ((func_80042900(actor, 1) << 16) != 0) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174B04;
     func_80047784(sprite,
@@ -166,7 +166,7 @@ increment_state:
 
     ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A = ((S_8017357C_3 *)(u8 *)&dungeonStatus.unk_00)->unk_0A + 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     ((S_8017357C_0 *)controller)->unk_96.s--;
@@ -174,7 +174,7 @@ state_two:
         ((EntityRec *)motion)->flags14 = 0xFFF00000;
     }
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto done;
+        return;
     }
     ((EntityRec *)motion)->flags14 = 0;
     ((S_8017357C_0 *)controller)->unk_A0 = 0;
@@ -191,6 +191,5 @@ state_two:
 set_callback:
     ((S_8017357C_0 *)controller)->unk_8C = D_80171138;
 
-done:
     return;
 }

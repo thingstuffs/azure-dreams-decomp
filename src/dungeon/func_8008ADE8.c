@@ -64,7 +64,7 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
         if (state == 0) {
             goto state0;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state2;
@@ -72,7 +72,7 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
     if (state == 3) {
         goto state3;
     }
-    goto done;
+    return;
 
 state0:
     actor->field6A = actor->field2A & 0xFFF;
@@ -85,7 +85,7 @@ state1:
     ticks_left = motion->field96 - 1;
     motion->field96 = ticks_left;
     if ((ticks_left << 16) > 0) {
-        goto done;
+        return;
     }
     position->field14 = 0;
     func_800A2B04(position, tile->field24, tile->field25);
@@ -96,7 +96,7 @@ state1:
     motion->field96 = 0x10;
     motion->field98 &= 0xFFF7;
     motion->state++;
-    goto done;
+    return;
 
 state2:
     actor->field2A += 0x200;
@@ -104,12 +104,12 @@ state2:
         motion->field96 = 0x20;
         motion->state++;
     }
-    goto done;
+    return;
 
 state3:
     actor->field2A += 0x200;
     if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
-        goto done;
+        return;
     }
     func_8009A21C(tile->field24, tile->field25,
                   (actor->field1C & 0x2000) ? 0x300 : 0x3000);
@@ -120,6 +120,5 @@ state3:
     actor->field1C = actor_flags;
     func_80096088(motion, actor);
 
-done:
     return;
 }

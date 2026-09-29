@@ -200,12 +200,12 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
 
     state = ((S_8009345C_0 *)actor)->unk_9B;
     if (state >= 0xAU) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80088A58[(u32)(state)];
 jt_c0:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD138;
     func_80048A44(entity, D_800DD138[((s32) (gameWork.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
@@ -225,7 +225,7 @@ jt_c1:
     start_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
     ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
     if ((start_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     if (((S_8009345C_2 *)context)->unk_60 == NULL) {
         goto skip_removal;
@@ -237,7 +237,7 @@ skip_removal:
     goto set_state;
 jt_c2:
     if (!(((S_8009345C_15 *)(((S_8009345C_2 *)context)->unk_60))->unk_1C & 0x800000)) {
-        goto done;
+        return;
     }
     message_or_list.value = func_800990FC();
     remove_message = func_8009929C(8, message_or_list.value);
@@ -269,7 +269,7 @@ show_removal:
 jt_c3:
     message_or_list.base = D_80082EB0;
     if ((func_800A2BDC(0) << 0x10) != 0) {
-        goto done;
+        return;
     }
     load_id = func_800A1618(((S_8009345C_7 *)(*message_or_list.base))->unk_00, 3);
     if (load_id == 0) {
@@ -282,7 +282,7 @@ jt_c3:
     goto advance_state;
 jt_c4:
     if (((S_8009345C_8 *)(&D_800E3E40))->unk_00 == 0) {
-        goto done;
+        return;
     }
     if (D_80081488 == 0) {
         goto advance_state;
@@ -347,14 +347,14 @@ jt_c7:
     end_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;
     ((S_8009345C_0 *)actor)->unk_96 = end_ticks;
     if ((end_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     (*(void **)((u8 *)entity + (0x2C))) = D_800DD140;
     func_80048A44(entity, D_800DD140[((s32) (gameWork.view.viewAngle + ((S_8009345C_2 *)context)->unk_2A + 0x100) >> 9) & 7], 0, 1);
     goto advance_state;
 jt_c8:
     if (!(((S_8009345C_1 *)entity)->unk_14 & 0x6000)) {
-        goto done;
+        return;
     }
     ((S_8009345C_0 *)actor)->unk_8C = &D_8008ACDC;
     func_80099F70(((S_8009345C_2 *)context)->unk_5C);
@@ -368,6 +368,5 @@ increment_state:
     next_state = next_state + 1;
 set_state:
     ((S_8009345C_0 *)actor)->unk_9B = next_state;
-done:
     return;
 }

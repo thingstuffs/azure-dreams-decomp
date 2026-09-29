@@ -90,45 +90,43 @@ void *func_819AD1DC(void *src)
     handler = &D_800245A0;
     sub_handler = &D_80027460;
     last_index = 8;
-spawn_next:
-    obj = func_8003FC64(18);
-    if (obj != NULL) {
-        ((S_819AD1DC_0 *)obj)->unk_10 = handler;
-        func_8004491C(obj, &D_800CEEFC);
-        coords = ((S_819AD1DC_0 *)obj)->unk_08;
-        x = ((S_819AD1DC_1 *)src)->unk_02;
-        part = obj + 0x20;
-        coords->unk_02 = x;
-        coords->unk_0E = x;
-        part->unk_1C = x;
-        y = ((S_819AD1DC_1 *)src)->unk_06;
-        coords->unk_06 = y;
-        coords->unk_12 = y;
-        part->unk_1E = y;
-        z = ((S_819AD1DC_1 *)src)->unk_0A;
-        coords->unk_0A = z;
-        coords->unk_16 = z;
-        part->unk_20 = z;
-        render = ((S_819AD1DC_0 *)obj)->unk_0C;
-        render->unk_08 = sub_handler;
-        if (i != last_index) {
-            render->unk_1E = 0x200U;
-        } else {
-            render->unk_1E = 0x800U;
+    do {
+        obj = func_8003FC64(18);
+        if (obj != NULL) {
+            ((S_819AD1DC_0 *)obj)->unk_10 = handler;
+            func_8004491C(obj, &D_800CEEFC);
+            coords = ((S_819AD1DC_0 *)obj)->unk_08;
+            x = ((S_819AD1DC_1 *)src)->unk_02;
+            part = obj + 0x20;
+            coords->unk_02 = x;
+            coords->unk_0E = x;
+            part->unk_1C = x;
+            y = ((S_819AD1DC_1 *)src)->unk_06;
+            coords->unk_06 = y;
+            coords->unk_12 = y;
+            part->unk_1E = y;
+            z = ((S_819AD1DC_1 *)src)->unk_0A;
+            coords->unk_0A = z;
+            coords->unk_16 = z;
+            part->unk_20 = z;
+            render = ((S_819AD1DC_0 *)obj)->unk_0C;
+            render->unk_08 = sub_handler;
+            if (i != last_index) {
+                render->unk_1E = 0x200U;
+            } else {
+                render->unk_1E = 0x800U;
+            }
+            shade = -0x80 - ((s32)((last_index - i) * 4));
+            scale = M2C_FIELD_V(render, u16 *, 0x1E);
+            render->unk_0D = (u8)shade;
+            render->unk_1C = scale;
+            part->unk_38 = i;
+            if (i == last_index) {
+                part->unk_38 = 7;
+            }
+            part->unk_30 = last_index;
         }
-        shade = -0x80 - ((s32)((last_index - i) * 4));
-        scale = M2C_FIELD_V(render, u16 *, 0x1E);
-        render->unk_0D = (u8)shade;
-        render->unk_1C = scale;
-        part->unk_38 = i;
-        if (i == last_index) {
-            part->unk_38 = 7;
-        }
-        part->unk_30 = last_index;
-    }
-    i += 1;
-    if (i < 9) {
-        goto spawn_next;
-    }
+        i += 1;
+    } while (i < 9);
     return obj;
 }

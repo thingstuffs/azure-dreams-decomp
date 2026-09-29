@@ -55,7 +55,7 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
     reference_found = (s32) target;
     if ((dungeonStatus.flags & 0x2008) || ((func_800A2C34(actor) << 0x10) != 0)) {
         result = -1;
-        goto done;
+        return result;
     }
     direction = 0;
 scan_neighbors:
@@ -90,12 +90,11 @@ next_direction:
             func_80047784(actor_pos_arg, D_80176348[((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7], 0);
             func_80175E14(actor);
             result = 1;
-            goto done;
+            return result;
         }
         result = 0;
-        goto done;
+        return result;
     }
     goto scan_neighbors;
-done:
     return result;
 }

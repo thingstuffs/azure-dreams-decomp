@@ -39,26 +39,25 @@ void func_80024F40(void *object) {
         goto status_zero;
     if (fade_state == 1)
         goto status_one;
-    goto common_return;
+    return;
 
 status_zero:
     if ((u8)((S_80024F40_0 *)object)->unk_34.u8 >= 0x31U)
         goto status_zero_high;
     ((S_80024F40_0 *)object)->unk_34.s32 = 0;
     ((S_80024F40_0 *)object)->unk_4A.u++;
-    goto common_return;
+    return;
 
 status_zero_high:
     ((S_80024F40_0 *)object)->unk_34.s32 =
         ((S_80024F40_0 *)object)->unk_34.s32 - 0x303030;
-    goto common_return;
+    return;
 
 status_one:
     (*(u16 *)((u8 *)object + -2)) =
         (u16)(((S_80024F40_0_pre *)object)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
-    goto common_return;
+    return;
 
-common_return:
     return;
 }

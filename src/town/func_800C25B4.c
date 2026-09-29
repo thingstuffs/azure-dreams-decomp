@@ -33,7 +33,7 @@ void func_800BFD14(void *object)
   {
     goto state_1;
   }
-  goto epilogue;
+  return;
 
 state_ge_3:
   if (state == 3)
@@ -44,7 +44,7 @@ state_ge_3:
   {
     goto state_ff;
   }
-  goto epilogue;
+  return;
 
 state_0:
   *((u16 *) (((u8 *) object) + 0x48)) = 3;
@@ -57,11 +57,11 @@ state_1:
   *((s32 *) (((u8 *) object) + 0x24)) += *((s32 *) (((u8 *) object) + 0x30));
   if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
   {
-    goto epilogue;
+    return;
   }
   *((u16 *) (((u8 *) object) + 0x4C)) =
       (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
-  goto epilogue;
+  return;
 
 state_2:
   *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
@@ -70,7 +70,7 @@ state_2:
   *((s32 *) (((u8 *) object) + 0x1C)) += *((s32 *) (((u8 *) object) + 0x28));
   if ((*((s16 *) (((u8 *) object) + 0x26))) <= 0)
   {
-    goto epilogue;
+    return;
   }
   *((s16 *) (((u8 *) object) + 0x26)) = 0;
   effect = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
@@ -95,25 +95,24 @@ state_2:
   *((u16 *) (((u8 *) object) + 0x48)) = 4;
   *((u16 *) (((u8 *) object) + 0x4C)) =
       (u16) ((*((u16 *) (((u8 *) object) + 0x4C))) + 1);
-  goto epilogue;
+  return;
 
 state_3:
   *((u16 *) (((u8 *) object) + 0xC)) = (u16) ((*((u16 *) (((u8 *) object) + 0xC))) + (((*((s16 *) (((u8 *) object) + 0x2A))) * 3) >> 2));
   *((u16 *) (((u8 *) object) + 0x10)) = (u16) ((*((u16 *) (((u8 *) object) + 0x10))) + (((*((s16 *) (((u8 *) object) + 0x32))) * 3) >> 2));
   if ((*((s16 *) (((u8 *) object) + 0x48))) > 0)
   {
-    goto epilogue;
+    return;
   }
   {
     u16 *state_field = (u16 *) (((u8 *) object) + 0x4C);
     *state_field = 0xFF;
   }
-  goto epilogue;
+  return;
 
 state_ff:
   *((u16 *) (((u8 *) object) + (-2))) |= 0x8000;
   objectFlagBlock.flags |= 0x8000;
 
-epilogue:
   return;
 }

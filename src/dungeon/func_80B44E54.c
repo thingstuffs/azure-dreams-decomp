@@ -103,12 +103,12 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
     if (state < 3) {
         if (state == 0) goto state_0;
         if (state == 1) goto state_1;
-        goto done;
+        return;
     }
     if (state == 4) goto state_4;
     if (state < 4) goto state_3;
     if (state == 0xFF) goto state_255;
-    goto done;
+    return;
 
 state_0:
     action_actor = actor;
@@ -116,7 +116,7 @@ state_0:
         ((S_80172654_0 *)action)->unk_9B.s = 0xFF;
         ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v |= 0x6000;
         func_8009C12C(action_actor, entity, ((S_80172654_3 *)action_actor)->unk_2A, 1);
-        goto done;
+        return;
     }
     ((S_80172654_4 *)motion)->unk_0C = (-dir_x) << 17;
     ((S_80172654_4 *)motion)->unk_10 = (-dir_y) << 17;
@@ -132,7 +132,7 @@ state_0:
 
 state_1:
     shifted_timer = timer << 16;
-    if (shifted_timer > 0) goto done;
+    if (shifted_timer > 0) return;
     ((S_80172654_4 *)motion)->unk_10 = 0;
     ((S_80172654_4 *)motion)->unk_0C = 0;
     (*(void **)((u8 *)entity + 0x2C)) = D_80175A8C;
@@ -172,14 +172,14 @@ state_2:
         }
         goto increment_state;
     }
-    goto done;
+    return;
 
 state_3:
     if ((s16)timer == 0xA) {
         func_8009C12C(actor, entity, ((S_80172654_1 *)actor)->unk_2A.u, 1);
         func_800A56E0(0x813);
     }
-    if (((S_80172654_0 *)action)->unk_96.u > 0) goto done;
+    if (((S_80172654_0 *)action)->unk_96.u > 0) return;
     ((S_80172654_0 *)action)->unk_96.s = 8;
     ((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v &= 0xF7FF;
     goto increment_state;
@@ -189,17 +189,17 @@ increment_state:
 store_next_state:
     next_state += 1;
     ((S_80172654_0 *)action)->unk_9B.s = next_state;
-    goto done;
+    return;
 
 state_4:
-    if ((timer << 16) > 0) goto done;
+    if ((timer << 16) > 0) return;
     (*(void **)((u8 *)entity + 0x2C)) = D_80175A4C;
     func_80047784(entity,
         D_80175A4C[((gameWork.view.viewAngle + ((S_80172654_1 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172654_0 *)action)->unk_96.s = state;
     ((S_80172654_0 *)action)->unk_9B.s = 0xFF;
-    goto done;
+    return;
 
 state_255:
     ((S_80172654_4 *)motion)->unk_0C =
@@ -221,11 +221,10 @@ state_255:
         func_800A4ACC(actor);
         if (((S_80172654_1 *)actor)->unk_6D == 0) {
             ((S_80172654_1 *)actor)->unk_46 &= 0x7FFF;
-            goto done;
+            return;
         }
         D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
-done:
     return;
 }

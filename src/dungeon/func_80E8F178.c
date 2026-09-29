@@ -53,17 +53,17 @@ void func_80174978(void *actor, void *motion, void *visual) {
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (((S_80174978_1 *)visual)->unk_14 & 0x8000) {
         ((S_80174978_0 *)actor)->unk_9B = 2;
-        goto done;
+        return;
     }
     ((S_80174978_0 *)actor)->unk_96 = 12;
     ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
@@ -95,11 +95,11 @@ state_one: {
     timer = ((S_80174978_0 *)actor)->unk_96 - 1;
     ((S_80174978_0 *)actor)->unk_96 = timer;
     if ((timer << 16) != 0) {
-        goto done;
+        return;
     }
     ((S_80174978_2 *)motion)->unk_14 = 0;
     ((S_80174978_0 *)actor)->unk_9B = ((S_80174978_0 *)actor)->unk_9B + 1;
-    goto done;
+    return;
 
 state_two:
     func_800A7A7C(((S_80174978_0 *)actor)->unk_A8,
@@ -109,6 +109,5 @@ state_two:
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
     return;
 }

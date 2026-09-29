@@ -227,7 +227,7 @@ void func_80026190(void *owner_arg)
             objectFlagBlock.flags |= 0x8000;
         }
         D_8002715C = 0;
-        goto done;
+        return;
     }
 
     status = status_page;
@@ -244,16 +244,16 @@ void func_80026190(void *owner_arg)
         ((S_80026190_0 *)owner)->unk_1C.s = stop_state;
         D_8002715C = 0;
         func_8004E130(stop_state);
-        goto done;
+        return;
     }
 
     if (state != 0) {
-        goto done;
+        return;
     }
 
     object_or_kind = (s32)func_8003FC64(0x12);
     if (object_or_kind == 0) {
-        goto done;
+        return;
     }
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = D_8002520C;
     owner_arg = (u8 *)object_or_kind + 0x20;
@@ -270,7 +270,7 @@ void func_80026190(void *owner_arg)
         ((S_80026190_0 *)owner)->unk_00 = NULL;
         alloc_flags |= 0x8000;
         objectFlagBlock.flags = alloc_flags;
-        goto done;
+        return;
     }
 
     object_or_kind = (s32)child_object;
@@ -289,7 +289,7 @@ void func_80026190(void *owner_arg)
         ((S_80026190_8 *)cleanup_page)->unk_14A0 = cleanup_flags;
         ((S_80026190_9 *)setup_child)->unk_1E = child_bits | 0x8000;
         ((S_80026190_5 *)owner_arg)->unk_08 = NULL;
-        goto done;
+        return;
     }
 
     source_slot = 0;
@@ -352,7 +352,7 @@ loop:
             ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
             ((S_80026190_5 *)owner_arg)->unk_0C = NULL;
         }
-        goto done;
+        return;
     }
 
     func_80042640(entity, (s16)object_or_kind);
@@ -420,6 +420,5 @@ next:
     }
     ((S_80026190_0 *)owner)->unk_1C.u++;
 
-done:
     return;
 }

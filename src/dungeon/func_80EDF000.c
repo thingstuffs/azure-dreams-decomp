@@ -278,7 +278,7 @@ finish_motion:
     ((S_func_80EDF000_3 *)motion->unk_40)->unk_A4 = 0;
     ((S_func_80EDF000_4 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
     D_800814A0.value |= 0x8000;
-    goto epilogue;
+    return;
 repeat_fall:
     if (render->unk_14 & 0x8000)
         goto fall;
@@ -286,7 +286,7 @@ repeat_fall:
 move:
     step_table = tile_steps;
     if (motion->unk_2C != 0)
-        goto epilogue;
+        return;
     position->unk_00.s32 += motion->unk_6C;
     motion->unk_6C += motion->unk_78;
     position->unk_04.s32 += motion->unk_70;
@@ -368,13 +368,12 @@ update_height:
                        (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
                        &position->unk_0E, &position->unk_12,
                        &position->unk_16) << 16) != 0)
-        goto epilogue;
+        return;
     motion->unk_2C = 2;
     motion->unk_74 = (s32)0xFFF80000;
-    goto epilogue;
+    return;
 repeat_move:
     if (render->unk_14 & 0x8000)
         goto move;
-epilogue:
     return;
 }

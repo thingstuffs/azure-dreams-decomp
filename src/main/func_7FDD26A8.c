@@ -151,7 +151,7 @@ void func_80089608(void *effect) {
     }
     if (((S_80089608_1 *)owner)->unk_20 >= 2) {
         ((S_80089608_0 *)effect)->unk_08 = 0xFF;
-        goto epilogue;
+        return;
     }
     phase = ((S_80089608_0 *)effect)->unk_08;
     switch (phase) {
@@ -204,7 +204,7 @@ pre_spawn_angle:
 error_mode:
     (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_80089608_0_pre *)effect)[-1].unk_00 | 0x8000);
     objectFlagBlock.flags |= 0x8000;
-    goto epilogue;
+    return;
 set_spawn_count:
     color_step_or_index = 9;
 spawn_setup:
@@ -249,6 +249,5 @@ next_element:
         radius_cursor -= 2;
     } while (color_step_or_index >= 0);
     return;
-epilogue:
     return;
 }

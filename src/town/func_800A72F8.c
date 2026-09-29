@@ -19,11 +19,11 @@ void func_800A4A58(void)
 
     channels = &gameWork;
     if (D_80100D94[0] == 0) {
-        goto done;
+        return;
     }
     change_mode = D_80100D94[0];
     if (change_mode >= 6) {
-        goto done;
+        return;
     }
     goto *D_80089110[change_mode];
 
@@ -32,21 +32,21 @@ case_0:
     channels->view.unk_091 = 0x80;
     channels->view.unk_092 = 0x80;
     D_80100D94[0] = 0;
-    goto done;
+    return;
 
 case_1:
     channels->view.unk_090 = 0;
     channels->view.unk_091 = 0;
     channels->view.unk_092 = 0;
     D_80100D94[0] = 0;
-    goto done;
+    return;
 
 case_2:
     channels->view.unk_090 = 0x40;
     channels->view.unk_091 = 0x40;
     channels->view.unk_092 = 0x40;
     D_80100D94[0] = 0;
-    goto done;
+    return;
 
 case_3:
     target_level = 0x80;
@@ -68,6 +68,5 @@ update:
         D_80100D94[0] = 0;
     }
 
-done:
     return;
 }

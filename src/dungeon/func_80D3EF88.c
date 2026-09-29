@@ -70,16 +70,16 @@ void func_80174788(void *action, s32 actor_index, void *sprite, void *actor)
         if (action_state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (action_state == 2) {
         goto state_two;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     {
 
@@ -93,20 +93,20 @@ state_zero:
 
 state_one:
     if (dungeonStatus.flags & 0x1000) {
-        goto done;
+        return;
     }
     if (((EntityRec *)actor)->unk_64 != 0) {
         if (func_800AA6B4(action, actor_index, sprite, 0) != 0) {
-            goto done;
+            return;
         }
     }
     if ((func_800A2C34(actor) << 16) != 0) {
-        goto done;
+        return;
     }
     actor_flags = ((EntityRec *)actor)->flags1C;
     if (actor_flags & 0x100) {
         func_800AA258(action, actor_index, sprite, actor);
-        goto done;
+        return;
     }
     if (actor_flags & 0x80000) {
         func_800AA888(action, actor_index, sprite, actor);
@@ -116,20 +116,20 @@ state_one:
         ((S_80174788_0 *)action)->unk_9E = 0;
         ((S_80174788_0 *)action)->unk_92 = value_before_reset - reset_offset;
         func_80174A68(action, actor_index, sprite, actor);
-        goto done;
+        return;
     }
     if (((EntityRec *)actor)->unk_6D == 0) {
-        goto done;
+        return;
     }
     if ((func_800A2C34(actor) << 16) != 0) {
         if ((func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 16) != 0) {
-            goto done;
+            return;
         }
     }
     func_800A9A0C(actor);
     func_800A9A04(actor);
     if (((EntityRec *)actor)->tileY == 0) {
-        goto done;
+        return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2430;
     func_80047784(sprite,
@@ -140,11 +140,11 @@ state_one:
 
 increment_state:
     ((S_80174788_0 *)action)->unk_9B++;
-    goto done;
+    return;
 
 state_two:
     if (!(((Rec_func_800AA258_arg2 *)sprite)->unk_14 & 0xE000)) {
-        goto done;
+        return;
     }
     {
 
@@ -153,6 +153,5 @@ state_two:
     ((EntityRec *)actor)->flags1C &= ~8;
     ((S_80174788_0 *)action)->unk_8C = D_80171A80;
 
-done:
     return;
 }

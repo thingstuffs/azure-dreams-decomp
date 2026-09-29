@@ -88,42 +88,40 @@ void func_800C4944(FuncArg *source) {
     effect_def = D_800C4640;
     height_offsets = D_800DDC40;
     tile_data = D_800DF564;
-    loop:
-    effect_item = func_8003FC64(0x202);
-    if (effect_item != 0) {
-        effect_item->field10 = effect_def;
-        effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
-        func_8004491C(effect_item, func_80045340);
-        effect_state->field12 = (random_values[0] & 0xF) + 0x10;
-        effect_state->field16 = random_values[1];
-        source_pos = (FuncData *)source->data;
-        effect_pos = effect_item->data_block;
-        x = source_pos->x;
-        effect_pos->x = x;
-        effect_state->fieldC = x;
-        y = ((FuncData *)source->data)->y;
-        effect_pos->y = y;
-        effect_state->fieldE = y;
-        source_meta = (FuncMeta *)source->meta;
-        effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets) - (random_values[2] & 0xF);
-        effect_state->field1C = source->data;
-        effect_block = effect_item->block;
-        effect_block->field14 = 0xC;
-        effect_block->field8 = tile_data;
-        if (effect_index != 0) {
-            effect_block->field10 = 0x20;
-        } else {
-            effect_block->field10 = 0x60;
+    do {
+        effect_item = func_8003FC64(0x202);
+        if (effect_item != 0) {
+            effect_item->field10 = effect_def;
+            effect_state = (FuncSub *)((u8 *)effect_item + 0x20);
+            func_8004491C(effect_item, func_80045340);
+            effect_state->field12 = (random_values[0] & 0xF) + 0x10;
+            effect_state->field16 = random_values[1];
+            source_pos = (FuncData *)source->data;
+            effect_pos = effect_item->data_block;
+            x = source_pos->x;
+            effect_pos->x = x;
+            effect_state->fieldC = x;
+            y = ((FuncData *)source->data)->y;
+            effect_pos->y = y;
+            effect_state->fieldE = y;
+            source_meta = (FuncMeta *)source->meta;
+            effect_pos->z = ((FuncData *)source->data)->z - *(u8 *)(source_meta->index + (s32)height_offsets) - (random_values[2] & 0xF);
+            effect_state->field1C = source->data;
+            effect_block = effect_item->block;
+            effect_block->field14 = 0xC;
+            effect_block->field8 = tile_data;
+            if (effect_index != 0) {
+                effect_block->field10 = 0x20;
+            } else {
+                effect_block->field10 = 0x60;
+            }
+            effect_state->field2 = 8;
+            do {
+                effect_state->field18 = effect_index;
+            } while (0);
         }
-        effect_state->field2 = 8;
-        do {
-            effect_state->field18 = effect_index;
-        } while (0);
-    }
-    effect_index -= 1;
-    if (effect_index >= 0) {
-        goto loop;
-    }
+        effect_index -= 1;
+    } while (effect_index >= 0);
     {
         u16 remaining;
         remaining = source->count - 1;

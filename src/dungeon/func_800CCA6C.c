@@ -56,12 +56,12 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
         if (phase == 0) {
             goto start;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto align_to_tile;
     }
-    goto done;
+    return;
 
 start:
     func_800AD4D0(anim);
@@ -72,7 +72,7 @@ start:
         if (info->flags & 0x8000) {
             state->count = 0;
             state->status = 2;
-            goto done;
+            return;
         }
         state->count = 8;
         goto decelerate;
@@ -81,7 +81,7 @@ start:
     motion->dy = 0;
     motion->dx = 0;
     func_800AAA54(state, motion, info, 0);
-    goto done;
+    return;
 
 decelerate:
     {
@@ -106,18 +106,18 @@ decelerate:
         frames_left = state->count - 1;
         state->count = frames_left;
         if ((s32)(frames_left << 16) > 0) {
-            goto done;
+            return;
         }
         if (anim->active == 0) {
             motion->dz = 0;
             motion->dy = 0;
             motion->dx = 0;
             func_800AAA54(state, motion, info, 0);
-            goto done;
+            return;
         }
         state->count = 8;
         state->status = state->status + 1;
-        goto done;
+        return;
     }
 
 align_to_tile:
@@ -137,7 +137,7 @@ align_to_tile:
         next_frames = state->count - 1;
         state->count = next_frames;
         if ((s32)(next_frames << 16) > 0) {
-            goto done;
+            return;
         }
         motion->dz = 0;
         motion->dy = 0;
@@ -150,6 +150,5 @@ align_to_tile:
         state->kind = 0xE;
     }
 
-done:
     return;
 }

@@ -70,7 +70,7 @@ void func_8016D754(DungeonState *state, DungeonWork *work,
     };
     state_index = state->state;
     if (state_index >= 7)
-        goto done;
+        return;
     (void)state_labels;
     goto *D_80164998[state_index];
 
@@ -107,7 +107,7 @@ case1_common:
     state->timer.unsigned_value = 6;
     state->state = state->state + 1;
     func_800A56E0(0x703);
-    goto done;
+    return;
 
 case2:
     {
@@ -118,7 +118,7 @@ case2:
         if ((timer << 16) > 0) {
             if (object->flags & 0xE000)
                 goto case0;
-            goto done;
+            return;
         }
         goto case0;
     }
@@ -140,7 +140,7 @@ case3:
             }
         }
         if (state->timer.signed_value != 0xB)
-            goto done;
+            return;
         goto case0;
     }
 
@@ -152,7 +152,7 @@ case4:
         u32 direction_index;
 
         if (!(object->flags & 0xE000))
-            goto done;
+            return;
         work->unk_14 = 0;
         work->unk_10 = 0;
         work->unk_0C = 0;
@@ -194,14 +194,14 @@ case5:
         timer = state->timer.unsigned_value;
         state->timer.unsigned_value = timer + 1;
         if ((s16)timer < 0x3C)
-            goto done;
+            return;
         goto case0;
     }
 
 case0:
     state->timer.unsigned_value = 0;
     state->state = state->state + 1;
-    goto done;
+    return;
 
 case6:
     input->unk_73 = 0;
@@ -210,6 +210,5 @@ case6:
     dungeonStatus.unk_0C = 0;
     input->unk_46 = input->unk_46 & 0x7FFF;
 
-done:
     return;
 }

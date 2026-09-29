@@ -244,7 +244,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     state = ((S_8002520C_0 *)menu)->unk_1C;
     (void)state_labels;
     if ((u32)state >= 5U) {
-        goto done;
+        return;
     }
     goto *D_80025000[(u32)state];
 init_menu:

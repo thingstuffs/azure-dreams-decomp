@@ -195,7 +195,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         }
 missing_object:
         ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
-        goto done;
+        return;
 start_sequence:
         {
             void *sound_data = *(void *volatile *)&D_8006CD58[0];
@@ -223,10 +223,10 @@ start_sequence:
                     ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
                 func_80048A44(actor, *anim_entry, 0, 1);
                 ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
-                goto done;
+                return;
             }
             ((S_800253C0_1 *)owner)->unk_2A.s = old_angle + 0x200;
-            goto done;
+            return;
         }
 
     case 2:
@@ -252,7 +252,7 @@ start_sequence:
 
     case 3:
         if (dungeonStatus.unk_0A != 0) {
-            goto done;
+            return;
         }
         {
 
@@ -346,7 +346,7 @@ start_sequence:
             timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             func_800A56E0(0x300);
             {
@@ -391,7 +391,7 @@ start_sequence:
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             func_80026C88(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
                 ((S_800253C0_10 *)position)->unk_0A.s, actor);
@@ -410,7 +410,7 @@ start_sequence:
 
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             object_index = 0;
             message_text = (s32)(sequence);
@@ -432,7 +432,7 @@ start_sequence:
                 texture_rect[2] = 0x40;
                 func_800B835C(D_800287F0, texture_rect, 1, 0);
             }
-            goto done;
+            return;
         }
 
     case 6:
@@ -441,7 +441,7 @@ start_sequence:
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             {
                 coord_delta = 8;
@@ -458,11 +458,11 @@ start_sequence:
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
         }
         if (func_8003FA44(13) == 0) {
-            goto done;
+            return;
         }
         {
             register s32 message_id ASM_REG("$22") = func_800990FC();
@@ -553,7 +553,7 @@ show_result:
             ((S_800253C0_0 *)sequence)->unk_9B.n = next_state;
             func_80099290(saved_text);
             func_800A5720(message_id);
-            goto done;
+            return;
         }
 
     case 8:
@@ -591,7 +591,7 @@ show_result:
                 s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
                 ((S_800253C0_0 *)sequence)->unk_96.n = timer;
                 if (timer > 0) {
-                    goto done;
+                    return;
                 }
             }
         }
@@ -685,7 +685,7 @@ show_result:
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             {
                 coord_delta = 32;
@@ -762,7 +762,7 @@ show_result:
             timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
-                goto done;
+                return;
             }
             ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C808080;
             object_index_m = 0;
@@ -794,11 +794,11 @@ advance_state:
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
 store_next_state:
         ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
-        goto done;
+        return;
 
     case 12:
         if ((((S_800253C0_8 *)actor)->unk_14 & 0xE000) == 0) {
-            goto done;
+            return;
         }
         {
             u16 value;
@@ -811,6 +811,5 @@ store_next_state:
     case 13:
         break;
     }
-done:
     return;
 }

@@ -534,7 +534,7 @@ increment_state:
         func_8008F134(object);
         (*(u16 *)((u8 *)object + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        return;
 
     default:
         goto cleanup;
@@ -545,6 +545,5 @@ cleanup:
         func_8003DB94(sprite, effect, 0);
     }
 
-done:
     return;
 }

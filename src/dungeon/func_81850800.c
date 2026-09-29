@@ -285,7 +285,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
 
 state_0:
     if ((((S_81850800_3 *)owner->unk_04)->unk_00 & 0x80) == 0) {
-        goto done;
+        return;
     }
     target = caster_data->unk_60;
     tiles_ahead = 0;
@@ -404,7 +404,7 @@ state_0_common:
     motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
     func_800A56E0(0x300);
     owner->unk_0A.unk_0A_u16++;
-    goto done;
+    return;
 
 state_1:
     ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
@@ -557,7 +557,7 @@ shared_motion:
 
 state_2:
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     if (caster_data->unk_60 != 0) {
         func_8009CE1C(caster_data->unk_60, 0x13,
@@ -566,7 +566,7 @@ state_2:
     }
     owner->unk_50.unk_50_u16 = 0x10;
     owner->unk_0A.unk_0A_u16++;
-    goto done;
+    return;
 
 state_3:
     flags = owner->unk_52.unk_52_u16;
@@ -575,13 +575,12 @@ state_3:
         return;
     }
     if ((s16)timer > 0) {
-        goto done;
+        return;
     }
     dungeonStatus.unk_0C = 0;
     (*(u16 *)((u8 *)owner - 2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto done;
+    return;
 
-done:
     return;
 }

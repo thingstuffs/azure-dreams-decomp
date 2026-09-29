@@ -53,7 +53,7 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
     case 2:
         goto state_2;
     default:
-        goto end;
+        return;
     }
 
 state_0:
@@ -70,7 +70,7 @@ state_0:
     if (target->unk_14.at00_u16.v & 0x8000) {
         action->unk_96.s = 0;
         action->unk_9B = 2;
-        goto end;
+        return;
     }
 
     initial_timer = -1;
@@ -109,7 +109,7 @@ state_1:
 
 timer_done:
     if (action->unk_96.s != 0) {
-        goto end;
+        return;
     }
     if (((EntityRec *)entity)->unk_28 != 0) {
         goto continue_state;
@@ -120,12 +120,12 @@ reset_and_start:
     motion->unk_10 = 0;
     motion->unk_0C = 0;
     func_800AAA54(action, motion, target, D_80173D60);
-    goto end;
+    return;
 
 continue_state:
     action->unk_96.s = 8;
     action->unk_9B++;
-    goto end;
+    return;
 
 state_2:
     return_timer = action->unk_96.s;
@@ -144,7 +144,7 @@ state_2:
     next_timer = action->unk_96.u - 1;
     action->unk_96.u = next_timer;
     if (next_timer > 0) {
-        goto end;
+        return;
     }
 
     motion->flags14 = 0;
@@ -157,7 +157,6 @@ state_2:
     }
     action->unk_8C = D_80170F74;
 
-end:
     return;
 }
 

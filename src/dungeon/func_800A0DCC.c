@@ -20,22 +20,22 @@ s32 func_800A652C(void *object) {
     }
     if (*(u8 *)((u8 *)object + 0x25) == 0) {
         selected_value = D_800DCF44;
-        goto done;
+        return selected_value;
     }
     state_index = 14;
     if (*(s32 *)((u8 *)object + 0x1C) & 0x20000) {
         goto init_loop;
     }
     selected_value = D_800DCF3C;
-    goto done;
+    return selected_value;
 
 return_special:
     selected_value = D_800DCF48;
-    goto done;
+    return selected_value;
 
 return_indexed:
     selected_value = D_800DCF08[state_index];
-    goto done;
+    return selected_value;
 
 init_loop:
     special_index = 7;
@@ -55,7 +55,6 @@ loop:
     }
     selected_value = D_800DCF08[0];
 
-done:
     return selected_value;
 }
 

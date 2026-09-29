@@ -67,17 +67,17 @@ check_entry:
 
 reject_entry:
     func_800A9A0C(actor);
-    goto done;
+    return;
 
 accepted_entry:
     if (PTR_AT(state, 0xC) == actor) {
         U16_AT(actor, 0x46) = 0xC008;
     }
-    goto done;
+    return;
 
 negative_entry:
     if (!(state_flags & 0x2000)) {
-        goto done;
+        return;
     }
 
     func_800A19E4(position, actor, 3, 6, move_work + 0x9C);
@@ -210,7 +210,7 @@ found_actor:
             U8_AT(position, 0x24), U8_AT(position, 0x25),
             U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
         U8_AT(actor, 0x71) &= 0x7F;
-        goto done;
+        return;
     }
 
 found_retry:
@@ -304,7 +304,7 @@ loop_setup:
             (U16_AT(&D_80082EA4, 0) != U16_AT(position, 0x24)) &&
             ((func_8009A180(
                   actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0)) {
-            goto done;
+            return;
         }
     }
 
@@ -313,7 +313,7 @@ post_loop_test:
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;
         func_800A9A0C(actor);
-        goto done;
+        return;
     }
 
     U16_AT(actor, 0x46) &= 0x7FFF;
@@ -330,7 +330,7 @@ post_loop_test:
 
 clear_path:
     U8_AT(actor, 0x71) &= 0x7F;
-    goto done;
+    return;
 
 actor_survives:
     step_index = func_800BCB04(
@@ -340,8 +340,7 @@ actor_survives:
     if (step_index < 0x200) {
         U16_AT(actor, 0x88) = step_index;
     }
-    goto done;
+    return;
 
-done:
     return;
 }

@@ -24,12 +24,12 @@ void func_800CBDB4(s16 *transition) {
         if (phase == 0) {
             goto move_out;
         }
-        goto done;
+        return;
     }
     if (phase == 2) {
         goto move_back;
     }
-    goto done;
+    return;
 
 move_out:
     state->unk_0A0 = state->unk_0A0 + (0x800 - state->unk_0A0) / transition[2];
@@ -37,7 +37,7 @@ move_out:
         u16 frames_left = (u16)transition[2] - 1;
         transition[2] = frames_left;
         if ((s32)(frames_left << 16) > 0) {
-            goto done;
+            return;
         }
         {
             DungeonGlobalStatus *settings = &dungeonStatus;
@@ -47,7 +47,7 @@ move_out:
             func_800997FC(D_800E1B08, settings, state);
         }
     }
-    goto done;
+    return;
 
 wait_ready:
     {
@@ -61,7 +61,7 @@ wait_ready:
             func_800A56E0(0x818);
         }
     }
-    goto done;
+    return;
 
 move_back:
     state->unk_0A0 = state->unk_0A0 + (0 - state->unk_0A0) / transition[2];
@@ -79,6 +79,5 @@ move_back:
         }
     }
 
-done:
     return;
 }

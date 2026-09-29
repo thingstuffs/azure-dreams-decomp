@@ -53,7 +53,7 @@ void func_800B3D10(s16 effect_id, s32 unused_arg, EntityRec *record) {
     if ((u32) (s32) effect_index < 0x31U) {
         (void)jt_keep; goto *D_80089200[(u32) (s32) effect_index];
     }
-    goto block_43;
+    return;
 jt_c0:
 {
     s32 value_bonus = (s32) (record->unk_20 * ((S_800B3D10_1 *)(&D_800E3D68))->unk_00) / (s32) (((S_800B3D10_1 *)(&D_800E3D68))->unk_00 + 1);
@@ -187,6 +187,5 @@ jt_c44:
     updated_flags = record->flags14 | 4;
 block_42:
     record->flags14 = updated_flags;
-block_43:
     return;
 }

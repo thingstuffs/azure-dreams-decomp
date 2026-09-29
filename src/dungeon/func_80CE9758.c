@@ -129,16 +129,16 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         if ((((S_80172F58_1 *)actor)->unk_12 >= 2) ||
             ((func_80173734(move_input, action_context, position, actor) << 16) == 0)) {
             func_800A9A0C(actor);
-            goto end;
+            return;
         }
         if (dungeon_state->unk_0C != actor) {
-            goto end;
+            return;
         }
         ((S_80172F58_1 *)actor)->unk_46 = 0xC008;
-        goto end;
+        return;
     }
     if (!(state_flags & 0x2000)) {
-        goto end;
+        return;
     }
 
     func_800A19E4(position, actor, 3, 6, move_input + 0x9C);
@@ -152,7 +152,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                     ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
                     ((S_80172F58_4 *)object)->unk_24, ((S_80172F58_4 *)object)->unk_25, move_input + 0x98);
                 ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
-                goto end;
+                return;
             }
             {
                 s32 object_status;
@@ -334,7 +334,7 @@ loop:
     if (attempt == 0) {
         if ((((S_80172F58_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_80172F58_2 *)position)->unk_24.at00u.v) &&
             ((s16)func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) != 0)) {
-            goto end;
+            return;
         }
     }
     attempt++;
@@ -350,7 +350,7 @@ after_loop:
         ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
         ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
         func_800A9A0C(actor);
-        goto end;
+        return;
     }
     turn_state = &dungeonStatus;
     ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
@@ -363,7 +363,7 @@ after_loop:
 
 clear_history:
     ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
-    goto end;
+    return;
 
 update_height:
     attempt = func_800BCB04((((S_80172F58_2 *)position)->unk_24.at00.v << 6) | 0x20,
@@ -372,8 +372,7 @@ update_height:
     if (attempt < 0x200) {
         ((S_80172F58_1 *)actor)->unk_88 = attempt;
     }
-    goto end;
+    return;
 
-end:
     return;
 }

@@ -32,24 +32,24 @@ void func_800B0490(S_800B0490_1 *menu)
     pad_state = &gameWork;
     held_buttons = pad_state->buttons;
     if (held_buttons == 0) {
-        goto done;
+        return;
     }
 
     pressed_buttons = ((s32)pad_state->unk_010);
     if (pressed_buttons & 0x20) {
         SD_Call(0x515, pad_state);
         func_800AE4D4(menu->unk_08);
-        goto done;
+        return;
     }
 
     if (pressed_buttons & 0x40) {
         SD_Call(0x503, pad_state);
         func_800B0424(menu);
-        goto done;
+        return;
     }
 
     if (!(held_buttons & 0x5000)) {
-        goto done;
+        return;
     }
 
     if (pressed_buttons & 0x4000) {
@@ -85,11 +85,10 @@ void func_800B0490(S_800B0490_1 *menu)
 
 move:
     if (direction == 0) {
-        goto done;
+        return;
     }
     SD_Call(0x502, pad_state);
     func_800AF1B4(menu->unk_04, direction, move_mode);
 
-done:
     return;
 }

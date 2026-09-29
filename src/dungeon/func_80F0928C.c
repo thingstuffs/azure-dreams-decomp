@@ -77,7 +77,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
             old_mode = (s8)U8_AT(entity_state, 0x6D);
             call_context = entity_state;
             if (func_800A9E70(call_state, call_motion, call_part, call_context) != 0) {
-                goto done;
+                return;
             }
         }
 
@@ -207,6 +207,5 @@ final_update:
         U16_AT(entity_part, 0x14) |= 0x40;
     }
 
-done:
     return;
 }

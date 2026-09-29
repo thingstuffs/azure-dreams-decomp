@@ -192,7 +192,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             ((S_80170F6C_0 *)arg0)->unk_9B = 1;
             ((S_80170F6C_0 *)arg0)->unk_8C = 0;
             ((S_80170F6C_1 *)arg3)->unk_1C &= ~0x40000;
-            goto epilogue;
+            return;
         }
         if (func_800AA924(arg0, arg1, arg2, D_80175298) != 0) {
             return;
@@ -202,7 +202,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
     if (!(dungeonStatus.flags & 0x2000)) {
         if (((S_80170F6C_1 *)arg3)->unk_1C & 0x100) {
             func_800AA258(arg0, arg1, arg2, arg3);
-            goto epilogue;
+            return;
         }
 
         {
@@ -224,7 +224,7 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             {
                 s32 switch_index = ((S_80170F6C_0 *)arg0)->unk_A8.s;
                 if ((u32)switch_index >= 5) {
-                    goto epilogue;
+                    return;
                 }
                 (void)sw1_keep;
                 {
@@ -242,7 +242,7 @@ sw1_case0:
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 300;
                 }
                 ((S_80170F6C_0 *)arg0)->unk_A8.u++;
-                goto epilogue;
+                return;
 
 sw1_case1: {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
@@ -257,7 +257,7 @@ sw1_case1: {
                         ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v);
                     ((S_80170F6C_1 *)arg3)->unk_14 &= ~0x20000;
                     ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
-                    goto epilogue;
+                    return;
                 }
                 if (((S_80170F6C_1 *)arg3)->unk_14 & 0x1000000) {
                     ((S_80170F6C_0 *)arg0)->unk_A8.u++;
@@ -266,9 +266,9 @@ sw1_case1: {
                         D_801752A0[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 0;
-                    goto epilogue;
+                    return;
                 }
-                goto epilogue;
+                return;
             }
 
 sw1_case2: {
@@ -327,10 +327,10 @@ sw1_case2: {
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
                     ((S_80170F6C_0 *)arg0)->unk_A8.u++;
-                    goto epilogue;
+                    return;
                 }
                 }
-                goto epilogue;
+                return;
             }
 
 sw1_case3: {
@@ -343,9 +343,9 @@ sw1_case3: {
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 3;
                     ((S_80170F6C_0 *)arg0)->unk_A8.u++;
-                    goto epilogue;
+                    return;
                 }
-                goto epilogue;
+                return;
             }
 
 sw1_case4: {
@@ -380,9 +380,9 @@ sw1_case4: {
                         D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                     ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
-                    goto epilogue;
+                    return;
                 }
-                goto epilogue;
+                return;
             }
         } else {
             ((S_80170F6C_0 *)arg0)->unk_98 &= 0xFFF3;
@@ -391,7 +391,7 @@ sw1_case4: {
                 if (((S_80170F6C_1 *)arg3)->unk_1C & 0x80000) {
                     func_800AA888(arg0, arg1, arg2, arg3);
                     func_80174250(arg0, arg1, arg2, arg3);
-                    goto epilogue;
+                    return;
                 }
                 if ((func_800A1C58(arg3) << 16) != 0) {
                     func_800AAB10(arg0, arg1, arg2, arg3);
@@ -454,7 +454,7 @@ sw_case89:
             return;
         }
         func_80172514(arg0, arg1, arg2, arg3);
-        goto epilogue;
+        return;
 
 sw_case567:
         {
@@ -473,15 +473,15 @@ sw_case567:
         }
 sw_case12:
         func_800A9A0C(arg3);
-        goto epilogue;
+        return;
 
 sw_case123:
         func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
-        goto epilogue;
+        return;
 
 sw_generic:
         func_80171B68(arg0, arg1, arg2, arg3);
-        goto epilogue;
+        return;
     }
 
     {
@@ -525,6 +525,5 @@ post_compare:
         }
     }
 
-epilogue:
     return;
 }

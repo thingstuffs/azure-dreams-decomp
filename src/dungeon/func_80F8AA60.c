@@ -81,7 +81,7 @@ state_zero:
     }
 
     if (!(animation_flags & 0x6000)) {
-        goto end;
+        return;
     }
 
     if (func_8003DE58(S32_AT(animation_input, 8), animation_input, spawn_offset, 0) == 0) {
@@ -132,7 +132,7 @@ state_one:
     timer = U16_AT(state_input, 0x96) - 1;
     S16_AT(state_input, 0x96) = timer;
     if (timer > 0) {
-        goto end;
+        return;
     }
 
     PTR_AT(animation_input, 0x2C) = D_80174B14;
@@ -159,6 +159,5 @@ state_two:
         U16_AT(actor_input, 0x46) &= 0x7FFF;
         PTR_AT(state_input, 0x8C) = D_80171138;
     }
-end:
     return;
 }

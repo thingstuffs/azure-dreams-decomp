@@ -73,18 +73,18 @@ void func_8008E504(S_8008E504_0 *actor, S_8008E504_1 *action, S_8008E504_4 *spri
     if (state == 0) {
         goto state_zero;
     }
-    goto done;
+    return;
 
 state_two_check:
     state_or_ticks = 2;
     if (state == state_or_ticks) {
         goto state_two_body;
     }
-    goto done;
+    return;
 
 state_zero:
     if (!(actor->unk_A2 & 0x10)) {
-        goto done;
+        return;
     }
     action->unk_14 = 0;
     if ((entity->unk_88 - entity->unk_8A) < 0x41) {
@@ -114,7 +114,7 @@ increment_state:
 state_one:
     if (entity->unk_1C & 0x100000) {
         actor->unk_8C = D_8008EAC8;
-        goto done;
+        return;
     }
     sprite->unk_2C = D_800DD058;
     func_80048A44(sprite,
@@ -122,24 +122,23 @@ state_one:
         0, 1);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x800);
     actor->unk_9B = (u8)(actor->unk_9B + 1);
-    goto done;
+    return;
 
 state_two_body:
     state_or_ticks = actor->unk_96 - 1;
     actor->unk_96 = state_or_ticks;
     if ((state_or_ticks << 0x10) > 0) {
-        goto done;
+        return;
     }
     sprite_flags = sprite->unk_14;
     sprite->unk_14 = (u16)(sprite_flags & 0xF7FF);
     if ((sprite_flags & 0xE000) != 0 || ((func_80094EA4() << 0x10) != 0)) {
         goto assign_dispatch;
     }
-    goto done;
+    return;
 
 assign_dispatch:
     actor->unk_8C = D_8008ACDC;
 
-done:
     return;
 }

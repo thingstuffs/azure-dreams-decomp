@@ -78,7 +78,7 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     phase = ((S_800CABA8_0 *)effect)->unk_9B;
     actor_state = actor_or_green_2;
     if (phase >= 5U) {
-        goto block_23;
+        return;
     }
     (void)phase_labels; goto *D_80089440[(u32)(phase)];
 jt_c0:
@@ -97,7 +97,7 @@ jt_c1:
     effect_level = ((S_800CABA8_0 *)effect)->unk_A0.at02.v + 0x10;
     ((S_800CABA8_0 *)effect)->unk_A0.at02.v = effect_level;
     if ((s16) effect_level < 0x81) {
-        goto block_23;
+        return;
     }
     phase_or_ticks = 0x80U;
     ((S_800CABA8_0 *)effect)->unk_A0.at02.v = phase_or_ticks;
@@ -165,11 +165,11 @@ block_16:
     phase_or_ticks = rotation_done;
     ((S_800CABA8_0 *)effect)->timer.half.ticks = restore_ticks_left;
     if (phase_or_ticks == 0) {
-        goto block_23;
+        return;
     }
     phase_or_ticks = restore_ticks_left << 0x10;
     if (phase_or_ticks > 0) {
-        goto block_23;
+        return;
     }
     ((S_800CABA8_0 *)effect)->unk_98 = (u16) (((S_800CABA8_0 *)effect)->unk_98 & 0xFFF7);
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
@@ -193,6 +193,5 @@ block_21:
     return;
 block_22:
     ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
-block_23:
     return;
 }

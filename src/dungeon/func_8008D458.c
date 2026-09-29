@@ -58,7 +58,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
         if (state == 0) {
             goto state0_body;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state2_body;
@@ -66,7 +66,7 @@ void func_80092BB8(S_8003E2D8 *controller, void *context, S_arg2 *actor, S_arg3 
     if (state == 0x10) {
         goto state10_body;
     }
-    goto done;
+    return;
 
 state0_body:
     if ((s32)((((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7) == 2) {
@@ -107,11 +107,11 @@ state2_body:
         func_80048A44(actor, D_800DD150[(((s32)gameWork.view.viewAngle + facing->coord + 0x100) >> 9) & 7], 2, 1);
         goto state2_store;
     }
-    goto done;
+    return;
 
 state2_store:
     controller->field8c = D_8008ACDC;
-    goto done;
+    return;
 
 state10_body:
     {
@@ -124,6 +124,5 @@ state10_body:
         }
     }
 
-done:
     return;
 }

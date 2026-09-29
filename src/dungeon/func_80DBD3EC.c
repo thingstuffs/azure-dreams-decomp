@@ -150,7 +150,7 @@ void func_80174BEC(void *state, void *source_pos, void *source_render, void *act
     case 3:
         goto finish_delay;
     default:
-        goto done;
+        return;
     }
 
 initialize:
@@ -355,7 +355,7 @@ spawn_particles:
             func_800C857C(actor, active_object);
         }
     }
-    goto done;
+    return;
 
 wait_for_animation:
     if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
@@ -374,7 +374,7 @@ wait_for_animation:
             ((S_80174BEC_0 *)state)->unk_9B++;
         }
     }
-    goto done;
+    return;
 
 finish_delay:
     {
@@ -390,6 +390,5 @@ finish_delay:
         }
     }
 
-done:
     return;
 }

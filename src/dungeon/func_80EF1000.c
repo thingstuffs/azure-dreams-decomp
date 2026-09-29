@@ -284,7 +284,7 @@ finish_motion:
     ((S_func_80EF1000_4 *)motion->unk_40)->unk_A4 = 0;
     ((S_func_80EF1000_5 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
     D_800814A0.value |= 0x8000;
-    goto epilogue;
+    return;
 repeat_fall:
     if (sprite->unk_14 & 0x8000)
         goto update_fall;
@@ -292,7 +292,7 @@ repeat_fall:
 update_flight:
     grid_base = grid;
     if (motion->unk_2C != 0)
-        goto epilogue;
+        return;
     position->unk_00.unk_00 += motion->unk_6C;
     motion->unk_6C += motion->unk_78;
     position->unk_04.unk_04 += motion->unk_70;
@@ -374,13 +374,12 @@ update_height:
                        (s16)((u16)position->unk_08.half.unk_0A - 0x20),
                        &position->unk_0E, &position->unk_12,
                        &position->unk_16) << 16) != 0)
-        goto epilogue;
+        return;
     motion->unk_2C = 2;
     motion->unk_74 = (s32)0xFFF80000;
-    goto epilogue;
+    return;
 repeat_flight:
     if (sprite->unk_14 & 0x8000)
         goto update_flight;
-epilogue:
     return;
 }

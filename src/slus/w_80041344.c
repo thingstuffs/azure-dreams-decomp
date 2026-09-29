@@ -44,7 +44,7 @@ void func_80041344(s32 data_base, void *scratch)
         cmd_index = entry->cmd - 1;
         command = entry;
         if (cmd_index >= 9) {
-            goto done;
+            return;
         }
         goto *handlers[cmd_index];
 
@@ -132,9 +132,8 @@ next:
         entry = (S_80041344 *)((u8 *)entry + entry_size);
         if (entry_size == 0) {
             *(u32 *)0x80080A8C = 0;
-            goto done;
+            return;
         }
     }
-done:
     return;
 }

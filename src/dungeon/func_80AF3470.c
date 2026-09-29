@@ -104,7 +104,7 @@ case_15_25:
 case_26:
     (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    goto done;
+    return;
 
 common:
     ((S_80174C70_0 *)effect)->unk_1A.u++;
@@ -169,6 +169,5 @@ common:
     ((S_80174C70_2 *)motion)->unk_00 += ((S_80174C70_2 *)motion)->unk_0C;
     ((S_80174C70_2 *)motion)->unk_04 += ((S_80174C70_2 *)motion)->unk_10;
 
-done:
     return;
 }

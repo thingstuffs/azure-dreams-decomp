@@ -39,7 +39,7 @@ void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *vi
         if (state == 0) {
             goto state_0;
         }
-        goto exit;
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -47,12 +47,12 @@ void func_801743E8(void *effect, EntityRec *position, Rec_func_800AA258_arg2 *vi
     if (state == 3) {
         goto state_3;
     }
-    goto exit;
+    return;
 
 state_0:
     if (visual->unk_14 & 0x8000) {
         ((S_801743E8_0 *)effect)->unk_9B = 3;
-        goto exit;
+        return;
     }
     ((S_801743E8_0 *)effect)->unk_96.s = 3;
     ((S_801743E8_0 *)effect)->unk_9B++;
@@ -67,7 +67,7 @@ state_1:
         ((S_801743E8_0 *)effect)->unk_96.s = state;
         goto increment_state;
     }
-    goto exit;
+    return;
 
 state_2:
     position->z.v += 0x28000;
@@ -75,14 +75,14 @@ state_2:
     visual->unk_1E = size_or_state;
     visual->unk_1C = size_or_state;
     if (((S_801743E8_0 *)effect)->unk_96.u >= 0) {
-        goto exit;
+        return;
     }
     size_or_state = ((S_801743E8_0 *)effect)->unk_9B;
 
 increment_state:
     size_or_state++;
     ((S_801743E8_0 *)effect)->unk_9B = size_or_state;
-    goto exit;
+    return;
 
 state_3:
     flag_page = (Page8008 *)0x80080000;
@@ -91,6 +91,5 @@ state_3:
         flag_page->flags |= 0x8000;
     } while (0);
 
-exit:
     return;
 }

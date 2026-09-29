@@ -20,7 +20,7 @@ countdown:
     timer = *(u16 *)((u8 *)effect + 0xE) - 1;
     *(u16 *)((u8 *)effect + 0xE) = timer;
     if ((s32)(timer << 16) > 0) {
-        goto done;
+        return;
     }
     *(u16 *)((u8 *)effect + 0xC) += 1;
     return;
@@ -39,6 +39,5 @@ fade:
 
 dim_color:
     *(s32 *)((u8 *)effect + 8) += 0xFFEFEFF0;
-done:
     return;
 }

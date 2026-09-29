@@ -22,7 +22,7 @@ s32 func_801761AC(S_801761AC_0 *actor) {
     s16 slot;
 
     if (actor == D_800E3D7C) {
-        goto fail;
+        return 0;
     }
     seed = func_800A6D30() & 0xFFFF;
     if (((s32)(actor->unk_03)) != 0) {

@@ -84,7 +84,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
         if (state == 1) {
             goto state_1;
         }
-        goto end;
+        return;
     }
     if (state == 4) {
         goto state_4;
@@ -95,14 +95,14 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
     if (state == 0xFF) {
         goto state_ff;
     }
-    goto end;
+    return;
 
 state_0:
     if (((S_80172664_2 *)sprite)->unk_14 & 0x8000) {
         ((S_80172664_1 *)animation)->unk_9B = 0xFF;
         ((S_80172664_2 *)sprite)->unk_14 |= 0x6000;
         func_8009C12C(actor, sprite, ((S_80172664_0 *)actor)->unk_2A, 1);
-        goto end;
+        return;
     }
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D7C;
@@ -129,7 +129,7 @@ state_1:
     ((S_80172664_1 *)animation)->unk_90 += ((S_80172664_3 *)motion)->unk_14;
     ((S_80172664_3 *)motion)->unk_14 += ((S_80172664_3 *)motion)->unk_14 >> 2;
     if (((S_80172664_1 *)animation)->unk_96.u > 0) {
-        goto end;
+        return;
     }
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D84;
@@ -141,7 +141,7 @@ state_1:
     next_state = ((S_80172664_1 *)animation)->unk_9B;
     ((S_80172664_1 *)animation)->unk_96.s = 8;
     ((S_80172664_1 *)animation)->unk_9B = next_state + 1;
-    goto end;
+    return;
 
 state_2:
     {
@@ -159,7 +159,7 @@ state_2:
         ((S_80172664_3 *)motion)->unk_14 = 0;
     }
     if (((S_80172664_1 *)animation)->unk_96.u > 0) {
-        goto end;
+        return;
     }
     ((S_80172664_1 *)animation)->unk_96.s = 4;
     ((S_80172664_3 *)motion)->unk_0C = direction_x << 18;
@@ -172,18 +172,18 @@ state_3:
     ((S_80172664_3 *)motion)->unk_0C += direction_x << 18;
     ((S_80172664_3 *)motion)->unk_10 += direction_y << 18;
     if (((S_80172664_1 *)animation)->unk_96.u > 0) {
-        goto end;
+        return;
     }
     func_8009C12C(actor, sprite, ((S_80172664_0 *)actor)->unk_2A, 1);
 
 increment_state:
     ((S_80172664_1 *)animation)->unk_9B = ((S_80172664_1 *)animation)->unk_9B + 1;
-    goto end;
+    return;
 
 state_4:
     ((S_80172664_1 *)animation)->unk_90 += 0xC0000;
     if (!(((S_80172664_2 *)sprite)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = &D_80174D8C;
     func_80047784(
@@ -196,7 +196,7 @@ state_4:
     ((S_80172664_1 *)animation)->unk_98 &= 0xFFF7;
     ((S_80172664_0 *)actor)->unk_1C |= 0x08000000;
     ((S_80172664_1 *)animation)->unk_9B = 0xFF;
-    goto end;
+    return;
 
 state_ff:
     {
@@ -210,7 +210,7 @@ state_ff:
         ((S_80172664_3 *)motion)->unk_10 = ((tile_y - position_y) << 15) >> 1;
     }
     if (!(((S_80172664_2 *)sprite)->unk_14 & 0xE000)) {
-        goto end;
+        return;
     }
     ((S_80172664_3 *)motion)->unk_10 = 0;
     ((S_80172664_3 *)motion)->unk_0C = 0;
@@ -225,6 +225,5 @@ state_ff:
         D_800E3DE8 = (u8 *)actor - 0x20;
     }
 
-end:
     return;
 }

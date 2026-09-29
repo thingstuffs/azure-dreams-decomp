@@ -34,17 +34,17 @@ void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800
     if (phase == 0) {
         goto wait_ready;
     }
-    goto done;
+    return;
 
 check_update:
     if (phase == 2) {
         goto update;
     }
-    goto done;
+    return;
 
 wait_ready:
     if (dungeonStatus.unk_0A != 0) {
-        goto done;
+        return;
     }
     action->unk_9B = (u8)one;
 
@@ -67,11 +67,10 @@ initialize:
     action->unk_96 = 0x10;
     action->unk_9B = (u8)(action->unk_9B + 1);
     func_800A56E0(0x805, color);
-    goto done;
+    return;
 
 update:
     func_800AD058(action, context, visual, entity);
 
-done:
     return;
 }

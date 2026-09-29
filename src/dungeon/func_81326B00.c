@@ -49,7 +49,7 @@ state_0:
         entity->timer = 0;
         return;
     }
-    goto epilogue;
+    return;
 
 state_1:
     pos->y += 0xFFF80000;
@@ -60,7 +60,7 @@ state_1:
         func_800A56E0(0x516, pos, initial_state, context);
         return;
     }
-    goto epilogue;
+    return;
 
 state_2:
     pos->y += 0xFFFE0000;
@@ -72,6 +72,5 @@ state_2:
         objectFlagBlock.flags |= 0x8000;
     }
 
-epilogue:
     return;
 }
