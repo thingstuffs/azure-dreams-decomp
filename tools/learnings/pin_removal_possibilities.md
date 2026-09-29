@@ -212,3 +212,8 @@ base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets
   (loop.c makes the biv copy itself) (dungeon/func_81811FA8, Sonnet).
 - Scalar global RMW next to a struct-field RMW with a register pin between -> access the global through its shared
   struct type (objectFlagBlock.flags): MEM_IN_STRUCT_P keeps them ordered (dungeon/func_800BF6A0, Sonnet).
+- **Goto-built loops are straight-line code to the allocator** (no loop-depth reference weighting): a keep on a value
+  that lives across calls and loses its callee-saved register to a pointer may be imitating the weighting a REAL
+  loop gives - rewrite as `while (1) { ... if (!c) break; }` (slus/konami_runtime_w_80033D54 3->0, q1). The opposite
+  also holds (func_80ACB000: do/while swapped $s3/$s4) - measure both.
+- Hand-rounded `r = s; if (s < 0) r = s + 2^k-1; C - (r >> k)` with ASM_REG on s -> `s = s / 2^k; return C - s;`.
