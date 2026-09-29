@@ -12,6 +12,7 @@ ever ran `sched_trace.py` or `reg_state.py`.  This is that missing level.
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass greg --around target_x
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass loop
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass combine --variant experiments/f/v7.c --vs pinned
+    python3 <repo>/tools/lanes/lanekit/why.py <row> --pass greg --variant cand.c --cfg "2.7.2-cdk-G0"
 
 It compiles TWO texts with `-da` (one compile each, every pass from it) and prints the decisions
 that differ:
@@ -44,6 +45,10 @@ that differ:
 hard register (`$19`, `a0`, `s3`), a bare pseudo number, `L<n>` for a source line (its identifiers
 are used), or any substring of an RTL pattern.  Mapping an ASSEMBLY line back to RTL is not
 supported: name the register or the variable instead.
+
+`--cfg CFG` compiles BOTH texts as if the row were registered at CFG (an in-memory row override,
+`kitlib.row_at_cfg`; nothing under `ledger/` is written) - `--vs pinned --variant cand.c --cfg X` is
+"what does the cell do to my candidate", the WHY_CFG wrapper two round-80 lanes wrote.
 
 Texts: `--vs` is the reference (default `pinned`, the row's own text) and `--variant` the subject
 (default `erased`, every pin erased).  Either may be a path to a candidate `.c`.
@@ -498,10 +503,13 @@ def main():
     ap.add_argument("--around", help="variable name, $reg, pseudo number, L<line> or an RTL substring")
     ap.add_argument("--top", type=int, default=12, help="most blocks/rows/hunks to print")
     ap.add_argument("--context", type=int, default=2, help="insns of context in a pass diff")
+    ap.add_argument("--cfg", help="compile both texts as if the row were registered at this cfg (no ledger write)")
     a = ap.parse_args()
 
     lane = kitlib.bootstrap()
     row = kitlib.row_of(a.row_id)
+    if a.cfg:
+        row = kitlib.row_at_cfg(row, a.cfg)
     base = kitlib.base_text(row, lane)
     ta, na = resolve_text(a.vs, row, lane, base)
     tb, nb = resolve_text(a.variant, row, lane, base)

@@ -57,6 +57,10 @@ Before writing a helper of your own, check this table - 26 lanes rebuilt the lis
 | the listing diff of one candidate | `python3 {kit}/diff.py <row> cand.c [--vs pinned\\|erased\\|FILE] [--ctx N] [--score]` |
 | every -da pass dump of one text, into a lane dir | `python3 {kit}/dump.py <row> cand.c\\|pinned\\|erased dumps/ [--cfg CFG] [--pass greg]` |
 | score at another cfg, no ledger write (trade check) | `python3 {kit}/lab.py cellscore <row> cand.c --cfg "2.8.1-G0"` (or `--cfg` on any `lab.py` run) |
+| substitute on a file of your own (not the erased text) | `python3 {kit}/lab.py <row> --base cand.c --subs s.json --score` (also `--grid`) |
+| the byte scorer's retail-vs-generated diff at a cfg | `python3 {kit}/diff.py <row> cand.c --cfg "2.7.2-cdk-G0" --scorer [--norm-regs]` |
+| stage a cell-exact candidate + its `cells.jsonl` line | `python3 {kit}/lab.py stage-cell <row> cand.c --cfg "2.7.2-cdk-G0" --note "mechanism"` |
+| the global-allocation priority table of one text | `python3 {kit}/prio.py <row> cand.c [--cfg CFG] [--all]` |
 | the REPORT.md table, from what was measured | `python3 {kit}/lab.py report` |
 | WHY the scheduler emitted that order | `python3 {kit}/why.py <row> --pass sched --around <var>` |
 | WHY that variable got that register | `python3 {kit}/why.py <row> --pass greg --around <var>` |

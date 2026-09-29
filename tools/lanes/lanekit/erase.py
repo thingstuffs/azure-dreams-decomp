@@ -11,6 +11,7 @@ the lane and touching no ledger.
     python3 <repo>/tools/lanes/lanekit/erase.py dungeon/func_8009612C
     python3 <repo>/tools/lanes/lanekit/erase.py dungeon/func_8009612C --mode subset --budget 60
     python3 <repo>/tools/lanes/lanekit/erase.py dungeon/func_8009612C --variant experiments/f/v3.c
+    python3 <repo>/tools/lanes/lanekit/erase.py dungeon/func_80D150D0 --variant cand.c --cfg "2.7.2-cdk-G0"
 
 Modes (each includes the one before it):
   lone    every site erased ALONE, with its note and its statement
@@ -25,7 +26,9 @@ question ("which of the four is left holding it?"), and it was the one the hand-
 not answer.
 
 Distances are cc1 listing lines changed against the PINNED text, ~15 ms each; the byte scorer is
-never called here.  A pair FALLS TOGETHER when erasing both leaves a residue no larger than either
+never called here - except with `--cfg CFG`: at a foreign cell the pinned listing is not retail's, so
+each erasure is byte-SCORED as the row at CFG instead (`kitlib.score_at`, total = words wrong; 4 threads,
+5-20 s each, no ledger write; mode defaults to `all`, and `none` = the text as it stands is shown).  A pair FALLS TOGETHER when erasing both leaves a residue no larger than either
 alone (`duck_brief.fall_together`, the same rule the duck uses): those pins are one mechanism and
 one candidate has to move both.  The table is written to `erase_<func>.md` in the lane.
 """
@@ -34,6 +37,7 @@ from __future__ import annotations
 import argparse
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -47,9 +51,20 @@ def site_label(s):
     return "%s(%s)" % (macro, arg) if kind == "stmt" else "%s %s" % (macro, arg)
 
 
-def scan(row_id, lane=None, mode="pair", budget=DEFAULT_BUDGET, pair_pins=8, variant=None):
+def total_of(v):
+    """The byte scorer's `total` (words wrong), or None when it did not score."""
+    t = (v or {}).get("total")
+    return t if isinstance(t, (int, float)) else (0 if (v or {}).get("exact") else None)
+
+
+def scan(row_id, lane=None, mode="pair", budget=DEFAULT_BUDGET, pair_pins=8, variant=None, cfg=None,
+         workers=4, score_at=None):
     lane = kitlib.bootstrap(lane)
     row = kitlib.row_of(row_id)
+    if cfg == row["cfg"]:
+        cfg = None
+    rowc = kitlib.row_at_cfg(row, cfg) if cfg else None
+    score_at = score_at or kitlib.score_at
     base = kitlib.base_text(row, lane)
     text = Path(variant).read_text(errors="replace") if variant else base
     sites = kitlib.sites(text)
@@ -57,18 +72,25 @@ def scan(row_id, lane=None, mode="pair", budget=DEFAULT_BUDGET, pair_pins=8, var
     if sc.target is None:
         raise SystemExit("erase: the row's pinned text does not build")
     if not sites:
-        return {"row": row["id"], "sites": [], "lone": {}, "all": None, "subsets": [], "spent": 0}
+        return {"row": row["id"], "func": row["func"], "variant": variant, "sites": [], "lines": [], "lone": {},
+                "all": None, "subsets": [], "spent": 0, "n": 0, "cfg": cfg, "here": None}
 
     lines = text.splitlines()
     spent = [0]
 
-    def dist(t):
-        spent[0] += 1
-        return sc.distance(t)
+    def batch(texts):
+        """Distances (listing, or byte totals at `cfg`) of `texts`, in order; counts against the budget."""
+        spent[0] += len(texts)
+        if not cfg:
+            return [sc.distance(t) for t in texts]
+        with ThreadPoolExecutor(workers) as ex:
+            return [total_of(v) for v in ex.map(lambda t: score_at(rowc, t), texts)]
 
-    lone = {}
-    for i, s in enumerate(sites):
-        lone[i] = dist(kitlib.erase(text, [s]))
+    def dist(t):
+        return batch([t])[0]
+
+    here = dist(text) if cfg else None
+    lone = dict(enumerate(batch([kitlib.erase(text, [s]) for s in sites])))
 
     alld = dist(kitlib.erase(text, sites)) if mode in ("all", "pair", "subset") else None
 
@@ -81,23 +103,23 @@ def scan(row_id, lane=None, mode="pair", budget=DEFAULT_BUDGET, pair_pins=8, var
                           6 if mode == "subset" else 0)
         want = [idx for idx in want if 2 <= len(idx) < n]
         want.sort(key=len)
-        for idx in want:
-            if spent[0] >= budget:
-                break
-            d = dist(kitlib.erase(text, [sites[i] for i in idx]))
-            subsets.append((idx, d))
+        want = want[:max(0, budget - spent[0])]
+        subsets = list(zip(want, batch([kitlib.erase(text, [sites[i] for i in idx]) for idx in want])))
 
     return {"row": row["id"], "func": row["func"], "variant": variant, "sites": sites,
             "lines": lines, "lone": lone, "all": alld, "subsets": subsets, "spent": spent[0],
-            "n": len(sites)}
+            "n": len(sites), "cfg": cfg, "here": here}
 
 
 def render(res):
     kitlib.add_paths()
     from duck_brief import fall_together                                 # noqa: E402
     L = ["# Erasure table - %s%s" % (res["row"], "  (variant %s)" % res["variant"] if res["variant"] else ""),
-         "", "%d live pin sites; %d cc1 listings; distances are changed listing lines against the "
-         "pinned text." % (res["n"], res["spent"]), ""]
+         "", ("%d live pin sites; %d byte scores at %s; distances are the scorer's total (words wrong) "
+              "at that cfg, the text as it stands scores %s." % (res["n"], res["spent"], res["cfg"], res.get("here"))
+              if res.get("cfg") else
+              "%d live pin sites; %d cc1 listings; distances are changed listing lines against the "
+              "pinned text." % (res["n"], res["spent"])), ""]
     body = []
     for i, s in enumerate(res["sites"]):
         stmt = res["lines"][s[5] - 1].strip() if s[5] - 1 < len(res["lines"]) else ""
@@ -139,17 +161,20 @@ def render(res):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
-    ap.add_argument("--mode", choices=("lone", "all", "pair", "subset"), default="pair")
+    ap.add_argument("--mode", choices=("lone", "all", "pair", "subset"), default=None,
+                    help="default pair (all with --cfg: byte scores are 5-20 s each)")
     ap.add_argument("--budget", type=int, default=DEFAULT_BUDGET, help="cc1 listings (default %d)" % DEFAULT_BUDGET)
     ap.add_argument("--pair-pins", type=int, default=8, help="measure every pair up to this many sites")
     ap.add_argument("--variant", help="scan this candidate's remaining pins instead of the base")
+    ap.add_argument("--cfg", help="byte-score each erasure at this cfg instead of listing distances (no ledger write)")
     a = ap.parse_args()
     t0 = time.time()
-    res = scan(a.row_id, mode=a.mode, budget=a.budget, pair_pins=a.pair_pins, variant=a.variant)
+    res = scan(a.row_id, mode=a.mode or ("all" if a.cfg else "pair"), budget=a.budget, pair_pins=a.pair_pins,
+               variant=a.variant, cfg=a.cfg)
     out = render(res)
     print(out)
     lane = kitlib.bootstrap()
-    tag = res.get("func", "row") + ("_" + Path(a.variant).stem if a.variant else "")
+    tag = res.get("func", "row") + ("_" + Path(a.variant).stem if a.variant else "") + ("_at_" + a.cfg.replace(" ", "_") if a.cfg else "")
     p = lane / ("erase_%s.md" % tag)
     p.write_text(out + "\n")
     print("(%d listings, %.1fs; written to %s)" % (res["spent"], time.time() - t0, p), file=sys.stderr)

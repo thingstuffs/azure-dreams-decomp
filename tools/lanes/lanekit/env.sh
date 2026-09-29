@@ -33,6 +33,7 @@ else
     why()   { python3 "$LANEKIT/why.py"   "$@"; }
     ldiff() { python3 "$LANEKIT/diff.py"  "$@"; }     # not `diff`: that would shadow diff(1)
     ldump() { python3 "$LANEKIT/dump.py"  "$@"; }
+    lprio() { python3 "$LANEKIT/prio.py"  "$@"; }
 
     echo "lanekit: lane $LANEKIT_LANE   (lab / erase / why / ldiff / ldump are now commands; see $LANEKIT/README.md)"
 fi

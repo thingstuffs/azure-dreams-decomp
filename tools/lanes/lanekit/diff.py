@@ -2,6 +2,7 @@
 """diff.py - the unified cc1-listing diff of a candidate against the pinned (or erased, or any) text.
 
     python3 <KIT>/diff.py <row> <candidate.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
+                          [--cfg CFG] [--scorer [--norm-regs]]
 
 26 lanes of round 73 wrote this same 10-line wrapper (`ldiff.py`, `lst.py`, `sd.py`, `dd.py`, ...)
 around `screen.compile_s` + `difflib.unified_diff`.  `lab.py` already computes it for every variant
@@ -11,12 +12,20 @@ around `screen.compile_s` + `difflib.unified_diff`.  `lab.py` already computes i
 row), `+` lines the candidate's.  The last line is the distance `lab.py` logs (changed listing lines).
 `--score` also runs the byte scorer (`tools/verify.py`) whatever the distance, and journals that
 measurement to `lab_log.jsonl`; without `--score` nothing is written anywhere - it is a viewer.
+
+`--cfg CFG` compiles/scores as if the row were registered at CFG (both texts, this run only; nothing
+under `ledger/` or `config/`; a `--score` record carries `cfg` and is not a solve).  `--scorer` prints
+the BYTE scorer's diff instead of the cc1 listing: the generated | retail disassembly at the row's cfg
+(or `--cfg`) - what `cdkdiff.py` / `sd.py` did in round 80.  `--norm-regs` renames the registers of
+each side by first appearance and masks branch targets before diffing, so a pure register renaming
+($s1<->$s2 all through a function) vanishes and only the real differences stay (`adiff.py`).
 """
 from __future__ import annotations
 
 import argparse
 import difflib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -56,21 +65,88 @@ def run(row, ref_text, cand_text, ctx=3, ref_name="pinned", cand_name="candidate
     return lines, distance(lines)
 
 
-def main():
+SCORER_LINE = re.compile(r"^\s*[!X~ ]?\s*\[\s*(\d+)\] (.*?)\s*\|\s*(.*?)(?:\s+raw .*)?$")
+FIXED_REGS = {"zero", "at", "sp", "fp", "ra", "gp", "k0", "k1"}
+REG_RE = re.compile(r"\$(\w+)")
+BRANCH_RE = re.compile(r"^(b\w*|j)\s")
+
+
+def parse_scorer(text):
+    """[(index, generated, retail)] from the byte scorer's `--diff` text (`[ idx] generated | retail`)."""
+    out = []
+    for line in (text or "").splitlines():
+        m = SCORER_LINE.match(line.rstrip())
+        if m:
+            out.append((int(m.group(1)), m.group(2).strip(), m.group(3).strip()))
+    return out
+
+
+def canon_regs(lines):
+    """Registers renamed `$r0, $r1, ...` by first appearance in `lines` (zero/at/sp/fp/ra/gp/k0/k1 stay)."""
+    table = {}
+
+    def sub(m):
+        n = m.group(1)
+        return m.group(0) if n in FIXED_REGS else "$" + table.setdefault(n, "r%d" % len(table))
+    return [REG_RE.sub(sub, l) for l in lines]
+
+
+def mask_branch(line):
+    """Branch/jump absolute targets are layout, not code: `b 0x8001f0` -> `b TGT` (`jal` targets stay)."""
+    return re.sub(r"0x[0-9a-f]+$", "TGT", line) if BRANCH_RE.match(line) else line
+
+
+def scorer_diff(text, ctx=3, norm_regs=False):
+    """Diff lines (`-` retail, `+` generated) of the byte scorer's text; None when it has no
+    `[idx] generated | retail` lines (a MATCH message, a SLUS region dump, a scorer error)."""
+    rows = parse_scorer(text)
+    if not rows:
+        return None
+    got, tgt = [r[1] for r in rows], [r[2] for r in rows]
+    if norm_regs:
+        got, tgt = canon_regs([mask_branch(l) for l in got]), canon_regs([mask_branch(l) for l in tgt])
+    return list(difflib.unified_diff(tgt, got, "retail", "generated", lineterm="", n=ctx))
+
+
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
     ap.add_argument("candidate", help="candidate .c, or 'erased' / 'pinned'")
     ap.add_argument("--vs", default="pinned", help="reference: pinned (default), erased, or a .c file")
     ap.add_argument("--ctx", type=int, default=3, help="context lines (default 3)")
     ap.add_argument("--score", action="store_true", help="also byte-score the candidate (journalled)")
-    a = ap.parse_args()
+    ap.add_argument("--cfg", help="compile/score as if the row were registered at this cfg (no ledger write)")
+    ap.add_argument("--scorer", action="store_true",
+                    help="print the byte scorer's retail-vs-generated disassembly diff (at --cfg) instead of the listing")
+    ap.add_argument("--norm-regs", action="store_true",
+                    help="--scorer: rename registers by first appearance + mask branch targets (pure renaming vanishes)")
+    a = ap.parse_args(argv)
+    if a.norm_regs and not a.scorer:
+        raise SystemExit("diff.py: --norm-regs applies to --scorer")
 
     lane = kitlib.bootstrap()
     row = kitlib.row_of(a.row_id)
+    if a.cfg:
+        row = kitlib.row_at_cfg(row, a.cfg)
     ref_name, ref = text_of(a.vs, row, lane)
     cand_name, cand = text_of(a.candidate, row, lane)
-    lines, dist = run(row, ref, cand, a.ctx, ref_name, cand_name)
-    if lines is None:
+    if a.scorer:
+        v = kitlib.score_at(row, cand, diff=True)
+        lines = scorer_diff(v.get("text"), a.ctx, a.norm_regs)
+        print("# byte scorer at %s: - retail, + generated%s"
+              % (row["cfg"], "  (registers/targets normalised)" if a.norm_regs else ""))
+        if lines is None:
+            print((v.get("text") or "").rstrip() or "(no scorer text: status %s)" % v.get("status"))
+        else:
+            print("\n".join(lines) if lines else "(scorer listings identical)")
+        if not a.score:
+            return
+        lines, dist = [], None
+    else:
+        lines, dist = run(row, ref, cand, a.ctx, ref_name, cand_name)
+    if a.scorer:
+        pass
+    elif lines is None:
         print("DOES NOT BUILD (%s)" % ("the reference" if kitlib.screen_for(row, ref).target is None
                                        else "the candidate"))
     else:
@@ -78,16 +154,18 @@ def main():
             print(l)
         if not lines:
             print("(listings identical)")
-    print("%-28s dist %-5s pins %-3s vs %s   [%s]"
-          % (cand_name, "-" if dist is None else dist, len(kitlib.sites(cand)), ref_name, row["cfg"]))
+    if not a.scorer:
+        print("%-28s dist %-5s pins %-3s vs %s   [%s]"
+              % (cand_name, "-" if dist is None else dist, len(kitlib.sites(cand)), ref_name, row["cfg"]))
     if a.score:
         v = kitlib.score_at(row, cand)
         sc = kitlib.score_fields(v)
-        print("%-28s score %s" % (cand_name, json.dumps(sc)))
+        print("%-28s score %s%s" % (cand_name, json.dumps(sc), "  @" + a.cfg if a.cfg else ""))
         kitlib.log_append(lane, {"row": row["id"], "variant": cand_name, "kind": "diff-score",
                                  "distance": dist if ref_name == "pinned" else None, "score": sc,
                                  "status": "exact" if sc.get("exact") else "scored",
                                  "pins": len(kitlib.sites(cand)),
+                                 **({"cfg": a.cfg} if a.cfg else {}),
                                  "note": "diff.py --score" + ("" if ref_name == "pinned" else " (dist vs %s)" % ref_name)})
 
 

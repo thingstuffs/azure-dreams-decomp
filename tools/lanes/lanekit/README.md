@@ -17,11 +17,12 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 
 | tool | what it prints |
 |---|---|
-| `lab.py` | listing distance, pins left, byte score, and the REPORT table |
-| `erase.py` | what each pin holds, and which pins fall together |
-| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL |
-| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`) |
+| `lab.py` | listing distance, pins left, byte score, and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell` |
+| `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |
+| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell) |
+| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff) |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
+| `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py` | plumbing; you never call these |
 
@@ -44,11 +45,18 @@ python3 .../lab.py <row> --subs shapes1.json --score [--score-top 3]
 python3 .../lab.py <row> --grid grid1.json --score  # every combination of independent axes
 python3 .../lab.py <row> v7.c --cfg "2.8.1-G0" --score          # measure at another cfg
 python3 .../lab.py cellscore <row> v7.c --cfg "2.8.1-G0"        # trade check + hand-over lines
+python3 .../lab.py stage-cell <row> v7.c --cfg "2.8.1-G0" --note "mechanism"   # exact there -> out/ + cells.jsonl
+python3 .../lab.py <row> --base cand/best.c --subs s.json --score   # substitute on YOUR file, not the erased text
 python3 .../lab.py report                          # the REPORT.md table, from lab_log.jsonl
 ```
 
 * **Before writing a helper of your own, check this README - 26 lanes rebuilt the listing diff
   (`diff.py`), 23 the dump fetch (`dump.py`), ~21 an `itertools.product` grid (`--grid`) in round 73.**
+* **`--base FILE`** (with `--subs` / `--grid`) starts every substitution set from FILE instead of the
+  pin-erased text - round 80: three lanes wrote `gen.py base.c subs.json outdir` for exactly this. `@name`
+  and `"@base": "pinned"` still mean the pinned text; the guards, the misses log and the staging gate
+  (admissible vs the lane's `base/` copy) are unchanged. Variant files given on the command line are
+  measured as they are (`--base` does not touch them).
 * **`--grid`** takes `{"axis": {"label": [["old","new"],...], ...}, ...}`: one label per axis, every
   combination, named `label+label+...`, applied in axis order like `--subs` (nearest-line message,
   `pattern-missing` logged). `[]` is a valid label ("leave it"); `"@base": "pinned"` starts from the
@@ -61,6 +69,14 @@ python3 .../lab.py report                          # the REPORT.md table, from l
   orchestrator. The registered cfg is never changed; nothing under `ledger/` is written. `--cfg` variants and
   `cellscore` count toward the 60-variant cap; the report marks their scores `exact @<cfg>` and
   does not count them as solves.
+
+* **`stage-cell <row> cand.c --cfg CFG --note "..."`** is the hand-over `cellscore` describes, done: when
+  `cand.c` scores exact at CFG (`kitlib.score_at`, no ledger write) AND passes `kitlib.admissible` vs the
+  lane's `base/` copy, it is copied to `out/<container>/<file>.c` with the base's `.base_sha` and
+  `cells.jsonl` gets `{"id","to","coherence","pins_before","pins_after"}` (the format
+  `tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id + cfg replaces its line). Not exact
+  or not admissible: refused, exit 1, nothing staged (the attempt is still journalled in `lab_log.jsonl`).
+  `--note` (the coherence argument) is required. Rule 2 is not scored - use `cellscore` for that.
 
 * **`baseline` first.** It scores the row's own pinned text, which is byte-exact by definition: the
   scorer must say `exact=true, total=0`. One lane's custom adapter silently mis-scored every
@@ -100,8 +116,21 @@ lab.test("narrow_param", text, note="s16 parameter", score=True)
 
 ```
 python3 .../diff.py <row> <cand.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
+                    [--cfg CFG] [--scorer [--norm-regs]]
+python3 .../prio.py <row> <cand.c|pinned|erased> [--cfg CFG] [--top N] [--all]
 python3 .../dump.py <row> <cand.c|pinned|erased> <outdir> [--cfg CFG] [--pass sched|greg|lreg|loop|combine|cse|jump|all]
 ```
+
+`diff.py --cfg CFG` lists/scores both texts at that cell (no ledger write). **`--scorer`** prints the byte
+scorer's retail-vs-generated disassembly diff (`-` retail, `+` generated; what `cdkdiff.py` / `sd.py` did)
+at the row's cfg or `--cfg`; **`--norm-regs`** first renames each side's registers by first appearance and
+masks branch targets, so a pure register renaming disappears and only real differences remain (`adiff.py`).
+
+**`prio.py`** prints, for ONE text at a cfg, the `global.c` allocation table in allocno order: pseudo,
+variable, refs, live length, calls crossed, `floor_log2(refs)`, the priority
+(`floor_log2(refs) * refs / live * 10000`, `alloc_sim.priority`), the rank that priority alone gives
+(`!` where the dump's own order differs) and the hard register got (`--all` adds the local-allocation
+pseudos). It is `r80_cell_c1b/prio.py`; `why.py --pass greg` is the two-text comparison.
 
 `diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
 then the distance line; without `--score` it writes nothing. `dump.py` is `kitlib.dumps` (the compile
@@ -114,6 +143,7 @@ second pass; `outdir` must be inside the lane.
 python3 .../erase.py <row>                       # lone + all + every pair (<= 8 pins)
 python3 .../erase.py <row> --mode subset --budget 60
 python3 .../erase.py <row> --variant experiments/func_X/v7.c
+python3 .../erase.py <row> --variant cand.c --cfg "2.7.2-cdk-G0"   # byte totals at another cell
 ```
 
 Prints, and writes `erase_<func>.md`: every site with its line, its pin, its statement and the
@@ -124,7 +154,9 @@ larger than either alone (`duck_brief.fall_together`): those pins are one mechan
 candidate has to move all of them. `--variant` runs the same scan on a candidate you have already
 written - which of the remaining pins is still holding it.
 
-Listing distances only; the byte scorer is never called here; the ledger is never touched.
+Listing distances only; the byte scorer is never called here; the ledger is never touched. With `--cfg CFG`
+the pinned listing is not retail's, so each erasure is byte-scored at CFG instead (`r80_cell_c2`'s
+`erase_cfg.py`; 4 threads, 5-20 s each, mode defaults to `all`).
 
 ## why.py - the pass-decision explainer
 
@@ -132,6 +164,8 @@ Listing distances only; the byte scorer is never called here; the ledger is neve
 python3 .../why.py <row> --pass sched|sched2|greg|lreg|loop|cse|cse2|combine|flow|jump|jump2|rtl|dbr
                         [--variant FILE|erased] [--vs pinned|erased|FILE] [--around TOKEN] [--top N]
 ```
+
+`--cfg CFG` compiles both texts at that cell (the round-80 `why_cfg.py` wrapper).
 
 Two `-da` compiles (one per text; every pass comes out of each), then the decisions that differ:
 

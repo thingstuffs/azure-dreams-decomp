@@ -13,6 +13,8 @@ admission gate seven lanes re-derived (`work/native_lane/r62_astra_big/publish_l
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --grid grid1.json --score
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --score
     python3 <repo>/tools/lanes/lanekit/lab.py cellscore dungeon/func_8009612C v7.c --cfg "2.8.1-G0"
+    python3 <repo>/tools/lanes/lanekit/lab.py stage-cell dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --note "why"
+    python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --base cand/best.c --subs s.json --score
     python3 <repo>/tools/lanes/lanekit/lab.py report
 
 STEP 1 IS `baseline <row> --score`.  It scores the row's OWN pinned text.  A pinned row is
@@ -51,6 +53,18 @@ one candidate that way, checks rule 2 (is the pinned text also exact at CFG?) an
 prints the `cells.jsonl` line and the `land_coherence.sh` command.  The row's registered cfg is
 never changed and nothing under `ledger/` or `config/` is written.
 
+BASE FILE.  `--base FILE` makes `--subs` / `--grid` start from FILE instead of the pin-erased text (round 80:
+three lanes wrote `gen.py base.c subs.json outdir` to substitute on a candidate they had already
+half-built).  `@name` / `"@base": "pinned"` still mean the pinned text; guards and the staging gate are
+unchanged (admissible vs the lane's base/ copy), so a `--base` result stages exactly like any other.
+
+STAGE-CELL.  `stage-cell <row> cand.c --cfg CFG --note "mechanism"` is `cellscore`'s hand-over done for
+you: when `cand.c` scores exact at CFG (and is admissible vs base/) it is copied to
+`out/<container>/<file>.c` with the base's `.base_sha` and one line
+`{"id","to","coherence","pins_before","pins_after"}` goes to `cells.jsonl` (what
+`tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id+cfg replaces its line).  It
+refuses, exit 1, when the candidate is not exact at CFG or not admissible.  Nothing else is written.
+
 CAP.  More than 60 variants for one row needs `--more`.  One lane produced 209 probe files for two
 of its five rows and left the other three nearly untouched.
 """
@@ -70,7 +84,9 @@ import kitlib                                                             # noqa
 class Lab:
     """One row, ready to measure.  `Lab(row_id).test(name, text)` is the whole interface."""
 
-    def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False):
+    start = None          # `--base FILE` text for --subs/--grid (None: the pin-erased text)
+
+    def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False, base_file=None):
         self.lane = kitlib.bootstrap(lane)
         self.row = kitlib.row_of(row_id)
         if cfg and cfg != self.row["cfg"]:
@@ -84,6 +100,7 @@ class Lab:
         self.screen = kitlib.screen_for(self.row, self.base)
         self.stage = stage
         self.more = more
+        self.start = read_base_file(base_file)     # `--base FILE`: what --subs/--grid start from (None: erased text)
         self.dir = self.lane / "experiments" / self.row["func"]
         self.dir.mkdir(parents=True, exist_ok=True)
         if self.screen.target is None:
@@ -166,7 +183,9 @@ class Lab:
 
     def test_subs(self, name, reps, score=False, note=""):
         self.check_cap()
-        base = self.base if name.startswith("@") else self.erased
+        base = start_text(name, self.base, self.erased, self.start)
+        if self.start is not None and not name.startswith("@"):
+            note = (note + " " if note else "") + "[--base file]"
         try:
             text = kitlib.apply_subs(base, reps, label=name)
         except KeyError as e:
@@ -202,30 +221,55 @@ class Lab:
         expected = getattr(self, "context_fingerprint", None)
         if expected is not None and kitlib.module_fingerprint(self.row) != expected:
             raise RuntimeError("module context changed during the lane; remeasure before publication")
-        bad = kitlib.admissible(self.base, text)
-        if bad:
-            print("  NOT staged (%s)" % "; ".join(bad))
+        return stage_file(self.lane, self.row, self.base_path, self.base, text)
+
+
+def read_base_file(path):
+    """The `--base FILE` text, or None when no file was named."""
+    if not path:
+        return None
+    p = Path(path)
+    if not p.is_file():
+        raise SystemExit("lab: --base %s: no such file" % path)
+    return p.read_text(errors="replace")
+
+
+def start_text(name, pinned, erased, override=None):
+    """The text a `--subs`/`--grid` variant starts from: `@name` -> the pinned text; else the `--base`
+    file when given, else the pin-erased text."""
+    if name.startswith("@"):
+        return pinned
+    return erased if override is None else override
+
+
+def stage_file(lane, row, base_path, base, text):
+    """Copy an exact, admissible candidate to `out/<container>/<file>.c` with its base sha.
+
+    Returns the path relative to the lane, or None (after saying why).  `Lab.publish` and
+    `stage-cell` share it."""
+    bad = kitlib.admissible(base, text)
+    if bad:
+        print("  NOT staged (%s)" % "; ".join(bad))
+        return None
+    out = Path(lane) / "out" / row["container"]
+    out.mkdir(parents=True, exist_ok=True)
+    dst = out / Path(row["c_path"]).name
+    # round 80 (r79_sonnet_g45): never replace a staged candidate with a worse one - fewer pins first, then
+    # fewer plain gotos; a later exact variant with more gotos overwrote a 0-goto candidate
+    if dst.is_file():
+        old = dst.read_text(errors="replace")
+        key = lambda t: (len(kitlib.sites(t)), kitlib.goto_count(t))
+        if key(text) > key(old):
+            print("  NOT staged (the staged candidate is better: pins/gotos %s vs %s)" % (key(old), key(text)))
             return None
-        out = self.lane / "out" / self.row["container"]
-        out.mkdir(parents=True, exist_ok=True)
-        dst = out / Path(self.row["c_path"]).name
-        # round 80 (r79_sonnet_g45): never replace a staged candidate with a worse one - fewer pins first, then
-        # fewer plain gotos; a later exact variant with more gotos overwrote a 0-goto candidate
-        if dst.is_file():
-            old = dst.read_text(errors="replace")
-            key = lambda t: (len(kitlib.sites(t)), kitlib.goto_count(t))
-            if key(text) > key(old):
-                print("  NOT staged (the staged candidate is better: pins/gotos %s vs %s)" % (key(old), key(text)))
-                return None
-        dst.write_text(text)
-        sha = self.base_path.with_name(self.base_path.name + ".base_sha")
-        if sha.is_file():
-            shutil.copyfile(sha, dst.with_name(dst.name + ".base_sha"))
-        else:
-            import hashlib
-            dst.with_name(dst.name + ".base_sha").write_text(
-                hashlib.sha256(self.base.encode()).hexdigest() + "\n")
-        return str(dst.relative_to(self.lane))
+    dst.write_text(text)
+    sha = base_path.with_name(base_path.name + ".base_sha")
+    if sha.is_file():
+        shutil.copyfile(sha, dst.with_name(dst.name + ".base_sha"))
+    else:
+        import hashlib
+        dst.with_name(dst.name + ".base_sha").write_text(hashlib.sha256(base.encode()).hexdigest() + "\n")
+    return str(dst.relative_to(lane))
 
 
 # --------------------------------------------------------------------------------------- grid
@@ -325,6 +369,65 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
     return rec
 
 
+# ---------------------------------------------------------------------------------- stage-cell
+
+def cells_record(row_id, cfg, note, pins_before, pins_after):
+    """The `cells.jsonl` line `tools/fidelity/land_recipe_move.py` reads (its docstring: `id`, `to`, `coherence`,
+    `pins_before/after`)."""
+    return {"id": row_id, "to": cfg, "coherence": note, "pins_before": pins_before, "pins_after": pins_after}
+
+
+def cells_write(path, rec):
+    """Append `rec` to `path`; an earlier line for the same id + cfg is replaced, not duplicated."""
+    path = Path(path)
+    keep = []
+    if path.is_file():
+        for line in path.read_text(errors="replace").splitlines():
+            try:
+                old = json.loads(line)
+            except json.JSONDecodeError:
+                old = None
+            if line.strip() and not (old and old.get("id") == rec["id"] and old.get("to") == rec["to"]):
+                keep.append(line)
+    keep.append(json.dumps(rec))
+    path.write_text("\n".join(keep) + "\n")
+    return path
+
+
+def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", verify=None, out=print):
+    """Stage `cand` for a recipe move to `cfg`: score it there (`cellscore`, no ledger write), and when it is
+    exact AND admissible vs `base`, copy it to `out/<container>/<file>.c` (+ `.base_sha`) and put the
+    `cells_record` line in `<lane>/cells.jsonl`.  Returns the journal record; `rec["refused"]` says why not."""
+    if not note or not note.strip():
+        raise SystemExit('lab: stage-cell needs --note "mechanism / coherence argument"')
+    lane = Path(lane)
+    rec = cellscore(row, cand, cfg, lane, name=name, base=base, verify=verify, rule2=False, out=lambda *a: None)
+    rec["kind"] = "stage-cell"
+    sc = rec["score"]
+    if not sc.get("exact"):
+        rec["refused"] = "not exact at %s (%s)" % (cfg, json.dumps(sc))
+        out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
+        return rec
+    bad = kitlib.admissible(base, cand)
+    if bad:
+        rec["refused"] = "not admissible vs base/: " + "; ".join(bad)
+        out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
+        return rec
+    staged = stage_file(lane, row, base_path, base, cand)
+    if staged is None:
+        rec["refused"] = "not staged (see the message above)"
+        out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
+        return rec
+    line = cells_record(row["id"], cfg, note.strip(), len(kitlib.sites(base)), len(kitlib.sites(cand)))
+    cells_write(lane / "cells.jsonl", line)
+    rec.update(staged=staged, cells_line=json.dumps(line))
+    out("stage-cell %s  exact at %s (registered %s unchanged)" % (row["id"], cfg, row["cfg"]))
+    out("  staged   : %s (+ .base_sha)" % staged)
+    out("  cells    : %s" % (lane / "cells.jsonl"))
+    out("  " + json.dumps(line))
+    return rec
+
+
 # ------------------------------------------------------------------------------------- report
 
 def report(lane, row_id=None):
@@ -371,8 +474,10 @@ def report(lane, row_id=None):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("row_id", help="row id, or 'report', 'baseline' or 'cellscore'")
-    ap.add_argument("rest", nargs="*", help="variant .c files (after 'baseline': row ids; after 'cellscore': row cand.c)")
+    ap.add_argument("row_id", help="row id, or 'report', 'baseline', 'cellscore' or 'stage-cell'")
+    ap.add_argument("rest", nargs="*", help="variant .c files (after 'baseline': row ids; after 'cellscore' / "
+                                            "'stage-cell': row cand.c)")
+    ap.add_argument("--base", help="--subs/--grid start from this file instead of the pin-erased text")
     ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base")
     ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
     ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
@@ -380,7 +485,8 @@ def main():
     ap.add_argument("--score", action="store_true", help="byte-score the listing-exact variants")
     ap.add_argument("--score-top", type=int, default=0, metavar="N",
                     help="also score the N nearest non-exact variants of this run")
-    ap.add_argument("--note", default="", help="note recorded with every variant of this run")
+    ap.add_argument("--note", default="", help="note recorded with every variant of this run "
+                                               "(stage-cell: the coherence argument for cells.jsonl, required)")
     ap.add_argument("--more", action="store_true", help="allow more than %d variants for this row" % kitlib.VARIANT_CAP)
     ap.add_argument("--no-stage", action="store_true", help="do not copy an exact candidate to out/")
     ap.add_argument("--row", help="report: limit to one row")
@@ -412,7 +518,24 @@ def main():
         kitlib.log_append(lane, rec)
         return
 
-    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more)
+    if a.row_id == "stage-cell":
+        if len(a.rest) != 2 or not a.cfg:
+            raise SystemExit('lab.py stage-cell <row_id> <candidate.c> --cfg "CFG" --note "mechanism"')
+        lane = kitlib.bootstrap()
+        row = kitlib.row_of(a.rest[0])
+        cp = Path(a.rest[1])
+        if not cp.is_file():
+            raise SystemExit("lab: stage-cell: no such file %s" % cp)
+        rec = stage_cell(row, cp.read_text(errors="replace"), a.cfg, a.note, lane,
+                         kitlib.base_path(row, lane), kitlib.base_text(row, lane), name=cp.stem)
+        kitlib.log_append(lane, rec)
+        if rec.get("refused"):
+            sys.exit(1)
+        return
+
+    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more, base_file=a.base)
+    if lab.start is not None:
+        print("--subs/--grid start from %s (not the pin-erased text); @name still means the pinned text" % a.base)
     if lab.cfg:
         print("scoring at %s; registered cfg %s UNCHANGED; distance is vs the pinned listing at the "
               "registered cfg (information only); nothing is staged" % (lab.cfg, lab.row["cfg"]))
@@ -424,7 +547,8 @@ def main():
             jobs.append(("subs", (name, reps)))
     if a.grid:
         grid = json.load(open(a.grid))
-        for msg in grid_misses(grid, lab.base if str(grid.get("@base")) == "pinned" else lab.erased):
+        for msg in grid_misses(grid, lab.base if str(grid.get("@base")) == "pinned"
+                               else lab.erased if lab.start is None else lab.start):
             print("grid WARNING " + msg)
         for name, reps in expand_grid(grid):
             jobs.append(("subs", (name, reps)))
