@@ -96,34 +96,14 @@ void func_81988E48(MainObject *obj)
     Resource *resource;
     register TileObject *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state;
-    s32 case3;
 
     obj->age++;
     ((LinkObject *)obj->link)->flags |= 0x8000;
     state_count = -1;
 
     state = obj->state;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        count = state_count;
-        if (state == 0) {
-            goto state_0;
-        }
-        goto state_done;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    case3 = 3;
-    count = state_count;
-    if (state == case3) {
-        goto state_3;
-    }
-    goto state_done;
-
-state_0:
+    switch (state) {
+    case 0:
         obj->value_a = func_80066460(0, 1, 0x2C0, 0x100);
         obj->value_b = func_8006649C(0x80, 0x1F7);
         obj->size_b = 0x1F;
@@ -131,7 +111,7 @@ state_0:
         obj->age = 0;
         obj->angle = 0x30;
         obj->state++;
-state_1:
+    case 1:
         state_count = 14;
         call_data = &D_80082E80;
         if (func_8003DE58(((void *)call_data->unk_008), call_data, hit, 0)) {
@@ -143,11 +123,9 @@ state_1:
         if (obj->age >= 10) {
             obj->timer = 0x10;
             obj->state++;
-            goto state_done;
         }
-        goto state_done;
-
-state_2:
+        break;
+    case 2:
         state_count = 9;
         if (obj->age >= 11) {
             state_count = 4;
@@ -163,24 +141,18 @@ state_2:
             obj->age = 8;
         }
         obj->timer--;
-        if (obj->timer > 0) {
-            goto state_done;
-        }
-        if (obj->age == 12) {
+        if (obj->timer <= 0 && obj->age == 12) {
             obj->state++;
-            goto state_done;
         }
-        goto state_done;
-
-state_3:
+        break;
+    case 3:
         state_count = 5;
         if (obj->age == 15) {
             ((u16 *)obj)[-1] |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
-        goto state_done;
-
-state_done:
+        break;
+    }
 
     count = state_count;
 

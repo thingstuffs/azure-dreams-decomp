@@ -82,7 +82,7 @@ extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
-void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
+void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
     M2C_UNK distance;
     s32 burst_y;
     s16 sustain_y;
@@ -103,8 +103,6 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
     u16 angle;
     u8 phase;
     S_8016FC4C_4 *heading;
-    S_8016FC4C_6 *entity;
-    register S_8016FC4C_5 *object ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *linked_entity;
     S_8016FC4C_2 *linked_object;
     void *link_slot;
@@ -116,8 +114,6 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
     u32 table_ptr;
     u8 turn_phase;
 
-    entity = entity_data;
-    object = object_data;
     count = 1;
     heading = D_80175D50[0] + 0x20;
     link_slot = ((u8 *)D_800E3D7C) + 4;
@@ -160,7 +156,11 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         } while (count < 6);
         if ((s16)((S_8016FC4C_3 *)effect)->unk_96 == 1) func_800A56E0(0xB1);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 120);
-        goto advance_phase;
+        if (phase_active == 0) {
+            ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
+            ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
+        }
+        break;
     }
     case 1: {
         s32 burst_step;
@@ -188,7 +188,11 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         }
         if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7)) func_800A56E0(0x817);
         phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 20);
-        goto advance_phase;
+        if (phase_active == 0) {
+            ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
+            ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
+        }
+        break;
     }
     case 2:
         sustain_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
@@ -201,9 +205,8 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
             sustain_y = (func_80069EF8() & 0x1F) - 0xF;
             sustain_y = (s16)(((s32)sustain_y << 16) >> 16);
             func_801655EC(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));
-            goto update_sprite;
         }
-        goto update_sprite;
+        break;
     case 4:
         turn_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = turn_ticks;
@@ -214,7 +217,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
             if (turned_angle < 0) angle += 0x1000;
             heading->unk_2A = angle;
         }
-        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE) goto update_sprite;
+        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE) break;
         turn_phase = ((S_8016FC4C_3 *)effect)->unk_9A;
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
         table_page = (u32)D_80173AFC;
@@ -227,30 +230,24 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         table_ptr = (((u16)heading->unk_2A >> 7) & 0x1C);
         table_ptr += table_page;
         entity->unk_10 = (s32)(((S_8016FC4C_7 *)((u8 *)table_ptr))->unk_02 * 0x30000);
-        goto update_sprite;
+        break;
     case 5:
         entity->unk_00.at00.v = (s32)(entity->unk_00.at00.v + entity->unk_0C);
         entity->unk_04.at00.v = (s32)(entity->unk_04.at00.v + entity->unk_10);
         move_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;
         ((S_8016FC4C_3 *)effect)->unk_96 = move_ticks;
-        if ((s16)move_ticks < 6) goto update_sprite;
+        if ((s16)move_ticks < 6) break;
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
         ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
-        goto update_sprite;
-    advance_phase:
-        if (phase_active != 0) goto update_sprite;
-        ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);
-        ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
-        goto update_sprite;
+        break;
     case 7:
         object->unk_14 = (u16)(object->unk_14 | 0x80);
         entity->unk_04.at02.v = 1;
         entity->unk_00.at02.v = 1;
-        goto update_sprite;
+        break;
     default:
-        goto update_sprite;
+        break;
     }
-update_sprite:
     if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;

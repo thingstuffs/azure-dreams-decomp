@@ -174,14 +174,10 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
             ((S_8008ACDC_2 *)motion)->unk_10 = 0;
             ((S_8008ACDC_2 *)motion)->unk_0C = 0;
             func_800A2B04(motion, ((S_8008ACDC_1 *)sprite)->unk_24, ((S_8008ACDC_1 *)sprite)->unk_25);
-            goto reset_action;
         }
-reset_action:
         ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
         func_800A4300(sprite, stats);
-        goto check_status;
     }
-check_status:
     dungeonStatus.flags = (u16) (dungeonStatus.flags & 0xFF7F);
     status_count = ((S_8008ACDC_4 *)stats)->unk_64;
     if ((status_count < 0) || (((Rec_func_8008ACDC_arg0 *)actor)->unk_10C & 1)) {
@@ -220,7 +216,8 @@ check_status:
                     ((Rec_func_8008ACDC_arg0 *)actor)->unk_104 = 0;
                     return;
                 }
-                goto handle_action;
+                func_8008C7B4(actor, motion, sprite, stats);
+                return;
             }
             flags_page = (u16 *) 0x80010000;
             input_flags = flags_page[0x1B8A];
@@ -292,7 +289,6 @@ check_status:
                         func_8008B9FC(action_actor, motion, sprite, stats);
                         return;
                     case 0x10:
-handle_action:
                         func_8008C7B4(actor, motion, sprite, stats);
                         return;
                     case 0x18:
@@ -306,7 +302,8 @@ handle_action:
                         return;
                     case 0x48:
                         if ((s16) func_80095538(actor, ((S_8008ACDC_6 *)command)->unk_00 & 0x1F, ((S_8008ACDC_6 *)command)->unk_02 & 0x1F) < 0) {
-                            goto finish_command;
+                            func_8009F988();
+                            return;
                         }
                         func_8009FAAC();
                         return;
@@ -326,7 +323,6 @@ handle_action:
                             return;
                         }
                     }
-finish_command:
                         func_8009F988();
                         return;
                     case 0x58:
@@ -429,13 +425,13 @@ apply_target_action:
                                     if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
                                         return;
                                     }
-                                    goto check_buttons;
+                                } else {
+                                    ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
                                 }
+                            } else {
+                                ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
                             }
-                            ((Rec_func_8008ACDC_arg0 *)actor)->unk_96.as_s16 = 0;
-                            goto check_buttons;
                         }
-check_buttons:
                         button_bits = ((u32)input->buttons);
                         if ((button_bits & 0x30) == 0x30) {
                             ((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 = (u16) (((Rec_func_8008ACDC_arg0 *)actor)->unk_A2 & 0xFFFE);

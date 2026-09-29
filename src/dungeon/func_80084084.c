@@ -32,46 +32,42 @@ void func_800897E4(void)
     Entry *entry_m;
     Callback callback;
     if (D_800E296C & 0x02000000) {
-        register Callback *callback_slot ASM_REG("$16");
+        Callback *callback_slot;
         register Callback *callback_base;
         register Callback *special_start;
         Callback *sentinel_scan;
 
         register Entry **entry_slot;
 
-        special_start = D_800DCF80 + 9;
         callback_base = D_80083360;
+        special_start = D_800DCF80 + 9;
         callback_slot = callback_base;
         entry_slot = D_800833E0;
         do {
-                    callback = *callback_slot;
-                    if (callback != 0) {
-                        entry_m = *entry_slot;
-                        if (entry_m != 0) {
-                            if (!(entry_m->flags & 0x800)) {
-                                register Callback *special_scan;
+            callback = *callback_slot;
+            if (callback != 0) {
+                entry_m = *entry_slot;
+                if (entry_m != 0) {
+                    if (!(entry_m->flags & 0x800)) {
+                        register Callback *special_scan;
 
-                                sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
-                                special_scan = special_start;
+                        sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
+                        special_scan = special_start;
             first_scan:
-                                if (*special_scan == callback) {
-                                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
-                                    callback_slot++;
-                                    goto first_advance;
-                                }
-                                if (*sentinel_scan != 0) {
-                                    sentinel_scan++;
-                                    special_scan++;
-                                    goto first_scan;
-                                }
-                            }
-                        } else {
-                            *callback_slot = 0;
+                        if (*special_scan == callback) {
+                            callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                        } else if (*sentinel_scan != 0) {
+                            sentinel_scan++;
+                            special_scan++;
+                            goto first_scan;
                         }
                     }
-                    callback_slot++;
-            first_advance:
-                    entry_slot++;
+                } else {
+                    *callback_slot = 0;
+                }
+            }
+            callback_slot++;
+            entry_slot++;
         } while ((s32)callback_slot < (s32)(callback_base + 0x20));
         return;
     }
@@ -96,52 +92,47 @@ void func_800897E4(void)
         callback_slot = callback_base;
         entry_slot = D_800833E0;
         do {
-                    callback = *callback_slot;
-                    if (callback != 0) {
-                        entry_m = *entry_slot;
-                        if (entry_m != 0) {
-                            if (!(entry_m->flags & 0x800)) {
-                                callback_data = *(Callback *)(D_800E0000 - 0x3080);
-                                special_scan = special_start + 1;
-                                if (callback_data != callback) {
-                                    goto second_scan_check;
-                                }
-                                entry_m = ((Entry *)&D_80083498);
-                                if (entry_m->active != 0) {
-                                    callback_data = entry_m->data;
-                                    callback_arg1 = entry_m->arg1;
-                                    do {
-                                        callback_arg2 = entry_m->arg2;
-                                    } while (0);
-                                    saved = entry_m->saved;
-                                    entry_m->saved = 0;
-                                    callback(callback_data, callback_arg1, callback_arg2);
-                                    ASM_KEEP(callback_base);
-                                    ASM_KEEP(entry_slot);
-                                    entry_m->saved = saved;
-                                    goto second_next;
-                                }
-                                goto second_next;
-            loop_0: {
-                                callback(entry_m->data, entry_m->arg1, entry_m->arg2);
-                                callback_slot++;
-                                goto second_advance;
-            second_scan_check: ;
-            } if (*special_scan == callback) goto loop_0;
-                                if (*special_scan == 0) {
-                                    goto second_next;
-                                }
-                                special_scan++;
-                                goto second_scan_check;
+            callback = *callback_slot;
+            if (callback != 0) {
+                entry_m = *entry_slot;
+                if (entry_m != 0) {
+                    if (!(entry_m->flags & 0x800)) {
+                        callback_data = *(Callback *)(D_800E0000 - 0x3080);
+                        special_scan = special_start + 1;
+                        if (callback_data == callback) {
+                            entry_m = ((Entry *)&D_80083498);
+                            if (entry_m->active != 0) {
+                                callback_data = entry_m->data;
+                                callback_arg1 = entry_m->arg1;
+                                do {
+                                    callback_arg2 = entry_m->arg2;
+                                } while (0);
+                                saved = entry_m->saved;
+                                entry_m->saved = 0;
+                                callback(callback_data, callback_arg1, callback_arg2);
+                                ASM_KEEP(callback_base);
+                                ASM_KEEP(entry_slot);
+                                entry_m->saved = saved;
                             }
                         } else {
-                            *callback_slot = 0;
+                            for (;;) {
+                                if (*special_scan == callback) {
+                                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
+                                    break;
+                                }
+                                if (*special_scan == 0) {
+                                    break;
+                                }
+                                special_scan++;
+                            }
                         }
                     }
-            second_next:
-                    callback_slot++;
-            second_advance:
-                    entry_slot++;
+                } else {
+                    *callback_slot = 0;
+                }
+            }
+            callback_slot++;
+            entry_slot++;
         } while ((s32)callback_slot < (s32)(callback_base + 0x20));
         return;
     }
@@ -166,24 +157,18 @@ loop_third:
                     callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                     stop_dispatch = func_80045310(
                         *(s32 *)((u8 *)gameWork.unk_000 + 0x8D0));
-                    if (stop_dispatch == 0) {
-                        callback_slot++;
-                        goto third_advance;
+                    if (stop_dispatch != 0) {
+                        return;
                     }
-                    callback_slot++;
-                    goto third_done;
                 }
             } else {
                 *callback_slot = 0;
             }
         }
         callback_slot++;
-third_advance:
         entry_slot++;
         if (++slot_index < 0x20) {
             goto loop_third;
         }
-third_done:
-        ;
     }
 }
