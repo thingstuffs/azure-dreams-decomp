@@ -61,7 +61,6 @@ extern void func_801550A8(void *, void *, void *, void *);
 extern s32 func_801551CC(void *, void *, void *, void *);
 extern void func_80157078(void *, void *, void *, void *);
 
-extern void *D_80152818[];
 extern u8 D_80153FA4[];
 extern u8 D_80157C30[];
 extern u8 D_80157C38[];
@@ -73,11 +72,6 @@ extern u8 D_80157CA8[];
 /* Updates the actor animation and dispatches dungeon actions based on its state. */
 void func_80153FA4(void *actor, void *context, void *sprite, EntityRec *entity)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 distance;
     s8 room_id;
     u16 action;
@@ -210,56 +204,51 @@ state_ready:
         }
 
         action = entity->unk_46 & 0x3FFF;
-        if ((u32)(action - 1) >= 12) {
-            goto generic;
-        }
-        (void)action_labels;
-        goto *D_80152818[(u32)(action - 1)];
+        switch (action) {
+        case 8:
+        case 9:
+            if ((func_80154E10(actor, context, sprite, entity) << 16) != 0) {
+                return;
+            }
+            func_801550A8(actor, context, sprite, entity);
+            return;
 
-jt_c8:
-jt_c9:
-        if ((func_80154E10(actor, context, sprite, entity) << 16) != 0) {
+        case 5:
+        case 6:
+        case 7:
+            {
+                EntityRec *player;
+                s16 facing;
+
+                facing = func_800A0818(
+                    ((S_80153FA4_2 *)sprite)->unk_24.at00.v, ((S_80153FA4_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                entity->facing = facing;
+                if (player->unk_9A == 0x11) {
+                    goto case_123;
+                }
+            }
+
+        case 12:
+case_12:
+            func_800A9A0C(entity);
+            return;
+
+        case 1:
+        case 2:
+        case 3:
+case_123:
+            func_800AAF00(actor, context, sprite, D_80157C88, D_80153FA4);
+            return;
+
+        case 11:
+        default:
+generic:
+            func_801546C8(actor, context, sprite, entity);
             return;
         }
-        func_801550A8(actor, context, sprite, entity);
-        return;
-
-jt_c5:
-jt_c6:
-jt_c7:
-        {
-            EntityRec *player;
-            s16 facing;
-
-            facing = func_800A0818(
-                ((S_80153FA4_2 *)sprite)->unk_24.at00.v, ((S_80153FA4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            entity->facing = facing;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
-            }
-        }
-
-jt_c12:
-case_12:
-        func_800A9A0C(entity);
-        return;
-
-jt_c1:
-jt_c2:
-jt_c3:
-case_123:
-        func_800AAF00(actor, context, sprite, D_80157C88, D_80153FA4);
-        return;
-
-jt_c4:
-jt_c10:
-jt_c11:
-generic:
-        func_801546C8(actor, context, sprite, entity);
-        return;
     }
 
     if (!(((u32)entity->flags1C) & 0x2000)) {
