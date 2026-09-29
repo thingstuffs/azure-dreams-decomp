@@ -286,3 +286,17 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
 - **ASM_REG $8/$9 on a `lui; addiu %lo(SYM)` pair recomputed after calls** (r80_opus_r7, dungeon/func_80E3B96C 8 -> 4):
   not a colour choice - a set-once pointer local to SYM with the lowest priority gets no register and reload rebuilds
   the address into the spill register at every use. Write `T *p = &SYM;` once and use it across the calls.
+
+## Scaffolding (volatile / one-trip) on pin-free rows - round 80 (r80_sonnet_vol1/vol2)
+- **Volatile scalars whose address is passed as a rect/vector** (town/func_800B83C0, dungeon/func_80EDFC98): the separate
+  volatile locals imitated a contiguous struct - declare `struct { s16 x, y, w, h; } rect;` and pass `&rect`.
+- **Volatile u16 load masked by a small constant** (dungeon/func_8180E164): plain `& 3` lets combine narrow the load to
+  `lbu`; write `% 4` (unsigned) - it expands to the AND on the full-width `lhu`.
+- **Volatile cast load that must stay after struct stores** (town/func_800AB788): read it through the typed struct field;
+  a `*(T **)p` cast load is hoisted above the stores by sched, a member load is not.
+- **Volatile on u8 loads in a sum** (dungeon/func_800B2D84): it only fixed the commutative `addu` operand order - write
+  the load first. Scratchpad (0x1F800000) casts need no volatile.
+- **Volatile stores that only stop a loop.c DEST_ADDR giv** (dungeon/func_80283EC0) and **one-trip blocks on a fully
+  unscheduled function** (town/func_8032FE78: load-delay nops, source order): recipe facts (`-fno-strength-reduce`,
+  `-fno-schedule-insns -fno-schedule-insns2`), landed as byte-neutral cell moves.
+- Open residue: `lbu; sll 24; sra 24` vs `lb` (combine folds without the volatile) - 800D1A48, 800CB068, 8187C45C.
