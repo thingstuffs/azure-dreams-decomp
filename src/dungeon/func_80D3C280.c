@@ -76,17 +76,11 @@ extern u8 D_800E23F8[];
 extern u8 D_800E2418[];
 extern u8 D_800E2420[];
 extern u8 D_800E2428[];
-extern void *D_80170820[];
 extern u8 D_80171A80[];
 
 /* Updates dungeon actor animation, status, and action dispatch. */
 void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 distance;
     s8 room_id;
     u16 action_state;
@@ -192,7 +186,7 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
 
     if (actor->unk_6D > 0) {
         if (((u32)actor->flags1C) & 0x20) {
-            goto jt_c12;
+            goto case_12;
         }
         if (((S_80171A80_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
@@ -215,21 +209,16 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
         }
 
         action_state = actor->unk_46 & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
-            goto ordinary_cleanup;
-        }
-        (void)action_labels;
-        goto *D_80170820[(u32)(action_state - 1)];
-
-jt_c8:
-jt_c9:
+        switch (action_state) {
+        case 8:
+        case 9:
         if ((func_80172BB0(entity, context, sprite, actor) << 16) != 0) {
             return;
         }
         func_80172D88(entity, context, sprite, actor);
         return;
 
-jt_c1:
+        case 1:
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             func_801754AC(entity, context, sprite, actor);
             return;
@@ -237,7 +226,7 @@ jt_c1:
         func_80175F44(entity, context, sprite, 1, 0);
         return;
 
-jt_c2:
+        case 2:
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             func_800D6068(entity, context, sprite, actor);
             return;
@@ -245,9 +234,9 @@ jt_c2:
         func_80175F44(entity, context, sprite, 1, 0);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             EntityRec *player;
             s16 facing;
@@ -265,7 +254,8 @@ jt_c7:
             goto global_continue;
         }
 
-jt_c12:
+        case 12:
+case_12:
         func_800A9A0C(actor);
         return;
 
@@ -286,7 +276,7 @@ global_continue:
             return;
         }
 
-jt_c3:
+        case 3:
         if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
             func_800AAF00(entity, context, sprite, D_800E2418, D_80171A80);
             return;
@@ -298,12 +288,12 @@ jt_c3:
             return;
         }
 
-jt_c4:
-jt_c10:
-jt_c11:
+        case 11:
+        default:
 ordinary_cleanup:
         func_801723F8(entity, context, sprite, actor);
         return;
+        }
     }
 
     if (!(((u32)actor->flags1C) & 0x2000)) {

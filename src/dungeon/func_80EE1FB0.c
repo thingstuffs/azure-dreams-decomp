@@ -35,8 +35,6 @@ typedef struct S_801737B0_3 {
 
 
 
-extern void *D_80170888[];
-extern void *D_801708A0[];
 extern u8 D_80171CE8[];
 extern u8 D_80174EB8[];
 
@@ -52,13 +50,6 @@ extern Any func_80171498();
 
 /* Updates an actor action through targeting, particle effects, and recovery. */
 void func_801737B0(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {
-    static void *const state_jt[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
-    };
-    static void *const kind_jt[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_bad,
-        &&kind_5, &&kind_6, &&kind_7
-    };
     s32 use_player_target;
     s32 particle_count;
     s32 offset_z;
@@ -78,30 +69,30 @@ void func_801737B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
     state = ((S_801737B0_0 *)action)->unk_9B;
     use_player_target = 0;
-    if ((u32)state >= 5U) {
-        return;
-    }
-    (void)state_jt;
-    goto *D_80170888[(u32)state];
-
-state_0:
+    switch (state) {
+    case 0:
     if (actor->flags1C & 0x2000) {
         raw_kind = actor->unk_46 & 0x3FFF;
         kind_index = raw_kind - 1;
-        if (kind_index >= 7U) {
+        switch (kind_index) {
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        case 6:
+            use_player_target = 1;
+            goto kind_3;
+        case 5:
+            use_player_target = 1;
+            goto kind_2;
+        case 4:
+            use_player_target = 1;
+            goto kind_1;
+        default:
             goto kind_bad;
         }
-        (void)kind_jt;
-        goto *D_801708A0[kind_index];
-kind_7:
-        use_player_target = 1;
-        goto kind_3;
-kind_6:
-        use_player_target = 1;
-        goto kind_2;
-kind_5:
-        use_player_target = 1;
-        goto kind_1;
     }
 
     action_kind = actor->unk_46 & 0x3FFF;
@@ -196,7 +187,7 @@ remove_actor:
     actor->unk_46 &= 0x7FFF;
     return;
 
-state_1:
+    case 1:
     if (func_8003F270(motion) != 0) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
         return;
@@ -205,7 +196,7 @@ state_1:
     ((S_801737B0_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
 
-state_2:
+    case 2:
     sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
     if (sprite_flags & 0x8000) {
         ((S_801737B0_0 *)action)->unk_96.s = 0;
@@ -258,11 +249,11 @@ do {
     }
     } while (1);
 
-state_3:
+    case 3:
     ((S_801737B0_0 *)action)->unk_96.s = 0x14;
     ((S_801737B0_0 *)action)->unk_9B++;
 
-state_4:
+    case 4:
     if (((s32)dungeonStatus.unk_0C) == 0) {
         ((S_801737B0_0 *)action)->unk_96.s = 0;
     }
@@ -298,6 +289,5 @@ state_4:
     actor->unk_6D--;
     actor->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
-
-    return;
+    }
 }

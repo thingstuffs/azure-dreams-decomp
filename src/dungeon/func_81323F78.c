@@ -40,7 +40,6 @@ extern u8 D_80174684[];
 extern u8 D_801746C4[];
 extern u8 D_8017467C[];
 extern u8 D_8016B778[];
-extern void *D_8016A828[];
 s8 func_8009FB34();
 s32 func_8009FD7C();
 s32 func_800A1C58();
@@ -62,7 +61,6 @@ extern M2C_UNK D_801746BC;
 
 /* Update the actor's dungeon action, animation, and facing direction. */
 void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 *map_actor, EntityRec *entity) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&state_store };
     M2C_UNK target_distance;
     s32 entity_flags;
     s32 state_flags;
@@ -129,7 +127,6 @@ block_12:
             action_data += (u32)idle_anim;
             func_80047784(map_actor, *action_data, 0);
         }
-state_store:
         actor->unk_9A.as_u8 = 0xEU;
     }
     actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
@@ -211,20 +208,17 @@ block_42:
     }
 block_44:
     action_id = entity->unk_46 & 0x3FFF;
-    if ((u32) (action_id - 1) >= 0xCU) {
-        goto block_55;
-    }
-    (void)action_labels; goto *D_8016A828[(u32)((action_id) - 1)];
-jt_c8:
-jt_c9:
+    switch (action_id) {
+    case 8:
+    case 9:
     if ((func_8016C720(actor, context, map_actor, entity) << 0x10) != 0) {
         return;
     }
     func_8016C8AC(actor, context, map_actor, entity);
     return;
-jt_c5:
-jt_c6:
-jt_c7:
+    case 5:
+    case 6:
+    case 7:
     target_angle = func_800A0818(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &target_distance);
     active_actor = (u8 *)*((int *)(&D_800814A8));
     entity->facing = target_angle;
@@ -232,26 +226,26 @@ jt_c7:
         action_data = (u8 *)0x80170000;
         goto block_53_low;
     }
-jt_c12:
+    case 12:
 block_50:
     func_800A9A0C(entity);
     return;
-jt_c1:
-jt_c2:
-jt_c3:
+    case 1:
+    case 2:
+    case 3:
     action_data = (u8 *)0x80170000;
 block_53_low:
     action_data -= 0x4888;
 block_53:
     func_800AAF00(actor, context, map_actor, &D_801746BC, action_data);
     return;
-jt_c4:
-jt_c10:
-jt_c11:
+    case 11:
+    default:
 block_55:
 block_56:
     func_8016BF74(actor, context, map_actor, entity);
     return;
+    }
 block_58:
     entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {

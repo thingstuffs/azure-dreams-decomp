@@ -59,7 +59,6 @@ extern void func_80171928();
 
 extern s32 D_80083460;
 extern s32 D_8008346C;
-extern void *D_80170850[];
 extern u8 D_801724BC[];
 extern u8 D_80175E24[];
 extern u8 D_80175E2C[];
@@ -68,10 +67,6 @@ extern u8 D_80175E34[];
 /* Updates an actor's action state, target coordinates, animation, and completion. */
 void func_8017472C(void *action, EntityRec *transform, void *sprite, EntityRec *actor)
 {
-    static void *const kind_labels[] = {
-        &&kind_1, &&kind_2, &&kind_3, &&kind_none,
-        &&special_1, &&special_2, &&special_3
-    };
     s32 state;
     register s32 use_player_target;
     s32 kind;
@@ -108,21 +103,25 @@ void func_8017472C(void *action, EntityRec *transform, void *sprite, EntityRec *
 state_0:
     if (((u32)actor->flags1C) & 0x2000) {
         kind = (actor->unk_46 & 0x3FFF) - 1;
-        if ((u32)kind >= 7U) {
+        switch (kind) {
+        case 0:
+            goto kind_1;
+        case 1:
+            goto kind_2;
+        case 2:
+            goto kind_3;
+        case 6:
+            use_player_target = 1;
+            goto kind_3;
+        case 5:
+            use_player_target = 1;
+            goto kind_2;
+        case 4:
+            use_player_target = 1;
+            goto kind_1;
+        default:
             goto kind_none;
         }
-        (void)kind_labels;
-        goto *D_80170850[kind];
-
-special_3:
-        use_player_target = 1;
-        goto kind_3;
-special_2:
-        use_player_target = 1;
-        goto kind_2;
-special_1:
-        use_player_target = 1;
-        goto kind_1;
     }
 
     kind = actor->unk_46 & 0x3FFF;

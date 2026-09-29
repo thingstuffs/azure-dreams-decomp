@@ -32,7 +32,6 @@ extern s32 func_801729AC(void *, void *, void *, s32);
 extern void func_80174598(void *, void *, void *, void *);
 extern void func_8017476C(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80171760[];
 extern u8 D_80174E88[];
 extern u8 D_8017555C[];
@@ -58,11 +57,6 @@ typedef struct S_80171760_2 {
 /* Update the actor's dungeon behavior, facing, and directional animation. */
 void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *actor)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     u8 *anim_table;
     s32 room_id;
     s32 direction_flags;
@@ -173,26 +167,21 @@ void func_80171760(void *motion, void *render_ctx, void *map_entity, EntityRec *
         }
 
         action_state = actor->unk_46 & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
-            goto generic;
-        }
-        (void)action_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
-
-jt_c8:
+        switch (action_state) {
+        case 8:
         if ((func_801726D0(motion, render_ctx, map_entity, actor) << 16) != 0) {
             return;
         }
         func_80172894(motion, render_ctx, map_entity, actor);
         return;
 
-jt_c9:
+        case 9:
         func_8017476C(motion, render_ctx, map_entity, actor);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *player;
             s16 facing_angle;
@@ -208,24 +197,24 @@ jt_c7:
             }
         }
 
-jt_c12:
+        case 12:
 case_12:
         func_800A9A0C(actor);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+        case 1:
+        case 2:
+        case 3:
 case_123:
         func_800AAF00(motion, render_ctx, map_entity, D_80174EE0, D_80171760);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+        case 11:
+        default:
 generic:
         func_80171F1C(motion, render_ctx, map_entity, actor);
         return;
+        }
     } else if (!(((u32)actor->flags1C) & 0x2000)) {
         s32 room_index = (s8)room_id;
 
