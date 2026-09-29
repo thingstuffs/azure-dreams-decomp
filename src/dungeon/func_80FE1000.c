@@ -161,39 +161,33 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
         if (kind == 1) {
             flags = ((S_80FE1000_1 *)work)->unk_14 | 0x6000;
             paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x6000;
-        } else {
-            if (kind < 2) {
-                goto normal_kind;
-            }
-
+            ((S_80FE1000_1 *)work)->unk_14 = flags;
+            ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
+        } else if (kind >= 2) {
             flags = ((S_80FE1000_1 *)work)->unk_14 | 0x2000;
             paired_flags = ((S_80FE1000_1 *)work)->unk_1C | 0x2000;
+            ((S_80FE1000_1 *)work)->unk_14 = flags;
+            ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
+        } else {
+            init_obj = obj;
+            if (((kind_flags & ~3) << 16) != 0) {
+                goto call_a1_setup;
+            }
+            init_part_a = part_a;
+            if (((S_80FE1000_1 *)work)->unk_14 & 0x200) {
+                goto call_a2_setup;
+            }
+            flags = func_800A6D30(init_obj, init_part_a);
+            init_obj = obj;
+            if (!(flags & 1)) {
+                goto call_a1_setup;
+            }
+            ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
+            func_800A48F0(work, 1,
+                          (func_800A6D30(obj) & 0x3F) | 0x20);
+            part_b->unk_2C = D_8016E088;
         }
-        ((S_80FE1000_1 *)work)->unk_14 = flags;
-        ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
-        goto post_kind;
 
-normal_kind:
-        init_obj = obj;
-        if (((kind_flags & ~3) << 16) != 0) {
-            goto call_a1_setup;
-        }
-        init_part_a = part_a;
-        if (((S_80FE1000_1 *)work)->unk_14 & 0x200) {
-            goto call_a2_setup;
-        }
-        flags = func_800A6D30(init_obj, init_part_a);
-        init_obj = obj;
-        if (!(flags & 1)) {
-            goto call_a1_setup;
-        }
-        ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
-        func_800A48F0(work, 1,
-                      (func_800A6D30(obj) & 0x3F) | 0x20);
-        part_b->unk_2C = D_8016E088;
-        goto post_kind;
-
-post_kind:
         init_obj = obj;
 call_a1_setup:
         init_part_a = part_a;

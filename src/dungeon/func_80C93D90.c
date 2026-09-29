@@ -113,23 +113,15 @@ void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *sta
     ((S_80171590_0 *)state)->unk_2A = heading;
 
     if (move_result == 2) {
-        if (dungeonStatus.flags & 0x80) {
+        if ((dungeonStatus.flags & 0x80)) {
             goto failure;
         }
-        if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
+        if ((((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
             ((S_80171590_2 *)motion)->unk_9A = 15;
             goto finish_step;
         }
-    } else {
-        if (move_result != 3) {
-            goto failure;
-        }
-        if (dungeonStatus.flags & 0x80) {
-            goto failure;
-        }
-        if (((S_80171590_1 *)entity)->unk_14 & 0x8000) {
-            goto failure;
-        }
+    } else if (move_result != 3 || (dungeonStatus.flags & 0x80) || (((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+        goto failure;
     }
 
     func_80171F58(motion, update_param, entity, state);

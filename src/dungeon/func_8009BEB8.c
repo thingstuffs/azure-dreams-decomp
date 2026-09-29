@@ -52,26 +52,25 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
         ASM_KEEP_DEP_NV(scan_start, scan_base);
         slot_index = 4;
         entry = scan_start;
-        goto scan;
-    }
-    if ((s16)slot_type == 2) {
-        u8 *result;
-        result = D_800E3DE0;
-        return result;
-    }
-    entry = D_800E3DB0;
-    if (entry[0x11] == 0x38) {
-        s32 start_index;
-        start_index = 3;
-        entry += 0x18;
-        slot_index = start_index;
-        goto scan;
-    }
-    slot_index = 0;
-    if (entry[9] == 0x31) {
-        entry += 0x10;
-        slot_index = 2;
-        goto scan;
+    } else {
+        if ((s16)slot_type == 2) {
+            u8 *result;
+            result = D_800E3DE0;
+            return result;
+        }
+        entry = D_800E3DB0;
+        if (entry[0x11] == 0x38) {
+            s32 start_index;
+            start_index = 3;
+            entry += 0x18;
+            slot_index = start_index;
+        } else {
+            slot_index = 0;
+            if (entry[9] == 0x31) {
+                entry += 0x10;
+                slot_index = 2;
+            }
+        }
     }
     goto scan;
 return_type_two:

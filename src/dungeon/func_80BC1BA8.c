@@ -25,7 +25,6 @@ extern u8 D_8017466C[8];
 extern Callback D_801746A0[];
 
 
-
 typedef struct S_801713A8_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -207,11 +206,11 @@ void func_801713A8(void *entity, EntityRec *motion, void *sprite)
             (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
             height_offset = motion_flags & 8;
             if (height_offset == 0) {
-    ground_call:
-            ground_height = func_800BCB04(((u16)motion->x.w.i),
-                                      ((u16)motion->y.w.i),
-                                      (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
-                        ((S_801713A8_2 *)entity_base)->unk_88;
+ground_call:
+                ground_height = func_800BCB04(((u16)motion->x.w.i),
+                                              ((u16)motion->y.w.i),
+                                              (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
+                            ((S_801713A8_2 *)entity_base)->unk_88;
                 if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
                     (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
                     (*(u8 *)((u8 *)entity + 0x9D)) = 0;

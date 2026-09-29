@@ -18,68 +18,43 @@ void func_800CCD68(S_800CCD68_0 *sequence)
     s32 state;
 
     state = sequence->unk_6A.s;
-    value = 1;
-    if (state == value) {
-        goto state_1;
-    }
-    value = state < 2;
-    if (value != 0) {
-        value = 2;
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    switch (state) {
+    case 0:
         value = 0xC00;
-        if (state == 0) {
-            goto set_value;
+        goto set_value;
+    case 1:
+        value = --sequence->unk_6C;
+        if ((value << 16) != 0) {
+            return;
         }
-        return;
-    }
-#ifdef NON_MATCHING
-    value = 2;
-#endif
-    ASM_UNDEF(value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (state == value) {
-        goto state_2;
-    }
-    value = 3;
-    if (state == value) {
-        goto state_3;
-    }
-    return;
-
-state_1:
-    value = --sequence->unk_6C;
-    if ((value << 16) != 0) {
-        return;
-    }
-    value = 0x800;
-    sequence->unk_72 = value;
-    goto advance_state;
-
-state_2:
-    value = --sequence->unk_6C;
-    if ((value << 16) != 0) {
-        return;
-    }
-    value = 0x400;
+        value = 0x800;
+        sequence->unk_72 = value;
+        goto advance_state;
+    case 2:
+        value = --sequence->unk_6C;
+        if ((value << 16) != 0) {
+            return;
+        }
+        value = 0x400;
 set_value:
-    sequence->unk_72 = value;
+        sequence->unk_72 = value;
 advance_state:
-    value_2 = sequence->unk_6A.u;
-    sequence->unk_6C = 3;
-    value_2++;
-    sequence->unk_6A.u = value_2;
-    return;
-
-state_3:
-    value = --sequence->unk_6C;
-    if ((value << 16) != 0) {
+        value_2 = sequence->unk_6A.u;
+        sequence->unk_6C = 3;
+        value_2++;
+        sequence->unk_6A.u = value_2;
+        return;
+    case 3:
+        value = --sequence->unk_6C;
+        if ((value << 16) != 0) {
+            return;
+        }
+        value = sequence->unk_68;
+        sequence->unk_72 = 0;
+        sequence->unk_6C = state;
+        sequence->unk_6A.s = 0;
+        value++;
+        sequence->unk_68 = value;
         return;
     }
-    value = sequence->unk_68;
-    sequence->unk_72 = 0;
-    sequence->unk_6C = state;
-    sequence->unk_6A.s = 0;
-    value++;
-    sequence->unk_68 = value;
-    return;
 }
-

@@ -101,7 +101,6 @@ loop_6:
                         *item_out = (s8)item_index;
                         return selected_category;
                     }
-                    goto block_18;
                 } else {
                     rarity = (scan_value >> 0xC) & 3;
                     category_scale_or_weight = 0x80;
@@ -120,13 +119,10 @@ loop_6:
                         *item_out = (s8)item_index;
                         return selected_category;
                     }
-                    goto block_18;
                 }
             }
         }
-block_18:
         category_scale_or_weight = category_index * 4;
-block_19:
         scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
 advance_item:
         item_index += 1;

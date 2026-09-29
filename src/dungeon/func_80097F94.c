@@ -102,9 +102,7 @@ col_loop:
                     value_bits = packed_output | level;
                 }
                 *cursor = value_bits;
-                goto advance_col;
             }
-advance_col:
             if (col_index & 1) {
                 next_col = col_index + 1;
                 cursor += 1;

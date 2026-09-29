@@ -49,9 +49,6 @@ typedef struct S_8017382C_7 {
 } S_8017382C_7;   /* child in func_8017382C */
 
 
-
-
-
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80042900(void *, s32);
 extern void func_80042B68(void *, s32);

@@ -841,10 +841,9 @@ Lcase36:
         s32 target_x = *(u16 *)&tile_x;
         s32 target_y = *(u16 *)&tile_y;
         s32 ability_flags = *(u16 *)(creature + 0x98);
-        s32 x_delta, y_distance, shifted_x_delta;
+        s32 x_delta, y_distance, shifted_x_delta, y_delta;
         *(u16 *)(creature + 0x2A) = action_result;
         ability_flags |= 0x8000;
-        ASM_KEEP_NV(ability_flags);
         *(u16 *)(creature + 0xA8) = target_x;
         target_x <<= 16;
         target_x >>= 16;
@@ -854,17 +853,13 @@ Lcase36:
         *(u16 *)(creature + 0x98) = ability_flags;
         x_delta = position[0x24];
         x_delta -= target_x;
-        ASM_KEEP_NV(x_delta);
-        if (x_delta < 0) {
-            x_delta = -x_delta;
-        }
-        ASM_KEEP_NV(x_delta);
+        x_delta = abs(x_delta);
         tile_x = x_delta;
         distance = x_delta;
         ASM_KEEP_NV(distance);
         shifted_x_delta = x_delta << 16;
-        delta_or_result = position[0x25] - target_y;
-        y_distance = delta_or_result;
+        y_delta = position[0x25] - target_y;
+        y_distance = y_delta;
         y_distance = abs(y_distance);
         tile_y = y_distance;
         x_delta = shifted_x_delta < (y_distance << 16);

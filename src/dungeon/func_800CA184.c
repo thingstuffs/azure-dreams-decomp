@@ -229,7 +229,8 @@ void func_800CF8E4(void) {
     if (!(render_flags & 2)) {
         s32 corner_arg;
 
-        coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6, (s16) (((S_800CF8E4_2 *)view)->unk_A8 - 0x20));
+        coord = func_800BCB04(((S_800CF8E4_2 *)view)->unk_A4, ((S_800CF8E4_2 *)view)->unk_A6,
+            (s16) (((S_800CF8E4_2 *)view)->unk_A8 - 0x20));
         if (coord < 0x201) {
             *(s32 *)(ram_base + 0x158) = coord;
         } else {
@@ -428,7 +429,8 @@ void func_800CF8E4(void) {
             *(s32 *)(ram_base + 0x14C) = setup_value;
             *(s32 *)(ram_base + 0x17C) = width_shift_or_end;
             *(u16 *)(ram_base + 0x174) = 4U;
-            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, (void *)setup_arg, setup_render, (void *)width_shift_or_end);
+            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, (void *)setup_arg, setup_render,
+                (void *)width_shift_or_end);
         }
         if (*(u16 *)(ram_base + 0x174) != 0) {
             s32 address_mask;
@@ -445,7 +447,8 @@ void func_800CF8E4(void) {
 loop_9:
             render_arg = 3;
             edge_start = (s32 *)(ram_base + 0x78);
-            loop_0: {
+loop_0:
+            {
                 if (((S_800CF8E4_4 *)edge_start)->unk_38 == 0) {
                     s32 edge_start_y;
                     s32 current_y;
@@ -458,7 +461,9 @@ loop_9:
                 }
                 render_arg -= 1;
                 edge_start -= 0x28;
-            } if (render_arg >= 0) goto loop_0;
+            }
+            if (render_arg >= 0)
+                goto loop_0;
             render_arg = 3;
             edge = (s32 *)(ram_base + 0x78);
             *(s32 *)(ram_base + 0x014) = max_height;
@@ -527,7 +532,8 @@ block_28:
                     if (map_width < max_x) {
                         *(s32 *)(ram_base + 0x018) = map_width;
                     }
-                    *(s32 *)(ram_base + 0x138) = (((u32) *(s32 *)(ram_base + 0x00C) >> 6) & *(s32 *)(ram_base + 0x120)) << *(s32 *)(ram_base + 0x124);
+                    *(s32 *)(ram_base + 0x138) = (((u32) *(s32 *)(ram_base + 0x00C) >> 6) & *(s32 *)(ram_base + 0x120))
+                        << *(s32 *)(ram_base + 0x124);
                     *(s32 *)(ram_base + 0x134) = ((u32) *(s32 *)(ram_base + 0x014) >> 6) & *(s32 *)(ram_base + 0x11C);
                     if (*(s32 *)(ram_base + 0x018) >= *(s32 *)(ram_base + 0x014)) {
 loop_36:
@@ -626,7 +632,8 @@ L_CFE98:
                             {
                                 s32 cell_height;
 
-                                edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices)))->unk_04;
+                                edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8)
+                                    + vertices)))->unk_04;
                                 cell_height = *(u16 *)(ram_base + 0x12C);
                                 edge_progress -= cell_height;
                                 *(u16 *)(ram_base + 0x0FC) = (u16) edge_progress;
@@ -696,7 +703,8 @@ L_D0130:
                                                         if (cells[*(s32 *)(ram_base + 0x144)].flags & 0x80) {
                                                             neighbor_face_flags = *(u8 *)(ram_base + 0x16F);
                                                             if (!(neighbor_face_flags & 2)) {
-                                                                if ((*(u8 *)(ram_base + 0x16E) != one) || ((s8) neighbor_face_flags) >= 0) {
+                                                                if ((*(u8 *)(ram_base + 0x16E) != one)
+                                                                    || ((s8) neighbor_face_flags) >= 0) {
                                                                     face = (u8 *)face + 24;
                                                                     *(s32 *)(ram_base + 0x14C) = 0xFFFF;
                                                                     goto L_CFE98;
@@ -726,7 +734,10 @@ L_D0234:
                                     }
 block_64:
                                     occlusion_height = *(s32 *)(ram_base + 0x148);
-                                    if (((s16) *(u16 *)(ram_base + 0x0E4) >= occlusion_height) && ((s16) *(u16 *)(ram_base + 0x0EC) >= occlusion_height) && ((s16) *(u16 *)(ram_base + 0x0F4) >= occlusion_height) && ((s16) *(u16 *)(ram_base + 0x0FC) >= occlusion_height)) {
+                                    if (((s16) *(u16 *)(ram_base + 0x0E4) >= occlusion_height)
+                                        && ((s16) *(u16 *)(ram_base + 0x0EC) >= occlusion_height)
+                                        && ((s16) *(u16 *)(ram_base + 0x0F4) >= occlusion_height)
+                                        && ((s16) *(u16 *)(ram_base + 0x0FC) >= occlusion_height)) {
                                         if (((s8) *(u8 *)(ram_base + 0x16F)) >= 0) {
                                             face_skip = *(u8 *)(ram_base + 0x16E);
                                             face_skip &= 0xF;
@@ -734,8 +745,11 @@ block_64:
                                         }
                                         goto block_98;
                                     }
-                                    *(s32 *)(ram_base + 0x164) = ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
-                                    *(s32 *)(ram_base + 0x0F8) = (((u16) *(s32 *)(ram_base + 0x014) + (u16) *(s32 *)(ram_base + 0x164)) & 0xFFFF) | ((*(s32 *)(ram_base + 0x00C) + (s16) *(s32 *)(ram_base + 0x166)) << 0x10);
+                                    *(s32 *)(ram_base + 0x164) =
+                                        ((S_800CF8E4_13 *)((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices))->unk_00;
+                                    *(s32 *)(ram_base + 0x0F8) = (((u16) *(s32 *)(ram_base + 0x014)
+                                        + (u16) *(s32 *)(ram_base + 0x164)) & 0xFFFF)
+                                        | ((*(s32 *)(ram_base + 0x00C) + (s16) *(s32 *)(ram_base + 0x166)) << 0x10);
                                     gte_ldv0(ram_base + 0xF8);
                                     (*(s32 *)((u8 *)packet_code + 5)) = (s32) ((S_800CF8E4_6 *)face)->unk_08;
                                     gte_rtps_nn();
@@ -764,16 +778,30 @@ block_64:
                                         if (face_flags & 1) {
                                             *(u8 *)packet_code = (u8) (*(u8 *)packet_code | 2);
                                         } else {
-                                            if ((*(u16 *)(ram_base + 0x178) != 0) && (cells[*(s32 *)(ram_base + 0x144)].flags & 0x80) && !(face_flags & 2) && ((view_height = *(s32 *)(ram_base + 0x158), (((s16) *(u16 *)(ram_base + 0x0E4) < view_height) != 0)) || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height) || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height) || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
-                                                (*(s32 *)((u8 *)packet_code + 5)) = (s32) (*(s32 *)((u8 *)packet_code + 9));
-                                                (*(s32 *)((u8 *)packet_code + 9)) = (s32) (*(s32 *)((u8 *)packet_code + 0x11));
-                                                (*(s32 *)((u8 *)packet_code + 0xD)) = (s32) (*(s32 *)((u8 *)packet_code + 0x19));
+                                            if ((*(u16 *)(ram_base + 0x178) != 0)
+                                                && (cells[*(s32 *)(ram_base + 0x144)].flags & 0x80)
+                                                && !(face_flags & 2)
+                                                && ((view_height = *(s32 *)(ram_base + 0x158),
+                                                (((s16) *(u16 *)(ram_base + 0x0E4) < view_height) != 0))
+                                                || ((s16) *(u16 *)(ram_base + 0x0EC) < view_height)
+                                                || ((s16) *(u16 *)(ram_base + 0x0F4) < view_height)
+                                                || ((s16) *(u16 *)(ram_base + 0x0FC) < view_height))) {
+                                                (*(s32 *)((u8 *)packet_code + 5)) =
+                                                    (s32) (*(s32 *)((u8 *)packet_code + 9));
+                                                (*(s32 *)((u8 *)packet_code + 9)) =
+                                                    (s32) (*(s32 *)((u8 *)packet_code + 0x11));
+                                                (*(s32 *)((u8 *)packet_code + 0xD)) =
+                                                    (s32) (*(s32 *)((u8 *)packet_code + 0x19));
                                                 overlay_color = *(s32 *)(ram_base + 0x110);
                                                 ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 5;
                                                 (*(s32 *)((u8 *)packet_code + -3)) = overlay_color;
                                                 packet_code += 0x28;
-                                                *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC)) & address_mask);
-                                                overlay_ot_entry = (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC));
+                                                *(s32 *)packet = (*(s32 *)packet & tag_mask)
+                                                    | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4)
+                                                    + *(s32 *)(ram_base + 0x0BC)) & address_mask);
+                                                overlay_ot_entry =
+                                                    (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4)
+                                                    + *(s32 *)(ram_base + 0x0BC));
                                                 {
                                                     s32 overlay_addr;
 
@@ -787,7 +815,8 @@ block_64:
                                                 ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
                                                 {
 
-                                                    edge_progress = (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
+                                                    edge_progress =
+                                                        (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
                                                     (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
                                                 }
                                             }
@@ -800,10 +829,12 @@ block_64:
                                         ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = 9;
                                         (*(s32 *)((u8 *)packet_code + -3)) = (s32) *(s32 *)(ram_base + 0x004);
                                         packet_addr = (void *) ((s32) packet & address_mask);
-                                        ((S_800CF8E4_9 *)packet_code)->unk_00 = (u8) (((S_800CF8E4_9 *)packet_code)->unk_00 | 2);
+                                        ((S_800CF8E4_9 *)packet_code)->unk_00 =
+                                            (u8) (((S_800CF8E4_9 *)packet_code)->unk_00 | 2);
                                         packet_code += 0x28;
 L_D057C:
-                                        *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC)) & address_mask);
+                                        *(s32 *)packet = (*(s32 *)packet & tag_mask) | (*(s32 *)((*(s32 *)(ram_base
+                                            + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC)) & address_mask);
                                         ot_entry = (*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC);
                                         *ot_entry = (*ot_entry & tag_mask) | (s32) packet_addr;
                                         packet += 0x28;
@@ -871,7 +902,8 @@ block_100:
                 minus_one = -1;
                 edge_end = (s32 *)(ram_base + 0x78);
                 *(s32 *)(ram_base + 0x00C) += 0x40;
-                loop_0_: {
+loop_0_:
+                {
                     if (((S_800CF8E4_11 *)edge_end)->unk_38 > 0) {
                         edge_remaining = ((S_800CF8E4_11 *)edge_end)->unk_28 - 0x40;
                         ((S_800CF8E4_11 *)edge_end)->unk_28 = edge_remaining;
@@ -882,7 +914,9 @@ block_100:
                     }
                     render_arg -= 1;
                     edge_end -= 0x28;
-                } if (render_arg >= 0) goto loop_0_;
+                }
+                if (render_arg >= 0)
+                    goto loop_0_;
                 if (*(u16 *)(ram_base + 0x174) == 0) {
                     goto block_106;
                 }
