@@ -69,6 +69,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     depth_offset = 0x90;
     flags_offset = 0x94;
     entity_index = 0;
+    view_matrix = D_8006CD30;
     rotation_matrix = (u8 *)0x1F8000D0;
     transform = (u8 *)0x1F800050;
     vertex0 = (u8 *)0x1F800070;
@@ -96,7 +97,6 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
             entity = entities + entity_index * 12;
             U16(scratch, 0) = (U8(entity, 0) << 6) + 0x20;
             U16(scratch, 2) = (U8(entity, 1) << 6) + 0x20;
-            view_matrix = D_8006CD30;
             world_z = U16(entity, 4);
             U16(scratch, 4) = world_z;
             sprite = *(u8 **)(entity + 8);
@@ -254,7 +254,6 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             U16(scratch, 0x100) = -camera_angles.a;
                             U16(scratch, 0x104) = U16(render_state, 184) - camera_angles.b;
                             func_80065820(scratch + 0x100, rotation_matrix);
-                            ASM_USE_G_NV(view_matrix);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                             func_80064840(matrix_page - 0x32D0, rotation_matrix, transform);
                             func_80064BC0(transform, &shadow_scale);
                             func_80064D80(transform);
