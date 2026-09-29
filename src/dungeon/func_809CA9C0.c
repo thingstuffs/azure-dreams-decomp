@@ -22,10 +22,12 @@ void func_801721C0(S_801721C0_0 *object, M2C_UNK unused, M2C_UNK check_data, M2C
         func_800A4ACC(target);
         if ((func_800AD9B4(check_data, target) << 0x10) > 0) {
             object->unk_8C = &D_80170E54;
-            goto check_reset;
+            if (dungeonStatus.flags & 0x80) {
+                object->unk_90.at02.v = 0;
+                object->unk_90.at00.v = 0;
+            }
         }
     } else {
-check_reset:
         if (dungeonStatus.flags & 0x80) {
             object->unk_90.at02.v = 0;
             object->unk_90.at00.v = 0;

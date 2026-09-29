@@ -82,20 +82,17 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
                         p,
                         ((s32 *)entry->choices)[(choice_index << 2) + 2],
                         choice_flags, entry_index);
-                    if ((next_record - 0x14) == p) {
-                        goto next_entry;
+                    if ((next_record - 0x14) != p) {
+                        func_800163B8(&D_80016FC8, entry);
+                        entry->link = p;
+                        p = next_record;
                     }
-                    func_800163B8(&D_80016FC8, entry);
-                    entry->link = p;
-                    p = next_record;
-                    goto next_entry;
                 } else {
                     entry->link = p;
                     p = func_8001643C(
                         p, (s32)entry->choices, 0, entry_index);
                 }
             }
-next_entry:
             entry++;
             entry_index++;
         } while (entry->flags != 0);

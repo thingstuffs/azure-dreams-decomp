@@ -92,15 +92,11 @@ void func_8001625C(void) {
         if (progress_stats[2] >= 0x64) {
             progress_stats[2] = 0x63;
         }
-        init_flag_page = (M2C_UNK *)0x800E0000;
         if ((u32) D_80012D60 < (u32) progress_stats[2]) {
             D_80012D60 = (s32) progress_stats[2];
-            goto set_flag_page;
         }
-    } else {
-set_flag_page:
-        init_flag_page = (M2C_UNK *)0x800E0000;
     }
+    init_flag_page = (M2C_UNK *)0x800E0000;
     if (((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
         file_load_com(&D_80080AE0);
         file_load_com(&D_80080AE8);

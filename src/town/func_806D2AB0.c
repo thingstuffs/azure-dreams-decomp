@@ -35,28 +35,22 @@ s32 func_806D2AB0(s32 *entries, s32 target_key)
     entry_index = 0;
     if (((S_806D2AB0_0 *)entries)->unk_08 != 0) {
         entry = entries;
-loop:
-        key_or_offset = *entry;
-        if (key_or_offset != target_key) {
+        while (1) {
+            key_or_offset = *entry;
+            if (key_or_offset == target_key)
+                break;
             entry += 7;
             entry_index++;
-            if (((S_806D2AB0_1 *)entry)->unk_08 == 0) {
-                key_or_offset = entry_index * 8;
-            } else {
-                goto loop;
-            }
-        } else {
-            key_or_offset = entry_index * 8;
+            if (((S_806D2AB0_1 *)entry)->unk_08 == 0)
+                break;
         }
-        if (((S_806D2AB0_2 *)((key_or_offset - entry_index) * 4 + (u8 *)entries))->unk_08 == 0) {
-            goto notify;
+        key_or_offset = entry_index * 8;
+        if (((S_806D2AB0_2 *)((key_or_offset - entry_index) * 4 + (u8 *)entries))->unk_08 != 0) {
+            return entry_index;
         }
-        return entry_index;
-    } else {
-notify:
-        (*(Callback3 *)((u8 *)(D_80016000->unk_20) + 0x168))(
-            D_80016148, D_80016170, 0x36);
-        (*(Callback1 *)((u8 *)(D_80016000->unk_20) + 0x174))(1);
     }
+    (*(Callback3 *)((u8 *)(D_80016000->unk_20) + 0x168))(
+        D_80016148, D_80016170, 0x36);
+    (*(Callback1 *)((u8 *)(D_80016000->unk_20) + 0x174))(1);
     return entry_index;
 }
