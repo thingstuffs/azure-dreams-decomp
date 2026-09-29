@@ -33,20 +33,17 @@ extern State80046E38 D_80082E60;
 void func_80046E38(s16 entry_id, u8 *stream)
 {
     Pair80046E38 pair;
-    u8 *stream_pos;
     u8 *stream_start;
     s32 buffer_start;
     s32 data_offset;
     s32 remaining;
-    register u8 *table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 *table_base;
     s32 table_offset;
     s32 shifted_id;
     Info80046E38 **entry_slot;
     Info80046E38 *entry;
     s32 *entry_data;
 
-    stream_pos = stream;
-    ASM_KEEP_NV(stream_pos);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     stream_start = stream;
     D_80081480 = D_8008148C[0];
     buffer_start = (s32)D_8008148C[0];
@@ -67,29 +64,17 @@ void func_80046E38(s16 entry_id, u8 *stream)
             Control_CD(6, (s32 *)&pair, 0);
             data_offset += 0x10;
             func_8003F320();
-            stream_pos = func_8004068C(D_8008148C[-3], stream_pos);
+            stream = func_8004068C(D_80081480, stream);
             remaining--;
             func_8003F6D4(0x10, 0, (s32 *)&pair, data_offset);
         } while (remaining > 0);
     }
 
     func_80046D64(stream_start, entry_id);
-    {
-        u32 state_page;
-
-        state_page = 0x80080000;
-        ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        shifted_id = *(u8 *)(state_page + 0x2E6A);
-        {
-            s32 mode_mask;
-
-            mode_mask = 2;
-            if (shifted_id != mode_mask) {
-                D_80080A7C = 0x8000;
-            } else {
-                D_80080A7C = 0x4000;
-            }
-        }
+    if (D_80082E60.mode != 2) {
+        D_80080A7C = 0x8000;
+    } else {
+        D_80080A7C = 0x4000;
     }
     D_80081480 = (u8 *)((buffer_start + 3) & ~3);
 }
