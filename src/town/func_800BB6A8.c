@@ -10,7 +10,6 @@ typedef struct {
 extern u8 D_800133C4;
 extern u8 D_800133C8;
 extern u8 D_800133E2;
-extern void *D_80089600[];
 extern Event6 D_800D1910[];
 extern u8 D_800D2FB4[];
 extern u8 D_800D3814[12];
@@ -32,10 +31,6 @@ void func_800B7A6C(s32, s32, void *, s32);
 
 /* Draws the active town entry and its state-dependent overlays. */
 void func_800B8E08(s32 draw_param) {
-    static void *const case_labels[7] = {
-        &&case_6, &&switch_done, &&case_8, &&case_9,
-        &&switch_done, &&case_11, &&case_12
-    };
     Event6 *event;
     Event6 *event_table;
     volatile u8 *draw_state;
@@ -54,27 +49,23 @@ void func_800B8E08(s32 draw_param) {
         func_800B7978(draw_x, draw_state[1], draw_kind, draw_param);
         if (draw_kind == 0x26) {
             overlay_index = D_800133E2 - 6;
-            if (overlay_index >= 7) {
-                goto switch_done;
+            switch (overlay_index) {
+            case 0:
+                func_800B7A6C(0x2E, 0x24, D_8012669C, draw_param);
+                break;
+            case 2:
+                func_800B7A6C(0x2E, 0x24, D_80126884, draw_param);
+                break;
+            case 3:
+                func_800B7A6C(0x2E, 0x24, D_80126A6C, draw_param);
+                break;
+            case 5:
+                func_800B7A6C(0x2E, 0x24, D_80126C54, draw_param);
+                break;
+            case 6:
+                func_800B7A6C(0x2E, 0x24, D_80126E3C, draw_param);
+                break;
             }
-            (void)case_labels;
-            goto *D_80089600[overlay_index];
-
-case_6:
-            func_800B7A6C(0x2E, 0x24, D_8012669C, draw_param);
-            goto switch_done;
-case_8:
-            func_800B7A6C(0x2E, 0x24, D_80126884, draw_param);
-            goto switch_done;
-case_9:
-            func_800B7A6C(0x2E, 0x24, D_80126A6C, draw_param);
-            goto switch_done;
-case_11:
-            func_800B7A6C(0x2E, 0x24, D_80126C54, draw_param);
-            goto switch_done;
-case_12:
-            func_800B7A6C(0x2E, 0x24, D_80126E3C, draw_param);
-switch_done:
             {
                 s16 status_c8;
                 u8 *status_c8_page;

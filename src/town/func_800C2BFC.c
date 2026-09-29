@@ -100,8 +100,6 @@ M2C_UNK func_80095910();                   /* extern */
 M2C_UNK func_800A48B0();           /* extern */
 M2C_UNK func_800ABD74();                      /* extern */
 s16 func_800C2AE8();                      /* extern */
-extern void *jtbl_80089978[];
-__asm__(".set jtbl_80089978, 0x80089978");
 extern s32 D_800135B4;
 __asm__(".set D_800135B4, 0x800135B4");
 extern M2C_UNK D_8006CCF8;
@@ -278,40 +276,32 @@ align_view:
         motion->unk_14 = -0x140000;
     }
     motion->unk_14 = (s32) (motion->unk_14 + 0x20000);
-    {
-        static void *const state_labels[] = {&&state_init, &&state_intro, &&state_wait, &&state_active, &&state_finish};
-        (void) state_labels;
-        state = ((S_800C035C_0 *)actor)->unk_08;
-        if ((u32) state < 5) {
-            goto *jtbl_80089978[state];
-        }
-        goto update_sprite;
-    }
-    {
-state_init:
+    state = ((S_800C035C_0 *)actor)->unk_08;
+    switch (state) {
+    case 0:
         ((S_800C035C_0 *)actor)->unk_10.s = 0xC00U;
         motion->unk_08.at00.v = 0;
         progress->unk_02 = 0;
         progress->unk_00 = 0;
         controls->unk_C8.s = 0xC00;
         goto stop_motion;
-state_intro:
+    case 1:
         controls->unk_C8.s = (s16) (((0x20 - course->unk_2E) << 5) + 0xC00);
         ((S_800C035C_0 *)actor)->unk_10.s = 0xC00U;
         goto stop_motion;
-state_wait:
+    case 2:
         controls->unk_C8.s = (s16) ((0x10 - course->unk_2E) << 5);
         wait_stage = progress->unk_00;
         if (wait_stage < 4) {
             ((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 =
                 (u16) (((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 + 1);
         }
-stop_motion:
+    stop_motion:
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        goto update_sprite;
-state_active:
+        break;
+    case 3:
         prev_stage = progress->unk_00;
         func_80022F34(motion, progress);
         func_800239A0(course, progress, 0);
@@ -334,14 +324,13 @@ state_active:
                 ((S_800C035C_10 *)(((progress->unk_00 * 2) + (s8 *) course)))->unk_30 = 0x7530;
             }
         }
-        goto update_sprite;
-state_finish:
+        break;
+    case 4:
         event_params = *(Blk20 *) &D_80089960;
         reserve_tw_mon_load(2);
         change_map(&event_params);
         ((S_800C035C_0 *)actor)->unk_08 = (s16) ((u16) ((S_800C035C_0 *)actor)->unk_08 + 1);
     }
-update_sprite:
     {
         s32 sprite_angle;
         angle_base = (s32) ((S_800C035C_0 *)actor)->unk_10.u - 0x1500;

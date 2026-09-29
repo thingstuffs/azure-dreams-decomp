@@ -33,7 +33,6 @@ typedef struct Counter {
 } Counter;
 
 extern EntryPair D_800898C4;
-extern void *D_800898D4[];
 extern u8 D_80011F81[];
 extern Counter D_80012D5C;
 
@@ -52,82 +51,79 @@ void func_800BF1C8(Obj *self, Arg1 *position, Arg2 *cursor_data) {
     register s32 target_x;
     register s32 counter_value;
     register s32 current_x;
-    static void *const keepalive[5] = {&&state0, &&state3, &&state1, &&state2or5, &&state4};
 
     entries = D_800898C4;
     self->counter = self->counter - 1;
     state = self->state;
-    if ((u32)state >= 6) {
-        return;
-    }
-    goto *D_800898D4[state];
-
-state0:
-    do {
-        const Counter *global_counter = &D_80012D5C;
-        entry_index = 0;
-        if (D_80011F81[0] != 0) {
-            entry_index = 1;
-        } else {
-            counter_value = global_counter->value;
-            if ((u32)counter_value >= 0x1388U) {
+    switch (state) {
+    case 0:
+        do {
+            const Counter *global_counter = &D_80012D5C;
+            entry_index = 0;
+            if (D_80011F81[0] != 0) {
                 entry_index = 1;
+            } else {
+                counter_value = global_counter->value;
+                if ((u32)counter_value >= 0x1388U) {
+                    entry_index = 1;
+                }
+            }
+            func_800673A0(&entries.entries[entry_index], 0x188, 0x180);
+        } while (0);
+    case 3:
+        {
+            x_range_check = 0x3FFFFF;
+            current_x = D_80083780.x.v;
+            target_x = position->x;
+            {
+                s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
+                x_range_check = x_range_check < x_distance;
+            }
+            if (x_range_check != 0) {
+                return;
             }
         }
-        func_800673A0(&entries.entries[entry_index], 0x188, 0x180);
-    } while (0);
-state3:
-    {
-        x_range_check = 0x3FFFFF;
-        current_x = D_80083780.x.v;
-        target_x = position->x;
-        {
-            s32 x_distance = abs((s32)((u32)current_x - (u32)target_x));
-            x_range_check = x_range_check < x_distance;
-        }
-        if (x_range_check != 0) {
+        if (func_800352FC() == 0) {
             return;
         }
-    }
-    if (func_800352FC() == 0) {
+        if (func_800C2AB4(self) == 0) {
+            return;
+        }
+        SD_Call(0x50B);
+        self->counter = 0x20;
+        self->state = (u16)self->state + 1;
         return;
-    }
-    if (func_800C2AB4(self) == 0) {
-        return;
-    }
-    SD_Call(0x50B);
-    self->counter = 0x20;
-    self->state = (u16)self->state + 1;
-    return;
 
-state1:
-    if (D_80083780.y.v < position->y + 0x800000) {
-        D_80083780.y.v += 0x40000;
-    }
-    {
-        register s32 cursor = cursor_data->cursor;
-        cursor -= 0x20;
-        cursor_data->cursor = cursor;
-        goto wait_for_counter;
-    }
+    case 1:
+        if (D_80083780.y.v < position->y + 0x800000) {
+            D_80083780.y.v += 0x40000;
+        }
+        {
+            register s32 cursor = cursor_data->cursor;
+            cursor -= 0x20;
+            cursor_data->cursor = cursor;
+            goto wait_for_counter;
+        }
 
-state2or5:
-    if (func_800352FC() != 0 && func_800C2AB4(self) != 0) {
-        return;
-    }
-    {
-        s32 next_state = self->state;
-        next_state += 1;
-        next_state %= 6;
-        self->state = (s16)next_state;
-        return;
-    }
+    case 2:
+    case 5:
+        if (func_800352FC() != 0 && func_800C2AB4(self) != 0) {
+            return;
+        }
+        {
+            s32 next_state = self->state;
+            next_state += 1;
+            next_state %= 6;
+            self->state = (s16)next_state;
+            return;
+        }
 
-state4:
-    cursor_data->cursor += 0x20;
-wait_for_counter:
-    if ((s16)self->counter > 0) {
-        return;
+    case 4:
+        cursor_data->cursor += 0x20;
+    wait_for_counter:
+        if ((s16)self->counter > 0) {
+            return;
+        }
+        self->state = (u16)self->state + 1;
     }
-    self->state = (u16)self->state + 1;
 }
