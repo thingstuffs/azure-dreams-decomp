@@ -3,16 +3,11 @@
 extern s32 DrawSync(s32 mode);
 extern void func_8003F80C(void *data, s32 vram, s32 palette, s32 flags);
 
-/* D_8007162C (0x8007162C) is addressed as a literal page + offset pair:
- * gcc 2.6.3 has no TARGET_SPLIT_ADDRESSES, so `&D_8007162C` can only reach
- * the assembler as ONE atomic `la` macro and its lui/addiu halves can never
- * be separated by the two stack-argument loads retail puts between them. */
-extern u8 D_8007162C[]; /* 0x8007162C -- referenced as a literal above */
+extern u8 D_8007162C[];
 
 /* Builds and uploads a palette blending three RGB colors. */
 void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s32 blend_row, s32 semitrans_end)
 {
-    register s32 semitrans_limit ASM_REG("$24") = semitrans_end;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s16 colors[16];
     s32 color_index;
     s32 start_weight;
@@ -20,25 +15,18 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
     s32 red_start;
     s32 green_end;
     s32 green_start, blue_end;
-    register s32 blue_start ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 blue_start;
     s32 packed_color;
     s32 channel_sum;
-    register s32 saved_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u32 table_page;
     s32 weight_scale;
     u8 *weights;
 
-    ASM_USE_NV(saved_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     color_index = 1;
     colors[0] = 0;
     weight_scale = 4;
-    table_page = 0x80070000;
-    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    channel_sum = (s32)((u8 *)(table_page + 0x162C));
-    weights = (u8 *)(blend_row * 8 + (u32)((u8 *)channel_sum));
-    ASM_USE_NV(weights);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    weights = &D_8007162C[blend_row * 8];
     do {
-        packed_color = (color_index < semitrans_limit) << 15;
+        packed_color = (color_index < semitrans_end) << 15;
         if (color_index < 5) {
             red_end = rgb_mid[0] * weights[color_index - 1];
             start_weight = weight_scale - weights[color_index - 1];
@@ -51,6 +39,8 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
             packed_color += channel_sum >> 5;
             channel_sum = green_end + green_start;
             packed_color += channel_sum & 0x3E0;
+            channel_sum = blue_end + blue_start;
+            packed_color += (channel_sum & 0x3E0) << 5;
         } else {
             red_end = rgb_end[0] * weights[color_index - 1];
             start_weight = weight_scale - weights[color_index - 1];
@@ -63,9 +53,9 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
             packed_color += channel_sum >> 5;
             channel_sum = green_end + green_start;
             packed_color += channel_sum & 0x3E0;
+            channel_sum = blue_end + blue_start;
+            packed_color += (channel_sum & 0x3E0) << 5;
         }
-        channel_sum = blue_end + blue_start;
-        packed_color += (channel_sum & 0x3E0) << 5;
         colors[color_index] = packed_color;
         color_index++;
     } while (color_index < 9);

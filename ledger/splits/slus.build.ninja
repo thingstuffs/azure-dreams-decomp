@@ -1767,7 +1767,7 @@ build build/src/w_8003E2D8.o: cc src/w_8003E2D8.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8003E39C.o: cc src/w_8003E39C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -mmips-as -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_8003E70C.o: cc src/w_8003E70C.c | tools/cc.sh tools/ccproc.py 
@@ -2296,8 +2296,8 @@ build build/src/w_80046D64.o: cc src/w_80046D64.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80046E38.o: cc src/w_80046E38.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.6.3
-  ccflags = -G0
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_80046F88.o: cc src/w_80046F88.c | tools/cc.sh tools/ccproc.py 
@@ -3056,7 +3056,7 @@ build build/src/w_8004E69C.o: cc src/w_8004E69C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004E6F4.o: cc src/w_8004E6F4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.6.3
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -3386,7 +3386,7 @@ build build/src/w_800511B4.o: cc src/w_800511B4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80051228.o: cc src/w_80051228.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -3431,8 +3431,8 @@ build build/src/w_800520B4.o: cc src/w_800520B4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80052144.o: cc src/w_80052144.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -G0
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_800525D4.o: cc src/w_800525D4.c | tools/cc.sh tools/ccproc.py 

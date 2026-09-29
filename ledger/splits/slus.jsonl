@@ -331,7 +331,7 @@
 {"src":"src/w_8003E240.c","out":"build/src/w_8003E240.o","ccver":"2.91.66","ccflags":"-G0","asflags":""}
 {"src":"src/w_8003E2D8.c","out":"build/src/w_8003E2D8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003E34C.c","out":"build/src/w_8003E34C.o","ccver":"2.7.2-cdk","ccflags":"-G32","asflags":""}
-{"src":"src/w_8003E39C.c","out":"build/src/w_8003E39C.o","ccver":"2.7.2-cdk","ccflags":"-mmips-as -G0","asflags":""}
+{"src":"src/w_8003E39C.c","out":"build/src/w_8003E39C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003E4FC.c","out":"build/src/w_8003E4FC.o","ccver":"2.7.2-cdk","ccflags":"-G32","asflags":""}
 {"src":"src/w_8003E70C.c","out":"build/src/w_8003E70C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003E758.c","out":"build/src/w_8003E758.o","ccver":"2.7.2-cdk","ccflags":"-G32","asflags":""}
@@ -454,7 +454,7 @@
 {"src":"src/w_80046AFC.c","out":"build/src/w_80046AFC.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_80046C20.c","out":"build/src/w_80046C20.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_80046D64.c","out":"build/src/w_80046D64.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80046E38.c","out":"build/src/w_80046E38.o","ccver":"2.6.3","ccflags":"-G0","asflags":""}
+{"src":"src/w_80046E38.c","out":"build/src/w_80046E38.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80046F88.c","out":"build/src/w_80046F88.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_80047054.c","out":"build/src/w_80047054.o","ccver":"2.8.1","ccflags":"","asflags":""}
 {"src":"src/w_8004713C.c","out":"build/src/w_8004713C.o","ccver":"2.7.2","ccflags":"","asflags":""}
@@ -618,7 +618,7 @@
 {"src":"src/w_8004E5E8.c","out":"build/src/w_8004E5E8.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_8004E634.c","out":"build/src/w_8004E634.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_8004E69C.c","out":"build/src/w_8004E69C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_8004E6F4.c","out":"build/src/w_8004E6F4.o","ccver":"2.6.3","ccflags":"","asflags":""}
+{"src":"src/w_8004E6F4.c","out":"build/src/w_8004E6F4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004E884.c","out":"build/src/w_8004E884.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_8004E8D8.c","out":"build/src/w_8004E8D8.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/w_8004E928.c","out":"build/src/w_8004E928.o","ccver":"2.7.2","ccflags":"","asflags":""}
@@ -685,7 +685,7 @@
 {"src":"src/w_800510DC.c","out":"build/src/w_800510DC.o","ccver":"2.7.2","ccflags":"-G0","asflags":""}
 {"src":"src/w_80051164.c","out":"build/src/w_80051164.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800511B4.c","out":"build/src/w_800511B4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80051228.c","out":"build/src/w_80051228.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/w_80051228.c","out":"build/src/w_80051228.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80051548.c","out":"build/src/w_80051548.o","ccver":"2.7.2-cdk","ccflags":"-O1 -fschedule-insns2","asflags":""}
 {"src":"src/w_80051708.c","out":"build/src/w_80051708.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800517CC.c","out":"build/src/w_800517CC.o","ccver":"2.7.2-cdk","ccflags":"-G16","asflags":""}
@@ -694,7 +694,7 @@
 {"src":"src/w_80051E94.c","out":"build/src/w_80051E94.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80051F58.c","out":"build/src/w_80051F58.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800520B4.c","out":"build/src/w_800520B4.o","ccver":"2.7.2-cdk","ccflags":"-G0","asflags":""}
-{"src":"src/w_80052144.c","out":"build/src/w_80052144.o","ccver":"2.7.2","ccflags":"-G0","asflags":""}
+{"src":"src/w_80052144.c","out":"build/src/w_80052144.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800525D4.c","out":"build/src/w_800525D4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80052774.c","out":"build/src/w_80052774.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80052A20.c","out":"build/src/w_80052A20.o","ccver":"2.8.1","ccflags":"","asflags":""}

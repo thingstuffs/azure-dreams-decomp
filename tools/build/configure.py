@@ -561,7 +561,7 @@ CC_VER = {
     "src/w_8003D7DC.c": ("2.7.2-cdk", "-fno-expensive-optimizations"),
     "src/w_8003CCB0.c": ("2.7.2-cdk", ""),
     "src/w_8003D0F0.c": ("2.7.2-cdk", ""),
-    "src/w_8003E39C.c": ("2.7.2-cdk", "-mmips-as -G0"),
+    "src/w_8003E39C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_8003E758.c": ("2.7.2-cdk", "-G32 -fno-expensive-optimizations"),
     "src/w_8003DBD0.c": ("2.7.2-cdk", ""),
     "src/w_8003D760.c": ("2.7.2-cdk", "-G16"),
@@ -655,7 +655,7 @@ CC_VER = {
     "src/w_8004C36C.c": ("2.7.2-cdk", ""),
     "src/w_8004CECC.c": ("2.7.2-cdk", ""),
     "src/w_8004E298.c": ("2.7.2-cdk", "-O1 -fschedule-insns2"),
-    "src/w_8004E6F4.c": ("2.6.3", ""),
+    "src/w_8004E6F4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_800499E8.c": ("2.7.2-cdk", ""),
     "src/w_8004FAA4.c": ("2.7.2-cdk", ""),
     "src/w_80050BA4.c": ("2.7.2-cdk", ""),
@@ -670,7 +670,7 @@ CC_VER = {
     "src/w_8005084C.c": ("2.7.2-cdk", ""),
     "src/w_80050FF4.c": ("2.7.2-cdk", "-G0"),
     "src/w_80048C3C.c": ("2.7.2", ""),
-    "src/w_80051228.c": ("2.7.2", ""),
+    "src/w_80051228.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_800400B8.c": ("2.7.2-cdk", "-fno-cse-skip-blocks"),
     "src/w_80047054.c": ("2.8.1", ""),
     "src/w_800423C0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (step4): retail-proven splitting recipe
@@ -689,7 +689,7 @@ CC_VER = {
     "src/w_80057948.c": ("2.7.2-cdk", "-fno-strength-reduce"),
     "src/w_80051548.c": ("2.7.2-cdk", "-O1 -fschedule-insns2"),
     "src/w_80051F58.c": ("2.7.2-cdk", ""),
-    "src/w_80052144.c": ("2.7.2", "-G0"),
+    "src/w_80052144.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_80052774.c": ("2.7.2-cdk", ""),
     "src/w_80052CE0.c": ("2.7.2-cdk", ""),
     "src/w_80053A88.c": ("2.7.2-cdk", ""),
@@ -731,7 +731,7 @@ CC_VER = {
     "src/w_8005D064.c": ("2.7.2", "-G0"),
     "src/w_8003FAD4.c": ("2.7.2", ""),
     "src/w_80040C08.c": ("2.7.2-cdk", "-fno-schedule-insns -G16"),
-    "src/w_80046E38.c": ("2.6.3", "-G0"),
+    "src/w_80046E38.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_8003E4FC.c": ("2.7.2-cdk", ""),
     "src/w_80046884.c": ("2.7.2-cdk", ""),
     "src/w_800517CC.c": ("2.7.2-cdk", "-G16"),
