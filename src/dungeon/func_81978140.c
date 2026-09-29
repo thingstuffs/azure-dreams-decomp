@@ -47,7 +47,7 @@ void func_81978140(S_81978140 *entity)
         goto epilogue;
     }
     {
-        void * volatile *state_table = jtbl_80024020;
+        void * *state_table = jtbl_80024020;
         goto *state_table[state];
     }
 

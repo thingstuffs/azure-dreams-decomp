@@ -70,7 +70,7 @@ void func_800A8EE8(Func800AB788Arg *strip)
         Func800AB788State *poly_state;
         Func800AB788State *tpage_state;
 
-        poly_state = *(Func800AB788State * volatile *)render_state_ptr;
+        poly_state = *(Func800AB788State * *)render_state_ptr;
         poly = (Func800AB788Poly *)poly_state->nextPrim;
         poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
 
@@ -114,7 +114,7 @@ void func_800A8EE8(Func800AB788Arg *strip)
         Func800AB788State *poly_state;
         Func800AB788State *tpage_state;
 
-        poly_state = *(Func800AB788State * volatile *)render_state_ptr;
+        poly_state = *(Func800AB788State * *)render_state_ptr;
         poly = (Func800AB788Poly *)poly_state->nextPrim;
         poly_state->nextPrim = (u8 *)poly + sizeof(*poly);
 

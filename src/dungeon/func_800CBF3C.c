@@ -18,7 +18,7 @@ void func_800D169C(s32 x, s32 y, s32 value, s32 store_value)
     s16 record_x;
     s16 record_y;
     Record *record;
-    volatile u16 *counter_page;
+    u16 *counter_page;
 
     has_room = D_80080B04[0] < 64;
     record_x = x;
@@ -33,7 +33,7 @@ void func_800D169C(s32 x, s32 y, s32 value, s32 store_value)
             } else {
                 record->value = (s16)0x8000;
             }
-            counter_page = (volatile u16 *)0x80080000;
+            counter_page = (u16 *)0x80080000;
             counter_page[0x582]++;
             record[1].x = 0;
         }

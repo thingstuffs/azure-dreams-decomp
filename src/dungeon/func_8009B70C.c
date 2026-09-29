@@ -83,7 +83,7 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
                 scan_entry = (Elem *)((unsigned long)tail + (unsigned long)s1);
                 if (scan_entry->b0 != 0) {
                     tail = actor_held[0x24];
-                    d = *(volatile u8 *)&scan_entry->b0;
+                    d = *(u8 *)&scan_entry->b0;
                     tail -= d;
                     if (tail < 0) tail = -tail;
                     if (tail < 2) {

@@ -33,7 +33,7 @@ extern s32 *D_80079964;
 extern u16 D_80079970;
 extern s32 D_80079980;
 extern s32 D_800799A8;
-extern volatile s32 D_800799AC;
+extern s32 D_800799AC;
 extern s32 D_800799B0;
 
 extern void func_8005D6D8(void);

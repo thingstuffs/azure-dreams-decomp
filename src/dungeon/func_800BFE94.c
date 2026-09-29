@@ -31,9 +31,9 @@ typedef struct S_800C55F4_1 {
     u32 unk_80;
     u16 unk_84;
     u8 pad_86[0x3A];
-    union { s32 s; volatile s32 u; } unk_C0;   /* accessed as both */
+    union { s32 s; s32 u; } unk_C0;   /* accessed as both */
     s32 unk_C4;
-    union { s32 s; volatile s32 u; } unk_C8;   /* accessed as both */
+    union { s32 s; s32 u; } unk_C8;   /* accessed as both */
     s32 unk_CC;
     u8 pad_D0[0x44];
     s32 unk_114;
@@ -216,7 +216,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         vertex_index = ((S_800C55F4_7_pre *)face_end)[-1].unk_00;
         vertex_arg = scratch + 0x70;
         ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
-        vertex_index = *(volatile u8 *)(face_end - 9);
+        vertex_index = *(u8 *)(face_end - 9);
         perspective_arg = perspective_out;
         flags_arg = flags_out;
         ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
@@ -252,7 +252,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
             ((S_800C55F4_1 *)scratch)->unk_C0.u -= depth_bias;
             third_depth = ((S_800C55F4_1 *)scratch)->unk_C8.u;
             ((S_800C55F4_1 *)scratch)->unk_C4 -= depth_bias;
-            vertex_depth = *(volatile u32 *)(scratch + 0xC0);
+            vertex_depth = *(u32 *)(scratch + 0xC0);
             ((S_800C55F4_1 *)scratch)->unk_C8.s = third_depth - depth_bias;
             if (vertex_depth < 0x1E0) {
                 register s32 second_shade ASM_REG("$3");

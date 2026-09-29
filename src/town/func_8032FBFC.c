@@ -7,7 +7,7 @@ typedef void (*TownCallback)(void *, u8, s32);
 
 
 typedef struct S_8001A3FC_1 {
-    volatile u8 unk_00;
+    u8 unk_00;
     u8 pad_01[0xF];
     s32 unk_10;
 } S_8001A3FC_1;   /* entry in func_8001A3FC */

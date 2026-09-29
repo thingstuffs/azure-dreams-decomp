@@ -55,43 +55,39 @@ void func_8017364C(void *action, EntityRec *motion, void *sprite, EntityRec *act
     use_player = 0;
     switch (phase) {
     case 0:
-        if (!(actor->flags1C & 0x2000)) {
-            goto select_normal_ability;
+        if (actor->flags1C & 0x2000) {
+            ability_id = actor->unk_46 & 0x3FFF;
+            switch (ability_id) {
+            case 7:
+                use_player = 1;
+                goto select_third_ability;
+            case 6:
+                use_player = 1;
+                goto select_second_ability;
+            case 5:
+                use_player = 1;
+                goto select_first_ability;
+            case 1:
+                goto select_first_ability;
+            case 2:
+                goto select_second_ability;
+            case 3:
+                goto select_third_ability;
+            default:
+                goto clear_ability;
+            }
         }
-        ability_id = actor->unk_46 & 0x3FFF;
-        switch (ability_id) {
-        case 7:
-            use_player = 1;
-            goto select_third_ability;
-        case 6:
-            use_player = 1;
-            goto select_second_ability;
-        case 5:
-            use_player = 1;
-            goto select_first_ability;
-        case 1:
-            goto select_first_ability;
-        case 2:
-            goto select_second_ability;
-        case 3:
-            goto select_third_ability;
-        default:
-            goto clear_ability;
-        }
-    select_normal_ability:
         normal_ability = actor->unk_46 & 0x3FFF;
         if (normal_ability == 2) {
             goto select_second_ability;
         }
-        if (normal_ability >= 3) {
-            goto check_third_ability;
+        if (normal_ability < 3) {
+            ability = NULL;
+            if (normal_ability == 1) {
+                goto select_first_ability;
+            }
+            goto check_ability;
         }
-        ability = NULL;
-        if (normal_ability == 1) {
-            goto select_first_ability;
-        }
-        goto check_ability;
-    check_third_ability:
         ability = NULL;
         if (normal_ability != 3) {
             goto check_ability;

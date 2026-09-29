@@ -166,13 +166,10 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             if (flags & 0x20) {
                 ((S_80171094_1 *)stats)->unk_1C = flags & ~0x40000;
                 actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 | 8;
-                goto store_98;
+            } else {
+                ((S_80171094_1 *)stats)->unk_1C = flags | 0x40000;
+                actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 & 0xFFF7;
             }
-
-            ((S_80171094_1 *)stats)->unk_1C = flags | 0x40000;
-            actor_flags = ((S_80171094_0 *)actor_arg)->unk_98 & 0xFFF7;
-
-store_98:
             ((S_80171094_0 *)actor_arg)->unk_98 = actor_flags;
         }
 

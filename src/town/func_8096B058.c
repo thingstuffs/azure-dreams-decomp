@@ -84,7 +84,7 @@ void func_801234F0(void) {
         src_entry = (volatile SourceEntry *)D_80126A18;
 #else
         object_slot = (void **)(D_80129728);
-        src_entry = (volatile SourceEntry *)D_80126A18;
+        src_entry = (SourceEntry *)D_80126A18;
 #endif
         do {
             ((S_801234F0_0 *)(*object_slot))->unk_00 = src_entry->word;

@@ -205,7 +205,7 @@ initial_success:
     }
 
 allocate:
-    table_or_owner = *(u8 * volatile *)&owner_data;
+    table_or_owner = *(u8 * *)&owner_data;
     object = func_8003FD64(0x100, table_or_owner - 0x20);
     if (object == 0) {
         return;

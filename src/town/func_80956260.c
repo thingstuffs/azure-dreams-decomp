@@ -7,10 +7,10 @@ typedef struct S_80023260_0 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-    union { s32 s; volatile s32 u; } unk_0C;   /* accessed as both */
-    union { s32 s; volatile s32 u; } unk_10;   /* accessed as both */
+    union { s32 s; s32 u; } unk_0C;   /* accessed as both */
+    union { s32 s; s32 u; } unk_10;   /* accessed as both */
     u8 pad_14[0x4];
-    union { volatile u16 s; s16 u; u16 p; } unk_18;   /* accessed as both */
+    union { u16 s; s16 u; u16 p; } unk_18;   /* accessed as both */
     u16 unk_1A;
     s16 unk_1C;
     u16 unk_1E;

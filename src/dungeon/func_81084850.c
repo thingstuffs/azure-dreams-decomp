@@ -50,7 +50,7 @@ extern u8 D_80175F48;
 /* Attempts an actor action and initializes its output and directional display on success. */
 s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *acting_actor)
 {
-    volatile u8 frame_pad[8];
+    u8 frame_pad[8];
     u8 *direction_table;
     s32 computed_angle;
     s32 result;

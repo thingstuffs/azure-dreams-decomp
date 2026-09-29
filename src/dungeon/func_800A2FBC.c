@@ -64,8 +64,8 @@ typedef struct S_800A871C_4 {
     u8 pad_00[0x8];
     s32 unk_08;
     u8 pad_0C[0x18];
-    union { u8 n; volatile u8 v; } unk_24;   /* accessed as both */
-    union { u8 n; volatile u8 v; } unk_25;   /* accessed as both */
+    union { u8 n; u8 v; } unk_24;   /* accessed as both */
+    union { u8 n; u8 v; } unk_25;   /* accessed as both */
 } S_800A871C_4;   /* r_arg2 in func_800A871C */
 
 typedef struct S_800A871C_5 {
@@ -259,7 +259,7 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) ((S_800A871C_20 *)(((S_800A871C_1 *)object)->unk_90))->unk_25;
             func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.v, ((S_800A871C_4 *)tile)->unk_25.v);
             ((S_800A871C_1 *)object)->unk_A0 = (s16) ((u16) ((S_800A871C_1 *)object)->unk_A0 + 1);
-            launch_source = (*(void * volatile *)((u8 *)object_data + (0x60)));
+            launch_source = (*(void * *)((u8 *)object_data + (0x60)));
             travel_steps = (*(s16 *)((u8 *)object_data + (0x8A)));
             launch_heading = launch_source->unk_2A;
             (*(s16 *)((u8 *)object_data + (0x6A))) = (s16) launch_heading;

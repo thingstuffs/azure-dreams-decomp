@@ -7,7 +7,7 @@ typedef struct S_80173E94_0 {
 } S_80173E94_0;   /* state in func_80173E94 */
 
 typedef struct S_80173E94_1 {
-    volatile u16 unk_00;
+    u16 unk_00;
     u16 unk_02;
     u16 unk_04;
     u8 pad_06[0x12];
@@ -39,7 +39,7 @@ typedef struct S_80173E94_4_pre {
 
 typedef struct S_80173E94_4 {
     u8 pad_00[0x8];
-    volatile u32 unk_08;
+    u32 unk_08;
     u8 pad_0C[0x26];
     s16 unk_32;
 } S_80173E94_4;   /* node in func_80173E94 */
@@ -86,7 +86,7 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
     tag_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
 
-    *(u8 * volatile *)(scratch + 0x18) = ((S_80173E94_0 *)state)->unk_8D0;
+    *(u8 * *)(scratch + 0x18) = ((S_80173E94_0 *)state)->unk_8D0;
     ((S_80173E94_1 *)scratch)->unk_20.p = state + 0xB0;
 
     do {
@@ -95,7 +95,7 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
         ((S_80173E94_1 *)scratch)->unk_00 = vertex_x;
         ((S_80173E94_1 *)scratch)->unk_02 = ((S_80173E94_2 *)vertex)->unk_06;
         ((S_80173E94_1 *)scratch)->unk_04 = ((S_80173E94_2 *)vertex)->unk_0A;
-        *(u8 * volatile *)(scratch + 0x18) = packet + 0xC;
+        *(u8 * *)(scratch + 0x18) = packet + 0xC;
 
         depth_index = func_80065420(scratch, packet + 8, scratch + 0x90,
                              scratch + 0x94);
@@ -150,7 +150,7 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
                 *ot_entry = ((u32)((ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask))));
             }
 
-            packet = *(u8 * volatile *)(scratch + 0x18);
+            packet = *(u8 * *)(scratch + 0x18);
             ((S_80173E94_1 *)scratch)->unk_18 = packet + 0xC;
             shade_or_page = func_80066460(pixel_mode, blend_mode, page_x, pixel_mode);
             func_80067F20(packet, 0, 0, (u16)shade_or_page, 0);

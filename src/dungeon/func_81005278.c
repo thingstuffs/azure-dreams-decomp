@@ -137,7 +137,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
         value_bits = (u32)&dirSpriteFlag[mode_or_dir];
         direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
-            value_bits = *(volatile u16 *)((u8 *)part + 0x14) | 1;
+            value_bits = *(u16 *)((u8 *)part + 0x14) | 1;
         } else {
             value_bits = ((S_80170A78_1 *)part)->unk_14 & 0xFFFE;
         }

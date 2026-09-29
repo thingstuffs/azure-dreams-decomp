@@ -98,7 +98,7 @@ void func_7FFEBCCC(S_7FFEBCCC_3 *source, s32 color) {
         sprite->unk_0C.at02.v = 0x80;
         sprite->unk_0C.at01.v = 0x80;
         sprite->unk_0C.at00.v = 0x80;
-        packed_color = *(volatile s32 *)&color;
+        packed_color = *(s32 *)&color;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.at00u.v = packed_color;

@@ -40,7 +40,7 @@ s32 event_pool_clean_in(void)
 {
     EntityRec *origin;
     s32 color;
-    volatile s32 *motion;
+    s32 *motion;
     s32 origin_z;
     void *object;
     void *object_part;

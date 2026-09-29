@@ -16,7 +16,7 @@ typedef struct ItemCategory {
     u8 pad1[4];
 } ItemCategory;
 
-extern volatile ItemCategory itemCategoryTable[];
+extern ItemCategory itemCategoryTable[];
 extern void bzero(void *ptr, s32 len);
 extern void *func_8004A700(s32 category, s32 item);
 extern void *func_8004A784(s32 category, s32 item);

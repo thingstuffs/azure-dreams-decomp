@@ -30,7 +30,7 @@ typedef struct S_80093C70_3 {
     u8 pad_08[0x4];
     s32 unk_0C;
     u8 pad_10[0x4];
-    union { volatile u16 s; u16 u; } unk_14;   /* accessed as both */
+    union { u16 s; u16 u; } unk_14;   /* accessed as both */
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;

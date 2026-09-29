@@ -12,7 +12,7 @@ typedef struct {
     u8 unk24;
     u8 unk25;
     u8 pad26[6];
-    void *volatile unk2C;
+    void *unk2C;
 } Func80BBB094PartB;
 
 typedef struct {

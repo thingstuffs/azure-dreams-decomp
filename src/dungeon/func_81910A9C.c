@@ -49,7 +49,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     *((u8 *) (((u8 *) line_packet) + 0xC)) = *((u8 *) (((u8 *) effect_data) + 0x40));
     *((u8 *) (((u8 *) line_packet) + 0xD)) = *((u8 *) (((u8 *) effect_data) + 0x41));
     *((u8 *) (((u8 *) line_packet) + 0xE)) = *((u8 *) (((u8 *) effect_data) + 0x42));
-    origin_ptr = *((void * volatile *) (&origin));
+    origin_ptr = *((void * *) (&origin));
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
     *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
@@ -60,7 +60,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     end_step_offset = radial_offset / scale;
     *((u16 *) (((u8 *) scratch) + 0x64)) += (start_step_offset * prev_step) >> 16;
     *((u16 *) (((u8 *) scratch) + 0x6C)) += (end_step_offset * step) >> 16;
-    origin_ptr = *((void * volatile *) (&origin));
+    origin_ptr = *((void * *) (&origin));
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
     *((u16 *) (((u8 *) scratch) + 0x6E)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x66)) = origin_coord;
@@ -72,7 +72,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     *((u16 *) (((u8 *) scratch) + 0x66)) += (start_step_offset * prev_step) >> 16;
     projection_param = scratch + 0x84;
     *((u16 *) (((u8 *) scratch) + 0x6E)) += (end_step_offset * step) >> 16;
-    origin_ptr = *((void * volatile *) (&origin));
+    origin_ptr = *((void * *) (&origin));
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
     *((u16 *) (((u8 *) scratch) + 0x70)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x68)) = origin_coord;
@@ -80,7 +80,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     *((s32 *) (((u8 *) scratch) + 0x110)) = z_delta;
     z_step = z_delta >> scale;
     *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
-    *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((volatile s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
+    *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
     *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(scratch + 0x64, scratch + 0xD8, projection_param, scratch + 0x88);
     flags_or_mode = scratch + 0x88;
     *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(scratch + 0x6C, scratch + 0xDC, projection_param, flags_or_mode);

@@ -396,7 +396,7 @@ frame_loop:
       *((u16 *) (((s8 *) packet) + 0xA)) = *((volatile u16 *) (((s8 *) quad_copies) + 50));
       *((u16 *) (((s8 *) packet) + 0x12)) = *((volatile u16 *) (((s8 *) quad_copies) + 50));
       *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((*((volatile u16 *) (((s8 *) quad_copies) + 50))) + 1);
-      *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((*((volatile u16 *) (((s8 *) quad_copies) + 50))) + 1);
+      *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((*((u16 *) (((s8 *) quad_copies) + 50))) + 1);
       *((u8 *) (((s8 *) packet) + 0xD)) = *((u8 *) (((s8 *) quad_copies) + 53));
       *((u8 *) (((s8 *) packet) + 0x15)) = *((u8 *) (((s8 *) quad_copies) + 53));
       row_index += 1;
@@ -416,8 +416,8 @@ frame_loop:
         *row_tag = (s32)context_dep | link_lower;
       }
       *((Blk40 *) (&quad_copies[10])) = *((Blk40 *) packet);
-      next_row_y = (*((volatile u16 *) (((s8 *) quad_copies) + 50))) + 1;
-      *((volatile u16 *) (((s8 *) quad_copies) + 50)) = next_row_y;
+      next_row_y = (*((u16 *) (((s8 *) quad_copies) + 50))) + 1;
+      *((u16 *) (((s8 *) quad_copies) + 50)) = next_row_y;
       *((u8 *) (((s8 *) quad_copies) + 53)) += 1;
       wave_phase = wave_phase + (*((s16 *) (((s8 *) effect) + 0x8E)));
       packet += 0x28;

@@ -24,5 +24,5 @@ void func_800C337C(void *object, void *context, void *dispatch_data) {
         func_800C37C4(object, context, dispatch_data);
         return;
     }
-    (*(FuncPtr *)((((volatile u8 *) object_bytes)[0x94] * 4) + *(s32 *)(object_bytes + 0x58) - 8))(object, context, dispatch_data);
+    (*(FuncPtr *)((((u8 *) object_bytes)[0x94] * 4) + *(s32 *)(object_bytes + 0x58) - 8))(object, context, dispatch_data);
 }

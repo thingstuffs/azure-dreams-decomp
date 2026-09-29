@@ -28,7 +28,7 @@ extern void func_80003EAC(void) __attribute__((noreturn));
 
 /* Optionally fires two setup callbacks, then either takes a noreturn exit for mode 2 or selects a table entry and remaps each record's field through a lookup table until the terminator tag. */
 void func_808B85F0(s32 table_index, s32 mode) {
-    volatile u8 *entry;
+    u8 *entry;
     void *entry_ptr;
     s32 sentinel;
     if (D_flag_load_45F0.value != 0) {
@@ -44,14 +44,14 @@ void func_808B85F0(s32 table_index, s32 mode) {
     }
     *(void **)((u8 *)D_state_4604.value + 0x10) = D_table_45C0.table[table_index];
     entry_ptr = *(void **)((u8 *)D_state_4604.value + 0x10);
-    entry = (volatile u8 *)entry_ptr;
+    entry = (u8 *)entry_ptr;
     if (*((u8 *)entry + 1) != 0x80) {
         sentinel = 0x80;
-        entry = (volatile u8 *)((u8 *)entry + 1);
+        entry = (u8 *)((u8 *)entry + 1);
         do {
             *(volatile s32 *)((u8 *)entry + 0xB) =
                 D_lookup_460C.value[*(volatile s32 *)((u8 *)entry + 0xB)];
-            entry = (volatile u8 *)((u8 *)entry + 0x14);
+            entry = (u8 *)((u8 *)entry + 0x14);
         } while (*(u8 *)entry != sentinel);
     }
 }

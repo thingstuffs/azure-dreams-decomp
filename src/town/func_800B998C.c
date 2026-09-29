@@ -20,7 +20,7 @@ extern void func_800B73F0();
 
 extern u8 D_80082E60[];
 extern u8 D_800D2FB4[];
-extern volatile u8 D_800D381A[];
+extern u8 D_800D381A[];
 extern u8 D_80110EC8[];
 extern u8 D_801116C8[];
 extern u8 D_80111EC8[];

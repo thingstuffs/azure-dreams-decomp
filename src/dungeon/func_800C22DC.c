@@ -5,8 +5,8 @@ extern s16 D_800E58F8[];
 extern void func_800C77D0();
 
 /* Process the midpoint of two objects when it is near the reference position. */
-void func_800C7A3C(volatile u8 *start_obj, volatile u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
-    volatile s32 frame_pad[2];
+void func_800C7A3C(u8 *start_obj, u8 *end_obj, s16 start_height, s16 end_height, s16 call_param, s32 call_arg) {
+    s32 frame_pad[2];
     s32 coord;
     s32 mid_coord;
     s32 x_distance;

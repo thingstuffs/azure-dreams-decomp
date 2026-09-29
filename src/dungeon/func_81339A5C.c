@@ -81,10 +81,10 @@ void func_80170A5C(void)
         object_pos->unk_02.u = source_pos->unk_02.u;
         object_pos->unk_06.u = source_pos->unk_06.u;
         ((volatile S_func_81339A5C_1 *)object_pos)->unk_0A =
-            ((volatile S_func_81339A5C_1 *)source_pos)->unk_0A;
-        source_z = ((volatile S_func_81339A5C_1 *)source_pos)->unk_0A;
-        object_y = ((volatile S_func_81339A5C_1 *)object_pos)->unk_06.u;
-        object_z = ((volatile S_func_81339A5C_1 *)object_pos)->unk_0A;
+            ((S_func_81339A5C_1 *)source_pos)->unk_0A;
+        source_z = ((S_func_81339A5C_1 *)source_pos)->unk_0A;
+        object_y = ((S_func_81339A5C_1 *)object_pos)->unk_06.u;
+        object_z = ((S_func_81339A5C_1 *)object_pos)->unk_0A;
         object_pos->unk_06.u = (u16)(object_y - 0x140);
         object_pos->unk_16 = source_z;
         object_pos->unk_0A = (u16)(object_z - 0x20);

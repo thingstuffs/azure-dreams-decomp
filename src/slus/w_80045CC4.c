@@ -253,7 +253,7 @@ next_entry:
 
             if (any_visible | visible_3) {
                 ((S_80045CC4_0_pre *)quad)[-1].unk_00 = 9;
-                *(volatile u16 *)&sprite->unk14 &= 0x7FFF;
+                *(u16 *)&sprite->unk14 &= 0x7FFF;
 
                 {
                     register s32 uv_end ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */

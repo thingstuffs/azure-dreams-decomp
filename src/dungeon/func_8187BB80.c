@@ -64,7 +64,7 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
             (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
         mid_y = (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
         ((S_8187BB80_0 *)effect_data)->unk_2C.s = mid_y;
-        mid_x = *(volatile u16 *)(effect_data + 0x20);
+        mid_x = *(u16 *)(effect_data + 0x20);
         ((S_8187BB80_0 *)effect_data)->unk_66 = mid_y;
         ((S_8187BB80_0 *)effect_data)->unk_62 = mid_y;
         ((S_8187BB80_0 *)effect_data)->unk_5E = mid_x;
@@ -88,7 +88,7 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
             ((S_8187BB80_0 *)effect_data)->unk_2C.u;
     }
 
-    if (*(volatile s32 *)(effect_data + 0x40) == 0x10000) {
+    if (*(s32 *)(effect_data + 0x40) == 0x10000) {
         u32 start_x = ((S_8187BB80_0 *)effect_data)->unk_1E.u;
         u32 start_y = ((S_8187BB80_0 *)effect_data)->unk_2A.u;
 

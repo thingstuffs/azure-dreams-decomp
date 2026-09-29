@@ -121,7 +121,7 @@ void func_800AAF00(void *actor, s32 effect_param, void *target, u8 *direction_ta
                 }
             }
 
-            slot_flags = (volatile u16 *)((u8 *)object + 0x46);
+            slot_flags = (u16 *)((u8 *)object + 0x46);
             if (!(*slot_flags & 0x4000)) {
                 slot_offset = *slot_flags & 0x3FFF;
                 type_index = slot_offset;

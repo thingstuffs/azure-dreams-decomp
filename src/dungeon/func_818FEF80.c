@@ -9,7 +9,7 @@ typedef struct S_818FEF80_0 {
     u8 pad_00[0x2];
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
     u8 pad_04[0x6];
-    union { s16 s; volatile s16 u; } unk_0A;   /* accessed as both */
+    union { s16 s; s16 u; } unk_0A;   /* accessed as both */
     u8 pad_0C[0x24];
     void * unk_30;
 } S_818FEF80_0;   /* arg0 in func_80024780 */
@@ -26,7 +26,7 @@ typedef struct S_818FEF80_1 {
 
 typedef struct S_818FEF80_2 {
     u8 pad_00[0x8];
-    union { volatile s32 s; s32 u; } unk_08;   /* accessed as both */
+    union { s32 s; s32 u; } unk_08;   /* accessed as both */
 } S_818FEF80_2;   /* arg1 in func_80024780 */
 
 typedef struct S_818FEF80_3 {

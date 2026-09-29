@@ -152,7 +152,7 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
             s32 rotation_z;
             rotation_input = scratch;
             ASM_KEEP_NV(rotation_input);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            screen_x = *(volatile u16 *)(scratch + 0xB8);
+            screen_x = *(u16 *)(scratch + 0xB8);
             rotation_input = (u8 *)((u32)rotation_input | 0x100);
             SP16(scratch, 0xB8) = screen_x - 0xA0;
             SP16(scratch, 0xBA) -= 0x78;
@@ -247,14 +247,14 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
                     scratch + 0xF8, scratch + 0xFC,
                     scratch + 0x90, scratch + 0x94);
 
-                *(volatile u16 *)((u8 *)packet + 0x08) = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
-                *(volatile u16 *)((u8 *)packet + 0x0A) = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);
-                *(volatile u16 *)((u8 *)packet + 0x10) = SP16(scratch, 0xF4) + SP16(scratch, 0xB8);
-                *(volatile u16 *)((u8 *)packet + 0x12) = SP16(scratch, 0xF6) + SP16(scratch, 0xBA);
-                *(volatile u16 *)((u8 *)packet + 0x18) = SP16(scratch, 0xF8) + SP16(scratch, 0xB8);
-                *(volatile u16 *)((u8 *)packet + 0x1A) = SP16(scratch, 0xFA) + SP16(scratch, 0xBA);
+                *(u16 *)((u8 *)packet + 0x08) = SP16(scratch, 0xF0) + SP16(scratch, 0xB8);
+                *(u16 *)((u8 *)packet + 0x0A) = SP16(scratch, 0xF2) + SP16(scratch, 0xBA);
+                *(u16 *)((u8 *)packet + 0x10) = SP16(scratch, 0xF4) + SP16(scratch, 0xB8);
+                *(u16 *)((u8 *)packet + 0x12) = SP16(scratch, 0xF6) + SP16(scratch, 0xBA);
+                *(u16 *)((u8 *)packet + 0x18) = SP16(scratch, 0xF8) + SP16(scratch, 0xB8);
+                *(u16 *)((u8 *)packet + 0x1A) = SP16(scratch, 0xFA) + SP16(scratch, 0xBA);
                 vertex_0_visible = 0;
-                *(volatile u16 *)((u8 *)packet + 0x20) = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
+                *(u16 *)((u8 *)packet + 0x20) = SP16(scratch, 0xFC) + SP16(scratch, 0xB8);
                 coord = SP16(scratch, 0xFE) + SP16(scratch, 0xBA);
                 P16(packet, 0x22) = coord;
 

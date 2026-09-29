@@ -149,7 +149,7 @@ kind_default:
 
 use_kind:
     if (*kind_data != 0) {
-        *(volatile u16 *)((u8 *)actor + 0x98) =
+        *(u16 *)((u8 *)actor + 0x98) =
             ((S_80173280_0 *)actor)->unk_98 & 0xFF7F;
         {
             s32 reuse_target = effect_flags;
@@ -277,7 +277,7 @@ state_3:
     }
     ((S_80173280_0 *)actor)->unk_96.s--;
     if ((s16)((S_80173280_0 *)actor)->unk_96.s <= 0) {
-        *(volatile u16 *)((u8 *)actor + 0x96) = 0;
+        *(u16 *)((u8 *)actor + 0x96) = 0;
         ((S_80173280_3 *)tile_arg)->unk_14 &= 0xF7FF;
     }
     if (!(((S_80173280_3 *)tile_arg)->unk_14 & 0xE000)) {

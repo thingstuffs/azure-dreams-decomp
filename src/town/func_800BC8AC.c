@@ -245,8 +245,8 @@ void func_800BA00C(void *parent, void *position_data)
         do {
             entity = obj + 0x20;
         } while (0);
-        (*(void * volatile *)((u8 *)entity + 0x9C)) = parent;
-        (*(volatile s32 *)((u8 *)entity + 0x98)) = parent_value;
+        (*(void * *)((u8 *)entity + 0x9C)) = parent;
+        (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         extra_page = 0x80100000;
         ASM_KEEP_NV(extra_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;

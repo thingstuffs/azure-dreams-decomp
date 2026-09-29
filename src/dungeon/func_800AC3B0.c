@@ -32,8 +32,8 @@ typedef struct S_800B1B10_2 {
     u8 pad_0E[0x2];
     s32 unk_10;
     s32 unk_14;
-    union { s32 n; volatile s32 v; } unk_18;   /* accessed as both */
-    union { s32 n; volatile s32 v; } unk_1C;   /* accessed as both */
+    union { s32 n; s32 v; } unk_18;   /* accessed as both */
+    union { s32 n; s32 v; } unk_1C;   /* accessed as both */
     u8 pad_20[0x2];
     s16 unk_22;
     s16 unk_24;
@@ -66,8 +66,8 @@ typedef struct S_800B1B10_5 {
     s8 unk_0A;
     s8 unk_0B;
     s32 unk_0C;
-    volatile s32 unk_10;
-    volatile s32 unk_14;
+    s32 unk_10;
+    s32 unk_14;
 } S_800B1B10_5;   /* (void *) b_held in func_800B1B10 */
 
 typedef struct S_800B1B10_6 {

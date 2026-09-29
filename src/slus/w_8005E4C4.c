@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern volatile u16 D_80086BD0[];
-extern volatile u16 *D_80079958;
+extern u16 D_80086BD0[];
+extern u16 *D_80079958;
 extern s32 D_80079950;
 extern volatile s32 D_8007951C;
 
@@ -37,7 +37,7 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
             words[high_index] |= (value >> 16) & 0xFF;
             D_8007951C |= dirty_bit << ((low_index - 0xC6) >> 1);
         } else {
-            volatile u16 *words = D_80079958;
+            u16 *words = D_80079958;
             words[low_index] |= value;
             words[high_index] |= (value >> 16) & 0xFF;
         }
@@ -51,7 +51,7 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
             words[high_index] &= ~((value >> 16) & 0xFF);
             D_8007951C |= dirty_bit << ((low_index - 0xC6) >> 1);
         } else {
-            volatile u16 *words = D_80079958;
+            u16 *words = D_80079958;
             words[low_index] &= ~value;
             words[high_index] &= ~((value >> 16) & 0xFF);
         }
@@ -65,7 +65,7 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
             words[high_index] = (value >> 16) & 0xFF;
             D_8007951C |= dirty_bit << ((low_index - 0xC6) >> 1);
         } else {
-            volatile u16 *words = D_80079958;
+            u16 *words = D_80079958;
             words[low_index] = value;
             words[high_index] = (value >> 16) & 0xFF;
         }

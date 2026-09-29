@@ -10,7 +10,7 @@ typedef struct S_800253C0_0 {
     u8 pad_90[0x6];
     union { volatile s16 v; s16 n; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x10];
     void * unk_AC;
     void * unk_B0;
@@ -192,7 +192,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
             return;
         }
         {
-            void *sound_data = *(void *volatile *)&D_8006CD58[0];
+            void *sound_data = *(void **)&D_8006CD58[0];
             func_8003F540(0, sound_data, 0, 0x1000530);
         }
         {

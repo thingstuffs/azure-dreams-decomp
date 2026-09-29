@@ -243,8 +243,8 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
                             prim += 40;
                             func_800649A0();
-                            shadow_scale.vz = (s32)(s16)(*(volatile u16 *)(scratch + 4)) - 4;
-                            shadow_scale.vz = ((shadow_scale.vz - (s32)(s16)(*(volatile u16 *)(scratch + 4))) << 5) + 0x1000;
+                            shadow_scale.vz = (s32)(s16)(*(u16 *)(scratch + 4)) - 4;
+                            shadow_scale.vz = ((shadow_scale.vz - (s32)(s16)(*(u16 *)(scratch + 4))) << 5) + 0x1000;
                             if (shadow_scale.vz < 0) {
                                 shadow_scale.vz = 0;
                             }

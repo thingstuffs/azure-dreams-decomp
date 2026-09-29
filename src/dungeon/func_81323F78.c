@@ -77,42 +77,34 @@ void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 
     u8 *tile_table;
     u8 *tile_entry;
     u8 *active_actor;
-    if (!(dungeonStatus.flags & 0x1000)) {
-        goto block_3;
-    }
-    actor->unk_9A.as_u8 = 0xEU;
-    func_8016BD14(actor, context, map_actor, entity);
-    return;
-block_3:
-    if (!(entity->flags1C & 0x200)) {
-        goto block_8;
-    }
-    if (map_actor->unk_2C.p != D_801746A4) {
-        goto block_7;
-    }
-    flag_mask_hi = (s32)0xFFFB0000;
-    actor->unk_9A.as_u8 = 0xDU;
-    actor->unk_9B.as_s8 = 1;
-    actor->unk_8C = 0;
-    entity->flags1C &= flag_mask_hi | 0xFFFF;
-    return;
-block_7:
-    if (func_800AA924(actor, context, map_actor, &D_8017469C) != 0) {
+    if (dungeonStatus.flags & 0x1000) {
+        actor->unk_9A.as_u8 = 0xEU;
+        func_8016BD14(actor, context, map_actor, entity);
         return;
     }
-block_8:
+    if (entity->flags1C & 0x200) {
+        if (map_actor->unk_2C.p == D_801746A4) {
+            flag_mask_hi = (s32)0xFFFB0000;
+            actor->unk_9A.as_u8 = 0xDU;
+            actor->unk_9B.as_s8 = 1;
+            actor->unk_8C = 0;
+            entity->flags1C &= flag_mask_hi | 0xFFFF;
+            return;
+        }
+        if (func_800AA924(actor, context, map_actor, &D_8017469C) != 0) {
+            return;
+        }
+    }
     if (dungeonStatus.flags & 0x2000) {
         goto block_33;
     }
     state_flags = entity->flags1C;
     override_flag = state_flags & 0x100;
     action_actor = actor;
-    if (!override_flag) {
-        goto block_12;
+    if (override_flag) {
+        func_800AA258(action_actor, context, map_actor, entity);
+        return;
     }
-    func_800AA258(action_actor, context, map_actor, entity);
-    return;
-block_12:
     if (actor->unk_9A.as_u8 != 0xE) {
         if (actor->unk_B3 == 0) {
             current_anim = map_actor->unk_2C.p2;
@@ -130,43 +122,35 @@ block_12:
         actor->unk_9A.as_u8 = 0xEU;
     }
     actor->unk_98 = (u16) (actor->unk_98 & 0xFFF3);
-    if (actor->unk_B4 != 0) {
-        goto block_25;
+    if (actor->unk_B4 == 0) {
+        if (!((u16) *((s16 *)&D_80013714) & 8)) {
+            if (entity->unk_64 == 0) {
+                goto block_28;
+            }
+            if (func_800AA6B4(actor, context, map_actor, D_801746C4) == 0) {
+                goto block_28;
+            }
+            return;
+        }
     }
-    if ((u16) *((s16 *)&D_80013714) & 8) {
-        goto block_25;
+    if (entity->unk_64 != 0) {
+        if (((s32)dungeonStatus.unk_10) == ((u8 *)entity - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
     }
-    if (entity->unk_64 == 0) {
-        goto block_28;
-    }
-    if (func_800AA6B4(actor, context, map_actor, D_801746C4) == 0) {
-        goto block_28;
-    }
-    return;
-block_25:
-    if (entity->unk_64 == 0) {
-        goto block_28;
-    }
-    if (((s32)dungeonStatus.unk_10) != ((u8 *)entity - 0x20)) {
-        goto block_28;
-    }
-    *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
 block_28:
-    if (!(entity->flags1C & 0x80000)) {
-        goto block_31;
+    if (entity->flags1C & 0x80000) {
+        func_800AA888(actor, context, map_actor, entity);
+        func_8016DAA4(actor, context, map_actor, entity);
+        map_actor->unk_2C.p = D_8017467C;
+        func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
+        actor->unk_90.at00_s32.v = 0;
+        return;
     }
-    func_800AA888(actor, context, map_actor, entity);
-    func_8016DAA4(actor, context, map_actor, entity);
-    map_actor->unk_2C.p = D_8017467C;
-    func_80047784(map_actor, D_8017467C[((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0);
-    actor->unk_90.at00_s32.v = 0;
-    return;
-block_31:
-    if ((func_800A1C58(entity) << 0x10) == 0) {
-        goto block_33;
+    if ((func_800A1C58(entity) << 0x10) != 0) {
+        entity->unk_18 = 0;
+        dungeonStatus.unk_0C = 0;
     }
-    entity->unk_18 = 0;
-    dungeonStatus.unk_0C = 0;
 block_33:
     tile_index = func_8009FB34(map_actor->unk_24.at00.v, map_actor->unk_24.at01.v);
     map_actor->unk_26 = tile_index;
@@ -179,34 +163,28 @@ block_33:
     if (map_actor->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
         goto block_56;
     }
-    if (entity->unk_46 & 0x8000) {
-        goto block_44;
+    if (!(entity->unk_46 & 0x8000)) {
+        if (dungeonStatus.flags & 0x2000) {
+            if ((func_8009A180(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+                return;
+            }
+        }
+        if ((u16) *((s16 *)&D_80013714) & 8) {
+            func_8016EF10(actor, context, map_actor);
+            entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+            func_800A9A0C(entity);
+            entity->unk_46 &= 0x7FFF;
+            return;
+        }
+        if ((func_8016C98C(actor, context, map_actor, 0) << 0x10) == 0) {
+            return;
+        }
+        action_flags = entity->unk_46 | 0x4000;
+        entity->unk_46 = action_flags;
+        if (!(action_flags & 0x8000)) {
+            goto block_56;
+        }
     }
-    if (!(dungeonStatus.flags & 0x2000)) {
-        goto block_39;
-    }
-    if ((func_8009A180(entity, ((S_8016B778_3 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
-        return;
-    }
-block_39:
-    if (!((u16) *((s16 *)&D_80013714) & 8)) {
-        goto block_42;
-    }
-    func_8016EF10(actor, context, map_actor);
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
-    func_800A9A0C(entity);
-    entity->unk_46 &= 0x7FFF;
-    return;
-block_42:
-    if ((func_8016C98C(actor, context, map_actor, 0) << 0x10) == 0) {
-        return;
-    }
-    action_flags = entity->unk_46 | 0x4000;
-    entity->unk_46 = action_flags;
-    if (!(action_flags & 0x8000)) {
-        goto block_56;
-    }
-block_44:
     action_id = entity->unk_46 & 0x3FFF;
     switch (action_id) {
     case 8:
@@ -254,15 +232,13 @@ block_58:
     if (*(u16 *)0x80013714 & 8) {
         return;
     }
-    if (tile_index < 0) {
-        goto block_62;
+    if (tile_index >= 0) {
+        tile_table = D_800E2970;
+        tile_entry = (tile_index * 0x14) + tile_table;
+        if (((S_8016B778_5 *)tile_entry)->unk_0C & 2) {
+            return;
+        }
     }
-    tile_table = D_800E2970;
-    tile_entry = (tile_index * 0x14) + tile_table;
-    if (((S_8016B778_5 *)tile_entry)->unk_0C & 2) {
-        return;
-    }
-block_62:
     if (entity_flags & 0x430) {
         return;
     }

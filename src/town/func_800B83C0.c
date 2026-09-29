@@ -31,7 +31,7 @@ void func_800B5B20(void *texture_state) {
         func_80067014(0);
         slot_table = D_80083D78;
         table_index = (*(s16 *)((u8 *)state + 8));
-        texture = (*(void * volatile *)((u8 *)state + 0x14));
+        texture = (*(void * *)((u8 *)state + 0x14));
         (*(s32 *)((u8 *)state + 0xD0)) = 0;
         (*(s32 *)((u8 *)state + 0xD4)) = 0;
         slot_table[table_index * 2] = (*(u16 *)((u8 *)state + 0xA));
@@ -43,7 +43,7 @@ void func_800B5B20(void *texture_state) {
         rect_height = (s16) ((S_800B5B20_0 *)texture)->unk_0B;
         func_800672D8(&rect_x, (*(s32 *)((u8 *)state + 0xE0)));
         if ((*(s16 *)((u8 *)state + 8)) != 0) {
-            volatile s16 *palette_rect = &rect_x;
+            s16 *palette_rect = &rect_x;
             u16 palette_y;
             s32 palette_offset;
             s32 data_base;

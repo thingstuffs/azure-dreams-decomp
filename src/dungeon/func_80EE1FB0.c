@@ -107,11 +107,9 @@ void func_801737B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
         goto kind_ready;
     }
     action_data = 0;
-    if (action_kind == 3) {
-        goto kind_3;
+    if (action_kind != 3) {
+        goto kind_ready;
     }
-    goto kind_ready;
-
 kind_3:
     action_data = (u8 *)actor + 0xE;
     goto kind_ready;

@@ -47,10 +47,10 @@ typedef struct S_818C2FAC_1 {
 typedef struct S_818C2FAC_2 {
     u8 pad_00[0xC];
     volatile u8 unk_0C;
-    volatile u8 unk_0D;
-    volatile u8 unk_0E;
+    u8 unk_0D;
+    u8 unk_0E;
     u8 pad_0F[0x1];
-    volatile u16 unk_10;
+    u16 unk_10;
     s16 unk_12;
     volatile u16 unk_14;
     u8 pad_16[0x4];

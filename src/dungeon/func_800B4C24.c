@@ -4,7 +4,7 @@ extern void func_800BA414(void *arg0, s32 arg1, void *arg2, s16 arg3);
 
 /* Initialize scratchpad quad coordinates and process each linked node. */
 s32 func_800BA384(void *node_payload, s32 node_value, u8 *node_data) {
-    volatile s16 *scratch = (volatile s16 *)0x1F800000;
+    s16 *scratch = (s16 *)0x1F800000;
     register u8 *next_ptr;
     s32 next_value;
     s32 result;

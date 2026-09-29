@@ -21,7 +21,7 @@ typedef struct {
 } S_8191696C_state;
 
 extern void D_80024024(void);
-extern volatile s8 D_800E3D20[];
+extern s8 D_800E3D20[];
 
 
 /* Initializes a dispatch request and reports changes to its identifier and prior mode. */

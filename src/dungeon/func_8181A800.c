@@ -37,7 +37,7 @@ static void BODY_NAME(void *record_data, void *unused, void *update_data)
 /* Decrement the record counter, process update data, and flag depletion. */
 static void BODY_NAME(void *record_data, void *unused, void *update_data) {
     s16 remaining;
-    volatile s16 *update_flag;
+    s16 *update_flag;
 
     update_flag = D_80025914;
     remaining = (s16)((S_8181A800_0 *)((u8 *)record_data - 0x2))->unk_04 - 1;

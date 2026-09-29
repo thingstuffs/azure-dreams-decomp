@@ -55,11 +55,11 @@ typedef struct S_80172790_3 {
     u8 pad_12[0x2];
     s16 unk_14;
     s16 unk_16;
-    volatile u16 unk_18;
+    u16 unk_18;
     u8 pad_1A[0x2E];
-    volatile s16 unk_48;
+    s16 unk_48;
     u8 pad_4A[0x2];
-    volatile s16 unk_4C;
+    s16 unk_4C;
 } S_80172790_3;   /* part in func_80172790 */
 
 typedef struct S_80172790_4 {

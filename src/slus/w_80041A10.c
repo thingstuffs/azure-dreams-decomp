@@ -23,8 +23,8 @@ typedef struct OrderingTable {
 } OrderingTable;
 
 extern State16 D_80082E60;
-extern volatile State12 D_8008148C;
-extern volatile State12 D_80081480;
+extern State12 D_8008148C;
+extern State12 D_80081480;
 extern FrameData D_801C9E40;
 extern OrderingTable D_801DA784;
 

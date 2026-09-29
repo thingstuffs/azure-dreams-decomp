@@ -13,7 +13,7 @@ typedef struct S_80024078_2_pre {
 
 typedef struct S_80024078_3 {
     u8 pad_00[0xA];
-    volatile s16 unk_0A;
+    s16 unk_0A;
 } S_80024078_3;   /* arg0 in func_80024078 */
 
 typedef struct S_80024078_4 {

@@ -43,17 +43,14 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
     kind = compare_kind;
 
     if (entry[1] != 0) {
-        if ((entry[1] & 7) != compare_kind) {
-            goto clear_entry;
+        if ((entry[1] & 7) == compare_kind) {
+            shifted_action = (s16)action_code;
+            if (((*(volatile u8 *)(entry + 1)) & 0xF8) == shifted_action) {
+                if (entry[0] < 0x7F) {
+                    goto entry_valid;
+                }
+            }
         }
-        shifted_action = (s16)action_code;
-        if (((*(volatile u8 *)(entry + 1)) & 0xF8) != shifted_action) {
-            goto clear_entry;
-        }
-        if (entry[0] < 0x7F) {
-            goto entry_valid;
-        }
-clear_entry:
         state->position++;
         entry += 2;
         entry[1] = 0;

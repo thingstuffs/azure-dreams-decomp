@@ -30,7 +30,7 @@ void func_800B1890(void *object) {
         state->unk_08.s = current_bits + adjustment;
     } else {
         state->unk_08.u = (*(u16 *)((u8 *)object + 4));
-        (*(volatile Callback *)((u8 *)object + -0x10)) = func_800B180C;
+        (*(Callback *)((u8 *)object + -0x10)) = func_800B180C;
     }
 
     func_800B180C(object, current_value);

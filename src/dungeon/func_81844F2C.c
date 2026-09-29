@@ -7,12 +7,12 @@ typedef struct S_81844F2C_0_pre {
 typedef struct S_81844F2C_0 {
     void * unk_00;
     u16 unk_04;
-    union { u16 s; volatile u16 u; } unk_06;   /* accessed as both */
+    union { u16 s; u16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x4];
     u16 unk_0C;
     u16 unk_0E;
     u8 pad_10[0x1A];
-    union { u16 s; volatile u16 u; s16 p; } unk_2A;   /* accessed as both */
+    union { u16 s; u16 u; s16 p; } unk_2A;   /* accessed as both */
     union { volatile u16 s; s16 u; u16 p; } unk_2C;   /* accessed as both */
 } S_81844F2C_0;   /* base in func_8002472C */
 
@@ -33,7 +33,7 @@ typedef struct S_81844F2C_3 {
 
 typedef struct S_81844F2C_4 {
     u8 pad_00[0x14A0];
-    volatile u32 unk_14A0;
+    u32 unk_14A0;
 } S_81844F2C_4;   /* page in func_8002472C */
 
 

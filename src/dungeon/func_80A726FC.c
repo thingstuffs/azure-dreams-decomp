@@ -11,7 +11,7 @@ void func_80171EFC(void *effect, s32 *position, void *sprite, void *source)
     s32 direction;
     s16 *direction_x;
 
-    direction = (*(volatile u16 *)((s8 *)source + 0x2A) >> 9) & 7;
+    direction = (*(u16 *)((s8 *)source + 0x2A) >> 9) & 7;
     *((s8 *)effect + 0x9A) = 0x10;
     *((s8 *)effect + 0x9B) = 0;
     *(u8 **)((s8 *)sprite + 0x2C) = D_80174158;

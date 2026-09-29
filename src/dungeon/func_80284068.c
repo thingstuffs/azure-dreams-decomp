@@ -91,13 +91,13 @@ void func_80017068(void)
   }
   slot_index = 19;
   {
-    volatile u8 *index_ptr = (volatile u8 *) 0x80010013;
+    volatile u8 *index_ptr = (u8 *) 0x80010013;
     u8 *copy_table_base = D_800E3DF0;
     Entry **copy_table_slot = (Entry **) (copy_table_base + 0x4C);
     u8 *ram_page = (u8 *) 0x800E0000;
     u8 *copy_entries_base = ram_page + entry_page_offset;
     Entry *copy_entry = (Entry *) (copy_entries_base + 0xA64);
-    volatile u8 *copy_dest;
+    u8 *copy_dest;
     CursorPtr word_cursor;
     copy_dest = (u8 *) 0x80010A64;
     word_cursor.raw = (u8 *) 0x80010050;

@@ -57,7 +57,6 @@ void func_800AB7FC(void) {
     S_800AB7FC_0 *view_state;
     GameWork *render_data;
     s32 screen_distance;
-    void *light_matrix;
     S_800AB7FC_1 *scene_state;
     s32 light_coeff_a;
     s32 light_coeff_b;
@@ -81,10 +80,8 @@ void func_800AB7FC(void) {
     view_state->unk_62 = 0;
     view_state->unk_68 = 0;
     func_80064D50((u8 *)render_data + 0x70);
-    light_matrix = (u8 *)render_data + 0x50;
-    do {
-        light_coeff_b = -0x800;
-    } while (0);
+    scene_state = (u8 *)render_data + 0x50;
+    light_coeff_b = -0x800;
     light_coeff_a = 0x800;
     ASM_KEEP(light_coeff_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     view_state->unk_38 = light_coeff_b;
@@ -98,7 +95,7 @@ void func_800AB7FC(void) {
     view_state->unk_44 = 0;
     view_state->unk_46 = 0;
     view_state->unk_48 = 0;
-    func_80064D20(light_matrix);
+    func_80064D20(scene_state);
     view_state->unk_84 = 0x1000;
     func_80064624(0x1000, view_state->unk_88);
     scene_state = &D_8006ADBC;

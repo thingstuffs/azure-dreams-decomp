@@ -34,7 +34,7 @@ typedef struct S_800D1E34_2 {
     u8 pad_94[0x4];
     union { u16 n; volatile u16 v; } unk_98;   /* accessed as both */
     u8 pad_9A[0x3];
-    union { u8 n; s8 n2; volatile u8 v; } unk_9D;   /* accessed as both */
+    union { u8 n; s8 n2; u8 v; } unk_9D;   /* accessed as both */
 } S_800D1E34_2;   /* obj in func_800D1E34 */
 
 /* Run entity callbacks, advance movement, and resolve floor contact. */

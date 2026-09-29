@@ -5,7 +5,7 @@
 #include "records/Rec_D_80082E80.h"
 
 typedef struct S_80174CCC_0_pre {
-    union { volatile u16 s; u16 u; } unk_00;   /* accessed as both */
+    union { u16 s; u16 u; } unk_00;   /* accessed as both */
 } S_80174CCC_0_pre;   /* the 0x2 bytes before arg0 in func_80174CCC, addressed as arg0[-1] */
 
 typedef struct S_80174CCC_0 {
@@ -19,7 +19,7 @@ typedef struct S_80174CCC_0 {
     s16 unk_32;
     s16 unk_34;
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
-    union { volatile u16 s; u16 u; } unk_38;   /* accessed as both */
+    union { u16 s; u16 u; } unk_38;   /* accessed as both */
     u16 unk_3A;
 } S_80174CCC_0;   /* arg0 in func_80174CCC */
 

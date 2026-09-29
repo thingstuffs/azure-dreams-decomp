@@ -170,10 +170,10 @@ state2:
     }
     effect->unk_10.s = 0;
     *(u16 *)((u8 *)effect - 2) = (u16)(*(u16 *)((u8 *)effect - 2) | 0x8000);
-    final_state = *(volatile u16 *)((u8 *)effect + 0xE);
+    final_state = *(u16 *)((u8 *)effect + 0xE);
     {
         s32 global_flags = objectFlagBlock.flags;
-        *(volatile u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
+        *(u16 *)((u8 *)effect + 0xE) = (u16)(final_state + 1);
         objectFlagBlock.flags = global_flags | 0x8000;
     }
 }

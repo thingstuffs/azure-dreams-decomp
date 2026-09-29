@@ -18,7 +18,7 @@ typedef struct S_80051548_Obj
 typedef struct S_80051548_VolState
 {
   S_80051548_Ptr *ptr0;
-  volatile u16 state;
+  u16 state;
   u16 field6;
   u8 unk08[4];
   s16 field0C;

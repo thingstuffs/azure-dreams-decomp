@@ -63,7 +63,7 @@ extern s32 func_800C7F68();
     } while (0)
 
 /* Selects a creature's next action and target from its behavior, species, and nearby tiles. */
-s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limit, u16 upper_limit, volatile s32 status_out_addr)
+s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limit, u16 upper_limit, s32 status_out_addr)
 {
     register u8 *position ASM_REG("$23");
     register u8 *creature ASM_REG("$21");

@@ -29,7 +29,7 @@ typedef struct S_80173510_0 {
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u16 unk_98;
     u8 pad_9A[0x1];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x14];
     u8 unk_B0;
 } S_80173510_0;   /* arg0 in func_80173510 */

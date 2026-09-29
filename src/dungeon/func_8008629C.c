@@ -159,37 +159,34 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
         }
         func_8009F644(actor, 8, 0, 0);
         update_mask = 0x40000000;
-        goto update_step;
-    }
-
-    if (move_result < 0) {
-        if ((D_80013714 & 1) ||
-            (blocked_ticks = move_state->unk_96 + 1,
-             move_state->unk_96 = blocked_ticks,
-             (s16)blocked_ticks >= 0x15)) {
-            func_8008CD4C(move_state, actor_id, sprite, actor, (s32)move_result);
-            if (move_state->unk_9B >= 0x10) {
-                actor->flags1C |= 0x40000000;
-                return;
+    } else {
+        if (move_result < 0) {
+            if ((D_80013714 & 1) ||
+                (blocked_ticks = move_state->unk_96 + 1,
+                 move_state->unk_96 = blocked_ticks,
+                 (s16)blocked_ticks >= 0x15)) {
+                func_8008CD4C(move_state, actor_id, sprite, actor, (s32)move_result);
+                if (move_state->unk_9B >= 0x10) {
+                    actor->flags1C |= 0x40000000;
+                    return;
+                }
             }
+            return;
         }
+
+        {
+            register void *idle_sprite;
+            idle_sprite = sprite;
+            ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
+            func_80048A44(
+                idle_sprite,
+                D_800DCFB0[((s32)(dungeon_state->view.viewAngle +
+                                  actor->facing + 0x100) >> 9) & 7],
+                0, 1);
+        }
+        move_state->unk_8C.u = D_8008ACDC;
         return;
     }
-
-    {
-        register void *idle_sprite;
-        idle_sprite = sprite;
-        ((S_8008B9FC_5 *)idle_sprite)->unk_2C = D_800DCFB0;
-        func_80048A44(
-            idle_sprite,
-            D_800DCFB0[((s32)(dungeon_state->view.viewAngle +
-                              actor->facing + 0x100) >> 9) & 7],
-            0, 1);
-    }
-    move_state->unk_8C.u = D_8008ACDC;
-    return;
-
-update_step:
     actor_flags = actor->flags1C | update_mask;
     actor->flags1C = actor_flags;
     flags_2 = D_80083460;
@@ -210,7 +207,7 @@ update_step:
             ((S_8008B9FC_6 *)turn_sprite)->unk_2C = D_800DCFC0;
             func_80048A44(
                 turn_sprite,
-                *(volatile u8 *)(D_800DCFC0 +
+                *(u8 *)(D_800DCFC0 +
                     (((s32)(((S_8008B9FC_7_pre *)D_80083464)[-1].unk_00 +
                               actor->facing + 0x100) >> 9) & 7)),
                 0, 1);

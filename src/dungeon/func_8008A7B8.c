@@ -46,14 +46,11 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
         }
     }
     *(s32 *)((u8 *)motion + 0x14) = vertical_speed;
-    if (!(*(s32 *)((u8 *)actor + 0x1C) & 0x100000)) {
-        goto block_9;
+    if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
+        anim_table = D_800DD0C8;
+    } else {
+        anim_table = D_800DD040;
     }
-    anim_table = D_800DD0C8;
-    goto block_10;
-block_9:
-    anim_table = D_800DD040;
-block_10:
     *(u8 **)((u8 *)sprite + 0x2C) = anim_table;
     func_80099F70(*(s32 *)((u8 *)actor + 0x5C));
     func_80099F04(*(s32 *)((u8 *)actor + 0x5C));
@@ -85,15 +82,13 @@ block_10:
     *(s32 *)((u8 *)motion + 0x10) = 0;
     *(s32 *)((u8 *)motion + 0xC) = 0;
     func_800A2B04(motion, *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
-    if (!(*(s32 *)((u8 *)actor + 0x1C) & 0x100000)) {
-        goto block_17;
+    if (*(s32 *)((u8 *)actor + 0x1C) & 0x100000) {
+        if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+            return;
+        }
+        next_handler = (u8 *)&D_8008EAC8;
+        goto block_24;
     }
-    if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
-        return;
-    }
-    next_handler = (u8 *)&D_8008EAC8;
-    goto block_24;
-block_17:
     if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
         goto block_22;
     }

@@ -19,6 +19,6 @@ extern D_80079958_t D_80079958;
 /* Packs one table entry into the low halfword and another entry's low byte into bits 16-23. */
 s32 func_8005E7B0(s32 low_index, s32 high_index)
 {
-    volatile u16 *table = (volatile u16 *)D_80079958.ptr;
+    volatile u16 *table = (u16 *)D_80079958.ptr;
     return ((table[high_index] & 0xFF) << 16) | table[low_index];
 }

@@ -91,7 +91,7 @@ s32 func_80024134(s32 stored_value, void *input, s16 stored_tag) {
         func_8004491C(object, func_80045340);
         input_copy = ((S_80024134_0 *)object)->unk_08;
         *(Input6 *)input_copy = *(Input6 *)input;
-        random_or_w2 = *(volatile s32 *)((s8 *)input_copy + 8);
+        random_or_w2 = *(s32 *)((s8 *)input_copy + 8);
         state->copy = random_or_w2;
         return (s32)object;
     }

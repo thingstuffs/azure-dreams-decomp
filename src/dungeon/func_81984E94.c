@@ -21,7 +21,7 @@ typedef struct {
 } S_8191696C_state;
 
 extern void D_8002654C(void);
-extern volatile s8 D_800E3D20[];
+extern s8 D_800E3D20[];
 
 
 /* Reset shared state to mode 13 and report changes to its key and prior mode. */

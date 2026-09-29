@@ -46,7 +46,7 @@ void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
             s32 current_y;
 
             current_y = pos->y;
-            *(volatile s32 *)&pos->y = current_y +
+            *(s32 *)&pos->y = current_y +
                 ((work->target_y << 16) - current_y) / (s16)work->count;
         }
     }
@@ -54,7 +54,7 @@ void func_800C3FFC(void *work_data, void *position_data, s32 completion_arg) {
     {
         u16 angle;
 
-        angle = *(volatile u16 *)&pos->angle;
+        angle = *(u16 *)&pos->angle;
         pos->angle = angle - 0x40;
     }
     pos->angle = func_800C2B38(pos);

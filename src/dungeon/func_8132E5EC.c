@@ -50,7 +50,7 @@ void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offs
 
             position = obj->position;
             *(s32 *)((u8 *)position + 0) = *(s32 *)((u8 *)source_position + 0);
-            *(volatile s32 *)((u8 *)position + 4) = *(s32 *)((u8 *)source_position + 4);
+            *(s32 *)((u8 *)position + 4) = *(s32 *)((u8 *)source_position + 4);
             x = *(u16 *)((u8 *)position + 2);
             z_fixed = *(s32 *)((u8 *)source_position + 8);
             *(u16 *)((u8 *)position + 2) = (u16)(x + x_offset);

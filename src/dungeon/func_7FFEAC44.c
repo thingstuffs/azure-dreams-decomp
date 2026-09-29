@@ -98,7 +98,7 @@ void func_7FFEAC44(S_7FFEAC44_3 *source, s32 color) {
         sprite->unk_0C.at02.v = 0x80;
         sprite->unk_0C.at01.v = 0x80;
         sprite->unk_0C.at00.v = 0x80;
-        saved_color = *(volatile s32 *)&color;
+        saved_color = *(s32 *)&color;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_0C.at00u.v = saved_color;

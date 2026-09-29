@@ -99,44 +99,32 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             ((S_80158854_0 *)work)->unk_14 = left;
             ((S_80158854_0 *)work)->unk_1C = right;
             part_b->unk_2C = D_8015C510;
-            goto common_tail;
+        } else {
+            if (kind >= 2) {
+                ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+                left = ((S_80158854_0 *)work)->unk_14 | 0x2000;
+                right = ((S_80158854_0 *)work)->unk_1C | 0x2000;
+                ((S_80158854_0 *)work)->unk_14 = left;
+                ((S_80158854_0 *)work)->unk_1C = right;
+                part_b->unk_2C = D_8015C510;
+            } else {
+                if (((arg0 & ~3) << 16) == 0) {
+                    if (!(((S_80158854_0 *)work)->unk_14 & 0x200)) {
+                        if (func_800A6D30() & 1) {
+                            func_800A48F0(work, 1,
+                                          (func_800A6D30() & 0x3F) | 0x20);
+                            part_b->unk_2C = D_8015C538;
+                        }
+                    }
+                    ;
+                    ((S_80158854_4 *)actor)->unk_8C = D_80158E5C;
+                } else {
+                    ;
+                    ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+                }
+                part_b->unk_2C = D_8015C510;
+            }
         }
-        if (kind >= 2) {
-            ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
-            left = ((S_80158854_0 *)work)->unk_14 | 0x2000;
-            right = ((S_80158854_0 *)work)->unk_1C | 0x2000;
-            ((S_80158854_0 *)work)->unk_14 = left;
-            ((S_80158854_0 *)work)->unk_1C = right;
-            part_b->unk_2C = D_8015C510;
-            goto common_tail;
-        }
-
-        if (((arg0 & ~3) << 16) != 0) {
-                goto set_work_callback_done;
-        }
-        if (((S_80158854_0 *)work)->unk_14 & 0x200) {
-                goto set_actor_callback_done;
-        }
-        if (!(func_800A6D30() & 1)) {
-                goto set_actor_callback_done;
-        }
-        func_800A48F0(work, 1,
-                      (func_800A6D30() & 0x3F) | 0x20);
-        part_b->unk_2C = D_8015C538;
-
-        set_actor_callback_done:
-        ;
-        ((S_80158854_4 *)actor)->unk_8C = D_80158E5C;
-        goto normal_done;
-
-        set_work_callback_done:
-        ;
-        ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
-
-normal_done:
-        part_b->unk_2C = D_8015C510;
-
-common_tail:
         ((S_80158854_1 *)obj)->unk_10 = D_80158A58;
         func_800A9C18(obj, part_a, part_b, (s16)final_arg0);
         ((S_80158854_4 *)actor)->unk_9A = 0xFF;

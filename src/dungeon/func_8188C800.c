@@ -416,7 +416,7 @@ case_1:
         velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
         adjusted = velocity;
         ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        (*(volatile s32 *)((u8 *)motion + 0)) += velocity;
+        (*(s32 *)((u8 *)motion + 0)) += velocity;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         adjusted += adjusted >> 4;
         magnitude = adjusted;
@@ -441,7 +441,7 @@ case_1:
         velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
         adjusted = velocity;
         ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        (*(volatile s32 *)((u8 *)motion + 4)) += velocity;
+        (*(s32 *)((u8 *)motion + 4)) += velocity;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         adjusted += adjusted >> 4;
         magnitude = adjusted;

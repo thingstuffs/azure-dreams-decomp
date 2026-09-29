@@ -75,7 +75,7 @@ void func_80024B20(void *effect) {
     {
         volatile u16 *segment;
         segment_index = 7;
-        segment = (volatile u16 *)((u8 *)effect + 0x2A);
+        segment = (u16 *)((u8 *)effect + 0x2A);
         do {
             segment_index--;
             segment[9] = segment[9] + segment[10];

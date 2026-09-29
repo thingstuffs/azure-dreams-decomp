@@ -97,9 +97,9 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
 
 Lsecond_0:
     rect = (s16 *)D_80111FA8;
-    *(volatile s16 *)D_80111FA8 = 0x330;
-    ((volatile s16 *)rect)[1] = 0x80;
-    ((volatile s16 *)rect)[2] = 8;
+    *(s16 *)D_80111FA8 = 0x330;
+    ((s16 *)rect)[1] = 0x80;
+    ((s16 *)rect)[2] = 8;
     rect[3] = 0x20;
     func_800672D8(rect, D_801116C8);
     goto Lafter_second;

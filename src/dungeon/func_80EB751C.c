@@ -30,8 +30,8 @@ typedef struct S_80172D1C_2 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     u16 unk_0A;
-    union { s32 s; volatile s32 u; } unk_0C;   /* accessed as both */
-    union { s32 s; volatile s32 u; } unk_10;   /* accessed as both */
+    union { s32 s; s32 u; } unk_0C;   /* accessed as both */
+    union { s32 s; s32 u; } unk_10;   /* accessed as both */
     s32 unk_14;
 } S_80172D1C_2;   /* arg1 in func_80172D1C */
 

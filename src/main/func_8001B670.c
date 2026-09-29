@@ -19,7 +19,7 @@ static __inline__ void call_second(s32 value, s32 row_value, s32 mode)
 
 static __inline__ void store_second_coord(s32 *record, void *object, s32 row)
 {
-    *(volatile s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
+    *(s16 *)((u8 *)*(void **)((u8 *)record + 4) + 0xA) =
         (s16)((row * 0x11) - (*(s32 *)((u8 *)object + 0x1C) / 2) + 0x7A);
 }
 

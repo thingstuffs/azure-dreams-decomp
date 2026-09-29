@@ -32,7 +32,7 @@ typedef struct S_800262AC_2 {
     s16 unk_14;
     u8 pad_16[0x6];
     u16 unk_1C;
-    union { u16 s; volatile u16 u; } unk_1E;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1E;   /* accessed as both */
 } S_800262AC_2;   /* render in func_800262AC */
 
 typedef struct S_800262AC_3 {

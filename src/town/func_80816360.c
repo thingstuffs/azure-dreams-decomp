@@ -38,15 +38,12 @@ void func_80020360(void *object)
 
     state = ((S_80020360_0 *)object)->unk_00.s;
     status_data = ((S_80020360_0 *)object)->unk_04;
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     ticks_left = ((S_80020360_0 *)object)->unk_02 - 1;
     ((S_80020360_0 *)object)->unk_02 = ticks_left;
     if ((ticks_left << 16) > 0) {

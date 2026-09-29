@@ -21,8 +21,8 @@ s32 func_80017098(void) {
         void *methods;
 
         object = *(void **)object_slot;
-        do { methods = *(void * volatile *)((s8 *)object + 0x20); } while (0);
-        initial_state = *(void * volatile *)((s8 *)object + 0x1C);
+        do { methods = *(void * *)((s8 *)object + 0x20); } while (0);
+        initial_state = *(void * *)((s8 *)object + 0x1C);
         saved_value = *(s32 *)((s8 *)initial_state + 4);
         (*(Callback2 *)((s8 *)methods + 0x248))(1, initial_state);
     }

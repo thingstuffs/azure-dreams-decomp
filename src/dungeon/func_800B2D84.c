@@ -114,32 +114,32 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       *((volatile s32 *) (((volatile u8 *) packet_code) + 13)) = center_xy;
       *((volatile s32 *) (((volatile u8 *) packet_code) + 1)) = center_xy;
       *((volatile s32 *) (((volatile u8 *) packet_code) + 25)) = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x78));
-      *((volatile s32 *) (((volatile u8 *) packet_code) + 37)) = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x70));
+      *((volatile s32 *) (((volatile u8 *) packet_code) + 37)) = *((volatile s32 *) (((u8 *) scratchpad) + 0x70));
       trig_value = func_80064584(angle_step / parameters->count);
       {
-        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
+        offset = *((s32 *) (((u8 *) scratchpad) + 0x10));
         scratch = offset * trig_value;
         offset = scratch >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 29)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + offset;
+        *((u8 *) (((u8 *) packet_code) + 29)) = (*((u8 *) (((u8 *) packet_code) + 5))) + offset;
       }
       trig_value = func_800644B8(angle_step / parameters->count);
       {
-        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
+        offset = *((s32 *) (((u8 *) scratchpad) + 0x14));
         scratch = offset * trig_value;
         offset = scratch >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 30)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + offset;
+        *((u8 *) (((u8 *) packet_code) + 30)) = (*((u8 *) (((u8 *) packet_code) + 6))) + offset;
       }
-      *((volatile u16 *) (((volatile u8 *) packet_code) + 7)) = parameters->texture;
+      *((u16 *) (((u8 *) packet_code) + 7)) = parameters->texture;
       texture_page = parameters->flags;
       *((u16 *) (((u8 *) packet_code) + 19)) = texture_page;
       if (blend_setting != 0)
       {
         *((u16 *) (((u8 *) packet_code) + 19)) = (texture_page & 0xFF9F) | ((blend_setting - 1) << 5);
       }
-      *((volatile s32 *) (((volatile u8 *) (packet_code - 3)) + 0)) = parameters->value0;
-      *((volatile s32 *) (((volatile u8 *) packet_code) + 9)) = parameters->value0;
+      *((s32 *) (((u8 *) (packet_code - 3)) + 0)) = parameters->value0;
+      *((s32 *) (((u8 *) packet_code) + 9)) = parameters->value0;
       outer_color2 = parameters->value1;
-      *((volatile s32 *) (((volatile u8 *) packet_code) + 21)) = outer_color2;
+      *((s32 *) (((u8 *) packet_code) + 21)) = outer_color2;
       quad_packet = cursor;
       outer_color3 = parameters->value1;
       *((s32 *) (((u8 *) packet_code) + 33)) = outer_color3;
@@ -147,7 +147,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       packet_order = draw_order;
       if (blend_setting != 0)
       {
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 0)) |= 2;
+        *((u8 *) (((u8 *) packet_code) + 0)) |= 2;
       }
       func_8006658C(packet_order, cursor);
       packet_code += 52;

@@ -344,7 +344,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                 scratch->unk_80 = (s16) ((0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02) - scratch->unk_108);
                 scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
             } else {
-            left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - ((volatile S_func_800CDFD8_1 *)scratch)->unk_108;
+            left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02 - ((S_func_800CDFD8_1 *)scratch)->unk_108;
             width = scratch->unk_10;
             left_x += (s16) left_x / 2;
             scratch->unk_70 = left_x;
@@ -357,16 +357,16 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
             if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
                 edge_y = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03) - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
                 height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
-                ((volatile S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
-                ((volatile S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
+                ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
+                ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
                 edge_y -= height;
                 scratch->unk_8A = edge_y;
                 scratch->unk_82 = edge_y;
             } else {
-            edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03 - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
+            edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03 - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
             height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
-            ((volatile S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
-            ((volatile S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
+            ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
+            ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
             edge_y = height + edge_y;
             scratch->unk_8A = edge_y;
             scratch->unk_82 = edge_y;
@@ -424,13 +424,13 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                 }
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_24.unk_24_s16 = (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_08);
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16 = (s16) ((u16) scratch->unk_14.unk_14_u32 | (u16) scratch->unk_10);
-                matrix_xx = (s16) ((volatile S_func_800CDFD8_1 *)scratch)->unk_50;
+                matrix_xx = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_50;
                 if (matrix_xx >= 0x1800) {
                     scaled_right_u = (u8) ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_s16;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_30_u8 = (u8) (scaled_right_u + 0xFF);
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_18.unk_18_u8 = scaled_right_u;
                 }
-                matrix_yy = (s16) ((volatile S_func_800CDFD8_1 *)scratch)->unk_58;
+                matrix_yy = (s16) ((S_func_800CDFD8_1 *)scratch)->unk_58;
                 if (matrix_yy >= 0x1800) {
                     scaled_bottom_v = ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31;
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_30.unk_31_u8.unk_31 = (u8) (scaled_bottom_v + 0xFF);
@@ -448,9 +448,9 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                 }
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_04_s32 = 0;
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_10 = 0;
-                color2 = ((volatile S_func_800CDFD8_5 *)sprite)->unk_0C;
+                color2 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_1C = color2;
-                color3 = ((volatile S_func_800CDFD8_5 *)sprite)->unk_0C;
+                color3 = ((S_func_800CDFD8_5 *)sprite)->unk_0C;
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_03 = 0xC;
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_04.unk_07_s8.unk_07 = 0x3C;
                 ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_28 = color3;

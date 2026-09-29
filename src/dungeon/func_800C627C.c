@@ -70,7 +70,7 @@ typedef struct S_800CB9DC_8 {
 
 typedef struct S_800CB9DC_9 {
     u8 pad_00[0x14A0];
-    union { volatile s32 s; s32 u; } unk_14A0;   /* accessed as both */
+    union { s32 s; s32 u; } unk_14A0;   /* accessed as both */
 } S_800CB9DC_9;   /* page14_again in func_800CB9DC */
 
 

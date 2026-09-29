@@ -87,56 +87,54 @@ check_tile:
         if (func_800A0548(check_x, (s16) tile_y) != 0) {
             return (s16) (step - 1);
         }
-        if ((func_8009A350(check_x, (s16) tile_y, direction, tile_info) << 0x10) == 0) {
-            goto blocked;
-        }
-        {
-
-            tile_dx_reload = tile_dx_ptr;
-            ASM_KEEP_NV(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            tile_x += *tile_dx_reload;
-        }
-        tile_y += *(u16 *)((u8 *)dirStepY + direction_offset);
-        if (tile_info[0] & 0x3300) {
+        if ((func_8009A350(check_x, (s16) tile_y, direction, tile_info) << 0x10) != 0) {
             {
-                S_8009AF18_1 *world;
 
-                tile_dx_reload = (u16 *)((u8 *)D_800E0000);
-                world = *(void **)((u8 *)tile_dx_reload + 0x3D7C);
-                occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
+                tile_dx_reload = tile_dx_ptr;
+                ASM_KEEP_NV(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                tile_x += *tile_dx_reload;
             }
-            if (occupant != NULL) {
-                if (occupant->unk_13 == 0x1F) {
-                    if (!(occupant->unk_1C & 0x228)) {
-                        {
+            tile_y += *(u16 *)((u8 *)dirStepY + direction_offset);
+            if (tile_info[0] & 0x3300) {
+                {
+                    S_8009AF18_1 *world;
 
-                            tile_dx_reload = (u16 *)((u8 *)((u8 *)&D_800E3D7C - 15740));
-                            if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload + 0x3D7C)))->unk_124))->unk_13 < 0) {
-                                D_800DD7DC = 1;
-                                occupant->unk_14 |= 0x800000;
-                                goto done;
+                    tile_dx_reload = (u16 *)((u8 *)D_800E0000);
+                    world = *(void **)((u8 *)tile_dx_reload + 0x3D7C);
+                    occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
+                }
+                if (occupant != NULL) {
+                    if (occupant->unk_13 == 0x1F) {
+                        if (!(occupant->unk_1C & 0x228)) {
+                            {
+
+                                tile_dx_reload = (u16 *)((u8 *)((u8 *)&D_800E3D7C - 15740));
+                                if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload + 0x3D7C)))->unk_124))->unk_13 < 0) {
+                                    D_800DD7DC = 1;
+                                    occupant->unk_14 |= 0x800000;
+                                    goto done;
+                                }
                             }
                         }
                     }
+                    return (s16)step;
                 }
-                return (s16)step;
+                goto done;
             }
-            goto done;
-        }
-        world_x += *(u16 *)((u8 *)D_800DCEAC + direction_offset);
-        world_y += *(u16 *)((u8 *)D_800DCEBC + direction_offset);
-        {
+            world_x += *(u16 *)((u8 *)D_800DCEAC + direction_offset);
+            world_y += *(u16 *)((u8 *)D_800DCEBC + direction_offset);
+            {
 
-            tile_dx_reload = (u16 *)(origin);
-            ASM_KEEP(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, ((FuncArg1 *)tile_dx_reload)->height);
+                tile_dx_reload = (u16 *)(origin);
+                ASM_KEEP(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, ((FuncArg1 *)tile_dx_reload)->height);
+            }
+            next_step = step + 1;
+            if (height_result < 0x200) {
+                goto advance_step;
+            }
+            return (s16) (step - 1);
         }
-        next_step = step + 1;
-        if (height_result < 0x200) {
-            goto advance_step;
-        }
-        return (s16) (step - 1);
-blocked:
         return (s16) (step - 1);
 advance_step:
         step = next_step;

@@ -20,7 +20,7 @@ void func_80043568(void) {
     match_tag = 0x13;
     old_state = 0x39;
     new_state = 2;
-    cursor = (volatile u8 *)(ram_base | 0xFC);
+    cursor = (u8 *)(ram_base | 0xFC);
     do {
         if (cursor[0x981] == match_tag && cursor[0x980] == old_state) {
             packed_index = cursor[0x983];
@@ -37,7 +37,7 @@ void func_80043568(void) {
     match_tag = slot;
     old_state = 0x39;
     new_state = 2;
-    cursor = (volatile u8 *)(ram_base | 0x4C);
+    cursor = (u8 *)(ram_base | 0x4C);
     do {
         if (cursor[0x249] == match_tag && cursor[0x248] == old_state) {
             cursor[0x248] = new_state;

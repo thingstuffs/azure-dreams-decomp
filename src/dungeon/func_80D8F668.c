@@ -41,7 +41,7 @@ typedef struct S_80170E68_4 {
 /* Dispatch actor behavior and update its facing animation from dungeon state. */
 void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, EntityRec *state)
 {
-    volatile u16 *dungeon_status;
+    u16 *dungeon_status;
     s32 initial_flags;
     s32 flags;
     s32 result;
@@ -50,10 +50,10 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
     u8 *entry_base;
     u8 *entry;
     EntityRec *player;
-    volatile s16 distance;
+    s16 distance;
     u16 status_flags;
 
-    dungeon_status = (volatile u16 *)&dungeonStatus.unk_00;
+    dungeon_status = (u16 *)&dungeonStatus.unk_00;
     if (dungeon_status[1] & 0x1000) {
         actor->unk_9A.as_u8 = 14;
         func_80171388(actor);
@@ -216,7 +216,7 @@ tail_checks:
         return;
     }
 tail_animation:
-    if (*(u8 * volatile *)((u8 *)sprite + 0x2C) != D_8017386C) {
+    if (*(u8 * *)((u8 *)sprite + 0x2C) != D_8017386C) {
         *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
         func_80047784(
             sprite,

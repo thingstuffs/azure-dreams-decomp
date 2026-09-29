@@ -92,7 +92,7 @@ extern TableEntry D_80174708[];
 
 /* Spawn and initialize an effect at the source position when its mode and status allow it. */
 void func_8016ECE4(void) {
-    volatile s32 frame_pad[2];
+    s32 frame_pad[2];
     s32 rounded_x;
     s32 rounded_y;
     u32 mode;

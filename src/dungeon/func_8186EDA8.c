@@ -110,7 +110,7 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
             effect_e = ((volatile DungeonEffect *)effect)->e;
             effect_y -= 0x46;
             ((volatile DungeonEffect *)effect)->y1E = effect_y;
-            effect_d = ((volatile DungeonEffect *)effect)->d;
+            effect_d = ((DungeonEffect *)effect)->d;
             effect_e += 4;
             ((DungeonEffect *)effect)->e = effect_e;
             effect->d = effect_d + 4;

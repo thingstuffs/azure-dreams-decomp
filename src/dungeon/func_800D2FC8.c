@@ -160,17 +160,17 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
             if (dirSpriteFlag[lookup_direction] != 0) {
                 facing_flags = monster->unk_14 | 1;
             } else {
-                facing_flags = ((volatile S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
+                facing_flags = ((S_func_800D8728_2 *)monster)->unk_14 & 0xFFFE;
             }
             ((volatile S_func_800D8728_2 *)monster)->unk_14 = facing_flags;
         }
 
         if (!(actor->unk_1C & 0x20)) {
-            if (!(((volatile S_func_800D8728_2 *)monster)->unk_14 & 0x40)) {
+            if (!(((S_func_800D8728_2 *)monster)->unk_14 & 0x40)) {
                 func_800478B8(monster);
             }
         } else {
-            ((volatile S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
+            ((S_func_800D8728_2 *)monster)->unk_14 |= 0x7000;
         }
 
         func_800A020C(actor->unk_1C, (u8 *)monster + 0xC);

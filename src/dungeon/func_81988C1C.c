@@ -150,7 +150,7 @@ s32 func_81988C1C(void *first_item) {
             screen_coord = ((S_81988C1C_1 *)screen_points)->unk_00 + half_width;
             (*(u16 *)((u8 *)packet + 0x10)) = screen_coord;
             (*(u16 *)((u8 *)packet + 0x08)) = screen_coord;
-            screen_coord = *(volatile u16 *)&screen_points[0] - half_width;
+            screen_coord = *(u16 *)&screen_points[0] - half_width;
             (*(u16 *)((u8 *)packet + 0x20)) = screen_coord;
             (*(u16 *)((u8 *)packet + 0x18)) = screen_coord;
             screen_coord = ((S_81988C1C_1 *)screen_points)->unk_02.u;

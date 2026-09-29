@@ -23,8 +23,8 @@ extern s32 D_800E3D74;
 extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
 extern M2C_UNK D_8001024B;
-extern volatile u8 D_800121E0;
-extern volatile u8 D_800121E1;
+extern u8 D_800121E0;
+extern u8 D_800121E1;
 
 extern M2C_UNK func_80041E28();
 extern M2C_UNK func_800424E0();
@@ -92,8 +92,8 @@ typedef struct S_80094988_6 {
 
 typedef struct S_80094988_7 {
     u8 pad_00[0x21E0];
-    volatile u8 unk_21E0;
-    volatile u8 unk_21E1;
+    u8 unk_21E0;
+    u8 unk_21E1;
 } S_80094988_7;   /* (void *)probe in func_80094988 */
 
 typedef struct S_80094988_8 {

@@ -20,7 +20,7 @@ extern u8 D_800D3814[12];
 extern u8 D_800D2EA4[];
 extern u8 D_80082E60[];
 extern u16 D_80082E76;
-extern volatile s8 D_800D381A;
+extern s8 D_800D381A;
 extern s32 func_80041094();
 /* Passes the selected entry's bottom-center coordinates to func_80041094 and clears the selection. */
 void func_800B90F0(void)

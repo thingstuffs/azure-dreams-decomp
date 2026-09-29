@@ -56,28 +56,25 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     if (state == glide_state) {
         goto case_31;
     }
-    if (state >= 0x32) {
-        goto dispatch_high;
-    }
-    wait_state = 0x10;
-    if (state == wait_state) {
-        goto case_10;
-    }
-    if (state < 0x11) {
-        if (state == 0) {
-            goto case_0;
+    if (state < 0x32) {
+        wait_state = 0x10;
+        if (state == wait_state) {
+            goto case_10;
+        }
+        if (state < 0x11) {
+            if (state == 0) {
+                goto case_0;
+            }
+            goto tail;
+        }
+        if (state == 0x20) {
+            goto case_20;
+        }
+        if (state == 0x30) {
+            goto case_30;
         }
         goto tail;
     }
-    if (state == 0x20) {
-        goto case_20;
-    }
-    if (state == 0x30) {
-        goto case_30;
-    }
-    goto tail;
-
-dispatch_high:
     settle_state = 0x34;
     if (state == settle_state) {
         goto case_34;

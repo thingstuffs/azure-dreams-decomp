@@ -9,7 +9,7 @@ extern void func_8016A908(void *);
 
 extern u16 D_800834E2;
 extern s8 D_800DCF4D;
-extern u8 * volatile D_80174704;
+extern u8 * D_80174704;
 extern s32 D_801748C8[];
 extern s32 D_801749E0[];
 extern s32 *D_80174CCC;

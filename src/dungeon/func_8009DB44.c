@@ -62,7 +62,7 @@ s32 func_800A32A4(void *record) {
     s32 tail_w0;
     s32 tail_w4;
     s32 tail_w8;
-    volatile s32 *tail_src;
+    s32 *tail_src;
     s32 slot_index;
     S_800A32A4_4 *dest_base;
     S_800A32A4_2 *slot;
@@ -114,7 +114,7 @@ scan_slots:
                 copy_src += 0x10;
                 copy_dst += 0x10;
             } while (copy_src != copy_end);
-            tail_src = (volatile s32 *)copy_src;
+            tail_src = (s32 *)copy_src;
             tail_w0 = tail_src[0];
             tail_w4 = tail_src[1];
             tail_w8 = tail_src[2];

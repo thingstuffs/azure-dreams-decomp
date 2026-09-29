@@ -202,7 +202,7 @@ case_stop:
         case 7:
         case 8:
         callback_state = state;
-        (*(void * volatile *)((u8 *)obj + (0x8C))) = &D_80171514;
+        (*(void * *)((u8 *)obj + (0x8C))) = &D_80171514;
 case_callback_tail:
         func_800A9A0C(callback_state);
         ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;

@@ -170,7 +170,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             func_800B13CC(buf, 0x20);
             func_800B1400(buf, 2);
             color1 = 0x808080;
-            *(volatile u32 *)cursor = color1;
+            *(u32 *)cursor = color1;
             cursor += 4;
             do {
                 buf = (u8 *)buf + 0x60;
@@ -187,7 +187,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             count++;
             base_offset = -0xA;
             tmp += (s32)sub;
-            *(volatile u32 *)cursor = color2;
+            *(u32 *)cursor = color2;
             *(void **)((u8 *)tmp + 0x50) = buf;
             ((u8 *)buf)[1] = 0x38;
             if (index == 0) {

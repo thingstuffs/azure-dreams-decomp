@@ -46,7 +46,7 @@ typedef struct S_800CEFB8_3 {
 typedef struct S_800CEFB8_4 {
     u8 pad_00[0xB8];
     volatile u16 unk_B8;
-    volatile u16 unk_BA;
+    u16 unk_BA;
     u8 pad_BC[0x34];
     volatile u16 unk_F0;
     volatile u16 unk_F2;

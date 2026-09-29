@@ -78,13 +78,11 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     switch (phase) {
     case 0:
     ((S_800CABA8_0 *)effect)->unk_B8 = 1;
-    if (!(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
-        goto block_4;
+    if (((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000) {
+        func_8009C12C(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
+        ((S_800CABA8_0 *)effect)->unk_9B = 4U;
+        return;
     }
-    func_8009C12C(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
-    ((S_800CABA8_0 *)effect)->unk_9B = 4U;
-    return;
-block_4:
     ((S_800CABA8_0 *)effect)->unk_B0 = (u16) ((S_800CABA8_2 *)actor_state)->unk_2A;
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
     case 1:
@@ -131,30 +129,24 @@ block_4:
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
     return;
     case 3:
-    if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 == ((S_800CABA8_2 *)actor_state)->unk_2A) {
-        goto block_12;
+    if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 != ((S_800CABA8_2 *)actor_state)->unk_2A) {
+        ((S_800CABA8_2 *)actor_state)->unk_2A = (s16) ((u16) ((S_800CABA8_2 *)actor_state)->unk_2A + 0x200);
+        rotation_done = 0;
+    } else {
+        rotation_done = 1;
     }
-    ((S_800CABA8_2 *)actor_state)->unk_2A = (s16) ((u16) ((S_800CABA8_2 *)actor_state)->unk_2A + 0x200);
-    rotation_done = 0;
-    goto block_13;
-block_12:
-    rotation_done = 1;
-block_13:
     restore_ticks = ((S_800CABA8_0 *)effect)->timer.half.ticks;
-    if (restore_ticks <= 0) {
-        goto block_15;
+    if (restore_ticks > 0) {
+        red = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
+        restore_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
+        restore_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
+        ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8) (red + ((s32) (0x40 - red) / restore_ticks));
+        actor_or_green = restore_green + ((s32) (0x40 - restore_green) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks);
+        ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) actor_or_green;
+        ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40 - restore_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
+    } else {
+        ((S_800CABA8_0 *)effect)->timer.half.ticks = 0;
     }
-    red = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
-    restore_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
-    restore_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
-    ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8) (red + ((s32) (0x40 - red) / restore_ticks));
-    actor_or_green = restore_green + ((s32) (0x40 - restore_green) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks);
-    ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) actor_or_green;
-    ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40 - restore_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
-    goto block_16;
-block_15:
-    ((S_800CABA8_0 *)effect)->timer.half.ticks = 0;
-block_16:
     phase_or_ticks = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
     restore_ticks_left = phase_or_ticks - 1;
     phase_or_ticks = rotation_done;
@@ -177,13 +169,11 @@ block_16:
     cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
     ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
     green_step_or_effect = (s32) effect;
-    if ((cycles_left << 0x10) <= 0) {
-        goto block_21;
+    if ((cycles_left << 0x10) > 0) {
+        if (!(D_80013714 & 8)) {
+            goto block_22;
+        }
     }
-    if (!(D_80013714 & 8)) {
-        goto block_22;
-    }
-block_21:
     func_800CAA94((void *) green_step_or_effect, context, record);
     return;
 block_22:

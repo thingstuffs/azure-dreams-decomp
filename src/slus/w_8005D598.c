@@ -8,7 +8,7 @@ typedef struct { s32 value; s32 pad[2]; } S_80079984;
 extern S_80079984 D_80079984;
 typedef struct { s32 value; s32 pad[2]; } S_80079988;
 extern S_80079988 D_80079988;
-typedef struct { volatile u16 *ptr; u32 pad2[2]; } S_80079958;
+typedef struct { u16 *ptr; u32 pad2[2]; } S_80079958;
 extern S_80079958 D_80079958;
 
 /* Optionally aligns a value, shifts it, and stores or returns the result. */

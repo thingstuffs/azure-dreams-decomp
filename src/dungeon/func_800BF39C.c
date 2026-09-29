@@ -71,7 +71,7 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     setup_or_addr = 0x00200020;
     effect = D_800DCF78;
     effect -= 0x10;
-    *(volatile s32 *)D_800DCF78 = effect_param;
+    *(s32 *)D_800DCF78 = effect_param;
     effect_init[1] = (s32)setup_or_addr;
     func_800B835C(effect, effect_init, 1, 0);
 

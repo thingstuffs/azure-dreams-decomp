@@ -310,7 +310,7 @@ switch_done:
 
     ((S_8080EEC4_0 *)view)->unk_1A &= 0xFFF;
     if ((old_angle >> 8) !=
-        (*(volatile u16 *)(view + 0x1A) >> 8)) {
+        (*(u16 *)(view + 0x1A) >> 8)) {
         func_80058F88(0x701);
     }
 }

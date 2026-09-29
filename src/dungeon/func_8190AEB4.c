@@ -2,7 +2,7 @@
 #include "shared/object_flags.h"
 
 typedef struct S_8190AEB4_0 {
-    union { s16 s; volatile u16 u; u16 p; } unk_00;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_00;   /* accessed as both */
     union { u16 s; s16 u; } unk_02;   /* accessed as both */
     u8 pad_04[0x2C];
     union { void * s; u8 * u; } unk_30;   /* accessed as both */

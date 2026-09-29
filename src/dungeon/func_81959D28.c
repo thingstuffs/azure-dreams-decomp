@@ -25,7 +25,7 @@ void func_81959D28(void *actor, Motion *motion) {
     motion->x += motion->xVelocity;
     motion->y += motion->yVelocity;
     x_velocity = motion->xVelocity;
-    y_velocity = *(volatile s32 *)&motion->yVelocity;
+    y_velocity = *(s32 *)&motion->yVelocity;
     motion->z += motion->zVelocity;
     motion->xVelocity = x_velocity - ((x_velocity >> 3) + (x_velocity >> 4));
     motion->yVelocity = y_velocity - ((y_velocity >> 3) + (y_velocity >> 4));

@@ -43,7 +43,7 @@ typedef struct S_8016B0E8_0 {
     u8 pad_9E[0x6];
     void * unk_A4;
     u8 pad_A8[0x8];
-    union { u8 n; volatile u8 v; } unk_B0;   /* accessed as both */
+    union { u8 n; u8 v; } unk_B0;   /* accessed as both */
     u8 unk_B1;
     u8 pad_B2[0x2];
     u8 unk_B4;
@@ -59,7 +59,7 @@ typedef struct S_8016B0E8_2 {
     u8 pad_00[0x11];
     u8 unk_11;
     u8 pad_12[0x2];
-    volatile s32 unk_14;
+    s32 unk_14;
     u32 unk_18;
     s32 unk_1C;
     u8 pad_20[0xA];

@@ -27,7 +27,7 @@ typedef struct TownEntry {
     s32 link;
     s32 active;
     s32 pad_c;
-    u8 * volatile choices;
+    u8 * choices;
     s32 pad_14;
     s32 pad_18;
 } TownEntry;

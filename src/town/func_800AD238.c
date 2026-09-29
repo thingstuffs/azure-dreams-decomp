@@ -11,15 +11,15 @@ extern void func_80094984(void *arg0, void *arg1);
 extern u8 D_800AA5F8[];
 extern u8 D_800D0130[];
 extern void *D_800D0B14;
-extern volatile s16 D_80100D18;
-extern volatile s32 D_80100D1C;
+extern s16 D_80100D18;
+extern s32 D_80100D1C;
 extern InitPosition D_80100D28;
-extern volatile s16 D_80100D40;
-extern volatile s16 D_80100D42;
-extern volatile s16 D_80100D60;
+extern s16 D_80100D40;
+extern s16 D_80100D42;
+extern s16 D_80100D60;
 extern u8 D_80100D68[];
-extern volatile s16 D_80100D80;
-extern volatile s16 D_80100D82;
+extern s16 D_80100D80;
+extern s16 D_80100D82;
 
 /* Initializes object state and sets its starting position. */
 void func_800AA998(void **object, InitPosition *start_position) {

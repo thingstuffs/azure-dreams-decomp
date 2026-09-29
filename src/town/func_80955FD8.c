@@ -24,7 +24,7 @@ void func_80022FD8(Entry *entry)
     s16 unit_remainder;
     u8 *text;
     u8 *status;
-    volatile s32 *global_flags;
+    s32 *global_flags;
 
     status = entry->status;
     raw_value = *entry->value;
@@ -50,7 +50,7 @@ void func_80022FD8(Entry *entry)
     }
     global_flags = &objectFlagBlock.flags;
     if (*(u16 *)(status + 0x3A) & 0x8000) {
-        *(volatile u16 *)((u8 *)entry - 2) |= 0x8000;
+        *(u16 *)((u8 *)entry - 2) |= 0x8000;
         *global_flags |= 0x8000;
     }
 }

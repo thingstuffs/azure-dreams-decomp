@@ -105,29 +105,26 @@ void func_8017256C(void *action, void *motion, void *sprite, void *actor)
     state = ((S_8017256C_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-    if (!(((S_8017256C_1 *)actor)->unk_1C & 0x2000)) {
-        goto kind_normal;
+    if (((S_8017256C_1 *)actor)->unk_1C & 0x2000) {
+        kind_index = (((S_8017256C_1 *)actor)->unk_46 & 0x3FFF) - 1;
+        switch (kind_index) {
+        case 2:
+        case 5:
+            is_special = 1;
+            goto kind3;
+        case 1:
+        case 4:
+            is_special = 1;
+            goto kind2;
+        case 0:
+        case 3:
+        case 6:
+            is_special = 1;
+            goto kind1;
+        default:
+            goto kind_default;
+        }
     }
-    kind_index = (((S_8017256C_1 *)actor)->unk_46 & 0x3FFF) - 1;
-    switch (kind_index) {
-    case 2:
-    case 5:
-        is_special = 1;
-        goto kind3;
-    case 1:
-    case 4:
-        is_special = 1;
-        goto kind2;
-    case 0:
-    case 3:
-    case 6:
-        is_special = 1;
-        goto kind1;
-    default:
-        goto kind_default;
-    }
-
-kind_normal:
     kind = ((S_8017256C_1 *)actor)->unk_46 & 0x3FFF;
     if (kind == 2) {
         goto kind2;

@@ -10,7 +10,7 @@ typedef struct S_80126704_0 {
     u8 unk_10;
     u8 unk_11;
     u8 pad_12[0x1];
-    union { volatile s8 s; s8 u; } unk_13;   /* accessed as both */
+    union { s8 s; s8 u; } unk_13;   /* accessed as both */
 } S_80126704_0;   /* arg0 in func_80126704 */
 
 

@@ -15,7 +15,7 @@ typedef struct {
 
 extern void Control_CD(s32 arg0, void *arg1, s32 arg2);
 extern void func_8003F320(void);
-extern volatile s32 D_80081568;
+extern s32 D_80081568;
 extern s32 D_8008156C;
 
 /* Builds and submits a command from the source fields and packed value. */

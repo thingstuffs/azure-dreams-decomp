@@ -168,13 +168,11 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
         direction = ((gameWork.view.viewAngle + ((S_80175398_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
         angle = ((S_80175398_1 *)actor)->unk_2A.u;
-        if (D_80175A80[0] == 0) {
-            goto direction_not_ready;
+        if (D_80175A80[0] != 0) {
+            if (direction == 2) {
+                goto direction_ready;
+            }
         }
-        if (direction == 2) {
-            goto direction_ready;
-        }
-direction_not_ready:
         if (direction == 2) {
             return;
         }

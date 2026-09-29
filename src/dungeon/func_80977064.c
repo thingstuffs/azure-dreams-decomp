@@ -20,7 +20,7 @@ typedef struct S_80172864_0 {
     u8 pad_90[0x6];
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x2];
     s16 unk_9E;
     u8 pad_A0[0x2];

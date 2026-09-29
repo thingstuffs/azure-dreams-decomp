@@ -16,13 +16,13 @@ typedef struct S_80025398_0 {
 
 typedef struct S_80025398_1 {
     u8 pad_00[0xC];
-    union { s8 s; volatile s8 u; } unk_0C;   /* accessed as both */
-    union { s8 s; volatile s8 u; } unk_0D;   /* accessed as both */
-    union { s8 s; volatile s8 u; } unk_0E;   /* accessed as both */
+    union { s8 s; s8 u; } unk_0C;   /* accessed as both */
+    union { s8 s; s8 u; } unk_0D;   /* accessed as both */
+    union { s8 s; s8 u; } unk_0E;   /* accessed as both */
     u8 pad_0F[0x5];
     u16 unk_14;
     u8 pad_16[0x6];
-    union { u16 s; volatile u16 u; } unk_1C;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1C;   /* accessed as both */
     union { u16 s; volatile u16 u; } unk_1E;   /* accessed as both */
 } S_80025398_1;   /* out in func_80025398 */
 

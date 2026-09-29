@@ -5,7 +5,7 @@ extern s16 D_8008146E;
 
 /* Returns the first active rectangle containing the point, or -1 if none does. */
 s32 func_8009FB34(s32 point_x, s32 point_y) {
-    volatile u8 *record;
+    u8 *record;
     s32 index;
     s32 initial_count;
     u16 bound_base;
@@ -23,13 +23,13 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
         record = D_800E2970;
         loop_0: {
             if ((*(s16 *)(record + 10) != 0) &&
-                (x >= *(volatile u16 *)(record + 0)) &&
+                (x >= *(u16 *)(record + 0)) &&
                 ({
                     bound_base = *(volatile u16 *)(record + 0);
                     bound_span = *(volatile u16 *)(record + 4);
                     (s32)x < (s32)bound_span + (s32)bound_base;
                 }) &&
-                (y >= *(volatile u16 *)(record + 2)) &&
+                (y >= *(u16 *)(record + 2)) &&
                 ({
                     bound_base = *(volatile u16 *)(record + 2);
                     bound_span = *(volatile u16 *)(record + 6);

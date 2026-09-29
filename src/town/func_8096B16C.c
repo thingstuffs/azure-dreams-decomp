@@ -86,7 +86,7 @@ void func_80123604(void) {
 #else
         address_base = (u8 *)&D_80129728;
         object_slot = (void **)(address_base + 0x38);
-        source_entry = (volatile SourceEntry *)D_80126A18;
+        source_entry = (SourceEntry *)D_80126A18;
 #endif
         do {
             ((S_80123604_0 *)(*object_slot))->unk_00 = 0;

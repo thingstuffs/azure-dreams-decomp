@@ -34,7 +34,7 @@ void func_80016EC0(void)
     record_index += 1;
     *((volatile s8 *) (((u8 *) type1_payload) + (-3))) = 0;
     *((volatile s8 *) (((u8 *) type1_payload) + (-2))) = 0;
-    *((volatile s32 *) (((u8 *) type1_payload) + 0)) = 0;
+    *((s32 *) (((u8 *) type1_payload) + 0)) = 0;
     type1_payload += 8;
     record += 8;
   }
@@ -51,15 +51,15 @@ void func_80016EC0(void)
     record_index += 1;
     *((volatile s8 *) (((u8 *) type3_payload) + (-3))) = 0;
     *((volatile s8 *) (((u8 *) type3_payload) + (-2))) = 0;
-    *((volatile s32 *) (((u8 *) type3_payload) + 0)) = 0;
+    *((s32 *) (((u8 *) type3_payload) + 0)) = 0;
     type3_payload += 8;
     record += 8;
   }
   while (next_type3_count < 2);
-  *((volatile s8 *) (((u8 *) record) + 0)) = 2;
-  *((volatile s8 *) (((u8 *) record) + 1)) = 0;
-  *((volatile s8 *) (((u8 *) record) + 2)) = 0;
+  *((s8 *) (((u8 *) record) + 0)) = 2;
+  *((s8 *) (((u8 *) record) + 1)) = 0;
+  *((s8 *) (((u8 *) record) + 2)) = 0;
   type2_payload = record + 4;
-  *((volatile s8 *) (((u8 *) record) + 3)) = record_index;
+  *((s8 *) (((u8 *) record) + 3)) = record_index;
   *((s32 *) type2_payload) = 0;
 }

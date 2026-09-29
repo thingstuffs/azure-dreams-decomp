@@ -163,7 +163,7 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
   clear_mask = 0xF7FFFFFF;
   actor_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C)));
   actor_flags &= clear_mask;
-  *((volatile u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags;
+  *((u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags;
   actor_flags &= 0x40000;
   if (!actor_flags)
   {

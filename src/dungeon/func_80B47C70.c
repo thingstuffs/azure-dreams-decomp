@@ -49,7 +49,7 @@ typedef struct S_80175470_0 {
     u8 pad_00[0x96];
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0xC];
     void * unk_A8;
     s16 unk_AC;
@@ -136,13 +136,11 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
 
     case 2:
     direction = ((gameWork.view.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-    if (D_80175B24 == 0) {
-        goto check_facing;
+    if (D_80175B24 != 0) {
+        if (direction == 2) {
+            goto start_effect;
+        }
     }
-    if (direction == 2) {
-        goto start_effect;
-    }
-check_facing:
     if (direction == 2) {
         return;
     }

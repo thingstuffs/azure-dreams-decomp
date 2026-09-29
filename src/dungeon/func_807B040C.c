@@ -11,7 +11,7 @@ typedef struct S_807B040C_0 {
 
 typedef struct S_807B040C_1 {
     u8 pad_00[0x1C];
-    volatile s32 unk_1C;
+    s32 unk_1C;
     u8 pad_20[0x68];
     s16 unk_88;
     u8 pad_8A[0xC];
@@ -51,7 +51,7 @@ typedef struct S_807B040C_5 {
 
 typedef struct S_807B040C_6 {
     u8 pad_00[0x1C];
-    volatile s32 unk_1C;
+    s32 unk_1C;
     u8 pad_20[0xA];
     s16 unk_2A;
     u8 pad_2C[0x5C];

@@ -188,13 +188,13 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                 *(u32 *)(scratch + 0x010) = (s32)((S_800C6B40_1 *)part)->unk_08.at02.v;
                 *(u32 *)(scratch + 0x014) = (s32)((S_800C6B40_1 *)part)->unk_08.at03.v;
                 if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch + 0x024)) & 1) {
-                    local_x = (0 - (s8)(*(volatile u8 *)((u8 *)part + 2))) - (s32)(u32)*(volatile u16 *)(scratch + 0x108);
+                    local_x = (0 - (s8)(*(volatile u8 *)((u8 *)part + 2))) - (s32)(u32)*(u16 *)(scratch + 0x108);
                     flipped_width = *(u16 *)(scratch + 0x010);
                     *(u16 *)(scratch + 0x080) = local_x;
                     *(u16 *)(scratch + 0x070) = local_x;
                     local_x -= flipped_width;
                 } else {
-                    local_x = (s8)(*(volatile u8 *)((u8 *)part + 2)) - (s32)(u32)*(volatile u16 *)(scratch + 0x108);
+                    local_x = (s8)(*(volatile u8 *)((u8 *)part + 2)) - (s32)(u32)*(u16 *)(scratch + 0x108);
                     normal_width = *(u16 *)(scratch + 0x010);
                     *(u16 *)(scratch + 0x080) = local_x;
                     *(u16 *)(scratch + 0x070) = local_x;
@@ -203,13 +203,13 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                 *(u16 *)(scratch + 0x088) = local_x;
                 *(u16 *)(scratch + 0x078) = local_x;
                 if ((((S_800C6B40_1 *)part)->unk_00 ^ (u32)*(u16 *)(scratch + 0x024)) & 2) {
-                    local_y = (0 - (s8)(*(volatile u8 *)((u8 *)part + 3))) - (s32)(u32)*(volatile u16 *)(scratch + 0x10A);
+                    local_y = (0 - (s8)(*(volatile u8 *)((u8 *)part + 3))) - (s32)(u32)*(u16 *)(scratch + 0x10A);
                     flipped_height = *(u16 *)(scratch + 0x014);
                     *(u16 *)(scratch + 0x07A) = local_y;
                     *(u16 *)(scratch + 0x072) = local_y;
                     local_y -= flipped_height;
                 } else {
-                    local_y = (s8)(*(volatile u8 *)((u8 *)part + 3)) - (s32)(u32)*(volatile u16 *)(scratch + 0x10A);
+                    local_y = (s8)(*(volatile u8 *)((u8 *)part + 3)) - (s32)(u32)*(u16 *)(scratch + 0x10A);
                     normal_height = *(u16 *)(scratch + 0x014);
                     *(u16 *)(scratch + 0x07A) = local_y;
                     *(u16 *)(scratch + 0x072) = local_y;

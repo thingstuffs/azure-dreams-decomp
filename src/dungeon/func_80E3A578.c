@@ -10,7 +10,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_80173D78_1 {
     u8 pad_00[0xC];
-    union { struct { u8 v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; struct { u8 pad[0x3]; volatile u8 v; } at03u; } unk_0C;   /* overlapping accesses */
+    union { struct { u8 v; } at00; struct { u32 v; } at00u; struct { u8 pad[0x1]; u8 v; } at01; struct { u8 pad[0x2]; u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; struct { u8 pad[0x3]; u8 v; } at03u; } unk_0C;   /* overlapping accesses */
     u8 pad_10[0x2];
     u16 unk_12;
     u16 unk_14;

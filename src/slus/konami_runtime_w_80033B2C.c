@@ -18,6 +18,6 @@ s32 func_80033B2C(s32 bit_id) {
     if (bit_index == bit_value) {
         return bit_value;
     }
-    return ((((volatile MemoryPage *)0x80010000)->words[bit_index >> 5]) &
+    return ((((MemoryPage *)0x80010000)->words[bit_index >> 5]) &
             (bit_value << (bit_id & 0x1F))) != 0;
 }

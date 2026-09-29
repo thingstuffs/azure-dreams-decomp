@@ -23,7 +23,7 @@ extern u8 D_800DCFB0[8];
 extern u8 D_800DCFD0[8];
 extern u8 D_800DD060[8];
 extern u8 D_800DD0B8[8];
-extern volatile u8 D_800DD0C8[8];
+extern u8 D_800DD0C8[8];
 extern s32 D_800E3540[];
 
 
@@ -317,7 +317,7 @@ state_3:
         (*(u8 * *)((u8 *)animation + (0x2C))) = D_800DCFB0;
     }
     direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
-    func_80048A44(animation, (*(u8 * volatile *)((u8 *)animation + (0x2C)))[direction], 0, 1);
+    func_80048A44(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);
     goto increment_state;
 
 increment_state:

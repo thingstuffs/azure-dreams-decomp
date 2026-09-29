@@ -15,26 +15,26 @@ typedef struct {
     SpuVoiceRegs voice[24];   /* 0x000 .. 0x17F */
     volatile u16 mvoll;       /* 0x180 */
     volatile u16 mvolr;       /* 0x182 */
-    volatile u16 rvoll;       /* 0x184 */
-    volatile u16 rvolr;       /* 0x186 */
-    volatile u16 keyon_lo;    /* 0x188 */
+    u16 rvoll;       /* 0x184 */
+    u16 rvolr;       /* 0x186 */
+    u16 keyon_lo;    /* 0x188 */
     volatile u16 keyon_hi;    /* 0x18A */
-    volatile u16 keyoff_lo;   /* 0x18C */
+    u16 keyoff_lo;   /* 0x18C */
     volatile u16 keyoff_hi;   /* 0x18E */
-    volatile u16 fm_lo;       /* 0x190 */
-    volatile u16 fm_hi;       /* 0x192 */
-    volatile u16 noise_lo;    /* 0x194 */
-    volatile u16 noise_hi;    /* 0x196 */
-    volatile u16 rev_lo;      /* 0x198 */
-    volatile u16 rev_hi;      /* 0x19A */
+    u16 fm_lo;       /* 0x190 */
+    u16 fm_hi;       /* 0x192 */
+    u16 noise_lo;    /* 0x194 */
+    u16 noise_hi;    /* 0x196 */
+    u16 rev_lo;      /* 0x198 */
+    u16 rev_hi;      /* 0x19A */
     u8  pad19C[0x1AA - 0x19C];
     volatile u16 spucnt;      /* 0x1AA */
-    volatile u16 dt_ctrl;     /* 0x1AC */
+    u16 dt_ctrl;     /* 0x1AC */
     volatile u16 spustat;     /* 0x1AE */
     u8  pad1B0[0x1B0 - 0x1B0];
-    volatile u16 cdvoll;      /* 0x1B0 */
-    volatile u16 cdvolr;      /* 0x1B2 */
-    volatile u16 extvoll;     /* 0x1B4 */
+    u16 cdvoll;      /* 0x1B0 */
+    u16 cdvolr;      /* 0x1B2 */
+    u16 extvoll;     /* 0x1B4 */
     volatile u16 extvolr;     /* 0x1B6 */
 } SpuRegs;
 
@@ -51,7 +51,7 @@ extern s32 D_8007998C;
 extern volatile s32 D_80079990;
 extern volatile s32 D_80079994;
 extern u16 D_80079998[8];
-extern volatile u16 D_80086D58[10];
+extern u16 D_80086D58[10];
 extern char D_800331F4[];
 extern char D_80033204[];
 

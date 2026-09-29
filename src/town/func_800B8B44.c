@@ -64,7 +64,7 @@ void func_800B62A4(EntityRec *source, s32 output) {
     if (index < 3) {
         slot_cursor = (index * 4) + output;
         do {
-            slot_value = (*(s32 * volatile *)((u8 *)slot_cursor + 0x38));
+            slot_value = (*(s32 * *)((u8 *)slot_cursor + 0x38));
             index += 1;
             *slot_value = 0;
             do {

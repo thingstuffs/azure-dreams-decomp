@@ -27,7 +27,7 @@ typedef struct S_80173408_0 {
     u8 pad_90[0x6];
     union { s16 s; u16 u; } unk_96;   /* accessed as both */
     u8 pad_98[0x3];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    union { u8 n; u8 v; } unk_9B;   /* accessed as both */
     u8 pad_9C[0x4];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_A0;   /* overlapping accesses */
     u8 pad_A4[0x4];

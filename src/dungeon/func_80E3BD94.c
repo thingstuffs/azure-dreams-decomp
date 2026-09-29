@@ -208,7 +208,7 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
 
     render->unk_14 |= 0x8000;
     {
-        u32 depth = *(volatile u32 *)(scratch + 0xC0);
+        u32 depth = *(u32 *)(scratch + 0xC0);
         u32 sort_depth;
         u32 biased_depth;
         sort_depth = (biased_depth = depth - 6, biased_depth - (s16)depth_bias);

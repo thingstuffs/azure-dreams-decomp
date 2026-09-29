@@ -180,103 +180,95 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     return;
 
     case 2:
-    if ((effect->unk_4C.s << 6) + 0x20 != motion->unk_00.half.unk_02) {
-        goto object_common;
-    }
-    if ((effect->unk_4D.s << 6) + 0x20 != motion->unk_04.half.unk_06) {
-        goto object_common;
-    }
+    if ((effect->unk_4C.s << 6) + 0x20 == motion->unk_00.half.unk_02) {
+        if ((effect->unk_4D.s << 6) + 0x20 == motion->unk_04.half.unk_06) {
+            effect->unk_26 = 0;
+            func_8009A350(effect->unk_4C.s, effect->unk_4D.s,
+                          effect->unk_1C, &collision_flags);
+            if (collision_flags & 0x8400) {
+                effect->unk_26 = 1;
+            }
+            coord_base = (s32)D_8017610C;
+            step_x = effect->unk_1C;
+            next_tile_2 = effect->unk_4C.u;
+            step_x <<= 2;
+            step_x += (s32)coord_base;
+            step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
+            next_tile_2 += step_x;
+            effect->unk_4C.u = next_tile_2;
+            collision_coord = effect->unk_1C << 2;
+            collision_coord += (s32)coord_base;
+            ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            step_coord = effect->unk_4C.s;
+            next_tile = effect->unk_4D.u;
+            step_coord <<= 6;
+            collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
+            step_coord += 0x20;
+            coord_base = step_coord;
+            next_tile += collision_coord;
+            effect->unk_4D.u = next_tile;
+            target_y = (effect->unk_4D.s << 6) + 0x20;
+            collision_coord = effect->unk_26;
+            if (collision_coord == 0) {
+                ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                check_x = (u16)coord_base;
+                check_y = (u16)target_y;
+                if ((func_800A45D8(check_x, check_y,
+                                   motion->unk_0A.s) << 16) != 0) {
+                    effect->unk_26 = 1;
+                }
+                if (effect->unk_26 == 0) {
+                    if (func_80174A00(owner, (u16)(s8)effect->unk_4C.u,
+                                       (u16)(s8)effect->unk_4D.u,
+                                       motion->unk_0A.s) != 0) {
+                        effect->unk_26 = 1;
+                    }
+                }
+                if (effect->unk_26 == 0) {
+                    floor_height = func_800BCB04(check_x, check_y,
+                                          (s16)((u16)motion->unk_0A.s - 0x20));
+                    if (floor_height >= 0x200 || floor_height > motion->unk_0A.s + 0x20 ||
+                        floor_height < motion->unk_0A.s) {
+                        effect->unk_26 = 1;
+                    }
+                }
+            }
+            if (effect->unk_26 == 1) {
+                effect->unk_16.s = 10;
+                effect->unk_1E.s = 0;
+                motion->unk_10 = 0;
+                motion->unk_0C = 0;
+                object = effect->unk_30;
+                if (object == 0) {
+                    return;
+                }
+                object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                display = object->unk_0C;
+                transform = object->unk_08;
+                cleanup_mask = 0xFFEFFFFF;
+                ASM_KEEP4_NV(cleanup_mask, cleanup_mask, cleanup_mask, cleanup_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                object_data->unk_14 &= cleanup_mask;
+                goto cleanup_object;
+            }
 
-    effect->unk_26 = 0;
-    func_8009A350(effect->unk_4C.s, effect->unk_4D.s,
-                  effect->unk_1C, &collision_flags);
-    if (collision_flags & 0x8400) {
-        effect->unk_26 = 1;
-    }
-    coord_base = (s32)D_8017610C;
-    step_x = effect->unk_1C;
-    next_tile_2 = effect->unk_4C.u;
-    step_x <<= 2;
-    step_x += (s32)coord_base;
-    step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
-    next_tile_2 += step_x;
-    effect->unk_4C.u = next_tile_2;
-    collision_coord = effect->unk_1C << 2;
-    collision_coord += (s32)coord_base;
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    step_coord = effect->unk_4C.s;
-    next_tile = effect->unk_4D.u;
-    step_coord <<= 6;
-    collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
-    step_coord += 0x20;
-    coord_base = step_coord;
-    next_tile += collision_coord;
-    effect->unk_4D.u = next_tile;
-    target_y = (effect->unk_4D.s << 6) + 0x20;
-    collision_coord = effect->unk_26;
-    if (collision_coord != 0) {
-        goto checks_done;
-    }
-    ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    check_x = (u16)coord_base;
-    check_y = (u16)target_y;
-    if ((func_800A45D8(check_x, check_y,
-                       motion->unk_0A.s) << 16) != 0) {
-        effect->unk_26 = 1;
-    }
-    if (effect->unk_26 == 0) {
-        if (func_80174A00(owner, (u16)(s8)effect->unk_4C.u,
-                           (u16)(s8)effect->unk_4D.u,
-                           motion->unk_0A.s) != 0) {
-            effect->unk_26 = 1;
+            if (effect->unk_2C == 0) {
+                new_object = func_801748FC(owner,
+                            (u16)(s8)effect->unk_4C.u,
+                            (u16)(s8)effect->unk_4D.u,
+                            motion->unk_0A.s);
+                effect->unk_2C = new_object;
+                if (new_object == 0) {
+                    goto secondary_object;
+                }
+                object = new_object;
+                object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                display = object->unk_0C;
+                object_data->unk_14 |= 0x100000;
+                func_8009A3D0(display->unk_24, display->unk_25,
+                              (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+            }
         }
     }
-    if (effect->unk_26 == 0) {
-        floor_height = func_800BCB04(check_x, check_y,
-                              (s16)((u16)motion->unk_0A.s - 0x20));
-        if (floor_height >= 0x200 || floor_height > motion->unk_0A.s + 0x20 ||
-            floor_height < motion->unk_0A.s) {
-            effect->unk_26 = 1;
-        }
-    }
-
-checks_done:
-    if (effect->unk_26 == 1) {
-        effect->unk_16.s = 10;
-        effect->unk_1E.s = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        object = effect->unk_30;
-        if (object == 0) {
-            return;
-        }
-        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
-        display = object->unk_0C;
-        transform = object->unk_08;
-        cleanup_mask = 0xFFEFFFFF;
-        ASM_KEEP4_NV(cleanup_mask, cleanup_mask, cleanup_mask, cleanup_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        object_data->unk_14 &= cleanup_mask;
-        goto cleanup_object;
-    }
-
-    if (effect->unk_2C == 0) {
-        new_object = func_801748FC(owner,
-                    (u16)(s8)effect->unk_4C.u,
-                    (u16)(s8)effect->unk_4D.u,
-                    motion->unk_0A.s);
-        effect->unk_2C = new_object;
-        if (new_object == 0) {
-            goto secondary_object;
-        }
-        object = new_object;
-        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
-        display = object->unk_0C;
-        object_data->unk_14 |= 0x100000;
-        func_8009A3D0(display->unk_24, display->unk_25,
-                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
-    }
-
-object_common:
     if (effect->unk_2C == 0) {
         goto secondary_object;
     }
@@ -318,7 +310,7 @@ object_common:
     collision_coord += 0x20;
     coord_base = collision_coord;
     object_x = coord_base & 0xFFFF;
-    object_y = (((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
+    object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
     if (!blocked) {
         if ((func_800A45D8((u16)object_x, (u16)object_y,
@@ -356,7 +348,7 @@ object_common:
         (u8)D_8017610C[effect->unk_1C].x;
     display->unk_25 -=
         (u8)D_8017610C[effect->unk_1C].y;
-    func_800A2B04(transform, display->unk_24, ((volatile S_func_810332A4_6 *)display)->unk_25);
+    func_800A2B04(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
     func_8009A21C(display->unk_24, display->unk_25,
                   (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
     func_800AA53C(object_data);

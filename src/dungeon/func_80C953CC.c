@@ -182,7 +182,7 @@ part_ready:
             void *target_actor;
             S_func_80C953CC_3 *target_entity;
 
-            (*(volatile u16 *)((u8 *)work + 0x98)) &= 0xFF7F;
+            (*(u16 *)((u8 *)work + 0x98)) &= 0xFF7F;
             if ((s8)alternate) {
                 actor->unk_60 = target_actor = D_800814A8;
                 target_entity = *(S_func_80C953CC_3 **)((u8 *)target_actor - 0x14);

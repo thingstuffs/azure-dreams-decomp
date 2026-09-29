@@ -106,9 +106,9 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
                 u32 depth_index;
-                depth_index = *(volatile u32 *)(scratch + 0xC0);
+                depth_index = *(u32 *)(scratch + 0xC0);
                 ot_entry.pointer = (s32 *)((depth_index << 2) +
-                              (u32)*(void * volatile *)(scratch + 0x20));
+                              (u32)*(void * *)(scratch + 0x20));
             }
             *ot_entry.pointer = (*ot_entry.pointer & length_mask) | ((u32)packet & addr_mask);
             packet = ((S_800252E0_1 *)scratch)->unk_18;
@@ -118,9 +118,9 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
-                ot_entry.value = *(volatile u32 *)(scratch + 0xC0);
+                ot_entry.value = *(u32 *)(scratch + 0xC0);
                 ot_entry.value = (ot_entry.value << 2) +
-                           (u32)*(void * volatile *)(scratch + 0x20);
+                           (u32)*(void * *)(scratch + 0x20);
                 packet = (void *)((u32)packet & addr_mask);
                 *(s32 *)ot_entry.value = (*(s32 *)ot_entry.value & length_mask) |
                                    (u32)packet;

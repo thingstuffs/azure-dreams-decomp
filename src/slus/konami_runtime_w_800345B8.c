@@ -125,7 +125,7 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
   next_prim = render_pool->next_prim;
   *((volatile s32 *) (scratch + 0x24)) = (s32) (((u8 *) render_pool) + 0xB0);
   *((volatile s32 *) (scratch + 0xE4)) = 0;
-  *((volatile s32 *) (scratch + 0x1C)) = (s32) next_prim;
+  *((s32 *) (scratch + 0x1C)) = (s32) next_prim;
   render_pools = ((RenderPool * *)(&gameWork));
   fixed_matrix = (void *) 0x1F8000C8;
   do

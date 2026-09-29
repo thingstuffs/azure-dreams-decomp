@@ -56,7 +56,7 @@ void func_800B8EA8(s32 alloc_arg, s32 child_x, s32 child_y, s32 child_z,
                    FuncInput *input, s32 meta_value, s16 step_count, s32 range_value, s16 object_tag) {
     FuncMeta *meta;
     FuncObject *object;
-    FuncChild volatile *child;
+    FuncChild *child;
     u16 input_z;
     s32 signed_count;
 

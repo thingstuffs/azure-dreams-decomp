@@ -158,7 +158,7 @@ extern void *D_800E3D18;
 extern u8 D_80089AA0[];
 extern u8 D_80082E60[];
 extern u8 D_800DD078;
-extern volatile u8 D_800DD090;
+extern u8 D_800DD090;
 extern u8 D_800DD0A8;
 extern s32 D_800E3D80[];
 extern s32 D_800E3CF8[];

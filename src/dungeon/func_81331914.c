@@ -141,7 +141,7 @@ void func_80168914(S_func_81331914_0 *state, s32 *position, S_func_81331914_4 *c
             object_position->unk_00 = position[0];
             object_position->unk_04 = position[1];
             step = 0;
-            vertex_color = (volatile ColorEntry *)payload;
+            vertex_color = (ColorEntry *)payload;
             object_position->unk_08 = position[2];
 
             sprite = object->unk_0C;

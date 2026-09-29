@@ -51,7 +51,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     register void *output ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     struct local_state {
         void *saved_ptr;
-        volatile u8 pad[20];
+        u8 pad[20];
     } state;
     u16 result = 0;
     u16 flags;

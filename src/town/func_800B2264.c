@@ -21,7 +21,7 @@ typedef struct TownInner {
 
 typedef struct TownAux {
     u8 pad00[0x98];
-    volatile s32 down;
+    s32 down;
     void *up;
 } TownAux;
 
@@ -116,7 +116,7 @@ confirm:
             else if (held_buttons & 0x2000) move_step = 5;
             else if (held_buttons & 0x1000) move_step = -1;
             else if (held_buttons & 0x4000) move_step = 1;
-            obj->counter = *(volatile s32 *)&obj->counter - 1;
+            obj->counter = *(s32 *)&obj->counter - 1;
         } else {
             obj->counter++;
             return;

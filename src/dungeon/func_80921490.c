@@ -6,7 +6,7 @@ void func_800F6490(void) {
     u32 table_base;
     s32 match_byte1;
     s32 match_byte0;
-    volatile u32 *entry;
+    u32 *entry;
     volatile u8 *scan_ptr;
     u32 record_index;
 
@@ -14,8 +14,8 @@ void func_800F6490(void) {
     table_base = 0x80010000;
     match_byte1 = 0x13;
     match_byte0 = 2;
-    entry = (volatile u32 *)(table_base | 0xA7C);
-    scan_ptr = (volatile u8 *)(table_base | 0xFC);
+    entry = (u32 *)(table_base | 0xA7C);
+    scan_ptr = (u8 *)(table_base | 0xFC);
     do {
         if (scan_ptr[0x981] == match_byte1 && scan_ptr[0x980] == match_byte0) {
             record_index = scan_ptr[0x983] & 0x3F;

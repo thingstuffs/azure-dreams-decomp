@@ -3,7 +3,7 @@
 
 typedef struct S_80094E34_0 {
     u8 pad_00[0x1C];
-    union { s32 s; volatile s32 u; } unk_1C;   /* accessed as both */
+    union { s32 s; s32 u; } unk_1C;   /* accessed as both */
     u8 pad_20[0x104];
     void * unk_124;
 } S_80094E34_0;   /* root in func_80094E34 */
@@ -15,7 +15,7 @@ typedef struct S_80094E34_1 {
 
 
 
-extern volatile s32 D_80081484;
+extern s32 D_80081484;
 extern s32 D_800E3540;
 
 /* Clear the root and linked object flags, saving and resetting D_80081484 when the root flag is set. */

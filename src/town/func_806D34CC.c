@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void * volatile D_80016000;
+extern void * D_80016000;
 
 /* Sets the indexed bit in the current object bitmap unless the index is zero. */
 void func_80016CCC(s32 bit_index) {

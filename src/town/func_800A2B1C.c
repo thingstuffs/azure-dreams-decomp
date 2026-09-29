@@ -77,7 +77,6 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
     S_800A027C_3 *render;
     S_800A027C_1 *coords;
     void *object;
-    s32 graphic;
 
     object = func_8003FD64(0x136, ((M2C_UNK *)&D_80083498.next));
     if (object == NULL) {
@@ -106,15 +105,12 @@ void *func_800A027C(S_800A027C_5 *config, S_800A027C_2 *position) {
         state->unk_0C = &D_800D0754;
     }
     if (type == 0x12 && type == state->unk_4D) {
-        graphic = (s32) &D_8006E240;
+        render->unk_08 = (s32) &D_8006E240;
     } else {
-        graphic = func_8004A658(state->unk_4D, state->unk_4C);
+        render->unk_08 = func_8004A658(state->unk_4D, state->unk_4C);
     }
-    render->unk_08 = graphic;
     ((S_800A027C_0 *)object)->unk_10 = &D_8009DEBC;
-    do {
-        func_800A022C(state, state, coords, render);
-    } while (0);
+    func_800A022C(state, state, coords, render);
 
     return object;
 }

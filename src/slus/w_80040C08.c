@@ -43,18 +43,15 @@ void func_80040C08(void)
     s32 saved_data_addr;
     register s32 buffer_size;
     s32 next_mode;
-    u8 current_mode;
     u8 flags;
 
     saved_data_addr = D_8008148C.field_0;
     buffer_size = 0x38000;
-    current_mode = state_ptr->field_B;
+    flags = state_ptr->field_B;
 
     D_80080A7C.field_0 = buffer_size;
-    do {
-        D_80081480.field_0 = saved_data_addr;
-    } while (0);
-    if (current_mode != 0) {
+    D_80081480.field_0 = saved_data_addr;
+    if (flags != 0) {
         next_mode = 3;
     } else {
         D_8008148C.field_0 = (s32)D_80126804;

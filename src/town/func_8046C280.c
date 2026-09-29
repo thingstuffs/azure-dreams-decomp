@@ -95,20 +95,16 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
     }
 
     delta = n - head;
-    if (lookup_flag == 0) {
-        goto common;
+    if (lookup_flag != 0) {
+        if (delta >= 0) {
+            delta += 1;
+            n = lookup_flag - delta;
+        } else {
+            group = head - n;
+            n = group;
+            n -= 1;
+        }
     }
-    if (delta < 0) {
-        goto negative;
-    }
-    delta += 1;
-    n = lookup_flag - delta;
-    goto common;
-negative:
-    group = head - n;
-    n = group;
-    n -= 1;
-common:
 
     {
         u8 *data_page;

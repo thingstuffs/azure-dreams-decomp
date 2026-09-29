@@ -49,7 +49,7 @@ extern s16 func_800BCB04(u16, u16, s16);
 s32 func_800BC3E4(void *start_node) {
     void *node = start_node;
     GameWork *state = &gameWork;
-    volatile u16 *scratch = (volatile u16 *)0x1F800000;
+    u16 *scratch = (u16 *)0x1F800000;
     register void *previous ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     scratch[0x80] = -((u16)state->view.unk_0AC);

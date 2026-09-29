@@ -14,14 +14,14 @@ typedef struct ValueLink {
     HalfValue *next;
 } ValueLink;
 
-extern s32 * volatile D_80129728[28];
+extern s32 * D_80129728[28];
 
 
 /* Swap paired slot values and linked halfwords, toggle the state flag, and update. */
 void func_801237E8(Rec_func_801237A4_arg0 *state) {
-    s32 * volatile *slots;
-    s32 * volatile *right_slot;
-    s32 * volatile *left_slot;
+    s32 * *slots;
+    s32 * *right_slot;
+    s32 * *left_slot;
     s32 *left_word;
     s32 saved_word;
     s32 slot_index;

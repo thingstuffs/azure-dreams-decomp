@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_70088BD0(void);
-extern volatile struct { s32 v; s32 pad[2]; } D_800814A0;
+extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Run the flag handler and set entry and global flags when bit 0x2000 is set. */
 void func_7FDD1970(void *entry) {

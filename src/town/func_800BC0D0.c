@@ -13,7 +13,7 @@ extern u8 D_800D2EA4[];
 void func_800B9830(void)
 {
     s32 entry_index;
-    volatile u8 *source_record;
+    u8 *source_record;
     u8 *page;
 
     entry_index = 0;

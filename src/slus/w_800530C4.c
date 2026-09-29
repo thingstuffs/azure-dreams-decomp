@@ -14,7 +14,7 @@ typedef struct Group {
 
 typedef struct Child {
     u8 pad00[0x1E];
-    volatile u16 flags;
+    u16 flags;
 } Child;
 
 typedef struct Main {

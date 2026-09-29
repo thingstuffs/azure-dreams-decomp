@@ -8,7 +8,7 @@ void func_80026FB4(void *object) {
     s32 global_flags;
 
     global_base = (s32 *)0x80080000;
-    asm volatile("" : "=r"(global_base) : "0"(global_base));
+    asm ("" : "=r"(global_base) : "0"(global_base));
     object_flags = *(u16 *)(object_bytes + 0x1E);
     global_flags = global_base[0x528];
     object_flags |= 0x8000;

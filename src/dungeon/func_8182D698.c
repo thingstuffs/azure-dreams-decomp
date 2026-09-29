@@ -60,7 +60,7 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
         }
         {
             s32 z_velocity;
-            volatile s32 *x_velocity_addr = &motion->dx;
+            s32 *x_velocity_addr = &motion->dx;
             s32 x_drag;
             s32 random_value;
             s32 z_jitter;

@@ -9,7 +9,7 @@ typedef struct S_80026C20_0 {
 
 typedef struct S_80026C20_1 {
     u8 unk_00;
-    union { u8 s; volatile u8 u; } unk_01;   /* accessed as both */
+    union { u8 s; u8 u; } unk_01;   /* accessed as both */
 } S_80026C20_1;   /* var_a2 in func_80026C20 */
 
 

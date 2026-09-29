@@ -60,7 +60,7 @@ TownRecord *func_8001CBF8(void)
             record_flags &= 0xC0;
         } while (record_flags != next_addr_or_end);
     }
-    if ((((volatile TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
+    if ((((TownRecord *)D_80018A18)->flags & 0xC0) != 0x80) {
         s32 scan_index = 0;
         s32 end_flags;
 

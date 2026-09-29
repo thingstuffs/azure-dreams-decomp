@@ -26,8 +26,8 @@ typedef struct S_807B0B3C_2 {
 } S_807B0B3C_2;   /* a3p in func_807B0B3C */
 
 typedef struct S_807B0B3C_3 {
-    union { volatile u16 v; s16 n; } unk_00;   /* accessed as both */
-    union { volatile u16 v; s16 n; } unk_02;   /* accessed as both */
+    union { u16 v; s16 n; } unk_00;   /* accessed as both */
+    union { u16 v; s16 n; } unk_02;   /* accessed as both */
     u16 unk_04;
 } S_807B0B3C_3;   /* a0p in func_807B0B3C */
 
@@ -454,16 +454,13 @@ set_depth:
     if (coord == 0x400) {
         goto angle_400;
     }
-    if (coord > 0x400) {
-        goto angle_high;
+    if (coord <= 0x400) {
+        if (coord == 0) {
+            goto angle_0;
+        }
+        vertex_index = 3;
+        goto loop_setup_b;
     }
-    if (coord == 0) {
-        goto angle_0;
-    }
-    vertex_index = 3;
-    goto loop_setup_b;
-
-angle_high:
     if (coord == 0x800) {
         goto angle_800;
     }

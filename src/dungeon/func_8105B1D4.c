@@ -115,12 +115,10 @@ no_special:
         animation = 0;
         goto selected;
     }
-    if (anim_kind == 3) {
-        goto no_3;
+    if (anim_kind != 3) {
+        animation = 0;
+        goto selected;
     }
-    animation = 0;
-    goto selected;
-
 no_3:
     case 2:
     animation = (u8 *)actor + 0xE;
@@ -139,43 +137,37 @@ no_1:
     }
 
 selected:
-    if (*animation == 0) {
-        goto empty_anim;
-    }
-    ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
-    reuse_test = reuse_target;
-    if (reuse_test != 0) {
-        target_root = D_800814A8;
-        actor->target = target_root;
-        target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
-        actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
-        actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
-        goto set_position;
-    }
-
-    new_target = func_800A05A4(
-        actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
-        actor->facing, 0x10);
-    actor->target = new_target;
-    abs_x = abs(actor->unk_72);
-    abs_y = abs(actor->unk_73);
-    actor->unk_72 = abs_x;
-    actor->unk_73 = abs_y;
-
-set_position:
-    position[0] = ((u16)motion->x.w.i);
-    position[1] = ((u16)motion->y.w.i);
-    position[2] = ((u16)motion->z.w.i);
-    if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
-        ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
-        func_800A56E0(0x703);
-        func_800DA840(position, (s16)((*animation - 1) % 3));
-        ((S_801729D4_0 *)action)->unk_9B++;
+    if (*animation != 0) {
+        ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
+        reuse_test = reuse_target;
+        if (reuse_test != 0) {
+            target_root = D_800814A8;
+            actor->target = target_root;
+            target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
+            actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
+            actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
+        } else {
+            new_target = func_800A05A4(
+                actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
+                actor->facing, 0x10);
+            actor->target = new_target;
+            abs_x = abs(actor->unk_72);
+            abs_y = abs(actor->unk_73);
+            actor->unk_72 = abs_x;
+            actor->unk_73 = abs_y;
+        }
+        position[0] = ((u16)motion->x.w.i);
+        position[1] = ((u16)motion->y.w.i);
+        position[2] = ((u16)motion->z.w.i);
+        if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
+            ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+            func_800A56E0(0x703);
+            func_800DA840(position, (s16)((*animation - 1) % 3));
+            ((S_801729D4_0 *)action)->unk_9B++;
+            return;
+        }
         return;
     }
-    return;
-
-empty_anim:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;

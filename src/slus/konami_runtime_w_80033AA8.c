@@ -18,6 +18,6 @@ void func_80033AA8(s32 bit_id) {
     if (bit_index == 1) {
         return;
     }
-    ((volatile MemoryPage *)0x80010000)->words[bit_index >> 5] |=
+    ((MemoryPage *)0x80010000)->words[bit_index >> 5] |=
         1U << (bit_value & 0x1F);
 }

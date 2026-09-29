@@ -23,7 +23,7 @@ void func_8008C468(void *entity, void *unused, void *animation, EntityRec *state
             current_page = (*(u8 **) ((u8 *)animation + 0x2C));
             page = alternate_page;
         } else {
-            current_page = (*(u8 * volatile *) ((u8 *)animation + 0x2C));
+            current_page = (*(u8 * *) ((u8 *)animation + 0x2C));
             page = D_800DD050;
         }
         if (current_page != page) {

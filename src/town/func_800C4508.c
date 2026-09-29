@@ -30,16 +30,16 @@ group_loop:
 
 range_loop:
         ranges = *(s16 * volatile *)group;
-        do {
-            range = (s16 *)(range_offset + (s32)ranges);
-        } while (0);
+        range = (s16 *)(range_offset + (s32)ranges);
         if (value >= range[0]) {
             if (range[1] >= value) {
                 return_value = group_number;
                 goto done;
             }
+            ranges = range_groups[group_index];
+        } else {
+            ranges = range_groups[group_index];
         }
-        ranges = range_groups[group_index];
         range_offset += 4;
         return_value = range_offset + (s32)ranges;
         return_value = *(s16 *)return_value;

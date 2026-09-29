@@ -11,7 +11,7 @@ extern s32 func_80065590(
 
 typedef struct S_818B6F90_0 {
     u8 * unk_00;
-    union { volatile s32 v; volatile u32 v2; } unk_04;   /* accessed as both */
+    union { s32 v; u32 v2; } unk_04;   /* accessed as both */
     u8 pad_08[0x8];
     s16 unk_10;
     s16 unk_12;
@@ -200,7 +200,7 @@ s32 func_818B6F90(s32 texture_index, u8 *color_source)
             (((S_818B6F90_2 *)packet)->unk_00.at00.v & 0xFF000000) |
             (ot_entry & 0x00FFFFFF);
         write_depth = ((S_818B6F90_0 *)scratch)->unk_04.v2;
-        ot_write = (*(u32 * volatile *)((u8 *)scratch + (0x00)));
+        ot_write = (*(u32 * *)((u8 *)scratch + (0x00)));
         ot_write[write_depth] =
             (ot_write[write_depth] & 0xFF000000) |
             ((u32)packet & 0x00FFFFFF);

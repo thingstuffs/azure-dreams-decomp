@@ -81,8 +81,8 @@ typedef struct S_801757E0_3 {
     u8 pad_00[0x1E];
     s16 unk_1E;
     u8 pad_20[0x30];
-    union { s32 n; volatile s32 v; } unk_50;   /* accessed as both */
-    union { s32 n; volatile s32 v; } unk_54;   /* accessed as both */
+    union { s32 n; s32 v; } unk_50;   /* accessed as both */
+    union { s32 n; s32 v; } unk_54;   /* accessed as both */
     s32 unk_58;
     u8 pad_5C[0x8];
     s32 unk_64;
@@ -237,57 +237,52 @@ void func_801757E0(void *actor, void *motion, void *animation, EntityRec *entity
     }
 
 check_effect_trigger:
-    if (((S_801757E0_0 *)actor)->unk_96.s != 0x0A &&
-        !(((S_801757E0_1 *)animation)->unk_14 & 0x8000)) {
-        goto final_flags;
-    }
+    if (!(((S_801757E0_0 *)actor)->unk_96.s != 0x0A && !(((S_801757E0_1 *)animation)->unk_14 & 0x8000))) {
+        directions = D_8017610C;
+        ((S_801757E0_0 *)actor)->unk_AD.s = 0;
+        x = ((S_801757E0_2 *)motion)->unk_02.s +
+            (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
+        y = ((S_801757E0_2 *)motion)->unk_06.s +
+            (directions[(((u16)entity->facing) >> 9) & 7].y << 6);
+        target_x = (u16)x;
+        target_y = (u16)y;
 
-    directions = D_8017610C;
-    ((S_801757E0_0 *)actor)->unk_AD.s = 0;
-    x = ((S_801757E0_2 *)motion)->unk_02.s +
-        (directions[(((u16)entity->facing) >> 9) & 7].x << 6);
-    y = ((S_801757E0_2 *)motion)->unk_06.s +
-        (directions[(((u16)entity->facing) >> 9) & 7].y << 6);
-    target_x = (u16)x;
-    target_y = (u16)y;
-
-    if ((s16)func_800A45D8(target_x, target_y,
-                           ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
-        ((S_801757E0_0 *)actor)->unk_AD.s = 1;
-    }
-    if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-        func_8009A350(((S_801757E0_1 *)animation)->unk_24,
-                      ((S_801757E0_1 *)animation)->unk_25,
-                      (((u16)entity->facing) >> 9) & 7,
-                      &collision_flags);
-        if (collision_flags & 0x8400) {
+        if ((s16)func_800A45D8(target_x, target_y,
+                               ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
             ((S_801757E0_0 *)actor)->unk_AD.s = 1;
         }
-    }
-    if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-        if (func_80174A00(entity,
-                ((S_801757E0_1 *)animation)->unk_24 +
-                    directions[(((u16)entity->facing) >> 9) & 7].x,
-                ((S_801757E0_1 *)animation)->unk_25 +
-                    directions[(((u16)entity->facing) >> 9) & 7].y,
-                ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
-            ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+        if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            func_8009A350(((S_801757E0_1 *)animation)->unk_24,
+                          ((S_801757E0_1 *)animation)->unk_25,
+                          (((u16)entity->facing) >> 9) & 7,
+                          &collision_flags);
+            if (collision_flags & 0x8400) {
+                ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+            }
+        }
+        if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            if (func_80174A00(entity,
+                    ((S_801757E0_1 *)animation)->unk_24 +
+                        directions[(((u16)entity->facing) >> 9) & 7].x,
+                    ((S_801757E0_1 *)animation)->unk_25 +
+                        directions[(((u16)entity->facing) >> 9) & 7].y,
+                    ((S_801757E0_2 *)motion)->unk_0A.s) != 0) {
+                ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+            }
+        }
+        if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            floor_height = func_800BCB04(target_x, target_y,
+                                 ((S_801757E0_2 *)motion)->unk_0A.s - 0x20);
+            if (floor_height >= 0x200 ||
+                floor_height > ((S_801757E0_2 *)motion)->unk_0A.s + 0x20 ||
+                floor_height < ((S_801757E0_2 *)motion)->unk_0A.s - 0x20) {
+                ((S_801757E0_0 *)actor)->unk_AD.s = 1;
+            }
+        }
+        if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
+            func_80175494(actor, motion, animation);
         }
     }
-    if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-        floor_height = func_800BCB04(target_x, target_y,
-                             ((S_801757E0_2 *)motion)->unk_0A.s - 0x20);
-        if (floor_height >= 0x200 ||
-            floor_height > ((S_801757E0_2 *)motion)->unk_0A.s + 0x20 ||
-            floor_height < ((S_801757E0_2 *)motion)->unk_0A.s - 0x20) {
-            ((S_801757E0_0 *)actor)->unk_AD.s = 1;
-        }
-    }
-    if (((S_801757E0_0 *)actor)->unk_AD.s == 0) {
-        func_80175494(actor, motion, animation);
-    }
-
-final_flags:
     if (!(((S_801757E0_1 *)animation)->unk_14 & 0xE000)) {
         return;
     }

@@ -93,13 +93,13 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
         *(u8 *)(packet + 3) = (color_word = *(s32 *)((u8 *) line_data + 0xC), 4);
         *(s32 *)(packet + 4) = color_word;
         red_blue = *(u8 *)(packet + 4);
-        *(volatile u8 *)(packet + 7) = 0x52;
+        *(u8 *)(packet + 7) = 0x52;
         green = *(u8 *)(packet + 5);
         red_blue >>= 1;
         *(u8 *)(packet + 0xC) = red_blue;
         red_blue = *(u8 *)(packet + 6);
         green >>= 1;
-        *(volatile u8 *)(packet + 0xD) = green;
+        *(u8 *)(packet + 0xD) = green;
         red_blue >>= 1;
         *(u8 *)(packet + 0xE) = red_blue;
         func_8006658C((*(u8 **)(scratch + 0x20)) + ((*(s32 *)(scratch + 0xC0)) * 4), packet);

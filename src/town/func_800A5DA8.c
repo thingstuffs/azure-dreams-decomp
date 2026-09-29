@@ -102,7 +102,7 @@ void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
     vec[4] *= scale;
     vec[5] *= scale;
 
-    (*(volatile s32 *)((u8 *)obj + 0x2C)) = vec[3] / 23;
+    (*(s32 *)((u8 *)obj + 0x2C)) = vec[3] / 23;
     ((S_800A3508_1 *)obj)->unk_30 = vec[4] / 23;
     ((S_800A3508_1 *)obj)->unk_34 = vec[5] / 23;
     ((S_800A3508_1 *)obj)->unk_24 = 0x18;

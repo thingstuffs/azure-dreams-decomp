@@ -139,31 +139,28 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
         break;
 
     case 3:
-    if (motion->w8 > 0x7fffff) {
-        goto L3_over;
-    }
-    {
-        s32 height = motion->w8 + motion->w20;
-        motion->w8 = height;
-        if (height <= 0x3fffff) {
-            particles_left = 3;
-            for (;;) {
-                random_value = rand();
-                particle_x = random_value & 0xff;
-                particle_x -= 128;
-                particle_x <<= 14;
-                particle_x += 0x5600000;
-                random_value = rand();
-                func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
-                if (--particles_left < 0) {
-                    goto END;
+    if (motion->w8 <= 0x7fffff) {
+        {
+            s32 height = motion->w8 + motion->w20;
+            motion->w8 = height;
+            if (height <= 0x3fffff) {
+                particles_left = 3;
+                for (;;) {
+                    random_value = rand();
+                    particle_x = random_value & 0xff;
+                    particle_x -= 128;
+                    particle_x <<= 14;
+                    particle_x += 0x5600000;
+                    random_value = rand();
+                    func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
+                    if (--particles_left < 0) {
+                        goto END;
+                    }
                 }
             }
         }
+            break;
     }
-        break;
-
-L3_over:
     entity->timer = 2;
     entity->state = 4;
         break;

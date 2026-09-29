@@ -165,28 +165,26 @@ check_zone:
                                     edge_x = (u16)box->x;
                                     edge_delta = (u16)box->w;
                                     edge_x = edge_x + edge_delta;
-                                    goto store_x;
+                                } else {
+                                    actor_x = actor->x;
+                                    do {
+                                        edge_x = box->x;
+                                    } while (0);
+                                    box_width = box->w;
+                                    edge_delta = actor_x - edge_x;
+                                    if (edge_delta < 0) {
+                                        edge_delta = -edge_delta;
+                                    }
+                                    edge_x = edge_x + box_width;
+                                    edge_x = edge_x - actor_x;
+                                    edge_x = abs(edge_x);
+                                    edge_delta = edge_delta < edge_x;
+                                    edge_x = (u16)box->x;
+                                    box_width = (u16)box->w;
+                                    if (!edge_delta) {
+                                        edge_x = edge_x + box_width;
+                                    }
                                 }
-                                actor_x = actor->x;
-                                do {
-                                    edge_x = box->x;
-                                } while (0);
-                                box_width = box->w;
-                                edge_delta = actor_x - edge_x;
-                                if (edge_delta < 0) {
-                                    edge_delta = -edge_delta;
-                                }
-                                edge_x = edge_x + box_width;
-                                edge_x = edge_x - actor_x;
-                                edge_x = abs(edge_x);
-                                edge_delta = edge_delta < edge_x;
-                                edge_x = (u16)box->x;
-                                box_width = (u16)box->w;
-                                if (edge_delta) {
-                                    goto store_x;
-                                }
-                                edge_x = edge_x + box_width;
-                            store_x:
                                 ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                                 actor->x = edge_x;
                                 return 2;

@@ -186,7 +186,7 @@ typedef struct S_812A524C_34 {
 } S_812A524C_34;   /* temp_v1_3 in func_812A524C */
 
 typedef struct S_812A524C_36 {
-    union { s32 n; volatile s32 v; } unk_00;   /* accessed as both */
+    union { s32 n; s32 v; } unk_00;   /* accessed as both */
 } S_812A524C_36;   /* &D_800E296C in func_812A524C */
 
 typedef struct S_812A524C_37 {
@@ -203,7 +203,7 @@ typedef struct S_812A524C_38 {
     u8 pad_00[0x4];
     union { s8 s8; u16 u16; } unk_04;   /* accessed as both */
     u8 pad_06[0xE];
-    union { u16 n; volatile u16 v; } unk_14;   /* accessed as both */
+    union { u16 n; u16 v; } unk_14;   /* accessed as both */
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;

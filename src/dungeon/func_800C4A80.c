@@ -6,7 +6,7 @@
 
 typedef struct S_800CA1E0_0 {
     u8 pad_00[0x24];
-    union { u8 s; volatile u8 u; } unk_24;   /* accessed as both */
+    union { u8 s; u8 u; } unk_24;   /* accessed as both */
     union { u8 s; volatile u8 u; } unk_25;   /* accessed as both */
     s8 unk_26;
 } S_800CA1E0_0;   /* temp_s2 in func_800CA1E0 */

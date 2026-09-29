@@ -80,7 +80,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
 
             level_product = level * stat_growth[5];
             curve_value = func_800647A0(level_product << 0xB, old_curve, old_base);
-            new_base = *(volatile u8 *)(initial_stats + 5);
+            new_base = *(u8 *)(initial_stats + 5);
             new_linear = stat_growth[5] * level;
             if (new_linear < 0) {
                 new_linear += 0xF;

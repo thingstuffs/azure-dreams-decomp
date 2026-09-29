@@ -26,9 +26,7 @@ extern void func_8003CCB0(s32 arg0);
 
 static inline s32 shift10(s32 value)
 {
-    do {
-        return value >> 10;
-    } while (0);
+    return value >> 10;
 }
 
 /* Swap draw buffers and update the animated coordinate history on a new display field. */
@@ -94,6 +92,7 @@ void func_8003CB08(void)
             trig_value = rsin(D_80080AA4 * 80);
             {
                 s16 *y_head = D_800838D8;
+                s32 center_offset;
                 wave_offset = trig_value >> 7;
                 center_offset = shift10(trig_value) + 0xB0;
                 *y_head = (s16)(wave_offset + center_offset);

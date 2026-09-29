@@ -5,7 +5,7 @@
 
 typedef struct S_80921A44_0 {
     union { s32 s; volatile s32 u; } unk_00;   /* accessed as both */
-    union { volatile s32 s; s32 u; } unk_04;   /* accessed as both */
+    union { s32 s; s32 u; } unk_04;   /* accessed as both */
     union { volatile s32 s; s32 u; } unk_08;   /* accessed as both */
     union { s32 s; volatile s32 u; } unk_0C;   /* accessed as both */
     s32 unk_10;

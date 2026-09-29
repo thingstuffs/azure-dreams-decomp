@@ -38,7 +38,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         current_sound = D_800D4268;
         town_entries = D_800D4094;
         town_entry = town_entries + (entry_index * 10);
-        town_effect = *(volatile u16 *)(town_entry + 6);
+        town_effect = *(u16 *)(town_entry + 6);
         current_sound[2] = town_effect;
         if ((s16)town_effect != -1) {
             func_8004437C(*(s16 *)(town_entry + 6), 0);
@@ -59,7 +59,7 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         D_800D4268[2] = fallback_effect;
         func_8004437C((s16)fallback_effect, 0);
         fallback_sequence = fallback_entry[1];
-        ((volatile u16 *)D_800D4268)[3] = fallback_sequence;
+        ((u16 *)D_800D4268)[3] = fallback_sequence;
         sequence = fallback_sequence | sequence_flags;
         sequence = (u16)sequence;
         /* MATCH: Complete argument preparation before the shared call. */

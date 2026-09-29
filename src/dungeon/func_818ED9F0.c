@@ -38,12 +38,10 @@ void func_800251F0(void *object_ptr)
     ((S_800251F0_0 *)object_bytes)->unk_02.s = remaining_ticks - 1;
     ((S_800251F0_0 *)object_bytes)->unk_8C += 200;
     ((S_800251F0_0 *)object_bytes)->unk_0A++;
-    if ((s16)((S_800251F0_0 *)object_bytes)->unk_0A < 2) {
-        goto counter_done;
+    if ((s16)((S_800251F0_0 *)object_bytes)->unk_0A >= 2) {
+        ((S_800251F0_0 *)object_bytes)->unk_0A = 0;
+        ((S_800251F0_0 *)object_bytes)->unk_0C.s++;
     }
-    ((S_800251F0_0 *)object_bytes)->unk_0A = 0;
-    ((S_800251F0_0 *)object_bytes)->unk_0C.s++;
-counter_done:
     if (((S_800251F0_0 *)object_bytes)->unk_0C.u >= 33) {
         ((S_800251F0_0 *)object_bytes)->unk_0C.u = 32;
     }

@@ -172,33 +172,30 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
     }
     func_80043914(((u8 *)D_80082E80.unk_030));
     object = func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, spawn_resource, 1)(6, ((S_80095A10_2 *)context)->unk_72, ((S_80095A10_2 *)context)->unk_73, (s16) (((S_80095A10_2 *)context)->unk_88 - 0x20));
-    if (object == NULL) {
-        goto start_delay;
+    if (object != NULL) {
+        ((S_80095A10_2 *)context)->unk_60 = object;
+        D_800E3DF0[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
+        object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
+        ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
+        ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
+        object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
+        ((S_80095A10_7 *)object_position)->unk_02 = (u16) ((S_80095A10_8 *)position)->unk_02;
+        ((S_80095A10_7 *)object_position)->unk_06 = (u16) ((S_80095A10_8 *)position)->unk_06;
+        ((S_80095A10_7 *)object_position)->unk_0A = (s16) (((S_80095A10_8 *)position)->unk_0A - 0x10);
+        func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
+        func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
+        object_flags = ((S_80095A10_5 *)object)->unk_1C;
+        object_flags |= 0x02000000;
+        object_flags |= 0x20000;
+        ((S_80095A10_5 *)object)->unk_1C = object_flags;
+        func_80042560(object);
+        func_800A56E0(0x704);
+        func_80042B68(object, 3);
+        func_80042B68(object, 1);
+        if (((S_80095A10_5 *)object)->unk_25 == 0) {
+            ((S_80095A10_5 *)object)->unk_25 = 1U;
+        }
     }
-    ((S_80095A10_2 *)context)->unk_60 = object;
-    D_800E3DF0[((S_80095A10_3 *)resource_info)->unk_03 & 0x1F] = object;
-    object_scale = ((S_80095A10_5_pre *)object)[-1].unk_04;
-    ((S_80095A10_6 *)object_scale)->unk_1E = 0x800;
-    ((S_80095A10_6 *)object_scale)->unk_1C = 0x800;
-    object_position = ((S_80095A10_5_pre *)object)[-1].unk_00;
-    ((S_80095A10_7 *)object_position)->unk_02 = (u16) ((S_80095A10_8 *)position)->unk_02;
-    ((S_80095A10_7 *)object_position)->unk_06 = (u16) ((S_80095A10_8 *)position)->unk_06;
-    ((S_80095A10_7 *)object_position)->unk_0A = (s16) (((S_80095A10_8 *)position)->unk_0A - 0x10);
-    func_80042640(object, ((S_80095A10_5 *)object)->unk_13);
-    func_800424E0(object, ((S_80095A10_5 *)object)->unk_13, resource_info);
-    object_flags = ((S_80095A10_5 *)object)->unk_1C;
-    object_flags |= 0x02000000;
-    object_flags |= 0x20000;
-    ((S_80095A10_5 *)object)->unk_1C = object_flags;
-    func_80042560(object);
-    func_800A56E0(0x704);
-    func_80042B68(object, 3);
-    func_80042B68(object, 1);
-    if (((S_80095A10_5 *)object)->unk_25 != 0) {
-        goto start_delay;
-    }
-    ((S_80095A10_5 *)object)->unk_25 = 1U;
-start_delay:
     previous_state = ((S_80095A10_0 *)actor)->unk_9B;
     {
         animation_flags = 0x10U;

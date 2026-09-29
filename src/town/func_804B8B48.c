@@ -39,9 +39,9 @@ s32 func_80017348(void) {
 
         context = *context_ptr;
         do {
-            calls = *(u8 * volatile *)&context->calls;
+            calls = *(u8 * *)&context->calls;
         } while (0);
-        state = *(TownState * volatile *)&context->state;
+        state = *(TownState * *)&context->state;
         previous_value = state->value;
         (*(TownCall2 *)(calls + 0x248))(1, state);
     }

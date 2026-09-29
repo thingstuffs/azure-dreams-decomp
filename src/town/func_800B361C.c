@@ -2,10 +2,10 @@
 
 typedef struct S_func_800B361C_0 {
     u8 pad_00[0x10];
-    volatile s32 unk_10;
-    volatile s32 unk_14;
+    s32 unk_10;
+    s32 unk_14;
     u8 pad_18[0x4];
-    volatile s32 unk_1C;
+    s32 unk_1C;
     u8 pad_20[0xAC];
     void *unk_CC;
 } S_func_800B361C_0;
@@ -42,9 +42,7 @@ void func_800B0D7C(S_func_800B361C_0 *object) {
         s32 clear_mask;
         S_func_800B361C_1 *state;
 
-        do {
-            clear_mask = ~1;
-        } while (0);
+        clear_mask = ~1;
         object->unk_1C &= clear_mask;
 
         state = object->unk_CC;
