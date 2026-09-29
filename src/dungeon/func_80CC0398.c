@@ -30,7 +30,6 @@ typedef struct S_80173B98_2 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *D_80170858[];
 void func_80047784(void *arg0, u8 arg1, s32 arg2);
 s32 func_8009A180(void *arg0, s32 arg1);
 s8 func_8009FB34(u8 arg0, u8 arg1);
@@ -62,10 +61,8 @@ static __inline__ void set_map(void *sprite, void *creature, u8 *direction_map) 
 
 /* Updates dungeon creature actions, facing direction, and animation. */
 void func_80173B98(void *actor, M2C_UNK context, void *sprite, EntityRec *creature) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     M2C_UNK direction_aux;
     s32 status_flags;
-    s32 action_id;
     s8 tile_index;
     u16 action_flags;
 
@@ -147,37 +144,30 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, EntityRec *creatu
                 return;
             }
         }
-        action_id = creature->unk_46 & 0x3FFF;
-        {
-            u32 idx = action_id - 1;
-            if (idx >= 0xCU) {
+        switch (creature->unk_46 & 0x3FFF) {
+        case 9:
+            if (func_80175E6C(actor, context, sprite, creature) != 0) {
+                return;
+            }
+            func_8017405C(actor, context, sprite, creature);
+            return;
+        case 1:
+        case 2:
+        case 3:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 12:
+            func_800A9A0C(creature);
+            return;
+        case 4:
+        case 10:
+        case 11:
+        default:
             func_8017405C(actor, context, sprite, creature);
             return;
         }
-            (void)action_labels;
-            goto *D_80170858[idx];
-        }
-jt_c9:
-        if (func_80175E6C(actor, context, sprite, creature) != 0) {
-            return;
-        }
-        func_8017405C(actor, context, sprite, creature);
-        return;
-jt_c1:
-jt_c2:
-jt_c3:
-jt_c5:
-jt_c6:
-jt_c7:
-jt_c8:
-jt_c12:
-        func_800A9A0C(creature);
-        return;
-jt_c4:
-jt_c10:
-jt_c11:
-        func_8017405C(actor, context, sprite, creature);
-        return;
     }
     status_flags = creature->flags1C;
     if (!(status_flags & 0x2000)) {

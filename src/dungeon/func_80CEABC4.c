@@ -21,7 +21,6 @@ typedef struct S_801743C4_0 {
 
 
 
-extern void *D_80170838[];
 
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *, void *, s32, s32);
@@ -39,20 +38,13 @@ extern u8 D_80175DEC[8];
 /* Advance a timed action sequence with directional animation and sound effects. */
 void func_801743C4(void *action, void *motion, void *sprite, EntityRec *entity)
 {
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
-    };
     s16 timer;
     u8 state;
 
     state = ((S_801743C4_0 *)action)->unk_9B;
-    if (state >= 6) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170838[state];
+    switch (state) {
 
-jt_c0:
+    case 0:
     ((Rec_func_8017121C_arg1 *)motion)->unk_14 = 0;
     ((Rec_func_8017121C_arg1 *)motion)->unk_10 = 0;
     ((Rec_func_8017121C_arg1 *)motion)->unk_0C = 0;
@@ -62,7 +54,7 @@ jt_c0:
         return;
     }
 
-jt_c1:
+    case 1:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
     ((S_801743C4_0 *)action)->unk_96.s = timer;
     if ((timer != 4) && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
@@ -95,7 +87,7 @@ jt_c1:
         return;
     }
 
-jt_c2:
+    case 2:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
     ((S_801743C4_0 *)action)->unk_96.s = timer;
     if ((timer == 5) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
@@ -109,7 +101,7 @@ jt_c2:
     }
     return;
 
-jt_c3:
+    case 3:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(entity, 0x100);
         ((S_801743C4_0 *)action)->unk_8C = D_801724BC;
@@ -119,7 +111,7 @@ jt_c3:
     }
     return;
 
-jt_c5:
+    case 5:
     timer = ((S_801743C4_0 *)action)->unk_96.s + 1;
     ((S_801743C4_0 *)action)->unk_96.s = timer;
     if ((timer == 10) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
@@ -133,14 +125,14 @@ jt_c5:
         func_8009C12C(entity, sprite, entity->facing,
             ((S_801743C4_0 *)action)->unk_AA);
     }
-    if ((((S_801743C4_0 *)action)->unk_96.u != 20) &&
-        !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto jt_c4;
+    if ((((S_801743C4_0 *)action)->unk_96.u == 20) ||
+        (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+        ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+        ((S_801743C4_0 *)action)->unk_96.s = 0;
+        ((S_801743C4_0 *)action)->unk_9B = 3;
     }
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-    ((S_801743C4_0 *)action)->unk_96.s = 0;
-    ((S_801743C4_0 *)action)->unk_9B = 3;
-
-jt_c4:
-    return;
+    case 4:
+    default:
+        return;
+    }
 }

@@ -85,7 +85,6 @@ typedef struct S_80C97514_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80170858[];
 void func_8003DB94();     /* extern */
 s32 Control_CD(); /* extern */
 void func_8003F540(); /* extern */
@@ -119,7 +118,6 @@ extern s32 D_801753AC;
 
 /* Advances the actor transition through turning, color blending, effects, and model replacement. */
 void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
     s32 direction;
     u16 fade_ticks;
     u16 finish_ticks;
@@ -134,19 +132,16 @@ void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     void *model;
 
     status = ((S_80C97514_0 *)state)->unk_9B;
-    if (status >= 9U) {
-        return;
-    }
-    (void)state_labels; goto *D_80170858[(u32)(status)];
-jt_c0:
+    switch (status) {
+    case 0:
     next_state = ((S_80C97514_0 *)state)->unk_9B + 1;
     goto advance_state;
-jt_c1:
+    case 1:
     func_80041588(&D_8017530C, &D_801753A8, 0);
     ((S_80C97514_0 *)state)->unk_A4 = 0;
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
     ((Rec_D_80082E80 *)actor)->unk_8A = (u16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v;
-jt_c2:
+    case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)actor)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_801753A8) == 0) {
         goto turn_actor;
@@ -170,7 +165,7 @@ start_effect:
     ((S_80C97514_0 *)state)->unk_96 = 0x10U;
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
     func_80174724(state, position, entity);
-jt_c3:
+    case 3:
     previous_ticks = ((S_80C97514_0 *)state)->unk_96;
     fade_ticks = previous_ticks - 1;
     ((S_80C97514_0 *)state)->unk_96 = fade_ticks;
@@ -191,7 +186,7 @@ blend_color:
     scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (effect_data->unk_01 - scene_color->view.unk_091) / (s16) ((S_80C97514_0 *)state)->unk_96));
     scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (effect_data->unk_02 - scene_color->view.unk_092) / (s16) ((S_80C97514_0 *)state)->unk_96));
     return;
-jt_c4:
+    case 4:
 {
     s32 effect_type;
     s16 effect_index;
@@ -226,14 +221,14 @@ advance_state:
     ((S_80C97514_0 *)state)->unk_9B = next_state;
     return;
 }
-jt_c5:
+    case 5:
     render_obj = ((S_80C97514_0 *)state)->unk_AC;
     render_obj = render_obj->unk_0C.u;
     if (!(render_obj->unk_14 & 0xE000)) {
         goto check_transition;
     }
     ((S_80C97514_0 *)state)->unk_9B = (u8) (((S_80C97514_0 *)state)->unk_9B + 1);
-jt_c6:
+    case 6:
 check_transition:
     if (((S_80C97514_0 *)state)->unk_9B != 6) {
         return;
@@ -249,7 +244,7 @@ check_transition:
     render_obj = actor - 0x20;
     render_obj->unk_10 = (s32) (render_obj->unk_10 | 0x80000000);
     return;
-jt_c7:
+    case 7:
     new_model = func_800A504C(entity, actor);
     ((Rec_D_80082E80 *)actor)->unk_60.as_pv = new_model;
     if (new_model == NULL) {
@@ -262,7 +257,7 @@ jt_c7:
     render_obj = ((S_80C97514_9_pre *)model)[-1].unk_00;
     func_80047738(render_obj, render_obj->unk_2C[((s32) (gameWork.view.viewAngle + (s16) ((S_80C97514_9 *)model)->unk_2A + 0x100) >> 9) & 7], render_obj->unk_04);
     render_obj->unk_14 = (u16) (render_obj->unk_14 & 0xFFFE);
-jt_c8:
+    case 8:
     finish_ticks = ((S_80C97514_0 *)state)->unk_96 - 1;
     ((S_80C97514_0 *)state)->unk_96 = finish_ticks;
     if ((finish_ticks << 0x10) > 0) {
@@ -274,4 +269,5 @@ jt_c8:
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((Rec_D_80082E80 *)actor)->unk_6D = 0;
     return;
+    }
 }
