@@ -10,8 +10,6 @@ extern s32 D_8006CD58[];
 extern u8 D_80080A84;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
-extern void *D_80170880[];
-extern void *D_80170898[];
 extern u8 D_801710EC[];
 extern u8 D_80175E40[];
 extern u8 D_80175F40[];
@@ -86,12 +84,6 @@ typedef struct S_80173560_4 {
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_arg) {
-    static void *const state_labels[] = {
-        &&prepare_item, &&start_audio, &&wait_audio, &&finish_animation, &&reset_action
-    };
-    static void *const item_labels[] = {
-        &&item_at_0e, &&item_at_0b, &&item_at_08, &&item_default
-    };
     void *actor = actor_arg;
     s32 state;
     s32 action_value;
@@ -111,39 +103,34 @@ void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_ar
 
     state = ((S_80173560_0 *)action)->unk_9B.n;
     item_or_audio_base = 0;
-    if ((u32)state >= 5) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170880[state];
-
-prepare_item:
+    switch (state) {
+    case 0:
     action_value = ((S_80173560_1 *)actor)->unk_46 & 0x3FFF;
     state = action_value - 1;
-    if ((u32)state >= 7) {
-        goto item_default;
+    switch (state) {
+    case 0:
+        item_or_audio_base = 1;
+        item_addr = (s32)((u8 *)actor + 0xE);
+        break;
+
+    case 1:
+        item_or_audio_base = 1;
+        item_addr = (s32)((u8 *)actor + 0xB);
+        break;
+
+    case 2:
+        item_or_audio_base = 1;
+        item_addr = (s32)((u8 *)actor + 8);
+        break;
+
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    default:
+        item_addr = 0;
+        break;
     }
-    (void)item_labels;
-    goto *D_80170898[state];
-
-item_at_0e:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 0xE);
-    goto item_ready;
-
-item_at_0b:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 0xB);
-    goto item_ready;
-
-item_at_08:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 8);
-    goto item_ready;
-
-item_default:
-    item_addr = 0;
-item_ready:
     action_value = ((S_80173560_0 *)action)->unk_98;
     has_item = item_or_audio_base;
     ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
@@ -216,7 +203,7 @@ copy_target_pos:
     ((S_80173560_0 *)action)->unk_9B.n = action_value;
     return;
 
-start_audio:
+    case 1:
     ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
     if (((S_80173560_0 *)action)->unk_96.s < 3) {
         ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
@@ -236,7 +223,7 @@ start_audio:
     Control_CD(0x15, cd_param, 0);
     ((S_80173560_0 *)action)->unk_9B.n++;
 
-wait_audio:
+    case 2:
     if (func_8003F270() != 0) {
         ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
         return;
@@ -244,12 +231,12 @@ wait_audio:
     ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80173560_0 *)action)->unk_9B.n++;
 
-finish_animation:
+    case 3:
     if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
         ((S_80173560_4 *)sprite)->unk_05--;
     }
 
-reset_action:
+    case 4:
     if (((S_80173560_4 *)sprite)->unk_04 == 4) {
         if (!(((S_80173560_4 *)sprite)->unk_14 & 0x1000)) {
             goto check_high_flags;
@@ -288,4 +275,5 @@ check_high_flags:
     ((S_80173560_1 *)actor)->unk_73.u = 0;
     ((S_80173560_1 *)actor)->unk_72.u = 0;
     func_800A56E0(0xB4);
+    }
 }
