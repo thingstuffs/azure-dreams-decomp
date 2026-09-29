@@ -91,15 +91,12 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
     }
 
     state = object->kind;
-    if (state == 0) {
-        goto countdown;
+    if (state != 0) {
+        if (state == 1) {
+            goto fade;
+        }
+        return;
     }
-    if (state == 1) {
-        goto fade;
-    }
-    return;
-
-countdown:
     {
         u16 ticks_left = object->count - 1;
         object->count = ticks_left;

@@ -98,32 +98,32 @@ loop_0:
                 angle_step += 0x1000;
             } while (0);
             {
-                offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
+                offset = *((s32 *) (((u8 *) scratchpad) + 0x14));
                 scratch = offset * trig_value;
                 offset = scratch >> 13;
-                *((volatile u8 *) (((volatile u8 *) packet_code) + 42)) =
-                    (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + offset;
+                *((u8 *) (((u8 *) packet_code) + 42)) =
+                    (*((u8 *) (((u8 *) packet_code) + 6))) + offset;
             }
             trig_value = func_80064584(angle_step / parameters->count);
             {
                 offset = parameters->x2;
                 scratch = offset * trig_value;
                 offset = scratch >> 12;
-                *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + offset;
+                *((u16 *) (((u8 *) scratchpad) + 0x78)) = position->x + offset;
             }
             trig_value = func_800644B8(angle_step / (*(u16 *)((u8 *)parameters + 0xE)));
             {
                 offset = parameters->y2;
                 scratch = offset * trig_value;
                 offset = scratch >> 12;
-                *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7A)) = position->y + offset;
+                *((u16 *) (((u8 *) scratchpad) + 0x7A)) = position->y + offset;
             }
-            center_xy = *((volatile s32 *) (((volatile u8 *) position) + 0));
-            *((volatile s32 *) (((volatile u8 *) packet_code) + 13)) = center_xy;
-            *((volatile s32 *) (((volatile u8 *) packet_code) + 1)) = center_xy;
-            *((volatile s32 *) (((volatile u8 *) packet_code) + 25)) =
-                *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x78));
-            *((volatile s32 *) (((volatile u8 *) packet_code) + 37)) = *((volatile s32 *) (((u8 *) scratchpad) + 0x70));
+            center_xy = *((s32 *) (((u8 *) position) + 0));
+            *((s32 *) (((u8 *) packet_code) + 13)) = center_xy;
+            *((s32 *) (((u8 *) packet_code) + 1)) = center_xy;
+            *((s32 *) (((u8 *) packet_code) + 25)) =
+                *((s32 *) (((u8 *) scratchpad) + 0x78));
+            *((s32 *) (((u8 *) packet_code) + 37)) = *((s32 *) (((u8 *) scratchpad) + 0x70));
             trig_value = func_80064584(angle_step / parameters->count);
             {
                 offset = *((s32 *) (((u8 *) scratchpad) + 0x10));

@@ -29,16 +29,13 @@ s32 func_8052BB98(void *arg0)
     state = ((S_80810F98_0 *)arg0)->unk_00;
     object = ((S_80810F98_0 *)arg0)->unk_04;
     call_arg = state;
-    if ((state & 0xffff) == 0) {
-        goto state_0;
+    if ((state & 0xffff) != 0) {
+        call_arg = 0xFFF70000;
+        if (state == 1) {
+            goto state_1;
+        }
+        return 1;
     }
-    call_arg = 0xFFF70000;
-    if (state == 1) {
-        goto state_1;
-    }
-    return 1;
-
-state_0:
     {
 
         if (((S_80810F98_1 *)object)->unk_0C & 2) {
