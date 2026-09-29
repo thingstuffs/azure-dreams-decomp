@@ -37,7 +37,7 @@ class FenceTests(unittest.TestCase):
             saved=[];s=self.session(tmp, lambda text: {'exact':True}, verifies=1);s.on_win=saved.append
             text,info=s.run('fences')
             self.assertEqual(len(saved),1)
-            self.assertEqual(info['fences_in']-info['fences_out'],1)
+            self.assertEqual(info['fences_in']-info['fences_out'],2)   # round 80: unwrap-all takes both fences in the one verify
             self.assertEqual(info['pins_in'],0)
             self.assertEqual(info['tried'],1)
             self.assertEqual(info['stop_reason'],'verify-budget')
