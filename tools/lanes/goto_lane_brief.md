@@ -94,7 +94,9 @@ than 60 variants on one row without `--more`. At most 4 compiles in parallel.
   fake dependencies or dead stores; no new gotos elsewhere to pay for removed ones (net goto count must fall).
 * Never add a `case` (or case range) that no value in the program reaches or that only reshapes gcc's case tree /
   jump-table choice (`case 0x101: break;`, `case 0 ... 0xF:`): it steers the compiler - rejected twice (g7, gb1).
-  An explicit empty case the ORIGINAL tested for (a compare the listing shows) is fine.
+  An explicit empty case the ORIGINAL tested for (a compare the listing shows) is fine, and so are cases a
+  RETAIL jump table proves exist (a 7-entry table for values 1..7 means the source listed 1..7 - stacked on
+  `default:` when they share its code; r79_sonnet_sw4 dungeon/func_809CB224).
 * Never move a label INSIDE a block so a remaining goto jumps into it (`if (c) { L: ... }` with `goto L;` from
   outside): a goto into a block reads worse than the flat labels it replaced - the coordinator rejects it (g41).
 * Duplication (owner ruling): copying a SHORT shared statement or tail (1-3 lines, e.g. `x++; break;`) into each arm
