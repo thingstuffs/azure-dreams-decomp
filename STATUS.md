@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-29T20:57:48Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-29T21:33:14Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -86,7 +86,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3044 | 1,570,976 | 61.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 4989 | 1,304,240 | 51.0% |
 
-Pin sites now: 2,068 in 633 rows; REG 1,048, KEEP 420, KEEP_NV 269, SCHED_BARRIER 112, USE 34, USE_NV 34, KEEP_DEP_NV 30, CLOBBER 24.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 2,066 in 633 rows; REG 1,048, KEEP 418, KEEP_NV 269, SCHED_BARRIER 112, USE 34, USE_NV 34, KEEP_DEP_NV 30, CLOBBER 24.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 
@@ -105,13 +105,13 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L0 | 2,558,124 | 100.0% |
 | L1 | 2,558,124 | 100.0% |
 | L2 | 2,558,124 | 100.0% |
-| L3 | 2,558,124 | 100.0% |
+| L3 | 2,557,064 | 100.0% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 818 rows, 474,028 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 633 rows (660,356 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 633 rows (660,356 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
