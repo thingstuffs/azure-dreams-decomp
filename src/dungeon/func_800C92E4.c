@@ -70,99 +70,91 @@ void func_800CEA44(void *den_event) {
 
     state = *(s16 *)(den_event + 6);
     if (state == 0) {
-        {
-            u32 area_byte;
+        u32 area_byte;
 
-            area_byte = ((u8)D_80082E80.unk_026);
-            area_index = (s8)area_byte;
-            if ((s32)(area_byte << 24) < 0) {
-                goto initial_done;
-            }
-        }
+        area_byte = ((u8)D_80082E80.unk_026);
+        area_index = (s8)area_byte;
+        if ((s32)(area_byte << 24) >= 0) {
+            count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
+            if (count >= 0) {
+                do {
+                    if (func_8003FA44(3) == 0) {
+                        ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
+                        return;
+                    }
 
-        count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
-        if (count < 0) {
-            goto initial_done;
-        }
+                    random_value = func_800A6D30();
+                    monster_entry = dungeonStatus.unk_18 + (random_value & 0x1E);
+                    monster_type = monster_entry[0];
+                    monster_level = monster_entry[1];
+                    spawn_availability = func_800A1618(monster_type, 1);
+                    if (spawn_availability != 0) {
+                        register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        retries_left = 0xF;
+                        areas = (AreaRecord *)D_800E2970;
+                        area = (u8 *)&areas[area_index];
+                        do {
+                            spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));
+                            y = func_800A6DA4(0, (u16)(((AreaRecord *)area)->height - 1));
+                            area_x = area[0];
+                            entry_y = area[2];
+                            spawn_x += area_x;
+                            entry_y += y;
+                            y = entry_y;
+                            if (!(((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
+                                                    &flags) == 0) ||
+                                ((flags & 0xB700) != 0))) {
+                                break;
+                            }
+                            retries_left--;
+                        } while (retries_left >= 0);
 
-do {
-        if (func_8003FA44(3) == 0) {
-            goto spawn_failed;
-        }
+                        if (retries_left >= 0) {
+                            s16 spawn_type;
 
-        random_value = func_800A6D30();
-        monster_entry = dungeonStatus.unk_18 + (random_value & 0x1E);
-        monster_type = monster_entry[0];
-        monster_level = monster_entry[1];
-        spawn_availability = func_800A1618(monster_type, 1);
-        if (spawn_availability != 0) {
-            register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            retries_left = 0xF;
-            areas = (AreaRecord *)D_800E2970;
-            area = (u8 *)&areas[area_index];
-retry_position:
-            spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));
-            y = func_800A6DA4(0, (u16)(((AreaRecord *)area)->height - 1));
-            area_x = area[0];
-            entry_y = area[2];
-            spawn_x += area_x;
-            entry_y += y;
-            y = entry_y;
-            if (((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
-                                    &flags) == 0) ||
-                ((flags & 0xB700) != 0)) {
-                retries_left--;
-                if (retries_left >= 0) {
-                    goto retry_position;
-                }
-            }
+                            D_800E2968 = 1;
+                            spawn_type = monster_type;
+                            monster = func_800A0B94(spawn_type, spawn_availability, 1)
+                                (0, (u8)spawn_x, (u8)y, -0x400);
+                            if (monster != 0) {
+                                func_800A152C(spawn_type, 1);
+                                func_80042640(monster, spawn_type);
+                                ((u8 *)monster)[0x43] = func_800A6D30();
+                                ((u8 *)monster)[0x12] = 0;
 
-            if (retries_left >= 0) {
-                s16 spawn_type;
+                                {
 
-                D_800E2968 = 1;
-                spawn_type = monster_type;
-                monster = func_800A0B94(spawn_type, spawn_availability, 1)
-                    (0, (u8)spawn_x, (u8)y, -0x400);
-                if (monster != 0) {
-                    func_800A152C(spawn_type, 1);
-                    func_80042640(monster, spawn_type);
-                    ((u8 *)monster)[0x43] = func_800A6D30();
-                    ((u8 *)monster)[0x12] = 0;
-
-                    {
-
-                        area_calc = (s32)(D_800835E4);
-                        experience = ((u32 *)area_calc)[monster_level];
-                        area_calc = (s32)(((u32 *)area_calc) + 1);
-                        *(u32 *)((u8 *)monster + 0x18) = experience;
-                        if (*(u32 *)((u8 *)monster + 0x18) >=
-                            ((u32 *)area_calc)[((u8 *)monster)[0x11]]) {
-                            level_thresholds = (u32 *)area_calc;
-                            do {
-                                func_800A1D4C(monster, 0);
-                            } while (level_thresholds[((u8 *)monster)[0x11]] <=
-                                     *(u32 *)((u8 *)monster + 0x18));
+                                    area_calc = (s32)(D_800835E4);
+                                    experience = ((u32 *)area_calc)[monster_level];
+                                    area_calc = (s32)(((u32 *)area_calc) + 1);
+                                    *(u32 *)((u8 *)monster + 0x18) = experience;
+                                    if (*(u32 *)((u8 *)monster + 0x18) >=
+                                        ((u32 *)area_calc)[((u8 *)monster)[0x11]]) {
+                                        level_thresholds = (u32 *)area_calc;
+                                        do {
+                                            func_800A1D4C(monster, 0);
+                                        } while (level_thresholds[((u8 *)monster)[0x11]] <=
+                                                 *(u32 *)((u8 *)monster + 0x18));
+                                    }
+                                }
+                                ((u8 *)monster)[0x9A] = 0x16;
+                                *(s32 *)((u8 *)monster + 0x8C) = 0;
+                                *(s32 *)((u8 *)monster + 0x1C) &= 0xF7FBFFFF;
+                                *(u16 *)((u8 *)monster + 0x92) -= 0x200;
+                            }
                         }
                     }
-                    ((u8 *)monster)[0x9A] = 0x16;
-                    *(s32 *)((u8 *)monster + 0x8C) = 0;
-                    *(s32 *)((u8 *)monster + 0x1C) &= 0xF7FBFFFF;
-                    *(u16 *)((u8 *)monster + 0x92) -= 0x200;
-                }
+
+                    count--;
+                } while (count >= 0);
             }
         }
-
-        count--;
-        } while (count >= 0);
-
-initial_done:
         next_state = *(u16 *)(den_event + 6);
         tail_value = 10;
-    } else {
-        if (state != 1) {
-            goto other_state;
-        }
+        *(u16 *)(den_event + 4) = tail_value;
+         /* MATCH: keep the timer store before the state increment. */
+        *(u16 *)(den_event + 6) = next_state + 1;
+    } else if (state == 1) {
         delay_timer = *(u16 *)(den_event + 4) - 1;
         *(u16 *)(den_event + 4) = delay_timer;
         if ((s16)delay_timer >= 0) {
@@ -173,31 +165,22 @@ initial_done:
         func_800A56E0(0x602);
         next_state = *(u16 *)(den_event + 6);
         tail_value = 0x10;
-    }
-    do {
         *(u16 *)(den_event + 4) = tail_value;
-    } while (0);
-     /* MATCH: keep the timer store before the state increment. */
-    *(u16 *)(den_event + 6) = next_state + 1;
-    return;
+         /* MATCH: keep the timer store before the state increment. */
+        *(u16 *)(den_event + 6) = next_state + 1;
+    } else {
+        delay_timer = *(u16 *)(den_event + 4) - 1;
+        *(u16 *)(den_event + 4) = delay_timer;
+        if ((s16)delay_timer < 0) {
+            func_8004437C(0, 1);
+            SD_Call(0x200);
+            *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
+            {
 
-
-spawn_failed:
-    ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
-    return;
-
-other_state:
-    delay_timer = *(u16 *)(den_event + 4) - 1;
-    *(u16 *)(den_event + 4) = delay_timer;
-    if ((s16)delay_timer < 0) {
-        func_8004437C(0, 1);
-        SD_Call(0x200);
-        *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
-        {
-
-            dungeonStatus.unk_0A -= 1;
+                dungeonStatus.unk_0A -= 1;
+            }
+            *(u16 *)(den_event - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
-        *(u16 *)(den_event - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
     }
 }

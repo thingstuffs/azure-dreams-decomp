@@ -172,9 +172,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
             height_offset = (*(s16 *)((u8 *)obj + 0x92));
             if (height_offset > floor_delta - 0x18) {
                 (*(s16 *)((u8 *)obj + 0x92)) = (*(s16 *)((u8 *)obj + 0x92)) - 8;
-                goto finish_height;
-            }
-            if (height_offset < floor_delta - 0x20) {
+            } else if (height_offset < floor_delta - 0x20) {
                 (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
             }
         }
@@ -203,30 +201,26 @@ reset_height:
                 (*(u8 *)((u8 *)obj + 0x9D)) = 0;
                 ((S_80170A78_0 *)motion)->unk_14 = 0;
                 ((S_80170A78_2 *)state)->unk_1C |= 0x08000000;
-                goto finish_height;
             }
         }
-        goto finish_height;
-    }
-
-    if (!(((S_80170A78_1 *)part)->unk_14 & 0x40) &&
-        ((S_80170A78_1 *)part)->unk_2C.p2 == D_80174880) {
-        u16 bob_phase;
-        bob_phase = (*(u16 *)((u8 *)obj + 0xB2));
-        (*(u16 *)((u8 *)obj + 0xB2)) = bob_phase + 1;
-        (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
-    }
-    if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
-        floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v, ((S_80170A78_0 *)motion)->unk_04.at02.v,
-                    (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
-                ((S_80170A78_2 *)state)->unk_88;
-        height_offset = (*(s16 *)((u8 *)obj + 0x92));
-        if (height_offset > floor_delta - 0x18) {
-            (*(s16 *)((u8 *)obj + 0x92)) = (*(s16 *)((u8 *)obj + 0x92)) - 8;
-            goto finish_height;
+    } else {
+        if (!(((S_80170A78_1 *)part)->unk_14 & 0x40) &&
+            ((S_80170A78_1 *)part)->unk_2C.p2 == D_80174880) {
+            u16 bob_phase;
+            bob_phase = (*(u16 *)((u8 *)obj + 0xB2));
+            (*(u16 *)((u8 *)obj + 0xB2)) = bob_phase + 1;
+            (*(s32 *)((u8 *)obj + 0xA4)) += func_800644B8((s16)bob_phase * 0xAA) << 5;
         }
-        if (height_offset < floor_delta - 0x20) {
-            (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+        if (!((*(u16 *)((u8 *)obj + 0x98)) & 8)) {
+            floor_delta = func_800BCB04(((S_80170A78_0 *)motion)->unk_00.at02.v, ((S_80170A78_0 *)motion)->unk_04.at02.v,
+                        (s16)(((S_80170A78_2 *)state)->unk_88 - 0x20)) -
+                    ((S_80170A78_2 *)state)->unk_88;
+            height_offset = (*(s16 *)((u8 *)obj + 0x92));
+            if (height_offset > floor_delta - 0x18) {
+                (*(s16 *)((u8 *)obj + 0x92)) = (*(s16 *)((u8 *)obj + 0x92)) - 8;
+            } else if (height_offset < floor_delta - 0x20) {
+                (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
+            }
         }
     }
 

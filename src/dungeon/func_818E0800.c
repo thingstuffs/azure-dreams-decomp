@@ -239,27 +239,8 @@ void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_sta
     }
 
     dispatch_state = effect_arg->z.w.i;
-    if (dispatch_state == 2) {
-        goto dispatch_case_2;
-    }
-    if (dispatch_state < 3) {
-        if (dispatch_state == 0) {
-            goto dispatch_case_0;
-        }
-        if (dispatch_state == 1) {
-            goto dispatch_case_1;
-        }
-        return;
-    }
-    if (dispatch_state == 0xF0) {
-        goto dispatch_case_f0;
-    }
-    if (dispatch_state == 0xFF) {
-        goto dispatch_case_ff;
-    }
-    return;
-
-dispatch_case_0:
+    switch (dispatch_state) {
+    case 0:
         if (!(((S_818E0800_14 *)(((void *)effect_arg->y.v)))->unk_00 & 0x80)) {
             return;
         }
@@ -275,7 +256,8 @@ dispatch_case_0:
             render_state = ((S_818E0800_9_pre *)found_target)[-1].unk_00;
             if (((S_818E0800_6 *)render_state)->unk_14 & 0x8000) {
                 if (actor_state->unk_14 & 0x8000) {
-                    goto state_f0;
+                    effect_arg->z.w.i = 0xF0;
+                    return;
                 }
             }
             ((S_818E0800_1 *)actor)->unk_72.s = ((S_818E0800_6 *)render_state)->unk_24;
@@ -315,8 +297,8 @@ dispatch_case_0:
         func_800A56E0(0x300);
         (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
-
-dispatch_case_1: {
+    case 1:
+{
         s32 next_timer;
         ((S_818E0800_2 *)motion_arg)->unk_00.at00.v += ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v;
         ((S_818E0800_2 *)motion_arg)->unk_04.at00.v += ((S_818E0800_2 *)motion_arg)->unk_10.at00.v;
@@ -333,8 +315,8 @@ dispatch_case_1: {
         (*(u16 *)&effect_arg->z.w.i) += 1;
         return;
     }
-
-dispatch_case_2: {
+    case 2:
+{
         s32 sound_id;
         void *active_target;
         if (((s16)effect_arg->unk_50) > 0) {
@@ -349,12 +331,10 @@ dispatch_case_2: {
         }
         func_800419EC(sound_id, 0x10);
         effect_arg->unk_50 = 6;
-state_f0:
         effect_arg->z.w.i = 0xF0;
         return;
     }
-
-dispatch_case_f0:
+    case 0xF0:
         func_80024784(((S_818E0800_1 *)actor)->unk_60, ((s16)effect_arg->unk_50));
         if (((s16)effect_arg->unk_50) == 2 &&
             !func_8009D218(((S_818E0800_1 *)actor)->unk_60, 2, actor)) {
@@ -370,8 +350,7 @@ dispatch_case_f0:
         }
         effect_arg->z.w.i = 0xFF;
         return;
-
-dispatch_case_ff:
+    case 0xFF:
         if (((s16)effect_arg->unk_52) & 0x8000) {
             effect_arg->unk_52 &= 0x7FFF;
             return;
@@ -383,5 +362,5 @@ dispatch_case_ff:
         ((S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
-
+    }
 }

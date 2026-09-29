@@ -370,7 +370,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             u8 *clear_cursor;
 
             index = 0;
-            loop_0: {
+            do {
                 u8 *emitter;
                 s32 direction;
                 s32 color;
@@ -382,7 +382,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 direction = (*(s16 *)((u8 *)self + 0x7E));
                 func_80025228(emitter, direction, color, intensity, 0, 0, 0);
                 index++;
-            } if (index < 8) goto loop_0;
+            } while (index < 8);
             hit_result = func_800A4778(((S_818FA12C_4 *)position)->unk_00.at02.v, ((S_818FA12C_4 *)position)->unk_04.at02.v,
                 ((S_818FA12C_4 *)position)->unk_08.at02u.v, ((S_818FA12C_2 *)parent)->unk_60.p2);
             if (hit_result << 16) {
@@ -421,109 +421,98 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 (*(s16 *)((u8 *)self + 0x90)) ^= 1;
             }
             (*(u8 *)((u8 *)self + 0x7B))--;
-            if ((s8)(*(u8 *)((u8 *)self + 0x7B)) > 0) {
-                goto update_position;
+            if ((s8)(*(u8 *)((u8 *)self + 0x7B)) <= 0) {
+                if (((S_818FA12C_2 *)parent)->unk_60.p != 0) {
+                    (*(u16 *)((u8 *)self + 0x0A)) = 3;
+                    (*(u16 *)((u8 *)self + 0x82)) = 0;
+                    target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
+                    ((S_818FA12C_4 *)position)->unk_00.at02.v = ((S_818FA12C_7 *)target_pos)->unk_00.at02.v;
+                    ((S_818FA12C_4 *)position)->unk_04.at02.v = ((S_818FA12C_7 *)target_pos)->unk_04.at02.v;
+                    ((S_818FA12C_4 *)position)->unk_08.at02.v = ((S_818FA12C_7 *)target_pos)->unk_08.at02.v - D_800DDC40[((S_818FA12C_15 *)(((S_818FA12C_2 *)parent)->unk_60.p))->unk_13];
+                    func_800A56E0(0x300);
+                    flash = func_8003FC64(0x212);
+                    if (flash != 0) {
+                        (*(u16 *)((u8 *)flash + 0x22)) = 120;
+                        (*(u32 *)((u8 *)flash + 0x10)) = (u32)D_80025348;
+                        func_8004491C(flash, func_80045340);
+                        flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
+                        ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x0C;
+                        ((S_818FA12C_9 *)flash_data)->unk_10 = 0;
+                        ((S_818FA12C_9 *)flash_data)->unk_06 = 0;
+                        ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x80;
+                        target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
+                        flash_pos = (*(s32 * *)((u8 *)flash + 8));
+                        flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v;
+                        flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v;
+                        flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v;
+                        flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
+                        ((S_818FA12C_9 *)flash_data)->unk_1E = 0x1000;
+                        ((S_818FA12C_9 *)flash_data)->unk_1C = 0x1000;
+                        ((S_818FA12C_9 *)flash_data)->unk_0E = 0x80;
+                        ((S_818FA12C_9 *)flash_data)->unk_0D = 0x80;
+                        ((S_818FA12C_9 *)flash_data)->unk_0C = 0x80;
+                        (*(Copy12 *)((u8 *)flash + 0x3A)) = D_80026680;
+                        ((S_818FA12C_9 *)flash_data)->unk_08 = flash + 0x3A;
+                    }
+                    impact = func_8003FC64(0x212);
+                    if (impact != 0) {
+                    particle_state = impact + 0x20;
+                    index = 95;
+                    clear_cursor = particle_state + 95;
+                    (*(u16 *)((u8 *)particle_state + 2)) = 0x50;
+                    (*(u16 *)((u8 *)particle_state + 0x0A)) = 0x14;
+                    (*(u16 *)((u8 *)particle_state + 4)) = 0;
+                    (*(void * *)((u8 *)particle_state + 0x28)) = parent;
+                    (*(void * *)((u8 *)particle_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
+                    (*(void * *)((u8 *)particle_state + 0x30)) = self;
+                    flash_state = flash + 0x20;
+                    (*(void * *)((u8 *)particle_state + 0x34)) = flash_state;
+                    for (; index >= 0; index--) {
+                        ((S_818FA12C_10 *)clear_cursor)->unk_38 = 0;
+                        clear_cursor--;
+                    }
+                    index = 96;
+                    (*(u16 *)((u8 *)particle_state + 0x9A)) = 0;
+                    (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
+                    func_8004491C(impact, func_80045340);
+                    impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
+                    flags = 0x0C;
+                    ((S_818FA12C_8 *)impact_data)->unk_14 = flags;
+                    ((S_818FA12C_8 *)impact_data)->unk_10.s = index;
+                    ((S_818FA12C_8 *)impact_data)->unk_06 = 6;
+                    ((S_818FA12C_8 *)impact_data)->unk_14 = flags | 0x80;
+                    flash_pos = (*(s32 * *)((u8 *)impact + 8));
+                    flash_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
+                    flash_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;
+                    flash_pos[2] = ((S_818FA12C_4 *)position)->unk_08.at00.v + 0x400000;
+                    impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
+                    ((S_818FA12C_8 *)impact_data)->unk_1C = 0x2000;
+                    ((S_818FA12C_8 *)impact_data)->unk_1E = 0x1800;
+                    ((S_818FA12C_8 *)impact_data)->unk_0E = 0;
+                    ((S_818FA12C_8 *)impact_data)->unk_0D = 0;
+                    ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
+                    (*(Copy12 *)((u8 *)particle_state + 0x1A)) = D_80026674;
+                    animation = particle_state + 0x1A;
+                       /* retained: removing it changes the saved-register set */
+                    ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
+                    }
+                } else {
+                    (*(u16 *)((u8 *)self + 0x0A)) = 8;
+                    (*(u16 *)((u8 *)self + 0x82)) = 0;
+                }
+                frames_squared = (u32)render_data;
+                ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at02u.v = 0;
+                ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at01u.v = 0;
+                ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at00p.v = 0;
+                ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1E.n = 0;
+                ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1C.n = 0;
+                return;
             }
-            if (((S_818FA12C_2 *)parent)->unk_60.p == 0) {
-                goto missing_target;
-            }
-            (*(u16 *)((u8 *)self + 0x0A)) = 3;
-            (*(u16 *)((u8 *)self + 0x82)) = 0;
-            target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-            ((S_818FA12C_4 *)position)->unk_00.at02.v = ((S_818FA12C_7 *)target_pos)->unk_00.at02.v;
-            ((S_818FA12C_4 *)position)->unk_04.at02.v = ((S_818FA12C_7 *)target_pos)->unk_04.at02.v;
-            ((S_818FA12C_4 *)position)->unk_08.at02.v = ((S_818FA12C_7 *)target_pos)->unk_08.at02.v - D_800DDC40[((S_818FA12C_15 *)(((S_818FA12C_2 *)parent)->unk_60.p))->unk_13];
-            func_800A56E0(0x300);
-            flash = func_8003FC64(0x212);
-            if (flash != 0) {
-                (*(u16 *)((u8 *)flash + 0x22)) = 120;
-                (*(u32 *)((u8 *)flash + 0x10)) = (u32)D_80025348;
-                func_8004491C(flash, func_80045340);
-                flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
-                ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x0C;
-                ((S_818FA12C_9 *)flash_data)->unk_10 = 0;
-                ((S_818FA12C_9 *)flash_data)->unk_06 = 0;
-                ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x80;
-                target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-                flash_pos = (*(s32 * *)((u8 *)flash + 8));
-                flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v;
-                flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v;
-                flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v;
-                flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
-                ((S_818FA12C_9 *)flash_data)->unk_1E = 0x1000;
-                ((S_818FA12C_9 *)flash_data)->unk_1C = 0x1000;
-                ((S_818FA12C_9 *)flash_data)->unk_0E = 0x80;
-                ((S_818FA12C_9 *)flash_data)->unk_0D = 0x80;
-                ((S_818FA12C_9 *)flash_data)->unk_0C = 0x80;
-                (*(Copy12 *)((u8 *)flash + 0x3A)) = D_80026680;
-                ((S_818FA12C_9 *)flash_data)->unk_08 = flash + 0x3A;
-            }
-            impact = func_8003FC64(0x212);
-            if (impact == 0) {
-                goto cleanup_packet;
-            }
-            particle_state = impact + 0x20;
-            index = 95;
-            clear_cursor = particle_state + 95;
-            (*(u16 *)((u8 *)particle_state + 2)) = 0x50;
-            (*(u16 *)((u8 *)particle_state + 0x0A)) = 0x14;
-            (*(u16 *)((u8 *)particle_state + 4)) = 0;
-            (*(void * *)((u8 *)particle_state + 0x28)) = parent;
-            (*(void * *)((u8 *)particle_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
-            (*(void * *)((u8 *)particle_state + 0x30)) = self;
-            flash_state = flash + 0x20;
-            (*(void * *)((u8 *)particle_state + 0x34)) = flash_state;
-            for (; index >= 0; index--) {
-                ((S_818FA12C_10 *)clear_cursor)->unk_38 = 0;
-                clear_cursor--;
-            }
-            index = 96;
-            (*(u16 *)((u8 *)particle_state + 0x9A)) = 0;
-            (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
-            func_8004491C(impact, func_80045340);
-            impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
-            flags = 0x0C;
-            ((S_818FA12C_8 *)impact_data)->unk_14 = flags;
-            ((S_818FA12C_8 *)impact_data)->unk_10.s = index;
-            ((S_818FA12C_8 *)impact_data)->unk_06 = 6;
-            ((S_818FA12C_8 *)impact_data)->unk_14 = flags | 0x80;
-            flash_pos = (*(s32 * *)((u8 *)impact + 8));
-            flash_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
-            flash_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;
-            flash_pos[2] = ((S_818FA12C_4 *)position)->unk_08.at00.v + 0x400000;
-            impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
-            ((S_818FA12C_8 *)impact_data)->unk_1C = 0x2000;
-            ((S_818FA12C_8 *)impact_data)->unk_1E = 0x1800;
-            ((S_818FA12C_8 *)impact_data)->unk_0E = 0;
-            ((S_818FA12C_8 *)impact_data)->unk_0D = 0;
-            ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
-            (*(Copy12 *)((u8 *)particle_state + 0x1A)) = D_80026674;
-            animation = particle_state + 0x1A;
-               /* retained: removing it changes the saved-register set */
-            ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
-            goto cleanup_packet;
-        }
-
-missing_target:
-        (*(u16 *)((u8 *)self + 0x0A)) = 8;
-        (*(u16 *)((u8 *)self + 0x82)) = 0;
-
-cleanup_packet:
-        {
-            frames_squared = (u32)render_data;
-            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at02u.v = 0;
-            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at01u.v = 0;
-            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at00p.v = 0;
-            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1E.n = 0;
-            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1C.n = 0;
+            ((S_818FA12C_4 *)position)->unk_00.at00.v += ((S_818FA12C_4 *)position)->unk_0C;
+            ((S_818FA12C_4 *)position)->unk_04.at00.v += ((S_818FA12C_4 *)position)->unk_10;
+            ((S_818FA12C_4 *)position)->unk_08.at00.v += ((S_818FA12C_4 *)position)->unk_14;
             return;
         }
-
-update_position:
-        ((S_818FA12C_4 *)position)->unk_00.at00.v += ((S_818FA12C_4 *)position)->unk_0C;
-        ((S_818FA12C_4 *)position)->unk_04.at00.v += ((S_818FA12C_4 *)position)->unk_10;
-        ((S_818FA12C_4 *)position)->unk_08.at00.v += ((S_818FA12C_4 *)position)->unk_14;
-        return;
 
     case 3:
         {
@@ -656,7 +645,9 @@ update_position:
             if ((s16)(*(u16 *)((u8 *)self + 0x82)) < 120) {
                 return;
             }
-            goto state_advance;
+            (*(u16 *)((u8 *)self + 0x0A))++;
+            (*(u16 *)((u8 *)self + 0x82)) = 0;
+            return;
         }
 
     case 5:
@@ -666,7 +657,6 @@ update_position:
             }
         }
 
-state_advance:
         (*(u16 *)((u8 *)self + 0x0A))++;
         (*(u16 *)((u8 *)self + 0x82)) = 0;
         return;

@@ -207,7 +207,6 @@ void func_800C5FA8(u8 *w) {
         if (st == 0) {
             *(s16 *)(w + 6) = -1;
         }
-    L_after:
         v = *(s16 *)(w + 6);
         *(s16 *)(w + 2) = 0x20;
         *(s16 *)(w + 16) = 1;
@@ -328,7 +327,7 @@ void func_800C5FA8(u8 *w) {
                     }
                     x = x + 1;
                     if (x >= x1) {
-                        goto L_tail;
+                        break;
                     }
                     k = k + 1;
                 } while (k < *(s16 *)(w + 4));
@@ -352,13 +351,12 @@ void func_800C5FA8(u8 *w) {
                     }
                     x = x + 1;
                     if (x >= x1) {
-                        goto L_tail;
+                        break;
                     }
                     k = k + 1;
                 } while (k < *(s16 *)(w + 4));
             }
         }
-    L_tail:
         t16 = *(u16 *)(w + 16) - 1;
         *(u16 *)(w + 16) = t16;
         if ((s16) t16 > 0) {

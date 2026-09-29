@@ -95,86 +95,79 @@ s32 func_800BCB04(s32 x, s32 y, s16 min_height) {
             (unsigned long)((s16)work->index * sizeof(Cell)) +
             (unsigned long)cells);
 
-        if (cell->first == 0) {
-            goto done;
-        }
-        work->offset = -cell->value;
-    }
-    primitive = ((Primitive **)tables->unk_04)[
-        cells[(s16)*(u16 *)&work->index].first];
-    goto next_primitive;
+        if (cell->first != 0) {
+            work->offset = -cell->value;
+            primitive = ((Primitive **)tables->unk_04)[
+                cells[(s16)*(u16 *)&work->index].first];
+            while (normals[primitive->next].z < -2047) {
+                if (!(primitive->flags & 1)) {
+                    u16 local_x;
+                    u16 local_y;
+                    u16 vertex_index;
+                    u16 p3_x;
+                    u16 p3_y;
 
-process_primitive:
-    if (!(primitive->flags & 1)) {
-        u16 local_x;
-        u16 local_y;
-        u16 vertex_index;
-        u16 p3_x;
-        u16 p3_y;
+                    vertex_index = *(u16 *)&primitive->v0;
+                    local_x = *(u16 *)&work->x;
+                    local_y = *(u16 *)&work->y;
+                    work->p0.word = *(u32 *)&vertices[vertex_index];
+                    work->p0.half.x -= local_x;
+                    work->p0.half.y -= local_y;
+                    work->p1.word = *(u32 *)&vertices[primitive->v1];
+                    work->p1.half.x -= local_x;
+                    work->p1.half.y -= local_y;
+                    work->p2.word = *(u32 *)&vertices[primitive->v3];
+                    work->p2.half.x -= local_x;
+                    work->p2.half.y -= local_y;
+                    work->p3.word = *(u32 *)&vertices[primitive->v2];
+                    p3_x = work->p3.half.x - local_x;
+                    p3_y = work->p3.half.y - local_y;
+                    work->p3.half.x = p3_x;
+                    work->p3.half.y = p3_y;
+                    if (func_800BCE7C((Work *)work) != 0) {
+                        Vertex *normal = (Vertex *)(
+                            (unsigned long)(primitive->next * sizeof(Vertex)) +
+                            (unsigned long)normals);
+                        Vertex *vertex = (Vertex *)(
+                            (unsigned long)((*(u16 *)((u8 *)primitive + 0)) * sizeof(Vertex)) +
+                            (unsigned long)vertices);
+                        s32 delta_x = (s16)vertex->x - (s16)*(u16 *)&work->x;
+                        s32 delta_y = (s16)vertex->y - (s16)*(u16 *)&work->y;
+                        s32 x_term = (s16)normal->x * delta_x;
+                        s32 y_term = (s16)normal->y * delta_y;
+                        s32 z_term = (s16)normal->z * (s16)vertex->z;
+                        s32 height = (x_term + y_term + z_term) / (s16)normal->z;
+                        u16 raw_offset = work->offset;
+                        s32 height_limit = work->limit;
+                        s32 cell_height = height + (s16)raw_offset;
 
-        vertex_index = *(u16 *)&primitive->v0;
-        local_x = *(u16 *)&work->x;
-        local_y = *(u16 *)&work->y;
-        work->p0.word = *(u32 *)&vertices[vertex_index];
-        work->p0.half.x -= local_x;
-        work->p0.half.y -= local_y;
-        work->p1.word = *(u32 *)&vertices[primitive->v1];
-        work->p1.half.x -= local_x;
-        work->p1.half.y -= local_y;
-        work->p2.word = *(u32 *)&vertices[primitive->v3];
-        work->p2.half.x -= local_x;
-        work->p2.half.y -= local_y;
-        work->p3.word = *(u32 *)&vertices[primitive->v2];
-        p3_x = work->p3.half.x - local_x;
-        p3_y = work->p3.half.y - local_y;
-        work->p3.half.x = p3_x;
-        work->p3.half.y = p3_y;
-        if (func_800BCE7C((Work *)work) != 0) {
-            register Vertex *normal ASM_REG("$6") = (Vertex *)(
-                (unsigned long)(primitive->next * sizeof(Vertex)) +
-                (unsigned long)normals);
-            register Vertex *vertex ASM_REG("$5") = (Vertex *)(
-                (unsigned long)(primitive->v0 * sizeof(Vertex)) +
-                (unsigned long)vertices);
-            s32 delta_x = (s16)vertex->x - (s16)*(u16 *)&work->x;
-            s32 delta_y = (s16)vertex->y - (s16)*(u16 *)&work->y;
-            s32 x_term = (s16)normal->x * delta_x;
-            s32 y_term = (s16)normal->y * delta_y;
-            s32 z_term = (s16)normal->z * (s16)vertex->z;
-            s32 height = (x_term + y_term + z_term) / (s16)normal->z;
-            u16 raw_offset = work->offset;
-            s32 height_limit = work->limit;
-            s32 cell_height = height + (s16)raw_offset;
-
-            *(volatile s32 *)&work->value = height;
-            work->value = cell_height;
-            if (cell_height >= height_limit) {
-                if (cell_height < work->best) {
-                    work->best = cell_height;
+                        *(volatile s32 *)&work->value = height;
+                        work->value = cell_height;
+                        if (cell_height >= height_limit) {
+                            if (cell_height < work->best) {
+                                work->best = cell_height;
+                            }
+                        }
+                    }
+                }
+                {
+                    u8 kind = primitive->kind;
+                    if ((kind & 0x0F) == 1) {
+                        if (primitive->flags < 0) {
+                            break;
+                        }
+                        if (kind & 0xF0) {
+                            u32 next_offset = ((kind >> 4) * 3 * 8) + 24;
+                            primitive = (Primitive *)((u8 *)primitive + next_offset);
+                            continue;
+                        }
+                    }
+                    primitive = (Primitive *)((u8 *)primitive + 24);
                 }
             }
         }
     }
-    {
-        u8 kind = primitive->kind;
-        if ((kind & 0x0F) == 1) {
-            if (primitive->flags < 0) {
-                goto done;
-            }
-            if (kind & 0xF0) {
-                u32 next_offset = ((kind >> 4) * 3 * 8) + 24;
-                primitive = (Primitive *)((u8 *)primitive + next_offset);
-                goto next_primitive;
-            }
-        }
-        primitive = (Primitive *)((u8 *)primitive + 24);
-next_primitive:
-        if (normals[primitive->next].z < -2047) {
-            goto process_primitive;
-        }
-    }
 
-done:
     {
         s32 best_height = (s16)work->best;
          /* MATCH: keep best_height sign extension before the shared epilogue. */

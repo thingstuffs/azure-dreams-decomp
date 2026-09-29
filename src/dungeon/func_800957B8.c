@@ -119,7 +119,7 @@ check_tile:
                     }
                     return (s16)step;
                 }
-                goto done;
+                return (s16)step;
             }
             world_x += *(u16 *)((u8 *)D_800DCEAC + direction_offset);
             world_y += *(u16 *)((u8 *)D_800DCEBC + direction_offset);
@@ -130,13 +130,12 @@ check_tile:
                 height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, ((FuncArg1 *)tile_dx_reload)->height);
             }
             next_step = step + 1;
-            if (height_result < 0x200) {
-                goto advance_step;
+            if (height_result >= 0x200) {
+                return (s16) (step - 1);
             }
+        } else {
             return (s16) (step - 1);
         }
-        return (s16) (step - 1);
-advance_step:
         step = next_step;
         {
             s32 shifted_next_step;
@@ -149,7 +148,7 @@ advance_step:
                 goto check_tile;
             }
         }
-        goto done;
+        return (s16)step;
     }
 done:
     shifted_step = step << 0x10;
