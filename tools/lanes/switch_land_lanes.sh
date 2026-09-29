@@ -19,28 +19,37 @@ LAND_ISOLATED=1 bash tools/lanes/land_lanes.sh "$TAG" "$LANE" > work/native_lane
 RC=$(grep -o "GATE_RC=[0-9]*" work/native_lane/$LANE/landing.log | tail -1 | cut -d= -f2)
 exec 9>build_ovl/work/land.lock; flock 9
 TOUCHED=$(comm -13 <(echo "$BEFORE") <(git diff --name-only -- src | sort))
-if [ "${RC:-1}" != 0 ]; then
-  BAD=$(python3 - "$START" <<'PY'
-import sys, json, re
+set -o pipefail
+TRIES=0
+while [ "${RC:-1}" != 0 ]; do
+  # a window build reports ONE failing object per link, so revert, re-gate and repeat (8ece213c: func_8187BB80 hid
+  # behind func_81875C70 in dungeon_deep_t8_187c).  Attribution: every row this landing touched whose gate windows
+  # include a window that is not MATCH since START - covers link ERRORs and byte mismatches alike.
+  TRIES=$((TRIES+1)); [ $TRIES -gt 6 ] && { echo "still failing after 6 re-gates: reverting all"; git checkout HEAD -- $TOUCHED; exit 1; }
+  NEWBAD=$(python3 - "$START" $TOUCHED <<'PY'
+import sys, json, importlib
 sys.path.insert(0, "tools"); from common import rows
-start = sys.argv[1]; by_true = {}
-for r in rows():
-    by_true[r.get("true_name") or r["func"]] = r["id"]; by_true[r["func"]] = r["id"]
-bad = set()
+promote = importlib.import_module("promote")
+start, touched = sys.argv[1], sys.argv[2:]
+by = {r["id"]: r for r in rows()}
+failing, last = set(), {}
 for l in open("ledger/gate.jsonl"):
     d = json.loads(l)
-    if d.get("at", "") < start or d.get("result") == "MATCH": continue
-    for f in re.findall(r"\.text\.(func_[0-9A-F]{8})", d.get("detail", "")):
-        if f in by_true: bad.add(by_true[f])
-print(" ".join("src/%s.c" % b for b in sorted(bad)))
+    if d.get("at", "") >= start: last[d["window"]] = d.get("result")
+failing = {w for w, r in last.items() if r != "MATCH"}
+bad = []
+for f in touched:
+    rid = f[4:-2]
+    if rid in by and failing & set(promote.windows_of(by[rid])): bad.append(f)
+print(" ".join(sorted(bad)))
 PY
 )
-  if [ -z "$BAD" ]; then echo "gate failed with no attributable row: reverting all"; git checkout HEAD -- $TOUCHED; exit 1; fi
-  echo "reverting rows the failing windows name: $BAD"; git checkout HEAD -- $BAD
+  if [ -z "$NEWBAD" ]; then echo "gate failed with no attributable row: reverting all"; git checkout HEAD -- $TOUCHED; exit 1; fi
+  echo "reverting rows in failing windows: $NEWBAD"; git checkout HEAD -- $NEWBAD; BAD="$BAD $NEWBAD"
+  TOUCHED=$(comm -13 <(echo "$BEFORE") <(git diff --name-only -- src | sort))
   EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh >/dev/null 2>&1 && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 2>&1 | tail -1 && bash tools/build/build_slus.sh -j 8 2>&1 | tail -1
   RC=$?
-  [ "$RC" = 0 ] || { echo "re-gate failed: reverting all"; git checkout HEAD -- $TOUCHED; exit 1; }
-fi
+done
 python3 tools/status.py > /dev/null 2>&1
 P=$(grep -o "Pin sites now: [0-9,]* in [0-9,]* rows" STATUS.md)
 git add src ledger STATUS.md
