@@ -4,7 +4,6 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_8016A8B4[];
 typedef struct {
     s16 x;
     u16 y;
@@ -97,7 +96,6 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sp
 
     S_func_8132B8AC_2 *sprite = sprite_input;
     InitBlock direction_vectors;
-    static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19, &&jt_c20 };
     s32 path_angle;
     s32 final_direction;
     s16 sprite_direction;
@@ -149,11 +147,8 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sp
     beldo = (S_func_8132B8AC_3 *)(D_80174CE0 + 0x20);
     func_800478B8(sprite);
     state = actor->unk_9A;
-    if (state >= 0x15U) {
-        goto block_97;
-    }
-    (void)jt_keep; goto *D_8016A8B4[(u32)(state)];
-jt_c0:
+    switch (state) {
+    case 0:
     initial_timer = actor->unk_96;
     actor->unk_96 = (u16) (initial_timer + 1);
     if ((s16) initial_timer < 0x1E) {
@@ -163,13 +158,13 @@ jt_c0:
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     motion->unk_0C.unk_0C = 0xFFF80000;
     goto block_97;
-jt_c1:
+    case 1:
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     tail_test = actor->unk_96 + 1;
     actor->unk_96 = (u16) tail_test;
     tail_test = (s16) tail_test < 0x28;
     goto pause_complete;
-jt_c3:
+    case 3:
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xFF7F);
     tail_test = actor->unk_96 + 1;
     pause_timer = (u16) tail_test;
@@ -183,14 +178,14 @@ pause_complete:
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     motion->unk_0C.unk_0C = 0;
     goto block_97;
-jt_c5:
+    case 5:
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C8C;
     func_80047784(sprite, D_80174C8C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
     func_800A56E0(0x801);
     actor->unk_96 = 0U;
     actor->unk_9A = (u8) (actor->unk_9A + 1);
     goto block_97;
-jt_c6:
+    case 6:
     if (!(sprite->unk_14 & 0x6000)) {
         goto block_98;
     }
@@ -215,7 +210,7 @@ jt_c6:
         func_80172B00(case6_a0, saved_motion, saved_sprite);
     }
     goto block_98;
-jt_c7:
+    case 7:
     motion->unk_0A = (u16) (motion->unk_0A - 8);
     rise_timer = actor->unk_96 + 1;
     actor->unk_96 = rise_timer;
@@ -229,7 +224,7 @@ jt_c7:
     actor->unk_A0.unk_A2.unk_A2 = 0U;
     actor->unk_92.s = -0x20;
     goto block_97;
-jt_c9:
+    case 9:
     path_start_timer = actor->unk_96;
     actor->unk_96 = (u16) (path_start_timer + 1);
     if ((s16) path_start_timer < 7) {
@@ -249,7 +244,7 @@ jt_c9:
     motion->unk_10.unk_12.unk_12 = (s16) (start_vector->y * 0x10);
     beldo->unk_2A.s = (s16) (start_direction << 9);
     goto block_97;
-jt_c10:
+    case 10:
     if ((s16) actor->unk_96 > 0) {
         goto block_29;
     }
@@ -303,7 +298,7 @@ loop_31:
 block_32:
     actor->unk_96 = (u16) (actor->unk_96 - 1);
     goto block_97;
-jt_c11:
+    case 11:
     motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);
     motion->unk_04 = (s32) (motion->unk_04 + motion->unk_10.unk_10);
     if (sprite->unk_04 != 5) {
@@ -343,7 +338,7 @@ block_37:
 #endif
     sprite->unk_2C = tail_sprite;
     goto update_animation;
-jt_c12:
+    case 12:
     turn_timer = actor->unk_96 - 1;
     actor->unk_96 = turn_timer;
     if ((turn_timer << 0x10) > 0) {
@@ -389,15 +384,15 @@ block_56:
     }
     beldo->unk_2A.s = 0;
     goto block_98;
-jt_c8:
-jt_c13:
+    case 8:
+    case 13:
     bob_phase = actor->unk_9E;
     actor->unk_9E = (u16) (bob_phase + 1);
     actor->unk_A0.unk_A0 = (s32) (actor->unk_A0.unk_A0 + (func_800644B8((s16) bob_phase * 0x55) * 0x10));
     motion->unk_0A = (u16) (beldo->unk_88
         + actor->unk_92.u - actor->unk_A0.unk_A2.unk_A2);
     goto block_97;
-jt_c14:
+    case 14:
     animation_timer = actor->unk_96 + 1;
     actor->unk_96 = animation_timer;
     if ((s16) animation_timer < 3) {
@@ -414,7 +409,7 @@ jt_c14:
 #endif
     actor->unk_96 = 0U;
     goto advance_animation;
-jt_c15:
+    case 15:
     if (sprite->unk_04 != 5) {
         goto block_67;
     }
@@ -448,7 +443,7 @@ block_67:
     motion->unk_0C.unk_0E.unk_0E = -0x10;
     motion->unk_10.unk_12.unk_12 = 0;
     goto block_97;
-jt_c16:
+    case 16:
     move_timer = actor->unk_96 + 1;
     actor->unk_96 = move_timer;
     if ((s16) move_timer < 0xA) {
@@ -498,7 +493,7 @@ loop_76:
         goto loop_76;
     }
     goto block_98;
-jt_c17:
+    case 17:
     spin_timer = actor->unk_96 + 1;
     actor->unk_96 = (u16) spin_timer;
     if (spin_timer >= 0xE) {
@@ -534,7 +529,7 @@ block_85:
     motion->unk_10.unk_12.unk_12 = 0;
     motion->unk_0C.unk_0E.unk_0E = 0;
     goto block_90;
-jt_c18:
+    case 18:
     idle_timer = actor->unk_96 + 1;
     actor->unk_96 = idle_timer;
     if ((s16) idle_timer < 0x3C) {
@@ -553,7 +548,7 @@ block_90:
     func_80172F44(motion, -0x10, 0, -4);
     func_80172F44(motion, 0xC, 0, -0xC);
     goto block_98;
-jt_c19:
+    case 19:
     final_timer = actor->unk_96 - 1;
     actor->unk_96 = final_timer;
     if ((final_timer << 0x10) > 0) {
@@ -581,10 +576,12 @@ update_animation:
     func_80047784(sprite, ((S_func_8132B8AC_5 *)tail_state)->unk_00, 0);
 #endif
     goto block_98;
-jt_c20:
-    func_80170C3C();
-jt_c2:
-jt_c4:
+    case 20:
+        func_80170C3C();
+        break;
+    default:
+        break;
+    }
 block_97:
 block_98:
     if (D_80174CE0 == 0) {

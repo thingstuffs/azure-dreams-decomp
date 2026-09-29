@@ -11,7 +11,6 @@ extern int abs(int);
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 
-extern void *D_80020284[5];
 extern u8 D_80024334[16];
 extern u16 D_80024500[8];
 extern u8 D_800F8E9C[16];
@@ -19,9 +18,6 @@ extern u8 D_800F8E9C[16];
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
 void func_80023EB0(void *state_ptr)
 {
-    static void *const kind_labels[] = {
-        &&sw_0, &&sw_1, &&sw_2, &&sw_3, &&sw_4
-    };
     u8 *state = state_ptr;
     register void *child_obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *render_part;
@@ -46,37 +42,33 @@ void func_80023EB0(void *state_ptr)
         S16_AT(state, 8) = -0x60;
 
         kind = S16_AT(state, 0x22);
-        if ((u32)kind >= 5) {
-            goto init_done;
-        }
-        (void)kind_labels;
-        goto *D_80020284[kind];
-
-sw_0:
+        switch (kind) {
+        case 0:
         target_pos = -0x60;
         goto store_both;
-sw_1:
+        case 1:
         target_pos = -0x98;
         goto store_both;
-sw_2:
+        case 2:
         target_pos = -0x30;
 store_both:
         S16_AT(state, 0x1E) = target_pos;
         S16_AT(state, 0x1C) = target_pos;
-        goto init_done;
-sw_3:
+        break;
+        case 3:
         target_pos = -0xB0;
         S16_AT(state, 0x1C) = target_pos;
         target_pos = -0x10;
         goto store_second;
-sw_4:
+        case 4:
         target_pos = -0x10;
         S16_AT(state, 0x1C) = target_pos;
         target_pos = -0xB0;
 store_second:
         S16_AT(state, 0x1E) = target_pos;
+        }
 
-init_done:
+
         child_index = 1;
         object_data = D_80024334;
         scale = 0x800;
