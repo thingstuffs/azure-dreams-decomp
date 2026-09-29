@@ -17,7 +17,8 @@ void func_8001CD98(void) {
     s16 *value_id;
     s32 first_index;
     s32 entry_index;
-    register s32 entry_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s8 **table;
+    s32 entry_offset;
     s32 next_flags;
     s8 **entry_page;
     void **root_page;
@@ -29,12 +30,9 @@ void func_8001CD98(void) {
 
     context = *(void **)((s8 *)(&D_80016000));
     first_index = 0;
-    entry_index = first_index;
-    ASM_KEEP(first_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    entry_offset = (s32)D_80018880;
-    selected_values = *(s8 **)(entry_offset +
-        (*(IndexFunc *)((s8 *)*(void **)((s8 *)context + 0x20) + 0x2D4))(first_index)
-        * 4);
+    table = D_80018880;
+    selected_values = table[(*(IndexFunc *)((s8 *)*(void **)((s8 *)context + 0x20) + 0x2D4))(0)];
+    entry_index = 0;
     entry_page = (s8 **)0x80020000;
     if ((((u8 *)*(s8 **)((s8 *)entry_page - 0x75E4))[1] & 0xC0) != 0x80) {
         entry_offset = entry_index;
