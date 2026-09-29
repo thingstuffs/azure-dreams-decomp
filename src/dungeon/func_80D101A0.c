@@ -57,6 +57,11 @@ void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg
             current_table = (u32)render_obj->table2c;
             selected_table = (u32)D_80151E24;
         }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
+        }
         break;
 
     case 14:
@@ -66,6 +71,11 @@ void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg
         } else {
             current_table = (u32)render_obj->table2c;
             selected_table = (u32)D_80151E2C;
+        }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
 
@@ -77,20 +87,18 @@ void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg
             current_table = (u32)render_obj->table2c;
             selected_table = (u32)D_80151E34;
         }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
+        }
         break;
 
     default:
-        goto update_object;
+        break;
     }
 
-apply_table:
-    if (current_table != selected_table) {
-        *(u32 *)((u8 *)render_obj + 0x2c) = selected_table;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
-        func_80047784(render_obj, *(u8 *)((direction_index & 7) + selected_table), 0);
-    }
 
-update_object:
     if (func_800AC82C(owner, context, render_obj, state) != 0) {
         if ((func_800AD9B4(render_obj, state) << 16) > 0) {
             owner->field8c = D_8014E4BC;

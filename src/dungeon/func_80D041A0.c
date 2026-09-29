@@ -57,6 +57,11 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
             current_table = (u32)display->table2c;
             selected_table = (u32)D_8015DE24;
         }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
+        }
         break;
     case 14:
         if ((state->flags1c & 0x200) != 0 || state->flag25 == 0) {
@@ -65,6 +70,11 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
         } else {
             current_table = (u32)display->table2c;
             selected_table = (u32)D_8015DE2C;
+        }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
         }
         break;
     case 15:
@@ -75,19 +85,17 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
             current_table = (u32)display->table2c;
             selected_table = (u32)D_8015DE34;
         }
+        if (current_table != selected_table) {
+            *(u32 *)((u8 *)display + 0x2c) = selected_table;
+            direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
+            func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
+        }
         break;
     default:
-        goto update_state;
+        break;
     }
 
-apply_table:
-    if (current_table != selected_table) {
-        *(u32 *)((u8 *)display + 0x2c) = selected_table;
-        direction_index = (gameWork.view.viewAngle + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + selected_table), 0);
-    }
 
-update_state:
     if (func_800AC82C(owner, context, display, state) != 0) {
         if ((func_800AD9B4(display, state) << 16) > 0) {
             owner->field8c = D_8015A4BC;

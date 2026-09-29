@@ -50,106 +50,75 @@ void func_80058E6C(S_80085FA8 *track, s32 event_type)
     u32 scaled_tempo;
 
     event_or_bpm = event_type & 0xFF;
-    if (event_or_bpm == 0x51) {
-        goto set_tempo;
-    }
-    if (event_or_bpm < 0x52) {
-        if (event_or_bpm < 0) {
-            goto skip_event;
+    switch (event_or_bpm) {
+    case 0 ... 0xF:
+        func_80058E50(track, func_80058A04(track));
+        return;
+    case 0x2F:
+        track->f2c = 1;
+        func_800589B8(track);
+        return;
+    case 0x51:
+        if (D_800737C8[0] == 1) {
+            track->f20 = func_80058ABC(track) & 0xFFFFFF;
+        } else {
+            track->f20 = func_800589B8(track) << 0x10;
+            track->f20 = track->f20 | (func_800589B8(track) << 8);
+            track->f20 = track->f20 | func_800589B8(track);
         }
-        if (event_or_bpm < 0x10) {
-            goto skip_event;
+        bpm = 0x03938700U / (u32) track->f20;
+        track->f24 = bpm;
+        track->f20 = bpm;
+        event_or_bpm = track->f24;
+        timing_value = ((u32) event_or_bpm * 100U) / 115U;
+        track->f24 = timing_value;
+        timing_value = timing_value < 0x100U;
+        if (timing_value == 0) {
+            track->f24 = 0xFF;
         }
-        if (event_or_bpm == 0x2F) {
-            goto end_track;
-        }
-        goto skip_event;
-    }
-    if (event_or_bpm == 0x58) {
-        goto time_signature;
-    }
-    if (event_or_bpm < 0x59) {
-        if (event_or_bpm == 0x54) {
-            goto skip_time_code;
-        }
-        goto skip_event;
-    }
-    if (event_or_bpm == 0x59) {
-        goto skip_key_signature;
-    }
-    goto skip_event;
-
-end_track:
-    track->f2c = 1;
-    goto consume_byte;
-set_tempo:
-    if (D_800737C8[0] == 1) {
-        track->f20 = func_80058ABC(track) & 0xFFFFFF;
-    } else {
-        track->f20 = func_800589B8(track) << 0x10;
-        track->f20 = track->f20 | (func_800589B8(track) << 8);
-        track->f20 = track->f20 | func_800589B8(track);
-    }
-    bpm = 0x03938700U / (u32) track->f20;
-    track->f24 = bpm;
-    track->f20 = bpm;
-    event_or_bpm = track->f24;
-    timing_value = ((u32) event_or_bpm * 100U) / 115U;
-    track->f24 = timing_value;
-    timing_value = timing_value < 0x100U;
-    if (timing_value == 0) {
-        track->f24 = 0xFF;
-    }
-    timing_value = D_800869A8[0];
-    if (timing_value != 0x1E) {
-        if (timing_value < 0x1FU) {
-            track_index = 0;
-            if (timing_value != 0x18) {
-            } else {
-                goto halve_tempo;
+        timing_value = D_800869A8[0];
+        if (timing_value != 0x1E) {
+            if (timing_value < 0x1FU ? timing_value == 0x18 : timing_value == 0x3C) {
+                scaled_tempo = (u32) track->f24 >> 1;
+                track->f24 = scaled_tempo;
             }
         } else {
-            track_index = 0;
-            if (timing_value == 0x3C) {
-halve_tempo:
-                scaled_tempo = (u32) track->f24 >> 1;
-                goto store_tempo;
-            }
+            scaled_tempo = (u32) track->f24 >> 2;
+            track->f24 = scaled_tempo;
         }
-    } else {
-        scaled_tempo = (u32) track->f24 >> 2;
-store_tempo:
-        track->f24 = scaled_tempo;
         track_index = 0;
-    }
-    track_tempo = track->f24;
-    track_count = D_800869B4[0];
-    if (track_count != 0) {
-        track_limit = track_count;
-        tempo_track = D_80085FA8;
-        do {
-            tempo_track->f24 = track_tempo;
-            tempo_track->f20 = track_tempo;
-            tempo_track++;
-        } while (++track_index < track_limit);
+        track_tempo = track->f24;
+        track_count = D_800869B4[0];
+        if (track_count != 0) {
+            track_limit = track_count;
+            tempo_track = D_80085FA8;
+            do {
+                tempo_track->f24 = track_tempo;
+                tempo_track->f20 = track_tempo;
+                tempo_track++;
+            } while (++track_index < track_limit);
+            return;
+        }
+        return;
+    case 0x54:
+        func_800589B8(track);
+        func_800589B8(track);
+        func_800589B8(track);
+        func_800589B8(track);
+        func_800589B8(track);
+        func_800589B8(track);
+        return;
+    case 0x58:
+        func_800589B8(track);
+        track->f34 = func_80058ABC(track);
+        return;
+    case 0x59:
+        func_800589B8(track);
+        func_800589B8(track);
+        func_800589B8(track);
+        return;
+    default:
+        func_80058E50(track, func_80058A04(track));
         return;
     }
-    return;
-skip_time_code:
-    func_800589B8(track);
-    func_800589B8(track);
-    func_800589B8(track);
-    goto skip_key_signature;
-time_signature:
-    func_800589B8(track);
-    track->f34 = func_80058ABC(track);
-    return;
-skip_key_signature:
-    func_800589B8(track);
-    func_800589B8(track);
-consume_byte:
-    func_800589B8(track);
-    return;
-skip_event:
-    func_80058E50(track, func_80058A04(track));
 }
