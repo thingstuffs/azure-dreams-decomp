@@ -93,399 +93,283 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, EntityRec *enti
     u32 clear_mask;
     s32 state_changed;
 
-    if (!(dungeonStatus.flags & 0x1000)) {
-        goto block_3;
-    }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-    func_8016AFC4(actor, context, sprite, entity);
-    if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 1) {
+    if (dungeonStatus.flags & 0x1000) {
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+        func_8016AFC4(actor, context, sprite, entity);
+        if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 1) {
+            return;
+        }
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
+        dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
         return;
     }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = (u8) (((Rec_func_800A9E70_arg0 *)actor)->unk_AD + 1);
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) + 1);
-    return;
-block_3:
-    if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 != 1) {
-        goto block_6;
-    }
-    if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD == 0) {
-        goto block_6;
-    }
-    dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
-block_6:
-    if (entity->tileY != 0) {
-        goto block_19;
-    }
-    func_800AA79C(actor, context, sprite, entity);
-    ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (inactive_pose == 0xE) {
-        goto block_15;
-    }
-    if ((s32) inactive_pose >= 0xF) {
-        goto block_11;
-    }
-    if (inactive_pose == 0xD) {
-        goto block_13;
-    }
-    return;
-block_11:
-    if (inactive_pose == 0xF) {
-        goto block_17;
-    }
-    return;
-block_13:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173AC0 + 8)) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    return;
-block_15:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173A58 + 0x70)) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173AC0;
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)&D_80173AC0;
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    return;
-block_17:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    return;
-block_19:
-    if (!(entity->flags1C & 0x200)) {
-        goto block_36;
-    }
-    flagged_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (flagged_pose == 0xE) {
-        goto block_28;
-    }
-    if ((s32) flagged_pose >= 0xF) {
-        goto block_24;
-    }
-    if (flagged_pose == 0xD) {
-        goto block_26;
-    }
-    goto block_37;
-block_24:
-    if (flagged_pose == 0xF) {
-        goto block_30;
-    }
-    goto block_37;
-block_26:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
-        goto block_33;
-    }
-    clear_mask = 0xFFFB0000U;
-    state_changed = 1;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = flagged_pose;
-    goto block_32;
-block_28:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
-        goto block_31;
-    }
-    goto block_35;
-block_30:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
-        goto block_34;
-    }
-block_31:
-    clear_mask = 0xFFFB0000U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
-    state_changed = 1;
-block_32:
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = (s8)state_changed;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-    entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
-    return;
-block_33:
-block_34:
-block_35:
-    if (func_800AA924(actor, context, sprite, &D_80173AC0) != 0) {
-        return;
-    }
-block_36:
-block_37:
-    if (dungeonStatus.flags & 0x2000) {
-        goto block_77;
-    }
-    if (!(entity->flags1C & 0x100)) {
-        goto block_40;
-    }
-    func_800AA258(actor, context, sprite, entity);
-    return;
-block_40:
-    {
-        register s32 idle_state ASM_REG("$2") = 0xE;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8;
-        if (anim_state == idle_state) {
-            goto block_56;
+    if (((Rec_func_800A9E70_arg0 *)actor)->unk_B0 == 1) {
+        if (((Rec_func_800A9E70_arg0 *)actor)->unk_AD != 0) {
+            dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - ((Rec_func_800A9E70_arg0 *)actor)->unk_AD);
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_AD = 0U;
         }
     }
-    anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (anim_state == 1) {
-        goto block_49;
-    }
-    if ((s32) anim_state >= 2) {
-        goto block_45;
-    }
-    if (anim_state == 0) {
-        goto block_48;
-    }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-    goto block_55;
-block_45:
-    if (anim_state == 2) {
-        goto block_50;
-    }
-    if (anim_state == 3) {
-        goto block_51;
-    }
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-    goto block_55;
-block_48:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
-        (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A0;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739A0), 0);
-    }
-    goto block_54;
-block_49:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
-        (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A8;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739A8), 0);
-    }
-    goto block_54;
-block_50:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
-        (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
-    }
-    goto block_54;
-block_51:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
-        (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-        func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B8), 0);
-    }
-block_54:
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
-block_55:
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x1F) + 0xF);
-block_56:
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
-    if (entity->unk_64 == 0) {
-        goto block_69;
-    }
-    active_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (active_pose == 1) {
-        goto block_65;
-    }
-    if ((s32) active_pose >= 2) {
-        goto block_61;
-    }
-    if (active_pose == 0) {
-        goto block_64;
-    }
-    goto block_69;
-block_61:
-    if (active_pose == 2) {
-        goto block_66;
-    }
-    if (active_pose == 3) {
-        goto block_67;
-    }
-    goto block_69;
-block_64:
-    if (func_800AA6B4(actor, context, sprite, &D_80173A00) != 0) {
+    if (entity->tileY == 0) {
+        func_800AA79C(actor, context, sprite, entity);
+        ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        inactive_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+        switch (inactive_pose) {
+            case 0xD:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173AC0 + 8)) {
+                    return;
+                }
+                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+                table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+                table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+                func_80047784(sprite, *(u8 *)table_index, 0);
+                return;
+            case 0xE:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173A58 + 0x70)) {
+                    return;
+                }
+                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173AC0;
+                table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+                table_index += (unsigned long)&D_80173AC0;
+                func_80047784(sprite, *(u8 *)table_index, 0);
+                return;
+            case 0xF:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
+                    return;
+                }
+                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+                table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+                table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+                func_80047784(sprite, *(u8 *)table_index, 0);
+                return;
+        }
         return;
     }
-    goto block_69;
-block_65:
-    if (func_800AA6B4(actor, context, sprite, &D_80173A08) != 0) {
-        return;
+    if (entity->flags1C & 0x200) {
+        flagged_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+        switch (flagged_pose) {
+            case 0xD:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
+                    break;
+                }
+                clear_mask = 0xFFFB0000U;
+                state_changed = 1;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = flagged_pose;
+                goto block_32;
+            case 0xE:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
+                    goto block_31;
+                }
+                break;
+            case 0xF:
+                if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173AC8) {
+                    break;
+                }
+block_31:
+                clear_mask = 0xFFFB0000U;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xDU;
+                state_changed = 1;
+block_32:
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_s8 = (s8)state_changed;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
+                entity->flags1C = (s32) (entity->flags1C & (clear_mask | 0xFFFFU));
+                return;
+            default:
+                goto block_37;
+        }
+        if (func_800AA924(actor, context, sprite, &D_80173AC0) != 0) {
+            return;
+        }
     }
-    goto block_69;
-block_66:
-    if (func_800AA6B4(actor, context, sprite, &D_80173A10) != 0) {
-        return;
+block_37:
+    if (!(dungeonStatus.flags & 0x2000)) {
+        if (entity->flags1C & 0x100) {
+            func_800AA258(actor, context, sprite, entity);
+            return;
+        }
+        {
+            s16 idle_state = 0xE;
+            anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8;
+            if (anim_state != idle_state) {
+                anim_state = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+                switch (anim_state) {
+                    case 0:
+                        if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A0) {
+                            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A0;
+                            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739A0), 0);
+                        }
+                        break;
+                    case 1:
+                        if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739A8) {
+                            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739A8;
+                            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739A8), 0);
+                        }
+                        break;
+                    case 2:
+                        if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B0) {
+                            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B0;
+                            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
+                        }
+                        break;
+                    case 3:
+                        if (((S_8016A36C_3 *)sprite)->unk_2C.p2 != &D_801739B8) {
+                            (*(u8 **)((u8 *)sprite + 0x2C)) = &D_801739B8;
+                            func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B8), 0);
+                        }
+                        break;
+                }
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x1F) + 0xF);
+            }
+        }
+        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 = (u16) (((Rec_func_800A9E70_arg0 *)actor)->unk_98 & 0xFFF3);
+        if (entity->unk_64 != 0) {
+            active_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+            switch (active_pose) {
+                case 0:
+                    if (func_800AA6B4(actor, context, sprite, &D_80173A00) != 0) {
+                        return;
+                    }
+                    break;
+                case 1:
+                    if (func_800AA6B4(actor, context, sprite, &D_80173A08) != 0) {
+                        return;
+                    }
+                    break;
+                case 2:
+                    if (func_800AA6B4(actor, context, sprite, &D_80173A10) != 0) {
+                        return;
+                    }
+                    break;
+                case 3:
+                    if (func_800AA6B4(actor, context, sprite, &D_80173A18) != 0) {
+                        return;
+                    }
+                    break;
+            }
+        }
+        if (entity->flags1C & 0x80000) {
+            func_800AA888(actor, context, sprite, entity);
+            func_8016D4B8(actor, context, sprite, entity);
+            return;
+        }
+        if ((func_800A1C58(entity) << 0x10) != 0) {
+            if (((s32)dungeonStatus.unk_0C) != entity) {
+                return;
+            }
+            if (((s32)dungeonStatus.unk_10) != 0) {
+                return;
+            }
+            if ((s16) ((u16)dungeonStatus.unk_0A) >= 2) {
+                return;
+            }
+            if (dungeonStatus.flags & 8) {
+                return;
+            }
+            entity->unk_18 = 0;
+            dungeonStatus.unk_0C = 0;
+        }
     }
-    goto block_69;
-block_67:
-    if (func_800AA6B4(actor, context, sprite, &D_80173A18) != 0) {
-        return;
-    }
-block_69:
-    if (!(entity->flags1C & 0x80000)) {
-        goto block_71;
-    }
-    func_800AA888(actor, context, sprite, entity);
-    func_8016D4B8(actor, context, sprite, entity);
-    return;
-block_71:
-    if ((func_800A1C58(entity) << 0x10) == 0) {
-        goto block_77;
-    }
-    if (((s32)dungeonStatus.unk_0C) != entity) {
-        return;
-    }
-    if (((s32)dungeonStatus.unk_10) != 0) {
-        return;
-    }
-    if ((s16) ((u16)dungeonStatus.unk_0A) >= 2) {
-        return;
-    }
-    if (dungeonStatus.flags & 8) {
-        return;
-    }
-    entity->unk_18 = 0;
-    dungeonStatus.unk_0C = 0;
-block_77:
     room_id = func_8009FB34(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v);
     ((S_8016A36C_3 *)sprite)->unk_26 = room_id;
-    if (entity->unk_6D <= 0) {
-        goto block_108;
-    }
-    if (entity->flags1C & 0x20) {
-        goto block_94;
-    }
-    if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-        goto block_107;
-    }
-    if (entity->unk_46 & 0x8000) {
-        goto block_87;
-    }
-    if (!(dungeonStatus.flags & 0x2000)) {
-        goto block_83;
-    }
-    if ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
-        return;
-    }
-block_83:
-    if (!(D_80013714 & 8)) {
-        goto block_85;
-    }
-    func_801732A4(actor, context, sprite);
-    entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
-    func_800A9A0C(entity);
-    entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
-    return;
-block_85:
-    if ((func_8016BBC0(actor, context, sprite, 0) << 0x10) == 0) {
-        return;
-    }
-    action_flags = entity->unk_46 | 0x4000;
-    entity->unk_46 = action_flags;
-    if (!(action_flags & 0x8000)) {
-        goto block_107;
-    }
-block_87:
-    action_id = entity->unk_46 & 0x3FFF;
-    switch (action_id) {
-case 8:
-    if ((func_8016B954(actor, context, sprite, entity) << 0x10) != 0) {
-        return;
-    }
-    func_8016BAE0(actor, context, sprite, entity);
-    return;
-case 9:
-    func_8016D6F8(actor, context, sprite, entity);
-    return;
-case 10:
-    func_8016DAC0(actor, context, sprite, entity);
-    return;
-case 5:
-case 6:
-case 7:
-    {
-        s32 angle = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
-        EntityRec *owner = D_800814A8;
-        entity->facing = (s16)angle;
-        if (owner->unk_9A == 0x11) {
-            goto block_95;
+    if (entity->unk_6D > 0) {
+        if (entity->flags1C & 0x20) {
+            func_800A9A0C(entity);
+            return;
+        }
+        if (((S_8016A36C_3 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            func_8016B230(actor, context, sprite, entity);
+            return;
+        }
+        if (!(entity->unk_46 & 0x8000)) {
+            if (dungeonStatus.flags & 0x2000) {
+                if ((func_8009A180(entity, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                    return;
+                }
+            }
+            if (D_80013714 & 8) {
+                func_801732A4(actor, context, sprite);
+                entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
+                func_800A9A0C(entity);
+                entity->unk_46 = (u16) (entity->unk_46 & 0x7FFF);
+                return;
+            }
+            if ((func_8016BBC0(actor, context, sprite, 0) << 0x10) == 0) {
+                return;
+            }
+            action_flags = entity->unk_46 | 0x4000;
+            entity->unk_46 = action_flags;
+            if (!(action_flags & 0x8000)) {
+                func_8016B230(actor, context, sprite, entity);
+                return;
+            }
+        }
+        action_id = entity->unk_46 & 0x3FFF;
+        switch (action_id) {
+            case 8:
+                if ((func_8016B954(actor, context, sprite, entity) << 0x10) != 0) {
+                    return;
+                }
+                func_8016BAE0(actor, context, sprite, entity);
+                return;
+            case 9:
+                func_8016D6F8(actor, context, sprite, entity);
+                return;
+            case 10:
+                func_8016DAC0(actor, context, sprite, entity);
+                return;
+            case 12:
+                func_800A9A0C(entity);
+                return;
+            case 5:
+            case 6:
+            case 7:
+                {
+                    s32 angle = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
+                    EntityRec *owner = D_800814A8;
+                    entity->facing = (s16)angle;
+                    if (owner->unk_9A != 0x11) {
+                        func_800A9A0C(entity);
+                        return;
+                    }
+                }
+            case 1:
+            case 2:
+            case 3:
+                action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
+                switch (action_pose) {
+                case 0:
+                    func_800AAF00(actor, context, sprite, &D_801739E0, &func_8016A36C);
+                    return;
+                case 1:
+                    func_800AAF00(actor, context, sprite, &D_801739E8, &func_8016A36C);
+                    return;
+                case 2:
+                    func_800AAF00(actor, context, sprite, &D_801739F0, &func_8016A36C);
+                    return;
+                case 3:
+                    func_800AAF00(actor, context, sprite, &D_801739F8, &func_8016A36C);
+                    return;
+                }
+                return;
+            default:
+                func_8016B230(actor, context, sprite, entity);
+                return;
         }
     }
-case 12:
-block_94:
-    func_800A9A0C(entity);
-    return;
-case 1:
-case 2:
-case 3:
-block_95:
-    action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (action_pose == 1) {
-        goto block_103;
-    }
-    if ((s32) action_pose >= 2) {
-        goto block_99;
-    }
-    if (action_pose == 0) {
-        goto block_102;
-    }
-    return;
-block_99:
-    if (action_pose == 2) {
-        goto block_104;
-    }
-    if (action_pose == 3) {
-        goto block_105;
-    }
-    return;
-block_102:
-    func_800AAF00(actor, context, sprite, &D_801739E0, &func_8016A36C);
-    return;
-block_103:
-    func_800AAF00(actor, context, sprite, &D_801739E8, &func_8016A36C);
-    return;
-block_104:
-    func_800AAF00(actor, context, sprite, &D_801739F0, &func_8016A36C);
-    return;
-block_105:
-    func_800AAF00(actor, context, sprite, &D_801739F8, &func_8016A36C);
-    return;
-default:
-block_106:
-block_107:
-    func_8016B230(actor, context, sprite, entity);
-    return;
-    }
-block_108:
     entity_flags = entity->flags1C;
-    if (entity_flags & 0x2000) {
-        goto block_116;
-    }
-    if (D_80013714 & 8) {
-        goto block_116;
-    }
-    if (room_id < 0) {
-        goto block_112;
-    }
-    if (D_800E2970[room_id].flags & 2) {
-        goto block_116;
-    }
-block_112:
-    if (entity_flags & 0x430) {
-        goto block_116;
-    }
-    {
-        if ((func_8009FD7C(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) == 0) {
-            goto block_115;
+    if (!(entity_flags & 0x2000)) {
+        if (!(D_80013714 & 8)) {
+            if (room_id < 0 || !(D_800E2970[room_id].flags & 2)) {
+                if (!(entity_flags & 0x430)) {
+                    if ((func_8009FD7C(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY) << 0x10) != 0) {
+                        entity->facing = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
+                    }
+                }
+            }
         }
-        entity->facing = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
     }
-block_115:
-block_116:
     if (dungeonStatus.flags & 0x2000) {
         return;
     }
@@ -499,123 +383,95 @@ block_116:
         return;
     }
     idle_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
-    if (idle_pose == 1) {
-        goto block_128;
+    switch (idle_pose) {
+        case 0:
+            next_table = &D_801739A0;
+            current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
+            if (current_table == next_table) {
+                return;
+            }
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
+            table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index += (unsigned long)next_table;
+            func_80047784(sprite, *(u8 *)table_index, 0);
+            return;
+        case 1:
+            current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
+            next_table = &D_801739A8;
+            if (current_table == next_table) {
+                return;
+            }
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
+            table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index += (unsigned long)next_table;
+            func_80047784(sprite, *(u8 *)table_index, 0);
+            return;
+        case 2:
+            pose2_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
+            if (pose2_table != &D_801739B0 && pose2_table != &D_80173A50) {
+                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
+                func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            }
+            if (pose2_table == &D_801739B0 || ((S_8016A36C_3 *)sprite)->unk_2C.p == &D_801739B0) {
+                pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
+                if ((s16) pose2_idle_ticks >= ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
+                    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A50;
+                    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_80173A50), 0);
+                    func_800478B8(sprite);
+                    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                }
+            }
+            if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A50) {
+                return;
+            }
+            pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
+            if ((s16) pose2_anim_ticks < 0x12) {
+                return;
+            }
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
+            table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index += (unsigned long)&D_801739B0;
+            func_80047784(sprite, *(u8 *)table_index, 0);
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            return;
+        case 3:
+            pose3_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
+            idle_table = &D_801739B8;
+            if (pose3_table != idle_table && pose3_table != &D_80173A58) {
+                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = idle_table;
+                func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + idle_table), 0);
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            }
+            if (pose3_table == idle_table || ((S_8016A36C_3 *)sprite)->unk_2C.p == idle_table) {
+                pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
+                ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
+                if ((s16) pose3_idle_ticks >= ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
+                    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A58;
+                    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_80173A58), 0);
+                    func_800478B8(sprite);
+                    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+                }
+            }
+            if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A58) {
+                return;
+            }
+            pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
+            if ((s16) pose3_anim_ticks < 0x12) {
+                return;
+            }
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B8;
+            table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
+            table_index += (unsigned long)&D_801739B8;
+            func_80047784(sprite, *(u8 *)table_index, 0);
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+            ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+            return;
     }
-    if ((s32) idle_pose >= 2) {
-        goto block_124;
-    }
-    if (idle_pose == 0) {
-        goto block_127;
-    }
-    return;
-block_124:
-    if (idle_pose == 2) {
-        goto block_131;
-    }
-    if (idle_pose == 3) {
-        goto block_140;
-    }
-    return;
-block_127:
-    next_table = &D_801739A0;
-    current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
-    goto block_129;
-block_128:
-    current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
-    next_table = &D_801739A8;
-block_129:
-    if (current_table == next_table) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)next_table;
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    return;
-block_131:
-    pose2_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
-    if (pose2_table == &D_801739B0) {
-        goto block_135;
-    }
-    if (pose2_table == &D_80173A50) {
-        goto block_134;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_801739B0), 0);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
-block_134:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_801739B0) {
-        goto block_137;
-    }
-block_135:
-    pose2_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_idle_ticks + 1);
-    if ((s16) pose2_idle_ticks < ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
-        goto block_137;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A50;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_80173A50), 0);
-    func_800478B8(sprite);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-block_137:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A50) {
-        return;
-    }
-    pose2_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose2_anim_ticks + 1);
-    if ((s16) pose2_anim_ticks < 0x12) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)&D_801739B0;
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
-    return;
-block_140:
-    pose3_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
-    idle_table = &D_801739B8;
-    if (pose3_table == idle_table) {
-        goto block_144;
-    }
-    if (pose3_table == &D_80173A58) {
-        goto block_143;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = idle_table;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + idle_table), 0);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
-block_143:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != idle_table) {
-        goto block_146;
-    }
-block_144:
-    pose3_idle_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_idle_ticks + 1);
-    if ((s16) pose3_idle_ticks < ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v) {
-        goto block_146;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173A58;
-    func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + &D_80173A58), 0);
-    func_800478B8(sprite);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-block_146:
-    if (((S_8016A36C_3 *)sprite)->unk_2C.p != &D_80173A58) {
-        return;
-    }
-    pose3_anim_ticks = ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = (u16) (pose3_anim_ticks + 1);
-    if ((s16) pose3_anim_ticks < 0x12) {
-        return;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B8;
-    table_index = ((s32) (gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7;
-    table_index += (unsigned long)&D_801739B8;
-    func_80047784(sprite, *(u8 *)table_index, 0);
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
-    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
-    return;
 }

@@ -62,24 +62,6 @@ typedef struct S_818B6AFC_8_pre {
 
 M2C_UNK func_80024154();
 
-#ifdef NON_MATCHING
-#define do {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (dst) = implicit_hi;   ASM_CLOBBER("hi");  } while (0) \
-    do { (dst) = (s32) (((s64) (s32) (a) * (s64) (s32) (b)) >> 32); } while (0)
-#define M2C_MUL_LO(a, b) ((s32) ((s64) (s32) (a) * (s64) (s32) (b)))
-#else
-register s32 implicit_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-#define M2C_READ_MUL_HI(dst, a, b) \
-    do { \
-        s32 implicit_hi; \
-        \
-        (dst) = implicit_hi; \
-        \
-        \
-    } while (0)
-#define M2C_MUL_LO(a, b) \
-    (implicit_lo = (s32) (a) * (s32) (b), implicit_lo)
-#endif
-
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
 void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 fade_in_color;
@@ -89,7 +71,6 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s16 fade_out_green;
     s16 frame;
     s32 fade_in_blue;
-    register s32 div_adjust ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 fade_work;
     s32 rounded_color;
     s32 channel_bit;
@@ -97,14 +78,15 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 fade_in_half;
     s32 fade_out_half;
     s32 packed_channel;
-    s32 fade_out_remainder;
     s32 cycle_quotient;
     s32 packed_color;
     register s32 end_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
-    s32 div_seven_magic;
     s32 cycle_value;
-    u16 fade_in_tick;
+    s16 fade_in_cycle;
+    s16 hold_cycle;
+    s16 fade_out_cycle;
+    s32 fade_in_tick;
     u16 hold_tick;
     u16 fade_out_tick;
     s32 product_result;
@@ -132,25 +114,16 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         fade_in_target = ((S_818B6AFC_0 *)effect)->unk_10;
         ((S_818B6AFC_2 *)fade_in_target)->unk_1C = (s32) (((S_818B6AFC_2 *)fade_in_target)->unk_1C | 0x10000000);
         fade_in_tick = ((S_818B6AFC_0 *)effect)->unk_08;
-        cycle_value = (s16) fade_in_tick;
-        div_seven_magic = (s32) 0x92490000;
-        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
-#ifndef NON_MATCHING
-        implicit_lo = cycle_value * div_seven_magic;
-#endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
-        div_adjust = (s32) (s16) fade_in_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        cycle_value = cycle_value - (((((product_result + cycle_value) >> 2)) - div_adjust) * 7);
-        cycle_value = cycle_value + 1;
-        packed_channel = (s32) ((u32) cycle_value << 16);
+        fade_in_cycle = (s16) fade_in_tick % 7 + 1;
+        packed_channel = (s32) ((u32) fade_in_cycle << 16);
         fade_in_color = packed_channel >> 16;
-        div_adjust = fade_in_color;
+        fade_in_tick = fade_in_color;
         if (fade_in_color < 0) {
-            div_adjust = fade_in_color + 3;
+            fade_in_tick = fade_in_color + 3;
         }
-        channel_bit = div_adjust >> 2;
-        product_result = M2C_MUL_LO(channel_bit, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        channel_bit = fade_in_tick >> 2;
+        product_result = channel_bit * ((s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         fade_in_half = (fade_in_color + (s32) ((u32) packed_channel >> 31)) >> 1;
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         fade_in_green = (s16) fade_in_half % 2;
@@ -158,38 +131,25 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         packed_channel *= 2;
         packed_channel = fade_in_color - packed_channel;
         packed_channel = (u32)packed_channel << 16;
-        product_result = M2C_MUL_LO(fade_in_green, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        product_result = fade_in_green * ((s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
         fade_in_blue = packed_channel >> 16;
-        product_result = M2C_MUL_LO(fade_in_blue, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
+        product_result = fade_in_blue * ((s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
-        product_result = M2C_MUL_LO(channel_bit, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
+        product_result = channel_bit * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
-        product_result = M2C_MUL_LO(fade_in_green, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
+        product_result = fade_in_green * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
-#ifdef NON_MATCHING
         product_result = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
-#else
-        implicit_lo = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
-#endif
         goto store_blue;
     }
     if (frame < 0x28) {
         hold_target = ((S_818B6AFC_0 *)effect)->unk_10;
         ((S_818B6AFC_5 *)hold_target)->unk_1C = (s32) (((S_818B6AFC_5 *)hold_target)->unk_1C | 0x10000000);
         hold_tick = ((S_818B6AFC_0 *)effect)->unk_08;
-        cycle_value = (s16) hold_tick;
-        div_seven_magic = (s32) 0x92490000;
-        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
-#ifndef NON_MATCHING
-        implicit_lo = cycle_value * div_seven_magic;
-#endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
-        div_adjust = (s32) (s16) hold_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        cycle_value = cycle_value - (((((product_result + cycle_value) >> 2)) - div_adjust) * 7);
-        cycle_value = cycle_value + 1;
-        cycle_value = (s32) ((u32) cycle_value << 16);
+        hold_cycle = (s16) hold_tick % 7 + 1;
+        cycle_value = (s32) ((u32) hold_cycle << 16);
         hold_color = cycle_value >> 16;
         rounded_color = hold_color;
         if (hold_color < 0) {
@@ -215,18 +175,9 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         fade_out_target = ((S_818B6AFC_0 *)effect)->unk_10;
         ((S_818B6AFC_6 *)fade_out_target)->unk_1C = (s32) (((S_818B6AFC_6 *)fade_out_target)->unk_1C | 0x10000000);
         fade_out_tick = ((S_818B6AFC_0 *)effect)->unk_08;
-        fade_out_remainder = (s16) fade_out_tick;
-        div_seven_magic = (s32) 0x92490000;
-        div_seven_magic = (s32) ((u32) div_seven_magic | 0x2493);
-#ifndef NON_MATCHING
-        implicit_lo = fade_out_remainder * div_seven_magic;
-#endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
-        div_adjust = (s32) (s16) fade_out_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        fade_out_remainder = fade_out_remainder - (((((product_result + fade_out_remainder) >> 2)) - div_adjust) * 7);
-        fade_out_remainder = fade_out_remainder + 1;
-        packed_color = (s32) ((u32) fade_out_remainder << 16);
+        fade_out_cycle = (s16) fade_out_tick % 7 + 1;
+        packed_color = (s32) ((u32) fade_out_cycle << 16);
         fade_out_color = packed_color >> 16;
         fade_work = fade_out_color;
         if (fade_out_color < 0) {
@@ -237,33 +188,27 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         end_frame = 0x30;
         fade_work = end_frame - fade_work;
         fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
-        product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
+        product_result = fade_out_red * (fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         fade_out_green = (s16) fade_out_half % 2;
         packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
-        product_result = M2C_MUL_LO(fade_out_green, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        product_result = fade_out_green * ((end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
         channel_bit = packed_channel >> 16;
-        product_result = M2C_MUL_LO(channel_bit, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        product_result = channel_bit * ((end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = end_frame - frames_left;
-        product_result = M2C_MUL_LO(fade_out_red, (frames_left * 3) << 3);
+        product_result = fade_out_red * ((frames_left * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = end_frame - frames_left;
-        product_result = M2C_MUL_LO(fade_out_green, (frames_left * 3) << 3);
+        product_result = fade_out_green * ((frames_left * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = end_frame - frames_left;
-#ifdef NON_MATCHING
         product_result = channel_bit * ((frames_left * 3) << 3);
     store_blue:
-#else
-        implicit_lo = channel_bit * ((frames_left * 3) << 3);
-    store_blue:
-        product_result = implicit_lo;
-#endif
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
         return;
     }
