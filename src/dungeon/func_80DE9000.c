@@ -58,7 +58,7 @@ extern u8 D_8016AE5C[];
 extern u8 D_8016E510[];
 extern u8 D_8016E538[];
 
-void *func_8016A800(s32, s32, s32, s32);
+void *func_8016A800(s16, s16, s16, s16);
 
 #ifdef __mips__
 extern void func_8016B2A0(void);
@@ -102,29 +102,25 @@ __attribute__((section(".text.func_8016A800"))) = {
 #endif
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *func_8016A800(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     void *result = NULL;
-    register s32 arg1_role ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *root;
     void *position;
     s16 held_flags;
-    register s32 opcode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *factory ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
+    s8 saved_a;
+    s16 saved_c;
+    s8 saved_b;
 
     {
         void *arg3_part;
         void *arg2_work;
 
-        opcode = 0x112;
-        arg1_role = attr_a;
-        factory = ((u8 *)(&D_80083498));
-        arg3_part = (void *)attr_c;
-        arg2_work = (void *)attr_b;
-        ASM_KEEP_DEP_NV(arg1_role, opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_DEP_NV(arg3_part, factory);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        root = func_8003FD64(opcode, factory);
+        saved_a = attr_a;
+        saved_c = attr_c;
+        saved_b = attr_b;
+        root = func_8003FD64(0x112, &D_80083498);
         held_flags = spawn_flags;
         if (root != NULL) {
             result = (u8 *)root + 0x20;
@@ -133,11 +129,11 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 
             position = ((S_8016A800_1 *)root)->unk_08;
             kind = spawn_flags & 3;
-            ((S_8016A800_2 *)position)->unk_0A = (s16)(s32)arg3_part;
+            ((S_8016A800_2 *)position)->unk_0A = saved_c;
             arg3_part = ((S_8016A800_1 *)root)->unk_0C;
-            ((S_8016A800_3 *)arg3_part)->unk_25 = (s8)(s32)arg2_work;
+            ((S_8016A800_3 *)arg3_part)->unk_24 = saved_a;
+            ((S_8016A800_3 *)arg3_part)->unk_25 = saved_b;
             arg2_work = result;
-            ((S_8016A800_3 *)arg3_part)->unk_24 = (s8)arg1_role;
 
             if (kind == 1) {
                 ((S_8016A800_0 *)result)->unk_8C = D_8016AE5C;
@@ -155,17 +151,17 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
                         if (!(((S_8016A800_0 *)result)->unk_14 & 0x200)) {
                             spawn_flags = func_800A6D30();
                             if (spawn_flags & 1) {
-                                spawn_flags = func_800A6D30();
-                                func_800A48F0(result, 1, (spawn_flags & 0x3F) | 0x20);
+                                func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
                                 ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E538;
                             }
                         }
                         ((S_8016A800_4 *)((void *)arg2_work))->unk_8C = D_8016AE5C;
+                        ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
                     } else {
                         ((S_8016A800_0 *)result)->unk_8C = D_8016AE5C;
+                        ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
                     }
 
-                    ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
                 }
             }
             ((S_8016A800_1 *)root)->unk_10 = D_8016AA58;
