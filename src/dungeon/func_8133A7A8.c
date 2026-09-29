@@ -50,23 +50,9 @@ void func_801717A8(Entity *entity) {
     register s32 camera_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s16 *camera_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *focus_pos ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_exit,
-        &&jt_c4, &&jt_exit, &&jt_c6, &&jt_exit,
-        &&jt_exit, &&jt_exit, &&jt_exit, &&jt_exit,
-        &&jt_exit, &&jt_exit, &&jt_exit, &&jt_exit,
-        &&jt_exit, &&jt_exit, &&jt_exit, &&jt_exit,
-        &&jt_c20, &&jt_exit
-    };
 
-    (void)state_labels;
-    if ((u32)state < 22) {
-        goto *D_80164A68[state];
-    } else {
-        return;
-    }
-
-jt_c0: {
+    switch (state) {
+    case 0: {
     u16 offset_x;
     u16 offset_y;
     u16 offset_z;
@@ -89,7 +75,7 @@ jt_c0: {
     goto jt_case0_tail;
 }
 
-jt_c1:
+    case 1:
     entity->timer++;
     if (entity->timer < 0x28) {
         return;
@@ -104,7 +90,7 @@ jt_c1:
         return;
     }
 
-jt_c2:
+    case 2:
     entity->timer++;
     if (entity->timer < 0x28) {
         return;
@@ -114,13 +100,12 @@ jt_c2:
     previous_state = entity->state;
     transition_ticks = 0xA;
 
-jt_call_common:
     entity->timer = 0;
     entity->state = previous_state + 1;
     func_8004D294(focus_arg, offset_arg, transition_ticks);
     return;
 
-jt_c4: {
+    case 4: {
     s16 *height_base;
     u8 *globals;
 
@@ -158,7 +143,7 @@ jt_case0_tail:
     return;
 }
 
-jt_c6: {
+    case 6: {
     s16 *height_base;
     u8 *globals;
 
@@ -189,10 +174,10 @@ jt_c6: {
     func_8004D7A8(camera_mode);
     func_8004D7A8(0);
     func_8004D294(D_801760E8, D_801760E0, 2);
-    goto jt_exit;
+    break;
 }
 
-jt_c20: {
+    case 20: {
     s16 *height_base;
     u8 *globals;
 
@@ -226,7 +211,6 @@ jt_c20: {
     }
 }
 
-jt_progress:
     entity->timer++;
     if (entity->timer >= 0x79) {
         entity->timer = 0;
@@ -234,6 +218,8 @@ jt_progress:
         entity->state++;
     }
 
-jt_exit:
-    return;
+    case 21:
+    default:
+        break;
+    }
 }

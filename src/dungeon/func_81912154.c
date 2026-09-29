@@ -96,7 +96,6 @@ typedef struct S_80025954_15 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80024028[];
 s32 func_80024170(); /* extern */
 M2C_UNK func_80025874();         /* extern */
 s32 func_8003DE58();     /* extern */
@@ -113,7 +112,6 @@ typedef struct LocalStack {
 
 /* Updates movement toward a target or along a direction and advances the action phases. */
 void func_80025954(void *state, void *motion, void *appearance) {
-    static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     LocalStack stack;
     s8 *distance_cursor;
     s16 floor_height;
@@ -148,16 +146,13 @@ void func_80025954(void *state, void *motion, void *appearance) {
     phase = ((Rec_func_80024170_arg0 *)state)->unk_0A;
     owner = ((Rec_func_80024170_arg0 *)state)->unk_00;
     ((Rec_func_80024170_arg0 *)state)->unk_10 = (u16) (((Rec_func_80024170_arg0 *)state)->unk_10 + 1);
-    if ((u32) phase >= 7U) {
-        goto finish;
-    }
-    (void)phase_labels; goto *D_80024028[(u32)(phase)];
-jt_c0:
+    switch ((u32)phase) {
+    case 0:
     ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
     ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
     ((Rec_func_80024170_arg0 *)state)->unk_0E = (u16) (((u16) ((S_80025954_1 *)owner)->unk_2A >> 9) & 7);
     ((S_80025954_2 *)appearance)->unk_0C = 0x808080;
-jt_c1:
+    case 1:
     owner_links = owner - 0x20;
     model = (s32)(((S_80025954_3 *)owner_links)->unk_0C);
     if (func_8003DE58(((S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) != 0) {
@@ -357,7 +352,7 @@ aim_at_endpoint:
     func_80024170(state, motion);
     motion_value = 6;
     goto set_phase;
-jt_c2:
+    case 2:
     ((S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((S_80025954_5 *)motion)->unk_00.at00.v + ((S_80025954_5 *)motion)->unk_0C);
     ((S_80025954_5 *)motion)->unk_04.at00.v = (s32) (((S_80025954_5 *)motion)->unk_04.at00.v + ((S_80025954_5 *)motion)->unk_10);
     ((S_80025954_5 *)motion)->unk_08.at00.v = (s32) (((S_80025954_5 *)motion)->unk_08.at00.v + ((S_80025954_5 *)motion)->unk_14);
@@ -367,13 +362,13 @@ jt_c2:
     func_80025874(state, motion, ((S_80025954_15 *)(((S_80025954_1 *)owner)->unk_60))->unk_88);
     func_800A56E0(0x300);
     goto advance_phase;
-jt_c3:
+    case 3:
     if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 >= 8) {
         goto advance_phase;
     }
     ((Rec_func_80024170_arg0 *)state)->unk_14 = 0;
     return;
-jt_c4:
+    case 4:
     if ((s16) ((Rec_func_80024170_arg0 *)state)->unk_10 < 0x44) {
         goto finish;
     }
@@ -382,7 +377,7 @@ advance_phase:
     ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
     ((Rec_func_80024170_arg0 *)state)->unk_0A = (s16) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1);
     goto finish;
-jt_c5:
+    case 5:
     if (((Rec_func_80024170_arg0 *)state)->unk_14 != 0) {
         goto finish;
     }
@@ -390,7 +385,7 @@ jt_c5:
     (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | 0x8000);
     (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
     goto finish;
-jt_c6:
+    case 6:
     ((S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((S_80025954_5 *)motion)->unk_00.at00.v + ((S_80025954_5 *)motion)->unk_0C);
     ((S_80025954_5 *)motion)->unk_04.at00.v = (s32) (((S_80025954_5 *)motion)->unk_04.at00.v + ((S_80025954_5 *)motion)->unk_10);
     ((S_80025954_5 *)motion)->unk_08.at00.v = (s32) (((S_80025954_5 *)motion)->unk_08.at00.v + ((S_80025954_5 *)motion)->unk_14);
@@ -401,6 +396,7 @@ jt_c6:
 set_phase:
     ((Rec_func_80024170_arg0 *)state)->unk_0A = motion_value;
     ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
+    }
 finish:
     ((Rec_func_80024170_arg0 *)state)->unk_14 = 0;
     return;

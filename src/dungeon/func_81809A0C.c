@@ -193,7 +193,6 @@ extern u8 D_80080A87[16];
 /* Update the selection menu animation, side positions, and facing directions. */
 void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     s32 *side_ptr;
-    static void *const state_labels[] = { &&init_menu, &&animate_entry, &&handle_input, &&wait_for_sides, &&animate_exit, &&done };
     u16 target_y;
     u16 entry_counter;
     s16 enter_ticks;
@@ -242,12 +241,8 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     appearance = appearance_in;
     state_base = &gameWork;
     state = ((S_8002520C_0 *)menu)->unk_1C;
-    (void)state_labels;
-    if ((u32)state >= 5U) {
-        return;
-    }
-    goto *D_80025000[(u32)state];
-init_menu:
+    switch ((u32)state) {
+    case 0:
     func_8004491C(menu - 0x20, &D_80026864);
     motion->unk_02 = -0x180;
     motion->unk_06 = -0x20;
@@ -257,7 +252,7 @@ init_menu:
     ((S_8002520C_0 *)menu)->unk_22 = 8;
     ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
     /* fallthrough */
-animate_entry:
+    case 1:
     enter_ticks = ((S_8002520C_0 *)menu)->unk_22;
     if (enter_ticks != 0) {
         motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / enter_ticks));
@@ -282,7 +277,7 @@ animate_entry:
         appearance->unk_0C = 0x80U;
         ((S_8002520C_0 *)menu)->unk_22 = 0;
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
-handle_input:
+    case 2:
     }
     if (D_80027156[0] == 0) {
         register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -478,8 +473,8 @@ check_other_side:
             return;
         }
     }
-    goto done;
-wait_for_sides:
+    break;
+    case 3:
     side_count = 0;
     side_cursor = menu;
 check_side:
@@ -491,7 +486,7 @@ check_side:
             ((S_8002520C_0 *)menu)->unk_22 = 8;
             motion->unk_16 = 8U;
             ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
-animate_exit:
+    case 4:
             exit_ticks = ((S_8002520C_0 *)menu)->unk_22;
             if (exit_ticks != 0) {
                 motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x480 - motion->unk_02) / exit_ticks));
@@ -558,7 +553,5 @@ animate_exit:
         } else {
             goto check_side;
         }
-    }
-done:
-    return;
+    }    }
 }
