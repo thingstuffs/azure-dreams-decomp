@@ -31,7 +31,6 @@ typedef struct S_80056654_1 {
     u16 unk_52;
 } S_80056654_1;   /* temp_a2 in func_80056654 */
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 typedef struct {
@@ -71,7 +70,6 @@ void func_80056654(S_80056654_0 *state, s32 force_update) {
         base_pitch = (state->unk_0C << 7) + pitch_adjustment;
         D_80084918.field4 = 0x60;
         voice_entry = voice_table + state->unk_00;
-        ASM_KEEP_NV(voice_entry);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         packed_pitch = pitch_offset + base_pitch;
         coarse_pitch = (s32) (packed_pitch << 0x10) >> 0x17;
         packed_pitch &= 0x7F;
@@ -86,7 +84,9 @@ void func_80056654(S_80056654_0 *state, s32 force_update) {
         D_80084918.field16 = (s16) packed_pitch;
         func_8005F134(&D_80084918);
     }
-    if ((state->unk_30 != 0) && (func_8005EB78(D_80073740[state->unk_00]) == 0)) {
+    if (state->unk_30 != 0) {
+        voice_entry = D_80073740;
+        if (func_8005EB78(voice_entry[state->unk_00]) != 0) return;
         state->unk_30 = 0;
         state->unk_3C.s32 = 0;
     }
