@@ -147,3 +147,14 @@ retail's plain source order needed -fno-schedule-insns.)
 Allocation tie reading (same lane, dungeon/func_8195EF44): at 2.7.2-cdk the live lengths global.c weighs come from
 sched1's recount (one unit per insn from block start to death in every block where the pseudo is live on entry), not
 from flow's - compare the .flow and .lreg dumps before arguing from prio.py.
+
+## Dead `lbu` reads of just-stored bytes = write-backs deleted by post-reload CSE (round 80, r80_opus_p3: xxx084 family, 60 pins -> 0 on 10 rows)
+
+Retail loads packet r/g/b with `lbu` into scattered registers ($3/$6/$7) and never uses them; the pinned C spelled
+that as volatile fields + ASM_REG/ASM_KEEP. The source STORED the values back (`r = p->r; ... p->r = r;`, a
+setRGB0-style write): at allocation the three values are live together until those stores, so first-free allocation
+gives $3/$6/$7; afterwards the cdk compiler's post-reload CSE (the pass that turns `li $6,0` into `move $6,$4`) deletes
+the stores because memory already holds the value - insn in `.lreg`, gone in `.greg`, loads kept. This is recovered
+source, not a fake dependency: retail's unconsumed loads REQUIRE a consumer that existed until after allocation.
+Check before using it: the store must be in .lreg and absent in .greg. Literal constants for call arguments that the
+base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets as retail does.
