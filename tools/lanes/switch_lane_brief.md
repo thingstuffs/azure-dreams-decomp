@@ -81,6 +81,21 @@ dispatch pins, the bounds guard, and for a 2.8.x row the exact cfg string to use
    pass is still live in this tree (`work/maspsx_jtbl/REPORT.md` section 5). That is not your row's fault:
    write it in `REPORT.md`, stop that row, and say so in your final message. **Do not** add
    `--preserve-casesi-at`, any other maspsx flag, or a pin to work around it.
+   Measured on earlier lanes (round 80, sw19-sw21 + swp1):
+   - the label array's order is the table's order ONLY when its length equals the guard bound. Otherwise
+     (or when a case lands on the wrong block) read the RETAIL table itself: its words are code addresses
+     inside the row, readable from the container image under `work/disc/containers/` (sw20/sw21 located
+     the table by its symbol address and mapped each word to the row's blocks with a few lines of
+     Python) - one row's state table mapped 4->3, 7->4, 5->11 against the label-array order;
+   - a `goto` that leaves a `for (;;)`/`while` loop to the code after the switch stays a `goto` (a
+     `break` would leave the loop, not the switch);
+   - a label kept only because the label array took its address may be splitting a basic block for the
+     scheduler; once the array is gone jump.c deletes it and a load hoists. There is no honest switch
+     spelling for that; report it, do not add a case to keep it;
+   - a cross-jump tail the retail table enters mid-block needs its own `case N:` on that tail (table
+     evidenced), and the arm before it falls into it;
+   - on pinned rows the `$5`/`$6` dispatch pins did NOT fall on swp1's 6 rows (singles and pairs tried);
+     try each once when exact, then move on: the goto reduction at equal pins is the result.
 6. If the dispatch matches but the body does not, diff the arms: a case that falls through to the next in
    retail must fall through in your C (no `break`), and a case that ends in the function's tail is a
    `break`/`return`, not a `goto` to the epilogue.
