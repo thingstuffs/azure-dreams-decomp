@@ -186,6 +186,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         register s32 next_state ASM_REG("$2");
         void *prim_m;
         s32 table_index_m;
+        void *slot_cursor;
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0 || ((S_800253C0_0 *)sequence)->unk_B0 == 0) {
             ((S_800253C0_0 *)sequence)->unk_9B.n = 13;
@@ -229,19 +230,18 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         {
 
             u32 mask;
-            void *object_slot;
             object_index_m = 0;
             mask = 0x20000000;
-            object_slot = sequence;
+            slot_cursor = sequence;
 
             do {
-                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+                object_m = ((S_800253C0_4 *)slot_cursor)->unk_AC;
                 if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
                     func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
                         ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
                 }
                 object_index_m++;
-                object_slot = (u8 *)object_slot + 4;
+                slot_cursor = (u8 *)slot_cursor + 4;
             } while (object_index_m < 2);
         }
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
@@ -413,14 +413,14 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
                 return;
             }
             object_index = 0;
-            message_text = (s32)(sequence);
+            slot_cursor = (u8 *)sequence;
             do {
-                register void *call_position ASM_REG("$4") = position;
-                register void *call_actor ASM_REG("$7") = actor;
-                object_m = ((S_800253C0_4 *)(void *)message_text)->unk_AC;
-                message_text = (s32)((u8 *)(void *)message_text + 4);
-                object_index++;
+                void *call_position = position;
+                void *call_actor = actor;
+                object_m = ((S_800253C0_4 *)(void *)slot_cursor)->unk_AC;
                 func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
+                slot_cursor = (u8 *)slot_cursor + 4;
+                object_index++;
             } while (object_index < 2);
             {
                 s16 texture_rect[4];
@@ -483,11 +483,11 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
                 ((S_800253C0_1 *)owner)->unk_60 = object;
                 if (object != 0) {
                     s32 object_index = 0;
+                    void *other;
                     register void *object_slot ASM_REG("$20") = sequence;
 animate_objects:
                     {
                         register s32 slot_index ASM_REG("$19");
-                        void *other;
                         next_state = object_index << 16;
                         slot_index = next_state >> 16;
                         other = ((S_800253C0_4 *)object_slot)->unk_AC;
@@ -524,14 +524,13 @@ animate_objects:
                         final_slot = sequence;
                         do {
 
-                            register void *child ASM_REG("$5");
                             u16 child_y;
                             object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
-                            child = ((S_800253C0_16_pre *)object_m)[-1].unk_00;
-                            child_y = ((S_800253C0_17 *)child)->unk_12.u;
-                            ((S_800253C0_17 *)child)->unk_10 = sprite_x;
-                            ((S_800253C0_17 *)child)->unk_14.s = sprite_flags;
-                            ((S_800253C0_17 *)child)->unk_12.s = child_y - 128;
+                            other = ((S_800253C0_16_pre *)object_m)[-1].unk_00;
+                            child_y = ((S_800253C0_17 *)other)->unk_12.u;
+                            ((S_800253C0_17 *)other)->unk_10 = sprite_x;
+                            ((S_800253C0_17 *)other)->unk_14.s = sprite_flags;
+                            ((S_800253C0_17 *)other)->unk_12.s = child_y - 128;
                             final_slot = (u8 *)final_slot + 4;
                             object_index_m++;
                         } while (object_index_m < 2);
@@ -598,7 +597,6 @@ animate_objects:
                 void **first_slot;
                 void **text_slot;
                 void **removed_slot;
-                void *new_object;
                 register s32 message_id ASM_REG("$22");
                 s32 text_cursor;
 
@@ -621,16 +619,15 @@ animate_objects:
                 text_cursor = func_80099290(text_cursor);
                 text_cursor = func_8009929C(17, text_cursor);
                 func_800A5720(message_id);
-                new_object = func_800277F4(((S_800253C0_0 *)sequence)->unk_AC,
+                object = func_800277F4(((S_800253C0_0 *)sequence)->unk_AC,
                     ((S_800253C0_0 *)sequence)->unk_B0, 0);
-                ASM_KEEP_NV(new_object);
                 removed_slot = first_slot;
-                if (*first_slot == new_object) {
+                if (*first_slot == object) {
                     removed_slot = (void **)((u8 *)sequence + 0xB0);
                 }
                 *removed_slot = 0;
                 message_id = func_800990FC();
-                text_cursor = func_80028208(new_object, message_id);
+                text_cursor = func_80028208(object, message_id);
                 text_cursor = func_80099290(text_cursor);
                 func_800A5720(message_id);
             }
@@ -687,7 +684,6 @@ animate_objects:
             }
             {
                 coord_delta = 32;
-                ASM_SCHED_BARRIER();
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
                 ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
