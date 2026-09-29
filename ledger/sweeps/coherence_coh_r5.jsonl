@@ -1,0 +1,2 @@
+{"id":"dungeon/func_80BEE104","transform":"coherence_coh_r5","in_sha":"00d4c12ffbfda327c2847e1fe72eaaf7c2ce5f5a4abec2be79566d98c242102f","size":484,"source":"out","exact":true,"status":"ok","class":"match","total":0,"secs":0.83,"outcome":"applied","out_sha":"4312820fc1d44e9fc15c56b047ecf4ea2971c9ca94f975e06f4ccdbafe048876","lines_delta":-54,"at":"2026-09-29T22:43:51Z"}
+{"id":"dungeon/func_8180E534","transform":"coherence_coh_r5","in_sha":"2d957edcd22ef919a066f6e2c43be34b1b7f7389592beee9e3f98b9fb9bab375","size":520,"source":"out","outcome":"noop","at":"2026-09-29T22:43:51Z"}
