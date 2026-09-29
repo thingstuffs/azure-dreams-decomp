@@ -30,7 +30,6 @@ extern s32 func_801721B4(void *, void *, void *, void *);
 extern void func_80173468(void *, void *, void *, void *);
 extern void func_80173AE8(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80171014[];
 extern u8 D_8017420C[];
 extern u8 D_8017421C[];
@@ -69,11 +68,6 @@ typedef struct S_80171014_2 {
 /* Updates a dungeon actor's state, animation, and behavior. */
 void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec *creature)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 distance;
     s8 room_id;
     u16 action_state;
@@ -196,26 +190,19 @@ void func_80171014(void *actor, void *actor_context, void *map_object, EntityRec
         }
 
         action_state = creature->unk_46 & 0x3FFF;
-        {
-            u32 idx = action_state - 1;
-            if (idx >= 12) {
-            goto generic;
-        }
-            (void)action_labels;
-            goto *D_80170808[idx];
-        }
+        switch (action_state - 1) {
 
-jt_c8:
-jt_c9:
+    case 7:
+    case 8:
         if ((func_80171ECC(actor, actor_context, map_object, creature) << 16) != 0) {
             return;
         }
         func_80172090(actor, actor_context, map_object, creature);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+    case 4:
+    case 5:
+    case 6:
         {
             EntityRec *player;
             s16 facing_angle;
@@ -231,24 +218,26 @@ jt_c7:
             }
         }
 
-jt_c12:
+    case 11:
 case_12:
         func_800A9A0C(creature);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+    case 0:
+    case 1:
+    case 2:
 case_123:
         func_800AAF00(actor, actor_context, map_object, D_8017424C, D_80171014);
         return;
 
-jt_c4:
-jt_c10:
-jt_c11:
+    case 3:
+    case 9:
+    case 10:
+    default:
 generic:
         func_80171784(actor, actor_context, map_object, creature);
         return;
+        }
     }
 
     if (!(((u32)creature->flags1C) & 0x2000)) {

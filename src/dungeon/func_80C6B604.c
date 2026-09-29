@@ -11,7 +11,6 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
-extern u8 D_80170838[16];
 extern u8 D_80171650[];
 extern u8 D_801742F0[];
 
@@ -38,15 +37,10 @@ typedef struct S_80172E04_3 {
 void func_80172E04(void *action, void *motion, void *sprite, EntityRec *actor)
 {
     u8 state;
-    static void *const state_labels[] = { &&initialize, &&start_animation, &&wait_animation, &&update_actor, &&finish_action };
 
     state = ((S_80172E04_0 *)action)->unk_9B;
-    if ((u32)state >= 5) {
-        return;
-    }
-    goto *(((void **)D_80170838)[state]);
-
-initialize:
+    switch (state) {
+    case 0:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         ((S_80172E04_0 *)action)->unk_9B = 4;
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x6000;
@@ -58,7 +52,7 @@ initialize:
     ((S_80172E04_3 *)motion)->unk_0C = 0;
     goto advance_state;
 
-start_animation:
+    case 1:
     if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 4 ||
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         (*(u8 **)((u8 *)sprite + 0x2C)) = D_801742F0;
@@ -74,7 +68,7 @@ start_animation:
     }
     return;
 
-wait_animation:
+    case 2:
     if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x0800;
     }
@@ -89,18 +83,19 @@ advance_state:
     }
     return;
 
-update_actor:
+    case 3:
     if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 2) {
         func_8009C12C(actor, sprite, actor->facing, 1);
         ((S_80172E04_0 *)action)->unk_9B++;
     }
 
-finish_action:
+    case 4:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x100);
         ((S_80172E04_0 *)action)->unk_8C = D_80171650;
         dungeonStatus.unk_0C = 0;
         func_800A4ACC(actor);
         actor->unk_46 &= 0x7FFF;
+    }
     }
 }

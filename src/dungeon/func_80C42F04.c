@@ -10,7 +10,6 @@
 #endif
 
 
-extern void *D_80170858[];
 
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
@@ -139,36 +138,28 @@ typedef struct S_80174704_11 {
 
 /* Updates an actor transition through turning, color fading, effects, and replacement. */
 void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor) {
-    static void *const state_labels[] = {
-        &&start, &&init_turn, &&wait_turn, &&fade_color, &&create_effect,
-        &&animate_effect, &&wait_motion, &&create_replacement, &&finish_transition
-    };
     u8 *object = ((u8 *)(&gameWork));
     u32 color;
     u8 state;
     s32 next_state;
 
     state = ((S_80174704_0 *)action)->unk_9B;
-    if (state >= 9U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170858[state];
+    switch (state) {
 
-start:
+    case 0:
     {
         next_state = ((S_80174704_0 *)action)->unk_9B + 1;
         goto store_next_state;
     }
 
-init_turn:
+    case 1:
     func_80041588(D_80174E24, D_80174E3C, 0);
     ((S_80174704_0 *)action)->unk_B0.s = 0;
     ((S_80174704_0 *)action)->unk_9B++;
     ((S_80174704_1 *)actor)->unk_8A = ((S_80174704_1 *)actor)->unk_2A.u;
     ((S_80174704_1 *)actor)->unk_1C &= 0xFFFBFFFF;
 
-wait_turn:
+    case 2:
     {
         s32 direction;
         u16 angle;
@@ -199,7 +190,7 @@ direction_ready:
         ((S_80174704_0 *)action)->unk_9B++;
     }
 
-fade_color:
+    case 3:
     {
         u16 old_timer = ((S_80174704_0 *)action)->unk_96.u;
         u16 timer = old_timer - 1;
@@ -230,7 +221,7 @@ fade_color:
         return;
     }
 
-create_effect:
+    case 4:
     object = func_8003FC64(0x12);
     if (object == NULL) {
         return;
@@ -268,7 +259,7 @@ store_next_state:
     ((S_80174704_0 *)action)->unk_9B = next_state;
     return;
 
-animate_effect:
+    case 5:
     {
         u16 old_timer = ((S_80174704_0 *)action)->unk_96.u;
         ((S_80174704_0 *)action)->unk_96.u = old_timer + 1;
@@ -292,7 +283,7 @@ animate_effect:
         ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
     }
 
-wait_motion:
+    case 6:
     if (((S_80174704_0 *)action)->unk_9B != 6) {
         return;
     }
@@ -308,7 +299,7 @@ wait_motion:
     ((S_80174704_3 *)object)->unk_10.i |= 0x80000000;
     return;
 
-create_replacement:
+    case 7:
     {
         u8 *replacement = func_800A504C(entity, actor);
         ((S_80174704_1 *)actor)->unk_60 = replacement;
@@ -331,7 +322,7 @@ create_replacement:
         ((S_80174704_3 *)object)->unk_14 &= 0xFFFE;
     }
 
-finish_transition:
+    case 8:
     {
         u16 timer = ((S_80174704_0 *)action)->unk_96.u - 1;
         ((S_80174704_0 *)action)->unk_96.u = timer;
@@ -349,4 +340,5 @@ finish_transition:
     }
 
     return;
+    }
 }

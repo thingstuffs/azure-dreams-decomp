@@ -61,7 +61,6 @@ typedef struct S_80173CEC_9 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern void *D_80170858[];
 void func_8003DB94();
 s32 Control_CD();
 void func_8003F540();
@@ -95,7 +94,6 @@ extern s32 D_801742E8;
 
 /* Advance the actor effect sequence through rotation, color blending, and particle spawning. */
 void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_80082E80 *actor, void *model) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     s16 next_spawn;
     s16 next_trail;
     s16 spawn_count;
@@ -119,20 +117,17 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
 
     scene_color = &gameWork;
     phase = state->unk_9B;
-    if (phase >= 8U) {
-        return;
-    }
-    (void)state_labels; goto *D_80170858[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     state->unk_9B = (u8) (state->unk_9B + 1);
     return;
-jt_c1:
+    case 1:
     func_80041588(&D_801742CC, &D_801742E4, 0);
     state->unk_A6 = 0;
     state->unk_9B = (u8) (state->unk_9B + 1);
     ((Rec_D_80082E80 *)model)->unk_8A = (u16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v;
     ((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v = (s32) (((Rec_D_80082E80 *)model)->unk_1C.at00_s32.v & 0xFFFBFFFF);
-jt_c2:
+    case 2:
     direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100) >> 9) & 7;
     if ((*(u8 *)&D_801742E4) == 0) {
         goto turn_model;
@@ -155,7 +150,7 @@ start_effect:
     func_800C77D0(model - 0x20, position, 8, 0x300);
     state->unk_96 = 0x10U;
     state->unk_9B = (u8) (state->unk_9B + 1);
-jt_c3:
+    case 3:
     fade_timer = state->unk_96;
     fade_left = fade_timer - 1;
     state->unk_96 = fade_left;
@@ -176,7 +171,7 @@ blend_color:
     scene_color->view.unk_091 = (u8) (scene_color->view.unk_091 + ((s32) (target_color->unk_01 - scene_color->view.unk_091) / (s16) state->unk_96));
     scene_color->view.unk_092 = (u8) (scene_color->view.unk_092 + ((s32) (target_color->unk_02 - scene_color->view.unk_092) / (s16) state->unk_96));
     return;
-jt_c4:
+    case 4:
     effect = func_8003FC64(0x12);
     if (effect == NULL) {
         return;
@@ -216,7 +211,7 @@ do {
         return;
     }
     } while (1);
-jt_c5:
+    case 5:
     elapsed = state->unk_96;
     state->unk_96 = (u16) (elapsed + 1);
     if ((s16) elapsed >= 0x1E) {
@@ -235,7 +230,7 @@ check_animation:
         goto check_movement;
     }
     state->unk_9B = (u8) (state->unk_9B + 1);
-jt_c6:
+    case 6:
 check_movement:
     if (state->unk_9B != 6) {
         return;
@@ -251,7 +246,8 @@ check_movement:
     effect_sprite = model - 0x20;
     effect_sprite->unk_10 = (s32) (effect_sprite->unk_10 | 0x80000000);
     return;
-jt_c7:
+    case 7:
     ((Rec_D_80082E80 *)model)->unk_60.as_s32 = func_800A504C(actor, model);
     return;
+    }
 }
