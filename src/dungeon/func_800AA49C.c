@@ -30,6 +30,13 @@ typedef struct Arg2_800AFBFC {
 } Arg2_800AFBFC;
 
 extern u8 D_80083160_bytes[] __asm__("D_80083160");
+typedef struct ScratchHeader_800AFBFC {
+    u8 pad0[0x20];
+    void *state_data;
+    u8 pad24[0xf4];
+    void *segment_data;
+} ScratchHeader_800AFBFC;
+
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
 extern s32 func_800AFFB4(void *arg0, void *arg2, s16 *scratch, s32 previous, s32 side);
@@ -38,65 +45,48 @@ extern s32 func_800AFFB4(void *arg0, void *arg2, s16 *scratch, s32 previous, s32
 s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 last_result = 0;
     s32 result;
-    s32 angle;
-    s32 next_angle;
-    s32 angle_step;
+    s16 angle;
+    s16 next_angle;
+    s16 angle_step;
     s16 start_x;
     s32 end_y;
     s16 coord;
-    register s16 *scratch ASM_REG("$18") = (s16 *)0x1F800000;
-    register void *view ASM_REG("$8");
+    s16 *scratch = (s16 *)0x1F800000;
+    D_80083160_t *gw = (D_80083160_t *)D_80083160_bytes;
     State_80083160 *state;
-    void *state_dep;
-    volatile s16 start_angle;
+    s16 start_angle;
     void *segment_data;
     s32 rotation;
     u16 flags;
     s32 segment_byte;
-    s32 updated_byte;
     s32 offset_x;
     s32 offset_y;
 
-    state = gameWork.unk_000;
-    ASM_KEEP_MEMDEP(state, state_dep, gameWork.unk_000);
+    state = gw->state;
     last_result = state->value;
-    *(void **)((u8 *)scratch + 0x20) = (u8 *)state + 0x8b0;
-    ASM_SET(view);
-    view = segment;
-    ASM_KEEP_NV(view);
-    segment_data = ((Arg2_800AFBFC *)view)->temp;
-    ASM_SET(view);
-    view = D_80083160_bytes;
-    *(void **)((u8 *)scratch + 0x118) = segment_data;
-    offset_x = ((D_80083160_t *)view)->angle0;
-    offset_y = ((D_80083160_t *)view)->angle1;
-    view = segment;
+    ((ScratchHeader_800AFBFC *)scratch)->state_data = (u8 *)state + 0x8b0;
+    segment_data = segment->temp;
+    ((ScratchHeader_800AFBFC *)scratch)->segment_data = segment_data;
+    offset_x = gw->angle0;
+    offset_y = gw->angle1;
     segment_byte = ((u8 *)segment_data)[1];
-    flags = ((Arg2_800AFBFC *)view)->flags;
-    ((Arg2_800AFBFC *)view)->byte = segment_byte;
+    flags = segment->flags;
+    segment->byte = segment_byte;
     if (flags & 8) {
-        updated_byte = flags & 4;
-        if (updated_byte == 0) {
-            view = segment;
-            updated_byte = segment_byte & 0xfd;
+        if (flags & 4) {
+            segment->byte = segment_byte | 2;
         } else {
-            updated_byte = segment_byte | 2;
+            segment->byte = segment_byte & 0xfd;
         }
-        ((Arg2_800AFBFC *)view)->byte = updated_byte;
     }
 
-    view = shape;
-    ASM_KEEP_NV(view);
-    angle = ((Arg0_800AFBFC *)view)->value;
-    view = D_80083160_bytes;
-    ASM_KEEP_NV(view);
-    rotation = ((D_80083160_t *)view)->angle2;
+    angle = shape->value;
+    rotation = gw->angle2;
     angle += 0xc00;
     angle -= (rotation + 0x80) & 0xf00;
     angle_step = angle;
     start_angle = angle;
-    angle = (u32)angle << 16;
-    angle >>= 16;
+
     {
         s32 raw_x;
         s32 raw_y;
@@ -111,8 +101,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         for (;;) {
             next_angle = angle_step;
             next_angle += 0x80;
-            angle = (u32)next_angle << 16;
-            angle >>= 16;
+            angle = next_angle;
             scratch[0x80 / 2] = start_x;
             scratch[0x70 / 2] = start_x;
             scratch[0x82 / 2] = coord;
@@ -136,8 +125,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
                 break;
             last_result = result;
             angle_step = next_angle;
-            next_angle = (u32)next_angle << 16;
-            next_angle >>= 16;
             scratch[0x80 / 2] = coord;
             scratch[0x70 / 2] = coord;
             scratch[0x82 / 2] = end_y;
@@ -158,7 +145,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     }
 
     {
-        register u16 saved_angle ASM_REG("$8");
         s32 raw_x;
         s32 raw_y;
         s32 call_value;
@@ -167,19 +153,15 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         s32 call_previous;
         s32 scaled_coord;
         s32 end_x;
-        saved_angle = start_angle;
-        angle = (u32)saved_angle << 16;
-        angle >>= 16;
+        angle = start_angle;
         start_x = func_80064584(angle) * 6 - offset_x;
         coord = func_800644B8(angle) * 6 - offset_y;
 
         for (;;) {
             s32 end_y;
-            saved_angle = start_angle;
-            next_angle = saved_angle - 0x80;
-            ASM_KEEP(next_angle);
-            angle = (u32)next_angle << 16;
-            angle >>= 16;
+            next_angle = start_angle;
+            next_angle -= 0x80;
+            angle = next_angle;
             scratch[0x88 / 2] = start_x;
             scratch[0x78 / 2] = start_x;
             scratch[0x8a / 2] = coord;
@@ -204,8 +186,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
                 break;
             last_result = result;
             start_angle = next_angle;
-            next_angle = (u32)next_angle << 16;
-            next_angle >>= 16;
             scratch[0x88 / 2] = coord;
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;
@@ -222,17 +202,16 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x70 / 2] = end_x;
             scratch[0x82 / 2] = scaled_coord;
             scratch[0x72 / 2] = scaled_coord;
-            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, call_previous, 0);
+            next_angle = 0;
+            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, call_previous, next_angle);
             if (result == 0)
                 break;
             last_result = result;
         }
     }
-    view = D_80083160_bytes;
-    ASM_KEEP_NV(view);
     {
         State_80083160 *final_state;
-        final_state = ((D_80083160_t *)view)->state;
+        final_state = gw->state;
         result = 0;
         final_state->value = last_result;
     }

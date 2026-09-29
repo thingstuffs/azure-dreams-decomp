@@ -315,28 +315,22 @@ spawn_effects:
             }
 
             if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
-                register s32 tile_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 tile_distance;
                 s32 compare_one;
                 u8 *motion;
                 s32 z_step;
                 s32 other_z;
 
                 ((S_818154FC_7 *)work)->unk_08 = 1;
-                if (((S_818154FC_3 *)parent)->unk_72 !=
-                    ((S_818154FC_8 *)map)->unk_24) {
-                    tile_distance = ((S_818154FC_3 *)parent)->unk_72 -
-                                 ((S_818154FC_8 *)map)->unk_24;
+                if (((S_818154FC_3 *)parent)->unk_72 != ((S_818154FC_8 *)map)->unk_24) {
+                    tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - ((S_818154FC_8 *)map)->unk_24);
+                    ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                 } else {
-                    tile_distance = ((S_818154FC_3 *)parent)->unk_73;
-                    tile_distance -= ((S_818154FC_8 *)map)->unk_25;
+                    tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - ((S_818154FC_8 *)map)->unk_25);
+                    ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
                 }
-                if (tile_distance < 0)
-                    tile_distance = -tile_distance;
-                ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                 compare_one = 1;
-                ASM_KEEP(compare_one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 motion = ((S_818154FC_15_pre *)(((S_818154FC_3 *)parent)->unk_60.p))[-1].unk_00;
                 if (((S_818154FC_0 *)effect)->unk_84.u == compare_one) {
                     s32 duration;
