@@ -134,3 +134,16 @@ At a splitting cell a symbol argument is HIGH + LO_SUM; cse folds `(lo_sum (high
 same symbol reuses the full address. Retail keeps only the HIGH in a callee-saved register and re-adds `%lo` per call,
 which happens when the local holding the address is REASSIGNED between the calls. A numeric page constant always
 folds to `lui/ori`. APPEARS: ASM_KEEP(page) pairs around calls; RESOLVES: pass the typed symbol via a reassigned local.
+
+## Constant-address call arguments: `lui a0; lui a1; addiu a0; addiu a1` vs retail's in-order pairs (r80_cell_c7, town/func_8032E720)
+
+calls.c:1659 copies an "expensive" argument into a pseudo first only when preserve_subexpressions_p() is true:
+always with -fexpensive-optimizations, otherwise only inside a loop (stmt.c:2435). With the copy, combine folds each
+%lo into its a0/a1 move and cdk emits `lui a0; lui a1; addiu a0; addiu a1`; without it each argument loads straight
+into its register in retail's order. A one-trip `do {} while (0)` COUNTS AS A LOOP here - pinned rows used such
+blocks and keeps to imitate the missing flag. Fix: drop the one-trip blocks and record -fno-expensive-optimizations
+as a recipe trade. (Same row: a single-set function-pointer load gets sched1's launch boost above the argument loads;
+retail's plain source order needed -fno-schedule-insns.)
+Allocation tie reading (same lane, dungeon/func_8195EF44): at 2.7.2-cdk the live lengths global.c weighs come from
+sched1's recount (one unit per insn from block start to death in every block where the pseudo is live on entry), not
+from flow's - compare the .flow and .lreg dumps before arguing from prio.py.
