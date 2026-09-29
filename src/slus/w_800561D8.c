@@ -88,10 +88,10 @@ void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
     product *= voice->unk14;
     scale = product * voice->unk15;
     {
-        register s32 volume ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 volume;
         volume = scale >> 0xE;
-        left_volume = volume;
         if (pan_value >= 0x40) {
+            left_volume = volume;
             right_volume = volume;
             product = pan_value & 0x3F;
             scale = 0x40 - product;
@@ -99,6 +99,7 @@ void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
             left_volume = (scale * product) >> 7;
         } else {
             s32 doubled_volume;
+            left_volume = volume;
             doubled_volume = left_volume * 2;
             right_volume = (pan_value * doubled_volume) >> 7;
         }

@@ -82,14 +82,12 @@ L_case_48:
         u32 slot_count;
         operand = next_byte;
         slot_count = D_800869B4[0];
-        ASM_KEEP(slot_count);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-        if (slot_count != 0) {
+        {
             u32 slot_index = 0;
-            s32 slot_value = ((next_byte & 0x7F) << 1) + 2;
-            do {
-                D_80085FA8[slot_index].field_24 = slot_value;
+            while (slot_index < slot_count) {
+                D_80085FA8[slot_index].field_24 = ((next_byte & 0x7F) << 1) + 2;
                 slot_index++;
-            } while (slot_index < slot_count);
+            }
         }
         return 0 < (operand & 0x80);
     }

@@ -175,13 +175,13 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
                     ((S_80170AD0_0 *)actor)->unk_88.u - floor_height;
                 ((S_80170AD0_0 *)actor)->unk_88.u = floor_height;
             }
-            goto finish;
+        } else {
+            ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
     }
 
-    ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
-
-finish:
     ((S_80170AD0_2 *)motion_arg)->unk_0A =
         ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
     ((S_80170AD0_1 *)monster_arg)->unk_14 |= 0x40;

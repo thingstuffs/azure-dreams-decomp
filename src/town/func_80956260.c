@@ -241,46 +241,41 @@ follow_path:
                 if ((0 - turn_limit) < heading_error) {
                     turn_step = -0x20;
                 }
-                goto apply_turn;
-            }
-            goto check_turn_limit;
-        }
-        goto apply_turn;
-    }
-    path_flag = path_flags & 0x10;
-    if (path_flag != 0) {
-        target_y = ((S_80023260_3 *)waypoint)->unk_02;
-        turn_limit = D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
-        if (((S_80023260_1 *)motion)->unk_04.at02.v >= target_y) {
-            reached_point = 1;
-        }
-    } else {
-        turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
-        if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
-            reached_point = 1;
-        }
-    }
-    steer_x = ((S_80023260_3 *)waypoint)->unk_00;
-    pos_x = ((S_80023260_1 *)motion)->unk_00.at02.v;
-    distance_x = steer_x - pos_x;
-    if (distance_x < 0) {
-        distance_x = 0 - distance_x;
-    }
-    if (distance_x >= 5) {
-        turn_step = 0x20;
-        if (pos_x < steer_x) {
-            if ((0 - turn_limit) < heading_error) {
+            } else if (turn_limit < heading_error) {
                 turn_step = -0x20;
             }
-            goto apply_turn;
         }
-check_turn_limit:
-        if (turn_limit < heading_error) {
-            turn_step = -0x20;
+    } else {
+        path_flag = path_flags & 0x10;
+        if (path_flag != 0) {
+            target_y = ((S_80023260_3 *)waypoint)->unk_02;
+            turn_limit = D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+            if (((S_80023260_1 *)motion)->unk_04.at02.v >= target_y) {
+                reached_point = 1;
+            }
+        } else {
+            turn_limit = 0 - D_800242D8[((S_80023260_0 *)actor)->unk_22].field8;
+            if (((S_80023260_1 *)motion)->unk_04.at02.v <= ((S_80023260_3 *)waypoint)->unk_02) {
+                reached_point = 1;
+            }
         }
-        goto apply_turn;
+        steer_x = ((S_80023260_3 *)waypoint)->unk_00;
+        pos_x = ((S_80023260_1 *)motion)->unk_00.at02.v;
+        distance_x = steer_x - pos_x;
+        if (distance_x < 0) {
+            distance_x = 0 - distance_x;
+        }
+        if (distance_x >= 5) {
+            turn_step = 0x20;
+            if (pos_x < steer_x) {
+                if ((0 - turn_limit) < heading_error) {
+                    turn_step = -0x20;
+                }
+            } else if (turn_limit < heading_error) {
+                turn_step = -0x20;
+            }
+        }
     }
-apply_turn:
     if ((((S_80023260_3 *)waypoint)->unk_06 & 4) && (reached_point != 0)) {
         ((S_80023260_1 *)motion)->unk_14 = -0x140000;
     }
@@ -291,17 +286,14 @@ apply_turn:
     if ((reached_point != 0) && (((S_80023260_3 *)waypoint)->unk_06 & 0x20)) {
         if (rand(bias_step, heading_error, turn_limit, turn_step) & 1) {
             ((S_80023260_3 *)waypoint)->unk_0E = (u16) (((S_80023260_3 *)waypoint)->unk_0E | 2);
-            goto wrap_path;
+        } else {
+            ((S_80023260_3 *)waypoint)->unk_0E = (u16) (((S_80023260_3 *)waypoint)->unk_0E & 0xFFFD);
         }
-        ((S_80023260_3 *)waypoint)->unk_0E = (u16) (((S_80023260_3 *)waypoint)->unk_0E & 0xFFFD);
-        goto wrap_path;
     }
-wrap_path:
     if (((S_80023260_0 *)actor)->unk_1C >= 0xF) {
         ((S_80023260_0 *)actor)->unk_1A = 0U;
         ((S_80023260_0 *)actor)->unk_1C = 0;
     }
-    goto update_motion;
 update_motion:
     turn_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
     if (turn_bias > 0) {
@@ -312,15 +304,14 @@ update_motion:
     damped_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
     if (damped_bias < -9) {
         clamp_value = -9;
+        ((S_80023260_0 *)actor)->unk_1E = clamp_value;
     } else {
         clamp_value = damped_bias < 0xA;
-        if (clamp_value != 0) {
-            goto clamp_done;
+        if (clamp_value == 0) {
+            clamp_value = 9;
+            ((S_80023260_0 *)actor)->unk_1E = clamp_value;
         }
-        clamp_value = 9;
     }
-    ((S_80023260_0 *)actor)->unk_1E = clamp_value;
-clamp_done:
     abs_bias = (s16) ((S_80023260_0 *)actor)->unk_1E;
     if (abs_bias < 0) {
         abs_bias = 0 - abs_bias;
