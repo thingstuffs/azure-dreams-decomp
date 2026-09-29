@@ -9,8 +9,6 @@ typedef struct DungeonWriteState {
     u8 *data;
 } DungeonWriteState;
 
-extern void *D_80088D7C[];
-
 extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
 
 /* Records an object action in the dungeon buffer, combining compatible entries. */
@@ -65,39 +63,34 @@ clear_entry:
 entry_valid:
     action_offset = (s16)(saved_action - 8);
     dispatch_index = (s16)action_offset;
-    {
-        static void *const dispatch_labels[] = {
-            &&jt_case0, &&jt_case20, &&jt_case40,
-            &&jt_case68, &&jt_case48, &&jt_default
-        };
-        (void)dispatch_labels;
-    }
-    if (dispatch_index < 161U) {
-        goto *D_80088D7C[(u32)dispatch_index];
-    } else {
-        goto jt_default;
-    }
-
-jt_case0:
+    switch (dispatch_index) {
+    case 0:
+    case 8:
+    case 16:
+    case 24:
+    case 32:
+    case 88:
         entry[1] = saved_action | kind;
         entry[0] = entry[0] + 1;
-        goto jt_default;
-
-jt_case20:
+        break;
+    case 64:
+    case 56:
+    case 160:
         entry[1] = saved_action | kind;
         entry[0] = saved_payload | 0x80;
-        goto jt_default;
-
-jt_case40:
+        break;
+    case 40:
         entry[1] = saved_action | kind;
         entry[0] = saved_payload | 0x80;
         entry[2] = saved_extra;
         entry[3] = 0;
         state->position += 2;
         entry += 2;
-        goto jt_default;
-
-jt_case68:
+        break;
+    case 104:
+    case 112:
+    case 120:
+    case 136:
         old_entry = entry;
         entry_tag = saved_action | kind;
         flag_bit = (saved_payload & 1) << 5;
@@ -106,21 +99,23 @@ jt_case68:
             state->position--;
             entry[1] = entry_tag;
             entry[0] = flag_bit | -0x80 | (saved_extra & 0x1F);
-            goto jt_return;
+            return;
         }
         /* fall through */
-
-jt_case48:
+    case 72:
+    case 80:
+    case 96:
+    case 128:
+    case 144:
+    case 152:
         entry[1] = saved_action | kind;
         entry[0] = ((saved_payload & 1) << 5) | -0x80 | (saved_extra & 0x1F);
-        goto jt_default;
-
-
-jt_default:
+        break;
+    default:
+        break;
+    }
 
     entry[3] = 0;
     entry[2] = 0;
-
-jt_return:
     ASM_KEEP(saved_action);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
