@@ -268,3 +268,14 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
 - **Residue class: a compared constant held in an ASM_REG variable** (r80_opus_r3, 8187C45C/818D4E68): where retail copies
   a register (`move a1,v0`) that plain C gets as `li a1,255`, cse folded the constant the pinned text kept in a hard
   register; and an `lbu; sll 24; sra 24` vs `lb` word is combine refusing across a store (use_crosses_set_p). Both open.
+- **Argument-register pins on multi-role setup variables** (r80_opus_r5, dungeon/func_8180E534 9 -> 0): ASM_REG($4)/($5)
+  on setup variables fall when ONE variable carries each argument role across calls (the sprite passed first to one call
+  is the effect's sprite later; `data` is the second argument of both calls and later the colour): the global pseudo
+  inherits the $4/$5 argument preference. Assign the late role AFTER the call statement, or it crosses the call ($16).
+  Values retail keeps in $8 are reloads of unallocated scalars; goto loops stop loop.c hoisting the invariants.
+- **Odd-cell row with a pin-free clone in the same overlay** (r80_opus_r5, dungeon/func_80BEE104 11 -> 0 as a cell move
+  2.95.2 -> 2.7.2-cdk): transplant the clone's body, score it at the CLONE's cell (lab.py cellscore); the odd recipe only
+  fitted the m2c text. Land through land_coherence.sh (a recorded trade).
+- **Callee-saved pin on a copy of a parameter** (r80_opus_r6, dungeon/func_819613A8 9 -> 8): reassign the parameter in
+  place with a compound op (`tile_y = row; tile_y <<= 4;`) instead of copying it; an s32 copy joins the parameter's cse
+  class and becomes canonical, an s16 (subreg) copy stays out. The copy placed before a NULL test fills the beq delay slot.
