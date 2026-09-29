@@ -209,6 +209,14 @@ class Lab:
         out = self.lane / "out" / self.row["container"]
         out.mkdir(parents=True, exist_ok=True)
         dst = out / Path(self.row["c_path"]).name
+        # round 80 (r79_sonnet_g45): never replace a staged candidate with a worse one - fewer pins first, then
+        # fewer plain gotos; a later exact variant with more gotos overwrote a 0-goto candidate
+        if dst.is_file():
+            old = dst.read_text(errors="replace")
+            key = lambda t: (len(kitlib.sites(t)), kitlib.goto_count(t))
+            if key(text) >= key(old) and text != old:
+                print("  NOT staged (the staged candidate is as good or better: pins/gotos %s vs %s)" % (key(old), key(text)))
+                return None
         dst.write_text(text)
         sha = self.base_path.with_name(self.base_path.name + ".base_sha")
         if sha.is_file():
