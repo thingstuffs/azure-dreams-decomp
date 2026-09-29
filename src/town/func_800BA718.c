@@ -5,7 +5,6 @@ extern u8 D_80110EC8[];
 extern u8 D_801110C8[];
 extern u8 D_801112C8[];
 extern u8 D_801114C8[];
-extern void *D_800893A0[];
 
 extern void LoadImage(void *, void *);
 
@@ -14,7 +13,6 @@ void func_800B7E78(u16 *frame_tick) {
     u16 next_tick;
     s32 tick_index;
     void *rect;
-    static void *const frame_labels[] = { &&L0, &&L4, &&L8, &&L12 };
 
     next_tick = *frame_tick + 1;
     *frame_tick = next_tick;
@@ -23,44 +21,43 @@ void func_800B7E78(u16 *frame_tick) {
     }
 
     tick_index = (s16)*frame_tick % 24;
-    if ((u32)tick_index >= 21) {
+    switch (tick_index) {
+    case 0:
+        rect = (void *)D_80111FA8;
+        (*D_80111FA8) = 808;
+        ((u16 *)rect)[1] = 128;
+        ((u16 *)rect)[2] = 8;
+        ((u16 *)rect)[3] = 32;
+        LoadImage(rect, D_80110EC8);
         return;
+
+    case 4:
+    case 20:
+        rect = (void *)D_80111FA8;
+        (*D_80111FA8) = 808;
+        ((u16 *)rect)[1] = 128;
+        ((u16 *)rect)[2] = 8;
+        ((u16 *)rect)[3] = 32;
+        LoadImage(rect, D_801110C8);
+        return;
+
+    case 8:
+    case 16:
+        rect = (void *)D_80111FA8;
+        (*D_80111FA8) = 808;
+        ((u16 *)rect)[1] = 128;
+        ((u16 *)rect)[2] = 8;
+        ((u16 *)rect)[3] = 32;
+        LoadImage(rect, D_801112C8);
+        return;
+
+    case 12:
+        rect = (void *)D_80111FA8;
+
+        (*D_80111FA8) = 808;
+        ((u16 *)rect)[1] = 128;
+        ((u16 *)rect)[2] = 8;
+        ((u16 *)rect)[3] = 32;
+        LoadImage(rect, D_801114C8);
     }
-    goto *D_800893A0[tick_index];
-
-L0:
-    rect = (void *)D_80111FA8;
-    (*D_80111FA8) = 808;
-    ((u16 *)rect)[1] = 128;
-    ((u16 *)rect)[2] = 8;
-    ((u16 *)rect)[3] = 32;
-    LoadImage(rect, D_80110EC8);
-    return;
-
-L4:
-    rect = (void *)D_80111FA8;
-    (*D_80111FA8) = 808;
-    ((u16 *)rect)[1] = 128;
-    ((u16 *)rect)[2] = 8;
-    ((u16 *)rect)[3] = 32;
-    LoadImage(rect, D_801110C8);
-    return;
-
-L8:
-    rect = (void *)D_80111FA8;
-    (*D_80111FA8) = 808;
-    ((u16 *)rect)[1] = 128;
-    ((u16 *)rect)[2] = 8;
-    ((u16 *)rect)[3] = 32;
-    LoadImage(rect, D_801112C8);
-    return;
-
-L12:
-    rect = (void *)D_80111FA8;
-
-    (*D_80111FA8) = 808;
-    ((u16 *)rect)[1] = 128;
-    ((u16 *)rect)[2] = 8;
-    ((u16 *)rect)[3] = 32;
-    LoadImage(rect, D_801114C8);
 }
