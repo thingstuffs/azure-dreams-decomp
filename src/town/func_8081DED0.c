@@ -50,7 +50,6 @@ extern s32 func_8008FD9C(void *, void *, void *, void *);
 
 extern s32 D_80012D5C[];
 extern Vec3 D_80020020;
-extern void *D_80020030[];
 extern u8 D_80024420[];
 extern s32 D_8002445C[];
 extern s32 D_80024628[];
@@ -60,10 +59,6 @@ extern M2C_UNK D_800D0420;
 /* Updates a bouncing pickup, awards its value on collection, and expires it. */
 void func_800206D0(void *pickup, void *motion, void *sprite)
 {
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3,
-        &&state4, &&state5, &&state6
-    };
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     Vec3 reward_units = D_80020020;
     s32 timer;
@@ -75,13 +70,9 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
     }
 
     state = (u32)((S_800206D0_0 *)pickup)->unk_00;
-    if (state >= 7) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80020030[state];
+    switch (state) {
 
-state0:
+    case 0:
     {
         s32 denomination;
         s32 scaled_count;
@@ -109,7 +100,7 @@ state0_compute:
         return;
     }
 
-state1:
+    case 1:
     {
         s32 denomination;
 
@@ -128,7 +119,7 @@ state1:
         ((S_800206D0_0 *)pickup)->unk_00 = 2;
     }
 
-state2:
+    case 2:
     func_800478B8(sprite);
     ((Rec_func_800206D0_arg1 *)motion)->unk_00 += ((Rec_func_800206D0_arg1 *)motion)->unk_0C;
     ((Rec_func_800206D0_arg1 *)motion)->unk_04 += ((Rec_func_800206D0_arg1 *)motion)->unk_10;
@@ -145,7 +136,7 @@ state2:
     ((S_800206D0_0 *)pickup)->unk_00 = 3;
     return;
 
-state3:
+    case 3:
     {
         s32 floor_z = 0xFFC00000;
         s32 idle_frame;
@@ -180,7 +171,7 @@ state3:
         return;
     }
 
-state4:
+    case 4:
     if (func_8008FD9C(D_80024420, motion, &D_800D0420, ((u8 *)(&D_80083780))) != 0) {
         SD_Call(0x516);
         reward = ((s32 *)&reward_units)[((S_800206D0_0 *)pickup)->unk_54] * 100;
@@ -196,7 +187,7 @@ state4:
     ((S_800206D0_0 *)pickup)->unk_00 = 5;
     return;
 
-state5:
+    case 5:
     if ((((S_800206D0_0 *)pickup)->unk_02.s >> 2) & 1) {
         ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
     } else {
@@ -216,10 +207,11 @@ state5:
     ((S_800206D0_0 *)pickup)->unk_00 = 6;
     return;
 
-state6:
+    case 6:
     func_8008F134((u8 *)pickup + 8);
     (*(u16 *)((u8 *)pickup + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
     return;
+    }
 }

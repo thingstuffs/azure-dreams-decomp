@@ -71,17 +71,12 @@ extern u8 D_800F7D64[];
 extern u8 D_800F7D3C[];
 extern u8 D_80026F38[];
 extern u8 D_800200FC[];
-extern void *D_80020104[];
 extern HalfTable D_800200E4;
 extern HalfTable D_800200F0;
 
 /* Updates actor movement, animation, and collision through its timed states. */
 void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
 {
-    static void *const state_labels[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9
-    };
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
     HalfTable scale_y = D_800200F0;
@@ -93,16 +88,8 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     actor->timerA2--;
     owner->flagsC |= 1;
 
-    {
-        s32 state = actor->state68;
-        if ((u32)state >= 10U) {
-            goto switch_end;
-        }
-        (void)state_labels;
-        goto *D_80020104[state];
-    }
-
-jt_c0: {
+    switch (actor->state68) {
+    case 0: {
         s32 duration;
         duration_roll = rand() & 0xF;
         if (owner->kindA >= 25) {
@@ -139,10 +126,10 @@ jt_c0: {
             func_8003DB94(anim, D_800F7DD4, 0);
         }
         actor->state68 = 1;
-        goto switch_end;
+        break;
     }
 
-jt_c1: {
+    case 1: {
         s32 initial_duration;
         if (actor->timerA2 <= 0) {
             motion->vy = 0;
@@ -155,10 +142,10 @@ jt_c1: {
             func_8003DB94(anim, D_800F7D64, 0);
             actor->state68 = 2;
         }
-        goto switch_end;
+        break;
     }
 
-jt_c2: {
+    case 2: {
         s32 duration;
         if (actor->timerA2 <= 0) {
             s32 initial_duration;
@@ -186,10 +173,10 @@ jt_c2: {
             }
             actor->state68 = 3;
         }
-        goto switch_end;
+        break;
     }
 
-jt_c3:
+    case 3:
         if (actor->timerA2 <= 0) {
             motion->vy = 0;
             motion->vx = 0;
@@ -213,9 +200,9 @@ jt_c3:
                 actor->state68 = 5;
             }
         }
-        goto switch_end;
+        break;
 
-jt_c4:
+    case 4:
         if (motion->z <= -0x580000 && !(actor->flagsA4 & 2)) {
             anim->value6 = 0;
             actor->callback48 = D_800200FC;
@@ -234,25 +221,25 @@ jt_c4:
             actor->state68 = 7;
             actor->timerA2 = actor->initialA6 * 2 + 20;
         }
-        goto switch_end;
+        break;
 
-jt_c5:
+    case 5:
         if (actor->timerA2 <= 0) {
             actor->timerA2 = 6;
             motion->vz = (-0x280000 - motion->z) / actor->timerA2;
             actor->state68 = 6;
         }
-        goto switch_end;
+        break;
 
-jt_c6:
+    case 6:
         if (actor->timerA2 <= 0) {
             actor->timerA2 = 8;
             motion->vz = (-0x700000 - motion->z) / actor->timerA2;
             actor->state68 = 4;
         }
-        goto switch_end;
+        break;
 
-jt_c7:
+    case 7:
         if (actor->timerA2 <= 0) {
             if (actor->typeA0 & 1) {
                 func_8003DB94(anim, D_800F7D64, 0);
@@ -282,9 +269,9 @@ jt_c7:
             }
             actor->state68 = 8;
         }
-        goto switch_end;
+        break;
 
-jt_c8:
+    case 8:
         if (actor->timerA2 <= 0) {
             func_8008F134(actor);
             if (actor->ptr98 != 0) {
@@ -294,9 +281,9 @@ jt_c8:
             *(u16 *)((u8 *)actor - 2) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
-        goto switch_end;
+        break;
 
-jt_c9:
+    case 9:
         if (actor->timerA2 == 1) {
             SD_Call(0x511);
         }
@@ -307,9 +294,9 @@ jt_c9:
         if (actor->timerA2 <= 0) {
             actor->state68 = 8;
         }
-        goto switch_end;
+        break;
 
-switch_end:
+    }
     func_800478B8(anim);
     if ((actor->flagsA4 & 2) && func_800A2A18(D_80026F38, motion)) {
         motion->vz = 0;
