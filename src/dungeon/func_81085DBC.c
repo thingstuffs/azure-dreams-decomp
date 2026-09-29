@@ -13,7 +13,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s32 func_8017589C(void *, void *, void *);
 
-extern u8 D_80170850[20];
 extern M2C_UNK D_80170E94;
 extern u8 D_80175F10[8];
 extern u8 D_80175F40[8];
@@ -54,15 +53,11 @@ void func_801735BC(void *incoming_arg0, void *incoming_arg1, void *incoming_arg2
     u16 flags3;
     u16 timer;
     s32 gate;
-    static void *const keepalive[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
 
     state = ((S_801735BC_0 *)arg0)->unk_9B;
-    if ((u32)state >= 5) {
-        return;
-    }
-    goto *(((void **)D_80170850)[state]);
+    switch (state) {
 
-L0:
+case 0:
     do {
         timer = ((S_801735BC_0 *)arg0)->unk_96 - 1;
     } while (0);
@@ -79,7 +74,7 @@ L0:
     arg1->unk_0C = 0;
     goto Ladvance;
 
-L1:
+case 1:
     flags = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (flags & 0x8000) {
         ((S_801735BC_0 *)arg0)->unk_9B = 4;
@@ -101,7 +96,7 @@ L1:
     ((S_801735BC_0 *)arg0)->unk_9B++;
     return;
 
-L2:
+case 2:
     if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -114,7 +109,7 @@ Ladvance:
     ((S_801735BC_0 *)arg0)->unk_9B++;
     return;
 
-L3:
+case 3:
     flags3 = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v;
     if (flags3 & 0x8000) {
         (*(u8 * *)((u8 *)arg2 + (0x2C))) = D_80175F68;
@@ -127,7 +122,7 @@ L3:
     gate = flags3 & 0x6000;
     goto Lgate;
 
-L4:
+case 4:
     gate = ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000;
 Lgate:
     if (gate == 0) {
@@ -147,6 +142,10 @@ Lgate:
     ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
     (*(M2C_UNK * *)((u8 *)arg0 + (0x8C))) = &D_80170E94;
     dungeonStatus.unk_0C = 0;
+    break;
+    default:
+        return;
+    }
 }
 
 /* MECHANISM: two edits closed this from the prior aligned-3 plateau.
@@ -157,5 +156,5 @@ Lgate:
    (2) SPLIT (one name per live range): case 1 and case 3 must NOT share one `flags`
    local — case 1's copy is live across `lb $v1,4($s0)`, so the shared pseudo inherits
    that $v1 conflict and case 3's load colors $a0 instead of retail's $v1.
-   Frame/dispatch unchanged: extern jtbl computed goto through D_80170850 + keepalive,
+   Frame unchanged; dispatch is now a real switch (own .rdata table),
    args (arg0,arg1,arg2,arg3) -> s2,s3,s0,s1, tail joins via noreturn func_80173768/894. */

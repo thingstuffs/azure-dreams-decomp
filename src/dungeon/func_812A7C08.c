@@ -15,7 +15,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_801753DC(void *, void *);
 
-extern void *D_80170848[];
 extern s32 D_80171FA4;
 extern u8 D_80175C48[];
 extern u8 D_80175C50[];
@@ -55,17 +54,12 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
 {
     u32 step_x;
     s32 step_y;
-    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
     state = ((S_80173408_0 *)jump)->unk_9B.n;
-    if ((u32)state >= 5) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170848[state];
+    switch (state) {
 
-L0:
+case 0:
     {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173408_0 *)jump)->unk_9B.n = 4;
@@ -75,7 +69,7 @@ L0:
         }
     }
 
-L1:
+case 1:
     motion->unk_0C -=
         *(s16 *)((u8 *)((s8 *)dirStepX) +
                  (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
@@ -104,7 +98,7 @@ L1:
     ((S_80173408_0 *)jump)->unk_96.s = 0;
     goto increment_state;
 
-L2:
+case 2:
     {
         s16 *x_table;
         s16 *y_table;
@@ -142,7 +136,7 @@ increment_state:
     ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
     return;
 
-L3:
+case 3:
     {
         s16 *x_table;
         s16 *y_table;
@@ -197,7 +191,7 @@ L3:
     ((S_80173408_0 *)jump)->unk_9B.n++;
     return;
 
-L4:
+case 4:
     motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
     motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
     if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
@@ -217,4 +211,8 @@ L4:
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
+    break;
+    default:
+        return;
+    }
 }

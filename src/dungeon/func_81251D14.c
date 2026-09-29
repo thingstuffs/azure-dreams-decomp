@@ -28,7 +28,6 @@ extern s32 func_80172330(void *, void *, void *, s32);
 extern void func_801736B8(void *, void *, void *, void *);
 extern void func_80173D6C(void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80171514;
 extern u8 D_80173E8C[8];
 extern u8 D_80173E94[];
@@ -70,9 +69,6 @@ typedef struct S_80171514_3 {
 /* Updates object animation, dispatches its action, and adjusts its facing. */
 void func_80171514(void *obj, void *motion, void *part, void *state)
 {
-    static void *const dispatch_labels[] = {
-        &&case_stop, &&case_callback, &&case_action, &&case_default
-    };
     u32 entry_status = dungeonStatus.flags;
     s32 state_flags;
     s32 query_result;
@@ -194,17 +190,17 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
 
         action_kind = ((S_80171514_0 *)state)->unk_46 & 0x3FFF;
         jump_index = action_kind - 1;
-        if ((u32)jump_index >= 12U) {
-            goto case_default;
-        }
-        (void)dispatch_labels;
-        goto *D_80170808[jump_index];
-
+        switch (jump_index) {
 case_stop:
+        case 11:
         func_800A9A0C(state);
         return;
 
-case_callback:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
         callback_state = state;
         (*(void * volatile *)((u8 *)obj + (0x8C))) = &D_80171514;
 case_callback_tail:
@@ -212,13 +208,20 @@ case_callback_tail:
         ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
         return;
 
-case_action:
+        case 0:
+        case 1:
+        case 2:
         func_800AAF00(obj, motion, part, 0, &D_80171514);
         return;
 
+        case 3:
+        case 9:
+        case 10:
+        default:
 case_default:
         func_80171BE0(obj, motion, part, state);
         return;
+        }
     }
 
     state_flags = ((S_80171514_0 *)state)->unk_1C;

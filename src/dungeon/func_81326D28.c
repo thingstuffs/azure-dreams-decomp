@@ -2,7 +2,6 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern void *D_8016A868[];
 s32 func_800A45D8();
 s32 func_800A7234();
 M2C_UNK func_800A7A7C();
@@ -72,7 +71,6 @@ typedef struct S_8016E528_4 {
 
 /* Updates object motion, landing interpolation, and removal. */
 void func_8016E528(void *motion, void *position, void *object) {
-    static void *const distance_labels[] = { &&distance_zero, &&distance_one, &&distance_two, &&distance_three, &&distance_four };
     u8 item_data[4];
     s32 fall_height;
     s16 move_height;
@@ -128,26 +126,24 @@ measure_y_distance:
     y_distance = 0 - y_distance;
 select_settle_time:
     tile_distance = x_distance + y_distance;
-    if (tile_distance >= 5U) {
-        goto max_settle_time;
+    switch (tile_distance) {
+    case 0:
+        settle_ticks = 4;
+        break;
+    case 1:
+        settle_ticks = 8;
+        break;
+    case 2:
+        settle_ticks = 0xC;
+        break;
+    case 3:
+        settle_ticks = 0xE;
+        break;
+    case 4:
+    default:
+        settle_ticks = 0x10;
+        break;
     }
-    (void)distance_labels; goto *D_8016A868[(u32)(tile_distance)];
-distance_zero:
-    settle_ticks = 4;
-    goto set_countdown;
-distance_one:
-    settle_ticks = 8;
-    goto set_countdown;
-distance_two:
-    settle_ticks = 0xC;
-    goto set_countdown;
-distance_three:
-    settle_ticks = 0xE;
-    goto set_countdown;
-distance_four:
-max_settle_time:
-    settle_ticks = 0x10;
-set_countdown:
     ((S_8016E528_0 *)motion)->unk_1A = settle_ticks;
 update_settling:
     ticks_left = ((S_8016E528_0 *)motion)->unk_1A - 1;

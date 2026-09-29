@@ -72,7 +72,6 @@ typedef struct S_801728B4_11 {
     s32 unk_08;
 } S_801728B4_11;   /* ((S_801728B4_6 *)temp_v0_2)->unk_08 in func_801728B4 */
 
-extern void *D_80170838[];
 s32 func_8003F270(void);
 void *func_8003FD64();
 s32 func_8004491C();
@@ -88,7 +87,6 @@ extern u8 D_80173C6C[];
 
 /* Updates an actor action, its visual effect, and completion cleanup. */
 void func_801728B4(void *actor, EntityRec *motion, void *sprite, EntityRec *action) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
     s32 action_id;
     s32 action_value;
     s32 effect_anim;
@@ -125,21 +123,14 @@ block_6:
         goto block_12;
     }
     action_id = action->unk_46 & 0x3FFF;
-    {
-        u32 idx = action_id - 1;
-        if (idx >= 7U) {
-        goto block_20;
-    }
-        (void)action_labels;
-        goto *D_80170838[idx];
-    }
-jt_c7:
+    switch (action_id - 1) {
+    case 6:
     use_player = 1;
     goto block_17;
-jt_c6:
+    case 5:
     use_player = 1;
     goto block_18;
-jt_c5:
+    case 4:
     use_player = 1;
     goto block_19;
 block_12:
@@ -160,21 +151,23 @@ block_16:
     if (action_value != 3) {
         goto block_21;
     }
-jt_c3:
+    case 2:
 block_17:
     slot_or_effect = (u8 *)action + 0xE;
     goto block_21;
-jt_c2:
+    case 1:
 block_18:
     slot_or_effect = (u8 *)action + 0xB;
     goto block_21;
-jt_c1:
+    case 0:
 block_19:
     slot_or_effect = (u8 *)action + 8;
     goto block_21;
-jt_c4:
+    case 3:
+    default:
 block_20:
     slot_or_effect = NULL;
+    }
 block_21:
     if (*slot_or_effect == 0) {
         goto block_36;
