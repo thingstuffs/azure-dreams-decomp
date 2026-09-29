@@ -34,9 +34,9 @@ typedef struct Packet {
     union {
         u32 link;
         struct {
-            volatile u8 r;
-            volatile u8 g;
-            volatile u8 b;
+            u8 r;
+            u8 g;
+            u8 b;
             u8 command;
         } color;
     } data;
@@ -82,24 +82,19 @@ s32 func_80170884(u8 *node_data, u16 *position)
 
         if ((u32)depth_index < 480U) {
             u16 tpage;
-            register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 call_one ASM_REG("$5") = 1;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            u32 packed_color;
-            u32 color_r;
-            register u32 color_g ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u8 color_b ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u32 packet_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 r;
+            u8 g;
+            u8 b;
 
-            packed_color = *(u32 *)(node_data + 8);
-            packet->data.link = packed_color;
-            packet_code = 2;
-            packet->code = packet_code;
-            packet_code = 106;
-            color_r = packet->data.color.r;
-            color_g = packet->data.color.g;
-            color_b = packet->data.color.b;
-            ASM_KEEP(color_g);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            packet->data.color.command = packet_code;
+            packet->data.link = *(u32 *)(node_data + 8);
+            packet->code = 2;
+            r = packet->data.color.r;
+            g = packet->data.color.g;
+            b = packet->data.color.b;
+            packet->data.color.r = r;
+            packet->data.color.g = g;
+            packet->data.color.b = b;
+            packet->data.color.command = 106;
 
             *(u32 *)packet = (*(u32 *)packet & length_mask) |
                           (((u32 *)scratch->table)[scratch->index] & address_mask);
@@ -109,7 +104,7 @@ s32 func_80170884(u8 *node_data, u16 *position)
 
             packet = (Packet *)scratch->current;
             scratch->current = (u8 *)packet + 0xC;
-            tpage = (u16)func_80066460(call_zero, call_one, call_zero, call_zero);
+            tpage = (u16)func_80066460(0, 1, 0, 0);
             func_80067F20(packet, 0, 0, tpage, 0);
 
             *(u32 *)packet = (*(u32 *)packet & length_mask) |
