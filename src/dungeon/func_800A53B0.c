@@ -55,22 +55,22 @@ s32 func_800AAB10(s32 buffer_addr, M2C_UNK source, M2C_UNK unused, EntityRec *re
                                 eligible = 1;
                             }
                         }
-                        if ((func_800A1C58(record) << 0x10) == 0) {
-                            goto clear_state;
+                        if ((func_800A1C58(record) << 0x10) != 0) {
+                            return 0;
                         }
-                        goto return_zero;
+                        ((Rec_D_80083460 *)(&dungeonStatus.unk_00))->unk_0C = 0;
+                    } else {
+                        return 0;
                     }
+                } else {
+                    return 0;
                 }
+            } else {
+                return 0;
             }
+        } else {
             return 0;
         }
-        goto return_zero;
     }
-    goto return_result;
-return_zero:
-    return 0;
-clear_state:
-    ((Rec_D_80083460 *)(&dungeonStatus.unk_00))->unk_0C = 0;
-return_result:
     return eligible;
 }

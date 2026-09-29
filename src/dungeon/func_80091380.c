@@ -42,52 +42,37 @@ void func_80096AE0(S_80096AE0_0 *actor, S_80096AE0_1 *record, S_80096AE0_3 *part
 
     state = actor->unk_9B;
 
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        if ((actor->unk_A2 & 0x10) == 0) {
+            return;
+        }
+        record->unk_14 = 0;
+        if ((range->unk_88 - range->unk_8A) >= 0x41) {
+            func_800419EC(8, 0x10);
+            actor->unk_96 = 0xC;
+        } else {
+            actor->unk_96 = 1;
+        }
+        actor->unk_9B = actor->unk_9B + 1;
+    case 1:
+        part->unk_14 = part->unk_14 | 0x800;
+        actor->unk_9B = actor->unk_9B + 1;
+        return;
+    case 2:
+        countdown = actor->unk_96 - 1;
+        actor->unk_96 = countdown;
+        if (((s32)(countdown << 16) <= 0) &&
+            ((value = part->unk_14,
+              part->unk_14 = value & 0xF7FF,
+              (value & 0xE000) != 0) ||
+             ((func_80094EA4() << 16) != 0))) {
+            actor->unk_8C = D_80096384;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    if ((actor->unk_A2 & 0x10) == 0) {
+    default:
         return;
     }
-    record->unk_14 = 0;
-    if ((range->unk_88 - range->unk_8A) >= 0x41) {
-        func_800419EC(8, 0x10);
-        actor->unk_96 = 0xC;
-        goto increment_state;
-    }
-    actor->unk_96 = 1;
-
-increment_state:
-    actor->unk_9B = actor->unk_9B + 1;
-
-state_one:
-    part->unk_14 = part->unk_14 | 0x800;
-    actor->unk_9B = actor->unk_9B + 1;
-    return;
-
-state_two:
-    countdown = actor->unk_96 - 1;
-    actor->unk_96 = countdown;
-    if (((s32)(countdown << 16) <= 0) &&
-        ((value = part->unk_14,
-          part->unk_14 = value & 0xF7FF,
-          (value & 0xE000) != 0) ||
-         ((func_80094EA4() << 16) != 0))) {
-        actor->unk_8C = D_80096384;
-    }
-
-    return;
 }
 
 /* MECHANISM: Local joins keep actor/part live in s0/s1 across the real call,

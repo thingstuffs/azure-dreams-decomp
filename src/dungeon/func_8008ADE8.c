@@ -57,68 +57,52 @@ void func_80090548(FuncArg0 *motion, FuncArg1 *position, FuncArg2 *tile, FuncArg
 
     actor = actor_arg;
     state = motion->state;
-    if (state == 1) {
-        goto state1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state0;
+    switch (state) {
+    case 0:
+        actor->field6A = actor->field2A & 0xFFF;
+        actor->field1C &= 0xFFFEFFFF;
+        motion->state++;
+    case 1:
+        actor->field2A += 0x200;
+        position->field14 += 0xFFFF0000;
+        ticks_left = motion->field96 - 1;
+        motion->field96 = ticks_left;
+        if ((ticks_left << 16) > 0) {
+            return;
+        }
+        position->field14 = 0;
+        func_800A2B04(position, tile->field24, tile->field25);
+        height_offset = -0x400;
+        actor->field88 = func_800BCB04(position->field2, position->field6,
+                                    (D_800DCF58[0] = 1, height_offset));
+        motion->field92 = -0x200;
+        motion->field96 = 0x10;
+        motion->field98 &= 0xFFF7;
+        motion->state++;
+        return;
+    case 2:
+        actor->field2A += 0x200;
+        if (motion->flagsA2 & 0x10) {
+            motion->field96 = 0x20;
+            motion->state++;
         }
         return;
-    }
-    if (state == 2) {
-        goto state2;
-    }
-    if (state == 3) {
-        goto state3;
-    }
-    return;
+    case 3:
+        actor->field2A += 0x200;
+        if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
+            return;
+        }
+        func_8009A21C(tile->field24, tile->field25,
+                      (actor->field1C & 0x2000) ? 0x300 : 0x3000);
+        flags_mask = 0xFFFEFFFF;
+        dungeonStatus.unk_0A--;
+        actor_flags = actor->field1C & flags_mask;
+        actor->field2A = actor->field6A;
+        actor->field1C = actor_flags;
+        func_80096088(motion, actor);
 
-state0:
-    actor->field6A = actor->field2A & 0xFFF;
-    actor->field1C &= 0xFFFEFFFF;
-    motion->state++;
-
-state1:
-    actor->field2A += 0x200;
-    position->field14 += 0xFFFF0000;
-    ticks_left = motion->field96 - 1;
-    motion->field96 = ticks_left;
-    if ((ticks_left << 16) > 0) {
+        return;
+    default:
         return;
     }
-    position->field14 = 0;
-    func_800A2B04(position, tile->field24, tile->field25);
-    height_offset = -0x400;
-    actor->field88 = func_800BCB04(position->field2, position->field6,
-                                (D_800DCF58[0] = 1, height_offset));
-    motion->field92 = -0x200;
-    motion->field96 = 0x10;
-    motion->field98 &= 0xFFF7;
-    motion->state++;
-    return;
-
-state2:
-    actor->field2A += 0x200;
-    if (motion->flagsA2 & 0x10) {
-        motion->field96 = 0x20;
-        motion->state++;
-    }
-    return;
-
-state3:
-    actor->field2A += 0x200;
-    if ((actor->field2A & 0xFFF) != (actor->field6A & 0xFFF)) {
-        return;
-    }
-    func_8009A21C(tile->field24, tile->field25,
-                  (actor->field1C & 0x2000) ? 0x300 : 0x3000);
-    flags_mask = 0xFFFEFFFF;
-    dungeonStatus.unk_0A--;
-    actor_flags = actor->field1C & flags_mask;
-    actor->field2A = actor->field6A;
-    actor->field1C = actor_flags;
-    func_80096088(motion, actor);
-
-    return;
 }

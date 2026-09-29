@@ -35,20 +35,26 @@ s32 func_8009CD58(EntityRec *record, s32 mask, s32 mode) {
                     third_kind = mask & 2;
                 } else {
                     third_kind = 7;
-                    goto check_third_kind;
+                    if (kind != third_kind) {
+                        return flags;
+                    }
+                    third_kind = mask & 4;
                 }
-                goto merge_flags;
-            }
-            kind = detail->unk_00;
-            if (kind == 6) {
-                third_kind = mask & 1;
-            } else if (kind == 7) {
-                third_kind = mask & 2;
             } else {
-                third_kind = 8;
-                goto check_third_kind;
+                kind = detail->unk_00;
+                if (kind == 6) {
+                    third_kind = mask & 1;
+                } else if (kind == 7) {
+                    third_kind = mask & 2;
+                } else {
+                    third_kind = 8;
+                    if (kind != third_kind) {
+                        return flags;
+                    }
+                    third_kind = mask & 4;
+                }
             }
-            goto merge_flags;
+            flags = base_flags | third_kind;
         }
         return flags;
     }
@@ -61,13 +67,11 @@ s32 func_8009CD58(EntityRec *record, s32 mask, s32 mode) {
             third_kind = mask & 2;
         } else {
             third_kind = 10;
-check_third_kind:
             if (kind != third_kind) {
                 return flags;
             }
             third_kind = mask & 4;
         }
-merge_flags:
         flags = base_flags | third_kind;
     }
     return flags;
