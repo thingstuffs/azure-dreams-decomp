@@ -168,6 +168,8 @@ def idiom_search(text, find, spell_one, spell_all, verify_fn, budget=BUDGET):
         if i >= len(live):
             break
         cand = erase_many(cur, [live[i]], clean_notes=True)
+        if cand == cur:   # not erasable here (macro-expansion site): skip, never 'verify' the unchanged text
+            i += 1; continue
         if attempt(cand):
             cur = cand
             steps.append("dead:" + live[i][1])

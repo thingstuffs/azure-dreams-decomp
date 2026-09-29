@@ -29,6 +29,11 @@ class T:
         def attempt(site):
             nonlocal cur, erased, tried
             cand = erase_many(cur, [site], clean_notes=True)
+            if cand == cur:
+                # not erasable here (e.g. a pin inside a macro expansion, kind 'expand'): an unchanged text
+                # verifies exact, and counting it as an erasure left the index in place forever (r79 b3 landing
+                # spun 2h+ on dungeon/func_807B0B3C's FINISH_GLOBAL_TABLE sites)
+                return False, {"exact": False, "class": "not-erasable"}
             tried += 1
             v = verify_fn(cand)
             if v.get("exact"):

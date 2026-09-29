@@ -163,6 +163,8 @@ class T:
             if i >= len(live):
                 break
             cand = erase_many(cur, [live[i]], clean_notes=True)
+            if cand == cur:   # not erasable here (macro-expansion site): skip, never 'verify' the unchanged text
+                i += 1; continue
             tried += 1
             if vf(cand).get("exact"):
                 cur = cand
