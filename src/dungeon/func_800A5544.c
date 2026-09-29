@@ -81,7 +81,6 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082
     void *entity_data;
     S_800AACA4_4 *resource_table;
     S_800AACA4_5 *resource_entry;
-    register u32 step_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 target_offset;
     s16 travel_steps;
     s32 target_height;
@@ -129,12 +128,6 @@ void func_800AACA4(Rec_func_800A9E70_arg0 *state, EntityRec *motion, Rec_D_80082
         entity->unk_8A.s = entity->unk_8A.u - 2;
     }
 
-    step_offset = entity->unk_6A;
-    step_offset >>= 8;
-    step_offset &= 0xE;
-    tile->unk_24 += (*(u8 *)((u8 *)(((s8 *)dirStepX)) + step_offset));
-    step_offset = entity->unk_6A;
-    step_offset >>= 8;
-    step_offset &= 0xE;
-    tile->unk_25 += (*(u8 *)((u8 *)(((s8 *)dirStepY)) + step_offset));
+    tile->unk_24 += dirStepX[(entity->unk_6A >> 9) & 7];
+    tile->unk_25 += dirStepY[(entity->unk_6A >> 9) & 7];
 }

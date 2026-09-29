@@ -120,7 +120,7 @@ s16 func_800BCB04();                   /* extern */
 #define LOAD_TABLE_X_BASE(v) ((v) = (s32)dirStepX)
 #define LOAD_TABLE_Y_BASE(v) ((v) = (s32)dirStepY)
 #else
-#define LOAD_TABLE_X_BASE(v) do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0)
+#define LOAD_TABLE_X_BASE(v) (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328
 #define LOAD_TABLE_Y_BASE(v) do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
 #endif
 
@@ -169,7 +169,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     u16 *update_x_entry;
     u16 *update_y_entry;
     s32 probe_y;
-    register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 probe_z;
     s32 end_z_signed;
     s32 current_z;
     s32 position_xy;
@@ -315,13 +315,14 @@ do {
         goto use_path_endpoint;
     }
     LOAD_TABLE_X_BASE(table_base);
-    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+
     probe_dir_offset = (s16) ((S_80025738_0 *)state)->unk_0E;
     probe_z = (u16) ((S_80025738_1 *)owner)->unk_88;
     probe_dir_offset *= 2;
     table_x_entry = (s32)((s16 *)((s32)probe_dir_offset + table_base));
     probe_z -= 0x20;
-    probe_z = (s16) probe_z;
+    probe_z <<= 16;
+    probe_z >>= 16;
     LOAD_TABLE_Y_BASE(table_base);
     probe_dir_offset = (s32)((s16 *)((s32)probe_dir_offset + table_base));
     probe_x = tile_x_signed + *((s16 *)table_x_entry);

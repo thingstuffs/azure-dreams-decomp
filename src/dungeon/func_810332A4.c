@@ -429,12 +429,16 @@ secondary_object:
 
     tile_x = effect->unk_4C.s;
     if ((tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
-            motion->unk_00.half.unk_02 ||
-        (effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
-            motion->unk_04.half.unk_06) {
-        world_coord = tile_x;
-        world_coord <<= 6;
-        ASM_KEEP_NV(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            motion->unk_00.half.unk_02) {
+        world_coord = tile_x << 6;
+    } else {
+        if ((effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 ==
+                motion->unk_04.half.unk_06) {
+            goto movement_done;
+        }
+        world_coord = tile_x << 6;
+    }
+    {
         coord_base = world_coord + 0x20;
         floor_x = coord_base & 0xFFE0;
         world_coord = effect->unk_4D.s << 6;
@@ -445,6 +449,7 @@ secondary_object:
             motion->unk_0A.u += 0x10;
         }
     }
+movement_done:
     motion->unk_00.word += motion->unk_0C;
     motion->unk_04.word += motion->unk_10;
     return;

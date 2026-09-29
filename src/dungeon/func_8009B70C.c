@@ -170,6 +170,7 @@ L_B9A8:
 
 L_BB24: {
     s32 masked;
+    s32 sh6;
     u32 base_page;
     s32 call_a2;
 
@@ -187,10 +188,7 @@ L_BB24: {
     i = 0;
     masked = (func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out_p) & 0xFFF) << 16;
     s5v = masked >> 16;
-    ASM_KEEP(s5v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    base_page = 0x80070000;
-    ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    offsets = (s16 *)(base_page - 0x3300);
+    offsets = D_8006CD00;
     base_page = 0x800E0000;
     ASM_KEEP_NV(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_offsets = (u16 *)(base_page - 0x3154);
@@ -215,20 +213,20 @@ L_BB24: {
         if (bitmap[bitmap_idx] == 0) {
             bitmap_idx <<= 1;
             bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);
-            masked = actor_held[0x24];
+            sh6 = actor_held[0x24];
             zero = *(u16 *)bit_next;
             call_a2 = *(u16 *)(work_p + 0x88);
-            masked <<= 6;
-            zero += masked;
+            sh6 <<= 6;
+            zero += sh6;
             zero &= 0xFFFF;
             ASM_USE(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            masked = (s32)&D_800DCEBC;
-            bitmap_idx += masked;
+            sh6 = (s32)&D_800DCEBC;
+            bitmap_idx += sh6;
             call_a2 = (s16)(call_a2 - 0x20);
-            masked = actor_held[0x25];
+            sh6 = actor_held[0x25];
             bitmap_idx = *(u16 *)bitmap_idx;
-            masked <<= 6;
-            bitmap_idx += masked;
+            sh6 <<= 6;
+            bitmap_idx += sh6;
             bitmap_idx &= 0xFFFF;
             r = func_800BCB04(zero, bitmap_idx, call_a2);
             if ((s16)r < 0x200) {

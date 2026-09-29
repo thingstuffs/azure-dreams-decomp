@@ -118,7 +118,7 @@ extern void func_80024050(void *, u8);
 void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
 {
     WorkFrame work;
-    volatile s16 saved_y;
+    s16 saved_y;
     DrawInfo *draw = draw_info;
     Entity *entity;
     register EntityHeader *header ASM_REG("$17");
@@ -161,13 +161,13 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s16 *step_y;
     u16 *update_x;
     s32 target;
-    s32 next_y;
+    u16 next_y;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");
-    s32 tile_y;
+    u16 tile_y;
     s16 grid_x;
     s16 grid_y;
-    s32 final_x;
+    u16 final_x;
 
     static void *const keepalive[] = {
         &&case_0, &&case_2, &&case_3, &&case_4,
@@ -381,7 +381,6 @@ case_0:
         next_y = tile_y + *(u16 *)(s16 *)color;
         tile_y = next_y;
         saved_y = next_y;
-        ASM_KEEP4_NV(target_y, next_y, tile_x, tile_y);
         final_x = target_y;
     }
 
@@ -398,9 +397,8 @@ case_0:
     (*(s16 *)((u8 *)((Motion *)target) + 2)) = target_x;
     target_x = (u32)target_x << 16;
     target_x >>= 16;
-    table_addr = (u16)saved_y;
+    table_addr = *(u16 *)&saved_y;
     direction_index = (s16)state_arg->direction;
-    ASM_KEEP_DEP_NV(table_addr, direction_index);
     target_y = (u32)(u16)table_addr << 16;
     axis_step = ((s16 *)color)[direction_index];
     target_y = (s32)target_y >> 10;
