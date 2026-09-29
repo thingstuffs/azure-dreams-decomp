@@ -138,3 +138,8 @@ target block (`li a1,2` hoisted into a delay slot) - one row stayed at distance 
 inside a condition, `kind == 0xE || (kind < 0xF ? kind == 0xD : kind == 0xF)`), unless it is highly unlikely a person
 would write it (invented cases, no-op arithmetic, comma chains that exist only for codegen). Labels moved into blocks
 stay rejected.
+
+**Held for the owner (2026-09-29):** a GNU case range (`case 0 ... 0xF:`) whose only job is to stop gcc building a
+wide jump table is treated like an invented case and not landed, even when it restates compares retail shows
+(slus/w_80058E6C, r80_sonnet_gd19). Copying one call or store into a second arm is fine; copying more than about
+six lines is not.
