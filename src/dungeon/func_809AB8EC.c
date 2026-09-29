@@ -207,26 +207,20 @@ void func_801650EC(void *actor, void *context, void *sprite, EntityRec *entity)
         }
 
         {
-            static void *const action_labels[] = {
-                &&case_123, &&generic, &&sw_case89, &&sw_case567, &&case_12
-            };
-            extern void *const D_80164808[];
             u32 action_index = (u32)((entity->unk_46 & 0x3FFF) - 1);
 
-            if (action_index >= 12) {
-                goto generic;
-            }
-            (void)action_labels;
-            goto *D_80164808[action_index];
-        }
-sw_case89:
+            switch (action_index) {
+        case 7:
+        case 8:
             if ((func_80165F9C(actor, context, sprite, entity) << 16) != 0) {
                 return;
             }
             func_80166234(actor, context, sprite, entity);
             return;
 
-sw_case567:
+        case 4:
+        case 5:
+        case 6:
         {
             EntityRec *player;
             s16 facing_angle;
@@ -243,17 +237,27 @@ sw_case567:
         }
             /* fallthrough */
 
+        case 11:
 case_12:
             func_800A9A0C(entity);
             return;
 
+        case 0:
+        case 1:
+        case 2:
 case_123:
             func_800AAF00(actor, context, sprite, D_80169E98, func_801650EC);
             return;
 
+        case 3:
+        case 9:
+        case 10:
+        default:
 generic:
             func_80165854(actor, context, sprite, entity);
             return;
+        }
+        }
     }
 
     if (!(((u32)entity->flags1C) & 0x2000)) {

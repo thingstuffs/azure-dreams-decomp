@@ -38,7 +38,6 @@ extern void func_800AA79C(void *, void *, void *, void *);
 extern void func_800AA888(void *, void *, void *, void *);
 extern void func_80173E00(void *, void *, void *, void *);
 
-extern void *D_801708D0[];
 extern u8 D_801714D4[];
 extern u8 D_801740F0[];
 extern u8 D_801740F8[];
@@ -50,21 +49,13 @@ extern u8 D_80174160[];
 /* Advances the actor state sequence and selects effects for its facing direction. */
 void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
 {
-    static void *const state_labels[] = {
-        &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
-    };
     s32 effect_entry;
     s32 next_state;
     u8 state;
 
     state = ((S_8017360C_0 *)action)->unk_9B;
-    if (state >= 6) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_801708D0[state];
-
-state_0:
+    switch (state) {
+    case 0:
     {
         u8 *local_table_0;
     {
@@ -88,7 +79,7 @@ state_0:
 
     }
 
-state_1:
+    case 1:
     {
         u8 *local_table_1;
         if (((S_8017360C_0 *)action)->unk_92.s != 0) {
@@ -107,7 +98,7 @@ state_1:
 
     }
 
-state_2:
+    case 2:
     {
         u8 *local_table_2;
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
@@ -126,7 +117,7 @@ state_2:
 
     }
 
-state_3:
+    case 3:
     {
         u8 *local_table_3;
         if ((func_80042900(actor, 1) << 16) != 0) {
@@ -231,7 +222,7 @@ final_check:
 
     }
 
-state_4:
+    case 4:
         {
         u8 *local_table_4;
         u32 phase_flag = 0x40000;
@@ -259,7 +250,7 @@ store_state:
         return;
         }
 
-state_5:
+    case 5:
     {
         u8 *local_table_5;
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 4) {
@@ -277,7 +268,11 @@ state_5:
             DungeonGlobalStatus *dungeon_state = &dungeonStatus;
             (*(u16 *)&dungeon_state->unk_0A)--;
         }
+        break;
 
+    }
+    default:
+        return;
     }
 
 finished:

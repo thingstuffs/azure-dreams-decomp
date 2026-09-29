@@ -15,7 +15,6 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174910(void *, void *);
 
-extern void *D_80170850[];
 extern s32 D_801710EC;
 extern u8 D_80175E58[];
 extern u8 D_80175E60[];
@@ -55,17 +54,11 @@ void func_801728A8(void *action, EntityRec *motion, void *sprite, void *actor)
     s32 direction_x_2;
     u32 step_x;
     s32 step_y;
-    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
     state = ((S_801728A8_0 *)action)->unk_9B.n;
-    if ((u32)state >= 5) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80170850[state];
-
-L0:
+    switch (state) {
+    case 0:
     {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_801728A8_0 *)action)->unk_9B.n = 4;
@@ -75,7 +68,7 @@ L0:
         }
     }
 
-L1:
+    case 1:
     motion->unk_0C -=
         *(s16 *)((u8 *)((s8 *)dirStepX) +
                  (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
@@ -104,7 +97,7 @@ L1:
     ((S_801728A8_0 *)action)->unk_96.s = 0;
     goto increment_state;
 
-L2:
+    case 2:
     {
         s32 direction_offset;
         s32 arc;
@@ -133,7 +126,7 @@ increment_state:
     ((S_801728A8_0 *)action)->unk_9B.n = state + 1;
     return;
 
-L3:
+    case 3:
     {
         s16 *directions_x;
         s16 *directions_y;
@@ -187,7 +180,7 @@ L3:
     ((S_801728A8_0 *)action)->unk_9B.n++;
     return;
 
-L4:
+    case 4:
     motion->unk_0C -= ((S_801728A8_0 *)action)->unk_A8;
     motion->unk_10 -= ((S_801728A8_0 *)action)->unk_AC;
     if (((S_801728A8_0 *)action)->unk_A0.at02.v > 0) {
@@ -208,4 +201,5 @@ L4:
     (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
     ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;
     func_800A4ACC(actor);
+    }
 }
