@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-29T09:57:17Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-29T10:03:59Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -68,8 +68,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c local names | 5182 | 2,172,128 | 84.9% | 788 | 308,456 | 12.1% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 697 | 707,676 | 27.7% |
 | goto | 1545 | 1,318,412 | 51.5% | 1076 | 1,016,612 | 39.7% |
-| computed-goto jump table | 317 | 437,288 | 17.1% | 118 | 203,644 | 8.0% |
-| inline asm outside macros | 362 | 256,260 | 10.0% | 258 | 218,048 | 8.5% |
+| computed-goto jump table | 317 | 437,288 | 17.1% | 113 | 194,716 | 7.6% |
+| inline asm outside macros | 362 | 256,260 | 10.0% | 257 | 215,492 | 8.4% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
@@ -81,7 +81,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 Pin sites now: 2,493 in 696 rows; REG 1,255, KEEP 524, KEEP_NV 321, SCHED_BARRIER 130, KEEP_DEP_NV 37, USE_NV 36, USE 34, CLOBBER 31.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 108 (a second typed name for one symbol: a missing type); file-scope asm directives 420.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 108 (a second typed name for one symbol: a missing type); file-scope asm directives 419.
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 282 rows carry one flag, 40 carry two or more.
 

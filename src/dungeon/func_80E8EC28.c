@@ -53,7 +53,6 @@ extern u8 D_80174F00[];
 extern u8 D_80174F58[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
-extern void *D_801708F0[];
 
 extern void func_80047784(void *, s32, s32);
 extern void func_8009A21C(s32, s32, s32);
@@ -69,9 +68,6 @@ extern s16 func_800BCB04(s32, s32, s16);
 /* Updates movement, destination selection, and recovery animation for the object. */
 void func_80174428(void *state, void *motion, void *actor, void *object)
 {
-    static void *const state_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
-    };
     s32 y_step;
     s32 x_step;
     s16 *x_step_ptr;
@@ -89,16 +85,14 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     state_id = ((S_80174428_1 *)state)->unk_9B;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)((u8 *)dirStepY);
-    raw_direction = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;
+    raw_direction = state_id < 6;
     if (!raw_direction) {
         return;
     }
-    (void)state_labels;
-    goto *D_801708F0[state_id];
-
-case_0:
+    switch (state_id) {
+    case 0:
     func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
         (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
     (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
@@ -126,7 +120,7 @@ case_0:
     ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
     goto advance_state;
 
-case_1:
+    case 1:
     if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
         return;
     }
@@ -143,7 +137,7 @@ case_1:
     ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
     goto advance_state;
 
-case_2: {
+    case 2: {
         u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
         if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
             (((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
@@ -158,12 +152,13 @@ case_2: {
         return;
     }
 
+    case 3:
 case_3:
     ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
     ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
     goto advance_state;
 
-case_4:
+    case 4:
     if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
         return;
     }
@@ -212,7 +207,7 @@ advance_state:
     ((S_80174428_1 *)state)->unk_9B++;
     return;
 
-case_5:
+    case 5:
     {
         ((S_80174428_2 *)actor)->unk_1C = D_80174FC4[((S_80174428_1 *)state)->unk_96.u];
         ((S_80174428_2 *)actor)->unk_1E = D_80174FD4[((S_80174428_1 *)state)->unk_96.u];
@@ -245,5 +240,6 @@ case_5:
         ((S_80174428_0 *)object)->unk_6D = 0;
         ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;
         return;
+    }
     }
 }

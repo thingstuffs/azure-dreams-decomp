@@ -31,7 +31,6 @@ extern s32 func_801729EC(void *, void *, void *, s32);
 extern void func_801743E8(void *, void *, void *, void *);
 extern void func_80174928(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern s32 D_80171728;
 extern u8 D_80174DEC[];
 extern u8 D_80174DFC[];
@@ -56,11 +55,6 @@ typedef struct S_80171728_2 {
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
 void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec *creature_in)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     void *sprite;
     u8 *anim_table;
     s32 distance;
@@ -178,27 +172,22 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec 
         }
 
         action_flags = creature_in->unk_46 & 0x3FFF;
-        if ((u32)(action_flags - 1) >= 12) {
-            goto generic;
-        }
-        (void)action_labels;
-        goto *D_80170808[(u32)(action_flags - 1)];
-
-jt_c8:
-jt_c9:
+        switch (action_flags) {
+        case 8:
+        case 9:
         if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
             return;
         }
         func_801728D4(actor_in, context_in, sprite, creature_in);
         return;
 
-jt_c10:
+        case 10:
         func_80174928(actor_in, context_in, sprite, creature_in);
         return;
 
-jt_c5:
-jt_c6:
-jt_c7:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *player;
             s16 heading;
@@ -214,22 +203,23 @@ jt_c7:
             }
         }
 
+        case 12:
 jt_c12:
         func_800A9A0C(creature_in);
         return;
 
-jt_c1:
-jt_c2:
-jt_c3:
+        case 1:
+        case 2:
+        case 3:
 case_123:
         func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
         return;
 
-jt_c4:
-jt_c11:
+        default:
 generic:
         func_80171F40(actor_in, context_in, sprite, creature_in);
         return;
+        }
     }
 
     if (!(((u32)creature_in->flags1C) & 0x2000)) {
