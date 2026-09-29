@@ -214,8 +214,8 @@ class Lab:
         if dst.is_file():
             old = dst.read_text(errors="replace")
             key = lambda t: (len(kitlib.sites(t)), kitlib.goto_count(t))
-            if key(text) >= key(old) and text != old:
-                print("  NOT staged (the staged candidate is as good or better: pins/gotos %s vs %s)" % (key(old), key(text)))
+            if key(text) > key(old):
+                print("  NOT staged (the staged candidate is better: pins/gotos %s vs %s)" % (key(old), key(text)))
                 return None
         dst.write_text(text)
         sha = self.base_path.with_name(self.base_path.name + ".base_sha")
