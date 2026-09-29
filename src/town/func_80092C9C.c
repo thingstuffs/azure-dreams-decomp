@@ -101,24 +101,17 @@ void func_800903FC(void *owner, EntityRec *node_in, s32 mode) {
 
         if (func_800352FC() != 0) {
             base = (u8 *)&D_800CFCB4;
-            if (((S_800903FC_2 *)base)->unk_3B != 0) {
-                node = ((S_800903FC_4 *)(((S_800903FC_2 *)base)->unk_20))->unk_08;
-                if (node->unk_0C == 0 &&
-                    node->unk_10 == 0 &&
-                    node->unk_14 == 0) {
-                    goto skip_update;
+            if (((S_800903FC_2 *)base)->unk_3B == 0 ||
+                (node = ((S_800903FC_4 *)(((S_800903FC_2 *)base)->unk_20))->unk_08)->unk_0C != 0 ||
+                node->unk_10 != 0 || node->unk_14 != 0) {
+                {
+                    u8 *update_work;
+
+                    update_work = D_800FE488;
+                    value = func_80095978(node_in, update_work);
+                    func_80095A94(node_in, value, update_work);
                 }
             }
-
-            {
-                u8 *update_work;
-
-                update_work = D_800FE488;
-                value = func_80095978(node_in, update_work);
-                func_80095A94(node_in, value, update_work);
-            }
-
-skip_update:
             func_8009550C(node_in);
             if ((*(void * *)((u8 *)owner + (0))) != D_80097D2C) {
                 func_80098868(owner, node_in, mode);

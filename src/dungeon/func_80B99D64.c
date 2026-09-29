@@ -38,16 +38,8 @@ void func_80173564(void *controller, void *context, void *sprite, EntityRec *act
     s32 direction;
 
     state = ((S_80173564_0 *)controller)->unk_9B;
-    if (state == 0) {
-        goto state_zero;
-    }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
-    {
+    switch (state) {
+    case 0: {
         u8 *initial_effects;
 
         if ((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) == 0) {
@@ -62,57 +54,60 @@ state_zero:
         ((S_80173564_0 *)controller)->unk_9B++;
         return;
     }
+    case 1:
+        if (actor->tileY == 0) {
+            if (dungeonStatus.flags & 0x1000) {
+                return;
+            }
 
-state_one:
-    if (actor->tileY == 0) {
-        if (dungeonStatus.flags & 0x1000) {
-            return;
-        }
+            if ((actor->unk_64 != 0) &&
+                func_800AA6B4(controller, context, sprite, 0)) {
+                return;
+            }
 
-        if ((actor->unk_64 != 0) &&
-            func_800AA6B4(controller, context, sprite, 0)) {
-            return;
-        }
+            if ((s16)func_800A2C34(actor) != 0) {
+                return;
+            }
 
-        if ((s16)func_800A2C34(actor) != 0) {
-            return;
-        }
+            if (((u32)actor->flags1C) & 0x100) {
+                func_800AA258(controller, context, sprite, actor);
+                return;
+            }
 
-        if (((u32)actor->flags1C) & 0x100) {
-            func_800AA258(controller, context, sprite, actor);
-            return;
-        }
+            if (((u32)actor->flags1C) & 0x80000) {
+                func_800AA888(controller, context, sprite, actor);
+                func_801737C4(controller, context, sprite, actor);
+                return;
+            }
 
-        if (((u32)actor->flags1C) & 0x80000) {
-            func_800AA888(controller, context, sprite, actor);
-            func_801737C4(controller, context, sprite, actor);
-            return;
-        }
+            if (actor->unk_6D == 0) {
+                return;
+            }
 
-        if (actor->unk_6D == 0) {
-            return;
-        }
+            if ((s16)func_800A2C34(actor) != 0) {
+                EntityRec *owner;
 
-        if ((s16)func_800A2C34(actor) != 0) {
-            EntityRec *owner;
+                owner = D_800814A8;
+                if ((s16)func_8009A180(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
+                    return;
+                }
+            }
 
-            owner = D_800814A8;
-            if ((s16)func_8009A180(actor, (u8 *)owner->unk_58 + 0x20) != 0) {
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+            if (actor->tileY == 0) {
                 return;
             }
         }
 
-        func_800A9A0C(actor);
-        func_800A9A04(actor);
-        if (actor->tileY == 0) {
-            return;
-        }
+        effect_table = D_80174EE0;
+        (*(void * *)((u8 *)sprite + 0x2C)) = effect_table;
+        direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+        func_80047784(sprite, effect_table[direction & 7], 0);
+        actor->flags1C &= ~0x200;
+        ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;
+        break;
+    default:
+        return;
     }
-
-    effect_table = D_80174EE0;
-    (*(void * *)((u8 *)sprite + 0x2C)) = effect_table;
-    direction = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-    func_80047784(sprite, effect_table[direction & 7], 0);
-    actor->flags1C &= ~0x200;
-    ((S_80173564_0 *)controller)->unk_8C = D_80170E9C;
 }

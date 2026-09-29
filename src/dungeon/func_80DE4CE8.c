@@ -47,75 +47,61 @@ void func_801724E8(void *anim, EntityRec *motion, void *actor, EntityRec *actor_
     s32 tile_origin_y;
 
     phase = ((S_801724E8_0 *)anim)->unk_9B;
-    if (phase == 1) {
-        goto state_one;
-    }
-    if (phase >= 2) {
-        goto state_ge_two;
-    }
-    if (phase == 0) {
-        goto state_zero;
-    }
-    goto update_countdown;
-
-state_ge_two:
-    if (phase == 2) {
-        goto state_two;
-    }
-    goto update_countdown;
-
-state_zero:
-    if (((((Rec_D_80082E80 *)actor)->unk_04.as_s8 == 2) &&
-         (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x1000)) ||
-        (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0xE000)) {
+    switch (phase) {
+    case 0:
+        if (!((((Rec_D_80082E80 *)actor)->unk_04.as_s8 == 2 &&
+               (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x1000)) ||
+              (((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0xE000))) {
+            break;
+        }
         ((S_801724E8_0 *)anim)->unk_98 |= 8;
         (*(u32 *)&actor_state->flags1C) &= 0xF7FFFFFF;
         ((S_801724E8_0 *)anim)->unk_9E.s = 5;
         ((S_801724E8_0 *)anim)->unk_A0 = 0;
         ((S_801724E8_0 *)anim)->unk_9B++;
-        goto state_one;
-    }
-    goto update_countdown;
+        /* fall through */
+    case 1:
+        hop_frames = ((S_801724E8_0 *)anim)->unk_9E.s;
+        ((S_801724E8_0 *)anim)->unk_90 -= ((S_801724E8_0 *)anim)->unk_A0;
+        if (hop_frames != 0) {
+            motion->unk_0C =
+                (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
+            motion->unk_10 =
+                (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
+                ((S_801724E8_0 *)anim)->unk_9E.s;
+            ((S_801724E8_0 *)anim)->unk_A0 =
+                (-func_800644B8(((S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
+        }
 
-state_one:
-    hop_frames = ((S_801724E8_0 *)anim)->unk_9E.s;
-    ((S_801724E8_0 *)anim)->unk_90 -= ((S_801724E8_0 *)anim)->unk_A0;
-    if (hop_frames != 0) {
-        motion->unk_0C =
-            (((((Rec_D_80082E80 *)actor)->unk_24 << 6) - ({ motion->x.w.i - 0x20; })) << 16) / hop_frames;
-        motion->unk_10 =
-            (((((Rec_D_80082E80 *)actor)->unk_25 << 6) - (tile_origin_y = motion->y.w.i - 0x20)) << 16) /
-            ((S_801724E8_0 *)anim)->unk_9E.s;
-        ((S_801724E8_0 *)anim)->unk_A0 =
-            (-func_800644B8(((S_801724E8_0 *)anim)->unk_9E.s * 0x199)) << 9;
+        ((S_801724E8_0 *)anim)->unk_90 += ((S_801724E8_0 *)anim)->unk_A0;
+        next_hop_frames = ((S_801724E8_0 *)anim)->unk_9E.u - 1;
+        ((S_801724E8_0 *)anim)->unk_9E.s = next_hop_frames;
+        if (next_hop_frames < 0) {
+            ((S_801724E8_0 *)anim)->unk_90 = 0;
+            ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
+            (*(u32 *)&actor_state->flags1C) |= 0x08000000;
+            ((S_801724E8_0 *)anim)->unk_9B++;
+        }
+        /* fall through */
+    case 2:
+        if (((u32)actor_state->flags1C) & 0x08000000) {
+            ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
+            (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
+            func_80047784(
+                actor,
+                D_80174520[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_801724E8_0 *)anim)->unk_9B++;
+        }
+        break;
+    default:
+        break;
     }
 
-    ((S_801724E8_0 *)anim)->unk_90 += ((S_801724E8_0 *)anim)->unk_A0;
-    next_hop_frames = ((S_801724E8_0 *)anim)->unk_9E.u - 1;
-    ((S_801724E8_0 *)anim)->unk_9E.s = next_hop_frames;
-    if (next_hop_frames < 0) {
-        ((S_801724E8_0 *)anim)->unk_90 = 0;
-        ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-        (*(u32 *)&actor_state->flags1C) |= 0x08000000;
-        ((S_801724E8_0 *)anim)->unk_9B++;
-    }
-
-state_two:
-    if (((u32)actor_state->flags1C) & 0x08000000) {
-        ((S_801724E8_0 *)anim)->unk_98 &= 0xFFF7;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25);
-        (*(void * *)((u8 *)actor + 0x2C)) = D_80174520;
-        func_80047784(
-            actor,
-            D_80174520[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_801724E8_0 *)anim)->unk_9B++;
-    }
-
-update_countdown:
     move_frames = ((S_801724E8_0 *)anim)->unk_96 - 1;
     ((S_801724E8_0 *)anim)->unk_96 = move_frames;
     if ((s16)move_frames <= 0) {
@@ -136,18 +122,15 @@ update_countdown:
                 actor_state->unk_46 &= 0x7FFF;
             }
         } else {
-            if (actor_flags & 0x410) {
-                goto check_collision;
+            if (!(actor_flags & 0x410)) {
+                if (actor_flags & 0x20000) {
+                    actor_state->facing = func_800A0818(
+                        ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
+                        D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
+                }
             }
-            if (!(actor_flags & 0x20000)) {
-                goto check_collision;
-            }
-            actor_state->facing = func_800A0818(
-                ((Rec_D_80082E80 *)actor)->unk_24, ((Rec_D_80082E80 *)actor)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &facing_aux);
         }
 
-check_collision:
         if ((func_800AD9B4(actor, actor_state) << 16) > 0) {
             ((S_801724E8_0 *)anim)->unk_8C = D_80170E5C;
             func_800A9A04(actor_state);

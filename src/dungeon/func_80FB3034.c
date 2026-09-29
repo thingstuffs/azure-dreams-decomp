@@ -45,22 +45,11 @@ void func_80172834(void *action, EntityRec *motion, void *unit, EntityRec *actor
     s32 state;
 
     state = ((S_80172834_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto update_jump;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto start_jump;
+    switch (state) {
+    case 0:
+        if (!(((Rec_D_80082E80 *)unit)->unk_14.at00_u16.v & 0x6000)) {
+            break;
         }
-        goto tick;
-    }
-    if (state == 2) {
-        goto land;
-    }
-    goto tick;
-
-start_jump:
-    if (((Rec_D_80082E80 *)unit)->unk_14.at00_u16.v & 0x6000) {
         (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175278;
         func_80047784(
             unit,
@@ -71,54 +60,53 @@ start_jump:
         actor->flags1C &= 0xF7FFFFFF;
         ((S_80172834_0 *)action)->unk_A0 = 0;
         ((S_80172834_0 *)action)->unk_9B++;
-        goto update_jump;
-    }
-    goto tick;
 
-update_jump:
-    frames_left = ((S_80172834_0 *)action)->unk_96.s;
-    ((S_80172834_0 *)action)->unk_90 -= ((S_80172834_0 *)action)->unk_A0;
-    if (frames_left != 0) {
-        {
-            s32 target_x = ((Rec_D_80082E80 *)unit)->unk_24 << 6;
-            s32 current_x = motion->x.w.i - 0x20;
+    case 1:
+        frames_left = ((S_80172834_0 *)action)->unk_96.s;
+        ((S_80172834_0 *)action)->unk_90 -= ((S_80172834_0 *)action)->unk_A0;
+        if (frames_left != 0) {
+            {
+                s32 target_x = ((Rec_D_80082E80 *)unit)->unk_24 << 6;
+                s32 current_x = motion->x.w.i - 0x20;
 
-            motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
+                motion->unk_0C = ((target_x - current_x) << 16) / frames_left;
+            }
+            {
+                s32 target_y = ((Rec_D_80082E80 *)unit)->unk_25 << 6;
+                s32 current_y = motion->y.w.i - 0x20;
+
+                motion->unk_10 = ((target_y - current_y) << 16) /
+                    ((S_80172834_0 *)action)->unk_96.s;
+            }
+            ((S_80172834_0 *)action)->unk_A0 += motion->flags14;
+            motion->flags14 += 0x40000;
         }
-        {
-            s32 target_y = ((Rec_D_80082E80 *)unit)->unk_25 << 6;
-            s32 current_y = motion->y.w.i - 0x20;
-
-            motion->unk_10 = ((target_y - current_y) << 16) /
-                ((S_80172834_0 *)action)->unk_96.s;
+        ((S_80172834_0 *)action)->unk_90 += ((S_80172834_0 *)action)->unk_A0;
+        if (((S_80172834_0 *)action)->unk_96.s < 2) {
+            ((S_80172834_0 *)action)->unk_90 = 0;
+            ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
+            actor->flags1C |= 0x08000000;
+            ((S_80172834_0 *)action)->unk_9B++;
         }
-        ((S_80172834_0 *)action)->unk_A0 += motion->flags14;
-        motion->flags14 += 0x40000;
-    }
-    ((S_80172834_0 *)action)->unk_90 += ((S_80172834_0 *)action)->unk_A0;
-    if (((S_80172834_0 *)action)->unk_96.s < 2) {
-        ((S_80172834_0 *)action)->unk_90 = 0;
-        ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
-        actor->flags1C |= 0x08000000;
-        ((S_80172834_0 *)action)->unk_9B++;
+
+    case 2:
+        if (((u32)actor->flags1C) & 0x08000000) {
+            ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
+            (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
+            func_80047784(
+                unit,
+                D_80175280[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_80172834_0 *)action)->unk_9B++;
+        }
+    default:
+        break;
     }
 
-land:
-    if (((u32)actor->flags1C) & 0x08000000) {
-        ((S_80172834_0 *)action)->unk_98 &= 0xFFF7;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)unit)->unk_24, ((Rec_D_80082E80 *)unit)->unk_25);
-        (*(u8 * *)((u8 *)unit + 0x2C)) = D_80175280;
-        func_80047784(
-            unit,
-            D_80175280[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-            0);
-        ((S_80172834_0 *)action)->unk_9B++;
-    }
-
-tick:
     next_timer = ((S_80172834_0 *)action)->unk_96.u - 1;
     ((S_80172834_0 *)action)->unk_96.s = next_timer;
     if ((next_timer << 16) <= 0) {
@@ -149,7 +137,6 @@ tick:
             }
         }
 
-finish:
         if ((func_800AD9B4(unit, actor) << 16) > 0) {
             ((S_80172834_0 *)action)->unk_8C = &D_80170F6C;
             func_800A9A04(actor);

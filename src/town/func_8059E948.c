@@ -34,7 +34,7 @@ void func_80016948(void)
                 (D_80019088[event_state[6]].enabled != 0)) {
                 event_entry = &D_80019088[event_state[6]];
                 func_8001886C(event_entry->event);
-                goto finish;
+                break;
             }
 
             event_state[6] += 1;
@@ -42,7 +42,6 @@ void func_80016948(void)
             checked_count += 1;
         } while (checked_count < 7);
 
-finish:
         if (event_state[6] != 5) {
             func_8001886C(0x60E);
         }

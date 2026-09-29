@@ -35,7 +35,7 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
     actor->unk_71 &= 0x7F;
     transitioned = 0;
     if (dungeonStatus.flags & 0x2000) {
-        goto abort_transition;
+        return -1;
     }
     target_heading = func_800A04F0(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                            ((Rec_D_80082E80 *)sprite)->unk_25, actor->facing);
@@ -57,14 +57,9 @@ s32 func_80172314(void *state, s32 transition_id, void *sprite, EntityRec *actor
         return -1;
     }
     func_800C7930((u8 *)actor - 0x20, transition_id, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) == 0) {
-        goto transition_ok;
+    if ((func_800A2B5C(actor) << 16) != 0) {
+        return -1;
     }
-
-abort_transition:
-    return -1;
-
-transition_ok:
     {
         u16 state_flags;
 

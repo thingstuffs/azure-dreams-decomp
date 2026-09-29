@@ -34,13 +34,11 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
     u8 status;
     u16 stored_amount;
 
-    status = *(volatile u8 *)((u8 *)actor + 0x71);
+    status = *((u8 *)actor + 0x71);
     {
         s32 target;
-        u8 *flags_page;
 
-        ((volatile u8 *)actor)[113] = status & 0x7F;
-        flags_page = (u8 *)0x80080000;
+        ((u8 *)actor)[113] = status & 0x7F;
         action_mode = 0;
         if (dungeonStatus.flags & 0x2000) {
             return -1;
@@ -60,18 +58,14 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
         target_delta = 0 - func_800A0134(target, actor);
         if ((u32)((target_delta - 0x20) & 0xFFFF) < 0x21U) {
             action_mode = 1;
-            goto check_ready;
-        }
-        if ((u32)((target_delta + 0x10) & 0xFFFF) < 0x31U) {
+        } else if ((u32)((target_delta + 0x10) & 0xFFFF) < 0x31U) {
             action_mode = 2;
-            goto check_ready;
-        }
-        if ((u32)((target_delta + 0x40) & 0xFFFF) >= 0x31U) {
+        } else if ((u32)((target_delta + 0x40) & 0xFFFF) >= 0x31U) {
             return action_mode;
+        } else {
+            action_mode = 3;
         }
-        action_mode = 3;
 
-check_ready:
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
@@ -92,9 +86,7 @@ check_ready:
                 action_state->unk_9A.as_s8 = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
-                goto common;
-            }
-            if (selected_mode == 2) {
+            } else if (selected_mode == 2) {
                 action_state->unk_8C = 0;
                 ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E70;
                 new_action = 0x17;
@@ -102,17 +94,15 @@ check_ready:
                 action_state->unk_9A.as_s8 = new_action;
                 actor->unk_84 = 0x7C;
                 actor->unk_85 = 0;
-                goto common;
+            } else {
+                action_state->unk_8C = 0;
+                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175EA8;
+                action_state->unk_9A.as_s8 = 0x18;
+                actor->unk_84 = 0x7C;
+                actor->unk_85 = 0;
+                actor->flags1C &= 0xFFFBFFFF;
             }
 
-            action_state->unk_8C = 0;
-            ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175EA8;
-            action_state->unk_9A.as_s8 = 0x18;
-            actor->unk_84 = 0x7C;
-            actor->unk_85 = 0;
-            actor->flags1C &= 0xFFFBFFFF;
-
-common:
             {
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;

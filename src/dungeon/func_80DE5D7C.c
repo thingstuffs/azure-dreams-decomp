@@ -38,15 +38,8 @@ void func_8017357C(void *controller, void *context, void *sprite, EntityRec *act
     s32 direction;
 
     state = ((S_8017357C_0 *)controller)->unk_9B;
-    if (state == 0) {
-        goto state_zero;
-    }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     {
         u8 *initial_effect;
 
@@ -62,8 +55,7 @@ state_zero:
         ((S_8017357C_0 *)controller)->unk_9B++;
         return;
     }
-
-state_one:
+    case 1:
     if (actor->tileY == 0) {
         if (dungeonStatus.flags & 0x1000) {
             return;
@@ -121,4 +113,5 @@ state_one:
     func_80047784(sprite, effect[direction & 7], 0);
     ((S_8017357C_0 *)controller)->unk_8C = D_80170E5C;
     actor->flags1C &= ~0x200;
+    }
 }

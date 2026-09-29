@@ -42,7 +42,11 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         action->unk_9B++;
 
         if (entity->unk_28 == 0) {
-            goto start_action;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, tile, &D_80175268);
+            return;
         }
         if (tile->unk_14.at00_u16.v & 0x8000) {
             action->unk_96.s = 0;
@@ -71,19 +75,13 @@ void func_801732B4(S_801732B4_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (action->unk_96.s != 0) {
             return;
         }
-        if (entity->unk_28 != 0) {
-            goto increment_state;
+        if (entity->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, tile, &D_80175268);
+            return;
         }
-        goto start_action;
-
-start_action:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, tile, &D_80175268);
-        return;
-
-increment_state:
         action->unk_96.s = 8;
         action->unk_9B++;
         return;

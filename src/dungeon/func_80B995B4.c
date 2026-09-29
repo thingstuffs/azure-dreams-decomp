@@ -43,7 +43,11 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         action->unk_9B++;
 
         if (actor_data->unk_28 == 0) {
-            goto start_action;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, tile_state, &D_80174F18);
+            return;
         }
         if (tile_state->unk_14.at00_u16.v & 0x8000) {
             action->unk_96.s = 0;
@@ -80,7 +84,11 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
             action->unk_9B++;
             return;
         }
-        goto start_action;
+        motion->flags14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        func_800AAA54(action, motion, tile_state, &D_80174F18);
+        return;
 
     case 2:
         timer = action->unk_96.s;
@@ -103,32 +111,26 @@ void func_80172DB4(S_80172DB4_0 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if ((s32)(timer << 16) > 0) {
             return;
         }
-        if (!(tile_state->unk_14.at00_u16.v & 0x6000)) {
-            goto cleanup;
-        }
-        if (actor_data->unk_28 != 0) {
-            goto cleanup;
-        }
+        if ((tile_state->unk_14.at00_u16.v & 0x6000) &&
+            ((EntityRec *)actor_data)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, tile_state, &D_80174F18);
+            return;
+        } else {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, tile_state->unk_24, tile_state->unk_25);
 
-start_action:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, tile_state, &D_80174F18);
-        return;
-
-cleanup:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, tile_state->unk_24, tile_state->unk_25);
-
-        tracked_actor = ((s32)dungeonStatus.unk_10);
-        if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
-            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+            tracked_actor = ((s32)dungeonStatus.unk_10);
+            if (tracked_actor == (s32)((u8 *)actor_data - 0x20)) {
+                dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+            }
+            action->unk_8C = &D_80170E9C;
+            return;
         }
-        action->unk_8C = &D_80170E9C;
-        return;
 
     default:
         return;

@@ -32,26 +32,23 @@ void func_80016100(void) {
     slot = 0;
     label_cursor = &D_80017A6C;
     state_cursor = &D_80017A74;
-loop_1:
-    if (state == *state_cursor) {
-        func_80017684(*label_cursor++);
+    do {
+        if (state == *state_cursor) {
+            func_80017684(*label_cursor++);
+        } else {
+            func_800176FC(*label_cursor++);
+        }
+        state_cursor += 1;
+        slot += 1;
+    } while (slot < 4);
+    if (((SceneStateVtbl *)(D_80016000->unk_20))->unk_334(0) != 5) {
+        func_80017684(0xBE0);
     } else {
-        func_800176FC(*label_cursor++);
+        func_800176FC(0xBE0);
     }
-    state_cursor += 1;
-    slot += 1;
-    if (slot >= 4) {
-        if (((SceneStateVtbl *)(D_80016000->unk_20))->unk_334(0) != 5) {
-            func_80017684(0xBE0);
-        } else {
-            func_800176FC(0xBE0);
-        }
-        if ((func_80017918() < 5) || ((func_80017918() >= 5) && (func_8001777C(0x1460) != 0))) {
-            func_80017684(0xBE1);
-        } else {
-            func_800176FC(0xBE1);
-        }
-        return;
+    if ((func_80017918() < 5) || ((func_80017918() >= 5) && (func_8001777C(0x1460) != 0))) {
+        func_80017684(0xBE1);
+    } else {
+        func_800176FC(0xBE1);
     }
-    goto loop_1;
 }
