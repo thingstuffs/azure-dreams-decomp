@@ -1,6 +1,6 @@
 #!/bin/bash
 # Land ONE switch (computed-goto -> real switch) lane with an isolated gate, and self-heal a window link ERROR
-# (round 80):  bash tools/lanes/switch_land_lanes.sh <tag> <lane>
+# (round 80):  [KIND=pin WHAT='...'] bash tools/lanes/switch_land_lanes.sh <tag> <lane>   (any lane; KIND/WHAT set the commit text)
 #
 # Why.  A real `switch` makes cc1 emit its own .rodata jump table.  Most window builds keep it (MATCH), but some
 # synthetic deep/truebase window builds discard the row object's .rodata, and the link fails:
@@ -57,6 +57,6 @@ done
 python3 tools/status.py > /dev/null 2>&1
 P=$(grep -o "Pin sites now: [0-9,]* in [0-9,]* rows" STATUS.md)
 git add src ledger STATUS.md
-git commit -q -m "switch lane $LANE landed via switch_land_lanes.sh ($TAG; computed-goto dispatches -> real switch; isolated gate MATCH${BAD:+; reverted for discarded-.rodata windows: $BAD}) ($P)
+git commit -q -m "${KIND:-switch} lane $LANE landed via switch_land_lanes.sh ($TAG; ${WHAT:-computed-goto dispatches -> real switch}; isolated gate MATCH${BAD:+; reverted for discarded-.rodata windows: $BAD}) ($P)
 
 Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>" && git log --oneline -1
