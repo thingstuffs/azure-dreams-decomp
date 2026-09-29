@@ -169,7 +169,10 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
         } if ((s32)p < 4) goto loop_0;
         if ((func_800A4778(pos->unk_00.at02.v, pos->unk_04.at02.v,
                            pos->unk_08.at02.v, ((S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
-            goto finish;
+            ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+            ((S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
         }
         if (((S_818CF0E8_0 *)entity)->unk_08 != 0) {
             u16 a2v;
@@ -240,30 +243,25 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
                     pos->unk_00.at00.v += ((S_818CF0E8_0 *)entity)->unk_4C;
-                    goto x_recheck;
-                }
-                if (aw >= 4) {
+                } else if (aw >= 4) {
                     pos->unk_00.at00.v += (((S_818CF0E8_0 *)entity)->unk_4C * aw) / 192;
-                    goto x_recheck;
-                }
-                if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
+                } else if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
                     s32 one;
                     one = 1;
                     ((S_818CF0E8_0 *)entity)->unk_00.s = one;
                     ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-x_recheck:
-                    if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
-                        s32 v = ((S_818CF0E8_0 *)entity)->unk_4C;
-                        if (v > 0) {
-                            if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-                            }
-                        } else if (v < 0) {
-                            if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-                            }
+                }
+                if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
+                    s32 v = ((S_818CF0E8_0 *)entity)->unk_4C;
+                    if (v > 0) {
+                        if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
+                            ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                        }
+                    } else if (v < 0) {
+                        if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
+                            ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                         }
                     }
                 }
@@ -280,30 +278,25 @@ x_recheck:
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
                     pos->unk_04.at00.v += ((S_818CF0E8_0 *)entity)->unk_50;
-                    goto y_recheck;
-                }
-                if (aw >= 4) {
+                } else if (aw >= 4) {
                     pos->unk_04.at00.v += (((S_818CF0E8_0 *)entity)->unk_50 * aw) / 192;
-                    goto y_recheck;
-                }
-                if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
+                } else if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
                     s32 one;
                     one = 1;
                     ((S_818CF0E8_0 *)entity)->unk_00.s = one;
                     ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-y_recheck:
-                    if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
-                        s32 v = ((S_818CF0E8_0 *)entity)->unk_50;
-                        if (v > 0) {
-                            if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-                            }
-                        } else if (v < 0) {
-                            if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
-                            }
+                }
+                if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
+                    s32 v = ((S_818CF0E8_0 *)entity)->unk_50;
+                    if (v > 0) {
+                        if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
+                            ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
+                        }
+                    } else if (v < 0) {
+                        if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
+                            ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                         }
                     }
                 }
@@ -325,11 +318,8 @@ y_recheck:
                 aw = abs(d);
                 if (aw >= 0xC1) {
                     pos->unk_08.at00.v += ((S_818CF0E8_0 *)entity)->unk_54;
-                    goto after_axes;
-                }
-                if (aw >= 4) {
+                } else if (aw >= 4) {
                     pos->unk_08.at00.v += (((S_818CF0E8_0 *)entity)->unk_54 * aw) / 192;
-                    goto after_axes;
                 }
             }
         } else {
@@ -338,11 +328,13 @@ y_recheck:
             pos->unk_04.at00.v += ((S_818CF0E8_0 *)entity)->unk_50;
             pos->unk_08.at00.v += ((S_818CF0E8_0 *)entity)->unk_54;
             if (((S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
-                goto finish;
+                ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+                ((S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+                return;
             }
         }
     }
-after_axes:
     if (((S_818CF0E8_0 *)entity)->unk_00.s == 1) {
         if (((S_818CF0E8_0 *)entity)->unk_02.s == 0) {
             func_800A56E0(0x300);
@@ -481,7 +473,6 @@ after_axes:
         gfx->unk_1C -= 0x32;
         gfx->unk_1E -= 0x32;
         if (((S_818CF0E8_0 *)entity)->unk_02.s >= 0x15) {
-finish:
             ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
             ((S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;

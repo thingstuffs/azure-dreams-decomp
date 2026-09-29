@@ -77,14 +77,14 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
     s32 block = (s16)(query_x & -0x40);
     Global_80090854 *global = ((Global_80090854 *)&gameWork);
     Map_80090854 *map;
-    register u16 *tiles ASM_REG("$21");
-    register Vec_80090854 *vertices ASM_REG("$19");
+    u16 *tiles;
+    Vec_80090854 *vertices;
 
     scan_x = query_x;
     scan_z = query_y;
     map = &global->map;
 
-    scratch->limit = ((s16)query_x - block) + 0x14;
+    (*(s32 *)((u8 *)scratch + 0x34)) = ((s16)query_x - block) + 0x14;
     scratch->best = 0;
     scratch->block = block;
     query_y &= 0x3F;
@@ -119,156 +119,141 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
     scratch->scan_x = scan_x;
     scratch->scan_z = scan_z;
     scratch->outer_offset = 0;
-    if (scratch->outer_count >= 2) {
-        goto finished;
-    }
+    while (scratch->outer_count < 2) {
+        {
+            s16 next_z = (u16)scratch->scan_z + (u16)scratch->outer_offset;
 
-outer_loop:
-    {
-        s16 next_z = (u16)scratch->scan_z + (u16)scratch->outer_offset;
-
-        scan_z = next_z;
-        if (scratch->z_step >= 0) {
-            if (next_z >= D_800FE484) {
-                goto finished;
+            scan_z = next_z;
+            if (scratch->z_step >= 0) {
+                if (next_z >= D_800FE484) {
+                    break;
+                }
+            } else if (next_z < 0) {
+                break;
             }
-        } else if (next_z < 0) {
-            goto finished;
         }
-    }
 
-    scratch->inner_count = 0;
-    scratch->inner_offset = 0;
-    scratch->x = (u16)scratch->origin_x - (u16)scratch->outer_offset;
-    if (scratch->inner_count >= 2) {
-        goto next_outer;
-    }
+        scratch->inner_count = 0;
+        scratch->inner_offset = 0;
+        scratch->x = (u16)scratch->origin_x - (u16)scratch->outer_offset;
+        while (scratch->inner_count < 2) {
+            {
+                s16 next_x = (u16)scratch->scan_x + (u16)scratch->inner_offset;
 
-inner_loop:
-    {
-        s16 next_x = (u16)scratch->scan_x + (u16)scratch->inner_offset;
-
-        scan_x = next_x;
-        if (scratch->x_step >= 0) {
-            if (next_x >= D_800FE480) {
-                goto next_outer;
+                scan_x = next_x;
+                if (scratch->x_step >= 0) {
+                    if (next_x >= D_800FE480) {
+                        break;
+                    }
+                } else if (next_x < 0) {
+                    break;
+                }
             }
-        } else if (next_x < 0) {
-            goto next_outer;
-        }
-    }
 
-    {
-        s16 tile_x;
-        u16 tile_index;
-        s32 signed_x;
-        s32 shifted_x;
+            {
+                s16 tile_x;
+                u16 tile_index;
+                s32 signed_x;
+                s32 shifted_x;
 
-        shifted_x = (s32)((u32)(u16)scan_x << 16);
-        signed_x = shifted_x >> 16;
-        tile_x = map->x_mask & (signed_x / 64);
-        scratch->tile = tile_x;
-        tile_index = tile_x +
-            ((s16)(map->z_mask & (scan_z / 64)) << map->shift);
-        scratch->tile = tile_index;
+                shifted_x = (s32)((u32)(u16)scan_x << 16);
+                signed_x = shifted_x >> 16;
+                tile_x = map->x_mask & (signed_x / 64);
+                scratch->tile = tile_x;
+                tile_index = tile_x +
+                    ((s16)(map->z_mask & (scan_z / 64)) << map->shift);
+                scratch->tile = tile_index;
 
-        if (tiles[scratch->tile] != 0) {
-            Cell_80090854 *cell;
-            u8 *cell_flags;
-            u16 tile_value;
-            s32 vertex_delta;
+                if (tiles[scratch->tile] != 0) {
+                    Cell_80090854 *cell;
+                    u8 *cell_flags;
+                    u16 tile_value;
+                    s32 vertex_delta;
 
-            scratch->inner_bias = scratch->inner_offset;
-            tile_value = tiles[scratch->tile];
-            cell = map->cells[tile_value & 0x3FFF];
-            cell_flags = (u8 *)cell + 0x16;
+                    scratch->inner_bias = scratch->inner_offset;
+                    tile_value = tiles[scratch->tile];
+                    cell = map->cells[tile_value & 0x3FFF];
+                    cell_flags = (u8 *)cell + 0x16;
 
-            for (;;) {
-                if (scratch->planes[*(u16 *)(cell_flags - 6)].x > 0 &&
-                    !(cell_flags[1] & 1)) {
-                    s32 plane_x;
+                    for (;;) {
+                        if (scratch->planes[*(u16 *)(cell_flags - 6)].x > 0 &&
+                            !(cell_flags[1] & 1)) {
+                            s32 plane_x;
 
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].y;
-                    vertex_delta -= (u16)scratch->x;
-                    scratch->quad[0] = vertex_delta;
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].z;
-                    vertex_delta -= (u16)scratch->z;
-                    scratch->quad[1] = vertex_delta;
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].y;
-                    vertex_delta -= (u16)scratch->x;
-                    scratch->quad[2] = vertex_delta;
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].z;
-                    vertex_delta -= (u16)scratch->z;
-                    scratch->quad[3] = vertex_delta;
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].y;
-                    vertex_delta -= (u16)scratch->x;
-                    scratch->quad[4] = vertex_delta;
-                    vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].z;
-                    vertex_delta -= (u16)scratch->z;
-                    scratch->quad[5] = vertex_delta;
-                    vertex_delta = (u16)vertices[cell->v0].y;
-                    vertex_delta -= (u16)scratch->x;
-                    scratch->quad[6] = vertex_delta;
-                    vertex_delta = (u16)vertices[cell->v0].z;
-                    vertex_delta -= (u16)scratch->z;
-                    scratch->quad[7] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].y;
+                            vertex_delta -= (u16)scratch->x;
+                            scratch->quad[0] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].z;
+                            vertex_delta -= (u16)scratch->z;
+                            scratch->quad[1] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].y;
+                            vertex_delta -= (u16)scratch->x;
+                            scratch->quad[2] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].z;
+                            vertex_delta -= (u16)scratch->z;
+                            scratch->quad[3] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].y;
+                            vertex_delta -= (u16)scratch->x;
+                            scratch->quad[4] = vertex_delta;
+                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].z;
+                            vertex_delta -= (u16)scratch->z;
+                            scratch->quad[5] = vertex_delta;
+                            vertex_delta = (u16)vertices[cell->v0].y;
+                            vertex_delta -= (u16)scratch->x;
+                            scratch->quad[6] = vertex_delta;
+                            vertex_delta = (u16)vertices[cell->v0].z;
+                            vertex_delta -= (u16)scratch->z;
+                            scratch->quad[7] = vertex_delta;
 
-                    if (func_8008CE08(scratch) != 0) {
-                        u16 plane_index = *(u16 *)(cell_flags - 6);
-                        u16 vertex_index = cell->v0;
-                        register Vec_80090854 *plane;
-                        register Vec_80090854 *vertex;
-                        s32 delta_y;
-                        s32 delta_z;
-                        s32 y_product;
-                        s32 z_product;
-                        s32 x_product;
+                            if (func_8008CE08(scratch) != 0) {
+                                u16 plane_index = *(u16 *)(cell_flags - 6);
+                                u16 vertex_index = cell->v0;
+                                register Vec_80090854 *plane;
+                                register Vec_80090854 *vertex;
+                                s32 delta_y;
+                                s32 delta_z;
+                                s32 y_product;
+                                s32 z_product;
+                                s32 x_product;
 
-                        plane = (Vec_80090854 *)(plane_index * 8 + (u32)scratch->planes);
-                        vertex = (Vec_80090854 *)(vertex_index * 8 + (u32)vertices);
-                        delta_y = vertex->y - (s16)scratch->x;
-                        delta_z = vertex->z - (s16)scratch->z;
-                        y_product = plane->y * delta_y;
-                        z_product = plane->z * delta_z;
-                        x_product = plane->x * vertex->x;
-                        plane_x = (y_product + z_product + x_product) / plane->x;
-                        scratch->result = plane_x;
-                        scratch->result += scratch->inner_bias;
-                        if (scratch->limit >= scratch->result &&
-                            scratch->best < scratch->result) {
-                            scratch->best = scratch->result;
+                                plane = (Vec_80090854 *)(plane_index * 8 + (u32)scratch->planes);
+                                vertex = (Vec_80090854 *)(vertex_index * 8 + (u32)vertices);
+                                delta_y = vertex->y - (s16)scratch->x;
+                                delta_z = vertex->z - (s16)scratch->z;
+                                y_product = plane->y * delta_y;
+                                z_product = plane->z * delta_z;
+                                x_product = plane->x * vertex->x;
+                                plane_x = (y_product + z_product + x_product) / plane->x;
+                                scratch->result = plane_x;
+                                scratch->result += scratch->inner_bias;
+                                if (scratch->limit >= scratch->result &&
+                                    scratch->best < scratch->result) {
+                                    scratch->best = scratch->result;
+                                }
+                            }
+                        }
+
+                        {
+                            s32 end_flags;
+                            end_flags = *(u16 *)cell_flags & 0x80FF;
+                            if (end_flags != 0x8001) {
+                                cell_flags += 0x18;
+                                cell = (Cell_80090854 *)((u8 *)cell + 0x18);
+                            } else {
+                                break;
+                            }
                         }
                     }
                 }
-
-                {
-                    register u16 end_flags ASM_REG("$3");
-                    end_flags = *(u16 *)cell_flags & 0x80FF;
-                    if (end_flags != 0x8001) {
-                        cell_flags += 0x18;
-                        cell = (Cell_80090854 *)((u8 *)cell + 0x18);
-                    } else {
-                        break;
-                    }
-                }
             }
+
+            scratch->inner_count++;
+            scratch->inner_offset += scratch->x_step;
         }
+        scratch->outer_count++;
+        scratch->outer_offset += scratch->z_step;
     }
 
-    scratch->inner_count++;
-    scratch->inner_offset += scratch->x_step;
-    if (scratch->inner_count < 2) {
-        goto inner_loop;
-    }
-
-next_outer:
-    scratch->outer_count++;
-    scratch->outer_offset += scratch->z_step;
-    if (scratch->outer_count < 2) {
-        goto outer_loop;
-    }
-
-finished:
     if (scratch->best == 0) {
         return 0;
     }

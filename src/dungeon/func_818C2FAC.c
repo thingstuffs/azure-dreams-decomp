@@ -82,8 +82,6 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
     s16 offset_angle;
     uptr effect;
     register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s16 render_arg_low;
-    s32 render_arg_high;
     s32 scaled_radius;
     s32 divisor_reciprocal;
     S_818C2FAC_1 *effect_state;
@@ -119,29 +117,20 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         }
         variant = variant_seed - ((biased_seed >> 2) * 4);
 
-        if (variant == 1) goto case1;
-        if (variant < 2) {
-            render_arg_low = (s32)render_or_radius;
-            if (variant == 0) goto case0;
-            goto render_call;
+        switch (variant) {
+        case 0:
+            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7DCF;
+            break;
+        case 1:
+            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E00;
+            break;
+        case 2:
+            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E01;
+            break;
+        case 3:
+            ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E02;
+            break;
         }
-        if (variant == 2) goto case2;
-        render_arg_high = (s32)render_or_radius;
-        if (variant == 3) goto case3;
-        goto render_call;
-    case0:
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7DCF;
-        goto appearance_set;
-    case1:
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E00;
-        goto appearance_set;
-    case2:
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E01;
-        goto appearance_set;
-    case3:
-        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E02;
-    appearance_set:
-    render_call:
         {
             s32 render_arg;
             u8 *render_table;

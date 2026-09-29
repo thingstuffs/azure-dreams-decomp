@@ -44,18 +44,15 @@ state_one:
         if (*completion_flag != 0) {
             result = 1;
             D_800287C8 = 0;
-            goto done;
+        } else if ((func_80069C18(0) & 1) != 0 ||
+                   (func_80069C18(1) & 1) != 0) {
+            func_800214A4();
+            do {
+                state = func_80069C08(D_800287CC);
+            } while (state == 0);
+            D_800287E0 = 0;
+            D_800287C8 = 3;
         }
-        if ((func_80069C18(0) & 1) == 0 &&
-            (func_80069C18(1) & 1) == 0) {
-            goto return_result;
-        }
-        func_800214A4();
-        do {
-            state = func_80069C08(D_800287CC);
-        } while (state == 0);
-        D_800287E0 = 0;
-        D_800287C8 = 3;
         goto done;
     }
 

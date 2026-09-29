@@ -97,14 +97,11 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     }
     func_800A19E4(tile, actor, 3, 6, motion + 0x9C);
     tile_type = tile->unk_26;
-    if (tile_type < 0) {
-        goto scan_start;
+    if (tile_type >= 0 && (D_800E2970[tile_type].flags & 2)) {
+        scan_tile = tile;
+        goto scan_call;
     }
-    scan_tile = tile;
-    if (!(D_800E2970[tile_type].flags & 2)) {
-        goto scan_start;
-    }
-    goto scan_call;
+    goto scan_start;
 
     do {
             ((S_800CA444_1 *)actor)->unk_2A = next_heading;
@@ -142,9 +139,7 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
             } else {
                 heading_offset = ((S_800CA444_3 *)(((s32) (scan_result << 0x10) >> 0xF) + (u32) heading_offsets))->unk_00;
                 next_heading = heading + heading_offset;
-                goto calc_call;
             }
-        calc_call:
     } while ((func_800CA1E0(next_heading, tile, actor, 0x20) << 0x10) > 0);
     if (scan_result != 0) {
         next_index = scan_result + 1;
@@ -170,7 +165,6 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
             if (next_index < 8) {
                 goto scan_loop;
             }
-            goto state_done;
         }
     }
 state_done:

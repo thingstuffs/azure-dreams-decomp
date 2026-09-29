@@ -72,55 +72,41 @@ void func_80170EA0(void) {
     sprite = node->sub;
     direction_data = effect;
 
-    if (state == 1) {
-        goto delay;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto init;
+    switch (state) {
+    case 0:
+        effect->field_9A = 1;
+        effect->field_96 = 0;
+
+    case 1:
+        elapsed = effect->field_96++;
+        if ((s16)elapsed >= 0x24) {
+            effect->field_96 = 0x14;
+            effect->field_9E = 0x14;
+            effect->field_9A++;
+            func_800419EC(6, 12);
+            func_80170DCC(effect, position, sprite);
+            func_800A56E0(0x601);
+            position->field_0C = -0x200000;
+            sprite->field_10 = 0x20;
+            sprite->field_2C = D_80174B30;
+            sprite->flags_14 |= 0xC;
+            func_80047784(sprite, D_80174B30[((gameWork.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7], 0);
         }
-        goto update_sprite;
-    }
-    if (state == 2) {
-        goto fade;
-    }
-    goto update_sprite;
+        break;
 
-init:
-    effect->field_9A = 1;
-    effect->field_96 = 0;
-
-delay:
-    elapsed = effect->field_96++;
-    if ((s16)elapsed >= 0x24) {
-        effect->field_96 = 0x14;
-        effect->field_9E = 0x14;
-        effect->field_9A++;
-        func_800419EC(6, 12);
-        func_80170DCC(effect, position, sprite);
-        func_800A56E0(0x601);
-        position->field_0C = -0x200000;
-        sprite->field_10 = 0x20;
-        sprite->field_2C = D_80174B30;
-        sprite->flags_14 |= 0xC;
-        func_80047784(sprite, D_80174B30[((gameWork.view.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7], 0);
-        goto update_sprite;
-    }
-    goto update_sprite;
-
-fade:
-    position->field_00 += position->field_0C;
-    position->field_0C /= 2;
-    duration = effect->field_9E;
-    intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
-    effect->field_96--;
-    sprite->field_0E = (s8)intensity;
-    sprite->field_0D = (s8)intensity;
-    sprite->field_0C = (s8)intensity;
-    if ((s16)effect->field_96 <= 0) {
-        func_80170CE0(duration);
+    case 2:
+        position->field_00 += position->field_0C;
+        position->field_0C /= 2;
+        duration = effect->field_9E;
+        intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
+        effect->field_96--;
+        sprite->field_0E = (s8)intensity;
+        sprite->field_0D = (s8)intensity;
+        sprite->field_0C = (s8)intensity;
+        if ((s16)effect->field_96 <= 0) {
+            func_80170CE0(duration);
+        }
     }
 
-update_sprite:
     func_800478B8(sprite);
 }
