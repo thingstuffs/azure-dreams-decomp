@@ -14,6 +14,10 @@ typedef struct S_80172F98_0 {
 } S_80172F98_0;   /* arg0 in func_80172F98 */
 
 
+
+
+
+
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -147,5 +151,4 @@ void func_80172F98(S_80172F98_0 *action, EntityRec *motion, Rec_D_80082E80 *targ
 
 /* MECHANISM: The natural long-lived arguments preserve the retail 0x28 frame and s1/s0/s2/s3/s4 roles.
    Typed s16 array indexing materializes each table base before its direction shift.
-   Split expression
-       -form s32 coordinate temps block fold reassociation and schedule the second lh over the first divide result. */
+   Split expression-form s32 coordinate temps block fold reassociation and schedule the second lh over the first divide result. */
