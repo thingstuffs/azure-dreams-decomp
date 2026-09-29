@@ -91,7 +91,6 @@ typedef struct {
     u32 fC;
 } Global83460;
 
-extern void *D_80170838[];
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
 extern u8 D_801744DC[];
@@ -110,9 +109,6 @@ extern void func_800DAE44(Position *, s32);
 /* Updates an entity's item action, animation, and return to idle. */
 void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
 {
-    static void *const slot_labels[] = {
-        &&slot1, &&slot2, &&slot3, &&slot4, &&slot5, &&slot6, &&slot7
-    };
     u8 *item_slot;
     s32 state_index;
     s16 use_main_link;
@@ -148,20 +144,25 @@ state0:
         s32 slot_index;
 
         slot_index = (ent->f46 & 0x3FFF) - 1;
-        if ((u32)slot_index >= 7) {
+        switch (slot_index) {
+        case 6:
+            use_main_link = 1;
+            goto slot3;
+        case 5:
+            use_main_link = 1;
+            goto slot2;
+        case 4:
+            use_main_link = 1;
+            goto slot1;
+        case 0:
+            goto slot1;
+        case 1:
+            goto slot2;
+        case 2:
+            goto slot3;
+        default:
             goto slot4;
         }
-        (void)slot_labels;
-        goto *D_80170838[slot_index];
-slot7:
-        use_main_link = 1;
-        goto slot3;
-slot6:
-        use_main_link = 1;
-        goto slot2;
-slot5:
-        use_main_link = 1;
-        goto slot1;
     }
 
     {

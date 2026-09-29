@@ -33,7 +33,6 @@ extern s32 func_8017165C(s32);
 extern u8 D_800E2368[];
 extern LocalTable D_8017088C;
 extern void *const D_801708B0[];
-extern void *const D_801708C8[];
 
 
 typedef struct S_8017450C_0 {
@@ -117,8 +116,8 @@ void func_8017450C(void *state, void *motion, void *monster, void *actor_ptr)
     u8 tile_x;
     u8 tile_y;
 
-    direction_table = D_8017088C;
     actor = (u32)actor_ptr;
+    direction_table = D_8017088C;
 
     {
         static void *const state_labels[] = {
@@ -177,60 +176,49 @@ state_1:
     ((S_8017450C_1 *)monster)->unk_1C = 0x800;
 
 state_2:
-    {
-        static void *const angle_labels[] = {
-            &&angle_default,
-            &&angle_12, &&angle_12,
-            &&angle_3_8, &&angle_3_8, &&angle_3_8,
-            &&angle_3_8, &&angle_3_8, &&angle_3_8,
-            &&angle_9_10, &&angle_9_10,
-            &&angle_11_14, &&angle_11_14, &&angle_11_14, &&angle_11_14,
-            &&angle_15_17, &&angle_15_17, &&angle_15_17,
-            &&angle_18_21, &&angle_18_21, &&angle_18_21, &&angle_18_21
-        };
-        u32 frame_index = (u32)(s16)((S_8017450C_0 *)state)->unk_96.s;
-
-        if (frame_index >= 0x16) {
-            goto angle_default;
-        }
-        (void)angle_labels;
-        goto *D_801708C8[frame_index];
-    }
-
-angle_12:
+    switch ((u32)(s16)((S_8017450C_0 *)state)->unk_96.s) {
+    case 1:
+    case 2:
     ((S_8017450C_0 *)state)->unk_AE = 0x30;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
+    break;
 
-angle_3_8:
+    case 3:
+    case 8:
     ((S_8017450C_0 *)state)->unk_AE = 0x28;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    goto angle_store;
+    break;
 
-angle_9_10:
+    case 9:
+    case 10:
     ((S_8017450C_0 *)state)->unk_AE = 0x30;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
+    break;
 
-angle_11_14:
+    case 11:
+    case 14:
     ((S_8017450C_0 *)state)->unk_AE = 0x70;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
+    break;
 
-angle_15_17:
+    case 15:
+    case 17:
     ((S_8017450C_0 *)state)->unk_AE = 0x60;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    goto angle_store;
+    break;
 
-angle_18_21:
+    case 18:
+    case 21:
     ((S_8017450C_0 *)state)->unk_AE = 0x50;
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
-    goto angle_store;
+    break;
 
-angle_default:
+    case 0:
+    default:
     ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
+    }
 
-angle_store:
+    /* angle_store */
     if (((S_8017450C_1 *)monster)->unk_1A.u >= 0x1000) {
         ((S_8017450C_1 *)monster)->unk_1A.u -= 0x1000;
     }

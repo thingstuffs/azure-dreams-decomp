@@ -69,7 +69,6 @@ extern void func_8017236C(void *, void *, void *, void *);
 extern void func_801737DC(void *, void *, void *, void *);
 extern s32 func_80173E48(void *, void *, void *, s32);
 
-extern void *const D_80170808[];
 extern u8 D_80174520[];
 extern u8 D_80174530[];
 extern u8 D_80174538[];
@@ -188,31 +187,15 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
             }
         }
 
-        {
-            static void *const action_labels[] = {
-                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
-                &&movement_case,
-                &&coords_case, &&coords_case, &&coords_case,
-                &&handler_case, &&handler_case,
-                &&ordinary_cleanup, &&ordinary_cleanup,
-                &&special_cleanup,
-            };
-            u32 action_index = (((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) - 1;
-
-            if (action_index >= 12) {
-                goto ordinary_cleanup;
-            }
-            (void)action_labels;
-            goto *D_80170808[action_index];
-        }
-
-handler_case:
+        switch (((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) {
+        case 8:
+        case 9:
         if ((s16)func_80171E10(actor_in, context_in, sprite_in, status) == 0) {
             func_80171FD4(actor_in, context_in, sprite_in, status);
         }
         return;
 
-movement_case:
+        case 4:
         if (((S_80170E5C_1 *)status)->unk_1C & 0x400) {
             register s32 movement_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -229,7 +212,9 @@ movement_case:
         func_8017236C(actor_in, context_in, sprite_in, status);
         return;
 
-coords_case:
+        case 5:
+        case 6:
+        case 7:
         {
             EntityRec *active_actor;
             s32 direction;
@@ -245,17 +230,24 @@ coords_case:
             }
         }
 
+        case 12:
 special_cleanup:
         func_800A9A0C(status);
         return;
 
+        case 1:
+        case 2:
+        case 3:
 aaf_cleanup:
         func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
         return;
 
+        case 11:
+        default:
 ordinary_cleanup:
         func_80171420(actor_in, context_in, sprite_in, status);
         return;
+        }
     } else if (!(((S_80170E5C_1 *)status)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_record;
 
