@@ -67,44 +67,32 @@ void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *act
     ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
     return;
     case 1:
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
-        goto block_5;
+    if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
+        ((S_800974DC_0 *)action)->unk_96.s = 0U;
+    } else {
+        ((S_800974DC_0 *)action)->unk_96.s = (u16) (((S_800974DC_0 *)action)->unk_96.s - 1);
     }
-    ((S_800974DC_0 *)action)->unk_96.s = 0U;
-    goto block_6;
-block_5:
-    ((S_800974DC_0 *)action)->unk_96.s = (u16) (((S_800974DC_0 *)action)->unk_96.s - 1);
-block_6:
-    if (((S_800974DC_0 *)action)->unk_96.u != 0) {
-        goto block_12;
+    if (((S_800974DC_0 *)action)->unk_96.u == 0) {
+        if (((S_800974DC_0 *)action)->unk_102 == 0) {
+            actor->unk_20 = 1;
+            if (func_8009C12C(actor, sprite, actor->facing, 1) == 0) {
+                linked_object = actor->target;
+                if (linked_object != NULL) {
+                    actor->target = NULL;
+                    linked_object->flags1C = (s32) (linked_object->flags1C & 0xEFFFFFFF);
+                    ((S_800974DC_6 *)(((S_800974DC_4_pre *)linked_object)[-1].unk_00))->unk_0C = 0x808080;
+                }
+            }
+        }
     }
-    if (((S_800974DC_0 *)action)->unk_102 != 0) {
-        goto block_11;
+    if ((s16) ((S_800974DC_0 *)action)->unk_96.s <= 0) {
+        if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000) {
+            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
+            func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
+            ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
+        }
     }
-    actor->unk_20 = 1;
-    if (func_8009C12C(actor, sprite, actor->facing, 1) != 0) {
-        goto block_11;
-    }
-    linked_object = actor->target;
-    if (linked_object == NULL) {
-        goto block_11;
-    }
-    actor->target = NULL;
-    linked_object->flags1C = (s32) (linked_object->flags1C & 0xEFFFFFFF);
-    ((S_800974DC_6 *)(((S_800974DC_4_pre *)linked_object)[-1].unk_00))->unk_0C = 0x808080;
-block_11:
-block_12:
-    if ((s16) ((S_800974DC_0 *)action)->unk_96.s > 0) {
-        goto block_15;
-    }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-        goto block_15;
-    }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_800DD274;
-    func_8003DB94(sprite, *(M2C_UNK *)((u8 *)D_800DD274 + (((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 7) & 0x1C)), 0);
-    ((S_800974DC_0 *)action)->unk_9B = (u8) (((S_800974DC_0 *)action)->unk_9B + 1);
     case 2:
-block_15:
     if (!(((S_800974DC_0 *)action)->unk_A2 & 0x10)) {
         return;
     }
@@ -139,13 +127,9 @@ block_15:
     case 4:
     ticks_left = ((S_800974DC_0 *)action)->unk_96.s - 1;
     ((S_800974DC_0 *)action)->unk_96.s = ticks_left;
-    if ((ticks_left << 0x10) <= 0) {
-        goto block_22;
-    }
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
+    if ((ticks_left << 0x10) > 0 && !(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
         return;
     }
-block_22:
     motion->flags14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
