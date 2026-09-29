@@ -98,56 +98,35 @@ void func_7FFFE25C(void *context, S_7FFFE25C_1 *owner, EntityRec *adjusted_pos, 
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_08;
             dispatch_pos = adjusted_pos;
-            goto dispatch;
-        }
-
-        if (current == (s32)&D_800AA5F8) {
+            ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
+        } else if (current == (s32)&D_800AA5F8) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_14;
             dispatch_pos = adjusted_pos;
-            goto dispatch;
-        }
-
-        if (current == (s32)&D_80093328) {
+            ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
+        } else if (current == (s32)&D_80093328) {
             dispatch_context = context;
             dispatch_owner = owner;
             handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_0C;
             dispatch_pos = adjusted_pos;
-            goto dispatch;
-        }
-
-        if (current == (s32)&D_80093638) {
-            do {
-                do {
-                    func_8009C340(context, owner, adjusted_pos, dispatch_param);
-                } while (0);
-            } while (0);
-            goto check_result;
-        }
-
-        if (current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
+            ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
+        } else if (current == (s32)&D_80093638) {
+            func_8009C340(context, owner, adjusted_pos, dispatch_param);
+        } else if (!(current == (s32)&D_80092698 || current == (s32)&D_800927EC ||
             current == (s32)&D_80092A84 || current == (s32)&D_80092FF0 ||
             current == (s32)&D_80092CD4 || current == (s32)&D_80092DA8 ||
             current == (s32)&D_80092ECC || current == (s32)&D_800933FC ||
-            current == (s32)&D_80090A6C || func_800352FC() != 0) {
-            if (previous_owner == (s32)owner) {
-                goto skip_dispatch;
-            }
+            current == (s32)&D_80090A6C || func_800352FC() != 0) || previous_owner != (s32)owner) {
+            dispatch_context = context;
+            dispatch_owner = owner;
+            handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_10;
+            dispatch_pos = adjusted_pos;
+            ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
+        } else {
+            dispatched = 0;
         }
-
-        dispatch_context = context;
-        dispatch_owner = owner;
-        handler = ((S_7FFFE25C_4 *)(((Rec_D_80082D58 *)context)->unk_58))->unk_10;
-        dispatch_pos = adjusted_pos;
-dispatch:
-        ((DispatchFn)handler)(dispatch_context, dispatch_owner, dispatch_pos, dispatch_param);
-        goto check_result;
     }
-
-skip_dispatch:
-    dispatched = 0;
-check_result:
     if (dispatched != 0 && func_8009B120((u8 *)context + 0x4C) != 0) {
         func_800C172C();
     }

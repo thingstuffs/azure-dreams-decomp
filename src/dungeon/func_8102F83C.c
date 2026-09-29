@@ -142,33 +142,26 @@ void func_8017103C(void *entity_arg, void *motion_arg, void *monster_arg)
 
         if (!(actor->unk_1C & 0x10000000)) {
             if ((func_80042900(actor, 1) << 16) != 0) {
-                s32 shade;
                 s32 monster_state = ((S_8017103C_0 *)monster)->unk_04;
-
-                if (monster_state != 0) {
-                    goto nonzero_state;
+                s32 shade;
+                if (monster_state == 0) {
+                    ((S_8017103C_0 *)monster)->unk_0E = 0x80;
+                    ((S_8017103C_0 *)monster)->unk_0D = 0x80;
+                    ((S_8017103C_0 *)monster)->unk_0C = 0x80;
+                } else {
+                    if (monster_state == 1) {
+                        shade = 0x64;
+                    } else if (monster_state == 2) {
+                        shade = 0x50;
+                    } else if (monster_state == 3) {
+                        shade = 0x64;
+                    } else {
+                        goto flags_done;
+                    }
+                    ((S_8017103C_0 *)monster)->unk_0E = shade;
+                    ((S_8017103C_0 *)monster)->unk_0D = shade;
+                    ((S_8017103C_0 *)monster)->unk_0C = shade;
                 }
-                ((S_8017103C_0 *)monster)->unk_0E = 0x80;
-                ((S_8017103C_0 *)monster)->unk_0D = 0x80;
-                ((S_8017103C_0 *)monster)->unk_0C = 0x80;
-                goto flags_done;
-nonzero_state:
-                if (monster_state == 1) {
-                    goto state_value_64;
-                }
-                if (monster_state == 2) {
-                    shade = 0x50;
-                    goto set_state_bytes;
-                }
-                if (monster_state != 3) {
-                    goto flags_done;
-                }
-state_value_64:
-                shade = 0x64;
-set_state_bytes:
-                ((S_8017103C_0 *)monster)->unk_0E = shade;
-                ((S_8017103C_0 *)monster)->unk_0D = shade;
-                ((S_8017103C_0 *)monster)->unk_0C = shade;
             } else {
                 func_800A020C(actor->unk_1C,
                               (u8 *)monster + 0xC);
@@ -198,15 +191,9 @@ flags_done:
                               (s16)(actor->unk_88.u - 0x20));
         if (floor_height < 0x200) {
             actor_height = actor->unk_88.s;
-            if (!((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height)) {
-                goto resolve_floor;
-            }
-
-            actor->unk_1C &= 0xF7FFFFFF;
-            goto check_floor_adjustment;
-
-resolve_floor:
-            if (floor_height >= actor_height) {
+            if ((*(s16 *)((u8 *)entity_arg + 0x92)) + actor_height < floor_height) {
+                actor->unk_1C &= 0xF7FFFFFF;
+            } else if (floor_height >= actor_height) {
                 (*(s32 *)((u8 *)entity_arg + 0x90)) = 0;
                 motion->unk_14 = 0;
                 actor->unk_1C |= 0x08000000;
@@ -217,9 +204,6 @@ resolve_floor:
                 actor->unk_1C |= 0x08000000;
                 (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
             }
-
-
-check_floor_adjustment:
             if (actor->unk_1C & 0x40000000) {
                 actor->unk_1C &= 0xBFFFFFFF;
                 floor_height = func_800BCB04(
@@ -234,7 +218,6 @@ check_floor_adjustment:
         }
     }
 
-clear_falling:
     actor->unk_1C &= 0xF7FFFFFF;
 
 finish:

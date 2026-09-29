@@ -60,24 +60,8 @@ void func_8052AE20(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
     }
 
     state = arg0->unk_00;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0: {
+    switch (state) {
+    case 0: {
         s32 value;
         value = arg1->unk_08 - 0x80000;
         arg1->unk_08 = value;
@@ -89,7 +73,7 @@ state_0: {
         return;
     }
 
-state_1: {
+    case 1: {
         s32 called_v0;
         called_v0 = called;
         if (called_v0 != 0 && ((S_80810220_4 *)(arg0->unk_04))->unk_22 == 3) {
@@ -108,7 +92,7 @@ state_1: {
         return;
     }
 
-state_2: {
+    case 2: {
         s32 value;
         value = arg1->unk_08 + 0x80000;
         arg1->unk_08 = value;
@@ -118,11 +102,15 @@ state_2: {
         return;
     }
 
-state_3:
+    case 3:
         flags = child->unk_20;
         if (flags & 1) {
             child->unk_20 = flags | 1;
             arg2->unk_08 = D_80530100[arg0->unk_54.s + 6];
         }
         return;
+
+    default:
+        return;
+    }
 }

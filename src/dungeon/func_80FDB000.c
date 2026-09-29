@@ -149,57 +149,50 @@ void *BODY_NAME(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     saved_variant = variant;
     created = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     original_flags = flags;
-    if (created == 0) {
-        goto done;
-    }
+    if (created != 0) {
+        result = (u8 *)created + 0x20;
+        ((S_80FDB000_0 *)created)->unk_10 = D_80170A7C;
+        ((S_80FDB000_1 *)result)->unk_13 = 0x28;
+        func_8004491C(created, func_80045340);
 
-    result = (u8 *)created + 0x20;
-    ((S_80FDB000_0 *)created)->unk_10 = D_80170A7C;
-    ((S_80FDB000_1 *)result)->unk_13 = 0x28;
-    func_8004491C(created, func_80045340);
+        position = ((S_80FDB000_0 *)created)->unk_08;
+        ((S_80FDB000_2 *)position)->unk_0A = saved_spawn;
+        part_b = ((S_80FDB000_0 *)created)->unk_0C;
+        kind = flags & 3;
+        part_b->unk_25 = saved_variant;
+        actor = result;
+        part_b->unk_2C = D_80174038;
+        part_b->unk_24 = saved_kind_id;
 
-    position = ((S_80FDB000_0 *)created)->unk_08;
-    ((S_80FDB000_2 *)position)->unk_0A = saved_spawn;
-    part_b = ((S_80FDB000_0 *)created)->unk_0C;
-    kind = flags & 3;
-    part_b->unk_25 = saved_variant;
-    actor = result;
-    part_b->unk_2C = D_80174038;
-    part_b->unk_24 = saved_kind_id;
-
-    if (kind == 1) {
-        ((S_80FDB000_1 *)result)->unk_14 |= 0x6000;
-        ((S_80FDB000_1 *)result)->unk_1C |= 0x6000;
-        goto setup;
-    }
-    if (kind >= 2) {
-        ((S_80FDB000_1 *)result)->unk_14 |= 0x2000;
-        ((S_80FDB000_1 *)result)->unk_1C |= 0x2000;
-        goto setup;
-    }
-
-    call_a0 = created;
-    if (((flags & ~3) << 16) == 0) {
-        if (!(((S_80FDB000_1 *)result)->unk_14 & 0x200)) {
-            call_a1 = position;
-            if (func_800A6D30() & 1) {
-                ((S_80FDB000_1 *)result)->unk_1C |= 0x200;
-                func_800A48F0(result, 1,
-                    (func_800A6D30() & 0x3F) | 0x20);
-                part_b->unk_2C = D_80174088;
+        if (kind == 1) {
+            ((S_80FDB000_1 *)result)->unk_14 |= 0x6000;
+            ((S_80FDB000_1 *)result)->unk_1C |= 0x6000;
+        } else if (kind >= 2) {
+            ((S_80FDB000_1 *)result)->unk_14 |= 0x2000;
+            ((S_80FDB000_1 *)result)->unk_1C |= 0x2000;
+        } else {
+            call_a0 = created;
+            if (((flags & ~3) << 16) == 0) {
+                if (!(((S_80FDB000_1 *)result)->unk_14 & 0x200)) {
+                    call_a1 = position;
+                    if (func_800A6D30() & 1) {
+                        ((S_80FDB000_1 *)result)->unk_1C |= 0x200;
+                        func_800A48F0(result, 1,
+                            (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = D_80174088;
+                    }
+                }
             }
         }
+
+        func_800A9C18(created, position, part_b,
+            (s16)original_flags);
+        actor->unk_9A = 0xFF;
+        actor->unk_9C = -1;
+        actor->unk_8C = D_80170EA8;
+        func_800AA36C(actor, position,
+            part_b, result);
     }
 
-setup:
-    func_800A9C18(created, position, part_b,
-        (s16)original_flags);
-    actor->unk_9A = 0xFF;
-    actor->unk_9C = -1;
-    actor->unk_8C = D_80170EA8;
-    func_800AA36C(actor, position,
-        part_b, result);
-
-done:
     return result;
 }

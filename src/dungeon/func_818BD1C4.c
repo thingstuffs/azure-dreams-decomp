@@ -69,41 +69,23 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
         state->unk_08 = 0;
         visual = ((S_818BD1C4_0 *)object)->unk_0C;
         color_channel = color_index % 3;
-        if (color_channel == 1) {
-            goto case_1;
+        switch (color_channel) {
+        case 0:
+            visual->unk_0C = 0x80;
+            visual->unk_0E = 0;
+            visual->unk_0D = 0;
+            break;
+        case 1:
+            visual->unk_0D = 0x80;
+            visual->unk_0E = 0;
+            visual->unk_0C = 0;
+            break;
+        case 2:
+            visual->unk_0E = 0x80;
+            visual->unk_0D = 0;
+            visual->unk_0C = 0;
+            break;
         }
-        if (color_channel >= 2) {
-            goto check_2;
-        }
-        if (color_channel == 0) {
-            goto case_0;
-        }
-        goto after_data_ptr;
-
-check_2:
-        if (color_channel == 2) {
-            goto case_2;
-        }
-        goto after_data_ptr;
-
-case_0:
-        visual->unk_0C = 0x80;
-        visual->unk_0E = 0;
-        visual->unk_0D = 0;
-        goto config_data;
-
-case_1:
-        visual->unk_0D = 0x80;
-        visual->unk_0E = 0;
-        goto zero_red;
-
-case_2:
-        visual->unk_0E = 0x80;
-        visual->unk_0D = 0;
-zero_red:
-        visual->unk_0C = 0;
-config_data:
-after_data_ptr:
         data_ptr = visual;
         visual->unk_12 = 0x7DCF;
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
@@ -129,5 +111,4 @@ after_data_ptr:
         return object_result;
     }
     return 0;
-    return object_result;
 }

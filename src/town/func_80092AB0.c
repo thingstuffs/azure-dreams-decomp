@@ -59,8 +59,7 @@ void func_80090210(void) {
                 D_80080A80 = mode_result;
                 update_state->unk_028 = mode_result;
             }
-            goto sync_mode_flag;
-        }
+        } else {
         ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_26 = 1;
         enabled_flag = func_80033B2C(0x1202);
         if (enabled_flag != func_80033B2C(0x9D)) {
@@ -69,7 +68,7 @@ void func_80090210(void) {
             D_80080A80 = mode_result;
             update_state->unk_028 = mode_result;
         }
-sync_mode_flag:
+        }
         if (func_80033B2C(0x1202) != 0) {
             func_80033AA8(0x9D);
         } else {

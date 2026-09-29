@@ -107,13 +107,7 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             ((S_80170894_0 *)work)->unk_14 = left_one;
             ((S_80170894_0 *)work)->unk_1C = right_one;
             ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
-            goto callback_done;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        {
+        } else if (kind >= 2) {
             s32 left_many;
             s32 right_many;
 
@@ -122,12 +116,8 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
             right_many = ((S_80170894_0 *)work)->unk_1C | 0x2000;
             ((S_80170894_0 *)work)->unk_14 = left_many;
             ((S_80170894_0 *)work)->unk_1C = right_many;
-        }
-        ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
-        goto callback_done;
-
-normal_kind:
-        {
+            ((S_80170894_3 *)part_b)->unk_2C = func_80174ED8;
+        } else {
             s32 test;
             u8 *callback_page;
 

@@ -110,143 +110,123 @@ void func_8017474C(void *effect, void *out_position, void *out_render)
 
     height_scale = 0x1000;
     target_scale = height_scale;
-    if (((S_8017474C_0 *)effect)->unk_1E != 0) {
-        goto active;
-    }
+    if (((S_8017474C_0 *)effect)->unk_1E == 0) {
+        if (*((S_8017474C_0 *)effect)->unk_08 & 1) {
+            target_scale = 0x1400;
+        }
 
-    if (*((S_8017474C_0 *)effect)->unk_08 & 1) {
-        target_scale = 0x1400;
-    }
+        owner_base = ((S_8017474C_0 *)effect)->unk_0C;
+        owner = (u8 *)owner_base + 0x20;
+        if ((((S_8017474C_1 *)owner)->unk_1C & 0x00800000) ||
+            (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) ||
+            (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) ||
+            ((func_80042900(owner, 0xA) << 16) != 0)) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
 
-    owner_base = ((S_8017474C_0 *)effect)->unk_0C;
-    owner = (u8 *)owner_base + 0x20;
-    if (((S_8017474C_1 *)owner)->unk_1C & 0x00800000) {
-        goto failure;
-    }
-    if (((S_8017474C_2 *)owner_base)->unk_1E & 0x8000) {
-        goto failure;
-    }
-    if (((S_8017474C_1 *)owner)->unk_8C == (void *)D_8017398C) {
-        goto failure;
-    }
-    if ((func_80042900(owner, 0xA) << 16) != 0) {
-        goto failure;
-    }
+        if (((S_8017474C_1 *)owner)->unk_87 != -1) {
+            void *sample_position = ((S_8017474C_0 *)effect)->unk_18;
 
-    if (((S_8017474C_1 *)owner)->unk_87 != -1) {
-        void *sample_position = ((S_8017474C_0 *)effect)->unk_18;
+            sampled_height = func_800BCB04(((S_8017474C_3 *)sample_position)->unk_02,
+                                ((S_8017474C_3 *)sample_position)->unk_06,
+                                (s16)(((S_8017474C_3 *)sample_position)->unk_0A - 4));
+        } else {
+            sampled_height = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_0A;
+        }
 
-        sampled_height = func_800BCB04(((S_8017474C_3 *)sample_position)->unk_02,
-                            ((S_8017474C_3 *)sample_position)->unk_06,
-                            (s16)(((S_8017474C_3 *)sample_position)->unk_0A - 4));
-    } else {
-        sampled_height = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_0A;
-    }
+        source_position = ((S_8017474C_0 *)effect)->unk_18;
+        height_scale = height_scale - ((sampled_height - ((S_8017474C_4 *)source_position)->unk_0A) << 6);
+        if (height_scale < 0) {
+            height_scale = 0;
+        }
+        if (height_scale >= 0x1801) {
+            height_scale = 0;
+        }
 
-    source_position = ((S_8017474C_0 *)effect)->unk_18;
-    height_scale = height_scale - ((sampled_height - ((S_8017474C_4 *)source_position)->unk_0A) << 6);
-    if (height_scale < 0) {
-        height_scale = 0;
-    }
-    if (height_scale >= 0x1801) {
-        height_scale = 0;
-    }
+        if (height_scale >= 0xF81) {
+            ((S_8017474C_5 *)out_position)->unk_02 = ((S_8017474C_4 *)source_position)->unk_02;
+            ((S_8017474C_5 *)out_position)->unk_06 = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
+            ((S_8017474C_5 *)out_position)->unk_0A = sampled_height;
 
-    if (height_scale >= 0xF81) {
-        ((S_8017474C_5 *)out_position)->unk_02 = ((S_8017474C_4 *)source_position)->unk_02;
-        ((S_8017474C_5 *)out_position)->unk_06 = ((S_8017474C_7 *)(((S_8017474C_0 *)effect)->unk_18))->unk_06;
-        ((S_8017474C_5 *)out_position)->unk_0A = sampled_height;
-
-        scale_cap = target_scale;
-        if (scale_cap == 0x1000) {
-            scale_value = ((S_8017474C_0 *)effect)->unk_1C.s;
-            if (((S_8017474C_0 *)effect)->unk_1C.u >= 0x1001) {
-                next_scale = scale_value - 0x400;
-                ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
-                if (next_scale < 0x1000) {
-                    ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+            scale_cap = target_scale;
+            if (scale_cap == 0x1000) {
+                scale_value = ((S_8017474C_0 *)effect)->unk_1C.s;
+                if (((S_8017474C_0 *)effect)->unk_1C.u >= 0x1001) {
+                    next_scale = scale_value - 0x400;
+                    ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+                    if (next_scale < 0x1000) {
+                        ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+                    }
+                } else {
+                    next_scale = scale_value + 0x400;
+                    ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
+                    if (next_scale >= 0x1001) {
+                        ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+                    }
                 }
             } else {
-                next_scale = scale_value + 0x400;
+                next_scale = ((S_8017474C_0 *)effect)->unk_1C.s + 0x800;
                 ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
-                if (next_scale >= 0x1001) {
-                    ((S_8017474C_0 *)effect)->unk_1C.u = scale_cap;
+                if (scale_cap < next_scale) {
+                    ((S_8017474C_0 *)effect)->unk_1C.u = target_scale;
                 }
             }
         } else {
-            next_scale = ((S_8017474C_0 *)effect)->unk_1C.s + 0x800;
+            next_scale = ((S_8017474C_0 *)effect)->unk_1C.s - 0x400;
             ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
-            if (scale_cap < next_scale) {
-                ((S_8017474C_0 *)effect)->unk_1C.u = target_scale;
+            if (next_scale < 0) {
+                ((S_8017474C_0 *)effect)->unk_1C.u = 0;
             }
         }
-    } else {
-        next_scale = ((S_8017474C_0 *)effect)->unk_1C.s - 0x400;
-        ((S_8017474C_0 *)effect)->unk_1C.u = next_scale;
-        if (next_scale < 0) {
+
+        ((S_8017474C_6 *)out_render)->unk_12 = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_12;
+        ((S_8017474C_6 *)out_render)->unk_0C = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_0C;
+        ((S_8017474C_6 *)out_render)->unk_1C = ((S_8017474C_0 *)effect)->unk_1C.s +
+            (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
+        ((S_8017474C_6 *)out_render)->unk_1E = ((S_8017474C_0 *)effect)->unk_1C.s +
+            (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
+
+        effect_kind = *((S_8017474C_0 *)effect)->unk_04;
+        if (effect_kind == 0xF) {
+            ((S_8017474C_0 *)effect)->unk_22 =
+                (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_24 =
+                (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_26 =
+                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_28 =
+                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2A =
+                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2C =
+                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2E =
+                (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+            ((S_8017474C_0 *)effect)->unk_30 =
+                (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
+        } else if (effect_kind == 0) {
             ((S_8017474C_0 *)effect)->unk_1C.u = 0;
+        } else {
+            ((S_8017474C_0 *)effect)->unk_30 = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2E = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2C = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_2A = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_28 = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_26 = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_24 = 0x1000;
+            ((S_8017474C_0 *)effect)->unk_22 = 0x1000;
         }
+    } else {
+        scale_value = ((S_8017474C_6 *)out_render)->unk_1C + 0x100;
+        ((S_8017474C_6 *)out_render)->unk_1C = scale_value;
+        if (scale_value > 0x2000U) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+        ((S_8017474C_6 *)out_render)->unk_1E += 0x100;
     }
-
-    ((S_8017474C_6 *)out_render)->unk_12 = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_12;
-    ((S_8017474C_6 *)out_render)->unk_0C = ((S_8017474C_8 *)(((S_8017474C_0 *)effect)->unk_14))->unk_0C;
-    ((S_8017474C_6 *)out_render)->unk_1C = ((S_8017474C_0 *)effect)->unk_1C.s +
-        (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
-    ((S_8017474C_6 *)out_render)->unk_1E = ((S_8017474C_0 *)effect)->unk_1C.s +
-        (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 4);
-
-    effect_kind = *((S_8017474C_0 *)effect)->unk_04;
-    if (effect_kind == 0xF) {
-        ((S_8017474C_0 *)effect)->unk_22 =
-            (func_80064584(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_24 =
-            (func_800644B8(((S_8017474C_0 *)effect)->unk_20.s << 8) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_26 =
-            (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_28 =
-            (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x200) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_2A =
-            (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_2C =
-            (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x400) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_2E =
-            (func_80064584((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
-        ((S_8017474C_0 *)effect)->unk_30 =
-            (func_800644B8((((S_8017474C_0 *)effect)->unk_20.s << 8) + 0x600) >> 3) + 0x1000;
-        goto increment;
-    }
-    if (effect_kind == 0) {
-        ((S_8017474C_0 *)effect)->unk_1C.u = 0;
-        goto increment;
-    }
-
-    ((S_8017474C_0 *)effect)->unk_30 = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_2E = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_2C = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_2A = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_28 = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_26 = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_24 = 0x1000;
-    ((S_8017474C_0 *)effect)->unk_22 = 0x1000;
-    goto increment;
-
-active:
-    scale_value = ((S_8017474C_6 *)out_render)->unk_1C + 0x100;
-    ((S_8017474C_6 *)out_render)->unk_1C = scale_value;
-    if (scale_value < 0x2001U) {
-        goto active_continue;
-    }
-
-failure:
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
-
-active_continue:
-    ((S_8017474C_6 *)out_render)->unk_1E += 0x100;
-
-increment:
     ((S_8017474C_0 *)effect)->unk_20.u++;
-
-    return;
 }

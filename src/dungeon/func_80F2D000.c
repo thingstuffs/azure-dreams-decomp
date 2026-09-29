@@ -99,9 +99,7 @@ BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c
     work = NULL;
     variant = 1;
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    if (object == NULL) {
-        goto done;
-    } else {
+    if (object != NULL) {
         work = object + 0x20;
         ((S_80F2D000_0 *)object)->unk_10 = &D_8014CA8C;
         work->unk_13 = 0x23;
@@ -121,16 +119,13 @@ BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c
             work->unk_14 = (s32) (work->unk_14 | 0x2000);
             work->unk_1C = (s32) (work->unk_1C | 0x2000);
         } else if (((spawn_flags & ~3) << 0x10) == 0) {
-            if (work->unk_14 & 0x200) {
-                goto status_done;
+            if (!(work->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    work->unk_1C = (s32) (work->unk_1C | 0x200);
+                    func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = &D_8014FD78;
+                }
             }
-            if (!(func_800A6D30() & 1)) {
-                goto status_done;
-            }
-            work->unk_1C = (s32) (work->unk_1C | 0x200);
-            func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = &D_8014FD78;
-        status_done:
             variant = func_800A6D30() & 3;
         }
         func_800A9C18(object, part_a, part_b, spawn_flags);
@@ -150,8 +145,6 @@ BODY_STORAGE void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c
             func_800BC318(obj_alt);
         }
         func_800AA36C(work_copy, part_a, part_b, work);
-        goto done;
     }
-done:
     return work;
 }

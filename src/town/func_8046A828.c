@@ -36,7 +36,6 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
     s32 status;
     void *context;
     S_8001B828_1 *state;
-    void *response;
 
     if (mode == 0) {
         func_8001E5F0(0x402);
@@ -66,12 +65,7 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
         return D_80017774;
     }
     if (mode == 4) {
-        goto mode_4;
+        return &D_8001601C;
     }
-    response = func_8001B6F8(request, data);
-    goto done;
-mode_4:
-    response = &D_8001601C;
-done:
-    return response;
+    return func_8001B6F8(request, data);
 }

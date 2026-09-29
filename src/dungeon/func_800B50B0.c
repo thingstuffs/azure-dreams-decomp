@@ -80,20 +80,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
         func_800403BC(&D_800BA6B8);
         return;
     }
-    if (D_800DF374 == entity) {
-        if (D_800DF37A == (s16) entity->angle2a) {
-            tile_list = &D_800BA6B8;
-            if (D_800DF378 != (selection & 0xFFFF)) {
-                goto prepare_update;
-            }
-        } else {
-            tile_list = &D_800BA6B8;
-            goto update_tiles;
-        }
-    } else {
-prepare_update:
-        tile_list = &D_800BA6B8;
-update_tiles:
+    tile_list = &D_800BA6B8;
+    if (D_800DF374 != entity || D_800DF37A != (s16) entity->angle2a || D_800DF378 != (selection & 0xFFFF)) {
         angle = entity->angle2a;
         D_800DF374 = entity;
         D_800DF378 = selection;

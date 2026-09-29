@@ -115,30 +115,26 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
         if (kind_or_bits == 1) {
             flags_14 = actor_state->unk_14 | 0x6000;
             flags_1c = actor_state->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind_or_bits < 2) {
-            goto normal_path;
-        }
-        flags_14 = actor_state->unk_14 | 0x2000;
-        flags_1c = actor_state->unk_1C | 0x2000;
-write_kind:
-        actor_state->unk_14 = flags_14;
-        actor_state->unk_1C = flags_1c;
-        goto common_path;
-normal_path:
-        if (((spawn_flags & ~3) << 0x10) == 0) {
-            query_object = object;
-            if (!(actor_state->unk_14 & 0x200)) {
-                query_attributes = attributes;
-                kind_or_bits = func_800A6D30();
-                if (kind_or_bits & 1) {
-                    func_800A48F0(actor_state, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    placement->unk_2C = &D_8016225C;
+            actor_state->unk_14 = flags_14;
+            actor_state->unk_1C = flags_1c;
+        } else if (kind_or_bits >= 2) {
+            flags_14 = actor_state->unk_14 | 0x2000;
+            flags_1c = actor_state->unk_1C | 0x2000;
+            actor_state->unk_14 = flags_14;
+            actor_state->unk_1C = flags_1c;
+        } else {
+            if (((spawn_flags & ~3) << 0x10) == 0) {
+                query_object = object;
+                if (!(actor_state->unk_14 & 0x200)) {
+                    query_attributes = attributes;
+                    kind_or_bits = func_800A6D30();
+                    if (kind_or_bits & 1) {
+                        func_800A48F0(actor_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        placement->unk_2C = &D_8016225C;
+                    }
                 }
             }
         }
-common_path:
         func_800A9C18(object, attributes, placement, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

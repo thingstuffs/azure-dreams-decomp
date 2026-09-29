@@ -191,12 +191,11 @@ void func_80088BD0(void) {
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = -0x15;
                 ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0x160000;
                 func_8003DB94(sprite, &D_8008B270, 0);
-                goto common_tail;
+            } else {
+                ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = 0x155;
+                ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0xFFEA0000;
+                func_8003DB94(sprite, &D_8008B230, 0);
             }
-            ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_02 = 0x155;
-            ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_0C = 0xFFEA0000;
-            func_8003DB94(sprite, &D_8008B230, 0);
-common_tail:
             ((S_80088BD0_9 *)(((S_80088BD0_0 *)object)->unk_08))->unk_10 = 0xFFF80000;
             sprite->unk_1E = 0x1000;
             sprite->unk_1C = 0x1000;

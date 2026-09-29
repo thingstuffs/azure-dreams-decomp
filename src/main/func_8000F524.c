@@ -28,7 +28,7 @@ void func_80022524(S_80022524_0 *menu)
     s32 repeat_delay;
     s32 right_pressed;
     s32 next_delay;
-    volatile s32 *input;
+    s32 *input;
 
     input = ((s32 *)(&gameWork));
     direction = 0;
@@ -46,9 +46,7 @@ void func_80022524(S_80022524_0 *menu)
         if (exit_status != 0) {
             *exit_status = 1;
         }
-        goto common;
-    }
-    if (pressed_buttons & 0x40) {
+    } else if (pressed_buttons & 0x40) {
         s32 *exit_status;
         s32 *updated_status;
         s32 exit_result;
@@ -59,49 +57,33 @@ void func_80022524(S_80022524_0 *menu)
             exit_result = func_800231E4(1);
             updated_status = menu->unk_20;
             *updated_status = exit_result;
-            goto common;
+        } else {
+            func_800231E4(1);
         }
-        func_800231E4(1);
-        goto common;
-    }
-    if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
+    } else if ((held_buttons & 0xA000) != 0 && (pressed_buttons & 0xA000) != 0) {
         menu->unk_10 = 0;
         pressed_buttons = input[4];
         if (pressed_buttons & 0x8000) {
-            goto negative_tail;
+            direction = -1;
+        } else {
+            if (pressed_buttons & 0x2000) {
+                direction = 1;
+            }
         }
-        right_pressed = pressed_buttons & 0x2000;
-        goto side_check;
-    }
-    if (held_buttons & 0xA000) {
+    } else if (held_buttons & 0xA000) {
         repeat_delay = menu->unk_10;
-        if (repeat_delay < 3) {
+        if (repeat_delay >= 3) {
+            if (held_buttons & 0x8000) {
+                direction = -1;
+            } else if (held_buttons & 0x2000) {
+                direction = 1;
+            }
+        } else {
             next_delay = repeat_delay + 1;
-            goto store_counter;
+            menu->unk_10 = next_delay;
         }
-        if (held_buttons & 0x8000) {
-            goto negative_tail;
-        }
-        right_pressed = held_buttons & 0x2000;
-        goto side_check;
     }
-    goto common;
 
-negative_tail:
-    direction = -1;
-    goto common;
-
-side_check:
-    if (right_pressed == 0) {
-        goto common;
-    }
-    direction = 1;
-    goto common;
-
-store_counter:
-    menu->unk_10 = next_delay;
-
-common:
     if (direction != 0) {
         s32 new_selection;
 

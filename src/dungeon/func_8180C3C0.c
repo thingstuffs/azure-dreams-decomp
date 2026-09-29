@@ -465,9 +465,12 @@ start_sequence:
             return;
         }
         {
+            s32 work = (s32)&gameWork;
+            s32 step_x = (s32)dirStepX;
+            s32 step_y = (s32)dirStepY;
             register s32 message_id ASM_REG("$22") = func_800990FC();
             s32 text = func_8009929C(8, message_id);
-            s32 saved_text;
+            u32 saved_text;
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, text);
             text = func_80099194(D_80025000, text);
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, text);
@@ -491,19 +494,15 @@ animate_objects:
                         func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_index, object == other);
                         if (object == ((S_800253C0_4 *)object_slot)->unk_AC) {
-                            register u8 *table_base ASM_REG("$12") = ((u8 *)(&gameWork));
                             s32 angle;
                             s32 index;
                             s32 x;
                             s32 y;
-                            ASM_USE_NV(table_base);
-                            angle = ((S_800253C0_15 *)table_base)->unk_C8;
+                            angle = ((S_800253C0_15 *)work)->unk_C8;
                             angle = -angle;
                             index = ((angle + 0x500) >> 8) & 0xE;
-                            table_base = (u8 *)((s8 *)dirStepX);
-                            x = ((S_800253C0_8 *)actor)->unk_24 + *(s16 *)(table_base + index);
-                            table_base = (u8 *)((s8 *)dirStepY);
-                            y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(table_base + index);
+                            x = ((S_800253C0_8 *)actor)->unk_24 + *(s16 *)(index + step_x);
+                            y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)(index + step_y);
                             func_80027070((s16)((x << 6) + 0x20),
                                 (s16)((y << 6) + 0x20),
                                 ((S_800253C0_1 *)owner)->unk_88, slot_index, object);
@@ -545,7 +544,6 @@ animate_objects:
             }
             saved_text = func_8009929C(10, saved_text);
             saved_text = func_80099194(D_80025028, saved_text);
-            ASM_KEEP(saved_text);
             next_state = ((S_800253C0_0 *)sequence)->unk_9B.n;
             ((S_800253C0_0 *)sequence)->unk_96.n = 32;
             next_state = next_state + 2;
@@ -732,13 +730,16 @@ show_result:
                     coord_delta = coord_delta - next_state;
                     ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u +
                         coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
-                    coord_delta = (s32)((S_800253C0_17 *)child)->unk_25;
-                    ASM_SCHED_BARRIER();
-                    coord_delta = coord_delta << 6;
-                    next_state = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
-                    coord_delta = coord_delta - next_state;
-                    ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
-                        coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    {
+                        s32 y;
+                        s32 old_y;
+                        y = (s32)((S_800253C0_17 *)child)->unk_25;
+                        y = y << 6;
+                        old_y = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+                        y = y - old_y;
+                        ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
+                            y / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    }
                     {
                         s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
                         s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;

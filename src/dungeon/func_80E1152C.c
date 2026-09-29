@@ -52,82 +52,59 @@ extern void func_801762A4(s32, D3 *);
 
 /* Advances a timed actor state sequence and updates its sprite direction. */
 void func_80174D2C(D0 *action, void *context, D2 *sprite, D3 *actor) {
-    s32 action_state;
     u16 sprite_flags;
     u16 ticks_left;
 
-    action_state = action->state;
-    if (action_state == 1) {
-        goto state_1;
-    }
-    if (action_state < 2) {
-        if (action_state == 0) {
-            goto state_0;
-        }
-    } else if (action_state == 2) {
-        goto state_2;
-    }
-    goto common;
-
-state_0:
-    sprite_flags = sprite->flags;
-    if (sprite_flags & 0x8000) {
-        sprite->flags = sprite_flags | 0x6000;
-        action->state = 2;
-        return;
-    }
-    if (sprite->kind == 1) {
-        if (sprite_flags & 0x1000) {
-            goto call_75f60;
-        }
-        if ((sprite_flags & 0x6000) == 0) {
-            goto common;
-        }
-    } else {
-        if ((sprite_flags & 0x6000) == 0) {
-            goto common;
-        }
-    }
-
-call_75f60:
-    func_80175F60(action, context, sprite);
-    if (actor->flags & 0x4000) {
-        func_801762A4(1, actor);
-    } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
-        func_801762A4(0, actor);
-    }
-    func_800A56E0(0x80D);
-    action->field_96 = 0x20;
-    action->state = action->state + 1;
-    goto common;
-
-state_1:
-    ticks_left = action->field_96 - 1;
-    action->field_96 = ticks_left;
-    if ((ticks_left << 16) != 0) {
-        if (!(sprite->flags & 0x8000)) {
-            goto common;
-        }
-    }
-    action->field_96 = 4;
-    action->state = action->state + 1;
-    goto common;
-
-state_2:
-    ticks_left = action->field_96 - 1;
-    action->field_96 = ticks_left;
-    if ((ticks_left << 16) != 0) {
-        if (!(sprite->flags & 0xE000)) {
+    switch (action->state) {
+    case 0:
+        sprite_flags = sprite->flags;
+        if (sprite_flags & 0x8000) {
+            sprite->flags = sprite_flags | 0x6000;
+            action->state = 2;
             return;
         }
-    }
-    func_800AD594(actor, 0x400);
-    func_800A2B04(context, sprite->value_24, sprite->value_25);
-    action->field_8C = D_80171094;
-    dungeonStatus.unk_0C = 0;
-    actor->value_46 &= 0x7FFF;
+        if (!(sprite->kind == 1 && (sprite_flags & 0x1000)) && (sprite_flags & 0x6000) == 0) {
+            break;
+        }
+        func_80175F60(action, context, sprite);
+        if (actor->flags & 0x4000) {
+            func_801762A4(1, actor);
+        } else if (((D3Nested *) actor->field_60)->flags & 0x4000) {
+            func_801762A4(0, actor);
+        }
+        func_800A56E0(0x80D);
+        action->field_96 = 0x20;
+        action->state = action->state + 1;
+        break;
 
-common:
+    case 1:
+        ticks_left = action->field_96 - 1;
+        action->field_96 = ticks_left;
+        if ((ticks_left << 16) != 0) {
+            if (!(sprite->flags & 0x8000)) {
+                break;
+            }
+        }
+        action->field_96 = 4;
+        action->state = action->state + 1;
+        break;
+
+    case 2:
+        ticks_left = action->field_96 - 1;
+        action->field_96 = ticks_left;
+        if ((ticks_left << 16) != 0) {
+            if (!(sprite->flags & 0xE000)) {
+                return;
+            }
+        }
+        func_800AD594(actor, 0x400);
+        func_800A2B04(context, sprite->value_24, sprite->value_25);
+        action->field_8C = D_80171094;
+        dungeonStatus.unk_0C = 0;
+        actor->value_46 &= 0x7FFF;
+        break;
+    }
+
     if (sprite->flags & 0xE000) {
         sprite->field_2C = D_80176460;
         func_80047784(sprite, D_80176460[(((gameWork.view.viewAngle + actor->value_2A + 0x100) >> 9) & 7)], 0);

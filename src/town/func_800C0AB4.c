@@ -78,90 +78,66 @@ void func_800BE214(S_800BE214_0 *actor, S_800BE214_2 *pose, Rec_D_80082E80 *anim
     do { } while (0);
     func_800478B8(animation);
     state = actor->unk_68;
-    if ((u32)state >= 0x61) {
-        goto L_default;
-    }
     switch (state) {
-    case 0: goto L_case_0;
-    case 0x20: goto L_case_20;
-    case 0x23: goto L_case_23;
-    case 0x24: goto L_case_24;
-    case 0x25: goto L_case_25;
+    case 0:
+        if ((func_800352FC() != 0) && (func_800C2AB4(actor) != 0)) {
+            animation_index = rand() & 7;
+            actor->unk_68 = animation_index;
+            actor->unk_A4 = (u32)animation_index;
+            func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations + (actor->unk_68 * 4)))->unk_00, 0);
+            actor->unk_68 = (s16)((u16)actor->unk_68 + 0x20);
+        }
+        break;
+    case 0x20:
+        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        func_8003DB94((struct Dst *)animation, (struct Elem *)animations[0], 0);
+        actor->unk_6C = 0;
+        actor->unk_A4 = 0;
+        pose->unk_0A = (u16)actor->unk_A0;
+        actor->unk_68 = 0x60;
+        break;
+    case 0x23:
+        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        actor->unk_6C = 6;
+        actor->unk_A4 = 8;
+        func_8003DB94((struct Dst *)animation, (struct Elem *)animations[8], 0);
+        actor->unk_68 = 0x40;
+        break;
+    case 0x24:
+        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        func_8003DB94((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
+        {
+            StateWord next_state = { 0x20 };
+            actor->unk_68 = next_state.state;
+        }
+        break;
+    case 0x25:
+        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        func_8003DB94((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
+        actor->unk_68 = 0x20;
+        break;
     case 0x21:
     case 0x22:
     case 0x26:
-    case 0x27: goto L_case_212227;
-    case 0x40: goto L_case_40;
-    case 0x60: goto L_case_60;
-    default: goto L_default;
+    case 0x27:
+        if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
+        actor->unk_68 = 0x60;
+        break;
+    case 0x40:
+        pose->unk_0A = (u16)(actor->unk_A0 + (func_80064584((actor->unk_6C << 0xC) / 22) >> 8));
+        elapsed_frames = (u16)actor->unk_6C;
+        actor->unk_6C = (s16)(elapsed_frames + 1);
+        if ((s16)elapsed_frames >= 0xDC) {
+            actor->unk_68 = 0x20;
+        }
+        break;
+    case 0x60:
+        if ((func_800352FC() == 0) || (func_800C2AB4(actor) == 0)) {
+            actor->unk_68 = 0;
+        }
+        break;
     }
 
-L_case_0:
-    if ((func_800352FC() != 0) && (func_800C2AB4(actor) != 0)) {
-        animation_index = rand() & 7;
-        actor->unk_68 = animation_index;
-        actor->unk_A4 = (u32)animation_index;
-        func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_3 *)((s8 *)animations + (actor->unk_68 * 4)))->unk_00, 0);
-        actor->unk_68 = (s16)((u16)actor->unk_68 + 0x20);
-    }
-    goto L_default;
-
-L_case_20:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
-    func_8003DB94((struct Dst *)animation, (struct Elem *)animations[0], 0);
-    actor->unk_6C = 0;
-    actor->unk_A4 = 0;
-    pose->unk_0A = (u16)actor->unk_A0;
-    goto L_block_16;
-
-L_case_23:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
-    actor->unk_6C = 6;
-    actor->unk_A4 = 8;
-    func_8003DB94((struct Dst *)animation, (struct Elem *)animations[8], 0);
-    actor->unk_68 = 0x40;
-    goto L_default;
-
-L_case_24:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
-    func_8003DB94((struct Dst *)animation, (struct Elem *)&D_800F9D80, 0);
-    {
-        StateWord next_state = { 0x20 };
-        actor->unk_68 = next_state.state;
-    }
-    goto L_default;
-
-L_case_25:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
-    func_8003DB94((struct Dst *)animation, (struct Elem *)D_800F9D80, 0);
-    goto L_block_19;
-
-L_case_212227:
-    if (!(animation->unk_14.at00_u16.v & 0x6000)) return;
-    goto L_block_16;
-
-L_block_16:
-    actor->unk_68 = 0x60;
-    goto L_default;
-
-L_case_40:
-    pose->unk_0A = (u16)(actor->unk_A0 + (func_80064584((actor->unk_6C << 0xC) / 22) >> 8));
-    elapsed_frames = (u16)actor->unk_6C;
-    actor->unk_6C = (s16)(elapsed_frames + 1);
-    if ((s16)elapsed_frames >= 0xDC) goto L_block_19;
-    goto L_default;
-
-L_block_19:
-    actor->unk_68 = 0x20;
-    goto L_default;
-
-L_case_60:
-    if ((func_800352FC() == 0) || (func_800C2AB4(actor) == 0)) {
-        actor->unk_68 = 0;
-    }
-    goto L_default;
-
-L_default:
     if (animation->unk_14.at00_u16.v & 0x6000) {
         func_8003DB94((struct Dst *)animation, (struct Elem *)((S_800BE214_4 *)((s8 *)animations + (actor->unk_A4 * 4)))->unk_00, 0);
     }

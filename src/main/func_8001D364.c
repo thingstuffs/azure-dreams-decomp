@@ -58,14 +58,12 @@ void func_80404364(s32 init_value, s32 slot_index)
             func_8007BEF0(1);
         }
         func_80040560(record, D_8040861C);
-        goto initialize_body;
+    } else {
+        func_80404570(record);
+        ((S_80404364_0 *)record)->unk_1E &= 0x7FFF;
+        func_8007BFE0(body, 0x340);
     }
 
-    func_80404570(record);
-    ((S_80404364_0 *)record)->unk_1E &= 0x7FFF;
-    func_8007BFE0(body, 0x340);
-
-initialize_body:
     func_80404254(body, 10);
     ((S_80404364_0 *)record)->unk_0C = body + 0x1C8;
     ((S_80404364_1 *)body)->unk_1D4 = func_8040422C(body + 0x1D8);
@@ -74,19 +72,13 @@ initialize_body:
         typedef void (*Callback)(void);
         u8 *callback_record;
         Callback callback;
-        Callback default_callback;
-
-        default_callback = func_80404224;
 
         if (init_value != 0) {
             callback_record = record + (init_value - init_value);
-        } else {
-            callback_record = record + init_value;
-        }
-        if (init_value != 0) {
             callback = func_80404224;
         } else {
-            callback = default_callback;
+            callback_record = record + init_value;
+            callback = func_80404224;
         }
         (*(Callback *)((u8 *)callback_record + 0x10)) = callback;
     }

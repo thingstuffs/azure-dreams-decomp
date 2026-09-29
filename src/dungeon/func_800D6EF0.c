@@ -34,17 +34,14 @@ void func_800DC650(u8 *object_data) {
         if (delta >= -0x80) {
             goto set_target;
         }
-        goto compare;
     } else {
         current += 0x80;
-        if (delta >= 0x81) {
-            goto compare;
+        if (delta < 0x81) {
+set_target:
+            current = target;
         }
     }
 
-set_target:
-    current = target;
-compare:
     if (current != target) {
         *(s32 *)(object_data + 0x58) = 1;
         handle = *(void **)(object_data + 0x3C);

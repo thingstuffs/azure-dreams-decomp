@@ -55,44 +55,40 @@ s32 func_800CCC20(void *object, s16 slot)
             count++;
             *(u16 *)(item + 0x14) = field;
             *countp = count;
-            goto update_item;
-        }
-        goto return_one;
-    }
-
-    if (D_800E3D40 != 0) {
-        value = 0;
-    } else {
-        random = func_800A6D30() & 0xFFFF;
-        if (*((u8 *)object + 3) != 0) {
-            value = random % *((u8 *)object + 3);
         } else {
-            value = 0;
+            return 1;
         }
+    } else {
+        if (D_800E3D40 != 0) {
+            value = 0;
+        } else {
+            random = func_800A6D30() & 0xFFFF;
+            if (*((u8 *)object + 3) != 0) {
+                value = random % *((u8 *)object + 3);
+            } else {
+                value = 0;
+            }
+        }
+
+        if (value >= 0x40) {
+            func_800A6508();
+            value = 1;
+            return value;
+        }
+
+        D_800DCF78 = 0x00202080;
+        stack_args[0] = 0x01000340;
+        stack_args[1] = 0x00200020;
+        func_800B835C((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
+        D_800E5908 = 0;
     }
 
-    if (value >= 0x40) {
-        func_800A6508();
-        value = 1;
-        return value;
-    }
-
-    D_800DCF78 = 0x00202080;
-    stack_args[0] = 0x01000340;
-    stack_args[1] = 0x00200020;
-    func_800B835C((u8 *)&D_800DCF78 - 0x10, stack_args, 1, 0);
-    D_800E5908 = 0;
-
-update_item:
     tail_base = D_800E39C8;
     tail_index = slot;
     item_2 = tail_base + tail_index * 24;
     func_800CCA14(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
     func_800A56E0(0x817);
-
-return_one:
-    value = 1;
-    return value;
+    return 1;
 }
 
 /* MECHANISM: Recover true-space joins locally and model the call workspace as an

@@ -27,17 +27,15 @@ void func_80055D84(s16 entry_id) {
         index_or_error = 0x01010000;
         goto report_error;
     }
-    if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) != -1) {
-        goto activate_entry;
-    }
-    do {
-        func_80055C50(index_or_error);
-    } while (0);
-    index_or_error = 0x01020000;
+    if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) == -1) {
+        do {
+            func_80055C50(index_or_error);
+        } while (0);
+        index_or_error = 0x01020000;
 report_error:
-    func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
-    return;
-activate_entry:
-    func_8005AC30(1);
-    D_800847D0.avail |= (0x10000 << entry_index);
+        func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
+    } else {
+        func_8005AC30(1);
+        D_800847D0.avail |= (0x10000 << entry_index);
+    }
 }

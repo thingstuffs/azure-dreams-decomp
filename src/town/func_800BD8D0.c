@@ -41,76 +41,59 @@ void func_800BB030(void *entity, void *context) {
     phase_ticks = ((S_800BB030_0 *)entity)->unk_6C.s + 1;
     phase = ((S_800BB030_0 *)entity)->unk_68.s;
     ((S_800BB030_0 *)entity)->unk_6C.s = phase_ticks;
-    if (phase == 1) {
-        goto state_1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto state_0;
+    switch (phase) {
+    case 0:
+        quarter_ticks = (s16)phase_ticks / 4;
+        ((S_800BB030_0 *)entity)->unk_66 = quarter_ticks * 3;
+        intensity = (s16)((S_800BB030_0 *)entity)->unk_6C.s / 2;
+        ((S_800BB030_0 *)entity)->unk_97 = intensity;
+        if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
+            break;
         }
-        return;
-    }
-    if (phase == 2) {
-        goto state_2;
-    }
-    if (phase == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0:
-    quarter_ticks = (s16)phase_ticks / 4;
-    ((S_800BB030_0 *)entity)->unk_66 = quarter_ticks * 3;
-    intensity = (s16)((S_800BB030_0 *)entity)->unk_6C.s / 2;
-    ((S_800BB030_0 *)entity)->unk_97 = intensity;
-    if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        return;
-    }
-    ((S_800BB030_0 *)entity)->unk_6C.s = 0;
-    ((S_800BB030_0 *)entity)->unk_68.u++;
-    return;
-
-state_1: {
-    s32 quarter_ticks;
-
-    quarter_ticks = (s16)phase_ticks / 4;
-    ((S_800BB030_0 *)entity)->unk_66 = 0x30 - quarter_ticks * 3;
-    ((S_800BB030_0 *)entity)->unk_97 = 0x20;
-    if (((S_800BB030_0 *)entity)->unk_6C.u >= 0x40) {
         ((S_800BB030_0 *)entity)->unk_6C.s = 0;
         ((S_800BB030_0 *)entity)->unk_68.u++;
+        break;
+    case 1: {
+        s32 quarter_ticks;
+
+        quarter_ticks = (s16)phase_ticks / 4;
+        ((S_800BB030_0 *)entity)->unk_66 = 0x30 - quarter_ticks * 3;
+        ((S_800BB030_0 *)entity)->unk_97 = 0x20;
+        if (((S_800BB030_0 *)entity)->unk_6C.u >= 0x40) {
+            ((S_800BB030_0 *)entity)->unk_6C.s = 0;
+            ((S_800BB030_0 *)entity)->unk_68.u++;
+        }
+        break;
     }
-    return;
-}
+    case 2: {
+        s32 half_ticks;
 
-state_2: {
-    s32 half_ticks;
-
-    quarter_ticks = (s16)phase_ticks / 4;
-    ((S_800BB030_0 *)entity)->unk_66 = quarter_ticks * 3;
-    half_ticks = (s16)((S_800BB030_0 *)entity)->unk_6C.s / 2;
-    intensity = 0x20 - half_ticks;
-    ((S_800BB030_0 *)entity)->unk_97 = intensity;
-    if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        return;
+        quarter_ticks = (s16)phase_ticks / 4;
+        ((S_800BB030_0 *)entity)->unk_66 = quarter_ticks * 3;
+        half_ticks = (s16)((S_800BB030_0 *)entity)->unk_6C.s / 2;
+        intensity = 0x20 - half_ticks;
+        ((S_800BB030_0 *)entity)->unk_97 = intensity;
+        if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
+            break;
+        }
+        ((S_800BB030_0 *)entity)->unk_6C.s = 0;
+        ((S_800BB030_0 *)entity)->unk_68.u++;
+        break;
     }
-    ((S_800BB030_0 *)entity)->unk_6C.s = 0;
-    ((S_800BB030_0 *)entity)->unk_68.u++;
-    return;
-}
+    case 3: {
+        s32 quarter_ticks;
 
-state_3: {
-    s32 quarter_ticks;
-
-    quarter_ticks = (s16)phase_ticks / 4;
-    ((S_800BB030_0 *)entity)->unk_66 = 0x30 - quarter_ticks * 3;
-    ((S_800BB030_0 *)entity)->unk_97 = 0;
-    if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
-        return;
+        quarter_ticks = (s16)phase_ticks / 4;
+        ((S_800BB030_0 *)entity)->unk_66 = 0x30 - quarter_ticks * 3;
+        ((S_800BB030_0 *)entity)->unk_97 = 0;
+        if (((S_800BB030_0 *)entity)->unk_6C.u < 0x40) {
+            break;
+        }
+        ((S_800BB030_0 *)entity)->unk_6C.s = 0;
+        ((S_800BB030_0 *)entity)->unk_68.s = 0;
+        break;
     }
-    ((S_800BB030_0 *)entity)->unk_6C.s = 0;
-    ((S_800BB030_0 *)entity)->unk_68.s = 0;
-}
-
-    return;
+    default:
+        break;
+    }
 }

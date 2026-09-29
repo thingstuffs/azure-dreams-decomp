@@ -40,21 +40,20 @@ void func_80174BF8(S_80174BF8_0 *action, void *context, Rec_func_800AD058_arg2 *
     u8 state;
 
     state = action->unk_9B;
-    if (state != 0) {
-        if (state != 1) {
-            return;
-        }
-        goto active;
+    switch (state) {
+    case 0:
+        func_800A56E0(0x50C);
+        action->unk_96 = 10;
+        func_80174D48(context, animation, entity);
+        entity->unk_48 = 0;
+        entity->unk_49 = 0;
+        action->unk_9B++;
+    case 1:
+        break;
+    default:
+        return;
     }
 
-    func_800A56E0(0x50C);
-    action->unk_96 = 10;
-    func_80174D48(context, animation, entity);
-    entity->unk_48 = 0;
-    entity->unk_49 = 0;
-    action->unk_9B++;
-
-active:
     if (!(animation->unk_14 & 0x8000)) {
         ticks_left = action->unk_96;
         action->unk_96 = ticks_left - 1;

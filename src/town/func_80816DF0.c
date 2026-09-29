@@ -171,7 +171,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             ((S_80020DF0_2 *)motion)->unk_0C = 0x80000;
             ((S_80020DF0_0 *)object)->unk_68.s = 2;
         }
-        goto cleanup;
+        break;
 
     case 2:
         if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
@@ -182,7 +182,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             ((S_80020DF0_2 *)motion)->unk_10 = 0;
             ((S_80020DF0_0 *)object)->unk_68.s = 3;
         }
-        goto cleanup;
+        break;
 
     case 3:
         if (((S_80020DF0_3 *)sprite)->unk_14 & 0x6000) {
@@ -193,7 +193,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             ((S_80020DF0_2 *)motion)->unk_14 = -0x100000;
             ((S_80020DF0_0 *)object)->unk_68.s = 4;
         }
-        goto cleanup;
+        break;
 
     case 4:
         {
@@ -208,7 +208,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 ((S_80020DF0_0 *)object)->unk_68.s = 5;
             }
         }
-        goto cleanup;
+        break;
 
     case 5:
         if (*music == D_80092698) {
@@ -217,7 +217,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             ((S_80020DF0_0 *)object)->unk_15 = 0;
             ((S_80020DF0_0 *)object)->unk_68.s = 6;
         }
-        goto cleanup;
+        break;
 
     case 6:
         {
@@ -244,7 +244,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 ((S_80020DF0_0 *)object)->unk_68.s = 7;
             }
         }
-        goto cleanup;
+        break;
 
     case 7:
     case 8:
@@ -276,7 +276,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 }
             }
         }
-        goto cleanup;
+        break;
 
     case 10:
         {
@@ -370,7 +370,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 ((S_80020DF0_0 *)object)->unk_68.s = 0xB;
             }
         }
-        goto cleanup;
+        break;
 
     case 11:
         {
@@ -430,7 +430,7 @@ void func_80020DF0(void *object, void *motion, void *sprite)
                 }
             }
         }
-        goto cleanup;
+        break;
 
     case 0xFF:
         {
@@ -476,9 +476,9 @@ void func_80020DF0(void *object, void *motion, void *sprite)
         if ((s16)((S_80020DF0_0 *)object)->unk_6C.s <= 0) {
             ((S_80020DF0_2 *)motion)->unk_10 = 0;
             ((S_80020DF0_2 *)motion)->unk_14 = -0x100000;
-            goto increment_state;
+            ((S_80020DF0_0 *)object)->unk_68.u++;
         }
-        goto cleanup;
+        break;
 
     case 0x101:
     case 0x103:
@@ -490,25 +490,25 @@ void func_80020DF0(void *object, void *motion, void *sprite)
             if (height > 0x1FFFFF) {
                 ((S_80020DF0_2 *)motion)->unk_08.at00.v = 0x200000;
                 ((S_80020DF0_2 *)motion)->unk_14 = 0;
-                goto increment_state;
+                ((S_80020DF0_0 *)object)->unk_68.u++;
             }
         }
-        goto cleanup;
+        break;
 
     case 0x104:
         effect = D_800F2E08;
-        goto effect_increment;
+        ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
+        break;
 
     case 0x105:
         effect = D_800F2E50;
-        goto effect_increment;
+        ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
+        break;
 
     case 0x106:
         effect = D_800F2E98;
-
-effect_increment:
         ((S_80020DF0_0 *)object)->unk_68.s = state_bits + 1;
-        goto cleanup;
+        break;
 
     case 0x107:
         ((S_80020DF0_2 *)motion)->unk_10 = -0x80000;
@@ -517,18 +517,14 @@ effect_increment:
         ((S_80020DF0_3 *)sprite)->unk_14 |= 0xC;
         effect = D_800F2EE0;
         ((S_80020DF0_0 *)object)->unk_68.u++;
-        goto cleanup;
+        break;
 
     case 0x108:
         ((S_80020DF0_3 *)sprite)->unk_0C.s += -0x80808;
         if ((u8)((S_80020DF0_3 *)sprite)->unk_0C.u < 0x11) {
-            goto increment_state;
+            ((S_80020DF0_0 *)object)->unk_68.u++;
         }
-        goto cleanup;
-
-increment_state:
-        ((S_80020DF0_0 *)object)->unk_68.u++;
-        goto cleanup;
+        break;
 
     case 0x109:
         func_8008F134(object);
@@ -537,10 +533,9 @@ increment_state:
         return;
 
     default:
-        goto cleanup;
+        break;
     }
 
-cleanup:
     if (effect != NULL) {
         func_8003DB94(sprite, effect, 0);
     }

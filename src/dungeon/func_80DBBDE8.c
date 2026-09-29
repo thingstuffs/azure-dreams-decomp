@@ -41,72 +41,55 @@ void func_801735E8(void *action_data, S_801735E8_3 *motion, Rec_D_80082E80 *anim
     action = action_data;
 
     phase = action->unk_9B;
-    if (phase == 1) {
-        goto state1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto state0;
+    switch (phase) {
+    case 0:
+        if (animation->unk_14.at00_u16.v & 0x8000) {
+            action->unk_9B = 3U;
+            animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
+            func_8009C12C(actor, animation, actor->facing, 1);
+            return;
         }
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        phase_value = action->unk_9B;
+        action->unk_96 = 0U;
+        action->unk_9B = (u8) (phase_value + 1);
         return;
-    }
-    if (phase == 2) {
-        goto state2;
-    }
-    if (phase == 3) {
-        goto state3;
-    }
-    return;
 
-state0:
-    if (animation->unk_14.at00_u16.v & 0x8000) {
-        action->unk_9B = 3U;
-        animation->unk_14.at00_u16.v = (u16) (animation->unk_14.at00_u16.v | 0x6000);
+    case 1:
+        elapsed_ticks = action->unk_96 + 1;
+        action->unk_96 = elapsed_ticks;
+        if ((s16) elapsed_ticks != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
+        animation->unk_2C.as_pm = &D_801753E4;
+        func_80047784(animation, D_801753E4[(((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        func_800A56E0(0x808);
+        phase_value = action->unk_9B;
+        action->unk_96 = 0U;
+        action->unk_9B = (u8) (phase_value + 1);
+        return;
+
+    case 2:
+        phase_value = action->unk_96 + 1;
+        action->unk_96 = phase_value;
+        if ((s16) phase_value != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
         func_8009C12C(actor, animation, actor->facing, 1);
+        phase_value = action->unk_9B;
+        action->unk_96 = 0U;
+        action->unk_9B = (u8) (phase_value + 1);
         return;
-    }
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    phase_value = action->unk_9B;
-    action->unk_96 = 0U;
-    action->unk_9B = (u8) (phase_value + 1);
-    return;
 
-state1:
-    elapsed_ticks = action->unk_96 + 1;
-    action->unk_96 = elapsed_ticks;
-    if ((s16) elapsed_ticks != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
-        return;
+    case 3:
+        if (animation->unk_14.at00_u16.v & 0xE000) {
+            func_800AD594(actor, 0x100);
+            action->unk_8C = D_80171E20;
+            dungeonStatus.unk_0C = 0;
+            func_800A4ACC(actor);
+            actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
+        }
     }
-    animation->unk_2C.as_pm = &D_801753E4;
-    func_80047784(animation, D_801753E4[(((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
-    func_800A56E0(0x808);
-    phase_value = action->unk_9B;
-    action->unk_96 = 0U;
-    action->unk_9B = (u8) (phase_value + 1);
-    return;
-
-state2:
-    phase_value = action->unk_96 + 1;
-    action->unk_96 = phase_value;
-    if ((s16) phase_value != 4 && !(animation->unk_14.at00_u16.v & 0xE000)) {
-        return;
-    }
-    func_8009C12C(actor, animation, actor->facing, 1);
-    phase_value = action->unk_9B;
-    action->unk_96 = 0U;
-    action->unk_9B = (u8) (phase_value + 1);
-    return;
-
-state3:
-    if (animation->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(actor, 0x100);
-        action->unk_8C = D_80171E20;
-        dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
-        actor->unk_46 = (u16) (actor->unk_46 & 0x7FFF);
-    }
-
-    return;
 }

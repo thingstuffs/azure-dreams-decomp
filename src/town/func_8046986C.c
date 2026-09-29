@@ -54,13 +54,10 @@ loop:
                 if (entry_index == 1) {
                     first_marked = 1;
                 }
-                goto next;
-            }
-            if (selected_index == entry_index) {
+            } else if (selected_index == entry_index) {
                 ((S_8001A86C_0 *)entry)->unk_02 = entry_flag;
             }
         }
-next:
         entry += 0x14;
         entry_index++;
         record++;

@@ -45,44 +45,23 @@ s32 func_81977584(Record *record) {
 
     vertices = (s32 *)0x1F800000;
 
-    if (record->type == 1) {
-        goto type_1_or_2;
-    }
-    if (record->type >= 2) {
-        goto type_ge_2;
-    }
-    if (record->type == 0) {
-        goto type_0;
-    }
-    ASM_KEEP(shade_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    shade_step &= 0xffff;
-    goto shade;
-
-type_ge_2:
-    if (record->type == 2) {
-        goto type_1_or_2;
-    }
-    if (record->type == 3) {
-        goto type_3;
-    }
-    shade_step &= 0xffff;
-    goto shade;
-
-type_0:
+    switch (record->type) {
+    case 0:
     {
         s32 index = record->index;
         s32 index_work;
 
         index_work = (index << 2) + index;
         shade_step = index_work << 18;
-        goto shade;
+        break;
     }
-
-type_1_or_2:
-    shade_step = 0xA0 << 16;
-    goto shade;
-
-type_3:
+    case 1:
+        shade_step = 0xA0 << 16;
+        break;
+    case 2:
+        shade_step = 0xA0 << 16;
+        break;
+    case 3:
     {
         s16 shade_base = record->index;
         s32 index_offset;
@@ -90,6 +69,11 @@ type_3:
         index_offset = (shade_base << 2) + shade_base;
         index_offset <<= 2;
         shade_step = ((s32)(160 - index_offset)) << 16;
+        break;
+    }
+    default:
+        shade_step &= 0xffff;
+        break;
     }
 shade:
     shade_step /= 29;

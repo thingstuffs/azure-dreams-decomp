@@ -145,11 +145,11 @@ void func_80018A70(void) {
     i = 3;
     clearp = D_800E3CD8;
     clearp += 12;
-    loop_0: {
+    do {
         *clearp = 0;
         i--;
         clearp -= 4;
-    } if (i >= 0) goto loop_0;
+    } while (i >= 0);
 
     page1 = (Page8001 *)0x80010000;
     if ((u32)page1->level >= 100U) {
@@ -176,32 +176,30 @@ void func_80018A70(void) {
             func_800C7D54(((volatile TrackRecord *)track)->special - 1);
         }
         ((Page800E *)0x800E0000)->flags &= ~0x20000000;
-        goto final_cleanup;
-    }
-
-    if (page1->mode != 2) {
-        func_800B0544(D_8001F584 % 24 + 3);
-        action = D_8001F594[D_8001F584 % 24];
     } else {
-        s32 random_remainder;
+        if (page1->mode != 2) {
+            func_800B0544(D_8001F584 % 24 + 3);
+            action = D_8001F594[D_8001F584 % 24];
+        } else {
+            s32 random_remainder;
 
-        random_remainder = func_800A6D30() & 0xFFFF;
-        random_remainder %= 24;
-        func_800B0544((s16)(random_remainder + 3));
-        action = D_8001F594[random_remainder];
+            random_remainder = func_800A6D30() & 0xFFFF;
+            random_remainder %= 24;
+            func_800B0544((s16)(random_remainder + 3));
+            action = D_8001F594[random_remainder];
+        }
+
+        file_load_com(action);
+        ((Page800E *)0x800E0000)->flags |= 0x20000000;
+        func_80046E38(0x29, D_800F0000, (Page800E *)0x800E0000);
+        func_800BC228(2);
+
+        do {
+            func_8001744C();
+            func_800177A8();
+        } while ((func_80019AF8() << 16) != 0 || D_80081468.ready == 0);
+
     }
-
-    file_load_com(action);
-    ((Page800E *)0x800E0000)->flags |= 0x20000000;
-    func_80046E38(0x29, D_800F0000, (Page800E *)0x800E0000);
-    func_800BC228(2);
-
-    do {
-        func_8001744C();
-        func_800177A8();
-    } while ((func_80019AF8() << 16) != 0 || D_80081468.ready == 0);
-
-final_cleanup:
     func_80016E6C();
     if (D_8001F586 == 0) {
         func_8001784C();

@@ -75,7 +75,7 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             ((S_80174F24_0 *)action)->unk_A0 = 0;
             ((S_80174F24_0 *)action)->unk_9B++;
         } else {
-            goto check_timeout;
+            break;
         }
         /* fall through */
 
@@ -109,18 +109,16 @@ void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
             ((S_80174F24_0 *)action)->unk_90 += ((S_80174F24_0 *)action)->unk_A0;
             move_ticks = ((S_80174F24_0 *)action)->unk_9E.u - 1;
             ((S_80174F24_0 *)action)->unk_9E.s = move_ticks;
-            if (move_ticks >= 0) {
-                goto check_landing;
+            if (move_ticks < 0) {
+                ((S_80174F24_0 *)action)->unk_90 = 0;
+                ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
+                ((EntityRec *)actor)->flags1C |= 0x08000000;
+                ((S_80174F24_0 *)action)->unk_9B++;
             }
-            ((S_80174F24_0 *)action)->unk_90 = 0;
-            ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((EntityRec *)actor)->flags1C |= 0x08000000;
-            ((S_80174F24_0 *)action)->unk_9B++;
         }
         /* fall through */
 
     case 2:
-check_landing:
         if (((u32)((EntityRec *)actor)->flags1C) & 0x08000000) {
             u8 *direction_table;
 
@@ -143,7 +141,6 @@ check_landing:
         break;
     }
 
-check_timeout:
     {
         s16 action_ticks;
         u32 actor_flags;
@@ -171,18 +168,14 @@ check_timeout:
             if (((EntityRec *)actor)->unk_46 & 0x8000) {
                 ((EntityRec *)actor)->unk_46 &= 0x7FFF;
             }
-            goto update_actor;
-        }
-        if (actor_flags & 0x410) {
-            goto update_actor;
-        }
-        if (actor_flags & 0x20000) {
-            ((EntityRec *)actor)->facing = func_800A0818(
-                ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
-                D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+        } else if (!(actor_flags & 0x410)) {
+            if (actor_flags & 0x20000) {
+                ((EntityRec *)actor)->facing = func_800A0818(
+                    ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25,
+                    D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+            }
         }
 
-update_actor:
         if ((func_800AD9B4(unit, actor) << 16) > 0) {
             ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
             func_800A9A04(actor);

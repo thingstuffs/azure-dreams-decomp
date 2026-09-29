@@ -63,20 +63,13 @@ void func_8009BE2C(void *effect, s32 unused, S_8009BE2C_2 *fade) {
     intensity = (0xC0 / (s16) fade->unk_06) * fade->unk_05;
     color_value = intensity;
     render_context = (void **)((struct S_8003E2D8 *)&gameWork);
-    if (fade->unk_04 == 0) {
-        goto set_word;
-    }
-    ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
-    ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
-    ((S_8009BE2C_1 *)packet)->unk_04.at00.v = color_value;
-    goto set_done;
-
-set_word:
-    {
+    if (fade->unk_04 != 0) {
+        ((S_8009BE2C_1 *)packet)->unk_04.at02.v = color_value;
+        ((S_8009BE2C_1 *)packet)->unk_04.at01.v = color_value;
+        ((S_8009BE2C_1 *)packet)->unk_04.at00.v = color_value;
+    } else {
         ((S_8009BE2C_1 *)packet)->unk_04.at00u.v = (s32) (s16) color_value;
     }
-
-set_done:
     func_800667A8(packet, intensity);
     ((S_8009BE2C_1 *)packet)->unk_04.at03.v = (u8) (((S_8009BE2C_1 *)packet)->unk_04.at03.v | 2);
     func_8006658C(((S_8009BE2C_3 *)render_context)->unk_00 + 0xB0, packet);

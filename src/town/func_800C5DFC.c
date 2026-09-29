@@ -51,7 +51,7 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
     pos_x = motion_words[0];
     max_speed = motion_words[3];
     pos_x += max_speed;
-    speed = *(volatile s32 *)((u8 *)motion + 4);
+    speed = motion_words[1];
     step_y = motion_words[4];
     speed += step_y;
     ((S_800C355C_0 *)motion)->unk_00.at00.v = pos_x;
@@ -61,61 +61,45 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
     angle = 0x400 - entity->unk_72;
     quadrant = (angle / 0x400) & 3;
 
-    if (quadrant == 1) {
-        goto check_max_y;
-    }
-    if (quadrant < 2) {
-        if (quadrant == 0) {
-            goto check_max_x;
+    switch (quadrant) {
+    case 0:
+        if (entity->unk_84.s + entity->unk_8C.s < ((S_800C355C_0 *)motion)->unk_00.at02.v) {
+            ((S_800C355C_0 *)motion)->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
+        func_800C37C4(entity, motion, context);
+        return;
         }
-        goto check_min_y;
-    }
-    if (quadrant == 2) {
-        goto check_min_x;
-    }
-    goto check_min_y;
-
-check_max_x:
-    if (entity->unk_84.s + entity->unk_8C.s < ((S_800C355C_0 *)motion)->unk_00.at02.v) {
-        ((S_800C355C_0 *)motion)->unk_00.at02u.v = entity->unk_84.u + entity->unk_8C.u;
-        goto handle_boundary;
-    }
-    goto update_speed;
-
-check_max_y:
-    if (entity->unk_86.s + entity->unk_8E.s < ((S_800C355C_0 *)motion)->unk_04.at02.v) {
-        ((S_800C355C_0 *)motion)->unk_04.at02u.v = entity->unk_86.u + entity->unk_8E.u;
-        goto handle_boundary;
-    }
-    goto update_speed;
-
-check_min_x:
-    if (((S_800C355C_0 *)motion)->unk_00.at02.v < entity->unk_84.s - entity->unk_8C.s) {
-        u16 center;
-        u16 extent;
-        center = entity->unk_84.u;
-        extent = entity->unk_8C.u;
-        ((S_800C355C_0 *)motion)->unk_00.at02u.v = center - extent;
-        goto handle_boundary;
-    }
-    goto update_speed;
-
-check_min_y:
-    if (((S_800C355C_0 *)motion)->unk_04.at02.v < entity->unk_86.s - entity->unk_8E.s) {
-        u16 center;
-        u16 extent;
-        center = entity->unk_86.u;
-        extent = entity->unk_8E.u;
-        ((S_800C355C_0 *)motion)->unk_04.at02u.v = center - extent;
-    } else {
-        goto update_speed;
+        break;
+    case 1:
+        if (entity->unk_86.s + entity->unk_8E.s < ((S_800C355C_0 *)motion)->unk_04.at02.v) {
+            ((S_800C355C_0 *)motion)->unk_04.at02u.v = entity->unk_86.u + entity->unk_8E.u;
+        func_800C37C4(entity, motion, context);
+        return;
+        }
+        break;
+    case 2:
+        if (((S_800C355C_0 *)motion)->unk_00.at02.v < entity->unk_84.s - entity->unk_8C.s) {
+            u16 center;
+            u16 extent;
+            center = entity->unk_84.u;
+            extent = entity->unk_8C.u;
+            ((S_800C355C_0 *)motion)->unk_00.at02u.v = center - extent;
+        func_800C37C4(entity, motion, context);
+        return;
+        }
+        break;
+    default:
+        if (((S_800C355C_0 *)motion)->unk_04.at02.v < entity->unk_86.s - entity->unk_8E.s) {
+            u16 center;
+            u16 extent;
+            center = entity->unk_86.u;
+            extent = entity->unk_8E.u;
+            ((S_800C355C_0 *)motion)->unk_04.at02u.v = center - extent;
+        func_800C37C4(entity, motion, context);
+        return;
+        }
+        break;
     }
 
-handle_boundary:
-    func_800C37C4(entity, motion, context);
-    return;
-
-update_speed:
     max_speed = 0x20000;
 
     speed = ((S_800C355C_0 *)motion)->unk_0C + D_800D4FE8[quadrant];

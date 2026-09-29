@@ -67,16 +67,13 @@ s32 func_800C3900(EntityRec *entity, s32 action, s16 action_param) {
             func_80099844(entity, &D_800E17C6);
         }
         func_80098B38(action);
-        goto decrement_counter;
-    }
-    if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {
+    } else if ((*(u8 *)((u8 *)&entity->unk_10 + 3)) == 0) {
         func_800997FC(&D_800E17EF);
         func_800A56E0(0x506);
-        goto decrement_counter;
+    } else {
+        func_80098B38(action);
+        func_800997FC(&D_800E180E);
     }
-    func_80098B38(action);
-    func_800997FC(&D_800E180E);
-decrement_counter:
     counter_base = &dungeonStatus;
     counter_base->unk_0A = (u16) (((u16)counter_base->unk_0A) - 1);
     return 1;

@@ -196,44 +196,38 @@ void func_80169EC0(void *owner_arg, void *motion, void *data)
     }
     (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
-    if ((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) {
-        goto clear_movement_flag;
-    }
-    terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v, ((S_80169EC0_5 *)motion)->unk_04.at02.v,
-                           (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
-    if ((s16)terrain_height >= 0x200) {
-        goto clear_movement_flag;
-    }
-    height_offset = (*(s16 *)((u8 *)owner_arg + (0x92)));
-    signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
-    height = ((S_80169EC0_3 *)actor)->unk_88.u;
-    if (height_offset + signed_height < (s16)terrain_height) {
-        ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
-    } else {
-        if ((s16)terrain_height >= signed_height) {
-            (*(s32 *)((u8 *)owner_arg + (0x90))) = 0;
+    if (!((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) &&
+        ((terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v, ((S_80169EC0_5 *)motion)->unk_04.at02.v,
+                           (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20))),
+         (s16)terrain_height < 0x200)) {
+        height_offset = (*(s16 *)((u8 *)owner_arg + (0x92)));
+        signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
+        height = ((S_80169EC0_3 *)actor)->unk_88.u;
+        if (height_offset + signed_height < (s16)terrain_height) {
+            ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
         } else {
-            (*(s16 *)((u8 *)owner_arg + (0x92))) = terrain_height - height;
+            if ((s16)terrain_height >= signed_height) {
+                (*(s32 *)((u8 *)owner_arg + (0x90))) = 0;
+            } else {
+                (*(s16 *)((u8 *)owner_arg + (0x92))) = terrain_height - height;
+            }
+            ((S_80169EC0_5 *)motion)->unk_14 = 0;
+            ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
+            (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
         }
-        ((S_80169EC0_5 *)motion)->unk_14 = 0;
-        ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
-        (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
+        actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
+        if (actor_flags & 0x40000000) {
+            ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
+            terrain_height = func_800BCB04((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
+                                   (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
+                                   (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
+            (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
+            ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
+        }
+    } else {
+        ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
-    actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
-    if (actor_flags & 0x40000000) {
-        ((S_80169EC0_3 *)actor)->unk_1C = actor_flags & 0xBFFFFFFF;
-        terrain_height = func_800BCB04((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
-                               (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
-                               (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
-        (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
-        ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
-    }
-    goto finish;
 
-clear_movement_flag:
-    ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner_arg + (0x92))));

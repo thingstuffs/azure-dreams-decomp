@@ -110,7 +110,7 @@ extern void tw_sd_sq_ld_call(s32, s32);
 /* Creates a parent object, three children, paired display rows, and a final display element. */
 s32 func_800254A4(void)
 {
-    register u8 *parent_state ASM_REG("$21") = NULL;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *parent_state = NULL;
     void *left_data[2] = {D_8002012C, D_80020134};
     void *right_data[2] = {D_8002013C, D_80020140};
     void *object;
@@ -133,7 +133,7 @@ s32 func_800254A4(void)
     u8 initial_byte;
     s32 index;
     s32 final_color;
-    register s32 final_extent ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 final_extent;
     s16 row_y;
 
     tw_sd_sq_ld_call(0x24, 0x200);
@@ -182,24 +182,26 @@ create_child:
     index = 1;
     callback = D_80026B78;
     row_y = 0x2C;
-    do {
-        object = func_8003FD64(1, ((u8 *)(&D_80083498)));
-        left_state = (u8 *)object + 0x20;
-        if (object != NULL) {
-            ((S_800254A4_0 *)object)->unk_10 = callback;
-            func_8004491C(object, D_80053858);
-            left_state->unk_14 = 0x20;
-            left_state->unk_18 = 3;
-            left_state->unk_1A = 0x7C80;
-            left_state->unk_16 = row_y;
-            left_state->unk_10 = 0x00808080;
-            row_data = left_data[index];
-            left_state->unk_0C = parent_state;
-            left_state->unk_04 = row_data;
-        }
-        index--;
-        row_y -= 0xC;
-    } while (index >= 0);
+next_left:
+    object = func_8003FD64(1, ((u8 *)(&D_80083498)));
+    left_state = (u8 *)object + 0x20;
+    if (object != NULL) {
+        ((S_800254A4_0 *)object)->unk_10 = callback;
+        func_8004491C(object, D_80053858);
+        left_state->unk_14 = 0x20;
+        left_state->unk_18 = 3;
+        left_state->unk_1A = 0x7C80;
+        left_state->unk_16 = row_y;
+        left_state->unk_10 = 0x00808080;
+        row_data = left_data[index];
+        left_state->unk_0C = parent_state;
+        left_state->unk_04 = row_data;
+    }
+    index--;
+    row_y -= 0xC;
+    if (index >= 0) {
+        goto next_left;
+    }
 
     index = 1;
     do {
@@ -217,38 +219,40 @@ create_child:
     index = 1;
     callback = D_80026BC4;
     row_y = 0x2C;
-    do {
-        object = func_8003FD64(1, ((u8 *)(&D_80083498)));
-        right_state = (u8 *)object + 0x20;
-        if (object != NULL) {
-            ((S_800254A4_0 *)object)->unk_10 = callback;
-            func_8004491C(object, D_80053858);
-            right_state->unk_14 = 0x50;
-            right_state->unk_18 = 3;
-            right_state->unk_1A = 0x7C80;
-            right_state->unk_16 = row_y;
-            right_state->unk_10 = 0x00808080;
-            right_state->unk_04 = right_data[index];
-            if (index != 0) {
-                if (index == 1) {
-                    goto link_second_value;
-                }
-                right_state->unk_0C = parent_state;
-                goto next_right_row;
-            } else {
-                value_ptr = parent_state + 0x12;
-                goto store_value_ptr;
+next_right:
+    object = func_8003FD64(1, ((u8 *)(&D_80083498)));
+    right_state = (u8 *)object + 0x20;
+    if (object != NULL) {
+        ((S_800254A4_0 *)object)->unk_10 = callback;
+        func_8004491C(object, D_80053858);
+        right_state->unk_14 = 0x50;
+        right_state->unk_18 = 3;
+        right_state->unk_1A = 0x7C80;
+        right_state->unk_16 = row_y;
+        right_state->unk_10 = 0x00808080;
+        right_state->unk_04 = right_data[index];
+        if (index != 0) {
+            if (index == 1) {
+                goto link_second_value;
             }
-link_second_value:
-            value_ptr = parent_state + 0x14;
-store_value_ptr:
-            right_state->unk_08 = value_ptr;
             right_state->unk_0C = parent_state;
+            goto next_right_row;
+        } else {
+            value_ptr = parent_state + 0x12;
+            goto store_value_ptr;
         }
+link_second_value:
+        value_ptr = parent_state + 0x14;
+store_value_ptr:
+        right_state->unk_08 = value_ptr;
+        right_state->unk_0C = parent_state;
+    }
 next_right_row:
-        index--;
-        row_y -= 0xC;
-    } while (index >= 0);
+    index--;
+    row_y -= 0xC;
+    if (index >= 0) {
+        goto next_right;
+    }
 
     object = func_8003FD64(1, ((u8 *)(&D_80083498)));
     if (object != NULL) {
@@ -256,14 +260,13 @@ next_right_row:
         func_8004491C(object, &D_80053A88);
         final_color = 0x00404040;
         final_state = (u8 *)object + 0x20;
-        ASM_KEEP(final_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         final_extent = 0x1C;
         final_state->unk_0C = final_extent;
         final_state->unk_0E = final_extent;
-        final_state->unk_12 = final_extent;
-        final_state->unk_16 |= 1;
         final_state->unk_10 = 0x48;
+        final_state->unk_12 = final_extent;
         final_state->unk_14 = 2;
+        final_state->unk_16 |= 1;
         final_state->unk_08 = final_color;
         final_state->unk_04 = parent_state;
     }

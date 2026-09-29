@@ -222,26 +222,15 @@ state1:
         S32_AT(effect_pos, 0x14) = ((S16_AT(effect_data, 0x78) << 16) -
             S32_AT(effect_pos, 0x08)) / S8_AT(effect_data, 0x7B);
         {
-            u32 raw_timer = U8_AT(effect_data, 0x7B);
-            s32 timer_copy;
+            s8 timer = S8_AT(effect_data, 0x7B);
+            s16 timer_copy;
             s32 duration_squared;
-            s16 raw_reload;
-            s32 timer_reload;
-            s32 next_state;
 
-            ASM_KEEP(raw_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            timer_reload = (s32)(raw_timer << 24) >> 24;
-            timer_copy = timer_reload;
-            ASM_KEEP(timer_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            duration_squared = timer_reload * timer_copy;
-            *(volatile s16 *)(effect_data + 0x82) = 0;
-            raw_reload = *(volatile u8 *)(effect_data + 0x7B);
-            next_state = U16_AT(effect_data, 0x0A);
-            timer_reload = (s32)(raw_reload << 24);
-            timer_reload >>= 24;
-            next_state++;
-            S16_AT(effect_data, 0x0A) = next_state;
-            S16_AT(effect_data, 0x88) = timer_reload;
+            timer_copy = timer;
+            duration_squared = timer * timer_copy;
+            S16_AT(effect_data, 0x82) = 0;
+            S16_AT(effect_data, 0x0A)++;
+            S16_AT(effect_data, 0x88) = S8_AT(effect_data, 0x7B);
             S16_AT(effect_data, 0x8A) = duration_squared;
         }
         goto done;

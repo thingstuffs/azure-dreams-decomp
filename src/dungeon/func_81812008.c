@@ -23,28 +23,26 @@ s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
     entry_index /= 72;
     copy_count = entry_count;
     buffer = func_8004B404(0x91);
-    if (buffer == 0) {
-        goto end;
+    if (buffer != 0) {
+        start_entry = entry_index << 3;
+        copy_count -= start_entry;
+        if (copy_count >= 9) {
+            copy_count = 8;
+        }
+        entry_index = func_80026EC0(held_entry_set, start_entry);
+        copied_count = 0;
+        if (copy_count > 0) {
+            entries = (Entry19 *)0x800157C0;
+            write_ptr = buffer;
+            do {
+                strncpy(write_ptr,
+                        (u8 *)((u32)(entry_index * 0x13) + (u32)entries), 0x12);
+                entry_index = func_80026F04(held_entry_set, entry_index + 1);
+                copied_count += 1;
+                write_ptr += 0x12;
+            } while (copied_count < copy_count);
+        }
     }
-    start_entry = entry_index << 3;
-    copy_count -= start_entry;
-    if (copy_count >= 9) {
-        copy_count = 8;
-    }
-    entry_index = func_80026EC0(held_entry_set, start_entry);
-    copied_count = 0;
-    if (copy_count > 0) {
-        entries = (Entry19 *)0x800157C0;
-        write_ptr = buffer;
-        do {
-            strncpy(write_ptr,
-                    (u8 *)((u32)(entry_index * 0x13) + (u32)entries), 0x12);
-            entry_index = func_80026F04(held_entry_set, entry_index + 1);
-            copied_count += 1;
-            write_ptr += 0x12;
-        } while (copied_count < copy_count);
-    }
-end:
     copied_count = buffer;
     return copied_count;
 }

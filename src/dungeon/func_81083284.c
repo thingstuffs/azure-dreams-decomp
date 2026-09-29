@@ -152,20 +152,18 @@ void func_80170A84(void *entity, S_80170A84_2 *motion, void *monster)
             actor_height = ((S_80170A84_1 *)actor)->unk_88.s;
             if ((*(s16 *)((u8 *)entity + 0x92)) + actor_height < floor_height) {
                 ((S_80170A84_1 *)actor)->unk_1C &= 0xF7FFFFFF;
-                goto check_adjustment;
-            }
-
-            if (floor_height >= actor_height) {
-                (*(s32 *)((u8 *)entity + 0x90)) = 0;
             } else {
-                (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170A84_1 *)actor)->unk_88.u;
+                if (floor_height >= actor_height) {
+                    (*(s32 *)((u8 *)entity + 0x90)) = 0;
+                } else {
+                    (*(s16 *)((u8 *)entity + 0x92)) = floor_height - ((S_80170A84_1 *)actor)->unk_88.u;
+                }
+
+                motion->unk_14 = 0;
+                ((S_80170A84_1 *)actor)->unk_1C |= 0x08000000;
+                (*(u8 *)((u8 *)entity + 0x9D)) = 0;
             }
 
-            motion->unk_14 = 0;
-            ((S_80170A84_1 *)actor)->unk_1C |= 0x08000000;
-            (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-
-check_adjustment:
             if (((S_80170A84_1 *)actor)->unk_1C & 0x40000000) {
                 ((S_80170A84_1 *)actor)->unk_1C &= 0xBFFFFFFF;
                 floor_height = func_800BCB04((((S_80170A84_0 *)monster)->unk_24 << 6) | 0x20,
@@ -173,15 +171,14 @@ check_adjustment:
                                       (s16)(((S_80170A84_1 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) += ((S_80170A84_1 *)actor)->unk_88.u - floor_height;
                 ((S_80170A84_1 *)actor)->unk_88.u = floor_height;
-                goto finish;
             }
-            goto finish;
+        } else {
+            ((S_80170A84_1 *)actor)->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80170A84_1 *)actor)->unk_1C &= 0xF7FFFFFF;
     }
 
-    ((S_80170A84_1 *)actor)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     motion->unk_0A =
         ((S_80170A84_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170A84_0 *)monster)->unk_14 |= 0x40;

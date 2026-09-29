@@ -75,85 +75,73 @@ void func_8002434C(void *effect, void *position, void *sprite)
     ((S_81952B4C_1 *)position)->unk_16 = ((S_81952B4C_1 *)position)->unk_08.at02.v;
 
     state = ((S_81952B4C_0 *)effect)->unk_24.s;
-    if (state == 1) {
-        goto move;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto grow;
+    switch (state) {
+    case 0:
+        scale = ((S_81952B4C_2 *)sprite)->unk_1E;
+        scale += (0x1000 - scale) / ((S_81952B4C_0 *)effect)->unk_2C;
+        ((S_81952B4C_2 *)sprite)->unk_1E = scale;
+        ((S_81952B4C_2 *)sprite)->unk_1C = scale;
+        if (scale >= 0x801) {
+            ((S_81952B4C_2 *)sprite)->unk_1E = 0x800;
+            ((S_81952B4C_2 *)sprite)->unk_1C = 0x800;
         }
-        goto move;
-    }
-    if (state == 2) {
-        goto fade_out;
-    }
-    goto move;
 
-grow:
-    scale = ((S_81952B4C_2 *)sprite)->unk_1E;
-    scale += (0x1000 - scale) / ((S_81952B4C_0 *)effect)->unk_2C;
-    ((S_81952B4C_2 *)sprite)->unk_1E = scale;
-    ((S_81952B4C_2 *)sprite)->unk_1C = scale;
-    if (scale >= 0x801) {
-        ((S_81952B4C_2 *)sprite)->unk_1E = 0x800;
-        ((S_81952B4C_2 *)sprite)->unk_1C = 0x800;
-    }
+        brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v + 2;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+        if (brightness >= 0x81) {
+            ((S_81952B4C_2 *)sprite)->unk_0C.at00u.v = 0x00808080;
+        }
 
-    brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v + 2;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
-    if (brightness >= 0x81) {
-        ((S_81952B4C_2 *)sprite)->unk_0C.at00u.v = 0x00808080;
-    }
+        ((S_81952B4C_1 *)position)->unk_00.at00.v =
+            (((S_81952B4C_0 *)effect)->unk_10 << 16) +
+            func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
+            ((S_81952B4C_0 *)effect)->unk_34 * 8;
+        ((S_81952B4C_1 *)position)->unk_04.at00.v =
+            (((S_81952B4C_0 *)effect)->unk_12 << 16) +
+            func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
+            ((S_81952B4C_0 *)effect)->unk_34 * 8;
 
-    ((S_81952B4C_1 *)position)->unk_00.at00.v =
-        (((S_81952B4C_0 *)effect)->unk_10 << 16) +
-        func_80064584(((S_81952B4C_0 *)effect)->unk_28.s) *
-        ((S_81952B4C_0 *)effect)->unk_34 * 8;
-    ((S_81952B4C_1 *)position)->unk_04.at00.v =
-        (((S_81952B4C_0 *)effect)->unk_12 << 16) +
-        func_800644B8(((S_81952B4C_0 *)effect)->unk_28.s) *
-        ((S_81952B4C_0 *)effect)->unk_34 * 8;
+        ((S_81952B4C_0 *)effect)->unk_08 -= 0x5000;
+        radius = (u16)((S_81952B4C_0 *)effect)->unk_34 + 4;
+        ((S_81952B4C_0 *)effect)->unk_34 = radius;
+        if (radius >= 0x41) {
+            ((S_81952B4C_0 *)effect)->unk_34 = 0x40;
+        }
 
-    ((S_81952B4C_0 *)effect)->unk_08 -= 0x5000;
-    radius = (u16)((S_81952B4C_0 *)effect)->unk_34 + 4;
-    ((S_81952B4C_0 *)effect)->unk_34 = radius;
-    if (radius >= 0x41) {
-        ((S_81952B4C_0 *)effect)->unk_34 = 0x40;
-    }
+        ((S_81952B4C_0 *)effect)->unk_28.u += 0x180;
+        frames_left = (u16)((S_81952B4C_0 *)effect)->unk_2C - 1;
+        ((S_81952B4C_0 *)effect)->unk_2C = frames_left;
+        if ((frames_left << 16) <= 0) {
+            ((S_81952B4C_0 *)effect)->unk_24.u++;
+        }
 
-    ((S_81952B4C_0 *)effect)->unk_28.u += 0x180;
-    frames_left = (u16)((S_81952B4C_0 *)effect)->unk_2C - 1;
-    ((S_81952B4C_0 *)effect)->unk_2C = frames_left;
-    if ((frames_left << 16) <= 0) {
-        ((S_81952B4C_0 *)effect)->unk_24.u++;
-        goto move;
-    }
-    goto move;
+        break;
+    case 1:
+        break;
+    case 2:
+        velocity_x = ((S_81952B4C_0 *)effect)->unk_00;
+        velocity_y = ((S_81952B4C_0 *)effect)->unk_04;
+        ((S_81952B4C_0 *)effect)->unk_00 = velocity_x + (velocity_x >> 1);
+        ((S_81952B4C_0 *)effect)->unk_04 = velocity_y + (velocity_y >> 1);
+        ((S_81952B4C_0 *)effect)->unk_08 += 0x10000;
 
-fade_out:
-    velocity_x = ((S_81952B4C_0 *)effect)->unk_00;
-    velocity_y = ((S_81952B4C_0 *)effect)->unk_04;
-    ((S_81952B4C_0 *)effect)->unk_00 = velocity_x + (velocity_x >> 1);
-    ((S_81952B4C_0 *)effect)->unk_04 = velocity_y + (velocity_y >> 1);
-    ((S_81952B4C_0 *)effect)->unk_08 += 0x10000;
+        brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v - 4;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
+        ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
+        if ((s8)brightness <= 0) {
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            global_flags = objectFlagBlock.flags | 0x8000;
+            ((S_81952B4C_0 *)effect)->unk_24.u++;
+            objectFlagBlock.flags = global_flags;
+            return;
+        }
 
-    brightness = ((S_81952B4C_2 *)sprite)->unk_0C.at02.v - 4;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at02.v = brightness;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at01.v = brightness;
-    ((S_81952B4C_2 *)sprite)->unk_0C.at00.v = brightness;
-    if ((s8)brightness > 0) {
-        goto move;
+        break;
     }
 
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    global_flags = objectFlagBlock.flags | 0x8000;
-    ((S_81952B4C_0 *)effect)->unk_24.u++;
-    objectFlagBlock.flags = global_flags;
-    return;
-
-move:
     ((S_81952B4C_0 *)effect)->unk_2A++;
     ((S_81952B4C_1 *)position)->unk_00.at00.v += ((S_81952B4C_0 *)effect)->unk_00;
     ((S_81952B4C_1 *)position)->unk_04.at00.v += ((S_81952B4C_0 *)effect)->unk_04;

@@ -121,48 +121,35 @@ void func_800DC1F8(S_800DC1F8_0 *transition, void *anim_data) {
 
     if (transition->unk_18 != 0) {
         stage = transition->unk_28;
-        if (stage == 1) {
-            goto wait_half_turn;
-        }
-        if (stage < 2) {
-            if (stage == 0) {
-                goto wait_first_quarter;
+        switch (stage) {
+        case 0:
+            if ((((u16) *state->unk_08 >> 0xA) & 3) == 1) {
+                SD_Call(0x504);
+                flag_or_delay = transition->unk_20;
+                stage = transition->unk_28;
+                flag_or_delay ^= 1;
+                transition->unk_20 = flag_or_delay;
+                flag_or_delay = transition->unk_24;
+                stage += 1;
+                transition->unk_28 = stage;
+                flag_or_delay ^= 1;
+                transition->unk_24 = flag_or_delay;
             }
-            goto update_display;
+        case 1:
+            if ((((u16) *state->unk_08 >> 0xA) & 3) == 2) {
+                transition->unk_1C = 0x10;
+                transition->unk_28 = (s32) (transition->unk_28 + 1);
+            }
+            break;
+        case 2:
+            if ((((u16) *state->unk_08 >> 0xA) & 3) == 3) {
+                SD_Call(0x504);
+                transition->unk_28 = 0;
+                transition->unk_24 = (s32) (transition->unk_24 ^ 1);
+                transition->unk_20 = (s32) (transition->unk_20 ^ 1);
+            }
+            break;
         }
-        if (stage == 2) {
-            goto wait_third_quarter;
-        }
-        goto update_display;
-
-wait_first_quarter:
-        if ((((u16) *state->unk_08 >> 0xA) & 3) == 1) {
-            SD_Call(0x504);
-            flag_or_delay = transition->unk_20;
-            stage = transition->unk_28;
-            flag_or_delay ^= 1;
-            transition->unk_20 = flag_or_delay;
-            flag_or_delay = transition->unk_24;
-            stage += 1;
-            transition->unk_28 = stage;
-            flag_or_delay ^= 1;
-            transition->unk_24 = flag_or_delay;
-        }
-wait_half_turn:
-        if ((((u16) *state->unk_08 >> 0xA) & 3) == 2) {
-            transition->unk_1C = 0x10;
-            transition->unk_28 = (s32) (transition->unk_28 + 1);
-        }
-        goto update_display;
-
-wait_third_quarter:
-        if ((((u16) *state->unk_08 >> 0xA) & 3) == 3) {
-            SD_Call(0x504);
-            transition->unk_28 = 0;
-            transition->unk_24 = (s32) (transition->unk_24 ^ 1);
-            transition->unk_20 = (s32) (transition->unk_20 ^ 1);
-        }
-update_display:
         if (transition->unk_20 != 0) {
             if (transition->unk_24 != 0) {
                 func_8004E99C(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
@@ -170,10 +157,10 @@ update_display:
                 layout = transition->unk_40;
                 layout->unk_88 = (s16) (((3 - (func_80069E98(transition->unk_2C) >> 1)) * 6) + 0xA4);
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = func_8004DC14(transition->unk_2C, 6);
-                if (((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 != 0) {
-                    transition->unk_20 = 0;
-                    goto animate_display;
+                if (((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 == 0) {
+                    return;
                 }
+                transition->unk_20 = 0;
             } else {
                 func_8004E99C(((S_800DC1F8_11 *)(transition->unk_3C))->unk_80);
                 ((S_800DC1F8_11 *)(transition->unk_3C))->unk_80 = 0;
@@ -181,69 +168,62 @@ update_display:
                 transition->unk_14 = 0;
                 func_800DBE98();
                 transition->unk_20 = 0;
-                goto animate_display;
+            }
+        }
+        red_channel = state->unk_04;
+        green_channel = red_channel;
+        blue_channel = red_channel;
+        angle = state->unk_08;
+        phase_offset = 0x400 - (((s16) *angle - 0x400) & 0x7FF);
+        if (((s16) *angle & 0x7FF) < 0x400) {
+            shade = (phase_offset >> 4) - 0x80;
+        } else {
+            shade = (phase_offset >> 3) - 0x80;
+        }
+        blue_channel->unk_02 = shade;
+        green_channel->unk_01 = shade;
+        red_channel->unk_00 = shade;
+        shade_source = state->unk_04;
+        paired_color = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_84;
+        paired_shade = shade_source->unk_00;
+        paired_color->unk_02 = paired_shade;
+        paired_color->unk_01 = paired_shade;
+        paired_color->unk_00 = paired_shade;
+        flag_or_delay = transition->unk_1C;
+        if (flag_or_delay == 0) {
+            angle_step = state->unk_08;
+            *angle_step += 0x80;
+            paired_angle = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_88;
+            *paired_angle += 0x80;
+            frames_left = transition->unk_18 - 1;
+            transition->unk_18 = frames_left;
+            if (frames_left == 0) {
+                transition->unk_28 = 0;
+                *state->unk_08 = 0;
+                *((S_800DC1F8_11 *)(transition->unk_3C))->unk_88 = 0x800;
+                neutral_shade = 0x80U;
+                color_reset = state->unk_04;
+                color_reset->unk_02 = neutral_shade;
+                color_reset->unk_01 = neutral_shade;
+                color_reset->unk_00 = neutral_shade;
+                paired_color_reset = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_84;
+                paired_color_reset->unk_02 = neutral_shade;
+                paired_color_reset->unk_01 = neutral_shade;
+                paired_color_reset->unk_00 = neutral_shade;
             }
         } else {
-animate_display:
-            red_channel = state->unk_04;
-            green_channel = red_channel;
-            blue_channel = red_channel;
-            angle = state->unk_08;
-            phase_offset = 0x400 - (((s16) *angle - 0x400) & 0x7FF);
-            if (((s16) *angle & 0x7FF) < 0x400) {
-                shade = (phase_offset >> 4) - 0x80;
-            } else {
-                shade = (phase_offset >> 3) - 0x80;
-            }
-            blue_channel->unk_02 = shade;
-            green_channel->unk_01 = shade;
-            red_channel->unk_00 = shade;
-            shade_source = state->unk_04;
-            paired_color = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_84;
-            paired_shade = shade_source->unk_00;
-            paired_color->unk_02 = paired_shade;
-            paired_color->unk_01 = paired_shade;
-            paired_color->unk_00 = paired_shade;
-            flag_or_delay = transition->unk_1C;
-            if (flag_or_delay == 0) {
-                angle_step = state->unk_08;
-                *angle_step += 0x80;
-                paired_angle = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_88;
-                *paired_angle += 0x80;
-                frames_left = transition->unk_18 - 1;
-                transition->unk_18 = frames_left;
-                if (frames_left == 0) {
-                    transition->unk_28 = 0;
-                    *state->unk_08 = 0;
-                    *((S_800DC1F8_11 *)(transition->unk_3C))->unk_88 = 0x800;
-                    neutral_shade = 0x80U;
-                    color_reset = state->unk_04;
-                    color_reset->unk_02 = neutral_shade;
-                    color_reset->unk_01 = neutral_shade;
-                    color_reset->unk_00 = neutral_shade;
-                    paired_color_reset = ((S_800DC1F8_11 *)(transition->unk_3C))->unk_84;
-                    paired_color_reset->unk_02 = neutral_shade;
-                    paired_color_reset->unk_01 = neutral_shade;
-                    paired_color_reset->unk_00 = neutral_shade;
-                    goto update_counters;
-                }
-                goto update_counters;
-            }
             transition->unk_1C = (s32) (flag_or_delay - 1);
-            goto update_counters;
         }
-    } else {
-update_counters:
-        if (transition->unk_24 == 0) {
-            page_base = (u8 *)0x80080000;
-            first_counter = ((S_800DC1F8_12 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.i))->unk_28;
-            if (first_counter != transition->unk_10) {
-                func_800DBD5C(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
-            }
-            second_counter = ((S_800DC1F8_13 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.p))->unk_29;
-            if (second_counter != transition->unk_14) {
-                func_800DBC20(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
-            }
+    }
+    if (transition->unk_24 == 0) {
+        page_base = (u8 *)0x80080000;
+        first_counter = ((S_800DC1F8_12 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.i))->unk_28;
+        if (first_counter != transition->unk_10) {
+            func_800DBD5C(first_counter, transition->unk_10, 3, 0x1CA, 0x19C, 1);
+        }
+        second_counter = ((S_800DC1F8_13 *)(((S_800DC1F8_10 *)page_base)->unk_14A8.p))->unk_29;
+        if (second_counter != transition->unk_14) {
+            func_800DBC20(second_counter, transition->unk_14, 3, 0x1DA, 0x1A4, 1);
         }
     }
 }

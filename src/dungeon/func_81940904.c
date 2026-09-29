@@ -111,12 +111,9 @@ void func_80024104(void *owner) {
         } while (copy_src != copy_end);
     }
 
-    slot = 0;
-slot_loop:
-    if ((*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) != 0) {
-        slot++;
-        if (slot < 8) {
-            goto slot_loop;
+    for (slot = 0; slot < 8; slot++) {
+        if ((*(s16 *)((u8 *)owner + 0x46 + (((s32)slot << 16) >> 15))) == 0) {
+            break;
         }
     }
 

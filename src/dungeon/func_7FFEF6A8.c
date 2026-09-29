@@ -36,7 +36,7 @@ s32 func_8008CE08(S_7FFEF6A8_0 *poly) {
         return 1;
     }
     if (poly->unk_78.at00.v == 0) {
-        goto tail_one;
+        return 1;
     }
     poly->unk_7C = func_80065F90(poly->unk_6C.at02.v, (s16) poly->unk_6C.at00.v);
     angle_1 = func_80065F90(poly->unk_78.at02.v, (s16) poly->unk_78.at00.v);
@@ -49,7 +49,7 @@ s32 func_8008CE08(S_7FFEF6A8_0 *poly) {
         return 0;
     }
     if (poly->unk_74.at00.v == 0) {
-        goto tail_one;
+        return 1;
     }
     angle_2 = func_80065F90(poly->unk_74.at02.v, (s16) poly->unk_74.at00.v);
     poly->unk_84 = angle_2;
@@ -60,12 +60,9 @@ s32 func_8008CE08(S_7FFEF6A8_0 *poly) {
     if (turn_2 >= 0x801) {
         return 0;
     }
-    if (poly->unk_70.at00.v != 0) {
-        goto have_field70;
+    if (poly->unk_70.at00.v == 0) {
+        return 1;
     }
-tail_one:
-    return 1;
-have_field70:
     angle_3 = func_80065F90(poly->unk_70.at02.v, (s16) poly->unk_70.at00.v);
     poly->unk_80 = angle_3;
     delta_3 = (angle_3 - poly->unk_7C) & 0xFFF;

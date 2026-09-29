@@ -35,6 +35,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     u32 flags;
     u8 *entry;
     u8 *entry_base;
+    s32 entry_base_s;
     void *global_object;
 
     if (held_arg0 != (void *)&D_80081484 &&
@@ -88,12 +89,10 @@ valid_index:
                                   D_800E3548, 4, 0x40);
         narrowed <<= 16;
         found = narrowed >> 16;
-        entry_base = (u8 *)0x800E0000;
         if (found >= 0) {
-            ASM_KEEP_NV(entry_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            entry_base += 0x36C8;
+            entry_base_s = (s32)D_800E36C8;
             entry = (u8 *)(found * 12);
-            entry += (s32)entry_base;
+            entry += entry_base_s;
             func_8009A3D0(entry[0], entry[1], 0x800);
             ((void **)0x80010248)[index] = *(void **)D_80081470;
         } else {

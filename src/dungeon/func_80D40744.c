@@ -42,7 +42,7 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
 {
     s32 state_or_flags;
     S_func_80D40744_0 *saved_entity = entity;
-    u8 flags_71 = ((volatile S_func_80D40744_0 *)entity)->unk_71;
+    u8 flags_71 = entity->unk_71;
     s32 initial_mode = requested_mode;
     u16 raw_mode;
 
@@ -55,43 +55,26 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
 
         state_or_flags = state->flags;
         if (state_or_flags & 0x2000) {
-            goto reject_saved;
+            saved_entity->unk_9A.u8 = 14;
+            return;
         }
-        if (state->unk_0C == entity) {
-            goto accepted;
+        if (state->unk_0C != entity) {
+            if (state->unk_0C != 0 || state->unk_10 != 0 || (state_or_flags & 8)) {
+                entity->unk_9A.u8 = 14;
+                return;
+            }
         }
-        if (state->unk_0C != 0) {
-            goto reject_entity;
+    } else {
+        state_or_flags = (s32)&dungeonStatus.unk_00;
+        if ((((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) ||
+            ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 != 0) {
+            saved_entity->unk_9A.u8 = 14;
+            return;
         }
-        if (state->unk_10 != 0) {
-            goto reject_entity;
-        }
-        if (!(state_or_flags & 8)) {
-            goto accepted;
-        }
-
-reject_entity:
-        entity->unk_9A.u8 = 14;
-        return;
+        ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 =
+            (u16)((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 + 1;
     }
 
-    state_or_flags = (s32)&dungeonStatus.unk_00;
-    if (((S_func_80D40744_1 *)state_or_flags)->unk_02 & 0x2000) {
-        goto reject_saved;
-    }
-    if (((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 == 0) {
-        goto increment_state;
-    }
-
-reject_saved:
-    saved_entity->unk_9A.u8 = 14;
-    return;
-
-increment_state:
-    ((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 =
-        (u16)((S_func_80D40744_1 *)state_or_flags)->unk_0A.s16 + 1;
-
-accepted:
     {
         s32 mode = (s16)raw_mode;
 

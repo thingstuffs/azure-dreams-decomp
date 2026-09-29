@@ -4,7 +4,6 @@
 #include "shared/dir_step.h"
 
 typedef struct { u8 b[12]; } AggU12;
-extern u8 D_80020000[];
 extern u8 D_80080000[];
 
 typedef struct {
@@ -75,7 +74,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *object;
     register void *object_data ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *busy_base;
     void *effect_object;
     void *depth_value;
     void *owner_sprite;
@@ -123,15 +121,9 @@ initialize:
     U16(sprite, 0x1C) = 0x1000;
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
-    {
-        void *sprite_copy = (u8 *)effect + 0x98;
-        ASM_KEEP(sprite_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        busy_base = (void *)D_80020000;
-        PTR(sprite, 8) = sprite_copy;
-    }
+    PTR(sprite, 8) = (u8 *)effect + 0x98;
     table_value = (void **)(u32)U16(owner, 0x2A);
-    offset_value = (void *)1;
-    S16(busy_base, 0x694C) = (u32)offset_value;
+    D_8002694C[0] = 1;
     offset_value = (void *)(u32)U16(effect, 0xA);
     table_value = (void **)(((u32)table_value >> 9) & 7);
     U16(effect, 0x7E) = (u32)table_value;
@@ -520,9 +512,7 @@ finish_effect:
     if ((s16)finish_tick < 0x15) {
         return;
     }
-    busy_base = (void *)0x80020000;
-    ASM_KEEP_NV(busy_base);
-    effect_busy = S16(busy_base, 0x694C);
+    effect_busy = D_8002694C[0];
     U16(effect, 0x82) = finish_tick;
     if (effect_busy == 0) {
         table_value = (void **)(D_8007CCD8 + 13096);
@@ -553,7 +543,7 @@ reach_target:
     return;
 
 clear_busy:
-    S16(busy_base, 0x694C) = 0;
+    D_8002694C[0] = 0;
 
     return;
 }

@@ -20,38 +20,32 @@ s32 func_80401AA4(s32 count, u8 *text)
     matched = 0;
     if (count > 0) {
         record = D_80409290;
-do {
-        mismatch = 0;
-        record_pos = record;
-        text_pos = text;
-        record_end = record + 21;
-inner:
-        text_byte = *text_pos;
-        if (text_byte != 0) {
-            if (text_byte != *record_pos++) {
-                goto mismatch_found;
+        do {
+            mismatch = 0;
+            record_pos = record;
+            text_pos = text;
+            record_end = record + 21;
+            while (1) {
+                text_byte = *text_pos;
+                if (text_byte == 0) {
+                    break;
+                }
+                if (text_byte != *record_pos++) {
+                    mismatch++;
+                    break;
+                }
+                text_pos++;
+                if ((long)record_pos >= (long)record_end) {
+                    break;
+                }
             }
-            text_pos++;
-            if ((long)record_pos < (long)record_end) {
-                goto inner;
+            if (mismatch == 0) {
+                matched = 1;
+                break;
             }
-        }
-do {
-        if (mismatch != 0) {
-            goto next_record;
-        }
-        matched = 1;
-        goto done;
-
-mismatch_found:
-        mismatch++;
-        } while (1);
-
-next_record:
-        record_index++;
-        record += 40;
+            record_index++;
+            record += 40;
         } while (record_index < count);
     }
-done:
     return matched;
 }

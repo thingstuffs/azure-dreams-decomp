@@ -24,16 +24,6 @@ void func_80174610(S_A *motion_state, S_B *motion, S_C *target, S_D *actor) {
     active_flag = 1;
     switch (state) {
     case 0:
-        goto init_motion;
-    case 1:
-        goto slow_motion;
-    case 2:
-        goto reach_target;
-    default:
-        return;
-    }
-
-init_motion:
         func_800AD4D0(actor);
         motion_state->state9b = (u8)(motion_state->state9b + 1);
         if (actor->flag28 == 0) {
@@ -47,7 +37,7 @@ init_motion:
         motion->dxC = (-(*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
         motion->dy10 = (-(*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE)))) << 0xF;
         motion_state->count96 = 8;
-slow_motion:
+    case 1:
         motion->dxC += (*(s16 *)(((u8 *)dirStepX) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
         motion->dy10 += (*(s16 *)(((u8 *)dirStepY) + (((u16)actor->index6A >> 8) & 0xE))) << 0xA;
         next_count = (u16)motion_state->count96 - 1;
@@ -61,7 +51,7 @@ slow_motion:
             return;
         }
         return;
-reach_target:
+    case 2:
         ticks_left = motion_state->count96;
         if (ticks_left != 0) {
             target_pos = (s32)target->x24 << 6;
@@ -88,5 +78,7 @@ reach_target:
             }
         }
         return;
-    return;
+    default:
+        return;
+    }
 }

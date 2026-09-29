@@ -122,60 +122,52 @@ void func_800B0D34(void *object, void *position, void *anim_state) {
 
     mode = ((S_800B0D34_0 *)object)->unk_10.s;
     ((S_800B0D34_0 *)object)->unk_12++;
-    if (mode == 0) {
-        goto mode_zero;
-    }
-    if (mode == 1) {
-        goto mode_one;
-    }
-    ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
-    goto copy_source;
-
-mode_zero:
+    switch (mode) {
+    case 0:
     {
         u16 anim_offset = ((S_800B0D34_3 *)anim_state)->unk_18.u;
         if (anim_offset != 0) {
             ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset + 0x80;
         }
+        if (((S_800B0D34_4 *)(((u8 *)D_800E3D7C)))->unk_104 !=
+            ((S_800B0D34_0 *)object)->unk_14) {
+            ((S_800B0D34_0 *)object)->unk_10.u++;
+        }
+        ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
     }
-    if (((S_800B0D34_4 *)(((u8 *)D_800E3D7C)))->unk_104 !=
-        ((S_800B0D34_0 *)object)->unk_14) {
-        ((S_800B0D34_0 *)object)->unk_10.u++;
-        goto finish;
-    }
-    goto finish;
-
-mode_one:
+    break;
+    case 1:
     {
         s16 signed_offset = ((S_800B0D34_3 *)anim_state)->unk_18.s;
         u16 anim_offset = ((S_800B0D34_3 *)anim_state)->unk_18.u;
         if (signed_offset >= -0x3FF) {
             ((S_800B0D34_3 *)anim_state)->unk_18.u = anim_offset - 0x100;
-            goto finish;
+            ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
+        } else {
+            func_8004E994(((S_800B0D34_0 *)object)->unk_5C);
+            {
+                s32 entry_index = 0;
+                s32 *flags_base = (s32 *)0x80080000;
+                void *entry_cursor = object;
+                do {
+                    void *entry = ((S_800B0D34_5 *)entry_cursor)->unk_28;
+                    if (entry != 0) {
+                        ((S_800B0D34_6_pre *)entry)[-1].unk_00 |= 0x8000;
+                        flags_base[0x14A0 / 4] |= 0x8000;
+                    }
+                    entry_index++;
+                    entry_cursor = (u8 *)entry_cursor + 4;
+                } while (entry_index < 4);
+            }
+            (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
         }
     }
-    func_8004E994(((S_800B0D34_0 *)object)->unk_5C);
-    {
-        s32 entry_index = 0;
-        s32 *flags_base = (s32 *)0x80080000;
-        void *entry_cursor = object;
-        do {
-            void *entry = ((S_800B0D34_5 *)entry_cursor)->unk_28;
-            if (entry != 0) {
-                ((S_800B0D34_6_pre *)entry)[-1].unk_00 |= 0x8000;
-                flags_base[0x14A0 / 4] |= 0x8000;
-            }
-            entry_index++;
-            entry_cursor = (u8 *)entry_cursor + 4;
-        } while (entry_index < 4);
+    break;
+    default:
+        ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
     }
-    (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
-
-finish:
-    ((S_800B0D34_3 *)anim_state)->unk_04 = 0;
-copy_source:
     {
         void *source = ((S_800B0D34_1_pre *)info)[-1].unk_00;
         s32 z_adjustment;

@@ -56,13 +56,11 @@ s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void 
     u8 tile_y;
 
     phase = state->unk_9B;
-    if (phase != 0) {
-        if (phase != 1) {
+    switch (phase) {
+    case 0:
+        if (dungeonStatus.unk_0A != 0) {
             return 0;
         }
-        goto update_fade;
-    }
-    if (dungeonStatus.unk_0A == 0) {
         visual->unk_10 = 0x20;
         visual->unk_12 = (u16) (visual->unk_12 - 0x80);
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
@@ -71,41 +69,40 @@ s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void 
         visual->unk_0C.at00.v = 0x808080;
         state->unk_96 = 0x10;
         state->unk_9B = (u8) (state->unk_9B + 1);
-update_fade:
-        red = visual->unk_0C.at00u.v;
-        fade_frames = state->unk_96;
-        visual->unk_0C.at00u.v = (u8) (red + ((s32) (0x20 - red) / fade_frames));
-        green = visual->unk_0C.at01.v;
-        blue = visual->unk_0C.at02.v;
-        fade_frames = state->unk_96;
-        visual->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / fade_frames));
-        visual->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->unk_96));
-        frames_left = (u16) state->unk_96 - 1;
-        state->unk_96 = frames_left;
-        if (((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0)) {
-            return 0;
-        }
-        {
-            entity_ref = ((s32)dungeonStatus.unk_10);
-            if (entity_ref == (entity - 0x20)) {
-                dungeonStatus.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
-            }
-            func_800A32A4(entity);
-            if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
-                tile_x = visual->unk_24;
-                tile_y = visual->unk_25;
-                tile_flags = 0x3000;
-                if (((EntityRec *)entity)->flags1C & 0x2000) {
-                    tile_flags = 0x300;
-                }
-                func_8009A3D0(tile_x, tile_y, tile_flags);
-            }
-            func_8009A028(entity);
-            ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-            return 1;
-        }
+    case 1:
+        break;
+    default:
         return 0;
+    }
+    red = visual->unk_0C.at00u.v;
+    fade_frames = state->unk_96;
+    visual->unk_0C.at00u.v = (u8) (red + ((s32) (0x20 - red) / fade_frames));
+    green = visual->unk_0C.at01.v;
+    blue = visual->unk_0C.at02.v;
+    fade_frames = state->unk_96;
+    visual->unk_0C.at01.v = (u8) (green + ((s32) (0x20 - green) / fade_frames));
+    visual->unk_0C.at02.v = (u8) (blue + ((s32) (0x20 - blue) / (s16) state->unk_96));
+    frames_left = (u16) state->unk_96 - 1;
+    state->unk_96 = frames_left;
+    if (!(((frames_left << 0x10) > 0) && ((visual->unk_14 & 0x8000) == 0))) {
+        entity_ref = ((s32)dungeonStatus.unk_10);
+        if (entity_ref == (entity - 0x20)) {
+            dungeonStatus.unk_10 = (s32) (entity_ref & 0x7FFFFFFF);
+        }
+        func_800A32A4(entity);
+        if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
+            tile_x = visual->unk_24;
+            tile_y = visual->unk_25;
+            tile_flags = 0x3000;
+            if (((EntityRec *)entity)->flags1C & 0x2000) {
+                tile_flags = 0x300;
+            }
+            func_8009A3D0(tile_x, tile_y, tile_flags);
+        }
+        func_8009A028(entity);
+        ((S_800D1A80_2_pre *)entity)[-1].unk_00 = (u16) (((S_800D1A80_2_pre *)entity)[-1].unk_00 | 0x8000);
+        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+        return 1;
     }
     return 0;
 }

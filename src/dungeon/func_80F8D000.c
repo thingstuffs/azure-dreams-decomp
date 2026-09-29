@@ -123,21 +123,14 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         if (kind == 1) {
             left = ((S_80F8D000_1 *)work)->unk_14 | 0x6000;
             right = ((S_80F8D000_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        left = ((S_80F8D000_1 *)work)->unk_14 | 0x2000;
-        right = ((S_80F8D000_1 *)work)->unk_1C | 0x2000;
-write_kind:
-        ((S_80F8D000_1 *)work)->unk_14 = left;
-        ((S_80F8D000_1 *)work)->unk_1C = right;
-        goto post_kind;
-
-normal_kind:
-        if (((spawn_flags & ~3) << 16) == 0) {
+            ((S_80F8D000_1 *)work)->unk_14 = left;
+            ((S_80F8D000_1 *)work)->unk_1C = right;
+        } else if (kind >= 2) {
+            left = ((S_80F8D000_1 *)work)->unk_14 | 0x2000;
+            right = ((S_80F8D000_1 *)work)->unk_1C | 0x2000;
+            ((S_80F8D000_1 *)work)->unk_14 = left;
+            ((S_80F8D000_1 *)work)->unk_1C = right;
+        } else if (((spawn_flags & ~3) << 16) == 0) {
             if (!(((S_80F8D000_1 *)work)->unk_14 & 0x200)) {
                 call_a1 = part_a;
                 left = func_800A6D30();
@@ -149,12 +142,8 @@ normal_kind:
                 func_800A48F0(work, 1,
                               (func_800A6D30(obj) & 0x3F) | 0x20);
                 part_b->unk_2C = D_8016EAFC;
-                goto post_kind;
             }
         }
-        goto post_kind;
-
-post_kind:
         call_a0 = obj;
 call_a1_setup:
         func_800A9C18(call_a0, part_a, part_b, spawn_flags);

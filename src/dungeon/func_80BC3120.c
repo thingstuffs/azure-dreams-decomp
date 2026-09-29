@@ -37,7 +37,7 @@ s32 func_80172920(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *ta
     ((EntityRec *)actor)->unk_71 &= 0x7F;
 
     if (dungeonStatus.flags & 0x2000) {
-        goto shared_failure;
+        return -1;
     }
 
     target_direction = func_800A04F0(
@@ -70,25 +70,21 @@ s32 func_80172920(S_80172920_3 *action_state, s32 effect_arg, Rec_D_80082E80 *ta
     func_800C7930((u8 *)actor - 0x20, effect_arg, 8, 0x300);
 
     if ((func_800A2B5C(actor) << 16) == 0) {
-        goto success;
+        action_state->unk_9A = 0x11;
+        action_state->unk_9B = 0;
+        action_state->unk_8C = 0;
+        ((EntityRec *)actor)->unk_84 = 0x7C;
+        ((EntityRec *)actor)->unk_85 = 4;
+        ((EntityRec *)actor)->unk_6D--;
+
+        func_8009C93C(actor, target, ((EntityRec *)actor)->facing, 1, 0);
+        return 1;
     }
 
-shared_failure:
     return -1;
-
-success:
-    action_state->unk_9A = 0x11;
-    action_state->unk_9B = 0;
-    action_state->unk_8C = 0;
-    ((EntityRec *)actor)->unk_84 = 0x7C;
-    ((EntityRec *)actor)->unk_85 = 4;
-    ((EntityRec *)actor)->unk_6D--;
-
-    func_8009C93C(actor, target, ((EntityRec *)actor)->facing, 1, 0);
-    return 1;
 }
 
 /* MECHANISM: An unused volatile u64 frame object plus the natural long-lived
    args/result/global base produce the retail 0x40 frame and s0-s5 roles.
-   A shared mid-function failure block restores both branch targets and polarity;
-   explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */
+   The early failure paths return -1 directly and the success block sits inside the
+   final test's true arm (a failure-first `!= 0` return measured dist 9); explicit (0 - call) + 0x40 emits retail's negu/addiu arithmetic in v0. */

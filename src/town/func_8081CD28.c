@@ -26,13 +26,11 @@ void func_80026D28(void *object)
         if (state != 1) {
             return;
         }
-        goto tick;
+    } else {
+        SD_Call(0x603);
+        ((S_80026D28_0 *)object)->unk_50.u = ((S_80026D28_0 *)object)->unk_50.u + 1;
     }
 
-    SD_Call(0x603);
-    ((S_80026D28_0 *)object)->unk_50.u = ((S_80026D28_0 *)object)->unk_50.u + 1;
-
-tick:
     timer = ((S_80026D28_0 *)object)->unk_52 - 1;
     ((S_80026D28_0 *)object)->unk_52 = timer;
     if ((timer << 16) <= 0) {

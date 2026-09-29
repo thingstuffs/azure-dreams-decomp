@@ -170,13 +170,12 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     register s32 direction ASM_REG("$2");
     register Packed12 *linked_pos ASM_REG("$6");
     register s32 aux_coord ASM_REG("$3");
+    entity = actor->entity;
     {
         u8 *copy_page;
         copy_page = (u8 *)0x80020000;
         ASM_KEEP(copy_page);
         ASM_KEEP(render);
-        entity = actor->entity;
-        ASM_KEEP(entity);
         linked_pos = (Packed12 *)((PackedOffsets *)(copy_page + 0x4004));
         ASM_KEEP(linked_pos);
         offsets.copy.first = ((PackedOffsets *)linked_pos)->copy.first;
@@ -186,13 +185,11 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     }
     timer = actor->timer82;
     state = actor->state;
-    ASM_KEEP(state);
     owner = entity;
     owner = (Owner *)((Owner *)((u8 *)owner - 0x20));
     owner_motion = owner->position;
     timer++;
     actor->timer82 = timer;
-
     if ((u32)state >= 7U) {
         return;
     }

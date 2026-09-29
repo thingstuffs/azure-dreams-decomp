@@ -49,42 +49,31 @@ void func_80173450(void *action, void *unused, void *sprite, void *entity)
     s32 tile_mask;
 
     state = ((S_80173450_0 *)action)->unk_9B;
-    if (state == 1) {
-        goto process;
-    }
-    if (state >= 2) {
-        goto state_ge_2;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-state_ge_2:
-    if (state == 2) {
-        goto update;
-    }
-    return;
-
-state_zero:
-    if (*(s16 *)((u8 *)&dungeonStatus.unk_0A) != 0) {
+    switch (state) {
+    case 0:
+        if (*(s16 *)((u8 *)&dungeonStatus.unk_0A) != 0) {
+            return;
+        }
+        ((S_80173450_0 *)action)->unk_9B = 1;
+        /* fallthrough */
+    case 1:
+        entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
+        if (entity_flags & 0x4000) {
+            if (!(entity_flags & 0x20000000)) {
+                func_800ACF88(entity);
+            }
+        }
+        func_800A56E0(0x805);
+        ((S_80173450_0 *)action)->unk_96 = 4;
+        ((S_80173450_0 *)action)->unk_9B++;
+        ((S_80173450_2 *)sprite)->unk_12 -= 0x80;
+        /* fallthrough */
+    case 2:
+        break;
+    default:
         return;
     }
-    ((S_80173450_0 *)action)->unk_9B = 1;
 
-process:
-    entity_flags = ((Rec_D_80082E80 *)entity)->unk_14.at00_s32.v;
-    if (entity_flags & 0x4000) {
-        if (!(entity_flags & 0x20000000)) {
-            func_800ACF88(entity);
-        }
-    }
-    func_800A56E0(0x805);
-    ((S_80173450_0 *)action)->unk_96 = 4;
-    ((S_80173450_0 *)action)->unk_9B++;
-    ((S_80173450_2 *)sprite)->unk_12 -= 0x80;
-
-update:
     ((Rec_D_80082E80 *)entity)->unk_1C.at00_s32.v |= 0x10000000;
     fade_delay = ((S_80173450_0 *)action)->unk_96 - 1;
     ((S_80173450_0 *)action)->unk_96 = fade_delay;

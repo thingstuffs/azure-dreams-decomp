@@ -130,147 +130,136 @@ void *func_8016A8DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
     allocated = func_8003FD64(allocation_size, allocation_pool);
     kind_copy = saved_kind;
     root = allocated;
-    if (allocated == 0) {
-        goto done;
-    }
+    if (allocated != 0) {
 
-    {
-        void *init_root;
-        void *setup;
+        {
+            void *init_root;
+            void *setup;
 
-        object = (u8 *)allocated + 0x20;
-        init_root = allocated;
-        setup = func_80045340;
-        ((S_8016A8DC_0 *)init_root)->unk_10 = D_8016ABF8;
-        ((S_8016A8DC_1 *)object)->unk_13 = 4;
-        func_8004491C(init_root, setup);
-    }
-
-    {
-        void *part_callback;
-
-        part_callback = D_8016F140;
-        copy = ((S_8016A8DC_2 *)root)->unk_08.at00.v;
-        ((S_8016A8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
-        stable_object = object;
-        part = ((S_8016A8DC_2 *)root)->unk_0C;
-        ((S_8016A8DC_3 *)part)->unk_2C = part_callback;
-    }
-    ((S_8016A8DC_3 *)part)->unk_24 = saved_part_byte_24;
-    ((S_8016A8DC_3 *)part)->unk_25 = saved_part_y;
-
-    {
-        s32 object_flags;
-        s32 state_flags;
-
-        if ((saved_kind & 3) == 1) {
-            object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x6000;
-            state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x6000;
-            ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
-            ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
-            goto flags_done;
+            object = (u8 *)allocated + 0x20;
+            init_root = allocated;
+            setup = func_80045340;
+            ((S_8016A8DC_0 *)init_root)->unk_10 = D_8016ABF8;
+            ((S_8016A8DC_1 *)object)->unk_13 = 4;
+            func_8004491C(init_root, setup);
         }
-        if ((saved_kind & 3) >= 2) {
-            object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x2000;
-            state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x2000;
-            ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
-            ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
-            goto flags_done;
+
+        {
+            void *part_callback;
+
+            part_callback = D_8016F140;
+            copy = ((S_8016A8DC_2 *)root)->unk_08.at00.v;
+            ((S_8016A8DC_2 *)copy)->unk_08.at02.v = saved_copy_value;
+            stable_object = object;
+            part = ((S_8016A8DC_2 *)root)->unk_0C;
+            ((S_8016A8DC_3 *)part)->unk_2C = part_callback;
         }
-        goto update_kind;
+        ((S_8016A8DC_3 *)part)->unk_24 = saved_part_byte_24;
+        ((S_8016A8DC_3 *)part)->unk_25 = saved_part_y;
 
+        {
+            s32 object_flags;
+            s32 state_flags;
 
-update_kind:
-        object_flags = saved_kind & ~3;
-        if ((s16)object_flags == 0) {
-            if ((((S_8016A8DC_1 *)object)->unk_14 & 0x200) == 0) {
-                if (func_800A6D30() & 1) {
-                    ((S_8016A8DC_1 *)object)->unk_1C |= 0x200;
-                    func_800A48F0(object, 1,
-                        (func_800A6D30() & 0x3F) | 0x20);
-                    ((S_8016A8DC_3 *)part)->unk_2C = D_8016F188;
+            if ((saved_kind & 3) == 1) {
+                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x6000;
+                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x6000;
+                ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
+                ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
+            } else if ((saved_kind & 3) >= 2) {
+                object_flags = ((S_8016A8DC_1 *)object)->unk_14 | 0x2000;
+                state_flags = ((S_8016A8DC_1 *)object)->unk_1C | 0x2000;
+                ((S_8016A8DC_1 *)object)->unk_14 = object_flags;
+                ((S_8016A8DC_1 *)object)->unk_1C = state_flags;
+            } else {
+                object_flags = saved_kind & ~3;
+                if ((s16)object_flags == 0) {
+                    if ((((S_8016A8DC_1 *)object)->unk_14 & 0x200) == 0) {
+                        if (func_800A6D30() & 1) {
+                            ((S_8016A8DC_1 *)object)->unk_1C |= 0x200;
+                            func_800A48F0(object, 1,
+                                (func_800A6D30() & 0x3F) | 0x20);
+                            ((S_8016A8DC_3 *)part)->unk_2C = D_8016F188;
+                        }
+                    }
                 }
             }
         }
 
-flags_done:
-        ;
+        func_800A9C18(root, copy, part, (s16)kind_copy);
+
+        outer = stable_object;
+        outer_index = 0;
+        ((S_8016A8DC_4 *)stable_object)->unk_9A = 0xFF;
+        ((S_8016A8DC_4 *)stable_object)->unk_9C = -1;
+        ((S_8016A8DC_4 *)stable_object)->unk_8C = D_8016B400;
+        ((S_8016A8DC_1 *)object)->unk_1C |= 0x40000;
+        ((S_8016A8DC_4 *)stable_object)->unk_92 = -0x20;
+        ((S_8016A8DC_4 *)stable_object)->unk_A8 = 0;
+        ((S_8016A8DC_4 *)stable_object)->unk_9E = 1;
+        ((S_8016A8DC_4 *)stable_object)->unk_98 |= 0x4000;
+
+        do {
+
+            saved_copy_value = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+            allocated = (void *)saved_copy_value;
+            ((S_8016A8DC_5 *)outer)->unk_A4 = allocated;
+            if (allocated != 0) {
+                s32 item_offset;
+                s32 item_index;
+                register void *outer_base;
+                u8 *table;
+                s32 more_items;
+
+                saved_kind = (s32)((u8 *)allocated + 0x20);
+                ((S_8016A8DC_6 *)(void *)saved_kind)->unk_02 = 1;
+                item_index = 0;
+                outer_base = outer;
+                table = D_8016F140 + 0x28;
+                item_offset = 8;
+                do {
+                    void *item;
+                    s32 direction_index;
+                    s32 part_value;
+                    s32 call_zero;
+                    void *outer_child;
+
+                    item = (u8 *)(void *)saved_kind + item_offset;
+                    ((S_8016A8DC_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
+                    part_value = ((S_8016A8DC_3 *)part)->unk_28;
+                    ((S_8016A8DC_7 *)item)->unk_10 = 0x20;
+                    ((S_8016A8DC_7 *)item)->unk_0C = 0x00808080;
+                    ((S_8016A8DC_7 *)item)->unk_28 = part_value;
+                    outer_child = ((S_8016A8DC_8 *)outer_base)->unk_A4;
+                    call_zero = 0;
+                    ((S_8016A8DC_9 *)outer_child)->unk_10 = D_800D78C0;
+                    (*(void * *)((u8 *)item + 0x2C)) = table;
+                    direction_index = ((D_80083228 +
+                        ((S_8016A8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
+                    func_80047784(item,
+                        *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
+                    item_offset += 0x30;
+                    item_index++;
+                    ((S_8016A8DC_6 *)(void *)saved_kind)->unk_06 = 1;
+                    func_800478E8(part, D_800D71A8, 1);
+                    more_items = item_index < ((S_8016A8DC_6 *)(void *)saved_kind)->unk_02;
+                    ((S_8016A8DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
+                } while (more_items);
+            }
+            outer = (u8 *)outer + 4;
+            {
+                s32 child_count;
+
+                child_count = ((S_8016A8DC_4 *)stable_object)->unk_9E;
+                outer_index++;
+                if (outer_index >= child_count) {
+                    break;
+                }
+            }
+        } while (1);
+
+        func_800AA36C(stable_object, copy, part, object);
     }
 
-    func_800A9C18(root, copy, part, (s16)kind_copy);
-
-    outer = stable_object;
-    outer_index = 0;
-    ((S_8016A8DC_4 *)stable_object)->unk_9A = 0xFF;
-    ((S_8016A8DC_4 *)stable_object)->unk_9C = -1;
-    ((S_8016A8DC_4 *)stable_object)->unk_8C = D_8016B400;
-    ((S_8016A8DC_1 *)object)->unk_1C |= 0x40000;
-    ((S_8016A8DC_4 *)stable_object)->unk_92 = -0x20;
-    ((S_8016A8DC_4 *)stable_object)->unk_A8 = 0;
-    ((S_8016A8DC_4 *)stable_object)->unk_9E = 1;
-    ((S_8016A8DC_4 *)stable_object)->unk_98 |= 0x4000;
-
-    do {
-
-        saved_copy_value = (s32)func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-        allocated = (void *)saved_copy_value;
-        ((S_8016A8DC_5 *)outer)->unk_A4 = allocated;
-        if (allocated != 0) {
-            s32 item_offset;
-            s32 item_index;
-            register void *outer_base;
-            u8 *table;
-            s32 more_items;
-
-            saved_kind = (s32)((u8 *)allocated + 0x20);
-            ((S_8016A8DC_6 *)(void *)saved_kind)->unk_02 = 1;
-            item_index = 0;
-            outer_base = outer;
-            table = D_8016F140 + 0x28;
-            item_offset = 8;
-            do {
-                void *item;
-                s32 direction_index;
-                s32 part_value;
-                s32 call_zero;
-                void *outer_child;
-
-                item = (u8 *)(void *)saved_kind + item_offset;
-                ((S_8016A8DC_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
-                part_value = ((S_8016A8DC_3 *)part)->unk_28;
-                ((S_8016A8DC_7 *)item)->unk_10 = 0x20;
-                ((S_8016A8DC_7 *)item)->unk_0C = 0x00808080;
-                ((S_8016A8DC_7 *)item)->unk_28 = part_value;
-                outer_child = ((S_8016A8DC_8 *)outer_base)->unk_A4;
-                call_zero = 0;
-                ((S_8016A8DC_9 *)outer_child)->unk_10 = D_800D78C0;
-                (*(void * *)((u8 *)item + 0x2C)) = table;
-                direction_index = ((D_80083228 +
-                    ((S_8016A8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
-                func_80047784(item,
-                    *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
-                item_offset += 0x30;
-                item_index++;
-                ((S_8016A8DC_6 *)(void *)saved_kind)->unk_06 = 1;
-                func_800478E8(part, D_800D71A8, 1);
-                more_items = item_index < ((S_8016A8DC_6 *)(void *)saved_kind)->unk_02;
-                ((S_8016A8DC_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
-            } while (more_items);
-        }
-        outer = (u8 *)outer + 4;
-        {
-            s32 child_count;
-
-            child_count = ((S_8016A8DC_4 *)stable_object)->unk_9E;
-            outer_index++;
-            if (outer_index >= child_count) {
-                break;
-            }
-        }
-    } while (1);
-
-    func_800AA36C(stable_object, copy, part, object);
-
-done:
     return object;
 }

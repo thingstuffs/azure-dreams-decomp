@@ -43,7 +43,11 @@ void func_8017314C(S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *acto
         action->unk_9B++;
 
         if (((EntityRec *)source)->unk_28 == 0) {
-            goto start_action;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, actor, &D_80174D5C);
+            return;
         }
         if (actor->unk_14.at00_u16.v & 0x8000) {
             action->unk_96.s = 0;
@@ -73,19 +77,13 @@ void func_8017314C(S_8017314C_1 *action, EntityRec *motion, Rec_D_80082E80 *acto
         if (action->unk_96.s != 0) {
             return;
         }
-        if (((EntityRec *)source)->unk_28 != 0) {
-            goto increment_state;
+        if (((EntityRec *)source)->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, actor, &D_80174D5C);
+            return;
         }
-        goto start_action;
-
-start_action:
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, actor, &D_80174D5C);
-        return;
-
-increment_state:
         action->unk_96.s = 8;
         action->unk_9B++;
         return;

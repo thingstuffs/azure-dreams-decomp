@@ -31,56 +31,34 @@ s32 func_80172114(void *object, M2C_UNK state_input_a, M2C_UNK state_input_b) {
     call_result <<= 16;
     state = call_result >> 16;
     call_result = 0;
-    if (state < 0) {
-        goto negative_return;
+    if (state >= 0) {
+        switch (state) {
+        case 0:
+            ((S_80172114_0 *)saved_object)->unk_9A = 0xE;
+            func_800A9A0C(saved_object);
+            return 0;
+        case 2:
+            func_801716A4(saved_object, saved_input_a, saved_input_b, saved_object);
+            return 0;
+        case 1:
+            ((S_80172114_0 *)saved_object)->unk_71 =
+                    (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
+            if ((func_800A2BDC(saved_object) << 0x10) != 0) {
+                ((S_80172114_0 *)saved_object)->unk_46 =
+                    (u16) (((S_80172114_0 *)saved_object)->unk_46 & 0x7FFF);
+                return 0;
+            }
+        default:
+            ((S_80172114_0 *)saved_object)->unk_71 =
+                    (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
+            if ((dungeonStatus.flags & 8) == 0) {
+                call_result = 1;
+                break;
+            }
+            ((S_80172114_0 *)saved_object)->unk_46 =
+                (u16) (((S_80172114_0 *)saved_object)->unk_46 & 0x7FFF);
+            return 0;
+        }
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto state_ge_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    goto common_update;
-
-state_ge_two:
-    if (state == 2) {
-        goto state_two;
-    }
-
-    goto common_update;
-
-state_zero:
-    ((S_80172114_0 *)saved_object)->unk_9A = 0xE;
-    func_800A9A0C(saved_object);
-    return 0;
-
-state_two:
-    func_801716A4(saved_object, saved_input_a, saved_input_b, saved_object);
-    return 0;
-
-state_one:
-    ((S_80172114_0 *)saved_object)->unk_71 =
-        (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
-    if ((func_800A2BDC(saved_object) << 0x10) != 0) {
-        goto clear_field;
-    }
-
-common_update:
-    ((S_80172114_0 *)saved_object)->unk_71 =
-        (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
-    if ((dungeonStatus.flags & 8) == 0) {
-        call_result = 1;
-        goto negative_return;
-    }
-
-clear_field:
-    ((S_80172114_0 *)saved_object)->unk_46 =
-        (u16) (((S_80172114_0 *)saved_object)->unk_46 & 0x7FFF);
-    return 0;
-
-negative_return:
     return call_result;
 }

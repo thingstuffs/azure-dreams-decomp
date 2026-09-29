@@ -51,84 +51,66 @@ void func_81880F28(void *effect, void *motion_data) {
     D_800257CE[0]++;
     state = ((S_81880F28_0 *)effect)->unk_0A.s;
 
-    if (state == 1) {
-        goto redden_color;
-    }
-    if (state >= 2) {
-        goto check_restore;
-    }
-    if (state == 0) {
-        goto init_effect;
-    }
-    goto update_motion;
+    switch (state) {
+    case 0:
+        object = ((S_81880F28_0 *)effect)->unk_00;
+        ((S_81880F28_1 *)object)->unk_1C |= 0x10000000;
+        ((S_81880F28_0 *)effect)->unk_0A.u++;
 
-check_restore:
-    if (state == 2) {
-        goto restore_color;
-    }
-    goto update_motion;
+    case 1:
+        color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
 
-init_effect:
-    object = ((S_81880F28_0 *)effect)->unk_00;
-    ((S_81880F28_1 *)object)->unk_1C |= 0x10000000;
-    ((S_81880F28_0 *)effect)->unk_0A.u++;
+        channel_value = color->red + 1;
+        color->red = channel_value;
+        if ((u32)(channel_value & 0xFF) >= 0xC1U) {
+            color->red = 0xC0;
+        }
 
-redden_color:
-    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
+        channel_value = color->green - 1;
+        color->green = channel_value;
+        if ((u32)(channel_value & 0xFF) < 0x40U) {
+            color->green = 0x40;
+        }
 
-    channel_value = color->red + 1;
-    color->red = channel_value;
-    if ((u32)(channel_value & 0xFF) >= 0xC1U) {
-        color->red = 0xC0;
-    }
+        channel_value = color->blue - 1;
+        color->blue = channel_value;
+        if ((u32)(channel_value & 0xFF) < 0x40U) {
+            color->blue = 0x40;
+        }
 
-    channel_value = color->green - 1;
-    color->green = channel_value;
-    if ((u32)(channel_value & 0xFF) < 0x40U) {
-        color->green = 0x40;
-    }
+        if (D_800257CC[0] < 14) {
+            ((S_81880F28_0 *)effect)->unk_0A.u++;
+        }
+        break;
+    case 2:
+        color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
 
-    channel_value = color->blue - 1;
-    color->blue = channel_value;
-    if ((u32)(channel_value & 0xFF) < 0x40U) {
-        color->blue = 0x40;
-    }
+        channel_value = color->red - 4;
+        color->red = channel_value;
+        if ((u32)(channel_value & 0xFF) < 0x80U) {
+            color->red = 0x80;
+        }
 
-    if (D_800257CC[0] >= 14) {
-        goto update_motion;
-    }
+        channel_value = color->green + 4;
+        color->green = channel_value;
+        if ((u32)(channel_value & 0xFF) >= 0x81U) {
+            color->green = 0x80;
+        }
 
-    ((S_81880F28_0 *)effect)->unk_0A.u++;
-    goto update_motion;
+        channel_value = color->blue + 4;
+        color->blue = channel_value;
+        if ((u32)(channel_value & 0xFF) >= 0x81U) {
+            color->blue = 0x80;
+        }
 
-restore_color:
-    color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;
-
-    channel_value = color->red - 4;
-    color->red = channel_value;
-    if ((u32)(channel_value & 0xFF) < 0x80U) {
-        color->red = 0x80;
-    }
-
-    channel_value = color->green + 4;
-    color->green = channel_value;
-    if ((u32)(channel_value & 0xFF) >= 0x81U) {
-        color->green = 0x80;
+        if (D_800257CC[0] == 0) {
+            ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
 
-    channel_value = color->blue + 4;
-    color->blue = channel_value;
-    if ((u32)(channel_value & 0xFF) >= 0x81U) {
-        color->blue = 0x80;
-    }
-
-    if (D_800257CC[0] == 0) {
-        ((S_81880F28_1 *)((S_81880F28_0 *)effect)->unk_00)->unk_1C &= ~0x10000000;
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-update_motion:
     ((S_81880F28_2 *)motion)->unk_08 += ((S_81880F28_2 *)motion)->unk_14;
     ((S_81880F28_2 *)motion)->unk_14 += -0x80000;
     func_80024A98(motion);

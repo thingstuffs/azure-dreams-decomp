@@ -95,39 +95,30 @@ void *func_80B73054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
         if (kind == 1) {
             state_bits = work->unk_14 | 0x6000;
             next_state_bits = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        state_bits = work->unk_14 | 0x2000;
-        next_state_bits = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = state_bits;
-        work->unk_1C = next_state_bits;
-        goto post_kind;
-
-normal_kind:
-        saved_part = obj;
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                saved_part = part_a;
-                state_bits = func_800A6D30();
-                saved_part = obj;
-                if (!(state_bits & 1)) {
-                    goto init_parts;
+            work->unk_14 = state_bits;
+            work->unk_1C = next_state_bits;
+        } else if (kind >= 2) {
+            state_bits = work->unk_14 | 0x2000;
+            next_state_bits = work->unk_1C | 0x2000;
+            work->unk_14 = state_bits;
+            work->unk_1C = next_state_bits;
+        } else {
+            saved_part = obj;
+            if (((spawn_flags & ~3) << 16) == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    saved_part = part_a;
+                    state_bits = func_800A6D30();
+                    saved_part = obj;
+                    if (!(state_bits & 1)) {
+                        goto init_parts;
+                    }
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8016DD4C;
                 }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_8016DD4C;
-                goto post_kind;
             }
         }
-        goto init_parts;
-
-post_kind:
         saved_part = obj;
 init_parts:
         func_800A9C18(saved_part, part_a, part_b, spawn_flags);

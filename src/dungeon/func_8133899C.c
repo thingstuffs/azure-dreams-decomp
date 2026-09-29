@@ -37,85 +37,72 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
 
     state = ((S_8016F99C_0 *)transition)->unk_12.s;
     switch (state) {
-    case 1:
-        goto case_1;
-    case 2:
-        goto case_2;
-    case 3:
-        goto case_3;
-    case 4:
-        goto case_4;
-    case 10:
-        goto case_10;
-    case 11:
-        goto case_11;
     case 0:
     default:
         return;
-    }
 
-case_1:
-    target->unk_0A = 1;
-    return;
-
-case_2:
-    next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
-    next_timer = 0x11;
-    goto advance_state;
-
-case_3:
-    target->unk_06 = target->unk_06 - 8;
-    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-    ((S_8016F99C_0 *)transition)->unk_18 = timer;
-    if ((timer << 16) > 0) {
+    case 1:
+        target->unk_0A = 1;
         return;
-    }
-    ((S_8016F99C_0 *)transition)->unk_18 = 0x11;
-    ((S_8016F99C_0 *)transition)->unk_12.u = ((S_8016F99C_0 *)transition)->unk_12.u + 1;
-    target->unk_0A = 3;
-    return;
 
-case_4:
-    target->unk_06 = target->unk_06 + 8;
-    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-    ((S_8016F99C_0 *)transition)->unk_18 = timer;
-    if ((timer << 16) > 0) {
+    case 2:
+        next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
+        next_timer = 0x11;
+        ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
+        ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
         return;
-    }
-    if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
-        goto clear_58;
-    }
-    *(void **)D_80175D5C = 0;
-    goto finish;
 
-case_10:
-    next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
-    next_timer = 0x14;
-advance_state:
-    ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
-    ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
-    return;
-
-case_11:
-    target->unk_06 = target->unk_06 - 8;
-    timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
-    ((S_8016F99C_0 *)transition)->unk_18 = timer;
-    if ((timer << 16) > 0) {
+    case 3:
+        target->unk_06 = target->unk_06 - 8;
+        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        if ((timer << 16) > 0) {
+            return;
+        }
+        ((S_8016F99C_0 *)transition)->unk_18 = 0x11;
+        ((S_8016F99C_0 *)transition)->unk_12.u = ((S_8016F99C_0 *)transition)->unk_12.u + 1;
+        target->unk_0A = 3;
         return;
-    }
-    if (((S_8016F99C_0 *)transition)->unk_1C != 0) {
-        goto clear_5C;
-    }
+
+    case 4:
+        target->unk_06 = target->unk_06 + 8;
+        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        if ((timer << 16) > 0) {
+            return;
+        }
+        if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
+            goto clear_58;
+        }
+        *(void **)D_80175D5C = 0;
+        goto finish;
+
+    case 10:
+        next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
+        next_timer = 0x14;
+        ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
+        ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
+        return;
+
+    case 11:
+        target->unk_06 = target->unk_06 - 8;
+        timer = ((S_8016F99C_0 *)transition)->unk_18 - 1;
+        ((S_8016F99C_0 *)transition)->unk_18 = timer;
+        if ((timer << 16) > 0) {
+            return;
+        }
+        if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
 clear_58:
-    *(void **)D_80175D58 = 0;
-    goto finish;
-clear_5C:
-    *(void **)D_80175D5C = 0;
+            *(void **)D_80175D58 = 0;
+        } else {
+            *(void **)D_80175D5C = 0;
+        }
 finish:
-    ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
-    next_timer = 0x80080000;
-    *(s32 *)(next_timer + 0x14A0) |= 0x8000;
-    return;
+        ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
+        next_timer = 0x80080000;
+        *(s32 *)(next_timer + 0x14A0) |= 0x8000;
+        return;
+    }
 }
 
 /* MECHANISM: Frameless leaf recovers every apparent 0x8016FAxx call as a local CFG join.

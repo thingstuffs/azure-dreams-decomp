@@ -37,7 +37,6 @@ void func_8004C36C(u8 *parent, u8 *node)
     u8 *rotation;
     u8 *render_ctx;
     u8 **render_state;
-    register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 
     node_matrix = work_buf + 0xE4;
     sprite_matrix = work_buf + 0x7C;
@@ -114,54 +113,36 @@ command:
     U32_AT(work, 0x08) = U32_AT(cmd, 8);
     if (U32_AT(work, 8) != 0) {
         if (U8_AT(work, 0) & 1) {
-            s32 offset_x = U8_AT(work, 2);
-            u32 origin_x = U16_AT(work, 0xB0);
-            u32 trans_x = U16_AT(work, 0x20);
-            ASM_KEEP_DEP_NV(offset_x, origin_x);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_x, trans_x);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            coord = origin_x - ((offset_x << 24) >> 24) - trans_x - U16_AT(work, 0xBE);
-            S16_AT(work, 0x68) = coord;
-            S16_AT(work, 0x58) = coord;
-            coord = coord - U8_AT(work, 0xA);
+            s16 cx = U16_AT(work, 0xB0) - S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
+            S16_AT(work, 0x68) = cx;
+            S16_AT(work, 0x58) = cx;
+            cx = cx - U8_AT(work, 0xA);
+            S16_AT(work, 0x70) = cx;
+            S16_AT(work, 0x60) = cx;
         } else {
-            s32 offset_x = U8_AT(work, 2);
-            u32 origin_x = U16_AT(work, 0xB0);
-            u32 trans_x = U16_AT(work, 0x20);
-            ASM_KEEP_DEP_NV(offset_x, origin_x);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_x, trans_x);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            coord = origin_x + ((offset_x << 24) >> 24) - trans_x - U16_AT(work, 0xBE);
-            S16_AT(work, 0x68) = coord;
-            S16_AT(work, 0x58) = coord;
-            coord = coord + U8_AT(work, 0xA);
+            s16 cx = U16_AT(work, 0xB0) + S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
+            S16_AT(work, 0x68) = cx;
+            S16_AT(work, 0x58) = cx;
+            cx = cx + U8_AT(work, 0xA);
+            S16_AT(work, 0x70) = cx;
+            S16_AT(work, 0x60) = cx;
         }
-        S16_AT(work, 0x70) = coord;
-        S16_AT(work, 0x60) = coord;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         if (U8_AT(work, 0) & 2) {
-            s32 offset_y = U8_AT(work, 3);
-            u32 origin_y = U16_AT(work, 0xB2);
-            u32 trans_y = U16_AT(work, 0x24);
-            ASM_KEEP_DEP_NV(offset_y, origin_y);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_y, trans_y);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            coord = origin_y - ((offset_y << 24) >> 24) - trans_y - U16_AT(work, 0xC0);
-            S16_AT(work, 0x62) = coord;
-            S16_AT(work, 0x5A) = coord;
-            coord = coord - U8_AT(work, 0xB);
-            S16_AT(work, 0x72) = coord;
+            s16 cy = U16_AT(work, 0xB2) - S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
+            S16_AT(work, 0x62) = cy;
+            S16_AT(work, 0x5A) = cy;
+            cy = cy - U8_AT(work, 0xB);
+            S16_AT(work, 0x72) = cy;
+            S16_AT(work, 0x6A) = cy;
         } else {
-            s32 offset_y = U8_AT(work, 3);
-            u32 origin_y = U16_AT(work, 0xB2);
-            u32 trans_y = U16_AT(work, 0x24);
-            ASM_KEEP_DEP_NV(offset_y, origin_y);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_y, trans_y);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            coord = origin_y + ((offset_y << 24) >> 24) - trans_y - U16_AT(work, 0xC0);
-            S16_AT(work, 0x62) = coord;
-            S16_AT(work, 0x5A) = coord;
-            coord = coord + U8_AT(work, 0xB);
-            S16_AT(work, 0x72) = coord;
+            s16 cy = U16_AT(work, 0xB2) + S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
+            S16_AT(work, 0x62) = cy;
+            S16_AT(work, 0x5A) = cy;
+            cy = cy + U8_AT(work, 0xB);
+            S16_AT(work, 0x72) = cy;
+            S16_AT(work, 0x6A) = cy;
         }
-        S16_AT(work, 0x6A) = coord;
 
         gte_ldv3(work + 0x58, work + 0x60, work + 0x68);
         gte_rtpt();

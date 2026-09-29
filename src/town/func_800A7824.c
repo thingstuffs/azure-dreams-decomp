@@ -56,10 +56,7 @@ void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 c
                 object->unk_00.i = value->unk_08;
                 return;
             }
-            goto use_default;
-        }
-
-        if (state_index == 0) {
+        } else if (state_index == 0) {
             idle_count = object->unk_34 + 1;
             object->unk_34 = idle_count;
             if (idle_count < 9) {
@@ -68,7 +65,6 @@ void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 c
             object->unk_34 = 9;
         }
 
-use_default:
         object->unk_00.p = D_80100D98;
         return;
     } else {

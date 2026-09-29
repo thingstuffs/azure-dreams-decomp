@@ -75,10 +75,7 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     M2C_UNK direction_offset;
     s32 affinity;
     s16 requested_bonus;
-    s32 second_element;
-    s32 third_element;
     M2C_UNK affinity_shift;
-    s32 first_affinity;
     S_8009CE1C_2 *position;
     register u16 base = base_power;
     s16 element_mask = elements;
@@ -119,57 +116,40 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
         if (element_mask & 1) {
             if ((func_80042900(target, 0x13) << 0x10) != 0) {
                 power >>= 2;
-                goto check_second_element;
+            } else {
+                if (target_elements & 4) {
+                    affinity += 1;
+                }
+                if (target_elements & 2) {
+                    affinity -= 1;
+                }
             }
-            if (target_elements & 4) {
-                affinity += 1;
-            }
-            if (target_elements & 2) {
-                affinity -= 1;
-                goto check_second_element;
-            }
-            goto check_second_element;
         }
-check_second_element:
-        second_element = element_mask & 2;
-apply_second_element:
-        if (second_element != 0) {
+        if (element_mask & 2) {
             if ((func_80042900(target, 0x14) << 0x10) != 0) {
                 power >>= 2;
-                goto check_third_element;
+            } else {
+                if (target_elements & 1) {
+                    affinity += 1;
+                }
+                if (target_elements & 4) {
+                    affinity -= 1;
+                }
             }
-            if (target_elements & 1) {
-                affinity += 1;
-            }
-            if (target_elements & 4) {
-                affinity -= 1;
-                goto check_third_element;
-            }
-            third_element = element_mask & 4;
-            goto apply_third_element;
         }
-check_third_element:
-        third_element = element_mask & 4;
-apply_third_element:
-        if (third_element != 0) {
+        if (element_mask & 4) {
             if ((func_80042900(target, 0x12) << 0x10) != 0) {
                 power >>= 2;
-                goto scale_affinity;
+            } else {
+                if (target_elements & 2) {
+                    affinity += 1;
+                }
+                if (target_elements & 1) {
+                    affinity -= 1;
+                }
             }
-            if (target_elements & 2) {
-                affinity += 1;
-            }
-            first_affinity = target_elements & 1;
-            if (first_affinity) {
-                affinity -= 1;
-                goto scale_affinity;
-            }
-            affinity_shift = affinity << 0x10;
-            goto apply_affinity;
         }
-scale_affinity:
         affinity_shift = affinity << 0x10;
-apply_affinity:
         affinity_product = power * (affinity_shift >> 0x10);
         affinity_adjust = affinity_product;
         if (affinity_product < 0) {

@@ -58,75 +58,61 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
 
     state = action->unk_9B;
     actor = actor_ptr;
-    if (state == 1) {
-        goto state_1;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        if (animation->unk_14.at00_u16.v & 0x8000) {
+            action->unk_9B = 3;
+            animation->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            return;
+        }
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        current_state = action->unk_9B;
+        action->unk_96 = 0;
+        action->unk_9B = current_state + 1;
+        return;
+    case 1:
+        timer = action->unk_96 + 1;
+        action->unk_96 = timer;
+        if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
+            animation->unk_2C.as_pu8 = D_801760CC;
+            work = ((S_80172F04_4 *)D_80080000)->unk_3228 + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
+            work = ((s32)work >> 9) & 7;
+            work += (u32)D_801760CC;
+            func_80047784(animation,
+                ((S_80172F04_4 *)((u8 *)work))->unk_00,
+                0);
+            func_800A56E0(0x809);
+            current_state = action->unk_9B;
+            action->unk_96 = 0;
+            action->unk_9B = current_state + 1;
+            return;
         }
         return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_0:
-    if (animation->unk_14.at00_u16.v & 0x8000) {
-        action->unk_9B = 3;
-        animation->unk_14.at00_u16.v |= 0x6000;
-        func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+    case 2:
+        timer = action->unk_96 + 1;
+        action->unk_96 = timer;
+        if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
+            current_state = action->unk_9B;
+            action->unk_96 = 0;
+            action->unk_9B = current_state + 1;
+            return;
+        }
+        return;
+    case 3:
+        if (animation->unk_14.at00_u16.v & 0xE000) {
+            func_800AD594(actor, 0x140);
+            call_actor = actor;
+            action->unk_8C = (u8 *)((u32)D_801714B8);
+            ((S_80172F04_4 *)D_80080000)->unk_346C = 0;
+            func_800A4ACC(call_actor);
+            ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
+        }
+        return;
+    default:
         return;
     }
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    goto advance;
-
-state_1:
-    timer = action->unk_96 + 1;
-    action->unk_96 = timer;
-    if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
-        animation->unk_2C.as_pu8 = D_801760CC;
-        work = ((S_80172F04_4 *)D_80080000)->unk_3228 + ((S_80172F04_2 *)actor)->unk_2A + 0x100;
-        work = ((s32)work >> 9) & 7;
-        work += (u32)D_801760CC;
-        func_80047784(animation,
-            ((S_80172F04_4 *)((u8 *)work))->unk_00,
-            0);
-        func_800A56E0(0x809);
-        goto advance;
-    }
-    return;
-
-state_2:
-    timer = action->unk_96 + 1;
-    action->unk_96 = timer;
-    if (((s16)timer == 4) || (animation->unk_14.at00_u16.v & 0x8000)) {
-        func_8009C12C(actor, animation, ((S_80172F04_2 *)actor)->unk_2A, 1);
-        goto advance;
-    }
-    return;
-
-advance:
-    current_state = action->unk_9B;
-    action->unk_96 = 0;
-    action->unk_9B = current_state + 1;
-    return;
-
-state_3:
-    if (animation->unk_14.at00_u16.v & 0xE000) {
-        func_800AD594(actor, 0x140);
-        call_actor = actor;
-        action->unk_8C = (u8 *)((u32)D_801714B8);
-        ((S_80172F04_4 *)D_80080000)->unk_346C = 0;
-        func_800A4ACC(call_actor);
-        ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;
-    }
-
-    return;
 }

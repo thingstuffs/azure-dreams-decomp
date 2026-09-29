@@ -49,41 +49,28 @@ void func_800D21CC(CcaState *state, CcaMotion *motion, CcaInfo *info, CcaAnim *a
     s32 phase;
 
     phase = state->status;
-    if (phase == 1) {
-        goto decelerate;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto start;
-        }
-        return;
-    }
-    if (phase == 2) {
-        goto align_to_tile;
-    }
-    return;
-
-start:
-    func_800AD4D0(anim);
-    motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
-    motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
-    state->status = state->status + 1;
-    if (anim->active != 0) {
-        if (info->flags & 0x8000) {
-            state->count = 0;
-            state->status = 2;
+    switch (phase) {
+    case 0:
+        func_800AD4D0(anim);
+        motion->dx = (s32)(*(s16 *)((u8 *)dirStepX + ((anim->code >> 8) & 0xE)) << 15);
+        motion->dy = (s32)(*(s16 *)((u8 *)dirStepY + ((anim->code >> 8) & 0xE)) << 15);
+        state->status = state->status + 1;
+        if (anim->active != 0) {
+            if (info->flags & 0x8000) {
+                state->count = 0;
+                state->status = 2;
+                return;
+            }
+            state->count = 8;
+        } else {
+            motion->dz = 0;
+            motion->dy = 0;
+            motion->dx = 0;
+            func_800AAA54(state, motion, info, 0);
             return;
         }
-        state->count = 8;
-        goto decelerate;
-    }
-    motion->dz = 0;
-    motion->dy = 0;
-    motion->dx = 0;
-    func_800AAA54(state, motion, info, 0);
-    return;
-
-decelerate:
+        /* fall through */
+    case 1:
     {
         s32 velocity_x;
         s32 biased_dx;
@@ -120,7 +107,7 @@ decelerate:
         return;
     }
 
-align_to_tile:
+    case 2:
     {
         s16 frames_left;
         u16 next_frames;
@@ -148,6 +135,7 @@ align_to_tile:
         }
         state->next = D_800D20D8;
         state->kind = 0xE;
+    }
     }
 
     return;

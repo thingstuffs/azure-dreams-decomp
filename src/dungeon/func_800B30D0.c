@@ -129,124 +129,111 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
 
     one = 1;
     state = ((S_800B8830_0 *)motion)->unk_20.s;
-    if (state != one) {
-        if (state < 2) {
-            if (state == 0) {
-                goto state_zero;
-            }
-            goto done;
-        }
-        if (state == 2) {
-            goto state_two;
-        }
-        goto done;
-
-state_zero:
+    switch (state) {
+    case 0:
         render->unk_0C = render->unk_0D = render->unk_0E = 0x80;
         render_flags = render->unk_14;
         render->unk_1C = render->unk_1E = 0x1000;
         render->unk_14 = render_flags | 0xC;
         func_8004491C((u8 *)motion - 0x20, func_80045340);
         ((S_800B8830_0 *)motion)->unk_20.u++;
-    }
+        /* fallthrough */
+    case 1:
+        source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
+        if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
+            func_8003DE58(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
+            u16 source_z;
 
-    source = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_0C;
-    if ((((S_800B8830_2 *)source)->unk_14 & 0x8000) ||
-        func_8003DE58(((S_800B8830_2 *)source)->unk_08, source, &delta, 0) != NULL) {
-        u16 source_z;
+            pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
+            coords->unk_00.at02.v = pos_record->unk_02;
+            coords->unk_04.at02.v = pos_record->unk_06;
+            source_z = pos_record->unk_0A;
+            coords->unk_08.at02.v = source_z;
 
-        pos_record = ((S_800B8830_10 *)(((S_800B8830_0 *)motion)->unk_00))->unk_08;
-        coords->unk_00.at02.v = pos_record->unk_02;
-        coords->unk_04.at02.v = pos_record->unk_06;
-        source_z = pos_record->unk_0A;
-        coords->unk_08.at02.v = source_z;
+            if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
+                u16 offset_z;
 
-        if (!(((S_800B8830_2 *)source)->unk_14 & 0x8000)) {
-            u16 offset_z;
-
-            coords->unk_00.at02.v += (u16)delta.x;
-            coords->unk_04.at02.v += (u16)delta.y;
-            offset_z = coords->unk_08.at02.v + (u16)delta.z;
-            coords->unk_08.at02.v = offset_z;
-        } else {
-            coords->unk_08.at02.v = source_z - 0x20;
+                coords->unk_00.at02.v += (u16)delta.x;
+                coords->unk_04.at02.v += (u16)delta.y;
+                offset_z = coords->unk_08.at02.v + (u16)delta.z;
+                coords->unk_08.at02.v = offset_z;
+            } else {
+                coords->unk_08.at02.v = source_z - 0x20;
+            }
         }
+
+        if (((S_800B8830_11 *)(((S_800B8830_0 *)motion)->unk_08))->unk_00 & 0x80) {
+            ((S_800B8830_0 *)motion)->unk_26.s = 9;
+            ((S_800B8830_0 *)motion)->unk_20.u++;
+        }
+        break;
+    case 2: {
+        void *entry;
+        s32 entry_addr;
+        s32 start_x;
+        s32 start_y;
+        s32 start_z;
+
+        pos_record = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
+        start_x = coords->unk_00.at02u.v;
+        start_y = coords->unk_04.at02u.v;
+        start_z = coords->unk_08.at02u.v;
+        target_pos[0] = ((S_800B8830_5 *)pos_record)->unk_00;
+        target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
+        target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
+
+        entry_addr = ((((S_800B8830_6 *)D_80080000)->unk_3228 +
+                  D_800814A8->facing + 0x100) >> 7) & 0x1C;
+        entry_addr += (s32)D_800E3D18;
+        entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
+        if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
+            target_pos[0] += (s32)delta.x << 16;
+            target_pos[1] += (s32)delta.y << 16;
+            target_pos[2] += (s32)delta.z << 16;
+        }
+
+        coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
+        coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
+        curve = func_800644B8(((S_800B8830_0 *)motion)->unk_26.s * 170);
+        coords->unk_08.at00.v +=
+            (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
+
+        current_pos.x = coords->unk_00.at02.v;
+        current_pos.y = coords->unk_04.at02.v;
+        current_pos.z = coords->unk_08.at02.v;
+        func_800B8EA8((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
+                      ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
+
+        counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
+        ((S_800B8830_0 *)motion)->unk_26.u = counter;
+        if ((s16)counter > 0) {
+            break;
+        }
+
+        coords->unk_00.at00.v = target_pos[0];
+        coords->unk_04.at00.v = target_pos[1];
+        coords->unk_08.at00.v = target_pos[2];
+        func_800B8D64(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
+        {
+            void *flags_page;
+            s32 final_flags;
+            u16 object_flags;
+
+            object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
+            flags_page = (void *)0x80080000;
+            object_flags |= 0x8000;
+            ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
+            counter = ((S_800B8830_0 *)motion)->unk_20.u;
+            final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
+            counter += 1;
+            final_flags |= 0x8000;
+            ((S_800B8830_0 *)motion)->unk_20.u = counter;
+            ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
+        }
+        return;
     }
-
-    if (!(((S_800B8830_11 *)(((S_800B8830_0 *)motion)->unk_08))->unk_00 & 0x80)) {
-        goto done;
+    default:
+        break;
     }
-    ((S_800B8830_0 *)motion)->unk_26.s = 9;
-    ((S_800B8830_0 *)motion)->unk_20.u++;
-    goto done;
-
-state_two:
-{
-    void *entry;
-    s32 entry_addr;
-    s32 start_x;
-    s32 start_y;
-    s32 start_z;
-
-    pos_record = ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_08;
-    start_x = coords->unk_00.at02u.v;
-    start_y = coords->unk_04.at02u.v;
-    start_z = coords->unk_08.at02u.v;
-    target_pos[0] = ((S_800B8830_5 *)pos_record)->unk_00;
-    target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
-    target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
-
-    entry_addr = ((((S_800B8830_6 *)D_80080000)->unk_3228 +
-              D_800814A8->facing + 0x100) >> 7) & 0x1C;
-    entry_addr += (s32)D_800E3D18;
-    entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;
-    if (func_8003DE58(entry, ((S_800B8830_12 *)(((S_800B8830_0 *)motion)->unk_04))->unk_0C, &delta, 0) != NULL) {
-        target_pos[0] += (s32)delta.x << 16;
-        target_pos[1] += (s32)delta.y << 16;
-        target_pos[2] += (s32)delta.z << 16;
-    }
-
-    coords->unk_00.at00.v += (target_pos[0] - coords->unk_00.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
-    coords->unk_04.at00.v += (target_pos[1] - coords->unk_04.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s;
-    curve = func_800644B8(((S_800B8830_0 *)motion)->unk_26.s * 170);
-    coords->unk_08.at00.v +=
-        (target_pos[2] - coords->unk_08.at00.v) / ((S_800B8830_0 *)motion)->unk_26.s - (curve << 7);
-
-    current_pos.x = coords->unk_00.at02.v;
-    current_pos.y = coords->unk_04.at02.v;
-    current_pos.z = coords->unk_08.at02.v;
-    func_800B8EA8((u8 *)motion - 0x20, start_x, start_y, start_z, &current_pos,
-                  ((S_800B8830_0 *)motion)->unk_0C, 4, 0x1000, one);
-
-    counter = ((S_800B8830_0 *)motion)->unk_26.u - 1;
-    ((S_800B8830_0 *)motion)->unk_26.u = counter;
-    if ((s16)counter > 0) {
-        goto done;
-    }
-
-    coords->unk_00.at00.v = target_pos[0];
-    coords->unk_04.at00.v = target_pos[1];
-    coords->unk_08.at00.v = target_pos[2];
-    func_800B8D64(coords->unk_00.at02u.v, coords->unk_04.at02u.v, coords->unk_08.at02u.v);
-    {
-        void *flags_page;
-        s32 final_flags;
-        u16 object_flags;
-
-        object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
-        flags_page = (void *)0x80080000;
-        object_flags |= 0x8000;
-        ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
-        counter = ((S_800B8830_0 *)motion)->unk_20.u;
-        final_flags = ((S_800B8830_9 *)flags_page)->unk_14A0;
-        counter += 1;
-        final_flags |= 0x8000;
-        ((S_800B8830_0 *)motion)->unk_20.u = counter;
-        ((S_800B8830_9 *)flags_page)->unk_14A0 = final_flags;
-    }
-    return;
-
-done:
     ((S_800B8830_0 *)motion)->unk_28++;
-}
 }

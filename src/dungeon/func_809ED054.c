@@ -94,40 +94,30 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
         if (kind == 1) {
             flags = work->unk_14 | 0x6000;
             extra_flags = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        flags = work->unk_14 | 0x2000;
-        extra_flags = work->unk_1C | 0x2000;
-write_kind:
-        work->unk_14 = flags;
-        work->unk_1C = extra_flags;
-        goto post_kind;
-
-normal_kind:
-        call_obj = obj;
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(work->unk_14 & 0x200)) {
-                call_part = part_a;
-                call_obj = (void *)func_800A6D30(call_obj);
-                flags = (s32)call_obj;
-                call_obj = obj;
-                if (!(flags & 1)) {
-                    goto init_parts;
-                }
-                work->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
-                part_b->unk_2C = D_8014FCDC;
-                goto post_kind;
+            work->unk_14 = flags;
+            work->unk_1C = extra_flags;
+        } else if (kind >= 2) {
+            flags = work->unk_14 | 0x2000;
+            extra_flags = work->unk_1C | 0x2000;
+            work->unk_14 = flags;
+            work->unk_1C = extra_flags;
+        } else {
+            call_obj = obj;
+            if (((spawn_flags & ~3) << 16) != 0 || (work->unk_14 & 0x200)) {
+                goto init_parts;
             }
+            call_part = part_a;
+            call_obj = (void *)func_800A6D30(call_obj);
+            flags = (s32)call_obj;
+            call_obj = obj;
+            if (!(flags & 1)) {
+                goto init_parts;
+            }
+            work->unk_1C |= 0x200;
+            func_800A48F0(work, 1,
+                          (func_800A6D30(obj) & 0x3F) | 0x20);
+            part_b->unk_2C = D_8014FCDC;
         }
-        goto init_parts;
-
-post_kind:
         call_obj = obj;
 init_parts:
         func_800A9C18(call_obj, part_a, part_b, spawn_flags);

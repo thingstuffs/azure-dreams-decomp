@@ -119,37 +119,22 @@ void func_801716A4(void *move_data_in, void *context, void *tile_in, void *actor
     s16 *turn_table;
     s32 direction_offset;
 
-    if (dungeon_flags & 0x4000) {
-        goto process_state;
-    }
-    if (((S_801716A4_1 *)actor_in)->unk_71.s < 0) {
-        goto check_active;
-    }
-
-process_state:
-    if (((S_801716A4_1 *)actor_in)->unk_12 >= 2) {
-        goto reject_state;
-    }
-    if ((s16)func_80171E38(move_data_in, context, tile_in, actor_in) != 0) {
-        goto accept_state;
+    if ((dungeon_flags & 0x4000) || ((S_801716A4_1 *)actor_in)->unk_71.s >= 0) {
+        if (((S_801716A4_1 *)actor_in)->unk_12 >= 2 ||
+            (s16)func_80171E38(move_data_in, context, tile_in, actor_in) == 0) {
+            func_800A9A0C(actor_in);
+            return;
+        }
+        if (dungeonStatus.unk_0C == actor_in) {
+            ((S_801716A4_1 *)actor_in)->unk_46 = 0xC008;
+        }
+        return;
     }
 
-reject_state:
-    func_800A9A0C(actor_in);
-    return;
-
-accept_state:
-    if (dungeonStatus.unk_0C == actor_in) {
-        ((S_801716A4_1 *)actor_in)->unk_46 = 0xC008;
-    }
-    return;
-
-check_active:
     if (!(dungeon_flags & 0x2000)) {
         return;
     }
 
-active:
     func_800A19E4(tile_in, actor_in, 2, 4, (u8 *)move_data_in + 0x9C);
     actor_flags = ((S_801716A4_1 *)actor_in)->unk_1C;
     if (actor_flags & 0x410) {
@@ -291,7 +276,8 @@ init_loop:
             if (turn_or_height >= 3) {
                 stop_turn = stop_on_wide_turn;
                 if (stop_turn != 0) {
-                    goto success;
+                    ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
+                    return;
                 }
             }
 
@@ -319,7 +305,7 @@ init_loop:
             func_8009A21C(
                 ((S_801716A4_2 *)tile_in)->unk_24.at00.v, ((S_801716A4_2 *)tile_in)->unk_24.at01.v,
                 (((S_801716A4_1 *)actor_in)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            goto loop_test;
+            break;
         }
 
         if (turn_or_height == 0 &&
@@ -332,7 +318,6 @@ init_loop:
 
     }
 
-loop_test:
     if (turn_or_height >= 8) {
         ((S_801716A4_1 *)actor_in)->unk_71.u &= 0x7F;
         ((S_801716A4_1 *)actor_in)->unk_46 &= 0x7FFF;

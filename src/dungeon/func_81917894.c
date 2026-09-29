@@ -42,61 +42,46 @@ void func_80025094(void *effect, void *transform, void *visual) {
     ((Rec_D_80082E80 *)visual)->unk_1A.as_u16 = (u16) (((Rec_D_80082E80 *)visual)->unk_1A.as_u16 + 0x200);
     phase = ((S_80025094_0 *)effect)->unk_04.s;
 
-    if (phase == 1) {
-        goto state_1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto state_0;
+    switch (phase) {
+    case 0:
+        {
+            u16 radius;
+
+            if (((S_80025094_0 *)effect)->unk_06.u & 1) {
+                radius = ((S_80025094_0 *)effect)->unk_0A + 2;
+            } else {
+                radius = ((S_80025094_0 *)effect)->unk_0A + 1;
+            }
+            ((S_80025094_0 *)effect)->unk_0A = radius;
         }
-        goto common;
-    }
-    if (phase == 2) {
-        goto state_2;
-    }
-    goto common;
-
-state_0:
-    {
-        u16 radius;
-
-        if (((S_80025094_0 *)effect)->unk_06.u & 1) {
-            radius = ((S_80025094_0 *)effect)->unk_0A + 2;
-        } else {
-            radius = ((S_80025094_0 *)effect)->unk_0A + 1;
+        brightness = ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v + 3;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v = brightness;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at01_u8.v = brightness;
+        ((Rec_D_80082E80 *)visual)->unk_0C.at00_u8.v = brightness;
+        scale = ((S_80025094_0 *)effect)->unk_06.s << 5;
+        ((Rec_D_80082E80 *)visual)->unk_1C.at02_s16.v = scale;
+        ((Rec_D_80082E80 *)visual)->unk_1C.at00_s16.v = scale;
+        ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
+            (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
+    case 1:
+        if ((s16) ((S_80025094_0 *)effect)->unk_06.u >= 0x20) {
+            ((S_80025094_0 *)effect)->unk_06.u = 0U;
+            ((S_80025094_0 *)effect)->unk_04.u =
+                (u16) (((S_80025094_0 *)effect)->unk_04.u + 1);
         }
-        ((S_80025094_0 *)effect)->unk_0A = radius;
-    }
-    brightness = ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v + 3;
-    ((Rec_D_80082E80 *)visual)->unk_0C.at02_u8.v = brightness;
-    ((Rec_D_80082E80 *)visual)->unk_0C.at01_u8.v = brightness;
-    ((Rec_D_80082E80 *)visual)->unk_0C.at00_u8.v = brightness;
-    scale = ((S_80025094_0 *)effect)->unk_06.s << 5;
-    ((Rec_D_80082E80 *)visual)->unk_1C.at02_s16.v = scale;
-    ((Rec_D_80082E80 *)visual)->unk_1C.at00_s16.v = scale;
-    ((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v =
-        (u16) (((Rec_func_80024E80_arg1 *)transform)->unk_08.at02_u16.v - 2);
-
-state_1:
-    if ((s16) ((S_80025094_0 *)effect)->unk_06.u >= 0x20) {
-        ((S_80025094_0 *)effect)->unk_06.u = 0U;
-        ((S_80025094_0 *)effect)->unk_04.u =
-            (u16) (((S_80025094_0 *)effect)->unk_04.u + 1);
-        goto common;
-    }
-    goto common;
-
-state_2:
-    if ((s16) ((S_80025094_0 *)effect)->unk_06.u >=
-            ((S_80025094_0 *)effect)->unk_08) {
-        func_80024E80(effect, transform);
-        (*(u16 *)((u8 *)effect + (-2))) =
-            (u16) (((S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-        return;
+        break;
+    case 2:
+        if ((s16) ((S_80025094_0 *)effect)->unk_06.u >=
+                ((S_80025094_0 *)effect)->unk_08) {
+            func_80024E80(effect, transform);
+            (*(u16 *)((u8 *)effect + (-2))) =
+                (u16) (((S_80025094_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+        break;
     }
 
-common:
     ((Rec_func_80024E80_arg1 *)transform)->unk_00.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_0E + ((s32) ((func_80064584(((S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)effect)->unk_0A) >> 8));
     ((Rec_func_80024E80_arg1 *)transform)->unk_04.at02_s16.v = (s16) (((Rec_func_80024E80_arg1 *)transform)->unk_12 + ((s32) ((func_800644B8(((S_80025094_0 *)effect)->unk_0C) >> 4) * (s16) ((S_80025094_0 *)effect)->unk_0A) >> 8));
 }

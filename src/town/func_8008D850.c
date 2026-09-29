@@ -43,14 +43,14 @@ s32 func_8008AFB0(s32 kind, s32 state, s32 value, s32 start_index)
         entry_base = (TownAllocEntry *)D_800CF720;
         entry_offset = index * sizeof(TownAllocEntry);
         entry = (TownAllocEntry *)(entry_offset + (s32)entry_base);
-        goto loop_body;
-        do {
+        available += entry->size;
+        func_8008AC84(index);
+        while (available < alloc_size) {
             entry--;
             index--;
-loop_body:
             available += entry->size;
             func_8008AC84(index);
-        } while (available < alloc_size);
+        }
     }
 
     func_8008AD90(index, alloc_size);

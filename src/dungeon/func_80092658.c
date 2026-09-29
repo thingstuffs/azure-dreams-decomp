@@ -40,59 +40,43 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
 
     state = arg0->state;
     ctx = &gameWork;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        goto done;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    goto done;
-
-state_zero:
-    arg0->callback = &D_80097C78;
-    arg0->state += 1;
-    goto done;
-
-state_one:
-    /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-    if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
-        guard = ctx->buttons & 0x20;
-        callResource = arg3;
-        if (guard != 0) {
-            guard = func_800A5C70(callResource);
+    switch (state) {
+    case 0:
+        arg0->callback = &D_80097C78;
+        arg0->state += 1;
+        break;
+    case 1:
+        /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
+        if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
+            guard = ctx->buttons & 0x20;
             callResource = arg3;
             if (guard != 0) {
-                flags = &dungeonStatus;
-                flags->flags |= 0x80;
+                guard = func_800A5C70(callResource);
+                callResource = arg3;
+                if (guard != 0) {
+                    flags = &dungeonStatus;
+                    flags->flags |= 0x80;
+                }
+            }
+            if ((func_80042900(callResource, 1) << 16) == 0) {
+                arg0->callback = 0;
+                dungeonStatus.unk_0A += 1;
+                arg0->state += 1;
+            } else {
+                func_80099F70(arg3->value);
+                func_80099F04(arg3->value);
+                dungeonStatus.flags |= 0x812;
             }
         }
-        if ((func_80042900(callResource, 1) << 16) == 0) {
-            arg0->callback = 0;
-            dungeonStatus.unk_0A += 1;
-            arg0->state += 1;
-        } else {
-            func_80099F70(arg3->value);
-            func_80099F04(arg3->value);
-            dungeonStatus.flags |= 0x812;
-        }
+        break;
+    case 2:
+        arg3->flags &= ~0x200;
+        func_80099F70(arg3->value);
+        func_80099F04(arg3->value);
+        dungeonStatus.flags |= 0x812;
+        arg0->callback = D_80096384;
+        dungeonStatus.unk_0A -= 1;
+        break;
     }
-    goto done;
-
-state_two:
-    arg3->flags &= ~0x200;
-    func_80099F70(arg3->value);
-    func_80099F04(arg3->value);
-    dungeonStatus.flags |= 0x812;
-    arg0->callback = D_80096384;
-    dungeonStatus.unk_0A -= 1;
-    goto done;
-
-done:
     arg0->counter += 1;
 }

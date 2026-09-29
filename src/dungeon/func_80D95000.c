@@ -87,8 +87,6 @@ void *BODY_NAME(s16 init_flags, s16 x, s16 y, s16 initial_value) {
     s8 saved_x;
     s8 saved_y;
     s16 saved_value;
-    void *object_arg;
-    void *data_arg;
     s32 state_flags;
     s32 pending_flags;
 
@@ -114,27 +112,23 @@ void *BODY_NAME(s16 init_flags, s16 x, s16 y, s16 initial_value) {
         if (mode == 1) {
             state_flags = state->unk_14 | 0x6000;
             pending_flags = state->unk_1C | 0x6000;
-            goto store_flags;
-        }
-        if (mode >= 2) {
-            state_flags = state->unk_14 | 0x2000;
-            pending_flags = state->unk_1C | 0x2000;
-        store_flags:
             state->unk_14 = state_flags;
             state->unk_1C = pending_flags;
-            goto spawn;
-        }
-        object_arg = object;
-        if (((init_flags & ~3) << 0x10) == 0) {
-            if (!(state->unk_14 & 0x200)) {
-                data_arg = object_data;
-                if (func_800A6D30() & 1) {
-                    state->unk_1C = (s32) (state->unk_1C | 0x200);
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+        } else if (mode >= 2) {
+            state_flags = state->unk_14 | 0x2000;
+            pending_flags = state->unk_1C | 0x2000;
+            state->unk_14 = state_flags;
+            state->unk_1C = pending_flags;
+        } else {
+            if (((init_flags & ~3) << 0x10) == 0) {
+                if (!(state->unk_14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        state->unk_1C = (s32) (state->unk_1C | 0x200);
+                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    }
                 }
             }
         }
-    spawn:
         func_800A9C18(object, object_data, placement, init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;

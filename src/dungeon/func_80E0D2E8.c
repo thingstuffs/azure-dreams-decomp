@@ -119,24 +119,19 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
 
             if (input_entity->data == D_80176490 && dirSpriteFlag[direction_index] != 0) {
                 updated_flags = input_entity->flags14 | 1;
-                goto store_entity_flags;
+            } else {
+                updated_flags = input_entity->flags14 & 0xFFFE;
             }
-            updated_flags = input_entity->flags14 & 0xFFFE;
-
-store_entity_flags:
             input_entity->flags14 = updated_flags;
         }
         func_800A020C(subject->flags, input_entity->position0C);
         if (!(subject->flags & 0x20)) {
             if (!(input_entity->flags14 & 0x40)) {
                 func_800478B8(input_entity);
-                goto callback_dispatch;
             }
-            goto callback_dispatch;
         } else {
             input_entity->flags14 |= 0x7000;
             subject->flags &= 0xFFFBFFFF;
-            goto callback_dispatch;
         }
     } else {
         if (entity_flags & 0x0800) {
@@ -146,7 +141,6 @@ store_entity_flags:
         }
     }
 
-callback_dispatch:
     dispatch_callback = input_actor->callback;
     if (dispatch_callback != 0) {
         dispatch_callback(input_actor, input_motion, input_entity, subject);
@@ -163,11 +157,9 @@ callback_dispatch:
     if (!(subject->flags & 0x00040000) && !(input_actor->state98 & 8)) {
         input_motion->dz += (s8)input_actor->counter9D * 0x14000;
         input_actor->counter9D++;
-        goto counter_join;
+    } else {
+        input_actor->counter9D = 0;
     }
-    input_actor->counter9D = 0;
-
-counter_join:
     input_actor->position90 += input_motion->dz;
 
     if (!(input_entity->flags14 & 0x8000)) {
@@ -184,68 +176,68 @@ counter_join:
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
                 height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-                entity_flags = *(volatile u16 *)((u8 *)input_actor + 0x92);
+                entity_flags = *(u16 *)((u8 *)input_actor + 0x92);
                 if (height_adjust < height_offset) {
                     height_adjust = entity_flags - 8;
                     *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
-                    goto final_collision;
+                } else {
+                    height_adjust = height_offset < -0x20;
+                    if (height_adjust) {
+                        height_adjust = entity_flags + 8;
+                        *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                    }
                 }
-                goto adjust_height;
             }
-            goto final_collision;
-        }
-        goto ground_reset;
-    }
-
-    actor_flags = subject->flags;
-    actor_flags &= 0xF7FFFFFF;
-    subject->flags = actor_flags;
-    actor_flags &= 0x00040000;
-    if (!actor_flags) {
-ground_reset:
-        correction = input_actor->correctionA4;
-        input_actor->correctionCountAC = 0;
-        input_actor->correctionA4 = 0;
-        input_actor->position90 -= correction;
-        if (!(input_actor->state98 & 8)) {
-            ground = (s16)(func_800BCB04(
-                *(u16 *)((u8 *)input_motion + 2),
-                *(u16 *)((u8 *)input_motion + 6),
-                (s16)(subject->height88 - 0x20)) - subject->height88);
-            if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
-                *(s16 *)((u8 *)input_actor + 0x92) = ground;
-                input_actor->counter9D = 0;
-                input_motion->dz = 0;
-                subject->flags |= 0x08000000;
-                goto final_collision;
-            }
-        }
-        goto final_collision;
-    }
-
-    if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
-        u16 correction_count = input_actor->correctionCountAC;
-        input_actor->correctionCountAC = correction_count + 1;
-        input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
-    }
-    if (!(input_actor->state98 & 8)) {
-        height_adjust = -0x18;
-        height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-        entity_flags = *(volatile u16 *)((u8 *)input_actor + 0x92);
-        if (height_adjust < height_offset) {
-            height_adjust = entity_flags - 8;
-            *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
         } else {
-adjust_height:
-            height_adjust = height_offset < -0x20;
-            if (height_adjust) {
-                height_adjust = entity_flags + 8;
-                *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+            goto ground_reset;
+        }
+    } else {
+        actor_flags = subject->flags;
+        actor_flags &= 0xF7FFFFFF;
+        subject->flags = actor_flags;
+        actor_flags &= 0x00040000;
+        if (!actor_flags) {
+ground_reset:
+            correction = input_actor->correctionA4;
+            input_actor->correctionCountAC = 0;
+            input_actor->correctionA4 = 0;
+            input_actor->position90 -= correction;
+            if (!(input_actor->state98 & 8)) {
+                ground = (s16)(func_800BCB04(
+                    *(u16 *)((u8 *)input_motion + 2),
+                    *(u16 *)((u8 *)input_motion + 6),
+                    (s16)(subject->height88 - 0x20)) - subject->height88);
+                if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
+                    *(s16 *)((u8 *)input_actor + 0x92) = ground;
+                    input_actor->counter9D = 0;
+                    input_motion->dz = 0;
+                    subject->flags |= 0x08000000;
+                }
+            }
+        } else {
+            if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
+                u16 correction_count = input_actor->correctionCountAC;
+                input_actor->correctionCountAC = correction_count + 1;
+                input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
+            }
+            if (!(input_actor->state98 & 8)) {
+                height_adjust = -0x18;
+                height_offset = *(s16 *)((u8 *)input_actor + 0x92);
+                entity_flags = *(u16 *)((u8 *)input_actor + 0x92);
+                if (height_adjust < height_offset) {
+                    height_adjust = entity_flags - 8;
+                    *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                } else {
+                    height_adjust = height_offset < -0x20;
+                    if (height_adjust) {
+                        height_adjust = entity_flags + 8;
+                        *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
+                    }
+                }
             }
         }
     }
 
-final_collision:
     actor_flags = subject->flags;
     if (actor_flags & 0x40000000) {
         subject->flags = actor_flags & 0xBFFFFFFF;

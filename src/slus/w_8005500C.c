@@ -49,40 +49,10 @@ void func_8005500C(s32 code)
     s32 packed_code = code;
 
     code &= 0xF000;
-    if (code == 0x2000) {
-        goto set_e1;
-    }
-    if (code >= 0x2001) {
-        goto upper;
-    }
-    if (code == 0) {
-        goto special;
-    }
-    if (code == 0x1000) {
-        goto do_71;
-    }
-    return;
-
-upper:
-    if (code == 0x8000) {
-        if (1) {
-            goto special;
-        }
-    }
-    if (code > 0x8000) {
-        goto high;
-    }
-    if (code == 0x4000) {
-        goto do_f1;
-    }
-    return;
-
-high:
-    if (code != 0x9000) {
-        return;
-    }
-
-special:
+    switch (code) {
+    case 0:
+    case 0x8000:
+    case 0x9000:
     {
         S_800847D0 *state = &D_800847D0;
         s32 low_byte = packed_code & 0xFF;
@@ -96,24 +66,21 @@ special:
         if (D_800847D0.flags1 & 0x100) {
             func_80054F9C(0xB1, &D_800848F8);
             return;
-            code = packed_code;
         }
     }
-
     func_800550E8();
     return;
-
-set_e1:
-    code = 0xE1;
-    goto call;
-
-do_71:
-    code = 0x71;
-    goto call;
-
-do_f1:
-    code = 0xF1;
-
-call:
+    case 0x1000:
+        code = 0x71;
+        break;
+    case 0x2000:
+        code = 0xE1;
+        break;
+    case 0x4000:
+        code = 0xF1;
+        break;
+    default:
+        return;
+    }
     func_800553D4(code);
 }

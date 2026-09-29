@@ -51,46 +51,33 @@ void func_80125980(TownObject *object)
     SpriteFields *hidden_sprite;
 
     state = ((TownObject *)(object))->state;
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state < 3) {
-        if (state == 1) {
-            goto state_1;
+    switch (state) {
+    case 1:
+        column = ((TownObject *)(object))->column;
+        row_offset = ((TownObject *)(object))->row << 3;
+        slot_base = (row_offset + column) * 3;
+        slot_index = slot_base + 33;
+        entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
+        if (func_80123200((u8)entry_id) != 0) {
+            *((TownObject *)(object))->town->slots[slot_index] = D_80127B64;
+            slot_index = slot_base + 34;
+            *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
+            slot_index = slot_base + 35;
+            *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
         }
+        break;
+    case 2:
+        hidden_sprite = ((TownObject *)(object))->town->display->src;
+        hidden_sprite->f6 = 0;
+        hidden_sprite->f4 = 0;
+        return;
+    case 3:
+        ((TownObject *)(object))->town->display->src->f8 = D_80126B20[((TownObject *)(object))->row];
+        ((TownObject *)(object))->town->display->src->fA = D_80126B24[((TownObject *)(object))->index];
+        break;
+    default:
         return;
     }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
-
-state_1:
-    column = ((TownObject *)(object))->column;
-    row_offset = ((TownObject *)(object))->row << 3;
-    slot_base = (row_offset + column) * 3;
-    slot_index = slot_base + 33;
-    entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
-    if (func_80123200((u8)entry_id) != 0) {
-        *((TownObject *)(object))->town->slots[slot_index] = D_80127B64;
-        slot_index = slot_base + 34;
-        *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
-        slot_index = slot_base + 35;
-        *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
-    }
-    goto common;
-
-state_2:
-    hidden_sprite = ((TownObject *)(object))->town->display->src;
-    hidden_sprite->f6 = 0;
-    hidden_sprite->f4 = 0;
-    return;
-
-state_3:
-    ((TownObject *)(object))->town->display->src->f8 = D_80126B20[((TownObject *)(object))->row];
-    ((TownObject *)(object))->town->display->src->fA = D_80126B24[((TownObject *)(object))->index];
-
-common:
     ((TownObject *)(object))->town->display->dst->f6 = ((TownObject *)(object))->town->display->src->f8;
     ((TownObject *)(object))->town->display->dst->f8 = ((TownObject *)(object))->town->display->src->fA;
     source_sprite = ((TownObject *)(object))->town->display->src;

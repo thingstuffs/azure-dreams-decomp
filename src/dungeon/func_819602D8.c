@@ -62,39 +62,15 @@ void func_819602D8(u16 center_x, s32 center_y) {
                 tile->unk_14 = (s32)(tile->unk_14 | 0x100000);
             }
             sample_x = (s16)tile_x;
-            if (sample_x < 0) {
-                goto bounds_fail;
+            if (sample_x < 0 || sample_x >= (one << width_ref->shiftX) || signed_y < 0 ||
+                signed_y >= (one << height_ref[11])) {
+                output_value = 0;
+            } else {
+                sample_x <<= 6;
+                sample_x += 0x20;
+                sample_x &= 0xFFE0;
+                output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
             }
-            {
-                s32 width_check;
-                width_check = width_ref->shiftX;
-                width_check = one << width_check;
-                width_check = sample_x < width_check;
-                if (!width_check) {
-                    goto bounds_fail;
-                }
-            }
-            if (signed_y < 0) {
-                goto bounds_fail;
-            }
-            {
-                s32 height_check;
-                height_check = height_ref[11];
-                height_check = one << height_check;
-                height_check = signed_y < height_check;
-                if (height_check) {
-                    goto bounds_ok;
-                }
-            }
-        bounds_fail:
-            output_value = 0;
-            goto store_output;
-        bounds_ok:
-            sample_x <<= 6;
-            sample_x += 0x20;
-            sample_x &= 0xFFE0;
-            output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
-        store_output:
             tile_sample = (u32)&D_800274DC[0][0];
             output_row = (u32)tile_sample;
             output_row += row << 5;

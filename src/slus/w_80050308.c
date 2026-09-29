@@ -71,38 +71,27 @@ void func_80050308(void *object)
             direction = 0;
             if (action_flags & 0x4000) {
                 direction = 1;
-                goto set_mode3;
-            }
-            if (action_flags & 0x1000) {
+                obj->unk0C = 0;
+                obj->unk10 = 3;
+            } else if (action_flags & 0x1000) {
                 direction = -1;
-                goto set_mode3;
-            }
-            goto check_counter;
-
-        set_mode3:
-            obj->unk0C = 0;
-            obj->unk10 = 3;
-            goto apply_direction;
-
-        check_counter:
-            if (obj->unk0C >= 3) {
+                obj->unk0C = 0;
+                obj->unk10 = 3;
+            } else if (obj->unk0C >= 3) {
                 s32 repeat_flags;
 
                 obj->unk0C = obj->unk0C - 1;
                 repeat_flags = gameWork.buttons;
                 if (repeat_flags & 0x4000) {
                     direction = 1;
+                    obj->unk10 = 2;
                 } else if (repeat_flags & 0x1000) {
                     direction = -1;
-                } else {
-                    goto apply_direction;
+                    obj->unk10 = 2;
                 }
-                obj->unk10 = 2;
             } else {
                 obj->unk0C = obj->unk0C + 1;
             }
-
-        apply_direction:
             if (direction != 0) {
                 SD_Call(0x502);
                 obj->unk18 = obj->unk1C;

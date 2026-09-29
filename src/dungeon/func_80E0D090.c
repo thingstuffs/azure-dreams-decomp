@@ -99,31 +99,25 @@ void *func_80170890(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         if (kind == 1) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x6000;
             right = ((S_80170890_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-        left = ((S_80170890_1 *)work)->unk_14 | 0x2000;
-        right = ((S_80170890_1 *)work)->unk_1C | 0x2000;
-write_kind:
-        ((S_80170890_1 *)work)->unk_14 = left;
-        ((S_80170890_1 *)work)->unk_1C = right;
-        goto post_kind;
-
-normal_kind:
-        if (((flags & ~3) << 16) == 0) {
-            if (!(((S_80170890_1 *)work)->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80176470;
-                    goto post_kind;
+                ((S_80170890_1 *)work)->unk_14 = left;
+            ((S_80170890_1 *)work)->unk_1C = right;
+        } else if (kind >= 2) {
+            left = ((S_80170890_1 *)work)->unk_14 | 0x2000;
+            right = ((S_80170890_1 *)work)->unk_1C | 0x2000;
+                ((S_80170890_1 *)work)->unk_14 = left;
+            ((S_80170890_1 *)work)->unk_1C = right;
+        } else {
+            if (((flags & ~3) << 16) == 0) {
+                if (!(((S_80170890_1 *)work)->unk_14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = D_80176470;
+                    }
                 }
             }
         }
 
-post_kind:
         func_800A9C18(obj, part_a, part_b, (s16)flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
@@ -139,15 +133,14 @@ post_kind:
             u8 *table;
             s16 value;
 
-scan_records:
-            index = count << 1;
-            if (!(*cursor & 0x20)) {
-                goto scan_done;
-            }
+            while (1) {
+                index = count << 1;
+                if (!(*cursor & 0x20)) {
+                    break;
+                }
                 cursor += 12;
                 count += 1;
-            goto scan_records;
-scan_done:
+            }
             table = part_b->unk_08;
             value = (((S_80170890_5 *)((u8 *)(((index + count) << 2) + (u32)table) + 6))->unk_00 >> 6) - 1;
             packet[1] = value;

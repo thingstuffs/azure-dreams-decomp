@@ -67,7 +67,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     u8 audio_y;
     s32 angle;
     u16 obj_flags;
-    s32 clear_opcode;
 
     call_obj = object_arg;
     entity = entity_arg;
@@ -86,7 +85,8 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     command = command_byte & 0xFF;
     if (command == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
-        goto block_common;
+        func_800A9A0C(obj);
+        return 0;
     }
 
     duration = stream[0];
@@ -102,143 +102,101 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     obj_flags = ((S_80174320_1 *)obj)->unk_46;
     angle <<= 9;
     ((S_80174320_1 *)obj)->unk_2A = angle;
-    clear_opcode = 0xD0;
     obj_flags |= 0x8000;
     ((S_80174320_1 *)obj)->unk_46 = obj_flags;
     opcode = command & 0xF8;
 
-    if (opcode == clear_opcode) {
-        goto block_D0;
-    }
-    if (opcode < 0xD1) {
-        if (opcode == 0x10) {
-            goto block_10;
+    switch (opcode) {
+    case 8:
+        call_obj = obj;
+        func_8016FCE4(call_obj, context_arg, entity, call_obj);
+        result = 0;
+        return result;
+    case 0xC0:
+        ((S_80174320_1 *)obj)->unk_9B = 0;
+        /* fall through */
+    case 0xC8:
+        func_801740F8(call_obj, context_arg, entity, obj);
+        break;
+    case 0x10:
+        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        anim = D_80174A2C;
+        if (old_anim != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                0);
         }
-        if (opcode < 0x11) {
-            if (opcode == 8) {
-                goto block_8;
+        break;
+    case 0xF8:
+        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        anim = D_80174AA4;
+        if (old_anim != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                0);
+        }
+        break;
+    case 0xF0:
+        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        anim = D_80174AAC;
+        if (old_anim != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
+                0);
+        }
+        break;
+    case 0xE8:
+        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        anim = D_80174A9C;
+        if (old_anim != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            func_80171594(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
+                ((S_80174320_2 *)context_arg)->unk_0A);
+            func_800A152C(0x15, 1);
+        }
+        break;
+    case 0xD8:
+        old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
+        anim = D_80174A9C;
+        if (old_anim != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            ((S_80174320_0 *)entity)->unk_14 |= 0x800;
+        }
+        break;
+    case 0xD0:
+        entity_flag = ((S_80174320_0 *)entity)->unk_14 & 0x800;
+        ((S_80174320_0 *)entity)->unk_14 = entity_flag;
+        if (entity_flag != 0) {
+            ((S_80174320_0 *)entity)->unk_14 = 0;
+        }
+        break;
+    case 0xE0:
+        anim = D_80174A2C + 0x50;
+        if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
+            (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
+            func_80047784(entity,
+                anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            func_801724D4();
+            audio_x = ((S_80174320_0 *)entity)->unk_24;
+            audio_y = ((S_80174320_0 *)entity)->unk_25;
+            audio_param = 0x3000;
+            if (((S_80174320_1 *)obj)->unk_1C & 0x2000) {
+                audio_param = 0x300;
             }
-            goto block_common;
+            func_8009A3D0(audio_x, audio_y, audio_param);
         }
-        if (opcode == 0xC0) {
-            goto block_C0;
-        }
-        if (opcode == 0xC8) {
-            goto block_C8;
-        }
-        goto block_common;
+        break;
     }
-    if (opcode == 0xE8) {
-        goto block_E8;
-    }
-    if (opcode < 0xE9) {
-        if (opcode == 0xD8) {
-            goto block_D8;
-        }
-        if (opcode == 0xE0) {
-            goto block_E0;
-        }
-        goto block_common;
-    }
-    if (opcode == 0xF0) {
-        goto block_F0;
-    }
-    if (opcode == 0xF8) {
-        goto block_F8;
-    }
-    goto block_common;
-
-block_8:
-    call_obj = obj;
-    func_8016FCE4(call_obj, context_arg, entity, call_obj);
-    result = 0;
-    return result;
-
-block_C0:
-    ((S_80174320_1 *)obj)->unk_9B = 0;
-block_C8:
-    func_801740F8(call_obj, context_arg, entity, obj);
-    goto block_common;
-
-block_10:
-    old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = D_80174A2C;
-    goto block_anim;
-
-block_F8:
-    old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = D_80174AA4;
-    goto block_anim;
-
-block_F0:
-    old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = D_80174AAC;
-block_anim:
-    if (old_anim != anim) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
-        func_80047784(entity,
-            *(u8 *)((((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7) + (u32)anim),
-            0);
-        goto block_common;
-    }
-    goto block_common;
-
-block_E8:
-    old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = D_80174A9C;
-    if (old_anim != anim) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
-        func_80047784(entity,
-            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        func_80171594(((S_80174320_0 *)entity)->unk_24, ((S_80174320_0 *)entity)->unk_25,
-            ((S_80174320_2 *)context_arg)->unk_0A);
-        func_800A152C(0x15, 1);
-        goto block_common;
-    }
-    goto block_common;
-
-block_D8:
-    old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = D_80174A9C;
-    if (old_anim != anim) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
-        func_80047784(entity,
-            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80174320_0 *)entity)->unk_14 |= 0x800;
-        goto block_common;
-    }
-    goto block_common;
-
-block_D0:
-    entity_flag = ((S_80174320_0 *)entity)->unk_14 & 0x800;
-    ((S_80174320_0 *)entity)->unk_14 = entity_flag;
-    if (entity_flag != 0) {
-        ((S_80174320_0 *)entity)->unk_14 = 0;
-        goto block_common;
-    }
-    goto block_common;
-
-block_E0:
-    anim = D_80174A2C + 0x50;
-    if (((S_80174320_0 *)entity)->unk_2C.u != anim) {
-        (*(u8 * *)((u8 *)entity + 0x2C)) = anim;
-        func_80047784(entity,
-            anim[((gameWork.view.viewAngle + ((S_80174320_1 *)obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        func_801724D4();
-        audio_x = ((S_80174320_0 *)entity)->unk_24;
-        audio_y = ((S_80174320_0 *)entity)->unk_25;
-        audio_param = 0x3000;
-        if (((S_80174320_1 *)obj)->unk_1C & 0x2000) {
-            audio_param = 0x300;
-        }
-        func_8009A3D0(audio_x, audio_y, audio_param);
-    }
-    goto block_common;
-
-block_common:
     func_800A9A0C(obj);
     return 0;
 }

@@ -94,7 +94,7 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
             if ((s8)level_entry->level >= 48) {
                 if (object->active != 0) {
                     level_entry->level = 48;
-                    goto next_iteration;
+                    continue;
                 }
                 level_entry->level = 0;
             }
@@ -152,16 +152,8 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
                 packet_cursor += 12;
                 object->count = drawn_count + 1;
             }
-            next_iteration:
-            {
-                s16 next_particle = particle + 1;
-                particle = next_particle;
-                if (next_particle >= 32) {
-                    break;
-                }
-            }
         }
-    } while (1);
+    } while ((particle = particle + 1) < 32);
     ((S_800BABA8_1 *)(root_slot->unk_000))->unk_8D0 = packet_cursor;
     {
         s32 result = 0;

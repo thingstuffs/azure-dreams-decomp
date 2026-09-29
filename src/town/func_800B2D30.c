@@ -56,34 +56,27 @@ void func_800B0490(S_800B0490_1 *menu)
         menu->unk_10 = 0;
         move_mode = 4;
         direction = 1;
-        goto move;
-    }
-
-    if (pressed_buttons & 0x1000) {
+    } else if (pressed_buttons & 0x1000) {
         menu->unk_10 = 0;
         move_mode = 4;
         direction = -1;
-        goto move;
-    }
-
-    repeat_ticks = menu->unk_10;
-    if (repeat_ticks >= 5) {
-        menu->unk_10 = repeat_ticks - 3;
-        repeat_buttons = pad_state->buttons;
-        if (repeat_buttons & 0x4000) {
-            direction = 1;
-            move_mode = 4;
-            goto move;
-        }
-        if (repeat_buttons & 0x1000) {
-            direction = -1;
-            move_mode = 4;
-        }
     } else {
-        menu->unk_10 = repeat_ticks + 1;
+        repeat_ticks = menu->unk_10;
+        if (repeat_ticks >= 5) {
+            menu->unk_10 = repeat_ticks - 3;
+            repeat_buttons = pad_state->buttons;
+            if (repeat_buttons & 0x4000) {
+                direction = 1;
+                move_mode = 4;
+            } else if (repeat_buttons & 0x1000) {
+                direction = -1;
+                move_mode = 4;
+            }
+        } else {
+            menu->unk_10 = repeat_ticks + 1;
+        }
     }
 
-move:
     if (direction == 0) {
         return;
     }

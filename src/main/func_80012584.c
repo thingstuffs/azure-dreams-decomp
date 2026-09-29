@@ -46,9 +46,7 @@ void func_80025584(u8 *menu)
         if (buttons & 0x40) {
             SD_Call(0x503);
             func_800254E4(menu);
-            goto finish_input;
-        }
-        if (gameWork.buttons & 0x5000) {
+        } else if (gameWork.buttons & 0x5000) {
             if (buttons & 0x5000) {
                 ((S_80025584_0 *)menu)->unk_30 = 0;
                 buttons = ((s32)gameWork.unk_010);
@@ -73,7 +71,6 @@ void func_80025584(u8 *menu)
             }
         }
 
-finish_input:
         if (selection_delta != 0) {
             SD_Call(0x502);
             ((S_80025584_0 *)menu)->unk_28 =

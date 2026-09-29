@@ -34,31 +34,19 @@ void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *act
     void *actor = actor_ptr;
     u16 remaining_count;
 
-    if (func_800AB1C0() == 0) {
-        goto check_flag;
-    }
+    if (func_800AB1C0() != 0) {
+        func_800A4ACC(actor);
+        remaining_count = ((S_800CAAC8_0 *)entity_ptr)->unk_B6 - 1;
+        ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
 
-    func_800A4ACC(actor);
-    remaining_count = ((S_800CAAC8_0 *)entity_ptr)->unk_B6 - 1;
-    ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
-
-    if ((remaining_count << 16) > 0) {
-        if (!((*(u16 *)0x80013714) & 8)) {
-            goto set_callback;
+        if (((remaining_count << 16) <= 0 || ((*(u16 *)0x80013714) & 8)) &&
+            ((S_800CAAC8_1 *)actor)->unk_71 == ((S_800CAAC8_1 *)actor)->unk_8A) {
+            func_800CAA94(entity_ptr, update_arg_1, update_arg_2);
+            return;
         }
+        ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &D_800C9F34;
     }
 
-    if (((S_800CAAC8_1 *)actor)->unk_71 != ((S_800CAAC8_1 *)actor)->unk_8A) {
-        goto set_callback;
-    }
-
-    func_800CAA94(entity_ptr, update_arg_1, update_arg_2);
-    return;
-
-set_callback:
-    ((S_800CAAC8_0 *)entity_ptr)->unk_8C = &D_800C9F34;
-
-check_flag:
     if (dungeonStatus.flags & 0x80) {
         ((S_800CAAC8_0 *)entity_ptr)->unk_92 = -0x20;
     }

@@ -107,19 +107,15 @@ switch_done:
         }
 
         {
-            register u8 *draw_state_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register volatile u8 *final_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             u8 *draw_entry;
             s32 final_x;
             s32 final_y;
             s32 entry_offset;
 
-            draw_state_page = (u8 *)0x800D0000;
-            ASM_KEEP(draw_state_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            final_state = draw_state_page + 0x3814;
-            final_x = draw_state_page[0x3814];
-            final_y = final_state[1];
-            entry_offset = final_state[6] << 5;
+            event = (Event6 *)D_800D3814;
+            final_x = D_800D3814[0];
+            final_y = ((u8 *)event)[1];
+            entry_offset = ((u8 *)event)[6] << 5;
             draw_entry = D_800D2FB4 + entry_offset;
             func_8009CDCC(final_x, final_y,
                           draw_entry[4], draw_entry[5],

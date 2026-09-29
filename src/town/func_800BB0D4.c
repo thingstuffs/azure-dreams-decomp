@@ -24,7 +24,7 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     entity_index = entity_id & 0xFF;
     entity = entity_base + (entity_index << 5);
     if (func_80033B2C(*(s16 *)(entity + 8)) == 0) {
-        goto return_zero;
+        return 0;
     }
 
     record_base = D_800D2EA4;
@@ -45,30 +45,26 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
     record_kind = record[4];
     switch (record_kind) {
     case 0:
-        goto return_zero;
+        return 0;
 
     case 1:
         if ((entity[3] & 1) == 0) {
-            goto return_zero;
+            return 0;
         }
 
         slot_index = 0;
         scan_link_page = (u8 *)0x80010000;
         match_index = entity_index;
         do {
-                    slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
-                    if (slot[0x33A4] == match_index) {
-                        goto return_zero;
-                    }
-                    slot_index++;
-                    if (slot[0x33A5] != match_index) {
-                        goto continue_loop;
-                    }
-
-            return_zero:
-                    return 0;
-
-            continue_loop:
+            slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
+            if (slot[0x33A4] == match_index) {
+                goto return_zero;
+            }
+            slot_index++;
+            if (slot[0x33A5] == match_index) {
+return_zero:
+                return 0;
+            }
         } while ((u32)(slot_index & 0xFF) < 0x21U);
         goto return_tail_2;
 

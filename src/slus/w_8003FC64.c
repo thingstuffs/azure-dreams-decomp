@@ -56,15 +56,12 @@ void *func_8003FC64(s32 flags)
         buffer = (u8 *)node + 0x124;
         if (flags & 0x100) {
             buffer = (u8 *)node + 0xF4;
-            goto store_buffer;
-        }
-        if (flags & 0x6) {
+            node->field_0xC = buffer;
+        } else if (flags & 0x6) {
             buffer = (u8 *)node + 0x100;
-            goto store_buffer;
-        }
-        if (flags & 0x41) {
+            node->field_0xC = buffer;
+        } else if (flags & 0x41) {
             buffer = (u8 *)node + 0x10C;
-        store_buffer:
             node->field_0xC = buffer;
         }
 

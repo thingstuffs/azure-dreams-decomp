@@ -65,7 +65,7 @@ void func_8001D0F4(DungeonRect *rect)
         
         
         
-        do {
+        for (; slot_index >= 0; slot_index--) {
             x_offset = func_800A6DA4(0, (rect->width - 1) & 0xFFFF) & 0xFFFF;
             y_offset = func_800A6DA4(0, (rect->height - 1) & 0xFFFF) & 0xFFFF;
             func_8009A350((s16)(rect->x + x_offset - 1),
@@ -82,7 +82,7 @@ void func_8001D0F4(DungeonRect *rect)
                                            ((s16)item_kind * 12));
                     stored_kind = item_kind;
                     if ((item_flags & 0x3000) == 0x3000) {
-                        goto next_spot;
+                        continue;
                     }
                     D_800E3648[slot_index].kind = stored_kind;
                 }
@@ -91,9 +91,6 @@ void func_8001D0F4(DungeonRect *rect)
                 D_800E3648[slot_index].f2 = 0;
                 func_8009A21C(D_800E39C8[slot_index].px, D_800E39C8[slot_index].py, 0x20);
             }
-next_spot:
-            
-            slot_index--;
-        } while (slot_index >= 0);
+        }
     }
 }

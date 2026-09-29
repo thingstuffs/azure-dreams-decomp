@@ -73,19 +73,16 @@ s32 func_80018E80(void)
         if (D_8008146C[0] < 2) {
             DUNGEON_GLOBALS->state_2090 = state;
             func_80019648();
-            goto after_initial;
-        }
-        if (DUNGEON_GLOBALS->state_2090 == state) {
+        } else if (DUNGEON_GLOBALS->state_2090 == state) {
             DUNGEON_GLOBALS->state_2090 = 0;
         }
     }
 
-after_initial:
     state = D_80082E6B[0];
     if (state < 0x16) {
         if (state >= 0x12) {
             floor_event = 0;
-            goto load_final_page;
+            goto final;
         }
     }
 
@@ -106,21 +103,12 @@ after_initial:
                 func_80019A74();
             }
             skip_floor_setup = 1;
-            goto process_quotient;
-        }
-
-        if (D_8008146C[0] < 2) {
+        } else if (D_8008146C[0] < 2) {
             floor_event = (func_800A6D30() & 3) + 3;
-            goto process_quotient;
-        }
-
-        if (D_8008146C[0] == 2 && DUNGEON_GLOBALS->state_022c != 1) {
+        } else if (D_8008146C[0] == 2 && DUNGEON_GLOBALS->state_022c != 1) {
             floor_event = 2;
             D_800E296C |= 0x10000000;
-            goto process_quotient;
-        }
-
-        if (D_8008146C[0] == 0x1F && func_80033BC0(0x1389) == 0) {
+        } else if (D_8008146C[0] == 0x1F && func_80033BC0(0x1389) == 0) {
             D_800E39C8[6] = 1;
             D_800E39C8[7] = 1;
             D_800E3648[0] = 0x37;
@@ -130,7 +118,6 @@ after_initial:
             D_800E296C |= 0x10000000;
         }
 
-process_quotient:
         if (floor_group >= 0) {
             encounter_status = func_80019684((s16)(floor_group + 1), 1, 1);
             if (encounter_status == 0) {
@@ -144,7 +131,6 @@ process_quotient:
             }
             if (encounter_status == 0) {
                 func_80019684(0, 1, 0);
-                goto finish_state_zero;
             }
         } else {
             func_80019684(0, 1, 0);
@@ -154,10 +140,8 @@ process_quotient:
             func_80048088(0x38);
         }
 
-finish_state_zero:
         if (skip_floor_setup == 0) {
             func_800194C4(D_8008146C[0]);
-            goto final;
         }
     } else {
         skip_floor_setup = 1;
@@ -168,8 +152,6 @@ finish_state_zero:
             SD_Call(0x200);
             func_800542BC();
             func_80019684(0, 1, 0);
-            goto final;
-
         } else if (state == 2) {
             s32 i_m;
             floor_group = func_800A6D30() & 7;
@@ -235,15 +217,13 @@ finish_state_zero:
                     odd_ids += 2;
                 } while (i < 4);
             }
-            goto third_pair;
+            } else {
+                *(Packed16_80285E80 *)dungeonStatus.unk_18 =
+                    *(Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
+                *(Packed16_80285E80 *)D_800DDC9C[0] =
+                    *(Packed16_80285E80 *)D_800DDC9C[2];
             }
 
-            *(Packed16_80285E80 *)dungeonStatus.unk_18 =
-                *(Packed16_80285E80 *)(dungeonStatus.unk_18 + 0x10);
-            *(Packed16_80285E80 *)D_800DDC9C[0] =
-                *(Packed16_80285E80 *)D_800DDC9C[2];
-
-third_pair:
             {
 
             s32 level_bonus;
@@ -303,7 +283,6 @@ third_pair:
         }
     }
 
-load_final_page:
 final:
     final_floor = D_8008146C[0];
     DUNGEON_GLOBALS->floor_0234 = final_floor;

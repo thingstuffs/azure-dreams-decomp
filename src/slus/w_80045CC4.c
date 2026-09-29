@@ -92,7 +92,6 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s32 packet_addr;
     s32 matrix_yy;
     s32 matrix_xx;
-    s32 y;
     s32 *packet;
     s32 *quad;
     s32 depth;
@@ -108,6 +107,10 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     void *global_base;
     u8 uv_edge;
     s32 visible_2;
+    s16 sx;
+    s16 sy;
+    s16 ex;
+    s16 ey;
 
     global_slots = ((void * *)(&gameWork));
     global_base = global_slots[0];
@@ -176,52 +179,36 @@ next_entry:
         }
 
         if ((entry[0] ^ SP_U16(0x24)) & 1) {
-            s32 offset_byte = payload[-6];
-            u16 pivot = SP_U16(0x108);
-            s32 size = SP_U16(0x10);
-            ASM_KEEP_DEP_NV(offset_byte, pivot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_byte, size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            x = -((offset_byte << 24) >> 24) - pivot;
-            SP_S16(0x80) = x;
-            SP_S16(0x70) = x;
-            x = x - size;
+            sx = -((s8 *)payload)[-6] - SP_U16(0x108);
+            SP_S16(0x80) = sx;
+            SP_S16(0x70) = sx;
+            ex = sx - SP_U16(0x10);
+            SP_S16(0x88) = ex;
+            SP_S16(0x78) = ex;
         } else {
-            s32 offset_byte = payload[-6];
-            u16 pivot = SP_U16(0x108);
-            s32 size = SP_U16(0x10);
-            ASM_KEEP_DEP_NV(offset_byte, pivot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_byte, size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            x = ((offset_byte << 24) >> 24) - pivot;
-            SP_S16(0x80) = x;
-            SP_S16(0x70) = x;
-            x = x + size;
+            sx = ((s8 *)payload)[-6] - SP_U16(0x108);
+            SP_S16(0x80) = sx;
+            SP_S16(0x70) = sx;
+            ex = sx + SP_U16(0x10);
+            SP_S16(0x88) = ex;
+            SP_S16(0x78) = ex;
         }
-        SP_S16(0x88) = x;
-        SP_S16(0x78) = x;
 
         if ((entry[0] ^ SP_U16(0x24)) & 2) {
-            s32 offset_byte = payload[-5];
-            u16 pivot = SP_U16(0x10A);
-            s32 size = SP_U16(0x14);
-            ASM_KEEP_DEP_NV(offset_byte, pivot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_byte, size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            y = -((offset_byte << 24) >> 24) - pivot;
-            SP_S16(0x7A) = y;
-            SP_S16(0x72) = y;
-            y = y - size;
+            sy = -((s8 *)payload)[-5] - SP_U16(0x10A);
+            SP_S16(0x7A) = sy;
+            SP_S16(0x72) = sy;
+            ey = sy - SP_U16(0x14);
+            SP_S16(0x8A) = ey;
+            SP_S16(0x82) = ey;
         } else {
-            s32 offset_byte = payload[-5];
-            u16 pivot = SP_U16(0x10A);
-            s32 size = SP_U16(0x14);
-            ASM_KEEP_DEP_NV(offset_byte, pivot);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(offset_byte, size);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            y = ((offset_byte << 24) >> 24) - pivot;
-            SP_S16(0x7A) = y;
-            SP_S16(0x72) = y;
-            y = y + size;
+            sy = ((s8 *)payload)[-5] - SP_U16(0x10A);
+            SP_S16(0x7A) = sy;
+            SP_S16(0x72) = sy;
+            ey = sy + SP_U16(0x14);
+            SP_S16(0x8A) = ey;
+            SP_S16(0x82) = ey;
         }
-        SP_S16(0x8A) = y;
-        SP_S16(0x82) = y;
 
         ASM_KEEP(scratchpad);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         depth = RotAverage4(

@@ -66,9 +66,9 @@ void func_80124F98(TownState *state)
         } else {
             selection[9] = 0;
         }
-redraw_transition:
         func_801248C0(state);
-        goto redraw;
+        func_80124908(state);
+        return;
     }
 
     if (buttons & 0x4000) {
@@ -82,7 +82,9 @@ redraw_transition:
         } else {
             selection[9] = max_scroll;
         }
-        goto redraw_transition;
+        func_801248C0(state);
+        func_80124908(state);
+        return;
     }
 
     if (buttons & 0x8000) {
@@ -214,7 +216,6 @@ redraw_transition:
         state->toggleC ^= 1;
     }
 
-redraw:
     func_80124908(state);
 
     return;

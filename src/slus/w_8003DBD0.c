@@ -29,8 +29,6 @@ void func_8003DBD0(void *transform, void *point, void *result)
     s32 angle_x;
     s32 offset_x;
     s32 offset_y;
-    s32 saved_offset_x;
-    s32 saved_offset_y;
     s32 transformed_x;
     s32 transformed_y;
     s32 final_angle_x;
@@ -70,27 +68,15 @@ void func_8003DBD0(void *transform, void *point, void *result)
     U16_AT(scratch, 0x24) = U16_AT(transform, 0x14);
 
     if ((U8_AT(point, 0) ^ U16_AT(scratch, 0x24)) & 1) {
-        s32 point_x = U8_AT(point, 2);
-        saved_offset_x = U16_AT(scratch, 0x108);
-        ASM_KEEP_DEP_NV(point_x, saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        S16_AT(scratch, 0x70) = -((point_x << 24) >> 24) - saved_offset_x;
+        S16_AT(scratch, 0x70) = -S8_AT(point, 2) - U16_AT(scratch, 0x108);
     } else {
-        s32 point_x = U8_AT(point, 2);
-        saved_offset_x = U16_AT(scratch, 0x108);
-        ASM_KEEP_DEP_NV(point_x, saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        S16_AT(scratch, 0x70) = ((point_x << 24) >> 24) - saved_offset_x;
+        S16_AT(scratch, 0x70) = S8_AT(point, 2) - U16_AT(scratch, 0x108);
     }
 
     if ((U8_AT(point, 0) ^ U16_AT(scratch, 0x24)) & 2) {
-        s32 point_y = U8_AT(point, 3);
-        saved_offset_y = U16_AT(scratch, 0x10A);
-        ASM_KEEP_DEP_NV(point_y, saved_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        S16_AT(scratch, 0x74) = -((point_y << 24) >> 24) - saved_offset_y;
+        S16_AT(scratch, 0x74) = -S8_AT(point, 3) - U16_AT(scratch, 0x10A);
     } else {
-        s32 point_y = U8_AT(point, 3);
-        saved_offset_y = U16_AT(scratch, 0x10A);
-        ASM_KEEP_DEP_NV(point_y, saved_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        S16_AT(scratch, 0x74) = ((point_y << 24) >> 24) - saved_offset_y;
+        S16_AT(scratch, 0x74) = S8_AT(point, 3) - U16_AT(scratch, 0x10A);
     }
     S16_AT(scratch, 0x72) = 0;
     RotTransSV((void *)((u32)scratch | 0x70), ((u8 *)result), (void *)((u32)scratch | 0x94));

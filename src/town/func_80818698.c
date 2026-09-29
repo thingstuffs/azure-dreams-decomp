@@ -79,7 +79,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
     case 0:
         sprite->color0c += 0x101010;
         if ((u8)sprite->color0c < 0xa0) {
-            goto done;
+            break;
         }
         sprite->color0c = 0x808080;
         {
@@ -89,7 +89,8 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
 
             sprite->flags14 = sprite_flags;
         }
-        goto increment_mode;
+        state->mode04++;
+        break;
 
     case 1:
         if (state->flags08 & 1) {
@@ -103,7 +104,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
             state->mode04 = 0x20;
         }
         if (root->state36 != 10) {
-            goto done;
+            break;
         }
         if (rand() & 1) {
             next_sprite = D_800F2B04;
@@ -111,7 +112,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
             next_sprite = D_800F2B2C;
         }
         state->mode04 = 0x100;
-        goto done;
+        break;
 
     case 0x20: {
         s32 floor_y;
@@ -128,7 +129,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
                 sprite->color0c = 0xa0a0a0;
                 sprite->flags14 |= 0xc;
                 state->mode04 = 0x22;
-                goto done;
+                break;
             }
             if (rand() & 1) {
                 next_sprite = D_800F2A34;
@@ -139,7 +140,7 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         }
         motion->value0c -= motion->value0c >> 3;
         motion->value10 -= motion->value10 >> 3;
-        goto done;
+        break;
     }
 
     case 0x21: {
@@ -156,13 +157,12 @@ void func_80022698(StateRecord *state, MotionRecord *motion, SpriteRecord *sprit
         motion->value10 -= motion->value10 >> 3;
         sprite_flags = sprite->flags14;
         if (!(sprite_flags & 0x6000)) {
-            goto done;
+            break;
         }
         sprite->flags14 = sprite_flags | 0xc;
         sprite->color0c = 0xa0a0a0;
-increment_mode:
         state->mode04++;
-        goto done;
+        break;
     }
 
     case 0x22:
@@ -177,11 +177,11 @@ increment_mode:
         if (root->state36 != 9) {
             state->timer06--;
             if (state->timer06 > 0) {
-                goto done;
+                break;
             }
         }
         state->mode04 = 0xfff;
-        goto done;
+        break;
 
     case 0x100:
         sprite->color0c = 0xa0a0a0;
@@ -194,18 +194,15 @@ increment_mode:
             sprite->color0c = 0;
             state->mode04 = 0xfff;
         }
-        goto done;
+        break;
 
     case 0xfff:
         ((u16 *)state)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto done;
+        break;
 
-    default:
-        goto done;
     }
 
-done:
     if (next_sprite != 0) {
         func_8003DB94(sprite, next_sprite, 0);
         sprite->flags14 &= 0x9fff;

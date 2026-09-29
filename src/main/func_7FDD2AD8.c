@@ -51,51 +51,37 @@ void func_80089A38(State *state, Motion *motion, void *update_data)
         state->step = 255;
 
     step = state->step;
-    if (step != 2) {
-        if (step < 3) {
-            if (step == 0)
-                return;
-            if (step == 1)
-                goto advance_motion;
+    switch (step) {
+    case 0:
+        return;
+
+    case 1:
+        motion->x += motion->dx;
+        motion->y += motion->dy;
+        motion->dx += state->direction != 0 ? -0x10000 : 0x10000;
+        motion->dy += 0x8000;
+        if (motion->dx != 0)
             return;
-        }
-        if (step == 3)
-            goto accelerate_motion;
-        if (step == 255)
-            goto mark_complete;
+        state->step++;
         return;
-    }
-    goto reset_motion;
 
-advance_motion:
-    motion->x += motion->dx;
-    motion->y += motion->dy;
-    motion->dx += state->direction != 0 ? -0x10000 : 0x10000;
-    motion->dy += 0x8000;
-    if (motion->dx != 0)
+    case 2:
+        horizontal_value = 232;
+        if (state->direction != 0)
+            horizontal_value = 88;
+        *(s16 *)((unsigned char *)motion + 2) = horizontal_value;
+        *(s16 *)((unsigned char *)motion + 6) = owner->height * 16 + 168;
+        if (owner->kind != 32)
+            return;
+        horizontal_value = -0x20000;
+        if (state->direction != 0)
+            horizontal_value = 0x20000;
+        motion->dx = horizontal_value;
+        motion->dy = -0x40000;
+        state->step++;
         return;
-    goto advance_step;
 
-reset_motion:
-    horizontal_value = 232;
-    if (state->direction != 0)
-        horizontal_value = 88;
-    *(s16 *)((unsigned char *)motion + 2) = horizontal_value;
-    *(s16 *)((unsigned char *)motion + 6) = owner->height * 16 + 168;
-    if (owner->kind != 32)
-        return;
-    horizontal_value = -0x20000;
-    if (state->direction != 0)
-        horizontal_value = 0x20000;
-    motion->dx = horizontal_value;
-    motion->dy = -0x40000;
-
-advance_step:
-    state->step++;
-    return;
-
-accelerate_motion:
-    {
+    case 3:
         previous_y = motion->y;
         motion->x += motion->dx;
         motion->y += motion->dy;
@@ -105,11 +91,13 @@ accelerate_motion:
             return;
         state->step = 255;
         return;
+
+    case 255:
+        *(u16 *)((unsigned char *)state - 2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
+
+    default:
+        return;
     }
-
-mark_complete:
-    *(u16 *)((unsigned char *)state - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

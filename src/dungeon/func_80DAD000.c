@@ -114,27 +114,23 @@ void *BODY_NAME(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
         if (spawn_mode == 1) {
             flags_14 = state->unk_14 | 0x6000;
             flags_1c = state->unk_1C | 0x6000;
-            goto store_flags;
-        }
-        if (spawn_mode >= 2) {
-            flags_14 = state->unk_14 | 0x2000;
-            flags_1c = state->unk_1C | 0x2000;
-        store_flags:
             state->unk_14 = flags_14;
             state->unk_1C = flags_1c;
-            goto spawn;
-        }
-        object_arg = object;
-        if (((spawn_flags & ~3) << 0x10) == 0) {
-            if (!(state->unk_14 & 0x200)) {
-                base_arg = base_data;
-                if (func_800A6D30() & 1) {
-                    state->unk_1C = (s32) (state->unk_1C | 0x200);
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+        } else if (spawn_mode >= 2) {
+            flags_14 = state->unk_14 | 0x2000;
+            flags_1c = state->unk_1C | 0x2000;
+            state->unk_14 = flags_14;
+            state->unk_1C = flags_1c;
+        } else {
+            if (((spawn_flags & ~3) << 0x10) == 0) {
+                if (!(state->unk_14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        state->unk_1C = (s32) (state->unk_1C | 0x200);
+                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    }
                 }
             }
         }
-    spawn:
         func_800A9C18(object, base_data, placement, spawn_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;

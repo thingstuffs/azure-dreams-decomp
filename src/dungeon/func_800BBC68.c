@@ -61,17 +61,14 @@ s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
         }
 
         dungeonStatus.unk_0A--;
-        goto shared;
+    } else {
+        object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
+        if (func_800BBA40(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C, &D_800DEAE0, 0x5000, 0x202080, &D_800C135C) == 0) {
+            result = 0;
+            return result;
+        }
+        func_800997FC(&D_800E1482);
     }
-    object_data = ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_00;
-    if (func_800BBA40(object_data->unk_24, object_data->unk_25, ((S_800C13C8_0 *)((u8 *)object - 0x14))->unk_9C, &D_800DEAE0, 0x5000, 0x202080, &D_800C135C) != 0) {
-        goto success;
-    }
-    result = 0;
-    return result;
-success:
-    func_800997FC(&D_800E1482);
-shared:
     func_80098B38(value);
     result = 1;
     return result;

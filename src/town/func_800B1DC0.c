@@ -53,11 +53,11 @@ void func_800AF520(void *context) {
     index_offset = page_index << 2;
     index_offset += page_index;
     entry_index = index_offset << 1;
-    for (;;) {
+    while (1) {
         entries = ctx->unk_00;
         has_entry = entry_index < entries->unk_1C;
         if (has_entry == 0) {
-            goto check_slots;
+            break;
         }
         slot_addr = (void *)((entry_index << 2) + entries->unk_20);
         entry = *(void **)slot_addr;
@@ -67,24 +67,15 @@ void func_800AF520(void *context) {
         slot = *((s32 **)((slot_index * 4) + (u8 *)slots));
         slot_index += 1;
         *slot = value;
-        do {
-            has_slot = slot_index < 0x10;
-        } while (0);
+        has_slot = slot_index < 0x10;
         if (has_slot == 0) {
-            goto check_slots;
+            break;
         }
     }
-    do {
-            slot_offset = slot_index << 2;
-            do {
-                slot_addr = (void *)(slot_offset + ctx->unk_A8);
-            } while (0);
-            empty_slot = *(s32 **)slot_addr;
-            slot_index += 1;
-            *empty_slot = 0;
-        check_slots:
-            has_slot = slot_index < 0x10;
-        clear_remaining:
-    } while (has_slot != 0);
-    return;
+    while (slot_index < 0x10) {
+        slot_offset = slot_index << 2;
+        empty_slot = *(s32 **)(slot_offset + ctx->unk_A8);
+        slot_index += 1;
+        *empty_slot = 0;
+    }
 }

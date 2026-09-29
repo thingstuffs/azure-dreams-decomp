@@ -31,9 +31,7 @@ void func_808816D8(void) {
         D_8070100C[0]->func68(D_807007A8, D_807007D0, 0x4B);
         D_8070100C[0]->func74(1);
     }
-    {
-        *(s32 *)0x80700740 = 1;
-    }
+    *(s32 *)0x80700740 = 1;
     func_80700EB4();
     D_80701000[0]->data = D_80700704;
     row_base = D_80701000[0]->data;
@@ -46,10 +44,10 @@ void func_808816D8(void) {
         if (check != limit) {
             sentinel = 0x80;
             row_cursor = row_base + 1;
-            loop_0: {
+            do {
                 *(volatile s32 *)(row_cursor + 0xB) = D_80701008[0][*(volatile s32 *)(row_cursor + 0xB)];
                 row_cursor += 0x14;
-            } if (*row_cursor != sentinel) goto loop_0;
+            } while (*row_cursor != sentinel);
         }
     }
 }

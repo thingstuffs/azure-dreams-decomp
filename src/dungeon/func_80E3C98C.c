@@ -102,15 +102,18 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
             ((S_80E3C98C_2 *)entity)->unk_1C =
                 (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000200) & 0xFFFEFFFF;
         }
-        goto update_reference;
-    }
-    D_800E2968 = 1;
-    source_entity = (void *)source_ref;
-    
-    type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
-    if (((type_data != NULL) && (type_data->unk_01 != 0)) ||
-        (type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 3),
-         result = NULL, type_data != NULL)) {
+    } else {
+        D_800E2968 = 1;
+        source_entity = (void *)source_ref;
+
+        type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 1);
+        if (!((type_data != NULL) && (type_data->unk_01 != 0))) {
+            type_data = func_800A1618(((S_80E3C98C_3 *)source_entity)->unk_13, 3);
+            result = NULL;
+            if (type_data == NULL) {
+                return result;
+            }
+        }
         func_8004397C(source_entity);
         create_entity = func_800A0B94(((S_80E3C98C_3 *)source_entity)->unk_13, type_data, 1);
         func_8003F320();
@@ -131,21 +134,20 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
             ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
             ((S_80E3C98C_2 *)entity)->unk_1C = (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000000) & 0xFFFEFFFF;
         }
-update_reference:
-        if (spawn_data->unk_14.at00_s32.v & 0x4000) {
-            table_offset = func_800A1BD0(spawn_data);
-            table_base = ((u8 *)D_800E3D7C);
-            table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
-                               (s32)table_base);
-            
-            previous_entity = table_entry->unk_AC;
-            table_entry->unk_AC = entity;
-            table_entry->unk_E4 = previous_entity;
-        }
-        result = NULL;
-        if (entity != NULL) {
-            result = (u8 *)entity - 0x20;
-        }
+    }
+    if (spawn_data->unk_14.at00_s32.v & 0x4000) {
+        table_offset = func_800A1BD0(spawn_data);
+        table_base = ((u8 *)D_800E3D7C);
+        table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
+                           (s32)table_base);
+        
+        previous_entity = table_entry->unk_AC;
+        table_entry->unk_AC = entity;
+        table_entry->unk_E4 = previous_entity;
+    }
+    result = NULL;
+    if (entity != NULL) {
+        result = (u8 *)entity - 0x20;
     }
     return result;
 }

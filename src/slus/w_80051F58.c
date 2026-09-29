@@ -34,85 +34,63 @@ void func_80051F58(S_80051F58 *effect, void *unused_1, S_80051F58_a2 *color, voi
     u16 advance_state;
     int next_timer;
     int state = effect->state;
-    u16 state_bits = *(volatile u16 *)&effect->state;
+    u16 state_bits = effect->state;
 
     next_timer = timer + 1;
     effect->timer = next_timer;
-    if (state == 1) {
-        goto fade_in;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto wait_trigger;
+    switch (state) {
+    case 0:
+        if (effect->unk0C == 0) {
+            return;
         }
-        goto default_case;
-    }
-    if (state == 2) {
-        goto hold;
-    }
-    if (state == 3) {
-        goto fade_out;
-    }
-    goto default_case;
-
-wait_trigger:
-    if (effect->unk0C == 0) {
-        return;
-    }
-    effect->unk0C = 0;
-    advance_state = *(volatile u16 *)&effect->state;
-    goto advance;
-
-fade_in:
-    {
-        u8 intensity = color->unk0E + 2;
-        color->unk0E = intensity;
-        color->unk0D = intensity;
-        color->unk0C = intensity;
-    }
-    if ((s16)effect->timer < 0x40) {
-        return;
-    }
-    advance_state = *(volatile u16 *)&effect->state;
-
-advance:
-    do {
+        effect->unk0C = 0;
+        advance_state = effect->state;
         effect->timer = 0;
-    } while (0);
-    effect->state = advance_state + 1;
-    return;
-
-hold:
-    if ((s16)next_timer < 0x100) {
+        effect->state = advance_state + 1;
         return;
-    }
-    {
-        u16 next_state = state_bits + 1;
-        effect->state = next_state;
-    }
-    effect->timer = 0;
-    return;
-
-fade_out:
-    {
-        u8 intensity = color->unk0E - 2;
-        color->unk0E = intensity;
-        color->unk0D = intensity;
-        color->unk0C = intensity;
-    }
-    if ((s16)effect->timer < 0x40) {
+    case 1:
+        {
+            u8 intensity = color->unk0E + 2;
+            color->unk0E = intensity;
+            color->unk0D = intensity;
+            color->unk0C = intensity;
+        }
+        if ((s16)effect->timer < 0x40) {
+            return;
+        }
+        advance_state = effect->state;
+        effect->timer = 0;
+        effect->state = advance_state + 1;
         return;
+    case 2:
+        if ((s16)next_timer < 0x100) {
+            return;
+        }
+        {
+            u16 next_state = state_bits + 1;
+            effect->state = next_state;
+        }
+        effect->timer = 0;
+        return;
+    case 3:
+        {
+            u8 intensity = color->unk0E - 2;
+            color->unk0E = intensity;
+            color->unk0D = intensity;
+            color->unk0C = intensity;
+        }
+        if ((s16)effect->timer < 0x40) {
+            return;
+        }
+        break;
+    default:
+        color->unk0E = 0;
+        color->unk0D = 0;
+        color->unk0C = 0;
+        break;
     }
-    goto finish;
-
-default_case:
-    color->unk0E = 0;
-    color->unk0D = 0;
-    color->unk0C = 0;
-
-finish:
     effect->unk00->unk18 = 0;
     effect->unk00->unk06 += 1;
-    *(volatile u16 *)((u16 *)effect - 1) |= 0x8000;
+    *((u16 *)effect - 1) |= 0x8000;
     D_800814A0_abs |= 0x8000;
 }

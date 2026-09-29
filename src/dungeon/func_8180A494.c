@@ -131,61 +131,48 @@ void func_80025C94(void *object_arg, void *position_arg, void *sprite_arg) {
     state = object->unk_72.s;
     switch (state) {
     case 0:
-        goto initialize;
+        sprite->unk_1E = 0x1000;
+        sprite->unk_1C = 0x1000;
+        sprite->unk_0E = 0U;
+        sprite->unk_0D = 0U;
+        sprite->unk_0C = 0U;
+        object->unk_73.s = 8;
+        object->unk_2A = 0x400;
+        direction_table = (u16 *)0x80010000;
+        direction = (((S_80025C94_6 *)((s8 *)direction_table + (object->unk_6A * 2)))->unk_2094 + 2) & 7;
+        position->unk_00.at02.v = D_800DCEAC[direction];
+        start_y = D_800DCEBC[direction];
+        position->unk_0A = 0;
+        position->unk_04.at02.v = start_y;
+        sprite->unk_24 = (u8) (((s8 *)dirStepX)[direction * 2] + 1);
+        sprite->unk_25 = (u8) (((s8 *)dirStepY)[direction * 2] + 1);
+        object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
     case 1:
-        goto fade_in;
-    case 2:
-        goto check_fade_out;
-    case 3:
-        goto fade_out;
-    default:
-        motion->unk_96 = 0;
-        return;
-    }
-initialize:
-    sprite->unk_1E = 0x1000;
-    sprite->unk_1C = 0x1000;
-    sprite->unk_0E = 0U;
-    sprite->unk_0D = 0U;
-    sprite->unk_0C = 0U;
-    object->unk_73.s = 8;
-    object->unk_2A = 0x400;
-    direction_table = (u16 *)0x80010000;
-    direction = (((S_80025C94_6 *)((s8 *)direction_table + (object->unk_6A * 2)))->unk_2094 + 2) & 7;
-    position->unk_00.at02.v = D_800DCEAC[direction];
-    start_y = D_800DCEBC[direction];
-    position->unk_0A = 0;
-    position->unk_04.at02.v = start_y;
-    sprite->unk_24 = (u8) (((s8 *)dirStepX)[direction * 2] + 1);
-    sprite->unk_25 = (u8) (((s8 *)dirStepY)[direction * 2] + 1);
-    object->unk_72.s = (s8) ((u8) object->unk_72.s + 1);
-fade_in:
-    fade_in_ticks = (void *) object->unk_73.s;
-    if (fade_in_ticks != NULL) {
-        fade_in_level = sprite->unk_0E;
-        next_fade_in = fade_in_level + ((s32) (0x80 - fade_in_level) / (s32) fade_in_ticks);
-        sprite->unk_0E = next_fade_in;
-        sprite->unk_0D = next_fade_in;
-        sprite->unk_0C = next_fade_in;
+        fade_in_ticks = (void *) object->unk_73.s;
+        if (fade_in_ticks != NULL) {
+            fade_in_level = sprite->unk_0E;
+            next_fade_in = fade_in_level + ((s32) (0x80 - fade_in_level) / (s32) fade_in_ticks);
+            sprite->unk_0E = next_fade_in;
+            sprite->unk_0D = next_fade_in;
+            sprite->unk_0C = next_fade_in;
     }
     fade_in_left = object->unk_73.u - 1;
     object->unk_73.u = fade_in_left;
-    if ((fade_in_left << 0x18) > 0) {
-        goto check_fade_out;
+    if ((fade_in_left << 0x18) <= 0) {
+        sprite->unk_0E = 0x80U;
+        sprite->unk_0D = 0x80U;
+        sprite->unk_0C = 0x80U;
+        object->unk_73.u = 0U;
+        object->unk_72.u = (u8) (object->unk_72.u + 1);
     }
-    sprite->unk_0E = 0x80U;
-    sprite->unk_0D = 0x80U;
-    sprite->unk_0C = 0x80U;
-    object->unk_73.u = 0U;
-    object->unk_72.u = (u8) (object->unk_72.u + 1);
-check_fade_out:
-    if (D_8002715A == 0) {
-        goto update_position;
+    case 2:
+    if (D_8002715A != 0) {
+        object->unk_73.u = 8U;
+        position->unk_16 = 8;
+        object->unk_72.u = (u8) (object->unk_72.u + 1);
     }
-    object->unk_73.u = 8U;
-    position->unk_16 = 8;
-    goto advance_state;
-fade_out:
+    break;
+    case 3:
     fade_out_ticks = object->unk_73.s;
     if (fade_out_ticks != 0) {
         fade_out_level = sprite->unk_0E;
@@ -196,12 +183,14 @@ fade_out:
     }
     fade_out_left = (u8) object->unk_73.s - 1;
     object->unk_73.s = fade_out_left;
-    if ((fade_out_left << 0x18) > 0) {
-        goto update_position;
+    if ((fade_out_left << 0x18) <= 0) {
+        object->unk_72.u = (u8) (object->unk_72.u + 1);
     }
-advance_state:
-    object->unk_72.u = (u8) (object->unk_72.u + 1);
-update_position:
+    break;
+    default:
+    motion->unk_96 = 0;
+    return;
+    }
     move_ticks = motion->unk_96;
     if (move_ticks != 0) {
         position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((s32) ((((sprite->unk_24 - 1) << 6) - (s16) position->unk_00.at02.v) << 0x10) / move_ticks));
@@ -214,10 +203,9 @@ update_position:
     }
     if (object->unk_14 & 0x40000) {
         motion->unk_92 = -0x20;
-        goto prepare_draw;
+    } else {
+        motion->unk_92 = 0;
     }
-    motion->unk_92 = 0;
-prepare_draw:
     motion->unk_9D = 0;
     appearance = ((S_80025C94_7_pre *)(object->unk_58))[-1].unk_00;
     saved_render_value = ((u16)render_context->view.viewAngle);
@@ -251,6 +239,5 @@ prepare_draw:
         blue = blue >> 1;
     }
     sprite->unk_0E = blue;
-    return;
     return;
 }

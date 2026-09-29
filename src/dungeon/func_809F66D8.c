@@ -84,7 +84,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         direction = (gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9;
         func_80047784(sprite, D_80175188[direction & 7], 0);
         ((S_80173ED8_0 *)action)->unk_9B++;
-        goto increment_state_done;
+        return;
     }
 
     case 1:
@@ -100,7 +100,7 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 #endif
             ((S_80173ED8_2 *)counter_state)->unk_0A++;
             ((S_80173ED8_0 *)action)->unk_9B++;
-            goto increment_state_done;
+            return;
         }
 
         dungeon_state = &dungeonStatus.unk_00;
@@ -155,8 +155,6 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
         ((S_80173ED8_0 *)action)->unk_9B++;
-        increment_state_done:
-        ;
         return;
 
     case 2:

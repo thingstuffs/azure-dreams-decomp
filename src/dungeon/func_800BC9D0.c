@@ -52,35 +52,32 @@ s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
             func_800A5F38(entity, event);
             return 1;
         }
-        goto final;
-    }
-
-    func_800C4D78(0xC02020, 1);
-    message_buf = func_800990FC();
-
-    message_arg = message_buf;
-    if (D_80082E80.unk_026 >= 0) {
-        slot_index = 0;
-        slot = D_800E3648;
-        do {
-            if (slot[1] != 0 && slot[0] != 0) {
-                slot_flags = slot[3];
-                if (!(slot_flags & 0x40)) {
-                    slot[3] = slot_flags | 0x80;
-                }
-            }
-            slot_index++;
-            slot += 4;
-        } while (slot_index < 0x20);
-
-        func_80099290(message_arg);
     } else {
-        message_end = func_80099194(D_800E1567, message_buf);
-        func_80099290(message_end);
-    }
-    func_800A5720(message_buf);
+        func_800C4D78(0xC02020, 1);
+        message_buf = func_800990FC();
 
-final:
+        message_arg = message_buf;
+        if (D_80082E80.unk_026 >= 0) {
+            slot_index = 0;
+            slot = D_800E3648;
+            do {
+                if (slot[1] != 0 && slot[0] != 0) {
+                    slot_flags = slot[3];
+                    if (!(slot_flags & 0x40)) {
+                        slot[3] = slot_flags | 0x80;
+                    }
+                }
+                slot_index++;
+                slot += 4;
+            } while (slot_index < 0x20);
+
+            func_80099290(message_arg);
+        } else {
+            message_end = func_80099194(D_800E1567, message_buf);
+            func_80099290(message_end);
+        }
+        func_800A5720(message_buf);
+    }
     event_state = (u8 *)&dungeonStatus.unk_00;
     pending_count = (u16 *)(event_state + 0xA);
     *pending_count = *pending_count - 1;

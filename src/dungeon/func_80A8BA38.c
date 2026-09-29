@@ -46,131 +46,118 @@ void func_8015B238(void *motion_state, void *motion, void *map_actor, void *acto
 
     direction = (((EntityRec *)actor)->unk_6A >> 9) & 7;
     state = ((S_8015B238_1 *)motion_state)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
+    switch (state) {
+    case 0:
+        func_800AD4D0(actor);
+        ((S_8015B238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
+        ((S_8015B238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
+        ((S_8015B238_1 *)motion_state)->unk_9B++;
+
+        if (((EntityRec *)actor)->unk_28 == 0) {
+            ((S_8015B238_2 *)motion)->unk_14 = 0;
+            ((S_8015B238_2 *)motion)->unk_10 = 0;
+            ((S_8015B238_2 *)motion)->unk_0C = 0;
+            func_800AAA54(motion_state, motion, map_actor, D_8015C178);
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    if (state == 3) {
-        goto state_three;
-    }
-    return;
-
-state_zero:
-    func_800AD4D0(actor);
-    ((S_8015B238_2 *)motion)->unk_0C = ((s16 *)((s8 *)dirStepX))[direction] << 18;
-    ((S_8015B238_2 *)motion)->unk_10 = ((s16 *)((s8 *)dirStepY))[direction] << 18;
-    ((S_8015B238_1 *)motion_state)->unk_9B++;
-
-    if (((EntityRec *)actor)->unk_28 == 0) {
-        goto stop_motion;
-    }
-    if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
-        ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
-        ((S_8015B238_1 *)motion_state)->unk_9B = 3;
-        return;
-    }
-
-    if (((u32)((EntityRec *)actor)->flags1C) & 0x228) {
-        timer = 8;
-    } else {
-        timer = -1;
-    }
-    ((S_8015B238_1 *)motion_state)->unk_96.s = timer;
-
-    ((S_8015B238_2 *)motion)->unk_0C -= ((S_8015B238_2 *)motion)->unk_0C / 4;
-    ((S_8015B238_2 *)motion)->unk_10 -= ((S_8015B238_2 *)motion)->unk_10 / 4;
-
-state_one:
-    ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-    ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
-
-    if (((S_8015B238_1 *)motion_state)->unk_96.s > 0) {
-        ((S_8015B238_1 *)motion_state)->unk_96.s = ((S_8015B238_1 *)motion_state)->unk_96.u - 1;
-    } else if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x6000) {
-        ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
-    }
-
-    if (((S_8015B238_1 *)motion_state)->unk_96.s != 0) {
-        return;
-    }
-    if (((EntityRec *)actor)->unk_28 != 0) {
-        goto continue_state_one;
-    }
-
-stop_motion:
-    ((S_8015B238_2 *)motion)->unk_14 = 0;
-    ((S_8015B238_2 *)motion)->unk_10 = 0;
-    ((S_8015B238_2 *)motion)->unk_0C = 0;
-    func_800AAA54(motion_state, motion, map_actor, D_8015C178);
-    return;
-
-continue_state_one:
-    (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
-    func_80047784(
-        map_actor,
-        D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
-        0);
-    ((S_8015B238_1 *)motion_state)->unk_9B++;
-    return;
-
-state_two:
-    ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
-    ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
-    if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x6000)) {
-        return;
-    }
-
-    (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
-    func_80047784(
-        map_actor,
-        D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
-        0);
-    ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
-    ((S_8015B238_1 *)motion_state)->unk_9B++;
-    return;
-
-state_three:
-    timer = ((S_8015B238_1 *)motion_state)->unk_96.s;
-    if (timer != 0) {
-        {
-            s32 target_coord = ((Rec_D_80082E80 *)map_actor)->unk_24 << 6;
-            s32 current_coord = ((S_8015B238_2 *)motion)->unk_00.at02.v - 0x20;
-            ((S_8015B238_2 *)motion)->unk_0C = ((target_coord - current_coord) << 15) / timer;
+        if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) {
+            ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
+            ((S_8015B238_1 *)motion_state)->unk_9B = 3;
+            return;
         }
-        {
-            s32 target_coord = ((Rec_D_80082E80 *)map_actor)->unk_25 << 6;
-            s32 current_coord = ((S_8015B238_2 *)motion)->unk_04.at02.v - 0x20;
-            ((S_8015B238_2 *)motion)->unk_10 =
-                ((target_coord - current_coord) << 15) / ((S_8015B238_1 *)motion_state)->unk_96.s;
-        }
-    }
 
-    timer = ((S_8015B238_1 *)motion_state)->unk_96.u - 1;
-    ((S_8015B238_1 *)motion_state)->unk_96.s = timer;
-    if ((s32)(timer << 16) > 0) {
+        if (((u32)((EntityRec *)actor)->flags1C) & 0x228) {
+            timer = 8;
+        } else {
+            timer = -1;
+        }
+        ((S_8015B238_1 *)motion_state)->unk_96.s = timer;
+
+        ((S_8015B238_2 *)motion)->unk_0C -= ((S_8015B238_2 *)motion)->unk_0C / 4;
+        ((S_8015B238_2 *)motion)->unk_10 -= ((S_8015B238_2 *)motion)->unk_10 / 4;
+
+    case 1:
+        ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+        ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+
+        if (((S_8015B238_1 *)motion_state)->unk_96.s > 0) {
+            ((S_8015B238_1 *)motion_state)->unk_96.s = ((S_8015B238_1 *)motion_state)->unk_96.u - 1;
+        } else if (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x6000) {
+            ((S_8015B238_1 *)motion_state)->unk_96.s = 0;
+        }
+
+        if (((S_8015B238_1 *)motion_state)->unk_96.s != 0) {
+            return;
+        }
+        if (((EntityRec *)actor)->unk_28 == 0) {
+            ((S_8015B238_2 *)motion)->unk_14 = 0;
+            ((S_8015B238_2 *)motion)->unk_10 = 0;
+            ((S_8015B238_2 *)motion)->unk_0C = 0;
+            func_800AAA54(motion_state, motion, map_actor, D_8015C178);
+            return;
+        } else {
+            (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
+            func_80047784(
+                map_actor,
+                D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+                0);
+            ((S_8015B238_1 *)motion_state)->unk_9B++;
+            return;
+        }
+
+    case 2:
+        ((S_8015B238_2 *)motion)->unk_0C -= ((s16 *)((s8 *)dirStepX))[direction] << 14;
+        ((S_8015B238_2 *)motion)->unk_10 -= ((s16 *)((s8 *)dirStepY))[direction] << 14;
+        if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x6000)) {
+            return;
+        }
+
+        (*(u8 * *)((u8 *)map_actor + 0x2C)) = D_8015C150;
+        func_80047784(
+            map_actor,
+            D_8015C150[((gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7],
+            0);
+        ((S_8015B238_1 *)motion_state)->unk_96.s = 8;
+        ((S_8015B238_1 *)motion_state)->unk_9B++;
+        return;
+
+    case 3:
+        timer = ((S_8015B238_1 *)motion_state)->unk_96.s;
+        if (timer != 0) {
+            {
+                s32 target_coord = ((Rec_D_80082E80 *)map_actor)->unk_24 << 6;
+                s32 current_coord = ((S_8015B238_2 *)motion)->unk_00.at02.v - 0x20;
+                ((S_8015B238_2 *)motion)->unk_0C = ((target_coord - current_coord) << 15) / timer;
+            }
+            {
+                s32 target_coord = ((Rec_D_80082E80 *)map_actor)->unk_25 << 6;
+                s32 current_coord = ((S_8015B238_2 *)motion)->unk_04.at02.v - 0x20;
+                ((S_8015B238_2 *)motion)->unk_10 =
+                    ((target_coord - current_coord) << 15) / ((S_8015B238_1 *)motion_state)->unk_96.s;
+            }
+        }
+
+        timer = ((S_8015B238_1 *)motion_state)->unk_96.u - 1;
+        ((S_8015B238_1 *)motion_state)->unk_96.s = timer;
+        if ((s32)(timer << 16) > 0) {
+            return;
+        }
+
+        ((S_8015B238_2 *)motion)->unk_14 = 0;
+        ((S_8015B238_2 *)motion)->unk_10 = 0;
+        ((S_8015B238_2 *)motion)->unk_0C = 0;
+        ((S_8015B238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_24 << 6) + 0x20) << 16;
+        ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_25 << 6) + 0x20) << 16;
+        func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
+
+        tracked_actor = ((s32)dungeonStatus.unk_10);
+        if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
+            dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
+        }
+        ((S_8015B238_1 *)motion_state)->unk_8C = &D_80158E54;
+
+        return;
+    default:
         return;
     }
-
-    ((S_8015B238_2 *)motion)->unk_14 = 0;
-    ((S_8015B238_2 *)motion)->unk_10 = 0;
-    ((S_8015B238_2 *)motion)->unk_0C = 0;
-    ((S_8015B238_2 *)motion)->unk_00.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_24 << 6) + 0x20) << 16;
-    ((S_8015B238_2 *)motion)->unk_04.at00.v = ((((Rec_D_80082E80 *)map_actor)->unk_25 << 6) + 0x20) << 16;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)map_actor)->unk_24, ((Rec_D_80082E80 *)map_actor)->unk_25);
-
-    tracked_actor = ((s32)dungeonStatus.unk_10);
-    if (tracked_actor == (s32)((u8 *)actor - 0x20)) {
-        dungeonStatus.unk_10 = tracked_actor & 0x7FFFFFFF;
-    }
-    ((S_8015B238_1 *)motion_state)->unk_8C = &D_80158E54;
-
-    return;
 }

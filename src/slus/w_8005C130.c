@@ -30,17 +30,13 @@ s16 func_8005C130(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 d
     D_80085F98[0] = 1;
 
     slot = 0;
-    for (;;) {
-        if (func_8005EB78(D_80073740[slot]) == 0) {
-            goto checked_done_slots;
-        }
+    while (func_8005EB78(D_80073740[slot]) != 0) {
         slot++;
         if (slot > D_80073734[0] - 1) {
             slot = -1;
             break;
         }
     }
-checked_done_slots:
 
     if (slot == -1) {
         slot = 0;

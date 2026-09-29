@@ -48,10 +48,7 @@ s32 func_8005C4D0(s16 slot_id)
     slot = slots + slot_index * 0x78;
     active = *(u16 *)(slot + 0x1A);
     *(s32 *)busy_or_slot = 1;
-    if (active == 0) {
-        goto fail;
-    }
-    if (*(u16 *)(slot + 6) < 0x10) {
+    if (active == 0 || *(u16 *)(slot + 6) < 0x10) {
         goto fail;
     }
 
@@ -66,7 +63,7 @@ s32 func_8005C4D0(s16 slot_id)
         func_8005E97C(0, slot_handle);
         status = func_8005EB78(slot_handle);
         if (status == 2) {
-            goto success;
+            break;
         }
     } while (status != 0);
     goto success;

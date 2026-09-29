@@ -680,22 +680,8 @@ store_ability:
                 ((S_800277F4_19 *)runtime_addr)->unk_D0 = 0;
             }
             func_8003DB4C(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
-            {
-                update_target = donor_runtime;
-                ASM_KEEP_NV(update_target);
-#ifdef NON_MATCHING
-                D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
-#else
-                {
-                    u32 dead_base = (u32)D_800E3DF0;
-                    s32 dead_index;
-                    dead_index = ((S_800277F4_20 *)donor_runtime)->unk_03;
-                    
-                    *(u32 *) (dead_base + ((dead_index & 0x1F) * 4)) = 0;
-                }
-#endif
-                func_80098B38(update_target);
-            }
+            D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
+            func_80098B38(donor_runtime);
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&
                 ((result_kind = ((S_800277F4_0 *)result)->unk_13) != 2) &&

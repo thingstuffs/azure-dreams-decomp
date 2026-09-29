@@ -103,9 +103,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 }
                 var_s2 = 1;
             }
-            goto block_13;
         }
-block_13:
         temp_s0_2 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64;
         if (temp_s0_2 != NULL) {
 
@@ -134,11 +132,8 @@ block_13:
                 }
                 var_s2 |= 2;
             }
-            goto block_28;
         }
-        goto block_28;
     }
-block_28:
     if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_28 & 0x4000) {
         if ((var_s2 << 0x10) == 0) {
             /* garbage-passthru: a3 remains residue from earlier calls. */

@@ -123,94 +123,83 @@ void func_80175BA8(void *actor_state, void *position, void *sprite, void *actor_
     phase = ((S_80175BA8_0 *)actor_state)->unk_9B;
     switch (phase) {
     case 0:
-        goto update_height;
-    case 1:
-        goto wait_first_animation;
-    case 2:
-        goto wait_second_animation;
-    default:
-        return;
-    }
-
-update_height:
-    ((S_80175BA8_1 *)position)->unk_14 = 0;
-    ((S_80175BA8_1 *)position)->unk_10 = 0;
-    ((S_80175BA8_1 *)position)->unk_0C = 0;
-    target_offset = func_800BCB04(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
-                            (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
-              - ((S_80175BA8_2 *)actor_info)->unk_88;
-    if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
-        next_offset = ((S_80175BA8_0 *)actor_state)->unk_92.u + 0xC;
-        ((S_80175BA8_0 *)actor_state)->unk_92.u = next_offset;
-        if (target_offset >= (s16)next_offset) {
-            goto height_ready;
+        ((S_80175BA8_1 *)position)->unk_14 = 0;
+        ((S_80175BA8_1 *)position)->unk_10 = 0;
+        ((S_80175BA8_1 *)position)->unk_0C = 0;
+        target_offset = func_800BCB04(((S_80175BA8_1 *)position)->unk_02, ((S_80175BA8_1 *)position)->unk_06,
+                                (s16)(((S_80175BA8_2 *)actor_info)->unk_88 - 0x20))
+                  - ((S_80175BA8_2 *)actor_info)->unk_88;
+        if (((S_80175BA8_0 *)actor_state)->unk_92.s < target_offset) {
+            next_offset = ((S_80175BA8_0 *)actor_state)->unk_92.u + 0xC;
+            ((S_80175BA8_0 *)actor_state)->unk_92.u = next_offset;
+            if (target_offset < (s16)next_offset) {
+                ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
+            }
+        } else {
+            ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
         }
-    }
-    ((S_80175BA8_0 *)actor_state)->unk_92.s = target_offset;
-height_ready:
-    if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
-        ((S_80175BA8_0 *)actor_state)->unk_92.u = 0;
-    }
-    phase_ticks = ((S_80175BA8_0 *)actor_state)->unk_96 + 1;
-    ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
-    if (((s16)phase_ticks == 1) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
-        ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
-        effect = func_8003FD64(0x12, (u8 *)actor_state - 0x20);
-        if (effect != NULL) {
-            ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
-            ((S_80175BA8_4 *)effect)->unk_10 = D_80170CEC;
-            func_8004491C(effect, D_80045C34);
-            effect_state = (u8 *)effect + 0x20;
-            ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
-            ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
-            ((S_80175BA8_5 *)effect_state)->unk_44 = position;
-            effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
-            ((S_80175BA8_6 *)effect_sprite)->unk_10 = 0x40;
-            ((S_80175BA8_6 *)effect_sprite)->unk_14 |= 0xC;
-            effect_position = ((S_80175BA8_4 *)effect)->unk_08;
-            ((S_80175BA8_7 *)effect_position)->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
-            ((S_80175BA8_7 *)effect_position)->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
-            ((S_80175BA8_7 *)effect_position)->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
-            effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
-            ((S_80175BA8_6 *)effect_sprite)->unk_1E = 0xA00;
-            ((S_80175BA8_6 *)effect_sprite)->unk_1C = 0xA00;
-            ((S_80175BA8_6 *)effect_sprite)->unk_0E = 0;
-            ((S_80175BA8_6 *)effect_sprite)->unk_0D = 0;
-            ((S_80175BA8_6 *)effect_sprite)->unk_0C = 0;
-            ((S_80175BA8_6 *)effect_sprite)->unk_08 = D_800E2488;
+        if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
+            ((S_80175BA8_0 *)actor_state)->unk_92.u = 0;
         }
-    }
-    if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
-        func_80047784(sprite,
-                      D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
-                      0);
-        ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
-        ((S_80175BA8_0 *)actor_state)->unk_9B++;
+        phase_ticks = ((S_80175BA8_0 *)actor_state)->unk_96 + 1;
+        ((S_80175BA8_0 *)actor_state)->unk_96 = phase_ticks;
+        if (((s16)phase_ticks == 1) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+            ((S_80175BA8_0 *)actor_state)->unk_B5 = 1;
+            effect = func_8003FD64(0x12, (u8 *)actor_state - 0x20);
+            if (effect != NULL) {
+                ((S_80175BA8_0 *)actor_state)->unk_AC = effect;
+                ((S_80175BA8_4 *)effect)->unk_10 = D_80170CEC;
+                func_8004491C(effect, D_80045C34);
+                effect_state = (u8 *)effect + 0x20;
+                ((S_80175BA8_5 *)effect_state)->unk_38 = 5;
+                ((S_80175BA8_5 *)effect_state)->unk_40 = actor_state;
+                ((S_80175BA8_5 *)effect_state)->unk_44 = position;
+                effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+                ((S_80175BA8_6 *)effect_sprite)->unk_10 = 0x40;
+                ((S_80175BA8_6 *)effect_sprite)->unk_14 |= 0xC;
+                effect_position = ((S_80175BA8_4 *)effect)->unk_08;
+                ((S_80175BA8_7 *)effect_position)->unk_02 = ((S_80175BA8_1 *)position)->unk_02;
+                ((S_80175BA8_7 *)effect_position)->unk_06 = ((S_80175BA8_1 *)position)->unk_06;
+                ((S_80175BA8_7 *)effect_position)->unk_0A = ((S_80175BA8_2 *)actor_info)->unk_88;
+                effect_sprite = ((S_80175BA8_4 *)effect)->unk_0C;
+                ((S_80175BA8_6 *)effect_sprite)->unk_1E = 0xA00;
+                ((S_80175BA8_6 *)effect_sprite)->unk_1C = 0xA00;
+                ((S_80175BA8_6 *)effect_sprite)->unk_0E = 0;
+                ((S_80175BA8_6 *)effect_sprite)->unk_0D = 0;
+                ((S_80175BA8_6 *)effect_sprite)->unk_0C = 0;
+                ((S_80175BA8_6 *)effect_sprite)->unk_08 = D_800E2488;
+            }
+        }
+        if (((S_80175BA8_0 *)actor_state)->unk_92.s == 0) {
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2438;
+            func_80047784(sprite,
+                          D_800E2438[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                          0);
+            ((S_80175BA8_0 *)actor_state)->unk_96 = 2;
+            ((S_80175BA8_0 *)actor_state)->unk_9B++;
+            if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+                func_800A56E0(0x800);
+            }
+        }
         if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
-            func_800A56E0(0x800);
-            goto check_advance;
+            return;
         }
-        goto wait_first_animation;
-    }
-check_advance:
-    if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
-        return;
-    }
 
-wait_first_animation:
-    first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
-    ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
-    if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
-        func_80047784(sprite,
-                      D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
-                      0);
-        ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
-        ((S_80175BA8_0 *)actor_state)->unk_9B++;
-    }
-    if (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000) {
-wait_second_animation:
+    case 1:
+        first_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
+        ((S_80175BA8_0 *)actor_state)->unk_96 = first_delay;
+        if (((first_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0xE000)) {
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_800E2440;
+            func_80047784(sprite,
+                          D_800E2440[((gameWork.view.viewAngle + ((S_80175BA8_2 *)actor_info)->unk_2A + 0x100) >> 9) & 7],
+                          0);
+            ((S_80175BA8_0 *)actor_state)->unk_96 = 3;
+            ((S_80175BA8_0 *)actor_state)->unk_9B++;
+        }
+        if (!(((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
+            return;
+        }
+    case 2:
         second_delay = ((S_80175BA8_0 *)actor_state)->unk_96 - 1;
         ((S_80175BA8_0 *)actor_state)->unk_96 = second_delay;
         if (((second_delay << 0x10) <= 0) || (((S_80175BA8_3 *)sprite)->unk_14 & 0x8000)) {
@@ -227,6 +216,8 @@ wait_second_animation:
             dungeonStatus.unk_0C = 0;
             (*(u16 *)((u8 *)actor_info + 0x46)) &= 0x7FFF;
         }
+            return;
+    default:
+        return;
     }
-    return;
 }

@@ -119,37 +119,21 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
     s16 *turn_table;
     s32 step_offset;
 
-    if (dungeon_flags & 0x4000) {
-        goto process_state;
+    if ((dungeon_flags & 0x4000) || ((S_80171C34_1 *)actor_data)->unk_71.s >= 0) {
+        if (((S_80171C34_1 *)actor_data)->unk_12 >= 2 ||
+            (s16)func_8017237C(move_data, context, position_data, actor_data) == 0) {
+            func_800A9A0C(actor_data);
+            return;
+        }
+        if (dungeonStatus.unk_0C == actor_data) {
+            ((S_80171C34_1 *)actor_data)->unk_46 = 0xC008;
+        }
+        return;
     }
-    if (((S_80171C34_1 *)actor_data)->unk_71.s < 0) {
-        goto check_active;
-    }
-
-process_state:
-    if (((S_80171C34_1 *)actor_data)->unk_12 >= 2) {
-        goto reject_state;
-    }
-    if ((s16)func_8017237C(move_data, context, position_data, actor_data) != 0) {
-        goto accept_state;
-    }
-
-reject_state:
-    func_800A9A0C(actor_data);
-    return;
-
-accept_state:
-    if (dungeonStatus.unk_0C == actor_data) {
-        ((S_80171C34_1 *)actor_data)->unk_46 = 0xC008;
-    }
-    return;
-
-check_active:
     if (!(dungeon_flags & 0x2000)) {
         return;
     }
 
-active:
     func_800A19E4(position_data, actor_data, 3, 6, (u8 *)move_data + 0x9C);
     actor_flags = ((S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
@@ -166,119 +150,107 @@ active:
                 ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
                 return;
             }
-            if (((S_80171C34_1 *)actor_data)->unk_14 & 0x80000000) {
-                goto init_loop;
+            if (!(((S_80171C34_1 *)actor_data)->unk_14 & 0x80000000)) {
+                ((S_80171C34_1 *)actor_data)->unk_14 |= 0x80000000;
+                ((S_80171C34_1 *)actor_data)->unk_2A.u +=
+                    (func_800A6D30() & 7) << 9;
             }
-            ((S_80171C34_1 *)actor_data)->unk_14 |= 0x80000000;
-            ((S_80171C34_1 *)actor_data)->unk_2A.u +=
-                (func_800A6D30() & 7) << 9;
-            goto init_loop;
-        }
-
-        if (func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
-                          ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                          ((S_80171C34_1 *)actor_data)->unk_2A.s) == 0) {
-            goto init_loop;
-        }
-        goto success;
-    }
-
-    if (actor_flags & 0x2000) {
-        if (((S_80171C34_1 *)actor_data)->unk_46 & 0x8000) {
-            goto init_loop;
-        }
-        if (actor_flags & 0x20000) {
-            s16 target_angle;
-            s32 target_x;
-            s32 target_y;
-            u8 *turn_data;
-            {
-                u8 *target_position = D_80082E80_initial;
-                s32 target_facing = ((u16)D_800814A8->facing);
-                s32 offset_index =
-                    ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
-                target_x = target_position[0x24] +
-                    *(u16 *)((u8 *)((s8 *)dirStepX) + offset_index);
-                target_y = target_position[0x25] +
-                    *(u16 *)((u8 *)((s8 *)dirStepY) + offset_index);
+        } else {
+            if (func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
+                              ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                              ((S_80171C34_1 *)actor_data)->unk_2A.s) != 0) {
+                ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
+                return;
             }
+        }
+    } else if (actor_flags & 0x2000) {
+        if (!(((S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
+            if (actor_flags & 0x20000) {
+                s16 target_angle;
+                s32 target_x;
+                s32 target_y;
+                u8 *turn_data;
+                {
+                    u8 *target_position = D_80082E80_initial;
+                    s32 target_facing = ((u16)D_800814A8->facing);
+                    s32 offset_index =
+                        ((((S_80171C34_1 *)actor_data)->unk_45 + ((s16)target_facing >> 9)) & 7) << 1;
+                    target_x = target_position[0x24] +
+                        *(u16 *)((u8 *)((s8 *)dirStepX) + offset_index);
+                    target_y = target_position[0x25] +
+                        *(u16 *)((u8 *)((s8 *)dirStepY) + offset_index);
+                }
 
-            if (((S_80171C34_2 *)position_data)->unk_24.at00.v == (u16)target_x &&
-                ((S_80171C34_2 *)position_data)->unk_24.at01.v == (u16)target_y) {
-                goto success;
-            }
+                if (((S_80171C34_2 *)position_data)->unk_24.at00.v == (u16)target_x &&
+                    ((S_80171C34_2 *)position_data)->unk_24.at01.v == (u16)target_y) {
+                    ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
+                    return;
+                }
 
-            turn_data = (u8 *)move_data + 0x98;
-            target_angle = func_800A0818(
-                ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                (s16)target_x, (s16)target_y, turn_data);
-            ((S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
-            if (func_8009A8C0(target_angle, position_data, actor_data, 0x20) <= 0) {
-                ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
+                turn_data = (u8 *)move_data + 0x98;
+                target_angle = func_800A0818(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY, turn_data);
+                    (s16)target_x, (s16)target_y, turn_data);
+                ((S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
+                if (func_8009A8C0(target_angle, position_data, actor_data, 0x20) <= 0) {
+                    ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
+                        ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY, turn_data);
+                }
+                if (func_8009FD7C(
+                        ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                    limit_detour = 1;
+                }
+            } else {
+                func_800A0E6C(position_data, ((S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                              (u8 *)move_data + 0x98);
             }
+        }
+    } else if (((S_80171C34_2 *)position_data)->unk_26.s >= 0 &&
+               ((DungeonRecord *)D_800E2970)[((S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
+        func_800A0E6C(position_data, ((S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                      (u8 *)move_data + 0x98);
+    } else if (!(((S_80171C34_1 *)actor_data)->unk_46 & 0x8000)) {
+        current_angle = (s32)func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
+                              ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                              ((S_80171C34_1 *)actor_data)->unk_2A.s);
+        if (((void *)current_angle) != 0 &&
+            (((S_80171C34_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
+            (s16)func_800A0134((void *)current_angle, actor_data) < 0x81) {
+            if (func_8009A540(
+                    ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
+                    ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                    (s16)(((S_80171C34_1 *)actor_data)->unk_88.u - 0x20)) != 0) {
+                ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
+                return;
+            }
+        }
+
+        if (((S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
+            u8 *target_position = ((u8 *)(&D_80082E80));
+            ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
+                ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                target_position[0x24], target_position[0x25], (u8 *)move_data + 0x98);
             if (func_8009FD7C(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
-                limit_detour = 1;
+                    target_position[0x24], target_position[0x25]) != 0) {
+                if (func_800A0134(D_800814A8, actor_data) < 0x81) {
+                    if (func_8009A540(
+                            ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
+                            ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
+                            (s16)(((S_80171C34_1 *)actor_data)->unk_88.u - 0x20)) != 0) {
+                        ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
+                        return;
+                    }
+                }
             }
-            goto init_loop;
-        }
-        goto direct_move;
-    }
-
-    if (((S_80171C34_2 *)position_data)->unk_26.s >= 0) {
-        DungeonRecord *room_records = (DungeonRecord *)D_800E2970;
-        if (room_records[((S_80171C34_2 *)position_data)->unk_26.s].flags & 2) {
-            goto direct_move;
-        }
-    }
-    if (((S_80171C34_1 *)actor_data)->unk_46 & 0x8000) {
-        goto init_loop;
-    }
-
-    current_angle = (s32)func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
-                          ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                          ((S_80171C34_1 *)actor_data)->unk_2A.s);
-    if (((void *)current_angle) != 0 &&
-        (((S_80171C34_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
-        (s16)func_800A0134((void *)current_angle, actor_data) < 0x81) {
-        if (func_8009A540(
-                ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
-                ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                (s16)(((S_80171C34_1 *)actor_data)->unk_88.u - 0x20)) != 0) {
-            goto success;
+        } else {
+            func_800A0E6C(position_data, ((S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
+                          (u8 *)move_data + 0x98);
         }
     }
 
-    if (((S_80171C34_1 *)actor_data)->unk_1C & 0x20000) {
-        u8 *target_position = ((u8 *)(&D_80082E80));
-        ((S_80171C34_1 *)actor_data)->unk_2A.s = func_800A0818(
-            ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-            target_position[0x24], target_position[0x25], (u8 *)move_data + 0x98);
-        if (func_8009FD7C(
-                ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                target_position[0x24], target_position[0x25]) == 0) {
-            goto init_loop;
-        }
-        if (func_800A0134(D_800814A8, actor_data) >= 0x81) {
-            goto init_loop;
-        }
-        if (func_8009A540(
-                ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
-                ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                (s16)(((S_80171C34_1 *)actor_data)->unk_88.u - 0x20)) == 0) {
-            goto init_loop;
-        }
-        goto success;
-    }
-
-direct_move:
-    func_800A0E6C(position_data, ((S_80171C34_5 *)move_data)->unk_9C.s, actor_data,
-                  (u8 *)move_data + 0x98);
-
-init_loop:
     turn_index = 0;
     turn_table = D_8006CD00;
 
@@ -295,7 +267,8 @@ init_loop:
             if (turn_index >= 3) {
                 detour_check = limit_detour;
                 if (detour_check != 0) {
-                    goto success;
+                    ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
+                    return;
                 }
             }
 
@@ -323,7 +296,7 @@ init_loop:
             func_8009A21C(
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
                 (((S_80171C34_1 *)actor_data)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-            goto loop_test;
+            break;
         }
 
         if (turn_index == 0 &&
@@ -342,7 +315,6 @@ init_loop:
         }
     } while (1);
 
-loop_test:
     if (turn_index >= 8) {
         ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
         ((S_80171C34_1 *)actor_data)->unk_46 &= 0x7FFF;
@@ -357,7 +329,6 @@ loop_test:
         dungeonStatus.unk_08++;
     }
     if (((S_80171C34_1 *)actor_data)->unk_6D.s == 0) {
-success:
         ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
         return;
     }

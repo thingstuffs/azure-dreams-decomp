@@ -4,12 +4,12 @@
 #include "m2c_compat.h"
 
 typedef struct S_81839358_0 {
-    union { struct { volatile s32 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */
     s32 unk_08;
-    union { volatile s32 v; s32 n; } unk_0C;   /* accessed as both */
-    union { volatile s32 v; s32 n; } unk_10;   /* accessed as both */
-    union { volatile s32 v; s32 n; } unk_14;   /* accessed as both */
+    union { s32 v; s32 n; } unk_0C;   /* accessed as both */
+    union { s32 v; s32 n; } unk_10;   /* accessed as both */
+    union { s32 v; s32 n; } unk_14;   /* accessed as both */
 } S_81839358_0;   /* arg1 in func_81839358 */
 
 typedef struct S_81839358_1_pre {
@@ -101,25 +101,15 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     timer = ((S_81839358_1 *)effect)->unk_48 - 1;
     ((S_81839358_1 *)effect)->unk_48 = timer;
     switch (state) {
-    case 1:
-        goto state_1;
     case 0:
         timer_shift = timer << 0x10;
-        goto state_0;
-    case 2:
-        goto update_sprite;
-    default:
+        if (timer_shift > 0) {
+            return;
+        }
+        func_8004491C(effect - 0x20, func_80045340);
+        ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
         return;
-    }
-state_0:
-    if (timer_shift > 0) {
-        return;
-    }
-    func_8004491C(effect - 0x20, func_80045340);
-    ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
-    return;
-state_1:
-    {
+    case 1:
         func_800478B8(sprite);
         if (((S_81839358_3 *)sprite)->unk_14 & 0x6000) {
             ((S_81839358_3 *)sprite)->unk_04 = 0;
@@ -135,33 +125,33 @@ state_1:
             if (((S_81839358_1 *)effect)->unk_48 & 1) {
                 ((S_81839358_3 *)sprite)->unk_00 = D_800DEC70;
                 sprite_word = ((S_81839358_4 *)D_800DEC70)->unk_04;
-                ((S_81839358_3 *)sprite)->unk_04 = 0;
-                ((S_81839358_3 *)sprite)->unk_05 = 0;
-                ((S_81839358_3 *)sprite)->unk_08 = sprite_word;
-                ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
-                goto update_sprite;
+            } else {
+                ((S_81839358_3 *)sprite)->unk_00 = &D_800DED28;
+                sprite_word = ((S_81839358_4 *)(&D_800DED28))->unk_04;
             }
-            ((S_81839358_3 *)sprite)->unk_00 = &D_800DED28;
-            sprite_word = ((S_81839358_4 *)(&D_800DED28))->unk_04;
             ((S_81839358_3 *)sprite)->unk_04 = 0;
             ((S_81839358_3 *)sprite)->unk_05 = 0;
             ((S_81839358_3 *)sprite)->unk_08 = sprite_word;
             ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
-            goto update_sprite;
+        } else {
+            sprite_scale = ((S_81839358_3 *)sprite)->unk_1E - 0x200;
+            ((S_81839358_3 *)sprite)->unk_1E = sprite_scale;
+            ((S_81839358_3 *)sprite)->unk_1C = sprite_scale;
+            ((S_81839358_3 *)sprite)->unk_0C.at00.v = (u8) (((S_81839358_3 *)sprite)->unk_0C.at00.v - (u8) ((S_81839358_1 *)effect)->unk_4A);
+            green_blue = ((S_81839358_3 *)sprite)->unk_0C.at02.v - ((s32) ((u16) ((S_81839358_1 *)effect)->unk_4A << 0x10) >> 0x12);
+            ((S_81839358_3 *)sprite)->unk_0C.at02.v = green_blue;
+            ((S_81839358_3 *)sprite)->unk_0C.at01.v = green_blue;
         }
-        sprite_scale = ((S_81839358_3 *)sprite)->unk_1E - 0x200;
-        ((S_81839358_3 *)sprite)->unk_1E = sprite_scale;
-        ((S_81839358_3 *)sprite)->unk_1C = sprite_scale;
-        ((S_81839358_3 *)sprite)->unk_0C.at00.v = (u8) (((S_81839358_3 *)sprite)->unk_0C.at00.v - (u8) ((S_81839358_1 *)effect)->unk_4A);
-        green_blue = ((S_81839358_3 *)sprite)->unk_0C.at02.v - ((s32) ((u16) ((S_81839358_1 *)effect)->unk_4A << 0x10) >> 0x12);
-        ((S_81839358_3 *)sprite)->unk_0C.at02.v = green_blue;
-        ((S_81839358_3 *)sprite)->unk_0C.at01.v = green_blue;
-update_sprite:
+        /* fall through */
+    case 2:
         func_800478B8(sprite);
         if (((S_81839358_3 *)sprite)->unk_14 & 0x6000) {
             (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_81839358_1_pre *)effect)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
+        break;
+    default:
+        return;
     }
 }
 /* MECHANISM: The natural 0x20 frame follows from three held arguments and explicit state CFG labels.

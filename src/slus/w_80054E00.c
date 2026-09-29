@@ -70,63 +70,53 @@ extern void func_80054CD4(void);
 void func_80054E00(s32 event) {
     s32 opcode = event & 0xFF;
 
-    if (opcode == 0xE4)
-        goto arm_countdown;
-
-    if (opcode < 0xE5) {
-        if (opcode == 0x74)
-            goto commit_countdown;
-        return;
-    }
-
-    if (opcode == 0xF4)
-        goto cancel_countdown;
-    return;
-
-commit_countdown:
-    func_8005A4E8(0, 0, 0);
-    Control_CD(9, 0, 0);
-    D_800847D0.flags1 &= ~0x400;
-    if (D_800847D0.field18 == 0) {
-        D_80084904.v = 1;
-        D_80084858.field4 = 0;
-        if (D_800847D0.field10 != 0) {
-            s16 countdown = (s16)func_80054AF0(D_800847D0.field1C);
-            D_80084858.field8 = countdown;
-            D_80084858.fieldA = countdown;
-            goto apply_countdown;
-        }
-    }
-    return;
-
-arm_countdown:
-    if (D_800847D0.flags2 & 0x200) {
+    switch (opcode) {
+    case 0x74:
+        func_8005A4E8(0, 0, 0);
         Control_CD(9, 0, 0);
+        D_800847D0.flags1 &= ~0x400;
+        if (D_800847D0.field18 == 0) {
+            D_80084904.v = 1;
+            D_80084858.field4 = 0;
+            if (D_800847D0.field10 != 0) {
+                s16 countdown = (s16)func_80054AF0(D_800847D0.field1C);
+                D_80084858.field8 = countdown;
+                D_80084858.fieldA = countdown;
+                break;
+            }
+        }
+        return;
+
+    case 0xE4:
+        if (D_800847D0.flags2 & 0x200) {
+            Control_CD(9, 0, 0);
+            return;
+        }
+        if (D_800847D0.flags1 & 0x400) {
+            u32 cd_position = (u32)func_80053D64();
+            D_800847D0.field18 = cd_position;
+            if (D_800847D0.field8 >= cd_position) {
+                D_800847D0.field18 = D_800847D0.field8;
+            }
+            D_80084864.v = 2;
+            D_800847D0.field10 = D_800847D0.field18;
+            D_800847D0.field14 = D_800847D0.fieldC;
+            D_800847D0.field31 = D_800847D0.field30;
+            D_800847D0.field33 = D_800847D0.field32;
+            D_800847D0.flags1 |= 0x4000;
+        }
+        return;
+
+    case 0xF4:
+        if (D_800847D0.flags1 & 0x4000) {
+            D_800847D0.field18 = 0;
+            break;
+        }
+        return;
+
+    default:
         return;
     }
-    if (D_800847D0.flags1 & 0x400) {
-        u32 cd_position = (u32)func_80053D64();
-        D_800847D0.field18 = cd_position;
-        if (D_800847D0.field8 >= cd_position) {
-            D_800847D0.field18 = D_800847D0.field8;
-        }
-        D_80084864.v = 2;
-        D_800847D0.field10 = D_800847D0.field18;
-        D_800847D0.field14 = D_800847D0.fieldC;
-        D_800847D0.field31 = D_800847D0.field30;
-        D_800847D0.field33 = D_800847D0.field32;
-        D_800847D0.flags1 |= 0x4000;
-    }
-    return;
-
-cancel_countdown:
-    if (D_800847D0.flags1 & 0x4000) {
-        D_800847D0.field18 = 0;
-        goto apply_countdown;
-    }
-    return;
-
-apply_countdown:
     func_80054C58();
     func_80054CD4();
 }

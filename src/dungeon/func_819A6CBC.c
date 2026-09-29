@@ -85,69 +85,55 @@ void func_800244BC(void *object, S_800244BC_2 *position, M2C_UNK context) {
     ((S_800244BC_0 *)object)->unk_48 = (u16) (((S_800244BC_0 *)object)->unk_48 - 1);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     phase = ((S_800244BC_0 *)object)->unk_4C;
-    if (phase == 1) {
-        goto approach_target;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto init_motion;
-        }
-        return;
-    }
-    if (phase == 2) {
-        goto settle_target;
-    }
-    return;
-
-init_motion:
-    ((S_800244BC_0 *)object)->unk_48 = 0xAU;
-    ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
-
-approach_target:
-    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
-        func_800478B8(context);
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xE));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xE));
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xE));
-        effects_left = 0;
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
-        do {
-            effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
-            effect_data = effect + 0x20;
-            if (effect != NULL) {
-                ((S_800244BC_3 *)effect)->unk_10 = &D_80024E4C;
-                effect_data->unk_3C = 0;
-                effect_data->unk_3E = (s16) ((rand() & 3) + 2);
-                effect_data->unk_32 = 0x1F;
-                effect_data->unk_30 = 0x1F;
-                effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
-                effect_data->unk_38 = 0x404040;
-                memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
-                effect_data->unk_24 = (u16) position->unk_00.at02.v;
-                effect_data->unk_26 = (u16) position->unk_04.at02.v;
-                effect_data->unk_28 = (u16) position->unk_08.at02.v;
-                ((S_800244BC_3 *)effect)->unk_20 = (void *) ((S_800244BC_0 *)object)->unk_00;
-            }
-            effects_left -= 1;
-        } while (effects_left >= 0);
-    }
-    if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
-        ((S_800244BC_0 *)object)->unk_48 = 8U;
+    switch (phase) {
+    case 0:
+        ((S_800244BC_0 *)object)->unk_48 = 0xAU;
         ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
-        return;
-    }
-
-    return;
-
-settle_target:
-    if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
-        func_800478B8(context);
-        position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xF));
-        position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xF));
-        position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xF));
-    }
-    if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
-        ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        /* fall through */
+    case 1:
+        if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+            func_800478B8(context);
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xE));
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xE));
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xE));
+            effects_left = 0;
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v - (func_800644B8(((s16) ((S_800244BC_0 *)object)->unk_48 << 0xB) / 10, ((s16 *)(&D_80083780))) << 9));
+            do {
+                effect = func_8003FD64(0x302, ((u8 *)(&D_80083498)));
+                effect_data = effect + 0x20;
+                if (effect != NULL) {
+                    ((S_800244BC_3 *)effect)->unk_10 = &D_80024E4C;
+                    effect_data->unk_3C = 0;
+                    effect_data->unk_3E = (s16) ((rand() & 3) + 2);
+                    effect_data->unk_32 = 0x1F;
+                    effect_data->unk_30 = 0x1F;
+                    effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
+                    effect_data->unk_38 = 0x404040;
+                    memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
+                    effect_data->unk_24 = (u16) position->unk_00.at02.v;
+                    effect_data->unk_26 = (u16) position->unk_04.at02.v;
+                    effect_data->unk_28 = (u16) position->unk_08.at02.v;
+                    ((S_800244BC_3 *)effect)->unk_20 = (void *) ((S_800244BC_0 *)object)->unk_00;
+                }
+                effects_left -= 1;
+            } while (effects_left >= 0);
+        }
+        if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
+            ((S_800244BC_0 *)object)->unk_48 = 8U;
+            ((S_800244BC_0 *)object)->unk_4C = (s16) ((u16) ((S_800244BC_0 *)object)->unk_4C + 1);
+        }
+        break;
+    case 2:
+        if (func_8003DE58(D_80082E80.unk_008, ((s32 *)(&D_80082E80)), target_pos, 0) != 0) {
+            func_800478B8(context);
+            position->unk_00.at00.v = (s32) (position->unk_00.at00.v + (((target_pos[0] + D_80083780.x.w.i) - position->unk_00.at02.v) << 0xF));
+            position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((target_pos[1] + D_80083780.y.w.i) - position->unk_04.at02.v) << 0xF));
+            position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((target_pos[2] + D_80083780.z.w.i) - position->unk_08.at02.v) << 0xF));
+        }
+        if ((s16) ((S_800244BC_0 *)object)->unk_48 <= 0) {
+            ((S_800244BC_0_pre *)object)[-1].unk_00 = (u16) (((S_800244BC_0_pre *)object)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
+        }
+        break;
     }
 }

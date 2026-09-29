@@ -17,67 +17,55 @@ void func_800CBDB4(s16 *transition) {
     GameView *state = &gameWork.view;
     s16 phase = transition[1];
 
-    if (phase == 1) {
-        goto wait_ready;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            goto move_out;
+    switch (phase) {
+    case 0:
+        state->unk_0A0 = state->unk_0A0 + (0x800 - state->unk_0A0) / transition[2];
+        {
+            u16 frames_left = (u16)transition[2] - 1;
+            transition[2] = frames_left;
+            if ((s32)(frames_left << 16) > 0) {
+                return;
+            }
+            {
+                DungeonGlobalStatus *settings = &dungeonStatus;
+                transition[1] = (u16)transition[1] + 1;
+                state->unk_0A0 = -0x800;
+                settings->unk_0A = (u16)((u16)settings->unk_0A) - 1;
+                func_800997FC(D_800E1B08, settings, state);
+            }
         }
         return;
-    }
-    if (phase == 2) {
-        goto move_back;
-    }
-    return;
 
-move_out:
-    state->unk_0A0 = state->unk_0A0 + (0x800 - state->unk_0A0) / transition[2];
-    {
-        u16 frames_left = (u16)transition[2] - 1;
-        transition[2] = frames_left;
-        if ((s32)(frames_left << 16) > 0) {
-            return;
-        }
+    case 1:
         {
             DungeonGlobalStatus *settings = &dungeonStatus;
-            transition[1] = (u16)transition[1] + 1;
-            state->unk_0A0 = -0x800;
-            settings->unk_0A = (u16)((u16)settings->unk_0A) - 1;
-            func_800997FC(D_800E1B08, settings, state);
+            if ((settings->flags & 0x10) &&
+                ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
+                transition[2] = 0x10;
+                transition[1] = (u16)transition[1] + 1;
+                settings->unk_0A = (u16)((u16)settings->unk_0A) + 1;
+                func_800419EC(0x10, 8);
+                func_800A56E0(0x818);
+            }
         }
-    }
-    return;
+        return;
 
-wait_ready:
-    {
-        DungeonGlobalStatus *settings = &dungeonStatus;
-        if ((settings->flags & 0x10) &&
-            ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
-            transition[2] = 0x10;
-            transition[1] = (u16)transition[1] + 1;
-            settings->unk_0A = (u16)((u16)settings->unk_0A) + 1;
-            func_800419EC(0x10, 8);
-            func_800A56E0(0x818);
+    case 2:
+        state->unk_0A0 = state->unk_0A0 + (0 - state->unk_0A0) / transition[2];
+        {
+            u16 frames_left = (u16)transition[2] - 1;
+            transition[2] = frames_left;
+            if ((s32)(frames_left << 16) <= 0) {
+                DungeonGlobalStatus *settings = &dungeonStatus;
+                u8 *message = D_800E1B2E;
+                settings->unk_0A = (u16)((u16)settings->unk_0A) - 1;
+                state->unk_0A0 = 0;
+                func_800997FC(message);
+                ((u16 *)transition)[-1] = ((u16 *)transition)[-1] | 0x8000;
+                objectFlagBlock.flags = ((u32)objectFlagBlock.flags) | 0x8000;
+            }
         }
-    }
-    return;
 
-move_back:
-    state->unk_0A0 = state->unk_0A0 + (0 - state->unk_0A0) / transition[2];
-    {
-        u16 frames_left = (u16)transition[2] - 1;
-        transition[2] = frames_left;
-        if ((s32)(frames_left << 16) <= 0) {
-            DungeonGlobalStatus *settings = &dungeonStatus;
-            u8 *message = D_800E1B2E;
-            settings->unk_0A = (u16)((u16)settings->unk_0A) - 1;
-            state->unk_0A0 = 0;
-            func_800997FC(message);
-            ((u16 *)transition)[-1] = ((u16 *)transition)[-1] | 0x8000;
-            objectFlagBlock.flags = ((u32)objectFlagBlock.flags) | 0x8000;
-        }
+        break;
     }
-
-    return;
 }

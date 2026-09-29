@@ -23,12 +23,11 @@ void func_80091D6C(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 callbac
     if (state->unk_0A.as_s16 >= 15) {
         target_position = (s32)((u32)(state->unk_34.as_s16 +
                    D_800D0454[21 - state->unk_0A.as_s16]) << 16);
-        goto selector_join;
     } else {
         target_position = (s32)((u32)state->unk_34.as_s16 << 16);
     }
 
-selector_join:
+
     if (state->unk_0A.as_s16 == 19)
         func_80094984(&D_800D00E8, state, callback_arg);
     if (state->unk_0A.as_s16 == 15)

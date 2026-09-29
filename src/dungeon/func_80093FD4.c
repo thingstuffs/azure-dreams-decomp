@@ -31,27 +31,22 @@ u8 *func_80099734(void *record, u8 *out)
     if ((((EntityRec *)((u8 *)D_800E3D7C))->flags1C & 0x10) &&
         ((*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3)) != 0)) {
         src = (u8 *)D_800DD728;
-        goto copy;
-    }
-
-    if (((EntityRec *)record)->flags14 & 0x4000) {
+    } else if (((EntityRec *)record)->flags14 & 0x4000) {
         src = (u8 *)record + 0x34;
-        goto copy;
-    }
-
-    text_index = (*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3));
-    if (text_index == 0x23) {
-        if ((*(s16 *)((u8 *)&((EntityRec *)record)->unk_A4 + 2)) != 0) {
-            src = (u8 *)D_800DD728;
-            goto copy;
-        }
-        table_page = (u8 *)0x80070000;
     } else {
-        table_page = (u8 *)0x80070000;
+        text_index = (*(u8 *)((u8 *)&((EntityRec *)record)->unk_10 + 3));
+        if (text_index == 0x23) {
+            if ((*(s16 *)((u8 *)&((EntityRec *)record)->unk_A4 + 2)) != 0) {
+                src = (u8 *)D_800DD728;
+                goto copy;
+            }
+            table_page = (u8 *)0x80070000;
+        } else {
+            table_page = (u8 *)0x80070000;
+        }
+        word_offset = text_index * 5;
+        src = ((S_80099734_3 *)((u8 *)((S_80099734_2 *)table_page)->unk_359C + word_offset * 4))->unk_04;
     }
-    word_offset = text_index * 5;
-    src = ((S_80099734_3 *)((u8 *)((S_80099734_2 *)table_page)->unk_359C + word_offset * 4))->unk_04;
-
 copy:
     ch = *src;
     if (ch != 0) {

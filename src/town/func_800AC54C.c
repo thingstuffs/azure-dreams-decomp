@@ -26,26 +26,14 @@ void *func_800A9CAC(s32 target_key)
 
     node = D_80081498.head;
     result = 0;
-    if (node == 0) {
-        return result;
-    }
-loop:
-    key = node->field_10;
-    next = node->next;
-    if (key >= 0) {
-        goto cont;
-    }
-    if (node->field_1E & 0x400) {
-        goto cont;
-    }
-    if (key == target_key) {
-        return node;
-    }
-cont:
-    node = next;
-    result = 0;
-    if (node != 0) {
-        goto loop;
+    while (node != 0) {
+        key = node->field_10;
+        next = node->next;
+        if (key < 0 && !(node->field_1E & 0x400) && key == target_key) {
+            return node;
+        }
+        node = next;
+        result = 0;
     }
     return result;
 }

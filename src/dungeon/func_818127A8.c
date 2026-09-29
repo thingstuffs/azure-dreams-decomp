@@ -86,47 +86,31 @@ void func_800277A8(void *menu) {
         return;
     }
 
-    if (!(held_buttons & 0x5000)) {
-        goto check_delta;
-    }
-
-    if (buttons & 0x5000) {
-        ((S_800277A8_1 *)menu)->unk_0C = 0;
-        buttons = ((s32)input->unk_010);
-        if (buttons & 0x1000) {
-            goto dispatch_negative;
+    if (held_buttons & 0x5000) {
+        if (buttons & 0x5000) {
+            ((S_800277A8_1 *)menu)->unk_0C = 0;
+            buttons = ((s32)input->unk_010);
+            if (buttons & 0x1000) {
+                cursor_step = -9;
+            } else if (buttons & 0x4000) {
+                cursor_step = 9;
+            }
+        } else {
+            repeat_count = ((S_800277A8_1 *)menu)->unk_0C;
+            if (repeat_count >= 9) {
+                ((S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
+                buttons = input->buttons;
+                if (buttons & 0x1000) {
+                    cursor_step = -9;
+                } else if (buttons & 0x4000) {
+                    cursor_step = 9;
+                }
+            } else {
+                ((S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
+            }
         }
-        goto test_positive;
     }
 
-    repeat_count = ((S_800277A8_1 *)menu)->unk_0C;
-    if (repeat_count < 9) {
-        goto increment_count;
-    }
-
-    ((S_800277A8_1 *)menu)->unk_0C = repeat_count - 1;
-    buttons = input->buttons;
-    if (!(buttons & 0x1000)) {
-        goto test_positive;
-    }
-
-dispatch_negative:
-    cursor_step = -9;
-    goto check_delta;
-
-test_positive:
-    if (!(buttons & 0x4000)) {
-        goto check_delta;
-    }
-
-dispatch_positive:
-    cursor_step = 9;
-    goto check_delta;
-
-increment_count:
-    ((S_800277A8_1 *)menu)->unk_0C = repeat_count + 1;
-
-check_delta:
     if (cursor_step == 0) {
         return;
     }

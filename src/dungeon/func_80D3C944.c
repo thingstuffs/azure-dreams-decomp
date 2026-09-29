@@ -128,22 +128,16 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
             func_8009A21C(new_x, new_y, tile_flags);
         }
         ((S_80172144_0 *)state)->unk_2A = direction;
-        if (move_result == 3) {
-            if ((((S_80172144_1 *)actor)->unk_B5 == 0) && !(dungeonStatus.flags & 0x80) &&
-                !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
-                func_80172B4C(actor, actor_slot, entity, state);
+        if (move_result == 3 && (((S_80172144_1 *)actor)->unk_B5 == 0) && !(dungeonStatus.flags & 0x80) &&
+            !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
+            func_80172B4C(actor, actor_slot, entity, state);
                 ((S_80172144_1 *)actor)->unk_8C = 0;
                 ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
-                goto finish_step_done;
-            }
-            goto reset_action;
+        } else {
+            ((S_80172144_1 *)actor)->unk_9A = 0xF;
+            ((S_80172144_1 *)actor)->unk_8C = 0;
+            ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
         }
-reset_action:
-        ((S_80172144_1 *)actor)->unk_9A = 0xF;
-        ((S_80172144_1 *)actor)->unk_8C = 0;
-        ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
-        finish_step_done:
-        ;
         if (dungeonStatus.flags & 0x80) {
             ((S_80172144_1 *)actor)->unk_96 = 0;
             return;

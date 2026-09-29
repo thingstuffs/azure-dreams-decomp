@@ -99,31 +99,30 @@ void func_80172F14(S_80172F14_1 *controller, EntityRec *motion, Rec_D_80082E80 *
 
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
-            goto check_timer;
-        }
-        if (entity->unk_14.at00_u16.v & 0x6000) {
-            controller->unk_96.s = 0;
-        }
-
-        if (((EntityRec *)source)->unk_28 != 0) {
-            {
-                s32 tile_pos = entity->unk_24 << 6;
-                s32 current_pos = motion->x.w.i - 0x20;
-
-                motion->unk_0C = (tile_pos - current_pos) << 15;
-            }
-            {
-                s32 tile_pos = entity->unk_25 << 6;
-                s32 current_pos = motion->y.w.i - 0x20;
-
-                motion->unk_10 = (tile_pos - current_pos) << 15;
-            }
         } else {
-            motion->unk_0C = 0;
-            motion->unk_10 = 0;
+            if (entity->unk_14.at00_u16.v & 0x6000) {
+                controller->unk_96.s = 0;
+            }
+
+            if (((EntityRec *)source)->unk_28 != 0) {
+                {
+                    s32 tile_pos = entity->unk_24 << 6;
+                    s32 current_pos = motion->x.w.i - 0x20;
+
+                    motion->unk_0C = (tile_pos - current_pos) << 15;
+                }
+                {
+                    s32 tile_pos = entity->unk_25 << 6;
+                    s32 current_pos = motion->y.w.i - 0x20;
+
+                    motion->unk_10 = (tile_pos - current_pos) << 15;
+                }
+            } else {
+                motion->unk_0C = 0;
+                motion->unk_10 = 0;
+            }
         }
 
-check_timer:
         if (controller->unk_96.s != 0) {
             return;
         }

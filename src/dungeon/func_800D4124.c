@@ -20,15 +20,13 @@ void func_800D9884(S_800D9884_0 *state, M2C_UNK unused, M2C_UNK source, M2C_UNK 
     if (func_800AB1C0() != 0) {
         func_800AD594(target, 4);
         func_800A4ACC(target);
-        if ((func_800AD9B4(source, target) << 0x10) > 0) {
-            state->unk_8C = &D_800D8C64;
-            state->unk_90.at00.v = 0;
-            goto check_reset_flag;
+        if ((func_800AD9B4(source, target) << 0x10) <= 0) {
+            return;
         }
-    } else {
-check_reset_flag:
-        if (dungeonStatus.flags & 0x80) {
-            state->unk_90.at02.v = 0;
-        }
+        state->unk_8C = &D_800D8C64;
+        state->unk_90.at00.v = 0;
+    }
+    if (dungeonStatus.flags & 0x80) {
+        state->unk_90.at02.v = 0;
     }
 }

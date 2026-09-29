@@ -108,10 +108,7 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 c
     saved_config_value = config_value;
     saved_y = y;
     object = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
-    if (object == NULL) {
-        goto done;
-    }
-    {
+    if (object != NULL) {
         object_state = object + 0x20;
         ((S_FUNC_81071000_BODY_0 *)object)->unk_10 = &D_80158AA4;
         object_state->unk_13 = 0x2B;
@@ -129,28 +126,22 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 c
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);
             object_state->unk_98 = (u16) (state_flags | 0x4000);
             object_state->unk_1C = (s32) (object_state->unk_1C | 0x6000);
-            goto init_state;
-        }
-        if (mode_or_roll >= 2) {
+        } else if (mode_or_roll >= 2) {
             state_flags = object_state->unk_98;
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
             object_state->unk_98 = (u16) (state_flags | 0x4000);
             object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
-            goto init_state;
-        }
-        if (((spawn_flags & ~3) << 0x10) == 0) {
+        } else if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(object_state->unk_14 & 0x200)) {
                 init_config = config;
                 mode_or_roll = func_800A6D30();
-                if (!(mode_or_roll & 1)) {
-                    goto init_state;
+                if (mode_or_roll & 1) {
+                    object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
+                    func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    placement->unk_2C = &D_8015C000;
                 }
-                object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
-                func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
-                placement->unk_2C = &D_8015C000;
             }
         }
-init_state:
         func_800A9C18(object, config, placement, spawn_flags);
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
@@ -159,6 +150,5 @@ init_state:
         behavior->unk_AA = (s16) ((u16) object_state->unk_14 & 7);
         func_800AA36C(behavior, config, placement, object_state);
     }
-done:
     return object_state;
 }

@@ -96,33 +96,18 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
             }
 
             if ((parts[0] ^ U16_AT(scratch, 0x24)) & 1) {
-                s32 offset;
                 if (U16_AT(sprite, 0x14) & 0x400) {
-                    s32 offset_byte = U8_AT(part, 1);
-                    offset = (offset_byte << 24) >> 23;
+                    flipped_offset = -(S8_AT(part, 1) << 1);
                 } else {
-                    s32 offset_byte = U8_AT(part, 1);
-                    ASM_KEEP_NV(offset_byte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    offset = (offset_byte << 24) >> 24;
+                    flipped_offset = -S8_AT(part, 1);
                 }
-                {
-                    flipped_offset = -offset;
-                    ASM_KEEP_NV(flipped_offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                    S16_AT(scratch, 0x80) = flipped_offset;
-                    S16_AT(scratch, 0x70) = flipped_offset;
-                    corner_x = flipped_offset - U16_AT(scratch, 0x10);
-                }
+                S16_AT(scratch, 0x80) = flipped_offset;
+                S16_AT(scratch, 0x70) = flipped_offset;
+                corner_x = flipped_offset - U16_AT(scratch, 0x10);
             } else {
-                u16 double_size;
-                s32 offset_byte;
-                s32 offset;
-                offset_byte = U8_AT(part, 1);
-                offset_byte <<= 24;
-                double_size = U16_AT(sprite, 0x14) & 0x400;
-                ASM_KEEP_DEP_NV(offset_byte, double_size);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                offset = offset_byte >> 24;
-                if (double_size) {
-                    offset *= 2;
+                s16 offset = S8_AT(part, 1);
+                if (U16_AT(sprite, 0x14) & 0x400) {
+                    offset <<= 1;
                 }
                 S16_AT(scratch, 0x80) = offset;
                 S16_AT(scratch, 0x70) = offset;
@@ -133,33 +118,18 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
             S16_AT(scratch, 0x78) = corner_x;
 
             if ((parts[0] ^ U16_AT(scratch, 0x24)) & 2) {
-                s32 offset;
                 if (U16_AT(sprite, 0x14) & 0x400) {
-                    s32 offset_byte = U8_AT(part, 2);
-                    offset = (offset_byte << 24) >> 23;
+                    flipped_offset = -(S8_AT(part, 2) << 1);
                 } else {
-                    s32 offset_byte = U8_AT(part, 2);
-                    ASM_KEEP_NV(offset_byte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    offset = (offset_byte << 24) >> 24;
+                    flipped_offset = -S8_AT(part, 2);
                 }
-                {
-                    flipped_offset = -offset;
-                    ASM_KEEP_NV(flipped_offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                    S16_AT(scratch, 0x7A) = flipped_offset;
-                    S16_AT(scratch, 0x72) = flipped_offset;
-                    corner_y = flipped_offset - U16_AT(scratch, 0x14);
-                }
+                S16_AT(scratch, 0x7A) = flipped_offset;
+                S16_AT(scratch, 0x72) = flipped_offset;
+                corner_y = flipped_offset - U16_AT(scratch, 0x14);
             } else {
-                u16 double_size;
-                s32 offset_byte;
-                s32 offset;
-                offset_byte = U8_AT(part, 2);
-                offset_byte <<= 24;
-                double_size = U16_AT(sprite, 0x14) & 0x400;
-                ASM_KEEP_DEP_NV(offset_byte, double_size);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                offset = offset_byte >> 24;
-                if (double_size) {
-                    offset *= 2;
+                s16 offset = S8_AT(part, 2);
+                if (U16_AT(sprite, 0x14) & 0x400) {
+                    offset <<= 1;
                 }
                 S16_AT(scratch, 0x7A) = offset;
                 S16_AT(scratch, 0x72) = offset;
@@ -187,22 +157,10 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
 
             U8_AT(packet, -1) = 9;
             U16_AT(sprite, 0x14) &= 0x7FFF;
-            {
-                s32 u_end = U32_AT(scratch, 0x10);
-                register s32 u_start ASM_REG("$4") = U32_AT(scratch, 8);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                register s32 v_end ASM_REG("$2") = U32_AT(scratch, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                s32 v_start = U32_AT(scratch, 0xC);
-                u_end += u_start;
-                v_end += v_start;
-                v_end <<= 8;
-                U32_AT(scratch, 0x14) = v_end;
-                {
-                    v_end = v_start;
-                    ASM_KEEP_NV(v_end);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    U32_AT(scratch, 0x10) = u_end;
-                    U32_AT(scratch, 0xC) = v_end << 8;
-                }
-            }
+            U32_AT(scratch, 0x10) += U32_AT(scratch, 8);
+            U32_AT(scratch, 0x14) += U32_AT(scratch, 0xC);
+            U32_AT(scratch, 0x14) <<= 8;
+            U32_AT(scratch, 0xC) <<= 8;
 
             if (U16_AT(scratch, 0x24) & 0x100) {
                 U16_AT(packet, 0xA) = U16_AT(sprite, 0x12);

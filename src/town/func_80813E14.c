@@ -143,16 +143,16 @@ void func_8052EA14(Func80813E14Object *object,
             func_8052E4C0(0x00808080, x, state->height + case_0_height,
                           (random & 0xF) << 16);
         } while (i >= 0);
-        goto cleanup;
+        break;
     }
     state->progress = 0;
     state->delta = 0;
     object->mode = 1;
-    goto cleanup;
+    break;
 
     case 1:
     if (!(base->flags & 1)) {
-        goto cleanup;
+        break;
     }
     record = &D_80530220[base->row * 400] + base->column * 40;
     record += object->column * 12 + 4;
@@ -163,61 +163,57 @@ void func_8052EA14(Func80813E14Object *object,
     local.zero1 = 0;
     local.object = object;
     func_8052E5C8(&local, state->height, 0);
-    goto cleanup;
+    break;
 
     case 2:
     bits = object->timer - 1;
     object->timer = bits;
     if ((s16)bits > 0) {
-        goto cleanup;
+        break;
     }
     if (object->column == 0) {
         func_8052FE94(0x5A);
     }
     state->delta = 0x40000;
     object->mode = 3;
-    goto cleanup;
+    break;
 
     case 3:
     value = state->progress;
-    if (value > 0x7FFFFF) {
-        goto case_3_high;
-    }
-    next_value = value + state->delta;
-    state->progress = next_value;
-    if (next_value > 0x3FFFFF) {
-        goto cleanup;
-    }
-    i = 3;
-    position_base = 0x05600000;
-    case_3_height = 0x80000;
-    do {
-        i--;
-        x = func_80071494() & 0xFF;
-        x -= 0x80;
-        x <<= 14;
-        x += position_base;
-        random = func_80071494();
-        {
-            u32 colour = 0x00808080;
-            s32 pos_x = x;
-            u32 spin = (random & 0xF) << 16;
-split3:
-            func_8052E4C0(colour, pos_x, state->height + case_3_height, spin);
+    if (value <= 0x7FFFFF) {
+        next_value = value + state->delta;
+        state->progress = next_value;
+        if (next_value <= 0x3FFFFF) {
+            i = 3;
+            position_base = 0x05600000;
+            case_3_height = 0x80000;
+            do {
+                i--;
+                x = func_80071494() & 0xFF;
+                x -= 0x80;
+                x <<= 14;
+                x += position_base;
+                random = func_80071494();
+                {
+                    u32 colour = 0x00808080;
+                    s32 pos_x = x;
+                    u32 spin = (random & 0xF) << 16;
+    split3:
+                    func_8052E4C0(colour, pos_x, state->height + case_3_height, spin);
+                }
+            } while (i >= 0);
         }
-    } while (i >= 0);
-    goto cleanup;
-
-case_3_high:
-    object->timer = 2;
-    object->mode = 4;
-    goto cleanup;
+    } else {
+        object->timer = 2;
+        object->mode = 4;
+    }
+    break;
 
     case 4:
     bits = object->timer - 1;
     object->timer = bits;
     if ((s16)bits > 0) {
-        goto cleanup;
+        break;
     }
     func_8023FB18((u8 *)object + 4);
     (*(u16 *)((u8 *)object + (-2))) |= 0x8000;

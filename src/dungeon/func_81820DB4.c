@@ -97,36 +97,27 @@ void func_81820DB4(DungeonObj *obj)
     old_timer = obj->timer--;
     if ((s16)old_timer < 0) {
         obj->state++;
-        if (obj->state == 1) {
-            goto state_one;
+        switch (obj->state) {
+        case 1:
+            obj->timer = 5;
+            if (obj->aux >= 0) {
+                break;
+            }
+            obj->state++;
+            /* fall through */
+        case 2:
+            obj->timer = 12;
+            obj->dx *= 2;
+            obj->dy *= 2;
+            break;
         }
-        if (obj->state == 2) {
-            goto state_two;
-        }
-        goto transition_done;
-state_one:
-        obj->timer = 5;
-        if (obj->aux >= 0) {
-            goto transition_done;
-        }
-        obj->state++;
-state_two:
-        obj->timer = 12;
-        obj->dx *= 2;
-        obj->dy *= 2;
     }
 
-transition_done:
-    if (obj->state == 1) {
-        if (*(s16 *)((u8 *)obj + 0x52) < 5) {
+    if (obj->state == 1 && *(s16 *)((u8 *)obj + 0x52) < 5) {
             obj->aux = 1;
             obj->red += (0xFF - obj->red) >> 2;
             obj->green += (0x80 - obj->green) >> 2;
-            goto after_color;
-        }
-    }
-
-    if (obj->state < 2) {
+    } else if (obj->state < 2) {
         height_or_index = (-*(s16 *)((u8 *)obj + 0x0E) >> 2) + 15;
         if (height_or_index < 16) {
             height_or_index = 16;
@@ -136,7 +127,6 @@ transition_done:
         obj->blue = (((func_80069EF8() & 15) + 10) << 4) / height_or_index;
     }
 
-after_color:
     obj->angle = (obj->angle + ((func_80069EF8() & 0xFF)
                   - (*(u16 *)((u8 *)obj + 0x0E) << 2))) & 0xFFF;
 
@@ -186,10 +176,10 @@ after_color:
         obj->vy0 = 0;
         obj->angle2 += 0x100;
 
-        loop_0: {
+        do {
             *(u16 *)(vertex_cursor + 0x2C) = func_80069EF8() & 15;
             vertex_cursor -= 8;
-        } if (--height_or_index >= 0) goto loop_0;
+        } while (--height_or_index >= 0);
 
         packet.p0 = &obj->vx0;
         packet.p4 = &obj->vx0;

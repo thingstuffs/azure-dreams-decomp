@@ -52,28 +52,12 @@ typedef struct S_80174214_4 {
 /* Advances the actor action state, updating directional animation and entity status. */
 void func_80174214(void *actor, void *context, void *animation, void *entity)
 {
+
     s32 state;
 
     state = ((S_80174214_0 *)actor)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state >= 2) {
-        goto at_least_two;
-    }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-at_least_two:
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
-    {
+    switch (state) {
+    case 0: {
         u8 *direction_anims;
 
         if (!(((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000)) {
@@ -87,13 +71,11 @@ state_zero:
             func_80047784(animation,
                 direction_anims[((gameWork.view.viewAngle + ((EntityRec *)entity)->facing + 0x100) >> 9) & 7],
                 0);
-            goto increment_state;
         }
-        goto increment_state;
+        ((S_80174214_0 *)actor)->unk_9B++;
+        return;
     }
-
-state_one:
-    {
+    case 1: {
         u32 entity_flags;
 
         if (((EntityRec *)entity)->tileY != 0) {
@@ -104,7 +86,8 @@ state_one:
                 0);
             ((EntityRec *)entity)->flags1C |= 0x40000;
             dungeonStatus.unk_0A++;
-            goto increment_state;
+            ((S_80174214_0 *)actor)->unk_9B++;
+            return;
         }
 
         if (dungeonStatus.flags & 0x1000) {
@@ -163,19 +146,19 @@ state_one:
             0);
         ((EntityRec *)entity)->flags1C |= 0x40000;
         dungeonStatus.unk_0A++;
+        ((S_80174214_0 *)actor)->unk_9B++;
+        return;
     }
+    case 2:
+        if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
 
-increment_state:
-    ((S_80174214_0 *)actor)->unk_9B++;
-    return;
+            dungeonStatus.unk_0A--;
+            ((EntityRec *)entity)->flags1C &= ~8;
+            ((S_80174214_0 *)actor)->unk_8C = &D_801710EC;
+        }
 
-state_two:
-    if (((Rec_func_800AA258_arg2 *)animation)->unk_14 & 0xE000) {
-
-        dungeonStatus.unk_0A--;
-        ((EntityRec *)entity)->flags1C &= ~8;
-        ((S_80174214_0 *)actor)->unk_8C = &D_801710EC;
+        return;
+    default:
+        return;
     }
-
-    return;
 }

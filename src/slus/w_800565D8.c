@@ -26,18 +26,16 @@ s32 func_800565D8(S_800565D8 *scales, u32 level)
         } while (0);
         scaled_delta = doubled_scale * delta;
         result = -scaled_delta;
-        goto sign;
+        result = (s16)result;
+        return result;
     }
 
-    if (level != 0x40) {
-        goto positive;
-    }
-
+    if (level == 0x40) {
 zero:
-    result = 0;
-    return result;
+        result = 0;
+        return result;
+    }
 
-positive:
     {
         s32 delta;
         s32 positive_result;
@@ -49,10 +47,7 @@ positive:
         positive_result *= 2;
         positive_result *= delta;
         result = positive_result;
+        result = (s16)result;
+        return result;
     }
-
-sign:
-    result = (s16)result;
-
-    return result;
 }

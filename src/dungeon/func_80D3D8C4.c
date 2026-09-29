@@ -61,118 +61,98 @@ void func_801730C4(void *action, void *motion, void *sprite, void *actor)
     s32 phase;
 
     phase = ((S_801730C4_0 *)action)->unk_9B;
-    if (phase == 1) {
-        goto state_one;
-    }
-    if ((s32)phase < 2) {
-        if (phase == 0) {
-            goto state_zero;
+    switch (phase) {
+    case 0:
+        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+            break;
         }
-        goto done;
-    }
-    if (phase == 2) {
-        goto state_two;
-    }
-    if (phase == 3) {
-        goto state_three;
-    }
-    goto done;
+        {
+            u8 *anim_table = D_800E2458;
 
-state_zero:
-    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-        goto done;
-    }
-    {
-        u8 *anim_table = D_800E2458;
-
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        func_80047784(sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            1);
-    }
-    ((S_801730C4_0 *)action)->unk_98 |= 8;
-    ((S_801730C4_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
-    ((S_801730C4_0 *)action)->unk_A8 = 5;
-    ((S_801730C4_0 *)action)->unk_A4 = 0;
-    ((S_801730C4_0 *)action)->unk_9B++;
-
-state_one:
-    {
-        s32 move_ticks;
-        s16 next_move_ticks;
-
-        move_ticks = ((S_801730C4_0 *)action)->unk_A8;
-        ((S_801730C4_0 *)action)->unk_90.at00.v -= ((S_801730C4_0 *)action)->unk_A4;
-        if (move_ticks != 0) {
-            s32 tile_delta;
-            s32 axis_pos;
-
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
-            axis_pos = ((EntityRec *)motion)->x.w.i;
-            axis_pos -= 0x20;
-            tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
-
-            axis_pos = ((EntityRec *)motion)->y.w.i;
-            tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
-            axis_pos -= 0x20;
-            tile_delta -= axis_pos;
-            ((EntityRec *)motion)->unk_10 =
-                (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
-            ((S_801730C4_0 *)action)->unk_A4 =
-                -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+            func_80047784(sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                1);
         }
+        ((S_801730C4_0 *)action)->unk_98 |= 8;
+        ((S_801730C4_2 *)actor)->unk_1C.s &= 0xF7FFFFFF;
+        ((S_801730C4_0 *)action)->unk_A8 = 5;
+        ((S_801730C4_0 *)action)->unk_A4 = 0;
+        ((S_801730C4_0 *)action)->unk_9B++;
+        /* fallthrough */
+    case 1:
+        {
+            s32 move_ticks;
+            s16 next_move_ticks;
 
-        ((S_801730C4_0 *)action)->unk_90.at00.v += ((S_801730C4_0 *)action)->unk_A4;
-        next_move_ticks = (u16)((S_801730C4_0 *)action)->unk_A8 - 1;
-        ((S_801730C4_0 *)action)->unk_A8 = next_move_ticks;
-        if (next_move_ticks >= 0) {
-            goto state_two;
+            move_ticks = ((S_801730C4_0 *)action)->unk_A8;
+            ((S_801730C4_0 *)action)->unk_90.at00.v -= ((S_801730C4_0 *)action)->unk_A4;
+            if (move_ticks != 0) {
+                s32 tile_delta;
+                s32 axis_pos;
+
+                tile_delta = ((Rec_D_80082E80 *)sprite)->unk_24 << 6;
+                axis_pos = ((EntityRec *)motion)->x.w.i;
+                axis_pos -= 0x20;
+                tile_delta -= axis_pos;
+                ((EntityRec *)motion)->unk_0C = (tile_delta << 16) / move_ticks;
+
+                axis_pos = ((EntityRec *)motion)->y.w.i;
+                tile_delta = ((Rec_D_80082E80 *)sprite)->unk_25 << 6;
+                axis_pos -= 0x20;
+                tile_delta -= axis_pos;
+                ((EntityRec *)motion)->unk_10 =
+                    (tile_delta << 16) / ((S_801730C4_0 *)action)->unk_A8;
+                ((S_801730C4_0 *)action)->unk_A4 =
+                    -func_800644B8(((S_801730C4_0 *)action)->unk_A8 * 0x199) << 9;
+            }
+
+            ((S_801730C4_0 *)action)->unk_90.at00.v += ((S_801730C4_0 *)action)->unk_A4;
+            next_move_ticks = (u16)((S_801730C4_0 *)action)->unk_A8 - 1;
+            ((S_801730C4_0 *)action)->unk_A8 = next_move_ticks;
+            if (next_move_ticks < 0) {
+                ((S_801730C4_0 *)action)->unk_90.at02.v = -0x10;
+                ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
+                ((S_801730C4_2 *)actor)->unk_1C.s |= 0x08000000;
+                ((S_801730C4_0 *)action)->unk_9B++;
+            }
         }
-    }
-    ((S_801730C4_0 *)action)->unk_90.at02.v = -0x10;
-    ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
-    ((S_801730C4_2 *)actor)->unk_1C.s |= 0x08000000;
-    ((S_801730C4_0 *)action)->unk_9B++;
+        /* fallthrough */
+    case 2:
+        if (((S_801730C4_2 *)actor)->unk_1C.s & 0x08000000) {
+            ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
+            ((EntityRec *)motion)->flags14 = 0;
+            ((EntityRec *)motion)->unk_10 = 0;
+            ((EntityRec *)motion)->unk_0C = 0;
+            func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+            {
+                u8 *anim_table = D_800E2460;
 
-state_two:
-    if (!(((S_801730C4_2 *)actor)->unk_1C.s & 0x08000000)) {
-        goto done;
-    }
-    ((S_801730C4_0 *)action)->unk_98 &= 0xFFF7;
-    ((EntityRec *)motion)->flags14 = 0;
-    ((EntityRec *)motion)->unk_10 = 0;
-    ((EntityRec *)motion)->unk_0C = 0;
-    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    {
-        u8 *anim_table = D_800E2460;
-
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        func_80047784(sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-    }
-    ((S_801730C4_0 *)action)->unk_9B++;
-    goto done;
-
-state_three:
-    {
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+                func_80047784(sprite,
+                    anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                    0);
+            }
+            ((S_801730C4_0 *)action)->unk_9B++;
+        }
+        break;
+    case 3:
+        {
         u8 *anim_table = D_800E23E0;
 
-        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 == anim_table) {
-            goto done;
+        if (((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8 != anim_table) {
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+            func_80047784(sprite,
+                anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            if (((S_801730C4_0 *)action)->unk_B0 == 0) {
+                func_801708B8(action, motion, sprite);
+            }
         }
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
-        func_80047784(sprite,
-            anim_table[((gameWork.view.viewAngle + ((S_801730C4_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
     }
-    if (((S_801730C4_0 *)action)->unk_B0 != 0) {
-        goto done;
+    break;
     }
-    func_801708B8(action, motion, sprite);
 
-done:
     {
         u16 action_ticks;
 
@@ -202,9 +182,7 @@ done:
             if (((S_801730C4_2 *)actor)->unk_46 & 0x8000) {
                 ((S_801730C4_2 *)actor)->unk_46 &= 0x7FFF;
             }
-            goto call_actor;
-        }
-        if (!(actor_flags & 0x410)) {
+        } else if (!(actor_flags & 0x410)) {
             if (actor_flags & 0x20000) {
                 ((S_801730C4_2 *)actor)->unk_2A = func_800A0818(
                     ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
@@ -213,7 +191,6 @@ done:
         }
     }
 
-call_actor:
     if ((func_800AD9B4(sprite, actor) << 16) <= 0) {
         return;
     }

@@ -151,34 +151,25 @@ void *func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
             right = ((S_8016A86C_1 *)work)->unk_1C | 0x6000;
             ((S_8016A86C_1 *)work)->unk_14 = left;
             ((S_8016A86C_1 *)work)->unk_1C = right;
-            goto call_actor_setup;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-
-        left = ((S_8016A86C_1 *)work)->unk_14 | 0x2000;
-        right = ((S_8016A86C_1 *)work)->unk_1C | 0x2000;
-
-set_kind_flags:
-        ((S_8016A86C_1 *)work)->unk_14 = left;
-        ((S_8016A86C_1 *)work)->unk_1C = right;
-        goto call_actor_setup;
-
-normal_kind:
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(((S_8016A86C_1 *)work)->unk_14 & 0x200)) {
-                left = func_800A6D30();
-                if (left & 1) {
-                    ((S_8016A86C_1 *)work)->unk_1C |= 0x200;
-                    right = func_800A6D30();
-                    func_800A48F0(work, 1, (right & 0x3F) | 0x20);
-                    part_b->unk_2C = D_8016E1CC;
+        } else if (kind >= 2) {
+            left = ((S_8016A86C_1 *)work)->unk_14 | 0x2000;
+            right = ((S_8016A86C_1 *)work)->unk_1C | 0x2000;
+            ((S_8016A86C_1 *)work)->unk_14 = left;
+            ((S_8016A86C_1 *)work)->unk_1C = right;
+        } else {
+            if (((spawn_flags & ~3) << 16) == 0) {
+                if (!(((S_8016A86C_1 *)work)->unk_14 & 0x200)) {
+                    left = func_800A6D30();
+                    if (left & 1) {
+                        ((S_8016A86C_1 *)work)->unk_1C |= 0x200;
+                        right = func_800A6D30();
+                        func_800A48F0(work, 1, (right & 0x3F) | 0x20);
+                        part_b->unk_2C = D_8016E1CC;
+                    }
                 }
             }
         }
 
-call_actor_setup:
         func_800A9C18(obj, part_a, part_b, saved_spawn_flags);
 
         actor->unk_9A = 0xFF;

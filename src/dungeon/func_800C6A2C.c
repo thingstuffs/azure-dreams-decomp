@@ -36,11 +36,12 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
             roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
             remainder = random_value % roll;
             roll = remainder;
-            goto value_ready;
+        } else {
+            roll = 0;
         }
+    } else {
+        roll = 0;
     }
-    roll = 0;
-value_ready:
     if (roll < 0x40) {
         func_800AA5E4(entity, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_00, ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_04, entity);
         func_800A56E0(0x705);

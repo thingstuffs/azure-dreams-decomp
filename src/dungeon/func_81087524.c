@@ -80,38 +80,28 @@ void func_80174D24(void *state, void *output, void *target)
     copy_word_a = old_ticks + 1;
     ((S_80174D24_0 *)state)->unk_02 = copy_word_a;
 
-    if (phase == 0) {
-        goto mode_zero;
-    }
-    if (phase == 1) {
-        goto mode_one;
-    }
-    return;
-
-mode_zero:
-    func_800478B8(target);
-    target_flags = ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v;
-    if ((target_flags & 0x6000) == 0) {
-        return;
+    switch (phase) {
+    case 0:
+        func_800478B8(target);
+        target_flags = ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v;
+        if ((target_flags & 0x6000) == 0) {
+            return;
+        }
         ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
-    } else {
-        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v = target_flags | 0x80;
+        ((S_80174D24_0 *)state)->unk_02 = 0;
+        ((S_80174D24_0 *)state)->unk_00.u++;
+        break;
+    case 1:
+        signed_ticks = (s16)copy_word_a;
+        if (signed_ticks < 0x40) {
+            return;
+        }
+        ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v &= 0xFF7F;
+        func_80047784(target, 0x38, 0);
+        ((S_80174D24_0 *)state)->unk_02 = 0;
+        ((S_80174D24_0 *)state)->unk_00.s = 0;
+        break;
     }
-    ((S_80174D24_0 *)state)->unk_02 = 0;
-    ((S_80174D24_0 *)state)->unk_00.u++;
-    return;
-
-mode_one:
-    signed_ticks = (s16)copy_word_a;
-    if (signed_ticks < 0x40) {
-        return;
-    }
-    ((Rec_D_80082E80 *)target)->unk_14.at00_u16.v &= 0xFF7F;
-    func_80047784(target, 0x38, 0);
-    ((S_80174D24_0 *)state)->unk_02 = 0;
-    ((S_80174D24_0 *)state)->unk_00.s = 0;
-
-    return;
 }
 
 /* MECHANISM: True-space epilogue joins and a u16[3] output object produce the 0x28 frame.

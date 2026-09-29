@@ -46,39 +46,22 @@ void func_8181B078(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
         phase = ((S_8181B078_0 *)object)->unk_1E;
         one = 1;
 
-        if (phase == one) {
-            goto state_1;
+        switch (phase) {
+        case 0:
+            ((S_8181B078_0 *)object)->unk_1E = one;
+            ((S_8181B078_0 *)object)->unk_28 += 8;
+            break;
+        case 1:
+            ((S_8181B078_0 *)object)->unk_1E = 2;
+            ((S_8181B078_0 *)object)->unk_28 += 8;
+            break;
+        case 2:
+            ((S_8181B078_0 *)object)->unk_1E = 0;
+            ((S_8181B078_0 *)object)->unk_28 -= 16;
+            break;
         }
-        if (phase >= 2) {
-            goto check_state_2;
-        }
-        if (phase == 0) {
-            goto state_0;
-        }
-        goto advance;
-
-check_state_2:
-        if (phase == 2) {
-            goto state_2;
-        }
-        goto advance;
-
-state_0:
-        ((S_8181B078_0 *)object)->unk_1E = one;
-        ((S_8181B078_0 *)object)->unk_28 += 8;
-        goto advance;
-
-state_1:
-        ((S_8181B078_0 *)object)->unk_1E = 2;
-        ((S_8181B078_0 *)object)->unk_28 += 8;
-        goto advance;
-
-state_2:
-        ((S_8181B078_0 *)object)->unk_1E = 0;
-        ((S_8181B078_0 *)object)->unk_28 -= 16;
     }
 
-advance:
     position->unk_08 += ((S_8181B078_0 *)object)->unk_60;
 
     if (((S_8181B078_0 *)object)->unk_02.u <= 0) {

@@ -51,68 +51,56 @@ void func_80172374(S_80172374_0 *motion, EntityRec *position, Rec_D_80082E80 *ta
     s32 entity_flags;
 
     jump_state = motion->unk_9B;
-    if (jump_state == 1) {
-        goto advance_jump;
-    }
-    if (jump_state < 2) {
-        if (jump_state == 0) {
-            goto begin_jump;
+    switch (jump_state) {
+    case 0:
+        if (motion->unk_96 != 8) {
+            break;
         }
-        goto tick_timer;
-    }
-    if (jump_state == 2) {
-        goto land;
-    }
-    goto tick_timer;
-
-begin_jump:
-    if (motion->unk_96 != 8) {
-        goto tick_timer;
-    }
-    motion->unk_98 |= 8;
-    position->flags14 = 0xFFEE0000;
-    entity->flags1C &= 0xF7FFFFFF;
-    motion->unk_A4 = 0;
-    motion->unk_9B++;
-
-advance_jump:
-    frames_left = motion->unk_96;
-    motion->unk_90 -= motion->unk_A4;
-    if (frames_left != 0) {
-        s32 coord;
-        s32 axis_origin;
-
-        coord = target_tile->unk_24 << 6;
-        axis_origin = position->x.w.i - 0x20;
-        do {
-            coord = ((coord - axis_origin) << 16) / frames_left;
-        } while (0);
-        axis_origin = position->y.w.i - 0x20;
-        position->unk_0C = coord;
-        coord = target_tile->unk_25 << 6;
-        position->unk_10 = ((coord - axis_origin) << 16) / motion->unk_96;
-        motion->unk_A4 += position->flags14;
-        position->flags14 += 0x40000;
-    }
-    motion->unk_90 += motion->unk_A4;
-    if (motion->unk_96 < 3) {
-        motion->unk_90 = 0;
-        motion->unk_98 &= 0xFFF7;
-        entity->flags1C |= 0x08000000;
+        motion->unk_98 |= 8;
+        position->flags14 = 0xFFEE0000;
+        entity->flags1C &= 0xF7FFFFFF;
+        motion->unk_A4 = 0;
         motion->unk_9B++;
+        /* fall through */
+    case 1:
+        frames_left = motion->unk_96;
+        motion->unk_90 -= motion->unk_A4;
+        if (frames_left != 0) {
+            s32 coord;
+            s32 axis_origin;
+
+            coord = target_tile->unk_24 << 6;
+            axis_origin = position->x.w.i - 0x20;
+            do {
+                coord = ((coord - axis_origin) << 16) / frames_left;
+            } while (0);
+            axis_origin = position->y.w.i - 0x20;
+            position->unk_0C = coord;
+            coord = target_tile->unk_25 << 6;
+            position->unk_10 = ((coord - axis_origin) << 16) / motion->unk_96;
+            motion->unk_A4 += position->flags14;
+            position->flags14 += 0x40000;
+        }
+        motion->unk_90 += motion->unk_A4;
+        if (motion->unk_96 < 3) {
+            motion->unk_90 = 0;
+            motion->unk_98 &= 0xFFF7;
+            entity->flags1C |= 0x08000000;
+            motion->unk_9B++;
+        }
+        /* fall through */
+    case 2:
+        if (entity->flags1C & 0x08000000) {
+            motion->unk_98 &= 0xFFF7;
+            position->flags14 = 0;
+            position->unk_10 = 0;
+            position->unk_0C = 0;
+            func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
+            motion->unk_9B++;
+        }
+        break;
     }
 
-land:
-    if (entity->flags1C & 0x08000000) {
-        motion->unk_98 &= 0xFFF7;
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        func_800A2B04(position, target_tile->unk_24, target_tile->unk_25);
-        motion->unk_9B++;
-    }
-
-tick_timer:
     next_frames = (u16)motion->unk_96 - 1;
     motion->unk_96 = next_frames;
     if ((next_frames << 16) <= 0) {
@@ -132,9 +120,7 @@ tick_timer:
             if (entity->unk_46 & 0x8000) {
                 entity->unk_46 &= 0x7FFF;
             }
-            goto update_entity;
-        }
-        if (!(entity_flags & 0x410)) {
+        } else if (!(entity_flags & 0x410)) {
             if (entity_flags & 0x20000) {
 
                 entity->facing = func_800A0818(
@@ -143,7 +129,6 @@ tick_timer:
             }
         }
 
-update_entity:
         if ((func_800AD9B4(target_tile, entity) << 16) > 0) {
             motion->unk_8C = &D_80170E54;
             func_800A9A04(entity);

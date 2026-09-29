@@ -107,20 +107,8 @@ void func_80174934(u8 *effect, Vec3w *origin, u8 *render_data)
 
     phase = ((S_80174934_0 *)effect)->unk_16.s;
     phase_bits = ((S_80174934_0 *)effect)->unk_16.u;
-    if (phase != 1) {
-        if (phase < 2) {
-            if (phase == 0)
-                goto phase_zero;
-            goto build_objects;
-        } else {
-            if (phase == 2) {
-                goto phase_two;
-            }
-
-            goto build_objects;
-        }
-
-phase_zero:
+    switch (phase) {
+    case 0:
         render_data[0xC] = (u8)((effect[4] *
             (0x32 - ((S_80174934_0 *)effect)->unk_1A.s)) / 10);
         render_data[0xD] = (u8)((effect[5] *
@@ -130,41 +118,38 @@ phase_zero:
         if (((S_80174934_0 *)effect)->unk_1A.s < 0x29) {
             ((S_80174934_0 *)effect)->unk_16.p =
                 ((S_80174934_0 *)effect)->unk_16.u + 1;
-            goto build_objects;
+        }
+        break;
+    case 1:
+        if (((S_80174934_0 *)effect)->unk_1A.s < 0xC) {
+            ((S_80174934_0 *)effect)->unk_16.s = phase_bits + 1;
         }
 
-        goto build_objects;
+        if (func_80069EF8() & 1) {
+            particle_variant = func_80069EF8() & 7;
+            particle_strength = func_80069EF8() & 0xFF;
+            particle_strength = particle_strength | 0x80;
+            random_offset = func_80069EF8();
+            func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+                ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
+                (s16)(-0x70 - (random_offset & 0x1F)));
+        } else {
+            particle_variant = func_80069EF8() & 7;
+            particle_strength = func_80069EF8() & 0xFF;
+            particle_strength = particle_strength | 0x80;
+            random_offset = func_80069EF8();
+            func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
+                ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
+                (s16)(-0x40 - (random_offset & 0x1F)));
+        }
+        break;
+    case 2:
+        render_data[0xC] = (u8)((effect[4] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
+        render_data[0xD] = (u8)((effect[5] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
+        render_data[0xE] = (u8)((effect[6] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
+        break;
     }
 
-    if (((S_80174934_0 *)effect)->unk_1A.s < 0xC) {
-        ((S_80174934_0 *)effect)->unk_16.s = phase_bits + 1;
-    }
-
-    if (func_80069EF8() & 1) {
-        particle_variant = func_80069EF8() & 7;
-        particle_strength = func_80069EF8() & 0xFF;
-        particle_strength = particle_strength | 0x80;
-        random_offset = func_80069EF8();
-        func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
-            ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
-            (s16)(-0x70 - (random_offset & 0x1F)));
-    } else {
-        particle_variant = func_80069EF8() & 7;
-        particle_strength = func_80069EF8() & 0xFF;
-        particle_strength = particle_strength | 0x80;
-        random_offset = func_80069EF8();
-        func_80174214(effect - 0x20, particle_variant, 0xF0, particle_strength,
-            ((S_80174934_0 *)effect)->unk_64, ((S_80174934_0 *)effect)->unk_66,
-            (s16)(-0x40 - (random_offset & 0x1F)));
-    }
-    goto build_objects;
-
-phase_two:
-    render_data[0xC] = (u8)((effect[4] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
-    render_data[0xD] = (u8)((effect[5] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
-    render_data[0xE] = (u8)((effect[6] * ((S_80174934_0 *)effect)->unk_1A.s) / 10);
-
-build_objects:
     ((S_80174934_0 *)effect)->unk_20 = ((S_80174934_0 *)effect)->unk_20 + 1;
     for (strip_index = 0; strip_index < 4; strip_index++) {
         strip_obj = func_8003FC64(0x12);

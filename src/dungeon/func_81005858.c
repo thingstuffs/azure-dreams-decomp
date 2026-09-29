@@ -153,11 +153,13 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
   {
     if ((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x20)
     {
-      goto special_cleanup;
+      func_800A9A0C(creature);
+      return;
     }
     if ((*((u16 *) (((u8 *) sprite) + 0x24))) == (*((u16 *) (((s8 *)&D_80082E80.tileX)))))
     {
-      goto ordinary_cleanup;
+      func_80171848(actor, context, sprite, creature);
+      return;
     }
     if (!((*((u16 *) (((u8 *) creature) + 0x46))) & 0x8000))
     {
@@ -176,106 +178,78 @@ void func_80171058(void *actor, void *context, void *sprite_arg, void *creature)
       *((u16 *) (((u8 *) creature) + 0x46)) = action;
       if (!(action & 0x8000))
       {
-        goto ordinary_cleanup;
+        func_80171848(actor, context, sprite, creature);
+        return;
       }
     }
     action = (*((u16 *) (((u8 *) creature) + 0x46))) & 0x3FFF;
     if (((u32) (action - 1)) >= 12)
     {
-      goto ordinary_cleanup;
+      func_80171848(actor, context, sprite, creature);
+      return;
     }
     switch (action - 1)
     {
-      case 0:
-
-      case 1:
-
-      case 2:
-        goto aaf_cleanup;
-
-      case 3:
-        goto ordinary_cleanup;
-
-      case 4:
-
-      case 5:
-
-      case 6:
-        goto face_player;
-
-      case 7:
-        goto handler_case;
-
       case 8:
-        goto check_target;
-
-      case 9:
-
-      case 10:
-        goto ordinary_cleanup;
-
-      case 11:
-        goto special_cleanup;
-
-      default:
-        goto ordinary_cleanup;
-
-    }
-
-    check_target:
-    {
-      void *target = func_800A04F0(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
-      *((void **) (((u8 *) actor) + 0xA8)) = target;
-      if (target == 0)
       {
-        goto ordinary_cleanup;
-      }
-      if (func_800C7F68(target) != 0)
-      {
-        goto ordinary_cleanup;
-      }
-      if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33)
-      {
-        func_801722E0(actor, context, sprite, creature);
+        void *target = func_800A04F0(creature, *((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((s16 *) (((u8 *) creature) + 0x2A)));
+        *((void **) (((u8 *) actor) + 0xA8)) = target;
+        if (target == 0)
+        {
+          func_80171848(actor, context, sprite, creature);
+          return;
+        }
+        if (func_800C7F68(target) != 0)
+        {
+          func_80171848(actor, context, sprite, creature);
+          return;
+        }
+        if ((*((u8 *) (((u8 *) (*((void **) (((u8 *) actor) + 0xA8)))) + 0x13))) < 0x33)
+        {
+          func_801722E0(actor, context, sprite, creature);
+          return;
+        }
+        func_80171848(actor, context, sprite, creature);
         return;
       }
-      goto ordinary_cleanup;
-    }
-
-    handler_case:
-    if ((func_80171FF4(actor, context, sprite, creature) << 16) != 0)
-    {
-      return;
-    }
-
-    func_801721B8(actor, context, sprite, creature);
-    return;
-    face_player:
-    {
-      u8 *player_pos = ((u8 *)(&D_80082E80));
-      void *player;
-      s16 facing_angle;
-      facing_angle = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
-      player = D_800814A8;
-      *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
-      if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11)
+      case 7:
+        if ((func_80171FF4(actor, context, sprite, creature) << 16) != 0)
+        {
+          return;
+        }
+        func_801721B8(actor, context, sprite, creature);
+        return;
+      case 4:
+      case 5:
+      case 6:
       {
-        goto aaf_cleanup;
+        u8 *player_pos = ((u8 *)(&D_80082E80));
+        void *player;
+        s16 facing_angle;
+        facing_angle = func_800A0818(*((u8 *) (((u8 *) sprite) + 0x24)), *((u8 *) (((u8 *) sprite) + 0x25)), *((u8 *) (((u8 *) player_pos) + 0x24)), *((u8 *) (((u8 *) player_pos) + 0x25)), &direction_aux);
+        player = D_800814A8;
+        *((s16 *) (((u8 *) creature) + 0x2A)) = facing_angle;
+        if ((*((u8 *) (((u8 *) player) + 0x9A))) == 0x11)
+        {
+          func_800AAF00(actor, context, sprite, &D_801748C8, func_80171058);
+          return;
+        }
       }
+      case 11:
+        func_800A9A0C(creature);
+        return;
+      case 0:
+      case 1:
+      case 2:
+        func_800AAF00(actor, context, sprite, &D_801748C8, func_80171058);
+        return;
+      case 3:
+      case 9:
+      case 10:
+      default:
+        func_80171848(actor, context, sprite, creature);
+        return;
     }
-
-    special_cleanup:
-    func_800A9A0C(creature);
-
-    return;
-    aaf_cleanup:
-    func_800AAF00(actor, context, sprite, &D_801748C8, func_80171058);
-
-    return;
-    ordinary_cleanup:
-    func_80171848(actor, context, sprite, creature);
-
-    return;
   }
   if (!((*((u32 *) (((u8 *) creature) + 0x1C))) & 0x2000))
   {

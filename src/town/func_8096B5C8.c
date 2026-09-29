@@ -57,21 +57,20 @@ void func_80123A60(void *object_data) {
         if (func_80123200(second_image_id & 0xFF) & 0xFF) {
             func_80123928(D_80126E98[second_image_id].image, 0x1A4, 0xA0);
         }
-        goto done;
+    } else {
+        grid_category = object->unk_0F;
+        loop_image_base = (u8 *)D_80126E98;
+        image_id = grid_category * 0x10;
+        image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
+                                (u32)loop_image_base);
+        do {
+            if (func_80123200(image_id & 0xFF) & 0xFF) {
+                func_80123928(image_entry->image, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
+            }
+            slot += 1;
+            image_entry += 1;
+            image_id += 1;
+        } while (slot < 0x10);
     }
-    grid_category = object->unk_0F;
-    loop_image_base = (u8 *)D_80126E98;
-    image_id = grid_category * 0x10;
-    image_entry = (ImageEntry *)(((((grid_category << 5) + image_id) << 2)) +
-                            (u32)loop_image_base);
-    do {
-        if (func_80123200(image_id & 0xFF) & 0xFF) {
-            func_80123928(image_entry->image, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
-        }
-        slot += 1;
-        image_entry += 1;
-        image_id += 1;
-    } while (slot < 0x10);
-done:
     func_80067014(0);
 }

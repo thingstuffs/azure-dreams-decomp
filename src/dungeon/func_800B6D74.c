@@ -184,10 +184,8 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     s32 scale;
     s32 clamped_scale;
     s32 uv_word;
-    s32 uv_sum;
-    s32 uv_v_end;
-    register s32 coord_x;
-    register s32 coord_y;
+    s16 coord_x;
+    s16 coord_y;
     u16 screen_x;
     u16 sprite_z;
     u16 sprite_flags;
@@ -271,27 +269,12 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
         for (;;) {
             if (!(texture[0] & 0x20)) {
-                u16 mode_flag;
-                s32 mode_flag_copy;
-                u32 tile_u;
-                u32 tile_width;
-                u32 tile_height;
-
-                mode_flag = 0;
-                tile_u = texture_data[4];
-                scratch_base = (u8 *)((s32)(packet));
-                do {
-                    ((S_800BC4D4_1 *)scratch)->unk_08.u32 = tile_u;
-                } while (0);
+                ((S_800BC4D4_1 *)scratch)->unk_08.u32 = texture_data[4];
                 ((S_800BC4D4_1 *)scratch)->unk_0C.u = texture_data[5];
-                tile_width = texture_data[6];
-                mode_flag_copy = mode_flag;
-                ((S_800BC4D4_1 *)scratch)->unk_10.u32 = tile_width;
-                tile_height = texture_data[7];
+                ((S_800BC4D4_1 *)scratch)->unk_10.u32 = texture_data[6];
+                ((S_800BC4D4_1 *)scratch)->unk_14.u32 = texture_data[7];
+                func_80067EF4(packet, 0, 0);
                 packet_field += 0xC;
-                ((S_800BC4D4_1 *)scratch)->unk_14.u32 = tile_height;
-
-                func_80067EF4((u8 *)(s32)scratch_base, mode_flag, mode_flag_copy);
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                                   ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
@@ -299,54 +282,36 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 packet = packet_next;
 
                 if ((texture[0] ^ ((S_800BC4D4_1 *)scratch)->unk_24) & 1) {
-                    u32 quad_width;
-
-                    coord_x = texture_data[-2];
-                    quad_width = ((S_800BC4D4_1 *)scratch)->unk_10.u16;
-                    ASM_KEEP_DEP_NV(coord_x, quad_width);
-                    coord_x = (s8)coord_x;
-                    coord_x = -coord_x;
+                    coord_x = -(s8)texture_data[-2];
                     ((S_800BC4D4_1 *)scratch)->unk_80 = coord_x;
                     ((S_800BC4D4_1 *)scratch)->unk_70.s = coord_x;
-                    coord_x -= quad_width;
+                    coord_x -= ((S_800BC4D4_1 *)scratch)->unk_10.u16;
+                    ((S_800BC4D4_1 *)scratch)->unk_88 = coord_x;
+                    ((S_800BC4D4_1 *)scratch)->unk_78.s = coord_x;
                 } else {
-                    u32 quad_width;
-
-                    coord_x = texture_data[-2];
-                    quad_width = ((S_800BC4D4_1 *)scratch)->unk_10.u16;
-                    ASM_KEEP_DEP_NV(coord_x, quad_width);
-                    coord_x = (s8)coord_x;
+                    coord_x = (s8)texture_data[-2];
                     ((S_800BC4D4_1 *)scratch)->unk_80 = coord_x;
                     ((S_800BC4D4_1 *)scratch)->unk_70.s = coord_x;
-                    coord_x += quad_width;
+                    coord_x += ((S_800BC4D4_1 *)scratch)->unk_10.u16;
+                    ((S_800BC4D4_1 *)scratch)->unk_88 = coord_x;
+                    ((S_800BC4D4_1 *)scratch)->unk_78.s = coord_x;
                 }
-                ((S_800BC4D4_1 *)scratch)->unk_88 = coord_x;
-                ((S_800BC4D4_1 *)scratch)->unk_78.s = coord_x;
 
                 if ((texture[0] ^ ((S_800BC4D4_1 *)scratch)->unk_24) & 2) {
-                    u32 quad_height_s;
-
-                    coord_y = texture_data[-1];
-                    quad_height_s = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
-                    ASM_KEEP_DEP_NV(coord_y, quad_height_s);
-                    coord_y = (s8)coord_y;
-                    coord_y = -coord_y;
+                    coord_y = -(s8)texture_data[-1];
                     ((S_800BC4D4_1 *)scratch)->unk_7A = coord_y;
                     ((S_800BC4D4_1 *)scratch)->unk_72 = coord_y;
-                    coord_y -= quad_height_s;
+                    coord_y -= ((S_800BC4D4_1 *)scratch)->unk_14.u16;
+                    ((S_800BC4D4_1 *)scratch)->unk_8A = coord_y;
+                    ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
                 } else {
-                    u32 quad_height_s2;
-
-                    coord_y = texture_data[-1];
-                    quad_height_s2 = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
-                    ASM_KEEP_DEP_NV(coord_y, quad_height_s2);
-                    coord_y = (s8)coord_y;
+                    coord_y = (s8)texture_data[-1];
                     ((S_800BC4D4_1 *)scratch)->unk_7A = coord_y;
                     ((S_800BC4D4_1 *)scratch)->unk_72 = coord_y;
-                    coord_y += quad_height_s2;
+                    coord_y += ((S_800BC4D4_1 *)scratch)->unk_14.u16;
+                    ((S_800BC4D4_1 *)scratch)->unk_8A = coord_y;
+                    ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
                 }
-                ((S_800BC4D4_1 *)scratch)->unk_8A = coord_y;
-                ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
 
                 ASM_KEEP_NV(scratch);
                 {
@@ -389,21 +354,10 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                     (*(s16 *)((u8 *)packet_field + 0x1B)) = bottom_y + screen_y;
                 }
 
-                uv_sum = ((S_800BC4D4_1 *)scratch)->unk_10.s32;
-                scratch_base = (u8 *)(((S_800BC4D4_1 *)scratch)->unk_08.s32);
-
-                uv_v_end = ((S_800BC4D4_1 *)scratch)->unk_0C.s;
-                screen_pos = (u8 *)(((S_800BC4D4_1 *)scratch)->unk_14.s32);
-                uv_sum += (s32)scratch_base;
-                uv_v_end += (s32)screen_pos;
-                ((S_800BC4D4_1 *)scratch)->unk_10.s32 = uv_sum;
-                uv_sum = ((S_800BC4D4_1 *)scratch)->unk_0C.s;
-                uv_v_end <<= 8;
-                ((S_800BC4D4_1 *)scratch)->unk_14.s32 = uv_v_end;
-                uv_sum <<= 8;
-                ((S_800BC4D4_1 *)scratch)->unk_0C.s = uv_sum;
-                uv_word = uv_sum;
-                uv_word += (s32)scratch_base;
+                ((S_800BC4D4_1 *)scratch)->unk_10.s32 += ((S_800BC4D4_1 *)scratch)->unk_08.s32;
+                ((S_800BC4D4_1 *)scratch)->unk_14.s32 = (((S_800BC4D4_1 *)scratch)->unk_0C.s + ((S_800BC4D4_1 *)scratch)->unk_14.s32) << 8;
+                ((S_800BC4D4_1 *)scratch)->unk_0C.s <<= 8;
+                uv_word = ((S_800BC4D4_1 *)scratch)->unk_0C.s + ((S_800BC4D4_1 *)scratch)->unk_08.s32;
 
                 {
                     register u32 texture_page;

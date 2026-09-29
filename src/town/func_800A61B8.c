@@ -37,61 +37,55 @@ void func_800A3918(S_800A3918_0 *anim, s32 unused) {
     u16 offset_bits;
 
     offset = anim->unk_02;
-    if (offset == 0) {
-        goto state_zero;
-    }
-    global_base = (u8 *)0x80100000;
-    if (offset == 1) {
-        goto state_one;
-    }
-    goto finish;
-
-state_zero:
-    if (anim->unk_0C == 0) {
-        phase = (s16)(anim->unk_08.s + 0x1BC0);
-        anim->unk_06 += 2;
-        phase %= 0x1C00;
-        anim->unk_08.u = phase;
-    } else {
-        phase = (s16)(anim->unk_08.s + 0x1B71);
-        anim->unk_06 += 1;
-        phase %= 0x1C00;
-        anim->unk_08.u = phase;
-    }
-    anim->unk_00++;
-    if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
-        anim->unk_02 = 1;
-    }
-    goto finish;
-
-state_one:
-    offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;
-    offset_bits = ((S_800A3918_2 *)global_base)->unk_D8A.u;
-    if (offset < -0x1FFF) {
-        ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
-    } else {
-        anim->unk_12 -= 0x20;
-        offset = offset_bits + anim->unk_12;
-        ((S_800A3918_2 *)global_base)->unk_D8A.s = offset;
+    switch (offset) {
+    case 0:
+        if (anim->unk_0C == 0) {
+            phase = (s16)(anim->unk_08.s + 0x1BC0);
+            anim->unk_06 += 2;
+            phase %= 0x1C00;
+            anim->unk_08.u = phase;
+        } else {
+            phase = (s16)(anim->unk_08.s + 0x1B71);
+            anim->unk_06 += 1;
+            phase %= 0x1C00;
+            anim->unk_08.u = phase;
+        }
+        anim->unk_00++;
+        if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
+            anim->unk_02 = 1;
+        }
+            break;
+    case 1:
+        global_base = (u8 *)0x80100000;
+        offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;
+        offset_bits = ((S_800A3918_2 *)global_base)->unk_D8A.u;
         if (offset < -0x1FFF) {
             ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
+        } else {
+            anim->unk_12 -= 0x20;
+            offset = offset_bits + anim->unk_12;
+            ((S_800A3918_2 *)global_base)->unk_D8A.s = offset;
+            if (offset < -0x1FFF) {
+                ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
+            }
         }
+        if (anim->unk_14.s < 0x200) {
+            anim->unk_14.s = anim->unk_14.u + 0x20;
+        }
+        if (anim->unk_0C == 0) {
+            phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.u);
+            anim->unk_06 += 2;
+            phase %= 0x1C00;
+            anim->unk_08.u = phase;
+        } else {
+            phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.s * 2);
+            anim->unk_06 += 1;
+            phase %= 0x1C00;
+            anim->unk_08.u = phase;
+        }
+        anim->unk_00++;
+        break;
     }
-    if (anim->unk_14.s < 0x200) {
-        anim->unk_14.s = anim->unk_14.u + 0x20;
-    }
-    if (anim->unk_0C == 0) {
-        phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.u);
-        anim->unk_06 += 2;
-        phase %= 0x1C00;
-        anim->unk_08.u = phase;
-    } else {
-        phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.s * 2);
-        anim->unk_06 += 1;
-        phase %= 0x1C00;
-        anim->unk_08.u = phase;
-    }
-    anim->unk_00++;
 
 finish:
     anim->unk_16 = anim->unk_08.u / 0x200 + 0x10;

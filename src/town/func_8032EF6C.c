@@ -33,9 +33,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     s32 half_bits;
     u32 header_or_addr;
 
-    do {
-        record = records;
-    } while (0);
+    record = records;
     entry = entries;
     record_flags = flags;
     half_bits = record_flags >> 8;

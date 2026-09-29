@@ -57,15 +57,12 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
         payload_cursor = (u8 *)node + 0x124;
         if (flags & 0x100) {
             payload_cursor = (u8 *)node + 0xF4;
-            goto store_buffer;
-        }
-        if (flags & 0x6) {
+            node->field_0xC = payload_cursor;
+        } else if (flags & 0x6) {
             payload_cursor = (u8 *)node + 0x100;
-            goto store_buffer;
-        }
-        if (flags & 0x41) {
+            node->field_0xC = payload_cursor;
+        } else if (flags & 0x41) {
             payload_cursor = (u8 *)node + 0x10C;
-        store_buffer:
             node->field_0xC = payload_cursor;
         }
 
