@@ -36,7 +36,6 @@ extern u8 D_800E2358[];
 extern u8 D_800E2378;
 extern u8 D_800E23A0[];
 extern u8 D_800E23A8[];
-extern void *D_80170808[];
 extern s32 D_80171F1C;
 
 
@@ -70,14 +69,6 @@ typedef struct S_80171F1C_2 {
 /* Update actor movement, animation, and action handling for the dungeon turn. */
 void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, void *move_data_arg)
 {
-    static void *const state_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3,
-        &&ordinary_cleanup,
-        &&coords_case, &&coords_case, &&coords_case,
-        &&handler_case, &&handler_case,
-        &&guard_case, &&flag_case,
-        &&special_cleanup,
-    };
     EntityRec *move_data;
     s32 direction_flags;
     s8 room_id;
@@ -203,66 +194,65 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         }
 
         action_state = move_data->unk_46 & 0x3FFF;
-        {
-            u32 idx = action_state - 1;
-            if (idx >= 12) {
-            goto ordinary_cleanup;
-        }
-            (void)state_labels;
-            goto *D_80170808[idx];
-        }
+        switch (action_state) {
+        case 8:
+        case 9:
+            if ((func_80172E80(motion_arg, actor_index_arg, actor_arg, move_data) << 16) != 0) {
+                return;
+            }
+            func_801730A4(motion_arg, actor_index_arg, actor_arg, move_data);
+            return;
 
-handler_case:
-        if ((func_80172E80(motion_arg, actor_index_arg, actor_arg, move_data) << 16) != 0) {
+        case 10:
+            if (D_800DCF5B != 0) {
+                goto special_cleanup;
+            }
+            func_801754F0(motion_arg, actor_index_arg, actor_arg, move_data);
+            return;
+
+        case 11:
+            if (!(((u32)move_data->flags1C) & 0x20000)) {
+                goto special_cleanup;
+            }
+            func_80175BE0(motion_arg, actor_index_arg, actor_arg, move_data);
+            return;
+
+        case 5:
+        case 6:
+        case 7:
+            {
+                EntityRec *player;
+                s16 heading;
+
+                heading = func_800A0818(
+                    ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_flags);
+                player = D_800814A8;
+                move_data->facing = heading;
+                if (player->unk_9A == 0x11) {
+                    goto aaf_cleanup;
+                }
+            }
+            /* fallthrough */
+        case 12:
+        special_cleanup:
+            func_800A9A0C(move_data);
+            return;
+
+        case 1:
+        case 2:
+        case 3:
+        aaf_cleanup:
+            func_800AAF00(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
+            return;
+
+        case 4:
+        default:
+        ordinary_cleanup:
+            func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
         }
-        func_801730A4(motion_arg, actor_index_arg, actor_arg, move_data);
-        return;
-
-guard_case:
-        if (D_800DCF5B != 0) {
-            goto special_cleanup;
-        }
-        func_801754F0(motion_arg, actor_index_arg, actor_arg, move_data);
-        return;
-
-flag_case:
-        if (!(((u32)move_data->flags1C) & 0x20000)) {
-            goto special_cleanup;
-        }
-        func_80175BE0(motion_arg, actor_index_arg, actor_arg, move_data);
-        return;
-
-coords_case:
-        {
-            EntityRec *player;
-            s16 heading;
-
-            heading = func_800A0818(
-                ((S_80171F1C_2 *)actor_arg)->unk_24.at00.v, ((S_80171F1C_2 *)actor_arg)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_flags);
-            player = D_800814A8;
-            move_data->facing = heading;
-            if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
-            }
-        }
-
-special_cleanup:
-        func_800A9A0C(move_data);
-        return;
-
-jt_c1:
-jt_c2:
-jt_c3:
-aaf_cleanup:
-        func_800AAF00(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
-        return;
-
-ordinary_cleanup:
-        func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);
-        return;
     }
 
     if (!(((u32)move_data->flags1C) & 0x2000)) {
