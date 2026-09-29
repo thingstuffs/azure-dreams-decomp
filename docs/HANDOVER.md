@@ -4,7 +4,14 @@
 let lanes wrap up, hand over, pause. The Agent-tool `sonnet` alias in this session resolved to **claude-sonnet-5**
 (lane r79_sonnet_s1 codex.log), so a restart is needed; the Sonnet 5 lane was stopped (STOPPED.txt; not a 5.5 probe).
 
-**State.** Record: [r79 wave record](evidence/r79_wave_report.md). RESULTS_PLACEHOLDER
+**State.** Record: [r79 wave record](evidence/r79_wave_report.md). 2,787 / 735 at pickup (commit 9d2eb009) -> **2,762 / 735**. Opus
+r79_opus_w1: dungeon/func_81008664 22 -> 10 (r70's volatile param + stack struct + $8 carrier + attempts +/-1 pairs were
+reload / loop hoists / reorg add-undo; one keep relocated, still counted). Astra b1-b3: 1-3 pins per row on the six
+top-of-pool r70-plateaued rows (codex 21% -> 24%, ~2.7 pins per 1%, half round 78's rate) -> route such rows to Opus
+next. Gemini 0/5 (paused on this pool). Type consolidation phase 10 fully landed (9034b1ce; 6,767/6,767 verify-exact).
+Fixed a t2_pins infinite loop on macro-expansion pin sites that stalled the b3 landing (6c78cac0). The lander
+land_finished2.sh (pid 536862) is still running and idle: it lands any finished r6x/r7x lane every 15 min, so name new
+lanes r79_* (r80_* needs a lander restart with a wider glob). Codex weekly 24% used, resets 2026-10-03 23:05Z.
 
 **Ready to launch on pickup (built, kitted, served-guard checked at build time; rebuild if the rows changed):**
 - `r79_astra_b4` (802835B8 24, 8008EE88 22), `r79_astra_b5` (800AFA68 20, 800C4A80 19), `r79_astra_b6` (80F36D0C 19,
