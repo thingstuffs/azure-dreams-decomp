@@ -49,8 +49,8 @@ void func_808B85F0(s32 table_index, s32 mode) {
         sentinel = 0x80;
         entry = (u8 *)((u8 *)entry + 1);
         do {
-            *(volatile s32 *)((u8 *)entry + 0xB) =
-                D_lookup_460C.value[*(volatile s32 *)((u8 *)entry + 0xB)];
+            *(s32 *)((u8 *)entry + 0xB) =
+                D_lookup_460C.value[*(s32 *)((u8 *)entry + 0xB)];
             entry = (u8 *)((u8 *)entry + 0x14);
         } while (*(u8 *)entry != sentinel);
     }

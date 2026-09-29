@@ -45,7 +45,7 @@ void func_808816D8(void) {
             sentinel = 0x80;
             row_cursor = row_base + 1;
             do {
-                *(volatile s32 *)(row_cursor + 0xB) = D_80701008[0][*(volatile s32 *)(row_cursor + 0xB)];
+                *(s32 *)(row_cursor + 0xB) = D_80701008[0][*(s32 *)(row_cursor + 0xB)];
                 row_cursor += 0x14;
             } while (*row_cursor != sentinel);
         }

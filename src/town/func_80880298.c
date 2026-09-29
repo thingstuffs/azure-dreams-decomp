@@ -41,7 +41,7 @@ void func_80880298(s32 list_index) {
         s32 end_tag = 0x80;
         record_tag = records + 1;
         do {
-            *(volatile s32 *)(record_tag + 0xB) = D_807013B0[0][*(volatile s32 *)(record_tag + 0xB)];
+            *(s32 *)(record_tag + 0xB) = D_807013B0[0][*(s32 *)(record_tag + 0xB)];
             record_tag += 0x14;
         } while (*record_tag != end_tag);
     }
