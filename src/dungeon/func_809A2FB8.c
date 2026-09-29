@@ -61,23 +61,16 @@ void func_801747B8(void *effect, S_801747B8_1 *position, S_801747B8_0 *primitive
         trail_length = (*(s16 *)((u8 *)effect + 0x34));
         if (primitive->unk_0C.u8 < (0x80 >> trail_length)) {
             primitive->unk_0C.s32 += 0x101010;
-            goto update_history;
+        } else {
+            (*(u8 *)((u8 *)effect + 0x17))++;
         }
-        (*(u8 *)((u8 *)effect + 0x17))++;
-        goto update_history;
+    } else if (primitive->unk_0C.u8 != 0) {
+        primitive->unk_0C.s32 += -0x80808;
+    } else {
+        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
 
-    if (primitive->unk_0C.u8 == 0) {
-        goto mark_finished;
-    }
-    primitive->unk_0C.s32 += -0x80808;
-    goto update_history;
-
-mark_finished:
-    (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-update_history:
     position->unk_02 = (*(u16 *)((u8 *)effect + 0x20));
     position->unk_06 = (*(u16 *)((u8 *)effect + 0x26));
     position->unk_0A = (*(u16 *)((u8 *)effect + 0x2C));

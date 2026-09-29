@@ -93,59 +93,52 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
             sides_left = 2;
             if (forward_steps >= forward_limit) {
                 failures++;
-                goto outer_next;
-            }
-            side_steps = search_radius - forward_steps;
-            side = func_800A6D30() & 1;
-            x_steps_base = (s32)((u8 *)dirStepX);
-            y_steps_base = (s32)((u8 *)dirStepY);
-            do {
-                forward_dir = *(s16 *)facing;
-                forward_offset = forward_dir * 2;
-                turn_dir = (forward_dir + D_8001F66C[side]) & 6;
-                turn_offset = turn_dir * 2;
-                next_x = start_x + *(s16 *)(forward_offset + x_steps_base) * forward_steps
-                                 + *(s16 *)(turn_offset + x_steps_base) * side_steps;
-                next_y = start_y + *(s16 *)(forward_offset + y_steps_base) * forward_steps
-                                 + *(s16 *)(turn_offset + y_steps_base) * side_steps;
-                if (((s16)next_x >= 0) && ((s16)next_x < D_8001F660) &&
-                    ((s16)next_y >= 0) && ((s16)next_y < D_8001F664)) {
-                    map_base = D_8001F6E8;
-                    side_marks = map_base + side * 4;
-                    blocked = side_marks + forward_steps;
-                    if (*blocked == 0) {
-                        tile_index_u16 = next_x + (s16)next_y * D_8001F660;
-                        tile_index = (s16)tile_index_u16;
-                        map_base = tiles;
-                        tile = map_base[tile_index];
-                        if (tile == 0) {
-                            goto next;
-                        }
-                        if (tile > 0) {
-                            if (func_8001ABC8(tile_index, (s16)saved_filter) == 0) {
-                                goto found;
+            } else {
+                side_steps = search_radius - forward_steps;
+                side = func_800A6D30() & 1;
+                x_steps_base = (s32)((u8 *)dirStepX);
+                y_steps_base = (s32)((u8 *)dirStepY);
+                for (; sides_left > 0; sides_left--, side ^= 1) {
+                    forward_dir = *(s16 *)facing;
+                    forward_offset = forward_dir * 2;
+                    turn_dir = (forward_dir + D_8001F66C[side]) & 6;
+                    turn_offset = turn_dir * 2;
+                    next_x = start_x + *(s16 *)(forward_offset + x_steps_base) * forward_steps
+                                     + *(s16 *)(turn_offset + x_steps_base) * side_steps;
+                    next_y = start_y + *(s16 *)(forward_offset + y_steps_base) * forward_steps
+                                     + *(s16 *)(turn_offset + y_steps_base) * side_steps;
+                    if (((s16)next_x >= 0) && ((s16)next_x < D_8001F660) &&
+                        ((s16)next_y >= 0) && ((s16)next_y < D_8001F664)) {
+                        map_base = D_8001F6E8;
+                        side_marks = map_base + side * 4;
+                        blocked = side_marks + forward_steps;
+                        if (*blocked == 0) {
+                            tile_index_u16 = next_x + (s16)next_y * D_8001F660;
+                            tile_index = (s16)tile_index_u16;
+                            map_base = tiles;
+                            tile = map_base[tile_index];
+                            if (tile == 0) {
+                                continue;
                             }
+                            if (tile > 0) {
+                                if (func_8001ABC8(tile_index, (s16)saved_filter) == 0) {
+                                    *facing = turn_dir;
+                                    return tile_index;
+                                }
+                            }
+                            *blocked = 1;
                         }
-                        *blocked = 1;
                     }
+                    failures++;
                 }
-                failures++;
-            next:
-                side ^= 1;
-            } while (--sides_left > 0);
-outer_next:
+            }
             forward_steps++;
         } while (forward_steps < search_radius);
     }
 
     if (failures < 3) {
-        goto recurse;
+        return func_8001A768(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
+                             (s16)(saved_radius + 1), (s16)saved_filter);
     }
     return -1;
-found:
-    *facing = turn_dir;
-    return tile_index;
-recurse:
-    return func_8001A768(facing, (s16)start_x, (s16)start_y, tiles, search_arg,
-                         (s16)(saved_radius + 1), (s16)saved_filter);
 }

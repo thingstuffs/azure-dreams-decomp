@@ -170,10 +170,12 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
     if (stats->unk_6D > 0) {
         if (((u32)stats->flags1C) & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(stats);
+            return;
         }
         if (((S_801714D4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto jt_default;
+            func_80171C34(actor_arg, context_arg, sprite, stats);
+            return;
         }
         action_flags = stats->unk_46;
         if ((action_flags & 0x8000) == 0) {
@@ -189,7 +191,8 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             action_flags = stats->unk_46 | 0x4000;
             stats->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto jt_default;
+                func_80171C34(actor_arg, context_arg, sprite, stats);
+            return;
             }
         }
 
@@ -212,25 +215,24 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         owner = D_800814A8;
         stats->facing = angle;
         if (owner->unk_9A == 0x11) {
-            goto jt_c1;
+            callback = (void *)func_801714D4;
+            func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
+            return;
         }
 
         case 11:
-jt_c12:
         func_800A9A0C(stats);
         return;
 
         case 0:
         case 1:
         case 2:
-jt_c1:
         callback = (void *)func_801714D4;
 
         func_800AAF00(actor_arg, context_arg, sprite, 0, callback);
         return;
 
         default:
-jt_default:
         func_80171C34(actor_arg, context_arg, sprite, stats);
         return;
         }

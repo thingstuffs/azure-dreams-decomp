@@ -97,72 +97,55 @@ void func_800D7FB8(S_func_800D7FB8_0 *controller) {
     Entry *entry;
 
     state = controller->unk_00;
-    if (state == 1) {
-        goto timer_state;
-    }
-    if (state >= 2) {
-        goto check_ff;
-    }
-    if (state == 0) {
-        goto init_state;
-    }
-    return;
-
-check_ff:
-    if (state == 0xFF) {
-        goto ff_state;
-    }
-    return;
-
-init_state:
-    controller->unk_02.s16_value = 0x3C;
-    controller->unk_00 = (s16)((u16)controller->unk_00 + 1);
-    func_800A56E0(0x600);
-    spawn_index = 0x96;
-    do {
-        entry = func_8003FD64((void *)0x312, ((u8 *)(&D_80083498)));
-        if (entry != NULL) {
-            entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
-            entry->d81d4 = (u8 *)&D_800D81D4;
-            func_8004491C(entry, func_80045340);
-            sub_data = entry->sub;
-            ((S_func_800D7FB8_2 *)entry->child)->unk_02 = controller->unk_04;
-            ((S_func_800D7FB8_2 *)entry->child)->unk_06 = controller->unk_06;
-            ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
-            sub_data->unk_1E = 0x400;
-            sub_data->unk_1C = 0x400;
-            sub_data->unk_10 = 0x20;
-            sub_data->unk_00 = D_800DEC00;
-            sub_data->unk_14 = (u16)(sub_data->unk_14 | 0xC);
-            resource_word = ((S_func_800D7FB8_4 *)D_800DEC00)->unk_04;
-            sub_data->unk_04 = 0;
-            sub_data->unk_05 = 0;
-            sub_data->unk_0C = 0;
-            sub_data->unk_08 = resource_word;
-            __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
-            entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
-            ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+    switch (state) {
+    case 0:
+        controller->unk_02.s16_value = 0x3C;
+        controller->unk_00 = (s16)((u16)controller->unk_00 + 1);
+        func_800A56E0(0x600);
+        spawn_index = 0x96;
+        do {
+            entry = func_8003FD64((void *)0x312, ((u8 *)(&D_80083498)));
+            if (entry != NULL) {
+                entry_data = (S_func_800D7FB8_1 *)((u8 *)entry + 0x20);
+                entry->d81d4 = (u8 *)&D_800D81D4;
+                func_8004491C(entry, func_80045340);
+                sub_data = entry->sub;
+                ((S_func_800D7FB8_2 *)entry->child)->unk_02 = controller->unk_04;
+                ((S_func_800D7FB8_2 *)entry->child)->unk_06 = controller->unk_06;
+                ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+                sub_data->unk_1E = 0x400;
+                sub_data->unk_1C = 0x400;
+                sub_data->unk_10 = 0x20;
+                sub_data->unk_00 = D_800DEC00;
+                sub_data->unk_14 = (u16)(sub_data->unk_14 | 0xC);
+                resource_word = ((S_func_800D7FB8_4 *)D_800DEC00)->unk_04;
+                sub_data->unk_04 = 0;
+                sub_data->unk_05 = 0;
+                sub_data->unk_0C = 0;
+                sub_data->unk_08 = resource_word;
+                __builtin_memcpy((u8 *)entry + 0x2C, (u8 *)controller + 4, 8);
+                entry_data->unk_4A = (spawn_index & 1) ? 1 : -1;
+                ((S_func_800D7FB8_2 *)entry->child)->unk_0A = controller->unk_08;
+            }
+            spawn_index -= 1;
+        } while (spawn_index >= 0);
+    case 1:
+        effect_timer = (u16)(controller->unk_02.u16_value - 1);
+        controller->unk_02.u16_value = effect_timer;
+        if ((effect_timer << 0x10) <= 0) {
+            controller->unk_02.u16_value = 8U;
+            controller->unk_00 = (s16)0xFF;
         }
-        spawn_index -= 1;
-    } while (spawn_index >= 0);
+        return;
+    case 0xFF:
+        finish_timer = (u16)(controller->unk_02.u16_value - 1);
+        controller->unk_02.u16_value = finish_timer;
+        if ((finish_timer << 0x10) <= 0) {
+            dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
+            ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
+            ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
+        }
 
-timer_state:
-    effect_timer = (u16)(controller->unk_02.u16_value - 1);
-    controller->unk_02.u16_value = effect_timer;
-    if ((effect_timer << 0x10) <= 0) {
-        controller->unk_02.u16_value = 8U;
-        controller->unk_00 = (s16)0xFF;
+        return;
     }
-    return;
-
-ff_state:
-    finish_timer = (u16)(controller->unk_02.u16_value - 1);
-    controller->unk_02.u16_value = finish_timer;
-    if ((finish_timer << 0x10) <= 0) {
-        dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) - 1);
-        ((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 = (u16)(((S_func_800D7FB8_7 *)((u8 *)controller - 2))->unk_00 | 0x8000);
-        ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 = ((S_func_800D7FB8_6 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000;
-    }
-
-    return;
 }
