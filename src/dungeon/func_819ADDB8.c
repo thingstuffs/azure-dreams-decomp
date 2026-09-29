@@ -122,11 +122,7 @@ loop:
         if (piece_index != 0) {
             template = objects[0];
         } else {
-#ifdef NON_MATCHING
             template = ((u8 *)(&D_80083498));
-#else
-            template = ((u8 *)(&D_80083498));
-#endif
         }
         *object_slot = func_8003FD64(2, template);
     }

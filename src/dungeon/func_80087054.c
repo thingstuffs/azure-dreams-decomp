@@ -81,19 +81,11 @@ after_control:
         u8 *direction_table;
 
         if (entity->flags1C & 0x100000) {
-#ifndef NON_MATCHING
 
             direction_table = (u8 *)&D_800DD0B8;
-#else
-            direction_table = (u8 *)&D_800DD0B8;
-#endif
         } else {
-#ifndef NON_MATCHING
 
             direction_table = &D_800DCFB0;
-#else
-            direction_table = &D_800DCFB0;
-#endif
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
 #ifndef NON_MATCHING

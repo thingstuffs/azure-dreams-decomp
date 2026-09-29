@@ -66,8 +66,6 @@ void func_80175574(Obj0 *controller, void *context, Obj2 *animation, Obj3 *actor
     unsigned long table_entry;
     register DungeonGlobalStatus *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-#ifndef __mips__
-#endif
 
     switch (((S_80175574_0 *)controller)->unk_9B) {
     case 0:

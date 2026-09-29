@@ -22,9 +22,6 @@ s32 func_8009EE4C(s16 x, s16 y) {
 #endif
     cell_index = (y << row_shift) + x;
     cell_pair = ((s32)((cell_index + (cell_index >> 31)) << 15) >> 16) + D_800E50A8;
-#ifndef NON_MATCHING
-        /* MATCH: Materialize ptr before the load to preserve retail's address sequence. */
-#endif
     packed_cells = *cell_pair;
     odd_column = x & 1;
     if (odd_column == 0) {

@@ -65,11 +65,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     s32 anim_ticks;
     LocalPoint *point;
 
-#ifdef NON_MATCHING
     copy_src = (u8 *)&D_80024004;
-#else
-    copy_src = (u8 *)&D_80024004;
-#endif
     offsets = *(LocalPoints *)copy_src;
 
     D_8002992E[0] = 1;

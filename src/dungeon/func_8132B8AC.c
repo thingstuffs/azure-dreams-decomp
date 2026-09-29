@@ -318,11 +318,7 @@ loop_31:
         }
         actor->unk_96 = 0x2EU;
         actor->unk_9A++;
-#ifdef NON_MATCHING
         tail_sprite = D_80174C64;
-#else
-        tail_sprite = D_80174C64;
-#endif
         if (sprite->unk_2C == tail_sprite) {
             break;
         }

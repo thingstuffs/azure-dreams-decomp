@@ -102,17 +102,11 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
     entity = in_entity;
     motion = in_motion;
     sprite = in_sprite;
-#ifndef __mips__
-#endif
     body = ((S_8017352C_0 *)entity)->unk_A4;
     state = ((S_8017352C_0 *)entity)->unk_9B;
     body_part = body + 0x20;
     part_anim = body + 0x28;
-#ifndef __mips__
-#endif
     actor = in_actor;
-#ifndef __mips__
-#endif
     if (state == 1) {
         goto state_one;
     }

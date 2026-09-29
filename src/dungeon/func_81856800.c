@@ -242,11 +242,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
 #else
     S_func_81856800_2 *motion;
 #endif
-#ifdef __mips__
     S_func_81856800_3 *object;
-#else
-    S_func_81856800_3 *object;
-#endif
     S_func_81856800_5 *owner;
     S_func_81856800_4 *object_base;
     S_func_81856800_4 *effect;
@@ -471,10 +467,7 @@ case1:
 case2:
 {
     void *spawn_type;
-#ifdef __mips__
-#else
     u8 *spawn_page;
-#endif
     timer = action->unk_50.u16_50 - 1;
     action->unk_50.u16_50 = timer;
     if ((s16)timer > 0) {

@@ -81,49 +81,22 @@ static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
 s32 func_800248C8(void *line_data)
 {
-#ifdef __mips__
     u8 *line;
-#else
-    u8 *line;
-#endif
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
     void *projection_work_a;
     void *projection_work_b;
-#ifdef __mips__
     PackedDelta coord_delta;
-#else
-    PackedDelta coord_delta;
-#endif
-#ifdef __mips__
     s32 bit_mask;
-#else
-    s32 bit_mask;
-#endif
     s32 index;
-#ifdef __mips__
     s32 multiplier;
     u8 *line_bytes = line_data;
-#else
-    s32 multiplier;
-    u8 *line_bytes = line_data;
-#endif
-#ifdef __mips__
     s32 coord_y;
-#else
-    s32 coord_y;
-#endif
     s32 first_z;
     s32 second_z;
-#ifdef __mips__
     s32 depth;
     s32 depth_sum;
     s32 result;
-#else
-    s32 depth;
-    s32 depth_sum;
-    s32 result;
-#endif
     u32 *ordering_table;
     u8 *render_ctx = *(u8 **)((u8 *)(&gameWork));
 
@@ -301,11 +274,7 @@ s32 func_800248C8(void *line_data)
     depth = (s32)(depth_sum + ((u32)depth_sum >> 31)) >> 1;
     ((S_800248C8_0 *)scratch)->unk_B4 = depth;
     if ((u32)depth < 0x1E0U) {
-#ifdef __mips__
         u32 entry_addr;
-#else
-        u32 entry_addr;
-#endif
         u32 *ot_base;
         s32 low_mask;
         low_mask = 0x00FFFFFF;

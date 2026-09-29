@@ -24,11 +24,7 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
     u8 *slot;
     void *entry_or_link;
 
-#ifndef NON_MATCHING
     slot_base = D_800274C0;
-#else
-    slot_base = D_800274C0;
-#endif
     do {
         slot_index = 0;
     } while (0);
@@ -43,11 +39,7 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
             func_800257D0(state, entry->field_0);
             func_800C9088(state, value, entry, entry->field_6);
             entry_or_link = entry;
-#ifndef NON_MATCHING
         } while (slot_index < 12);
-#else
-    } while (slot_index < 12);
-#endif
 
     entry_or_link = *(void **)((u8 *)state - 8);
     if (entry_or_link == 0) {

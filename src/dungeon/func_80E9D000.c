@@ -62,13 +62,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(((u8 *)dirStepY) + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (tile_slot >= 0) {
-#ifdef __mips__
         s32 *shared_base;
         s32 *shared_slot;
-#else
-        s32 *shared_base;
-        s32 *shared_slot;
-#endif
         shared_base = D_80162FE4;
         shared_slot = shared_base;
         *(ItemWord *)shared_base = *(ItemWord *)&D_800E3548[tile_slot];
@@ -84,15 +79,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 return 0;
             }
             {
-#ifdef __mips__
                 s32 slot_index;
                 s16 item_count;
                 s32 *slot_scan;
-#else
-                s32 slot_index;
-                s16 item_count;
-                s32 *slot_scan;
-#endif
                 s32 count;
                 slot_index = 0;
                 count = 0;
@@ -141,13 +130,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             return 0;
         }
         {
-#ifdef __mips__
             s32 *shared_base;
             s32 *shared_slot;
-#else
-            s32 *shared_base;
-            s32 *shared_slot;
-#endif
             s32 item_data;
 
             shared_base = D_80162FE4;

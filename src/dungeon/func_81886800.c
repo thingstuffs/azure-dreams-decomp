@@ -332,15 +332,9 @@ __attribute__((section(".text.func_81886800")));
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
 void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
 {
-#ifdef __mips__
     S_func_81886800_8 *owner;
     S_func_81886800_2 *owner_base;
     S_func_81886800_11 *owner_motion;
-#else
-    S_func_81886800_8 *owner;
-    S_func_81886800_2 *owner_base;
-    S_func_81886800_11 *owner_motion;
-#endif
     s32 state;
     u32 valid_state;
     u16 owner_flags;
@@ -615,11 +609,7 @@ case_1_continue:
 case_2:
     func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     {
-#ifdef __mips__
         S_func_81886800_8 *target_object;
-#else
-        S_func_81886800_8 *target_object;
-#endif
         target_object = owner->unk_60;
         effect->unk_28 = func_80024C80(
             effect, motion, target_object->unk_88.s16, target_object);

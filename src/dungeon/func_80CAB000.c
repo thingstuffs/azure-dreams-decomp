@@ -102,5 +102,3 @@ void BODY_NAME(Object *object, s32 field60_value, CopyFields *source_coords)
     part->r = 0x80;
 }
 
-#ifdef __mips__
-#endif

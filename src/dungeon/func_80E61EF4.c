@@ -136,11 +136,7 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             (*(void * *)((u8 *)sprite + (0x2C))) = event_table;
             direction_index = ((gameWork.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
             anim_sprite = sprite;
-#ifdef __mips__
-            anim_entry = (u8 *)((u32)direction_index + (u32)event_table);
-#else
             anim_entry = event_table + direction_index;
-#endif
             func_80047784(anim_sprite, anim_entry[0], 0);
             ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_90.at00_s32.v = 0;
             return;

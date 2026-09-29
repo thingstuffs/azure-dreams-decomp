@@ -348,13 +348,8 @@ case_0:
         }
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v = ((S_FUNC_8188C800_BODY_12 *)record)->unk_02;
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v = ((S_FUNC_8188C800_BODY_12 *)record)->unk_06;
-#ifdef __mips__
         {
             u16 height;
-#else
-            {
-                u16 height;
-#endif
                 if (((S_FUNC_8188C800_BODY_21 *)(((S_FUNC_8188C800_BODY_1 *)base)->unk_0C))->unk_14 & 0x8000) {
                     height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A - 64;
                 } else {
@@ -406,14 +401,9 @@ case_0:
                                 ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = y;
                             }
                             {
-#ifdef __mips__
                                 s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
                                 s32 record_coord =
                                     ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
-#else
-                                s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
-                                s32 record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
-#endif
                                 s32 tile_distance;
                                 if (owner_coord == record_coord) {
                                     owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at03.v;
@@ -442,11 +432,7 @@ case_0_finish_coords:
 
 case_1:
             {
-#ifdef __mips__
                 s32 velocity;
-#else
-                s32 velocity;
-#endif
                 s32 adjusted;
                 s32 magnitude;
                 velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
@@ -467,11 +453,7 @@ case_1:
                 }
             }
             {
-#ifdef __mips__
                 s32 velocity;
-#else
-                s32 velocity;
-#endif
                 s32 adjusted;
                 s32 magnitude;
                 velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;

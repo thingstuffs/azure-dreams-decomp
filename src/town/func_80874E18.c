@@ -36,11 +36,7 @@ extern s32 func_807018AC(s16 value);
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
 s32 func_80700E18(s32 slot) {
     s32 callback;
-#ifndef NON_MATCHING
     s32 tail_arg;
-#else
-    s32 tail_arg;
-#endif
 
     if (func_80700D84() > 0) {
         s16 value;
@@ -79,15 +75,9 @@ callback_path:
             ((State *)state)->flags = new_flags;
         }
     } else {
-#ifndef NON_MATCHING
         void *state;
         s32 clear_mask;
         s32 clear_value;
-#else
-        void *state;
-        s32 clear_mask;
-        s32 clear_value;
-#endif
         state = (void *)STATE_ROOT;
         clear_mask = 0xBFFFFFFF;
         clear_value = ((State *)state)->flags;
