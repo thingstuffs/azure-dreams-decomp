@@ -168,6 +168,14 @@ class T:
             return None, {"menu": gb, "best": here_total,
                           "climb": "+".join(climb) or None}
 
+        # round 80: every fence off at once first - 41 rows were exact only JOINTLY (one fence alone was not)
+        allu = cur
+        for f in reversed(N.fences(cur)):
+            allu = N.unwrap(allu, f)
+        if allu != cur and attempt(allu).get("exact") and gains(allu):
+            cur = allu
+            steps.append("unwrap-all")
+
         k = 0
         while tried < BUDGET:
             fl = N.fences(cur)
