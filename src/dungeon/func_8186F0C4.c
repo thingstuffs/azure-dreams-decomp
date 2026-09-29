@@ -54,12 +54,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **jump_table;
     s32 state;
-    s32 state_in_range;
-
-    static void *const keepalive[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4,
-        &&done, &&done, &&done, &&state8
-    };
 
     owner = PTR_AT(effect_data, 0x00);
 #ifdef NON_MATCHING
@@ -70,19 +64,13 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
     state = S16_AT(effect_data, 0x0A);
     entity = owner - 0x20;
-    state_in_range = (u32)state < 9U;
     source = PTR_AT(entity, 0x08);
-    if (!state_in_range) {
-        goto done;
-    }
 #ifdef NON_MATCHING
     jump_table = (void **)((u8 *)D_80024058 - 0x4058);
 #else
 #endif
-    jump_table = (void **)&D_80024058;
-    goto *jump_table[state];
-
-state0:
+    switch (state) {
+    case 0:
     S32_AT(display, 0x0C) = 0x00808080;
     U16_AT(display, 0x1E) = 0x1000;
     U16_AT(display, 0x1C) = 0x1000;
@@ -117,7 +105,7 @@ state0:
         S16_AT(effect_data, 0x0A) = next_state;
     }
 
-state1:
+    case 1:
     {
         u8 *record = PTR_AT(entity, 0x0C);
         s32 has_origin;
@@ -236,7 +224,7 @@ state1:
         goto done;
     }
 
-state2:
+    case 2:
     {
         entity = 0; if ((s32)entity < 4) { loop_0: {
             s32 random = func_80069EF8();
@@ -315,7 +303,7 @@ enter_state8:
         goto done;
     }
 
-state3:
+    case 3:
     {
         if (S16_AT(effect_data, 0x92) == 0) {
             S16_AT(effect_data, 0x92) = 1;
@@ -380,7 +368,7 @@ state3:
         goto done;
     }
 
-state4:
+    case 4:
     {
         s32 fade_frame;
         u8 *target_display;
@@ -445,7 +433,7 @@ state4:
         goto done;
     }
 
-state8:
+    case 8:
     {
         u16 old_frame = U16_AT(effect_data, 0x82);
         s16 next_frame = (s16)(old_frame + 1);
@@ -466,6 +454,8 @@ state8:
         }
     }
 
-done:
-    (void)keepalive;
+    default:
+    done:
+        return;
+    }
 }

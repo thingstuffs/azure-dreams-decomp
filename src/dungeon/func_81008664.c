@@ -106,7 +106,6 @@ typedef struct S_func_81008664_12 {
 } S_func_81008664_12;
 
 
-extern void *const D_80170878[];
 void func_80047784();
 void func_8009A21C();
 s32 func_8009A2B8();
@@ -126,7 +125,6 @@ extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity) {
-    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -195,12 +193,8 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     partner_actor = (S_func_81008664_11 *) partner;
     partner_motion = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_00;
     partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
-    if (state >= 5U) {
-        goto done;
-    }
-    (void) state_labels;
-    goto *D_80170878[state];
-jt_c0:
+    switch (state) {
+    case 0:
     actor->unk_AC = (s32) partner_actor->unk_8C;
     if (partner->unk_1C & 0x40000) {
         actor->unk_98 = (u16) (actor->unk_98 | 0x1000);
@@ -302,7 +296,7 @@ clear_sprite_tile:
         func_80047784(sprite, (*(u8 *)((u8 *)launch_anim + 0)), anim_flags);
     }
     actor->unk_9B = (u8) (actor->unk_9B + 1);
-jt_c1:
+    case 1:
     launch_ticks = (u16) actor->unk_96 - 1;
     actor->unk_96 = launch_ticks;
     if (launch_ticks != 8) {
@@ -340,7 +334,7 @@ restore_tile:
     partner_sprite->unk_24 = saved_x;
     partner_sprite->unk_25 = saved_y;
     goto place_actors;
-jt_c2:
+    case 2:
     motion->unk_14 = (s32) (motion->unk_14 + 0xFFFE0000);
     height_adjust = D_800DDC40[partner->unk_13];
     partner_actor->unk_90.unk_92.unk_92 = (u16) ((motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10);
@@ -419,7 +413,7 @@ place_actors:
     func_800AA53C(entity);
     func_800AA53C(partner);
     goto advance_state;
-jt_c3:
+    case 3:
     partner_actor->unk_90.unk_92.unk_92 = (u16) (actor->unk_90.unk_92.unk_92 + 0x40);
     if ((s16) actor->unk_90.unk_92.unk_92 >= 0) {
         goto start_return;
@@ -483,7 +477,7 @@ set_return_motion:
         motion->unk_14 = 0;
         goto advance_state;
     }
-jt_c4:
+    case 4:
     return_ticks = (u16) actor->unk_96 - 1;
     actor->unk_96 = return_ticks;
     if ((return_ticks << 0x10) <= 0) {
@@ -564,6 +558,8 @@ advance_state:
     next_state = actor->unk_9B + 1;
 store_state:
     actor->unk_9B = next_state;
+    default:
 done:
-    return;
+        return;
+    }
 }
