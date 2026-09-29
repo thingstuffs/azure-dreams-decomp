@@ -217,3 +217,9 @@ base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets
   loop gives - rewrite as `while (1) { ... if (!c) break; }` (slus/konami_runtime_w_80033D54 3->0, q1). The opposite
   also holds (func_80ACB000: do/while swapped $s3/$s4) - measure both.
 - Hand-rounded `r = s; if (s < 0) r = s + 2^k-1; C - (r >> k)` with ASM_REG on s -> `s = s / 2^k; return C - s;`.
+- **Fake call arguments:** check the callee's definition (`s32 f(void)`): pinned (dst, src) arguments to a void-arity
+  callee forced constants to be rebuilt; call it at its real arity (dungeon/func_8008D990, with a struct copy for the
+  lwl/lwr run).
+- **Barrier before a join guarding `if (c) x = K1; else { x = K2; ... }`:** jump.c:699 turns it into `x = K2; if (c) x = K1`,
+  creating an insn that sched1 sinks and reorg copies into delay slots; an else-if chain stops the transform
+  (dungeon/func_8197CEC0).
