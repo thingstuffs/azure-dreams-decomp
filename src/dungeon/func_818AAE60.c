@@ -324,17 +324,15 @@ set_path_destination:
             scratch.dist[2] = abs(path_z_dist);
             ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
         }
-scan_path_dist:
-        if (path_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
-            goto next_path_axis;
-        }
-        ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
-next_path_axis:
-        index += 1;
-        path_dist_cursor += 1;
-        if (index < 3) {
-            goto scan_path_dist;
-        }
+        do {
+                    if (path_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
+                        goto next_path_axis;
+                    }
+                    ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = (s16) (u16) path_dist_cursor[12];
+            next_path_axis:
+                    index += 1;
+                    path_dist_cursor += 1;
+        } while (index < 3);
         path_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
         path_frames = (path_dist_fixed >> 0x14) + (path_dist_fixed >> 0x15);
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_frames;
@@ -353,13 +351,11 @@ spawn_children:
     ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
     index = 0x1F;
     tile_x = effect + 0x7C;
-spawn_next_child:
-    ((S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
-    index -= 1;
-    tile_x -= 4;
-    if (index >= 0) {
-        goto spawn_next_child;
-    }
+    do {
+        ((S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
+        index -= 1;
+        tile_x -= 4;
+    } while (index >= 0);
     ((Rec_func_800243B8_arg0 *)effect)->unk_10 = 0U;
     goto finish;
 jt_c3:
