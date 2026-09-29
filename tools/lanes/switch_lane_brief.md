@@ -118,6 +118,9 @@ to change what the compiler sees. No NEW branch whose two arms hold the same cod
 cross-jump form (both arms real, each executed once on its path). Never edit a `NON_MATCHING` arm.
 No "impossible in C" verdict is accepted; report what you measured. No new maspsx flags (`row_asflags` is not
 yours to change) and no new computed goto or label array.
+No case label that retail does not evidence: stacking `case 4: case 5: case 6: case 7:` on `default:` is fine when
+retail's jump table spans those values (the table size is the evidence); a case value added only to reshape the
+case tree or to avoid a jump table (`case 0x101:`, `case 0 ... 0xF:`) is steering and is rejected.
 
 ## Tools, budget, output
 
@@ -125,8 +128,10 @@ yours to change) and no new computed goto or label array.
 - The compiler recipe is fixed per row (`cell` in `rows.md`) except for the 2.8.x rule above.
 - About 30 scorer runs per row.
 - An exact candidate goes to `out/<container>/<name>.c` (with `base/.../<name>.c.base_sha` copied next to it)
-  ONLY if `verify.py` said `"exact": true` for that file AND it has fewer `ASM_*` sites than the base AND it
-  adds none of the forms above. A cell-dependent candidate goes to `out_cell/<container>/<name>.c` with the
+  ONLY if `verify.py` said `"exact": true` for that file AND (it has fewer `ASM_*` sites than the base, OR it has
+  the same pins and FEWER `goto` statements - the lander counts computed gotos, so replacing `goto *table[i]` with a
+  real `switch` lands on a pin-free row) AND it adds none of the forms above. Also remove the plain gotos the switch
+  makes unnecessary (`goto done;` -> `break;`). A cell-dependent candidate goes to `out_cell/<container>/<name>.c` with the
   `.base_sha` and a `<name>.c.cfg` file holding the new cfg string (e.g. `2.8.1-G0 -mno-split-addresses`).
 - A `slus/w_*` row is scored by object identity against the pinned TU, and a real switch adds a TU-local
   `.rdata` jump table, so the object hash will differ: such a row can only come back exact through the
