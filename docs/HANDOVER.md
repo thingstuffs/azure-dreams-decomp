@@ -1,3 +1,40 @@
+# Handover (2026-09-29 later, round 80 continued: switch phase 2, SLUS rodata ownership, Opus family wins) - start here
+
+**Landing queue at writing (sequential, each gated; check `git log` and each lane's switch_land.out):** switch lanes
+swp10-13 -> SLUS rodata migration (scratchpad script land_slusrodata.sh; log work/native_lane/r80_opus_slusrodata/
+landing_real.log) -> r80_opus_p1 -> p2 -> r80_cell_c7 recipe move (land_recipe_move.py r80c7) -> r80_onetrip_noexp
+(41 rows, 45 one-trip blocks) -> r80_opus_p3 (17+ rows to 0 pins) -> p4. Anything staged but not in git log after
+that queue: re-run `KIND=pin bash tools/lanes/switch_land_lanes.sh <tag> <lane>` (it is generic now).
+
+**Owner review requested:**
+1. **SLUS jump-table ownership (build-infrastructure change, r80_opus_slusrodata):** 7 slus switch rows own their
+   compiler .rodata jump tables at the retail address (config/slus_modules.json .rodata records carving
+   assets/800.bin, tools/build/slus_rodata_trim.py drops the assembler's section-end padding, prove_slus_ownership
+   .rodata branch). Evidence docs/evidence/slus_rodata_migration.md (+ receipts dir). Lighter than a partition
+   activation (no function moves, no placement grant): ownership receipt + per-row/joint SHA-1 gates + negatives
+   (case-17 table refused, no-trim NO MATCH). 8 more tables can follow (w_80041344, w_80041588, w_80052144,
+   w_80057D20, w_800595C0, w_8005EDA0 x2; w_8003E758 blocked by the cd_command_state module rule). The lane's
+   tools_draft/ (rodata_migrate.py, rodata_gate.py, rodata_receipt.py) should move into tools/ when that wave runs.
+2. **Write-back stores (r80_opus_p3):** `r = p->r; ...; p->r = r;` on the xxx084 / TILE_1 clone family. Retail's
+   three lbu loads have no consumer; the stores are in .lreg and deleted by post-reload CSE in .greg (checked per
+   row, cand/wbcheck.py). Treated as recovered source (setRGB0-style), not a fake dependency - flag if you disagree.
+3. **Recipe trade** town/func_8032E720 -> 2.7.2-cdk-G0 -fno-expensive-optimizations -fno-schedule-insns
+   -fno-schedule-insns2 (calls.c:1659 constant-argument pre-copy; ledger/recipe_trades.jsonl).
+4. Small: 80ACB000's 4-pin family text adds a red $3 pin its base lacks (not staged); 81850800 KEEP->KEEP_NV swap
+   exact at 4 pins (not staged; subset gate).
+
+**Measured this block:** switch pool nearly spent (sw20-26, swp2-13, ~90 rows landed as real switches; out of reach:
+text-prefix tables D_800240xx ~12 rows, deep windows that discard .rodata ~10 rows, 2.91.66 800BAE88). 2.8.x rows need
+NO cell change (old brief wrong). One-trip blocks: `-fno-expensive-optimizations` hypothesis does NOT generalise (1-2
+of 327 rows); unwrap-ALL is exact on 41 rows -> t20 now tries unwrap-all first (dd5963b4) - re-sweep t20 next.
+Opus pin lanes with the round-80 harvest in the prompt paid far above earlier rounds (p1 30, p3 ~80, c7 3, p2 2, p4 3).
+New learnings sections (tools/learnings/pin_removal_possibilities.md): three-pseudo copy shape, clone transplant,
+abs() templates (same/different register), symbol argument on a reassigned local, calls.c constant-arg pre-copy,
+sched1 live recount, write-backs deleted by post-reload CSE.
+
+**Running at writing:** r80_opus_p5, p6 (fresh rows with the harvest prompt), p3 follow-up 2 (d0360 body on
+800BFE94 15, 807B0B3C 23, 80F90E88 17, 81910A9C, 81875828, 818B0E10, 818F30EC, town/800A5398).
+
 # Handover (2026-09-29, round 80: Sonnet 5.5, goto/switch readability, cell moves, phase 11) - start here
 
 **State.** 2,762 / 735 at pickup (f5c32120) -> **2,493 / 696** committed. Plain gotos ~8,157 -> 6,780; computed-goto
