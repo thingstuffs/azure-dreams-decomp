@@ -25,7 +25,6 @@ typedef struct S_8016A36C_3 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void *D_80164918[];
 void func_80047784();
 void func_800478B8();
 s32 func_80069EF8();
@@ -69,7 +68,6 @@ extern M2C_UNK D_80173AC8;
 
 /* Updates dungeon actor actions, facing, and idle animations. */
 void func_8016A36C(void *actor, void *context, void *sprite_arg, EntityRec *entity) {
-    static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
     register void *sprite = sprite_arg;
     M2C_UNK distance;
     u8 *idle_table;
@@ -393,25 +391,22 @@ block_85:
     }
 block_87:
     action_id = entity->unk_46 & 0x3FFF;
-    if ((u32) (action_id - 1) >= 0xCU) {
-        goto block_106;
-    }
-    (void)action_labels; goto *D_80164918[(u32)((action_id) - 1)];
-jt_c8:
+    switch (action_id) {
+case 8:
     if ((func_8016B954(actor, context, sprite, entity) << 0x10) != 0) {
         return;
     }
     func_8016BAE0(actor, context, sprite, entity);
     return;
-jt_c9:
+case 9:
     func_8016D6F8(actor, context, sprite, entity);
     return;
-jt_c10:
+case 10:
     func_8016DAC0(actor, context, sprite, entity);
     return;
-jt_c5:
-jt_c6:
-jt_c7:
+case 5:
+case 6:
+case 7:
     {
         s32 angle = func_800A0818(((S_8016A36C_3 *)sprite)->unk_24.at00.v, ((S_8016A36C_3 *)sprite)->unk_24.at01.v, D_80082E80.tileX, D_80082E80.tileY, &distance);
         EntityRec *owner = D_800814A8;
@@ -420,13 +415,13 @@ jt_c7:
             goto block_95;
         }
     }
-jt_c12:
+case 12:
 block_94:
     func_800A9A0C(entity);
     return;
-jt_c1:
-jt_c2:
-jt_c3:
+case 1:
+case 2:
+case 3:
 block_95:
     action_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;
     if (action_pose == 1) {
@@ -459,12 +454,12 @@ block_104:
 block_105:
     func_800AAF00(actor, context, sprite, &D_801739F8, &func_8016A36C);
     return;
-jt_c4:
-jt_c11:
+default:
 block_106:
 block_107:
     func_8016B230(actor, context, sprite, entity);
     return;
+    }
 block_108:
     entity_flags = entity->flags1C;
     if (entity_flags & 0x2000) {

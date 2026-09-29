@@ -18,7 +18,6 @@ typedef struct State8081A3D8 {
 extern u16 D_800135BC[];
 extern u8 D_800200B4[];
 extern u8 D_800200C0[];
-extern void *D_800200CC[];
 extern u8 D_80024AC0[];
 extern u8 D_80024B04[];
 extern u8 D_80024B48[];
@@ -84,9 +83,6 @@ void func_800243D8(State8081A3D8 *controller)
     u16 best_score;
     s32 state;
     s32 dialog_zero;
-    static void *const state_labels[6] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
-    };
 
     callback = D_800200B4;
     spawn_rate = controller->rate;
@@ -100,12 +96,8 @@ void func_800243D8(State8081A3D8 *controller)
     }
 
     state = controller->state;
-    if ((u32)state >= 6) {
-        goto end;
-    }
-    goto *D_800200CC[state];
-
-case_0:
+    switch (state) {
+case 0:
     if (((s16)controller->timer % spawn_interval) != 0) {
         goto tick;
     }
@@ -146,17 +138,17 @@ case_0:
 tick:
     controller->timer++;
     if (controller->flags & 1) {
-        goto end;
+        break;
     }
     if (controller->countdown > 0) {
-        goto end;
+        break;
     }
     if (controller->flags & 4) {
         controller->state = 2;
-        goto end;
+        break;
     }
 
-case_1:
+case 1:
     object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
@@ -185,9 +177,9 @@ case_1:
     }
     controller->timer = 0x96;
     controller->state = 3;
-    goto end;
+    break;
 
-case_2:
+case 2:
     object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
     if (object != 0) {
         object_data = object + 0x20;
@@ -216,24 +208,24 @@ case_2:
     }
     controller->state = 4;
     controller->timer = 0x64;
-    goto end;
+    break;
 
-case_3:
+case 3:
     controller->timer--;
     if ((s16)controller->timer >= 0) {
-        goto end;
+        break;
     }
     controller->timer = 0;
     controller->state = 1;
-    goto end;
+    break;
 
-case_4:
+case 4:
     controller->timer--;
     if ((s16)controller->timer == 0x50) {
         SD_Call(0xB1);
     }
     if ((s16)controller->timer >= 0) {
-        goto end;
+        break;
     }
 
     tw_sd_sq_ld_call(0x20, 0x200);
@@ -260,12 +252,13 @@ case_4:
     func_80033B78(0xA5);
     controller->state = 5;
     controller->flags |= 2;
-    goto end;
+    break;
 
-case_5:
+case 5:
     *((u16 *)controller - 1) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-
-end:
+    default:
+        break;
+    }
     controller->flags &= 0xFFFE;
 }

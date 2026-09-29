@@ -73,7 +73,6 @@ extern u8 D_80170950[];
 extern u8 D_80170988[];
 extern u8 D_80170994[];
 extern u8 D_801709B8[];
-extern void *const D_801709F0[];
 extern s32 D_80171F1C;
 
 extern void func_80040AA0(u8, s16 *);
@@ -112,22 +111,10 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
     u8 *companion;
 
     {
-        static void *const state_labels[] = {
-            &&state_0, &&state_1, &&state_2, &&state_3, &&state_4,
-            &&state_5, &&state_6, &&state_7, &&state_8, &&state_9,
-            &&done, &&done, &&done, &&done, &&done, &&done,
-            &&done, &&done, &&done, &&done, &&done
-        };
         u32 state = ((S_80175CD8_0 *)action)->unk_9B;
 
-        if (state >= 0x15) {
-            return;
-        }
-        (void)state_labels;
-        goto *D_801709F0[state];
-    }
-
-state_0:
+        switch (state) {
+case 0:
     {
         u8 *effect_actor;
         s32 effect_flags;
@@ -188,7 +175,7 @@ state_0:
         }
     }
 
-state_1:
+case 1:
     target_x = ((D_80082E80.tileX << 6) + 0x20) << 16;
     target_y = ((D_80082E80.tileY << 6) + 0x20) << 16;
     target_z = D_80083780.z.v - 0x600000;
@@ -220,7 +207,7 @@ state_1:
     }
     goto decrement_timer;
 
-state_2:
+case 2:
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_800E2368;
     facing = (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9;
     func_80047784(sprite, D_800E2368[facing & 7], 0);
@@ -229,7 +216,7 @@ state_2:
     func_80094E34();
     return;
 
-state_3:
+case 3:
     {
         u16 old_timer = ((S_80175CD8_0 *)action)->unk_96.u;
 
@@ -248,7 +235,7 @@ state_3:
     func_800A56E0(0x603);
     return;
 
-state_4:
+case 4:
     {
         u8 *scene = ((u8 *)(&D_80083780));
         s32 fall_speed = (s32)0xFFF40000;
@@ -275,12 +262,12 @@ state_4:
     }
     return;
 
-state_5:
+case 5:
     ((S_80175CD8_0 *)action)->unk_96.s = 0;
     ((S_80175CD8_0 *)action)->unk_9B++;
     return;
 
-state_6:
+case 6:
     func_800945E8(((u8 *)D_800E3D7C));
     func_800948BC();
     func_800A6780();
@@ -313,7 +300,7 @@ state_6:
     ((S_80175CD8_0 *)action)->unk_9B = 0x14;
     goto clear_object_flag;
 
-state_7:
+case 7:
     {
         u8 *player = ((u8 *)D_800E3D7C);
         u8 *scene;
@@ -349,7 +336,7 @@ state_7:
     func_80099290(text_end);
     func_800A5720(text_start);
 
-state_8:
+case 8:
     target_x = ((((Rec_D_80082E80 *)sprite)->unk_24 << 6) + 0x20) << 16;
     target_y = ((((Rec_D_80082E80 *)sprite)->unk_25 << 6) + 0x20) << 16;
     target_z = (((S_80175CD8_0 *)action)->unk_B4.s - 0x20) << 16;
@@ -393,7 +380,7 @@ decrement_timer:
     ((S_80175CD8_3 *)motion)->unk_0C = 0;
     goto done;
 
-state_9:
+case 9:
     ((S_80175CD8_3 *)motion)->unk_14 = 0;
     ((S_80175CD8_3 *)motion)->unk_10 = 0;
     ((S_80175CD8_3 *)motion)->unk_0C = 0;
@@ -418,6 +405,11 @@ state_9:
 clear_object_flag:
     ((EntityRec *)actor)->unk_46 &= 0x7FFF;
 
+case 20:
+default:
+    break;
+    }
+    }
 done:
     return;
 }
