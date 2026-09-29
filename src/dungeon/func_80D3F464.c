@@ -14,7 +14,6 @@ extern void func_800A56E0(s32);
 extern s32 func_800BCB04(u16, u16, signed short);
 
 extern DirectionDelta D_800E2468[];
-extern void *D_80170888[];
 
 
 typedef struct S_80174C64_0 {
@@ -53,9 +52,6 @@ typedef struct S_80174C64_3 {
 /* Updates movement, turning, position history, and timed stop states. */
 void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record, void *object)
 {
-    static void *const state3_keep[] = {
-        &&state3_0, &&state3_1, &&state3_2, &&state3_3, &&state3_4
-    };
     u16 angle;
     u16 next_angle;
     u16 turn_phase;
@@ -416,70 +412,68 @@ state3_test:
         goto done;
     }
     state = motion->unk_B1;
-    if ((u32)state >= 5) {
-        goto done;
-    }
-    (void)state3_keep;
-    goto *D_80170888[state];
+    switch (state) {
 
-state3_0:
-    {
-        u16 next_state = motion->unk_B1;
+    case 0:
+        {
+            u16 next_state = motion->unk_B1;
 
-        motion->unk_96 = 10;
-        motion->unk_B1 = next_state + 1;
-    }
-
-state3_1:
-    {
-        u16 timer = motion->unk_96;
-
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
-            goto done;
+            motion->unk_96 = 10;
+            motion->unk_B1 = next_state + 1;
         }
-    }
-    motion->unk_B1++;
-    goto done;
 
-state3_2:
-    record->unk_14.at00_u16.v |= 0x80;
-    goto state3_set_timer;
+    case 1:
+        {
+            u16 timer = motion->unk_96;
 
-state3_3:
-    {
-        u16 timer = motion->unk_96;
-
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
-            goto done;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
         }
-    }
+        motion->unk_B1++;
+        break;
 
-state3_set_timer:
-    motion->unk_96 = 20;
-    motion->unk_B1++;
-    goto done;
+    case 2:
+        record->unk_14.at00_u16.v |= 0x80;
+        goto state3_set_timer;
 
-state3_4:
-    {
-        u16 timer = motion->unk_96;
+    case 3:
+        {
+            u16 timer = motion->unk_96;
 
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
-            goto done;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
         }
+
+    state3_set_timer:
+        motion->unk_96 = 20;
+        motion->unk_B1++;
+        break;
+
+    case 4:
+        {
+            u16 timer = motion->unk_96;
+
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
+        }
+        (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
+        motion->unk_9B++;
+        record->unk_14.at00_u16.v |= 0x80;
+        motion->unk_92 = 0;
+        motion->unk_B1 = 0;
+        motion->unk_96 = 0;
+        motion->unk_A2 = 0;
+        func_8009D8A4();
+        D_800E296C |= 0x800000;
+        func_800A56E0(0x80F);
+
     }
-    (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
-    motion->unk_9B++;
-    record->unk_14.at00_u16.v |= 0x80;
-    motion->unk_92 = 0;
-    motion->unk_B1 = 0;
-    motion->unk_96 = 0;
-    motion->unk_A2 = 0;
-    func_8009D8A4();
-    D_800E296C |= 0x800000;
-    func_800A56E0(0x80F);
 
 done:
     (*(signed short *)((u8 *)object + 0x88)) = func_800BCB04(
