@@ -81,11 +81,9 @@ jt_c1:
     if (func_8003F270(dispatch_index) != 0) {
         return;
     }
-    if (((S_807AE960_1 *)state)->unk_10 != 0) {
-        goto block_5;
+    if (((S_807AE960_1 *)state)->unk_10 == 0) {
+        func_800A56E0(0x300);
     }
-    func_800A56E0(0x300);
-block_5:
     ((S_807AE960_1 *)state)->unk_00.u = 3;
     goto block_28;
 jt_c16:
@@ -95,11 +93,9 @@ jt_c16:
     goto block_28;
 jt_c2:
     steps = ((S_807AE960_1 *)state)->unk_04.s;
-    if (steps <= 0) {
-        goto block_11;
+    if (steps > 0) {
+        ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
     }
-    ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
-block_11:
     remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
     ((S_807AE960_1 *)state)->unk_04.u = remaining;
     do {
@@ -115,36 +111,29 @@ block_13:
     ((S_807AE960_1 *)state)->unk_04.s = 0;
     goto block_28;
 block_15:
-    if (((S_807AE960_3 *)global)->unk_2090 != 1) {
-        goto block_17;
+    if (((S_807AE960_3 *)global)->unk_2090 == 1) {
+        dungeonStatus.unk_0A = 1;
     }
-    dungeonStatus.unk_0A = 1;
-block_17:
     if (((S_807AE960_1 *)state)->unk_04.s > 0) {
         goto block_28;
     }
     cd_mode = ((S_807AE960_3 *)global)->unk_2090;
-    if (cd_mode != 1) {
-        goto block_22;
+    if (cd_mode == 1) {
+        if (func_80053EF0(4) != 0) {
+            goto block_13;
+        }
+        if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
+            dungeonStatus.unk_0A = 0;
+        }
     }
-    if (func_80053EF0(4) != 0) {
-        goto block_13;
-    }
-    if (((S_807AE960_3 *)global)->unk_2090 != cd_mode) {
-        goto block_22;
-    }
-    dungeonStatus.unk_0A = 0;
-block_22:
     ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
     ((S_807AE960_1 *)state)->unk_00.u = 0;
     goto block_28;
 jt_c3:
-    if (((S_807AE960_1 *)state)->unk_10 != 0) {
-        goto block_26;
+    if (((S_807AE960_1 *)state)->unk_10 == 0) {
+        func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
+        Control_CD(0x15, func_800445E0(), 0);
     }
-    func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
-    Control_CD(0x15, func_800445E0(), 0);
-block_26:
     ((S_807AE960_1 *)state)->unk_04.s = 0x60;
     ((S_807AE960_1 *)state)->unk_0C.s = 0x60;
 jt_c19:
@@ -180,10 +169,9 @@ block_28:
     }
 block_31:
     ((S_807AE960_4 *)actor)->unk_0A = countdown;
-    if (((S_807AE960_1 *)state)->unk_0C.s != 0) {
-        goto block_33;
+    if (((S_807AE960_1 *)state)->unk_0C.s == 0) {
+        ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
     }
-    ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
 block_33:
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
         return;

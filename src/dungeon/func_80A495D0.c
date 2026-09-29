@@ -78,17 +78,14 @@ void func_80172DD0(S_80172DD0_1 *action, EntityRec *motion, Rec_D_80082E80 *tile
         if (action->unk_96.s != 0) {
             return;
         }
-        if (entity->unk_28 != 0) {
-            goto increment_state;
+        if (entity->unk_28 == 0) {
+            action->unk_9B = 0;
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, tile_state, D_8017588C);
+            return;
         }
-        action->unk_9B = 0;
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, tile_state, D_8017588C);
-        return;
-
-increment_state:
         action->unk_96.s = 8;
         action->unk_9B++;
         return;

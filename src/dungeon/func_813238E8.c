@@ -324,9 +324,9 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                     goto update_sprite;
                 }
                 func_800478B8(sprite);
-                goto update_sprite;
+            } else {
+                ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x7000);
             }
-            ((S_8016B0E8_14 *)sprite)->unk_14.n = (u16) (((S_8016B0E8_14 *)sprite)->unk_14.n | 0x7000);
 update_sprite:
             func_800A020C(((S_8016B0E8_2 *)actor)->unk_1C, sprite + 0xC);
         } else {
@@ -340,16 +340,13 @@ update_sprite:
         }
         ((S_8016B0E8_15 *)motion)->unk_00.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_00.at00.v + ((S_8016B0E8_15 *)motion)->unk_0C);
         ((S_8016B0E8_15 *)motion)->unk_04.at00.v = (s32) (((S_8016B0E8_15 *)motion)->unk_04.at00.v + ((S_8016B0E8_15 *)motion)->unk_10);
-        if (!(((S_8016B0E8_0 *)entity)->unk_98 & 8)) {
-            goto apply_gravity;
+        if (((S_8016B0E8_0 *)entity)->unk_98 & 8) {
+            ((S_8016B0E8_0 *)entity)->unk_9D = 0;
+        } else {
+            ((S_8016B0E8_15 *)motion)->unk_14 = (s32) (((S_8016B0E8_15 *)motion)->unk_14 + (((S_8016B0E8_0 *)entity)->unk_9D * 0x14000));
+            fall_ticks = (u8) ((S_8016B0E8_0 *)entity)->unk_9D + 1;
+            ((S_8016B0E8_0 *)entity)->unk_9D = (s8) fall_ticks;
         }
-        ((S_8016B0E8_0 *)entity)->unk_9D = 0;
-        goto integrate_height;
-apply_gravity:
-        ((S_8016B0E8_15 *)motion)->unk_14 = (s32) (((S_8016B0E8_15 *)motion)->unk_14 + (((S_8016B0E8_0 *)entity)->unk_9D * 0x14000));
-        fall_ticks = (u8) ((S_8016B0E8_0 *)entity)->unk_9D + 1;
-        ((S_8016B0E8_0 *)entity)->unk_9D = (s8) fall_ticks;
-integrate_height:
         motion_position = ((S_8016B0E8_0 *)entity)->unk_90.at00.v;
         motion_delta = ((S_8016B0E8_15 *)motion)->unk_14;
         motion_flags = ((S_8016B0E8_0 *)entity)->unk_98;

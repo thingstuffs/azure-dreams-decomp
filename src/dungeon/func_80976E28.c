@@ -38,15 +38,12 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
         if (state_type == 1) {
             goto type_one;
         }
-        if (state_type >= 2) {
-            goto type_ge_two;
+        if (state_type < 2) {
+            if (state_type == 0) {
+                goto type_zero;
+            }
+            goto reset_state;
         }
-        if (state_type == 0) {
-            goto type_zero;
-        }
-        goto reset_state;
-
-    type_ge_two:
         if (state_type == 2) {
             goto call_state;
         }

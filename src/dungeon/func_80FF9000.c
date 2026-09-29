@@ -130,15 +130,14 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
         if (kind == 1) {
             flags_14 = work->unk_14 | 0x6000;
             flags_1c = work->unk_1C | 0x6000;
-            goto write_kind;
-        }
-        if (kind < 2) {
-            goto normal_kind;
-        }
+        } else {
+            if (kind < 2) {
+                goto normal_kind;
+            }
 
-        flags_14 = work->unk_14 | 0x2000;
-        flags_1c = work->unk_1C | 0x2000;
-write_kind:
+            flags_14 = work->unk_14 | 0x2000;
+            flags_1c = work->unk_1C | 0x2000;
+        }
         work->unk_14 = flags_14;
         work->unk_1C = flags_1c;
         goto post_kind;

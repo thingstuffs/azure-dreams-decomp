@@ -158,14 +158,12 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 
         dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) + 1;
         func_800A56E0(0x50D);
-        goto return_object;
+    } else {
+        if (((S_800CD004_0 *)source)->unk_13 == 0) {
+            func_800A6508();
+        }
+        return 1;
     }
-
-    if (((S_800CD004_0 *)source)->unk_13 == 0) {
-        func_800A6508();
-    }
-    return 1;
-
 return_object:
     return effect != NULL;
 }

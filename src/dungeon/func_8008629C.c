@@ -128,38 +128,35 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
             }
             move_state->unk_9A = 0xF;
             D_80083464[0] = 8;
-            goto finish_step;
-        }
-
-        move_state->unk_98 |= 0xC;
-        if (move_result < 4) {
-            move_state->unk_A2 |= 1;
-        } else if ((move_result == 2) || (move_result == 4)) {
-            move_state->unk_9B = 8;
-        }
-        func_80094ED4(move_state, actor_id, sprite, actor);
-        D_80083464[0] = 8;
-        if (sprite->unk_2C.as_pu8 == D_800DCFB8) {
-            sprite->unk_14.at00_u16.v |= 0x6000;
-            func_8008E264(move_state, actor_id, sprite, actor);
         } else {
-            sprite->unk_2C.as_pu8 = D_800DD030;
-            func_80048A44(
-                sprite,
-                D_800DD030[((s32)(gameWork.view.viewAngle + actor->facing +
-                                  0x100) >> 9) & 7],
-                0, 1);
+            move_state->unk_98 |= 0xC;
+            if (move_result < 4) {
+                move_state->unk_A2 |= 1;
+            } else if ((move_result == 2) || (move_result == 4)) {
+                move_state->unk_9B = 8;
+            }
+            func_80094ED4(move_state, actor_id, sprite, actor);
+            D_80083464[0] = 8;
+            if (sprite->unk_2C.as_pu8 == D_800DCFB8) {
+                sprite->unk_14.at00_u16.v |= 0x6000;
+                func_8008E264(move_state, actor_id, sprite, actor);
+            } else {
+                sprite->unk_2C.as_pu8 = D_800DD030;
+                func_80048A44(
+                    sprite,
+                    D_800DD030[((s32)(gameWork.view.viewAngle + actor->facing +
+                                      0x100) >> 9) & 7],
+                    0, 1);
+            }
+            move_state->unk_9A = 0x10;
+            {
+                register EntityRec *flag_actor;
+                flag_actor = actor;
+                flag_actor->flags1C |= 0x40000000;
+            }
+            func_8009F644(actor, 8, 0, 0);
+            return;
         }
-        move_state->unk_9A = 0x10;
-        {
-            register EntityRec *flag_actor;
-            flag_actor = actor;
-            flag_actor->flags1C |= 0x40000000;
-        }
-        func_8009F644(actor, 8, 0, 0);
-        return;
-
-finish_step:
         func_8009F644(actor, 8, 0, 0);
         update_mask = 0x40000000;
         goto update_step;

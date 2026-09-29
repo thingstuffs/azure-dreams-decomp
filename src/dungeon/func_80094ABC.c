@@ -26,21 +26,18 @@ void func_8009A21C(s16 x, s16 y, u16 flags)
     cell = &state->map[x + (y << state->mapShift)];
     if (flags & 0xC832) {
         new_flags = cell->flags | flags;
-        goto store;
-    }
-
-    cycled_flags = ((cell->flags & flags) + (flags & 0x1100)) & 0x3300;
-    cell->flags &= ~flags;
-    if (cycled_flags == 0) {
-        if (flags == 0x300) {
-            cycled_flags = 0x300;
-        } else {
-            cycled_flags = 0x3000;
+    } else {
+        cycled_flags = ((cell->flags & flags) + (flags & 0x1100)) & 0x3300;
+        cell->flags &= ~flags;
+        if (cycled_flags == 0) {
+            if (flags == 0x300) {
+                cycled_flags = 0x300;
+            } else {
+                cycled_flags = 0x3000;
+            }
         }
+
+        new_flags = cell->flags | cycled_flags;
     }
-
-    new_flags = cell->flags | cycled_flags;
-
-store:
     cell->flags = new_flags;
 }

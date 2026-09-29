@@ -191,10 +191,9 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                                 goto set_uvs;
                             }
                             clut = clut_override + *(u16 *)(texture + 6);
-                            goto store_clut;
+                        } else {
+                            clut = *(u16 *)(texture + 6);
                         }
-                        clut = *(u16 *)(texture + 6);
-                    store_clut:
                         *(u16 *)(quad + 0xE) = clut;
                     set_uvs:
                         *(s16 *)(quad + 0xC) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x0C);
@@ -202,10 +201,9 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                         tpage_override = *(u16 *)((u8 *)material + 0x10);
                         if (tpage_override != 0) {
                             tpage = tpage_override + (*(u16 *)(texture + 4) & 0xFF9F);
-                            goto store_tpage;
+                        } else {
+                            tpage = *(u16 *)(texture + 4);
                         }
-                        tpage = *(u16 *)(texture + 4);
-                    store_tpage:
                         *(u16 *)(quad + 0x16) = tpage;
                         *(s16 *)(quad + 0x1C) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x0C);
                         *(s16 *)(quad + 0x24) = *(u16 *)(scratch + 0x18) + *(u16 *)(scratch + 0x14);

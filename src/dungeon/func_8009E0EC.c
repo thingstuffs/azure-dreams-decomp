@@ -167,21 +167,18 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       goto outer_next;
     }
     target_mode = *((u8 *) (((u8 *) ability) + 0x12));
-    if (target_mode == 1)
-    {
-      goto kind1;
+    if (target_mode != 1) {
+        if (target_mode == 0)
+        {
+          goto outer_next;
+        }
+        if (target_mode < 4)
+        {
+          best_score = score;
+          goto set_slot;
+        }
+        goto outer_next;
     }
-    if (target_mode == 0)
-    {
-      goto outer_next;
-    }
-    if (target_mode < 4)
-    {
-      best_score = score;
-      goto set_slot;
-    }
-    goto outer_next;
-    kind1:
     {
       if ((line_valid << 16) == 0)
       {

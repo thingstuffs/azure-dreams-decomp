@@ -13,19 +13,18 @@ s32 func_80021410(void)
 
     if (func_8006A024(D_80028550[0]) != 0) {
         matching_slot = 1;
-        goto done;
+    } else {
+        if (func_8006A024(D_80028554[0]) != 0) {
+            matching_slot = 2;
+        } else {
+            if (func_8006A024(D_80028558[0]) != 0) {
+                matching_slot = 3;
+            } else {
+                if (func_8006A024(D_8002855C[0]) != 0) {
+                    matching_slot = 4;
+                }
+            }
+        }
     }
-    if (func_8006A024(D_80028554[0]) != 0) {
-        matching_slot = 2;
-        goto done;
-    }
-    if (func_8006A024(D_80028558[0]) != 0) {
-        matching_slot = 3;
-        goto done;
-    }
-    if (func_8006A024(D_8002855C[0]) != 0) {
-        matching_slot = 4;
-    }
-done:
     return matching_slot;
 }

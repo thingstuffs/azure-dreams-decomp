@@ -84,15 +84,12 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     if (state == 1) {
         goto state_one;
     }
-    if (state >= 2) {
-        goto at_least_two;
+    if (state < 2) {
+        if (state == 0) {
+            goto state_zero;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_zero;
-    }
-    return;
-
-at_least_two:
     if (state == 2) {
         goto state_two;
     }
@@ -230,13 +227,11 @@ increment_state:
 
 state_two:
     if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
-
         world_counters_m = &dungeonStatus;
         (*(u16 *)&world_counters_m->unk_0A)--;
-        goto set_pointer;
+    } else {
+        return;
     }
-    return;
-
 set_pointer:
     ((S_80173CD4_0 *)action)->unk_8C = &D_801719DC;
 

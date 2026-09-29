@@ -23,13 +23,10 @@ void func_8001ED54(void *task)
         func_804031E4(owner, (u8 *)task + 0x40);
         callback = func_80405D2C;
         *(s32 *)((u8 *)task + 0x40) = one;
-        goto set_callback;
+    } else {
+        *(void (**)(void))((u8 *)task + 0x34) = func_80406368;
+        func_804032FC(owner);
+        callback = func_80405A64;
     }
-
-    *(void (**)(void))((u8 *)task + 0x34) = func_80406368;
-    func_804032FC(owner);
-    callback = func_80405A64;
-
-set_callback:
     *(void (**)(void))((u8 *)task - 0x10) = callback;
 }

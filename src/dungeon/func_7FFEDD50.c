@@ -16,12 +16,11 @@ void func_8008B4B0(void) {
             file_load_com(D_800CF838[*entry_id]);
         }
     }
-    if (func_8008B328() == 0)
-        goto clear;
-    D_800CF828[0] = 1;
-    D_800CF828[1] = 0;
-    return;
-clear:
+    if (func_8008B328() != 0) {
+        D_800CF828[0] = 1;
+        D_800CF828[1] = 0;
+        return;
+    }
     D_800CF828[0] = 0;
     return;
 }

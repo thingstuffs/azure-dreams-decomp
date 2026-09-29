@@ -33,44 +33,42 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
         }
     }
     out = func_800992E8(data, out, out);
-    if (D_800E3D7C->flags1C & 0x10) {
-        goto return_out;
-    }
-    suffix_kind = data->unk1;
-    suffix_id = D_800DD784[suffix_kind];
-    if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
-        out = func_80099194(suffix_id, out, out);
-    }
-    kind = data->unk1;
-    switch (kind) {
-    case 4:
-        if (!(data->unk3 & 0x80)) {
-            format = D_800DD720;
-            value = data->unk2;
-            *out++ = *format++;
-            *out = *format++;
-            value_end = func_8003AD08(value, out + 1, out);
-            out = value_end;
-            *out++ = *format++;
-            *out++ = *format++;
+    if (!(D_800E3D7C->flags1C & 0x10)) {
+        suffix_kind = data->unk1;
+        suffix_id = D_800DD784[suffix_kind];
+        if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
+            out = func_80099194(suffix_id, out, out);
         }
-        break;
-    case 14:
-    case 18:
-    case 19:
-    case 21:
-        break;
-    default:
-        if (!(data->unk3 & 0x80)) {
-            value = data->unk2;
-            if (value != 0) {
-                out = func_800992A8(value, out, out);
-                if (value < 0) value = -value;
-                out = func_8003AD08(value, out, out);
+        kind = data->unk1;
+        switch (kind) {
+        case 4:
+            if (!(data->unk3 & 0x80)) {
+                format = D_800DD720;
+                value = data->unk2;
+                *out++ = *format++;
+                *out = *format++;
+                value_end = func_8003AD08(value, out + 1, out);
+                out = value_end;
+                *out++ = *format++;
+                *out++ = *format++;
             }
+            break;
+        case 14:
+        case 18:
+        case 19:
+        case 21:
+            break;
+        default:
+            if (!(data->unk3 & 0x80)) {
+                value = data->unk2;
+                if (value != 0) {
+                    out = func_800992A8(value, out, out);
+                    if (value < 0) value = -value;
+                    out = func_8003AD08(value, out, out);
+                }
+            }
+            break;
         }
-        break;
     }
-return_out:
     return out;
 }

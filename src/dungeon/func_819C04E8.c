@@ -115,11 +115,10 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         if (((u32)(u16)object_index << 16) != 0) {
             alloc_page = (u8 *)0x80080000;
             alloc_parent = objects[0];
-            goto call_alloc;
+        } else {
+            alloc_page = (u8 *)0x80080000;
+            alloc_parent = (Object *)((u8 *)(&D_80083498));
         }
-        alloc_page = (u8 *)0x80080000;
-        alloc_parent = (Object *)((u8 *)(&D_80083498));
-    call_alloc:
         new_object = func_8003FD64(0x12, alloc_parent);
         slot_offset = ((s32)(s16)object_index) << 2;
         slot = (Object **)((uptr)slot_offset + (uptr)objects);
@@ -159,11 +158,10 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             data_entry = (u8 *)current_object + 0x20;
             if ((s16)object_index != 0) {
                 ((S_80025CE8_0 *)data_entry)->unk_20 = objects[0];
-                goto shared_tail;
+            } else {
+                alloc_page = (u8 *)D_80030000;
+                ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
             }
-            alloc_page = (u8 *)D_80030000;
-            ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
-        shared_tail:
             render->unk_1E = 0;
             render->unk_1C = 0;
             render->unk_20 = 0;

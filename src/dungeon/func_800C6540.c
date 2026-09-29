@@ -33,17 +33,13 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
     s32 random_value;
     void *rng_entity = entity;
 
-    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
-        goto check_global;
+    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) != 0) {
+        if (((EntityRec *)entity)->flags14 & 0x4000) {
+            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+            roll = 1;
+            return roll;
+        }
     }
-    if (!(((EntityRec *)entity)->flags14 & 0x4000)) {
-        goto check_global;
-    }
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    roll = 1;
-    return roll;
-
-check_global:
     if (D_800E3D40 == 0) {
         random_value = (u16)func_800A6D30(rng_entity, input_a, input_b, input_c);
         if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {

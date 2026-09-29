@@ -158,48 +158,38 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
         }
 
         S32_AT(entity_state, 0x90) += S32_AT(entity_motion, 0x14);
-        if (U16_AT(entity_state, 0x98) & 4) {
-            goto clear_falling;
+        if (!(U16_AT(entity_state, 0x98) & 4)) {
+            sample_height = func_800BCB04(U16_AT(entity_motion, 2), U16_AT(entity_motion, 6),
+                                          (s16)(U16_AT(state_alias, 0x88) - 0x20));
+            if (sample_height < 0x200) {
+                base_height = U16_AT(state_alias, 0x88);
+                if ((S16_AT(entity_state, 0x92) + base_height) < sample_height) {
+                    S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
+                } else {
+                    if (sample_height >= base_height) {
+                        S32_AT(entity_state, 0x90) = 0;
+                        S32_AT(entity_motion, 0x14) = 0;
+                        S32_AT(state_alias, 0x1C) |= 0x08000000;
+                        S8_AT(entity_state, 0x9D) = 0;
+                    } else {
+                        S32_AT(entity_motion, 0x14) = 0;
+                        S32_AT(state_alias, 0x1C) |= 0x08000000;
+                        S8_AT(entity_state, 0x9D) = 0;
+                        S16_AT(entity_state, 0x92) = (s16)sample_height - U16_AT(state_alias, 0x88);
+                    }
+                }
+                state_flags = S32_AT(state_alias, 0x1C);
+                if (state_flags & 0x40000000) {
+                    S32_AT(state_alias, 0x1C) = state_flags & 0xBFFFFFFF;
+                    floor_height = func_800BCB04((U8_AT(entity_part, 0x24) << 6) | 0x20,
+                                                 (U8_AT(entity_part, 0x25) << 6) | 0x20,
+                                                 (s16)(U16_AT(state_alias, 0x88) - 0x20));
+                    S16_AT(entity_state, 0x92) += U16_AT(state_alias, 0x88) - floor_height;
+                    U16_AT(state_alias, 0x88) = floor_height;
+                }
+                goto final_update;
+            }
         }
-
-        sample_height = func_800BCB04(U16_AT(entity_motion, 2), U16_AT(entity_motion, 6),
-                                      (s16)(U16_AT(state_alias, 0x88) - 0x20));
-        if (sample_height >= 0x200) {
-            goto clear_falling;
-        }
-
-        base_height = U16_AT(state_alias, 0x88);
-        if ((S16_AT(entity_state, 0x92) + base_height) < sample_height) {
-            S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
-            goto finish_height;
-        }
-
-        if (sample_height >= base_height) {
-            S32_AT(entity_state, 0x90) = 0;
-            S32_AT(entity_motion, 0x14) = 0;
-            S32_AT(state_alias, 0x1C) |= 0x08000000;
-            S8_AT(entity_state, 0x9D) = 0;
-            goto finish_height;
-        }
-
-        S32_AT(entity_motion, 0x14) = 0;
-        S32_AT(state_alias, 0x1C) |= 0x08000000;
-        S8_AT(entity_state, 0x9D) = 0;
-        S16_AT(entity_state, 0x92) = (s16)sample_height - U16_AT(state_alias, 0x88);
-
-finish_height:
-        state_flags = S32_AT(state_alias, 0x1C);
-        if (state_flags & 0x40000000) {
-            S32_AT(state_alias, 0x1C) = state_flags & 0xBFFFFFFF;
-            floor_height = func_800BCB04((U8_AT(entity_part, 0x24) << 6) | 0x20,
-                                         (U8_AT(entity_part, 0x25) << 6) | 0x20,
-                                         (s16)(U16_AT(state_alias, 0x88) - 0x20));
-            S16_AT(entity_state, 0x92) += U16_AT(state_alias, 0x88) - floor_height;
-            U16_AT(state_alias, 0x88) = floor_height;
-        }
-        goto final_update;
-
-clear_falling:
         S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
 
 final_update:

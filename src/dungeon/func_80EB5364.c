@@ -152,11 +152,10 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
                 if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
                     func_800478B8(sprite_arg);
                 }
-                goto update_animated_height;
+            } else {
+                ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;
+                ((S_80170B64_3 *)actor_base)->unk_1C.s &= 0xFFFBFFFF;
             }
-            ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;
-            ((S_80170B64_3 *)actor_base)->unk_1C.s &= 0xFFFBFFFF;
-update_animated_height:
             animated_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
             ((S_80170B64_3 *)actor_base)->unk_1C.s = animated_flags;
             if (animated_flags & 0x40000) {

@@ -175,63 +175,61 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
             }
             goto loop_ready;
         }
-        goto direct_move;
-    }
+    } else {
+        tile_type = S8_AT(position, 0x26);
+        if (tile_type >= 0) {
+            u8 *tile_records;
+            u8 *tile_record;
 
-    tile_type = S8_AT(position, 0x26);
-    if (tile_type >= 0) {
-        u8 *tile_records;
-        u8 *tile_record;
-
-        tile_records = D_800E2970;
-        tile_record = tile_records + tile_type * 0x14;
-        if (U16_AT(tile_record, 0xC) & 2) {
-            goto direct_move;
+            tile_records = D_800E2970;
+            tile_record = tile_records + tile_type * 0x14;
+            if (U16_AT(tile_record, 0xC) & 2) {
+                goto direct_move;
+            }
         }
-    }
 
-    attempt = 0;
-    if (U16_AT(actor, 0x46) & 0x8000) {
-        goto loop_ready;
-    }
+        attempt = 0;
+        if (U16_AT(actor, 0x46) & 0x8000) {
+            goto loop_ready;
+        }
 
-    node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
-                          S16_AT(actor, 0x2A));
-    if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
-        (func_800A0134(node, actor) < 0x81) &&
-        ((func_8009A540(
-              ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-              U8_AT(position, 0x24), U8_AT(position, 0x25),
-              (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
-        goto clear_history;
-    }
-
-    if (S32_AT(actor, 0x1C) & 0x20000) {
-        TileObject *move_center;
-
-        move_center = &D_80082E80;
-        U16_AT(actor, 0x2A) = func_800A0818(
-            U8_AT(position, 0x24), U8_AT(position, 0x25),
-            U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
-            (u8 *)work_data + 0x98);
-
-        if ((func_8009FD7C(
-                U8_AT(position, 0x24), U8_AT(position, 0x25),
-                U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
-            if (func_800A0134(D_800814A8, actor) >= 0x81) {
-                goto loop_setup;
-            }
-            if ((func_8009A540(
-                    ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
-                    U8_AT(position, 0x24), U8_AT(position, 0x25),
-                    (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) == 0) {
-                goto loop_setup;
-            }
+        node = func_800A04F0(actor, U8_AT(position, 0x24), U8_AT(position, 0x25),
+                              S16_AT(actor, 0x2A));
+        if ((node != NULL) && (S32_AT(node, 0x1C) & 0x2000) &&
+            (func_800A0134(node, actor) < 0x81) &&
+            ((func_8009A540(
+                  ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                  U8_AT(position, 0x24), U8_AT(position, 0x25),
+                  (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) != 0)) {
             goto clear_history;
         }
-        goto loop_setup;
-    }
 
+        if (S32_AT(actor, 0x1C) & 0x20000) {
+            TileObject *move_center;
+
+            move_center = &D_80082E80;
+            U16_AT(actor, 0x2A) = func_800A0818(
+                U8_AT(position, 0x24), U8_AT(position, 0x25),
+                U8_AT(move_center, 0x24), U8_AT(move_center, 0x25),
+                (u8 *)work_data + 0x98);
+
+            if ((func_8009FD7C(
+                    U8_AT(position, 0x24), U8_AT(position, 0x25),
+                    U8_AT(move_center, 0x24), U8_AT(move_center, 0x25)) << 16) != 0) {
+                if (func_800A0134(D_800814A8, actor) >= 0x81) {
+                    goto loop_setup;
+                }
+                if ((func_8009A540(
+                        ((S16_AT(actor, 0x2A) >> 9) & 0xFFFF),
+                        U8_AT(position, 0x24), U8_AT(position, 0x25),
+                        (s16)(U16_AT(actor, 0x88) - 0x20)) << 16) == 0) {
+                    goto loop_setup;
+                }
+                goto clear_history;
+            }
+            goto loop_setup;
+        }
+    }
 direct_move:
     func_800A0E6C(position, S8_AT(work_data, 0x9C), actor, (u8 *)work_data + 0x98);
 
@@ -305,27 +303,20 @@ loop_head:
             }
             func_8009A21C(new_x, new_y, tile_mask);
         }
-        goto loop_done;
+    } else {
+        if (attempt == 0) {
+            if (*(u16 *)(&D_80082E80.tileX) != U16_AT(position, 0x24)) {
+                if ((func_8009A180(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+        }
+        attempt++;
+        angle_step++;
+        if (attempt < 8) {
+            goto loop_head;
+        }
     }
-
-    if (attempt != 0) {
-        goto loop_increment;
-    }
-    if (*(u16 *)(&D_80082E80.tileX) == U16_AT(position, 0x24)) {
-        goto loop_increment;
-    }
-    if ((func_8009A180(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
-        return;
-    }
-
-loop_increment:
-    attempt++;
-    angle_step++;
-    if (attempt < 8) {
-        goto loop_head;
-    }
-
-loop_done:
     if (attempt >= 8) {
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;

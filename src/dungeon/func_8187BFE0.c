@@ -281,20 +281,14 @@ after_edge_setup:
 
 update_state:
         ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-        if (((S_8187BFE0_0 *)state_data)->unk_02.s < 4) {
-            goto case_done;
+        if (((S_8187BFE0_0 *)state_data)->unk_02.s >= 4) {
+            ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
+            ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
+            if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
+                (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            }
         }
-
-        ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
-        ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
-        if (((S_8187BFE0_0 *)state_data)->unk_1C.s < 5) {
-            goto case_done;
-        }
-
-        (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-
-case_done:
         break;
     }
 }

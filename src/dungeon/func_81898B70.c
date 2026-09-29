@@ -43,15 +43,12 @@ void func_80024370(void *entry, s32 unused, void *target)
     count = ((S_80024370_0 *)entry)->unk_04 + 1;
     ((S_80024370_0 *)entry)->unk_04 = count;
 
-    if ((s16)count == 8) {
-        goto count_8;
+    if ((s16)count != 8) {
+        if ((s16)count == 0x10) {
+            goto count_16;
+        }
+        goto done;
     }
-    if ((s16)count == 0x10) {
-        goto count_16;
-    }
-    goto done;
-
-count_8:
     func_80024264_returning(((S_80024370_0 *)entry)->unk_00);
     goto done;
 

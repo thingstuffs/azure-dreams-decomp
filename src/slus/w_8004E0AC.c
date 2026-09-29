@@ -9,17 +9,16 @@ int func_8004E0AC(void) {
     if (func_80033B2C(3)) {
         func_80033AE8(3);
         slot_result = 1;
-        goto out;
+    } else {
+        if (func_80033B2C(4)) {
+            func_80033AE8(4);
+            slot_result = 2;
+        } else {
+            if (func_80033B2C(5)) {
+                func_80033AE8(5);
+                slot_result = 3;
+            }
+        }
     }
-    if (func_80033B2C(4)) {
-        func_80033AE8(4);
-        slot_result = 2;
-        goto out;
-    }
-    if (func_80033B2C(5)) {
-        func_80033AE8(5);
-        slot_result = 3;
-    }
-out:
     return slot_result;
 }

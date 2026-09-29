@@ -75,12 +75,11 @@ void func_800927EC(void *actor, EntityRec *position, M2C_UNK context) {
             func_80094660(actor, position, context);
             return;
         }
-        goto handle_input;
+    } else {
+        if (D_800CFCEF[0] == 0) {
+            func_80095A94(position, ground_height, &D_800FE488);
+        }
     }
-    if (D_800CFCEF[0] == 0) {
-        func_80095A94(position, ground_height, &D_800FE488);
-    }
-handle_input:
     if (((s32)input->unk_010) & 0x10) {
         func_800945B8(actor, position, context);
         return;

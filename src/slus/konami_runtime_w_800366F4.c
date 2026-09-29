@@ -33,13 +33,11 @@ void func_800366F4(Object *menu, void *confirm_arg1, void *confirm_arg2) {
     input_state = &gameWork;
     cursor = menu->unk4D;
     buttons = ((u32)input_state->unk_010);
-    if (buttons & 0x2000) {
-        goto switch_column;
+    if (!(buttons & 0x2000)) {
+        if (!(buttons & 0x8000)) {
+            goto after_switch_column;
+        }
     }
-    if (!(buttons & 0x8000)) {
-        goto after_switch_column;
-    }
-switch_column:
     next_cursor = cursor + 1;
     if (cursor & 1) {
         cursor -= 1;

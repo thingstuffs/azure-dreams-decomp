@@ -317,16 +317,15 @@ entry_loop:
                     SP16(0x80) = edge_coord;
                     SP16(0x70) = edge_coord;
                     edge_coord -= axis_extent;
-                    goto axis_x_join;
+                } else {
+                    edge_coord = (s8) ((S_800CEFB8_7 *)part_data)->unk_01;
+                    axis_adjust = ((S_800CEFB8_4 *)scratch)->unk_108;
+                    axis_extent = (u16) SP32(0x10);
+                    edge_coord -= axis_adjust;
+                    SP16(0x80) = edge_coord;
+                    SP16(0x70) = edge_coord;
+                    edge_coord += axis_extent;
                 }
-                edge_coord = (s8) ((S_800CEFB8_7 *)part_data)->unk_01;
-                axis_adjust = ((S_800CEFB8_4 *)scratch)->unk_108;
-                axis_extent = (u16) SP32(0x10);
-                edge_coord -= axis_adjust;
-                SP16(0x80) = edge_coord;
-                SP16(0x70) = edge_coord;
-                edge_coord += axis_extent;
-axis_x_join:
                 SP16(0x88) = edge_coord;
                 SP16(0x78) = edge_coord;
             }
@@ -344,18 +343,17 @@ axis_x_join:
                     edge_coord -= axis_extent;
                     SP16(0x8A) = edge_coord;
                     SP16(0x82) = edge_coord;
-                    goto axis_y_done;
+                } else {
+                    edge_coord = (s8) ((S_800CEFB8_7 *)part_data)->unk_02;
+                    axis_adjust = ((S_800CEFB8_4 *)scratch)->unk_10A;
+                    axis_extent = (u16) SP32(0x14);
+                    edge_coord -= axis_adjust;
+                    SP16(0x7A) = edge_coord;
+                    SP16(0x72) = edge_coord;
+                    edge_coord += axis_extent;
+                    SP16(0x8A) = edge_coord;
+                    SP16(0x82) = edge_coord;
                 }
-                edge_coord = (s8) ((S_800CEFB8_7 *)part_data)->unk_02;
-                axis_adjust = ((S_800CEFB8_4 *)scratch)->unk_10A;
-                axis_extent = (u16) SP32(0x14);
-                edge_coord -= axis_adjust;
-                SP16(0x7A) = edge_coord;
-                SP16(0x72) = edge_coord;
-                edge_coord += axis_extent;
-                SP16(0x8A) = edge_coord;
-                SP16(0x82) = edge_coord;
-axis_y_done:
                 ;
             }
             func_800654B0(SPA(0x70), SPA(0x78), SPA(0x80), SPA(0x88),
@@ -455,10 +453,9 @@ coord_done:
                         s32 texture_sum = texture_override + coord_work;
                         coord_work = texture_sum;
                     }
-                    goto continuation_color;
+                } else {
+                    coord_work = (u16) (*(u16 *)((u8 *)part_data + 5));
                 }
-                coord_work = (u16) (*(u16 *)((u8 *)part_data + 5));
-continuation_color:
                 ((S_800CEFB8_8 *)quad)->unk_0A = coord_work;
 continuation_coords:
                 ((S_800CEFB8_8 *)quad)->unk_08 = (s16) ((u16) SP32(0x0C) + (u16) SP32(0x08));
@@ -471,10 +468,9 @@ continuation_coords:
                         s32 texture_sum = texture_override + coord_work;
                         coord_work = texture_sum;
                     }
-                    goto continuation_texture;
+                } else {
+                    coord_work = (u16) (*(u16 *)((u8 *)part_data + 3));
                 }
-                coord_work = (u16) (*(u16 *)((u8 *)part_data + 3));
-continuation_texture:
                 ((S_800CEFB8_8 *)quad)->unk_12 = coord_work;
                 {
                     s32 left_x;

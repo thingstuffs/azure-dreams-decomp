@@ -286,20 +286,17 @@ init_offsets:
             if (((S_8016BF74_5 *)motion)->unk_98 & 2) {
                 move_value = *(s16 *)angle_offsets;
                 candidate_angle = current_angle - move_value;
-                goto check_direction;
+            } else {
+                move_value = *(s16 *)angle_offsets;
+                candidate_angle = current_angle + move_value;
             }
-            move_value = *(s16 *)angle_offsets;
-            candidate_angle = current_angle + move_value;
-check_direction:
             if ((func_8009A66C(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
-                if (turn_index < 3) {
-                    goto take_step;
+                if (turn_index >= 3) {
+                    move_value = near_target;
+                    if (move_value != 0) {
+                        goto finish_search;
+                    }
                 }
-                move_value = near_target;
-                if (move_value != 0) {
-                    goto finish_search;
-                }
-take_step:
                 ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) candidate_angle;
                 ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
                 ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;

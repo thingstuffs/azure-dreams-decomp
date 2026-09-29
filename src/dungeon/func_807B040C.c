@@ -286,26 +286,25 @@ move_entity:
             direction = 2;
             goto set_direction;
         }
-        goto set_direction;
-    }
-    dy = motion[4];
-    if (dy == 0) {
-        direction = (dx < 1) << 2;
-        goto set_direction;
-    }
-    if (dx > 0) {
-        direction = 7;
-        if (dy > 0) {
-            direction = 1;
-            goto set_direction;
+    } else {
+        dy = motion[4];
+        if (dy == 0) {
+            direction = (dx < 1) << 2;
+        } else {
+            if (dx > 0) {
+                direction = 7;
+                if (dy > 0) {
+                    direction = 1;
+                    goto set_direction;
+                }
+            } else {
+                direction = 5;
+                if (dy > 0) {
+                    direction = 3;
+                }
+            }
         }
-        goto set_direction;
     }
-    direction = 5;
-    if (dy > 0) {
-        direction = 3;
-    }
-
 set_direction:
     ((S_807B040C_6 *)entity_aux)->unk_2A = direction << 9;
     ((S_807B040C_1 *)entity)->unk_96.u--;

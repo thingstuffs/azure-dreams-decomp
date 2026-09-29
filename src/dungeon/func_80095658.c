@@ -61,22 +61,18 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile
     next_cell = (MapCell *)((uptr)((s16)(next_x +
         (next_y << ((S_8009ADB8_2 *)map_state)->unk_14)) * 6) + (uptr)map);
 
-    if (next_cell->flags & 0xB300) {
-        goto ret_zero;
+    if (!(next_cell->flags & 0xB300)) {
+        if (next_cell->type != 0) {
+            next_height = func_800BCB04(
+                (((next_x << 16) >> 10) + 0x20) & 0xFFE0,
+                ((next_y << 6) + 0x20) & 0xFFE0,
+                height) << 16;
+            next_height >>= 16;
+            if (next_height < 0x200) {
+                return 1;
+            }
+        }
     }
-    if (next_cell->type == 0) {
-        goto ret_zero;
-    }
-    next_height = func_800BCB04(
-        (((next_x << 16) >> 10) + 0x20) & 0xFFE0,
-        ((next_y << 6) + 0x20) & 0xFFE0,
-        height) << 16;
-    next_height >>= 16;
-    if (next_height < 0x200) {
-        return 1;
-    }
-
-ret_zero:
     return 0;
     return 1;
 }

@@ -40,21 +40,20 @@ void func_800BAF04(void *object) {
         if (state != 1) {
             return;
         }
-        goto update_counters;
+    } else {
+        sample_index = 0;
+        do {
+            ((S_800BAF04_1 *)((object + sample_index)))->unk_12 = (s8) (rand() & 0x1F);
+            next_index = sample_index + 1;
+            sample_index = next_index;
+        } while (next_index < 0x40);
+        ((S_800BAF04_0 *)object)->unk_0E = 0U;
+        ((S_800BAF04_0 *)object)->unk_10 = 0;
+        ((S_800BAF04_0 *)object)->unk_32 = 0U;
+        ((S_800BAF04_0 *)object)->unk_11 = 1U;
+        func_8004491C(object - 0x20, func_800BABA8);
+        ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
     }
-    sample_index = 0;
-    do {
-        ((S_800BAF04_1 *)((object + sample_index)))->unk_12 = (s8) (rand() & 0x1F);
-        next_index = sample_index + 1;
-        sample_index = next_index;
-    } while (next_index < 0x40);
-    ((S_800BAF04_0 *)object)->unk_0E = 0U;
-    ((S_800BAF04_0 *)object)->unk_10 = 0;
-    ((S_800BAF04_0 *)object)->unk_32 = 0U;
-    ((S_800BAF04_0 *)object)->unk_11 = 1U;
-    func_8004491C(object - 0x20, func_800BABA8);
-    ((S_800BAF04_0 *)object)->unk_0A = (s16) ((u16) ((S_800BAF04_0 *)object)->unk_0A + 1);
-update_counters:
     cycle_tick = ((S_800BAF04_0 *)object)->unk_0E + 1;
     ((S_800BAF04_0 *)object)->unk_0E = cycle_tick;
     if ((s16) cycle_tick >= 0x11) {

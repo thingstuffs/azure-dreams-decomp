@@ -33,33 +33,31 @@ void func_800C122C(void)
 
     active = D_800D4260;
     selection = active[2];
-    if (selection == unset) goto no_selection;
-    previous = D_800D4268;
-    if (previous[2] != selection) {
+    if (selection != unset) {
+        previous = D_800D4268;
+        if (previous[2] != selection) {
+            SD_Call(0x71);
+            func_800542BC();
+            func_8004437C(active[2], 0);
+            if (active[3] == unset) goto finish;
+            goto play_active_floor;
+        }
+        if (active[3] != unset) {
+            if (previous[3] != active[3]) {
+                SD_Call(0x71);
+                func_800542BC();
+                goto play_active_floor;
+            }
+            if (D_80080A88[0] != 0) goto finish;
+            SD_Call(0x71);
+            func_800542BC();
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+            goto play_active_floor;
+        }
         SD_Call(0x71);
         func_800542BC();
-        func_8004437C(active[2], 0);
-        if (active[3] == unset) goto finish;
-        goto play_active_floor;
+        goto finish;
     }
-    if (active[3] == unset) goto inactive_floor;
-    if (previous[3] != active[3]) {
-        SD_Call(0x71);
-        func_800542BC();
-        goto play_active_floor;
-    }
-    if (D_80080A88[0] != 0) goto finish;
-    SD_Call(0x71);
-    func_800542BC();
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    goto play_active_floor;
-
-inactive_floor:
-    SD_Call(0x71);
-    func_800542BC();
-    goto finish;
-
-no_selection:
     SD_Call(0x71);
     func_800542BC();
     if (active[3] != selection) {

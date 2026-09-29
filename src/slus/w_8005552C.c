@@ -18,23 +18,21 @@ void func_8005552C(s32 selector) {
 
     saved_selector = type_bits;
     type_bits = type_bits & 0xF00;
-    if (type_bits == 0x600) {
-        goto case_600;
-    }
-    if (type_bits < 0x601) {
+    if (type_bits != 0x600) {
+        if (type_bits < 0x601) {
+            selected_code = 1;
+            goto merge;
+        }
+        if (type_bits == 0x700) {
+            goto case_700;
+        }
+        if (type_bits == 0x800) {
+            goto case_800;
+        }
+        /* default: selected_code→dispatch_code then jump past merge (delay-slot duplicate of merge) */
         selected_code = 1;
-        goto merge;
+        goto setcode_after;
     }
-    if (type_bits == 0x700) {
-        goto case_700;
-    }
-    if (type_bits == 0x800) {
-        goto case_800;
-    }
-    /* default: selected_code→dispatch_code then jump past merge (delay-slot duplicate of merge) */
-    selected_code = 1;
-    goto setcode_after;
-case_600:
     selected_code = 2;
     goto merge;
 case_700:

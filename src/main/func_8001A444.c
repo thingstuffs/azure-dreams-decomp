@@ -13,19 +13,18 @@ s32 func_80401444(void) {
     var_v0 = 0;
     if (func_8007C9C8(D_80409270[0]) != 0) {
         var_v0 = 1;
-        goto done;
+    } else {
+        if (func_8007C9C8(D_80409274[0]) != 0) {
+            var_v0 = 2;
+        } else {
+            if (func_8007C9C8(D_80409278[0]) != 0) {
+                var_v0 = 3;
+            } else {
+                if (func_8007C9C8(D_8040927C[0]) != 0) {
+                    var_v0 = 4;
+                }
+            }
+        }
     }
-    if (func_8007C9C8(D_80409274[0]) != 0) {
-        var_v0 = 2;
-        goto done;
-    }
-    if (func_8007C9C8(D_80409278[0]) != 0) {
-        var_v0 = 3;
-        goto done;
-    }
-    if (func_8007C9C8(D_8040927C[0]) != 0) {
-        var_v0 = 4;
-    }
-done:
     return var_v0;
 }

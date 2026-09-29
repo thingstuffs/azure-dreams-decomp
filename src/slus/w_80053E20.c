@@ -10,14 +10,12 @@ void func_80053E20(s16 value, s32 stat_index) {
     if (stat_index == 2) {
         goto L_case2;
     }
-    if (stat_index >= 3) {
-        goto L_ge3;
+    if (stat_index < 3) {
+        if (stat_index == 1) {
+            goto L_case1;
+        }
+        return;
     }
-    if (stat_index == 1) {
-        goto L_case1;
-    }
-    return;
-L_ge3:
     if (stat_index != 4) {
         return;
     }

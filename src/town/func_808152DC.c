@@ -25,13 +25,10 @@ void func_808152DC(void *record) {
         if (state != 1) {
             return;
         }
-        goto active;
+    } else {
+        func_80058F88(0x603);
+        ((S_808152DC_0 *)record)->unk_50 = (u16)((u16)((S_808152DC_0 *)record)->unk_50 + 1);
     }
-
-    func_80058F88(0x603);
-    ((S_808152DC_0 *)record)->unk_50 = (u16)((u16)((S_808152DC_0 *)record)->unk_50 + 1);
-
-active:
     timer = ((S_808152DC_0 *)record)->unk_52 - 1;
     ((S_808152DC_0 *)record)->unk_52 = timer;
     if ((timer << 0x10) <= 0) {

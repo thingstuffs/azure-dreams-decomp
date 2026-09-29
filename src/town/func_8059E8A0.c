@@ -7,15 +7,13 @@ s32 func_800168A0(void) {
     s32 result;
     s32 return_value;
 
-    if (func_80018964(0x1200) != 0) {
-        goto return_zero;
+    if (func_80018964(0x1200) == 0) {
+        result = func_80018964(0x1201);
+        return_value = 1;
+        if (result == 0) {
+            return return_value;
+        }
     }
-    result = func_80018964(0x1201);
-    return_value = 1;
-    if (result == 0) {
-        return return_value;
-    }
-return_zero:
     return_value = 0;
     return return_value;
 }

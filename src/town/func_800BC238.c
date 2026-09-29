@@ -68,15 +68,13 @@ void func_800B9998(void *object, void *position, void *rotation) {
     position_y = ((S_800B9998_0 *)object)->unk_66.u;
     if (position_y >= 0x100) {
         ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x20;
-        goto speed_ready;
+    } else {
+        if (position_y >= 0x10) {
+            ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x10;
+        } else {
+            ((S_800B9998_0 *)object)->unk_66.s = 0;
+        }
     }
-    if (position_y >= 0x10) {
-        ((S_800B9998_0 *)object)->unk_66.s = raw_speed - 0x10;
-        goto speed_ready;
-    }
-    ((S_800B9998_0 *)object)->unk_66.s = 0;
-
-    speed_ready:
     town_state = (u8 *)&D_80083780.x.v;
     dx = ((S_800B9998_1 *)town_state)->unk_02;
     dy = ((S_800B9998_2 *)position_data)->unk_02;

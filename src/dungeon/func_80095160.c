@@ -110,11 +110,10 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                             result = 0;
                             return 0;
                         }
-                        goto collision_clear;
+                    } else {
+                        result = 0;
+                        return 0;
                     }
-                    result = 0;
-                    return 0;
-collision_clear:
                     if ((actor->flag >= 0) ||
                         (monster_index = func_8009FB34((actor->x + *x_step) & 0xFFFF,
                                                        (actor->y + *y_step) & 0xFFFF),

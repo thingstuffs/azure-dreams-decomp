@@ -276,39 +276,34 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     direction_anim = (u8 *)0x80080000;
     ASM_KEEP_NV(direction_anim);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     direction_base = direction_anim + 0x3160;
-    if ((((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) != 2) {
-        goto turn_actor;
+    if ((((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
+        sprite->unk_2C = D_800DD108;
+        func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        next_state = action->unk_9B;
+        action->unk_96 = 0x12U;
+        action->unk_9B = (u8) (next_state + 1);
+        return;
     }
-    sprite->unk_2C = D_800DD108;
-    func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    next_state = action->unk_9B;
-    action->unk_96 = 0x12U;
-    action->unk_9B = (u8) (next_state + 1);
-    return;
 }
-turn_actor:
     actor->unk_2A = (s16) ((u16) actor->unk_2A + 0x200);
     return;
     case 1:
     sound_timer = action->unk_96 - 1;
     action->unk_96 = sound_timer;
-    if ((sound_timer << 0x10) != 0) {
-        goto check_open_anim;
+    if ((sound_timer << 0x10) == 0) {
+        func_800A56E0(0x701);
     }
-    func_800A56E0(0x701);
-check_open_anim:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
     *(u8 **)((u8 *)sprite + 0x2C) = D_800DD110;
     func_80048A44(sprite, D_800DD110[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     action->unk_9B = (u8) (action->unk_9B + 1);
-    if (((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1) {
-        goto save_item;
+    if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
+        func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
+        func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
     }
-    func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
-    func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
-save_item: {
+    {
     u8 *item;
     S_func_800B1364_13 *saved_item;
     void *callback;
@@ -324,75 +319,60 @@ save_item: {
 }
     case 2:
     sprite_flags = sprite->unk_14;
-    if (sprite_flags & 0xE000) {
-        goto set_input_anim_flags;
-    }
-    {
+    if (!(sprite_flags & 0xE000)) {
         DungeonGlobalStatus *control_state = &dungeonStatus;
         control_state->flags = (u16) (control_state->flags | 4);
+    } else {
+        sprite->unk_14 = (u16) (sprite_flags | 0x6800);
     }
-    goto check_input_ready;
-set_input_anim_flags:
-    sprite->unk_14 = (u16) (sprite_flags | 0x6800);
-check_input_ready:
     if (dungeonStatus.flags & 4) {
         return;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     use_item = 0;
-    if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
-        goto check_use_button;
+    if (((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1) {
+        input_command = func_8009F868();
+        if (input_command == NULL) {
+            func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
+            func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
+            return;
+        }
+        command = input_command->unk_01 & 0xF8;
+        D_800E3544 = command;
+        if (command != 0x60) {
+            func_8009F988();
+            *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
+            func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+            sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
+            action->unk_8C = NULL;
+            action->unk_9B = 4U;
+            return;
+        }
+        use_item = 1;
+    } else if (global_state->unk_08 & 0x40) {
+        use_item = 1;
     }
-    input_command = func_8009F868();
-    if (input_command != NULL) {
-        goto read_command;
-    }
-    func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
-    func_800B1768(0x23, 0xE0, 0xCE, 0x104, 1, 8);
-    return;
-read_command:
-    command = input_command->unk_01 & 0xF8;
-    D_800E3544 = command;
-    if (command == 0x60) {
-        goto request_item_use;
-    }
-    func_8009F988();
-    *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-    func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
-    goto start_cancel;
-check_use_button:
-    if (!(global_state->unk_08 & 0x40)) {
-        goto check_item_use;
-    }
-request_item_use:
-    use_item = 1;
-check_item_use:
     use_item_test = use_item;
-    if (use_item_test == 0) {
-        goto check_cancel;
+    if (use_item_test != 0) {
+        func_8009F644(actor, 0x60, 0, 0);
+        func_800A56E0(0x500);
+        sprite->unk_14 = (u16) (sprite->unk_14 & 0x97FF);
+        action->unk_9B = 3U;
+        wear = (func_800A6D30() & 3) + 1;
+        used_item = (S_func_800B1364_12 *)action->unk_BC;
+        used_item->unk_02 = (s8) (used_item->unk_02 - wear);
+        worn_item = (S_func_800B1364_12 *)action->unk_BC;
+        if ((s8) worn_item->unk_02 <= 0) {
+            worn_item->unk_02 = 0U;
+            *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
+            func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+            sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
+            action->unk_9B = 5U;
+            actor->unk_8A = func_8009904C(action->unk_BC);
+        }
+        func_800B4C7C(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
+        return;
     }
-    func_8009F644(actor, 0x60, 0, 0);
-    func_800A56E0(0x500);
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0x97FF);
-    action->unk_9B = 3U;
-    wear = (func_800A6D30() & 3) + 1;
-    used_item = (S_func_800B1364_12 *)action->unk_BC;
-    used_item->unk_02 = (s8) (used_item->unk_02 - wear);
-    worn_item = (S_func_800B1364_12 *)action->unk_BC;
-    if ((s8) worn_item->unk_02 > 0) {
-        goto show_item_progress;
-    }
-    worn_item->unk_02 = 0U;
-    *(u8 **)((u8 *)sprite + 0x2C) = D_800DD118;
-    func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
-    action->unk_9B = 5U;
-    actor->unk_8A = func_8009904C(action->unk_BC);
-show_item_progress:
-    func_800B4C7C(0xA4, actor, (s16) (0x64 - (s8) ((S_func_800B1364_12 *)action->unk_BC)->unk_02), 0);
-    return;
-check_cancel:
     {
         s32 cancel_test;
         cancel_test = ((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1;
@@ -409,7 +389,6 @@ check_cancel:
     func_80048A44(sprite, D_800DD118[((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     sprite->unk_14 = (u16) (sprite->unk_14 & 0xF7FF);
     func_800A56E0(0x515);
-start_cancel:
     action->unk_8C = NULL;
     action->unk_9B = 4U;
     return;
@@ -418,13 +397,11 @@ start_cancel:
         return;
     }
     global_state = (S_func_800B1364_7 *)&dungeonStatus.unk_00;
-    if (global_state->unk_02 & 2) {
-        goto resume_input;
+    if (!(global_state->unk_02 & 2)) {
+        func_80099F70(actor->unk_5C);
+        func_80099F04(actor->unk_5C);
+        global_state->unk_02 = (u16) (global_state->unk_02 | 0x812);
     }
-    func_80099F70(actor->unk_5C);
-    func_80099F04(actor->unk_5C);
-    global_state->unk_02 = (u16) (global_state->unk_02 | 0x812);
-resume_input:
     action->unk_9B = 2U;
     return;
     case 4:
@@ -452,15 +429,14 @@ resume_input:
     if (!(sprite->unk_14 & 0xE000)) {
         return;
     }
-    if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) != 0) {
-        goto place_spawn_effect;
+    if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
+        spawn_offset[1] = 0;
+        spawn_offset[0] = 0;
+        spawn_offset[2] = 0 - D_800DDC40;
     }
-    spawn_offset[1] = 0;
-    spawn_offset[0] = 0;
-    spawn_offset[2] = 0 - D_800DDC40;
-place_spawn_effect:
     func_800B8024(position->unk_02 + spawn_offset[0], position->unk_06 + spawn_offset[1], position->unk_0A + spawn_offset[2]);
-    goto read_next_state;
+    action->unk_9B = (u8) (action->unk_9B + 1);
+    return;
     case 7:
     spawn_item = action->unk_C0;
     D_800E2968 = 1;
@@ -473,13 +449,11 @@ place_spawn_effect:
     func_800A90E8(action->unk_C0);
     creature_sprite = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_04;
     func_8009A3D0(creature_sprite->unk_24, creature_sprite->unk_25, 0x300);
-    if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) != 0) {
-        goto place_creature;
+    if (func_8003DE58(sprite->unk_08, sprite, spawn_offset, 0) == 0) {
+        spawn_offset[1] = 0;
+        spawn_offset[0] = 0;
+        spawn_offset[2] = 0 - D_800DDC40;
     }
-    spawn_offset[1] = 0;
-    spawn_offset[0] = 0;
-    spawn_offset[2] = 0 - D_800DDC40;
-place_creature:
     creature_pos = ((S_func_800B1364_18 *)((u8 *)creature - 0x18))->unk_00;
     creature_pos->unk_02 = (s16) ((u16) position->unk_02 + (u16) spawn_offset[0]);
     creature_pos->unk_06 = (s16) ((u16) position->unk_06 + (u16) spawn_offset[1]);
@@ -499,21 +473,16 @@ place_creature:
     experience = D_800835E4[(*(u8 *)((u8 *)&D_800E3D7C->unk_10 + 1))];
     level_thresholds = D_800835E4 + 1;
     creature->unk_18 = experience;
-    if (experience < level_thresholds[creature->unk_11]) {
-        goto init_creature_stats;
+    if (experience >= level_thresholds[creature->unk_11]) {
+        level_table = level_thresholds;
+        do {
+            func_800A1D4C(creature, 0);
+        } while (level_table[creature->unk_11] <= (u32) creature->unk_18);
     }
-    level_table = level_thresholds;
-    do {
-        func_800A1D4C(creature, 0);
-    } while (level_table[creature->unk_11] <= (u32) creature->unk_18);
-init_creature_stats:
     creature->unk_28 = (u8) creature->unk_29;
     creature->unk_26 = (u8) creature->unk_68;
     creature->unk_27 = (u8) creature->unk_69;
-    if (((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1) {
-        goto build_spawn_message;
-    }
-    {
+    if (!(((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1)) {
         u16 summon_count;
         DungeonGlobalStatus *summon_control;
         D_800DCF4F = 1;
@@ -521,28 +490,23 @@ init_creature_stats:
         summon_count = ((u16)summon_control->unk_0A);
         summon_control->unk_0A = (u16) (summon_count + 1);
     }
-build_spawn_message:
     message_start = func_800990FC();
     message_end = func_80099194(&D_800E0A33, func_80099734(creature, func_80099194(&D_800E0A2A, func_80099194(((S_func_800B1364_17 *)((creature->unk_13 * 0x14) + D_8007359C))->unk_04, func_8009929C(8, message_start)))));
-    if ((*(u16 *)(&D_80013714)) & 1) {
-        goto show_spawn_message;
+    if (!((*(u16 *)(&D_80013714)) & 1)) {
+        message_end = func_80099254(&D_800E0458, func_8009929C(0x4C, func_8009929C(0x11, message_end)));
     }
-    message_end = func_80099254(&D_800E0458, func_8009929C(0x4C, func_8009929C(0x11, message_end)));
-show_spawn_message:
     func_80099290(message_end);
     func_800A5720(message_start);
     *(u16 *)((u8 *)action + 0x96) = 0x20U;
     action->unk_9B = (u8) (action->unk_9B + 1);
-    if ((*(u16 *)(&D_80013714)) & 1) {
-        goto decrement_summon_count;
-    }
-    summon_state = &dungeonStatus;
-    if ((s16) ((u16)summon_state->unk_0A) < 2) {
+    if (!((*(u16 *)(&D_80013714)) & 1)) {
+        summon_state = &dungeonStatus;
+        if ((s16) ((u16)summon_state->unk_0A) < 2) {
+            return;
+        }
+        summon_state->unk_0A = (u16) (((u16)summon_state->unk_0A) - 1);
         return;
     }
-    summon_state->unk_0A = (u16) (((u16)summon_state->unk_0A) - 1);
-    return;
-decrement_summon_count:
     summon_state = &dungeonStatus;
     if (summon_state->unk_0A <= 0) {
         return;
@@ -556,16 +520,13 @@ decrement_summon_count:
     wait_timer = action->unk_96 - 1;
     action->unk_96 = wait_timer;
     anim_sprite = sprite;
-    if ((wait_timer << 0x10) <= 0) {
-        goto start_store_anim;
+    if ((wait_timer << 0x10) > 0) {
+        if (!(sprite->unk_14 & 0x8000)) {
+            if (global_state->unk_10 == 0) {
+                return;
+            }
+        }
     }
-    if (sprite->unk_14 & 0x8000) {
-        goto start_store_anim;
-    }
-    if (global_state->unk_10 == 0) {
-        return;
-    }
-start_store_anim:
     direction_base = D_800DD130;
     *(u8 **)((u8 *)anim_sprite + 0x2C) = direction_base;
     direction_anim = (u8 *) ((u32) (((s32) (gameWork.view.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) + (u32) direction_base);
@@ -603,7 +564,8 @@ start_store_anim:
     hidden_creature = actor->unk_60;
     hidden_creature->unk_14 = (s32) (hidden_creature->unk_14 & 0xFFEFFFFF);
     func_800A56E0(0x704);
-    goto read_next_state;
+    action->unk_9B = (u8) (action->unk_9B + 1);
+    return;
     case 10:
     finished_creature = actor->unk_60;
     if (!(finished_creature->unk_1C & 0x800000)) {

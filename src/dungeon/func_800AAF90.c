@@ -209,15 +209,13 @@ loop:
                 ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
                 ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
                 vertex_x -= primitive[0xA];
-                goto store_x;
+            } else {
+                vertex_x = (s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
+                ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
+                ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
+                quad_extent = primitive[0xA];
+                vertex_x = vertex_x + quad_extent;
             }
-
-            vertex_x = (s8)primitive[2] - ((S_800B06F0_3 *)params)->unk_20;
-            ((S_800B06F0_0 *)scratch)->unk_80 = vertex_x;
-            ((S_800B06F0_0 *)scratch)->unk_70 = vertex_x;
-            quad_extent = primitive[0xA];
-            vertex_x = vertex_x + quad_extent;
-store_x:
             (*(s16 *)((u8 *)scratch + 0x88)) = vertex_x;
             (*(s16 *)((u8 *)scratch + 0x78)) = vertex_x;
 
@@ -228,17 +226,15 @@ store_x:
                 vertex_y -= primitive[0xB];
                 ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
                 ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
-                goto store_y_done;
+            } else {
+                vertex_y = (s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
+                ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
+                ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
+                quad_extent = primitive[0xB];
+                vertex_y = vertex_y + quad_extent;
+                ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
+                ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
             }
-
-            vertex_y = (s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
-            ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
-            ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
-            quad_extent = primitive[0xB];
-            vertex_y = vertex_y + quad_extent;
-            ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
-            ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
-            store_y_done:
             ;
 
             func_800654B0(
@@ -295,21 +291,19 @@ fallback:
                     goto loop;
                 }
                 texture_data += 4;
-                goto next_list;
+            } else {
+                {
+                    OtSlot ot_entry = { ((S_800B06F0_0 *)scratch)->unk_C0.i };
+
+
+                    do {
+                        packet = func_8004CD28(ot_entry.entry, params, primitive_ref, packet);
+                    } while (0);
+                }
+                if (primitive != 0) {
+                    goto loop;
+                }
             }
-
-            {
-                OtSlot ot_entry = { ((S_800B06F0_0 *)scratch)->unk_C0.i };
-
-
-                do {
-                    packet = func_8004CD28(ot_entry.entry, params, primitive_ref, packet);
-                } while (0);
-            }
-            if (primitive != 0) {
-                goto loop;
-            }
-
 next_list:
             primitive_list++;
             primitive = *primitive_list;
@@ -321,17 +315,14 @@ lists_done:
     }
 
     next_batch = ((S_800B06F0_2_pre *)batch)[-1].unk_00;
-    if (next_batch == 0) {
-        goto done;
+    if (next_batch != 0) {
+        reverse_winding = next_batch + 0x20;
+        batch = reverse_winding;
+        primitive_list = ((S_800B06F0_6 *)next_batch)->unk_08;
+        dispatch_arg = primitive_list;
+        params = ((S_800B06F0_6 *)next_batch)->unk_0C;
+        goto dispatch;
     }
-    reverse_winding = next_batch + 0x20;
-    batch = reverse_winding;
-    primitive_list = ((S_800B06F0_6 *)next_batch)->unk_08;
-    dispatch_arg = primitive_list;
-    params = ((S_800B06F0_6 *)next_batch)->unk_0C;
-    goto dispatch;
-
-done:
     manager = global_addr->manager;
     ((S_800B06F0_7 *)manager)->unk_8D0 = packet;
     return hard_zero;

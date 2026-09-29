@@ -9,22 +9,16 @@ extern s32 func_8001894C(s16);
 s32 func_80016618(void *arg0, s32 arg1)
 {
     func_8001611C(arg0, arg1);
-    if (func_8001894C(*(s16 *)((u8 *)arg0 + 0x18)) == 0) {
-        goto no_event;
+    if (func_8001894C(*(s16 *)((u8 *)arg0 + 0x18)) != 0) {
+        func_800188CC(0x513);
+        func_80018854(0x512);
+        func_80018854(0x50E);
+    } else {
+        func_800176B4();
+        func_80018854(0x513);
+        func_800188CC(0x512);
+        func_800188CC(0x50E);
     }
-
-    func_800188CC(0x513);
-    func_80018854(0x512);
-    func_80018854(0x50E);
-    goto done;
-
-no_event:
-    func_800176B4();
-    func_80018854(0x513);
-    func_800188CC(0x512);
-    func_800188CC(0x50E);
-
-done:
     return 0;
 }
 

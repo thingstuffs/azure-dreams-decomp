@@ -72,15 +72,12 @@ copy_history:
         goto have_other;
     }
 
-    if (S16_AT(obj, 0x64) == 0) {
-        goto interpolate;
+    if (S16_AT(obj, 0x64) != 0) {
+        if (S16_AT(obj, 0x64) == 1) {
+            goto state_one;
+        }
+        goto copy_out;
     }
-    if (S16_AT(obj, 0x64) == 1) {
-        goto state_one;
-    }
-    goto copy_out;
-
-interpolate:
     direction_offset = ((-S16_AT(((u8 *)(&gameWork.view.viewAngle)), 0) + 0x500) >> 8) & 0xE;
     room = &D_80082E80;
     x_adjust = (s16 *)(((u8 *)dirStepX) + direction_offset);
@@ -148,28 +145,24 @@ have_other:
     z = U16_AT(linked_data, 0x30);
     U16_AT(obj, 0x16) = z;
 
-    if (S16_AT(obj, 0x64) != 0) {
-        goto compare_position;
-    }
+    if (S16_AT(obj, 0x64) == 0) {
+        linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
+        raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
+        linked_shade = raw_shade;
+        if ((s16)raw_shade < 0) {
+            linked_shade = 0;
+        }
+        U8_AT(rgb, 0x0E) = linked_shade;
+        U8_AT(rgb, 0x0D) = linked_shade;
+        U8_AT(rgb, 0x0C) = linked_shade;
 
-    linked_rgb = PTR_AT(PTR_AT(obj, 8), 0x0C);
-    raw_shade = U8_AT(linked_rgb, 0x0C) - S16_AT(obj, 0x6E) * 8;
-    linked_shade = raw_shade;
-    if ((s16)raw_shade < 0) {
-        linked_shade = 0;
-    }
-    U8_AT(rgb, 0x0E) = linked_shade;
-    U8_AT(rgb, 0x0D) = linked_shade;
-    U8_AT(rgb, 0x0C) = linked_shade;
-
-    U16_AT(obj, 0x66)--;
-    if (S16_AT(obj, 0x66) > 0) {
+        U16_AT(obj, 0x66)--;
+        if (S16_AT(obj, 0x66) > 0) {
+            goto copy_out;
+        }
+        U16_AT(obj, 0x64)++;
         goto copy_out;
     }
-    U16_AT(obj, 0x64)++;
-    goto copy_out;
-
-compare_position:
     if (S16_AT(obj, 0x1A) != S16_AT(obj, 0x0E)) {
         goto copy_out;
     }
@@ -180,13 +173,11 @@ compare_position:
     current_z = (s16)z;
 
 compare_z:
-    if (previous_z != current_z) {
-        goto copy_out;
+    if (previous_z == current_z) {
+        U16_AT(obj, -2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
     }
-    U16_AT(obj, -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
-
 copy_out:
     U16_AT(coords_out, 2) = U16_AT(obj, 0x1A);
     U16_AT(coords_out, 6) = U16_AT(obj, 0x1E);

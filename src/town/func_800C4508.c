@@ -33,16 +33,12 @@ range_loop:
         do {
             range = (s16 *)(range_offset + (s32)ranges);
         } while (0);
-        if (value < range[0]) {
-            goto advance;
+        if (value >= range[0]) {
+            if (range[1] >= value) {
+                return_value = group_number;
+                goto done;
+            }
         }
-        if (range[1] < value) {
-            goto advance;
-        }
-        return_value = group_number;
-        goto done;
-
-advance:
         ranges = range_groups[group_index];
         range_offset += 4;
         return_value = range_offset + (s32)ranges;

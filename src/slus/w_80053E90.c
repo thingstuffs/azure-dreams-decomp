@@ -8,15 +8,13 @@ s32 func_80053E90(s32 selector) {
     if (selector == 2) {
         goto L_case2;
     }
-    if (selector >= 3) {
-        goto L_ge3;
+    if (selector < 3) {
+        if (selector == 1) {
+            goto L_case1;
+        }
+        scale = 0;
+        return scale;
     }
-    if (selector == 1) {
-        goto L_case1;
-    }
-    scale = 0;
-    return scale;
-L_ge3:
     if (selector != 4) {
         scale = 0;
         return scale;

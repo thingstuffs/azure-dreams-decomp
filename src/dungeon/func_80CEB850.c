@@ -109,38 +109,24 @@ void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *act
             return;
         }
         kind = ((S_80175050_2 *)actor)->unk_48;
-        if (kind == 14) {
-            goto state0_kind_14;
+        switch (kind) {
+        case 13:
+            anim_table = D_80175E54;
+            ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            break;
+        case 14:
+            anim_table = D_80175E5C;
+            ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            break;
+        case 15:
+            anim_table = D_80175E64;
+            ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            break;
         }
-        if (kind < 15) {
-            if (kind == 13) {
-                goto state0_kind_13;
-            }
-            goto state0_default_low;
-        }
-        if (kind == 15) {
-            goto state0_kind_15;
-        }
-        goto state0_default_high;
-state0_kind_13:
-        anim_table = D_80175E54;
-        goto state0_notify;
-state0_kind_14:
-        anim_table = D_80175E5C;
-        goto state0_notify;
-state0_kind_15:
-        anim_table = D_80175E64;
-state0_notify:
-        ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
         starting_task = task;
-        goto state0_decrement;
-state0_default_low:
-        starting_task = task;
-        goto state0_decrement;
-state0_default_high:
-        starting_task = task;
-state0_decrement:
         ((S_80175050_3 *)((u8 *)(&dungeonStatus)))->unk_0A--;
         ((S_80175050_4 *)starting_task)->unk_9B++;
         func_80171BEC_returning(starting_task, task_id, sprite_in);
@@ -152,125 +138,119 @@ state0_decrement:
         case 13:
             old_anim_table = ((S_80175050_1 *)sprite_in)->unk_2C;
             next_anim_table = D_80175E54;
-            goto state1_maybe_update;
+            if (old_anim_table != next_anim_table) {
+                ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+            }
+            break;
         case 14:
             old_anim_table = ((S_80175050_1 *)sprite_in)->unk_2C;
             next_anim_table = D_80175E5C;
-            goto state1_maybe_update;
+            if (old_anim_table != next_anim_table) {
+                ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+            }
+            break;
         case 15:
             old_anim_table = ((S_80175050_1 *)sprite_in)->unk_2C;
             next_anim_table = D_80175E64;
+            if (old_anim_table != next_anim_table) {
+                ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
+            }
             break;
-        default:
-            goto state1_check;
-        }
-state1_maybe_update:
-        if (old_anim_table != next_anim_table) {
-            ((S_80175050_1 *)sprite_in)->unk_2C = next_anim_table;
-            func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)next_anim_table))->unk_00, 0);
         }
 
-state1_check:
         if ((func_80042900(actor, 1) << 16) == 0) {
             kind = ((S_80175050_2 *)actor)->unk_48;
-            if (kind != 14) {
-                if (kind < 15) {
-                    if (kind != 13) {
-                        goto suffix;
-                    }
-                    anim_table = D_80175E6C;
-                    goto state1_notify;
-                }
-                goto kind_ge_15;
-            } else {
+            switch (kind) {
+            case 13:
+                anim_table = D_80175E6C;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
+            case 14:
                 anim_table = D_80175E6C + 8;
-                goto state1_notify;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
+            case 15:
+                anim_table = D_80175E7C;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
             }
-        }
-
-        if (dungeonStatus.flags & 0x1000) {
-            return;
-        }
-        if (((S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite_in, 0) != 0) {
-            return;
-        }
-        if (((S_80175050_2 *)actor)->unk_25 == 0) {
-            if (dungeonStatus.flags & 0x2008) {
-                return;
-            }
-            func_800AA79C(task, task_id, sprite_in, actor);
-            return;
-        }
-        if ((func_800A2C34(actor) << 16) != 0) {
-            return;
-        }
-        flags = ((S_80175050_2 *)actor)->unk_1C;
-        if (flags & 0x100) {
-            func_800AA258(task, task_id, sprite_in, actor);
-            return;
-        }
-        if (flags & 0x80000) {
-            func_800AA888(task, task_id, sprite_in, actor);
-            func_801759A0(task, task_id, sprite_in, actor);
-            return;
-        }
-        if (((S_80175050_2 *)actor)->unk_6D == 0) {
-            return;
-        }
-        if ((func_800A2C34(actor) << 16) != 0) {
-            if ((func_8009A180(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
-                return;
-            }
-        }
-        func_800A9A0C(actor);
-        func_800A9A04(actor);
-        if ((func_80042900(actor, 1) << 16) != 0) {
-            TileObject *player;
-            player = &D_80082E80;
-            floor = ((S_80175050_1 *)sprite_in)->unk_26;
-            if (!((floor == player->unk_026 && floor >= 0) || func_8009FD40(player, sprite_in) < 2)) {
-                goto second_check;
-            }
-            if (func_800A6D30() & 7) {
-                goto second_check;
-            }
-            func_80042B68(actor, 1);
-        }
-
-second_check:
-        if ((func_80042900(actor, 1) << 16) != 0) {
-            return;
-        }
-        kind = ((S_80175050_2 *)actor)->unk_48;
-        if (kind != 14) {
-            if (kind < 15) {
-                if (kind == 13) {
-                    goto kind_13;
-                }
-                goto suffix;
-            }
-            goto kind_ge_15;
         } else {
-            goto kind_14;
-        }
-kind_ge_15:
-        if (kind == 15) {
-            goto kind_15;
-        }
-        goto suffix;
-kind_13:
-        anim_table = D_80175E6C;
-        goto state1_notify;
-kind_14:
-        anim_table = D_80175E74;
-        goto state1_notify;
-kind_15:
-        anim_table = D_80175E7C;
-state1_notify:
-        ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
-        func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+            if (dungeonStatus.flags & 0x1000) {
+                return;
+            }
+            if (((S_80175050_2 *)actor)->unk_64 != 0 && func_800AA6B4(task, task_id, sprite_in, 0) != 0) {
+                return;
+            }
+            if (((S_80175050_2 *)actor)->unk_25 == 0) {
+                if (dungeonStatus.flags & 0x2008) {
+                    return;
+                }
+                func_800AA79C(task, task_id, sprite_in, actor);
+                return;
+            }
+            if ((func_800A2C34(actor) << 16) != 0) {
+                return;
+            }
+            flags = ((S_80175050_2 *)actor)->unk_1C;
+            if (flags & 0x100) {
+                func_800AA258(task, task_id, sprite_in, actor);
+                return;
+            }
+            if (flags & 0x80000) {
+                func_800AA888(task, task_id, sprite_in, actor);
+                func_801759A0(task, task_id, sprite_in, actor);
+                return;
+            }
+            if (((S_80175050_2 *)actor)->unk_6D == 0) {
+                return;
+            }
+            if ((func_800A2C34(actor) << 16) != 0) {
+                if ((func_8009A180(actor, *(u8 **)(((u8 *)D_800814A8) + 0x58) + 0x20) << 16) != 0) {
+                    return;
+                }
+            }
+            func_800A9A0C(actor);
+            func_800A9A04(actor);
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                TileObject *player;
+                player = &D_80082E80;
+                floor = ((S_80175050_1 *)sprite_in)->unk_26;
+                if ((floor == player->unk_026 && floor >= 0) || func_8009FD40(player, sprite_in) < 2) {
+                    if (!(func_800A6D30() & 7)) {
+                        func_80042B68(actor, 1);
+                    }
+                }
+            }
 
-suffix:
+            if ((func_80042900(actor, 1) << 16) != 0) {
+                return;
+            }
+            kind = ((S_80175050_2 *)actor)->unk_48;
+            switch (kind) {
+            case 13:
+                anim_table = D_80175E6C;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
+            case 14:
+                anim_table = D_80175E74;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
+            case 15:
+                anim_table = D_80175E7C;
+                ((S_80175050_1 *)sprite_in)->unk_2C = anim_table;
+                func_80047784(sprite_in, ((S_80175050_3 *)((((gameWork.view.viewAngle + ((S_80175050_2 *)actor)->unk_2A + 0x100) >> 9) & 7) + (unsigned long)anim_table))->unk_00, 0);
+                break;
+            }
+        }
+
         if (((S_80175050_1 *)sprite_in)->unk_14 & 0x8000) {
             ((S_80175050_0 *)task)->unk_8C = D_801724BC;
             return;

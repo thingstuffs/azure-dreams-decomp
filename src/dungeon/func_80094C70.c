@@ -50,36 +50,34 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
         }
 
         cells[cell_index].flags &= ~flags;
-        goto done;
-    }
+    } else {
+        {
+            u32 raw_remainder;
+            register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 flag_cell_index;
+            s32 old_flags;
 
-    {
-        u32 raw_remainder;
-        register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 flag_cell_index;
-        s32 old_flags;
+            cell_x = (s16)x;
+            cell_y = (s16)y;
+            flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
+            cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
+                                   (unsigned long)cells);
+            old_flags = cell->flags;
+            raw_remainder = (old_flags & flags) - (flags & 0x1100);
+            remainder = raw_remainder;
+            old_flags &= ~flags;
+            cell->flags = old_flags;
+            raw_remainder <<= 16;
+            if ((s32)raw_remainder < 0) {
+                remainder = 0;
+            }
 
-        cell_x = (s16)x;
-        cell_y = (s16)y;
-        flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
-        cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
-                               (unsigned long)cells);
-        old_flags = cell->flags;
-        raw_remainder = (old_flags & flags) - (flags & 0x1100);
-        remainder = raw_remainder;
-        old_flags &= ~flags;
-        cell->flags = old_flags;
-        raw_remainder <<= 16;
-        if ((s32)raw_remainder < 0) {
-            remainder = 0;
+            flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
+            cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
+                                   (unsigned long)cells);
+            cell->flags |= remainder;
         }
-
-        flag_cell_index = cell_x + (cell_y << *(s16 *)(config + 0x14));
-        cell = (DungeonCell *)((flag_cell_index * sizeof(DungeonCell)) +
-                               (unsigned long)cells);
-        cell->flags |= remainder;
     }
-
 done:
 }
 

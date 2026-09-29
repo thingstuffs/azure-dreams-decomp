@@ -50,7 +50,7 @@ extern void *D_80020180[];
     } else {                            \
         *offset_x += (PUSH_X);          \
     }                                   \
-    goto push_back;
+    break;
 
 /* Resolve actor collisions against zone boundaries and linked boxes. */
 s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
@@ -62,7 +62,6 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     s32 abs_dy;
     s32 velocity;
     s32 zone_kind;
-    s32 actor_x;
     s32 edge_x;
     s32 box_width;
     s32 edge_delta;
@@ -75,20 +74,15 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     box_id = *zone_id + 1;
     while (box_id >= *zone_id - 1) {
         candidate = (box_id + 16) % 16;
-        if (actor->x < CANDIDATE_ZONE(x)) {
-            goto next_neighbor;
+        if (actor->x >= CANDIDATE_ZONE(x)) {
+            if (actor->y >= CANDIDATE_ZONE(y)) {
+                if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) >= actor->x) {
+                    if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) >= actor->y) {
+                        goto zone_found;
+                    }
+                }
+            }
         }
-        if (actor->y < CANDIDATE_ZONE(y)) {
-            goto next_neighbor;
-        }
-        if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) < actor->x) {
-            goto next_neighbor;
-        }
-        if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) < actor->y) {
-            goto next_neighbor;
-        }
-        goto zone_found;
-    next_neighbor:
         box_id--;
     }
 check_zone:
@@ -97,126 +91,112 @@ check_zone:
     }
 
     box_id = CURRENT_ZONE(link);
-    if (box_id < 0) {
-        goto check_edges;
-    }
-    if (actor->z < -32) {
-        goto check_edges;
-    }
-    {
-        Box *linked_box;
-        edge_delta_m = (s32)((u8 *)D_800240E0);
-        do {
+    if (box_id >= 0 && actor->z >= -32) {
+        {
+            Box *linked_box;
+            edge_delta_m = (s32)((u8 *)D_800240E0);
             edge_coord = box_id << 3;
-        } while (0);
-        linked_box = (Box *)(((u8 *)edge_delta_m) + edge_coord);
-        box = linked_box;
-    }
-    ASM_KEEP(box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    {
-        s32 actor_x;
-        s32 box_x;
-        s32 actor_y;
-        s32 box_y;
-        actor_x = actor->x;
-        box_x = box->x;
-        if (actor_x < box_x) {
-            goto check_edges;
+            linked_box = (Box *)(((u8 *)edge_delta_m) + edge_coord);
+            box = linked_box;
         }
-        actor_y = actor->y;
-        box_y = box->y;
-        if (actor_y < box_y) {
-            goto check_edges;
+        ASM_KEEP(box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        {
+            s32 actor_x;
+            s32 box_x;
+            s32 actor_y;
+            s32 box_y;
+            actor_x = actor->x;
+            box_x = box->x;
+            if (actor_x >= box_x) {
+                actor_y = actor->y;
+                box_y = box->y;
+                if (actor_y >= box_y) {
+                    if (box_x + box->w >= actor_x) {
+                        if (box_y + box->h >= actor_y) {
+                            if (CURRENT_ZONE(kind) == 0) {
+                                *offset_y -= actor->dy;
+                                velocity = actor->dy;
+                                if (velocity > 0) {
+                                    actor->y = box->y;
+                                    goto adjusted;
+                                }
+                                if (velocity < 0) {
+                                    actor->y = box->y + box->h;
+                                    goto adjusted;
+                                }
+                                {
+                                    s32 actor_y;
+                                    s32 edge_y;
+                                    s32 box_height;
+                                    s32 edge_delta;
+                                    actor_y = actor->y;
+                                    do {
+                                        edge_y = box->y;
+                                    } while (0);
+                                    box_height = box->h;
+                                    edge_delta = actor_y - edge_y;
+                                    if (edge_delta < 0) {
+                                        edge_delta = -edge_delta;
+                                    }
+                                    edge_y = edge_y + box_height;
+                                    edge_y = edge_y - actor_y;
+                                    edge_y = abs(edge_y);
+                                    edge_delta = edge_delta < edge_y;
+                                    edge_y = (u16)box->y;
+                                    box_height = (u16)box->h;
+                                    if (edge_delta) {
+                                        actor->y = edge_y;
+                                        return 2;
+                                    }
+                                    edge_y = edge_y + box_height;
+                                    actor->y = edge_y;
+                                }
+                                return 2;
+                            } else {
+                                s32 actor_x;
+                                *offset_x -= actor->dx;
+                                velocity = actor->dx;
+                                if (velocity > 0) {
+                                    edge_x = (u16)box->x;
+                                    actor->x = edge_x;
+                                    goto adjusted;
+                                }
+                                if (velocity < 0) {
+                                    edge_x = (u16)box->x;
+                                    edge_delta = (u16)box->w;
+                                    edge_x = edge_x + edge_delta;
+                                    goto store_x;
+                                }
+                                actor_x = actor->x;
+                                do {
+                                    edge_x = box->x;
+                                } while (0);
+                                box_width = box->w;
+                                edge_delta = actor_x - edge_x;
+                                if (edge_delta < 0) {
+                                    edge_delta = -edge_delta;
+                                }
+                                edge_x = edge_x + box_width;
+                                edge_x = edge_x - actor_x;
+                                edge_x = abs(edge_x);
+                                edge_delta = edge_delta < edge_x;
+                                edge_x = (u16)box->x;
+                                box_width = (u16)box->w;
+                                if (edge_delta) {
+                                    goto store_x;
+                                }
+                                edge_x = edge_x + box_width;
+                            store_x:
+                                ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                                actor->x = edge_x;
+                                return 2;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        if (box_x + box->w < actor_x) {
-            goto check_edges;
-        }
-        if (box_y + box->h < actor_y) {
-            goto check_edges;
-        }
     }
-    if (CURRENT_ZONE(kind) != 0) {
-        goto clamp_x;
-    }
-
-    *offset_y -= actor->dy;
-    velocity = actor->dy;
-    if (velocity > 0) {
-        actor->y = box->y;
-        goto adjusted;
-    }
-    if (velocity < 0) {
-        actor->y = box->y + box->h;
-        goto adjusted;
-    }
-    {
-        s32 actor_y;
-        s32 edge_y;
-        s32 box_height;
-        s32 edge_delta;
-        actor_y = actor->y;
-        do {
-            edge_y = box->y;
-        } while (0);
-        box_height = box->h;
-        edge_delta = actor_y - edge_y;
-        if (edge_delta < 0) {
-            edge_delta = -edge_delta;
-        }
-        edge_y = edge_y + box_height;
-        edge_y = edge_y - actor_y;
-        edge_y = abs(edge_y);
-        edge_delta = edge_delta < edge_y;
-        edge_y = (u16)box->y;
-        box_height = (u16)box->h;
-        if (edge_delta) {
-            actor->y = edge_y;
-            return 2;
-        }
-        edge_y = edge_y + box_height;
-        actor->y = edge_y;
-    }
-    return 2;
-
-clamp_x:
-    *offset_x -= actor->dx;
-    velocity = actor->dx;
-    if (velocity > 0) {
-        edge_x = (u16)box->x;
-        actor->x = edge_x;
-        goto adjusted;
-    }
-    if (velocity < 0) {
-        edge_x = (u16)box->x;
-        edge_delta = (u16)box->w;
-        edge_x = edge_x + edge_delta;
-        goto store_x;
-    }
-    actor_x = actor->x;
-    do {
-        edge_x = box->x;
-    } while (0);
-    box_width = box->w;
-    edge_delta = actor_x - edge_x;
-    if (edge_delta < 0) {
-        edge_delta = -edge_delta;
-    }
-    edge_x = edge_x + box_width;
-    edge_x = edge_x - actor_x;
-    edge_x = abs(edge_x);
-    edge_delta = edge_delta < edge_x;
-    edge_x = (u16)box->x;
-    box_width = (u16)box->w;
-    if (edge_delta) {
-        goto store_x;
-    }
-    edge_x = edge_x + box_width;
-store_x:
-    ASM_KEEP(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    actor->x = edge_x;
-    return 2;
-
-check_edges:
     zone_kind = CURRENT_ZONE(kind);
     switch (zone_kind) {
 zone_found:
@@ -367,7 +347,6 @@ zone_found:
     default:
         break;
     }
-push_back:
     *offset_x -= actor->dx * 3;
     *offset_y -= actor->dy * 3;
     return 1;
@@ -402,20 +381,15 @@ clamp_to_zone:
     }
     while (box_id >= *zone_id - 1) {
         candidate = (box_id + 16) % 16;
-        if (actor->x < CANDIDATE_ZONE(x)) {
-            goto next_clamped_neighbor;
+        if (actor->x >= CANDIDATE_ZONE(x)) {
+            if (actor->y >= CANDIDATE_ZONE(y)) {
+                if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) >= actor->x) {
+                    if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) >= actor->y) {
+                        *zone_id = candidate;
+                    }
+                }
+            }
         }
-        if (actor->y < CANDIDATE_ZONE(y)) {
-            goto next_clamped_neighbor;
-        }
-        if (CANDIDATE_ZONE(x) + CANDIDATE_ZONE(w) < actor->x) {
-            goto next_clamped_neighbor;
-        }
-        if (CANDIDATE_ZONE(y) + CANDIDATE_ZONE(h) < actor->y) {
-            goto next_clamped_neighbor;
-        }
-        *zone_id = candidate;
-    next_clamped_neighbor:
         box_id--;
     }
 adjusted:

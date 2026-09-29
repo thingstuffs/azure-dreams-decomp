@@ -42,34 +42,32 @@ void func_800265B8(u8 *menu)
         if (pressed_buttons & 0x40) {
             SD_Call(0x503);
             func_8002651C(menu);
-            goto finish_input;
-        }
-        if (held_buttons & 0x5000) {
-            if (pressed_buttons & 0x5000) {
-                ((S_800265B8_0 *)menu)->unk_30 = 0;
-                pressed_buttons = ((s32)gameWork.unk_010);
-                if (pressed_buttons & 0x1000) {
-                    status = -1;
-                } else if (pressed_buttons & 0x4000) {
-                    status = 1;
-                }
-            } else {
-                repeat_ticks = ((S_800265B8_0 *)menu)->unk_30;
-                if (repeat_ticks >= 13) {
-                    ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks - 4;
-                    repeat_buttons = gameWork.buttons;
-                    if (repeat_buttons & 0x1000) {
+        } else {
+            if (held_buttons & 0x5000) {
+                if (pressed_buttons & 0x5000) {
+                    ((S_800265B8_0 *)menu)->unk_30 = 0;
+                    pressed_buttons = ((s32)gameWork.unk_010);
+                    if (pressed_buttons & 0x1000) {
                         status = -1;
-                    } else if (repeat_buttons & 0x4000) {
+                    } else if (pressed_buttons & 0x4000) {
                         status = 1;
                     }
                 } else {
-                    ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks + 1;
+                    repeat_ticks = ((S_800265B8_0 *)menu)->unk_30;
+                    if (repeat_ticks >= 13) {
+                        ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks - 4;
+                        repeat_buttons = gameWork.buttons;
+                        if (repeat_buttons & 0x1000) {
+                            status = -1;
+                        } else if (repeat_buttons & 0x4000) {
+                            status = 1;
+                        }
+                    } else {
+                        ((S_800265B8_0 *)menu)->unk_30 = repeat_ticks + 1;
+                    }
                 }
             }
         }
-
-finish_input:
         if (status != 0) {
             SD_Call(0x502);
             ((S_800265B8_0 *)menu)->unk_2C =

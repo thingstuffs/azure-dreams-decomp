@@ -102,15 +102,12 @@ void func_800BD688(void *pair_in) {
     state = ((S_800BD688_0 *)pair)->unk_20.s;
     tick = (((S_800BD688_0 *)pair)->unk_22 + 1) & 7;
     ((S_800BD688_0 *)pair)->unk_22 = tick;
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     member_motion = (void *)0xFEC00000;
     if (tick == 0) {
         {

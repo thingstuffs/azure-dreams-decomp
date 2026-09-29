@@ -19,10 +19,9 @@ void *func_80016698(void *object, s32 action_arg) {
     }
     if (func_80017C7C(13, 5) == 0) {
         response = D_8001ADE7;
-        goto done;
+    } else {
+        func_80017BA0(object, action_arg);
+        response = D_8001AE39;
     }
-    func_80017BA0(object, action_arg);
-    response = D_8001AE39;
-done:
     return response;
 }

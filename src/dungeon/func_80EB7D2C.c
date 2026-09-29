@@ -145,79 +145,76 @@ state_zero:
     return;
 
 state_one:
-    if ((func_80042900(actor, 1) << 16) == 0) {
-        goto animate;
-    }
-    global_base = &dungeonStatus;
-    if (global_base->flags & 0x1000) {
-        return;
-    }
-    if (((S_8017352C_2 *)actor)->unk_64 != 0) {
-        if (func_800AA6B4(entity, motion, sprite, 0) != 0) {
-            return;
-        }
-    }
-    if (((S_8017352C_2 *)actor)->unk_25 == 0) {
-        if (global_base->flags & 0x2008) {
-            return;
-        }
-        func_800AA79C(entity, motion, sprite, actor);
-        return;
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        return;
-    }
-    actor_flags = ((S_8017352C_2 *)actor)->unk_1C.s;
-    if (actor_flags & 0x100) {
-        func_800AA258(entity, motion, sprite, actor);
-        return;
-    }
-    if (actor_flags & 0x80000) {
-        func_800AA888(entity, motion, sprite, actor);
-        ((S_8017352C_0 *)entity)->unk_A8 = 0;
-        func_80173D10(entity, motion, sprite, actor);
-        return;
-    }
-
-    timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
-    ((S_8017352C_0 *)entity)->unk_96 = timer;
-    if ((timer << 16) <= 0) {
-        ((S_8017352C_5 *)body_part)->unk_04 &= 0x7FFF;
-        func_80047784(part_anim, 0x27, 0);
-        ((S_8017352C_0 *)entity)->unk_96 = (rand() & 0xF) + 0x20;
-    }
-    if (((S_8017352C_6 *)part_anim)->unk_14 & 0x6000) {
-        ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
-    }
-    if (((S_8017352C_2 *)actor)->unk_6D == 0) {
-        return;
-    }
-    if ((func_800A2C34(actor) << 16) != 0) {
-        EntityRec *owner = D_800814A8;
-
-        if ((func_8009A180(actor,
-                (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
-            return;
-        }
-    }
-    func_800A9A0C(actor);
-    func_800A9A04(actor);
     if ((func_80042900(actor, 1) << 16) != 0) {
-        TileObject *origin = &D_80082E80;
-        s8 tile = ((S_8017352C_1 *)sprite)->unk_26;
-
-        if (((tile == origin->unk_026) && (tile >= 0)) ||
-            ((s16)func_8009FD40(origin, sprite) < 2)) {
-            if (!(func_800A6D30() & 7)) {
-                func_80042B68(actor, 1);
+        global_base = &dungeonStatus;
+        if (global_base->flags & 0x1000) {
+            return;
+        }
+        if (((S_8017352C_2 *)actor)->unk_64 != 0) {
+            if (func_800AA6B4(entity, motion, sprite, 0) != 0) {
+                return;
             }
         }
-    }
-    if ((func_80042900(actor, 1) << 16) != 0) {
-        return;
-    }
+        if (((S_8017352C_2 *)actor)->unk_25 == 0) {
+            if (global_base->flags & 0x2008) {
+                return;
+            }
+            func_800AA79C(entity, motion, sprite, actor);
+            return;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            return;
+        }
+        actor_flags = ((S_8017352C_2 *)actor)->unk_1C.s;
+        if (actor_flags & 0x100) {
+            func_800AA258(entity, motion, sprite, actor);
+            return;
+        }
+        if (actor_flags & 0x80000) {
+            func_800AA888(entity, motion, sprite, actor);
+            ((S_8017352C_0 *)entity)->unk_A8 = 0;
+            func_80173D10(entity, motion, sprite, actor);
+            return;
+        }
 
-animate:
+        timer = ((S_8017352C_0 *)entity)->unk_96 - 1;
+        ((S_8017352C_0 *)entity)->unk_96 = timer;
+        if ((timer << 16) <= 0) {
+            ((S_8017352C_5 *)body_part)->unk_04 &= 0x7FFF;
+            func_80047784(part_anim, 0x27, 0);
+            ((S_8017352C_0 *)entity)->unk_96 = (rand() & 0xF) + 0x20;
+        }
+        if (((S_8017352C_6 *)part_anim)->unk_14 & 0x6000) {
+            ((S_8017352C_5 *)body_part)->unk_04 |= 0x8000;
+        }
+        if (((S_8017352C_2 *)actor)->unk_6D == 0) {
+            return;
+        }
+        if ((func_800A2C34(actor) << 16) != 0) {
+            EntityRec *owner = D_800814A8;
+
+            if ((func_8009A180(actor,
+                    (u8 *)owner->unk_58 + 0x20) << 16) != 0) {
+                return;
+            }
+        }
+        func_800A9A0C(actor);
+        func_800A9A04(actor);
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            TileObject *origin = &D_80082E80;
+            s8 tile = ((S_8017352C_1 *)sprite)->unk_26;
+
+            if (((tile == origin->unk_026) && (tile >= 0)) ||
+                ((s16)func_8009FD40(origin, sprite) < 2)) {
+                if (!(func_800A6D30() & 7)) {
+                    func_80042B68(actor, 1);
+                }
+            }
+        }
+        if ((func_80042900(actor, 1) << 16) != 0) {
+            return;
+        }
+    }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80174184;
     func_80047784(sprite,
         D_80174184[((gameWork.view.viewAngle + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],

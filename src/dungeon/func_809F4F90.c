@@ -257,10 +257,9 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_4 *)motion)->unk_10 = y_step << 0x12;
             ((S_80172790_4 *)motion)->unk_14 = 0x30000;
             func_800A56E0(0x80E);
-            goto advance;
+        } else {
+            return;
         }
-        return;
-
 advance:
         ((S_80172790_1 *)action)->unk_9B++;
         return;

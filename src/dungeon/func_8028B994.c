@@ -50,47 +50,44 @@ void func_8001E994(void)
             do {
                 item_flags =
                     *(u16 *)(item_offset + *(volatile s32 *)(group + 0xC));
-                if (item_flags & 0x10) {
-                    goto next_item;
-                }
-                if (!(item_flags & 0x40)) {
-                    goto add_item;
-                }
-                {
-                    volatile s32 *state_page;
+                if (!(item_flags & 0x10)) {
+                    if (item_flags & 0x40) {
+                        {
+                            volatile s32 *state_page;
 
-                    state_page = (volatile s32 *)0x80010000;
-                    if (*(volatile s32 *)((u8 *)state_page + 0x2090) !=
-                        two) {
-                        goto next_item;
-                    }
-                }
-add_item:
-                    weight_bits =
-                        *(u16 *)(item_offset + *(s32 *)(group_copy + 0xC)) & 0x3000;
-                    if (weight_bits < 0) {
-                        weight_bits += 0xFFF;
-                    }
-                    weight_bits >>= 0xC;
-                    {
-
-                        item_flags = weight_bits & 3;
-                        item_weight = 0x80;
-                        if (item_flags != 0) {
-                            s32 one;
-
-                            one = 1;
-                            ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                            item_weight = 0x55;
-                            if (item_flags != one) {
-                                item_weight = one;
-                                if (item_flags == two) {
-                                    item_weight = 0x20;
-                                }
+                            state_page = (volatile s32 *)0x80010000;
+                            if (*(volatile s32 *)((u8 *)state_page + 0x2090) !=
+                                two) {
+                                goto next_item;
                             }
                         }
-                        total_weight += item_weight;
                     }
+                        weight_bits =
+                            *(u16 *)(item_offset + *(s32 *)(group_copy + 0xC)) & 0x3000;
+                        if (weight_bits < 0) {
+                            weight_bits += 0xFFF;
+                        }
+                        weight_bits >>= 0xC;
+                        {
+
+                            item_flags = weight_bits & 3;
+                            item_weight = 0x80;
+                            if (item_flags != 0) {
+                                s32 one;
+
+                                one = 1;
+                                ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                                item_weight = 0x55;
+                                if (item_flags != one) {
+                                    item_weight = one;
+                                    if (item_flags == two) {
+                                        item_weight = 0x20;
+                                    }
+                                }
+                            }
+                            total_weight += item_weight;
+                        }
+                }
 next_item:
                 item_offset += 0x14;
             } while (++item_index < (s32)*(u8 *)(group + 2));

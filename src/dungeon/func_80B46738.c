@@ -8,15 +8,12 @@ void func_80173F38(void *effect) {
     u16 timer;
 
     state = *(s16 *)((u8 *)effect + 0xC);
-    if (state == 0) {
-        goto countdown;
+    if (state != 0) {
+        if (state == 1) {
+            goto fade;
+        }
+        return;
     }
-    if (state == 1) {
-        goto fade;
-    }
-    return;
-
-countdown:
     timer = *(u16 *)((u8 *)effect + 0xE) - 1;
     *(u16 *)((u8 *)effect + 0xE) = timer;
     if ((s32)(timer << 16) > 0) {

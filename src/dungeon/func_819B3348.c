@@ -43,19 +43,18 @@ void func_80024B48(void *object) {
         if (((S_80024B48_0 *)object)->unk_4C != 1) {
             return;
         }
-        goto check_completion;
+    } else {
+        tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
+        tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
+        ((S_80024B48_0 *)object)->unk_48 = 0U;
+        ((S_80024B48_0 *)object)->unk_04 = (s16) ((tile_x << 6) + 0x20);
+        ((S_80024B48_0 *)object)->unk_06 = (s16) ((tile_y << 6) + 0x20);
+        offset_tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
+        offset_tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
+        ((S_80024B48_0 *)object)->unk_0C = (s16) ((offset_tile_x - 7) << 6);
+        ((S_80024B48_0 *)object)->unk_0E = (s16) ((offset_tile_y - 7) << 6);
+        ((S_80024B48_0 *)object)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)object)->unk_4C + 1);
     }
-    tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
-    tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
-    ((S_80024B48_0 *)object)->unk_48 = 0U;
-    ((S_80024B48_0 *)object)->unk_04 = (s16) ((tile_x << 6) + 0x20);
-    ((S_80024B48_0 *)object)->unk_06 = (s16) ((tile_y << 6) + 0x20);
-    offset_tile_x = (s16) ((S_80024B48_0 *)object)->unk_0C;
-    offset_tile_y = (s16) ((S_80024B48_0 *)object)->unk_0E;
-    ((S_80024B48_0 *)object)->unk_0C = (s16) ((offset_tile_x - 7) << 6);
-    ((S_80024B48_0 *)object)->unk_0E = (s16) ((offset_tile_y - 7) << 6);
-    ((S_80024B48_0 *)object)->unk_4C = (s16) ((u16) ((S_80024B48_0 *)object)->unk_4C + 1);
-check_completion:
     if ((s16) ((S_80024B48_0 *)object)->unk_48 >= 0x20) {
         (*(u16 *)((u8 *)object + (-2))) = (u16) (((S_80024B48_0_pre *)object)[-1].unk_00 | 0x8000);
         (*(s32 *)((u8 *)D_80080000 + (0x14A0))) = (s32) (((Rec_D_80080000 *)D_80080000)->unk_14A0 | 0x8000);

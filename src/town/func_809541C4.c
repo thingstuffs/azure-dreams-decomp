@@ -38,15 +38,14 @@ void func_800211C4(S_800211C4_0 *orientation, void *state_ptr, Rec_D_80082E80 *r
     }
     if (state->unk_20 == direction) {
         flags_page = (u8 *)0x80070000;
-        goto update_flags;
+    } else {
+        direction_data = (u8 *)record->unk_2C.as_s32;
+        if (direction_data != 0) {
+            func_80047738(record, direction_data[direction], record->unk_04.as_s8);
+        }
+        state->unk_20 = direction;
+        flags_page = (u8 *)0x80070000;
     }
-    direction_data = (u8 *)record->unk_2C.as_s32;
-    if (direction_data != 0) {
-        func_80047738(record, direction_data[direction], record->unk_04.as_s8);
-    }
-    state->unk_20 = direction;
-    flags_page = (u8 *)0x80070000;
-update_flags:
     flags_base = (s32)flags_page - 0x3308;
     direction_data = dirSpriteFlag + direction;
     if (direction_data[0] != 0) {

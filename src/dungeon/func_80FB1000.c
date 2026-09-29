@@ -213,14 +213,11 @@ initialize_after_a0:
         entry = (*(u8 * *)((u8 *)monster + 8));
 loop_test:
         scale = i << 1;
-        if (!(entry[0] & 0x20)) {
-            goto loop_done;
+        if (entry[0] & 0x20) {
+            entry += 12;
+            i++;
+            goto loop_test;
         }
-        entry += 12;
-        i++;
-        goto loop_test;
-
-loop_done:
         value = ((S_80FB1000_2 *)((*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4))->unk_06 >> 6;
         rect.x = 0;
         rect.y = value;

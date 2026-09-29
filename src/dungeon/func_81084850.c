@@ -94,24 +94,22 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     func_800C7930((u8 *)acting_actor - 0x20, action_param, 8, 0x300);
     if ((func_800A2B5C(acting_actor) << 16) != 0) {
         result = -1;
-        goto done;
+    } else {
+        ((S_80172050_2 *)action_out)->unk_9A = 0x11;
+        action_code = 0x7C;
+        ((S_80172050_2 *)action_out)->unk_9B = 0;
+        ((S_80172050_2 *)action_out)->unk_8C = 0;
+        ((S_80172050_0 *)acting_actor)->unk_84 = action_code;
+        ((S_80172050_0 *)acting_actor)->unk_85 = 4;
+        direction_table = &D_80175F48;
+        (*(void * *)((u8 *)actor_info + 0x2C)) = direction_table;
+        func_80047784(actor_info,
+            direction_table[((gameWork.view.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_80172050_3 *)acting_actor)->unk_6D--;
+        func_8009C93C(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
+        result = 1;
     }
-    ((S_80172050_2 *)action_out)->unk_9A = 0x11;
-    action_code = 0x7C;
-    ((S_80172050_2 *)action_out)->unk_9B = 0;
-    ((S_80172050_2 *)action_out)->unk_8C = 0;
-    ((S_80172050_0 *)acting_actor)->unk_84 = action_code;
-    ((S_80172050_0 *)acting_actor)->unk_85 = 4;
-    direction_table = &D_80175F48;
-    (*(void * *)((u8 *)actor_info + 0x2C)) = direction_table;
-    func_80047784(actor_info,
-        direction_table[((gameWork.view.viewAngle + ((S_80172050_0 *)acting_actor)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    ((S_80172050_3 *)acting_actor)->unk_6D--;
-    func_8009C93C(acting_actor, actor_info, ((S_80172050_3 *)acting_actor)->unk_2A, 1, 0);
-    result = 1;
-
-done:
     return result;
 }
 

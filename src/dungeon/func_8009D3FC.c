@@ -18,22 +18,20 @@ extern u16 func_800A2B28();
 s16 func_800A2B5C(s32 requested_value) {
     s32 current_value = ((s32)dungeonStatus.unk_0C);
 
-    if (current_value == requested_value) {
-        goto call;
+    if (current_value != requested_value) {
+        if (current_value != 0) {
+            return 1;
+        }
+        if (((s32)dungeonStatus.unk_10) != 0) {
+            return 1;
+        }
+        if (dungeonStatus.unk_0A != 0) {
+            return 1;
+        }
+        if (dungeonStatus.flags & 8) {
+            return 1;
+        }
+        dungeonStatus.unk_0C = requested_value;
     }
-    if (current_value != 0) {
-        return 1;
-    }
-    if (((s32)dungeonStatus.unk_10) != 0) {
-        return 1;
-    }
-    if (dungeonStatus.unk_0A != 0) {
-        return 1;
-    }
-    if (dungeonStatus.flags & 8) {
-        return 1;
-    }
-    dungeonStatus.unk_0C = requested_value;
-call:
     return func_800A2B28();
 }

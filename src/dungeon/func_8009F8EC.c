@@ -391,59 +391,57 @@ spawn_replacement:
     spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
     spawned = spawn(1, entity_data[0x24], entity_data[0x25],
                     (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
-    if (spawned == NULL) {
-        goto done;
+    if (spawned != NULL) {
+        ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
+        offset = func_800A1BD0(entity);
+        record = ((u8 *)D_800814A8);
+        offset = (offset << 16) >> 14;
+        offset += (s32)record;
+        record = (u8 *)offset;
+        record_data = ((S_800A504C_5 *)record)->unk_D0;
+        ((S_800A504C_5 *)record)->unk_AC = spawned;
+        record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
+        (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
+
+        entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+        ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
+        ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
+        func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
+        copy_call_entity = spawned;
+        replace_call_zero = 0;
+        ((S_800A504C_4 *)spawned)->unk_14 &= -8;
+        ((S_800A504C_4 *)spawned)->unk_1C &= -8;
+        ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
+        ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
+        func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+                      replace_call_zero);
+        func_80042710(spawned, entity);
+
+        if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
+            TablePage *table_page = (TablePage *)0x80010000;
+            u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
+            u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
+            table_page->table84[table_index].value = table_value;
+            table_page->table4[table_index].value = table_value;
+        }
+        func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
+        func_80042560(spawned);
+        angle = ((S_800A504C_1 *)entity)->unk_2A;
+        (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
+        offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
+        func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
+                      ((S_800A504C_2 *)entity_data)->unk_04);
+        data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
+        D_80080A90 = D_8014A000;
+        ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
+        remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
+        D_800DCF5C = count;
+        ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
+        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
+        global_flags = objectFlagBlock.flags;
+        ((S_800A504C_1 *)entity)->unk_90 = 0;
+        objectFlagBlock.flags = global_flags | 0x8000;
     }
-    ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
-    offset = func_800A1BD0(entity);
-    record = ((u8 *)D_800814A8);
-    offset = (offset << 16) >> 14;
-    offset += (s32)record;
-    record = (u8 *)offset;
-    record_data = ((S_800A504C_5 *)record)->unk_D0;
-    ((S_800A504C_5 *)record)->unk_AC = spawned;
-    record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
-    (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
-
-    entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
-    ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
-    func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
-    copy_call_entity = spawned;
-    replace_call_zero = 0;
-    ((S_800A504C_4 *)spawned)->unk_14 &= -8;
-    ((S_800A504C_4 *)spawned)->unk_1C &= -8;
-    ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
-    ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-    func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  replace_call_zero);
-    func_80042710(spawned, entity);
-
-    if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
-        TablePage *table_page = (TablePage *)0x80010000;
-        u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
-        u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
-        table_page->table84[table_index].value = table_value;
-        table_page->table4[table_index].value = table_value;
-    }
-    func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
-    func_80042560(spawned);
-    angle = ((S_800A504C_1 *)entity)->unk_2A;
-    (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
-    offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
-    func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
-                  ((S_800A504C_2 *)entity_data)->unk_04);
-    data_flags = ((S_800A504C_2 *)entity_data)->unk_14;
-    D_80080A90 = D_8014A000;
-    ((S_800A504C_2 *)entity_data)->unk_14 = data_flags & 0xFFFE;
-    remaining_count = ((S_800A504C_0 *)base)->unk_0A.u;
-    D_800DCF5C = count;
-    ((S_800A504C_0 *)base)->unk_0A.s = (s16)(remaining_count - 1);
-    (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
-    global_flags = objectFlagBlock.flags;
-    ((S_800A504C_1 *)entity)->unk_90 = 0;
-    objectFlagBlock.flags = global_flags | 0x8000;
-
 done:
     return 0;
 }

@@ -173,7 +173,6 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     s32 entity_height;
     u32 height_adjust;
     s32 world_coord;
-    u8 next_state;
     register u8 *animation_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 launch_anim;
     u32 fall_anim;
@@ -221,22 +220,18 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     partner_x = partner_sprite->unk_24;
     partner_y = partner_sprite->unk_25;
     partner_tile_mask = 0x3000;
-    if (!partner_flags) {
-        goto clear_partner_tile;
+    if (partner_flags) {
+        partner_tile_mask = 0x300;
     }
-    partner_tile_mask = 0x300;
-clear_partner_tile:
     func_8009A3D0(partner_x, partner_y, partner_tile_mask);
     sprite_x = sprite->unk_24;
     entity_flags = ((S_func_81008664_3 *)entity)->unk_1C;
     entity_flags &= 0x2000;
     tile_mask = 0x3000;
     sprite_y = sprite->unk_25;
-    if (!entity_flags) {
-        goto clear_sprite_tile;
+    if (entity_flags) {
+        tile_mask = 0x300;
     }
-    tile_mask = 0x300;
-clear_sprite_tile:
     func_8009A3D0(sprite_x, sprite_y, tile_mask);
     angle = 0xFFFB0000;
     cleared_flags = ((S_func_81008664_3 *)entity)->unk_1C;
@@ -253,18 +248,13 @@ clear_sprite_tile:
     direction = angle & 7;
     if (!sprite_grounded) {
         actor->unk_96 = 0xC;
-        goto start_launch_done;
-    }
-    if (!(partner_sprite->unk_14 & 0x8000)) {
+    } else if (!(partner_sprite->unk_14 & 0x8000)) {
         actor->unk_96 = 0xC;
-        goto start_launch_done;
+    } else {
+        actor->unk_96 = 0;
+        actor->unk_9B = 2;
+        return;
     }
-    next_state = 2;
-    actor->unk_96 = 0;
-    goto store_state;
-    actor->unk_96 = 0xC;
-    start_launch_done:
-    ;
     x_step_table = ((u8 *)dirStepX);
     step_offset = direction * 2;
     x_step_table = (u8 *) (step_offset + (u32) x_step_table);
@@ -299,21 +289,19 @@ clear_sprite_tile:
     case 1:
     launch_ticks = (u16) actor->unk_96 - 1;
     actor->unk_96 = launch_ticks;
-    if (launch_ticks != 8) {
-        goto check_launch_end;
+    if (launch_ticks == 8) {
+        height_value = (u32) D_800DDC40;
+        height_offset = partner->unk_13;
+        height_offset += height_value;
+        height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
+        entity_height = (*(s16 *)((u8 *)entity + 0x88));
+        height_offset = ((S_func_81008664_9 *) height_offset)->unk_00;
+        motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10) << 0x10) / launch_ticks);
+        partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
+        partner->unk_88 = 0U;
     }
-    height_value = (u32) D_800DDC40;
-    height_offset = partner->unk_13;
-    height_offset += height_value;
-    height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
-    entity_height = (*(s16 *)((u8 *)entity + 0x88));
-    height_offset = ((S_func_81008664_9 *) height_offset)->unk_00;
-    motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10) << 0x10) / launch_ticks);
-    partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
-    partner->unk_88 = 0U;
-check_launch_end:
     if (actor->unk_96 > 0) {
-        goto done;
+        return;
     }
     motion->unk_10 = 0;
     motion->unk_0C = 0;
@@ -329,7 +317,8 @@ check_launch_end:
     fall_anim = ((s32) (*angle_or_count + (s16) ((S_func_81008664_3 *)entity)->unk_2A + 0x100) >> 9) & 7;
     fall_anim = fall_anim + (u32) animation_table;
     func_80047784(sprite, ((S_func_81008664_9 *) fall_anim)->unk_00, 0);
-    goto advance_state;
+    actor->unk_9B = actor->unk_9B + 1;
+    return;
 restore_tile:
     partner_sprite->unk_24 = saved_x;
     partner_sprite->unk_25 = saved_y;
@@ -340,13 +329,11 @@ restore_tile:
     partner_actor->unk_90.unk_92.unk_92 = (u16) ((motion->unk_08.unk_0A.unk_0A + height_adjust) - 0x10);
     fall_ticks = (u16) actor->unk_96 - 1;
     actor->unk_96 = fall_ticks;
-    if ((fall_ticks << 0x10) <= 0) {
-        goto prepare_tile_search;
+    if ((fall_ticks << 0x10) > 0) {
+        if (!(partner_sprite->unk_14 & 0x8000)) {
+            return;
+        }
     }
-    if (!(partner_sprite->unk_14 & 0x8000)) {
-        goto done;
-    }
-prepare_tile_search:
     saved_x = partner_sprite->unk_24;
     attempts = 0x40;
     reverse_angle = (s16) ((S_func_81008664_3 *)entity)->unk_2A;
@@ -412,38 +399,31 @@ place_actors:
     func_80047784(sprite, ((S_func_81008664_9 *) rise_anim)->unk_00, 0);
     func_800AA53C(entity);
     func_800AA53C(partner);
-    goto advance_state;
+    actor->unk_9B = actor->unk_9B + 1;
+    return;
     case 3:
     partner_actor->unk_90.unk_92.unk_92 = (u16) (actor->unk_90.unk_92.unk_92 + 0x40);
-    if ((s16) actor->unk_90.unk_92.unk_92 >= 0) {
-        goto start_return;
+    if ((s16) actor->unk_90.unk_92.unk_92 < 0) {
+        rise_ticks = (u16) actor->unk_96 - 1;
+        actor->unk_96 = rise_ticks;
+        if ((rise_ticks << 0x10) > 0) {
+            return;
+        }
+        if (!(sprite->unk_14 & 0x8000)) {
+            return;
+        }
     }
-    rise_ticks = (u16) actor->unk_96 - 1;
-    actor->unk_96 = rise_ticks;
-    if ((rise_ticks << 0x10) > 0) {
-        goto done;
-    }
-    if (!(sprite->unk_14 & 0x8000)) {
-        goto done;
-    }
-start_return:
     actor->unk_90.unk_90 = 0;
     partner_actor->unk_90.unk_90 = 0;
-    if (!(actor->unk_98 & 0x1000)) {
-        goto restore_partner_flags;
+    if (actor->unk_98 & 0x1000) {
+        partner->unk_1C = (s32) (partner->unk_1C | 0x40000);
     }
-    partner->unk_1C = (s32) (partner->unk_1C | 0x40000);
-restore_partner_flags:
-    if (actor->unk_98 & 0x4000) {
-        goto restore_partner_flag;
+    if (!(actor->unk_98 & 0x4000)) {
+        partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFF7);
     }
-    partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFF7);
-restore_partner_flag:
-    if (actor->unk_98 & 0x2000) {
-        goto set_return_motion;
+    if (!(actor->unk_98 & 0x2000)) {
+        partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFFB);
     }
-    partner_actor->unk_98 = (u16) (partner_actor->unk_98 & 0xFFFB);
-set_return_motion:
     ((S_func_81008664_3 *)entity)->unk_1C = (s32) (((S_func_81008664_3 *)entity)->unk_1C | 0x40000000);
     partner->unk_1C = (s32) (partner->unk_1C | 0x40000000);
     {
@@ -475,18 +455,17 @@ set_return_motion:
         motion->unk_10 = (s32)height_value;
         partner_motion->unk_14 = 0;
         motion->unk_14 = 0;
-        goto advance_state;
+    actor->unk_9B = actor->unk_9B + 1;
+    return;
     }
     case 4:
     return_ticks = (u16) actor->unk_96 - 1;
     actor->unk_96 = return_ticks;
-    if ((return_ticks << 0x10) <= 0) {
-        goto finish_movement;
+    if ((return_ticks << 0x10) > 0) {
+        if (!(partner_sprite->unk_14 & 0x8000)) {
+            return;
+        }
     }
-    if (!(partner_sprite->unk_14 & 0x8000)) {
-        goto done;
-    }
-finish_movement:
     final_x = sprite->unk_24;
     final_x = ((final_x << 6) + 0x20) << 0x10;
     motion->unk_00 = final_x;
@@ -522,11 +501,9 @@ finish_movement:
         restore_x = sprite->unk_24;
         restore_y = sprite->unk_25;
         restore_tile_mask = 0x3000;
-        if (!restore_flags) {
-            goto restore_sprite_tile;
+        if (restore_flags) {
+            restore_tile_mask = 0x300;
         }
-        restore_tile_mask = 0x300;
-restore_sprite_tile:
         func_8009A21C(restore_x, restore_y, restore_tile_mask);
     }
     {
@@ -539,11 +516,9 @@ restore_sprite_tile:
         restore_y = partner_sprite->unk_25;
         restore_flags &= 0x2000;
         restore_partner_mask = 0x3000;
-        if (!restore_flags) {
-            goto restore_partner_tile;
+        if (restore_flags) {
+            restore_partner_mask = 0x300;
         }
-        restore_partner_mask = 0x300;
-restore_partner_tile:
         func_8009A21C(restore_x, restore_y, restore_partner_mask);
     }
     animation_table = D_80174888;
@@ -554,12 +529,8 @@ restore_partner_tile:
     func_80047784(sprite, ((S_func_81008664_9 *) idle_anim)->unk_00, 0);
     ((S_func_81008664_3 *)entity)->unk_6D = 0;
     ((S_func_81008664_3 *)entity)->unk_46 = (u16) (((S_func_81008664_3 *)entity)->unk_46 & 0x7FFF);
-advance_state:
-    next_state = actor->unk_9B + 1;
-store_state:
-    actor->unk_9B = next_state;
+    actor->unk_9B = actor->unk_9B + 1;
     default:
-done:
         return;
     }
 }

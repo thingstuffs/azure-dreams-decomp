@@ -53,11 +53,10 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         pos_y += delta_y;
         obj->unk2 = pos_x;
         obj->unk6 = pos_y;
-        goto done;
+    } else {
+        motion->unk6A = 0;
+        motion->unk68++;
     }
-
-    motion->unk6A = 0;
-    motion->unk68++;
 done:
     ASM_SCHED_BARRIER();
 }

@@ -79,53 +79,49 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     alloc_kind = 0x212;
     alloc_source = (u8 *)source - 0x20;
     effect = func_8003FD64(alloc_kind, alloc_source);
-    if (effect == NULL) {
-        goto null_result;
+    if (effect != NULL) {
+        ((S_80024804_0 *)effect)->unk_10 = &D_80024710;
+        ((S_80024804_0 *)effect)->unk_20 = ((S_80024804_1 *)source)->unk_00;
+
+        step_word = (s32)saved_step << 16;
+        part = ((S_80024804_0 *)effect)->unk_0C;
+        part->unk_0D = -0x60 - ((step_word >> 16) << 6);
+        part->unk_0C = -0x60 - ((step_word >> 16) << 6);
+        part->unk_0E = 0xC0;
+        part->unk_12 = 0x7DCF;
+        part->unk_08 = &D_80025B10;
+
+        part->unk_14 |= 0x000C;
+        part->unk_10 |= 0x0020;
+        part->unk_14 |= 0x0100;
+
+        random_value = func_80069EF8();
+        effect_state = (u8 *)effect + 0x20;
+        part->unk_1A = random_value % 0x1000;
+
+        part_scale = ((step_word >> 16) << 8) + 0x500;
+        part->unk_1E = part_scale;
+        part->unk_1C = part_scale;
+        func_8004491C(effect, func_80045340);
+
+        position = ((S_80024804_0 *)effect)->unk_08;
+        *position = *origin;
+
+        ((S_80024804_3 *)effect_state)->unk_0E.u = ((S_80024804_1 *)source)->unk_0E;
+        ((S_80024804_3 *)effect_state)->unk_10.u = ((S_80024804_1 *)source)->unk_10;
+
+        direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
+        position->word[0] -= (scaled_factor = direction_factor >> 4) *
+            (func_800644B8(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+
+        direction_factor_2 = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
+        position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
+            (func_80064584(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
+
+        position->word[2] -=
+            ((func_80064584(((S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
+        return effect;
     }
-
-    ((S_80024804_0 *)effect)->unk_10 = &D_80024710;
-    ((S_80024804_0 *)effect)->unk_20 = ((S_80024804_1 *)source)->unk_00;
-
-    step_word = (s32)saved_step << 16;
-    part = ((S_80024804_0 *)effect)->unk_0C;
-    part->unk_0D = -0x60 - ((step_word >> 16) << 6);
-    part->unk_0C = -0x60 - ((step_word >> 16) << 6);
-    part->unk_0E = 0xC0;
-    part->unk_12 = 0x7DCF;
-    part->unk_08 = &D_80025B10;
-
-    part->unk_14 |= 0x000C;
-    part->unk_10 |= 0x0020;
-    part->unk_14 |= 0x0100;
-
-    random_value = func_80069EF8();
-    effect_state = (u8 *)effect + 0x20;
-    part->unk_1A = random_value % 0x1000;
-
-    part_scale = ((step_word >> 16) << 8) + 0x500;
-    part->unk_1E = part_scale;
-    part->unk_1C = part_scale;
-    func_8004491C(effect, func_80045340);
-
-    position = ((S_80024804_0 *)effect)->unk_08;
-    *position = *origin;
-
-    ((S_80024804_3 *)effect_state)->unk_0E.u = ((S_80024804_1 *)source)->unk_0E;
-    ((S_80024804_3 *)effect_state)->unk_10.u = ((S_80024804_1 *)source)->unk_10;
-
-    direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
-    position->word[0] -= (scaled_factor = direction_factor >> 4) *
-        (func_800644B8(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
-
-    direction_factor_2 = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
-    position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
-        (func_80064584(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * ((step_word >> 16) + 2) * 8;
-
-    position->word[2] -=
-        ((func_80064584(((S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * ((step_word >> 16) + 2)) << 11;
-    return effect;
-
-null_result:
 
     return NULL;
 }

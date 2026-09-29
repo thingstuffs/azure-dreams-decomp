@@ -186,10 +186,9 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             if ((compact_held << 0x10) != 0) {
                 tail = 0x89 - obj_2;
                 offset = (s16) tail;
-                goto block_shared;
+            } else {
+                offset = 0x8A;
             }
-            offset = 0x8A;
-block_shared:
             func_800B1320((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u) - 0xE));
             offset = 8;
             if ((compact_s16 << 0x10) != 0) {

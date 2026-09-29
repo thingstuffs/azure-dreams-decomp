@@ -190,85 +190,81 @@ void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
     goto cleanup;
 
 state_one:
-    if ((record->unk_14.at00_u16.v & 0xE000) == 0) {
-        goto cleanup;
-    }
-    if (func_800A1618(0x1E, 1) == 0) {
-        if (func_800A1618(0x1E, 3) == 0) {
+    if ((record->unk_14.at00_u16.v & 0xE000) != 0) {
+        if (func_800A1618(0x1E, 1) == 0) {
+            if (func_800A1618(0x1E, 3) == 0) {
+                return;
+            }
+        }
+        if (func_8003FA44(3) == 0) {
             return;
         }
-    }
-    if (func_8003FA44(3) == 0) {
-        return;
-    }
 
-    spawn_kind = 4;
-    dungeonStatus.unk_0A--;
-    used_page = 0x80080000;
-    removal_flags = ((S_80174CCC_0_pre *)motion)[-1].unk_00.s;
-    flags = ((S_80174CCC_0 *)motion)->unk_38.s;
-    removal_flags |= 0x8000;
-    ((S_80174CCC_0_pre *)motion)[-1].unk_00.u = removal_flags;
-    state_page = 0x800E0000;
-    ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_80174CCC_4 *)((void *)state_page))->unk_2968 = state;
-    ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
-    if (flags & 0x2000) {
-        spawn_kind = 7;
-    }
+        spawn_kind = 4;
+        dungeonStatus.unk_0A--;
+        used_page = 0x80080000;
+        removal_flags = ((S_80174CCC_0_pre *)motion)[-1].unk_00.s;
+        flags = ((S_80174CCC_0 *)motion)->unk_38.s;
+        removal_flags |= 0x8000;
+        ((S_80174CCC_0_pre *)motion)[-1].unk_00.u = removal_flags;
+        state_page = 0x800E0000;
+        ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ((S_80174CCC_4 *)((void *)state_page))->unk_2968 = state;
+        ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
+        if (flags & 0x2000) {
+            spawn_kind = 7;
+        }
 
-    created = func_801708B4(spawn_kind,
-        ((S_80174CCC_0 *)motion)->unk_32,
-        ((S_80174CCC_0 *)motion)->unk_34,
-        ((S_80174CCC_0 *)motion)->unk_36.s);
-    if (created == 0) {
-        goto cleanup;
-    }
+        created = func_801708B4(spawn_kind,
+            ((S_80174CCC_0 *)motion)->unk_32,
+            ((S_80174CCC_0 *)motion)->unk_34,
+            ((S_80174CCC_0 *)motion)->unk_36.s);
+        if (created != 0) {
+            func_80042640(created, 0x1E);
+            ((S_80174CCC_6 *)created)->unk_14 &= ~7;
+            created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
+            motion_flags = ((S_80174CCC_0 *)motion)->unk_38.u;
+            ((S_80174CCC_6 *)created)->unk_1C &= ~7;
+            created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
+            created_flags_14 |= motion_flags;
+            ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
+            created_flags_1c |= ((S_80174CCC_0 *)motion)->unk_38.u;
+            ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
 
-    func_80042640(created, 0x1E);
-    ((S_80174CCC_6 *)created)->unk_14 &= ~7;
-    created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
-    motion_flags = ((S_80174CCC_0 *)motion)->unk_38.u;
-    ((S_80174CCC_6 *)created)->unk_1C &= ~7;
-    created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
-    created_flags_14 |= motion_flags;
-    ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
-    created_flags_1c |= ((S_80174CCC_0 *)motion)->unk_38.u;
-    ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
+            ((S_80174CCC_6 *)created)->unk_05 =
+                (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_05 + 1) >> 1;
+            ((S_80174CCC_6 *)created)->unk_29 =
+                (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_29 + 1) >> 1;
+            source_value_28 = ((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_28;
+            ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
+            ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
 
-    ((S_80174CCC_6 *)created)->unk_05 =
-        (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_05 + 1) >> 1;
-    ((S_80174CCC_6 *)created)->unk_29 =
-        (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_29 + 1) >> 1;
-    source_value_28 = ((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_28;
-    ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
-    ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
+            source = ((S_80174CCC_0 *)motion)->unk_10;
+            linked_object = created;
+            if (source->unk_14 & 0x4000) {
+                ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
+            } else {
+                if (source->unk_A4 != 0) {
+                    ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+                }
+            }
 
-    source = ((S_80174CCC_0 *)motion)->unk_10;
-    linked_object = created;
-    if (source->unk_14 & 0x4000) {
-        ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
-    } else {
-        if (source->unk_A4 != 0) {
-            ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+            parent = ((S_80174CCC_8 *)linked_object)->unk_A4;
+            if (parent != 0) {
+                parent->unk_CA++;
+            }
+
+            owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
+            owner->unk_2C.s = D_80176668;
+            owner->unk_14 |= 0x4000;
+            owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
+            func_80047784(owner,
+                owner->unk_2C.u
+                    [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+                0);
+            func_800A152C(0x1E, 1);
         }
     }
-
-    parent = ((S_80174CCC_8 *)linked_object)->unk_A4;
-    if (parent != 0) {
-        parent->unk_CA++;
-    }
-
-    owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
-    owner->unk_2C.s = D_80176668;
-    owner->unk_14 |= 0x4000;
-    owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
-    func_80047784(owner,
-        owner->unk_2C.u
-            [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    func_800A152C(0x1E, 1);
-
 cleanup:
     func_800478B8(record);
     return;

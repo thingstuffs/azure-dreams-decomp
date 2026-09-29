@@ -242,18 +242,15 @@ void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_sta
     if (dispatch_state == 2) {
         goto dispatch_case_2;
     }
-    if (dispatch_state >= 3) {
-        goto dispatch_high;
+    if (dispatch_state < 3) {
+        if (dispatch_state == 0) {
+            goto dispatch_case_0;
+        }
+        if (dispatch_state == 1) {
+            goto dispatch_case_1;
+        }
+        return;
     }
-    if (dispatch_state == 0) {
-        goto dispatch_case_0;
-    }
-    if (dispatch_state == 1) {
-        goto dispatch_case_1;
-    }
-    return;
-
-dispatch_high:
     if (dispatch_state == 0xF0) {
         goto dispatch_case_f0;
     }
@@ -274,18 +271,16 @@ dispatch_case_0:
         if (found_target == 0) {
             ((S_818E0800_1 *)actor)->unk_72.s = ((S_818E0800_8 *)actor_data)->unk_24;
             ((S_818E0800_1 *)actor)->unk_73.s = ((S_818E0800_8 *)actor_data)->unk_25;
-            goto set_motion_xy;
-        }
-
-        render_state = ((S_818E0800_9_pre *)found_target)[-1].unk_00;
-        if (((S_818E0800_6 *)render_state)->unk_14 & 0x8000) {
-            if (actor_state->unk_14 & 0x8000) {
-                goto state_f0;
+        } else {
+            render_state = ((S_818E0800_9_pre *)found_target)[-1].unk_00;
+            if (((S_818E0800_6 *)render_state)->unk_14 & 0x8000) {
+                if (actor_state->unk_14 & 0x8000) {
+                    goto state_f0;
+                }
             }
+            ((S_818E0800_1 *)actor)->unk_72.s = ((S_818E0800_6 *)render_state)->unk_24;
+            ((S_818E0800_1 *)actor)->unk_73.s = ((S_818E0800_6 *)render_state)->unk_25;
         }
-        ((S_818E0800_1 *)actor)->unk_72.s = ((S_818E0800_6 *)render_state)->unk_24;
-        ((S_818E0800_1 *)actor)->unk_73.s = ((S_818E0800_6 *)render_state)->unk_25;
-set_motion_xy:
         ((S_818E0800_2 *)motion_arg)->unk_00.at02.v =
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_00.at02.v;
         ((S_818E0800_2 *)motion_arg)->unk_04.at02.v =

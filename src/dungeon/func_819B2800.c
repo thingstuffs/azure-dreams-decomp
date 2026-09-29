@@ -163,31 +163,27 @@ wait_trigger:
     actor->unk_A6 = (u16) (actor->unk_A6 - 1);
     actor->unk_A8 = (u8) effect->unk_08;
     object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
-    if (object_data == NULL) {
-        goto advance_phase;
+    if (object_data != NULL) {
+        model = location->unk_0C;
+        if (func_8003DE58(model->unk_08, model, offset, 0) == 0) {
+            offset[2] = 0;
+            offset[1] = 0;
+            offset[0] = 0;
+        }
+        visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
+        object_data->unk_10 = &D_8002466C;
+        func_8004491C(object_data, &D_80024440);
+        pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
+        position->unk_00 = pos_x;
+        visual->unk_1C = pos_x;
+        pos_y = ((S_func_819B2800_1 *) location->unk_08)->unk_04 + (offset[1] << 0x10);
+        position->unk_04 = pos_y;
+        visual->unk_20 = pos_y;
+        pos_z = ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08 + (offset[2] << 0x10);
+        position->unk_08.unk_08 = pos_z;
+        visual->unk_24 = pos_z;
+        object_data->unk_20 = effect;
     }
-    model = location->unk_0C;
-    if (func_8003DE58(model->unk_08, model, offset, 0) != 0) {
-        goto place_visual;
-    }
-    offset[2] = 0;
-    offset[1] = 0;
-    offset[0] = 0;
-place_visual:
-    visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-    object_data->unk_10 = &D_8002466C;
-    func_8004491C(object_data, &D_80024440);
-    pos_x = ((S_func_819B2800_1 *) location->unk_08)->unk_00 + (offset[0] << 0x10);
-    position->unk_00 = pos_x;
-    visual->unk_1C = pos_x;
-    pos_y = ((S_func_819B2800_1 *) location->unk_08)->unk_04 + (offset[1] << 0x10);
-    position->unk_04 = pos_y;
-    visual->unk_20 = pos_y;
-    pos_z = ((S_func_819B2800_1 *) location->unk_08)->unk_08.unk_08 + (offset[2] << 0x10);
-    position->unk_08.unk_08 = pos_z;
-    visual->unk_24 = pos_z;
-    object_data->unk_20 = effect;
-advance_phase:
     next_phase = effect->unk_0A.unk_A;
     next_phase++;
     goto store_phase;
@@ -205,30 +201,26 @@ start_effect:
     phase_or_delay = 0xD;
     goto set_timer;
 spawn_visual:
-    if ((s16) effect->unk_50 != 2) {
-        goto wait_visual;
+    if ((s16) effect->unk_50 == 2) {
+        func_800419EC(0x18, 0x10);
     }
-    func_800419EC(0x18, 0x10);
-wait_visual:
     if ((s16) effect->unk_50 > 0) {
         return;
     }
     object_data = (S_func_819B2800_2 *) func_8003FD64(0x302, ((u8 *)(&D_80083498)));
     data_bytes = (u8 *) object_data;
-    if (object_data == NULL) {
-        goto set_apply_delay;
+    if (object_data != NULL) {
+        visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
+        object_data->unk_10 = &D_80024B48;
+        func_8004491C(data_bytes, &D_80024C14);
+        data_bytes = ((u8 *)(&D_80082E80));
+        direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
+        offset[0] = direction;
+        visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_24 + dirStepX[direction]);
+        visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_25 + dirStepY[offset[0]]);
+        visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
+        object_data->unk_20 = effect;
     }
-    visual = (S_func_819B2800_4 *) ((u8 *) object_data + 0x20);
-    object_data->unk_10 = &D_80024B48;
-    func_8004491C(data_bytes, &D_80024C14);
-    data_bytes = ((u8 *)(&D_80082E80));
-    direction = ((u16) ((S_func_819B2800_5 *) ((s32*)((int *)(&D_800814A8)))[0])->unk_2A >> 9) & 7;
-    offset[0] = direction;
-    visual->unk_0C = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_24 + dirStepX[direction]);
-    visual->unk_0E = (s16) (((S_func_819B2800_3 *) ((u8 *)(&D_80082E80)))->unk_25 + dirStepY[offset[0]]);
-    visual->unk_10 = (u16) position->unk_08.unk_0A.unk_0A;
-    object_data->unk_20 = effect;
-set_apply_delay:
     next_phase = effect->unk_0A.unk_A;
     phase_or_delay = 0x10;
 set_timer:
@@ -249,28 +241,23 @@ apply_effect:
     location = (S_func_819B2800_3 *) ((u8 *)(&D_80082E80));
 next_target:
     target = func_800A3F28(location->unk_24, location->unk_25, position, (void *) target);
-    if (target == 0) {
-        goto check_completion;
-    }
-    if (((S_func_819B2800_5 *) target)->unk_1C & 0x2000) {
+    if (target != 0) {
+        if (((S_func_819B2800_5 *) target)->unk_1C & 0x2000) {
+            goto next_target;
+        }
+        func_8009CE1C((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A, object_data, 2);
         goto next_target;
     }
-    func_8009CE1C((void *) target, 0x10, effect->unk_09, 0xC, (s32) object_data->unk_2A, object_data, 2);
-    goto next_target;
 check_completion:
-    if (D_80082E80.unk_014 & 0x8000) {
-        goto check_hold;
+    if (!(D_80082E80.unk_014 & 0x8000)) {
+        if ((s16) effect->unk_50 >= 0) {
+            return;
+        }
     }
-    if ((s16) effect->unk_50 >= 0) {
+    if (effect->unk_52.unk_052 & 0x8000) {
+        effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
         return;
     }
-check_hold:
-    if (!(effect->unk_52.unk_052 & 0x8000)) {
-        goto finish_effect;
-    }
-    effect->unk_52.unk_52 = (u16) (effect->unk_52.unk_52 & 0x7FFF);
-    return;
-finish_effect:
     dungeonStatus.unk_0C = 0;
     dungeonStatus.unk_0A = (u16) (((u16)dungeonStatus.unk_0A) - 1);
     ((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_819B2800_8 *) ((u8 *) effect - 2))->unk_00 | 0x8000);

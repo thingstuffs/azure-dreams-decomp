@@ -175,16 +175,11 @@ finish:
     func_800A4ACC(actor);
     ((S_80172504_0 *)actor)->unk_6D--;
     copy_dest = (u8 *)actor - 0x20;
-    if (((S_80172504_1 *)state)->unk_AE != 2) {
-        goto copy_data;
+    if (((S_80172504_1 *)state)->unk_AE == 2) {
+        func_8009C93C(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
+                      (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
+    } else {
+        func_800C77D0(copy_dest, transfer_data, 8, 0x300);
     }
-    func_8009C93C(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
-                  (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
-    goto done;
-
-copy_data:
-    func_800C77D0(copy_dest, transfer_data, 8, 0x300);
-
-done:
     return 0;
 }

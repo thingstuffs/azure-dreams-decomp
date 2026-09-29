@@ -8,17 +8,12 @@ extern void func_8001AD60(s32);
 s32 func_8001637C(void *object, s32 query_value) {
     s32 result;
 
-    if (func_80019B54(object, query_value) != 0) {
-        goto nonzero;
+    if (func_80019B54(object, query_value) == 0) {
+        func_8001ACE8(0xDB8);
+        result = 0;
+    } else {
+        func_8001AD60(0xDB8);
+        result = 1;
     }
-    func_8001ACE8(0xDB8);
-    result = 0;
-    goto done;
-
-nonzero:
-    func_8001AD60(0xDB8);
-    result = 1;
-
-done:
     return result;
 }

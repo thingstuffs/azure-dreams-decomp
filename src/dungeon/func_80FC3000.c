@@ -130,15 +130,13 @@ void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
         if (kind == 1) {
             left = ((S_8015E8A4_1 *)work)->unk_14 | 0x6000;
             right = ((S_8015E8A4_1 *)work)->unk_1C | 0x6000;
-            goto write_kind;
+        } else {
+            if (kind < 2) {
+                goto normal_kind;
+            }
+            left = ((S_8015E8A4_1 *)work)->unk_14 | 0x2000;
+            right = ((S_8015E8A4_1 *)work)->unk_1C | 0x2000;
         }
-        if (kind < 2) {
-            goto normal_kind;
-        }
-        left = ((S_8015E8A4_1 *)work)->unk_14 | 0x2000;
-        right = ((S_8015E8A4_1 *)work)->unk_1C | 0x2000;
-
-write_kind:
         ((S_8015E8A4_1 *)work)->unk_14 = left;
         ((S_8015E8A4_1 *)work)->unk_1C = right;
         goto post_kind;
@@ -168,13 +166,11 @@ post_kind:
         entry = part_b->unk_08;
 scan_entries:
         double_index = index << 1;
-        if (!(*entry & 0x20)) {
-            goto scan_done;
+        if (*entry & 0x20) {
+            entry += 12;
+            index += 1;
+            goto scan_entries;
         }
-        entry += 12;
-        index += 1;
-        goto scan_entries;
-scan_done:
 
         values_ptr = values;
         ASM_KEEP(values_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

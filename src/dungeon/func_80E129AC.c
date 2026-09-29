@@ -32,14 +32,12 @@ s32 func_801761AC(S_801761AC_0 *actor) {
     } else {
         slot = 0;
     }
-    if (slot >= 16) {
-        goto fail;
+    if (slot < 16) {
+        if ((s16)func_800A48F0(actor, 0x19,
+                (s8)((actor->unk_11 >> 2) + 0x20 + (func_800A6D30() & 3))) >= 0) {
+            return 1;
+        }
     }
-    if ((s16)func_800A48F0(actor, 0x19,
-            (s8)((actor->unk_11 >> 2) + 0x20 + (func_800A6D30() & 3))) >= 0) {
-        return 1;
-    }
-fail:
     return 0;
 }
 

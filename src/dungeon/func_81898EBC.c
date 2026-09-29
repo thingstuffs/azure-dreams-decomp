@@ -216,46 +216,46 @@ place_target:
                     ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                 S32_AT((u8 *)target_pos, 8) = fallback_value;
                 state->state = 6;
-                goto state_set;
-            }
-            {
-                target_z = S16_AT(target_pos, 0xA);
+            } else {
+                {
+                    target_z = S16_AT(target_pos, 0xA);
 
-                direction_x = (u32)(target_z < 0x201);
-                if (!(s32)direction_x) {
+                    direction_x = (u32)(target_z < 0x201);
+                    if (!(s32)direction_x) {
+                        s32 fallback_value;
+
+                        fallback_value =
+                            ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                        S32_AT((u8 *)target_pos, 8) = fallback_value;
+                        state->state = 6;
+                        goto state_set;
+                    }
+                }
+                if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0) {
                     s32 fallback_value;
 
                     fallback_value =
                         ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     S32_AT((u8 *)target_pos, 8) = fallback_value;
                     state->state = 6;
-                    goto state_set;
+                } else {
+                    if ((func_800A5690() << 16) == 0) {
+                        s32 fallback_value;
+
+                        fallback_value =
+                            ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
+                        S32_AT((u8 *)target_pos, 8) = fallback_value;
+                        state->state = 6;
+                    } else {
+                        if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
+                            state->status = 1;
+                        } else {
+                            state->status = 2;
+                        }
+                        state->state++;
+                    }
                 }
             }
-            if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0) {
-                s32 fallback_value;
-
-                fallback_value =
-                    ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-                S32_AT((u8 *)target_pos, 8) = fallback_value;
-                state->state = 6;
-                goto state_set;
-            }
-            if ((func_800A5690() << 16) == 0) {
-                s32 fallback_value;
-
-                fallback_value =
-                    ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
-                S32_AT((u8 *)target_pos, 8) = fallback_value;
-                state->state = 6;
-                goto state_set;
-            }
-            if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
-                state->status = 1;
-            } else {
-                state->status = 2;
-            }
-            state->state++;
 state_set:
 
             {

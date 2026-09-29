@@ -41,20 +41,17 @@ s32 func_800AC1B0(s16 direction, s16 start_x, s16 start_y, s32 unused) {
     config = &gameWork.map;
     tile_data = *(u16 **)((Config *)((u8 *)&gameWork + 476));
     tiles = tile_data;
-    if (start_x < 0) {
-        goto invalid_position;
+    if (start_x >= 0) {
+        bounds_one = 1;
+        if (start_x < (bounds_one << config->shiftX)) {
+            if (start_y < 0) {
+                return 0;
+            }
+            if (start_y < (bounds_one << config->shiftY)) {
+                goto scan_start;
+            }
+        }
     }
-    bounds_one = 1;
-    if (start_x >= (bounds_one << config->shiftX)) {
-        goto invalid_position;
-    }
-    if (start_y < 0) {
-        return 0;
-    }
-    if (start_y < (bounds_one << config->shiftY)) {
-        goto scan_start;
-    }
-invalid_position:
     return 0;
 scan_start:
     direction_shifted = direction << 0x10;

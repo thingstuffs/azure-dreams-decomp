@@ -75,15 +75,12 @@ void func_80170EA0(void) {
     if (state == 1) {
         goto delay;
     }
-    if (state >= 2) {
-        goto check_fade;
+    if (state < 2) {
+        if (state == 0) {
+            goto init;
+        }
+        goto update_sprite;
     }
-    if (state == 0) {
-        goto init;
-    }
-    goto update_sprite;
-
-check_fade:
     if (state == 2) {
         goto fade;
     }

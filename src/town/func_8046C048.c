@@ -43,16 +43,13 @@ void func_8001D048(void) {
     row_or_column = (long)((s8 *)D_80016000->unk_38);
     mode_check = func_8001E7E4(1);
     mode = 0;
-    if (mode_check != 0) {
-        goto mode_done_done;
-    }
-    mode_check = func_8001E7E4(2);
-    mode = 2;
     if (mode_check == 0) {
-        goto mode_done_done;
+        mode_check = func_8001E7E4(2);
+        mode = 2;
+        if (mode_check != 0) {
+            mode = 1;
+        }
     }
-    mode = 1;
-    mode_done_done:
     row_index = 0;
     do {
         row_offset = row_index;

@@ -11,16 +11,13 @@ void func_8052FDF8(void *arg0) {
     state = *(s16 *)arg0;
     inner = *(u8 **)((u8 *)arg0 + 4);
     call_arg = state;
-    if (state == 0) {
-        goto state_0;
+    if (state != 0) {
+        call_arg = 0xFFF70000;
+        if (state == 1) {
+            goto state_1;
+        }
+        return;
     }
-    call_arg = 0xFFF70000;
-    if (state == 1) {
-        goto state_1;
-    }
-    return;
-
-state_0:
     if (*(u16 *)(inner + 0x1A) & 8) {
         (*(s16 *)arg0)++;
     }

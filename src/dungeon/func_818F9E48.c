@@ -146,16 +146,13 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     ((S_818F9E48_3 *)position_out)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
 
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_00.s;
-    if (frame_or_phase == 0) {
-        goto state_zero;
+    if (frame_or_phase != 0) {
+        fade_or_phase = 1;
+        if (frame_or_phase == fade_or_phase) {
+            goto state_done;
+        }
+        return;
     }
-    fade_or_phase = 1;
-    if (frame_or_phase == fade_or_phase) {
-        goto state_done;
-    }
-    return;
-
-state_zero:
     ((S_818F9E48_0 *)state)->unk_00.u++;
     effect_flags = ((S_818F9E48_1 *)effect_arg)->unk_14 & 0xFF7F;
     ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags;

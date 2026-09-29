@@ -86,15 +86,12 @@ void func_8002472C(void *effect_data) {
     if (state == 1) {
         goto state_1;
     }
-    if (state >= 2) {
-        goto state_at_least_2;
+    if (state < 2) {
+        if (state == 0) {
+            goto state_0;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state_0;
-    }
-    return;
-
-state_at_least_2:
     if (state == 2) {
         goto state_2_done;
     }

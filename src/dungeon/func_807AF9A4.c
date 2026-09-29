@@ -28,22 +28,19 @@ void func_807AF9A4(S807AF9A4 *data)
         if (state != 1) {
             return;
         }
-        goto update_counters;
+    } else {
+        buf_index = 0;
+        do {
+            data->buf[buf_index] = rand() & 0x1F;
+            buf_index = buf_index + 1;
+        } while (buf_index < 0x40);
+        data->counter1 = 0;
+        data->flag_e = 0;
+        data->buf[0x20] = 0;
+        data->flag_f = 1;
+        func_8004491C((u8 *)data - 0x20, &D_800F6E48[0]);
+        data->state = (u16) data->state + 1;
     }
-
-    buf_index = 0;
-    do {
-        data->buf[buf_index] = rand() & 0x1F;
-        buf_index = buf_index + 1;
-    } while (buf_index < 0x40);
-    data->counter1 = 0;
-    data->flag_e = 0;
-    data->buf[0x20] = 0;
-    data->flag_f = 1;
-    func_8004491C((u8 *)data - 0x20, &D_800F6E48[0]);
-    data->state = (u16) data->state + 1;
-
-update_counters:
     cycle_count = data->counter1 + 1;
     data->counter1 = cycle_count;
     if ((s16) cycle_count >= 0x11) {

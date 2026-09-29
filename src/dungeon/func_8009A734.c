@@ -33,19 +33,19 @@ s32 func_8009FE94(s32 x0, s32 y0, s32 check_param, s32 x1, volatile s32 y1) {
     y1_short = (s16)loaded_y1;
     axis_delta = y1_short - (s16)y0;
     dy = __builtin_abs(axis_delta);
-    if (dy >= 2 || dx + dy == 0) goto reject;
-    source_value = func_8009FB34(raw_x0 & 0xFFFF, raw_y0 & 0xFFFF, raw_x0, x1 << 16);
-    target_value = func_8009FB34(held_x1 & 0xFFFF, held_y1 & 0xFFFF);
-    if ((source_value << 16) == (target_value << 16)) {
-        return 1;
-    }
-    {
-        s32 check_result_hi;
-        check_result_hi = (func_8009A540(((func_800A0818((s16)x0, (s16)y0, x1_short, y1_short, &query_aux) << 16) >> 25) & 0xFFFF, (s16)x0, (s16)y0, (s16)(check_param - 0x20))) << 16;
-        if (check_result_hi != 0) {
+    if (!(dy >= 2 || dx + dy == 0)) {
+        source_value = func_8009FB34(raw_x0 & 0xFFFF, raw_y0 & 0xFFFF, raw_x0, x1 << 16);
+        target_value = func_8009FB34(held_x1 & 0xFFFF, held_y1 & 0xFFFF);
+        if ((source_value << 16) == (target_value << 16)) {
             return 1;
         }
+        {
+            s32 check_result_hi;
+            check_result_hi = (func_8009A540(((func_800A0818((s16)x0, (s16)y0, x1_short, y1_short, &query_aux) << 16) >> 25) & 0xFFFF, (s16)x0, (s16)y0, (s16)(check_param - 0x20))) << 16;
+            if (check_result_hi != 0) {
+                return 1;
+            }
+        }
     }
-reject:
     return 0;
 }

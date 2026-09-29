@@ -261,16 +261,14 @@ jt_c4: {
                 work = (u8 *)((u8 *)(&D_80082E80));
 loop:
                 object = func_800A3F28(work[0x24], work[0x25], position_ref, object);
-                if (object == 0) {
-                    goto loop_done;
-                }
-                if (((S_81988800_5 *)object)->unk_1C & 0x2000) {
+                if (object != 0) {
+                    if (((S_81988800_5 *)object)->unk_1C & 0x2000) {
+                        goto loop;
+                    }
+                    func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
+                                 ((S_81988800_8 *)source)->unk_2A, source, 2);
                     goto loop;
                 }
-                func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
-                             ((S_81988800_8 *)source)->unk_2A, source, 2);
-                goto loop;
-loop_done:
                 ;
             }
         }

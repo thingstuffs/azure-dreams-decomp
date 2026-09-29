@@ -34,17 +34,15 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
     s32 result;
     s8 adjustment;
 
-    if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
-        goto skip;
+    if (!(((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000)) {
+        player = &D_80082E80;
+        if (player->unk_026 == actor->unk_26.as_s8) {
+            goto process_entry;
+        }
+        if (func_8009FD40(player, actor) < 7) {
+            goto process_entry;
+        }
     }
-    player = &D_80082E80;
-    if (player->unk_026 == actor->unk_26.as_s8) {
-        goto process_entry;
-    }
-    if (func_8009FD40(player, actor) < 7) {
-        goto process_entry;
-    }
-
 skip:
     return 1;
 

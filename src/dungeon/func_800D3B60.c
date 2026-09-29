@@ -206,21 +206,19 @@ try_heading:
                     goto post_loop;
                 }
             }
-            if (turn_index != 0) {
-                goto increment_index;
-            }
-            if (*(u16 *)(&D_80082E80.tileX) == position->unk_24.at00u.v) {
-                if (++turn_index < 8) {
-                    goto try_heading;
+            if (turn_index == 0) {
+                if (*(u16 *)(&D_80082E80.tileX) == position->unk_24.at00u.v) {
+                    if (++turn_index < 8) {
+                        goto try_heading;
+                    }
+                    goto post_loop;
                 }
-                goto post_loop;
+                if ((func_8009A180(actor, ((S_800D92C0_1 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
+                    do {
+                        return;
+                    } while (0);
+                }
             }
-            if ((func_8009A180(actor, ((S_800D92C0_1 *)(((int)D_800814A8)))->unk_58 + 0x20) << 0x10) != 0) {
-                do {
-                    return;
-                } while (0);
-            }
-increment_index:
             if (++turn_index < 8) {
                 goto try_heading;
             }

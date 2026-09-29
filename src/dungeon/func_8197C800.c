@@ -279,52 +279,50 @@ case_one:
     scene->unk_A6 -= 1;
     scene->unk_A8 = ((S_FUNC_8197C800_BODY_0 *)input)->unk_08;
     particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-    if (particle == 0) {
+    if (particle != 0) {
+        if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
+                          ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
+            offsets[2] = 0;
+            offsets[1] = 0;
+            offsets[0] = 0;
+        }
+        particle_data = (u8 *)particle + 0x20;
+        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = D_800246C0;
+        func_8004491C(particle, func_80045340);
+        random_value = 0x00800000u;
+        sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+        offset_index = offsets[0];
+        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        dst_position_2 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        result = src_position->unk_00 + (offset_index << 16);
+        ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = result;
+        dst_position_2->unk_00 = result;
+        offset_index = offsets[1];
+        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        result = src_position->unk_04 + (offset_index << 16);
+        ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = result;
+        dst_position->unk_04 = result;
+        offset_index = offsets[2];
+        src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
+        dst_position_3 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+        result = src_position->unk_08 + (offset_index << 16);
+        ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
+        dst_position_3->unk_08 = result;
+        sprite->unk_1E = 0x800;
+        sprite->unk_1C = 0x800;
+        sprite->unk_10 = 0x20;
+        sprite->unk_00 = D_800DEDB0;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_08 = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
+        random_value |= 0x8080u;
+        sprite->unk_04 = 0;
+        sprite->unk_05 = 0;
+        sprite->unk_0C = (void *)random_value;
+        ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
+        ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
         goto case_one_tail;
     }
-    if (func_8003DE58(((S_FUNC_8197C800_BODY_22 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C))->unk_08,
-                      ((S_FUNC_8197C800_BODY_3 *)owner)->unk_0C, offsets, 0) == 0) {
-        offsets[2] = 0;
-        offsets[1] = 0;
-        offsets[0] = 0;
-    }
-    particle_data = (u8 *)particle + 0x20;
-    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = D_800246C0;
-    func_8004491C(particle, func_80045340);
-    random_value = 0x00800000u;
-    sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
-    offset_index = offsets[0];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-    dst_position_2 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-    result = src_position->unk_00 + (offset_index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 = result;
-    dst_position_2->unk_00 = result;
-    offset_index = offsets[1];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-    dst_position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-    result = src_position->unk_04 + (offset_index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_04 = result;
-    dst_position->unk_04 = result;
-    offset_index = offsets[2];
-    src_position = ((S_FUNC_8197C800_BODY_3 *)owner)->unk_08;
-    dst_position_3 = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-    result = src_position->unk_08 + (offset_index << 16);
-    ((S_FUNC_8197C800_BODY_2 *)output)->unk_08 = result;
-    dst_position_3->unk_08 = result;
-    sprite->unk_1E = 0x800;
-    sprite->unk_1C = 0x800;
-    sprite->unk_10 = 0x20;
-    sprite->unk_00 = D_800DEDB0;
-    sprite->unk_14 |= 0xC;
-    sprite->unk_08 = ((S_FUNC_8197C800_BODY_9 *)D_800DEDB0)->unk_04;
-    random_value |= 0x8080u;
-    sprite->unk_04 = 0;
-    sprite->unk_05 = 0;
-    sprite->unk_0C = (void *)random_value;
-    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
-    goto case_one_tail;
-
 case_one_tail:
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u + 1;
 
@@ -347,163 +345,160 @@ case_two:
     goto store_timer;
 
 case_three:
-    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 3) {
-        goto two_finish;
-    }
-    result = (s32)0x80080000;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
-    remaining = 1;
-    {
-        S_FUNC_8197C800_BODY_11 *reference_position;
-        reference_position = (S_FUNC_8197C800_BODY_11 *)((u8 *)result + 0x3780);
-        height = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
-                          (s16)(reference_position->unk_0A - 0x80));
-    }
-    particle_script = D_80024BB8;
-    burst_origin = &D_80082E80;
-    do {
-        particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-        if (particle != 0) {
-            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
-            func_8004491C(particle, func_80045340);
-            sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
-            particle_data = (u8 *)particle + 0x20;
-            random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
-            offset_index = (s16)angle >> 9;
-            result = (s32)(dirStepX);
-            {
-                s32 grid_coord;
-                s32 rounded_random;
-                s32 jitter;
-                void *position;
-                grid_coord = burst_origin->tileX + ((s16 *)result)[offset_index];
-                rounded_random = random_value;
-                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                scaled_coord = grid_coord << 6;
-                if (random_value < 0) {
-                    rounded_random = random_value + 31;
-                }
-                jitter = random_value - ((rounded_random >> 5) << 5) + 16;
-                result = scaled_coord + jitter;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
-            }
-            random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
-            offset_index = (s16)angle >> 9;
-            result = (s32)(dirStepY);
-            {
-                s32 grid_coord;
-                s32 rounded_random;
-                s32 jitter;
-                void *position;
-                grid_coord = burst_origin->tileY + ((s16 *)result)[offset_index];
-                rounded_random = random_value;
-                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                scaled_coord = grid_coord << 6;
-                if (random_value < 0) {
-                    rounded_random = random_value + 31;
-                }
-                jitter = random_value - ((rounded_random >> 5) << 5) + 16;
-                result = scaled_coord + jitter;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
-            }
-            {
-                u32 color;
-                void *sprite_template = 0;
-                void *position;
-                color = 0x00600000u;
-                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                sprite_template = D_800DE9D0;
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
-                sprite->unk_1C = 0x1800;
-                sprite->unk_1E = 0x2000;
-                sprite->unk_10 = 0x60;
-                {
-                    u16 flags;
-                    flags = sprite->unk_14;
-                    sprite->unk_00 = sprite_template;
-                    flags |= 0xC;
-                    sprite->unk_14 = flags;
-                    sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
-                }
-                sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
-                sprite->unk_0C = (void *)(color | 0x6060u);
-                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-                ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
-            }
+    if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
+        result = (s32)0x80080000;
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
+        remaining = 1;
+        {
+            S_FUNC_8197C800_BODY_11 *reference_position;
+            reference_position = (S_FUNC_8197C800_BODY_11 *)((u8 *)result + 0x3780);
+            height = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
+                              (s16)(reference_position->unk_0A - 0x80));
         }
-        remaining -= 1;
-    } while (remaining >= 0);
-
-    remaining = 9;
-    particle_script_debris = D_80024C68;
-    debris_origin = &D_80082E80;
-    do {
-        particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-        if (particle != 0) {
-            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
-            func_8004491C(particle, func_80045340);
-            sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
-            particle_data = (u8 *)particle + 0x20;
-            random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
-            offset_index = (s16)angle >> 9;
-            result = (s32)(dirStepX);
-            {
-                s32 grid_coord;
-                void *position;
-                grid_coord = debris_origin->tileX + ((s16 *)result)[offset_index];
-                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                result = jitter_coordinate_64(grid_coord, random_value);
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
-            }
-            random_value = func_80069EF8();
-            angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
-            offset_index = (s16)angle >> 9;
-            result = (s32)(dirStepY);
-            {
-                s32 grid_coord;
-                void *position;
-                grid_coord = debris_origin->tileY + ((s16 *)result)[offset_index];
-                position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                result = jitter_coordinate_64(grid_coord, random_value);
-                ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
-            }
-            result = func_80069EF8();
-            ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A = height - (result & 0x1F);
-            result = func_80069EF8();
-            {
-                u32 color;
-                void *sprite_template = 0;
-                color = 0x00100000u;
-                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
-                    (s32)0xFFE60000 - (result << 2);
-                sprite->unk_1E = 0x800;
-                sprite->unk_1C = 0x800;
-                sprite->unk_10 = 0x20;
+        particle_script = D_80024BB8;
+        burst_origin = &D_80082E80;
+        do {
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            if (particle != 0) {
+                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
+                func_8004491C(particle, func_80045340);
+                sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+                particle_data = (u8 *)particle + 0x20;
+                random_value = func_80069EF8();
+                angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
+                offset_index = (s16)angle >> 9;
+                result = (s32)(dirStepX);
                 {
-                    u16 flags;
-                    flags = sprite->unk_14;
-                    sprite_template = D_800DEC00;
-                    sprite->unk_00 = sprite_template;
-                    flags |= 0xC;
-                    sprite->unk_14 = flags;
-                    sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
+                    s32 grid_coord;
+                    s32 rounded_random;
+                    s32 jitter;
+                    void *position;
+                    grid_coord = burst_origin->tileX + ((s16 *)result)[offset_index];
+                    rounded_random = random_value;
+                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    scaled_coord = grid_coord << 6;
+                    if (random_value < 0) {
+                        rounded_random = random_value + 31;
+                    }
+                    jitter = random_value - ((rounded_random >> 5) << 5) + 16;
+                    result = scaled_coord + jitter;
+                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
-                sprite->unk_04 = 0;
-                sprite->unk_05 = 0;
-                sprite->unk_0C = (void *)(color | 0x1010u);
-                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
-                ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+                random_value = func_80069EF8();
+                angle = ((S_FUNC_8197C800_BODY_23 *)(D_800814A8[0]))->unk_2A;
+                offset_index = (s16)angle >> 9;
+                result = (s32)(dirStepY);
+                {
+                    s32 grid_coord;
+                    s32 rounded_random;
+                    s32 jitter;
+                    void *position;
+                    grid_coord = burst_origin->tileY + ((s16 *)result)[offset_index];
+                    rounded_random = random_value;
+                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    scaled_coord = grid_coord << 6;
+                    if (random_value < 0) {
+                        rounded_random = random_value + 31;
+                    }
+                    jitter = random_value - ((rounded_random >> 5) << 5) + 16;
+                    result = scaled_coord + jitter;
+                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
+                }
+                {
+                    u32 color;
+                    void *sprite_template = 0;
+                    void *position;
+                    color = 0x00600000u;
+                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    sprite_template = D_800DE9D0;
+                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
+                    sprite->unk_1C = 0x1800;
+                    sprite->unk_1E = 0x2000;
+                    sprite->unk_10 = 0x60;
+                    {
+                        u16 flags;
+                        flags = sprite->unk_14;
+                        sprite->unk_00 = sprite_template;
+                        flags |= 0xC;
+                        sprite->unk_14 = flags;
+                        sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
+                    }
+                    sprite->unk_04 = 0;
+                    sprite->unk_05 = 0;
+                    sprite->unk_0C = (void *)(color | 0x6060u);
+                    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
+                    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+                }
             }
-        }
-        remaining -= 1;
-    } while (remaining >= 0);
+            remaining -= 1;
+        } while (remaining >= 0);
 
-two_finish:
+        remaining = 9;
+        particle_script_debris = D_80024C68;
+        debris_origin = &D_80082E80;
+        do {
+            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            if (particle != 0) {
+                ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
+                func_8004491C(particle, func_80045340);
+                sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
+                particle_data = (u8 *)particle + 0x20;
+                random_value = func_80069EF8();
+                angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
+                offset_index = (s16)angle >> 9;
+                result = (s32)(dirStepX);
+                {
+                    s32 grid_coord;
+                    void *position;
+                    grid_coord = debris_origin->tileX + ((s16 *)result)[offset_index];
+                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    result = jitter_coordinate_64(grid_coord, random_value);
+                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
+                }
+                random_value = func_80069EF8();
+                angle = ((S_FUNC_8197C800_BODY_24 *)(D_800814A8[0]))->unk_2A;
+                offset_index = (s16)angle >> 9;
+                result = (s32)(dirStepY);
+                {
+                    s32 grid_coord;
+                    void *position;
+                    grid_coord = debris_origin->tileY + ((s16 *)result)[offset_index];
+                    position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
+                    result = jitter_coordinate_64(grid_coord, random_value);
+                    ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
+                }
+                result = func_80069EF8();
+                ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_0A = height - (result & 0x1F);
+                result = func_80069EF8();
+                {
+                    u32 color;
+                    void *sprite_template = 0;
+                    color = 0x00100000u;
+                    ((S_FUNC_8197C800_BODY_25 *)(((S_FUNC_8197C800_BODY_5 *)particle)->unk_08))->unk_14 =
+                        (s32)0xFFE60000 - (result << 2);
+                    sprite->unk_1E = 0x800;
+                    sprite->unk_1C = 0x800;
+                    sprite->unk_10 = 0x20;
+                    {
+                        u16 flags;
+                        flags = sprite->unk_14;
+                        sprite_template = D_800DEC00;
+                        sprite->unk_00 = sprite_template;
+                        flags |= 0xC;
+                        sprite->unk_14 = flags;
+                        sprite->unk_08 = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
+                    }
+                    sprite->unk_04 = 0;
+                    sprite->unk_05 = 0;
+                    sprite->unk_0C = (void *)(color | 0x1010u);
+                    ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
+                    ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
+                }
+            }
+            remaining -= 1;
+        } while (remaining >= 0);
+    }
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
         return;
     }

@@ -32,10 +32,9 @@ s32 func_800C8980(State *state, s32 value, s8 flag) {
         divreg = dispatch_v1;
         ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         dispatch_v1 = dividend % divreg;
-        goto check;
+    } else {
+        dispatch_v1 = 0;
     }
-    dispatch_v1 = 0;
-check:
     if (dispatch_v1 < (s16)value || (s16)value == 255) {
         dispatch_v1 = (s32)((u32)func_800A48F0(state, 4, flag) << 16);
         result = 1;

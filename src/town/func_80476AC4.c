@@ -15,16 +15,13 @@ s32 func_80017AC4(void) {
     s32 ret;
 
     D_80019BB0.value = 4;
-    if (func_800198D0(0x3FE) == 0) {
-        goto return_one;
+    if (func_800198D0(0x3FE) != 0) {
+        result = func_800198D0(0x3FF);
+        ret = 0;
+        if (result == 0) {
+            return ret;
+        }
     }
-    result = func_800198D0(0x3FF);
-    ret = 0;
-    if (result == 0) {
-        return ret;
-    }
-
-return_one:
     ret = 1;
 
     return ret;

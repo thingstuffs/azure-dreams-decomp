@@ -98,35 +98,32 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     x = (s16)target_x;
     y = (s16)target_y;
     flags3c = (s16)func_800A70E4(x, y, source->height);
-    if (flags3c < 0) {
-        goto return_null;
+    if (flags3c >= 0) {
+        entry = &D_800E3548[flags3c * 4];
+        spawned = func_800A8E74(source,
+                               ((Context *)((u8 *)source - 0x20))->x,
+                               ((Context *)((u8 *)source - 0x20))->y,
+                               source, entry, flags3c);
+        if (spawned == (void *)0) {
+            return (void *)1;
+        }
+        spawned->parent = source;
+        if (source == *active_source) {
+            entry_value = *(s32 *)entry;
+            spawned->fieldbc = D_80081484;
+            *(s32 *)D_80081484 = entry_value;
+        }
+        entry[1] = 0;
+        entry[0] = 0;
+        func_8009A3D0(x, y, 0x800);
+        result_bytes = (u8 *)spawned + 0x20;
+        flags34 = spawned->value34;
+        flags3c = spawned->value3c;
+        flags34 |= 0x80000;
+        flags3c |= 0x2000;
+        spawned->value34 = flags34;
+        spawned->value3c = flags3c;
+        return result_bytes;
     }
-    entry = &D_800E3548[flags3c * 4];
-    spawned = func_800A8E74(source,
-                           ((Context *)((u8 *)source - 0x20))->x,
-                           ((Context *)((u8 *)source - 0x20))->y,
-                           source, entry, flags3c);
-    if (spawned == (void *)0) {
-        return (void *)1;
-    }
-    spawned->parent = source;
-    if (source == *active_source) {
-        entry_value = *(s32 *)entry;
-        spawned->fieldbc = D_80081484;
-        *(s32 *)D_80081484 = entry_value;
-    }
-    entry[1] = 0;
-    entry[0] = 0;
-    func_8009A3D0(x, y, 0x800);
-    result_bytes = (u8 *)spawned + 0x20;
-    flags34 = spawned->value34;
-    flags3c = spawned->value3c;
-    flags34 |= 0x80000;
-    flags3c |= 0x2000;
-    spawned->value34 = flags34;
-    spawned->value3c = flags3c;
-    return result_bytes;
-
-return_null:
     return (void *)0;
 }

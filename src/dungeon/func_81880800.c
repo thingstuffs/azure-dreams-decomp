@@ -194,14 +194,12 @@ initialize:
             }
             F(self, u16, 0x18) = tile_distance + 1;
         }
-        goto attach_done;
+    } else {
+        F(self, u16, 0x18) = 8;
+        F(self, u16, 0x10) = F(motion, u16, 2);
+        F(self, u16, 0x12) = F(motion, u16, 6);
+        F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
     }
-
-    F(self, u16, 0x18) = 8;
-    F(self, u16, 0x10) = F(motion, u16, 2);
-    F(self, u16, 0x12) = F(motion, u16, 6);
-    F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
-attach_done:
     direction_step = dirStepX[F(self, s16, 0x1A)];
     F(motion, s16, 0x0E) = direction_step << 3;
     direction_step = dirStepY[F(self, s16, 0x1A)];
@@ -362,13 +360,11 @@ fade:
     goto finish;
 
 cleanup:
-    if (D_800257CE[0] != 0) {
-        goto finish;
+    if (D_800257CE[0] == 0) {
+        dungeonStatus.unk_0C = 0;
+        F(self, u16, -2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
     }
-    dungeonStatus.unk_0C = 0;
-    F(self, u16, -2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
 finish:
     D_800257CE[0] = 0;
 }

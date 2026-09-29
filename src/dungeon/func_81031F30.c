@@ -79,16 +79,13 @@ void func_80173730(void *action, EntityRec *motion, void *target, EntityRec *act
         return;
 
     case 2:
-        if (actor->unk_28 != 0) {
-            goto update_motion;
+        if (actor->unk_28 == 0) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800AAA54(action, motion, target, &D_801760D4);
+            return;
         }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800AAA54(action, motion, target, &D_801760D4);
-        return;
-
-update_motion:
         {
             s16 motion_timer = ((S_80173730_0 *)action)->unk_96.s;
 

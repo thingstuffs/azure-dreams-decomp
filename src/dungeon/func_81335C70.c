@@ -89,17 +89,16 @@ state_zero:
         return;
     }
     obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind == 0xE) {
-        goto zero_setup;
-    }
-    if (obj_kind < 0xF) {
-        if (obj_kind == 0xD) {
-            goto zero_setup;
+    if (obj_kind != 0xE) {
+        if (obj_kind < 0xF) {
+            if (obj_kind == 0xD) {
+                goto zero_setup;
+            }
+            goto decrement_counter;
         }
-        goto decrement_counter;
-    }
-    if (obj_kind != 0xF) {
-        goto decrement_counter;
+        if (obj_kind != 0xF) {
+            goto decrement_counter;
+        }
     }
 zero_setup:
     (*(u8 **)((u8 *)target + 0x2C)) = D_80173AC8;
@@ -112,17 +111,16 @@ decrement_counter:
 
 state_one:
     obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind == 0xE) {
-        goto one_setup;
-    }
-    if (obj_kind < 0xF) {
-        if (obj_kind == 0xD) {
-            goto one_setup;
+    if (obj_kind != 0xE) {
+        if (obj_kind < 0xF) {
+            if (obj_kind == 0xD) {
+                goto one_setup;
+            }
+            goto call_check;
         }
-        goto call_check;
-    }
-    if (obj_kind != 0xF) {
-        goto call_check;
+        if (obj_kind != 0xF) {
+            goto call_check;
+        }
     }
 one_setup:
     if (((S_8016CC70_1 *)target)->unk_2C != D_80173AC8) {
@@ -130,19 +128,16 @@ one_setup:
         func_80047784(target, D_80173AC8[((gameWork.view.viewAngle + ((S_8016CC70_2 *)actor)->unk_2A + 0x100) >> 9) & 7], 0);
     }
 call_check:
-    if ((func_80042900(actor, 1) << 0x10) != 0) {
-        goto action_body;
+    if ((func_80042900(actor, 1) << 0x10) == 0) {
+        obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
+        if (obj_kind == 0xE) {
+            goto update_tiles;
+        }
+        if (obj_kind < 0xF) {
+            goto low_kind;
+        }
+        goto high_kind;
     }
-    obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
-    if (obj_kind == 0xE) {
-        goto update_tiles;
-    }
-    if (obj_kind < 0xF) {
-        goto low_kind;
-    }
-    goto high_kind;
-
-action_body:
     held_base = &dungeonStatus;
     if (held_base->flags & 0x1000) {
         return;

@@ -36,36 +36,32 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     actor_flags = actor->unk_71;
     actor_flags &= 0x7F;
     actor->unk_71 = actor_flags;
-    if (dungeonStatus.flags & 0x2000) {
-        goto abort_transition;
-    }
+    if (!(dungeonStatus.flags & 0x2000)) {
+        target_angle = func_800A04F0(actor, ((S_80171DA0_1 *)sprite_arg)->unk_24,
+                               ((S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
+        if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
+            return 0;
+        }
 
-    target_angle = func_800A04F0(actor, ((S_80171DA0_1 *)sprite_arg)->unk_24,
-                           ((S_80171DA0_1 *)sprite_arg)->unk_25, actor->facing);
-    if ((func_800A2CB8(actor, target_angle) << 16) == 0) {
-        return 0;
-    }
+        status_flags = dungeonStatus.flags;
+        if (status_flags & 0x2000) {
+            return -1;
+        }
+        if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
+            return -1;
+        }
+        if ((u16)(-func_800A0134(target_angle, actor) + 0x40) >= 0x81U) {
+            return 0;
+        }
+        if ((func_800A2B5C(actor) << 16) != 0) {
+            return -1;
+        }
 
-    status_flags = dungeonStatus.flags;
-    if (status_flags & 0x2000) {
-        return -1;
+        func_800C7930((u8 *)actor - 0x20, motion_param, 8, 0x300);
+        if ((func_800A2B5C(actor) << 16) == 0) {
+            goto transition_ok;
+        }
     }
-    if (!(actor->unk_46 & 0x8000) && (status_flags & 8)) {
-        return -1;
-    }
-    if ((u16)(-func_800A0134(target_angle, actor) + 0x40) >= 0x81U) {
-        return 0;
-    }
-    if ((func_800A2B5C(actor) << 16) != 0) {
-        return -1;
-    }
-
-    func_800C7930((u8 *)actor - 0x20, motion_param, 8, 0x300);
-    if ((func_800A2B5C(actor) << 16) == 0) {
-        goto transition_ok;
-    }
-
-abort_transition:
     return -1;
 
 transition_ok:

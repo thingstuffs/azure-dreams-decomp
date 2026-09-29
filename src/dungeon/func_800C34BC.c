@@ -38,14 +38,12 @@ s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
         result = (s32)value << 16;
         signed_value = result >> 16;
         result = dispatch_v1 < signed_value;
-        if (result != 0) {
-            goto call;
+        if (result == 0) {
+            result = 0xFF;
+            if (signed_value != result) {
+                goto failure;
+            }
         }
-        result = 0xFF;
-        if (signed_value != result) {
-            goto failure;
-        }
-call:
         dispatch_v1 =
             (s32)((u32)func_800A48F0(state, 3, arg2) << 16);
         result = 1;

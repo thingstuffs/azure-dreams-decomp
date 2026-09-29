@@ -37,14 +37,10 @@ u8 *func_8001C1AC(s32 context, s32 data, s32 request) {
     if (request == 5) {
         return D_8001786E;
     }
-    if (request == 1) {
-        goto case_one;
+    if (request != 1) {
+        response = func_8001B6F8(context, data, request);
+    } else {
+        response = D_8001914C;
     }
-    response = func_8001B6F8(context, data, request);
-    goto done;
-
-case_one:
-    response = D_8001914C;
-done:
     return response;
 }

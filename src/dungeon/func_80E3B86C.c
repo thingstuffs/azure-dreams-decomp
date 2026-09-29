@@ -12,19 +12,15 @@ s32 func_8017506C(s16 tile_x, s16 tile_y, s32 height, s16 direction, s16 *sample
     if ((func_8009A350(tile_x, tile_y, direction, &tile_flags) << 16) == 0) {
         return 0;
     }
-    if (tile_flags & 0xB700) {
-        goto fail;
+    if (!(tile_flags & 0xB700)) {
+        sample = func_800BCB04(
+            ((tile_x + dirStepX[direction]) << 6) + 0x20 & 0xFFE0,
+            ((tile_y + dirStepY[direction]) << 6) + 0x20 & 0xFFE0,
+            (s16)(height - 0x20));
+        *sample_out = sample;
+        if (sample < 0x200) {
+            return 1;
+        }
     }
-
-    sample = func_800BCB04(
-        ((tile_x + dirStepX[direction]) << 6) + 0x20 & 0xFFE0,
-        ((tile_y + dirStepY[direction]) << 6) + 0x20 & 0xFFE0,
-        (s16)(height - 0x20));
-    *sample_out = sample;
-    if (sample < 0x200) {
-        return 1;
-    }
-
-fail:
     return 0;
 }

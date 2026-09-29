@@ -76,18 +76,16 @@ s32 func_8005947C(S_80085FA8 *stream)
         func_8005914C(stream, status & 0xFF, first_data & 0xFF, second_data & 0xFF);
         return 0;
     }
-    if ((event_byte & 0xFF) == 0xF0) {
-        goto case_f0;
+    if ((event_byte & 0xFF) != 0xF0) {
+        if ((event_byte & 0xFF) != 0xFF) {
+            goto otherwise;
+        }
+        {
+            subcommand = func_800589B8(stream);
+            func_80058E6C(stream, subcommand & 0xFF);
+            return 0;
+        }
     }
-    if ((event_byte & 0xFF) != 0xFF) {
-        goto otherwise;
-    }
-    {
-        subcommand = func_800589B8(stream);
-        func_80058E6C(stream, subcommand & 0xFF);
-        return 0;
-    }
-case_f0:
     func_800590E0(stream);
     return 0;
 otherwise:

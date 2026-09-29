@@ -656,14 +656,12 @@ case_4_global:
 case_4_global_use:
     {
         u16 next_state = 4;
-        if ((((S_8197192C_12 *)status_page)->unk_2E94 & 0x8000) != 0) {
-            goto case_4_set_state;
+        if ((((S_8197192C_12 *)status_page)->unk_2E94 & 0x8000) == 0) {
+            ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
+            if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
+                return;
+            }
         }
-        ((S_8197192C_0 *)effect)->unk_2C.s = ((S_8197192C_0 *)effect)->unk_2C.s - 1;
-        if ((s16)((S_8197192C_0 *)effect)->unk_2C.s >= 0) {
-            return;
-        }
-case_4_set_state:
         ((S_8197192C_0 *)effect)->unk_0A.u = next_state;
         return;
     }

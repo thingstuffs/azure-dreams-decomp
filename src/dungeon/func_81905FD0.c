@@ -431,61 +431,57 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         } if (index < 4) goto loop_0;
         result = func_800A4778(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
                                motion->unk_08.s16_0A.unk_0A, owner->unk_60);
-        if ((s16)result != 0) {
-            goto reset_state8;
-        }
-        {
-            u16 previous_angle = render->unk_1A;
-            u16 angle = previous_angle + 0x190;
-            render->unk_1A = angle;
-            if (angle >= 0x1001) {
-                render->unk_1A = previous_angle - 0xE70;
+        if ((s16)result == 0) {
+            {
+                u16 previous_angle = render->unk_1A;
+                u16 angle = previous_angle + 0x190;
+                render->unk_1A = angle;
+                if (angle >= 0x1001) {
+                    render->unk_1A = previous_angle - 0xE70;
+                }
             }
-        }
-        if (effect->unk_90.s16 == 0) {
-            render->unk_1C.u16 += effect->unk_96;
-            render->unk_1E.u16 += effect->unk_96;
-        } else {
-            render->unk_1C.u16 -= effect->unk_96;
-            render->unk_1E.u16 -= effect->unk_96;
-        }
-        {
-            u16 timer = effect->unk_92 + 1;
-            effect->unk_92 = timer;
-            if ((s16)timer >= effect->unk_94.s16) {
-                effect->unk_92 = 0;
-                effect->unk_90.u16 = effect->unk_90.u16 ^ 1;
+            if (effect->unk_90.s16 == 0) {
+                render->unk_1C.u16 += effect->unk_96;
+                render->unk_1E.u16 += effect->unk_96;
+            } else {
+                render->unk_1C.u16 -= effect->unk_96;
+                render->unk_1E.u16 -= effect->unk_96;
             }
-        }
-        effect->unk_7B = effect->unk_7B - 1;
-        if ((s8)effect->unk_7B > 0) {
-            goto update_coords;
-        }
-        if (owner->unk_60 == 0) {
-            goto reset_state8;
-        }
-        effect->unk_0A.u16 = 3;
-        effect->unk_82.u16 = 0;
-        func_800A56E0(0x300);
-        {
-            S_func_81905FD0_6 *target = owner->unk_60;
-            kind_or_shade = target->unk_13;
-            target_render = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_0C;
-            if ((u32)(kind_or_shade - 0x33) >= 4) {
-                target_render->unk_14 |= 0x800;
-                ((S_func_81905FD0_6 *)owner->unk_60)->unk_14 |= 0x100000;
+            {
+                u16 timer = effect->unk_92 + 1;
+                effect->unk_92 = timer;
+                if ((s16)timer >= effect->unk_94.s16) {
+                    effect->unk_92 = 0;
+                    effect->unk_90.u16 = effect->unk_90.u16 ^ 1;
+                }
             }
-        }
-        {
+            effect->unk_7B = effect->unk_7B - 1;
+            if ((s8)effect->unk_7B > 0) {
+                goto update_coords;
+            }
+            if (owner->unk_60 != 0) {
+                effect->unk_0A.u16 = 3;
+                effect->unk_82.u16 = 0;
+                func_800A56E0(0x300);
+                {
+                    S_func_81905FD0_6 *target = owner->unk_60;
+                    kind_or_shade = target->unk_13;
+                    target_render = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_0C;
+                    if ((u32)(kind_or_shade - 0x33) >= 4) {
+                        target_render->unk_14 |= 0x800;
+                        ((S_func_81905FD0_6 *)owner->unk_60)->unk_14 |= 0x100000;
+                    }
+                }
+                {
 
-            particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08);
-            motion->unk_00.u16_02.unk_02 = ((S_func_81905FD0_2 *)particle_shade)->unk_00.u16_02.unk_02;
-            motion->unk_04.u16_06.unk_06 = ((S_func_81905FD0_2 *)particle_shade)->unk_04.u16_06.unk_06;
+                    particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08);
+                    motion->unk_00.u16_02.unk_02 = ((S_func_81905FD0_2 *)particle_shade)->unk_00.u16_02.unk_02;
+                    motion->unk_04.u16_06.unk_06 = ((S_func_81905FD0_2 *)particle_shade)->unk_04.u16_06.unk_06;
+                }
+                motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
+                return;
+            }
         }
-        motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
-        return;
-
-    reset_state8:
         effect->unk_0A.u16 = 8;
         effect->unk_82.u16 = 0;
         render->unk_0C.u8_0E.unk_0E = 0;

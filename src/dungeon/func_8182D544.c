@@ -65,15 +65,12 @@ void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
     motion->unk_08 += delta_z;
 
     state = ((S_8182D544_0 *)effect)->unk_4C.s;
-    if (state == 0) {
-        goto wait_timer;
+    if (state != 0) {
+        if (state == 1) {
+            goto fade_out;
+        }
+        return;
     }
-    if (state == 1) {
-        goto fade_out;
-    }
-    return;
-
-wait_timer:
     timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
     ((S_8182D544_0 *)effect)->unk_48 = timer;
     if ((timer << 16) <= 0) {

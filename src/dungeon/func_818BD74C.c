@@ -108,15 +108,12 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
     if (state == 1) {
         goto state1;
     }
-    if (state >= 2) {
-        goto state_ge2;
+    if (state < 2) {
+        if (state == 0) {
+            goto state0;
+        }
+        return;
     }
-    if (state == 0) {
-        goto state0;
-    }
-    return;
-
-state_ge2:
     state_or_scale = 2;
     
     if (state != state_or_scale) {

@@ -50,36 +50,21 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   state_flags = state->flags;
   ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
   limit_turn = 0;
-  if (state_flags & 0x4000)
+  if ((state_flags & 0x4000) || (*(s8 *)(actor + 0x71)) >= 0)
   {
-    goto check_entry;
-  }
-  if ((*(s8 *)(actor + 0x71)) < 0)
-  {
-    goto negative_entry;
-  }
-  check_entry:
-  if ((*(u8 *)(actor + 0x12)) >= 2)
-  {
-    goto reject_entry;
-  }
+    if ((*(u8 *)(actor + 0x12)) >= 2 || (func_80171E00(object, entry_context, tile, actor) << 16) == 0)
+    {
+      func_800A9A0C(actor);
 
-  if ((func_80171E00(object, entry_context, tile, actor) << 16) != 0)
-  {
-    goto accepted_entry;
-  }
-  reject_entry:
-  func_800A9A0C(actor);
+      return;
+    }
+    if ((*((void **) ((u8 *)state + 0xC))) == actor)
+    {
+      *(u16 *)(actor + 0x46) = 0xC008;
+    }
 
-  return;
-  accepted_entry:
-  if ((*((void **) ((u8 *)state + 0xC))) == actor)
-  {
-    *(u16 *)(actor + 0x46) = 0xC008;
+    return;
   }
-
-  return;
-  negative_entry:
   if (!(state_flags & 0x2000))
   {
     return;
@@ -87,159 +72,141 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
 
   func_800A19E4(tile, actor, 3, 6, object + 0x9C);
   actor_flags = *(s32 *)(actor + 0x1C);
-  if (!(actor_flags & 0x410))
+  if (actor_flags & 0x410)
   {
-    goto check_mode_2000;
-  }
-  if (!(actor_flags & 0x400))
-  {
-    goto mode_410_without_400;
-  }
-  target_record = func_800A02AC(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
-  if (target_record == 0)
-  {
-    goto no_found_actor;
-  }
-  target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
-  *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile + 0x24), *(u8 *)(target_tile + 0x25), object + 0x98);
-  {
-    u8 path_length = (*(u8 *)(actor + 0x71)) & 0x7F;
-    ASM_USE(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    *(u8 *)(actor + 0x71) = path_length;
-  }
-  return;
-  no_found_actor:
-  {
-    s32 actor_state = *(s32 *)(actor + 0x14);
-    base_angle = 0x80000000;
-    if (actor_state < 0)
+    if (actor_flags & 0x400)
     {
-      goto zero_counter;
-    }
-    actor_state = base_angle | actor_state;
-    *(s32 *)(actor + 0x14) = actor_state;
-  }
-
-  random_turn = func_800A6D30();
-  *(u16 *)(actor + 0x2A) += (random_turn & 7) << 9;
-  goto zero_counter;
-  mode_410_without_400:
-  if (func_800A04F0(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) == 0)
-  {
-    goto loop_setup;
-  }
-
-  goto strip_path;
-  check_mode_2000:
-  if (!(actor_flags & 0x2000))
-  {
-    goto check_tile_kind;
-  }
-
-  if ((*(u16 *)(actor + 0x46)) & 0x8000)
-  {
-    goto loop_setup;
-  }
-  if (!(actor_flags & 0x20000))
-  {
-    goto invoke_fallback;
-  }
-  {
-    s32 direction = *(u8 *)(actor + 0x45);
-    s32 base_angle = *((s16 *) (((u8 *) D_800814A8) + 0x2A));
-    s32 direction_offset;
-    s32 target_x;
-    s32 target_y;
-    direction += base_angle >> 9;
-    direction_offset = (direction & 7) * 2;
-    target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
-    target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
-    if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y)))
-    {
-      goto strip_path;
-    }
-    {
-      u16 next_angle = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) target_x, (s16) target_y, object + 0x98);
-      *(u16 *)(actor + 0x2A) = next_angle;
-      if ((func_8009A66C((s16) next_angle, tile, actor, 0x20) << 16) <= 0)
+      target_record = func_800A02AC(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25));
+      if (target_record != 0)
       {
-        u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
-        *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
+        target_tile = *((void **) (((u8 *) target_record) + (-0x14)));
+        *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(target_tile + 0x24), *(u8 *)(target_tile + 0x25), object + 0x98);
+        {
+          u8 path_length = (*(u8 *)(actor + 0x71)) & 0x7F;
+          ASM_USE(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+          *(u8 *)(actor + 0x71) = path_length;
+        }
+        return;
+      }
+      {
+        s32 actor_state = *(s32 *)(actor + 0x14);
+        base_angle = 0x80000000;
+        if (actor_state >= 0)
+        {
+          actor_state = base_angle | actor_state;
+          *(s32 *)(actor + 0x14) = actor_state;
+
+          random_turn = func_800A6D30();
+          *(u16 *)(actor + 0x2A) += (random_turn & 7) << 9;
+        }
+      }
+    }
+    else
+    {
+      if (func_800A04F0(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A)) != 0)
+      {
+        *(u8 *)(actor + 0x71) &= 0x7F;
+        return;
       }
     }
   }
+  else if (actor_flags & 0x2000)
   {
-    u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
-    if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24), *(u8 *)(check_goal + 0x25)) << 16) != 0)
+    if (!((*(u16 *)(actor + 0x46)) & 0x8000))
     {
-      limit_turn = 1;
+      if (!(actor_flags & 0x20000))
+      {
+        func_800A0E6C(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+      }
+      else
+      {
+      {
+        s32 direction = *(u8 *)(actor + 0x45);
+        s32 base_angle = *((s16 *) (((u8 *) D_800814A8) + 0x2A));
+        s32 direction_offset;
+        s32 target_x;
+        s32 target_y;
+        direction += base_angle >> 9;
+        direction_offset = (direction & 7) * 2;
+        target_x = (D_80082E80.tileX) + (*((u16 *) (((u8 *) (((s8 *)dirStepX))) + direction_offset)));
+        target_y = (D_80082E80.tileY) + (*((u16 *) (((u8 *) (((s8 *)dirStepY))) + direction_offset)));
+        if (((*(u8 *)(tile + 0x24)) == ((u16) target_x)) && ((*(u8 *)(tile + 0x25)) == ((u16) target_y)))
+        {
+          *(u8 *)(actor + 0x71) &= 0x7F;
+          return;
+        }
+        {
+          u16 next_angle = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) target_x, (s16) target_y, object + 0x98);
+          *(u16 *)(actor + 0x2A) = next_angle;
+          if ((func_8009A66C((s16) next_angle, tile, actor, 0x20) << 16) <= 0)
+          {
+            u8 *retry_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
+            *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(retry_goal + 0x24), *(u8 *)(retry_goal + 0x25), object + 0x98);
+          }
+        }
+      }
+      {
+        u8 *check_goal = ((u8 *) (((s8 *)&D_80082E80.tileX))) - 0x24;
+        if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(u8 *)(check_goal + 0x24), *(u8 *)(check_goal + 0x25)) << 16) != 0)
+        {
+          limit_turn = 1;
+        }
+      }
+      }
     }
   }
-  goto loop_setup;
-  check_tile_kind:
+  else
   {
-    s8 tile_kind = *(s8 *)(tile + 0x26);
-    if ((tile_kind >= 0) && (D_800E2970[tile_kind].flags & 2))
     {
-      goto invoke_fallback_call;
+      s8 tile_kind = *(s8 *)(tile + 0x26);
+      if ((tile_kind >= 0) && (D_800E2970[tile_kind].flags & 2))
+      {
+        func_800A0E6C(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+      }
+      else
+      {
+        if (!((*(u16 *)(actor + 0x46)) & 0x8000))
+        {
+          target_record = func_800A04F0(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A));
+          if (target_record != 0)
+          {
+            if ((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000)
+            {
+              if (func_800A0134(target_record, actor) < 0x81)
+              {
+                if ((func_8009A540(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0)
+                {
+                  *(u8 *)(actor + 0x71) &= 0x7F;
+                  return;
+                }
+              }
+            }
+          }
+        }
+        if (!((*(s32 *)(actor + 0x1C)) & 0x20000))
+        {
+          func_800A0E6C(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
+        }
+        else
+        {
+          u8 *angle_flags = object + 0x98;
+          *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY, angle_flags);
+          if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY) << 16) != 0)
+          {
+            if (func_800A0134(D_800814A8, actor) < 0x81)
+            {
+              if ((func_8009A540(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0)
+              {
+                *(u8 *)(actor + 0x71) &= 0x7F;
+                return;
+              }
+            }
+          }
+        }
+      }
     }
   }
 
-  if ((*(u16 *)(actor + 0x46)) & 0x8000)
-  {
-    goto retry_toward_goal;
-  }
-  target_record = func_800A04F0(actor, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), *(s16 *)(actor + 0x2A));
-  if (target_record == 0)
-  {
-    goto retry_toward_goal;
-  }
-  if (!((*((s32 *) (((u8 *) target_record) + 0x1C))) & 0x2000))
-  {
-    goto retry_toward_goal;
-  }
-  if (func_800A0134(target_record, actor) >= 0x81)
-  {
-    goto retry_toward_goal;
-  }
-  if ((func_8009A540(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) != 0)
-  {
-    goto strip_path;
-  }
-  retry_toward_goal:
-  if (!((*(s32 *)(actor + 0x1C)) & 0x20000))
-  {
-    goto invoke_fallback;
-  }
-
-  {
-    u8 *angle_flags = object + 0x98;
-    *(u16 *)(actor + 0x2A) = func_800A0818(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY, angle_flags);
-    if ((func_8009FD7C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), D_80082E80.tileX, D_80082E80.tileY) << 16) == 0)
-    {
-      goto zero_counter;
-    }
-    if (func_800A0134(D_800814A8, actor) >= 0x81)
-    {
-      goto loop_setup_zero;
-    }
-    if ((func_8009A540(((*(s16 *)(actor + 0x2A)) >> 9) & 0xFFFF, *(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), (s16) ((*(u16 *)(actor + 0x88)) - 0x20)) << 16) == 0)
-    {
-      goto loop_setup;
-    }
-  }
-  goto strip_path;
-  invoke_fallback:
-  invoke_fallback_call:
-  func_800A0E6C(tile, *(s8 *)(object + 0x9C), actor, object + 0x98);
-
-  zero_counter:
-  goto loop_setup;
-
-  loop_setup_zero:
-  goto loop_setup;
-
-  loop_setup:
   {
     s16 turn_index = 0;
     s16 *angle_steps = D_8006CD00;
@@ -254,32 +221,31 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
         {
           angle = base_angle + angle_steps[turn_index];
         }
-        if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) <= 0)
+        if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) > 0)
         {
-          goto move_failed;
-        }
-        if (turn_index >= 3)
-        {
-          s32 turn_limited = limit_turn;
-          if (turn_limited)
+          if (turn_index >= 3)
           {
-            goto strip_path;
+            s32 turn_limited = limit_turn;
+            if (turn_limited)
+            {
+              *(u8 *)(actor + 0x71) &= 0x7F;
+              return;
+            }
           }
+          *(u16 *)(actor + 0x2A) = angle;
+          *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
+          *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
+          (*(u8 *)(actor + 0x71))++;
+          func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
+          {
+            s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
+            base_angle = (s32)(((s8 *)dirStepX));
+            *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
+            *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
+          }
+          func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
+          break;
         }
-        *(u16 *)(actor + 0x2A) = angle;
-        *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x74)) = *(u8 *)(tile + 0x24);
-        *((u8 *) (((u8 *) (actor + ((*(u8 *)(actor + 0x71)) & 0x7F))) + 0x7C)) = *(u8 *)(tile + 0x25);
-        (*(u8 *)(actor + 0x71))++;
-        func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
-        {
-          s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-          base_angle = (s32)(((s8 *)dirStepX));
-          *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
-          *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
-        }
-        func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
-        goto check_counter_limit;
-        move_failed:
         if (turn_index == 0)
         {
           if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24)))
@@ -294,7 +260,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
 
         turn_index++;
     } while (turn_index < 8);
-    check_counter_limit:
     if (turn_index >= 8)
     {
       *(u8 *)(actor + 0x71) &= 0x7F;
@@ -312,15 +277,12 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     DungeonGlobalStatus *move_state = &dungeonStatus;
     (((u16)move_state->unk_08))++;
   }
-  if ((*(s8 *)(actor + 0x6D)) != 0)
+  if ((*(s8 *)(actor + 0x6D)) == 0)
   {
-    goto actor_survives;
-  }
-  strip_path:
-  *(u8 *)(actor + 0x71) &= 0x7F;
+    *(u8 *)(actor + 0x71) &= 0x7F;
 
-  return;
-  actor_survives:
+    return;
+  }
   {
     register s16 floor_height ASM_REG("$17") = func_800BCB04(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (floor_height < 0x200)

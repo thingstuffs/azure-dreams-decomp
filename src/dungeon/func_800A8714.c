@@ -482,23 +482,21 @@ Lcase4:
     move_target = func_800A03C4(creature, position[0x24], position[0x25]);
     default_action = 0;
     *(void **)(creature + 0x60) = move_target;
-    if (move_target == NULL) {
-        goto check_default_action;
-    }
-    {
-        s32 action_code;
-        u16 move_direction;
-        action_code = func_800A384C(creature, move_target, &direction, 0);
-        action_or_flags = action_code;
-        if ((action_code << 16) < 0) {
-            goto check_default_action;
+    if (move_target != NULL) {
+        {
+            s32 action_code;
+            u16 move_direction;
+            action_code = func_800A384C(creature, move_target, &direction, 0);
+            action_or_flags = action_code;
+            if ((action_code << 16) < 0) {
+                goto check_default_action;
+            }
+            move_direction = direction;
+            *(u16 *)(creature + 0x46) = action_code | 0x8000;
+            *(u16 *)(creature + 0x2A) = move_direction;
+            return 1;
         }
-        move_direction = direction;
-        *(u16 *)(creature + 0x46) = action_code | 0x8000;
-        *(u16 *)(creature + 0x2A) = move_direction;
-        return 1;
     }
-
 check_default_action:
     if ((func_800A2C34(creature) << 16) == 0) {
         goto return_default;
@@ -889,18 +887,16 @@ Lcase37:
     return 5;
 
 Lcase24:
-    if ((s16)func_8009FD40(position, ((u8 *)(&D_80082E80))) < 2) {
-        goto check_active_ability;
+    if ((s16)func_8009FD40(position, ((u8 *)(&D_80082E80))) >= 2) {
+        if (creature[0xB5] != 0) {
+            goto check_occupied_tile;
+        }
+        func_800ADD20(creature, 8);
+        if (*(u16 *)(creature + 0x98) & 0x100) {
+            *(u16 *)(creature + 0x46) = 0x800A;
+            return 6;
+        }
     }
-    if (creature[0xB5] != 0) {
-        goto check_occupied_tile;
-    }
-    func_800ADD20(creature, 8);
-    if (*(u16 *)(creature + 0x98) & 0x100) {
-        *(u16 *)(creature + 0x46) = 0x800A;
-        return 6;
-    }
-check_active_ability:
     if (creature[0xB5] == 0) {
         goto wander;
     }
@@ -1095,26 +1091,21 @@ Lcase29:
     }
 
 Lcase21:
-    if (creature[0xA7] == 0) {
-        goto wander;
+    if (creature[0xA7] != 0) {
+        if (creature[0xA8] == 0) {
+            STEPVEC(neighbor);
+            target = neighbor;
+            if (target != NULL) {
+                if (target == ((u8 *)D_800E3D7C)) {
+                    *(u16 *)(creature + 0x46) = 0x8009;
+                    *(u16 *)(creature + 0x2A) = func_800A0818(
+                        position[0x24], position[0x25],
+                        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
+                    return 5;
+                }
+            }
+        }
     }
-    if (creature[0xA8] != 0) {
-        goto wander;
-    }
-    STEPVEC(neighbor);
-    target = neighbor;
-    if (target == NULL) {
-        goto wander;
-    }
-    if (target != ((u8 *)D_800E3D7C)) {
-        goto wander;
-    }
-    *(u16 *)(creature + 0x46) = 0x8009;
-    *(u16 *)(creature + 0x2A) = func_800A0818(
-        position[0x24], position[0x25],
-        D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
-    return 5;
-
 wander:
     move_target = func_800A3D18(position, creature, 2);
     *(void **)(creature + 0x60) = move_target;

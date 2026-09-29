@@ -8,23 +8,19 @@ extern void func_80055B44(s32 a0);
 void func_80054A7C(s32 action) {
     u16 action_value = action;
     action = action & 0xFF;
-    if (action == 3) {
-        goto case3;
-    }
-    if (action < 4) {
-        goto rangelow;
-    }
-    if (action == 4) {
-        goto case4;
-    }
-    return;
-rangelow:
-    if (action == 0) {
+    if (action != 3) {
+        if (action >= 4) {
+            if (action == 4) {
+                goto case4;
+            }
+            return;
+        }
+        if (action == 0) {
+            return;
+        }
+        func_80055B44(action_value & 0xFFFF);
         return;
     }
-    func_80055B44(action_value & 0xFFFF);
-    return;
-case3:
     func_800540A8();
     return;
 case4:

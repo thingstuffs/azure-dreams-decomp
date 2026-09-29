@@ -43,16 +43,14 @@ s32 func_80018304(s32 input_x, s32 input_y, s32 current_height, s32 direction)
         (((next_x << 16) >> 10) + 0x20) & 0xFFE0,
         (((next_y << 16) >> 10) + 0x20) & 0xFFE0,
         probe_height);
-    if (target_height >= 0x200) {
-        goto failure;
+    if (target_height < 0x200) {
+        if ((s16)current_height >= target_height) {
+            return 2;
+        }
+        if ((target_height - (s16)current_height) < 0x21) {
+            return 1;
+        }
     }
-    if ((s16)current_height >= target_height) {
-        return 2;
-    }
-    if ((target_height - (s16)current_height) < 0x21) {
-        return 1;
-    }
-failure:
     return 0;
 }
 

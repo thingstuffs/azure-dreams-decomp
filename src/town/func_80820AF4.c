@@ -32,15 +32,12 @@ void func_800232F4(void *object)
     state = ((S_800232F4_0 *)obj)->unk_00.s;
     owner = ((S_800232F4_0 *)obj)->unk_0C;
 
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     step = *((S_800232F4_0 *)obj)->unk_08;
     func_800537D0(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);

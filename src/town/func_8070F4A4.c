@@ -16,13 +16,10 @@ s32 func_800184A4(void) {
     if (func_8001A64C(0x1068) == 0) {
         (*(TownCallback *)((s8 *)*(void **)((s8 *)*(void **)((s8 *)(&D_80016000)) + 0x20) + 0x2F8))(0xE, 0x200);
         checkPassed = 0;
-        goto done;
+    } else {
+        func_8001A554(0x94F);
+        func_8001A554(0x93E);
+        checkPassed = 1;
     }
-
-    func_8001A554(0x94F);
-    func_8001A554(0x93E);
-    checkPassed = 1;
-
-done:
     return checkPassed;
 }

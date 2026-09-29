@@ -243,7 +243,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     register void *sprite_or_root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *motion_or_count;
     GameWork *world_state;
-    volatile s32 repeat_pass;
+    s32 repeat_pass;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
     M2C_UNK (*current_callback)(void *, void *, void *, void *);
     M2C_UNK *record_or_page;
@@ -301,7 +301,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     DungeonGlobalStatus *tail_status;
     void *input_snapshot;
     void *next_record;
-    register u8 *next_record_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *next_record_page;
     u8 *actor_root_page;
     u16 initial_flags;
 
@@ -319,10 +319,9 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
             func_80040AA0(3);
             return;
         }
-        goto update_audio;
-    }
+    } else {
     record_or_page = (M2C_UNK *)0x80080000;
-update_audio:
+    }
     if ((((S_80089AA0_1 *)record_or_page)->unk_AA0.u != 0) && (D_800E3CD0 == 0) && (func_80053EF0(1) == 0)) {
         SD_Call(0x200);
         ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
@@ -351,48 +350,17 @@ update_audio:
     status_base = &dungeonStatus.unk_00;
     status_base->unk_02 = (u16) (status_base->unk_02 & 0xFFCF);
     previous_input = &D_800E4948;
-    if (status_base->unk_08 == D_800E4948) {
-        if (status_base->unk_0C == ((S_80089AA0_4 *)previous_input)->unk_04) {
-            if (status_base->unk_10 == ((S_80089AA0_4 *)previous_input)->unk_08) {
-                if (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) {
-                    if (!(D_80013714 & 8)) {
-                        action_id = (*(u8 *)((u8 *)linked_actor + 0x9A));
-                        if ((action_id != 0x17) && (action_id != 0x27) && (action_id != 0x29) && (D_800DCF4F == 0)) {
-                            if (status_base->unk_0C == 0) {
-                                if ((status_base->unk_10 == 0) && (status_base->unk_14 == 0)) {
-                                    if (status_base->unk_08 != 0) {
-                                        goto count_idle_tick;
-                                    }
-                                    goto reset_idle_count;
-                                }
-                                D_800DD160 += 1;
-                                goto snapshot_input;
-                            }
-count_idle_tick:
-                            D_800DD160 += 1;
-                            goto snapshot_input;
-                        }
-                        goto reset_idle_entry;
-                    }
-                }
-            }
-        }
-        goto reset_idle_count;
+    if ((status_base->unk_08 == D_800E4948) && (status_base->unk_0C == ((S_80089AA0_4 *)previous_input)->unk_04) && (status_base->unk_10 == ((S_80089AA0_4 *)previous_input)->unk_08) && (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) && !(D_80013714 & 8) && ((action_id = (*(u8 *)((u8 *)linked_actor + 0x9A))) != 0x17) && (action_id != 0x27) && (action_id != 0x29) && (D_800DCF4F == 0) && ((status_base->unk_0C != 0) || (status_base->unk_10 != 0) || (status_base->unk_14 != 0) || (status_base->unk_08 != 0))) {
+        D_800DD160 += 1;
+    } else {
+        D_800DD160 = 0;
     }
-reset_idle_entry:
-reset_idle_count:
-    D_800DD160 = 0;
-snapshot_input:
     input_snapshot = ((u8 *)(&dungeonStatus.unk_08));
     func_8003DB6C(&D_800E4948, input_snapshot, 4);
     input_status = (u8 *)input_snapshot - 8;
-    if (((S_80089AA0_5 *)input_status)->unk_0C == 0) {
-        if (((S_80089AA0_5 *)input_status)->unk_10 == 0) {
+    if ((((S_80089AA0_5 *)input_status)->unk_0C == 0) && (((S_80089AA0_5 *)input_status)->unk_10 == 0)) {
             input_flags = ((S_80089AA0_5 *)input_status)->unk_02;
-            if (!(input_flags & 8) && (((S_80089AA0_5 *)input_status)->unk_08 == 0)) {
-                if (((S_80089AA0_5 *)input_status)->unk_14 == 0) {
-                    if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x100000) && (((S_80089AA0_5 *)input_status)->unk_0A == 0)) {
-                        if (!(input_flags & 0x2E01)) {
+            if (!(input_flags & 8) && (((S_80089AA0_5 *)input_status)->unk_08 == 0) && (((S_80089AA0_5 *)input_status)->unk_14 == 0) && !(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x100000) && (((S_80089AA0_5 *)input_status)->unk_0A == 0) && !(input_flags & 0x2E01)) {
                             if ((func_8009F5CC(input_flags) << 0x10) != 0) {
                                 func_800C6AB0();
                             }
@@ -461,12 +429,11 @@ snapshot_input:
                                     slow_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                                     (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (slow_phase + 1);
                                     (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) slow_phase) >> 8) + 0x30);
-                                    goto update_actor_state;
-                                }
+                                } else {
                                 normal_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
                                 (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (normal_phase + 1);
                                 (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) normal_phase) >> 7) + 0x40);
-update_actor_state:
+                                }
                                 (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (func_800A6D30() & 0xFFFF);
                                 if (!(D_80013714 & 8)) {
                                     (*(u16 *)((u8 *)linked_actor + 0x118)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0x118)) + 1);
@@ -482,46 +449,30 @@ update_actor_state:
                                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
                                         goto mark_callback_change;
                                     }
-                                    goto clear_turn_flags;
-                                }
 
-                                if (current_callback == (Callback4)&D_8008ACDC) {
+                                } else if (current_callback == (Callback4)&D_8008ACDC) {
                                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                                         callback_status = &dungeonStatus;
                                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
                                         goto mark_callback_change;
                                     }
-                                    goto clear_turn_flags;
                                 }
                                 goto clear_turn_flags;
-                            } else {
-                                goto clear_turn_flags;
-                            }
 mark_callback_change:
-                            callback_status->flags =
-                                (u16)(callback_status->flags | 4);
+                            callback_status->flags = (u16)(callback_status->flags | 4);
+                            }
 clear_turn_flags:
 
                             callback_status = &dungeonStatus;
                             callback_status->flags =
                                 (u16)(callback_status->flags & 0xBFFB);
                             (*(u32 *)((u8 *)actor + 0x14)) &= 0x7FFE7FFF;
-                            goto after_status_or;
-                        }
-                        goto mark_input_active;
-                    }
-                    goto mark_input_entry;
-                }
-                goto mark_input_active;
+            } else {
+                dungeonStatus.flags = (u16) (dungeonStatus.flags | 4);
             }
-            goto mark_input_entry;
-        }
-        goto mark_input_active;
+    } else {
+        dungeonStatus.flags = (u16) (dungeonStatus.flags | 4);
     }
-mark_input_entry:
-mark_input_active:
-    dungeonStatus.flags = (u16) (dungeonStatus.flags | 4);
-after_status_or:
     if (!(D_80013714 & 8)) {
         if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
             reset_actor = D_800E3D7C;
@@ -548,25 +499,20 @@ after_status_or:
                 gameWork.view.slot[2].callback = 0;
                 func_8004D7A8(1);
                 func_8004D294(0, D_800DCE60, 2);
-                goto update_sprite;
-            }
+            } else {
             D_800E3D20 = 0;
-            goto sprite_update_entry;
+            }
         }
-        goto sprite_update_entry;
     }
-sprite_update_entry:
-update_sprite:
     if (!((*(s32 *)((u8 *)actor + 0x1C)) & 0x20)) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
             func_800478B8(sprite_or_root);
-            goto run_actor_callbacks;
-        }
+        } else {
         func_80048AC8(sprite_or_root, 1);
-        goto run_actor_callbacks;
-    }
+        }
+    } else {
     ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 | 0x6000);
-run_actor_callbacks:
+    }
     update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
     if (update_callback != NULL) {
         update_callback(linked_actor, motion_or_count, sprite_or_root, actor);
@@ -576,19 +522,16 @@ run_actor_callbacks:
     if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
             func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04);
-            goto store_facing;
-        }
+        } else {
         func_800489F4(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
-store_facing:
+        }
         (*(s16 *)((u8 *)linked_actor + 0x94)) = facing;
         if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x22) && (dirSpriteFlag[facing] != 0)) {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
-            goto update_room;
-        }
+        } else {
         ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 & 0xFFFE);
-        goto update_room;
+        }
     }
-update_room:
     room_index = func_8009FB34(((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25);
     {
         s32 table_index;
@@ -618,8 +561,7 @@ update_room:
                 if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
                     ground_flags =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
-                    goto store_a2_flags;
-                }
+                } else {
                 (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
                 ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
                 (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
@@ -630,18 +572,17 @@ update_room:
                     func_800B66C8(motion_or_count);
                 }
                 ground_flags = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
-store_a2_flags:
+                }
                 (*(volatile u16 *)((u8 *)linked_actor + 0xA2)) = ground_flags;
                 (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                     (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xF7FF);
-                goto adjust_floor_height;
-            }
+            } else {
             air_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
             if (air_flags & 0x800) {
                 (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (air_flags & 0xFFEF);
             }
             (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
-adjust_floor_height:
+            }
             flags_or_height = (*(s32 *)((u8 *)actor + 0x1C));
             if (flags_or_height & 0x40000000) {
 
@@ -663,21 +604,17 @@ adjust_floor_height:
                     (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
-                    goto store_height;
                 }
             }
-            goto store_height;
-        }
+        } else {
         fall_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
         if (fall_flags & 0x800) {
             (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (fall_flags & 0xFFEF);
         }
         (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
-store_height:
+        }
         ((S_80089AA0_18 *)motion_or_count)->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88)) + (u16) (*(s16 *)((u8 *)linked_actor + 0x92)));
-        goto finish_movement;
     }
-finish_movement:
     func_80096100(linked_actor, motion_or_count, sprite_or_root, actor);
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
         if ((D_800DD258 != ((S_80089AA0_16 *)sprite_or_root)->unk_24) || (D_800DD25A != ((S_80089AA0_16 *)sprite_or_root)->unk_25)) {
@@ -686,13 +623,11 @@ finish_movement:
                 if ((func_800A4474(((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25) << 0x10) != 0) {
                     (*(u16 *)((u8 *)linked_actor + 0xA2)) =
                         (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x200);
-                    goto check_tile_actor;
-                }
+                } else {
                 (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFDFF);
-                goto check_tile_actor;
+                }
             }
         }
-check_tile_actor:
         linked_actor = func_8009B25C(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
         if (linked_actor != NULL) {
             func_8009A180(linked_actor, D_800814A8);
@@ -700,9 +635,7 @@ check_tile_actor:
         }
         D_800DD258 = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_24;
         D_800DD25A = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_25;
-        goto clear_linked_flags;
     }
-clear_linked_flags:
     linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
     sprite_or_root = actor;
     if (linked_actor != actor) {
@@ -768,8 +701,7 @@ clear_linked_flags:
                 }
                 dungeonStatus.flags =
                     (u16)((dungeonStatus.flags & 0xDFFF) | 0x1000);
-                goto process_turns;
-            }
+            } else {
             turn_status->flags = (u16) (turn_status->flags & 0xDFFF);
             linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
             if (linked_actor != actor) {
@@ -786,10 +718,9 @@ clear_linked_flags:
             }
             dungeonStatus.flags =
                 (u16) (dungeonStatus.flags | 0x2000);
-            goto process_turns;
+            }
         }
     }
-process_turns:
     tail_status = &dungeonStatus;
     if (((s32)tail_status->unk_10) > 0) {
         tail_status->unk_10 = 0;
@@ -815,21 +746,22 @@ apply_pending_points:
         (*(u8 *)((u8 *)actor + 0x42)) = 0U;
         (*(u8 *)((u8 *)actor + 0x41)) = 0U;
         (*(s32 *)((u8 *)actor + 0x18)) = (s32) ((*(s32 *)((u8 *)actor + 0x18)) + ((pending_high << 8) | pending_low));
-        if ((func_800A1C58(actor, pending_low) << 0x10) == 0) {
+        if ((func_800A1C58(actor, pending_low) << 0x10) != 0) {
+            goto store_pending_actor;
+        }
             next_link = (*(void **)((u8 *)actor + 0x5C));
             actor = (u8 *)next_link + 0x20;
-            if (actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) {
+            if (actor != ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) {
+                goto apply_pending_points;
+            }
+            {
                 s32 clear_mask;
                 clear_mask = (s32)0xFFEF0000;
                 clear_mask |= 0xFFFF;
                 page_or_repeat = (s32)0x800E0000;
                 ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C =
                     ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & clear_mask;
-                goto begin_linked_pass;
             }
-            goto apply_pending_points;
-        }
-        goto store_pending_actor;
     }
 begin_linked_pass:
     sprite_or_root = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
@@ -837,8 +769,8 @@ begin_linked_pass:
     actor = (u8 *)record_or_page + 0x20;
     motion_or_count = NULL;
     if (actor != sprite_or_root) {
-update_linked_actor:
-        next_record = (*(void * volatile *)((u8 *)actor + 0x5C));
+        do {
+        next_record = (*(void * *)((u8 *)actor + 0x5C));
         page_or_repeat = repeat_pass;
         ((S_80089AA0_27 *)next_record_page)->unk_3DE8 = next_record;
         if (((page_or_repeat == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0) || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
@@ -847,14 +779,13 @@ update_linked_actor:
                 if (linked_actor == NULL) {
                     if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
                         ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
-                        goto callback_entry;
+                    } else {
+                                    record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
+                                    actor = (u8 *)record_or_page + 0x20;
+                        continue;
                     }
-                    goto advance_linked_actor;
                 }
-                goto run_linked_callback;
             }
-callback_entry:
-run_linked_callback:
             state_or_address = (s32)0x80000000;
             {
                 s32 callback_context;
@@ -869,17 +800,17 @@ run_linked_callback:
                     motion_or_count = (void *)((s32)motion_or_count + 1);
                 }
                 if ((linked_actor == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
-                    goto advance_linked_actor;
-                }
-            }
-        } else {
-advance_linked_actor:
             record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
             actor = (u8 *)record_or_page + 0x20;
-            if (actor != sprite_or_root) {
-                goto update_linked_actor;
+continue;
+                }
             }
+            break;
+        } else {
+            record_or_page = ((S_80089AA0_27 *)next_record_page)->unk_3DE8;
+            actor = (u8 *)record_or_page + 0x20;
         }
+        } while (actor != sprite_or_root);
     }
     loop_flags = ((S_80089AA0_24 *)loop_status)->unk_02;
     if (loop_flags & 0x1000) {
@@ -896,22 +827,12 @@ store_pending_actor:
                 ((S_80089AA0_24 *)loop_status)->unk_0C = actor;
                 goto begin_linked_pass;
             }
-        } else {
-            goto check_pass_completion;
+            return;
         }
     } else {
-        if (!(loop_flags & 0x400)) {
-            goto check_pass_completion;
-        }
-        if (loop_flags & 0x800) {
-            goto check_pass_completion;
-        }
-        if ((func_800A2C34(0) << 0x10) != 0) {
-            goto check_pass_completion;
-        }
-        if ((func_800A2B28() << 0x10) != 0) {
-            goto check_pass_completion;
-        }
+        if (loop_flags & 0x400) {
+        if (!(loop_flags & 0x800)) {
+        if (((func_800A2C34(0) << 0x10) == 0) && ((func_800A2B28() << 0x10) == 0)) {
         if (companion_index == 0) {
             companion_index = 1;
             goto begin_actor_pass;
@@ -928,6 +849,10 @@ store_pending_actor:
             }
         }
         return;
+        }
+        }
+        }
+    }
 check_pass_completion:
         if ((actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) && (motion_or_count == NULL)) {
             ((S_80089AA0_24 *)loop_status)->unk_02 = (u16) (((S_80089AA0_24 *)loop_status)->unk_02 & 0xFFFE);
@@ -938,6 +863,4 @@ check_pass_completion:
         }
         next_flags = final_flags & 0xFFF7;
         goto store_loop_flags;
-    }
-    return;
 }

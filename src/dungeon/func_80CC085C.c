@@ -348,12 +348,10 @@ follow_master:
             return;
         }
     }
-    if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
-        goto choose_step;
+    if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 == 0) {
+        ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 1;
+        ((Rec_func_800A9E70_arg0 *)context)->unk_A4 = ((func_800A6D30() & 3) << 10) + 0x200;
     }
-    ((Rec_func_800A9E70_arg0 *)context)->unk_A6 = 1;
-    ((Rec_func_800A9E70_arg0 *)context)->unk_A4 = ((func_800A6D30() & 3) << 10) + 0x200;
-
 choose_step:
     move_index = 0;
     {

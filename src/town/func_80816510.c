@@ -42,15 +42,12 @@ void func_80020510(void *entry) {
         value_index -= 1;
     } while (value_index >= 0);
     state = ((S_80020510_0 *)entry)->unk_00.s;
-    if (state == 0) {
-        goto state_zero;
+    if (state != 0) {
+        if (state == 1) {
+            goto state_one;
+        }
+        return;
     }
-    if (state == 1) {
-        goto state_one;
-    }
-    return;
-
-state_zero:
     ticks_left = ((S_80020510_0 *)entry)->unk_02 - 1;
     ((S_80020510_0 *)entry)->unk_02 = ticks_left;
     if ((ticks_left << 0x10) > 0) {

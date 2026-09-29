@@ -40,7 +40,6 @@ s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
     s16 c3;
     s16 mod;
     s16 r;
-    s32 dir;
     s32 zero;
     u8 type;
     s32 b72, b73;
@@ -107,33 +106,16 @@ L_B84C:
         if (c3 = ct1[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], c3 > 0) {
             table = ct1;
             do {
+                Elem *cand_entry;
                 zero = (s16)s0;
                 mod = (s8)type;
                 c2 = table[mod].fieldE;
                 mod = zero % c2;
-                entry = (Elem *)((unsigned long)((s16)mod * sizeof(Elem)) + (unsigned long)s1);
+                cand_entry = (Elem *)((unsigned long)((s16)mod * sizeof(Elem)) + (unsigned long)s1);
                 s0 = mod;
-                if (entry->b0 != 0) {
+                if (cand_entry->b0 != 0) {
                     if (actor_held[0x27] != (s16)mod) {
-                        zero = 0;
-                        dir = work_p[0x67];
-                        switch (dir) {
-                        case 0:
-                            tail = *(s16 *)&entry->b2 < 2;
-                            break;
-                        case 1:
-                            tail = *(s16 *)&entry->b2 == 2;
-                            break;
-                        case 2:
-                            tail = *(s16 *)&entry->b2 == 0;
-                            break;
-                        default:
-                            goto L_DIR1_DONE;
-                        }
-                        zero = tail;
-L_DIR1_DONE:
-                        tail = zero;
-                        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        tail = direction_matches(cand_entry, work_p[0x67]);
                         if (tail) {
                             goto L_BCB8;
                         }

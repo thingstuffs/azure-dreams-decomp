@@ -29,18 +29,16 @@ s32 func_8009B164(u32 direction_bits, Arg1 *state_in, Arg2 *position_in) {
     state = state_in;
     position = position_in;
     direction = (direction_bits >> 9) & 7;
-    if ((func_8009A350(position->x, position->y, direction, &tile_flags) << 0x10) == 0) {
-        goto return_one;
+    if ((func_8009A350(position->x, position->y, direction, &tile_flags) << 0x10) != 0) {
+        if (tile_flags & 0x8000) {
+            return 0;
+        }
+        next_x = position->x + ((u16 *)dirStepX)[direction];
+        next_y = position->y + ((u16 *)dirStepY)[direction];
+        if (func_800BCB04((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0, (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10) >= 0x200) {
+            goto return_zero;
+        }
     }
-    if (tile_flags & 0x8000) {
-        return 0;
-    }
-    next_x = position->x + ((u16 *)dirStepX)[direction];
-    next_y = position->y + ((u16 *)dirStepY)[direction];
-    if (func_800BCB04((((s32) (next_x << 0x10) >> 0xA) | 0x20) & 0xFFE0, (((s32) (next_y << 0x10) >> 0xA) | 0x20) & 0xFFE0, (s32) (state->unk8 + (state->unk14 * 2)) >> 0x10) >= 0x200) {
-        goto return_zero;
-    }
-return_one:
     return 1;
 return_zero:
     return 0;
