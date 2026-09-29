@@ -34,7 +34,6 @@ typedef struct S_800CABA8_2 {
 } S_800CABA8_2;   /* temp_s2 in func_800CABA8 */
 
 
-extern void *D_80089440[];
 M2C_UNK func_8009C12C();
 M2C_UNK func_800A2B04();
 M2C_UNK func_800A4ACC();
@@ -45,7 +44,6 @@ extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
 void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
-    static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     s16 fade_ticks_left;
     s16 restore_ticks;
     s16 restore_ticks_left;
@@ -77,11 +75,8 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     actor_or_green_2 = actor;
     phase = ((S_800CABA8_0 *)effect)->unk_9B;
     actor_state = actor_or_green_2;
-    if (phase >= 5U) {
-        return;
-    }
-    (void)phase_labels; goto *D_80089440[(u32)(phase)];
-jt_c0:
+    switch (phase) {
+    case 0:
     ((S_800CABA8_0 *)effect)->unk_B8 = 1;
     if (!(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
         goto block_4;
@@ -92,7 +87,7 @@ jt_c0:
 block_4:
     ((S_800CABA8_0 *)effect)->unk_B0 = (u16) ((S_800CABA8_2 *)actor_state)->unk_2A;
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
-jt_c1:
+    case 1:
     ((S_800CABA8_0 *)effect)->unk_98 |= 8;
     effect_level = ((S_800CABA8_0 *)effect)->unk_A0.at02.v + 0x10;
     ((S_800CABA8_0 *)effect)->unk_A0.at02.v = effect_level;
@@ -105,7 +100,7 @@ jt_c1:
     next_duration = 8;
     ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
     goto block_9_done;
-jt_c2:
+    case 2:
     effect_base = effect - 0x20;
     ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
     func_800CAFDC(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
@@ -135,7 +130,7 @@ jt_c2:
     ;
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
     return;
-jt_c3:
+    case 3:
     if ((s16) ((S_800CABA8_0 *)effect)->unk_B0 == ((S_800CABA8_2 *)actor_state)->unk_2A) {
         goto block_12;
     }
@@ -173,7 +168,7 @@ block_16:
     }
     ((S_800CABA8_0 *)effect)->unk_98 = (u16) (((S_800CABA8_0 *)effect)->unk_98 & 0xFFF7);
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (((S_800CABA8_0 *)effect)->unk_9B + 1);
-jt_c4:
+    case 4:
     ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0U;
     func_800A2B04(context, ((Rec_D_80082E80 *)record)->unk_24, ((Rec_D_80082E80 *)record)->unk_25);
     dungeonStatus.unk_0C = 0;
@@ -194,4 +189,7 @@ block_21:
 block_22:
     ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;
     return;
+    default:
+        return;
+    }
 }

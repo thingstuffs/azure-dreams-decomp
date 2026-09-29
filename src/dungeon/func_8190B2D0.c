@@ -31,8 +31,6 @@ typedef struct {
 
 extern Rect D_80024038;
 extern CoordTable D_80024064;
-extern void *jtbl_80024088[9];
-__asm__(".set jtbl_80024088, 0x80024088");
 
 extern Packed12 D_80025618;
 extern Packed12 D_80025624;
@@ -237,10 +235,6 @@ typedef struct S_func_8190B2D0_9 {
 /* Updates a moving effect, its target animation, and cleanup state. */
 void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4,
-        &&state5, &&done, &&done, &&state8
-    };
     s16 start_offset[3];
     Rect capture_rect;
     Point capture_point;
@@ -260,13 +254,8 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
     source_pos = (u32)((S_func_8190B2D0_2 *)owner_base)->unk_8;
     state = effect->unk_A.s16;
 
-    if ((u32)state >= 9U) {
-        return;
-    }
-    (void)state_labels;
-    goto *jtbl_80024088[(u32)state];
-
-state0:
+    switch (state) {
+    case 0:
     {
         s16 owner_flags;
         u16 next_state;
@@ -288,7 +277,7 @@ state0:
         }
     }
 
-state1:
+case 1:
     {
         u16 next_state;
         u16 base_z;
@@ -373,7 +362,7 @@ state1:
         return;
     }
 
-state2:
+case 2:
     {
         u32 particle_index;
         u8 frames_left;
@@ -448,7 +437,7 @@ state2:
         return;
     }
 
-state3:
+case 3:
     {
         S_func_8190B2D0_3 *child_pos;
         u32 child_data;
@@ -521,7 +510,7 @@ state3:
         return;
     }
 
-state4:
+case 4:
     {
         s32 fade_frame;
         s32 green_frame;
@@ -586,7 +575,7 @@ state4:
         return;
     }
 
-state5:
+case 5:
     {
         S_func_8190B2D0_6 *target;
         u8 target_mode;
@@ -608,7 +597,7 @@ state5:
         return;
     }
 
-state8:
+case 8:
     {
         s16 old_frame;
         s16 frame;
@@ -617,7 +606,7 @@ state8:
         frame = old_frame + 1;
         effect->unk_82.u16 = frame;
         if ((s16)frame < 31) {
-            goto done;
+            break;
         }
         cleanup_pending = D_80025630[0];
         effect->unk_82.u16 = old_frame;
@@ -633,7 +622,5 @@ state8:
             break;
         }
     }
-
-done:
-    return;
+    }
 }
