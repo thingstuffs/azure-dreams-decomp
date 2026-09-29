@@ -1,64 +1,11 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "shared/game_work.h"
-#include "records/Rec_D_80083160.h"
 
 
-typedef struct S_80ACB000_1 {
-    u8 pad_00[0x8D0];
-    u32 unk_8D0;
-} S_80ACB000_1;   /* base in BODY_NAME */
-
-typedef struct S_80ACB000_2 {
-    u8 pad_00[0x1C];
-    volatile u32 unk_1C;
-} S_80ACB000_2;   /* scratch in BODY_NAME */
-
-typedef struct S_80ACB000_3 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_80ACB000_3;   /* arg1_reg in BODY_NAME */
-
-typedef struct S_80ACB000_4_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} S_80ACB000_4_pre;   /* the 0x8 bytes before arg0_reg in BODY_NAME, addressed as arg0_reg[-1] */
-
-typedef struct S_80ACB000_4 {
-    u8 pad_00[0x8];
-    u32 unk_08;
-} S_80ACB000_4;   /* arg0_reg in BODY_NAME */
-
-typedef struct S_80ACB000_5 {
-    union { struct { u32 v; } at00; struct { u8 pad[0x3]; u8 v; } at03; } unk_00;   /* overlapping accesses */
-    union { struct { u32 v; } at00; struct { volatile u8 v; } at00u; struct { u8 pad[0x1]; volatile u8 v; } at01; struct { u8 pad[0x2]; volatile u8 v; } at02; struct { u8 pad[0x3]; u8 v; } at03; } unk_04;   /* overlapping accesses */
-} S_80ACB000_5;   /* temp_s0 in BODY_NAME */
-
-typedef struct S_80ACB000_6 {
-    u32 unk_00;
-} S_80ACB000_6;   /* temp_s0_2 in BODY_NAME */
-
-typedef struct S_80ACB000_7 {
-    u8 pad_00[0x8];
-    void * unk_08;
-} S_80ACB000_7;   /* next in BODY_NAME */
-
-typedef struct S_80ACB000_8 {
-    u8 pad_00[0x8D0];
-    u32 unk_8D0;
-} S_80ACB000_8;   /* final_base in BODY_NAME */
-
-
-#define SPAD_U16(off) (*(u16 *)(scratch + (off)))
-#define SPAD_U32(off) (*(u32 *)(scratch + (off)))
-
-extern u32 func_80065420(void *, void *, void *, void *);
+extern s32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
-extern void func_80067F20(void *, s32, s32, s32, s32);
+extern void func_80067F20(void *, s32, s32, u16, s32);
 
 #ifdef __mips__
 /* The row starts with a typed constant/jump table; the routine follows it. */
@@ -89,101 +36,114 @@ __asm__(".globl func_80ACB000\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in) BODY_ATTR;
+BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position) BODY_ATTR;
+typedef struct RenderState {
+    u8 pad0[0x8D0];
+    u8 *next_prim;
+} RenderState;
+
+typedef struct Scratch {
+    u8 pad0[4];
+    u16 in0;
+    u16 in1;
+    u16 in2;
+    u8 pad0A[0x12];
+    u8 *current;
+    u8 pad20[4];
+    u8 *table;
+    u8 pad28[0xA8];
+    u16 out0;
+    u16 padD2;
+    u16 out1;
+    u8 padD4[0x2A];
+    s32 index;
+} Scratch;
+
+typedef struct Packet {
+    u8 pad0[3];
+    u8 code;
+    union {
+        u32 link;
+        struct {
+            u8 r;
+            u8 g;
+            u8 b;
+            u8 command;
+        } color;
+    } data;
+} Packet;
+
 /* Projects a point and queues its tile and draw mode in the ordering table. */
-BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
+BODY_STORAGE s32 BODY_NAME(u8 *node_data, u16 *position)
 {
-    u32 initial_cursor;
-    u32 final_cursor;
-    u32 depth;
-    S_80ACB000_8 *final_state;
-    void *tile;
-    void *draw_mode;
-    void *next_node;
-    void *render_data = render_data_in;
-    register void *position = position_in;
-    void **render_state_ptr = &gameWork.unk_000;
-    u32 address_mask = 0x00FFFFFFU;
-    void *render_state = ((Rec_D_80083160 *)(&gameWork.unk_000))->unk_00.as_pv;
-    register u32 length_mask ASM_REG("$20") = 0xFF000000U;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *scratch = (u8 *)0x1F800000;
+    Scratch *scratch = (Scratch *)0x1F800000;
+    void **global_state = ((void * *)(&gameWork));
+    RenderState *render_state = (RenderState *)global_state[0];
+    Packet *first_packet = (Packet *)render_state->next_prim;
+    Packet *packet;
+    s32 depth_index;
+    u32 addr_mask = 0x00FFFFFF;
+    u32 length_mask = 0xFF000000;
 
-    ASM_KEEP(render_state_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(length_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    scratch->table = (u8 *)render_state + 0xB0;
+    scratch->current = (u8 *)first_packet;
+    for (;;) {
+        scratch->in0 = *(volatile u16 *)&position[1];
+        packet = (Packet *)*(u8 * volatile *)&scratch->current;
+        scratch->in1 = position[3];
+        scratch->in2 = position[5];
 
-    initial_cursor = ((S_80ACB000_1 *)render_state)->unk_8D0;
-    SPAD_U32(0x24) = (u32)render_state + 0xB0;
-    ((S_80ACB000_2 *)scratch)->unk_1C = initial_cursor;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    do {
-        SPAD_U16(4) = ((S_80ACB000_3 *)position)->unk_02;
-        tile = (void *)((S_80ACB000_2 *)scratch)->unk_1C;
-        SPAD_U16(6) = ((S_80ACB000_3 *)position)->unk_06;
-        SPAD_U16(8) = ((S_80ACB000_3 *)position)->unk_0A;
-        SPAD_U32(0x1C) = (u32)tile + 0xC;
+        scratch->current = (u8 *)packet + 0xC;
+        depth_index = func_80065420(&scratch->in0, (u8 *)packet + 8,
+                              &scratch->out0, &scratch->out1);
+        scratch->index = depth_index;
 
-        depth = func_80065420(scratch + 4, (u8 *)tile + 8,
-                                scratch + 0xD0, scratch + 0xD4);
-        SPAD_U32(0x100) = depth;
-        if (depth < 0x1E0U) {
-            register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            s32 call_one = 1;
-            u32 color = ((S_80ACB000_4 *)render_data)->unk_08;
-            register u32 packet_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            packet_code = 2;
-            ((S_80ACB000_5 *)tile)->unk_00.at03.v = packet_code;
-            packet_code = 0x6A;
-            ((S_80ACB000_5 *)tile)->unk_04.at00.v = color;
-            {
-                u32 red = ((S_80ACB000_5 *)tile)->unk_04.at00u.v;
-                register u32 green ASM_REG("$6") = ((S_80ACB000_5 *)tile)->unk_04.at01.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                register u8 blue ASM_REG("$7") = ((S_80ACB000_5 *)tile)->unk_04.at02.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            }
-            ((S_80ACB000_5 *)tile)->unk_04.at03.v = packet_code;
-            ((S_80ACB000_5 *)tile)->unk_00.at00.v =
-                (((S_80ACB000_5 *)tile)->unk_00.at00.v & length_mask) |
-                (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
-            {
-                u32 *ot_entry;
-                u32 ot_tag;
-                u32 tile_address;
+        if ((u32)depth_index < 480U) {
+            u16 tpage;
+            u8 r;
+            u8 g;
+            u8 b;
 
-                ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
-                ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
-                ot_tag = *ot_entry;
-                tile_address = (u32)tile & address_mask;
-                ot_tag &= length_mask;
-                ot_tag |= tile_address;
-                *ot_entry = ot_tag;
-            }
+            packet->data.link = *(u32 *)(node_data + 8);
+            packet->code = 2;
+            r = packet->data.color.r;
+            g = packet->data.color.g;
+            b = packet->data.color.b;
+            packet->data.color.r = r;
+            packet->data.color.g = g;
+            packet->data.color.b = b;
+            packet->data.color.command = 106;
 
-            draw_mode = (void *)SPAD_U32(0x1C);
-            SPAD_U32(0x1C) = (u32)draw_mode + 0xC;
-            func_80067F20(draw_mode, 0, 0,
-                          func_80066460(call_zero, call_one, call_zero, call_zero) & 0xFFFF, 0);
-            ((S_80ACB000_6 *)draw_mode)->unk_00 =
-                (((S_80ACB000_6 *)draw_mode)->unk_00 & length_mask) |
-                (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
-            {
-                u32 *ot_entry;
+            *(u32 *)packet = (*(u32 *)packet & length_mask) |
+                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
+            ((u32 *)scratch->table)[scratch->index] =
+                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+                                    ((u32)packet & addr_mask);
 
-                ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
-                ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
-                *ot_entry = (*ot_entry & length_mask) | ((u32)draw_mode & address_mask);
-            }
+            packet = (Packet *)scratch->current;
+            scratch->current = (u8 *)packet + 0xC;
+            tpage = (u16)func_80066460(0, 1, 0, 0);
+            func_80067F20(packet, 0, 0, tpage, 0);
+
+            *(u32 *)packet = (*(u32 *)packet & length_mask) |
+                          (((u32 *)scratch->table)[scratch->index] & addr_mask);
+            packet = (Packet *)((u32)packet & addr_mask);
+            ((u32 *)scratch->table)[scratch->index] =
+                                    (((u32 *)scratch->table)[scratch->index] & length_mask) |
+                                    (u32)packet;
         }
 
-        next_node = ((S_80ACB000_4_pre *)render_data)[-1].unk_00;
-        if (next_node == 0) {
-            break;
+        {
+            u8 *next_node = *(u8 **)(node_data - 8);
+
+            if (next_node == 0)
+                break;
+            node_data = next_node + 0x20;
+            position = (u16 *)*(u8 **)(next_node + 8);
         }
-        render_data = (u8 *)next_node + 0x20;
-        position = ((S_80ACB000_7 *)next_node)->unk_08;
-    } while (1);
-    final_state = *render_state_ptr;
-    final_cursor = SPAD_U32(0x1C);
-    final_state->unk_8D0 = final_cursor;
+    }
+
+    ((RenderState *)global_state[0])->next_prim = scratch->current;
     return 0;
 }
+

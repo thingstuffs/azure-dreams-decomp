@@ -1,115 +1,91 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef struct Scratch
-{
-  u16 unk0;
-  u16 unk2;
-  u16 unk4;
-  u8 pad6[0x12];
-  u8 *current;
-  u8 pad1C[4];
-  u32 *table;
-  u8 pad24[0x6C];
-  u32 unk90;
-  u32 unk94;
-  u8 pad98[0x28];
-  u32 index;
-} Scratch;
-typedef struct Arg0
-{
-  u8 pad0[8];
-  s32 unk8;
-  u8 padC[0x26];
-  s16 scale;
-  s16 divisor;
-} Arg0;
-typedef struct Arg1
-{
-  u8 pad0[2];
-  u16 unk2;
-  u8 pad4[2];
-  u16 unk6;
-  u8 pad8[2];
-  u16 unkA;
-} Arg1;
+#define FIELD_U8(base, off)  (*(u8 *)((u8 *)(base) + (off)))
+#define FIELD_S16(base, off) (*(s16 *)((u8 *)(base) + (off)))
+#define FIELD_U16(base, off) (*(u16 *)((u8 *)(base) + (off)))
+#define FIELD_U32(base, off) (*(u32 *)((u8 *)(base) + (off)))
+#define FIELD_PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
+
 extern u32 func_80065420();
-extern u32 func_80066460();
-extern void func_80067F20();
-/* Walk the node chain and emit each node's shaded quad into the scratch display list, relinking the OT slots. */
-s32 func_81875828(Arg0 *node, Arg1 *coords)
+extern s32 func_80066460();
+extern s32 func_80067F20();
+
+/* Projects a colored point and links its drawing packets into the ordering table. */
+s32 func_81875828(u8 *render_data, u8 *source_vertex)
 {
-  Arg1 *input = coords;
-  u32 high_mask = 0xFF000000;
-  register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  u8 **state_slot = (u8 **) ((u8 *)(&gameWork));
-  u32 low_mask = 0x00FFFFFF;
-  u8 *state = *((u8 **) ((u8 *)(&gameWork)));
-  u8 *initial_current;
-  u16 second_coord;
-  u16 third_coord;
-  u8 *entry;
-  u8 *entry_2;
-  Scratch *active;
-  Scratch *call_base;
-  Scratch *call_arg;
-  u32 *out90;
-  u32 *out94;
-  u8 *entry_arg;
-  u8 *previous;
-  ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  initial_current = *((u8 **) (state + 0x8D0));
-  scratch->current = initial_current;
-  scratch->table = (u32 *) (state + 0xB0);
-  ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  active = scratch;
-  for (;;) {
-  call_arg = active;
-  out90 = &active->unk90;
-  second_coord = input->unk2;
-  entry = *((u8 * volatile *) (&active->current));
-  out94 = &active->unk94;
-  active->unk0 = second_coord;
-  second_coord = input->unk6;
-  entry_arg = entry + 8;
-  active->unk2 = second_coord;
-  third_coord = input->unkA;
-  active->current = entry + 0xC;
-  active->unk4 = third_coord;
-  active->index = func_80065420(call_arg, entry_arg, out90, out94);
-  if (active->index < 0x1E0U)
-  {
-    *((s32 *) (((u8 *) entry) + 4)) = node->unk8;
-    *((u8 *) (((u8 *) entry) + 4)) = ((*((u8 *) (((u8 *) entry) + 4))) * node->scale) / node->divisor;
-    *((u8 *) (((u8 *) entry) + 5)) = ((*((u8 *) (((u8 *) entry) + 5))) * node->scale) / node->divisor;
-    *((u8 *) (((u8 *) entry) + 6)) = ((*((u8 *) (((u8 *) entry) + 6))) * node->scale) / node->divisor;
-    *((u8 *) (((u8 *) entry) + 3)) = 2;
-    *((u8 *) (((u8 *) entry) + 7)) = 0x6A;
-    *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
-    {
-      u32 table_slot;
-      register s32 table_word;
-      table_slot = (active->index << 2) + (u32) active->table;
-      table_word = ((*((u32 *) table_slot)) & high_mask) | ((u32) entry & low_mask);
-      *((u32 *) table_slot) = table_word;
-    }
-    entry_2 = active->current;
-    active->current = entry_2 + 0xC;
-    func_80067F20(entry_2, 0, 0, (u16) func_80066460(0, 1, 0, 0), 0);
-    *((u32 *) (((u8 *) entry_2) + 0)) = ((*((u32 *) (((u8 *) entry_2) + 0))) & high_mask) | (active->table[active->index] & low_mask);
-    entry_2 = (u8 *) (((u32) entry_2) & low_mask);
-    active->table[active->index] = (active->table[active->index] & high_mask) | ((u32) entry_2);
-  }
-  previous = *((u8 **) (((u8 *) node) - 8));
-  if (previous != 0)
-  {
-    node = (Arg0 *) (previous + 0x20);
-    input = *((Arg1 **) (previous + 8));
-    continue;
-  }
-  break;
-  }
-  call_base = (Scratch *) (*state_slot);
-  *((u8 **) (((u8 *) call_base) + 0x8D0)) = active->current;
-  return 0;
+    u8 **context_slot;
+    u8 *scratch;
+    u8 *context;
+    u8 *point_packet;
+    u8 *mode_packet;
+    u8 *next_node;
+    u8 *vertex = source_vertex;
+    u16 vertex_x;
+    u8 blue;
+    u32 depth_index;
+    u32 length_mask;
+    u32 address_mask;
+    u32 *mode_ot_entry;
+
+    context = *(u8 **)&gameWork;
+    context_slot = (u8 **)&gameWork;
+    address_mask = 0x00FFFFFF;
+    length_mask = 0xFF000000;
+    scratch = (u8 *)0x1F800000;
+    FIELD_PTR(scratch, 0x18) = FIELD_PTR(context, 0x8D0);
+    FIELD_PTR(scratch, 0x20) = context + 0xB0;
+    do {
+        point_packet = FIELD_PTR(scratch, 0x18);
+        vertex_x = FIELD_U16(vertex, 2);
+        FIELD_U16(scratch, 0) = vertex_x;
+        FIELD_U16(scratch, 2) = FIELD_U16(vertex, 6);
+        FIELD_U16(scratch, 4) = FIELD_U16(vertex, 0xA);
+        FIELD_PTR(scratch, 0x18) = point_packet + 0xC;
+
+        depth_index = func_80065420(scratch, point_packet + 8, scratch + 0x90, scratch + 0x94);
+        FIELD_U32(scratch, 0xC0) = depth_index;
+        if (depth_index < 0x1E0U) {
+            FIELD_U32(point_packet, 4) = FIELD_U32(render_data, 8);
+            FIELD_U8(point_packet, 4) = (u8)((FIELD_U8(point_packet, 4) * FIELD_S16(render_data, 0x32)) /
+                                      FIELD_S16(render_data, 0x34));
+            FIELD_U8(point_packet, 5) = (u8)((FIELD_U8(point_packet, 5) * FIELD_S16(render_data, 0x32)) /
+                                      FIELD_S16(render_data, 0x34));
+            blue = (u8)((FIELD_U8(point_packet, 6) * FIELD_S16(render_data, 0x32)) /
+                        FIELD_S16(render_data, 0x34));
+            FIELD_U8(point_packet, 3) = 2;
+            FIELD_U8(point_packet, 7) = 0x6A;
+            FIELD_U8(point_packet, 6) = blue;
+
+            FIELD_U32(point_packet, 0) = (FIELD_U32(point_packet, 0) & length_mask) |
+                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
+            {
+                u32 *ot_entry;
+                u32 ot_tag;
+                ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) +
+                                  (u32)FIELD_PTR(scratch, 0x20));
+                ot_tag = *ot_entry;
+                *ot_entry = (ot_tag & length_mask) |
+                           ((u32)point_packet & address_mask);
+            }
+
+            mode_packet = FIELD_PTR(scratch, 0x18);
+            FIELD_PTR(scratch, 0x18) = mode_packet + 0xC;
+            func_80067F20(mode_packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+
+            FIELD_U32(mode_packet, 0) = (FIELD_U32(mode_packet, 0) & length_mask) |
+                (*(u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20)) & address_mask);
+            mode_ot_entry = (u32 *)((FIELD_U32(scratch, 0xC0) * 4) + (u32)FIELD_PTR(scratch, 0x20));
+            *mode_ot_entry = (*mode_ot_entry & length_mask) | ((u32)mode_packet & address_mask);
+        }
+
+        next_node = FIELD_PTR(render_data, -8);
+        render_data = next_node + 0x20;
+        if (next_node == 0) {
+            break;
+        }
+        vertex = FIELD_PTR(next_node, 8);
+    } while (1);
+    FIELD_PTR(*context_slot, 0x8D0) = FIELD_PTR(scratch, 0x18);
+    return 0;
 }
