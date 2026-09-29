@@ -223,3 +223,14 @@ base staged in pinned locals (GetTPage(0,1,0,0)) let sched1 hoist the a0/a1 sets
 - **Barrier before a join guarding `if (c) x = K1; else { x = K2; ... }`:** jump.c:699 turns it into `x = K2; if (c) x = K1`,
   creating an insn that sched1 sinks and reorg copies into delay slots; an else-if chain stops the transform
   (dungeon/func_8197CEC0).
+
+## `branch; nop; lui` vs retail `branch; lui` is a DECLARATION SIZE question, not an assembler gap (r80_opus_lafill)
+
+Genuine SN ASPSX 2.56-2.86 never fills a branch delay slot from the fall-through (aspsx_diff --one on the candidate,
+synthetic probes, and a 125-site / 79-row retail census: 0 fall-through fills). Retail's `lui` in the slot comes from
+cc1: it splits the address into HIGH + LO_SUM and reorg steals the HIGH into the slot - which cc1 does only for symbols
+that are NOT small data. A 4-byte `extern u8 *SYM;` is small data at -G8, so cc1 emits an unsplittable `la`. Before
+blaming the assembler, check the symbol's `.extern SYM, n` size (n <= 8 -> small) and whether retail's other uses
+prove a larger object (dungeon/func_807B0B3C: `extern u8 *D_80083160[]` gives the split and the filled slot). Second
+"assembler fills a slot" idea disproved with genuine ASPSX (after the 655-record tail-jump one) - test with
+aspsx_diff before any maspsx change. Kit gap: listing distance treats `la SYM` as equal to `lui/addiu`.
