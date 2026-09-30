@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern u8 D_80080A84[16];
+extern u8 D_80080A84;
 
 typedef struct FrameNode {
     u16 duration;
@@ -47,8 +47,7 @@ s32 func_8004CB2C(FrameState *state)
             }
 
             timed_node = state->node;
-            ASM_KEEP(timed_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            duration_scale = D_80080A84[0];
+            duration_scale = D_80080A84;
             duration = timed_node->duration;
             state->countdown = duration / duration_scale;
         }
