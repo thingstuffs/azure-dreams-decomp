@@ -1,6 +1,5 @@
 #include "common.h"
 #include "shared/game_work.h"
-extern u8 D_80080000[];
 
 extern s32 func_800644B8();
 extern s32 func_80064710();
@@ -20,6 +19,7 @@ s32 func_80024C14(void *effect_data) {
     register u32 link_mask ASM_REG("$22") = 0x00ffffff;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 frame_scratch;
     u8 *next_effect;
+    GameWork *gw = &gameWork;
 
     do {
         register void **render_globals_m ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -120,10 +120,9 @@ s32 func_80024C14(void *effect_data) {
 
             if (row < (s32)screen_vertex) {
                 volatile s32 saved_row_limit = (s32)screen_vertex;
+                register s32 draw_row ASM_REG("$8") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 do {
-                    register s32 draw_row ASM_REG("$8") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     register s32 column ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     column = first_cell;
                     if (draw_row) {
                         register s32 row_offset = row << 6;
@@ -150,8 +149,8 @@ quad_loop:
 
                             {
                                 u8 *packet_pool;
-                                draw_row = (s32)(((void * *)(&gameWork)));
-                                ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                                draw_row = (s32)gw;
+                                ASM_KEEP_NV(draw_row);
                                 packet_pool = (u8 *)((void **)draw_row)[0];
                                 quad = *(u8 **)(packet_pool + 0x8d0);
                                 *(u8 **)(packet_pool + 0x8d0) = quad + 36;
@@ -172,11 +171,12 @@ quad_loop:
                                 ASM_KEEP_NV(screen_vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 screen_vertex += 32;
                                 screen_vertex = (u8 *)(row_word_offset + (u32)screen_vertex);
-                                draw_row = (s32)((void **)D_80080000);
+                                draw_row = (s32)((void **)0x80080000);
+                                ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                 first_screen_xy = *(u32 *)(screen_vertex + 0);
                                 ASM_KEEP(first_screen_xy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                                 draw_row = (s32)((void **)((u8 *)(void **)draw_row + 0x3160));
-                                ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                                ASM_KEEP_NV(draw_row);
                                 *(u32 *)(quad + 8) = first_screen_xy;
                                 *(u32 *)(quad + 16) = *(u32 *)(screen_vertex + 4);
                                 screen_vertex = (u8 *)screen_grid + 64;
@@ -224,6 +224,7 @@ quad_loop:
                     seed_colors = (u32 *)((u8 *)(saved_row_limit));
                     row++;
                     start_radius = row < (s32)(u8 *)seed_colors;
+                    draw_row = 1;
                 } while (start_radius);
             }
         }
@@ -236,7 +237,7 @@ quad_loop:
                 s32 zero_arg = 0;
                 s32 blend_mode = 2;
                 u8 *packet_pool;
-                render_globals_m = ((void * *)(&gameWork));
+                render_globals_m = (void **)gw;
                 ASM_KEEP_NV(zero_arg);
                 ASM_KEEP_NV(blend_mode);
                 ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -251,7 +252,6 @@ quad_loop:
                 next_effect = draw_mode;
                 zero_arg = 0;
                 ASM_KEEP_NV(next_effect);
-                ASM_KEEP_NV(zero_arg);
                 func_80067F20(next_effect, zero_arg, zero_arg,
                     texture_page & 0xffff, 0);
             }
@@ -259,7 +259,7 @@ quad_loop:
             {
                 u8 *order_head;
                 u32 packet_tag;
-                render_globals_m = ((void * *)(&gameWork));
+                render_globals_m = (void **)gw;
                 ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 order_head = (u8 *)render_globals_m[0];
                 packet_tag = *(u32 *)draw_mode;
