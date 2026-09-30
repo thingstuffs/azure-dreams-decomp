@@ -3,24 +3,24 @@
 #include "common.h"
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
-s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
+s32 func_80046C20(s32 bottom_vertex, s32 *edges, u16 *edge_count) {
     s32 min_y;
     s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */
     s32 *edge_state;    /* t0 */
     s16 *vertex; /* t2 */
     s32 top_vertex;
-    register s32 bottom_vertex ASM_REG("$4");     /* a0 */
+    s16 *vertices = (s16 *)bottom_vertex;
     s32 top_y;     /* a3 */
     register s32 edge_value ASM_REG("$2");    /* v0 */
     s32 *edge_x;
     s32 height;
     s32 signed_dx;
 
+    edge_x = edges;
     min_y = 0x7FFF;
     edge_index = 0;
     grid_mask = -0x40;
-    edge_x = edges;
     edge_state = (s32 *)((char *)edges + 0x1C);
     vertex = vertices;
 
@@ -51,7 +51,8 @@ loop_0:
                 min_y = top_y;
             }
 
-            bottom_vertex = (bottom_vertex << 3) + (s32)vertices;
+            bottom_vertex <<= 3;
+            bottom_vertex += (s32)vertices;
             height = ((s16 *)bottom_vertex)[1] - top_y;
             edge_state[-4] = height;
             ASM_MEM_BARRIER();
