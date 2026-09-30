@@ -45,7 +45,7 @@ void func_80167540(void *effect_data, void *unused, Rec_D_80082E80 *effect) {
         - 0x2))->unk_1A) / (s16) ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1C);
     ((S_80167540_0 *)((u8 *)effect_data - 0x2))->unk_1A = (s16) ((u16) ((S_80167540_0 *)((u8 *)effect_data
         - 0x2))->unk_1A - 1);
-    if (rand(selected_channel, channel_1_scale, channel_2_scale) & 1) {
+    if (rand() & 1) {
         effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v | 1);
     } else {
         effect->unk_14.at00_u16.v = (u16) (effect->unk_14.at00_u16.v & 0xFFFE);

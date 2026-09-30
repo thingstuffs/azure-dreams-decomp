@@ -82,12 +82,12 @@ void func_80026978(S_80026978_1 *origin)
         effect_state = (S_80026978_3 *)((u8 *)effect + 0x20);
         spawn_x = (origin->unk_02 + (rand() % 40)) - 0x14;
         transform->unk_02 = spawn_x;
-        spawn_y = (origin->unk_06 + (rand(spawn_x) % 40)) - 0x14;
+        spawn_y = (origin->unk_06 + (rand() % 40)) - 0x14;
         transform->unk_06 = spawn_y;
-        spawn_z = (origin->unk_0A + (rand(spawn_y) % 40)) - 0x14;
+        spawn_z = (origin->unk_0A + (rand() % 40)) - 0x14;
         transform->unk_0A = spawn_z;
         transform->unk_0C = origin->unk_0C;
-        random_delta = rand(spawn_z);
+        random_delta = rand();
         color = 0x808080;
         random_delta = ((random_delta & 0x1FF) - 0x100) << 0xA;
         transform->unk_14 = random_delta;

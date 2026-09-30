@@ -123,7 +123,7 @@ void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origi
         sprite = ((S_800247B8_1 *)effect)->unk_0C;
         sprite->unk_10 = 0x20;
         sprite->unk_14 |= 0xC;
-        elevation = rand(sprite) & 0xFFF;
+        elevation = rand() & 0xFFF;
         planar_radius = (source->unk_56 * func_80064584(elevation)) >> 12;
         state->unk_24.s = (source->unk_56 * func_800644B8(elevation)) >> 12;
         azimuth = rand() & 0xFFF;

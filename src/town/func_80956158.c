@@ -14,7 +14,7 @@ typedef struct S_80023158_1 {
 } S_80023158_1;   /* obj in func_80023158 */
 
 
-extern s32 rand(void *);
+extern s32 rand(void);
 extern void func_800ABD74(void *);
 
 /* Runs a 24-tick value decrease with random callbacks, then waits to reset. */
@@ -44,7 +44,7 @@ void func_80023158(S_80023158_0 *sequence, EntityRec *target)
 
     case 1:
         target->y.v += 0xFFF00000;
-        if (!(rand(owner) & 7)) {
+        if (!(rand() & 7)) {
             func_800ABD74(target);
         }
         ticks_left = sequence->unk_1A - 1;

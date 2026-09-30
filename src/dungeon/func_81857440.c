@@ -86,7 +86,7 @@ loop_0:
             do {
                 jitter_coord = entity->points[0].x + rand() % 95 - 0x30;
                 entity->points[point_index].x = jitter_coord;
-                jitter_coord = entity->points[0].y + rand(jitter_coord) % 95 - 0x30;
+                jitter_coord = entity->points[0].y + rand() % 95 - 0x30;
                 entity->points[point_index].y = jitter_coord;
                 point_index++;
             } while (point_index < 5);
