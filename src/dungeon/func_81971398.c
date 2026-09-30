@@ -33,13 +33,12 @@ void func_81971398(void *fade_data)
 {
     void *fade;
     s32 vertex_index;
-    u8 *vertex;
+    S_81971398_2 *vertex;
     u8 *global_page;
     u16 ticks_left;
 
     fade = fade_data;
     vertex_index = 0;
-    vertex = fade;
 #ifdef NON_MATCHING
     global_page = (u8 *)&D_80025FF4 - 0x5FF4;
 #else
@@ -49,19 +48,18 @@ void func_81971398(void *fade_data)
     ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
     ticks_left--;
     ((S_81971398_0 *)fade)->unk_38.s = ticks_left;
-    do {
-        ((S_81971398_2 *)vertex)->unk_0C =
-            ((S_81971398_2 *)vertex)->unk_1C * ((S_81971398_0 *)fade)->unk_38.u /
+    for (; vertex_index < 4; vertex_index++) {
+        vertex = (S_81971398_2 *)((u32 *)fade + vertex_index);
+        vertex->unk_0C =
+            vertex->unk_1C * ((S_81971398_0 *)fade)->unk_38.u /
             ((S_81971398_0 *)fade)->unk_3A;
-        ((S_81971398_2 *)vertex)->unk_0D =
-            ((S_81971398_2 *)vertex)->unk_1D * ((S_81971398_0 *)fade)->unk_38.u /
+        vertex->unk_0D =
+            vertex->unk_1D * ((S_81971398_0 *)fade)->unk_38.u /
             ((S_81971398_0 *)fade)->unk_3A;
-        vertex_index++;
-        ((S_81971398_2 *)vertex)->unk_0E =
-            ((S_81971398_2 *)vertex)->unk_1E * ((S_81971398_0 *)fade)->unk_38.u /
+        vertex->unk_0E =
+            vertex->unk_1E * ((S_81971398_0 *)fade)->unk_38.u /
             ((S_81971398_0 *)fade)->unk_3A;
-        vertex += 4;
-    } while (vertex_index < 4);
+    }
     if (((S_81971398_0 *)fade)->unk_38.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

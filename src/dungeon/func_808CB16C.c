@@ -50,17 +50,15 @@ void func_80123604(void) {
     default_8 = 0xE0;
     slot_base = &D_80129728;
     slot = slot_base->slots;
-    record = D_80126A18.records;
-    do {
+    for (; slot_index < 14; slot_index++) {
+        record = &D_80126A18.records[slot_index];
         (*slot)->part_0 = 0;
         (*slot)->part_4->value_8 = record->value_4;
         (*slot)->part_4->value_A = record->value_6;
-        slot_index += 1;
         (*slot)->part_8->value_6 = default_6;
-        record += 1;
         (*slot)->part_8->value_8 = default_8;
         slot += 1;
-    } while (slot_index < 14);
+    }
 
     {
         SlotTable *slots;

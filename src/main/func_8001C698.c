@@ -30,7 +30,7 @@ void func_8001C698(void *object) {
     void *shared_data_a;
     void *shared_data_b;
     void *object_data;
-    void *slot_cursor;
+    S_8001C698_1 *slot_cursor;
 
     *((S_8001C698_0 *)object)->unk_1B8 = func_80056F14(4);
     *((S_8001C698_0 *)object)->unk_1BC = &D_80082FF4;
@@ -39,14 +39,12 @@ void func_8001C698(void *object) {
     shared_data_b = &D_8008306C;
     object_data = object + 4;
     entry_offset = 0x90;
-    slot_cursor = object;
-    do {
-        *((S_8001C698_1 *)slot_cursor)->unk_1C0 = shared_data_a;
-        *((S_8001C698_1 *)slot_cursor)->unk_1D0 = shared_data_b;
-        *((S_8001C698_1 *)slot_cursor)->unk_1E0 = object_data;
-        *((S_8001C698_1 *)slot_cursor)->unk_1F0 = object + entry_offset;
+    for (; slot_index < 4; slot_index++) {
+        slot_cursor = (S_8001C698_1 *)((u32 *)object + slot_index);
+        *slot_cursor->unk_1C0 = shared_data_a;
+        *slot_cursor->unk_1D0 = shared_data_b;
+        *slot_cursor->unk_1E0 = object_data;
+        *slot_cursor->unk_1F0 = object + entry_offset;
         entry_offset += 0x3C;
-        slot_index += 1;
-        slot_cursor += 4;
-    } while (slot_index < 4);
+    }
 }

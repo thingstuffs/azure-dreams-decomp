@@ -481,11 +481,11 @@ case_6: {
     index = 9;
     cleanup_base = (void *)0x80080000;
     next_state = (u16)state_arg->state;
-    effect_cleanup = (Effect **)((u8 *)state_arg + 36);
     state_arg->timer2 = 0;
     next_state++;
     state_arg->state = next_state;
     do {
+        effect_cleanup = (Effect **)((u8 *)state_arg + index * 4);
         cleanup_effect = effect_cleanup[11];
         if (cleanup_effect != 0) {
             cleanup_flags = cleanup_effect->flags;
@@ -496,7 +496,6 @@ case_6: {
             *(s32 *)((u8 *)cleanup_base + 0x14A0) = global_flags;
             effect_cleanup[11] = 0;
         }
-        effect_cleanup--;
         index--;
     } while (index >= 0);
     state_arg->field14 = 0;
