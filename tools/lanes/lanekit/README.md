@@ -26,6 +26,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
 | `alloc_need.py` | the allocation INVERSE: retail's register per pseudo (from the aligned listing), a verdict per mis-coloured pseudo (ORDER / BLOCKED / CLASS / LOCAL / SPILLED) and, for ORDER, the `allocno_compare` inequality that flips it (`refs >= N at live L`, `live <= L`, ...) with the source lever per term |
+| `lreg_explain.py` | local-alloc replayed from the `.lreg` dump: per block the qty list (birth/death indices, ties, copy/arith suggestions), the suggestion and priority orders block_alloc used (the 2/3-qty literal-number replay included), why each qty got its register, and for a mis-coloured LOCAL pseudo who held retail's register plus the PRIORITY (refs/length) or GEOMETRY (birth/death index) change that gives it; reproduces every local pseudo of every row against `;; Register N in R.` |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py` | plumbing; you never call these |
 
@@ -192,6 +193,30 @@ prints each solution as the `global.c:587` inequality with all four single-term 
 plus the `update_equiv_regs` doubling note (single set + REG_EQUIV doubles live; a second set halves it) and the
 lever for the cheapest term.  Validated on the four round-80 hand derivations (80D3BFD0, 80921B2C, 8180A990,
 80DE9000: same pairs, same thresholds, the tie-break included).  An inequality is necessary, not sufficient.
+LOCAL verdicts are explained by `lreg_explain.py` (below) instead of the old "approximate" line, and BLOCKED
+verdicts list the local qtys / hard registers that hold retail's register INSIDE the global's life (index overlap
+in local-alloc's index convention applied to the global's set..death spans, with the setting insn - "which call's
+argument set").  `--retail-set P=REG` (pseudo or variable name,
+repeatable) supplies retail registers by hand for rows whose candidates the scorer cannot map.
+
+**`lreg_explain.py <row> cand.c [--retail listing|none] [--retail-set P=REG] [--block B] [--pseudo P] [--all]
+[--no-search] [--json OUT]`** replays gcc 2.7.2 local-alloc.c `block_alloc` (2.8.1's differs only in spelling)
+on the insn stream of the `.lreg` dump: `insn_number` counts every non-note object; per insn the md template of
+the printed `{pattern}` gives the operands for `combine_regs` (a tie, or a copy/arith suggestion when one side
+is a hard register), then REG_DEAD deaths (2N), note_stores births (SET 2N, CLOBBER 2N-1), REG_UNUSED deaths
+(2N+1), SCRATCH qtys; then the suggestion pass (`qty_sugg_compare`) and the priority pass (`qty_compare`:
+`int(floor_log2(refs) * refs * size / (death - birth) * 10000)`; for 2 or 3 qtys the literal
+`qty_compare(0,1)/(1,2)/(0,1)` replay, which is not always sorted) and `find_free_reg` (lowest free register,
+no REG_ALLOC_ORDER on MIPS; call-used excluded across calls; $fp never).  Fidelity: all 6,328 compilable texts of
+the tree (pinned + all-erased, 2.6.3 .. 2.8.1) reproduce every one of 230,725 local pseudos
+(r81_opus_lregexplain).  Per mis-coloured qty it prints who held retail's register (a qty placed earlier - in the
+suggestion pass or by priority - or a hard register and the insn that set it), whether retail's register is ABOVE
+free ones (then each must be busy in retail: a GLOBAL allocno cannot do that, so "NOT A LOCAL QTY IN RETAIL" -
+lever: a second block use / second death / call), and two exact searches: PRIORITY (one qty's refs or length in
+the key, e.g. `qty 1 (101) refs >= 4 (now 2)`) and GEOMETRY (one qty's birth or death index, with the insn:
+`qty 0 (107) dies at index 10 instead of 12: last use at insn #5 (uid 67)`).  A qty placed in the suggestion
+pass cannot be outranked; retail giving two overlapping qtys the same register is a geometry question.
+For GLOBAL pseudos (with `--retail-set` or the listing) it prints the local qtys / hard registers inside their life.
 
 `diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
 then the distance line. Every run is journalled to `lab_log.jsonl` with a `source` tag (kind `diff-listing`

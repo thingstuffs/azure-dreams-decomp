@@ -25,7 +25,10 @@ live <= 77 at 10 refs", r80_opus_r10 "saved_a live <= 19 or position live >= 80"
                the allocno's life - no priority change can give it that register (global vs local lever).
      CLASS     retail has it in a call-clobbered register but it crosses calls here (calls lever).
      SPILLED   no hard register here.
-     LOCAL     a block-local qty (local-alloc.c, `in block N`): qty order, approximate numbers.
+     LOCAL     a block-local qty (local-alloc.c, `in block N`): explained by `lreg_explain.py`, which replays
+               block_alloc on the `.lreg` insn stream (qty birth/death, suggestions, the qty order; checked
+               against the dump's `;; Register N in R.`) and prints who held retail's register and the
+               PRIORITY / GEOMETRY change that gives it.
      ORDER     everything else: an allocno_compare order question - the search below.
 4. THE INVERSE.  `alloc_sim.allocate` (global.c find_reg model) is first run on the dump's own order and its
    agreement with the real dispositions printed (only allocnos it reproduces are targets).  Then every
@@ -243,14 +246,15 @@ def ref_registers(row, reftext, sim, fp):
 
 # ------------------------------------------------------------------------------------------ analysis
 
-def analyse(row, text, reftext=None, beam=6):
-    """The whole analysis as a dict (see main() for the printout)."""
+def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None):
+    """The whole analysis as a dict (see main() for the printout).  `explain_local=False` skips the
+    lreg_explain replay (lreg_explain itself calls analyse() for the retail registers)."""
     kitlib.add_paths()
     if not (_HERE / "kitlib.py").is_file() and (_HERE.parents[1] / "alloc_sim.py").is_file():
         sys.path.insert(0, str(_HERE.parents[1]))                        # a lane patch copy: its own tools/alloc_sim.py
     import alloc_sim as sim                                              # noqa: E402
     from common import parse_cfg                                         # noqa: E402
-    cell = parse_cfg(row["cfg"])[0]
+    cell, cflags = parse_cfg(row["cfg"])
     fp = sim.FIRST.get(cell)
     if fp is None:
         return {"error": "no FIRST_PSEUDO_REGISTER for cell %s (2.91.66/2.95.2 are not modelled)" % cell}
@@ -306,6 +310,9 @@ def analyse(row, text, reftext=None, beam=6):
         it["ref"] = ref.get(it["name"]) if it["name"] else None
         if retail is None and it["ref"] is not None:
             retail, src = it["ref"], "ref"
+        hand = (retail_set or {}).get(p, (retail_set or {}).get(it["name"]) if it["name"] else None)
+        if hand is not None:
+            retail, src = hand, "hand"
         it["retail"], it["src"] = retail, src
         table[p] = it
 
@@ -389,6 +396,23 @@ def analyse(row, text, reftext=None, beam=6):
             if len(two) >= 4:
                 break
 
+    # LOCAL / BLOCKED: the local-alloc replay (lreg_explain.py) - who held retail's register, and what would flip it
+    local_expl, local_fid, local_err = {}, None, None
+    if explain_local and any(it["verdict"] in ("LOCAL", "BLOCKED") for it in table.values()):
+        try:
+            import lreg_explain as LX                                    # noqa: E402
+            want = {p for p, it in table.items() if it["verdict"] == "LOCAL"}
+            retail_map = {p: it["retail"] for p, it in table.items() if it["retail"] is not None}
+            lx = LX.explain(d["lreg"], fp, cell, retail=retail_map, names=names, text=text, want=want,
+                            caller_saves="-fno-caller-saves" not in cflags, search=bool(want))
+            local_fid = lx["fidelity"]
+            local_expl = LX.summary_lines(lx, names, want)
+            for p, it in table.items():
+                if it["verdict"] == "BLOCKED":
+                    it["holders"] = [t for _b, _k, t in LX.global_holders(lx["fn"], lx["runs"], p, it["retail"],
+                                                                         names)]
+        except Exception as e:                                           # the explainer must never cost the verdicts
+            local_err = "%s: %s" % (type(e).__name__, e)
     counts = collections.Counter(it["verdict"] for it in table.values())
     unmapped_global = sum(1 for p in order if table[p]["verdict"] == "?")
     one_vote = sum(1 for it in table.values() if it["verdict"] not in ("ok", "?") and it["src"].endswith(" 1/1"))
@@ -398,7 +422,7 @@ def analyse(row, text, reftext=None, beam=6):
             "sim_agree": (len(agree), len(order)), "goal": len(goal), "base_score": base,
             "best": best, "solutions": sols, "two_movers": two, "counts": dict(counts),
             "unmapped_global": unmapped_global, "one_vote": one_vote,
-            "cheapest": cheapest}
+            "cheapest": cheapest, "local": local_expl, "local_fidelity": local_fid, "local_error": local_err}
 
 
 def mover_solution(x, wo, j0, good, table):
@@ -499,29 +523,43 @@ def render(res, show_all=False):
     out.append("verdicts: " + ", ".join("%s %d" % kv for kv in sorted(res["counts"].items())))
     for p, it in t.items():
         if it["verdict"] == "BLOCKED":
+            narrowed = False
             bl = ", ".join(label(t, q) + "/b%s" % t[q]["block"] for q in it.get("blockers", [])[:8]) or "none named"
             pin = it.get("blocker_pin")
             argreg = 2 <= it["retail"] <= 7
-            out.append("BLOCKED %s: retail %s is a HARD conflict here%s; local qtys in %s anywhere in the function "
-                       "(not filtered by overlap): %s%s.  Lever: make the holder global (a use in a second block / "
+            out.append("BLOCKED %s: retail %s is a HARD conflict here%s; local qtys in %s %s: %s%s.  "
+                       "Lever: make the holder global (a use in a second block / "
                        "function scope) or keep it out of %s's life; retail's %s is not a priority question."
                        % (label(t, p), rname(it["retail"]),
-                          " (still pinned to %s in this text)" % pin if pin else "", rname(it["retail"]), bl,
+                          " (still pinned to %s in this text)" % pin if pin else "", rname(it["retail"]),
+                          "in the blocks where it is live or mentioned (lreg_explain)" if narrowed
+                          else "anywhere in the function (not filtered by overlap)", bl,
                           "; or an explicit %s set (call argument / return value) inside its life - which call's "
                           "argument set or return lands inside it is the question" % rname(it["retail"])
                           if argreg else "", label(t, p), rname(it["retail"])))
+            if it.get("holders") is not None:
+                out.append("  inside %s's life (lreg_explain; per block, local-alloc's index convention): %s" % (
+                    label(t, p), "; ".join(it["holders"][:8]) if it["holders"] else
+                    "no local qty or hard register holds %s - the conflict comes from another allocno's hard "
+                    "register or a spill-class rule" % rname(it["retail"])))
         elif it["verdict"] == "CLASS":
             out.append("CLASS %s: retail keeps it in call-clobbered %s but it crosses %d call(s) here: retail's value "
                        "must not live across a call (move the set/use across the call, or split the variable at it)."
                        % (label(t, p), rname(it["retail"]), it["calls"]))
+        elif it["verdict"] == "LOCAL" and p in (res.get("local") or {}):
+            out.extend(res["local"][p])
         elif it["verdict"] == "LOCAL":
             comp = [q for q, u in t.items() if q != p and not u["global"] and u["block"] == it["block"]
                     and u["got"] == it["retail"]]
-            out.append("LOCAL %s (block %s, %d/%d approx qty prio %d): retail %s, held here by %s.  local-alloc "
-                       "QTY_CMP_PRI uses qty_death-qty_birth (not dumped): numbers approximate."
+            out.append("LOCAL %s (block %s, %d/%d flow numbers, prio %d): retail %s, held here by %s.  lreg_explain "
+                       "had no reproduced qty for it%s."
                        % (label(t, p), it["block"], it["refs"], it["live"], it["prio"], rname(it["retail"]),
                           ", ".join("%s %d/%d=%d" % (label(t, q), t[q]["refs"], t[q]["live"], t[q]["prio"])
-                                    for q in comp) or "nobody local"))
+                                    for q in comp) or "nobody local",
+                          " (%s)" % res["local_error"] if res.get("local_error") else ""))
+    if res.get("local_fidelity"):
+        la, ln = res["local_fidelity"]
+        out.append("# local-alloc replay (lreg_explain): reproduces %d of %d local pseudos" % (la, ln))
     a, n = res["sim_agree"]
     out.append("# find_reg model: reproduces %d of %d allocnos of the dump; %d targets (modelled + retail known), "
                "%d already right in this order" % (a, n, res["goal"], res["base_score"]))
@@ -589,10 +627,14 @@ def summary(res):
     ch = "-"
     if s:
         ch = "%s over %s: %s" % (label(t, s["hi"]), label(t, s["lo"]), cheapest_text(t, s))
+    lf = res.get("local_fidelity")
+    lx = ""
+    if res.get("local") is not None and c.get("LOCAL", 0):
+        lx = " | LOCAL explained %d%s" % (len(res["local"]), " (local model %d/%d)" % tuple(lf) if lf else "")
     return ("ORDER %d BLOCKED %d CLASS %d LOCAL %d SPILLED %d | unmapped global %d, one-vote verdicts %d | "
-            "single-mover solutions %d, two-mover %d | cheapest %s"
+            "single-mover solutions %d, two-mover %d | cheapest %s%s"
             % (c.get("ORDER", 0), c.get("BLOCKED", 0), c.get("CLASS", 0), c.get("LOCAL", 0), c.get("SPILLED", 0),
-               res["unmapped_global"], res["one_vote"], len(res["solutions"]), len(res["two_movers"]), ch))
+               res["unmapped_global"], res["one_vote"], len(res["solutions"]), len(res["two_movers"]), ch, lx))
 
 
 def jsonable(res):
@@ -615,6 +657,9 @@ def main(argv=None):
     ap.add_argument("--cfg", help="compile and score at this cfg (no ledger write)")
     ap.add_argument("--json", help="also write the analysis here (inside the lane)")
     ap.add_argument("--all", action="store_true", help="print every pseudo, not only the mis-coloured")
+    ap.add_argument("--retail-set", action="append", default=[], metavar="P=REG",
+                    help="retail register of a pseudo or variable by hand (172=$v0, speed=v1; repeatable): for rows "
+                         "whose candidate the scorer cannot score, from a lane's listing diff")
     a = ap.parse_args(argv)
     lane = kitlib.bootstrap()
     row = kitlib.row_at_cfg(kitlib.row_of(a.row_id), a.cfg)
@@ -629,7 +674,15 @@ def main(argv=None):
             raise SystemExit("alloc_need: %r is neither 'pinned', 'erased' nor a file" % a.text)
         text = p.read_text(errors="replace")
     reftext = None if a.ref == "none" else base if a.ref == "pinned" else Path(a.ref).read_text(errors="replace")
-    res = analyse(row, text, reftext)
+    hand = {}
+    for item in a.retail_set:
+        k, _, v = item.partition("=")
+        v = v.strip().lstrip("$")
+        reg = int(v) if v.isdigit() else REGNUM.get(v)
+        if reg is None:
+            raise SystemExit("alloc_need: --retail-set %r: need PSEUDO|VARIABLE=REG" % item)
+        hand[int(k) if k.strip().isdigit() else k.strip()] = reg
+    res = analyse(row, text, reftext, retail_set=hand)
     if res.get("error"):
         raise SystemExit("alloc_need: " + res["error"])
     print(render(res, a.all))
