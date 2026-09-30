@@ -329,3 +329,14 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   assignments (`|= 0xC; |= 0x20; ...`) - both halves needed (constant alone: 38). sched2's LUID tie then parks the li
   after the address pairs, before the stores. EXCEPTION (town/func_80470F3C): when retail keeps all of a variable's roles
   in ONE register, the m2c reuse is faithful - its anti-dependences order same-base byte stores; do not split it.
+- **MOVED|1-2 census class = four mechanisms; triage** (r80_opus_cl_move; checks are mechanical):
+  1. *dbr delay-slot fill* - `why.py --pass sched2` identical between pinned and erased, only the slot differs:
+     fill_slots_from_thread (reorg.c:3257) skips a fall-through insn that sets a register live at the target. A
+     `lui $2` skipped at an exit branch = the function returns a value ($2 live at exit): make it non-void
+     (dungeon/func_800AC914 1 -> 0; no return statement needed).
+  2. *sched1 rule A* - the moved insn sets `$4..$7` and that register is set once in the function: call at the
+     callee's defined arity (fake m2c arguments add the second set) (dungeon/func_81339700).
+  3. *sched1 rule B* - the moved insn copies a call result into a variable reassigned later: single-set carrier plus a
+     separate variable for the later role (dungeon/func_80976B7C, with `s32 result = 0;`).
+  4. *loop-note barrier* - the insn after a `do{}while(0)` has ~90 refs in the sched trace: the pin and the block hold
+     the same fact; solve them together.
