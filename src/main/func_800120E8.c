@@ -24,7 +24,6 @@ void func_800250E8(void *arg0)
             entry += 4;
         }
                         /* MATCH: Keep entry advances before the shared index increment. */
-        ASM_SCHED_BARRIER();
         index++;
     } while (index < 5);
 
