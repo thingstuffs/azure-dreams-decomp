@@ -54,16 +54,13 @@ typedef struct S_80171728_2 {
 
 
 /* Updates creature behavior, facing, and animation from dungeon and action state. */
-void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec *creature_in)
+void func_80171728(void *actor_in, void *context_in, void *sprite, EntityRec *creature_in)
 {
-    void *sprite;
     u8 *anim_table;
     s32 distance;
     s8 room_id;
     u16 action_flags;
     u32 initial_flags = dungeonStatus.flags;
-
-    sprite = sprite_in;
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_in)->unk_9A.as_u8 = 0xE;
@@ -71,17 +68,16 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec 
         return;
     }
 
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-
     if (creature_in->tileY == 0) {
         func_800AA79C(actor_in, context_in, sprite, creature_in);
         if (((S_80171728_2 *)sprite)->unk_2C == D_80174E4C) {
             return;
         }
-        anim_table = (u8 *)0x80170000;
-        ASM_KEEP(anim_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        anim_table += 0x4E44;
-        goto set_table;
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E44;
+        func_80047784(sprite,
+            D_80174E44[((gameWork.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7],
+            0);
+        return;
     }
 
     if (((u32)creature_in->flags1C) & 0x200) {
@@ -252,7 +248,6 @@ generic:
     if (((S_80171728_2 *)sprite)->unk_2C == anim_table) {
         return;
     }
-set_table:
     (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
     func_80047784(sprite,
         *(u8 *)(((((gameWork.view.viewAngle + creature_in->facing + 0x100) >> 9) & 7)) + (u32)anim_table),

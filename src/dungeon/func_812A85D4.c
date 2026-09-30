@@ -64,17 +64,11 @@ state_zero:
         if ((flags & 0x6000) == 0) {
             return;
         }
-        anim_table = 0x80170000;
         if (S16(action, 0x92) != 0) {
             return;
         }
-        ASM_KEEP_NV(anim_table);
-        anim_table += 0x5C78;
-        facing_ptr = (u8 *)D_80080000;
-        PTR(object, 0x2C) = (void *)anim_table;
-        facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
-        facing_idx &= 7;
-        facing_ptr = (u8 *)(facing_idx + anim_table);
+        PTR(object, 0x2C) = D_80175C78;
+        facing_ptr = &D_80175C78[((gameWork.view.viewAngle + S16(actor, 0x2A) + 0x100) >> 9) & 7];
         func_80047784(object, *facing_ptr, 0);
         U16(action, 0x96) = 0;
         func_800A56E0(0x808);
