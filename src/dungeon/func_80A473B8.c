@@ -75,7 +75,8 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     u8 *motion = motion_data;
     u8 *entity = entity_data;
     u8 *subject = actor;
-    s32 state_index;
+    s16 state_index;
+    s32 sprite_index;
     u32 global_flags;
     u16 *global_flags_ptr = (u16 *)D_80080000;
     u8 *part_base;
@@ -110,14 +111,14 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
         }
     } else {
         void *actor_arg = actor;
-        register void *motion_arg ASM_REG("$5") = motion;   /* Byte-exact pin. */
-        register void *entity_arg ASM_REG("$6") = entity;   /* Byte-exact pin. */
+        void *motion_arg = motion;
+        void *entity_arg = entity;
         void *actor_context;
+        u32 raw_state;
 
-        global_flags = (*(u8 *)((u8 *)actor + 0x6D));
+        raw_state = (*(u8 *)((u8 *)actor + 0x6D));
         actor_context = actor;
-        ASM_KEEP(actor_arg);   /* Byte-exact pin. */
-        state_index = (s8)(global_flags + 0);
+        state_index = (s8)raw_state;
         if (func_800A9E70(actor_arg, motion_arg, entity_arg, actor_context) == 0) {
             {
                 Callback actor_callback;
@@ -168,7 +169,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                     }
                 }
 
-                state_index = 0;
+                sprite_index = 0;
                 if (--(*(s16 *)((u8 *)actor + 0xA0)) == 0) {
                     (*(u16 *)((u8 *)actor + 0x98)) &= 0x7FFF;
                     ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
@@ -176,8 +177,8 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                         do {
                             func_80047784((u8 *)direction, 0x1C, 0);
                             direction = (s32)(((u8 *)direction) + (0x30));
-                            state_index++;
-                        } while (state_index < ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
+                            sprite_index++;
+                        } while (sprite_index < ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
                     }
                 }
             } else {

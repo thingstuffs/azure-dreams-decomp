@@ -14,12 +14,8 @@ typedef struct {
 } D_80010000_T;
 
 typedef struct {
-    s32 words[4];
-} Copy16;
-
-typedef struct {
-    s32 words[3];
-} Copy12;
+    s32 words[35];
+} CreatureSave;
 
 typedef struct S_func_800B1364_1 {
     u8 pad_00[0x8C];
@@ -255,7 +251,6 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     S_func_800B1364_5 *stored_creature;
     S_func_800B1364_5 *finished_creature;
     S_func_800B1364_5 *saved_creature;
-    void *copy_end;
     S_func_800B1364_11 *input_command;
     S_func_800B1364_10 *item_effect;
     S_func_800B1364_5 *creature;
@@ -268,7 +263,6 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     register void *release_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register S_func_800B1364_3 *anim_sprite ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *copy_dst;
     S_func_800B1364_7 *global_state = (S_func_800B1364_7 *)((M2C_UNK *)&gameWork.unk_000);
 
     state = action->unk_9B;
@@ -311,9 +305,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
             S_func_800B1364_13 *saved_item;
             void *callback;
             item = action->unk_BC;
-            saved_item = (S_func_800B1364_13 *)item;
-            ASM_KEEP_NV(saved_item);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             action->unk_C0 = item;
+            saved_item = (S_func_800B1364_13 *)action->unk_BC;
             item_word = saved_item->unk_00;
             callback = &D_800B69DC;
             action->unk_8C = callback;
@@ -331,9 +324,8 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         if (dungeonStatus.flags & 4) {
             return;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         use_item = 0;
-        if (((S_func_800B1364_14 *)&D_80013714)->unk_00 & 1) {
+        if (((S_func_800B1364_14 *)0x80013714)->unk_00 & 1) {
             input_command = func_8009F868();
             if (input_command == NULL) {
                 func_800B1768(0x22, 0xF2, 0xBA, 0x105, 0, 8);
@@ -559,16 +551,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
         item_entry->unk_02 = 0;
         item_entry->unk_00 = species;
         D_800E3DF0[save_slot] = save_data = (save_slot * 0x8C) + D_800E3E48;
-        copy_src = actor->unk_60;
-        copy_dst = save_data;
-        copy_end = copy_src + 0x80;
-        do {
-            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-            copy_src += 0x10;
-            copy_dst += 0x10;
-        } while (copy_src != copy_end);
-        ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        *(Copy12 *)copy_dst = *(Copy12 *)copy_src;
+        *(CreatureSave *)save_data = *(CreatureSave *)actor->unk_60;
         stored_creature = actor->unk_60;
         stored_creature->unk_1C = (s32) (stored_creature->unk_1C | 0x400000);
         hidden_creature = actor->unk_60;

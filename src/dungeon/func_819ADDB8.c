@@ -70,20 +70,19 @@ static __inline__ s16 read_y_offset(s16 *p, u16 byte_offset) {
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
-void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
+void *func_800255B8(s32 x, s32 y, s16 z, u32 heading) {
     void *objects[12];
     register s32 origin_x ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 origin_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 origin_z ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u16 heading;
     s32 piece_index;
     void **object_base;
-    register void **object_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void **object_slot;
     s16 *x_offsets;
     TileObject *color_table;
     u8 *effect_state;
+    u8 *link_data;
     register u8 *component_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *sprite;
     u8 color_first;
     u32 color_second;
     u32 offset_addr;
@@ -91,15 +90,13 @@ void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
     s32 y_offset;
     u16 sprite_flags;
 
-    origin_x = x;
-    origin_y = y;
-    origin_z = z;
-    heading = angle;
-    ASM_KEEP4_NV(origin_x, origin_y, origin_z, heading);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-
     if (func_8003FA44(12) == 0) {
         return 0;
     }
+
+    origin_x = x;
+    origin_y = y;
+    origin_z = z;
 
     piece_index = 0;
 #ifdef NON_MATCHING
@@ -158,10 +155,10 @@ loop:
     ((S_800255B8_1 *)component_data)->unk_06 = origin_y + y_offset;
 
     component_data = (u8 *)(piece_index << 4);
-    sprite = ((S_800255B8_0 *)(*object_slot))->unk_0C;
-    ((S_800255B8_2 *)sprite)->unk_20 = 0x1000;
-    ((S_800255B8_2 *)sprite)->unk_1E = 0x1000;
-    ((S_800255B8_2 *)sprite)->unk_1C = 0x1000;
+    effect_state = ((S_800255B8_0 *)(*object_slot))->unk_0C;
+    ((S_800255B8_2 *)effect_state)->unk_20 = 0x1000;
+    ((S_800255B8_2 *)effect_state)->unk_1E = 0x1000;
+    ((S_800255B8_2 *)effect_state)->unk_1C = 0x1000;
     {
         u8 *sprite_table;
 
@@ -170,14 +167,14 @@ loop:
 #else
         sprite_table = (u8 *)&D_800274C0;
 #endif
-        ((S_800255B8_2 *)sprite)->unk_08 = (u8 *)((u32)component_data + (u32)sprite_table);
+        ((S_800255B8_2 *)effect_state)->unk_08 = (u8 *)((u32)component_data + (u32)sprite_table);
     }
-    sprite_flags = ((S_800255B8_2 *)sprite)->unk_14;
+    sprite_flags = ((S_800255B8_2 *)effect_state)->unk_14;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ((S_800255B8_2 *)sprite)->unk_10 = 0x20;
-    ((S_800255B8_2 *)sprite)->unk_16 = 0x400;
-    ((S_800255B8_2 *)sprite)->unk_1A = heading - 0x400;
-    ((S_800255B8_2 *)sprite)->unk_14 = sprite_flags | 0xC;
+    ((S_800255B8_2 *)effect_state)->unk_10 = 0x20;
+    ((S_800255B8_2 *)effect_state)->unk_16 = 0x400;
+    ((S_800255B8_2 *)effect_state)->unk_1A = heading - 0x400;
+    ((S_800255B8_2 *)effect_state)->unk_14 = sprite_flags | 0xC;
 
     {
         void *object;
@@ -189,12 +186,11 @@ loop:
         u32 link_value;
 
         link_value = (u32)D_80027580;
-        component_data = (u8 *)(piece_index + link_value);
-        ASM_KEEP_NV(component_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        link_value = *component_data;
+        link_data = (u8 *)(piece_index + link_value);
+        link_value = *link_data;
         if (link_value != 0) {
-            component_data = (u8 *)0x7FFFFFFF;
-            link_value = (u32)object_base[link_value - 1] & (u32)component_data;
+            link_data = (u8 *)0x7FFFFFFF;
+            link_value = (u32)object_base[link_value - 1] & (u32)link_data;
         } else {
             link_value = (u32)object_slot[-1];
         }
@@ -219,5 +215,6 @@ loop:
         goto loop;
     }
 
-    return objects[0];
+    object_base = objects;
+    return object_base[0];
 }
