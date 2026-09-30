@@ -6,9 +6,9 @@
 extern s32 func_8003FA44();
 extern void *func_8003FC64();
 extern void func_8004491C();
-extern void func_800A56E0();
-extern void func_800A6508();
-extern s32 func_800A6D30(void *, s32, s32, s32);
+extern void func_800A56E0(s32);
+extern void func_800A6508(void);
+extern s32 func_800A6D30(void);
 extern void func_800CD6AC();
 
 extern u8 D_80045C34[];
@@ -87,7 +87,7 @@ typedef struct S_800CD6E0_7 {
 } S_800CD6E0_7;   /* link in func_800CD6E0 */
 
 /* Conditionally creates four sprites around the source owner. */
-s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passthrough_3) {
+s32 func_800CD6E0(void *source) {
     void *effect;
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
@@ -96,31 +96,28 @@ s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passth
     s16 *x_offsets;
     DungeonGlobalStatus *effect_counts;
     s32 effect_index;
+    s32 random;
     register s32 random_or_effect_id ASM_REG("$4");
-    s32 divisor;
-    s32 spawn_roll;
     register s32 color ASM_REG("$7");
-    register s32 roll_value ASM_REG("$3");
+    s16 roll;
+    s32 spawn_roll;
     s32 owner_coord;
     s32 owner_coord_2;
     s32 y_entry;
     void *update_callback;
 
-    if (D_800E3D40 == 0) {
-        random_or_effect_id = func_800A6D30(source, passthrough_1, passthrough_2, passthrough_3) & 0xFFFF;
-        roll_value = ((S_800CD6E0_0 *)source)->unk_03;
-        if (roll_value != 0) {
-            divisor = roll_value;
-            ASM_KEEP(divisor);
-            roll_value = random_or_effect_id % divisor;
-            spawn_roll = roll_value;
-            goto check_gate;
+    if (D_800E3D40 != 0) {
+        roll = 0;
+    } else {
+        random = func_800A6D30() & 0xFFFF;
+        if (((S_800CD6E0_0 *)source)->unk_03 != 0) {
+            roll = random % ((S_800CD6E0_0 *)source)->unk_03;
+        } else {
+            roll = 0;
         }
     }
 
-    spawn_roll = 0;
-check_gate:
-    if (spawn_roll < 0x30) {
+    if (roll < 0x30) {
         owner = ((S_800CD6E0_0_pre *)source)[-1].unk_00;
         if (owner->unk_14 & 0x8000) {
             func_800CD6AC(source, 0x10);
@@ -181,14 +178,14 @@ check_gate:
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
             effect_index++;
             effect_counts->unk_0A++;
-            func_800A56E0(random_or_effect_id, sprite, position, color);
+            func_800A56E0(random_or_effect_id);
         } while (effect_index < 4);
 
         return 1;
     }
 
     if (((S_800CD6E0_0 *)source)->unk_13 == 0) {
-        func_800A6508(random_or_effect_id);
+        func_800A6508();
     }
     return 1;
 }
