@@ -4,6 +4,8 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 
+extern int abs(int);
+
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
 extern void *D_80024008[];
@@ -55,11 +57,8 @@ __asm__(".globl func_81880800\n"
 #endif
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
-void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
+void FUNC_81880800_BODY(u8 *self, u8 *motion, u8 *part)
 {
-    u8 *self = (u8 *)effect_data;
-    u8 *motion = (u8 *)motion_data;
-    register u8 *part ASM_REG("$19") = (u8 *)part_data;
     u8 *owner;
     u8 *owner_base;
     u8 *owner_motion;
@@ -67,21 +66,17 @@ void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
     s32 state;
     s16 spawn_height;
     s32 direction_step;
-    s32 state_step;
+    long state_step;
     s32 height_result;
     u32 height_offset;
     u32 target_height;
-    s32 magnitude;
     s32 velocity;
     s32 position;
-    register s32 next_velocity ASM_REG("$4");
     s32 over_limit;
     s32 z_pos;
     s32 z_delta;
     s32 coord;
     u8 *spawn_target;
-    register u32 tile_x ASM_REG("$2");
-    u32 steps_left;
     s32 cell_center_x;
     u32 red;
     u32 green;
@@ -210,51 +205,49 @@ initialize:
     goto finish;
 
 track_target:
-    velocity = F(motion, s32, 0x0C);
-    position = F(motion, s32, 0);
-    next_velocity = velocity;
-    ASM_KEEP(next_velocity);
-    position += velocity;
-    F(motion, s32, 0) = position;
-    ASM_KEEP(next_velocity);
-    next_velocity += next_velocity >> 4;
-    magnitude = next_velocity;
-    if (next_velocity < 0) {
-        magnitude = -magnitude;
+    {
+        s32 next_velocity;
+        velocity = F(motion, s32, 0x0C);
+        position = F(motion, s32, 0);
+        position += velocity;
+        F(motion, s32, 0) = position;
+        next_velocity = F(motion, s32, 0x0C);
+        position = next_velocity >> 4;
+        next_velocity += position;
+        velocity = abs(next_velocity);
+        position = 0x200000;
+        over_limit = velocity > position;
+        F(motion, s32, 0x0C) = next_velocity;
+        if (over_limit) {
+            position = -0x200000;
+            if (next_velocity > 0) {
+                position = 0x200000;
+            }
+            F(motion, s32, 0x0C) = position;
     }
-    position = 0x200000;
-    over_limit = magnitude > position;
-    F(motion, s32, 0x0C) = next_velocity;
-    if (over_limit) {
-        position = -0x200000;
-        if (next_velocity > 0) {
-            position = 0x200000;
-        }
-        F(motion, s32, 0x0C) = position;
+    }
+    {
+        s32 next_velocity;
+        velocity = F(motion, s32, 0x10);
+        position = F(motion, s32, 4);
+        position += velocity;
+        F(motion, s32, 4) = position;
+        next_velocity = F(motion, s32, 0x10);
+        position = next_velocity >> 4;
+        next_velocity += position;
+        velocity = abs(next_velocity);
+        position = 0x200000;
+        over_limit = velocity > position;
+        F(motion, s32, 0x10) = next_velocity;
+        if (over_limit) {
+            position = -0x200000;
+            if (next_velocity > 0) {
+                position = 0x200000;
+            }
+            F(motion, s32, 0x10) = position;
+    }
     }
 
-    velocity = F(motion, s32, 0x10);
-    position = F(motion, s32, 4);
-    next_velocity = velocity;
-    ASM_KEEP(next_velocity);
-    position += velocity;
-    F(motion, s32, 4) = position;
-    ASM_KEEP(next_velocity);
-    next_velocity += next_velocity >> 4;
-    magnitude = next_velocity;
-    if (next_velocity < 0) {
-        magnitude = -magnitude;
-    }
-    position = 0x200000;
-    over_limit = magnitude > position;
-    F(motion, s32, 0x10) = next_velocity;
-    if (over_limit) {
-        position = -0x200000;
-        if (next_velocity > 0) {
-            position = 0x200000;
-        }
-        F(motion, s32, 0x10) = position;
-    }
 
     z_delta = F(self, s16, 0x14) << 16;
     z_pos = F(motion, s32, 8);
@@ -296,14 +289,15 @@ track_target:
         goto finish;
     }
 
-    tile_x = F(self, u8, 0x20);
-    steps_left = F(self, u16, 0x18) - 1;
+    coord = F(self, u8, 0x20);
+    z_pos = F(self, u16, 0x18);
+    z_pos -= 1;
     target = F(self, u8, 0x21);
-    F(self, u16, 0x18) = steps_left;
-    steps_left <<= 16;
-    F(self, u8, 0x22) = tile_x;
+    F(self, u16, 0x18) = z_pos;
+    z_pos <<= 16;
+    F(self, u8, 0x22) = coord;
     F(self, u8, 0x23) = target;
-    if (steps_left != 0) {
+    if (z_pos != 0) {
         cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
         height_result = func_800A45D8(
             cell_center_x,
@@ -324,10 +318,11 @@ spawn_effect:
         goto finish;
     }
     F(part, u16, 0x14) |= 0x80;
-    do {
-        F(self, u16, 0x0A)++;
-    } while (0);
-    if ((F(F(self, void *, 0x0C), u16, 0x1E) & 0x8000) == 0) {
+    state_step = F(self, u16, 0x0A);
+    state_step++;
+    F(self, u16, 0x0A) = state_step;
+    state_step = (long)F(self, void *, 0x0C);
+    if ((F((void *)state_step, u16, 0x1E) & 0x8000) == 0) {
         goto finish;
     }
     target = F(owner, void *, 0x60);
