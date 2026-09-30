@@ -99,8 +99,10 @@ s32 func_800BC574(void *position, s16 angle) {
                 (s32) (func_800644B8(angle_short + world_state->view.viewAngle) * 0x30);
         }
         {
-            register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 init_value;
             s32 init_value_2;
+            S_800BC574_1 *sprite_table;
+            s32 table_word;
 
             init_value_2 = 0x1000;
             sprite->unk_1E = init_value_2;
@@ -110,14 +112,13 @@ s32 func_800BC574(void *position, s16 angle) {
             if (init_value > 0) {
                 sprite->unk_14 = (u16) (sprite->unk_14 | 1);
             }
-            init_value = 0x808080;
-            data_ptr = &D_800F15E4;
-            sprite->unk_00 = data_ptr;
-            data_ptr = (void *) data_ptr->unk_04;
+            sprite_table = (S_800BC574_1 *)&D_800F15E4;
+            sprite->unk_00 = sprite_table;
+            table_word = sprite_table->unk_04;
             sprite->unk_04 = 0;
             sprite->unk_05 = 0;
-            sprite->unk_0C = init_value;
-            sprite->unk_08 = (s32) data_ptr;
+            sprite->unk_0C = 0x808080;
+            sprite->unk_08 = table_word;
         }
     }
     return 0;
