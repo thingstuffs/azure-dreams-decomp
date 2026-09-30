@@ -83,21 +83,19 @@ case_4_8:
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
         filter_entry = selected_entry;
-loop_0:
-        {
-            slot_offset = slot & 0xFF;
-            slot_offset *= 2;
-            slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
-            ASM_KEEP_NV(slot_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if ((slot_row[0x33A4] == filter_entry[6]) &&
-                (slot_row[0x33A5] != selected_id)) {
-                *slot_out++ = (u8)slot;
-                slot_count++;
+        do {
+            {
+                slot_offset = slot & 0xFF;
+                slot_offset *= 2;
+                slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
+                if ((slot_row[0x33A4] == filter_entry[6]) &&
+                    (slot_row[0x33A5] != selected_id)) {
+                    *slot_out++ = (u8)slot;
+                    slot_count++;
+                }
+                slot++;
             }
-            slot++;
-        }
-        if ((u8)slot < 0x21)
-            goto loop_0;
+        } while ((u8)slot < 0x21);
         *slot_out = 0;
         goto return_count;
     }

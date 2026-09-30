@@ -72,12 +72,9 @@ typedef struct S_8016F2E0_5 {
 } S_8016F2E0_5;   /* arg1 in func_8016F2E0 */
 
 /* Updates actor callbacks, facing, movement, and floor contact. */
-void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
+void func_8016F2E0(void *entity, void *motion, register void *sprite)
 {
-    void *entity = actor_arg;
-    void *motion = motion_arg;
-    register void *sprite = sprite_arg;
-    register void *actor ASM_REG("$17") = entity;
+    void *actor = entity;
     s32 old_direction;
     register s32 direction_copy ASM_REG("$21");
     Callback paused_callback;

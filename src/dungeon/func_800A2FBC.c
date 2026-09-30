@@ -189,11 +189,8 @@ typedef struct S_800A871C_26 {
                                 ((s32) ((S_800A871C_24 *)(((S_800A871C_20 *)(((S_800A871C_1 *)r_arg0)->unk_90))->unk_2C))->unk_02 * 4)))->unk_00 in func_800A871C */
 
 /* Updates an object's launch, movement, collisions, and landing. */
-void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
-    void *object = object_arg;
-    register void *motion = motion_arg;
-    void *tile;
-    register void *object_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_800A871C(void *object, register void *motion, void *tile) {
+    void *object_data;
     u16 offset[3];
     s16 move_ticks;
     s32 travel_steps;
@@ -232,7 +229,6 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     s32 dungeon_flags;
     s32 height;
 
-    tile = tile_arg;
     object_data = object;
     payload = (*(s32 **)((u8 *)object_data + (0x9C)));
     if ((payload == &D_80081484) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {

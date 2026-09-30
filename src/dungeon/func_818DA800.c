@@ -172,12 +172,10 @@ __asm__(".globl func_80024000\n"
 #endif
 
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
-void FUNC_818DA800_BODY(void *effect_state_in, void *motion_in)
+void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
-    S_func_818DA800_1 *effect_state = effect_state_in;
-    S_func_818DA800_2 *motion = motion_in;
 #ifdef __mips__
-    register S_func_818DA800_3 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_818DA800_3 *actor;
     S_func_818DA800_4 *actor_data;
     void *image_base;
     void *resource_base;
