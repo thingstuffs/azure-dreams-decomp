@@ -48,9 +48,7 @@ void func_80022F34(void *bounds_data, void *state_data) {
     if ((point_x >= entry_x) &&
         ((entry_x + entry->f2) >= point_x)) {
         entry_y = entry->f1;
-        if (point_y >= entry_y) {
-            if ((entry_y + entry->f3) < point_y)
-                goto done;
+        if (point_y >= entry_y && (entry_y + entry->f3) >= point_y) {
             next_index = (u16)state->index + 1;
             ((State *)state_data)->index = next_index;
             if (next_index >= 0xE) {
@@ -59,6 +57,4 @@ void func_80022F34(void *bounds_data, void *state_data) {
             }
         }
     }
-done:
-    ;
 }

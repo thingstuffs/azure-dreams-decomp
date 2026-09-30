@@ -50,8 +50,7 @@ void func_800B3178(void **entries, S_800B3178_0 *page_info, s32 source_table) {
     entry = entries;
     source_index = page_index * 0xA;
     source = (page_index * 0x28) + source_table;
-next_entry:
-    if (source_index < page_info->unk_0C) {
+    while (entry_count < 0xA && source_index < page_info->unk_0C) {
         ((S_800B3178_1 *)(*entry))->unk_00 = func_8004DC14(func_8004AC3C(*source, &lookup_param), lookup_param);
         if (((S_800B3178_2 *)(*source))->unk_01 == 0x13) {
             *((S_800B3178_1 *)(*entry))->unk_04 = dim_shade;
@@ -66,8 +65,5 @@ next_entry:
         entry_count += 1;
         source += 1;
         source_index += 1;
-        if (entry_count < 0xA) {
-            goto next_entry;
-        }
     }
 }

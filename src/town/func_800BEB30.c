@@ -35,7 +35,7 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
             ((S_800BC290_1 *)visual)->unk_0C.s32 = 0xC0C0C0;
             next_state = ((S_800BC290_0 *)fade_state)->unk_00.u;
             ((S_800BC290_0 *)fade_state)->unk_02.u = 12;
-            goto increment_state;
+            ((S_800BC290_0 *)fade_state)->unk_00.u = next_state + 1;
         }
         break;
 
@@ -55,7 +55,6 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
         if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {
             func_8004E994(D_80111FB0);
             next_state = ((S_800BC290_0 *)fade_state)->unk_00.u;
-increment_state:
             ((S_800BC290_0 *)fade_state)->unk_00.u = next_state + 1;
         }
         break;
