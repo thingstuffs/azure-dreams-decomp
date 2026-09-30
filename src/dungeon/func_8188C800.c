@@ -268,27 +268,14 @@ static __inline__ s32 align_effect_coord(s32 coord)
 }
 
 /* Updates a moving effect through initialization, travel, impact, and fading. */
-void FUNC_8188C800_BODY(void *effect_data, void *motion_data, void *part_data)
+void FUNC_8188C800_BODY(u8 *self, u8 *motion, u8 *part)
 {
-#ifdef __mips__
-    u8 *self = (u8 *)effect_data;
-    u8 *motion = (u8 *)motion_data;
-    u8 *part;
-    register u8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *base;
-    u8 *record;
-    u8 *tail_page0;
-    u8 *tail_page1;
-#else
-    u8 *self = (u8 *)effect_data;
-    u8 *motion = (u8 *)motion_data;
-    u8 *part = (u8 *)part_data;
     u8 *owner;
     u8 *base;
     u8 *record;
     u8 *tail_page0;
     u8 *tail_page1;
-#endif
+    s32 velocity;
     register s32 state;
     static void *const state_labels[] = {
         &&case_0, &&case_1, &&case_3, &&case_3,
@@ -302,7 +289,6 @@ void FUNC_8188C800_BODY(void *effect_data, void *motion_data, void *part_data)
     state = ((S_FUNC_8188C800_BODY_0 *)self)->unk_0A.s;
     base = owner - 32;
     record = ((S_FUNC_8188C800_BODY_1 *)base)->unk_08;
-    part = (u8 *)part_data;
     if (state < 0 || state >= 18) {
         goto done;
     }
@@ -348,26 +334,15 @@ case_0:
         }
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_00.at02.v = ((S_FUNC_8188C800_BODY_12 *)record)->unk_02;
         ((S_FUNC_8188C800_BODY_11 *)motion)->unk_04.at02.v = ((S_FUNC_8188C800_BODY_12 *)record)->unk_06;
-        {
-            u16 height;
-                if (((S_FUNC_8188C800_BODY_21 *)(((S_FUNC_8188C800_BODY_1 *)base)->unk_0C))->unk_14 & 0x8000) {
-                    height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A - 64;
-                } else {
-                    height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A;
-#ifdef __mips__
-                    {
-                        register u16 height_offset ASM_REG("$3") = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-                        {
-                            u16 height_offset = ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;
-#endif
-                            height = height + height_offset;
-                        }
-                    }
-                    ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = height;
-                    ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02.v = height;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                }
+        if (((S_FUNC_8188C800_BODY_21 *)(((S_FUNC_8188C800_BODY_1 *)base)->unk_0C))->unk_14 & 0x8000) {
+            u16 height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A - 64;
+            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = height;
+            ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02.v = height;
+        } else {
+            u16 height = ((S_FUNC_8188C800_BODY_12 *)record)->unk_0A + ((S_FUNC_8188C800_BODY_13 *)scratch)->unk_04;
+            ((S_FUNC_8188C800_BODY_11 *)motion)->unk_08.at02.v = height;
+            ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02.v = height;
+        }
                 if (!(((S_FUNC_8188C800_BODY_22 *)(((S_FUNC_8188C800_BODY_0 *)self)->unk_04))->unk_00 & 0x80)) {
                     goto done;
                 }
@@ -432,19 +407,18 @@ case_0_finish_coords:
 
 case_1:
             {
-                s32 velocity;
+                s32 position;
                 s32 adjusted;
-                s32 magnitude;
                 velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
-                adjusted = velocity;
-                ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                (*(s32 *)((u8 *)motion + 0)) += velocity;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                adjusted += adjusted >> 4;
-                magnitude = adjusted;
-                magnitude = abs(magnitude);
+                position = (*(s32 *)((u8 *)motion + 0));
+                position += velocity;
+                (*(s32 *)((u8 *)motion + 0)) = position;
+                adjusted = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v;
+                position = adjusted >> 4;
+                adjusted += position;
+                velocity = abs(adjusted);
                 ((S_FUNC_8188C800_BODY_11 *)motion)->unk_0C.at00.v = adjusted;
-                if (magnitude > 0x200000) {
+                if (velocity > 0x200000) {
                     s32 limit = -0x200000;
                     if (adjusted > 0) {
                         limit = 0x200000;
@@ -453,19 +427,18 @@ case_1:
                 }
             }
             {
-                s32 velocity;
+                s32 position;
                 s32 adjusted;
-                s32 magnitude;
                 velocity = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
-                adjusted = velocity;
-                ASM_KEEP_NV(adjusted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                (*(s32 *)((u8 *)motion + 4)) += velocity;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                adjusted += adjusted >> 4;
-                magnitude = adjusted;
-                magnitude = abs(magnitude);
+                position = (*(s32 *)((u8 *)motion + 4));
+                position += velocity;
+                (*(s32 *)((u8 *)motion + 4)) = position;
+                adjusted = ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v;
+                position = adjusted >> 4;
+                adjusted += position;
+                velocity = abs(adjusted);
                 ((S_FUNC_8188C800_BODY_11 *)motion)->unk_10.at00.v = adjusted;
-                if (magnitude > 0x200000) {
+                if (velocity > 0x200000) {
                     s32 limit = -0x200000;
                     if (adjusted > 0) {
                         limit = 0x200000;
