@@ -217,10 +217,9 @@ void func_80024660(void *effect, void *motion, void *appearance) {
             ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v
                 - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
             func_800A56E0(0x300, target_dist_cursor);
-            z_or_state = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_0A + 1;
+            ((Rec_func_800243B8_arg0 *)effect)->unk_0A += 1;
             goto spawn_children;
         } else {
-            register s32 probe_y_dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -252,10 +251,10 @@ void func_80024660(void *effect, void *motion, void *appearance) {
                 probe_z = (s16) (probe_z - 32);
                 step_table = dirStepY;
                 probe_x_dest_y = *((u16 *)tile_info);
-                probe_y_dest_x = step_table[direction];
+                path_x_dist = step_table[direction];
                 probe_x_dest_y = (((((s32)tile_x) + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
-                probe_y_dest_x = (((tile_y + (s16)probe_y_dest_x) << 6) + 32) & 0xFFE0;
-                floor_z = func_800BCB04(probe_x_dest_y, probe_y_dest_x, probe_z);
+                path_x_dist = (((tile_y + (s16)path_x_dist) << 6) + 32) & 0xFFE0;
+                floor_z = func_800BCB04(probe_x_dest_y, path_x_dist, probe_z);
                 if (floor_z >= 513) {
                     break;
                 }
@@ -263,15 +262,16 @@ void func_80024660(void *effect, void *motion, void *appearance) {
                     break;
                 }
                 {
-                    register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     u16 *x_step;
                     u16 *y_step;
                     step_table = D_8006CCD8_2;
-                    step_index = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
+                    origin_x = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
                     index += 1;
-                    x_step = (u16 *) (((unsigned long) step_index << 1) + (unsigned long) step_table);
+                    origin_x = (u32)origin_x << 1;
+                    x_step = (u16 *) ((unsigned long) origin_x + (unsigned long) step_table);
                     step_table = D_8006CCE8_2;
-                    y_step = step_index + step_table;
+                    origin_x += (s32)step_table;
+                    y_step = (u16 *)origin_x;
                     probe_x_dest_y = *x_step;
                     path_z_dist = (s32)((u32)(*y_step));
                     probe_x_dest_y = path_tile_x + probe_x_dest_y;
@@ -288,15 +288,16 @@ set_path_destination:
             ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
                 s16 *edge_steps;
-                probe_y_dest_x = last_tile_x << 16;
+                path_x_dist = last_tile_x << 16;
                 edge_steps = D_8006CCD8_3;
                 ASM_KEEP(edge_steps);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                probe_y_dest_x >>= 10;
+                path_x_dist >>= 10;
                 path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-                probe_y_dest_x += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                path_x_dist += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
                 edge_steps = D_8006CCE8_3;
-                ((S_80024660_8 *)destination)->unk_00.at02.v = probe_y_dest_x;
-                probe_y_dest_x = (s16) probe_y_dest_x;
+                ((S_80024660_8 *)destination)->unk_00.at02.v = path_x_dist;
+                path_x_dist = (u32)path_x_dist << 16;
+                path_x_dist >>= 16;
                 saved_tile_y = scratch.saved_y;
                 probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
                 probe_x_dest_y = (probe_x_dest_y >> 0xA)
@@ -307,7 +308,7 @@ set_path_destination:
                 ((S_80024660_8 *)destination)->unk_08.at02.v = z_or_state;
                 origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
                 probe_x_dest_y >>= 16;
-                path_x_dist = probe_y_dest_x - origin_x;
+                path_x_dist -= origin_x;
                 path_x_dist = abs(path_x_dist);
                 scratch.dist[0] = path_x_dist;
                 path_z_dist = z_or_state << 16;
@@ -338,11 +339,9 @@ set_path_destination:
                 - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
             ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v
                 - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            z_or_state = 5;
+            ((Rec_func_800243B8_arg0 *)effect)->unk_0A = 5;
         }
 spawn_children:
-        ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
         index = 0x1F;
         tile_x = effect + 0x7C;
         do {
