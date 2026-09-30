@@ -184,7 +184,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     s32 tex_left;
     u8 *world_vertex;
     u8 *screen_vertex;
-    register u8 *prim ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *prim;
+    u8 *shaded_prim;
+    u8 *draw_prim;
     u8 *next_object;
     u16 component;
     u16 component_2;
@@ -415,7 +417,6 @@ set_depth:
             ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 =
                 (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & (u32)render_slot_m) |
                 ((u32)prim & addr_mask);
-            ASM_KEEP(prim);
         }
     }
 
@@ -541,20 +542,20 @@ loop_setup_b:
             render_slot_m = (u8 **)(D_80083150 + 0x10);
             ASM_KEEP_NV(render_slot_m);
             render_state = *render_slot_m;
-            prim = *(u8 **)(render_state + 0x8D0);
+            shaded_prim = *(u8 **)(render_state + 0x8D0);
             {
                 s32 first_color;
 
                 first_color = ((S_807B0B3C_12 *)colors)->unk_00.s;
-                *(u8 **)(render_state + 0x8D0) = prim + 0x24;
-                ((S_807B0B3C_7 *)prim)->unk_04 = first_color;
+                *(u8 **)(render_state + 0x8D0) = shaded_prim + 0x24;
+                ((S_807B0B3C_7 *)shaded_prim)->unk_04 = first_color;
             }
         }
-        ((S_807B0B3C_7 *)prim)->unk_0C.at00u.v = ((S_807B0B3C_12 *)colors)->unk_04.s;
-        ((S_807B0B3C_7 *)prim)->unk_14 = ((S_807B0B3C_12 *)colors)->unk_08.s;
-        ((S_807B0B3C_7 *)prim)->unk_1C = ((S_807B0B3C_12 *)colors)->unk_0C.s;
-        func_80066708(prim);
-        func_80066640(prim, 1);
+        ((S_807B0B3C_7 *)shaded_prim)->unk_0C.at00u.v = ((S_807B0B3C_12 *)colors)->unk_04.s;
+        ((S_807B0B3C_7 *)shaded_prim)->unk_14 = ((S_807B0B3C_12 *)colors)->unk_08.s;
+        ((S_807B0B3C_7 *)shaded_prim)->unk_1C = ((S_807B0B3C_12 *)colors)->unk_0C.s;
+        func_80066708(shaded_prim);
+        func_80066640(shaded_prim, 1);
         {
             s32 vertex;
             u32 prim_tag;
@@ -562,21 +563,21 @@ loop_setup_b:
 
             LOAD_GLOBAL_PAGE(render_slot_m);
             vertex = ((S_807B0B3C_8 *)verts)->unk_00;
-            prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
+            prim_tag = ((S_807B0B3C_7 *)shaded_prim)->unk_00;
             FINISH_GLOBAL_TABLE(render_slot_m, vertex, prim_tag);
             ASM_KEEP_NV(render_slot_m);
-            ((S_807B0B3C_7 *)prim)->unk_08 = vertex;
+            ((S_807B0B3C_7 *)shaded_prim)->unk_08 = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_04;
             bucket_offset = depth * 4;
-            ((S_807B0B3C_7 *)prim)->unk_10 = vertex;
+            ((S_807B0B3C_7 *)shaded_prim)->unk_10 = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_08;
             draw_value = 0;
-            ((S_807B0B3C_7 *)prim)->unk_18.at00u.v = vertex;
+            ((S_807B0B3C_7 *)shaded_prim)->unk_18.at00u.v = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_0C;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             blend_mode = 1;
             ASM_KEEP_NV(blend_mode);
-            ((S_807B0B3C_7 *)prim)->unk_20 = vertex;
+            ((S_807B0B3C_7 *)shaded_prim)->unk_20 = vertex;
             render_state_m = *render_slot_m;
             render_slot_m = (u8 **)((u8 *)(0xFF000000));
             prim_tag &= (u32)(u8 *)render_slot_m;
@@ -585,7 +586,7 @@ loop_setup_b:
             bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
             FINISH_GLOBAL_TABLE(render_slot_m, bucket_tag, prim_tag);
             ASM_KEEP_NV(render_slot_m);
-            ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
+            ((S_807B0B3C_7 *)shaded_prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
             u32 bucket_tag;
@@ -594,22 +595,22 @@ loop_setup_b:
             render_slot_m = (u8 **)(0xFF000000);
             bucket_ptr_m = (u8 *)((u32)bucket_offset + (u32)bucket_ptr_m);
             bucket_tag = ((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & (u32)render_slot_m;
-            bucket_tag |= (u32)prim & addr_mask;
+            bucket_tag |= (u32)shaded_prim & addr_mask;
             render_slot_m = &D_80083160;
             ASM_KEEP_NV(render_slot_m);
             (*(u32 *)((u8 *)bucket_ptr_m + 0xB0)) = bucket_tag;
             bucket_ptr_m = *render_slot_m;
             page_x = draw_value;
-            prim = *(u8 **)(bucket_ptr_m + 0x8D0);
+            draw_prim = *(u8 **)(bucket_ptr_m + 0x8D0);
             page_y = draw_value;
-            *(u8 **)(bucket_ptr_m + 0x8D0) = prim + 0xC;
+            *(u8 **)(bucket_ptr_m + 0x8D0) = draw_prim + 0xC;
         }
         component_5 = func_80066460(draw_value, blend_mode, page_x, page_y);
         {
             s32 zero;
             void *draw_mode_arg;
 
-            draw_mode_arg = (void *)prim;
+            draw_mode_arg = (void *)draw_prim;
             zero = 0;
             func_80067F20(draw_mode_arg, zero, zero, component_5, 0);
         }
@@ -622,14 +623,14 @@ loop_setup_b:
             ASM_KEEP_NV(render_slot_m);
             render_state_m = *render_slot_m;
             render_slot_m = (u8 **)((u8 *)(0xFF000000));
-            prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
+            prim_tag = ((S_807B0B3C_7 *)draw_prim)->unk_00;
             render_state_m = (u8 *)((u32)bucket_offset + (u32)render_state_m);
             prim_tag &= (u32)(u8 *)render_slot_m;
             LOAD_GLOBAL_PAGE(render_slot_m);
             bucket_tag = ((S_807B0B3C_10 *)render_state_m)->unk_B0;
             FINISH_GLOBAL_TABLE(render_slot_m, bucket_tag, prim_tag);
             ASM_KEEP_NV(render_slot_m);
-            ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
+            ((S_807B0B3C_7 *)draw_prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
             u8 *render_state;
@@ -639,7 +640,7 @@ loop_setup_b:
             bucket_offset += (s32)render_state;
             ((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 =
                 (((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 & (u32)render_slot_m) |
-                ((u32)prim & addr_mask);
+                ((u32)draw_prim & addr_mask);
         }
     }
 

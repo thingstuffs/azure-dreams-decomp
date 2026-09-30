@@ -24,6 +24,7 @@ extern void func_800A9160(u16);
 void func_800945E8(void *input_state) {
     void *state;
     s32 slot_index;
+    u8 *src_cursor;
 
     state = input_state;
     func_800422DC((void *)0x80012194, state);
@@ -32,7 +33,6 @@ void func_800945E8(void *input_state) {
         s32 record_index;
         u8 entry_flags;
         u8 *entry_flags_ptr;
-        register u8 *record ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 *record_table;
         u8 *record_buffer;
         Blob140 *copy_src;
@@ -54,14 +54,13 @@ void func_800945E8(void *input_state) {
                 entry_flags = entry_flags_ptr[0];
                 if ((entry_flags & 0x20) != 0) {
                     record_index = entry_flags & 0x1F;
-                    record = (u8 *)record_table[record_index];
-                    if ((func_80042900(record, 0xA) << 0x10) != 0) {
-                        record[0x13] = record[0xA8];
+                    src_cursor = (u8 *)record_table[record_index];
+                    if ((func_80042900(src_cursor, 0xA) << 0x10) != 0) {
+                        src_cursor[0x13] = src_cursor[0xA8];
                     }
                     record_offset = record_index * 0x8C;
                     copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);
-                    copy_src = (Blob140 *)record;
-                    ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    copy_src = (Blob140 *)src_cursor;
                     {
                         u32 *copy_dst_cursor = copy_dst->word;
                         u32 *copy_src_cursor = copy_src->word;
@@ -106,7 +105,6 @@ void func_800945E8(void *input_state) {
 
     {
         s32 *record_slot;
-        u8 *src_cursor;
         register u8 *dst_cursor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         register u8 *index_cursor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         Global1004C *slot_fields;
