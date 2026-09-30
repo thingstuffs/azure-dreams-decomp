@@ -320,7 +320,7 @@
 {"src":"src/w_8003D8B0.c","out":"build/src/w_8003D8B0.o","ccver":"2.7.2-cdk","ccflags":"-G12","asflags":""}
 {"src":"src/w_8003D92C.c","out":"build/src/w_8003D92C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003DBD0.c","out":"build/src/w_8003DBD0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_8003DE58.c","out":"build/src/w_8003DE58.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/w_8003DE58.c","out":"build/src/w_8003DE58.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003DF0C.c","out":"build/src/w_8003DF0C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003DF74.c","out":"build/src/w_8003DF74.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003E02C.c","out":"build/src/w_8003E02C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

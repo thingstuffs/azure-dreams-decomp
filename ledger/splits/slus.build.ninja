@@ -1716,7 +1716,7 @@ build build/src/w_8003DBD0.o: cc src/w_8003DBD0.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003DE58.o: cc src/w_8003DE58.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
