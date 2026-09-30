@@ -87,11 +87,11 @@ void func_800BA00C(void *parent, void *position_data)
     Palette *palette;
     u8 *obj;
     u8 *entity;
-    void *sprite_callback;
     void *sprite_texture;
     s32 brightness;
     s32 initial_angle;
-    register s32 angle_sector ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 part_number;
+    s32 angle_sector;
     s32 sector_multiple;
     s32 parent_value;
     u32 callback_page;
@@ -117,7 +117,7 @@ void func_800BA00C(void *parent, void *position_data)
     s32 variation_random;
     s32 angle;
     s32 blue;
-    register s32 quadrant ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 quadrant;
     s32 part_index;
     void **part_params;
     u8 *sprite;
@@ -129,7 +129,10 @@ void func_800BA00C(void *parent, void *position_data)
     variation_random = rand();
     initial_angle = ((S_800BA00C_0 *)parent)->unk_66.s;
     ((S_800BA00C_0 *)parent)->unk_97 = (variation_random % 9) + 12;
-    angle_sector = initial_angle / 0x200;
+    if (initial_angle < 0) {
+        initial_angle += 511;
+    }
+    angle_sector = initial_angle >> 9;
     sector_multiple = angle_sector;
     if (angle_sector < 0) {
         sector_multiple = angle_sector + 3;
@@ -173,7 +176,9 @@ void func_800BA00C(void *parent, void *position_data)
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
             ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
             ((S_800BA00C_1 *)obj)->unk_04 = position->unk_04;
-            if ((*(s8 *)((u8 *)entity + 0x97)) == (s8)quadrant) {
+            part_number = (*(s8 *)((u8 *)entity + 0x97));
+            angle = (s8)quadrant;
+            if (part_number == angle) {
                 angle = ((S_800BA00C_5 *)((*(void * *)((u8 *)entity + 0x9C))))->unk_66;
                 ((S_800BA00C_1 *)obj)->unk_08.i = -((func_800644B8(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)((u8 *)entity + 0x66)) = 0x1E;
@@ -189,7 +194,7 @@ void func_800BA00C(void *parent, void *position_data)
     part_index = 0;
     sprite_page = 0x800C0000;
     ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    sprite_callback = (void *)(sprite_page - 0x6124);
+    quadrant = sprite_page - 0x6124;
     sprite_page = 0x80100000;
     ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     sprite_texture = (void *)(sprite_page - 0x75E4);
@@ -197,7 +202,7 @@ void func_800BA00C(void *parent, void *position_data)
     do {
         obj = func_8003FD64(0x36, (u8 *)parent - 0x20);
         if (obj != 0) {
-            ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
+            ((S_800BA00C_1 *)obj)->unk_10 = (void *)quadrant;
             func_8004491C(obj, D_80045C34);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
             do {
