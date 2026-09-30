@@ -1,3 +1,21 @@
+# Handover (2026-09-30 23:30, round 84 started: cse-flag mechanism, walker residual, scratchpad-struct class + codex wave) - start here
+
+**Pickup 1,483 pins / 487 rows.** Round plan (census first: flag x pin table, erase census near scratch accesses):
+- **r84_opus_cse** (mechanism, Opus): what -fno-cse-follow-jumps / -fno-cse-skip-blocks stand in for; 61 rows
+  (work/native_lane/_r84/cse_rows.tsv: 22 pinned / 85 pins, 39 pin-free); CLASS.tsv + MECHANISM.md + apply brief.
+  Next: Sonnet apply lanes on the pin-free rows, Opus on the pinned (the r83 pattern).
+- **r84_opus_walk** (Opus): the last nosr rows 800CB068, 80090D8C, 8000F774, 8001BCD4, 800CDFD8 (literal += K walker).
+- **r84_opus_scratch** (class, Opus): scratchpad stores as struct members (r83 rule) over 70 pinned rows / 343 pins
+  referencing 0x1F80xxxx (206 live sites within 6 lines); fixture tools/fixtures/memdep; CLASS.tsv + generator spec.
+- **Codex (autoqueue lands them; runner restarted, pid in _landq/runner.pid):** r84_astra_b1-b3 (807B040C+80092824,
+  80A4707C+8195F0BC, 81331C88+800A3D40), r84_sol61_s1-s3 (15 one-pin rows never served by astra/Opus/sol61).
+- New brief paragraph tools/lanes/brief_paragraphs/r83_rules.md (rounds 81-83 rules for codex packs).
+- Flag census (09-30 night): pinned rows with flags 58 / 238 pins: cse-follow-jumps 13/44, cse-skip-blocks 10/42,
+  expensive-opt 10/53, schedule-insns 10/46, rerun-cse 8/39, nosr 7/29. The town 8032xxxx -fno-schedule-insns
+  -fno-schedule-insns2 rows are the town/main.c -O1 question (modsplit owner call) - not worked.
+Owner calls still pending from round 83 (unchanged): 8046C280 -O1, 8028B994/808B2E74 review, w_80049F68 module
+re-certification, modsplit patch, maspsx_d3.
+
 # Handover (2026-09-30 evening, round 83 closed: strength-reduce class applied) - start here
 
 **1,483 pins / 487 rows** (1,565 at this session's 13:14 pickup; ~51 pins from the r83 lanes, the rest from the peer's astra/sol lanes a41-a46, s14). Rows registered with -fno-strength-reduce: 71 -> 14.
