@@ -3273,8 +3273,8 @@ build build/src/w_8004FFF4.o: cc src/w_8004FFF4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800500B4.o: cc src/w_800500B4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -fno-strength-reduce
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_80050308.o: cc src/w_80050308.c | tools/cc.sh tools/ccproc.py 
