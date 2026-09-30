@@ -1,15 +1,15 @@
 # Handover (2026-09-29 late night, round 80: Sol 6.1, scaffolding lanes, JUMP-TABLE FIDELITY HOLE) - start here
 
-**FIX FIRST - switch jump tables are not compared.** The overlay window gate (tools/gate/overlay_local_gate.py) and
-match.py build_text compare function .text only, so a `switch` whose jump table routes cases to the wrong bodies still
-shows MATCH. r80_opus_rodatawin measured 63 landed rows with wrong tables (41 from round-80 switch lanes, 22 since
-import); confirmed by hand on dungeon/func_81862ED8 (C groups cases 0-5/6/7-14, retail's table 0-6/7/8-14) and
-main/func_8001A6D0. The same lane found why ~16 switch conversions were "reverted for discarded .rodata": a true-name
-lookup miss (overlay_local_gate.py:358-365 vs the synthetic name the TU defines), not a real discard. Its patch
-(work/native_lane/r80_opus_rodatawin/patch/rodata_windows.patch: name fallback + local_table_mismatches) turns 86 windows
-red on its own, so it must land WITH the repair: relabel permutation rows, restore structural ones, land the 11 correct
-conversions. The repair is being built in that lane (REPORT_REPAIR.md, repair/). Until the kit (verify.py / match.py)
-compares tables too, hold all switch-producing lane work.
+**DONE 09-30 00:53 (c262202fa) - switch jump tables are now compared.** The overlay window gate
+(overlay_local_gate.py local_table_mismatches, strict) and match.py build_text (local_table_diffs -> `CFAIL jtbl`)
+compare every placed jump table with the retail container; tests in tools/tests/test_local_table_mismatches.py.
+72 rows repaired (34 relabelled, incl. mid-body case labels that replaced barrier pins; 28 lane-made structural
+switches restored to their pre-switch text; 9 previously reverted conversions landed; 80813E14's keep-alive moved to
+.data): pins -4, gotos +40, every window (--all) MATCH. Before this, 63 rows had tables routing cases to the wrong
+bodies with byte-identical text. The lanes' scorer root picks up the match.py compare at the next
+`bash tools/build/mk_ovl_root.sh` (run it in a lane gap). Follow-ups: the 28 restored rows can likely get their
+switch back with correct case labels (mid-body `case` technique, bin/mid.sh in work/native_lane/r80_opus_rodatawin);
+four un-nested rows have shadowed locals worth renaming (8180C3C0, 81958878, 8080E994).
 
 **State:** 1,993 pins in 617 rows (2,493 / 696 at this session's pickup). Goto count (incl. `&&label`) ~3,950.
 **Sol 6.1 (gpt-6.1-sol, `launch_lane.sh <lane> sol61`, codex CLI >= 0.159):** ~60% on 1-pin rows (15/25), 0 on 2-pin and
