@@ -8,7 +8,7 @@
 s16 func_8002773C();
 void *func_800280F4(void *, void *, u16 *);
 void func_8003DB4C();
-M2C_UNK func_80041E70();
+void func_80041E70(void *);
 void func_80042710();
 void func_80042984();
 M2C_UNK func_80098B38();
@@ -219,7 +219,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s16 donor_primary;
     u8 *merge_out;
     s16 other_match;
-    register s16 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 source_side;
     s32 match_offset;
     s32 result_traits;
@@ -236,7 +236,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s32 global_flags;
     s32 owner_action;
     s32 scan_index;
-    register s32 clear_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
     u8 *ability_data;
     u8 *slot_addr;
     u8 *slot_base;
@@ -294,7 +294,7 @@ select_donor:
                 donor = first_creature;
             }
         }
-        clear_index = 2;
+        ability_count = 2;
         clear_abilities = merged_abilities;
         clear_result_seen = merge_buffer;
         clear_donor_seen = donor_seen;
@@ -305,9 +305,9 @@ select_donor:
         ((S_800277F4_0 *)result)->unk_14.n = clear_shifted;
 loop_0:
         {
-            clear_shifted = clear_index << 0x10;
-            next_clear = clear_index - 1;
-            clear_index = next_clear;
+            clear_shifted = ability_count << 0x10;
+            next_clear = ability_count - 1;
+            ability_count = next_clear;
             clear_slot = clear_shifted >> 0x10;
             clear_entry = clear_abilities + (clear_slot * 3);
             ((S_800277F4_1 *)clear_entry)->unk_00 = 0;
@@ -339,7 +339,7 @@ loop_0:
                 donor_seen[element_mask] = (u8) seen_mark;
                 donor_ability = donor + (element_mask * 3);
                 if ((u8) ((S_800277F4_2 *)result_primary_data)->unk_0A < (u8) ((S_800277F4_3 *)donor_ability)->unk_0A) {
-                    primary_output = merged_abilities + (ability_count * 3);
+                    primary_output = merged_abilities + ((s16)ability_count * 3);
                     ((S_800277F4_4 *)primary_output)->unk_00 = ((S_800277F4_3 *)donor_ability)->unk_08;
                     ((S_800277F4_4 *)primary_output)->unk_02 = ((S_800277F4_3 *)donor_ability)->unk_0A;
                     goto result_primary_done;
@@ -442,7 +442,7 @@ donor_primary_done:
         result_seen = (D_8006DE24_Record *)merge_buffer;
         merge_out = merged_abilities;
 scan_abilities:
-        if (ability_count < (s32) ability_limit) {
+        if ((s16)ability_count < (s32) ability_limit) {
             source = donor;
             if (source_side == 0) {
                 source = result;
@@ -484,7 +484,7 @@ scan_abilities:
                         if ((u8) ((S_800277F4_11 *)ability_data)->unk_0A
                             < (u8) ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A) {
                             other_data = donor;
-                            ability_data = merge_out + (ability_count * 3);
+                            ability_data = merge_out + ((s16)ability_count * 3);
                             if (source_side != 0) {
                                 other_data = result;
                             }
@@ -501,7 +501,7 @@ scan_abilities:
                     }
                 }
 copy_source_ability:
-                fallback_output = merge_out + (ability_count * 3);
+                fallback_output = merge_out + ((s16)ability_count * 3);
                 if (source_side == 0) {
                     clear_result_seen = result;
                 }
@@ -525,7 +525,7 @@ copy_source_ability:
                         + fallback_offset))->unk_0A;
                 }
 finish_ability:
-                merged_entry = merge_out + (ability_count * 3);
+                merged_entry = merge_out + ((s16)ability_count * 3);
                 if (((S_800277F4_15 *)merged_entry)->unk_00 == 0x2E) {
                     ((S_800277F4_15 *)merged_entry)->unk_00 = 0U;
                     ((S_800277F4_15 *)merged_entry)->unk_02 = 0;
@@ -594,7 +594,6 @@ store_ability:
             update_target = result;
 
             donor_traits = (s32) D_8006D6D8;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
             donor_mask_ptr = (s32 *) donor_traits + donor_kind;
             result_mask_ptr = (s32 *) donor_traits + base_kind;
@@ -604,7 +603,7 @@ store_ability:
             donor_traits &= donor_trait_bits;
             ((S_800277F4_0 *)result)->unk_54 = (s32) ((base_traits & result_mask) | donor_traits);
         }
-        func_80041E70(update_target, donor_traits, donor_trait_bits);
+        func_80041E70(update_target);
         ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
             + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
         level_cap = ((S_800277F4_0 *)result)->unk_66;

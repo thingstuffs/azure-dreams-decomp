@@ -168,18 +168,17 @@ __attribute__((section(".text.func_818F2800"), aligned(4))) = {
 #define BODY_SECTION
 #endif
 
-void BODY(void *shape, void *position, void *render_state, u16 depth_offset) BODY_SECTION;
+void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset) BODY_SECTION;
 /* Builds textured quad strips and adds visible quads to the ordering table. */
-void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
+void BODY(void *shape, void *position, S_BODY_1 *state, u16 depth_offset)
 {
     register u8 *scratch ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_BODY_3 *geometry;
-    S_BODY_1 *state;
     u8 *part;
     u8 *quad;
-    register u8 *packet ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *packet;
     s32 angle;
-    register s32 half ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 half;
     s32 strip_x;
     register s32 invalid_coord;
     s32 transform_buf[16];
@@ -204,7 +203,6 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
     scratch = (u8 *)0x1F800000;
 
     DM_U32(0x20) = (u32)((u8 *)graphics + 0xB0);
-    state = render_state;
     DM_S32(0xE4) = *(s16 *)((u8 *)position + 2);
     DM_S32(0xE8) = *(s16 *)((u8 *)position + 6);
     position_z = *(s16 *)((u8 *)position + 0xA);
