@@ -119,7 +119,6 @@ typedef struct S_800D07C8_6 {
 void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     u8 matrix[32];
     u8 *scratch = (u8 *)0x1F800000;
-    u8 *packet_code;
     u8 *part_uv;
     u8 *part;
     u8 *packet;
@@ -161,7 +160,6 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     ((S_800D07C8_0 *)scratch)->unk_104 = ((S_800D07C8_3 *)sprite)->unk_1A;
     ((S_800D07C8_0 *)scratch)->unk_102 = ((S_800D07C8_3 *)sprite)->unk_18;
     func_80065820(scratch + 0x100, scratch + 0xD0);
-    packet_code = packet + 7;
     func_80064AE0(matrix);
     func_80064840(matrix, scratch + 0xD0, scratch + 0x50);
     func_80064BC0(scratch + 0x50, scratch + 0x30);
@@ -169,9 +167,9 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     func_80064CF0(scratch + 0x50);
 
     part = ((S_800D07C8_3 *)sprite)->unk_08;
-    part_uv = part + 8;
     ((S_800D07C8_0 *)scratch)->unk_24 = ((S_800D07C8_3 *)sprite)->unk_14;
     for (;;) {
+        part_uv = part + 8;
         if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
             ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(u8 *)((u8 *)part_uv + 0));
             ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(u8 *)((u8 *)part_uv + 1));
@@ -215,29 +213,29 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
             ((S_800D07C8_0 *)scratch)->unk_C0 = depth;
             if (depth < 0x1E0U) {
                 vertex_0_visible = 0;
-                if ((u32)(((*(u16 *)((u8 *)packet_code + 1)) + 0x20) & 0xFFFF) < 0x181U) {
+                if ((u32)(((*(u16 *)(packet + 0x8)) + 0x20) & 0xFFFF) < 0x181U) {
                     u32 screen_y;
-                    screen_y = (u32)(((*(u16 *)((u8 *)packet_code + 3)) + 0x20) & 0xFFFF);
+                    screen_y = (u32)(((*(u16 *)(packet + 0xA)) + 0x20) & 0xFFFF);
                     vertex_0_visible = screen_y < 0x121U;
                 }
                 vertex_1_visible = 0;
-                if ((u32)(((*(u16 *)((u8 *)packet_code + 0xD)) + 0x20) & 0xFFFF) < 0x181U) {
+                if ((u32)(((*(u16 *)(packet + 0x14)) + 0x20) & 0xFFFF) < 0x181U) {
                     u32 screen_y;
-                    screen_y = (u32)(((*(u16 *)((u8 *)packet_code + 0xF)) + 0x20) & 0xFFFF);
+                    screen_y = (u32)(((*(u16 *)(packet + 0x16)) + 0x20) & 0xFFFF);
                     vertex_1_visible = screen_y < 0x121U;
                 }
                 vertex_2_visible = 0;
                 first_pair_visible = vertex_0_visible | vertex_1_visible;
-                if ((u32)(((*(u16 *)((u8 *)packet_code + 0x19)) + 0x20) & 0xFFFF) < 0x181U) {
+                if ((u32)(((*(u16 *)(packet + 0x20)) + 0x20) & 0xFFFF) < 0x181U) {
                     u32 screen_y;
-                    screen_y = (u32)(((*(u16 *)((u8 *)packet_code + 0x1B)) + 0x20) & 0xFFFF);
+                    screen_y = (u32)(((*(u16 *)(packet + 0x22)) + 0x20) & 0xFFFF);
                     vertex_2_visible = screen_y < 0x121U;
                 }
                 vertex_3_visible = 0;
                 first_three_visible = first_pair_visible | vertex_2_visible;
-                if ((u32)(((*(u16 *)((u8 *)packet_code + 0x25)) + 0x20) & 0xFFFF) < 0x181U) {
+                if ((u32)(((*(u16 *)(packet + 0x2C)) + 0x20) & 0xFFFF) < 0x181U) {
                     u32 screen_y;
-                    screen_y = (u32)(((*(u16 *)((u8 *)packet_code + 0x27)) + 0x20) & 0xFFFF);
+                    screen_y = (u32)(((*(u16 *)(packet + 0x2E)) + 0x20) & 0xFFFF);
                     vertex_3_visible = screen_y < 0x121U;
                 }
                 if ((first_three_visible | vertex_3_visible) != 0) {
@@ -255,14 +253,14 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                     ((S_800D07C8_0 *)scratch)->unk_0C.s32 <<= 8;
                     ((S_800D07C8_0 *)scratch)->unk_14.s32 <<= 8;
                     if (((S_800D07C8_0 *)scratch)->unk_24 & 0x100) {
-                        (*(s16 *)((u8 *)packet_code + 7)) = ((S_800D07C8_3 *)sprite)->unk_12;
+                        (*(s16 *)(packet + 0xE)) = ((S_800D07C8_3 *)sprite)->unk_12;
                     } else {
-                        (*(s16 *)((u8 *)packet_code + 7)) = ((S_800D07C8_3 *)sprite)->unk_12 + (*(u16 *)((u8 *)part_uv
+                        (*(s16 *)(packet + 0xE)) = ((S_800D07C8_3 *)sprite)->unk_12 + (*(u16 *)((u8 *)part_uv
                             + -2));
                     }
-                    (*(s16 *)((u8 *)packet_code + 5)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
+                    (*(s16 *)(packet + 0xC)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
                         + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)((u8 *)packet_code + 0x11)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
+                    (*(s16 *)(packet + 0x18)) = ((S_800D07C8_0 *)scratch)->unk_0C.u16
                         + ((S_800D07C8_0 *)scratch)->unk_10.u16;
                     {
                         s32 tpage_base = ((S_800D07C8_3 *)sprite)->unk_10;
@@ -272,28 +270,28 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                         } else {
                             tpage = (*(u16 *)((u8 *)part_uv + -4));
                         }
-                        (*(u16 *)((u8 *)packet_code + 0x13)) = tpage;
+                        (*(u16 *)(packet + 0x1A)) = tpage;
                     }
-                    (*(s16 *)((u8 *)packet_code + 0x1D)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
+                    (*(s16 *)(packet + 0x24)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
                         + ((S_800D07C8_0 *)scratch)->unk_08.u16;
-                    (*(s16 *)((u8 *)packet_code + 0x29)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
+                    (*(s16 *)(packet + 0x30)) = ((S_800D07C8_0 *)scratch)->unk_14.u16
                         + ((S_800D07C8_0 *)scratch)->unk_10.u16;
-                    if ((*(s16 *)((u8 *)packet_code + 1)) > (*(s16 *)((u8 *)packet_code + 0x25))) {
-                        ((S_800D07C8_5 *)packet_code)->unk_11--;
-                        ((S_800D07C8_5 *)packet_code)->unk_29--;
+                    if ((*(s16 *)(packet + 0x8)) > (*(s16 *)(packet + 0x2C))) {
+                        ((S_800D07C8_5 *)(packet + 7))->unk_11--;
+                        ((S_800D07C8_5 *)(packet + 7))->unk_29--;
                     }
-                    if ((*(s16 *)((u8 *)packet_code + 3)) > (*(s16 *)((u8 *)packet_code + 0x27))) {
-                        ((S_800D07C8_5 *)packet_code)->unk_1E--;
-                        ((S_800D07C8_5 *)packet_code)->unk_2A--;
+                    if ((*(s16 *)(packet + 0xA)) > (*(s16 *)(packet + 0x2E))) {
+                        ((S_800D07C8_5 *)(packet + 7))->unk_1E--;
+                        ((S_800D07C8_5 *)(packet + 7))->unk_2A--;
                     }
                     color = ((S_800D07C8_3 *)sprite)->unk_0C;
-                    (*(s32 *)((u8 *)packet_code + 0x21)) = 0;
-                    (*(s32 *)((u8 *)packet_code + 0x15)) = 0;
-                    ((S_800D07C8_5_pre *)packet_code)[-1].unk_00 = 0xC;
-                    (*(s32 *)((u8 *)packet_code + 9)) = color;
-                    (*(s32 *)((u8 *)packet_code + -3)) = color;
+                    (*(s32 *)(packet + 0x28)) = 0;
+                    (*(s32 *)(packet + 0x1C)) = 0;
+                    ((S_800D07C8_5_pre *)(packet + 3))->unk_00 = 0xC;
+                    (*(s32 *)(packet + 0x10)) = color;
+                    (*(s32 *)(packet + 0x4)) = color;
                     part_command = (*(u8 *)((u8 *)part_uv + -7));
-                    ((S_800D07C8_5 *)packet_code)->unk_00 = part_command;
+                    ((S_800D07C8_5 *)(packet + 7))->unk_00 = part_command;
                     sprite_flags = ((S_800D07C8_0 *)scratch)->unk_24;
                     if (sprite_flags & 8) {
                         draw_command = sprite_flags & 4;
@@ -302,13 +300,12 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                         } else {
                             draw_command = part_command | 2;
                         }
-                        ((S_800D07C8_5 *)packet_code)->unk_00 = draw_command;
+                        ((S_800D07C8_5 *)(packet + 7))->unk_00 = draw_command;
                     }
                     func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4),
                         packet);
-                    packet_code += 0x34;
                     packet += 0x34;
-                }
+                                }
             }
         } else {
             callback = (*(Callback *)((u8 *)part_uv + 0));
@@ -317,7 +314,6 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
             }
         }
 
-        part_uv += 0xC;
         if (((S_800D07C8_4 *)part)->unk_00.s >= 0) {
             part += 0xC;
         } else {

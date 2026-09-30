@@ -2,13 +2,13 @@
 
 typedef struct { u8 bytes[4]; } Bytes4;
 typedef struct {
+    u8 value;
+    u8 kind;
+    u8 pad_02[2];
     u32 address;
-    u8 pad_04[2];
+    u8 pad_08[2];
     u8 x;
     u8 y;
-    u8 next_value;
-    u8 next_kind;
-    u8 pad_0A[2];
 } Fields;
 
 extern u8 D_80400544[];
@@ -17,51 +17,36 @@ extern u8 D_80400544[];
 void *func_8001BCD4(void *buffer)
 {
     Bytes4 values;
-    s32 first_x;
-    s32 first_y;
-    s32 kind;
-    u32 address;
-    s32 second_x;
-    u32 record_size;
-    u8 *record;
-    u8 *value;
-    u8 *values_end;
-    Fields *fields;
+    s32 i;
+    u32 width;
+    u32 height;
+    s32 outer_width;
+    u32 outer_height;
+    Fields *record;
 
     record = buffer;
     values = *(Bytes4 *)D_80400544;
-    first_x = 5;
-    first_y = 5;
-    kind = 0x48;
-    address = 0x101010;
-    second_x = 6;
-    record_size = sizeof(Fields);
-    value = values.bytes;
-    values_end = values.bytes + 4;
-    fields = (Fields *)(record + 4);
+    width = 2;
+    height = 2;
+    outer_width = width + 10;
+    i = 0;
     do {
-        fields->x = first_x;
-        fields->y = first_y;
-        ((u8 *)fields)[-3] = kind;
-        fields->address = address;
-        do {
-            record[0] = *value;
-            fields++;
-        } while (0);
-        record += sizeof(Fields);
-        address++;
-        address--;
-        record_size++;
-        record_size--;
-        fields->x = second_x;
-        fields->y = record_size >> 1;
-        ((u8 *)fields)[-3] = kind;
-        fields->address = address;
-        fields++;
-        record[0] = *value;
-        value++;
-        record += sizeof(Fields);
-    } while ((long)value < (long)values_end);
-    record[-24] |= 0x80;
+        record->x = (width + 8) >> 1;
+        record->y = (height + 8) >> 1;
+        record->kind = 0x48;
+        record->address = 0x101010;
+        record->value = values.bytes[i];
+        record++;
+        record->x = outer_width / 2;
+        outer_height = height + 10;
+        outer_height &= 0xFFFF;
+        record->y = outer_height >> 1;
+        record->kind = 0x48;
+        record->address = 0x101010;
+        record->value = values.bytes[i];
+        record++;
+        i++;
+    } while (i < 4);
+    record[-2].value |= 0x80;
     return record;
 }
