@@ -67,9 +67,7 @@ typedef struct S_818C3A3C_5 {
 
 /* Creates an effect with randomized rotation, owner-dependent scale, and copied instance data. */
 s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
-    s32 palette_flags;
     s32 call_zero;
-    s32 setup_value;
     void *handler;
     s32 scale;
     s32 random_value;
@@ -85,30 +83,20 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
         handler = D_80025098;
         effect_state = (u8 *)effect + 0x20;
         effect_name = D_80025AF0;
-        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        palette_flags = 0x7DCF;
         ((S_818C3A3C_0 *)effect)->unk_10 = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
         ((S_818C3A3C_1 *)effect_state)->unk_10 = 0;
-        setup_value = owner->unk_14;
         call_zero = 0;
-        *(u16 *)((u8 *)effect_state + 0x14) = setup_value;
+        *(u16 *)((u8 *)effect_state + 0x14) = owner->unk_14;
 
         sprite = ((S_818C3A3C_0 *)effect)->unk_0C;
-        setup_value = 0x80;
-        sprite->unk_0E = setup_value;
-        sprite->unk_0D = setup_value;
-        sprite->unk_0C = setup_value;
-        setup_value = sprite->unk_14;
-        sprite->unk_12 = palette_flags;
-        setup_value |= 0xC;
-        sprite->unk_14 = setup_value;
-        setup_value = sprite->unk_10;
-        palette_flags = sprite->unk_14;
-        setup_value |= 0x20;
-        palette_flags |= 0x100;
-        sprite->unk_10 = setup_value;
-        sprite->unk_14 = palette_flags;
+        sprite->unk_0E = 0x80;
+        sprite->unk_0D = 0x80;
+        sprite->unk_0C = 0x80;
+        sprite->unk_12 = 0x7DCF;
+        sprite->unk_14 |= 0xC;
+        sprite->unk_10 |= 0x20;
+        sprite->unk_14 |= 0x100;
         func_8003DB94(sprite, effect_name, call_zero);
 
         biased_random = func_80069EF8();
