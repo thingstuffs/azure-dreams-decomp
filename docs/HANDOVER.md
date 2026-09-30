@@ -11,6 +11,14 @@ bodies with byte-identical text. The lanes' scorer root picks up the match.py co
 switch back with correct case labels (mid-body `case` technique, bin/mid.sh in work/native_lane/r80_opus_rodatawin);
 four un-nested rows have shadowed locals worth renaming (8180C3C0, 81958878, 8080E994).
 
+**Approach change 09-30 ~01:30 (owner asked "time to change approach?"):** fresh-row Opus lanes fell to 0-3 pins
+(rows served 5-8 times since r66); mechanism lanes paid (early constant: 13 pins over two lanes, as a RULE). So:
+census-first. `python3 tools/lanes/erase_census.py OUT.jsonl --procs 8 --diff 6 --fp` (10 s, whole tree) then cluster
+by `fp.cls`/`fp.shape`: 09-30 near band (d0<=6) 586 sites / 291 rows = MOVED 236 (scheduling order), CHANGED 220
+(page/symbol, narrow loads), RECOLOURED 85 (allocation ties). One Opus CLUSTER lane per tight shape (trace the deciding
+pass on one row, derive the rule, apply to six, list the rest): r80_opus_cl_li / cl_lui / cl_move running; their
+cluster_rest.txt holds the remaining members for apply lanes. Sol 6.1 stays on the one-pin pool (218 rows).
+
 **State:** 1,993 pins in 617 rows (2,493 / 696 at this session's pickup). Goto count (incl. `&&label`) ~3,950.
 **Sol 6.1 (gpt-6.1-sol, `launch_lane.sh <lane> sol61`, codex CLI >= 0.159):** ~60% on 1-pin rows (15/25), 0 on 2-pin and
 big rows; tidy its texts (identical-arm NON_MATCHING splits, orphaned pin comments) before landing.
