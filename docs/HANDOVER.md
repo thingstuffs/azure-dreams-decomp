@@ -94,6 +94,16 @@ by `fp.cls`/`fp.shape`: 09-30 near band (d0<=6) 586 sites / 291 rows = MOVED 236
 pass on one row, derive the rule, apply to six, list the rest): r80_opus_cl_li / cl_lui / cl_move running; their
 cluster_rest.txt holds the remaining members for apply lanes. Sol 6.1 stays on the one-pin pool (218 rows).
 
+**State (09-30 ~12:30, this session = generators/kit/astra; the peer session azure-clean-c8 = cells, flag crutches, slus
+recipes):** Pin sites now: 1,565 in 503 rows. Codex lanes are hands-off now: `nohup bash work/native_lane/_landq/autoqueue.sh <lane> &` waits for a
+codex lane, checks every staged row (exact, base current, pins fewer, no added scaffolding) and appends it to the landing
+queue (failures -> _landq/autoqueue.held). Row pools: build through `python3 work/native_lane/_landq/reserved_filter.py`
+(skips the peer's reserved_c8.txt in any format + exclude_extra.txt). slus candidates verify.py cannot judge (symbol vs
+integer) land via _landq/slus_gate_try.sh (SLUS SHA-1 only). Kit since 06:00: alloc_need.py + lreg_explain.py (allocation
+inverses, global and local), row_census.py, why.py --vs-cfg, stage-cell --equal-pins, erase_census --full-diff, --no-jtbl,
+slus rows score in the kit; generators t131-t135; t129 knows libc/PsyQ arities. Astra on 5-12-pin rows pays ~5 pins/lane
+(a18-a40); the pool list is rebuilt each wave (tmp/astra_pool*.txt).
+
 **Landing queue moved (09-30 05:50, session restart):** the batch runner and helper scripts now live in
 work/native_lane/_landq/ (land_queue2.sh reads land_queue.txt there - append `tag|lane|KIND|WHAT`; runner.pid, land_queue.done,
 coh.sh for cells.jsonl moves, sweep_land.sh for gated generator sweeps, mkgd.sh for goto lanes, handover_todo.txt).
