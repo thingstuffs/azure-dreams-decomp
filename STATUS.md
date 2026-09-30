@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T10:53:40Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T10:59:57Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -86,7 +86,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3043 | 1,570,376 | 61.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5138 | 1,390,272 | 54.3% |
 
-Pin sites now: 1,674 in 521 rows; REG 860, KEEP 308, KEEP_NV 227, SCHED_BARRIER 94, USE_NV 33, USE 29, KEEP_DEP_NV 24, CLOBBER 19.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,672 in 521 rows; REG 860, KEEP 306, KEEP_NV 227, SCHED_BARRIER 94, USE_NV 33, USE 29, KEEP_DEP_NV 24, CLOBBER 19.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 
@@ -111,7 +111,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 819 rows, 474,348 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 523 rows (592,724 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 521 rows (591,112 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
