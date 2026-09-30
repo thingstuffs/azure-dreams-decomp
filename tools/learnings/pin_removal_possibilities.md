@@ -417,3 +417,15 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   expanding a ternary argument's branch - retail's early `move a0,s2` + `move a1,s3` in the beqz slot.
 - **Loop counter zeroed in every branch** (813284E4 1 -> 0): one `i = 0;` before the loop drops its priority below the
   competitor that should get the callee-saved register.
+- **Round 82 (r82_fable_resid) - the second assumption under the cell, decided on 6 served-but-open crutch rows:**
+  real on 3 (cell-carried pins: lone erasure `OP rd,rs,IMM -> OP rd,rs,$sN` = 2.8.x reload_cse_simplify_operands,
+  absent at cdk; a flag masking a source shape: retail's "unscheduled" tail is sched1 output once one variable is reused
+  for the preceding store - anti-edge; and **cdk's front end marks every sibling field of a struct with a `volatile`
+  member volatile** (`mem/s/v`), FSF 2.7.2/2.8.1 do not - 80F90E88 48 -> 17 by dropping `void *volatile p50`), and
+  ordinary source shape on 3 (8187A9A8, 81876014, 8009F018: stop cell/flag work). Egcs-proxy rows: cdk cse COMMONS
+  page constants like retail, egcs recomputes them - an egcs row with page-constant pins belongs at cdk (8081822C).
+  Opaque integer base `ori` vs `addiu` (combine nonzero_bits, 2.7.2 combine.c:6887-6890/726-731): a single-set base
+  is known everywhere; retail's mixed `ori`/`addiu` needs a multi-set base or one live at entry - symbol spelling refuted.
+- **Round 82 (fc12): 2.6.3 `mem & mask_var` puts the mask first** (expand_binop orders a MEM behind a REG); a literal
+  mask gives value-first and lets loop.c hoist the constant into retail's register. m2c `goto` back edges without a
+  LOOP_BEG note are not loops to loop.c (nothing hoisted); a goto-free do/while is.
