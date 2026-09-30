@@ -6,8 +6,8 @@ typedef struct S_80081490 {
     /* 0x1E */ u16 unk1E;
 } S_80081490;
 
-extern S_80081490 *D_80081490[3];
-extern S_80081490 *D_80081498[3];
+extern S_80081490 *D_80081490;
+extern S_80081490 *D_80081498;
 
 /* Returns whether free nodes plus active nodes flagged 0x200 reach the limit. */
 s32 func_8003FA44(s32 limit) {
@@ -15,7 +15,7 @@ s32 func_8003FA44(s32 limit) {
     s32 count;
 
     count = 0;
-    node = D_80081490[0];
+    node = D_80081490;
     while (node != 0) {
         count++;
         if (!(count < limit)) {
@@ -24,7 +24,7 @@ s32 func_8003FA44(s32 limit) {
         node = node->next;
     }
 
-    node = D_80081498[0];
+    node = D_80081498;
     if (node != 0) {
         do {
             if (node->unk1E & 0x200) {

@@ -14,22 +14,8 @@ extern S_8006E61C D_8006E61C[];
 /* Per-id "last processed" byte counter, indexed by field0-1. */
 extern u8 D_80080AF0[];
 
-/* S_80081480 / S_8008148C: >8B structs forced to hi/lo addressing (only
- * field_0 at offset 0 is accessed here); pattern shared with
- * src/w_80043CD0.c and src/w_80041AB0.c. */
-typedef struct {
-    s32 field_0;
-    s32 pad4;
-    s32 pad8;
-} S_80081480;
-extern S_80081480 D_80081480;
-
-typedef struct {
-    s32 field_0;
-    s32 pad4;
-    s32 pad8;
-} S_8008148C;
-extern S_8008148C D_8008148C;
+extern s32 D_80081480;
+extern s32 D_8008148C;
 
 /* switch dispatcher on pad events; takes no arguments (matched, gcc 2.7.2, code.c) */
 extern void func_800542BC(void);
@@ -61,7 +47,7 @@ void func_8004425C(s16 record_id)
     s32 available;
 
     {
-        register s32 record_offset ASM_REG("$3") = (s32)record_id * sizeof(S_8006E61C);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+        s32 record_offset = (s32)record_id * sizeof(S_8006E61C);
         record = (S_8006E61C *)((char *)D_8006E61C + record_offset);
     }
     slot = (s16)((u16)record->field0 - 1);
@@ -72,19 +58,13 @@ void func_8004425C(s16 record_id)
         DrawSync(0);
         {
             void *callback = record->field8;
-            D_80081480.field_0 = D_8008148C.field_0;
+            D_80081480 = D_8008148C;
             Control_CD(6, callback, 0);
         }
         Control_CD(6, record->field4, 0);
         func_8003F320();
         ready_value = 1;
-                        /* == D_8008148C.field_0, but reached via the D_80081480 neighbour symbol
-         * (offset +12) so gcc treats it as a genuinely different SYMBOL_REF from
-         * the EARLIER D_8008148C.field_0 read above and can't CSE the two %hi/%lo
-         * address computations into one cached base register (retail recomputes
-         * both independently; see decomp_learnings.md's "dual-access global"
-         * neighbour-symbol technique). */
-        func_8003F5E0(((s32 *)&D_80081480)[3]);
+        func_8003F5E0(D_8008148C);
         SD_Call(((2 << slot) | 0x10) & 0xFFFF);
         func_800542BC();
         do {

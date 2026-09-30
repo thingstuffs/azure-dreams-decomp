@@ -3,23 +3,9 @@
 
 #include "common.h"
 
-typedef struct S_80080A86
-{
-    u8 val;
-    u8 pad[8];
-}
-S_80080A86;
-extern S_80080A86 D_80080A86;
+extern u8 D_80080A86;
 
-typedef struct S_800814A0
-{
-    s32 val;
-    s32 pad[2];
-}
-S_800814A0;
-extern S_800814A0 D_800814A0;
-extern s32 D_800814A0_store;
-__asm__(".set D_800814A0_store, 0x800814A0");
+extern s32 D_800814A0;
 
 typedef struct S_800400B8_D80083160
 {
@@ -46,17 +32,16 @@ void func_800400B8(void)
 {
     S_800400B8_D80083160 *state = ((S_800400B8_D80083160 *)&gameWork);
     s32 mode;
-    if ((D_80080A86.val == 0) && (state->field_1DC != 0)) {
+    if ((D_80080A86 == 0) && (state->field_1DC != 0)) {
         func_80046884(state->field_18, state->field_20, 0);
         func_8003BFE4();
     }
     func_80040190();
-    if (D_800814A0.val & 0x8000) {
+    if (D_800814A0 & 0x8000) {
         func_800401FC();
     }
-    ASM_SCHED_BARRIER();
-    mode = D_80080A86.val;
-    D_800814A0_store = 0;
+    mode = D_80080A86;
+    D_800814A0 = 0;
     if (mode == 0) {
         func_8004027C();
         func_8004D70C();

@@ -17,13 +17,13 @@ typedef struct S_8004ED00_0 {
 M2C_UNK DrawSync();                          /* extern */
 M2C_UNK func_80041344();                /* extern */
 M2C_UNK func_8004EB8C();                      /* extern */
-extern s32 D_80081480;
+extern s32 D_80081480[];
 extern M2C_UNK func_8004ECAC;
 
 /* Processes flagged state with drawing synchronization and installs the next callback. */
 void func_8004ED00(void *state) {
     if (((S_8004ED00_0 *)state)->unk_08 != 0) {
-        func_80041344(0x80020000, D_80081480);
+        func_80041344(0x80020000, D_80081480[0]);
         DrawSync(0);
         func_8004EB8C(state + 9);
         ((S_8004ED00_0_pre *)state)[-1].unk_00 = &func_8004ECAC;

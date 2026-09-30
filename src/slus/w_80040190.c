@@ -13,12 +13,8 @@ typedef struct S_80081498_Node {
     u16 field_1E;                   /* 0x1E */
 } S_80081498_Node;
 
-/* D_80081498 is accessed via %hi/%lo, so its containing symbol must be
- * larger than the -G8 small-data threshold; pad it out. */
-extern struct S_80081498 {
-    S_80081498_Node *head;
-    s32 pad[2];
-} D_80081498;
+/* head of the active node list (8 bytes to D_800814A0; only the head word is read) */
+extern S_80081498_Node *D_80081498;
 
 /* Invokes negative-address callbacks on nodes in D_80081498 whose flags omit bit 0x400. */
 void func_80040190(void)
@@ -27,7 +23,7 @@ void func_80040190(void)
     S_80081498_Node *next_node;
     s32 callback_address;
 
-    node = D_80081498.head;
+    node = D_80081498;
     if (node != 0) {
         do {
             callback_address = node->field_10;
