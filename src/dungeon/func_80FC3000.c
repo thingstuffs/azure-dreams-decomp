@@ -60,7 +60,7 @@ extern u8 D_80163258[];
 extern u8 D_80163298[];
 
 
-extern void *func_8015E8A4(s32, s16, s16, s16);
+extern void *func_8015E8A4(s16, s16, s16, s16);
 static const u32 bank_words[] __asm__("func_8015E800")
 __attribute__((section(".text.func_8015E800"), aligned(4))) = {
     (u32)func_8015E8A4, (u32)D_8015EB40, 0x8015F12C, 0x8015F198,
@@ -78,11 +78,11 @@ __attribute__((section(".text.func_8015E800"), aligned(4))) = {
 __asm__(".globl func_8015E800\n"
         ".size func_8015E800, 832");
 
-void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 __attribute__((section(".text.func_8015E800")));
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
+void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *work;
     void *obj;
@@ -90,7 +90,6 @@ void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
     ObjectNodeHeader *call_target;
     S_8015E8A4_3 *part_b;
     void *part_a;
-    s16 saved_flags;
     s32 kind;
     s32 left;
     s32 right;
@@ -105,14 +104,13 @@ void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
     u8 *entry;
     s16 pin_arg3;
     void *pin_part_a;
-    register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *pin_actor;
 
     work = 0;
     call_id = 0x112;
     pin_arg3 = spawn_value;
     call_target = &D_80083498;
     obj = func_8003FD64(call_id, call_target);
-    saved_flags = (s16)flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E8A4_0 *)obj)->unk_10 = D_8015EB40;
@@ -155,7 +153,7 @@ normal_kind:
         }
 
 post_kind:
-        func_800A9C18(obj, pin_part_a, part_b, saved_flags);
+        func_800A9C18(obj, pin_part_a, part_b, flags);
         index = 0;
         actor_value = part_b->unk_12;
         ((S_8015E8A4_4 *)pin_actor)->unk_9A = 0xFF;

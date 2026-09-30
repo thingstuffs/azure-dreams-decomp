@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T08:35:41Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T08:36:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -86,11 +86,11 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3043 | 1,570,612 | 61.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5122 | 1,381,476 | 54.0% |
 
-Pin sites now: 1,770 in 539 rows; REG 909, KEEP 334, KEEP_NV 239, SCHED_BARRIER 96, USE_NV 33, USE 29, KEEP_DEP_NV 27, CLOBBER 22.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,768 in 539 rows; REG 907, KEEP 334, KEEP_NV 239, SCHED_BARRIER 96, USE_NV 33, USE 29, KEEP_DEP_NV 27, CLOBBER 22.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 265 rows carry one flag, 42 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 264 rows carry one flag, 42 carry two or more.
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
