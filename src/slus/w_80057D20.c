@@ -119,7 +119,7 @@ void func_80057D20(u8 channel, u8 control, u32 value)
         &&L_case_121, &&L_case_123, &&L_case_126,
         &&L_default
     };
-    register s32 pending_voices ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 pending_voices;
     (void)case_labels;
     control_value = value;
     control_index = (s32)control - 1;
@@ -203,8 +203,8 @@ L_case_7:
         {
             settings->f0c = control_value & 0xFF;
             pending_voices = 1;
-            ASM_KEEP(pending_voices);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80055E7C(3, channel, control_value & 0xFF, refresh_notes = pending_voices);
+            refresh_notes = pending_voices;
+            func_80055E7C(3, channel, control_value & 0xFF);
             goto after_switch;
         }
 
@@ -212,8 +212,8 @@ L_case_10:
         {
             settings->f04 = ((control_value & 0xFF) == 0) ? (1) : (control_value & 0xFF);
             pending_voices = 1;
-            ASM_KEEP(pending_voices);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80055E7C(2, channel, settings->f04, refresh_notes = pending_voices);
+            refresh_notes = pending_voices;
+            func_80055E7C(2, channel, settings->f04);
             goto after_switch;
         }
 
@@ -221,8 +221,8 @@ L_case_11:
         {
             settings->f14 = control_value & 0xFF;
             pending_voices = 1;
-            ASM_KEEP(pending_voices);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80055E7C(5, channel, control_value & 0xFF, refresh_notes = pending_voices);
+            refresh_notes = pending_voices;
+            func_80055E7C(5, channel, control_value & 0xFF);
             goto after_switch;
         }
 
@@ -230,7 +230,6 @@ L_case_12:
         {
             settings->f2c = control_value & 0xFF;
             pending_voices = 1;
-            ASM_KEEP(pending_voices);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             refresh_notes = pending_voices;
             goto after_switch;
         }
@@ -300,7 +299,6 @@ L_case_64:
                             {
                                 voice_status = D_80073740[voice_idx];
                                 pending_voices = stopped_voices;
-                                ASM_KEEP_DEP_NV(pending_voices, voice_status);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                                 pending_voices |= voice_status;
                                 stopped_voices = pending_voices;
                             }
@@ -368,15 +366,14 @@ after_switch:
     ;
 
     {
-        pending_voices = stopped_voices;
-        if (pending_voices) {
-            func_8005E97C(0, pending_voices);
+        s32 stop_mask = stopped_voices;
+        if (stop_mask) {
+            func_8005E97C(0, stop_mask);
         }
     }
     {
-        pending_voices = refresh_notes;
-        ASM_KEEP(pending_voices);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        if (pending_voices) {
+        s32 needs_refresh = refresh_notes;
+        if (needs_refresh) {
             for (entry_idx = 0; entry_idx < D_80073734; entry_idx++) {
                 if ((channel == D_80085458[entry_idx].f06) && (D_80085458[entry_idx].f1a != 0)) {
                     func_800561D8(&D_80085458[entry_idx], &D_80084960[channel]);
