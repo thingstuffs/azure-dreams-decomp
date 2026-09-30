@@ -126,10 +126,9 @@ typedef struct S_800500B4_3 {
 
 
 /* Animate the selection cursor and the positions and brightness of six entries. */
-void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
-    S_800500B4_0 *anim;
-    register s32 entry_index ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register u8 *highlight_ptr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+void func_800500B4(S_800500B4_1 *widgets, S_800500B4_0 *anim) {
+    s32 entry_index;
+    u8 *highlight_ptr;
     s32 start_index;
     s32 target_index;
     s32 frame;
@@ -138,11 +137,10 @@ void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
     u8 next_highlight;
     S_800500B4_7 *entry_widget;
     S_800500B4_5 *cursor_widget;
-    void *highlight_base;
-    void *entry_base;
+    u8 *highlight_base;
+    u8 *entry_base;
     s32 cursor_offset;
 
-    anim = anim_data;
     start_index = anim->unk_18;
     cursor_offset = (s32) ((anim->unk_1C - start_index) * (anim->unk_14 << 4)) / (s32) anim->unk_10;
     cursor_offset = cursor_offset - 0x28;
@@ -153,14 +151,13 @@ void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
     cursor_widget = widgets->unk_20;
     ((S_800500B4_10 *)(cursor_widget->unk_08))->unk_08 = (s16) (((S_800500B4_11 *)(cursor_widget->unk_04))->unk_0A - 2);
     target_index = anim->unk_1C;
-    entry_index = 0;
-    entry_base = widgets;
-    highlight_base = anim;
-    ((S_800500B4_18 *)(((S_800500B4_12 *)(((S_800500B4_6 *)entry_base)->unk_20))->unk_08))->unk_04 =
+    entry_base = (u8 *) widgets;
+    highlight_base = (u8 *) anim;
+    ((S_800500B4_18 *)(((S_800500B4_12 *)(((S_800500B4_6 *)widgets)->unk_20))->unk_08))->unk_04 =
         (s16) (-(target_index << 9) - ((s32) ((target_index - anim->unk_18) * -(anim->unk_14
         << 9)) / (s32) anim->unk_10));
-    do {
-        highlight_ptr = (u8 *) ((s8 *) highlight_base + 0xA4);
+    for (entry_index = 0; entry_index < 6; entry_index++) {
+        highlight_ptr = highlight_base + entry_index + 0xA4;
         old_highlight = *highlight_ptr;
         if (entry_index == anim->unk_1C) {
             next_highlight = old_highlight + ((s32) (8 - old_highlight) / (s32) ((anim->unk_10 - anim->unk_14) + 1));
@@ -171,28 +168,25 @@ void func_800500B4(S_800500B4_1 *widgets, void *anim_data) {
             }
         }
         *highlight_ptr = next_highlight;
-        highlight = ((S_800500B4_2 *)highlight_base)->unk_A4;
-        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_08 =
+        highlight = ((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4;
+        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_04))->unk_04))->unk_08 =
             (s16) highlight;
-        entry_index += 1;
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_08 =
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_28))->unk_04))->unk_08 =
             (s16) (highlight + 0x1E);
-        *((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04 =
-            (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_01 =
-            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
-        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)entry_base)->unk_28))->unk_04))->unk_02 =
-            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
-        *((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04 =
-            (((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58;
-        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)entry_base)->unk_04))->unk_04))->unk_01 =
-            (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5) + 0x58);
-        entry_widget = ((S_800500B4_3 *)entry_base)->unk_04;
-        entry_base += 4;
-        ((S_800500B4_15 *)(entry_widget->unk_04))->unk_02 = (s8) ((((S_800500B4_2 *)highlight_base)->unk_A4 * 5)
+        *((S_800500B4_14 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_28))->unk_04 =
+            (((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5) + 0x58;
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_28))->unk_04))->unk_01 =
+            (s8) ((((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5) + 0x58);
+        ((S_800500B4_20 *)(((S_800500B4_14 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_28))->unk_04))->unk_02 =
+            (s8) ((((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5) + 0x58);
+        *((S_800500B4_13 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_04))->unk_04 =
+            (((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5) + 0x58;
+        ((S_800500B4_19 *)(((S_800500B4_13 *)(((S_800500B4_6 *)(entry_base + entry_index * 4))->unk_04))->unk_04))->unk_01 =
+            (s8) ((((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5) + 0x58);
+        entry_widget = ((S_800500B4_3 *)(entry_base + entry_index * 4))->unk_04;
+        ((S_800500B4_15 *)(entry_widget->unk_04))->unk_02 = (s8) ((((S_800500B4_2 *)(highlight_base + entry_index))->unk_A4 * 5)
             + 0x58);
-        highlight_base += 1;
-    } while (entry_index < 6);
+    }
     frame = anim->unk_14;
     if (frame < anim->unk_10) {
         anim->unk_14 = (s32) (frame + 1);
