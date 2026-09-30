@@ -24,8 +24,8 @@ void func_80016EC0(void)
     type1_count = 0;
     record_index = 0;
     record_kind = 1;
-    type1_payload = record + 4;
     do {
+        type1_payload = record + 4;
         next_type1_count = type1_count + 1;
         type1_count = next_type1_count;
         *record = record_kind;
@@ -34,14 +34,13 @@ void func_80016EC0(void)
         *((s8 *) (((u8 *) type1_payload) + (-3))) = 0;
         *((s8 *) (((u8 *) type1_payload) + (-2))) = 0;
         *((s32 *) (((u8 *) type1_payload) + 0)) = 0;
-        type1_payload += 8;
         record += 8;
     }
     while (next_type1_count < 4);
     type3_count = 0;
     record_kind = 3;
-    type3_payload = record + 4;
     do {
+        type3_payload = record + 4;
         next_type3_count = type3_count + 1;
         type3_count = next_type3_count;
         *record = record_kind;
@@ -50,7 +49,6 @@ void func_80016EC0(void)
         *((s8 *) (((u8 *) type3_payload) + (-3))) = 0;
         *((s8 *) (((u8 *) type3_payload) + (-2))) = 0;
         *((s32 *) (((u8 *) type3_payload) + 0)) = 0;
-        type3_payload += 8;
         record += 8;
     }
     while (next_type3_count < 2);

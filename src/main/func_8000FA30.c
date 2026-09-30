@@ -26,6 +26,7 @@ void *func_80022A30(void *buffer)
     s32 second_y;
     u8 *record;
     Fields *fields;
+    Fields *fields2;
     u8 *value;
 
     record = buffer;
@@ -37,24 +38,23 @@ void *func_80022A30(void *buffer)
     address = 0x104058;
     second_x = 6;
     second_y = second_x;
-    fields = (Fields *)(record + 4);
     do {
+        fields = (Fields *)(record + 4);
         fields->x = first_x;
         fields->y = first_y;
         ((u8 *)fields)[-3] = kind;
         fields->address = address;
-        fields++;
         value = &values.bytes[value_index];
+        record[0] = *value;
+        record += 12;
+        fields2 = (Fields *)(record + 4);
+        fields2->x = second_x;
+        fields2->y = second_y;
+        ((u8 *)fields2)[-3] = kind;
+        fields2->address = address;
+        record[0] = *value;
+        record += 12;
         value_index++;
-        record[0] = *value;
-        record += 12;
-        fields->x = second_x;
-        fields->y = second_y;
-        ((u8 *)fields)[-3] = kind;
-        fields->address = address;
-        fields++;
-        record[0] = *value;
-        record += 12;
     } while (value_index < 4);
     record[-24] |= 0x80;
     return record;

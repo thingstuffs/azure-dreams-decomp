@@ -43,8 +43,8 @@ void *func_800242D8(u8 *packet, u32 x, u32 y) {
     half_x = (s32) ((x >> 0x1F) + x) >> 1;
     x = (s32) ((y >> 0x1F) + y) >> 1;
     packet_tags = D_80027FD0;
-    field_cursor = packet + 0xB;
     do {
+        field_cursor = packet + 0xB;
         table_entry = (u8 *) (packet_index + (s32) packet_tags);
         packet_index += 1;
         (*(s8 *)((u8 *)field_cursor + -0xA)) = opcode;
@@ -54,7 +54,6 @@ void *func_800242D8(u8 *packet, u32 x, u32 y) {
         (*(s32 *)((u8 *)field_cursor + 9)) = dark_color;
         ((S_800242D8_1_pre *)field_cursor)[-1].unk_00 = half_x;
         ((S_800242D8_1 *)field_cursor)->unk_00 = x;
-        field_cursor += 0x18;
         *packet = *table_entry;
         packet += 0x18;
     } while (packet_index < 4);
