@@ -62,7 +62,7 @@ typedef struct S_800847D0 {
 extern S_800847D0 D_800847D0;
 extern S_80084858 D_80084858;
 extern S_800848F8 D_800848F8;
-extern s32 D_80084850;
+extern s32 D_80084850[];
 
 extern void func_80055990(void *a0);
 extern void func_800552C8(void);
@@ -92,7 +92,7 @@ void func_800559B4(void) {
     volumeScale[1] = 0x7FFF;
     volumeScale[2] = 0x7FFF;
 
-    D_80084850 = 0;
+    D_80084850[0] = 0;
     func_80055990(&D_800848F8);
 
     func_80055990(&D_80084858);

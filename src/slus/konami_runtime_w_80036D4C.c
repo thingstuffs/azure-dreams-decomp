@@ -55,15 +55,15 @@ M2C_UNK func_800350B0();                 /* extern */
 M2C_UNK func_80036C7C(); /* extern */
 void *func_8003FF2C(); /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_8006A958;
-extern M2C_UNK D_8006A964;
-extern M2C_UNK D_8006A970;
-extern M2C_UNK D_80082B50;
-extern M2C_UNK D_80082B60;
-extern M2C_UNK D_80082B70;
-extern M2C_UNK D_80082BC0;
-extern M2C_UNK func_80033D54;
-extern M2C_UNK func_80036F24;
+extern u8 D_8006A958[];
+extern u8 D_8006A964[];
+extern u8 D_8006A970[];
+extern u8 D_80082B50[];
+extern u8 D_80082B60[];
+extern u8 D_80082B70[];
+extern u8 D_80082BC0[];
+void func_80033D54();
+void func_80036F24();
 
 /* Initializes and links a runtime node, then sets its record, state, and display data. */
 void func_80036D4C(s32 node_addr, Rec_D_80081FDC *record, s32 *config, s16 initial_mode, s32 initial_value,

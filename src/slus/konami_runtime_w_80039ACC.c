@@ -11,7 +11,7 @@ typedef struct S_80039ACC_0 {
 } S_80039ACC_0;   /* arg0 in func_80039ACC */
 
 
-extern M2C_UNK func_80039AE8;
+void func_80039AE8();
 
 /* Set the event-script continuation and decrement its counter. */
 void func_80039ACC(S_80039ACC_0 *script) {

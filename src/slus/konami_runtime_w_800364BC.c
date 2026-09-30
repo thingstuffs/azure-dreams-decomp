@@ -22,7 +22,7 @@ typedef struct S_800364BC_0 {
 } S_800364BC_0;   /* arg0 in func_800364BC */
 
 
-extern M2C_UNK func_80036154;
+void func_80036154();
 
 /* If the flag at offset 0x51 is set, marks the linked state and selects func_80036154. */
 void func_800364BC(S_800364BC_0 *state) {

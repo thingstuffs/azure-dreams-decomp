@@ -25,7 +25,7 @@ typedef struct S_80036880_0 {
 
 
 M2C_UNK SD_Call();                     /* extern */
-extern M2C_UNK func_80036484;
+void func_80036484();
 
 /* Save the object's flags, install state 0x11 and its handler, and set flag 0x80. */
 void func_80036880(S_80036880_0 *object) {

@@ -6,10 +6,7 @@ typedef struct Node {
     unsigned short field_1E; /* 0x1E */
 } Node;
 
-extern struct {
-    Node *head;
-    int pad[2];
-} D_80081498;
+extern Node *D_80081498;
 
 extern void func_80044A50(Node *a0);
 extern void func_8003FFF0(Node *a0);
@@ -21,7 +18,7 @@ void func_800401FC(void)
     Node *node;
     Node *next;
 
-    node = D_80081498.head;
+    node = D_80081498;
     if (node != 0) {
         do {
             next = node->next;

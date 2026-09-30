@@ -9,10 +9,7 @@ typedef struct S_8003FE78 {
     u16 flags;
 } S_8003FE78;
 
-extern struct {
-    S_8003FE78 *head;
-    int pad[2];
-} D_80081498;
+extern S_8003FE78 *D_80081498;
 
 extern struct {
     int pad[2];
@@ -39,7 +36,7 @@ void *func_8003FE78(s32 flags_or_addr, S_8003FE78 *buffer, s16 word_count)
     node = buffer;
     func_8003DB4C((int *)flags_or_addr, word_count);
     old_head = D_80081490.active_head;
-    D_80081498.head = node;
+    D_80081498 = node;
     node->prev = 0;
     node->next = old_head;
     if (old_head != 0) {

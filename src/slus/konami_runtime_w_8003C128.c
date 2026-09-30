@@ -12,8 +12,8 @@ typedef struct S_8003C128_0 {
 
 
 void *func_8003FE78();   /* extern */
-extern M2C_UNK D_80082D38;
-extern M2C_UNK func_8003C3B4;
+extern u8 D_80082D38[];
+void func_8003C3B4();
 
 /* Create an object, set its callback, and clear its state. */
 void func_8003C128(void) {

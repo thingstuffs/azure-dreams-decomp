@@ -14,8 +14,8 @@ typedef struct S_80081490 {
 } S_80081490;
 
 extern struct { u16 flags; u8 pad[8]; } D_80013714;
-extern struct { S_80081490 *head; s32 pad[2]; } D_80081490;   /* freelist head */
-extern struct { S_80081490 *head; s32 pad[2]; } D_80081498;   /* active list head */
+extern S_80081490 *D_80081490;   /* freelist head */
+extern S_80081490 *D_80081498;   /* active list head */
 
 extern void func_8003DB4C(void *p, s32 n);
 extern void *func_8003FB98(s32 a0, void *a1);
@@ -27,9 +27,9 @@ void *func_8003FC64(s32 flags)
     S_80081490 *free_head;
     S_80081490 *active_head;
     u8 *buffer;
-    __typeof__(&D_80081490) freelist_ptr;
-    __typeof__(&D_80081498) active_ptr;
-    __typeof__(&D_80081498) active_ptr_early;
+    S_80081490 **freelist_ptr;
+    S_80081490 **active_ptr;
+    S_80081490 **active_ptr_early;
 
     freelist_ptr = &D_80081490;
     active_ptr_early = &D_80081498;
@@ -37,15 +37,15 @@ void *func_8003FC64(s32 flags)
         return 0;
     }
 
-    free_head = freelist_ptr->head;
+    free_head = *freelist_ptr;
     if (free_head != 0) {
         node = free_head;
-        D_80081490.head = node->next;
+        D_80081490 = node->next;
         func_8003DB4C(node, 0x49);
 
         active_ptr = active_ptr_early;
-        active_head = active_ptr->head;
-        D_80081498.head = node;
+        active_head = *active_ptr;
+        D_80081498 = node;
         node->next = active_head;
         if (active_head != 0) {
             active_head->prev = node;

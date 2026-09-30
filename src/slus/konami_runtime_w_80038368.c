@@ -11,7 +11,7 @@ typedef struct S_80038368_0 {
 } S_80038368_0;   /* arg0 in func_80038368 */
 
 
-extern M2C_UNK func_80038A10;
+void func_80038A10();
 
 /* Decrements the countdown and switches the handler when the signed count reaches zero or below. */
 void func_80038368(S_80038368_0 *state) {

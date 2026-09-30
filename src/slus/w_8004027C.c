@@ -22,16 +22,11 @@ typedef struct S_8004027C_vec {
     s32 vz;
 } S_8004027C_vec;
 
-/* D_80081498 is accessed via %hi/%lo, so its containing symbol must be
- * larger than the -G8 small-data threshold; pad it out. */
-extern struct {
-    Node *head;
-    int pad[2];
-} D_80081498;
+extern Node *D_80081498;
 
-/* Add velocity to position for each node in D_80081498.head with flag 0x8 set. */
+/* Add velocity to position for each node in D_80081498 with flag 0x8 set. */
 void func_8004027C(void) {
-    Node *node = D_80081498.head;
+    Node *node = D_80081498;
 
     if (node != 0) {
         do {

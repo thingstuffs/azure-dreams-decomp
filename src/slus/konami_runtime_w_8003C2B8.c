@@ -12,7 +12,7 @@ typedef struct S_8003C2B8_0_pre {
 
 M2C_UNK func_80033D08();                   /* extern */
 M2C_UNK func_8003C0C0();              /* extern */
-extern M2C_UNK D_80082D58;
+extern u8 D_80082D58[];
 
 /* Clears D_80082D58 and processes it using the preceding block's value. */
 void func_8003C2B8(void) {

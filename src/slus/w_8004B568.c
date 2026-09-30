@@ -5,18 +5,13 @@ typedef struct {
     s16 x, y, w, h;
 } RECT_8004B568;
 
-/* S_80081480 / S_8008148C: only field_0 (a pointer-valued word) is touched
- * here; forced oversized (>8B) so gcc/as emit %hi/%lo addressing to match
- * the target asm, following the convention already established for these
- * same globals in src/w_80043CD0.c / src/w_80041AB0.c / src/w_8004425C.c. */
+/* D_80081480 / D_8008148C: pointer-valued words (retail neighbours D_80081485 / D_80081490 bound them). */
 typedef struct {
     s32 field_0;
-    s8 pad[8];
 } S_80081480_8004B568;
 
 typedef struct {
     s32 field_0;
-    s8 pad[8];
 } S_8008148C_8004B568;
 
 extern S_80081480_8004B568 D_80081480;

@@ -25,16 +25,16 @@ typedef struct S_80036154_0 {
 
 
 M2C_UNK func_80036988();              /* extern */
-extern M2C_UNK func_80036210;
-extern M2C_UNK func_800362D0;
-extern M2C_UNK func_800364EC;
-extern M2C_UNK func_8003666C;
-extern M2C_UNK func_800368D0;
-extern M2C_UNK func_80038478;
-extern M2C_UNK func_80038588;
-extern M2C_UNK func_800385E8;
-extern M2C_UNK func_80038648;
-extern M2C_UNK func_80038A00;
+void func_80036210();
+void func_800362D0();
+void func_800364EC();
+void func_8003666C();
+void func_800368D0();
+void func_80038478();
+void func_80038588();
+void func_800385E8();
+void func_80038648();
+void func_80038A00();
 
 /* Selects a handler from the linked object, initializes its data, and sets its flag. */
 void func_80036154(void *object) {

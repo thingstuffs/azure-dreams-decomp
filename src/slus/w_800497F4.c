@@ -1,12 +1,8 @@
 #include "common.h"
 
-/* D_80080B54: >8-byte global accessed via %hi/%lo (siblings initSubRecordPair /
- * func_8004CD28 pass &D_80080B54 as a pointer arg, so the real struct is
- * larger than what this function touches). This function only reads the
- * first 4 bytes as a packed CVECTOR-style color word (r,g,b,cd). */
+/* D_80080B54: 4-byte packed CVECTOR-style color word (r,g,b,cd); D_80080B58 follows. */
 typedef struct S_80080B54 {
     s32 color; /* offset 0x0: packed r,g,b,cd read/written as one word */
-    u8 pad[8]; /* real struct is bigger; not accessed here */
 } S_80080B54;
 
 extern S_80080B54 D_80080B54;

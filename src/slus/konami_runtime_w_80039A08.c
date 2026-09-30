@@ -14,7 +14,7 @@ typedef struct S_80039A08_0 {
 s32 func_80039884();                          /* extern */
 M2C_UNK SD_Call();                     /* extern */
 s32 func_80053EF0();                         /* extern */
-extern M2C_UNK func_800389B4;
+void func_800389B4();
 
 /* Rewind a gated script or select its next handler according to runtime status. */
 void func_80039A08(S_80039A08_0 *state) {
