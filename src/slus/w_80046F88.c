@@ -23,50 +23,25 @@ typedef struct S_80046F88 {
 s32 func_80046F88(void *object_addr)
 {
     S_80046F88 *obj = (S_80046F88 *)object_addr;
-            /* delta must live in $a3; counter entry_index takes $a2. Guarded pin for PC port. */
-    register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    s32 addr_or_count;
-    s32 ptr_value;
+    s32 delta;
     s32 entry_index;
     s32 *cursor;
-    s32 *pair_ptr;
 
     delta = 0;
     if (object_addr != obj->anchor) {
         delta = (s32)object_addr - (s32)obj->anchor;
-        ptr_value = (s32)obj->arr;
-        addr_or_count = obj->val14;
-        entry_index = 0;
         obj->anchor = object_addr;
-        ptr_value = ptr_value + delta;
-        obj->arr = (s32 *)ptr_value;
-        ptr_value = (s32)obj->end;
+        obj->arr = (s32 *)((s32)obj->arr + delta);
+        obj->end = (s32 *)((s32)obj->end + delta);
+        obj->val0C += delta;
+        obj->val14 += delta;
+        obj->val1C += delta;
         cursor = obj->arr;
-        ptr_value = ptr_value + delta;
-        obj->end = (s32 *)ptr_value;
-        ptr_value = obj->val0C;
-        addr_or_count = addr_or_count + delta;
-        obj->val14 = addr_or_count;
-        ptr_value = ptr_value + delta;
-        obj->val0C = ptr_value;
-        ptr_value = obj->val1C;
-        addr_or_count = obj->count;
-        ptr_value = ptr_value + delta;
-        obj->val1C = ptr_value;
-        if (addr_or_count > 0) {
-            do {
-                entry_index++;
-                *cursor += delta;
-                cursor++;
-            } while (entry_index < obj->count);
+        for (entry_index = 0; entry_index < obj->count; entry_index++) {
+            *cursor++ += delta;
         }
-        if ((u32)cursor < (u32)obj->end) {
-            pair_ptr = cursor + 1;
-            do {
-                cursor += 2;
-                *pair_ptr += delta;
-                pair_ptr += 2;
-            } while ((u32)cursor < (u32)obj->end);
+        for (; (u32)cursor < (u32)obj->end; cursor += 2) {
+            cursor[1] += delta;
         }
     }
     return delta;

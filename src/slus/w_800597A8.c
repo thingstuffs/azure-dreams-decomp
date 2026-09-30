@@ -12,31 +12,24 @@ typedef struct PlaybackState {
 extern s32 func_800588C8(s32);
 extern u32 func_80058ABC(PlaybackState *);
 
+/* Stores the position the playback advances to after one step. */
+static inline void playback_set_next(PlaybackState *state, s32 position, s32 step)
+{
+    state->next_position = position + step;
+}
+
 /* Updates the playback position and next position, returning 1 if playback has ended. */
 s32 func_800597A8(PlaybackState *state)
 {
     s32 updated_position;
-    u32 step;
-    register s32 position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    s32 next_position;
-    register u32 step_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     updated_position = func_800588C8(state->position);
     state->position = updated_position;
     if (updated_position == -1) {
         return 1;
     }
-
-    step_value = func_80058ABC(state);
-    state->step = step_value;
-    ASM_KEEP(step_value);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    step = step_value;
-    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    position = state->position;
-    next_position = position;
-    ASM_KEEP_NV(next_position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    next_position += step;
-    state->previous_position = position;
-    state->next_position = next_position;
+    state->step = func_80058ABC(state);
+    state->previous_position = state->position;
+    playback_set_next(state, state->position, state->step);
     return 0;
 }
