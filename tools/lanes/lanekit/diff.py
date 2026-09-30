@@ -63,10 +63,11 @@ def text_of(arg, row, lane):
 
 
 def run(row, ref_text, cand_text, ctx=3, ref_name="pinned", cand_name="candidate", listing=None):
-    """(diff lines or None, distance).  `listing(row, text)` defaults to `screen.compile_s`."""
+    """(diff lines or None, distance).  `listing(row, text)` defaults to `variant_screen.row_listing`
+    (`screen.compile_s`, with a slus module / partitioned row compiled in its module context)."""
     if listing is None:
         kitlib.add_paths()
-        from screen import compile_s as listing                         # noqa: E402
+        from variant_screen import row_listing as listing               # noqa: E402
     lines = render(listing(row, ref_text), listing(row, cand_text), ctx, ref_name, cand_name)
     return lines, distance(lines)
 

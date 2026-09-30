@@ -31,11 +31,65 @@ from pin_census import sites_of                                        # noqa: E
 from pin_sites import erase_many                                       # noqa: E402
 import screen                                                          # noqa: E402
 from slus_module_context import compilation_source, fingerprint, require_individual_recipe  # noqa: E402
+import slus_module_context                                             # noqa: E402
+
+
+def recipe_cfg(recipe):
+    """A physical unit's recipe (`{"ccver", "ccflags"}`) as a cfg label `common.parse_cfg` reads."""
+    return (recipe["ccver"] + " " + (recipe.get("ccflags") or "")).strip()
+
+
+def partitioned(row):
+    """True for a slus row inside a partition context (tools/build/slus_partitions.py): its functions are
+    compiled in one or more physical streams (a module owner and/or a parent's remainder), never alone."""
+    return row.get("kind") == "slus" and bool(slus_module_context.partition_context(row)[0])
+
+
+def screen_sources(row, candidate, outdir):
+    """[(physical source path, cfg)] that `candidate` (the row's text, a file) is compiled in for a listing or a
+    `-da` dump.  An ordinary or module slus row: one source (`compilation_source`, the module with its siblings)
+    at the row's cfg.  A PARTITIONED slus row: `compilation_sources` - the plural context `tools/verify.py`
+    builds for it - one source per physical unit that holds the row's functions, each at the unit's own recipe
+    (r81_opus_kitgap: `compilation_source` raised `PartitionError: ... requires plural compilation` and lab.py /
+    diff.py / why.py could not screen slus/w_8004DF8C, w_8003E758, w_8003F368)."""
+    if partitioned(row):
+        units = slus_module_context.compilation_sources(row, candidate, outdir)
+        out = [(Path(u["cfile"]), recipe_cfg(u["recipe"])) for u in units if u.get("functions")]
+        if not out:
+            raise RuntimeError("%s: partition context has no unit holding the row's functions" % row["id"])
+        return out
+    return [(Path(compilation_source(row, candidate, outdir)), row["cfg"])]
+
+
+def context_listing(row, text):
+    """The normalised listing of `text` compiled as a slus MODULE or PARTITIONED row: in its physical source(s)
+    (`screen_sources`), each unit's listing concatenated in unit order.  None if a unit does not build."""
+    with tempfile.TemporaryDirectory(prefix="module_screen_") as td:
+        candidate = Path(td) / Path(row["c_path"]).name
+        candidate.write_text(text)
+        listing = []
+        for source, cfg in screen_sources(row, candidate, td):
+            part = screen.compile_s(dict(row, cfg=cfg), source.read_text())
+            if part is None:
+                return None
+            listing.extend(part)
+        return listing
+
+
+def row_listing(row, text):
+    """`screen.compile_s` for any row: an ordinary row compiles alone, a slus module / partitioned row in its
+    context (diff.py compiled every slus row alone: the -G32 cd_command_state members did not build at all)."""
+    if row.get("kind") == "slus" and fingerprint(row) is not None:
+        return context_listing(row, text)
+    return screen.compile_s(row, text)
 
 
 class Screen:
     def __init__(self, row, target_text=None, cfg=None):
         if cfg and cfg != row["cfg"]:
+            if partitioned(row):
+                raise ValueError("%s: partitioned slus row - per-row recipe trials are not supported "
+                                 "(its recipe is the partition unit's; change it in config/ and gate the image)" % row["id"])
             require_individual_recipe(row)
         self.row = dict(row, cfg=cfg) if cfg else dict(row)
         self.pinned = target_text if target_text is not None else clean_path(row).read_text(errors="replace")
@@ -48,14 +102,10 @@ class Screen:
             return screen.compile_s(self.row, text)
         if fingerprint(self.row) != self.context_fingerprint:
             raise RuntimeError("module context changed during listing screen; rebuild the target")
-        with tempfile.TemporaryDirectory(prefix="module_screen_") as td:
-            candidate = Path(td) / Path(self.row["c_path"]).name
-            candidate.write_text(text)
-            source = compilation_source(self.row, candidate, td)
-            listing = screen.compile_s(self.row, source.read_text())
-            if fingerprint(self.row) != self.context_fingerprint:
-                raise RuntimeError("module context changed during listing screen; rebuild the target")
-            return listing
+        listing = context_listing(self.row, text)
+        if fingerprint(self.row) != self.context_fingerprint:
+            raise RuntimeError("module context changed during listing screen; rebuild the target")
+        return listing
 
     def listing(self, text):
         self.n += 1

@@ -54,13 +54,26 @@ for line in open(f"{D}/cells.jsonl"):
     bad = landing_refusal(cand, cur, f"src/{rid}.c", row=row)
     if bad:
         print("skip landing refusal", rid, bad[:100]); continue
-    set_row_cfg(rid, e["to"], note=f"{tag}: coherence repair - new text exact at the module recipe ({e.get('coherence')}); charter clause 4b")
+    # lab.py stage-cell writes kind "recipe-switch" when rule 2 holds (the pinned text is exact at the target too)
+    kind = e.get("kind") if e.get("kind") in ("coherence", "recipe-switch") else "coherence"
+    if kind == "recipe-switch":     # re-check rule 2 here: the current text must be exact at the target as well
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / f"{n}.c"; f.write_text(cur)
+            vc = verify(dict(row, cfg=e["to"], cell=parse_cfg(e["to"])[0], flags=" ".join(parse_cfg(e["to"])[1])), f, include_root=Path("include").resolve())
+        if not vc.get("exact"):
+            print("rule 2 does not hold at landing (current text total %s at %s): kind coherence" % (vc.get("total"), e["to"]), rid)
+            kind = "coherence"
+    set_row_cfg(rid, e["to"], note=(f"{tag}: coherence repair - new text exact at the module recipe ({e.get('coherence')}); charter clause 4b"
+                                    if kind == "coherence" else
+                                    f"{tag}: recipe switch - byte-neutral, the pinned text is exact at the target too ({e.get('coherence')}); rule 2"))
     switched.append(rid)
-    trades.append({"round": round_, "date": date_, "id": rid, "cfg_from": row["cfg"], "cfg_to": e["to"], "kind": "coherence",
+    trades.append({"round": round_, "date": date_, "id": rid, "cfg_from": row["cfg"], "cfg_to": e["to"], "kind": kind,
                    "how": e.get("coherence"), "pins_before": len(sites_of(cur)), "pins_after": len(sites_of(cand)),
                    "source_sha_before": base, "candidate_sha": sha_text(cand),
-                   "why": "recipe deviation repaid: the candidate is byte-exact at the module recipe the module's pin-free rows prove; "
-                          "current text was NOT exact there (rule 2 waived by rationale, owner 2026-09-18)"})
+                   **({"rule2": kind == "recipe-switch"} if "rule2" in e else {}),
+                   "why": ("recipe deviation repaid: the candidate is byte-exact at the module recipe the module's pin-free rows prove; "
+                           "current text was NOT exact there (rule 2 waived by rationale, owner 2026-09-18)") if kind == "coherence" else
+                          "byte-neutral recipe switch: the current (pinned) text is exact at the target too (rule 2 holds)"})
     print("cfg", rid, row["cfg"], "->", e["to"])
 with open("ledger/recipe_trades.jsonl", "a") as f:
     for t in trades: f.write(json.dumps(t) + "\n")
@@ -78,7 +91,7 @@ by = {r["id"]: r for r in rows()}
 applied = {r["id"] for r in read_jsonl(LEDGER / "sweeps" / f"coherence_{tag}.jsonl") if r.get("outcome") == "applied"}
 for rid in [l.strip() for l in open(f"{D}/switched.txt") if l.strip()]:
     if rid not in applied:
-        old = next(json.loads(l)["cfg_from"] for l in reversed(open("ledger/recipe_trades.jsonl").read().splitlines()) if json.loads(l)["id"] == rid and json.loads(l).get("kind") == "coherence")
+        old = next(json.loads(l)["cfg_from"] for l in reversed(open("ledger/recipe_trades.jsonl").read().splitlines()) if json.loads(l)["id"] == rid and json.loads(l).get("kind") in ("coherence", "recipe-switch"))
         set_row_cfg(rid, old, note=f"{tag}: coherence candidate did not land; recipe restored")
         print("RESTORED recipe of", rid, "->", old)
 print("switched", len(open(f"{D}/switched.txt").read().split()), "applied", len(applied))

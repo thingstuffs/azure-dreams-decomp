@@ -61,8 +61,10 @@ unchanged (admissible vs the lane's base/ copy), so a `--base` result stages exa
 STAGE-CELL.  `stage-cell <row> cand.c --cfg CFG --note "mechanism"` is `cellscore`'s hand-over done for
 you: when `cand.c` scores exact at CFG (and is admissible vs base/) it is copied to
 `out/<container>/<file>.c` with the base's `.base_sha` and one line
-`{"id","to","coherence","pins_before","pins_after"}` goes to `cells.jsonl` (what
-`tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id+cfg replaces its line).  It
+`{"id","to","coherence","pins_before","pins_after","rule2","kind"}` goes to `cells.jsonl` (what
+`tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id+cfg replaces its line).  The pinned base is
+scored at CFG too: `kind` is `recipe-switch` when it is exact there (rule 2, byte-neutral), else `coherence`, and
+`land_coherence.sh` records the trade under that kind (re-checking rule 2 at landing).  It
 refuses, exit 1, when the candidate is not exact at CFG or not admissible.  Nothing else is written.
 
 CAP.  More than 60 variants for one row needs `--more`.  One lane produced 209 probe files for two
@@ -348,8 +350,8 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
         rec["rule2"] = holds
         out("  pinned text    : %s at %s -> rule 2 %s" % (
             "EXACT" if holds else "not exact (total %s)" % vb.get("total"), cfg,
-            "HOLDS: byte-neutral switch; the trade's kind is recipe-switch / pin-for-flag, not coherence "
-            "(land_coherence.sh stamps kind \"coherence\" - correct the ledger line by hand)" if holds else
+            "HOLDS: byte-neutral switch; the trade's kind is recipe-switch, not coherence "
+            "(`stage-cell` writes kind \"recipe-switch\" into cells.jsonl and land_coherence.sh records it)" if holds else
             "does NOT hold: a genuine coherence trade (charter clause 4b)"))
     cont, fn = row["container"], Path(row["c_path"]).name
     try:
@@ -359,7 +361,8 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
     mech = "<mechanism: which pass / cell signature does what at %s>; %s" % (
         cfg, "rule 2 holds (pinned text also exact at target: byte-neutral)" if holds else
         "rule 2 does not hold (pinned text not exact at target)" if holds is False else "rule 2 not checked")
-    line = json.dumps({"id": row["id"], "to": cfg, "coherence": mech})
+    line = json.dumps(dict({"id": row["id"], "to": cfg, "coherence": mech},
+                           **({"rule2": holds, "kind": cell_kind(holds)} if holds is not None else {})))
     out("  EXACT at %s.  Hand-over for the orchestrator (the lane does not run these):" % cfg)
     out("    1. the candidate staged as out/%s/%s with its .base_sha (the pinned base's sha)" % (cont, fn))
     out("    2. this line in %s/cells.jsonl (fill in the mechanism):" % lane)
@@ -371,10 +374,20 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
 
 # ---------------------------------------------------------------------------------- stage-cell
 
-def cells_record(row_id, cfg, note, pins_before, pins_after):
+def cell_kind(rule2):
+    """The trade kind of a recipe move: `recipe-switch` when rule 2 holds (the PINNED text is exact at the target
+    too: byte-neutral), else `coherence` (charter clause 4b).  None (not checked) -> coherence."""
+    return "recipe-switch" if rule2 else "coherence"
+
+
+def cells_record(row_id, cfg, note, pins_before, pins_after, rule2=None):
     """The `cells.jsonl` line `tools/fidelity/land_recipe_move.py` reads (its docstring: `id`, `to`, `coherence`,
-    `pins_before/after`)."""
-    return {"id": row_id, "to": cfg, "coherence": note, "pins_before": pins_before, "pins_after": pins_after}
+    `pins_before/after`; `rule2` is carried into the trade) and `tools/lanes/land_coherence.sh` stamps its trade
+    `kind` from (r81_opus_kitgap: it always stamped "coherence", and the orchestrator hand-corrected rule-2 lines)."""
+    rec = {"id": row_id, "to": cfg, "coherence": note, "pins_before": pins_before, "pins_after": pins_after}
+    if rule2 is not None:
+        rec.update(rule2=bool(rule2), kind=cell_kind(rule2))
+    return rec
 
 
 def cells_write(path, rec):
@@ -401,7 +414,8 @@ def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", ve
     if not note or not note.strip():
         raise SystemExit('lab: stage-cell needs --note "mechanism / coherence argument"')
     lane = Path(lane)
-    rec = cellscore(row, cand, cfg, lane, name=name, base=base, verify=verify, rule2=False, out=lambda *a: None)
+    # rule 2 is checked (the pinned base scored at `cfg` too) so the cells line carries the trade's kind
+    rec = cellscore(row, cand, cfg, lane, name=name, base=base, verify=verify, rule2=True, out=lambda *a: None)
     rec["kind"] = "stage-cell"
     sc = rec["score"]
     if not sc.get("exact"):
@@ -418,7 +432,8 @@ def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", ve
         rec["refused"] = "not staged (see the message above)"
         out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
         return rec
-    line = cells_record(row["id"], cfg, note.strip(), len(kitlib.sites(base)), len(kitlib.sites(cand)))
+    line = cells_record(row["id"], cfg, note.strip(), len(kitlib.sites(base)), len(kitlib.sites(cand)),
+                        rule2=rec.get("rule2"))
     cells_write(lane / "cells.jsonl", line)
     rec.update(staged=staged, cells_line=json.dumps(line))
     out("stage-cell %s  exact at %s (registered %s unchanged)" % (row["id"], cfg, row["cfg"]))

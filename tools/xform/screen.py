@@ -29,6 +29,21 @@ renumbered by order of first appearance.  A listing with no numeric local label 
 as it did before this change.  The no-op `move $r,$r` is dropped as well (final.c never emits one;
 the rule is there so an insn template that does cannot shift the comparison).
 
+DELAY SLOTS AND `la` (2026-09-30, r81_opus_kitgap).  cc1 fills branch delay slots itself (dbr) and prints a
+filled slot inside `.set noreorder` / `.set reorder`; an unfilled branch stays in reorder mode and the assembler
+puts a `nop` after it.  Dropping every `.set` line made `beq; move` (move IN the slot) and `beq` + `move` after it
+(nop in the slot, move after) the same listing - distance 0 at a byte total of 7 on dungeon/func_800C379C
+(2.91.66).  Every cell does this (2.6.3 .. 2.95.2 all print noreorder regions round filled slots), so with
+`keep_reorder` every branch/jump cc1 printed inside a noreorder region is marked `<insn> [nr]` (its next line IS
+its delay slot, filled by cc1); a branch in reorder mode stays unmarked (the assembler owns its slot).  The `.set`
+lines themselves are still dropped: where a region ENDS is not a byte fact (the `abssi2` template closes its region
+before the `subu`, a hand-written negate after the label - byte-identical; keeping the raw directives gave 9 false
+distances in 690 byte-exact pairs, all this shape, the branch marker 0).  With `la_token` a cc1 `la $r,SYM` is its OWN token (the
+address still normalised) instead of the `lui/addiu` pair: an unsplittable small-data `la` cannot have its `lui`
+scheduled or put into a slot, a split HIGH/LO_SUM pair can (r80_opus_lafill).  Defaults: `REORDER_CELLS` /
+`LA_TOKEN` below (measured on byte-exact pairs, see the lane report); `compile_s(..., keep_reorder=, la_token=)`
+overrides them per call, and `SCREEN_KEEP_REORDER=0|1`, `SCREEN_LA_TOKEN=0|1` per process.
+
 Assembler-side pins are invisible here: erasing `ASM_SCHED_BARRIER`, `ASM_JALDELAY_PIN`,
 `ASM_TAILSLOT_PIN` and the like can leave cc1's listing identical while maspsx's output changes (29
 such sites in t26), which costs one scorer run and nothing else.
@@ -36,7 +51,7 @@ such sites in t26), which costs one scorer run and nothing else.
 import difflib, os, re, subprocess, sys, tempfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py").is_file())
 sys.path.insert(0, str(ROOT / "tools"))
 from common import parse_cfg
 
@@ -66,18 +81,52 @@ def _listing(row, text):
         return (d / "f.s").read_text(errors="replace").splitlines()
 
 
-def compile_s(row, text):
+# cells whose listings mark noreorder (cc1-filled) branches by default ("*" = every cell) - measured on 4,669
+# byte-exact lab_log pairs over all seven cells: 0 false distances; 63 of 71 listing-0 inexact pairs now > 0
+REORDER_CELLS = {"*"}
+# `la` as its own token: OFF by default - 6 false distances in the same 4,669 pairs (r78's byte-exact `la $8,SYM`
+# vs `lui/addiu`) and 0 inexact pairs caught that the branch mark does not already catch (maspsx/ASPSX expand
+# every `la` to `lui/addiu`, so the two differ in bytes only through the delay slot)
+LA_TOKEN = False
+# part of any persistent cache key over normalised listings (pin_search_engine's sqlite cache)
+NORMALISE_VERSION = "r81-nr1"
+
+
+def _env_flag(name):
+    v = os.environ.get(name)
+    return None if v in (None, "") else v not in ("0", "no", "false")
+
+
+def options_for(row, keep_reorder=None, la_token=None):
+    """(keep_reorder, la_token) for `row`: the explicit argument, else the environment, else the default."""
+    if keep_reorder is None:
+        keep_reorder = _env_flag("SCREEN_KEEP_REORDER")
+    if keep_reorder is None:
+        keep_reorder = "*" in REORDER_CELLS or parse_cfg(row["cfg"])[0] in REORDER_CELLS
+    if la_token is None:
+        la_token = _env_flag("SCREEN_LA_TOKEN")
+    if la_token is None:
+        la_token = LA_TOKEN
+    return keep_reorder, la_token
+
+
+def compile_s(row, text, keep_reorder=None, la_token=None):
     """Normalised cc1 assembly lines for `text` compiled as `row` (None if it does not build)."""
     src = _listing(row, text)
-    return None if src is None else normalise(src)
+    kr, lt = options_for(row, keep_reorder, la_token)
+    return None if src is None else normalise(src, keep_reorder=kr, la_token=lt)
 
 
 _NOOP_MOVE = re.compile(r"^move (\$\w+),\1$")
 
 
-def normalise(src):
+_BRANCH = re.compile(r"^(?:b|bal|beq|bne|beqz|bnez|bgez|bgtz|blez|bltz|bgezal|bltzal|beql|bnel|bgezl|bgtzl|blezl|bltzl"
+                     r"|j|jal|jr|jalr)\s")
+
+
+def normalise(src, keep_reorder=False, la_token=False):
     """The normalisation of a raw cc1 listing (see the module docstring)."""
-    out, inside = [], False
+    out, inside, noreorder = [], False, False
     for ln in src:
         s = ln.split("#")[0].strip()
         if s.startswith(".ent"):
@@ -87,12 +136,20 @@ def normalise(src):
         if s.startswith(".end"):
             inside = False
             continue
-        if not inside or not s or s.startswith((".loc", ".frame", ".mask", ".fmask", ".set")):
+        if not inside or not s:
             continue
         s = re.sub(r"\s+", " ", s)
+        if s == ".set noreorder":
+            noreorder = True
+        elif s == ".set reorder":
+            noreorder = False
+        if s.startswith((".loc", ".frame", ".mask", ".fmask", ".set")):
+            continue
         if _NOOP_MOVE.match(s):
             continue
-        out.extend(_addr(x) for x in _expand(s))
+        if keep_reorder and noreorder and _BRANCH.match(s):
+            s += " [nr]"
+        out.extend(_addr(x) for x in _expand(s, la_token))
     return _labels(out)
 
 
@@ -100,11 +157,17 @@ _LA = re.compile(r"^la (\$\w+),([A-Za-z_][\w.]*(?:\s*[+-]\s*(?:0x[0-9A-Fa-f]+|\d
 _UMEM = re.compile(r"^(ulw|usw) (\$\w+),(-?\d+)\((\$\w+)\)$")
 
 
-def _expand(s):
+def _expand(s, la_token=False):
     """Assembler macros printed by cc1 where another text prints the expansion (round 78: r78_opus_b2's
     packed copy listed `ulw/usw` against the pinned `lwl/lwr/swl/swr`, and c8/sp8's `la $8,SYM` against
     `lui/addiu`; both were byte-exact but screened at distance 3-12, so lab.py never scored them)."""
     m = _LA.match(s)
+    if m and la_token:
+        r, sym = m.group(1), m.group(2).replace(" ", "")
+        a = re.match(r"^D_([0-9A-Fa-f]{8})([+-](?:0x[0-9A-Fa-f]+|\d+))?$", sym)
+        if a:        # the symbol's name IS its address: one spelling per address, as for %hi/%lo
+            sym = "0x%08X" % ((int(a.group(1), 16) + (int(a.group(2), 0) if a.group(2) else 0)) & 0xFFFFFFFF)
+        return ["la %s,%s" % (r, sym)]
     if m:
         r, sym = m.group(1), m.group(2).replace(" ", "")
         return ["lui %s,%%hi(%s)" % (r, sym), "addiu %s,%s,%%lo(%s)" % (r, r, sym)]

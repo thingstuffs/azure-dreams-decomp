@@ -17,6 +17,7 @@ from pin_census import sites_of, unscored_text
 from census import _fakedep, _dowhile0
 from xform import t27_beam as old
 from xform.screen import compile_s, sdiff
+from xform import screen as _screen
 
 DEFAULTS = dict(screens=1200, verifies=12, cpu_seconds=40, group_screens=240,
                 depth=3, beam=4, fallback=2, band=30)
@@ -165,7 +166,9 @@ class Session:
         if self.stats["screened"] >= self.options["screens"]:
             raise Limit("screen-budget")
         self.stats["screened"] += 1
-        h = sha_text(self.recipe + json.dumps(row, sort_keys=True) + text)
+        # the persistent cache holds NORMALISED listings: key them by the normaliser too (r81: branch [nr] marks)
+        h = sha_text(self.recipe + json.dumps(row, sort_keys=True) + text + getattr(_screen, "NORMALISE_VERSION", "")
+                     + repr(_screen.options_for(row) if hasattr(_screen, "options_for") else ""))
         if h in self.memo:
             self.stats["cache_hits"] += 1
             return self.memo[h]

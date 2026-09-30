@@ -18,6 +18,7 @@ fingerprint may be looked up directly among the catalogue's.
 Fields
   d       `screen.sdiff` - the number of changed listing lines (None when cand does not build)
   cls     INVISIBLE   d == 0: cc1's listing cannot see the move at all
+          SLOT        only a branch's delay-slot fill differs (the ` [nr]` marks of screen.normalise, r81)
           MOVED       the same lines in another order (sorted listings equal)
           RECOLOURED  register-anonymised lines equal AND in the same order: only registers differ
           BOTH        register-anonymised MULTISETS equal, order differs (recoloured and moved)
@@ -193,14 +194,38 @@ def classify(ref, cand, d):
     return "CHANGED"
 
 
+_NR = re.compile(r" \[nr\]$")
+
+
+def strip_slot_marks(lines):
+    """A listing without `screen.normalise`'s ` [nr]` branch marks (r81_opus_kitgap: a branch cc1 printed inside
+    a noreorder region, i.e. with its delay slot filled by cc1) - exactly the pre-mark normalisation."""
+    return None if lines is None else [_NR.sub("", l) for l in lines]
+
+
 def fingerprint(ref, cand):
-    """The residue fingerprint of `cand` against `ref` (both `compile_s` listings)."""
+    """The residue fingerprint of `cand` against `ref` (both `compile_s` listings).
+
+    The ` [nr]` delay-slot marks are stripped first, so every fingerprint is what it was before the marks existed
+    (catalogue keys stay comparable), except a residue that is ONLY a slot-fill change: that was `INVISIBLE`
+    (d = 0) and is now `SLOT` with the marked distance's band."""
+    raw_ref, raw_cand = ref, cand
+    ref, cand = strip_slot_marks(ref), strip_slot_marks(cand)
     if ref is None or cand is None:
         return dict(d=None, cls="NOBUILD", band="none", shape="", regs=[], regfam=[],
                     L0="NOBUILD|none", L1="NOBUILD|none|", L2="NOBUILD|none||",
                     L1f="NOBUILD|none|")
     d = sum(1 for x in difflib.unified_diff(ref, cand, lineterm="", n=0)
             if x[:1] in "+-" and not x.startswith(("+++", "---")))
+    if d == 0 and raw_ref != raw_cand:
+        dm = sum(1 for x in difflib.unified_diff(raw_ref, raw_cand, lineterm="", n=0)
+                 if x[:1] in "+-" and not x.startswith(("+++", "---")))
+        minus, plus = _split(raw_ref, raw_cand)
+        band = band_of(dm)
+        shape = _shape(minus, plus, dm)
+        L0 = "SLOT|%s" % band
+        return dict(d=dm, cls="SLOT", band=band, shape=shape, regs=[], regfam=[], L0=L0, L1="%s|%s" % (L0, shape),
+                    L2="%s|%s|" % (L0, shape), L1f="%s|" % L0)
     cls = classify(ref, cand, d)
     minus, plus = _split(ref, cand)
     shape = _shape(minus, plus, d)

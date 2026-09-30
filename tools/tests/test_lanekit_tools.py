@@ -301,10 +301,17 @@ class TestStageCell(unittest.TestCase):
         self.assertEqual(dst.with_name(dst.name + ".base_sha").read_text(), "abc123\n")
         line = json.loads((self.lane / "cells.jsonl").read_text())
         self.assertEqual(line, {"id": ROW["id"], "to": self.CFG, "coherence": "mechanism X",
-                                "pins_before": 1, "pins_after": 0})
+                                "pins_before": 1, "pins_after": 0, "rule2": False, "kind": "coherence"})
         self.assertNotIn("refused", rec)
         self.assertEqual(rec["kind"], "stage-cell")
         self.assertEqual(rec["staged"], "out/dungeon/func_80000000.c")
+
+    def test_rule2_holding_is_staged_as_a_recipe_switch(self):
+        # r81_opus_kitgap: the pinned text exact at the target too -> kind recipe-switch, not coherence
+        rec, out = self.run_sc(FREE, {FREE, PINNED})
+        line = json.loads((self.lane / "cells.jsonl").read_text())
+        self.assertEqual((line["kind"], line["rule2"]), ("recipe-switch", True))
+        self.assertTrue(rec["rule2"])
 
     def test_not_exact_is_refused_and_writes_nothing(self):
         rec, out = self.run_sc(FREE, set())
