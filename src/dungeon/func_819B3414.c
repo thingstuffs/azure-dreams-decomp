@@ -19,7 +19,7 @@ s32 func_80024C14(void *effect_data) {
     u8 *effect;
     register u32 link_mask ASM_REG("$22") = 0x00ffffff;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 frame_scratch;
-    register u8 *next_effect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *next_effect;
 
     do {
         register void **render_globals_m ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -292,7 +292,10 @@ quad_loop:
             render_globals_m = (void **)((u8 *)effect_data);
             next_effect = *(u8 **)((u8 *)render_globals_m - 8);
         }
-    } while (next_effect != 0 && (effect_data = next_effect + 32, 1));
+        if (next_effect == 0) break;
+        next_effect += 32;
+        effect_data = next_effect;
+    } while (1);
 
     return 0;
 }
