@@ -189,7 +189,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     {
         s16 turn_index = 0;
         s16 *angle_steps = D_8006CD00;
-        do {
+        for (; turn_index < 8; turn_index++) {
             base_angle = *(s16 *)(actor + 0x2A);
 
             if ((*(u16 *)(object + 0x98)) & 2) {
@@ -224,15 +224,13 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
             }
             if (turn_index == 0) {
                 if ((*((u16 *) (((u8 *) (((s8 *)&D_80082E80.tileX))) + 0))) != (*(u16 *)(tile + 0x24))) {
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     if ((func_8009A180(actor, (*((s32 *) (((u8 *) D_800814A8) + 0x58))) + 0x20) << 16) != 0) {
                         return;
                     }
                 }
             }
 
-            turn_index++;
-        } while (turn_index < 8);
+        }
         if (turn_index >= 8) {
             *(u8 *)(actor + 0x71) &= 0x7F;
             *(u16 *)(actor + 0x46) &= 0x7FFF;
