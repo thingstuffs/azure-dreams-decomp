@@ -308,3 +308,15 @@ move insns past a volatile store); never name `$8` in C when reload rebuilds a l
   unscheduled function** (town/func_8032FE78: load-delay nops, source order): recipe facts (`-fno-strength-reduce`,
   `-fno-schedule-insns -fno-schedule-insns2`), landed as byte-neutral cell moves.
 - Open residue: `lbu; sll 24; sra 24` vs `lb` (combine folds without the volatile) - 800D1A48, 800CB068, 8187C45C.
+
+## The early constant argument - SOLVED as a rule (r80_opus_earlyconst, 2026-09-30; trace in its REPORT.md)
+Retail loads a call's CONST_INT argument (`li $4..$7,K`) early; plain C gets it late. sched1 works backwards and
+`birthing_insn_p` gives max priority to a producer whose register is live and set ONCE in the function. The constant's
+move is emitted last (calls.c), so its place depends on who is boosted:
+- **A - the li itself is boosted** (its arg register is set exactly once in the function): retail had a second set of
+  that register - usually a call written BELOW its callee's defined arity; pass the parameters through (jump2 deletes
+  the moves later). dungeon/func_800A6018 2 -> 0.
+- **B - a competitor lost its boost**: m2c reused one variable for several roles, so the insns between li and call are
+  multi-set and drop to priority 1. Give each role a FRESH single-set local, of the field's width (s16/s8) where cse
+  would otherwise merge the copy back into the parameter. dungeon/func_800ACC98 2 -> 0; p3's xxx084 family was B too.
+Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C, 8187A9A8, 807B0B3C, 819ADDB8, 800BE8D0.
