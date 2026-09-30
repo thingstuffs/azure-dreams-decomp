@@ -1776,8 +1776,8 @@ build build/src/w_8003E70C.o: cc src/w_8003E70C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003F270.o: cc src/w_8003F270.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.6.3
-  ccflags = -O1
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_8003F320.o: cc src/w_8003F320.c | tools/cc.sh tools/ccproc.py 
@@ -1796,7 +1796,7 @@ build build/src/w_8003F688.o: cc src/w_8003F688.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003F6F4.o: cc src/w_8003F6F4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.6.3
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2102,7 +2102,7 @@ build build/src/w_80042BDC_jtbl_owned.o: cc src/w_80042BDC_jtbl_owned.c | tools/
   data_piece_step =  && python3 tools/slus_rodata_trim.py --manifest config/slus_modules.json --module jtbl_80042BDC --object build/src/w_80042BDC_jtbl_owned.o
 
 build build/src/w_80043458.o: cc src/w_80043458.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.8.1
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2302,7 +2302,7 @@ build build/src/w_80046E38.o: cc src/w_80046E38.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80046F88.o: cc src/w_80046F88.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2527,7 +2527,7 @@ build build/src/w_80048B28.o: cc src/w_80048B28.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80048B8C.o: cc src/w_80048B8C.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2752,8 +2752,8 @@ build build/src/w_8004AE68.o: cc src/w_8004AE68.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004AEC4.o: cc src/w_8004AEC4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -fno-schedule-insns
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_8004AFE8.o: cc src/w_8004AFE8.c | tools/cc.sh tools/ccproc.py 
@@ -2963,8 +2963,8 @@ build build/src/w_8004D7E8.o: cc src/w_8004D7E8.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004D828.o: cc src/w_8004D828.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.95.2
-  ccflags = -fno-schedule-insns2
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_8004D880.o: cc src/w_8004D880.c | tools/cc.sh tools/ccproc.py 
@@ -3962,7 +3962,7 @@ build build/src/w_800595C0.o: cc src/w_800595C0.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800597A8.o: cc src/w_800597A8.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 

@@ -1,45 +1,26 @@
 #include "common.h"
 #include "shared/transition_slots.h"
 
+extern int abs(int);
 extern s16 func_80053428(TransitionSlot *a0);
 extern s16 func_80053604(TransitionSlot *a0);
 /* Processes type 5 and 6 entries in reverse order, clearing their type when handled. */
 void func_8003F6F4(void)
 {
     s32 entry_index;
-    u32 last_index;
-    TransitionSlot *entries;
-    TransitionSlot *entry;
-    s16 signed_type;
-    s32 type;
 
-    entry_index = 7;
-    last_index = 7;
-    entries = D_80083120;
-    ASM_KEEP_NV(entries);
-    entry = &entries[last_index];
-    do {
-        signed_type = entry->type;
-        type = (signed_type < 0) ? -signed_type : signed_type;
-        if (type != 5) {
-            if (type == 6) {
-                goto case6;
+    for (entry_index = 7; entry_index >= 0; entry_index--) {
+        switch (abs(D_80083120[entry_index].type)) {
+        case 5:
+            if (func_80053428(&D_80083120[entry_index]) != 0) {
+                D_80083120[entry_index].type = 0;
             }
-            entry--;
-            goto next;
+            break;
+        case 6:
+            if (func_80053604(&D_80083120[entry_index]) != 0) {
+                D_80083120[entry_index].type = 0;
+            }
+            break;
         }
-        if (func_80053428(entry) != 0) {
-            entry->type = 0;
-        }
-        goto handled;
-case6:
-        if (func_80053604(entry) != 0) {
-            entry->type = 0;
-        }
-handled:
-        entry--;
-next:
-        ASM_USE(entry_index);
-        entry_index--;
-    } while (entry_index >= 0);
+    }
 }
