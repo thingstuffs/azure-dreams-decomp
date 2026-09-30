@@ -60,7 +60,7 @@ extern s32 D_800FE5C0[];
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
 void func_80095C80(EntityRec *position) {
-    register s32 probe_coord ASM_REG("$3");
+    s32 probe_coord;
     struct {
         s32 x;
         s32 y;
@@ -75,14 +75,11 @@ void func_80095C80(EntityRec *position) {
     M2C_UNK *neg_xy_motion;
     s32 neg_x_pos_y_x;
     s32 neg_xy_x;
-    s32 y_step_or_side;
+    register s32 y_step_or_side ASM_REG("$5");
     s32 pos_x_hit;
-    s32 pos_xy_y;
     s32 pos_x_neg_y_y;
-    s32 neg_x_pos_y_y;
     s32 neg_y_hit;
     s32 neg_x_boundary;
-    s32 neg_xy_y;
     s32 neg_xy_boundary;
     s32 pos_xy_test;
     s32 pos_x_neg_y_test;
@@ -104,7 +101,8 @@ void func_80095C80(EntityRec *position) {
             ASM_CLOBBER("$5");
             y_step_or_side = ((S_80095C80_0 *)motion)->unk_10;
             neg_x_boundary ^= 1;
-            probe.y = probe_coord - y_step_or_side;
+            probe_coord -= y_step_or_side;
+            probe.y = probe_coord;
             probe_coord = position->z.v;
             probe.z = probe_coord;
             boundary_test = func_80095C20((void *)probe_ptr, 0);
@@ -134,14 +132,11 @@ void func_80095C80(EntityRec *position) {
             }
             probe_ptr = (M2C_UNK *)((s8 *)probe_ptr - 0x1A40);
             probe.x = position->x.v - ((S_80095C80_2 *)probe_ptr)->unk_0C;
-            pos_xy_y = position->y.v;
-            do {
-                pos_xy_test = ((S_80095C80_2 *)probe_ptr)->unk_10;
-            } while (0);
+            pos_x_neg_y_y = position->y.v;
+            pos_xy_test = ((S_80095C80_2 *)probe_ptr)->unk_10;
 
             y_step_or_side = 0;
-            ASM_KEEP_NV(y_step_or_side);
-            probe.y = pos_xy_y - pos_xy_test;
+            probe.y = pos_x_neg_y_y - pos_xy_test;
             probe.z = position->z.v - pos_xy_test;
             pos_xy_test = position->x.v < (func_80095BC0(&probe, y_step_or_side) << 0x10);
             pos_xy_test ^= 1;
@@ -206,7 +201,6 @@ void func_80095C80(EntityRec *position) {
         unsigned long motion_or_hit;
         motion_or_hit = (unsigned long)D_800FE5C0;
         if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C < 0) {
-            register s32 y_step_or_side ASM_REG("$5");
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 > 0) {
                 s32 y_test;
                 probe.x = position->x.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
@@ -220,7 +214,8 @@ void func_80095C80(EntityRec *position) {
                 motion_or_hit = neg_x_boundary << 0x10;
                 motion_or_hit = (s32)motion_or_hit < neg_x_pos_y_x;
                 motion_or_hit ^= 1;
-                probe.y = probe_coord - y_step_or_side;
+                probe_coord -= y_step_or_side;
+            probe.y = probe_coord;
                 probe_coord = position->z.v;
                 probe.z = probe_coord;
                 y_test = func_80095C20(&probe, 1, neg_x_pos_y_x);
@@ -249,14 +244,11 @@ void func_80095C80(EntityRec *position) {
                 }
                 neg_x_pos_y_motion = (M2C_UNK *)((s8 *)neg_x_pos_y_motion - 0x1A40);
                 probe.x = position->x.v - ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_0C;
-                neg_x_pos_y_y = position->y.v;
-                do {
-                    probe_coord = ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_10;
-                } while (0);
+                pos_x_neg_y_y = position->y.v;
+                probe_coord = ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_10;
 
                 y_step_or_side = 0;
-                ASM_KEEP_NV(y_step_or_side);
-                probe.y = neg_x_pos_y_y - probe_coord;
+                probe.y = pos_x_neg_y_y - probe_coord;
                 probe.z = position->z.v - probe_coord;
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) < position->x.v;
                 axis_test ^= 1;
@@ -279,7 +271,8 @@ void func_80095C80(EntityRec *position) {
                 motion_or_hit = neg_xy_boundary << 0x10;
                 motion_or_hit = (s32)motion_or_hit < neg_xy_x;
                 motion_or_hit ^= 1;
-                probe.y = probe_coord - y_step_or_side;
+                probe_coord -= y_step_or_side;
+            probe.y = probe_coord;
                 probe_coord = position->z.v;
                 probe.z = probe_coord;
                 axis_test = func_80095C50(&probe, 1, neg_xy_x);
@@ -309,14 +302,11 @@ void func_80095C80(EntityRec *position) {
                 }
                 neg_xy_motion = (M2C_UNK *)((s8 *)neg_xy_motion - 0x1A40);
                 probe.x = position->x.v - ((S_80095C80_6 *)neg_xy_motion)->unk_0C;
-                neg_xy_y = position->y.v;
-                do {
-                    probe_coord = ((S_80095C80_6 *)neg_xy_motion)->unk_10;
-                } while (0);
+                pos_x_neg_y_y = position->y.v;
+                probe_coord = ((S_80095C80_6 *)neg_xy_motion)->unk_10;
 
                 y_step_or_side = 1;
-                ASM_KEEP_NV(y_step_or_side);
-                probe.y = neg_xy_y - probe_coord;
+                probe.y = pos_x_neg_y_y - probe_coord;
                 probe.z = position->z.v - probe_coord;
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->x.v;
                 if (axis_test != 0) {

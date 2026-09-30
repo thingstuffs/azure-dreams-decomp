@@ -29,7 +29,7 @@ void func_800B94FC(void) {
     register s32 choice_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 map_kind;
     s32 variant;
-    register s32 selector ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    unsigned long selector;
     void **entries;
     register void **entry_slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *entry;
@@ -78,9 +78,7 @@ void func_800B94FC(void) {
         }
         break;
     case 0xF:
-        ASM_UNDEF(selector);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        variant = D_800136B8;
-        ASM_KEEP(selector);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        variant = (*(u8 *)0x800136B8);
         switch (variant) {
         default:
             entries_base = D_800718E4;
@@ -150,7 +148,8 @@ loop_0:
         entry_slot = (void **)(u32)*(u8 *)(((unsigned long)selector << 5) + (unsigned long)fallback_records);
         selector = choice_index << 2;
         entry_slot = (void **)(((unsigned long)(s32)entry_slot << 3) + (unsigned long)choices);
-        entry = *(void **)((unsigned long)selector + (unsigned long)entry_slot);
+        selector += (unsigned long)entry_slot;
+        entry = *(void **)selector;
         *next_entry = entry;
         choice_index++;
         next_entry++;
@@ -161,5 +160,6 @@ loop_0:
 finish:
     entry_slot = D_800718E4;
     selector = entry_count << 2;
-    *(void **)((unsigned long)selector + (unsigned long)entry_slot) = 0;
+    selector += (unsigned long)entry_slot;
+    *(void **)selector = 0;
 }
