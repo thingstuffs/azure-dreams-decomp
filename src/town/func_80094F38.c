@@ -34,16 +34,14 @@ void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, M2C_UN
     u16 countdown;
     GameWork *state = &gameWork;
     u8 *samples;
-    register M2C_UNK saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     func_80095C80(entity);
-    saved_context = context;
     func_80095094(entity);
     samples = D_800FE488;
     sampled_value = func_80095978(entity, samples);
     if ((sampled_value - entity->z.w.i) >= 4) {
         if (D_800CFCEF[0] == 0) {
-            func_80094378(controller, entity, saved_context);
+            func_80094378(controller, entity, context);
             return;
         }
     } else if (D_800CFCEF[0] == 0) {
@@ -54,16 +52,14 @@ void func_80092698(Rec_func_80094268_arg0 *controller, EntityRec *entity, M2C_UN
     if ((s16)countdown < 0) {
         if (D_800CFCC4[0] != NULL) {
             if (((S_80092698_2 *)(D_800CFCC4[0]))->unk_14 == 2) {
-                func_80093D48(controller, entity, saved_context);
+                func_80093D48(controller, entity, context);
                 return;
             }
-            func_8009451C(controller, entity, saved_context);
-            return;
         }
-        func_8009451C(controller, entity, saved_context);
+        func_8009451C(controller, entity, context);
         return;
     }
     if (((s32)state->unk_010) & 0x10) {
-        func_800942B0(controller, entity, saved_context);
+        func_800942B0(controller, entity, context);
     }
 }

@@ -24,9 +24,8 @@ typedef struct S_801748FC_1 {
 extern s32 func_800A41F0(void *);
 
 /* Find the first eligible entry matching both object filters within 32 units of the target height. */
-void *func_801748FC(void *list_head, s32 wanted_24, s32 wanted_25, s32 height_center)
+void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center)
 {
-    u8 *current;
     u8 *entry;
     s32 target_height;
     u8 *sentinel;
@@ -36,10 +35,8 @@ void *func_801748FC(void *list_head, s32 wanted_24, s32 wanted_25, s32 height_ce
     u8 *object;
     s16 height;
 
-    current = list_head;
-    sentinel = current;
-    ASM_KEEP_NV(sentinel);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     scratch = ((S_801748FC_0 *)current)->unk_5C;
+    sentinel = current;
     current = (u8 *)scratch + 0x20;
     if (current != sentinel) {
         filter_25 = wanted_25;

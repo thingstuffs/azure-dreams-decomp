@@ -40,7 +40,6 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
     Object *object;
     Child *child;
     void *descriptor;
-    u8 *descriptor_page;
     EntityRec *header;
 
     {
@@ -72,10 +71,8 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
             fallback = D_800DF334 - 0x3C;
             ((Tail *)object)->valueC = fallback;
         }
-        descriptor_page = (u8 *)0x80080000;
-        ASM_KEEP(descriptor_page);
+        descriptor = (void *)&D_80083498;
         header = D_800814A8;
-        descriptor = descriptor_page + 0x3498;
         ((Tail *)object)->owner = owner;
         ((Tail *)object)->descriptor = descriptor;
         ((Tail *)object)->value32 = ((u16)header->unk_88);

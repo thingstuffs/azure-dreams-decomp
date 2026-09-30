@@ -46,7 +46,7 @@ void func_800DBA90(Struct_800D6330 *transform) {
     s32 row_vertex_index;
     s32 last_column;
     s32 unit_scale;
-    s32 vertex_offset;
+    s32 vertex_offset = 0;
     s32 *vertices;
     void *transformed;
 
@@ -88,19 +88,21 @@ void func_800DBA90(Struct_800D6330 *transform) {
     func_80064CF0(scratch.sp10);
     row_vertex_index = 0;
     if (transform->unk18 > 0) {
+        transformed = &scratch.s.sp30;
         do {
-            transformed = &scratch.s.sp30;
-            do {
-                ASM_KEEP(transformed);
-            } while (0);
             vertex_offset = row_vertex_index * 8;
             vertices = transform->unk00;
             func_80065450((s8 *) vertices + vertex_offset, transformed, &column_flags);
             *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8) = *(u16 *) &scratch.s.sp30;
             *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8 + 2) = *(u16 *) &scratch.s.sp34;
-            *(u16 *) ((s8 *) transform->unk04 + row_vertex_index * 8 + 4) = *(u16 *) &scratch.s.sp38;
+            vertex_offset = (s32)transform->unk04 + vertex_offset;
+            *(u16 *) (vertex_offset + 4) = *(u16 *) &scratch.s.sp38;
             row_vertex_index++;
-        } while (row_vertex_index < transform->unk18);
+            if (row_vertex_index >= transform->unk18) {
+                break;
+            }
+            transformed = &scratch.s.sp30;
+        } while (1);
     }
     func_80064A40();
 }

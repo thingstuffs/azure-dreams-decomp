@@ -38,14 +38,12 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     volatile Obj81911BF4 *point;
     s32 point_index;
     register u8 brightness ASM_REG("$3");
-    register u16 state_value;
     u16 angle_step;
     u16 scale;
     s16 angle_sum;
     s32 signed_angle;
     register s32 angle_dividend ASM_REG("$9");
     s32 state;
-    s32 next_val;
 
     effect->inner->field14++;
     effect->timer++;
@@ -83,15 +81,9 @@ loop_0:
         if (effect->timer < effect->duration) {
             return;
         }
-        {
-            u16 next_duration = 4;
-            ASM_KEEP(next_duration);
-            state_value = *(u16 *)&effect->state;
-            effect->timer = 0;
-            effect->duration = next_duration;
-            effect->state = state_value + 1;
-            return;
-        }
+        effect->timer = 0;
+        effect->duration = 4;
+        effect->state++;
         return;
 
     case 2:
@@ -100,16 +92,10 @@ loop_0:
         if (effect->timer < effect->duration) {
             return;
         }
-        {
-            state_value = 3;
-            effect->field12 = state_value;
-            state_value = *(u16 *)&effect->state;
-            next_val = 0x10;
-            effect->timer = 0;
-            effect->duration = next_val;
-            effect->state = state_value + 1;
-            return;
-        }
+        effect->field12 = 3;
+        effect->timer = 0;
+        effect->duration = 0x10;
+        effect->state++;
         return;
 
     case 3:
@@ -148,14 +134,9 @@ loop_0:
             return;
         }
         func_8002539C(effect);
-        {
-            state_value = *(u16 *)&effect->state;
-            next_val = 0x20;
-            effect->timer = 0;
-            effect->duration = next_val;
-            effect->state = state_value + 1;
-            return;
-        }
+        effect->timer = 0;
+        effect->duration = 0x20;
+        effect->state++;
         return;
 
     case 5:
@@ -197,9 +178,8 @@ loop_0:
         }
 
 advance:
-        state_value = effect->state;
         effect->timer = 0;
-        effect->state = state_value + 1;
+        effect->state++;
         return;
 
     case 6:
