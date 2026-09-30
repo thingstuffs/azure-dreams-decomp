@@ -92,7 +92,7 @@ void func_8001C8C8(void *panel) {
     s32 row_y;
     s32 lower_y;
     s32 row;
-    void *row_cursor;
+    S_8001C8C8_2 *row_cursor;
 
     ((S_8001C8C8_0 *)panel)->unk_80 = 1;
     ((S_8001C8C8_0 *)panel)->unk_84 = 1;
@@ -106,21 +106,19 @@ void func_8001C8C8(void *panel) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    row_cursor = panel;
     ((S_8001C8C8_8 *)(((S_8001C8C8_3 *)(((S_8001C8C8_1 *)panel)->unk_1B8))->unk_04))->unk_0A = 0x22;
-    do {
-        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(((S_8001C8C8_2 *)row_cursor)->unk_1F0))->unk_04))->unk_08 = lower_x;
-        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(((S_8001C8C8_2 *)row_cursor)->unk_1F0))->unk_04))->unk_0A = lower_y;
-        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(((S_8001C8C8_2 *)row_cursor)->unk_1C0))->unk_04))->unk_08 = left_x;
-        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(((S_8001C8C8_2 *)row_cursor)->unk_1C0))->unk_04))->unk_0A = row_y;
-        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(((S_8001C8C8_2 *)row_cursor)->unk_1D0))->unk_04))->unk_08 = right_x;
-        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(((S_8001C8C8_2 *)row_cursor)->unk_1D0))->unk_04))->unk_0A = row_y;
-        row += 1;
-        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(((S_8001C8C8_2 *)row_cursor)->unk_1E0))->unk_04))->unk_08 = middle_x;
+    for (; row < 4; row++) {
+        row_cursor = (S_8001C8C8_2 *)((u32 *)panel + row);
+        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(row_cursor->unk_1F0))->unk_04))->unk_08 = lower_x;
+        ((S_8001C8C8_9 *)(((S_8001C8C8_4 *)(row_cursor->unk_1F0))->unk_04))->unk_0A = lower_y;
+        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(row_cursor->unk_1C0))->unk_04))->unk_08 = left_x;
+        ((S_8001C8C8_10 *)(((S_8001C8C8_5 *)(row_cursor->unk_1C0))->unk_04))->unk_0A = row_y;
+        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(row_cursor->unk_1D0))->unk_04))->unk_08 = right_x;
+        ((S_8001C8C8_11 *)(((S_8001C8C8_6 *)(row_cursor->unk_1D0))->unk_04))->unk_0A = row_y;
+        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(row_cursor->unk_1E0))->unk_04))->unk_08 = middle_x;
         lower_y += 0x10;
-        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(((S_8001C8C8_2 *)row_cursor)->unk_1E0))->unk_04))->unk_0A = row_y;
-        row_cursor += 4;
+        ((S_8001C8C8_12 *)(((S_8001C8C8_7 *)(row_cursor->unk_1E0))->unk_04))->unk_0A = row_y;
         row_y += 0x10;
-    } while (row < 4);
+    }
     func_80403738(panel, row_y, lower_y, row);
 }

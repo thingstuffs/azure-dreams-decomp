@@ -57,20 +57,17 @@ typedef struct S_80023470_8 {
 
 /* Initialize three entries in each of the four object groups. */
 void func_80023470(void *object) {
-    s32 entry_index;
-    void *entry_base;
+    s32 i;
+    S_80023470_0 *entry_base;
 
-    entry_base = object;
-    entry_index = 0;
-    do {
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_08 = 0x24;
-        *((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_01 = 0x68;
-        ((S_80023470_5 *)(((S_80023470_1 *)(((S_80023470_0 *)entry_base)->unk_1C8))->unk_04))->unk_02 = 0x60;
-        ((S_80023470_6 *)(((S_80023470_2 *)(((S_80023470_0 *)entry_base)->unk_1A8))->unk_04))->unk_08 = 9;
-        ((S_80023470_7 *)(((S_80023470_3 *)(((S_80023470_0 *)entry_base)->unk_1B8))->unk_04))->unk_08 = 0x42;
-        entry_index += 1;
-        ((S_80023470_8 *)(((S_80023470_4 *)(((S_80023470_0 *)entry_base)->unk_1D8))->unk_04))->unk_08 = 0x8F;
-        entry_base += 4;
-    } while (entry_index < 3);
+    for (i = 0; i < 3; i++) {
+        entry_base = (S_80023470_0 *)((u32 *)object + i);
+        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_08 = 0x24;
+        *((S_80023470_1 *)(entry_base->unk_1C8))->unk_04 = 0x68;
+        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_01 = 0x68;
+        ((S_80023470_5 *)(((S_80023470_1 *)(entry_base->unk_1C8))->unk_04))->unk_02 = 0x60;
+        ((S_80023470_6 *)(((S_80023470_2 *)(entry_base->unk_1A8))->unk_04))->unk_08 = 9;
+        ((S_80023470_7 *)(((S_80023470_3 *)(entry_base->unk_1B8))->unk_04))->unk_08 = 0x42;
+        ((S_80023470_8 *)(((S_80023470_4 *)(entry_base->unk_1D8))->unk_04))->unk_08 = 0x8F;
+    }
 }
