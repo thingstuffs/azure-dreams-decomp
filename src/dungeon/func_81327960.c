@@ -58,7 +58,7 @@ typedef struct S_8016F160_4 {
 } S_8016F160_4;   /* tail_ptr in func_8016F160 */
 
 /* Allocate an actor, initialize its parts and mode flags, and return its work area. */
-void *func_8016F160(s16 mode, s16 config_24, s8 config_25, s16 config_0a)
+void *func_8016F160(s16 mode, s16 config_24, s16 config_25, s16 config_0a)
 {
     s16 mode_kind;
     void *obj;
@@ -68,7 +68,7 @@ void *func_8016F160(s16 mode, s16 config_24, s8 config_25, s16 config_0a)
     s16 saved_mode;
     s8 saved_config_24;
     s16 saved_config_0a;
-    register s8 saved_config_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 saved_config_25;
     void *actor;
     void *actor_state;
 
@@ -89,9 +89,9 @@ void *func_8016F160(s16 mode, s16 config_24, s8 config_25, s16 config_0a)
         part_a->unk_0A = saved_config_0a;
         part_b = ((S_8016F160_0 *)obj)->unk_0C;
         mode_kind = mode & 3;
+        part_b->unk_2C = D_80174A2C;
         part_b->unk_25 = saved_config_25;
         actor = work;
-        part_b->unk_2C = D_80174A2C;
         part_b->unk_24 = saved_config_24;
 
         if (mode_kind == 1) {
