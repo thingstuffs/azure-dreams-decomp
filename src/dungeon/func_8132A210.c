@@ -14,7 +14,7 @@ extern DungeonTable D_8016A894;
 extern M2C_UNK D_801718E4;
 
 /* Creates an effect with direction-based position offsets and randomized velocity. */
-void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volatile s32 spread_mode)
+void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, s32 spread_mode)
 {
     register u32 direction ASM_REG("$18") = angle;
     register s32 data_value ASM_REG("$22") = initial_value;
@@ -28,7 +28,6 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     void *motion;
     void *direction_entry;
     void *y_motion;
-    void *effect_data;
     void *effect;
     void *handler;
     s32 motion_value;
@@ -38,9 +37,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     ASM_KEEP(data_value);
     {
         u32 effect_type = 0x211;
-        ASM_KEEP(effect_type);
-        spread = spread_mode;
-        ASM_KEEP(spread);
+        spread = *(s32 *)&spread_mode;
         saved_angle = direction;
         effect = func_8003FD64(effect_type, source);
     }
@@ -61,7 +58,6 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
         ASM_KEEP(direction);
         *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xA)) =
             (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
-        ASM_KEEP(source);
         x_position = *((void **) (((s8 *) effect) + 8));
         *((u16 *) (((s8 *) x_position) + 2)) = (u16) ((*((u16 *) (((s8 *) x_position) + 2)))
             + ((*((s16 *) (((s8 *) ((void *) entry_addr)) + 0))) * 0x10));
@@ -69,7 +65,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
         *((u16 *) (((s8 *) y_position) + 6)) = (u16) ((*((u16 *) (((s8 *) y_position) + 6)))
             + (((s32) ((*((u16 *) (((s8 *) ((void *) entry_addr)) + 2))) << 0x10)) >> 0xC));
         *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 0xC)))) + 6)) = 6;
-        effect_data = effect + 0x20;
+        source = effect + 0x20;
         if ((spread << 0x10) == 0) {
             *((s32 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xC)) =
                 (s32) (((func_80069EF8(y_position, x_position) & 0x7FFF) - 0x4000) << 7);
@@ -96,11 +92,11 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
         y_motion = *((void **) (((s8 *) effect_obj) + 8));
         *((s32 *) (((s8 *) y_motion) + 0x10)) = (s32) ((*((s32 *) (((s8 *) y_motion) + 0x10)))
             + (((s16) (*((u16 *) (((s8 *) direction_entry) + 2)))) * 0x160000));
-        *((u16 *) (((s8 *) effect_data) + 0x14)) = saved_angle;
-        *((s16 *) (((s8 *) effect_data) + 0x32)) = 7;
-        *((s16 *) (((s8 *) effect_data) + 0x34)) = 7;
+        *((u16 *) (((s8 *) source) + 0x14)) = saved_angle;
+        *((s16 *) (((s8 *) source) + 0x32)) = 7;
+        *((s16 *) (((s8 *) source) + 0x34)) = 7;
         func_8004491C(effect_obj, D_80171704);
-        *((s32 *) effect_data) = data_value;
-        *((s32 *) (((s8 *) effect_data) + 8)) = data_value;
+        *((s32 *) source) = data_value;
+        *((s32 *) (((s8 *) source) + 8)) = data_value;
     }
 }
