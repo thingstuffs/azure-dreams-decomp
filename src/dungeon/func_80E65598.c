@@ -11,10 +11,17 @@ typedef struct {
 } SourcePosition;
 
 typedef struct {
+    u8 index;
+    u8 group;
+    u8 param;
+    u8 flags;
+} DungeonArg;
+
+typedef struct {
     u8 pad0[0x2A];
     u16 mode;
     u8 pad2C[0x1C];
-    u8 copied[4];
+    DungeonArg arg;
 } DungeonObjectArg;
 
 typedef struct {
@@ -44,9 +51,8 @@ typedef struct {
     u8 pad0[0x24];
     u16 mode;
     u8 pad26[6];
-    u8 entry;
-    u8 group;
-    u8 pad2E[6];
+    DungeonArg arg;
+    u8 pad30[4];
     void *owner;
     u8 pad38[0x18];
     s8 x_cell;
@@ -85,13 +91,9 @@ typedef struct {
     s16 y;
 } DirectionVector;
 
-typedef struct {
-    u32 value;
-} __attribute__((packed)) PackedWord;
-
 extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
-extern void func_801745B4(void *, DungeonObjectArg *);
+extern s32 func_801745B4(DungeonArg *, DungeonObjectArg *);
 
 extern DungeonGroup D_80073414[];
 extern s32 D_8007361C[256];
@@ -110,9 +112,6 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     DungeonGroup *item_category;
     s32 *results;
     s32 entry_index;
-    PackedWord *copy_src;
-    PackedWord *copy_dst;
-    u32 copied_word;
 
     entity = func_8003FC64(0x12);
     if (entity == 0) {
@@ -122,18 +121,14 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     entity->callback = &D_801747F0;
     func_8004491C(entity, func_80045340);
 
-    copy_dst = (PackedWord *)((u8 *)entity + 0x4C);
-    ASM_USE(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     render = entity->render;
     render->flags &= 0xFFF3;
     work = &entity->work;
-    copy_src = (PackedWord *)&object->copied[0];
     work->owner = owner;
-    copied_word = copy_src->value;
-    copy_dst->value = copied_word;
-    func_801745B4(copy_dst, object);
-    object->copied[0] = 0;
-    object->copied[1] = 0;
+    work->arg = object->arg;
+    func_801745B4(&work->arg, object);
+    object->arg.index = 0;
+    object->arg.group = 0;
 
     position = entity->position;
     position->x = source_pos->x;
@@ -161,11 +156,11 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     render->green = 0x80;
     render->red = 0x80;
 
-    item_category = &item_category_table[work->group];
+    item_category = &item_category_table[work->arg.group];
     if (item_category->active == 0) {
-        entry_index = work->entry * 5;
+        entry_index = work->arg.index * 5;
     } else {
-        entry_index = work->entry * 3;
+        entry_index = work->arg.index * 3;
     }
     render->result = results[item_category->entries[entry_index].height];
 }
