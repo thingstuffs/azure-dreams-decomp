@@ -26,7 +26,6 @@ extern void func_80701274(void);
 
 /* Selects a record list and resolves its indices through the global lookup table. */
 void func_80880298(s32 list_index) {
-    u8 *record_tag;
     void *records;
 
     if (D_80700B0C != 0) {
@@ -39,10 +38,11 @@ void func_80880298(s32 list_index) {
     records = D_807013A8[0]->field10;
     if (((u8 *)records)[1] != 0x80) {
         s32 end_tag = 0x80;
-        record_tag = records + 1;
+        s32 i = 0;
+        u8 *tags = (u8 *)records + 1;
         do {
-            *(s32 *)(record_tag + 0xB) = D_807013B0[0][*(s32 *)(record_tag + 0xB)];
-            record_tag += 0x14;
-        } while (*record_tag != end_tag);
+            *(s32 *)(tags + i * 0x14 + 0xB) = D_807013B0[0][*(s32 *)(tags + i * 0x14 + 0xB)];
+            i++;
+        } while (tags[i * 0x14] != end_tag);
     }
 }
