@@ -84,7 +84,6 @@ void func_80023600(void *panel) {
     s32 row_y;
     s32 lower_y;
     s32 row_index;
-    void *row_slots;
 
     ((Rec_func_800233D0_arg0 *)panel)->unk_80 = 1;
     ((Rec_func_800233D0_arg0 *)panel)->unk_84 = 1;
@@ -98,21 +97,19 @@ void func_80023600(void *panel) {
     middle_x = 0x24;
     row_y = 0xA;
     lower_y = 0x82;
-    row_slots = panel;
     ((S_80023600_8 *)(((S_80023600_3 *)(((Rec_func_800233D0_arg0 *)panel)->unk_1A0))->unk_04))->unk_0A = 0x1A;
     do {
-        ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)row_slots)->unk_1D8))->unk_04))->unk_08 = lower_x;
-        ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)row_slots)->unk_1D8))->unk_04))->unk_0A = lower_y;
-        ((S_80023600_10 *)(((S_80023600_5 *)(((S_80023600_2 *)row_slots)->unk_1A8))->unk_04))->unk_08 = left_x;
-        ((S_80023600_10 *)(((S_80023600_5 *)(((S_80023600_2 *)row_slots)->unk_1A8))->unk_04))->unk_0A = row_y;
-        ((S_80023600_11 *)(((S_80023600_6 *)(((S_80023600_2 *)row_slots)->unk_1B8))->unk_04))->unk_08 = right_x;
-        ((S_80023600_11 *)(((S_80023600_6 *)(((S_80023600_2 *)row_slots)->unk_1B8))->unk_04))->unk_0A = row_y;
-        row_index += 1;
-        ((S_80023600_12 *)(((S_80023600_7 *)(((S_80023600_2 *)row_slots)->unk_1C8))->unk_04))->unk_08 = middle_x;
+        ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_08 = lower_x;
+        ((S_80023600_9 *)(((S_80023600_4 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1D8))->unk_04))->unk_0A = lower_y;
+        ((S_80023600_10 *)(((S_80023600_5 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1A8))->unk_04))->unk_08 = left_x;
+        ((S_80023600_10 *)(((S_80023600_5 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1A8))->unk_04))->unk_0A = row_y;
+        ((S_80023600_11 *)(((S_80023600_6 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1B8))->unk_04))->unk_08 = right_x;
+        ((S_80023600_11 *)(((S_80023600_6 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1B8))->unk_04))->unk_0A = row_y;
+        ((S_80023600_12 *)(((S_80023600_7 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1C8))->unk_04))->unk_08 = middle_x;
         lower_y += 0x10;
-        ((S_80023600_12 *)(((S_80023600_7 *)(((S_80023600_2 *)row_slots)->unk_1C8))->unk_04))->unk_0A = row_y;
-        row_slots += 4;
+        ((S_80023600_12 *)(((S_80023600_7 *)(((S_80023600_2 *)((u8 *)panel + row_index * 4))->unk_1C8))->unk_04))->unk_0A = row_y;
         row_y += 0x10;
+        row_index += 1;
     } while (row_index < 3);
     func_80023470(panel);
 }

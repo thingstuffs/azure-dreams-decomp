@@ -112,8 +112,6 @@ void func_80089608(void *effect) {
     Words4 *style_src;
     Words4 *mask_src;
     Words4 *copy_dst;
-    s8 *radius_cursor;
-    s8 *style_cursor;
     s16 phase_frame;
     s32 phase;
     s32 color_step_or_index;
@@ -193,20 +191,18 @@ void func_80089608(void *effect) {
     }
     color_step_or_index = 9;
     callback = &D_80089A14;
-    style_cursor = (M2C_UNK *)&effect_tables[36];
-    radius_cursor = (M2C_UNK *)&effect_tables[18];
     do {
         element = func_8003FC64(0x111);
         if (element != NULL) {
             sprite = ((S_80089608_2 *)element)->unk_0C;
             ((S_80089608_2 *)element)->unk_10 = callback;
             func_8004491C(element, &D_80044BB0);
-            x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
+            x_product = func_80064584(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = x_product >> 0xC;
             ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_02 =
                 (s16) ((axis_offset - (x_product >> 0xD)) + 0xA0);
             element_state = (void *)((s8 *)element + 0x20);
-            y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)radius_cursor)->unk_28;
+            y_product = func_800644B8(((S_80089608_0 *)effect)->unk_0E.u) * ((S_80089608_3 *)(effect_tables + color_step_or_index * 2))->unk_28;
             axis_offset = y_product >> 0xC;
             ((S_80089608_7 *)(((S_80089608_2 *)element)->unk_08))->unk_06 =
                 (s16) ((axis_offset + (y_product >> 0xE)) + 0x78);
@@ -219,15 +215,13 @@ void func_80089608(void *effect) {
             }
             ((S_80089608_4 *)sprite)->unk_10 = 0x60;
             ((S_80089608_4 *)sprite)->unk_14 = (u16) (((S_80089608_4 *)sprite)->unk_14 | 0xC);
-            ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)style_cursor)->unk_00;
+            ((S_80089608_4 *)sprite)->unk_08 = (s32) ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_00;
             ((S_80089608_4 *)sprite)->unk_04 = 0;
             ((S_80089608_4 *)sprite)->unk_05 = 0;
             ((S_80089608_4 *)sprite)->unk_0C =
-                (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)style_cursor)->unk_40);
+                (s32) (((S_80089608_0 *)effect)->unk_04 & ((S_80089608_5 *)(effect_tables + color_step_or_index * 4))->unk_40);
             ((S_80089608_6 *)element_state)->unk_0C = color_step_or_index;
         }
-        style_cursor -= 4;
         color_step_or_index -= 1;
-        radius_cursor -= 2;
     } while (color_step_or_index >= 0);
 }

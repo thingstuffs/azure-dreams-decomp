@@ -9,16 +9,12 @@ extern s32 D_80028074[];
 void func_800269B4(u8 *state)
 {
     s32 slot;
-    u8 *slot_cursor;
     u8 *id_table;
     s32 *value_table;
-    s32 *weight;
 
     slot = 0;
     id_table = D_80028068;
     value_table = D_8002806C;
-    slot_cursor = state;
-    weight = D_80028074;
     do {
         u32 id_address;
         u32 second_id_address;
@@ -47,11 +43,11 @@ void func_800269B4(u8 *state)
         if (*entry != 0) {
             record_offset = id * 12;
             record_offset += 4;
-            func_8004CBFC(state + record_offset, *weight, entry);
+            func_8004CBFC(state + record_offset, D_80028074[slot], entry);
         }
 
         table_offset = *(s32 *)(state + 0x24) * 2;
-        first_link = *(u8 **)(slot_cursor + 0x60);
+        first_link = *(u8 **)(state + slot * 4 + 0x60);
         id_address = (u32)table_offset;
         id_address += (u32)(unsigned long)id_table;
         id_address += (u32)slot;
@@ -61,16 +57,14 @@ void func_800269B4(u8 *state)
         *first_dest = first_value;
 
         second_table_offset = *(s32 *)(state + 0x24) * 2;
-        second_link = *(u8 **)(slot_cursor + 0x68);
+        second_link = *(u8 **)(state + slot * 4 + 0x68);
         second_id_address = (u32)second_table_offset;
         second_id_address += (u32)(unsigned long)id_table;
         second_id_address += (u32)slot;
         second_id = *(u8 *)(unsigned long)second_id_address;
         second_dest = *(s32 **)(second_link + 4);
         second_value = value_table[second_id];
-        weight++;
         slot++;
         *second_dest = second_value;
-        slot_cursor += 4;
     } while (slot < 2);
 }

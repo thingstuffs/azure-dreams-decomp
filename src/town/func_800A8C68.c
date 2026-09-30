@@ -15,15 +15,16 @@ void func_800A63C8(TownRecord *record, s32 entryValue)
     s32 entryOffset;
     s32 lastEntryFlag;
 
-    while (record->active != 0) {
+    s32 i;
+
+    for (i = 0; record[i].active != 0; i++) {
         entryOffset = 0;
         do {
-            if (*(u32 *)(entryOffset + record->data) & 0x20) {
-                *(s32 *)(entryOffset + record->data + 8) = entryValue;
+            if (*(u32 *)(entryOffset + record[i].data) & 0x20) {
+                *(s32 *)(entryOffset + record[i].data + 8) = entryValue;
             }
-            lastEntryFlag = *(u8 *)(entryOffset + record->data) & 0x80;
+            lastEntryFlag = *(u8 *)(entryOffset + record[i].data) & 0x80;
             entryOffset += 12;
         } while (!lastEntryFlag);
-        record++;
     }
 }

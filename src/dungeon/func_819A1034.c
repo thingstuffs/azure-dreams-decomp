@@ -33,13 +33,10 @@ void func_819A1034(void *fade_data)
 {
     void *fade;
     s32 color_index;
-    u8 *color_ptr;
     u8 *global_page;
     u16 ticks_left;
 
     fade = fade_data;
-    color_index = 0;
-    color_ptr = fade;
 #ifdef NON_MATCHING
     global_page = (u8 *)&D_800261B0 - 0x5FF4;
 #else
@@ -49,19 +46,17 @@ void func_819A1034(void *fade_data)
     ((S_819A1034_1 *)global_page)->unk_61B0 = 1;
     ticks_left--;
     ((S_819A1034_0 *)fade)->unk_3A.s = ticks_left;
-    do {
-        ((S_819A1034_2 *)color_ptr)->unk_0C =
-            ((S_819A1034_2 *)color_ptr)->unk_1C * ((S_819A1034_0 *)fade)->unk_3A.u /
+    for (color_index = 0; color_index < 4; color_index++) {
+        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0C =
+            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1C * ((S_819A1034_0 *)fade)->unk_3A.u /
             ((S_819A1034_0 *)fade)->unk_3C;
-        ((S_819A1034_2 *)color_ptr)->unk_0D =
-            ((S_819A1034_2 *)color_ptr)->unk_1D * ((S_819A1034_0 *)fade)->unk_3A.u /
+        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0D =
+            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1D * ((S_819A1034_0 *)fade)->unk_3A.u /
             ((S_819A1034_0 *)fade)->unk_3C;
-        color_index++;
-        ((S_819A1034_2 *)color_ptr)->unk_0E =
-            ((S_819A1034_2 *)color_ptr)->unk_1E * ((S_819A1034_0 *)fade)->unk_3A.u /
+        ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_0E =
+            ((S_819A1034_2 *)((u8 *)fade + color_index * 4))->unk_1E * ((S_819A1034_0 *)fade)->unk_3A.u /
             ((S_819A1034_0 *)fade)->unk_3C;
-        color_ptr += 4;
-    } while (color_index < 4);
+    }
     if (((S_819A1034_0 *)fade)->unk_3A.u <= 0) {
         (*(u16 *)((u8 *)fade + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

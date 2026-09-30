@@ -106,7 +106,6 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     S_80026A84_3 *effect_pos;
     S_80026A84_5 *effect_data;
     void *effect;
-    void *point_cursor;
     void *chain_head;
 
     chain_head = NULL;
@@ -137,7 +136,6 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
             effect_pos->unk_0A = coord_xz;
             effect_pos->unk_16 = coord_xz;
             render_data = ((S_80026A84_1 *)effect)->unk_0C;
-            point_cursor = effect_data;
             ((S_80026A84_4 *)render_data)->unk_08 = effect_entry;
             ((S_80026A84_4 *)render_data)->unk_1E = 0x1000;
             ((S_80026A84_4 *)render_data)->unk_1C = 0x1000;
@@ -147,11 +145,10 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
             effect_data->unk_66 = 0x20;
             effect_data->unk_6E = effect_index;
             do {
-                ((S_80026A84_6 *)point_cursor)->unk_24 = effect_pos->unk_02;
-                ((S_80026A84_6 *)point_cursor)->unk_26 = effect_pos->unk_06;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_24 = effect_pos->unk_02;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_26 = effect_pos->unk_06;
+                ((S_80026A84_6 *)((u8 *)effect_data + point_index * 8))->unk_28 = effect_pos->unk_0A;
                 point_index += 1;
-                ((S_80026A84_6 *)point_cursor)->unk_28 = effect_pos->unk_0A;
-                point_cursor += 8;
             } while (point_index < 8);
             effect_data->unk_08 = chain_head;
             chain_head = effect;
