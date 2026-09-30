@@ -28,14 +28,14 @@ typedef struct S_8016A9FC_1 {
 /* Handles a timed fade-out and fade-in, then marks the effect complete. */
 void func_8016A9FC(void *effect) {
     s32 state;
-    register s32 state_arg ASM_REG("$4");
-    register s32 call_result ASM_REG("$5");
+    s32 state_arg;
     u16 frames;
     u8 fade_green;
     u8 fade_blue;
     GameWork *fade_colors;
     s32 result;
     s32 first_result;
+    u8 cur;
 
     state = ((S_8016A9FC_0 *)effect)->unk_12.s;
     state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
@@ -65,11 +65,8 @@ fade_out:
     ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
     ((S_8016A9FC_0 *)effect)->unk_1A = 0;
     result = func_800990FC(state_arg, fade_colors, effect);
-    state_arg = 0xA;
-    ASM_KEEP_NV(result);
-    call_result = result;
-    first_result = call_result;
-    result = func_8009929C(state_arg, call_result);
+    first_result = result;
+    result = func_8009929C(0xA, result);
     result = func_8009929C(0xA, result);
     result = func_80099194(D_8016A808, result);
     result = func_8009929C(0xA, result);
@@ -91,9 +88,9 @@ wait_frames:
     return;
 
 fade_in:
-    result = fade_colors->view.unk_090;
-    if ((u32)(result & 0xFF) < 0x80) {
-        fade_colors->view.unk_090 = result + 4;
+    cur = fade_colors->view.unk_090;
+    if (cur < 0x80) {
+        fade_colors->view.unk_090 = cur + 4;
         fade_green = fade_colors->view.unk_091 + 4;
         fade_blue = fade_colors->view.unk_092 + 4;
 store_fades:
