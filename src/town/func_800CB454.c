@@ -16,7 +16,7 @@ typedef struct {
 
 extern s32 D_800D636C[2];
 extern u8 D_800C8C3C[];
-extern void func_80095388(ObjectState *, s32);
+extern void func_80095388(ObjectState *);
 
 /* Moves the object by its velocity and switches callbacks when vertical velocity is nonnegative. */
 void func_800C8BB4(Owner *owner, ObjectState *state)
@@ -29,7 +29,7 @@ void func_800C8BB4(Owner *owner, ObjectState *state)
     state->x += velocity[0];
     state->y += velocity[1];
     state->z += velocity_z;
-    func_80095388(state, velocity_z);
+    func_80095388(state);
     if (state->velocity_z >= 0) {
         owner->callback = D_800C8C3C;
     }

@@ -106,13 +106,13 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
             if (((kind_flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     call_part = part_a;
-                    call_obj = (void *)func_800A6D30(call_obj);
+                    call_obj = (void *)func_800A6D30();
                     primary_bits = (s32)call_obj;
                     call_obj = obj;
                     if (primary_bits & 1) {
                         work->unk_1C |= 0x200;
                         func_800A48F0(work, 1,
-                                      (func_800A6D30(obj) & 0x3F) | 0x20);
+                                      (func_800A6D30() & 0x3F) | 0x20);
                         part_b->unk_2C = D_8016DCDC;
                         goto post_kind;
                     }

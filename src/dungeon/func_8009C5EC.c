@@ -361,7 +361,7 @@ loop_0:
                 text_end = func_8009929C(0x4C, text_end);
                 text_end = func_80099254(&D_800E0458, text_end);
             }
-            func_80099290(text_end, text_end);
+            func_80099290(text_end);
             func_800A5720(message);
         }
     }

@@ -2,7 +2,7 @@
 
 #define NULL ((void *)0)
 
-s32 func_800A6D30(void *, void *, s32, s32);
+s32 func_800A6D30(void);
 s32 func_800A0818(u8, u8, u8, u8, void *);
 void func_800B4C7C(s32, void *, s32, s32);
 s32 func_800990FC(void);
@@ -28,7 +28,7 @@ void func_8009BFF8(void *source, void *target, s32 passthru_2, s32 passthru_3) {
     void *target_entity;
 
     type_data = *(u8 **)((s8 *)source + 0x50);
-    if (type_data != NULL && *type_data == 0xB && !(func_800A6D30(source, target, passthru_2, passthru_3) & 3)) {
+    if (type_data != NULL && *type_data == 0xB && !(func_800A6D30() & 3)) {
         amount = ((s32)(*(u16 *)((s8 *)source + 0x64) << 0x10)) >> 0x12;
         signed_amount = amount;
         *(u16 *)((s8 *)target + 0x64) += amount;

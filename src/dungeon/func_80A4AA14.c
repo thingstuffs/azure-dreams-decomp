@@ -51,7 +51,7 @@ typedef struct S_80174214_6 {
 
 extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
-extern void func_8004491C(void *, void *, void *);
+extern void func_8004491C(void *, void *);
 extern u8 D_80173E94[];
 extern u8 D_801740E4[];
 
@@ -116,7 +116,7 @@ void func_80174214(
         z_dest->unk_0A = (s16)z_pos;
         fields->unk_14 = saved_value_34;
         fields->unk_32 = saved_value_52;
-        func_8004491C(object_fields, init_data, z_dest);
+        func_8004491C(object_fields, init_data);
         fields->unk_08.u = saved_value_28;
     }
 }

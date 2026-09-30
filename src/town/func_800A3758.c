@@ -9,14 +9,14 @@ typedef struct S_80013714 {
 extern s16 D_8008146C;
 extern u16 D_80082E76;
 
-extern void func_800B074C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_800B074C(void);
 extern void func_80033AE8(s32 a0);
 extern void func_800B8A40(void);
 extern void func_800C24FC(void);
 
 /* into_dn_door_jobs: Run dungeon entrance setup and reset entry flags. */
 void into_dn_door_jobs(s32 arg0, s32 arg1, s32 arg2) {
-    func_800B074C(arg0, arg1, arg2);
+    func_800B074C();
     func_80033AE8(0x16);
     func_800B8A40();
     func_800C24FC();

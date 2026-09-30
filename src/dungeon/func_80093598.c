@@ -77,7 +77,7 @@ extern void func_80048A44();
 extern void func_800982A8();
 extern void func_80098614();
 extern void func_80098B38();
-extern s32 func_800990FC(void *, s32, void *, void *);
+extern s32 func_800990FC(void);
 extern s32 func_80099194();
 extern void func_80099290();
 extern s32 func_8009929C();
@@ -110,10 +110,9 @@ void *func_80098CF8(void *actor_arg, s32 action_id, void *target_arg, void *item
     void *state;
     s32 text_cursor;
 
-    ASM_KEEP_NV(actor);
     actor_state = actor;
     if ((item != ((void *)(D_80081484))) && (((S_80098CF8_0 *)((void *)(D_80081484)))->unk_01 != 0)) {
-        message_id = func_800990FC(message, action_id, target_arg, item_arg);
+        message_id = func_800990FC();
         text_cursor = func_8009929C(8, message_id);
         text_cursor = func_80099368(item, text_cursor);
         text_cursor = func_80099194(D_800E08CC, text_cursor);
@@ -128,7 +127,7 @@ print_message:
     }
 
     if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
-        message_id = func_800990FC(message, action_id, target_arg, item_arg);
+        message_id = func_800990FC();
         result = (void *)func_8009929C(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             func_800A56E0(0x70A);

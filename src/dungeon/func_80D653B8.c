@@ -120,7 +120,7 @@ void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
         object_data->unk_12 = 0xFF80;
         object_data->unk_06 = -6;
         object_data->unk_14 |= 0xC;
-        func_8004491C(object, func_80045340, copy_src, copy_dst);
+        func_8004491C(object, func_80045340);
 
         {
             u8 *direction_table = D_800E23D0;

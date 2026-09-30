@@ -12,7 +12,7 @@ typedef struct {
 } S_80048D60;
 
 extern int D_800212DC[8]; /* hi/lo global; only its address is used here */
-extern void func_8004B568(void *arg0);
+extern void func_8004B568(void);
 
 /* Clear flag 0x2000, reset the data pointer, and update the flagged sub-object. */
 void func_80048D60(void *sub_obj)
@@ -22,6 +22,6 @@ void func_80048D60(void *sub_obj)
     if (header->flags & 0x2000) {
         header->flags &= 0xDFFF;
         header->field_00 = &D_800212DC;
-        func_8004B568(sub_obj);
+        func_8004B568();
     }
 }

@@ -8,7 +8,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s8 M2C_UNK8;
 extern u8 D_800E3648[];
-s32 func_800A6D30(void *, s32, s32, s32);
+s32 func_800A6D30(void);
 s32 func_800A6DA4();
 extern u8 D_800E39C8[];
 /* Initializes a free slot at a random position within the room. */
@@ -25,7 +25,7 @@ void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
     int y_offset;
     u8 *slot_info;
     if (!((D_800E296C) & 0x10000000)) {
-        random_bonus = func_800A6D30(room, rng_arg1, rng_arg2, rng_arg3) & 7;
+        random_bonus = func_800A6D30() & 7;
         room_area = (*((u16 *) (((s8 *) room) + 6))) * (*((u16 *) (((s8 *) room) + 4)));
         raw_size = (room_area >> 2) + random_bonus;
         size = raw_size;

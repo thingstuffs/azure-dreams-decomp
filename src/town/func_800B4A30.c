@@ -27,7 +27,7 @@ void func_800B2190(s32 list_addr, s32 index) {
     slot = list_addr + slot_offset;
     entry = *slot;
     if (entry->unk_01 == 0x13) {
-        func_800B2164(entry, slot_offset);
+        func_800B2164(entry);
     }
     ((S_800B2190_1 *)(*slot))->unk_00 = 0;
     if (*slot != NULL) {

@@ -8,7 +8,7 @@ typedef struct {
 } DungeonState;
 
 extern void func_800A08A0(s32);
-extern s32 func_800A6D30(s32, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern s16 D_8008146E;
 
 
@@ -20,7 +20,7 @@ void func_800A0DD8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         spawn_turns = dungeonStatus.unk_06 - 1;
         dungeonStatus.unk_06 = spawn_turns;
         if (spawn_turns < 0) {
-            dungeonStatus.unk_06 = (func_800A6D30(arg0, arg1, arg2, arg3) & 0x1F) | 0x20;
+            dungeonStatus.unk_06 = (func_800A6D30() & 0x1F) | 0x20;
             func_800A08A0(0);
         }
     }

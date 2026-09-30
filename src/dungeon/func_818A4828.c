@@ -13,7 +13,7 @@ extern void func_80025118(void);
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A6870(s32);
 extern void func_800AD4D0(void *);
-extern void func_800AD568(void *, s32);
+extern void func_800AD568(void *);
 extern void func_800B4C7C(s32, void *, s32, s32);
 
 static void (*const callbacks[])(void) = {
@@ -41,7 +41,7 @@ void func_818A4828(void *target, s32 effect_param) {
             stat_gain = base_gain + ((s32)(base_gain << 16) >> 17);
         }
         *(u16 *)((u8 *)target + 0x64) += stat_gain;
-        func_800AD568(target, stat_gain);
+        func_800AD568(target);
         base_gain = 0x8004;
         func_800B4C7C(base_gain, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
         func_800AD4D0(target);

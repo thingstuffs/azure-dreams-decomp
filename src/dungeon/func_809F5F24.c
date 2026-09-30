@@ -141,7 +141,7 @@ void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
         if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity, phase, direction_x, direction_y);
+        func_800A2FE0(entity);
         func_800A32A4(entity);
         sound_x = ((S_80173724_3 *)sprite)->unk_24;
         sound_y = ((S_80173724_3 *)sprite)->unk_25;

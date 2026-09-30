@@ -8,7 +8,7 @@ extern u8 D_800E1B08[];
 extern u8 D_800E1B2E[];
 
 extern void func_800997FC();
-extern s32 func_80042900(void *, s32, void *);
+extern s32 func_80042900(void *, s32);
 extern void func_800419EC(s32, s32);
 extern void func_800A56E0(s32);
 
@@ -40,7 +40,7 @@ void func_800CBDB4(s16 *transition) {
     {
         DungeonGlobalStatus *settings = &dungeonStatus;
         if ((settings->flags & 0x10) &&
-            ((func_80042900(((u8 *)D_800E3D7C), 0x1C, state) << 16) == 0)) {
+            ((func_80042900(((u8 *)D_800E3D7C), 0x1C) << 16) == 0)) {
             transition[2] = 0x10;
             transition[1] = (u16)transition[1] + 1;
             settings->unk_0A = (u16)((u16)settings->unk_0A) + 1;

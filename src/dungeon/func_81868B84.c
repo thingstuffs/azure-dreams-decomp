@@ -86,7 +86,7 @@ void func_81868B84(void *effect, void *position) {
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
             if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
-                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
             grow_angle_fixed += 0x05550000;
@@ -120,7 +120,7 @@ void func_81868B84(void *effect, void *position) {
                 (u16) (((Rec_func_80024264_arg1 *)position)->unk_10.at02_u16.v + (radial_product >> 8));
             if ((func_800A45D8(((Rec_func_80024264_arg1 *)position)->unk_00.at02_u16.v,
                 ((Rec_func_80024264_arg1 *)position)->unk_04.at02_u16.v,
-                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v, radial_product) << 0x10) == 0) {
+                (s16) ((Rec_func_80024264_arg1 *)position)->unk_08.at02_u16.v) << 0x10) == 0) {
                 func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
             fade_angle_fixed += 0x05550000;

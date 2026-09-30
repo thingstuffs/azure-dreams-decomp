@@ -3,7 +3,7 @@
 
 typedef void (*Callback)(void *, s32);
 
-extern void func_800B180C(void *, s32);
+extern void func_800B180C(void *);
 
 
 typedef struct S_800B1890_0 {
@@ -33,5 +33,5 @@ void func_800B1890(void *object) {
         (*(Callback *)((u8 *)object + -0x10)) = func_800B180C;
     }
 
-    func_800B180C(object, current_value);
+    func_800B180C(object);
 }

@@ -36,5 +36,5 @@ void func_80027F34(void *state) {
         ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_10 = 0;
         ((S_80027F34_0 *)((u8 *)state - 0x10))->unk_00 = &D_80027A68;
     }
-    func_80027A20(state, state);
+    func_80027A20(state);
 }

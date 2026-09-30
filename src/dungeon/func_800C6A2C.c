@@ -15,7 +15,7 @@ extern u8 D_800E1BDA[];
 extern s32 func_80099844(void *, void *);
 extern s32 func_800A56E0(u32);
 extern s32 func_800A6508(void);
-extern s32 func_800A6D30(void *, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern s32 func_800AA5E4(void *, s32, s32, void *);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -31,7 +31,7 @@ s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_
 
     outcome = 0;
     if (D_800E3D40[0] == 0) {
-        random_value = func_800A6D30(entity, forwarded_1, forwarded_2, forwarded_3) & 0xFFFF;
+        random_value = func_800A6D30() & 0xFFFF;
         if (((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B)) != 0) {
             roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
             remainder = random_value % roll;

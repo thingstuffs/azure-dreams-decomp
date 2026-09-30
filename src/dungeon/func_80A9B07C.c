@@ -106,13 +106,13 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
             if (((kind_flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     part_arg = part_a;
-                    object_arg = (void *)func_800A6D30(object_arg);
+                    object_arg = (void *)func_800A6D30();
                     flags_or_roll = (s32)object_arg;
                     object_arg = obj;
                     if (flags_or_roll & 1) {
                         work->unk_1C |= 0x200;
                         func_800A48F0(work, 1,
-                                      (func_800A6D30(obj) & 0x3F) | 0x20);
+                                      (func_800A6D30() & 0x3F) | 0x20);
                         part_b->unk_2C = D_80174C8C;
                         goto post_kind;
                     }

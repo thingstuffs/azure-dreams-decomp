@@ -184,7 +184,7 @@ remove_actor:
         return;
 
     case 1:
-        if (func_8003F270(motion) != 0) {
+        if (func_8003F270() != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             return;
         }

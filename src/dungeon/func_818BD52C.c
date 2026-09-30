@@ -116,7 +116,7 @@ void *func_818BD52C(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s
         part->unk_14 |= 0xC;
         part->unk_10 |= 0x20;
         part->unk_14 |= 0x100;
-        func_8003DB94(part, D_800DEC70, 0, phase);
+        func_8003DB94(part, D_800DEC70, 0);
 
         random_angle = rand();
         part->unk_1A = random_angle % 0x1000;

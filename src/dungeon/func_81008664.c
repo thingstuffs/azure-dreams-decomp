@@ -307,7 +307,7 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         motion->unk_14 = -0x40000;
-        func_800A56E0(0x802, launch_ticks);
+        func_800A56E0(0x802);
         {
             fall_anim = 0x10;
             animation_table = D_801748F8;

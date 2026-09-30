@@ -72,7 +72,7 @@ void *func_800D8590(void *entity)
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (((S_800D8590_1 *)entity)->unk_13 == 0) {
-        func_80094E34(entity_arg);
+        func_80094E34();
         flags = ((S_800D8590_3 *)child)->unk_14;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         flags |= 0x8000;

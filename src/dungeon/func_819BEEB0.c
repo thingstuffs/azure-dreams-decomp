@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800478B8(void *arg0, s32 arg1);
+extern void func_800478B8(void *arg0);
 extern s16 D_8002992E[5];
 
 /* Advance effect motion and animation, then mark it finished when its lifetime expires. */
@@ -26,7 +26,7 @@ void func_800246B0(void *effect, void *position, void *visual) {
     frame_count += 1;
     *(u16 *)((u8 *)effect + 0x2A) = frame_count;
     if (!(frame_count & 1)) {
-        func_800478B8(visual, accel_z);
+        func_800478B8(visual);
     }
     frames_left = *(u16 *)((u8 *)effect + 0x28) - 1;
     *(u16 *)((u8 *)effect + 0x28) = frames_left;

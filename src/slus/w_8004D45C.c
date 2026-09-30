@@ -18,7 +18,7 @@ typedef struct S_8004D45C_Buf {
     s16 f4;
 } S_8004D45C_Buf;
 
-extern s32 func_8004D294(void *a0, void *a1, u16 a2, s32 a3);
+extern s32 func_8004D294(void *a0, void *a1, u16 a2);
 
 /* Packs the source's high halfwords, preserving NULL, and calls func_8004D294 with a 16-bit value. */
 s32 func_8004D45C(S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 forwarded_value) {
@@ -31,5 +31,5 @@ s32 func_8004D45C(S_8004D45C_Src *source, void *forwarded_ptr, u32 value, s32 fo
         high_words.f4 = source->fA;
         packed_source = &high_words;
     }
-    return func_8004D294(packed_source, forwarded_ptr, value & 0xFFFF, forwarded_value);
+    return func_8004D294(packed_source, forwarded_ptr, value & 0xFFFF);
 }

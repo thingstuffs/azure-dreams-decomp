@@ -10,10 +10,10 @@ typedef struct S_800A0CC0_0 {
 } S_800A0CC0_0;   /* arg0 in func_800A0CC0 */
 
 
-s32 func_800352FC(S_800A0CC0_0 *, s32, s32, s32);
+s32 func_800352FC(void);
 /* Set the object handler when func_800352FC returns zero. */
 void func_800A0CC0(S_800A0CC0_0 *object, s32 value_1, s32 value_2, s32 value_3) {
-    if (func_800352FC(object, value_1, value_2, value_3) == 0) {
+    if (func_800352FC() == 0) {
         object->unk_50 = &D_800A0C30;
     }
 }

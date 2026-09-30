@@ -16,7 +16,7 @@ extern u8 D_80110004[];
 extern s16 D_80113200[];
 
 extern s32 func_800C0F60(s32 arg0);
-extern void func_800C0FE4(s16 *arg0, s32 arg1);
+extern void func_800C0FE4(s16 *arg0);
 
 /* Builds a four-value town entry result using table data or a fallback lookup. */
 s16 *func_800C1034(s32 unused, s32 index) {
@@ -52,7 +52,7 @@ s16 *func_800C1034(s32 unused, s32 index) {
                 output[3] = D_800D4268[3];
                 break;
             case -2:
-                func_800C0FE4(output, entry_index);
+                func_800C0FE4(output);
                 break;
             default:
             {
@@ -69,6 +69,6 @@ s16 *func_800C1034(s32 unused, s32 index) {
             return D_80113200;
         }
     }
-    func_800C0FE4(output, entry_index);
+    func_800C0FE4(output);
     return D_80113200;
 }

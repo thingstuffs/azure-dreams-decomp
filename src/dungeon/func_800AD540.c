@@ -49,7 +49,7 @@ typedef struct {
 
 extern u8 D_800B2A60[];
 
-extern void func_8009A028(Entity *, Global83460 *);
+extern void func_8009A028(Entity *);
 extern void func_800A2B04(Motion *, u8, u8);
 extern void func_800AD4D0(Entity *);
 
@@ -117,7 +117,7 @@ stop_motion:
                 *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
             }
             shared_state->unk_0A++;
-            func_8009A028(entity, shared_state);
+            func_8009A028(entity);
             ((u16 *)motion_state)[-1] |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }

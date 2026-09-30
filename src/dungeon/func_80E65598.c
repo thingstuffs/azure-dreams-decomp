@@ -91,7 +91,7 @@ typedef struct {
 
 extern Entity *func_8003FC64(s32);
 extern void func_8004491C(Entity *, void *);
-extern void func_801745B4(void *, DungeonObjectArg *, EntityRender *);
+extern void func_801745B4(void *, DungeonObjectArg *);
 
 extern DungeonGroup D_80073414[];
 extern s32 D_8007361C[256];
@@ -131,7 +131,7 @@ void func_80174D98(void *owner, SourcePosition *source_pos, void *unused,
     work->owner = owner;
     copied_word = copy_src->value;
     copy_dst->value = copied_word;
-    func_801745B4(copy_dst, object, render);
+    func_801745B4(copy_dst, object);
     object->copied[0] = 0;
     object->copied[1] = 0;
 

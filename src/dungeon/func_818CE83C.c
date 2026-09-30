@@ -1,4 +1,4 @@
-/* func_8002403C (dungeon, foff 0x18EE83C, 592 B) -- true base 0x8002403C by bank law
+/* func_8002403C (dungeon, foff 0x18EE83C) -- true base 0x8002403C by bank law
  * (bank 0x18EA800 -> 0x80020000, delta 0x7E735800, same delta as the proven region
  * leaf_18efb74_truebase_80025374 in this bank).  The retail `j 0x80024094` at word 132
  * is this function's OWN loop head (word 22): reorg steals `move a0,s1` from the target

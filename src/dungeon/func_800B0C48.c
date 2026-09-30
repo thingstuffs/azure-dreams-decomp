@@ -57,7 +57,7 @@ void func_800B63A8(void *effect, void *motion, void *primitive) {
     ((S_800B63A8_0 *)motion)->unk_00 = (s32) (((S_800B63A8_0 *)motion)->unk_00 + ((S_800B63A8_0 *)motion)->unk_0C);
     ((S_800B63A8_0 *)motion)->unk_04 = (s32) (((S_800B63A8_0 *)motion)->unk_04 + velocity_y);
     ((S_800B63A8_0 *)motion)->unk_08 = (s32) (((S_800B63A8_0 *)motion)->unk_08 + velocity_z);
-    func_800478B8(primitive, motion, velocity_z);
+    func_800478B8(primitive);
     red = ((Rec_D_80082E80 *)primitive)->unk_0C.at00_u8.v;
     if (red != 0) {
         faded_red = red - ((S_800B63A8_1 *)effect)->unk_14;

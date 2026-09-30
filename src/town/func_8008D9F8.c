@@ -26,7 +26,7 @@ typedef struct {
 
 extern TownState D_801131B8;
 extern void func_80035208(s32);
-extern void func_8008B0E8(s32, u32, u32, u32);
+extern void func_8008B0E8(s32, u32, u32);
 
 /* Loads town state from item flags and dispatches the selected object value. */
 void func_8008B158(Object *object) {
@@ -53,7 +53,7 @@ void func_8008B158(Object *object) {
             D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        func_8008B0E8(call_value, high_code, low_code, extra_flags);
+        func_8008B0E8(call_value, high_code, low_code);
         data_base = 0x80016000;
         data_offset = *(u16 *)&item->flags0;
         call_value = data_base + data_offset;

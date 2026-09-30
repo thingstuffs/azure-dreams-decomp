@@ -65,7 +65,7 @@ void func_8102F0D4(void *state, S_8102F0D4_0 *position, Rec_D_80082E80 *entity) 
     direction_offset = &D_800DCECC[((s32) (gameWork.view.viewAngle + ((S_8102F0D4_1 *)state)->unk_94 + 0x100)
         >> 9) & 7];
     entity->unk_06.as_s16 = (s16) ((position_depth - reference_depth) - (*direction_offset * 2));
-    func_800478B8(entity, direction_offset);
+    func_800478B8(entity);
     ticks_left = ((S_8102F0D4_1 *)state)->unk_96 - 1;
     ((S_8102F0D4_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 0x10) <= 0) {

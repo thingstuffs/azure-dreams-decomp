@@ -18,7 +18,7 @@ typedef struct TableEntry {
     u8 pad[0x7C];
 } TableEntry;
 
-extern s32 func_80022138(void *arg0);
+extern s32 func_80022138(void);
 extern void func_80022FDC(void *arg0);
 extern void func_8002311C(void *arg0);
 extern void func_80025494(void *arg0);
@@ -39,7 +39,7 @@ void func_800254E4(void *context)
     context = record - 0x20;
 
     if (D_80083E98[table_index].value == 0) {
-        status = func_80022138(context);
+        status = func_80022138();
         context = 0;
         context = record - 0x20;
         if (status < 3) {

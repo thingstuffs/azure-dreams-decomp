@@ -114,5 +114,5 @@ void func_80023600(void *panel) {
         row_slots += 4;
         row_y += 0x10;
     } while (row_index < 3);
-    func_80023470(panel, row_y, lower_y, row_index);
+    func_80023470(panel);
 }

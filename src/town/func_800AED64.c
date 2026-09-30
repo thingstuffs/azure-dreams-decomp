@@ -361,7 +361,7 @@ void func_800AC4C4(void) {
     scratch->unk_14C = 0xFFFF;
     scratch->unk_174 = 4;
     scratch->unk_164 = (u8 *) packet + 0xCCCC;
-    scratch->unk_0C = (s16) func_80046C20(work_ptr, coord_offset, edge_count, render_buffer);
+    scratch->unk_0C = (s16) func_80046C20(work_ptr, coord_offset, edge_count);
     if (scratch->unk_174 != 0) {
         one = 1;
         vertex_input = (u8 *)scratch + 0xE0;

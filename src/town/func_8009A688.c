@@ -3,7 +3,7 @@
 
 typedef void (*Callback)(s32, void *, void *);
 
-extern s32 func_800352FC(s32, void *, void *, void *);
+extern s32 func_800352FC(void);
 extern s32 *D_800D0508[];
 extern s32 *D_800FE5D8[3];
 
@@ -12,7 +12,7 @@ void func_80097DE8(s32 arg0, void *arg1, void *arg2, void *arg3) {
     Callback callback;
     s8 status;
 
-    if (func_800352FC(arg0, arg1, arg2, arg3) == 0) {
+    if (func_800352FC() == 0) {
         ((Callback)D_800FE5D8[0])(arg0, arg1, arg2);
         return;
     }

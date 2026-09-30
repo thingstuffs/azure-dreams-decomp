@@ -90,7 +90,7 @@ void func_80175DD0(void *parent_data, S_80175DD0_4 *origin, Rec_D_80082E80 *sour
               coords->unk_12 = *(u16 *)(((s8 *)dirStepY) + direction_offset),
               object->unk_40 = 0x10,
               object->unk_20 = (s16 *)((u8 *)parent_data + 0x2A),
-              func_80047784(object_data, 0x45, 0, coords),
+              func_80047784(object_data, 0x45, 0),
               func_8004491C(object, &D_80175D74),
               angle = ((((gameWork.view.viewAngle + *object->unk_20 + 0x100) >> 9) & 7) + 2) << 9,
               object_data->unk_18 = angle,

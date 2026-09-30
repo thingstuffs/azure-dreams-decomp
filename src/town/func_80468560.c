@@ -6,7 +6,7 @@ typedef s32 (*M2C_CALLBACK2)(s32, s32);
 typedef s32 (*M2C_CALLBACK0)(void);
 
 M2C_UNK func_800196A4();                            /* extern */
-M2C_UNK func_8001D048(s32 arg0, s32 arg1, s32 arg2, s32 arg3);                            /* extern */
+M2C_UNK func_8001D048(void);                            /* extern */
 M2C_UNK func_8001E578();                     /* extern */
 M2C_UNK func_8001E5F0();                     /* extern */
 s32 func_8001E670();                             /* extern */
@@ -28,7 +28,7 @@ void func_80019560(s32 setup_arg0, s32 setup_arg1, s32 setup_arg2, s32 setup_arg
     u8 *state_page;
     M2C_CALLBACK0 *opcode_handlers;
 
-    func_8001D048(setup_arg0, setup_arg1, setup_arg2, setup_arg3);
+    func_8001D048();
     if (func_8001E670(0xA3) != 0) {
         if (func_8001E670(0xAB) == 0) {
             func_8001E578(0x409);

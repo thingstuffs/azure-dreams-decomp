@@ -152,6 +152,6 @@ void func_800B1188(void *ui) {
             + ((Rec_func_800B0C68_arg0 *)ui)->unk_CC.as_s32)))->unk_60))->unk_04))->unk_0A = lower_y;
         lower_y -= 0x10;
     } while (row >= 0);
-    func_800B0D0C(ui, lower_y, row, left_y);
+    func_800B0D0C(ui);
     func_800B0FD4(ui);
 }

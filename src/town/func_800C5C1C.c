@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_80033D38(void *, void *);
+extern s32 func_80033D38(void *);
 extern void func_800C3780(void *arg0, void *arg1, void *arg2);
 extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
 
@@ -11,7 +11,7 @@ void func_800C337C(void *object, void *context, void *dispatch_data) {
     u8 *object_bytes = (u8 *) object;
     u8 state;
 
-    if (func_80033D38(object, context) != 0) {
+    if (func_80033D38(object) != 0) {
         object_bytes[0x15] = 1;
     }
     state = object_bytes[0x94];

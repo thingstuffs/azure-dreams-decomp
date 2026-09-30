@@ -77,7 +77,7 @@ extern u8 D_80170994[];
 extern u8 D_801709B8[];
 extern s32 D_80171F1C;
 
-extern void func_80040AA0(u8, s16 *);
+extern void func_80040AA0(u8);
 extern s32 func_800429E4(void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_800481E0(void);
@@ -296,7 +296,7 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
                 floor_count++;
                 *(s32 *)(counter_page + 0x234) = visit_count;
                 *(u16 *)((u8 *)floor_stats + 4) = floor_count;
-                func_80040AA0(map_id, floor_stats);
+                func_80040AA0(map_id);
             }
             func_800481E0();
             ((S_80175CD8_3 *)motion)->unk_14 = 0;

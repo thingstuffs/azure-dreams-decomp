@@ -17,7 +17,7 @@ extern s16 func_8003F794(s32, s32);
 extern void func_800A9024(s32);
 
 
-extern void func_80094E34(Rec_func_8008D024_arg0 *);
+extern void func_80094E34(void);
 /* Initializes action state and animation, then handles the current tile type. */
 void func_8008D9F0(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *entity, EntityRec *actor) {
     s16 tile_type;
@@ -26,7 +26,7 @@ void func_8008D9F0(Rec_func_8008D024_arg0 *state, s32 unused, Rec_D_80082E80 *en
     state->unk_9A = 0x25;
     state->unk_9B.as_s8 = 0;
     state->unk_8C = 0;
-    func_80094E34(state);
+    func_80094E34();
     if (func_80042900(actor, 0xA) == 0) {
         entity->unk_2C.as_pu8 = D_800DCFB0;
         func_80048A44(entity, D_800DCFB0[((s32)(gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0, 1);

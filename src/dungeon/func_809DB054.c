@@ -107,7 +107,7 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
                 goto init_parts;
             }
             query_part = part_a;
-            init_obj = (void *)func_800A6D30(init_obj);
+            init_obj = (void *)func_800A6D30();
             flag_bits = (s32)init_obj;
             init_obj = obj;
             if (!(flag_bits & 1)) {
@@ -115,7 +115,7 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
             }
             work->unk_1C |= 0x200;
             func_800A48F0(work, 1,
-                          (func_800A6D30(obj) & 0x3F) | 0x20);
+                          (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = D_80161CDC;
         }
         init_obj = obj;

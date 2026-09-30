@@ -340,7 +340,7 @@ loop_0:
             message_end = func_8009929C(0x4C, message_end);
             message_end = func_80099254(&D_800E0458, message_end);
         }
-        func_80099290(message_end, message_end);
+        func_80099290(message_end);
         func_800A5720(message_start);
     }
     return 1;

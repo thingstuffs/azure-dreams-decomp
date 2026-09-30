@@ -56,9 +56,9 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
         func_80095A94(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
         actor->unk_14 = 0;
-        func_800954F4(actor, threshold);
+        func_800954F4(actor);
     } else {
-        func_80095388(actor, threshold);
+        func_80095388(actor);
     }
 
     if (func_800C1D44(func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i) & 0xFFFF) != 0) {

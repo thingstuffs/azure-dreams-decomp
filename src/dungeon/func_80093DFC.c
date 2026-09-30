@@ -13,7 +13,7 @@ s32 func_8009955C(void *entry, s32 value) {
         pre_type = F(entry, u8, 1);
         pre_adjustment = D_800DD72C[pre_type];
         if (pre_adjustment && (pre_type != 15 || F(entry, u8, 0) < 14)) {
-            value = func_80099194(pre_adjustment, value, pre_type);
+            value = func_80099194(pre_adjustment, value);
         }
     }
     result = func_800992E8(entry, value);
@@ -24,7 +24,7 @@ s32 func_8009955C(void *entry, s32 value) {
             if (post_type == 15 && F(entry, u8, 0) >= 14) {
                 return result;
             }
-            result = func_80099194(post_adjustment, result, post_type);
+            result = func_80099194(post_adjustment, result);
         }
     }
     return result;

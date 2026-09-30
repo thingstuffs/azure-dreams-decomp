@@ -24,7 +24,7 @@ void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s32 lower_bo
         query_y = call_y & 0xFFFF;
         shifted_lower = lower_bound << 16;
         lower = shifted_lower >> 16;
-        query_value = func_800BCB04(query_x, query_y, lower, raw_upper << 16);
+        query_value = func_800BCB04(query_x, query_y, lower);
         if (query_value < upper && query_value >= lower) {
             func_800251F4(object_data, (s16)x, (s16)y, upper);
             func_800419EC(6, 12);

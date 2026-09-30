@@ -48,7 +48,7 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
             }
             if (buttons & 0x20) {
                 D_800FC418 = 1;
-                func_80035208(D_80072210, transform);
+                func_80035208(D_80072210);
                 return;
             }
         }

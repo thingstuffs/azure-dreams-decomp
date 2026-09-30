@@ -2,7 +2,7 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80019730(s32, s32);
+extern M2C_UNK func_80019730(void);
 extern M2C_UNK D_8001601C;
 extern u8 D_80017774[];
 extern M2C_UNK D_8002576F;
@@ -16,7 +16,7 @@ M2C_UNK *func_8001B020(s32 setup_value, s32 setup_option, s32 mode) {
         return selected_data;
     }
     if (mode != 4) {
-        func_80019730(setup_value, setup_option);
+        func_80019730();
         selected_data = &D_8002576F;
     } else {
         selected_data = &D_8001601C;

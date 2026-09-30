@@ -20,7 +20,7 @@ typedef struct {
 
 extern void strncat(void *, void *, s32);
 extern s32 func_8004DC14(void *, s32);
-extern void func_8004E99C(void *, void *);
+extern void func_8004E99C(void *);
 extern s32 D_8002503C;
 
 /* Create or release resources for entries 6 through 13 based on their inner values. */
@@ -46,7 +46,7 @@ void func_80027BBC(void *entry_table, void *resource_names)
                 (*entry_slot)->unk0 = (s32 *)func_8004DC14(&name_buffer, 1);
             }
         } else if (entry->unk0 != 0) {
-            func_8004E99C(entry->unk0, entry);
+            func_8004E99C(entry->unk0);
             (*entry_slot)->unk0 = 0;
         }
         entry_slot += 1;

@@ -37,6 +37,6 @@ void func_800992F8(TownObject *object, s32 table_target) {
     object->handler = &D_800983BC;
     object->state = 3;
     object->value = entry_value;
-    func_80099754(table_target, D_800D5070);
+    func_80099754(table_target);
     SD_Call(0x519);
 }

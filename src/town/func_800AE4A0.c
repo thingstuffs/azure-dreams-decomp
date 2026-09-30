@@ -93,7 +93,7 @@ void func_800ABC00(void *source_data, u32 angle)
     source = source_data;
     angle >>= 9;
     direction = angle & 7;
-    effect = func_8003FC64(0x212, angle);
+    effect = func_8003FC64(0x212);
     if (effect != NULL) {
         motion = effect->unk8;
         sprite = effect->unkC;

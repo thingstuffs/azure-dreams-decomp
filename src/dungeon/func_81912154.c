@@ -246,7 +246,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             axis_delta /= ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
             motion_out = motion;
             ((S_80025954_11 *)motion_out)->unk_14 = axis_delta;
-            func_80024170(state, motion_out, distance_cursor, destination);
+            func_80024170(state, motion_out);
             motion_value = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
             step_count = 0;

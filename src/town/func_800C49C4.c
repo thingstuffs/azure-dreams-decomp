@@ -23,7 +23,7 @@ typedef struct {
     s16 pad_A;
 } TownPosition;
 
-extern s32 func_80033B2C(s32, s32);
+extern s32 func_80033B2C(s32);
 extern void tw_sd_sq_ld_call(s32, s32);
 extern u8 D_800C21F8[];
 
@@ -43,7 +43,7 @@ s32 func_800C2124(TownObject *object) {
     distance_x = abs(offset_x);
     distance_z = abs(object->z - position->z);
     check_id = object->check_id;
-    if (func_80033B2C(check_id, offset_x) != 0) {
+    if (func_80033B2C(check_id) != 0) {
         if (object->range_x >= distance_x) {
             coord_value_3 = distance_z;
             if (object->range_z >= coord_value_3) {

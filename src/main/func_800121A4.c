@@ -32,7 +32,7 @@ void func_800251A4(void *object) {
     state_flags = D_80082E60.field_16;
     *(s16 *)(global_page + 0x3714) = object_mode;
     D_80082E60.field_16 = state_flags | 2;
-    func_80025D34(object - 0x20, object_mode);
+    func_80025D34(object - 0x20);
     func_800439F8();
     global_mode = 6;
     if (*(u16 *)(global_page + 0x208) != 0) {

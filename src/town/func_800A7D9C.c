@@ -12,10 +12,10 @@ typedef struct S_800A54FC_0 {
 } S_800A54FC_0;   /* arg0 in func_800A54FC */
 
 
-s32 func_800352FC(S_800A54FC_0 *, s32, s32, s32);
+s32 func_800352FC(void);
 /* Initialize the object value and handler when func_800352FC returns zero. */
 void func_800A54FC(S_800A54FC_0 *object, s32 value_1, s32 value_2, s32 value_3) {
-    if (func_800352FC(object, value_1, value_2, value_3) == 0) {
+    if (func_800352FC() == 0) {
         object->unk_04 = 0x400;
         object->unk_1C = &D_800A5340;
     }

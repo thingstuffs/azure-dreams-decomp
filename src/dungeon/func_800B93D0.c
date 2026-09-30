@@ -86,7 +86,7 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
                 return 0;
             }
 
-            action_value = func_800990FC(state, call_context, action_kind);
+            action_value = func_800990FC();
             value = action_value;
             item_type = item[1];
             if (item_type == 0xF || (item_type == 0x10 && item[0] == 2)) {

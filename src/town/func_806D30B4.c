@@ -37,7 +37,7 @@ typedef struct TownBucket {
     u8 pad_1c[4];
 } TownBucket;
 
-extern s32 func_80016818(void *, s32);
+extern s32 func_80016818(void *);
 extern s32 func_8001643C(s32, s32, s32, s32);
 extern void func_800163B8(void *, void *);
 
@@ -72,7 +72,7 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
                                     (bank_bits * 4)))))->unk_0A != 0) ||
                 (bank_bits != 0)) {
                 if (entry->active != 0) {
-                    s32 choice_index = func_80016818(entry, bucket_bits);
+                    s32 choice_index = func_80016818(entry);
                     s32 choice_flags =
                         (entry->flags & ~0xFF) | (choice_index & 0xFF);
                     s32 next_record;

@@ -89,7 +89,7 @@ extern u8 D_8017612C[];
 
 extern AllocationObject *func_8003FC64(s32 arg0);
 extern void func_8004491C(AllocationObject *arg0, void *arg1);
-extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2, s32 arg3);
+extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
 extern s32 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
 extern void func_800C77D0(AllocationObject *arg0, PayloadObject *arg1, s32 arg2, s32 arg3);
 extern void *func_801748FC(void *arg0, u32 arg1, u32 arg2, s16 arg3);
@@ -155,7 +155,7 @@ void func_80175494(Arg0Object *owner, Arg1Object *height_source, Arg2Object *ori
             } else {
                 mode = 0x3000;
             }
-            func_8009A3D0(secondary_x, secondary_y, mode, mode);
+            func_8009A3D0(secondary_x, secondary_y, mode);
         }
         func_800C77D0(allocated, payload, 8, 0x300);
     }

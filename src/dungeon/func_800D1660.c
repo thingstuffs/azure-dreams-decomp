@@ -6,7 +6,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64(s32, void *);       /* extern */
-void func_8004491C(void *, void *, void *, void *); /* extern */
+void func_8004491C(void *, void *); /* extern */
 s32 func_800644B8(s32);                           /* extern */
 s32 func_80064584(s32);                           /* extern */
 void func_80047784(void *, u8, s32);              /* extern */
@@ -126,7 +126,7 @@ void func_800D6DC0(void *unused, Rec_func_800D6DC0_arg1 *origin, void *render_te
             } while (copy_src != (void *)copy_end);
             render_data->unk_10 = 0x20;
             render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
-            func_8004491C(effect, &D_800D67B0, copy_dst, copy_src);
+            func_8004491C(effect, &D_800D67B0);
             position = ((AllocBlock *)effect)->field8;
             position->unk_02 = (u16) origin->unk_02;
             start_angle = segment << 9;

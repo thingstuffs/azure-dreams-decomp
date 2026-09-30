@@ -35,7 +35,7 @@ s32 func_80017824(S_80017824_0 *obj, s32 index) {
         ((S_80017824_2 *)((offset + obj->unk_10)))->unk_04 = &D_80016A3C;
         entry = offset + obj->unk_10;
         entry->unk_08 = &D_8001B718;
-        func_80017808(entry);
+        func_80017808();
     }
     return 0;
 }

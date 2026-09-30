@@ -93,7 +93,7 @@ s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_pa
         sprite->unk_10 = (u16) (sprite->unk_10 | 0x60);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
         shifted_frame = (s32)frame_index << 0x10;
-        func_8003DB94(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5), shifted_frame >> 0x1F);
+        func_8003DB94(sprite, &D_800DECF8, (s16) ((shifted_frame >> 0x10) % 5));
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         func_8004491C(effect, func_80045340);

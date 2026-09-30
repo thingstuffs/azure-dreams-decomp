@@ -165,7 +165,7 @@ void func_800A17CC(void *sprite, s32 position) {
         ((S_800A17CC_1 *)textured_quad)->unk_1D = bottom_v;
     }
 
-    func_800A130C((void *)0x1F800074, position, texture_y);
+    func_800A130C((void *)0x1F800074, position);
     func_800A130C((void *)0x1F80007C, position);
     func_800A130C((void *)0x1F800084, position);
     func_800A1330((void *)0x1F80008C, (void *)0x1F800074);

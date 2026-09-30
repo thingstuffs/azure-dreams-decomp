@@ -5,7 +5,7 @@
 
 s32 func_80049E1C(s32 arg0, s32 arg1, s32 arg2);
 void func_800B1F10(s32 arg0, s32 arg1);
-void func_800B1F48(s32 arg0, s32 arg1, s32 arg2);
+void func_800B1F48(s32 arg0, s32 arg1);
 
 
 typedef struct S_800B1F80_1 {
@@ -35,7 +35,7 @@ void func_800B1F80(s8 *state, s32 input) {
         entry->unk_08 = next_index;
         active_slot = ((Rec_func_800B1DCC_arg0 *)state)->unk_0C;
         next_group = index_result / 10;
-        func_800B1F48(*((s32 *)((s8 *)state + (active_slot * 4))), active_slot, next_index);
+        func_800B1F48(*((s32 *)((s8 *)state + (active_slot * 4))), active_slot);
         if (next_group != entry->unk_00) {
             entry->unk_00 = next_group;
             group_slot = ((Rec_func_800B1DCC_arg0 *)state)->unk_0C;

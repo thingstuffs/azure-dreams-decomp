@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
 
-extern void func_8016AC30(s32, s32, s32, s32);
+extern void func_8016AC30(void);
 extern void func_8009FAC4();
 extern void func_80047784();
 extern void func_80099FDC();
@@ -18,7 +18,7 @@ void func_8016DCC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     u8 *base;
     u8 *linked;
 
-    func_8016AC30(arg0, arg1, arg2, arg3);
+    func_8016AC30();
     base = D_80174704 + 0x20;
     linked = *(u8 **)(D_80174704 + 0xC);
     *(u16 *)(base + 0x46) &= 0x7FFF;

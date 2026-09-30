@@ -4,7 +4,7 @@
 extern u8 D_800CEA44[];
 extern u8 D_800E3648[];
 
-extern s32 func_8003FA44(s32 arg0, void *arg1);
+extern s32 func_8003FA44(s32 arg0);
 extern void *func_8003FC64(s32 arg0);
 extern void SD_Call(s32 arg0);
 
@@ -33,7 +33,7 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)((u16 *)&state->unk_1C);
         }
 
-        result = func_8003FA44(*(s8 *)(entry + 2) + 1, entry);
+        result = func_8003FA44(*(s8 *)(entry + 2) + 1);
         entry_ready = result != 0;
         if (entry_ready) {
             node = func_8003FC64(2);

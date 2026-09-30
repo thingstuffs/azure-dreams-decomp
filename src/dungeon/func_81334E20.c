@@ -55,7 +55,7 @@ typedef struct S_8016BE20_6 {
 } S_8016BE20_6;   /* header in func_8016BE20 */
 
 
-extern void func_800353F4(void *, void *);
+extern void func_800353F4(void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A4ACC(void *);
@@ -185,7 +185,7 @@ increment_state:
                 object_flag = 0x80000000;
                 ASM_USE(object_flag);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 D_80013714 = global_flags | 8;
-                func_800353F4(setup_data, work);
+                func_800353F4(setup_data);
                 ((S_8016BE20_2 *)ctx)->unk_6D = 0;
                 ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 

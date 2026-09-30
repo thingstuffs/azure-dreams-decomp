@@ -6,7 +6,7 @@ typedef struct {
     void *pad[2];
 } PointerGlobal;
 
-extern s32 func_800352FC(void *, s32, s32, s32);
+extern s32 func_800352FC(void);
 extern void func_8008F134(void *arg0);
 
 extern PointerGlobal D_800FE4A0;
@@ -17,7 +17,7 @@ extern u8 D_80097D2C[12];
 void func_800C28E8(void *object, s32 request_data, s32 request_param, s32 check_param) {
     void *current_object;
 
-    if (func_800352FC(object, request_data, request_param, check_param) != 0) {
+    if (func_800352FC() != 0) {
         current_object = D_800FE4A0.value;
         if (current_object == object && D_800834B8.value == D_80097D2C) {
             func_8008F134(current_object);

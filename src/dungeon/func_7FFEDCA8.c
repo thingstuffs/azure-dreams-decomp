@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_8008B2E4(void *);
-extern s32 func_8008B3AC(s32);
+extern s32 func_8008B3AC(void);
 extern u8 D_800CF828[];
 extern u8 D_800CF838[];
 
@@ -13,7 +13,7 @@ void reserve_twch_load(s32 entry_id) {
     found = func_8008B2E4(((void **)D_800CF838)[entry_id]);
     entry_index = 0;
     if (found != 0) {
-        entry_index = func_8008B3AC(entry_index);
+        entry_index = func_8008B3AC();
         if (entry_index >= 0) {
             D_800CF828[entry_index] = entry_id;
             return;

@@ -18,7 +18,7 @@ s32 func_800259CC(Rec_func_80025850_arg0 *context) {
 
     check_passed = 0;
     if (context->unk_08 == 4) {
-        check_passed = func_80026C20(((S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28, 0) == 0;
+        check_passed = func_80026C20(((S_800259CC_2 *)(((Rec_func_80025850_arg0 *)context)->unk_18))->unk_28) == 0;
     }
     return check_passed;
 }

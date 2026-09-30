@@ -57,9 +57,9 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     } else {
         if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
-            func_800954F4((void *) object_ref, threshold);
+            func_800954F4((void *) object_ref);
         } else {
-            func_80095388((void *) object_ref, threshold);
+            func_80095388((void *) object_ref);
         }
     }
     coords = &D_80083780;

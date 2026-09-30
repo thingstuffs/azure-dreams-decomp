@@ -34,7 +34,7 @@ typedef struct S_8001D188_2 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_8001D414(s32, s32, s32, s32);
+extern s32 func_8001D414(void);
 extern s8 D_8001902C[];
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */
@@ -60,7 +60,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     } while (0);
     state_base = ((S_8001D188_4 *)(((S_8001D188_3 *)page)->unk_6000))->unk_38;
     entry_id = entry_index;
-    variant = func_8001D414(entry_index, lookup_arg1, lookup_arg2, lookup_arg3);
+    variant = func_8001D414();
     cursor = ((S_8001D188_0 *)page)->unk_6000;
     cursor = cursor->unk_24;
     cursor = cursor->unk_6C;

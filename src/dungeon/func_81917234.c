@@ -51,7 +51,7 @@ void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E8
         node_index += 1;
         node_slot += 1;
     } while (node_index < 3);
-    func_8003DB94(visual, D_800DEDB0, 0, flags_base);
+    func_8003DB94(visual, D_800DEDB0, 0);
     visual->unk_0C.at02_u8.v = 0xC0;
     visual->unk_0C.at01_u8.v = 0xC0;
     visual->unk_0C.at00_u8.v = 0xC0;

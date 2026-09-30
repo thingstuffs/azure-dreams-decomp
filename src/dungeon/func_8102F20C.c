@@ -48,7 +48,7 @@ typedef struct {
 
 extern s8 D_800DCECC[];
 extern s32 func_80065420(void *, void *, void *, void *);
-extern void func_800478B8(void *, s32);
+extern void func_800478B8(void *);
 
 /* Apply a relative projected depth with a direction bias and propagate output status flags. */
 void func_8102F20C(void *entity, S_8102F20C_0 *position, void *output) {
@@ -75,7 +75,7 @@ void func_8102F20C(void *entity, S_8102F20C_0 *position, void *output) {
     depth_delta = depth_delta + depth_bias;
     result->unk_14 = (u16) (result->unk_14 & 0xFF7F);
     result->unk_06 = depth_delta;
-    func_800478B8(result, depth_bias);
+    func_800478B8(result);
     if (result->unk_14 & 0x6000) {
         ((S_8102F20C_1_pre *)entity)[-1].unk_00 = (u16) (((S_8102F20C_1_pre *)entity)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;

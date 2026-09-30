@@ -60,7 +60,7 @@ extern u8 D_80097D2C[];
 extern void func_8002222C(void);
 
 extern void func_80020570(void *, void *);
-extern s32 func_800352FC(s32);
+extern s32 func_800352FC(void);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void SD_Call(s32);
@@ -249,7 +249,7 @@ state0_inner:
         payout_scale = 6 / (effect->phase + 1);
         D_80024558[0] = handle;
         ((S_800211A4_3 *)effect)->unk_10 = payout_scale;
-        if (func_800352FC(payout_scale) == 0) {
+        if (func_800352FC() == 0) {
             motion = &D_80083780;
             motion->flags14 = 0;
             motion->unk_10 = 0;

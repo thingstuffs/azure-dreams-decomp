@@ -103,7 +103,7 @@ void func_80171020(EntityRec *parent, s16 effect_id, s32 effect_param, s32 unuse
     effect_state->unk_14 = saved_effect_id;
     effect_state->unk_32 = 0x14;
     effect_state->unk_34 = 0x14;
-    func_8004491C(effect, &D_80170D2C, position_y);
+    func_8004491C(effect, &D_80170D2C);
     ((S_80171020_0 *)effect)->unk_20 = saved_effect_param;
     effect_state->unk_08 = saved_effect_param;
 }

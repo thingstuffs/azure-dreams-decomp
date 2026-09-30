@@ -39,7 +39,7 @@ s16 func_80096440(s32 *input)
     }
 
     sample[0] = source[0] - (offset / 2);
-    shifted_result = func_8008CABC(sample, *map_slot, 6, offset);
+    shifted_result = func_8008CABC(sample, *map_slot, 6);
     if ((s16)original_result < (s16)shifted_result) {
         return (s16)shifted_result;
     }

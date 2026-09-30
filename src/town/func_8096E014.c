@@ -65,7 +65,7 @@ s32 func_801264AC(S_801264AC_2 *context) {
         prev_node = *node_slot;
         node_slot += 1;
     } while (node_count < 0x62);
-    func_8004CC38(&D_80129728, 0x62, node_aux, node_count);
+    func_8004CC38(&D_80129728, 0x62);
     func_8004CCBC(&D_80129728, 0x62);
     context->unk_58 = &D_80129728;
     do {

@@ -7,7 +7,7 @@ typedef struct {
 } S_80011A50;
 
 extern u8 D_80083E98;
-extern void func_80024390(S_80011A50 *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void func_80024390(S_80011A50 *arg0);
 extern void func_80024818(S_80011A50 *arg0);
 extern void func_800249B4(S_80011A50 *arg0);
 
@@ -19,7 +19,7 @@ void func_80024A50(S_80011A50 *object, s32 handler_arg1, s32 handler_arg2, s32 h
 
     entry_table = &D_80083E98;
     if (*(s32 *)(entry_table + (object->unk7C << 7)) != 0) {
-        func_80024390(object, handler_arg1, handler_arg2, handler_arg3);
+        func_80024390(object);
         return;
     }
     state = object->unk80;

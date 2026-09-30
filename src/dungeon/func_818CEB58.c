@@ -52,7 +52,7 @@ typedef struct S_818CEB58_6 {
 
 extern void *func_8003FD64(s32, void *);
 extern s32 rand(void);
-extern void func_8004491C(void *, void *, void *);
+extern void func_8004491C(void *, void *);
 extern u8 D_8002403C[];
 extern u8 D_8002428C[];
 
@@ -116,7 +116,7 @@ void func_818CEB58(
         dest_z->unk_0A = (s16)position_z;
         fields->unk_14 = field_34;
         fields->unk_32 = saved_field_52;
-        func_8004491C(object_cursor, init_data, dest_z);
+        func_8004491C(object_cursor, init_data);
         fields->unk_08.u = saved_field_28;
     }
 }

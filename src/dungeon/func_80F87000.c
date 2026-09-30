@@ -139,7 +139,7 @@ void *BODY_NAME(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                 }
                 ((S_80F87000_1 *)work)->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
-                              (func_800A6D30(obj) & 0x3F) | 0x20);
+                              (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_80174AFC;
             }
         }

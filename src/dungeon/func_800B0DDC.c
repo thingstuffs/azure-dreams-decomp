@@ -87,7 +87,7 @@ void func_800B653C(void *source_data, u32 direction_bits) {
     source = source_data;
     direction_bits >>= 9;
     direction = direction_bits & 7;
-    effect = func_8003FC64(0x212, direction_bits);
+    effect = func_8003FC64(0x212);
     if (effect != NULL) {
         motion = effect->unk8;
         sprite = effect->unkC;

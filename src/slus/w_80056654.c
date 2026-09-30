@@ -42,7 +42,7 @@ typedef struct {
     u8 pad1A[0x40 - 0x1A];
 } S_80084918;
 
-s32 func_800565D8(void *, s32, void *);
+s32 func_800565D8(void *, s32);
 s32 func_8005EB78(s32);
 void func_8005F134(S_80084918 *);
 extern s32 D_80073740[];
@@ -65,7 +65,7 @@ void func_80056654(S_80056654_0 *state, s32 force_update) {
         (channel->unk_1C != state->unk_70) || (force_update != 0)) {
         state->unk_70 = (s32) channel->unk_1C;
         pitch_offset = state->unk_3C.u16 + (channel->unk_3A + channel->unk_52);
-        pitch_adjustment = func_800565D8(state, channel->unk_1C, channel);
+        pitch_adjustment = func_800565D8(state, channel->unk_1C);
         voice_table = D_80073740;
         base_pitch = (state->unk_0C << 7) + pitch_adjustment;
         D_80084918.field4 = 0x60;

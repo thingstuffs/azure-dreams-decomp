@@ -18,7 +18,7 @@ typedef struct Object {
 
 extern Object *func_8003FD64();
 extern s32 rand(void);
-extern void func_8004491C(Object *, void *, Data *);
+extern void func_8004491C(Object *, void *);
 extern u8 D_800244E4[];
 extern u8 D_80024734[];
 
@@ -54,7 +54,7 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
             (jitter & 0x1F) + (held_z_offset - 0x10);
         *(s16 *)(state + 0x14) = state_14;
         *(s16 *)(state + 0x32) = state_32_value;
-        func_8004491C(spawned, D_800244E4, position);
+        func_8004491C(spawned, D_800244E4);
         *(s32 *)(state + 8) = state_08_value;
     }
 }

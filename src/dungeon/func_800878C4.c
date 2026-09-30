@@ -15,7 +15,7 @@ typedef struct {
 extern u8 D_800DD0B8[8];
 extern u8 D_800DCFB0[8];
 
-extern void func_800B0F50(void *, s32, void *, void *);
+extern void func_800B0F50(void *);
 extern void func_800B1768(s32, s32, s32, s32, s32, s32);
 extern void func_80048A44(void *, u8, s32, s32);
 
@@ -54,7 +54,7 @@ s32 func_8008D024(Rec_func_8008D024_arg0 *actor, s32 context, Rec_D_80082E80 *di
                 actor->unk_9A = 0x27;
                 actor->unk_9B.as_s8 = 0;
                 actor->unk_8C = 0;
-                func_800B0F50(target, context, display, slot_base);
+                func_800B0F50(target);
                 if ((action_mode << 0x10) == 0) {
                     func_800B1768(0x21, 0xE0, 0x84, 0, 0, 0);
                     func_800B1768(0x22, 0xF2, 0x98, 1, 0, 2);

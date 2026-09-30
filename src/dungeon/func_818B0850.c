@@ -5,7 +5,7 @@
 extern s32 func_8009D218(void *arg0, s32 arg1);
 extern s32 func_800A6870(s32 arg0);
 extern void func_800AD4D0(void *arg0);
-extern void func_800AD568(void *arg0, s32 arg1);
+extern void func_800AD568(void *arg0);
 extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
 
 
@@ -24,7 +24,7 @@ void func_818B0850(EntityRec *entity, s32 value_id) {
             gain = base_gain + bonus;
         }
         entity->unk_64 = (u16) (((u16)entity->unk_64) + gain);
-        func_800AD568(entity, gain);
+        func_800AD568(entity);
         base_gain = 0x8004;
         func_800B4C7C(base_gain, entity, (s16) ((u16)entity->unk_64), 1);
         func_800AD4D0(entity);

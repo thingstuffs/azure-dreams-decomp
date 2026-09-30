@@ -45,7 +45,7 @@ s32 func_800B6E3C(void *state) {
         cache_addr <<= 2;
         cache_addr += (s32)D_80083D78;
         ((S_800B6E3C_2 *)((void *)cache_addr))->unk_02 = -1;
-        func_800B6D94(((Rec_func_800B683C_arg0 *)state)->unk_14, &D_80083D78);
+        func_800B6D94(((Rec_func_800B683C_arg0 *)state)->unk_14);
         ((Rec_func_800B683C_arg0 *)state)->unk_DC = 0;
         func_800B6D54(state);
         ((Rec_func_800B683C_arg0 *)state)->unk_D0 = Control_CD(6, state + 0xD8, NULL);
