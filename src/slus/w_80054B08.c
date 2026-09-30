@@ -58,7 +58,7 @@ void func_80054B08(s32 message)
     case 0:
     {
         S_800847D0 *status;
-        register u32 offset_mask ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        u32 offset_mask;
         u16 record_value;
         u32 first_offset;
         register u32 second_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
@@ -105,9 +105,11 @@ void func_80054B08(s32 message)
         }
         {
             S_80084858 *update_state = &D_80084858;
-            s16 signed_value = (s16) record_value;
+            s16 signed_value;
             int initial_value;
             update_state->field4 = 0;
+            offset_mask = (s16)record_value;
+            signed_value = (s16)offset_mask;
             initial_value = func_80054AF0(signed_value);
             update_state->field8 = initial_value;
             update_state->fieldA = initial_value;
