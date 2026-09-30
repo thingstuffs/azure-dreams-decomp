@@ -29,7 +29,6 @@ typedef struct S_80025030_0 {
 void func_80025030(S_80025030_0 *state) {
     s32 highlight;
     s32 i;
-    s32 *cur;
 
     if (state->unk_48 == 1) {
         highlight = 1;
@@ -37,19 +36,12 @@ void func_80025030(S_80025030_0 *state) {
         func_80023A50(state->unk_18, state->unk_44);
         highlight = 0;
     }
-    i = 0;
-    cur = (s32 *)state;
-loop:
-    if (i == state->unk_28) {
-        func_800241D4(cur[1], highlight);
-    } else {
-        func_80024274(cur[1]);
+    for (i = 0; i < 5; i++) {
+        if (i == state->unk_28) {
+            func_800241D4(((s32 *)state)[i + 1], highlight);
+        } else {
+            func_80024274(((s32 *)state)[i + 1]);
+        }
     }
-    cur = cur + 1;
-    i += 1;
-    if (i >= 5) {
-        func_80024F3C(state->unk_1C, state->unk_28, state->unk_44);
-        return;
-    }
-    goto loop;
+    func_80024F3C(state->unk_1C, state->unk_28, state->unk_44);
 }

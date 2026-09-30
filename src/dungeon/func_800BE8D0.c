@@ -46,7 +46,7 @@ s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_par
     s32 first_arg;
     s32 second_arg;
     s32 second_arg_2;
-    register s32 scratch_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 scratch_value;
     s32 saved_context;
 
     if (action_type == 0xD) {
@@ -89,25 +89,18 @@ s32 func_800C4030(EntityRec *target, s32 action, s16 action_type, s32 action_par
         slot_index = 0;
         slot_data = D_800E36C8;
         slot_state = D_800E3548;
-        do {
-            if (slot_state[1] != 0) {
-                first_arg = 0xE;
-                second_arg = 3;
-                ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP(second_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                scratch_value = first_arg;
-                slot_state[1] = scratch_value;
-                scratch_value = second_arg;
-                slot_state[0] = scratch_value;
-                *(s32 *)(slot_data + 8) = func_8004A658(first_arg, second_arg);
-                slot_state[2] = func_800A6DA4(0x10, 0x18);
-                scratch_value = 1;
-                slot_state[3] = scratch_value;
-            }
-            slot_data += 0xC;
-            slot_index++;
-            slot_state += 4;
-        } while (slot_index < 0x40);
+    loop:
+        if (slot_state[1] != 0) {
+            slot_state[1] = 0xE;
+            slot_state[0] = 3;
+            *(s32 *)(slot_data + 8) = func_8004A658(0xE, 3);
+            slot_state[2] = func_800A6DA4(0x10, 0x18);
+            slot_state[3] = 1;
+        }
+        slot_data += 0xC;
+        slot_index++;
+        slot_state += 4;
+        if (slot_index < 0x40) goto loop;
         table_base = (u8 *)0x80080000;
 shared_tail:
         table_base += 0x3460;

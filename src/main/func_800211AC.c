@@ -56,7 +56,6 @@ void func_804081AC(void *menu)
             func_8003FD58(0, 0xF, 0, 0);
             linked_object = (*(s32 * *)((u8 *)menu + 0x14));
             ((S_804081AC_0 *)linked_object)->unk_1E |= 0x2000;
-            goto selection_check;
         } else if (button_flags & 0x20) {
             func_80063FF8(0x514);
             func_804008A0((*(s32 *)((u8 *)menu + 0xC)));
@@ -79,7 +78,6 @@ void func_804081AC(void *menu)
             }
         }
 
-selection_check:
         if (selection_changed != 0) {
             func_80063FF8(0x502);
             func_80407830((*(s32 *)((u8 *)menu + 0x24)), (*(s32 *)((u8 *)menu + 0xC)));

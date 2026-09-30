@@ -38,14 +38,13 @@ void func_800A06A4(void *record_data, s32 initial_value) {
             handler.value = 2;
             ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A0 = handler.value;
             handler.pointer = &D_800A0BE4;
+            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
         } else if (variant == 0) {
             handler.pointer = &D_800A0AC8;
-            goto store_handler;
         } else {
             handler.pointer = &D_800A07A4;
+            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
         }
-        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
-store_handler:
         ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler.pointer;
     }
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_18 = initial_value;

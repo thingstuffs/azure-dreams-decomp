@@ -71,7 +71,8 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         position->y = base_coords[3] + entity->y;
         position->z = base_coords[5] + entity->z;
         func_8004491C((u8 *)entity - 0x20, func_80045340, base_coords);
-        goto advance_state;
+        entity->state++;
+        return;
     }
 
     if (state == 1) {
@@ -81,9 +82,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         }
         if (func_80025F54(position->x, position->y, position->z,
                           *(s16 *)(D_80027C98[0] + 0x2A)) != 0) {
-advance_state:
             entity->state++;
-            return;
         }
         return;
     }

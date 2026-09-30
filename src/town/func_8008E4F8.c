@@ -70,15 +70,13 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
             if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {
                 *(s32 *)(object + 0x74) = 0;
             }
+            func_8008B620(entries[*(s32 *)(object + 0x74)]);
         } else if (buttons & 0x9000) {
             if (--*(s32 *)(object + 0x74) < 0) {
                 *(s32 *)(object + 0x74) = *(s32 *)(object + 0x78) - 1;
             }
-        } else {
-            goto update_position;
+            func_8008B620(entries[*(s32 *)(object + 0x74)]);
         }
-        func_8008B620(entries[*(s32 *)(object + 0x74)]);
-update_position:
         entry_index = *(s32 *)(object + 0x74);
         positions = (u8 *)&D_800D2EA4;
         entry_id = entries[entry_index];

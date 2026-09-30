@@ -52,9 +52,6 @@ void func_80046884(
     UVec4_80046884 screen_point;
     SVec4_80046884 center;
     GameWork *view_geometry;
-    UVec4_80046884 *corner;
-    SVec4_80046884 *transformed_corner;
-    SVec4_80046884 *output_corner;
     s32 corner_index;
     s32 angle;
     s32 cos_angle;
@@ -71,17 +68,14 @@ void func_80046884(
     corners[0].x = left;
 
     right = rect->x + rect->w;
-    corner_index = 3;
     corners[2].x = right;
     corners[1].x = right;
 
     top = rect->y;
-    transformed_corner = &transformed_corners[3];
     corners[1].y = top;
     corners[0].y = top;
 
     bottom = rect->y + rect->h;
-    corner = &corners[3];
     screen_origin[0] = 0;
     screen_origin[1] = 0;
     corners[2].y = bottom;
@@ -95,21 +89,12 @@ void func_80046884(
         (UVec4_80046884 *)screen_origin,
         (SVec4_80046884 *)&geometry->vectors[5]);
 
-    output_corner = &geometry->vectors[3];
-project_corners:
-    func_80046A5C(corner, transformed_corner);
-    if (func_80046AFC(
-            &geometry->vectors[5], transformed_corner, output_corner, (s16)depth)) {
-        do {
+    for (corner_index = 3; corner_index >= 0; corner_index--) {
+        func_80046A5C(&corners[corner_index], &transformed_corners[corner_index]);
+        if (func_80046AFC(&geometry->vectors[5], &transformed_corners[corner_index],
+                          &geometry->vectors[corner_index], (s16)depth)) {
             use_fallback = 1;
-        } while (0);
-    }
-    output_corner--;
-    transformed_corner--;
-    corner_index--;
-    corner--;
-    if (corner_index >= 0) {
-        goto project_corners;
+        }
     }
 
     if (use_fallback != 0) {

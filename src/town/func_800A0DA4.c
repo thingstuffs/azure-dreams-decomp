@@ -36,12 +36,12 @@ void func_8009E504(void *object, s32 index, void *output)
     if (mode == 0) {
         func_8008F0D4(object, index, D_800D073C);
         func_8009B218(object, index, output, D_800D076C);
-        goto store_common;
-    }
+        BU(object, 0x4C) = BU(object, 0x95);
+        BU(object, 0x4D) = BU(object, 0x96);
+    } else
     if ((s8)mode == -1) {
         func_8008F104(object, index, D_800D073C);
         func_8009B218(object, index, output, 0);
-store_common:
         BU(object, 0x4C) = BU(object, 0x95);
         BU(object, 0x4D) = BU(object, 0x96);
     } else {

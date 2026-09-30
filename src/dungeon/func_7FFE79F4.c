@@ -86,7 +86,8 @@ extern M2C_UNK D_8010AA44;
 
 /* Update the emitter position, spawn particles, and mark it for removal when its lifetime expires. */
 void func_7FFE79F4(void *emitter, void *position, M2C_UNK init_arg) {
-    register s32 product ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 product;
+    s32 coordinate;
     s32 spawn_count;
     u16 age;
     u16 life_left;
@@ -110,20 +111,27 @@ void func_7FFE79F4(void *emitter, void *position, M2C_UNK init_arg) {
             spawn_count += 1;
             if (particle != NULL) {
                 func_7010AE28(particle, emitter, position, init_arg);
-                ((S_7FFE79F4_3 *)particle)->unk_3E = 0x28;
-                ((S_7FFE79F4_3 *)particle)->unk_40 = 0x28;
-                ((S_7FFE79F4_3 *)particle)->unk_48 = (s16) ((func_700750E0() & 0x1F) << 7);
-                ((S_7FFE79F4_3 *)particle)->unk_4A = 0x32;
+                product = 0x28;
+                ((S_7FFE79F4_3 *)particle)->unk_3E = product;
+                ((S_7FFE79F4_3 *)particle)->unk_40 = product;
+                product = (func_700750E0() & 0x1F) << 7;
+                ((S_7FFE79F4_3 *)particle)->unk_48 = product;
+                product = 0x32;
+                ((S_7FFE79F4_3 *)particle)->unk_4A = product;
                 particle_pos = ((S_7FFE79F4_3 *)particle)->unk_08;
                 ((S_7FFE79F4_3 *)particle)->unk_58 = (u16) ((S_7FFE79F4_1 *)position)->unk_02;
                 ((S_7FFE79F4_3 *)particle)->unk_5A = (u16) ((S_7FFE79F4_1 *)position)->unk_06;
                 ((S_7FFE79F4_3 *)particle)->unk_10 = &D_8010AA44;
                 product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DD28(((S_7FFE79F4_3 *)particle)->unk_48);
-                ((S_7FFE79F4_4 *)particle_pos)->unk_02 = (s16) ((product >> 0xC) + ((S_7FFE79F4_3 *)particle)->unk_58);
+                coordinate = ((S_7FFE79F4_3 *)particle)->unk_58;
+                coordinate += product >> 0xC;
+                ((S_7FFE79F4_4 *)particle_pos)->unk_02 = coordinate;
                 product = ((S_7FFE79F4_3 *)particle)->unk_4A * func_7006DC5C(((S_7FFE79F4_3 *)particle)->unk_48);
-                ((S_7FFE79F4_4 *)particle_pos)->unk_06 = (s16) ((product >> 0xC) + ((S_7FFE79F4_3 *)particle)->unk_5A);
-                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16) (((S_7FFE79F4_1 *)position)->unk_0A
-                    - (func_700750E0() & 0x3F));
+                coordinate = ((S_7FFE79F4_3 *)particle)->unk_5A;
+                coordinate += product >> 0xC;
+                ((S_7FFE79F4_4 *)particle_pos)->unk_06 = coordinate;
+                product = func_700750E0() & 0x3F;
+                ((S_7FFE79F4_4 *)particle_pos)->unk_0A = (s16)(((S_7FFE79F4_1 *)position)->unk_0A - product);
             }
         } while (spawn_count < 4);
     }

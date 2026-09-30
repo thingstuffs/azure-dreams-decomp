@@ -74,7 +74,9 @@ void BODY_NAME(u8 *entity, u8 chance) {
     if (!passes_chance) {
         effect_input = entity;
         if (chance_value != 0xff) {
-            goto fallback_call;
+            func_80099844(effect_input, D_800E20FC);
+            func_800B4C7C(0x53, entity, -1, 1);
+            return;
         }
     }
     if (entity[0x27] >= 2) {
@@ -100,7 +102,6 @@ void BODY_NAME(u8 *entity, u8 chance) {
     }
 
     effect_input = entity;
-fallback_call:
     func_80099844(effect_input, D_800E20FC);
     func_800B4C7C(0x53, entity, -1, 1);
 }

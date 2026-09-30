@@ -119,7 +119,7 @@ void *func_81961A04(void *position)
             }
             slot_offset = (last_slot - slot) * 4;
             control_value = -0x80 - slot_offset;
-            control_scale = M2C_FIELD_V(control, u16 *, 0x1E);
+            control_scale = control->unk_1E;
             control->unk_0C = (s8)control_value;
             control->unk_1C = control_scale;
             state->unk_54 = slot;
@@ -127,9 +127,7 @@ void *func_81961A04(void *position)
                 state->unk_54 = 7;
             }
             state->unk_4C = last_slot;
-            goto next_slot;
         }
-next_slot:
         slot += 1;
     } while (slot < 9);
     return object;

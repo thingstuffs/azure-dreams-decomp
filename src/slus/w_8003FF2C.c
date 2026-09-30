@@ -43,11 +43,10 @@ S_8003FF2C *func_8003FF2C(s32 flags, S_8003FF2C *storage, s16 word_count, S_8003
     payload_cursor = (S_8003FF2C *)((u8 *)node + (word_count << 2));
     if (flags & 6) {
         payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x24);
-        goto write_link_c;
-    }
-    if (flags & 0x41) {
+        node->linkC = payload_cursor;
+        payload_flags = flags & 0x57;
+    } else if (flags & 0x41) {
         payload_cursor = (S_8003FF2C *)((u8 *)payload_cursor - 0x18);
-write_link_c:
         node->linkC = payload_cursor;
         payload_flags = flags & 0x57;
     } else {

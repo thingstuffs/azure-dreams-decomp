@@ -181,6 +181,6 @@ state_two:
 
 finish:
     ((S_8017388C_2 *)actor)->unk_1C &= ~0x200;
-    ((S_8017388C_0 *)in_action)->unk_8C = D_80170E84;
-    ASM_KEEP(in_action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    in_action = (u8 *)in_action + 0x8C;
+    *(void **)in_action = D_80170E84;
 }

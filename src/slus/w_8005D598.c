@@ -27,15 +27,13 @@ s32 func_8005D598(s32 index, u32 value)
 
     shifted_value = value >> D_80079980.value;
 
-    if (store_index != -2) {
-        if (store_index != -1) {
-            goto store_value;
-        }
+    switch (store_index) {
+    case -1:
         return (u16)shifted_value;
+    case -2:
+        return value;
+    default:
+        D_80079958.ptr[store_index] = (u16)shifted_value;
+        return value;
     }
-    return value;
-
-store_value:
-    D_80079958.ptr[store_index] = (u16)shifted_value;
-    return value;
 }

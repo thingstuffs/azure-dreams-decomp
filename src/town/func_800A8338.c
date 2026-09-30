@@ -80,13 +80,12 @@ void func_800A5A98(State *state, Actor *actor) {
 
     if (((u32)input->buttons) & 0x10) {
         func_80095094(actor);
-        if ((((u32)input->buttons) & 0x30) != 0x20) {
-            goto after_second_update;
+        if ((((u32)input->buttons) & 0x30) == 0x20) {
+            func_80095094(actor);
         }
+    } else {
+        func_80095094(actor);
     }
-    func_80095094(actor);
-
-after_second_update:
     height_limit = func_80095978(actor, D_800FE488);
     if (actor->height >= height_limit) {
         func_80095A94(actor, height_limit, D_800FE488);

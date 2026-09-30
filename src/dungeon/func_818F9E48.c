@@ -88,7 +88,6 @@ extern void func_80024CD4();
 
 /* Update a timed visual effect using its owner's appearance and position. */
 void func_818F9E48(void *state, void *position_out, void *effect_arg) {
-    s32 fade_or_phase;
     PackedVector origin;
     Pair16 anchor;
     s32 level_index;
@@ -144,14 +143,8 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     ((S_818F9E48_3 *)position_out)->unk_04 = ((S_818F9E48_4 *)owner_position)->unk_04;
     ((S_818F9E48_3 *)position_out)->unk_08 = ((S_818F9E48_4 *)owner_position)->unk_08;
 
-    frame_or_phase = ((S_818F9E48_0 *)state)->unk_00.s;
-    if (frame_or_phase != 0) {
-        fade_or_phase = 1;
-        if (frame_or_phase == fade_or_phase) {
-            goto state_done;
-        }
-        return;
-    }
+    switch (((S_818F9E48_0 *)state)->unk_00.s) {
+    case 0:
     ((S_818F9E48_0 *)state)->unk_00.u++;
     effect_flags = ((S_818F9E48_1 *)effect_arg)->unk_14 & 0xFF7F;
     ((S_818F9E48_1 *)effect_arg)->unk_14 = effect_flags;
@@ -161,8 +154,12 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     ((S_818F9E48_1 *)effect_arg)->unk_0D = ((S_818F9E48_5 *)motion)->unk_0D;
     ((S_818F9E48_1 *)effect_arg)->unk_0E = ((S_818F9E48_5 *)motion)->unk_0E;
     ((S_818F9E48_5 *)motion)->unk_14 |= 0x80;
-
-state_done:
+        break;
+    case 1:
+        break;
+    default:
+        return;
+    }
     one = 1;
     anchor.x = origin.x + ((s16)origin.z >> 1);
     anchor.y = origin.y + 0x48;

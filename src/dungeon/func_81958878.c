@@ -123,7 +123,8 @@ case 1:
         }
         (*(u16 *)((u8 *)&D_800814A8->unk_A4 + 2))--;
         func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
-        goto advance_state;
+        ctx->state++;
+        break;
 
     case 4:
         if (D_8002966C[0] != 0) {
@@ -143,7 +144,6 @@ case 1:
         }
         screen->view.unk_091 = 0x80;
         screen->view.unk_092 = 0x80;
-advance_state:
         ctx->state++;
         break;
 

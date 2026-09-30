@@ -79,10 +79,9 @@ typedef struct S_800DB2DC_5 {
 } S_800DB2DC_5;   /* temp_v1 in func_800DB2DC */
 
 /* Creates two groups of four effects using the source position and visual state. */
-void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, void *source_arg, s16 effect_param) {
+void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, S_800DB2DC_1 *source_arg, s16 effect_param) {
     register M2C_UNK *callback;
     s32 scale;
-    register S_800DB2DC_1 *source_object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 saved_param;
     s32 effects_left;
     s32 group_step;
@@ -93,8 +92,6 @@ void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, void *so
     S_800DB2DC_5 *effect_state;
     void *effect;
 
-    effect = source_arg;
-    source_object = source_arg;
     saved_param = effect_param;
     group_step = 3;
     callback = &D_800DB420;
@@ -102,12 +99,12 @@ void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, void *so
     do {
         effects_left = 3;
         do {
-            effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next), effect);
+            effect = func_8003FD64(0x312, ((M2C_UNK *)&D_80083498.next));
             if (effect != 0) {
                 ((S_800DB2DC_0 *)effect)->unk_10 = callback;
                 visual = ((S_800DB2DC_0 *)effect)->unk_0C;
                 ((S_800DB2DC_0 *)effect)->unk_4A =
-                    (u16)source_object->unk_2A;
+                    (u16)source_arg->unk_2A;
                 visual_word = source_visual->unk_28;
                 visual->unk_1E = scale;
                 visual->unk_1C = scale;

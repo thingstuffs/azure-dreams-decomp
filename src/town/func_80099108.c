@@ -27,16 +27,15 @@ void func_80096868(Unk99108 *entry, s32 forwarded_a, s32 forwarded_b, s32 *match
                     match_cursor = D_800D04B8;
                     if (*match_cursor != 0) {
                         do {
-                            if (entry->unk4 != *match_cursor++) {
-                                continue;
+                            if (entry->unk4 == *match_cursor++) {
+                                func_80096924(entry, forwarded_a, forwarded_b, match_cursor);
+                                return;
                             }
-found:
-                            func_80096924(entry, forwarded_a, forwarded_b, match_cursor);
-                            return;
                         } while (*match_cursor != 0);
                     }
                 } else {
-                    goto found;
+                    func_80096924(entry, forwarded_a, forwarded_b, match_cursor);
+                    return;
                 }
             }
             key_cursor++;

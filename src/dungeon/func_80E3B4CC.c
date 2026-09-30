@@ -140,7 +140,7 @@ void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
     u32 created_flags_1c;
     u32 motion_flags;
     u32 used_page;
-    u32 state_page;
+    s8 *state_page = 0;
     u16 flags;
     u16 removal_flags;
     u16 timer;
@@ -206,13 +206,12 @@ state_one:
         spawn_kind = 4;
         dungeonStatus.unk_0A--;
         used_page = 0x80080000;
-        removal_flags = ((S_80174CCC_0_pre *)motion)[-1].unk_00.s;
+        removal_flags = *(u16 *)((u8 *)motion - 2);
         flags = ((S_80174CCC_0 *)motion)->unk_38.s;
         removal_flags |= 0x8000;
-        ((S_80174CCC_0_pre *)motion)[-1].unk_00.u = removal_flags;
-        state_page = 0x800E0000;
-        ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((S_80174CCC_4 *)((void *)state_page))->unk_2968 = state;
+        *(u16 *)((u8 *)motion - 2) = removal_flags;
+        state_page = &D_800E2968;
+        *state_page = state;
         ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
         if (flags & 0x2000) {
             spawn_kind = 7;
