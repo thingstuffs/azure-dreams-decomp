@@ -25,6 +25,7 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
+| `alloc_need.py` | the allocation INVERSE: retail's register per pseudo (from the aligned listing), a verdict per mis-coloured pseudo (ORDER / BLOCKED / CLASS / LOCAL / SPILLED) and, for ORDER, the `allocno_compare` inequality that flips it (`refs >= N at live L`, `live <= L`, ...) with the source lever per term |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py` | plumbing; you never call these |
 
@@ -149,6 +150,20 @@ row's src text), takes `prio.py`'s table and prints every C variable that got a 
 every subset of the candidate's live pins (`kitlib.sites` / `kitlib.erase`, as `erase.py`; refuses above
 `--max-pins`, default 8) and ranks them by that count, writing the texts to `regcmp/`. It is
 `r80_opus_r2`'s `pcmp.py` + `combo.py`.
+
+**`alloc_need.py <row> cand.c [--ref pinned|FILE|none] [--cfg CFG] [--json OUT] [--all]`** is the inverse of
+`prio.py`: instead of "who outranks whom", "what would the numbers have to be for retail's colouring".  One `-dap`
+compile and one byte score; each pseudo's RETAIL register is voted from the scorer listing (`.lreg` uid -> pseudos,
+`-dap` uid -> generated word, colour-key alignment -> retail word, operand position), cross-checked against the
+pinned text's named registers (`ref` column).  Verdicts: **BLOCKED** (retail's register is a hard conflict here: a
+local qty / hard-register set / remaining ASM_REG holds it - a global-vs-local question, not priority), **CLASS**
+(retail keeps it call-clobbered but it crosses calls), **LOCAL** (block-local qty, approximate numbers), **SPILLED**,
+**ORDER**.  For ORDER it simulates every single-mover reorder with `alloc_sim.allocate` (fidelity printed first) and
+prints each solution as the `global.c:587` inequality with all four single-term ways, e.g. on 8180A990
+`120 (entity) must outrank 84 (object_or_kind): 120 refs >= 22 at live 82 | 120 live <= 81 | 84 refs <= 25 | 84 live >= 102`,
+plus the `update_equiv_regs` doubling note (single set + REG_EQUIV doubles live; a second set halves it) and the
+lever for the cheapest term.  Validated on the four round-80 hand derivations (80D3BFD0, 80921B2C, 8180A990,
+80DE9000: same pairs, same thresholds, the tie-break included).  An inequality is necessary, not sufficient.
 
 `diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
 then the distance line; without `--score` it writes nothing. `dump.py` is `kitlib.dumps` (the compile

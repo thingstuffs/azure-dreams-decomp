@@ -311,6 +311,36 @@ def _declarators(body):
     return out
 
 
+def _strip_inits(ln):
+    """`u8 *p = q + 1, n;` -> `u8 *p, n;` (initialisers dropped at depth-0 commas), or `ln` unchanged when
+    it has no initialiser.  A declaration with an initialiser takes its pseudo at the block's start like any
+    other (expand_decl, declaration order); without this every later local was named one pseudo too early
+    (r81_opus_allocneed: 80921B2C's `s32 saved_y_offset = y_offset;` shifted direction_state onto sprite).
+    None when an `=` has something other than a declarator on its left (`p->x = 1;`, `if (..) x = 1;`); a
+    plain assignment `x = y;` / `a[i] = 0;` comes back as `x;` / `a[i];`, which `_declarators` rejects."""
+    body = ln.rstrip()
+    if not body.endswith(";") or "=" not in body:
+        return ln
+    body = body[:-1]
+    parts, depth, cur = [], 0, ""
+    for ch in body:
+        depth += (ch in "([{") - (ch in ")]}")
+        if ch == "," and depth == 0:
+            parts.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    parts.append(cur)
+    out = []
+    for part in parts:
+        m = re.search(r"(?<![=<>!])=(?!=)", part)
+        lhs = part[:m.start()] if m else part
+        if not re.fullmatch(r"[ \t*]*[A-Za-z_][\w \t*]*(?:\[[^\]]*\])*[ \t]*", lhs):
+            return None
+        out.append(lhs.rstrip())
+    return ",".join(out) + ";"
+
+
 def locals_in_order(text, b0, b1):
     """[(name, type_words, scalar)] for the function body's declarations, in source order.
 
@@ -321,7 +351,8 @@ def locals_in_order(text, b0, b1):
     masked = mask_comments(text)
     out = []
     for ln in masked[b0:b1].split("\n"):
-        m = DECL_LINE.match(ln)
+        ln = _strip_inits(ln)
+        m = DECL_LINE.match(ln) if ln is not None else None
         if not m:
             continue
         for name, ty, stars, array in _declarators(m.group("body")):
