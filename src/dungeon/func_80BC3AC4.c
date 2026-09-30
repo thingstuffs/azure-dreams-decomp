@@ -97,6 +97,7 @@ void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
 {
     u8 *item_slot;
     s32 special;
+    s32 i;
     u8 state;
     u8 next_state;
     void *target;
@@ -167,10 +168,9 @@ selection_ready:
         if (*item_slot != 0) {
             ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
             {
-                s32 special_test;
+                s16 special_test;
 
                 special_test = special;
-                ASM_KEEP(special_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 if (special_test != 0) {
                     target = D_800814A8;
                     (*(void * *)((u8 *)actor + 0x60)) = target;
@@ -275,21 +275,21 @@ selection_ready:
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
         if (((S_801732C4_0 *)action)->unk_96.s >= 7) {
-            special = 0;
+            i = 0;
             do {
                 s32 brightness;
                 register s32 offset_x;
                 register s32 offset_y;
                 s16 offset_z;
 
-                special++;
+                i++;
                 brightness = (func_80069EF8() & 0xFF) | 0x80;
                 offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
                 offset_z = (func_80069EF8() & 0x7F) - 0x40;
                 func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
                               brightness, offset_x, offset_y, offset_z);
-            } while ((u16)special < 5);
+            } while ((u16)i < 5);
         }
     }
 
@@ -342,17 +342,17 @@ selection_ready:
             ((S_801732C4_0 *)action)->unk_96.u = 0x14;
             ((S_801732C4_0 *)action)->unk_98 |= 0x80;
             ((S_801732C4_0 *)action)->unk_9B++;
-            special = 0;
+            i = 0;
             do {
                 {
                     s32 brightness;
 
-                    special++;
+                    i++;
                     brightness = (func_80069EF8() & 0xFF) | 0x80;
                     func_80170F2C((u8 *)action - 0x20, 0, 0x00C0C0C0,
                                   brightness, 0, 0, 0);
                 }
-                if ((u16)special >= 20) {
+                if ((u16)i >= 20) {
                     return;
                 }
             } while (1);
