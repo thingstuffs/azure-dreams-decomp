@@ -101,7 +101,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
     do {
         s32 band_index;
-        s32 segment;
+        s16 segment;
 
         {
 
@@ -278,11 +278,8 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 s32 segment_step;
                 u16 effect_count;
 
-                segment_step = segment + 1;
-                segment = segment_step;
-                segment_step <<= 16;
-
-                segment_step >>= 16;
+                segment++;
+                segment_step = segment;
                 effect_count = ((S_80C96F24_7 *)owner)->unk_A4;
                 segment_step = segment_step < 8;
                 effect_count++;

@@ -43,29 +43,25 @@ void func_800CDF40(s16 x, s16 y, s16 value) {
     first_index = 0;
     first_x = x;
     first_y = y;
-    first_entry = D_800E36C8;
-    first_status = D_800E3548;
     do {
+        first_entry = &D_800E36C8[first_index];
+        first_status = &D_800E3548[first_index];
         if (first_status->active != 0 && first_entry->x == first_x && first_entry->y == first_y) {
             first_entry->value = value;
         }
-        first_entry++;
         first_index++;
-        first_status++;
     } while (first_index < 64);
 
     first_index = 0;
     second_x = x;
     second_y = y;
-    second_entry = D_800E39C8;
-    second_status = D_800E3648;
     do {
+        second_status = &D_800E3648[first_index];
+        second_entry = &D_800E39C8[first_index];
         if (second_status->active != 0 && second_entry->x == second_x && second_entry->y == second_y) {
             second_entry->value = value;
         }
-        second_entry++;
         first_index++;
-        second_status++;
     } while (first_index < 32);
 }
 
