@@ -133,7 +133,7 @@ s32 func_80174228(u8 *item_data)
     s32 strip_offset;
     s32 tex_coord;
     u8 *next_node;
-    register s32 right_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 render_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 top_y;
     register s32 bottom_y;
     register s32 half_width;
@@ -162,7 +162,6 @@ s32 func_80174228(u8 *item_data)
     S_func_80174228_3 *item;
     register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     GameWork *render_state;
-    register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     render_state = &gameWork;
     __builtin_memcpy(storage, D_8017087C, 8);
@@ -199,7 +198,7 @@ loop_0:
         if (i >= 0)
             goto loop_0;
 
-        profile_storage = (S_func_80174228_0 *)(storage + 0x28);
+        render_arg = (s32)(storage + 0x28);
         setup_source = (u8 *)render_state;
         render_term = ((S_func_80174228_2 *)setup_source)->unk_C8;
         ((S_func_80174228_0 *)storage)->unk_32 = 0;
@@ -211,7 +210,7 @@ loop_0:
         __builtin_memcpy(storage + 0x38, item, 8);
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
-        func_800DBA90(profile_storage, left_x, prev_depth, vertex_depth);
+        func_800DBA90((S_func_80174228_0 *)render_arg, left_x, prev_depth, vertex_depth);
         min_xy &= 0xFFFF;
         max_xy &= 0xFFFF;
         i = 3;
@@ -311,10 +310,10 @@ loop_0:
                 prim->unk_16 = func_80066460(2, 1, 0x340, 0x100);
 
                 render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
-                right_x = render_term / 23;
-                prim->unk_14 = right_x;
-                prim->unk_0C = right_x;
-                tex_coord = right_x;
+                render_arg = render_term / 23;
+                prim->unk_14 = render_arg;
+                prim->unk_0C = render_arg;
+                tex_coord = render_arg;
                 tex_coord += ((((S_func_80174228_0 *)storage)->unk_04.u16 << 16) >> 16) / 23;
                 prim->unk_1D = 0;
                 prim->unk_0D = 0;
@@ -347,18 +346,18 @@ loop_0:
                     }
                 }
 
-                right_x = (u16)TMP + min_xy;
-                prim->unk_10 = right_x;
-                prim->unk_08 = right_x;
-                right_x += screen_width / 23;
-                prim->unk_20 = right_x;
-                prim->unk_18 = right_x;
+                render_arg = (u16)TMP + min_xy;
+                prim->unk_10 = render_arg;
+                prim->unk_08 = render_arg;
+                render_arg += screen_width / 23;
+                prim->unk_20 = render_arg;
+                prim->unk_18 = render_arg;
 
-                profile_storage = (S_func_80174228_0 *)storage;
-                top_y = profile_storage->unk_48[i] + (min_xy >> 16);
+                render_arg = (s32)storage;
+                top_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (min_xy >> 16);
                 prim->unk_1A = top_y;
                 prim->unk_0A = top_y;
-                bottom_y = profile_storage->unk_48[i] + (max_xy >> 16);
+                bottom_y = ((S_func_80174228_0 *)render_arg)->unk_48[i] + (max_xy >> 16);
                 prim->unk_22 = bottom_y;
                 prim->unk_12 = bottom_y;
 
