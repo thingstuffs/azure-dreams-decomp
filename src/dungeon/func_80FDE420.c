@@ -58,106 +58,90 @@ extern u8 D_801740A0[];
 
 void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
 {
-            /* MATCH: Keep the incoming arguments in their retail call registers. */
-    void *call_arg0 = arg0;
-    void *call_arg1 = arg1;
-    void *call_arg2 = arg2;
-    void *call_arg3 = arg3;
-    {
-                        /* MATCH: Preserve retail argument saves while exposing the pass-through call. */
-        register void *arg0 ASM_REG("$18") = call_arg0;
-        void *arg1 = call_arg1;
-        register void *arg2 ASM_REG("$19") = call_arg2;
-        void *arg3 = call_arg3;
-        s32 state;
-        s32 saved;
-        s32 value;
-        s32 index;
-        u16 timer;
+    s32 state;
+    s32 saved;
+    s32 value;
+    s32 index;
+    u16 timer;
 
-        state = ((S_80173C20_0 *)arg0)->unk_9B;
-        switch (state) {
-        case 0:
-            saved = func_800990FC();
-            if ((((S_80173C20_1 *)arg3)->unk_2A.s >> 9) & 1) {
-                func_80099290(func_80099194(
-                    D_80170854, func_80099734(arg3, saved)));
-            } else {
-                func_80099290(func_80099194(
-                    D_80170874, func_80099734(arg3, saved)));
-            }
-            func_800A5720(saved);
+    state = ((S_80173C20_0 *)arg0)->unk_9B;
+    switch (state) {
+    case 0:
+        saved = func_800990FC();
+        if ((((S_80173C20_1 *)arg3)->unk_2A.s >> 9) & 1) {
+            func_80099290(func_80099194(
+                D_80170854, func_80099734(arg3, saved)));
+        } else {
+            func_80099290(func_80099194(
+                D_80170874, func_80099734(arg3, saved)));
+        }
+        func_800A5720(saved);
 
-            if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
-                ((S_80173C20_0 *)arg0)->unk_9B = 3;
-                ((S_80173C20_0 *)arg0)->unk_96 = 0;
-                ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
-                func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
-                break;
-            }
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174090;
-            index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-            func_80047784(arg2, D_80174090[index & 7], 0);
-            ((S_80173C20_0 *)arg0)->unk_90 = 0;
-            ((S_80173C20_0 *)arg0)->unk_98 |= 8;
-            ((S_80173C20_3 *)arg1)->unk_14 = 0xFFF00000;
-            ((S_80173C20_0 *)arg0)->unk_9B++;
-            break;
-        case 1:
-                                    /* MATCH: Use the saved pointers in this state. */
-            value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
-            ((S_80173C20_3 *)arg1)->unk_14 = value;
-            ((S_80173C20_0 *)arg0)->unk_90 += value;
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-                break;
-            }
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174098;
-            index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-            func_80047784(arg2, D_80174098[index & 7], 0);
-            ((S_80173C20_0 *)arg0)->unk_96 = 8;
-            ((S_80173C20_0 *)arg0)->unk_98 &= 0xFFF7;
-            ((S_80173C20_0 *)arg0)->unk_9B++;
-            break;
-        case 2:
-                                    /* MATCH: Use the saved pointers in this state. */
-            timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
-            ((S_80173C20_0 *)arg0)->unk_96 = timer;
-            if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
-                func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
-            }
-            if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
-                break;
-            }
-            (*(void * *)((u8 *)arg2 + 0x2C)) = D_801740A0;
-            index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
-            func_80047784(arg2, D_801740A0[index & 7], 0);
-
-            ((S_80173C20_0 *)arg0)->unk_9B++;
-            break;
-        case 3:
-                                    /* MATCH: Use the saved pointers in this state. */
-            if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
-                ((S_80173C20_3 *)arg1)->unk_10 = 0;
-                ((S_80173C20_3 *)arg1)->unk_0C = 0;
-                func_800AD594(arg3, 0x1000);
-                ((S_80173C20_0 *)arg0)->unk_8C = &D_80170EA8;
-                dungeonStatus.unk_0C = 0;
-                func_800A4ACC(arg3);
-
-                if (((S_80173C20_0 *)arg0)->unk_98 & 0x4000) {
-                    ((S_80173C20_1 *)arg3)->unk_1C |= 0x1000;
-                } else {
-                    ((S_80173C20_1 *)arg3)->unk_1C &= ~0x1000;
-                }
-                ((S_80173C20_1 *)arg3)->unk_03 = ((S_80173C20_0 *)arg0)->unk_AC;
-                if (((S_80173C20_1 *)arg3)->unk_6D == 0) {
-                    ((S_80173C20_1 *)arg3)->unk_46 &= 0x7FFF;
-                } else {
-                    D_800E3DE8 = (u8 *)arg3 - 0x20;
-                                                            /* MATCH: Form the adjusted pointer in a temporary register. */
-                }
-            }
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000) {
+            ((S_80173C20_0 *)arg0)->unk_9B = 3;
+            ((S_80173C20_0 *)arg0)->unk_96 = 0;
+            ((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v |= 0x6000;
+            func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
             break;
         }
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174090;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_80174090[index & 7], 0);
+        ((S_80173C20_0 *)arg0)->unk_90 = 0;
+        ((S_80173C20_0 *)arg0)->unk_98 |= 8;
+        ((S_80173C20_3 *)arg1)->unk_14 = 0xFFF00000;
+        ((S_80173C20_0 *)arg0)->unk_9B++;
+        break;
+    case 1:
+        value = ((S_80173C20_3 *)arg1)->unk_14 + 0x20000;
+        ((S_80173C20_3 *)arg1)->unk_14 = value;
+        ((S_80173C20_0 *)arg0)->unk_90 += value;
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            break;
+        }
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174098;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_80174098[index & 7], 0);
+        ((S_80173C20_0 *)arg0)->unk_96 = 8;
+        ((S_80173C20_0 *)arg0)->unk_98 &= 0xFFF7;
+        ((S_80173C20_0 *)arg0)->unk_9B++;
+        break;
+    case 2:
+        timer = ((S_80173C20_0 *)arg0)->unk_96 - 1;
+        ((S_80173C20_0 *)arg0)->unk_96 = timer;
+        if (((timer << 16) == 0) || (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(arg3, arg2, ((S_80173C20_1 *)arg3)->unk_2A.u, 1);
+        }
+        if (!(((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000)) {
+            break;
+        }
+        (*(void * *)((u8 *)arg2 + 0x2C)) = D_801740A0;
+        index = (gameWork.view.viewAngle + ((S_80173C20_1 *)arg3)->unk_2A.u + 0x100) >> 9;
+        func_80047784(arg2, D_801740A0[index & 7], 0);
+
+        ((S_80173C20_0 *)arg0)->unk_9B++;
+        break;
+    case 3:
+        if (((Rec_D_80082E80 *)arg2)->unk_14.at00_u16.v & 0xE000) {
+            ((S_80173C20_3 *)arg1)->unk_10 = 0;
+            ((S_80173C20_3 *)arg1)->unk_0C = 0;
+            func_800AD594(arg3, 0x1000);
+            ((S_80173C20_0 *)arg0)->unk_8C = &D_80170EA8;
+            dungeonStatus.unk_0C = 0;
+            func_800A4ACC(arg3);
+
+            if (((S_80173C20_0 *)arg0)->unk_98 & 0x4000) {
+                ((S_80173C20_1 *)arg3)->unk_1C |= 0x1000;
+            } else {
+                ((S_80173C20_1 *)arg3)->unk_1C &= ~0x1000;
+            }
+            ((S_80173C20_1 *)arg3)->unk_03 = ((S_80173C20_0 *)arg0)->unk_AC;
+            if (((S_80173C20_1 *)arg3)->unk_6D == 0) {
+                ((S_80173C20_1 *)arg3)->unk_46 &= 0x7FFF;
+            } else {
+                D_800E3DE8 = (u8 *)arg3 - 0x20;
+            }
+        }
+        break;
     }
 }

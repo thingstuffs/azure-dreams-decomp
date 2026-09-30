@@ -36,14 +36,6 @@ typedef struct S_800D1824_2 {
     u8 * unk_8D0;
 } S_800D1824_2;   /* root in func_800D1824 */
 
-typedef struct S_800D1824_3_pre {
-    u8 unk_00;
-} S_800D1824_3_pre;   /* the 0x1 bytes before rec in func_800D1824, addressed as rec[-1] */
-
-typedef struct S_800D1824_3 {
-    union { u16 s; u16 u; } unk_00;   /* accessed as both */
-} S_800D1824_3;   /* rec in func_800D1824 */
-
 typedef struct S_800D1824_4 {
     u8 pad_00[0x8];
     u32 unk_08;
@@ -70,18 +62,11 @@ extern void func_8006658C(s32 arg0, void *arg1);
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void func_800D1824(u8 *tiles)
 {
-    register u8 *scratch ASM_REG("$16") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *scratch = (u8 *)0x1F800000;
     GameWork *globals = &gameWork;
-    u8 *tile = tiles;
     u8 *style;
-    register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *tile_z;
-    u8 *packet_len;
-    u8 *vertex_0;
+    u8 *prim;
     u8 *render_state;
-    u8 *draw_prim;
-    u8 *vertex_1;
-    u8 *vertex_2;
     s32 x;
     s32 y;
     s32 depth;
@@ -95,81 +80,65 @@ void func_800D1824(u8 *tiles)
     ((S_800D1824_0 *)scratch)->unk_2C = -0x1000;
     ((S_800D1824_0 *)scratch)->unk_20 = render_state + 0xB0;
 
-    ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    if (*tile != 0) {
-        vertex_0 = scratch + 0x70;
-        tile_z = tiles + 2;
-        packet_len = prim + 3;
+    while (*tiles != 0) {
+        if (*(u16 *)(tiles + 2) != 0x8000) {
+            x = (s32)tiles[0] << 6;
+            ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
+            ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;
+            x += 0x40;
+            ((S_800D1824_0 *)scratch)->unk_88 = (s16)x;
+            ((S_800D1824_0 *)scratch)->unk_78 = (s16)x;
 
-        do {
-            if (((S_800D1824_3 *)tile_z)->unk_00.s != 0x8000) {
-                vertex_1 = scratch + 0x78;
-                x = (s32)*tile << 6;
-                ((S_800D1824_0 *)scratch)->unk_80 = (s16)x;
-                ((S_800D1824_0 *)scratch)->unk_70 = (s16)x;
-                x += 0x40;
-                ((S_800D1824_0 *)scratch)->unk_88 = (s16)x;
-                ((S_800D1824_0 *)scratch)->unk_78 = (s16)x;
+            y = (s32)tiles[1] << 6;
+            ((S_800D1824_0 *)scratch)->unk_7A = (s16)y;
+            ((S_800D1824_0 *)scratch)->unk_72 = (s16)y;
+            y += 0x40;
+            ((S_800D1824_0 *)scratch)->unk_8A = (s16)y;
+            ((S_800D1824_0 *)scratch)->unk_82 = (s16)y;
 
-                y = (s32)((S_800D1824_3_pre *)tile_z)[-1].unk_00 << 6;
-                ((S_800D1824_0 *)scratch)->unk_7A = (s16)y;
-                ((S_800D1824_0 *)scratch)->unk_72 = (s16)y;
-                y += 0x40;
-                ((S_800D1824_0 *)scratch)->unk_8A = (s16)y;
-                ((S_800D1824_0 *)scratch)->unk_82 = (s16)y;
+            z = *(u16 *)(tiles + 2);
+            ((S_800D1824_0 *)scratch)->unk_84 = z;
+            ((S_800D1824_0 *)scratch)->unk_7C = z;
+            ((S_800D1824_0 *)scratch)->unk_74 = z;
 
-                z = ((S_800D1824_3 *)tile_z)->unk_00.s;
-                ((S_800D1824_0 *)scratch)->unk_84 = z;
-                ((S_800D1824_0 *)scratch)->unk_7C = z;
-                ((S_800D1824_0 *)scratch)->unk_74 = z;
+            gte_ldv3(scratch + 0x70, scratch + 0x78, scratch + 0x80);
+            ((S_800D1824_0 *)scratch)->unk_8C = *(u16 *)(tiles + 2);
+            gte_rtpt_nn();
+            gte_nclip();
+            gte_stopz(scratch + 0x114);
 
-                vertex_2 = scratch + 0x80;
-                gte_ldv3(vertex_0, vertex_1, vertex_2);
-                ((S_800D1824_0 *)scratch)->unk_8C =
-                    ((S_800D1824_3 *)tile_z)->unk_00.u;
-                gte_rtpt_nn();
-                gte_nclip();
-                gte_stopz(scratch + 0x114);
+            if (((S_800D1824_0 *)scratch)->unk_114 > 0) {
+                gte_stsxy3_g3(prim);
+                gte_avsz3();
+                gte_stotz(scratch + 0xC0);
+                gte_ldv0(scratch + 0x88);
+                tri_depth = ((S_800D1824_0 *)scratch)->unk_C0;
+                tri_depth = tri_depth * 3;
+                ((S_800D1824_0 *)scratch)->unk_C0 = tri_depth;
 
-                if (((S_800D1824_0 *)scratch)->unk_114 > 0) {
-                    gte_stsxy3_g3(prim);
-                    gte_avsz3();
-                    gte_stotz(scratch + 0xC0);
-                    gte_ldv0(scratch + 0x88);
-                    tri_depth = ((S_800D1824_0 *)scratch)->unk_C0;
-                    tri_depth = tri_depth * 3;
-                    ((S_800D1824_0 *)scratch)->unk_C0 = tri_depth;
+                gte_rtps_nn();
+                gte_stszotz(scratch + 0xCC);
+                depth = (((S_800D1824_0 *)scratch)->unk_C0 +
+                         ((S_800D1824_0 *)scratch)->unk_CC) >> 2;
+                ((S_800D1824_0 *)scratch)->unk_C0 = depth;
 
-                    gte_rtps_nn();
-                    gte_stszotz(scratch + 0xCC);
-                    depth = (((S_800D1824_0 *)scratch)->unk_C0 +
-                             ((S_800D1824_0 *)scratch)->unk_CC) >> 2;
-                    ((S_800D1824_0 *)scratch)->unk_C0 = depth;
-
-                    if ((u32)depth < 0x1E0) {
-                        gte_stsxy(prim + 0x20);
-                        draw_prim = prim;
-                        func_80065034(scratch + 0x28, (u8 *)globals + 0xA8,
-                                      prim + 4);
-
-                        (*(u32 *)((u8 *)packet_len + 9)) = ((S_800D1824_4 *)style)->unk_08;
-                        (*(u32 *)((u8 *)packet_len + 0x11)) = ((S_800D1824_4 *)style)->unk_0C;
-                        (*(u16 *)((u8 *)packet_len + 0x19)) = ((S_800D1824_4 *)style)->unk_12;
-                        prim += 0x28;
-                        (*(u16 *)((u8 *)packet_len + 0x21)) = ((S_800D1824_4 *)style)->unk_14;
-                        packet_len[0] = 9;
-                        packet_len += 0x28;
-                        func_8006658C(
-                            (s32)((S_800D1824_0 *)scratch)->unk_20 +
-                                (((S_800D1824_0 *)scratch)->unk_C0 << 2),
-                            draw_prim);
-                    }
+                if ((u32)depth < 0x1E0) {
+                    gte_stsxy(prim + 0x20);
+                    func_80065034(scratch + 0x28, (u8 *)globals + 0xA8, prim + 4);
+                    *(u32 *)(prim + 0xC) = ((S_800D1824_4 *)style)->unk_08;
+                    *(u32 *)(prim + 0x14) = ((S_800D1824_4 *)style)->unk_0C;
+                    *(u16 *)(prim + 0x1C) = ((S_800D1824_4 *)style)->unk_12;
+                    *(u16 *)(prim + 0x24) = ((S_800D1824_4 *)style)->unk_14;
+                    prim[3] = 9;
+                    func_8006658C(
+                        (s32)((S_800D1824_0 *)scratch)->unk_20 +
+                            (((S_800D1824_0 *)scratch)->unk_C0 << 2),
+                        prim);
+                    prim += 0x28;
                 }
             }
-
-            tile += 4;
-            tile_z += 4;
-        } while (*tile != 0);
+        }
+        tiles += 4;
     }
 
     ((S_800D1824_6 *)(((u8 *)globals->unk_000)))->unk_8D0 = prim;
