@@ -297,14 +297,9 @@ void func_800AC4C4(void) {
     s32 one;
     S_func_800AED64_4 *scratch;
     register void *vertex_input;
-    register S_func_800AED64_1 *render_state ASM_REG("$20");
+    S_func_800AED64_1 *render_state;
 
-    {
-        work_value = (s32)((u8 *)0x80080000);
-        ASM_KEEP_NV(work_value);
-        render_state = (u8 *)work_value + 0x3160;
-    }
-    ASM_KEEP_NV(render_state);
+    render_state = (S_func_800AED64_1 *)&gameWork;
     map_data = (u8 *)render_state + 0x1DC;
     tile_map = render_state->unk_1DC;
     vertices = map_data->unk_08;
