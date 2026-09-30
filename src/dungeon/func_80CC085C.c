@@ -123,7 +123,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     s16 stop_fallback = 0;
     s32 heading;
     s32 target_x_sum;
-    register s32 target_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u16 target_y;
     u16 state_flags;
     s32 flags;
@@ -180,7 +179,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                 {
                     void **root_page = &D_800814A8;
                     u8 *leader_pos;
-                    register unsigned long x_lookup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    unsigned long x_lookup;
                     unsigned long y_lookup;
                     u8 actor_x;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -201,17 +200,17 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                         y_offset = *(u16 *)y_lookup;
                     }
                     actor_x = actor->unk_24.at00.v;
-                    target_x = target_x_sum + (s32)x_lookup;
+                    heading = target_x_sum + (s32)x_lookup;
                     target_y = (s32)leader_pos;
                     target_y += y_offset;
-                    if (actor_x == (u16)target_x && actor->unk_24.at01.v == (u16)target_y) {
+                    if (actor_x == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
                         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                         return;
                     }
                 }
                 {
                     void *path_state = (u8 *)context + 0x98;
-                    u16 target_heading = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v, (s16)target_x,
+                    u16 target_heading = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v, (s16)heading,
                         (s16)target_y, path_state);
                     ((S_8017405C_0 *)movement)->unk_2A.u = target_heading;
                     if (func_8009A66C((s16)target_heading, actor, movement, 0x20) <= 0) {
@@ -266,10 +265,10 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                         register u8 *leader_pos = D_80082E80;
                         register unsigned long x_lookup ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                         unsigned long y_lookup;
-                        register u16 target_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         s32 actor_x;
                         s32 current_x;
                         s32 actor_y;
+                        s32 call_x;
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         x_lookup = (unsigned long)dirStepX;
                         root = *root_page;
@@ -287,8 +286,10 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                             y_lookup = *(u16 *)y_lookup;
                         }
                         target_x_sum += (s32)x_lookup;
-                        target_x = target_x_sum;
-                        target_x_sum = (s16)target_x_sum;
+                        call_x = (u32)target_x_sum << 16;
+                        heading = target_x_sum;
+                        target_x_sum = call_x;
+                        target_x_sum >>= 16;
                         x_lookup = leader_pos[0x25];
                         x_lookup += y_lookup;
                         target_y = (s32)x_lookup;
@@ -297,7 +298,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                                                             target_x_sum, (s32)x_lookup, (u8 *)context + 0x98);
                         {
                             current_x = actor->unk_24.at00.v;
-                            y_offset = (u16)target_x;
+                            y_offset = (u16)heading;
                             if (current_x == y_offset) {
                                 current_x = actor->unk_24.at01.v;
                                 if (current_x == (u16)target_y) {

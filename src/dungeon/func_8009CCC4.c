@@ -70,7 +70,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         s32 upper_stat;
         s32 lower_hp_base;
         s32 stat_value;
-        hp_curve = func_800647A0((level_offset * stat_growth[5]) << 0xB, monster_id);
+        hp_curve = func_800647A0((level_offset * stat_growth[5]) << 0xB);
         base_hp = *(u8 *)(initial_stats + 5);
         lower_hp_growth = stat_growth[5] * level_offset;
         if (lower_hp_growth < 0) {
@@ -84,7 +84,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         lower_stat = lower_hp_base + (lower_hp_curve >> 0xF);
 
         level_term = level * stat_growth[5];
-        hp_curve = func_800647A0(level_term << 0xB, lower_hp_curve, base_hp);
+        hp_curve = func_800647A0(level_term << 0xB);
         lower_hp_curve = *(u8 *)(initial_stats + 5);
         upper_hp_growth = stat_growth[5] * level;
         if (upper_hp_growth < 0) {
@@ -108,18 +108,17 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         s32 lower_growth;
         s32 upper_stat;
         s32 stat_value;
-        register s32 growth_product ASM_REG("$16");
         {
             s32 base_stat;
             lower_growth = stat_growth[4];
             base_stat = initial_stats[4];
-            growth_product = lower_growth * base_stat;
-            lower_growth = growth_product * level_offset;
+            lower_stat = lower_growth * base_stat;
+            lower_growth = lower_stat * level_offset;
         }
         if (lower_growth < 0) {
             lower_growth += 0x3FF;
         }
-        stat_value = growth_product * level;
+        stat_value = lower_stat * level;
         lower_stat = initial_stats[4] + (lower_growth >> 0xA);
         if (stat_value < 0) {
             stat_value += 0x3FF;
