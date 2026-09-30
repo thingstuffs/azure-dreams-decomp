@@ -62,7 +62,7 @@ typedef struct S_800B2074_5 {
 
 typedef union { void *pointer; u32 word; } InitSlot;
 /* Creates an object at the given map position and updates its tile record. */
-void func_800B2074(s32 world_x, s32 world_z) {
+s32 func_800B2074(s32 world_x, s32 world_z) {
     s32 tile_addr;
     void *object;
     s32 pos_x;
@@ -81,7 +81,6 @@ void func_800B2074(s32 world_x, s32 world_z) {
     object = func_8003FC64(0x12);
     if (object != NULL) {
         init_object = object;
-        ASM_KEEP(init_object);
         {
             InitSlot slot = { D_800B1F34 };
             init_data = &D_80046398;

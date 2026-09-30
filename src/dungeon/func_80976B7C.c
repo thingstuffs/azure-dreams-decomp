@@ -67,10 +67,9 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
             actor, target->unk_24, target->unk_25,
             ((S_8017237C_0 *)actor)->unk_2A);
         {
-            register void *check_actor ASM_REG("$4") = actor;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            s32 result = target_code;
+            s32 result = 0;
 
-            if (func_800A2CB8(check_actor, result) == 0) {
+            if (func_800A2CB8(actor, target_code) == 0) {
                 return action_ready;
             }
             if (dungeonStatus.flags & 0x2000) {
@@ -82,7 +81,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
                 }
             }
 
-            if ((u16)(0 - func_800A0134(result, actor) + 0x40) >= 0x81U) {
+            if ((u16)(0 - func_800A0134(target_code, actor) + 0x40) >= 0x81U) {
                 return action_ready;
             }
 
@@ -126,6 +125,7 @@ s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void
     }
 }
 
-/* MECHANISM: Pinned argument roles produce the 0x38 frame and s4/s6/s5/s0 holds.
-   RMW seams plus a pinned 0x80080000 page emit v0->s3; a nested raw-return
-   live range orders a0 before s1. Volatile tail stores retain the call ABI order. */
+/* MECHANISM: target_code is set once (the first call's result), so sched1's
+   birthing boost launches its copy into $s1 right before the a1 use and the
+   a0 move comes first; `result` (zero at its declaration, later action_ready)
+   is the separate multi-set variable that keeps the tail copy `move $17,$18`. */
