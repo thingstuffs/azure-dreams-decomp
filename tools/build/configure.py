@@ -669,7 +669,7 @@ CC_VER = {
     "src/w_800530C4.c": ("2.7.2", "-G0"),
     "src/w_80055BD8.c": ("2.7.2-cdk", "-G0"),
     "src/w_80043EB8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_80041CBC.c": ("2.7.2-cdk", "-G0"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
+    "src/w_80041CBC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2b): retail-proven splitting recipe
     "src/w_8004F9AC.c": ("2.7.2-cdk", ""),
     "src/w_8004F5F4.c": ("2.7.2-cdk", "-G0"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003F6F4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc1): retail-proven splitting recipe

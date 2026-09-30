@@ -2027,7 +2027,7 @@ build build/src/w_80041AB0.o: cc src/w_80041AB0.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80041CBC.o: cc src/w_80041CBC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_80041E28.o: cc src/w_80041E28.c | tools/cc.sh tools/ccproc.py 
