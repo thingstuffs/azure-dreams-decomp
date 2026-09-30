@@ -29078,3 +29078,4 @@
 {"id":"dungeon/func_80097F94","transform":"t2_pins","in_sha":"abe2a2d0e1bcbdd0c4357887b6dfb6c8e9cf55abd78e1690f6d1ce9301df4340","from_clean":true,"size":432,"outcome":"refused","reason":"no pin sites","at":"2026-09-30T06:55:10Z"}
 {"id":"dungeon/func_818FF5B8","transform":"t2_pins","in_sha":"04e18deb8aee9602b6dce9a81d2830bf6eb06a29ecc89e784ea717ebf3aab90f","from_clean":true,"size":344,"outcome":"refused","reason":"no pin sites","at":"2026-09-30T06:59:30Z"}
 {"id":"dungeon/func_813231FC","transform":"t2_pins","in_sha":"35e204c6a32feefd6a5c0d79fb52b402689ba3a5f061ac7bf0ef70783cdb4990","from_clean":true,"size":460,"outcome":"refused","reason":"no pin sites","at":"2026-09-30T07:00:47Z"}
+{"id":"dungeon/func_80E61EF4","transform":"t2_pins","in_sha":"88fdbe4d687619169c943d335a9f1711c202e094d47e540b89e7209ebf3927d0","from_clean":true,"size":1460,"erased":0,"tried":1,"left":1,"kept":[["ASM_KEEP","sprite","reorder-only"]],"outcome":"noop","at":"2026-09-30T07:09:19Z"}
