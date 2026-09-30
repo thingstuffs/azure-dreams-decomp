@@ -87,12 +87,9 @@ extern void func_80042640(void *, s32);
 extern s32 func_800A6D30(void);
 
 /* Update the effect's launch, movement, impact, and cleanup phases. */
-void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
+void func_800246BC(EffectState *state, Motion *motion, ColorPart *part)
 {
-    EffectState *state = effect_state;
-    Motion *motion = effect_motion;
-    ColorPart *part;
-    register void *owner ASM_REG("$17");
+    void *owner;
     void *owner_data;
     void *owner_node;
     void *source_pos;
@@ -110,7 +107,6 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
     state_id = state->state;
     owner = state->owner;
 
-    part = color_part;
     switch (state_id) {
         register u32 direction_x ASM_REG("$2");
     case 0:

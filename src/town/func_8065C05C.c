@@ -25,16 +25,14 @@ typedef struct S_func_8065C05C_3 {
 
 
 /* Build a terminated list of four-byte entries for IDs accepted by the callback. */
-void func_8065C05C(void *entries) {
-    register S_func_8065C05C_0 *entries_base;
+void func_8065C05C(register S_func_8065C05C_0 *entries_base) {
     s32 entry_count;
     register s32 entry_id;
-    register s32 entry_tag ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register S_func_8065C05C_1 *globals_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 entry_tag;
+    S_func_8065C05C_1 *globals_page;
     register S_func_8065C05C_0 *entries_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 terminator;
 
-    entries_base = entries;
     entry_count = 0;
     entry_id = 0;
     globals_page = (S_func_8065C05C_1 *)0x80010000;

@@ -52,17 +52,13 @@ extern s32 func_80171F58();
 extern u8 D_801752AC[];
 
 /* Advances the entity along its stored path and updates movement state. */
-void func_80171590(void *motion_arg, s32 update_arg, void *entity_arg, void *state_arg) {
-    void *motion = motion_arg;
-    s32 update_param = update_arg;
-    void *entity = entity_arg;
-    void *state = state_arg;
+void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
     s32 tile_mask;
     s32 old_x;
     s32 old_y;
     s32 new_x;
     s32 new_y;
-    register s16 heading ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 heading;
     register s16 move_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171590_0 *)state)->unk_71.s <= 0) {

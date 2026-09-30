@@ -51,10 +51,9 @@ typedef struct S_800C9AAC_2 {
 } S_800C9AAC_2;   /* secondary in func_800C9AAC */
 
 /* Updates object callbacks, motion, sprite direction, and height. */
-void func_800C9AAC(void *state, void *object_motion, void *object_part)
+void func_800C9AAC(void *state, void *motion, void *object_part)
 {
     u32 update_flags = dungeonStatus.flags;
-    register void *motion ASM_REG("$21") = object_motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *part ASM_REG("$19") = object_part;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *secondary = state;
     Callback callback;
@@ -82,7 +81,6 @@ void func_800C9AAC(void *state, void *object_motion, void *object_part)
         register void *check_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         register void *check_part ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         callback_state = state;
-        ASM_KEEP(check_motion);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(check_part);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         callback_state = state;
         check_motion = motion;

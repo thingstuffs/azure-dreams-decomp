@@ -73,11 +73,10 @@ typedef struct S_80172A40_4 {
 
 
 /* Updates the selected action's targeting, motion, and completion state. */
-void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, void *object_input)
+void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input, void *object)
 {
-    void *object = object_input;
     s16 special;
-    register u8 *item_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *item_slot;
     s32 state;
     s32 slot_kind;
     s32 special_copy;
