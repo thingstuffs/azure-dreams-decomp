@@ -302,7 +302,7 @@
 {"src":"src/konami_runtime_w_8003C5A4.c","out":"build/src/konami_runtime_w_8003C5A4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C5F0.c","out":"build/src/konami_runtime_w_8003C5F0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C634.c","out":"build/src/konami_runtime_w_8003C634.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/konami_runtime_w_8003C67C.c","out":"build/src/konami_runtime_w_8003C67C.o","ccver":"2.7.2-cdk","ccflags":"-fno-strength-reduce","asflags":""}
+{"src":"src/konami_runtime_w_8003C67C.c","out":"build/src/konami_runtime_w_8003C67C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C6F8.c","out":"build/src/konami_runtime_w_8003C6F8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C758.c","out":"build/src/konami_runtime_w_8003C758.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003C7D8.c","out":"build/src/konami_runtime_w_8003C7D8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -660,7 +660,7 @@
 {"src":"src/w_8004FE78.c","out":"build/src/w_8004FE78.o","ccver":"2.7.2","ccflags":"-G0","asflags":""}
 {"src":"src/w_8004FF20.c","out":"build/src/w_8004FF20.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004FFA8.c","out":"build/src/w_8004FFA8.o","ccver":"2.7.2","ccflags":"","asflags":""}
-{"src":"src/w_8004FFF4.c","out":"build/src/w_8004FFF4.o","ccver":"2.7.2","ccflags":"-fno-strength-reduce","asflags":""}
+{"src":"src/w_8004FFF4.c","out":"build/src/w_8004FFF4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800500B4.c","out":"build/src/w_800500B4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80050308.c","out":"build/src/w_80050308.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800504B4.c","out":"build/src/w_800504B4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -774,7 +774,7 @@
 {"src":"src/w_80056D44.c","out":"build/src/w_80056D44.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80056DB4.c","out":"build/src/w_80056DB4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80056E10.c","out":"build/src/w_80056E10.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80057948.c","out":"build/src/w_80057948.o","ccver":"2.7.2-cdk","ccflags":"-fno-strength-reduce","asflags":""}
+{"src":"src/w_80057948.c","out":"build/src/w_80057948.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80057A50.c","out":"build/src/w_80057A50.o","ccver":"2.8.1","ccflags":"","asflags":""}
 {"src":"src/w_80057A94.c","out":"build/src/w_80057A94.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80057D20.c","out":"build/src/w_80057D20.o","ccver":"2.7.2-cdk","ccflags":"-G0","asflags":""}
@@ -802,7 +802,7 @@
 {"src":"src/w_800597A8.c","out":"build/src/w_800597A8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059814.c","out":"build/src/w_80059814.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800599B0.c","out":"build/src/w_800599B0.o","ccver":"2.7.2-cdk","ccflags":"-G0 -fno-strength-reduce","asflags":""}
-{"src":"src/w_80059BC4.c","out":"build/src/w_80059BC4.o","ccver":"2.7.2-cdk","ccflags":"-fno-strength-reduce","asflags":""}
+{"src":"src/w_80059BC4.c","out":"build/src/w_80059BC4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059D1C.c","out":"build/src/w_80059D1C.o","ccver":"2.8.1","ccflags":"","asflags":""}
 {"src":"src/w_80059D60.c","out":"build/src/w_80059D60.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059DAC.c","out":"build/src/w_80059DAC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

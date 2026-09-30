@@ -21,15 +21,14 @@ u8 * func_8067F5C4(u8 *entries) {
     *(PackedWord *)entries = *(PackedWord *)copy_source;
     index = 1;
     marker = 0x18;
-    entry = entries + 4;
     do {
+        entry = entries + index * 4;
         entry[1] = marker;
         entry[0] = index;
         if (func_80018594(index + 0x1497) != 0) {
             entry[3] |= 0x80;
         }
         index++;
-        entry += 4;
     } while (index < 0x21);
     tail_base = entries;
     tail_offset = index * 4;

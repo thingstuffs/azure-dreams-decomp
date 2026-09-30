@@ -166,36 +166,33 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
 
                 if (tiles[scratch->tile] != 0) {
                     Cell_80090854 *cell;
-                    u8 *cell_flags;
                     u16 tile_value;
                     s32 vertex_delta;
 
                     scratch->inner_bias = scratch->inner_offset;
                     tile_value = tiles[scratch->tile];
                     cell = map->cells[tile_value & 0x3FFF];
-                    cell_flags = (u8 *)cell + 0x16;
-
                     for (;;) {
-                        if (scratch->planes[*(u16 *)(cell_flags - 6)].x > 0 &&
-                            !(cell_flags[1] & 1)) {
+                        if (scratch->planes[cell->plane].x > 0 &&
+                            !(((u8 *)&cell->flags)[1] & 1)) {
                             s32 plane_x;
 
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].y;
+                            vertex_delta = (u16)vertices[cell->v4].y;
                             vertex_delta -= (u16)scratch->x;
                             scratch->quad[0] = vertex_delta;
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x12)].z;
+                            vertex_delta = (u16)vertices[cell->v4].z;
                             vertex_delta -= (u16)scratch->z;
                             scratch->quad[1] = vertex_delta;
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].y;
+                            vertex_delta = (u16)vertices[cell->v6].y;
                             vertex_delta -= (u16)scratch->x;
                             scratch->quad[2] = vertex_delta;
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x10)].z;
+                            vertex_delta = (u16)vertices[cell->v6].z;
                             vertex_delta -= (u16)scratch->z;
                             scratch->quad[3] = vertex_delta;
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].y;
+                            vertex_delta = (u16)vertices[cell->v2].y;
                             vertex_delta -= (u16)scratch->x;
                             scratch->quad[4] = vertex_delta;
-                            vertex_delta = (u16)vertices[*(u16 *)(cell_flags - 0x14)].z;
+                            vertex_delta = (u16)vertices[cell->v2].z;
                             vertex_delta -= (u16)scratch->z;
                             scratch->quad[5] = vertex_delta;
                             vertex_delta = (u16)vertices[cell->v0].y;
@@ -206,7 +203,7 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
                             scratch->quad[7] = vertex_delta;
 
                             if (func_8008CE08(scratch) != 0) {
-                                u16 plane_index = *(u16 *)(cell_flags - 6);
+                                u16 plane_index = cell->plane;
                                 u16 vertex_index = cell->v0;
                                 register Vec_80090854 *plane;
                                 register Vec_80090854 *vertex;
@@ -235,9 +232,8 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
 
                         {
                             s32 end_flags;
-                            end_flags = *(u16 *)cell_flags & 0x80FF;
+                            end_flags = cell->flags & 0x80FF;
                             if (end_flags != 0x8001) {
-                                cell_flags += 0x18;
                                 cell = (Cell_80090854 *)((u8 *)cell + 0x18);
                             } else {
                                 break;

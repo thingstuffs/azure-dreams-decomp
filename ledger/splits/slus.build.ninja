@@ -1642,7 +1642,7 @@ build build/src/konami_runtime_w_8003C5F0.o: cc src/konami_runtime_w_8003C5F0.c 
 
 build build/src/konami_runtime_w_8003C67C.o: cc src/konami_runtime_w_8003C67C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-strength-reduce
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003C7D8.o: cc src/konami_runtime_w_8003C7D8.c | tools/cc.sh tools/ccproc.py 
@@ -3268,8 +3268,8 @@ build build/src/w_8004FFA8.o: cc src/w_8004FFA8.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004FFF4.o: cc src/w_8004FFF4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -fno-strength-reduce
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_800500B4.o: cc src/w_800500B4.c | tools/cc.sh tools/ccproc.py 
@@ -3837,7 +3837,7 @@ build build/src/w_80056E10.o: cc src/w_80056E10.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80057948.o: cc src/w_80057948.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-strength-reduce
+  ccflags = 
   asflags = 
 
 build build/src/w_80057A50.o: cc src/w_80057A50.c | tools/cc.sh tools/ccproc.py 
@@ -3978,7 +3978,7 @@ build build/src/w_800599B0.o: cc src/w_800599B0.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80059BC4.o: cc src/w_80059BC4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-strength-reduce
+  ccflags = 
   asflags = 
 
 build build/src/w_80059D1C.o: cc src/w_80059D1C.c | tools/cc.sh tools/ccproc.py 
