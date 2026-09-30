@@ -33,9 +33,9 @@ void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
             size = 0x1C;
         }
         slot_index = 0;
-        slot_info = D_800E3648;
-        slot_data = &D_800E39C8;
-        while (1) {
+        for (; slot_index < 0x20; slot_index++) {
+            slot_info = (u8 *)((u32 *)D_800E3648 + slot_index);
+            slot_data = (u8 *)D_800E39C8 + slot_index * 0x18;
             if ((*((u8 *) (((s8 *) slot_info) + 1))) == 0) {
                 x_offset = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 4))) - 1) & 0xFFFF, room_area) & 0xFFFF;
                 y_roll = func_800A6DA4(0, ((*((u16 *) (((s8 *) room) + 6))) - 1) & 0xFFFF);
@@ -48,12 +48,6 @@ void func_8001CFB8(void *room, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
                 *((s8 *) (((s8 *) slot_info) + 2)) = (s8) size;
                 *((s32 *) (((s8 *) slot_data) + 8)) = 0;
                 return;
-            }
-            slot_index += 1;
-            slot_info += 4;
-            slot_data += 0x18;
-            if (slot_index >= 0x20) {
-                break;
             }
         }
     }

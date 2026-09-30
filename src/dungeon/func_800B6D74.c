@@ -85,7 +85,7 @@ typedef struct S_800BC4D4_4 {
 typedef struct S_800BC4D4_5_pre {
     s8 unk_00;
     u8 pad_01[0x3];
-} S_800BC4D4_5_pre;   /* the 0x4 bytes before packet_field in func_800BC4D4, addressed as packet_field[-1] */
+} S_800BC4D4_5_pre;   /* the 0x4 bytes before packet + 7 in func_800BC4D4, addressed as (packet + 7)[-1] */
 
 typedef struct S_800BC4D4_5 {
     u8 unk_00;
@@ -96,11 +96,11 @@ typedef struct S_800BC4D4_5 {
     u8 pad_17[0x6];
     u8 unk_1D;
     u8 unk_1E;
-} S_800BC4D4_5;   /* packet_field in func_800BC4D4 */
+} S_800BC4D4_5;   /* packet + 7 in func_800BC4D4 */
 
 typedef struct S_800BC4D4_6 {
     u16 unk_00;
-} S_800BC4D4_6;   /* texture_data in func_800BC4D4 */
+} S_800BC4D4_6;   /* texture + 4 in func_800BC4D4 */
 
 typedef struct S_800BC4D4_7 {
     u8 pad_00[0x8D0];
@@ -160,8 +160,6 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     u8 *packet;
     u8 *packet_next;
     u8 *texture;
-    u8 *texture_data;
-    u8 *packet_field;
     u8 *root;
     u32 projected_depth;
     u32 biased_depth;
@@ -230,9 +228,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
         ((S_800BC4D4_1 *)scratch)->unk_30.s = clamped_scale;
         ((S_800BC4D4_1 *)scratch)->unk_34.s = (s32)(clamped_scale + ((u32)clamped_scale >> 31)) >> 1;
         func_80065820((void *)0x1F800100, (void *)0x1F8000D0);
-        texture_data = texture + 4;
 
-        packet_field = packet + 7;
         func_80064840(matrix, (void *)0x1F8000D0, (void *)0x1F800050);
         func_80064BC0((void *)0x1F800050, (void *)0x1F800030);
 
@@ -245,27 +241,26 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
         for (;;) {
             if (!(texture[0] & 0x20)) {
-                ((S_800BC4D4_1 *)scratch)->unk_08.u32 = texture_data[4];
-                ((S_800BC4D4_1 *)scratch)->unk_0C.u = texture_data[5];
-                ((S_800BC4D4_1 *)scratch)->unk_10.u32 = texture_data[6];
-                ((S_800BC4D4_1 *)scratch)->unk_14.u32 = texture_data[7];
+                ((S_800BC4D4_1 *)scratch)->unk_08.u32 = texture[8];
+                ((S_800BC4D4_1 *)scratch)->unk_0C.u = texture[9];
+                ((S_800BC4D4_1 *)scratch)->unk_10.u32 = texture[10];
+                ((S_800BC4D4_1 *)scratch)->unk_14.u32 = texture[11];
                 func_80067EF4(packet, 0, 0);
-                packet_field += 0xC;
-                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
+                                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
                 packet_next = packet + 0xC;
                 packet = packet_next;
 
                 if ((texture[0] ^ ((S_800BC4D4_1 *)scratch)->unk_24) & 1) {
-                    coord_x = -(s8)texture_data[-2];
+                    coord_x = -(s8)texture[2];
                     ((S_800BC4D4_1 *)scratch)->unk_80 = coord_x;
                     ((S_800BC4D4_1 *)scratch)->unk_70.s = coord_x;
                     coord_x -= ((S_800BC4D4_1 *)scratch)->unk_10.u16;
                     ((S_800BC4D4_1 *)scratch)->unk_88 = coord_x;
                     ((S_800BC4D4_1 *)scratch)->unk_78.s = coord_x;
                 } else {
-                    coord_x = (s8)texture_data[-2];
+                    coord_x = (s8)texture[2];
                     ((S_800BC4D4_1 *)scratch)->unk_80 = coord_x;
                     ((S_800BC4D4_1 *)scratch)->unk_70.s = coord_x;
                     coord_x += ((S_800BC4D4_1 *)scratch)->unk_10.u16;
@@ -274,14 +269,14 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 }
 
                 if ((texture[0] ^ ((S_800BC4D4_1 *)scratch)->unk_24) & 2) {
-                    coord_y = -(s8)texture_data[-1];
+                    coord_y = -(s8)texture[3];
                     ((S_800BC4D4_1 *)scratch)->unk_7A = coord_y;
                     ((S_800BC4D4_1 *)scratch)->unk_72 = coord_y;
                     coord_y -= ((S_800BC4D4_1 *)scratch)->unk_14.u16;
                     ((S_800BC4D4_1 *)scratch)->unk_8A = coord_y;
                     ((S_800BC4D4_1 *)scratch)->unk_82 = coord_y;
                 } else {
-                    coord_y = (s8)texture_data[-1];
+                    coord_y = (s8)texture[3];
                     ((S_800BC4D4_1 *)scratch)->unk_7A = coord_y;
                     ((S_800BC4D4_1 *)scratch)->unk_72 = coord_y;
                     coord_y += ((S_800BC4D4_1 *)scratch)->unk_14.u16;
@@ -297,26 +292,26 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                               (s16 *)(scratch + 0xF8), (s16 *)(scratch + 0xFC),
                               (s16 *)(scratch + 0x90), (s16 *)(scratch + 0x94));
 
-                (*(s16 *)((u8 *)packet_field + 1)) = ((S_800BC4D4_1 *)scratch)->unk_F0
+                (*(s16 *)(packet + 8)) = ((S_800BC4D4_1 *)scratch)->unk_F0
                     + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 3)) = ((S_800BC4D4_1 *)scratch)->unk_F2
+                (*(s16 *)(packet + 10)) = ((S_800BC4D4_1 *)scratch)->unk_F2
                     + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 9)) = ((S_800BC4D4_1 *)scratch)->unk_F4
+                (*(s16 *)(packet + 16)) = ((S_800BC4D4_1 *)scratch)->unk_F4
                     + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 0xB)) = ((S_800BC4D4_1 *)scratch)->unk_F6
+                (*(s16 *)(packet + 18)) = ((S_800BC4D4_1 *)scratch)->unk_F6
                     + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 0x11)) = ((S_800BC4D4_1 *)scratch)->unk_F8
+                (*(s16 *)(packet + 24)) = ((S_800BC4D4_1 *)scratch)->unk_F8
                     + ((S_800BC4D4_1 *)scratch)->unk_B8;
-                (*(s16 *)((u8 *)packet_field + 0x13)) = ((S_800BC4D4_1 *)scratch)->unk_FA
+                (*(s16 *)(packet + 26)) = ((S_800BC4D4_1 *)scratch)->unk_FA
                     + ((S_800BC4D4_1 *)scratch)->unk_BA;
-                (*(s16 *)((u8 *)packet_field + 0x19)) = ((S_800BC4D4_1 *)scratch)->unk_FC
+                (*(s16 *)(packet + 32)) = ((S_800BC4D4_1 *)scratch)->unk_FC
                     + ((S_800BC4D4_1 *)scratch)->unk_B8;
                 {
                     u16 bottom_y = ((S_800BC4D4_1 *)scratch)->unk_FE;
                     u16 screen_y = ((S_800BC4D4_1 *)scratch)->unk_BA;
 
-                    ((S_800BC4D4_5_pre *)packet_field)[-1].unk_00 = 9;
-                    (*(s16 *)((u8 *)packet_field + 0x1B)) = bottom_y + screen_y;
+                    ((S_800BC4D4_5_pre *)(packet + 7))[-1].unk_00 = 9;
+                    (*(s16 *)(packet + 34)) = bottom_y + screen_y;
                 }
 
                 ((S_800BC4D4_1 *)scratch)->unk_10.s32 += ((S_800BC4D4_1 *)scratch)->unk_08.s32;
@@ -328,7 +323,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 {
                     register u32 texture_page;
 
-                    if (((S_800BC4D4_6 *)texture_data)->unk_00 & 0x80) {
+                    if (((S_800BC4D4_6 *)(texture + 4))->unk_00 & 0x80) {
 
                         texture_page = 0x7F800000;
                         uv_word += texture_page;
@@ -338,10 +333,10 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                     }
 
                 }
-                (*(s32 *)((u8 *)packet_field + 5)) = uv_word;
-                (*(s32 *)((u8 *)packet_field + 0xD)) = ((S_800BC4D4_1 *)scratch)->unk_0C.s +
+                (*(s32 *)(packet + 12)) = uv_word;
+                (*(s32 *)(packet + 20)) = ((S_800BC4D4_1 *)scratch)->unk_0C.s +
                                                       ((S_800BC4D4_1 *)scratch)->unk_10.s32 +
-                                                      ((s16)((S_800BC4D4_6 *)texture_data)->unk_00 << 16);
+                                                      ((s16)((S_800BC4D4_6 *)(texture + 4))->unk_00 << 16);
                 {
                     s32 uv_left;
                     s32 u_left;
@@ -349,9 +344,9 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
                     uv_left = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
                     u_left = (*(u16 *)((u8 *)scratch + 8));
-                    left_x = (*(s16 *)((u8 *)packet_field + 1));
+                    left_x = (*(s16 *)(packet + 8));
                     uv_left += u_left;
-                    (*(s16 *)((u8 *)packet_field + 0x15)) = uv_left;
+                    (*(s16 *)(packet + 28)) = uv_left;
                     {
                         s32 uv_right;
                         s32 u_right;
@@ -359,29 +354,27 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
                         uv_right = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
                         u_right = ((S_800BC4D4_1 *)scratch)->unk_10.u16;
-                        right_x = (*(s16 *)((u8 *)packet_field + 0x19));
+                        right_x = (*(s16 *)(packet + 32));
                         uv_right += u_right;
-                        (*(s16 *)((u8 *)packet_field + 0x1D)) = uv_right;
+                        (*(s16 *)(packet + 36)) = uv_right;
 
                         if (right_x < left_x) {
-                            ((S_800BC4D4_5 *)packet_field)->unk_0D--;
-                            ((S_800BC4D4_5 *)packet_field)->unk_1D--;
+                            ((S_800BC4D4_5 *)(packet + 7))->unk_0D--;
+                            ((S_800BC4D4_5 *)(packet + 7))->unk_1D--;
                         }
                     }
                 }
-                if ((*(s16 *)((u8 *)packet_field + 3)) > (*(s16 *)((u8 *)packet_field + 0x1B))) {
-                    ((S_800BC4D4_5 *)packet_field)->unk_16--;
-                    ((S_800BC4D4_5 *)packet_field)->unk_1E--;
+                if ((*(s16 *)(packet + 10)) > (*(s16 *)(packet + 34))) {
+                    ((S_800BC4D4_5 *)(packet + 7))->unk_16--;
+                    ((S_800BC4D4_5 *)(packet + 7))->unk_1E--;
                 }
 
-                (*(s32 *)((u8 *)packet_field + -3)) = ((S_800BC4D4_2 *)sprite)->unk_0C;
-                ((S_800BC4D4_5 *)packet_field)->unk_00 = 0x2E;
-                packet_field += 0x28;
-                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
+                (*(s32 *)(packet + 4)) = ((S_800BC4D4_2 *)sprite)->unk_0C;
+                ((S_800BC4D4_5 *)(packet + 7))->unk_00 = 0x2E;
+                                func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
-                packet_field += 0xC;
-                packet += 0x28;
+                                packet += 0x28;
                 func_80067EF4(packet, 1, 0);
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                               ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
@@ -389,7 +382,6 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 packet += 0xC;
             }
 
-            texture_data += 0xC;
             if ((s8)texture[0] >= 0) {
 
                 texture += 0xC;
