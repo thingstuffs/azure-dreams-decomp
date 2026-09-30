@@ -118,8 +118,8 @@ typedef struct S_80F90E88_7 {
 /* Draws paired gradient quads from the projected bounds of each linked object. */
 s32 func_80F90E88(void *object) {
     LocalFrame frame;
-    register s32 max_xy ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 min_xy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 max_xy;
+    s32 min_xy;
     s32 address_mask;
     s32 tag_mask;
     s32 *quad;
@@ -156,6 +156,7 @@ s32 func_80F90E88(void *object) {
     s32 quad_ot_link;
     s32 quad_tag;
     s32 mode_tag;
+    s32 merged_xy;
 
 #define point_storage frame.work[0]
 #define transform_input frame.record.p28
@@ -194,8 +195,7 @@ draw_object:
     left_offset = 0 - half_width;
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     endpoint = (WorkCell *) (base + 8);
-loop_0:
-    {
+    do {
         endpoint->value = half_width;
         if (side != 0) {
             endpoint->value = left_offset;
@@ -206,9 +206,7 @@ loop_0:
         endpoint->zero2 = 0;
         side -= 1;
         endpoint -= 1;
-    }
-    if (side >= 0)
-        goto loop_0;
+    } while (side >= 0);
     transform = &transform_input;
     ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     min_xy &= 0xFFFF;
@@ -263,14 +261,16 @@ loop_1:
         if (bound_test) {
             base = (s8 *)(0xFFFF0000);
             max_xy &= (s32)base;
-            max_xy = coord_bits | max_xy;
+            merged_xy = coord_bits | max_xy;
+            max_xy = merged_xy;
         }
         bound_test = (s16) min_xy;
         bound_test = coord < bound_test;
         if (bound_test) {
             base = (s8 *)(0xFFFF0000);
             min_xy &= (s32)base;
-            min_xy = coord_bits | min_xy;
+            merged_xy = coord_bits | min_xy;
+            min_xy = merged_xy;
         }
         bound_test = max_xy >> 0x10;
         coord = screen_y;
