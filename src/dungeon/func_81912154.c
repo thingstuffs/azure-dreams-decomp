@@ -152,6 +152,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
     void *target;
     void *origin;
     void *entity;
+    void *grid_source;
     s16 *y_lookup_first;
     s16 *x_lookup_next;
     s32 height;
@@ -250,12 +251,9 @@ void func_80025954(void *state, void *motion, void *appearance) {
             motion_value = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
         } else {
             step_count = 0;
-            entity = ((S_80025954_3 *)owner_links)->unk_0C;
-            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            motion_value = 0x80070000;
-            ASM_KEEP(motion_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            tile_x = ((S_80025954_9 *)entity)->unk_24;
-            tile_y = ((S_80025954_9 *)entity)->unk_25;
+            grid_source = ((S_80025954_3 *)owner_links)->unk_0C;
+            tile_x = ((S_80025954_9 *)grid_source)->unk_24;
+            tile_y = ((S_80025954_9 *)grid_source)->unk_25;
             end_tile_x = tile_x;
             end_tile_y = tile_y;
             do {
@@ -274,7 +272,6 @@ void func_80025954(void *state, void *motion, void *appearance) {
                 floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0,
                     ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
                 ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 destination = stack.motion;
                 if (floor_height >= 0x201) {
                     break;

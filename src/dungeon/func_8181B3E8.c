@@ -271,9 +271,10 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     void *source;
     s32 state;
     void *target_graphics;
-    register s32 impact_position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 impact_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 particle_count_m ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *impact;
+    s32 impact_position;
+    s32 impact_sprite;
+    s32 particle_count_m;
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
@@ -411,7 +412,6 @@ state_1:
     {
         void *target_position;
         void *animation;
-        void *impact;
         s32 color;
         register s32 color_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 random_intensity;
@@ -506,40 +506,62 @@ state_2:
 
         impact_position = func_80069EF8() & 0xF;
         impact_position -= 8;
-        impact_position = (s16)impact_position;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
         impact_sprite -= 8;
-        impact_sprite = (s16)impact_sprite;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position <<= 16;
+        impact_position >>= 16;
         impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite <<= 16;
+        impact_sprite >>= 16;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         goto common;
@@ -570,7 +592,6 @@ state_3:
 state_4:
     {
         void *animation;
-        register void *particle ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
         void *particle_sprite;
         void *particle_position;
         s32 particle_kind;
@@ -588,7 +609,8 @@ state_4:
             particle_count_m++;
             impact_sprite = func_80069EF8() & 0x3F;
             impact_sprite -= 0x20;
-            impact_sprite = (s16)impact_sprite;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
             func_800249A0((u8 *)effect - 0x20, impact_sprite,
                 (s16)((func_80069EF8() & 0x3F) - 0x20),
                 (s16)(-(((S_80024BE8_0 *)effect)->unk_86.s * 2) + 0x10), 0x1E);
@@ -596,15 +618,15 @@ state_4:
 
         particle_kind = 0x212;
         side = ((S_80024BE8_0 *)effect)->unk_86.u & 3;
-        particle = func_8003FC64(particle_kind);
-        if (particle != 0) {
-            ((S_80024BE8_15 *)particle)->unk_22 = 0x1E;
-            ((S_80024BE8_15 *)particle)->unk_10 = D_8002443C;
-            func_8004491C(particle, func_80045340);
-            particle_sprite = ((S_80024BE8_15 *)particle)->unk_0C;
+        impact = func_8003FC64(particle_kind);
+        if (impact != 0) {
+            ((S_80024BE8_15 *)impact)->unk_22 = 0x1E;
+            ((S_80024BE8_15 *)impact)->unk_10 = D_8002443C;
+            func_8004491C(impact, func_80045340);
+            particle_sprite = ((S_80024BE8_15 *)impact)->unk_0C;
             ((S_80024BE8_16 *)particle_sprite)->unk_10 = 0;
             ((S_80024BE8_16 *)particle_sprite)->unk_14 |= 0xC;
-            particle_position = ((S_80024BE8_15 *)particle)->unk_08;
+            particle_position = ((S_80024BE8_15 *)impact)->unk_08;
             jitter = func_80069EF8() & 0xF;
             coord = ((S_80024BE8_5 *)motion)->unk_00.at02.v;
             coord -= 8;
@@ -646,7 +668,7 @@ state_4:
                 void *scaled_sprite;
                 s32 scale;
 
-                particle_sprite = ((S_80024BE8_15 *)particle)->unk_0C;
+                particle_sprite = ((S_80024BE8_15 *)impact)->unk_0C;
                 scale = ((S_80024BE8_0 *)effect)->unk_86.s;
                 scaled_sprite = particle_sprite;
                 ((S_80024BE8_18 *)scaled_sprite)->unk_1C = scale * 0xAA;
@@ -675,22 +697,23 @@ state_5:
     {
         void *target;
         void *current_target;
-        s32 particle_count;
         s32 target_flag;
         u16 scale_step;
 
-        particle_count = 0;
+        particle_count_m = 0;
         do {
-            particle_count++;
+            particle_count_m++;
             impact_position = func_80069EF8() & 0x3F;
             impact_position -= 0x20;
-            impact_position = (s16)impact_position;
+            impact_position <<= 16;
+            impact_position >>= 16;
             impact_sprite = func_80069EF8() & 0x3F;
             impact_sprite -= 0x20;
-            impact_sprite = (s16)impact_sprite;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
             func_800249A0((u8 *)effect - 0x20, impact_position, impact_sprite,
                 (s16)(-0x20 - (func_80069EF8() & 0x3F)), 0x1E);
-        } while (particle_count < 2);
+        } while (particle_count_m < 2);
 
         scale_step = ((S_80024BE8_0 *)effect)->unk_86.u - 2;
         ((S_80024BE8_0 *)effect)->unk_86.u = scale_step;
