@@ -602,7 +602,7 @@ CC_VER = {
     "src/w_8004CD28.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80056098.c": ("2.7.2", "-fno-schedule-insns"),
     "src/w_80046C20.c": ("2.7.2-cdk", ""),  # fidelity step 4 (lc4b): retail-proven splitting recipe
-    "src/w_80052A90.c": ("2.7.2", ""),
+    "src/w_80052A90.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
     "src/w_8004951C.c": ("2.7.2-cdk", ""),
     "src/w_800500B4.c": ("2.7.2", "-fno-strength-reduce"),
     "src/w_80053858.c": ("2.7.2-cdk", ""),
@@ -645,14 +645,14 @@ CC_VER = {
     "src/w_80043D04.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80040AA0.c": ("2.7.2-cdk", ""),
     "src/w_80043FD0.c": ("2.7.2-cdk", "-G0"),
-    "src/w_80042710.c": ("2.7.2", ""),
+    "src/w_80042710.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
     "src/w_8005914C.c": ("2.7.2-cdk", "-fno-strength-reduce"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80055E84.c": ("2.7.2-cdk", ""),
     "src/w_80042A80.c": ("2.7.2-cdk", ""),
     "src/w_8003E34C.c": ("2.7.2-cdk", ""),
     "src/w_8004A464.c": ("2.7.2-cdk", ""),
     "src/w_80055ADC.c": ("2.7.2", ""),
-    "src/w_80040CBC.c": ("2.7.2-cdk", "-G16"),
+    "src/w_80040CBC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
     "src/w_800407C0.c": ("2.7.2-cdk", ""),
     "src/w_80042BDC.c": ("2.7.2-cdk", "-G16"),
     "src/w_800453E0.c": ("2.7.2-cdk", ""),
@@ -678,7 +678,7 @@ CC_VER = {
     "src/w_80048C3C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (lc4b): retail-proven splitting recipe
     "src/w_80051228.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_800400B8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
-    "src/w_80047054.c": ("2.8.1", ""),
+    "src/w_80047054.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
     "src/w_800423C0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (step4): retail-proven splitting recipe
     "src/w_8004D294.c": ("2.7.2-cdk", ""),
     "src/w_80059814.c": ("2.7.2-cdk", ""),

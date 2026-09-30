@@ -35,11 +35,11 @@ struct S_pad9
     s32 pad8;
 };
 extern struct S_pad9 D_8008333C[];
-extern s32 D_80080A7C[3];
-extern s32 D_8008148C[3];
-extern s32 D_80189394[3];
-extern s32 D_801B8EB8[3];
-extern s8 D_80080A86[16];
+extern s32 D_80080A7C;
+extern s32 D_8008148C;
+extern s32 D_80189394;
+extern s32 D_801B8EB8;
+extern s8 D_80080A86;
 extern u8 D_800E6000[];
 extern u8 D_80126804[];
 extern void func_8003F6D4(int a0, int a1, int *a2, int a3);
@@ -55,7 +55,7 @@ void func_80040CBC(s16 entry_index)
     int request_b[2];
     entry = &D_8006CE80[entry_index];
     resource_type = entry->field0;
-    D_80080A86[0] = 0;
+    D_80080A86 = 0;
     D_8008333C[0].field0 = 0;
     if (resource_type != 0) {
         if (resource_type != 4) {
@@ -98,18 +98,9 @@ void func_80040CBC(s16 entry_index)
             }
         }
         else {
-            struct S_8006CE80_ptr *resource;
-            struct S_8006CE80_ptr *resource_copy;
-            s32 resource_value;
-            s32 pointed_value;
             func_800418B4();
-            resource = entry->field8;
-            resource_copy = resource;
-            ASM_KEEP_NV(resource_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            pointed_value = *resource->f0;
-            resource_value = resource_copy->f1;
-            D_80189394[0] = resource_value;
-            D_801B8EB8[0] = pointed_value;
+            D_801B8EB8 = *entry->field8->f0;
+            D_80189394 = entry->field8->f1;
         }
     }
     {
@@ -118,14 +109,14 @@ void func_80040CBC(s16 entry_index)
         if (resource_type == 2) {
             buffer_size = 0x18800;
             buffer_address = (s32) (&D_800E6000);
-            D_8008148C[0] = buffer_address;
+            D_8008148C = buffer_address;
         }
         else {
             buffer_size = 0x38000;
             buffer_address = (s32) (&D_80126804);
-            D_8008148C[0] = buffer_address;
+            D_8008148C = buffer_address;
         }
-        D_80080A7C[0] = buffer_size;
+        D_80080A7C = buffer_size;
     }
     D_80082E60.field_4 = D_8006CE44[resource_type].field0;
 }
