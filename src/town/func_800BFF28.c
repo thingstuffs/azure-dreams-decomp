@@ -102,79 +102,74 @@ void func_800BD688(void *pair_in) {
     state = ((S_800BD688_0 *)pair)->unk_20.s;
     tick = (((S_800BD688_0 *)pair)->unk_22 + 1) & 7;
     ((S_800BD688_0 *)pair)->unk_22 = tick;
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
-        }
-        return;
-    }
-    member_motion = (void *)0xFEC00000;
-    if (tick == 0) {
-        {
-            S_800BD688_1 *first_position;
-            S_800BD688_2 *second_position;
+    switch (state) {
+    case 0:
+        member_motion = (void *)0xFEC00000;
+        if (tick == 0) {
+            {
+                S_800BD688_1 *first_position;
+                S_800BD688_2 *second_position;
 
-            first_position = ((S_800BD688_0 *)pair)->unk_00;
-            second_position = ((S_800BD688_0 *)pair)->unk_04;
-            x_gap = first_position->unk_00;
-            x_gap -= second_position->unk_00;
-        }
-        x_gap = abs(x_gap);
-        {
+                first_position = ((S_800BD688_0 *)pair)->unk_00;
+                second_position = ((S_800BD688_0 *)pair)->unk_04;
+                x_gap = first_position->unk_00;
+                x_gap -= second_position->unk_00;
+            }
+            x_gap = abs(x_gap);
+            {
 
-            random_value = x_gap + 0xFFE00000;
-            if (random_value > 0x200000U) {
-                member_index = 1;
-                speed_limit = 0x7FFFF;
-                speed_bias = 0xFFF80000;
-                member_slot = pair + 4;
-                do {
-                    random_value = rand();
-                    member_motion = *member_slot;
-                    x_speed = (random_value & 0x1FF) << 8;
-                    if (member_motion->unk_0C > speed_limit) {
-                        x_speed = 0 - x_speed;
-                    }
-                    member_motion->unk_0C = x_speed;
-                    x_motion = *member_slot;
-                    member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
-                    member_index -= 1;
-                    x_motion->unk_0C = (s32) (x_motion->unk_0C + speed_bias);
-                } while (member_index >= 0);
+                random_value = x_gap + 0xFFE00000;
+                if (random_value > 0x200000U) {
+                    member_index = 1;
+                    speed_limit = 0x7FFFF;
+                    speed_bias = 0xFFF80000;
+                    member_slot = pair + 4;
+                    do {
+                        random_value = rand();
+                        member_motion = *member_slot;
+                        x_speed = (random_value & 0x1FF) << 8;
+                        if (member_motion->unk_0C > speed_limit) {
+                            x_speed = 0 - x_speed;
+                        }
+                        member_motion->unk_0C = x_speed;
+                        x_motion = *member_slot;
+                        member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
+                        member_index -= 1;
+                        x_motion->unk_0C = (s32) (x_motion->unk_0C + speed_bias);
+                    } while (member_index >= 0);
+                }
+            }
+            member_index = 1;
+            member_slot = pair + 4;
+            do {
+                random_value = rand();
+                member_index -= 1;
+                y_motion = *member_slot;
+                member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
+                y_motion->unk_10 = (s32) (((random_value & 0x1FF) - 0x100) << 9);
+            } while (member_index >= 0);
+            ((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_14 = (s32) (((rand() & 0x1FF) - 0x100) << 8);
+            ((S_800BD688_11 *)(((S_800BD688_9 *)pair)->unk_04))->unk_14 = (s32) ((rand() & 0x1FF) << 7);
+            second_depth = ((S_800BD688_0 *)pair)->unk_04;
+            if (((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_08 < second_depth->unk_08) {
+                second_depth->unk_14 = (s32) (0 - second_depth->unk_14);
             }
         }
-        member_index = 1;
-        member_slot = pair + 4;
-        do {
-            random_value = rand();
-            member_index -= 1;
-            y_motion = *member_slot;
-            member_slot = (void **)((s8 *)((void **)((s8 *)member_slot - 4)));
-            y_motion->unk_10 = (s32) (((random_value & 0x1FF) - 0x100) << 9);
-        } while (member_index >= 0);
-        ((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_14 = (s32) (((rand() & 0x1FF) - 0x100) << 8);
-        ((S_800BD688_11 *)(((S_800BD688_9 *)pair)->unk_04))->unk_14 = (s32) ((rand() & 0x1FF) << 7);
-        second_depth = ((S_800BD688_0 *)pair)->unk_04;
-        if (((S_800BD688_10 *)(((S_800BD688_9 *)pair)->unk_00))->unk_08 < second_depth->unk_08) {
-            second_depth->unk_14 = (s32) (0 - second_depth->unk_14);
+        first_motion = ((S_800BD688_0 *)pair)->unk_00;
+        stop_x = ((S_800BD688_0 *)pair)->unk_08 + 0xFEC00000;
+        if (first_motion->unk_00 < stop_x) {
+            second_motion = ((S_800BD688_0 *)pair)->unk_04;
+            if (second_motion->unk_00 < stop_x) {
+                second_motion->unk_0C = 0;
+                first_motion->unk_0C = 0;
+                ((S_800BD688_0 *)pair)->unk_20.u += 1;
+            }
         }
+        break;
+    case 1:
+        flag_page = (s32 *)0x80080000;
+        ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
+        flag_page[0x14A0 / 4] |= 0x8000;
+        break;
     }
-    first_motion = ((S_800BD688_0 *)pair)->unk_00;
-    stop_x = ((S_800BD688_0 *)pair)->unk_08 + 0xFEC00000;
-    if (first_motion->unk_00 < stop_x) {
-        second_motion = ((S_800BD688_0 *)pair)->unk_04;
-        if (second_motion->unk_00 < stop_x) {
-            second_motion->unk_0C = 0;
-            first_motion->unk_0C = 0;
-            ((S_800BD688_0 *)pair)->unk_20.u += 1;
-        }
-    }
-    return;
-
-state_one:
-    flag_page = (s32 *)0x80080000;
-    ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
-    flag_page[0x14A0 / 4] |= 0x8000;
-
-    return;
 }

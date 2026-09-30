@@ -36,17 +36,12 @@ void func_800252B8(s32 color, s32 x, s32 y, s32 z)
         *((s32 *) (((s8 *) sprite) + 0xC)) = color;
         sprite_alias = sprite;
         *((s32 *) (((s8 *) sprite_alias) + 8)) = (s32) resource_word;
-        if (color != 0x808080) {
-            if (color == 0xF0F0F0) {
-                *((s16 *) (((s8 *) sprite) + 0x10)) = 0x60;
-                *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0x14)) = 0xFFF00000;
-                goto enable_flags;
-            }
-        }
-        else {
-enable_flags:
+        if (color == 0x808080) {
             *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0xC);
-
+        } else if (color == 0xF0F0F0) {
+            *((s16 *) (((s8 *) sprite) + 0x10)) = 0x60;
+            *((s32 *) (((s8 *) (*((void **) (((s8 *) object) + 8)))) + 0x14)) = 0xFFF00000;
+            *((u16 *) (((s8 *) sprite) + 0x14)) = (u16) ((*((u16 *) (((s8 *) sprite) + 0x14))) | 0xC);
         }
     }
 }
