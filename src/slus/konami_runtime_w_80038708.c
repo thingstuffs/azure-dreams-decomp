@@ -11,8 +11,8 @@ typedef struct S_80038708_0 {
 } S_80038708_0;   /* arg0 in func_80038708 */
 
 
-extern M2C_UNK D_800DCF54;
-extern M2C_UNK func_80038A10;
+extern u8 D_800DCF54[];
+void func_80038A10();
 
 /* Calls the record's indexed handler, then sets its next handler to func_80038A10. */
 void func_80038708(S_80038708_0 *record) {

@@ -2,8 +2,8 @@
 
 /* --- gcc 2.7.2 -O2 -fno-expensive-optimizations translation unit --- */
 
-extern char D_80080B88[12];
-extern char D_80080B90[12];
+extern char D_80080B88[8];
+extern char D_80080B90[4];
 extern void func_800508F0();
 extern void func_800499E8();
 

@@ -5,8 +5,8 @@
 #include "records/Rec_func_800381D0_arg0.h"
 
 
-extern M2C_UNK func_800381A4;
-extern M2C_UNK func_800387D0;
+void func_800381A4();
+void func_800387D0();
 
 /* Clears the record's counter, advances its index if possible, and selects the next handler. */
 void func_80039148(Rec_func_800381D0_arg0 *record) {

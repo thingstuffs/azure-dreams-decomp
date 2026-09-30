@@ -4,7 +4,7 @@ extern int CdSync(int mode, unsigned char *result);
 extern int CdControl(unsigned char com, unsigned char *param, unsigned char *result);
 extern int CdPosToInt(unsigned char *loc);
 
-unsigned char D_800814B8[16];
+extern unsigned char D_800814B8[8];
 
 /* Refreshes the CD position when sync returns 2 and returns its sector count. */
 int func_8003F55C(void) {

@@ -4,7 +4,7 @@
 #include "common.h"
 
 M2C_UNK func_80034FD0();                   /* extern */
-extern M2C_UNK D_80082A38;
+extern u8 D_80082A38[];
 
 /* Passes the global state to func_80034FD0. */
 void func_800352D8(void) {

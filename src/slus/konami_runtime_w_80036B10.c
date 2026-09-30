@@ -60,9 +60,9 @@ M2C_UNK func_800350B0();
 void *func_8003FF2C();
 M2C_UNK func_8004491C();
 M2C_UNK func_8003DB94();
-extern M2C_UNK D_8006A934;
-extern M2C_UNK D_80073DC4;
-extern M2C_UNK D_80082BC0;
+extern u8 D_8006A934[];
+extern u8 D_80073DC4[];
+extern u8 D_80082BC0[];
 extern void func_80033D54(void);
 extern void func_80036C44(void);
 

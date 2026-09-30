@@ -4,7 +4,7 @@ typedef struct {
     s16 v[4];
 } S_80032E0C;
 
-extern S_80032E0C D_80032E0C;
+extern S_80032E0C D_80032E0C[];
 extern s32 func_8005405C(s16 n);
 extern void func_80055730();
 
@@ -16,7 +16,7 @@ void func_80054104(void) {
     s16 entry;
     s32 code;
 
-    lookup = D_80032E0C;
+    lookup = D_80032E0C[0];
     slot = 0;
     do {
         entry_index = 0;

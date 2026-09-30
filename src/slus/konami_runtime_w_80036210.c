@@ -12,9 +12,9 @@ typedef struct S_80036210_2 {
 
 
 M2C_UNK func_80036B10(); /* extern */
-extern M2C_UNK D_80081FDC;
-extern M2C_UNK D_80082414;
-extern M2C_UNK func_8003626C;
+extern u8 D_80081FDC[];
+extern u8 D_80082414[];
+void func_8003626C();
 
 /* Initialize the object's runtime state and set its next handler. */
 void func_80036210(Rec_func_80036210_arg0 *object) {

@@ -13,8 +13,8 @@ typedef struct S_80038288_0 {
 
 s32 func_80038240();                              /* extern */
 s32 func_80053EF0();                         /* extern */
-extern M2C_UNK func_800382F0;
-extern M2C_UNK func_8003832C;
+void func_800382F0();
+void func_8003832C();
 
 /* Selects the context's next handler based on its current byte when updates are allowed. */
 void func_80038288(S_80038288_0 *context) {

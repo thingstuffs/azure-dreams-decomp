@@ -11,17 +11,14 @@ typedef struct S_80081498 {
     u16 field_1E;             /* 0x1E */
 } S_80081498;
 
-extern struct {
-    S_80081498 *head;
-    int pad[2];
-} D_80081498;
+extern S_80081498 *D_80081498;
 
 extern int D_800814A0;
 
 /* Sets bit 0x8000 on every node with the matching ID and in the global flags. */
 void func_800403BC(s32 target_id)
 {
-    S_80081498 *node = D_80081498.head;
+    S_80081498 *node = D_80081498;
 
     while (node != 0) {
         if (node->field_10 == target_id) {

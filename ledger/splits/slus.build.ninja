@@ -131,8 +131,8 @@ build build/src/code3.o: cc src/code3.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/code4.o: cc src/code4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -fno-expensive-optimizations
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/code5.o: cc src/code5.c | tools/cc.sh tools/ccproc.py 
@@ -292,7 +292,7 @@ build build/src/konami_runtime_w_800345B8.o: cc src/konami_runtime_w_800345B8.c 
 
 build build/src/konami_runtime_w_80034E48.o: cc src/konami_runtime_w_80034E48.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80034EB4.o: cc src/konami_runtime_w_80034EB4.c | tools/cc.sh tools/ccproc.py 
@@ -312,7 +312,7 @@ build build/src/konami_runtime_w_80034EF8.o: cc src/konami_runtime_w_80034EF8.c 
 
 build build/src/konami_runtime_w_80034F58.o: cc src/konami_runtime_w_80034F58.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80034F88.o: cc src/konami_runtime_w_80034F88.c | tools/cc.sh tools/ccproc.py 
@@ -387,27 +387,27 @@ build build/src/konami_runtime_w_80035260.o: cc src/konami_runtime_w_80035260.c 
 
 build build/src/konami_runtime_w_8003528C.o: cc src/konami_runtime_w_8003528C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800352B4.o: cc src/konami_runtime_w_800352B4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800352D8.o: cc src/konami_runtime_w_800352D8.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800352FC.o: cc src/konami_runtime_w_800352FC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80035320.o: cc src/konami_runtime_w_80035320.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80035348.o: cc src/konami_runtime_w_80035348.c | tools/cc.sh tools/ccproc.py 
@@ -437,17 +437,17 @@ build build/src/konami_runtime_w_800355EC.o: cc src/konami_runtime_w_800355EC.c 
 
 build build/src/konami_runtime_w_80035614.o: cc src/konami_runtime_w_80035614.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003566C.o: cc src/konami_runtime_w_8003566C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003571C.o: cc src/konami_runtime_w_8003571C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80035760.o: cc src/konami_runtime_w_80035760.c | tools/cc.sh tools/ccproc.py 
@@ -457,7 +457,7 @@ build build/src/konami_runtime_w_80035760.o: cc src/konami_runtime_w_80035760.c 
 
 build build/src/konami_runtime_w_800357B0.o: cc src/konami_runtime_w_800357B0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800357D0.o: cc src/konami_runtime_w_800357D0.c | tools/cc.sh tools/ccproc.py 
@@ -517,7 +517,7 @@ build build/src/konami_runtime_w_80035CE4.o: cc src/konami_runtime_w_80035CE4.c 
 
 build build/src/konami_runtime_w_80035D40.o: cc src/konami_runtime_w_80035D40.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80035D4C.o: cc src/konami_runtime_w_80035D4C.c | tools/cc.sh tools/ccproc.py 
@@ -542,17 +542,17 @@ build build/src/konami_runtime_w_8003605C.o: cc src/konami_runtime_w_8003605C.c 
 
 build build/src/konami_runtime_w_80036110.o: cc src/konami_runtime_w_80036110.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80036154.o: cc src/konami_runtime_w_80036154.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80036210.o: cc src/konami_runtime_w_80036210.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003626C.o: cc src/konami_runtime_w_8003626C.c | tools/cc.sh tools/ccproc.py 
@@ -562,7 +562,7 @@ build build/src/konami_runtime_w_8003626C.o: cc src/konami_runtime_w_8003626C.c 
 
 build build/src/konami_runtime_w_800362A0.o: cc src/konami_runtime_w_800362A0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800362D0.o: cc src/konami_runtime_w_800362D0.c | tools/cc.sh tools/ccproc.py 
@@ -577,7 +577,7 @@ build build/src/konami_runtime_w_80036350.o: cc src/konami_runtime_w_80036350.c 
 
 build build/src/konami_runtime_w_80036434.o: cc src/konami_runtime_w_80036434.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80036484.o: cc src/konami_runtime_w_80036484.c | tools/cc.sh tools/ccproc.py 
@@ -587,7 +587,7 @@ build build/src/konami_runtime_w_80036484.o: cc src/konami_runtime_w_80036484.c 
 
 build build/src/konami_runtime_w_800364BC.o: cc src/konami_runtime_w_800364BC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800364EC.o: cc src/konami_runtime_w_800364EC.c | tools/cc.sh tools/ccproc.py 
@@ -602,7 +602,7 @@ build build/src/konami_runtime_w_80036574.o: cc src/konami_runtime_w_80036574.c 
 
 build build/src/konami_runtime_w_8003661C.o: cc src/konami_runtime_w_8003661C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003666C.o: cc src/konami_runtime_w_8003666C.c | tools/cc.sh tools/ccproc.py 
@@ -617,7 +617,7 @@ build build/src/konami_runtime_w_800366F4.o: cc src/konami_runtime_w_800366F4.c 
 
 build build/src/konami_runtime_w_80036880.o: cc src/konami_runtime_w_80036880.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800368D0.o: cc src/konami_runtime_w_800368D0.c | tools/cc.sh tools/ccproc.py 
@@ -647,7 +647,7 @@ build build/src/konami_runtime_w_80036A70.o: cc src/konami_runtime_w_80036A70.c 
 
 build build/src/konami_runtime_w_80036B10.o: cc src/konami_runtime_w_80036B10.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80036C44.o: cc src/konami_runtime_w_80036C44.c | tools/cc.sh tools/ccproc.py 
@@ -662,7 +662,7 @@ build build/src/konami_runtime_w_80036C7C.o: cc src/konami_runtime_w_80036C7C.c 
 
 build build/src/konami_runtime_w_80036D4C.o: cc src/konami_runtime_w_80036D4C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80036ED4.o: cc src/konami_runtime_w_80036ED4.c | tools/cc.sh tools/ccproc.py 
@@ -687,7 +687,7 @@ build build/src/konami_runtime_w_80037090.o: cc src/konami_runtime_w_80037090.c 
 
 build build/src/konami_runtime_w_8003719C.o: cc src/konami_runtime_w_8003719C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80037394.o: cc src/konami_runtime_w_80037394.c | tools/cc.sh tools/ccproc.py 
@@ -742,7 +742,7 @@ build build/src/konami_runtime_w_80037F70.o: cc src/konami_runtime_w_80037F70.c 
 
 build build/src/konami_runtime_w_80038000.o: cc src/konami_runtime_w_80038000.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003800C.o: cc src/konami_runtime_w_8003800C.c | tools/cc.sh tools/ccproc.py 
@@ -757,12 +757,12 @@ build build/src/konami_runtime_w_80038128.o: cc src/konami_runtime_w_80038128.c 
 
 build build/src/konami_runtime_w_800381A4.o: cc src/konami_runtime_w_800381A4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800381D0.o: cc src/konami_runtime_w_800381D0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80038240.o: cc src/konami_runtime_w_80038240.c | tools/cc.sh tools/ccproc.py 
@@ -772,7 +772,7 @@ build build/src/konami_runtime_w_80038240.o: cc src/konami_runtime_w_80038240.c 
 
 build build/src/konami_runtime_w_80038288.o: cc src/konami_runtime_w_80038288.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800382F0.o: cc src/konami_runtime_w_800382F0.c | tools/cc.sh tools/ccproc.py 
@@ -787,12 +787,12 @@ build build/src/konami_runtime_w_8003832C.o: cc src/konami_runtime_w_8003832C.c 
 
 build build/src/konami_runtime_w_80038368.o: cc src/konami_runtime_w_80038368.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80038394.o: cc src/konami_runtime_w_80038394.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800383D4.o: cc src/konami_runtime_w_800383D4.c | tools/cc.sh tools/ccproc.py 
@@ -817,7 +817,7 @@ build build/src/konami_runtime_w_80038478.o: cc src/konami_runtime_w_80038478.c 
 
 build build/src/konami_runtime_w_800384A8.o: cc src/konami_runtime_w_800384A8.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800384F8.o: cc src/konami_runtime_w_800384F8.c | tools/cc.sh tools/ccproc.py 
@@ -867,7 +867,7 @@ build build/src/konami_runtime_w_80038690.o: cc src/konami_runtime_w_80038690.c 
 
 build build/src/konami_runtime_w_80038708.o: cc src/konami_runtime_w_80038708.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003875C.o: cc src/konami_runtime_w_8003875C.c | tools/cc.sh tools/ccproc.py 
@@ -912,12 +912,12 @@ build build/src/konami_runtime_w_80038F48.o: cc src/konami_runtime_w_80038F48.c 
 
 build build/src/konami_runtime_w_800390D0.o: cc src/konami_runtime_w_800390D0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80039148.o: cc src/konami_runtime_w_80039148.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_800391BC.o: cc src/konami_runtime_w_800391BC.c | tools/cc.sh tools/ccproc.py 
@@ -1032,7 +1032,7 @@ build build/src/konami_runtime_w_800399EC.o: cc src/konami_runtime_w_800399EC.c 
 
 build build/src/konami_runtime_w_80039A08.o: cc src/konami_runtime_w_80039A08.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80039A88.o: cc src/konami_runtime_w_80039A88.c | tools/cc.sh tools/ccproc.py 
@@ -1042,7 +1042,7 @@ build build/src/konami_runtime_w_80039A88.o: cc src/konami_runtime_w_80039A88.c 
 
 build build/src/konami_runtime_w_80039ACC.o: cc src/konami_runtime_w_80039ACC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_80039AF0.o: cc src/konami_runtime_w_80039AF0.c | tools/cc.sh tools/ccproc.py 
@@ -1397,7 +1397,7 @@ build build/src/konami_runtime_w_8003B0B4.o: cc src/konami_runtime_w_8003B0B4.c 
 
 build build/src/konami_runtime_w_8003B188.o: cc src/konami_runtime_w_8003B188.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B1B4.o: cc src/konami_runtime_w_8003B1B4.c | tools/cc.sh tools/ccproc.py 
@@ -1407,7 +1407,7 @@ build build/src/konami_runtime_w_8003B1B4.o: cc src/konami_runtime_w_8003B1B4.c 
 
 build build/src/konami_runtime_w_8003B1E4.o: cc src/konami_runtime_w_8003B1E4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B210.o: cc src/konami_runtime_w_8003B210.c | tools/cc.sh tools/ccproc.py 
@@ -1417,7 +1417,7 @@ build build/src/konami_runtime_w_8003B210.o: cc src/konami_runtime_w_8003B210.c 
 
 build build/src/konami_runtime_w_8003B238.o: cc src/konami_runtime_w_8003B238.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B264.o: cc src/konami_runtime_w_8003B264.c | tools/cc.sh tools/ccproc.py 
@@ -1427,7 +1427,7 @@ build build/src/konami_runtime_w_8003B264.o: cc src/konami_runtime_w_8003B264.c 
 
 build build/src/konami_runtime_w_8003B298.o: cc src/konami_runtime_w_8003B298.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B2C4.o: cc src/konami_runtime_w_8003B2C4.c | tools/cc.sh tools/ccproc.py 
@@ -1437,7 +1437,7 @@ build build/src/konami_runtime_w_8003B2C4.o: cc src/konami_runtime_w_8003B2C4.c 
 
 build build/src/konami_runtime_w_8003B2F8.o: cc src/konami_runtime_w_8003B2F8.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B324.o: cc src/konami_runtime_w_8003B324.c | tools/cc.sh tools/ccproc.py 
@@ -1452,7 +1452,7 @@ build build/src/konami_runtime_w_8003B35C.o: cc src/konami_runtime_w_8003B35C.c 
 
 build build/src/konami_runtime_w_8003B400.o: cc src/konami_runtime_w_8003B400.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003B42C.o: cc src/konami_runtime_w_8003B42C.c | tools/cc.sh tools/ccproc.py 
@@ -1577,7 +1577,7 @@ build build/src/konami_runtime_w_8003C0C8.o: cc src/konami_runtime_w_8003C0C8.c 
 
 build build/src/konami_runtime_w_8003C128.o: cc src/konami_runtime_w_8003C128.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003C160.o: cc src/konami_runtime_w_8003C160.c | tools/cc.sh tools/ccproc.py 
@@ -1592,7 +1592,7 @@ build build/src/konami_runtime_w_8003C24C.o: cc src/konami_runtime_w_8003C24C.c 
 
 build build/src/konami_runtime_w_8003C2B8.o: cc src/konami_runtime_w_8003C2B8.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/konami_runtime_w_8003C2F8.o: cc src/konami_runtime_w_8003C2F8.c | tools/cc.sh tools/ccproc.py 
@@ -1692,7 +1692,7 @@ build build/src/w_8003D468.o: cc src/w_8003D468.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8003D5A4.o: cc src/w_8003D5A4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_8003D760.o: cc src/w_8003D760.c | tools/cc.sh tools/ccproc.py 
@@ -1742,7 +1742,7 @@ build build/src/w_8003E0C4.o: cc src/w_8003E0C4.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8003E14C.o: cc src/w_8003E14C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_8003E188.o: cc src/w_8003E188.c | tools/cc.sh tools/ccproc.py 
@@ -1786,7 +1786,7 @@ build build/src/w_8003F320.o: cc src/w_8003F320.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003F55C.o: cc src/w_8003F55C.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -1836,17 +1836,17 @@ build build/src/w_8003FB98.o: cc src/w_8003FB98.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003FC64.o: cc src/w_8003FC64.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
 build build/src/w_8003FD64.o: cc src/w_8003FD64.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
 build build/src/w_8003FE78.o: cc src/w_8003FE78.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -1856,7 +1856,7 @@ build build/src/w_8003FF2C.o: cc src/w_8003FF2C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8003FFF0.o: cc src/w_8003FFF0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -1876,12 +1876,12 @@ build build/src/w_80040190.o: cc src/w_80040190.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800401FC.o: cc src/w_800401FC.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
 build build/src/w_8004027C.o: cc src/w_8004027C.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -1891,12 +1891,12 @@ build build/src/w_800402F4.o: cc src/w_800402F4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800403BC.o: cc src/w_800403BC.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -G0
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_80040454.o: cc src/w_80040454.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -1916,7 +1916,7 @@ build build/src/w_80040574.o: cc src/w_80040574.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800405E8.o: cc src/w_800405E8.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2153,7 +2153,7 @@ build build/src/w_800439BC.o: cc src/w_800439BC.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_800439F8.o: cc src/w_800439F8.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G16
+  ccflags = 
   asflags = 
 
 build build/src/w_80043A68.o: cc src/w_80043A68.c | tools/cc.sh tools/ccproc.py 
@@ -2188,7 +2188,7 @@ build build/src/w_80043FD0.o: cc src/w_80043FD0.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80044144.o: cc src/w_80044144.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G16
+  ccflags = 
   asflags = 
 
 build build/src/w_8004425C.o: cc src/w_8004425C.c | tools/cc.sh tools/ccproc.py 
@@ -2362,7 +2362,7 @@ build build/src/w_80047784.o: cc src/w_80047784.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800477F4.o: cc src/w_800477F4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2377,7 +2377,7 @@ build build/src/w_800479D4.o: cc src/w_800479D4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80047A68.o: cc src/w_80047A68.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2602,13 +2602,13 @@ build build/src/w_80049790.o: cc src/w_80049790.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800497F4.o: cc src/w_800497F4.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
 build build/src/w_800498A0.o: cc src/w_800498A0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_800499E8.o: cc src/w_800499E8.c | tools/cc.sh tools/ccproc.py 
@@ -2622,7 +2622,7 @@ build build/src/w_80049CF4.o: cc src/w_80049CF4.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_80049D80.o: cc src/w_80049D80.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2802,7 +2802,7 @@ build build/src/w_8004B42C.o: cc src/w_8004B42C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004B568.o: cc src/w_8004B568.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2828,7 +2828,7 @@ build build/src/w_8004B774.o: cc src/w_8004B774.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_8004B7D0.o: cc src/w_8004B7D0.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_8004B854.o: cc src/w_8004B854.c | tools/cc.sh tools/ccproc.py 
@@ -3561,7 +3561,7 @@ build build/src/w_800540A8.o: cc src/w_800540A8.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80054104.o: cc src/w_80054104.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_800541E8.o: cc src/w_800541E8.c | tools/cc.sh tools/ccproc.py 
@@ -3712,12 +3712,12 @@ build build/src/w_80055864.o: cc src/w_80055864.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_800558FC.o: cc src/w_800558FC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_800559B4.o: cc src/w_800559B4.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_80055ADC.o: cc src/w_80055ADC.c | tools/cc.sh tools/ccproc.py 
@@ -3832,7 +3832,7 @@ build build/src/w_80056DB4.o: cc src/w_80056DB4.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80056E10.o: cc src/w_80056E10.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_80057948.o: cc src/w_80057948.c | tools/cc.sh tools/ccproc.py 

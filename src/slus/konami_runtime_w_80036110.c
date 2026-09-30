@@ -20,7 +20,7 @@ typedef struct S_80036110_2 {
 } S_80036110_2;   /* temp_v1 in func_80036110 */
 
 
-extern M2C_UNK func_80036154;
+void func_80036154();
 
 /* Decreases the state field at offset 0x0A by 0x140, clamping below zero and advancing the handler. */
 void func_80036110(S_80036110_0 *object) {

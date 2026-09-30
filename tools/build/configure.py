@@ -167,7 +167,7 @@ objs = []
 CC_VER = {
     "src/code2.c": ("2.8.1", ""),
     "src/code3.c": ("2.95.2", "-fno-delayed-branch"),
-    "src/code4.c": ("2.7.2", "-fno-expensive-optimizations"),
+    "src/code4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/code5.c": ("2.7.2", "-G0 -fno-schedule-insns"),
     "src/code6.c": ("2.7.2", "-fno-schedule-insns -fno-schedule-insns2"),
     "src/code7.c": ("2.8.1", "-fno-schedule-insns2"),
@@ -183,9 +183,9 @@ CC_VER = {
     "src/w_8004DCA8.c": ("2.7.2-cdk", ""),
     "src/w_8005AC30.c": ("2.7.2", ""),
     "src/w_8005B2C8.c": ("2.7.2", ""),
-    "src/w_80040454.c": ("2.7.2", ""),
+    "src/w_80040454.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_800439BC.c": ("2.8.1", ""),
-    "src/w_80047A68.c": ("2.7.2", ""),
+    "src/w_80047A68.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80049F2C.c": ("2.7.2", ""),
     "src/w_8004FC2C.c": ("2.7.2", ""),
     "src/w_800509C4.c": ("2.7.2", ""),
@@ -242,9 +242,9 @@ CC_VER = {
     "src/w_80048EE4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80049004.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_800494B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_80049D80.c": ("2.7.2", ""),
+    "src/w_80049D80.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80049E1C.c": ("2.7.2", ""),
-    "src/w_800497F4.c": ("2.7.2", ""),
+    "src/w_800497F4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004E21C.c": ("2.7.2", ""),
     "src/w_8004E478.c": ("2.7.2", ""),
     "src/w_8004E5A0.c": ("2.7.2", ""),
@@ -277,11 +277,11 @@ CC_VER = {
     "src/w_80056DB4.c": ("2.7.2-cdk", ""),
     "src/w_8005C6B4.c": ("2.7.2-cdk", ""),
     "src/w_80056D44.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_8003F55C.c": ("2.7.2", ""),
+    "src/w_8003F55C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80041C64.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80043E60.c": ("2.7.2-cdk", "-G16"),  # fidelity step 4 (gp_ownership_wave): retail-proven splitting recipe
     "src/w_80047C8C.c": ("2.7.2", ""),
-    "src/w_800498A0.c": ("2.7.2-cdk", "-G0"),
+    "src/w_800498A0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8005405C.c": ("2.8.1", ""),
     "src/w_80058B70.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003F794.c": ("2.7.2-cdk", ""),
@@ -302,7 +302,7 @@ CC_VER = {
     "src/w_8004EB3C.c": ("2.7.2", ""),
     "src/w_8004EB8C.c": ("2.7.2", ""),
     "src/w_80050EA8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_800401FC.c": ("2.7.2", ""),
+    "src/w_800401FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004FDE0.c": ("2.7.2-cdk", ""),
     "src/w_80044AAC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8003FB98.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
@@ -317,7 +317,7 @@ CC_VER = {
     "src/w_80058800.c": ("2.7.2-cdk", ""),
     "src/w_8005E450.c": ("2.7.2", ""),
     "src/w_8005E7E0.c": ("2.7.2", ""),
-    "src/w_8003FFF0.c": ("2.7.2", ""),
+    "src/w_8003FFF0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80040BB4.c": ("2.7.2-cdk", ""),
     "src/w_8004A784.c": ("2.7.2", ""),
     "src/w_8004D98C.c": ("2.7.2", ""),
@@ -341,11 +341,11 @@ CC_VER = {
     "src/w_8005D9DC.c": ("2.7.2", ""),
     "src/w_8005CA90.c": ("2.7.2", ""),
     "src/w_80040060.c": ("2.7.2", ""),
-    "src/w_800403BC.c": ("2.7.2", "-G0"),
+    "src/w_800403BC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80040190.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
-    "src/w_8004027C.c": ("2.7.2", ""),
+    "src/w_8004027C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8003FA44.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
-    "src/w_8003FC64.c": ("2.7.2", ""),
+    "src/w_8003FC64.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004E130.c": ("2.7.2-cdk", ""),
     "src/w_8004E69C.c": ("2.7.2-cdk", ""),
     "src/w_8004E188.c": ("2.7.2-cdk", ""),
@@ -354,7 +354,7 @@ CC_VER = {
     "src/w_8005537C.c": ("2.7.2-cdk", ""),
     "src/w_8005440C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8005560C.c": ("2.7.2-cdk", ""),
-    "src/w_800559B4.c": ("2.7.2-cdk", "-G0"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
+    "src/w_800559B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8005B418.c": ("2.7.2-cdk", ""),
     "src/w_80056C30.c": ("2.7.2-cdk", ""),
     "src/w_8005ACDC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -377,7 +377,7 @@ CC_VER = {
     "src/w_8004CAA0.c": ("2.7.2", "-fno-schedule-insns2"),
     "src/w_8004B718.c": ("2.7.2", ""),
     "src/w_8004B774.c": ("2.7.2", ""),
-    "src/w_8004B7D0.c": ("2.7.2-cdk", "-G0"),
+    "src/w_8004B7D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80041284.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80053E90.c": ("2.7.2", ""),
     "src/w_80054D64.c": ("2.7.2-cdk", ""),
@@ -427,7 +427,7 @@ CC_VER = {
     "src/w_800590E0.c": ("2.7.2", ""),
     "src/w_80058ABC.c": ("2.7.2", ""),
     "src/w_80058A04.c": ("2.7.2", ""),
-    "src/w_8003D5A4.c": ("2.7.2-cdk", "-G0"),
+    "src/w_8003D5A4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80047784.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80048A44.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_8004A940.c": ("2.7.2-cdk", ""),
@@ -437,7 +437,7 @@ CC_VER = {
     "src/w_80054F9C.c": ("2.7.2-cdk", ""),
     "src/w_8003E2D8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80040574.c": ("2.7.2", "-G0"),
-    "src/w_800405E8.c": ("2.7.2", ""),
+    "src/w_800405E8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80047270.c": ("2.7.2", "-G0"),
     "src/w_8004EFF4.c": ("2.7.2-cdk", ""),
     "src/w_8004F068.c": ("2.8.1", ""),
@@ -503,7 +503,7 @@ CC_VER = {
     "src/w_8004D12C.c": ("2.7.2", ""),
     "src/w_8004ED00.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80053DF0.c": ("2.7.2-cdk", "-G0"),
-    "src/w_800558FC.c": ("2.7.2-cdk", "-G0"),
+    "src/w_800558FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8005DF80.c": ("2.6.3", "-G0"),
     "src/w_80048734.c": ("2.7.2", ""),
     "src/w_8003F2A4.c": ("2.6.3", "-fno-schedule-insns"),
@@ -512,7 +512,7 @@ CC_VER = {
     "src/w_8004AB7C.c": ("2.7.2", ""),
     "src/w_8004D91C.c": ("2.7.2", ""),
     "src/w_80054788.c": ("2.7.2-cdk", ""),
-    "src/w_8004B568.c": ("2.7.2", ""),
+    "src/w_8004B568.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004FA2C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80054704.c": ("2.7.2-cdk", ""),
     "src/w_80043704.c": ("2.7.2", ""),
@@ -561,9 +561,9 @@ CC_VER = {
     "src/w_800545F4.c": ("2.7.2-cdk", ""),
     "src/w_8004FFF4.c": ("2.7.2", "-fno-strength-reduce"),
     "src/w_8003FF2C.c": ("2.7.2", ""),
-    "src/w_8003FD64.c": ("2.7.2", ""),
+    "src/w_8003FD64.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80052C10.c": ("2.7.2-cdk", ""),
-    "src/w_80054104.c": ("2.7.2-cdk", "-G0"),
+    "src/w_80054104.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8003D7DC.c": ("2.7.2-cdk", "-fno-expensive-optimizations"),
     "src/w_8003CCB0.c": ("2.7.2-cdk", ""),
     "src/w_8003D0F0.c": ("2.7.2-cdk", ""),
@@ -616,7 +616,7 @@ CC_VER = {
     "src/w_80058510.c": ("2.7.2-cdk", ""),
     "src/w_8005B070.c": ("2.7.2-cdk", ""),
     "src/w_8004F418.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_8003FE78.c": ("2.7.2", ""),
+    "src/w_8003FE78.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_800402F4.c": ("2.7.2-cdk", "-G0"),
     "src/w_8004F1E8.c": ("2.7.2", ""),
     "src/w_8004FC98.c": ("2.7.2-cdk", ""),
@@ -629,9 +629,9 @@ CC_VER = {
     "src/w_8003F8F8.c": ("2.7.2", "-G0"),
     "src/w_80047FF4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80050A58.c": ("2.7.2-cdk", ""),
-    "src/w_800477F4.c": ("2.7.2", ""),
+    "src/w_800477F4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004A170.c": ("2.7.2-cdk", ""),
-    "src/w_80044144.c": ("2.7.2-cdk", "-G16"),
+    "src/w_80044144.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004A330.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8004DF8C.c": ("2.7.2-cdk", ""),
     "src/w_80053428.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -701,7 +701,7 @@ CC_VER = {
     "src/w_80053A88.c": ("2.7.2-cdk", ""),
     "src/w_80054B08.c": ("2.7.2-cdk", ""),
     "src/w_80056654.c": ("2.7.2-cdk", ""),
-    "src/w_80056E10.c": ("2.7.2-cdk", "-G0"),
+    "src/w_80056E10.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80057D20.c": ("2.7.2-cdk", "-G0"),
     "src/w_800550E8.c": ("2.7.2-cdk", ""),
     "src/w_8005313C.c": ("2.7.2-cdk", ""),
@@ -711,13 +711,13 @@ CC_VER = {
     "src/w_800506BC.c": ("2.7.2-cdk", ""),
     "src/w_800463EC.c": ("2.7.2-cdk", "-O2"),
     "src/w_80044D24.c": ("2.7.2-cdk", "-O2"),
-    "src/w_8003E14C.c": ("2.7.2-cdk", "-G0"),
+    "src/w_8003E14C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004D828.c": ("2.95.2", "-fno-schedule-insns2"),
     "src/w_8004DD2C.c": ("2.7.2-cdk", ""),
     "src/w_8004E9EC.c": ("2.7.2-cdk", ""),
     "src/w_8004491C.c": ("2.7.2-cdk", ""),
     "src/w_800597A8.c": ("2.7.2", ""),
-    "src/w_800439F8.c": ("2.7.2-cdk", "-G16"),
+    "src/w_800439F8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8004D880.c": ("2.7.2", "-fno-cse-follow-jumps -fno-cse-skip-blocks"),
     "src/w_8005C2C0.c": ("2.7.2-cdk", ""),
     "src/w_8005CC04.c": ("2.7.2", "-G0"),
@@ -800,47 +800,47 @@ CC_VER = {
     "src/konami_runtime_w_80033BE4.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80033C8C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/konami_runtime_w_80033D44.c": ("2.8.1", ""),  # fidelity step 4 (gp_8099c): retail-proven splitting recipe
-    "src/konami_runtime_w_80034E48.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80034F58.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80034E48.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80034F58.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80034FE4.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_800350D4.c": ("2.7.2-cdk", ""),
-    "src/konami_runtime_w_8003528C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800352B4.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800352D8.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800352FC.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80035320.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80035614.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003566C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003571C.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_8003528C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_800352B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_800352D8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_800352FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80035320.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80035614.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003566C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003571C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80035760.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800357B0.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_800357B0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_800357D0.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80035AAC.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80035ABC.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80035C44.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_80035D40.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80036110.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80036154.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80036210.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80035D40.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80036110.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80036154.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80036210.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_8003626C.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_800362A0.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80036434.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_800362A0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80036434.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80036484.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_800364BC.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003661C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80036880.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_800364BC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003661C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80036880.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80036C44.c": ("2.7.2", ""),
-    "src/konami_runtime_w_80036D4C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003719C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80038000.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800381A4.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_800381D0.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80038288.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80036D4C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003719C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80038000.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_800381A4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_800381D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80038288.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_8003832C.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_80038368.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80038394.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80038368.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80038394.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80038464.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_800384A8.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_800384A8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80038538.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80038570.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80038588.c": ("2.7.2", "-G0"),
@@ -848,14 +848,14 @@ CC_VER = {
     "src/konami_runtime_w_800385E8.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80038630.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_80038648.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_80038708.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80038708.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_800389B4.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_800390D0.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80039148.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_800390D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80039148.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80039568.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_800395F0.c": ("2.7.2", ""),
-    "src/konami_runtime_w_80039A08.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80039ACC.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80039A08.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_80039ACC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80039B84.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_8003AAC4.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_8003AAD4.c": ("2.7.2", "-G0"),
@@ -864,21 +864,21 @@ CC_VER = {
     "src/konami_runtime_w_8003ADF4.c": ("2.7.2", ""),
     "src/konami_runtime_w_8003AEA8.c": ("2.7.2", ""),
     "src/konami_runtime_w_8003B034.c": ("2.7.2", "-G0"),
-    "src/konami_runtime_w_8003B188.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003B1E4.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003B238.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003B298.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003B2F8.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_8003B188.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003B1E4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003B238.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003B298.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003B2F8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_8003B324.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003B35C.c": ("2.7.2-cdk", ""),
-    "src/konami_runtime_w_8003B400.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_8003B400.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_8003B8DC.c": ("2.7.2", "-G0"),
     "src/konami_runtime_w_8003B9E8.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003BA24.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003BA60.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003BA9C.c": ("2.7.2-cdk", ""),
-    "src/konami_runtime_w_8003C128.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_8003C2B8.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_8003C128.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
+    "src/konami_runtime_w_8003C2B8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_8003C890.c": ("2.7.2", ""),
     "src/konami_runtime_w_80039ED8.c": ("2.7.2", ""),
     "src/konami_runtime_w_800350B0.c": ("2.7.2", ""),
@@ -930,7 +930,7 @@ CC_VER = {
     "src/konami_runtime_w_80036F24.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80037090.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80037394.c": ("2.7.2-cdk", ""),
-    "src/konami_runtime_w_80036B10.c": ("2.7.2-cdk", "-G0"),
+    "src/konami_runtime_w_80036B10.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/konami_runtime_w_80035484.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_800387D0.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_800375C0.c": ("2.7.2", "-O2"),

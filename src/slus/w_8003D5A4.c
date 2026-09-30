@@ -37,7 +37,7 @@ extern u8 D_800830C0[0x22];
 extern u8 D_800830E8[0x22];
 
 extern u8 D_80081468[8];
-extern u8 D_80082E6B;
+extern u8 D_80082E6B[];
 
 /* D_80012094, D_80012098, D_80012D6E, D_80013180, D_80013184, D_80013186 all
  * share the same %hi() page (0x8001xxxx) in the retail binary and are
@@ -82,7 +82,7 @@ void func_8003D5A4(void)
     SetGraphDebug(0);
     InitGeom();
 
-    D_80082E6B = 0;
+    D_80082E6B[0] = 0;
     bzero(D_80081468, 8);
 
     func_8003D468();

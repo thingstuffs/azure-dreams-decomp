@@ -11,17 +11,12 @@ typedef struct S_80040454 {
     unsigned short field_1E;       /* 0x1E */
 } S_80040454;
 
-/* D_80081498 is accessed via %hi/%lo, so its containing symbol must be
- * larger than the -G8 small-data threshold; pad it out. */
-extern struct {
-    S_80040454 *head;
-    int pad[2];
-} D_80081498;
+extern S_80040454 *D_80081498;
 
 /* Clear flag bits 0xC00 in every node of the global list. */
 void func_80040454(void)
 {
-    S_80040454 *node = D_80081498.head;
+    S_80040454 *node = D_80081498;
 
     if (node != 0) {
         do {

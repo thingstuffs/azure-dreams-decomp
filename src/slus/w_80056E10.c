@@ -181,7 +181,7 @@ extern s32 D_80073734_5[4] __asm__("D_80073734");
 extern s32 D_80073734_6[4] __asm__("D_80073734");
 extern s32 D_80073734_7[4] __asm__("D_80073734");
 extern Req D_80084918;
-extern s16 D_80084930;
+extern s16 D_80084930[];
 
 extern void func_80056DB4(s32 arg0);
 extern void func_8005E97C(s32 mode, s32 mask);
@@ -496,9 +496,9 @@ void func_80056E10(u8 channel_id, s16 note, u8 velocity)
                     D_80084918.f16 = start_note << 8;
                 }
                 if (tone->f05 != 0) {
-                    D_80084930 = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);
+                    D_80084930[0] = ((tone->f04 - 1) << 8) | (0x7F - tone->f05);
                 } else {
-                    D_80084930 = tone->f05 | (tone->f04 << 8);
+                    D_80084930[0] = tone->f05 | (tone->f04 << 8);
                 }
                 if (voice_held == 0) {
                     func_8005EC0C(&D_80084918);

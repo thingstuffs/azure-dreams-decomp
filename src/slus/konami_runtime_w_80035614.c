@@ -14,9 +14,9 @@ typedef struct S_80035614_0 {
 
 
 M2C_UNK func_80035888(); /* extern */
-extern M2C_UNK D_80081F14;
-extern M2C_UNK D_800821CC;
-extern M2C_UNK func_8003566C;
+extern u8 D_80081F14[];
+extern u8 D_800821CC[];
+void func_8003566C();
 
 /* Initialize the object, clear its state byte, and set its next handler. */
 void func_80035614(S_80035614_0 *object) {

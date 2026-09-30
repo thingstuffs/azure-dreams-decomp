@@ -40,8 +40,8 @@ void *func_8003FD64(s32 flags, S_80081490 **list_head)
     if (free_node != 0) {
         node = free_node;
         {
-            extern struct { S_80081490 *head; s32 pad[2]; } D_80081490;
-            D_80081490.head = node->next;
+            extern S_80081490 *D_80081490;
+            D_80081490 = node->next;
         }
         func_8003DB4C((int *)node, 0x49);
 

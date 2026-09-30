@@ -35,10 +35,10 @@ typedef struct S_8003566C_2 {
 
 
 M2C_UNK func_80035E58(); /* extern */
-extern M2C_UNK D_8006A86C;
-extern M2C_UNK D_80081F78;
-extern M2C_UNK D_800822F0;
-extern M2C_UNK func_8003571C;
+extern u8 D_8006A86C[];
+extern u8 D_80081F78[];
+extern u8 D_800822F0[];
+void func_8003571C();
 
 /* Decrease the stored value, clamp negatives to zero, and advance state below 0x100. */
 void func_8003566C(S_8003566C_0 *state) {

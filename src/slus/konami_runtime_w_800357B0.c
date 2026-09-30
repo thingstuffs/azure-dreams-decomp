@@ -11,7 +11,7 @@ typedef struct S_800357B0_0 {
 } S_800357B0_0;   /* arg0 in func_800357B0 */
 
 
-extern M2C_UNK func_800357D0;
+void func_800357D0();
 
 /* Assigns func_800357D0 to objects with code 0x101. */
 void func_800357B0(S_800357B0_0 *object) {

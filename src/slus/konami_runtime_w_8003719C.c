@@ -57,20 +57,20 @@ M2C_UNK func_80036C7C(); /* extern */
 M2C_UNK func_80037394();         /* extern */
 void *func_8003FF2C(); /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern M2C_UNK D_8006A988;
-extern M2C_UNK D_8006A994;
-extern M2C_UNK D_8006A9A0;
-extern M2C_UNK D_8006A9AC;
-extern M2C_UNK D_8006A9B8;
-extern M2C_UNK D_8006A9C4;
-extern M2C_UNK D_80081E90;
-extern M2C_UNK D_80081EA0;
-extern M2C_UNK D_80082B80;
-extern M2C_UNK D_80082B90;
-extern M2C_UNK D_80082BA0;
-extern M2C_UNK D_80082BB0;
-extern M2C_UNK D_80082BC0;
-extern M2C_UNK func_80033D54;
+extern u8 D_8006A988[];
+extern u8 D_8006A994[];
+extern u8 D_8006A9A0[];
+extern u8 D_8006A9AC[];
+extern u8 D_8006A9B8[];
+extern u8 D_8006A9C4[];
+extern u8 D_80081E90[];
+extern u8 D_80081EA0[];
+extern u8 D_80082B80[];
+extern u8 D_80082B90[];
+extern u8 D_80082BA0[];
+extern u8 D_80082BB0[];
+extern u8 D_80082BC0[];
+void func_80033D54();
 
 /* Initializes a sprite node, links it to its owner, and applies its initial display state. */
 void func_8003719C(s32 node_addr, Rec_D_80081FDC *transform, s32 *script_data, s16 cursor_offset, s32 sprite_base,

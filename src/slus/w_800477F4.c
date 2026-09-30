@@ -25,7 +25,7 @@ typedef struct S_800477F4_Actor {
     u16 flags;
 } S_800477F4_Actor;
 
-extern u8 D_80080A84[16];
+extern u8 D_80080A84;
 
 /* Advances the actor's timed step sequence and updates its state flags. */
 void func_800477F4(S_800477F4_Actor *actor)
@@ -74,7 +74,7 @@ void func_800477F4(S_800477F4_Actor *actor)
     actor->f4 = actor->f4 + 1;
 
 update_step:
-    actor->f5 = step->f0 / D_80080A84[0];
+    actor->f5 = step->f0 / D_80080A84;
     flags |= 0x1000;
     actor->f8 = (s32)step->next;
 
