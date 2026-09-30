@@ -171,6 +171,7 @@ extern s32 D_800E4938[];
 
 /* Initialize the dungeon actor and its state at a position_selected starting position. */
 void func_800165B8(void) {
+    u8 *no_flags = 0;
     u8 pos_x;
     u8 pos_y;
     u16 flags;
@@ -339,8 +340,7 @@ initialize_position:
     }
 load_entries:
     call_target = state;
-    bind_state = (u8 *)0;
-    ASM_KEEP_NV(bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    bind_state = no_flags;
     table_base = (u8 *)0x800E0000;
     ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_base -= 0x2F88;
