@@ -1,13 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define TBL_PAGE ((u8 *)jtbl_8002D658)
-#define TBL_OFFSET 0
-#else
-#define TBL_PAGE ((u8 *)0x80030000)
-#define TBL_OFFSET (-0x29A8)
-#endif
-
 typedef struct {
     u16 type;
     u16 next;
@@ -69,13 +61,9 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     cmd = (StreamCommand *)((u32)base | 0x80000000);
     base = (u8 *)cmd;
     DrawSync(0);
-    {
-        register u8 *table_page = TBL_PAGE;
-        ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        buffer_addr = D_8008148C;
-        D_80081480 = buffer_addr;
-        table = (void **)(table_page + TBL_OFFSET);
-    }
+    buffer_addr = D_8008148C;
+    D_80081480 = buffer_addr;
+    table = jtbl_8002D658;
     buffer = (u8 *)buffer_addr;
 
     while (1) {
