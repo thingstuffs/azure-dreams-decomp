@@ -12,10 +12,10 @@
 # process with that name runs, so a failing tree is never snapshotted in between.
 set -u
 cd "$(dirname "$0")/../.."
-TAG=${1:?tag}; LANE=${2:?lane}
+TAG=${1:?tag}; LANE=${2:?lane}; LANES="${@:2}"   # several lanes land in ONE gated run; logs go to the first
 START=$(date -u +%FT%TZ); BAD=""
 BEFORE=$(git diff --name-only -- src | sort)
-LAND_ISOLATED=1 bash tools/lanes/land_lanes.sh "$TAG" "$LANE" > work/native_lane/$LANE/landing.log 2>&1
+LAND_ISOLATED=1 bash tools/lanes/land_lanes.sh "$TAG" $LANES > work/native_lane/$LANE/landing.log 2>&1
 RC=$(grep -o "GATE_RC=[0-9]*" work/native_lane/$LANE/landing.log | tail -1 | cut -d= -f2)
 exec 9>build_ovl/work/land.lock; flock 9
 TOUCHED=$(comm -13 <(echo "$BEFORE") <(git diff --name-only -- src | sort))
@@ -57,6 +57,6 @@ done
 python3 tools/status.py > /dev/null 2>&1
 P=$(grep -o "Pin sites now: [0-9,]* in [0-9,]* rows" STATUS.md)
 git add src ledger STATUS.md
-git commit -q -m "${KIND:-switch} lane $LANE landed via switch_land_lanes.sh ($TAG; ${WHAT:-computed-goto dispatches -> real switch}; isolated gate MATCH${BAD:+; reverted for discarded-.rodata windows: $BAD}) ($P)
+git commit -q -m "${KIND:-switch} lane(s) $LANES landed via switch_land_lanes.sh ($TAG; ${WHAT:-computed-goto dispatches -> real switch}; isolated gate MATCH${BAD:+; reverted for discarded-.rodata windows: $BAD}) ($P)
 
 Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>" && git log --oneline -1
