@@ -215,19 +215,25 @@ def goto_count(text):
     return len(re.findall(r"\bgoto\s+\w+\s*;", t)) + len(re.findall(r"\bgoto\s*\*", t)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", t))
 
 
-def admissible(base, cand):
+def admissible(base, cand, equal_pins=False):
     """[] when `cand` may be staged against `base`, else the reasons it may not.
 
     The checks `publish_local.py`, `finalize.py`, `stage.py`, `prepare_outputs.py`, `finish.py`
     (seven lanes) each re-derived: strictly fewer pin sites (round 80: or equal pins and strictly fewer
-    plain gotos), the remaining pins a SUBSET of the base's, no new volatile/`__asm__`, no new one-trip block."""
+    plain gotos), the remaining pins a SUBSET of the base's, no new volatile/`__asm__`, no new one-trip block.
+
+    `equal_pins=True` (`lab.py stage-cell --equal-pins`, round 81) waives ONLY the "fewer pins" requirement: a
+    cell move that is exact at its target with the pin count unchanged (a byte-neutral recipe switch, or a
+    coherence move that keeps its pins) may stage.  More pins, pins the base did not have, new volatile /
+    `__asm__` / `ASM_*` / one-trip blocks and added gotos are refused exactly as without it."""
     bad = []
     b, c = pin_keys(base), pin_keys(cand)
     gb, gc = goto_count(base), goto_count(cand)
     # equal pins also stage when scaffolding fell (land_lanes.sh, round 78: volatile, while (0), __asm__) or
     # plain `goto` statements fell (round 80 readability lanes) - nothing banned may grow either way (below)
     scaffold_fell = any(len(rx.findall(cand)) < len(rx.findall(base)) for rx, _ in BANNED + ONE_TRIP)
-    if sum(c.values()) > sum(b.values()) or (sum(c.values()) == sum(b.values()) and gc >= gb and not scaffold_fell):
+    if sum(c.values()) > sum(b.values()) or (sum(c.values()) == sum(b.values()) and gc >= gb and not scaffold_fell
+                                             and not equal_pins):
         bad.append("pin sites not reduced (%d -> %d), no scaffolding removed, gotos not reduced (%d -> %d)"
                    % (sum(b.values()), sum(c.values()), gb, gc))
     if sum(c.values()) == sum(b.values()) and gc > gb:
@@ -342,7 +348,14 @@ def row_at_cfg(row, cfg):
 
 def score_at(row, text, cfg=None, verify=None, diff=False):
     """Byte-score `text` as `row` at `cfg` (default the registered cfg) - `tools/verify.verify`
-    on a temporary copy named like the row's file, include root `<repo>/include`."""
+    on a temporary copy named like the row's file, include root `<repo>/include`.
+
+    `diff=True` returns the score fields AND the scorer's listing: `exact`/`total`/`subs`/`indels`/`status`
+    (and the rest of the summary record) from the summary score, `text` from the scorer's `--diff`
+    (`diff_status` keeps the diff call's own status).  `tools/verify.py --diff` alone carries no score fields
+    (they were all None - round 81, r81_fable_late), and the `TOTAL` its text prints is the GLOBAL-LCS
+    distance, not the regional total the summary (and every roster) reports, so the two runs are merged
+    rather than the text parsed.  They run concurrently: the wall time is the slower of the two."""
     if verify is None:
         add_paths()
         from verify import verify                                        # noqa: E402
@@ -350,8 +363,18 @@ def score_at(row, text, cfg=None, verify=None, diff=False):
     with tempfile.TemporaryDirectory(prefix="lanekit_score_") as td:
         f = Path(td) / Path(r["c_path"]).name
         f.write_text(text)
-        kw = {"diff": True} if diff else {}
-        return verify(r, f, include_root=(ROOT / "include").resolve(), **kw)
+        inc = (ROOT / "include").resolve()
+        if not diff:
+            return verify(r, f, include_root=inc)
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            fs = ex.submit(verify, r, f, include_root=inc)
+            fd = ex.submit(verify, r, f, include_root=inc, diff=True)
+            summ, dtext = fs.result() or {}, fd.result() or {}
+        out = dict(summ)
+        out["text"] = dtext.get("text")
+        out["diff_status"] = dtext.get("status")
+        return out
 
 
 def score_fields(v):
@@ -383,10 +406,39 @@ def log_read(lane):
     return out
 
 
+# journal kinds the per-row cap does not count: the calibration, and diff.py's one-file measurements (the cap
+# guards against lab.py variant explosions - r66_sol_big6 - not against a lane looking at a file it already has)
+UNCAPPED_KINDS = ("baseline", "diff-listing", "diff-scorer", "diff-score")
+
+
 def variant_count(records, row_id):
     """Distinct variant names measured for one row - what the per-row cap counts."""
     return len({r.get("variant") for r in records
-                if r.get("row") == row_id and r.get("variant") and r.get("kind") != "baseline"})
+                if r.get("row") == row_id and r.get("variant") and r.get("kind") not in UNCAPPED_KINDS})
+
+
+def record_score(lane, row, variant, v, source, cfg=None, distance=None, pins=None, note="", kind="score", text=None):
+    """Journal ONE byte score (a `score_at` result `v`) to the lane's `lab_log.jsonl` so `lab.py report` shows it.
+
+    `lab.py report` builds the REPORT table from the journal only; before round 81 a row measured through
+    `diff.py --scorer` or a lane script calling `score_at` directly printed as ZERO MEASUREMENTS (r81_fable_late).
+    `source` names the tool (`"diff.py --scorer"`, `"my_probe.py"`), `cfg` a trial cfg (None = registered: the
+    report marks a foreign-cfg exact as a trade, not a solve), `pins` the text's pin count (or pass `text`).
+    Returns the record written."""
+    sc = score_fields(v)
+    if pins is None and text is not None:
+        pins = len(sites(text))
+    # a scorer failure (does not build, TIMEOUT, HARNESS-ERROR) keeps its own status, not "scored / total None"
+    status = "exact" if sc.get("exact") else sc["status"] if sc.get("status") not in (None, "ok") \
+        else "scored" if sc.get("exact") is not None or sc.get("total") is not None else "no-score"
+    rec = {"row": row["id"] if isinstance(row, dict) else row, "variant": variant, "kind": kind, "source": source,
+           "distance": distance, "score": sc, "status": status, "note": note}
+    if pins is not None:
+        rec["pins"] = pins
+    if cfg:
+        rec["cfg"] = cfg
+    log_append(lane, rec)
+    return rec
 
 
 def lane_rows(lane):
