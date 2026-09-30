@@ -19,6 +19,9 @@ by `fp.cls`/`fp.shape`: 09-30 near band (d0<=6) 586 sites / 291 rows = MOVED 236
 pass on one row, derive the rule, apply to six, list the rest): r80_opus_cl_li / cl_lui / cl_move running; their
 cluster_rest.txt holds the remaining members for apply lanes. Sol 6.1 stays on the one-pin pool (218 rows).
 
+**Landing queue moved (09-30 05:50, session restart):** the batch runner and helper scripts now live in
+work/native_lane/_landq/ (land_queue2.sh reads land_queue.txt there - append `tag|lane|KIND|WHAT`; runner.pid, land_queue.done,
+coh.sh for cells.jsonl moves, sweep_land.sh for gated generator sweeps, mkgd.sh for goto lanes, handover_todo.txt).
 **State (09-30 05:10):** 1,888 pins in 578 rows (2,068 when this session's evening block began, 2,493 at pickup);
 gotos incl. &&label 4,042 (the jump-table repair restored 91), volatile 529, one-trip blocks 324.
 Tonight's generators: t126_ppcollapse (dead #if splits, 41 rows), t127_gotonext (16), t128_nonvoid (dbr rule, 2+2 pins),
