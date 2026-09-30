@@ -11,7 +11,7 @@ extern s32 D_80100E30;
 void func_800A9358(s32 shape, s32 source)
 {
     u32 *scratch;
-    register s32 segment ASM_REG("$17");
+    s32 segment;
     u8 *count_base;
     s32 angle_sum;
     u32 *call_scratch;
@@ -38,7 +38,7 @@ void func_800A9358(s32 shape, s32 source)
     u32 saved_color;
 
     angle_sum = 0;
-    count_index = func_800B28A0();
+    segment = func_800B28A0();
     call_scratch = (u32 *)0x1F800000;
     ASM_KEEP_NV(call_scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     angle = 0;
@@ -47,7 +47,7 @@ void func_800A9358(s32 shape, s32 source)
     call_shape = shape;
     segment_counts = D_800D0E48;
     ASM_KEEP_NV(segment_counts);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    segment_count = segment_counts[count_index];
+    segment_count = segment_counts[segment];
     ASM_KEEP_NV(segment_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     count_base = (u8 *)0x80100000;
     ASM_KEEP_NV(count_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
