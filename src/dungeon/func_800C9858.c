@@ -41,7 +41,7 @@ typedef struct S_800CEFB8_2 {
 typedef struct S_800CEFB8_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_800CEFB8_3;   /* coeff_base in func_800CEFB8 */
+} S_800CEFB8_3;   /* (s32 *)end_depth in func_800CEFB8 */
 
 typedef struct S_800CEFB8_4 {
     u8 pad_00[0xB8];
@@ -168,7 +168,6 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     register void *part ASM_REG("$20");
     void *render_state;
     void *state_alias;
-    s32 *coeff_base;
     void *packet_next;
     register void *sprite_data ASM_REG("$21") = sprite;
     register s16 sort_bias ASM_REG("$17") = depth_bias;
@@ -200,7 +199,8 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     SP16(0x7C) = 0;
     SP16(0x74) = 0;
     SP32(0x20) = global_base + 0xB0;
-    packet_next = ((S_800CEFB8_0 *)global_base)->unk_8D0;
+    packet_next = global_base;
+    packet_next = ((S_800CEFB8_0 *)packet_next)->unk_8D0;
     ((S_800CEFB8_1 *)sprite_data)->unk_14 = (u16) (((S_800CEFB8_1 *)sprite_data)->unk_14 | 0x8000);
     ASM_KEEP_MEMDEP(sprite_data, state_dep, *(u8 **)((s8 *)(&gameWork)));
     ASM_SET(global_page);
@@ -231,13 +231,9 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     SP16(0x10E) = func_80065F90((s16)end_y - (s16)packet_code,
                                 (s16)end_x - (s16)start_x,
                                 (s16)end_x);
-    {
-        coord_end = (s32)((u8 *)0x80070000);
-        ASM_KEEP_NV(coord_end);
-        coeff_base = (s32 *)((u8 *)coord_end - 0x32D0);
-    }
+    end_depth = (s32)D_8006CD30;
     mean_depth = SP32(0xC0);
-    ((S_800CEFB8_3 *)coeff_base)->unk_1C = (s32) (mean_depth * 4);
+    ((S_800CEFB8_3 *)(s32 *)end_depth)->unk_1C = (s32) (mean_depth * 4);
     sort_depth = mean_depth - sort_bias;
     SP32(0xC0) = sort_depth;
     draw_mode = orient_mode;
@@ -297,7 +293,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
             SP32(0x34) = scale_y;
             func_80064BC0((void *)0x1F8000D0, (void *)0x1F800030);
         }
-        func_80064840(coeff_base, (void *)0x1F8000D0, (void *)0x1F800050);
+        func_80064840((s32 *)end_depth, (void *)0x1F8000D0, (void *)0x1F800050);
         func_80064D80((void *)0x1F800050);
         func_80064CF0((void *)0x1F800050);
         part = ((S_800CEFB8_1 *)sprite_data)->unk_08;
