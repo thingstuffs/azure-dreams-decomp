@@ -6,7 +6,7 @@ extern int abs(int);
 #define F_U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define F_S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-extern s32 func_800352FC(void *, void *, void *, s32);
+extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(void *);
 extern void SD_Call(s32);
 extern void func_800478B8(void *);
@@ -42,7 +42,7 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
     s32 walk_ticks;
 
     anim_script = 0;
-    if (func_800352FC(actor, motion, sprite, update_context) != 0 &&
+    if (func_800352FC() != 0 &&
         func_800C2AB4(actor) != 0) {
         if (!(F_S32(actor, 0xAC) & 1)) {
             SD_Call(0x601);

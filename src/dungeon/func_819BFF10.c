@@ -60,7 +60,7 @@ void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bou
                     flags = entry->unk_1E;
                     if (!(flags & 0x2000)) {
                         entry->unk_1E = flags | 0x2000;
-                        func_80024AE8(entry, range_data, position_data);
+                        func_80024AE8(entry, range_data);
                     }
                 }
                 next_entry = list_link->unk_5C;

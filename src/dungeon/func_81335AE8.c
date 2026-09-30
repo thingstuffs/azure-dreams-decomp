@@ -5,7 +5,7 @@
 
 extern u8 D_80175392[];
 
-extern void func_800353F4(void *, void *);
+extern void func_800353F4(void *);
 extern void func_80164BA4(void *);
 extern void func_8016A36C(void);
 
@@ -31,7 +31,7 @@ void func_8016CAE8(void *controller, void *unused_1, void *unused_2, u8 *active_
         *(u32 *)&state->unk_10 &= 0x7FFFFFFF;
     }
 
-    func_800353F4(D_80175392, state);
+    func_800353F4(D_80175392);
     object_index = 0;
     active_object[0x6D] = 0;
     ((u8 *)controller)[0x9B] = 0;

@@ -209,7 +209,7 @@ void *func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
                     elem->unk_0C = ((u32)(0x00C0C0C0));
                     ((S_8016A86C_9 *)(base->unk_A4))->unk_10 = D_800D78C0;
 
-                    func_80047784(elem, 39, 0, child_arg);
+                    func_80047784(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8016A86C_6 *)child)->unk_06 = 0;

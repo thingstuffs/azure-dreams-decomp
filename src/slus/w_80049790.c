@@ -13,7 +13,7 @@ extern void *func_8004B404(s32 a0);
  * nonzero on success. */
 extern s32 func_8004951C(void *a0, void *a1);
 
-/* func_8004B1A4 (code5.c, gcc 2.7.2): sets a "used" flag bit on a 16-bit
+/* func_8004B1A4 (code5.c): sets a "used" flag bit on a 16-bit
  * flags field 2 bytes before the object pointer, plus a global flags word. */
 extern void func_8004B1A4(u16 *a0);
 

@@ -53,7 +53,7 @@ extern s32 func_8009FB34(s32, s32);
 extern s32 func_8009FD7C(s32, s32, s32, s32);
 extern s32 func_800A0818(s32, s32, s32, s32, void *);
 extern s32 func_800A1C58(void *);
-extern s32 func_800A6D30(void *);
+extern s32 func_800A6D30(void);
 extern void func_800A9A0C(void *);
 extern void func_800AA258(void *, void *, void *, void *);
 extern s32 func_800AA6B4(void *, void *, void *, void *);
@@ -204,7 +204,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
 
                 if (movement_flags >= 0) {
                     ((S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
-                    ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30(actor_in) & 7) << 9;
+                    ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30() & 7) << 9;
                 }
             }
             if ((s16)func_801720EC(actor_in, context_in, sprite_in, status) != 0) {

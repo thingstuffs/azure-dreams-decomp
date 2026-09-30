@@ -24,7 +24,7 @@ void func_80165A0C(void *state, Position *pos, s32 handle)
     pos->x += pos->dx;
     pos->y += dy;
     pos->z += dz;
-    func_800478B8(handle, pos, dy, dz);
+    func_800478B8(handle);
     func_800478B8(handle);
     timer = *(u16 *)((u8 *)state + 0x32) - 1;
     *(u16 *)((u8 *)state + 0x32) = timer;

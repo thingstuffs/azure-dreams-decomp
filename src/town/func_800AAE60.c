@@ -13,7 +13,7 @@ typedef struct {
 
 extern s32 func_800374F4(u16);
 extern void rand(void);
-extern void func_800A84D0(LocalRecord *, s32);
+extern void func_800A84D0(LocalRecord *);
 
 /* Builds and submits records at randomized offsets from the origin. */
 void func_800A85C0(void *origin, void *spread, s32 count) {
@@ -38,7 +38,7 @@ void func_800A85C0(void *origin, void *spread, s32 count) {
                  func_800374F4(*(u16 *)((u8 *)spread + 8))) -
                     (*(s32 *)((u8 *)spread + 8) / 2);
             record.z = z;
-            func_800A84D0(&record, z);
+            func_800A84D0(&record);
         }
     }
 }

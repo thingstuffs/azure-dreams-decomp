@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 
-extern s32 func_80033D08(void *, EntityRec *);
+extern s32 func_80033D08(void *);
 extern s32 func_80095388();
 extern s32 func_8009539C();
 extern s16 func_800C2AE8();
@@ -42,7 +42,7 @@ void func_8009C4E8(void *object, EntityRec *motion, S_8009C4E8_2 *appearance) {
     timer = ((S_8009C4E8_0 *)object)->unk_6C - 1;
     ((S_8009C4E8_0 *)object)->unk_6C = timer;
     if ((s16)(timer) < 0) {
-        func_80033D08(object, motion);
+        func_80033D08(object);
         ((S_8009C4E8_0_pre *)object)[-1].unk_00 |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;

@@ -3,7 +3,7 @@
 #include "shared/slus_callbacks.h"
 #include "m2c_compat.h"
 
-void func_8003DB94(void *, void *, s32, void *);
+void func_8003DB94(void *, void *, s32);
 void *func_8003FD64(s32, void *);
 void func_8004491C(void *, void *);
 extern M2C_UNK D_800BD688;
@@ -105,7 +105,7 @@ s32 event_tori_in(void *source) {
             render_state->unk_1E = 0x1000;
             render_state->unk_1C = 0x1000;
             render_state->unk_0C = color;
-            func_8003DB94(render_state, &D_800E9E14, 0, transform);
+            func_8003DB94(render_state, &D_800E9E14, 0);
         }
         x_step += 0xFFD00000;
         child_index -= 1;

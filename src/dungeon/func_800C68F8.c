@@ -4,7 +4,7 @@
 #define U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
 #define U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
 #define P32(p,o) (*(void **)((u8 *)(p)+(o)))
-extern s32 func_800A6D30(void * , s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern s32 func_800A48F0();
 extern void func_800C5BBC();
 extern void func_800A56E0(s32);
@@ -20,7 +20,7 @@ s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_
     void *parent;
 
     if (!D_800E3D40 &&
-        (random_value = func_800A6D30(entity, rng_input_a, rng_input_b, rng_input_c) & 0xffff,
+        (random_value = func_800A6D30() & 0xffff,
          U8(entity, 3))) {
         s32 remainder;
 

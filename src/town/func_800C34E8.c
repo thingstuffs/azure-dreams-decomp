@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_800C0D80(s32, s32, s32);                            /* extern */
+M2C_UNK func_800C0D80(void);                            /* extern */
 extern M2C_UNK D_800C0C28;
 
 typedef struct S_800C0C48_0 {
@@ -14,7 +14,7 @@ typedef struct S_800C0C48_0 {
 s32 func_800C0C48(s32 context, s32 value, s32 options) {
     S_800C0C48_0 *object;
 
-    func_800C0D80(context, value, options);
+    func_800C0D80();
     object = func_8003FC64(0);
     if (object != NULL) {
         object->unk_10 = &D_800C0C28;

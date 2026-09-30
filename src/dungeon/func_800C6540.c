@@ -17,7 +17,7 @@ typedef struct S_800CBCA0_1 {
 extern void func_80094E34(void);
 extern void func_80099844(void *, void *);
 extern void func_800A6508(void);
-extern s32 func_800A6D30(void *, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern s32 func_800CBB98(u8, u16, s16, void *);
 extern u8 D_800E1AE6[];
 extern u8 D_800E3D40;
@@ -40,7 +40,7 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
         }
     }
     if (D_800E3D40 == 0) {
-        random_value = (u16)func_800A6D30(rng_entity, input_a, input_b, input_c);
+        random_value = (u16)func_800A6D30();
         if ((*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3)) != 0) {
             divisor = random_value % (*(u8 *)((u8 *)&((EntityRec *)entity)->x + 3));
             goto value_ready2;

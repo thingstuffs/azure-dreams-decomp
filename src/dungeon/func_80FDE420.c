@@ -39,7 +39,7 @@ typedef struct S_80173C20_3 {
 
 
 extern void func_80047784(void *, s32, s32);
-extern s32 func_800990FC(void *, void *, void *, void *);
+extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
 extern s32 func_80099734(void *, s32);
@@ -78,7 +78,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         state = ((S_80173C20_0 *)arg0)->unk_9B;
         switch (state) {
         case 0:
-            saved = func_800990FC(call_arg0, call_arg1, call_arg2, call_arg3);
+            saved = func_800990FC();
             if ((((S_80173C20_1 *)arg3)->unk_2A.s >> 9) & 1) {
                 func_80099290(func_80099194(
                     D_80170854, func_80099734(arg3, saved)));

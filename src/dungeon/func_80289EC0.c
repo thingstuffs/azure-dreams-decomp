@@ -14,7 +14,7 @@ typedef struct {
     u16 flags;
 } Tile;
 
-extern s32 func_800A6D30(Rect *, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern u8 D_800EA000[];
 
 /* Adjust tile heights and flags where both coordinates match a random parity. */
@@ -36,7 +36,7 @@ void func_8001CEC0(Rect *rect, s32 rng_input_1, s32 rng_input_2, s32 rng_input_3
     u16 tile_y;
     volatile Tile *tile;
 
-    parity = func_800A6D30(rect, rng_input_1, rng_input_2, rng_input_3) & 1;
+    parity = func_800A6D30() & 1;
     initial_y = rect->y;
     initial_x = rect->x;
     initial_width = rect->width;

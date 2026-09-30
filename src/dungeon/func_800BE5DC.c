@@ -73,7 +73,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
         return 1;
     }
     if (D_800E296C & 0x20000000) {
-        func_8009BF7C(1, 8, effect_code);
+        func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
         entity = D_800E3D7C;
         first_entity = entity;

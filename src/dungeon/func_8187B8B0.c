@@ -112,7 +112,7 @@ void func_8187B8B0(
         actor_data->unk_04 = saved_field_04;
         actor_data->unk_10 = saved_pair;
         actor_data->unk_12 = saved_pair;
-        func_8004491C(init_obj, init_data, z_dest);
+        func_8004491C(init_obj, init_data);
         actor_data->unk_B4 = rand() + 0x10000;
         spawned_obj->unk_20 = saved_field_00;
     }

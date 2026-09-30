@@ -37,7 +37,7 @@ typedef struct Other {
 extern DungeonGroup D_80073414[];
 extern u8 D_800E3E41;
 extern void func_800A56E0(s32);
-extern void func_800A5A18(void *, Object *, void *);
+extern void func_800A5A18(void *, Object *);
 
 /* Apply a mode-adjusted quarter-value change when the source and target item flags permit it. */
 s32 func_800C7DEC(Object *object, Other *source) {
@@ -87,7 +87,7 @@ s32 func_800C7DEC(Object *object, Other *source) {
         *(u16 *)&object->value64 = adjustment;
         dungeonStatus.unk_10 = (u8 *)object - 0x20;
         object->value60 = 0;
-        func_800A5A18(*(void **)((u8 *)object - 0x18), object, target_item);
+        func_800A5A18(*(void **)((u8 *)object - 0x18), object);
         func_800A56E0(0x60F);
         object->flags1C |= 0x20000000;
         if (object->value13 == 0) {

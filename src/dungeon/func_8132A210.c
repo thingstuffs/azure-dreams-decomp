@@ -99,7 +99,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
         *((u16 *) (((s8 *) effect_data) + 0x14)) = saved_angle;
         *((s16 *) (((s8 *) effect_data) + 0x32)) = 7;
         *((s16 *) (((s8 *) effect_data) + 0x34)) = 7;
-        func_8004491C(effect_obj, D_80171704, y_motion);
+        func_8004491C(effect_obj, D_80171704);
         *((s32 *) effect_data) = data_value;
         *((s32 *) (((s8 *) effect_data) + 8)) = data_value;
     }

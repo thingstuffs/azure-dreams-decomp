@@ -52,5 +52,5 @@ void func_801237E8(Rec_func_801237A4_arg0 *state) {
     left_value->value = right_value->value;
     ((ValueLink *) D_80129728[22])->next->value = saved_half;
     state->unk_16 = (s8) (state->unk_16 ^ 1);
-    func_801237A4(state, saved_half, left_slot, slot_index);
+    func_801237A4(state);
 }

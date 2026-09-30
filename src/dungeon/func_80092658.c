@@ -25,7 +25,7 @@ extern u8 D_80097C78;
 extern s32 func_80042900(void *, s32);
 extern void func_80099F04(s32);
 extern void func_80099F70(s32);
-extern s32 func_800A5C70(Resource *);
+extern s32 func_800A5C70(void);
 
 void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     s32 state;
@@ -51,7 +51,7 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
             guard = ctx->buttons & 0x20;
             callResource = arg3;
             if (guard != 0) {
-                guard = func_800A5C70(callResource);
+                guard = func_800A5C70();
                 callResource = arg3;
                 if (guard != 0) {
                     flags = &dungeonStatus;

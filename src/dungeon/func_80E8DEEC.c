@@ -46,7 +46,7 @@ void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800
         visual->unk_0C = color;
         action->unk_96 = 0x10;
         action->unk_9B = (u8)(action->unk_9B + 1);
-        func_800A56E0(0x805, color);
+        func_800A56E0(0x805);
         return;
     case 2:
         func_800AD058(action, context, visual, entity);

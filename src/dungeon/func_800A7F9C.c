@@ -9,7 +9,7 @@ typedef struct {
     u8 unk66;
 } DungeonState;
 
-extern s32 func_800990FC(DungeonState *, s32, u8 *, s32);
+extern s32 func_800990FC(void);
 extern s32 func_80042900(DungeonState *arg0, s32 arg1);
 extern s32 func_80099194(const void *arg0, s32 arg1);
 extern s32 func_80099734(DungeonState *arg0, s32 arg1);
@@ -31,7 +31,7 @@ s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
     s32 base_message;
     s32 old_meter;
 
-    base_message = func_800990FC(state, mode, item, text_arg);
+    base_message = func_800990FC();
     message = base_message;
     if ((func_80042900(state, 0x19) << 16) != 0) {
         func_80099290(func_80099194(D_80089084,

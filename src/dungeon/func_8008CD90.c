@@ -3,7 +3,7 @@
 
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
-extern s32 func_800A1C58(void *arg0, void *arg1);
+extern s32 func_800A1C58(void *arg0);
 
 /* Selects the target's table from flags and clears global state when the update returns zero. */
 void func_800924F0(void *target, void *unused, void *flag_data, void *source) {
@@ -19,7 +19,7 @@ void func_800924F0(void *target, void *unused, void *flag_data, void *source) {
     }
 
     *(void **)((u8 *)target + 0x8C) = table;
-    if ((func_800A1C58(source, target) << 16) == 0) {
+    if ((func_800A1C58(source) << 16) == 0) {
         dungeonStatus.unk_0C = 0;
     }
 }

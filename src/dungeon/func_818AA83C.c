@@ -13,7 +13,7 @@ extern void func_80025118(void);
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A6870(s32);
 extern void func_800AD4D0(void *);
-extern void func_800AD568(void *, s32);
+extern void func_800AD568(void *);
 extern void func_800B4C7C(s32, void *, s32, s32);
 
 static void (*const callbacks[])(void) = {
@@ -41,7 +41,7 @@ void func_818AA83C(void *target, s32 amount_input) {
             adjusted_amount = base_amount + ((s32)(base_amount << 16) >> 19);
         }
         *(u16 *)((u8 *)target + 0x64) += adjusted_amount;
-        func_800AD568(target, adjusted_amount);
+        func_800AD568(target);
         base_amount = 0x8004;
         func_800B4C7C(base_amount, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
         func_800AD4D0(target);

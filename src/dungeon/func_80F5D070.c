@@ -109,7 +109,7 @@ void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
                 init_part = part_a;
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
-                              (func_800A6D30(init_obj, init_part) & 0x3F) | 0x20);
+                              (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_801741DC;
             } else {
                 goto init_actor;

@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_800352FC(Rec_func_80094268_arg0 *, M2C_UNK, M2C_UNK, M2C_UNK);
+extern s32 func_800352FC(void);
 extern M2C_UNK func_800C337C();
 extern u8 D_80082660[9];
 extern M2C_UNK D_800CFCB4[5];
@@ -25,7 +25,7 @@ void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK
     Rec_func_80094268_arg0 *dispatch_record;
     M2C_UNK saved_arg;
 
-    if (func_800352FC(record, dispatch_arg, dispatch_data, check_arg) == 0) {
+    if (func_800352FC() == 0) {
         s32 *state;
 
         func_800C337C(record, dispatch_arg, dispatch_data);

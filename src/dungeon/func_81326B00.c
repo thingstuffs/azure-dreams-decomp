@@ -15,7 +15,7 @@ typedef struct {
 
 extern u8 *D_80174704[];
 extern u8 *D_80174CC8[];
-extern void func_800A56E0(s32, Position *, u16, u8 *);
+extern void func_800A56E0(s32);
 
 /* Lowers the entity in two timed stages, then flags completion and clears the active pointer. */
 void func_8016E300(Entity *entity, Position *pos)
@@ -43,7 +43,7 @@ void func_8016E300(Entity *entity, Position *pos)
         if ((s16)entity->timer >= 11) {
             entity->timer = 0;
             entity->state++;
-            func_800A56E0(0x516, pos, initial_state, context);
+            func_800A56E0(0x516);
             return;
         }
         return;

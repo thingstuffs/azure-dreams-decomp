@@ -36,5 +36,5 @@ void func_801237E8(u8 *state)
     *(u16 *)((u8 *)*(void **)((u8 *)D_80129728[22] + 4) + 8) = saved_half;
 
     state[0x16] ^= 1;
-    func_801237A4(state, saved_half, first_entry, entry_index);
+    func_801237A4(state);
 }

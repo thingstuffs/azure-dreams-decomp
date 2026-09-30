@@ -6,7 +6,7 @@
 
 void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
-void func_800A56E0(s32, void *);
+void func_800A56E0(s32);
 extern M2C_UNK D_80046398;
 extern s8 D_800B1F34[];
 
@@ -104,7 +104,7 @@ s32 func_800B2074(s32 world_x, s32 world_z) {
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
         state_fields = object + 0x20;
-        func_800A56E0(0x603, transform);
+        func_800A56E0(0x603);
         inherited_value = ((u16)D_800814A8->facing);
         state_fields->unk_0E = inherited_value;
     }

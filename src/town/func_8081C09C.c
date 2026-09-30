@@ -20,7 +20,7 @@ void func_8002609C(u8 *effect, u8 *motion, u8 *visual)
         visual[0xC] = shade;
     }
 
-    func_800478B8(visual, motion, velocity);
+    func_800478B8(visual);
     if (*(u16 *)(visual + 0x14) & 0x6000) {
         *(u16 *)(effect - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

@@ -20,5 +20,5 @@ void func_80099B70(s32 context, EntityRec *object, M2C_UNK update_data) {
         func_80098928(context, object, update_data);
         return;
     }
-    func_80095388(object, limit);
+    func_80095388(object);
 }

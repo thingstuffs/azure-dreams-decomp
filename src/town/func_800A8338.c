@@ -91,9 +91,9 @@ void func_800A5A98(State *state, Actor *actor) {
         func_80095A94(actor, height_limit, D_800FE488);
     } else if ((&D_800CFCEE)[1] != 0) {
         actor->value = 0;
-        func_800954F4(actor, height_limit);
+        func_800954F4(actor);
     } else {
-        func_80095388(actor, height_limit);
+        func_80095388(actor);
     }
     world_value = func_8008C180(D_80083780.x.w.i, D_80083780.y.w.i);
     if (func_800C1D44((u16)world_value) != 0) {

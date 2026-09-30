@@ -13,7 +13,7 @@ typedef struct {
 } TownObject;
 
 extern u8 *D_8001E950;
-extern s32 func_8001A79C(TownObject *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 func_8001A79C(void);
 
 s32 func_8001BAC4(TownObject *arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (D_8001E950[5] != 1) {
@@ -24,7 +24,7 @@ s32 func_8001BAC4(TownObject *arg0, s32 arg1, s32 arg2, s32 arg3) {
         TownObject *saved_arg0 = arg0;
         s32 saved_arg1 = arg1;
         *(s32 *)((saved_arg1 * 0x10) + (uptr)saved_arg0->records + 8) =
-            func_8001A79C(arg0, arg1, arg2, arg3);
+            func_8001A79C();
         return 0;
     }
 }

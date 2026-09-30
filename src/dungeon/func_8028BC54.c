@@ -18,7 +18,7 @@ typedef struct {
 } DungeonCell;
 
 extern s32 func_800A4E2C(u8 *, u8 *);
-extern s32 func_800A6D30(s32, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern u16 func_800A6DA4(s32, s32);
 extern s32 func_800A71F4(void);
 extern s32 func_8009A21C(s32, s32, s32);
@@ -70,7 +70,7 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         }
     }
 
-    if (func_800A6D30(arg0, arg1, arg2, arg3) & 1) {
+    if (func_800A6D30() & 1) {
         budget += func_800A6DA4(0, (budget / 2) & 0xFFFF);
     } else {
         budget -= func_800A6DA4(0, (budget / 2) & 0xFFFF);

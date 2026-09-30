@@ -107,7 +107,7 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
                 goto init_parts;
             }
             call_part = part_a;
-            call_obj = (void *)func_800A6D30(call_obj);
+            call_obj = (void *)func_800A6D30();
             flags = (s32)call_obj;
             call_obj = obj;
             if (!(flags & 1)) {
@@ -115,7 +115,7 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
             }
             work->unk_1C |= 0x200;
             func_800A48F0(work, 1,
-                          (func_800A6D30(obj) & 0x3F) | 0x20);
+                          (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = D_8014FCDC;
         }
         call_obj = obj;

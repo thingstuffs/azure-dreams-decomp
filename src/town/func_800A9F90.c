@@ -10,7 +10,7 @@ struct S_func_800A9F90 {
     u16 counter;
 };
 
-extern void func_80033D08(S_func_800A9F90 *, s32);
+extern void func_80033D08(S_func_800A9F90 *);
 
 /* Decrement the counter and handle expiry or invoke the callback. */
 s32 func_800A76F0(S_func_800A9F90 *self, s32 expiry_arg)
@@ -21,7 +21,7 @@ s32 func_800A76F0(S_func_800A9F90 *self, s32 expiry_arg)
     counter = self->counter - 1;
     self->counter = counter;
     if ((counter << 16) <= 0) {
-        func_80033D08(self, expiry_arg);
+        func_80033D08(self);
         *(u16 *)((u8 *)self - 2) =
             (u16)(*(u16 *)((u8 *)self - 2) | 0x8000);
         return (objectFlagBlock.flags |= 0x8000);

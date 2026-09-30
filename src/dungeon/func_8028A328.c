@@ -24,7 +24,7 @@ typedef struct S_8001D328_1 {
 } S_8001D328_1;   /* var_s1 in func_8001D328 */
 
 
-s32 func_800A6D30(S_8001D328_0 *, s32, s32, s32);
+s32 func_800A6D30(void);
 /* Choose random coordinates within a region and mark eligible tiles. */
 void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
     s32 random_bits;
@@ -42,7 +42,7 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
     register s32 index_sum ASM_REG("$3");
     register s32 height ASM_REG("$4");
 
-    random_bits = func_800A6D30(region, setup_arg1, setup_arg2, setup_arg3);
+    random_bits = func_800A6D30();
     {
         register s32 area ASM_REG("$8");
 

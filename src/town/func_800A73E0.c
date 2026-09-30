@@ -9,7 +9,7 @@ typedef struct {
 
 extern S_800A73E0 D_80100D98;
 extern u8 D_800A4F4C[];
-extern void func_800A4CE8(void *, s32);
+extern void func_800A4CE8(void *);
 
 /* Copy the default state and initialize the supplied control block. */
 void func_800A4B40(void *control) {
@@ -22,5 +22,5 @@ void func_800A4B40(void *control) {
     dst->unk4 = value;
     *(void **)((u8 *)control + 0x24) = D_800A4F4C;
     *(s32 *)((u8 *)control + 0x30) = 0;
-    func_800A4CE8(control, value);
+    func_800A4CE8(control);
 }

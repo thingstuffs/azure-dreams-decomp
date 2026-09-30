@@ -27,7 +27,7 @@ typedef struct S_800A4F84_2 {
 } S_800A4F84_2;   /* value in func_800A4F84 */
 
 
-extern s32 func_800352FC(S_800A4F84_0 *, s32, s32, s32);
+extern s32 func_800352FC(void);
 /* Select the object value from an override or state entry, falling back after nine idle calls. */
 void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 check_arg_3) {
     u8 *state;
@@ -36,7 +36,7 @@ void func_800A4F84(S_800A4F84_0 *object, s32 check_arg_1, s32 check_arg_2, s32 c
     s32 idle_count;
     u8 state_index;
 
-    if (func_800352FC(object, check_arg_1, check_arg_2, check_arg_3) != 0) {
+    if (func_800352FC() != 0) {
         state = (u8 *)D_80082A38;
         if (state[1] != 0) {
             object->unk_34 = 0;

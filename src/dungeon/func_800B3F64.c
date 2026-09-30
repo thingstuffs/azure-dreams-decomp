@@ -8,7 +8,7 @@
 extern void *D_800DF364[];
 
 extern void func_800A56E0(s32);
-extern void func_800478B8(void *, void *, void *);
+extern void func_800478B8(void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
 void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
@@ -90,5 +90,5 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
         }
     }
     F(marker_arg, u16, 0x1A) = F(marker_arg, u16, 0x1A) + 0x40;
-    func_800478B8(marker_arg, target_pos, target);
+    func_800478B8(marker_arg);
 }

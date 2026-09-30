@@ -42,7 +42,7 @@ void func_80024918(void *object) {
     velocity_z = ((S_80024918_0 *)object)->unk_48;
     ((S_80024918_0 *)object)->unk_38 = position_y + velocity_y;
     ((S_80024918_0 *)object)->unk_3C += velocity_z;
-    func_80024700(object, velocity_y, velocity_z);
+    func_80024700(object);
     next_tick = (s16)((S_80024918_0 *)object)->unk_74 + 1;
     ((S_80024918_0 *)object)->unk_74 = next_tick;
     if (next_tick >= 9) {

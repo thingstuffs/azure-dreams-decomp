@@ -97,7 +97,7 @@ extern s32 D_80053A88;
 extern u8 D_800F7968[];
 
 extern void func_80026CE4(s32);
-extern void func_8003DB94(void *, void *, s32, void *);
+extern void func_8003DB94(void *, void *, s32);
 extern void func_8003E188(s32, s32);
 extern void *func_8003FC64(s32);
 extern void *func_8003FD64(s32, void *);
@@ -167,7 +167,7 @@ create_child:
         child_state->unk_56 = index;
         draw_state->unk_1E = 0x1000;
         draw_state->unk_1C = 0x1000;
-        func_8003DB94(draw_state, D_800F7968, 0, packet);
+        func_8003DB94(draw_state, D_800F7968, 0);
         draw_state->unk_0C = 0x00808080;
         child_state->unk_4C = child_data;
         func_8008F074((u8 *)object + 0x24, ((S_800254A4_0 *)object)->unk_08, D_80026F50);

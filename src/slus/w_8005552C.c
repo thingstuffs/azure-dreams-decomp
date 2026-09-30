@@ -4,7 +4,7 @@
 
 extern s32 func_8005405C(s32 n);
 extern void func_8005560C(s32 a0, s32 a1);
-extern void func_80055730(s32 a0, s32 a1);
+extern void func_80055730(void);
 
 /* Decode a packed selector and dispatch its index and offset if its code is available. */
 void func_8005552C(s32 selector) {
@@ -50,7 +50,7 @@ merge:
             entry_index += 0x10;
         }
         if (saved_selector & 0x1000) {
-            func_80055730(entry_index, entry_offset);
+            func_80055730();
             return;
         }
         func_8005560C(entry_index, entry_offset);

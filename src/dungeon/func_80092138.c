@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();        /* extern */
-s32 func_800A6D30(void *, M2C_UNK, void *, void *);   /* extern */
+s32 func_800A6D30(void);   /* extern */
 extern u8 D_800DD294[];
 
 
@@ -31,7 +31,7 @@ void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     ((S_80097898_0 *)arg0)->unk_9A = 0x39;
     ((S_80097898_0 *)arg0)->unk_9B = 0;
     ((S_80097898_0 *)arg0)->unk_8C = 0;
-    if (!(func_800A6D30(arg0, arg1, arg2, arg3) & 3)) {
+    if (!(func_800A6D30() & 3)) {
         ((S_80097898_1 *)saved)->unk_1C = (s32) (((S_80097898_1 *)saved)->unk_1C & ~0x620);
     }
     temp = D_800DD294;

@@ -9,7 +9,7 @@ typedef struct {
 
 extern s32 func_8009D218(Obj *, s32);
 extern s32 func_800A6870(s32);
-extern void func_800AD568(Obj *, s32);
+extern void func_800AD568(Obj *);
 extern void func_800B4C7C(s32, Obj *, s16, s32);
 extern void func_800AD4D0(Obj *);
 
@@ -26,7 +26,7 @@ void func_818C2824(Obj *target, s32 amount_param)
             adjusted_amount = base_amount + ((s16)base_amount >> 1);
         }
         target->value64 += adjusted_amount;
-        func_800AD568(target, adjusted_amount);
+        func_800AD568(target);
         base_amount = 0x8004;
         func_800B4C7C(base_amount, target, (s16)target->value64, 1);
         func_800AD4D0(target);

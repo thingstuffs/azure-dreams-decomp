@@ -74,7 +74,7 @@ void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
         timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
         ((S_8182D544_0 *)effect)->unk_48 = timer;
         if ((timer << 16) <= 0) {
-            func_8004491C((u8 *)effect - 0x20, func_80045340, delta_z);
+            func_8004491C((u8 *)effect - 0x20, func_80045340);
             ((S_8182D544_0 *)effect)->unk_4C.u++;
         }
         break;

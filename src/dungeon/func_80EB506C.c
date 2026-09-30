@@ -207,7 +207,7 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                     elem->unk_0C = ((u32)(0x00C0C0C0));
                     ((S_8017086C_9 *)(base->unk_A4))->unk_10 = D_800D78C0;
 
-                    func_80047784(elem, 39, 0, child_arg);
+                    func_80047784(elem, 39, 0);
                     elem_offset += 48;
                     i++;
                     ((S_8017086C_6 *)child)->unk_06 = 0;

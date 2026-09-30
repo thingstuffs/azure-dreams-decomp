@@ -141,7 +141,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
                 component_work_2 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
                 ((S_80172D1C_5 *)particle_sprite)->unk_10 = 0x20;
                 ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work_2 - 0x80;
-                func_80047784(particle_sprite, 0x2D, 0, sprite_flags);
+                func_80047784(particle_sprite, 0x2D, 0);
                 ((S_80172D1C_5 *)particle_sprite)->unk_0C = 0x808080;
             }
             particle_or_dir_index--;

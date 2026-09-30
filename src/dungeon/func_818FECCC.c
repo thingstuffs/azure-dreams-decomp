@@ -51,7 +51,7 @@ typedef struct S_818FECCC_6 {
 
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
-extern void func_8004491C(void *, void *, void *);
+extern void func_8004491C(void *, void *);
 extern u8 D_800241B0[];
 extern u8 D_80024400[];
 
@@ -122,7 +122,7 @@ void func_818FECCC(
         ASM_KEEP(effect_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_818FECCC_0 *)effect_cursor)->unk_14 = param_34;
         ((S_818FECCC_0 *)effect_cursor)->unk_32 = saved_param_52;
-        func_8004491C(effect, effect_data, z_dest);
+        func_8004491C(effect, effect_data);
         ((S_818FECCC_0 *)effect_cursor)->unk_08.u = saved_param_28;
     }
 }

@@ -20,7 +20,7 @@ typedef struct TownDispatch {
 } TownDispatch;
 
 void func_8001A188(TownRecord *, s32 *);
-s32 func_8001C57C(TownRecord *);
+s32 func_8001C57C(void);
 extern s32 *D_80018868[];
 extern u8 *D_80018874[];
 extern TownRecord *D_80018A18;
@@ -68,7 +68,7 @@ TownRecord *func_8001CBF8(void)
             TownRecord *record = (TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18);
             if (record->kind == 11) {
                 end_flags = 128;
-                if (func_8001C57C(D_80018A18) != 0)
+                if (func_8001C57C() != 0)
                     goto done;
                 ((TownRecord *)((s32)(scan_index * sizeof(TownRecord)) + (s32)D_80018A18))->kind = 10;
                 goto done;

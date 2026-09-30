@@ -77,7 +77,7 @@ s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, M2C_UNK contex
         target_index = selection->unk_03 & 0x1F;
         if (target_index < 0x14) {
             target = D_800E3DF0[target_index];
-            if ((func_80042900(target, 0xE, action_type) << 0x10) != 0) {
+            if ((func_80042900(target, 0xE) << 0x10) != 0) {
                 void *update_target;
 
                 flags_mask = 0xFBFFFFFF;

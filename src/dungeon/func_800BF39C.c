@@ -46,7 +46,7 @@ typedef struct S_800C4AFC_3 {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_800B835C(void *, s32 *, s32, s32);
-extern void func_800A56E0(s32, void *);
+extern void func_800A56E0(s32);
 extern void func_800C4944(void);
 
 extern u8 D_800DCF78[12];
@@ -89,7 +89,7 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
     ((S_800C4AFC_0 *)state)->unk_24 = component;
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
-    func_800A56E0(0x702, state);
+    func_800A56E0(0x702);
     setup_or_addr = (unsigned long)((u8 *)(&dungeonStatus));
     ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_0A++;
 }

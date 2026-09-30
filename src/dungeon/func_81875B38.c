@@ -126,7 +126,7 @@ void func_81875B38(
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = saved_property_34;
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = saved_property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = saved_property_52;
-        func_8004491C(effect_obj, effect_config, z_dest);
+        func_8004491C(effect_obj, effect_config);
         ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
         ((S_func_81875B38_5 *)effect_ptr)->unk_08 = saved_property_28;
     }

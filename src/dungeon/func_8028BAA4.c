@@ -11,7 +11,7 @@ typedef struct S_8001EAA4_1 {
 } S_8001EAA4_1;   /* temp_a3 in func_8001EAA4 */
 
 
-extern s32 func_800A6D30(s8 *, s8 *, s32, s32);
+extern s32 func_800A6D30(void);
 extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
@@ -34,7 +34,7 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     u8 *item_category_table;
     u8 *category_entry;
 
-    rng_result = func_800A6D30(category_out, item_out, arg2, arg3);
+    rng_result = func_800A6D30();
     category_threshold = (u16 *)D_8001F6F8;
     random_weight = category_threshold[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;

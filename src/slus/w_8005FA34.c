@@ -48,7 +48,7 @@ S_8005FA34;
 extern S_80079958 D_80079958;
 extern u16 D_80079520[256];
 extern s32 D_80079980[3];
-extern s32 func_8005F90C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8005F90C(s32 a0, s32 a1, s32 a2);
 /* Read volume, pitch, addresses, and envelope settings for the first selected voice. */
 void func_8005FA34(S_8005FA34 *voice_attr)
 {
@@ -184,7 +184,7 @@ void func_8005FA34(S_8005FA34 *voice_attr)
     pitch = pitch_regs[voice_word + 2];
     voice_attr->unk14 = pitch;
     volume_or_note = D_80079520[voice_index];
-    note = func_8005F90C(volume_or_note >> 8, volume_or_note & 0xFF, pitch, right_volume);
+    note = func_8005F90C(volume_or_note >> 8, volume_or_note & 0xFF, pitch);
     if (note >= 0) {
         voice_attr->unk16 = (u16) note;
     }

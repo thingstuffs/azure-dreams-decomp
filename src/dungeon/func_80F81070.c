@@ -51,7 +51,7 @@ typedef struct Work {
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern s32 func_800A6D30(void *);
+extern s32 func_800A6D30(void);
 extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
@@ -114,7 +114,7 @@ void *func_8014C870(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
             if (!(((Work *)work)->flags14 & 0x200)) {
                 ((Work *)work)->flags1c |= 0x200;
                 func_800A48F0(work, 1,
-                              (func_800A6D30(init_obj) & 0x3F) | 0x20);
+                              (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_801501DC;
             }
         }

@@ -46,7 +46,7 @@ void func_800A5720(s32);
 void func_800A6508(void);
 s32 func_800A6D30();
 void func_800C5BBC(s32, s32, s32, s32, s32, s32);
-s32 func_800C80F0(void *, s32, s32, s32);
+s32 func_800C80F0(void *);
 
 extern u8 D_800E1B76[18];
 extern u8 D_800E1B87[18];
@@ -70,7 +70,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     var_s2 = 0;
     var_s1 = 0;
-    if (func_800C80F0(arg0, arg1, arg2, arg3) == 0) {
+    if (func_800C80F0(arg0) == 0) {
         s16 probability;
         s32 random_mod;
         temp_s0 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60;
@@ -114,7 +114,7 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
             }
             if (*D_800E3D40 == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
-                temp_a0 = func_800A6D30(temp_a0_3) & 0xFFFF;
+                temp_a0 = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
                     random_mod = temp_a0 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
                     probability = random_mod;

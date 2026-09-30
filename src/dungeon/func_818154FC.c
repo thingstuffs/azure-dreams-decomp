@@ -217,7 +217,7 @@ initialize:
     sprite->unk_0C.at00_s32.v = 0x00808080;
     sprite->unk_1C.at02_s16.v = 0x1000;
     sprite->unk_1C.at00_s16.v = 0x1000;
-    func_8003DB94(sprite, D_800DEC00, 0, sprite);
+    func_8003DB94(sprite, D_800DEC00, 0);
     angle = ((S_818154FC_3 *)parent)->unk_2A;
     D_80025338[0] = 1;
     ((S_818154FC_0 *)effect)->unk_7E.s = (s16) ((angle >> 9) & 7);

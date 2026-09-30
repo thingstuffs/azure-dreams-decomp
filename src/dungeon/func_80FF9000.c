@@ -148,13 +148,13 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
             if (work->unk_14 & 0x200) {
                 goto init_actor;
             }
-            random_bits = func_800A6D30(alloc_kind, alloc_desc);
+            random_bits = func_800A6D30();
             alloc_kind = (s32)obj;
             if (!(random_bits & 1)) {
                 goto set_part_arg;
             }
             work->unk_1C = (s32) (work->unk_1C | 0x200);
-            func_800A48F0(work, 1, (func_800A6D30(alloc_kind) & 0x3F) | 0x20);
+            func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = &D_80156088;
         }
 

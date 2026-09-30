@@ -64,7 +64,7 @@ typedef struct S_80D65C5C_6 {
 } S_80D65C5C_6;   /* ((S_80D65C5C_0 *)node)->unk_0C in func_80D65C5C */
 
 
-extern void *func_8003FC64(s32, s32);
+extern void *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -80,7 +80,7 @@ void func_80D65C5C(S_80D65C5C_1 *source, s32 angle)
     S_80D65C5C_2 *sprite;
     s16 *direction_step;
 
-    node = func_8003FC64(0x212, angle);
+    node = func_8003FC64(0x212);
     if (node != 0) {
         ((S_80D65C5C_0 *)node)->unk_10 = D_80171384;
 

@@ -63,7 +63,7 @@ extern u8 D_800B14FC[];
 extern s32 D_800DF03C[];
 
 extern AcObject *func_8003FD64(s32, void *, s32);
-extern void func_8004491C(AcObject *, void *, AcMeta *);
+extern void func_8004491C(AcObject *, void *);
 extern s32 func_8004E298(void *, s32, s32);
 extern s32 func_80069E98(s32);
 extern void *func_800B12F4(void);
@@ -123,7 +123,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
         meta->field1C = 0x1000;
         meta->field0C = 0;
         obj->field10 = D_800B14FC;
-        func_8004491C(obj, D_800B06F0, meta);
+        func_8004491C(obj, D_800B06F0);
         style_byte = style_hold & 0xFF;
         base = (u8 *)&sub->field38;
         ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

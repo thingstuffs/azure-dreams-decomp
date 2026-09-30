@@ -19,5 +19,5 @@ void func_800984AC(s32 context, EntityRec *actor, M2C_UNK action_arg) {
         func_80098928(context, actor, action_arg);
         return;
     }
-    func_80095388(actor, ground_height);
+    func_80095388(actor);
 }

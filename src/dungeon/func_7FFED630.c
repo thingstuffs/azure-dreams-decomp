@@ -9,7 +9,7 @@ typedef struct {
 
 extern Record D_800CF720[];
 extern u8 D_801131B8[];
-extern s32 func_8008ACE8(s32, void *);
+extern s32 func_8008ACE8(s32);
 extern void func_8008ACAC(s32, s32, s32);
 
 /* Shifts records up one slot and processes their data with the given offset. */
@@ -36,7 +36,7 @@ void func_8008AD90(s32 record_count, s32 data_offset) {
             dst_record->h2 = src_record->h2;
             record_value = src_record->w4;
             dst_record->w4 = record_value;
-            data_addr = *(s32 *)(state + 0x2c) + func_8008ACE8(src_index, dst_record);
+            data_addr = *(s32 *)(state + 0x2c) + func_8008ACE8(src_index);
             func_8008ACAC(data_addr + data_offset, data_addr, record_value);
             dst_index = src_index;
         } while (dst_index != 0);

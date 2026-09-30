@@ -11,7 +11,7 @@ typedef struct {
 } DungeonEntry;
 
 extern s16 func_8009FD40(void *, void *);
-extern void func_800A9A0C(void *, void *);
+extern void func_800A9A0C(void *);
 extern void func_800AAA28(void *, void *);
 extern s16 func_800B500C(u8, u8, s16);
 
@@ -73,7 +73,7 @@ process_entry:
             }
         }
 
-        func_800A9A0C(target, dungeon_state);
+        func_800A9A0C(target);
         func_800AAA28(actor, target);
         result = 0;
     }

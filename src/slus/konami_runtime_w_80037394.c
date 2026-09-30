@@ -26,7 +26,7 @@ typedef struct S_80037394_2 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s32 func_80037534(void *arg0, s32 arg1, void *arg2);
+extern s32 func_80037534(void *arg0);
 extern void func_80036C7C(s32 *arg0, void *arg1, void *arg2);
 
 extern u8 D_8006A988[];
@@ -49,7 +49,7 @@ void func_80037394(void *state, s32 mode, void *output) {
     s8 *entry_data;
     s16 entry_offset;
 
-    if (func_80037534(state, mode, output) != 0) {
+    if (func_80037534(state) != 0) {
         return;
     }
 

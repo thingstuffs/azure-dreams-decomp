@@ -176,14 +176,14 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
             if (((S_80FE1000_1 *)work)->unk_14 & 0x200) {
                 goto call_a2_setup;
             }
-            flags = func_800A6D30(init_obj, init_part_a);
+            flags = func_800A6D30();
             init_obj = obj;
             if (!(flags & 1)) {
                 goto call_a1_setup;
             }
             ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
             func_800A48F0(work, 1,
-                          (func_800A6D30(obj) & 0x3F) | 0x20);
+                          (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = D_8016E088;
         }
 

@@ -79,7 +79,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
         }
         f |= 0x80000000;
         a->flags14 = f;
-        nc = coordArg + ((func_800A6D30(base, coord, coordArg, mult) & 7) << 9);
+        nc = coordArg + ((func_800A6D30() & 7) << 9);
         coord = nc + zero;
         a->unk2a = nc;
     }

@@ -108,7 +108,7 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
     }
     case 1:
         motion->unk_14 += 0x1C000;
-        if (func_800BCB04(motion->unk_02, motion->unk_06, motion->unk_0A, velocity_y) >= 0x200) {
+        if (func_800BCB04(motion->unk_02, motion->unk_06, motion->unk_0A) >= 0x200) {
             motion->unk_14 = 0;
             motion->unk_10 = 0;
             motion->unk_0C = 0;
@@ -151,7 +151,7 @@ void func_801731FC(S_801731FC_0 *state, S_801731FC_2 *motion, S_801731FC_3 *spri
         if (((s32)dungeonStatus.unk_10) == (entity - 0x20)) {
             *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
         }
-        func_800A2FE0(entity, phase, velocity_x, velocity_y);
+        func_800A2FE0(entity);
         func_800A32A4(entity);
         sound_x = sprite->unk_24;
         sound_y = sprite->unk_25;

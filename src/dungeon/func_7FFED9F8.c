@@ -26,7 +26,7 @@ typedef struct {
 
 extern TownState D_801131B8;
 extern void func_80035208(void *);
-extern void func_8008B0E8(s32, u32, u32, u32);
+extern void func_8008B0E8(s32, u32, u32);
 
 /* Copies tagged item fields into town state and dispatches the associated data. */
 void func_8008B158(Object *object) {
@@ -54,7 +54,7 @@ void func_8008B158(Object *object) {
             D_801131B8.value10 = (extra_flags & 0x3F000000) >> 24;
             D_801131B8.value14 = (item->flags1 & 0x007F0000) >> 16;
         }
-        func_8008B0E8(option_bit, high_field, middle_field, extra_flags);
+        func_8008B0E8(option_bit, high_field, middle_field);
         data_base = 0x80016000;
         data_offset = *(u16 *)&item->flags0;
         data = (u8 *)(data_base + data_offset);

@@ -14,12 +14,12 @@ typedef struct S_800BCE78_1 {
 } S_800BCE78_1;   /* arg1 in func_800BCE78 */
 
 
-extern s32 func_800352FC(void *, void *, void *, s32);
+extern s32 func_800352FC(void);
 extern s32 func_800C2AB4(void *);
 extern void SD_Call(s32);
 extern s32 rand(void);
 extern s16 func_800C2AE8(void *);
-extern void func_8008F134(void *, s32, s32);
+extern void func_8008F134(void *);
 extern void func_80033D08(void *);
 extern void func_800478B8(void *);
 extern void func_8003DB94(void *, void *, s32);
@@ -40,7 +40,7 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     u32 settle_state;
 
     sequence = 0;
-    if ((func_800352FC(actor, motion, sprite, update_mode) != 0) && (func_800C2AB4(actor) != 0)) {
+    if ((func_800352FC() != 0) && (func_800C2AB4(actor) != 0)) {
         if (!(((Rec_D_80082D58 *)actor)->unk_AC & 1)) {
             SD_Call(0x60B);
             ((Rec_D_80082D58 *)actor)->unk_AC |= 1;
@@ -394,7 +394,7 @@ case_40:
     }
 
 case_FF:
-    func_8008F134(actor, glide_state, settle_state);
+    func_8008F134(actor);
     func_80033D08(actor);
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;

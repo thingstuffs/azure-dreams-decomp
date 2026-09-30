@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern int func_800B8C90(void *a0);
+extern int func_800B8C90(void);
 extern int func_80049374(void *a0, int *a1);
 
 extern int D_80080B34[4]; /* >8B forces %hi/%lo addressing (matches target's lui/addiu) */
@@ -10,7 +10,7 @@ extern int D_80080B40[4]; /* >8B forces %hi/%lo addressing (matches target's lui
 int func_800494B4(void *object)
 {
     void *saved_object = object;
-    int check_result = func_800B8C90(object);
+    int check_result = func_800B8C90();
     int *selected_array;
 
     if (check_result) {

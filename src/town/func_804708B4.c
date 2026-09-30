@@ -54,7 +54,7 @@ s32 func_800178B4(S_800178B4_0 *menu, s32 index) {
         }
         slot = offset + menu->unk_10;
         slot->unk_08 = &D_8001B718;
-        func_80017808(slot);
+        func_80017808();
         return 0;
     }
     if (func_8001A510(0x479) != 0) {

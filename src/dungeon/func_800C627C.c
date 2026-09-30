@@ -118,9 +118,9 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
 
             motion_state = (void *)0x80010000;
             if (motion_state->unk_3714 & 4) {
-                func_80040AA0(3U, actor_data);
+                func_80040AA0(3U);
             } else {
-                func_800945E8(actor, actor_data);
+                func_800945E8(actor);
                 func_800948BC();
                 func_800A6780();
                 transition_page = (u8 *)D_80080000;
@@ -132,7 +132,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 go_up_trap_count++;
                 motion_state->unk_234 = floors_ascended;
                 ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
-                func_80040AA0(transition_id, trap_counts);
+                func_80040AA0(transition_id);
                 func_800481E0();
             }
         } else {

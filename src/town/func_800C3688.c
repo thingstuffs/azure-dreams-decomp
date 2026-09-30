@@ -7,7 +7,7 @@ typedef unsigned int u32;
 typedef int s32;
 extern u32 D_8006ADBC;
 extern s32 D_800D3824[];
-extern void func_800BC45C(s32 arg0, s16 arg1, void *state);
+extern void func_800BC45C(s32 arg0, s16 arg1);
 /* Calls func_800BC45C with the first table entry matching the state's ID. */
 void func_800C0DE8(void)
 {
@@ -20,7 +20,7 @@ void func_800C0DE8(void)
         table_entry = D_800D3824;
 check_entry:
         if (*((s16 *) (state + 0x1A)) == (*table_entry)) {
-            func_800BC45C(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)), state);
+            func_800BC45C(*((s32 *) (((s8 *) table_entry) + 4)), *((s16 *) (((s8 *) table_entry) + 8)));
             return;
         }
         table_entry += 3;

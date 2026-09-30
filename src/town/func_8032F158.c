@@ -18,5 +18,5 @@ void func_80019958(S_80019958_0 *record, s32 entry_index) {
     S_80019958_1 *entry;
 
     entry = (entry_index * 0x10) + record->unk_10;
-    func_8001ACE8(entry->unk_0C, entry);
+    func_8001ACE8(entry->unk_0C);
 }

@@ -144,7 +144,7 @@ void func_80D659DC(EntityRec *source, u32 angle, s32 effect_param) {
             base->field14 = angle;
             base->field32 = 0xC;
             base->field34 = 0xC;
-            func_8004491C(effect, &D_800D68F4, velocity_y);
+            func_8004491C(effect, &D_800D68F4);
             ((S_80D659DC_0 *)effect)->unk_20 = effect_param;
             base->field8 = effect_param;
         }

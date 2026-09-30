@@ -14,7 +14,7 @@ typedef struct S_800935BC_1 {
 } S_800935BC_1;   /* arg0 in func_800935BC */
 
 
-extern void func_80093D48(S_800935BC_1 *, S_800935BC_0 *, s32);
+extern void func_80093D48(S_800935BC_1 *);
 
 /* Move the fixed-point position halfway toward the target and advance when the countdown expires. */
 void func_800935BC(S_800935BC_1 *target, S_800935BC_0 *position, s32 transition_arg) {
@@ -25,6 +25,6 @@ void func_800935BC(S_800935BC_1 *target, S_800935BC_0 *position, s32 transition_
     ticks_left = target->unk_0A - 1;
     target->unk_0A = ticks_left;
     if (ticks_left < 0) {
-        func_80093D48(target, position, transition_arg);
+        func_80093D48(target);
     }
 }

@@ -125,7 +125,7 @@ void func_800D5DCC(EntityRec *source, s16 angle, s32 effect_value)
         effect_state->unk_14 = angle;
         effect_state->unk_32 = 7;
         effect_state->unk_34 = 7;
-        func_8004491C(effect, D_800D5AC0, velocity_y);
+        func_8004491C(effect, D_800D5AC0);
         ((S_800D5DCC_0 *)effect)->unk_20 = effect_value;
         effect_state->unk_08 = effect_value;
     }

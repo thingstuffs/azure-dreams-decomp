@@ -39,7 +39,7 @@ extern u8 *D_80027C98[];
 
 extern s32 func_80025F54(s16, s16, s16, s16);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
-extern void func_8004491C(void *, void *, void *);
+extern void func_8004491C(void *, void *);
 
 /* Initialize the entity's position and advance its motion state through completion. */
 void func_8002432C(Entity *entity, Position *position, Motion *motion)
@@ -70,7 +70,7 @@ void func_8002432C(Entity *entity, Position *position, Motion *motion)
         position->x = base_coords[1] + entity->x;
         position->y = base_coords[3] + entity->y;
         position->z = base_coords[5] + entity->z;
-        func_8004491C((u8 *)entity - 0x20, func_80045340, base_coords);
+        func_8004491C((u8 *)entity - 0x20, func_80045340);
         entity->state++;
         return;
     }

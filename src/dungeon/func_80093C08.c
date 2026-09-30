@@ -29,15 +29,15 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
         prefix_kind = data->unk1;
         prefix_id = D_800DD72C[prefix_kind];
         if ((prefix_id != 0) && ((prefix_kind != 0xF) || (data->unk0 < 0xEU))) {
-            out = func_80099194(prefix_id, out, out);
+            out = func_80099194(prefix_id, out);
         }
     }
-    out = func_800992E8(data, out, out);
+    out = func_800992E8(data, out);
     if (!(D_800E3D7C->flags1C & 0x10)) {
         suffix_kind = data->unk1;
         suffix_id = D_800DD784[suffix_kind];
         if ((suffix_id != 0) && ((suffix_kind != 0xF) || (data->unk0 < 0xEU))) {
-            out = func_80099194(suffix_id, out, out);
+            out = func_80099194(suffix_id, out);
         }
         kind = data->unk1;
         switch (kind) {
@@ -47,7 +47,7 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
                 value = data->unk2;
                 *out++ = *format++;
                 *out = *format++;
-                value_end = func_8003AD08(value, out + 1, out);
+                value_end = func_8003AD08(value, out + 1);
                 out = value_end;
                 *out++ = *format++;
                 *out++ = *format++;
@@ -62,10 +62,10 @@ u8 *func_80099368(FuncData *data, u8 *buffer) {
             if (!(data->unk3 & 0x80)) {
                 value = data->unk2;
                 if (value != 0) {
-                    out = func_800992A8(value, out, out);
+                    out = func_800992A8(value, out);
                     if (value < 0)
                         value = -value;
-                    out = func_8003AD08(value, out, out);
+                    out = func_8003AD08(value, out);
                 }
             }
             break;

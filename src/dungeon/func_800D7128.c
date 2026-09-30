@@ -26,5 +26,5 @@ void func_800DC888(void) {
     cycleIndexToWrap = cycleState->unk_38;
     incrementedIndex = *cycleIndexToWrap;
     *cycleIndexToWrap = incrementedIndex % 3;
-    func_800DC82C(cycleState, incrementedIndex % 3, cycleIndexToWrap);
+    func_800DC82C(cycleState);
 }

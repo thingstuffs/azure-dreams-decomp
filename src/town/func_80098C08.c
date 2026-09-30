@@ -28,7 +28,7 @@ s32 func_80096368(Vec3s32 *input_pos) {
         return initial_result;
     }
     probe_pos.x = input_pos->x - (x_delta / 2);
-    result = func_8008CA20(&probe_pos, D_800D0410[0], 6, x_delta);
+    result = func_8008CA20(&probe_pos, D_800D0410[0], 6);
     if (result < initial_result) {
         return result;
     }

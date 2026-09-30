@@ -76,7 +76,7 @@ void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
     result->unk_06.as_s16 = position_value - reference_value - *angle_bias * 2;
 
-    func_800478B8(result, angle_bias);
+    func_800478B8(result);
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;
     ((S_80AC5820_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 16) <= 0) {

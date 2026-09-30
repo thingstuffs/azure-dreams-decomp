@@ -11,7 +11,7 @@ typedef struct {
 extern u8 D_800E3D40[];
 extern u8 D_800DF870[];
 
-extern s32 func_800A6D30(void *, s32, s32, s32);
+extern s32 func_800A6D30(void);
 extern void func_800A6508(void);
 extern void func_800A56E0(s32);
 extern void func_800C8DB0(void *, s32, s32);
@@ -26,7 +26,7 @@ s32 func_800CDD0C(void *state, s32 rng_arg1, s32 rng_arg2, s32 rng_arg3)
     Entry *entry;
 
     if (!D_800E3D40[0] &&
-        (random_value = func_800A6D30(state, rng_arg1, rng_arg2, rng_arg3) & 0xffff,
+        (random_value = func_800A6D30() & 0xffff,
          *(u8 *)((u8 *)state + 3))) {
         s32 remainder;
         remainder = random_value % *(u8 *)((u8 *)state + 3);

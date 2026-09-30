@@ -18,7 +18,7 @@ typedef struct {
     u32 color;
 } Func37090Output;
 
-extern s32 func_80037534(Func37090Input *, void *, Func37090Output *);
+extern s32 func_80037534(Func37090Input *);
 extern void func_80036C7C(u8 *, u8 *, u8 *);
 
 extern u32 D_8006A958[3];
@@ -33,7 +33,7 @@ extern u8 D_80082B70[16];
 void func_80037090(Func37090Input *state, void *context, Func37090Output *output) {
     u8 entry;
 
-    if (func_80037534(state, context, output) != 0) {
+    if (func_80037534(state) != 0) {
         return;
     }
 

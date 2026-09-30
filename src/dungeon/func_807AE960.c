@@ -74,7 +74,7 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     switch (dispatch_index + 1) {
     case 1:
     case 2:
-        if (func_8003F270(dispatch_index) != 0) {
+        if (func_8003F270() != 0) {
             return;
         }
         if (((S_807AE960_1 *)state)->unk_10 == 0) {

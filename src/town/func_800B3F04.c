@@ -46,7 +46,7 @@ void func_800B1664(void *object) {
     counter_state = ((Rec_func_800B15B8_arg0 *)object)->unk_C0;
     counter_state->unk_04 = (u16) (counter_state->unk_04 - 0x100);
     if ((s16) ((S_800B1664_4 *)(((Rec_func_800B15B8_arg0 *)object)->unk_C0))->unk_06 < 0x11) {
-        func_8004B248(object + 0xD0, decay_state);
+        func_8004B248(object + 0xD0);
         func_800B15B8(object);
         ((S_800B1664_0_pre *)object)[-1].unk_00 = (u16) (((S_800B1664_0_pre *)object)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;

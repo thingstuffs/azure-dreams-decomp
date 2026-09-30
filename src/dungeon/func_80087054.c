@@ -22,7 +22,7 @@ typedef struct S_8008C7B4_1 {
 
 extern M2C_UNK func_80048A44();
 extern M2C_UNK func_8009F644();
-extern s32 func_800A5C70(void *arg0, s32 arg1, void *arg2, void *arg3);
+extern s32 func_800A5C70(void);
 extern u8 D_800DCFB0;
 extern M2C_UNK D_800DD0B8;
 
@@ -61,7 +61,7 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     if (!(((S_8008C7B4_1 *)flags)->unk_08 & 0x20)) {
         goto after_control;
     }
-    control_needed = func_800A5C70(entity_arg, mode, sprite, entity);
+    control_needed = func_800A5C70();
     entity_arg = entity;
     if (control_needed == 0) {
         goto after_control;

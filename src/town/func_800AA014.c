@@ -12,7 +12,7 @@ typedef struct S_800A7774_0 {
 } S_800A7774_0;   /* arg0 in func_800A7774 */
 
 
-M2C_UNK func_80033D08(S_800A7774_0 *, s32);
+M2C_UNK func_80033D08(S_800A7774_0 *);
 /* Decrement the countdown and reset it to ten while changing the handler when it expires. */
 void func_800A7774(S_800A7774_0 *object, s32 value) {
     u16 remaining_ticks;
@@ -20,7 +20,7 @@ void func_800A7774(S_800A7774_0 *object, s32 value) {
     remaining_ticks = object->unk_90 - 1;
     object->unk_90 = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
-        func_80033D08(object, value);
+        func_80033D08(object);
         object->unk_90 = 0xAU;
         object->unk_50 = &D_800A77D0;
     }

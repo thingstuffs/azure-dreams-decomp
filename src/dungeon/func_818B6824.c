@@ -5,7 +5,7 @@
 extern s32 func_8009D218(void *, s32);
 extern s32 func_800A6870(s32);
 extern void func_800AD4D0(void *);
-extern s16 func_800AD568(void *, s32);
+extern s16 func_800AD568(void *);
 extern M2C_UNK func_800B4C7C(s32, void *, s32, s32);
 
 
@@ -21,7 +21,7 @@ void func_818B6824(EntityRec *target, s32 gain_param) {
             gain = base_gain << 1;
         }
         target->unk_64 = (u16) (((u16)target->unk_64) + gain);
-        func_800AD568(target, gain);
+        func_800AD568(target);
         base_gain = 0x8004;
         func_800B4C7C(base_gain, target, (s16) ((u16)target->unk_64), 1);
         func_800AD4D0(target);

@@ -182,7 +182,7 @@ void *func_8014C884(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                     }
                     work->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
-                                  (func_800A6D30(obj) & 0x3F) | 0x20);
+                                  (func_800A6D30() & 0x3F) | 0x20);
                     part_b->unk_2C = D_80150860;
                 }
             }

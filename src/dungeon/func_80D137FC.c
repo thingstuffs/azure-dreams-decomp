@@ -247,7 +247,7 @@ emit:
                 ((S_80172FFC_6 *)effect_sprite)->unk_0E = 0x80;
                 ((S_80172FFC_6 *)effect_sprite)->unk_0D = 0x80;
                 ((S_80172FFC_6 *)effect_sprite)->unk_0C = 0x80;
-                func_8004491C(effect, func_80045340, copy_dst, copy_src);
+                func_8004491C(effect, func_80045340);
                 animation = D_80174EC0;
                 ((S_80172FFC_6 *)effect_sprite)->unk_2C = &D_80174EC0;
                 func_80047784(effect_sprite, animation, 0);

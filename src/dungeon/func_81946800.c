@@ -30,7 +30,7 @@ extern s32 func_8003DE58(s32, void *, s16 *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, u8, s32);
-extern s32 func_80053EF0(s32, void *);
+extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
 extern s32 D_80024374;
 #ifdef __mips__
@@ -133,7 +133,7 @@ void func_81946800(void *action, void *saved_position)
                 *((u16 *) (((u8 *) effect_work) + 0x10)) = coord_integer;
                 *((u16 *) (((u8 *) effect_position) + 0xA)) = coord_integer;
             }
-            if (func_80053EF0(4, effect_work) != 2) {
+            if (func_80053EF0(4) != 2) {
                 event_code = 0x300;
             }
             else {

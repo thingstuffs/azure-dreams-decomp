@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_800C2CB0(void *arg0, void *arg1, s32 arg2, s32 arg3);
-extern s32 func_800C2E1C(s16 arg0, s16 arg1, s32 *arg2);
+extern s32 func_800C2E1C(s16 arg0, s16 arg1);
 
 typedef struct {
     /* 0x64 */ char pad0[0x64];
@@ -27,6 +27,6 @@ void func_800C2E84(Struct800C5724 *state, s8 *output, s32 *entries) {
         } while (*entry_end != 0);
     }
     state->unk64 = entry_count;
-    func_800C2CB0(state, output, state->unk78[func_800C2E1C(state->unk72, entry_count, entry_end)], 0);
+    func_800C2CB0(state, output, state->unk78[func_800C2E1C(state->unk72, entry_count)], 0);
     output[5] = 0;
 }

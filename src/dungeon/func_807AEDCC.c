@@ -44,7 +44,7 @@ extern u8 D_800F8A4C[];
 struct S_10 {
     u8 data[10];
 };
-void *func_8003FC64(s32, s32, s16 **, s32);
+void *func_8003FC64(s32);
 
 /* Initializes effect state and sets the high flag bit on three adjacent entries. */
 void func_800F65CC(void) {
@@ -80,7 +80,7 @@ void func_800F65CC(void) {
         index -= 1;
         state_slot -= 1;
     } while (index >= 0);
-    effect = func_8003FC64(0x12, index, state_slot, state_code);
+    effect = func_8003FC64(0x12);
     if (effect != NULL) {
         s16 *status_base;
 

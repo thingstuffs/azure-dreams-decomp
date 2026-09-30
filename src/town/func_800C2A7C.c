@@ -58,7 +58,7 @@ void func_800C01DC(void) {
             D_80083780.x.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_14 + position_entry[0]);
         } while (0);
         D_80083780.y.w.i = (s16) (((S_800C01DC_1 *)position_data)->unk_16 + position_entry[1]);
-        D_80083780.z.w.i = func_800C2AE8(&D_80083780.x.v, position_entry);
+        D_80083780.z.w.i = func_800C2AE8(&D_80083780.x.v);
     }
     func_8009550C(&D_80083780.x.v);
 }

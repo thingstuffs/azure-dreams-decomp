@@ -117,7 +117,7 @@ void func_800D6AD4(EntityRec *parent, s32 state_value, s32 x_offset, s32 y_offse
             (s32)(0xFFFA0000 - scaled_motion);
         object_state->unk_32 = 0x14;
         object_state->unk_34 = 0x14;
-        func_8004491C(object, D_800D68F4, scaled_motion);
+        func_8004491C(object, D_800D68F4);
         ((S_800D6AD4_0 *)object)->unk_20 = state_value;
         object_state->unk_08 = state_value;
         ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

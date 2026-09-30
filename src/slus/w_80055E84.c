@@ -45,7 +45,7 @@ S_80055E84;
 extern S_80084918 D_80084918;
 extern s16 D_80084920[8];
 extern s32 D_80073740[];
-extern s32 func_8005F134(S_80084918 *arg, S_80055E84 *arg1);
+extern s32 func_8005F134(S_80084918 *arg);
 /* Advance volume modulation and apply the updated channel volumes. */
 void func_80055E84(S_80055E84 *voice)
 {
@@ -132,7 +132,7 @@ void func_80055E84(S_80055E84 *voice)
             D_80084918.fieldA = volume;
             D_80084918.fieldC = 0;
             D_80084918.fieldE = 0;
-            func_8005F134(&D_80084918, voice);
+            func_8005F134(&D_80084918);
         }
     }
 }

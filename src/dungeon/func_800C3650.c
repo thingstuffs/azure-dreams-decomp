@@ -31,7 +31,7 @@ s32 func_800C8DB0(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
     if ((entity->unk_13 != 0) && ((entity->unk_08.at00.v & 0xFF0000FF) || (entity->unk_0E != 0))) {
         state_byte = entity->unk_0E;
         if (((u8) entity->unk_08.at00.v + entity->unk_08.at03.v + state_byte) != 0) {
-            sample = func_800A6D30(state_byte) & 0xFFFF;
+            sample = func_800A6D30() & 0xFFFF;
             if (entity->unk_03 != 0) {
                 remainder = sample % entity->unk_03;
             } else {

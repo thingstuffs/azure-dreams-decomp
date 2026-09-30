@@ -14,7 +14,7 @@ typedef struct S_8009F868_0 {
 
 extern u8 D_800DCE60[16];
 
-extern void func_8004D0C8(void *, void *);
+extern void func_8004D0C8(void *);
 extern void func_8004D7A8(s32);
 extern void func_8004D294(s32, void *, s32);
 
@@ -39,7 +39,7 @@ loop_done:
         }
         ((S_8009F868_0 *)state)->unk_0A = 0;
         ((S_8009F868_0 *)state)->unk_04 &= 0xC;
-        func_8004D0C8(((u8 *)(&D_80083780)), state);
+        func_8004D0C8(((u8 *)(&D_80083780)));
         gameWork.view.slot[2].callback = 0;
         func_8004D7A8(1);
         func_8004D294(0, D_800DCE60, 8);

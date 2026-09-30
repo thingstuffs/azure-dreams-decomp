@@ -76,7 +76,7 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
 extern s32 func_800BCB04(s32, s32, s16);
-extern void func_800DBA90(LocalPacket *, s32);
+extern void func_800DBA90(LocalPacket *);
 
 /* Update a dungeon effect's motion, flickering vertices, and fade state. */
 void func_81820DB4(DungeonObj *obj)
@@ -199,7 +199,7 @@ void func_81820DB4(DungeonObj *obj)
             packet.height = packet_height;
             packet.type = 4;
             packet.pad1A = 0;
-            func_800DBA90(packet_ptr, packet_height);
+            func_800DBA90(packet_ptr);
         }
         return;
     }
