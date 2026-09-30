@@ -65,86 +65,72 @@ extern void func_80041E70(S_80042710 *a0);
 /* Copy record fields, merge flags, update the tagged group, and refresh the destination. */
 void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
 {
-    register S_80042710 *src ASM_REG("$10") = src_record;
     s32 index;
-    u8 field_00;
-    field_00 = src->f00;
-    ASM_USE(field_00);
+    dst_record->f00 = src_record->f00;
+    dst_record->f01 = src_record->f01;
+    dst_record->f02 = src_record->f02;
+    dst_record->f03 = src_record->f03;
+    dst_record->f04 = src_record->f04;
+    dst_record->f05 = src_record->f05;
+    dst_record->f06 = src_record->f06;
+    index = 2;
     {
-        register S_80042710 *dst ASM_REG("$9") = dst_record;
-        ASM_KEEP(dst);
-        dst->f00 = field_00;
-        dst->f01 = src->f01;
-        dst->f02 = src->f02;
-        dst->f03 = src->f03;
-        dst->f04 = src->f04;
-        dst->f05 = src->f05;
-        dst->f06 = src->f06;
-        index = 2;
-        {
-            u8 *src_slot1 = (u8 *)src + 6;
-            u8 *dst_slot1 = (u8 *)dst + 6;
+        u8 *src_slot1 = (u8 *)src_record + 6;
+        u8 *dst_slot1 = (u8 *)dst_record + 6;
 loop_0:
-            {
-                dst_slot1[8] = src_slot1[8];
-                dst_slot1[10] = src_slot1[10];
-                src_slot1 -= 3;
-                dst_slot1 -= 3;
-                index--;
-            }
-            if (index >= 0)
-                goto loop_0;
-        }
-        dst->f11 = src->f11;
-        dst->f12 = src->f12;
-        dst->f13 = src->f13;
-        dst->f14 = (dst->f14 | src->f14) & 0xFFEFFFFF;
-        dst->f18 = src->f18;
-        dst->f1c = (dst->f1c | src->f1c) & 0xEFF6FEFF;
-        dst->f20 = src->f20;
-        dst->f22 = src->f22;
-        dst->f24 = src->f24;
-        dst->f26 = src->f26;
-        dst->f27 = src->f27;
-        dst->f28 = src->f28;
-        dst->f2a = src->f2a;
-        index = 3;
         {
-            s8 *src_slot2 = (s8 *)src + 6;
-            s8 *dst_slot2 = (s8 *)dst + 6;
-            do {
-                *(Slot2_80042710 *)(dst_slot2 + 44) = *(Slot2_80042710 *)(src_slot2 + 44);
-                src_slot2 -= 2;
-                index--;
-                dst_slot2 -= 2;
-            }
-            while (index >= 0);
-        }
-        index = 12;
-        do {
-            dst->name[index] = src->name[index];
+            dst_slot1[8] = src_slot1[8];
+            dst_slot1[10] = src_slot1[10];
+            src_slot1 -= 3;
+            dst_slot1 -= 3;
             index--;
         }
+        if (index >= 0)
+            goto loop_0;
+    }
+    dst_record->f11 = src_record->f11;
+    dst_record->f12 = src_record->f12;
+    dst_record->f13 = src_record->f13;
+    dst_record->f14 = (dst_record->f14 | src_record->f14) & 0xFFEFFFFF;
+    dst_record->f18 = src_record->f18;
+    dst_record->f1c = (dst_record->f1c | src_record->f1c) & 0xEFF6FEFF;
+    dst_record->f20 = src_record->f20;
+    dst_record->f22 = src_record->f22;
+    dst_record->f24 = src_record->f24;
+    dst_record->f26 = src_record->f26;
+    dst_record->f27 = src_record->f27;
+    dst_record->f28 = src_record->f28;
+    dst_record->f2a = src_record->f2a;
+    index = 3;
+    {
+        s8 *src_slot2 = (s8 *)src_record + 6;
+        s8 *dst_slot2 = (s8 *)dst_record + 6;
+        do {
+            *(Slot2_80042710 *)(dst_slot2 + 44) = *(Slot2_80042710 *)(src_slot2 + 44);
+            src_slot2 -= 2;
+            index--;
+            dst_slot2 -= 2;
+        }
         while (index >= 0);
-        dst->f43 = src->f43;
-        dst->f44 = src->f44;
-        if (dst->grp48.f.tag == 0) {
-            dst->grp48 = src->grp48;
-        }
-        if (src->grp48.f.tag == 0xF) {
-            dst->grp48 = src->grp48;
-            if (src->f4c != 0) {
-                dst->f4c = &dst->grp48;
-            }
-        }
-        dst->f45 = src->f45;
-        {
-            u32 field_54 = src->f54;
-            {
-                S_80042710 *refresh_dst = dst;
-                dst->f54 = field_54;
-                func_80041E70(refresh_dst);
-            }
+    }
+    index = 12;
+    do {
+        dst_record->name[index] = src_record->name[index];
+        index--;
+    }
+    while (index >= 0);
+    dst_record->f43 = src_record->f43;
+    dst_record->f44 = src_record->f44;
+    if (dst_record->grp48.f.tag == 0) {
+        dst_record->grp48 = src_record->grp48;
+    }
+    if (src_record->grp48.f.tag == 0xF) {
+        dst_record->grp48 = src_record->grp48;
+        if (src_record->f4c != 0) {
+            dst_record->f4c = &dst_record->grp48;
         }
     }
+    dst_record->f45 = src_record->f45;
+    dst_record->f54 = src_record->f54;
+    func_80041E70(dst_record);
 }

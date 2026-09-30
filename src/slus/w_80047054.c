@@ -45,7 +45,6 @@ void func_80047054(void *data, s32 flagged_x_offset, s32 y_offset, s32 x_offset)
     entry_addr += skip_bytes;
     ASM_KEEP(entry_addr);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     if (entry_addr < ((S_80047054_0 *)header)->unk_08) {
-        ASM_KEEP(entry_addr);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         part_entry_type = 2;
         entry = (u8 *)entry_addr + 4;
         do {
