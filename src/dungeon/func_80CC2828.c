@@ -103,9 +103,8 @@ state_1:
         secondary_table = &D_80082E80;
         actor_map = D_800E3D7C;
         owner[0xA9] = actor_index;
-        ASM_JALDELAY_PIN(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
         actor_map->unk_8A = actor_index;
+        ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
         func_80093E74(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
         (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
         ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;

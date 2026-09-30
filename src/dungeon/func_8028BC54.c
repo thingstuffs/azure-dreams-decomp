@@ -37,7 +37,7 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     u8 y;
     register s32 budget;
     s32 index;
-    register s32 decrement ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 decrement;
     s32 amount;
     s32 flag;
     s32 type;
@@ -53,7 +53,7 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     DungeonCell *cell_scan;
     DungeonEntry *entry_base;
     u8 *cell_page;
-    DungeonCell *cell_base;
+    DungeonCell *cell_base = 0;
 
     mode_page = D_80010000;
     if (*(s32 *)(mode_page + 0x2090) == 2) {
@@ -79,7 +79,7 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (budget >= 0) {
         entry_base = (DungeonEntry *)D_800E3548;
         cell_page = (u8 *)0x800E0000;
-loop:
+        do {
         cell_index = (s16)func_800A71F4();
         if (cell_index < 0) {
             return;
@@ -120,12 +120,11 @@ scan:
             }
         }
 
-        entry_state = 14;
         if (index == 64) {
             entry = (DungeonEntry *)((cell_index << 2) + (unsigned long)entry_base);
             cell_base = (DungeonCell *)(cell_page + 0x36C8);
             entry->type = type;
-            entry->state = entry_state;
+            entry->state = 14;
             entry->flag = flag;
             entry->amount = amount;
             cell = (DungeonCell *)((cell_index * 12) +
@@ -139,9 +138,7 @@ scan:
         }
 
         budget -= decrement;
-        if (budget >= 0) {
-            goto loop;
-        }
+        } while (budget >= 0);
     }
     return;
 }
