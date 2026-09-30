@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T23:50:24Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T23:52:18Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,7 +73,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 780 | 302,452 | 11.8% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 488 | 548,680 | 21.4% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 487 | 548,276 | 21.4% |
 | goto | 1545 | 1,318,412 | 51.5% | 705 | 758,028 | 29.6% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 90 | 147,284 | 5.8% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 251 | 213,032 | 8.3% |
@@ -81,16 +81,16 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 2 | 2,512 | 0.1% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 247 | 182,192 | 7.1% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 246 | 181,788 | 7.1% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3040 | 1,567,804 | 61.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5161 | 1,408,888 | 55.1% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5162 | 1,409,292 | 55.1% |
 
-Pin sites now: 1,476 in 487 rows; REG 787, KEEP 260, KEEP_NV 187, SCHED_BARRIER 74, USE_NV 31, USE 26, KEEP_DEP_NV 22, USE2_NV 16.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,468 in 486 rows; REG 787, KEEP 257, KEEP_NV 183, SCHED_BARRIER 73, USE_NV 31, USE 26, KEEP_DEP_NV 22, USE2_NV 16.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 102 (a second typed name for one symbol: a missing type); file-scope asm directives 417.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 195 rows carry one flag, 32 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 196 rows carry one flag, 32 carry two or more.
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
@@ -111,7 +111,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 819 rows, 474,348 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 487 rows (548,556 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 486 rows (548,152 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
