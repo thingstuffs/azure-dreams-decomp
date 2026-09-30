@@ -76,7 +76,7 @@ extern void func_80024024(void *, u8, void *);
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
-void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) {
+s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) {
     void *owner;
     u8 *color_part = (u8 *)part;
     void *owner_meta;
@@ -123,7 +123,6 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     state->state++;
     state->direction = (U16_AT(owner, 0x2A) >> 9) & 7;
     S32_AT(color_part, 0xC) = color;
-    ASM_KEEP(color_part);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     case 1:
     owner_meta = (u8 *)owner - 0x20;

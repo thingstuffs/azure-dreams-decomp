@@ -254,7 +254,7 @@ typedef struct StackRecord {
 } StackRecord;
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sound_flags) {
+s32 func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sound_flags) {
     StackRecord dialog_args;
     M2C_UNK init_flags;
     register s32 x_or_distance ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -810,7 +810,6 @@ object_pairs:
                                     goto object_collision;
                                 }
                             }
-                            ASM_KEEP(collision_value); /* MATCH: retain the collision threshold across the base-object arm. */
                             ((S_800218E4_5 *)base_object)->unk_58 =
                                 (s32) (((S_800218E4_5 *)base_object)->unk_58 + bounce_x);
                             ((S_800218E4_5 *)base_object)->unk_5C =
