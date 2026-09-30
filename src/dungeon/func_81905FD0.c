@@ -739,10 +739,10 @@ update_coords:
                 ASM_KEEP_NV(render_template);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 child_data->unk_38 = owner;
                 owner_target = owner->unk_60;
-                child_data->unk_44 = (u8 *)upper_effect + 0x20;
+                render_value = (u32)((u8 *)upper_effect + 0x20);
+                child_data->unk_44 = (void *)render_value;
                 child_data->unk_48 = (u8 *)ring_effect + 0x20;
                 child_data->unk_4C = (u8 *)lower_effect + 0x20;
-                ASM_KEEP(upper_effect);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 control_script = D_80025408;
                 child_data->unk_40 = effect;
                 child_data->unk_3C = owner_target;

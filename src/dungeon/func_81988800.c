@@ -136,12 +136,12 @@ void BODY_NAME(void *state_data, void *position_data)
     register void *position_ref ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor;
     u8 *unused_fields;
-    u16 timer;
+    s32 timer;
 
     timer = ((S_81988800_0 *)state_data)->unk_50.u;
-    ASM_KEEP(timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     source = ((S_81988800_0 *)state_data)->unk_00;
-    ((S_81988800_0 *)state_data)->unk_50.u = timer - 1;
+    timer--;
+    ((S_81988800_0 *)state_data)->unk_50.u = timer;
     work = (u8 *)source - 0x20;
     if (0) {
     }
