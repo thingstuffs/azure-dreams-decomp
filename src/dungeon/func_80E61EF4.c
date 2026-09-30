@@ -60,7 +60,6 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 {
     void *sprite;
     u8 *anim_table;
-    register u8 *next_table ASM_REG("$5"); /* MATCH: both paths merge their table pointer in a1. */
     s32 room_id;
     s32 distance;
     u32 initial_flags = dungeonStatus.flags;
@@ -77,8 +76,11 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
     if (entity_arg->tileY == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, entity_arg);
         if (((S_801716F4_2 *)sprite)->unk_2C != D_801755A4) {
-            next_table = D_8017559C;
-            goto set_table;
+            (*(void * *)((u8 *)sprite + (0x2C))) = D_8017559C;
+            {
+                s32 direction_index = ((gameWork.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
+                func_80047784(sprite, D_8017559C[direction_index], 0);
+            }
         }
         return;
     }
@@ -254,17 +256,9 @@ generic:
         return;
     }
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    next_table = anim_table;
-set_table:
-    (*(void * *)((u8 *)sprite + (0x2C))) = next_table;
+    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     {
         s32 direction_index = ((gameWork.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
-        u8 *anim_entry;
-#ifdef __mips__
-        anim_entry = (u8 *)((u32)direction_index + (u32)next_table);
-#else
-        anim_entry = next_table + direction_index;
-#endif
-        func_80047784(sprite, anim_entry[0], 0);
+        func_80047784(sprite, anim_table[direction_index], 0);
     }
 }
