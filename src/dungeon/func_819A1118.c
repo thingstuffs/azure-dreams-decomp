@@ -78,18 +78,15 @@ void func_819A1118(void *effect) {
             + ((s32) (((S_819A1118_0 *)effect)->unk_76 * (((S_819A1118_0 *)effect)->unk_3C
             - (s16) ((S_819A1118_0 *)effect)->unk_3A)) / (s16) ((S_819A1118_0 *)effect)->unk_3E));
     }
-    color_index = 0;
-    color_ptr = effect;
-    do {
+    for (color_index = 0; color_index < 4; color_index++) {
+        color_ptr = (u8 *)effect + color_index * 4;
         ((S_819A1118_1 *)color_ptr)->unk_0C =
             (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1C * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
         ((S_819A1118_1 *)color_ptr)->unk_0D =
             (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1D * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
-        color_index += 1;
         ((S_819A1118_1 *)color_ptr)->unk_0E =
             (s8) ((s32) (((S_819A1118_1 *)color_ptr)->unk_1E * (s16) ((S_819A1118_0 *)effect)->unk_3A) / (s16) ((S_819A1118_0 *)effect)->unk_3C);
-        color_ptr += 4;
-    } while (color_index < 4);
+    }
     if ((s16) ((S_819A1118_0 *)effect)->unk_3A <= 0) {
         (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_819A1118_0_pre *)effect)[-1].unk_00 | 0x8000);
         objectFlagBlock.flags |= 0x8000;
