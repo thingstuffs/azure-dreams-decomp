@@ -377,3 +377,11 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   makes that register multi-set so its load loses the boost - solve that pin and its USE falls too (818B6AFC);
   (d) a barrier standing in for a one-instruction struct copy (80E65598, cdk cell); (e) a copy of a spilled variable
   floating above calls (w_8004B954, open).
+- **Callee-saved order pins in goto loops = missing loop-depth weight** (r81_opus_alloc1, dungeon/func_80097F94 6 -> 0 with
+  4 gotos gone; 80F90E88 15 -> 13): global.c weights refs by loop depth only for real loops; m2c's `label: ... goto
+  label;` gets none, so ASM_REG pins stood in for the weighting. Write the loop as do/while and check with
+  tools/lanes/lanekit/alloc_need.py; check `diff.py --classify` for OPCODE/COUNT changes (= loop.c moved something
+  retail did not - then the goto loop is original). A uniform "every mis-coloured variable one register late" pattern
+  = a missing preference, e.g. a call argument m2c dropped (LoadImage called with 1 arg where every caller passes 2).
+- **`x = y | x` with retail's operand order y-first** (80F90E88): gcc 2.8.1 optabs.c:423 swaps a commutative op when the
+  target is also the second operand - compute into a temporary, then assign (combine folds the copy).
