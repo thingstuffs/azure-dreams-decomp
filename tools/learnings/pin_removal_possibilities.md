@@ -429,3 +429,28 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
 - **Round 82 (fc12): 2.6.3 `mem & mask_var` puts the mask first** (expand_binop orders a MEM behind a REG); a literal
   mask gives value-first and lets loop.c hoist the constant into retail's register. m2c `goto` back edges without a
   LOOP_BEG note are not loops to loop.c (nothing hoisted); a goto-free do/while is.
+
+## Round 83 (09-30 afternoon): what `-fno-strength-reduce` stood for; loop.c movable order; preference inheritance
+
+- **`-fno-strength-reduce` rows are pointer-walk spellings of INDEXED loops** (r83_fable_nosr/MECHANISM.md, cdk loop.c line
+  refs from the genuine source toolchain/gcc-src/2.7.2-cdk/). cdk reduces any pointer-walk biv with >= 2 constant-offset
+  accesses into 0-offset registers (20-98 words off retail); a lone access is never reduced. Retail's stepping registers
+  WITH offsets kept are what loop.c emits for `base[i].f`: T = base + i*s is a DEST_REG giv with a register add_val,
+  reduced and replaced by one stepping register (`move R,base` / `la R,sym`). Rewrite: counter as the loop variable,
+  walkers -> `base[i]`, increments dropped, parameters direct. `.loop` tells: `giv reg N ... mult S add (reg)` reduced =
+  indexed source; `combined with` on DEST_ADDR givs = a pointer walk. CLASS.tsv: 67 of 71 flag rows are this class.
+  Natural routes by which cdk IGNORES a loop (rare): `do { if (c) goto found; ... } while (t)` (multiple entry points)
+  and `while (A || B)` (duplicated exit test before LOOP_BEG). An oversize `[N]` declaration view makes a scalar load
+  MEM_IN_STRUCT_P - not byte-neutral inside loops that store through pointers (w_8005914C, w_800599B0 open on this).
+- **loop.c movable order (r83_opus_b1, 819B3414 32 -> 0):** an array access `grid[column][row]` makes the index shift a
+  movable hoisted to the END of the preheader; statements retail has after it must be later movables (a user-variable
+  limit assigned IN the body through a named local: a literal is a compiler temporary the outer loops hoist further) or
+  givs (a pointer computed from the counter inside the loop). PsyQ `P_TAG` `addr:24` bitfield assignments give the
+  0xFFFFFF mask its extract+store references (flow counts refs before combine) - replaces a pinned link mask.
+- **global.c expand_preferences is one in-order pass (r83_opus_b2, 818D4E68 1 -> 0):** a pointer written
+  `if ((p = q->f) != 0) p = *(p - K)` where q is argument N of a call: test/dereference `q->f` directly so the load temp
+  (q's last use) inherits q's argument-register preference and p inherits it from the temp.
+- **A VAR_DECL array read `table[i]` expands base-first** (lui/addiu before the index shift); a `&table[i]` pointer local
+  gives the shift first (800C4A80: 7 -> 3 off).
+- A function whose call arguments are printf-style literals repeated per call (a debug print macro) may be an -O1
+  object: town/func_8046C280's 0-pin natural text is exact only at `2.7.2-cdk-G0 -O1` (held: module is -O2).

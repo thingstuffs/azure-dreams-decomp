@@ -1,3 +1,30 @@
+# Handover (2026-09-30 15:20, round 83 / c8 continuation: strength-reduce class decided, apply lanes running) - start here
+
+**Landed:** 819B3414 32->0 (1227969b7, r83_opus_b1), 818D4E68 1->0 (d42e83430, r83_opus_b2), slus/w_800500B4 2->0 at plain
+cdk (ae5595de6, r83_fable_nosr). **1,499 pins / 493 rows.** Rules: tools/learnings/pin_removal_possibilities.md "Round 83".
+- **r83_fable_nosr:** -fno-strength-reduce hid pointer-walk spellings of indexed loops (MECHANISM.md, CLASS.tsv: 67 of 71
+  flag rows; generator spec t136_indexwalk). Byte-neutral flag drops to land: slus/w_800537D0 -> 2.7.2-cdk,
+  dungeon/func_800BE8D0 -> 2.7.2-cdk-G0, main/func_8001AFEC and town/func_8033077C (flag drop at the registered cell).
+- **NOT landed (commit ae5595de6's message overstates): slus/w_80049F68 6->0** - staged in r83_fable_nosr/out/slus, gate
+  MATCH in isolation, but it is the single member of slus module gp_order_bytes_owner: land_recipe_move.py skips grouped
+  moves. Needs config/slus_modules.json modules[27].recipe.ccflags "" + the text + SLUS gate + module re-certification
+  (tools/fidelity/certify_slus_module.py needs a reviewer) - owner/review step.
+- **Apply lanes running (index-walk brief work/native_lane/r83_q_nosr.md):** r83_opus_n1-n3 (14 pinned flag rows),
+  r83_sonnet_n1-n3 (24 pin-free flag rows, nearest first). 23 far pin-free rows unserved
+  (r83_fable_nosr/tmp/apply_lanes.txt lists the served ones). Land overlay moves with c8_chain2.sh, slus with c8_move.sh.
+- **r83_opus_b2 open:** 800C4A80 0-pin text now total 3 (r2/rv_all.c; one s4/s5 allocation order: centre pseudo needs
+  refs 3); **town/func_8046C280: 0-pin natural text exact only at `2.7.2-cdk-G0 -O1`** (r3/N2.c; debug-print macro
+  expanded five times; 19/38 module rows break at -O1) - OWNER CALL: per-row -O1 trade (8 pins + six one-trip blocks
+  gone) vs hold. Open slus: w_8005914C, w_800599B0 (scalar loads that must not be in-struct: sound-TU -G / declaration
+  question).
+- **r83_sonnet_modsplit:** modsplit.py (lane dir) splits mixed-bag modules; patch NOT applied. Clear splits: c_server.c
+  block 0x804010F0-0x80402508 = 2.6.3-G0 (33/34), town/main.c runs = cdk-G0 -O1 (33/43) / 2.7.2-G0 (19/21) / cdk-G0,
+  lshop.c cdk-G0 -O1, card_opt.c, ovl_7f565800.c. Apply only those to ledger/modules.jsonl, then regenerate the census
+  (the gate cache hashes census files: do it when no lane is landing). No pinned row reaches 0 by the split alone.
+- Kit: genuine cdk source now at toolchain/gcc-src/2.7.2-cdk/ (in the kit tool table, 26b7ac0e7). Wishes: score/dump
+  slus module rows at a trial recipe; `.loop` verdict summary in why.py; r83_fable_nosr/tmp/{loopcensus,cc,class_census}.py
+  are harvest candidates for tools/lanes.
+
 # Handover (2026-09-30 13:40, round 83 / c8 continuation: FOUR LANES BUILT, STOPPED BY THE SPEND LIMIT) - start here
 
 All four Agent lanes died within minutes on the account's monthly spend limit (HTTP 429; weekly limit resets Oct 4 23:00 UTC).
