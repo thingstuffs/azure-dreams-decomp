@@ -362,3 +362,11 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   entry, small constants only), reduces them to a register copy left before the branch. So: declare the copy s16/u8,
   give every other role m2c merged into the flag its own local, and drop pins that read the flag before its first set.
   An s32 copy is folded by cse. Pin-free siblings are written this way (80CBEF98, 80A9D4E8, 80B9913C).
+- **Page fold `lui R; addiu R,R` (same register) held by page+KEEP** (r80_opus_cl_ori, 80AC5F28 2 -> 0, 809A1A8C/812A85D4
+  2 -> 1): at a splitting cell `movsi` puts (high SYM) into a new pseudo TEM and writes (lo_sum TEM SYM) into DEST;
+  local-alloc combine_regs ties TEM to DEST only when DEST is a pseudo used in ONE basic block (or a hard arg register).
+  A function-scope multi-block variable gives the untied `lui $2; addiu $5,$2`. So: (a) use the typed symbol directly /
+  via a block-scoped pointer when its uses stay in one block; (b) when the block ends in `goto join`, write the shared
+  tail out in place with the symbol and `return` - jump2 cross-jumps it back into retail's `lui $5; j tail; addiu`.
+  If retail shows two registers, the symbol belongs in the function-scope variable. t54/t97 miss this because they put
+  the symbol into the same function-scope variable the integer lived in.
