@@ -19,7 +19,8 @@ by `fp.cls`/`fp.shape`: 09-30 near band (d0<=6) 586 sites / 291 rows = MOVED 236
 pass on one row, derive the rule, apply to six, list the rest): r80_opus_cl_li / cl_lui / cl_move running; their
 cluster_rest.txt holds the remaining members for apply lanes. Sol 6.1 stays on the one-pin pool (218 rows).
 
-**State (09-30 03:30):** 1,902 pins in 580 rows (2,068 when this session's evening block began, 2,493 at pickup).
+**State (09-30 05:10):** 1,888 pins in 578 rows (2,068 when this session's evening block began, 2,493 at pickup);
+gotos incl. &&label 4,042 (the jump-table repair restored 91), volatile 529, one-trip blocks 324.
 Tonight's generators: t126_ppcollapse (dead #if splits, 41 rows), t127_gotonext (16), t128_nonvoid (dbr rule, 2+2 pins),
 t129_defarity (calls trimmed to the callee's DEFINED arity - 280 rows of m2c fake arguments gone, byte-exact). Goto
 lanes: the unserved dense pool is nearly exhausted (gd35 picked only 2 rows); the kept gotos are measured loop.c /
