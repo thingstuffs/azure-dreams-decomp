@@ -1,3 +1,36 @@
+# Handover (2026-09-30 midday, round 82 / session c8: same process, second batch) - start here
+
+**State:** 1,888 (c8 pickup, 05:10) -> 1,744 (end of round 81) -> ~1,630 now, with the other session's work.
+Process as round 81: gap analysis (work/native_lane/r82_opus_gaps/REPORT.md) -> two Fable lanes -> Opus lanes -> land.
+- **Flag-crutch lanes fc9-fc12** (never-served proven crutch rows, target = module census recipe): 10 of 24 rows to
+  0 pins (fc12's 3 at FSF 2.6.3 - owner approved moves to an OLDER census cell on strong module proof).
+- **Big rows at the census recipe:** 819B3414 33->32 (first exact at cdk: explicit $8 locals bar reload's spill reg),
+  818D4E68 33->1 (switch from retail's table words, typed symbols, parameters direct; 1 pin left = a2 preference tie),
+  807B0B3C / 800C4A80 open (r82_opus_bg2: real for(;;) loop, reload recomputes hoisted constants; 94 / 7 off).
+- **r82_fable_resid** (second assumption under the cell?): YES on 3 rows - cell-carried pins, a flag masking a
+  source shape, and **cdk's front end marks every sibling field of a struct with a volatile member volatile** - follow-ups
+  fr1/fr2 landed 80F90E88 13->2, 8081822C 8->0, 800BC8AC 10->0. NO on 8187A9A8, 81876014, 8009F018: ordinary source
+  shape - stop cell/flag work there (RESIDUE.md has the allocation inequalities per row).
+- **r82_fable_slus**: the SLUS game code is ONE 2.7.2-cdk -G8 image 0x80033AA8-0x8005CA70 + ONE stock-2.7.2 sound TU
+  0x8005CA90-0x8005FA34; the 29 ledger slus "modules" are call-graph clusters, not TUs. ~130 slus rows sit at
+  stock / cdk -G0 / cdk -G16/-G32 only to dodge maspsx's small-extern $gp model. **Owner 09-30: do NOT land -G16
+  dodges (4 held in work/native_lane/r82_slus_land); decision 3 (maspsx genuine-ASPSX extern model) SIGNED OFF to
+  start** - r82_opus_dec3 is scoping it (patch copy, blast radius, true-size declaration recovery, landing plan).
+  After it: 25 proven slus crutch rows / 51 pins (r82_fable_slus/out/pinned_table.md) become workable at cdk -G8.
+- **Byte-neutral switches:** bn2 9 rows (d06564789); 81912154 free now for the next batch.
+**Kit this round:** tools/lanes/modcell.py (is CFG this module's build?), cc1caps.py (per-cell pass table +
+docs/evidence/cc1_capabilities_r82.md), from the other session: score_at diff+totals, why.py --vs-cfg, stage-cell
+--equal-pins, diff.py/lab.py --no-jtbl (jump-table candidates diffable), lreg_explain.py (local-alloc replay),
+erase_census --full-diff.
+**Landing (c8):** work/native_lane/_landq/c8_move.sh TAG LANE "MSG" (tools/fidelity/land_recipe_move.py: overlay +
+slus, splitting targets, verifies first, restores on failure) or c8_chain2.sh "lane|msg" (coh.sh/land_coherence:
+overlay rows incl. non-splitting targets like 2.6.3). Both under c8_land.lock. coh.sh now refuses on a Traceback
+(land_coherence crashed on slus rows at 07:09 and still committed - three lc4 rows were re-landed in 397226d32).
+Never put a literal `land_coherence.sh` in a waiter's own command line (pgrep self-match).
+**Open follow-ups:** 818D4E68's last pin (a2 preference); 819B3414 natural route 12 pins / total 4; 800BFE94 at
+census after astra a30; 80041044 rowbase; town/main.c + c_server.c census groupings are mixed bags (8032EEE4,
+8001A2B0); 8046C280 recipe hypothesis cdk-G0 -fno-expensive-optimizations; test_land_recipe_move.py fixture drift.
+
 # Handover (2026-09-30 morning, round 81 / session c8: CELLS AND FLAG CRUTCHES) - start here
 
 **Lever of the round: many pins were fitted together with the WRONG compiler cell or a per-row crutch flag.**
