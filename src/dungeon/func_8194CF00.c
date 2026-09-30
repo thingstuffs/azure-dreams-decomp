@@ -67,29 +67,25 @@ void func_80024700(void *source_object)
     u16 world_offset[3];
     s16 scale_component;
     s32 value;
+    s32 word_x;
+    s32 word_y;
+    s32 word_z;
     u16 offset_length;
     u16 offset_angle;
-    u16 flags_14;
-    u16 flags_10;
     M2C_UNK *link;
     void *source = source_object;
     void *object;
     S_80024700_0 *data;
     void *primitive;
     void *primitive_2;
-    register s32 object_arg ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u8 *resource;
     s32 angle_or_zero;
 
-    object = func_8003FC64(object_arg);
+    object = func_8003FC64(0x212);
     if (object != NULL) {
         link = D_8002455C;
-        resource = D_800DE938;
         (*(M2C_UNK * *)((u8 *)object + 0x10)) = link;
         value = (*(s32 *)((u8 *)source + 0));
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         data = (u8 *)object + 0x20;
-        ASM_KEEP(data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         (*(s32 *)((u8 *)object + 0x20)) = value;
         (*(WordQuad *)((u8 *)object + 0x24)) = (*(WordQuad *)((u8 *)source + 0x4C));
         (*(WordQuad *)((u8 *)object + 0x34)) = (*(WordQuad *)((u8 *)source + 0x5C));
@@ -105,35 +101,31 @@ void func_80024700(void *source_object)
         ((S_80024700_1 *)primitive)->unk_0C.at02.v = 0x40;
         ((S_80024700_1 *)primitive)->unk_0C.at01.v = 0x40;
         ((S_80024700_1 *)primitive)->unk_0C.at00.v = 0x40;
-        func_8003DB94(primitive, resource, angle_or_zero);
+        func_8003DB94(primitive, D_800DE938, angle_or_zero);
 
         value = 0x2000;
-        object_arg = (s32)object;
         ((S_80024700_1 *)primitive)->unk_1E = value;
         ((S_80024700_1 *)primitive)->unk_1C = value;
         scale_component = data->unk_24;
-        resource = (u8 *)func_80045340;
         ((S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
         scale_component = data->unk_26;
-        flags_14 = ((S_80024700_1 *)primitive)->unk_14.at00.v;
         ((S_80024700_1 *)primitive)->unk_18 = scale_component >> 12;
         angle_or_zero = data->unk_2E.u;
-        flags_10 = ((S_80024700_1 *)primitive)->unk_10.u16;
-        ((S_80024700_1 *)primitive)->unk_14.at00.v = flags_14 | 0xC;
-        ((S_80024700_1 *)primitive)->unk_10.u16 = flags_10 | 0x20;
+        ((S_80024700_1 *)primitive)->unk_10.u16 |= 0x20;
+        ((S_80024700_1 *)primitive)->unk_14.at00.v |= 0xC;
         ((S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
-        func_8004491C((void *)object_arg, resource);
+        func_8004491C(object, func_80045340);
 
         primitive_2 = (*(void * *)((u8 *)object + 8));
-        value = (*(s32 *)((u8 *)source + 0x34));
-        ((S_80024700_1 *)primitive_2)->unk_0C.at00u.v = value;
-        ((S_80024700_1 *)primitive_2)->unk_00.at00.v = value;
-        value = (*(s32 *)((u8 *)source + 0x38));
-        ((S_80024700_1 *)primitive_2)->unk_10.s32 = value;
-        ((S_80024700_1 *)primitive_2)->unk_04.at00.v = value;
-        value = (*(s32 *)((u8 *)source + 0x3C));
-        ((S_80024700_1 *)primitive_2)->unk_14.at00u.v = value;
-        ((S_80024700_1 *)primitive_2)->unk_08.at00.v = value;
+        word_x = (*(s32 *)((u8 *)source + 0x34));
+        ((S_80024700_1 *)primitive_2)->unk_0C.at00u.v = word_x;
+        ((S_80024700_1 *)primitive_2)->unk_00.at00.v = word_x;
+        word_y = (*(s32 *)((u8 *)source + 0x38));
+        ((S_80024700_1 *)primitive_2)->unk_10.s32 = word_y;
+        ((S_80024700_1 *)primitive_2)->unk_04.at00.v = word_y;
+        word_z = (*(s32 *)((u8 *)source + 0x3C));
+        ((S_80024700_1 *)primitive_2)->unk_14.at00u.v = word_z;
+        ((S_80024700_1 *)primitive_2)->unk_08.at00.v = word_z;
 
         local_offset[0] = ((func_800644B8(data->unk_2E.s) >> 4) *
             data->unk_2C.s) >> 8;
@@ -141,7 +133,6 @@ void func_80024700(void *source_object)
             data->unk_2C.s) >> 8;
         local_offset[2] = 0;
         func_800649A0();
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80064B30((u8 *)object + 0x24, local_offset, world_offset);
         func_80064A40();
 
@@ -150,7 +141,3 @@ void func_80024700(void *source_object)
         ((S_80024700_1 *)primitive_2)->unk_08.at02.v += world_offset[2];
     }
 }
-
-/* MECHANISM: The 0x38 frame holds source/object/data/primitive in s3/s2/s1/s0 and uses sibling
-   local_offset/world_offset stack arrays; caller-register locals plus page/fence seams reproduce split loads.
-   A post-func_800649A0 object fence rematerializes object+0x24 without a fifth saved register. */
