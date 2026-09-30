@@ -33,59 +33,41 @@ typedef struct S_80F90E88_2 {
     s32 unk_B0;
 } S_80F90E88_2;   /* temp_s4 + link_global in func_80F90E88 */
 
-typedef struct S_80F90E88_3 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_80F90E88_3;   /* var_a0 in func_80F90E88 */
-
-typedef struct S_80F90E88_4 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_80F90E88_4;   /* final_global in func_80F90E88 */
-
-typedef struct S_80F90E88_5 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_80F90E88_5;   /* temp_a0_3 in func_80F90E88 */
 
 
-struct S_8003E2D8;
-typedef struct S_8003E2D8 S_8003E2D8;
-extern struct S_8003E2D8 D_80083160_init __asm__("D_80083160");
-extern struct S_8003E2D8 D_80083160_alloc __asm__("D_80083160");
-extern struct S_8003E2D8 D_80083160_link __asm__("D_80083160");
-extern struct S_8003E2D8 D_80083160_final __asm__("D_80083160");
+
+
 s32 func_80065420();
 s32 func_80066460();
 M2C_UNK func_80066640();
 M2C_UNK func_80066708();
 M2C_UNK func_80067F20();
 
-typedef struct {
-    M2C_UNK *p28;
-    M2C_UNK *p2C;
-    s16 p30;
-    s16 p32;
-    s16 p34;
-    s16 pad36;
-    M2C_UNK p38;
-    M2C_UNK p3C;
-    s16 p40;
-    s16 p42;
-    s16 pad44;
-    s16 pad46;
-    s16 p48;
-    s16 p4A;
-    s32 p4C;
-    void *volatile p50;
-    s32 *p54;
-    s8 *p58;
-} LocalRecord;
+struct PackedPair {
+    s32 first;
+    s32 second;
+} __attribute__((packed));
+typedef struct PackedPair PackedPair;
 
 typedef struct {
-    s8 work[16];
-    LocalRecord record;
-} LocalFrame;
+    M2C_UNK *input;
+    M2C_UNK *output;
+    s16 rot_x;
+    s16 rot_y;
+    s16 rot_z;
+    s16 pad36;
+    PackedPair translation;
+    s16 count;
+    s16 flags;
+    s16 pad44;
+    s16 pad46;
+} TransformRec;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s32 z;
+} ScreenPoint;
 
 typedef struct {
     s16 value;
@@ -94,314 +76,193 @@ typedef struct {
     s16 pad6;
 } WorkCell;
 
-struct PackedPair {
-    s32 first;
-    s32 second;
-} __attribute__((packed));
-typedef struct PackedPair PackedPair;
 
-struct PackedWord {
-    s32 value;
-} __attribute__((packed));
-typedef struct PackedWord PackedWord;
 
-typedef struct S_80F90E88_6 {
-    void * unk_00;
-} S_80F90E88_6;   /* global_base in func_80F90E88 */
 
 typedef struct S_80F90E88_7 {
     u8 pad_00[0x8D0];
     s32 * unk_8D0;
-} S_80F90E88_7;   /* ((S_80F90E88_6 *)global_base)->unk_00 in func_80F90E88 */
+} S_80F90E88_7;   /* gameWork.unk_000 in func_80F90E88 */
 
+
+#define getaddr(t) ((t) & address_mask)
+#define setaddr(t, a) ((t) = ((t) & 0xFF000000) | ((a) & address_mask))
 
 /* Draws paired gradient quads from the projected bounds of each linked object. */
 s32 func_80F90E88(void *object) {
-    LocalFrame frame;
+    WorkCell work[2];
+    TransformRec transform_rec;
+    void *transform;
+    ScreenPoint screen;
+    void *model;
+    s32 *z_ptr;
+    WorkCell *points;
     s32 max_xy;
     s32 min_xy;
     s32 address_mask;
-    s32 tag_mask;
     s32 *quad;
     s32 *draw_mode;
     s32 next_object;
-    s32 mode_ot_offset;
     s32 bottom_y;
-    s32 right_color;
-    s32 left_color;
-    s32 quad_ot_slot;
+    s32 color;
     s32 side;
-    register s8 *base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 depth;
-    S_80F90E88_5 *mode_ot_slot;
-    register WorkCell *endpoint ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    WorkCell *endpoint;
     s32 half_width;
     s32 left_offset;
-    void *transform;
     u16 view_angle;
-    s32 position_xy;
-    s32 position_z;
-    register s8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 coord;
     u32 coord_bits;
-    void *screen_out;
-    s32 *depth_out;
-    s32 bound_test;
-    u32 upper_coord;
-    s32 right_x;
-    s32 left_x;
-    s32 midpoint_x;
+    s32 hi_mask;
+    s32 ot_offset;
+    s32 mode_ot_offset;
     u16 center_x;
-    s32 mode_tag_mask;
-    s32 quad_ot_link;
-    s32 quad_tag;
-    s32 mode_tag;
-    s32 merged_xy;
+    s32 upper;
+    s32 merged;
+    GameWork *gw;
+    s32 link;
+    register s32 tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): local-alloc gives the OT-link block's temps $v0 first; the source shape that leaves $v0 to the tag chain has not been found */
 
-#define point_storage frame.work[0]
-#define transform_input frame.record.p28
-#define transform_output frame.record.p2C
-#define rotation_x frame.record.p30
-#define rotation_y frame.record.p32
-#define rotation_z frame.record.p34
-#define translation_xy frame.record.p38
-#define translation_z frame.record.p3C
-#define point_count frame.record.p40
-#define transform_flags frame.record.p42
-#define record_pad44 frame.record.pad44
-#define record_pad46 frame.record.pad46
-#define screen_x frame.record.p48
-#define screen_y frame.record.p4A
-#define projection_scratch frame.record.p4C
-#define saved_object frame.record.p50
-#define scratch_ptr frame.record.p54
-#define points frame.record.p58
-
-    address_mask = (s32)&point_storage;
-    base = (s8 *)address_mask;
-    points = base;
-    address_mask = (s32)&projection_scratch;
-    base = (s8 *)address_mask;
+    points = work;
+    z_ptr = &screen.z;
     address_mask = 0x00FFFFFF;
-    scratch_ptr = (s32 *) base;
+    hi_mask = 0xFFFF0000;
+    gw = &gameWork;
 draw_object:
-    base = (s8 *) object;
-    projection_scratch = 8;
-    half_width = (u16) projection_scratch;
+    screen.z = 8;
+    half_width = (u16) screen.z;
     side = 1;
-    saved_object = base;
-    base = points;
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    left_offset = 0 - half_width;
-    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    endpoint = (WorkCell *) (base + 8);
-    do {
-        endpoint->value = half_width;
-        if (side != 0) {
-            endpoint->value = left_offset;
-            endpoint->zero4 = 0;
-        } else {
-            endpoint->zero4 = 0;
-        }
-        endpoint->zero2 = 0;
-        side -= 1;
-        endpoint -= 1;
-    } while (side >= 0);
-    transform = &transform_input;
-    ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    model = object;
+    left_offset = -half_width;
+    endpoint = &points[1];
+loop_0:
+    endpoint->value = half_width;
+    if (side != 0) {
+        endpoint->value = left_offset;
+        endpoint->zero4 = 0;
+    } else {
+        endpoint->zero4 = 0;
+    }
+    endpoint->zero2 = 0;
+    side--;
+    endpoint--;
+    if (side >= 0) goto loop_0;
+    transform = &transform_rec;
+    ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): the &transform argument is set first in the block in retail; the source shape that makes it unnecessary has not been found */
     min_xy &= 0xFFFF;
     max_xy &= 0xFFFF;
-    base = (s8 *) &D_80083160_init;
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    view_angle = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_D0;
-    base = points;
+    view_angle = gw->view.viewAngle;
     side = 1;
-    rotation_y = 0;
-    rotation_x = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    transform_output = (M2C_UNK *) base;
-    transform_input = (M2C_UNK *) base;
-    base = (s8 *) saved_object;
-    rotation_z = 0 - view_angle;
-    position_xy = ((PackedWord *) (base + 0xC))->value;
-    position_z = ((PackedWord *) (base + 0x10))->value;
-#ifdef NON_MATCHING
-    stack_base = (s8 *) &translation_xy - 0x38;
-#else
-#endif
-    ((PackedWord *) (stack_base + 0x38))->value = position_xy;
-    ((PackedWord *) (stack_base + 0x3C))->value = position_z;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    point_count = 2;
-    transform_flags = 0;
+    transform_rec.rot_y = 0;
+    transform_rec.rot_x = 0;
+    transform_rec.input = (M2C_UNK *) points;
+    transform_rec.output = (M2C_UNK *) points;
+    transform_rec.rot_z = -view_angle;
+    transform_rec.translation = *(PackedPair *)((s8 *)model + 0xC);
+    transform_rec.count = 2;
+    transform_rec.flags = 0;
     func_800DBA90(transform);
     min_xy |= 0x75300000;
-    base = (s8 *)(0xFFFF0000);
-    min_xy &= (s32)base;
+    min_xy &= hi_mask;
     min_xy |= 0x7530;
     max_xy |= 0x8AD00000;
-    max_xy &= (s32)base;
+    max_xy &= hi_mask;
     max_xy |= 0x8AD0;
 loop_1:
-    {
-        quad_ot_slot = side * 8;
-        screen_out = &screen_x;
-        base = points;
-        depth_out = scratch_ptr;
-        {
-            s32 projected_point = (s32) base + quad_ot_slot;
-            quad_ot_slot = projected_point;
-        }
-        depth = func_80065420(quad_ot_slot, screen_out, depth_out, depth_out) - 4;
-        ASM_KEEP_NV(depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        bound_test = (s16) max_xy;
-        coord = screen_x;
-        coord_bits = (u16) screen_x;
-        bound_test = bound_test < coord;
-        if (bound_test) {
-            base = (s8 *)(0xFFFF0000);
-            max_xy &= (s32)base;
-            merged_xy = coord_bits | max_xy;
-            max_xy = merged_xy;
-        }
-        bound_test = (s16) min_xy;
-        bound_test = coord < bound_test;
-        if (bound_test) {
-            base = (s8 *)(0xFFFF0000);
-            min_xy &= (s32)base;
-            merged_xy = coord_bits | min_xy;
-            min_xy = merged_xy;
-        }
-        bound_test = max_xy >> 0x10;
-        coord = screen_y;
-        coord_bits = (u16) screen_y;
-        bound_test = bound_test < coord;
-        if (bound_test) {
-            upper_coord = coord_bits << 0x10;
-            max_xy &= 0xFFFF;
-            max_xy |= upper_coord;
-        }
-        bound_test = min_xy >> 0x10;
-        bound_test = coord < bound_test;
-        if (bound_test) {
-            upper_coord = coord_bits << 0x10;
-            min_xy &= 0xFFFF;
-            min_xy |= upper_coord;
-        }
-        side -= 1;
+    depth = func_80065420(&points[side], &screen, z_ptr, z_ptr);
+    depth -= 4;
+    coord = screen.x;
+    coord_bits = (u16) screen.x;
+    if ((s16) max_xy < coord) {
+        max_xy &= hi_mask;
+        merged = coord_bits | max_xy;
+        max_xy = merged;
     }
-    if (side >= 0)
-        goto loop_1;
+    if (coord < (s16) min_xy) {
+        min_xy &= hi_mask;
+        merged = coord_bits | min_xy;
+        min_xy = merged;
+    }
+    coord = screen.y;
+    coord_bits = (u16) screen.y;
+    if ((max_xy >> 0x10) < coord) {
+        upper = coord_bits << 0x10;
+        max_xy &= 0xFFFF;
+        max_xy |= upper;
+    }
+    if (coord < (min_xy >> 0x10)) {
+        upper = coord_bits << 0x10;
+        min_xy &= 0xFFFF;
+        min_xy |= upper;
+    }
+    side--;
+    if (side >= 0) goto loop_1;
     if (depth < 0x1E0U) {
-        half_width = (u32)max_xy << 16;
+        half_width = (u32) max_xy << 16;
         half_width >>= 16;
-        left_x = (s16) min_xy;
-        half_width += left_x;
+        half_width += (s16) min_xy;
         half_width >>= 1;
-        projection_scratch = half_width;
+        screen.z = half_width;
         side = 1;
-        bottom_y = max_xy;
-        bottom_y >>= 0x10;
-        screen_out = (void *)(depth * 4);
-        tag_mask = 0xFF000000;
-draw_side:
-        base = (s8 *) &D_80083160_alloc;
-        ASM_KEEP_DEP_NV(base, tag_mask);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-        quad = ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0;
-        ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
-        if (side != 0) {
-            base = (s8 *) saved_object;
-            right_color = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_60;
-            ((S_80F90E88_1 *)quad)->unk_1C = 0;
-            ((S_80F90E88_1 *)quad)->unk_14 = 0;
-            ((S_80F90E88_1 *)quad)->unk_0C = right_color;
-            ((S_80F90E88_1 *)quad)->unk_04 = right_color;
-            center_x = (u16) projection_scratch;
-            ((S_80F90E88_1 *)quad)->unk_20 = max_xy;
-            ((S_80F90E88_1 *)quad)->unk_18 = max_xy;
-            ((S_80F90E88_1 *)quad)->unk_10 = center_x;
-            ((S_80F90E88_1 *)quad)->unk_08.s = center_x;
-            goto setup_quad;
-        }
-        {
-            s32 hard_zero = 0;
-#ifdef NON_MATCHING
-            hard_zero = 0;
-#else
-#endif
-            ((S_80F90E88_1 *)quad)->unk_0C = hard_zero;
-            ((S_80F90E88_1 *)quad)->unk_04 = hard_zero;
-        }
-        base = (s8 *) saved_object;
-        left_color = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_60;
-        ((S_80F90E88_1 *)quad)->unk_1C = left_color;
-        ((S_80F90E88_1 *)quad)->unk_14 = left_color;
-        center_x = (u16) projection_scratch;
-        ((S_80F90E88_1 *)quad)->unk_10 = (u16) min_xy;
-        ((S_80F90E88_1 *)quad)->unk_08.u = min_xy;
-        ((S_80F90E88_1 *)quad)->unk_20 = center_x;
-        ((S_80F90E88_1 *)quad)->unk_18 = center_x;
-setup_quad:
-        func_80066708(quad);
-        func_80066640(quad, 1);
-        ((S_80F90E88_1 *)quad)->unk_1A = 0;
-        ((S_80F90E88_1 *)quad)->unk_0A = 0;
-        ((S_80F90E88_1 *)quad)->unk_22 = (s16) bottom_y;
-        ((S_80F90E88_1 *)quad)->unk_12 = (s16) bottom_y;
-        base = (s8 *) &D_80083160_link;
-        quad_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
-        quad_tag = ((S_80F90E88_1 *)quad)->unk_00;
-        quad_ot_link = ((S_80F90E88_2 *)(((s32)screen_out) + quad_ot_link))->unk_B0;
-        quad_tag &= tag_mask;
-        quad_ot_link &= address_mask;
-        quad_tag |= quad_ot_link;
-        ((S_80F90E88_1 *)quad)->unk_00 = quad_tag;
-        side -= 1;
-        quad_ot_slot = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
-        {
-            s32 slot = ((s32)screen_out) + quad_ot_slot;
-            quad_ot_slot = slot;
-        }
-        ((S_80F90E88_3 *)quad_ot_slot)->unk_B0 = (s32) ((((S_80F90E88_3 *)quad_ot_slot)->unk_B0 & tag_mask)
-            | ((s32) quad & address_mask));
-        if (side < 0) {
-            draw_mode = ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0;
-            ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
-            func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-            base = (s8 *) &D_80083160_final;
-            mode_ot_offset = depth * 4;
-            mode_tag_mask = 0xFF000000;
-            endpoint = (WorkCell *)((s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08);
-            mode_tag = *draw_mode;
-            endpoint = (WorkCell *)(mode_ot_offset + (s32)endpoint);
-            endpoint = (WorkCell *)(((S_80F90E88_4 *)(s32)endpoint)->unk_B0);
-            mode_tag &= mode_tag_mask;
-            endpoint = (WorkCell *)(((s32)endpoint) & (address_mask));
-            mode_tag |= (s32)endpoint;
-            *draw_mode = mode_tag;
-            endpoint = (WorkCell *)((s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08);
-            mode_ot_slot = (void *) (mode_ot_offset + (s32)endpoint);
-            mode_ot_slot->unk_B0 = (s32) ((mode_ot_slot->unk_B0 & mode_tag_mask) | ((s32) draw_mode & address_mask));
-            goto advance_object;
-        }
-        goto draw_side;
+        bottom_y = max_xy >> 0x10;
+        ot_offset = depth * 4;
+        do {
+            quad = ((S_80F90E88_7 *)gw->unk_000)->unk_8D0;
+            ((S_80F90E88_7 *)gw->unk_000)->unk_8D0 = (s32 *) ((s8 *) quad + 0x24);
+            if (side != 0) {
+                color = ((S_80F90E88_0 *)((u8 *)model - 0x8))->unk_60;
+                ((S_80F90E88_1 *)quad)->unk_1C = 0;
+                ((S_80F90E88_1 *)quad)->unk_14 = 0;
+                ((S_80F90E88_1 *)quad)->unk_0C = color;
+                ((S_80F90E88_1 *)quad)->unk_04 = color;
+                center_x = (u16) screen.z;
+                ((S_80F90E88_1 *)quad)->unk_20 = max_xy;
+                ((S_80F90E88_1 *)quad)->unk_18 = max_xy;
+                ((S_80F90E88_1 *)quad)->unk_10 = center_x;
+                ((S_80F90E88_1 *)quad)->unk_08.s = center_x;
+            } else {
+                ((S_80F90E88_1 *)quad)->unk_0C = 0;
+                ((S_80F90E88_1 *)quad)->unk_04 = 0;
+                color = ((S_80F90E88_0 *)((u8 *)model - 0x8))->unk_60;
+                ((S_80F90E88_1 *)quad)->unk_1C = color;
+                ((S_80F90E88_1 *)quad)->unk_14 = color;
+                center_x = (u16) screen.z;
+                ((S_80F90E88_1 *)quad)->unk_10 = (u16) min_xy;
+                ((S_80F90E88_1 *)quad)->unk_08.u = min_xy;
+                ((S_80F90E88_1 *)quad)->unk_20 = center_x;
+                ((S_80F90E88_1 *)quad)->unk_18 = center_x;
+            }
+            func_80066708(quad);
+            func_80066640(quad, 1);
+            ((S_80F90E88_1 *)quad)->unk_1A = 0;
+            ((S_80F90E88_1 *)quad)->unk_0A = 0;
+            ((S_80F90E88_1 *)quad)->unk_22 = bottom_y;
+            ((S_80F90E88_1 *)quad)->unk_12 = bottom_y;
+            link = (s32) gw->unk_000;
+            tag = ((S_80F90E88_1 *)quad)->unk_00;
+            link = ((S_80F90E88_2 *)(ot_offset + link))->unk_B0;
+            tag &= 0xFF000000;
+            link &= address_mask;
+            tag |= link;
+            ((S_80F90E88_1 *)quad)->unk_00 = tag;
+            side--;
+            tag = ((S_80F90E88_2 *)(ot_offset + (s32)gw->unk_000))->unk_B0;
+            tag &= 0xFF000000;
+            tag |= (s32) quad & address_mask;
+            ((S_80F90E88_2 *)(ot_offset + (s32)gw->unk_000))->unk_B0 = tag;
+        } while (side >= 0);
+        draw_mode = ((S_80F90E88_7 *)gw->unk_000)->unk_8D0;
+        ((S_80F90E88_7 *)gw->unk_000)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
+        func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+        mode_ot_offset = depth * 4;
+        link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->unk_000))->unk_B0);
+        setaddr(*draw_mode, link);
+        setaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->unk_000))->unk_B0, (s32) draw_mode);
     }
-advance_object:
-    base = (s8 *) object;
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    next_object = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_00;
+    next_object = ((S_80F90E88_0 *)((u8 *)object - 0x8))->unk_00;
     if (next_object != 0) {
         object = (void *) (next_object + 0x20);
         goto draw_object;
     }
-    {
-        s32 hard_zero = 0;
-#ifdef NON_MATCHING
-        hard_zero = 0;
-#else
-#endif
-        endpoint = (WorkCell *)(hard_zero);
-        ASM_KEEP(endpoint);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return (s32)endpoint;
-    }
+    return 0;
 }
