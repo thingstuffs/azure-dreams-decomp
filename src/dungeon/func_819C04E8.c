@@ -173,7 +173,8 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         }
         slot_offset = object_index - 1;
         object_index = slot_offset;
-        if ((s32)((u32)slot_offset << 16) >= 0) {
+        slot_offset <<= 16;
+        if (slot_offset >= 0) {
             do {
                 slot_offset = (s32)((u32)object_index << 16);
                 previous_index = object_index - 1;
@@ -196,6 +197,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
 continue_loop:
         slot_offset = object_index + 1;
         object_index = slot_offset;
-    } while ((s16)slot_offset < 21);
+        slot_offset <<= 16;
+    } while ((slot_offset >> 16) < 21);
     return (s32)objects[0];
 }

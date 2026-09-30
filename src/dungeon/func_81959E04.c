@@ -40,41 +40,29 @@ typedef struct S_81959E04_2 {
 
 /* Spawn a ring of 32 spark objects around (x, y, z), each with the velocity of its angle step. */
 void *func_81959E04(s16 x, s16 y, s16 z) {
-    s32 angle;
     S_81959E04_1 *part;
     void *obj;
     s32 i;
     s32 scale;
     s32 sign_bits;
-    register s16 pos_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 pos_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s16 pos_z;
     S_81959E04_2 *info;
-    void *call_arg1;
 
-    pos_x = x;
-    pos_y = y;
-    pos_z = z;
     i = 0;
     sign_bits = -0x800;
     scale = 0x20;
-    angle = i;
     do {
         obj = func_8003FC64(0x212);
         if (obj != NULL) {
-            register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            call_arg1 = D_800C95C0;
-            call_arg0 = obj;
             ((S_81959E04_0 *)obj)->unk_10 = &D_80025528;
-            func_8004491C(call_arg0, call_arg1);
+            func_8004491C(obj, D_800C95C0);
             part = ((S_81959E04_0 *)obj)->unk_08;
-            part->unk_02 = pos_x;
-            part->unk_06 = pos_y;
-            part->unk_0A = pos_z;
-            part->unk_0C = ((func_80064584(angle) & 0x800) ? (func_80064584(angle)
-                | sign_bits) : (func_80064584(angle) & 0x7FF)) << 0xB;
-            part->unk_10 = ((func_800644B8(angle) & 0x800) ? (func_800644B8(angle)
-                | sign_bits) : (func_800644B8(angle) & 0x7FF)) << 0xB;
+            part->unk_02 = x;
+            part->unk_06 = y;
+            part->unk_0A = z;
+            part->unk_0C = ((func_80064584(i * 0x80) & 0x800) ? (func_80064584(i * 0x80)
+                | sign_bits) : (func_80064584(i * 0x80) & 0x7FF)) << 0xB;
+            part->unk_10 = ((func_800644B8(i * 0x80) & 0x800) ? (func_800644B8(i * 0x80)
+                | sign_bits) : (func_800644B8(i * 0x80) & 0x7FF)) << 0xB;
             part->unk_14 = 0xFFFE0000;
             info = obj + 0x20;
             (*(s16 *)((u8 *)obj + 0x20)) = scale;
@@ -82,11 +70,8 @@ void *func_81959E04(s16 x, s16 y, s16 z) {
             info->unk_04 = 1;
             info->unk_06 = 0;
             info->unk_30 = scale;
-            goto next;
         }
-next:
         i += 1;
-        angle += 0x80;
     } while (i < 0x20);
     return obj;
 }
