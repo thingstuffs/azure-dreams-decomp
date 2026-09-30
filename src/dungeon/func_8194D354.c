@@ -147,7 +147,8 @@ extern M2C_UNK D_800DE5DC;
 extern s32 D_800E3D18;
 
 /* Updates a three-way effect, selects its target, and animates the target color. */
-void func_80024B54(void *effect, void *position) {
+void func_80024B54(void *effect_arg, void *position) {
+    void *effect = effect_arg;
     M2C_UNK fallback_pos[6];
     Packed8 direction;
     FourWords transform[2];
@@ -155,14 +156,13 @@ void func_80024B54(void *effect, void *position) {
     M2C_UNK *target_pos;
     register u8 *target_page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *tile_or_y_steps;
-    u8 *x_steps;
     M2C_UNK *effect_pool;
     EntityRec *origin;
     register void *source_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 phase ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 phase;
     s32 state_or_heading;
     s32 rounded_phase;
-    register s32 step_count ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step_count;
     u16 *input_page;
     s32 position_valid;
     register s32 step_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -240,7 +240,8 @@ void func_80024B54(void *effect, void *position) {
         effect_data = offset;
         step_value = (step_value - 0x50) << 0x10;
         (*(s32 *)((u8 *)source_pos + 8)) = step_value;
-        step_value = gameWork.view.viewAngle;
+        step_count = gameWork.view.viewAngle;
+        step_value = step_count;
         state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
         offset_mode = 0;
         step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;
@@ -260,48 +261,43 @@ void func_80024B54(void *effect, void *position) {
         } else {
             target_pos = fallback_pos;
             step_count = 0;
-            x_steps = (u8 *)((M2C_UNK *)dirStepX);
             ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)((((S_80024B54_4 *)tile_or_y_steps)->unk_24 << 6) + 0x20);
             tile_y = ((S_80024B54_4 *)tile_or_y_steps)->unk_25;
-            tile_or_y_steps = (u8 *)((M2C_UNK *)dirStepY);
             ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
-loop_15:
-            actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
-            step_value = *(s16 *)((s32)((((S_80024B54_5 *)actor_or_frame)->unk_2A >> 8) & 0xE) + (s32)x_steps);
-            ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u + (step_value << 6));
-            step_value = *(s16 *)((s32)((((S_80024B54_5 *)actor_or_frame)->unk_2A >> 8) & 0xE) + (s32)tile_or_y_steps);
-            ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u + (step_value << 6));
-            ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_5 *)actor_or_frame)->unk_88;
-            ground_height = func_800BCAD0(target_pos);
-            ((S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
-            if ((s16)ground_height > 0x200) {
-                ((S_80024B54_7 *)target_pos)->unk_0A.u =
-                    (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
-            }
-            position_valid = func_800A45D8(((S_80024B54_7 *)target_pos)->unk_02.u,
-                ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
-            if ((position_valid << 0x10) != 0) {
+            do {
                 actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
-                step_value = *(s16 *)((s32)((((S_80024B54_5 *)actor_or_frame)->unk_2A >> 8) & 0xE) + (s32)x_steps);
-                ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u - (step_value
-                    << 5));
-                step_value = *(s16 *)((s32)((((S_80024B54_5 *)actor_or_frame)->unk_2A >> 8) & 0xE)
-                    + (s32)tile_or_y_steps);
-                ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u - (step_value
-                    << 5));
+                step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u + (step_value << 6));
+                step_value = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u + (step_value << 6));
                 ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_5 *)actor_or_frame)->unk_88;
-                near_height = func_800BCAD0(target_pos);
-                ((S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
-                if ((s16)near_height > 0x200) {
+                ground_height = func_800BCAD0(target_pos);
+                ((S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
+                if ((s16)ground_height > 0x200) {
                     ((S_80024B54_7 *)target_pos)->unk_0A.u =
                         (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
                 }
-            } else {
-                step_count += 1;
-                if (step_count < 8) {
-                    goto loop_15;
+                position_valid = func_800A45D8(((S_80024B54_7 *)target_pos)->unk_02.u,
+                    ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
+                if ((position_valid << 0x10) != 0) {
+                    actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
+                    step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u - (step_value
+                        << 5));
+                    step_value = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
+                    ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)(((S_80024B54_7 *)target_pos)->unk_06.u - (step_value
+                        << 5));
+                    ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_5 *)actor_or_frame)->unk_88;
+                    near_height = func_800BCAD0(target_pos);
+                    ((S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
+                    if ((s16)near_height > 0x200) {
+                        ((S_80024B54_7 *)target_pos)->unk_0A.u =
+                            (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
+                    }
+                    break;
                 }
-            }
+                step_count += 1;
+            } while (step_count < 8);
         }
         func_8002401C(((S_80024B54_8 *)source_pos)->unk_02, ((S_80024B54_8 *)source_pos)->unk_06,
             ((S_80024B54_8 *)source_pos)->unk_0A, ((S_80024B54_7 *)target_pos)->unk_02.s,
