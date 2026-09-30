@@ -34,15 +34,15 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
 {
     u8 *item;
     u8 *equipped_item;
-    u8 *item_lookup;
     s32 item_flags;
     s32 item_id;
     s32 had_equipped;
     s32 text_end;
     s32 state;
+    s16 equipped;
 
     item = requested_item;
-    state = 0;
+    equipped = 0;
 
     if (item != 0) {
         item = func_80097F84(item, D_800E07C0, D_800E07D3, 0);
@@ -68,10 +68,10 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
         if (equipped_item == item) {
             item = 0;
         }
-        state = 1;
+        equipped = 1;
     }
 
-    had_equipped = state;
+    had_equipped = equipped;
     if (item != 0) {
         item[3] &= 0x7F;
         item_id = item[0];
@@ -108,18 +108,11 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
 
     actor->unk_50.p = item;
     func_800A56E0(0x508);
-    {
-        s32 lookup_id;
-
-        lookup_id = item_id;
-        ASM_KEEP(lookup_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        item_lookup = D_800DD2EC;
-        ASM_KEEP(item_lookup);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        actor->unk_86 = *(u8 *)((u32)lookup_id + (u32)item_lookup);
-        if (lookup_id != 0) {
-            func_800485B8(lookup_id);
-            return;
-        }
+    text_end = item_id;
+    actor->unk_86 = D_800DD2EC[text_end];
+    if (text_end != 0) {
+        func_800485B8(text_end);
+        return;
     }
     func_800483AC(0);
 }
