@@ -46,7 +46,6 @@ void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
     s32 emit_offset;
     u32 size_step;
     S_800D6C18_1 *size_source;
-    void *offset_pair;
     s32 *global_base;
 
     size_source = ((S_800D6C18_0 *)effect)->unk_14;
@@ -59,22 +58,20 @@ void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {
     ((S_800D6C18_0 *)effect)->unk_54 = display_size;
     if ((((S_800D6C18_0 *)effect)->unk_0C < 0x13) && !((u16) ((S_800D6C18_0 *)effect)->unk_0C & 1)) {
         index = 0;
-        offset_pair = effect;
         do {
-            if (((S_800D6C18_3 *)offset_pair)->unk_44 < 0) {
-                ((S_800D6C18_3 *)offset_pair)->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)offset_pair)->unk_44 + 1);
+            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 < 0) {
+                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 + 1);
             }
-            if (((S_800D6C18_3 *)offset_pair)->unk_44 > 0) {
-                ((S_800D6C18_3 *)offset_pair)->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)offset_pair)->unk_44 - 1);
+            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 > 0) {
+                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_44 - 1);
             }
-            if (((S_800D6C18_3 *)offset_pair)->unk_4C < 0) {
-                ((S_800D6C18_3 *)offset_pair)->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)offset_pair)->unk_4C + 1);
+            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C < 0) {
+                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C + 1);
             }
-            if (((S_800D6C18_3 *)offset_pair)->unk_4C > 0) {
-                ((S_800D6C18_3 *)offset_pair)->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)offset_pair)->unk_4C - 1);
+            if (((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C > 0) {
+                ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C = (s16) ((u16) ((S_800D6C18_3 *)((u8 *)effect + index * 2))->unk_4C - 1);
             }
             index += 1;
-            offset_pair += 2;
         } while (index < 4);
     }
     if ((((S_800D6C18_0 *)effect)->unk_0C == 0xF) && (((S_800D6C18_0 *)effect)->unk_10 == 0)) {

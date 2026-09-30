@@ -53,7 +53,6 @@ void func_80024E4C(void *self)
     s16 point_step[3];
     s32 state;
     s32 point_index;
-    void *point_slot;
     void *object_base;
     S_819A764C_1 *linked_object;
     u8 *message;
@@ -65,16 +64,15 @@ void func_80024E4C(void *self)
     point_step[1] = (((S_819A764C_0 *)self)->unk_26 - ((S_819A764C_0 *)self)->unk_06.s) >> 2;
     point_step[2] = (((S_819A764C_0 *)self)->unk_28 - ((S_819A764C_0 *)self)->unk_08.s) >> 2;
     point_index = 1;
-    point_slot = self + 8;
 
     do {
-        ((S_819A764C_2 *)point_slot)->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
+        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_04 = ((S_819A764C_0 *)self)->unk_04.u + point_step[0] * point_index
         + (func_80069EF8() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)point_slot)->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
+        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_06 = ((S_819A764C_0 *)self)->unk_06.u + point_step[1] * point_index
         + (func_80069EF8() & 0x3F) - 0x20;
-        ((S_819A764C_2 *)point_slot)->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index++
+        ((S_819A764C_2 *)((u8 *)self + point_index * 8))->unk_08 = ((S_819A764C_0 *)self)->unk_08.u + point_step[2] * point_index
         - (func_80069EF8() & 0x3F);
-        point_slot += 8;
+        point_index++;
     } while (point_index < 4);
 
     ((S_819A764C_0 *)self)->unk_2C = ((((S_819A764C_0 *)self)->unk_3E & 3) << 5) + 0x80;
