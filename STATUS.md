@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T10:22:47Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T10:23:35Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,20 +73,20 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,364 | 11.9% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 531 | 594,384 | 23.2% |
-| goto | 1545 | 1,318,412 | 51.5% | 710 | 758,852 | 29.7% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 529 | 594,080 | 23.2% |
+| goto | 1545 | 1,318,412 | 51.5% | 709 | 758,632 | 29.7% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 91 | 149,996 | 5.9% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 254 | 215,620 | 8.4% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 2 | 2,512 | 0.1% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 256 | 188,584 | 7.4% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 255 | 188,364 | 7.4% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3043 | 1,570,612 | 61.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5129 | 1,387,124 | 54.2% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3044 | 1,570,696 | 61.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5131 | 1,387,428 | 54.2% |
 
-Pin sites now: 1,709 in 530 rows; REG 872, KEEP 321, KEEP_NV 234, SCHED_BARRIER 95, USE_NV 33, USE 29, KEEP_DEP_NV 24, CLOBBER 20.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,705 in 528 rows; REG 871, KEEP 321, KEEP_NV 234, SCHED_BARRIER 94, USE_NV 33, USE 29, KEEP_DEP_NV 24, CLOBBER 19.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 
