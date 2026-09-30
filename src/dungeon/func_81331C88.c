@@ -124,6 +124,12 @@ extern u8 D_80167C30[];
 extern u8 D_80173B4C[];
 extern u8 D_80175DD8[];
 
+static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
+{
+    s16 value = start + delta * step / 7;
+    return value;
+}
+
 /* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
 void func_80168C88(u8 *effect, void *origin, void *color_in)
 {
@@ -143,7 +149,7 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     register u8 *shape_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *endpoint ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *start_coord;
-    register s32 scaled_delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 scaled_delta;
     u8 *table_base;
     s32 segment;
     s32 segment_offset;
@@ -159,7 +165,6 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     u16 *near_vertex;
     s32 coord;
     s32 source_offset;
-    register u16 *far_vertex ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 coord_offset;
     s32 source_side;
     s32 source_index;
@@ -208,16 +213,14 @@ interpolate_axis:
         endpoint = (u8 *)((s32)edge_offset + (s32)shape_row);
         start_coord = (s16 *)dest_coord;
         start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
-        ASM_KEEP_DEP_NV(start_coord, endpoint);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         endpoint += dest_coord;
         scaled_delta = ((S_80168C88_2 *)endpoint)->unk_54;
         scaled_delta -= *start_coord;
-        scaled_delta *= step;
         axis += 1;
         shape_row = (u8 *)((s32)dest_offset + (s32)shape_row);
         shape_row = (u8 *)((s32)edge_offset + (s32)shape_row);
         dest_coord += (s32)shape_row;
-        ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = *start_coord + scaled_delta / 7;
+        ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = interpolate_value(scaled_delta, step, *start_coord);
         if (axis < 3) {
             goto interpolate_axis;
         }
@@ -316,7 +319,7 @@ loop_2:
                 source_index += source_side;
                 ASM_KEEP_NV(source_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 source_offset = source_index * 2;
-                far_vertex = (u16 *)(vertex_base + 0x80);
+                start_coord = (s16 *)(vertex_base + 0x80);
                 near_vertex = (u16 *)(vertex_base + 0x74);
 copy_coord:
                 coord_offset = coord * 2;
@@ -334,8 +337,8 @@ copy_coord:
                 endpoint += 0xC;
                 endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
                 far_coord = (u8 *)((s32)coord_offset + (s32)endpoint);
-                *far_vertex = ((S_80168C88_14 *)far_coord)->unk_00;
-                far_vertex += 1;
+                *start_coord = ((S_80168C88_14 *)far_coord)->unk_00;
+                start_coord += 1;
                 if (coord < 3) {
                     goto copy_coord;
                 }
