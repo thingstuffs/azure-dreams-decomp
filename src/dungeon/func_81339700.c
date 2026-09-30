@@ -47,11 +47,8 @@ extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 func_80047784();
 typedef struct {
-    s32 x0;
-    s32 x4;
-    s32 x8;
-    s32 xC;
-} Copy16;
+    s32 w[12];
+} Copy48;
 extern s32 D_80170534;
 extern u8 D_80170000[0x3A81];
 extern void *D_80175D50;
@@ -59,39 +56,25 @@ extern void *D_80175D64;
 
 /* Creates an object from the current object's data and initializes its position and appearance. */
 void func_80170700(void) {
-    s32 copy_end;
     s32 data_index;
     S_80170700_3 *position;
     void *source_data;
     S_80170700_2 *render_data;
     S_80170700_1 *object;
-    void *copy_dst;
-    void *copy_src;
-    register void *call_obj ASM_REG("$4");
 
     source_data = ((Rec_D_80175D50 *)D_80175D50)->unk_0C;
     object = func_8003FC64(0x112);
-    copy_src = source_data;
     if (object != NULL) {
-        copy_end = (s32)copy_src + 0x30;
         render_data = object->unk_0C;
         object->unk_38 = 0;
         object->unk_10 = &D_80170534;
-        copy_dst = render_data;
-        do {
-            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-            copy_src = (u8 *)copy_src + 0x10;
-            copy_dst = (u8 *)copy_dst + 0x10;
-        } while (copy_src != (void *)copy_end);
+        *(Copy48 *)render_data = *(Copy48 *)source_data;
         render_data->unk_14 =
             (render_data->unk_14 & 0xFF7F) | 0x400;
-        func_8004491C(object, func_80045340, copy_dst, copy_src);
-        call_obj = render_data;
-        do {
-            data_index = *(&D_80170000[0x3A80]);
-        } while (0);
+        func_8004491C(object, func_80045340);
+        data_index = *(&D_80170000[0x3A80]);
         render_data->unk_2C = &D_80170000[0x3A80];
-        func_80047784(call_obj, data_index, 0);
+        func_80047784(render_data, data_index, 0);
         render_data->unk_06 = 6;
         render_data->unk_14 &= 0xFFF3;
         position = object->unk_08;
@@ -107,6 +90,7 @@ void func_80170700(void) {
     }
 }
 
-/* MECHANISM: Preserve the seed's 0x20 frame and long-lived s0/s1 roles.
-   A widened byte local plus call_obj pinned in a0 fixes the pre-call order.
-   ASM_KEEP(data_index) delays a2=0 while the following store fills the jal slot. */
+/* MECHANISM: the 48-byte render-data copy is a struct assignment (mips block-move
+   loop: lw/sw x4 through $2-$5, src $7, dst $6, end $8), and func_8004491C takes
+   two arguments, so $6 is set once in the function: sched1's birthing boost
+   places `move $6,$0` right before the second jal. */
