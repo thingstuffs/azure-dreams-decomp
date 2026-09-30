@@ -20,8 +20,7 @@ s32 func_800C8CD8(void *entity_arg, s32 threshold_arg, s32 kind_arg, s32 rng_arg
     rng_arg = *(u8 *)((u8 *)entity_arg + 3);
     signed_threshold = rng_result & 0xFFFF;
     if (rng_arg != 0) {
-        s32 divisor = rng_arg;
-        ASM_KEEP(divisor);
+        s32 divisor = (*(u32 *)entity_arg) >> 24;
         roll = signed_threshold % divisor;
     } else {
         roll = 0;
