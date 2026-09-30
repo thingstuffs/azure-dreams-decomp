@@ -33,7 +33,11 @@ typedef struct S_81988800_3 {
     s16 unk_06;
     union { void * p32; u16 u16; } unk_08;   /* accessed as both */
     void * unk_0C;
-    u8 pad_10[0x30];
+    struct {
+        s16 unk_00;
+        s16 unk_02;
+        s16 unk_04;
+    } entries[8];
     s16 unk_40;
 } S_81988800_3;   /* work in BODY_NAME */
 
@@ -57,12 +61,6 @@ typedef struct S_81988800_6 {
     s32 unk_20;
     s32 unk_24;
 } S_81988800_6;   /* spawn_fields in BODY_NAME */
-
-typedef struct S_81988800_7 {
-    u8 pad_00[0x10];
-    s16 unk_10;
-    s16 unk_12;
-} S_81988800_7;   /* loop_ptr in BODY_NAME */
 
 typedef struct S_81988800_8 {
     u8 pad_00[0x2A];
@@ -133,7 +131,7 @@ void BODY_NAME(void *state_data, void *position_data)
     void *object;
     u8 *work;
     void *source;
-    register void *position_ref ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *list_head;
     void *actor;
     u8 *unused_fields;
     s32 timer;
@@ -159,9 +157,9 @@ void BODY_NAME(void *state_data, void *position_data)
 jt_c0:
     D_800814A8->unk_102 = 1;
     D_800814A8->unk_F4 = 0;
-    ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
-    ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
-    ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
+    ((S_81988800_2 *)position_data)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
+    ((S_81988800_2 *)position_data)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
+    ((S_81988800_2 *)position_data)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
     ((S_81988800_0 *)state_data)->unk_0A.u++;
 jt_c1:
     {
@@ -188,18 +186,18 @@ jt_c1:
                 ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
-                ((S_81988800_2 *)position_ref)->unk_00 =
+                ((S_81988800_2 *)position_data)->unk_00 =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
                                       ((s32)offset[0] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_1C = ((S_81988800_2 *)position_ref)->unk_00;
-                ((S_81988800_2 *)position_ref)->unk_04 =
+                ((S_81988800_6 *)spawn_data)->unk_1C = ((S_81988800_2 *)position_data)->unk_00;
+                ((S_81988800_2 *)position_data)->unk_04 =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04 +
                                       ((s32)offset[1] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_20 = ((S_81988800_2 *)position_ref)->unk_04;
-                ((S_81988800_2 *)position_ref)->unk_08.at00.v =
+                ((S_81988800_6 *)spawn_data)->unk_20 = ((S_81988800_2 *)position_data)->unk_04;
+                ((S_81988800_2 *)position_data)->unk_08.at00.v =
                     ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08 +
                                       ((s32)offset[2] << 16);
-                ((S_81988800_6 *)spawn_data)->unk_24 = ((S_81988800_2 *)position_ref)->unk_08.at00.v;
+                ((S_81988800_6 *)spawn_data)->unk_24 = ((S_81988800_2 *)position_data)->unk_08.at00.v;
             }
             ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
@@ -228,7 +226,6 @@ jt_c2:
 
 jt_c3:
     {
-        u8 *entry_ptr;
         s32 entry_index;
 
         if (0) {
@@ -243,11 +240,10 @@ jt_c3:
                 work = (u8 *)object + 0x20;
                 ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
-                ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_ref)->unk_08.at02.v;
-                entry_ptr = (u8 *)object + 0x4A;
-                for (entry_index = 7; entry_index >= 0; entry_ptr -= 6, entry_index--) {
-                    ((S_81988800_7 *)entry_ptr)->unk_12 = 0;
-                    ((S_81988800_7 *)entry_ptr)->unk_10 = 0;
+                ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_data)->unk_08.at02.v;
+                for (entry_index = 7; entry_index >= 0; entry_index--) {
+                    ((S_81988800_3 *)work)->entries[entry_index].unk_02 = 0;
+                    ((S_81988800_3 *)work)->entries[entry_index].unk_00 = 0;
                 }
                 ((S_81988800_3 *)work)->unk_00 = state_data;
                 ((S_81988800_3 *)work)->unk_40 = 0;
@@ -264,10 +260,10 @@ jt_c4:
             object = D_800814A8;
             if (object != 0) {
 
-                position_ref = object;
+                list_head = object;
                 work = (u8 *)((u8 *)(&D_80082E80));
 loop:
-                object = func_800A3F28(work[0x24], work[0x25], position_ref, object);
+                object = func_800A3F28(work[0x24], work[0x25], list_head, object);
                 if (object != 0) {
                     if (((S_81988800_5 *)object)->unk_1C & 0x2000) {
                         goto loop;
