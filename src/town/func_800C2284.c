@@ -78,6 +78,7 @@ void func_800BF9E4(void *object, S_800BF9E4_1 *position, M2C_UNK resource_contex
     ((Rec_func_8008F074_arg0 *)object)->unk_48 = D_800D237C[0];
     child = func_8003FC64(0x136);
     if (child != 0) {
+        child_data = child + 0x20;
         func_8004491C(child, &D_80046398[0]);
         child_visual = ((S_800BF9E4_2 *)child)->unk_0C;
         ((S_800BF9E4_2 *)child)->unk_10 = &D_800BF72C[0];
@@ -90,8 +91,6 @@ void func_800BF9E4(void *object, S_800BF9E4_1 *position, M2C_UNK resource_contex
         child_position = ((S_800BF9E4_2 *)child)->unk_08;
         child_position->unk_00 = 0x0FA00000;
         child_position->unk_04 = 0x02300000;
-        child_data = child + 0x20;
-        ASM_USE(child_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         child_position->unk_08 = 0;
         child_data->unk_A0 = object;
     }

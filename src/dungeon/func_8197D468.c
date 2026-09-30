@@ -101,6 +101,7 @@ extern M2C_UNK D_800DE990;
 
 /* Update a rising, expanding, and falling effect, spawning particles on landing. */
 void func_8197D468(void *effect, void *motion, void *sprite) {
+    void *particle_work;
     s16 state;
     s16 ground_height;
     s32 particle_index;
@@ -217,6 +218,7 @@ state_2:
                     (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 =
                     (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                particle_work = particle + 0x20;
                 ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
                     (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
                 particle_color = 0xC00000;
@@ -233,9 +235,7 @@ state_2:
                 ((S_8197D468_6 *)particle_sprite)->unk_08 = particle_frames;
                 effect_data = ((S_8197D468_0 *)effect)->unk_00;
                 ((S_8197D468_5 *)particle)->unk_20 = effect_data;
-                effect_data = particle + 0x20;
-                ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ((S_8197D468_8 *)effect_data)->unk_4C = 0;
+                ((S_8197D468_8 *)particle_work)->unk_4C = 0;
             }
             particle_index -= 1;
         } while (particle_index >= 0);
