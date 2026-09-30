@@ -72,7 +72,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     s32 special_action;
     s32 selection_index;
     s32 entry_index;
-    register s32 state_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 state_flags;
 
     action_sprite = sprite;
     frame_table = direction_frames;
@@ -122,7 +122,7 @@ process:
     if (special_action == 0) {
         if (((S_801717D0_0 *)self)->unk_1C & 0x400) {
             state_flags = ((S_801717D0_0 *)self)->unk_14;
-            if (state_flags >= 0) {
+            if (!(state_flags & 0x80000000)) {
                 state_flags |= 0x80000000;
                 ((S_801717D0_0 *)self)->unk_14 = state_flags;
                 ((S_801717D0_0 *)self)->unk_2A.u += (func_800A6D30() & 7) << 9;

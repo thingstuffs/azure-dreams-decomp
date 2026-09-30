@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T00:05:11Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T00:11:25Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -74,7 +74,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 786 | 306,508 | 12.0% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 608 | 638,312 | 25.0% |
-| goto | 1545 | 1,318,412 | 51.5% | 762 | 791,016 | 30.9% |
+| goto | 1545 | 1,318,412 | 51.5% | 761 | 790,456 | 30.9% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 74 | 119,128 | 4.7% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 257 | 215,032 | 8.4% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
@@ -86,7 +86,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3044 | 1,570,976 | 61.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5037 | 1,335,644 | 52.2% |
 
-Pin sites now: 1,964 in 607 rows; REG 998, KEEP 396, KEEP_NV 255, SCHED_BARRIER 105, USE 34, USE_NV 34, KEEP_DEP_NV 28, CLOBBER 23.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,961 in 607 rows; REG 996, KEEP 395, KEEP_NV 255, SCHED_BARRIER 105, USE 34, USE_NV 34, KEEP_DEP_NV 28, CLOBBER 23.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 
