@@ -385,3 +385,35 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   = a missing preference, e.g. a call argument m2c dropped (LoadImage called with 1 arg where every caller passes 2).
 - **`x = y | x` with retail's operand order y-first** (80F90E88): gcc 2.8.1 optabs.c:423 swaps a commutative op when the
   target is also the second operand - compute into a temporary, then assign (combine folds the copy).
+
+## Round 81 (2026-09-30): the cell and the flags come first - pins fitted to the wrong build
+Before hunting a source shape, ask whether the row's registered cell/flags are its module's build. Tools:
+`tools/lanes/row_census.py` (all pins erased, scored at registered vs module census recipe),
+work/native_lane/r81_sonnet_cellcmp/cellcmp.py (D0: erased text at two cells line for line; D1 `--carriers`: which pin
+carries the cell dependence), work/native_lane/r81_sonnet_flagcrutch/flag_crutch.py (pin-free module neighbours scored
+under the row's cfg; a neighbour exact at the census recipe that breaks proves the row's flag is a crutch).
+- **Class P (r81_fable_late, cellcmp census 69+4 of 138 non-cdk rows):** with every pin erased the late (2.8.x) or old
+  cell and cdk emit the SAME body; the cell dependence is carried by a KEEP/USE/JALDELAY pin on an integer-page local
+  (never the ASM_REG pins) - the 1997 combine force_to_mode ASM_OPERANDS change (r14287) seen from the row side. The
+  registered cell is where the pins happened to work: work those rows at the module census cell.
+- **Flag crutches (r81_fable_eqv, flag_crutch census 118 rows / 511 pins strict):** 813231FC's
+  -fno-expensive-optimizations broke 7 of beldo.c's 28 pin-free rows; it disabled local-alloc optimize_reg_copy_1
+  (local-alloc.c:1084), which retargets `(set a1 r); (set fr r)` into retail's `move $16,$5`; the three pins imitated
+  it. At the module recipe: multi-set result carrier + u8 local, 3 -> 0.
+- **reload_cse_simplify_operands is not in the retail (cdk 970404) compiler** (`strings` on cc1): a 2.8.0 row whose lone
+  erasure turns an immediate into a callee-saved register (`sll $18,$2,$20`) is at the wrong cell (800AC3B0 1 -> 0 at cdk).
+- **Unaligned aggregate copy = cdk marker** (818FF5B8 3 -> 0): cdk's output_block_move copies words 0,4,8 (retail),
+  FSF 2.8.1 0,8,4 - a `packed` pointer + word copies + lwl/lwr in retail -> `*(T *)dst = SYM;` at cdk.
+- **Parameter REG_EQUIV halves priority** (r81_opus_lc2, 81934928 5 -> 0, 818E6800 4 -> 3): a never-reassigned
+  parameter carries REG_EQUIV to its stack slot; local-alloc.c:1064 doubles its live length, halving its global.c
+  priority. A local copy / reassigned parameter ranks twice as high. APPEARS `T *x = (T *)param;` + callee-saved
+  ASM_REG swaps; RESOLVES use the parameter directly (or the inverse: 80819B14 needs both parameters without REG_EQUIV).
+  Generator: t132_paramequiv (r81_sonnet_t132).
+- **Reload right after a store = an intervening store** (r81_fable_eqv, 81876014): cse invalidates every varying-address
+  MEM on a store to a varying address (note_mem_written -> invalidate_memory); `e->z0 = 0; e->x1 = ...; e->z1 = e->z0;`
+  gives retail's `sh $0; lhu` pair. Replaces a volatile read. A register copy survives cse/combine only if its source
+  is reassigned before the copy's use.
+- **s16 argument locals + ternary argument** (r81_opus_lc1, 800A4C0C 3 -> 0): calls.c converts s16 arguments before
+  expanding a ternary argument's branch - retail's early `move a0,s2` + `move a1,s3` in the beqz slot.
+- **Loop counter zeroed in every branch** (813284E4 1 -> 0): one `i = 0;` before the loop drops its priority below the
+  competitor that should get the callee-saved register.
