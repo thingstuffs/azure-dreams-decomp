@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T06:43:58Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T06:45:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,7 +73,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,364 | 11.9% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 573 | 616,820 | 24.1% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 572 | 616,000 | 24.1% |
 | goto | 1545 | 1,318,412 | 51.5% | 718 | 765,644 | 29.9% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 91 | 149,996 | 5.9% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 256 | 217,236 | 8.5% |
@@ -86,7 +86,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3044 | 1,570,976 | 61.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5099 | 1,372,332 | 53.6% |
 
-Pin sites now: 1,872 in 572 rows; REG 962, KEEP 367, KEEP_NV 244, SCHED_BARRIER 101, USE_NV 33, USE 29, KEEP_DEP_NV 28, CLOBBER 22.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,866 in 571 rows; REG 960, KEEP 364, KEEP_NV 244, SCHED_BARRIER 100, USE_NV 33, USE 29, KEEP_DEP_NV 28, CLOBBER 22.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 419.
 
@@ -111,7 +111,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 818 rows, 474,028 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 572 rows (616,696 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 571 rows (615,876 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
