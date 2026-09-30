@@ -79,7 +79,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 right_x;
     s16 top_y;
     s16 bottom_y;
-    register s32 row_or_bottom_y ASM_REG("$5");
+    s32 row;
+    s32 bottom_offset;
     register s32 bottom_heights_addr ASM_REG("$7");
     s32 y_offset;
     s32 column;
@@ -108,9 +109,10 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         column = (s16) tile_x;
         x_offset = (column - 3);
         x_offset <<= 6;
-        row_or_bottom_y = (s16) tile_y;
+        row = (u32) tile_y << 16;
+        row >>= 16;
         height_row = D_8002745C;
-        tile_y = row_or_bottom_y;
+        tile_y = row;
         tile_y <<= 4;
         top_heights = (s16 *)(tile_y + (s32)height_row);
         top_row = top_heights;
@@ -119,7 +121,7 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_row += 0x10;
         height_row = (s8 *)(tile_y + (s32)height_row);
         bottom_heights_addr += (s32)height_row;
-        y_offset = (row_or_bottom_y - 3) << 6;
+        y_offset = (row - 3) << 6;
         output = object->field8;
         x_or_height = ((s16 *)origin)[1];
         y_or_color = ((s16 *)origin)[3];
@@ -152,8 +154,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         top_y = ((u16) origin->unk_06 + y_offset) - 0x20;
         ((TempOutput *)output)->field1A = top_y;
         ((TempOutput *)output)->field12 = top_y;
-        row_or_bottom_y = (row_or_bottom_y - 2) << 6;
-        bottom_y = ((u16) origin->unk_06 + row_or_bottom_y) - 0x20;
+        bottom_offset = (row - 2) << 6;
+        bottom_y = ((u16) origin->unk_06 + bottom_offset) - 0x20;
         ((TempOutput *)output)->field2A = bottom_y;
         ((TempOutput *)output)->field22 = bottom_y;
         ((TempOutput *)output)->field14 = (s16) ((u16) origin->unk_0A + (u16) top_heights[0]);
