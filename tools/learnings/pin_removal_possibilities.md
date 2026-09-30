@@ -356,3 +356,9 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   the copy survives, takes $4, and the early `move $4,$sN` falls out without ASM_REG/KEEP. Predicted fit:
   dungeon/func_819B3414 (next_effect). Not this rule: a constant argument (cse costs CONST_INT 0 < reg 1), no call
   (local-alloc), or a symbol address (cl_lui mechanism 1).
+- **`move $2,$sN; beq $2,$0` kept by a KEEP on `x = flag`** (r80_opus_cl_copy, dungeon/func_80BC3AC4 1 -> 0): combine CREATES
+  that copy when the source copies a 0/1 flag into a NARROW local (`s16 t = flag; if (t != 0)`): cse feeds the flag into
+  the sign-extension shifts and combine, knowing the flag's sign bits (combine.c:724-731: set more than once, not live at
+  entry, small constants only), reduces them to a register copy left before the branch. So: declare the copy s16/u8,
+  give every other role m2c merged into the flag its own local, and drop pins that read the flag before its first set.
+  An s32 copy is folded by cse. Pin-free siblings are written this way (80CBEF98, 80A9D4E8, 80B9913C).
