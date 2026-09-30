@@ -12,11 +12,6 @@ typedef struct S_80048C3C_1 {
     s32 unk_20;
 } S_80048C3C_1;   /* temp_s2 in func_80048C3C */
 
-#ifndef NON_MATCHING
-#undef ASM_KEEP
-#define ASM_KEEP(v) __asm__("" : "=r"(v) : "0"(v))
-#endif
-
 M2C_UNK DrawSync();                          /* extern */
 M2C_UNK Control_CD();       /* extern */
 M2C_UNK func_8003F320();                            /* extern */
@@ -25,7 +20,7 @@ M2C_UNK func_80046F88();                      /* extern */
 M2C_UNK func_80047200();    /* extern */
 M2C_UNK func_80048B8C();                      /* extern */
 extern u8 D_80071210[];
-extern s8 D_80080A89[9];
+extern s8 D_80080A89;
 
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *func_80048C3C(s32 resource_id) {
@@ -35,8 +30,6 @@ void *func_80048C3C(s32 resource_id) {
     void *entry3;
     void *resource;
     s32 load_mode;
-    s32 enabled;
-    register void *payload_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
 
     entry = (void *)(resource_id * 8);
     load_mode = 6;
@@ -47,14 +40,11 @@ void *func_80048C3C(s32 resource_id) {
     payload = resource + ((S_80048C3C_1 *)resource)->unk_1C;
     func_8003F80C(payload, 0x7A00, ((S_80048C3C_1 *)resource)->unk_20, 2);
     DrawSync(0);
-    payload_arg = payload;
-    enabled = 1;
-    ASM_KEEP(enabled);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-    func_80047200(payload_arg, enabled, enabled);
+    func_80047200(payload, 1, 1);
     func_8003F80C(payload, 0x7980, ((S_80048C3C_1 *)resource)->unk_20, 2);
     func_80046F88(resource);
     entry3 = (u8 *)entry2 + 4;
     func_80048B8C(resource);
-    D_80080A89[0] = 0;
+    D_80080A89 = 0;
     return entry3;
 }

@@ -4,12 +4,12 @@
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
 s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
-    register s32 min_y ASM_REG("$11"); /* t3 */
+    s32 min_y;
     s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */
     s32 *edge_state;    /* t0 */
     s16 *vertex; /* t2 */
-    register s32 top_vertex ASM_REG("$3");     /* v1 */
+    s32 top_vertex;
     register s32 bottom_vertex ASM_REG("$4");     /* a0 */
     s32 top_y;     /* a3 */
     register s32 edge_value ASM_REG("$2");    /* v0 */
@@ -41,7 +41,8 @@ loop_0:
                 bottom_vertex = edge_index;
             }
 
-            top_vertex = (top_vertex << 3) + (s32)vertices;
+            top_vertex <<= 3;
+            top_vertex += (s32)vertices;
             *edge_x = ((s16 *)top_vertex)[0];
             edge_value = *(u16 *)(top_vertex + 2) & grid_mask;
             top_y = (edge_value << 16) >> 16;
