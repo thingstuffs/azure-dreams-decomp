@@ -304,14 +304,12 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                 step_or_cell = step_index * 2;
                 side_object = ((S_8002520C_22 *)(((side_index * 4) + menu)))->unk_0C;
                 side_data = side_object + 0x20;
-                ASM_KEEP(side_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 cell = ((S_8002520C_5_pre *)side_data)[-1].unk_00;
                 {
                     s32 step_value;
                     s32 cell_coord;
 
-                    step_value = (s32) ((u16 *)dirStepX);
-                    x_step_ptr = (u16 *) (step_or_cell + step_value);
+                    x_step_ptr = (u16 *) (step_or_cell + ((s32)((s32) ((u16 *)dirStepX))));
                     step_value = *x_step_ptr;
                     cell_coord = cell->unk_24;
                     base_x = cell_coord + step_value;

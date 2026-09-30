@@ -199,10 +199,8 @@ jt_case0_tail:
             height_base = heights.values - 8;
             coord_sum = (s32)&height_base[height_slot];
             camera_mode = 1;
-            ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
-            x_sum = actor->x + D_80083780.x.w.i;
-            D_801760E8[0] = x_sum / 2;
+            D_801760E8[0] = ((s32)(actor->x + D_80083780.x.w.i)) / 2;
             y_sum = actor->y + D_80083780.y.w.i;
             D_801760E8[1] = y_sum / 2;
             D_801760E8[2] = actor->z;
