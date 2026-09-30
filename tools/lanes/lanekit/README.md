@@ -17,10 +17,10 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 
 | tool | what it prints |
 |---|---|
-| `lab.py` | listing distance, pins left, byte score, and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell` |
+| `lab.py` | listing distance, pins left, byte score, and the REPORT table; `--base FILE`, `--cfg`, `cellscore`, `stage-cell [--equal-pins]` |
 | `erase.py` | what each pin holds, and which pins fall together (`--cfg`: byte totals at another cell) |
-| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents |
-| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff; `--scorer --classify`: ORDER / COLOUR / OPCODE / COUNT per region) |
+| `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); ONE text at TWO cfgs (`<text> --cfg A --vs-cfg B`); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents |
+| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff and score; `--scorer --classify`: ORDER / COLOUR / OPCODE / COUNT per region); journalled to `lab_log.jsonl` |
 | `checks.py` | the four proof checks (sole-ready, launched group, known-constant base, barrier): a verdict per residue insn |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
@@ -49,6 +49,7 @@ python3 .../lab.py <row> --grid grid1.json --score  # every combination of indep
 python3 .../lab.py <row> v7.c --cfg "2.8.1-G0" --score          # measure at another cfg
 python3 .../lab.py cellscore <row> v7.c --cfg "2.8.1-G0"        # trade check + hand-over lines
 python3 .../lab.py stage-cell <row> v7.c --cfg "2.8.1-G0" --note "mechanism"   # exact there -> out/ + cells.jsonl
+python3 .../lab.py stage-cell <row> v7.c --cfg "2.7.2-cdk-G0" --note "..." --equal-pins   # same pin count
 python3 .../lab.py <row> --base cand/best.c --subs s.json --score   # substitute on YOUR file, not the erased text
 python3 .../lab.py report                          # the REPORT.md table, from lab_log.jsonl
 ```
@@ -76,10 +77,18 @@ python3 .../lab.py report                          # the REPORT.md table, from l
 * **`stage-cell <row> cand.c --cfg CFG --note "..."`** is the hand-over `cellscore` describes, done: when
   `cand.c` scores exact at CFG (`kitlib.score_at`, no ledger write) AND passes `kitlib.admissible` vs the
   lane's `base/` copy, it is copied to `out/<container>/<file>.c` with the base's `.base_sha` and
-  `cells.jsonl` gets `{"id","to","coherence","pins_before","pins_after"}` (the format
-  `tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id + cfg replaces its line). Not exact
-  or not admissible: refused, exit 1, nothing staged (the attempt is still journalled in `lab_log.jsonl`).
-  `--note` (the coherence argument) is required. Rule 2 is not scored - use `cellscore` for that.
+  `cells.jsonl` gets `{"id","to","coherence","pins_before","pins_after","rule2","kind"}` (the format
+  `tools/fidelity/land_recipe_move.py` reads; a re-stage of the same id + cfg replaces its line). Rule 2 is
+  scored too (the pinned text at CFG): `kind` is `recipe-switch` when it holds (byte-neutral), else `coherence`.
+  Not exact or not admissible: refused, exit 1, nothing staged (the attempt is still journalled in
+  `lab_log.jsonl`). `--note` (the coherence argument) is required. The output ends with the `land` command.
+* **`stage-cell --equal-pins`** (round 81: three lanes hand-staged such moves) also stages a candidate whose pin
+  count is UNCHANGED - only the "fewer pins" rule of `kitlib.admissible` is waived; more pins, a pin the base did
+  not have, new `volatile` / `__asm__` / `ASM_*` / one-trip blocks and added gotos are still refused. The kind still
+  follows rule 2 (r81_opus_fc4's 819C04E8 was equal pins with rule 2 FALSE: a coherence move). A candidate that
+  IS the pinned text is a pure recipe switch: `land_coherence.sh` would journal it `noop` in
+  `apply_candidates.py` and then restore the recipe, so the hand-over names `tools/fidelity/land_recipe_move.py`
+  instead (dry run, then `--apply`; its target must be a stock recipe that splits addresses).
 
 * **`baseline` first.** It scores the row's own pinned text, which is byte-exact by definition: the
   scorer must say `exact=true, total=0`. One lane's custom adapter silently mis-scored every
@@ -98,8 +107,10 @@ python3 .../lab.py report                          # the REPORT.md table, from l
   (strictly fewer pins, the rest a subset of the base's, no new `volatile`/`__asm__`/`ASM_*`, no new
   one-trip block) is copied to `out/<container>/<file>.c` with its `.base_sha`. `--no-stage` to
   measure without staging.
-* **Everything** - refusals, failed builds, pattern misses - is appended to `lab_log.jsonl`, and
-  `lab.py report` builds the table from that file. A row of the lane with **zero** measurements is
+* **Everything** - refusals, failed builds, pattern misses, and every `diff.py` run - is appended to
+  `lab_log.jsonl`, and `lab.py report` builds the table from that file (a `via` column names the tool:
+  `lab.py`, `lab cellscore`, `diff.py`, `diff.py --scorer`, or your script's `source`; an identical
+  measurement repeated prints once with `(xN)`). A row of the lane with **zero** measurements is
   printed as `ZERO MEASUREMENTS`: one sol lane left two of its five rows untried and the report read
   exactly like "measured and still open".
 * **Cap:** more than 60 variants on one row needs `--more`. One lane wrote 209 probe files for two
@@ -114,6 +125,23 @@ lab = Lab("dungeon/func_8009612C")
 lab.baseline(score=True)
 lab.test("narrow_param", text, note="s16 parameter", score=True)
 ```
+
+Scoring from your own script instead (`kitlib.score_at`)? Journal it, or `lab.py report` prints the row as
+ZERO MEASUREMENTS (r81_fable_late measured 18 rows that way and its REPORT_TABLE showed none of them):
+
+```python
+import kitlib; lane = kitlib.bootstrap(); row = kitlib.row_of("town/func_808B2D90")
+v = kitlib.score_at(row, text, cfg="2.7.2-cdk-G0", diff=True)   # score fields AND v["text"], the scorer's listing
+kitlib.record_score(lane, row, "sym4", v, source="cellprobe.py", cfg="2.7.2-cdk-G0", text=text)
+```
+
+`score_at(..., diff=True)` returns `exact`/`total`/`subs`/`indels`/`status` (the summary score, the number
+rosters store) AND `text` (the `--diff` listing; `diff_status` is that run's own status): two scorer runs in
+parallel, merged - before round 81 the fields were all None with `diff=True` (the TOTAL inside the `--diff`
+text is the GLOBAL-LCS distance, not the regional total, so it is not parsed). `record_score` writes one
+`{"kind": "score", "source": ...}` record; `cfg` marks a foreign-cfg score (the report counts its exact as a
+trade, not a solve). Journal kinds `baseline`, `diff-listing`, `diff-scorer`, `diff-score` do not count toward
+the 60-variant cap; `record_score`'s `score` records do.
 
 ## diff.py, dump.py
 
@@ -166,7 +194,9 @@ lever for the cheapest term.  Validated on the four round-80 hand derivations (8
 80DE9000: same pairs, same thresholds, the tie-break included).  An inequality is necessary, not sufficient.
 
 `diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
-then the distance line; without `--score` it writes nothing. `dump.py` is `kitlib.dumps` (the compile
+then the distance line. Every run is journalled to `lab_log.jsonl` with a `source` tag (kind `diff-listing`
+with the distance vs pinned, `diff-scorer` with the byte score - `--scorer` now prints `# score {...}` too -,
+`diff-score` for `--score`); `--no-log` writes nothing. `dump.py` is `kitlib.dumps` (the compile
 `why.py` uses) writing `<outdir>/<stem>.<pass>` and `<stem>.s`; `sched`/`cse`/`jump` include their
 second pass; `outdir` must be inside the lane.
 
@@ -199,6 +229,22 @@ python3 .../why.py <row> --pass sched|sched2|greg|lreg|loop|cse|cse2|combine|flo
 ```
 
 `--cfg CFG` compiles both texts at that cell (the round-80 `why_cfg.py` wrapper).
+
+**One text at two cfgs** (round 81, r81_fable_late: "is this 2.8.x row really a 2.8.x row?"):
+
+```
+python3 .../why.py <row> <text> --vs-cfg B [--cfg A] [--pass P] [--around TOKEN]    # <text>: pinned, erased or a file
+```
+
+compiles the SAME text as if the row were registered at A (default the registered cfg) and at B, and prints the
+same explanations with the sides named A and B. `--pass greg`/`lreg` read each side's allocnos with ITS cell's
+FIRST_PSEUDO_REGISTER (a 2.95.2 side gets the "no FIRST_PSEUDO_REGISTER" message, the other side still prints);
+`--pass greg` also prints reload's `;; Need N regs of class C (for insn U)` -> `Spilling reg R` rounds of both
+sides and says IDENTICAL/DIFFERENT (insn uids ignored) - on 81910A9C erased, 2.8.0 needs HI_REG/HILO_REG/2 MD_REGS/
+3 ALL_REGS and spills 9, 64, 65, 66 where cdk needs 1 LO_REG/1 MD_REGS and spills 9, 65 (r81_fable_late class S,
+read by hand from two `dump.py` runs). Without `--pass` it prints the cross-cell listing distance and a per-pass
+table of how many insns differ with every pseudo masked, and names the first pass that differs (81910A9C: `rtl`,
+the 2.8 `addressof` of the address-taken parameter). `--vs` and `--trace`/`--deps` are refused with `--vs-cfg`.
 
 **One text, one block, tick by tick** (round 80, `r80_fable_n1` read these by hand from the raw dump):
 
@@ -290,6 +336,25 @@ word, so an indel earlier in the function does not flip "earlier" and "later". S
 reproduce the report (819B3414 g_seed: 780/781 BARRIER-GOVERNED by ASM_KEEP uid 483, 781's (i) line = sole at
 T-24; 800AFA68 a_t2: (ii) NOT-REORDERABLE, consumers 30*/41* launched, 49 above 44; c_nokeep_noreg: 19
 OPAQUE-BASE `ori`s on pseudo 95 = 0x1f800000).
+
+## New extern symbols: no `.set` line
+
+`kitlib.admissible` refuses any candidate that adds an `__asm__`, so a lane that declares a new data symbol
+and pins its address with `__asm__(".set D_A0700104, 0xA0700104")` cannot stage it. **Do not add the `.set`:
+declare `extern <type> D_<ADDR>[];` (or `func_<ADDR>`) and nothing else.** Both byte authorities resolve a
+name that spells its own address at LINK time: the per-row scorer (`tools/gate/overlay_func_compare.py`,
+`inject_name_encoded_symbols`: catalog entries first, then the address parsed from `D_`/`func_<ADDR>`, then
+readable names through `config/names.tsv`) and the overlay window gate (`tools/gate/overlay_local_gate.py`,
+`symbol_addr`, the same order). SLUS rows link the whole image: a `D_<ADDR>` must already be in
+`config/generated/slus_006.14.undefined_syms.txt` or `config/slus_006.14.c_syms.txt` (grep both first); if it
+is in neither, name it in the report - the orchestrator adds the `c_syms` line, lanes do not touch `config/`.
+
+It is not always byte-neutral either way. MEASURED (r81_opus_kit2, town/func_808B2D90 pinned text, its
+`.set D_A0700000` line removed): identical at the splitting cells (2.8.1 registered, 2.7.2-cdk: totals 0/0 and
+18/18), but at the NON-splitting cells (2.7.2, 2.6.3) the `.set` makes the symbol an assembler-time absolute and
+`la D_A0700000+0x104` expands to `lui; ori` instead of the relocated `lui; addiu` retail has (totals 7 with
+`.set` vs 6 without at 2.7.2 and 2.6.3). An existing `.set` in the base is not refused (admissible counts growth
+only): keep it unless you are measuring exactly this.
 
 ## Honest limits
 

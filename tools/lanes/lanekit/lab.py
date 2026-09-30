@@ -14,6 +14,7 @@ admission gate seven lanes re-derived (`work/native_lane/r62_astra_big/publish_l
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --score
     python3 <repo>/tools/lanes/lanekit/lab.py cellscore dungeon/func_8009612C v7.c --cfg "2.8.1-G0"
     python3 <repo>/tools/lanes/lanekit/lab.py stage-cell dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --note "why"
+    python3 <repo>/tools/lanes/lanekit/lab.py stage-cell dungeon/func_8009612C v7.c --cfg "2.7.2-cdk-G0" --note "why" --equal-pins
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --base cand/best.c --subs s.json --score
     python3 <repo>/tools/lanes/lanekit/lab.py report
 
@@ -66,6 +67,9 @@ you: when `cand.c` scores exact at CFG (and is admissible vs base/) it is copied
 scored at CFG too: `kind` is `recipe-switch` when it is exact there (rule 2, byte-neutral), else `coherence`, and
 `land_coherence.sh` records the trade under that kind (re-checking rule 2 at landing).  It
 refuses, exit 1, when the candidate is not exact at CFG or not admissible.  Nothing else is written.
+`--equal-pins` also stages a candidate whose pin count is UNCHANGED (round 81: lanes hand-staged three such
+moves); the kind still follows rule 2, and a candidate identical to the pinned text (a pure recipe switch) is
+handed to `tools/fidelity/land_recipe_move.py`, not `land_coherence.sh` (which would restore its recipe).
 
 CAP.  More than 60 variants for one row needs `--more`.  One lane produced 209 probe files for two
 of its five rows and left the other three nearly untouched.
@@ -244,12 +248,12 @@ def start_text(name, pinned, erased, override=None):
     return erased if override is None else override
 
 
-def stage_file(lane, row, base_path, base, text):
+def stage_file(lane, row, base_path, base, text, equal_pins=False):
     """Copy an exact, admissible candidate to `out/<container>/<file>.c` with its base sha.
 
     Returns the path relative to the lane, or None (after saying why).  `Lab.publish` and
-    `stage-cell` share it."""
-    bad = kitlib.admissible(base, text)
+    `stage-cell` share it (`equal_pins`: `stage-cell --equal-pins`, see `kitlib.admissible`)."""
+    bad = kitlib.admissible(base, text, equal_pins=equal_pins)
     if bad:
         print("  NOT staged (%s)" % "; ".join(bad))
         return None
@@ -407,10 +411,17 @@ def cells_write(path, rec):
     return path
 
 
-def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", verify=None, out=print):
+def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", verify=None, out=print, equal_pins=False):
     """Stage `cand` for a recipe move to `cfg`: score it there (`cellscore`, no ledger write), and when it is
     exact AND admissible vs `base`, copy it to `out/<container>/<file>.c` (+ `.base_sha`) and put the
-    `cells_record` line in `<lane>/cells.jsonl`.  Returns the journal record; `rec["refused"]` says why not."""
+    `cells_record` line in `<lane>/cells.jsonl`.  Returns the journal record; `rec["refused"]` says why not.
+
+    `equal_pins=True` (`--equal-pins`) also stages a candidate with the SAME pin count as the base (the pins a
+    subset of the base's, nothing banned added): the kind is still decided by rule 2 - `recipe-switch` when the
+    pinned text is exact at `cfg` too, else `coherence` (r81_opus_fc4's 819C04E8: equal pins, rule 2 false).
+    The candidate may be the pinned text itself (a pure recipe switch): `land_coherence.sh` would journal that
+    as `noop` in apply_candidates and restore the recipe, so the hand-over names
+    `tools/fidelity/land_recipe_move.py`, which lands an unchanged text as a pure switch."""
     if not note or not note.strip():
         raise SystemExit('lab: stage-cell needs --note "mechanism / coherence argument"')
     lane = Path(lane)
@@ -422,12 +433,14 @@ def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", ve
         rec["refused"] = "not exact at %s (%s)" % (cfg, json.dumps(sc))
         out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
         return rec
-    bad = kitlib.admissible(base, cand)
+    bad = kitlib.admissible(base, cand, equal_pins=equal_pins)
     if bad:
-        rec["refused"] = "not admissible vs base/: " + "; ".join(bad)
+        rec["refused"] = "not admissible vs base/: " + "; ".join(bad) + (
+            "" if equal_pins or len(kitlib.sites(cand)) != len(kitlib.sites(base)) else
+            "  (an exact-at-target move at EQUAL pins stages with --equal-pins)")
         out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
         return rec
-    staged = stage_file(lane, row, base_path, base, cand)
+    staged = stage_file(lane, row, base_path, base, cand, equal_pins=equal_pins)
     if staged is None:
         rec["refused"] = "not staged (see the message above)"
         out("stage-cell %s REFUSED: %s" % (row["id"], rec["refused"]))
@@ -435,15 +448,37 @@ def stage_cell(row, cand, cfg, note, lane, base_path, base, name="candidate", ve
     line = cells_record(row["id"], cfg, note.strip(), len(kitlib.sites(base)), len(kitlib.sites(cand)),
                         rule2=rec.get("rule2"))
     cells_write(lane / "cells.jsonl", line)
-    rec.update(staged=staged, cells_line=json.dumps(line))
-    out("stage-cell %s  exact at %s (registered %s unchanged)" % (row["id"], cfg, row["cfg"]))
-    out("  staged   : %s (+ .base_sha)" % staged)
+    pure = cand == base
+    try:
+        lane_name = str(lane.resolve().relative_to(kitlib.ROOT / "work/native_lane"))
+    except ValueError:
+        lane_name = "<lane under work/native_lane>"
+    # an unchanged text is `noop` to apply_candidates, and land_coherence.sh then RESTORES the recipe it switched
+    lander = ("python3 tools/fidelity/land_recipe_move.py <tag> work/native_lane/%s   (dry run; then --apply)" % lane_name
+              if pure else "LAND_ISOLATED=1 bash tools/lanes/land_coherence.sh <tag> %s" % lane_name)
+    rec.update(staged=staged, cells_line=json.dumps(line), lander=lander)
+    if equal_pins:
+        rec["equal_pins"] = True
+    out("stage-cell %s  exact at %s (registered %s unchanged)%s" % (
+        row["id"], cfg, row["cfg"], "  [equal pins %d -> %d]" % (line["pins_before"], line["pins_after"])
+        if line["pins_before"] == line["pins_after"] else ""))
+    out("  staged   : %s (+ .base_sha)%s" % (staged, "  = the pinned text: a PURE recipe switch" if pure else ""))
     out("  cells    : %s" % (lane / "cells.jsonl"))
     out("  " + json.dumps(line))
+    out("  land     : " + lander)
     return rec
 
 
 # ------------------------------------------------------------------------------------- report
+
+VIA = {"cellscore": "lab cellscore", "stage-cell": "lab stage-cell", "diff-score": "diff.py --score",
+       "diff-listing": "diff.py", "diff-scorer": "diff.py --scorer"}
+
+
+def via(r):
+    """Which tool took a journal record: its `source` tag (diff.py, `kitlib.record_score`), else its kind."""
+    return r.get("source") or VIA.get(r.get("kind"), "lab.py")
+
 
 def report(lane, row_id=None):
     recs = kitlib.log_read(lane)
@@ -460,15 +495,24 @@ def report(lane, row_id=None):
                        "not an open row; it is an unworked row.")
             out.append("")
             continue
-        body = []
+        body, seen = [], {}
         for r in sorted(real, key=lambda r: (r.get("distance") is None, r.get("distance") or 0)):
             s = r.get("score") or {}
             at = " @" + r["cfg"] if r.get("cfg") else ""      # scored at ANOTHER cfg: not a solve here
-            body.append([r.get("variant"), r.get("status"),
-                         "-" if r.get("distance") is None else r["distance"],
-                         r.get("pins", "-"),
-                         "" if not s else ("exact" if s.get("exact") else "total %s" % s.get("total")) + at,
-                         (r.get("note") or r.get("why") or "")[:60]])
+            line = [r.get("variant"), r.get("status"), via(r),
+                    "-" if r.get("distance") is None else r["distance"],
+                    r.get("pins", "-"),
+                    "" if not s else ("exact" if s.get("exact") else "total %s" % s.get("total")) + at,
+                    (r.get("note") or r.get("why") or "")[:60]]
+            key = json.dumps(line, default=str)
+            if key in seen:                  # the same measurement repeated (a diff.py viewer run twice): one line
+                seen[key][1] += 1
+                continue
+            seen[key] = [line, 1]
+            body.append(line)
+        for line, n in seen.values():
+            if n > 1:
+                line[-1] = ("%s (x%d)" % (line[-1], n)).strip()
         best = min((r["distance"] for r in real if r.get("distance") is not None), default=None)
         out.append("")
         xc = sum(1 for r in real if r.get("cfg") and (r.get("score") or {}).get("exact"))
@@ -479,7 +523,7 @@ def report(lane, row_id=None):
                       " (+%d exact only at another cfg: a trade, not a solve)" % xc if xc else ""))
         out.append("")
         out.append("```")
-        out.append(kitlib.fmt_table(["variant", "status", "dist", "pins", "score", "note"], body))
+        out.append(kitlib.fmt_table(["variant", "status", "via", "dist", "pins", "score", "note"], body))
         out.append("```")
         out.append("")
     return "\n".join(out)
@@ -497,6 +541,9 @@ def main():
     ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
     ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
     ap.add_argument("--no-rule2", action="store_true", help="cellscore: skip scoring the pinned text at --cfg")
+    ap.add_argument("--equal-pins", action="store_true",
+                    help="stage-cell: also stage an exact-at-target candidate whose pin count is UNCHANGED "
+                         "(kind by rule 2: recipe-switch or coherence; the pinned text itself = a pure switch)")
     ap.add_argument("--score", action="store_true", help="byte-score the listing-exact variants")
     ap.add_argument("--score-top", type=int, default=0, metavar="N",
                     help="also score the N nearest non-exact variants of this run")
@@ -533,6 +580,8 @@ def main():
         kitlib.log_append(lane, rec)
         return
 
+    if a.equal_pins and a.row_id != "stage-cell":
+        raise SystemExit("lab: --equal-pins applies to stage-cell only")
     if a.row_id == "stage-cell":
         if len(a.rest) != 2 or not a.cfg:
             raise SystemExit('lab.py stage-cell <row_id> <candidate.c> --cfg "CFG" --note "mechanism"')
@@ -542,7 +591,8 @@ def main():
         if not cp.is_file():
             raise SystemExit("lab: stage-cell: no such file %s" % cp)
         rec = stage_cell(row, cp.read_text(errors="replace"), a.cfg, a.note, lane,
-                         kitlib.base_path(row, lane), kitlib.base_text(row, lane), name=cp.stem)
+                         kitlib.base_path(row, lane), kitlib.base_text(row, lane), name=cp.stem,
+                         equal_pins=a.equal_pins)
         kitlib.log_append(lane, rec)
         if rec.get("refused"):
             sys.exit(1)

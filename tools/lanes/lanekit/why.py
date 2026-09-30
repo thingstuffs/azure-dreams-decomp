@@ -13,6 +13,7 @@ ever ran `sched_trace.py` or `reg_state.py`.  This is that missing level.
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass loop
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass combine --variant experiments/f/v7.c --vs pinned
     python3 <repo>/tools/lanes/lanekit/why.py <row> --pass greg --variant cand.c --cfg "2.7.2-cdk-G0"
+    python3 <repo>/tools/lanes/lanekit/why.py <row> erased --vs-cfg "2.7.2-cdk-G0" [--pass greg]   # one text, two cfgs
 
 It compiles TWO texts with `-da` (one compile each, every pass from it) and prints the decisions
 that differ:
@@ -49,6 +50,18 @@ supported: name the register or the variable instead.
 `--cfg CFG` compiles BOTH texts as if the row were registered at CFG (an in-memory row override,
 `kitlib.row_at_cfg`; nothing under `ledger/` is written) - `--vs pinned --variant cand.c --cfg X` is
 "what does the cell do to my candidate", the WHY_CFG wrapper two round-80 lanes wrote.
+
+ONE text at TWO cfgs (round 81, the late-cell question "is this 2.8.x row really a 2.8.x row?"):
+
+    why.py <row> <text> --cfg A --vs-cfg B [--pass P]      # <text>: pinned, erased or a file
+
+compiles the SAME text as if the row were registered at A (default: the registered cfg) and at B, and
+explains the difference between the cells with the same printouts (`--pass greg` reads each side's allocnos
+with ITS cell's FIRST_PSEUDO_REGISTER).  Without `--pass` it prints the cross-cell listing distance and, per
+pass, how many insns differ with every pseudo masked (the first pass that differs is where to look; RTL spelling differs a
+little between gcc releases, so a small count at `rtl` can be notation).  `--pass greg` also prints reload's
+`;; Need N regs of class C` / `Spilling reg R` rounds of each side (the lines r81_fable_late read by hand
+from two dump.py runs to decide its class S).
 
 Texts: `--vs` is the reference (default `pinned`, the row's own text) and `--variant` the subject
 (default `erased`, every pin erased).  Either may be a path to a candidate `.c`.
@@ -323,12 +336,77 @@ def alloc_rows(rd, around):
     return body, by_name
 
 
-def explain_greg(a, b, names, around, row, texts, top):
-    ra, rb = alloc_read(a, row, texts[0]), alloc_read(b, row, texts[1])
+def side_rows(row, rows):
+    """(row of side a, row of side b): one row for a two-text compare, two for a two-cfg compare."""
+    return tuple(rows) if rows else (row, row)
+
+
+def alloc_pair(a, b, row, texts, rows=None):
+    """(alloc_read a, alloc_read b, excuse lines or None) - each side read at ITS OWN cell (a two-cfg compare
+    crosses cells whose FIRST_PSEUDO_REGISTER differs: one row for both would misread one side silently)."""
+    r0, r1 = side_rows(row, rows)
+    ra, rb = alloc_read(a, r0, texts[0]), alloc_read(b, r1, texts[1])
+    bad = [(x, r) for x, r in ((ra, r0), (rb, r1)) if isinstance(x, str)]
+    if not bad:
+        return ra, rb, None
+    return ra, rb, ["%s%s" % ("[%s] " % r["cfg"] if rows else "", alloc_excuse(x, r)) for x, r in bad]
+
+
+NEED_RE = re.compile(r"^;; Need (\d+) regs? of class (\w+) \(for insn (\d+)\)\.", re.M)
+SPILL_RE = re.compile(r"^Spilling reg (\d+)\.", re.M)
+
+
+def reload_rounds(greg):
+    """reload's needs as `.greg` prints them (reload1.c, gcc 2.6-2.8 and egcs alike): rounds of
+    `;; Need N reg(s) of class C (for insn U).` lines, each followed by the `Spilling reg R.` lines it caused.
+    -> [{"need": [(n, class, uid)], "spill": [reg]}], in dump order."""
     out = []
-    bad = next((x for x in (ra, rb) if isinstance(x, str)), None)
+    for line in (greg or "").splitlines():
+        m, sp = NEED_RE.match(line), SPILL_RE.match(line)
+        if m:
+            if not out or out[-1]["spill"]:
+                out.append({"need": [], "spill": []})
+            out[-1]["need"].append((int(m.group(1)), m.group(2), int(m.group(3))))
+        elif sp:
+            if not out:
+                out.append({"need": [], "spill": []})
+            out[-1]["spill"].append(int(sp.group(1)))
+    return out
+
+
+def explain_reload(a, b, names):
+    """The reload needs/spill rounds of both sides, and whether they pose the same problem (insn uids
+    are not compared: they differ between texts and between cells)."""
+    ra, rb = reload_rounds(a.get("greg")), reload_rounds(b.get("greg"))
+    if not ra and not rb:
+        return []
+    def shape(rs):
+        return [(sorted((n, c) for n, c, _ in r["need"]), sorted(r["spill"])) for r in rs]
+    out = ["", "reload needs (`;; Need N regs of class C (for insn U)` -> `Spilling reg R`): %s"
+           % ("IDENTICAL on both sides (class counts and spill registers)" if shape(ra) == shape(rb)
+              else "DIFFERENT - reload's spill set differs, so the register differences may be reload's, not global.c's")]
+    for label, rs in ((names[0], ra), (names[1], rb)):
+        out.append("-- %s" % label)
+        if not rs:
+            out.append("   (no reload needs)")
+        if rs and not any(r["need"] for r in rs):
+            # egcs (2.91.66 / 2.95.2) reload prints `Spilling for insn N.` + `Spilling reg R.` per insn, no needs
+            sp = [x for r in rs for x in r["spill"]]
+            out.append("   no `;; Need` lines (egcs-style per-insn reload): %d `Spilling reg` lines, registers %s"
+                       % (len(sp), ", ".join(str(x) for x in sorted(set(sp)))))
+            continue
+        for i, r in enumerate(rs):
+            out.append("   round %d: need %s -> spill %s" % (
+                i + 1, ", ".join("%d %s (insn %d)" % x for x in r["need"]) or "-",
+                ", ".join(str(x) for x in r["spill"]) or "-"))
+    return out
+
+
+def explain_greg(a, b, names, around, row, texts, top, rows=None):
+    ra, rb, bad = alloc_pair(a, b, row, texts, rows)
+    out = []
     if bad:
-        return [alloc_excuse(bad, row)]
+        return bad + explain_reload(a, b, names)
     ba, na = alloc_rows(ra, around)
     bb, nb = alloc_rows(rb, around)
     out.append("allocnos: %s %d, %s %d   (`;; N regs to allocate` after global.c's qsort)"
@@ -381,14 +459,13 @@ def explain_greg(a, b, names, around, row, texts, top):
                    % (agree, len(rd["order"]), label,
                       " - trust the `got` column (the dump), not the model, where they disagree"
                       if agree < len(rd["order"]) else ""))
-    return out
+    return out + explain_reload(a, b, names)
 
 
-def explain_lreg(a, b, names, around, row, texts, top):
-    ra, rb = alloc_read(a, row, texts[0]), alloc_read(b, row, texts[1])
-    bad = next((x for x in (ra, rb) if isinstance(x, str)), None)
+def explain_lreg(a, b, names, around, row, texts, top, rows=None):
+    ra, rb, bad = alloc_pair(a, b, row, texts, rows)
     if bad:
-        return [alloc_excuse(bad, row)]
+        return bad
     out = ["local allocation's view: refs / live length / calls crossed per pseudo, by variable name."]
     keys = sorted(set(ra["names"].values()) | set(rb["names"].values()))
     inv_a = {v: k for k, v in ra["names"].items()}
@@ -492,6 +569,29 @@ def explain_diff(a, b, names, around, phase, top, context):
         out.append("")
         out.append("The streams differ, but no hunk mentions %s. Widen or drop --around."
                    % (around.token if around else "the filter"))
+    return out
+
+
+def pass_summary(a, b, names):
+    """Per pass present in both dumps: insn counts and the insns that differ, pseudos masked (difflib opcodes)."""
+    body, first = [], None
+    for ph in PASSES:
+        if ph not in a or ph not in b:
+            continue
+        # every pseudo masked to `p`: first-appearance names shift wholesale after ONE extra pseudo (2.8's
+        # addressof), which would count every later insn as different
+        pa = [PSEUDO_RE.sub(lambda m: "(reg:%s p)" % m.group(2), x["pattern"]) for x in insns_of(a[ph], True)]
+        pb = [PSEUDO_RE.sub(lambda m: "(reg:%s p)" % m.group(2), x["pattern"]) for x in insns_of(b[ph], True)]
+        sm = difflib.SequenceMatcher(None, pa, pb, autojunk=False)
+        n = sum(max(i2 - i1, j2 - j1) for t, i1, i2, j1, j2 in sm.get_opcodes() if t != "equal")
+        if n and first is None:
+            first = ph
+        body.append([ph, len(pa), len(pb), n, "" if n else "same"])
+    out = [kitlib.fmt_table(["pass", "insns A", "insns B", "differ", ""], body)]
+    out.append("")
+    out.append("first pass whose insn stream differs: %s%s" % (
+        first or "none",
+        " - start there: `--pass %s`" % first if first else " - the difference is after dbr (assembler side)"))
     return out
 
 
@@ -846,14 +946,17 @@ def resolve_text(spec, row, lane, base):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
+    ap.add_argument("text", nargs="?", help="with --vs-cfg: the ONE text (pinned, erased or a file); same as --variant")
     ap.add_argument("--pass", dest="phase", choices=PASSES,
-                    help="required, except with --deps (default sched2)")
-    ap.add_argument("--variant", default="erased", help="the subject text (default: all pins erased)")
-    ap.add_argument("--vs", default="pinned", help="the reference text (default: the row's pinned text)")
+                    help="required, except with --deps / --vs-cfg (default sched2)")
+    ap.add_argument("--variant", default=None, help="the subject text (default: all pins erased)")
+    ap.add_argument("--vs", default=None, help="the reference text (default: the row's pinned text)")
     ap.add_argument("--around", help="variable name, $reg, pseudo number, L<line> or an RTL substring")
     ap.add_argument("--top", type=int, default=12, help="most blocks/rows/hunks to print")
     ap.add_argument("--context", type=int, default=2, help="insns of context in a pass diff")
     ap.add_argument("--cfg", help="compile both texts as if the row were registered at this cfg (no ledger write)")
+    ap.add_argument("--vs-cfg", metavar="CFG_B",
+                    help="ONE text at TWO cfgs: the text at --cfg (default the registered cfg) vs at CFG_B")
     ap.add_argument("--trace", action="store_true",
                     help="sched/sched2, ONE text (--variant): one block's table and every tick's pick + reason")
     ap.add_argument("--block", help="the block to trace: N (a uid, else a block number), bN, uN, rN (retail word)")
@@ -864,13 +967,26 @@ def main():
                     help="ONE text (--variant): this insn's LOG_LINKS (kind) and its dependents, at --pass")
     a = ap.parse_args()
     single = a.trace or a.block or a.insn is not None or a.deps is not None
-    if not a.phase and a.deps is None:
-        ap.error("--pass is required (except with --deps)")
+    if a.text is not None and a.variant is not None and a.text != a.variant:
+        ap.error("give the text once: positional <text> or --variant, not both")
+    if a.text is not None and not a.vs_cfg:
+        a.variant = a.text
+    if a.vs_cfg:
+        if single:
+            ap.error("--vs-cfg compares whole compiles; --trace/--block/--insn/--deps read one compile (use --cfg)")
+        if a.vs is not None:
+            ap.error("--vs-cfg compares ONE text at two cfgs: give the text (positional or --variant), not --vs")
+    elif not a.phase and a.deps is None:
+        ap.error("--pass is required (except with --deps or --vs-cfg)")
     if single and a.deps is None and a.block is None and a.insn is None:
         ap.error("--trace needs --block (N, bN, uN or rN) or --insn")
+    a.variant = a.text if a.text is not None else (a.variant or "erased")
+    a.vs = a.vs or "pinned"
 
     lane = kitlib.bootstrap()
     row = kitlib.row_of(a.row_id)
+    if a.vs_cfg:
+        return run_two_cfgs(a, row, lane)
     if a.cfg:
         row = kitlib.row_at_cfg(row, a.cfg)
     base = kitlib.base_text(row, lane)
@@ -905,17 +1021,56 @@ def main():
     la, lb = SCR.normalise(da["asm"].splitlines()), SCR.normalise(db["asm"].splitlines())
     print("# listing distance %s -> %s: %d changed lines" % (na, nb, SCR.sdiff(la, lb)))
 
+    print("\n".join(explain_phase(a, da, db, names, around, row, (ta, tb))))
+
+
+def explain_phase(a, da, db, names, around, row, texts, rows=None):
     if a.phase in ("sched", "sched2"):
-        lines = explain_sched(da, db, names, around, a.phase, a.top)
-    elif a.phase == "greg":
-        lines = explain_greg(da, db, names, around, row, (ta, tb), a.top)
-    elif a.phase == "lreg":
-        lines = explain_lreg(da, db, names, around, row, (ta, tb), a.top)
-    elif a.phase == "loop":
-        lines = explain_loop(da, db, names, a.top)
-    else:
-        lines = explain_diff(da, db, names, around, a.phase, a.top, a.context)
-    print("\n".join(lines))
+        return explain_sched(da, db, names, around, a.phase, a.top)
+    if a.phase == "greg":
+        return explain_greg(da, db, names, around, row, texts, a.top, rows)
+    if a.phase == "lreg":
+        return explain_lreg(da, db, names, around, row, texts, a.top, rows)
+    if a.phase == "loop":
+        return explain_loop(da, db, names, a.top)
+    return explain_diff(da, db, names, around, a.phase, a.top, a.context)
+
+
+def run_two_cfgs(a, row, lane):
+    """`why.py <row> <text> --cfg A --vs-cfg B [--pass P]`: ONE text compiled at two cfgs (no ledger write)."""
+    cfg_a = a.cfg or row["cfg"]
+    if cfg_a == a.vs_cfg:
+        raise SystemExit("why: --cfg and --vs-cfg are the same cfg (%s)" % cfg_a)
+    row_a, row_b = kitlib.row_at_cfg(row, cfg_a), kitlib.row_at_cfg(row, a.vs_cfg)
+    base = kitlib.base_text(row, lane)
+    text, tname = resolve_text(a.variant, row, lane, base)
+    names = ("A", "B")                       # the header says which cfg each is; cfg strings as column names do not fit
+    da, db = kitlib.dumps(row_a, text), kitlib.dumps(row_b, text)
+    for d, n in ((da, names[0]), (db, names[1])):
+        if d.get("error"):
+            raise SystemExit("why: %s does not build at %s (%s): %s" % (tname, n, cfg_a if n == "A" else a.vs_cfg, d["error"]))
+    kitlib.add_paths()
+    import alloc_sim                                                     # noqa: E402
+    import screen as SCR                                                 # noqa: E402
+    from common import parse_cfg                                         # noqa: E402
+    print("# why %s  %s   (ONE text %r at two cfgs: A %s%s vs B %s)" % (
+        row["id"], "--pass %s" % a.phase if a.phase else "(pass summary)", tname, cfg_a,
+        " (registered)" if cfg_a == row["cfg"] else "", a.vs_cfg))
+    la, lb = SCR.normalise(da["asm"].splitlines()), SCR.normalise(db["asm"].splitlines())
+    print("# listing distance A -> B: %d changed lines" % SCR.sdiff(la, lb))
+    if not a.phase:
+        print("\n".join(pass_summary(da, db, names)))
+        return
+    if a.phase not in da or a.phase not in db:
+        raise SystemExit("why: no .%s dump at %s (passes present: A %s | B %s)" % (
+            a.phase, cfg_a if a.phase not in da else a.vs_cfg,
+            ", ".join(sorted(k for k in da if k in PASSES)), ", ".join(sorted(k for k in db if k in PASSES))))
+    around = None
+    if a.around:
+        around = Around(a.around, row_a, text, alloc_sim.FIRST.get(parse_cfg(cfg_a)[0])) or None
+        if around:
+            print("# --around %r resolved to: %s (pseudo numbers are side A's)" % (a.around, "; ".join(around.explain)))
+    print("\n".join(explain_phase(a, da, db, names, around, row, (text, text), rows=(row_a, row_b))))
 
 
 if __name__ == "__main__":

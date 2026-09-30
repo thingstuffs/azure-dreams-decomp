@@ -2,7 +2,7 @@
 """diff.py - the unified cc1-listing diff of a candidate against the pinned (or erased, or any) text.
 
     python3 <KIT>/diff.py <row> <candidate.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
-                          [--cfg CFG] [--scorer [--norm-regs]]
+                          [--cfg CFG] [--scorer [--norm-regs]] [--no-log]
 
 26 lanes of round 73 wrote this same 10-line wrapper (`ldiff.py`, `lst.py`, `sd.py`, `dd.py`, ...)
 around `screen.compile_s` + `difflib.unified_diff`.  `lab.py` already computes it for every variant
@@ -10,8 +10,7 @@ around `screen.compile_s` + `difflib.unified_diff`.  `lab.py` already computes i
 
 `-` lines are the reference listing (`--vs`, default the PINNED text = retail's order on a byte-exact
 row), `+` lines the candidate's.  The last line is the distance `lab.py` logs (changed listing lines).
-`--score` also runs the byte scorer (`tools/verify.py`) whatever the distance, and journals that
-measurement to `lab_log.jsonl`; without `--score` nothing is written anywhere - it is a viewer.
+`--score` also runs the byte scorer (`tools/verify.py`) whatever the distance (see JOURNAL below).
 
 `--cfg CFG` compiles/scores as if the row were registered at CFG (both texts, this run only; nothing
 under `ledger/` or `config/`; a `--score` record carries `cfg` and is not a solve).  `--scorer` prints
@@ -19,6 +18,12 @@ the BYTE scorer's diff instead of the cc1 listing: the generated | retail disass
 (or `--cfg`) - what `cdkdiff.py` / `sd.py` did in round 80.  `--norm-regs` renames the registers of
 each side by first appearance and masks branch targets before diffing, so a pure register renaming
 ($s1<->$s2 all through a function) vanishes and only the real differences stay (`adiff.py`).
+
+JOURNAL (round 81).  Every run appends one record to the lane's `lab_log.jsonl` (`kitlib.record_score` /
+`log_append`), tagged `"source": "diff.py ..."`, so `lab.py report` shows what was measured here: a listing run
+as kind `diff-listing` (its distance when `--vs pinned`), a `--scorer` run as kind `diff-scorer` WITH its byte
+score (`kitlib.score_at(diff=True)` returns the score and the listing), `--score` as `diff-score`.  diff.py
+records do not count toward lab.py's 60-variant cap.  `--no-log` writes nothing (a pure viewer).
 
 `--scorer --classify` prints, instead of the diff, every differing region of the scorer's listing with a
 label and counts: ORDER (the same instruction, moved: identical text outside the LCS, paired nearest
@@ -157,6 +162,7 @@ def main(argv=None):
                     help="--scorer: rename registers by first appearance + mask branch targets (pure renaming vanishes)")
     ap.add_argument("--classify", action="store_true",
                     help="--scorer: label each differing region ORDER / COLOUR / OPCODE / COUNT, with counts")
+    ap.add_argument("--no-log", action="store_true", help="write nothing to lab_log.jsonl (a pure viewer)")
     a = ap.parse_args(argv)
     if a.norm_regs and not a.scorer:
         raise SystemExit("diff.py: --norm-regs applies to --scorer")
@@ -169,9 +175,26 @@ def main(argv=None):
         row = kitlib.row_at_cfg(row, a.cfg)
     ref_name, ref = text_of(a.vs, row, lane)
     cand_name, cand = text_of(a.candidate, row, lane)
+    pins = len(kitlib.sites(cand))
+    v = None
+
+    def journal(kind, source, v=None, dist=None, note=""):
+        if a.no_log:
+            return
+        if v is None:
+            kitlib.log_append(lane, dict({"row": row["id"], "variant": cand_name, "kind": kind, "source": source,
+                                          "distance": dist, "score": None, "pins": pins,
+                                          "status": "no-build" if dist is None and lines is None else "measured",
+                                          "note": note}, **({"cfg": a.cfg} if a.cfg else {})))
+        else:
+            kitlib.record_score(lane, row, cand_name, v, source, cfg=a.cfg, distance=dist, pins=pins,
+                                note=note, kind=kind)
+
     if a.scorer and a.classify:
         v = kitlib.score_at(row, cand, diff=True)
         print("\n".join(classify_lines(v.get("text"), row["cfg"], cand_name)))
+        print("# score %s" % json.dumps(kitlib.score_fields(v)))
+        journal("diff-scorer", "diff.py --scorer --classify", v)
         if not a.score:
             return
         lines, dist = [], None
@@ -184,11 +207,16 @@ def main(argv=None):
             print((v.get("text") or "").rstrip() or "(no scorer text: status %s)" % v.get("status"))
         else:
             print("\n".join(lines) if lines else "(scorer listings identical)")
+        print("# score %s" % json.dumps(kitlib.score_fields(v)))
+        journal("diff-scorer", "diff.py --scorer" + (" --norm-regs" if a.norm_regs else ""), v)
         if not a.score:
             return
         lines, dist = [], None
     else:
         lines, dist = run(row, ref, cand, a.ctx, ref_name, cand_name)
+        if not a.score:
+            journal("diff-listing", "diff.py", dist=dist if ref_name == "pinned" else None,
+                    note="" if ref_name == "pinned" or dist is None else "dist %s vs %s" % (dist, ref_name))
     if a.scorer:
         pass
     elif lines is None:
@@ -203,15 +231,12 @@ def main(argv=None):
         print("%-28s dist %-5s pins %-3s vs %s   [%s]"
               % (cand_name, "-" if dist is None else dist, len(kitlib.sites(cand)), ref_name, row["cfg"]))
     if a.score:
-        v = kitlib.score_at(row, cand)
+        if v is None:                    # a --scorer run already holds the score: journalled above, not twice
+            v = kitlib.score_at(row, cand)
+            journal("diff-score", "diff.py --score", v, dist=dist if ref_name == "pinned" else None,
+                    note="diff.py --score" + ("" if ref_name == "pinned" else " (dist vs %s)" % ref_name))
         sc = kitlib.score_fields(v)
         print("%-28s score %s%s" % (cand_name, json.dumps(sc), "  @" + a.cfg if a.cfg else ""))
-        kitlib.log_append(lane, {"row": row["id"], "variant": cand_name, "kind": "diff-score",
-                                 "distance": dist if ref_name == "pinned" else None, "score": sc,
-                                 "status": "exact" if sc.get("exact") else "scored",
-                                 "pins": len(kitlib.sites(cand)),
-                                 **({"cfg": a.cfg} if a.cfg else {}),
-                                 "note": "diff.py --score" + ("" if ref_name == "pinned" else " (dist vs %s)" % ref_name)})
 
 
 if __name__ == "__main__":
