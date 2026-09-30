@@ -324,3 +324,8 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   the pointer local was assigned BEFORE an intervening call - combine.c:924 (2.7.2) never combines across a CALL_INSN,
   so the add is not folded into the store offset, and sched1's birthing boost puts it back right before the store.
   Pins/asm barriers on `obj + 0x20` "work" pointers fall when the assignment moves above the preceding call.
+- **Late `li` held below address setup by a CLOBBER/KEEP** (r80_opus_cl_li, dungeon/func_818C3A3C 1 -> 0): the constant was
+  written at its store (`s->f = 0x7DCF;`), and the neighbouring m2c read-modify-write chain was per-role field compound
+  assignments (`|= 0xC; |= 0x20; ...`) - both halves needed (constant alone: 38). sched2's LUID tie then parks the li
+  after the address pairs, before the stores. EXCEPTION (town/func_80470F3C): when retail keeps all of a variable's roles
+  in ONE register, the m2c reuse is faithful - its anti-dependences order same-base byte stores; do not split it.
