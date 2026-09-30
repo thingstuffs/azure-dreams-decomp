@@ -170,30 +170,27 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
 
                 if (grid[scratch->cell] != 0) {
                     CellRecord *record;
-                    u8 *flags_ptr;
                     u16 grid_value;
 
                     scratch->x = scratch->base_x - scratch->inner_delta;
                     grid_value = grid[scratch->cell];
                     record = map->records[grid_value & 0x3FFF];
-                    flags_ptr = (u8 *)record + 0x16;
-
                     for (;;) {
-                        if ((scratch->planes[*(u16 *)(flags_ptr - 6)].y < 0) && !(*(flags_ptr + 1) & 1)) {
+                        if ((scratch->planes[record->plane].y < 0) && !(((u8 *)&record->flags)[1] & 1)) {
                             s32 height;
                             u32 vertex_index;
 
-                            vertex_index = *(u16 *)(flags_ptr - 0x12);
+                            vertex_index = record->vertex4;
                             scratch->quad[0] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
-                            vertex_index = *(u16 *)(flags_ptr - 0x12);
+                            vertex_index = record->vertex4;
                             scratch->quad[1] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
-                            vertex_index = *(u16 *)(flags_ptr - 0x10);
+                            vertex_index = record->vertex6;
                             scratch->quad[2] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
-                            vertex_index = *(u16 *)(flags_ptr - 0x10);
+                            vertex_index = record->vertex6;
                             scratch->quad[3] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
-                            vertex_index = *(u16 *)(flags_ptr - 0x14);
+                            vertex_index = record->vertex2;
                             scratch->quad[4] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
-                            vertex_index = *(u16 *)(flags_ptr - 0x14);
+                            vertex_index = record->vertex2;
                             scratch->quad[5] = ((s16)(vertices[vertex_index].z)) - *(s16 *)&scratch->z;
                             vertex_index = record->vertex0;
                             scratch->quad[6] = ((s16)(vertices[vertex_index].x)) - *(s16 *)&scratch->x;
@@ -204,14 +201,10 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
                                 {
                                     s16 vertex_coord;
                                     s32 normal_x;
-                                    height = ((normal_x = scratch->planes[*(u16 *)(flags_ptr
-                                        - 6)].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
-                                              + scratch->planes[*(u16 *)(flags_ptr
-                                                  - 6)].z * ((vertex_coord = vertices[record->vertex0].z)
+                                    height = ((normal_x = scratch->planes[record->plane].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
+                                              + scratch->planes[record->plane].z * ((vertex_coord = vertices[record->vertex0].z)
                                                   - (s16)scratch->z)
-                                              + scratch->planes[*(u16 *)(flags_ptr
-                                                  - 6)].y * vertices[record->vertex0].y) / scratch->planes[*(u16 *)(flags_ptr
-                                                  - 6)].y;
+                                              + scratch->planes[record->plane].y * vertices[record->vertex0].y) / scratch->planes[record->plane].y;
                                 }
                                 scratch->y = height;
                                 scratch->y += scratch->outer_bias;
@@ -223,8 +216,7 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
 
                         {
                             u16 flags;
-                            flags = *(u16 *)flags_ptr & 0x80FF;
-                            flags_ptr += 0x18;
+                            flags = record->flags & 0x80FF;
                             if (flags != 0x8001) {
                                 record = (CellRecord *)((u8 *)record + 0x18);
                                 continue;
