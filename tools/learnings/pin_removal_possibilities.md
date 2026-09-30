@@ -320,3 +320,7 @@ move is emitted last (calls.c), so its place depends on who is boosted:
   multi-set and drop to priority 1. Give each role a FRESH single-set local, of the field's width (s16/s8) where cse
   would otherwise merge the copy back into the parameter. dungeon/func_800ACC98 2 -> 0; p3's xxx084 family was B too.
 Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C, 8187A9A8, 807B0B3C, 819ADDB8, 800BE8D0.
+- **Unfolded `addiu $t,$base,K` right before a store `off($t)`** (r80_opus_earlyconst2, 800B4204 3 -> 0, 80EB751C 4 -> 0):
+  the pointer local was assigned BEFORE an intervening call - combine.c:924 (2.7.2) never combines across a CALL_INSN,
+  so the add is not folded into the store offset, and sched1's birthing boost puts it back right before the store.
+  Pins/asm barriers on `obj + 0x20` "work" pointers fall when the assignment moves above the preceding call.
