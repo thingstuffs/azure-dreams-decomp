@@ -1,8 +1,14 @@
 #include "common.h"
 #include "shared/game_work.h"
 
+typedef struct OtTag {
+    u32 addr : 24;
+    u32 len : 8;
+} OtTag;
+
 typedef struct S_8002222C_0 {
-    u8 pad_00[0x8D0];
+    u8 pad_00[0xB0];
+    OtTag ot[0x208];
     u8 * unk_8D0;
 } S_8002222C_0;   /* arena in func_8002222C */
 
@@ -35,25 +41,6 @@ typedef struct S_8002222C_4 {
     u16 unk_02;
 } S_8002222C_4;   /* scratch100 in func_8002222C */
 
-typedef struct S_8002222C_5 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_8002222C_5;   /* temp_a1_2 + temp_v0 in func_8002222C */
-
-typedef struct S_8002222C_6 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_8002222C_6;   /* temp_a0 in func_8002222C */
-
-typedef struct S_8002222C_7 {
-    s32 unk_00;
-} S_8002222C_7;   /* temp_s1 in func_8002222C */
-
-typedef struct S_8002222C_8 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_8002222C_8;   /* temp_a1_2 in func_8002222C */
-
 
 extern void func_80065770(void *, void *, void *, void *, void *, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
@@ -66,78 +53,45 @@ extern u8 D_1F800000[];
 s32 func_8002222C(void *first_entry) {
     u8 *line_packet;
     u8 *mode_packet;
-    s32 mode_dest;
+    s32 next;
     s32 bucket_addr;
-    s32 packet_word;
-    s32 link_word;
     s32 texture_page;
     u8 *entry;
-    u8 **arena_ptr;
-    register u8 *depths ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    GameWork *arena_ptr;
+    u8 *depths;
     u8 *transform_work;
-    register u8 *scratch_base ASM_REG("$30");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *screen_xy;
-    u32 addr_mask;
-    u32 count_mask;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 raw_depth;
 
     entry = first_entry;
-    arena_ptr = (u8 **)((u8 *)(&gameWork));
-    scratch_base = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    screen_xy = scratch_base;
-    depths = screen_xy;
-    ASM_KEEP_NV(depths);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    depths = (u8 *)((u32)depths | 0x100);
-    transform_work = screen_xy;
-    ASM_KEEP_NV(transform_work);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    transform_work = (u8 *)((u32)transform_work | 0x180);
-    addr_mask = 0xFFFFFF;
-    count_mask = 0xFF000000;
-    do {
+    arena_ptr = &gameWork;
+    screen_xy = (u8 *)0x1F800000;
+    depths = (u8 *)((u32)screen_xy | 0x100);
+    transform_work = (u8 *)((u32)screen_xy | 0x180);
+    for (;;) {
         func_80065770(entry + 8, screen_xy, depths, transform_work,
                       transform_work, 2);
         {
             u8 *arena;
-            s32 page_depth;
-            s32 page_blend;
-            s32 page_x;
-            s32 page_y;
-            arena = *arena_ptr;
+            arena = arena_ptr->unk_000;
             line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            page_depth = 0;
-            ASM_KEEP(page_depth);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            page_blend = page_depth;
             ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
-            arena = *arena_ptr;
-            page_x = page_depth;
+            arena = arena_ptr->unk_000;
             mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            page_y = page_depth;
-            texture_page = (s32)(mode_packet + 0xC);
-            ((S_8002222C_0 *)arena)->unk_8D0 = (u8 *)texture_page;
-            texture_page = func_80066460(page_depth, page_blend, page_x, page_y);
+            ((S_8002222C_0 *)arena)->unk_8D0 = mode_packet + 0xC;
+            texture_page = func_80066460(0, 0, 0, 0);
         }
-        {
-            s32 draw_flags;
-            mode_dest = (s32)mode_packet;
-            draw_flags = 0;
-            ASM_KEEP(draw_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            func_80067F20((u8 *)mode_dest, draw_flags, draw_flags, texture_page & 0xFFFF, 0);
-        }
-        packet_word = ((S_8002222C_1 *)entry)->unk_18;
-        ((S_8002222C_2 *)line_packet)->unk_04 = packet_word;
-        packet_word = ((S_8002222C_1 *)entry)->unk_1C;
-        ((S_8002222C_2 *)line_packet)->unk_0C = packet_word;
+        func_80067F20(mode_packet, 0, 0, texture_page & 0xFFFF, 0);
+        ((S_8002222C_2 *)line_packet)->unk_04 = ((S_8002222C_1 *)entry)->unk_18;
+        ((S_8002222C_2 *)line_packet)->unk_0C = ((S_8002222C_1 *)entry)->unk_1C;
         func_800667D0(line_packet);
         func_80066640(line_packet, 1);
-        packet_word = ((S_8002222C_3 *)screen_xy)->unk_00;
-        ((S_8002222C_2 *)line_packet)->unk_08 = packet_word;
-        packet_word = ((S_8002222C_3 *)screen_xy)->unk_04;
-        ((S_8002222C_2 *)line_packet)->unk_10 = packet_word;
+        ((S_8002222C_2 *)line_packet)->unk_08 = ((S_8002222C_3 *)screen_xy)->unk_00;
+        ((S_8002222C_2 *)line_packet)->unk_10 = ((S_8002222C_3 *)screen_xy)->unk_04;
         {
             s32 min_depth;
-            result = ((S_8002222C_4 *)depths)->unk_00;
-            bucket_addr = result << 0x10;
+            raw_depth = ((S_8002222C_4 *)depths)->unk_00;
+            bucket_addr = raw_depth << 0x10;
             min_depth = ((S_8002222C_4 *)depths)->unk_02 << 0x10;
             if (bucket_addr < min_depth) {
                 min_depth = bucket_addr >> 0x13;
@@ -145,42 +99,17 @@ s32 func_8002222C(void *first_entry) {
                 min_depth >>= 0x13;
             }
             bucket_addr = min_depth * 4;
-            bucket_addr = bucket_addr;
         }
-        packet_word = (s32)*arena_ptr;
-        link_word = ((S_8002222C_2 *)line_packet)->unk_00;
-        packet_word = ((S_8002222C_5 *)(bucket_addr + packet_word))->unk_B0;
-        link_word &= count_mask;
-        packet_word &= addr_mask;
-        link_word |= packet_word;
-        ((S_8002222C_2 *)line_packet)->unk_00 = link_word;
-        mode_dest = (s32)*arena_ptr;
-        {
-            s32 arena_addr;
-            arena_addr = mode_dest;
-            mode_dest = bucket_addr + arena_addr;
+        ((OtTag *)line_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr;
+        ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr = (u32)line_packet;
+        ((OtTag *)mode_packet)->addr = ((S_8002222C_0 *)(bucket_addr + (u32)arena_ptr->unk_000))->ot[0].addr;
+        bucket_addr += (u32)arena_ptr->unk_000;
+        ((S_8002222C_0 *)bucket_addr)->ot[0].addr = (u32)mode_packet;
+        next = ((S_8002222C_1_pre *)entry)[-1].unk_00;
+        if (next == 0) {
+            break;
         }
-        packet_word = ((S_8002222C_6 *)mode_dest)->unk_B0;
-        link_word = (u32)line_packet & addr_mask;
-        packet_word &= count_mask;
-        packet_word |= link_word;
-        ((S_8002222C_6 *)mode_dest)->unk_B0 = packet_word;
-        packet_word = (s32)*arena_ptr;
-        link_word = ((S_8002222C_7 *)mode_packet)->unk_00;
-        packet_word = ((S_8002222C_5 *)(bucket_addr + packet_word))->unk_B0;
-        link_word &= count_mask;
-        packet_word &= addr_mask;
-        link_word |= packet_word;
-        ((S_8002222C_7 *)mode_packet)->unk_00 = link_word;
-        bucket_addr += (s32)*arena_ptr;
-        packet_word = ((S_8002222C_8 *)bucket_addr)->unk_B0;
-        link_word = (u32)mode_packet & addr_mask;
-        packet_word &= count_mask;
-        packet_word |= link_word;
-        ((S_8002222C_8 *)bucket_addr)->unk_B0 = packet_word;
-        mode_dest = ((S_8002222C_1_pre *)entry)[-1].unk_00;
-        entry = mode_dest + 0x20;
-    } while (mode_dest != 0);
-    result = 0;
-    return result;
+        entry = next + 0x20;
+    }
+    return 0;
 }
