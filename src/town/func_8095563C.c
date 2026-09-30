@@ -204,29 +204,29 @@ zone_found:
 
     case 2:
     {
-        register s32 zone_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 zone_height;
         s32 edge_delta;
         s32 zone_x;
         s32 actor_y;
         s32 actor_x;
-        s32 edge_y;
+        s32 edge_y_2;
         s32 neg_x;
         actor_y = actor->y;
         zone_y_m = CURRENT_ZONE(y);
         zone_x = CURRENT_ZONE(x);
         actor_x = actor->x;
-        edge_y = zone_y_m + 0x100;
-        old_zone = zone_x + edge_y;
+        edge_y_2 = zone_y_m + 0x100;
+        old_zone = zone_x + edge_y_2;
         neg_x = -actor_x;
         edge_delta = neg_x + old_zone;
         edge_delta = actor_y - edge_delta;
-        edge_y = zone_y_m - 0x70;
+        edge_coord = zone_y_m - 0x70;
         if (edge_delta < 0) {
             PUSH(0x80000, 0x80000)
         }
         edge_delta = CURRENT_ZONE(w);
         zone_height = CURRENT_ZONE(h);
-        edge_delta = zone_x + edge_delta + edge_y;
+        edge_delta = zone_x + edge_delta + edge_coord;
         old_zone = edge_delta + zone_height;
         edge_delta = neg_x + old_zone;
         edge_delta = actor_y - edge_delta;
