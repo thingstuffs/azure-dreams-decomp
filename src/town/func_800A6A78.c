@@ -88,19 +88,17 @@ typedef struct S_800A41D8_4 {
     s8 unk_06;
 } S_800A41D8_4;   /* temp_v0_7 in func_800A41D8 */
 
-typedef struct S_800A41D8_5_pre {
-    u8 unk_00;
-    u8 pad_01[0xC];
-    u8 unk_0D;
-    u8 pad_0E[0x8];
-    u8 unk_16;
-    u8 pad_17[0x6];
-    u8 unk_1D;
-} S_800A41D8_5_pre;   /* the 0x1E bytes before var_s0 in func_800A41D8, addressed as var_s0[-1] */
-
 typedef struct S_800A41D8_5 {
-    u8 unk_00;
-} S_800A41D8_5;   /* var_s0 in func_800A41D8 */
+    u8 pad_00[0x7];
+    u8 unk_07;
+    u8 pad_08[0xC];
+    u8 unk_14;
+    u8 pad_15[0x8];
+    u8 unk_1D;
+    u8 pad_1E[0x6];
+    u8 unk_24;
+    u8 unk_25;
+} S_800A41D8_5;   /* prim_buffer bytes in func_800A41D8 */
 
 typedef struct S_800A41D8_6 {
     u8 pad_00[0xF];
@@ -108,13 +106,14 @@ typedef struct S_800A41D8_6 {
 } S_800A41D8_6;   /* arg1 in func_800A41D8 */
 
 typedef struct S_800A41D8_7 {
-    s16 unk_00;
-    u16 unk_02;
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
-    u8 unk_07;
-} S_800A41D8_7;   /* var_s2 in func_800A41D8 */
+    u8 pad_00[0x4];
+    s16 unk_04;
+    u16 unk_06;
+    u8 unk_08;
+    u8 unk_09;
+    u8 unk_0A;
+    u8 unk_0B;
+} S_800A41D8_7;   /* texture_entry in func_800A41D8 */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -248,7 +247,6 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     }
                 }
                 half_index = 0;
-                packet_cursor = prim_buffer + 0x25;
                 right_colors = prim_buffer + 0x28;
                 ((S_800A41D8_2 *)prim_buffer)->unk_06 = (s8) shade;
                 ((S_800A41D8_4 *)right_colors)->unk_06 = (s8) shade;
@@ -258,19 +256,18 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                 ((S_800A41D8_2 *)prim_buffer)->unk_2C = (s8) shade;
                 texture_entry = ((S_800A41D8_1 *)draw_state)->unk_118 + ((((strip_index & 1) * 2) + ((s32) (texture_id
                     << 0x10) >> 0xE)) * 0xC);
-                entry_cursor = texture_entry + 4;
                 do {
                     func_800666F4(prim_buffer);
-                    ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_00 =
-                        (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_00
+                    ((S_800A41D8_5 *)prim_buffer)->unk_07 =
+                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_07
                         | (((S_800A41D8_6 *)render_flags)->unk_0F & 2));
-                    ((S_800A41D8_1 *)draw_state)->unk_08.n = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_04;
-                    ((S_800A41D8_1 *)draw_state)->unk_0C.n = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_05;
+                    ((S_800A41D8_1 *)draw_state)->unk_08.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_08;
+                    ((S_800A41D8_1 *)draw_state)->unk_0C.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_09;
                     uv_left = ((S_800A41D8_1 *)draw_state)->unk_08.v;
                     uv_top = ((S_800A41D8_1 *)draw_state)->unk_0C.v;
-                    ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_06;
+                    ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) ((S_800A41D8_7 *)texture_entry)->unk_0A;
                     uv_value = uv_top;
-                    ((S_800A41D8_1 *)draw_state)->unk_14.n = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_07;
+                    ((S_800A41D8_1 *)draw_state)->unk_14.n = (s32) ((S_800A41D8_7 *)texture_entry)->unk_0B;
                     uv_top <<= 8;
                     ((S_800A41D8_1 *)draw_state)->unk_0C.n = uv_top;
                     uv_height = ((S_800A41D8_1 *)draw_state)->unk_14.v;
@@ -280,35 +277,33 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) (((S_800A41D8_1 *)draw_state)->unk_10 + uv_left);
                     uv_value_2 = uv_left;
                     ASM_KEEP_NV(uv_value_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    (*(s32 *)((u8 *)packet_cursor + -0x19)) = (s32) ((uv_top + uv_value_2)
-                        | (((S_800A41D8_7 *)entry_cursor)->unk_02 << 0x10));
-                    (*(s32 *)((u8 *)packet_cursor + -0x11)) = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n
-                        + ((S_800A41D8_1 *)draw_state)->unk_10) | (((S_800A41D8_7 *)entry_cursor)->unk_00 << 0x10));
-                    (*(s16 *)((u8 *)packet_cursor + -9)) = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n
+                    (*(s32 *)((u8 *)prim_buffer + 0xC)) = (s32) ((uv_top + uv_value_2)
+                        | (((S_800A41D8_7 *)texture_entry)->unk_06 << 0x10));
+                    (*(s32 *)((u8 *)prim_buffer + 0x14)) = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n
+                        + ((S_800A41D8_1 *)draw_state)->unk_10) | (((S_800A41D8_7 *)texture_entry)->unk_04 << 0x10));
+                    (*(s16 *)((u8 *)prim_buffer + 0x1C)) = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n
                         + (u16) ((S_800A41D8_1 *)draw_state)->unk_08.n);
-                    right_u = ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_0D;
+                    right_u = ((S_800A41D8_5 *)prim_buffer)->unk_14;
                     uv_bottom = (u16) ((S_800A41D8_1 *)draw_state)->unk_14.n;
                     uv_right = (u16) ((S_800A41D8_1 *)draw_state)->unk_10;
                     bottom_right_uv = uv_bottom + uv_right;
                     do {
                         right_u -= 1;
                     } while (0);
-                    (*(s16 *)((u8 *)packet_cursor + -1)) = (s16) bottom_right_uv;
+                    (*(s16 *)((u8 *)prim_buffer + 0x24)) = (s16) bottom_right_uv;
                     do {
-                        ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_0D = (u8) right_u;
+                        ((S_800A41D8_5 *)prim_buffer)->unk_14 = (u8) right_u;
                     } while (0);
-                    ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_1D =
-                        (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_1D - 1);
-                    ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_16 =
-                        (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_16 - 1);
-                    ((S_800A41D8_5 *)packet_cursor)->unk_00 = (u8) (((S_800A41D8_5 *)packet_cursor)->unk_00 - 1);
+                    ((S_800A41D8_5 *)prim_buffer)->unk_24 =
+                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_24 - 1);
+                    ((S_800A41D8_5 *)prim_buffer)->unk_1D =
+                        (u8) (((S_800A41D8_5 *)prim_buffer)->unk_1D - 1);
+                    ((S_800A41D8_5 *)prim_buffer)->unk_25 = (u8) (((S_800A41D8_5 *)prim_buffer)->unk_25 - 1);
                     func_8006658C(((S_800A41D8_1 *)draw_state)->unk_20
                         + (((u32) ((s32) (0 - ((texture_entry - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555))
                         >> 2) / 12U) * 4), prim_buffer);
                     bucket_index = (u32) ((s32) (0 - ((texture_entry
                         - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555)) >> 2) / 12U;
-                    entry_cursor += 0xC;
-                    packet_cursor += 0x28;
                     prim_buffer += 0x28;
                     bucket_offset = half_index * 4;
                     half_index += 1;

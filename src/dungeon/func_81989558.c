@@ -158,11 +158,11 @@ s32 func_80024D58(void *node) {
         span_base = 0xE;
         frame.p.f52A = 0;
         ring_params = (u8 *)object + 0x2A;
-        ring_x = grid_origin + 672;
         do {
             s32 point_offset = ring * 8;
             s32 half_count = 8 - ring;
             u8 *ring_points = source_points + point_offset;
+            ring_x = grid_origin + span_base * 48;
             frame.p.f51C = ((S_80024D58_1 *)ring_params)->unk_12;
             frame.p.f510 = ring_points;
             frame.p.f514 = rotated_points + point_offset;
@@ -258,11 +258,10 @@ s32 func_80024D58(void *node) {
                 side += 1;
                 frame.p.f51C += 0x400;
             } while (side < 4);
+            grid_row -= 0x40;
             span_base -= 2;
             ring_params -= 6;
-            grid_row -= 0x40;
             ring -= 1;
-            ring_x -= 0x60;
         } while (ring >= 0);
         {
             s32 tag_mask;
