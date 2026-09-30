@@ -216,14 +216,14 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     s32 *update_flags;
     s32 state4_owner;
     s32 effect_actor_flags;
-    register void *state4_event ASM_REG("$4"); /* MATCH: form each event address in the shared call argument register. */
+    void *state4_event;
     register s32 state4_result;
     s32 flags_mask;
 
     actor_flags = ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v;
     if (actor_flags & 0x20000000) {
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x400000;
-        func_800ACB98();
+        func_800ACB98(state, unused_context, visual, actor);
         return 0;
     }
 
@@ -257,7 +257,6 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
             event_index = func_800429E4(actor);
             state4_event = actor;
             event_mode = 2;
-            ASM_KEEP_NV(event_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800C542C(state4_event,
                 D_800DCED4[event_index],
                 (s32)state4_event

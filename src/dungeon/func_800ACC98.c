@@ -53,9 +53,9 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
 {
     s16 saved_byte_24;
     long value_or_part_b;
+    s16 part_a_s16;
     long byte_or_work;
-    s32 alloc_code;
-    register void *alloc_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 byte_25;
     s32 kind;
     s16 kind_test;
     s32 flags_14;
@@ -67,13 +67,10 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
 
     init_mode = mode;
     work = 0;
-    alloc_code = 0x112;
     saved_byte_24 = part_b_byte_24;
-    alloc_data = &D_80083498;
-    value_or_part_b = part_a_value;
-    byte_or_work = part_b_byte_25;
-    ASM_KEEP_NV(alloc_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    obj = func_8003FD64(alloc_code, (void *)&D_80083498);
+    part_a_s16 = part_a_value;
+    byte_25 = part_b_byte_25;
+    obj = func_8003FD64(0x112, (void *)&D_80083498);
     if (obj != 0) {
         work = obj;
         work = (u8 *)work + 0x20;
@@ -82,14 +79,14 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
         func_8004491C(obj, func_80045340);
 
         part_a = ((S_800B23F8_0 *)obj)->unk_08;
-        kind = mode & 3;
-        ((S_800B23F8_2 *)part_a)->unk_0A = (s16)value_or_part_b;
+        ((S_800B23F8_2 *)part_a)->unk_0A = part_a_s16;
         value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
         kind_test = 1;
-        ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_25 = (s8)byte_or_work;
+        ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_25 = byte_25;
         byte_or_work = (long)work;
         ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_24 = saved_byte_24;
 
+        kind = mode & 3;
         if (kind == kind_test) {
             flags_14 = ((S_800B23F8_1 *)work)->unk_14 | 0x6000;
             flags_1c = ((S_800B23F8_1 *)work)->unk_1C | 0x6000;
