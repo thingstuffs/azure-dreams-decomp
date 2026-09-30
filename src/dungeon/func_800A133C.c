@@ -47,8 +47,8 @@ void func_800A6A9C(void)
     group_index = 0;
     clear_flag_mask = -0x401;
     ram_page = (RamPage *)0x80010000;
-    group = (u8 *)D_80073414;
     do {
+        group = (u8 *)D_80073414 + group_index * sizeof(DungeonGroup);
         item_index = 0;
         if (((S_800A6A9C_0 *)group)->unk_02 != 0) {
             bitmap_offset = group_index * 8;
@@ -68,7 +68,6 @@ void func_800A6A9C(void)
             } while (++item_index < (s32)((S_800A6A9C_0 *)group)->unk_02);
         }
         group_index += 1;
-        group += sizeof(DungeonGroup);
     } while (group_index < 0x13);
     func_800A6A6C();
 }

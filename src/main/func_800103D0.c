@@ -63,14 +63,13 @@ void func_800233D0(void *object)
     block_offset = 0x90;
     ((S_800233D0_2 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A0))->unk_00 = kind_value;
     ((S_800233D0_3 *)(((Rec_func_800233D0_arg0 *)object)->unk_1A4))->unk_00 = D_80077E84;
-    slot_cursor = object;
     do {
+        slot_cursor = (u8 *)object + slot_index * 4;
         ((S_800233D0_4 *)(((S_800233D0_1 *)slot_cursor)->unk_1A8))->unk_00 = primary_table;
         ((S_800233D0_5 *)(((S_800233D0_1 *)slot_cursor)->unk_1B8))->unk_00 = secondary_table;
         ((S_800233D0_6 *)(((S_800233D0_1 *)slot_cursor)->unk_1C8))->unk_00 = shared_data;
         ((S_800233D0_7 *)(((S_800233D0_1 *)slot_cursor)->unk_1D8))->unk_00 = (u8 *)object + block_offset;
         block_offset += 0x48;
         slot_index++;
-        slot_cursor += 4;
     } while (slot_index < 3);
 }

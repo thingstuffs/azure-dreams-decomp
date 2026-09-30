@@ -4,16 +4,11 @@
 
 /* Clear the fields at offsets 0xA, 0xE, and 0x10 in all 36 entries. */
 void func_800177A8(void) {
-    s32 entry_index;
-    s8 *entry;
+    s32 i;
 
-    entry_index = 0x23;
-    entry = D_800E2970;
-    entry += 0x2BC;
-    do {
-        *(s16 *)(entry + 0xA) = 0;
-        *(s16 *)(entry + 0xE) = 0;
-        *(s32 *)(entry + 0x10) = 0;
-        entry -= 0x14;
-    } while (--entry_index >= 0);
+    for (i = 0x23; i >= 0; i--) {
+        D_800E2970[i].unk_0A = 0;
+        D_800E2970[i].unk_0E = 0;
+        D_800E2970[i].unk_10 = 0;
+    }
 }

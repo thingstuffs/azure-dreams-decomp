@@ -8,6 +8,9 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
 
+typedef struct { u16 x; u16 y; u16 z; u16 pad_a; } HistEntry;   /* 8-byte trail entry at +0x20 */
+typedef struct { u8 pad[0x24]; HistEntry hist[7]; } TrailEffect;
+
 extern s32 func_800644B8(s32);
 extern s32 rand(void);
 extern u8 D_80028868[];
@@ -31,15 +34,11 @@ void func_80026680(void *effect, void *transform, void *render_data)
     void *related;
     void *parent;
 
-    history_index = 6;
-    do {
-        history_dst = (u8 *)effect + (history_index * 8);
-        history_index--;
-        history_src = (u8 *)effect + (history_index * 8);
-        U16_AT(history_dst, 0x24) = U16_AT(history_src, 0x24);
-        U16_AT(history_dst, 0x26) = U16_AT(history_src, 0x26);
-        U16_AT(history_dst, 0x28) = U16_AT(history_src, 0x28);
-    } while (history_index > 0);
+    for (history_index = 6; history_index > 0; history_index--) {
+        ((TrailEffect *)effect)->hist[history_index].x = ((TrailEffect *)effect)->hist[history_index - 1].x;
+        ((TrailEffect *)effect)->hist[history_index].y = ((TrailEffect *)effect)->hist[history_index - 1].y;
+        ((TrailEffect *)effect)->hist[history_index].z = ((TrailEffect *)effect)->hist[history_index - 1].z;
+    }
 
     U16_AT(effect, 0x24) = U16_AT(transform, 2);
     U16_AT(effect, 0x26) = U16_AT(transform, 6);

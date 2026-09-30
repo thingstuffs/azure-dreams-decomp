@@ -113,7 +113,6 @@ void *func_80026C88(u16 x, u16 y, s16 z, void *source)
             state = object + 0x20;
             state->unk_1A = (s16) (x + position_offset[0]);
             state->unk_1E = (s16) (y + position_offset[1]);
-            point_index = 0;
             state->unk_22 = (s16) (z + position_offset[2]);
             coords = ((S_80026C88_1 *)object)->unk_08;
             coords->unk_02 = x;
@@ -123,7 +122,6 @@ void *func_80026C88(u16 x, u16 y, s16 z, void *source)
             coords->unk_0A = z - 0x100;
             coords->unk_16 = z - 0x100;
             pointers.render = ((S_80026C88_1 *)object)->unk_0C;
-            point_cursor = state;
             pointers.render->unk_1E = 0x1000;
             pointers.render->unk_1C = 0x1000;
             self_link = object + 0x38;
@@ -132,13 +130,12 @@ void *func_80026C88(u16 x, u16 y, s16 z, void *source)
             ((S_80026C88_1 *)object)->unk_20 = self_link;
             state->unk_66 = 0x20;
             state->unk_6E = object_index;
-            do {
+            for (point_index = 0; point_index < 8; point_index++) {
+                point_cursor = (u8 *)state + point_index * 8;
                 ((S_80026C88_5 *)point_cursor)->unk_24 = (u16) coords->unk_02;
                 ((S_80026C88_5 *)point_cursor)->unk_26 = (u16) coords->unk_06;
-                point_index += 1;
                 ((S_80026C88_5 *)point_cursor)->unk_28 = (u16) coords->unk_0A;
-                point_cursor += 8;
-            } while (point_index < 8);
+            }
             state->unk_08 = list_head;
             list_head = object;
         }
