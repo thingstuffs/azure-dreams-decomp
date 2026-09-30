@@ -1,5 +1,15 @@
 # Handover (2026-09-30 midday, round 82 / session c8: same process, second batch) - start here
 
+**Update 09-30 afternoon (c8):** decision 3 resolved - the maspsx genuine-ASPSX extern model was already in production
+since 819de4599 (09-25); the ~130 slus -G16/-G0/stock registrations were declaration-size workarounds fitted before it.
+Landed: 16 + 69 slus rows at plain 2.7.2-cdk with retail-extent declarations (4556d0f6b, 2b5c4b65a; tools in
+work/native_lane/r82_opus_dec3/tmp: extents.py, gate_set.py = one isolated SLUS link gate for a set), slus crutch lanes
+sc1/sc2 (f3eaacabd, 9b00e0c72, 59d701e78: 25 pins). Owner 09-30: per-TU declaration views of one symbol are legitimate.
+New rule: a static inline helper with field arguments reproduces integrate.c's parameter copies (w_800597A8 5->0).
+Optional, owner's call: r82_opus_dec3/patch/maspsx_d3.patch (-G from cc1 for TU-defined commons; 0 of 6,767 rows change).
+Open slus: the -fno-strength-reduce family (w_800500B4, w_800599B0, w_8005914C: loop.c DEST_ADDR givs), w_80047054
+(sched1 loop-note barrier), w_80052A90 (a1/a0 set at block start), w_80048B8C (combine_regs ties). **1,565 pins / 503 rows.**
+
 **State:** 1,888 (c8 pickup, 05:10) -> 1,744 (end of round 81) -> ~1,630 now, with the other session's work.
 Process as round 81: gap analysis (work/native_lane/r82_opus_gaps/REPORT.md) -> two Fable lanes -> Opus lanes -> land.
 - **Flag-crutch lanes fc9-fc12** (never-served proven crutch rows, target = module census recipe): 10 of 24 rows to
