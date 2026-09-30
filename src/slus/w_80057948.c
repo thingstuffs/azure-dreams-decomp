@@ -43,8 +43,8 @@ void func_80057948(s32 first_key, s32 second_key) {
         first_byte = first_key & 0xFF;
         second_byte = second_key & 0xFF;
         mask_entry = D_80073740;
-        record = D_80085458;
         do {
+            record = &D_80085458[record_index];
             if ((first_byte == record->field06) &&
                 (second_byte == record->field0A)) {
                 if (record->field1D == 0) {
@@ -58,7 +58,6 @@ void func_80057948(s32 first_key, s32 second_key) {
                 }
             }
             mask_entry++;
-            record++;
         } while (++record_index < ACTIVE_COUNT);
     }
     if (combined_mask != 0) {

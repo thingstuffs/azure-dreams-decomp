@@ -36,8 +36,8 @@ s32 func_80059BC4(void)
     if (D_800869B4[0] == 0) {
         return 0;
     }
-    entity = D_80085FA8;
     do {
+        entity = &D_80085FA8[entity_index];
         if (entity->f2c == 0) {
             step_or_count = entity->f24;
             tick_total = entity->f3c;
@@ -76,7 +76,6 @@ s32 func_80059BC4(void)
         }
         step_or_count = D_800869B4[0];
         entity_index++;
-        entity++;
     } while (entity_index < (unsigned int)step_or_count);
     return 0;
 }

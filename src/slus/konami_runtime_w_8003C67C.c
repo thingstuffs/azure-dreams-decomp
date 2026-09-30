@@ -17,15 +17,9 @@ void func_8003C67C(s32 index)
 
     if (index > 0) {
         do {
-            s32 dest_offset = index * 8;
-            Entry *source;
-            Entry *destination;
-
+            D_8006B200[index].word0 = D_8006B200[index - 1].word0;
+            D_8006B200[index].word1 = D_8006B200[index - 1].word1;
             index--;
-            source = (Entry *)((char *)D_8006B200 + index * 8);
-            destination = (Entry *)((char *)D_8006B200 + dest_offset);
-            destination->word0 = source->word0;
-            destination->word1 = source->word1;
         } while (index > 0);
     }
 

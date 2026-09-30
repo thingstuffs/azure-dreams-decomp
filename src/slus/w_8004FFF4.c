@@ -29,20 +29,17 @@ typedef struct S_8004FFF4_Outer {
 void func_8004FFF4(void *slots)
 {
     s32 slot_index;
-    void *slot_view;
+    S_8004FFF4_Outer *slot_view;
 
-    slot_view = slots;
-    slot_index = 0;
-    do {
-        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk8 = 0;
-        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk8 = 0x1E;
-        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk0 = 0x58;
-        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk1 = 0x58;
-        ((S_8004FFF4_Outer *)slot_view)->unk28->unk4->unk2 = 0x58;
-        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk0 = 0x58;
-        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk1 = 0x58;
-        slot_index += 1;
-        ((S_8004FFF4_Outer *)slot_view)->unk4->unk4->unk2 = 0x58;
-        slot_view = (u8 *)slot_view + 4;
-    } while (slot_index < 6);
+    for (slot_index = 0; slot_index < 6; slot_index++) {
+        slot_view = (S_8004FFF4_Outer *)((u32 *)slots + slot_index);
+        slot_view->unk4->unk4->unk8 = 0;
+        slot_view->unk28->unk4->unk8 = 0x1E;
+        slot_view->unk28->unk4->unk0 = 0x58;
+        slot_view->unk28->unk4->unk1 = 0x58;
+        slot_view->unk28->unk4->unk2 = 0x58;
+        slot_view->unk4->unk4->unk0 = 0x58;
+        slot_view->unk4->unk4->unk1 = 0x58;
+        slot_view->unk4->unk4->unk2 = 0x58;
+    }
 }
