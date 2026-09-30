@@ -35,61 +35,26 @@ extern Template3 D_8002E5E8;
 /* Initialize entity nodes with template data and link them to shared common data. */
 void func_80022B48(Entity *entity, s32 node_count)
 {
-    register Entity *self ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 node_index;
-    u8 *slot_base;
-    u8 *pointer_cursor;
-    s32 node_offset;
-    s32 data_offset;
-    Template3 *common;
-    u8 *source_page;
-    Template4 *data_template;
-    s32 template_word_0;
-    s32 template_word_1;
-    s32 template_word_2;
-    s32 template_word_3;
+    s32 i;
+    s32 w0;
+    s32 w1;
+    s32 w2;
+    s32 w3;
 
-    self = entity;
-    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    node_index = 0;
-    if (node_index < node_count) {
-#ifdef NON_MATCHING
-        source_page = (u8 *)&D_8002E5D8 + 0x1A28;
-#else
-        source_page = (u8 *)0x80030000;
-#endif
-        ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        data_template = (Template4 *)(source_page - 0x1A28);
-        common = &self->common;
-        data_offset = 0x958;
-        slot_base = (u8 *)self;
-        node_offset = 0x8E8;
-        pointer_cursor = (u8 *)self;
-        do {
-            Template4 *data;
-
-            data = (Template4 *)((u8 *)self + data_offset);
-            data_offset += 0x10;
-            template_word_0 = *(s32 *)(source_page - 0x1A28);
-            *(Node **)(pointer_cursor + 0x8CC) =
-                (Node *)((u8 *)self + node_offset);
-            *(s32 *)(slot_base + 0x958) = template_word_0;
-            template_word_1 = data_template->unk4;
-            node_offset += 0x10;
-            *(s32 *)(slot_base + 0x95C) = template_word_1;
-            template_word_2 = data_template->unk8;
-            pointer_cursor += 4;
-            *(s32 *)(slot_base + 0x960) = template_word_2;
-            template_word_3 = data_template->unkC;
-            node_index++;
-            *(Template4 **)(slot_base + 0x8EC) = data;
-            *(Template3 **)(slot_base + 0x8F0) = common;
-            *(s32 *)(slot_base + 0x964) = template_word_3;
-            slot_base += 0x10;
-        } while (node_index < node_count);
+    for (i = 0; i < node_count; i++) {
+        w0 = D_8002E5D8.unk0;
+        entity->ptr_array[i] = &entity->node_array[i];
+        entity->data_array[i].unk0 = w0;
+        w1 = D_8002E5D8.unk4;
+        entity->data_array[i].unk4 = w1;
+        w2 = D_8002E5D8.unk8;
+        entity->data_array[i].unk8 = w2;
+        w3 = D_8002E5D8.unkC;
+        entity->node_array[i].data = &entity->data_array[i];
+        entity->node_array[i].common = &entity->common;
+        entity->data_array[i].unkC = w3;
     }
-
-    self->common.unk0 = D_8002E5E8.unk0;
-    self->common.unk4 = D_8002E5E8.unk4;
-    self->common.unk8 = D_8002E5E8.unk8;
+    entity->common.unk0 = D_8002E5E8.unk0;
+    entity->common.unk4 = D_8002E5E8.unk4;
+    entity->common.unk8 = D_8002E5E8.unk8;
 }

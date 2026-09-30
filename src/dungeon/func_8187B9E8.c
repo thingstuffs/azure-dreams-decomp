@@ -6,11 +6,9 @@
 
 typedef struct S_8187B9E8_0 {
     u8 pad_00[0x16];
-    s16 unk_16;
-    u8 pad_18[0x2C];
-    s16 unk_44;
-    u8 pad_46[0x2C];
-    s16 unk_72;
+    s16 unk_16[23];
+    s16 unk_44[23];
+    s16 unk_72[23];
 } S_8187B9E8_0;   /* v in func_8187B9E8 */
 
 typedef struct S_8187B9E8_1 {
@@ -46,10 +44,6 @@ typedef struct S_8187B9E8_4 {
 } S_8187B9E8_4;   /* q in func_8187B9E8 */
 
 
-typedef union {
-    u16 value;
-    s32 word;
-} U16Arg;
 
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
@@ -60,53 +54,37 @@ extern u8 D_800249F4[];
 extern u8 D_80024D40[];
 
 /* Create an effect with 23 random radial vectors and initialize its position and state. */
-void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U16Arg position_y, U16Arg position_z) {
-    u16 position_xyz[3];
+void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, u16 position_y, u16 position_z) {
     s32 point_count;
     s32 angle_a;
     s32 angle_b;
     s32 plane_radius;
-    register u32 component;
-    register s32 work_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 component;
+    S_8187B9E8_2 *position;
     void *effect;
     S_8187B9E8_4 *state;
     S_8187B9E8_3 *scale;
-    u8 *point;
 
-    work_value = position_y.value;
-    position_xyz[1] = work_value;
-    work_value = position_z.value;
-    position_xyz[2] = work_value;
-    position_xyz[0] = position_x;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         point_count = 0;
         state = (u8 *)effect + 0x20;
-        point = state;
         do {
-            point_count++;
             angle_a = func_80069EF8() & 0xFFF;
             angle_b = func_80069EF8() & 0xFFF;
-            work_value = radius * func_80064584(angle_a);
-            plane_radius = work_value >> 12;
-            work_value = plane_radius * func_800644B8(angle_b);
-            component = work_value >> 12;
-            ((S_8187B9E8_0 *)point)->unk_16 = component;
-            work_value = plane_radius * func_80064584(angle_b);
-            component = work_value >> 12;
-            ((S_8187B9E8_0 *)point)->unk_44 = component;
-            work_value = radius * func_800644B8(angle_a);
-            component = work_value >> 12;
-            ((S_8187B9E8_0 *)point)->unk_72 = component;
-            point = (u8 *)point + 2;
+            plane_radius = (radius * func_80064584(angle_a)) >> 12;
+            component = (plane_radius * func_800644B8(angle_b)) >> 12;
+            ((S_8187B9E8_0 *)state)->unk_16[point_count] = component;
+            component = (plane_radius * func_80064584(angle_b)) >> 12;
+            ((S_8187B9E8_0 *)state)->unk_44[point_count] = component;
+            component = (radius * func_800644B8(angle_a)) >> 12;
+            ((S_8187B9E8_0 *)state)->unk_72[point_count] = component;
+            point_count++;
         } while (point_count < 0x17);
-        component = (s32)((S_8187B9E8_1 *)effect)->unk_08;
-        work_value = position_xyz[0];
-        ((S_8187B9E8_2 *)component)->unk_02 = work_value;
-        work_value = position_xyz[1];
-        ((S_8187B9E8_2 *)component)->unk_06 = work_value;
-        work_value = position_xyz[2];
-        ((S_8187B9E8_2 *)component)->unk_0A = work_value;
+        position = ((S_8187B9E8_1 *)effect)->unk_08;
+        position->unk_02 = position_x;
+        position->unk_06 = position_y;
+        position->unk_0A = position_z;
         scale = ((S_8187B9E8_1 *)effect)->unk_0C;
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;
@@ -116,7 +94,6 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
         state->unk_10 = extent;
         state->unk_12 = extent;
         func_8004491C(effect, D_800249F4);
-        work_value = *(s32 *)&initial_value;
-        state->unk_00 = work_value;
+        state->unk_00 = initial_value;
     }
 }
