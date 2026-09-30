@@ -348,3 +348,11 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   y) - OPEN, the largest family; (3) *loop notes* - a `do{}while(0)` makes the next insn a full sched barrier and is a
   cse1-only boundary; (4) *sched1 alias knowledge* - two constant bases never alias, so a KEEP on the base imitates an
   opaque base's anti-dependence. The kit cannot compile some slus rows (PartitionError) - measure with verify.py.
+- **Argument copy kept at its statement - SOLVED rule** (r80_opus_argcopy, dungeon/func_80088FA0 3 -> 2): cse.c
+  make_regs_eqv (840-857) keeps the COPY x canonical for `x = y` only if (A) x is referenced before the cse block
+  starts or after it ends, and (B) x's last reference is later in the insn stream than y's. Natural shape: ONE
+  function-scope alias, set from the parameter in every section that uses it, INCLUDING the textually last section that
+  reads the parameter - and read there (combine folds that last single-use copy into its load, costing nothing). Then
+  the copy survives, takes $4, and the early `move $4,$sN` falls out without ASM_REG/KEEP. Predicted fit:
+  dungeon/func_819B3414 (next_effect). Not this rule: a constant argument (cse costs CONST_INT 0 < reg 1), no call
+  (local-alloc), or a symbol address (cl_lui mechanism 1).
