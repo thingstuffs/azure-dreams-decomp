@@ -1,8 +1,8 @@
 #include "common.h"
 
 typedef struct {
-    s32 word[2];
-} __attribute__((packed)) Packed8;
+    s16 value[4];
+} TestValues;
 
 typedef void (*Callback)(s32);
 typedef struct {
@@ -15,39 +15,18 @@ extern u8 D_80700000[];
 /* Call the indexed callback at the first failed value test or the end of the list. */
 void func_80875404(void)
 {
-    Packed8 test_values;
+    TestValues test_values;
     CallbackTable callbacks;
-    s32 value_offset;
-    register s16 *value_base ASM_REG("$17");
-    s16 *saved_base;
     s32 choice_index;
-    s16 *next_value;
-    s32 callback_offset;
 
-    test_values = *(Packed8 *)(D_80700000 + 0xBD4);
+    test_values = *(TestValues *)(D_80700000 + 0xBD4);
     callbacks = *(CallbackTable *)(D_80700000 + 0xBDC);
     choice_index = 0;
-    if (*(s16 *)&test_values != 0) {
-        value_base = (s16 *)&test_values;
-        value_offset = 0;
-check_value:
-        callback_offset = choice_index * 4;
-        saved_base = value_base;
-        if (func_807018AC(*(s16 *)(value_offset + (s32)value_base)) == 0) {
-            goto dispatch;
+    while (test_values.value[choice_index] != 0) {
+        if (func_807018AC(test_values.value[choice_index]) == 0) {
+            break;
         }
-        value_offset += 2;
-        choice_index += 1;
-        do {
-            next_value = (s16 *)(value_offset + (s32)saved_base);
-        } while (0);
-        if (*next_value == 0) {
-            goto end_values;
-        }
-        goto check_value;
+        choice_index++;
     }
-end_values:
-    callback_offset = choice_index * 4;
-dispatch:
     callbacks.callback[choice_index](choice_index);
 }

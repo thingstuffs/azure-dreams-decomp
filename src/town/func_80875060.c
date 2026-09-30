@@ -1,59 +1,41 @@
-/* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 
-typedef void (*TownCallback)(s32, void *, s16 *, s32);
+typedef void (*TownCallback)(s32);
+typedef struct {
+    TownCallback callback[3];
+} TownCallbackTable;
 
 extern u8 D_80700000[];
 extern u8 D_80700BB4[];
-extern s32 D_80701968[];
+extern s32 *D_80701968[];
 
 /* Dispatch a callback based on the number of consecutive set flags in the list. */
-void func_80875060(s32 unused_0, s32 unused_1, s16 *input_ids, s32 input_flags_base) {
-    TownCallback callbacks[3];
+void func_80875060(void) {
+    TownCallbackTable callbacks;
+    s16 *flag_ids;
     s16 *flag_cursor;
-    register s32 flag_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 *flag_words;
     s32 matched_count;
-    s32 flags_base;
-    void *flag_id;
-    s32 *flag_word;
-    s32 bit_one;
+    s32 id;
+    s32 bits;
+    s32 one;
 
-    flag_id = (void *)(D_80700000 + 0xBC8);
-    ASM_KEEP(flag_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    flag_bits = ((s32 *)flag_id)[0];
-    flag_word = ((s32 *)flag_id)[1];
-    matched_count = ((s32 *)flag_id)[2];
-    callbacks[0] = (TownCallback)flag_bits;
-    callbacks[1] = (TownCallback)flag_word;
-    callbacks[2] = (TownCallback)matched_count;
-    flag_cursor = input_ids;
-    flags_base = input_flags_base;
-    flag_word = (s32 *)(D_80700BB4 + 8);
+    callbacks = *(TownCallbackTable *)(D_80700000 + 0xBC8);
+    flag_ids = (s16 *)(D_80700BB4 + 8);
     matched_count = 0;
-    if (*(s16 *)flag_word != 0) {
-        flags_base = D_80701968[0];
-        bit_one = 1;
-        flag_cursor = (s16 *)flag_word;
-check_flag:
-        flag_id = (void *) *flag_cursor;
-        if ((s32)flag_id < 0) {
-            flag_bits = (s32)flag_id + 0x1F;
-        } else {
-            flag_bits = (s32)flag_id;
-        }
-        flag_bits >>= 5;
-        flag_word = (s32 *)((flag_bits * 4) + flags_base);
-        flag_bits <<= 5;
-        flag_bits = (s32)flag_id - flag_bits;
-        flag_word = (s32 *)*flag_word;
-        flag_bits = bit_one << flag_bits;
-        flag_cursor += 1;
-        if (flag_bits & (s32)flag_word) {
-            matched_count += 1;
-            if (*flag_cursor != 0) {
-                goto check_flag;
+    if (*flag_ids != 0) {
+        flag_words = D_80701968[0];
+        one = 1;
+        flag_cursor = flag_ids;
+        do {
+            id = *flag_cursor;
+            bits = flag_words[id / 32] & (one << (id % 32));
+            if (bits == 0) {
+                break;
             }
-        }
+            matched_count++;
+            flag_cursor++;
+        } while (*flag_cursor != 0);
     }
-    callbacks[matched_count](matched_count, flag_id, flag_cursor, flags_base);
+    callbacks.callback[matched_count](matched_count);
 }
