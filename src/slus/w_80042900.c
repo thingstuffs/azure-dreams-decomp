@@ -21,15 +21,14 @@ s32 func_80042900(S_80042900 *entry, s32 effect_id)
 {
     s32 effect_type = effect_id;
     s16 saved_id = effect_id;
-    register u8 *effect_base ASM_REG("$3") = (u8 *)entry + 6;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 effect_index;
 
     effect_type = (u32)effect_type << 24;
     effect_type >>= 24;
     if (effect_type != 0) {
-        for (effect_index = 3; effect_index >= 0; effect_index--, effect_base -= 2) {
-            if (*(s8 *)(effect_base + 0x2C) == effect_type) {
-                s32 effect_value = *(s8 *)(effect_base + 0x2D);
+        for (effect_index = 3; effect_index >= 0; effect_index--) {
+            if (entry->effects[effect_index].type == effect_type) {
+                s32 effect_value = entry->effects[effect_index].value;
 
                 if (effect_value != 0) {
                     return effect_value;
