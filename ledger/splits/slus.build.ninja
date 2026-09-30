@@ -3938,7 +3938,7 @@ build build/src/w_80058B70.o: cc src/w_80058B70.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80058E6C.o: cc src/w_80058E6C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -fno-strength-reduce
+  ccflags = 
   asflags = 
 
 build build/src/w_800590E0.o: cc src/w_800590E0.c | tools/cc.sh tools/ccproc.py 

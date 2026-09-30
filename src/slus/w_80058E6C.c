@@ -91,11 +91,10 @@ void func_80058E6C(S_80085FA8 *track, s32 event_type)
         track_count = D_800869B4[0];
         if (track_count != 0) {
             track_limit = track_count;
-            tempo_track = D_80085FA8;
             do {
+                tempo_track = &D_80085FA8[track_index];
                 tempo_track->f24 = track_tempo;
                 tempo_track->f20 = track_tempo;
-                tempo_track++;
             } while (++track_index < track_limit);
             return;
         }
