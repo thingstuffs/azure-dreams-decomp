@@ -21,7 +21,13 @@ from pin_census import sites_of
 from pin_sites import erase_many
 
 MAX_VERIFY = int(os.environ.get("T129_MAX", "12"))
-NAME = r"(?:func|w)_[0-9A-Fa-f]{8}"
+# libc / PsyQ callees with no definition in src/ (library code), by their documented arity (PsyQ 4.x libgpu/libetc/
+# libcd, ANSI libc): m2c passed leftover $a0-$a3 to these too - rand(source, display) cost r81_opus_lc3 a pin on
+# 800BFCCC (a fake a1 set killed a later argument's sched1 birthing boost) and r81_opus_ap2 24-48 words on 818B6954.
+KNOWN_ARITY = {"rand": 0, "srand": 1, "CdInit": 0, "DrawSync": 1, "VSync": 1, "ResetGraph": 1, "SetDispMask": 1,
+               "PutDrawEnv": 1, "PutDispEnv": 1, "DrawOTag": 1, "ClearOTagR": 2, "ClearOTag": 2, "LoadImage": 2,
+               "StoreImage": 2, "GetClut": 2, "MoveImage": 3, "GetTPage": 4}
+NAME = r"(?:(?:func|w)_[0-9A-Fa-f]{8}|%s)" % "|".join(sorted(KNOWN_ARITY, key=len, reverse=True))
 DEF = re.compile(r"^(?:static\s+)?[A-Za-z_][\w\s\*]*?\b(%s)\s*\(([^;{)]*)\)\s*\{" % NAME, re.M)
 SCALAR = re.compile(r"^\s*(?:const\s+)?(?:unsigned\s+|signed\s+)?(?:s8|u8|s16|u16|s32|u32|int|char|short|long|void)\s*\**\s*\w*\s*$")
 _DEFS = None
@@ -37,6 +43,8 @@ def defs():
                 p = m.group(2).strip()
                 seen.setdefault(m.group(1), set()).add("" if p == "void" else p)
         _DEFS = {k: next(iter(v)) for k, v in seen.items() if len({_n(p) for p in v}) == 1}
+        for k, n in KNOWN_ARITY.items():
+            _DEFS.setdefault(k, ", ".join(["int a%d" % i for i in range(n)]))
     return _DEFS
 
 
