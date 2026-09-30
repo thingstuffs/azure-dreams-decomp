@@ -105,6 +105,7 @@ s32 func_807B040C(void) {
     u8 *root = (u8 *)D_800FBE1C;
     u8 *entity = root + 0x20;
     s32 *motion = ((S_807B040C_0 *)root)->unk_08;
+    s32 entity_flags;
     s32 state = ((S_807B040C_1 *)entity)->unk_9B;
     u8 *target = ((S_807B040C_0 *)root)->unk_0C;
     u8 *entity_aux = entity;
@@ -112,6 +113,7 @@ s32 func_807B040C(void) {
     s32 dx;
     s32 dy;
     s32 distance_x;
+    s32 world_x;
     s32 target_y;
     s32 delta_y;
     s32 move_ticks;
@@ -191,7 +193,6 @@ s32 func_807B040C(void) {
 
         {
             s32 y_is_farther;
-            s32 entity_flags;
 
             distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
             delta_y = ((S_807B040C_3 *)target)->unk_24;
@@ -215,7 +216,6 @@ s32 func_807B040C(void) {
             ((S_807B040C_1 *)entity)->unk_96.s = move_ticks;
 
             entity_flags = ((S_807B040C_6 *)entity_aux)->unk_1C;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tile_x = ((S_807B040C_3 *)target)->unk_24;
             tile_y = ((S_807B040C_3 *)target)->unk_25;
             tile_flags = 0x3000;
@@ -228,11 +228,10 @@ s32 func_807B040C(void) {
     case 1:
     move_entity:
         {
-            register s32 world_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 aligned_x;
 
-            world_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
-            ASM_KEEP_NV(world_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
+            world_x <<= 6;
             world_x += 0x20;
             move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
             ASM_KEEP_NV(move_ticks);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -240,8 +239,10 @@ s32 func_807B040C(void) {
             aligned_x = world_x & 0xFFE0;
             ground_height = func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
         }
-        motion[3] = ((((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) << 16) -
-                     motion[0]) /
+        world_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
+        world_x <<= 6;
+        world_x += 0x20;
+        motion[3] = ((world_x << 16) - motion[0]) /
                     ((S_807B040C_1 *)entity)->unk_96.s;
         motion[4] = ((((((S_807B040C_1 *)entity)->unk_AE.s16 << 6) + 0x20) << 16) -
                      motion[1]) /
@@ -296,10 +297,8 @@ s32 func_807B040C(void) {
                                                  ((S_807B040C_7 *)motion)->unk_06, -0x400);
         func_800A2B04(motion, ((S_807B040C_3 *)target)->unk_24, ((S_807B040C_3 *)target)->unk_25);
         {
-            s32 entity_flags;
 
             entity_flags = ((S_807B040C_1 *)entity)->unk_1C;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tile_x = ((S_807B040C_3 *)target)->unk_24;
             tile_y = ((S_807B040C_3 *)target)->unk_25;
             tile_flags = 0x3000;

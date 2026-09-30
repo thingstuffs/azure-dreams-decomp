@@ -22,12 +22,9 @@ extern u8 D_800E36C8[];
 
 void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 {
-    void *held_arg0 = arg0;
-    register void *held_arg1 ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *held_arg2 = arg2;
     s16 held_arg3 = arg3;
-    register s32 first ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 second ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 first;
+    s32 second;
     s32 index;
     void *object;
     s32 found;
@@ -38,10 +35,10 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     s32 entry_base_s;
     void *global_object;
 
-    if (held_arg0 != (void *)&D_80081484 &&
-        held_arg0 != (void *)D_80081470 &&
-        held_arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
-        return held_arg0;
+    if (arg0 != (void *)&D_80081484 &&
+        arg0 != (void *)D_80081470 &&
+        arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
+        return arg0;
     }
 
     first = func_80098FB0();
@@ -57,9 +54,9 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     }
     {
         object = func_800990FC();
-        func_80099290(func_80099194(held_arg2,
-            func_8009955C(held_arg0,
-                func_80099194(held_arg1, func_8009929C(8, object)))));
+        func_80099290(func_80099194(arg2,
+            func_8009955C(arg0,
+                func_80099194(arg1, func_8009929C(8, object)))));
         func_800A5720(object);
         return 0;
     }
@@ -67,13 +64,13 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
 valid_index:
     object = func_800990FC();
     func_80099290(func_80099194(D_800E07EF,
-        func_80099368(held_arg0, object)));
+        func_80099368(arg0, object)));
     if (held_arg3 != 0) {
         func_800A5720(object);
     }
     func_800A56E0(0x508);
 
-    if (held_arg0 == (void *)&D_80081484) {
+    if (arg0 == (void *)&D_80081484) {
         do {
             ((void **)0x80010248)[index] = D_80081484;
         } while (0);
@@ -106,12 +103,12 @@ valid_index:
     narrowed >>= 14;
     narrowed += (s32)entry_base;
     ASM_KEEP(narrowed);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    *(s32 *)held_arg0 = 0;
-    held_arg0 = (void *)narrowed;
+    *(s32 *)arg0 = 0;
+    arg0 = (void *)narrowed;
     entry_base = (u8 *)0x80010000;
     narrowed = second << 16;
     narrowed >>= 14;
     narrowed += (s32)entry_base;
-    *(void **)(narrowed + 0x29c) = held_arg0;
-    return held_arg0;
+    *(void **)(narrowed + 0x29c) = arg0;
+    return arg0;
 }
