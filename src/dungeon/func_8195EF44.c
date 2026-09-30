@@ -13,16 +13,6 @@ extern s32 D_80024648;
 extern s32 D_80046398;
 
 
-typedef struct S_8195EF44_0 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-} S_8195EF44_0;   /* map in func_8195EF44 */
-
-typedef struct S_8195EF44_1 {
-    u8 pad_00[0x333C];
-    u16 * unk_333C;
-} S_8195EF44_1;   /* page in func_8195EF44 */
-
 typedef struct S_8195EF44_2 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -35,11 +25,6 @@ typedef struct S_8195EF44_2 {
     s16 unk_1E;
     s16 unk_20;
 } S_8195EF44_2;   /* work in func_8195EF44 */
-
-typedef struct S_8195EF44_3 {
-    u8 pad_00[0x14A0];
-    s32 unk_14A0;
-} S_8195EF44_3;   /* global_page in func_8195EF44 */
 
 typedef struct S_8195EF44_4 {
     u8 pad_00[0x2];
@@ -65,100 +50,49 @@ typedef struct S_8195EF44_5 {
 /* Allocate and initialize an object using the map cell at the supplied position. */
 void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
 {
-    s16 saved_x = world_x;
-    s16 saved_y = world_y;
-    s16 saved_z = world_z;
-    s16 saved_coord_60 = coord_60;
     void *obj;
     S_8195EF44_2 *work;
-    register u8 *map ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u8 *page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    void *call_addr;
-    void *call_obj;
-    void *render;
-    void *render_2;
+    MapGrid *map;
     u8 *coord;
-    s32 color;
-    u16 *cells;
-    u16 cell;
-    s32 obj_flags;
-    s32 global_flags;
-    register void *zero_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    u8 *global_page;
+    void *render;
     s32 cell_x;
-    s32 cell_index;
-    s32 cell_total;
-    s32 shifted_coord;
+    s32 cell_y;
+    u16 cell;
 
+    map = &gameWork.map;
     obj = func_8003FC64(2);
-    page = (u8 *)0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    map = page;
-    map += 0x333C;
     if (obj != NULL) {
-        work = (*(void * *)((u8 *)obj + 0xC));
-        shifted_coord = (s32)((u32)(u16)saved_x << 16);
-        cell_x = shifted_coord >> 16;
-        if (cell_x < 0) {
-            cell_x += 0x3F;
-        }
-        shifted_coord = (s32)((u32)(u16)saved_y << 16);
-        cell_index = shifted_coord >> 16;
-        cell_x >>= 6;
-        if (cell_index < 0) {
-            cell_index += 0x3F;
-        }
-        cell_index >>= 6;
-        cell_index <<= ((S_8195EF44_0 *)map)->unk_14;
-        cell_total = cell_index;
-        cell_index = cell_x + cell_total;
-        cells = ((S_8195EF44_1 *)page)->unk_333C;
-        cell = cells[cell_index * 3];
+        work = *(void **)((u8 *)obj + 0xC);
+        cell_x = world_x / 64;
+        cell_y = world_y / 64;
+        cell = ((u16 *)map->cells)[(cell_x + (cell_y << map->shiftX)) * 3];
         work->unk_08 = cell;
-
         if (cell == 0) {
-            zero_return = NULL;
-            global_page = (u8 *)0x80080000;
-            ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            obj_flags = (*(u16 *)((u8 *)obj + 0x1E));
-            global_flags = ((S_8195EF44_3 *)global_page)->unk_14A0;
-            obj_flags |= 0x8000;
-            global_flags |= 0x8000;
-            (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
-            ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
-            return zero_return;
+            u16 obj_flags = *(u16 *)((u8 *)obj + 0x1E) | 0x8000;
+            s32 global_flags = objectFlagBlock.flags | 0x8000;
+            *(u16 *)((u8 *)obj + 0x1E) = obj_flags;
+            objectFlagBlock.flags = global_flags;
+            return NULL;
         }
-        call_obj = obj;
-        render_2 = &D_80024648;
-        call_addr = &D_80046398;
-        (*(void * *)((u8 *)obj + 0x10)) = render_2;
-        func_8004491C(call_obj, call_addr);
-
-        color = 0x808080;
-        render = (*(void * *)((u8 *)obj + 8));
-        ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         coord = (u8 *)obj + 0x20;
-        ASM_KEEP_NV(coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_8195EF44_4 *)render)->unk_02 = saved_x;
-        ((S_8195EF44_5 *)coord)->unk_38 = saved_x;
-        ((S_8195EF44_4 *)render)->unk_06 = saved_y;
-        ((S_8195EF44_5 *)coord)->unk_3A = saved_y;
-        ((S_8195EF44_4 *)render)->unk_0A = saved_z;
-        ((S_8195EF44_5 *)coord)->unk_3C = saved_z;
+        *(void **)((u8 *)obj + 0x10) = &D_80024648;
+        func_8004491C(obj, &D_80046398);
+        render = *(void **)((u8 *)obj + 8);
+        ((S_8195EF44_4 *)render)->unk_02 = world_x;
+        ((S_8195EF44_5 *)coord)->unk_38 = world_x;
+        ((S_8195EF44_4 *)render)->unk_06 = world_y;
+        ((S_8195EF44_5 *)coord)->unk_3A = world_y;
+        ((S_8195EF44_4 *)render)->unk_0A = world_z;
+        ((S_8195EF44_5 *)coord)->unk_3C = world_z;
         work->unk_20 = 0x1000;
         work->unk_1E = 0x1000;
         work->unk_1C = 0x1000;
         work->unk_10 = 0x20;
-        work->unk_0C = color;
+        work->unk_0C = 0x808080;
         work->unk_14 = 0xC;
         ((S_8195EF44_5 *)coord)->unk_4C = 0xC;
-        ((S_8195EF44_5 *)coord)->unk_60 = saved_coord_60;
-        ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
+        ((S_8195EF44_5 *)coord)->unk_60 = coord_60;
+        ((S_8195EF44_5 *)coord)->unk_62 = world_z;
     }
     return obj;
-    return zero_return;
 }
-
-/* MECHANISM: Pinned s2/s3/s4/s7 args, s1 obj/s0 work, and split s6/s5 map bases
-   reproduce the 0x38 frame; a v1 clobber schedules coord in the render-load slot.
-   The old-style () noreturn declaration self-serves the arg-carrying jal-to-j tail. */

@@ -132,7 +132,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF))
                         || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
                         turn_flags = move_state + 0x98;
-                        target_heading = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16)target_x,
+                        target_heading = func_800A0818(position->unk_24.at00u.v & 0xFF, position->unk_24.at01.v, (s16)target_x,
                             (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
                         if ((func_8009A66C(target_heading, position, actor, 0x20) << 0x10) <= 0) {
@@ -144,12 +144,10 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                             u8 *coord_later = D_80082E80_later;
                             move_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
                                 coord_later[0x24], coord_later[0x25]);
-                            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                            turn_index = 0;
                             if ((move_result << 0x10) != 0) {
                                 limit_turn = 1;
-                                goto loop_entry;
                             }
+                            turn_index = 0;
                         }
                         goto loop_entry;
                     }
