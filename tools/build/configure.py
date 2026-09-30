@@ -486,7 +486,7 @@ CC_VER = {
     "src/w_8004FE78.c": ("2.7.2", "-G0"),
     "src/w_800510DC.c": ("2.7.2", "-G0"),
     "src/w_8004FF20.c": ("2.7.2-cdk", ""),
-    "src/w_800537D0.c": ("2.7.2", "-fno-strength-reduce"),
+    "src/w_800537D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83bn3): retail-proven splitting recipe
     "src/w_80044698.c": ("2.7.2", ""),
     "src/w_8004EC20.c": ("2.7.2-cdk", ""),
     "src/w_80049CF4.c": ("2.7.2", ""),

@@ -3500,8 +3500,8 @@ build build/src/w_80053604.o: cc src/w_80053604.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_800537D0.o: cc src/w_800537D0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
-  ccflags = -fno-strength-reduce
+  ccver = 2.7.2-cdk
+  ccflags = 
   asflags = 
 
 build build/src/w_80053858.o: cc src/w_80053858.c | tools/cc.sh tools/ccproc.py 
