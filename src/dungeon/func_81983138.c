@@ -59,7 +59,7 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
     S_80024938_1 *motion;
     void *particle;
     union { S_80024938_3 * pointer; s32 value; } effect_state;
-    u8 *page_base;
+    union { s32 value; M2C_UNK *pointer; } size_texture;
 
     particle_index = 0;
     direction_angle = angle + 0x400;
@@ -80,13 +80,13 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
             motion->unk_14 = (s32) (func_800644B8(ring_angle) << 6);
             effect_state.value = 0x808080;
             sprite = ((S_80024938_0 *)particle)->unk_0C;
-            sprite->unk_1E = 0x400;
-            sprite->unk_1C = 0x400;
-            page_base = (u8 *) 0x80020000;
-            ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            size_texture.value = 0x400;
+            sprite->unk_1E = size_texture.value;
+            sprite->unk_1C = size_texture.value;
+            size_texture.pointer = &D_800269EC;
             sprite->unk_0C = effect_state.value;
             effect_state.value = sprite->unk_14;
-            sprite->unk_08 = page_base + 0x69EC;
+            sprite->unk_08 = size_texture.pointer;
             sprite->unk_10 = 0x20;
             sprite->unk_14 = (u16) (effect_state.value | 0xC);
             effect_state.pointer = particle + 0x20;
