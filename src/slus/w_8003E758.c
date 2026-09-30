@@ -479,13 +479,13 @@ complete_stream:
                 u8 *status_ptr = &D_800814D2_P[0];
                 SlusCdQueueEntry *stream_queue;
                 SlusCdQueueEntry *stream_command;
+                s32 stream_head;
                 stream_command = 0xFF;
                 stream_queue = D_80083968;
-                ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 D_800814D2[0] = 0;
                 D_800814D3[0] = stream_command;
-                head_index = status_ptr[-2];
-                stream_command = &stream_queue[head_index];
+                stream_head = status_ptr[-2];
+                stream_command = &stream_queue[stream_head];
                 if (stream_command->unk17 != 0xFF) {
                     D_80083958[0].unk4 = 4;
                     D_80080AD4 = 1;

@@ -17,7 +17,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
         func_8004D1EC(&state->slot[0].unk_04, target_position, transition_param, &state->unk_0A4);
     }
     if (target_rotation != 0) {
-        register s32 current_angle_wide_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        s32 current_angle_wide_m;
         angle_bits = *((u16 *) (((u8 *) target_rotation) + 0));
         if (angle_bits & 0x800) {
             target_angle = angle_bits | 0xF800;
@@ -35,7 +35,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
         }
         state->unk_0AC = current_angle;
         {
-            current_angle_wide_m = current_angle;
+            current_angle_wide_m = (u32)current_angle << 16;
+            current_angle_wide_m >>= 16;
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 0))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
@@ -63,7 +64,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
         }
         state->unk_0AE = current_angle;
         {
-            current_angle_wide_m = current_angle;
+            current_angle_wide_m = (u32)current_angle << 16;
+            current_angle_wide_m >>= 16;
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 2))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {
@@ -91,7 +93,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
         }
         state->viewAngle = current_angle;
         {
-            current_angle_wide_m = current_angle;
+            current_angle_wide_m = (u32)current_angle << 16;
+            current_angle_wide_m >>= 16;
             angle_delta = (*((s16 *) (((u8 *) target_rotation) + 4))) - current_angle_wide_m;
         }
         if (angle_delta < 0) {

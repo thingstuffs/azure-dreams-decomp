@@ -145,13 +145,10 @@ void change_map(InputRecord *input)
     {
         s32 check_result = func_80034FE4(D_80082A38);
         if (check_result != 0) {
-            s16 enabled = 1;
-            D_8006ADE8[0] = enabled;
-            D_8006AE18[0] = 0;
+            D_8006ADE8[0] = 1;
         } else {
-            ASM_KEEP(check_result);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
             D_8006ADE8_else[0] = 0;
-            D_8006AE18[0] = 0;
         }
+        D_8006AE18[0] = 0;
     }
 }
