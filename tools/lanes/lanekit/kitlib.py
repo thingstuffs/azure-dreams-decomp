@@ -270,43 +270,51 @@ def dumps(row, text, want=None, timeout=None, asm_names=False):
     build (with the compiler's message under 'error')."""
     add_paths()
     from common import parse_cfg, NICE                                   # noqa: E402
-    cell, flags = parse_cfg(row["cfg"])
-    D = ROOT / "toolchain/compilers" / ("gcc-" + cell)
     to = float(timeout or os.environ.get("PIN_CC_TIMEOUT", "60"))
     with tempfile.TemporaryDirectory(prefix="lanekit_") as td:
         d = Path(td)
         candidate = d / "f.c"
         candidate.write_text(text)
-        source = candidate
+        sources = [(candidate, row["cfg"])]
         context_fp = module_fingerprint(row)
         if context_fp is not None:
-            from slus_module_context import compilation_source          # noqa: E402
-            source = compilation_source(row, candidate, d)
+            # a module row compiles its module (siblings included); a PARTITIONED row compiles each physical unit
+            # that holds its functions at that unit's recipe - the plural context verify.py builds (r81_opus_kitgap)
+            from variant_screen import screen_sources                    # noqa: E402
+            sources = screen_sources(row, candidate, d)
         def stale_context():
             return context_fp is not None and module_fingerprint(row) != context_fp
         env = dict(os.environ, TMPDIR=str(d), PYTHONDONTWRITEBYTECODE="1")
-        try:
-            r = subprocess.run(NICE + [str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags,
-                                       "-I" + str(ROOT / "include"), "-w", source.name, "-o", "f.i"],
-                               cwd=d, capture_output=True, text=True, env=env, timeout=to)
-            if stale_context():
-                return {"error": "module context changed during diagnostic compile; re-run"}
-            if r.returncode:
-                return {"error": (r.stderr or r.stdout)[-800:]}
-            r = subprocess.run(NICE + [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-dap" if asm_names else "-da",
-                                       "-o", "f.s"], cwd=d, capture_output=True, text=True,
-                               env=env, timeout=to)
-            if stale_context():
-                return {"error": "module context changed during diagnostic compile; re-run"}
-            if r.returncode:
-                return {"error": (r.stderr or r.stdout)[-800:]}
-        except subprocess.TimeoutExpired:
-            return {"error": "compiler-timeout"}
-        out = {"error": None, "asm": (d / "f.s").read_text(errors="replace")}
-        for p in sorted(d.iterdir()):
-            suf = p.suffix[1:]
-            if suf in PASS_SUFFIX and (want is None or suf in want):
-                out[suf] = p.read_text(errors="replace")
+        out = {"error": None}
+        for i, (source, cfg) in enumerate(sources):
+            cell, flags = parse_cfg(cfg)
+            D = ROOT / "toolchain/compilers" / ("gcc-" + cell)
+            w = d if len(sources) == 1 else d / ("unit%d" % i)
+            w.mkdir(exist_ok=True)
+            try:
+                r = subprocess.run(NICE + [str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags,
+                                           "-I" + str(ROOT / "include"), "-w", source.name, "-o", str(w / "f.i")],
+                                   cwd=source.parent, capture_output=True, text=True, env=env, timeout=to)
+                if stale_context():
+                    return {"error": "module context changed during diagnostic compile; re-run"}
+                if r.returncode:
+                    return {"error": (r.stderr or r.stdout)[-800:]}
+                r = subprocess.run(NICE + [str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-dap" if asm_names else "-da",
+                                           "-o", "f.s"], cwd=w, capture_output=True, text=True,
+                                   env=env, timeout=to)
+                if stale_context():
+                    return {"error": "module context changed during diagnostic compile; re-run"}
+                if r.returncode:
+                    return {"error": (r.stderr or r.stdout)[-800:]}
+            except subprocess.TimeoutExpired:
+                return {"error": "compiler-timeout"}
+            # several units (a partition parent's remainder + its parts): each pass's dumps concatenated in unit
+            # order, like one file with more functions in it
+            out["asm"] = out.get("asm", "") + (w / "f.s").read_text(errors="replace")
+            for p in sorted(w.iterdir()):
+                suf = p.suffix[1:]
+                if suf in PASS_SUFFIX and (want is None or suf in want):
+                    out[suf] = out.get(suf, "") + p.read_text(errors="replace")
         return out
 
 
@@ -322,6 +330,10 @@ def row_at_cfg(row, cfg):
     add_paths()
     if cfg != row["cfg"] and module_fingerprint(row) is not None:
         from slus_module_context import require_individual_recipe       # noqa: E402
+        from variant_screen import partitioned                           # noqa: E402
+        if partitioned(row):
+            raise SystemExit("lanekit: %s is a partitioned slus row - per-row recipe trials (--cfg) are not supported; "
+                             "score it at its registered cfg" % row["id"])
         require_individual_recipe(row)
     from common import parse_cfg                                         # noqa: E402
     cell, flags = parse_cfg(cfg)
