@@ -1,3 +1,17 @@
+# Handover (2026-09-30 13:40, round 83 / c8 continuation: FOUR LANES BUILT, STOPPED BY THE SPEND LIMIT) - start here
+
+All four Agent lanes died within minutes on the account's monthly spend limit (HTTP 429; weekly limit resets Oct 4 23:00 UTC).
+Nothing staged, nothing landed; the lane dirs are built and re-launchable as they are (Agent prompt = "read
+work/native_lane/<lane>/AGENT_PROMPT.txt and follow it"; model in brackets). Rows reserved in _landq/reserved_c8.txt.
+- r83_fable_nosr [fable]: what -fno-strength-reduce stands in for (loop.c condition + natural loop shape); 4 slus rows
+  (w_800500B4, w_800599B0, w_8005914C, w_80049F68) + CLASS.tsv over the 71 rows carrying the flag (nosr_rows.tsv).
+- r83_opus_b1 [opus]: 819B3414 natural route (12 pins / total 4, from r82_opus_bg1/cand/g2_novol.c).
+- r83_opus_b2 [opus]: 818D4E68 last pin (a2 preference), 800C4A80 (0 pins, total 7), 8046C280 recipe hypothesis
+  (prove on the module with modcell.py before staging at an extra flag).
+- r83_sonnet_modsplit [sonnet]: modsplit.py - split mixed-bag census modules (town/main.c, main/c_server.c) into TUs.
+Not picked: the optional maspsx_d3 patch (0 rows; owner's call). Housekeeping: a duplicate land_queue2.sh (pid 1705093,
+08:28) was killed - runner.pid 3007254 is the only runner. Peer codex lanes a41-a43 run under autoqueue (codex quota is separate).
+
 # Handover (2026-09-30 midday, round 82 / session c8: same process, second batch) - start here
 
 **Update 09-30 afternoon (c8):** decision 3 resolved - the maspsx genuine-ASPSX extern model was already in production
