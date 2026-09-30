@@ -12,6 +12,11 @@ typedef struct Func808816D8Owner {
     u8 *data;
 } Func808816D8Owner;
 
+typedef struct Func808816D8Rec {
+    u8 tag;
+    u8 pad1[0x13];
+} Func808816D8Rec;
+
 extern s32 D_80700740[3];
 extern Func808816D8Callbacks *D_8070100C[3];
 extern Func808816D8Owner *D_80701000[3];
@@ -39,15 +44,18 @@ void func_808816D8(void) {
         s32 limit;
         s32 check;
         s32 sentinel;
+        s32 i;
+        Func808816D8Rec *rec;
         check = row_base[1];
         limit = 0x80;
         if (check != limit) {
             sentinel = 0x80;
-            row_cursor = row_base + 1;
+            rec = (Func808816D8Rec *)(row_base + 1);
+            i = 0;
             do {
-                *(s32 *)(row_cursor + 0xB) = D_80701008[0][*(s32 *)(row_cursor + 0xB)];
-                row_cursor += 0x14;
-            } while (*row_cursor != sentinel);
+                *(s32 *)((u8 *)&rec[i] + 0xB) = D_80701008[0][*(s32 *)((u8 *)&rec[i] + 0xB)];
+                i++;
+            } while (rec[i].tag != sentinel);
         }
     }
 }
