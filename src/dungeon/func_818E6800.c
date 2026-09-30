@@ -46,14 +46,12 @@ __asm__(".globl func_818E6800\n"
 #define BODY_NAME func_818E6800
 #endif
 
-void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg)
+void BODY_NAME(u8 *effect, u8 *motion, void *context_arg)
 __attribute__((section(".text.func_818E6800")));
 
 /* Advance the effect through target selection, movement, impact, and cleanup. */
-void BODY_NAME(void *effect_arg, void *motion_arg, void *context_arg) {
-    u8 *effect = (u8 *)effect_arg;
-    u8 *motion = (u8 *)motion_arg;
-    register u8 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
+    u8 *actor;
     u8 *actor_data;
     u8 *actor_header;
     u8 *particle;
