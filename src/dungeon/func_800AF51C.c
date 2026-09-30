@@ -14,12 +14,6 @@ extern M2C_UNK D_800B45E0;
 extern M2C_UNK D_800B490C;
 extern M2C_UNK D_800DF24C[];
 
-typedef struct {
-    u8 bytes[16];
-    u16 arg3;
-} StackLocal;
-
-
 typedef struct S_800B4C7C_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -72,10 +66,10 @@ typedef struct S_800B4C7C_6 {
 
 /* Creates and positions a text object showing a formatted value or preset message. */
 void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
-    StackLocal text_stack;
+    u8 text_buffer[16];
     void *callback;
     s16 glyph_or_index;
-    register u16 callback_bits ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 callback_bits;
     register s32 callback_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 number;
     s16 space;
@@ -91,6 +85,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     u16 anchor_z;
     S_800B4C7C_3 *position;
     S_800B4C7C_5 *text_link;
+    S_800B4C7C_6 *text_metrics;
     void *text_position;
     void *text;
     void *state;
@@ -99,7 +94,6 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     S_800B4C7C_2 *source_position;
     void *anchor;
 
-    text_stack.arg3 = callback_mode;
     new_object = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
     saved_flags = (void *)(u32) flags;
     ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -142,32 +136,32 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         number = (s16) value;
         if (number >= 0) {
             flags = 0x50;
-            text_cursor = (s8 *) text_stack.bytes;
+            text_cursor = (s8 *) text_buffer;
             switch (format) {
             case 0x10:
                 glyph_or_index = 0x7F;
-                text_stack.bytes[0] = glyph_or_index;
-                text_cursor = (s8 *) text_stack.bytes + 1;
+                text_buffer[0] = glyph_or_index;
+                text_cursor = (s8 *) text_buffer + 1;
                 break;
             case 0x20:
                 glyph_or_index = 0x80;
-                text_stack.bytes[0] = glyph_or_index;
-                text_cursor = (s8 *) text_stack.bytes + 1;
+                text_buffer[0] = glyph_or_index;
+                text_cursor = (s8 *) text_buffer + 1;
                 break;
             case 0x30:
-                text_stack.bytes[0] = 0x2B;
+                text_buffer[0] = 0x2B;
                 break;
             case 0x40:
                 glyph_or_index = 0x2D;
-                text_stack.bytes[0] = glyph_or_index;
-                text_cursor = (s8 *) text_stack.bytes + 1;
+                text_buffer[0] = glyph_or_index;
+                text_cursor = (s8 *) text_buffer + 1;
                 break;
             case 0x50:
-                text_stack.bytes[0] = 0x81;
+                text_buffer[0] = 0x81;
                 break;
             case 0x60:
-                text_stack.bytes[0] = 0x82;
-                text_cursor = (s8 *) text_stack.bytes + 1;
+                text_buffer[0] = 0x82;
+                text_cursor = (s8 *) text_buffer + 1;
                 break;
             case 0x80:
                 func_8004E634(number, text_cursor);
@@ -176,29 +170,29 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
                 *text_cursor++ = 0x58;
                 *text_cursor++ = flags;
                 *text_cursor++ = 0;
-                func_8004E298(text, text_stack.bytes, text_style);
+                func_8004E298(text, text_buffer, text_style);
                 break;
             case 0xA0:
-                text_stack.bytes[0] = space;
-                func_8004E5A0(number, 3, text_stack.bytes + 1);
-                text_cursor = (s8 *) text_stack.bytes + 6;
-                text_stack.bytes[4] = 0x25;
-                text_stack.bytes[5] = 0;
-                func_8004E298(text, text_stack.bytes, text_style);
+                text_buffer[0] = space;
+                func_8004E5A0(number, 3, text_buffer + 1);
+                text_cursor = (s8 *) text_buffer + 6;
+                text_buffer[4] = 0x25;
+                text_buffer[5] = 0;
+                func_8004E298(text, text_buffer, text_style);
                 break;
             case 0x90:
                 func_8004E5A0(number, 4, text_cursor);
-                text_cursor = (s8 *) text_stack.bytes + 6;
-                text_stack.bytes[4] = 0x47;
-                text_stack.bytes[5] = 0;
-                func_8004E298(text, text_stack.bytes, text_style);
+                text_cursor = (s8 *) text_buffer + 6;
+                text_buffer[4] = 0x47;
+                text_buffer[5] = 0;
+                func_8004E298(text, text_buffer, text_style);
                 break;
             default:
                 break;
             }
             if (((u32) saved_flags & 0xF0) < 0x80U) {
                 func_8004E5A0(saved_value, 3, text_cursor);
-                func_8004E298(text, text_stack.bytes, number_style);
+                func_8004E298(text, text_buffer, number_style);
             }
         } else {
             glyph_or_index = ~value;
@@ -207,17 +201,20 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
             }
             func_8004E298(text, D_800DF24C[glyph_or_index], text_style);
         }
-        callback_bits = text_stack.arg3;
+        callback_bits = callback_mode;
         callback_kind = (s16) callback_bits;
         if (callback_kind == 1) {
             callback = &D_800B490C;
+            (*(void **)((u8 *)object + 0x10)) = callback;
+            text_metrics = func_800B1484(text);
+            text_position = state + 0x20;
         } else {
             callback = &D_800B45E0;
+            (*(void **)((u8 *)object + 0x10)) = callback;
+            text_metrics = func_800B1484(text);
+            text_position = state + 0x20;
         }
-        (*(void **)((u8 *)object + 0x10)) = callback;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        text_position = state + 0x20;
-        func_800B1320(text_position, 0x80 - ((s32) (((S_800B4C7C_6 *)(func_800B1484(text)))->unk_02 + 0x88) / 2),
+        func_800B1320(text_position, 0x80 - ((s32) (text_metrics->unk_02 + 0x88) / 2),
             (s16) ((0 - (s8) ((S_800B4C7C_1 *)state)->unk_23) - 4));
         func_800B13CC(text_position, 0x20);
     }
