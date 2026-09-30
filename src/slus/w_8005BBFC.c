@@ -126,8 +126,8 @@ enum E_u16 right_gain_arg;
     s16 sample_index;
     register s32 sample ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     u16 *sample_sizes;
-    register s32 pan ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-    register s32 pan_total ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 pan;
+    s32 pan_total;
     s32 volume;
     s32 left_volume;
     s32 right_volume;
@@ -228,7 +228,8 @@ enum E_u16 right_gain_arg;
                 pan = 0x7F;
             }
             D_80085458[channel].f18 = pan;
-            volume = ((s32) ((D_80086A40[(s16) bank].f18 * D_80085458[channel].f14) * D_80085458[channel].f15)) >> 7;
+            volume = D_80086A40[(s16) bank].f18;
+            volume = ((s32) ((volume * D_80085458[channel].f14) * D_80085458[channel].f15)) >> 7;
             if (pan >= 0x40) {
                 right_volume = volume;
                 left_volume = ((s32) ((0x40 - (pan & 0x3F)) * (right_volume << 1))) >> 7;
