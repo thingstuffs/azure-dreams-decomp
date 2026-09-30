@@ -27,14 +27,10 @@ s32 func_80174574(void *initial_payload, s32 entry_data, Entry *entry, s32 unuse
 {
     void *payload = initial_payload;
     Scratchpad *scratch = (Scratchpad *)0x1F800000;
-    GlobalPage *global_page =
-        (GlobalPage *)0x80170000;
     Entry *next_entry;
 
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
     for (;;) {
-        scratch->value = global_page->value;
+        scratch->value = D_80175218[0];
 
         if (!(entry->unk14 & 0x80)) {
             func_800453E0(payload, entry_data, entry, entry->unk06);
