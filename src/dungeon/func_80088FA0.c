@@ -27,6 +27,7 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
     u16 ticks;
     s32 phase;
     u8 *child;
+    u8 *anim_sprite;
 
     phase = action[0x9B];
     if (phase == 1) {
@@ -45,8 +46,6 @@ void func_8008E700(u8 *action, u8 *motion, u8 *sprite, u8 *entity) {
 
 start:
     if (*(u16 *)(sprite + 0x14) & 0x6000) {
-        u8 *anim_sprite;
-
         *(s32 *)(motion + 0x14) = 0xFFEA0000;
         if (*(s32 *)(entity + 0x1C) & 0x100000) {
             *(u8 **)(sprite + 0x2C) = D_800DD0C8;
@@ -64,7 +63,6 @@ update:
     ticks = *(u16 *)(action + 0x96) + 1;
     *(u16 *)(action + 0x96) = ticks;
     if ((*(u16 *)(action + 0xA2) & 0x10) && ((s16)ticks >= 4)) {
-        u8 *anim_sprite;
         u8 *animations;
         s32 heading;
         register s32 direction ASM_REG("$2");
@@ -99,7 +97,6 @@ update:
 
                 {
                     s32 clear_mask;
-                    u8 *anim_sprite;
                     u8 *animations;
                     s32 anim_mode;
                     s32 heading;
@@ -109,7 +106,6 @@ update:
 
                     clear_mask = 0xFFEFFFFF;
                     anim_sprite = sprite;
-                    ASM_KEEP(anim_sprite);
                     state_value = *(s32 *)(entity + 0x1C);
                     saved_state = D_80081484[0];
                     anim_mode = 5;
@@ -142,7 +138,8 @@ update:
     return;
 
 finish:
-    if ((*(u16 *)(sprite + 0x14) & 0x6000) &&
+    anim_sprite = sprite;
+    if ((*(u16 *)(anim_sprite + 0x14) & 0x6000) &&
         (dungeonStatus.unk_0A == 0)) {
         entity_flags = *(s32 *)(entity + 0x1C);
         if (entity_flags & 0x200000) {
