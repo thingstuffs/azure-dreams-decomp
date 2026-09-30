@@ -22,14 +22,14 @@ typedef struct S_800DAB50_0 {
     u16 unk_20;
     u16 unk_22;
     u16 unk_24;
+    u8 pad_26[0x2];
+    struct {
+        u16 unk_00;
+        u16 unk_02;
+        u16 unk_04;
+        u16 unk_06;
+    } points[4];
 } S_800DAB50_0;   /* var_s2 in func_800DAB50 */
-
-typedef struct S_800DAB50_1 {
-    u8 pad_00[0x28];
-    u16 unk_28;
-    u16 unk_2A;
-    u16 unk_2C;
-} S_800DAB50_1;   /* p in func_800DAB50 */
 
 
 typedef struct WorkBlock {
@@ -62,7 +62,6 @@ extern void func_800DBA90(WorkBlock *);
 void func_800DAB50(void *effect_data) {
     WorkBlock work;
     s32 index;
-    s32 vertex_offset;
     register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 color_value;
     s32 updated_value;
@@ -80,42 +79,26 @@ void func_800DAB50(void *effect_data) {
         work.unk2A = 0x30;
         work.unk22 = (phase_value_2 * 2) + 0x40;
     }
-    index = 0;
     work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)effect_data)->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
     phase_value = ((S_800DAB50_0 *)effect_data)->unk_0A.s;
-    vertex_offset = 0x28;
     work.unk8 = 0;
     work.unk14 = 0;
     work.unk10 = 0;
     work.unk1A = 0;
     work.unkC = phase_value;
-    do {
-        work.unk4 = (s16 *)((s8 *)effect_data + vertex_offset);
+    for (index = 0; index < 2; index++) {
+        work.unk4 = (s16 *)&((S_800DAB50_0 *)effect_data)->points[index * 2];
         func_800DBA90(&work);
-        phase_value = work.unkC;
-        do {
-            index += 1;
-        } while (0);
-        work.unkC = phase_value + 0x200;
-        vertex_offset += 0x10;
-    } while (index < 2);
+        work.unkC += 0x200;
+    }
 
-    index = 3;
-    {
-        s16 *vertex = (s16 *)((s8 *)effect_data + 0x18);
-        do {
-            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28
-                + ((S_800DAB50_0 *)effect_data)->unk_20);
-            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A
-                + ((S_800DAB50_0 *)effect_data)->unk_22);
-            index -= 1;
-            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C
-                + ((S_800DAB50_0 *)effect_data)->unk_24);
-            vertex -= 4;
-        } while (index >= 0);
+    for (index = 3; index >= 0; index--) {
+        ((S_800DAB50_0 *)effect_data)->points[index].unk_00 += ((S_800DAB50_0 *)effect_data)->unk_20;
+        ((S_800DAB50_0 *)effect_data)->points[index].unk_02 += ((S_800DAB50_0 *)effect_data)->unk_22;
+        ((S_800DAB50_0 *)effect_data)->points[index].unk_04 += ((S_800DAB50_0 *)effect_data)->unk_24;
     }
 
     state = ((S_800DAB50_0 *)effect_data)->unk_00.s;
