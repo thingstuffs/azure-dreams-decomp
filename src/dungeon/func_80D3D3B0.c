@@ -53,6 +53,7 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
     if ((u32)(((0 - func_800A0134(target_angle, actor)) + 0x40) & 0xFFFF) <
         0x81U) {
         result = 1;
+        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((func_800A2B5C(actor) << 0x10) != 0) {
             return -1;
         }
@@ -72,12 +73,8 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
             func_8009C93C(actor, target, actor->facing, 1, 0);
             actor->unk_6D--;
         } else {
-            register s32 one ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
-            one = 1;
-            func_80175F44(action_state, action_context, target, one, one);
+            func_80175F44(action_state, action_context, target, 1, 1);
         }
     }
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return result;
 }

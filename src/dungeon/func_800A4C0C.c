@@ -12,9 +12,8 @@ extern void func_800AA5E4(void *arg0, void *arg1, void *arg2, void *arg3);
 /* Try to move the entity, update positional sounds, and select the next action state. */
 s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
     s32 move_result;
-    register s32 old_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 old_y;
-    s32 sound_mode;
+    s16 old_x;
+    s16 old_y;
     u32 entity_flags;
     u32 post_flags;
     u8 player_state;
@@ -29,20 +28,10 @@ s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
         old_x = *(u8 *)((u8 *)position + 0x24);
         old_y = *(u8 *)((u8 *)position + 0x25);
         move_result = (s16)func_8009B7E4(position, entity);
-        sound_mode = 0x3000;
         if (move_result != 0) {
-            u32 move_mask = 0x40000000;
-            s32 sound_x = old_x;
-            s32 sound_y;
-            ASM_KEEP(sound_x);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            entity_flags = *(u32 *)((u8 *)entity + 0x1C) | move_mask;
+            entity_flags = *(u32 *)((u8 *)entity + 0x1C) | 0x40000000;
             *(u32 *)((u8 *)entity + 0x1C) = entity_flags;
-            if (entity_flags & 0x2000) {
-                sound_mode = 0x300;
-            }
-            sound_y = old_y;
-            ASM_KEEP(sound_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8009A3D0(sound_x, sound_y, sound_mode);
+            func_8009A3D0(old_x, old_y, (entity_flags & 0x2000) ? 0x300 : 0x3000);
             post_flags = *(u32 *)((u8 *)entity + 0x1C);
             func_8009A21C(*(u8 *)((u8 *)position + 0x24),
                           *(u8 *)((u8 *)position + 0x25),
