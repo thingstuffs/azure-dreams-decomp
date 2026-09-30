@@ -123,6 +123,7 @@ s32 func_800248C8(void *line_data)
     case 3:
     case 4:
     case 5:
+    case 6:
 
     {
         s32 x0;
@@ -179,7 +180,7 @@ s32 func_800248C8(void *line_data)
             ((S_800248C8_2 *)packet)->unk_0E = multiplier;
         }
         break;
-    case 6:
+    case 7:
 
         ((S_800248C8_2 *)packet)->unk_04 = 0x40;
         ((S_800248C8_2 *)packet)->unk_05 = 0x40;
@@ -188,7 +189,6 @@ s32 func_800248C8(void *line_data)
         ((S_800248C8_2 *)packet)->unk_0D = 0;
         ((S_800248C8_2 *)packet)->unk_0E = 0xFF;
         break;
-    case 7:
     case 8:
     case 9:
     case 10:

@@ -195,13 +195,13 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         }
 
         switch (((S_80170EE4_1 *)actor_data)->unk_46 & 0x3FFF) {
-        case 9:
+        case 8:
             if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
                 return;
             }
             goto call_80171FFC;
 
-        case 8:
+        case 9:
             if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
                 func_80173C40(actor_state_in, update_context_in, map_object, actor_data);
                 return;

@@ -120,6 +120,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
         offset_value = (void *)((u32)offset_value + 1);
         U16(effect, 0xA) = (u32)offset_value;
 
+    case 1:
         origin_sprite = PTR(object, 0xC);
         if (func_8003DF74(PTR(origin_sprite, 8), origin_sprite, origin_offset, 0) == 0) {
             if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
@@ -140,7 +141,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
         }
         U16(motion, 0xA) = owner_z - 0x40;
 
-    case 1:
 await_launch:
         if (!(U16(PTR(effect, 4), 0) & 0x80)) {
             return;

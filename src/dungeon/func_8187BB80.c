@@ -15,12 +15,7 @@ typedef struct S_8187BB80_0 {
     u8 unk_37;
     u8 unk_38;
     u8 pad_39[0x7];
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u16 v; } at00p;
-        struct { u8 pad[0x2]; s16 v; } at02;
-    } unk_40;   /* overlapping accesses */
+    union { struct { s32 v; } at00; struct { s16 v; } at00u; struct { u16 v; } at00p; struct { u8 pad[0x2]; s16 v; } at02; } unk_40;   /* overlapping accesses */
     u8 pad_44[0x8];
     u8 unk_4C;
     u8 unk_4D;
@@ -47,8 +42,8 @@ typedef struct S_8187BB80_1 {
 } S_8187BB80_1;   /* aux in func_8187BB80 */
 
 
+
 extern s16 D_8002694C;
-extern void *D_80024038[];
 
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
@@ -68,7 +63,7 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
             (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
         mid_y = (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
         ((S_8187BB80_0 *)effect_data)->unk_2C.s = mid_y;
-        mid_x = *(u16 *)(effect_data + 0x20);
+        mid_x = *(volatile u16 *)(effect_data + 0x20);
         ((S_8187BB80_0 *)effect_data)->unk_66 = mid_y;
         ((S_8187BB80_0 *)effect_data)->unk_62 = mid_y;
         ((S_8187BB80_0 *)effect_data)->unk_5E = mid_x;
@@ -92,7 +87,7 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
             ((S_8187BB80_0 *)effect_data)->unk_2C.u;
     }
 
-    if (*(s32 *)(effect_data + 0x40) == 0x10000) {
+    if (*(volatile s32 *)(effect_data + 0x40) == 0x10000) {
         u32 start_x = ((S_8187BB80_0 *)effect_data)->unk_1E.u;
         u32 start_y = ((S_8187BB80_0 *)effect_data)->unk_2A.u;
 
@@ -104,55 +99,45 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
 
     if (((S_8187BB80_0 *)effect_data)->unk_40.at00u.v == tick_limit) {
         s32 phase;
-        static void *const phase_labels[] = {
-            &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-            &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8
-        };
-
-        (void)phase_labels;
         ((S_8187BB80_0 *)effect_data)->unk_40.at00u.v = 0;
         phase = ((S_8187BB80_0 *)effect_data)->unk_40.at02.v;
-        if ((u32)phase >= 9) {
-            goto jt_c8;
-        }
-        goto *D_80024038[(u32)phase];
-
-jt_c0:
+        switch (phase) {
+        case 0:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
-        goto jt_c8;
+        break;
 
-jt_c1:
+        case 1:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 2;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c2:
+        case 2:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 3;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c3:
+        case 3:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 4;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c4:
+        case 4:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 5;
         ((S_8187BB80_0 *)effect_data)->unk_4C = 0x80;
         ((S_8187BB80_0 *)effect_data)->unk_4D += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c5:
+        case 5:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 6;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c6:
+        case 6:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 7;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        goto jt_c8;
+        break;
 
-jt_c7:
+        case 7:
         ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
         ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
         ((S_8187BB80_1 *)colors)->unk_0D = 0xFF;
@@ -162,12 +147,15 @@ jt_c7:
         ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
         ((S_8187BB80_1 *)colors)->unk_14 |= 0xC;
-        goto jt_c8;
+        break;
+        case 8:
+        default:
+            break;
+        }
     } else {
         ((S_8187BB80_0 *)effect_data)->unk_40.at00p.v++;
     }
 
-jt_c8:
     if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
         ((S_8187BB80_1 *)colors)->unk_0C =
             (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;

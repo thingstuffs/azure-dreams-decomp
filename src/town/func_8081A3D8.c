@@ -106,6 +106,7 @@ void func_800243D8(State8081A3D8 *controller)
     state = controller->state;
     switch (state) {
     case 0:
+    case 1:
         if (((s16)controller->timer % spawn_interval) == 0) {
             if (controller->countdown <= 0) {
                 if ((controller->state != 1) || !(controller->flags & 4)) {
@@ -154,7 +155,6 @@ tick:
             break;
         }
 
-    case 1:
         object = func_8003FD64(((s32)(1)), ((u8 *)(((u8 *)(&D_80083498)))));
         if (object != 0) {
             object_data = object + 0x20;
@@ -216,7 +216,7 @@ tick:
         controller->timer = 0x64;
         break;
 
-    case 3:
+    case 4:
         controller->timer--;
         if ((s16)controller->timer >= 0) {
             break;
@@ -225,7 +225,7 @@ tick:
         controller->state = 1;
         break;
 
-    case 4:
+    case 3:
         controller->timer--;
         if ((s16)controller->timer == 0x50) {
             SD_Call(0xB1);

@@ -185,6 +185,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     s32 sound_id;
     s32 saved_timer;
     s16 rechecked_timer;
+    EntityRec *start_world;
+    World *hit_world;
     void (*particle_callback)(void);
 
     *(PointTable *)&points = *(PointTable *)&D_80024054;
@@ -197,42 +199,38 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
         dispatch_state = entity->state;
         switch (dispatch_state) {
         case 0:
+        start_world = D_800814A8;
+        start_world->unk_F4 = 0;
+        start_world->unk_96 = 20;
+        D_80082E86[0] = 6;
+        entity->state++;
+        start_origin = &D_80083780[0];
         {
-            EntityRec *start_world;
-            World *hit_world;
-            start_world = D_800814A8;
-            start_world->unk_F4 = 0;
-            start_world->unk_96 = 20;
-            D_80082E86[0] = 6;
-            entity->state++;
-            start_origin = &D_80083780[0];
-            {
-                Blob24 *flag_base = D_80026198;
-                entity->base[0] = start_origin->x;
-                entity->base[1] = start_origin->y;
-                entity->base[2] = start_origin->z;
-                *(s16 *)(flag_base->bytes + 24) = 1;
-            }
-            ASM_SCHED_BARRIER();
-            if ((*entity->header & 0x80) != 0) {
-                u8 *hit_world_page = (u8 *)0x80080000;
-                s16 next_state;
-                u16 angle;
-                hit_world = *(World **)(hit_world_page + 0x14A8);
-                entity->timer = 33;
-                hit_world->fieldA6--;
-                hit_world->fieldA8 = entity->type;
-                next_state = entity->state;
-                angle = (*(World **)(hit_world_page + 0x14A8))->angle;
-                entity->state = next_state + 1;
-                entity->age = 0;
-                entity->point_index = (angle >> 9) & 7;
-                break;
-            }
+            Blob24 *flag_base = D_80026198;
+            entity->base[0] = start_origin->x;
+            entity->base[1] = start_origin->y;
+            entity->base[2] = start_origin->z;
+            *(s16 *)(flag_base->bytes + 24) = 1;
+        }
+    case 1:
+        if ((*entity->header & 0x80) != 0) {
+            u8 *hit_world_page = (u8 *)0x80080000;
+            s16 next_state;
+            u16 angle;
+            hit_world = *(World **)(hit_world_page + 0x14A8);
+            entity->timer = 33;
+            hit_world->fieldA6--;
+            hit_world->fieldA8 = entity->type;
+            next_state = entity->state;
+            angle = (*(World **)(hit_world_page + 0x14A8))->angle;
+            entity->state = next_state + 1;
+            entity->age = 0;
+            entity->point_index = (angle >> 9) & 7;
             break;
         }
+        break;
 
-        case 1:
+        case 2:
             entity->timer--;
             if (entity->timer <= 0) {
                 entity->timer = 16;
@@ -688,7 +686,7 @@ loop_1:
             }
             break;
 
-        case 2:
+        case 3:
             if ((D_80082E94[0] & 0x8000) == 0) {
                 entity->timer--;
                 if (entity->timer >= 0) {
@@ -711,7 +709,6 @@ cleanup:
             D_800261B0[0] = 0;
             break;
 
-        case 3:
         default:
             break;
         }

@@ -94,13 +94,13 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object)
                 goto L_kind2;
             case 2:
                 goto L_kind3;
-            case 4:
+            case 6:
                 is_special = 1;
                 goto L_kind3;
             case 5:
                 is_special = 1;
                 goto L_kind2;
-            case 6:
+            case 4:
                 is_special = 1;
                 goto L_kind1;
             default:

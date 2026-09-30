@@ -200,7 +200,6 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         action_state = move_data->unk_46 & 0x3FFF;
         switch (action_state) {
         case 8:
-        case 9:
             if ((func_80172E80(motion_arg, actor_index_arg, actor_arg, move_data) << 16) != 0) {
                 return;
             }
@@ -214,7 +213,7 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             func_801754F0(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
 
-        case 11:
+        case 9:
             if (!(((u32)move_data->flags1C) & 0x20000)) {
                 goto special_cleanup;
             }
@@ -252,6 +251,7 @@ aaf_cleanup:
             return;
 
         case 4:
+        case 11:
         default:
 ordinary_cleanup:
             func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);

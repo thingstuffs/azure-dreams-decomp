@@ -38,6 +38,7 @@ extern void func_800211C4(void *, void *, void *);
 extern void func_80047784(void *, s32, s32);
 extern void func_800478B8(void *);
 
+extern void *D_800201A0[];
 extern s32 D_80081458[];
 extern s16 D_80083228;
 extern u8 D_80083220[];
@@ -55,6 +56,9 @@ void func_80023A00(void *object, void *output, void *entity_data)
     s32 initial_magnitude;
     s32 magnitude;
     u8 *direction_table;
+    static void *const switch_keep[] = {
+        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
+    };
 
     func_800478B8(entity_data);
     *(Copy24 *)output_bytes = *(Copy24 *)((u8 *)(&D_80083780));
@@ -62,63 +66,65 @@ void func_80023A00(void *object, void *output, void *entity_data)
         (0x1400 - ((S_80023A00_1 *)state_base)->unk_10) & 0xFFF;
 
     state = ((S_80023A00_0 *)object)->unk_18.s;
-    switch (state) {
-    case 0:
-        ((S_80023A00_0 *)object)->unk_18.u++;
-        return;
-
-    case 1:
-        initial_magnitude = D_80081458[0];
-        ((S_80023A00_2 *)entity_data)->unk_2C = D_800D23A0;
-        ((S_80023A00_2 *)entity_data)->unk_28 = initial_magnitude;
-        func_80047784(entity_data,
-            D_800D23A0[((D_80083228 +
-                ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80023A00_0 *)object)->unk_18.u++;
-        if (((S_80023A00_1 *)state_base)->unk_08 != 2) {
-            break;
-        }
-        (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
-        func_80047784(entity_data,
-            D_800D2398[((*(s16 *)(D_80083220 + 8) +
-                ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80023A00_0 *)object)->unk_18.u++;
-        break;
-
-    case 2:
-        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-        magnitude = abs(magnitude);
-        if (0xFFFF < magnitude) {
-            break;
-        }
-        (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
-        func_80047784(entity_data,
-            D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80023A00_0 *)object)->unk_18.u++;
-        break;
-
-    case 3:
-        magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-        magnitude = abs(magnitude);
-        if (0xFFFF >= magnitude) {
-            break;
-        }
-        direction_table = D_800D2398;
-        (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
-        func_80047784(entity_data,
-            direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        ((S_80023A00_0 *)object)->unk_18.u--;
-        break;
-
-    case 4:
-    default:
-        break;
+    if ((u32)state >= 5) {
+        goto common;
     }
+    (void)switch_keep;
+    goto *D_800201A0[state];
 
+case_0:
+    ((S_80023A00_0 *)object)->unk_18.u++;
+    return;
+
+case_1:
+    initial_magnitude = D_80081458[0];
+    ((S_80023A00_2 *)entity_data)->unk_2C = D_800D23A0;
+    ((S_80023A00_2 *)entity_data)->unk_28 = initial_magnitude;
+    func_80047784(entity_data,
+        D_800D23A0[((D_80083228 +
+            ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+        0);
+    ((S_80023A00_0 *)object)->unk_18.u++;
+    if (((S_80023A00_1 *)state_base)->unk_08 != 2) {
+        goto common;
+    }
+    (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D2398;
+    func_80047784(entity_data,
+        D_800D2398[((*(s16 *)(D_80083220 + 8) +
+            ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+        0);
+    ((S_80023A00_0 *)object)->unk_18.u++;
+    goto common;
+
+case_2:
+    magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+    magnitude = abs(magnitude);
+    if (0xFFFF < magnitude) {
+        goto common;
+    }
+    (*(void * *)((u8 *)entity_data + 0x2C)) = D_800D23A0;
+    func_80047784(entity_data,
+        D_800D23A0[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+        0);
+    ((S_80023A00_0 *)object)->unk_18.u++;
+    goto common;
+
+case_3:
+    magnitude = ((S_80023A00_1 *)state_base)->unk_48;
+    magnitude = abs(magnitude);
+    if (0xFFFF >= magnitude) {
+        goto common;
+    }
+    direction_table = D_800D2398;
+    (*(void * *)((u8 *)entity_data + 0x2C)) = direction_table;
+    func_80047784(entity_data,
+        direction_table[((D_80083228 + ((S_80023A00_3 *)caller_obj)->unk_2A + 0x100) >> 9) & 7],
+        0);
+    ((S_80023A00_0 *)object)->unk_18.u--;
+    goto common;
+
+case_4:
+common:
     if (((S_80023A00_0 *)object)->unk_18.s != 0) {
         func_800211C4(caller_obj, object, entity_data);
     }

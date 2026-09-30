@@ -82,7 +82,7 @@ void func_8052EA14(Func80813E14Object *object,
                    Func80813E14State *state,
                    Func80813E14Input *input)
 {
-    static void *const keep_split[] __attribute__((used)) = { &&split3 };
+    static void *keep_split[] __attribute__((used)) = { &&split3 };
     Func80813E14Base *base;
     Func80813E14Stack local;
     u8 *record;

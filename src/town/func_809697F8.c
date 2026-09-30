@@ -340,28 +340,28 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
                     for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {
                         if ((scratch->mask >> neighbor_bit) & 1) {
                             switch (neighbor_bit) {
-                            case 0:
+                            case 7:
                                 scratch->p1[-9] = (scratch->p1[-9] & 0xF0) | 2;
                                 break;
-                            case 1:
+                            case 6:
                                 scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                                 break;
-                            case 2:
+                            case 5:
                                 scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                                 break;
-                            case 3:
+                            case 0:
                                 scratch->p1[-1] = (scratch->p1[-1] & 0xF0) | 2;
                                 break;
                             case 4:
                                 scratch->p1[0] = (scratch->p1[0] & 0xF0) | 2;
                                 break;
-                            case 5:
+                            case 1:
                                 scratch->p1[7] = (scratch->p1[7] & 0xF0) | 2;
                                 break;
-                            case 6:
+                            case 2:
                                 scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                                 break;
-                            case 7:
+                            case 3:
                                 scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                                 break;
                             }
@@ -461,28 +461,28 @@ s32 func_80121C90(s32 char_code, s32 dst_addr) {
                     for (neighbor_bit = 0; neighbor_bit < 8; neighbor_bit++) {
                         if ((scratch->mask >> neighbor_bit) & 1) {
                             switch (neighbor_bit) {
-                            case 0:
+                            case 7:
                                 scratch->p1[-8] = (scratch->p1[-8] & 0x0F) | 0x20;
                                 break;
-                            case 1:
+                            case 6:
                                 scratch->p1[-8] = (scratch->p1[-8] & 0xF0) | 2;
                                 break;
-                            case 2:
+                            case 5:
                                 scratch->p1[-7] = (scratch->p1[-7] & 0x0F) | 0x20;
                                 break;
-                            case 3:
+                            case 0:
                                 scratch->p1[0] = (scratch->p1[0] & 0x0F) | 0x20;
                                 break;
                             case 4:
                                 scratch->p1[1] = (scratch->p1[1] & 0x0F) | 0x20;
                                 break;
-                            case 5:
+                            case 1:
                                 scratch->p1[8] = (scratch->p1[8] & 0x0F) | 0x20;
                                 break;
-                            case 6:
+                            case 2:
                                 scratch->p1[8] = (scratch->p1[8] & 0xF0) | 2;
                                 break;
-                            case 7:
+                            case 3:
                                 scratch->p1[9] = (scratch->p1[9] & 0x0F) | 0x20;
                                 break;
                             }

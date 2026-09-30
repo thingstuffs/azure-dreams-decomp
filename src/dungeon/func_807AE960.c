@@ -54,10 +54,6 @@ extern s32 D_8006CD58;
 
 /* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
 void func_807AE960(u8 *state, u8 *actor, u8 *target) {
-    static void * const jt_keep[] = {
-        && jt_c0, && jt_c1, && jt_c2, && jt_c3, && jt_c4, && jt_c5, && jt_c6, && jt_c7, && jt_c8, && jt_c9, && jt_c10,
-            && jt_c11, && jt_c12, && jt_c13, && jt_c14, && jt_c15, && jt_c16, && jt_c17, && jt_c18, && jt_c19
-    };
     s16 steps;
     s32 dispatch_index;
     s16 remaining;
@@ -75,109 +71,88 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     global_end = (u8 *)dungeon_data + 0x1DC;
     table_base = ((s32)dungeon_data->map.cells);
     dispatch_index = (s16)(((S_807AE960_1 *)state)->unk_00.s - 1);
-    if ((u32) dispatch_index >= 0x14U) {
-        goto block_28;
-    }
-    (void)jt_keep;
-    goto * D_800F6000[(u32)dispatch_index];
-jt_c0:
-jt_c1:
-    if (func_8003F270(dispatch_index) != 0) {
-        return;
-    }
-    if (((S_807AE960_1 *)state)->unk_10 == 0) {
-        func_800A56E0(0x300);
-    }
-    ((S_807AE960_1 *)state)->unk_00.u = 3;
-    goto block_28;
-jt_c16:
-    ((S_807AE960_1 *)state)->unk_0A = 0x400;
-    ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
-    ((S_807AE960_1 *)state)->unk_00.u = 0;
-    goto block_28;
-jt_c2:
-    steps = ((S_807AE960_1 *)state)->unk_04.s;
-    if (steps > 0) {
-        ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A
-            + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
-    }
-    remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
-    ((S_807AE960_1 *)state)->unk_04.u = remaining;
-    do {
-        global = (u8 *)0x80010000;
-    } while (0);
-    if (*(u16 *)(global + 0x371A) >= 4U) {
-        goto block_15;
-    }
-    if (remaining >= 0) {
-        goto block_28;
-    }
-block_13:
-    ((S_807AE960_1 *)state)->unk_04.s = 0;
-    goto block_28;
-block_15:
-    if (((S_807AE960_3 *)global)->unk_2090 == 1) {
-        dungeonStatus.unk_0A = 1;
-    }
-    if (((S_807AE960_1 *)state)->unk_04.s > 0) {
-        goto block_28;
-    }
-    cd_mode = ((S_807AE960_3 *)global)->unk_2090;
-    if (cd_mode == 1) {
-        if (func_80053EF0(4) != 0) {
-            goto block_13;
+    switch (dispatch_index + 1) {
+    case 1:
+    case 2:
+        if (func_8003F270(dispatch_index) != 0) {
+            return;
         }
-        if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
-            dungeonStatus.unk_0A = 0;
+        if (((S_807AE960_1 *)state)->unk_10 == 0) {
+            func_800A56E0(0x300);
         }
+        ((S_807AE960_1 *)state)->unk_00.u = 3;
+        break;
+    case 17:
+        ((S_807AE960_1 *)state)->unk_0A = 0x400;
+        ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
+        ((S_807AE960_1 *)state)->unk_00.u = 0;
+        break;
+    case 3:
+        steps = ((S_807AE960_1 *)state)->unk_04.s;
+        if (steps > 0) {
+            ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A
+                + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
+        }
+        remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
+        ((S_807AE960_1 *)state)->unk_04.u = remaining;
+        do {
+            global = (u8 *)0x80010000;
+        } while (0);
+        if (*(u16 *)(global + 0x371A) < 4U) {
+            if (remaining < 0) {
+                ((S_807AE960_1 *)state)->unk_04.s = 0;
+            }
+            break;
+        }
+        if (((S_807AE960_3 *)global)->unk_2090 == 1) {
+            dungeonStatus.unk_0A = 1;
+        }
+        if (((S_807AE960_1 *)state)->unk_04.s > 0) {
+            break;
+        }
+        cd_mode = ((S_807AE960_3 *)global)->unk_2090;
+        if (cd_mode == 1) {
+            if (func_80053EF0(4) != 0) {
+                ((S_807AE960_1 *)state)->unk_04.s = 0;
+                break;
+            }
+            if (((S_807AE960_3 *)global)->unk_2090 == cd_mode) {
+                dungeonStatus.unk_0A = 0;
+            }
+        }
+        ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
+        ((S_807AE960_1 *)state)->unk_00.u = 0;
+        break;
+    case 4:
+        if (((S_807AE960_1 *)state)->unk_10 == 0) {
+            func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
+            Control_CD(0x15, func_800445E0(), 0);
+        }
+        ((S_807AE960_1 *)state)->unk_04.s = 0x60;
+        ((S_807AE960_1 *)state)->unk_0C.s = 0x60;
+    case 20:
+        ((S_807AE960_1 *)state)->unk_00.s = 2U;
+        ((S_807AE960_1 *)state)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_02;
+        break;
+    default:
+        break;
     }
-    ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
-    ((S_807AE960_1 *)state)->unk_00.u = 0;
-    goto block_28;
-jt_c3:
-    if (((S_807AE960_1 *)state)->unk_10 == 0) {
-        func_8003F540(0, D_8006CD58, 0x0600065E, 0x030008B6);
-        Control_CD(0x15, func_800445E0(), 0);
-    }
-    ((S_807AE960_1 *)state)->unk_04.s = 0x60;
-    ((S_807AE960_1 *)state)->unk_0C.s = 0x60;
-jt_c19:
-    ((S_807AE960_1 *)state)->unk_00.s = 2U;
-    ((S_807AE960_1 *)state)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_02;
-jt_c4:
-jt_c5:
-jt_c6:
-jt_c7:
-jt_c8:
-jt_c9:
-jt_c10:
-jt_c11:
-jt_c12:
-jt_c13:
-jt_c14:
-jt_c15:
-jt_c17:
-jt_c18:
-block_28:
     countdown = ((S_807AE960_1 *)state)->unk_0C.s;
     countdown_u = ((S_807AE960_1 *)state)->unk_0C.u;
-    if (countdown == 0) {
-        goto block_33;
+    if (countdown != 0) {
+        countdown = countdown_u - 1;
+        ((S_807AE960_1 *)state)->unk_0C.s = countdown;
+        actor_pos = ((S_807AE960_4 *)actor)->unk_0A;
+        if (countdown & 1) {
+            countdown = actor_pos + 1;
+        } else {
+            countdown = actor_pos - 1;
+        }
+        ((S_807AE960_4 *)actor)->unk_0A = countdown;
+        if (((S_807AE960_1 *)state)->unk_0C.s == 0) {
+            ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
+        }
     }
-    countdown = countdown_u - 1;
-    ((S_807AE960_1 *)state)->unk_0C.s = countdown;
-    actor_pos = ((S_807AE960_4 *)actor)->unk_0A;
-    if (countdown & 1) {
-        countdown = actor_pos + 1;
-    } else {
-        countdown = actor_pos - 1;
-    }
-block_31:
-    ((S_807AE960_4 *)actor)->unk_0A = countdown;
-    if (((S_807AE960_1 *)state)->unk_0C.s == 0) {
-        ((S_807AE960_4 *)actor)->unk_0A = (s16) ((S_807AE960_1 *)state)->unk_0E;
-    }
-block_33:
     if (((S_807AE960_1 *)state)->unk_00.u != 0) {
         return;
     }

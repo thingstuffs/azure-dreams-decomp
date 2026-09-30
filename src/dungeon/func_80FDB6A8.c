@@ -141,72 +141,105 @@ void func_80170EA8(void *actor, void *context, void *sprite, EntityRec *entity)
     ((S_80170EA8_2 *)sprite)->unk_26 = tile_record;
 
     if (entity->unk_6D > 0) {
-        if (!(((u32)entity->flags1C) & 0x20)) {
-            if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-                goto ordinary_cleanup;
-            }
-            if (!(entity->unk_46 & 0x8000)) {
-                if (dungeonStatus.flags & 0x2000) {
-                    if ((s16)func_8009A180(entity,
-                            (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
-                        return;
-                    }
-                }
-                if ((s16)func_80172230(actor, context, sprite, 0) == 0) {
+        if (((u32)entity->flags1C) & 0x20) {
+            goto special_cleanup;
+        }
+        if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            goto ordinary_cleanup;
+        }
+        if (!(entity->unk_46 & 0x8000)) {
+            if (dungeonStatus.flags & 0x2000) {
+                if ((s16)func_8009A180(entity,
+                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
-                entity->unk_46 |= 0x4000;
-                if (!(entity->unk_46 & 0x8000)) {
-                    goto ordinary_cleanup;
-                }
             }
-
-            switch (entity->unk_46 & 0x3FFF) {
-            case 8:
-                ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
-                if (((u32)entity->flags1C) & 0x2000) {
-                    if ((entity->unk_46 & 0x3FFF) == 8) {
-                        ((S_80170EA8_0 *)actor)->unk_98.v &= 0x7FFF;
-                    }
-                }
-
-            case 9:
-                if ((s16)func_80171E28(actor, context, sprite, entity) == 0) {
-                    func_8017208C(actor, context, sprite, entity);
-                    return;
-                }
+            if ((s16)func_80172230(actor, context, sprite, 0) == 0) {
                 return;
-
-            case 5:
-            case 6:
-            case 7:
-            {
-                EntityRec *global_actor;
-                s32 direction;
-
-                direction = func_800A0818(
-                    ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
-                    D_80082E80.tileX, D_80082E80.tileY,
-                    &direction_aux);
-                global_actor = D_800814A8;
-                entity->facing = direction;
-                if (global_actor->unk_9A == 0x11) {
-                    goto aaf_cleanup;
-                }
-                goto special_cleanup;
             }
-            case 1:
-            case 2:
-            case 3:
-                goto aaf_cleanup;
-
-            case 12:
-                goto special_cleanup;
-
-            default:
+            entity->unk_46 |= 0x4000;
+            if (!(entity->unk_46 & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
+
+#ifdef __mips__
+        {
+            static void *volatile dispatch_labels[] = {
+                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
+                &&ordinary_cleanup,
+                &&coords_case, &&coords_case, &&coords_case,
+                &&case8_setup, &&handler_case,
+                &&ordinary_cleanup, &&ordinary_cleanup,
+                &&special_cleanup,
+            };
+            s32 dispatch_index;
+
+            dispatch_index = (entity->unk_46 & 0x3FFF) - 1;
+            if ((u32)dispatch_index >= 12) {
+                goto ordinary_cleanup;
+            }
+            goto *D_80170808[dispatch_index];
+        }
+case8_setup:
+#else
+        switch (entity->unk_46 & 0x3FFF) {
+        case 8:
+#endif
+            ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
+            if (((u32)entity->flags1C) & 0x2000) {
+                if ((entity->unk_46 & 0x3FFF) == 8) {
+                    ((S_80170EA8_0 *)actor)->unk_98.v &= 0x7FFF;
+                }
+            }
+
+#ifdef __mips__
+handler_case:
+#else
+        case 9:
+#endif
+            if ((s16)func_80171E28(actor, context, sprite, entity) == 0) {
+                func_8017208C(actor, context, sprite, entity);
+                return;
+            }
+            return;
+
+#ifdef __mips__
+coords_case:
+#else
+        case 5:
+        case 6:
+        case 7:
+#endif
+        {
+            EntityRec *global_actor;
+            s32 direction;
+
+            direction = func_800A0818(
+                ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY,
+                &direction_aux);
+            global_actor = D_800814A8;
+            entity->facing = direction;
+            if (global_actor->unk_9A == 0x11) {
+                goto aaf_cleanup;
+            }
+            goto special_cleanup;
+        }
+#ifndef __mips__
+        case 1:
+        case 2:
+        case 3:
+            goto aaf_cleanup;
+
+        case 12:
+            goto special_cleanup;
+
+        default:
+            goto ordinary_cleanup;
+        }
+#endif
+
 special_cleanup:
         func_800A9A0C(entity);
         return;

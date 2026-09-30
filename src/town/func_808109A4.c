@@ -101,6 +101,7 @@ void func_8052B5A4(TownState *self) {
     state = self->state;
     switch (state) {
     case 0:
+    case 1:
         if (self->timer % spawn_period == 0) {
             if (self->count > 0 ||
                 (self->state == 1 && (self->flags & 4))) {
@@ -140,7 +141,6 @@ void func_8052B5A4(TownState *self) {
             break;
         }
                         /* fall through */
-    case 1:
         obj = func_800374FC(1, D_801328C8);
         if (obj != 0) {
             obj->callback = D_8052BC34;
@@ -196,7 +196,7 @@ void func_8052B5A4(TownState *self) {
         self->timer = 0x64;
         break;
 
-    case 3:
+    case 4:
         self->timer--;
         if (self->timer >= 0) {
             break;
@@ -205,7 +205,7 @@ void func_8052B5A4(TownState *self) {
         self->state = 1;
         break;
 
-    case 4:
+    case 3:
         self->timer--;
         if (self->timer >= 0) {
             break;

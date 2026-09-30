@@ -191,13 +191,12 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
 
         switch (((S_80170E5C_1 *)status)->unk_46 & 0x3FFF) {
         case 8:
-        case 9:
             if ((s16)func_80171E10(actor_in, context_in, sprite_in, status) == 0) {
                 func_80171FD4(actor_in, context_in, sprite_in, status);
             }
             return;
 
-        case 4:
+        case 9:
             if (((S_80170E5C_1 *)status)->unk_1C & 0x400) {
                 register s32 movement_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -245,6 +244,7 @@ aaf_cleanup:
             return;
 
         case 11:
+        case 4:
         default:
 ordinary_cleanup:
             func_80171420(actor_in, context_in, sprite_in, status);

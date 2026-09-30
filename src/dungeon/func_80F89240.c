@@ -106,13 +106,13 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
                 goto slot_two;
             case 2:
                 goto slot_three;
-            case 4:
+            case 6:
                 special = 1;
                 goto slot_three;
             case 5:
                 special = 1;
                 goto slot_two;
-            case 6:
+            case 4:
                 special = 1;
                 goto slot_one;
             default:

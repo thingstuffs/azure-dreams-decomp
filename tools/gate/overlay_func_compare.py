@@ -600,6 +600,7 @@ def main() -> int:
         link_vram,
         target=target_symbol,
         retail_text=target,
+        retail_data=(str(container), int(row["foff"])),
         asm_output=args.asm_output,
     )
     rowbase_note = (

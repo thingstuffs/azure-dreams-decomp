@@ -73,23 +73,25 @@ void func_80172AF8(void *action, void *transform, void *sprite, EntityRec *actor
     switch (((S_80172AF8_0 *)action)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch ((actor->unk_46 & 0x3FFF) - 1) {
-            case 0:
-                special_motion = 1;
-                goto third_motion;
-            case 1:
-                special_motion = 1;
-                goto second_motion;
-            case 2:
-                special_motion = 1;
-                goto first_motion;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            default:
+            static void * const motion_labels[] = { && special_third, && special_second, && special_first,
+                && no_motion };
+            extern void *const D_80170838[];
+            u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
+
+            if (motion_index >= 7) {
                 goto no_motion;
             }
+            (void)motion_labels;
+            goto *D_80170838[motion_index];
+special_third:
+            special_motion = 1;
+            goto third_motion;
+special_second:
+            special_motion = 1;
+            goto second_motion;
+special_first:
+            special_motion = 1;
+            goto first_motion;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
@@ -174,7 +176,7 @@ step_motion:
         }
         ((S_80172AF8_4 *)sprite)->unk_14 &= 0xF7FF;
         ((S_80172AF8_0 *)action)->unk_9B = ((S_80172AF8_0 *)action)->unk_9B + 1;
-                        /* fallthrough */
+                                /* fallthrough */
     case 2:
         if ((((S_80172AF8_4 *)sprite)->unk_04 == 4 && (((S_80172AF8_4 *)sprite)->unk_14 & 0x1000)) ||
             (((S_80172AF8_4 *)sprite)->unk_14 & 0xE000)) {

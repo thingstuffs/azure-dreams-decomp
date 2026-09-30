@@ -62,63 +62,61 @@ extern u8 D_800281FC[12];
 void func_80024078(State *ctx)
 {
     GameWork *screen = &gameWork;
+    s32 rect_words[2];
+    s32 phase;
+    s32 fade_duration;
+    void *parent;
+    EntityRec *object;
+    void *child;
+    s16 previous_state;
     switch (ctx->state) {
     case 0:
-    {
-        s32 rect_words[2];
-        s32 phase;
-        s32 fade_duration;
-        void *parent;
-        EntityRec *object;
-        void *child;
-        s16 previous_state;
 
-        rect_words[0] = 0x010003A0;
-        rect_words[1] = 0x00400020;
-        func_80040490(D_80028F68, (Rect *)rect_words);
-        func_8003F80C(D_8002964C, 0x7AC0, 1, 2);
-        D_8002966C[0] = 1;
-        D_8002966E[0] = ctx->field_9;
-        D_80029670[0] = (s32)ctx->field_0;
+    rect_words[0] = 0x010003A0;
+    rect_words[1] = 0x00400020;
+    func_80040490(D_80028F68, (Rect *)rect_words);
+    func_8003F80C(D_8002964C, 0x7AC0, 1, 2);
+    D_8002966C[0] = 1;
+    D_8002966E[0] = ctx->field_9;
+    D_80029670[0] = (s32)ctx->field_0;
 
-        object = D_800814A8;
-        object->unk_F4 = D_800281FC;
-        object->unk_96 = 0x14;
-        object->unk_A8 = ctx->field_8;
-        D_800814A8->unk_102 = 1;
+    object = D_800814A8;
+    object->unk_F4 = D_800281FC;
+    object->unk_96 = 0x14;
+    object->unk_A8 = ctx->field_8;
+    D_800814A8->unk_102 = 1;
 
-        ctx->state++;
-        ASM_MEM_BARRIER();
-        if ((*ctx->field_4 & 0x80) == 0) {
-            break;
-        }
-
-        parent = ctx->field_0;
-        child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
-        ctx->child = child;
-        if (child == 0) {
-            break;
-        }
-
-        fade_duration = 0x20;
-        {
-            previous_state = ((S_80024078_3 *)ctx)->unk_0A;
-        }
-        phase = -1;
-        ctx->timer_1A = fade_duration;
-        ctx->phase_20 = phase;
-        ctx->timer_22 = fade_duration;
-        ctx->state = previous_state + 1;
+    ctx->state++;
+case 1:
+    if ((*ctx->field_4 & 0x80) == 0) {
         break;
     }
 
-    case 1:
+    parent = ctx->field_0;
+    child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
+    ctx->child = child;
+    if (child == 0) {
+        break;
+    }
+
+    fade_duration = 0x20;
+    {
+        previous_state = ((S_80024078_3 *)ctx)->unk_0A;
+    }
+    phase = -1;
+    ctx->timer_1A = fade_duration;
+    ctx->phase_20 = phase;
+    ctx->timer_22 = fade_duration;
+    ctx->state = previous_state + 1;
+    break;
+
+    case 2:
         if (((S_80024078_4 *)(ctx->child))->unk_2C != 1) {
             break;
         }
         ctx->timer_1C = 0x18;
         ctx->state++;
-        ASM_MEM_BARRIER();
+    case 3:
         ctx->timer_1C--;
         if (ctx->timer_1C >= 0xB) {
             break;
@@ -127,7 +125,7 @@ void func_80024078(State *ctx)
         func_800A56E0(func_80053EF0(4) != 2 ? 0x300 : 0x4300);
         goto advance_state;
 
-    case 2:
+    case 4:
         if (D_8002966C[0] != 0) {
             break;
         }
@@ -136,7 +134,7 @@ void func_80024078(State *ctx)
         ctx->state++;
         break;
 
-    case 3:
+    case 5:
         screen->view.unk_091 += (0x80 - screen->view.unk_091) / ctx->timer_1A;
         screen->view.unk_092 += (0x80 - screen->view.unk_092) / ctx->timer_1A;
         ctx->timer_1A--;
@@ -149,7 +147,7 @@ advance_state:
         ctx->state++;
         break;
 
-    case 4:
+    case 6:
         if ((s16)D_800281F8[0] != 0) {
             break;
         } else {
@@ -160,8 +158,6 @@ advance_state:
         objectFlagBlock.flags |= 0x8000;
         break;
 
-    case 5:
-    case 6:
     default:
         break;
     }

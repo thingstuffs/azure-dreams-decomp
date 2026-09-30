@@ -29,22 +29,22 @@ s32 func_804016D0(void)
         state_case = state - 1;
         switch (state_case) {
         case 0:
+        case 1:
             state_offset = slot_index << 2;
             saved_state = (s32 *)((u8 *)D_804094F0 + state_offset);
             *saved_state = state;
             break;
-        case 1:
+        case 2:
             if (D_80409250[slot_index] >= 4) {
                 D_804094F0[slot_index] = state;
             }
             break;
-        case 2:
+        case 4:
+        case 3:
             if (D_80409250[slot_index] >= 11) {
                 D_804094F0[slot_index] = state;
             }
             break;
-        case 3:
-        case 4:
         default:
             break;
         }

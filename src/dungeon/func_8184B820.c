@@ -11,19 +11,19 @@ s32 func_80025020(void *effect, s32 position, s32 render_param)
 
     dispatch_index = *(s16 *)((u8 *)effect + 0xA);
     switch (dispatch_index) {
-    case 0:
+    case 3:
         func_80024CFC(effect, position, render_param);
         return 0;
-    case 1:
+    case 4:
         func_80024E44(effect, position, render_param);
         return 0;
-    case 2:
+    case 5:
         func_80024EF8(effect, position, render_param);
         return 0;
-    case 3:
-    case 4:
-    case 5:
     case 6:
+    case 2:
+    case 1:
+    case 0:
     default:
         return 0;
     }

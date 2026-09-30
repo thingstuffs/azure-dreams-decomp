@@ -181,6 +181,13 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     u8 *anim_entry;
     u8 state;
     u32 result_flags;
+    void *object_slot;
+    u8 brightness;
+    s16 timer;
+    s32 delta;
+    GameWork *move_scene;
+    s16 *table_x;
+    s16 *table_y;
 
     state = ((S_800253C0_0 *)sequence)->unk_9B.n;
     switch (state) {
@@ -275,123 +282,114 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
                 ((S_800253C0_5 *)object_m)->unk_8A = angle;
             } while (object_index_m < 2);
         }
-        {
-            void *object_slot;
-            u8 brightness;
-            s16 timer;
+
+        ((S_800253C0_0 *)sequence)->unk_9B.n++;
+        ((S_800253C0_0 *)sequence)->unk_96.v = 32;
+case 4:
+        coord_delta = 32;
+        brightness = ((S_800253C0_6 *)scene)->unk_A8;
+        timer = ((S_800253C0_0 *)sequence)->unk_96.n;
+        delta = (coord_delta - brightness) / timer;
+        brightness = brightness + delta;
+        message_text = (s32)(scene + 0xA8);
+        object_index_m = 0;
+        object_slot = sequence;
+        move_scene = &gameWork;
+        table_x = (s16 *)((s8 *)dirStepX);
+        table_y = (s16 *)((s8 *)dirStepY);
+        ((S_800253C0_6 *)scene)->unk_A8 = brightness;
+        ((u8 *)message_text)[1] = brightness;
+        ((u8 *)message_text)[2] = brightness;
+        do {
             s32 delta;
-            GameWork *move_scene;
-            s16 *table_x;
-            s16 *table_y;
+            s32 frames_left;
 
-            ((S_800253C0_0 *)sequence)->unk_9B.n++;
-            ((S_800253C0_0 *)sequence)->unk_96.v = 32;
-            ASM_SCHED_BARRIER();
-            coord_delta = 32;
-            brightness = ((S_800253C0_6 *)scene)->unk_A8;
-            timer = ((S_800253C0_0 *)sequence)->unk_96.n;
-            delta = (coord_delta - brightness) / timer;
-            brightness = brightness + delta;
-            message_text = (s32)(scene + 0xA8);
-            object_index_m = 0;
-            object_slot = sequence;
-            move_scene = &gameWork;
-            table_x = (s16 *)((s8 *)dirStepX);
-            table_y = (s16 *)((s8 *)dirStepY);
-            ((S_800253C0_6 *)scene)->unk_A8 = brightness;
-            ((u8 *)message_text)[1] = brightness;
-            ((u8 *)message_text)[2] = brightness;
-            do {
-                s32 delta;
-                s32 frames_left;
-
-                table_index_m = object_index_m << 11;
-                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
-                next_state = move_scene->view.viewAngle;
-                table_index_m = table_index_m - next_state;
-                table_index_m += 0x100;
-                table_index_m >>= 8;
-                table_index_m &= 0xE;
-                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_24;
-                frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
-                coord_delta = coord_delta + table_x[table_index_m >> 1];
-                coord_delta = coord_delta << 6;
-                prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
-                coord_delta = coord_delta - next_state;
-                ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u + coord_delta / frames_left;
-                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_25;
-                {
-                    next_state = table_y[table_index_m >> 1];
-                    coord_delta = coord_delta + next_state;
-                }
-                coord_delta = coord_delta << 6;
-                next_state = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
-                coord_delta = coord_delta - next_state;
-                ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
-                    coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
-                {
-                    s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
-                    s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
-                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
-                        z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
-                }
-
-                {
-                    s32 angle = move_scene->view.viewAngle + ((S_800253C0_5 *)object_m)->unk_2A.n2;
-                    u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
-                    if ((((angle + 0x100) >> 9) & 7) != 2) {
-                        ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
-                    }
-                }
-                object_index_m++;
-                object_slot = (u8 *)object_slot + 4;
-            } while (object_index_m < 2);
-            timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
-            ((S_800253C0_0 *)sequence)->unk_96.n = timer;
-            if (timer > 0) {
-                return;
-            }
-            func_800A56E0(0x300);
+            table_index_m = object_index_m << 11;
+            object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+            next_state = move_scene->view.viewAngle;
+            table_index_m = table_index_m - next_state;
+            table_index_m += 0x100;
+            table_index_m >>= 8;
+            table_index_m &= 0xE;
+            coord_delta = (s32)((S_800253C0_8 *)actor)->unk_24;
+            frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
+            coord_delta = coord_delta + table_x[table_index_m >> 1];
+            coord_delta = coord_delta << 6;
+            prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+            next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+            coord_delta = coord_delta - next_state;
+            ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u + coord_delta / frames_left;
+            coord_delta = (s32)((S_800253C0_8 *)actor)->unk_25;
             {
-                GameWork *snap_scene;
-                s16 *snap_x;
-                s16 *snap_y;
-                void *final_slot;
-                ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
-                object_index_m = 0;
-                snap_scene = &gameWork;
-                snap_x = (s16 *)((s8 *)dirStepX);
-                snap_y = (s16 *)((s8 *)dirStepY);
-                final_slot = sequence;
-                do {
-                    s32 table_index = (object_index_m << 11) - snap_scene->view.viewAngle;
-                    s32 x;
-                    s32 y;
-                    table_index += 0x100;
-                    table_index >>= 8;
-                    object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
-                    table_index &= 0xE;
-                    x = (s32)((S_800253C0_8 *)actor)->unk_24 + snap_x[table_index >> 1];
-                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
-                    y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
-                    ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
-                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
-                    final_slot = (u8 *)final_slot + 4;
-                    object_index_m++;
-                } while (object_index_m < 2);
-                {
-                    coord_delta = 16;
-                    state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                    ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+                next_state = table_y[table_index_m >> 1];
+                coord_delta = coord_delta + next_state;
+            }
+            coord_delta = coord_delta << 6;
+            next_state = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+            coord_delta = coord_delta - next_state;
+            ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
+                coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+            {
+                s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
+                s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
+                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
+                    z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+            }
+
+            {
+                s32 angle = move_scene->view.viewAngle + ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                if ((((angle + 0x100) >> 9) & 7) != 2) {
+                    ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
                 }
             }
-            ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+            object_index_m++;
+            object_slot = (u8 *)object_slot + 4;
+        } while (object_index_m < 2);
+        timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
+        ((S_800253C0_0 *)sequence)->unk_96.n = timer;
+        if (timer > 0) {
             return;
         }
+        func_800A56E0(0x300);
+        {
+            GameWork *snap_scene;
+            s16 *snap_x;
+            s16 *snap_y;
+            void *final_slot;
+            ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
+            object_index_m = 0;
+            snap_scene = &gameWork;
+            snap_x = (s16 *)((s8 *)dirStepX);
+            snap_y = (s16 *)((s8 *)dirStepY);
+            final_slot = sequence;
+            do {
+                s32 table_index = (object_index_m << 11) - snap_scene->view.viewAngle;
+                s32 x;
+                s32 y;
+                table_index += 0x100;
+                table_index >>= 8;
+                object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
+                table_index &= 0xE;
+                x = (s32)((S_800253C0_8 *)actor)->unk_24 + snap_x[table_index >> 1];
+                prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
+                y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
+                ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
+                ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
+                final_slot = (u8 *)final_slot + 4;
+                object_index_m++;
+            } while (object_index_m < 2);
+            {
+                coord_delta = 16;
+                state = ((S_800253C0_0 *)sequence)->unk_9B.v;
+                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
+            }
+        }
+        ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
+        return;
 
-    case 4:
+    case 5:
     {
         s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
         ((S_800253C0_0 *)sequence)->unk_96.n = timer;
@@ -409,7 +407,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         return;
     }
 
-    case 5:
+    case 6:
     {
         s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
 
@@ -440,7 +438,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
         return;
     }
 
-    case 6:
+    case 7:
         func_80025FF4(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
@@ -457,7 +455,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
             return;
         }
 
-    case 7:
+    case 8:
         func_80025FF4(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
@@ -559,7 +557,7 @@ animate_objects:
             return;
         }
 
-    case 8:
+    case 9:
         func_80025FF4(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
             void *object_slot = sequence;
@@ -685,7 +683,7 @@ loop_7:
             return;
         }
 
-    case 9:
+    case 10:
     {
         s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
         ((S_800253C0_0 *)sequence)->unk_96.n = timer;
@@ -701,7 +699,7 @@ loop_7:
         return;
     }
 
-    case 10:
+    case 11:
     {
         void *object_slot;
         s32 target_level;
@@ -794,7 +792,7 @@ loop_7:
         return;
     }
 
-    case 11:
+    case 12:
         ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
         anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_C8.as_s16 +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
@@ -803,7 +801,7 @@ loop_7:
         ((S_800253C0_0 *)sequence)->unk_9B.n = state + 1;
         return;
 
-    case 12:
+    case 13:
         if ((((S_800253C0_8 *)actor)->unk_14 & 0xE000) == 0) {
             return;
         }
@@ -815,8 +813,6 @@ loop_7:
         }
         ((S_800253C0_0 *)sequence)->unk_8C = D_8008ACDC;
 
-    case 13:
-        break;
     }
     return;
 }

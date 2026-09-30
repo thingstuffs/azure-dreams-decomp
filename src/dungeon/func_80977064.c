@@ -10,6 +10,7 @@ extern void func_800A4ACC(void *);
 extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
+extern void *D_80170838[];
 extern u8 D_801714D4[];
 extern u8 D_80174108[];
 
@@ -38,69 +39,76 @@ typedef struct S_80172864_2 {
 /* Advances a timed action through animation setup, execution, and cleanup. */
 void func_80172864(void *action_data, void *unused, Rec_D_80082E80 *sprite, void *actor_data)
 {
+    static void *const state_labels[] = {
+        &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
+    };
     register void *action = action_data;
     register void *actor = actor_data;
     u8 state;
     u16 timer;
 
     state = ((S_80172864_0 *)action)->unk_9B.n;
-    switch (state) {
-    case 0:
-        timer = ((S_80172864_0 *)action)->unk_96.u;
-        ((S_80172864_0 *)action)->unk_96.u = timer + 1;
-        if ((s16)timer < 4 && !(sprite->unk_14.at00_u16.v & 0x8000)) {
-            return;
-        }
-        state = ((S_80172864_0 *)action)->unk_9B.v;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        goto increment_state;
-
-    case 1:
-        if (((S_80172864_0 *)action)->unk_A2 != 0 &&
-            !(sprite->unk_14.at00_u16.v & 0x8000)) {
-            return;
-        }
-        sprite->unk_2C.as_pu8 = D_80174108;
-        func_80047784(
-            sprite,
-            D_80174108[((gameWork.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-            0);
-        state = ((S_80172864_0 *)action)->unk_9B.n;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        ((S_80172864_0 *)action)->unk_A2 = 0;
-        ((S_80172864_0 *)action)->unk_9E = 0;
-increment_state:
-        ((S_80172864_0 *)action)->unk_9B.n = state + 1;
-        return;
-
-    case 2:
-        timer = ((S_80172864_0 *)action)->unk_96.u + 1;
-        ((S_80172864_0 *)action)->unk_96.u = timer;
-        if ((s16)timer == 9 || (sprite->unk_14.at00_u16.v & 0x8000)) {
-            func_8009C12C(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
-            ((S_80172864_0 *)action)->unk_96.u = 0;
-            ((S_80172864_0 *)action)->unk_9B.n++;
-        }
-        if (((S_80172864_0 *)action)->unk_96.s != 6) {
-            return;
-        }
-        func_800A56E0(0x808);
-        return;
-
-    case 3:
-    case 4:
-        state = ((S_80172864_0 *)action)->unk_9B.n;
-        ((S_80172864_0 *)action)->unk_96.u = 0;
-        ((S_80172864_0 *)action)->unk_9B.n = state + 1;
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-            return;
-        }
-        func_800AD594(actor, 0x100);
-        ((S_80172864_0 *)action)->unk_8C = D_801714D4;
-        dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
-        ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
-
+    if ((u32)state >= 5) {
         return;
     }
+    (void)state_labels;
+    goto *D_80170838[state];
+
+state_0:
+    timer = ((S_80172864_0 *)action)->unk_96.u;
+    ((S_80172864_0 *)action)->unk_96.u = timer + 1;
+    if ((s16)timer < 4 && !(sprite->unk_14.at00_u16.v & 0x8000)) {
+        return;
+    }
+    state = ((S_80172864_0 *)action)->unk_9B.v;
+    ((S_80172864_0 *)action)->unk_96.u = 0;
+    goto increment_state;
+
+state_1:
+    if (((S_80172864_0 *)action)->unk_A2 != 0 &&
+        !(sprite->unk_14.at00_u16.v & 0x8000)) {
+        return;
+    }
+    sprite->unk_2C.as_pu8 = D_80174108;
+    func_80047784(
+        sprite,
+        D_80174108[((gameWork.view.viewAngle + ((S_80172864_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        0);
+    state = ((S_80172864_0 *)action)->unk_9B.n;
+    ((S_80172864_0 *)action)->unk_96.u = 0;
+    ((S_80172864_0 *)action)->unk_A2 = 0;
+    ((S_80172864_0 *)action)->unk_9E = 0;
+increment_state:
+    ((S_80172864_0 *)action)->unk_9B.n = state + 1;
+    return;
+
+state_2:
+    timer = ((S_80172864_0 *)action)->unk_96.u + 1;
+    ((S_80172864_0 *)action)->unk_96.u = timer;
+    if ((s16)timer == 9 || (sprite->unk_14.at00_u16.v & 0x8000)) {
+        func_8009C12C(actor, sprite, ((S_80172864_2 *)actor)->unk_2A, 1);
+        ((S_80172864_0 *)action)->unk_96.u = 0;
+        ((S_80172864_0 *)action)->unk_9B.n++;
+    }
+    if (((S_80172864_0 *)action)->unk_96.s != 6) {
+        return;
+    }
+    func_800A56E0(0x808);
+    return;
+
+state_3:
+state_4:
+    state = ((S_80172864_0 *)action)->unk_9B.n;
+    ((S_80172864_0 *)action)->unk_96.u = 0;
+    ((S_80172864_0 *)action)->unk_9B.n = state + 1;
+    if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+        return;
+    }
+    func_800AD594(actor, 0x100);
+    ((S_80172864_0 *)action)->unk_8C = D_801714D4;
+    dungeonStatus.unk_0C = 0;
+    func_800A4ACC(actor);
+    ((S_80172864_2 *)actor)->unk_46 &= 0x7FFF;
+
+    return;
 }

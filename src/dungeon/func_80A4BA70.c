@@ -6,6 +6,7 @@
 #include "records/Rec_D_80082E80.h"
 
 
+extern void *D_80170858[];
 extern s32 D_8003E140[];
 extern s32 D_8006CD58[];
 extern u8 *D_800DCEEC[];
@@ -127,16 +128,25 @@ typedef struct S_80175270_10 {
 /* Advances an actor's transition sequence, updating effects and restoring its child's angle. */
 void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, void *actor)
 {
+    static void *const state_labels[] = {
+        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
+        &&case_4, &&case_4, &&case_7, &&case_8
+    };
     S_80175270_2 *work = ((u8 *)(&gameWork));
     u8 state;
 
     state = ((S_80175270_0 *)action)->unk_9B;
-    switch (state) {
-    case 0:
-        ((S_80175270_0 *)action)->unk_9B++;
+    if (state >= 9) {
         return;
+    }
+    (void)state_labels;
+    goto *D_80170858[state];
 
-    case 1:
+case_0:
+    ((S_80175270_0 *)action)->unk_9B++;
+    return;
+
+case_1:
     {
         s32 effect_id;
         s32 direction;
@@ -171,7 +181,7 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         ((S_80175270_0 *)action)->unk_9B++;
     }
 
-    case 2:
+case_2:
     {
         s32 frames_left;
         u8 *target_color;
@@ -196,7 +206,7 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         return;
     }
 
-    case 3:
+case_3:
     {
         s16 asset_index;
         s32 *position_y_dst;
@@ -237,9 +247,7 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         return;
     }
 
-    case 4:
-    case 5:
-    case 6:
+case_4:
     {
         work = D_80175924[0];
         work = work->unk_0C.p;
@@ -257,21 +265,22 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         }
     }
 
-        {
-            if (func_800ADC4C(position, D_80175928[0], (s16)D_8017591C[0], D_800DCF5C) == 0) {
-                return;
-            }
-            ((S_80175270_0 *)action)->unk_96.s = 0x10;
-            ((S_80175270_0 *)action)->unk_9B++;
-            func_800A18E8(((S_80175270_1 *)actor)->unk_13, 3);
-            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-            func_8009A028(actor);
-            work = (u8 *)actor - 0x20;
-            work->unk_10.i |= 0x80000000;
+case_6:
+    {
+        if (func_800ADC4C(position, D_80175928[0], (s16)D_8017591C[0], D_800DCF5C) == 0) {
             return;
         }
+        ((S_80175270_0 *)action)->unk_96.s = 0x10;
+        ((S_80175270_0 *)action)->unk_9B++;
+        func_800A18E8(((S_80175270_1 *)actor)->unk_13, 3);
+        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+        func_8009A028(actor);
+        work = (u8 *)actor - 0x20;
+        work->unk_10.i |= 0x80000000;
+        return;
+    }
 
-    case 7:
+case_7:
     {
         void *child;
         S_80175270_7 *child_obj;
@@ -291,7 +300,7 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         child_obj->unk_14 &= 0xFFFE;
     }
 
-    case 8:
+case_8:
     {
 
         ((S_80175270_0 *)action)->unk_96.u--;
@@ -303,8 +312,5 @@ void func_80175270(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
         objectFlagBlock.flags |= 0x8000;
         dungeonStatus.unk_0A--;
         ((S_80175270_1 *)actor)->unk_6D = 0;
-    }
-    default:
-        break;
     }
 }

@@ -15,6 +15,7 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_801753DC(void *, void *);
 
+extern void *D_80170848[];
 extern s32 D_80171FA4;
 extern u8 D_80175C48[];
 extern u8 D_80175C50[];
@@ -58,12 +59,17 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
 {
     u32 step_x;
     s32 step_y;
+    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
     state = ((S_80173408_0 *)jump)->unk_9B.n;
-    switch (state) {
+    if ((u32)state >= 5) {
+        return;
+    }
+    (void)state_labels;
+    goto *D_80170848[state];
 
-    case 0:
+L0:
     {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_80173408_0 *)jump)->unk_9B.n = 4;
@@ -73,36 +79,36 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
         }
     }
 
-    case 1:
-        motion->unk_0C -=
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-        motion->unk_10 -=
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
-                     (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-        ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
-            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
-        }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-            return;
-        }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
-            return;
-        }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
-        func_80047784(sprite,
-            D_80175C48[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-            0);
-        func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_80173408_0 *)jump)->unk_9B.v;
-        ((S_80173408_0 *)jump)->unk_96.s = 0;
-        goto increment_state;
+L1:
+    motion->unk_0C -=
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
+                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+    motion->unk_10 -=
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
+                 (((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+    ((S_80173408_0 *)jump)->unk_A0.at00.v += 0x60000;
+    if (((S_80173408_0 *)jump)->unk_A0.at02.v >= 0x31) {
+        ((S_80173408_0 *)jump)->unk_A0.at02.v = 0x30;
+    }
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        return;
+    }
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    if (((S_80173408_0 *)jump)->unk_A0.at02.v < 0x30) {
+        return;
+    }
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C48;
+    func_80047784(sprite,
+        D_80175C48[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        0);
+    func_801753DC((u8 *)jump - 0x20, (u8 *)actor + 0x2A);
+    state = ((S_80173408_0 *)jump)->unk_9B.v;
+    ((S_80173408_0 *)jump)->unk_96.s = 0;
+    goto increment_state;
 
-    case 2:
+L2:
     {
         s16 *x_table;
         s16 *y_table;
@@ -130,17 +136,17 @@ void func_80173408(void *jump, EntityRec *motion, void *sprite, void *actor)
             return;
         }
     }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
-        func_80047784(sprite,
-            D_80175C50[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-            0);
-        func_800A56E0(0x808);
-        state = ((S_80173408_0 *)jump)->unk_9B.n;
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175C50;
+    func_80047784(sprite,
+        D_80175C50[((gameWork.view.viewAngle + ((S_80173408_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        0);
+    func_800A56E0(0x808);
+    state = ((S_80173408_0 *)jump)->unk_9B.n;
 increment_state:
-        ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
-        return;
+    ((S_80173408_0 *)jump)->unk_9B.n = state + 1;
+    return;
 
-    case 3:
+L3:
     {
         s16 *x_table;
         s16 *y_table;
@@ -191,32 +197,28 @@ increment_state:
         ((S_80173408_0 *)jump)->unk_A8 = motion->unk_0C / 24;
         ((S_80173408_0 *)jump)->unk_AC = motion->unk_10 / 24;
     }
-        ((S_80173408_0 *)jump)->unk_96.s = 12;
-        ((S_80173408_0 *)jump)->unk_9B.n++;
-        return;
+    ((S_80173408_0 *)jump)->unk_96.s = 12;
+    ((S_80173408_0 *)jump)->unk_9B.n++;
+    return;
 
-    case 4:
-        motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
-        motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
-        if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
-            ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
-        } else {
-            ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
-        }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            return;
-        }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
-        ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
-        dungeonStatus.unk_0C = 0;
-        func_800A4ACC(actor);
-        ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
-        break;
-    default:
+L4:
+    motion->unk_0C -= ((S_80173408_0 *)jump)->unk_A8;
+    motion->unk_10 -= ((S_80173408_0 *)jump)->unk_AC;
+    if (((S_80173408_0 *)jump)->unk_A0.at02.v > 0) {
+        ((S_80173408_0 *)jump)->unk_A0.at02u.v -= 0x10;
+    } else {
+        ((S_80173408_0 *)jump)->unk_A0.at02.v = 0;
+    }
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    func_800AD594(actor, 0x100);
+    ((S_80173408_0 *)jump)->unk_8C = &D_80171FA4;
+    dungeonStatus.unk_0C = 0;
+    func_800A4ACC(actor);
+    ((S_80173408_4 *)actor)->unk_46 &= 0x7FFF;
 }

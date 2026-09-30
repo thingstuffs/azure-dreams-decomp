@@ -202,7 +202,7 @@ zone_found:
     candidate = -1;
     goto check_zone;
 
-    case 0:
+    case 2:
     {
         register s32 zone_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 edge_delta;
@@ -236,7 +236,7 @@ zone_found:
     }
     return 0;
 
-    case 1:
+    case 3:
     {
         s32 edge_delta;
         s32 current_zone;
@@ -270,7 +270,7 @@ zone_found:
     }
     return 0;
 
-    case 2:
+    case 4:
     {
         s32 current_zone;
         s32 zone_x;
@@ -304,7 +304,7 @@ zone_found:
     }
     return 0;
 
-    case 3:
+    case 5:
     {
         s32 zone_width;
         s32 zone_y;
@@ -339,9 +339,9 @@ zone_found:
     }
     return 0;
 
-    case 4:
+    case 1:
+    case 0:
         return 0;
-    case 5:
     default:
         break;
     }

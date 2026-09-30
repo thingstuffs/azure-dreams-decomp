@@ -62,23 +62,26 @@ void func_80172A24(void *action_state, void *transform, void *sprite, EntityRec 
     switch (((S_80172A24_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            switch (actor->unk_46 & 0x3FFF) {
-            case 1:
-                use_player_target = 1;
-                goto motion_3;
-            case 2:
-                use_player_target = 1;
-                goto motion_2;
-            case 3:
-                use_player_target = 1;
-                goto motion_1;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            default:
+            static void * const dispatch_labels[] = {
+                && player_motion_3, && player_motion_2, && player_motion_1, && no_motion
+            };
+            extern void *const D_80170838[];
+            u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
+
+            if (motion_index >= 7) {
                 goto no_motion;
             }
+            (void)dispatch_labels;
+            goto *D_80170838[motion_index];
+player_motion_3:
+            use_player_target = 1;
+            goto motion_3;
+player_motion_2:
+            use_player_target = 1;
+            goto motion_2;
+player_motion_1:
+            use_player_target = 1;
+            goto motion_1;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
@@ -160,7 +163,7 @@ no_motion:
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172A24_0 *)action_state)->unk_9B = ((S_80172A24_0 *)action_state)->unk_9B + 1;
-                        /* fallthrough */
+                                /* fallthrough */
     case 2:
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 4 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000))
             ||

@@ -116,13 +116,13 @@ void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
                 goto kind_2;
             case 2:
                 goto kind_3;
-            case 4:
+            case 6:
                 special = 1;
                 goto kind_3;
             case 5:
                 special = 1;
                 goto kind_2;
-            case 6:
+            case 4:
                 special = 1;
                 goto kind_1;
             default:

@@ -59,6 +59,7 @@ typedef struct S_80173D78_5 {
 } S_80173D78_5;   /* base in func_80173D78 */
 
 
+extern void *D_801708A0[];
 extern M2C_UNK D_800C6AEC;
 extern M2C_UNK D_8017086C;
 extern M2C_UNK D_80170898;
@@ -87,6 +88,7 @@ void *func_8017618C();
 /* Updates target selection, effect creation, and the sprite fade-out sequence. */
 void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78_2 *actor)
 {
+    static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4 };
     S_80173D78_3 *target;
     void *effect;
     S_80173D78_5 *object;
@@ -106,151 +108,156 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
     u8 state;
 
     state = ((Rec_func_80173D78_arg0 *)action)->unk_9B;
-    switch (state) {
-    case 0:
-        sprite_flags = sprite->unk_14;
-        if (!(sprite_flags & 0xE000)) {
-            return;
-        }
-        if (!(sprite_flags & 0x8000)) {
-            func_800A56E0(0x80D);
-        }
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
-        if (sprite->unk_14 & 0x8000) {
-            ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0;
-            return;
-        }
-        ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0x10;
+    if (state >= 5U) {
         return;
+    }
+    (void)state_labels;
+    goto *D_801708A0[(u32)state];
 
-    case 1:
-        if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
-            if (!(sprite->unk_14 & 0x8000)) {
-                func_80175DD0(action, context, sprite, 0);
-                func_80175DD0(action, context, sprite, 1);
+jt_c0:
+    sprite_flags = sprite->unk_14;
+    if (!(sprite_flags & 0xE000)) {
+        return;
+    }
+    if (!(sprite_flags & 0x8000)) {
+        func_800A56E0(0x80D);
+    }
+    ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+    if (sprite->unk_14 & 0x8000) {
+        ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0;
+        return;
+    }
+    ((Rec_func_80173D78_arg0 *)action)->unk_96 = 0x10;
+    return;
+
+jt_c1:
+    if (!(((Rec_func_80173D78_arg0 *)action)->unk_96 & 3)) {
+        if (!(sprite->unk_14 & 0x8000)) {
+            func_80175DD0(action, context, sprite, 0);
+            func_80175DD0(action, context, sprite, 1);
+        }
+    }
+    ticks_left = ((Rec_func_80173D78_arg0 *)action)->unk_96 - 1;
+    ((Rec_func_80173D78_arg0 *)action)->unk_96 = ticks_left;
+    if ((s16)ticks_left > 0) {
+        return;
+    }
+
+    direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
+    target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dirStepX) + direction_offset);
+    target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dirStepY) + direction_offset);
+    actor->unk_60.i = 0;
+
+    if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {
+        target = func_8009B25C(actor, target_x & 0xFFFF, target_y & 0xFFFF,
+                               actor->unk_88);
+        actor->unk_60.p = target;
+        if (target != 0) {
+            state = target->unk_13;
+            if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
+                random_value = func_800990FC();
+                random_arg = random_value;
+                random_value = func_80099734(actor, saved_random = random_arg);
+                func_80099290(
+                    func_80099194(&D_80170898,
+                        func_80099734(target,
+                            func_8009929C(0xA,
+                                func_80099194(&D_8017086C, random_value)))));
+                func_800A5720(saved_random);
+                func_800A56E0(0x506);
+                actor->unk_60.i = 0;
             }
         }
-        ticks_left = ((Rec_func_80173D78_arg0 *)action)->unk_96 - 1;
-        ((Rec_func_80173D78_arg0 *)action)->unk_96 = ticks_left;
-        if ((s16)ticks_left > 0) {
-            return;
-        }
+    }
 
-        direction_offset = ((u16)actor->unk_2A >> 8) & 0xE;
-        target_x = sprite->unk_24 + *(u16 *)((s8 *)((s8 *)dirStepX) + direction_offset);
-        target_y = sprite->unk_25 + *(u16 *)((s8 *)((s8 *)dirStepY) + direction_offset);
-        actor->unk_60.i = 0;
-
-        if (((Rec_func_80173D78_arg0 *)action)->unk_AC == 0) {
-            target = func_8009B25C(actor, target_x & 0xFFFF, target_y & 0xFFFF,
-                                   actor->unk_88);
-            actor->unk_60.p = target;
-            if (target != 0) {
-                state = target->unk_13;
-                if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
-                    random_value = func_800990FC();
-                    random_arg = random_value;
-                    random_value = func_80099734(actor, saved_random = random_arg);
-                    func_80099290(
-                        func_80099194(&D_80170898,
-                            func_80099734(target,
-                                func_8009929C(0xA,
-                                    func_80099194(&D_8017086C, random_value)))));
-                    func_800A5720(saved_random);
-                    func_800A56E0(0x506);
-                    actor->unk_60.i = 0;
-                }
-            }
-        }
-
-        if (((Rec_func_80173D78_arg0 *)action)->unk_AC < 2U) {
-            if (actor->unk_60.i == 0) {
-                tile_index = func_800A70E4((s16)target_x, (s16)target_y,
-                                     actor->unk_88);
-                if (tile_index >= 0) {
-                    actor->unk_60.i = tile_index + 1;
-                }
-            }
-        }
-
+    if (((Rec_func_80173D78_arg0 *)action)->unk_AC < 2U) {
         if (actor->unk_60.i == 0) {
-
-            func_800A9A0C(actor);
-            ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
-            dungeonStatus.unk_0A =
-                ((u16)dungeonStatus.unk_0A) - 1;
-            actor->unk_1C &= 0xEFFFFFFF;
-            return;
+            tile_index = func_800A70E4((s16)target_x, (s16)target_y,
+                                 actor->unk_88);
+            if (tile_index >= 0) {
+                actor->unk_60.i = tile_index + 1;
+            }
         }
+    }
 
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
-        map_flags = actor->unk_14;
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
-        tile_mask = 0x3000;
-        if (map_flags & 0x2000) {
-            tile_mask = 0x300;
-        }
-        func_8009A3D0(sound_x, sound_y, tile_mask);
+    if (actor->unk_60.i == 0) {
 
-        actor->unk_1C |= 0x10000;
-        effect = func_8017618C(action, context, sprite, actor);
-        ((Rec_func_80173D78_arg0 *)action)->unk_A4 = effect;
-        if (effect != 0) {
-            object = (s8 *)action - 0x20;
-            func_80044A50(object);
-            func_8004491C(object, &D_800C6AEC);
-            sprite->unk_0C.at03.v = 0;
-            sprite->unk_12 = sprite->unk_12 - 0x80;
-            sprite->unk_14 |= 0xC;
-            func_8009A028(actor);
-            object->unk_10 |= 0x80000000;
-            goto advance_state;
-        }
-
-        map_flags = actor->unk_14;
-        sound_x = sprite->unk_24;
-        sound_y = sprite->unk_25;
-        tile_mask = 0x3000;
-        if (map_flags & 0x2000) {
-            tile_mask = 0x300;
-        }
-        func_8009A21C(sound_x, sound_y, tile_mask);
-        actor->unk_1C &= 0xFFFEFFFF;
+        func_800A9A0C(actor);
+        ((Rec_func_80173D78_arg0 *)action)->unk_8C = &D_80170EE4;
+        dungeonStatus.unk_0A =
+            ((u16)dungeonStatus.unk_0A) - 1;
+        actor->unk_1C &= 0xEFFFFFFF;
         return;
+    }
 
-    case 2:
-        state = sprite->unk_0C.at03.v;
-        if (state < 7U) {
-            sprite->unk_0C.at03.v = state + 1;
-            sprite->unk_0C.at00.v =
-                sprite->unk_0C.at00.v +
-                (-(s32)sprite->unk_0C.at00.v /
-                 (8 - sprite->unk_0C.at03u.v));
-            sprite->unk_0C.at01.v =
-                sprite->unk_0C.at01.v +
-                (-(s32)sprite->unk_0C.at01.v /
-                 (8 - sprite->unk_0C.at03.v));
-            sprite->unk_0C.at02.v =
-                sprite->unk_0C.at02.v +
-                (-(s32)sprite->unk_0C.at02.v /
-                 (8 - sprite->unk_0C.at03.v));
-            return;
-        }
+    ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+    map_flags = actor->unk_14;
+    sound_x = sprite->unk_24;
+    sound_y = sprite->unk_25;
+    tile_mask = 0x3000;
+    if (map_flags & 0x2000) {
+        tile_mask = 0x300;
+    }
+    func_8009A3D0(sound_x, sound_y, tile_mask);
 
+    actor->unk_1C |= 0x10000;
+    effect = func_8017618C(action, context, sprite, actor);
+    ((Rec_func_80173D78_arg0 *)action)->unk_A4 = effect;
+    if (effect != 0) {
         object = (s8 *)action - 0x20;
         func_80044A50(object);
-        func_800BC318(object);
+        func_8004491C(object, &D_800C6AEC);
         sprite->unk_0C.at03.v = 0;
-        sprite->unk_0C.at00u.v = 0x00808080;
-        sprite->unk_14 |= 0x800;
-        sprite->unk_12 = sprite->unk_12 + 0x80;
-        sprite->unk_14 &= 0xFFF3;
-advance_state:
-        ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
-        break;
+        sprite->unk_12 = sprite->unk_12 - 0x80;
+        sprite->unk_14 |= 0xC;
+        func_8009A028(actor);
+        object->unk_10 |= 0x80000000;
+        goto advance_state;
+    }
 
-    case 3:
+    map_flags = actor->unk_14;
+    sound_x = sprite->unk_24;
+    sound_y = sprite->unk_25;
+    tile_mask = 0x3000;
+    if (map_flags & 0x2000) {
+        tile_mask = 0x300;
+    }
+    func_8009A21C(sound_x, sound_y, tile_mask);
+    actor->unk_1C &= 0xFFFEFFFF;
+    return;
+
+jt_c2:
+    state = sprite->unk_0C.at03.v;
+    if (state < 7U) {
+        sprite->unk_0C.at03.v = state + 1;
+        sprite->unk_0C.at00.v =
+            sprite->unk_0C.at00.v +
+            (-(s32)sprite->unk_0C.at00.v /
+             (8 - sprite->unk_0C.at03u.v));
+        sprite->unk_0C.at01.v =
+            sprite->unk_0C.at01.v +
+            (-(s32)sprite->unk_0C.at01.v /
+             (8 - sprite->unk_0C.at03.v));
+        sprite->unk_0C.at02.v =
+            sprite->unk_0C.at02.v +
+            (-(s32)sprite->unk_0C.at02.v /
+             (8 - sprite->unk_0C.at03.v));
+        return;
+    }
+
+    object = (s8 *)action - 0x20;
+    func_80044A50(object);
+    func_800BC318(object);
+    sprite->unk_0C.at03.v = 0;
+    sprite->unk_0C.at00u.v = 0x00808080;
+    sprite->unk_14 |= 0x800;
+    sprite->unk_12 = sprite->unk_12 + 0x80;
+    sprite->unk_14 &= 0xFFF3;
+advance_state:
+    ((Rec_func_80173D78_arg0 *)action)->unk_9B = ((Rec_func_80173D78_arg0 *)action)->unk_9B + 1;
+    goto jt_c4;
+
+jt_c3:
     {
 
         ((Rec_func_80173D78_arg0 *)action)->unk_9A = 0x18;
@@ -262,7 +269,6 @@ advance_state:
         actor->unk_1C &= 0xEFFFFFFF;
         actor->unk_46 &= 0x7FFF;
     }
-    case 4:
-        return;
-    }
+jt_c4:
+    return;
 }
