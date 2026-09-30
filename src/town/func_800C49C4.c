@@ -38,7 +38,6 @@ s32 func_800C2124(TownObject *object) {
     s16 distance_z;
 
     position = (TownPosition *)((u8 *)(&D_80083780));
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     offset_x = object->x - position->x;
     distance_x = abs(offset_x);
     distance_z = abs(object->z - position->z);

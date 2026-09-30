@@ -166,7 +166,6 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             part = func_8004A658(owner_held->unk_01, owner_held->unk_00);
             style_held = 2;
             b_held = (s32) func_800B1434((void *) b_held, part);
-            ASM_KEEP_NV(style_held);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_800B13CC((void *) a_held, 0x20);
             func_800B1400((void *) a_held, style_held);
             {

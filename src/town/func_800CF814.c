@@ -58,5 +58,4 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         motion->unk68++;
     }
 done:
-    ASM_SCHED_BARRIER();
 }
