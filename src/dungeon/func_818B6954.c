@@ -6,7 +6,9 @@
 #endif
 
 
-typedef long long s64_local;
+typedef struct {
+    s32 w[6];
+} Copy24;
 
 typedef struct S_818B6954_0 {
     u8 pad_00[0x8];
@@ -49,27 +51,15 @@ extern u8 D_800DEC70[];
 /* Create an object with randomized rotation and a radial position offset. */
 s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
     s16 offset_angle;
-    s32 coord_work;
-    s32 coord_work_2;
-    s32 state_word_3;
-    s64_local position_xy;
-    s32 state_word_4;
-    s32 state_word_5;
-    s32 object_result;
-    s32 offset_y;
-    s32 random_angle;
-    s32 random_rotation;
-    s32 angle_dividend;
-    s32 rotation_dividend;
     S_818B6954_2 *render_state;
-    void *object_state;
-    register void *object ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *object_state;
+    void *object;
     S_818B6954_1 *object_data;
 
     object = func_8003FC64(0x212);
     if (object != NULL) {
         ((S_818B6954_0 *)object)->unk_10 = D_800240B8;
-        object_data = (u8 *)object + 0x20;
+        object_data = (S_818B6954_1 *)((u8 *)object + 0x20);
         ((S_818B6954_0 *)object)->unk_20 = context_value;
         object_data->unk_04 = 0;
         object_data->unk_06 = 0;
@@ -80,40 +70,16 @@ s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
         render_state->unk_10 |= 0x20;
         render_state->unk_14 |= 0x100;
         func_8003DB94(render_state, D_800DEC70, 0);
-        rotation_dividend = rand();
-        random_rotation = rotation_dividend;
-        if (random_rotation < 0) {
-            rotation_dividend = random_rotation + 0xFFF;
-        }
-        ASM_KEEP(random_rotation);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        render_state->unk_1A = random_rotation - ((rotation_dividend >> 0xC) << 0xC);
+        render_state->unk_1A = rand() % 0x1000;
         render_state->unk_1E = 0xC00;
         render_state->unk_1C = 0xC00;
         func_8004491C(object, func_80045340);
         object_state = ((S_818B6954_0 *)object)->unk_08;
-        position_xy = (*(s64_local *)((u8 *)source_state + 0));
-        coord_work = (*(s32 *)((u8 *)source_state + 8));
-        state_word_3 = (*(s32 *)((u8 *)source_state + 0xC));
-        (*(s64_local *)((u8 *)object_state + 0)) = position_xy;
-        (*(s32 *)((u8 *)object_state + 8)) = coord_work;
-        (*(s32 *)((u8 *)object_state + 0xC)) = state_word_3;
-        state_word_4 = (*(s32 *)((u8 *)source_state + 0x10));
-        state_word_5 = (*(s32 *)((u8 *)source_state + 0x14));
-        (*(s32 *)((u8 *)object_state + 0x10)) = state_word_4;
-        (*(s32 *)((u8 *)object_state + 0x14)) = state_word_5;
-        random_angle = rand(coord_work, state_word_3);
-        angle_dividend = random_angle;
-        if (random_angle < 0) {
-            angle_dividend = random_angle + 0xFFF;
-        }
-        offset_angle = random_angle - ((angle_dividend >> 0xC) << 0xC);
-        (*(s32 *)((u8 *)object_state + 0)) += (func_80064584(offset_angle) >> 4) * 0x1200;
-        coord_work = func_800644B8(offset_angle) >> 4;
-        object_result = (s32)object;
-        offset_y = coord_work * 0x1200;
-        coord_work_2 = (*(s32 *)((u8 *)object_state + 4)) + offset_y;
-        (*(s32 *)((u8 *)object_state + 4)) = coord_work_2;
-        return object_result;
+        *(Copy24 *)object_state = *(Copy24 *)source_state;
+        offset_angle = rand() % 0x1000;
+        object_state[0] += (func_80064584(offset_angle) >> 4) * 0x1200;
+        object_state[1] += (func_800644B8(offset_angle) >> 4) * 0x1200;
+        return (s32)object;
     }
     return 0;
 }

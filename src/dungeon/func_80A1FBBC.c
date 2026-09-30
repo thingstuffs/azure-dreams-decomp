@@ -108,7 +108,7 @@ extern u8 D_80174228[];
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
-extern void func_80047784(void *, s32, s32, s32);
+extern void func_80047784(void *, s16, s16);
 extern s32 func_80069EF8(void);
 extern void func_8009A028(void *);
 extern void func_8009A3D0(u8, u8, s32);
@@ -198,7 +198,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                     ((S_801733BC_5 *)particle_render)->unk_0C = particle_color;
                     ((S_801733BC_5 *)particle_render)->unk_14 = particle_flags;
                     ((S_801733BC_5 *)particle_render)->unk_12 = draw_param;
-                    func_80047784(particle_render, draw_command, draw_zero, draw_param);
+                    func_80047784(particle_render, draw_command, draw_zero);
                 }
             }
             particles_left--;
@@ -223,7 +223,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
         }
         ((S_801733BC_1 *)effect_state)->unk_A8.u = 0;
         {
-            register void *center_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            void *center_object;
             Rect *rect_ptr;
             Point *center_ptr;
             s16 center_y;
@@ -231,10 +231,8 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
             center_object = effect_state;
             rect_ptr = &rect;
             center_ptr = &center;
-            ASM_USE(center_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             center.x = rect.x + ((s16)rect.w >> 1);
             center_y = rect.y + ((s16)rect.h >> 1);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             center.y = center_y;
             func_800B8FC8(center_object, rect_ptr, center_ptr, 1, 0);
         }
