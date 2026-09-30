@@ -78,10 +78,6 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
     void *object;
     S_818FF5B8_0 *state;
     S_818FF5B8_3 *position;
-    register u8 *copy_page;
-    register Copy12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 copy4;
-    u32 copy8;
 
     object = func_8003FC64(0x212);
     state = object + 0x20;
@@ -106,19 +102,8 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
         sprite->unk_0D = (u8) appearance->unk_0D;
         sprite->unk_0E = (u8) appearance->unk_0E;
         sprite->unk_1A = (s16) (0x1000 - appearance->unk_1A);
-        copy_page = (u8 *) 0x80020000;
-        ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        copy_src = (Copy12 *) (copy_page + 0x5E64);
-        copy4 = copy_src->word4;
-        copy8 = copy_src->word8;
-        (*(Copy12 *)((u8 *)object + 0x40)).word0 = copy_src->word0;
-        (*(Copy12 *)((u8 *)object + 0x40)).word4 = copy4;
-        (*(Copy12 *)((u8 *)object + 0x40)).word8 = copy8;
-        ASM_KEEP(copy_page);
+        *(Copy12 *)((u8 *)object + 0x40) = D_80025E64;
         sprite->unk_08 = (void *) (object + 0x40);
     }
 }
 
-/* MECHANISM: Reordered header stores and reused/pinned the subobject in retail $a3.
-   A pinned a2/v1/a0/a1 packed copy plus ASM_KEEP seams preserves load-delay nops.
-   An opaque v0-held 0x80020000 page yields retail's split lui/addiu address pair. */
