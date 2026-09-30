@@ -1,3 +1,35 @@
+# Handover (2026-09-30 morning, round 81 / session c8: CELLS AND FLAG CRUTCHES) - start here
+
+**Lever of the round: many pins were fitted together with the WRONG compiler cell or a per-row crutch flag.**
+Gap analysis (work/native_lane/r81_opus_gaps/REPORT.md, ranked levers) -> two Fable lanes:
+- r81_fable_late (TAXONOMY.md): on most 2.8.x rows the erased text is IDENTICAL at the late cell and at cdk; the cell
+  dependence is carried by one KEEP/USE pin on an integer-page local (class P). cellcmp census over 138 non-cdk
+  pinned rows: P 69 + P-near 4, D 65 (work/native_lane/r81_sonnet_cellcmp/{cellcmp.py,census.jsonl,REPORT.md}).
+- r81_fable_eqv: "retail keeps what cse folds" was a cell/flag problem: 800AC3B0's residue is 2.8.0's
+  reload_cse_simplify_operands, absent from the cdk cc1; 813231FC's -fno-expensive-optimizations broke 7 of its
+  module's 28 pin-free rows. flag_crutch census (work/native_lane/r81_sonnet_flagcrutch/): 118 rows / 511 pins with the
+  crutch proven STRICTLY (a pin-free neighbour exact at the census recipe breaks under the row's cfg).
+**Flag-crutch lanes (Opus, brief work/native_lane/r81_q_fc.md, target = module census recipe, stage-cell):** fc1-fc8
+solved ~30 of 47 rows to 0 pins (~60 pins); cell lanes lc1-lc4 ~20 pins; 19 byte-neutral recipe switches (1633422f0).
+1,888 -> ~1,760 pins with the other session's work. Rules: tools/learnings/pin_removal_possibilities.md "Round 81".
+**Remaining:** proven-crutch rows not yet worked at the census recipe are few and far (list: flag_crutch census minus
+reserved_c8.txt); big crutch rows (819B3414 33, 807B0B3C 23, 800C4A80 17, 800BC8AC 12) should get astra/Opus at the
+census recipe - earlier lanes worked them at the crutch cfg. Class-P rows not crutch-flagged: cellcmp census (carriers).
+**Open items from these lanes:** ovmovie/func_80041044 solved 4->0 in C but its two `j` words need a rowbase region
+(foff 0x1044..0x10E0, delta 0x80176800, true name func_80177844; tail-slot true-base recipe) - candidate
+work/native_lane/r81_opus_lc4/cand/41044/v1.c. main/func_8001A2B0: the 0x80401xxx block is census-grouped with
+c_server.c but cannot match at that cell - needs its own module census. slus/w_80048B8C held at 2.7.2 (pin-free text
+5 at 2.7.2 vs 23 at cdk). 80CC2494 -> 2.8.1 declined (owner). 80DE48EC: an unused 16-byte local would size retail's
+frame - held (owner discussion: needs positive evidence, e.g. a sibling/JP body with that local). 81811F54 is written
+with an integer table on purpose (symbol form 5 off at cdk) - do not symaddr it back. 8009F654 now returns s32*
+(src/town/func_800BB6A8.c still declares it void).
+**Landing:** c8 cell moves land with `bash work/native_lane/_landq/c8_chain2.sh "<lane>|<msg>" ...` (flock; waits for
+sweeps, the queue runner and a clean src; pauses/restarts the runner via coh.sh). Byte-neutral switches: copy of
+tools/lanes/land_recipe_switch.sh in work/native_lane/r81_bn_switch/ (stage-cell refuses equal-pin text).
+**Two sessions:** the other session (queue runner owner) runs generators t131-t135, alloc_need.py, kit gaps, astra.
+Reserve rows in work/native_lane/_landq/reserved_c8.txt; never let a waiter's command line contain `coh.sh r8`
+(sweep_land waits on that pattern - deadlocked once).
+
 # Handover (2026-09-29 late night, round 80: Sol 6.1, scaffolding lanes, JUMP-TABLE FIDELITY HOLE) - start here
 
 **DONE 09-30 00:53 (c262202fa) - switch jump tables are now compared.** The overlay window gate
