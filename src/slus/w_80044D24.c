@@ -18,18 +18,17 @@ extern void SetTransMatrix(void *m);
 extern void AddPrim(void *ot, void *prim);
 
 /* Transform sprite parts into textured quads and add them to the ordering table. */
-void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
+void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
 {
     u8 **contexts;
     u8 *scratch;
-    u8 *sprite;
     void *prim;
     u8 *context;
     u8 *parts;
     register void *matrix ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register void *translation ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register void *part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register void *packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *part;
+    void *packet;
     s32 depth;
     s16 corner_x;
     s16 corner_y;
@@ -38,10 +37,10 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
     s32 origin_x;
     u8 uv_start;
     u8 uv_size;
+    s32 page_or_flags;
 
     (void)unused;
     context = gameWork.unk_000;
-    sprite = sprite_data;
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&gameWork));
@@ -78,181 +77,179 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
     SetRotMatrix(scratch + 0x50);
     SetTransMatrix(scratch + 0x50);
 
-    for (;;) {
-        if (!(parts[0] & 0x20)) {
-            s16 flipped_offset;
-            uv_start = U8_AT(part, 7);
-            U32_AT(scratch, 8) = uv_start;
-            uv_size = U8_AT(part, 9);
-            U32_AT(scratch, 0x10) = uv_size;
-            if (uv_start + uv_size >= 0x100) {
-                U32_AT(scratch, 0x10) = uv_size - 1;
-            }
+next_part:
+    if (!(parts[0] & 0x20)) {
+        s16 flipped_offset;
+        uv_start = U8_AT(part, 7);
+        U32_AT(scratch, 8) = uv_start;
+        uv_size = U8_AT(part, 9);
+        U32_AT(scratch, 0x10) = uv_size;
+        if (uv_start + uv_size >= 0x100) {
+            U32_AT(scratch, 0x10) = uv_size - 1;
+        }
 
-            uv_start = U8_AT(part, 8);
-            U32_AT(scratch, 0xC) = uv_start;
-            uv_size = U8_AT(part, 0xA);
-            U32_AT(scratch, 0x14) = uv_size;
-            if (uv_start + uv_size >= 0x100) {
-                U32_AT(scratch, 0x14) = uv_size - 1;
-            }
+        uv_start = U8_AT(part, 8);
+        U32_AT(scratch, 0xC) = uv_start;
+        uv_size = U8_AT(part, 0xA);
+        U32_AT(scratch, 0x14) = uv_size;
+        if (uv_start + uv_size >= 0x100) {
+            U32_AT(scratch, 0x14) = uv_size - 1;
+        }
 
-            if ((parts[0] ^ U16_AT(scratch, 0x24)) & 1) {
-                if (U16_AT(sprite, 0x14) & 0x400) {
-                    flipped_offset = -(S8_AT(part, 1) << 1);
-                } else {
-                    flipped_offset = -S8_AT(part, 1);
-                }
-                S16_AT(scratch, 0x80) = flipped_offset;
-                S16_AT(scratch, 0x70) = flipped_offset;
-                corner_x = flipped_offset - U16_AT(scratch, 0x10);
+        if ((parts[0] ^ U16_AT(scratch, 0x24)) & 1) {
+            if (U16_AT(sprite, 0x14) & 0x400) {
+                flipped_offset = -(S8_AT(part, 1) << 1);
             } else {
-                s16 offset = S8_AT(part, 1);
-                if (U16_AT(sprite, 0x14) & 0x400) {
-                    offset <<= 1;
-                }
-                S16_AT(scratch, 0x80) = offset;
-                S16_AT(scratch, 0x70) = offset;
-                offset += U16_AT(scratch, 0x10);
-                corner_x = offset;
+                flipped_offset = -S8_AT(part, 1);
             }
-            S16_AT(scratch, 0x88) = corner_x;
-            S16_AT(scratch, 0x78) = corner_x;
+            S16_AT(scratch, 0x80) = flipped_offset;
+            S16_AT(scratch, 0x70) = flipped_offset;
+            corner_x = flipped_offset - U16_AT(scratch, 0x10);
+        } else {
+            s16 offset = S8_AT(part, 1);
+            if (U16_AT(sprite, 0x14) & 0x400) {
+                offset <<= 1;
+            }
+            S16_AT(scratch, 0x80) = offset;
+            S16_AT(scratch, 0x70) = offset;
+            offset += U16_AT(scratch, 0x10);
+            corner_x = offset;
+        }
+        S16_AT(scratch, 0x88) = corner_x;
+        S16_AT(scratch, 0x78) = corner_x;
 
-            if ((parts[0] ^ U16_AT(scratch, 0x24)) & 2) {
-                if (U16_AT(sprite, 0x14) & 0x400) {
-                    flipped_offset = -(S8_AT(part, 2) << 1);
-                } else {
-                    flipped_offset = -S8_AT(part, 2);
-                }
-                S16_AT(scratch, 0x7A) = flipped_offset;
-                S16_AT(scratch, 0x72) = flipped_offset;
-                corner_y = flipped_offset - U16_AT(scratch, 0x14);
+        if ((parts[0] ^ U16_AT(scratch, 0x24)) & 2) {
+            if (U16_AT(sprite, 0x14) & 0x400) {
+                flipped_offset = -(S8_AT(part, 2) << 1);
             } else {
-                s16 offset = S8_AT(part, 2);
-                if (U16_AT(sprite, 0x14) & 0x400) {
-                    offset <<= 1;
-                }
-                S16_AT(scratch, 0x7A) = offset;
-                S16_AT(scratch, 0x72) = offset;
-                offset += U16_AT(scratch, 0x14);
-                corner_y = offset;
+                flipped_offset = -S8_AT(part, 2);
             }
-            S16_AT(scratch, 0x8A) = corner_y;
-            S16_AT(scratch, 0x82) = corner_y;
+            S16_AT(scratch, 0x7A) = flipped_offset;
+            S16_AT(scratch, 0x72) = flipped_offset;
+            corner_y = flipped_offset - U16_AT(scratch, 0x14);
+        } else {
+            s16 offset = S8_AT(part, 2);
+            if (U16_AT(sprite, 0x14) & 0x400) {
+                offset <<= 1;
+            }
+            S16_AT(scratch, 0x7A) = offset;
+            S16_AT(scratch, 0x72) = offset;
+            offset += U16_AT(scratch, 0x14);
+            corner_y = offset;
+        }
+        S16_AT(scratch, 0x8A) = corner_y;
+        S16_AT(scratch, 0x82) = corner_y;
 
-            gte_ldv0(scratch + 0x70);
-            gte_rtv0tr();
-            gte_stsv((u8 *)prim + 8);
+        gte_ldv0(scratch + 0x70);
+        gte_rtv0tr();
+        gte_stsv((u8 *)prim + 8);
 
-            gte_ldv0(scratch + 0x78);
-            gte_rtv0tr();
-            gte_stsv((u8 *)prim + 0x10);
+        gte_ldv0(scratch + 0x78);
+        gte_rtv0tr();
+        gte_stsv((u8 *)prim + 0x10);
 
-            gte_ldv0(scratch + 0x80);
-            gte_rtv0tr();
-            gte_stsv((u8 *)prim + 0x18);
+        gte_ldv0(scratch + 0x80);
+        gte_rtv0tr();
+        gte_stsv((u8 *)prim + 0x18);
 
-            gte_ldv0(scratch + 0x88);
-            gte_rtv0tr();
-            gte_stsv((u8 *)prim + 0x20);
+        gte_ldv0(scratch + 0x88);
+        gte_rtv0tr();
+        gte_stsv((u8 *)prim + 0x20);
 
-            U8_AT(packet, -1) = 9;
-            U16_AT(sprite, 0x14) &= 0x7FFF;
-            U32_AT(scratch, 0x10) += U32_AT(scratch, 8);
-            U32_AT(scratch, 0x14) += U32_AT(scratch, 0xC);
-            U32_AT(scratch, 0x14) <<= 8;
-            U32_AT(scratch, 0xC) <<= 8;
+        U8_AT(packet, -1) = 9;
+        U16_AT(sprite, 0x14) &= 0x7FFF;
+        U32_AT(scratch, 0x10) += U32_AT(scratch, 8);
+        U32_AT(scratch, 0x14) += U32_AT(scratch, 0xC);
+        U32_AT(scratch, 0x14) <<= 8;
+        U32_AT(scratch, 0xC) <<= 8;
 
-            if (U16_AT(scratch, 0x24) & 0x100) {
-                U16_AT(packet, 0xA) = U16_AT(sprite, 0x12);
+        if (U16_AT(scratch, 0x24) & 0x100) {
+            U16_AT(packet, 0xA) = U16_AT(sprite, 0x12);
+        } else {
+            U16_AT(packet, 0xA) =
+                U16_AT(sprite, 0x12) + U16_AT(part, 5);
+        }
+        S16_AT(packet, 8) = U16_AT(scratch, 0xC) + U16_AT(scratch, 8);
+        S16_AT(packet, 0x10) =
+            U16_AT(scratch, 0xC) + U16_AT(scratch, 0x10);
+
+        {
+            u16 tpage;
+            page_or_flags = U16_AT(sprite, 0x10);
+            if (page_or_flags != 0) {
+                tpage = page_or_flags +
+                    (U16_AT(part, 3) & 0xFF9F);
             } else {
-                U16_AT(packet, 0xA) =
-                    U16_AT(sprite, 0x12) + U16_AT(part, 5);
+                tpage = U16_AT(part, 3);
             }
-            S16_AT(packet, 8) = U16_AT(scratch, 0xC) + U16_AT(scratch, 8);
-            S16_AT(packet, 0x10) =
-                U16_AT(scratch, 0xC) + U16_AT(scratch, 0x10);
+            U16_AT(packet, 0x12) = tpage;
+        }
+        S16_AT(packet, 0x18) =
+            U16_AT(scratch, 0x14) + U16_AT(scratch, 8);
+        S16_AT(packet, 0x20) =
+            U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
 
-            {
-                u16 base_tpage = U16_AT(sprite, 0x10);
-                u16 tpage;
-                if (base_tpage != 0) {
-                    tpage = base_tpage +
-                        (U16_AT(part, 3) & 0xFF9F);
+        if (S16_AT(scratch, 0x50) >= 0x1800) {
+            u8 edge_u = U8_AT(packet, 0x20);
+            U8_AT(packet, 0x20) = edge_u + 0xFF;
+            U8_AT(packet, 0x10) = edge_u;
+        }
+        if (S16_AT(scratch, 0x58) >= 0x1800) {
+            u8 edge_v = U8_AT(packet, 0x21);
+            U8_AT(packet, 0x21) = edge_v + 0xFF;
+            U8_AT(packet, 0x19) = edge_v;
+        }
+        if (S16_AT(packet, 4) > S16_AT(packet, 0x1C)) {
+            u8 edge_u = U8_AT(packet, 0x20);
+            U8_AT(packet, 0x20) = edge_u + 0xFF;
+            U8_AT(packet, 0x10) = edge_u;
+        }
+        if (S16_AT(packet, 6) > S16_AT(packet, 0x1E)) {
+            u8 edge_v = U8_AT(packet, 0x21);
+            U8_AT(packet, 0x21) = edge_v + 0xFF;
+            U8_AT(packet, 0x19) = edge_v;
+        }
+
+        {
+            u8 prim_code;
+            prim_code = U8_AT(part, 0);
+            sprite[0xF] = prim_code;
+            page_or_flags = U16_AT(scratch, 0x24);
+            if (page_or_flags & 8) {
+                u8 blend_code;
+                if (page_or_flags & 4) {
+                    blend_code = prim_code | 2;
                 } else {
-                    tpage = U16_AT(part, 3);
+                    blend_code = prim_code & 0xFD;
                 }
-                U16_AT(packet, 0x12) = tpage;
-            }
-            S16_AT(packet, 0x18) =
-                U16_AT(scratch, 0x14) + U16_AT(scratch, 8);
-            S16_AT(packet, 0x20) =
-                U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
-
-            if (S16_AT(scratch, 0x50) >= 0x1800) {
-                u8 edge_u = U8_AT(packet, 0x20);
-                U8_AT(packet, 0x20) = edge_u + 0xFF;
-                U8_AT(packet, 0x10) = edge_u;
-            }
-            if (S16_AT(scratch, 0x58) >= 0x1800) {
-                u8 edge_v = U8_AT(packet, 0x21);
-                U8_AT(packet, 0x21) = edge_v + 0xFF;
-                U8_AT(packet, 0x19) = edge_v;
-            }
-            if (S16_AT(packet, 4) > S16_AT(packet, 0x1C)) {
-                u8 edge_u = U8_AT(packet, 0x20);
-                U8_AT(packet, 0x20) = edge_u + 0xFF;
-                U8_AT(packet, 0x10) = edge_u;
-            }
-            if (S16_AT(packet, 6) > S16_AT(packet, 0x1E)) {
-                u8 edge_v = U8_AT(packet, 0x21);
-                U8_AT(packet, 0x21) = edge_v + 0xFF;
-                U8_AT(packet, 0x19) = edge_v;
-            }
-
-            {
-                s32 sprite_flags;
-                u8 prim_code;
-                prim_code = U8_AT(part, 0);
-                sprite[0xF] = prim_code;
-                sprite_flags = U16_AT(scratch, 0x24);
-                if (sprite_flags & 8) {
-                    u8 blend_code;
-                    if (sprite_flags & 4) {
-                        blend_code = prim_code | 2;
-                    } else {
-                        blend_code = prim_code & 0xFD;
-                    }
-                    sprite[0xF] = blend_code;
-                }
-            }
-
-            {
-                void *draw_prim;
-                s32 ot_offset;
-                draw_prim = prim;
-                prim = (u8 *)prim + 0x28;
-                ot_offset = (s16)depth * 4;
-                {
-                    u32 color_code;
-                    color_code = U32_AT(sprite, 0xC);
-                    U32_AT(packet, 0) = color_code;
-                }
-                {
-                    u32 ot_base;
-                    ot_base = U32_AT(scratch, 0x20);
-                    packet = (u8 *)packet + 0x28;
-                    AddPrim((u8 *)ot_base + ot_offset, draw_prim);
-                }
+                sprite[0xF] = blend_code;
             }
         }
 
-        part = (u8 *)part + 0xC;
-        if ((s8)parts[0] < 0) {
-            break;
+        {
+            void *draw_prim;
+            s32 ot_offset;
+            draw_prim = prim;
+            prim = (u8 *)prim + 0x28;
+            ot_offset = (s16)depth * 4;
+            {
+                u32 color_code;
+                color_code = U32_AT(sprite, 0xC);
+                U32_AT(packet, 0) = color_code;
+            }
+            {
+                u32 ot_base;
+                ot_base = U32_AT(scratch, 0x20);
+                packet = (u8 *)packet + 0x28;
+                AddPrim((u8 *)ot_base + ot_offset, draw_prim);
+            }
         }
+    }
+
+    part = (u8 *)part + 0xC;
+    if ((s8)parts[0] >= 0) {
         parts += 0xC;
+        goto next_part;
     }
 
     PopMatrix();
