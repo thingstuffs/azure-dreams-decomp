@@ -28,11 +28,6 @@ typedef struct Packed8 {
     u8 bytes[8];
 } __attribute__((packed)) Packed8;
 
-typedef struct OffsetPair {
-    s16 x;
-    u16 y;
-} __attribute__((packed)) OffsetPair;
-
 typedef union PackedOffsets {
     struct {
         Packed12 first;
@@ -129,7 +124,6 @@ typedef struct Task {
 } Task;
 
 extern PackedOffsets D_80024004;
-extern void *D_80024028[7];
 extern u8 D_80025100[16];
 extern Packed12 D_8002510C;
 extern s16 D_80025118[5];
@@ -151,455 +145,325 @@ extern void func_80045340(void);
 
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
-void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
+void func_818D4E68(Actor *actor, Motion *motion, Render *render)
 {
     s16 position_delta[4];
     PackedOffsets offsets;
-    register Motion *motion ASM_REG("$17") = position;
-    Render *render = sprite;
     Entity *entity;
-    register Owner *owner ASM_REG("$16");
-    register Motion *owner_motion ASM_REG("$18");
+    Owner *owner;
+    Motion *owner_motion;
     s32 state;
+    s32 particle_count;
     u16 timer;
-    void **jump_table;
 
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4, &&state5, &&state6
-    };
-    register s32 direction ASM_REG("$2");
     register Packed12 *linked_pos ASM_REG("$6");
-    register s32 aux_coord ASM_REG("$3");
     entity = actor->entity;
-    {
-        u8 *copy_page;
-        copy_page = (u8 *)0x80020000;
-        ASM_KEEP(copy_page);
-        ASM_KEEP(render);
-        linked_pos = (Packed12 *)((PackedOffsets *)(copy_page + 0x4004));
-        ASM_KEEP(linked_pos);
-        offsets.copy.first = ((PackedOffsets *)linked_pos)->copy.first;
-        offsets.copy.second = ((PackedOffsets *)linked_pos)->copy.second;
-        offsets.copy.third = ((PackedOffsets *)linked_pos)->copy.third;
-        ASM_KEEP(copy_page);
-    }
+    offsets = D_80024004;
     timer = actor->timer82;
     state = actor->state;
-    owner = entity;
-    owner = (Owner *)((Owner *)((u8 *)owner - 0x20));
+    owner = (Owner *)((u8 *)entity - 0x20);
     owner_motion = owner->position;
     timer++;
     actor->timer82 = timer;
-    if ((u32)state >= 7U) {
-        return;
-    }
-    jump_table = (void **)0x80020000;
-    ASM_KEEP(jump_table);
-    jump_table = (void **)((u8 *)jump_table + 0x4028);
-    ASM_KEEP(jump_table);
-    goto *jump_table[state];
-
-state0:
-    *(u32 *)&render->color0 = 0x00808080;
-    render->scale_y = 0x1000;
-    render->scale_x = 0x1000;
-    ASM_SCHED_BARRIER();
-    {
-        u8 *copy_page;
-        copy_page = (u8 *)0x80020000;
-        ASM_KEEP(copy_page);
-        linked_pos = (Packed12 *)(copy_page + 0x510C);
-        ASM_KEEP(linked_pos);
-        actor->image_data = *linked_pos;
-        ASM_USE_NV(copy_page);
-    }
-    {
-        direction = (s32)((u8 *)actor + 0x94);
-        render->image = (u8 *)direction;
-    }
-    {
-        u32 direction_bits;
-        u16 next_state;
-        register s16 *flag_base ASM_REG("$4");
-
-        flag_base = (s16 *)0x80020000;
-        ASM_KEEP(flag_base);
-        direction_bits = entity->flags2A;
-        next_state = 1;
-        *(s16 *)((u8 *)flag_base + 0x5118) = next_state;
-        next_state = actor->state;
-        direction_bits = (direction_bits >> 9) & 7;
-        next_state++;
-        actor->direction = direction_bits;
-        actor->state = next_state;
-    }
-    if (func_8003DF74(owner->aux->field08, owner->aux, position_delta, 0) == 0 &&
-        !(owner->aux->flags14 & 0x8000)) {
-        return;
-    }
-    {
-        motion->x.half.hi = owner_motion->x.half.hi;
-        motion->y.half.hi = owner_motion->y.half.hi;
-        motion->z.half.hi = owner_motion->z.half.hi;
-        if (!(owner->aux->flags14 & 0x8000)) {
-            motion->x.half.hi += (u16)position_delta[0];
-            motion->y.half.hi += (u16)position_delta[1];
-            motion->z.half.hi = (motion->z.half.hi) + ((u16)position_delta[2]);
-        } else {
-            motion->z.half.hi -= 0x40;
-        }
-    }
-    if (!(*(u16 *)actor->field04 & 0x80)) {
-        return;
-    }
-    {
-        void *callback_owner;
-        callback_owner = (u8 *)actor - 0x20;
-        if (!(actor->flags7A & 4)) {
-            func_8004491C(callback_owner, func_80045340);
-            render->field10 = 0x40;
-            render->color2 = 0x80;
-            render->color1 = 0x80;
-            render->color0 = 0x80;
-            render->scale_y = 0x800;
-            render->scale_x = 0x800;
-            render->flags |= 0xC;
-            actor->flags7A |= 4;
-        }
-    }
-    if (entity->link60 != 0) {
-        void *link;
-        u16 linked_z;
-        link = entity->link60;
-        linked_pos = (Packed12 *)(*(u8 **)((u8 *)link - 0x18));
-        linked_z = *(u16 *)((u8 *)linked_pos + 0xA) - 0x40;
-        actor->target_y = (s16)linked_z;
-    } else {
-        actor->target_y = (s16)(entity->height88 - 0x50);
-    }
-    {
-        Aux *aux;
-        s32 entity_coord;
-        s32 distance;
-
+    switch (state) {
+    case 0:
+        *(u32 *)&render->color0 = 0x00808080;
+        render->scale_y = 0x1000;
+        render->scale_x = 0x1000;
+        actor->image_data = D_8002510C;
+        render->image = &actor->image_data;
         {
-            u8 *lookup_base;
-            u32 lookup;
-            lookup_base = ((u8 *)dirStepX);
-            lookup = (u32)actor->direction << 1;
-            aux = *(Aux **)((u8 *)entity - 0x14);
-            lookup += (u32)lookup_base;
-            ASM_KEEP(lookup);
-            direction = (s32)(aux->tile_x);
-            lookup = *(u8 *)lookup;
-            direction = (s32)(((u32)direction) + (lookup));
-            actor->target_x = (s8)(u32)direction;
-        }
-        {
-            u32 lookup;
-            u32 tile;
-            direction = (s32)((u8 *)0x80070000);
-            ASM_KEEP(direction);
-            lookup = (u32)actor->direction << 1;
-            tile = (u32)((u8 *)direction - 0x3318);
-            lookup += (u32)((u8 *)tile);
-            tile = aux->tile_y;
-            lookup = *(u8 *)lookup;
-            tile += lookup;
-            actor->target_z = (s8)tile;
-        }
-
-        entity_coord = entity->tile_x72;
-        aux_coord = aux->tile_x;
-        if (entity_coord == aux_coord) {
-            entity_coord = entity->tile_y73;
-            aux_coord = aux->tile_y;
-        }
-        distance = entity_coord - aux_coord;
-        if (distance < 0) {
-            distance = -distance;
-        }
-        actor->countdown = (s8)(distance * 4 - 3);
-    }
-    {
-        AlignedOffsetPair *offset_base;
-        ASM_SCHED_BARRIER();
-        direction = actor->direction;
-        offset_base = (AlignedOffsetPair *)(void *)offsets.bytes;
-        direction <<= 2;
-        direction = (u32)offset_base + direction;
-        motion->dx = ((AlignedOffsetPair *)(u32)direction)->x << 16;
-        direction = actor->direction;
-        direction <<= 2;
-        offset_base = (AlignedOffsetPair *)((u8 *)offset_base + direction);
-        motion->dy = offset_base->y << 16;
-    }
-    motion->dz = ((actor->target_y << 16) - motion->z.word) / actor->countdown;
-    actor->timer82 = 0;
-    actor->state++;
-    return;
-
-state1:
-    if ((func_800A4778(motion->x.half.hi, motion->y.half.hi,
-                       (s16)motion->z.half.hi, entity->link60) << 16) != 0) {
-        goto state1_cleanup;
-    }
-    {
-        u16 angle;
-        angle = render->angle;
-        render->angle = angle + 0x300;
-        if ((u16)(angle + 0x300) >= 0x1001) {
-            render->angle = angle - 0xD00;
-        }
-        owner = (Owner *)((s32)(func_8003FC64(0x212)));
-        if ((Task *)(s32)owner != 0) {
-            Motion *task_motion;
-            register Render *task_render ASM_REG("$7");
-            ((Task *)(s32)owner)->field22 = 0x10;
-            ((Task *)(s32)owner)->update = func_80024548;
-            func_8004491C((Task *)(s32)owner, func_80045340);
-            task_render = ((Task *)(s32)owner)->render;
-            task_render->field10 = 0x40;
-            task_render->flags |= 0xC;
-            task_motion = ((Task *)(s32)owner)->position;
-            task_motion->x.half.hi = motion->x.half.hi;
-            task_motion->y.half.hi = motion->y.half.hi;
-            task_motion->z.half.hi = motion->z.half.hi;
-            task_render = ((Task *)(s32)owner)->render;
-            task_render->scale_y = 0x800;
-            task_render->scale_x = 0x800;
-            task_render->color2 = 0x78;
-            task_render->color1 = 0x78;
-            task_render->color0 = 0x78;
-            ASM_SCHED_BARRIER();
-            {
-                u8 *copy_page;
-                copy_page = (u8 *)0x80020000;
-                ASM_KEEP(copy_page);
-                linked_pos = (Packed12 *)(copy_page + 0x510C);
-                ASM_KEEP(linked_pos);
-                ((Task *)(s32)owner)->image_data = *linked_pos;
-                ASM_USE_NV(copy_page);
-            }
-            {
-                u8 *task_image = (u8 *)(Task *)(s32)owner + 0x40;
-                task_render->image = task_image;
-            }
-        }
-        actor->countdown--;
-        if (actor->countdown <= 0) {
-            if ((linked_pos = (Packed12 *)entity->link60) != 0) {
-                s32 sound_id;
-                sound_id = 0x300;
-                linked_pos = (Packed12 *)((void *)(*(Motion **)((u8 *)(void *)linked_pos - 0x18)));
-                motion->x.half.hi = ((Motion *)(void *)linked_pos)->x.half.hi;
-                motion->y.half.hi = ((Motion *)(void *)linked_pos)->y.half.hi;
-                motion->z.half.hi = actor->target_y;
-                render->image = D_80025100;
-                render->scale_y = 0x400;
-                render->scale_x = 0x400;
-                render->field10 = 0x40;
-                motion->z.word += 0x80000;
-                render->color0 = 0x20;
-                render->color1 = 0x20;
-                render->color2 = 0x20;
-                actor->step88 = 600;
-                actor->color_step = 2;
-                actor->accel = 400;
-                actor->timer84 = 0;
-                actor->state++;
-                render->field06 = 100;
-                func_800A56E0(sound_id);
-                return;
-            }
-state1_cleanup:
-            func_80044A50((u8 *)actor - 0x20);
-            actor->state = 6;
-            actor->timer84 = 0;
-            actor->timer82 = 0;
-            return;
-        }
-        motion->x.word += motion->dx;
-        motion->y.word += motion->dy;
-        motion->z.word += motion->dz;
-        return;
-    }
-
-state2:
-    actor->timer84++;
-    if (actor->timer84 < 5) {
-        render->scale_y += 3000;
-        render->scale_x = render->scale_y;
-    }
-    else if (render->scale_x >= 0x1001) {
-        if (render->scale_x >= 0x2EE1) {
-            actor->step88 = 700;
-        }
-        if (render->scale_x >= 0x2711) {
-            actor->step88 = 500;
-        } else if (render->scale_x >= 0x2001) {
-            actor->step88 = 200;
-        } else if (render->scale_x >= 0x1801) {
-            actor->step88 = 120;
-        } else if (render->scale_x >= 0x1001) {
-            actor->step88 = 60;
-        } else if (render->scale_x >= 0x801) {
-            actor->step88 = 40;
-        }
-        render->scale_x -= actor->step88;
-        render->scale_y -= actor->step88;
-    }
-    render->angle += actor->accel;
-    actor->accel += 20;
-    if (render->color0 < 120) {
-        u32 color;
-        s32 is_dim;
-        color = render->color0;
-        is_dim = color < 60;
-        if (is_dim) {
-            actor->color_step = 4;
-        } else {
-            actor->color_step = 1;
-        }
-        render->color0 += (u8)actor->color_step;
-        render->color1 += (u8)actor->color_step;
-        render->color2 += (u8)actor->color_step;
-    }
-    {
-        s32 particle_count;
-        s32 more_particles;
-        s32 offset_z;
-        particle_count = 0;
-        if (actor->timer84 >= 81) {
-            actor->timer84 = 0;
-            actor->timer82 = 0;
+            u32 direction_bits;
+            direction_bits = entity->flags2A;
+            D_80025118[0] = 1;
+            actor->direction = (direction_bits >> 9) & 7;
             actor->state++;
         }
-do {
-        particle_count++;
-        owner_motion = (Motion *)(func_80069EF8());
-        owner_motion = (Motion *)(((s32)owner_motion) & (0xFF));
-        owner_motion = (Motion *)(((s32)owner_motion) | (0x80));
-        motion = (Motion *)(func_80069EF8());
-        motion = (Motion *)(((s32)motion) & (0x7F));
-        motion = (Motion *)(((s32)motion) - (0x40));
-        motion = (Motion *)((s16)(s32)motion);
-        owner = (Owner *)(func_80069EF8());
-        owner = (Owner *)(((s32)owner) & (0x7F));
-        owner = (Owner *)(((s32)owner) - (0x40));
-        owner = (Owner *)((s16)(s32)owner);
-        offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                      (s32)owner_motion, (s32)motion, (s32)owner, offset_z);
-        more_particles = particle_count < 2;
-        if (!more_particles) {
+    case 1:
+        if (func_8003DF74(owner->aux->field08, owner->aux, position_delta, 0) == 0 &&
+            !(owner->aux->flags14 & 0x8000)) {
             return;
         }
-        } while (1);
-    }
-
-state3:
-    {
-        register s32 particle_count ASM_REG("$19");
-        for (particle_count = 0; particle_count < 2; particle_count++) {
-            s32 offset_z;
-            owner_motion = (Motion *)(func_80069EF8());
-            owner_motion = (Motion *)(((s32)owner_motion) & (0xFF));
-            owner_motion = (Motion *)(((s32)owner_motion) | (0x80));
-            motion = (Motion *)(func_80069EF8());
-            motion = (Motion *)(((s32)motion) & (0x7F));
-            motion = (Motion *)(((s32)motion) - (0x40));
-            motion = (Motion *)((s16)(s32)motion);
-            owner = (Owner *)(func_80069EF8());
-            owner = (Owner *)(((s32)owner) & (0x7F));
-            owner = (Owner *)(((s32)owner) - (0x40));
-            owner = (Owner *)((s16)(s32)owner);
-            offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
-            func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                          (s32)owner_motion, (s32)motion, (s32)owner, offset_z);
+        {
+            motion->x.half.hi = owner_motion->x.half.hi;
+            motion->y.half.hi = owner_motion->y.half.hi;
+            motion->z.half.hi = owner_motion->z.half.hi;
+            if (!(owner->aux->flags14 & 0x8000)) {
+                motion->x.half.hi += (u16)position_delta[0];
+                motion->y.half.hi += (u16)position_delta[1];
+                motion->z.half.hi = (motion->z.half.hi) + ((u16)position_delta[2]);
+            } else {
+                motion->z.half.hi -= 0x40;
+            }
         }
-    }
+        if (!(*(u16 *)actor->field04 & 0x80)) {
+            return;
+        }
+        {
+            void *callback_owner;
+            callback_owner = (u8 *)actor - 0x20;
+            if (!(actor->flags7A & 4)) {
+                func_8004491C(callback_owner, func_80045340);
+                render->field10 = 0x40;
+                render->color2 = 0x80;
+                render->color1 = 0x80;
+                render->color0 = 0x80;
+                render->scale_y = 0x800;
+                render->scale_x = 0x800;
+                render->flags |= 0xC;
+                actor->flags7A |= 4;
+            }
+        }
+        if (entity->link60 != 0) {
+            linked_pos = *(Packed12 **)((u8 *)entity->link60 - 0x18);
+            actor->target_y = ((Motion *)linked_pos)->z.half.hi - 0x40;
+        } else {
+            actor->target_y = entity->height88 - 0x50;
+        }
+        {
+            Aux *aux;
+            s32 distance;
 
-state4:
-    render->angle += actor->accel;
-    actor->timer84 += 2;
-    if (actor->timer84 >= 61) {
-        s32 effect_type;
-        s32 room_id;
-        actor->timer84 = 40;
-        actor->state++;
-        if (func_8009D218(entity->link60, 4, entity) == 0) {
-            s32 effect_kind;
-            direction = func_800A6D30();
-            direction &= 3;
-            ASM_KEEP_NV(direction);
-            aux_coord = actor->field09;
-            direction += 4;
-            aux_coord >>= 2;
-            effect_kind = aux_coord + direction;
-            direction = (s32)((u8 *)0x800E0000);
-            ASM_KEEP(direction);
-            aux_coord = ((u8 *)direction)[0x3D68];
+            aux = *(Aux **)((u8 *)entity - 0x14);
+            actor->target_x = aux->tile_x + dirStepX[actor->direction];
+            actor->target_z = aux->tile_y + dirStepY[actor->direction];
             {
-                direction = 0xFF;
-                room_id = 0x10;
-                if (aux_coord == direction) {
-                    ASM_CLOBBER("$3");
-                    room_id = direction;
+                s32 aux_coord;
+                distance = entity->tile_x72;
+                aux_coord = aux->tile_x;
+                if (distance == aux_coord) {
+                    distance = entity->tile_y73;
+                    aux_coord = aux->tile_y;
+                }
+                distance -= aux_coord;
+                if (distance < 0) {
+                    distance = -distance;
                 }
             }
-            effect_type = effect_kind;
-            func_800C8B84(entity->link60, room_id, effect_type);
-            return;
+            actor->countdown = distance * 4 - 3;
         }
-    }
-    return;
-
-state5:
-    if (render->scale_x >= 51) {
-        render->scale_x -= actor->step88 * 2;
-        render->scale_y -= actor->step88 * 2;
-    }
-    render->angle += actor->accel;
-    if (render->color0 >= 7) {
-        render->color0 -= 4;
-        render->color1 -= 4;
-        render->color2 -= 4;
-    }
-    actor->timer84 -= 2;
-    if (actor->timer84 <= 0) {
-        actor->timer84 = 0;
+        {
+            AlignedOffsetPair *offset_base = (AlignedOffsetPair *)offsets.bytes;
+            motion->dx = ((AlignedOffsetPair *)((u8 *)offset_base + (actor->direction << 2)))->x << 16;
+            motion->dy = ((AlignedOffsetPair *)((u8 *)offset_base + (actor->direction << 2)))->y << 16;
+        }
+        motion->dz = ((actor->target_y << 16) - motion->z.word) / actor->countdown;
         actor->timer82 = 0;
         actor->state++;
         return;
-    }
-    return;
 
-state6:
-    {
-        s32 old_timer;
-        old_timer = actor->timer82;
-        actor->timer82 = old_timer + 1;
-        if ((s16)(old_timer + 1) >= 21) {
-            s16 *flag_page;
-            s32 active_flag;
-            flag_page = (s16 *)0x80020000;
-            ASM_KEEP_NV(flag_page);
-            active_flag = *(s16 *)((u8 *)flag_page + 0x5118);
-            actor->timer82 = old_timer;
-            if (active_flag == 0) {
-                s32 *clear_page;
-                s32 *flag_word_page;
-                clear_page = (s32 *)0x80080000;
-                ASM_KEEP(clear_page);
-                clear_page[0x346C / 4] = 0;
-                *(u16 *)((u8 *)actor - 2) |= 0x8000;
-                flag_word_page = (s32 *)0x80080000;
-                ASM_KEEP(flag_word_page);
-                flag_word_page[0x14A0 / 4] |= 0x8000;
+    case 2:
+        if ((func_800A4778(motion->x.half.hi, motion->y.half.hi,
+                           (s16)motion->z.half.hi, entity->link60) << 16) != 0) {
+            goto state1_cleanup;
+        }
+        {
+            u16 angle;
+            Task *task;
+            angle = render->angle;
+            render->angle = angle + 0x300;
+            if ((u16)(angle + 0x300) >= 0x1001) {
+                render->angle = angle - 0xD00;
+            }
+            task = func_8003FC64(0x212);
+            if (task != 0) {
+                Motion *task_motion;
+                Render *task_render;
+                task->field22 = 0x10;
+                task->update = func_80024548;
+                func_8004491C(task, func_80045340);
+                task_render = task->render;
+                task_render->field10 = 0x40;
+                task_render->flags |= 0xC;
+                task_motion = task->position;
+                task_motion->x.half.hi = motion->x.half.hi;
+                task_motion->y.half.hi = motion->y.half.hi;
+                task_motion->z.half.hi = motion->z.half.hi;
+                task_render = task->render;
+                task_render->scale_y = 0x800;
+                task_render->scale_x = 0x800;
+                task_render->color2 = 0x78;
+                task_render->color1 = 0x78;
+                task_render->color0 = 0x78;
+                task->image_data = D_8002510C;
+                task_render->image = &task->image_data;
+            }
+            actor->countdown--;
+            if (actor->countdown <= 0) {
+                if ((linked_pos = (Packed12 *)entity->link60) != 0) {
+                    s32 sound_id;
+                    sound_id = 0x300;
+                    linked_pos = *(Packed12 **)((u8 *)linked_pos - 0x18);
+                    motion->x.half.hi = ((Motion *)linked_pos)->x.half.hi;
+                    motion->y.half.hi = ((Motion *)linked_pos)->y.half.hi;
+                    motion->z.half.hi = actor->target_y;
+                    render->image = D_80025100;
+                    render->scale_y = 0x400;
+                    render->scale_x = 0x400;
+                    render->field10 = 0x40;
+                    motion->z.word += 0x80000;
+                    render->color0 = 0x20;
+                    render->color1 = 0x20;
+                    render->color2 = 0x20;
+                    actor->step88 = 600;
+                    actor->color_step = 2;
+                    actor->accel = 400;
+                    actor->timer84 = 0;
+                    actor->state++;
+                    render->field06 = 100;
+                    func_800A56E0(sound_id);
+                    return;
+                }
+state1_cleanup:
+                func_80044A50((u8 *)actor - 0x20);
+                actor->state = 6;
+                actor->timer84 = 0;
+                actor->timer82 = 0;
                 return;
             }
-            *(s16 *)((u8 *)flag_page + 0x5118) = 0;
+            motion->x.word += motion->dx;
+            motion->y.word += motion->dy;
+            motion->z.word += motion->dz;
+            return;
+        }
+
+    case 3:
+        actor->timer84++;
+        if (actor->timer84 < 5) {
+            render->scale_y += 3000;
+            render->scale_x = render->scale_y;
+        }
+        else if (render->scale_x >= 0x1001) {
+            if (render->scale_x >= 0x2EE1) {
+                actor->step88 = 700;
+            }
+            if (render->scale_x >= 0x2711) {
+                actor->step88 = 500;
+            } else if (render->scale_x >= 0x2001) {
+                actor->step88 = 200;
+            } else if (render->scale_x >= 0x1801) {
+                actor->step88 = 120;
+            } else if (render->scale_x >= 0x1001) {
+                actor->step88 = 60;
+            } else if (render->scale_x >= 0x801) {
+                actor->step88 = 40;
+            }
+            render->scale_x -= actor->step88;
+            render->scale_y -= actor->step88;
+        }
+        render->angle += actor->accel;
+        actor->accel += 20;
+        {
+            u32 color = render->color0;
+            if (color < 120) {
+                if (color < 60) {
+                    actor->color_step = 4;
+                } else {
+                    actor->color_step = 1;
+                }
+                render->color0 += (u8)actor->color_step;
+                render->color1 += (u8)actor->color_step;
+                render->color2 += (u8)actor->color_step;
+            }
+        }
+        {
+            s32 more_particles;
+            s32 shade;
+            s32 offset_x;
+            s32 offset_y;
+            s32 offset_z;
+            particle_count = 0;
+            if (actor->timer84 >= 81) {
+                actor->timer84 = 0;
+                actor->timer82 = 0;
+                actor->state++;
+            }
+            do {
+                particle_count++;
+                shade = (func_80069EF8() & 0xFF) | 0x80;
+                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                              shade, offset_x, offset_y, offset_z);
+                more_particles = particle_count < 2;
+                if (!more_particles) {
+                    return;
+                }
+            } while (1);
+        }
+
+    case 4:
+        {
+            for (particle_count = 0; particle_count < 2; particle_count++) {
+                s32 shade;
+                s32 offset_x;
+                s32 offset_y;
+                s32 offset_z;
+                shade = (func_80069EF8() & 0xFF) | 0x80;
+                offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
+                func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
+                              shade, offset_x, offset_y, offset_z);
+            }
+        }
+
+        render->angle += actor->accel;
+        actor->timer84 += 2;
+        if (actor->timer84 >= 61) {
+            s32 effect_type;
+            s32 room_id;
+            actor->timer84 = 40;
+            actor->state++;
+            if (func_8009D218(entity->link60, 4, entity) == 0) {
+                s32 effect_kind;
+                effect_kind = (func_800A6D30() & 3) + 4;
+                effect_type = (actor->field09 >> 2) + effect_kind;
+                room_id = (D_800E3D68[0] == 0xFF) ? 0xFF : 0x10;
+                func_800C8B84(entity->link60, room_id, effect_type);
+                return;
+            }
+        }
+        return;
+
+    case 5:
+        if (render->scale_x >= 51) {
+            render->scale_x -= actor->step88 * 2;
+            render->scale_y -= actor->step88 * 2;
+        }
+        render->angle += actor->accel;
+        if (render->color0 >= 7) {
+            render->color0 -= 4;
+            render->color1 -= 4;
+            render->color2 -= 4;
+        }
+        actor->timer84 -= 2;
+        if (actor->timer84 <= 0) {
+            actor->timer84 = 0;
+            actor->timer82 = 0;
+            actor->state++;
+            return;
+        }
+        return;
+
+    case 6:
+        {
+            s32 old_timer;
+            old_timer = actor->timer82;
+            actor->timer82 = old_timer + 1;
+            if ((s16)(old_timer + 1) >= 21) {
+                s32 active_flag;
+                active_flag = D_80025118[0];
+                actor->timer82 = old_timer;
+                if (active_flag == 0) {
+                    dungeonStatus.unk_0C = 0;
+                    *(u16 *)((u8 *)actor - 2) |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
+                    return;
+                }
+                D_80025118[0] = 0;
+            }
         }
     }
 }
