@@ -21,8 +21,7 @@ void func_800C9DB8(Rec_func_800C9B44_arg0 *actor, EntityRec *motion, M2C_UNK con
     attempts = 0x10;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    for (;;) {
-retry:
+    while (1) {
         attempts -= 1;
         action = 0;
         if (attempts <= 0)
@@ -38,7 +37,7 @@ retry:
                         actor->unk_72 = 0x400;
                         break;
                     }
-                    goto retry;
+                    continue;
                 }
                 if (direction == action) {
                     s32 center_y = actor->unk_86;

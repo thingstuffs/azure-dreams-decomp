@@ -138,22 +138,17 @@ s32 func_80024100(void)
             element->unk_04.i = ((s32 *)&secondary_values)[column];
             switch (column) {
             case 0:
-                value_ptr = (u8 *)parent_state + 6;
+                element->unk_08.p = (u8 *)parent_state + 6;
                 break;
             case 1:
-                value_ptr = (u8 *)parent_state + 8;
+                element->unk_08.p = (u8 *)parent_state + 8;
                 break;
             case 2:
-                value_ptr = (u8 *)parent_state + 0xA;
+                element->unk_08.p = (u8 *)parent_state + 0xA;
                 break;
-            default:
-                element->unk_0C.at00.v = parent_state;
-                goto second_continue;
             }
-            element->unk_08.p = value_ptr;
             element->unk_0C.at00.v = parent_state;
         }
-second_continue:
         column--;
         x_second -= 0x58;
     } while (column >= 0);

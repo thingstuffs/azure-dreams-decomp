@@ -42,31 +42,26 @@ void func_80020510(void *entry) {
         value_index -= 1;
     } while (value_index >= 0);
     state = ((S_80020510_0 *)entry)->unk_00.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
+    switch (state) {
+    case 0:
+        ticks_left = ((S_80020510_0 *)entry)->unk_02 - 1;
+        ((S_80020510_0 *)entry)->unk_02 = ticks_left;
+        if ((ticks_left << 0x10) > 0) {
+            return;
         }
-        return;
+        ((S_80020510_0 *)entry)->unk_1C =
+            (u16) (((S_80020510_0 *)entry)->unk_1C & 0xFFFD);
+        ((S_80020510_0 *)entry)->unk_00.u =
+            (u16) (((S_80020510_0 *)entry)->unk_00.u + 1);
+        break;
+    case 1:
+        func_800537D0(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
+                      ((S_80020510_0 *)entry)->unk_04);
+        if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
+            (*(u16 *)((u8 *)entry + -2)) =
+                (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    ticks_left = ((S_80020510_0 *)entry)->unk_02 - 1;
-    ((S_80020510_0 *)entry)->unk_02 = ticks_left;
-    if ((ticks_left << 0x10) > 0) {
-        return;
-    }
-    ((S_80020510_0 *)entry)->unk_1C =
-        (u16) (((S_80020510_0 *)entry)->unk_1C & 0xFFFD);
-    ((S_80020510_0 *)entry)->unk_00.u =
-        (u16) (((S_80020510_0 *)entry)->unk_00.u + 1);
-    return;
-
-state_one:
-    func_800537D0(value_sum, strlen(((S_80020510_0 *)entry)->unk_04),
-                  ((S_80020510_0 *)entry)->unk_04);
-    if (((S_80020510_1 *)linked_object)->unk_2A & 1) {
-        (*(u16 *)((u8 *)entry + -2)) =
-            (u16) (((S_80020510_0_pre *)entry)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-    }
-
-    return;
 }
