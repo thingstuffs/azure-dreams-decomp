@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-30T10:01:05Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-30T10:09:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,7 +73,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,364 | 11.9% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 532 | 594,676 | 23.2% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 531 | 594,384 | 23.2% |
 | goto | 1545 | 1,318,412 | 51.5% | 710 | 758,852 | 29.7% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 91 | 149,996 | 5.9% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 254 | 215,620 | 8.4% |
@@ -84,9 +84,9 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 256 | 188,584 | 7.4% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3043 | 1,570,612 | 61.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5128 | 1,386,832 | 54.2% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5129 | 1,387,124 | 54.2% |
 
-Pin sites now: 1,721 in 531 rows; REG 879, KEEP 323, KEEP_NV 234, SCHED_BARRIER 95, USE_NV 33, USE 29, KEEP_DEP_NV 27, CLOBBER 20.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,717 in 530 rows; REG 877, KEEP 321, KEEP_NV 234, SCHED_BARRIER 95, USE_NV 33, USE 29, KEEP_DEP_NV 27, CLOBBER 20.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 107 (a second typed name for one symbol: a missing type); file-scope asm directives 418.
 

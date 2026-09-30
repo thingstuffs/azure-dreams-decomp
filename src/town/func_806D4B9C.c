@@ -9,7 +9,7 @@ extern s32 func_8001868C(s32);
 extern s32 func_80018868(s32, s32);
 extern void func_800188E8(s32, s32, s32);
 
-extern u8 D_80018A0C;
+extern u8 D_80018A0C[16];
 extern u8 D_80018B94[16];
 extern u8 D_8001B333[];
 extern u8 D_8001B3D2[];
@@ -17,10 +17,7 @@ extern u8 D_8001B3D2[];
 /* Selects a response and advances the four-state counter for event 11. */
 s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
 {
-    s32 saved_context = context;
-    register void *data_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 table_page;
+    u8 *event_table;
     s32 result;
     s32 state_index;
 
@@ -33,13 +30,8 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
         return result;
     }
 
-    table_page = 0x80020000;
-    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    data_base = (void *) (data_page - 0x75F4);
-    result = func_80017960(data_base, (void *) (table_page - 0x746C),
-                           saved_context, event_id);
+    event_table = D_80018A0C;
+    result = func_80017960(event_table, D_80018B94, context, event_id);
     state_index = func_80018868(0x990, 2);
 
     if (event_id != 0xB) {
@@ -47,7 +39,7 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
     }
 
     func_80018594(0x998);
-    if (func_80017904(data_base, saved_context, 0xB) == 0) {
+    if (func_80017904(event_table, context, 0xB) == 0) {
         if (func_8001868C(0x997) == 0) {
             state_index++;
             if (state_index == 4) {
@@ -57,9 +49,8 @@ s32 func_80016B9C(s32 context, s32 unused, s32 event_id)
         }
     }
 
-    if (func_800178A8(&D_80018A0C, saved_context, event_id) == 0) {
+    if (func_800178A8(D_80018A0C, context, event_id) == 0) {
         return result;
     }
     return (s32) D_8001B333;
 }
-
