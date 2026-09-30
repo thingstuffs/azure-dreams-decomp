@@ -37,7 +37,7 @@ s16 func_8009FB34();
 s16 func_800BCB04();
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
-s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 height_offset) {
+s32 func_800CA1E0(u32 action_flags, S_800CA1E0_0 *position, void *volatile object, u32 height_offset) {
     u16 tile_flags;
     u16 saved_height_offset;
     s32 lookup_arg;
@@ -63,14 +63,11 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     u32 scaled_y;
     register u32 scaled_x ASM_REG("$3");
     s32 call_height_offset;
-    register S_800CA1E0_0 *coords ASM_REG("$18");
     register u8 *bounds ASM_REG("$6");
+    u16 bounded_x;
     s32 clearance;
     void *position_copy;
 
-    position_copy = position;
-    coords = position_copy;
-    ASM_KEEP_NV(coords);
     entry_height_offset = height_offset;
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
@@ -79,14 +76,16 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     direction_offset = direction;
     direction_offset <<= 1;
     step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page_2);
-    coord_value = coords->unk_24.s;
+    coord_value = position->unk_24.s;
     bounds_page = (u32)(*step_x);
     saved_height_offset = entry_height_offset;
     lookup_arg = direction;
     target_x = coord_value + (s32)bounds_page;
     bounds_page = 0x80080000;
     ASM_KEEP_DEP_NV(bounds_page, target_x);
-    coord_value = target_x & 0xFFFF;
+    target_x &= 0xFFFF;
+    bounded_x = target_x;
+    coord_value = bounded_x;
     bounds = (u8 *)(bounds_page + 0x333C);
     if (coord_value != 0) {
         ASM_KEEP_NV(bounds);
@@ -96,7 +95,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
         }
         bounds_page = (u32)((s32)(dirStepY));
         step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
-        coord_value = coords->unk_25.s;
+        coord_value = position->unk_25.s;
         bounds_page = (u32)(*step_y);
         target_coord = coord_value + (s32)bounds_page;
         coord_value = target_coord & 0xFFFF;
@@ -110,8 +109,8 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     early_result = -1;
     return early_result;
 check_step:
-    scaled_x = coords->unk_24.u;
-    scaled_y = coords->unk_25.u;
+    scaled_x = position->unk_24.u;
+    scaled_y = position->unk_25.u;
     call_height_offset = (s32)(object);
     scaled_x <<= 6;
     query_arg = scaled_x >> 6;
@@ -136,9 +135,9 @@ check_step:
     offset_y = D_800DCEBC;
     offset_y = (u16 *)((u32)direction_offset + (u32)offset_y);
     ASM_KEEP_NV(offset_y);
-    lookup_arg = coords->unk_24.s;
+    lookup_arg = position->unk_24.s;
     ASM_KEEP_NV(lookup_arg);
-    query_arg = coords->unk_25.s;
+    query_arg = position->unk_25.s;
     ASM_KEEP_NV(query_arg);
     coord_value = *offset_x;
     bounds_page = (u32)(*offset_y);
@@ -152,8 +151,8 @@ blocked:
     early_result = 0;
     return early_result;
 check_entity:
-    if (coords->unk_26 < 0) {
-        lookup_arg = func_8009FB34((coords->unk_24.s + *step_x) & 0xFFFF, (coords->unk_25.s + *step_y) & 0xFFFF);
+    if (position->unk_26 < 0) {
+        lookup_arg = func_8009FB34((position->unk_24.s + *step_x) & 0xFFFF, (position->unk_25.s + *step_y) & 0xFFFF);
         if (lookup_arg >= 0) {
             entity_addr = lookup_arg << 2;
             bounds_page = (u32)((s32)((u16 *)D_800E2970));
