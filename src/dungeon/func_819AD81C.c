@@ -159,8 +159,7 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
     s16 fade_left_out;
     s16 hits_left;
     s32 tile_y;
-    s32 vel_x;
-    register s32 sub_dest ASM_REG("$3");   /* retained from the base: preserves the two subtraction destinations */
+    s32 component;
     s32 dz;
     s8 level;
     s8 want_kind;
@@ -213,11 +212,10 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
         ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (func_800644B8(((S_819AD81C_0 *)entity)->unk_34) << 8);
         level = ((S_819AD81C_1 *)gfx)->unk_04;
         if (level < 3) {
-            vel_x = ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
-            ((S_819AD81C_2 *)motion)->unk_0C.at00.v = (s32) (vel_x - (vel_x >> (level + 1)));
-            sub_dest = ((S_819AD81C_2 *)motion)->unk_10.at00.v;
-            ((S_819AD81C_2 *)motion)->unk_10.at00.v = (s32) (sub_dest - (sub_dest >> (((S_819AD81C_1 *)gfx)->unk_04
-                + 1)));
+            component = ((S_819AD81C_2 *)motion)->unk_0C.at00.v;
+            component -= component >> (level + 1);
+            ((S_819AD81C_2 *)motion)->unk_0C.at00.v = component;
+            ((S_819AD81C_2 *)motion)->unk_10.at00.v -= ((S_819AD81C_2 *)motion)->unk_10.at00.v >> (((S_819AD81C_1 *)gfx)->unk_04 + 1);
         }
         ((S_819AD81C_2 *)motion)->unk_08.at00.v = (s32) (((S_819AD81C_2 *)motion)->unk_08.at00.v
             - ((S_819AD81C_2 *)motion)->unk_14);
@@ -256,8 +254,8 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
                         if (((S_819AD81C_4 *)info)->unk_24 == ((S_819AD81C_0 *)entity)->unk_3C.at00.v) {
                             if (((S_819AD81C_4 *)info)->unk_25 == ((S_819AD81C_0 *)entity)->unk_3C.at02.v) {
                                 dz = ((S_819AD81C_3 *)node)->unk_88;
-                                sub_dest = ((S_819AD81C_2 *)motion)->unk_08.at02.v;
-                                dz -= sub_dest;
+                                component = ((S_819AD81C_2 *)motion)->unk_08.at02.v;
+                                dz -= component;
                                 if (dz < 0) {
                                     dz = 0 - dz;
                                 }

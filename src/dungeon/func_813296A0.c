@@ -50,7 +50,7 @@ extern void func_800419EC(s32, s32);
 extern void func_80170DCC(void *, Vec3 *, Sub *);
 extern void func_800A56E0(s32);
 extern void func_80047784(Sub *, u8, s32);
-extern void func_80170CE0(s32);
+extern void func_80170CE0(void);
 extern void func_800478B8(Sub *);
 
 /* Delays an effect, then moves and fades its sprite before finishing. */
@@ -63,7 +63,7 @@ void func_80170EA0(void) {
     s32 intensity;
     u16 elapsed;
     s32 state;
-    register s32 duration ASM_REG("$4");
+    s32 duration;
 
     node = D_80174CDC;
     effect = (Extra *)((u8 *)node + 0x20);
@@ -105,7 +105,7 @@ void func_80170EA0(void) {
         sprite->field_0D = (s8)intensity;
         sprite->field_0C = (s8)intensity;
         if ((s16)effect->field_96 <= 0) {
-            func_80170CE0(duration);
+            func_80170CE0();
         }
     }
 
