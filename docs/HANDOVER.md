@@ -19,7 +19,12 @@ by `fp.cls`/`fp.shape`: 09-30 near band (d0<=6) 586 sites / 291 rows = MOVED 236
 pass on one row, derive the rule, apply to six, list the rest): r80_opus_cl_li / cl_lui / cl_move running; their
 cluster_rest.txt holds the remaining members for apply lanes. Sol 6.1 stays on the one-pin pool (218 rows).
 
-**State:** 1,993 pins in 617 rows (2,493 / 696 at this session's pickup). Goto count (incl. `&&label`) ~3,950.
+**State (09-30 03:30):** 1,902 pins in 580 rows (2,068 when this session's evening block began, 2,493 at pickup).
+Tonight's generators: t126_ppcollapse (dead #if splits, 41 rows), t127_gotonext (16), t128_nonvoid (dbr rule, 2+2 pins),
+t129_defarity (calls trimmed to the callee's DEFINED arity - 280 rows of m2c fake arguments gone, byte-exact). Goto
+lanes: the unserved dense pool is nearly exhausted (gd35 picked only 2 rows); the kept gotos are measured loop.c /
+reorg decisions. Sol 6.1 paused at 34/89 one-pin rows (last two lanes 3/16). Cluster lanes pay 1-4 pins each but leave
+RULES (learnings file end); open classes logged in the scratchpad handover_todo list and below.
 **Sol 6.1 (gpt-6.1-sol, `launch_lane.sh <lane> sol61`, codex CLI >= 0.159):** ~60% on 1-pin rows (15/25), 0 on 2-pin and
 big rows; tidy its texts (identical-arm NON_MATCHING splits, orphaned pin comments) before landing.
 **Sonnet scaffolding lanes (vol1-4)** clear volatile/one-trip blocks on pin-free rows (vol2 7/10); patterns in
