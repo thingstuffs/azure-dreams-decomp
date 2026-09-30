@@ -85,7 +85,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
     u8 world_y_byte;
     u8 sprite_x_byte;
     u8 sprite_y_byte;
-    s32 world_corner_x;
+    s16 world_corner_x;
     s32 world_corner_y;
     s32 sprite_corner_x;
     s32 sprite_corner_y;
@@ -119,7 +119,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
     u16 world_z;
     u16 world_y;
     u16 entry_height;
-    u32 shadow_depth;
     u32 quad_depth;
     u32 sprite_depth;
     u32 sort_depth;
@@ -219,7 +218,6 @@ next_world_part:
                         world_bottom_left = scratch + 0x80;
                         world_bottom_right = scratch + 0x88;
                         world_x_byte = *((u8 *) (((s8 *) world_part) + (-2)));
-                        ASM_USE_NV(world_x_byte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         world_corner_x = (s8) world_x_byte;
                         quad = *((u8 **) (scratch + 0x018));
                         *((u16 *) (scratch + 0x080)) = world_corner_x;
@@ -450,10 +448,9 @@ next_sprite_part:
                             shadow_scale[2] = depth_or_height;
                             *((u16 *) (scratch + 0x004)) = func_800BCB04(world_pos_x, world_pos_y,
                                 (s16) depth_or_height);
-                            shadow_depth = func_80065420(scratch, scratch + 0xB8, depth_cue, transform_flags);
-                            *((s32 *) (scratch + 0x0c0)) = shadow_depth;
-                            ASM_KEEP_MEMDEP_NV(shadow_depth, depth_dependency, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                            depth_or_height = shadow_depth * 4;
+                            depth_or_height = func_80065420(scratch, scratch + 0xB8, depth_cue, transform_flags);
+                            *((s32 *) (scratch + 0x0c0)) = depth_or_height;
+                            depth_or_height = (u32)depth_or_height * 4;
                             camera_state = (u8 *)&D_8006CD10 + (32);
                             ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                             *((s32 *) (((s8 *) camera_state) + 0x1C)) = depth_or_height;
