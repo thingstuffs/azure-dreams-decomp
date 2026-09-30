@@ -120,7 +120,7 @@ s32 func_80F90E88(void *object) {
     LocalFrame frame;
     register s32 max_xy ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 min_xy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 address_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 address_mask;
     s32 tag_mask;
     s32 *quad;
     s32 *draw_mode;
@@ -176,9 +176,11 @@ s32 func_80F90E88(void *object) {
 #define scratch_ptr frame.record.p54
 #define points frame.record.p58
 
-    base = &point_storage;
+    address_mask = (s32)&point_storage;
+    base = (s8 *)address_mask;
     points = base;
-    base = (s8 *) &projection_scratch;
+    address_mask = (s32)&projection_scratch;
+    base = (s8 *)address_mask;
     address_mask = 0x00FFFFFF;
     scratch_ptr = (s32 *) base;
 draw_object:
