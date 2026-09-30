@@ -262,18 +262,16 @@ next_entry:
                 {
                     register s32 uv_end ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     s32 uv_start;
-                    s32 v_start;
 
                     uv_end = SP_S32(0x10);
                     uv_start = SP_S32(0x08);
-                    v_start = SP_S32(0x0C);
+                    visible_2 = SP_S32(0x0C);
                     uv_end += uv_start;
-                    uv_start = v_start;
-                    ASM_KEEP_NV(uv_start);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     SP_S32(0x10) = uv_end;
+                    uv_start = SP_S32(0x0C);
                     uv_end = SP_S32(0x14);
                     SP_S32(0x0C) = uv_start << 8;
-                    uv_end = uv_end + v_start;
+                    uv_end = uv_end + visible_2;
                     SP_S32_VOL(0x14) = uv_end;
                     SP_S32(0x14) = uv_end << 8;
                 }
