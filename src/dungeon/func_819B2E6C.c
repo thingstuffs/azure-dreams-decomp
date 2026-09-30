@@ -218,6 +218,7 @@ void func_8002466C(void *effect)
                 ((S_8002466C_6 *)particle)->unk_10 = particle_data;
                 func_8004491C(particle, func_80045340);
                 sprite = ((S_8002466C_6 *)particle)->unk_0C;
+                particle_state = (u8 *)particle + 0x20;
                 ((S_8002466C_10 *)(((S_8002466C_6 *)particle)->unk_08))->unk_00 =
                     ((S_8002466C_0 *)effect)->unk_1C.at00.v +
                     (((rand() & 0x3FF) - 0x1FF) << 12);
@@ -238,8 +239,6 @@ void func_8002466C(void *effect)
                 ((S_8002466C_7 *)sprite)->unk_0C = 0x808080;
                 ((S_8002466C_7 *)sprite)->unk_08 = display_link;
                 ((S_8002466C_6 *)particle)->unk_20 = ((S_8002466C_0 *)effect)->unk_00;
-                particle_state = (u8 *)particle + 0x20;
-                ASM_KEEP(particle_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 ((S_8002466C_9 *)particle_state)->unk_4C = 0;
             }
             particle_index -= 1;
@@ -252,10 +251,8 @@ void func_8002466C(void *effect)
    /10 divide is written inline off the s16 field so gcc emits lh + sll 11, not
    lhu + sll 16 / sra 5 (an s16 temp costs an extra word); (3) the sprite-tail
    order puts the two sb 0 stores after the display link load; (4) particle+0x20:
-   gcc always folds (particle+0x20)+0x4c into one 0x6c displacement, so the
-   materialisation is forced with ASM_KEEP(particle_state) and the preceding
-   ASM_SCHED_BARRIER keeps the addiu below the sw, leaving retail's load-delay
-   nop (both devices measured: dropping the barrier costs a word, 4 -> 11).
+   particle_state is taken right after the sprite load, ahead of the sprite
+   stores, so its addiu survives unfolded and lands after the unk_20 store.
    RESIDUE: 276/280 words byte-identical; the only 4 diffs are this function's
    OWN local j words, all solving true link base 0x8002466C vs the synthetic
    0x819B2E6C - a rowbase base shift, not a C or compiler gap. */
