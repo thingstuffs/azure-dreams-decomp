@@ -11,7 +11,7 @@ Gap analysis (work/native_lane/r81_opus_gaps/REPORT.md, ranked levers) -> two Fa
   crutch proven STRICTLY (a pin-free neighbour exact at the census recipe breaks under the row's cfg).
 **Flag-crutch lanes (Opus, brief work/native_lane/r81_q_fc.md, target = module census recipe, stage-cell):** fc1-fc8
 solved ~30 of 47 rows to 0 pins (~60 pins); cell lanes lc1-lc4 ~20 pins; 19 byte-neutral recipe switches (1633422f0).
-1,888 -> ~1,760 pins with the other session's work. Rules: tools/learnings/pin_removal_possibilities.md "Round 81".
+1,888 -> 1,744 pins (09:00, with the other session's work; every c8 lane landed through fc8 91a0b71b8). Rules: tools/learnings/pin_removal_possibilities.md "Round 81".
 **Remaining:** proven-crutch rows not yet worked at the census recipe are few and far (list: flag_crutch census minus
 reserved_c8.txt); big crutch rows (819B3414 33, 807B0B3C 23, 800C4A80 17, 800BC8AC 12) should get astra/Opus at the
 census recipe - earlier lanes worked them at the crutch cfg. Class-P rows not crutch-flagged: cellcmp census (carriers).
