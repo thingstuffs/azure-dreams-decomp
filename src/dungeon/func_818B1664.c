@@ -535,8 +535,6 @@ case_9:
         goto end;
     }
     next_state = 7;
-    goto reset_state;
-
 reset_state:
     state_arg->state = next_state;
     state_arg->timer = 0;

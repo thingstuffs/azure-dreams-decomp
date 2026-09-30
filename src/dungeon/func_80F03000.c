@@ -227,8 +227,6 @@ switch_default:
     travel_frames = 16;
 switch_store:
     ((S_80F03000_0 *)actor)->unk_36.u = travel_frames;
-    goto countdown;
-
 countdown:
     timer = ((S_80F03000_0 *)actor)->unk_36.s - 1;
     ((S_80F03000_0 *)actor)->unk_36.s = timer;

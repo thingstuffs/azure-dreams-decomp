@@ -336,8 +336,6 @@ sw_4:
         ((S_80022768_0 *)state)->unk_60.u = 10;
         ((S_80022768_0 *)state)->unk_5E.u++;
     }
-    goto sw_6;
-
 sw_6:
     {
         index = 2;

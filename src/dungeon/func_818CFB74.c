@@ -351,8 +351,6 @@ wait_finish:
     }
 
 inactive:
-    goto done;
-
 done:
     (void)state_labels;
 }

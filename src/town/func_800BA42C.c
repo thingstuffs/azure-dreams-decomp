@@ -138,9 +138,6 @@ Lsecond_12:
         rect[3] = tile_height;
         func_800672D8(rect, D_80111CC8);
     }
-    goto Lafter_second;
-
-
 Lafter_second:
     phase = *(s16 *)anim_tick % 8;
     if (phase == 2) {

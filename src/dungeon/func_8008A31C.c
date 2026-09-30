@@ -313,8 +313,6 @@ state_3:
     }
     direction = ((gameWork.view.viewAngle + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
     func_80048A44(animation, (*(u8 * *)((u8 *)animation + (0x2C)))[direction], 0, 1);
-    goto increment_state;
-
 increment_state:
     actor[0x9B]++;
 }

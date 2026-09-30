@@ -58,8 +58,6 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
         if (func_8001A64C(0x93B) == 0) {
             goto L7;
         }
-        goto L6;
-
 L6:
         func_8001A554(0x948);
         return D_8001D000;

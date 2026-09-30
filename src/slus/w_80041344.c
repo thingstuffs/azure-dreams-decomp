@@ -125,8 +125,6 @@ LI:
         for (item_index = entry->u.t.x; item_index > 0; item_index--) {
             *(s32 *)(reloc_addr + 4) = data_base + *(s32 *)(reloc_addr + 4);
         }
-        goto next;
-
 next:
         entry_size = entry->size;
         entry = (S_80041344 *)((u8 *)entry + entry_size);

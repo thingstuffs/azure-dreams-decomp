@@ -168,8 +168,6 @@ jt_c4:
         (*(u16 *)((u8 *)object_bytes + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
-    goto dispatch_done;
-
 dispatch_done:
 
     rect[0] = 0x340;

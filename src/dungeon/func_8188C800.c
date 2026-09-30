@@ -605,8 +605,6 @@ case_5_tail_effect:
             ((S_FUNC_8188C800_BODY_0_pre *)self)[-1].unk_00 |= 0x8000;
             tail_page1 = (u8 *)0x80080000;
             ((S_FUNC_8188C800_BODY_20 *)tail_page1)->unk_14A0 |= 0x8000;
-            goto done;
-
 done:
             {
                 u16 frame = ((S_FUNC_8188C800_BODY_0 *)self)->unk_18.u;

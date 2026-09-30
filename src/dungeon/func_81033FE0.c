@@ -385,8 +385,6 @@ check_effect_trigger:
         if (((S_801757E0_0 *)actor)->unk_AC.s != 0x4D) {
             return;
         }
-        goto bump_state;
-
 bump_state:
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
 bump_state_loaded:

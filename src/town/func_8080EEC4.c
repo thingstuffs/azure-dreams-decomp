@@ -304,8 +304,6 @@ case_5:
     if ((s16)case5_old >= 0xC6) {
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
     }
-    goto switch_done;
-
 switch_done:
 
     ((S_8080EEC4_0 *)view)->unk_1A &= 0xFFF;
