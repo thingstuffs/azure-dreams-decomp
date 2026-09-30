@@ -76,6 +76,7 @@ pins erased, or a path to your candidate). Read `<KIT>/README.md` once - it is o
 | loop-pass decisions | `<REPO>/tools/lanes/loop_census.py` | `dump_loop`, `split_functions`, `compare` |
 | joint erasure subsets | `<REPO>/tools/lanes/joint_scan.py` | `subsets_of(...)` — the lane-safe wrapper is `erase.py`; do not run the repo-scale scan |
 | gcc sources for every cell | `<REPO>/toolchain/gcc-src/<version>/` | one version directory at a time, `rg --max-filesize 4M` |
+| gcc 2.7.2-cdk source (the GENUINE tree: version_string cygnus-2.7.2-970404 SN32.3.7.0004 = the cdk cc1; do not reason from stock 2.7.2/2.8.0 for cdk rows) | `<REPO>/toolchain/gcc-src/2.7.2-cdk/` (copied from the sibling repo's toolchain/compiler-src/gcc-2.7.2-cdk-SN32.3.7.0004/) | loop.c, sched.c, local-alloc.c, global.c, reload1.c, config/mips/; CYGNUS LOCAL blocks mark what differs from FSF; docs/evidence/fidelity_lostcc_B_trunk_bisect.md: April-1997 FSF trunk + -fno-exceptions is body-identical on 593/593 rows |
 
 `0 of 9` duck lanes ever ran `sched_trace.py` or `reg_state.py`, while 14 of ~24 of their row
 paragraphs ended by asking for exactly what those two print. `why.py` is the front door to both.

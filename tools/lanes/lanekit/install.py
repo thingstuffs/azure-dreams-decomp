@@ -91,6 +91,7 @@ erased, or a path to your candidate).
 | loop-pass decisions | `{root}/tools/lanes/loop_census.py` | `dump_loop`, `split_functions`, `compare` |
 | joint erasure subsets | `{root}/tools/lanes/joint_scan.py` | `subsets_of(sites, pair_pins, exhaustive_pins)` (the scan itself is repo-scale: use `erase.py`) |
 | gcc sources for every cell | `{root}/toolchain/gcc-src/<version>/` | search ONE version directory, `--max-filesize 4M` |
+| gcc 2.7.2-cdk source (the GENUINE tree: version_string cygnus-2.7.2-970404 SN32.3.7.0004 = the cdk cc1; do not reason from stock 2.7.2/2.8.0 for cdk rows) | `{root}/toolchain/gcc-src/2.7.2-cdk/` (copied from the sibling repo's toolchain/compiler-src/gcc-2.7.2-cdk-SN32.3.7.0004/) | loop.c, sched.c, local-alloc.c, global.c, reload1.c, config/mips/; CYGNUS LOCAL blocks mark what differs from FSF; docs/evidence/fidelity_lostcc_B_trunk_bisect.md: April-1997 FSF trunk + -fno-exceptions is body-identical on 593/593 rows |
 
 ## Shared learning note
 
