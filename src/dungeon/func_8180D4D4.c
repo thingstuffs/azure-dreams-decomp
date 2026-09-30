@@ -54,20 +54,19 @@ typedef struct S_800264D4_4 {
     s32 unk_18;
     s32 unk_1C;
     s32 unk_20;
-    u8 pad_24[0x42];
+    struct {
+        u16 x;
+        u16 y;
+        u16 z;
+        u16 pad;
+    } history[8];
+    u8 pad_64[0x2];
     s16 unk_66;
     u8 pad_68[0x6];
     s16 unk_6E;
     u8 pad_70[0x2];
     s16 unk_72;
 } S_800264D4_4;   /* temp_a0_2 in func_800264D4 */
-
-typedef struct S_800264D4_5 {
-    u8 pad_00[0x24];
-    u16 unk_24;
-    u16 unk_26;
-    u16 unk_28;
-} S_800264D4_5;   /* var_v1 in func_800264D4 */
 
 
 typedef struct {
@@ -100,13 +99,13 @@ void *func_800264D4(S_800264D4_1 *source_pos, s32 effect_value, s16 sprite_id, s
     u16 pos_x;
     u16 pos_y;
     u16 pos_z;
-    register u16 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 sprite_flags;
+    s32 new_flags;
     S_800264D4_3 *sprite;
     S_800264D4_4 *effect_state;
     S_800264D4_2 *position;
     void *object;
     void *previous_object;
-    void *history_entry;
     u8 *page_base;
 
     previous_object = NULL;
@@ -134,7 +133,9 @@ create_object:
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         sprite->unk_10 = 0x60;
-        sprite->unk_14 = (u16) (sprite_flags | 0xC);
+        new_flags = sprite_flags;
+        new_flags |= 0xC;
+        sprite->unk_14 = new_flags;
         effect_state = object + 0x20;
         effect_state->unk_04 = effect_value;
         ((S_800264D4_0 *)object)->unk_20 = source_pos;
@@ -144,20 +145,16 @@ create_object:
         effect_state->unk_18 = fixed_x;
         effect_state->unk_0C = fixed_x;
         fixed_y = position->unk_04.at00.v;
-        history_index = 0;
         effect_state->unk_1C = fixed_y;
         effect_state->unk_10 = fixed_y;
-        history_entry = effect_state;
         fixed_z = position->unk_08.at00.v;
         effect_state->unk_20 = fixed_z;
         effect_state->unk_14 = fixed_z;
-        do {
-            ((S_800264D4_5 *)history_entry)->unk_24 = (u16) position->unk_00.at02.v;
-            ((S_800264D4_5 *)history_entry)->unk_26 = (u16) position->unk_04.at02.v;
-            history_index += 1;
-            ((S_800264D4_5 *)history_entry)->unk_28 = (u16) position->unk_08.at02.v;
-            history_entry += 8;
-        } while (history_index < 8);
+        for (history_index = 0; history_index < 8; history_index++) {
+            effect_state->history[history_index].x = position->unk_00.at02.v;
+            effect_state->history[history_index].y = position->unk_04.at02.v;
+            effect_state->history[history_index].z = position->unk_08.at02.v;
+        }
         effect_state->unk_08 = previous_object;
         previous_object = object;
         object_index += 1;

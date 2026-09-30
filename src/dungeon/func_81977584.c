@@ -34,7 +34,6 @@ extern s32 func_80064584(s32);
 /* Builds scaled vertices and submits a shaded strip using scratchpad storage. */
 s32 func_81977584(Record *record) {
     register s32 shade_step = 0;
-    register s16 *sample;
     s32 *vertices;
     s32 upper_color;
     register s32 lower_color;
@@ -121,18 +120,19 @@ shade:
             trig_value = func_80064584(lower_color);
         }
         {
-            s32 color_pair;
             s32 intensity;
-            register s32 color_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 color_work;
             s32 shade_work;
             s32 end_color;
 
-            shade_work = (shade_step * 3) << 3;
+            shade_work = shade_step * 24;
             intensity = ((shade_work - shade_step) >> 16) & 0xff;
-            color_work = intensity * 0x10100;
+            color_work = intensity << 8;
+            color_work += intensity;
+            color_work <<= 8;
             lower_color = color_work + intensity;
 
-            trig_value >>= 4;
+            fixed_coord = trig_value >> 4;
 
             intensity = shade_step << 3;
             intensity -= shade_step;
@@ -140,36 +140,29 @@ shade:
             intensity += shade_step;
             color_work = record->scale0;
             intensity >>= 16;
-            scaled_coord = trig_value * color_work;
-            ASM_KEEP(intensity);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+            scaled_coord = fixed_coord * color_work;
             intensity &= 0xff;
 
             shade_work >>= 16;
             shade_work &= 0xff;
-            trig_value = (intensity << 8) + intensity;
-            color_pair = trig_value;
-            prev_upper_color = (color_pair << 8) + intensity;
-
-            color_work = shade_work * 0x10101;
+            prev_upper_color = intensity * 0x10101;
 
             fixed_coord = scaled_coord << 8;
             vertices[21] = fixed_coord;
 
             vertices[14] = record->f70 << 16;
-            shade_work = lower_color;
             vertices[18] = record->f71 << 16;
             end_color = prev_upper_color;
             vertices[22] = record->f65 << 16;
-            func_80024770(color_work, shade_work, end_color);
+            func_80024770(shade_work * 0x10101, lower_color, end_color);
             upper_color = end_color;
         }
     }
 
-    sample = (s16 *)record;
     vertices[24] = vertices[20];
     vertices[25] = vertices[21];
     vertices[26] = vertices[22];
-    do {
+    for (; segment < 23; segment++) {
         s32 scaled_coord;
         s32 prev_lower_color;
         s32 saved_upper_color;
@@ -178,34 +171,33 @@ shade:
         s32 prev_z;
 
         vertices[12] = vertices[16];
-        scaled_coord = (func_800644B8(sample[42] + record->add) >> 4) * sample[12];
+        scaled_coord = (func_800644B8(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
         vertices[20] = vertices[24];
         vertices[16] = scaled_coord << 8;
-        scaled_coord = (func_800644B8(sample[36] + record->add) >> 4) * sample[6];
+        scaled_coord = (func_800644B8(((s16 *)record)[segment + 36] + record->add) >> 4) * ((s16 *)record)[segment + 6];
         vertices[13] = vertices[17];
         vertices[24] = scaled_coord << 8;
-        scaled_coord = (func_80064584(sample[42] + record->add) >> 4) * sample[12];
+        scaled_coord = (func_80064584(((s16 *)record)[segment + 42] + record->add) >> 4) * ((s16 *)record)[segment + 12];
         vertices[21] = vertices[25];
         vertices[17] = scaled_coord << 8;
-        last_trig_value = func_80064584(sample[36] + record->add);
+        last_trig_value = func_80064584(((s16 *)record)[segment + 36] + record->add);
 
         lower_shade = (22 - segment) * shade_step;
         upper_shade = (28 - segment) * shade_step;
         prev_upper_color = upper_color;
         prev_lower_color = lower_color;
         saved_upper_color = prev_upper_color;
-        last_scaled_coord = (last_trig_value >> 4) * sample[6];
+        last_scaled_coord = (last_trig_value >> 4) * ((s16 *)record)[segment + 6];
         vertices[14] = vertices[18];
         lower_color = (((lower_shade >> 16) & 0xff) * 0x10101);
         upper_color = (((upper_shade >> 16) & 0xff) * 0x10101);
         prev_z = vertices[26];
         vertices[25] = last_scaled_coord << 8;
-        vertices[18] = sample[72] << 16;
+        vertices[18] = ((s16 *)record)[segment + 72] << 16;
         vertices[22] = prev_z;
-        vertices[26] = sample[66] << 16;
+        vertices[26] = ((s16 *)record)[segment + 66] << 16;
         func_80024A30(prev_lower_color, lower_color, saved_upper_color, upper_color);
-        sample++;
-    } while (++segment < 23);
+    }
 
     vertices[12] = vertices[16];
     vertices[16] = vertices[24];
