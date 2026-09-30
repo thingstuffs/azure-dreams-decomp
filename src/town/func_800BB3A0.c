@@ -39,7 +39,7 @@ void func_800B8B00(s32 code) {
     S_800B8B00_1 *free_slot;
     u8 *scan_base;
     u8 *free_base;
-    register u8 *store_base ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *store_base;
 
     stored_code = code;
     slot_ids = D_800894D0;
