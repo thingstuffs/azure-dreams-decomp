@@ -1,6 +1,6 @@
 # Handover (2026-09-30 evening, round 83 closed: strength-reduce class applied) - start here
 
-**1,483 pins / 487 rows** (1,541 at this session's pickup). Rows registered with -fno-strength-reduce: 71 -> 14.
+**1,483 pins / 487 rows** (1,565 at this session's 13:14 pickup; ~51 pins from the r83 lanes, the rest from the peer's astra/sol lanes a41-a46, s14). Rows registered with -fno-strength-reduce: 71 -> 14.
 Rules: tools/learnings/pin_removal_possibilities.md "Round 83" (both blocks). Lanes: r83_fable_nosr (mechanism),
 r83_opus_b1/b2 (819B3414 32->0, 818D4E68 1->0), r83_sonnet_n1-n6 (41 of 46 pin-free flag rows exact, ~110-250k tokens
 per 7-8 rows: Sonnet applies this rule cheaply), r83_opus_n1-n3 (12 of 14 pinned flag rows landed, 21 pins).
