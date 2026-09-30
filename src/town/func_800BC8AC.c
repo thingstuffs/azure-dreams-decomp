@@ -1,4 +1,5 @@
 #include "common.h"
+#include "shared/game_work.h"
 
 
 extern void *func_8003FD64(s32, void *);
@@ -7,16 +8,8 @@ extern s32 func_800644B8(s32);
 extern s32 rand(void);
 extern void func_8008F104(void *, void *, void *);
 
-typedef struct Palette {
-    u8 pad[0xA8];
-    u8 red;
-    u8 green;
-    u8 blue;
-} Palette;
-
 extern u8 D_80045C34[];
 extern u8 D_80046398[];
-extern Palette D_80083160[];
 extern u8 D_800B9CB8[];
 extern u8 D_800B9D64[];
 extern u8 D_800B9EDC[];
@@ -67,52 +60,34 @@ typedef struct S_800BA00C_3 {
     s32 unk_04;
 } S_800BA00C_3;   /* input in func_800BA00C */
 
-typedef struct S_800BA00C_4 {
-    u8 pad_00[0xA8];
-    u8 unk_A8;
-    u8 unk_A9;
-    u8 unk_AA;
-} S_800BA00C_4;   /* (u8 *)page in func_800BA00C */
-
 typedef struct S_800BA00C_5 {
     u8 pad_00[0x66];
     s16 unk_66;
 } S_800BA00C_5;   /* (*(void * *)((u8 *)entity + 0x9C)) in func_800BA00C */
 
 /* Initializes a randomly oriented effect and its child sprites at the supplied position. */
-void func_800BA00C(void *parent, void *position_data)
+void func_800BA00C(void *parent, S_800BA00C_3 *position)
 {
-    S_800BA00C_3 *position = position_data;
     void *part_callback;
-    Palette *palette;
+    GameWork *work;
     u8 *obj;
     u8 *entity;
+    void *sprite_callback;
     void *sprite_texture;
     s32 brightness;
     s32 initial_angle;
-    s32 part_number;
     s32 angle_sector;
     s32 sector_multiple;
     s32 parent_value;
-    u32 callback_page;
-    u32 palette_base_page;
-    u32 params_page;
-    u32 sprite_page;
-    u32 extra_page;
-    u32 palette_page;
     s32 scale;
     s32 angle_offset;
     s32 depth;
-    s32 y_offset;
     s32 palette_blue;
     s32 position_y;
     s32 sprite_angle;
     s32 offset_y;
     s32 palette_red;
     s32 palette_green;
-    void *init_data;
-    void *extra_callback;
-    register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 angle_random;
     s32 variation_random;
     s32 angle;
@@ -142,24 +117,16 @@ void func_800BA00C(void *parent, void *position_data)
     quadrant = angle_sector - sector_multiple;
 
     part_index = 0;
-    callback_page = 0x800C0000;
-    ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    part_callback = (void *)(callback_page - 0x629C);
-    palette_base_page = 0x80080000;
-    ASM_KEEP(palette_base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    palette = (Palette *)(palette_base_page + 0x3160);
-    params_page = 0x800D0000;
-    ASM_KEEP(params_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    part_params = (void **)(params_page + 0x1BCC);
+    part_callback = D_800B9D64;
+    work = &gameWork;
+    part_params = D_800D1BCC;
     do {
         obj = func_8003FD64(0x136, (u8 *)parent - 0x20);
         if (obj != 0) {
             ((S_800BA00C_1 *)obj)->unk_10 = part_callback;
             func_8004491C(obj, D_80046398);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            do {
-                entity = obj + 0x20;
-            } while (0);
+            entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s16 *)((u8 *)entity + 0x66)) = 0;
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
@@ -168,17 +135,16 @@ void func_800BA00C(void *parent, void *position_data)
             ((S_800BA00C_2 *)sprite)->unk_1C = 0x1000;
             ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
             ((S_800BA00C_2 *)sprite)->unk_20 = 0xAAA;
-            ((S_800BA00C_2 *)sprite)->unk_0C.u = palette->red;
-            ((S_800BA00C_2 *)sprite)->unk_0D.u = palette->green;
-            blue = palette->blue;
+            ((S_800BA00C_2 *)sprite)->unk_0C.u = work->view.unk_090;
+            ((S_800BA00C_2 *)sprite)->unk_0D.u = work->view.unk_091;
+            blue = work->view.unk_092;
             ((S_800BA00C_2 *)sprite)->unk_08.i = part_index + 0x1A;
             ((S_800BA00C_2 *)sprite)->unk_0E.u = blue;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
             ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
             ((S_800BA00C_1 *)obj)->unk_04 = position->unk_04;
-            part_number = (*(s8 *)((u8 *)entity + 0x97));
             angle = (s8)quadrant;
-            if (part_number == angle) {
+            if ((*(s8 *)((u8 *)entity + 0x97)) == angle) {
                 angle = ((S_800BA00C_5 *)((*(void * *)((u8 *)entity + 0x9C))))->unk_66;
                 ((S_800BA00C_1 *)obj)->unk_08.i = -((func_800644B8(((angle % 0x200) << 16) >> 15) >> 4) * 0x1E00);
                 (*(s16 *)((u8 *)entity + 0x66)) = 0x1E;
@@ -192,22 +158,16 @@ void func_800BA00C(void *parent, void *position_data)
     } while (part_index < 4);
 
     part_index = 0;
-    sprite_page = 0x800C0000;
-    ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    quadrant = sprite_page - 0x6124;
-    sprite_page = 0x80100000;
-    ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    sprite_texture = (void *)(sprite_page - 0x75E4);
+    sprite_callback = D_800B9EDC;
+    sprite_texture = D_800F8A1C;
     brightness = 0x80;
     do {
         obj = func_8003FD64(0x36, (u8 *)parent - 0x20);
         if (obj != 0) {
-            ((S_800BA00C_1 *)obj)->unk_10 = (void *)quadrant;
+            ((S_800BA00C_1 *)obj)->unk_10 = sprite_callback;
             func_8004491C(obj, D_80045C34);
             parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-            do {
-                entity = obj + 0x20;
-            } while (0);
+            entity = obj + 0x20;
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
             (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
@@ -226,12 +186,13 @@ void func_800BA00C(void *parent, void *position_data)
             sprite_angle += angle_offset;
             ((S_800BA00C_2 *)sprite)->unk_1A.s = sprite_angle;
             obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-            ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
+            depth = position->unk_00;
+            ((S_800BA00C_1 *)obj)->unk_00 = depth;
             offset_y = position->unk_04;
             depth = 0xFF2C0000;
             ((S_800BA00C_1 *)obj)->unk_08.i = depth;
-            y_offset = 0x200000;
-            offset_y += y_offset;
+            depth = 0x200000;
+            offset_y += depth;
             ((S_800BA00C_1 *)obj)->unk_04 = offset_y;
         }
         part_index++;
@@ -240,23 +201,14 @@ void func_800BA00C(void *parent, void *position_data)
     parent_obj = (u8 *)parent - 0x20;
     obj = func_8003FD64(0x36, parent_obj);
     if (obj != 0) {
-        call_obj = obj;
-        init_data = D_80045C34;
-        ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        extra_callback = D_800B9EDC;
-        ((S_800BA00C_1 *)obj)->unk_10 = extra_callback;
-        func_8004491C(call_obj, init_data);
+        ((S_800BA00C_1 *)obj)->unk_10 = D_800B9EDC;
+        func_8004491C(obj, D_80045C34);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        do {
-            entity = obj + 0x20;
-        } while (0);
+        entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
-        extra_page = 0x80100000;
-        ASM_KEEP_NV(extra_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-        extra_page -= 0x75D8;
-        ((S_800BA00C_2 *)sprite)->unk_08.p = (void *)extra_page;
+        ((S_800BA00C_2 *)sprite)->unk_08.p = D_800F8A28;
         ((S_800BA00C_2 *)sprite)->unk_0E.u = 0x80;
         ((S_800BA00C_2 *)sprite)->unk_0D.u = 0x80;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = 0x80;
@@ -268,27 +220,22 @@ void func_800BA00C(void *parent, void *position_data)
         ((S_800BA00C_2 *)sprite)->unk_1C = scale;
         ((S_800BA00C_2 *)sprite)->unk_1A.u = sprite_angle;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
-        ((S_800BA00C_1 *)obj)->unk_00 = position->unk_00;
+        depth = position->unk_00;
+        ((S_800BA00C_1 *)obj)->unk_00 = depth;
         offset_y = position->unk_04;
         depth = 0xFF2C0000;
         ((S_800BA00C_1 *)obj)->unk_08.i = depth;
-        y_offset = 0x200000;
-        offset_y += y_offset;
+        depth = 0x200000;
+        offset_y += depth;
         ((S_800BA00C_1 *)obj)->unk_04 = offset_y;
     }
 
     obj = func_8003FD64(0x136, parent_obj);
     if (obj != 0) {
-        call_obj = obj;
-        init_data = D_80046398;
-        ASM_KEEP_NV(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        extra_callback = D_800B9F74;
-        ((S_800BA00C_1 *)obj)->unk_10 = extra_callback;
-        func_8004491C(call_obj, init_data);
+        ((S_800BA00C_1 *)obj)->unk_10 = D_800B9F74;
+        func_8004491C(obj, D_80046398);
         parent_value = ((S_800BA00C_0 *)parent)->unk_98;
-        do {
-            entity = obj + 0x20;
-        } while (0);
+        entity = obj + 0x20;
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
@@ -296,14 +243,11 @@ void func_800BA00C(void *parent, void *position_data)
         ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_20 = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_1A.u = ((S_800BA00C_0 *)parent)->unk_66.u;
-        palette_page = 0x80080000;
-        ASM_KEEP(palette_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        palette_page += 0x3160;
-        palette_red = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_A8;
+        palette_red = gameWork.view.unk_090;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = palette_red;
-        palette_green = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_A9;
+        palette_green = gameWork.view.unk_091;
         ((S_800BA00C_2 *)sprite)->unk_0D.u = palette_green;
-        palette_blue = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_AA;
+        palette_blue = gameWork.view.unk_092;
         ((S_800BA00C_2 *)sprite)->unk_0E.u = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         ((S_800BA00C_2 *)sprite)->unk_08.i = 0x19;

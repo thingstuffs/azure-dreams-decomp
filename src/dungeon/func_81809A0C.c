@@ -201,7 +201,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     s16 turn_ticks;
     s16 enter_left;
     s16 turn_left;
-    s16 exit_left;
+    s32 exit_left;
     s32 state;
     s16 wrap_side;
     s32 x_in_bounds;
@@ -226,6 +226,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     S_8002520C_1 *motion;
     S_8002520C_14 *actor;
     void *side_object;
+    void *side_data;
     s32 side_count;
     void *side_cursor;
     GameWork *state_base;
@@ -281,14 +282,13 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
             case 2:
         }
         if (D_80027156[0] == 0) {
-            register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            S_8002520C_6 *cell;
             input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
                 s32 step_index;
                 s32 step_or_cell;
                 s32 side_index;
-                void *side_data;
                 u16 *x_step_ptr;
                 register u32 base_x ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u32 x_value;
@@ -512,16 +512,19 @@ check_side:
                     appearance->unk_1E = (u16) (scale_z + ((s32) (0x200
                         - scale_z) / (s16) ((S_8002520C_0 *)menu)->unk_22));
                     motion->unk_16 = (u16) (motion->unk_16 * 2);
+                    side_ptr = (s32 *)0x80080000;
+                    exit_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
+                    ((S_8002520C_0 *)menu)->unk_22 = exit_left;
+                } else {
+                    side_ptr = (s32 *)0x80080000;
+                    exit_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
+                    ((S_8002520C_0 *)menu)->unk_22 = exit_left;
                 }
-                exit_left = (u16) ((S_8002520C_0 *)menu)->unk_22 - 1;
-                ((S_8002520C_0 *)menu)->unk_22 = exit_left;
                 if ((exit_left << 0x10) <= 0) {
                     s32 object_or_flags;
                     s32 flags_or_page;
                     s32 object_or_state;
-                    s32 *flags_page;
 
-                    side_ptr = (s32 *) 0x80080000;
                     ((S_8002520C_0_pre *)menu)[-1].unk_00 = (u16) (((S_8002520C_0_pre *)menu)[-1].unk_00 | 0x8000);
                     flags_or_page = ((S_8002520C_17 *)side_ptr)->unk_14A0;
                     object_or_state = (s32) ((S_8002520C_0 *)menu)->unk_08;
@@ -532,19 +535,18 @@ check_side:
                             (u16) (((S_8002520C_18 *)((void *) object_or_state))->unk_1E | 0x8000);
                     }
                     side_count = 0;
-                    ASM_KEEP_NV(side_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    flags_page = side_ptr;
+                    side_data = side_ptr;
                     side_ptr = (s32 *) menu;
                     do {
                         object_or_flags = (s32) ((S_8002520C_17 *)side_ptr)->unk_0C;
                         if (object_or_flags != 0) {
                             s32 flags_or_page;
                             flags_or_page = ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E;
-                            object_or_state = ((S_8002520C_19 *)flags_page)->unk_14A0;
+                            object_or_state = ((S_8002520C_19 *)side_data)->unk_14A0;
                             flags_or_page |= 0x8000;
                             object_or_state |= 0x8000;
                             ((S_8002520C_8 *)((void *) object_or_flags))->unk_1E = (u16) flags_or_page;
-                            ((S_8002520C_19 *)flags_page)->unk_14A0 = object_or_state;
+                            ((S_8002520C_19 *)side_data)->unk_14A0 = object_or_state;
                         }
                         side_count += 1;
                         side_ptr += 1;

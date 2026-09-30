@@ -46,7 +46,7 @@ void func_801717A8(Entity *entity) {
     void *offset_arg;
     s32 transition_ticks;
     u16 previous_state;
-    register s32 coord_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 coord_sum;
     register s32 camera_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s16 *camera_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *focus_pos ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -109,6 +109,8 @@ void func_801717A8(Entity *entity) {
     case 4:
     {
         s16 *height_base;
+        s32 x_sum;
+        s32 y_sum;
         u8 *globals;
 
         entity->timer = 0;
@@ -126,13 +128,11 @@ void func_801717A8(Entity *entity) {
         camera_mode = 1;
         ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         camera_offset[2] = ((s16 *)coord_sum)[8] * 0x200;
-        coord_sum = actor->x;
-        coord_sum += D_80083780.x.w.i;
-        D_801760E8[0] = coord_sum / 2;
-        coord_sum = actor->y;
-        coord_sum += D_80083780.y.w.i;
+        x_sum = actor->x + D_80083780.x.w.i;
+        D_801760E8[0] = x_sum / 2;
+        y_sum = actor->y + D_80083780.y.w.i;
         focus_pos = D_801760E8;
-        coord_sum /= 2;
+        coord_sum = y_sum / 2;
 jt_case0_tail:
         *(s16 *)&focus_pos[1] = coord_sum;
         focus_pos[2] = actor->z;
@@ -148,6 +148,8 @@ jt_case0_tail:
     case 6:
     {
         s16 *height_base;
+        s32 x_sum;
+        s32 y_sum;
         u8 *globals;
 
         entity->timer = 0;
@@ -164,12 +166,10 @@ jt_case0_tail:
         camera_mode = 1;
         ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
-        coord_sum = actor->x;
-        coord_sum += D_80083780.x.w.i;
-        D_801760E8[0] = coord_sum / 2;
-        coord_sum = actor->y;
-        coord_sum += D_80083780.y.w.i;
-        D_801760E8[1] = coord_sum / 2;
+        x_sum = actor->x + D_80083780.x.w.i;
+        D_801760E8[0] = x_sum / 2;
+        y_sum = actor->y + D_80083780.y.w.i;
+        D_801760E8[1] = y_sum / 2;
         D_801760E8[2] = actor->z;
         globals = ((u8 *)(&gameWork));
         *(s32 *)(globals + 0x154) = 0;
@@ -183,6 +183,8 @@ jt_case0_tail:
     case 20:
     {
         s16 *height_base;
+        s32 x_sum;
+        s32 y_sum;
         u8 *globals;
 
         if ((entity->timer & 0xF) == 0) {
@@ -199,12 +201,10 @@ jt_case0_tail:
             camera_mode = 1;
             ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
-            coord_sum = actor->x;
-            coord_sum += D_80083780.x.w.i;
-            D_801760E8[0] = coord_sum / 2;
-            coord_sum = actor->y;
-            coord_sum += D_80083780.y.w.i;
-            D_801760E8[1] = coord_sum / 2;
+            x_sum = actor->x + D_80083780.x.w.i;
+            D_801760E8[0] = x_sum / 2;
+            y_sum = actor->y + D_80083780.y.w.i;
+            D_801760E8[1] = y_sum / 2;
             D_801760E8[2] = actor->z;
             globals = ((u8 *)(&gameWork));
             *(s32 *)(globals + 0x154) = 0;
