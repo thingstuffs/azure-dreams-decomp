@@ -135,3 +135,9 @@ work unchanged once moved to tools/lanes/. modcell.py must run with cwd = a lane
 | reload_cse_delete_death_notes | - | - | - | Y | Y | Y | - |
 | reload_cse_noop_set_p | - | - | Y | Y | Y | Y | Y |
 | reload_cse_no_longer_dead | - | - | - | Y | Y | Y | - |
+
+## Front-end difference not visible in the symbol table (r82_fable_resid, measured with `why.py --vs-cfg`)
+The cdk cc1 (cygnus-2.7.2-970404) marks EVERY sibling field of a struct that has a `volatile` member as volatile
+(`mem/s/v:HI`); FSF 2.7.2 and 2.8.1 mark only the volatile member (`mem/s:HI` for siblings) - their front-end sources
+are textually identical here, so this is a Cygnus change. A `volatile` struct member on a cdk-census row poisons the
+whole struct's accesses (dungeon/func_80F90E88: 48 -> 17 by dropping it).
