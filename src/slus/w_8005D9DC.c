@@ -37,7 +37,7 @@ s32 func_8005D9DC(u32 value)
             u32 base;
 
             if (flags & stop_mask) {
-                goto retfalse;
+                break;
             }
 
             base = flags & base_mask;
@@ -51,6 +51,5 @@ s32 func_8005D9DC(u32 value)
 
         entry++;
     }
-retfalse:
     return 0;
 }

@@ -64,17 +64,18 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
     work.rect = *rect_template;
     D_80026428 = 1;
     state = ((S_80025360_0 *)effect_arg)->unk_00;
-    if (state != 0) {
-        if (state == 1) {
-            goto draw_effect;
-        }
-        return;
-    }
+    switch (state) {
+    case 0:
     ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
     flags = ((S_80025360_1 *)sprite)->unk_14;
     flags &= 0xFF7F;
     ((S_80025360_1 *)sprite)->unk_14 = flags;
-draw_effect:
+        break;
+    case 1:
+        break;
+    default:
+        return;
+    }
     rect_x = 0x340;
     work.rect.x = rect_x;
     work.rect.y = 0x100;

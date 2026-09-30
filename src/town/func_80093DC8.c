@@ -102,13 +102,14 @@ void func_80091528(void *action_state, void *actor, s32 context)
     buttons = *((s32 *) (input_state + 8));
     if (!(buttons & 0x20)) {
         func_80093ED8(action_state, actor, context);
-        goto finish;
+        func_80094C1C(action_state);
+        func_8009503C(actor);
+        return;
     }
     if (buttons & 0xF000) {
         timer = (*((u16 *) (((u8 *) action_state) + 0x3E))) - 1;
         *((u16 *) (((u8 *) action_state) + 0x3E)) = timer;
         func_80094944((s16) timer, 8);
-finish:
         func_80094C1C(action_state);
         func_8009503C(actor);
         return;

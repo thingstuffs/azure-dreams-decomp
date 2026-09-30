@@ -105,9 +105,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
     s32 speed_work;
     s32 component_work;
     s32 component_work_2;
-    register s32 part_or_half_speed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 anim_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 anim_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *particle_work;
 
     if (((S_80172D1C_0 *)actor)->unk_9B == 1) {
         particle_or_dir_index = 6;
@@ -115,6 +113,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
         do {
             particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
             if (particle != 0) {
+                particle_work = (u8 *)particle + 0x20;
                 func_8004491C(particle, func_80045340);
                 particle_sprite = ((S_80172D1C_1 *)particle)->unk_0C;
                 ((S_80172D1C_1 *)particle)->unk_10 = particle_update;
@@ -130,19 +129,9 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
                     ((rand() & 0xFF) - 0x80) << 10;
                 ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_10 =
                     ((rand() & 0xFF) - 0x80) << 10;
-                speed_work = rand();
-                part_or_half_speed = (s32)particle_sprite;
-                anim_id = 0x2D;
-                anim_frame = 0;
-                speed_work &= 3;
-                component_work = -4;
-                component_work -= speed_work;
-                component_work <<= 16;
-                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_14 = component_work;
+                ((S_80172D1C_8 *)(((S_80172D1C_1 *)particle)->unk_08))->unk_14 = (-4 - (rand() & 3)) << 16;
 
-                component_work = (s32)particle + 0x20;
-                ASM_KEEP(component_work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                ((S_80172D1C_3 *)((u8 *)component_work))->unk_48 = 10;
+                ((S_80172D1C_3 *)particle_work)->unk_48 = 10;
                 sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_28.at00_s32.v;
                 component_work = ((S_80172D1C_5 *)particle_sprite)->unk_14 | 0xC;
                 ((S_80172D1C_5 *)particle_sprite)->unk_1E = 0x1800;
@@ -152,7 +141,7 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
                 component_work_2 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
                 ((S_80172D1C_5 *)particle_sprite)->unk_10 = 0x20;
                 ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work_2 - 0x80;
-                func_80047784((void *)part_or_half_speed, anim_id, anim_frame, sprite_flags);
+                func_80047784(particle_sprite, 0x2D, 0, sprite_flags);
                 ((S_80172D1C_5 *)particle_sprite)->unk_0C = 0x808080;
             }
             particle_or_dir_index--;
@@ -237,8 +226,8 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
             component_work = ((S_80172D1C_2 *)motion)->unk_0C.u;
             speed_work >>= 1;
             ((S_80172D1C_2 *)motion)->unk_10.u = speed_work;
-            part_or_half_speed = component_work >> 1;
-            component_work = component_work + part_or_half_speed;
+            velocity_y = component_work >> 1;
+            component_work = component_work + velocity_y;
             ((S_80172D1C_2 *)motion)->unk_0C.s = component_work;
             component_work = speed_work >> 1;
             speed_work += component_work;

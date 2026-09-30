@@ -20,11 +20,13 @@ void func_800542BC(void) {
     s32 command_type;
 
     D_80084850[0] += 1;
-next_command:
-    command = func_800557C8();
-    command_code = command & 0xFFFF;
-    command_type = command & 0xF00;
-    if (command_code != 0) {
+    while (1) {
+        command = func_800557C8();
+        command_code = command & 0xFFFF;
+        command_type = command & 0xF00;
+        if (command_code == 0) {
+            break;
+        }
         switch (command_type) {
         case 0x0:
             func_80054788(command_code, command);
@@ -42,7 +44,6 @@ next_command:
             func_8005552C(command & 0xFFFF, command);
             break;
         }
-        goto next_command;
     }
     func_800543C8();
     func_800557BC();

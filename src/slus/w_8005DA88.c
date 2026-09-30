@@ -207,7 +207,8 @@ s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_
             spu_control &= 0xFF7F;
             D_80079958->field_1AA = spu_control;
         }
-    } else {
+    }
+    if (!mode_changed) {
         if (update_all || (flags & 2)) {
             D_80079958->field_184 = settings->unk08;
             D_8007950C[0] = settings->unk08;
@@ -216,13 +217,12 @@ s32 func_8005DA88(S_8005DA88 *settings, s32 unused_1, s32 *unused_2, s32 unused_
             D_80079958->field_186 = settings->unk0A;
             D_8007950E[0] = settings->unk0A;
         }
-        goto apply_params;
+    } else {
+        D_80079958->field_184 = 0;
+        D_80079958->field_186 = 0;
+        D_8007950C[0] = 0;
+        D_8007950E[0] = 0;
     }
-    D_80079958->field_184 = 0;
-    D_80079958->field_186 = 0;
-    D_8007950C[0] = 0;
-    D_8007950E[0] = 0;
-apply_params:
     if ((mode_changed || delay_changed) || feedback_changed) {
         func_8005DF80(&reverb_params);
     }

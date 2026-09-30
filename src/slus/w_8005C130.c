@@ -41,9 +41,9 @@ s16 func_8005C130(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 d
 
     if (slot == -1) {
         slot = 0;
-        for (;;) {
+        while (1) {
             if (D_80085458[slot].f1a == 0) {
-                goto checked_empty_slots;
+                break;
             }
             slot++;
             if (slot > D_80073734[0] - 1) {
@@ -51,8 +51,6 @@ s16 func_8005C130(s16 dispatch_arg0, s16 dispatch_arg1, s16 dispatch_arg2, s16 d
                 break;
             }
         }
-checked_empty_slots:
-        ;
     }
 
     if (slot != -1) {

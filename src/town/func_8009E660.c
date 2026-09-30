@@ -103,12 +103,11 @@ void func_8009BDC0(Actor *actor, Subject *subject, Motion *motion,
     if (subject->state == 0) {
         if (surface_height - motion->height >= 4) {
             func_8009C0C0(actor, subject, motion, context);
-            goto tail;
+        } else {
+            func_8008F27C(subject, motion, surface_height);
         }
-        func_8008F27C(subject, motion, surface_height);
     }
 
-tail:
     actor_callback = actor->state;
     if ((actor_callback != D_8009B454) &&
         (actor_callback != D_8009B594) &&

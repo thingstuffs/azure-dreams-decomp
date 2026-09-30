@@ -26,16 +26,18 @@ void func_800AF254(s32 output_base, void **entries_ref) {
     slot_index = 0x1A;
     output_slot = output_base + 0x68;
     entry_index = ((S_800AF254_0 *)(*entries_ref))->unk_10 * 0xA;
-next_entry:
-    entries = *entries_ref;
-    slot_index += 1;
-    if (entry_index < entries->unk_1C) {
+    while (1) {
+        entries = *entries_ref;
+        slot_index += 1;
+        if (entry_index >= entries->unk_1C) {
+            break;
+        }
         entry_value = *(s32 *)((entry_index * 4) + entries->unk_20);
         entry_index += 1;
         *(*(s32 **)output_slot) = func_80049790(entry_value);
         output_slot += 1;
-        if (slot_index < 0x24) {
-            goto next_entry;
+        if (slot_index >= 0x24) {
+            break;
         }
     }
 }

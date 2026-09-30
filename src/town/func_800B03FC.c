@@ -30,12 +30,12 @@ void func_800ADB5C(s32 *menu) {
     if (((s32)pad_state->unk_010) & 0x10) {
         SD_Call(0x514);
         func_800AD8CC(menu);
-        goto close_shop;
+        close_twin_shop((s8 *)menu - 0x20);
+        return;
     }
     if (((s32)pad_state->unk_010) & 0x20) {
         SD_Call(0x515);
         D_80082AB8 = 0;
-close_shop:
         close_twin_shop((s8 *)menu - 0x20);
         return;
     }

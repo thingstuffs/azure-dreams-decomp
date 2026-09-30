@@ -54,9 +54,11 @@ void *func_800B9964(EntityHdr **entity_ref) {
     Obj *object;
     SubA *transform;
     SubB *sprite;
+    u8 *owner_data;
 
     object = func_8003FD64(18, &D_80083498.next);
     if (object != 0) {
+        owner_data = (u8 *)object + 0x20;
         func_8004491C(object, (void *)func_80045C34);
         object->stateFn = func_800B96C4;
 
@@ -68,38 +70,22 @@ void *func_800B9964(EntityHdr **entity_ref) {
         func_8003DB94(sprite, D_80079444, 0);
 
         {
-            Obj *init_object;
-            SubA *init_transform;
-            s32 init_mode;
             u32 color;
             u16 flags;
 
             color = 0x2c808080;
-            init_object = object;
-            init_transform = transform;
-            __asm__ __volatile__("" : "+r"(init_object), "+r"(init_transform));
-
             sprite->f1E = 256;
             sprite->f1C = 256;
             sprite->f10 = 32;
             flags = sprite->f14;
-            ASM_USE(flags);
-            init_mode = 8;
-            ASM_KEEP(init_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sprite->fC = color;
             sprite->f6 = 4;
-            __asm__ __volatile__("" : : "m"(sprite->f6));
             sprite->f14 = flags | 0xC;
-
-            {
-                u8 *owner_data = (u8 *)object + 0x20;
-                *(s16 *)(owner_data + 0xE) = 4;
-                ASM_USE(owner_data);
-            }
+            *(s16 *)(owner_data + 0xE) = 4;
             object->owner = entity_ref;
 
             dungeonStatus.unk_0C = object;
-            func_800C77D0(init_object, init_transform, init_mode, D_800DCE66[0]);
+            func_800C77D0(object, transform, 8, D_800DCE66[0]);
         }
     }
 

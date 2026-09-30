@@ -35,7 +35,9 @@ void func_800265B8(u8 *menu)
         pressed_buttons = ((s32)gameWork.unk_010);
         if (pressed_buttons & 0x20) {
             SD_Call(0x515);
-            goto perform_action;
+            func_80026920(menu - 0x20);
+            func_80027AFC(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
+            return;
         }
         if (pressed_buttons & 0x40) {
             SD_Call(0x503);
@@ -83,7 +85,6 @@ void func_800265B8(u8 *menu)
         return;
     }
 
-perform_action:
     func_80026920(menu - 0x20);
     func_80027AFC(((S_800265B8_0 *)menu)->unk_20, ((S_800265B8_0 *)menu)->unk_24);
 }

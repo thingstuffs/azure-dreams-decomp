@@ -98,13 +98,11 @@ void *func_8009DFD8(void *object_data, void *source_position, s32 alternate_call
         POINTER_AT(render_state, 8) = &D_8006E240;
     } else if (type == 0x13) {
         func_8009DC8C(object, render_state, BYTE_AT(object, 0x4C), D_80100B0C);
-        goto set_callback;
     } else {
         POINTER_AT(render_state, 8) = (void *)func_8004A658(
             BYTE_AT(object, 0x4D), BYTE_AT(object, 0x4C));
     }
 
-set_callback:
     POINTER_AT(created, 0x10) = D_8009DEBC;
     func_8009C1B4(object, object, position, render_state);
     del_t_item_w_ptr(object_data);

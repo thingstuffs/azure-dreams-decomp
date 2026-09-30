@@ -81,8 +81,7 @@ state_1:
     if ((temp_v0 << 0x10) > 0) {
         return;
     }
-    ASM_KEEP(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if ((u16) *((s16 *)&D_80013714) & 4) {
+    if (*(u16 *)0x80013714 & 4) {
         if (((S_8008E0C4_2 *)D_800E3CD0)->unk_00 == 0) {
             ((S_8008E0C4_2 *)D_800E3CD0)->unk_00 = temp_v1;
             func_80040AA0(3);

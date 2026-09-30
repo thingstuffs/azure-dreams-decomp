@@ -72,13 +72,13 @@ void func_800AF9C4(TownObject *obj)
     }
     if (obj->inner->limit == 0) {
         if (((s32)gameWork.unk_010) & 0x20) {
-            goto confirm;
+            SD_Call(0x515);
+            func_800AE484(obj->resource);
         }
         return;
     }
 
     if (((s32)gameWork.unk_010) & 0x20) {
-confirm:
         SD_Call(0x515);
         func_800AE484(obj->resource);
         return;

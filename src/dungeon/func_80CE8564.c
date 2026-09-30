@@ -85,6 +85,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     s32 state_flags;
     void *new_frames;
     s32 kind;
+    s32 mode;
     u32 global_kind;
     u32 branch_flags;
     void *current_frames;
@@ -112,8 +113,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         alternate_kind = 0xF;
         ((S_80171D64_2 *)position)->unk_0A = saved_height;
         height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
-        ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        mode_or_object = saved_flags & 3;
+        mode = saved_flags & 3;
         ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = (void *)default_frames;
         default_frames = 0x20;
         ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = saved_y;
@@ -123,7 +123,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
         ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
         ((S_80171D64_1 *)result)->unk_49 = alternate_kind;
 
-        if (mode_or_object == 1) {
+        if (mode == 1) {
             (*(u32 *)((u8 *)result + 0x14)) |= 0x6000;
             branch_flags = ((S_80171D64_1 *)result)->unk_1C;
             global_kind = (u8)D_800E2968;
@@ -136,7 +136,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                 }
             }
         } else {
-            default_frames = mode_or_object < 2;
+            default_frames = mode < 2;
             if (!default_frames) {
                 ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
                 ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
