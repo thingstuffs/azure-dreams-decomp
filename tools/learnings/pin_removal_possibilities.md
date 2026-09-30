@@ -370,3 +370,10 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
   tail out in place with the symbol and `return` - jump2 cross-jumps it back into retail's `lui $5; j tail; addiu`.
   If retail shows two registers, the symbol belongs in the function-scope variable. t54/t97 miss this because they put
   the symbol into the same function-scope variable the integer lived in.
+- **MOVED `lw` class** (r80_opus_cl_lw): always a sched1 decision; the pin buys a barrier, a second set (a KEEP's output
+  makes the variable multi-set, so birthing_insn_p stops boosting its load), or a combine refusal. Source facts:
+  (a) a real second set - an in-place register-width update (`s32 t = f; ...; t--; f = t;`, 81988800); (b) bookkeeping
+  written AFTER the call - sched1 lifts pure-pseudo updates above it (t71; 81984754 1 -> 0); (c) an ASM_REG on $4-$7
+  makes that register multi-set so its load loses the boost - solve that pin and its USE falls too (818B6AFC);
+  (d) a barrier standing in for a one-instruction struct copy (80E65598, cdk cell); (e) a copy of a spilled variable
+  floating above calls (w_8004B954, open).
