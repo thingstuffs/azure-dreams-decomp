@@ -36,29 +36,26 @@ void func_80020360(void *object)
 
     state = ((S_80020360_0 *)object)->unk_00.s;
     status_data = ((S_80020360_0 *)object)->unk_04;
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
+    switch (state) {
+    case 0:
+        ticks_left = ((S_80020360_0 *)object)->unk_02 - 1;
+        ((S_80020360_0 *)object)->unk_02 = ticks_left;
+        if ((ticks_left << 16) > 0) {
+            return;
         }
-        return;
-    }
-    ticks_left = ((S_80020360_0 *)object)->unk_02 - 1;
-    ((S_80020360_0 *)object)->unk_02 = ticks_left;
-    if ((ticks_left << 16) > 0) {
-        return;
-    }
-    flags = ((S_80020360_0 *)object)->unk_16;
-    next_state = ((S_80020360_0 *)object)->unk_00.u;
-    flags &= 0xFFFD;
-    next_state++;
-    ((S_80020360_0 *)object)->unk_16 = flags;
-    ((S_80020360_0 *)object)->unk_00.u = next_state;
-    return;
-
-state_one:
-    if (status_data->unk_2A & 1) {
-        page = 0x80080000;
-        ((S_80020360_0_pre *)object)[-1].unk_00 |= 0x8000;
-        ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
+        flags = ((S_80020360_0 *)object)->unk_16;
+        next_state = ((S_80020360_0 *)object)->unk_00.u;
+        flags &= 0xFFFD;
+        next_state++;
+        ((S_80020360_0 *)object)->unk_16 = flags;
+        ((S_80020360_0 *)object)->unk_00.u = next_state;
+        break;
+    case 1:
+        if (status_data->unk_2A & 1) {
+            page = 0x80080000;
+            ((S_80020360_0_pre *)object)[-1].unk_00 |= 0x8000;
+            ((S_80020360_2 *)((void *)page))->unk_14A0 |= 0x8000;
+        }
+        break;
     }
 }
