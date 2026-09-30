@@ -404,3 +404,20 @@ only): keep it unless you are measuring exactly this.
   2.91.66 / 2.95.2 get a message saying so rather than a wrong table. `--pass sched` works on all of
   them (2.95.2 still prints `;; insn[N]: priority`), and falls back to the filtered RTL diff if a
   future cell does not.
+
+## Switch jump tables: `jtbl-mismatch` and `--no-jtbl` (round 82)
+
+The scorer compares a switch's jump-table CONTENTS with retail (`match.py local_table_diffs`). A text whose table
+differs is rejected (`jtbl: local .rodata at 0x... word N: got 0x..., retail 0x...`) and has NO listing.
+
+* `kitlib.score_at`, `lab.py`, `diff.py --scorer` report that as the status **`jtbl-mismatch`** with `jtbl` =
+  `[{addr, word, got, retail}]` - not `build-fail/no-hex`. `lab.py report` shows it in the score column.
+* **`--no-jtbl`** (`diff.py`, implies `--scorer`; `lab.py` files/`--subs`/`--grid`/`baseline`/`cellscore`;
+  `kitlib.score_at(no_jtbl=True)`) scores and prints the listing with the table-content check OFF, so a real `switch`
+  whose code is not exact yet can be diffed. INFORMATIONAL: `exact` is always False, `text_exact` says whether the code
+  matched (printed "text exact, jump table NOT checked"), records are journalled as `text-exact-nojtbl` /
+  `scored-nojtbl`, nothing is staged, `stage-cell` refuses it. `diff.py --no-jtbl` also prints the real scorer's
+  verdict on the same text. `tools/verify.py`, the gate and match.py keep the check ON (nothing on disk is edited: the
+  check is disabled inside a child process by `nojtbl_run.py`; overlay rows only).
+* A text-exact `--no-jtbl` result still needs the table fixed (word index and got/retail values are in the
+  `jtbl-mismatch` status of the ordinary run) before it can land.

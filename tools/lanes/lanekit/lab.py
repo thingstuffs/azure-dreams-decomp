@@ -85,6 +85,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kitlib                                                             # noqa: E402
+import nojtbl                                                             # noqa: E402
+
+JTBL_STATUSES = ("jtbl-mismatch",)
+
+
+def jtbl_note(sc):
+    """Suffix for a printed score: the jump-table facts (`jtbl-mismatch` words, or the --no-jtbl caveat)."""
+    sc = sc or {}
+    if sc.get("status") == "jtbl-mismatch":
+        return "  <- JUMP TABLE differs (%s); rerun with --no-jtbl for the listing" % nojtbl.jtbl_summary(sc.get("jtbl"))
+    if sc.get("jtbl_checked") is False:
+        return "  <- %s" % (nojtbl.EXACT_MSG if sc.get("text_exact") else "informational: jump table NOT checked")
+    return ""
 
 
 class Lab:
@@ -92,7 +105,7 @@ class Lab:
 
     start = None          # `--base FILE` text for --subs/--grid (None: the pin-erased text)
 
-    def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False, base_file=None):
+    def __init__(self, row_id, lane=None, stage=True, cfg=None, more=False, base_file=None, no_jtbl=False):
         self.lane = kitlib.bootstrap(lane)
         self.row = kitlib.row_of(row_id)
         if cfg and cfg != self.row["cfg"]:
@@ -105,6 +118,9 @@ class Lab:
         self.erased = kitlib.erased_text(self.base)
         self.screen = kitlib.screen_for(self.row, self.base)
         self.stage = stage
+        self.no_jtbl = no_jtbl
+        if no_jtbl and self.row.get("kind") == "slus":
+            raise SystemExit("lab: --no-jtbl applies to overlay rows")
         self.more = more
         self.start = read_base_file(base_file)     # `--base FILE`: what --subs/--grid start from (None: erased text)
         self.dir = self.lane / "experiments" / self.row["func"]
@@ -146,6 +162,13 @@ class Lab:
             bad.append("adds volatile")
         return bad
 
+    def score_text(self, text, scr=None):
+        """One byte score of `text`: the real scorer (status `jtbl-mismatch` when only the switch table differs),
+        or with `--no-jtbl` the informational score (`exact` False; `text_exact`, `jtbl_checked` False)."""
+        if self.no_jtbl:
+            return kitlib.score_at(self.xscreen.row if self.xscreen else self.row, text, no_jtbl=True)
+        return nojtbl.jtbl_status(dict((scr or self.screen).exact(text)))
+
     def test(self, name, text, note="", score=False, stage=None):
         self.check_cap()
         bad = self.guards(text)
@@ -168,9 +191,12 @@ class Lab:
         # listing (r79_sonnet_g20 main/func_8000F524: dist 7, verify exact; the lane had to stage it by hand)
         near = int(os.environ.get("LANEKIT_SCORE_NEAR", "24"))
         if score and (dist == 0 or (dist is not None and dist <= near) or (self.cfg and d is not None)):
-            v = scr.exact(text)
+            v = self.score_text(text, scr)
             rec["score"] = kitlib.score_fields(v)
-            rec["status"] = "exact" if v.get("exact") else "scored"
+            rec["status"] = "exact" if v.get("exact") else v["status"] if v.get("status") in JTBL_STATUSES else "scored"
+            if self.no_jtbl:
+                rec["status"] = "text-exact-nojtbl" if v.get("text_exact") else "scored-nojtbl"
+                rec["note"] = (rec["note"] + " " if rec["note"] else "") + "[jump-table content check OFF]"
             if v.get("exact") and self.cfg:
                 print("  exact at %s - NOT staged (registered cfg %s unchanged); hand over with "
                       "`lab.py cellscore %s %s --cfg %s`" % (self.cfg, self.row["cfg"], self.id, p, json.dumps(self.cfg)))
@@ -179,7 +205,7 @@ class Lab:
         self.log(rec)
         print("%-28s dist %-5s pins %-3s %s%s"
               % (name, "-" if dist is None else dist, rec.get("pins", "-"),
-                 json.dumps(rec["score"]) if rec["score"] else "",
+                 (json.dumps(rec["score"]) + jtbl_note(rec["score"])) if rec["score"] else "",
                  "  -> " + rec["staged"] if rec.get("staged") else ""))
         return rec
 
@@ -209,8 +235,8 @@ class Lab:
         rec = {"variant": "pinned_control", "kind": "baseline", "distance": 0,
                "pins": len(self.sites), "status": "measured", "score": None}
         if score:
-            v = self.screen.exact(self.base)
-            rec["score"] = {k: v.get(k) for k in ("exact", "total", "subs", "indels", "status")}
+            v = self.score_text(self.base)
+            rec["score"] = kitlib.score_fields(v)
             rec["status"] = "calibrated" if v.get("exact") else "CALIBRATION-FAILED"
         self.log(rec)
         ed = self.screen.distance(self.erased)
@@ -323,7 +349,7 @@ def grid_misses(grid, base):
 
 # ---------------------------------------------------------------------------------- cellscore
 
-def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, rule2=True, out=print):
+def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, rule2=True, out=print, no_jtbl=False):
     """Byte-score `cand` as `row` at `cfg` WITHOUT touching the ledger; say what the hand-over is.
 
     Returns the record journalled (the caller appends it to `lab_log.jsonl`)."""
@@ -333,7 +359,7 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
         raise SystemExit("lab: %s is the row's registered cfg - use `lab.py %s cand.c --score`" % (cfg, row["id"]))
     kitlib.row_at_cfg(row, cfg)  # reject per-row recipe trials for grouped SLUS members
     lane = Path(lane)
-    v = kitlib.score_at(row, cand, cfg, verify=verify)
+    v = kitlib.score_at(row, cand, cfg, verify=verify, no_jtbl=no_jtbl)
     sc = kitlib.score_fields(v)
     pins_c = len(kitlib.sites(cand))
     pins_b = len(kitlib.sites(base)) if base is not None else None
@@ -344,6 +370,13 @@ def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, ru
     rec = {"row": row["id"], "variant": name, "kind": "cellscore", "cfg": cfg, "distance": None,
            "score": sc, "pins": pins_c, "status": "exact" if sc.get("exact") else "scored",
            "note": "at %s (registered %s)" % (cfg, row["cfg"])}
+    if sc.get("status") == "jtbl-mismatch":
+        rec["status"] = "jtbl-mismatch"
+        out("  jtbl-mismatch at %s: %s (rerun with --no-jtbl to see the listing)" % (
+            cfg, nojtbl.jtbl_summary(sc.get("jtbl"))))
+    if no_jtbl:
+        rec["status"] = "text-exact-nojtbl" if sc.get("text_exact") else "scored-nojtbl"
+        out("  --no-jtbl: %s" % (nojtbl.EXACT_MSG if sc.get("text_exact") else "text NOT exact (jump table not checked)"))
     if not sc.get("exact"):
         out("  NOT exact at %s: nothing to hand over." % cfg)
         return rec
@@ -480,6 +513,15 @@ def via(r):
     return r.get("source") or VIA.get(r.get("kind"), "lab.py")
 
 
+def score_cell(s):
+    """The report's score column: exact / total N, `jtbl-mismatch`, or an informational --no-jtbl score."""
+    if s.get("status") == "jtbl-mismatch":
+        return "jtbl-mismatch"
+    if s.get("jtbl_checked") is False:
+        return "text exact, jtbl NOT checked" if s.get("text_exact") else "total %s (jtbl NOT checked)" % s.get("total")
+    return "exact" if s.get("exact") else "total %s" % s.get("total")
+
+
 def report(lane, row_id=None):
     recs = kitlib.log_read(lane)
     served = kitlib.lane_rows(lane)
@@ -502,7 +544,7 @@ def report(lane, row_id=None):
             line = [r.get("variant"), r.get("status"), via(r),
                     "-" if r.get("distance") is None else r["distance"],
                     r.get("pins", "-"),
-                    "" if not s else ("exact" if s.get("exact") else "total %s" % s.get("total")) + at,
+                    "" if not s else score_cell(s) + at,
                     (r.get("note") or r.get("why") or "")[:60]]
             key = json.dumps(line, default=str)
             if key in seen:                  # the same measurement repeated (a diff.py viewer run twice): one line
@@ -550,6 +592,10 @@ def main():
     ap.add_argument("--note", default="", help="note recorded with every variant of this run "
                                                "(stage-cell: the coherence argument for cells.jsonl, required)")
     ap.add_argument("--more", action="store_true", help="allow more than %d variants for this row" % kitlib.VARIANT_CAP)
+    ap.add_argument("--no-jtbl", action="store_true",
+                    help="score with the switch jump-table CONTENT check OFF (informational: totals are marked, "
+                         "nothing is exact or staged; a text-exact result prints 'text exact, jump table NOT checked'; "
+                         "the real scorer still decides exactness). Overlay rows only.")
     ap.add_argument("--no-stage", action="store_true", help="do not copy an exact candidate to out/")
     ap.add_argument("--row", help="report: limit to one row")
     a = ap.parse_args()
@@ -576,13 +622,15 @@ def main():
         row = kitlib.row_of(a.rest[0])
         cp = Path(a.rest[1])
         rec = cellscore(row, cp.read_text(errors="replace"), a.cfg, lane, name=cp.stem,
-                        base=kitlib.base_text(row, lane), rule2=not a.no_rule2)
+                        base=kitlib.base_text(row, lane), rule2=not a.no_rule2, no_jtbl=a.no_jtbl)
         kitlib.log_append(lane, rec)
         return
 
     if a.equal_pins and a.row_id != "stage-cell":
         raise SystemExit("lab: --equal-pins applies to stage-cell only")
     if a.row_id == "stage-cell":
+        if a.no_jtbl:
+            raise SystemExit("lab: --no-jtbl never stages: exactness is decided by the real scorer")
         if len(a.rest) != 2 or not a.cfg:
             raise SystemExit('lab.py stage-cell <row_id> <candidate.c> --cfg "CFG" --note "mechanism"')
         lane = kitlib.bootstrap()
@@ -598,7 +646,9 @@ def main():
             sys.exit(1)
         return
 
-    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more, base_file=a.base)
+    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg, more=a.more, base_file=a.base, no_jtbl=a.no_jtbl)
+    if a.no_jtbl:
+        print("--no-jtbl: the jump-table content check is OFF for every score below (informational; nothing is exact or staged)")
     if lab.start is not None:
         print("--subs/--grid start from %s (not the pin-erased text); @name still means the pinned text" % a.base)
     if lab.cfg:
@@ -640,12 +690,13 @@ def main():
                       key=lambda r: r["distance"])[:a.score_top]
         for r in rest:
             text = (lab.dir / (r["variant"] + ".c")).read_text()
-            v = (lab.xscreen or lab.screen).exact(text)
+            v = lab.score_text(text, lab.xscreen or lab.screen)
             lab.log({"variant": r["variant"], "distance": r["distance"], "status": "scored-near",
                      **({"cfg": lab.cfg} if lab.cfg else {}),
-                     "score": {k: v.get(k) for k in ("exact", "total", "subs", "indels", "status")}})
-            print("%-28s dist %-5s scored total=%s exact=%s"
-                  % (r["variant"], r["distance"], v.get("total"), v.get("exact")))
+                     "score": kitlib.score_fields(v)})
+            print("%-28s dist %-5s scored total=%s exact=%s%s"
+                  % (r["variant"], r["distance"], v.get("total"), v.get("exact"),
+                     ("  [" + v["status"] + "]" if v.get("status") == "jtbl-mismatch" else "") + jtbl_note(v)))
 
 
 if __name__ == "__main__":

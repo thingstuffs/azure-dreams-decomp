@@ -346,7 +346,7 @@ def row_at_cfg(row, cfg):
     return dict(row, cfg=cfg, cell=cell, flags=" ".join(flags))
 
 
-def score_at(row, text, cfg=None, verify=None, diff=False):
+def score_at(row, text, cfg=None, verify=None, diff=False, no_jtbl=False):
     """Byte-score `text` as `row` at `cfg` (default the registered cfg) - `tools/verify.verify`
     on a temporary copy named like the row's file, include root `<repo>/include`.
 
@@ -355,30 +355,50 @@ def score_at(row, text, cfg=None, verify=None, diff=False):
     (`diff_status` keeps the diff call's own status).  `tools/verify.py --diff` alone carries no score fields
     (they were all None - round 81, r81_fable_late), and the `TOTAL` its text prints is the GLOBAL-LCS
     distance, not the regional total the summary (and every roster) reports, so the two runs are merged
-    rather than the text parsed.  They run concurrently: the wall time is the slower of the two."""
+    rather than the text parsed.  They run concurrently: the wall time is the slower of the two.
+
+    JUMP TABLES (round 82).  A text whose switch table differs from retail is rejected by the scorer with a
+    `jtbl:` error and no listing; that used to surface as `failed` / `build-fail/no-hex`.  It is now the status
+    `jtbl-mismatch` with `jtbl` = [{addr, word, got, retail}] (`nojtbl.jtbl_status`); the raw `err` is kept.
+
+    `no_jtbl=True` scores with the table-content check OFF (`nojtbl.verify_nojtbl`): INFORMATIONAL - `exact` is
+    forced False, `text_exact` says whether the code matched, `jtbl_checked` is False.  Overlay rows only."""
+    verify_is_real = verify is None
     if verify is None:
         add_paths()
         from verify import verify                                        # noqa: E402
+    import nojtbl                                                        # noqa: E402
+    call = verify
+    if no_jtbl:
+        def call(r, f, **kw):
+            return nojtbl.verify_nojtbl(r, f, include_root=kw.get("include_root"), diff=kw.get("diff", False),
+                                        verify_fn=None if verify_is_real else verify)
     r = row_at_cfg(row, cfg)
     with tempfile.TemporaryDirectory(prefix="lanekit_score_") as td:
         f = Path(td) / Path(r["c_path"]).name
         f.write_text(text)
         inc = (ROOT / "include").resolve()
         if not diff:
-            return verify(r, f, include_root=inc)
+            return nojtbl.jtbl_status(call(r, f, include_root=inc))
         from concurrent.futures import ThreadPoolExecutor
         with ThreadPoolExecutor(max_workers=2) as ex:
-            fs = ex.submit(verify, r, f, include_root=inc)
-            fd = ex.submit(verify, r, f, include_root=inc, diff=True)
+            fs = ex.submit(call, r, f, include_root=inc)
+            fd = ex.submit(call, r, f, include_root=inc, diff=True)
             summ, dtext = fs.result() or {}, fd.result() or {}
         out = dict(summ)
         out["text"] = dtext.get("text")
         out["diff_status"] = dtext.get("status")
-        return out
+        return nojtbl.jtbl_status(out)
 
 
 def score_fields(v):
-    return {k: (v or {}).get(k) for k in ("exact", "total", "subs", "indels", "status")}
+    """The five summary fields, plus `jtbl` (status `jtbl-mismatch`: the parsed words) and, for a `no_jtbl` score,
+    `text_exact` / `jtbl_checked` (informational: `exact` is False there by construction)."""
+    out = {k: (v or {}).get(k) for k in ("exact", "total", "subs", "indels", "status")}
+    for k in ("jtbl", "text_exact", "jtbl_checked"):
+        if (v or {}).get(k) is not None:
+            out[k] = v[k]
+    return out
 
 
 # ---------------------------------------------------------------------------------- lane ledger
@@ -431,6 +451,9 @@ def record_score(lane, row, variant, v, source, cfg=None, distance=None, pins=No
     # a scorer failure (does not build, TIMEOUT, HARNESS-ERROR) keeps its own status, not "scored / total None"
     status = "exact" if sc.get("exact") else sc["status"] if sc.get("status") not in (None, "ok") \
         else "scored" if sc.get("exact") is not None or sc.get("total") is not None else "no-score"
+    if sc.get("jtbl_checked") is False:           # a --no-jtbl score: informational, never an exact/solve
+        status = "text-exact-nojtbl" if sc.get("text_exact") else status if status not in ("exact",) else "scored"
+        note = (note + " " if note else "") + "[jump-table content check OFF]"
     rec = {"row": row["id"] if isinstance(row, dict) else row, "variant": variant, "kind": kind, "source": source,
            "distance": distance, "score": sc, "status": status, "note": note}
     if pins is not None:

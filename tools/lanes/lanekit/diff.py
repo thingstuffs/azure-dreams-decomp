@@ -2,7 +2,7 @@
 """diff.py - the unified cc1-listing diff of a candidate against the pinned (or erased, or any) text.
 
     python3 <KIT>/diff.py <row> <candidate.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
-                          [--cfg CFG] [--scorer [--norm-regs]] [--no-log]
+                          [--cfg CFG] [--scorer [--norm-regs]] [--no-jtbl] [--no-log]
 
 26 lanes of round 73 wrote this same 10-line wrapper (`ldiff.py`, `lst.py`, `sd.py`, `dd.py`, ...)
 around `screen.compile_s` + `difflib.unified_diff`.  `lab.py` already computes it for every variant
@@ -25,6 +25,13 @@ as kind `diff-listing` (its distance when `--vs pinned`), a `--scorer` run as ki
 score (`kitlib.score_at(diff=True)` returns the score and the listing), `--score` as `diff-score`.  diff.py
 records do not count toward lab.py's 60-variant cap.  `--no-log` writes nothing (a pure viewer).
 
+JUMP TABLES (round 82).  The scorer rejects a text whose `switch` table differs from retail (`jtbl:` error) and
+prints NO listing; `--scorer` now says so as the status `jtbl-mismatch` with the word index and the got/retail
+values (never `build-fail/no-hex`).  `--no-jtbl` (implies `--scorer`) scores and prints the listing with the
+table-content check OFF: the totals are informational, a text-exact result prints "text exact, jump table NOT
+checked", and the real scorer's verdict on the same text is printed below it.  Exactness is decided by the real
+scorer only (`tools/verify.py` and the gate are unchanged).
+
 `--scorer --classify` prints, instead of the diff, every differing region of the scorer's listing with a
 label and counts: ORDER (the same instruction, moved: identical text outside the LCS, paired nearest
 first), COLOUR (equal once the allocatable registers v/a/t/s/fp are renamed: allocation), OPCODE (a
@@ -42,6 +49,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kitlib                                                             # noqa: E402
+import nojtbl                                                             # noqa: E402
 
 
 def render(ref, cand, ctx=3, ref_name="pinned", cand_name="candidate"):
@@ -148,6 +156,27 @@ def classify_lines(text, cfg, name="candidate"):
     return out
 
 
+def jtbl_lines(v, no_jtbl=False, real=None):
+    """The `# ...` lines that say what happened to the jump table (empty for an ordinary score).
+
+    `v` is a `kitlib.score_at(diff=True)` result; `real` (with `no_jtbl`) the real scorer's result on the same text."""
+    out = []
+    if v.get("status") == "jtbl-mismatch":
+        out.append("# JTBL-MISMATCH: the scorer rejected the text for its switch jump table (%s); no listing "
+                   "exists at the real scorer - rerun with --no-jtbl to diff the code" % nojtbl.jtbl_summary(v.get("jtbl"), v.get("err")))
+    if no_jtbl:
+        if v.get("text_exact"):
+            out.append("# " + nojtbl.EXACT_MSG)
+        else:
+            out.append("# jump-table content check OFF: totals are informational (exactness is the real scorer's call)")
+        if real is not None:
+            if real.get("status") == "jtbl-mismatch":
+                out.append("# real scorer on this text: jtbl-mismatch (%s)" % nojtbl.jtbl_summary(real.get("jtbl"), real.get("err")))
+            else:
+                out.append("# real scorer on this text: %s" % json.dumps(kitlib.score_fields(real)))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("row_id")
@@ -162,8 +191,13 @@ def main(argv=None):
                     help="--scorer: rename registers by first appearance + mask branch targets (pure renaming vanishes)")
     ap.add_argument("--classify", action="store_true",
                     help="--scorer: label each differing region ORDER / COLOUR / OPCODE / COUNT, with counts")
+    ap.add_argument("--no-jtbl", action="store_true",
+                    help="implies --scorer: score/print with the switch jump-table CONTENT check off (informational; "
+                         "a text-exact result prints 'text exact, jump table NOT checked'; the real scorer decides exactness)")
     ap.add_argument("--no-log", action="store_true", help="write nothing to lab_log.jsonl (a pure viewer)")
     a = ap.parse_args(argv)
+    if a.no_jtbl:
+        a.scorer = True
     if a.norm_regs and not a.scorer:
         raise SystemExit("diff.py: --norm-regs applies to --scorer")
     if a.classify and not a.scorer:
@@ -190,25 +224,34 @@ def main(argv=None):
             kitlib.record_score(lane, row, cand_name, v, source, cfg=a.cfg, distance=dist, pins=pins,
                                 note=note, kind=kind)
 
+    real = None
     if a.scorer and a.classify:
-        v = kitlib.score_at(row, cand, diff=True)
+        v = kitlib.score_at(row, cand, diff=True, no_jtbl=a.no_jtbl)
+        real = kitlib.score_at(row, cand) if a.no_jtbl else None
         print("\n".join(classify_lines(v.get("text"), row["cfg"], cand_name)))
         print("# score %s" % json.dumps(kitlib.score_fields(v)))
-        journal("diff-scorer", "diff.py --scorer --classify", v)
+        for l in jtbl_lines(v, a.no_jtbl, real):
+            print(l)
+        journal("diff-scorer", "diff.py --scorer --classify" + (" --no-jtbl" if a.no_jtbl else ""), v)
         if not a.score:
             return
         lines, dist = [], None
     elif a.scorer:
-        v = kitlib.score_at(row, cand, diff=True)
+        v = kitlib.score_at(row, cand, diff=True, no_jtbl=a.no_jtbl)
+        real = kitlib.score_at(row, cand, cfg=None) if a.no_jtbl else None
         lines = scorer_diff(v.get("text"), a.ctx, a.norm_regs)
         print("# byte scorer at %s: - retail, + generated%s"
               % (row["cfg"], "  (registers/targets normalised)" if a.norm_regs else ""))
-        if lines is None:
+        if lines is None and v.get("status") == "jtbl-mismatch":
+            print("(no listing: the scorer rejected the text for its jump table - see the JTBL-MISMATCH line below)")
+        elif lines is None:
             print((v.get("text") or "").rstrip() or "(no scorer text: status %s)" % v.get("status"))
         else:
             print("\n".join(lines) if lines else "(scorer listings identical)")
         print("# score %s" % json.dumps(kitlib.score_fields(v)))
-        journal("diff-scorer", "diff.py --scorer" + (" --norm-regs" if a.norm_regs else ""), v)
+        for l in jtbl_lines(v, a.no_jtbl, real):
+            print(l)
+        journal("diff-scorer", "diff.py --scorer" + (" --norm-regs" if a.norm_regs else "") + (" --no-jtbl" if a.no_jtbl else ""), v)
         if not a.score:
             return
         lines, dist = [], None
