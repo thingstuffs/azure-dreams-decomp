@@ -38,13 +38,6 @@ typedef struct S_800BB55C_0 {
     u16 unk_64;
 } S_800BB55C_0;   /* arg0 in func_800BB55C */
 
-typedef struct S_800BB55C_1 {
-    u8 pad_00[0x30];
-    s16 unk_30;
-    u8 pad_32[0xA];
-    s16 unk_3C;
-} S_800BB55C_1;   /* var_s2_angle in func_800BB55C */
-
 typedef struct S_800BB55C_2 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -73,7 +66,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     s16 end_y;
     s16 line_angle;
     s16 arc_length;
-    register s32 slot_or_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 arc_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 base_angle;
     s32 start_angle = -0x400;
     s32 radius_decay;
@@ -90,8 +83,6 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     u8 green;
     u8 blue;
     S_800BB55C_3 *color;
-    DungeonWork *arc_or_count;
-    DungeonWork *arc_state;
 
     draw_params[0] = 0x01000340;
     draw_params[1] = 0x460044;
@@ -101,9 +92,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
     func_800BB2E4(NULL, NULL, draw_params, 0, effect);
     base_angle = start_angle;
-    point_index = 0;
-    slot_or_angle = (s32) effect;
-    do {
+    for (point_index = 0; point_index < 5; point_index++) {
         packet_or_angle = base_angle << 0x10;
         packet_or_angle >>= 0x10;
         start_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
@@ -113,45 +102,37 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         end_y = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         end_xy[1] = end_y;
         line_angle = func_800A07D0(start_xy[0], start_xy[1], end_xy[0], end_y);
-        end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30)
+        end_xy[0] = (u16) start_xy[0] + ((s32) (func_80064584(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
-        end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((S_800BB55C_1 *)slot_or_angle)->unk_30)
+        end_xy[1] = (u16) start_xy[1] + ((s32) (func_800644B8(line_angle) * ((DungeonWork *)effect)->field_30[point_index])
             >> 0xB);
-        ((S_800BB55C_1 *)slot_or_angle)->unk_3C = base_angle;
+        ((DungeonWork *)effect)->field_3C[point_index] = base_angle;
         base_angle += 0x999;
         func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
-        point_index += 1;
-        slot_or_angle += 2;
-    } while (point_index < 5);
+    }
     base_angle = start_angle;
-    arc_or_count = effect;
-    packet_or_angle = base_angle << 0x10;
-    do {
+    for (point_index = 0; point_index < 5; point_index++) {
+        packet_or_angle = base_angle << 0x10;
         packet_or_angle >>= 0x10;
         start_xy[0] = (func_80064584((s16) packet_or_angle) >> 7) + 0x362;
         start_xy[1] = (func_800644B8((s16) packet_or_angle) >> 7) + 0x122;
-        slot_or_angle = base_angle;
-        segment_index = 0;
-        if (arc_or_count->field_30[0] > 0) {
-            arc_state = arc_or_count;
-            packet_or_angle = slot_or_angle + 0x19;
-            do {
-                slot_or_angle = packet_or_angle;
-                packet_or_angle <<= 16;
-                packet_or_angle >>= 16;
-                end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
-                end_xy[1] = (func_800644B8((s16)packet_or_angle) >> 7) + 0x122;
-                func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
-                start_xy[0] = (u16) end_xy[0];
-                start_xy[1] = (u16) end_xy[1];
-                packet_or_angle = slot_or_angle + 0x19;
-            } while (++segment_index < arc_state->field_30[0]);
+        arc_angle = base_angle;
+        for (segment_index = 0; segment_index < ((DungeonWork *)effect)->field_30[point_index]; segment_index++) {
+            packet_or_angle = arc_angle + 0x19;
+            arc_angle = packet_or_angle;
+            packet_or_angle <<= 16;
+            packet_or_angle >>= 16;
+            end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
+            end_xy[1] = (func_800644B8((s16)packet_or_angle) >> 7) + 0x122;
+            func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
+            start_xy[0] = (u16) end_xy[0];
+            start_xy[1] = (u16) end_xy[1];
         }
-        arc_length = (u16) arc_or_count->field_30[0] + 1;
-        arc_or_count->field_30[0] = arc_length;
+        arc_length = (u16) ((DungeonWork *)effect)->field_30[point_index] + 1;
+        ((DungeonWork *)effect)->field_30[point_index] = arc_length;
         base_angle += 0x333;
         if (arc_length >= 0x1F) {
-            arc_or_count->field_30[0] = 0x1F;
+            ((DungeonWork *)effect)->field_30[point_index] = 0x1F;
             if (((S_800BB55C_0 *)effect)->unk_4A.s == 0) {
                 if (((S_800BB55C_0 *)effect)->unk_60() != 0) {
                     ((S_800BB55C_0 *)effect)->unk_50 = 0x120;
@@ -161,22 +142,20 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             }
             ((S_800BB55C_0 *)effect)->unk_4C = 0x20;
         }
-        arc_or_count = (DungeonWork *)((u8 *)arc_or_count + 2);
-        packet_or_angle = base_angle << 0x10;
-    } while ((s32) arc_or_count < (s32) (effect + 0xA));
+    }
     func_800BB2E4(NULL, NULL, draw_params, 1, NULL);
     ((S_800BB55C_0_pre *)effect)[-1].unk_00 = saved_link;
     if (((S_800BB55C_0 *)effect)->unk_4A.s != 0) {
         ((S_800BB55C_0 *)effect)->unk_4E = (u16) (((S_800BB55C_0 *)effect)->unk_4E + 0x100);
-        arc_or_count = (DungeonWork *) 0;
+        point_index = 0;
         do {
-            arc_or_count = (DungeonWork *)((s32) arc_or_count + 1);
+            point_index = point_index + 1;
             rotation = ((S_800BB55C_0 *)effect)->unk_4E + 0x400;
             ((S_800BB55C_0 *)effect)->unk_4E = rotation;
             func_800BC0A8(position->unk_02, position->unk_06, position->unk_0A, (s16) rotation,
                 (s32) ((S_800BB55C_0 *)effect)->unk_50, (s32) ((S_800BB55C_0 *)effect)->unk_58,
                 ((S_800BB55C_0 *)effect)->unk_5C, 6);
-        } while ((s32) arc_or_count < 4);
+        } while (point_index < 4);
         if (((S_800BB55C_0 *)effect)->unk_58 < 0x20) {
             ((S_800BB55C_0 *)effect)->unk_58 = (s16) ((u16) ((S_800BB55C_0 *)effect)->unk_58 + 1);
         }
