@@ -99,11 +99,10 @@ typedef struct {
     s16 w;
     s16 h;
 } RECT;
+/* the 0x18-byte UV block func_80024064 returns, copied into the particle at +0x52 */
 typedef struct {
-    s32 value;
-} __attribute__((packed)) UNALIGNED32;
-
-#define UNALIGNED(expr, offset) (((UNALIGNED32 *)((u8 *)(expr) + (offset)))->value)
+    s16 v[12];
+} QuadUV;
 
 extern void *func_80024064(u32, s32, s32);
 extern void func_8003DB94(void *, M2C_UNK *, s32);
@@ -128,13 +127,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     } stack;
     void *particle;
     u8 *particle_work;
-    register void *transform ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *transform;
     void *quad_template;
-    s32 quad_word_0;
-    s32 quad_word_1;
-    s32 quad_word_2;
-    s32 quad_word_3;
-    register s32 quad_word_4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 tile_u;
     s32 tile_v;
     s32 uv_span;
@@ -149,7 +143,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 tile_max;
     s16 tile_min;
     s32 signed_z;
-    u32 template_x;
+    u32 template_x = 0;
     s32 template_y;
     register u32 coord_bits ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *y_position;
@@ -157,6 +151,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 brightness;
     s32 position_jitter;
     s32 min_x;
+    register s32 quad_word_4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     stack.coord2 = center_y;
     stack.coord3 = center_z;
@@ -197,18 +192,7 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
 
             quad_template = func_80024064(template_x, template_y,
                                           (s16)signed_z);
-            quad_word_0 = UNALIGNED(quad_template, 0);
-            quad_word_1 = UNALIGNED(quad_template, 4);
-            quad_word_2 = UNALIGNED(quad_template, 8);
-            quad_word_3 = UNALIGNED(quad_template, 0xC);
-            UNALIGNED(particle, 0x52) = quad_word_0;
-            UNALIGNED(particle, 0x56) = quad_word_1;
-            UNALIGNED(particle, 0x5A) = quad_word_2;
-            UNALIGNED(particle, 0x5E) = quad_word_3;
-            quad_word_4 = UNALIGNED(quad_template, 0x10);
-            template_x = UNALIGNED(quad_template, 0x14);
-            UNALIGNED(particle, 0x62) = quad_word_4;
-            UNALIGNED(particle, 0x66) = template_x;
+            *(QuadUV *)((u8 *)particle + 0x52) = *(QuadUV *)quad_template;
 
             if (((S_800251F4_0 *)particle_work)->unk_3A > ((S_800251F4_0 *)particle_work)->unk_44) {
                 min_u = ((S_800251F4_0 *)particle_work)->unk_44;

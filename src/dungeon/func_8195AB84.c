@@ -77,7 +77,7 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
     s16 saved_y;
     register s16 saved_z ASM_REG("$23");
     s16 saved_angle;
-    register void *callback_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *callback_addr;
     u16 transform_flags;
     void **cleanup_slot;
     u32 object_flags;
@@ -85,6 +85,7 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
     s32 state_flags;
     static void *const loop_label_ref[] = { &&loop_continue };
 
+    callback_addr = &D_80025C80;
     saved_x = x;
     saved_y = y;
     saved_z = z;
@@ -107,7 +108,6 @@ loop_0:
             scratch = (s32)func_8003FD64(18, call_context);
             *slot = (void *)scratch;
             if (scratch != 0) {
-                callback_addr = &D_80025C80;
                 ((S_8195AB84_0 *)((void *)scratch))->unk_10 = callback_addr;
                 position = ((S_8195AB84_1 *)(*slot))->unk_08;
                 position->unk_02 = saved_x;

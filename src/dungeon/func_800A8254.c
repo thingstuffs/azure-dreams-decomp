@@ -31,6 +31,7 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, EntityRec *target)
     DungeonEntry *entries;
     s32 entry_index;
     s32 result;
+    s32 cost;
     s8 adjustment;
 
     if (!(((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000)) {
@@ -53,7 +54,6 @@ process_entry:
     entry_index = func_800B500C(actor->unk_24,
                            actor->unk_25,
                            target->unk_88);
-    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     result = 1;
     if (entry_index >= 0) {
         entries = D_800E3648;
@@ -65,9 +65,10 @@ process_entry:
         if (dungeon_state->flags & 0x1000) {
             adjustment = ((s8)target->unk_71);
             if (adjustment > 0) {
-                dungeon_state->unk_08 =
-                    ((u16)dungeon_state->unk_08) -
-                    (adjustment - ((u16)target->unk_8A));
+                cost = adjustment - (u16)target->unk_8A;
+                entry_index = (u16)dungeon_state->unk_08;
+                entry_index -= cost;
+                dungeon_state->unk_08 = entry_index;
                 target->unk_71 = 0;
             }
         }
