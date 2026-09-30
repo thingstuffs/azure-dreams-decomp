@@ -815,19 +815,15 @@ update_height:
         break;
 
     case 42:
+        func_800945E8(((s32)D_800E3D7C), target_state);
+        func_800948BC();
+        D_80082E76[0] = 0x8000;
+        func_80041094(6, 0, 0, 0, 0x8000);
+        tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
+        goto advance_phase;
     case 47:
         func_800945E8(((s32)D_800E3D7C), target_state);
-        {
-            s32 effect_arg_0;
-            s32 effect_arg_1;
-            s32 effect_arg_2;
-            s32 effect_arg_3;
-            ASM_SET(effect_arg_0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(effect_arg_1);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(effect_arg_2);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            ASM_SET(effect_arg_3);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_800948BC(effect_arg_0, effect_arg_1, effect_arg_2, effect_arg_3);
-        }
+        func_800948BC();
         D_80082E76[0] = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
         tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
