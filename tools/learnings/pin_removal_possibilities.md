@@ -340,3 +340,11 @@ Untried B candidates: 800B4204 (closest), 80CE8564, 81850800, 80EB751C, 8187C45C
      separate variable for the later role (dungeon/func_80976B7C, with `s32 result = 0;`).
   4. *loop-note barrier* - the insn after a `do{}while(0)` has ~90 refs in the sched trace: the pin and the block hold
      the same fact; solve them together.
+- **MOVED `lui` class = four mechanisms** (r80_opus_cl_lui; at 2.7.2-cdk a symbol argument is HIGH + LO_SUM and the
+  $4-$7 moves are never boosted): (1) *a variable's second role* - a KEEP right after a single-set pointer sum imitates
+  a real second set: host the later same-register table base in the same variable (town/func_800A9E84 2 -> 1);
+  (2) *argument copy kept at its statement* - `x = y; KEEP(x); call(x)` with x in $4: in plain C cse keeps y canonical
+  and deletes the copy (cse.c:840-857: x becomes canonical only if it lives outside the extended block and dies after
+  y) - OPEN, the largest family; (3) *loop notes* - a `do{}while(0)` makes the next insn a full sched barrier and is a
+  cse1-only boundary; (4) *sched1 alias knowledge* - two constant bases never alias, so a KEEP on the base imitates an
+  opaque base's anti-dependence. The kit cannot compile some slus rows (PartitionError) - measure with verify.py.
