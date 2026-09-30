@@ -103,7 +103,7 @@ extern M2C_UNK D_800B06F0;
 void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
     u16 subroutine_arg4;
     S_800B1B10_4 *owner_held = owner;
-    register s32 a_held ASM_REG("$16") = value_a;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 a_held = value_a;
     s32 b_held = value_b;
     s32 style_held = style;
     s16 compact_held = compact;
@@ -115,7 +115,6 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
     s32 style_byte;
     s32 geom;
     s32 call_kind;
-    register s32 call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ObjectNodeHeader *alloc_data;
     s32 copy_a;
     s32 copy_b;
@@ -159,11 +158,10 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
         ((S_800B1B10_0 *)obj)->unk_20 = (void *) (obj + 0x70);
         ((S_800B1B10_2 *)sub)->unk_04 = (void *) (obj + 0x58);
         if (func_8003FA44(call_kind) != 0) {
-            slots = (s32 *) (obj + 0x5C);
             a_held = (s32) func_800B12F4();
-            b_held = a_held;
-            ASM_KEEP_NV(b_held);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            slots = (s32 *) (obj + 0x5C);
             ((S_800B1B10_2 *)sub)->unk_28 = a_held;
+            b_held = a_held;
             ((S_800B1B10_0 *)obj)->unk_70 = b_held;
             part = func_8004A658(owner_held->unk_01, owner_held->unk_00);
             style_held = 2;
@@ -182,11 +180,9 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             {
                 s32 mask_v1;
                 mask_v1 = 0x7FFFFFFF;
-                call_target = value_4;
-                owner_held = (void *) value_5;
-                ((S_800B1B10_0 *)obj)->unk_74 = (s32) owner_held & mask_v1;
+                ((S_800B1B10_0 *)obj)->unk_74 = value_5 & mask_v1;
             }
-            obj_2 = func_80069E98(call_target) * 4;
+            obj_2 = func_80069E98(value_4) * 4;
             if ((compact_held << 0x10) != 0) {
                 tail = 0x89 - obj_2;
                 offset = (s16) tail;
@@ -216,8 +212,8 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
                 mask_v0 = 0x7FFFFFFF;
                 ((S_800B1B10_6 *)(((style_held++ * 4) + sub)))->unk_50 = b_held & mask_v0;
             }
-            func_800B1434((void *) b_held, owner_held);
-            func_800B1320(owner_held, 1, 1);
+            func_800B1434((void *) b_held, value_5);
+            func_800B1320(value_5, 1, 1);
             b_held = (s32) func_800B12F4();
             ((S_800B1B10_2 *)sub)->unk_30 = b_held;
             *slots = 0x80808;
