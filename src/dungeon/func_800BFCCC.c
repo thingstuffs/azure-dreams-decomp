@@ -68,7 +68,7 @@ extern u8 D_800DF630[];
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern s16 rand(void);
+extern int rand(void);
 extern void func_800A56E0(s32);
 
 /* Creates and initializes a display object linked to its owner. */
@@ -80,7 +80,6 @@ void *func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mod
     S_800C542C_3 *target;
     S_800C542C_5 *record;
     void *callback;
-    void *call_object;
     s16 saved_mode;
     s16 initial_state;
     s32 direction_fixed;
@@ -89,11 +88,9 @@ void *func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mod
     object = func_8003FC64(0x12);
     saved_mode = effect_mode;
     if (object != NULL) {
-        call_object = object;
-        ASM_KEEP(call_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         callback = D_800C4F20;
         ((S_800C542C_0 *)object)->unk_10 = callback;
-        func_8004491C(call_object, D_800C55A0);
+        func_8004491C(object, D_800C55A0);
 
         display = ((S_800C542C_0 *)object)->unk_0C;
         display->unk_0C = 0x808080;
