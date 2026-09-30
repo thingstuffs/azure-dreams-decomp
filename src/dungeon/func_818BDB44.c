@@ -90,7 +90,7 @@ s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         payload->unk_12 = variant_random % 7;
         payload->unk_14 = source->unk_12;
 
-        random_value = rand(variant_random / 7);
+        random_value = rand();
         payload->unk_16 = random_value % 0x1000;
         payload->unk_18 = source->unk_18;
 

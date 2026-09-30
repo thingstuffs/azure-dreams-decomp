@@ -68,7 +68,7 @@ extern u8 D_800DF630[];
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern s16 rand(void *, void *);
+extern s16 rand(void);
 extern void func_800A56E0(s32);
 
 /* Creates and initializes a display object linked to its owner. */
@@ -116,7 +116,7 @@ void *func_800C542C(void *owner, s16 effect_value, s16 direction, s16 effect_mod
         record->unk_20 = parent;
         display->unk_20 = 0x2000;
         record->unk_32 = 0x400;
-        record->unk_2C = rand(source, display);
+        record->unk_2C = rand();
 
         if (effect_mode == 1) {
             record->unk_2A = 0;

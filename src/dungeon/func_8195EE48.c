@@ -45,7 +45,7 @@ void func_8195EE48(S_8195EE48_0 *state, S_8195EE48_1 *motion)
                 (u16)state->unk_3C +
                 ((state->unk_62 + state->unk_60 - phase_or_height) / ticks_left);
             motion->unk_08.at02.v =
-                ((u16)state->unk_3C + (rand(phase_or_height, ticks_left) & 3)) - 2;
+                ((u16)state->unk_3C + (rand() & 3)) - 2;
         }
         next_ticks = (u16)state->unk_4C - 1;
         state->unk_4C = next_ticks;

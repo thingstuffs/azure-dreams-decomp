@@ -110,7 +110,7 @@ void func_800ABC00(void *source_data, u32 angle)
         motion->unk_0A = source->unk_0A;
         motion->unk_0C =
             0 - (source->unk_0C *
-                 ((rand(y_step) & 1) + 2));
+                 ((rand() & 1) + 2));
         motion->unk_10 =
             0 - (source->unk_10 *
                  ((rand() & 1) + 2));

@@ -87,7 +87,7 @@ s32 func_8191CBCC(void *params_input, void *transform_input) {
         render->unk_08 = &D_80024F74;
         render->unk_14 = (u16) (render->unk_14 | 0xC);
         render->unk_10 = (u16) (render->unk_10 | 0x60);
-        angle = rand(variant_random / 7);
+        angle = rand();
         angle_random = angle;
         angle >>= 0xC;
         if (angle_random < 0) {

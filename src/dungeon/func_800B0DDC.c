@@ -103,7 +103,7 @@ void func_800B653C(void *source_data, u32 direction_bits) {
             (s16)(source->unk_06 - (*y_offset * 0x10));
         motion->unk_0A = source->unk_0A;
         motion->unk_0C =
-            0 - (source->unk_0C * ((rand(y_offset) & 1) + 2));
+            0 - (source->unk_0C * ((rand() & 1) + 2));
         motion->unk_10 =
             0 - (source->unk_10 * ((rand() & 1) + 2));
         motion->unk_14 = (~rand() & 1) << 0xF;

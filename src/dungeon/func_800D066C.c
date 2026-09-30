@@ -112,7 +112,7 @@ void func_800D5DCC(EntityRec *source, s16 angle, s32 effect_value)
         pos_y->unk_06 += direction->unk_02 * 0x10;
         ((S_800D5DCC_10 *)(((S_800D5DCC_0 *)effect)->unk_0C))->unk_06 = 6;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_0C =
-            ((rand(pos_y) & 0x7FFF) - 0x4000) << 6;
+            ((rand() & 0x7FFF) - 0x4000) << 6;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_10 =
             ((rand() & 0x7FFF) - 0x4000) << 6;
         ((S_800D5DCC_8 *)(((S_800D5DCC_0 *)effect)->unk_08))->unk_14 =

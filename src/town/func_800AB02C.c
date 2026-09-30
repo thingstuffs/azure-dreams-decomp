@@ -88,7 +88,7 @@ void *func_800A878C(S_800A878C_2 *source_motion, u32 flags) {
         direction_y = &dirStepY[direction_index];
         motion->unk_06 = (s16) (source_motion->unk_06 - (*direction_y * 0x10));
         motion->unk_0A = (u16) source_motion->unk_0A;
-        velocity_x = 0 - (source_motion->unk_0C * ((rand(direction_y) & 1) + 2));
+        velocity_x = 0 - (source_motion->unk_0C * ((rand() & 1) + 2));
         launch = effect + 0x20;
         if (velocity_x < 0) {
             velocity_x += 0xF;

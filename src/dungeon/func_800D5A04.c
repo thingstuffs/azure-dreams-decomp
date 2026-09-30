@@ -40,7 +40,7 @@ void func_800DB164(void *effect, void *motion, void *visual) {
     switch (phase) {
     case 0:
         ((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at00_u16.v
-            - ((rand(ticks_left) & 0xFF) + 0x300));
+            - ((rand() & 0xFF) + 0x300));
         ((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v = (u16) (((Rec_D_80082E80 *)visual)->unk_1C.at02_u16.v
             + ((rand() & 0xFF) + 0x200));
         if ((s16) ((S_800DB164_0 *)effect)->unk_48 > 0) {
@@ -53,7 +53,7 @@ void func_800DB164(void *effect, void *motion, void *visual) {
     case 1:
         ((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v = (s32) (((Rec_D_80082E80 *)visual)->unk_0C.at00_s32.v
             + 0xFFF3F3F4);
-        ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand(ticks_left) & 0xFF)
+        ((S_800DB164_2 *)motion)->unk_14 = (s32) (((S_800DB164_2 *)motion)->unk_14 - ((rand() & 0xFF)
             << 0xA));
         if (((S_800DB164_2 *)motion)->unk_08.at02.v < ((S_800DB164_0 *)effect)->unk_10) {
             phase = 4;

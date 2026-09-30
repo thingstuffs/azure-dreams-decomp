@@ -114,7 +114,7 @@ void func_80D65810(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x
         motion->unk_2C = (s32)((s32)position->unk_00.at00.v >> 1);
         motion->unk_30 = (s32)((s32)position->unk_04.at00.v >> 1);
         if (motion->unk_2C == 0) {
-            motion->unk_2C = (s32)(((rand(render) & 0x1F) - 0x10) << 0xF);
+            motion->unk_2C = (s32)(((rand() & 0x1F) - 0x10) << 0xF);
             motion->unk_30 = (s32)(((rand() & 0x1F) - 0x10) << 0xF);
         }
         motion->unk_38 = (s32)(0 - ((s32)motion->unk_2C >> 4));
