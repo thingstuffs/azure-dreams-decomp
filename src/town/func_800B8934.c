@@ -58,37 +58,31 @@ typedef struct S_800B6094_3 {
 /* Populate a display row with entry text and a positioned icon. */
 void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
     S_800B6094_0 *entry = entry_data;
-    s32 row_base = display_base;
-    s32 row = row_index;
-    register s32 first_zero ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_UNK text_buffer[3];
     s32 *icon_slot;
     s32 icon_id;
     s32 text_y;
     s32 display_value;
-    s32 display_value_2;
+    S_800B6094_1 *row_data;
     S_800B6094_2 *entry_info;
     S_800B6094_3 *display_node;
 
-    text_y = (row * 0x10) + 0xD8;
-    entry_data = (void *) (row * 4);
-    ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    entry_info = (entry->unk_00 * 0x14) + ((u8 *)D_8006DE24);
-    entry_data = (void *) ((s8 *)entry_data + (s32)row_base);
-    func_800B5264(((S_800B6094_1 *)entry_data)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
-    func_800B53BC(((S_800B6094_1 *)entry_data)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    text_y = (row_index * 0x10) + 0xD8;
+    row_data = (S_800B6094_1 *)((row_index * 4) + display_base);
+    entry_info = (S_800B6094_2 *)((entry->unk_00 * 0x14) + ((u8 *)D_8006DE24));
+    func_800B5264(row_data->unk_20, entry_info->unk_00, 0, 0x58, text_y);
+    func_800B53BC(row_data->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = func_80049944(entry_info->unk_10);
-    icon_slot = ((S_800B6094_1 *)entry_data)->unk_38;
+    icon_slot = row_data->unk_38;
     if (func_800439BC(entry->unk_00) != 0) {
         display_value = func_800498EC(icon_id);
     } else {
         display_value = func_80049918(icon_id);
     }
-    display_node = (row * 4) + row_base;
+    display_node = (S_800B6094_3 *)((row_index * 4) + display_base);
     *icon_slot = display_value;
     ((S_800B6094_6 *)(((S_800B6094_5 *)(((S_800B6094_4 *)display_node)->unk_38))->unk_04))->unk_08 = -0x30;
     display_node = display_node->unk_38;
-    display_value_2 = (row * 0x10) + 0x67;
     display_node = display_node->unk_04;
-    display_node->unk_0A = (s16) display_value_2;
+    display_node->unk_0A = (row_index * 0x10) + 0x67;
 }

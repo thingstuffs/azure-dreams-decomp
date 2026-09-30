@@ -13,23 +13,22 @@ s32 func_800C1C68(s32 value, s16 **range_groups)
     s32 empty_marker;
     s32 end_marker;
 
+    group_index = 0;
     if (*range_groups == 0) {
         goto not_found;
     }
 
-    group_index = 0;
     empty_marker = -1;
     group = range_groups;
-    ranges = *(s16 * volatile *)group;
-
 group_loop:
+    ranges = *group;
     if (*ranges != empty_marker) {
         group_number = group_index + 1;
         end_marker = -1;
         range_offset = 0;
 
 range_loop:
-        ranges = *(s16 * volatile *)group;
+        ranges = *group;
         range = (s16 *)(range_offset + (s32)ranges);
         if (value >= range[0]) {
             if (range[1] >= value) {
@@ -49,15 +48,13 @@ range_loop:
     }
 
     group++;
-    ranges = *group;
     group_index++;
-    if (ranges != 0) {
+    if (*group != 0) {
         goto group_loop;
     }
 
 not_found:
     return_value = 0;
 done:
-    ASM_KEEP(return_value);
     return return_value;
 }

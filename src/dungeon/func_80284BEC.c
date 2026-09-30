@@ -36,18 +36,13 @@ s32 func_80017BEC(s16 region_id) {
     s32 open_count;
     u16 flags;
     s32 idx;
-    s32 result;
 
     tiles = D_8008333C.tiles;
     map = &D_8008333C;
     tile_id = func_80017F88(region_id, &x, &y, 0);
-    if (tile_id < 0x200) {
-        goto start;
+    if (tile_id >= 0x200) {
+        return 0;
     }
-fail:
-    ASM_SCHED_BARRIER();
-    return 0;
-start:
     idx = x + (y << map->unk_14);
     tiles[idx].unk_04 |= 0x100;
     steps = func_80017EBC(region_id);
@@ -68,7 +63,7 @@ start:
             }
         }
         if (open_count == 0) {
-            goto fail;
+            return 0;
         }
         if (next_direction >= 0) {
             S_80017BEC_T *tile;
@@ -79,23 +74,20 @@ start:
             steps--;
             tile->unk_04 |= 0x100;
             if (steps <= 0) {
-                goto success;
+                break;
             }
             tile_id = func_800BCB04(((x << 6) + 0x20) & 0xFFE0, ((y << 6) + 0x20) & 0xFFE0, -0x400);
         } else {
             tile_id = func_8001816C(region_id, &x, &y, 1);
-            result = 0;
-            if (tile_id < 0x200) {
-                idx = x + (y << map->unk_14);
-                tiles[idx].unk_04 |= 0x100;
-                if (--steps > 0) {
-                    continue;
-                }
-success:
-                result = 1;
-                return result;
+            if (tile_id >= 0x200) {
+                return 0;
             }
-            return result;
+            idx = x + (y << map->unk_14);
+            tiles[idx].unk_04 |= 0x100;
+            if (--steps <= 0) {
+                break;
+            }
         }
     }
+    return 1;
 }

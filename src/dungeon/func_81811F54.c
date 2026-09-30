@@ -1,32 +1,24 @@
 #include "common.h"
 
-
-extern u8 D_800157D2[9];
-
 /* Return the index of the requested zero-based occurrence matching both bytes, or -1. */
 s32 func_80026F54(s32 target_value, s32 prefix_value, s32 target_occurrence)
 {
-    u8 *entry;
-    register s32 occurrence ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 occurrence;
     s32 index;
-    s32 result;
+    s32 offset;
 
     occurrence = 0;
-    ASM_KEEP(occurrence);
     index = occurrence;
-    entry = D_800157D2;
 
     do {
-        if ((entry[0] == target_value) && (entry[-1] == prefix_value)) {
-            result = index;
+        offset = index * 0x13;
+        if ((((u8 *)0x800157C0)[offset + 0x12] == target_value) && (((u8 *)0x800157C0)[offset + 0x11] == prefix_value)) {
             if (occurrence == target_occurrence) {
-                return result;
+                return index;
             }
             occurrence++;
         }
-
         index++;
-        entry += 0x13;
     } while (index < 0x40);
     return -1;
 }
