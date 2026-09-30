@@ -134,7 +134,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     s16 strip_shade;
     s32 strip_offset;
     s16 shade;
-    register s32 uv_top ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 uv_top;
     register s32 uv_value;
     register s32 uv_value_2;
     s32 bucket_offset;
