@@ -53,6 +53,7 @@ extern u8 D_80174F00[];
 extern u8 D_80174F58[];
 extern u16 D_80174FC4[];
 extern u16 D_80174FD4[];
+extern void *D_801708F0[];
 
 extern void func_80047784(void *, s32, s32);
 extern void func_8009A21C(s32, s32, s32);
@@ -68,6 +69,9 @@ extern s16 func_800BCB04(s32, s32, s16);
 /* Updates movement, destination selection, and recovery animation for the object. */
 void func_80174428(void *state, void *motion, void *actor, void *object)
 {
+    static void *const state_labels[] = {
+        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
+    };
     s32 y_step;
     s32 x_step;
     s16 *x_step_ptr;
@@ -85,59 +89,61 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     state_id = ((S_80174428_1 *)state)->unk_9B;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)((u8 *)dirStepY);
+    raw_direction = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;
-    raw_direction = state_id < 6;
     if (!raw_direction) {
         return;
     }
-    switch (state_id) {
-    case 0:
-        func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
-            (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
-        func_80047784(actor,
-            D_80174EF8[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
-        ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
-        ((S_80174428_1 *)state)->unk_96.s = 4;
-        func_800A56E0(0x80E);
-        ((S_80174428_1 *)state)->unk_9B++;
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
-            ((S_80174428_1 *)state)->unk_96.s--;
-            if (((S_80174428_1 *)state)->unk_96.u > 0) {
-                return;
-            }
-        }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
-        func_80047784(actor,
-            D_80174F58[((*(s16 *)(((u8 *)(&D_80082E80)) + 0x3A8) +
-                ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
-        ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
-        goto advance_state;
+    (void)state_labels;
+    goto *D_801708F0[state_id];
 
-    case 1:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+case_0:
+    func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,
+        (((S_80174428_0 *)object)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174EF8;
+    func_80047784(actor,
+        D_80174EF8[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    ((S_80174428_3 *)motion)->unk_0C = (x_step << 19) + (x_step << 18);
+    ((S_80174428_3 *)motion)->unk_10 = (y_step << 19) + (y_step << 18);
+    ((S_80174428_1 *)state)->unk_96.s = 4;
+    func_800A56E0(0x80E);
+    ((S_80174428_1 *)state)->unk_9B++;
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0x8000)) {
+        ((S_80174428_1 *)state)->unk_96.s--;
+        if (((S_80174428_1 *)state)->unk_96.u > 0) {
             return;
         }
-        ((S_80174428_3 *)motion)->unk_10 = 0;
-        ((S_80174428_3 *)motion)->unk_0C = 0;
-        (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
-        func_80047784(actor,
-            D_80174F00[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
-        if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
-            ((S_80174428_1 *)state)->unk_96.s = 7;
-            ((S_80174428_1 *)state)->unk_9B = 5;
-            return;
-        }
-        ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
-        goto advance_state;
+    }
+    ((S_80174428_3 *)motion)->unk_10 = 0;
+    ((S_80174428_3 *)motion)->unk_0C = 0;
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F58;
+    func_80047784(actor,
+        D_80174F58[((*(s16 *)(((u8 *)(&D_80082E80)) + 0x3A8) +
+            ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    ((S_80174428_1 *)state)->unk_96.s = 0;
+    ((S_80174428_3 *)motion)->unk_0C = (-x_step) << 18;
+    ((S_80174428_3 *)motion)->unk_10 = (-y_step) << 18;
+    goto advance_state;
 
-    case 2:
+case_1:
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        return;
+    }
+    ((S_80174428_3 *)motion)->unk_10 = 0;
+    ((S_80174428_3 *)motion)->unk_0C = 0;
+    (*(u8 * *)((u8 *)actor + 0x2C)) = D_80174F00;
+    func_80047784(actor,
+        D_80174F00[((gameWork.view.viewAngle + ((S_80174428_0 *)object)->unk_2A.u + 0x100) >> 9) & 7], 0);
+    if (((S_80174428_0 *)object)->unk_1C & 0x2000) {
+        ((S_80174428_1 *)state)->unk_96.s = 7;
+        ((S_80174428_1 *)state)->unk_9B = 5;
+        return;
+    }
+    ((S_80174428_0 *)object)->unk_2A.s &= 0xFFF;
+    goto advance_state;
+
+case_2:
     {
         u16 angle = ((S_80174428_0 *)object)->unk_2A.s;
         if ((((S_80174428_0 *)object)->unk_2A.u == 0x400) ||
@@ -153,60 +159,61 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
         return;
     }
 
-    case 3:
 case_3:
-        ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
-        ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
-        goto advance_state;
+    ((S_80174428_2 *)actor)->unk_24 = (u8)x_step;
+    ((S_80174428_2 *)actor)->unk_25 = (u8)y_step;
+    goto advance_state;
 
-    case 4:
-        if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
-            return;
-        }
-        func_80047784(actor, 0x38, 0);
-        attempts_left = 0x40;
-        world = &D_80082E80;
-        level = D_80081468;
-        ((S_80174428_1 *)state)->unk_96.s = 0;
-        x_step = ((S_80174428_2 *)actor)->unk_24;
-        y_step = ((S_80174428_2 *)actor)->unk_25;
+case_4:
+    if (!(((S_80174428_2 *)actor)->unk_14 & 0xE000)) {
+        return;
+    }
+    func_80047784(actor, 0x38, 0);
+    attempts_left = 0x40;
+    world = &D_80082E80;
+    level = D_80081468;
+    ((S_80174428_1 *)state)->unk_96.s = 0;
+    x_step = ((S_80174428_2 *)actor)->unk_24;
+    y_step = ((S_80174428_2 *)actor)->unk_25;
 
-        ASM_KEEP(attempts_left);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        attempts_left--;
+    ASM_KEEP(attempts_left);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    attempts_left--;
 case_4_check:
-        if (attempts_left <= 0) {
-            goto case_3;
+    if (attempts_left <= 0) {
+        goto case_3;
+    }
+    {
+        direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
+        attempts_left--;
+        if (direction_offset < 0) {
+            goto case_4_check;
         }
-        {
-            direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
-            attempts_left--;
-            if (direction_offset < 0) {
-                goto case_4_check;
-            }
-            attempts_left++;
-            if (direction_offset == (s8)((u8)world->unk_026)) {
-                attempts_left--;
-                if (*(s16 *)((u8 *)level + 6) >= 2) {
-                    goto case_4_check;
-                }
-                attempts_left++;
-            }
-            direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
-                (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
-                (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-            raw_direction = direction_offset < 0x201;
-            attempts_left--;
-            if (!raw_direction) {
-                goto case_4_check;
-            }
-            goto advance_state;
+        attempts_left++;
+        if (direction_offset != (s8)((u8)world->unk_026)) {
+            goto case_4_position;
         }
+        attempts_left--;
+        if (*(s16 *)((u8 *)level + 6) >= 2) {
+            goto case_4_check;
+        }
+        attempts_left++;
+case_4_position:
+        direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
+            (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
+            (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
+        raw_direction = direction_offset < 0x201;
+        attempts_left--;
+        if (!raw_direction) {
+            goto case_4_check;
+        }
+        goto advance_state;
+    }
 
 advance_state:
-        ((S_80174428_1 *)state)->unk_9B++;
-        return;
+    ((S_80174428_1 *)state)->unk_9B++;
+    return;
 
-    case 5:
+case_5:
     {
         ((S_80174428_2 *)actor)->unk_1C = D_80174FC4[((S_80174428_1 *)state)->unk_96.u];
         ((S_80174428_2 *)actor)->unk_1E = D_80174FD4[((S_80174428_1 *)state)->unk_96.u];
@@ -240,6 +247,5 @@ advance_state:
         ((S_80174428_0 *)object)->unk_6D = 0;
         ((S_80174428_0 *)object)->unk_46 &= 0x7FFF;
         return;
-    }
     }
 }

@@ -175,14 +175,13 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, EntityRec 
         action_flags = creature_in->unk_46 & 0x3FFF;
         switch (action_flags) {
         case 8:
-        case 9:
             if ((func_80172710(actor_in, context_in, sprite, creature_in) << 16) != 0) {
                 return;
             }
             func_801728D4(actor_in, context_in, sprite, creature_in);
             return;
 
-        case 10:
+        case 9:
             func_80174928(actor_in, context_in, sprite, creature_in);
             return;
 
@@ -216,6 +215,7 @@ case_123:
             func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
             return;
 
+        case 10:
         default:
 generic:
             func_80171F40(actor_in, context_in, sprite, creature_in);

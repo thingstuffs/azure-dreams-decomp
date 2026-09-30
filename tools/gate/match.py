@@ -337,6 +337,46 @@ def _local_section_placements(obj, target, vram, retail_text):
     return bases
 
 
+def local_table_diffs(obj, elf, placements, vram, container, foff):
+    """Compare each placed compiler-local section of the LINKED `elf` (placed at `base`, loaded)
+    with the retail container bytes at base - (vram - foff).  Same rule as the window gate
+    (overlay_local_gate.local_table_mismatches): the only exemption is GNU-as section-end zero
+    padding past the last relocation, shorter than the section alignment.  -> list of diffs."""
+    out = []
+    hdr = subprocess.run([OBJDUMP, "-h", "-r", obj], capture_output=True).stdout.decode(errors="replace")
+    aligns = {m.group(1): 1 << int(m.group(2)) for m in re.finditer(
+        r"^\s*\d+\s+(\S+)\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+2\*\*(\d+)", hdr, re.M)}
+    reloc_end = {}
+    for block in re.split(r"^RELOCATION RECORDS FOR \[", hdr, flags=re.M)[1:]:
+        name, _, body = block.partition("]")
+        offs = [int(m.group(1), 16) for m in re.finditer(r"^([0-9A-Fa-f]{8})\s+R_MIPS_", body, re.M)]
+        if offs:
+            reloc_end[name] = max(offs) + 4
+    for sect, base in sorted(placements.items()):
+        with tempfile.NamedTemporaryFile(suffix=".tbl") as tf:
+            subprocess.run([OBJCOPY, "-O", "binary", f"--only-section={sect}", elf, tf.name], capture_output=True)
+            got = open(tf.name, "rb").read()
+        keep = len(got)
+        floor = max(reloc_end.get(sect, 0), len(got) - (aligns.get(sect, 1) - 1))
+        while keep > floor and got[keep - 1] == 0:
+            keep -= 1
+        got = got[:keep]
+        at = base - (vram - foff)
+        try:
+            with open(container, "rb") as fh:
+                fh.seek(at); want = fh.read(len(got))
+        except (OSError, ValueError):
+            want = b""
+        if got != want:
+            if len(want) != len(got):
+                out.append(f"local {sect} at 0x{base:08X} maps outside the container")
+                continue
+            i = next(k for k in range(len(got)) if got[k] != want[k]) & ~3
+            out.append(f"local {sect} at 0x{base:08X} word {i // 4}: got 0x{int.from_bytes(got[i:i+4], 'little'):08X}, "
+                       f"retail 0x{int.from_bytes(want[i:i+4], 'little'):08X} (the switch's case->label table differs from retail)")
+    return out
+
+
 _NAMES_ALIAS = None
 def _names_alias():
     """readable name -> original func_<addr> from config/names.tsv (tools/ccproc.py's table)."""
@@ -372,7 +412,11 @@ def _canonicalise_names(s_path):
 
 def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
                target=None, psyq=None, as_path=None, psyq_cpp=None,
-               asm_output=None, require_linked=False, retail_text=None):
+               asm_output=None, require_linked=False, retail_text=None,
+               retail_data=None):
+    """...  retail_data=(container_path, row_foff): when a compiler-local table is placed
+    (Option D), also compare its CONTENTS with retail (local_table_diffs) and fail the build
+    with a `jtbl:` error when they differ - the placement alone proves only the address."""
     if asm_output:
         if psyq:
             # The psyq path compiles straight to .o through cc_psyq.sh -- there is no
@@ -533,6 +577,10 @@ def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
             r = subprocess.run(cmd, capture_output=True)
             if r.returncode == 0:
                 obj = e
+                if placements and retail_data is not None:
+                    diffs = local_table_diffs(o, e, placements, vram, *retail_data)
+                    if diffs:
+                        return None, "jtbl: " + "; ".join(diffs)
             else:
                 # LOUD warning: the silent fallback to the unlinked object makes ALL relocs
                 # read 0 (strings/jals/jtbl wrong) -> phantom diffs on unrelated globals.

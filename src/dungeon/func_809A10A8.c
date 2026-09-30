@@ -15,6 +15,7 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern void func_80174910(void *, void *);
 
+extern void *D_80170850[];
 extern s32 D_801710EC;
 extern u8 D_80175E58[];
 extern u8 D_80175E60[];
@@ -58,11 +59,17 @@ void func_801728A8(void *action, EntityRec *motion, void *sprite, void *actor)
     s32 direction_x_2;
     u32 step_x;
     s32 step_y;
+    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
     state = ((S_801728A8_0 *)action)->unk_9B.n;
-    switch (state) {
-    case 0:
+    if ((u32)state >= 5) {
+        return;
+    }
+    (void)state_labels;
+    goto *D_80170850[state];
+
+L0:
     {
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
             ((S_801728A8_0 *)action)->unk_9B.n = 4;
@@ -72,36 +79,36 @@ void func_801728A8(void *action, EntityRec *motion, void *sprite, void *actor)
         }
     }
 
-    case 1:
-        motion->unk_0C -=
-            *(s16 *)((u8 *)((s8 *)dirStepX) +
-                     (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-        motion->unk_10 -=
-            *(s16 *)((u8 *)((s8 *)dirStepY) +
-                     (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
-        ((S_801728A8_0 *)action)->unk_A0.at00.v += 0x60000;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
-            ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
-        }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-            return;
-        }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v < 0x30) {
-            return;
-        }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E58;
-        func_80047784(sprite,
-            D_80175E58[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-            0);
-        func_80174910((u8 *)action - 0x20, (u8 *)actor + 0x2A);
-        state = ((S_801728A8_0 *)action)->unk_9B.n;
-        ((S_801728A8_0 *)action)->unk_96.s = 0;
-        goto increment_state;
+L1:
+    motion->unk_0C -=
+        *(s16 *)((u8 *)((s8 *)dirStepX) +
+                 (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+    motion->unk_10 -=
+        *(s16 *)((u8 *)((s8 *)dirStepY) +
+                 (((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE)) << 14;
+    ((S_801728A8_0 *)action)->unk_A0.at00.v += 0x60000;
+    if (((S_801728A8_0 *)action)->unk_A0.at02.v >= 0x31) {
+        ((S_801728A8_0 *)action)->unk_A0.at02.v = 0x30;
+    }
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
+        return;
+    }
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    if (((S_801728A8_0 *)action)->unk_A0.at02.v < 0x30) {
+        return;
+    }
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E58;
+    func_80047784(sprite,
+        D_80175E58[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        0);
+    func_80174910((u8 *)action - 0x20, (u8 *)actor + 0x2A);
+    state = ((S_801728A8_0 *)action)->unk_9B.n;
+    ((S_801728A8_0 *)action)->unk_96.s = 0;
+    goto increment_state;
 
-    case 2:
+L2:
     {
         s32 direction_offset;
         s32 arc;
@@ -120,17 +127,17 @@ void func_801728A8(void *action, EntityRec *motion, void *sprite, void *actor)
             return;
         }
     }
-        (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E60;
-        func_80047784(sprite,
-            D_80175E60[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
-            0);
-        func_800A56E0(0x808);
-        state = ((S_801728A8_0 *)action)->unk_9B.n;
+    (*(u8 * *)((u8 *)sprite + (0x2C))) = D_80175E60;
+    func_80047784(sprite,
+        D_80175E60[((gameWork.view.viewAngle + ((S_801728A8_4 *)actor)->unk_2A.s + 0x100) >> 9) & 7],
+        0);
+    func_800A56E0(0x808);
+    state = ((S_801728A8_0 *)action)->unk_9B.n;
 increment_state:
-        ((S_801728A8_0 *)action)->unk_9B.n = state + 1;
-        return;
+    ((S_801728A8_0 *)action)->unk_9B.n = state + 1;
+    return;
 
-    case 3:
+L3:
     {
         s16 *directions_x;
         s16 *directions_y;
@@ -180,30 +187,29 @@ increment_state:
         ((S_801728A8_0 *)action)->unk_A8 = motion->unk_0C / 24;
         ((S_801728A8_0 *)action)->unk_AC = motion->unk_10 / 24;
     }
-        ((S_801728A8_0 *)action)->unk_96.s = 12;
-        ((S_801728A8_0 *)action)->unk_9B.n++;
-        return;
+    ((S_801728A8_0 *)action)->unk_96.s = 12;
+    ((S_801728A8_0 *)action)->unk_9B.n++;
+    return;
 
-    case 4:
-        motion->unk_0C -= ((S_801728A8_0 *)action)->unk_A8;
-        motion->unk_10 -= ((S_801728A8_0 *)action)->unk_AC;
-        if (((S_801728A8_0 *)action)->unk_A0.at02.v > 0) {
-            ((S_801728A8_0 *)action)->unk_A0.at02u.v -= 0x10;
-        } else {
-            ((S_801728A8_0 *)action)->unk_A0.at02.v = 0;
-        }
-        if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            return;
-        }
-        motion->flags14 = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-        func_800AD594(actor, 0x100);
-        ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
-        dungeonStatus.unk_0C = 0;
-        (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
-        ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;
-        func_800A4ACC(actor);
+L4:
+    motion->unk_0C -= ((S_801728A8_0 *)action)->unk_A8;
+    motion->unk_10 -= ((S_801728A8_0 *)action)->unk_AC;
+    if (((S_801728A8_0 *)action)->unk_A0.at02.v > 0) {
+        ((S_801728A8_0 *)action)->unk_A0.at02u.v -= 0x10;
+    } else {
+        ((S_801728A8_0 *)action)->unk_A0.at02.v = 0;
     }
+    if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
+        return;
+    }
+    motion->flags14 = 0;
+    motion->unk_10 = 0;
+    motion->unk_0C = 0;
+    func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
+    func_800AD594(actor, 0x100);
+    ((S_801728A8_0 *)action)->unk_8C = &D_801710EC;
+    dungeonStatus.unk_0C = 0;
+    (*(u16 *)((u8 *)actor + (0x46))) &= 0x7FFF;
+    ((S_801728A8_0 *)action)->unk_98 &= 0xFFF7;
+    func_800A4ACC(actor);
 }

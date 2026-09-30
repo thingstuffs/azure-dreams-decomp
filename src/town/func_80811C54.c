@@ -126,6 +126,7 @@ void func_8052C854(void *machine, void *position)
         func_802441A4(input);
         bet_state = 1;
         *(s16 *)((u8 *)self + 0x5C) = bet_state;
+    case 1:
         if (COUNT_VALUE < 1000U) {
             return;
         }
@@ -141,7 +142,7 @@ void func_8052C854(void *machine, void *position)
         *(s16 *)((u8 *)self + 0x5C) = 2;
         return;
 
-    case 1:
+    case 2:
         if (input->unk_08 & 0x5000) {
             u16 ticks_left = self->unk_5E.u;
             self->unk_5E.u = ticks_left - 1;
@@ -193,7 +194,7 @@ void func_8052C854(void *machine, void *position)
             return;
         }
 
-    case 2:
+    case 3:
     {
         s32 ticks_left = self->unk_5E.u - 1;
         self->unk_5E.u = ticks_left;
@@ -206,7 +207,7 @@ void func_8052C854(void *machine, void *position)
         return;
     }
 
-    case 3:
+    case 4:
     {
         s32 ticks_left = self->unk_5E.u - 1;
         self->unk_5E.u = ticks_left;
@@ -229,7 +230,7 @@ void func_8052C854(void *machine, void *position)
         return;
     }
 
-    case 4:
+    case 5:
     {
         s16 reel_index = self->unk_5E.s;
         S_func_80811C54_3 *reel = ((S_func_80811C54_1 *)((u8 *)self + (s32)reel_index * 4))->unk_4C;
@@ -241,7 +242,7 @@ void func_8052C854(void *machine, void *position)
         return;
     }
 
-    case 5:
+    case 6:
     {
         u16 ticks_left = self->unk_60.u;
         self->unk_60.u = ticks_left - 1;
@@ -429,7 +430,6 @@ matrix_outer:
             }
         }
 
-    case 6:
         if (self->unk_58 == 0) {
             self->unk_5E.u = 10;
             self->unk_64 = 0;

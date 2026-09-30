@@ -21,6 +21,7 @@ typedef struct State8081FF68 {
 } State8081FF68;
 
 extern u8 D_80020224[];
+extern void *D_80020244[8];
 extern s32 D_80012D5C[];
 extern s32 D_80024638[];
 extern s16 D_80024630[8];
@@ -33,6 +34,7 @@ extern u8 D_80023BCC[];
 extern u8 D_8007947C[];
 extern s16 D_800834C8[8];
 
+__asm__(".set D_80020244, 0x80020244");
 __asm__(".set D_80024630, 0x80024630");
 __asm__(".set D_80024638, 0x80024638");
 __asm__(".set D_800244E8, 0x800244e8");
@@ -147,6 +149,10 @@ typedef struct S_80022768_14 {
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
 void func_80022768(State8081FF68 *state, void *position)
 {
+    static void *const state_labels[] = {
+        &&sw_0, &&sw_1, &&sw_2, &&sw_3,
+        &&sw_4, &&sw_5, &&sw_6, &&sw_7
+    };
     GameWork *input = &gameWork;
     u8 *payout_callback;
     s32 index;
@@ -156,6 +162,7 @@ void func_80022768(State8081FF68 *state, void *position)
     s32 symbols[3][3];
     void *coin;
 
+    (void)state_labels;
     payout_callback = D_80020224;
 
     if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
@@ -176,91 +183,95 @@ void func_80022768(State8081FF68 *state, void *position)
         }
     }
 
-    switch (((S_80022768_0 *)state)->unk_5C.s) {
-    default:
-        return;
-
-    case 0:
-        ((S_80022768_0 *)state)->unk_62 = 0;
-        ((S_80022768_0 *)state)->unk_64 = 0;
-        func_80093864();
-        {
-            s32 bet_mode = 1;
-            do {
-                ((S_80022768_0 *)state)->unk_5C.s = bet_mode;
-            } while (0);
-        }
-        {
-            s32 *money = D_80012D5C;
-            if ((u32)money[0] < 100U) {
-                return;
-            }
-            if (func_800A2A18(D_80024470, position) == 0) {
-                return;
-            }
-            SD_Call(0x523);
-            D_80024638[0] = (s32)func_800B1BEC(0, -80, 64);
-            D_800834C8[0] = 0;
-            func_80093C70();
-            money[0] -= 100;
-        }
-        (*(u16 *)((u8 *)state + (0x64))) = 1;
-        (*(u16 *)((u8 *)state + (0x5E))) = 5;
-        (*(s16 *)((u8 *)state + (0x5C))) = 2;
-        return;
-
-    case 1:
-        if ((((u32)input->buttons) & 0x5000) != 0) {
-            u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
-            ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
-            if ((s16)timer < 0) {
-                ((S_80022768_0 *)state)->unk_5E.u = 0;
-            }
-        } else {
-            ((S_80022768_0 *)state)->unk_5E.u = 5;
-        }
-
-        if ((((u32)input->unk_010) & 0x1000) != 0 ||
-            ((((u32)input->buttons) & 0x1000) != 0 &&
-             (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
-            if (((S_80022768_0 *)state)->unk_64 < 3) {
-                SD_Call(0x502);
-                if ((u32)D_80012D5C[0] < 100U) {
-                    return;
-                }
-                ((S_80022768_0 *)state)->unk_64++;
-                D_80012D5C[0] -= 100;
-                return;
-            }
-        }
-
-        if ((((u32)input->unk_010) & 0x4000) != 0 ||
-            ((((u32)input->buttons) & 0x4000) != 0 &&
-             (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
-            if (((S_80022768_0 *)state)->unk_64 >= 2) {
-                SD_Call(0x502);
-                D_80012D5C[0] += 100;
-                ((S_80022768_0 *)state)->unk_64--;
-                return;
-            }
-        }
-
-        if ((((u32)input->unk_010) & 0x20) != 0) {
-            ((S_80022768_0 *)state)->unk_5E.u = 10;
-            ((S_80022768_0 *)state)->unk_5C.s = 3;
+    {
+        s32 mode = ((S_80022768_0 *)state)->unk_5C.s;
+        if ((u32)mode >= 8U) {
             return;
         }
+        goto *D_80020244[mode];
+    }
 
-        if ((((u32)input->unk_010) & 0x40) == 0 ||
-            ((S_80022768_0 *)state)->unk_64 == 0) {
+sw_0:
+    ((S_80022768_0 *)state)->unk_62 = 0;
+    ((S_80022768_0 *)state)->unk_64 = 0;
+    func_80093864();
+    {
+        s32 bet_mode = 1;
+        do {
+            ((S_80022768_0 *)state)->unk_5C.s = bet_mode;
+        } while (0);
+    }
+    {
+        s32 *money = D_80012D5C;
+        if ((u32)money[0] < 100U) {
             return;
         }
-        SD_Call(0x526);
-        ((S_80022768_0 *)state)->unk_5E.u = 20;
-        ((S_80022768_0 *)state)->unk_5C.s = 4;
-        return;
+        if (func_800A2A18(D_80024470, position) == 0) {
+            return;
+        }
+        SD_Call(0x523);
+        D_80024638[0] = (s32)func_800B1BEC(0, -80, 64);
+        D_800834C8[0] = 0;
+        func_80093C70();
+        money[0] -= 100;
+    }
+    (*(u16 *)((u8 *)state + (0x64))) = 1;
+    (*(u16 *)((u8 *)state + (0x5E))) = 5;
+    (*(s16 *)((u8 *)state + (0x5C))) = 2;
+    return;
 
-    case 2:
+sw_1:
+    if ((((u32)input->buttons) & 0x5000) != 0) {
+        u16 timer = ((S_80022768_0 *)state)->unk_5E.u;
+        ((S_80022768_0 *)state)->unk_5E.u = (u16)(timer - 1);
+        if ((s16)timer < 0) {
+            ((S_80022768_0 *)state)->unk_5E.u = 0;
+        }
+    } else {
+        ((S_80022768_0 *)state)->unk_5E.u = 5;
+    }
+
+    if ((((u32)input->unk_010) & 0x1000) != 0 ||
+        ((((u32)input->buttons) & 0x1000) != 0 &&
+         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
+        if (((S_80022768_0 *)state)->unk_64 < 3) {
+            SD_Call(0x502);
+            if ((u32)D_80012D5C[0] < 100U) {
+                return;
+            }
+            ((S_80022768_0 *)state)->unk_64++;
+            D_80012D5C[0] -= 100;
+            return;
+        }
+    }
+
+    if ((((u32)input->unk_010) & 0x4000) != 0 ||
+        ((((u32)input->buttons) & 0x4000) != 0 &&
+         (s16)((S_80022768_0 *)state)->unk_5E.s <= 0)) {
+        if (((S_80022768_0 *)state)->unk_64 >= 2) {
+            SD_Call(0x502);
+            D_80012D5C[0] += 100;
+            ((S_80022768_0 *)state)->unk_64--;
+            return;
+        }
+    }
+
+    if ((((u32)input->unk_010) & 0x20) != 0) {
+        ((S_80022768_0 *)state)->unk_5E.u = 10;
+        ((S_80022768_0 *)state)->unk_5C.s = 3;
+        return;
+    }
+
+    if ((((u32)input->unk_010) & 0x40) == 0 ||
+        ((S_80022768_0 *)state)->unk_64 == 0) {
+        return;
+    }
+    SD_Call(0x526);
+    ((S_80022768_0 *)state)->unk_5E.u = 20;
+    ((S_80022768_0 *)state)->unk_5C.s = 4;
+    return;
+
+sw_2:
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         ((S_80022768_0 *)state)->unk_5E.u = timer;
@@ -273,7 +284,7 @@ void func_80022768(State8081FF68 *state, void *position)
         return;
     }
 
-    case 5:
+sw_5:
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         u8 *reel_slot;
@@ -295,7 +306,7 @@ void func_80022768(State8081FF68 *state, void *position)
         return;
     }
 
-    case 3:
+sw_3:
     {
         s16 reel_index = ((S_80022768_0 *)state)->unk_5E.s;
         void *reel = ((S_80022768_5 *)((u8 *)(((s32)reel_index << 2) + (s32)state)))->unk_4C;
@@ -307,25 +318,27 @@ void func_80022768(State8081FF68 *state, void *position)
         return;
     }
 
-    case 4:
-        SD_Call(0x524);
-        {
-            u16 timer = ((S_80022768_0 *)state)->unk_60.u;
-            ((S_80022768_0 *)state)->unk_60.u = timer - 1;
-            if ((s16)timer <= 0)
-                ((S_80022768_0 *)state)->unk_60.u = 0;
-        }
-        if ((((u32)input->unk_010) & 0x40) != 0 &&
-            ((S_80022768_0 *)state)->unk_60.s == 0) {
-            void *reel;
-            SD_Call(0x522);
-            reel = ((S_80022768_12 *)((u8 *)(((s32)(s16)((S_80022768_0 *)state)->unk_5E.s << 2) +
-                (s32)state)))->unk_4C;
-            ((S_80022768_4 *)reel)->unk_24 = 4;
-            ((S_80022768_0 *)state)->unk_60.u = 10;
-            ((S_80022768_0 *)state)->unk_5E.u++;
-        }
-    case 6:
+sw_4:
+    SD_Call(0x524);
+    {
+        u16 timer = ((S_80022768_0 *)state)->unk_60.u;
+        ((S_80022768_0 *)state)->unk_60.u = timer - 1;
+        if ((s16)timer <= 0)
+            ((S_80022768_0 *)state)->unk_60.u = 0;
+    }
+    if ((((u32)input->unk_010) & 0x40) != 0 &&
+        ((S_80022768_0 *)state)->unk_60.s == 0) {
+        void *reel;
+        SD_Call(0x522);
+        reel = ((S_80022768_12 *)((u8 *)(((s32)(s16)((S_80022768_0 *)state)->unk_5E.s << 2) +
+            (s32)state)))->unk_4C;
+        ((S_80022768_4 *)reel)->unk_24 = 4;
+        ((S_80022768_0 *)state)->unk_60.u = 10;
+        ((S_80022768_0 *)state)->unk_5E.u++;
+    }
+    goto sw_6;
+
+sw_6:
     {
         index = 2;
         if (((S_80022768_0 *)state)->unk_5E.s != 3) {
@@ -510,79 +523,78 @@ count_done:
         return;
     }
 
-    case 7:
-        ((S_80022768_0 *)state)->unk_5E.u++;
-        if ((s16)((S_80022768_0 *)state)->unk_5E.u == 9) {
-            func_80093864();
-        }
-        if ((((S_80022768_0 *)state)->unk_5E.u & 3) != 0) {
+sw_7:
+    ((S_80022768_0 *)state)->unk_5E.u++;
+    if ((s16)((S_80022768_0 *)state)->unk_5E.u == 9) {
+        func_80093864();
+    }
+    if ((((S_80022768_0 *)state)->unk_5E.u & 3) != 0) {
+        return;
+    }
+    {
+        s16 *digits = D_80024630;
+        if ((s16)digits[0] + (s16)digits[1] + (s16)digits[2] == 0) {
+            if ((((S_80022768_0 *)state)->unk_62 & 2) == 0) {
+                void *bet_display = (void *)D_80024638[0];
+                ((S_80022768_0 *)state)->unk_64 = 0;
+                func_800B1DBC(bet_display);
+                ((S_80022768_0 *)state)->unk_5E.u = 10;
+                ((S_80022768_0 *)state)->unk_5C.s = 3;
+            }
+            ((S_80022768_0 *)state)->unk_62 &= (u16)~2;
             return;
         }
+
         {
-            s16 *digits = D_80024630;
-            if ((s16)digits[0] + (s16)digits[1] + (s16)digits[2] == 0) {
-                if ((((S_80022768_0 *)state)->unk_62 & 2) == 0) {
-                    void *bet_display = (void *)D_80024638[0];
-                    ((S_80022768_0 *)state)->unk_64 = 0;
-                    func_800B1DBC(bet_display);
-                    ((S_80022768_0 *)state)->unk_5E.u = 10;
-                    ((S_80022768_0 *)state)->unk_5C.s = 3;
-                }
-                ((S_80022768_0 *)state)->unk_62 &= (u16)~2;
+            void *payout_obj;
+            u8 *primitive;
+            u8 *sprite;
+            u8 *payout_state;
+            coin = func_8003FC64(0x136);
+            if (coin == NULL) {
                 return;
             }
-
-            {
-                void *payout_obj;
-                u8 *primitive;
-                u8 *sprite;
-                u8 *payout_state;
-                coin = func_8003FC64(0x136);
-                if (coin == NULL) {
-                    return;
-                }
-                payout_obj = coin;
-                ((S_80022768_4 *)coin)->unk_10 = D_800236BC;
-                ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_00 =
-                    ((S_80022768_7 *)position)->unk_00 + (s32)0xFEC00000;
-                ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_04 =
-                    ((S_80022768_7 *)position)->unk_04 + (s32)0xFFC00000;
-                ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_08 =
-                    ((S_80022768_7 *)position)->unk_08 + (s32)0xFFC00000;
-                primitive = ((S_80022768_4 *)coin)->unk_08.p;
-                ((S_80022768_8 *)primitive)->unk_10 = 0;
-                ((S_80022768_8 *)primitive)->unk_0C = 0;
-                ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_14 = 0x40000;
-                payout_state = (u8 *)coin + 0x20;
-                func_8004491C(payout_obj, func_80045340);
-                sprite = ((S_80022768_4 *)coin)->unk_0C;
-                ((S_80022768_9 *)sprite)->unk_1E = 0x1000;
-                ((S_80022768_9 *)sprite)->unk_1C = 0x1000;
-                if (digits[2] != 0) {
-                    digits[2]--;
-                    ((S_80022768_10 *)payout_state)->unk_54 = 2;
-                } else if (digits[1] != 0) {
-                    digits[1]--;
-                    ((S_80022768_10 *)payout_state)->unk_54 = 1;
-                    ((S_80022768_9 *)sprite)->unk_12 = (u16)(((S_80022768_9 *)sprite)->unk_12 - 5);
-                } else if (digits[0] != 0) {
-                    digits[0]--;
-                    ((S_80022768_10 *)payout_state)->unk_54 = 0;
-                    ((S_80022768_9 *)sprite)->unk_12 = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
-                }
-                {
-                    u8 *primitive = sprite;
-                    u8 *sprite_data = D_8007947C;
-                    (*(void * *)((u8 *)primitive + (0))) = sprite_data;
-                    ((S_80022768_8 *)primitive)->unk_08 = ((S_80022768_11 *)sprite_data)->unk_04;
-                    ((S_80022768_8 *)primitive)->unk_04 = 0;
-                    ((S_80022768_8 *)primitive)->unk_05 = 0;
-                    ((S_80022768_8 *)primitive)->unk_0C = 0x00808080;
-                }
-                ((S_80022768_10 *)payout_state)->unk_00 = state;
-                ((S_80022768_10 *)payout_state)->unk_50 = payout_callback;
-                func_8008F074(payout_state + 8, ((S_80022768_4 *)coin)->unk_08.p2, D_80024488);
+            payout_obj = coin;
+            ((S_80022768_4 *)coin)->unk_10 = D_800236BC;
+            ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_00 =
+                ((S_80022768_7 *)position)->unk_00 + (s32)0xFEC00000;
+            ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_04 =
+                ((S_80022768_7 *)position)->unk_04 + (s32)0xFFC00000;
+            ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_08 =
+                ((S_80022768_7 *)position)->unk_08 + (s32)0xFFC00000;
+            primitive = ((S_80022768_4 *)coin)->unk_08.p;
+            ((S_80022768_8 *)primitive)->unk_10 = 0;
+            ((S_80022768_8 *)primitive)->unk_0C = 0;
+            ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_14 = 0x40000;
+            payout_state = (u8 *)coin + 0x20;
+            func_8004491C(payout_obj, func_80045340);
+            sprite = ((S_80022768_4 *)coin)->unk_0C;
+            ((S_80022768_9 *)sprite)->unk_1E = 0x1000;
+            ((S_80022768_9 *)sprite)->unk_1C = 0x1000;
+            if (digits[2] != 0) {
+                digits[2]--;
+                ((S_80022768_10 *)payout_state)->unk_54 = 2;
+            } else if (digits[1] != 0) {
+                digits[1]--;
+                ((S_80022768_10 *)payout_state)->unk_54 = 1;
+                ((S_80022768_9 *)sprite)->unk_12 = (u16)(((S_80022768_9 *)sprite)->unk_12 - 5);
+            } else if (digits[0] != 0) {
+                digits[0]--;
+                ((S_80022768_10 *)payout_state)->unk_54 = 0;
+                ((S_80022768_9 *)sprite)->unk_12 = (u16)((*(u16 *)((u8 *)sprite + (0x12))) + 5);
             }
+            {
+                u8 *primitive = sprite;
+                u8 *sprite_data = D_8007947C;
+                (*(void * *)((u8 *)primitive + (0))) = sprite_data;
+                ((S_80022768_8 *)primitive)->unk_08 = ((S_80022768_11 *)sprite_data)->unk_04;
+                ((S_80022768_8 *)primitive)->unk_04 = 0;
+                ((S_80022768_8 *)primitive)->unk_05 = 0;
+                ((S_80022768_8 *)primitive)->unk_0C = 0x00808080;
+            }
+            ((S_80022768_10 *)payout_state)->unk_00 = state;
+            ((S_80022768_10 *)payout_state)->unk_50 = payout_callback;
+            func_8008F074(payout_state + 8, ((S_80022768_4 *)coin)->unk_08.p2, D_80024488);
         }
     }
 }

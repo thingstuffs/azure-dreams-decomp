@@ -105,13 +105,13 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
                 goto kind2;
             case 2:
                 goto kind3;
-            case 4:
+            case 6:
                 special_item = 1;
                 goto kind3;
             case 5:
                 special_item = 1;
                 goto kind2;
-            case 6:
+            case 4:
                 special_item = 1;
                 goto kind1;
             default:

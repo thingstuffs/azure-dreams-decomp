@@ -175,15 +175,15 @@ void func_800224E0(void)
                 ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
                 break;
             case 1:
-                value = 2;
-                ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
-                break;
             case 2:
-                value = 3;
+                value = 2;
                 ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
                 break;
             case 3:
             case 4:
+                value = 3;
+                ((S_800224E0_0 *)obj)->unk_20.at00u.v = value;
+                break;
             default:
                 break;
             }

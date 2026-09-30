@@ -84,12 +84,12 @@ void func_80174C70(void *effect, void *motion, void *render)
     case 12:
     case 13:
     case 14:
+    case 16:
+    case 15:
         ((S_80174C70_0 *)effect)->unk_62 = 0x18;
         ((S_80174C70_1 *)((void *)render_or_step))->unk_1A.u += 0x180;
         break;
 
-    case 15:
-    case 16:
     case 17:
     case 18:
     case 19:

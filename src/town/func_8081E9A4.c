@@ -445,6 +445,8 @@ state_3_after_shake:
             }
             break;
         case 25:
+        case 41:
+        case 53:
             func_80093CEC(D_800D00B8);
             break;
         case 21:
@@ -469,7 +471,7 @@ state_3_after_shake:
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC0000;
             func_80093CEC(D_800D0078);
             break;
-        case 59:
+        case 61:
             SD_Call(0x508);
             ((EntityRec *)((u8 *)(&D_80083780)))->flags14 = (s32)0xFFFC8000;
             func_80093CEC(D_800D0078);

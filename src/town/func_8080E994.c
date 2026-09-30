@@ -65,6 +65,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
     s16 dispatch_a1;
     Vec3 choices;
     s32 value;
+    u32 result_v0;
 
     entity = st->entity;
     choices = D_80526448;
@@ -119,46 +120,44 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
     }
 
     case 1:
-    {
-        u32 result_v0;
-        act->handler = D_80077C64;
-        act->value = D_80077C68[0];
-        act->mode = 0;
-        act->variant = func_80071494() & 3;
-        act->flags &= 0xff7f;
+    act->handler = D_80077C64;
+    act->value = D_80077C68[0];
+    act->mode = 0;
+    act->variant = func_80071494() & 3;
+    act->flags &= 0xff7f;
 
-        value = st->kind;
-        if (value == 0) {
-            act->height += 5;
-            st->field1D = 0;
-            st->state = 2;
-        } else if (value == 1) {
-            act->height -= 5;
-            st->field1D = 0;
-            st->state = 2;
-        } else {
-            st->field1D = 0;
-            st->state = 2;
-        }
+    value = st->kind;
+    if (value == 0) {
+        act->height += 5;
+        st->field1D = 0;
+        st->state = 2;
+    } else if (value == 1) {
+        act->height -= 5;
+        st->field1D = 0;
+        st->state = 2;
+    } else {
+        st->field1D = 0;
+        st->state = 2;
+    }
 
-        func_8003EA54(act);
-        mot->x += mot->dx;
-        mot->y += mot->dy;
-        mot->z += mot->dz;
-        mot->dz += 0x30000;
-        st->timer--;
-        if (st->timer > 0) {
-            return;
-        }
-
-        mot->z = -0x400000;
-        mot->dz = ((func_80071494() & 0xff) << 11) - 0x180000;
-        st->timer = (func_80071494() & 0xf) + 30;
-        st->state = 3;
+case 2:
+    func_8003EA54(act);
+    mot->x += mot->dx;
+    mot->y += mot->dy;
+    mot->z += mot->dz;
+    mot->dz += 0x30000;
+    st->timer--;
+    if (st->timer > 0) {
         return;
     }
 
-    case 2:
+    mot->z = -0x400000;
+    mot->dz = ((func_80071494() & 0xff) << 11) - 0x180000;
+    st->timer = (func_80071494() & 0xf) + 30;
+    st->state = 3;
+    return;
+
+    case 3:
     {
         s32 floor;
         s32 z;
@@ -194,7 +193,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         return;
     }
 
-    case 3:
+    case 4:
         if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
             s32 product;
             s32 choice;
@@ -212,7 +211,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         st->state = 5;
         return;
 
-    case 4:
+    case 5:
     {
         u32 result_v0;
         if ((st->timer >> 2) & 1) {
@@ -238,13 +237,12 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         return;
     }
 
-    case 5:
+    case 6:
         func_8023FB18(&st->work[0]);
         *(u16 *)((u8 *)st - 2) |= 0x8000;
         D_80084D5C |= 0x8000;
         return;
 
-    case 6:
     default:
         return;
     }

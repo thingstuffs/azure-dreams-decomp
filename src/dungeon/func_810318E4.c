@@ -102,6 +102,10 @@ typedef struct S_801730E4_9 {
 /* Advances the selected item's action, visual effect, and cleanup states. */
 void func_801730E4(void *action, EntityRec *position, void *sprite, void *actor)
 {
+    static void *const kind_labels[] = {
+        &&kind_1, &&kind_2, &&kind_3, &&kind_default,
+        &&kind_default, &&kind_default, &&kind_default
+    };
     u16 position_delta[3];
     s16 is_special;
     void *active;
@@ -133,23 +137,21 @@ state_0:
         u32 kind;
 
         kind = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
-        switch (kind) {
-        case 2:
-            is_special = 1;
-            goto select_3;
-        case 1:
-            is_special = 1;
-            goto select_2;
-        case 0:
-            is_special = 1;
-            goto select_1;
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        default:
+        if (kind >= 7) {
             goto kind_default;
         }
+        (void)kind_labels;
+        goto *D_80170838[kind];
+
+kind_3:
+        is_special = 1;
+        goto select_3;
+kind_2:
+        is_special = 1;
+        goto select_2;
+kind_1:
+        is_special = 1;
+        goto select_1;
     }
 
     {

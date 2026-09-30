@@ -62,6 +62,7 @@ AS = "mipsel-linux-gnu-as"
 LD = "mipsel-linux-gnu-ld"
 NM = "mipsel-linux-gnu-nm"
 OBJCOPY = "mipsel-linux-gnu-objcopy"
+OBJDUMP = "mipsel-linux-gnu-objdump"
 READELF = "mipsel-linux-gnu-readelf"
 
 
@@ -1204,6 +1205,89 @@ def write_linker_script(
     return unknown
 
 
+def local_table_mismatches(
+    obj: Path,
+    placements: dict[str, int],
+    seg: "Segment",
+    place_vram: int,
+    container: Path,
+    gp_value: int,
+    symbol_files: list[Path],
+    probe_stem: Path,
+    row_name: str,
+) -> list[str]:
+    """Compare the CONTENTS of every placed compiler-local data section (a switch jump
+    table, 2026-09-29) with retail's bytes at the placed address.
+
+    The Option-D placement is NOLOAD: it resolves the %hi/%lo base and nothing else, and
+    the window image keeps retail's raw bytes for the table area.  The table's contents
+    (which case goes to which label) were therefore compared NOWHERE, and a real switch
+    whose case->label mapping differs from retail's rode through a green window (measured:
+    5 of 17 round-80 switch texts, e.g. func_81887004 entries 1-4 shifted by one case).
+    This probe re-links the object ALONE exactly as the rowbase mini-link does (same
+    symbol assignments, same text address) with the placed sections LOADED, and compares
+    each section with the container at the file offset the placed address maps to
+    (base - (place_vram - row foff)).  The only exemption is GNU-as section-end alignment
+    padding: trailing zero bytes past the last relocation, fewer than the section's
+    alignment (retail's ASPSX does not pad; the next retail datum follows the table
+    directly).  Anything else - a differing word, a table outside the container, a probe
+    link that fails - is reported, and the caller fails the window."""
+    out: list[str] = []
+    sects = sorted(placements.items())
+    mini = dataclasses.replace(seg, index=0, vram=place_vram)
+    ld = probe_stem.with_suffix(".tblprobe.ld")
+    elf = probe_stem.with_suffix(".tblprobe.elf")
+    try:
+        write_linker_script([mini], [obj], gp_value, symbol_files, ld,
+                            placements=placements, obj_paths={0: obj})
+    except SystemExit as exc:
+        return [f"{row_name}: local-table probe script failed ({str(exc)[:120]})"]
+    ld.write_text(ld.read_text().replace(" (NOLOAD) :", " :"))
+    r = subprocess.run([LD, "-EL", "--no-check-sections", "-T", str(ld), "-o", str(elf), str(obj)],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        tail = (r.stderr.strip().splitlines() or ["?"])[-1]
+        return [f"{row_name}: local-table probe link failed ({tail[-160:]})"]
+    hdr = subprocess.run([OBJDUMP, "-h", "-r", str(obj)], capture_output=True, text=True).stdout
+    aligns: dict[str, int] = {}
+    for m in re.finditer(r"^\s*\d+\s+(\S+)\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+2\*\*(\d+)", hdr, re.M):
+        aligns[m.group(1)] = 1 << int(m.group(2))
+    reloc_end: dict[str, int] = {}
+    for block in re.split(r"^RELOCATION RECORDS FOR \[", hdr, flags=re.M)[1:]:
+        name, _, body = block.partition("]")
+        offs = [int(m.group(1), 16) for m in re.finditer(r"^([0-9A-Fa-f]{8})\s+R_MIPS_", body, re.M)]
+        if offs:
+            reloc_end[name] = max(offs) + 4
+    size_total = container.stat().st_size
+    for n, (sect, base) in enumerate(sects):
+        binf = probe_stem.with_suffix(f".tblprobe{n:02d}.bin")
+        subprocess.run([OBJCOPY, "-O", "binary", f"--only-section={sect}", str(elf), str(binf)],
+                       capture_output=True)
+        got = binf.read_bytes() if binf.exists() else b""
+        if not got:
+            out.append(f"{row_name}: local {sect} at 0x{base:08X}: probe produced no bytes")
+            continue
+        keep = len(got)
+        floor = max(reloc_end.get(sect, 0), len(got) - (aligns.get(sect, 1) - 1))
+        while keep > floor and got[keep - 1] == 0:
+            keep -= 1
+        got = got[:keep]
+        foff = base - (place_vram - seg.start)
+        if foff < 0 or foff + len(got) > size_total:
+            out.append(f"{row_name}: local {sect} at 0x{base:08X} maps to file 0x{foff:X}, outside the container")
+            continue
+        with container.open("rb") as fh:
+            fh.seek(foff)
+            want = fh.read(len(got))
+        if got != want:
+            i = next(k for k in range(len(got)) if got[k] != want[k]) & ~3
+            g = int.from_bytes(got[i:i + 4], "little"); t = int.from_bytes(want[i:i + 4], "little")
+            nbad = sum(1 for k in range(0, len(got), 4) if got[k:k + 4] != want[k:k + 4])
+            out.append(f"{row_name}: local {sect} at 0x{base:08X} (file 0x{foff:X}) word {i // 4}: "
+                       f"got 0x{g:08X}, retail 0x{t:08X} ({nbad} of {(len(got) + 3) // 4} words differ)")
+    return out
+
+
 def first_mismatch(a: bytes, b: bytes) -> tuple[int, int, int] | None:
     for i, (x, y) in enumerate(zip(a, b)):
         if x != y:
@@ -1440,6 +1524,8 @@ def main() -> int:
     # the true vram (same symbol machinery), then inject the resulting bytes as
     # a raw segment — the bytes still come from compiling the actual source.
     rowbase_objs: set[Path] = set()
+    table_errors: list[str] = []
+    split_name = {int(r["foff"]): r.get("func_vram") or f"row_{int(r['foff']):X}" for r in split_rows}
     scoped_placements: list[tuple[str, str, int]] = []
     # Computed BEFORE the loop mutates segments[i] to kind="rowbase", so the
     # same key set is reused for the main link's obj_paths map below.
@@ -1458,10 +1544,30 @@ def main() -> int:
         with container.open("rb") as _stream:
             _stream.seek(seg.start)
             _row_bytes = _stream.read(seg.end - seg.start)
+        # The derivation locates the function in the object BY NAME. A row in a
+        # PROVEN rowbase region carries match.func = its true name (load_matches),
+        # but a LEGACY in-region TU (landed before the naming inversion) still
+        # defines its synthetic name (= the source stem, func_vram): the lookup
+        # missed, the placement came back {} and the TU's own switch table died
+        # at /DISCARD/ (func_807AE960 -> func_800F6160, round 80). Fall back to
+        # the source stem only when the true name is absent; every derivation
+        # check (shells, agreement, alignment, overlap) is unchanged.
+        _place_func = seg.match.func
+        if (seg.match.link_vram is not None
+                and _match.symbol_info(str(obj), _place_func) is None):
+            _place_func = seg.match.source.stem
         placements = _match._local_section_placements(
-            str(obj), seg.match.func,
+            str(obj), _place_func,
             seg.match.link_vram if seg.match.link_vram is not None else seg.vram,
             _row_bytes)
+        if placements:
+            # the placement resolves addresses only (NOLOAD): compare the placed
+            # sections' CONTENTS with retail too (local_table_mismatches)
+            table_errors.extend(local_table_mismatches(
+                obj, placements, seg,
+                seg.match.link_vram if seg.match.link_vram is not None else seg.vram,
+                container, gp_value, symbol_files, build_dir / f"tbl_{obj_key}",
+                split_name.get(seg.start, seg.match.func)))
         if seg.match.link_vram is None:
             # In-window C segment (no rowbase mini-link): its local jtbl dies
             # at the main link's /DISCARD/ without a placement (the gate half
@@ -1555,6 +1661,11 @@ def main() -> int:
     if mismatch:
         off, g, t = mismatch
         print(f"NO MATCH: first mismatch at window+0x{off:X} file 0x{window_start + off:X}: got 0x{g:02X}, target 0x{t:02X}")
+        return 1
+    if table_errors:
+        for err in table_errors:
+            print(f"local table: {err}")
+        print(f"NO MATCH: {len(table_errors)} compiler-local table(s) differ from retail: {table_errors[0][:150]}")
         return 1
 
     print(f"MATCH: rebuilt overlay window byte-identical ({len(target)} bytes)")

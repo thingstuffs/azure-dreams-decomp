@@ -30,6 +30,8 @@ typedef struct S_func_819A0DB8_1 {
 extern s16 D_800261B0[];
 extern u8 D_80020000[];
 extern u8 D_80080000[];
+extern void *jtbl_80024008[];
+__asm__(".set jtbl_80024008, 0x80024008");
 
 /* Updates paired fields for the current countdown step and flags completion. */
 void func_800245B8(void *object_data)
@@ -37,54 +39,53 @@ void func_800245B8(void *object_data)
     s32 phase_index;
     s32 pair_offset;
     S_func_819A0DB8_0 *object = object_data;
+    static void *const phase_labels[] = {
+        &&L0, &&L1, &&L2, &&L3
+    };
 
+    (void)phase_labels;
     phase_index = (s16)(object->unk_3A - 3);
     ((S_func_819A0DB8_1 *)D_80020000)->unk_61B0 = 1;
-    switch (phase_index) {
-    case 3:
-    case 7:
-        object->unk_92 -= 0x60;
-        object->unk_9E -= 0x60;
-        object->unk_93 += 0x20;
-        object->unk_9F += 0x20;
-        break;
-    case 4:
-    case 6:
-    case 8:
-    case 9:
-        object->unk_92 += 0x20;
-        object->unk_9E += 0x20;
-        object->unk_8C -= 1;
-        object->unk_98 += 1;
-        break;
-    case 2:
-        object->unk_95 = 24;
-        do {
-            object->unk_A1 = 24;
-        } while (0);
-                /* MATCH: keep each arm's stores before the shared tail. */
-        pair_offset = -12;
-        goto shared;
-    case 0:
-        object->unk_95 = 16;
-        do {
-            object->unk_A1 = 16;
-        } while (0);
-                /* MATCH: keep each arm's stores before the shared tail. */
-        pair_offset = -8;
-shared:
-        object->unk_8D = pair_offset;
-        object->unk_99 = pair_offset;
-        object->unk_92 += 0x20;
-        object->unk_9E += 0x20;
-        break;
-    case 1:
-    case 5:
-    case 10:
-    default:
-        break;
+    if ((u32)phase_index < 11) {
+        void **phase_table = jtbl_80024008;
+        goto *phase_table[phase_index];
     }
+    goto tail;
 
+L0:
+    object->unk_92 -= 0x60;
+    object->unk_9E -= 0x60;
+    object->unk_93 += 0x20;
+    object->unk_9F += 0x20;
+    goto tail;
+L1:
+    object->unk_92 += 0x20;
+    object->unk_9E += 0x20;
+    object->unk_8C -= 1;
+    object->unk_98 += 1;
+    goto tail;
+L2:
+    object->unk_95 = 24;
+    do {
+        object->unk_A1 = 24;
+    } while (0);
+         /* MATCH: keep each arm's stores before the shared tail. */
+    pair_offset = -12;
+    goto shared;
+L3:
+    object->unk_95 = 16;
+    do {
+        object->unk_A1 = 16;
+    } while (0);
+         /* MATCH: keep each arm's stores before the shared tail. */
+    pair_offset = -8;
+shared:
+    object->unk_8D = pair_offset;
+    object->unk_99 = pair_offset;
+    object->unk_92 += 0x20;
+    object->unk_9E += 0x20;
+
+tail:
     {
         u16 remaining_steps = object->unk_3A - 1;
         object->unk_3A = remaining_steps;

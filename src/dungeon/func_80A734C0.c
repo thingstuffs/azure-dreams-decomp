@@ -57,13 +57,13 @@ void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
                 goto item_b_value;
             case 2:
                 goto item_e_value;
-            case 4:
+            case 6:
                 is_special = 1;
                 goto item_e_value;
             case 5:
                 is_special = 1;
                 goto item_b_value;
-            case 6:
+            case 4:
                 is_special = 1;
                 goto item_8_value;
             default:

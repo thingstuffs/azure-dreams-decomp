@@ -92,7 +92,7 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         next_phase++;
         goto skip_counter;
 
-    case 5:
+    case 1:
         if (((S_80170A84_1 *)owner_data)->unk_9B >= 4) {
             ((S_80170A84_0 *)effect)->unk_36.s = 0;
             ((S_80170A84_0 *)effect)->unk_38 = 20;
@@ -106,7 +106,7 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         ((S_80170A84_0 *)effect)->unk_36.s = 20;
         break;
 
-    case 1:
+    case 2:
     {
         u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
         s16 duration = ((S_80170A84_0 *)effect)->unk_38;
@@ -127,7 +127,7 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         ((S_80170A84_0 *)effect)->unk_38 = reset_ticks;
         goto common_counter;
 
-    case 2:
+    case 3:
     {
         u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
         s16 duration = ((S_80170A84_0 *)effect)->unk_38;
@@ -147,7 +147,7 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         objectFlagBlock.flags |= 0x8000;
         break;
 
-    case 3:
+    case 4:
     {
         u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
         s16 duration = ((S_80170A84_0 *)effect)->unk_38;
@@ -174,7 +174,7 @@ skip_counter:
         ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
         break;
 
-    case 4:
+    case 5:
     {
         u16 ticks = ((S_80170A84_0 *)effect)->unk_36.s;
 

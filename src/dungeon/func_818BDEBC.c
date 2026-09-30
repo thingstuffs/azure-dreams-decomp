@@ -125,6 +125,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     S32_AT(color_part, 0xC) = color;
     ASM_KEEP(color_part);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
+    case 1:
     owner_meta = (u8 *)owner - 0x20;
     owner_node = PTR_AT(owner_meta, 0xC);
     if (!func_8003DE58(PTR_AT(owner_node, 8), owner_node, work.probe_delta, 0)) {
@@ -310,7 +311,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     next_state = 6;
     goto set_state;
 
-    case 1:
+    case 2:
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
@@ -322,7 +323,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     state->timer = 0;
     break;
 
-    case 2:
+    case 3:
     if (state->timer < 0x10) {
         break;
     }
@@ -330,7 +331,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     state->timer = 0;
     break;
 
-    case 3:
+    case 4:
     if (state->timer < 0x30) {
         break;
     }
@@ -339,7 +340,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     state->timer = 0;
     break;
 
-    case 4:
+    case 5:
     if (state->done != 0) {
         break;
     }
@@ -348,7 +349,7 @@ void func_800256BC(EffectState *state, Motion *motion, register ColorPart *part)
     objectFlagBlock.flags |= 0x8000;
     break;
 
-    case 5:
+    case 6:
     motion->x += motion->dx;
     motion->y += motion->dy;
     motion->z += motion->dz;
@@ -361,7 +362,6 @@ set_state:
     state->state = next_state;
     state->timer = 0;
     break;
-    case 6:
     default:
         break;
     }

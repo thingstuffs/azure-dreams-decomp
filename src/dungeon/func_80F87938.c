@@ -191,11 +191,11 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
 
         switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
-        case 8:
+        case 9:
             func_801740F4(actor, context, sprite, stats);
             return;
 
-        case 9:
+        case 8:
             if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
                 return;
             }

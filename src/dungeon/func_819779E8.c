@@ -18,7 +18,7 @@ typedef struct S_800251E8_1 {
 } S_800251E8_1;   /* linked in func_800251E8 */
 
 
-extern void *D_80024008[];
+
 
 typedef struct LoopEntry {
     u8 pad0[0xA];
@@ -32,9 +32,6 @@ typedef struct LoopEntry {
 /* Advances the object's timed state and updates its 30 entries. */
 void func_800251E8(void *object_data)
 {
-    static void *const state_targets[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4
-    };
     void *object;
     S_800251E8_1 *linked;
     s32 state;
@@ -52,28 +49,23 @@ void func_800251E8(void *object_data)
     linked->unk_1A++;
     ((S_800251E8_0 *)object)->unk_06.s++;
     state = ((S_800251E8_0 *)object)->unk_04.s;
-    if ((u32)state >= 5U) {
-        goto loop_init;
-    }
-    (void)state_targets;
-    goto *D_80024008[state];
-
-jt_c0:
-    ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
-    if (((S_800251E8_0 *)object)->unk_06.u < 8) {
-        goto loop_init;
+    switch (state) {
+    case 0:
+        ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
+        if (((S_800251E8_0 *)object)->unk_06.u < 8) {
+            goto loop_init;
     }
     goto reset_state;
 
-jt_c1:
+    case 1:
     state_pending = ((S_800251E8_0 *)object)->unk_06.u < 12;
     goto shared_test;
 
-jt_c2:
+    case 2:
     state_pending = ((S_800251E8_0 *)object)->unk_06.u < 4;
     goto shared_test;
 
-jt_c3:
+    case 3:
     state_pending = ((S_800251E8_0 *)object)->unk_06.u < 8;
 
 shared_test:
@@ -85,12 +77,13 @@ shared_test:
 reset_state:
     ((S_800251E8_0 *)object)->unk_06.s = 0;
     ((S_800251E8_0 *)object)->unk_04.u++;
-    goto loop_init;
+    break;
 
-jt_c4:
+    case 4:
     ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
     return;
+    }
 
 loop_init:
     entry_index = 0;

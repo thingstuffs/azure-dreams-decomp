@@ -70,13 +70,13 @@ entry_valid:
         entry[1] = saved_action | kind;
         entry[0] = entry[0] + 1;
         break;
-    case 64:
+    case 40:
     case 56:
     case 160:
         entry[1] = saved_action | kind;
         entry[0] = saved_payload | 0x80;
         break;
-    case 40:
+    case 64:
         entry[1] = saved_action | kind;
         entry[0] = saved_payload | 0x80;
         entry[2] = saved_extra;

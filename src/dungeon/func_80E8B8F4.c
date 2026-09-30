@@ -175,18 +175,16 @@ void func_801710F4(void *actor_input, void *context_input, void *sprite_input, v
         action_state = entity->unk_46 & 0x3FFF;
         switch (action_state) {
         case 8:
-        case 9:
             if ((func_80172088(actor, context, sprite, entity) << 16) == 0) {
                 func_8017224C(actor, context, sprite, entity);
             }
             return;
 
-        case 4:
+        case 10:
             func_80174B14(actor, context, sprite, entity);
             return;
 
-        case 10:
-        case 11:
+        case 9:
             if (D_800DCF5B != 0) {
                 goto generic;
             }
@@ -223,6 +221,8 @@ aaf_cleanup:
             func_800AAF00(actor, context, sprite, &D_80174F38, func_801710F4);
             return;
 
+        case 11:
+        case 4:
         default:
             break;
         }

@@ -213,14 +213,13 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
         action_state = actor->unk_46 & 0x3FFF;
         switch (action_state) {
         case 8:
-        case 9:
             if ((func_80172BB0(entity, context, sprite, actor) << 16) != 0) {
                 return;
             }
             func_80172D88(entity, context, sprite, actor);
             return;
 
-        case 1:
+        case 9:
             if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
                 func_801754AC(entity, context, sprite, actor);
                 return;
@@ -228,7 +227,7 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
             func_80175F44(entity, context, sprite, 1, 0);
             return;
 
-        case 2:
+        case 10:
             if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
                 func_800D6068(entity, context, sprite, actor);
                 return;
@@ -278,6 +277,8 @@ global_continue:
                 return;
             }
 
+        case 2:
+        case 1:
         case 3:
             if (((S_80171A80_0 *)entity)->unk_B5 == 0) {
                 func_800AAF00(entity, context, sprite, D_800E2418, D_80171A80);

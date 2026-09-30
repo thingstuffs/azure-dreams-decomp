@@ -78,7 +78,6 @@ void func_800240D8(void *effect, void *position, void *sprite)
         }
         *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value - ((rounded_random >> 2) << 2));
 
-    case 3:
         *(u8 *)((u8 *) sprite + 0xE) = (brightness = (*(u8 *)((u8 *) sprite + 0xE)) - 8);
         scale = (*(u16 *)((u8 *) sprite + 0x1E)) + 0x100;
         *(u16 *)((u8 *) sprite + 0x1E) = scale;
@@ -98,12 +97,13 @@ void func_800240D8(void *effect, void *position, void *sprite)
         func_8003DB94(sprite, &D_800DECF8, 0);
         return;
 
-    case 4:
+    case 3:
         func_800478B8(sprite);
         if (!((*(u16 *)((u8 *) sprite + 0x14)) & 0x6000)) {
             break;
         }
 
+    case 4:
     default:
         *(u16 *)((u8 *) effect + (-2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

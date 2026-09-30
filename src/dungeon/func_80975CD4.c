@@ -204,6 +204,7 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         switch (action_index) {
         case 7:
         case 8:
+        case 9:
             if ((s16)func_8017237C(actor_arg, context_arg, sprite, stats) != 0) {
                 return;
             }
