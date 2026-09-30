@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_80023194(void *arg0);
+extern void func_80023194(void *arg0);
 extern s32 D_80028808[4];
 
 // Optionally flags the linked record, processes the global record, and sets status bits.
@@ -14,6 +14,5 @@ s32 func_800231E4(s32 flagLinkedRecord) {
     func_80023194(record);
     *(u16 *)((u8 *) record - 2) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
-    ASM_MEM_BARRIER();
     return D_80028808[0];
 }
