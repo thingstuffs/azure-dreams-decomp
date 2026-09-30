@@ -2,7 +2,7 @@
 
 typedef s32 (*TownCallback3)(void *, void *, s32);
 typedef s32 (*TownCallback1)(s32);
-typedef struct { u8 pad[0xB]; s32 word_B; } TownEntry;
+typedef struct { u8 tag; u8 pad[0x13]; } TownRec;
 
 typedef struct { u8 pad[0x3514]; u8 data[1]; } Data3514;
 typedef struct { u8 pad[0x353C]; u8 data[1]; } Data353C;
@@ -28,9 +28,10 @@ extern void func_80003EAC(void) __attribute__((noreturn));
 
 /* Optionally fires two setup callbacks, then either takes a noreturn exit for mode 2 or selects a table entry and remaps each record's field through a lookup table until the terminator tag. */
 void func_808B85F0(s32 table_index, s32 mode) {
-    u8 *entry;
     void *entry_ptr;
     s32 sentinel;
+    s32 i;
+    TownRec *rec;
     if (D_flag_load_45F0.value != 0) {
         (*(TownCallback3 *)((u8 *)D_callbacks_4610.value + 0x64))(
             D_data_3514.data, D_data_353C.data, 0xE1);
@@ -44,14 +45,14 @@ void func_808B85F0(s32 table_index, s32 mode) {
     }
     *(void **)((u8 *)D_state_4604.value + 0x10) = D_table_45C0.table[table_index];
     entry_ptr = *(void **)((u8 *)D_state_4604.value + 0x10);
-    entry = (u8 *)entry_ptr;
-    if (*((u8 *)entry + 1) != 0x80) {
+    if (*((u8 *)entry_ptr + 1) != 0x80) {
         sentinel = 0x80;
-        entry = (u8 *)((u8 *)entry + 1);
+        rec = (TownRec *)((u8 *)entry_ptr + 1);
+        i = 0;
         do {
-            *(s32 *)((u8 *)entry + 0xB) =
-                D_lookup_460C.value[*(s32 *)((u8 *)entry + 0xB)];
-            entry = (u8 *)((u8 *)entry + 0x14);
-        } while (*(u8 *)entry != sentinel);
+            *(s32 *)((u8 *)&rec[i] + 0xB) =
+                D_lookup_460C.value[*(s32 *)((u8 *)&rec[i] + 0xB)];
+            i++;
+        } while (rec[i].tag != sentinel);
     }
 }
