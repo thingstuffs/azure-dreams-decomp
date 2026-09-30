@@ -31,7 +31,7 @@ extern void func_8003DBD0(S_8003DE58_Ent *a0, void *a1, S_8003DE58_Vec *a2);
 /* Compute orientation from a matching record, or reset it when actor flags require a fallback. */
 S_8004CAE8 *func_8003DE58(S_8004CAE8 *records, S_8003DE58_Ent *actor, S_8003DE58_Vec *out_vec, s16 record_id) {
     S_8003DE58_Vec orientation;
-    register S_8004CAE8 *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    S_8004CAE8 *record;
 
     record = func_8004CAE8(records, record_id);
     if (record != NULL) {
