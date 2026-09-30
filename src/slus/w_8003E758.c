@@ -440,8 +440,6 @@ complete_seek:
                 goto finish;
             if (sync_result != 5)
                 goto check_drive_status;
-            goto command_failed;
-
 command_failed:
             func_8003E70C();
             D_800814D3[0] = 0xFF;

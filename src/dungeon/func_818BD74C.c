@@ -151,8 +151,6 @@ state1:
     }
     func_800249C4(effect, motion, (s16)random_value, 0 - (scaled_magnitude >> 2));
     func_800247B0(effect, motion, magnitude_table[((S_func_818BD74C_4 *)effect->unk_18)->unk_13]);
-    goto advance;
-
 advance:
     effect->unk_10.s = 0;
     effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);

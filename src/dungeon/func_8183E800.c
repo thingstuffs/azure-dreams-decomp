@@ -161,9 +161,6 @@ state_2:
         (F(motion, u16, 10) + 176);
     F(motion, s32, 20) /= F(self, s16, 80);
     func_800A56E0(0x300);
-    goto advance_simple;
-
-advance_simple:
     state = F(self, s16, 10) + 1;
     F(self, s16, 10) = state;
     return;

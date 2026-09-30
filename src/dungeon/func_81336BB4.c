@@ -111,8 +111,6 @@ set_base2:
 set_base3:
         current_anim_table = *(u8 **)(sprite + 0x2C);
         anim_table = D_801739A0 + 0x18;
-        goto shared_base;
-
 shared_base:
         if (current_anim_table != anim_table) {
             *(u8 **)(sprite + 0x2C) = anim_table;
@@ -128,8 +126,6 @@ shared_base:
         if (old_timer < 0x50) {
             return;
         }
-        goto advance;
-
 advance:
         state = sequence[0x9B];
         *(u16 *)(sequence + 0x96) = 0;
