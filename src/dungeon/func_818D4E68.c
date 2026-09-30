@@ -155,8 +155,8 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
     s32 state;
     s32 particle_count;
     u16 timer;
+    Motion *linked_pos;
 
-    register Packed12 *linked_pos ASM_REG("$6");
     entity = actor->entity;
     offsets = D_80024004;
     timer = actor->timer82;
@@ -215,8 +215,8 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             }
         }
         if (entity->link60 != 0) {
-            linked_pos = *(Packed12 **)((u8 *)entity->link60 - 0x18);
-            actor->target_y = ((Motion *)linked_pos)->z.half.hi - 0x40;
+            linked_pos = *(Motion **)((u8 *)entity->link60 - 0x18);
+            actor->target_y = linked_pos->z.half.hi - 0x40;
         } else {
             actor->target_y = entity->height88 - 0x50;
         }
@@ -290,12 +290,12 @@ void func_818D4E68(Actor *actor, Motion *motion, Render *render)
             }
             actor->countdown--;
             if (actor->countdown <= 0) {
-                if ((linked_pos = (Packed12 *)entity->link60) != 0) {
+                if (entity->link60 != 0) {
                     s32 sound_id;
                     sound_id = 0x300;
-                    linked_pos = *(Packed12 **)((u8 *)linked_pos - 0x18);
-                    motion->x.half.hi = ((Motion *)linked_pos)->x.half.hi;
-                    motion->y.half.hi = ((Motion *)linked_pos)->y.half.hi;
+                    linked_pos = *(Motion **)((u8 *)entity->link60 - 0x18);
+                    motion->x.half.hi = linked_pos->x.half.hi;
+                    motion->y.half.hi = linked_pos->y.half.hi;
                     motion->z.half.hi = actor->target_y;
                     render->image = D_80025100;
                     render->scale_y = 0x400;
