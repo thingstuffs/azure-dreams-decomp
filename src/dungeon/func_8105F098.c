@@ -38,16 +38,17 @@ typedef struct S_8016A898_2 {
 } S_8016A898_2;   /* tail_entity in func_8016A898 */
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
+void *func_8016A898(s32 spawn_flags, s16 param_a, s16 param_b, s32 param_c)
 {
     register void *result;
     void *object;
     S_8016A898_1 *motion;
     s8 held_a;
-    register s32 held_b ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 held_b;
     s32 held_c;
     register s16 flags_held;
     void *tail_actor;
+    void *state_data;
     S_8016A898_2 *tail_entity;
     void *part_data;
     s32 value;
@@ -79,7 +80,7 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
         (*(u8 *)((u8 *)((void *)part_data) + 0x25)) = held_b;
         (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016DFB8;
         (*(u8 *)((u8 *)((void *)part_data) + 0x24)) = held_a;
-        param_b = (s32)result;
+        state_data = result;
 
         if ((spawn_flags & 3) == 1) {
             flags_a = ((S_8016A898_0 *)result)->unk_14.u32;
@@ -116,7 +117,7 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
         }
         func_800A9C18(object, motion, (void *)part_data, flags_held);
 
-        tail_actor = (void *)param_b;
+        tail_actor = state_data;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = D_8016AF68;
