@@ -9,8 +9,8 @@ typedef struct {
     u8 field_0x48;
 } S_8004397C_Entity;
 
-/* >8B hi/lo global; only byte 0 is ever written (sb). Declare as array to force lui/lbu/sb. */
-extern u8 D_800E2968[16];
+/* a one-byte code; an extern, so absolute (lui/sb) in ASPSX */
+extern u8 D_800E2968;
 
 /* summary: if entity's field_0x13 == 0x16 (some "type" tag), inspect field_0x48
    (a sub-state/mode byte) and record a resulting code into D_800E2968:
@@ -21,9 +21,9 @@ void func_8004397C(S_8004397C_Entity *entity)
     if (entity->field_0x13 == 0x16) {
         u8 mode = entity->field_0x48;
         if (mode == 0xD) {
-            D_800E2968[0] = 0xF;
+            D_800E2968 = 0xF;
         } else if (mode == 0xF) {
-            D_800E2968[0] = 0xA;
+            D_800E2968 = 0xA;
         }
     }
 }

@@ -1,13 +1,8 @@
 #include "common.h"
 
-/* S_80081480 / S_8008148C: >8B structs forced to hi/lo addressing (only
- * field_0 @ offset 0 accessed here); matches the layout used in the
- * already-matched siblings func_80041AB0 / func_80043CD0. */
-struct S_80081480_80041284 { s32 field_0; s8 pad[8]; };
-struct S_8008148C_80041284 { s32 field_0; s8 pad[8]; };
 
-extern struct S_80081480_80041284 D_80081480;
-extern struct S_8008148C_80041284 D_8008148C;
+extern s32 D_80081480;
+extern s32 D_8008148C;
 
 typedef struct { u32 word; } PackedLoc;
 
@@ -27,14 +22,14 @@ void file_load_com(void *packed_data)
     DrawSync(0);
     id_or_base = ((PackedLoc *)packed_data)->word & 0x7FFFFF;
     if (id_or_base == 0) {
-        offset_base = D_8008148C.field_0;
-        *(s32 *)&D_80081480 = offset_base;
+        offset_base = D_8008148C;
+        D_80081480 = offset_base;
         id_or_base = offset_base;
         target_time = id_or_base + ((((PackedLoc *)packed_data)->word & 0xFF800000) >> 12);
     } else {
-        id_base = D_8008148C.field_0;
+        id_base = D_8008148C;
         id_or_base = id_or_base | 0x80000000;
-        *(s32 *)&D_80081480 = id_base;
+        D_80081480 = id_base;
         target_time = id_base;
     }
     Control_CD(6, packed_data, 0);

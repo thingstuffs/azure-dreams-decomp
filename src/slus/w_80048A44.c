@@ -42,9 +42,8 @@ typedef struct S_80083110 {
 extern void func_800489F4(S_800489F4_Obj *a0, s16 a1, s16 a2);
 extern void func_80048998(S_80083110 *a0, s32 a1);
 
-/* D_80080A84 is addressed via %hi/%lo (not $gp-relative) in retail, so it must be
- * declared with size > 8 bytes to steer gcc away from small-data addressing. */
-extern u8 D_80080A84[16];
+/* one byte (the next named symbol is D_80080A85); an extern, so absolute in ASPSX */
+extern u8 D_80080A84;
 
 /* Selects and dispatches a frame, stores its scaled leading value, and clears flags 0x6000. */
 void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 slot_index) {
@@ -55,7 +54,7 @@ void func_80048A44(S_80048A44_Obj *obj, s16 frame_group, s16 frame_index, s32 sl
     func_80048998((S_80083110 *)obj, slot_index);
 
     frame_value = obj->unk0->unk0;
-    divisor = D_80080A84[0];
+    divisor = D_80080A84;
     obj->unk14 = obj->unk14 & 0x9FFF;
     obj->unk5 = (u8)((s32)frame_value / (s32)divisor);
 }
