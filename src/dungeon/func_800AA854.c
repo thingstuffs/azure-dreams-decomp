@@ -151,7 +151,7 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     s32 near_shade;
     s32 texture_height;
     register s32 coord_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 vertex_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 vertex_value;
     s32 x_in_bounds;
     s32 near_mid_x;
     s32 texture_right;
@@ -171,7 +171,6 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     s32 depth_flag;
     u16 texture_index;
     u16 shade_offset;
-    u32 bucket_index;
     register u8 *uv_end ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *far_vertex;
     u8 *texture_info;
@@ -316,7 +315,6 @@ next_strip:
             ((S_800AFFB4_2 *)far_vertex)->unk_0C = vertex_value;
             ((S_800AFFB4_2 *)far_vertex)->unk_00 = vertex_value;
             vertex_value = strip_index & 1;
-            ASM_KEEP(vertex_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             vertex_value <<= 1;
             coord_bits = (s32)(texture_index << 0x10) >> 0xE;
             vertex_value += coord_bits;
@@ -346,7 +344,7 @@ loop_0:
                 vertex_value <<= 8;
                 ((S_800AFFB4_1 *)render_data_in)->unk_14.s32 = vertex_value;
                 vertex_value = shade_u;
-                ASM_KEEP(vertex_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                shade_u = (s32)packet;
                 ((S_800AFFB4_1 *)render_data_in)->unk_10.s32 = texture_right;
                 coord_bits = ((S_800AFFB4_3 *)texture_info)->unk_02;
                 shade_uv += vertex_value;
@@ -360,9 +358,8 @@ loop_0:
                 vertex_value <<= 0x10;
                 coord_bits |= vertex_value;
                 (*(s32 *)((u8 *)uv_end + -0x19)) = coord_bits;
-                coord_bits = ((S_800AFFB4_1 *)render_data_in)->unk_14.u16;
+                coord_bits = *(u16 *)((u8 *)render_data_in + 0x14);
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_08.u16;
-                ASM_KEEP(coord_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 coord_bits += vertex_value;
                 (*(s16 *)((u8 *)uv_end + -0xD)) = coord_bits;
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_14.u16;
@@ -382,14 +379,13 @@ loop_0:
                 coord_bits -= 1;
                 ((S_800AFFB4_4 *)uv_end)->unk_00 = coord_bits;
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_118;
-                bucket_index = (u32)(texture_entry - (TwelveByteEntry *)vertex_value) / 12;
+                shade_uv = (u32)(texture_entry - (TwelveByteEntry *)vertex_value) / 12;
                 far_vertex += 0x34;
                 quad_index += 1;
-                shade_u = (s32)packet;
                 texture_info += 0xC;
                 uv_end += 0x34;
                 texture_entry += 1;
-                func_8006658C(((S_800AFFB4_1 *)render_data_in)->unk_20 + (bucket_index * 4),
+                func_8006658C(((S_800AFFB4_1 *)render_data_in)->unk_20 + ((u32)shade_uv * 4),
                     (void *)shade_u, texture_height);
                 packet += 0x34;
             }

@@ -52,21 +52,22 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     u16 height;
     u32 target_y_u16;
     register u32 center_y ASM_REG("$20");
-    register s32 direction_or_x ASM_REG("$4");
+    u8 direction_arg;
+    register s16 direction_or_x ASM_REG("$4");
     register s32 tile_coord ASM_REG("$5");
     s32 y_or_direction;
     u32 collision_out;
     u32 body_addr;
 
     direction_bits = (move_flags >> 9) & 7;
-    direction = direction_bits;
-    ASM_KEEP_NV(direction);
+    direction_arg = direction_bits;
+    direction = (s16)direction_bits;
     x_steps = (u8 *)dirStepX;
     step_offset = direction * 2;
     x_step = (u16 *)((s32)step_offset + (s32)x_steps);
     coord_or_height = actor->x;
     offset_work = *x_step;
-    direction_or_x = direction;
+    direction_or_x = direction_arg;
     target_x = coord_or_height + offset_work;
     map_limits = &gameWork.map;
     next_x = target_x & 0xFFFF;
