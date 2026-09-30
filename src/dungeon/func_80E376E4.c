@@ -22,7 +22,7 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_80171460(void *);
+extern void func_80171460(void *, void *, void *, void *);
 extern void func_801716A4(void *, void *, void *, void *);
 extern s32 func_80171E38(void *, void *, void *, void *);
 extern void func_80171FFC(void *, void *, void *, void *);
@@ -80,10 +80,8 @@ typedef struct S_80170EE4_2 {
 
 
 /* Update dungeon actor behavior, facing, and directional animation. */
-void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object_in, void *actor_data_in)
+void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_object, void *actor_data)
 {
-    void *map_object = map_object_in;
-    register void *actor_data ASM_REG("$18") = actor_data_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 dungeon_flags = dungeonStatus.flags;
     s16 distance;
     s32 status_flags;
@@ -95,7 +93,7 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
 
     if (dungeon_flags & 0x1000) {
         ((S_80170EE4_0 *)actor_state_in)->unk_9A = 14;
-        func_80171460(actor_state_in);
+        func_80171460(actor_state_in, update_context_in, map_object, actor_data);
         return;
     }
 
@@ -171,10 +169,12 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
 
     if (((S_80170EE4_1 *)actor_data)->unk_6D > 0) {
         if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(actor_data);
+            return;
         }
         if (((S_80170EE4_2 *)map_object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto jt_default;
+            func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
+            return;
         }
         action_flags = ((S_80170EE4_1 *)actor_data)->unk_46;
         if ((action_flags & 0x8000) == 0) {
@@ -190,7 +190,8 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
             action_flags = ((S_80170EE4_1 *)actor_data)->unk_46 | 0x4000;
             ((S_80170EE4_1 *)actor_data)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto jt_default;
+                func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
+                return;
             }
         }
 
@@ -199,14 +200,14 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
             if ((s16)func_80171E38(actor_state_in, update_context_in, map_object, actor_data) != 0) {
                 return;
             }
-            goto call_80171FFC;
+            func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
+            return;
 
         case 9:
             if (!(((S_80170EE4_1 *)actor_data)->unk_14 & 0x20000000)) {
                 func_80173C40(actor_state_in, update_context_in, map_object, actor_data);
                 return;
             }
-call_80171FFC:
             func_80171FFC(actor_state_in, update_context_in, map_object, actor_data);
             return;
 
@@ -219,24 +220,22 @@ call_80171FFC:
             target_actor = D_800814A8;
             ((S_80170EE4_1 *)actor_data)->unk_2A = facing_angle;
             if (target_actor->unk_9A == 0x11) {
-                goto jt_call;
+                func_800AAF00(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
+                return;
             }
 
         case 12:
-jt_c12:
             func_800A9A0C(actor_data);
             return;
 
         case 1:
         case 2:
         case 3:
-jt_call:
             func_800AAF00(actor_state_in, update_context_in, map_object, D_80176660, D_80170EE4);
             return;
 
         case 11:
         default:
-jt_default:
             func_801716A4(actor_state_in, update_context_in, map_object, actor_data);
             return;
         }

@@ -22,7 +22,7 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_801713D4(void *);
+extern void func_801713D4(void *, void *, void *, void *);
 extern void func_8017162C(void *, void *, void *, void *);
 extern s32 func_80171DD8(void *, void *, void *, void *);
 extern void func_80171F9C(void *, void *, void *, void *);
@@ -80,38 +80,24 @@ typedef struct S_80170E70_2 {
 } S_80170E70_2;   /* arg2 in func_80170E70 */
 
 
-typedef struct S_80170E70_5 {
-    u8 pad_00[0x10];
-    s16 * unk_10;
-} S_80170E70_5;   /* stack_base in func_80170E70 */
 
 /* Update the actor's dungeon behavior, facing, and animation for its current state. */
-void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *actor_in)
+void func_80170E70(void *entity, void *context, void *sprite, void *actor)
 {
     u8 *effect_table;
-    void *entity = entity_in;
-    void *context = context_in;
-    void *sprite = sprite_in;
-    register void *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 next_state;
-#ifdef __mips__
-    register u8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-#endif
     s16 path_distance;
     s16 target_angle;
     s32 actor_flags;
     s32 action_index;
     s8 tile_id;
-    s32 tile_x;
-    s32 tile_y;
     s32 current_state;
     u16 action_flags;
-    void *continuation;
     EntityRec *owner;
 
     if (dungeonStatus.flags & 0x1000) {
         ((S_80170E70_0 *)entity)->unk_9A = 14;
-        func_801713D4(entity);
+        func_801713D4(entity, context, sprite, actor);
         return;
     }
 
@@ -191,10 +177,12 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
 
     if (((S_80170E70_1 *)actor)->unk_6D > 0) {
         if (((S_80170E70_1 *)actor)->unk_1C & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(actor);
+            return;
         }
         if (((S_80170E70_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto jt_default;
+            func_8017162C(entity, context, sprite, actor);
+            return;
         }
 
         action_flags = ((S_80170E70_1 *)actor)->unk_46;
@@ -211,7 +199,8 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
             action_flags = ((S_80170E70_1 *)actor)->unk_46 | 0x4000;
             ((S_80170E70_1 *)actor)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto jt_default;
+                func_8017162C(entity, context, sprite, actor);
+                return;
             }
         }
 
@@ -234,26 +223,21 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
             owner = D_800814A8;
             ((S_80170E70_1 *)actor)->unk_2A = target_angle;
             if (owner->unk_9A == 0x11) {
-                continuation = D_80170E70;
-                goto jt_call;
+                func_800AAF00(entity, context, sprite, D_80175A8C, D_80170E70);
+                return;
             }
 
         case 11:
-jt_c12:
             func_800A9A0C(actor);
             return;
 
         case 0:
         case 1:
         case 2:
-            continuation = D_80170E70;
-
-jt_call:
-            func_800AAF00(entity, context, sprite, D_80175A8C, continuation);
+            func_800AAF00(entity, context, sprite, D_80175A8C, D_80170E70);
             return;
 
         default:
-jt_default:
             func_8017162C(entity, context, sprite, actor);
             return;
         }
@@ -264,22 +248,12 @@ jt_default:
         if ((tile_id < 0) ||
             ((D_800E2970[tile_id].flags & 2) == 0)) {
             if ((actor_flags & 0x430) == 0) {
-                entity = (void *)((u32)((u8 *)(&D_80082E80)));
                 if ((s16)func_8009FD7C(
                         ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
-                        ((S_80170E70_0 *)entity)->unk_24, ((S_80170E70_0 *)entity)->unk_25) != 0) {
-#ifdef __mips__
-                    tile_x = ((S_80170E70_2 *)sprite)->unk_24.at00.v;
-                    tile_y = ((S_80170E70_2 *)sprite)->unk_24.at01.v;
-                    ((S_80170E70_5 *)stack_base)->unk_10 = &path_distance;
-                    ((S_80170E70_1 *)actor)->unk_2A = func_800A0818(
-                        tile_x, tile_y,
-                        ((S_80170E70_0 *)entity)->unk_24, ((S_80170E70_0 *)entity)->unk_25);
-#else
+                        D_80082E80.tileX, D_80082E80.tileY) != 0) {
                     ((S_80170E70_1 *)actor)->unk_2A = func_800A0818(
                         ((S_80170E70_2 *)sprite)->unk_24.at00.v, ((S_80170E70_2 *)sprite)->unk_24.at01.v,
-                        ((S_80170E70_0 *)entity)->unk_24, ((S_80170E70_0 *)entity)->unk_25, &path_distance);
-#endif
+                        D_80082E80.tileX, D_80082E80.tileY, &path_distance);
                 }
             }
         }
