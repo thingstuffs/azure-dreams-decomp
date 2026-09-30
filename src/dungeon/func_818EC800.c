@@ -100,6 +100,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
 {
     M2C_UNK quad_copies[20];
     u16 saved_draw_mode;
+    u32 shifted_mode;
     s32 callback_arg;
     s32 *copy_end;
     u32 addr_mask;
@@ -108,7 +109,6 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     u8 *view_matrix;
     s32 texture_word;
     void *render_context;
-    register u8 *context_dep ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *final_context;
     s32 base_rotation;
     s32 packet_mask;
@@ -140,14 +140,14 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     s32 view_axis_z;
     u16 screen_y;
     u16 projected_y;
-    u16 pivot_x;
-    u16 pivot_y;
+    u32 pivot_x;
+    u32 pivot_y;
     u16 next_row_y;
     u8 prim_code;
     u8 right_u;
     u16 draw_flags;
     s32 left_x;
-    register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *scratch;
     void *frame;
     void *row_effect;
     u8 *frame_data;
@@ -156,14 +156,12 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     u8 *context_addr;
     s32 packet_low;
     setup_arg = screen_pos;
-    ASM_KEEP_MEMDEP_NV(setup_arg, context_dep, *((void **) (((struct S_8003E2D8 *)&gameWork))));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     sprite = *((void **) (((s8 *) effect) + (-0x14)));
     callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
     render_context = *((void **) (((struct S_8003E2D8 *)&gameWork)));
     render_state = (u8 *) (((struct S_8003E2D8 *)&gameWork));
     frame = *((void **) (((s8 *) sprite) + 8));
     scratch = (u8 *) 0x1F800000;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     *((s32 *) (((s8 *) scratch) + 0xEC)) = 0;
     *((u16 *) (((s8 *) scratch) + 0x8C)) = 0;
     *((u16 *) (((s8 *) scratch) + 0x84)) = 0;
@@ -174,12 +172,11 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     *((s32 *) (((s8 *) scratch) + 0xC0)) = 0;
     *((u16 *) (((s8 *) scratch) + 0xB8)) = (u16) ((*((u16 *) (((s8 *) setup_arg) + 0))) - 0xA0);
     *((u16 *) (((s8 *) scratch) + 0xBA)) = (u16) ((*((u16 *) (((s8 *) setup_arg) + 2))) - 0x78);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_draw_mode = (u16) draw_mode;
-    draw_mode = ((u32) draw_mode) << 0x10;
+    shifted_mode = draw_mode << 0x10;
     draw_arg = 0;
-    if (draw_mode != 0) {
-        func_80067EF4(packet, draw_arg, draw_arg, draw_mode);
+    if (shifted_mode != 0) {
+        func_80067EF4(packet, draw_arg, draw_arg, shifted_mode);
         packet_mask = 0xFFFFFF;
         draw_arg = 0xFF000000;
         *((s32 *) packet) = ((*((s32 *) packet)) & 0xFF000000) | ((*((s32 *) (*((s32 *) (((s8 *) scratch)
@@ -221,8 +218,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     func_80064D80(0x1F800050);
     func_80064CF0(0x1F800050);
     *((u16 *) (((s8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
+    do {
     frame_data = frame + 8;
-frame_loop:
     if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20)) {
         *((s32 *) (((s8 *) scratch) + 0x08)) = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
         *((s32 *) (((s8 *) scratch) + 0x0C)) = (s32) (*((u8 *) (((s8 *) frame_data) + 1)));
@@ -408,16 +405,18 @@ loop_0:
             *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
             {
                 s32 link_lower;
-                context_dep = (u8 *)(*((s32 *)packet) & 0xFF000000);
+                s32 tag_high;
+                tag_high = (*((s32 *)packet) & 0xFF000000);
                 link_lower = (*((s32 *)(*((s32 *)(scratch + 0x20))))) & addr_mask;
-                *((s32 *)packet) = (s32)context_dep | link_lower;
+                *((s32 *)packet) = tag_high | link_lower;
             }
             row_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));
             {
                 s32 link_lower;
-                context_dep = (u8 *)(*row_tag & 0xFF000000);
+                s32 tag_high;
+                tag_high = (*row_tag & 0xFF000000);
                 link_lower = (s32)packet & addr_mask;
-                *row_tag = (s32)context_dep | link_lower;
+                *row_tag = tag_high | link_lower;
             }
             *((Blk40 *) (&quad_copies[10])) = *((Blk40 *) packet);
             next_row_y = (*((u16 *) (((s8 *) quad_copies) + 50))) + 1;
@@ -438,11 +437,9 @@ loop_0:
             packet = draw_callback(effect, draw_callback_arg, sprite, frame, packet);
         }
     }
-    if (((s8) (*((u8 *) (((s8 *) frame) + 0)))) >= 0) {
-        frame_data = frame_data + 0xC;
-        frame = ((u8 *) frame) + 0xC;
-        goto frame_loop;
-    }
+    if (((s8) (*((u8 *) (((s8 *) frame) + 0)))) < 0) break;
+    frame = ((u8 *) frame) + 0xC;
+    } while (1);
     restore_arg = packet;
     if ((saved_draw_mode << 0x10) != 0) {
         func_80067EF4(restore_arg, 0, 1);
@@ -453,9 +450,6 @@ loop_0:
         packet += 0xC;
         *end_tag = ((*end_tag) & 0xFF000000) | ((s32) restore_arg);
     }
-    ASM_CLOBBER("$17");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$22");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     func_80064A40((s32) restore_arg);
     packet_low = (s32) ((u16) ((s32) packet));
     context_addr = render_state + (packet_low & 0x10000);

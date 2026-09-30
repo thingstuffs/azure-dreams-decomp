@@ -174,24 +174,21 @@ __asm__(".globl func_80024000\n"
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
 void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
-#ifdef __mips__
     S_func_818DA800_3 *actor;
     S_func_818DA800_4 *actor_data;
     void *image_base;
     void *resource_base;
-#else
-    S_func_818DA800_3 *actor;
-    S_func_818DA800_4 *actor_data;
-    void *image_base;
-    void *resource_base;
-#endif
-#ifdef __mips__
-    register s32 actor_or_corner ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
     s32 actor_or_corner;
+#ifdef __mips__
+    register S_func_818DA800_7 *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+#else
+    S_func_818DA800_7 *prim;
 #endif
+    s32 actor_header;
+    S_func_818DA800_8 *child_state;
     s16 timer;
     s32 phase_or_entry;
+    s32 phase;
     s32 tile_coord;
     void **phase_table;
     void *phase_label;
@@ -207,19 +204,17 @@ void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *moti
 
     actor = effect_state->unk_00;
     timer = (u16)effect_state->unk_50.as_u16;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer -= 1;
-    phase_or_entry = effect_state->unk_0A.as_s16;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    phase = effect_state->unk_0A.as_s16;
     actor_data = ((S_func_818DA800_5 *)((u8 *)actor - 0x20))->unk_0C;
     effect_state->unk_50.as_u16 = timer;
 
-    actor_or_corner = (s32)((u8 *)actor - 0x20);
-    if ((u32)phase_or_entry >= 6) {
+    actor_header = (s32)((u8 *)actor - 0x20);
+    if ((u32)phase >= 6) {
         goto finish;
     }
     phase_table = jtbl_80024008;
-    phase_or_entry = (u32)phase_or_entry * 4;
+    phase_or_entry = (u32)phase * 4;
     phase_or_entry += (s32)phase_table;
     phase_label = *(void **)(u32)phase_or_entry;
     (void)phase_labels;
@@ -245,24 +240,19 @@ case0:
             goto update;
         }
         {
-#ifdef __mips__
-            register S_func_818DA800_4 *target_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-            S_func_818DA800_4 *target_data;
-#endif
-            target_data = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
-            actor->unk_72.as_u8 = target_data->unk_24;
-            actor->unk_73.as_u8 = target_data->unk_25;
+            prim = ((S_func_818DA800_5 *)((u8 *)target_actor - 0x20))->unk_0C;
+            actor->unk_72.as_u8 = ((S_func_818DA800_4 *)prim)->unk_24;
+            actor->unk_73.as_u8 = ((S_func_818DA800_4 *)prim)->unk_25;
         }
     }
 
 update:
     motion->unk_00.half.unk_02.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_or_corner)->unk_08)->unk_00.half.unk_02.as_u16;
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_00.half.unk_02.as_u16;
     motion->unk_04.half.unk_06.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_or_corner)->unk_08)->unk_04.half.unk_06.as_u16;
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_04.half.unk_06.as_u16;
     motion->unk_08.half.unk_0A.as_u16 =
-        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_or_corner)->unk_08)->unk_08.half.unk_0A.as_u16;
+        ((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16;
     effect_state->unk_50.as_u16 = 8;
     tile_coord = actor->unk_72.as_s8;
     motion->unk_0C.half.unk_0E =
@@ -276,7 +266,7 @@ update:
         effect_state->unk_50.as_s16;
     motion->unk_14.half.unk_16 = func_800BCB04(
         motion->unk_00.half.unk_02.as_u16, motion->unk_04.half.unk_06.as_u16,
-        (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_or_corner)->unk_08)->unk_08.half.unk_0A.as_u16 -
+        (s16)(((S_func_818DA800_2 *)((S_func_818DA800_5 *)(void *)actor_header)->unk_08)->unk_08.half.unk_0A.as_u16 -
               0x30)) - motion->unk_08.half.unk_0A.as_s16;
     motion->unk_14.as_s32 = motion->unk_14.as_s32 /
         effect_state->unk_50.as_s16;
@@ -295,14 +285,8 @@ case1:
         actor_or_corner = 3;
         image_base = D_80024538;
         resource_base = D_800DEAE0;
-        loop_0: {
+        do {
             S_func_818DA800_5 *burst_obj;
-#ifdef __mips__
-            register S_func_818DA800_7 *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
-            S_func_818DA800_7 *prim;
-#endif
-            S_func_818DA800_8 *child_state;
             S_func_818DA800_9 *resource_cursor;
             s32 center_coord;
             s32 corner_coord;
@@ -360,19 +344,13 @@ case1:
                 child_state->unk_4C = 0;
             }
             actor_or_corner--;
-        } if (actor_or_corner >= 0) goto loop_0;
+        } while (actor_or_corner >= 0);
     }
     if (actor->unk_60 != 0) {
         S_func_818DA800_5 *impact_obj;
         impact_obj = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (impact_obj != 0) {
-#ifdef __mips__
-            register S_func_818DA800_8 *child_state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u16 effect_y;
-#else
-            S_func_818DA800_8 *child_state;
-            u16 effect_y;
-#endif
             u16 effect_z;
             s32 duration;
             func_8004491C(impact_obj, D_80024714);
