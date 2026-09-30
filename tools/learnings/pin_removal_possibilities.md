@@ -454,3 +454,26 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   gives the shift first (800C4A80: 7 -> 3 off).
 - A function whose call arguments are printf-style literals repeated per call (a debug print macro) may be an -O1
   object: town/func_8046C280's 0-pin natural text is exact only at `2.7.2-cdk-G0 -O1` (held: module is -O2).
+- **Round 83 apply lanes (r83_sonnet_n1-n6 41/46 pin-free rows, r83_opus_n1-n3 12/14 pinned rows; 71 -> 14 flagged rows):**
+  the flag hid THREE shapes, told apart by the `.loop` dump at the target:
+  (1) INDEX: walker = reduced DEST_REG giv of a counter -> `p = (View *)((u8 *)base + i * K)` / `&base[i]` at the loop TOP,
+  hand step deleted; the counter increment must come AFTER the giv's last use (else an extra `move`), a `for` header is
+  safest; keep where `i = 0` sits; assignment order of two givs = order of their init/step insns.
+  (2) DERIVED CURSOR: a hand cursor `q = p + c` at an odd offset beside a real walker p is loop.c's own combined register
+  (DEST_ADDR givs combine with the LAST access in insn order) -> delete q, read typed fields off p, no copy of p
+  (a copy is a DEST_REG giv and takes the combination), one `p++` after the last use; write the access that carries
+  retail's base offset last.
+  (3) an s32 counter cast `(s16)counter` at several sites = `mult 65536` givs -> declare the counter s16 (80C96F24).
+  Still open (retail steps a many-access pointer by a literal `+= K` and leaves it unreduced): 800CB068 (2 words),
+  80090D8C (12), 8000F774 (frame -8 vs -16), 8001BCD4 (one sched LUID tie).
+- **Scratchpad accesses are struct members** (r83_opus_n1: 800C13E0, 818F2800): REG/KEEP/BARRIER/CLOBBER pins between
+  scratch (0x1F800000) stores and struct-pointer loads fall when the scratch stores go through a struct (mem/s dependence
+  in sched.c true_dependence) instead of scalar casts at a constant address.
+- **Read-modify-write temp pinned to v0/v1:** put the modified value in a two-set local (`t = x; t |= c;`) - a global
+  allocno instead of a tied local quantity (8180D4D4). A product stepped in place on one multi-set variable replaces
+  expand_mult temporaries pinned to $4 (81977584).
+- **`volatile` byte reads / BARRIER+KEEP holding `lbu` apart from `sll/sra`** are candidates for HImode locals
+  (`s16 x = (s8)p->f - ...; x += x / 2;`): paid on 800CDFD8 (6 volatile -> 0, 16 words off), not on 800AED64 or 818F2800.
+- CLASS.tsv targets that drop -G0 were wrong on 8067F5C4 and 81988800: check the registered -G0 cell first.
+- REJECTED as fake dependency (r83_opus_n1, 8028B994): a tautological conjunct that only gives a join label a second
+  use at cse1. The row landed 4 -> 0 at `2.7.2-cdk-G0 -fno-cse-skip-blocks` (one flag kept: a trade).

@@ -1,3 +1,29 @@
+# Handover (2026-09-30 evening, round 83 closed: strength-reduce class applied) - start here
+
+**1,483 pins / 487 rows** (1,541 at this session's pickup). Rows registered with -fno-strength-reduce: 71 -> 14.
+Rules: tools/learnings/pin_removal_possibilities.md "Round 83" (both blocks). Lanes: r83_fable_nosr (mechanism),
+r83_opus_b1/b2 (819B3414 32->0, 818D4E68 1->0), r83_sonnet_n1-n6 (41 of 46 pin-free flag rows exact, ~110-250k tokens
+per 7-8 rows: Sonnet applies this rule cheaply), r83_opus_n1-n3 (12 of 14 pinned flag rows landed, 21 pins).
+**Still flagged (14):** open near-misses 800CB068 (2 words, r83_sonnet_n4/experiments), 8000F774 (2, n6 cand/h2.c),
+8001BCD4 (2, n5 cand/bcd/v7.c), 80090D8C (12, n4), 806D30B4 (44, not a walk), 800A2564 (8 with 7 pins, opus_n2
+cand/2564/k2.c), 800CDFD8 (16 with 0 pins / 0 volatile, opus_n3 cand/fd8/w5e.c); never served this round: 818B0E10,
+818C3B90 (was in astra a41); 8000EEE0 + 8001AFEC (flag never mattered; 8001AFEC's flag-only drop was skipped by
+land_recipe_move - non-splitting target, land via c8_chain2/coh.sh); slus w_80049F68 (exact text staged in
+r83_fable_nosr/out, single-member module gp_order_bytes_owner: needs config/slus_modules.json recipe + re-certification
+with a reviewer), w_8005914C, w_800599B0 (sound-TU scalar declaration / -G question).
+**Owner calls pending:** (1) town/func_8046C280: 0-pin natural text exact only at `2.7.2-cdk-G0 -O1`
+(r83_opus_b2/r3/N2.c) - held; (2) 8028B994 landed 4->0 with one kept flag (-fno-cse-skip-blocks) and 808B2E74 2->0
+with a two-statement offset spelling - review; (3) w_80049F68 module re-certification; (4) modsplit patch
+(r83_sonnet_modsplit: apply only c_server 0x804010F0 block, town/main.c runs, lshop, card_opt, ovl_7f565800; then
+regenerate the census with no lane landing); (5) optional maspsx_d3 patch (0 rows).
+**Follow-ups:** a typed-view tidy pass over the landed `(View *)((u8 *)base + i * K)` spellings (Sonnet, byte-exact
+per row); the "literal += K walker left unreduced" residual class (800CB068, 80090D8C, 8000F774) wants one mechanism
+lane; scratchpad-as-struct and s16-local rules are sweep candidates over rows with scratch barriers / volatile byte
+reads; 800C4A80 0-pin text 3 words off (r83_opus_b2/r2/rv_all.c). Harvest candidates for tools/lanes:
+r83_fable_nosr/tmp/{loopcensus,cc,class_census}.py, r83_opus_n2/tmp/{lp.sh,rtl.py}. mk_ovl_root.sh was run after the
+last landing. Note: commit ae5595de6's message lists w_80049F68 and 2f3e54bd9's lists two 2.6.3 rows that landed in
+872d3d40b instead.
+
 # Handover (2026-09-30 15:20, round 83 / c8 continuation: strength-reduce class decided, apply lanes running) - start here
 
 **Landed:** 819B3414 32->0 (1227969b7, r83_opus_b1), 818D4E68 1->0 (d42e83430, r83_opus_b2), slus/w_800500B4 2->0 at plain
