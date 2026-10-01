@@ -575,3 +575,7 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
 - **One-trip blocks weight refs (r85_opus_g1):** loop notes from a `do{}while(0)` (macro bodies too) double the refs
   inside for global.c priority; unwrap + parameters direct + erase pins together (800A8714 7->4). Brief paragraph
   one_trip.md. Also: arity fixes work in BOTH directions - test by scoring (818F34E4 4->0 dropped an extra argument).
+- **cse class head (r85_fable_cshead):** a copy `y = x` heads the class when it outlives the extended block (to the next
+  LABEL) and x; narrowing the copy (u16/s16/u8) gives it its own qty - 3 rows exact; optimize_reg_copy_1 is a second
+  author of the same effect. Census: 90 register-substitution-only sites, 44 with a plain copy (30 in rows then busy).
+  Generator spec t140_narrowcopy in MECHANISM.md. Brief paragraph narrow_copy.md.
