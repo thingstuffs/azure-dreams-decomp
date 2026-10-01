@@ -134,6 +134,7 @@ s32 func_80173FDC(u8 *node)
     LineG2 *line;
     u8 *tpage;
     u8 *display;
+    s32 next_node;
     s32 row;
     s32 col;
     s32 ot_index;
@@ -156,25 +157,24 @@ s32 func_80173FDC(u8 *node)
         ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         desc.value = func_80065F90(((S_80173FDC_0 *)node)->unk_12, 0x40);
         row = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+grid_row:
         col = 7;
 grid_loop:
         {
             GridPoint *point;
-            s32 height;
             s32 angle;
             s32 point_offset;
 
-            height = row * ((8 - ((S_80173FDC_1 *)effect)->unk_0E) << 4);
+            next_node = row * ((8 - ((S_80173FDC_1 *)effect)->unk_0E) << 4);
             point_base = &points[0][0];
             point_offset = col << 3;
             point_offset += row << 6;
             point = (GridPoint *)((u8 *)point_base + point_offset);
 
-            if (height < 0) {
-                height += 7;
+            if (next_node < 0) {
+                next_node += 7;
             }
-            point->y = height >> 3;
+            point->y = next_node >> 3;
             angle = col << 9;
             sin_angle = func_800644B8(angle);
             point->x = (sin_angle * func_800644B8(
@@ -189,8 +189,7 @@ grid_loop:
         }
         row++;
         if (row < 8) {
-            col = 7;
-            goto grid_loop;
+            goto grid_row;
         }
 
         desc.count = 0x40;
@@ -314,14 +313,13 @@ grid_loop:
         }
 
         {
-            register u8 *next_node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            next_node = ((S_80173FDC_0_pre *)node)[-1].unk_00;
+            next_node = (s32)((S_80173FDC_0_pre *)node)[-1].unk_00;
             if (next_node == 0) {
                 break;
             }
-            node = next_node + 0x20;
-            next_node = ((S_80173FDC_8 *)next_node)->unk_08;
+            node = (u8 *)next_node + 0x20;
+            next_node = (s32)((S_80173FDC_8 *)next_node)->unk_08;
             ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
     }
