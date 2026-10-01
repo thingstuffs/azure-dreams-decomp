@@ -102,7 +102,6 @@ typedef struct {
 
 extern s16 D_80082E86[6];
 extern OffsetTable D_80024004;
-extern void *D_80024068[];
 extern u8 D_80020000[0x69C0];
 extern u8 D_80080000[0x37A0];
 extern S16Global D_800269B4;
@@ -138,7 +137,6 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     Position *pos;
     DungeonState *dungeon;
     DungeonState *dungeon_2;
-    void **state_table;
     u8 *effect_page;
     u8 *active_page;
     void *object;
@@ -151,93 +149,234 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     register s32 state;
     register u32 random;
     u16 local_y;
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state2, &&state4
-    };
 
     offsets = D_80024004;
     work->counter++;
     state = work->state;
-    if ((u32)state >= 5) {
+    switch (state) {
+    case 0:
+        dungeon = *(DungeonState **)((u8 *)(&D_800814A8));
+        init_timer = 33;
+        effect_page = (u8 *)0x80020000;
+        *(s32 *)&dungeon->pad0[0xF4] = 0;
+        *(s16 *)&dungeon->pad0[0x96] = init_timer;
+        D_80082E86[0] = 6;
+        next_state = (u16)work->state + 1;
+        D_800269B4.value = 1;
+        work->state = next_state;
+    case 1:
+        object = work->object;
+        if ((*(u16 *)object & 0x80) == 0) {
+            return;
+        }
+        active_page = (u8 *)0x80080000;
+        dungeon_2 = *(DungeonState **)(active_page + 0x14A8);
+        work->timer = 45;
+        dungeon_count = *(u16 *)&dungeon_2->pad0[0xA6];
+        dungeon_count--;
+        *(u16 *)&dungeon_2->pad0[0xA6] = dungeon_count;
+        object_kind = work->kind;
+        dungeon_2->pad0[0xA8] = object_kind;
+        dungeon = *(DungeonState **)(active_page + 0x14A8);
+        direction_index = ((*(u16 *)&dungeon->pad0[0x2A]) >> 9) & 7;
+        work->state++;
+        work->counter = 0;
+        work->table_index = direction_index;
+        func_8002553C(work, position_arg, sprite_arg);
+        func_800A56E0(0x300);
+        func_800542BC();
         return;
-    }
-    state_table = D_80024068;
-    goto *state_table[state];
 
-state0:
-    dungeon = *(DungeonState **)((u8 *)(&D_800814A8));
-    init_timer = 33;
-    effect_page = (u8 *)0x80020000;
-    *(s32 *)&dungeon->pad0[0xF4] = 0;
-    *(s16 *)&dungeon->pad0[0x96] = init_timer;
-    D_80082E86[0] = 6;
-    next_state = (u16)work->state + 1;
-    D_800269B4.value = 1;
-    work->state = next_state;
-    ASM_KEEP(next_state);
-    object = work->object;
-    if ((*(u16 *)object & 0x80) == 0) {
+    case 2:
+        if (work->timer < 39) {
+            if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
+                if (work->timer == 38) {
+                    effect = func_8003FC64(0x212);
+                    if (effect != 0) {
+                        *(s16 *)&effect->motion.pad0[0x2C] = 33;
+                        effect->update = func_80025648;
+                        func_8004491C(effect, func_80045340);
+                        sprite = effect->sprite;
+                        sprite->unk10 = 32;
+                        sprite->flags |= 0xC;
+                        sprite->unk6 = -4;
+                        pos = effect->pos;
+                        pos->x = work->x;
+                        local_y = work->y;
+                        pos->y = local_y;
+                        pos->z = work->z;
+                        pos->x += (((Position *)&D_80083780))->x;
+                        pos->y += (((Position *)&D_80083780))->y;
+                        pos->z += (((Position *)&D_80083780))->z;
+                        sprite->scale_x = 0x900;
+                        sprite->scale_y = 0x604;
+                        sprite->b = 0x80;
+                        sprite->g = 0x80;
+                        sprite->r = 0x80;
+                        *(Template12 *)&effect->motion.pad0[0x38] = D_80026990;
+                        sprite->image = &effect->motion.pad0[0x38];
+                    }
+                }
+
+                if (work->timer < 6) {
+                    effect = func_8003FC64(0x212);
+                    if (effect != 0) {
+                        *(s16 *)&effect->motion.pad0[0x2C] = 1;
+                        effect->update = func_80024A5C;
+                        func_8004491C(effect, func_80045340);
+                        sprite = effect->sprite;
+                        sprite->unk10 = 32;
+                        sprite->flags |= 0xC;
+                        sprite->unk6 = -4;
+                        pos = effect->pos;
+                        pos->x = work->x;
+                        local_y = work->y;
+                        pos->y = local_y;
+                        pos->z = work->z;
+                        pos->x += (((Position *)&D_80083780))->x;
+                        pos->y += (((Position *)&D_80083780))->y;
+                        pos->z += (((Position *)&D_80083780))->z;
+                        sprite->scale_x = 0x1800;
+                        sprite->scale_y = 0x1000;
+                        sprite->b = 0x80;
+                        sprite->g = 0x80;
+                        sprite->r = 0x80;
+                        *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
+                        sprite->image = &effect->motion.pad0[0x38];
+                    }
+                }
+
+                if (work->timer < 7) {
+                    for (particle_index = 0; particle_index < 2; particle_index++) {
+                        func_80024AF8(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                    }
+                }
+                if (work->timer < 3) {
+                    particle_index = 0;
+                    work->mid_x = (work->x + work->old_x) / 2;
+                    work->mid_y = (work->y + work->old_y) / 2;
+                    work->mid_z = (work->z + work->old_z) / 2;
+                    for (; particle_index < 2; particle_index++) {
+                        func_80024AF8(work, position_arg, sprite_arg,
+                            work->mid_x, work->mid_y, work->mid_z);
+                    }
+                }
+                work->old_x = work->x;
+                work->old_y = work->y;
+                work->old_z = work->z;
+            }
+        }
+        work->timer--;
+        if (work->timer > 0) {
+            return;
+        }
+        work->timer = 16;
+        work->state++;
         return;
-    }
-    active_page = (u8 *)0x80080000;
-    dungeon_2 = *(DungeonState **)(active_page + 0x14A8);
-    work->timer = 45;
-    dungeon_count = *(u16 *)&dungeon_2->pad0[0xA6];
-    dungeon_count--;
-    *(u16 *)&dungeon_2->pad0[0xA6] = dungeon_count;
-    object_kind = work->kind;
-    dungeon_2->pad0[0xA8] = object_kind;
-    dungeon = *(DungeonState **)(active_page + 0x14A8);
-    direction_index = ((*(u16 *)&dungeon->pad0[0x2A]) >> 9) & 7;
-    work->state++;
-    work->counter = 0;
-    work->table_index = direction_index;
-    func_8002553C(work, position_arg, sprite_arg);
-    func_800A56E0(0x300);
-    func_800542BC();
-    return;
 
-state1:
-    if (work->timer < 39) {
-        if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
-            if (work->timer == 38) {
-                effect = func_8003FC64(0x212);
-                if (effect != 0) {
-                    *(s16 *)&effect->motion.pad0[0x2C] = 33;
-                    effect->update = func_80025648;
-                    func_8004491C(effect, func_80045340);
-                    sprite = effect->sprite;
-                    sprite->unk10 = 32;
-                    sprite->flags |= 0xC;
-                    sprite->unk6 = -4;
-                    pos = effect->pos;
-                    pos->x = work->x;
-                    local_y = work->y;
-                    pos->y = local_y;
-                    pos->z = work->z;
-                    pos->x += (((Position *)&D_80083780))->x;
-                    pos->y += (((Position *)&D_80083780))->y;
-                    pos->z += (((Position *)&D_80083780))->z;
-                    sprite->scale_x = 0x900;
-                    sprite->scale_y = 0x604;
-                    sprite->b = 0x80;
-                    sprite->g = 0x80;
-                    sprite->r = 0x80;
-                    *(Template12 *)&effect->motion.pad0[0x38] = D_80026990;
-                    sprite->image = &effect->motion.pad0[0x38];
+    case 3:
+        if (D_800814A8->target != 0) {
+            if (work->timer >= 13) {
+                if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x,
+                    0)) {
+                    for (particle_index = 0; particle_index < 4; particle_index++) {
+                        func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                    }
+                    for (particle_index = 0; particle_index < 4; particle_index++) {
+                        func_80024F80(work, position_arg, sprite_arg, work->x, work->y, work->z);
+                    }
+                    spawn_timer = work->timer;
+                    if (spawn_timer == 16) {
+                        effect = func_8003FC64(0x212);
+                        if (effect != 0) {
+                            motion = &effect->motion;
+                            *(s16 *)&motion->pad0[0x2C] = 30;
+                            *(s16 *)&motion->pad0[0x2E] = 30;
+                            effect->update = func_800257B0;
+                            func_8004491C(effect, func_80045340);
+                            sprite = effect->sprite;
+                            sprite->unk10 = 32;
+                            sprite->flags |= 0xC;
+                            motion->vel_z = (s32)0xFFF20000;
+                            motion->accel_z = 0x00020000;
+                            motion->vel_x = (s32)offsets.p[work->table_index].x << 19;
+                            motion->vel_y = (u16)offsets.p[work->table_index].y << 19;
+                            random = func_80069EF8();
+                            motion->vel_x += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                            random = func_80069EF8();
+                            motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                            random = func_80069EF8();
+                            motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
+                            pos = effect->pos;
+                            pos->x = work->x;
+                            local_y = work->y;
+                            pos->y = local_y;
+                            pos->z = work->z - 16;
+                            pos->x += (((Position *)&D_80083780))->x;
+                            pos->y += (((Position *)&D_80083780))->y;
+                            pos->z += (((Position *)&D_80083780))->z;
+                            sprite->scale_y = 0x1000;
+                            sprite->scale_x = 0x1000;
+                            sprite->b = 0x80;
+                            sprite->g = 0x80;
+                            sprite->r = 0x80;
+                            *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
+                            sprite->image = &effect->motion.pad0[0x38];
+                        }
+                        if (work->timer == spawn_timer) {
+                            effect = func_8003FC64(0x212);
+                            if (effect != 0) {
+                                motion = &effect->motion;
+                                *(s16 *)&motion->pad0[0x2C] = 30;
+                                *(s16 *)&motion->pad0[0x2E] = 30;
+                                effect->update = func_80025A80;
+                                func_8004491C(effect, func_80045340);
+                                sprite = effect->sprite;
+                                sprite->unk10 = 32;
+                                sprite->flags |= 0xC;
+                                motion->vel_z = (s32)0xFFF20000;
+                                motion->accel_z = 0x00020000;
+                                motion->vel_x = (s32)offsets.p[work->table_index].x << 18;
+                                motion->vel_y = (u16)offsets.p[work->table_index].y << 18;
+                                random = func_80069EF8();
+                                motion->vel_x += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                                random = func_80069EF8();
+                                motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                                random = func_80069EF8();
+                                motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
+                                pos = effect->pos;
+                                pos->x = work->x;
+                                local_y = work->y;
+                                pos->y = local_y;
+                                pos->z = work->z - 16;
+                                pos->x += (((Position *)&D_80083780))->x;
+                                pos->y += (((Position *)&D_80083780))->y;
+                                pos->z += (((Position *)&D_80083780))->z;
+                                sprite->scale_y = 0x1000;
+                                sprite->scale_x = 0x1000;
+                                sprite->b = 0x80;
+                                sprite->g = 0x80;
+                                sprite->r = 0x80;
+                                *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
+                                sprite->image = &effect->motion.pad0[0x38];
+                                goto flag_check;
+                            }
+                        }
+                    }
                 }
             }
-
-            if (work->timer < 6) {
+        } else {
+            if (work->timer == 16) {
                 effect = func_8003FC64(0x212);
                 if (effect != 0) {
-                    *(s16 *)&effect->motion.pad0[0x2C] = 1;
-                    effect->update = func_80024A5C;
+                    motion = &effect->motion;
+                    *(s16 *)&motion->pad0[0x2C] = 7;
+                    *(s16 *)&motion->pad0[0x2E] = 7;
+                    effect->update = func_80025724;
                     func_8004491C(effect, func_80045340);
                     sprite = effect->sprite;
                     sprite->unk10 = 32;
                     sprite->flags |= 0xC;
-                    sprite->unk6 = -4;
                     pos = effect->pos;
                     pos->x = work->x;
                     local_y = work->y;
@@ -255,180 +394,33 @@ state1:
                     sprite->image = &effect->motion.pad0[0x38];
                 }
             }
-
-            if (work->timer < 7) {
+            if (work->timer >= 13) {
                 for (particle_index = 0; particle_index < 2; particle_index++) {
-                    func_80024AF8(work, position_arg, sprite_arg, work->x, work->y, work->z);
-                }
-            }
-            if (work->timer < 3) {
-                particle_index = 0;
-                work->mid_x = (work->x + work->old_x) / 2;
-                work->mid_y = (work->y + work->old_y) / 2;
-                work->mid_z = (work->z + work->old_z) / 2;
-                for (; particle_index < 2; particle_index++) {
                     func_80024AF8(work, position_arg, sprite_arg,
-                        work->mid_x, work->mid_y, work->mid_z);
-                }
-            }
-            work->old_x = work->x;
-            work->old_y = work->y;
-            work->old_z = work->z;
-        }
-    }
-    work->timer--;
-    if (work->timer > 0) {
-        return;
-    }
-    work->timer = 16;
-    work->state++;
-    return;
-
-state2:
-    if (D_800814A8->target != 0) {
-        if (work->timer >= 13) {
-            if (func_8003DF74((((SearchContext *)&D_80082E80))->field8, ((SearchContext *)&D_80082E80), &work->x, 0)) {
-                for (particle_index = 0; particle_index < 4; particle_index++) {
-                    func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
-                }
-                for (particle_index = 0; particle_index < 4; particle_index++) {
-                    func_80024F80(work, position_arg, sprite_arg, work->x, work->y, work->z);
-                }
-                spawn_timer = work->timer;
-                if (spawn_timer == 16) {
-                    effect = func_8003FC64(0x212);
-                    if (effect != 0) {
-                        motion = &effect->motion;
-                        *(s16 *)&motion->pad0[0x2C] = 30;
-                        *(s16 *)&motion->pad0[0x2E] = 30;
-                        effect->update = func_800257B0;
-                        func_8004491C(effect, func_80045340);
-                        sprite = effect->sprite;
-                        sprite->unk10 = 32;
-                        sprite->flags |= 0xC;
-                        motion->vel_z = (s32)0xFFF20000;
-                        motion->accel_z = 0x00020000;
-                        motion->vel_x = (s32)offsets.p[work->table_index].x << 19;
-                        motion->vel_y = (u16)offsets.p[work->table_index].y << 19;
-                        random = func_80069EF8();
-                        motion->vel_x += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                        random = func_80069EF8();
-                        motion->vel_y += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                        random = func_80069EF8();
-                        motion->vel_z += (s32)0xFFFC0000 + ((random & 0x1FFF) << 6);
-                        pos = effect->pos;
-                        pos->x = work->x;
-                        local_y = work->y;
-                        pos->y = local_y;
-                        pos->z = work->z - 16;
-                        pos->x += (((Position *)&D_80083780))->x;
-                        pos->y += (((Position *)&D_80083780))->y;
-                        pos->z += (((Position *)&D_80083780))->z;
-                        sprite->scale_y = 0x1000;
-                        sprite->scale_x = 0x1000;
-                        sprite->b = 0x80;
-                        sprite->g = 0x80;
-                        sprite->r = 0x80;
-                        *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                        sprite->image = &effect->motion.pad0[0x38];
-                    }
-                    if (work->timer == spawn_timer) {
-                        effect = func_8003FC64(0x212);
-                        if (effect != 0) {
-                            motion = &effect->motion;
-                            *(s16 *)&motion->pad0[0x2C] = 30;
-                            *(s16 *)&motion->pad0[0x2E] = 30;
-                            effect->update = func_80025A80;
-                            func_8004491C(effect, func_80045340);
-                            sprite = effect->sprite;
-                            sprite->unk10 = 32;
-                            sprite->flags |= 0xC;
-                            motion->vel_z = (s32)0xFFF20000;
-                            motion->accel_z = 0x00020000;
-                            motion->vel_x = (s32)offsets.p[work->table_index].x << 18;
-                            motion->vel_y = (u16)offsets.p[work->table_index].y << 18;
-                            random = func_80069EF8();
-                            motion->vel_x += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                            random = func_80069EF8();
-                            motion->vel_y += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                            random = func_80069EF8();
-                            motion->vel_z += (s32)0xFFF80000 + ((random & 0x3FFF) << 6);
-                            pos = effect->pos;
-                            pos->x = work->x;
-                            local_y = work->y;
-                            pos->y = local_y;
-                            pos->z = work->z - 16;
-                            pos->x += (((Position *)&D_80083780))->x;
-                            pos->y += (((Position *)&D_80083780))->y;
-                            pos->z += (((Position *)&D_80083780))->z;
-                            sprite->scale_y = 0x1000;
-                            sprite->scale_x = 0x1000;
-                            sprite->b = 0x80;
-                            sprite->g = 0x80;
-                            sprite->r = 0x80;
-                            *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
-                            sprite->image = &effect->motion.pad0[0x38];
-                            goto flag_check;
-                        }
-                    }
+                        work->x, work->y, (s16)(work->z - 8));
                 }
             }
         }
-    } else {
-        if (work->timer == 16) {
-            effect = func_8003FC64(0x212);
-            if (effect != 0) {
-                motion = &effect->motion;
-                *(s16 *)&motion->pad0[0x2C] = 7;
-                *(s16 *)&motion->pad0[0x2E] = 7;
-                effect->update = func_80025724;
-                func_8004491C(effect, func_80045340);
-                sprite = effect->sprite;
-                sprite->unk10 = 32;
-                sprite->flags |= 0xC;
-                pos = effect->pos;
-                pos->x = work->x;
-                local_y = work->y;
-                pos->y = local_y;
-                pos->z = work->z;
-                pos->x += (((Position *)&D_80083780))->x;
-                pos->y += (((Position *)&D_80083780))->y;
-                pos->z += (((Position *)&D_80083780))->z;
-                sprite->scale_x = 0x1800;
-                sprite->scale_y = 0x1000;
-                sprite->b = 0x80;
-                sprite->g = 0x80;
-                sprite->r = 0x80;
-                *(Template12 *)&effect->motion.pad0[0x38] = D_8002699C;
-                sprite->image = &effect->motion.pad0[0x38];
-            }
-        }
-        if (work->timer >= 13) {
-            for (particle_index = 0; particle_index < 2; particle_index++) {
-                func_80024AF8(work, position_arg, sprite_arg,
-                    work->x, work->y, (s16)(work->z - 8));
-            }
-        }
-    }
 
 flag_check:
-    if ((D_80082E80.unk_014 & 0x8000) == 0) {
-        work->timer--;
-        if (work->timer >= 0) {
+        if ((D_80082E80.unk_014 & 0x8000) == 0) {
+            work->timer--;
+            if (work->timer >= 0) {
+                return;
+            }
+        }
+        work->state = 4;
+        return;
+
+    case 4:
+        if (D_800269B4.value == 0) {
+            dungeonStatus.unk_0C = 0;
+            D_80082E80.unk_006 = 0;
+            dungeonStatus.unk_0A--;
+            ((u16 *)work)[-1] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
             return;
         }
+        D_800269B4.value = 0;
     }
-    work->state = 4;
-    return;
-
-state4:
-    if (D_800269B4.value == 0) {
-        dungeonStatus.unk_0C = 0;
-        D_80082E80.unk_006 = 0;
-        dungeonStatus.unk_0A--;
-        ((u16 *)work)[-1] |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
-    D_800269B4.value = 0;
 }

@@ -74,7 +74,6 @@ typedef struct S_func_819C0C18_3 {
 } S_func_819C0C18_3;
 
 extern OffsetTable D_80024028;
-extern void *D_80024048[];
 extern s16 D_8002992E;
 extern u8 D_8006E8A0[];
 extern u8 D_8006EE50[];
@@ -92,28 +91,20 @@ extern void func_800C77D0(void *, void *, s32, s32);
 /* Advances a particle effect through its timed color fade and cleanup states. */
 void func_819C0C18(S_func_819C0C18_0 *effect)
 {
-    static void *const keep_cases[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&done, &&done
-    };
     s32 rect[2];
     OffsetTable offsets = D_80024028;
     GameWork *colors = &gameWork;
     s32 state;
+    s32 rect_xy;
+    s32 rect_size;
+    GlobalObj *owner;
+    ChildObj *child;
+    u16 next_state;
+    s32 reset_timer;
 
     state = effect->unk_0A.s;
-    if ((u32)state >= 7) {
-        goto done;
-    }
-    goto *D_80024048[state];
-
-case_0:
-    {
-        s32 rect_xy;
-        s32 rect_size;
-        GlobalObj *owner;
-        ChildObj *child;
-        u16 state;
-
+    switch (state) {
+    case 0:
         func_800C77D0((u8 *)((GlobalObj *)D_800814A8) - 0x20, ((Position *)&D_80083780), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
@@ -127,11 +118,11 @@ case_0:
         owner = ((GlobalObj *)D_800814A8);
         owner->unk_F4 = 0;
         owner->unk96 = 30;
-        state = effect->unk_0A.u;
+        next_state = effect->unk_0A.u;
         D_8002992E = 1;
         effect->unk_2A = 0;
-        effect->unk_0A.u = state + 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        effect->unk_0A.u = next_state + 1;
+    case 1:
         child = effect->unk_04;
         if ((child->flags & 0x80) == 0) {
             return;
@@ -141,9 +132,8 @@ case_0:
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
         return;
-    }
 
-case_1:
+    case 2:
     {
         u16 timer = effect->unk_28.u;
         GlobalObj *owner;
@@ -215,12 +205,10 @@ case_1:
         return;
     }
 
-case_2:
-    {
-        s32 reset_timer;
-
+    case 3:
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
+    case 4:
         if (colors->view.unk_090 >= 0x3D) {
             colors->view.unk_090 -= 2;
             colors->view.unk_091 -= 2;
@@ -234,9 +222,8 @@ case_2:
         effect->unk_1C.s = reset_timer;
         effect->unk_0A.u = effect->unk_0A.u + 1;
         return;
-    }
 
-case_3:
+    case 5:
     {
         s8 color = colors->view.unk_090;
         s32 dungeon_mode;
@@ -264,7 +251,7 @@ case_3:
         }
     }
 
-case_4:
+    case 6:
     {
         u16 timer = effect->unk_28.u;
 
@@ -287,6 +274,7 @@ case_4:
         return;
     }
 
-done:
-    return;
+    default:
+        return;
+    }
 }

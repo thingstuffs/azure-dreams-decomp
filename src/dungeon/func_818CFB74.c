@@ -132,7 +132,6 @@ typedef struct {
 } ByteEntry;
 
 extern PackedOffsets D_80024004;
-extern void *D_80024028[];
 extern s16 D_80025924;
 extern u8 D_800DEC00[12];
 extern PackedTemplate D_80025900;
@@ -153,12 +152,12 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
     EntityHeader *header;
     Vec12 *source;
     Spawned *spawn;
-    u32 dispatch;
+    u16 next_state;
+    u16 source_z;
+    u32 flags;
+    u32 variant_bits;
     s32 advance;
     s32 state_index;
-    static void *const state_labels[] = {
-        &&initialize, &&create_spawn, &&follow_spawn, &&wait_finish, &&inactive
-    };
     Vec12 *spawn_position;
     u32 flags_or_result;
 
@@ -166,20 +165,9 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
     offsets = D_80024004;
     state_index = state->stateA;
     header = (EntityHeader *)((u8 *)entity - 0x20);
-    dispatch = (u32)state_index < 5;
     source = header->source8;
-    if (!dispatch) {
-        goto done;
-    }
-    goto *D_80024028[state_index];
-
-initialize:
-    {
-        u16 next_state;
-        u16 source_z;
-        u32 flags;
-        u32 variant_bits;
-
+    switch (state_index) {
+    case 0:
         graphic->flagsC = 0x00808080;
         graphic->scale1E = 0x1000;
         graphic->scale1C = 0x1000;
@@ -192,11 +180,12 @@ initialize:
         state->variant7E = variant_bits;
         state->stateA = next_state;
 
+    case 1:
         flags_or_result = func_8003DF74(header->componentC->unk8,
             header->componentC, &delta, 0);
         if (flags_or_result == 0) {
             if (!(header->componentC->flags14 & 0x8000)) {
-                goto done;
+                break;
             }
         }
         position->x = source->x;
@@ -214,9 +203,8 @@ initialize:
 
         advance = *state->flags4 & 0x80;
         goto advance_check;
-    }
 
-create_spawn:
+    case 2:
     {
         RoomData *room;
         SpawnData *data;
@@ -306,10 +294,10 @@ create_spawn:
             state->sentinel88 = 99;
         }
         state->stateA++;
-        goto done;
+        break;
     }
 
-follow_spawn:
+    case 3:
     {
 
         if (state->sentinel88 == 99) {
@@ -327,13 +315,13 @@ follow_spawn:
     }
 
 advance_check:
-    if (advance != 0) {
-        state->counter84 = 0;
-        state->stateA++;
-    }
-    goto done;
+        if (advance != 0) {
+            state->counter84 = 0;
+            state->stateA++;
+        }
+        break;
 
-wait_finish:
+    case 4:
     {
         s32 pending;
         s32 ticks;
@@ -351,10 +339,8 @@ wait_finish:
                 D_80025924 = 0;
             }
         }
-        goto done;
+        break;
     }
 
-inactive:
-done:
-    (void)state_labels;
+    }
 }

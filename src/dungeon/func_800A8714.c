@@ -14,7 +14,6 @@ extern int abs(int);
 /* ---- globals (declared array-style so every access stays %hi/%lo, never $gp) ---- */
 typedef struct CFlags46 { u8 pad_00[0x46]; u16 f46; } CFlags46;
 extern u8 D_800E3548[];
-extern void *D_80089088[];
 
 /* ---- ordinary callees ---- */
 extern s32 func_80042900();
@@ -527,25 +526,9 @@ check_species_action:
         }
     }
 
-    {
-        u32 kind_index = (u32)(creature[0x13] - 9);
-        static void *const kind_labels[] = {
-            &&Lcase9, &&Lcase10, &&wander, &&wander, &&wander, &&wander,
-            &&wander, &&wander, &&wander, &&wander, &&wander, &&wander,
-            &&Lcase21, &&Lcase22, &&Lcase23, &&Lcase24, &&Lcase25,
-            &&Lcase26, &&Lcase27, &&Lcase28, &&Lcase29, &&wander, &&wander,
-            &&Lcase32, &&wander, &&Lcase34, &&Lcase35, &&Lcase36,
-            &&Lcase37, &&Lcase38, &&Lcase39, &&Lcase40, &&Lcase41,
-            &&Lcase42, &&Lcase43, &&Lcase44
-        };
-        (void)kind_labels;
-        if (kind_index >= 36) {
-            goto wander;
-        }
-        goto *D_80089088[kind_index];
-    }
+    switch (creature[0x13]) {
 
-Lcase25:
+    case 25:
     func_800ADD20(creature, 0x10);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -560,7 +543,7 @@ Lcase25:
     *(u16 *)(creature + 0x46) = 0x800A;
     return 6;
 
-Lcase22:
+    case 22:
     if (creature[0x48] != 0xF) {
         goto wander;
     }
@@ -583,7 +566,7 @@ Lcase22:
         near_player_pos->tileX, near_player_pos->tileY, &action_or_flags);
     return 1;
 
-Lcase44:
+    case 44:
     func_800ADD20(creature, 4);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -622,7 +605,7 @@ Lcase44:
         ranged_player_pos->tileX, ranged_player_pos->tileY, &action_or_flags);
     return 5;
 
-Lcase43:
+    case 43:
     func_800ADD20(creature, 0x20);
     {
         u16 ability_flags = *(u16 *)(creature + 0x98);
@@ -642,7 +625,7 @@ Lcase43:
         D_80082E80.tileX, D_80082E80.tileY, &action_or_flags);
     return 5;
 
-Lcase34:
+    case 34:
     func_800ADD20(creature, 0x20);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -665,7 +648,7 @@ Lcase34:
     } while (scan_index < 2);
     goto wander;
 
-Lcase41:
+    case 41:
     func_800ADD20(creature, 0x10);
     scan_index = 0;
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
@@ -691,7 +674,7 @@ Lcase41:
     } while (scan_index < 2);
     goto wander;
 
-Lcase40:
+    case 40:
     func_800ADD20(creature, 0x40);
     {
         u16 ability_flags = *(u16 *)(creature + 0x98);
@@ -703,7 +686,7 @@ Lcase40:
         goto wander;
     }
 
-Lcase26:
+    case 26:
     func_800ADD20(creature, 2);
     {
         u16 ability_flags = *(u16 *)(creature + 0x98);
@@ -726,7 +709,7 @@ Lcase26:
     *(u16 *)(creature + 0x98) |= 0x8000;
     goto wander;
 
-Lcase35:
+    case 35:
     func_800ADD20(creature, 4);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -742,7 +725,7 @@ Lcase35:
     }
     goto return_ability;
 
-Lcase38:
+    case 38:
     func_800ADD20(creature, 2);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -762,7 +745,7 @@ check_neighbor:
     }
     goto return_ability;
 
-Lcase39:
+    case 39:
     func_800ADD20(creature, 0x10);
     {
         u16 ability_flags = *(u16 *)(creature + 0x98);
@@ -788,7 +771,7 @@ Lcase39:
         return 5;
     }
 
-Lcase32:
+    case 32:
     if (creature[0x49] == 0) {
         func_800ADD20(creature, 2);
         if (!(*(u16 *)(creature + 0x98) & 0x100)) {
@@ -820,7 +803,7 @@ Lcase32:
         flee_player_pos->tileX, flee_player_pos->tileY, creature + 0x98) + 0x800;
     goto return_wait;
 
-Lcase36:
+    case 36:
     {
         u16 ability_flags = *(u16 *)(creature + 0x98);
         *(u16 *)(creature + 0x98) = ability_flags & 0x7FFF;
@@ -867,7 +850,7 @@ Lcase36:
         goto return_wait;
     }
 
-Lcase37:
+    case 37:
     func_800ADD20(creature, 0x20);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -876,7 +859,7 @@ Lcase37:
     *(u16 *)(creature + 0x46) = 0x8009;
     return 5;
 
-Lcase24:
+    case 24:
     if ((s16)func_8009FD40(position, ((u8 *)(&D_80082E80))) >= 2) {
         if (creature[0xB5] != 0) {
             goto check_occupied_tile;
@@ -903,7 +886,7 @@ check_occupied_tile:
         D_80082E80.tileX, D_80082E80.tileY, creature + 0x98);
     goto return_wait;
 
-Lcase42:
+    case 42:
     func_800ADD20(creature, 4);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -963,7 +946,7 @@ Lcase42:
         goto return_directed_ability;
     }
 
-Lcase27:
+    case 27:
     func_800ADD20(creature, 4);
     scan_index = 0;
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
@@ -989,8 +972,8 @@ Lcase27:
     } while (scan_index < 2);
     goto wander;
 
-Lcase9:
-Lcase10:
+    case 9:
+    case 10:
     target = func_800A02AC(creature, position[0x24], position[0x25]);
     if (target == NULL) {
         goto wander;
@@ -1005,7 +988,7 @@ Lcase10:
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
 
-Lcase23:
+    case 23:
     func_800ADD20(creature, 0x10);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -1025,7 +1008,7 @@ Lcase23:
     *(u16 *)(creature + 0x46) = 0x8009;
     return 5;
 
-Lcase28:
+    case 28:
     if (!(*(s32 *)(creature + 0x1C) & 0x20000)) {
         goto wander;
     }
@@ -1062,7 +1045,7 @@ return_directed_ability:
         return result;
     }
 
-Lcase29:
+    case 29:
     func_800ADD20(creature, 8);
     if (!(*(u16 *)(creature + 0x98) & 0x100)) {
         goto wander;
@@ -1080,7 +1063,7 @@ Lcase29:
         goto check_neighbor;
     }
 
-Lcase21:
+    case 21:
     if (creature[0xA7] != 0) {
         if (creature[0xA8] == 0) {
             STEPVEC(neighbor);
@@ -1096,6 +1079,7 @@ Lcase21:
             }
         }
     }
+    default:
 wander:
     move_target = func_800A3D18(position, creature, 2);
     *(void **)(creature + 0x60) = move_target;
@@ -1188,4 +1172,5 @@ aim_at_target:
 return_default:
     delta_or_result = default_action << 16;
     return (u32)delta_or_result >> 16;
+    }
 }

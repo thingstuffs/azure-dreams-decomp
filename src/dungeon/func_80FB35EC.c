@@ -58,24 +58,22 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
     switch (((S_80172DEC_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void * const dispatch_labels[] = { && sw_c, && sw_b, && sw_a, && sel_none };
-            extern void *const D_80170850[];
-            u32 kind_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (kind_index >= 7) {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 7:
+                use_global_target = 1;
+            case 3:
+                goto kind_c;
+            case 6:
+                use_global_target = 1;
+            case 2:
+                goto kind_b;
+            case 5:
+                use_global_target = 1;
+            case 1:
+                goto kind_a;
+            default:
                 goto sel_none;
             }
-            (void)dispatch_labels;
-            goto *D_80170850[kind_index];
-sw_c:
-            use_global_target = 1;
-            goto kind_c;
-sw_b:
-            use_global_target = 1;
-            goto kind_b;
-sw_a:
-            use_global_target = 1;
-            goto kind_a;
         }
 
         switch (actor->unk_46 & 0x3FFF) {
@@ -164,7 +162,7 @@ do_step:
         }
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         ((S_80172DEC_0 *)action_state)->unk_9B = ((S_80172DEC_0 *)action_state)->unk_9B + 1;
-                                /* fallthrough */
+                                        /* fallthrough */
     case 2:
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 3 && (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000))
             ||
@@ -220,9 +218,10 @@ do_step:
    lets gcc's delayed-branch pass fill the three direction_table-arm `j` slots with
    `addiu $s5,1` (the prior wall at word 48). Two natural switches (state 0/1/2,
    kind 1/2/3) give gcc's balanced compare tree with the shared `li $a0,1`; the
-   out-of-row direction_table is the extern-direction_table dispatch idiom (keepalive + goto
-   *D_80170850[kind_index]) whose arms cross-jump into the kind-switch case bodies, and
-   `sel_none` is BOTH the bounds-fail target and the switch default.
+   special kinds 5-7 are a real switch whose jump table is retail's D_80170850 (the TU's own
+   .rodata, placed there by the gate's Option-D derivation): kinds 5-7 set use_global_target
+   and fall into the 1-3 entries, whose arms jump into the kind-switch case bodies, and
+   `sel_none` is BOTH that switch's default and the kind-switch default.
    Frame objects: plain (non-volatile) u16 saved_position[3] gives the three 0x18(sp)
    stores AND lets the last one fill the jal delay slot; ((MotionEntry *)
    D_8006DE24)[*motion].kind keeps retail's `lbu 0x12(reg)` instead of folding +18
