@@ -236,14 +236,14 @@ angle_store:
     }
 
     {
-        register s32 angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 angle_delta;
+        s16 angle;
+        s32 radial_speed;
+
 
         angle = ((S_8017450C_1 *)monster)->unk_1A.u;
-        angle_delta = angle - 0x400;
-        angle = angle_delta;
-        if ((s16)angle_delta < 0) {
-            angle = angle_delta + 0x1000;
+        angle -= 0x400;
+        if (angle < 0) {
+            angle += 0x1000;
         }
         angle = (s16)angle;
 
@@ -252,7 +252,7 @@ angle_store:
         {
             s32 original_angle = angle;
 
-            angle = scaled_speed << 4;
+            radial_speed = scaled_speed << 4;
             trig_value = func_800644B8(original_angle);
         }
 
@@ -265,8 +265,8 @@ angle_store:
             direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
 
             ((S_8017450C_0 *)state)->unk_90.at00.v += scaled_speed << 4;
-            ((S_8017450C_4 *)motion)->unk_0C = (direction.x * angle) >> 4;
-            ((S_8017450C_4 *)motion)->unk_10 = (direction.y * angle) >> 4;
+            ((S_8017450C_4 *)motion)->unk_0C = (direction.x * radial_speed) >> 4;
+            ((S_8017450C_4 *)motion)->unk_10 = (direction.y * radial_speed) >> 4;
         }
     }
 
