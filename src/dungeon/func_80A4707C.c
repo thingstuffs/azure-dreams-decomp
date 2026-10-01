@@ -203,14 +203,13 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                     do {
                         u8 *entry = (u8 *)child_work + entry_offset;
                         S_8017087C_9 *callback_obj;
-                        register u32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        s32 field_value;
 
-                        color = 0x00C0C0C0;
+                        field_value = ((S_8017087C_3 *)part_b)->unk_28;
+                        ((S_8017087C_7 *)entry)->unk_0C = 0x00C0C0C0;
                         alloc_or_entry = entry;
-                        setup_value = ((S_8017087C_3 *)part_b)->unk_28;
                         entry_id = child_id_fixed >> 16;
-                        ((S_8017087C_7 *)entry)->unk_0C = color;
-                        ((S_8017087C_7 *)entry)->unk_28 = setup_value;
+                        ((S_8017087C_7 *)entry)->unk_28 = field_value;
                         entry_mode = 0;
                         callback_obj = child_slot->unk_A4;
                         ASM_USE(entry_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

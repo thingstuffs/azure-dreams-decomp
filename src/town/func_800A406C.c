@@ -61,7 +61,6 @@ typedef struct S_800A17CC_3 {
 
 
 #define SCRATCH(type, offset) (*(type *)((u8 *)scratch + (offset)))
-#define VSCRATCH(type, offset) (*(volatile type *)((u8 *)scratch + (offset)))
 
 typedef struct {} EmptyArg;
 

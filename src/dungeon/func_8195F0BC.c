@@ -52,7 +52,8 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
     s32 page_base;
     s32 unused_x;
     s32 grid_x_fixed;
-    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 scratch;
+    s32 random_value;
     u16 *height_ptr;
     u16 *height_row;
     void *tile;
@@ -93,18 +94,17 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                 scratch = (u16)origin->x >> 6;
                 scratch -= 3;
                 tile_x = scratch + grid_x;
-                scratch = func_80069EF8();
+                random_value = func_80069EF8() & 7;
                 lookup_x = tile_x & 0xFFFF;
                 lookup_y = tile_y & 0xFFFF;
                 delta_ptr = D_80027334 + (grid_y << 3);
                 delta_ptr += grid_x;
                 page = (void *)0x800e0000;
-                scratch &= 7;
                 height_delta = *delta_ptr;
                 ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 page = *(void **)((u8 *)page + 0x3D7C);
                 height = *height_ptr;
-                height += (s8)height_delta - scratch;
+                height += (s8)height_delta - random_value;
                 *height_ptr = height;
                 tile = func_8009B4B0(page, lookup_x, lookup_y, height);
                 if (tile != 0 && tile != D_8002732C) {

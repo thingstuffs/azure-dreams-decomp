@@ -47,7 +47,6 @@ typedef struct S_80045CC4_2 {
 #define SP_U16(offset) (*(u16 *)(scratchpad + (offset)))
 #define SP_S16(offset) (*(s16 *)(scratchpad + (offset)))
 #define SP_S32_VOL(offset) (*(volatile s32 *)(scratchpad + (offset)))
-#define SP_S16_VOL(offset) (*(volatile s16 *)(scratchpad + (offset)))
 
 typedef struct {
     u8 pad00[2];
@@ -119,19 +118,19 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     global_slots = ((void * *)(&gameWork));
     global_base = global_slots[0];
     scratchpad = (u8 *)0x1F800000;
-    SP_S32_VOL(0x20) = (s32)((u8 *)global_base + 0xB0);
+    SP_S32(0x20) = (s32)((u8 *)global_base + 0xB0);
     {
         s32 translation;
         translation = ((S_80045CC4_Arg1 *)position)->unk02;
-        SP_S32_VOL(0xE4) = translation;
+        SP_S32(0xE4) = translation;
         translation = ((S_80045CC4_Arg1 *)position)->unk06;
-        SP_S32_VOL(0xE8) = translation;
+        SP_S32(0xE8) = translation;
         translation = ((S_80045CC4_Arg1 *)position)->unk0A;
-        SP_S16_VOL(0x8C) = 0;
-        SP_S16_VOL(0x84) = 0;
-        SP_S16_VOL(0x7C) = 0;
-        SP_S16_VOL(0x74) = 0;
-        SP_S32_VOL(0xEC) = translation;
+        SP_S16(0x8C) = 0;
+        SP_S16(0x84) = 0;
+        SP_S16(0x7C) = 0;
+        SP_S16(0x74) = 0;
+        SP_S32(0xEC) = translation;
     }
     packet = *(s32 **)((u8 *)global_base + 0x8D0);
     sprite->unk14 |= 0x8000;
