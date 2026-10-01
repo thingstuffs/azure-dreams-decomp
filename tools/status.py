@@ -218,6 +218,11 @@ def main():
         out.append(f"\n(evidence census unavailable: {e})")
     (ROOT / "STATUS.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
+    try:   # src/<container>/INDEX.md mirrors the ledger (stale since import until 2026-10-01)
+        import gen_src_index
+        gen_src_index.main()
+    except Exception as e:
+        print(f"(src INDEX.md not regenerated: {e})")
 
 if __name__ == "__main__":
     main()
