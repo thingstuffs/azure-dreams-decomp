@@ -31,7 +31,7 @@ void func_8001784C(void) {
     s32 state;
     u8 x;
     u8 y;
-    register MapGrid *config ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    MapGrid *config;
     MapCell *map;
     s32 spawn_count;
     s32 slot_index;
@@ -50,6 +50,7 @@ void func_8001784C(void) {
         spawn_count = 0;
         meta_base = D_800E3548;
 
+        do {
 retry:
         do {
         } while ((s16)func_800A4E2C(&x, &y) < 0);
@@ -102,7 +103,6 @@ retry:
             s32 update_row_shift;
             s32 copy_row_shift;
             s32 flags_row_shift;
-            s16 cell_flags;
             s32 cell_index;
             MapCell *spawn_cell;
             s32 update_size;
@@ -123,21 +123,19 @@ retry:
             (*(s16 *)((u8 *)entry + 6)) = map[cell_offset + (row_offset << copy_row_shift)].value;
 
             flags_row_shift = config->shiftX;
-            cell_flags = 1;
             row_offset <<= flags_row_shift;
             cell_offset += row_offset;
             spawn_cell = (MapCell *)(cell_offset * 6 + (s32)map);
             update_size = 0x20;
-            spawn_cell->flags = cell_flags;
+            spawn_cell->flags = 1;
             func_8009A21C(spawn_x, spawn_y, update_size);
         }
 
-        if ((func_800A6D30() & 0x3F) == 0) {
-            spawn_count++;
-            if (spawn_count < 4) {
-                goto retry;
-            }
+        if ((func_800A6D30() & 0x3F) != 0) {
+            break;
         }
+        spawn_count++;
+        } while (spawn_count < 4);
 
         spawn_count++;
         while (spawn_count < 4) {

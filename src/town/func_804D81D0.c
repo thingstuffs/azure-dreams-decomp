@@ -4,15 +4,11 @@
 
 typedef struct CallbackTable {
     u8 pad_00[0x2C8];
-    s32 (*callback)(s32, void *);
+    s32 (*callback)(s32);
 } CallbackTable;
 
-typedef struct DataPage {
-    u8 pad_00[0x79D8];
-    s32 *callback_data;
-} DataPage;
-
 extern s32 D_80017908;
+extern s32 *D_800179D8;
 
 extern void func_800175FC(s32);
 extern void func_80017674(s32);
@@ -23,17 +19,15 @@ extern s32 func_80017868(s32);
 void func_800161D0(void)
 {
     s32 zero = 0;
-    DataPage *data_page = (DataPage *)0x80010000;
-    s32 (*callback)(s32, void *);
+    s32 (*callback)(s32);
     Rec_D_80016000 *owner;
     CallbackTable *table;
 
     owner = D_80016000;
-    ASM_KEEP(zero);
     table = ((CallbackTable *)owner->unk_20);
     callback = table->callback;
-    data_page->callback_data = &D_80017908;
-    callback(zero, data_page);
+    D_800179D8 = &D_80017908;
+    callback(zero);
 
     if (func_800176F4(0x942) != 0) {
         if (func_80017868(0xB) != 0) {

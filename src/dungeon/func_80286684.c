@@ -25,13 +25,13 @@ extern s32 D_801C4640[4];
 /* Loads an object into the alternate buffer and optionally activates it. */
 s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
     s16 activate_flag = activate;
-    u16 saved_index = ({  0; });
+    u16 saved_index = 0;
     register s16 saved_object_index = object_index;
     s16 saved_mode = mode;
     s16 activate_tail = (s16)activate_flag;
     s32 object_offset = (s32)object_index << 16;
     Object **objects = D_8006E704;
-    register Object **slot ASM_REG("$16") =
+    Object **slot =
         (Object **)((u8 *)objects + (object_offset >> 14));
     Object **buffers = D_80080AF4;
     u16 buffer_index;
@@ -87,9 +87,11 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
             load_object->field_0 = buffer_addr;
             reload_objects = D_8006E704_remat;
             reload_offset = reload_left >> 14;
-            slot = (Object **)((u8 *)reload_objects + reload_offset);
-            Control_CD(cd_command, *slot, 0);
-            D_80080AF4_fresh[D_80080AFC_fresh] = *slot;
+            {
+                Object **reload_slot = (Object **)((u8 *)reload_objects + reload_offset);
+                Control_CD(cd_command, *reload_slot, 0);
+                D_80080AF4_fresh[D_80080AFC_fresh] = *reload_slot;
+            }
             func_8003F320();
         }
     }
