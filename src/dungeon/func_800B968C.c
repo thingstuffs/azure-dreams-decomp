@@ -30,13 +30,12 @@ extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
-s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_value) {
-    register u8 *actor ASM_REG("$4");
-    u32 target = target_addr;
+s32 func_800BEDEC(u32 target_addr, u8 *item, s16 effect_type, s32 effect_value) {
+    u8 *actor;
+    s32 text_target;
     register s32 text_cursor;
     u8 *linked_item;
     register s32 text_start;
-    u8 *item = used_item;
 
 
     if (effect_type == 0xD) {
@@ -44,11 +43,10 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
     }
 
     actor = ((u8 *)D_800E3D7C);
-    if ((u8 *)target == actor) {
+    if ((u8 *)target_addr == actor) {
         u8 item_flags;
         s32 result;
 
-        ASM_KEEP(actor);
         *(u8 **)(actor + 0x110) = item;
         func_8008D344(actor, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), actor);
         item_flags = item[3];
@@ -57,10 +55,10 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
         return result;
     }
 
-    if (target <= 0x9FFFFFFF) {
-        func_800A6480(target, item, effect_type);
-        if (func_800AD6FC(target, D_800DDE84[*(u8 *)(target + 0x13)] & 3, 0) == 0) {
-            func_800A5F38(target, item);
+    if (target_addr <= 0x9FFFFFFF) {
+        func_800A6480(target_addr, item, effect_type);
+        if (func_800AD6FC(target_addr, D_800DDE84[*(u8 *)(target_addr + 0x13)] & 3, 0) == 0) {
+            func_800A5F38(target_addr, item);
             return 1;
         }
         dungeonStatus.unk_0A--;
@@ -96,22 +94,19 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
                 }
                 text_cursor = func_80099978(func_80099194(D_800E118C, text_cursor));
                 next_cursor = func_80099194(D_8008936C, text_cursor);
-                target = text_cursor - 2;
+                text_target = text_cursor - 2;
                 text_cursor = next_cursor;
                 next_cursor = func_80099368(linked_item, text_cursor);
                 message_end = text_cursor;
                 text_cursor = next_cursor;
-                func_800998C0(target, message_end);
-                actor = D_80089370;
-                message_end = text_cursor;
+                func_800998C0(text_target, message_end);
+                func_80099290(func_80099194(D_80089370, text_cursor));
             } else {
                 text_start = func_800990FC();
 
                 text_end = func_80099368(linked_item, text_start);
-                actor = D_800E11AB;
-                message_end = text_end;
+                func_80099290(func_80099194(D_800E11AB, text_end));
             }
-            func_80099290(func_80099194(actor, message_end));
         }
         func_800A5720(text_start);
     } else {
