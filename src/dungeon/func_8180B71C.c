@@ -13,15 +13,11 @@ extern void func_800BC4D4();
 void func_80026F1C(s32 call_value, s32 call_option, s16 call_mode, s32 call_extra)
 {
     s16 *scratch = (s16 *)0x1F800000;
-    u16 x;
-    u32 state;
+    Data83160 *g = (Data83160 *)&gameWork;
 
     scratch[0x104 / 2] = 0;
-    state = (u32)((Data83160 *)&gameWork);
-    x = *(u16 *)(state + 0xC4);
-    state = *(u16 *)(state + 0xC6);
-    scratch[0x100 / 2] = -x;
-    scratch[0x102 / 2] = -state;
+    scratch[0x100 / 2] = -g->x;
+    scratch[0x102 / 2] = -g->y;
     func_800BC4D4(call_value, call_option, call_mode, call_extra);
 }
 
