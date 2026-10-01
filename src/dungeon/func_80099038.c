@@ -149,11 +149,11 @@ typedef struct S_8009E798_8 {
 extern void func_8003DB6C(void *, void *, s32);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
-extern void func_80064BC0(void *, void *);
+extern void *func_80064BC0(void *, void *);
 extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern void func_80065320(void *, void *, void *);
-extern void func_80065820(void *, void *);
+extern void *func_80065820(void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_800666E0(void *);
 extern void func_800666F4(void *);
@@ -165,16 +165,14 @@ extern u8 D_801C9E40[16];
 /* Build and enqueue transformed sprite quads and restore the drawing area. */
 s32 func_8009E798(void *draw_area, void *placement, void *sprite)
 {
-    register u8 *area_source ASM_REG("$20") = draw_area;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *sprite_or_copy ASM_REG("$18") = sprite;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 **state_ptr = (u8 **)((u8 *)(&gameWork));
     u8 *state = *state_ptr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet = ((S_8009E798_0 *)state)->unk_8D0;
-    register u8 *frame_or_packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *queued_packet ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *active_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 lower_buffer = state != D_801C9E40;
+    u8 *frame;
+    u8 *copy;
+    u8 *prim;
+    s16 lower_buffer = state != D_801C9E40;
     s16 vertex_y;
     s16 vertex_x;
     u16 rect[4];
@@ -187,12 +185,12 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
                   packet);
 
-    ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)sprite_or_copy)->unk_1C.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)sprite_or_copy)->unk_1E;
+    ((S_8009E798_1 *)scratch)->unk_30 = ((S_8009E798_3 *)sprite)->unk_1C.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_34 = ((S_8009E798_3 *)sprite)->unk_1E;
     ((S_8009E798_1 *)scratch)->unk_00.u = ((S_8009E798_2 *)placement)->unk_02;
     ((S_8009E798_1 *)scratch)->unk_02 = ((S_8009E798_2 *)placement)->unk_06;
-    frame_or_packet = ((S_8009E798_3 *)sprite_or_copy)->unk_08;
-    ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite_or_copy)->unk_14.at00.v;
+    frame = ((S_8009E798_3 *)sprite)->unk_08;
+    ((S_8009E798_1 *)scratch)->unk_24 = ((S_8009E798_3 *)sprite)->unk_14.at00.v;
     func_800649A0();
 
     ((S_8009E798_1 *)scratch)->unk_98 = 0;
@@ -207,8 +205,8 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     func_80064CF0(scratch + 0xD0);
     func_80064D80(scratch + 0xD0);
 
-    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)sprite_or_copy)->unk_20;
-    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)sprite_or_copy)->unk_22;
+    ((S_8009E798_1 *)scratch)->unk_28 = 0x20 - ((S_8009E798_3 *)sprite)->unk_20;
+    ((S_8009E798_1 *)scratch)->unk_2A = 0x20 - ((S_8009E798_3 *)sprite)->unk_22;
     ((S_8009E798_1 *)scratch)->unk_2C = 0;
     func_80065320(scratch + 0x28, scratch + 0x100, scratch + 0x94);
 
@@ -216,19 +214,19 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     ((S_8009E798_1 *)scratch)->unk_100 -= ((S_8009E798_1 *)scratch)->unk_00.u;
     ((S_8009E798_1 *)scratch)->unk_102 -= ((S_8009E798_1 *)scratch)->unk_02;
 
-    ((S_8009E798_1 *)scratch)->unk_08 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at00.v;
-    ((S_8009E798_1 *)scratch)->unk_0C = ((S_8009E798_5 *)frame_or_packet)->unk_08.at01.v;
-    ((S_8009E798_1 *)scratch)->unk_10 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at02.v;
-    ((S_8009E798_1 *)scratch)->unk_14 = ((S_8009E798_5 *)frame_or_packet)->unk_08.at03.v;
+    ((S_8009E798_1 *)scratch)->unk_08 = ((S_8009E798_5 *)frame)->unk_08.at00.v;
+    ((S_8009E798_1 *)scratch)->unk_0C = ((S_8009E798_5 *)frame)->unk_08.at01.v;
+    ((S_8009E798_1 *)scratch)->unk_10 = ((S_8009E798_5 *)frame)->unk_08.at02.v;
+    ((S_8009E798_1 *)scratch)->unk_14 = ((S_8009E798_5 *)frame)->unk_08.at03.v;
 
-    vertex_x = (s8)((S_8009E798_5 *)frame_or_packet)->unk_02;
+    vertex_x = (s8)((S_8009E798_5 *)frame)->unk_02;
     ((S_8009E798_1 *)scratch)->unk_80 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_70 = vertex_x;
     vertex_x += ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_1 *)scratch)->unk_88 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_78 = vertex_x;
 
-    vertex_y = (s8)((S_8009E798_5 *)frame_or_packet)->unk_03;
+    vertex_y = (s8)((S_8009E798_5 *)frame)->unk_03;
     ((S_8009E798_1 *)scratch)->unk_8C = 0;
     ((S_8009E798_1 *)scratch)->unk_84 = 0;
     ((S_8009E798_1 *)scratch)->unk_7C = 0;
@@ -258,67 +256,63 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
         (((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_0C) << 8;
     ((S_8009E798_1 *)scratch)->unk_0C <<= 8;
 
-    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite_or_copy)->unk_12
-        + ((S_8009E798_5 *)frame_or_packet)->unk_04.at02.v;
+    ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite)->unk_12
+        + ((S_8009E798_5 *)frame)->unk_04.at02.v;
     ((S_8009E798_6 *)packet)->unk_0C = ((S_8009E798_1 *)scratch)->unk_0C + ((S_8009E798_1 *)scratch)->unk_08;
     (*(s32 *)((u8 *)packet + 0x14)) = ((S_8009E798_1 *)scratch)->unk_0C +
         ((S_8009E798_1 *)scratch)->unk_10 +
-        ((((S_8009E798_3 *)sprite_or_copy)->unk_10 | ((S_8009E798_5 *)frame_or_packet)->unk_04.at00.v) << 16);
+        ((((S_8009E798_3 *)sprite)->unk_10 | ((S_8009E798_5 *)frame)->unk_04.at00.v) << 16);
     (*(u16 *)((u8 *)packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
     ((S_8009E798_6 *)packet)->unk_24 = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_10;
-    ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite_or_copy)->unk_0C.at00.v;
+    ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite)->unk_0C.at00.v;
     func_800666F4(packet);
 
-    sprite_or_copy = packet;
-    sprite_or_copy += 0x28;
-    func_8003DB6C(sprite_or_copy, packet, 0xA);
-    frame_or_packet = sprite_or_copy + 0x28;
+    copy = packet + 0x28;
+    func_8003DB6C(copy, packet, 0xA);
     ((S_8009E798_6 *)packet)->unk_04.at03.v |= 2;
-    ((S_8009E798_3 *)sprite_or_copy)->unk_0C.at01.v = (((S_8009E798_3 *)sprite_or_copy)->unk_14.at01.v += 0x40);
-    ((S_8009E798_3 *)sprite_or_copy)->unk_1C.at01.v = (((S_8009E798_3 *)sprite_or_copy)->unk_25 += 0x40);
-    ((S_8009E798_3 *)sprite_or_copy)->unk_16 |= 0x100;
+    packet = copy;
+    prim = packet + 0x28;
+    ((S_8009E798_3 *)packet)->unk_0C.at01.v = (((S_8009E798_3 *)packet)->unk_14.at01.v += 0x40);
+    ((S_8009E798_3 *)packet)->unk_1C.at01.v = (((S_8009E798_3 *)packet)->unk_25 += 0x40);
+    ((S_8009E798_3 *)packet)->unk_16 |= 0x100;
 
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
-                  sprite_or_copy);
+                  packet);
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
-                  sprite_or_copy - 0x28);
+                  packet - 0x28);
 
-    ((S_8009E798_5 *)frame_or_packet)->unk_04.at00u.v = 0x00606060;
-    ((S_8009E798_5 *)frame_or_packet)->unk_08.at00u.v = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_00;
-    ((S_8009E798_5 *)frame_or_packet)->unk_0C = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_08;
-    ((S_8009E798_5 *)frame_or_packet)->unk_10 = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_10;
-    ((S_8009E798_5 *)frame_or_packet)->unk_14 = ((S_8009E798_5_pre *)frame_or_packet)[-1].unk_18;
-    ((S_8009E798_5 *)frame_or_packet)->unk_04.at00p.v >>= 1;
-    ((S_8009E798_5 *)frame_or_packet)->unk_04.at01.v >>= 1;
-    ((S_8009E798_5 *)frame_or_packet)->unk_04.at02u.v >>= 1;
-    func_800666E0(frame_or_packet);
-    ((S_8009E798_5 *)frame_or_packet)->unk_04.at03.v |= 2;
+    ((S_8009E798_5 *)prim)->unk_04.at00u.v = 0x00606060;
+    ((S_8009E798_5 *)prim)->unk_08.at00u.v = ((S_8009E798_5_pre *)prim)[-1].unk_00;
+    ((S_8009E798_5 *)prim)->unk_0C = ((S_8009E798_5_pre *)prim)[-1].unk_08;
+    ((S_8009E798_5 *)prim)->unk_10 = ((S_8009E798_5_pre *)prim)[-1].unk_10;
+    ((S_8009E798_5 *)prim)->unk_14 = ((S_8009E798_5_pre *)prim)[-1].unk_18;
+    ((S_8009E798_5 *)prim)->unk_04.at00p.v >>= 1;
+    ((S_8009E798_5 *)prim)->unk_04.at01.v >>= 1;
+    ((S_8009E798_5 *)prim)->unk_04.at02u.v >>= 1;
+    func_800666E0(prim);
+    ((S_8009E798_5 *)prim)->unk_04.at03.v |= 2;
 
-    queued_packet = frame_or_packet;
-    frame_or_packet = sprite_or_copy + 0x40;
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
-                  queued_packet);
-    func_80067F20(frame_or_packet, 0, 0, 0x40, 0);
+                  prim);
+    prim = packet + 0x40;
+    func_80067F20(prim, 0, 0, 0x40, 0);
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
-                  frame_or_packet);
+                  prim);
 
-    rect[0] = ((S_8009E798_7 *)area_source)->unk_04;
-    rect[1] = ((S_8009E798_7 *)area_source)->unk_06;
-    rect[2] = ((S_8009E798_7 *)area_source)->unk_08;
-    rect[3] = ((S_8009E798_7 *)area_source)->unk_0A;
-    frame_or_packet = sprite_or_copy + 0x4C;
+    rect[0] = ((S_8009E798_7 *)draw_area)->unk_04;
+    rect[1] = ((S_8009E798_7 *)draw_area)->unk_06;
+    rect[2] = ((S_8009E798_7 *)draw_area)->unk_08;
+    rect[3] = ((S_8009E798_7 *)draw_area)->unk_0A;
+    prim = packet + 0x4C;
     if (lower_buffer) {
         rect[1] += 0xE0;
     }
 
-    func_80067E2C(frame_or_packet, rect);
-    queued_packet = frame_or_packet;
-    frame_or_packet = sprite_or_copy + 0x58;
+    func_80067E2C(prim, rect);
     func_8006658C(((S_8009E798_1 *)scratch)->unk_20 + ((S_8009E798_2 *)placement)->unk_0A * 4,
-                  queued_packet);
-    ASM_KEEP(area_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                  prim);
+    prim = packet + 0x58;
     func_80064A40();
-    active_state = *state_ptr;
-    ((S_8009E798_8 *)active_state)->unk_8D0 = frame_or_packet;
+    ((S_8009E798_8 *)*state_ptr)->unk_8D0 = prim;
     return 0;
 }

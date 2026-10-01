@@ -94,17 +94,16 @@ extern void func_8005E97C(s32 a0, s32 a1);
 extern s32 func_8005EB78(s32 a0);
 extern void func_8005EC0C(void *a0);
 extern s32 func_8005E4A0(s32 a0, s32 a1);
-enum E_u16 { E_u16_zero = 0, E_u16_max = 0xFFFF } __attribute__((packed));
 /* Starts a channel voice with sample, pitch, envelope, and panned volume settings. */
 s32 func_8005BBFC(channel_arg, bank_arg, program_arg, tone_arg, note_arg, fine_note_arg, left_gain_arg, right_gain_arg)
-s32 channel_arg;
-s32 bank_arg;
-s32 program_arg;
-s32 tone_arg;
-volatile s32 note_arg;
-s32 fine_note_arg;
-enum E_u16 left_gain_arg;
-enum E_u16 right_gain_arg;
+s16 channel_arg;
+s16 bank_arg;
+s16 program_arg;
+s16 tone_arg;
+s16 note_arg;
+s16 fine_note_arg;
+u16 left_gain_arg;
+u16 right_gain_arg;
 {
     S_8005BBFC_req voice_request;
     u16 program;
@@ -134,12 +133,8 @@ enum E_u16 right_gain_arg;
     s32 left_scaled;
     s32 right_scaled;
     u8 tone_param;
-    s32 note;
-    register s32 fine_note ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    channel = (s16) channel_arg;
-    note = note_arg;
+    channel = channel_arg;
     bank = bank_arg;
-    fine_note = fine_note_arg;
     program = program_arg;
     left_gain = left_gain_arg;
     tone = tone_arg;
@@ -149,13 +144,12 @@ enum E_u16 right_gain_arg;
         channel = -1;
     }
     if (channel != (-1)) {
-        bank_data = D_80086A40[(s16) bank_arg].f04;
+        bank_data = D_80086A40[bank_arg].f04;
         program_offset = ((s32) (program_arg << 0x10)) >> 0xC;
         program_data = bank_data + (program_offset + 0x20);
-        note_pitch = (((s16) note) << 8) + ((s16) fine_note);
-        tone_data = (S_8005BBFC_rec *) (bank_data + (((program_offset + ((s16) tone_arg)) << 5) + 0x820));
-        if ((((s16) note) >= ((s32) tone_data->f06)) && (((s32) tone_data->f07) >= ((s16) note))) {
-            ASM_USE_NV(fine_note);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+        note_pitch = (note_arg << 8) + fine_note_arg;
+        tone_data = (S_8005BBFC_rec *) (bank_data + (((program_offset + tone_arg) << 5) + 0x820));
+        if ((note_arg >= ((s32) tone_data->f06)) && (((s32) tone_data->f07) >= note_arg)) {
             func_80056DB4(channel);
             {
                 s32 * voice_ids = D_80073740;
@@ -206,15 +200,13 @@ enum E_u16 right_gain_arg;
             tone_param = tone_data->f0d;
             D_80085458[channel].f00 = channel;
             D_80085458[channel].f04 = program;
+            D_80085458[channel].f08 = tone;
             D_80085458[channel].f0a = (s16) (note_pitch >> 8);
             D_80085458[channel].f06 = 0x11;
-            D_80085458[channel].f08 = tone;
-            ASM_USE_NV(tone);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
             D_80085458[channel].f1a = 1;
             D_80085458[channel].f20 = tone_param;
             D_80085458[channel].f14 = program_data[1];
             D_80085458[channel].f16 = program_data[4];
-            ASM_USE_NV(program_data);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
             D_80085458[channel].f15 = tone_data->f02;
             D_80085458[channel].f17 = tone_data->f03;
             D_80085458[channel].f5c = bank;
@@ -247,7 +239,6 @@ enum E_u16 right_gain_arg;
             voice_request.f08 = (s16) D_80085458[channel].f10;
             voice_request.f0a = D_80085458[channel].f12;
             voice_request.f16 = note_pitch;
-            ASM_USE_NV(note_pitch);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
 
             if (tone_data->f05 != 0) {
                 voice_request.f18 = (((u8 *) tone_data)[-0x1C] << 8) | (0x7F - tone_data->f05);
