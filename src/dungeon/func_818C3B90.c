@@ -162,18 +162,21 @@ jt_c1:
             target = *(Motion **)((u8 *)owner->target - 24);
             stack.diffs[0] = x_delta = abs(target->x.h.hi - motion->x.h.hi);
             stack.diffs[1] = abs(target->y.h.hi - motion->y.h.hi);
-            delta_iter = (u8 *)&stack.local + 2;
             stack.diffs[2] = abs(*(s16 *)((u8 *)owner->target + 0x88) - motion->z.h.hi);
 
             action->duration = x_delta;
-            loop_0: {
-                s32 signed_delta = *(s16 *)(delta_iter + 24);
-                u32 delta_bits = *(u16 *)(delta_iter + 24);
+            do {
+                s32 signed_delta;
+                u32 delta_bits;
+
+                delta_iter = (u8 *)&stack.local + index * 2;
+                signed_delta = *(s16 *)(delta_iter + 24);
+                delta_bits = *(u16 *)(delta_iter + 24);
                 if (signed_delta > action->duration) {
                     action->duration = delta_bits;
                 }
-                delta_iter += 2;
-            } if (++index < 3) goto loop_0;
+                index++;
+            } while (index < 3);
             action->duration = action->duration >> 4;
             if (action->duration == 0) {
                 action->duration = 1;
@@ -270,7 +273,6 @@ jt_c1:
             x_work = (u32)saved_x << 16;
             table = dirStepX;
             x_work = (s32)x_work >> 10;
-            delta_iter = (u8 *)&stack.local + 2;
             x_work += (table[action->angle] + 1) << 5;
             target->x.h.hi = x_work;
             x_work = (u32)x_work << 16;
@@ -307,13 +309,16 @@ jt_c1:
 
             action->duration = x_work;
             do {
-                s32 signed_delta = *(s16 *)(delta_iter + 24);
-                u32 delta_bits = *(u16 *)(delta_iter + 24);
+                s32 signed_delta;
+                u32 delta_bits;
+
+                delta_iter = (u8 *)&stack.local + index * 2;
+                signed_delta = *(s16 *)(delta_iter + 24);
+                delta_bits = *(u16 *)(delta_iter + 24);
                 if (signed_delta > action->duration) {
                     action->duration = delta_bits;
                 }
                 index++;
-                delta_iter += 2;
             } while (index < 3);
             action->duration = action->duration >> 4;
             if (action->duration == 0) {
