@@ -90,7 +90,7 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     register s32 x_distance ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 source_z;
     u16 ground_z;
-    register s32 tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 tile_x;
     s32 tile_y;
     s16 *table_y_entry;
     u16 *update_x_entry;
@@ -103,7 +103,7 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     s32 direction_index;
     s32 offset_x;
     s32 offset_y;
-    s32 end_tile_x;
+    u16 end_tile_x;
     u16 end_tile_y;
     timer_value = state->timer;
     state_index = state->state;
@@ -236,9 +236,8 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
         tile_x = next_x;
         next_y = tile_y;
         next_y += *update_y_entry;
-        tile_y = next_y;
         end_tile_y = next_y;
-        ASM_KEEP4_NV(next_x, next_y, tile_x, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        tile_y = next_y;
         end_tile_x = next_x;
     } while (index < 8);
 
