@@ -3,13 +3,6 @@
 typedef struct { u8 bytes[4]; } WordCopy;
 
 typedef struct {
-    u8 pad0000[0x248];
-    WordCopy copy_src;
-    u8 pad024c[0x21E8 - 0x24C];
-    WordCopy copy_dst;
-} __attribute__((packed)) Global1004C;
-
-typedef struct {
     u32 word[35];
 } Blob140;
 
@@ -68,76 +61,30 @@ void func_800945E8(void *input_state) {
     }
 
     {
-        s32 *record_slot;
-        u8 *dst_cursor;
-        register u8 *index_cursor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        Global1004C *slot_fields;
-        register u8 *buffer_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        Blob140 *copy_src;
-        Blob140 *copy_dst;
-        u8 *buffer_addr;
-        s32 lookup_ptr;
-        void *lookup_base;
-        s32 entry_size;
-        s32 entry_count;
+        u8 *globals;
 
+        globals = (u8 *)0x80010000;
         slot_index = 0x13;
-        index_cursor = (u8 *)0x80010013;
-        buffer_addr = (u8 *)&D_800E3DF0;
-        record_slot = (s32 *)buffer_addr + 0x13;
-        buffer_page = (u8 *)0x800E0000;
-        ASM_KEEP_NV(buffer_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        buffer_addr = buffer_page + 0x3E48;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        src_cursor = buffer_addr + 0xA64;
-        dst_cursor = (u8 *)0x80010A64;
-        slot_fields = (Global1004C *)0x8001004C;
         do {
-            slot_fields->copy_dst = slot_fields->copy_src;
-            lookup_base = (void *)0x80010248;
-            entry_size = 4;
-            lookup_ptr = *(s32 *)((u8 *)slot_fields + 0x29C);
-            entry_count = 0x14;
-            index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
-            copy_dst = (Blob140 *)(dst_cursor + 0x2260);
-            copy_src = (Blob140 *)src_cursor;
-            *copy_dst = *copy_src;
-            ASM_KEEP(slot_fields);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            lookup_base = buffer_page + 0x3E48;
-            entry_size = 0x8C;
-            entry_count = 0x14;
-            lookup_ptr = *record_slot;
-            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            record_slot -= 1;
-            src_cursor -= 0x8C;
-            dst_cursor -= 0x8C;
-            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);
+            ((WordCopy *)(globals + 0x21E8))[slot_index] = ((WordCopy *)(globals + 0x248))[slot_index];
+            (globals + 0x2238)[slot_index] = func_800422A8(((s32 *)(globals + 0x29C))[slot_index], (void *)0x80010248, 4, 0x14);
+            ((Blob140 *)(globals + 0x2260))[slot_index] = ((Blob140 *)D_800E3E48)[slot_index];
+            (globals + 0x224C)[slot_index] = func_800422A8(D_800E3DF0[slot_index], D_800E3E48, 0x8C, 0x14);
             slot_index -= 1;
-            index_cursor[0x224C] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
-            index_cursor -= 1;
         } while (slot_index >= 0);
     }
 
     {
-        register u8 *src_cursor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 *src_cursor;
         u8 *index_cursor;
-        s32 lookup_ptr;
-        void *lookup_base;
-        s32 entry_size;
-        s32 entry_count;
 
         slot_index = 1;
         index_cursor = (u8 *)0x80010000;
         src_cursor = (u8 *)state;
         src_cursor += 4;
         do {
-            lookup_base = (void *)0x80010248;
-            entry_size = 4;
-            entry_count = 0x14;
-            lookup_ptr = *(s32 *)(src_cursor + 0xD0);
-            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            index_cursor[slot_index + 0x2D52] = func_800422A8(*(s32 *)(src_cursor + 0xD0), (void *)0x80010248, 4, 0x14);
             src_cursor -= 4;
-            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
             slot_index -= 1;
         } while (slot_index >= 0);
     }

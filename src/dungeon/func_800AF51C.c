@@ -70,7 +70,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     void *callback;
     s16 glyph_or_index;
     u16 callback_bits;
-    register s32 callback_kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 callback_kind;
     s32 number;
     s16 space;
     register s32 format ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -98,11 +98,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     saved_flags = (void *)(u32) flags;
     ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object = new_object;
+    saved_value = value;
     if (object != NULL) {
-        saved_value = value;
-        do {
-            position = (*(void **)((u8 *)object + 8));
-        } while (0);
+        position = (*(void **)((u8 *)object + 8));
         text_link = (*(void **)((u8 *)object + 0xC));
         source_object = source_data - 0x20;
         (*(void **)((u8 *)object + 0x20)) = source_object;
@@ -122,12 +120,8 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         number_style = text_style;
         position->unk_0A = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
-        do {
-            callback_kind = (s32)(object + 0x40);
-        } while (0);
-        text = (void *)callback_kind;
-        ASM_KEEP(text);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        text_link->unk_08 = (void *)callback_kind;
+        text_link->unk_08 = object + 0x40;
+        text = text_link->unk_08;
         text_link->unk_06 = space;
         if (flags & 0x8000) {
             ((S_800B4C7C_1 *)state)->unk_0E = 1;

@@ -20,28 +20,21 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
 {
     RECT rect;
     u32 tile_buf[0x20];
-    register s32 draw_enabled ASM_REG("$19"); /* draw-this-glyph draw_tile */
+    s32 draw_enabled;
     s32 glyph_code;
-    s32 tile_col;
-    register s32 tile_index ASM_REG("$6");  /* tile index */
-    s32 tile_x;
+    u16 tile_index;  /* tile index */
     u8 *cursor;
     s16 pen_x;
     s16 dest_y;
-    s32 glyph_w;
-    s32 glyph_h;
     s32 code_u16;
     s16 lead_byte;
-    s32 draw_tile;
+    s16 draw_tile;
 
     cursor = text;
     pen_x = start_x;
+    dest_y = start_y;
     draw_enabled = 1;
-    ASM_USE(draw_enabled);
     if ((*cursor) != 0) {
-        dest_y = start_y;
-        glyph_w = 3;
-        glyph_h = 0x10;
         do {
             lead_byte = cursor[0];
             ASM_USE(lead_byte);
@@ -52,8 +45,7 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
             cursor += 2;
             if (code_u16 == 0x8140) {
                 tile_index = 0;
-                draw_tile = draw_enabled;
-                goto do_blit_done;
+                goto do_blit;
             }
             if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) >= 0x1AU) {
                 if (((u32) ((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU) {
@@ -80,27 +72,17 @@ set_minus:
             tile_index = 0xD;
 do_blit:
             draw_tile = draw_enabled;
-do_blit_done:
-            ;
             if (draw_tile != 0) {
-                register void *tile_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                register RECT *tile_rect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                tile_data = tile_buf;
-                tile_rect = &rect;
-                ASM_USE(tile_rect);
-                tile_index = tile_index & 0xFFFF;
-                tile_col = tile_index & 7;
-                tile_x = tile_col << 1;
-                tile_x = tile_x + tile_col;
-                rect.x = tile_x + 0x340;
-                rect.y = (s16) ((((u32) tile_index) >> 3) << 4);
-                rect.w = glyph_w;
-                rect.h = glyph_h;
-                StoreImage(tile_rect, tile_data);
+                u16 t = tile_index;
+                rect.x = (t % 8) * 3 + 0x340;
+                rect.y = (t / 8) * 16;
+                rect.w = 3;
+                rect.h = 0x10;
+                StoreImage(&rect, tile_buf);
                 rect.x = pen_x;
                 rect.y = dest_y;
-                rect.w = glyph_w;
-                rect.h = glyph_h;
+                rect.w = 3;
+                rect.h = 0x10;
                 LoadImage(&rect, tile_buf);
                 DrawSync(0);
             }

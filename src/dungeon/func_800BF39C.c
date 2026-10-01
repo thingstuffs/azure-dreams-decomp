@@ -56,42 +56,46 @@ void func_800C4AFC(S_800C4AFC_2 *source, s32 effect_param, s32 state_param)
 {
     s32 effect_init[2];
     void *object;
-    register unsigned long setup_or_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 init_value;
+    S_800C4AFC_3 *components;
+    S_800C4AFC_3 *status;
     u8 *state;
     u8 *effect;
-    u16 component;
+    u16 component_x;
+    u16 component_y;
+    u16 component_z;
 
     object = func_8003FD64(0x202, ((u8 *)(&D_80083498)));
     if (object == NULL) {
         return;
     }
 
+    *(s32 *)D_800DCF78 = effect_param;
     effect_init[0] = 0x01000340;
-    setup_or_addr = 0x00200020;
+    init_value = 0x00200020;
+    effect_init[1] = init_value;
     effect = D_800DCF78;
     effect -= 0x10;
-    *(s32 *)D_800DCF78 = effect_param;
-    effect_init[1] = (s32)setup_or_addr;
     func_800B835C(effect, effect_init, 1, 0);
 
     state = (u8 *)object + 0x20;
     ((S_800C4AFC_0 *)state)->unk_02 = 0x40;
     ((S_800C4AFC_1 *)object)->unk_10 = (void *)func_800C4944;
-    setup_or_addr = (long)((S_800C4AFC_1 *)object)->unk_08;
-    component = source->unk_02;
-    ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_02 = component;
-    ((S_800C4AFC_0 *)state)->unk_20 = component;
-    component = source->unk_06;
-    ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_06 = component;
-    ((S_800C4AFC_0 *)state)->unk_22 = component;
-    component = source->unk_0A;
-    ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_0A = component;
-    ((S_800C4AFC_0 *)state)->unk_24 = component;
+    components = ((S_800C4AFC_1 *)object)->unk_08;
+    component_x = source->unk_02;
+    components->unk_02 = component_x;
+    ((S_800C4AFC_0 *)state)->unk_20 = component_x;
+    component_y = source->unk_06;
+    components->unk_06 = component_y;
+    ((S_800C4AFC_0 *)state)->unk_22 = component_y;
+    component_z = source->unk_0A;
+    components->unk_0A = component_z;
+    ((S_800C4AFC_0 *)state)->unk_24 = component_z;
     ((S_800C4AFC_0 *)state)->unk_1C = source;
     ((S_800C4AFC_0 *)state)->unk_28 = state_param;
     func_800A56E0(0x702);
-    setup_or_addr = (unsigned long)((u8 *)(&dungeonStatus));
-    ((S_800C4AFC_3 *)((void *)setup_or_addr))->unk_0A++;
+    status = (S_800C4AFC_3 *)&dungeonStatus;
+    status->unk_0A++;
 }
 
 /* MECHANISM: The 0x30 frame, s1/s2/s3 argument holds, two-word init record, and callee ABIs
