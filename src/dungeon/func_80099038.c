@@ -145,7 +145,6 @@ typedef struct S_8009E798_8 {
 } S_8009E798_8;   /* ret_state in func_8009E798 */
 
 
-#define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 
 extern void func_8003DB6C(void *, void *, s32);
 extern void func_800649A0(void);
@@ -225,7 +224,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     vertex_x = (s8)((S_8009E798_5 *)frame_or_packet)->unk_02;
     ((S_8009E798_1 *)scratch)->unk_80 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_70 = vertex_x;
-    vertex_x += VFIELD(scratch, u16, 0x10);
+    vertex_x += ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_1 *)scratch)->unk_88 = vertex_x;
     ((S_8009E798_1 *)scratch)->unk_78 = vertex_x;
 
@@ -236,7 +235,7 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     ((S_8009E798_1 *)scratch)->unk_74 = 0;
     ((S_8009E798_1 *)scratch)->unk_7A = vertex_y;
     ((S_8009E798_1 *)scratch)->unk_72 = vertex_y;
-    vertex_y += VFIELD(scratch, u16, 0x14);
+    vertex_y += ((S_8009E798_1 *)scratch)->unk_14;
     ((S_8009E798_1 *)scratch)->unk_8A = vertex_y;
     ((S_8009E798_1 *)scratch)->unk_82 = vertex_y;
 
@@ -245,14 +244,14 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
     func_80065320(scratch + 0x80, packet + 0x18, scratch + 0x94);
     func_80065320(scratch + 0x88, packet + 0x20, scratch + 0x94);
 
-    (*(u16 *)((u8 *)packet + 8)) += VFIELD(scratch, u16, 0x100);
-    (*(u16 *)((u8 *)packet + 0x10)) += VFIELD(scratch, u16, 0x100);
-    (*(u16 *)((u8 *)packet + 0x18)) += VFIELD(scratch, u16, 0x100);
-    (*(u16 *)((u8 *)packet + 0x20)) += VFIELD(scratch, u16, 0x100);
-    (*(u16 *)((u8 *)packet + 0xA)) += VFIELD(scratch, u16, 0x102);
-    (*(u16 *)((u8 *)packet + 0x12)) += VFIELD(scratch, u16, 0x102);
-    (*(u16 *)((u8 *)packet + 0x1A)) += VFIELD(scratch, u16, 0x102);
-    ((S_8009E798_6 *)packet)->unk_22 += VFIELD(scratch, u16, 0x102);
+    (*(u16 *)((u8 *)packet + 8)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)((u8 *)packet + 0x10)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)((u8 *)packet + 0x18)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)((u8 *)packet + 0x20)) += ((S_8009E798_1 *)scratch)->unk_100;
+    (*(u16 *)((u8 *)packet + 0xA)) += ((S_8009E798_1 *)scratch)->unk_102;
+    (*(u16 *)((u8 *)packet + 0x12)) += ((S_8009E798_1 *)scratch)->unk_102;
+    (*(u16 *)((u8 *)packet + 0x1A)) += ((S_8009E798_1 *)scratch)->unk_102;
+    ((S_8009E798_6 *)packet)->unk_22 += ((S_8009E798_1 *)scratch)->unk_102;
 
     ((S_8009E798_1 *)scratch)->unk_10 += ((S_8009E798_1 *)scratch)->unk_08;
     ((S_8009E798_1 *)scratch)->unk_14 =
@@ -261,12 +260,12 @@ s32 func_8009E798(void *draw_area, void *placement, void *sprite)
 
     ((S_8009E798_6 *)packet)->unk_0E = ((S_8009E798_3 *)sprite_or_copy)->unk_12
         + ((S_8009E798_5 *)frame_or_packet)->unk_04.at02.v;
-    ((S_8009E798_6 *)packet)->unk_0C = VFIELD(scratch, u16, 0xC) + VFIELD(scratch, u16, 8);
-    (*(s32 *)((u8 *)packet + 0x14)) = VFIELD(scratch, s32, 0xC) +
-        VFIELD(scratch, s32, 0x10) +
+    ((S_8009E798_6 *)packet)->unk_0C = ((S_8009E798_1 *)scratch)->unk_0C + ((S_8009E798_1 *)scratch)->unk_08;
+    (*(s32 *)((u8 *)packet + 0x14)) = ((S_8009E798_1 *)scratch)->unk_0C +
+        ((S_8009E798_1 *)scratch)->unk_10 +
         ((((S_8009E798_3 *)sprite_or_copy)->unk_10 | ((S_8009E798_5 *)frame_or_packet)->unk_04.at00.v) << 16);
-    (*(u16 *)((u8 *)packet + 0x1C)) = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 8);
-    ((S_8009E798_6 *)packet)->unk_24 = VFIELD(scratch, u16, 0x14) + VFIELD(scratch, u16, 0x10);
+    (*(u16 *)((u8 *)packet + 0x1C)) = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_08;
+    ((S_8009E798_6 *)packet)->unk_24 = ((S_8009E798_1 *)scratch)->unk_14 + ((S_8009E798_1 *)scratch)->unk_10;
     ((S_8009E798_6 *)packet)->unk_04.at00.v = ((S_8009E798_3 *)sprite_or_copy)->unk_0C.at00.v;
     func_800666F4(packet);
 
