@@ -76,7 +76,7 @@ extern M2C_UNK D_80165A0C;
 /* Creates an offset effect with randomized motion and initializes its display properties. */
 void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z,
     s32 velocity_z) {
-    register s32 color_component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 color_component;
     s32 sprite_flags;
     S_80166204_2 *sprite;
     S_80166204_1 *effect_state;
@@ -104,10 +104,10 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offse
         func_8004491C(effect, func_80045340);
         sprite = ((S_80166204_0 *)effect)->unk_0C;
         sprite->unk_1E = 0x2AA;
-        sprite->unk_1C = 0x2AA;
-        sprite->unk_0C = 0xFF;
         color_component = 0x20;
         sprite->unk_0E = color_component;
+        sprite->unk_1C = 0x2AA;
+        sprite->unk_0C = 0xFF;
         sprite->unk_0D = color_component;
         sprite->unk_12 = 0x7DCF;
         sprite_flags = sprite->unk_14.s & 0xFFF3;

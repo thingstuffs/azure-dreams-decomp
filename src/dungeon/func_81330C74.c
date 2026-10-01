@@ -164,7 +164,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 trail_index;
     s32 scaled_z;
     s32 velocity_y;
-    s32 clamp_axis_offset;
     s32 copy_axis_offset;
     s32 object_axis_offset;
     void *effect_object;
@@ -187,9 +186,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 copy_axis;
     s32 object_axis;
     s32 phase_threshold;
-    s32 clamp_pair_offset;
     s32 copy_pair_offset;
-    s32 clamp_pair_stride;
     s32 copy_pair_stride;
     s32 particle_count;
     s32 history_index;
@@ -207,8 +204,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 scaled_red;
     s32 scaled_green;
     s32 scaled_blue;
-    s32 clamp_row;
-    register s32 clamp_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *pos_x0;
     u16 *object_pos;
     u16 *object_prev_pos;
@@ -338,32 +333,19 @@ update_positions:
     clamp_pair = 0;
     clamp_base = table_join;
     limit_offset = 0x190;
-    clamp_pair_stride = clamp_pair;
     pos_z1->unk_0A = (u16) (pos_z1->unk_0A + (move_z1 >> 0x10));
     do {
         clamp_axis = 0;
-        clamp_pair_offset = clamp_pair_stride;
         do {
-            clamp_row = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
-            clamp_axis_offset = clamp_axis * 2;
-            clamp_index = clamp_row * 0x60;
-            clamp_index = clamp_index + (s32)clamp_base;
-            clamp_index = clamp_pair_offset + clamp_index;
-            clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
+            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60 + (s32)clamp_base)));
             if (*clamp_coord >= 0x191)
                 *clamp_coord = limit_offset;
-            clamp_row = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
-            clamp_index = clamp_row * 0x60;
-            clamp_index = clamp_index + (s32)clamp_base;
-            clamp_index = clamp_pair_offset + clamp_index;
-            clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
-            if (*clamp_coord < -0x190) {
+            clamp_coord = (s16 *)(clamp_axis * 2 + (clamp_pair * 6 + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60 + (s32)clamp_base)));
+            if (*clamp_coord < -0x190)
                 *clamp_coord = clamp_narrow(-0x190);
-            }
             clamp_axis += 1;
         } while (clamp_axis < 3);
         clamp_pair += 1;
-        clamp_pair_stride += 6;
     } while (clamp_pair < 2);
     history_index = 7;
     table_base = (s32)((u8 *)D_80175DD8);

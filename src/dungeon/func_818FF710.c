@@ -334,7 +334,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     u16 offset[3];
     Local28 texture_rect;
     Local38 direction_steps;
-    register void *particle_owner ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *particle_owner;
     s32 particle_size;
     s32 spawn_tick;
     s32 state;
@@ -380,7 +380,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     void *parent;
     void *third_object;
     void *fourth_object;
-    register void *first_object ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *first_object;
     void *second_object;
     S_818FF710_11 *target_hit_flags;
     S_818FF710_16 *first_position;
@@ -484,23 +484,17 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
         return;
     case 2:
         launch_particle = 0;
-launch_particles:
-        launch_particle += 1;
-        {
-            s32 particle_direction;
-            s32 particle_color;
-            s32 random_value;
-            random_value = func_80069EF8();
-            particle_owner = effect - 0x20;
-            particle_color = 0x2020E0;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_size = (random_value & 0xFF) | 0x80;
-            ASM_KEEP_NV(particle_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
-            func_800244CC(particle_owner, particle_direction, particle_color, particle_size, 0, 0, 0);
-        }
-        if (launch_particle < 4) {
-            goto launch_particles;
+        for (; launch_particle < 4; launch_particle++) {
+            {
+                s32 particle_direction;
+                s32 particle_color;
+                s32 random_value;
+                random_value = func_80069EF8();
+                particle_color = 0x2020E0;
+                particle_size = (random_value & 0xFF) | 0x80;
+                particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
+                func_800244CC(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+            }
         }
         old_flight_angle = ((S_818FF710_1 *)sprite)->unk_1A;
         flight_angle = old_flight_angle + 0x190;
@@ -563,11 +557,13 @@ launch_particles:
     case 3:
     {
         s32 impact_tick;
-        s32 rect_value;
+        s32 rect_y;
+        s32 rect_width;
+        s32 rect_bottom;
         register s16 *rect_start ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         register s16 *rect_end ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s16 *texture_start ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register s16 *texture_end ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s16 *texture_start;
+        s16 *texture_end;
         s32 rect_right;
         s32 rect_height;
         s32 rect_left;
@@ -597,17 +593,15 @@ launch_particles:
             func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
             texture_start = rect_start;
             texture_end = rect_end;
-            ASM_KEEP_NV(texture_start);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(texture_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            rect_value = 0x1A8;
-            texture_rect.half[1] = (s16) rect_value;
-            rect_value = 0x60;
-            texture_rect.half[2] = (s16) rect_value;
+            rect_y = 0x1A8;
+            texture_rect.half[1] = (s16) rect_y;
+            rect_width = 0x60;
+            texture_rect.half[2] = (s16) rect_width;
             texture_rect.half[0] = (s16) rect_left;
             texture_rect.half[3] = (s16) rect_height;
             texture_rect.half[4] = (s16) rect_right;
-            rect_value = 0x1EF;
-            texture_rect.half[5] = (s16) rect_value;
+            rect_bottom = 0x1EF;
+            texture_rect.half[5] = (s16) rect_bottom;
             func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
         }
         impact_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
@@ -714,15 +708,11 @@ launch_particles:
         if (fourth_object != NULL) {
             particle_owner = fourth_object;
             sprite_resource = (void *) func_80045340;
-            ASM_KEEP_NV(sprite_resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             child_effect->unk_2C = parent;
             fourth_position = (void *) ((S_818FF710_2 *)parent)->unk_60;
-            render_value = (u32) (first_object + 0x20);
-            child_effect->unk_38 = (void *) render_value;
-            render_value = (u32) (third_object + 0x20);
-            child_effect->unk_3C = (void *)render_value;
-            render_value = (u32) (second_object + 0x20);
-            child_effect->unk_40 = (void *)render_value;
+            child_effect->unk_38 = first_object + 0x20;
+            child_effect->unk_3C = third_object + 0x20;
+            child_effect->unk_40 = second_object + 0x20;
             child_effect->unk_34 = effect;
             child_effect->unk_30 = (void *) fourth_position;
             (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
@@ -764,23 +754,17 @@ launch_particles:
     case 4:
         impact_particle = 0;
         (*(u16 *)((u8 *)effect + 0x82)) = (u16) ((*(u16 *)((u8 *)effect + 0x82)) + 1);
-impact_particles:
-        impact_particle += 1;
-        {
-            s32 particle_direction;
-            s32 particle_color;
-            s32 random_value;
-            random_value = func_80069EF8();
-            particle_owner = effect - 0x20;
-            particle_color = 0x2020E0;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_size = (random_value & 0xFF) | 0x80;
-            ASM_KEEP_NV(particle_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
-            func_800244CC(particle_owner, particle_direction, particle_color, particle_size, 0, 0, 0);
-        }
-        if (impact_particle < 3) {
-            goto impact_particles;
+        for (; impact_particle < 3; impact_particle++) {
+            {
+                s32 particle_direction;
+                s32 particle_color;
+                s32 random_value;
+                random_value = func_80069EF8();
+                particle_color = 0x2020E0;
+                particle_size = (random_value & 0xFF) | 0x80;
+                particle_direction = (*(s16 *)((u8 *)effect + 0x7E));
+                func_800244CC(effect - 0x20, particle_direction, particle_color, particle_size, 0, 0, 0);
+            }
         }
         old_impact_angle = ((S_818FF710_1 *)sprite)->unk_1A;
         impact_angle = old_impact_angle + 0x190;
