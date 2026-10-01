@@ -108,15 +108,16 @@ void func_8017328C(void *action, void *motion, void *sprite, void *actor)
         object_type = S8(sprite, 4);
         if ((object_type == 5 && (U16(sprite, 0x14) & 0x1000)) || (U16(sprite, 0x14) & 0x8000)) {
             func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
+            anim_table = 0x80170000;
+        } else {
+            anim_table = 0x80170000;
         }
         {
             u8 *facing_ptr;
 
-            anim_table = 0x80170000;
             if ((U16(sprite, 0x14) & 0xE000) == 0) {
                 return;
             }
-            ASM_KEEP_NV(anim_table);
             anim_table += 0x5EB8;
             facing_ptr = (u8 *)D_80080000;
             PTR(sprite, 0x2C) = (void *)anim_table;
