@@ -90,11 +90,9 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
             y_motion = func_800644B8(((S_800250E8_1 *)effect)->unk_1A) *
                       ((S_800250E8_1 *)effect)->unk_1C.s;
             z_velocity = motion->unk_14;
-            z_velocity_copy = z_velocity;
-            ASM_KEEP_NV(z_velocity_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             z_position = motion->unk_08.at00.v;
-            motion->unk_14 = z_velocity_copy + 0x6000;
-            motion->unk_08.at00.v = (s32)(z_position + z_velocity);
+            motion->unk_08.at00.v = z_position + z_velocity;
+            motion->unk_14 += 0x6000;
             motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_motion * 8);
         }
     }

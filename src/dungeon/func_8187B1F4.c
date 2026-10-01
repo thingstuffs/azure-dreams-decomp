@@ -93,6 +93,8 @@ typedef struct GlobalRef {
     GlobalState *cur;
 } GlobalRef;
 
+typedef struct PrimitiveTag { unsigned addr : 24; unsigned len : 8; } PrimitiveTag;
+
 /* Projects points and adds brightness-scaled pixel primitives to the ordering table. */
 s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     s32 view_matrix[8];
@@ -107,27 +109,22 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     u8 *point_packet;
     u8 *draw_mode_packet;
     u8 *unused_ptr;
-    register s32 point_index ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 point_index;
     volatile u16 *point_coords;
     u32 depth;
     s32 point_count;
     s32 hard_zero = 0;
-    u32 linked_tag;
     u16 component;
     void *vertex;
     void *depth_cue;
     void *projection_flags;
     u8 *tail;
     u8 *tail_2;
-    u32 tag_length_mask;
-    u32 tag_addr_mask;
 
     global = (GlobalRef *)((GlobalState * *)(&gameWork));
     scratch = (u8 *)0x1F800000;
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
-    tag_addr_mask = 0x00FFFFFF;
-    tag_length_mask = 0xFF000000;
     do {
         VFIELD(scratch, s32, 0x88) = ((S_8187B1F4_0 *)position)->unk_02;
         VFIELD(scratch, s32, 0x8C) = ((S_8187B1F4_0 *)position)->unk_06;
@@ -182,30 +179,23 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                         ((S_8187B1F4_3 *)points)->unk_10) / ((S_8187B1F4_3 *)points)->unk_12);
                     ((S_8187B1F4_4 *)point_packet)->unk_00.at03.v = 2;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at03.v = 0x6A;
-                    ((S_8187B1F4_4 *)point_packet)->unk_00.at00.v =
-                        (((S_8187B1F4_4 *)point_packet)->unk_00.at00.v & tag_length_mask) |
-                        (((S_8187B1F4_5 *)((u8 *)VFIELD(scratch, void *, 0x24) +
-                               VFIELD(scratch, u32, 0x100) * 4))->unk_00 & tag_addr_mask);
+                    ((PrimitiveTag *)point_packet)->addr =
+                        ((PrimitiveTag *)((u8 *)VFIELD(scratch, void *, 0x24) +
+                               VFIELD(scratch, u32, 0x100) * 4))->addr;
                     tail = (u8 *)(VFIELD(scratch, u32, 0x100) * 4);
                     tail += (u32)VFIELD(scratch, void *, 0x24);
-                    linked_tag =
-                        (((S_8187B1F4_6 *)tail)->unk_00 & tag_length_mask) |
-                        ((u32)point_packet & tag_addr_mask);
-                    ((S_8187B1F4_6 *)tail)->unk_00 = linked_tag;
+                    ((PrimitiveTag *)tail)->addr = (u32)point_packet;
                     draw_mode_packet = global->cur->next;
                     global->cur->next = draw_mode_packet + 0xC;
                     func_80067F20(draw_mode_packet, 0, 0,
                                   func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-                    ((S_8187B1F4_7 *)draw_mode_packet)->unk_00 =
-                        (((S_8187B1F4_7 *)draw_mode_packet)->unk_00 & tag_length_mask) |
-                        (((S_8187B1F4_5 *)((u8 *)VFIELD(scratch, void *, 0x24) +
-                               VFIELD(scratch, u32, 0x100) * 4))->unk_00 & tag_addr_mask);
+                    ((PrimitiveTag *)draw_mode_packet)->addr =
+                        ((PrimitiveTag *)((u8 *)VFIELD(scratch, void *, 0x24) +
+                               VFIELD(scratch, u32, 0x100) * 4))->addr;
                     tag_state = (GlobalState *)(VFIELD(scratch, u32, 0x100) * 4);
                     tag_state = (GlobalState *)((u8 *)tag_state +
                                                 (u32)VFIELD(scratch, void *, 0x24));
-                    ((S_8187B1F4_8 *)tag_state)->unk_00 =
-                        (((S_8187B1F4_8 *)tag_state)->unk_00 & tag_length_mask) |
-                        ((u32)draw_mode_packet & tag_addr_mask);
+                    ((PrimitiveTag *)tag_state)->addr = (u32)draw_mode_packet;
                     point_count = ((S_8187B1F4_3 *)points)->unk_14;
                 } else {
                     point_count = ((S_8187B1F4_3 *)points)->unk_14;
