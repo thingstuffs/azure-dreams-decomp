@@ -87,22 +87,17 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     s32 z_distance;
     s32 next_state;
     u32 color;
-    register s32 x_distance ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 x_distance;
     s16 source_z;
     u16 ground_z;
-    s32 tile_x;
-    s32 tile_y;
+    u16 tile_x;
+    u16 tile_y;
+    s16 grid_x;
+    s16 grid_y;
     s16 *table_y_entry;
-    u16 *update_x_entry;
-    u16 *update_y_entry;
-    s32 table_offset;
-    register s32 update_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 probe_z;
-    register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 next_y;
-    s32 direction_index;
-    s32 offset_x;
-    s32 offset_y;
+    s32 dest_x;
+    s32 dest_y;
     u16 end_tile_x;
     u16 end_tile_y;
     timer_value = state->timer;
@@ -201,92 +196,48 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     end_tile_x = tile_x;
     end_tile_y = tile_y;
 
-    do {
-        if ((s16)func_800A44E0(((s16)tile_x << 6) & 0xFFC0,
-                               ((s16)tile_y << 6) & 0xFFC0,
+    while (index < 8) {
+        grid_x = (s16)tile_x;
+        grid_y = (s16)tile_y;
+        if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0,
+                               (grid_y << 6) & 0xFFC0,
                                S16_AT(owner, 0x88),
                                (s16)(state->direction << 9)) != 0) {
             break;
         }
-
-        table_offset = (s16)state->direction;
+        table_x_entry = (Position16 *)&dirStepX[state->direction];
         probe_z = U16_AT(owner, 0x88);
-        table_x_entry = (Position16 *)&dirStepX[table_offset];
         probe_z -= 0x20;
         probe_z = (u32)probe_z << 16;
         probe_z >>= 16;
-        table_y_entry = &dirStepY[table_offset];
+        table_y_entry = &dirStepY[state->direction];
         ground_z = func_800BCB04(
-            (((s16)tile_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
-            (((s16)tile_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
+            ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
+            ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
             probe_z);
-
-        if ((s16)ground_z > 0x200) {
+        if ((s16)ground_z >= 0x201 || (s16)(ground_z - U16_AT(owner, 0x88)) < -0x3F) {
             break;
         }
-        if ((s16)(ground_z - U16_AT(owner, 0x88)) < -0x3F) {
-            break;
-        }
-
-        update_offset = (s16)state->direction;
         index++;
-        update_x_entry = (u16 *)&dirStepX[update_offset];
-        update_y_entry = (u16 *)&dirStepY[update_offset];
-        next_x = tile_x + *update_x_entry;
-        tile_x = next_x;
-        next_y = tile_y;
-        next_y += *update_y_entry;
-        end_tile_y = next_y;
-        tile_y = next_y;
-        end_tile_x = next_x;
-    } while (index < 8);
+        tile_x += dirStepX[state->direction];
+        tile_y += dirStepY[state->direction];
+        end_tile_y = tile_y;
+        end_tile_x = tile_x;
+    }
 
     target_pos = (void *)((Position16 *)&work.destination);
     index = 1;
-    x_distance = (u32)end_tile_x << 16;
-    update_offset = (s32)(dirStepX);
-    x_distance = (s32)x_distance >> 10;
-    direction_index = (s16)state->direction;
     color_part = (u8 *)&work.destination + 2;
-    offset_x = ((s16 *)update_offset)[direction_index];
-    update_offset = (s32)(dirStepY);
-    x_distance = x_distance + ((offset_x + 1) << 5);
-    ((Position16 *)target_pos)->x = x_distance;
-    x_distance = (s16)x_distance;
-    ASM_KEEP(x_distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    direction_index = (s16)state->direction;
-    next_x = (u32)end_tile_y << 16;
-    offset_y = ((s16 *)update_offset)[direction_index];
-    next_x = (s32)next_x >> 10;
-    next_x += (offset_y + 1) << 5;
-    ((Position16 *)target_pos)->y = next_x;
-    next_x = (u32)next_x << 16;
-    next_y = U16_AT(motion, 0xA) + 0x20;
-    ((Position16 *)target_pos)->z = next_y;
+    dest_x = ((end_tile_x << 16) >> 10) + ((dirStepX[state->direction] + 1) << 5);
+    ((Position16 *)target_pos)->x = dest_x;
+    dest_y = ((end_tile_y << 16) >> 10) + ((dirStepY[state->direction] + 1) << 5);
+    ((Position16 *)target_pos)->y = dest_y;
+    ((Position16 *)target_pos)->z = S16_AT(motion, 0xA) + 0x20;
+    work.probe_delta[0] = abs(((Position16 *)target_pos)->x - S16_AT(motion, 2));
+    work.probe_delta[1] = abs(((Position16 *)target_pos)->y - S16_AT(motion, 6));
+    work.probe_delta[2] = abs(((Position16 *)target_pos)->z - S16_AT(motion, 0xA));
 
-    {
-        s32 motion_coord;
-
-        motion_coord = S16_AT(motion, 2);
-        next_x = (s32)next_x >> 16;
-        x_distance -= motion_coord;
-        x_distance = abs(x_distance);
-        work.probe_delta[0] = x_distance;
-
-        motion_coord = S16_AT(motion, 6);
-        next_y = (u32)next_y << 16;
-        next_x -= motion_coord;
-        next_x = abs(next_x);
-        work.probe_delta[1] = next_x;
-
-        motion_coord = S16_AT(motion, 0xA);
-        next_y = (s32)next_y >> 16;
-        next_y -= motion_coord;
-        next_y = abs(next_y);
-        work.probe_delta[2] = next_y;
-    }
-
-    state->duration = x_distance;
+    state->duration = work.probe_delta[0];
     for (; index < 3; index++, color_part += 2) {
         if (S16_AT(color_part, 0x18) > state->duration) {
             state->duration = (u16)S16_AT(color_part, 0x18);
