@@ -43,6 +43,7 @@ void func_800B70EC(void) {
     s32 limit;
     s32 seven;
     u8 *asset_data;
+    u8 *scene_table;
     u8 *state_base;
     u8 *asset_state;
     u8 *shared_state;
@@ -77,7 +78,8 @@ void func_800B70EC(void) {
     asset_data = D_8014F004;
     func_8006733C((u16 *)scene_entry, image_data, limit);
 
-    size = D_800D2FB4[D_800D381A[0] << 5];
+    scene_table = D_800D2FB4;
+    size = scene_table[D_800D381A[0] << 5];
     ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     single_row = 1;
     special_scene = 0x21;
