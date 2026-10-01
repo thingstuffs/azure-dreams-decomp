@@ -294,6 +294,7 @@ onto the siblings -> refreshed exemplars for the next pack.
 | `tools/lanes/refresh_exemplars.py` | `python3 tools/lanes/refresh_exemplars.py` - rebuild `ledger/pack_inputs/solved_exemplars.json` from every r5*/r6* lane (2026-09-21: 144 -> 434 rows), with each row's `lane` and the `move` that solved it |
 | `tools/lanes/brief_paragraphs/` | named paragraphs appended to a pack brief: `build_class_pack.py ... --paragraphs big_rows,new_findings` (`class_question.md` is a template to fill by hand) |
 | `tools/lanes/clone_watch.sh` | `nohup bash tools/lanes/clone_watch.sh &` - every 25 min, replay finished lanes' moves on their clone siblings and gap-land what comes out exact |
+| `tools/lanes/fragclone.py` | run in a lane: `python3 tools/lanes/fragclone.py --out candidates.tsv` (~15 s, whole tree) - PARTIAL and whole-function clones found in RETAIL code, not C text: per pinned row, the pin-free rows sharing a long normalised insn chain, ranked by whether the chain covers the pin's erase footprint (`imm_eq`/`reg_bij` = fidelity); `--show PINNED SOURCE` prints a pair word by word with C lines. r85: 4 whole-function retail clones clone_transfer could not see + fragments; 5 rows 15 pins |
 | `tools/lanes/autocommit.sh` | `nohup bash tools/lanes/autocommit.sh &` - commit `src`/`STATUS.md`/`ledger` whenever the landing lock is free and no gate runs |
 | `tools/lanes/gen_drive.py` | `--fresh` re-sweeps a CHANGED generator over rows its journal already answered; `--journal-refusals` writes the refusal table its next version is written from |
 
