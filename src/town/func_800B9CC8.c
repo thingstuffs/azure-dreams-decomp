@@ -2,193 +2,116 @@
 
 extern u16 D_80162004[];
 
-#ifdef NON_MATCHING
-#define TOWN_TILE_PAGE ((u8 *)D_80162004 - 0x2004)
-#else
-#define TOWN_TILE_PAGE ((u8 *)0x80160000)
-#endif
-
-#define OUTPUT_TILE(value) do { \
-    scratch = (s16)x; \
-    scratch *= 2; \
-    scratch += (s32)D_80162004; \
-    dst_tile = (u16 *)scratch; \
-    tile = (value); \
-    goto store; \
-} while (0)
-
-#define OUTPUT_TILE_INDEX(value) do { \
-    scratch = (s16)tile_index; \
-    scratch *= 2; \
-    scratch += (s32)D_80162004; \
-    dst_tile = (u16 *)scratch; \
-    tile = (value); \
-    goto store; \
-} while (0)
-
 /* Copies nonzero tiles into the town tilemap, selecting variants by map coordinate parity. */
-void func_800B7428(s32 x, s32 y, u16 *src_tiles)
+void func_800B7428(s16 x, s16 y, u16 *src_tiles)
 {
-    register s32 width ASM_REG("$7");
-    s32 height;
-    s32 row;
-    s32 tile;
-    s32 tile_2;
-    register s32 tile_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    s32 map_row_odd;
-    s32 signed_width;
-    s32 has_columns;
-    s32 origin_x_s16;
-    s32 origin_y_s16;
-    s32 origin_x;
-    register s32 origin_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 *dst_tile;
+    s16 width;
+    s16 height;
+    s16 row;
+    s16 col;
+    s16 index;
 
     width = *src_tiles++;
     height = *src_tiles++;
-    row = 0;
-    origin_x = x;
-    origin_y = y;
-    scratch = height << 16;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    if (scratch > 0) {
-        tile = 0;
-        ASM_KEEP_NV(tile);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        scratch = width << 16;
-        signed_width = scratch >> 16;
-        has_columns = tile < signed_width;
-        scratch = y << 16;
-        origin_y_s16 = scratch >> 16;
-        scratch = x << 16;
-        origin_x_s16 = scratch >> 16;
-        do {
-                    width = 0;
-                    if (has_columns) {
-                        scratch = row << 16;
-                        scratch >>= 16;
-                        scratch += origin_y_s16;
-                        map_row_odd = scratch & 1;
-            do {
-                        ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                        scratch = row;
-                        scratch += origin_y;
-                        scratch <<= 7;
-                        scratch = width + scratch;
-                        tile_index = origin_x + scratch;
-                        x = tile_index;
-                        tile_2 = *src_tiles;
-                        switch (tile_2) {
-                        case 0:
-                            break;
-
-                        case 0x135:
-                        case 0x137:
-                        case 0x154:
-                        case 0x15E:
-                            if (map_row_odd != 0) {
-                                if (((s16)width + origin_x_s16) & 1) {
-                                    OUTPUT_TILE(0x15E);
-                                } else {
-                                    OUTPUT_TILE(0x137);
-                                }
-                            } else if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE(0x154);
-                            } else {
-                                OUTPUT_TILE(0x135);
-                            }
-
-                        case 0x136:
-                        case 0x138:
-                        case 0x153:
-                        case 0x15D:
-                            if (map_row_odd != 0) {
-                                if (((s16)width + origin_x_s16) & 1) {
-                                    OUTPUT_TILE(0x138);
-                                } else {
-                                    OUTPUT_TILE(0x15D);
-                                }
-                            } else if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE(0x136);
-                            } else {
-                                OUTPUT_TILE(0x153);
-                            }
-
-                        case 0x141:
-                        case 0x142:
-                            if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE(0x142);
-                            } else {
-                                OUTPUT_TILE(0x141);
-                            }
-
-                        case 0x143:
-                        case 0x144:
-                        case 0x15B:
-                        case 0x15C:
-                            if (map_row_odd != 0) {
-                                if (((s16)width + origin_x_s16) & 1) {
-                                    OUTPUT_TILE(0x144);
-                                } else {
-                                    OUTPUT_TILE(0x143);
-                                }
-                            } else if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE(0x15C);
-                            } else {
-                                OUTPUT_TILE(0x15B);
-                            }
-
-                        case 0x13D:
-                        case 0x13E:
-                        case 0x13F:
-                        case 0x140:
-                            if (map_row_odd != 0) {
-                                if (((s16)width + origin_x_s16) & 1) {
-                                    OUTPUT_TILE_INDEX(0x140);
-                                } else {
-                                    OUTPUT_TILE_INDEX(0x13F);
-                                }
-                            } else if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE_INDEX(0x13E);
-                            } else {
-                                OUTPUT_TILE_INDEX(0x13D);
-                            }
-
-                        case 0x149:
-                        case 0x14A:
-                        case 0x14B:
-                        case 0x14C:
-                            if (map_row_odd != 0) {
-                                if (((s16)width + origin_x_s16) & 1) {
-                                    OUTPUT_TILE_INDEX(0x14C);
-                                } else {
-                                    OUTPUT_TILE_INDEX(0x14B);
-                                }
-                            } else if (((s16)width + origin_x_s16) & 1) {
-                                OUTPUT_TILE_INDEX(0x14A);
-                            } else {
-                                OUTPUT_TILE_INDEX(0x149);
-                            }
-
-                        default:
-                            D_80162004[(s16)x] = *src_tiles;
-                            break;
-            store:
-                            *dst_tile = tile;
-                            break;
-                        }
-                        scratch = width + 1;
-                        width = scratch;
-                        src_tiles++;
-                        scratch <<= 16;
-                        scratch >>= 16;
-                        } while (scratch < signed_width);
-                    }
-                    scratch = row + 1;
-                    row = scratch;
-                    scratch <<= 16;
-                    tile = height;
-                    tile <<= 16;
-        } while (scratch < tile);
+    for (row = 0; row < height; row++) {
+        for (col = 0; col < width; col++) {
+            index = ((row + y) << 7) + col + x;
+            switch (*src_tiles) {
+            case 0:
+                break;
+            case 0x135:
+            case 0x137:
+            case 0x154:
+            case 0x15E:
+            if ((row + y) & 1) {
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x15E;
+                } else {
+                    D_80162004[index] = 0x137;
+                }
+            } else if ((col + x) & 1) {
+                D_80162004[index] = 0x154;
+            } else {
+                D_80162004[index] = 0x135;
+            }
+            break;
+            case 0x136:
+            case 0x138:
+            case 0x153:
+            case 0x15D:
+            if ((row + y) & 1) {
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x138;
+                } else {
+                    D_80162004[index] = 0x15D;
+                }
+            } else if ((col + x) & 1) {
+                D_80162004[index] = 0x136;
+            } else {
+                D_80162004[index] = 0x153;
+            }
+            break;
+            case 0x141:
+            case 0x142:
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x142;
+                } else {
+                    D_80162004[index] = 0x141;
+                }
+                break;
+            case 0x143:
+            case 0x144:
+            case 0x15B:
+            case 0x15C:
+            if ((row + y) & 1) {
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x144;
+                } else {
+                    D_80162004[index] = 0x143;
+                }
+            } else if ((col + x) & 1) {
+                D_80162004[index] = 0x15C;
+            } else {
+                D_80162004[index] = 0x15B;
+            }
+            break;
+            case 0x13D:
+            case 0x13E:
+            case 0x13F:
+            case 0x140:
+            if ((row + y) & 1) {
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x140;
+                } else {
+                    D_80162004[index] = 0x13F;
+                }
+            } else if ((col + x) & 1) {
+                D_80162004[index] = 0x13E;
+            } else {
+                D_80162004[index] = 0x13D;
+            }
+            break;
+            case 0x149:
+            case 0x14A:
+            case 0x14B:
+            case 0x14C:
+            if ((row + y) & 1) {
+                if ((col + x) & 1) {
+                    D_80162004[index] = 0x14C;
+                } else {
+                    D_80162004[index] = 0x14B;
+                }
+            } else if ((col + x) & 1) {
+                D_80162004[index] = 0x14A;
+            } else {
+                D_80162004[index] = 0x149;
+            }
+            break;
+            default:
+                D_80162004[index] = *src_tiles;
+                break;
+            }
+            src_tiles++;
+        }
     }
 }
