@@ -95,14 +95,11 @@ extern u8 D_800E08F1[];
 extern u8 D_800E0919[];
 
 /* Check the item, report restrictions, and create an action object for the actor and target. */
-void *func_80098CF8(void *actor_arg, s32 action_id, void *target_arg, void *item_arg)
+void *func_80098CF8(void *actor, s32 action, void *target, void *item)
 {
     void *message;
 
-    void *actor = actor_arg;
-    s32 action = action_id;
-    void *target = target_arg;
-    register void *item ASM_REG("$18") = item_arg;
+    void *target_arg;
     void *actor_state;
     register void *result;
     s32 message_id;
