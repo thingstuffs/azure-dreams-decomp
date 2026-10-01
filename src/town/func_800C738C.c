@@ -30,68 +30,50 @@ typedef struct S_800C4AEC_2 {
 extern u16 D_800D2650[];
 extern u16 D_800D2FC0[];
 
-extern void func_800C41D4(void *, s32);
+extern void func_800C41D4(void *, s32, s32);
 
 
 /* Update the sprite position using frame offsets, save the object position, and apply the update. */
-void func_800C4AEC(void *object_arg, s32 update_arg)
+void func_800C4AEC(void *object_arg, s32 update_arg, s32 setup_context)
 {
-    register void *object ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *sprite ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 saved_update_arg ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u32 sprite_flags;
-    u32 table_select;
-    u32 frame_index;
-    u16 *frame_offsets;
-    u32 extra_x;
-    s32 extra_y;
+    S_800C4AEC_0 *object = object_arg;
+    S_800C4AEC_1 *sprite;
+    u32 flags;
     s32 x_offset;
-    u32 coord;
-    S_800C4AEC_2 *sprite_pos;
+    s32 y_offset;
+    u32 row_offset;
 
-    object = object_arg;
-    *(((u8 *)D_80082660) + ((S_800C4AEC_0 *)object)->unk_60 * 8) = 0;
-    sprite = ((S_800C4AEC_0 *)object)->unk_98;
-    saved_update_arg = update_arg;
-    if (sprite != NULL) {
-        sprite_flags = ((S_800C4AEC_1 *)sprite)->unk_08;
-        if ((sprite_flags & 0xC0000000) == 0xC0000000) {
-            table_select = (sprite_flags >> 23) & 1;
-            frame_index = (sprite_flags >> 24) & 0x3F;
-            if (table_select == 0) {
-                frame_offsets = &D_800D2650[frame_index * 16];
-                x_offset = frame_offsets[0];
-                extra_x = frame_offsets[2];
-                sprite_flags = frame_offsets[1];
-            } else {
-                frame_offsets = &D_800D2FC0[frame_index * 16];
-                x_offset = frame_offsets[0];
-                extra_x = frame_offsets[2];
-                sprite_flags = frame_offsets[1];
-            }
-            extra_y = frame_offsets[3];
-            x_offset += extra_x;
-            sprite_flags += extra_y;
-            goto apply_offsets;
+    *(((u8 *)D_80082660) + object->unk_60 * 8) = 0;
+    sprite = object->unk_98;
+    if (sprite != NULL && ((flags = sprite->unk_08) & 0xC0000000) == 0xC0000000) {
+        u32 table_select = (flags >> 23) & 1;
+        u32 frame_index = (flags >> 24) & 0x3F;
+
+        if (table_select == 0) {
+            u16 *offsets;
+
+            row_offset = frame_index * 32;
+            offsets = (u16 *)((u8 *)D_800D2650 + row_offset);
+
+            x_offset = offsets[0] + offsets[2];
+            y_offset = offsets[1] + offsets[3];
+        } else {
+            u16 *offsets;
+
+            row_offset = frame_index * 32;
+            offsets = (u16 *)((u8 *)D_800D2FC0 + row_offset);
+
+            x_offset = offsets[0] + offsets[2];
+            y_offset = offsets[1] + offsets[3];
         }
-        x_offset = 0;
     } else {
-        x_offset = 0;
+        y_offset = x_offset = 0;
     }
-    sprite_flags = x_offset;
-
-apply_offsets:
     if (sprite != NULL) {
-        coord = ((S_800C4AEC_0 *)object)->unk_88;
-        sprite_pos = ((S_800C4AEC_0 *)object)->unk_98;
-        coord -= x_offset;
-        sprite_pos->unk_10 = (s16)coord;
-        coord = ((S_800C4AEC_0 *)object)->unk_8A;
-        sprite_pos = ((S_800C4AEC_0 *)object)->unk_98;
-        coord -= sprite_flags;
-        sprite_pos->unk_12 = (s16)coord;
+        ((S_800C4AEC_2 *)object->unk_98)->unk_10 = object->unk_88 - x_offset;
+        ((S_800C4AEC_2 *)object->unk_98)->unk_12 = object->unk_8A - y_offset;
     }
-    ((S_800C4AEC_0 *)object)->unk_84 = ((S_800C4AEC_0 *)object)->unk_88;
-    ((S_800C4AEC_0 *)object)->unk_86 = ((S_800C4AEC_0 *)object)->unk_8A;
-    func_800C41D4(object, saved_update_arg);
+    object->unk_84 = object->unk_88;
+    object->unk_86 = object->unk_8A;
+    func_800C41D4(object, update_arg, setup_context);
 }
