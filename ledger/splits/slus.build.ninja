@@ -2268,7 +2268,7 @@ build build/src/w_80045CC4.o: cc src/w_80045CC4.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_800463EC.o: cc src/w_800463EC.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -O2
+  ccflags = 
   asflags = 
 
 build build/src/w_80046884.o: cc src/w_80046884.c | tools/cc.sh tools/ccproc.py 
