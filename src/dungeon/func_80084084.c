@@ -73,45 +73,26 @@ first_scan:
     }
 
     if (*(s32 *)((u8 *)D_800814A8 + 0x1C) & 0x10) {
-        register Callback *callback_slot ASM_REG("$18");
-        register Callback *callback_base;
-        register Callback *special_start;
-        register u8 *D_800E0000;
+        s32 i;
         Callback *special_scan;
 
-        register Entry **entry_slot;
-        void *callback_data;
-        s32 callback_arg1;
-        s32 callback_arg2;
         s32 saved;
 
-        D_800E0000 = (u8 *)0x800E0000;
-        ASM_KEEP(D_800E0000);
-        special_start = (Callback *)(D_800E0000 - 0x3080);
-        callback_base = D_80083360;
-        callback_slot = callback_base;
-        entry_slot = D_800833E0;
-        do {
-            callback = *callback_slot;
+        for (i = 0; i < 0x20; i++) {
+            Callback *special_start = D_800DCF80;
+
+            callback = D_80083360[i];
             if (callback != 0) {
-                entry_m = *entry_slot;
+                entry_m = D_800833E0[i];
                 if (entry_m != 0) {
                     if (!(entry_m->flags & 0x800)) {
-                        callback_data = *(Callback *)(D_800E0000 - 0x3080);
                         special_scan = special_start + 1;
-                        if (callback_data == callback) {
+                        if (*special_start == callback) {
                             entry_m = ((Entry *)&D_80083498);
                             if (entry_m->active != 0) {
-                                callback_data = entry_m->data;
-                                callback_arg1 = entry_m->arg1;
-                                do {
-                                    callback_arg2 = entry_m->arg2;
-                                } while (0);
                                 saved = entry_m->saved;
                                 entry_m->saved = 0;
-                                callback(callback_data, callback_arg1, callback_arg2);
-                                ASM_KEEP(callback_base);
-                                ASM_KEEP(entry_slot);
+                                callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                                 entry_m->saved = saved;
                             }
                         } else {
@@ -128,12 +109,10 @@ first_scan:
                         }
                     }
                 } else {
-                    *callback_slot = 0;
+                    D_80083360[i] = 0;
                 }
             }
-            callback_slot++;
-            entry_slot++;
-        } while ((s32)callback_slot < (s32)(callback_base + 0x20));
+        }
         return;
     }
 

@@ -163,39 +163,17 @@ s32 func_800212B8(void) {
         *timer = 0x258;
     }
     AT(u16, owner, 0x38) = *(u16 *)timer;
-    {
-
-        s32 value_offset;
-        s16 value_y;
-        Packed8 *text_buffers;
-        Packed8 *text_buffer;
-        s32 handler_page;
-        index = 4;
-        template_page = (s32)0x80020000;
-        value_offset = 0x38;
-        value_y = 0x44;
-        text_buffers = D_80024310;
-        text_buffer = text_buffers + 4;
-value_loop:
-        {
-            register Packed8 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            copy_src = (Packed8 *)(template_page + 0x144);
-            ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            *text_buffer = *copy_src;
-            AT(s8, text_buffer, 7) = 0;
-            widget_init.h16 = value_y;
-            widget_init.p4 = text_buffer;
-            handler_page = (s32)0x80020000;
-            widget_init.p8 = owner + value_offset;
-            func_8002108C(D_80022FD8, &widget_init);
-            value_offset -= 2;
-            value_y -= 0xC;
-            index--;
-            text_buffer--;
-        }
-        if (index >= 0)
-            goto value_loop;
-    }
+    index = 4;
+    do {
+        Packed8 *text_buffer = &D_80024310[index];
+        *text_buffer = D_80020144[0];
+        AT(s8, text_buffer, 7) = 0;
+        widget_init.h16 = index * 0xC + 0x14;
+        widget_init.p4 = text_buffer;
+        widget_init.p8 = owner + 0x30 + index * 2;
+        func_8002108C(D_80022FD8, &widget_init);
+        index--;
+    } while (index >= 0);
 
     {
         s32 sprite_index = 7;
@@ -204,8 +182,7 @@ value_loop:
         u8 *grid_sprite;
         sprite_handler = D_80023158;
         sprite = (u8 *)0x1000;
-loop_3:
-        {
+        do {
             obj = func_8003FC64(0x136);
             if (obj != 0) {
                 func_8004491C(obj, D_80046398);
@@ -222,9 +199,7 @@ loop_3:
                 AT(void *, obj, 0x20) = owner;
             }
             sprite_index--;
-        }
-        if (sprite_index >= 0)
-            goto loop_3;
+        } while (sprite_index >= 0);
     }
 
     index = 3;
@@ -250,16 +225,10 @@ loop_3:
     {
         u8 *new_obj;
         TileObject *sprite_state;
-        s16 frame_offset;
-        u8 *child_slot;
-        sprite_state = &D_80082E80;
         index = 2;
-        ASM_KEEP_DEP_NV(index, sprite_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        frame_offset = 0xC;
-        child_slot = owner + 8;
         do {
             new_obj = func_8003FD64(0x136, ((u8 *)(&D_80083498)));
-            AT(void *, child_slot, 0x20) = new_obj;
+            AT(void *, owner + index * 4, 0x20) = new_obj;
             obj = new_obj;
             if (obj != 0) {
                 obj = obj;
@@ -272,17 +241,16 @@ loop_3:
                 AT(s16, AT(u8 *, obj, 8), 0xA) = func_800C2AE8(AT(void *, obj, 8));
                 AT(s16, sprite, 0x1E) = 0x1000;
                 AT(s16, sprite, 0x1C) = 0x1000;
+                sprite_state = &D_80082E80;
                 AT(s32, sprite, 0x28) = AT(s32, sprite_state, 0x28);
                 AT(s16, child_data, 0x2A) = 0x800;
                 func_8003DB94(sprite, D_800F15E4, 0);
                 AT(s32, sprite, 0xC) = 0x808080;
-                AT(s16, sprite, 0x12) = frame_offset;
+                AT(s16, sprite, 0x12) = (index + 1) * 4;
                 AT(void *, obj, 0x20) = owner;
                 AT(s16, child_data, 0x24) = index + 1;
             }
-            frame_offset -= 4;
             index--;
-            child_slot -= 4;
         } while (index >= 0);
     }
 

@@ -30,9 +30,8 @@ typedef struct S_801740DC_0 {
 
 
 /* Updates actor state, directional animation, and the shared transition counter. */
-void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
+void func_801740DC(void *actor_in, s32 actor_index, void *target_in, void *entity_in)
 {
-    register s32 actor_index ASM_REG("$19") = actor_index_in;
     void *target = target_in;
     EntityRec *entity = entity_in;
     s32 state;
@@ -67,7 +66,8 @@ state_zero:
     (*(void * *)((u8 *)target + 0x2C)) = D_80174E4C;
     direction = (gameWork.view.viewAngle + entity->facing + 0x100) >> 9;
     func_80047784(target, D_80174E4C[direction & 7], 0);
-    goto increment_state;
+    ((S_801740DC_0 *)actor_in)->unk_9B++;
+    return;
 
 state_one:
     if (entity->tileY != 0) {
@@ -78,6 +78,8 @@ state_one:
         func_80047784(target, D_80174E54[direction & 7], 0);
         shared_counter = &dungeonStatus;
         shared_counter->unk_0A++;
+        ((S_801740DC_0 *)actor_in)->unk_9B++;
+        return;
     } else {
         shared_state = &dungeonStatus;
         if (shared_state->flags & 0x1000) {
@@ -122,7 +124,6 @@ state_one:
         func_80047784(target, D_80174E54[direction & 7], 0);
         shared_state->unk_0A++;
     }
-increment_state:
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
 

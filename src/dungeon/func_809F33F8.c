@@ -5,10 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-/* Value-preserving cse-equivalence launder for the first callback's 4th
- * argument: a block-scoped $a0-pinned temp with the empty "=r"/"0" tie
- * (expression form of ASM_REG+ASM_KEEP_NV). Port build folds to the plain
- * value. */
 void func_80047738(void *, u8, s8);              /* extern */
 void func_80047784(void *, u8, s32);             /* extern */
 void func_800478B8(void *);                       /* extern */
@@ -86,8 +82,6 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
     M2C_UNK (*paused_callback)(void *, void *, void *, void *);
     u8 *anim_table;
     u8 *hidden_anim_table;
-    u8 *next_anim;
-    u8 *hidden_next_anim;
     s16 base_height;
     s16 hidden_base_height;
     s16 height_offset;
@@ -105,7 +99,6 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
     s32 hidden_actor_flags;
     s32 display_height;
     u32 frame_addr;
-    register u32 anim_addr ASM_REG("$5");
     u32 facing_flags;
     u16 motion_flags;
     u16 object_flags;
@@ -183,27 +176,40 @@ void func_80170BF8(void *actor_arg, void *motion_arg, void *object_arg) {
                     if (anim_flags & 0x8000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (anim_flags & 0x7FFF);
                         anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
-                        next_anim = D_80175148;
                         if (anim_table == D_80175148) {
-                            anim_addr = (u32) D_80175140;
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175140;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175140;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_bob;
+
                         } else if (anim_table == D_80175140) {
-                            anim_addr = (u32) next_anim;
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175148;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175148;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_bob;
+
+                        } else if (anim_table == D_80175170) {
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175178;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175178;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_bob;
+
+                        } else if (anim_table == D_80175178) {
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175170;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175170;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_bob;
                         } else {
-                            next_anim = D_80175170;
-                            if (anim_table == D_80175170) {
-                                anim_addr = (u32) D_80175178;
-                            } else if (anim_table == D_80175178) {
-                                anim_addr = (u32) next_anim;
-                            } else {
-                                goto update_bob;
-                            }
+                            goto update_bob;
                         }
-                        next_anim = (u8 *) anim_addr;
-                        ((S_80170BF8_2 *)object_arg)->unk_2C = next_anim;
-                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
-                            + 0x100) >> 9) & 7));
-                        frame_addr += (u32) next_anim;
-                        func_80047784(object_arg, *(u8 *) frame_addr, 0);
                     }
 update_bob:
                     if (((S_80170BF8_2 *)object_arg)->unk_14 & 0x6000) {
@@ -277,27 +283,40 @@ update_bob:
                     if (hidden_anim_flags & 0x8000) {
                         ((S_80170BF8_0 *)actor_arg)->unk_98 = (u16) (hidden_anim_flags & 0x7FFF);
                         hidden_anim_table = ((S_80170BF8_2 *)object_arg)->unk_2C;
-                        hidden_next_anim = D_80175148;
                         if (hidden_anim_table == D_80175148) {
-                            anim_addr = (u32) D_80175140;
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175140;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175140;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_hidden_bob;
+
                         } else if (hidden_anim_table == D_80175140) {
-                            anim_addr = (u32) hidden_next_anim;
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175148;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175148;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_hidden_bob;
+
+                        } else if (hidden_anim_table == D_80175170) {
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175178;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175178;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_hidden_bob;
+
+                        } else if (hidden_anim_table == D_80175178) {
+                            ((S_80170BF8_2 *)object_arg)->unk_2C = D_80175170;
+                            frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
+                                + 0x100) >> 9) & 7));
+                            frame_addr += (u32) D_80175170;
+                            func_80047784(object_arg, *(u8 *) frame_addr, 0);
+                            goto update_hidden_bob;
                         } else {
-                            hidden_next_anim = D_80175170;
-                            if (hidden_anim_table == D_80175170) {
-                                anim_addr = (u32) D_80175178;
-                            } else if (hidden_anim_table == D_80175178) {
-                                anim_addr = (u32) hidden_next_anim;
-                            } else {
-                                goto update_hidden_bob;
-                            }
+                            goto update_hidden_bob;
                         }
-                        hidden_next_anim = (u8 *) anim_addr;
-                        ((S_80170BF8_2 *)object_arg)->unk_2C = hidden_next_anim;
-                        frame_addr = (u32) ((((s32) (gameWork.view.viewAngle + ((S_80170BF8_3 *)actor_base)->unk_2A
-                            + 0x100) >> 9) & 7));
-                        frame_addr += (u32) hidden_next_anim;
-                        func_80047784(object_arg, *(u8 *) frame_addr, 0);
                     }
 update_hidden_bob:
                     if (((S_80170BF8_2 *)object_arg)->unk_14 & 0x6000) {
