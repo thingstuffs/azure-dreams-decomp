@@ -221,7 +221,8 @@ __asm__(".globl func_80170800\n"
 #endif
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
+void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
+    S_80DB9000_1 *sprite_size;
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;
@@ -273,7 +274,6 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
     ASM_KEEP_MEMDEP_NV(position, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_page = (S_80DB9000_4 *)0x1F800000;
     ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(sprite_size);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     work_aux = (u8 *)((u32)work_aux | 0xD0);
     uv_right = (u32)(((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);
@@ -304,6 +304,7 @@ void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *
     render_data->unk_1C = (s32)depth_scaled;
     scratch_page->unk_100 = ot_index;
     if (ot_index < 0x1D6U) {
+        sprite_size = sprite_size_arg;
         address_mask = 0x00FF0000;
         func_800649A0();
         work_src = (u8 *)scratch_page;
