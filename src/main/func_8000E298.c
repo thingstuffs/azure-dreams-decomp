@@ -21,11 +21,10 @@ s32 func_80021298(void)
         return status;
     }
     if (state != 1) {
-        status = 5;
         if (state == 3) {
             goto state_three;
         }
-        goto done;
+        goto invalid_state;
     }
     func_80021538();
     if (func_80069C38(D_800287CC) != 0) {
@@ -53,9 +52,11 @@ state_three:
         status = 3;
         *selected_slot = 0;
         D_800287C8 = 0;
-        ASM_SCHED_BARRIER();
+        goto done;
     }
 
+invalid_state:
+    status = 5;
 done:
     return status;
 }
