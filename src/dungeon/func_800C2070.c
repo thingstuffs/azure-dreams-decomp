@@ -14,18 +14,17 @@ s32 func_800C77D0(s32 slot_id, void *target, s32 target_id, s16 slot_value) {
     void *previous_target;
     GameView *state;
     u8 *slot;
-    s32 new_target_id;
+    s16 new_target_id;
 
     distance = D_80083780.x.w.i;
     target_coord = *(s16 *)((u8 *)target + 2);
     distance -= target_coord;
     if (distance < 0)
         distance = -distance;
+    new_target_id = target_id;
     if (distance >= 0xC1) {
         return 0;
     }
-    new_target_id = target_id;
-    ASM_KEEP(new_target_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     distance = D_80083780.y.w.i;
     target_coord = *(s16 *)((u8 *)target + 6);
     distance -= target_coord;

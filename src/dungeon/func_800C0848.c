@@ -69,7 +69,7 @@ void func_800C5FA8(u8 *w) {
     s32 x, y, x1, y1, k;
     s32 t16;
     s32 mode;
-    register s32 t ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 t;
     s32 rv;
     s32 cc;
     s32 ic;
@@ -386,10 +386,15 @@ L_zero:
     func_800945E8(((u8 *)D_800E3D7C));
     func_800948BC();
     func_800A6780();
-    t = *(u32 *)(o + 0x234);
-    ch = D_80082E6B;
-    t = t + 1;
-    *(u32 *)(o + 0x234) = t;
+    {
+        u8 code;
+
+        ch = *(u32 *)(o + 0x234);
+        code = D_80082E6B;
+        ch++;
+        *(u32 *)(o + 0x234) = ch;
+        ch = code;
+    }
     D_8008146C = *(u16 *)(o + 0x234);
     func_80040AA0(ch);
     func_800481E0();
