@@ -21,7 +21,7 @@ extern u8 D_80020FC7[];
 /* Resolve the key to its table entry, using the slot-4 special case or the paged lookup table. */
 void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
 {
-    s32 page;
+    s32 index;
     u8 *state0;
     void **table;
     s16 *entry;
@@ -49,21 +49,10 @@ void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
         return table[state1[4]];
     }
 
-    page = 0x80020000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    if (*(s16 *)(page - 0x7F8C) != 0) {
-        entry = (s16 *)(page - 0x7F8C);
-        do {
-            if (*entry == key) {
-                return table[entry[1]];
-            }
-            entry += 2;
-        } while (*entry != 0);
+    for (index = 0; D_80018074[index] != 0; index += 2) {
+        entry = &D_80018074[index];
+        if (*entry == key)
+            return table[entry[1]];
     }
     return D_8001914C;
 }
-
-/* MECHANISM: Recovered the in-range B730/B7C8/B818 targets as local CFG joins,
-   preserving the 0x18 frame with only $ra saved and keeping key in $a2.
-   The cdk-G0 reroute plus a guarded $v1-held 0x8002 page removed the loop-base
-   copy and reproduced the zero-test delay slot and table/index register roles. */

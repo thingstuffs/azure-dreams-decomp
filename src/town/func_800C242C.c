@@ -56,13 +56,13 @@ extern M2C_UNK D_800BFFF4;
 /* Spawn objects at randomized coordinates and mark completion when the countdown expires. */
 void func_800BFB8C(void *source)
 {
-    s16 fixed_coord;
+    s16 fixed_coord = 0;
     s16 state;
     s32 coord_term;
     s32 random_value;
     s32 spawn_count;
     s32 count_bits;
-    register s32 random_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 random_coord;
     s32 base_coord;
     u16 next_value;
     GameWork *town;
@@ -88,18 +88,9 @@ void func_800BFB8C(void *source)
                 coords = object + 0x20;
                 ((S_800BFB8C_1 *)object)->unk_10 = (M2C_UNK *)kind;
                 func_8004491C(object, callback);
-                random_coord = rand();
-                random_value = random_coord;
+                random_value = rand();
                 coord_term = town->view.unk_0A4;
-                if (random_value >= 0) {
-                    random_coord = random_coord >> 0xA;
-                } else {
-                    random_coord = (s32)(random_value + 0x3FF) >> 0xA;
-                }
-                random_coord <<= 0xA;
-                random_coord = random_value - random_coord;
-                random_coord = coord_term + random_coord;
-                random_coord -= 0x200;
+                random_coord = coord_term + random_value % 1024 - 512;
                 ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
                 ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;
                 coord_term = rand()

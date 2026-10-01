@@ -162,6 +162,7 @@ void func_80024B54(void *effect_arg, void *position) {
     s16 phase;
     s32 state_or_heading;
     s32 rounded_phase;
+    s32 phase_random;
     s32 step_count;
     u16 *input_page;
     s32 position_valid;
@@ -216,26 +217,20 @@ void func_80024B54(void *effect_arg, void *position) {
         if ((start_delay << 0x10) > 0) {
             break;
         }
-        actor_or_frame = (void *)func_80069EF8();
-        rounded_phase = (s32)actor_or_frame;
-        if (((s32)actor_or_frame) < 0) {
-            rounded_phase = ((s32)actor_or_frame) + 0xFFF;
+        phase_random = func_80069EF8();
+        rounded_phase = phase_random;
+        if ((phase_random) < 0) {
+            rounded_phase = (phase_random) + 0xFFF;
         }
         origin = &D_80083780;
         step_value = (s32)D_80083780.x.v;
-        ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_page = (u8 *)0x80080000;
         (*(s32 *)((u8 *)source_pos + 0)) = step_value;
-        step_value = rounded_phase >> 0xC;
-        step_value <<= 0xC;
-        phase = ((s32)actor_or_frame) - step_value;
+        phase = phase_random - ((rounded_phase >> 12) << 12);
         actor_value = (void *)origin->y.v;
         (*(s32 *)((u8 *)source_pos + 4)) = (s32)actor_value;
-        ASM_KEEP_NV(target_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        step_value = (s32)0x80080000;
-        ASM_KEEP(step_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         actor_value = ((S_80024B54_3 *)target_page)->unk_14A8;
-        tile_or_y_steps = (u8 *)(step_value + 0x2E80);
+        tile_or_y_steps = (u8 *)&D_80082E80;
         step_value = ((S_80024B54_1 *)actor_value)->unk_88;
         effect_data = offset;
         step_value = (step_value - 0x50) << 0x10;
