@@ -28,7 +28,6 @@ typedef struct S_80172FC0_0 {
     u16 unk_BA;
 } S_80172FC0_0;   /* arg0 in func_80172FC0 */
 
-
 typedef struct S_80172FC0_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
@@ -92,7 +91,6 @@ typedef struct S_80172FC0_8 {
     s32 unk_0C;
 } S_80172FC0_8;   /* global in func_80172FC0 */
 
-
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
@@ -104,6 +102,7 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800BB044(void *);
 extern void *func_80175858(void *, void *, void *);
 
+extern s32 D_800814A0;
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176490[];
@@ -407,21 +406,19 @@ copy_effect:
         if (child != 0) {
             void *active_child;
             s32 pool_flags;
-            u32 child_flags;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            u8 *pool_page;
+            s32 new_pool_flags;
+            u32 child_flags;
 
-            pool_page = (u8 *)0x80080000;
-            active_child = child;
-            ASM_KEEP(active_child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            pool_flags = *(s32 *)(pool_page + 0x14A0);
+            pool_flags = D_800814A0;
             ((S_80172FC0_0 *)anim)->unk_AC = 0;
             ((S_80172FC0_0 *)anim)->unk_A4 = 0;
             ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
+            active_child = ((S_80172FC0_0 *)anim)->unk_A0;
             child_flags = ~((S_80172FC0_7 *)active_child)->unk_1E;
             child_flags &= 0x7FFF;
             child_flags = ~child_flags;
-            pool_flags |= 0x8000;
-            *(s32 *)(pool_page + 0x14A0) = pool_flags;
+            new_pool_flags = pool_flags | 0x8000;
+            D_800814A0 = new_pool_flags;
             ((S_80172FC0_7 *)active_child)->unk_1E = child_flags;
             ((S_80172FC0_0 *)anim)->unk_A0 = 0;
         }
