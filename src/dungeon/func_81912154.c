@@ -271,7 +271,6 @@ void func_80025954(void *state, void *motion, void *appearance) {
                 y_lookup_first = &dirStepY[direction];
                 floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0,
                     ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
-                ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 destination = stack.motion;
                 if (floor_height >= 0x201) {
                     break;
@@ -351,9 +350,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             func_80024170(state, motion);
             motion_value = 6;
         }
-        ((Rec_func_80024170_arg0 *)state)->unk_0A = motion_value;
-        ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
-        break;
+        goto set_state;
     case 2:
         ((S_80025954_5 *)motion)->unk_00.at00.v = (s32) (((S_80025954_5 *)motion)->unk_00.at00.v
             + ((S_80025954_5 *)motion)->unk_0C);
@@ -404,6 +401,7 @@ void func_80025954(void *state, void *motion, void *appearance) {
             break;
         }
         motion_value = 5;
+    set_state:
         ((Rec_func_80024170_arg0 *)state)->unk_0A = motion_value;
         ((Rec_func_80024170_arg0 *)state)->unk_10 = 0U;
     }
