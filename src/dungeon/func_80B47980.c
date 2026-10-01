@@ -54,8 +54,7 @@ extern u8 D_801749EC[];
 /* Creates and initializes an effect at an offset from the supplied position. */
 void func_80175180(void *source_arg, void *spawn_pos_arg)
 {
-    void *source = source_arg;
-    register void *spawn_pos ASM_REG("$18") = spawn_pos_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *spawn_pos = spawn_pos_arg;
     u16 render_flags;
     void *effect;
     S_80175180_3 *render_part;
@@ -63,14 +62,14 @@ void func_80175180(void *source_arg, void *spawn_pos_arg)
     u8 *state;
 
     effect = func_8003FC64(0x12);
-    ASM_KEEP(spawn_pos);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     state = (u8 *)effect + 0x20;
     if (effect != 0) {
         ((S_80175180_0 *)state)->unk_08 = 0x4A;
-        ((S_80175180_0 *)state)->unk_0A = ((S_80175180_1 *)source)->unk_96;
+        ((S_80175180_0 *)state)->unk_0A = ((S_80175180_1 *)source_arg)->unk_96;
         ((S_80175180_0 *)state)->unk_0C = 0;
         ((S_80175180_2 *)effect)->unk_10 = D_801749EC;
-        func_8004491C(effect, func_80045340);
+        source_arg = func_80045340;
+        func_8004491C(effect, source_arg);
         render_part = ((S_80175180_2 *)effect)->unk_0C;
         render_part->unk_10 = 0x20;
         render_flags = VFIELD(render_part, u16, 0x14);
@@ -90,7 +89,3 @@ void func_80175180(void *source_arg, void *spawn_pos_arg)
         render_part->unk_0D = 0x80;
     }
 }
-
-/* MECHANISM: Pin source/spawn_pos to s1/s2 and keep them just after the allocator call,
-   preserving the 0x20 frame/save order without blocking retail call setup.
-   A volatile u16 RMW retains both flag stores; source order and u8 fields close the residue. */

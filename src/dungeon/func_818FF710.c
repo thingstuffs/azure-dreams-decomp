@@ -364,7 +364,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     u16 parent_flags;
     u8 flight_ticks;
     s32 origin_tile;
-    register u16 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 sprite_flags;
     s32 source_id;
     S_818FF710_9 *origin;
     S_818FF710_12 *hit_target;
@@ -621,7 +621,8 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             render_value = 0x40;
             first_sprite->unk_10 = render_value;
             sprite_flags = first_sprite->unk_14;
-            first_sprite->unk_14 = (u16) (sprite_flags | 0x80);
+            state = sprite_flags | 0x80;
+            first_sprite->unk_14 = state;
             first_position = (*(void **)((u8 *)first_object + 8));
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
@@ -686,7 +687,8 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             render_value = 0x20;
             ((S_818FF710_21 *)((void *)second_sprite))->unk_10 = render_value;
             sprite_flags = ((S_818FF710_21 *)((void *)second_sprite))->unk_14;
-            ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
+            state = sprite_flags | 0x80;
+            ((S_818FF710_21 *)((void *)second_sprite))->unk_14 = state;
             third_position = (*(void **)((u8 *)third_object + 8));
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
@@ -710,11 +712,11 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             sprite_resource = (void *) func_80045340;
             child_effect->unk_2C = parent;
             fourth_position = (void *) ((S_818FF710_2 *)parent)->unk_60;
+            child_effect->unk_30 = (void *) fourth_position;
+            child_effect->unk_34 = effect;
             child_effect->unk_38 = first_object + 0x20;
             child_effect->unk_3C = third_object + 0x20;
             child_effect->unk_40 = second_object + 0x20;
-            child_effect->unk_34 = effect;
-            child_effect->unk_30 = (void *) fourth_position;
             (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
             func_8004491C(particle_owner, sprite_resource);
             second_sprite = (S_818FF710_18 *)(*(void **)((u8 *)fourth_object + 0xC));
@@ -724,7 +726,8 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             render_value = 0x20;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_10 = render_value;
             sprite_flags = ((S_818FF710_24 *)((void *)second_sprite))->unk_14;
-            ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = (u16) (sprite_flags | 0x80);
+            state = sprite_flags | 0x80;
+            ((S_818FF710_24 *)((void *)second_sprite))->unk_14 = state;
             fourth_position = (*(void **)((u8 *)fourth_object + 8));
             child_effect->unk_0A = 0;
             child_effect->unk_0C = 0;
@@ -740,7 +743,6 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             ((S_818FF710_24 *)((void *)second_sprite))->unk_0C = 0x80;
             (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
             ((S_818FF710_24 *)((void *)second_sprite))->unk_08 = (void *) (fourth_object + 0x40);
-            ASM_KEEP(fourth_object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         }
         spawn_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));
         if (spawn_tick != impact_tick) {
