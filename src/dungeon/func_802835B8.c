@@ -203,7 +203,6 @@ void func_800165B8(void) {
     u8 actor_y;
     u16 display_setting;
     register u16 lift_height ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *settings_page;
     u8 *display_page;
     u8 *display_state;
     DungeonGlobalStatus *map_state;
@@ -410,8 +409,7 @@ load_entries:
     }
 
     neutral_color = 0x2C808080;
-    settings_page = (u8 *)0x80010000;
-    ASM_KEEP_NV(settings_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    entry_index = (s32)0x80010000;
     table_base = (u8 *)0x80080000;
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     delta_page = (u8 *)(((S_800165B8_1 *)obj)->unk_A2);
@@ -431,20 +429,19 @@ load_entries:
     {
         u32 tile_x;
         u32 tile_y;
-        u16 display_index;
+        s32 display_index;
         u16 height_index;
         u16 display_value;
 
         neutral_color = (s32)(D_800DD264);
         tile_x = ((S_800165B8_3 *)state)->unk_24;
         ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        display_index = *(u16 *)(settings_page + 0x20A2);
+        display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((S_800165B8_3 *)state)->unk_25;
-        ASM_KEEP_DEP_NV(display_index, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         display_setting = ((u16 *)neutral_color)[(s16)display_index];
         map_state = &dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
-        height_index = *(u16 *)(settings_page + 0x20A0);
+        height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)(display_page - 0x31A0) = display_setting;
         lift_height = D_800DD26C[(s16)height_index];
         display_value = ((S_800165B8_7 *)table_base)->unk_C6;
@@ -472,7 +469,7 @@ load_entries:
         func_800172A0(call_target, actor_lift);
     }
     call_target = (u8 *)0x80080000;
-    init_flags = ((S_800165B8_10 *)settings_page)->unk_3714;
+    init_flags = ((S_800165B8_10 *)(u8 *)entry_index)->unk_3714;
     status_value = -0x24;
     ((S_800165B8_11 *)call_target)->unk_2A3B = status_value;
     if (init_flags & 4) {
