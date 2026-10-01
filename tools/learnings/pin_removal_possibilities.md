@@ -587,3 +587,6 @@ A retail `move` that the C must keep, `V = W`, has to pass two gates. First, cse
 - **M3:** V is still live after the use, so the copy is a colour/order pin.
 
 An ADJACENT read-back (nothing between it and the store) is forwarded by cse and does not belong to this class. Brief paragraph: tools/lanes/brief_paragraphs/copy_host.md. Generator spec (t141_copyhost): work/native_lane/r85_fable_copy/MECHANISM.md.
+
+### Share a variable across blocks to make a value global (r85_opus_nm1, 2026-10-01)
+A value in a single block is a local quantity, and on cdk local-alloc sorts a block's first three by fixed slot (local-alloc.c 1598-1612), not by priority. If the value has to be ranked among the global values (check with prio.py or alloc_need), keep it in a variable that another block also uses, for example one function-scope variable for a call result that sibling blocks would otherwise each declare. Four rows went exact this way. This is the reverse of rule B. Brief paragraph: tools/lanes/brief_paragraphs/shared_global.md.
