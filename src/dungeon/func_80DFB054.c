@@ -67,7 +67,7 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     void *obj;
     register s8 saved_arg2;
     s8 saved_arg1;
-    register void *part_a ASM_REG("$22");
+    void *part_a;
     s16 final_arg0;
     S_80158854_3 *part_b;
     void *actor;
@@ -79,18 +79,17 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     final_arg0 = arg0;
     if (obj != 0) {
-        work = obj;
-        work = (u8 *)work + 0x20;
+        work = (u8 *)obj + 0x20;
         ((S_80158854_0 *)work)->unk_13 = 0x1C;
         func_8004491C(obj, func_80045340);
 
         part_a = ((S_80158854_1 *)obj)->unk_08;
         ((S_80158854_2 *)part_a)->unk_0A = saved_arg3;
         part_b = ((S_80158854_1 *)obj)->unk_0C;
+        part_b->unk_24 = saved_arg1;
         part_b->unk_25 = saved_arg2;
         actor = work;
         kind = arg0 & 3;
-        part_b->unk_24 = saved_arg1;
 
         if (kind == 1) {
             ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
@@ -118,11 +117,11 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                     }
                     ;
                     ((S_80158854_4 *)actor)->unk_8C = D_80158E5C;
-                } else {
-                    ;
-                    ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
-                }
                 part_b->unk_2C = D_8015C510;
+                } else {
+                    ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
+                part_b->unk_2C = D_8015C510;
+                }
             }
         }
         ((S_80158854_1 *)obj)->unk_10 = D_80158A58;

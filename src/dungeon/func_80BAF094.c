@@ -55,7 +55,7 @@ extern u8 D_8015CF00[];
 extern void func_80158A98(void);
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
+void *func_80158894(s16 flags, s16 kind_id, s32 variant, s32 spawn_value)
 {
     void *result;
     void *created;
@@ -63,13 +63,11 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     s32 part_ptr;
     s32 actor_ptr;
     s16 saved_flags;
-    register s16 held_kind ASM_REG("$21");   /* UNRESOLVED C shape (pin): global.c must rank kind above child_a/position (retail $s5 vs $s6); at cdk kind is 2 refs/live 20 vs position 4/77 - position live >= 81 flips it (duplicated actor callback stores in the default arms do that) but cse then folds actor into result and jump2 merges the stores */
     s32 held_value;
     s32 held_variant;
     s16 original_flags;
 
     saved_flags = flags;
-    held_kind = kind_id;
     held_value = spawn_value;
     held_variant = variant;
     result = 0;
@@ -84,7 +82,7 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
         variant = saved_flags & 3;
         ((S_80158894_2 *)position)->unk_0A = held_value;
         part_ptr = (s32)((S_80158894_1 *)created)->unk_0C;
-        ((S_80158894_3 *)((void *)part_ptr))->unk_24 = held_kind;
+        ((S_80158894_3 *)((void *)part_ptr))->unk_24 = kind_id;
         ((S_80158894_3 *)((void *)part_ptr))->unk_25 = held_variant;
         actor_ptr = (s32)result;
 
@@ -105,10 +103,11 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
                     ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CF00;
                 }
                 ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = D_80158E9C;
+            ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
             } else {
                 ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
-            }
             ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
+            }
         }
         ((S_80158894_1 *)created)->unk_10 = func_80158A98;
         func_800A9C18(created, position, (void *)part_ptr, (s16)original_flags);
