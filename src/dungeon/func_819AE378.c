@@ -7,14 +7,6 @@
 
 typedef s32 M2C_UNK;
 
-typedef struct UnalignedWord {
-    u32 value;
-} __attribute__((packed)) UnalignedWord;
-
-#define M2C_FIELD(expr, type_ptr, offset) \
-(*(type_ptr)((s8 *)(expr) + (offset)))
-#define M2C_UNALIGNED32(expr) (expr)
-
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C(void *, void *);
 extern M2C_UNK D_80025A34;
@@ -79,6 +71,10 @@ typedef struct S_80025B78_4 {
     u16 unk_20;
 } S_80025B78_4;   /* arg2 in func_80025B78 */
 
+typedef struct Block32 {
+    u8 bytes[0x20];
+} Block32;
+
 /* Creates an object and copies the supplied triplet, state fields, and 32-byte data block. */
 void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_4 *source_state)
 {
@@ -91,9 +87,7 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
         ((S_80025B78_0 *)object)->unk_10 = &D_80025A34;
         func_8004491C(object, &D_80025AAC);
         triplet = ((S_80025B78_0 *)object)->unk_08;
-        do {
-            triplet->unk_02 = source_triplet->unk_02;
-        } while (0);
+        triplet->unk_02 = source_triplet->unk_02;
         triplet->unk_06 = source_triplet->unk_06;
         triplet->unk_0A = source_triplet->unk_0A;
         state = ((S_80025B78_0 *)object)->unk_0C;
@@ -109,29 +103,7 @@ void *func_80025B78(void *source_data, S_80025B78_2 *source_triplet, S_80025B78_
         state->unk_08 = source_state->unk_08;
         state->unk_10 = source_state->unk_10;
         state->unk_04 = source_state->unk_04;
-        {
-            u32 word_0;
-            u32 word_1;
-            u32 word_2;
-            register u32 word_3;
-
-            word_0 = ((UnalignedWord *)source_data)[0].value;
-            word_1 = ((UnalignedWord *)source_data)[1].value;
-            word_2 = ((UnalignedWord *)source_data)[2].value;
-            word_3 = ((UnalignedWord *)source_data)[3].value;
-            ((UnalignedWord *)((u8 *)object + 0x20))[0].value = word_0;
-            ((UnalignedWord *)((u8 *)object + 0x20))[1].value = word_1;
-            ((UnalignedWord *)((u8 *)object + 0x20))[2].value = word_2;
-            ((UnalignedWord *)((u8 *)object + 0x20))[3].value = word_3;
-            word_0 = ((UnalignedWord *)source_data)[4].value;
-            word_1 = ((UnalignedWord *)source_data)[5].value;
-            word_2 = ((UnalignedWord *)source_data)[6].value;
-            word_3 = ((UnalignedWord *)source_data)[7].value;
-            ((UnalignedWord *)((u8 *)object + 0x20))[4].value = word_0;
-            ((UnalignedWord *)((u8 *)object + 0x20))[5].value = word_1;
-            ((UnalignedWord *)((u8 *)object + 0x20))[6].value = word_2;
-            ((UnalignedWord *)((u8 *)object + 0x20))[7].value = word_3;
-        }
+        *(Block32 *)((u8 *)object + 0x20) = *(Block32 *)source_data;
     }
     return object;
 }

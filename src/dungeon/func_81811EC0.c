@@ -1,38 +1,19 @@
 #include "common.h"
 
-#if !defined(NON_MATCHING) && __GNUC__ < 3
-#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
-#else
-#endif
-
-extern u8 D_800157D2;
-
 /* Return the index of the requested zero-based matching occurrence, or -1. */
 s32 func_80026EC0(s32 target_value, s32 target_occurrence) {
     s32 occurrence;
-    s32 result;
     s32 index;
-    u8 *entry;
+    u8 *page = (u8 *)0x80010000;
 
     occurrence = 0;
-    index = occurrence;
-    entry = &D_800157D2;
-loop_1:
-    if (*entry == target_value) {
-        result = index;
-        if (occurrence != target_occurrence) {
-            occurrence += 1;
-            goto block_4;
-        }
-    } else {
-block_4:
-        index += 1;
-        entry += 0x13;
-        if (index >= 0x40) {
-            result = -1;
-        } else {
-            goto loop_1;
+    for (index = 0; index < 0x40; index++) {
+        if (page[0x57D2 + index * 0x13] == target_value) {
+            if (occurrence == target_occurrence) {
+                return index;
+            }
+            occurrence++;
         }
     }
-    return result;
+    return -1;
 }
