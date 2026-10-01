@@ -73,7 +73,6 @@ void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
     s32 a0;
     s32 a1;
     s32 value;
-    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 flag;
     s32 state;
     s16 phase_u16;
@@ -153,8 +152,8 @@ state0_finish:
             ((S_8052BCCC_3 *)out)->unk_06 = -64;
             func_80034A1C(out, D_8028E600, 0);
         }
-        next_state = 1;
-        goto set_state;
+        ((S_8052BCCC_0 *)obj)->unk_68 = 1;
+        goto state7_finished;
     }
 
     case 1:
@@ -169,8 +168,8 @@ state0_finish:
             if (((S_8052BCCC_0 *)obj)->unk_A0 < 2)
                 (*(s32 *)((u8 *)(motion) + (0xC))) = 0 - case1_value;
             func_80034A1C(out, D_8028E590, 0);
-            next_state = 2;
-            goto set_state;
+            ((S_8052BCCC_0 *)obj)->unk_68 = 2;
+            goto state7_finished;
         }
         goto state7_finished;
     }
@@ -194,8 +193,8 @@ state0_finish:
                 (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
                 (*(s32 *)((u8 *)(motion) + (0x10))) = value;
             }
-            next_state = 3;
-            goto set_state;
+            ((S_8052BCCC_0 *)obj)->unk_68 = 3;
+            goto state7_finished;
         }
         goto state7_finished;
     }
@@ -214,24 +213,23 @@ state0_finish:
                 phase3 = ((S_8052BCCC_0 *)obj)->unk_A6;
                 (*(volatile u16 *)((u8 *)(obj) + (0xA2))) = 16;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = phase3;
-                next_state = (s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08;
-                next_state /= (s16)phase3;
-                ((S_8052BCCC_1 *)motion)->unk_14 = next_state;
-                next_state = 4;
+                ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / ((s16)phase3);
+                ((S_8052BCCC_0 *)obj)->unk_68 = 4;
             } else {
                 s32 pos;
+                s32 acceleration;
                 ((S_8052BCCC_0 *)obj)->unk_A2 = 12;
-                next_state = (func_80071494() & 0xFF) << 12;
+                acceleration = (func_80071494() & 0xFF) << 12;
                 pos = ((S_8052BCCC_1 *)motion)->unk_08;
                 a0 = 0x580000;
                 pos += a0;
                 a0 = (*(s16 *)((u8 *)(obj) + (0xA2)));
-                next_state -= pos;
-                next_state /= a0;
-                ((S_8052BCCC_1 *)motion)->unk_14 = next_state;
-                next_state = 5;
+                acceleration -= pos;
+                acceleration /= a0;
+                ((S_8052BCCC_1 *)motion)->unk_14 = acceleration;
+                ((S_8052BCCC_0 *)obj)->unk_68 = 5;
             }
-            goto set_state;
+            goto state7_finished;
         }
         goto state7_finished;
 
@@ -269,9 +267,7 @@ state0_finish:
     case 6:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
             ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
-            next_state = (s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08;
-            next_state /= ((S_8052BCCC_0 *)obj)->unk_A2;
-            ((S_8052BCCC_1 *)motion)->unk_14 = next_state;
+            ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / (((S_8052BCCC_0 *)obj)->unk_A2);
             ((S_8052BCCC_0 *)obj)->unk_68 = 4;
             goto state7_finished;
         }
@@ -337,15 +333,13 @@ state0_finish:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) > 0)
             goto state7_finished;
 set_state_8:
-        next_state = 8;
-        goto set_state;
+        ((S_8052BCCC_0 *)obj)->unk_68 = 8;
+        goto state7_finished;
     }
     default:
         goto state7_finished;
     }
 
-set_state:
-    ((S_8052BCCC_0 *)obj)->unk_68 = next_state;
 state7_finished:
     func_8003EA54(out);
     if ((((S_8052BCCC_0 *)obj)->unk_A4 & 2) && func_80252550(D_8053013C, motion) != 0) {
