@@ -160,7 +160,7 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         &&initialize, &&create_spawn, &&follow_spawn, &&wait_finish, &&inactive
     };
     Vec12 *spawn_position;
-    register u32 flags_or_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 flags_or_result;
 
     entity = state->entity0;
     offsets = D_80024004;
@@ -175,19 +175,21 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
 
 initialize:
     {
-        s32 next_state;
+        u16 next_state;
         u16 source_z;
+        u32 flags;
+        u32 variant_bits;
 
         graphic->flagsC = 0x00808080;
         graphic->scale1E = 0x1000;
         graphic->scale1C = 0x1000;
         func_8003DB94(graphic, D_800DEC00, 0);
-        flags_or_result = entity->flags2A;
+        flags = *(u16 *)((u8 *)entity + 0x2A);
         D_80025924 = 1;
         next_state = *(u16 *)&state->stateA;
-        flags_or_result = (flags_or_result >> 9) & 7;
+        variant_bits = (flags >> 9) & 7;
         next_state++;
-        state->variant7E = flags_or_result;
+        state->variant7E = variant_bits;
         state->stateA = next_state;
 
         flags_or_result = func_8003DF74(header->componentC->unk8,
@@ -222,6 +224,8 @@ create_spawn:
         s32 offset_x;
         s32 offset_y;
         s16 steps;
+        s32 *path_position;
+        s32 path_z;
 
         spawn = func_8003FC64(0x12);
         if (spawn != 0) {
@@ -265,12 +269,12 @@ create_spawn:
                     data->step2 = (s32)flags_or_result * 2;
                 }
 
-                flags_or_result = (u32)(*(s32 *)((u8 *)entity->path60 - 0x18));
+                path_position = (s32 *)((EntityHeader *)((u8 *)entity->path60 - 0x20))->source8;
                 steps = data->step2;
                 if (steps != 0) {
-                    flags_or_result = (u32)(*(s32 *)((u8 *)(s32)flags_or_result + 8));
+                    path_z = path_position[2];
                     data->dx54 =
-                        ((s32)flags_or_result - ((s32 *)position)[2] + (s32)0xFF800000) /
+                        (path_z - ((s32 *)position)[2] + (s32)0xFF800000) /
                         (steps - 1);
                 }
             } else {

@@ -6,7 +6,7 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
     u8 *dst;
     u8 *first_row_end;
     u8 *dst_end;
-    register u8 *dst_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *dst_byte;
     s32 header;
     s32 size;
     s32 remaining;
@@ -16,7 +16,7 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
     s32 high_nibble;
     u8 repeat_nibble;
     s32 saved_byte;
-    s32 column_byte;
+    u8 column_byte;
     u32 packed;
 
     dst = dst_start;
@@ -60,10 +60,10 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
             } else {
                 remaining = packed >> 4;
                 nibble = packed & 0xF;
-                repeat_nibble = nibble;
+                packed = nibble;
                 while (remaining >= 0) {
                     if (dst_high == 0) {
-                        *dst = repeat_nibble;
+                        *dst = packed;
                     } else {
                         *dst |= nibble << 4;
                         dst++;
@@ -101,10 +101,11 @@ return_linear_end:
                         column_byte = *dst;
                         if (src_low != 0) {
                             nibble = (packed << 4) & 0xF0;
+                            *dst = column_byte | nibble;
                         } else {
                             nibble = packed & 0xF0;
+                            *dst = column_byte | nibble;
                         }
-                        *dst = column_byte | nibble;
                     }
                     dst += header;
                     src_low ^= 1;
