@@ -76,6 +76,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *y_velocity;
     void *origin_sprite;
     void *target_data;
+    void *step_entry;
     void *z_step;
     register void *offset_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *spawn_sprite;
@@ -214,12 +215,10 @@ await_launch:
             ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             direction_offset = (void *)(s32)S16(effect, 0x7E);
             U8(effect, 0x7B) = (u32)offset_value;
-            target_data = &direction_steps.p[0];
-            ASM_KEEP4_NV(table_value, offset_value, direction_offset, target_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            step_entry = &direction_steps.p[0];
             table_value = (void **)((s32)table_value * 4);
-            table_value = (void **)((u8 *)target_data + (u32)table_value);
+            table_value = (void **)((u8 *)step_entry + (u32)table_value);
             direction_offset = (void *)((s32)direction_offset * 4);
-            target_data = (u8 *)target_data + (u32)direction_offset;
             offset_value = (void *)(u32)U16(table_value, 0);
             table_value = (void **)(u32)U16(motion, 2);
             offset_value = (void *)((u32)offset_value << 4);
@@ -227,7 +226,7 @@ await_launch:
             {
                 u8 travel_ticks = U8(effect, 0x7B);
                 U16(effect, 0x74) = (u32)table_value;
-                offset_value = (void *)(u32)U16(target_data, 2);
+                offset_value = (void *)(u32)U16((u8 *)step_entry + (u32)direction_offset, 2);
                 table_value = (void **)(s32)(s8)travel_ticks;
             }
             U16(effect, 0x76) = U16(motion, 6) +

@@ -122,9 +122,8 @@ enum E_u16 right_gain_arg;
     s32 note_pitch;
     s32 *voice_id;
     s32 voice_state;
-    s32 sample_offset;
     s16 sample_index;
-    register s32 sample ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 sample;
     u16 *sample_sizes;
     s32 pan;
     s32 pan_total;
@@ -171,12 +170,12 @@ enum E_u16 right_gain_arg;
             }
             while (voice_state != 0);
             sample = 0;
-            sample_offset = sample;
+            left_volume = sample;
             sample_index = tone_data->f16;
             sample_sizes = (u16 *) ((D_80086A40[(s16) bank].f04 + ((*((u16 *) (bank_data + 0x12))) << 9)) + 0x820);
             if (sample_index > 0) {
                 do {
-                    sample_offset += *sample_sizes;
+                    left_volume += *sample_sizes;
                     sample_sizes += 1;
                     sample += 1;
                 }
@@ -186,8 +185,8 @@ enum E_u16 right_gain_arg;
             voice_request.f0c = 0;
             voice_request.f0e = 0;
             voice_request.f00 = D_80073740[channel];
-            sample_offset <<= 3;
-            voice_request.f1c = D_80086A40[(s16) bank].f10 + sample_offset;
+            left_volume <<= 3;
+            voice_request.f1c = D_80086A40[(s16) bank].f10 + left_volume;
             adsr1 = tone_data->f10;
             voice_request.f3a = adsr1;
             D_80085458[channel].f60 = adsr1;

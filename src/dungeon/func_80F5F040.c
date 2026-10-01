@@ -263,10 +263,9 @@ have_selector:
                 if (move_object != 0) {
 copy_record:
                     {
-                        register void *move_record ASM_REG("$3") =
-                            ((S_80172840_2_pre *)move_object)[-1].unk_00;
-                        ((S_80172840_0 *)actor)->unk_72.s = ((S_80172840_3 *)move_record)->unk_24;
-                        ((S_80172840_0 *)actor)->unk_73.s = ((S_80172840_3 *)move_record)->unk_25;
+                        move_y = (s32)((S_80172840_2_pre *)move_object)[-1].unk_00;
+                        ((S_80172840_0 *)actor)->unk_72.s = ((S_80172840_3 *)move_y)->unk_24;
+                        ((S_80172840_0 *)actor)->unk_73.s = ((S_80172840_3 *)move_y)->unk_25;
                     }
                 }
             } else {

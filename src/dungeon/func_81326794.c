@@ -51,9 +51,8 @@ void func_8016DF94(void) {
     dungeonStatus.unk_0A = status_count;
     lookup_key = D_800834E2;
     state_flags &= 0xFFEF;
-    state_value = D_801748C8[(lookup_key >> 9) & 7];
     *(u16 *)(state_page + 0x3714) = state_flags;
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    state_value = *(s32 *)((u8 *)D_801748C8 + ((lookup_key >> 9) & 7) * 4);
     *(s32 *)(state_page + 0x371C) = state_value;
     map_object = *(u8 **)(((u8 *)map_base) + 0xC);
     D_800DCF4D = -1;
