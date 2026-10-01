@@ -55,6 +55,8 @@ typedef struct S_8016BE20_6 {
 } S_8016BE20_6;   /* header in func_8016BE20 */
 
 
+typedef struct ResetFlagWord { u16 flags; } ResetFlagWord;
+
 extern void func_800353F4(void *);
 extern void func_80047784(void *, u8, s32);
 extern void func_8009C12C(void *, void *, s16, s32);
@@ -80,8 +82,7 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
     u8 *anim_table;
     u8 *object_header;
     void *object;
-    register void *setup_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 object_flag;
+    void *setup_data;
     s32 object_index;
     u16 timer;
     u16 global_flags;
@@ -174,34 +175,26 @@ increment_state:
                 setup_data = D_80175392;
                 ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;
                 control_count = ((u16)dungeonStatus.unk_0A);
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                object_index = 0;
                 dungeonStatus.unk_0C = 0;
                 control_count++;
                 dungeonStatus.unk_0A = control_count;
                 ((S_8016BE20_2 *)ctx)->unk_46 &= 0x7FFF;
-                global_flags = D_80013714;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                object_flag = 0x80000000;
-                ASM_USE(object_flag);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                D_80013714 = global_flags | 8;
+                global_flags = ((ResetFlagWord *)&D_80013714)->flags;
+                ((ResetFlagWord *)&D_80013714)->flags = global_flags | 8;
                 func_800353F4(setup_data);
                 ((S_8016BE20_2 *)ctx)->unk_6D = 0;
                 ((S_8016BE20_0 *)state)->unk_9B.n = 0;
 
-                for (;;) {
+                for (object_index = 0; object_index < 2; object_index++) {
                     object = (*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC + object_index * 4));
                     if (object != 0) {
                         func_80164BA4(object);
                         object_header = (u8 *)(*(void * *)((u8 *)(*(u8 **)((u8 *)(&D_800E3D7C))) + 0xAC
                             + object_index * 4)) - 0x20;
-                        ((S_8016BE20_6 *)object_header)->unk_10 |= object_flag;
-                    }
-                    object_index++;
-                    if (object_index >= 2) {
-                        return;
+                        ((S_8016BE20_6 *)object_header)->unk_10 |= 0x80000000;
                     }
                 }
+                return;
             }
         }
         ((S_8016BE20_0 *)state)->unk_8C = D_8016A36C;

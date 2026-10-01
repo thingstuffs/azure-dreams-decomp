@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/sys_flags.h"
+typedef struct { u8 pad[0x3714]; u16 flags; } SysPage;
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
@@ -40,23 +40,15 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
 #ifndef NON_MATCHING
     initial_state = 0x1C;
     ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
-    flags = (u8 *)0x80080000;
+    flags = (u8 *)&gameWork;
 #else
     ((S_8008C7B4_0 *)state)->unk_9A = 0x1C;
 #endif
     ((S_8008C7B4_0 *)state)->unk_9B = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-#ifndef NON_MATCHING
-    ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-#endif
-    if (D_80013714 & 2) {
+    if (((SysPage *)0x80010000)->flags & 2) {
         goto set_control;
     }
-#ifndef NON_MATCHING
-    flags += 0x3160;
-    ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-#endif
     entity_arg = entity;
     if (!(((S_8008C7B4_1 *)flags)->unk_08 & 0x20)) {
         goto after_control;
