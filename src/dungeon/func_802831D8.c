@@ -32,15 +32,14 @@ void func_800161D8(void) {
     GlobalState *state = ((GlobalState *)&gameWork);
     InitBlock *init_block = &state->unk1DC;
     u32 block_extent = 0x3F;
-    u32 block_offset = 6;
+    u32 block_offset;
     u8 *flag_page;
 
-    ASM_KEEP(color_command);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(init_block);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    init_block->unk14 = block_offset;
-    ASM_KEEP(block_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    init_block->unk16 = 6;
+    init_block->unk14 = 6;
+    ASM_KEEP(color_command);
+    block_offset = 6;
+    init_block->unk16 = block_offset;
     init_block->unk1C = 0x180;
     init_block->unk1E = 0x180;
     init_block->unk18 = block_extent;

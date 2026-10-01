@@ -2,6 +2,11 @@
 
 extern u8 *D_8012F130;
 
+typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} P_TAG;
+
 extern s32 func_8006BC50(void *, void *, s32 *, s32 *);
 extern u32 func_8006D9DC(s32, s32, s32, s32);
 extern void func_8006DBBC(void *, s32);
@@ -22,12 +27,9 @@ s32 func_808135E0(void *first_item)
     u8 *line_packet;
     u8 *after_line;
     u8 *after_state;
-    u32 *line_head;
     u32 *line_slot;
     u32 *state_head;
     u32 *state_slot;
-    register u32 address_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 length_mask;
     s32 screen_coords[2];
     s32 *screen_y;
     s32 *out_x;
@@ -37,25 +39,23 @@ s32 func_808135E0(void *first_item)
     s32 end_depth;
     s32 depth_index;
     s32 table_offset;
+    u32 next;
+    u32 pool_limit;
 
     item = first_item;
     render_context = &D_8012F130;
     screen_y = &screen_coords[1];
-    address_mask = 0x00FFFFFF;
-    length_mask = 0xFF000000;
 
-loop_0:
-    {
+    do {
         if ((*(u16 *)(item + 0x24) & 1) == 0) {
             after_line = 0;
             line_pool = *render_context;
             line_packet = *(u8 **)(line_pool + 0x8D0);
             pool_or_endpoint = line_pool;
             if (line_packet != 0) {
-                u32 line_pool_limit;
-                line_pool_limit = 0x108D4;
+                pool_limit = 0x108D4;
                 after_line = line_packet + 0x10;
-                after_line = (u8 *)((u32)after_line & -(u32)(after_line <= pool_or_endpoint + line_pool_limit));
+                after_line = (u8 *)((u32)after_line & -(u32)(after_line <= pool_or_endpoint + pool_limit));
             }
             *(u8 **)(line_pool + 0x8D0) = after_line;
 
@@ -79,22 +79,22 @@ loop_0:
                 depth_index = (s16)depth_index;
                 table_offset = depth_index * 4;
                 line_table = *render_context;
-                line_head = (u32 *)(table_offset + (u32)line_table + 0xB0);
-                *(u32 *)line_packet = (*(u32 *)line_packet & length_mask) | (*line_head & address_mask);
+                out_x = (s32 *)(table_offset + (u32)line_table + 0xB0);
+                next = ((P_TAG *)out_x)->addr;
+                *(u32 *)line_packet = (*(u32 *)line_packet & 0xFF000000) | (next & 0x00FFFFFF);
 
                 work_ptr = *render_context;
                 line_slot = (u32 *)(table_offset + (u32)work_ptr + 0xB0);
-                *line_slot = (*line_slot & length_mask) | ((u32)line_packet & address_mask);
+                *line_slot = (*line_slot & 0xFF000000) | ((u32)line_packet & 0x00FFFFFF);
 
                 state_pool = *render_context;
                 after_state = 0;
                 depth_sum = (s32)*(u8 **)(state_pool + 0x8D0);
                 work_ptr = state_pool;
                 if (depth_sum != 0) {
-                    u32 state_pool_limit;
-                    state_pool_limit = 0x108D4;
+                    pool_limit = 0x108D4;
                     after_state = (u8 *)depth_sum + 0xC;
-                    after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + state_pool_limit));
+                    after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + pool_limit));
                 }
 
                 *(u8 **)(state_pool + 0x8D0) = after_state;
@@ -103,19 +103,18 @@ loop_0:
 
                 state_table = *render_context;
                 state_head = (u32 *)(table_offset + (u32)state_table + 0xB0);
-                *(u32 *)depth_sum = (*(u32 *)depth_sum & length_mask) | (*state_head & address_mask);
+                next = ((P_TAG *)state_head)->addr;
+                *(u32 *)depth_sum = (*(u32 *)depth_sum & 0xFF000000) | (next & 0x00FFFFFF);
 
                 work_ptr = *render_context;
                 state_slot = (u32 *)(table_offset + (u32)work_ptr + 0xB0);
-                *state_slot = (*state_slot & length_mask) | ((u32)depth_sum & address_mask);
+                *state_slot = (*state_slot & 0xFF000000) | ((u32)depth_sum & 0x00FFFFFF);
             }
         }
 
         work_ptr = *(u8 **)(item - 8);
         item = work_ptr + 0x20;
-    }
-    if (work_ptr != 0)
-        goto loop_0;
+    } while (work_ptr != 0);
 
     return 0;
 }

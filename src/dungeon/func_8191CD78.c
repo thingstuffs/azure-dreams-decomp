@@ -347,9 +347,9 @@ loop_0:
         map_data = (*(void **)((u8 *)work_base + 0xC));
         page_base = 0x80070000;
         {
-            s32 tile_x;
+            u16 tile_x;
             s32 tile_y;
-            register s32 last_tile_x;
+            u16 last_tile_x;
             u16 tile_y_bits;
             s32 floor_x;
             s32 floor_limit;
@@ -375,13 +375,12 @@ loop_0:
                         ((signed_tile_y + ((s16 *)((u8 *)dirStepY))[(s16)effect->unk_0E]) << 6) + 0x20 & 0xFFE0,
                         (s16)(actor->unk_88.s16 - 0x20));
                     if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
-                        s32 next_tile_x;
+                        u16 next_tile_x;
                         s32 next_tile_y;
 
                         index++;
                         next_tile_x = tile_x + ((u16 *)((u8 *)dirStepX))[(s16)effect->unk_0E];
                         tile_x = next_tile_x;
-                        ASM_KEEP_NV(tile_x);
                         next_tile_y = tile_y + ((u16 *)((u8 *)dirStepY))[(s16)effect->unk_0E];
                         last_tile_y = (u16)next_tile_y;
                         tile_y = next_tile_y;
