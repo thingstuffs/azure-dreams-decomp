@@ -57,17 +57,15 @@ extern M2C_UNK D_800E13DA;
 extern M2C_UNK D_800E13E9;
 
 /* Applies an entity action to a target and updates the pending count. */
-s32 func_800C08A4(u8 *source, u8 *target, s16 action, M2C_UNK context) {
+s32 func_800C08A4(u8 *entity, u8 *target, s16 action, M2C_UNK context) {
     s32 entity_value;
     s32 event_value;
     s32 external_entity_value;
     s32 external_event_value;
     u8 *compare_ptr;
     s32 script;
-    u8 *entity;
     S_800C08A4_1 *position;
 
-    entity = source;
     if (action == 0xD) {
         if ((((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B != 0x16) || ((func_800A6D30() & 1) != 0)) {
             return func_80098864(target, context);

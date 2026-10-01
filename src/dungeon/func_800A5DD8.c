@@ -50,13 +50,8 @@ extern u8 D_80083780[];
 extern s16 D_8008378A;
 
 /* Move toward the target while shrinking, then mark the animation complete. */
-s32 func_800AB538(void *animation_data, void *motion_data, void *scale_data, void *render_data)
+s32 func_800AB538(void *animation, void *motion, void *scale, void *render)
 {
-    u8 *animation = animation_data;
-    u8 *motion = motion_data;
-
-    u8 *scale = scale_data;
-    u8 *render = render_data;
     s32 move_frames;
     s16 frames_left;
     s32 height_offset;
@@ -98,11 +93,10 @@ s32 func_800AB538(void *animation_data, void *motion_data, void *scale_data, voi
 
         frames_left = ((S_800AB538_0 *)animation)->unk_96.s;
         if (frames_left != 0) {
-            height_offset = func_800644B8(frames_left << 6);
             {
                 s16 *target_height = &D_8008378A;
 
-                height_offset >>= 4;
+                height_offset = func_800644B8(frames_left << 6) >> 4;
                 ((S_800AB538_3 *)motion)->unk_14 =
                     ((*target_height - height_offset - ((S_800AB538_3 *)motion)->unk_0A.s) << 16) /
                     ((S_800AB538_0 *)animation)->unk_96.s;
