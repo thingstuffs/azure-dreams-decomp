@@ -24,7 +24,7 @@ typedef struct S_80172438_2 {
 extern s32 func_800A44E0(s32, s32, s16, s32);
 extern s16 func_800BCB04(u16, u16, s16);
 extern s32 func_8009B4B0(void *, u16, u16);
-extern s32 func_800A2CB8(void *);
+extern s32 func_800A2CB8(void *, void *);
 extern s32 func_800A2B5C(void *);
 extern void func_800C7930(void *, void *, s32, s32);
 extern void func_80047784(void *, u8, s32);
@@ -45,7 +45,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
     s16 *x_step;
     s16 *y_step;
     s16 floor_height;
-    register s32 target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 target;
 
     actor->unk_71 &= 0x7F;
     if (dungeonStatus.flags & 0x2000) {
@@ -108,7 +108,7 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, Entity
     if (attempt >= 4) {
         return 3;
     }
-    if ((func_800A2CB8(actor) << 16) == 0) {
+    if ((func_800A2CB8(actor, (void *)target) << 16) == 0) {
         return 0;
     }
     if (dungeonStatus.flags & 0x2000) {
