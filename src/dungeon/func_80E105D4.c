@@ -35,16 +35,16 @@ extern u8 D_80176470[];
 extern u8 D_80176478[];
 
 /* Updates actor behavior and directional animation through three states, then sets its next callback. */
-void func_80173DD4(void *controller, void *context_in, void *object_in, EntityRec *actor)
+void func_80173DD4(void *controller, void *context_in, void *object, EntityRec *actor)
 {
-    register void *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    
     s32 actor_flags;
     u16 current_value;
     u16 value_adjustment;
     DungeonGlobalStatus *global_base;
     s32 state;
 
-    object = object_in;
+
 
     state = ((Rec_func_80173DD4_arg0 *)controller)->unk_9B;
     switch (state) {
@@ -68,7 +68,24 @@ void func_80173DD4(void *controller, void *context_in, void *object_in, EntityRe
         ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
         break;
     case 1:
-        if ((func_80042900(actor, 1) << 16) != 0) {
+        if ((func_80042900(actor, 1) << 16) == 0) {
+        (*(void * *)((u8 *)object + 0x2C)) = D_80176478;
+        func_80047784(object,
+            D_80176478[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            0);
+        (*(u32 *)&actor->flags1C) |= 0x40000;
+        if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+            break;
+        }
+        {
+            u8 *counter_base = (u8 *)&dungeonStatus.unk_00;
+
+            ((Rec_func_80173DD4_arg0 *)controller)->unk_9B++;
+            ((S_80173DD4_3 *)counter_base)->unk_0A++;
+        }
+        break;
+        } else {
             global_base = &dungeonStatus;
             if (global_base->flags & 0x1000) {
                 break;
@@ -163,6 +180,5 @@ void func_80173DD4(void *controller, void *context_in, void *object_in, EntityRe
         break;
     }
 
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

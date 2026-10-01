@@ -407,7 +407,7 @@ copy_effect:
         if (child != 0) {
             void *active_child;
             s32 pool_flags;
-            register u16 child_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 child_flags;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *pool_page;
 
             pool_page = (u8 *)0x80080000;
@@ -417,7 +417,9 @@ copy_effect:
             ((S_80172FC0_0 *)anim)->unk_AC = 0;
             ((S_80172FC0_0 *)anim)->unk_A4 = 0;
             ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
-            child_flags = (((S_80172FC0_7 *)active_child)->unk_1E) | 0x8000;
+            child_flags = ~((S_80172FC0_7 *)active_child)->unk_1E;
+            child_flags &= 0x7FFF;
+            child_flags = ~child_flags;
             pool_flags |= 0x8000;
             *(s32 *)(pool_page + 0x14A0) = pool_flags;
             ((S_80172FC0_7 *)active_child)->unk_1E = child_flags;
