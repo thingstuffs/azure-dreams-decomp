@@ -219,7 +219,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s16 donor_primary;
     u8 *merge_out;
     s16 other_match;
-    register s16 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 ability_count;
     s16 source_side;
     s32 match_offset;
     s32 result_traits;
@@ -255,20 +255,21 @@ void *func_800277F4(void *first, void *second, void *destination) {
     void *result_ability;
     void *fallback_output;
     void *result_primary_data;
+    u8 *visited_slot;
     void *donor_primary_data;
     void *donor_runtime;
     void *clear_entry;
     void *source;
     void *other;
     void *result;
-    register void *donor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *donor;
     void *first_creature = first;
     s32 seen_mark;
     void *key_source;
     void *level_source;
 
     {
-        register void *second_creature ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *second_creature;
         second_creature = second;
         ability_limit = 2;
         result = func_800280F4(first_creature, second_creature, &merged_element);
@@ -365,19 +366,17 @@ result_primary_done:
 merge_donor_primary:
         donor_primary = func_8002773C(donor);
         if (donor_primary >= 0) {
-            register u8 *visited_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             visited_slot = donor_seen + donor_primary;
 #else
             {
                 u8 *frame_base =
                     (u8 *) &merged_element - 0x28;
-                register u8 *visited_base ASM_REG("$2") =
+                u8 *visited_base =
                     frame_base + 0x13;
                 visited_slot = visited_base + donor_primary;
             }
 #endif
-            ASM_KEEP_NV(visited_slot);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (*visited_slot == 0) {
                 donor_primary_data = donor + (donor_primary * 3);
                 merge_out = (u8 *)func_800A57B4(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
@@ -394,13 +393,11 @@ merge_donor_primary:
                         u8 *copy_dst;
 
                         copy_dst_offset = copy_dst_index * 3;
-                        ASM_KEEP_NV(copy_dst_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         copy_dst = merged_abilities;
 
-                        copy_dst += copy_dst_offset;
                         matched_ability = ((S_800277F4_7 *)result_ability)->unk_08;
-                        (*(u8 *)((u8 *)copy_dst + 0)) = matched_ability;
-                        (*(u8 *)((u8 *)copy_dst + 2)) = ((S_800277F4_7 *)result_ability)->unk_0A;
+                        copy_dst[copy_dst_offset + 0] = matched_ability;
+                        copy_dst[copy_dst_offset + 2] = ((S_800277F4_7 *)result_ability)->unk_0A;
                         goto donor_primary_done;
                     }
                 }
@@ -409,19 +406,16 @@ merge_donor_primary:
                     s32 copy_dst_offset;
                     u8 *copy_dst;
                     s32 copy_src_index;
-                    register u8 *copy_src ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    u8 *copy_src;
 
                     copy_dst_offset = copy_dst_index * 3;
-                    ASM_KEEP_NV(copy_dst_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     copy_dst = merged_abilities;
-                    ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     copy_src_index = (s16) donor_primary;
 
                     copy_src = donor + (copy_src_index * 3);
 
-                    copy_dst += copy_dst_offset;
-                    (*(u8 *)((u8 *)copy_dst + 0)) = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
-                    (*(u8 *)((u8 *)copy_dst + 2)) = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
+                    copy_dst[copy_dst_offset + 0] = (u8) ((S_800277F4_5 *)copy_src)->unk_08;
+                    copy_dst[copy_dst_offset + 2] = (u8) ((S_800277F4_5 *)copy_src)->unk_0A;
                 }
 donor_primary_done:
                 ability_count += 1;
@@ -439,8 +433,10 @@ donor_primary_done:
         scan_index = 0;
         result_seen = (D_8006DE24_Record *)merge_buffer;
         merge_out = merged_abilities;
-scan_abilities:
-        if ((s16)ability_count < (s32) ability_limit) {
+        for (; scan_index < 6; scan_index++) {
+            if ((s16)ability_count >= (s32) ability_limit) {
+                break;
+            }
             source = donor;
             if (source_side == 0) {
                 source = result;
@@ -459,10 +455,7 @@ scan_abilities:
                 }
                 merge_key = ((S_800277F4_10 *)((key_source + ability_offset)))->unk_08;
                 other_match = func_800A57B4(other, merge_key);
-                if (other_match < 0) {
-                    clear_result_seen = donor;
-                } else {
-                    if (other_match >= 0) {
+                if (other_match >= 0) {
                         other_data = (u8 *)result_seen;
                         if (source_side == 0) {
                             other_data = donor_seen;
@@ -494,12 +487,9 @@ scan_abilities:
                             ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
                             goto finish_ability;
                         }
-                        clear_result_seen = donor;
-                        goto copy_source_ability;
-                    }
                 }
-copy_source_ability:
                 fallback_output = merge_out + ((s16)ability_count * 3);
+                clear_result_seen = donor;
                 if (source_side == 0) {
                     clear_result_seen = result;
                 }
@@ -537,15 +527,8 @@ finish_ability:
                 goto next_ability;
             }
 next_ability:
-            scan_index += 1;
             source_side ^= 1;
-            if (scan_index >= 6) {
-                goto apply_abilities;
-            }
-            goto scan_abilities;
         }
-apply_abilities:
-        scan_index = 2;
         if ((ability_count << 0x10) == 0) {
             s32 default_index;
             default_index = ((S_800277F4_0 *)result)->unk_13;
@@ -553,10 +536,10 @@ apply_abilities:
             merged_abilities[0] = *(u8 *) default_index;
             merged_abilities[2] = 1;
         }
-        ASM_USE_NV(ability_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        scan_index = 2;
         result_seen = D_8006DE24;
         ability_ids = &merge_buffer[8];
-        do {
+        for (; scan_index >= 0; scan_index--) {
             {
                 s32 ability_id = ability_ids[scan_index * 3];
                 if (ability_id != 0) {
@@ -582,8 +565,7 @@ store_ability:
             ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_08 = (u8) ability_ids[scan_index * 3];
             ability_level = ability_ids[(scan_index * 3) + 2];
             ((S_800277F4_16 *)((result + (scan_index * 3))))->unk_0A = ability_level;
-            scan_index -= 1;
-        } while (scan_index >= 0);
+        }
         {
             s32 donor_kind = ((S_800277F4_8 *)donor)->unk_13;
             s32 base_kind = ((S_800277F4_0 *)result)->unk_13;
