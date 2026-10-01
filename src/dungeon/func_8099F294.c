@@ -16,14 +16,11 @@ extern u8 D_801710EC[12];
 extern u8 D_80175E40[12];
 extern ActorCallback D_80175ED8[16];
 /* Update actor callbacks, movement, facing, animation, and ground height. */
-void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
+void func_80170A94(void *actor, void *motion, void *sprite)
 {
-    register void *actor ASM_REG("$17") = actor_input;
-    void *entry_actor = actor_input;
-    void *motion = motion_input;
-    register s32 direction_index ASM_REG("$16");
+    void *entry_actor = actor;
+    s16 direction_index;
     s32 view_direction;
-    void *sprite = sprite_input;
     s16 old_state;
     s16 height_offset;
     s32 ground_height;
@@ -35,13 +32,12 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
     s32 ground_offset;
     s32 bob_offset;
     s32 height_adjust;
-    register void *actor_base ASM_REG("$19") = actor;
+    void *actor_base = actor;
     ActorCallback callback;
     u32 initial_flags = dungeonStatus.flags;
     if (initial_flags & 0x2000) {
         callback = *((ActorCallback *) (((u8 *) actor) + 0x8C));
         if (callback == ((ActorCallback) D_801710EC)) {
-            ASM_KEEP(entry_actor);
             callback(entry_actor, motion, sprite, entry_actor);
             return;
         }
@@ -86,7 +82,6 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
         sprite_flags = (*((u16 *) (((u8 *) sprite) + 0x14))) & 0xFFFE;
     }
     *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
-    ASM_KEEP(direction_index);
     anim_flags = *((volatile u16 *) (((u8 *) sprite) + 0x14));
     if (!(anim_flags & 0x8000)) {
         func_800A020C(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
@@ -110,14 +105,12 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
                 if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    bob_step = func_800644B8(bob_tick * 0xAA);
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += bob_step << 5;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
                 }
                 else {
                     s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
                     (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-                    bob_step = func_800644B8(bob_tick * 0xAA);
-                    *((s32 *) (((u8 *) actor) + 0xA0)) += bob_step << 6;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
                 }
             }
             if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
@@ -172,14 +165,12 @@ clear_accumulator:
         if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
             s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
             (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-            bob_step = func_800644B8(bob_tick * 0xAA);
-            *((s32 *) (((u8 *) actor) + 0xA0)) += bob_step << 5;
+            *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
         }
         else {
             s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
             (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-            bob_step = func_800644B8(bob_tick * 0xAA);
-            *((s32 *) (((u8 *) actor) + 0xA0)) += bob_step << 6;
+            *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
         }
     }
     if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {

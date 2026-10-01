@@ -100,16 +100,14 @@ extern void func_800A9A0C();
 extern s16 func_800BCB04();
 extern s32 func_8016B954();
 
-extern s16 D_8006CD00;
+extern s16 D_8006CD00[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
-void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor_in) {
-    register u8 *position ASM_REG("$20") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position, u8 *actor) {
     u16 near_target;
+    u8 target_nearby = 0;
     s32 height_result;
-    register s32 attempt ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s16 *angle_offset;
+    s32 attempt;
     register u8 *x_offsets;
     DungeonGlobalStatus *dungeon_state;
     DungeonGlobalStatus *turn_state;
@@ -117,7 +115,7 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
     u32 actor_flags;
     s32 path_result;
     s32 random_bits;
-    register s32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 direction_offset;
     s32 moved;
     s32 tile_mask;
     s32 base_angle;
@@ -129,7 +127,6 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
 
     dungeon_state = &dungeonStatus;
     dungeon_flags = dungeon_state->flags;
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     near_target = 0;
 
     if ((dungeon_flags & 0x4000) || (((S_8016B230_1 *)actor)->unk_71.s >= 0)) {
@@ -272,52 +269,52 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
     }
     attempt = 0;
     x_offsets = (u8 *)((s8 *)dirStepX);
-    angle_offset = &D_8006CD00;
 
-loop:
-    base_angle = (s32)((S_8016B230_1 *)actor)->unk_2A.s;
-    if (((S_8016B230_5 *)movement_in)->unk_98 & 2) {
-        {
-            s32 angle_delta = (s32)*angle_offset;
+    do {
+        base_angle = (s32)((S_8016B230_1 *)actor)->unk_2A.s;
+        if (((S_8016B230_5 *)movement_in)->unk_98 & 2) {
+            {
+                s32 angle_delta = (s32)D_8006CD00[attempt];
 
-            move_angle = (s16)(base_angle - angle_delta);
-        }
-    } else {
-        {
-            s32 angle_delta = (s32)*angle_offset;
+                move_angle = (s16)(base_angle - angle_delta);
+            }
+        } else {
+            {
+                s32 angle_delta = (s32)D_8006CD00[attempt];
 
-            move_angle = (s16)(base_angle + angle_delta);
-        }
-    }
-    if ((func_8009A66C(move_angle, position, actor, 0x20) << 16) > 0) {
-        if (attempt >= 3) {
-            u8 target_nearby = near_target;
-
-            if (target_nearby) {
-                ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
-                return;
+                move_angle = (s16)(base_angle + angle_delta);
             }
         }
-        ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
-        ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
-            ((S_8016B230_2 *)position)->unk_24.at00.v;
-        ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
-            ((S_8016B230_2 *)position)->unk_24.at01.v;
-        ((S_8016B230_1 *)actor)->unk_71.u++;
-        func_8009A3D0(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
-                      (((S_8016B230_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        direction_offset = (((S_8016B230_1 *)actor)->unk_2A.u >> 8) & 0xE;
-        ((S_8016B230_2 *)position)->unk_24.at00.v +=
-            *((u8 *)((u32)direction_offset + (u32)x_offsets));
-        ((S_8016B230_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
-        next_x = ((S_8016B230_2 *)position)->unk_24.at00.v;
-        next_y = *(volatile u8 *)((u8 *)position + 0x25);
-        tile_mask = 0x3000;
-        if (((S_8016B230_1 *)actor)->unk_1C & 0x2000) {
-            tile_mask = 0x300;
+        if ((func_8009A66C(move_angle, position, actor, 0x20) << 16) > 0) {
+            if (attempt >= 3) {
+                target_nearby = near_target;
+
+                if (target_nearby) {
+                    ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
+                    return;
+                }
+            }
+            ((S_8016B230_1 *)actor)->unk_2A.u = move_angle;
+            ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
+                ((S_8016B230_2 *)position)->unk_24.at00.v;
+            ((S_8016B230_13 *)(actor + (((S_8016B230_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
+                ((S_8016B230_2 *)position)->unk_24.at01.v;
+            ((S_8016B230_1 *)actor)->unk_71.u++;
+            func_8009A3D0(((S_8016B230_2 *)position)->unk_24.at00.v, ((S_8016B230_2 *)position)->unk_24.at01.v,
+                          (((S_8016B230_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+            direction_offset = (((S_8016B230_1 *)actor)->unk_2A.u >> 8) & 0xE;
+            ((S_8016B230_2 *)position)->unk_24.at00.v +=
+                *((u8 *)((u32)direction_offset + (u32)x_offsets));
+            ((S_8016B230_2 *)position)->unk_24.at01.v += *((u8 *)((s8 *)dirStepY) + direction_offset);
+            next_x = ((S_8016B230_2 *)position)->unk_24.at00.v;
+            next_y = *(volatile u8 *)((u8 *)position + 0x25);
+            tile_mask = 0x3000;
+            if (((S_8016B230_1 *)actor)->unk_1C & 0x2000) {
+                tile_mask = 0x300;
+            }
+            func_8009A21C(next_x, next_y, tile_mask);
+            break;
         }
-        func_8009A21C(next_x, next_y, tile_mask);
-    } else {
         if (attempt == 0) {
             if ((((S_8016B230_11 *)(((s8 *)&D_80082E80.tileX)))->unk_00 != ((S_8016B230_2 *)position)->unk_24.at00u.v)
                 &&
@@ -326,14 +323,8 @@ loop:
             }
         }
         attempt++;
-        angle_offset++;
-        moved = attempt < 8;
-        if (moved) {
-            goto loop;
-        }
-    }
-    near_target = attempt < 8;
-    moved = near_target;
+    } while (attempt < 8);
+    moved = attempt < 8;
     if (!moved) {
         ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
         ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
