@@ -58,6 +58,8 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     s32 y_or_direction;
     u32 collision_out;
     u32 body_addr;
+    u16 tile_x8;
+    u16 tile_y8;
 
     direction_bits = (move_flags >> 9) & 7;
     direction_arg = direction_bits;
@@ -80,8 +82,10 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
             coord_or_height = coord_work & 0xFFFF;
             if (coord_or_height != 0) {
                 if (((1 << map_limits->shiftY) - 1) >= coord_or_height) {
-                    coord_or_height = *(volatile u8 *)&actor->x;
-                    offset_work = *(volatile u8 *)&actor->y;
+                    tile_x8 = actor->x;
+                    tile_y8 = actor->y;
+                    coord_or_height = tile_x8;
+                    offset_work = tile_y8;
                     body_addr = (u32)body;
                     height = (*(u16 *)((u8 *)body_addr + 0x88));
                     coord_or_height <<= 6;
@@ -141,7 +145,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                                 }
                                 result = func_8009B25C(body, tile_coord, y_or_direction, target_height);
                                 if (result == 0) {
-                                    coord_or_height = floor_height << 0x10;
+                                    coord_or_height = (u16)floor_height << 0x10;
                                     goto check_height;
                                 }
                             }

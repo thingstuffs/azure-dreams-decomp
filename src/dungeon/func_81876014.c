@@ -91,12 +91,12 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         y_factor = func_800644B8(((S_81876014_0 *)effect)->unk_0C);
         y_product = ((S_81876014_0 *)effect)->unk_0A * y_factor;
         ((S_81876014_0 *)effect)->unk_60 = 0;
-        vertex_coord = (*(volatile u16 *)((u8 *)effect + 0x60));
         x_edge = ((S_81876014_0 *)effect)->unk_50;
-        ((S_81876014_0 *)effect)->unk_62 = vertex_coord;
         x_base = x_edge;
         x_edge += 0x10;
         ((S_81876014_0 *)effect)->unk_52 = x_edge;
+        vertex_coord = ((S_81876014_0 *)effect)->unk_60;
+        ((S_81876014_0 *)effect)->unk_62 = vertex_coord;
         ((S_81876014_0 *)effect)->unk_54 = x_base;
         x_edge = x_base;
         z_third = ((S_81876014_0 *)effect)->unk_62;

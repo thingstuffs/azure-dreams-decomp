@@ -276,7 +276,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                         actor_y = actor->unk_24.at01.v;
                         y_lookup = (((S_8017405C_0 *)movement)->unk_45 + ((s16)((S_8017405C_4 *)root)->unk_2A
                             >> 9)) & 7;
-                        target_x_sum = *(volatile u8 *)(leader_pos + 0x24);
                         y_lookup <<= 1;
                         x_lookup += y_lookup;
                         {
@@ -285,7 +284,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                             x_lookup = *(u16 *)x_lookup;
                             y_lookup = *(u16 *)y_lookup;
                         }
-                        target_x_sum += (s32)x_lookup;
+                        target_x_sum = leader_pos[0x24] + (s32)x_lookup;
                         call_x = (u32)target_x_sum << 16;
                         heading = target_x_sum;
                         target_x_sum = call_x;
