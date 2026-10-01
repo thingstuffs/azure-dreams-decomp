@@ -84,8 +84,8 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
             while (index < (s16)(s32)quad);
         }
     }
+    index = 0;
     if ((*((s16 *) (((u8 *) sprite) + 2))) > 0) {
-        index = 0;
 next_part:
         {
             s32 part_offset;

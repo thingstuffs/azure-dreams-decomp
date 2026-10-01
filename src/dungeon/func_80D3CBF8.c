@@ -267,9 +267,11 @@ loop_head:
         {
             s8 position_x;
 
+            u8 *table;
             direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
             position_x = U8_AT(position, 0x24);
-            position_x += D_8006CCD8[direction_offset];
+            table = D_8006CCD8;
+            position_x += table[direction_offset];
             U8_AT(position, 0x24) = position_x;
             U8_AT(position, 0x25) += D_8006CCE8[direction_offset];
         }
