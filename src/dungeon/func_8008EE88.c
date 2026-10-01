@@ -1,12 +1,13 @@
 #include "common.h"
 
-typedef struct __attribute__((packed)) {
+typedef struct { u8 bytes[4]; } WordCopy;
+
+typedef struct {
     u8 pad0000[0x248];
-    u32 copy_src;
+    WordCopy copy_src;
     u8 pad024c[0x21E8 - 0x24C];
-    u32 copy_dst;
-}
-Global1004C;
+    WordCopy copy_dst;
+} __attribute__((packed)) Global1004C;
 
 typedef struct {
     u32 word[35];
@@ -37,17 +38,12 @@ void func_800945E8(void *input_state) {
         u8 *record_buffer;
         Blob140 *copy_src;
         Blob140 *copy_dst;
-        u8 *buffer_addr;
         unsigned long record_offset;
         s32 *record_slot;
 
         slot_index = 0x13;
-        buffer_addr = (u8 *)0x800E0000;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        record_table = (s32 *)(buffer_addr + 0x3DF0);
-        buffer_addr = (u8 *)0x800E0000;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        record_buffer = buffer_addr + 0x3E48;
+        record_table = D_800E3DF0;
+        record_buffer = D_800E3E48;
         entry_flags_ptr = (u8 *)0x8001024B;
         do {
             if (entry_flags_ptr[-2] == 0x13) {
@@ -61,43 +57,11 @@ void func_800945E8(void *input_state) {
                     record_offset = record_index * 0x8C;
                     copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);
                     copy_src = (Blob140 *)src_cursor;
-                    {
-                        u32 *copy_dst_cursor = copy_dst->word;
-                        u32 *copy_src_cursor = copy_src->word;
-                        u32 *copy_end = copy_src_cursor + 32;
-
-                        do {
-                            u32 copy_word0 = copy_src_cursor[0];
-                            u32 copy_word1 = copy_src_cursor[1];
-                            u32 copy_word2 = copy_src_cursor[2];
-                            u32 copy_word3 = copy_src_cursor[3];
-
-                            copy_dst_cursor[0] = copy_word0;
-                            copy_dst_cursor[1] = copy_word1;
-                            copy_dst_cursor[2] = copy_word2;
-                            copy_dst_cursor[3] = copy_word3;
-                            do {
-                                copy_src_cursor += 4;
-                            } while (0);
-                            copy_dst_cursor += 4;
-                        } while (copy_src_cursor != copy_end);
-
-                        {
-                            u32 copy_word0 = copy_src_cursor[0];
-                            u32 copy_word1 = copy_src_cursor[1];
-                            u32 copy_word2 = copy_src_cursor[2];
-
-                            copy_dst_cursor[0] = copy_word0;
-                            copy_dst_cursor[1] = copy_word1;
-                            copy_dst_cursor[2] = copy_word2;
-                        }
-                    }
-                    ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    *copy_dst = *copy_src;
                     record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);
                     *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);
                 }
             }
-            ASM_KEEP(entry_flags_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             slot_index -= 1;
             entry_flags_ptr += 4;
         } while (slot_index >= 0);
@@ -105,7 +69,7 @@ void func_800945E8(void *input_state) {
 
     {
         s32 *record_slot;
-        register u8 *dst_cursor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u8 *dst_cursor;
         register u8 *index_cursor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         Global1004C *slot_fields;
         register u8 *buffer_page ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -130,7 +94,6 @@ void func_800945E8(void *input_state) {
         slot_fields = (Global1004C *)0x8001004C;
         do {
             slot_fields->copy_dst = slot_fields->copy_src;
-            ASM_SET(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             lookup_base = (void *)0x80010248;
             entry_size = 4;
             lookup_ptr = *(s32 *)((u8 *)slot_fields + 0x29C);
@@ -138,41 +101,7 @@ void func_800945E8(void *input_state) {
             index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
             copy_dst = (Blob140 *)(dst_cursor + 0x2260);
             copy_src = (Blob140 *)src_cursor;
-            {
-                u32 *copy_dst_cursor = copy_dst->word;
-                u32 *copy_src_cursor = copy_src->word;
-                u32 *copy_end = (u32 *)(src_cursor + 0x80);
-
-                do {
-                    u32 copy_word0 = copy_src_cursor[0];
-                    u32 copy_word1 = copy_src_cursor[1];
-                    u32 copy_word2 = copy_src_cursor[2];
-                    u32 copy_word3 = copy_src_cursor[3];
-
-                    copy_dst_cursor[0] = copy_word0;
-                    copy_dst_cursor[1] = copy_word1;
-                    copy_dst_cursor[2] = copy_word2;
-                    copy_dst_cursor[3] = copy_word3;
-                    do {
-                        copy_src_cursor += 4;
-                    } while (0);
-                    copy_dst_cursor += 4;
-                } while (copy_src_cursor != copy_end);
-
-                {
-                    u32 copy_word0 = copy_src_cursor[0];
-                    u32 copy_word1 = copy_src_cursor[1];
-                    u32 copy_word2 = copy_src_cursor[2];
-
-                    copy_dst_cursor[0] = copy_word0;
-                    copy_dst_cursor[1] = copy_word1;
-                    copy_dst_cursor[2] = copy_word2;
-                }
-            }
-            ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(record_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(dst_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            *copy_dst = *copy_src;
             ASM_KEEP(slot_fields);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             lookup_base = buffer_page + 0x3E48;
             entry_size = 0x8C;
@@ -185,7 +114,6 @@ void func_800945E8(void *input_state) {
             slot_fields = (Global1004C *)((u8 *)slot_fields - 4);
             slot_index -= 1;
             index_cursor[0x224C] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
-            ASM_KEEP(index_cursor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             index_cursor -= 1;
         } while (slot_index >= 0);
     }
