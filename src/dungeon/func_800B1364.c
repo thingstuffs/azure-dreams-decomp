@@ -242,6 +242,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     u8 *spawn_item;
     S_func_800B1364_12 *worn_item;
     u8 *direction_anim;
+    u8 *view_base;
     u8 state;
     u8 species;
     u8 next_state;
@@ -269,12 +270,10 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     switch ((u32)(state)) {
     case 0:
     {
-        direction_anim = (u8 *)0x80080000;
-        ASM_KEEP_NV(direction_anim);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        direction_base = direction_anim + 0x3160;
-        if ((((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
+        view_base = (u8 *)&gameWork;
+        if ((((s32) (((S_func_800B1364_6 *)view_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
             sprite->unk_2C = D_800DD108;
-            func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A
+            func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)view_base)->unk_C8 + actor->unk_2A
                 + 0x100) >> 9) & 7], 0, 1);
             next_state = action->unk_9B;
             action->unk_96 = 0x12U;

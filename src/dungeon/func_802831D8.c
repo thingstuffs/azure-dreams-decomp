@@ -21,6 +21,7 @@ typedef struct {
 
 extern u8 D_80080AA0[16];
 extern u8 D_800EA000[16];
+extern u8 D_800E3D20[];
 
 extern void func_80018A70(void *, u32, u32);
 extern void func_80099188(void *);
@@ -32,6 +33,7 @@ void func_800161D8(void) {
     InitBlock *init_block = &state->unk1DC;
     u32 block_extent = 0x3F;
     u32 block_offset = 6;
+    u8 *flag_page;
 
     ASM_KEEP(color_command);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(init_block);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -46,12 +48,11 @@ void func_800161D8(void) {
     state->unkA8 = color_command;
     state->unk1DC.unk00 = (u32)D_800EA000;
     func_80018A70(state, block_extent, color_command);
-    D_80080AA0[0] = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    flag_page = D_80080AA0 - 0xAA0;
+    flag_page[0xAA0] = 0;
     {
-        u8 *flag_page = (u8 *)0x800E0000;
+        flag_page = D_800E3D20 - 0x3D20;
 
-        ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         flag_page[0x3D20] = 0;
         func_80099188(D_800EA000 - 0x9C14);
     }
