@@ -99,14 +99,6 @@ typedef struct S_800C9088_9 {
     u16 unk_04;
 } S_800C9088_9;   /* table + half_index * 8 in func_800C9088 */
 
-typedef struct S_800C9088_10_pre {
-    u8 unk_00;
-} S_800C9088_10_pre;   /* the 0x1 bytes before ptr_s1 in func_800C9088, addressed as ptr_s1[-1] */
-
-typedef struct S_800C9088_10 {
-    s8 unk_00;
-} S_800C9088_10;   /* ptr_s1 in func_800C9088 */
-
 typedef struct S_800C9088_11 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
@@ -148,8 +140,6 @@ extern void func_8006671C(void *);
 /* Transform, shade, and enqueue visible textured quads for the model. */
 void func_800C9088(void *parent_matrix, void *translation, void *model, s16 depth_bias)
 {
-    u8 *record_end;
-    u8 *packet_code = translation;
     u8 *scratch;
     u8 *indices;
     u8 *positions;
@@ -161,7 +151,6 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     u8 *descriptor;
     u8 *vertex0;
     u8 *vertex1;
-    u8 *queued_packet;
     u8 *vertex2;
     u8 *vertex3;
     s32 vertex_xy;
@@ -174,7 +163,6 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     u16 vertex3_z;
     u8 *vertex2_pos;
     u8 *vertex3_pos;
-    register u8 *screen_pos ASM_REG("$2");
     s32 depth;
     s32 winding;
     s32 flags;
@@ -190,9 +178,9 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     ((S_800C9088_1 *)scratch)->unk_30 = scale_x;
     ((S_800C9088_1 *)scratch)->unk_34 = ((S_800C9088_0 *)model)->unk_1E;
     ((S_800C9088_1 *)scratch)->unk_38 = ((S_800C9088_0 *)model)->unk_20;
-    ((S_800C9088_1 *)scratch)->unk_40 = ((S_800C9088_2 *)packet_code)->unk_02;
-    ((S_800C9088_1 *)scratch)->unk_44 = ((S_800C9088_2 *)packet_code)->unk_06;
-    ((S_800C9088_1 *)scratch)->unk_48 = ((S_800C9088_2 *)packet_code)->unk_0A;
+    ((S_800C9088_1 *)scratch)->unk_40 = ((S_800C9088_2 *)translation)->unk_02;
+    ((S_800C9088_1 *)scratch)->unk_44 = ((S_800C9088_2 *)translation)->unk_06;
+    ((S_800C9088_1 *)scratch)->unk_48 = ((S_800C9088_2 *)translation)->unk_0A;
 
     func_80064AE0(&saved_transform);
 
@@ -228,24 +216,21 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     base_color = (u8 *)model + 0xC;
     ((S_800C9088_1 *)scratch)->unk_20.s = state + 0xB0;
     packet = ((S_800C9088_3 *)state)->unk_8D0;
-    packet_code = packet + 7;
     ((S_800C9088_0 *)model)->unk_14 |= 0x8000;
 
     descriptor = ((S_800C9088_0 *)model)->unk_08;
     indices = ((S_800C9088_4 *)descriptor)->unk_00;
     positions = ((S_800C9088_4 *)descriptor)->unk_04;
     normals = ((S_800C9088_4 *)descriptor)->unk_08;
-    record_end = indices + 0x1F;
 
-
-next_record:
+    for (;;) {
     vertex_xy = ((S_800C9088_12 *)(positions + ((S_800C9088_5 *)indices)->unk_00 * 8))->unk_00;
-    vertex_index = (*(u16 *)((u8 *)record_end + -0x1D));
+    vertex_index = (*(u16 *)((u8 *)indices + 2));
     ((S_800C9088_1 *)scratch)->unk_70 = vertex_xy;
     vertex_xy = ((S_800C9088_6 *)(positions + vertex_index * 8))->unk_00;
-    vertex2_pos = (u8 *)((*(u16 *)((u8 *)record_end + -0x1B)) * 8 + (u32)positions);
+    vertex2_pos = (u8 *)((*(u16 *)((u8 *)indices + 4)) * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_78 = vertex_xy;
-    last_index = (*(u16 *)((u8 *)record_end + -0x19));
+    last_index = (*(u16 *)((u8 *)indices + 6));
     vertex2_xy = ((S_800C9088_7 *)vertex2_pos)->unk_00;
     vertex3_pos = (u8 *)(last_index * 8 + (u32)positions);
     ((S_800C9088_1 *)scratch)->unk_80 = vertex2_xy;
@@ -255,27 +240,25 @@ next_record:
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
     ((S_800C9088_1 *)scratch)->unk_74 = vertex_z;
 
-    vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)((u8 *)record_end + -0x1D)) * 8))->unk_04;
+    vertex_z = ((S_800C9088_13 *)(positions + (*(u16 *)((u8 *)indices + 2)) * 8))->unk_04;
     vertex0 = scratch + 0x70;
     ((S_800C9088_1 *)scratch)->unk_7C = vertex_z;
 
-    z_index = (*(u16 *)((u8 *)record_end + -0x1B));
+    z_index = (*(u16 *)((u8 *)indices + 4));
     vertex1 = scratch + 0x78;
     vertex_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
     vertex2 = scratch + 0x80;
     ((S_800C9088_1 *)scratch)->unk_84 = vertex_z;
 
-    z_index = (*(u16 *)((u8 *)record_end + -0x19));
+    z_index = (*(u16 *)((u8 *)indices + 6));
     vertex3 = scratch + 0x88;
     ((S_800C9088_1 *)scratch)->unk_88 = vertex3_xy;
     vertex3_z = ((S_800C9088_9 *)(positions + z_index * 8))->unk_04;
 
-    screen_pos = packet + 8;
     ((S_800C9088_1 *)scratch)->unk_8C = vertex3_z;
-    ASM_JALDELAY_PIN(vertex3_z);
     depth = func_80065590(vertex0, vertex1,
                           vertex2, vertex3,
-                          screen_pos, packet + 0x14,
+                          packet + 8, packet + 0x14,
                           packet + 0x20, packet + 0x2C,
                           scratch + 0x90, scratch + 0x94);
     ((S_800C9088_1 *)scratch)->unk_C0 = depth;
@@ -283,24 +266,24 @@ next_record:
     flags = ((S_800C9088_0 *)model)->unk_14 & 3;
     switch (flags) {
     case 0:
-        screen_xy0 = (*(s32 *)((u8 *)packet_code + 1));
-        screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
-        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
+        screen_xy0 = (*(s32 *)((u8 *)packet + 8));
+        screen_xy1 = (*(s32 *)((u8 *)packet + 0x14));
+        screen_xy2 = (*(s32 *)((u8 *)packet + 0x20));
         break;
     case 1:
-        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0xD));
-        screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
-        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0x19));
+        screen_xy0 = (*(s32 *)((u8 *)packet + 0x14));
+        screen_xy1 = (*(s32 *)((u8 *)packet + 8));
+        screen_xy2 = (*(s32 *)((u8 *)packet + 0x20));
         break;
     case 2:
-        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
-        screen_xy1 = (*(s32 *)((u8 *)packet_code + 0xD));
-        screen_xy2 = (*(s32 *)((u8 *)packet_code + 1));
+        screen_xy0 = (*(s32 *)((u8 *)packet + 0x20));
+        screen_xy1 = (*(s32 *)((u8 *)packet + 0x14));
+        screen_xy2 = (*(s32 *)((u8 *)packet + 8));
         break;
     default:
-        screen_xy0 = (*(s32 *)((u8 *)packet_code + 0x19));
-        screen_xy1 = (*(s32 *)((u8 *)packet_code + 1));
-        screen_xy2 = (*(s32 *)((u8 *)packet_code + 0xD));
+        screen_xy0 = (*(s32 *)((u8 *)packet + 0x20));
+        screen_xy1 = (*(s32 *)((u8 *)packet + 8));
+        screen_xy2 = (*(s32 *)((u8 *)packet + 0x14));
         break;
     }
     winding = func_80065480(screen_xy0, screen_xy1, screen_xy2);
@@ -308,49 +291,45 @@ next_record:
     if (((S_800C9088_1 *)scratch)->unk_114 > 0) {
         ((S_800C9088_1 *)scratch)->unk_C0 -= depth_bias;
         if ((u32)((S_800C9088_1 *)scratch)->unk_C0 < 0x1E0) {
-            func_80065034(normals + (*(u16 *)((u8 *)record_end + -0xF)) * 8,
+            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x10)) * 8,
                           base_color, packet + 4);
-            func_80065034(normals + (*(u16 *)((u8 *)record_end + -0xD)) * 8,
+            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x12)) * 8,
                           base_color, packet + 0x10);
-            func_80065034(normals + (*(u16 *)((u8 *)record_end + -0xB)) * 8,
+            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x14)) * 8,
                           base_color, packet + 0x1C);
-            func_80065034(normals + (*(u16 *)((u8 *)record_end + -9)) * 8,
+            func_80065034(normals + (*(u16 *)((u8 *)indices + 0x16)) * 8,
                           base_color, packet + 0x28);
 
-            (*(s32 *)((u8 *)packet_code + 5)) = (*(s32 *)((u8 *)record_end + -0x17));
-            (*(u16 *)((u8 *)packet_code + 7)) += ((S_800C9088_0 *)model)->unk_12;
-            (*(s32 *)((u8 *)packet_code + 0x11)) = (*(s32 *)((u8 *)record_end + -0x13));
+            (*(s32 *)((u8 *)packet + 0xC)) = (*(s32 *)((u8 *)indices + 8));
+            (*(u16 *)((u8 *)packet + 0xE)) += ((S_800C9088_0 *)model)->unk_12;
+            (*(s32 *)((u8 *)packet + 0x18)) = (*(s32 *)((u8 *)indices + 0xC));
             if (((S_800C9088_0 *)model)->unk_10 != 0) {
-                (*(u16 *)((u8 *)packet_code + 0x13)) =
-                    ((*(u16 *)((u8 *)packet_code + 0x13)) & 0xFF9F) +
+                (*(u16 *)((u8 *)packet + 0x1A)) =
+                    ((*(u16 *)((u8 *)packet + 0x1A)) & 0xFF9F) +
                     ((S_800C9088_0 *)model)->unk_10;
             }
-            (*(u16 *)((u8 *)packet_code + 0x1D)) = (*(u16 *)((u8 *)record_end + -5));
-            (*(u16 *)((u8 *)packet_code + 0x29)) = (*(u16 *)((u8 *)record_end + -3));
+            (*(u16 *)((u8 *)packet + 0x24)) = (*(u16 *)((u8 *)indices + 0x1A));
+            (*(u16 *)((u8 *)packet + 0x30)) = (*(u16 *)((u8 *)indices + 0x1C));
 
             func_8006671C(packet);
             flags = ((S_800C9088_0 *)model)->unk_14;
             if (flags & 8) {
                 if (flags & 4) {
-                    ((S_800C9088_2 *)packet_code)->unk_00 |= 2;
+                    packet[7] |= 2;
                 }
-                queued_packet = packet;
-            } else {
-                queued_packet = packet;
             }
-            packet_code += 0x34;
             func_8006658C((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
                           ((S_800C9088_1 *)scratch)->unk_C0 * 4,
-                          queued_packet);
+                          packet);
             packet += 0x34;
             ((S_800C9088_0 *)model)->unk_14 &= 0x7FFF;
         }
     }
 
-    if (((S_800C9088_10_pre *)record_end)[-1].unk_00 != 1 || ((S_800C9088_10 *)record_end)->unk_00 >= 0) {
-        record_end += 0x20;
-        indices += 0x20;
-        goto next_record;
+    if (indices[0x1E] == 1 && ((s8 *)indices)[0x1F] < 0) {
+        break;
+    }
+    indices += 0x20;
     }
 
     func_80064A40();

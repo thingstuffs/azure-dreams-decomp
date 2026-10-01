@@ -5,10 +5,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_80045CC4_0_pre {
-    s8 unk_00;
-} S_80045CC4_0_pre;   /* the 0x1 bytes before poly in func_80045CC4, addressed as poly[-1] */
-
 typedef struct S_80045CC4_0 {
     u8 pad_00[0x4];
     union { u16 u; s16 s; } unk_04;   /* accessed as both */
@@ -32,21 +28,18 @@ typedef struct S_80045CC4_0 {
     } unk_20;   /* overlapping accesses */
 } S_80045CC4_0;   /* poly in func_80045CC4 */
 
-typedef struct S_80045CC4_1_pre {
-    u16 unk_00;
-    u16 unk_02;
-} S_80045CC4_1_pre;   /* the 0x4 bytes before data in func_80045CC4, addressed as data[-1] */
-
 typedef struct S_80045CC4_2 {
     u8 pad_00[0xF];
     u8 unk_0F;
 } S_80045CC4_2;   /* arg2 in func_80045CC4 */
 
 
-#define SP_S32(offset) (*(s32 *)(scratchpad + (offset)))
-#define SP_U16(offset) (*(u16 *)(scratchpad + (offset)))
-#define SP_S16(offset) (*(s16 *)(scratchpad + (offset)))
-#define SP_S32_VOL(offset) (*(volatile s32 *)(scratchpad + (offset)))
+typedef struct { s32 v; } SpS32;
+typedef struct { u16 v; } SpU16;
+typedef struct { s16 v; } SpS16;
+#define SP_S32(offset) (((SpS32 *)(scratchpad + (offset)))->v)
+#define SP_U16(offset) (((SpU16 *)(scratchpad + (offset)))->v)
+#define SP_S16(offset) (((SpS16 *)(scratchpad + (offset)))->v)
 
 typedef struct {
     u8 pad00[2];
@@ -96,7 +89,6 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s32 matrix_yy;
     s32 matrix_xx;
     s32 *packet;
-    s32 *quad;
     s32 depth;
     s32 visible_0;
     s32 visible_1;
@@ -104,7 +96,6 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     u32 addr_mask;
     s32 visible_3;
     u8 *entry;
-    u8 *payload;
     u8 *scratchpad;
     void **global_slots;
     void *global_base;
@@ -153,43 +144,41 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     SetTransMatrix((void *)0x1F800050);
     SetRotMatrix((void *)0x1F800050);
 
-    quad = packet + 1;
     entry = sprite->unk08;
-    payload = entry + 8;
     SP_U16(0x24) = sprite->unk14;
 
-next_entry:
+    for (;;) {
     if (!(entry[0] & 0x20)) {
         u8 u_start;
         u8 width;
         u8 v_start;
         u8 height;
 
-        u_start = payload[0];
+        u_start = entry[8];
         SP_S32(0x08) = u_start;
-        width = payload[2];
+        width = entry[10];
         SP_S32(0x10) = width;
         if ((u_start + width >= 0x100) || sprite->unk1A != 0) {
             SP_S32(0x10) = width - 1;
         }
 
-        v_start = payload[1];
+        v_start = entry[9];
         SP_S32(0x0C) = v_start;
-        height = payload[3];
+        height = entry[11];
         SP_S32(0x14) = height;
         if ((v_start + height >= 0x100) || sprite->unk1A != 0) {
             SP_S32(0x14) = height - 1;
         }
 
         if ((entry[0] ^ SP_U16(0x24)) & 1) {
-            sx = -((s8 *)payload)[-6] - SP_U16(0x108);
+            sx = -((s8 *)entry)[2] - SP_U16(0x108);
             SP_S16(0x80) = sx;
             SP_S16(0x70) = sx;
             ex = sx - SP_U16(0x10);
             SP_S16(0x88) = ex;
             SP_S16(0x78) = ex;
         } else {
-            sx = ((s8 *)payload)[-6] - SP_U16(0x108);
+            sx = ((s8 *)entry)[2] - SP_U16(0x108);
             SP_S16(0x80) = sx;
             SP_S16(0x70) = sx;
             ex = sx + SP_U16(0x10);
@@ -198,14 +187,14 @@ next_entry:
         }
 
         if ((entry[0] ^ SP_U16(0x24)) & 2) {
-            sy = -((s8 *)payload)[-5] - SP_U16(0x10A);
+            sy = -((s8 *)entry)[3] - SP_U16(0x10A);
             SP_S16(0x7A) = sy;
             SP_S16(0x72) = sy;
             ey = sy - SP_U16(0x14);
             SP_S16(0x8A) = ey;
             SP_S16(0x82) = ey;
         } else {
-            sy = ((s8 *)payload)[-5] - SP_U16(0x10A);
+            sy = ((s8 *)entry)[3] - SP_U16(0x10A);
             SP_S16(0x7A) = sy;
             SP_S16(0x72) = sy;
             ey = sy + SP_U16(0x14);
@@ -213,7 +202,6 @@ next_entry:
             SP_S16(0x82) = ey;
         }
 
-        ASM_KEEP(scratchpad);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         depth = RotAverage4(
             scratchpad + 0x70, scratchpad + 0x78,
             scratchpad + 0x80, scratchpad + 0x88,
@@ -224,87 +212,75 @@ next_entry:
 
         if ((u32)depth < 0x1E0U) {
             visible_0 = 0;
-            if ((u32)((((S_80045CC4_0 *)quad)->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_04.u + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)quad)->unk_06.u + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_06.u + 0x20) & 0xFFFF;
                     visible_0 = clip_y < 0x121U;
                 }
             }
             visible_1 = 0;
-            if ((u32)((((S_80045CC4_0 *)quad)->unk_0C + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_0C + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)quad)->unk_0E + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_0E + 0x20) & 0xFFFF;
                     visible_1 = clip_y < 0x121U;
                 }
             }
             visible_2 = 0;
             visible_0 |= visible_1;
-            if ((u32)((((S_80045CC4_0 *)quad)->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)quad)->unk_16 + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_16 + 0x20) & 0xFFFF;
                     visible_2 = clip_y < 0x121U;
                 }
             }
             visible_3 = 0;
             any_visible = visible_0 | visible_2;
-            if ((u32)((((S_80045CC4_0 *)quad)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
+            if ((u32)((((S_80045CC4_0 *)(packet + 1))->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
                 {
-                    u32 clip_y = (((S_80045CC4_0 *)quad)->unk_1E.u + 0x20) & 0xFFFF;
+                    u32 clip_y = (((S_80045CC4_0 *)(packet + 1))->unk_1E.u + 0x20) & 0xFFFF;
                     visible_3 = clip_y < 0x121U;
                 }
             }
 
             if (any_visible | visible_3) {
-                ((S_80045CC4_0_pre *)quad)[-1].unk_00 = 9;
+                ((u8 *)packet)[3] = 9;
                 *(u16 *)&sprite->unk14 &= 0x7FFF;
 
-                {
-                    register s32 uv_end ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-                    s32 uv_start;
-
-                    uv_end = SP_S32(0x10);
-                    uv_start = SP_S32(0x08);
-                    visible_2 = SP_S32(0x0C);
-                    uv_end += uv_start;
-                    SP_S32(0x10) = uv_end;
-                    uv_start = SP_S32(0x0C);
-                    uv_end = SP_S32(0x14);
-                    SP_S32(0x0C) = uv_start << 8;
-                    uv_end = uv_end + visible_2;
-                    SP_S32_VOL(0x14) = uv_end;
-                    SP_S32(0x14) = uv_end << 8;
-                }
+                SP_S32(0x10) += SP_S32(0x08);
+                SP_S32(0x14) += SP_S32(0x0C);
+                SP_S32(0x0C) <<= 8;
+                SP_S32(0x14) <<= 8;
 
                 if (SP_U16(0x24) & 0x100) {
-                    ((S_80045CC4_0 *)quad)->unk_0A = sprite->unk12;
+                    ((S_80045CC4_0 *)(packet + 1))->unk_0A = sprite->unk12;
                 } else {
-                    ((S_80045CC4_0 *)quad)->unk_0A = sprite->unk12 + ((S_80045CC4_1_pre *)payload)[-1].unk_02;
+                    ((S_80045CC4_0 *)(packet + 1))->unk_0A = sprite->unk12 + *(u16 *)(entry + 6);
                 }
 
-                ((S_80045CC4_0 *)quad)->unk_08 = SP_U16(0x0C) + SP_U16(0x08);
-                ((S_80045CC4_0 *)quad)->unk_10.s16 = SP_U16(0x0C) + SP_U16(0x10);
+                ((S_80045CC4_0 *)(packet + 1))->unk_08 = SP_U16(0x0C) + SP_U16(0x08);
+                ((S_80045CC4_0 *)(packet + 1))->unk_10.s16 = SP_U16(0x0C) + SP_U16(0x10);
                 {
                     u16 tpage;
                     visible_3 = sprite->unk10;
                     if (visible_3 != 0) {
-                        tpage = visible_3 + (((S_80045CC4_1_pre *)payload)[-1].unk_00 & 0xFF9F);
-                        ((S_80045CC4_0 *)quad)->unk_12 = tpage;
-                        ((S_80045CC4_0 *)quad)->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
-                        ((S_80045CC4_0 *)quad)->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
+                        tpage = visible_3 + (*(u16 *)(entry + 4) & 0xFF9F);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
                         matrix_xx = SP_U16(0x50);
                     } else {
-                        tpage = ((S_80045CC4_1_pre *)payload)[-1].unk_00;
-                        ((S_80045CC4_0 *)quad)->unk_12 = tpage;
-                        ((S_80045CC4_0 *)quad)->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
-                        ((S_80045CC4_0 *)quad)->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
+                        tpage = *(u16 *)(entry + 4);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_12 = tpage;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at00.v = SP_U16(0x14) + SP_U16(0x08);
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00.v = SP_U16(0x14) + SP_U16(0x10);
                         matrix_xx = SP_U16(0x50);
                     }
                 }
                 {
                     if (((matrix_xx << 16) >> 16) >= 0x1800) {
-                        uv_edge = ((S_80045CC4_0 *)quad)->unk_20.at00u.v;
-                        ((S_80045CC4_0 *)quad)->unk_20.at00u.v = uv_edge + 0xFF;
-                        ((S_80045CC4_0 *)quad)->unk_10.u8 = uv_edge;
+                        uv_edge = ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v = uv_edge + 0xFF;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_10.u8 = uv_edge;
                         matrix_yy = SP_U16(0x58);
                     } else {
                         matrix_yy = SP_U16(0x58);
@@ -312,21 +288,21 @@ next_entry:
                 }
                 {
                     if (((matrix_yy << 16) >> 16) >= 0x1800) {
-                        uv_edge = ((S_80045CC4_0 *)quad)->unk_20.at01.v;
-                        ((S_80045CC4_0 *)quad)->unk_20.at01.v = uv_edge + 0xFF;
-                        ((S_80045CC4_0 *)quad)->unk_18.at01.v = uv_edge;
+                        uv_edge = ((S_80045CC4_0 *)(packet + 1))->unk_20.at01.v;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_20.at01.v = uv_edge + 0xFF;
+                        ((S_80045CC4_0 *)(packet + 1))->unk_18.at01.v = uv_edge;
                     }
                 }
-                if (((S_80045CC4_0 *)quad)->unk_04.s > ((S_80045CC4_0 *)quad)->unk_1C.s) {
-                    ((S_80045CC4_0 *)quad)->unk_10.u8--;
-                    ((S_80045CC4_0 *)quad)->unk_20.at00u.v--;
+                if (((S_80045CC4_0 *)(packet + 1))->unk_04.s > ((S_80045CC4_0 *)(packet + 1))->unk_1C.s) {
+                    ((S_80045CC4_0 *)(packet + 1))->unk_10.u8--;
+                    ((S_80045CC4_0 *)(packet + 1))->unk_20.at00u.v--;
                 }
-                if (((S_80045CC4_0 *)quad)->unk_06.s > ((S_80045CC4_0 *)quad)->unk_1E.s) {
-                    ((S_80045CC4_0 *)quad)->unk_18.at01.v--;
-                    ((S_80045CC4_0 *)quad)->unk_20.at01.v--;
+                if (((S_80045CC4_0 *)(packet + 1))->unk_06.s > ((S_80045CC4_0 *)(packet + 1))->unk_1E.s) {
+                    ((S_80045CC4_0 *)(packet + 1))->unk_18.at01.v--;
+                    ((S_80045CC4_0 *)(packet + 1))->unk_20.at01.v--;
                 }
 
-                visible_2 = payload[-7];
+                visible_2 = entry[1];
                 ((S_80045CC4_2 *)sprite)->unk_0F = visible_2;
                 visible_3 = SP_U16(0x24);
                 if (visible_3 & 8) {
@@ -337,19 +313,14 @@ next_entry:
                         x = visible_2 & 0xFD;
                         ((S_80045CC4_2 *)sprite)->unk_0F = x;
                     }
-                    visible_0 = 0xFF000000;
-                    quad[0] = sprite->unk0C;
-                    packet_addr = (u32)packet & addr_mask;
-                } else {
-                    visible_0 = 0xFF000000;
-                    quad[0] = sprite->unk0C;
-                    packet_addr = (u32)packet & addr_mask;
                 }
+                visible_0 = 0xFF000000;
+                packet[1] = sprite->unk0C;
+                packet_addr = (u32)packet & addr_mask;
 
                 {
                     s32 *ot_bucket;
 
-                    quad += 10;
                     *packet = (*packet & (u32)visible_0) |
                         (*(s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20)) & addr_mask);
                     ot_bucket = (s32 *)(SP_S32(0xC0) * 4 + SP_S32(0x20));
@@ -359,16 +330,16 @@ next_entry:
             }
         }
     } else {
-        callback = *(void (**)(void *, s32, S_80045CC4_Arg2 *, u8 *))payload;
+        callback = *(void (**)(void *, s32, S_80045CC4_Arg2 *, u8 *))(entry + 8);
         if (callback != NULL) {
             callback(context, position, sprite, entry);
         }
     }
 
-    payload += 0xC;
-    if ((s8)entry[0] >= 0) {
-        entry += 0xC;
-        goto next_entry;
+    if ((s8)entry[0] < 0) {
+        break;
+    }
+    entry += 0xC;
     }
 
     PopMatrix();
