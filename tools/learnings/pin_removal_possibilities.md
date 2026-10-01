@@ -590,3 +590,15 @@ An ADJACENT read-back (nothing between it and the store) is forwarded by cse and
 
 ### Share a variable across blocks to make a value global (r85_opus_nm1, 2026-10-01)
 A value in a single block is a local quantity, and on cdk local-alloc sorts a block's first three by fixed slot (local-alloc.c 1598-1612), not by priority. If the value has to be ranked among the global values (check with prio.py or alloc_need), keep it in a variable that another block also uses, for example one function-scope variable for a call result that sibling blocks would otherwise each declare. Four rows went exact this way. This is the reverse of rule B. Brief paragraph: tools/lanes/brief_paragraphs/shared_global.md.
+
+### Unboosted retail insn = the destination was multi-set (r85_fable_birth, 2026-10-01)
+In sched1, birthing_insn_p (sched.c 2513-2545/2583) boosts a SET to a live REG dest when reg_n_sets == 1. That count is flow's final pass (flow.c 1962-2120), taken after flow deletes dead insns and after combine's adjustments (combine.c 2368/2391). It counts every SET and CLOBBER, through SUBREG/STRICT_LOW_PART, for hard registers too.
+- **Second sets that cost no instruction:**
+  - **(R)** a re-read of the same field into the same variable, after a store through the same base at another offset. It needs no label in between and the first value used before it. cse keeps it, sched1 hoists it, and reload_cse deletes it (reload1.c 8049).
+  - **(P)** the parameter itself. Its entry move counts as a set but is never scheduled.
+  - **(H)** hard registers: one per non-void callee declaration or `return` for $2, one per call for $4-$7.
+  - **(S)** a same-value re-copy of a REG-pinned hard register. This one is a crutch.
+- **These never count:** a dead `= 0`, a self copy, a pseudo re-copy, `x = y; x = x + k`.
+- **Symbol HIGH/lo_sum** cannot be multi-set from C at a splitting cell.
+- **Owner ruling pending on R and S.** 818E6800 3->1 (R) and 81941338 3->2 (S) are held.
+- **References:** census in work/native_lane/r85_fable_birth/census_boost.jsonl (19 BIRTHING sites in 17 rows). Paragraph draft: paragraph.md there. Tool: tools/lanes/lanekit/counts.py (reg_n_sets per register at flow and combine, plus the boosted uids per sched1 block).
