@@ -55,7 +55,7 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     s32 flags34;
     s32 flags3c;
     s32 entry_value;
-    register u8 *result_bytes ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *result_bytes;
     u16 spawn_x;
     u16 spawn_y;
 
@@ -86,11 +86,8 @@ void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
                     state_code = 0x14;
                 }
             }
-            result_bytes = D_80081484;
-            result_bytes[3] = (u8)state_code;
-            result_bytes[2] = 0;
-            result_bytes = (u8 *)spawned;
-            return result_bytes;
+            D_80081484[3] = (u8)state_code;
+            D_80081484[2] = 0;
         }
         return spawned;
     }

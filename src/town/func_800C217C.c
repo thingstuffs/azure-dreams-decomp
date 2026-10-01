@@ -1,7 +1,12 @@
 #include "common.h"
+
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
+
+static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
+    return limit < __builtin_abs(distance);
+}
 
 s32 func_800352FC(s32 arg0, s32 *arg1, s32 arg2, s32 arg3); /* extern */
 M2C_UNK SD_Call();                     /* extern */
@@ -37,11 +42,8 @@ check_distance:
             check_value = *position;
             distance -= check_value;
             threshold = 0x3FFFFF;
-            ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if (distance < 0) {
-                distance = -distance;
-            }
-            threshold = threshold < distance;
+
+            threshold = distance_exceeds(threshold, distance);
             if ((threshold == 0) && (func_800352FC(check_value, position, check_param, check_mode) != 0)
                 && (func_800C2AB4(actor) != 0)) {
                 SD_Call(0x50B);
