@@ -10,3 +10,5 @@ Calibration (r85_sonnet_ar3): a call with MORE arguments than the callee definit
 register/stack args are in the retail bytes - the definition is the artifact); test by dropping and scoring first.
 The paying case is a MISSING argument the callee takes (e.g. func_800C7930 -> 800C77D0 takes 4: passing the incoming
 parameter through replaced an ASM_CLOBBER("$7")). A text census over-reports.
+
+Return types too (r85_opus_m4): if every callee is declared void, a final `return <const>` can be scheduled after the last store, because its `(set v0 K)` is single-set and gets the birthing boost. Give library callees their real return type: RotMatrix/TransMatrix (func_80065820/func_80064BC0) return a MATRIX*. The value is then live in $v0 and the order changes. Check the callee's own row or the PsyQ prototype before you change a declaration.
