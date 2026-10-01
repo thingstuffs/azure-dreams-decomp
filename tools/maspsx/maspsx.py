@@ -1,4 +1,6 @@
 import argparse
+import os
+import re
 import shutil
 import subprocess
 import sys
@@ -47,6 +49,27 @@ def config_for_aspsx_version(aspsx_version_arg: str | None) -> AspsxVersionConfi
     return config
 
 
+CC1_G_VALUE = re.compile(r"-G value = (\d+)")
+
+
+def cc1_sdata_limit(in_lines: List[str]) -> int | None:
+    """The -G value cc1 compiled this TU with, from its verbose-asm header
+    (`# -G value = 8, Cpu = 3000` / `# Cc1 arguments (-G value = 0, ...`), or None
+    when the header is absent (gcc 2.8.x and later print none without -fverbose-asm).
+
+    Model: the PsyQ driver (ccpsx) hands ONE -G to both cc1 and ASPSX, so genuine ASPSX
+    classifies a TU-defined .comm/.lcomm/.sdata symbol as small data against the same
+    threshold cc1 used (genuine ASPSX 2.79 at -G0 addresses such a symbol absolutely).  maspsx is invoked with a fixed -G8 by every production caller; without this,
+    a TU compiled at -G0 still gets its own small commons `$gp`-relative (decision 3
+    residue, work/native_lane/r82_opus_dec3/REPORT.md)."""
+    for line in in_lines[:64]:
+        if line.lstrip().startswith("#"):
+            m = CC1_G_VALUE.search(line)
+            if m:
+                return int(m.group(1))
+    return None
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--aspsx-version", type=str)
@@ -67,6 +90,10 @@ def main() -> None:
     parser.add_argument("--preserve-live-sibcall-tail", action="store_true")
     parser.add_argument("--prefer-target-arg-setup", action="store_true")
     parser.add_argument("--preserve-immediate-funcaddr-la", action="store_true")
+    # decision 3 residue (default OFF = production behaviour): take the small-data
+    # threshold for TU-defined data from cc1's own -G (see cc1_sdata_limit); the
+    # MASPSX_GP_LIMIT_FROM_CC1=1 environment switch does the same for measurement.
+    parser.add_argument("--gp-limit-from-cc1", action="store_true")
     # decomp.me debugging
     parser.add_argument("--print-output", action="store_true")
     parser.add_argument("--print-input", action="store_true")
@@ -135,6 +162,11 @@ def main() -> None:
             sdata_limit = int(arg[2:])
 
         filtered_as_args.append(arg)
+
+    if args.gp_limit_from_cc1 or os.environ.get("MASPSX_GP_LIMIT_FROM_CC1") == "1":
+        cc1_limit = cc1_sdata_limit(in_lines)
+        if cc1_limit is not None:
+            sdata_limit = cc1_limit
 
     version_config = config_for_aspsx_version(args.aspsx_version)
 
