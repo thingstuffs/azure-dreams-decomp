@@ -1,3 +1,37 @@
+# Handover (2026-10-01 ~23:40, round 85 WRAPPED UP on the owner's request; every lane finished and landed) - start here
+
+**527 pins / 175 rows** (1,201 / 360 at round-85 start: -674; 886 at the start of this session's stretch).
+**Remaining:** 66 one-pin rows, 57 rows with 2-3 pins (144 pins), 44 rows with 4-7 (210), 9 rows with 8+ (111).
+- By container: dungeon 433, town 65, slus 24, main 5, ovmovie 4.
+- Biggest rows: 80DB9000 20, 800C4A80 16, 800C9858 15, 8187A9A8 13, 800CA184 13, 800AFA68 10, 800ABBF8 8, 81876014 8, 8009E0EC 8.
+
+**What paid in the last stretch:**
+- **Two-row Opus "big-row" lanes, bg1-bg20 (~110 pins).** Recipe in work/native_lane/_r84/bg_prompt.txt:
+  - real loops over named symbols;
+  - the refs/live moves alloc_need/prefs.py ask for;
+  - per-lifetime locals;
+  - hosting a role in the variable that holds retail's register;
+  - single-set vs multi-set for the sched1 birthing boost;
+  - field-width locals;
+  - K&R short widths.
+- **Clone sources.** The pin-free clone 818B1664's probe loop (bg9, pclone: 4 rows 27->0) and tools/lanes/fragclone.py, the retail-code partial clone finder (5 rows 15->0).
+
+**New kit tools:**
+- counts.py: reg_n_sets.
+- dbr.py: delay slots.
+- prefs.py + tools/alloc_prefs.py: an exact global.c preference replay, 1,563/1,563 allocnos.
+- tools/lanes/fragclone.py.
+
+**Next:** launch the built packs r85_opus_bg21-bg26 (12 rows with 4-5 pins; prompt pattern in the handover_todo line). Run fragclone.py first on every remaining row (candidates_by_row.tsv in r85_opus_fragclone).
+
+**Owner decisions still pending** (detail in work/native_lane/_landq/handover_todo.txt):
+1. Form R, the unchanged-field re-read: 818E6800 is held, plus candidates 81876014, 818F2800, 8181214C, 800BAE88 and others.
+2. 81912154 6->3: a moved re-copy is held; the 6->5 fallback landed.
+3. 81084D04: dead pre-loop store.
+4. maspsx lo-fold guard.
+5. tptab step B: rodata-first owner.
+6. Spellings to eyeball: 81845068, 808135E0, 800B39E4.
+
 # Handover (2026-10-01 ~20:30, round 85 in progress: Opus multi-pass lanes, rule harvest, dbr tool) - start here
 
 **658 pins / 196 rows** (1,201 / 360 at round-85 start). The goal from the owner (10-01) is to drive asm pins to 0 with all tiers.
