@@ -76,10 +76,6 @@ typedef struct S_80174618_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x3]; s8 v; } at03; } unk_04;   /* overlapping accesses */
 } S_80174618_5;   /* packet in func_80174618 */
 
-typedef struct S_80174618_6 {
-    u32 unk_00;
-} S_80174618_6;   /* packet2 in func_80174618 */
-
 
 typedef struct {
     s16 m[3][3];
@@ -89,6 +85,11 @@ typedef struct {
 
 typedef struct {
 } EMPTY_ARG;
+
+typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} P_TAG;
 
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -108,8 +109,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     u8 *line_packet;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *draw_packet;
+    GameWork *work_base;
     u8 *context;
-    register u8 *global_page ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *screen_start;
     u8 *screen_end;
     u8 *start_vertex;
@@ -123,7 +124,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     MATRIX matrix;
     EMPTY_ARG no_arg;
 
-    ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)((u8 *)(&gameWork)) + 0xB0;
+    context = (u8 *)&gameWork;
+    ((S_80174618_0 *)scratch)->unk_24.s = *(u8 **)context + 0xB0;
     ((S_80174618_0 *)scratch)->unk_88 = position->unk_02;
     ((S_80174618_0 *)scratch)->unk_8C = position->unk_06;
     ((S_80174618_0 *)scratch)->unk_90 = position->unk_0A;
@@ -149,7 +151,7 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     start_vertex = scratch + 0xB0;
 
     field_value = ((S_80174618_2 *)render_params)->unk_14;
-    context = *(u8 **)((u8 *)(&gameWork));
+    context = *(u8 **)context;
     ((S_80174618_0 *)scratch)->unk_28 = field_value;
     line_packet = ((S_80174618_3 *)context)->unk_8D0;
     ((S_80174618_3 *)context)->unk_8D0 = line_packet + 0x10;
@@ -172,6 +174,7 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     end_z = endpoints->unk_6E;
     screen_start = line_packet + 8;
     screen_end = line_packet + 0xC;
+    work_base = &gameWork;
     depth_index = func_80065590(start_vertex, scratch + 0xB8,
                           scratch + 0xC0, scratch + 0xC8,
                           screen_start, screen_end,
@@ -181,12 +184,8 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
                            ((S_80174618_0 *)scratch)->unk_BC = end_z,
                            no_arg));
     depth_index = depth_index - depth_bias - 6;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80174618_0 *)scratch)->unk_100 = depth_index;
     flags = ((S_80174618_0 *)scratch)->unk_28;
-    global_page = ((u8 *)(&gameWork)) - 0x3160;
-    ASM_SET(global_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    draw_packet = global_page + 0x3160;
 
     if (flags & 8) {
         u8 color_code;
@@ -214,30 +213,17 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     }
 
     {
-        register u32 addr_mask ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 zero;
-        addr_mask = 0x00FFFFFF;
-        zero = 0;
-        ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        global_page = (u8 *)(0xFF000000);
-        ((S_80174618_5 *)line_packet)->unk_00.at00.v =
-            (((S_80174618_5 *)line_packet)->unk_00.at00.v & (u32)global_page) |
-                                (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
-        ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & (u32)global_page) |
-            ((u32)line_packet & addr_mask);
+        u8 *draw_context;
+        ((P_TAG *)line_packet)->addr = ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr;
+        ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr = (u32)line_packet;
 
-        context = *(u8 **)draw_packet;
-        draw_packet = ((S_80174618_3 *)context)->unk_8D0;
-        ((S_80174618_3 *)context)->unk_8D0 = draw_packet + 0xC;
-        func_80067F20(draw_packet, 0, 0, (u16)func_80066460(zero, 1, zero, zero), 0);
+        draw_context = work_base->unk_000;
+        draw_packet = ((S_80174618_3 *)draw_context)->unk_8D0;
+        ((S_80174618_3 *)draw_context)->unk_8D0 = draw_packet + 0xC;
+        func_80067F20(draw_packet, 0, 0, (u16)func_80066460(0, 1, 0, 0), 0);
 
-        ((S_80174618_6 *)draw_packet)->unk_00 = (((S_80174618_6 *)draw_packet)->unk_00 & (u32)global_page) |
-                                 (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
-        draw_packet = (u8 *)((u32)draw_packet & addr_mask);
-        ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & (u32)global_page) |
-            (u32)draw_packet;
+        ((P_TAG *)draw_packet)->addr = ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr;
+        ((P_TAG *)&((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100])->addr = (u32)draw_packet;
 
         func_80064A40();
     }

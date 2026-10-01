@@ -253,11 +253,15 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s16 frame_step;
     s32 next_tile_y;
     s32 rise_speed;
-    register s32 heading_or_owner ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 owner_ptr;
+    s32 sin_x;
+    s32 sin_y;
+    s32 sin_y_shift;
     s32 fade_speed_x;
     register s32 boost_speed_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 cos_x;
+    s32 cos_y;
     s32 owner_ref;
-    s32 boost_speed_y;
     s32 fade_speed_y;
     s16 height_frames;
     s32 height_numerator;
@@ -309,8 +313,10 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_5 *state0_actor;
     S_819835AC_5 *state0_height_actor;
     s32 state0_delta_x;
-    s32 state0_delta_y;
-    register s32 coord_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 coord_delta;
+    s32 state1_dx;
+    s32 state1_dy;
+    s32 state1_dz;
     s32 step_y;
     s32 step_z;
     S_819835AC_6 *state1_global;
@@ -357,29 +363,26 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
             func_8003DE58(*(M2C_UNK *)((((s32) (gameWork.view.viewAngle
                 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C)
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
-            heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
-            boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+            sin_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
+            cos_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
             state0_move = &D_80083780;
-            ASM_KEEP(state0_move);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            heading_or_owner >>= 4;
+            sin_x >>= 4;
             state0_delta_x = ((u16)state0_move->x.w.i);
-            boost_speed_x >>= 4;
-            state0_delta_x -= heading_or_owner;
-            state0_delta_x += boost_speed_x;
-            boost_speed_x = effect->unk_28.u16;
+            cos_x >>= 4;
+            state0_delta_x -= sin_x;
+            state0_delta_x += cos_x;
             state0_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
-            boost_speed_x += state0_delta_x;
-            effect->unk_28.u16 = (u16) boost_speed_x;
-            heading_or_owner = func_800644B8(state0_actor->unk_2A.s16);
-            boost_speed_x = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
-            heading_or_owner >>= 4;
-            boost_speed_x >>= 4;
-            state0_delta_y = ((u16)state0_move->y.w.i);
+            effect->unk_28.u16 += state0_delta_x;
+            sin_y = func_800644B8(state0_actor->unk_2A.s16);
+            cos_y = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+            sin_y_shift = sin_y >> 4;
+            cos_y >>= 4;
+            step_y = ((u16)state0_move->y.w.i);
             coord_delta = effect->unk_2A.u16;
-            state0_delta_y -= heading_or_owner;
-            state0_delta_y += boost_speed_x;
+            step_y -= sin_y_shift;
+            step_y += cos_y;
             state0_height_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
-            coord_delta += state0_delta_y;
+            coord_delta += step_y;
             effect->unk_2A.u16 = (u16) coord_delta;
             coord_delta = effect->unk_2C.u16;
             step_y = state0_height_actor->unk_88.u16;
@@ -476,18 +479,18 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                 + D_800E3D18), &D_80082E80.unk_000, (u8 *) effect + 0x28, 0);
             state1_move = &D_80083780;
             boost_speed_x = effect->unk_28.u16;
-            coord_delta = ((u16)state1_move->x.w.i);
-            boost_speed_x += coord_delta;
+            state1_dx = ((u16)state1_move->x.w.i);
+            boost_speed_x += state1_dx;
             effect->unk_28.u16 = boost_speed_x;
             boost_speed_x = effect->unk_2A.u16;
-            coord_delta = ((u16)state1_move->y.w.i);
+            state1_dy = ((u16)state1_move->y.w.i);
             state1_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
-            boost_speed_x += coord_delta;
+            boost_speed_x += state1_dy;
             effect->unk_2A.u16 = boost_speed_x;
-            coord_delta = effect->unk_2C.u16;
+            state1_dz = effect->unk_2C.u16;
             boost_speed_x = ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
-            coord_delta -= 0x50;
-            boost_speed_x += coord_delta;
+            state1_dz -= 0x50;
+            boost_speed_x += state1_dz;
             effect->unk_2C.u16 = boost_speed_x;
             state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
             effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
@@ -789,25 +792,12 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
                         effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
                     }
                 }
-                boost_speed_x = func_80064584((s16) effect->unk_38);
-
-                boost_speed_x <<= 8;
-                motion->unk_0C.word = boost_speed_x;
-                boost_speed_x = func_800644B8((s16) effect->unk_38);
-
-                boost_speed_x <<= 8;
-                ASM_KEEP(boost_speed_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                motion->unk_10.word = boost_speed_x;
+                motion->unk_0C.word = func_80064584((s16) effect->unk_38) << 8;
+                motion->unk_10.word = func_800644B8((s16) effect->unk_38) << 8;
 
                 if ((s16) effect->unk_38 == aim_angle) {
-                    boost_speed_x = motion->unk_0C.word;
-                    boost_speed_y = motion->unk_10.word;
-                    step_y = boost_speed_x >> 1;
-                    boost_speed_x += step_y;
-                    motion->unk_0C.word = boost_speed_x;
-                    boost_speed_x = boost_speed_y >> 1;
-                    boost_speed_y += boost_speed_x;
-                    motion->unk_10.word = boost_speed_y;
+                    motion->unk_0C.word += motion->unk_0C.word >> 1;
+                    motion->unk_10.word += motion->unk_10.word >> 1;
                 }
             } else {
                 motion->unk_14.word = 0;
@@ -903,8 +893,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
         effect->unk_94 = (u16) (effect->unk_94 + 1);
         return;
     }
-    heading_or_owner = owner_ref | 0x80000000;
-    if (!(((S_819835AC_8 *) heading_or_owner)->unk_1E & 0x8000)) {
+    owner_ptr = owner_ref | 0x80000000;
+    if (!(((S_819835AC_8 *) owner_ptr)->unk_1E & 0x8000)) {
         goto block_140;
     }
 block_139:
@@ -913,10 +903,10 @@ block_139:
     (*(s32 *)&objectFlagBlock.flags) = (s32) (((S_819835AC_12 *) &objectFlagBlock.flags)->unk_00 | 0x8000);
     return;
 block_140:
-    actor_data = ((S_819835AC_8 *) heading_or_owner)->unk_0C;
-    related_motion = ((S_819835AC_8 *) heading_or_owner)->unk_08;
+    actor_data = ((S_819835AC_8 *) owner_ptr)->unk_0C;
+    related_motion = ((S_819835AC_8 *) owner_ptr)->unk_08;
     if (owner_ref & 0x80000000) {
-        owner_state = heading_or_owner + 0x20;
+        owner_state = owner_ptr + 0x20;
         visual->unk_1A = (u16) (func_800A07D0((s16) motion->unk_00.half.unk_02.u16,
             (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16,
             related_motion->unk_04.half.unk_06.s16) - 0x400);
