@@ -385,13 +385,13 @@ state_launch:
         ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = launch_texture;
         launch_tpage = ((S_8182C800_7 *)launch_texture)->unk_04;
         sprite_color = 0x808080;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = sprite_color;
         ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
         ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
         ((S_8182C800_6 *)sprite_or_step_x)->unk_10 = 0x20;
         ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = (u16) (((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC);
+        sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
+        ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
         target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
             (s16) func_800A3820(5, launch_tpage));
         ((S_8182C800_1 *)owner)->unk_60 = target;

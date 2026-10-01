@@ -7,7 +7,7 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     s32 current_angle;
     s16 result_angle;
     s32 direction_mask;
-    register s32 direction_or_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 direction_or_angle;
     s32 direction_result;
     s32 angle_distance;
     u16 current_bits;
@@ -48,8 +48,9 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c1;
     }
     case 4:
+        input_state = (u32)direction_offset << 16;
         if (!(*flags & direction_mask)) {
-            direction_or_angle = (s16)direction_offset;
+            direction_or_angle = (s32)input_state >> 16;
             direction_result = 2;
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
@@ -69,8 +70,9 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c3;
     }
     case 8:
+        input_state = (u32)direction_offset << 16;
         if (!(*flags & direction_mask)) {
-            direction_or_angle = (s16)direction_offset;
+            direction_or_angle = (s32)input_state >> 16;
             direction_result = 4;
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
@@ -90,8 +92,9 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
         goto block_18_c5;
     }
     case 1:
+        input_state = (u32)direction_offset << 16;
         if (!(*flags & direction_mask)) {
-            direction_or_angle = (s16)direction_offset;
+            direction_or_angle = (s32)input_state >> 16;
             direction_result = 6;
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
@@ -155,15 +158,13 @@ block_19:
         }
         direction_result = result_angle << 0x10;
         direction_or_angle = direction_result >> 0x10;
-        direction_result = current_angle < direction_or_angle;
-        if (direction_result) {
+        if (current_angle < direction_or_angle) {
             updated_flags = *flags;
             result_angle = current_bits + 0x200;
             updated_flags |= 0x400;
             *flags = updated_flags;
         } else {
-            direction_result = direction_or_angle < current_angle;
-            if (direction_result) {
+            if (direction_or_angle < current_angle) {
                 updated_flags = *flags;
                 result_angle = current_bits - 0x200;
                 updated_flags |= 0x400;
