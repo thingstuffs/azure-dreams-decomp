@@ -100,13 +100,19 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     u16 y_offset;
     u8 *data_entry;
     u8 *data_entry_2;
-    register s32 previous_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 slot_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
+    s32 slot_offset;
+
+    s32 failure_index;
+    s32 failure_test;
+    s32 flag_work;
+    s32 index_offset;
     s32 asset_offset;
     u16 render_flags;
     u16 cleanup_flags;
     s32 color;
-    Object *alloc_parent;
+    uptr alloc_parent;
+    s32 predecessor_test;
     u8 *alloc_page;
 
     *(Copy32 *)&direction_offsets = *(Copy32 *)&D_80024028;
@@ -114,14 +120,14 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     do {
         if (((u32)(u16)object_index << 16) != 0) {
             alloc_page = (u8 *)0x80080000;
-            alloc_parent = objects[0];
+            alloc_parent = (uptr)objects[0];
         } else {
             alloc_page = (u8 *)0x80080000;
-            alloc_parent = (Object *)((u8 *)(&D_80083498));
+            alloc_parent = (uptr)&D_80083498;
         }
-        new_object = func_8003FD64(0x12, alloc_parent);
-        slot_offset = ((s32)(s16)object_index) << 2;
-        slot = (Object **)((uptr)slot_offset + (uptr)objects);
+        new_object = func_8003FD64(0x12, (Object *)alloc_parent);
+        index_offset = ((s32)(s16)object_index) << 2;
+        slot = (Object **)((uptr)index_offset + (uptr)objects);
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
@@ -171,33 +177,35 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             ((S_80025CE8_0 *)data_entry)->unk_38 = 0xF;
             goto continue_loop;
         }
-        slot_offset = object_index - 1;
-        object_index = slot_offset;
-        slot_offset <<= 16;
-        if (slot_offset >= 0) {
+        failure_index = object_index - 1;
+        failure_test = failure_index << 16;
+        object_index = failure_index;
+        failure_index = failure_test;
+        if (failure_index >= 0) {
             do {
                 slot_offset = (s32)((u32)object_index << 16);
-                previous_index = object_index - 1;
-                object_index = previous_index;
+                alloc_parent = object_index - 1;
+                predecessor_test = (s32)(alloc_parent << 16);
+                object_index = alloc_parent;
                 slot_offset >>= 14;
                 alloc_page = (u8 *)((uptr)slot_offset + (uptr)objects);
-                previous_index = (s32)((u32)previous_index << 16);
+                alloc_parent = predecessor_test;
                 cleanup_object = *(Object **)alloc_page;
                 cleanup_flags = ((S_80025CE8_4 *)cleanup_object)->unk_1E;
-                slot_offset = objectFlagBlock.flags;
-                slot_offset |= 0x8000;
-                objectFlagBlock.flags = slot_offset;
+                flag_work = objectFlagBlock.flags;
+                flag_work |= 0x8000;
+                objectFlagBlock.flags = flag_work;
                 cleanup_flags |= 0x8000;
                 ((S_80025CE8_4 *)cleanup_object)->unk_1E = cleanup_flags;
-            } while (previous_index >= 0);
+            } while ((s32)alloc_parent >= 0);
             return 0;
         } else {
             return 0;
         }
 continue_loop:
-        slot_offset = object_index + 1;
-        object_index = slot_offset;
-        slot_offset <<= 16;
-    } while ((slot_offset >> 16) < 21);
+        failure_index = object_index + 1;
+        object_index = failure_index;
+        failure_index <<= 16;
+    } while ((failure_index >> 16) < 21);
     return (s32)objects[0];
 }

@@ -100,6 +100,7 @@ typedef struct {
     u8 pad2[10];
 } S16Global;
 
+extern s16 D_80082E86[6];
 extern OffsetTable D_80024004;
 extern void *D_80024068[];
 extern u8 D_80020000[0x69C0];
@@ -169,9 +170,7 @@ state0:
     effect_page = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;
     *(s16 *)&dungeon->pad0[0x96] = init_timer;
-    dungeon = (DungeonState *)((u8 *)0x80080000);
-    ASM_KEEP_NV(dungeon);
-    *(s16 *)((u8 *)dungeon + 0x2E86) = 6;
+    D_80082E86[0] = 6;
     next_state = (u16)work->state + 1;
     D_800269B4.value = 1;
     work->state = next_state;
