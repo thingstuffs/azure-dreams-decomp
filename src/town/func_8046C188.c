@@ -47,7 +47,7 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     u8 *history;
     s32 old_entry;
     s32 entry_id;
-    register S_8001D188_2 *group_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_8001D188_2 *group_state;
     s8 *limits;
     u8 *page;
     S_8001D188_1 *cursor;
@@ -74,12 +74,12 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     group_state->unk_3700.s = next_count;
     count = group_state->unk_3700.u;
     ASM_USE(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    slot_index = 0;
     limits = D_8001902C;
     if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
         group_state->unk_3700.s = 0U;
     }
-    history = (u8 *)(group_id * 0xC) + state_base + 0x3640;
+    slot_index = 0;
+    history = (u8 *)((s16)group_id * 0xC) + state_base + 0x3640;
     do {
         slot = history + slot_index;
         old_entry = *slot;

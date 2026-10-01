@@ -51,12 +51,9 @@ typedef struct S_80170AA4_2 {
 } S_80170AA4_2;   /* arg1 in func_80170AA4 */
 
 /* Updates entity callbacks, directional animation, movement, and ground contact. */
-void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
+void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
 {
-    register void *actor ASM_REG("$17") = entity_input;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_80170AA4_2 *motion = motion_input;
-    void *part = part_input;
-    register void *entity ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *entity = actor;
     s16 state_direction;
     s32 direction_index;
     void *call_entity;
@@ -65,10 +62,9 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     void *call_self;
     s32 previous_state;
     s32 previous_state_2;
-    register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s32 view_angle;
-    s16 ground_height;
+    s32 ground_height;
     s16 base_height;
     s32 previous_direction;
     s32 entity_flags;
@@ -82,8 +78,8 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     if (dungeonStatus.flags & 0x2000) {
         callback = (*(EntityCallback *)((u8 *)actor + 0x8C));
         if (callback == (EntityCallback)&D_80170F68) {
-            call_self = entity_input;
-            callback(call_self, motion_input, part_input, call_self);
+            call_self = actor;
+            callback(call_self, motion, part, call_self);
             return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
@@ -193,12 +189,12 @@ motion:
         ground_height = func_800BCB04(motion->unk_00.at02.v,
                                motion->unk_04.at02.v,
                                (s16)(((S_80170AA4_1 *)entity)->unk_88 - 0x20));
-        if (ground_height < 0x200) {
+        if ((s16)ground_height < 0x200) {
             base_height = (s16)((S_80170AA4_1 *)entity)->unk_88;
-            if ((*(s16 *)((u8 *)actor + 0x92)) + base_height < ground_height) {
+            if ((*(s16 *)((u8 *)actor + 0x92)) + base_height < (s16)ground_height) {
                 ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
             } else {
-                if (ground_height >= base_height) {
+                if ((s16)ground_height >= base_height) {
                     (*(s32 *)((u8 *)actor + 0x90)) = 0;
                     motion->unk_14 = 0;
                     ((S_80170AA4_1 *)entity)->unk_1C |= 0x08000000;
@@ -213,13 +209,13 @@ motion:
             entity_flags = ((S_80170AA4_1 *)entity)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((S_80170AA4_1 *)entity)->unk_1C = entity_flags & 0xBFFFFFFF;
-                floor_height = func_800BCB04(
+                ground_height = func_800BCB04(
                     (((S_80170AA4_0 *)part)->unk_24 << 6) | 0x20,
                     (((S_80170AA4_0 *)part)->unk_25 << 6) | 0x20,
                     (s16)(((S_80170AA4_1 *)entity)->unk_88 - 0x20));
                 (*(s16 *)((u8 *)actor + 0x92)) +=
-                    ((S_80170AA4_1 *)entity)->unk_88 - floor_height;
-                ((S_80170AA4_1 *)entity)->unk_88 = floor_height;
+                    ((S_80170AA4_1 *)entity)->unk_88 - ground_height;
+                ((S_80170AA4_1 *)entity)->unk_88 = ground_height;
                 goto finish;
             }
             goto finish;
