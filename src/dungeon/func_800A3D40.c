@@ -109,7 +109,7 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
     s32 message;
     s32 name_text;
     s32 effect_data;
-    register s32 text_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 text_context;
     s32 new_text_context;
     M2C_UNK direction_offset;
     s16 name_index;
@@ -171,8 +171,10 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
                     func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
                         ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
                 }
+                func_800C77D0(effect, effect_position, 8, 0x300);
+            } else {
+                func_800C77D0(effect, effect_position, 8, 0x300);
             }
-            func_800C77D0(effect, effect_position, 8, 0x300);
             ASM_KEEP(text_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         } else {
             map_state = &D_80082E80;
@@ -203,9 +205,7 @@ set_effect_scale:
         func_800AD594(actor_arg, effect_scale);
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = func_800990FC();
-            actor_arg = actor;
-            message = func_80099734(actor_arg, new_text_context);
-            text_context = new_text_context;
+            message = func_80099734(actor, new_text_context);
             message = func_80099194(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
@@ -221,7 +221,7 @@ set_effect_scale:
                 message = func_80099194(name_text, message);
             }
             func_80099290(func_80099194(&D_80089080, message));
-            func_800A5720(text_context);
+            func_800A5720(new_text_context);
             goto return_effect;
         }
         return effect;

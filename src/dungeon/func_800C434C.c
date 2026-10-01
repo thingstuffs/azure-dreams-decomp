@@ -51,10 +51,9 @@ typedef struct S_800C9AAC_2 {
 } S_800C9AAC_2;   /* secondary in func_800C9AAC */
 
 /* Updates object callbacks, motion, sprite direction, and height. */
-void func_800C9AAC(void *state, void *motion, void *object_part)
+void func_800C9AAC(void *state, void *motion, void *part)
 {
     u32 update_flags = dungeonStatus.flags;
-    register void *part ASM_REG("$19") = object_part;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *secondary = state;
     Callback callback;
     s16 direction;
@@ -63,13 +62,11 @@ void func_800C9AAC(void *state, void *motion, void *object_part)
     s32 adjusted_flags;
     s16 target_height;
     u16 old_height;
-    register void *callback_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     if (update_flags & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
         if (early_callback == (Callback)&D_800C9F34) {
-            ASM_KEEP(callback_state);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(callback_state, motion, part, callback_state);
+            early_callback(state, motion, part, state);
             return;
         } else {
             (*(u8 *)((u8 *)state + (0x71))) &= 0x7F;
@@ -77,17 +74,8 @@ void func_800C9AAC(void *state, void *motion, void *object_part)
         return;
     }
 
-    {
-        register void *check_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register void *check_part ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        callback_state = state;
-        ASM_KEEP(check_part);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        callback_state = state;
-        check_motion = motion;
-        check_part = part;
-        if (func_800A9E70(callback_state, check_motion, check_part, state) != 0) {
-            return;
-        }
+    if (func_800A9E70(state, motion, part, state) != 0) {
+        return;
     }
 
     callback = (*(Callback *)((u8 *)state + (0x8C)));
@@ -124,11 +112,13 @@ void func_800C9AAC(void *state, void *motion, void *object_part)
 
         if (dirSpriteFlag[direction_index] != 0) {
             adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 | 1;
+            ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
+            func_800A020C(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
         } else {
             adjusted_flags = ((S_800C9AAC_0 *)part)->unk_14 & 0xFFFE;
+            ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
+            func_800A020C(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
         }
-        ((S_800C9AAC_0 *)part)->unk_14 = adjusted_flags;
-        func_800A020C(((S_800C9AAC_2 *)secondary)->unk_1C, (u8 *)part + 0xC);
 
         if (!(((S_800C9AAC_2 *)secondary)->unk_1C & 0x20)) {
             if (!(((S_800C9AAC_0 *)part)->unk_14 & 0x40)) {

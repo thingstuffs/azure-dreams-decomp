@@ -233,7 +233,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     S_80171D74_19 *tile_sw;
     S_80171D74_20 *tile_s;
     S_80171D74_21 *tile_se;
-    register s32 angle_input_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 angle_tmp;
 
     offset_table = *((Table32 *)(&D_8016482C));
     direction_table = *((Table32 *)(&D_80164AC0));
@@ -355,7 +355,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         if ((s16) appear_frame >= 2) {
             u8 *offset_base = (u8 *)&offset_table;
             u8 *direction_base;
-            s32 angle_tmp;
+            s32 angle_input_m;
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_5 *)sprite_in)->unk_14 = (u16) (((S_80171D74_5 *)sprite_in)->unk_14 & 0xFF7F);
@@ -439,8 +439,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         ((S_80171D74_1 *)state_in)->unk_96 = return_frames;
         if ((return_frames << 0x10) <= 0) {
             u8 *direction_entry;
-            s32 angle_tmp;
-            register u32 direction_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 angle_input_m;
+            u32 direction_offset;
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_10 *)(D_80175DB8[0]))->unk_32 = 3;
@@ -453,7 +453,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             if ((s16) angle_tmp >= 0x1000) {
                 angle_input_m = angle_tmp - 0x1000;
             }
-            direction_offset = ((u16) angle_input_m >> 7) & 0x1C;
+            direction_offset = (u16) angle_input_m >> 7;
+            direction_offset &= 0x1C;
             direction_entry = (u8 *)&direction_table;
             direction_entry += direction_offset;
             ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
@@ -489,7 +490,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         }
         turn_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
         if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
-            s32 angle_tmp;
+            s32 angle_input_m;
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m - 0x200;
             angle_input_m = angle_tmp;
@@ -568,7 +569,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         }
         spin_frame = (s16) ((S_80171D74_1 *)state_in)->unk_96;
         if ((spin_frame == 0x19) || (spin_frame == 0x1E) || (spin_frame == 0x23) || (spin_frame == 0x28)) {
-            s32 angle_tmp;
+            s32 angle_input_m;
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m - 0x200;
             angle_input_m = angle_tmp;
@@ -591,7 +592,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         ((S_80171D74_1 *)state_in)->unk_96 = spin_up_frame;
         if (((s16) spin_up_frame == 5) || ((s16) spin_up_frame == 0xA) || ((s16) spin_up_frame == 0xF)
             || ((s16) spin_up_frame == 0x14)) {
-            s32 angle_tmp;
+            s32 angle_input_m;
             angle_input_m = owner_state->unk_2A.n;
             angle_tmp = angle_input_m - 0x200;
             angle_input_m = angle_tmp;
@@ -734,7 +735,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             spiral_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
             ((S_80171D74_1 *)state_in)->unk_96 = spiral_frame;
             if ((spiral_frame & 3) == 3) {
-                s32 angle_tmp;
+                s32 angle_input_m;
                 angle_input_m = owner_state->unk_2A.n;
                 angle_tmp = angle_input_m - 0x200;
                 angle_input_m = angle_tmp;
@@ -748,9 +749,9 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
                 u8 *direction_base = (u8 *)&direction_table;
                 s32 direction_x = SP2_X_AT(direction_base, owner_state->unk_2A.n);
                 ((S_80171D74_3 *)motion_in)->unk_0C.n = speed * direction_x;
-                direction_base = (u8 *)&direction_table;
+                angle_tmp = (s32)&direction_table;
                 {
-                    s16 direction_y = (s16) SP2_Y_AT(direction_base, owner_state->unk_2A.n);
+                    s16 direction_y = (s16) SP2_Y_AT(angle_tmp, owner_state->unk_2A.n);
                     ((S_80171D74_3 *)motion_in)->unk_10.n = speed * direction_y;
                 }
                 ((S_80171D74_3 *)motion_in)->unk_00.at00.v += ((S_80171D74_3 *)motion_in)->unk_0C.n;
