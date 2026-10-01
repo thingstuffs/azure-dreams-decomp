@@ -41,9 +41,8 @@ extern void SD_Call(s32);
 extern void func_80093CEC(void *);
 
 /* Update object motion, scoring, and timed state transitions. */
-void func_80023B14(TownObject *obj_arg, TownMotion *motion)
+void func_80023B14(TownObject *obj, TownMotion *motion)
 {
-    TownObject *obj = obj_arg;
     TownChild *child;
     s16 ticks_left;
     u16 state;
