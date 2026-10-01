@@ -47,7 +47,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
     s16 wy;
     s32 delta;
     s32 delta2;
-    s32 icy;
+    s32 idy;
     DungeonState *dead;
     MapGrid *st;
     u32 r;
@@ -84,9 +84,11 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
         range_x = 1;
     }
 
-    ASM_USE_NV(dst_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    icy = cy;
-    delta2 = dst_y - icy;
+    idy = (u32)(u16)dst_y << 16;
+    idy >>= 16;
+    delta = (u32)(u16)cy << 16;
+    delta >>= 16;
+    delta2 = idy - delta;
     if (delta2 < 0) {
         delta2 = -delta2;
     }
