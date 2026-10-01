@@ -127,22 +127,12 @@ s32 func_800A44E0();              /* extern */
 M2C_UNK func_800A56E0();                /* extern */
 s16 func_800BCB04();                   /* extern */
 
-#ifdef NON_MATCHING
-#define LOAD_TABLE_X_BASE(v) ((v) = (s32)dirStepX)
-#define LOAD_TABLE_Y_BASE(v) ((v) = (s32)dirStepY)
-#else
-#define LOAD_TABLE_X_BASE(v) (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328
-#define LOAD_TABLE_Y_BASE(v) do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0)
-#endif
-
 typedef struct LocalFrame {
     s32 out_x;
     s32 out_y;
     s32 out_z;
     u8 pad_C[12];
     u16 delta[3];
-    u16 pad_1E;
-    u16 raw_y;
 } LocalFrame;
 
 /* Advance movement toward a target or a reachable tile, then finish the timed action. */
@@ -150,54 +140,28 @@ void func_80025738(void *state, void *motion_in, void *render) {
     LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
-    register s32 probe_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s16 end_y;
-    s16 end_x;
     u16 base_z;
     s16 floor_z;
-    s16 end_z;
     s32 phase;
     s32 target_dx;
-    s32 path_dy;
-    s32 path_dx;
     s16 next_phase;
-    s32 path_dz;
-    s32 velocity_z;
     s32 target_ticks;
-    s32 probe_dir_offset;
     s32 path_ticks;
-    s32 table_x_entry;
     s32 world_y;
     s32 world_x;
-    s32 world_x_final;
-    s32 direction;
-    s32 direction_2;
-    s16 end_x_signed;
-    s32 offset_x;
-    s32 offset_y;
-    register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u16 *update_x_entry;
-    u16 *update_y_entry;
-    s32 probe_y;
+    s16 *step_y;
     s32 probe_z;
-    s32 end_z_signed;
     s32 current_z;
-    s32 position_xy;
-    s32 step_x_or_z;
-    s16 *x_offsets;
-    s16 *y_offsets;
     s32 index;
     s32 target_dy;
     s32 target_dz;
     u16 source_z;
-    s32 next_tile_y;
-    register s32 last_tile_x;
-    u32 table_page;
-    register s32 tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    u32 tile_y;
-    s16 tile_x_signed;
-    s32 tile_y_signed;
-    s32 tile_shifted;
+    u16 last_tile_x;
+    u16 saved_y;
+    u16 tile_x;
+    u16 tile_y;
+    s16 grid_x;
+    s16 grid_y;
     void *source_data;
     void *destination;
     void *source_header;
@@ -220,15 +184,16 @@ void func_80025738(void *state, void *motion_in, void *render) {
         source_data = ((S_80025738_3 *)source_header)->unk_0C;
         if (func_8003DE58(((S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
             source_position = ((S_80025738_3 *)source_header)->unk_08;
+            ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
+            ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
         } else {
             if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
                 break;
             }
             source_position = ((S_80025738_3 *)source_header)->unk_08;
+            ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
+            ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
         }
-        ;
-        ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
-        ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
         source_z = ((S_80025738_6 *)source_position)->unk_0A;
         ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
         if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
@@ -286,17 +251,13 @@ store_target_dx:
         target_dz = abs(target_dz);
         frame.delta[2] = (u16) target_dz;
         ((S_80025738_0 *)state)->unk_12 = target_dx;
-loop_0:
-        {
+        do {
             if (((S_80025738_9 *)target_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
                 ((S_80025738_0 *)state)->unk_12 = ((S_80025738_9 *)target_delta_cursor)->unk_18.u;
             }
-next_target_axis:
             index += 1;
             target_delta_cursor += 1;
-        }
-        if (index < 3)
-            goto loop_0;
+        } while (index < 3);
         target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
         ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
         if (target_ticks == 0) {
@@ -315,110 +276,50 @@ next_target_axis:
 scan_path:
         index = 0;
         tile_data = ((S_80025738_3 *)source_header)->unk_0C;
-        table_page = 0x80070000;
         tile_x = ((S_80025738_10 *)tile_data)->unk_24;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_y = ((S_80025738_10 *)tile_data)->unk_25;
         last_tile_x = tile_x;
-        frame.raw_y = (u16) tile_y;
-        do {
-            tile_shifted = tile_x << 0x10;
-            tile_x_signed = tile_shifted >> 0x10;
-            probe_x = (tile_x_signed << 6) & 0xFFC0;
-            tile_shifted = tile_y << 0x10;
-            tile_y_signed = tile_shifted >> 0x10;
-            if ((func_800A44E0(probe_x, (tile_y_signed << 6) & 0xFFC0, ((S_80025738_1 *)owner)->unk_88,
-                (s16) (((S_80025738_0 *)state)->unk_0E << 9)) << 0x10) != 0) {
-                goto use_path_endpoint;
+        saved_y = tile_y;
+        while (index < 8) {
+            grid_x = (s16)tile_x;
+            grid_y = (s16)tile_y;
+            if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((S_80025738_1 *)owner)->unk_88,
+                (s16) (((S_80025738_0 *)state)->unk_0E << 9)) != 0) {
+                break;
             }
-            LOAD_TABLE_X_BASE(table_base);
-
-            probe_dir_offset = (s16) ((S_80025738_0 *)state)->unk_0E;
+            source_position = &dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
             probe_z = (u16) ((S_80025738_1 *)owner)->unk_88;
-            probe_dir_offset *= 2;
-            table_x_entry = (s32)((s16 *)((s32)probe_dir_offset + table_base));
             probe_z -= 0x20;
-            probe_z <<= 16;
+            probe_z = (u32)probe_z << 16;
             probe_z >>= 16;
-            LOAD_TABLE_Y_BASE(table_base);
-            probe_dir_offset = (s32)((s16 *)((s32)probe_dir_offset + table_base));
-            probe_x = tile_x_signed + *((s16 *)table_x_entry);
-            probe_x = ((probe_x << 6) + 0x20) & 0xFFE0;
-            probe_y = tile_y_signed + *((s16 *)probe_dir_offset);
-            probe_y = ((probe_y << 6) + 0x20) & 0xFFE0;
-            floor_z = func_800BCB04(probe_x, probe_y, probe_z);
-            destination = &frame.out_x;
-            if (floor_z >= 0x201) {
-                goto build_path_endpoint;
+            step_y = &dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
+            floor_z = func_800BCB04(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
+                ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
+            if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
+                break;
             }
-            if ((s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
-                goto build_path_endpoint;
-            }
-            table_base = (s32)dirStepX;
-            table_x_entry = (s16) ((S_80025738_0 *)state)->unk_0E;
             index += 1;
-            table_x_entry *= 2;
-            update_x_entry = (u16 *)((s32)table_x_entry + table_base);
-            table_base = (s32)dirStepY;
-            update_y_entry = (u16 *)((s32)table_x_entry + table_base);
-            probe_x = tile_x + *update_x_entry;
-            tile_x = probe_x;
-            next_tile_y = tile_y + *update_y_entry;
-            tile_y = next_tile_y;
-            frame.raw_y = (u16) next_tile_y;
-            ASM_KEEP4_NV(probe_x, next_tile_y, tile_x, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            last_tile_x = probe_x;
-        } while (index < 8);
-use_path_endpoint:
+            tile_x += dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
+            tile_y += dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
+            saved_y = tile_y;
+            last_tile_x = tile_x;
+        }
         destination = &frame.out_x;
-build_path_endpoint:
         index = 1;
-        world_x = last_tile_x << 0x10;
-        x_offsets = (s16 *)dirStepX;
-        world_x_final = world_x >> 0xA;
-        direction = (s16) ((S_80025738_0 *)state)->unk_0E;
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-        ASM_KEEP(path_delta_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        offset_x = x_offsets[direction];
-        y_offsets = (s16 *)dirStepY;
-        end_x = world_x_final + ((offset_x + 1) << 5);
-        ((S_80025738_7 *)destination)->unk_00.at02.v = end_x;
-        end_x_signed = end_x;
-        table_base = frame.raw_y;
-        direction_2 = (s16) ((S_80025738_0 *)state)->unk_0E;
-        world_y = table_base << 0x10;
-        offset_y = y_offsets[direction_2];
-        world_y >>= 0xA;
-        end_y = world_y + ((offset_y + 1) << 5);
-        ((S_80025738_7 *)destination)->unk_04.at02.v = end_y;
-        probe_x = (s32) ((u16) end_y << 0x10);
-        end_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v + 0x20;
-        ((S_80025738_7 *)destination)->unk_08.at02.v = end_z;
-        phase = ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
-        probe_x >>= 0x10;
-        path_dx = end_x_signed;
-        path_dx -= phase;
-        path_dx = abs(path_dx);
-        frame.delta[0] = path_dx;
-        update_y_entry = (u16 *)(((S_80025738_5 *)motion_in)->unk_04.at02u.v);
-        end_z_signed = (s32) ((u16) end_z << 0x10);
-        path_dy = probe_x;
-        path_dy -= (s32)update_y_entry;
-        path_dy = abs(path_dy);
-        frame.delta[1] = path_dy;
-        current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
-        end_z_signed >>= 0x10;
-        path_dz = end_z_signed;
-        path_dz -= current_z;
-        path_dz = abs(path_dz);
-        frame.delta[2] = path_dz;
-        ((S_80025738_0 *)state)->unk_12 = path_dx;
+        world_x = ((last_tile_x << 16) >> 10) + ((dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
+        ((S_80025738_7 *)destination)->unk_00.at02.v = world_x;
+        world_y = ((saved_y << 16) >> 10) + ((dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
+        ((S_80025738_7 *)destination)->unk_04.at02.v = world_y;
+        ((S_80025738_7 *)destination)->unk_08.at02.v = ((S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
+        frame.delta[0] = abs(((S_80025738_7 *)destination)->unk_00.at02.v - ((S_80025738_5 *)motion_in)->unk_00.at02u.v);
+        frame.delta[1] = abs(((S_80025738_7 *)destination)->unk_04.at02.v - ((S_80025738_5 *)motion_in)->unk_04.at02u.v);
+        frame.delta[2] = abs(((S_80025738_7 *)destination)->unk_08.at02.v - ((S_80025738_5 *)motion_in)->unk_08.at02u.v);
+        ((S_80025738_0 *)state)->unk_12 = frame.delta[0];
         do {
             if (((S_80025738_11 *)path_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
                 ((S_80025738_0 *)state)->unk_12 = ((S_80025738_11 *)path_delta_cursor)->unk_18.u;
             }
-next_path_axis:
             index += 1;
             path_delta_cursor += 1;
         } while (index < 3);
@@ -437,29 +338,20 @@ next_path_axis:
         next_phase = 6;
         goto set_phase;
     case 2:
-        position_xy = ((S_80025738_5 *)motion_in)->unk_00.at00.v;
-        step_x_or_z = ((S_80025738_5 *)motion_in)->unk_0C;
-        target_dx = ((S_80025738_5 *)motion_in)->unk_10;
-        velocity_z = ((S_80025738_5 *)motion_in)->unk_14;
-        position_xy += step_x_or_z;
-        ((S_80025738_5 *)motion_in)->unk_00.at00.v = position_xy;
-        position_xy = ((S_80025738_5 *)motion_in)->unk_04.at00.v;
-        step_x_or_z = ((S_80025738_5 *)motion_in)->unk_08.at00.v;
-        position_xy += target_dx;
-        step_x_or_z += velocity_z;
-        ((S_80025738_5 *)motion_in)->unk_04.at00.v = position_xy;
-        ((S_80025738_5 *)motion_in)->unk_08.at00.v = step_x_or_z;
+        ((S_80025738_5 *)motion_in)->unk_00.at00.v += ((S_80025738_5 *)motion_in)->unk_0C;
+        ((S_80025738_5 *)motion_in)->unk_04.at00.v += ((S_80025738_5 *)motion_in)->unk_10;
+        ((S_80025738_5 *)motion_in)->unk_08.at00.v += ((S_80025738_5 *)motion_in)->unk_14;
         if ((s16) ((S_80025738_0 *)state)->unk_10 < ((S_80025738_0 *)state)->unk_12) {
             break;
         }
-        func_800A56E0(0x300, velocity_z);
+        func_800A56E0(0x300);
         goto advance_phase;
     case 3:
         if ((s16) ((S_80025738_0 *)state)->unk_10 >= 0x10) {
-            goto advance_phase;
+            ((S_80025738_0 *)state)->unk_10 = 0U;
+            ((S_80025738_0 *)state)->unk_0A = (s16) ((u16) ((S_80025738_0 *)state)->unk_0A + 1);
         }
-        ((S_80025738_0 *)state)->unk_14 = 0;
-        return;
+        break;
     case 4:
         if ((s16) ((S_80025738_0 *)state)->unk_10 < 0x30) {
             break;
