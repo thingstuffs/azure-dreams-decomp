@@ -39,19 +39,19 @@ extern void func_80044BB0(void);
 void func_800BC1DC(Input *position, s32 object_value, s32 data_value)
 {
     Object *object;
-    register u8 *field_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *field_base;
+    u8 *sub;
     s32 neutral_color;
 
     object = func_8003FC64(0x136);
     if (object != 0) {
+        sub = (u8 *)object + 0x20;
         object->field_0x10 = object_value;
         object->vec->field_0x02 = position->field_0x00;
         object->vec->field_0x06 = position->field_0x02;
         func_8004491C(object, (void *)func_80044BB0);
         neutral_color = 0x808080;
-        field_base = (u8 *)object + 0x20;
-        ASM_KEEP(field_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        *(s16 *)(field_base + 2) = 0x1E;
+        *(s16 *)(sub + 2) = 0x1E;
         field_base = (u8 *)object->data;
         *(s16 *)(field_base + 0x1E) = 0x1000;
         *(s16 *)(field_base + 0x1C) = 0x1000;

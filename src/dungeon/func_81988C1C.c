@@ -134,15 +134,13 @@ s32 func_81988C1C(void *first_item) {
             u16 screen_coord;
             u32 ot_slot;
             u32 addr_mask = 0;
-            register u32 color_or_tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 color_or_tag_mask = 0;
 
-            color_or_tag_mask = 0xA00000;
             packet_pool = ((S_81988C1C_2 *)render_state)->unk_00.s;
             packet = ((S_81988C1C_3 *)packet_pool)->unk_8D0;
-            color_or_tag_mask |= 0xA0A0;
             ((S_81988C1C_3 *)packet_pool)->unk_8D0 = (u8 *)packet + 0x34;
-            ((S_81988C1C_4 *)packet)->unk_04 = color_or_tag_mask;
-            func_800666F4(packet, color_or_tag_mask);
+            ((S_81988C1C_4 *)packet)->unk_04 = 0xA0A0A0;
+            func_800666F4(packet);
             func_80066640(packet, 1);
 
             ((S_81988C1C_4 *)packet)->unk_16 = ((S_81988C1C_0 *)item)->unk_50;
