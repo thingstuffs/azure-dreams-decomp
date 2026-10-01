@@ -31,7 +31,6 @@ extern volatile s32 D_80132AEC;
 extern s16 D_80132AF2;
 extern PackedRect D_80526470;
 extern u8 D_8053067C[];
-extern void *D_8052647C[];
 
 extern s32 func_8006AB90(s32);
 extern void func_8006E854(LocalRecord *, void *);
@@ -82,14 +81,14 @@ typedef struct S_8080EEC4_3 {
 void func_80529AC4(u8 **ctrl, u8 *setup, u8 *view)
 {
     LocalRecord local;
-    register u8 *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *work;
     s32 dx;
     s32 dy;
     s32 dx_square;
     s32 dy_square;
-    register s32 distance ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 step_copy;
+    s32 distance;
+    s32 step;
+    s16 step_copy;
     s32 case_value;
     s32 case_value_2;
     s32 case_value_3;
@@ -97,7 +96,6 @@ void func_80529AC4(u8 **ctrl, u8 *setup, u8 *view)
     s32 case_delta;
     s32 value;
     s32 limit;
-    register s32 shift ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 state;
     s32 old_angle;
@@ -105,11 +103,6 @@ void func_80529AC4(u8 **ctrl, u8 *setup, u8 *view)
     s32 early_far;
     s32 case5_old;
     s32 case5_next;
-
-    static void *const keepalive[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&case_3,
-        &&case_4, &&case_5, &&switch_done
-    };
 
     dx = (D_80132AE8 - 0x03600000) >> 16;
     dy = (D_80132AEC - 0x03600000) >> 16;
@@ -193,12 +186,9 @@ copy_position:
     step = case_delta + case_x;
 
     state = ((S_8080EEC4_2 *)ctrl)->unk_70;
-    if ((u32)state < 8) {
-        goto *D_8052647C[state];
-    }
-    goto switch_done;
+    switch (state) {
 
-case_0:
+    case 0:
     case_x = ((S_8080EEC4_0 *)view)->unk_0E;
     case_delta = 0x80 - case_x;
     case_x = *(volatile u8 *)(view + 0xE) + (case_delta >> 1);
@@ -206,9 +196,9 @@ case_0:
     ((S_8080EEC4_0 *)view)->unk_0D = case_x;
     ((S_8080EEC4_0 *)view)->unk_0C = case_x;
     ((S_8080EEC4_2 *)ctrl)->unk_6C = 0x00080000;
-    goto switch_done;
+    break;
 
-case_1:
+    case 1:
     case_value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
     case_value += (case_value + 0x10) >> 4;
     ((S_8080EEC4_2 *)ctrl)->unk_72.s = case_value;
@@ -217,9 +207,9 @@ case_1:
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 2;
     }
     ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-    goto switch_done;
+    break;
 
-case_2:
+    case 2:
     case_value_2 = ((S_8080EEC4_0 *)view)->unk_1A;
     case_value_2 += step;
     ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
@@ -228,11 +218,11 @@ case_2:
         ((S_8080EEC4_3 *)work)->unk_18 == 5) {
         ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;
-        goto switch_done;
+        break;
     }
-    goto switch_done;
+    break;
 
-case_3:
+    case 3:
     dx = ((S_8080EEC4_0 *)view)->unk_1A & 0x7FF;
     dy = 0x155;
     if (dx >= 0x6AB) {
@@ -251,22 +241,21 @@ limit_loop:
         ((S_8080EEC4_3 *)work)->unk_24 = (distance & 1) ? 1 : 2;
     }
     ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
-    do {
-        shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
-    } while (0);
+    case 4:
+    dx = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
     value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
-    value -= value >> shift;
+    value -= value >> dx;
     ((S_8080EEC4_2 *)ctrl)->unk_72.s = value;
     ((S_8080EEC4_0 *)view)->unk_1A += value;
     ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
-    if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << shift)) {
+    if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << dx)) {
         ((S_8080EEC4_2 *)ctrl)->unk_74.s = 0;
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 5;
-        goto switch_done;
+        break;
     }
-    goto switch_done;
+    break;
 
-case_4:
+    case 5:
     ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
     ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
     case_value_3 = ((S_8080EEC4_2 *)ctrl)->unk_74.u + 1;
@@ -276,16 +265,15 @@ case_4:
     }
     if (((S_8080EEC4_2 *)ctrl)->unk_72.s < 4) {
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
-        goto switch_done;
+        break;
     }
-    goto switch_done;
+    break;
 
-case_5:
+    case 6:
     ((S_8080EEC4_2 *)ctrl)->unk_70 = 7;
     ((S_8080EEC4_2 *)ctrl)->unk_72.s = 0;
-    do {
-        dx = 0;
-    } while (0);
+    case 7:
+    dx = 0;
     dy = 0x7A;
     do {
         local.rect.natural.x = dy;
@@ -304,7 +292,7 @@ case_5:
     if ((s16)case5_old >= 0xC6) {
         ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
     }
-switch_done:
+    }
 
     ((S_8080EEC4_0 *)view)->unk_1A &= 0xFFF;
     if ((old_angle >> 8) !=

@@ -20,17 +20,15 @@ extern u8 D_8052E40C[0x2000];
 
 /* Per-frame portrait step: lay out the panel on first entry, blink its tint and ease it toward its target. */
 void func_80813368(void *hud) {
-    volatile u8 frame_pad[32];
+    u8 frame_pad[32];
     void *obj;
     void *part;
     s32 i;
     s32 value;
-    u16 flag_value;
     s32 table_index;
     s32 init_kind;
     s32 state;
     u16 counter;
-    register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     state = S16_AT(hud, 0x18);
     if (state == 0) {
@@ -110,44 +108,24 @@ state_done:
     }
 
     if (U16_AT(PTR_AT(hud, 0), 0x64) >= U16_AT(hud, 0x20)) {
-        s32 target_y;
-        s32 current_x;
-        register s32 current_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u16 upper_flag;
-
-        target_x = S16_AT(hud, 0x1C);
-        current_x = S16_AT(hud, 8);
-        target_y = S16_AT(hud, 0x1E);
-        current_y = S16_AT(hud, 0x10);
-        current_x += (target_x - current_x) >> 1;
-        target_y -= current_y;
-        target_y >>= 1;
-        current_y += target_y;
-        upper_flag = U16_AT(hud, 0x24) & ~1;
-        S16_AT(hud, 8) = current_x;
-        S16_AT(hud, 0x10) = current_y;
-        U16_AT(hud, 0x24) = upper_flag;
+        s32 tx, x, ty, y;
+        tx = S16_AT(hud, 0x1C);
+        x = S16_AT(hud, 8);
+        ty = S16_AT(hud, 0x1E);
+        y = S16_AT(hud, 0x10);
+        S16_AT(hud, 8) = x + ((tx - x) >> 1);
+        S16_AT(hud, 0x10) = y + ((ty - y) >> 1);
+        U16_AT(hud, 0x24) &= ~1;
     } else {
-        s32 target_const;
-        s32 retreat_x;
-        s32 delta_x;
-
-        target_const = -0x60;
-        retreat_x = S16_AT(hud, 8);
-        target_x = S16_AT(hud, 0x10);
-        delta_x = target_const - retreat_x;
-        retreat_x += delta_x >> 1;
-        target_const -= target_x;
-        target_const >>= 1;
-        target_x += target_const;
-        S16_AT(hud, 0x10) = target_x;
-        target_x = (s16)target_x + 0x60;
-        target_x = abs(target_x);
-        S16_AT(hud, 8) = retreat_x;
-        if (target_x < 2) {
-            flag_value = U16_AT(hud, 0x24) | 1;
-store_flag:
-            U16_AT(hud, 0x24) = flag_value;
+        s32 x, y;
+        x = S16_AT(hud, 8);
+        y = S16_AT(hud, 0x10);
+        x += (-0x60 - x) >> 1;
+        y += (-0x60 - y) >> 1;
+        S16_AT(hud, 8) = x;
+        S16_AT(hud, 0x10) = y;
+        if (abs(S16_AT(hud, 0x10) + 0x60) < 2) {
+            U16_AT(hud, 0x24) |= 1;
         }
     }
 }

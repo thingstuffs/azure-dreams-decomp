@@ -54,10 +54,10 @@ extern u8 D_80175404[];
 extern u8 D_8017540C[];
 
 /* Advance the actor action state and update its directional animation. */
-void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void *actor_in)
+void func_801741D8(void *controller, void *context, void *sprite_in, void *actor_in)
 {
-    void *controller = controller_in;
-    register void *context ASM_REG("$19") = context_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *sprite = sprite_in;
     void *actor;
     u8 state;
@@ -69,7 +69,6 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
     state = ((S_801741D8_0 *)controller)->unk_9B;
     actor = actor_in;
     switch (state) {
-        register DungeonGlobalStatus *counter_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     case 0:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
             DungeonGlobalStatus *counter;
@@ -80,7 +79,8 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
                 0);
             counter = &dungeonStatus;
             (*(u16 *)&counter->unk_0A)--;
-            goto increment_state;
+            ((S_801741D8_0 *)controller)->unk_9B++;
+            break;
         }
         break;
 
@@ -170,10 +170,11 @@ set_effect:
             D_8017540C[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
-            goto set_owner;
+            ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
+            break;
         } else {
-            counter_m = &dungeonStatus;
-            (*(u16 *)&counter_m->unk_0A)++;
+            DungeonGlobalStatus *counter_m = &dungeonStatus;
+            counter_m->unk_0A++;
         }
 
 increment_state:
@@ -182,8 +183,8 @@ increment_state:
 
     case 2:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
-            counter_m = &dungeonStatus;
-            (*(u16 *)&counter_m->unk_0A)--;
+            DungeonGlobalStatus *counter_m = &dungeonStatus;
+            counter_m->unk_0A--;
 set_owner:
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
         }

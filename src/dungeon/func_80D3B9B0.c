@@ -56,7 +56,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     void *base = object_arg;
     s16 state_or_dir;
     s32 direction;
-    register s32 update_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 prior_state;
     s32 update_value_2;
     void *check_obj;
     void *check_motion;
@@ -71,7 +71,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     s32 normal_flags;
     s32 special_flags;
     u16 new_part_flags;
-    register u16 bob_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 bob_step;
     s32 bob_phase;
 
     if (dungeonStatus.flags & 0x2000) {
@@ -103,10 +103,10 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     }
     D_80176374[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
 
-    update_value = (s32)state_or_dir << 16;
+    prior_state = (s32)state_or_dir << 16;
     new_state = (*(s8 *)((u8 *)object_arg + (0x6D)));
-    update_value >>= 16;
-    if (update_value != new_state) {
+    prior_state >>= 16;
+    if (prior_state != new_state) {
         func_800AA36C(object_arg, motion_arg, part_arg, object_arg);
     }
 
@@ -124,6 +124,8 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     part_flags = ((S_801711B0_1 *)part_arg)->unk_14;
 
     if (!(part_flags & 0x8000)) {
+        u16 facing_flags;
+
         direction = ((gameWork.view.viewAngle + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
         state_or_dir = direction;
         if ((*(s16 *)((u8 *)object_arg + (0x94))) != state_or_dir) {
@@ -134,12 +136,12 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
         }
 
         if (dirSpriteFlag[state_or_dir] != 0) {
-            update_value = ((S_801711B0_1 *)part_arg)->unk_14;
-            update_value |= 1;
+            facing_flags = ((S_801711B0_1 *)part_arg)->unk_14;
+            facing_flags |= 1;
         } else {
-            update_value = ((S_801711B0_1 *)part_arg)->unk_14 & 0xFFFE;
+            facing_flags = ((S_801711B0_1 *)part_arg)->unk_14 & 0xFFFE;
         }
-        ((S_801711B0_1 *)part_arg)->unk_14 = update_value;
+        ((S_801711B0_1 *)part_arg)->unk_14 = facing_flags;
 
         func_800A020C(((S_801711B0_2 *)base)->unk_1C, (u8 *)part_arg + 0xC);
         if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
@@ -156,11 +158,12 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
         if (normal_flags & 0x40000) {
             if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
                 ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
-                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)));
-                update_value = (s32)bob_step << 16;
-                update_value >>= 16;
-                bob_phase = update_value * 0x55;
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step + 1;
+                s32 bob_signed;
+
+                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;
+                bob_signed = (s32)bob_step << 16;
+                bob_signed >>= 16;
+                bob_phase = bob_signed * 0x55;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
@@ -176,10 +179,10 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
                 }
             }
         } else {
-            update_value = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            s32 bob_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
             (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
             (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
-            (*(s32 *)((u8 *)object_arg + (0x90))) -= update_value;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= bob_offset;
             if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
                 ground_height = func_800BCB04(((S_801711B0_0 *)motion_arg)->unk_00.at02.v,
                                       ((S_801711B0_0 *)motion_arg)->unk_04.at02.v,
@@ -204,10 +207,10 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
         special_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
         ((S_801711B0_2 *)base)->unk_1C = special_flags;
         if (!(special_flags & 0x40000)) {
-            update_value = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            s32 bob_offset = (*(s32 *)((u8 *)object_arg + (0xA0)));
             (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
             (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
-            (*(s32 *)((u8 *)object_arg + (0x90))) -= update_value;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= bob_offset;
             if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
                 ground_height = func_800BCB04(((S_801711B0_0 *)motion_arg)->unk_00.at02.v,
                                       ((S_801711B0_0 *)motion_arg)->unk_04.at02.v,
@@ -223,11 +226,12 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
         } else {
             if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
                 ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
-                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)));
-                update_value = (s32)bob_step << 16;
-                update_value >>= 16;
-                bob_phase = update_value * 0x55;
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step + 1;
+                s32 bob_signed;
+
+                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)))++;
+                bob_signed = (s32)bob_step << 16;
+                bob_signed >>= 16;
+                bob_phase = bob_signed * 0x55;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
