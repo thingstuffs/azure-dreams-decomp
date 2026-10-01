@@ -27,7 +27,7 @@ extern M2C_UNK D_800D09E0;
 
 /* Initialize the record and select its handler according to its variant. */
 void func_800A06A4(void *record_data, s32 initial_value) {
-    u8 variant;
+    u32 variant;
 
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A0708;
