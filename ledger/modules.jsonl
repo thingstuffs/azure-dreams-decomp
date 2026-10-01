@@ -3940,7 +3940,7 @@
 {"id":"dungeon/func_8008C1C0","container":"dungeon","module":"ovl_ac1c0.c","module_index":1,"confidence":"weak"}
 {"id":"dungeon/func_80092AF0","container":"dungeon","module":"ovl_ac1c0.c","module_index":1,"confidence":"weak"}
 {"id":"dungeon/func_8009C4B4","container":"dungeon","module":"ovl_ac1c0.c","module_index":1,"confidence":"weak"}
-{"id":"dungeon/func_804FE77C","container":"dungeon","module":"ovl_51e77c.c","module_index":2,"confidence":"weak"}
+{"id":"dungeon/func_804FE87C","container":"dungeon","module":"ovl_51e800.c","module_index":2,"confidence":"weak"}
 {"id":"dungeon/func_807AE800","container":"dungeon","module":"ovl_7ce800.c","module_index":3,"confidence":"weak"}
 {"id":"dungeon/func_807AE960","container":"dungeon","module":"ovl_7ce800.c","module_index":3,"confidence":"weak"}
 {"id":"dungeon/func_807AEF8C","container":"dungeon","module":"ovl_7ce800.c","module_index":3,"confidence":"weak"}
