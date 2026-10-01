@@ -25,7 +25,6 @@ typedef struct TownState {
 } TownState;
 
 extern u16 D_800135BE;
-extern void *D_80020164[6];
 extern u8 D_80026F80[];
 extern s16 D_800834C8[1];
 
@@ -48,42 +47,36 @@ void func_80025BC8(TownState *state)
     s32 phase;
     s32 loop_index;
     s32 particle_x;
-    static void *const case_labels[6] = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
-    };
 
     scene_data = &gameWork;
-    (void)case_labels;
     if (((u32)scene_data->unk_010) & 0x40) {
         state->counter = 0;
     }
     state->counter++;
 
     phase = state->state;
-    if ((u32)phase >= 6) {
+    switch (phase) {
+    default:
         goto cleanup;
-    }
-    goto *D_80020164[phase];
 
-case_0:
+case 0:
+    func_80048568(5);
+    func_8009AC0C();
+    state->state = 1;
+    /* Fall through to the camera phase. */
+case 1:
     {
         TownState *init_state = state;
-        s32 target_offset;
         TownObject *first_object;
         u16 round_delay;
 
-        func_80048568(5);
-        func_8009AC0C();
-        init_state->state = 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        target_offset = -0x80;
         scene_data->view.unk_094 +=
-            (target_offset - scene_data->view.unk_094) >> 1;
+            (-0x80 - scene_data->view.unk_094) >> 1;
         first_object = *(TownObject **)init_state;
         if (first_object->state != 1) {
             goto cleanup;
         }
-        scene_data->view.unk_094 = target_offset;
+        scene_data->view.unk_094 = -0x80;
         init_state->counter = 0;
         round_delay = *(u16 *)(D_80026F80 +
                         init_state->table_x * 40 + init_state->table_y * 400);
@@ -92,7 +85,7 @@ case_0:
         goto cleanup;
     }
 
-case_1:
+case 2:
     D_800834C8[0] = 0x400;
     {
         u16 flags = state->flags;
@@ -131,7 +124,7 @@ case_1:
              state->objects[2]->random76 == state->objects[0]->random76);
     goto cleanup;
 
-case_2:
+case 3:
     if (state->flags & 4) {
         goto cleanup;
     }
@@ -162,7 +155,7 @@ case_2:
     state->state = 4;
     goto cleanup;
 
-case_3:
+case 4:
     if (state->timer < 15) {
         scene_data->view.unk_094 >>= 1;
     }
@@ -194,7 +187,7 @@ case_3:
     state->flags |= 8;
     goto cleanup;
 
-case_4:
+case 5:
     {
         u16 progress;
         s32 threshold;
@@ -221,7 +214,7 @@ case_4:
         goto cleanup;
     }
 
-case_5:
+    }
 cleanup:
     state->flags &= ~6;
     return;
