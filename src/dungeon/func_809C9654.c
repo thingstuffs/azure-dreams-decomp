@@ -53,22 +53,13 @@ typedef struct S_80170E54_2 {
 
 
 /* Updates entity behavior, facing, and animation from dungeon and actor state. */
-void func_80170E54(void *input_controller, void *input_context, void *input_entity, void *input_actor_state)
+void func_80170E54(void *controller, void *context, void *entity, EntityRec *actor_state)
 {
-    void *controller;
-    void *context;
-    void *entity;
-    EntityRec *actor_state;
     u8 *anim_table;
-    register u8 *next_table ASM_REG("$5"); /* MATCH: both paths supply the shared tail anim_table in a1. */
     s32 room_id;
     s32 direction_flags;
     u32 initial_flags = dungeonStatus.flags;
 
-    controller = input_controller;
-    context = input_context;
-    entity = input_entity;
-    actor_state = input_actor_state;
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)controller)->unk_9A.as_u8 = 0xE;
@@ -80,8 +71,14 @@ void func_80170E54(void *input_controller, void *input_context, void *input_enti
     if (actor_state->tileY == 0) {
         func_800AA79C(controller, context, entity, actor_state);
         if (((S_80170E54_2 *)entity)->unk_2C != D_80173CDC) {
-            next_table = D_80173CD4;
-            goto update_table;
+            u8 *early_table = D_80173CD4;
+            void *record = entity;
+            entity = (u8 *)entity + 0x2C;
+            *(void **)entity = early_table;
+            func_80047784(record,
+                early_table[((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
+                0);
+            return;
         }
         return;
     }
@@ -238,9 +235,6 @@ ordinary_cleanup:
     if (((S_80170E54_2 *)entity)->unk_2C == anim_table) {
         return;
     }
-    next_table = anim_table;
-update_table:
-    anim_table = next_table;
     (*(void * *)((u8 *)entity + (0x2C))) = anim_table;
     func_80047784(entity,
         *(u8 *)((u32)(((gameWork.view.viewAngle + actor_state->facing + 0x100) >> 9) & 7) + (u32)anim_table),
