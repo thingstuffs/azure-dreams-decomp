@@ -125,6 +125,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
     u8 temp_a1_4;
     u8 temp_a1_5;
     s32 temp_angle;
+    u16 direction;
     void *code8_a0;
     s32 tail_data_flags;
     void *call_arg;
@@ -204,14 +205,12 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                 }
                 temp_v0 = func_8009F868();
                 if (temp_v0 != NULL) {
-                    temp_angle = ((S_8008EAC8_6 *)temp_v0)->unk_01 & 7;
+                    direction = ((S_8008EAC8_6 *)temp_v0)->unk_01 & 7;
                     temp_a1 = ((S_8008EAC8_1 *)arg3)->unk_2A.u;
-                    ASM_KEEP(temp_angle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    temp_angle = (u8) temp_angle;
-                    temp_a0 = temp_angle << 9;
+                    temp_angle = (u8)direction;
+                    temp_a0 = direction << 9;
                     temp_v1_5 = temp_a1 & 0xFFF;
-                    temp_angle = temp_a0;
-                    ASM_KEEP(temp_angle);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    temp_angle = ((u8)temp_angle) << 9;
                     ((S_8008EAC8_1 *)arg3)->unk_2A.u = temp_v1_5;
                     if (temp_v1_5 != temp_angle) {
                         s32 signed_target;
