@@ -103,7 +103,7 @@ typedef struct {
     u16 flags;
     u8 tail[6];
 } D_800E2970Entry;
-extern s16 D_8006CD00;
+extern s16 D_8006CD00[];
 extern s16 D_8006CCD8[8];
 extern u8 D_80082E80[];
 extern u16 D_80082EA4;
@@ -115,12 +115,11 @@ static __inline__ u8 get_y_step(s16 byte_offset) {
 
 /* Selects a movement direction and advances the actor path through available tiles. */
 void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *actor) {
-    register s32 turn_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 turn_index;
     s32 near_target;
     u8 *x_offsets;
     M2C_UNK old_tile_mask;
     M2C_UNK new_tile_mask;
-    s8 *angle_offsets;
     s32 target_y;
     s32 target_x;
     s32 y_offset;
@@ -199,18 +198,15 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                     result = func_800A6D30();
                     ((S_8016BF74_1 *)actor)->unk_2A.u += (result & 7) << 9;
                 }
-                turn_index = 0;
             } else {
                 x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v,
                     (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
-                turn_index = 0;
                 if (x_offset != NULL) {
                     ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                     return;
                 }
             }
         } else if (((S_8016BF74_5 *)motion)->unk_B2 != 0) {
-            turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                 if (actor_flags & 0x20000) {
                     direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((u16)D_800814A8->facing) << 0x10)
@@ -237,8 +233,6 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                         world_position = (u8 *)&D_80082EA4 - 0x24;
                         result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_position[0x24],
                             world_position[0x25]);
-                        ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                        turn_index = 0;
                         if ((result << 0x10) != 0) {
                             near_target = 1;
                         }
@@ -248,13 +242,11 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                     }
                 } else {
                     func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
-                    turn_index = 0;
                 }
             }
         } else {
             tile_index = position->unk_26;
             if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
-                turn_index = 0;
                 if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
                     initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v,
                         (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
@@ -273,24 +265,19 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                             if ((func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v, world_origin[0x24],
                                 world_origin[0x25]) << 0x10) != 0) {
                                 actor_distance = func_800A0134(D_800814A8, actor);
-                                turn_index = 0;
                                 if (actor_distance < 0x81) {
                                     result = func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10)
                                         >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v,
                                         (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20));
-                                    ASM_CLOBBER("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                                    turn_index = 0;
                                     if ((result << 0x10) != 0) {
                                         ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
                                         return;
                                     }
                                 }
                             } else {
-                                turn_index = 0;
                             }
                         } else {
                             func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
-                            turn_index = 0;
                         }
                     } else {
                         ((S_8016BF74_1 *)actor)->unk_71.u &= 0x7F;
@@ -299,18 +286,17 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                 }
             } else {
                 func_800A0E6C(position, ((S_8016BF74_5 *)motion)->unk_9C, actor, motion + 0x98);
-                turn_index = 0;
             }
         }
+        turn_index = 0;
         x_offsets = (u8 *)D_8006CCD8;
-        angle_offsets = (s8 *)&D_8006CD00;
-        for (;;) {
+        do {
             current_angle = ((S_8016BF74_1 *)actor)->unk_2A.s;
             if (((S_8016BF74_5 *)motion)->unk_98 & 2) {
-                move_value = *(s16 *)angle_offsets;
+                move_value = D_8006CD00[turn_index];
                 candidate_angle = current_angle - move_value;
             } else {
-                move_value = *(s16 *)angle_offsets;
+                move_value = D_8006CD00[turn_index];
                 candidate_angle = current_angle + move_value;
             }
             if ((func_8009A66C(candidate_angle, position, actor, 0x20) << 0x10) > 0) {
@@ -352,17 +338,12 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                 func_8009A21C(next_x, tile_y, new_tile_mask);
                 break;
             }
-            if ((turn_index != 0) || (D_80082EA4 == position->unk_24.at00u.v)
-                || (result = func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10, (result == 0))) {
-                turn_index += 1;
-                angle_offsets += 2;
-                if (turn_index < 8) {
-                    continue;
-                }
-                break;
+            if ((turn_index == 0) && (D_80082EA4 != position->unk_24.at00u.v)
+                && ((func_8009A180(actor, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0)) {
+                return;
             }
-            return;
-        }
+            turn_index += 1;
+        } while (turn_index < 8);
         {
             result = turn_index < 8;
             if (result == 0) {

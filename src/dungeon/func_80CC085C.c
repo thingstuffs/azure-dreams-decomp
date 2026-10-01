@@ -145,7 +145,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     }
 
     func_800A19E4(actor, movement, 3, 6, (u8 *)context + 0x9C);
-    ASM_KEEP(stop_fallback);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     flags = ((S_8017405C_0 *)movement)->unk_1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
@@ -341,33 +340,26 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             }
         }
     }
-    move_index = 0;
     {
-        s16 *heading_offsets = D_8006CD00;
-try_heading:
-        {
+        for (move_index = 0; move_index < 8; move_index++) {
             if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
                 s32 base_heading = ((Rec_func_800A9E70_arg0 *)context)->unk_A4;
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    heading = base_heading - heading_offsets[move_index];
+                    heading = base_heading - D_8006CD00[move_index];
                 } else {
-                    heading = base_heading + heading_offsets[move_index];
+                    heading = base_heading + D_8006CD00[move_index];
                 }
             } else {
                 target = (void *)((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    heading = (s32)(u8 *)target - heading_offsets[move_index];
+                    heading = (s32)(u8 *)target - D_8006CD00[move_index];
                 } else {
-                    heading = (s32)(u8 *)target + heading_offsets[move_index];
+                    heading = (s32)(u8 *)target + D_8006CD00[move_index];
                 }
             }
             if (func_8009A66C(heading, actor, movement, 0x20) > 0) {
                 if (move_index >= 3) {
-                    if (stop_fallback != 0) {
-                        ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
-                        return;
-                    }
-                    if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
+                    if ((stop_fallback != 0) || (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0)) {
                         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                         return;
                     }
@@ -394,21 +386,15 @@ try_heading:
                 }
                 func_8009A21C(actor->unk_24.at00.v, actor->unk_24.at01.v,
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-                goto step_done;
+                break;
             }
             if (move_index == 0 && D_80082EA4 != actor->unk_24.at00u.v) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 if (func_8009A180(movement, D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
-            move_index = move_index + 1;
-            if (move_index < 8) {
-                goto try_heading;
-            }
         }
     }
-step_done:
 
     if (move_index >= 8) {
         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;

@@ -33,22 +33,19 @@ extern s16 func_800BCB04();
 extern s32 func_80171E00();
 extern s16 D_8006CD00[8];
 /* Updates actor movement, recording the path and refreshing the tile position and height. */
-void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_arg)
+void func_80171410(u8 *object, void *entry_context, u8 *tile, u8 *actor)
 {
-    register u8 *object ASM_REG("$21") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *tile ASM_REG("$19") = tile_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *actor = actor_arg;
     DungeonGlobalStatus *state = &dungeonStatus;
     s32 actor_flags;
     register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 random_turn;
     s16 limit_turn;
+    s16 turn_index;
     s32 angle;
     u16 state_flags;
     void *target_record;
     u8 *target_tile;
     state_flags = state->flags;
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = 0;
     if ((state_flags & 0x4000) || (*(s8 *)(actor + 0x71)) >= 0) {
         if ((*(u8 *)(actor + 0x12)) >= 2 || (func_80171E00(object, entry_context, tile, actor) << 16) == 0) {
@@ -77,7 +74,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
                     + 0x24), *(u8 *)(target_tile + 0x25), object + 0x98);
                 {
                     u8 path_length = (*(u8 *)(actor + 0x71)) & 0x7F;
-                    ASM_USE(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                     *(u8 *)(actor + 0x71) = path_length;
                 }
                 return;
@@ -187,16 +183,15 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     }
 
     {
-        s16 turn_index = 0;
-        s16 *angle_steps = D_8006CD00;
+        turn_index = 0;
         for (; turn_index < 8; turn_index++) {
             base_angle = *(s16 *)(actor + 0x2A);
 
             if ((*(u16 *)(object + 0x98)) & 2) {
-                angle = base_angle - angle_steps[turn_index];
+                angle = base_angle - D_8006CD00[turn_index];
             }
             else {
-                angle = base_angle + angle_steps[turn_index];
+                angle = base_angle + D_8006CD00[turn_index];
             }
             if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) > 0) {
                 if (turn_index >= 3) {
@@ -253,10 +248,10 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
         return;
     }
     {
-        register s16 floor_height ASM_REG("$17") = func_800BCB04(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile
-            + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        if (floor_height < 0x200) {
-            *(u16 *)(actor + 0x88) = floor_height;
+        turn_index = func_800BCB04(((*(u8 *)(tile + 0x24)) << 6) | 0x20, ((*(u8 *)(tile
+            + 0x25)) << 6) | 0x20, (s16) ((*(u16 *)(actor + 0x88)) - 0x20));
+        if (turn_index < 0x200) {
+            *(u16 *)(actor + 0x88) = turn_index;
         }
     }
 
