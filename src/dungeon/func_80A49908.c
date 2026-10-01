@@ -87,8 +87,8 @@ void func_80173108(void *actor, s32 unused, void *sprite, void *entity)
         u8 *sprite_entry;
         s32 fade_delta;
 
+        group_index = 0;
         if ((s32)sprite_group < S16(actor, 0x9E)) {
-            group_index = 0;
             fade_delta = 0xFFEFEFF0;
             group_cursor = actor;
             do {

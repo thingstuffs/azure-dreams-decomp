@@ -64,6 +64,7 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
     s32 direction_aux;
     s32 tile_record;
     u16 action_state;
+    s32 jt_idx;
     u32 initial_flags = dungeonStatus.flags;
 
 
@@ -183,11 +184,12 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
         }
 
         action_state = entity_arg->unk_46 & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
+        jt_idx = action_state - 1;
+        if ((u32)jt_idx >= 12) {
             goto ordinary_cleanup;
         }
         (void)action_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
+        goto *D_80170808[jt_idx];
 
 jt_c8:
 jt_c9:

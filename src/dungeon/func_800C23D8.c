@@ -43,9 +43,10 @@ void func_800C7B38(void *entity_data) {
     case 0:
         if (entity->unk24 > 0) {
             s16 half_ticks;
+            s16 *table = D_800DD264;
             entity->unk10 -= entity->unk10 >> 2;
             blend->unk_098 = entity->unk26 + (u16)entity->unk10;
-            blend->unk_0AC = (u16)blend->unk_0AC + (D_800DD264[D_800120A2] - blend->unk_0AC) / entity->unk24;
+            blend->unk_0AC = (u16)blend->unk_0AC + (table[D_800120A2] - blend->unk_0AC) / entity->unk24;
             blend->viewAngle = (u16)blend->viewAngle + (0 - blend->viewAngle) / entity->unk24;
             blend->unk_0A4 = (u16)blend->unk_0A4 + (((Sub *)entity->unkC)->f2 - blend->unk_0A4) / entity->unk24;
             blend->unk_0A6 = (u16)blend->unk_0A6 + (((Sub *)entity->unkC)->f6 - blend->unk_0A6) / entity->unk24;
@@ -61,7 +62,10 @@ void func_800C7B38(void *entity_data) {
                 }
             }
         }
-        blend->unk_0AC = (u16)D_800DD264[D_800120A2];
+        {
+            s16 *table = D_800DD264;
+            blend->unk_0AC = (u16)table[D_800120A2];
+        }
         blend->viewAngle = 0;
         blend->unk_098 = entity->unk26;
         entity->unk18 += 1;
