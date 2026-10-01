@@ -8,7 +8,7 @@ extern s32 D_800869C0[];
 void func_80059DAC(void)
 {
     s32 saved_entry[2];
-    register s32 entry_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 entry_count;
     s32 entry_index;
     s32 compare_index;
     void *scan_entry;
@@ -19,14 +19,16 @@ void func_80059DAC(void)
 
     entry_count = 0;
     scan_entry = D_800869C0;
-count_entries:
-    if (*(s32 *)scan_entry != 0) {
-        entry_count++;
-        if (entry_count < 16) {
-            scan_entry = (s8 *)scan_entry + 8;
-            goto count_entries;
+do {
+        if (*(s32 *)scan_entry != 0) {
+            entry_count++;
+            if (entry_count < 16) {
+                scan_entry = (s8 *)scan_entry + 8;
+                continue;
+            }
         }
-    }
+        break;
+    } while (entry_count < 16);
 
     entry_index = 0;
     if (entry_count > 0) {
