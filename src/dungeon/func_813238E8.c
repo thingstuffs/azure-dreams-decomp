@@ -201,14 +201,15 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register void *status_record;
     register void *slot_cursor;
     S_8016B0E8_1 *seed_page;
-    void *motion_ref = motion;
-    register void *sprite_ref = sprite;
+
+
     void *actor;
-    register u8 *actors_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *actors_page;
     s32 inactive_mask;
+
 #define entity entity
-#define motion motion_ref
-#define sprite sprite_ref
+
+
 
     actor = entity;
     if (((S_8016B0E8_0 *)entity)->unk_18 == 0) {
@@ -239,12 +240,15 @@ loop_0:
         }
         if (((S_8016B0E8_0 *)entity)->unk_B4 == dungeonStatus.unk_0A) {
             message = D_800F927E;
-            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
+
+
+            (*(s16 *)&D_80013714) = (s16) (D_80013714 | 8);
+
+            func_800353F4(message);
             actor_index = 0;
             actors_page = (u8 *)0x800E0000;
-            (*(s16 *)&D_80013714) = (s16) (D_80013714 | 8);
             inactive_mask = 0x80000000;
-            func_800353F4(message);
             ((S_8016B0E8_2 *)actor)->unk_6D = 0U;
             ((S_8016B0E8_0 *)entity)->unk_9B = 0;
             ((S_8016B0E8_0 *)entity)->unk_B4 = 0U;
@@ -262,8 +266,8 @@ loop_0:
             } while (actor_index < 2);
         }
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (D_80013714 & 8) {
+
+    if (*(u16 *)0x80013714 & 8) {
         actor_index = 1;
         slot_cursor = ((EntityRec *)(((u8 * *)(&D_800E3D7C))))->x.v + 4;
         do {

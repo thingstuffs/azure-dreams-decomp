@@ -118,15 +118,17 @@ store_movement:
         object_type = S8(object, 4);
         if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
             func_8009C12C(actor, object, S16(actor, 0x2A), 1);
+            anim_table = 0x80170000;
+        } else {
+            anim_table = 0x80170000;
         }
         {
             u8 *facing_ptr;
 
-            anim_table = 0x80170000;
+
             if ((U16(object, 0x14) & 0x6000) == 0) {
                 return;
             }
-            ASM_KEEP_NV(anim_table);
             anim_table += 0x5CA8;
             facing_ptr = (u8 *)D_80080000;
             PTR(object, 0x2C) = (void *)anim_table;

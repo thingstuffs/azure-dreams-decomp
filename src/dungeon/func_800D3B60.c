@@ -79,13 +79,14 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     M2C_UNK tile_mask;
     s32 target_y;
     s32 target_x;
-    s32 candidate_heading;
+    s16 candidate_heading;
+    s32 heading_delta;
     s16 target_heading;
     s16 direction_or_x;
     s32 next_y;
     s32 room_cache;
     s32 turn_flags;
-    register s32 flags_or_heading ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 flags_or_heading;
     s32 actor_flags;
     s32 movement_bits;
     s32 target_direction;
@@ -173,9 +174,11 @@ loop_entry:
 try_heading:
             flags_or_heading = ((S_800D92C0_0 *)actor)->unk_2A.s;
             if (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 2) {
-                candidate_heading = flags_or_heading - ((s16 *)turn_offsets)[turn_index];
+                heading_delta = ((s16 *)turn_offsets)[turn_index];
+                candidate_heading = flags_or_heading - heading_delta;
             } else {
-                candidate_heading = flags_or_heading + ((s16 *)turn_offsets)[turn_index];
+                heading_delta = ((s16 *)turn_offsets)[turn_index];
+                candidate_heading = flags_or_heading + heading_delta;
             }
             if ((func_8009A66C((s16)candidate_heading, position, actor, 0x20) << 0x10) > 0) {
                 if (turn_index >= 3) {
