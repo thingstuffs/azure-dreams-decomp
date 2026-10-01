@@ -47,8 +47,7 @@ typedef struct S_800B0FD4_1 {
 } S_800B0FD4_1;   /* temp_v0 in func_800B0FD4 */
 
 /* Populate up to five shop item rows with item details and buy or sell prices. */
-void func_800B0FD4(void *menu) {
-    register S_800B0FD4_0 *ctx ASM_REG("$17") = menu;
+void func_800B0FD4(S_800B0FD4_0 *ctx) {
     M2C_UNK price_text[8];
     s32 item_info;
     s32 item_value;
@@ -59,14 +58,13 @@ void func_800B0FD4(void *menu) {
     s32 row;
     S_800B0FD4_1 *item;
 
-    func_800B15B8(menu);
+    func_800B15B8(ctx);
     row = 0;
     page = ctx->unk_10;
     row_offset = 0;
     item_index = page * 5;
     item_offset = page * 0x14;
-next_item:
-    if (item_index < ctx->unk_0C) {
+    while (row < 5 && item_index < ctx->unk_0C) {
         item = item_offset + ctx->unk_24;
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_10 = func_8004A658(item->unk_01, item->unk_00);
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_38 =
@@ -88,12 +86,6 @@ next_item:
         item_offset += 4;
         *((S_800B0FD4_2 *)((row_offset + ctx->unk_CC)))->unk_60 = item_value;
         row_offset += 4;
-        if (row >= 5) {
-            func_800B0D7C(ctx);
-            func_800B0BD0(ctx);
-            return;
-        }
-        goto next_item;
     }
     func_800B0D7C(ctx);
     func_800B0BD0(ctx);
