@@ -31,9 +31,7 @@ void func_800B8B00(s32 code) {
     s8 stored_code;
     TownFiveWords slot_ids;
     s16 code_index;
-    s32 *scan_id;
-    s32 *free_id;
-    register s32 scan_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 scan_count;
     s32 duplicate_code;
     S_800B8B00_0 *scan_slot;
     S_800B8B00_1 *free_slot;
@@ -56,32 +54,23 @@ void func_800B8B00(s32 code) {
         scan_count = 0;
         scan_base = (u8 *)0x80010000;
         duplicate_code = 9;
-        scan_id = slot_ids.value;
-check_duplicate:
-        scan_slot = (u8 *)((u32)(*scan_id * 2) + (u32)scan_base);
-        if (scan_slot->unk_33A4 != duplicate_code) {
+        do {
+            scan_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (u32)scan_base);
+            if (scan_slot->unk_33A4 == duplicate_code) return;
+            if (scan_slot->unk_33A5 == duplicate_code) return;
             scan_count += 1;
-            if (scan_slot->unk_33A5 != duplicate_code) {
-                scan_id += 1;
-                if (scan_count >= 5) {
-                    scan_count = 0;
-                    free_base = (u8 *)0x80010000;
-                    free_id = slot_ids.value;
-find_empty_slot:
-                    do {
-                        free_slot = (u8 *)((u32)(*free_id * 2) + (u32)free_base);
-                        scan_count += 1;
-                        if (free_slot->unk_33A5 == 0) {
-                            free_slot->unk_33A5 = stored_code;
-                            return;
-                        }
-                        free_id += 1;
-                    } while (scan_count < 5);
-                    return;
-                }
-                goto check_duplicate;
+        } while (scan_count < 5);
+        scan_count = 0;
+        free_base = (u8 *)0x80010000;
+        do {
+            free_slot = (u8 *)((u32)(slot_ids.value[scan_count] * 2) + (u32)free_base);
+            if (free_slot->unk_33A5 == 0) {
+                free_slot->unk_33A5 = stored_code;
+                return;
             }
-        }
+            scan_count += 1;
+        } while (scan_count < 5);
+        return;
     default:
         return;
     case 0x36:

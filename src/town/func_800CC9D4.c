@@ -59,20 +59,14 @@ void func_800CA134(void *state, void *position) {
     (*(s16 *)((u8 *)position + (6))) = (s16) ((u16) ((S_800CA134_1 *)position)->unk_06 + (y_delta >> 2));
     {
         void *target;
-        register s32 z_step ASM_REG("$2");
+        s32 z_step;
         s32 target_z;
-        u16 z_value;
 
         target = (*(void * *)((u8 *)target_table + (8)));
         z_step = ((S_800CA134_1 *)position)->unk_0A.n;
         target_z = ((S_800CA134_2 *)target)->unk_0A;
         z_step += 0xD0;
         z_step = target_z - z_step;
-        z_value = ((S_800CA134_1 *)position)->unk_0A.v;
-        if (z_step < 0) {
-            z_step += 3;
-        }
-        z_step = z_value + (z_step >> 2);
-        ((S_800CA134_1 *)position)->unk_0A.n = (s16) z_step;
+        ((S_800CA134_1 *)position)->unk_0A.n += z_step / 4;
     }
 }

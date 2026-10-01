@@ -16,20 +16,17 @@ void func_800C4A88(void *town_object, void *arg1, void *arg2, void *child)
 {
     u32 slot;
     u8 raw_variant;
+    ObjectIndexSlot *slot_table;
 
-    slot = (u32)(&D_80082660[*(s32 *)((u8 *)town_object + 0x60)]);
+    slot_table = D_80082660;
+    slot = (u32)(&slot_table[*(s32 *)((u8 *)town_object + 0x60)]);
     raw_variant = ((TownSlot *)slot)->variant;
     ((TownSlot *)slot)->active = 0;
     child = *(void **)((u8 *)town_object + 0x98);
     slot = raw_variant & 3;
     if (child != 0) {
-        ASM_USE(raw_variant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         *(u8 *)((u8 *)child + 4) = slot;
     }
     *(u16 *)((u8 *)town_object + 0x6E) = D_800D5070[slot];
     func_800C41D4(town_object, arg1, arg2, child);
 }
-
-/* MECHANISM: The proven 0x18 frame/CFG holds child in $a3 and raw_variant in $v0.
-   Pinning only the masked variant live range to $v1 moves its andi into the branch
-   delay slot and reuses $v1 for both the child store and u16 table lookup. */

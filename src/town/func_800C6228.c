@@ -19,7 +19,7 @@ typedef struct S_800C3988_1_pre {
 void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK dispatch_data, M2C_UNK check_arg) {
     s32 slot_offset;
     s32 handler_addr;
-    u8 handler_id;
+    s32 handler_id;
     u8 *handler_slot;
     M2C_UNK (*handler)(void *, M2C_UNK, M2C_UNK);
     Rec_func_80094268_arg0 *dispatch_record;
@@ -46,11 +46,13 @@ void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK
             goto dispatch;
         }
         if ((s8) handler_id >= 0x16) {
-            register s32 handler_base ASM_REG("$2"); /* MATCH: load the record handler_base into v0 before indexing. */
+            s32 handler_base;
             saved_arg = dispatch_arg;
             dispatch_record = record;
+            handler_id = (s8)handler_id * 4;
             handler_base = dispatch_record->unk_5C;
-            handler = ((S_800C3988_1_pre *)((((s8) handler_id * 4) + handler_base)))[-1].unk_00;
+            handler_id = handler_base + handler_id;
+            handler = ((S_800C3988_1_pre *)handler_id)[-1].unk_00;
 dispatch:
             handler(dispatch_record, saved_arg, dispatch_data);
             return;

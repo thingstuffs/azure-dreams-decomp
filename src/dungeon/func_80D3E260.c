@@ -104,6 +104,7 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
 {
     s16 use_player;
     u8 *item_id;
+    s32 offset_x;
 
     use_player = 0;
     switch (((S_80173A60_0 *)actor_state)->unk_9B) {
@@ -165,15 +166,15 @@ L_kind4:
             } else if (D_8006DE24[*item_id].kind == 2) {
                 linked_actor = (*(void * *)((u8 *)actor + 0x60));
                 if (linked_actor != 0) {
-                    register u8 *linked_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    u8 *linked_sprite;
 
 L_copy_linked:
                     linked_sprite = ((S_80173A60_1_pre *)linked_actor)[-1].unk_00;
                     (*(u8 *)((u8 *)actor + 0x72)) = linked_sprite[0x24];
-                    (*(u8 *)((u8 *)actor + 0x73)) = linked_sprite[0x25];
+                    offset_x = linked_sprite[0x25];
+                    (*(u8 *)((u8 *)actor + 0x73)) = offset_x;
                 }
             } else {
-                s32 offset_x;
                 s32 offset_y;
 
                 offset_x = (s32)func_800A05A4(actor,

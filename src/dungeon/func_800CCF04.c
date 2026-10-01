@@ -96,7 +96,7 @@ void func_800D2664(void *object, void *motion, void *entity) {
             base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
             if (((S_800D2664_1 *)object)->unk_90.at02.v + base_height < ground_height) {
                 u16 object_flags = ((S_800D2664_1 *)object)->unk_98;
-                ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                ((S_800D2664_1 *)object)->unk_98 = object_flags;
             } else {
                 if (ground_height >= base_height) {
                     ((S_800D2664_1 *)object)->unk_90.at00.v = 0;
