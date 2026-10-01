@@ -6602,3 +6602,4 @@
 {"id":"town/func_808110CC","transform":"t48_gotoreturn","in_sha":"67ac10e8f78cc886abe32e5fb5a29028201aff705335faa39a6a28be8c0087e9","from_clean":true,"size":2188,"outcome":"refused","reason":"no pin sites","at":"2026-10-01T21:59:13Z"}
 {"id":"dungeon/func_818AAE60","transform":"t48_gotoreturn","in_sha":"f9f9e50b9db9369269ca96bea71380444cfb6c504d3f88034ae42f2d8c6dc948","from_clean":true,"size":1740,"outcome":"refused","reason":"no pin sites","at":"2026-10-01T22:15:28Z"}
 {"id":"dungeon/func_818C3B90","transform":"t48_gotoreturn","in_sha":"0e849dcb792d1216449726b767aec32aa6b8ae5519807fbff56cf89c3edf4ddf","from_clean":true,"size":1792,"outcome":"refused","reason":"no pin sites","at":"2026-10-01T22:15:28Z"}
+{"id":"dungeon/func_81912154","transform":"t48_gotoreturn","in_sha":"3828e3c31a15fc92340bd6b96b4d76a3e3157b09989f718a7079411dfe54fdfc","from_clean":true,"size":1816,"outcome":"refused","reason":"no goto into a return tail","at":"2026-10-01T22:27:21Z"}
