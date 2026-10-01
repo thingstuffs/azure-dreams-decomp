@@ -13,3 +13,9 @@ usually a crutch for one allocation inequality. Run `alloc_need.py <row> <erased
 - A first-statement typed copy of the LAST hard-register parameter is folded into its entry move by cse (cse.c 7518):
   un-doubled with the prologue unchanged (one parameter per function).
 Dead `= 0` inits, stores through the pointer, `p = p;`, call arguments do NOT count as second sets.
+- **Proven generator (r85_opus_par1: 800914C4, 8132B8AC, 80819B14 to 0):** when alloc_need says a (doubled) parameter
+  needs +k refs, write the statement at the head of a JOIN (after an if/else, at a goto label) that references it into
+  EACH arm instead (add an `else` if needed). flow/global.c count every copy's refs; jump2 cross_jump merges the
+  identical copies back after allocation, so the bytes do not change. Each copy must follow a barrier in its arm (a
+  call, a loop exit, a branch) or sched1 interleaves it and cross-jumping only half-merges. Check (refs+k)/(live+d)
+  against the competitor first. Owner ruling: the same statement in both arms is fine (copy-paste style).

@@ -569,3 +569,6 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   copy swap (cse.c 7490-7530) un-doubles only the LAST hard-register parameter via a first-statement typed copy. Where the
   retail prologue shows the parameter direct (doubled), the pins were a crutch for an inequality on the COMPETITOR's
   side (its refs/live) - work that side. Census: 68 COLOUR sites on parameters in 44 rows, 25 with a doubled parameter.
+- **Join-statement duplication (r85_opus_par1, 4 pins on 3 rows):** a parameter short of global.c priority by k refs
+  gets them from a join-head statement written into each arm (after a barrier in each arm); jump2 cross_jump re-merges
+  the copies after allocation, bytes unchanged. Brief paragraph param_priority.md.
