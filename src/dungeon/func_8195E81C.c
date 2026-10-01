@@ -62,17 +62,14 @@ void func_8002401C(void *object)
     s32 *row;
     s32 *clear_row;
     s32 *clear_cell;
-    s32 *cell;
     s16 rect[4];
     s32 row_index;
     s32 col_index;
-    s32 x;
     s32 y;
     s32 cell_value;
     s32 cell_size;
     s32 direction_offset;
     EntityRec *map_data;
-    s16 *rect_arg;
     u8 config_byte;
     void *created_obj;
     void *display;
@@ -178,16 +175,13 @@ dispatch_done:
 
     for (row_index = 0, cell_size = 0x10, row = D_800274DC, y = 0x180;
          row_index < 7; row_index++) {
-        for (col_index = 0, cell = row, x = 0x340; col_index < 7;) {
-            rect_arg = rect;
-            ASM_KEEP(rect_arg);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            rect[0] = x;
+        for (col_index = 0; col_index < 7;) {
+            rect[0] = 0x340 + col_index * 0x10;
             rect[1] = y;
             rect[2] = cell_size;
             rect[3] = cell_size;
-            cell_value = *cell++;
-            x += 0x10;
-            func_80026064(rect_arg, cell_value);
+            cell_value = row[col_index];
+            func_80026064(rect, cell_value);
             col_index++;
         }
         row += 8;

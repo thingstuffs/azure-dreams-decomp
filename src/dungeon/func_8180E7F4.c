@@ -219,11 +219,11 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s16 donor_primary;
     u8 *merge_out;
     s16 other_match;
-    register s32 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 source_side;
     s32 match_offset;
     s32 result_traits;
-    s32 next_clear;
+    u16 next_clear;
     register s32 donor_traits ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 donor_trait_bits;
     s32 ability_offset;
@@ -314,7 +314,6 @@ loop_0:
             ((S_800277F4_1 *)clear_entry)->unk_02 = 0;
             clear_donor_seen[clear_slot] = 0;
             clear_result_seen[clear_slot] = 0;
-            ASM_KEEP_NV(next_clear);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         if ((s16) next_clear >= 0)
             goto loop_0;

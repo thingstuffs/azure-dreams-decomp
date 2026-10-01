@@ -83,15 +83,6 @@ extern void func_80024640(State *, Motion *);
 extern void func_80024024(void *, u8, Owner *);
 
 
-#ifdef NON_MATCHING
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)dirStepX)
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)dirStepY)
-#else
-#define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
-#define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
-#endif
 
 
 /* Updates an owner-directed movement sequence and its timed action states. */
@@ -383,5 +374,3 @@ done:
     action->fieldC = 0;
 }
 
-#undef LOAD_TABLE_X_BASE
-#undef LOAD_TABLE_Y_BASE

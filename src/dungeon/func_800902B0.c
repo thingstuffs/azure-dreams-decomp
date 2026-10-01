@@ -118,11 +118,8 @@ extern void *D_800E3DF0[];
 extern s8 D_800E3E40;
 
 /* Advances the resource loading, object creation, and animation sequence. */
-void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *context_in) {
-    u8 *actor = actor_in;
-    void *position = position_in;
-    void *animation = animation_in;
-    register u8 *context ASM_REG("$19") = context_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_80095A10(u8 *actor, void *position, void *animation, u8 *context) {
+
     u8 *animation_table;
     s32 load_resource;
     s32 spawn_resource;
@@ -149,23 +146,31 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
         ((S_80095A10_1 *)animation)->unk_14 = (u16) (((S_80095A10_1 *)animation)->unk_14 | 0x200);
         func_80093C70(actor, position, animation);
         func_80093D8C(actor, position, animation);
-        goto advance_state;
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 1:
         load_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
         if (load_resource == 0) {
-            goto advance_state;
+            previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+        return;
         }
         D_80081488 = func_80047DB8(((S_80095A10_3 *)resource_info)->unk_00);
         func_800A0B94(((S_80095A10_3 *)resource_info)->unk_00, load_resource, 0);
         (*(s8 *)&D_800E3E40) = 0;
         Control_CD(0xFF, &D_8003E140, &D_800E3E40);
-        goto advance_state;
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 2:
         if (((S_80095A10_4 *)(&D_800E3E40))->unk_00 == 0) {
             return;
         }
         func_80047DF0(state);
-        goto advance_state;
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 3:
         spawn_resource = func_800A1618(((S_80095A10_3 *)resource_info)->unk_00, 2);
         if (spawn_resource == 0) {
@@ -203,7 +208,8 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
         {
             animation_flags = 0x10U;
             ((S_80095A10_0 *)actor)->unk_96 = animation_flags;
-            goto store_next_state;
+            ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+            return;
         }
     case 4:
         ticks_left = ((S_80095A10_0 *)actor)->unk_96 - 1;
@@ -214,7 +220,9 @@ void func_80095A10(u8 *actor_in, void *position_in, void *animation_in, u8 *cont
         (*(M2C_UNK **)((u8 *)animation + 0x2C)) = D_800DD140;
         func_80048A44(animation, *((((s32) (gameWork.view.viewAngle + ((S_80095A10_2 *)context)->unk_2A + 0x100)
             >> 9) & 7) + D_800DD140), 0, 1);
-        goto advance_state;
+        previous_state = ((S_80095A10_0 *)actor)->unk_9B;
+        ((S_80095A10_0 *)actor)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 5:
         animation_flags = ((S_80095A10_1 *)animation)->unk_14;
         if (!(animation_flags & 0x6000)) {
