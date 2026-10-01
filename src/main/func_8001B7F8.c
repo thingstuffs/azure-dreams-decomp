@@ -1,4 +1,6 @@
 #include "common.h"
+typedef struct PadState { s32 held; s32 unk_04; s32 pressed; } PadState;
+extern PadState D_801379A8;
 
 typedef struct S_804027F8_0 {
     s32 unk_00;
@@ -11,8 +13,6 @@ typedef struct S_804027F8_0 {
 } S_804027F8_0;   /* arg0 in func_804027F8 */
 
 
-extern s32 D_801379A8;
-extern s32 D_801379B0;
 extern u8 D_80408ADE[];
 
 extern s32 func_80056450(s32 arg0, s32 arg1, u8 arg2);
@@ -28,12 +28,10 @@ void func_804027F8(void *menu)
     s32 step;
     s32 repeat_ticks;
 
-    held_buttons = D_801379A8;
+    held_buttons = D_801379A8.held;
     step = 0;
     if (held_buttons != 0) {
-        menu = (u8 *)menu + 1;
-        menu = (u8 *)menu - 1;
-        pressed_buttons = D_801379B0;
+        pressed_buttons = D_801379A8.pressed;
         if (!(pressed_buttons & 0x40)) {
             if (pressed_buttons & 0x20) {
                 s32 action_result;
@@ -50,7 +48,7 @@ void func_804027F8(void *menu)
             } else if (held_buttons & 0xA000) {
                 if (pressed_buttons & 0xA000) {
                     (*(s32 *)((u8 *)menu + 0x10)) = 0;
-                    pressed_buttons = D_801379B0;
+                    pressed_buttons = D_801379A8.pressed;
                     if (pressed_buttons & 0x8000) {
                         step = -1;
                     } else if (pressed_buttons & 0x2000) {

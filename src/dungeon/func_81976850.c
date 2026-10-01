@@ -95,7 +95,6 @@ void func_81976850(void *effect, void *motion, void *visual)
     void *target_pos;
     EntityRec *scene;
     void *object;
-    u8 *collision;
     s32 z_offset;
     s32 table_entry;
     s16 state;
@@ -112,7 +111,6 @@ void func_81976850(void *effect, void *motion, void *visual)
             }
             goto update_visual;
         }
-        collision = (u8 *)0x80080000;
         if (state == 2) {
             goto move_to_target;
         }
@@ -151,7 +149,6 @@ follow_source:
     goto update_visual;
 
 move_to_target:
-    collision += 0x2E80;
     brightness = ((S_81976850_4 *)visual)->unk_0E + 8;
     ((S_81976850_4 *)visual)->unk_0E = brightness;
     ((S_81976850_4 *)visual)->unk_0D = brightness;
@@ -169,7 +166,7 @@ move_to_target:
     table_entry += (s32)D_800E3D18;
     if (func_8003DE58(
             ((S_81976850_7 *)((void *)table_entry))->unk_00,
-            collision,
+            &D_80082E80,
             &delta,
             0) != 0) {
         ((S_81976850_2 *)motion)->unk_0C += delta.x << 16;

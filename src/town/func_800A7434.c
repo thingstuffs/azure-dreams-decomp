@@ -20,8 +20,6 @@ extern void func_800A4C10(UnkStruct_800A7434 *);
 /* Reset state when the value source changes; otherwise copy its three values. */
 void func_800A4B94(UnkStruct_800A7434 *state) {
     s32 *values;
-    s32 *current_values;
-    s32 value;
 
     values = state->unk00;
     if (values != state->unk04) {
@@ -34,10 +32,7 @@ void func_800A4B94(UnkStruct_800A7434 *state) {
         func_800A4C10(state);
         return;
     }
-    current_values = state->unk00;
     state->unk08 = values[0];
-    value = current_values[1];
-    state->unk0C = value;
-    value = current_values[2];
-    state->unk10 = value;
+    state->unk0C = state->unk00[1];
+    state->unk10 = state->unk00[2];
 }
