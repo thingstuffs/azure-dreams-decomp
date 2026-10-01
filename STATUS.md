@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-01T18:36:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-01T19:43:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,7 +76,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,284 | 11.9% |
 | ASM_ pins | 2135 | 1,464,792 | 57.3% | 201 | 268,908 | 10.5% |
 | goto | 1545 | 1,318,412 | 51.5% | 671 | 724,588 | 28.3% |
-| computed-goto jump table | 317 | 437,288 | 17.1% | 76 | 112,752 | 4.4% |
+| computed-goto jump table | 317 | 437,288 | 17.1% | 75 | 110,956 | 4.3% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 244 | 205,500 | 8.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,064 | 50.3% | 1777 | 959,904 | 37.5% |
@@ -87,7 +87,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,096 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5303 | 1,513,316 | 59.2% |
 
-Pin sites now: 670 in 200 rows; REG 372, KEEP_NV 95, KEEP 92, SCHED_BARRIER 30, USE_NV 16, USE2_NV 13, USE 10, SET 8.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 667 in 200 rows; REG 371, KEEP_NV 95, KEEP 92, SCHED_BARRIER 29, USE_NV 16, USE2_NV 13, USE 9, SET 8.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 1 (C that is missing); symbol aliases 97 (a second typed name for one symbol: a missing type); file-scope asm directives 411.
 

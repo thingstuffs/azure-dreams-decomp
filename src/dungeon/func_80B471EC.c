@@ -211,7 +211,6 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s16 ring;
     s16 ring_index;
     s16 next_segment;
-    s16 next_ring_sector;
     s32 sector_offset;
     s32 segment_index;
     s32 opening_azimuth;
@@ -487,10 +486,9 @@ meridian_segment_loop:
             vertex_base_or_offset = scaled_outer << 2;
         }
         sector_or_ring_start = (s8 *)angle_or_vertices + vertex_base_or_offset;
-        do {
+        for (; ring_sector < 6; ring_sector++) {
             ring_object = func_8003FC64(0x212);
             if (ring_object != NULL) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 meridian_line = ring_object + 0x20;
                 ((S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((S_801749EC_14 *)meridian_line)->unk_1C = 1;
@@ -532,9 +530,7 @@ meridian_segment_loop:
                 ((S_801749EC_14 *)meridian_line)->unk_6C = (u16) ((S_801749EC_21 *)current_vertex)->unk_02;
                 ((S_801749EC_14 *)meridian_line)->unk_6E = (u16) ((S_801749EC_21 *)current_vertex)->unk_04;
             }
-            next_ring_sector = ring_sector + 1;
-            ring_sector = next_ring_sector;
-        } while (next_ring_sector < 6);
+        }
         next_ring = ring + 1;
         ring = next_ring;
     } while (next_ring < 9);
