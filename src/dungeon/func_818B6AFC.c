@@ -80,8 +80,9 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 packed_channel;
     s32 cycle_quotient;
     s32 packed_color;
-    register s32 end_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
+    s32 hold_blue;
+    s32 hold_half;
     s32 cycle_value;
     s16 fade_in_cycle;
     s16 hold_cycle;
@@ -156,18 +157,17 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
             rounded_color = hold_color + 3;
         }
         red = (rounded_color >> 2) * 0xC0;
-        end_frame = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
+        hold_half = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = red;
         ((S_818B6AFC_3 *)target_color)->unk_0C = red;
-        green = ((s16) end_frame % 2) * 0xC0;
-        end_frame = (s16) (hold_color - (end_frame * 2));
+        green = ((s16) hold_half % 2) * 0xC0;
+        hold_blue = (s16) (hold_color - (hold_half * 2));
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = green;
         (*(s8 *)((u8 *)target_color + 0xD)) = green;
-        blue = end_frame * 0xC0;
+        blue = hold_blue * 0xC0;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = blue;
         ((S_818B6AFC_3 *)target_color)->unk_0E = blue;
         render_owner = ((S_818B6AFC_0 *)effect)->unk_00;
-        ASM_USE_NV(render_owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_80024154(render_owner, render_arg, ((S_818B6AFC_4 *)color_out)->unk_0C.at00u.v, effect);
         return;
     }
@@ -185,28 +185,28 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         }
         fade_out_red = fade_work >> 2;
         fade_work = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
-        end_frame = 0x30;
-        fade_work = end_frame - fade_work;
+        fade_in_color = 0x30;
+        fade_work = fade_in_color - fade_work;
         fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         product_result = fade_out_red * (fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         fade_out_green = (s16) fade_out_half % 2;
         packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
-        product_result = fade_out_green * ((end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        product_result = fade_out_green * ((fade_in_color - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
         channel_bit = packed_channel >> 16;
-        product_result = channel_bit * ((end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
+        product_result = channel_bit * ((fade_in_color - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
-        frames_left = end_frame - frames_left;
+        frames_left = fade_in_color - frames_left;
         product_result = fade_out_red * ((frames_left * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
-        frames_left = end_frame - frames_left;
+        frames_left = fade_in_color - frames_left;
         product_result = fade_out_green * ((frames_left * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
-        frames_left = end_frame - frames_left;
+        frames_left = fade_in_color - frames_left;
         product_result = channel_bit * ((frames_left * 3) << 3);
     store_blue:
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;

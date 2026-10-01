@@ -36,37 +36,32 @@ static __inline__ s16 scene_below(s32 scene, s32 bound)
 /* Initialize town asset state and load graphics for the current scene. */
 void func_800B70EC(void) {
     s32 special_scene;
-    s32 scene_index;
     s32 scene_offset;
     s32 single_row;
     s32 size;
+    s32 kind;
     s32 limit;
     s32 seven;
     u8 *asset_data;
     u8 *scene_table;
+    u8 *kind_table;
     u8 *state_base;
     u8 *asset_state;
     u8 *shared_state;
     u16 *upload_rect;
     u8 *image_data;
-    register u8 *scene_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     upload_rect = D_80111FA8;
-    scene_entry = (u8 *)(upload_rect);
     image_data = D_80110EC8;
     state_base = ((u8 *)(&gameWork));
     asset_state = state_base + 0x1DC;
-    seven = 7;
     limit = 0x7F;
     size = 0x2000;
-    ASM_KEEP(upload_rect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(image_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP4(asset_state, seven, limit, size);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ((S_800B70EC_0 *)asset_state)->unk_14 = seven;
-    seven = 7;
-    ((S_800B70EC_0 *)asset_state)->unk_16 = seven;
+    ((S_800B70EC_0 *)asset_state)->unk_14 = 7;
     ((S_800B70EC_0 *)asset_state)->unk_18 = limit;
     ((S_800B70EC_0 *)asset_state)->unk_1C = size;
+    seven = 7;
+    ((S_800B70EC_0 *)asset_state)->unk_16 = seven;
     ((S_800B70EC_0 *)asset_state)->unk_1A = limit;
     ((S_800B70EC_0 *)asset_state)->unk_1E = size;
     shared_state = D_80082E60;
@@ -76,21 +71,20 @@ void func_800B70EC(void) {
     upload_rect[3] = 0x80;
     (*(u16 *)((u8 *)shared_state + 0x16)) |= 1;
     asset_data = D_8014F004;
-    func_8006733C((u16 *)scene_entry, image_data, limit);
+    func_8006733C(upload_rect, image_data);
 
-    scene_table = D_800D2FB4;
-    size = scene_table[D_800D381A[0] << 5];
-    ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     single_row = 1;
+    kind_table = D_800D2FB4;
+    kind = kind_table[D_800D381A[0] << 5];
     special_scene = 0x21;
-    if (size != special_scene) {
-        if (scene_below(size, 0x21)) {
+    if (kind != special_scene) {
+        if (scene_below(kind, 0x21)) {
             goto common;
         }
-        if ((s32)size >= 0x29) {
+        if ((s32)kind >= 0x29) {
             goto common;
         }
-        scene_offset = (s32)size < 0x26;
+        scene_offset = (s32)kind < 0x26;
         if (scene_offset) {
             goto common;
         }
@@ -116,11 +110,11 @@ common:
     func_80067014(0);
     *(void **)asset_state = asset_data;
     func_800B73F0(asset_data);
-    size = D_800D2FB4;
-    scene_index = D_800D381A[0];
-    scene_offset = scene_index << 5;
-    scene_entry = size + scene_offset;
-    if (*scene_entry != 0x29) {
-        func_80046E38(*scene_entry, D_8012F004);
+    scene_table = D_800D2FB4;
+    {
+        u8 *entry = &scene_table[D_800D381A[0] << 5];
+        if (*entry != 0x29) {
+            func_80046E38(*entry, D_8012F004);
+        }
     }
 }

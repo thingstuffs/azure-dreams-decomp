@@ -168,12 +168,13 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     u32 entry_idx32;
     void *entry_addr;
     s32 ff;
-    u8 *addr_hold;
     u8 *save_page;
     void **dispatch_table;
     s32 ff2;
     s32 scaled_i;
-    register u32 probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 probe;
+    u32 probe_idx;
+    u32 probe2;
     u8 *dispatch_ptr;
     u32 dispatch_slot;
     s32 sign_shift;
@@ -190,15 +191,10 @@ void func_80094988(S_80094988_1 *dungeon, EntityRec *actor, u16 base_x, u16 base
     func_80041E28(actor, (s32)cursor_ptr | 0x2194);
     i = 0;
     ff = 0xFF;
-    do {
-        addr_hold = (u8 *)0x800E0000;
-    } while (0);
     table_ptr = D_800E3DF0;
     src_ptr = cursor_ptr;
     rec_src = src_ptr;
-    addr_hold = (u8 *)0x800E0000;
-    ASM_KEEP(addr_hold);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    scratch = (u32)(addr_hold + 0x3E48);
+    scratch = (u32)D_800E3E48;
     entry_dst = (u8 *)scratch;
     dungeon->unk_F8 = (u16)((S_80094988_0 *)cursor_ptr)->unk_2D50;
     tile_ptr = src_ptr;
@@ -225,13 +221,14 @@ loop_1:
         table_ptr += 4;
         src_ptr += 1;
         rec_src += 0x8C;
+        entry_dst += 0x8C;
     } else {
         ((S_80094988_3 *)table_ptr)->unk_00 = 0;
         table_ptr += 4;
         src_ptr += 1;
         rec_src += 0x8C;
+        entry_dst += 0x8C;
     }
-    entry_dst += 0x8C;
     i += 1;
     tile_ptr += 4;
     if (i < 0x14) {
@@ -262,28 +259,28 @@ loop_0:
     if (i < 2)
         goto loop_0;
 
-    probe = 0x80010000;
-    probe = ((S_80094988_7 *)((void *)probe))->unk_21E0;
-    if (probe != 0xFF) {
+    probe_idx = 0x80010000;
+    probe_idx = ((S_80094988_7 *)((void *)probe_idx))->unk_21E0;
+    if (probe_idx != 0xFF) {
         dispatch_ptr = (u8 *)0x80010000;
         probe = (u32)dispatch_ptr;
-        dispatch_slot = ((S_80094988_8 *)dispatch_ptr)->unk_21E0;
         probe |= 0x248;
+        dispatch_slot = ((S_80094988_8 *)dispatch_ptr)->unk_21E0;
         dispatch_slot <<= 2;
         slot_ptr = (u8 *)(dispatch_slot + probe);
     } else {
         slot_ptr = NULL;
     }
     func_800982A8(actor, slot_ptr);
-    probe = 0x80010000;
-    probe = ((S_80094988_7 *)((void *)probe))->unk_21E1;
-    if (probe != 0xFF) {
+    probe_idx = 0x80010000;
+    probe_idx = ((S_80094988_7 *)((void *)probe_idx))->unk_21E1;
+    if (probe_idx != 0xFF) {
         dispatch_ptr = (u8 *)0x80010000;
-        probe = (u32)dispatch_ptr;
+        probe2 = (u32)dispatch_ptr;
+        probe2 |= 0x248;
         dispatch_slot = ((S_80094988_8 *)dispatch_ptr)->unk_21E1;
-        probe |= 0x248;
         dispatch_slot <<= 2;
-        slot_ptr = (u8 *)(dispatch_slot + probe);
+        slot_ptr = (u8 *)(dispatch_slot + probe2);
     } else {
         slot_ptr = NULL;
     }

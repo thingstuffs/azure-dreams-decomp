@@ -212,16 +212,15 @@ extern void func_80024DD4(void *, void *, void *, s32, s32, s32);
 extern void func_80024F60(void *, void *, void *, s32, s32, s32);
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
-void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
+void func_8197192C(void *effect, void *owner, void *context_arg)
 {
     u8 *position;
     u8 *effect_data_m;
+    void *effect_obj;
     static void *const state_labels[] __attribute__((used)) = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&cleanup, &&done
     };
     u32 state;
-    void *effect = effect_arg;
-    void *owner = owner_arg;
     void *context;
     u32 light_color;
     u32 light_color_2;
@@ -310,7 +309,6 @@ case_2:
             void *map_base = (void *)((void * *)(&D_80082E80));
             if (func_8003DF74(((S_8197192C_5 *)map_base)->unk_08, map_base,
                               (u8 *)effect + 0x2E, 0) != 0) {
-                void *effect_obj;
                 u8 *sprite;
                 EntityRec *world_pos;
 
@@ -414,8 +412,9 @@ case_3:
 
 after_coords:
         if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
-            void *effect_obj = func_8003FC64(0x212);
-            u8 *effect_data = (u8 *)effect_obj + 0x20;
+            u8 *effect_data;
+            effect_obj = func_8003FC64(0x212);
+            effect_data = (u8 *)effect_obj + 0x20;
             if (effect_obj != 0) {
 
                 u8 *sprite;
@@ -465,8 +464,9 @@ after_coords:
             }
         }
         if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
-            void *effect_obj = func_8003FC64(0x212);
-            u8 *effect_data = (u8 *)effect_obj + 0x20;
+            u8 *effect_data;
+            effect_obj = func_8003FC64(0x212);
+            effect_data = (u8 *)effect_obj + 0x20;
             if (effect_obj != 0) {
 
                 u8 *sprite;
@@ -516,7 +516,7 @@ after_coords:
             }
         }
         if (((S_8197192C_0 *)effect)->unk_2C.u == 1) {
-            register void *effect_obj ASM_REG("$17") = func_8003FC64(0x212);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            effect_obj = func_8003FC64(0x212);
             if (effect_obj != 0) {
                 u8 *sprite;
                 void *init_data;
@@ -563,7 +563,6 @@ after_coords:
                 ((S_8197192C_8 *)sprite)->unk_0C = 0x80;
                 *(Data12 *)((u8 *)effect_obj + 0xA2) = D_80025FDC;
                 ((S_8197192C_8 *)sprite)->unk_08 = (u8 *)effect_obj + 0xA2;
-                ASM_KEEP(effect_obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             }
         }
 
