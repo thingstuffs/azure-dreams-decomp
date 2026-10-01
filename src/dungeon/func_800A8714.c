@@ -53,20 +53,18 @@ extern s32 func_800BCB04();
 extern s32 func_800C7F68();
 
 #define STEPVEC(neighbor_result)                                                            \
-    do {                                                                                    \
+    {                                                                                    \
         u16 facing = (*(u16 *)(creature + 0x2A) >> 9) & 7;                                  \
         direction = facing;                                                                 \
         neighbor_result = func_8009B25C(creature,                                           \
             (u16)(position[0x24] + *(u16 *)((facing * 2) + (u8 *)dirStepX)),              \
             (u16)(position[0x25] + *(u16 *)((facing * 2) + (u8 *)dirStepY)),              \
             *(s16 *)(creature + 0x88));                                                     \
-    } while (0)
+    }
 
 /* Selects a creature's next action and target from its behavior, species, and nearby tiles. */
-s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limit, u16 upper_limit, s32 status_out_addr)
+s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 upper_limit, s32 status_out_addr)
 {
-    register u8 *position ASM_REG("$23");
-    register u8 *creature ASM_REG("$21");
     register s32 neighbor_check;
     s32 saved_lower_limit;
     s16 tile_x;
@@ -112,9 +110,6 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
     u8 *move_target;
     u8 *ally;
 
-    position = position_arg;
-    ASM_USE_NV(position);
-    creature = creature_arg;
     default_action = 2;
     saved_lower_limit = lower_limit;
     ((CFlags46 *)creature)->f46 |= 0x4000;

@@ -482,12 +482,8 @@ clut_done_done:
                 packet->unk_16 = tpage_value;
             }
             packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_08);
-            {
-                register u16 packed_v ASM_REG("$3");
-                packed_v = (u16) scratch->unk_14.as_s32_14;
-                packet->unk_24.as_s16_24 = (s16) (packed_v | (u16) scratch->unk_10.as_s32_10);
-            }
-            if (packet->unk_20.as_s16_20 < packet->unk_08.as_s16_08) {
+            packet->unk_24.as_s16_24 = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_10.as_s32_10);
+            if (packet->unk_08.as_s16_08 > packet->unk_20.as_s16_20) {
                 right_u = (u8) packet->unk_24.as_s16_24;
                 packet->unk_24.as_u8_24 = (u8) (right_u + 0xFF);
                 packet->unk_14.as_u8_14 = right_u;
@@ -537,9 +533,8 @@ clut_done_done:
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             quad_end = (u8 *)packet + 32;
             *second_link = (*second_link & length_mask) | second_addr;
-            ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
 next_row_done:
-            ;
+            ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
             *(Blk40 *)packet = *(Blk40 *)first_quad;
             ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base
                 - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
@@ -608,10 +603,8 @@ next_row_done:
             *right_row_link = (*right_row_link & length_mask) | right_row_addr;
             packet = (S_func_81904990_7 *)((u8 *)packet + 40);
             if (row_index < 8) {
-                ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
                 goto next_row_done;
             }
-            ASM_SCHED_BARRIER();
         } else {
             draw_callback = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_FnPtr_08;
             if (draw_callback != NULL) {
