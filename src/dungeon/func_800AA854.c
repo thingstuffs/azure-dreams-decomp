@@ -152,6 +152,7 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     s32 texture_height;
     register s32 coord_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 vertex_value;
+    s32 entry_v;
     s32 x_in_bounds;
     s32 near_mid_x;
     s32 texture_right;
@@ -183,12 +184,11 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     depth_flag = ((S_800AFFB4_0 *)origin)->unk_08.s;
     depth_flag = depth_flag < 0xE00;
     texture_index = texture_arg;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    vertex_value = ((S_800AFFB4_0 *)origin)->unk_08.u;
+    entry_v = ((S_800AFFB4_0 *)origin)->unk_08.u;
     depth_flag ^= 1;
     shade_offset = depth_flag;
-    coord_bits = vertex_value - 0x6200;
-    vertex_value -= 0x5400;
+    coord_bits = entry_v - 0x6200;
+    vertex_value = entry_v - 0x5400;
     ((S_800AFFB4_1 *)render_data_in)->unk_7C = coord_bits;
     ((S_800AFFB4_1 *)render_data_in)->unk_74 = coord_bits;
     ((S_800AFFB4_1 *)render_data_in)->unk_8C = vertex_value;
