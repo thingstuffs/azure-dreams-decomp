@@ -95,7 +95,9 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
                 D_801744FC[
                     ((gameWork.view.viewAngle + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
                 0);
-            goto state_to_two;
+            dungeonStatus.unk_0A--;
+            ((S_801738E0_0 *)actor)->unk_9B = 2;
+            return;
         }
         ((S_801738E0_0 *)actor)->unk_98 |= 8;
         ((S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;
@@ -134,9 +136,8 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             0);
         func_800A9A0C(entity);
 
-state_to_two:
         {
-            register struct GlobalStruct *globals ASM_REG("$3") = ((struct GlobalStruct *)&dungeonStatus);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            struct GlobalStruct *globals = ((struct GlobalStruct *)&dungeonStatus);
             globals->counter--;
         }
         ((S_801738E0_0 *)actor)->unk_9B = 2;

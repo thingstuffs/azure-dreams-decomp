@@ -76,6 +76,7 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
     void *owner_sprite;
     u8 *item_slot;
     void *entity;
+    void *position;
     s32 special_item;
     s32 step_x;
     s32 step_z;
@@ -172,7 +173,7 @@ selected:
                     entity = actor->target;
 
                     if (entity != 0) {
-                        register void *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
 
 have_entity:
                         position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
@@ -180,12 +181,12 @@ have_entity:
                         actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
                     }
                 } else {
-                    void *spawned_entity;
 
-                    spawned_entity = func_800A05A4(actor,
+
+                    position = func_800A05A4(actor,
                         ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
                         actor->facing, 0x10);
-                    actor->target = spawned_entity;
+                    actor->target = position;
                     actor->unk_72 = abs(actor->unk_72);
                     actor->unk_73 = abs(actor->unk_73);
                 }

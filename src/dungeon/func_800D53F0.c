@@ -62,7 +62,7 @@ extern void func_800DBA90(WorkBlock *);
 void func_800DAB50(void *effect_data) {
     WorkBlock work;
     s32 index;
-    register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 color_step;
     s32 color_value;
     s32 updated_value;
     s32 phase_value;
@@ -144,9 +144,9 @@ void func_800DAB50(void *effect_data) {
         break;
     case 3:
         color_step = ((S_800DAB50_0 *)effect_data)->unk_0C;
-        color_value = color_step;
         updated_value = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - color_step;
         ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = updated_value;
+        color_value = ((S_800DAB50_0 *)effect_data)->unk_0C;
         if (color_value > 0x80808) {
             ((S_800DAB50_0 *)effect_data)->unk_0C = color_value + 0xFFFEFEFF;
         }

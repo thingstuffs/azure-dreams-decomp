@@ -49,9 +49,8 @@ void func_80174C70(void *effect, void *motion, void *render)
 {
     LocalVector direction;
     LocalTable directions;
-    s32 cosine;
     long render_or_step = (long)render;
-    register s32 phase_angle ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 phase_angle;
     s32 phase_offset;
     u8 brightness;
     u32 frame;
@@ -125,17 +124,15 @@ void func_80174C70(void *effect, void *motion, void *render)
     if ((s16)phase_offset < 0) {
         phase_angle = phase_offset + 0x1000;
     }
-    render_or_step = phase_angle << 16;
-    render_or_step = render_or_step >> 16;
-
     {
-        s32 sine = func_80064584(render_or_step);
+        s16 normalized_phase = phase_angle;
+        s32 sine = func_80064584(normalized_phase);
         s32 sine_radius = ((S_80174C70_0 *)effect)->unk_62;
         s32 sine_product = sine_radius * sine;
-        s32 cosine_angle = render_or_step;
+        s32 cosine_angle = normalized_phase;
 
         render_or_step = sine_product << 4;
-        cosine = func_800644B8(cosine_angle);
+        phase_offset = func_800644B8(cosine_angle);
     }
 
     {
@@ -146,7 +143,7 @@ void func_80174C70(void *effect, void *motion, void *render)
         direction.x = (*(u16 *)((u8 *)direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
-            s32 cosine_product = radius * cosine;
+            s32 cosine_product = radius * phase_offset;
             s32 heading_y = ((S_80174C70_0 *)effect)->unk_18;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;

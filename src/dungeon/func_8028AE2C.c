@@ -20,7 +20,7 @@ extern u8 D_800EA000[];
 /* Update tiles in active dungeon areas, alternating variants in the first tile range. */
 void func_8001DE2C(void) {
     DungeonArea *area;
-    register u32 map_config_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 *map_config = (s16 *)&gameWork.map;
     s16 *tile_id;
     s32 area_index;
     s32 x;
@@ -49,9 +49,8 @@ outer_loop:
         for (; y < y_end; y++) {
             x = area->x;
             if (x < x_end) {
-                map_config_addr = (u32)((u8 *)(&gameWork.map));
 x_loop_done:
-                tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
+                tile_id = (s16 *)&D_800EA000[((y << map_config[10]) + x) * 6];
                 if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {
                     func_8001E108(x, y, tile_id, 0x13, amount_small);
                     if ((y & 1) ? (x & 1) : !(x & 1)) {
@@ -78,7 +77,6 @@ x_loop_done:
                 if (x >= x_end) {
                     continue;
                 }
-                map_config_addr = (u32)((u8 *)(&gameWork.map));
                 goto x_loop_done;
             }
         }

@@ -62,7 +62,7 @@ extern s32 func_800A1618(s32, s32);
 extern void func_800A1D4C(void *, s32);
 extern s32 func_800A4E2C(u8 *, u8 *);
 extern s32 func_800A6D30(void);
-extern u8 func_800A6DA4(s32, s32);
+extern s32 func_800A6DA4(s32, s32);
 extern s16 func_800BCB04(s32, s32, s32);
 
 __asm__(".set D_800835E8, 0x800835E8");
@@ -96,7 +96,7 @@ void func_8001EF0C(void) {
     u16 flags;
     u8 trap_type;
     u8 existing_type;
-    register u8 store_type ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 store_type;
     u8 spawn_variant;
     u8 spawn_marker;
     s32 spawn_height;

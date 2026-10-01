@@ -6,10 +6,12 @@ typedef struct DungeonState {
     u16 counter;
 } DungeonState;
 
+extern DungeonState D_80083460;
+extern u8 D_800DCF4F[];
 extern u8 D_800E0458[];
 extern u8 D_800E0C78[];
 
-extern s32 func_800990FC(void *, void *);
+extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern s32 func_80099254(void *, s32);
 extern void func_80099290(s32);
@@ -28,15 +30,15 @@ void func_800ACF88(void *input_data, void *context) {
     flag_page = (u16 *)0x80010000;
     saved_input = input_data;
     if (!(flag_page[0x3714 / 2] & 1)) {
-        context = (void *)0x800E0000;
-        input_data = (void *)0x80080000;
-        ASM_KEEP(input_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        input_data = (u8 *)input_data + 0x3460;
-        counter = ((DungeonState *)input_data)->counter;
-        ((s8 *)context)[-0x30B1] = 1;
-        ((DungeonState *)input_data)->counter = counter + 1;
+        context = D_800DCF4F;
+        {
+            DungeonState *counter_state = &D_80083460;
+            counter = counter_state->counter;
+            ((u8 *)context)[0] = 1;
+            counter_state->counter = counter + 1;
+        }
     }
-    initial_result = func_800990FC(input_data, context);
+    initial_result = func_800990FC();
     result = func_80099194(D_800E0C78, func_80099734(saved_input, initial_result));
     if (!(flag_page[0x3714 / 2] & 1)) {
         result = func_80099254(D_800E0458,
