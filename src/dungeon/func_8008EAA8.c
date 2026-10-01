@@ -17,8 +17,7 @@ s32 func_80094208(s32 entry_index) {
     if (entry != 0) {
         s32 active_state = 1;
 
-        ASM_KEEP(active_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (D_80012090[0] == active_state) {
+        if (*(s32 *)0x80012090 == active_state) {
             func_80099844(entry, D_800E0600);
             return 1;
         }

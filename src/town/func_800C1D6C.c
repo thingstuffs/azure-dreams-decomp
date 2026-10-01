@@ -1,5 +1,10 @@
 #include "common.h"
+
 #include "shared/entity_objects.h"
+
+static __inline__ s16 distance_exceeds(s32 limit, s32 distance) {
+    return limit < __builtin_abs(distance);
+}
 
 typedef struct S0 {
     char pad0[0x68];
@@ -18,7 +23,6 @@ typedef struct S80083780 {
     s32 field4;
     s32 field8;
 } S80083780;
-
 
 extern s32 func_800352FC(s32, s32 *, S1 *);
 extern s32 func_800C2AB4(S0 *);
@@ -63,11 +67,8 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
         target_x = position[0];
         x_distance -= target_x;
         threshold = 0x3FFFFF;
-        ASM_KEEP(threshold);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (x_distance < 0) {
-            x_distance = -x_distance;
-        }
-        threshold = threshold < x_distance;
+
+        threshold = distance_exceeds(threshold, x_distance);
         if (threshold != 0) {
             return;
         }

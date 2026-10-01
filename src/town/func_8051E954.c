@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
 
-
 typedef struct S_8051E954_3 {
     u8 pad_00[0x208];
     M2C_UNK (*unk_208)(M2C_UNK);
@@ -18,7 +17,6 @@ typedef struct S_8051E954_5 {
     M2C_UNK (*unk_224)(s32 *);
 } S_8051E954_5;   /* ((S_8051E954_4 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_8051E954 */
 
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 D_80019158;
@@ -29,20 +27,20 @@ typedef struct S_8051E954_0 {
     s32 unk_08;
 } S_8051E954_0;   /* temp_s0 in func_8051E954 */
 
-
 /* Builds and submits a three-word command sequence from the low 16 bits of the input. */
 void func_8051E954(s32 command_value) {
-    register s32 *command_words ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 *command_words;
     void *context;
-    s32 first_command;
-    s32 second_command;
 
-    first_command = (command_value & 0xFFFF) | 0x06800000;
-    D_80019158 = first_command;
-    second_command = (first_command & 0xFFFF) | 0x05000000;
+    command_value &= 0xFFFF;
+    command_value |= 0x06800000;
+    D_80019158 = command_value;
+    command_value &= 0xFFFF;
+    command_value |= 0x05000000;
     command_words = &D_80019158;
-    ((S_8051E954_0 *)command_words)->unk_04 = second_command;
-    command_value = (second_command & 0xFFFF) | 0xFF000000;
+    ((S_8051E954_0 *)command_words)->unk_04 = command_value;
+    command_value &= 0xFFFF;
+    command_value |= 0xFF000000;
     context = ((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v;
     ((S_8051E954_0 *)command_words)->unk_08 = command_value;
     ((S_8051E954_3 *)((*(void **)((u8 *)context + 0x20))))->unk_208(0);

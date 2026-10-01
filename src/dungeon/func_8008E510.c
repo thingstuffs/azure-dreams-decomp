@@ -71,9 +71,8 @@ void func_80093C70(s32 priority, EntityRec *source_pos, Rec_D_80082E80 *owner) {
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         flags = sprite->unk_14.s;
-        sprite->unk_06 = 4;
         sprite->unk_14.u = (u16) (flags | 0x200);
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        sprite->unk_06 = 4;
         if (D_80082E80.unk_014 & 1) {
             sprite->unk_14.u = (u16) (sprite->unk_14.u | 1);
         }

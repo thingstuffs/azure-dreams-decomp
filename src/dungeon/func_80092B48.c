@@ -52,8 +52,8 @@ extern u8 D_800DD2B4_index[] __asm__("D_800DD2B4");
 void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 temp_v0;
     register s32 var_s1;
-    s32 var_s2;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 tail_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    s32 var_s2;
+    s16 tail_index;
     s16 state;
     s32 item_b3;
     Item *temp_s2;
@@ -107,7 +107,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
         func_80099290(func_80099194(D_800E0844, func_80099368(var_s0, func_8009929C(8, var_s1))));
         func_800A5720(var_s1);
         D_800E3D18[0] = (s32 *)D_800E3D80;
-        tail_index = 0x70A; /* MATCH: prepare a0 in the guard branch delay slot. */
+        tail_index = 0x70A;
         if (var_s0->b3 & 0x40) {
             arg0->flags |= 0x800;
             func_800A56E0(tail_index);
