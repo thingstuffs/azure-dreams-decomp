@@ -25,17 +25,13 @@ void func_80097844(void *source, s32 effect_count)
     s32 angle;
     s32 spawned;
     s32 angle_step;
-    s32 full_turn;
 
     if (effect_count != 0) {
-        do {
-            full_turn = 0x1000;
-        } while (0);
-        angle_step = full_turn / effect_count;
+        angle_step = 0x1000 / effect_count;
         spawned = 0;
         angle = rand();
-        effect.field_16 = -4;
         effect.field_A = *(u16 *)((u8 *)source + 0xA);
+        effect.field_16 = -4;
         if (effect_count > 0) {
             do {
                 spawned++;

@@ -16,7 +16,13 @@ extern void SD_Call(s32 code);
 extern s32 func_800231E4(s32 mode);
 extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);
 extern void func_80022488(void *arg0);
-extern u8 D_800280B4[];
+typedef struct S_800280B4 {
+    u8 pad_00[0x14];
+    u8 unk_14;
+    u8 pad_15[0x3];
+} S_800280B4;   /* 0x18-byte entries */
+
+extern S_800280B4 D_800280B4[];
 
 /* Handles menu exit buttons and repeated left/right selection changes. */
 void func_80022524(S_80022524_0 *menu)
@@ -89,7 +95,7 @@ void func_80022524(S_80022524_0 *menu)
         new_selection = func_80049E1C(
             menu->unk_00,
             direction,
-            D_800280B4[menu->unk_08 * 0x18 + 0x14]);
+            D_800280B4[menu->unk_08].unk_14);
         if (new_selection != menu->unk_00) {
             menu->unk_00 = new_selection;
             SD_Call(0x502);
