@@ -58,7 +58,7 @@ s32 func_81845068(u8 *first_node)
     s32 tex_u_end;
     s32 random_value;
     register u32 addr_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u32 ot_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 ot_or_coord;
     u16 vertex_x;
     u16 base_y;
     u16 tip_y;
@@ -66,9 +66,8 @@ s32 func_81845068(u8 *first_node)
     u32 tag_mask;
     node = first_node;
     render_state = &gameWork;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    uv_choices[0] = 0xA0;
     do {
+        uv_choices[0] = 0xA0;
         uv_choices[1] = 0x80;
     } while (0);
     screen_base = &screen_coords[0];
@@ -135,16 +134,19 @@ s32 func_81845068(u8 *first_node)
             STORE_U8(prim + 0x15, tex_value + 0x1F);
             STORE_U8(prim + 0x0D, tex_value + 0x1F);
             {
+                u32 ot_word;
+                u32 ot_tag;
+
                 tag_mask = 0xFF000000;
                 ot_ctx = LOAD_PTR(render_state);
-                ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
-                STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
+                ot_word = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
+                STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_word & addr_mask));
                 ot_ctx = LOAD_PTR(render_state);
                 ot_entry += (u32)ot_ctx;
-                ot_or_coord = LOAD_U32(ot_entry + 0xB0);
-                ot_or_coord &= tag_mask;
+                ot_tag = LOAD_U32(ot_entry + 0xB0);
+                ot_tag &= tag_mask;
                 STORE_U32(ot_entry + 0xB0,
-                          ot_or_coord | ((u32)prim & addr_mask));
+                          ot_tag | ((u32)prim & addr_mask));
             }
         }
 
@@ -173,10 +175,9 @@ s32 func_81845068(u8 *first_node)
 
         random_value = func_80069EF8();
         index_or_jitter = (random_value % 64) - 0x20;
-        ot_or_coord = (s32)scratch_or_height / 6;
-        ((Scratch *)&screen_coords[2])->word = ot_or_coord;
+        ((Scratch *)&screen_coords[2])->word = (s32)scratch_or_height / 6;
         index_or_jitter = (index_or_jitter >> 1) + (index_or_jitter >> 2);
-        ot_or_coord = (u16)screen_coords[0].x;
+        ot_or_coord = screen_coords[0].x;
         jitter_half_width = ((Scratch *)&screen_coords[2])->half;
         vertex_x = ot_or_coord + jitter_half_width + index_or_jitter;
         STORE_U16(prim + 0x10, vertex_x);
@@ -193,16 +194,19 @@ s32 func_81845068(u8 *first_node)
         STORE_U16(prim + 0x12, tip_y);
 
         {
+            u32 ot_word;
+            u32 ot_tag;
+
             tag_mask = 0xFF000000;
             ot_ctx = LOAD_PTR(render_state);
-            ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
-            STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
+            ot_word = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
+            STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_word & addr_mask));
             ot_ctx = LOAD_PTR(render_state);
             ot_entry += (u32)ot_ctx;
-            ot_or_coord = LOAD_U32(ot_entry + 0xB0);
-            ot_or_coord &= tag_mask;
+            ot_tag = LOAD_U32(ot_entry + 0xB0);
+            ot_tag &= tag_mask;
             STORE_U32(ot_entry + 0xB0,
-                      ot_or_coord | ((u32)prim & addr_mask));
+                      ot_tag | ((u32)prim & addr_mask));
         }
 
     } while (((next_link = LOAD_PTR(node - 8)) != 0) && ((node = next_link + 0x20), 1));

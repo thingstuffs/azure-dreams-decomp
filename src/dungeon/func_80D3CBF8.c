@@ -45,15 +45,13 @@ extern s16 D_8006CD00[8];
 extern FallbackCenter D_80082E80_center[] __asm__("D_80082E80");
 
 /* Choose a movement direction, move the actor, and update its path history and height. */
-void func_801723F8(void *work_data, void *action_context, void *position_data, void *actor_data) {
-    register u8 *position ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *actor = actor_data;
+void func_801723F8(void *work_data, void *action_context, u8 *position, u8 *actor) {
     DungeonGlobalStatus *turn_state;
     u16 turn_flags;
     s32 movement_flags;
     s32 limit_turn;
     s32 attempt;
-    register s16 *angle_step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 *angle_step;
     s32 target_x;
     s32 target_y;
     s32 candidate_angle;
@@ -68,7 +66,6 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
 
     turn_state = &dungeonStatus;
     turn_flags = U16_AT(turn_state, 2);
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = turn_flags & 0;
 
     if ((turn_flags & 0x4000) || (S8_AT(actor, 0x71) >= 0)) {
@@ -225,70 +222,72 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
 loop_ready_done:
     angle_step = (s16 *)(work_value - 0x3300);
 
-loop_head:
-    node = (void *)S16_AT(actor, 0x2A);
-    if (U16_AT(work_data, 0x98) & 2) {
-        candidate_angle = ((s32)node) - *angle_step;
-    } else {
-        candidate_angle = ((s32)node) + *angle_step;
-    }
+    do {
+        node = (void *)S16_AT(actor, 0x2A);
+        if (U16_AT(work_data, 0x98) & 2) {
+            candidate_angle = ((s32)node) - *angle_step;
+        } else {
+            candidate_angle = ((s32)node) + *angle_step;
+        }
 
-    call_result = func_8009A8C0((s16)candidate_angle, position, actor, 0x20);
-    if ((call_result << 16) > 0) {
-        if (attempt >= 3) {
-            work_value = limit_turn;
-            if (work_value != 0) {
-                U8_AT(actor, 0x71) &= 0x7F;
-                return;
+        call_result = func_8009A8C0((s16)candidate_angle, position, actor, 0x20);
+        if ((call_result << 16) > 0) {
+            if (attempt >= 3) {
+                work_value = limit_turn;
+                if (work_value != 0) {
+                    U8_AT(actor, 0x71) &= 0x7F;
+                    return;
+                }
             }
-        }
 
-        U16_AT(actor, 0x2A) = candidate_angle;
-        U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x74) =
-            U8_AT(position, 0x24);
-        U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x7C) =
-            U8_AT(position, 0x25);
-        U8_AT(actor, 0x71)++;
+            U16_AT(actor, 0x2A) = candidate_angle;
+            U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x74) =
+                U8_AT(position, 0x24);
+            U8_AT((u8 *)actor + (U8_AT(actor, 0x71) & 0x7F), 0x7C) =
+                U8_AT(position, 0x25);
+            U8_AT(actor, 0x71)++;
 
-        call_result = func_80042900(actor, 0x1B);
-        if ((call_result << 16) == 0) {
-            s32 old_x;
-            s32 old_y;
+            call_result = func_80042900(actor, 0x1B);
+            if ((call_result << 16) == 0) {
+                s32 old_x;
+                s32 old_y;
 
-            old_x = U8_AT(position, 0x24);
-            old_y = U8_AT(position, 0x25);
-            tile_mask = 0x3000;
-            if (S32_AT(actor, 0x1C) & 0x2000) {
-                tile_mask = 0x300;
+                old_x = U8_AT(position, 0x24);
+                old_y = U8_AT(position, 0x25);
+                tile_mask = 0x3000;
+                if (S32_AT(actor, 0x1C) & 0x2000) {
+                    tile_mask = 0x300;
+                }
+                func_8009A3D0(old_x, old_y, tile_mask);
             }
-            func_8009A3D0(old_x, old_y, tile_mask);
-        }
 
-        {
-            s8 position_x;
+            {
+                s8 position_x;
+                u8 *table;
 
-            u8 *table;
-            direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
-            position_x = U8_AT(position, 0x24);
-            table = D_8006CCD8;
-            position_x += table[direction_offset];
-            U8_AT(position, 0x24) = position_x;
-            U8_AT(position, 0x25) += D_8006CCE8[direction_offset];
-        }
-
-        if ((call_result << 16) == 0) {
-            s32 new_x;
-            s32 new_y;
-
-            new_x = U8_AT(position, 0x24);
-            new_y = U8_AT(position, 0x25);
-            tile_mask = 0x3000;
-            if (S32_AT(actor, 0x1C) & 0x2000) {
-                tile_mask = 0x300;
+                direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
+                position_x = U8_AT(position, 0x24);
+                table = D_8006CCD8;
+                table += direction_offset;
+                position_x += *table;
+                U8_AT(position, 0x24) = position_x;
+                U8_AT(position, 0x25) += D_8006CCE8[direction_offset];
             }
-            func_8009A21C(new_x, new_y, tile_mask);
+
+            if ((call_result << 16) == 0) {
+                s32 new_x;
+                s32 new_y;
+
+                new_x = U8_AT(position, 0x24);
+                new_y = U8_AT(position, 0x25);
+                tile_mask = 0x3000;
+                if (S32_AT(actor, 0x1C) & 0x2000) {
+                    tile_mask = 0x300;
+                }
+                func_8009A21C(new_x, new_y, tile_mask);
+            }
+            break;
         }
-    } else {
         if (attempt == 0) {
             if (*(u16 *)(&D_80082E80.tileX) != U16_AT(position, 0x24)) {
                 if ((func_8009A180(actor, S32_AT(D_800814A8, 0x58) + 0x20) << 16) != 0) {
@@ -298,10 +297,7 @@ loop_head:
         }
         attempt++;
         angle_step++;
-        if (attempt < 8) {
-            goto loop_head;
-        }
-    }
+    } while (attempt < 8);
     if (attempt >= 8) {
         U8_AT(actor, 0x71) &= 0x7F;
         U16_AT(actor, 0x46) &= 0x7FFF;

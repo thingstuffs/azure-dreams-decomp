@@ -168,8 +168,8 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     u16 component_5;
     s32 coord;
     u8 **global_slot;
-    register u8 *render_state_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *bucket_ptr_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *render_state_m;
+    u8 *bucket_ptr_m;
 
     scratch = (u8 *)0x1F800000;
     colors = scratch;
@@ -339,10 +339,8 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 u32 bucket_tag;
 
                 textured_offset = depth * 4;
-                render_state_m = ((RenderRootSlot *)global_slot)->root;
-
                 prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-                render_state_m = (u8 *)((u32)textured_offset + (u32)render_state_m);
+                render_state_m = (u8 *)((u32)textured_offset + (u32)((RenderRootSlot *)global_slot)->root);
                 prim_tag &= 0xFF000000U;
 
                 bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
@@ -514,25 +512,22 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 vertex = ((S_807B0B3C_8 *)verts)->unk_0C;
                 blend_mode = 1;
                 ((S_807B0B3C_7 *)shaded_prim)->unk_20 = vertex;
-                render_state_m = ((RenderRootSlot *)global_slot)->root;
-
                 prim_tag &= 0xFF000000U;
 
-                render_state_m = (u8 *)((u32)bucket_offset + (u32)render_state_m);
+                render_state_m = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
                 bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
 
                 ((S_807B0B3C_7 *)shaded_prim)->unk_00 = prim_tag | (bucket_tag & 0xFFFFFFU);
             }
             {
                 u32 bucket_tag;
+                u8 *bucket;
 
-                bucket_ptr_m = ((RenderRootSlot *)global_slot)->root;
-
-                bucket_ptr_m = (u8 *)((u32)bucket_offset + (u32)bucket_ptr_m);
-                bucket_tag = ((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & 0xFF000000U;
+                bucket = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
+                bucket_tag = ((S_807B0B3C_10 *)bucket)->unk_B0 & 0xFF000000U;
                 bucket_tag |= (u32)shaded_prim & 0xFFFFFFU;
 
-                (*(u32 *)((u8 *)bucket_ptr_m + 0xB0)) = bucket_tag;
+                (*(u32 *)((u8 *)bucket + 0xB0)) = bucket_tag;
                 bucket_ptr_m = ((RenderRootSlot *)global_slot)->root;
                 page_x = draw_value;
                 draw_prim = *(u8 **)(bucket_ptr_m + 0x8D0);
@@ -553,10 +548,8 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 u32 prim_tag;
                 u32 bucket_tag;
 
-                render_state_m = ((RenderRootSlot *)global_slot)->root;
-
                 prim_tag = ((S_807B0B3C_7 *)draw_prim)->unk_00;
-                render_state_m = (u8 *)((u32)bucket_offset + (u32)render_state_m);
+                render_state_m = (u8 *)((u32)bucket_offset + (u32)((RenderRootSlot *)global_slot)->root);
                 prim_tag &= 0xFF000000U;
 
                 bucket_tag = ((S_807B0B3C_10 *)render_state_m)->unk_B0;
