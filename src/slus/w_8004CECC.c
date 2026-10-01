@@ -10,9 +10,8 @@ u8 *func_8004CECC(u32 hue, s32 saturation, s32 value, u8 *out)
     s32 sat_byte;
     u32 sector;
     s32 hue_frac;
-    register s32 channel_max ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 channel_max;
 
-    ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     channel_max = value;
 
     if ((saturation << 16) == 0) {
