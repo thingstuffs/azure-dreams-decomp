@@ -60,12 +60,12 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 new_linear;
             s32 new_curve;
             s32 new_sum;
-            register s32 new_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 new_base;
             s32 new_stat;
             s32 old_sum;
             s32 stat;
             s32 old_value;
-            curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB, species_id);
+            curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB);
             old_base = initial_stats[5];
             old_linear = stat_growth[5] * prev_level;
             if (old_linear < 0) {
@@ -79,7 +79,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             old_stat = old_sum + (old_curve >> 0xF);
 
             level_product = level * stat_growth[5];
-            curve_value = func_800647A0(level_product << 0xB, old_curve, old_base);
+            curve_value = func_800647A0(level_product << 0xB);
             new_base = *(u8 *)(initial_stats + 5);
             new_linear = stat_growth[5] * level;
             if (new_linear < 0) {
@@ -89,9 +89,10 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             new_sum = new_base + (new_linear >> 4);
             if (new_curve < 0) {
                 new_curve += 0x7FFF;
+                new_stat = new_sum + (new_curve >> 0xF);
+            } else {
+                new_stat = new_sum + (new_curve >> 0xF);
             }
-            new_stat = new_sum + (new_curve >> 0xF);
-            ASM_KEEP(new_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             stat = ((u8 *)entity_data)[5];
             old_value = stat;
