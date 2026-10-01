@@ -37,9 +37,9 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
     if ((*cursor) != 0) {
         do {
             lead_byte = cursor[0];
-            ASM_USE(lead_byte);
+            lead_byte <<= 8;
             glyph_code = cursor[1];
-            glyph_code |= lead_byte << 8;
+            glyph_code |= (u16)lead_byte;
             tile_index = glyph_code;
             code_u16 = tile_index & 0xFFFF;
             cursor += 2;
