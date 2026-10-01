@@ -68,11 +68,6 @@ extern void func_80025344(EffectState *, Motion *);
 extern void func_8002558C(EffectState *, Motion *);
 extern void func_800A56E0(s32);
 extern void func_80024024(void *, u8, void *);
-#ifdef NON_MATCHING
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)dirStepX)
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)dirStepY)
-#else
-#endif
 
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */

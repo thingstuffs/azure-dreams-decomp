@@ -63,6 +63,20 @@ struct Packet {
     u16 v3;
 };
 
+typedef struct ScratchOt {
+    u8 pad_00[0x20];
+    u32 *ot;
+    u8 pad_24[0xC0 - 0x24];
+    u32 depth;
+    u8 pad_C4[0xCC - 0xC4];
+    s32 depth_offset;
+} ScratchOt;
+
+typedef struct OtTag {
+    u32 addr : 24;
+    u32 len : 8;
+} OtTag;
+
 typedef s32 (*CommandFn)(void *, void *, Entry *, Command *, Packet *);
 
 extern void *D_80083160[3];
@@ -115,7 +129,6 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
     u32 vertex_3_visible;
     u32 any_visible;
     u32 uv_edge;
-    u32 address_mask;
     u8 uv_start;
     u8 uv_extent;
 
@@ -143,17 +156,11 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
 
     if (sort_depth < 0x1D6U) {
         PushMatrix();
-        address_mask = 0xFFFFFF;
 
         {
-            register u8 *rotation_input ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             u16 screen_x;
-            register u32 matrix_arg_guard ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 rotation_z;
-            rotation_input = scratch;
-            ASM_KEEP_NV(rotation_input);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             screen_x = *(u16 *)(scratch + 0xB8);
-            rotation_input = (u8 *)((u32)rotation_input | 0x100);
             SP16(scratch, 0xB8) = screen_x - 0xA0;
             SP16(scratch, 0xBA) -= 0x78;
             SP32(scratch, 0x30) = *(s16 *)((u8 *)render_state + 0xC4);
@@ -161,11 +168,9 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
             SP32(scratch, 0x38) = *(s16 *)((u8 *)render_state + 0xC8);
 
             SP16(scratch, 0x100) = E16(entry, 0x16);
-            ASM_KEEP_NV(matrix_arg_guard);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             rotation_z = *(u16 *)((u8 *)render_state + 0xB8) +
                 (E16(entry, 0x1A) - SP16(scratch, 0x34));
             SP16(scratch, 0x104) = rotation_z;
-            ASM_USE2_NV(matrix_arg_guard, rotation_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             rotation_y = E16(entry, 0x18) - 0x100;
             rotation_y += (SP16(scratch, 0x38) + 0x100) & 0x1FF;
             SP16(scratch, 0x102) = rotation_y;
@@ -176,7 +181,7 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
             SP32(scratch, 0xE8) = sprite_extent;
             SP16(scratch, 0x10A) = sprite_extent;
 
-            RotMatrix(rotation_input, scratch + 0xD0);
+            RotMatrix(scratch + 0x100, scratch + 0xD0);
         }
         scale_x = E16(entry, 0x1C);
         SP32(scratch, 0x30) = scale_x;
@@ -348,29 +353,11 @@ void func_800453E0(void *context, void *position, Entry *entry, s16 depth_bias)
                     }
 
                     {
-                        u32 depth_or_tag_mask = SP32(scratch, 0xC0);
+                        u32 depth = SP32(scratch, 0xC0);
                         u32 depth_offset = SP32(scratch, 0xCC);
-                        if (depth_or_tag_mask + depth_offset < 0x1D6U) {
-                            u32 depth_address;
-                            u32 bucket_address;
-                            u32 ordering_table;
-                            do {
-                                bucket_address = depth_offset * 4;
-                                depth_address = depth_or_tag_mask * 4;
-                            } while (0);
-                            ordering_table = SP32(scratch, 0x20);
-                            depth_or_tag_mask = 0xFF000000;
-                            depth_address += ordering_table;
-                            bucket_address += depth_address;
-                            P32(packet, 0) = (P32(packet, 0) & depth_or_tag_mask) |
-                                (*(u32 *)bucket_address & address_mask);
-                            *(u32 *)(SP32(scratch, 0x20) +
-                                (SP32(scratch, 0xC0) * 4) +
-                                (SP32(scratch, 0xCC) * 4)) =
-                                (*(u32 *)(SP32(scratch, 0x20) +
-                                (SP32(scratch, 0xC0) * 4) +
-                                (SP32(scratch, 0xCC) * 4)) & depth_or_tag_mask) |
-                                ((u32)packet & address_mask);
+                        if (depth + depth_offset < 0x1D6U) {
+                            ((OtTag *)packet)->addr = ((OtTag *)(((ScratchOt *)scratch)->ot + depth + depth_offset))->addr;
+                            ((OtTag *)(((ScratchOt *)scratch)->ot + ((ScratchOt *)scratch)->depth + ((ScratchOt *)scratch)->depth_offset))->addr = (u32)packet;
                         }
                     }
                     packet++;

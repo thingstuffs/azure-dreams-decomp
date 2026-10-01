@@ -282,9 +282,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
                     s32 second_delta;
 
                     vector_arg = (u8 *)0x100;
-                    do {
-                        shade_arg = ((S_800C55F4_8 *)params)->unk_32;
-                    } while (0);
+                    shade_arg = ((S_800C55F4_8 *)params)->unk_32;
                     second_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
                     shade = ((S_800C55F4_1 *)scratch)->unk_C4;
                     vector_arg -= shade_arg;
@@ -308,9 +306,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
                     s32 third_delta;
 
                     vector_arg = (u8 *)0x100;
-                    do {
-                        shade_arg = ((S_800C55F4_8 *)params)->unk_32;
-                    } while (0);
+                    shade_arg = ((S_800C55F4_8 *)params)->unk_32;
                     third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
                     shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
                     vector_arg -= shade_arg;

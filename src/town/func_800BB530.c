@@ -25,79 +25,60 @@ s32 func_800B8C90(void)
 {
     TownFiveWords pair_indices = D_800894D0;
     TownFourWords required_values = D_800895F0;
-    s32 *required_cursor;
-    s32 *pair_index;
-    u8 *data_base;
     u8 *pair_base;
     s32 required_value;
-    s32 pair_count;
     s32 required_num;
     s32 pair_num;
+    u8 *data_base;
+    s32 pair_count;
     s32 expected_value;
 
     expected_value = 3;
     if (D_800133BA != expected_value) {
-        u8 *data_base = (u8 *)0x80010000;
-
-        if (data_base[0x33BB] != expected_value) {
-            return 0;
+        pair_base = D_80010000;
+        if (pair_base[0x33BB] != expected_value) {
+            goto return_zero;
         }
-        ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     expected_value = 0x29;
     if (D_800133E6 != expected_value) {
-        u8 *data_base = (u8 *)0x80010000;
-
-        if (data_base[0x33E7] != expected_value) {
-            return 0;
+        pair_base = D_80010000;
+        if (pair_base[0x33E7] != expected_value) {
+            goto return_zero;
         }
-        ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     expected_value = 7;
     if (D_800133C8 != expected_value) {
-        u8 *data_base = (u8 *)0x80010000;
-
-        if (data_base[0x33C9] != expected_value) {
-            return 0;
+        pair_base = D_80010000;
+        if (pair_base[0x33C9] != expected_value) {
+            goto return_zero;
         }
-        ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     }
     expected_value = 10;
     if (D_800133A6 != expected_value) {
-        pair_base = (u8 *)D_80010000;
-
-        required_num = 0;
+        pair_base = D_80010000;
         if (pair_base[0x33A7] != expected_value) {
 return_zero:
             return 0;
         }
-        goto loop_preheader;
     }
     required_num = 0;
-loop_preheader:
-
     data_base = (u8 *)0x80010000;
     pair_count = 5;
-    required_cursor = pair_indices.value;
     do {
         pair_num = 0;
-        required_value = required_cursor[6];
-        pair_index = pair_indices.value;
+        required_value = required_values.value[required_num];
         do {
-            pair_base = (u8 *)((u32)(*pair_index * 2) + (u32)data_base);
+            pair_base = (u8 *)((u32)(pair_indices.value[pair_num] * 2) + (u32)data_base);
             if ((pair_base[0x33A4] == required_value) || (pair_base[0x33A5] == required_value)) {
                 break;
             }
             pair_num++;
-            pair_index++;
         } while (pair_num < 5);
         if (pair_num == pair_count) {
             goto return_zero;
         }
         required_num++;
-        do {
-            required_cursor++;
-        } while (0);
     } while (required_num < 4);
     return 1;
 }

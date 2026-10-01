@@ -53,7 +53,7 @@ struct DungeonSub1 {
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800A48F0();
-s32 func_800A6D30();
+s32 func_800A6D30(void);
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
 extern u8 D_8015EA7C[];
@@ -140,7 +140,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     s32 unused_slot_24;
     s32 unused_slot_28;
     s32 mode;
-    register s32 call_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 call_count;
     void *call_target;
     s8 saved_grid_x;
     s16 saved_placement;
@@ -150,11 +150,9 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     DungeonNode *node;
     DungeonSub1 *state;
     DungeonSub1 *init_state;
-    register void *setup_alias ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     DungeonArgBits saved_setup;
     s32 state_flags;
     s32 status_flags;
-    register s32 setup_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = NULL;
     call_count = 0x112;
@@ -166,7 +164,6 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     unused_byte_neg_d58 = (s32) *(s8 *)-0xD58;
     node = func_8003FD64(call_count, call_target);
     if (node != NULL) {
-        setup_alias = (void *) setup_bits;
         do {
             saved_setup.p = (void *) setup_bits;
         } while (0);
@@ -177,7 +174,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
         node_data = node->field08;
         *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
         placement = node->field0c;
-        mode = (s32) setup_alias & 3;
+        mode = setup_bits & 3;
         placement->field25 = saved_grid_y;
         init_state = state;
         placement->field2c = &D_80162038;
@@ -201,14 +198,12 @@ shared_tail:
             state->field1c = status_flags;
             goto final_call;
         }
-        setup_mask = ((s32) setup_alias & ~3) << 0x10;
-        if (setup_mask == 0) {
-            call_count = (s32)(node);
+        setup_bits = (s16)(setup_bits & ~3);
+        if (setup_bits == 0) {
             if (!(state->field14 & 0x200)) {
-                call_target = node_data;
-                if (func_800A6D30((void *)call_count) & 1) {
+                if (func_800A6D30() & 1) {
                     state->field1c |= 0x200;
-                    func_800A48F0(state, 1, (func_800A6D30((void *)call_count) & 0x3F) | 0x20);
+                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
                     placement->field2c = &D_80162088;
                 }
             }
