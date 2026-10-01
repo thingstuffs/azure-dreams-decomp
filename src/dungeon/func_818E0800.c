@@ -279,12 +279,10 @@ void BODY_NAME(EntityRec *effect_arg, void *motion_arg, S_818E0800_10 *actor_sta
             ((S_818E0800_2 *)motion_arg)->unk_0C.at02.v = delta_x;
         }
         ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v /= ((s16)effect_arg->unk_50);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         {
             s32 delta_y = ((S_818E0800_1 *)actor)->unk_73.u;
-            s32 origin_y = ((S_818E0800_2 *)motion_arg)->unk_04.at02.v;
+            s32 origin_y = ((S_818E0800_2 *)motion_arg)->unk_04.at02.v - 0x20;
             delta_y <<= 6;
-            origin_y -= 0x20;
             delta_y -= origin_y;
             ((S_818E0800_2 *)motion_arg)->unk_10.at02.v = delta_y;
         }
