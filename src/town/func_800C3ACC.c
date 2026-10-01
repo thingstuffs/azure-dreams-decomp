@@ -63,9 +63,8 @@ void func_800C122C(void)
             }
             if (D_80080A88[0] != 0)
                 goto finish;
-            SD_Call(0x71);
+            ((void (*)(s32))SD_Call)(0x71);
             func_800542BC();
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             goto play_active_floor;
         }
         SD_Call(0x71);
