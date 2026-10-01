@@ -33,19 +33,14 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
             relative_angle = 0 - offset_angle;
             result_angle = relative_angle;
         }
-        goto block_19;
+        break;
     case 6:
     {
-        s32 relative_direction;
-        s32 relative_angle;
-        s32 direction_or_flags;
-        direction_or_flags = (s16)direction_offset;
-        relative_direction = 1 - direction_or_flags;
-        relative_angle = relative_direction << 9;
-        direction_or_flags = (*flags & 0xFFF) | direction_mask;
-        result_angle = relative_angle;
-        updated_flags = direction_or_flags;
-        goto block_18_c1;
+        s32 d;
+        d = (s16)direction_offset;
+        result_angle = (1 - d) << 9;
+        *flags = (*flags & 0xFFF) | direction_mask;
+        break;
     }
     case 4:
         input_state = (u32)direction_offset << 16;
@@ -55,19 +50,14 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
         }
-        goto block_19;
+        break;
     case 12:
     {
-        s32 relative_direction;
-        s32 relative_angle;
-        s32 direction_or_flags;
-        direction_or_flags = (s16)direction_offset;
-        relative_direction = 3 - direction_or_flags;
-        relative_angle = relative_direction << 9;
-        direction_or_flags = (*flags & 0xFFF) | direction_mask;
-        result_angle = relative_angle;
-        updated_flags = direction_or_flags;
-        goto block_18_c3;
+        s32 d;
+        d = (s16)direction_offset;
+        result_angle = (3 - d) << 9;
+        *flags = (*flags & 0xFFF) | direction_mask;
+        break;
     }
     case 8:
         input_state = (u32)direction_offset << 16;
@@ -77,19 +67,14 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
         }
-        goto block_19;
+        break;
     case 9:
     {
-        s32 relative_direction;
-        s32 direction_or_flags;
-        s32 relative_angle;
-        direction_or_flags = (s16)direction_offset;
-        relative_direction = 5 - direction_or_flags;
-        relative_angle = relative_direction << 9;
-        direction_or_flags = (*flags & 0xFFF) | direction_mask;
-        result_angle = relative_angle;
-        updated_flags = direction_or_flags;
-        goto block_18_c5;
+        s32 d;
+        d = (s16)direction_offset;
+        result_angle = (5 - d) << 9;
+        *flags = (*flags & 0xFFF) | direction_mask;
+        break;
     }
     case 1:
         input_state = (u32)direction_offset << 16;
@@ -99,33 +84,19 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
             direction_result = direction_result - direction_or_angle;
             result_angle = direction_result << 9;
         }
-        goto block_19;
+        break;
     case 3:
     {
-        s32 direction_or_flags;
-        s32 relative_direction;
-        s32 relative_angle;
-        direction_or_flags = (s16)direction_offset;
-        relative_direction = 7 - direction_or_flags;
-        relative_angle = relative_direction << 9;
-        direction_or_flags = (*flags & 0xFFF) | direction_mask;
-        result_angle = relative_angle;
-        updated_flags = direction_or_flags;
-        goto block_18_c7;
+        s32 d;
+        d = (s16)direction_offset;
+        result_angle = (7 - d) << 9;
+        *flags = (*flags & 0xFFF) | direction_mask;
+        break;
     }
     default:
-        updated_flags = *flags & 0xFFF;
+        *flags = *flags & 0xFFF;
+        break;
     }
-block_18_c1:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-block_18_c3:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-block_18_c5:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-block_18_c7:
-block_18:
-    *flags = updated_flags;
-block_19:
     *flags &= 0xFBFF;
     if (angle != NULL && result_angle != -1) {
         angle_bits = *angle;

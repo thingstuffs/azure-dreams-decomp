@@ -57,9 +57,8 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in func_801738B4 */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *actor_arg)
+void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *actor)
 {
-    register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *item;
     s32 special_mode;
     s32 action_state;
@@ -106,12 +105,14 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
                 if (item_selector == 1) {
                     goto item_1;
                 }
-                goto no_item;
+                item = 0;
+                goto have_item;
             }
             if (item_selector == 3) {
                 goto item_3;
             }
-            goto no_item;
+            item = 0;
+            goto have_item;
         }
 
 item_3:
@@ -245,6 +246,5 @@ have_item:
 
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

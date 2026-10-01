@@ -1,36 +1,16 @@
 #include "common.h"
 
+extern s16 D_800D1054[];
+
 /* Returns the matching index in the sentinel-terminated table, or -1. */
 s32 func_800A9878(s32 target_value) {
-    register u8 *base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 carrier;
-    s32 result;
-    s32 index;
+    s32 i = 0;
 
-    base = (u8 *)0x800D0000;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    carrier = *(s16 *)(base + 0x1054);
-    result = -1;
-    index = 0;
-    if (carrier != result) {
-        s32 sentinel = result;
-        carrier = (s32)(base + 0x1054);
-loop:
-        if (*(s16 *)carrier == target_value) {
-            result = index;
-        } else {
-            carrier += 2;
-            index++;
-            if (*(s16 *)carrier == sentinel) {
-                result = -1;
-            } else {
-                goto loop;
-            }
+    while (D_800D1054[i] != -1) {
+        if (D_800D1054[i] == target_value) {
+            return i;
         }
+        i++;
     }
-    return result;
+    return -1;
 }
-
-/* MECHANISM: Frameless leaf with no saved registers or stack objects.
-   Guarded $a2 holds page 0x800D0000; one guarded $v1 carrier is reused from
-   the initial signed halfword to the loop cursor, matching retail lifetimes. */

@@ -42,7 +42,6 @@ s32 func_800A2C34();                          /* extern */
 M2C_UNK func_800A4300();              /* extern */
 s32 func_800A4474();                          /* extern */
 s32 func_800A6D30();                          /* extern */
-extern u16 D_80013714_second __asm__("D_80013714");
 extern M2C_UNK D_800245A8;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80050CAC;
@@ -197,8 +196,7 @@ void func_8008EAC8(void *arg0, void *arg1, void *arg2, void *arg3) {
                 func_8008C7B4(arg0, arg1, arg2, arg3);
                 return;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            if (D_80013714_second & 1) {
+            if ((*(u16 *)0x80013714) & 1) {
                 temp_v1_4 = ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2;
                 ((Rec_func_8008ACDC_arg0 *)arg0)->unk_A2 = (u16) (temp_v1_4 & 0xFFFE);
                 if (temp_v1_4 & 0x200) {
