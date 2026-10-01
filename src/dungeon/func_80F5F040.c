@@ -128,6 +128,7 @@ typedef struct S_80172840_12 {
     s32 unk_08;
 } S_80172840_12;   /* ((S_80172840_7 *)spawn)->unk_08 in func_80172840 */
 
+extern int abs(int);
 extern s32 func_8003DE58(s32, void *, u16 *, s32);
 extern s32 func_8003F270(void);
 extern void *func_8003FD64(s32, void *);
@@ -146,7 +147,7 @@ extern u8 D_80173EC0[0x10];
 extern u8 D_80174194[0x10];
 
 /* Updates a move action, spawning particles and resetting state when it ends. */
-void func_80172840(void *action, void *position, void *sprite_in, void *actor_in)
+void func_80172840(void *action, void *position, void *sprite, void *actor)
 {
     void *particle_callback = D_80173EC0;
     s32 direction_offset;
@@ -154,13 +155,13 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     u8 *move_slot;
     s32 phase;
     register s32 is_special;
-    register s32 saved_reg ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 coords[7];
     s32 direction_x;
     s32 direction_y;
     S_80172840_10 *effect_base;
-    register s32 move_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 move_y;
+    s32 abs_x;
+    s32 abs_y;
+    S_80172840_3 *record;
     s32 counter;
     void *particle;
     u16 source_x;
@@ -174,9 +175,7 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     u8 *particle_fields;
     u32 heading;
     u8 *direction_x_ptr;
-    register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$19") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP4_NV(sprite, actor, saved_reg, heading);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    is_special = 0;
     direction_x_ptr = dirStepX;
     heading = ((S_80172840_0 *)actor)->unk_2A.s;
     one = 1;
@@ -186,8 +185,6 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     direction_x = *(s16 *)direction_x_ptr;
     phase = ((S_80172840_1 *)action)->unk_9B;
     direction_y = *(s16 *)((u8 *)dirStepY + direction_offset);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    is_special = 0;
 
     switch (phase) {
     case 0:
@@ -250,17 +247,15 @@ have_selector:
             if (special_flag != 0) {
                 move_object = ((u8 *)D_800814A8);
                 ((S_80172840_0 *)actor)->unk_60 = move_object;
-                goto copy_record;
-            }
-            if (D_8006DE24[*move_slot].kind == 2) {
+                record = ((S_80172840_2_pre *)move_object)[-1].unk_00;
+                ((S_80172840_0 *)actor)->unk_72.s = record->unk_24;
+                ((S_80172840_0 *)actor)->unk_73.s = record->unk_25;
+            } else if (D_8006DE24[*move_slot].kind == 2) {
                 move_object = ((S_80172840_0 *)actor)->unk_60;
                 if (move_object != 0) {
-copy_record:
-                    {
-                        move_y = (s32)((S_80172840_2_pre *)move_object)[-1].unk_00;
-                        ((S_80172840_0 *)actor)->unk_72.s = ((S_80172840_3 *)move_y)->unk_24;
-                        ((S_80172840_0 *)actor)->unk_73.s = ((S_80172840_3 *)move_y)->unk_25;
-                    }
+                    record = ((S_80172840_2_pre *)move_object)[-1].unk_00;
+                    ((S_80172840_0 *)actor)->unk_72.s = record->unk_24;
+                    ((S_80172840_0 *)actor)->unk_73.s = record->unk_25;
                 }
             } else {
                 ((S_80172840_0 *)actor)->unk_60 = func_800A05A4(
@@ -269,16 +264,10 @@ copy_record:
                     ((S_80172840_4 *)sprite)->unk_25,
                     ((S_80172840_0 *)actor)->unk_2A.u,
                     0x10);
-                move_x = ((S_80172840_0 *)actor)->unk_72.u;
-                move_y = ((S_80172840_0 *)actor)->unk_73.u;
-                if (move_x < 0) {
-                    move_x = -move_x;
-                }
-                if (move_y < 0) {
-                    move_y = -move_y;
-                }
-                ((S_80172840_0 *)actor)->unk_72.s = move_x;
-                ((S_80172840_0 *)actor)->unk_73.s = move_y;
+                abs_x = abs(((S_80172840_0 *)actor)->unk_72.u);
+                abs_y = abs(((S_80172840_0 *)actor)->unk_73.u);
+                ((S_80172840_0 *)actor)->unk_72.s = abs_x;
+                ((S_80172840_0 *)actor)->unk_73.s = abs_y;
             }
             coords[0] = ((S_80172840_5 *)position)->unk_02;
             coords[1] = ((S_80172840_5 *)position)->unk_06;

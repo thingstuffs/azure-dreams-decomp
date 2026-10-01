@@ -41,14 +41,25 @@ __asm__(".globl func_80016000\n"
 #define BODY_NAME func_80016000
 #endif
 
+static __inline__ void set_light_vectors(u8 *view_state, s16 x, s16 y)
+{
+    *(s16 *)(view_state + 0x38) = x;
+    *(s16 *)(view_state + 0x3A) = y;
+    *(s16 *)(view_state + 0x3C) = x;
+    *(s16 *)(view_state + 0x3E) = -x;
+    *(s16 *)(view_state + 0x40) = -y;
+    *(s16 *)(view_state + 0x42) = -x;
+    *(s16 *)(view_state + 0x44) = 0;
+    *(s16 *)(view_state + 0x46) = 0;
+    *(s16 *)(view_state + 0x48) = 0;
+}
+
 /* Initialize projection, lighting, colors, and view bounds. */
 void BODY_NAME(void) {
     u8 *render_data;
     u8 *view_state;
     s32 default_scale;
     void *light_matrix;
-    s32 light_coeff_a;
-    s32 light_coeff_b;
 
     render_data = ((u8 *)(&gameWork));
     view_state = render_data + 0x18;
@@ -71,21 +82,7 @@ void BODY_NAME(void) {
     func_80064D50(render_data + 0x70);
 
     light_matrix = render_data + 0x50;
-    ASM_KEEP_NV(light_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    light_coeff_a = -0x800;
-    light_coeff_b = 0x800;
-    *(s16 *)(view_state + 0x38) = light_coeff_a;
-    *(s16 *)(view_state + 0x3C) = light_coeff_a;
-    ASM_KEEP_NV(light_coeff_b);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    light_coeff_a = 0x800;
-    *(s16 *)(view_state + 0x3A) = light_coeff_b;
-    light_coeff_b = -0x800;
-    *(s16 *)(view_state + 0x3E) = light_coeff_a;
-    *(s16 *)(view_state + 0x40) = light_coeff_b;
-    *(s16 *)(view_state + 0x42) = light_coeff_a;
-    *(s16 *)(view_state + 0x44) = 0;
-    *(s16 *)(view_state + 0x46) = 0;
-    *(s16 *)(view_state + 0x48) = 0;
+    set_light_vectors(view_state, -0x800, 0x800);
     func_80064D20(light_matrix);
 
     *(s32 *)(view_state + 0x84) = 0x1000;

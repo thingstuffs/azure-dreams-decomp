@@ -1,36 +1,115 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
+typedef struct GridPoint {
+    union {
+        s16 x;
+        u8 unk_00;
+    } unk_00;
+    union {
+        s16 y;
+        u16 unk_02;
+        u8 unk_02_u8;
+    } unk_02;
+} GridPoint;
 
-typedef struct Packed32 {
-    u8 bytes[0x20];
-} __attribute__((packed)) Packed32;
+typedef struct GridData {
+    GridPoint point[8];
+} GridData __attribute__((packed));
 
-extern void func_800A7A7C(s16, s16, s16, void *, void *);
-extern s16 func_800A45D8(u16, u16, s16);
+typedef struct S_80F03000_0 {
+    u8 pad_00[0x2C];
+    s16 unk_2C;
+    s16 unk_2E;
+    u8 pad_30[4];
+    s16 unk_34;
+    s16 unk_36;
+    u8 pad_38[8];
+    void *unk_40;
+    u8 pad_44[0x18];
+    s8 unk_5C;
+    s8 unk_5D;
+    u8 pad_5E[0x0E];
+    s32 unk_6C;
+    s32 unk_70;
+    s32 unk_74;
+    s32 unk_78;
+    s32 unk_7C;
+    s32 unk_80;
+} S_80F03000_0;
+
+typedef struct S_80F03000_1 {
+    union {
+        s32 s32;
+        struct {
+            u8 pad_00[2];
+            union { s16 s16; u16 u16; } unk_02;
+        } parts;
+    } unk_00;
+    union {
+        s32 s32;
+        struct {
+            u8 pad_04[2];
+            union { s16 s16; u16 u16; } unk_06;
+        } parts;
+    } unk_04;
+    union {
+        s32 s32;
+        struct {
+            s16 unk_08;
+            s16 unk_0A;
+        } parts;
+    } unk_08;
+    u8 pad_0C[2];
+    s16 unk_0E;
+    u8 pad_10[2];
+    s16 unk_12;
+    u8 pad_14[2];
+    s16 unk_16;
+} S_80F03000_1;
+
+typedef struct S_80F03000_2 {
+    u8 pad_00[6];
+    s16 unk_06;
+    s32 *unk_08;
+    u8 pad_0C[8];
+    u16 unk_14;
+    u8 pad_16[6];
+    u16 unk_1C;
+    u16 unk_1E;
+} S_80F03000_2;
+
+typedef struct S_80F03000_3 {
+    u8 pad_00[0xA4];
+    s16 unk_A4;
+} S_80F03000_3;
+
+typedef struct S_80F03000_4 {
+    u16 unk_00;
+} S_80F03000_4;
+
+extern s32 func_800A45D8(u16, u16, s16);
+extern s32 func_800A7234(s8, s8, s16, s16 *, s16 *, s16 *);
+extern void func_800A7A7C(s16, s16, s16, s32, s8 *);
 extern s16 func_800BCB04(s32, s32, s16);
-extern s16 func_800A7234(s8, s8, s16, void *, void *, void *);
 
-extern void *D_8014C828[];
-extern Packed32 D_8014C808;
-#ifdef __mips__
+extern u8 D_8014C808[];
+extern u32 D_8014C828[];
 __asm__(".set D_8014C828, 0x8014C828");
-__asm__(".set D_8014C808, 0x8014C808");
 
-static const u32 split_prefix[] __asm__("func_8014C800")
+#ifdef __mips__
+static const u32 bank_words[] __asm__("func_8014C800")
 __attribute__((section(".text.func_8014C800"), aligned(4))) = {
-    0x8014D718, 0x8014D8E0,
-    0x00000001, 0x00010001, 0x00010000, 0x0001FFFF,
-    0x0000FFFF, 0xFFFFFFFF, 0xFFFF0000, 0xFFFF0001,
-    0x8014C9E8, 0x8014C9F0, 0x8014C9F8, 0x8014CA00,
-    0x8014CA08, 0x00000000,
+    0x8014D718, 0x8014D8E0, 0x00000001, 0x00010001,
+    0x00010000, 0x0001FFFF, 0x0000FFFF, 0xFFFFFFFF,
+    0xFFFF0000, 0xFFFF0001, 0x8014C9E8, 0x8014C9F0,
+    0x8014C9F8, 0x8014CA00, 0x8014CA08, 0x00000000,
     0x8014E0CC, 0x8014E0CC, 0x8014E0CC, 0x8014E0F8,
     0x8014E078, 0x8014E078, 0x8014E078, 0x8014E024,
     0x8014E05C, 0x8014E0F8, 0x8014E0F8, 0x8014E0BC,
     0x8014F55C, 0x8014F5E8, 0x8014F62C, 0x8014F68C,
-    0x8014F750, 0x00000000,
-    0x8014F810, 0x8014FA48, 0x8014FA90, 0x8014FBE4,
-    0x8014FBF8, 0x00000000,
+    0x8014F750, 0x00000000, 0x8014F810, 0x8014FA48,
+    0x8014FA90, 0x8014FBE4, 0x8014FBF8, 0x00000000,
     0x8014F8C0, 0x8014F8B8, 0x8014F8B0, 0x8014F8C8,
     0x8014F86C, 0x8014F864, 0x8014F85C,
 };
@@ -41,359 +120,250 @@ __asm__(".globl func_8014C800\n"
 #define BODY_NAME func_8014C800
 #endif
 
-void BODY_NAME(void *actor, void *position, void *effect)
-__attribute__((section(".text.func_8014C800")));
-
-typedef struct S_80F03000_0_pre {
-    u16 unk_00;
-} S_80F03000_0_pre;   /* the 0x2 bytes before actor in BODY_NAME, addressed as actor[-1] */
-
-typedef struct S_80F03000_0 {
-    u8 pad_00[0x2C];
-    s16 unk_2C;
-    s16 unk_2E;
-    u8 pad_30[0x4];
-    s16 unk_34;
-    union { u16 u; s16 s; } unk_36;   /* accessed as both */
-    u8 pad_38[0x8];
-    void * unk_40;
-    u8 pad_44[0x18];
-    union { s8 s; u8 u; } unk_5C;   /* accessed as both */
-    s8 unk_5D;
-    u8 pad_5E[0xE];
-    s32 unk_6C;
-    s32 unk_70;
-    s32 unk_74;
-    s32 unk_78;
-    s32 unk_7C;
-    s32 unk_80;
-} S_80F03000_0;   /* actor in BODY_NAME */
-
-typedef struct S_80F03000_1 {
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_00;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_04;   /* overlapping accesses */
-    union {
-        struct { s32 v; } at00;
-        struct { s16 v; } at00u;
-        struct { u8 pad[0x2]; s16 v; } at02;
-        struct { u8 pad[0x2]; u16 v; } at02u;
-    } unk_08;   /* overlapping accesses */
-    u8 pad_0C[0x2];
-    s16 unk_0E;
-    u8 pad_10[0x2];
-    s16 unk_12;
-    u8 pad_14[0x2];
-    s16 unk_16;
-} S_80F03000_1;   /* position in BODY_NAME */
-
-typedef struct S_80F03000_2 {
-    u8 pad_00[0x6];
-    s16 unk_06;
-    void * unk_08;
-    u8 pad_0C[0x8];
-    u16 unk_14;
-    u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
-} S_80F03000_2;   /* effect in BODY_NAME */
-
-typedef struct S_80F03000_3 {
-    u8 pad_00[0xA4];
-    s16 unk_A4;
-} S_80F03000_3;   /* ((S_80F03000_0 *)actor)->unk_40 in BODY_NAME */
-
-/* Update flight, landing interpolation, and falling completion for a moving actor. */
-void BODY_NAME(void *actor, void *position, void *effect)
-{
-    s8 color[4];
-    Packed32 directions;
-    s32 fall_z;
-    s32 flight_z;
-    s16 timer;
-    u16 travel_frames;
-    s32 delta_x;
-    s32 delta_y;
-    s32 destination_y;
-    s32 start_tile_y;
-    s32 distance;
+void BODY_NAME(S_80F03000_0 *motion, S_80F03000_1 *position, S_80F03000_2 *display)
 #ifdef __mips__
-    register s32 velocity_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 direction_index;
-    s32 accel_y;
-    register s32 next_tile_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 tile_step_x;
-    s32 world_x;
-    s32 tile_x;
-    s16 tile_step_y;
-    s32 next_tile_y;
-    s32 tile_y;
-    s32 update_index;
-    u8 *direction_x;
-    u8 *direction_y;
-#else
-    s32 velocity_y;
-    s32 direction_index;
-    s32 accel_y;
-    s32 next_tile_x;
-    s32 tile_step_x;
-    s32 world_x;
-    s32 tile_x;
-    s16 tile_step_y;
-    s32 next_tile_y;
-    s32 world_y;
-    s32 tile_y;
-    s32 update_index;
-    u8 *direction_x;
-    u8 *direction_y;
+__attribute__((section(".text.func_8014C800")))
 #endif
-    s16 *direction_base;
-    s16 *direction;
+;
+
+/* Updates motion, landing interpolation, and completion of a moving object. */
+void BODY_NAME(S_80F03000_0 *motion, S_80F03000_1 *position, S_80F03000_2 *display)
+{
+    s8 command[4];
+    GridPoint grid[8];
+    GridPoint *grid_base;
+    s32 fall_height;
+    s32 move_height;
+    u16 settle_frames;
+    u16 scale;
+    u32 tile_distance;
+    s32 interp_goal;
 
 #ifdef __mips__
-    static void *const switch_keep[5] = {
-        &&switch_case0, &&switch_case1, &&switch_case2,
-        &&switch_case3, &&switch_default
+    static void *const switch_keepalive[] __attribute__((used)) = {
+        &&distance_zero, &&distance_one, &&distance_two, &&distance_three, &&distance_four
     };
 #endif
 
-#ifdef __mips__
-    void *effect_local = effect;
-#define effect effect_local
-#endif
+    __builtin_memcpy(grid, D_8014C808, 32);
 
-    directions = D_8014C808;
+settle:
+    if (motion->unk_2C != 1)
+        goto fall;
+    if (motion->unk_2E != 0)
+        goto interpolate;
+    motion->unk_2E = (s16)((u16)motion->unk_2E + 1);
+    {
+        s32 abs_x;
+        s32 abs_y;
+        s32 map_y;
 
-state_one:
-    if (((S_80F03000_0 *)actor)->unk_2C != 1) {
-        goto state_two_check;
+        abs_x = position->unk_0E;
+        abs_y = motion->unk_5C;
+        map_y = motion->unk_5D;
+        abs_x -= abs_y;
+        abs_y = position->unk_12;
+        if (abs_x < 0)
+            abs_x = -abs_x;
+        abs_y -= map_y;
+        if (abs_y < 0)
+            abs_y = -abs_y;
+        tile_distance = abs_x + abs_y;
     }
-    if (((S_80F03000_0 *)actor)->unk_2E != 0) {
-        goto countdown;
-    }
+    if (tile_distance >= 5U)
+        goto max_duration;
+    goto *(void *)D_8014C828[tile_distance];
+distance_zero:
+    settle_frames = 4;
+    goto set_duration;
+distance_one:
+    settle_frames = 8;
+    goto set_duration;
+distance_two:
+    settle_frames = 12;
+    goto set_duration;
+distance_three:
+    settle_frames = 14;
+    goto set_duration;
+distance_four:
+max_duration:
+    settle_frames = 16;
+set_duration:
+    motion->unk_36 = settle_frames;
+interpolate:
+    {
+        u32 countdown_raw;
+        s32 countdown;
+        s32 shifted_countdown;
 
-    ((S_80F03000_0 *)actor)->unk_2E++;
-    start_tile_y = ((S_80F03000_0 *)actor)->unk_5D;
-    delta_x = ((S_80F03000_1 *)position)->unk_0E - ((S_80F03000_0 *)actor)->unk_5C.s;
-    destination_y = ((S_80F03000_1 *)position)->unk_12;
-    if (delta_x < 0) {
-        delta_x = -delta_x;
-    }
-    delta_y = destination_y - start_tile_y;
-    if (delta_y < 0) {
-        delta_y = -delta_y;
-    }
-    distance = delta_x + delta_y;
-#ifdef __mips__
-    if ((u32)distance < 5U) {
-        (void)switch_keep;
-        goto *D_8014C828[(u32)distance];
-    }
-    goto switch_default;
-#else
-    switch ((u32)distance) {
-    case 0:
-        goto switch_case0;
-    case 1:
-        goto switch_case1;
-    case 2:
-        goto switch_case2;
-    case 3:
-        goto switch_case3;
-    default:
-        goto switch_default;
-    }
-#endif
-switch_case0:
-    travel_frames = 4;
-    goto switch_store;
-switch_case1:
-    travel_frames = 8;
-    goto switch_store;
-switch_case2:
-    travel_frames = 12;
-    goto switch_store;
-switch_case3:
-    travel_frames = 14;
-    goto switch_store;
-switch_default:
-    travel_frames = 16;
-switch_store:
-    ((S_80F03000_0 *)actor)->unk_36.u = travel_frames;
-countdown:
-    timer = ((S_80F03000_0 *)actor)->unk_36.s - 1;
-    ((S_80F03000_0 *)actor)->unk_36.s = timer;
-    if (timer != 0) {
-        s32 step_x;
-        s32 centered_x;
-        s32 step_y;
-        s32 centered_y;
-        step_x = ((S_80F03000_1 *)position)->unk_0E * 64;
-        centered_x = ((S_80F03000_1 *)position)->unk_00.at02.v - 32;
-        step_x -= centered_x;
-        step_x /= timer;
-        ((S_80F03000_1 *)position)->unk_00.at02.v += step_x;
-        step_y = ((S_80F03000_1 *)position)->unk_12 * 64;
-        centered_y = ((S_80F03000_1 *)position)->unk_04.at02.v - 32;
-        step_y -= centered_y;
-        step_y /= ((S_80F03000_0 *)actor)->unk_36.s;
-        ((S_80F03000_1 *)position)->unk_04.at02.v += step_y;
-        ((S_80F03000_1 *)position)->unk_08.at02.v +=
-            (((S_80F03000_1 *)position)->unk_16 - ((S_80F03000_1 *)position)->unk_08.at02.v) /
-            ((S_80F03000_0 *)actor)->unk_36.s;
-    }
+        countdown_raw = (u16)motion->unk_36 - 1;
+        motion->unk_36 = countdown_raw;
+        countdown_raw <<= 16;
+        shifted_countdown = (s32)countdown_raw;
+        countdown = shifted_countdown >> 16;
+        if (countdown == 0)
+            goto check_settled;
+        {
+            s32 interp_current;
 
-    if (((S_80F03000_0 *)actor)->unk_36.s <= 0) {
-        color[0] = 6;
-        color[1] = 12;
-        color[2] = 0;
-        color[3] = 0;
-        func_800A7A7C(((S_80F03000_1 *)position)->unk_0E,
-                      ((S_80F03000_1 *)position)->unk_12,
-                      ((S_80F03000_1 *)position)->unk_16,
-                      ((S_80F03000_2 *)effect)->unk_08, color);
-        goto state_two_finish;
-    }
+            interp_goal = position->unk_0E;
+            interp_current = position->unk_00.parts.unk_02.s16;
+            interp_goal *= 64;
+            interp_current -= 32;
+            interp_goal -= interp_current;
+            interp_goal /= countdown;
+            position->unk_00.parts.unk_02.s16 += interp_goal;
 
-state_one_end:
-    if (((S_80F03000_2 *)effect)->unk_14 & 0x8000) {
-        goto state_one;
-    }
+            {
+                s32 goal = position->unk_12;
+                s32 current = position->unk_04.parts.unk_06.s16;
+                s32 ticks = motion->unk_36;
+                s32 delta;
+                s32 scaled = goal;
+                scaled *= 64;
+                delta = current - 32;
+                interp_goal = scaled - delta;
+                interp_goal /= ticks;
+            }
+            interp_current = position->unk_04.parts.unk_06.u16;
+            countdown = position->unk_08.parts.unk_0A;
+            interp_current += interp_goal;
 
-state_two_check:
-    do {
-        if (((S_80F03000_0 *)actor)->unk_2C != 2) {
-            goto state_zero_check;
-        }
-
-        ((S_80F03000_1 *)position)->unk_08.at00.v += ((S_80F03000_0 *)actor)->unk_74;
-        ((S_80F03000_0 *)actor)->unk_74 += ((S_80F03000_0 *)actor)->unk_80;
-        ((S_80F03000_2 *)effect)->unk_1E -= 200;
-        ((S_80F03000_2 *)effect)->unk_1C = ((S_80F03000_2 *)effect)->unk_1E;
-        fall_z = ((S_80F03000_1 *)position)->unk_08.at02.v;
-        if (func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
-                          (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                          (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32)) - 7 < fall_z) {
-            ((S_80F03000_1 *)position)->unk_08.at02.v =
-                func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
-                              (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                              (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32));
-            ((S_80F03000_1 *)position)->unk_08.at00u.v = 0;
-state_two_finish:
-            ((S_80F03000_3 *)(((S_80F03000_0 *)actor)->unk_40))->unk_A4 = 0;
-            ((S_80F03000_0_pre *)actor)[-1].unk_00 |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
-            return;
-        }
-    } while (((S_80F03000_2 *)effect)->unk_14 & 0x8000);
-
-state_zero_check:
-    if (((S_80F03000_0 *)actor)->unk_2C != 0) {
-        return;
-    }
-
-    ((S_80F03000_1 *)position)->unk_00.at00.v += ((S_80F03000_0 *)actor)->unk_6C;
-    ((S_80F03000_0 *)actor)->unk_6C += ((S_80F03000_0 *)actor)->unk_78;
-    ((S_80F03000_1 *)position)->unk_04.at00.v += ((S_80F03000_0 *)actor)->unk_70;
-    direction_base = (s16 *)&directions;
-    velocity_y = ((S_80F03000_0 *)actor)->unk_70;
-    direction_index = ((S_80F03000_0 *)actor)->unk_34;
-    accel_y = ((S_80F03000_0 *)actor)->unk_7C;
-    direction = direction_base + direction_index * 2;
-    ASM_USE2(direction, accel_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    next_tile_x = ((S_80F03000_0 *)actor)->unk_5C.s;
-    velocity_y += accel_y;
-    ((S_80F03000_0 *)actor)->unk_70 = velocity_y;
-    tile_step_x = direction[0];
-    world_x = ((S_80F03000_1 *)position)->unk_00.at02.v;
-    next_tile_x += tile_step_x;
-    if (world_x < 0) {
-        world_x += 63;
-    }
-    tile_x = world_x >> 6;
-    if (next_tile_x != tile_x) {
-        goto state_zero_z;
-    }
-    start_tile_y = ((S_80F03000_1 *)position)->unk_04.at02.v;
-    next_tile_y = ((S_80F03000_0 *)actor)->unk_5D + (tile_step_y = direction[1]);
-    if (start_tile_y < 0) {
-        start_tile_y += 63;
-    }
-    tile_y = start_tile_y >> 6;
-    if (next_tile_y != tile_y) {
-        goto state_zero_z;
-    }
-    if (func_800A45D8(((S_80F03000_1 *)position)->unk_00.at02u.v, ((S_80F03000_1 *)position)->unk_04.at02u.v,
-        ((S_80F03000_1 *)position)->unk_08.at02.v) == 0) {
-        if (func_800BCB04(((S_80F03000_1 *)position)->unk_00.at02u.v,
-                          ((S_80F03000_1 *)position)->unk_04.at02u.v,
-                          ((S_80F03000_1 *)position)->unk_08.at02.v) < 0x200) {
-            goto state_zero_update;
+            interp_goal = position->unk_16;
+            position->unk_04.parts.unk_06.s16 = interp_current;
+            interp_goal -= countdown;
+            interp_goal /= (s16)motion->unk_36;
+            position->unk_08.parts.unk_0A += interp_goal;
         }
     }
-    ((S_80F03000_1 *)position)->unk_00.at00.v -= ((S_80F03000_0 *)actor)->unk_6C;
-    ((S_80F03000_0 *)actor)->unk_6C = 0;
-    ((S_80F03000_0 *)actor)->unk_78 = 0;
-    ((S_80F03000_1 *)position)->unk_04.at00.v -= ((S_80F03000_0 *)actor)->unk_70;
-    ((S_80F03000_0 *)actor)->unk_70 = 0;
-    ((S_80F03000_0 *)actor)->unk_7C = 0;
-    goto state_zero_reset;
-
-state_zero_update:
-    update_index = ((S_80F03000_0 *)actor)->unk_34;
-    next_tile_x = ((S_80F03000_0 *)actor)->unk_5C.u;
-    direction_x = (u8 *)direction_base + update_index * 4;
-    next_tile_x += direction_x[0];
-    ((S_80F03000_0 *)actor)->unk_5C.s = next_tile_x;
-    direction_y = (u8 *)direction_base + ((S_80F03000_0 *)actor)->unk_34 * 4;
-    ((S_80F03000_0 *)actor)->unk_5D += direction_y[2];
-state_zero_reset:
-    ((S_80F03000_2 *)effect)->unk_06 = 0;
-
-state_zero_z:
-    ((S_80F03000_1 *)position)->unk_08.at00.v += ((S_80F03000_0 *)actor)->unk_74;
-    ((S_80F03000_0 *)actor)->unk_74 += ((S_80F03000_0 *)actor)->unk_80;
-    flight_z = ((S_80F03000_1 *)position)->unk_08.at02.v;
-    if (func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
-                      (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                      (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32)) - 16 < flight_z) {
-        ((S_80F03000_1 *)position)->unk_08.at02.v =
-            func_800BCB04((((S_80F03000_0 *)actor)->unk_5C.s << 6) & 0xFFC0,
-                          (((S_80F03000_0 *)actor)->unk_5D << 6) & 0xFFC0,
-                          (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32));
-        ((S_80F03000_1 *)position)->unk_08.at00u.v = 0;
-        ((S_80F03000_0 *)actor)->unk_7C = 0;
-        ((S_80F03000_0 *)actor)->unk_70 = 0;
-        ((S_80F03000_0 *)actor)->unk_78 = 0;
-        ((S_80F03000_0 *)actor)->unk_6C = 0;
-        ((S_80F03000_0 *)actor)->unk_2C++;
-        if (func_800A7234(((S_80F03000_0 *)actor)->unk_5C.s,
-                          ((S_80F03000_0 *)actor)->unk_5D,
-                          (s16)(((S_80F03000_1 *)position)->unk_08.at02u.v - 32),
-                          (u8 *)position + 14,
-                          (u8 *)position + 18,
-                          (u8 *)position + 22) != 0) {
-            return;
-        }
-        ((S_80F03000_0 *)actor)->unk_2C = 2;
-        ((S_80F03000_0 *)actor)->unk_74 = -0x80000;
-        return;
+check_settled:
+    if ((s16)motion->unk_36 <= 0) {
+        command[0] = 6;
+        command[1] = 12;
+        command[2] = 0;
+        command[3] = 0;
+        func_800A7A7C(position->unk_0E, position->unk_12,
+                      position->unk_16, display->unk_08, command);
+        goto finish;
     }
-    if (((S_80F03000_2 *)effect)->unk_14 & 0x8000) {
-        goto state_zero_check;
-    }
+    if (display->unk_14 & 0x8000)
+        goto settle;
+
+fall:
+    if (motion->unk_2C != 2)
+        goto move;
+    position->unk_08.s32 += motion->unk_74;
+    motion->unk_74 += motion->unk_80;
+    scale = display->unk_1E - 0xC8;
+    display->unk_1E = scale;
+    display->unk_1C = scale;
+    fall_height = position->unk_08.parts.unk_0A;
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0,
+                      (motion->unk_5D << 6) & 0xFFC0,
+                      (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 7 >=
+        fall_height)
+    goto repeat_fall;
+    position->unk_08.parts.unk_0A = func_800BCB04(
+        (motion->unk_5C << 6) & 0xFFC0,
+        (motion->unk_5D << 6) & 0xFFC0,
+        (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
+    position->unk_08.parts.unk_08 = 0;
+finish:
+    ((S_80F03000_3 *)motion->unk_40)->unk_A4 = 0;
+    ((S_80F03000_4 *)((u8 *)motion - 2))->unk_00 |= 0x8000;
+    objectFlagBlock.flags |= 0x8000;
     return;
+repeat_fall:
+    if (display->unk_14 & 0x8000)
+        goto fall;
 
+move:
+    grid_base = grid;
+    if (motion->unk_2C != 0)
+        return;
+    position->unk_00.s32 += motion->unk_6C;
+    motion->unk_6C += motion->unk_78;
+    position->unk_04.s32 += motion->unk_70;
+    {
+        s32 coord;
+        s32 world_coord;
+        GridPoint *point;
+
+        coord = motion->unk_70;
+        world_coord = motion->unk_7C;
+        interp_goal = motion->unk_34;
+        interp_goal <<= 2;
+        point = (GridPoint *)((u8 *)grid_base + interp_goal);
+        interp_goal = motion->unk_5C;
+        coord += world_coord;
+        motion->unk_70 = coord;
+
+        coord = point->unk_00.x;
+        world_coord = position->unk_00.parts.unk_02.s16;
+        interp_goal += coord;
+        if (world_coord < 0)
+            world_coord += 0x3F;
+        coord = world_coord >> 6;
+        if (interp_goal != coord)
+            goto update_height;
+
+        coord = point->unk_02.unk_02;
+        world_coord = position->unk_04.parts.unk_06.s16;
+        interp_goal = motion->unk_5D;
+        coord = (s16)coord;
+        interp_goal += coord;
+        if (world_coord < 0)
+            world_coord += 0x3F;
+        coord = world_coord >> 6;
+        if (interp_goal != coord)
+            goto update_height;
+    }
+    if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+        position->unk_08.parts.unk_0A) << 16) == 0) {
+        if (func_800BCB04(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,
+                          position->unk_08.parts.unk_0A) < 0x200)
+        goto advance_tile;
+    }
+    position->unk_00.s32 -= motion->unk_6C;
+    motion->unk_6C = 0;
+    motion->unk_78 = 0;
+    position->unk_04.s32 -= motion->unk_70;
+    motion->unk_70 = 0;
+    motion->unk_7C = 0;
+    goto clear_movement;
+advance_tile:
+    motion->unk_5C +=
+        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_00.unk_00;
+    motion->unk_5D +=
+        ((GridPoint *)((u8 *)grid_base + (motion->unk_34 << 2)))->unk_02.unk_02_u8;
+clear_movement:
+    display->unk_06 = 0;
+update_height:
+    position->unk_08.s32 += motion->unk_74;
+    motion->unk_74 += motion->unk_80;
+    move_height = position->unk_08.parts.unk_0A;
+    if (func_800BCB04((motion->unk_5C << 6) & 0xFFC0, (motion->unk_5D << 6) & 0xFFC0,
+        (s16)((u16)position->unk_08.parts.unk_0A - 0x20)) - 0x10 < move_height) {
+        position->unk_08.parts.unk_0A = func_800BCB04(
+            (motion->unk_5C << 6) & 0xFFC0,
+            (motion->unk_5D << 6) & 0xFFC0,
+            (s16)((u16)position->unk_08.parts.unk_0A - 0x20));
+        position->unk_08.parts.unk_08 = 0;
+        motion->unk_7C = 0;
+        motion->unk_70 = 0;
+        motion->unk_78 = 0;
+        motion->unk_6C = 0;
+        motion->unk_2C = (s16)((u16)motion->unk_2C + 1);
+        if ((func_800A7234(motion->unk_5C, motion->unk_5D,
+                           (s16)((u16)position->unk_08.parts.unk_0A - 0x20),
+                           &position->unk_0E, &position->unk_12,
+                           &position->unk_16) << 16) != 0)
+        return;
+        motion->unk_2C = 2;
+        motion->unk_74 = (s32)0xFFF80000;
+        return;
+    }
+    if (display->unk_14 & 0x8000)
+        goto move;
     return;
 }
-
-#ifdef __mips__
-#undef effect
-#endif
