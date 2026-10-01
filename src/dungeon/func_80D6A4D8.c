@@ -63,6 +63,11 @@ typedef struct S_80175CD8_6 {
 
 
 extern s32 D_80010234;
+typedef struct WorldStatePage {
+    u8 pad_0000[0x2090];
+    s32 actionMode;
+} WorldStatePage;
+
 extern s32 D_80012090;
 extern s16 D_80081468[3];
 extern s16 D_8008146C;
@@ -258,8 +263,8 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
                 }
             }
             ((S_80175CD8_0 *)action)->unk_96.s = 0;
-            ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            if ((D_80012090 == 0) && (D_8008146C == 0x28)) {
+
+            if ((((WorldStatePage *)0x80010000)->actionMode == 0) && (D_8008146C == 0x28)) {
                 ((S_80175CD8_0 *)action)->unk_9B = 7;
             } else if ((*(u8 *)((u8 *)&((EntityRec *)actor)->unk_10 + 1)) >= D_8008146C) {
                 ((S_80175CD8_0 *)action)->unk_9B++;
@@ -284,18 +289,20 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
                 u8 map_id;
                 s32 visit_count;
                 s32 floor_count;
+                s32 next_visit;
+                s32 next_floor;
 
-                scene_page = (u8 *)0x80080000;
+                scene_page = &D_80082E6B;
                 counter_page = (u8 *)0x80010000;
                 floor_stats = D_80081468;
-                map_id = scene_page[0x2E6B];
-                ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                map_id = *scene_page;
+
                 visit_count = *(s32 *)(counter_page + 0x234);
                 floor_count = *(u16 *)((u8 *)floor_stats + 4);
-                visit_count++;
-                floor_count++;
-                *(s32 *)(counter_page + 0x234) = visit_count;
-                *(u16 *)((u8 *)floor_stats + 4) = floor_count;
+                next_visit = visit_count + 1;
+                next_floor = floor_count + 1;
+                *(s32 *)(counter_page + 0x234) = next_visit;
+                *(u16 *)((u8 *)floor_stats + 4) = next_floor;
                 func_80040AA0(map_id);
             }
             func_800481E0();
@@ -310,13 +317,14 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
         {
             u8 *player = ((u8 *)D_800E3D7C);
             u8 *scene;
+            u8 *scene_base;
             u32 player_flags;
             u16 height;
 
             player_flags = ((S_80175CD8_6 *)player)->unk_14 & 0xFFEFFFFF;
-            ASM_KEEP(player_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            scene = ((u8 *)(&D_80083498));
-            scene += 0x20;
+
+            scene_base = ((u8 *)(&D_80083498));
+            scene = scene_base + 0x20;
             ((S_80175CD8_6 *)player)->unk_14 = player_flags;
             height = ((u16)D_80083780.z.w.i) - ((S_80175CD8_5 *)scene)->unk_88.s;
             ((S_80175CD8_6 *)player)->unk_92 = height;
