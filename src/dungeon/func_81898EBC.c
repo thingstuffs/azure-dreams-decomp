@@ -67,8 +67,6 @@ typedef struct Scratch {
 #define map_flags scratch.map_flags
 
 extern void *D_80024008[];
-extern s16 D_8006CCD8_early[] __asm__("D_8006CCD8");
-extern s16 D_8006CCE8_early[] __asm__("D_8006CCE8");
 extern void *D_800814A8_early[4] __asm__("D_800814A8");
 extern u8 D_80082E80_early[] __asm__("D_80082E80");
 
@@ -108,37 +106,14 @@ void func_800246BC(EffectState *state, Motion *motion, ColorPart *part)
     owner = state->owner;
 
     switch (state_id) {
-        register u32 direction_x ASM_REG("$2");
     case 0:
 
         origin = D_80082E80_early;
-        ASM_SCHED_BARRIER();
-
         {
-            s32 start_x;
-            s32 start_y;
-            u32 origin_x;
-            register u32 x_table ASM_REG("$7");
-            u32 x_offset;
-            u32 y_offset;
-
-            direction_x = (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            start_x = U8_AT(direction_x, 0x24);
-            start_y = U8_AT(direction_x, 0x25);
-            x_table = (u32)D_8006CCD8_early;
-            direction_x = (u32)D_800814A8_early - 0x14A8;
-            direction_x = *(u32 *)(direction_x + 0x14A8);
-            y_offset = U16_AT(direction_x, 0x2A);
-            origin_x = origin[0x24];
-            y_offset = (y_offset >> 8) & 0xE;
-            x_offset = y_offset + x_table;
-            direction_x = (u32)D_8006CCE8_early;
-            y_offset += direction_x;
-            x_offset = U16_AT(x_offset, 0);
-            y_offset = U16_AT(y_offset, 0);
-
-            U16_AT(owner, 0x2A) = func_800A0818(
-                start_x, start_y, origin_x + x_offset, origin[0x25] + y_offset, &result);
+            void *node = PTR_AT((u8 *)owner - 0x20, 0xC);
+            s32 dir = (U16_AT(D_800814A8_early[0], 0x2A) >> 9) & 7;
+            U16_AT(owner, 0x2A) = func_800A0818(U8_AT(node, 0x24), U8_AT(node, 0x25),
+                origin[0x24] + dirStepX[dir], origin[0x25] + dirStepY[dir], &result);
         }
         state->timer = 0;
         state->state++;
@@ -175,14 +150,8 @@ void func_800246BC(EffectState *state, Motion *motion, ColorPart *part)
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             void *direction_node = D_800814A8;
 
-            direction_x = U16_AT(direction_node, 0x2A);
-            state->x = D_80082E80.tileX +
-                ((s16 *)((u8 *)dirStepX +
-                ((direction_x >> 8) & 0xE)))[0];
-            direction_x = U16_AT(direction_node, 0x2A);
-            state->y = D_80082E80.tileY +
-                ((s16 *)((u8 *)dirStepY +
-                ((direction_x >> 8) & 0xE)))[0];
+            state->x = D_80082E80.tileX + dirStepX[(U16_AT(direction_node, 0x2A) >> 9) & 7];
+            state->y = D_80082E80.tileY + dirStepY[(U16_AT(direction_node, 0x2A) >> 9) & 7];
         } else {
             state->x = D_80082E80.tileX + dirStepX[state->direction];
             state->y = D_80082E80.tileY + dirStepY[state->direction];
@@ -214,8 +183,7 @@ void func_800246BC(EffectState *state, Motion *motion, ColorPart *part)
             } else {
                 target_z = S16_AT(target_pos, 0xA);
 
-                direction_x = (u32)(target_z < 0x201);
-                if (!(s32)direction_x) {
+                if (target_z >= 0x201) {
                     s32 fallback_value;
 
                     fallback_value =

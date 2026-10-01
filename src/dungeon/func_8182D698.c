@@ -41,54 +41,14 @@ typedef struct {
 /* Advance motion with damping and downward acceleration, then count down or fade the effect. */
 void func_8182D698(Object *object, Motion *motion, Effect *effect) {
     s16 state;
-
     ((s32 *)object->child)[3] |= 0x8000;
-    {
-        s32 y;
-        s32 y_velocity;
-        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    motion->x += motion->dx;
+    motion->y += motion->dy;
+    motion->z += motion->dz;
+    motion->dx -= motion->dx >> 3;
+    motion->dy -= motion->dy >> 3;
+    motion->dz -= func_80069EF8() * 4 + 0x4000;
 
-        {
-            s32 x_velocity;
-
-            x = motion->x;
-            x_velocity = motion->dx;
-            y = motion->y;
-            y_velocity = motion->dy;
-            x += x_velocity;
-            motion->x = x;
-        }
-        {
-            s32 z_velocity;
-            s32 *x_velocity_addr = &motion->dx;
-            s32 x_drag;
-            s32 random_value;
-            s32 z_jitter;
-            s32 falling_velocity;
-
-            x = motion->z;
-            z_velocity = motion->dz;
-            y += y_velocity;
-            motion->y = y;
-            random_value = *x_velocity_addr;
-            x += z_velocity;
-            x_drag = random_value >> 3;
-            motion->z = x;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            {
-
-                x = y_velocity;
-                ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                motion->dx = random_value - x_drag;
-                motion->dy = x - (x >> 3);
-            }
-            random_value = func_80069EF8(x_drag, y_velocity);
-            z_jitter = random_value * 4;
-            falling_velocity = motion->dz;
-            falling_velocity -= 0x4000;
-            motion->dz = falling_velocity - z_jitter;
-        }
-    }
 
     state = object->kind;
     if (state != 0) {
