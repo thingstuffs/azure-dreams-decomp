@@ -13,7 +13,7 @@ typedef struct {
 } S_80041344;
 
 extern void *jtbl_8002D630[];
-extern u32 D_80080A8C[3];
+extern u32 D_80080A8C;
 extern void func_8004068C(void *src, void *dst);
 extern void func_8003F80C(void *src, s32 x, s32 y, s32 flags);
 extern void LoadImage(void *rect, void *data);
@@ -28,7 +28,7 @@ void func_80041344(s32 data_base, void *scratch)
     s32 color_index, item_index, item_count;
     s32 reloc_addr;
     s32 vram_offset, palette_count;
-    u32 cmd_index;
+    s32 cmd_index;
     u16 *color;
     void *src;
     void *src_addr;
@@ -43,7 +43,7 @@ void func_80041344(s32 data_base, void *scratch)
     for (;;) {
         cmd_index = entry->cmd - 1;
         command = entry;
-        if (cmd_index >= 9) {
+        if ((u32)cmd_index >= 9) {
             return;
         }
         goto *handlers[cmd_index];
@@ -101,18 +101,17 @@ LF:
         palette_count = entry->u.t.y;
         cmd_index |= 2;
 sign_flags:
-        flags = (u32)cmd_index << 16;
-        flags >>= 16;
-        ASM_KEEP(cmd_index);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        item_index = (u32)cmd_index << 16;
+        item_index >>= 16;
+        flags = item_index;
 call_tile:
         func_8003F80C(src, vram_offset, palette_count, flags);
         DrawSync(0);
         goto next;
 LG:
         src_addr = (void *)command->arg0;
-        ASM_KEEP(src_addr);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         func_8004068C((void *)(data_base + (s32)src_addr),
-                      (void *)(D_80080A8C[0] + command->u.m.a));
+                      (void *)(D_80080A8C + command->u.m.a));
         goto next;
 LH:
         src_addr = (void *)0x80080000;
