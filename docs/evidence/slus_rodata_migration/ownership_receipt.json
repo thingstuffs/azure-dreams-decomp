@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "at": "2026-09-29T10:54:54Z",
+  "at": "2026-10-01T14:31:28Z",
   "purpose": "data ownership only; no L4/L5 placement certificate",
   "modules": [
     "jtbl_80042BDC",
@@ -9,19 +9,21 @@
     "jtbl_80052CE0",
     "jtbl_80054F9C",
     "jtbl_80057A94",
+    "jtbl_8005EDA0",
     "jtbl_8005F134"
   ],
   "module_fingerprints": {
-    "slus/w_80042BDC": "2990a210371bcd640cb642e1e2ea4c1ff86df5e196a7bba034a61094a22f9202",
-    "slus/w_8004CECC": "6c94865a47b550e5c0f121c222cdbefc276d86b3e359df82fc9e4b798374c0e0",
-    "slus/w_800517CC": "61bd576af50eccaa91361a878d0cf96310fcd9620655fad95efde30d3971354f",
+    "slus/w_80042BDC": "fd10038a43b3d349b7444ead2d165fd5497b1be789e564020d72c2eb74b5ba36",
+    "slus/w_8004CECC": "7fe6f91a1e79516c08814bbcf12c420ae8451350e468240a8f53387377c30e74",
+    "slus/w_800517CC": "5b04baab77c6e968268b77052b1223a243e06d5e17953560e08865c35005a9cf",
     "slus/w_80052CE0": "bf9ae6f340df4834877be6b48526310370c4e4d592e10504c48eb08e1ae8abc3",
     "slus/w_80054F9C": "1870cbc7a5fcd60909ac9190dff0510b03e23abb2cf8bdc3ae99cb28374f1b3e",
-    "slus/w_80057A94": "1bbd8d7c5f16c0df1bb1e0882084c8e587c60f80089465675fc1ef3cbcce129f",
+    "slus/w_80057A94": "8caa13f26f54593c49b30d20e0f70e5a496d88552b8f32bf146e6c862d7f781c",
+    "slus/w_8005EDA0": "9eaf9b4a3ddd97031b4d6234c074dc9ffcc23730fb4fed09b99113d4ca53c837",
     "slus/w_8005F134": "4e744518620dac0b41a07c9fef5748fd24023f82b12fe7675999b873e6d7ea39"
   },
-  "tool_fingerprint": "0057cfccd3d7fcc4c6de",
-  "recipe_sha256": "e3f8da4c27f607e752f66ac782a5fd865eafde982a9c06fc18c9f4dc8153ff6d",
+  "tool_fingerprint": "b65795975a6fb3d07316",
+  "recipe_sha256": "e46404cc3169422b18eae80b4dd055e46e7ffa9cafd5ecb4ecd78c70bfb4674b",
   "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
   "gate": {
     "result": "MATCH",
@@ -196,6 +198,45 @@
         }
       }
     },
+    "jtbl_8005EDA0": {
+      "sections": {
+        ".rodata": {
+          "size": 64,
+          "bytes": "940000005c000000640000006c000000740000007c000000840000008c0000005c010000240100002c010000340100003c010000440100004c01000054010000",
+          "symbols": [
+            {
+              "symbol": "jtbl_8003323C",
+              "asset": "assets/800.bin",
+              "offset": 25148,
+              "size": 32,
+              "vram": 2147693116,
+              "bytes": "34ee0580fced058004ee05800cee058014ee05801cee058024ee05802cee0580",
+              "section": ".rodata",
+              "object_offset": 0,
+              "object_binding": "compiler-local"
+            },
+            {
+              "symbol": "jtbl_8003325C",
+              "asset": "assets/800.bin",
+              "offset": 25180,
+              "size": 32,
+              "vram": 2147693148,
+              "bytes": "fcee0580c4ee0580ccee0580d4ee0580dcee0580e4ee0580ecee0580f4ee0580",
+              "section": ".rodata",
+              "object_offset": 32,
+              "object_binding": "compiler-local"
+            }
+          ],
+          "placement": [
+            2147693116,
+            64
+          ],
+          "table_words": 16,
+          "align_pads": [],
+          "text_references": 2
+        }
+      }
+    },
     "jtbl_8005F134": {
       "sections": {
         ".rodata": {
@@ -251,7 +292,7 @@
       "proof": "whole SLUS image, module context",
       "fired": [],
       "module": "jtbl_80042BDC",
-      "module_fingerprint": "2990a210371bcd640cb642e1e2ea4c1ff86df5e196a7bba034a61094a22f9202",
+      "module_fingerprint": "fd10038a43b3d349b7444ead2d165fd5497b1be789e564020d72c2eb74b5ba36",
       "trace_scope": "whole-module",
       "selfcheck": true,
       "funcs": 1,
@@ -286,14 +327,14 @@
       "container": "slus",
       "kind": "slus",
       "cfg": "2.7.2-cdk",
-      "pins": 2,
+      "pins": 0,
       "asflags": "",
       "cell": "2.7.2-cdk",
       "maspsx_exact": true,
       "proof": "whole SLUS image, module context",
       "fired": [],
       "module": "jtbl_8004CECC",
-      "module_fingerprint": "6c94865a47b550e5c0f121c222cdbefc276d86b3e359df82fc9e4b798374c0e0",
+      "module_fingerprint": "7fe6f91a1e79516c08814bbcf12c420ae8451350e468240a8f53387377c30e74",
       "trace_scope": "whole-module",
       "selfcheck": true,
       "funcs": 1,
@@ -335,7 +376,7 @@
       "proof": "whole SLUS image, module context",
       "fired": [],
       "module": "jtbl_800517CC",
-      "module_fingerprint": "61bd576af50eccaa91361a878d0cf96310fcd9620655fad95efde30d3971354f",
+      "module_fingerprint": "5b04baab77c6e968268b77052b1223a243e06d5e17953560e08865c35005a9cf",
       "trace_scope": "whole-module",
       "selfcheck": true,
       "funcs": 1,
@@ -363,7 +404,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.5
+      "secs": 2.9
     },
     "slus/w_80052CE0": {
       "row": "slus/w_80052CE0",
@@ -447,7 +488,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.4
+      "secs": 2.5
     },
     "slus/w_80057A94": {
       "row": "slus/w_80057A94",
@@ -461,7 +502,7 @@
       "proof": "whole SLUS image, module context",
       "fired": [],
       "module": "jtbl_80057A94",
-      "module_fingerprint": "1bbd8d7c5f16c0df1bb1e0882084c8e587c60f80089465675fc1ef3cbcce129f",
+      "module_fingerprint": "8caa13f26f54593c49b30d20e0f70e5a496d88552b8f32bf146e6c862d7f781c",
       "trace_scope": "whole-module",
       "selfcheck": true,
       "funcs": 1,
@@ -489,7 +530,49 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.5
+      "secs": 2.6
+    },
+    "slus/w_8005EDA0": {
+      "row": "slus/w_8005EDA0",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.7.2 -G0",
+      "pins": 0,
+      "asflags": "",
+      "cell": "2.7.2",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, module context",
+      "fired": [],
+      "module": "jtbl_8005EDA0",
+      "module_fingerprint": "9eaf9b4a3ddd97031b4d6234c074dc9ffcc23730fb4fed09b99113d4ca53c837",
+      "trace_scope": "whole-module",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 229,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 229,
+          "mode": "-G0",
+          "retail": [
+            0,
+            0
+          ]
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok",
+      "secs": 2.6
     },
     "slus/w_8005F134": {
       "row": "slus/w_8005F134",
@@ -531,7 +614,7 @@
       ],
       "best": "2.79",
       "status": "ok",
-      "secs": 2.6
+      "secs": 2.7
     }
   }
 }
