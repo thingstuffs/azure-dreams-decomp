@@ -116,6 +116,7 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     u32 vert3_addr;
     u32 y2_high;
     u32 height_bias;
+    s32 vert3_y;
 
     geometry = (u8 *)&D_8008333C[0];
     vertices = (Vert *)PTR(geometry, 8);
@@ -171,7 +172,6 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     vert2_ref = vert2_ref + (u32)vertices;
                     vert3_ref_y = vert3_ref_y << 3;
                     vert3_ref_y = vert3_ref_y + (u32)vertices;
-                    ASM_USE2_NV(vert3_ref_y, vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     ASM_USE_NV(vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     vert0_ref = vert0_ref * 8;
                     vert0_ref = vert0_ref + (u32)vertices;
@@ -186,19 +186,17 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     height0 = U16((u8 *)vert0_ref, 4);
                     height_bias = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
                     height0 = height0 - height_bias;
-                    ASM_USE2_NV(height0, height0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    vert3_ref_y = S16((u8 *)vert3_ref_y, 2);
+                    vert3_y = S16((u8 *)vert3_ref_y, 2);
                     xy2 = xy2 + cell_x;
                     xy2 = xy2 & 0xFFFF;
-                    vert2_y = cell_y - -vert2_y;
-                    y2_high = vert2_y << 0x10;
+                    y2_high = (cell_y + vert2_y) << 0x10;
                     xy2 = xy2 | y2_high;
                     xy32 = xy3 + cell_x;
                     xy33 = xy32 & 0xFFFF;
                     S16(scratch, 0x74) = height0;
                     index1 = U16((u8 *)face, 2);
                     vert1_addr = index1 * 8 + (u32)vertices;
-                    y3_high = (cell_y + vert3_ref_y) << 0x10;
+                    y3_high = (cell_y + vert3_y) << 0x10;
                     height1 = U16((u8 *)vert1_addr, 4);
                     S32(scratch, 0x78) = xy14;
                     height1 = height1 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
