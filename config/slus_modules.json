@@ -1969,6 +1969,48 @@
         }
       ],
       "evidence": "docs/evidence/slus_rodata_migration.md"
+    },
+    {
+      "name": "jtbl_8005EDA0",
+      "source": "src/w_8005EDA0_jtbl_owned.c",
+      "members": [
+        {
+          "id": "slus/w_8005EDA0",
+          "source": "src/w_8005EDA0.c",
+          "functions": [
+            "func_8005EDA0"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "-G0",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "jtbl_8003323C",
+          "asset": "assets/800.bin",
+          "offset": 25148,
+          "size": 32,
+          "vram": 2147693116,
+          "bytes": "34ee0580fced058004ee05800cee058014ee05801cee058024ee05802cee0580",
+          "section": ".rodata"
+        },
+        {
+          "symbol": "jtbl_8003325C",
+          "asset": "assets/800.bin",
+          "offset": 25180,
+          "size": 32,
+          "vram": 2147693148,
+          "bytes": "fcee0580c4ee0580ccee0580d4ee0580dcee0580e4ee0580ecee0580f4ee0580",
+          "section": ".rodata"
+        }
+      ],
+      "evidence": "docs/evidence/slus_rodata_migration.md"
     }
   ]
 }
