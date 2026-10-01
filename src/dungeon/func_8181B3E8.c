@@ -412,7 +412,6 @@ state_1:
     {
         void *target_position;
         void *animation;
-        s32 color;
         register s32 color_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 random_intensity;
 
@@ -428,15 +427,14 @@ state_1:
         do {
             s32 direction;
             s32 particle_color;
-            register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 intensity;
             random_intensity = func_80069EF8();
             color_mode = (s32)((u8 *)effect - 0x20);
             particle_color = 0xF04040;
             intensity = (random_intensity & 0xFF) | 0x80;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_count_m++;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
             func_80024758((void *)color_mode, direction, particle_color, intensity, 0, 0, 0);
+            particle_count_m++;
         } while (particle_count_m < 4);
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
@@ -455,11 +453,10 @@ state_1:
             ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_0 *)effect)->unk_78.u;
             ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_1C |= 0x10000000;
             target_graphics = ((S_80024BE8_23_pre *)(((S_80024BE8_3 *)source)->unk_60))[-1].unk_04;
-            color = 0x80;
-            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
-            ((S_80024BE8_10 *)target_graphics)->unk_0E = color;
-            ((S_80024BE8_10 *)target_graphics)->unk_0C = color;
-            ((S_80024BE8_10 *)target_graphics)->unk_0D = color;
+            particle_count_m = 0x80;
+            ((S_80024BE8_10 *)target_graphics)->unk_0C = particle_count_m;
+            ((S_80024BE8_10 *)target_graphics)->unk_0D = particle_count_m;
+            ((S_80024BE8_10 *)target_graphics)->unk_0E = particle_count_m;
             func_800419EC(color_mode, 8, target_graphics);
             func_800A56E0(0x300);
 
@@ -477,9 +474,9 @@ state_1:
                 animation = D_800258FC;
                 impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
                 ((S_80024BE8_12 *)(void *)impact_sprite)->unk_08 = animation;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = color;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = color;
-                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = color;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = particle_count_m;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = particle_count_m;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = particle_count_m;
                 ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1E = 1;
                 ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1C = 1;
                 ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 ^= 0xC;
