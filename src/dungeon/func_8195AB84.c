@@ -6,19 +6,6 @@
 #define NULL 0
 #endif
 
-typedef struct S_8195AB84_0 {
-    u8 pad_00[0x10];
-    void * unk_10;
-    u8 pad_14[0xA];
-    u16 unk_1E;
-} S_8195AB84_0;   /* (void *)constant in func_8195AB84 */
-
-typedef struct S_8195AB84_1 {
-    u8 pad_00[0x8];
-    void * unk_08;
-    void * unk_0C;
-} S_8195AB84_1;   /* *slot in func_8195AB84 */
-
 typedef struct S_8195AB84_2 {
     u8 pad_00[0x2];
     s16 unk_02;
@@ -60,108 +47,54 @@ extern void *func_8003FD64(s32, void *);
 
 extern s32 D_80025C80;
 extern u8 D_80028268[];
+extern int D_800814A0;
 
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
-void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
+void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
 {
     void *objects[18];
-    s32 object_index;
-    register void **objects_base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void **slot;
+    s32 i;
     S_8195AB84_2 *position;
+    S_8195AB84_3 *node;
     S_8195AB84_4 *object_state;
-    u8 *entry_table;
-    u8 *state_page;
-    register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s16 saved_x ASM_REG("$21");
-    s16 saved_y;
-    register s16 saved_z ASM_REG("$23");
-    s16 saved_angle;
-    void *callback_addr;
-    u16 transform_flags;
-    void **cleanup_slot;
-    u32 object_flags;
-    void *call_context;
-    s32 state_flags;
-    static void *const loop_label_ref[] = { &&loop_continue };
+    ObjectNodeHeader *obj;
 
-    callback_addr = &D_80025C80;
-    saved_x = x;
-    saved_y = y;
-    saved_z = z;
-    saved_angle = angle;
-    scratch = func_8003FA44(18);
-    object_index = 0;
-    if (scratch != 0) {
-        scratch = (s32)0x80030000;
-        entry_table = D_80028268;
-        state_page = (u8 *)0x80080000;
-        objects_base = objects;
-        slot = objects_base;
-loop_0:
-        {
-            if (object_index != 0) {
-                call_context = objects[0];
-            } else {
-                call_context = ((s32 *)&D_80083498.next);
-            }
-            scratch = (s32)func_8003FD64(18, call_context);
-            *slot = (void *)scratch;
-            if (scratch != 0) {
-                ((S_8195AB84_0 *)((void *)scratch))->unk_10 = callback_addr;
-                position = ((S_8195AB84_1 *)(*slot))->unk_08;
-                position->unk_02 = saved_x;
-                position->unk_06 = saved_y;
-                position->unk_0A = saved_z;
-                object_flags = (u32)(((S_8195AB84_1 *)(*slot))->unk_0C);
-                ((S_8195AB84_3 *)object_flags)->unk_16 = 0x400;
-                ((S_8195AB84_3 *)object_flags)->unk_1A = saved_angle + 0x400;
-                scratch = 0x1000;
-                ((S_8195AB84_3 *)object_flags)->unk_20 = scratch;
-                ((S_8195AB84_3 *)object_flags)->unk_1E = scratch;
-                ((S_8195AB84_3 *)object_flags)->unk_1C = scratch;
-                transform_flags = ((S_8195AB84_3 *)object_flags)->unk_14;
-                ((S_8195AB84_3 *)object_flags)->unk_08 = (void *)((u32)(object_index * 0x10) + (u32)entry_table);
-                ((S_8195AB84_3 *)object_flags)->unk_10 = 0x20;
-                ((S_8195AB84_3 *)object_flags)->unk_14 = transform_flags | 0xC;
-                scratch = (s32)*slot;
-                object_state = (u8 *)scratch + 0x20;
-                if (object_index != 0) {
-                    object_state->unk_20 = objects[0];
-                }
-                object_state->unk_30 = 0x10;
-                object_state->unk_34 = saved_angle;
-                object_state->unk_36 = 7;
-            } else {
-                object_index--;
-                if (object_index >= 0) {
-                    scratch = object_index * 4;
-                    cleanup_slot = (void **)((u32)scratch + (u32)objects_base);
-                    do {
-                        scratch = (s32)*cleanup_slot;
-                        cleanup_slot--;
-                        object_index--;
-                        state_flags = *(s32 *)(state_page + 0x14A0);
-                        object_flags = ((S_8195AB84_0 *)((void *)scratch))->unk_1E;
-                        state_flags |= 0x8000;
-                        *(s32 *)(state_page + 0x14A0) = state_flags;
-                        object_flags |= 0x8000;
-                        ((S_8195AB84_0 *)((void *)scratch))->unk_1E = object_flags;
-                    } while (object_index >= 0);
-                }
-fail_return:
-                return NULL;
-            }
-loop_continue:
-            object_index++;
-            slot++;
-        }
-        if (object_index < 18)
-            goto loop_0;
-        func_80025B5C(objects[0], saved_angle);
-        return objects[0];
-    } else {
-        goto fail_return;
+    if (func_8003FA44(18) == 0) {
+        return NULL;
     }
+    for (i = 0; i < 18; i++) {
+        objects[i] = func_8003FD64(18, (i != 0) ? objects[0] : (void *)&D_80083498);
+        if (objects[i] != NULL) {
+            ((ObjectNodeHeader *)objects[i])->unk_10 = &D_80025C80;
+            position = ((ObjectNodeHeader *)objects[i])->unk_08;
+            position->unk_02 = x;
+            position->unk_06 = y;
+            position->unk_0A = z;
+            node = ((ObjectNodeHeader *)objects[i])->unk_0C;
+            node->unk_16 = 0x400;
+            node->unk_1A = angle + 0x400;
+            node->unk_20 = 0x1000;
+            node->unk_1E = 0x1000;
+            node->unk_1C = 0x1000;
+            node->unk_08 = &D_80028268[i * 16];
+            node->unk_10 = 0x20;
+            node->unk_14 |= 0xC;
+            object_state = (S_8195AB84_4 *)((u8 *)objects[i] + 0x20);
+            if (i != 0) {
+                object_state->unk_20 = objects[0];
+            }
+            object_state->unk_30 = 0x10;
+            object_state->unk_34 = angle;
+            object_state->unk_36 = 7;
+        } else {
+            for (i--; i >= 0; i--) {
+                obj = objects[i];
+                D_800814A0 |= 0x8000;
+                obj->flags |= 0x8000;
+            }
+            return NULL;
+        }
+    }
+    func_80025B5C(objects[0], angle);
+    return objects[0];
 }
-
