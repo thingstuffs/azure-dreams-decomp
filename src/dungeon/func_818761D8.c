@@ -377,10 +377,9 @@ L0_adjust_z:
             }
             resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
             ((S_800259D8_0 *)arg0)->unk_AE = ((S_800259D8_6 *)resident_work)->unk_24 +
-                ((u8 *)dirStepX)[((S_800259D8_0 *)arg0)->unk_80 << 1];
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                dirStepX[((S_800259D8_0 *)arg0)->unk_80];
             ((S_800259D8_0 *)arg0)->unk_AF = ((S_800259D8_6 *)resident_work)->unk_25 +
-                ((u8 *)dirStepY)[((S_800259D8_0 *)arg0)->unk_80 << 1];
+                dirStepY[((S_800259D8_0 *)arg0)->unk_80];
             entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
             {
                 if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {

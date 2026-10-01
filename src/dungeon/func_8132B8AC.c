@@ -82,19 +82,9 @@ typedef struct S_func_8132B8AC_3 {
     u16 unk_88;
 } S_func_8132B8AC_3;
 
-typedef struct S_func_8132B8AC_4 {
-    u8 pad_00[0x3228];
-    s16 unk_3228;
-} S_func_8132B8AC_4;
-
-typedef struct S_func_8132B8AC_5 {
-    u8 unk_00;
-} S_func_8132B8AC_5;
-
 /* Updates Beldo's scripted movement, idle animation, and particle effects. */
-void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sprite_input) {
+void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite) {
 
-    S_func_8132B8AC_2 *sprite = sprite_input;
     InitBlock direction_vectors;
     s32 path_angle;
     s32 final_direction;
@@ -136,12 +126,8 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sp
     u8 *path_table;
     S_func_8132B8AC_3 *beldo;
     s32 tail_test;
-    u32 tail_state;
-    u8 *tail_sprite;
     void *particle_a0;
     s32 particle_color;
-    s32 particle_variation;
-    s32 particle_random;
 
     direction_vectors = D_8016A894;
     beldo = (S_func_8132B8AC_3 *)(D_80174CE0 + 0x20);
@@ -280,16 +266,10 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, void *sp
                 >> 9) & 7], 0);
             path_particle_count = 0;
             func_800A56E0(0x706);
-loop_31:
-            particle_random = func_80069EF8();
-            particle_a0 = (u8 *)actor - 0x20;
-            particle_color = 0x8080FF;
-            particle_variation = (particle_random & 0xFF) | 0x80;
-            func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
-            path_particle_count += 1;
-            if (path_particle_count < 0x14) {
-                goto loop_31;
-            }
+            do {
+                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
+                path_particle_count += 1;
+            } while (path_particle_count < 0x14);
         }
         actor->unk_96 = (u16) (actor->unk_96 - 1);
         break;
@@ -302,13 +282,8 @@ loop_31:
             end_particle_count = 0;
             func_800A56E0(0x706);
             do {
+                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 end_particle_count += 1;
-                particle_random = func_80069EF8();
-                particle_a0 = (u8 *)actor - 0x20;
-                particle_color = 0x8080FF;
-                particle_variation = (particle_random & 0xFF) | 0x80;
-                ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, 0);
             } while (end_particle_count < 0x14);
         }
         path_end_timer = actor->unk_96 - 1;
@@ -318,15 +293,12 @@ loop_31:
         }
         actor->unk_96 = 0x2EU;
         actor->unk_9A++;
-        tail_sprite = D_80174C64;
-        if (sprite->unk_2C == tail_sprite) {
+        if (sprite->unk_2C == D_80174C64) {
             break;
         }
-#ifndef NON_MATCHING
-        tail_state = 0x80080000;
-#endif
-        sprite->unk_2C = tail_sprite;
-        goto update_animation;
+        sprite->unk_2C = D_80174C64;
+        func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        break;
     case 12:
         turn_timer = actor->unk_96 - 1;
         actor->unk_96 = turn_timer;
@@ -372,17 +344,11 @@ loop_31:
         if ((s16) animation_timer < 3) {
             break;
         }
-#ifdef NON_MATCHING
-        tail_sprite = D_80174C6C;
-        tail_state = actor->unk_9A;
-#else
-        tail_sprite = (u8 *)0x80170000;
-        ASM_KEEP(tail_sprite);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        tail_state = actor->unk_9A;
-        tail_sprite += 0x4C6C;
-#endif
         actor->unk_96 = 0U;
-        goto advance_animation;
+        actor->unk_9A++;
+        sprite->unk_2C = D_80174C6C;
+        func_80047784(sprite, D_80174C6C[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
+        break;
     case 15:
         if (sprite->unk_04 == 5) {
             particle_a0 = sprite;
@@ -395,16 +361,10 @@ loop_31:
             wait_particle_count = particle_color;
             func_800A56E0(0x706);
             wait_particle_mode = 1;
-loop_66:
-            particle_random = func_80069EF8();
-            particle_a0 = (u8 *)actor - 0x20;
-            particle_color = 0x8080FF;
-            particle_variation = (particle_random & 0xFF) | 0x80;
-            func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, wait_particle_mode);
-            wait_particle_count += 1;
-            if (wait_particle_count < 0x14) {
-                goto loop_66;
-            }
+            do {
+                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, wait_particle_mode);
+                wait_particle_count += 1;
+            } while (wait_particle_count < 0x14);
         }
         particle_timer = actor->unk_96 + 1;
         actor->unk_96 = particle_timer;
@@ -450,16 +410,10 @@ loop_66:
             move_particle_count = particle_color;
             func_800A56E0(0x706);
             move_particle_mode = 1;
-loop_76:
-            particle_random = func_80069EF8();
-            particle_a0 = (u8 *)actor - 0x20;
-            particle_color = 0x8080FF;
-            particle_variation = (particle_random & 0xFF) | 0x80;
-            func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, move_particle_mode);
-            move_particle_count += 1;
-            if (move_particle_count < 0x14) {
-                goto loop_76;
-            }
+            do {
+                func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, move_particle_mode);
+                move_particle_count += 1;
+            } while (move_particle_count < 0x14);
         }
         break;
     case 17:
@@ -517,28 +471,9 @@ loop_76:
         if ((final_timer << 0x10) > 0) {
             break;
         }
-#ifdef NON_MATCHING
-        tail_sprite = D_80174C84;
-        tail_state = actor->unk_9A;
-#else
-        tail_sprite = (u8 *)0x80170000;
-        ASM_KEEP(tail_sprite); /* MATCH: split the animation address around the state load. */
-        tail_state = actor->unk_9A;
-        tail_sprite += 0x4C84;
-#endif
-advance_animation:
-        tail_state += 1;
-        actor->unk_9A = (u8) tail_state;
-        tail_state = 0x80080000;
-        sprite->unk_2C = tail_sprite;
-update_animation:
-#ifdef NON_MATCHING
-        func_80047784(sprite, tail_sprite[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
-#else
-        tail_state = (((s32) (((S_func_8132B8AC_4 *)tail_state)->unk_3228 + beldo->unk_2A.s + 0x100) >> 9) & 7)
-        + (s32) tail_sprite;
-        func_80047784(sprite, ((S_func_8132B8AC_5 *)tail_state)->unk_00, 0);
-#endif
+        actor->unk_9A++;
+        sprite->unk_2C = D_80174C84;
+        func_80047784(sprite, D_80174C84[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
         break;
     case 20:
         func_80170C3C();

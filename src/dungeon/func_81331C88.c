@@ -108,14 +108,6 @@ typedef struct S_80168C88_12 {
     u8 unk_09;
 } S_80168C88_12;   /* temp_a0_4 in func_80168C88 */
 
-typedef struct S_80168C88_13 {
-    u16 unk_00;
-} S_80168C88_13;   /* lookup in func_80168C88 */
-
-typedef struct S_80168C88_14 {
-    u16 unk_00;
-} S_80168C88_14;   /* lookup_final in func_80168C88 */
-
 
 extern void *func_8003FC64();
 extern void func_8004491C();
@@ -133,24 +125,20 @@ static __inline__ s16 interpolate_value(s32 delta, s32 step, u16 start)
 /* Builds seven colored effect segments from interpolated coordinates and decrements their source effect lifetime. */
 void func_80168C88(u8 *effect, void *origin, void *color_in)
 {
-    register void *color ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 phase;
     u16 phase_bits;
     s32 red_scaled;
     s32 green_scaled;
     s32 step;
-    s32 step_offset;
-    s32 dest_offset;
     s32 edge;
     s32 sample_offset;
     s32 edge_offset;
     s32 axis;
     s32 dest_coord;
-    register u8 *shape_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *endpoint ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *shape_row;
+    u8 *endpoint;
     s16 *start_coord;
     s32 scaled_delta;
-    u8 *table_base;
     s32 segment;
     s32 segment_offset;
     void *task;
@@ -158,23 +146,17 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     void *position;
     u8 *vertex_color;
     void *render_data;
-    s32 side;
     u8 *vertex_base;
     u8 *texture_data;
     void *texture;
-    u16 *near_vertex;
     s32 coord;
-    s32 coord_offset;
-    s32 source_side;
-    s32 source_index;
     u8 *far_coord;
     s16 ticks_left;
     u8 *coord_table;
-    register s32 one ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 one;
 
     phase = ((S_80168C88_0 *)effect)->unk_12.s;
     phase_bits = *(volatile u16 *)(effect + 0x12);
-    color = color_in;
     switch (phase) {
     case 0:
         if (((S_80168C88_0 *)effect)->unk_18.s < 6) {
@@ -186,57 +168,42 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
         if (red_scaled < 0) {
             red_scaled += 3;
         }
-        ((S_80168C88_1 *)color)->unk_0C = red_scaled >> 2;
+        ((S_80168C88_1 *)color_in)->unk_0C = red_scaled >> 2;
         green_scaled = ((S_80168C88_0 *)effect)->unk_01 * ((S_80168C88_0 *)effect)->unk_18.s;
         if (green_scaled < 0) {
             green_scaled += 3;
         }
-        ((S_80168C88_1 *)color)->unk_0D = green_scaled >> 2;
+        ((S_80168C88_1 *)color_in)->unk_0D = green_scaled >> 2;
         break;
     }
     step = 1;
-    table_base = D_80175DD8;
-    step_offset = 0xC;
     do {
         edge = 0;
-        dest_offset = step_offset;
-        sample_offset = edge;
-interpolate_edge:
-        axis = 0;
-        edge_offset = sample_offset;
-interpolate_axis:
-        dest_coord = axis * 2;
-        shape_row = (u8 *)(s32)((S_80168C88_0 *)effect)->unk_1C;
-        shape_row = (u8 *)((s32)shape_row * 0x60);
-        shape_row += (s32)table_base;
-        endpoint = (u8 *)((s32)edge_offset + (s32)shape_row);
-        start_coord = (s16 *)dest_coord;
-        start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
-        endpoint += dest_coord;
-        scaled_delta = ((S_80168C88_2 *)endpoint)->unk_54;
-        scaled_delta -= *start_coord;
-        axis += 1;
-        shape_row = (u8 *)((s32)dest_offset + (s32)shape_row);
-        shape_row = (u8 *)((s32)edge_offset + (s32)shape_row);
-        dest_coord += (s32)shape_row;
-        ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = interpolate_value(scaled_delta, step, *start_coord);
-        if (axis < 3) {
-            goto interpolate_axis;
-        }
-        edge += 1;
-        sample_offset += 6;
-        if (edge < 2) {
-            goto interpolate_edge;
-        }
+        do {
+            axis = 0;
+            do {
+                dest_coord = axis * 2;
+                shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)D_80175DD8);
+                endpoint = (u8 *)(edge * 6 + (s32)shape_row);
+                start_coord = (s16 *)dest_coord;
+                start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
+                endpoint += dest_coord;
+                scaled_delta = ((S_80168C88_2 *)endpoint)->unk_54;
+                scaled_delta -= *start_coord;
+                axis += 1;
+                dest_coord += edge * 6 + (step * 0xC + (s32)shape_row);
+                ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = interpolate_value(scaled_delta, step, *start_coord);
+            } while (axis < 3);
+            edge += 1;
+        } while (edge < 2);
         step += 1;
-        step_offset += 0xC;
     } while (step < 7);
 
     segment = 0;
     coord_table = D_80175DD8;
     one = 1;
-    segment_offset = segment;
     ((S_80168C88_0 *)effect)->unk_1E = ((S_80168C88_0 *)effect)->unk_1E - 1;
+    segment_offset = segment;
     do {
         task = func_8003FC64(0x12);
         if (task != NULL) {
@@ -272,10 +239,10 @@ interpolate_axis:
 
 loop_2:
             {
-                ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color)->unk_0C;
-                ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color)->unk_0D;
+                ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color_in)->unk_0C;
+                ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color_in)->unk_0D;
                 step += 1;
-                ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color)->unk_0E;
+                ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color_in)->unk_0E;
                 vertex_color += 4;
             }
             if (step < 4)
@@ -301,7 +268,7 @@ loop_2:
             ((S_80168C88_9 *)render_data)->unk_06 = 0;
             __builtin_memcpy(segment_data + 0x28, D_80173B4C, 0xC);
 
-            side = 0;
+            edge = 0;
             sample_offset = segment_offset;
             vertex_base = segment_data;
             texture_data = vertex_base + 0x28;
@@ -312,39 +279,20 @@ loop_2:
 
             do {
                 coord = 0;
-                source_side = one;
-                source_side -= side;
-                source_index = source_side * 2;
-                source_index += source_side;
-                ASM_KEEP_NV(source_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                edge_offset = source_index * 2;
+                edge_offset = (one - edge) * 6;
                 start_coord = (s16 *)(vertex_base + 0x80);
-                near_vertex = (u16 *)(vertex_base + 0x74);
-copy_coord:
-                coord_offset = coord * 2;
-                endpoint = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
-                endpoint += (s32)coord_table;
-                endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
-                endpoint = (u8 *)((s32)edge_offset + (s32)endpoint);
-                endpoint = (u8 *)((s32)coord_offset + (s32)endpoint);
-                *near_vertex = ((S_80168C88_13 *)endpoint)->unk_00;
-                coord += 1;
-                near_vertex += 1;
-                endpoint = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
-                endpoint += (s32)coord_table;
-                endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
-                endpoint += 0xC;
-                endpoint = (u8 *)((s32)edge_offset + (s32)endpoint);
-                far_coord = (u8 *)((s32)coord_offset + (s32)endpoint);
-                *start_coord = ((S_80168C88_14 *)far_coord)->unk_00;
-                start_coord += 1;
-                if (coord < 3) {
-                    goto copy_coord;
-                }
-                side += 1;
-                if (side >= 2) break;
+                dest_coord = (s32)(vertex_base + 0x74);
+                do {
+                    *(u16 *)dest_coord = *(u16 *)(coord * 2 + (edge_offset + (sample_offset + (((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)coord_table))));
+                    dest_coord += 2;
+                    far_coord = (u8 *)(sample_offset + (((S_80168C88_0 *)effect)->unk_1C * 0x60 + (s32)coord_table)) + 0xC;
+                    *start_coord = *(u16 *)(coord * 2 + (edge_offset + (s32)far_coord));
+                    start_coord += 1;
+                    coord += 1;
+                } while (coord < 3);
+                edge += 1;
                 vertex_base += 6;
-            } while (1);
+            } while (edge < 2);
         }
         segment += 1;
         segment_offset += 0xC;

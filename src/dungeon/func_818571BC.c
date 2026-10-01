@@ -67,7 +67,6 @@ s32 func_800249BC(void *shape_data)
     do {
         shape = (DungeonShape *)shape_data;
         depth_or_tag_mask = 0;
-        ASM_KEEP_NV(depth_or_tag_mask);
         point_index = 4;
         for (; point_index >= 0; point_index--) {
             s32 point_depth;
@@ -82,9 +81,7 @@ s32 func_800249BC(void *shape_data)
         y_span = (s16)points[0][1];
         y_span = y_span - (s16)points[4][1];
         width_divisor = shape->unk46;
-        if (y_span < 0) {
-            y_span = -y_span;
-        }
+        y_span = abs(y_span);
         y_span = y_span / (width_divisor + 2);
 #ifdef __mips__
         depth_product.value = (signed long long)depth_or_tag_mask * 0x66666667;

@@ -16,20 +16,15 @@ extern u16 D_80024500[8];
 extern u8 D_800F8E9C[16];
 
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
-void func_80023EB0(void *state_ptr)
+void func_80023EB0(void *state)
 {
-    u8 *state = state_ptr;
-    register void *child_obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *render_part;
-    register u8 *child_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *object_data;
-    u8 *part_data;
-    s32 scale;
+    void *child_obj;
+    u8 *child_state;
     s32 kind;
     s32 target_pos;
     s32 mask_index;
     s32 color;
-    register s32 child_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 child_index;
     u16 blink_ticks;
 
     switch (S16_AT(state, 0x18)) {
@@ -70,33 +65,26 @@ store_second:
 
 
         child_index = 1;
-        object_data = D_80024334;
-        scale = 0x800;
-        part_data = D_800F8E9C;
-alloc_loop:
-        child_obj = func_8003FC64(0x136);
-        if (child_obj != 0) {
-            PTR_AT(child_obj, 0x10) = object_data;
-            func_8004491C(child_obj, func_80045340);
-            render_part = PTR_AT(child_obj, 0xC);
-            S16_AT(render_part, 0x14) = 0xC;
-            color = 0x00808080;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            child_state = (u8 *)child_obj + 0x20;
-            ASM_KEEP(child_state);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            S16_AT(render_part, 0x1E) = scale;
-            S16_AT(render_part, 0x1C) = scale;
-            PTR_AT(render_part, 8) = part_data;
-            U8_AT(render_part, 4) = 0;
-            U8_AT(render_part, 5) = 0;
-            S32_AT(render_part, 0xC) = color;
-            PTR_AT(child_obj, 0x20) = state;
-            S16_AT(child_state, 8) = child_index;
-        }
-        child_index--;
-        if (child_index >= 0) {
-            goto alloc_loop;
-        }
+        do {
+            child_obj = func_8003FC64(0x136);
+            if (child_obj != 0) {
+                child_state = (u8 *)child_obj + 0x20;
+                PTR_AT(child_obj, 0x10) = D_80024334;
+                func_8004491C(child_obj, func_80045340);
+                kind = (s32)PTR_AT(child_obj, 0xC);
+                S16_AT(kind, 0x14) = 0xC;
+                color = 0x00808080;
+                S16_AT(kind, 0x1E) = 0x800;
+                S16_AT(kind, 0x1C) = 0x800;
+                PTR_AT(kind, 8) = D_800F8E9C;
+                U8_AT(kind, 4) = 0;
+                U8_AT(kind, 5) = 0;
+                S32_AT(kind, 0xC) = color;
+                PTR_AT(child_obj, 0x20) = state;
+                S16_AT(child_state, 8) = child_index;
+            }
+            child_index--;
+        } while (child_index >= 0);
         S16_AT(state, 0x18) = 1;
         break;
 
@@ -111,7 +99,8 @@ alloc_loop:
     U16_AT(state, 0x1A) = blink_ticks;
     if (((blink_ticks >> 2) & 1) != 0) {
         mask_index = S16_AT(state, 0x22);
-        if ((U16_AT(PTR_AT(state, 0), 0x62) & D_80024500[mask_index]) != 0) {
+        color = (s32)PTR_AT(state, 0);
+        if ((U16_AT(color, 0x62) & D_80024500[mask_index]) != 0) {
             S32_AT(state, 0x14) = 0;
             goto color_done;
         }

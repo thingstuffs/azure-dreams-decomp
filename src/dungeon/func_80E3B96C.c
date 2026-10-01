@@ -80,7 +80,6 @@ typedef struct {
     u16 owner_byte;
 } Work;
 
-extern u16 D_8006CCD8_success[] __asm__("D_8006CCD8");
 extern s32 *D_80174CCC;
 extern s8 D_801766F0[];
 
@@ -97,7 +96,7 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     Vec3s local_offset;
     u16 hit;
     s32 direction;
-    register s32 trial_dir ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 trial_dir;
     s32 target_y;
     s32 target_x;
     Object *object;
@@ -108,14 +107,10 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     s32 owner_byte;
     s32 offset_y_index;
     u32 initial_result;
-    Context *context;
 
-    context = context_arg;
-    ASM_KEEP_NV(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(position_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     target_y = target_x = 0;
-    if (context->f60 == ((u8 *)D_800E3D7C)) {
-        special_data = *(u8 **)((u8 *)context->f60 + 0x4C);
+    if (context_arg->f60 == ((u8 *)D_800E3D7C)) {
+        special_data = *(u8 **)((u8 *)context_arg->f60 + 0x4C);
         if (special_data != 0) {
             if (special_data[1] == 15 && special_data[0] == 8) {
                 return;
@@ -126,84 +121,30 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
     if (dungeonStatus.unk_1C >= 32) {
         return;
     }
-    if (!func_800A1618(context->f13, 1) && !func_800A1618(context->f13, 3)) {
+    if (!func_800A1618(context_arg->f13, 1) && !func_800A1618(context_arg->f13, 3)) {
         return;
     }
 
-    direction = (((s16)context->f2A >> 9) + 4) & 7;
+    direction = (((s16)context_arg->f2A >> 9) + 4) & 7;
     initial_result = (u16)func_8017506C(source_arg->x, source_arg->y, position_arg->z, direction, &hit) << 16;
-    if (initial_result != 0) {
-        goto initial_success;
-    }
-
-    {
-        register u16 *x_steps;
-        u16 *y_steps;
-        u16 *trial_x_step;
-        u16 *first_x_step;
-        u16 *first_y_step;
-        s32 direction_offset;
-
-        trial_dir = 0;
-        x_steps = ((u16 *)dirStepX);
-        y_steps = ((u16 *)dirStepY);
-        {
-
-            s32 first_offset;
-
-            first_offset = direction << 1;
-            first_x_step = (u16 *)(first_offset + (s32)x_steps);
-            first_y_step = (u16 *)(first_offset + (s32)y_steps);
+    if (initial_result == 0) {
+        for (trial_dir = 0; trial_dir < 8; trial_dir++) {
+            if ((s16)func_8017506C((s16)(source_arg->x + dirStepX[direction]),
+                                   (s16)(source_arg->y + dirStepY[direction]),
+                                   position_arg->z, (s16)trial_dir, &hit) != 0) {
+                target_x = ((u16 *)dirStepX)[trial_dir] + (source_arg->x + ((u16 *)dirStepX)[direction]);
+                target_y = ((u16 *)dirStepY)[trial_dir] + (source_arg->y + ((u16 *)dirStepY)[direction]);
+                break;
+            }
         }
-search:
-        trial_x_step = (u16 *)func_8017506C(
-            (s16)(source_arg->x + first_x_step[0]),
-            (s16)(source_arg->y + first_y_step[0]),
-            position_arg->z,
-            (s16)trial_dir,
-            &hit);
-        if ((s16)((s32)trial_x_step) != 0) {
-            goto trial_success;
-        }
-        trial_dir++;
-        if (trial_dir < 8) {
-            goto search;
-        }
-
-search_done:
         if (trial_dir >= 8) {
             return;
         }
-        ASM_USE_NV(trial_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        goto allocate;
-
-trial_success:
-        {
-            s32 trial_y_address;
-
-            direction_offset = trial_dir << 1;
-            trial_x_step = (u16 *)(direction_offset + (s32)x_steps);
-            trial_y_address = direction_offset + (s32)y_steps;
-            target_x = trial_x_step[0] + (source_arg->x + first_x_step[0]);
-            target_y = *(u16 *)trial_y_address + (source_arg->y + first_y_step[0]);
-            goto search_done;
-        }
-    }
-
-initial_success:
-    {
-        s32 x_steps_address;
-        s32 direction_offset;
-        s32 x_step_address;
-
-        x_steps_address = (s32)D_8006CCD8_success;
-        direction_offset = direction << 1;
-        x_step_address = x_steps_address + direction_offset;
-        target_x = source_arg->x + *(u16 *)x_step_address;
+    } else {
+        target_x = source_arg->x + ((u16 *)dirStepX)[direction];
         target_y = source_arg->y + ((u16 *)dirStepY)[direction];
     }
 
-allocate:
     object = func_8003FD64(0x100, owner_data - 0x20);
     if (object == 0) {
         return;
@@ -221,9 +162,9 @@ allocate:
     display->f28 = source_arg->f28;
     display->f12 = source_arg->f12;
 
-    offset_x_index = ((gameWork.view.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
+    offset_x_index = ((gameWork.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.x = D_801766F0[offset_x_index];
-    offset_y_index = ((gameWork.view.viewAngle + context->f2A + 0x100) >> 8) & 0xE;
+    offset_y_index = ((gameWork.view.viewAngle + context_arg->f2A + 0x100) >> 8) & 0xE;
     local_offset.y = D_801766F0[offset_y_index + 1];
     local_offset.z = 0;
     func_8003E02C(&local_offset, &world_offset);
@@ -234,16 +175,16 @@ allocate:
     func_80047784(display, 0x41, 0);
     func_8004491C(object, func_80045340);
 
-    object->field20 = &context->f2A;
+    object->field20 = &context_arg->f2A;
     work->f20 = 8;
     work->x = target_x;
     work->y = target_y;
     work->hit = hit;
-    work->flags = context->f14 & 0x2007;
+    work->flags = context_arg->f14 & 0x2007;
     (*(u16 *)((u8 *)work + 0x3A)) = source_arg->f12;
     owner_byte = owner_data[0xAC];
-    work->owner_minus20 = (u8 *)context - 0x20;
-    work->context = context;
+    work->owner_minus20 = (u8 *)context_arg - 0x20;
+    work->context = context_arg;
     work->owner_byte = owner_byte;
 
     dungeonStatus.unk_0A++;
