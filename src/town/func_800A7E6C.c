@@ -12,7 +12,7 @@ typedef struct S_800A55CC_0_pre {
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80033CD8();
+extern void func_80033CD8(void *object, void *setup_data);
 M2C_UNK func_800942B0(void *arg0, EntityRec *arg1, s32 arg2);
 extern M2C_UNK D_800903FC[];
 extern M2C_UNK D_800970FC[];
@@ -20,19 +20,15 @@ extern s32 D_800D0CC0[];
 
 /* Initialize the object and adjust its record value before final setup. */
 void func_800A55CC(void *object, EntityRec *record, s32 init_value) {
-    register s32 delta ASM_REG("$6"); /* MATCH: reuse a2 for delta after the explicit pass-through call. */
+    s32 delta;
 
     ((S_800A55CC_0_pre *)object)[-1].unk_00 = D_800903FC;
     func_800942B0(object, record, init_value);
     {
-        register void *call_object ASM_REG("$4") = object;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        void *setup_data = D_800970FC;
-
-        ASM_KEEP(call_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         delta = 0x10000;
         init_value = record->z.v;
         record->z.v =
             (init_value + delta) - D_800D0CC0[0];
-        func_80033CD8(call_object, setup_data, delta);
+        func_80033CD8(object, D_800970FC);
     }
 }

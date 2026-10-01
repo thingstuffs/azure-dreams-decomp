@@ -139,7 +139,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     s32 bucket_offset;
     s32 bucket;
     s32 uv_left;
-    register s32 uv_height ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 uv_height;
     s32 coord_value;
     s32 bottom_x;
     s32 top_y;
@@ -151,7 +151,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     u16 origin_x;
     u16 uv_bottom;
     u16 uv_right;
-    register s32 right_u ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 right_u;
     u16 bottom_right_uv;
     u16 right_x;
     u16 left_x;
@@ -275,21 +275,17 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     uv_value <<= 8;
                     ((S_800A41D8_1 *)draw_state)->unk_14.n = uv_value;
                     ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) (((S_800A41D8_1 *)draw_state)->unk_10 + uv_left);
-                    uv_value_2 = uv_left;
-                    ASM_KEEP_NV(uv_value_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    uv_value_2 = ((S_800A41D8_1 *)draw_state)->unk_08.v;
                     (*(s32 *)((u8 *)prim_buffer + 0xC)) = (s32) ((uv_top + uv_value_2)
                         | (((S_800A41D8_7 *)texture_entry)->unk_06 << 0x10));
                     (*(s32 *)((u8 *)prim_buffer + 0x14)) = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n
                         + ((S_800A41D8_1 *)draw_state)->unk_10) | (((S_800A41D8_7 *)texture_entry)->unk_04 << 0x10));
                     (*(s16 *)((u8 *)prim_buffer + 0x1C)) = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n
                         + (u16) ((S_800A41D8_1 *)draw_state)->unk_08.n);
-                    right_u = ((S_800A41D8_5 *)prim_buffer)->unk_14;
+                    right_u = (u8)(((S_800A41D8_5 *)prim_buffer)->unk_14 - 1);
                     uv_bottom = (u16) ((S_800A41D8_1 *)draw_state)->unk_14.n;
                     uv_right = (u16) ((S_800A41D8_1 *)draw_state)->unk_10;
                     bottom_right_uv = uv_bottom + uv_right;
-                    do {
-                        right_u -= 1;
-                    } while (0);
                     (*(s16 *)((u8 *)prim_buffer + 0x24)) = (s16) bottom_right_uv;
                     do {
                         ((S_800A41D8_5 *)prim_buffer)->unk_14 = (u8) right_u;
