@@ -60,7 +60,7 @@ void func_806D85A0(void) {
     s32 initial_x;
     u32 initial_y;
     s32 initial_value;
-    register void *context ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *context;
     void *dispatch_ptr;
     void *entry_flags;
     register void *position;
@@ -76,8 +76,9 @@ void func_806D85A0(void) {
         initial_x = 4;
         initial_y = initial_x;
         initial_value = 0;
-        dispatch_ptr = (void *)D_80010000;
+        dispatch_ptr = (void *)0x80010000;
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
+        ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
         dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     } else {
@@ -85,8 +86,9 @@ void func_806D85A0(void) {
         initial_x = 4;
         initial_y = initial_x;
         initial_value = 0;
-        dispatch_ptr = (void *)D_80010000;
+        dispatch_ptr = (void *)0x80010000;
         context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
+        ((S_806D85A0_1 *)dispatch_ptr)->unk_6000 = context;
         group_index = initial_value;
         dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     }
