@@ -1243,17 +1243,6 @@ class MaspsxProcessor:
 
         return ""  # warn user?
 
-    def _symbol_is_non_small_data(self, operand: str) -> bool:
-        symbol = operand.split("+")[0]
-
-        if symbol in self.extern_sizes:
-            return self.extern_sizes[symbol] > self.sdata_limit
-        if symbol in self.bss_entries:
-            return self.bss_entries[symbol] > self.sdata_limit
-        if symbol in self.sbss_entries or symbol in self.sdata_entries:
-            return False
-        return False
-
     @staticmethod
     def _operand_base_symbol(operand: str) -> str:
         return operand.split("+")[0]
@@ -5094,11 +5083,14 @@ class MaspsxProcessor:
         small (<=8B) global. maspsx models `gp_allow_la=False` by leaving the `la`
         line UNTOUCHED (see `_process`, the `if op == "la" and not self.gp_allow_la`
         branch falls through to a bare `res.append(line)`), assuming the downstream
-        assembler will not gp-optimize it either. But our `mipsel-linux-gnu-as -G8`
-        independently re-applies ITS OWN small-data optimization to that passed-
-        through bare `la` (using the same `.extern SYM,SIZE` hint), silently turning
-        a 2-word %hi/%lo address-load into a 1-word `$gp` form that real ASPSX never
-        produced.
+        assembler will not gp-optimize it either. HISTORICAL: `mipsel-linux-gnu-as -G8`
+        used to re-apply ITS OWN small-data optimization to that passed-through bare
+        `la` (using the `.extern SYM,SIZE` hint), turning a 2-word %hi/%lo address-load
+        into a 1-word `$gp` form that real ASPSX never produced.  Since the 2026-09-25
+        GP correction (commit 819de4599) GNU as always runs at -G0 and never sees
+        `.extern`, so this expansion spells out what `as -G0` emits anyway; its size
+        gate reads cc1's `.extern` size as a model of cc1's small-data decision, not
+        of ASPSX.
 
         This bites any function that BOTH stores to a small global AND takes its
         address: the store must gp-relativize (`sw $v0,%gp_rel(SYM)($gp)`, correct
