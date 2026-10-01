@@ -53,16 +53,15 @@ typedef struct S_800BBA40_3 {
 } S_800BBA40_3;   /* var_v1 in func_800BBA40 */
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c,
+void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, M2C_UNK transform_data, s16 scale, s32 setup_word_5c,
     s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
     void *effect;
     S_800BBA40_1 *position;
     S_800BBA40_2 *render_data;
-    s32 held_tile_x = tile_x;
     s16 held_pos_z = pos_z;
-    register M2C_UNK held_transform ASM_REG("$22") = transform_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    M2C_UNK held_transform = transform_data;
     void *setup_base;
 
     call_data[0] = 0x01000340;
@@ -77,7 +76,7 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
         ((S_800BBA40_0 *)effect)->unk_10 = &D_800BB55C;
         func_8004491C(effect, &D_800BBA20);
         position = ((S_800BBA40_0 *)effect)->unk_08;
-        position->unk_02 = (s16) (((s32) (held_tile_x << 0x10) >> 0xA) + 0x20);
+        position->unk_02 = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         position->unk_06 = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         position->unk_0A = held_pos_z;
         render_data = ((S_800BBA40_0 *)effect)->unk_0C;
@@ -88,7 +87,6 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
         render_data->unk_06 = 8;
         setup_base = effect + 0x20;
         func_8003DB94(effect + 0x2C, held_transform, 0);
-        ASM_KEEP(held_transform);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         setup_cursor = setup_base;
         ((S_800BBA40_3 *)setup_cursor)->unk_2A = (s16) scale;
         ((S_800BBA40_3 *)setup_cursor)->unk_28 = (s16) scale;
@@ -110,7 +108,3 @@ loop_0:
     }
     return effect;
 }
-
-/* MECHANISM: A two-word stack array preserves both call-data initializers in the 0x40 frame.
-   Guarded s2/s4/s5/s6 argument holds reproduce the callee-saved prologue order.
-   A pinned v0 split base copies into v1; the pinned a0 counter blocks countdown strength reduction. */

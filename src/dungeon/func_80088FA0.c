@@ -65,7 +65,7 @@ update:
     if ((*(u16 *)(action + 0xA2) & 0x10) && ((s16)ticks >= 4)) {
         u8 *animations;
         s32 heading;
-        register s32 direction ASM_REG("$2");
+        s32 update_direction;
 
         *(s32 *)(motion + 0x14) = 0;
         if (*(s32 *)(entity + 0x1C) & 0x100000) {
@@ -74,10 +74,8 @@ update:
             anim_sprite = sprite;
             animations = D_800DD060;
             *(u8 **)(anim_sprite + 0x2C) = animations;
-            direction = gameWork.view.viewAngle;
-            heading = *(s16 *)(entity + 0x2A);
-            direction = ((direction + heading + 0x100) >> 9) & 7;
-            func_80048A44(anim_sprite, animations[direction], 0, 1);
+            update_direction = ((gameWork.view.viewAngle + *(s16 *)(entity + 0x2A) + 0x100) >> 9) & 7;
+            func_80048A44(anim_sprite, animations[update_direction], 0, 1);
         }
         action[0x9B]++;
         return;

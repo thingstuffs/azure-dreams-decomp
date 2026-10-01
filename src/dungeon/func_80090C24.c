@@ -49,7 +49,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec 
     s32 status_flags;
     s32 turn_angle;
     s32 direction;
-    s32 target_angle;
+    struct { signed int value : 24; } target_angle = {0};
     s32 wrapped_angle;
     s32 signed_target;
     s32 signed_angle;
@@ -134,12 +134,11 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, EntityRec 
                 ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 direction &= 0xFF;
                 turn_angle = direction << 9;
+                target_angle.value = turn_angle;
                 angle = old_angle & 0xFFF;
-                target_angle = turn_angle;
-                ASM_KEEP_NV(target_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 actor_data->facing = angle;
 
-                if (angle != target_angle) {
+                if (angle != target_angle.value) {
                     wrapped_angle = old_angle & 0x800;
                     if (!wrapped_angle) {
                         wrapped_angle = old_angle & 0x7FF;

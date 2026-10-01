@@ -45,34 +45,28 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     s32 cell_index;
     s32 cleared_tile;
     s32 clear_mask;
-    register s32 effect_value ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 effect_counter;
     s32 effect_code;
     u16 *cell;
 
-    effect_value = effect_arg;
     grid_info = (u8 *) (dungeon_state + 119);
     grid_base = dungeon_state[119];
     effect_code = effect_id;
-    ASM_KEEP_NV(effect_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (effect_code == 13) {
-        return func_80098864(effect_value, context);
+        return func_80098864(effect_arg, context);
     }
     if (target == D_800E3D7C) {
-        S32(target, 0x110) = effect_value;
+        S32(target, 0x110) = effect_arg;
         func_8008D344(target, ((u8 *)(&D_80083780)), ((u8 *)(&D_80082E80)), target);
         return 0;
     }
     if ((u32) target <= 0x9FFFFFFFU) {
-        func_800A6480(target, effect_value, effect_code);
-        if (func_800AD6FC(target, U16(D_800DDE84, U8(target, 0x13) * 2) & 3, effect_value) == 0) {
-            func_800A5F38(target, effect_value);
+        func_800A6480(target, effect_arg, effect_code);
+        if (func_800AD6FC(target, U16(D_800DDE84, U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+            func_800A5F38(target, effect_arg);
             return 1;
         }
-        dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-        func_80098B38(effect_value);
-        return 1;
-    }
-    if (D_800E296C & 0x20000000) {
+    } else if (D_800E296C & 0x20000000) {
         func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
         entity = D_800E3D7C;
@@ -82,28 +76,20 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
             S32(entity, 0x1C) = S32(entity, 0x1C) | 0x40000000;
             entity = (void *) (S32(entity, 0x5C) + 0x20);
         } while (entity != first_entity);
-        effect_arg = 0;
         entry_data = D_800E36C8;
         entry_flags = D_800E3548;
-        do {
-            if (U8(entry_flags, 1) != 0) {
-                S16(entry_data, 4) = 0;
+        for (effect_counter = 0; effect_counter < 0x40; effect_counter++) {
+            if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
+                S16(entry_data, effect_counter * 0xC + 4) = 0;
             }
-            entry_data += 0xC;
-            effect_arg += 1;
-            entry_flags += 4;
-        } while (effect_arg < 0x40);
-        effect_arg = 0;
+        }
         entry_data = D_800E39C8;
         entry_flags = D_800E3648;
-        do {
-            if (U8(entry_flags, 1) != 0) {
-                S16(entry_data, 0x12) = 0;
+        for (effect_counter = 0; effect_counter < 0x20; effect_counter++) {
+            if (U8(entry_flags, effect_counter * 4 + 1) != 0) {
+                S16(entry_data, effect_counter * 0x18 + 0x12) = 0;
             }
-            entry_data += 0x18;
-            effect_arg += 1;
-            entry_flags += 4;
-        } while (effect_arg < 0x20);
+        }
         y = 1;
         cleared_tile = 0x68;
         do {
@@ -129,6 +115,6 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
         func_800997FC(&D_800E1863, context, effect_code);
     }
     dungeonStatus.unk_0A = ((u16)dungeonStatus.unk_0A) - 1;
-    func_80098B38(effect_value);
+    func_80098B38(effect_arg);
     return 1;
 }

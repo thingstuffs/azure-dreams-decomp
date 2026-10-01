@@ -55,8 +55,7 @@ typedef struct S_8009ED30_4 {
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
-extern s32 D_80013630;
-extern s32 D_80013634;
+struct ConfigWord { s32 value; };
 extern M2C_UNK D_8001363C;
 extern M2C_UNK D_8009E038;
 extern M2C_UNK D_8009E798;
@@ -103,15 +102,14 @@ void func_8009ED30(void) {
                 ((S_8009ED30_4 *)object_state)->unk_1C = 8;
                 color = 0x808080;
                 ((S_8009ED30_2 *)render_data)->unk_0C = color;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                config_word = D_80013630;
+                config_word = ((struct ConfigWord *)0x80013630)->value;
                 ((S_8009ED30_2 *)render_data)->unk_18 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_16 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_18 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_16 = 0;
                 ((S_8009ED30_4 *)object_state)->unk_04 = (s32) config_word;
                 ((S_8009ED30_4 *)object_state)->unk_0C = (s32) config_word;
-                config_word = D_80013634;
+                config_word = ((struct ConfigWord *)0x80013634)->value;
                 ((S_8009ED30_4 *)object_state)->unk_18 = 0;
                 (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word;
                 (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word;

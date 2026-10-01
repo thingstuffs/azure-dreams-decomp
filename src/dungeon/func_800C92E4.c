@@ -53,7 +53,7 @@ void func_800CEA44(void *den_event) {
     s32 y;
     s32 spawn_x;
     s32 area_x;
-    register s32 entry_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 entry_y;
     s32 count;
     s16 retries_left;
     s32 monster_level;
@@ -63,9 +63,7 @@ void func_800CEA44(void *den_event) {
     u8 *monster_entry;
     void *monster;
     u32 *level_thresholds;
-    u32 experience;
     u16 delay_timer;
-    s32 random_value;
     AreaRecord *areas;
 
     state = *(s16 *)(den_event + 6);
@@ -83,13 +81,13 @@ void func_800CEA44(void *den_event) {
                         return;
                     }
 
-                    random_value = func_800A6D30();
-                    monster_entry = dungeonStatus.unk_18 + (random_value & 0x1E);
+                    entry_y = func_800A6D30();
+                    monster_entry = dungeonStatus.unk_18 + (entry_y & 0x1E);
                     monster_type = monster_entry[0];
                     monster_level = monster_entry[1];
                     spawn_availability = func_800A1618(monster_type, 1);
                     if (spawn_availability != 0) {
-                        register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        s32 area_calc;
                         retries_left = 0xF;
                         areas = (AreaRecord *)D_800E2970;
                         area = (u8 *)&areas[area_index];
@@ -101,7 +99,10 @@ void func_800CEA44(void *den_event) {
                             spawn_x += area_x;
                             entry_y += y;
                             y = entry_y;
-                            if (!(((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
+                            entry_y = spawn_x;
+                            entry_y &= 0xFF;
+                            entry_y--;
+                            if (!(((s16)func_8009A350(entry_y, (u8)y, 0,
                                                       &flags) == 0) ||
                                   ((flags & 0xB700) != 0))) {
                                 break;
@@ -125,11 +126,12 @@ void func_800CEA44(void *den_event) {
                                 {
 
                                     area_calc = (s32)(D_800835E4);
-                                    experience = ((u32 *)area_calc)[monster_level];
+                                    entry_y = ((u32 *)area_calc)[monster_level];
                                     area_calc = (s32)(((u32 *)area_calc) + 1);
-                                    *(u32 *)((u8 *)monster + 0x18) = experience;
-                                    if (*(u32 *)((u8 *)monster + 0x18) >=
-                                        ((u32 *)area_calc)[((u8 *)monster)[0x11]]) {
+                                    *(u32 *)((u8 *)monster + 0x18) = entry_y;
+                                    entry_y = (u32)entry_y <
+                                        ((u32 *)area_calc)[((u8 *)monster)[0x11]];
+                                    if (entry_y == 0) {
                                         level_thresholds = (u32 *)area_calc;
                                         do {
                                             func_800A1D4C(monster, 0);

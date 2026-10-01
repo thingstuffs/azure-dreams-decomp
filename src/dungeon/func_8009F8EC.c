@@ -178,9 +178,8 @@ extern u8 D_8014A000[];
 extern u8 D_800E0000[];
 
 /* Advances staged entity loading and replaces the entity while transferring its state. */
-s32 func_800A504C(s32 unused, void *source_entity)
+s32 func_800A504C(s32 unused, u8 *entity)
 {
-    register u8 *entity ASM_REG("$19") = source_entity;
     u8 *base = (u8 *)((DungeonState *)&dungeonStatus);
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
@@ -202,6 +201,8 @@ s32 func_800A504C(s32 unused, void *source_entity)
     s32 replace_call_zero;
     s32 load_kind;
     u8 *spawned;
+    u8 *replacement;
+    u8 *shifted;
     u8 *entity_data;
     u8 *mode_page;
     u8 *record;
@@ -274,7 +275,6 @@ spawn_copy:
         }
         base = entity;
         tail_dst = spawned;
-        ASM_KEEP4_NV(base, tail_dst, entity, spawned);
         saved_word_5c = ((S_800A504C_3 *)tail_dst)->unk_5C;
         saved_word_58 = ((S_800A504C_3 *)tail_dst)->unk_58;
         copy_dst = tail_dst;
@@ -322,12 +322,12 @@ spawn_copy:
         ((S_800A504C_5 *)record)->unk_AC = spawned;
         func_8009A3D0(entity_data[0x24], entity_data[0x25], 0x300);
         func_8009A028(spawned);
-        spawned -= 0x20;
-        func_80044A50(spawned);
+        shifted = spawned - 0x20;
+        func_80044A50(shifted);
         update_flags = 0x80000000;
-        flags_result = ((S_800A504C_4 *)spawned)->unk_10.at00.v;
+        flags_result = ((S_800A504C_4 *)shifted)->unk_10.at00.v;
         global_page = (u8 *)0x80080000;
-        ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
+        ((S_800A504C_4 *)shifted)->unk_10.at00.v = flags_result | update_flags;
         update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
         ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
         update_flags_2 = ((S_800A504C_6 *)global_page)->unk_14A0;
@@ -352,14 +352,14 @@ spawn_copy:
 
 load_replacement:
         load_kind = 3;
-        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
+        replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13 - 1,
                                       load_kind);
-        if (spawned != NULL) {
+        if (replacement != NULL) {
             ((S_800A504C_1 *)entity)->unk_13--;
             func_8003E188(((S_800A504C_1 *)entity)->unk_13, 0);
             D_80080A90 = D_80023000;
             load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
-            load_spawned = spawned;
+            load_spawned = replacement;
 
             D_80081488 = load_result;
             func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
@@ -381,51 +381,51 @@ increment_mode:
         goto done;
 
 spawn_replacement:
-        spawned = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
-        if (spawned == NULL) {
+        replacement = (u8 *)func_800A1618(((S_800A504C_1 *)entity)->unk_13, 3);
+        if (replacement == NULL) {
             return 0;
         }
         entity_data = ((S_800A504C_1_pre *)entity)[-1].unk_00;
-        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, spawned, 1);
-        spawned = spawn(1, entity_data[0x24], entity_data[0x25],
+        spawn = func_800A0B94(((S_800A504C_1 *)entity)->unk_13, replacement, 1);
+        replacement = spawn(1, entity_data[0x24], entity_data[0x25],
                         (s16)(((S_800A504C_1 *)entity)->unk_88 - 0x20));
-        if (spawned != NULL) {
-            ((S_800A504C_4 *)spawned)->unk_14 |= 0x4000;
+        if (replacement != NULL) {
+            ((S_800A504C_4 *)replacement)->unk_14 |= 0x4000;
             offset = func_800A1BD0(entity);
             record = ((u8 *)D_800814A8);
             offset = (offset << 16) >> 14;
             offset += (s32)record;
             record = (u8 *)offset;
             record_data = ((S_800A504C_5 *)record)->unk_D0;
-            ((S_800A504C_5 *)record)->unk_AC = spawned;
+            ((S_800A504C_5 *)record)->unk_AC = replacement;
             record_data[0] = ((S_800A504C_1 *)entity)->unk_13;
-            (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = spawned;
+            (*(u8 * *)((u8 *)D_800E3DF0 + (record_data[3] & 0x1F) * 4)) = replacement;
 
-            entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
+            entity_data = ((S_800A504C_4_pre *)replacement)[-1].unk_00;
             ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
             ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
-            func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
-            copy_call_entity = spawned;
+            func_80042640(replacement, ((S_800A504C_4 *)replacement)->unk_10.at03.v);
+            copy_call_entity = replacement;
             replace_call_zero = 0;
-            ((S_800A504C_4 *)spawned)->unk_14 &= -8;
-            ((S_800A504C_4 *)spawned)->unk_1C &= -8;
-            ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
-            ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-            func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+            ((S_800A504C_4 *)replacement)->unk_14 &= -8;
+            ((S_800A504C_4 *)replacement)->unk_1C &= -8;
+            ((S_800A504C_4 *)replacement)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
+            ((S_800A504C_4 *)replacement)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
+            func_800424E0(copy_call_entity, ((S_800A504C_4 *)replacement)->unk_10.at03.v,
                           replace_call_zero);
-            func_80042710(spawned, entity);
+            func_80042710(replacement, entity);
 
-            if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {
+            if (((S_800A504C_4 *)replacement)->unk_43.v < 0x40) {
                 TablePage *table_page = (TablePage *)0x80010000;
-                u8 table_index = ((S_800A504C_4 *)spawned)->unk_43.n;
-                u8 table_value = ((S_800A504C_4 *)spawned)->unk_10.at03.v;
+                u8 table_index = ((S_800A504C_4 *)replacement)->unk_43.n;
+                u8 table_value = ((S_800A504C_4 *)replacement)->unk_10.at03.v;
                 table_page->table84[table_index].value = table_value;
                 table_page->table4[table_index].value = table_value;
             }
-            func_800A152C(((S_800A504C_4 *)spawned)->unk_10.at03.v, 3);
-            func_80042560(spawned);
+            func_800A152C(((S_800A504C_4 *)replacement)->unk_10.at03.v, 3);
+            func_80042560(replacement);
             angle = ((S_800A504C_1 *)entity)->unk_2A;
-            (*(u16 *)((u8 *)spawned + 0x2A)) = angle;
+            (*(u16 *)((u8 *)replacement + 0x2A)) = angle;
             offset = ((gameWork.view.viewAngle + (s16)angle + 0x100) >> 9) & 7;
             func_80047738(entity_data, ((u8 *)((S_800A504C_2 *)entity_data)->unk_2C)[offset],
                           ((S_800A504C_2 *)entity_data)->unk_04);

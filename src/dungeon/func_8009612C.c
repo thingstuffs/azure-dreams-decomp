@@ -51,7 +51,6 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
     s16 attempts;
     s32 center_x;
     s32 center_y;
-    s32 near_y;
     s32 far_x;
     s32 far_y;
     s32 wrap_pending;
@@ -151,8 +150,8 @@ search_nearby:
     do {
         search_seed = dungeonStatus.unk_1E;
     } while (0);
-    near_y = (s16)target_y;
-    ASM_USE(near_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    far_x = (s16)target_y;
+       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     slot = search_seed & 7;
     do {
         near_dir = slot;
@@ -162,11 +161,11 @@ search_nearby:
             ASM_USE(near_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((near_offset_x = near_dx[0], near_offset_y = near_dy[0],
                  func_800A0548((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
-                (func_8009A350(near_x, near_y, near_dir, &tile_flags) << 16) != 0 &&
+                (func_8009A350(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&
                 ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
                 (s16)func_800BCB04((((near_x + (s16)near_dx[0]) << 6) + 32) & 0xffe0,
-                                   (((near_y + (s16)near_dy[0]) << 6) + 32) & 0xffe0,
+                                   (((far_x + (s16)near_dy[0]) << 6) + 32) & 0xffe0,
                                    (s16)(*(u16 *)(actor + 136) - 32)) < 512) {
                 goto found_near;
             }

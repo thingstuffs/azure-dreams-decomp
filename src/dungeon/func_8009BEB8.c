@@ -45,14 +45,8 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
     if (short_id == 0x39)
         slot_id = 2;
     if ((s16)slot_type == 3) {
-        u8 *scan_base;
-        u8 *scan_start;
-        scan_base = (u8 *)0x800E0000;
-        ASM_KEEP(scan_base);
-        scan_start = scan_base + 0x3DD0;
-        ASM_KEEP_DEP_NV(scan_start, scan_base);
+        entry = D_800E3DB0 + 0x20;
         slot_index = 4;
-        entry = scan_start;
     } else {
         if ((s16)slot_type == 2) {
             u8 *result;
@@ -87,6 +81,7 @@ scan:
         s32 type_three;
         s32 type_two;
         s8 *slot_ids;
+        u8 entry_value;
         slot_type = (s16)saved_type;
         type_one = 1;
         type_three = 3;
@@ -96,7 +91,8 @@ scan:
         entry_id = entry + 1;
         do {
             if (((slot_type != type_one) && (slot_type != type_three)) || (*entry == slot_type)) {
-                if ((*entry_id == 0) || (*entry_id == match_id)) {
+                entry_value = *entry_id;
+                if ((entry_value == 0) || (entry_value == match_id)) {
                     if (slot_type == type_two) {
                         goto return_type_two;
                     }
