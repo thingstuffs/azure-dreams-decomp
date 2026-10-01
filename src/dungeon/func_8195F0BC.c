@@ -26,9 +26,9 @@ typedef struct {
 } FadeColor;
 
 extern u16 D_80027330;
-extern u8 D_80027334[];
+extern u8 D_80027334[][8];
 extern FadeColor D_80027398;
-extern u16 D_8002745C[];
+extern u16 D_8002745C[][8];
 extern void *D_8002732C;
 extern u8 D_800273BE;
 extern s32 D_800273C0;
@@ -45,34 +45,19 @@ extern void *func_8009B4B0();
 void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
     FadeColor *fade_color;
     s32 grid_x;
-    register s32 grid_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 grid_y;
     s32 tile_x;
     s32 grid_y_fixed;
     s32 tile_y;
-    s32 page_base;
-    s32 unused_x;
     s32 grid_x_fixed;
     s32 scratch;
+    s32 offset_y;
     s32 random_value;
-    u16 *height_ptr;
-    u16 *height_row;
     void *tile;
-    s32 height;
     u16 timer;
-    register s32 lookup_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 lookup_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    void *page;
-    u8 *delta_ptr;
-    u8 height_delta;
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-
-#ifdef NON_MATCHING
-    hard_zero = 0;
-#endif
 
     D_80027330++;
     if (state->active == 0) {
-        fade_color = (FadeColor *)0x80020000;
         if (!(state->timer & 3)) {
             func_800419EC(8, 16);
         }
@@ -82,68 +67,43 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
         fade_color->blue += (0x20 - fade_color->blue) / (s16)state->timer;
 
         grid_y = 1;
-        scratch = (s32)D_8002745C;
-        height_row = (u16 *)scratch + 8;
         do {
             grid_x = 1;
-            height_ptr = height_row + 1;
-            scratch = (u16)origin->y >> 6;
-            scratch -= 3;
+            scratch = ((u16)origin->y >> 6) - 3;
             tile_y = scratch + grid_y;
             do {
-                scratch = (u16)origin->x >> 6;
-                scratch -= 3;
+                scratch = ((u16)origin->x >> 6) - 3;
                 tile_x = scratch + grid_x;
                 random_value = func_80069EF8() & 7;
-                lookup_x = tile_x & 0xFFFF;
-                lookup_y = tile_y & 0xFFFF;
-                delta_ptr = D_80027334 + (grid_y << 3);
-                delta_ptr += grid_x;
-                page = (void *)0x800e0000;
-                height_delta = *delta_ptr;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                page = *(void **)((u8 *)page + 0x3D7C);
-                height = *height_ptr;
-                height += (s8)height_delta - random_value;
-                *height_ptr = height;
-                tile = func_8009B4B0(page, lookup_x, lookup_y, height);
+                D_8002745C[grid_y][grid_x] += (s8)D_80027334[grid_y][grid_x] - random_value;
+                tile = func_8009B4B0(D_800E3D7C, tile_x & 0xFFFF, tile_y & 0xFFFF);
                 if (tile != 0 && tile != D_8002732C) {
                     *(u16 *)(*(u8 **)((u8 *)tile - 0x18) + 0xA) =
-                        *height_ptr + origin->height;
+                        D_8002745C[grid_y][grid_x] + origin->height;
                 }
                 if (!(func_80069EF8() & 7)) {
                     func_8002592C((s16)(tile_x << 6), (s16)(tile_y << 6),
-                                  *(s16 *)height_ptr, (s16)grid_x,
+                                  (s16)D_8002745C[grid_y][grid_x], (s16)grid_x,
                                   (s16)grid_y);
                 }
                 grid_x++;
-                height_ptr++;
             } while (grid_x < 7);
             grid_y++;
-            height_row += 8;
         } while (grid_y < 7);
 
         timer = state->timer - 1;
         state->timer = timer;
-        grid_y = 0;
         if ((timer << 16) <= 0) {
-            page_base = (s32)0x800e0000;
-            grid_x = hard_zero;
+            grid_y = 0;
             do {
+                grid_x = 0;
                 grid_y_fixed = grid_y << 16;
                 grid_x_fixed = grid_x;
-loop_3:
-                {
+                do {
                     scratch = grid_x - 3;
-                    lookup_x = (u16)origin->x;
-                    page = *(void **)((u8 *)page_base + 0x3D7C);
-                    lookup_y = (u16)origin->y;
-                    lookup_x = (((u32)lookup_x >> 6) + scratch) & 0xFFFF;
-                    lookup_y >>= 6;
-                    scratch = grid_y - 3;
-                    lookup_y += scratch;
-                    lookup_y &= 0xFFFF;
-                    tile = func_8009B4B0(page, lookup_x, lookup_y);
+                    tile = func_8009B4B0(D_800E3D7C,
+                                         (((u16)origin->x >> 6) + scratch) & 0xFFFF,
+                                         (((u16)origin->y >> 6) + (offset_y = grid_y - 3)) & 0xFFFF);
                     if (tile != 0 && tile != D_8002732C) {
                         func_8009CE1C(
                             tile, 16, D_800273BE, 9,
@@ -155,11 +115,8 @@ loop_3:
                     func_80026BA8(grid_x_fixed >> 16, grid_y_fixed >> 16, origin);
                     grid_x_fixed += 0x10000;
                     grid_x++;
-                }
-                if (grid_x < 7)
-                    goto loop_3;
+                } while (grid_x < 7);
                 grid_y++;
-                grid_x = 0;
             } while (grid_y < 7);
             state->timer = 8;
             state->active++;

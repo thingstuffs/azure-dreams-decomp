@@ -272,11 +272,8 @@ extern void func_8002405C(void *, s32, void *);
 
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
-void func_800257D0(void *effect_data, void *motion_data, void *render_data)
+void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_81905FD0_3 *render)
 {
-    S_func_81905FD0_1 *effect = effect_data;
-    register S_func_81905FD0_2 *motion ASM_REG("$18") = motion_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_func_81905FD0_3 *render = render_data;
     S_func_81905FD0_3 *target_render;
     u8 scratch[56];
     s32 index;
@@ -291,7 +288,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
     S_func_81905FD0_4 *owner;
     S_func_81905FD0_5 *owner_object;
     S_func_81905FD0_2 *owner_motion;
-    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     owner = effect->unk_00;
     *(Copy8 *)(scratch + 8) = *(Copy8 *)rect_template;
     *(Copy32 *)(scratch + 24) = *(Copy32 *)D_80024014;
@@ -532,8 +528,12 @@ update_coords:
             frame = (s16)effect->unk_82.u16;
             if (frame == 1) {
                 s32 rect_value;
-                register void *rect_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                register void *dest_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                u16 second_y;
+                u16 second_dest_y;
+                u16 first_y;
+                u16 first_width;
+                void *rect_arg;
+                void *dest_arg;
                 s32 dest_x;
                 s32 rect_height;
                 s32 rect_x;
@@ -542,33 +542,31 @@ update_coords:
                 rect_arg = tex_rect;
                 tex_dest = scratch + 16;
                 dest_arg = tex_dest;
-                ASM_SET(rect_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 rect_x = 832;
-                rect_value = 340;
-                ((S_func_81905FD0_8 *)scratch)->unk_0A = rect_value;
-                rect_value = 96;
+                ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
+                first_y = 340;
+                ((S_func_81905FD0_8 *)scratch)->unk_0A = first_y;
+                first_width = 96;
                 rect_height = 84;
                 dest_x = 880;
-                ((S_func_81905FD0_8 *)scratch)->unk_0C = rect_value;
-                ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
+                ((S_func_81905FD0_8 *)scratch)->unk_0C = first_width;
+
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = 410;
                 func_800B8FC8(owner->unk_60, rect_arg,
                               dest_arg, 1, frame);
                 rect_arg = tex_rect;
-                ASM_KEEP_NV(rect_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 dest_arg = tex_dest;
-                ASM_KEEP_NV(dest_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                rect_value = 424;
-                ((S_func_81905FD0_8 *)scratch)->unk_0A = rect_value;
+                second_y = 424;
+                ((S_func_81905FD0_8 *)scratch)->unk_0A = second_y;
                 rect_value = 96;
                 ((S_func_81905FD0_8 *)scratch)->unk_0C = rect_value;
-                rect_value = 495;
+                second_dest_y = 495;
                 ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
-                ((S_func_81905FD0_8 *)scratch)->unk_12 = rect_value;
+                ((S_func_81905FD0_8 *)scratch)->unk_12 = second_dest_y;
                 func_800B8FC8(owner->unk_60, rect_arg,
                               dest_arg, 1, frame);
             }
@@ -577,7 +575,7 @@ update_coords:
             }
         }
         {
-            register S_func_81905FD0_5 *upper_effect ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            S_func_81905FD0_5 *upper_effect;
             S_func_81905FD0_5 *lower_effect;
             S_func_81905FD0_5 *ring_effect;
             S_func_81905FD0_5 *control_effect;
@@ -736,11 +734,9 @@ update_coords:
                 child_data = (S_func_81905FD0_7 *)((u8 *)control_effect + 0x20);
                 effect_object = control_effect;
                 render_template = func_80045340;
-                ASM_KEEP_NV(render_template);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 child_data->unk_38 = owner;
                 owner_target = owner->unk_60;
-                render_value = (u32)((u8 *)upper_effect + 0x20);
-                child_data->unk_44 = (void *)render_value;
+                child_data->unk_44 = (void *)((u32)((u32)((u8 *)upper_effect + 0x20)));
                 child_data->unk_48 = (u8 *)ring_effect + 0x20;
                 child_data->unk_4C = (u8 *)lower_effect + 0x20;
                 control_script = D_80025408;

@@ -318,13 +318,12 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                     cell_coord = cell->unk_25;
                     ASM_KEEP(cell_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     step_value = *(u16 *) step_or_cell;
-                    ASM_KEEP_DEP_NV(base_x, step_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                    x_value = base_x;
                     y_value = cell_coord + step_value;
                 }
                 target_y = (u16) y_value;
                 ASM_USE2_NV(step_index, side_data);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
+                x_value = base_x;
                 compare_x = x_value & 0xFFFF;
                 if (compare_x == 1) {
                     if ((y_value & 0xFFFF) == compare_x) {

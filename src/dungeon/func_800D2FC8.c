@@ -92,13 +92,9 @@ typedef struct S_func_800D8728_2 {
 } S_func_800D8728_2;
 
 /* Update entity callbacks, facing, movement, and floor contact. */
-void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
+void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_800D8728_2 *monster)
 {
-    register S_func_800D8728_0 *self ASM_REG("$4") = entity_data;
-    register S_func_800D8728_0 *entity ASM_REG("$17") = self;
-    register S_func_800D8728_1 *motion = motion_data;
-    S_func_800D8728_2 *monster = monster_data;
-    register S_func_800D8728_0 *actor ASM_REG("$18");
+    S_func_800D8728_0 *actor;
     s16 previous_direction;
     s32 direction_sector;
     s32 state_direction;
@@ -107,14 +103,13 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
     s16 floor_height;
     u16 model_flags;
 
-    ASM_KEEP_NV(self);
     actor = entity;
     *(u16 *)((u8 *)monster + 0x12) = 0;
 
     if (dungeonStatus.flags & 0x2000) {
         Callback special_callback = entity->unk_8C;
         if (special_callback == (Callback)&D_800D8C64) {
-            special_callback(entity, motion, monster, self);
+            special_callback(entity, motion, monster, entity);
             return;
         }
         entity->unk_71 &= 0x7F;
@@ -257,6 +252,4 @@ finish:
     motion->unk_0A =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
     monster->unk_14 |= 0x40;
-    ASM_KEEP(entity);
-    ASM_KEEP(motion);
 }

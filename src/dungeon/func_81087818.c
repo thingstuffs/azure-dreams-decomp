@@ -140,10 +140,8 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     {
         S_81087818_1 *actor = motion->unk_40;
         S_81087818_2 *source;
-        s32 base_x;
-        s32 base_y;
-        register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        s32 distance_y;
+                s32 base_y;
+        s32 distance_x;
         u32 direction_offset;
         s16 *direction_table;
         s32 tile_x;
@@ -165,17 +163,11 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
             distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
             motion->unk_30.half.unk_32.u = distance_x;
 
-            distance_x = motion->unk_28.half.unk_2A;
-            base_x = ((S_81087818_4 *)&base)->unk_02.s;
             base_y = ((S_81087818_4 *)&base)->unk_06.s;
-            distance_x -= base_x;
-            if (distance_x < 0) {
-                distance_x = -distance_x;
-            }
-            delta[0] = distance_x;
-            distance_y = motion->unk_2C.half.unk_2E - base_y;
-            distance_y = abs(distance_y);
-            delta[1] = distance_y;
+            delta[0] = abs(motion->unk_28.half.unk_2A - ((S_81087818_4 *)&base)->unk_02.s);
+            tile_x = motion->unk_2C.half.unk_2E - base_y;
+            tile_x = abs(tile_x);
+            delta[1] = tile_x;
             motion->unk_04.s = delta[0];
             if (motion->unk_04.s < (s16)delta[1]) {
                 motion->unk_04.u = delta[1];
