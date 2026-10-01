@@ -171,8 +171,8 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
         &&launch, &&wait_launch, &&travel, &&impact, &&stop_motion, &&cleanup
     };
 
-    register u8 *direction_x ASM_REG("$4") = ((u8 *)dirStepX);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    s16 direction_offset;
+    u8 *direction_x = ((u8 *)dirStepX);
+    s32 direction_offset;
     caster = effect->unk_00;
     target = (S_func_81838800_4 *)caster->unk_2A.u;
     caster_obj = (S_func_81838800_5 *)((u8 *)caster - 0x20);
@@ -259,7 +259,8 @@ launch:
                           ((s32)launch_offset[2] << 16);
     func_8004491C((u8 *)effect - 0x20, D_800248F8);
     range = (s16)func_800A3820(7);
-    target = (void *)func_800A05A4(caster, caster_sprite->unk_24,
+    offset_y = caster_sprite->unk_24;
+    target = (void *)func_800A05A4(caster, offset_y,
                                    caster_sprite->unk_25,
                                    caster->unk_2A.s, range);
     caster->unk_60.p = target;
@@ -275,11 +276,13 @@ launch:
             offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
             sprite_or_x = index_or_x & 0xFFFF;
             {
+                s32 probe_y;
                 direction_x = (u8 *)(sprite_or_x);
-                particle_or_y = offset_y & 0xFFFF;
-                ground_z = func_800BCB04((s32)direction_x, particle_or_y,
+                probe_y = offset_y & 0xFFFF;
+                ground_z = func_800BCB04((s32)direction_x, probe_y,
                                    (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 128));
             }
+            particle_or_y = offset_y & 0xFFFF;
             if (func_800A4688(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
                               caster->unk_60.s) != 0) {
                 goto probe_done;

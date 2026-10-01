@@ -81,7 +81,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     scratchpad->tex_w = parameters->x1;
     scratchpad->tex_h = parameters->y1;
     segment = 0;
-    if ((*(u16 *)((u8 *)parameters + 0xE)) != 0) {
+    if (segment < (*(u16 *)((u8 *)parameters + 0xE))) {
         blend_setting = blend_mode & 0xFFFF;
         packet_code = cursor + 7;
         angle_step = segment;
@@ -98,7 +98,6 @@ loop_0:
             *((u8 *) (((u8 *) packet_code) + 6)) = center_v;
             trig_value = func_80064584(angle_step / parameters->count);
             segment += 1;
-            ASM_USE(segment);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
                 offset = scratchpad->tex_w;
                 scratch = offset * trig_value;

@@ -89,22 +89,17 @@ extern u8 D_80174D9C[];
 extern u8 D_80174DA4[];
 
 /* Updates the actor's move, animation, and recovery state. */
-void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *actor_in)
+void func_80172AB4(void *action, void *motion, void *sprite, void *actor)
 {
     u8 *move_id;
     s32 state;
     s16 use_player;
     s32 move_kind;
     void *target;
-    void *action = action_in;
-    register void *motion ASM_REG("$20") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$17") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 target_x;
     u16 position[3];
     u16 ticks_left;
 
-    ASM_KEEP4_NV(action, motion, sprite, actor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80172AB4_0 *)action)->unk_9B;
     use_player = 0;
@@ -223,7 +218,8 @@ have_choice:
         ((S_80172AB4_4 *)sprite)->unk_14 &= 0xF7FF;
         func_800A56E0(0x703);
         func_800DA840(position, (s16)(((s32)*move_id - 1) % 3));
-        goto advance_state;
+        ((S_80172AB4_0 *)action)->unk_9B++;
+        return;
     }
 
     ((S_80172AB4_5 *)motion)->unk_14 = 0;
@@ -257,7 +253,8 @@ state_1:
     ((S_80172AB4_1 *)actor)->unk_1C &= 0xF7FFFFFF;
     ((S_80172AB4_0 *)action)->unk_96 = 8;
     ((S_80172AB4_5 *)motion)->unk_14 = 0xFFF00000;
-    goto advance_state;
+    ((S_80172AB4_0 *)action)->unk_9B++;
+    return;
 
 state_2:
     ((S_80172AB4_5 *)motion)->unk_14 += 0x10000;

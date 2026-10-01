@@ -43,9 +43,7 @@ s32 func_800599B0(void)
     s32 length;
     u8 *length_cursor;
     u8 *data;
-    s32 span;
-    register s32 start ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 end;
+    s32 start;
     s32 default_value;
     s32 packed_default;
     s32 format;
@@ -115,19 +113,13 @@ init_spans:
         entity->f00 = offset;
         length = *(u16 *)(length_cursor + 0x10);
         entity->f18 = length;
-        ASM_KEEP_NV(length);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        span = length;
-        ASM_KEEP_NV(span);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         entity->f24 = packed_default;
         entity->f20 = packed_default;
         start = entity->f00;
-        end = start;
-        ASM_USE2_NV(end, span);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         entity->f04 = start;
         entity->f38 = start;
         offset += length;
-        end += span;
-        entity->f1C = end;
+        entity->f1C = entity->f00 + entity->f18;
         entity->f10 = func_80058A04(entity);
         entity->f48 = 0;
         entity->f4A = 0;

@@ -25,141 +25,63 @@ extern u8 D_800D3814[];
 
 /* Builds a null-terminated entry list for the current map kind and variant. */
 void func_800B94FC(void) {
-    s32 entry_count;
-    register s32 choice_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 map_kind;
-    s32 variant;
-    unsigned long selector;
-    void **entries;
-    register void **entry_slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *entry;
+    s32 count;
+    s32 i;
+    u32 records;
+    u8 *state;
+    u32 table;
     u8 *map_records;
-    u8 *fallback_records;
-    u8 *town_state;
-    u8 *choices;
-    void **next_entry;
-    void **entries_base;
 
-    entry_count = 1;
+    count = 1;
     D_800718E4[0] = D_800D1D1C;
     if ((u32)(D_80082E78 - 0x16) >= 2U) {
-        entry_count = 3;
+        count = 3;
         D_800718E4[1] = D_800D1D24;
         D_800718E4[2] = D_800D1D2C;
     }
-    entries = D_800718E4;
-
     map_records = D_800D2FB4;
-    map_kind = map_records[D_800D3814[6] << 5];
-    switch (map_kind) {
+    switch (map_records[D_800D3814[6] << 5]) {
     default:
-        choice_index = 0;
+        i = 0;
         goto fallback;
     case 5:
-        variant = (*(u8 *)0x800136B8);
-        switch (variant) {
-        default:
-            entries_base = D_800718E4;
-            entry_slot = &entries_base[entry_count];
-            entry = D_800D1D54;
-            break;
-        case 0xB:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1D5C;
-            break;
-        case 0xC:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1D64;
-            break;
-        case 0xD:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1D6C;
-            break;
+        switch ((*(u8 *)0x800136B8)) {
+        default: D_800718E4[count++] = D_800D1D54; break;
+        case 0xB: D_800718E4[count++] = D_800D1D5C; break;
+        case 0xC: D_800718E4[count++] = D_800D1D64; break;
+        case 0xD: D_800718E4[count++] = D_800D1D6C; break;
         }
+        D_800718E4[count++] = D_800D1E7C;
         break;
     case 0xF:
-        variant = (*(u8 *)0x800136B8);
-        switch (variant) {
-        default:
-            entries_base = D_800718E4;
-            entry_slot = &entries_base[entry_count];
-            entry = D_800D1DB4;
-            break;
-        case 0xB:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DBC;
-            break;
-        case 0xC:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DC4;
-            break;
-        case 0xD:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DCC;
-            break;
+        switch ((*(u8 *)0x800136B8)) {
+        default: D_800718E4[count++] = D_800D1DB4; break;
+        case 0xB: D_800718E4[count++] = D_800D1DBC; break;
+        case 0xC: D_800718E4[count++] = D_800D1DC4; break;
+        case 0xD: D_800718E4[count++] = D_800D1DCC; break;
         }
+        D_800718E4[count++] = D_800D1E7C;
         break;
     case 0x10:
-        variant = (*(u8 *)0x800136B8);
-        switch (variant) {
-        default:
-            entries_base = D_800718E4;
-            entry_slot = &entries_base[entry_count];
-            entry = D_800D1DD4;
-            break;
-        case 0xB:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DDC;
-            break;
-        case 0xC:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DE4;
-            break;
-        case 0xD:
-            entry_slot = &entries[entry_count];
-            entry = D_800D1DEC;
-            break;
+        switch ((*(u8 *)0x800136B8)) {
+        default: D_800718E4[count++] = D_800D1DD4; break;
+        case 0xB: D_800718E4[count++] = D_800D1DDC; break;
+        case 0xC: D_800718E4[count++] = D_800D1DE4; break;
+        case 0xD: D_800718E4[count++] = D_800D1DEC; break;
         }
+        D_800718E4[count++] = D_800D1E7C;
         break;
     }
-
-    *entry_slot = entry;
-    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    entry_count++;
-    entries_base = D_800718E4;
-    entry_slot = &entries_base[entry_count];
-    entry = D_800D1E7C;
-    *entry_slot = entry;
-    ASM_KEEP(entry_slot);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    entry_count++;
-    goto finish;
+    D_800718E4[count] = 0;
+    return;
 
 fallback:
-    fallback_records = D_800D2FB4;
-    town_state = D_800D3814;
-    choices = D_800D1A0C;
-    entries_base = D_800718E4;
-    entry_slot = (void **)(entry_count << 2);
-    next_entry = (void **)((unsigned long)entry_slot + (unsigned long)entries_base);
-loop_0:
-    {
-        selector = town_state[6];
-        entry_count++;
-        entry_slot = (void **)(u32)*(u8 *)(((unsigned long)selector << 5) + (unsigned long)fallback_records);
-        selector = choice_index << 2;
-        entry_slot = (void **)(((unsigned long)(s32)entry_slot << 3) + (unsigned long)choices);
-        selector += (unsigned long)entry_slot;
-        entry = *(void **)selector;
-        *next_entry = entry;
-        choice_index++;
-        next_entry++;
-    }
-    if (choice_index < 2)
-        goto loop_0;
-
-finish:
-    entry_slot = D_800718E4;
-    selector = entry_count << 2;
-    selector += (unsigned long)entry_slot;
-    *(void **)selector = 0;
+    records = (u32)D_800D2FB4;
+    state = D_800D3814;
+    table = (u32)D_800D1A0C;
+    do {
+        D_800718E4[count++] = ((void **)((*(u8 *)((state[6] << 5) + records) << 3) + table))[i];
+        i++;
+    } while (i < 2);
+    D_800718E4[count] = 0;
 }

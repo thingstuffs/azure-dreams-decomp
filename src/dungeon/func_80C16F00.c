@@ -26,29 +26,21 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 
 /* Updates a staged movement action, its velocity, and directional animation. */
-void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *actor_arg)
+void func_80172700(void *action, void *motion, void *sprite, void *actor)
 {
-    void *action;
-    register void *motion ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *sprite;
-    void *actor;
     s32 step_x;
     s32 step_y;
     s32 phase_ticks;
     s32 state;
     s32 dir_offset;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 adjustment ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 rise;
+    s32 target;
+    s32 current;
     void *turn_actor;
     u16 flags;
     u8 *dir_x;
     u8 *dir_y;
 
-    action = action_arg;
-    motion = motion_arg;
-    sprite = sprite_arg;
-    actor = actor_arg;
-    ASM_KEEP4_NV(action, motion, sprite, actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     dir_x = ((u8 *)dirStepX);
     dir_offset = (F16(actor, 0x2A) >> 8) & 0xE;
     step_x = *(s16 *)(dir_x + dir_offset);
@@ -86,8 +78,7 @@ state_0:
     if (!(flags & 0xE000))
         return;
     FPTR(sprite, 0x2C) = D_801744B4;
-    result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, D_801744B4[result & 7], 0);
+    func_80047784(sprite, D_801744B4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     F32(motion, 0xC) = (-step_x) << 18;
     F32(motion, 0x10) = (-step_y) << 18;
     F16(action, 0x98) |= 8;
@@ -95,36 +86,29 @@ state_0:
     F32(actor, 0x1C) &= 0xFFFBFFFF;
     F16(action, 0x96) = 4;
     F32(motion, 0x14) = 0xFFFE8000;
-    goto increment;
+    F8(action, 0x9B)++;
+    return;
 
 state_1:
-    result = F32(motion, 0x14);
-    F32(motion, 0x14) = result + (result >> 2);
+    rise = F32(motion, 0x14);
+    F32(motion, 0x14) = rise + (rise >> 2);
     if (FS16(action, 0x96) > 0)
         return;
-    adjustment = 8;
-    result = F8(action, 0x9B);
-    F16(action, 0x96) = adjustment;
-    goto increment_loaded;
+    F16(action, 0x96) = 8;
+    F8(action, 0x9B)++;
+    return;
 
 state_2:
-    result = F32(motion, 0xC);
-    adjustment = F32(motion, 0x10);
-    result -= result >> 3;
-    adjustment -= adjustment >> 3;
-    F32(motion, 0xC) = result;
-    result = F32(motion, 0x14);
-    F32(motion, 0x10) = adjustment;
-    result -= result >> 3;
-    F32(motion, 0x14) = result;
+    F32(motion, 0xC) -= F32(motion, 0xC) >> 3;
+    F32(motion, 0x10) -= F32(motion, 0x10) >> 3;
+    F32(motion, 0x14) -= F32(motion, 0x14) >> 3;
     phase_ticks = 4;
     if (FS16(action, 0x96) == phase_ticks) {
         F32(motion, 0xC) = 0;
         F32(motion, 0x10) = 0;
         F32(motion, 0x14) = 0;
         FPTR(sprite, 0x2C) = D_801744BC;
-        result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
-        func_80047784(sprite, D_801744BC[result & 7], 0);
+        func_80047784(sprite, D_801744BC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     }
     if (FS16(action, 0x96) > 0)
         return;
@@ -134,9 +118,9 @@ state_2:
     F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
     F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
     FPTR(sprite, 0x2C) = D_801744C4;
-    result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, D_801744C4[result & 7], 0);
-    goto increment;
+    func_80047784(sprite, D_801744C4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+    F8(action, 0x9B)++;
+    return;
 
 state_3:
     F32(action, 0x90) += 0x80000;
@@ -150,11 +134,7 @@ state_3:
         return;
     func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
 
-increment:
-    result = F8(action, 0x9B);
-increment_loaded:
-    result++;
-    F8(action, 0x9B) = result;
+    F8(action, 0x9B)++;
     return;
 
 state_4:
@@ -162,8 +142,7 @@ state_4:
     if (!(F16(sprite, 0x14) & 0xE000))
         return;
     FPTR(sprite, 0x2C) = D_801744CC;
-    result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, D_801744CC[result & 7], 0);
+    func_80047784(sprite, D_801744CC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     F32(motion, 0x14) = 0;
     F32(action, 0x90) = 0;
     F16(action, 0x98) &= 0xFFF7;
@@ -172,20 +151,20 @@ state_4:
     return;
 
 state_ff:
-    result = F8(sprite, 0x24) << 6;
-    adjustment = FS16(motion, 2);
-    adjustment -= 0x20;
-    result -= adjustment;
-    result <<= 15;
-    result >>= 1;
-    F32(motion, 0xC) = result;
-    result = F8(sprite, 0x25) << 6;
-    adjustment = FS16(motion, 6);
-    adjustment -= 0x20;
-    result -= adjustment;
-    result <<= 15;
-    result >>= 1;
-    F32(motion, 0x10) = result;
+    target = F8(sprite, 0x24) << 6;
+    current = FS16(motion, 2);
+    current -= 0x20;
+    target -= current;
+    target <<= 15;
+    target >>= 1;
+    F32(motion, 0xC) = target;
+    target = F8(sprite, 0x25) << 6;
+    current = FS16(motion, 6);
+    current -= 0x20;
+    target -= current;
+    target <<= 15;
+    target >>= 1;
+    F32(motion, 0x10) = target;
     if (!(F16(sprite, 0x14) & 0xE000))
         return;
     F32(motion, 0x10) = 0;
@@ -197,8 +176,7 @@ state_ff:
     dungeonStatus.unk_0C = 0;
     func_800A4ACC(actor);
     FPTR(sprite, 0x2C) = D_8017449C;
-    result = (gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, D_8017449C[result & 7], 0);
+    func_80047784(sprite, D_8017449C[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
     if (FS8(actor, 0x6D) == 0) {
         F16(actor, 0x46) &= 0x7FFF;
         return;
