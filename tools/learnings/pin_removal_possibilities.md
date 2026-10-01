@@ -579,3 +579,11 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   LABEL) and x; narrowing the copy (u16/s16/u8) gives it its own qty - 3 rows exact; optimize_reg_copy_1 is a second
   author of the same effect. Census: 90 register-substitution-only sites, 44 with a plain copy (30 in rows then busy).
   Generator spec t140_narrowcopy in MECHANISM.md. Brief paragraph narrow_copy.md.
+
+### Surviving register copy (r85_fable_copy, 2026-10-01)
+A retail `move` that the C must keep, `V = W`, has to pass two gates. First, cse must keep V as the class head (the cshead rule). Second, combine must refuse to fold the copy into its single use; passing the first gate alone is never enough. Combine refuses in three natural ways:
+- **M1:** a branch on a 0/1 value. subst rewrites `(eq x 0)` to `(xor x 1)` and `(ne x 0)` to `x` when nonzero_bits(x)==1, and the branch pattern rejects both. This needs W assigned only the literals 0 and 1, and initialised before any read.
+- **M2:** a read-back of a field that was just stored or loaded, `V = p->f`, with a store through the same base in between. reload_cse_regs turns the reload into a hard-register copy; it shows only in the `.greg` dump.
+- **M3:** V is still live after the use, so the copy is a colour/order pin.
+
+An ADJACENT read-back (nothing between it and the store) is forwarded by cse and does not belong to this class. Brief paragraph: tools/lanes/brief_paragraphs/copy_host.md. Generator spec (t141_copyhost): work/native_lane/r85_fable_copy/MECHANISM.md.
