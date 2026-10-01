@@ -532,10 +532,15 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   pre-copy - delete one-trip blocks around calls, s16/u8 locals extended at their use -> s32, fold one-use address
   locals into their use (or split into locals in retail load order when the base load must precede the scale), m2c
   temp chains -> the plain expression, goto loops over m2c parameter copies -> for loops on the parameters.
-- **Opaque constant base** (r84_opus_scratch2, r84_opus_fitted; Fable r84_fable_opaque running): retail keeps a
-  constant page / scratchpad base in a register that sched1 (no REG_EQUAL single set), combine (nonzero_bits) and cse
-  cannot see through; KEEP/REG pins on integer-page locals are second sets imitating it. Dead zero-init and repeated
-  identical assignments are deleted / folded - no natural C found yet.
+- **Opaque constant base = three classes** (r84_fable_opaque MECHANISM.md, CLASS.tsv 62 rows / 129 base pins):
+  A (proven) - a call inside an m2c `label: ... goto label;` loop: in a STRUCTURED loop with a call, loop.c forward-
+  substitutes single-use `(set tmp (plus base K))` into the argument (loop.c 834-868) so retail keeps `addiu aN,base,K`;
+  the goto loop never reaches loop.c, combine folds PLUS -> IOR (`ori`). Fix = the structured loop + base pin erased,
+  usually together with the r83 indexed rewrite (loop.c brings strength reduction/hoisting along). B (proven for
+  one-symbol pages, refuted for scratch) - a bare `lui` + %lo offsets = cdk's split-symbol HIGH pseudo: name the symbol
+  (800B51B8). Scratchpad rows are never symbols. C (open) - loads kept below stores sched1 could prove independent: no
+  natural C makes a single-set constant base opaque in cdk (cse/flow/combine/update_equiv_regs all see it); the next
+  question is priority vs dependence (why.py --trace --block). GTE inline macros cannot explain it.
 - **Codex in round 84:** sol 6.1 on never-sol61-served one-pin rows 45/95, two-pin probe 7/12 to zero; astra 4-7-pin rows
   ~2-3 pins per lane. Landing traps: land_coherence restored no-op recipe switches but kept their trades (fixed
   ec2a8021d); a runner restarted without `8>&-` holds c8_land.lock forever (every chain blocks).
