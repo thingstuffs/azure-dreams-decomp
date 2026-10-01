@@ -76,12 +76,8 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
         rangeX = 1;
     }
 
-    ASM_USE_NV(dstY);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    icy = cy;
-    delta2 = dstY - icy;
-    if (delta2 < 0) {
-        delta2 = -delta2;
-    }
+    icy = dstY;
+    delta2 = __builtin_abs(icy - cy);
     dead = delta2 - 4;
     rangeY = dead;
     if (rangeY <= 0) {

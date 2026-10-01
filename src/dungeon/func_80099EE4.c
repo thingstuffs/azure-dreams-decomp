@@ -15,15 +15,17 @@ extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
 void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte) {
     u8 *object = object_ptr;
     DungeonWriteState *state = (DungeonWriteState *)0x80013710;
-    register s32 saved_action ASM_REG("$21") = action_code;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 saved_action = action_code;
     s32 saved_payload = payload;
     s8 saved_extra = extra_byte;
     u8 *entry;
     u8 *old_entry;
-    register s32 compare_kind ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 compare_kind;
     s32 kind;
-    register s32 shifted_action ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 entry_tag;
+    u8 kind_byte;
+    s32 shifted_action;
+    s32 entry_action;
+    u8 entry_tag;
     s32 flag_bit;
     s16 action_offset;
     u32 dispatch_index;
@@ -40,12 +42,15 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
 
     entry = state->data + state->position * 2;
     compare_kind = (*(u16 *)(object + 0x2A) >> 9) & 7;
-    kind = compare_kind;
+    kind_byte = compare_kind;
+    kind = kind_byte;
 
     if (entry[1] != 0) {
         if ((entry[1] & 7) == compare_kind) {
             shifted_action = (s16)action_code;
-            if (((*(volatile u8 *)(entry + 1)) & 0xF8) == shifted_action) {
+            entry_action = *(volatile u8 *)(entry + 1);
+            entry_action &= 0xF8;
+            if (entry_action == shifted_action) {
                 if (entry[0] < 0x7F) {
                     goto entry_valid;
                 }
@@ -90,8 +95,8 @@ entry_valid:
     case 136:
         old_entry = entry;
         entry_tag = saved_action | kind;
+        entry = func_8009F9E8(entry_tag & 0xFF, (saved_payload & 1) << 5);
         flag_bit = (saved_payload & 1) << 5;
-        entry = func_8009F9E8(entry_tag & 0xFF, flag_bit);
         if (old_entry != entry) {
             state->position--;
             entry[1] = entry_tag;
@@ -114,5 +119,4 @@ entry_valid:
 
     entry[3] = 0;
     entry[2] = 0;
-    ASM_KEEP(saved_action);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }
