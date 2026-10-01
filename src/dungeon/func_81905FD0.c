@@ -282,7 +282,7 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
     s32 random_bits;
     s32 state;
     u8 kind_or_shade;
-    register u8 *tex_rect ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *tex_rect;
     u8 *rect_template = D_80024004;
 
     S_func_81905FD0_4 *owner;
@@ -522,7 +522,7 @@ update_coords:
         }
         {
             s16 frame;
-            register u8 *tex_dest ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            u8 *tex_dest;
 
             effect->unk_82.u16 = effect->unk_82.u16 + 1;
             frame = (s16)effect->unk_82.u16;
@@ -558,12 +558,12 @@ update_coords:
                               dest_arg, 1, frame);
                 rect_arg = tex_rect;
                 dest_arg = tex_dest;
+                ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
                 second_y = 424;
                 ((S_func_81905FD0_8 *)scratch)->unk_0A = second_y;
                 rect_value = 96;
                 ((S_func_81905FD0_8 *)scratch)->unk_0C = rect_value;
                 second_dest_y = 495;
-                ((S_func_81905FD0_8 *)scratch)->unk_08 = rect_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_0E = rect_height;
                 ((S_func_81905FD0_8 *)scratch)->unk_10 = dest_x;
                 ((S_func_81905FD0_8 *)scratch)->unk_12 = second_dest_y;
