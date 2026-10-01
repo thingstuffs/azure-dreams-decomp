@@ -129,12 +129,12 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
         s16 next_timer;
         s32 next_height;
         u32 fall_step;
+        s32 scaled_arc;
 
         ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
         timer = ((S_80172D08_0 *)action)->unk_96.s;
         if (timer >= 9) {
             if (actor->target != 0) {
-                register s32 scaled_arc ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 height_delta;
                 s32 arc_sample;
                 void *owner;
@@ -173,7 +173,8 @@ void func_80172D08(void *action, void *motion, void *record, EntityRec *actor)
                 signed_terrain_height = terrain_height << 16;
                 signed_terrain_height >>= 16;
                 height_delta = (signed_terrain_height - actor->unk_88) << 13;
-                height_offset = height_delta * (0x11 - ((S_80172D08_0 *)action)->unk_96.s);
+                scaled_arc = ((S_80172D08_0 *)action)->unk_96.s;
+                height_offset = height_delta * (0x11 - scaled_arc);
                 arc_sample = ((arc_sample >> 4) * 3) << 13;
                 ((S_80172D08_0 *)action)->unk_A0 = height_offset - arc_sample;
             }

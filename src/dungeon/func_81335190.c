@@ -41,6 +41,7 @@ typedef struct S_8016C190_5 {
 
 
 extern s32 func_8003F270();
+extern s32 abs(s32);
 extern void func_80047784(void *, u8, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
 extern void func_800A2B04(void *, u8, u8);
@@ -64,8 +65,10 @@ void func_8016C190(void *action, EntityRec *transform, void *sprite, EntityRec *
     s32 target_mode;
     s32 flagged_action;
     s32 action_kind;
-    register s32 action_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 action_value;
     s32 target_y;
+    s32 magnitude_x;
+    s16 mode_copy;
     void *current_table;
 
     action_state = ((S_8016C190_0 *)action)->unk_9B;
@@ -123,8 +126,8 @@ selection_done:
         if (*action_slot != 0) {
             action_value = ((S_8016C190_0 *)action)->unk_98 & 0xFF7F;
             ((S_8016C190_0 *)action)->unk_98 = action_value;
-            action_value = target_mode;
-            if (action_value != 0) {
+            mode_copy = target_mode;
+            if (mode_copy != 0) {
                 action_value = (s32)D_800814A8;
                 actor->target = (void *)action_value;
                 action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
@@ -147,15 +150,9 @@ selection_done:
                         ((S_8016C190_3 *)sprite)->unk_25,
                         actor->facing,
                         0x10);
-                    action_value = actor->unk_72;
-                    target_y = actor->unk_73;
-                    if (action_value < 0) {
-                        action_value = -action_value;
-                    }
-                    if (target_y < 0) {
-                        target_y = -target_y;
-                    }
-                    actor->unk_72 = action_value;
+                    magnitude_x = abs(actor->unk_72);
+                    target_y = abs(actor->unk_73);
+                    actor->unk_72 = magnitude_x;
                     actor->unk_73 = target_y;
                 }
             }

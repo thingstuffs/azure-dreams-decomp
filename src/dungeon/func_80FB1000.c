@@ -57,7 +57,7 @@ extern void func_80170F6C(void);
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void *BODY_NAME(void *, s32, s8, s16) BODY_ATTR;
+BODY_STORAGE void *BODY_NAME(s16, s32, s16, s16) BODY_ATTR;
 
 #ifdef __mips__
 static const ActorDefinition actor_definition
@@ -126,11 +126,11 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in BODY_NAME */
 
-BODY_STORAGE void *BODY_NAME(void *arg0, s32 arg1, s8 arg2, s16 arg3)
+BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
 {
     s16 arg0_copy;
     s32 arg1_role;
-    register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 arg2_role;
     s16 arg3_role;
     void *created;
     u8 *work = 0;

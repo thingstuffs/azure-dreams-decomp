@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -52,7 +53,7 @@ void func_80172834(void *action_state, EntityRec *motion, void *sprite, EntityRe
     s32 is_special;
     s32 action_kind;
     void *target;
-    register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 x;
     s32 y;
     u16 position[3];
 
@@ -152,16 +153,12 @@ copy_existing:
                           ((Rec_D_80082E80 *)sprite)->unk_24,
                           ((Rec_D_80082E80 *)sprite)->unk_25,
                           actor->facing, 0x10);
-        x = actor->unk_72;
-        y = actor->unk_73;
-        if (x < 0) {
-            x = -x;
+        {
+            s32 abs_x = abs(actor->unk_72);
+            s32 abs_y = abs(actor->unk_73);
+            actor->unk_72 = abs_x;
+            actor->unk_73 = abs_y;
         }
-        if (y < 0) {
-            y = -y;
-        }
-        actor->unk_72 = x;
-        actor->unk_73 = y;
 
 move_setup:
 apply_move:
@@ -247,6 +244,3 @@ state_2_ready:
     return;
 }
 
-/* MECHANISM: The 0x40 frame falls naturally from four held arguments, six saved s-regs,
-   and sibling u16 stack locals; pinned v0 sequences the 0x98 update before the flag test.
-   Carrying the object in v0 and a scoped record pin in v1 removes the reload+nop cascade. */
