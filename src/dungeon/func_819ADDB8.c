@@ -65,24 +65,19 @@ extern s32 func_8003FA44(s32);
 extern Obj *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 
-static __inline__ s16 read_y_offset(s16 *p, u16 byte_offset) {
-    return *(s16 *)((u8 *)p + byte_offset);
+static __inline__ s16 dir_step(s16 *table, u16 offset) {
+    return *(s16 *)(offset + (u32)table);
 }
 
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
-void *func_800255B8(s32 x, s32 y, s16 z, u32 heading) {
+void *func_800255B8(s16 x, s16 y, s16 z, u16 heading) {
     void *objects[12];
-    register s32 origin_x ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 origin_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 origin_z ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 piece_index;
-    void **object_base;
-    void **object_slot;
     s16 *x_offsets;
     TileObject *color_table;
     u8 *effect_state;
     u8 *link_data;
-    register u8 *component_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *component_data;
     u8 color_first;
     u32 color_second;
     u32 offset_addr;
@@ -94,127 +89,71 @@ void *func_800255B8(s32 x, s32 y, s16 z, u32 heading) {
         return 0;
     }
 
-    origin_x = x;
-    origin_y = y;
-    origin_z = z;
-
     piece_index = 0;
-#ifdef NON_MATCHING
     x_offsets = dirStepX;
     color_table = &D_80082E80;
-#else
-    {
+    do {
+        {
+            void *template;
 
-        x_offsets = dirStepX;
-        color_table = &D_80082E80;
-    }
-#endif
-    object_base = objects;
-    object_slot = object_base;
+            if (piece_index != 0) {
+                template = objects[0];
+            } else {
+                template = ((u8 *)(&D_80083498));
+            }
+            objects[piece_index] = func_8003FD64(2, template);
+        }
+        ((S_800255B8_0 *)objects[piece_index])->unk_10 = D_8002501C;
+        func_8004491C(objects[piece_index], D_800C9034);
 
-loop:
-    {
-        void *template;
+        offset_addr = (heading >> 8) & 0xE;
+        component_data = ((S_800255B8_0 *)objects[piece_index])->unk_08;
+        x_offset = dir_step(x_offsets, offset_addr) << 5;
+        ((S_800255B8_1 *)component_data)->unk_02 = x + x_offset;
+        y_offset = dir_step(dirStepY, offset_addr) << 5;
+        ((S_800255B8_1 *)component_data)->unk_0A = z;
+        ((S_800255B8_1 *)component_data)->unk_06 = y + y_offset;
 
+        effect_state = ((S_800255B8_0 *)objects[piece_index])->unk_0C;
+        ((S_800255B8_2 *)effect_state)->unk_20 = 0x1000;
+        ((S_800255B8_2 *)effect_state)->unk_1E = 0x1000;
+        ((S_800255B8_2 *)effect_state)->unk_1C = 0x1000;
+        ((S_800255B8_2 *)effect_state)->unk_08 = D_800274C0 + (piece_index << 4);
+        sprite_flags = ((S_800255B8_2 *)effect_state)->unk_14;
+        ((S_800255B8_2 *)effect_state)->unk_10 = 0x20;
+        ((S_800255B8_2 *)effect_state)->unk_16 = 0x400;
+        ((S_800255B8_2 *)effect_state)->unk_1A = heading - 0x400;
+        ((S_800255B8_2 *)effect_state)->unk_14 = sprite_flags | 0xC;
+
+        effect_state = (u8 *)objects[piece_index] + 0x20;
         if (piece_index != 0) {
-            template = objects[0];
-        } else {
-            template = ((u8 *)(&D_80083498));
+            u32 link_value;
+
+            link_data = D_80027580 + piece_index;
+            link_value = *link_data;
+            if (link_value != 0) {
+                link_data = (u8 *)0x7FFFFFFF;
+                link_value = (u32)objects[link_value - 1] & (u32)link_data;
+            } else {
+                link_value = (u32)objects[piece_index - 1];
+            }
+            ((S_800255B8_3 *)effect_state)->unk_20 = (void *)link_value;
         }
-        *object_slot = func_8003FD64(2, template);
-    }
 
-    {
-        u8 *resource_page;
+        ((S_800255B8_3 *)effect_state)->unk_30 = 4;
+        ((S_800255B8_3 *)effect_state)->unk_36 = 15;
+        ((S_800255B8_3 *)effect_state)->unk_32 = 1;
+        ((S_800255B8_3 *)effect_state)->unk_34 = heading;
+        ((S_800255B8_3 *)effect_state)->unk_48 = piece_index;
+        ((S_800255B8_3 *)effect_state)->unk_46 = 8;
+        color_first = color_table->tileX;
+        ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
+        ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
+        color_second = color_table->tileY;
+        ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
+        ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
+        piece_index++;
+    } while (piece_index < 12);
 
-        component_data = D_8002501C;
-#ifdef NON_MATCHING
-        resource_page = D_800C9034 + 0x6FCC;
-#else
-        resource_page = (u8 *)0x800D0000;
-#endif
-        ((S_800255B8_0 *)(*object_slot))->unk_10 = component_data;
-        func_8004491C(*object_slot, D_800C9034);
-    }
-
-    offset_addr = (heading >> 8) & 0xE;
-    component_data = ((S_800255B8_0 *)(*object_slot))->unk_08;
-    x_offset = x_offsets[offset_addr / 2] << 5;
-    ((S_800255B8_1 *)component_data)->unk_02 = origin_x + x_offset;
-    {
-        s16 *y_offsets;
-#ifdef NON_MATCHING
-        y_offsets = dirStepY;
-#else
-#endif
-
-        y_offsets = dirStepY;
-        y_offset = read_y_offset(y_offsets, offset_addr) << 5;
-    }
-    ((S_800255B8_1 *)component_data)->unk_0A = origin_z;
-    ((S_800255B8_1 *)component_data)->unk_06 = origin_y + y_offset;
-
-    component_data = (u8 *)(piece_index << 4);
-    effect_state = ((S_800255B8_0 *)(*object_slot))->unk_0C;
-    ((S_800255B8_2 *)effect_state)->unk_20 = 0x1000;
-    ((S_800255B8_2 *)effect_state)->unk_1E = 0x1000;
-    ((S_800255B8_2 *)effect_state)->unk_1C = 0x1000;
-    {
-        u8 *sprite_table;
-
-#ifdef NON_MATCHING
-        sprite_table = D_800274C0;
-#else
-        sprite_table = (u8 *)&D_800274C0;
-#endif
-        ((S_800255B8_2 *)effect_state)->unk_08 = (u8 *)((u32)component_data + (u32)sprite_table);
-    }
-    sprite_flags = ((S_800255B8_2 *)effect_state)->unk_14;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ((S_800255B8_2 *)effect_state)->unk_10 = 0x20;
-    ((S_800255B8_2 *)effect_state)->unk_16 = 0x400;
-    ((S_800255B8_2 *)effect_state)->unk_1A = heading - 0x400;
-    ((S_800255B8_2 *)effect_state)->unk_14 = sprite_flags | 0xC;
-
-    {
-        void *object;
-
-        object = *object_slot;
-        effect_state = (u8 *)object + 0x20;
-    }
-    if (piece_index != 0) {
-        u32 link_value;
-
-        link_value = (u32)D_80027580;
-        link_data = (u8 *)(piece_index + link_value);
-        link_value = *link_data;
-        if (link_value != 0) {
-            link_data = (u8 *)0x7FFFFFFF;
-            link_value = (u32)object_base[link_value - 1] & (u32)link_data;
-        } else {
-            link_value = (u32)object_slot[-1];
-        }
-        ((S_800255B8_3 *)effect_state)->unk_20 = (void *)link_value;
-    }
-
-    ((S_800255B8_3 *)effect_state)->unk_30 = 4;
-    ((S_800255B8_3 *)effect_state)->unk_36 = 15;
-    ((S_800255B8_3 *)effect_state)->unk_32 = 1;
-    ((S_800255B8_3 *)effect_state)->unk_34 = heading;
-    ((S_800255B8_3 *)effect_state)->unk_48 = piece_index;
-    ((S_800255B8_3 *)effect_state)->unk_46 = 8;
-    color_first = color_table->tileX;
-    ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
-    ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
-    color_second = color_table->tileY;
-    ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
-    ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
-    object_slot++;
-    piece_index++;
-    if (piece_index < 12) {
-        goto loop;
-    }
-
-    object_base = objects;
-    return object_base[0];
+    return objects[0];
 }
