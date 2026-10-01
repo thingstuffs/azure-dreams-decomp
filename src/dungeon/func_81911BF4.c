@@ -37,12 +37,12 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     s32 phase_offset;
     volatile Obj81911BF4 *point;
     s32 point_index;
-    register u8 brightness ASM_REG("$3");
+    s32 brightness;
+    s32 fade;
     u16 angle_step;
-    u16 scale;
     s16 angle_sum;
     s32 signed_angle;
-    register s32 angle_dividend ASM_REG("$9");
+    s32 angle_dividend;
     s32 state;
 
     effect->inner->field14++;
@@ -119,15 +119,16 @@ loop_0:
         angle_sum += angle_step;
         signed_angle = (s16)angle_sum;
         angle_dividend = signed_angle;
-        ASM_USE(angle_dividend);
-        scale = (u16)effect->scale;
         brightness += 0x0C;
         effect->field42 = brightness;
         effect->field41 = brightness;
         effect->angle_step = angle_step;
         effect->angle = angle_sum;
-        effect->scale = scale - 4;
-        effect->angle = signed_angle % 0x1000;
+        effect->scale = (u16)effect->scale - 4;
+        if (angle_dividend < 0) {
+            angle_dividend += 0xFFF;
+        }
+        effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
         func_800246C0(effect, position, 0, 0);
         func_80024ACC(effect, position, 0, 0);
         if (effect->timer < effect->duration) {
@@ -142,21 +143,22 @@ loop_0:
     case 5:
         angle_step = effect->angle_step;
         angle_sum = (u16)effect->angle;
-        brightness = effect->field42;
+        fade = effect->field42;
         angle_step += 0x10;
         angle_sum += angle_step;
         signed_angle = (s16)angle_sum;
         angle_dividend = signed_angle;
-        ASM_USE(angle_dividend);
-        scale = (u16)effect->scale;
-        brightness -= 6;
-        effect->field42 = brightness;
-        effect->field41 = brightness;
-        effect->field40 = brightness;
+        fade -= 6;
+        effect->field42 = fade;
+        effect->field41 = fade;
+        effect->field40 = fade;
         effect->angle_step = angle_step;
         effect->angle = angle_sum;
-        effect->scale = scale + 0x0C;
-        effect->angle = signed_angle % 0x1000;
+        effect->scale = (u16)effect->scale + 0x0C;
+        if (angle_dividend < 0) {
+            angle_dividend += 0xFFF;
+        }
+        effect->angle = signed_angle - ((angle_dividend >> 12) << 12);
         func_800246C0(effect, position, 0, 0);
         effect->scale = (u16)effect->scale * 2;
 
