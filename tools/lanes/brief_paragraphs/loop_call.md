@@ -15,3 +15,9 @@ APPEARS: a goto or walker loop with a call + KEEP/REG pins on a page local, a pa
 RESOLVES: index form (`base[i]`, `i*K+C`), integer pages named as the symbols they split, the invariant pointer assigned
 in the body, then erase the pins. Count movables/insns from `.loop` when the HIGH lands on the wrong side. Pin-free goto
 loops whose structuring makes loop.c hoist a HIGH retail recomputes are retail-shaped: leave them as they are.
+More from r85_opus_lp1 (81331C88 5->0, 808216B0 5->0): retail's "goto" interpolation loops were REAL index loops whose
+walkers are loop.c's reduced givs - write the table symbol directly in the innermost body so its address pair is hoisted
+first and spends the no-call budget (a /7 magic constant then stays in the loop: `not desirable`); a retail register
+repeated across two loops = ONE C variable (merge m2c-split variables); drop m2c parameter copies; an address local
+assigned before a call is not folded into its later use (combine stops at calls). Add-operand order in the listing
+follows how the statement is written (`x = a + x` prints `addu x,x,a`).
