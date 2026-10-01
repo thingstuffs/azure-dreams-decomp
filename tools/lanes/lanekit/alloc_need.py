@@ -30,6 +30,12 @@ live <= 77 at 10 refs", r80_opus_r10 "saved_a live <= 19 or position live >= 80"
                against the dump's `;; Register N in R.`) and prints who held retail's register and the
                PRIORITY / GEOMETRY change that gives it.
      ORDER     everything else: an allocno_compare order question - the search below.
+     PREF      (2.7.2-cdk / 2.8.x) an ORDER pseudo whose register a hard-register PREFERENCE decided: a copy/plain
+               preference overrode the scan, or pass 0 skipped retail's register because a lower-priority
+               conflicting allocno prefers it (regs_someone_prefers).  The `# preference replay` block (prefs.py,
+               tools/alloc_prefs.py: global.c replayed exactly) names the insn / merge chain behind it and the single
+               preference changes that give retail's registers; on such rows the search below runs on that exact
+               model.  Rows without a preference effect print exactly what they printed before.
 4. THE INVERSE.  `alloc_sim.allocate` (global.c find_reg model) is first run on the dump's own order and its
    agreement with the real dispositions printed (only allocnos it reproduces are targets).  Then every
    SINGLE-MOVER reorder (one allocno to every other slot) is simulated; a mover whose slot range colours
@@ -246,9 +252,58 @@ def ref_registers(row, reftext, sim, fp):
 
 # ------------------------------------------------------------------------------------------ analysis
 
-def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None):
+def preference_effects(d, fp, names, dp, cflags, table, order, stats, conf, pref, sim):
+    """The exact global.c replay (alloc_prefs.Problem/Replay, prefs.Explainer) and whether this row HAS a preference
+    effect.  It fires on (a) a mis-coloured allocno whose register a copy/plain preference chose over the scan,
+    (b) a mis-coloured allocno whose retail register the pass-0 scan skipped because a lower-priority conflicting
+    allocno prefers it (regs_someone_prefers), or (c) any allocno where the exact replay and `alloc_sim.allocate`
+    disagree on a GR_REGS allocno the replay puts in a GPR (LO/HI-class allocnos and reload-retried ones, which
+    alloc_sim never modelled, do not count).  None for cells other than FIRST_PSEUDO_REGISTER 76 (2.7.2-cdk, 2.8.x)
+    or when the dumps lack .flow."""
+    if fp != 76 or not d.get("flow"):
+        return None
+    import alloc_prefs as AP                                              # noqa: E402
+    import prefs as PX                                                    # noqa: E402
+    pb = AP.Problem(d["lreg"], d["greg"], d["flow"], (dp or {}).get("fname"),
+                    caller_saves="-fno-caller-saves" not in cflags)
+    if sorted(pb.order) != sorted(order):
+        return None                                                       # another function's section: do not guess
+    ex = PX.Explainer(pb, names)
+    rp = ex.base
+    old = sim.allocate(order, stats, conf, pref, fp)
+    # (c) GPR allocnos only, and against alloc_sim run WITHOUT the allocnos global.c keeps out of the GPRs (LO/HI
+    # class): alloc_sim cannot place those (it hands them a GPR and displaces the next allocno) and does not model
+    # reload's retry_global_alloc - neither is a preference effect, and neither may change the output
+    gpr = [p for p in order if 0 <= rp.result.get(p, -1) < 32]
+    old_gpr = sim.allocate(gpr, stats, conf, pref, fp)
+    differs = [p for p in gpr if old_gpr.get(p) != rp.result.get(p)
+               and pb.stats.get(p, {}).get("class", "GR_REGS") == "GR_REGS"]
+    effects = {}
+    for p, it in table.items():
+        if not it["global"] or it["retail"] is None or it["got"] is None or it["got"] == it["retail"]:
+            continue
+        tr = rp.trace.get(p) or {}
+        if rp.result.get(p) != it["got"] or "skipped" in tr:
+            continue                                                      # not reproduced (reload retry): no claim
+        why = []
+        if tr.get("how") in ("copy-preference", "preference") and tr.get("scan") != rp.result.get(p):
+            why.append("override")
+        if tr.get("pass") == 0 and it["retail"] in tr.get("someone", ()):
+            why.append("someone")
+        if why:
+            effects[p] = why
+    # (c) counts only where there is something to search: a mis-coloured global allocno
+    mis_global = any(it["global"] and it["verdict"] == "ORDER" for it in table.values())
+    return {"ex": ex, "pb": pb, "fired": bool(effects or (differs and mis_global)), "effects": effects,
+            "differs": differs,
+            "old_agree": sum(1 for p in order if old.get(p) == table.get(p, {}).get("got")),
+            "replay": lambda o: AP.Replay(pb, order=o, light=True).result}
+
+
+def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None, prefs=True):
     """The whole analysis as a dict (see main() for the printout).  `explain_local=False` skips the
-    lreg_explain replay (lreg_explain itself calls analyse() for the retail registers)."""
+    lreg_explain replay (lreg_explain itself calls analyse() for the retail registers).  `prefs=False` skips the
+    exact preference replay (prefs.py), which otherwise speaks only on rows with a preference effect."""
     kitlib.add_paths()
     if not (_HERE / "kitlib.py").is_file() and (_HERE.parents[1] / "alloc_sim.py").is_file():
         sys.path.insert(0, str(_HERE.parents[1]))                        # a lane patch copy: its own tools/alloc_sim.py
@@ -258,7 +313,7 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
     fp = sim.FIRST.get(cell)
     if fp is None:
         return {"error": "no FIRST_PSEUDO_REGISTER for cell %s (2.91.66/2.95.2 are not modelled)" % cell}
-    d = kitlib.dumps(row, text, want={"greg", "lreg"}, asm_names=True)
+    d = kitlib.dumps(row, text, want={"greg", "lreg", "flow"}, asm_names=True)
     if d is None or d.get("error"):
         return {"error": "does not build: %s" % ((d or {}).get("error") or "")[-300:]}
     order, disp = sim.parse_greg(d["greg"])
@@ -337,15 +392,33 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
         else:
             it["verdict"] = "ORDER"
 
+    # PREFERENCES (global.c set_preference / expand_preferences / prune_preferences / find_reg, exact replay):
+    # on a row with a preference effect the exact model replaces alloc_sim.allocate in the search below
+    pinfo, pref_err = None, None
+    if prefs:
+        try:
+            pinfo = preference_effects(d, fp, names, dp, cflags, table, order, stats, conf, pref, sim)
+        except Exception as e:                                           # the replay must never cost the verdicts
+            pref_err = "%s: %s" % (type(e).__name__, e)
+    fired = bool(pinfo and pinfo["fired"])
+    if fired:
+        for p in pinfo["effects"]:
+            if table[p]["verdict"] == "ORDER":
+                table[p]["verdict"] = "PREF"
+        allocate = pinfo["replay"]
+    else:
+        def allocate(o):
+            return sim.allocate(o, stats, conf, pref, fp)
+
     # simulation fidelity + single-mover search
-    simd = sim.allocate(order, stats, conf, pref, fp)
+    simd = allocate(order)
     agree = [p for p in order if simd.get(p) == disp.get(p)]
-    targets = [p for p in order if p in agree and table[p]["verdict"] in ("ok", "ORDER")]
+    targets = [p for p in order if p in agree and table[p]["verdict"] in ("ok", "ORDER", "PREF")]
     goal = {p: table[p]["retail"] for p in targets}
-    order_mis = [p for p in targets if table[p]["verdict"] == "ORDER"]
+    order_mis = [p for p in targets if table[p]["verdict"] in ("ORDER", "PREF")]
 
     def score(o):
-        s = sim.allocate(o, stats, conf, pref, fp)
+        s = allocate(o)
         return sum(1 for p, r in goal.items() if s.get(p) == r)
 
     base = score(order)
@@ -413,6 +486,17 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
                                                                          names)]
         except Exception as e:                                           # the explainer must never cost the verdicts
             local_err = "%s: %s" % (type(e).__name__, e)
+    pref_out = None
+    if fired:
+        ex = pinfo["ex"]
+        mis = {p: table[p]["retail"] for p in order_mis}
+        explain = sorted(set(pinfo["effects"]) | set(mis), key=order.index)
+        pref_out = {"effects": pinfo["effects"], "differs": pinfo["differs"], "old_agree": pinfo["old_agree"],
+                    "lines": {p: ex.decision(p) + ["  retail %s: %s" % (rname(table[p]["retail"]),
+                                                                       ex.blocked(p, table[p]["retail"]))]
+                              for p in explain},
+                    "changes": [ex.cf_text(c) for c in ex.counterfactuals(mis, keep=goal)] if mis else [],
+                    "n_targets": len(mis)}
     counts = collections.Counter(it["verdict"] for it in table.values())
     unmapped_global = sum(1 for p in order if table[p]["verdict"] == "?")
     one_vote = sum(1 for it in table.values() if it["verdict"] not in ("ok", "?") and it["src"].endswith(" 1/1"))
@@ -422,7 +506,8 @@ def analyse(row, text, reftext=None, beam=6, explain_local=True, retail_set=None
             "sim_agree": (len(agree), len(order)), "goal": len(goal), "base_score": base,
             "best": best, "solutions": sols, "two_movers": two, "counts": dict(counts),
             "unmapped_global": unmapped_global, "one_vote": one_vote,
-            "cheapest": cheapest, "local": local_expl, "local_fidelity": local_fid, "local_error": local_err}
+            "cheapest": cheapest, "local": local_expl, "local_fidelity": local_fid, "local_error": local_err,
+            "prefs": pref_out, "prefs_error": pref_err}
 
 
 def mover_solution(x, wo, j0, good, table):
@@ -560,12 +645,28 @@ def render(res, show_all=False):
     if res.get("local_fidelity"):
         la, ln = res["local_fidelity"]
         out.append("# local-alloc replay (lreg_explain): reproduces %d of %d local pseudos" % (la, ln))
+    pr = res.get("prefs")
+    if pr:
+        out.append("# preference replay (global.c set_preference/expand/prune/find_reg, exact; prefs.py): "
+                   "alloc_sim.allocate reproduced %d of %d allocnos%s; preference-decided mis-colourings: %s"
+                   % (pr["old_agree"], len(res["order"]), " (differs on %s)" % " ".join(map(str, pr["differs"][:8]))
+                      if pr["differs"] else "", ", ".join("%s [%s]" % (label(t, p), "+".join(w))
+                                                         for p, w in pr["effects"].items()) or "none"))
+        for p, lines in pr["lines"].items():
+            out.extend(("PREF " if t[p]["verdict"] == "PREF" and i == 0 else "  " if i == 0 else "") + ln
+                       for i, ln in enumerate(lines))
+        if pr["n_targets"]:
+            out.append("# single preference changes that give retail's registers (event = one set_preference "
+                       "insn or one expand merge; collateral = other allocnos that move):")
+            out.extend("  " + c for c in pr["changes"]) if pr["changes"] else out.append(
+                "  none: no single preference event removal (or added copy preference) does it - see the reorders")
     a, n = res["sim_agree"]
-    out.append("# find_reg model: reproduces %d of %d allocnos of the dump; %d targets (modelled + retail known), "
-               "%d already right in this order" % (a, n, res["goal"], res["base_score"]))
+    out.append("# find_reg model%s: reproduces %d of %d allocnos of the dump; %d targets (modelled + retail known), "
+               "%d already right in this order" % (" (exact preference replay)" if pr else "", a, n, res["goal"],
+                                                   res["base_score"]))
     sols = sorted(res["solutions"], key=lambda s: s["cost"][0])
     if not sols and not res["two_movers"]:
-        if any(it["verdict"] == "ORDER" for it in t.values()):
+        if any(it["verdict"] in ("ORDER", "PREF") for it in t.values()):
             b = res["best"]
             out.append("NO single- or two-mover reorder reproduces retail (best %d/%d%s): the mis-colouring is not "
                        "one priority flip" % (b[0], res["goal"], " by moving %s to slot %d" % (label(t, b[1][0]), b[1][1])
@@ -631,6 +732,8 @@ def summary(res):
     lx = ""
     if res.get("local") is not None and c.get("LOCAL", 0):
         lx = " | LOCAL explained %d%s" % (len(res["local"]), " (local model %d/%d)" % tuple(lf) if lf else "")
+    if res.get("prefs"):
+        lx += " | PREF %d, preference changes %d" % (c.get("PREF", 0), len(res["prefs"]["changes"]))
     return ("ORDER %d BLOCKED %d CLASS %d LOCAL %d SPILLED %d | unmapped global %d, one-vote verdicts %d | "
             "single-mover solutions %d, two-mover %d | cheapest %s%s"
             % (c.get("ORDER", 0), c.get("BLOCKED", 0), c.get("CLASS", 0), c.get("LOCAL", 0), c.get("SPILLED", 0),
@@ -657,6 +760,7 @@ def main(argv=None):
     ap.add_argument("--cfg", help="compile and score at this cfg (no ledger write)")
     ap.add_argument("--json", help="also write the analysis here (inside the lane)")
     ap.add_argument("--all", action="store_true", help="print every pseudo, not only the mis-coloured")
+    ap.add_argument("--no-prefs", action="store_true", help="skip the exact preference replay (prefs.py)")
     ap.add_argument("--retail-set", action="append", default=[], metavar="P=REG",
                     help="retail register of a pseudo or variable by hand (172=$v0, speed=v1; repeatable): for rows "
                          "whose candidate the scorer cannot score, from a lane's listing diff")
@@ -682,7 +786,7 @@ def main(argv=None):
         if reg is None:
             raise SystemExit("alloc_need: --retail-set %r: need PSEUDO|VARIABLE=REG" % item)
         hand[int(k) if k.strip().isdigit() else k.strip()] = reg
-    res = analyse(row, text, reftext, retail_set=hand)
+    res = analyse(row, text, reftext, retail_set=hand, prefs=not a.no_prefs)
     if res.get("error"):
         raise SystemExit("alloc_need: " + res["error"])
     print(render(res, a.all))

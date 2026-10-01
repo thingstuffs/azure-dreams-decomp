@@ -28,6 +28,8 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
 | `alloc_need.py` | the allocation INVERSE: retail's register per pseudo (from the aligned listing), a verdict per mis-coloured pseudo (ORDER / BLOCKED / CLASS / LOCAL / SPILLED) and, for ORDER, the `allocno_compare` inequality that flips it (`refs >= N at live L`, `live <= L`, ...) with the source lever per term |
 | `lreg_explain.py` | local-alloc replayed from the `.lreg` dump: per block the qty list (birth/death indices, ties, copy/arith suggestions), the suggestion and priority orders block_alloc used (the 2/3-qty literal-number replay included), why each qty got its register, and for a mis-coloured LOCAL pseudo who held retail's register plus the PRIORITY (refs/length) or GEOMETRY (birth/death index) change that gives it; reproduces every local pseudo of every row against `;; Register N in R.` |
+| `prefs.py` | global.c's hard-register PREFERENCES replayed exactly (set_preference, expand_preferences, prune_preferences / regs_someone_prefers, find_reg's copy-then-plain preference override): per allocno WHY it got its register (scan pass 0/1, or the preference and its provenance chain: which insn, which local qty / parameter / call argument / ASM_REG variable, which merge where a partner dies), why not retail's, and every single preference event whose removal gives retail's register (with collateral). `alloc_need.py` calls it on rows with a preference effect. Library: `tools/alloc_prefs.py` |
+| `prefs_gdb.py` | the oracle `prefs.py` is validated against: the cell's cc1 under gdb, the preference sets after set_preference / expand / prune, regs_someone_prefers, regs_used_so_far and every find_reg result |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py`, `dbr_gdb.py` | plumbing; you never call these |
 
@@ -199,6 +201,35 @@ verdicts list the local qtys / hard registers that hold retail's register INSIDE
 in local-alloc's index convention applied to the global's set..death spans, with the setting insn - "which call's
 argument set").  `--retail-set P=REG` (pseudo or variable name,
 repeatable) supplies retail registers by hand for rows whose candidates the scorer cannot map.
+
+**PREFERENCES (round 85, `prefs.py` + `tools/alloc_prefs.py`).**  `alloc_sim.allocate` used the greg dump's
+`;; N preferences:` line, which is hard_reg_preferences AFTER pruning; find_reg also reads hard_reg_copy_preferences,
+hard_reg_full_preferences and regs_someone_prefers, which no dump prints.  `alloc_need.py` now re-derives all of them
+from the same compile's `.lreg` RTL / `.greg` conflicts / `.flow` RTL (one `-dap` compile, `.flow` added) and, ONLY
+when the row has a preference effect, says so: (a) a mis-coloured allocno whose register a copy or plain preference
+chose over the scan, (b) one whose retail register pass 0 skipped through regs_someone_prefers, or (c) a GR_REGS
+allocno the replay puts in a GPR where `alloc_sim.allocate` (run without the allocnos global.c keeps in hi/lo) says
+otherwise, while an ORDER mis-colouring exists.  LO/HI-class and reload-retried allocnos alone never fire it, so on
+such rows alloc_sim's GPR-for-LO placement can still distort the search (a separate, older gap).  Then: ORDER becomes
+**PREF** for (a)/(b), a `# preference replay` block prints the decision and provenance per mis-coloured allocno
+(`DECIDED BY PREFERENCE $s0 (the scan alone gave $v1) <- merged from 90 at insn 275 r101 = r90 (90 dies here) <- insn
+135 r140@$s0 = zero_extend(subreg(r90))`), why retail's register was not taken (taken by which higher-priority
+allocno, skipped as someone's preference, a callee-saved retail register on a value that crosses no call, or the
+free registers below it that something would have to take), and the single preference changes that give retail's
+registers (drop one set_preference insn, one expand merge, every merge of one allocno pair, every tie of one allocno
+to one hard register; an ADDED preference is listed last and is a lever only where retail already moves that value
+through the register).  The mover search then runs on the exact model.  On rows without a preference effect the
+output is byte-identical to before (`--no-prefs` forces that).  Fidelity (r85_opus_preftool, gdb oracle
+`prefs_gdb.py`): every stage exact - set_preference / expand / prune sets, regs_someone_prefers, regs_used_so_far,
+every find_reg result - on 89 texts / 1,563 allocnos (the five round-85 preference rows pinned + erased + their
+lane candidates, 12 pin-free rows, 25 sampled pinned rows pinned + erased, 12 rows at 2.8.0/2.8.1), which exercised
+79 preference overrides, 27 pass-0 someone_prefers skips, 18 alternate-class (LO_REG -> GR_REGS) retries and 2
+caller-saves allocations (summed over the three battery runs).  Against the greg dispositions (reload-retried allocnos excluded) `alloc_sim.allocate`
+was wrong in 24 of them: on GPR mechanics in 15, on LO-class allocnos in 13.  Not exercised: DI-mode allocnos,
+local-alloc eviction, shared allocnos.  (`lreg_explain` calls `analyse()` too, so a firing row runs the replay twice.)
+Reload's retry_global_alloc is not modelled (an allocno global left in hi/lo or spilled can move; marked).
+`python3 <KIT>/prefs.py <row> <text> [PSEUDO|NAME ...] [--retail P=REG ...] [--all] [--oracle]` is the standalone
+form (`--oracle` adds the gdb comparison).
 
 **`lreg_explain.py <row> cand.c [--retail listing|none] [--retail-set P=REG] [--block B] [--pseudo P] [--all]
 [--no-search] [--json OUT]`** replays gcc 2.7.2 local-alloc.c `block_alloc` (2.8.1's differs only in spelling)

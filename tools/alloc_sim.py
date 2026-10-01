@@ -17,6 +17,14 @@ is (allocno_n_refs, allocno_live_length, allocno_calls_crossed); the greg dump's
 are the state `find_reg` starts from.  `norm_asm` normalises the dumped compile's own assembly the
 way `xform.screen.compile_s` does, so one dump compile yields the listing too (the study's trust
 check: the two must be equal).
+
+PREFERENCES.  `allocate()` reads only the dumped `;; P preferences:` line (hard_reg_preferences AFTER
+prune_preferences) and picks its lowest member; global.c also decides with hard_reg_copy_preferences (a copy
+preference beats a plain one), hard_reg_full_preferences and regs_someone_prefers (pass 0 skips a register a
+lower-priority conflicting allocno prefers), none of which is dumped.  `allocate_exact()` is the exact replay
+(tools/alloc_prefs.py, round 85: every stage checked against cc1 under gdb); it needs the `.flow` dump too, which
+`compile_dumps` now also returns.  `allocate()` is kept as it was (the lane tools' searches and their outputs on
+rows without a preference effect depend on it).
 """
 import math, re, subprocess, sys, tempfile
 from pathlib import Path
@@ -63,15 +71,15 @@ def compile_dumps(row, text, timeout=120):
         if r.returncode:
             return None
         r = subprocess.run([str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w",
-                            "-dl", "-dg", "-o", "f.s"], cwd=d, capture_output=True, text=True, timeout=timeout)
+                            "-df", "-dl", "-dg", "-o", "f.s"], cwd=d, capture_output=True, text=True, timeout=timeout)
         if r.returncode:
             return None
         got = {}
         for p in sorted(d.glob("*")):
-            if p.suffix in (".lreg", ".greg"):
+            if p.suffix in (".lreg", ".greg", ".flow"):
                 got[p.suffix[1:]] = p.read_text(errors="replace")
         asm = (d / "f.s").read_text(errors="replace")
-    return {"lreg": got.get("lreg", ""), "greg": got.get("greg", ""), "asm": asm}
+    return {"lreg": got.get("lreg", ""), "greg": got.get("greg", ""), "flow": got.get("flow", ""), "asm": asm}
 
 
 def parse_lreg(txt):
@@ -201,6 +209,16 @@ def allocate(order, stats, conf, pref, first_pseudo):
         else:
             out[p] = -1
     return out
+
+
+def allocate_exact(lreg, greg, flow, fname=None, order=None):
+    """global.c's allocation WITH its preference machinery (tools/alloc_prefs.py): {pseudo: hard reg | -1} as find_reg
+    leaves it (before reload's retry_global_alloc), for the dumps of one compile (`compile_dumps` / kitlib.dumps with
+    greg, lreg and flow).  `order` replays another allocno order (regs_someone_prefers is re-derived for it).
+    FIRST_PSEUDO_REGISTER 76 cells only (2.7.2-cdk, 2.8.0, 2.8.1)."""
+    import alloc_prefs
+    pb = alloc_prefs.Problem(lreg, greg, flow, fname)
+    return alloc_prefs.Replay(pb, order=order, light=True).result
 
 
 def read(row, text):
