@@ -127,7 +127,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
     s32 target_angle;
     s32 requested_angle;
     s32 normalized;
-    register s32 angle_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 angle_bits;
     s32 signed_target;
     s32 angle_or_flags;
     u32 angle_raw;
@@ -258,8 +258,8 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                         normalized = target_angle | 0xF800;
                     }
                     target_angle = normalized;
-                    angle_bits = target_angle << 16;
-                    signed_target = angle_bits >> 16;
+                    angle_raw = target_angle << 16;
+                    signed_target = (s32)angle_raw >> 16;
                     do {
                         angle_or_flags = ((S_8008ACDC_4 *)stats)->unk_2A.u;
                     } while (0);
@@ -351,7 +351,9 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                     goto apply_target_action;
                 case 0x88:
                     call_actor = actor;
-                    angle_bits = (s32)((u32) (((S_8008ACDC_6 *)command)->unk_00 & 0x60) >> 5);
+                    angle_bits = ((S_8008ACDC_6 *)command)->unk_00;
+                    angle_bits &= 0x60;
+                    angle_bits = (u32)angle_bits >> 5;
                     call_motion = motion;
                     slot_addr = (u32)angle_bits << 2;
                     slot_addr = slot_addr + (s32) call_actor;
