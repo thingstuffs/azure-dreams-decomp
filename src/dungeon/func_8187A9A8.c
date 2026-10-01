@@ -289,7 +289,7 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
     s32 depth_offset;
     u16 object_flags;
     MATRIX matrix;
-    u16 render_flags;
+    u32 render_flags;
     S_func_8187A9A8_5 *render_state_2;
 
     ot_base = *(u8 **)(D_80083150 + 0x10);
@@ -472,7 +472,6 @@ after_palette:
         register s32 tpage_zero ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register s32 blend_mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         u32 *ot_entry;
-        u32 color_code;
         s32 packet_code;
         S_func_8187A9A8_5 *render_state;
         S_func_8187A9A8_5 **render_state_ref;
@@ -543,14 +542,14 @@ after_palette:
         }
 
         tpage_zero = 0;
-        color_code = object->unk_0C.as_u32_0C;
-        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u8_03.unk_03 = 3;
-        ASM_SET(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        render_flags = object->unk_0C.as_u32_0C;
+        packet_code = 3;
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u8_03.unk_03 = packet_code;
         packet_code = 0x42;
         blend_mode = 1;
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_tpage;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u32_04 = color_code;
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u32_04 = render_flags;
         ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u8_07.unk_07 = packet_code;
 
         ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 =
