@@ -34,7 +34,6 @@ s32 func_800CBCA0(void *entity, s32 input_a, s32 input_b, s32 input_c)
 
     if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) != 0) {
         if (((EntityRec *)entity)->flags14 & 0x4000) {
-            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             roll = 1;
             return roll;
         }
@@ -63,13 +62,11 @@ value_ready:
                 func_80099844(entity, D_800E1AE6);
             }
         }
-        return action_result != 0;
+    } else {
+        if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
+            func_800A6508();
+        }
+        return 1;
     }
-
-    if ((*(u8 *)((u8 *)&((EntityRec *)entity)->unk_10 + 3)) == 0) {
-        func_800A6508();
-    }
-    return 1;
-
-    return roll;
+    return action_result != 0;
 }
