@@ -544,3 +544,19 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
 - **Codex in round 84:** sol 6.1 on never-sol61-served one-pin rows 45/95, two-pin probe 7/12 to zero; astra 4-7-pin rows
   ~2-3 pins per lane. Landing traps: land_coherence restored no-op recipe switches but kept their trades (fixed
   ec2a8021d); a runner restarted without `8>&-` holds c8_land.lock forever (every chain blocks).
+
+## Round 85 (10-01): gap census, loop-with-call threshold, live volatiles
+- **Gap census (r85_fable_gaps, 1,202 pins):** allocation 34%, cse/combine folding 25%, loop.c 15%, scheduling 14%, reorg 11%.
+  m2c goto loops are 9x enriched in pinned rows (99 rows / 481 pins); structuring with the body unchanged changes bytes on
+  51/55 loops (31 hoist, 26 of them contain a call). Live volatiles: 170/183 change the listing when removed alone - they
+  stand for known rules (single-use load = birthing boost, re-read after the next pointer store, u16 local re-reads -
+  r85_opus_vol, 5 volatiles, 0 pins). cdk-only -fregmove/-fshorten-lifetimes are inert.
+- **Loop with a call (r85_opus_loopA, 809542B8 3->0, 80084084 4->0):** loop.c's desirability threshold
+  `(29 - 3*moves) * savings * life >= insns` decides whether a symbol HIGH stays in the loop; indexed loops (not m2c
+  walkers) spend the budget like retail; an invariant pointer kept in an s-register was assigned inside the body. Brief
+  paragraph tools/lanes/brief_paragraphs/loop_call.md.
+- **REG_EQUIV live doubling** on single-set parameters decides s-register orders; a natural second set or a narrow
+  parameter type removes it (r85_opus_fit2 80E07054). cdk has reload_cse_regs: a callee-saved zero accumulator's width
+  decides which zero sets survive (800ABBF8, open).
+- **Dropped pass-through parameter:** a hook that tail-calls a dispatcher with fewer args than its siblings, with REG pins
+  on parameter copies, lost a parameter (r85_opus_fit1 800C738C 3->0).
