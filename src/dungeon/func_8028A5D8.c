@@ -58,24 +58,22 @@ void func_8001D5D8(DungeonRect *rect) {
     s32 patch_count;
     s16 swap_styles;
     s16 patch_style;
-    s32 fill_value;
+    s16 fill_value;
     s32 style_value_hi;
     DungeonCell *cell;
-    register s32 patch_row ASM_REG("$23");
+    s32 patch_row;
     s32 right_hi;
-    u32 col_hi = 0x80080000;
+    u32 col_hi;
     DungeonState *state = &D_8008333C;
 
-    ASM_KEEP(col_hi);
-    ASM_KEEP_NV(value);
-    top = rect->y;
-    scan_y = top;
-    fill_value = value - 0x80;
     left = rect->x;
+    top = rect->y;
     width = rect->width;
     height = rect->height;
     right = left + width;
     bottom = top + height;
+    fill_value = value - 0x80;
+    scan_y = top;
 
     if ((s16)top < (s16)bottom) {
         for (; (s16)scan_y < (s16)bottom; scan_y++) {
@@ -145,33 +143,28 @@ void func_8001D5D8(DungeonRect *rect) {
                         if (cols_left > 0) {
                             s32 row_style;
 
-                            register s32 row_offset ASM_REG("$2");
-
                             patch_row = coord;
                             row_style = patch_style;
-                            row_offset = value - 0x40;
-                            style_value_hi = row_offset << 16;
+                            style_value_hi = (value - 0x40) << 16;
                             do {
                                 s32 alt_value;
                                 DungeonCell *patch_cell;
                                 coord_hi = (s32)cell_x << 16;
                                 coord = coord_hi >> 16;
                                 if (coord < (s16)right) {
-                                    row_offset = patch_row << D_8008333C.stride;
-                                    cell = &D_800EA000[row_offset + coord];
+                                    cell = &D_800EA000[(patch_row << D_8008333C.stride) + coord];
                                     if (swap_styles != 0) {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             func_8001DD08(patch_cell, style_value_hi >> 16);
                                         } else {
                                             alt_value = value - 0xC0;
-                                            goto apply_alt;
+                                            func_8001DD48(patch_cell, (s16)alt_value);
                                         }
                                     } else {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             alt_value = value - 0xC0;
-apply_alt:
                                             func_8001DD48(patch_cell, (s16)alt_value);
                                         } else {
                                             func_8001DD08(patch_cell, style_value_hi >> 16);
