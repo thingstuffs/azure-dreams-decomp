@@ -11,3 +11,5 @@ function (cse must keep V as the head: host the copy on the function's reused te
 store, never keep the asm.
 
 Evidence: work/native_lane/r85_fable_copy/MECHANISM.md (fixtures fx1-fx7; combine.c 3885-3920, reload1.c 7869). Exact on 818DA800 and 800A2564; the copy site went exact on 80D68308/80E8D490 (other residues remain). An ADJACENT read-back (nothing between) is forwarded by cse - it is then a colour pin, not this class.
+
+In-place shift keeps a copy (r85_opus_bg2): for `copy = v; v *= 4;`, gcc expands `*=` through a fresh temporary and combine folds the copy away. `v <<= 2` re-sets v in place, and the copy survives (use_crosses_set_p). Try `<<=` when a KEEP holds a copy taken just before a power-of-two scale (800AFA68).
