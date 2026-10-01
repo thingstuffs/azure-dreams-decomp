@@ -191,12 +191,13 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
             if (aw < 8) {
                 s32 a;
                 s32 lim;
+                s32 x_speed;
                 lim = 0x40000;
-                w1 = ((S_818CF0E8_0 *)entity)->unk_4C;
-                a = w1;
+                x_speed = ((S_818CF0E8_0 *)entity)->unk_4C;
+                a = x_speed;
                 a = abs(a);
                 if (a > lim) {
-                    ((S_818CF0E8_0 *)entity)->unk_4C = w1 / 2;
+                    ((S_818CF0E8_0 *)entity)->unk_4C = x_speed / 2;
                 }
             } else if (((S_818CF0E8_0 *)entity)->unk_4C == 0) {
                 s32 nv = -0x200000;
@@ -401,10 +402,9 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
         if ((((S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
             obj = func_8003FC64(0x212);
             {
-            register u8 *s3 ASM_REG("$19");
-            s3 = (u8 *)obj + 0x20;
+            w1 = (s32)((u8 *)obj + 0x20);
             if (obj != 0) {
-                ((S_818CF0E8_4 *)s3)->unk_02 = 0x14;
+                ((S_818CF0E8_4 *)w1)->unk_02 = 0x14;
                 ((S_818CF0E8_5 *)obj)->unk_10 = D_80024478;
                 func_8004491C(obj, func_80045340);
                 p = ((S_818CF0E8_5 *)obj)->unk_0C;
@@ -440,7 +440,7 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
                 p = ((S_818CF0E8_5 *)obj)->unk_0C;
                 ((S_818CF0E8_6 *)p)->unk_1C = 0x800;
                 ((S_818CF0E8_6 *)p)->unk_1E = 0x800;
-                ((S_818CF0E8_4 *)s3)->unk_54 = func_80069EF8() + (s32)0xFFFE0000;
+                ((S_818CF0E8_4 *)w1)->unk_54 = func_80069EF8() + (s32)0xFFFE0000;
                 ((S_818CF0E8_6 *)p)->unk_0E = 0x80;
                 ((S_818CF0E8_6 *)p)->unk_0D = 0x80;
                 ((S_818CF0E8_6 *)p)->unk_0C = 0x80;
