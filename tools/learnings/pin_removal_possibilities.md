@@ -477,3 +477,40 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
 - CLASS.tsv targets that drop -G0 were wrong on 8067F5C4 and 81988800: check the registered -G0 cell first.
 - REJECTED as fake dependency (r83_opus_n1, 8028B994): a tautological conjunct that only gives a join label a second
   use at cse1. The row landed 4 -> 0 at `2.7.2-cdk-G0 -fno-cse-skip-blocks` (one flag kept: a trade).
+
+## Round 84 (09-30 night): cse jump flags, the last walkers, scratchpad / struct-global mem/s, opaque scratch bases
+
+- **`-fno-cse-follow-jumps` / `-fno-cse-skip-blocks` are crutches, not builds** (r84_opus_cse/MECHANISM.md, CLASS.tsv over
+  61 rows): both act only in cdk cse.c cse_end_of_basic_block (8150-8250): whether cse carries its tables across a
+  conditional jump to a single-use label (follow: the label after a barrier - else arm / next case; skip: an if-then
+  with no else). Everything survives on the path except what the skipped block sets or a call clobbers
+  (invalidate_skipped_block 7890); copy-class heads depend on path length (make_regs_eqv 838). No module shows a build
+  without it (adding the flag breaks a pin-free member in 43/56 module checks). 22 rows were byte-neutral drops; 7
+  pinned rows are PIN_ARTIFACT: an ASM_REG hard register joins a parameter's cse class and the followed path deletes
+  the argument move - with every pin erased the flag is irrelevant, so these are ordinary allocation rows at the module
+  recipe. Shapes that replaced the flag: MEM_REUSE (retail reloads after a struct store: write the second read after
+  the store / read the global as a struct member - 800A7434, 8001B7F8), CONST_PROP (an m2c integer page from a delay
+  slot is a split symbol address: `&D_80082E80` at the call - 81976850). COPY_HEAD / EXPR_REUSE: mechanism named, no
+  natural shape yet.
+- **A hand cursor beside a walker resets the whole giv group** (r84_opus_walk): cdk loop.c keeps DEST_ADDR givs in
+  reverse stream order (4692, 5798); g1 = the LAST access in insn order, others express_from it (5694), reduced to
+  R = biv + add(g1) - retail's "unreduced second walker". A user cursor `q = p + c` is a DEST_REG giv; used once after
+  cse it is combined last and `g1->benefit = g2->benefit` (5837-5840, an FSF 2.8-line addition present in cdk, absent
+  from stock 2.7.2 / 2.6.3) zeroes the group ("not worth while, 0 vs N"). RESOLVES: delete q, write every access off p
+  with c folded in, the offset-c access LAST. 2.6.3 record builders: constants held in named locals + `x++; x--;` junk
+  = in-loop macro size expressions (loop.c movable threshold -= 3 per move leaves the last shift in the loop).
+- **Scalar scratch casts vs struct members (MEM_IN_STRUCT_P)** (r84_opus_scratch): `*(T *)0x1F80xxxx` / `*(T *)(scratch
+  + k)` / scalar D_1F80xxxx are NOT in_struct (expr.c 5333-5349) and their address is fixed (REG_EQUAL canon_rtx, sched.c
+  437-447): sched1 (835-911) and cse (7605-7627) treat them as independent of in_struct varying accesses (`p->f`,
+  `p[i]`). Members through a constant pointer / local `T *s` / struct global are in_struct (expr.c 5748); `((T
+  *)0x1F800000)[k]` with constant k folds to a constant address (NOT in_struct). Pays mostly on VOLATILE scaffolding
+  (7 volatiles on 4 rows) and on the struct-global twin: a repeated `*(u8 **)((u8 *)&gameWork)` cast read kept by cse
+  across in_struct stores = `gameWork.unk_000` - town/func_800A5398 5 -> 0, the pins fell ONLY together.
+  One-field wrapper structs are not equivalent (21 off). 17 of 70 "scratch" rows were stack buffers / tables.
+- **ASM_REG / KEEP on a scratch BASE pointer = an opaque base, not a struct question** (r84_opus_scratch2): retail's
+  base is a register sched1 cannot canonicalise (no REG_EQUAL with one set / REG_EQUIV) and combine cannot see the
+  nonzero bits of (else `scratch + K` call args become `ori`, combine.c 3787-3795). An asm-loaded base reproduces
+  retail (diagnostic only); no zero-cost C spelling found (zero init = dead, second set adds a lui). Classify those rows
+  (800CA184, 819112CC, 800A406C, 8187B1F4, w_80045CC4) as opaque/hard-register base; do not send them to struct lanes.
+- **Sol 6.1 on never-served one-pin rows: 13 of 15 to 0** (r84_sol61_s1-s3) - the one-pin pool not yet seen by sol61 is
+  worth draining.
