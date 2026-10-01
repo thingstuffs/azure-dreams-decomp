@@ -19,3 +19,8 @@ Dead `= 0` inits, stores through the pointer, `p = p;`, call arguments do NOT co
   identical copies back after allocation, so the bytes do not change. Each copy must follow a barrier in its arm (a
   call, a loop exit, a branch) or sched1 interleaves it and cross-jumping only half-merges. Check (refs+k)/(live+d)
   against the competitor first. Owner ruling: the same statement in both arms is fine (copy-paste style).
+- **Spawn clones (r85_opus_spawn, 4 rows to 0):** an s16 (narrow) PARAMETER makes combine merge the entry move into the
+  conversion, which is then a scheduled insn (no REG_EQUIV doubling, no head-advance); stores in field order shorten a
+  value's life by an insn or two (memory dependence fixes store order); duplicating a trailing store into both sub-arms
+  LENGTHENS the competitor's life (cross_jump folds it back). Combine levers until prio.py shows the tie broken the
+  retail way; a two-step `x = p; x += K;` leaves a (use x) that lengthens lives - write it as one statement.
