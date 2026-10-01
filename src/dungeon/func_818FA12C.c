@@ -242,6 +242,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
     state = (*(s16 *)((u8 *)self + 0x0A));
     origin = ((S_818FA12C_0 *)parent_base)->unk_08;
     switch (state) {
+        s32 index;
         u32 frames_squared;
         s32 *flash_pos;
         register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -370,7 +371,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
 
     case 2:
     {
-        s32 index;
         s32 random_bits;
         s32 hit_result;
         s16 pulse_ticks;
@@ -412,7 +412,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             frames_squared = (s32)(render_data);
             angle = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A;
             angle += 0x400;
-                                           /* retained: removing it changes the angle register */
             if (angle >= 0x1001) {
                 angle -= 0x1000;
             }
@@ -507,7 +506,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                     ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
                     (*(Copy12 *)((u8 *)particle_state + 0x1A)) = D_80026674;
                     animation = particle_state + 0x1A;
-                                                               /* retained: removing it changes the saved-register set */
                     ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
                 }
             } else {
@@ -534,7 +532,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         u8 *flash_data;
         u8 *clear_cursor;
         s32 render_flags;
-        register s32 clear_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         ticks = (*(u16 *)((u8 *)self + 0x82)) + 1;
         (*(u16 *)((u8 *)self + 0x82)) = ticks;
@@ -544,12 +541,12 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         impact = func_8003FC64(0x212);
         if (impact != 0) {
             particle_state = impact + 0x20;
-            clear_index = 95;
+            index = 95;
             (*(void * *)((u8 *)particle_state + 0x28)) = parent;
             (*(void * *)((u8 *)particle_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
             (*(void * *)((u8 *)particle_state + 0x30)) = self;
             clear_cursor = particle_state + 95;
-            for (; clear_index >= 0; clear_index--) {
+            for (; index >= 0; index--) {
                 ((S_818FA12C_10 *)clear_cursor)->unk_38 = 0;
                 clear_cursor--;
             }

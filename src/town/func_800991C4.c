@@ -47,14 +47,13 @@ void func_80096924(void *object, Vec3i *offset, void *resources) {
         global_page = (u8 *)0x80100000;
         out_page = (u8 *)0x800D0000;
         ASM_KEEP(out_page);
-        base_page = (u8 *)0x800D0000;
         ASM_KEEP(global_page);
-        ASM_KEEP(base_page);
-        y_offset = (-record->scale * y_trig) << 5;
+        y_offset = -record->scale * y_trig;
+        y_offset <<= 5;
         height = record->height;
 
-        *(s32 *)(out_page + 0xAFC) = *(s32 *)(base_page + 0xAE4) + offset->x + x_offset;
-        base_page += 0xAE4;
+        *(s32 *)(out_page + 0xAFC) = *(s32 *)&D_800D0AE4 + offset->x + x_offset;
+        base_page = (u8 *)&D_800D0AE4;
         base_y = *(s32 *)(base_page + 4);
         input_y = *(s32 *)&offset->y;
         out = (Vec3i *)(out_page + 0xAFC);
