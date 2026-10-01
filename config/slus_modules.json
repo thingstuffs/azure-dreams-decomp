@@ -1311,7 +1311,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
-        "ccflags": "-fno-strength-reduce",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [

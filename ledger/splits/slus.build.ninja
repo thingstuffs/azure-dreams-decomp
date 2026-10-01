@@ -167,7 +167,7 @@ build build/src/gp_d92c_owned.o: cc src/gp_d92c_owned.c | tools/cc.sh tools/ccpr
 
 build build/src/gp_order_bytes_owner.o: cc src/gp_order_bytes_owner.c | tools/cc.sh tools/ccproc.py  src/w_80049F68.c include/common.h config/slus_modules.json
   ccver = 2.7.2-cdk
-  ccflags = -fno-strength-reduce
+  ccflags = 
   asflags = 
 
 build build/src/gp_shared_81510.o: cc src/gp_shared_81510.c | tools/cc.sh tools/ccproc.py  src/w_80045340.c src/w_800453E0.c include/common.h include/game.h include/globals.h include/include_asm.h include/slus/gp_shared_81510.h config/slus_modules.json
