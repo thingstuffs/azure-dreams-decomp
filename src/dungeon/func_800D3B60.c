@@ -85,9 +85,9 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     s32 next_y;
     s32 room_cache;
     s32 turn_flags;
-    register s32 move_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 flags_or_heading ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 actor_flags;
+    s32 movement_bits;
     s32 target_direction;
     s32 limit_turn;
     s8 room_id;
@@ -103,16 +103,16 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
         room_cache = move_state + 0x9C;
         func_800A19E4(position, actor, 3, 6, room_cache);
         flags_or_heading = ((S_800D92C0_0 *)actor)->unk_1C;
-        move_result = flags_or_heading & 0x410;
-        if (move_result) {
-            move_result = flags_or_heading & 0x400;
-            if (move_result) {
-                move_result = ((S_800D92C0_0 *)actor)->unk_14;
-                if (move_result >= 0) {
-                    ((S_800D92C0_0 *)actor)->unk_14 = (s32) (move_result | 0x80000000);
-                    move_result = func_800A6D30();
-                    move_result &= 7;
-                    ((S_800D92C0_0 *)actor)->unk_2A.u = (u16)(((S_800D92C0_0 *)actor)->unk_2A.u + (move_result << 9));
+        movement_bits = flags_or_heading & 0x410;
+        if (movement_bits) {
+            movement_bits = flags_or_heading & 0x400;
+            if (movement_bits) {
+                s32 marked_flags = ((S_800D92C0_0 *)actor)->unk_14;
+                if (marked_flags >= 0) {
+                    flags_or_heading = 0x80000000;
+                    marked_flags |= flags_or_heading;
+                    ((S_800D92C0_0 *)actor)->unk_14 = marked_flags;
+                    ((S_800D92C0_0 *)actor)->unk_2A.u = (u16)(((S_800D92C0_0 *)actor)->unk_2A.u + ((func_800A6D30() & 7) << 9));
                 }
             }
             goto init_loop;
@@ -142,9 +142,10 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                         }
                         {
                             u8 *coord_later = D_80082E80_later;
-                            move_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
+                            s32 distance_result;
+                            distance_result = func_8009FD7C(position->unk_24.at00.v, position->unk_24.at01.v,
                                 coord_later[0x24], coord_later[0x25]);
-                            if ((move_result << 0x10) != 0) {
+                            if ((distance_result << 0x10) != 0) {
                                 limit_turn = 1;
                             }
                             turn_index = 0;
@@ -170,21 +171,16 @@ init_loop:
 loop_entry:
             turn_offsets = (u8 *)D_8006CD00;
 try_heading:
-            move_result = ((Rec_func_800A9E70_arg0 *)move_state)->unk_98;
             flags_or_heading = ((S_800D92C0_0 *)actor)->unk_2A.s;
-            if (move_result & 2) {
-                move_result = (s32) (turn_index << 0x10) >> 0xF;
-                move_result += (s32) turn_offsets;
-                candidate_heading = flags_or_heading - *(s16 *)move_result;
+            if (((Rec_func_800A9E70_arg0 *)move_state)->unk_98 & 2) {
+                candidate_heading = flags_or_heading - ((s16 *)turn_offsets)[turn_index];
             } else {
-                move_result = (s32) (turn_index << 0x10) >> 0xF;
-                move_result += (s32) turn_offsets;
-                candidate_heading = flags_or_heading + *(s16 *)move_result;
+                candidate_heading = flags_or_heading + ((s16 *)turn_offsets)[turn_index];
             }
             if ((func_8009A66C((s16)candidate_heading, position, actor, 0x20) << 0x10) > 0) {
                 if (turn_index >= 3) {
-                    move_result = limit_turn;
-                    if (move_result != 0) {
+                    s16 checked_limit = limit_turn;
+                    if (checked_limit != 0) {
                         goto mask_and_return;
                     }
                 }

@@ -21,7 +21,6 @@ void func_800D13B8(void) {
     s16 coord_y;
     s32 facing;
     s32 direction;
-    register s32 left_direction ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 diagonal_x;
     s16 diagonal_y;
     s32 next_direction;
@@ -64,8 +63,9 @@ void func_800D13B8(void) {
             direction = (s32) direction_work + 2;
             direction &= 7;
             func_800D112C(direction, coord_x, coord_y);
-            left_direction = ((s32) direction_work - 2) & 7;
-            func_800D112C(left_direction, coord_x, coord_y);
+            last_direction = (s32) direction_work - 2;
+            last_direction &= 7;
+            func_800D112C(last_direction, coord_x, coord_y);
             next_direction = (s32) direction_work + 4;
             next_direction &= 7;
             x_step = dirStepX;
@@ -78,7 +78,6 @@ void func_800D13B8(void) {
             func_800D112C(direction, (u32) (s16) (coord_x + ((s16) *x_step * 0xA)),
                 (u32) (s16) (coord_y + ((s16) *(u16 *) direction_work * 0xA)));
             axis_step = (s16) *x_step;
-            last_direction = left_direction;
             last_x_high = (s32) ((u32) (coord_x + (axis_step * 0xA)) << 16);
             axis_step = (s16) *(u16 *) direction_work;
             last_x = last_x_high >> 16;
