@@ -37,7 +37,6 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
     register s32 facing_offset;
     void *tail_obj;
 
-    ASM_USE_NV(obj);
     globals = &gameWork;
     func_800A67F4();
     move_result = func_8009ABA0(S16(map, 0x2A), move_mode, actor, S16(map, 0x88), 0x20);
@@ -99,8 +98,10 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
                     P32(actor, 0x2C) = D_800DD274;
                     facing_offset = (gameWork.view.viewAngle + S16(map, 0x2A) + 0x100) >> 7;
                     func_8003DB94(actor, *(void **)(D_800DD274 + (facing_offset & 0x1C)), 0);
+                    U8(obj, 0x9A) = 0x35;
+                } else {
+                    U8(obj, 0x9A) = 0x35;
                 }
-                U8(obj, 0x9A) = 0x35;
                 updated_state->unk_04 = 8;
             } else {
                 U16(obj, 0x98) |= 0xC;

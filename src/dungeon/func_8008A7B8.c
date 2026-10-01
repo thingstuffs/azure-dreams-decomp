@@ -17,7 +17,7 @@ extern u8 D_800DD0C8[];
 void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in) {
     u8 *entity = entity_in;
     s32 *motion = motion_in;
-    register u16 *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 *sprite = sprite_in;
     s32 *actor = actor_in;
     s32 vertical_speed;
     u8 phase;
@@ -89,10 +89,16 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
                 return;
             }
             next_handler = (u8 *)&D_8008EAC8;
-            goto block_24;
+            *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+            return;
         }
         if ((u8) *(u8 *)(entity + 0x9B) < 0xAU) {
-            goto block_22;
+        if ((func_80094F74(entity, motion, sprite, actor) << 0x10) <= 0) {
+            return;
+        }
+        next_handler = (u8 *)&D_8008ACDC;
+        *(u8 **)((u8 *)entity + 0x8C) = next_handler;
+        return;
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_800DD058;
         func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (gameWork.view.viewAngle + *(s16 *)((u8 *)actor

@@ -185,19 +185,9 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
         }
         *(u8 **)((u8 *)sprite + 0x2C) = D_80174C64;
         func_80047784(sprite, D_80174C64[((s32) (gameWork.view.viewAngle + beldo->unk_2A.s + 0x100) >> 9) & 7], 0);
-        {
-            void *case6_a0 = actor;
-            void *saved_motion = motion;
-            void *saved_sprite;
-            u8 previous_state;
-
-            ASM_SET(actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            previous_state = actor->unk_9A;
-            saved_sprite = sprite;
-            actor->unk_96 = 0U;
-            actor->unk_9A = (u8) (previous_state + 1);
-            func_80172B00(case6_a0, saved_motion, saved_sprite);
-        }
+        actor->unk_96 = 0U;
+        actor->unk_9A = (u8) (actor->unk_9A + 1);
+        func_80172B00(actor, motion, sprite);
         break;
     case 7:
         motion->unk_0A = (u16) (motion->unk_0A - 8);
@@ -270,8 +260,10 @@ void func_801730AC(S_func_8132B8AC_0 *actor, S_func_8132B8AC_1 *motion, S_func_8
                 func_80171A10((u8 *)actor - 0x20, beldo->unk_2A.s, 0x8080FF, (func_80069EF8() & 0xFF) | 0x80, 0);
                 path_particle_count += 1;
             } while (path_particle_count < 0x14);
+            actor->unk_96 = (u16) (actor->unk_96 - 1);
+        } else {
+            actor->unk_96 = (u16) (actor->unk_96 - 1);
         }
-        actor->unk_96 = (u16) (actor->unk_96 - 1);
         break;
     case 11:
         motion->unk_00 = (s32) (motion->unk_00 + motion->unk_0C.unk_0C);

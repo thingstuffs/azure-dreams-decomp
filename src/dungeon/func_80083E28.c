@@ -43,12 +43,12 @@ M2C_UNK func_80067F20();
 /* Queue draw settings and horizontal strips for both ordering tables. */
 void func_80089588(void) {
     s32 draw_area[2];
-    s32 alternate_buffer;
+    u8 alternate_buffer;
     s16 saved_alternate;
     u16 strip_y;
     u16 other_strip_y;
     void *packet;
-    register u32 context_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 context_slot;
 
     alternate_buffer = (s32) gameWork.unk_000 != (s32) D_801C9E40;
     packet = ((Rec_D_80083160 *)gameWork.unk_000)->unk_8D0;
@@ -73,10 +73,10 @@ void func_80089588(void) {
         (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
     context_slot = (u32) &gameWork.unk_000;
-    saved_alternate = alternate_buffer;
+    saved_alternate = alternate_buffer != 0;
     {
         register s32 strip_top;
-        if (alternate_buffer != 0) {
+        if (saved_alternate != 0) {
             (*(u16 *)((u8 *)packet + 0xE)) = 0xE0;
         } else {
             (*(u16 *)((u8 *)packet + 0xE)) = 0x1C0;
