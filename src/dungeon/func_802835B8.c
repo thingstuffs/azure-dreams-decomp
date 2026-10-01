@@ -202,10 +202,9 @@ void func_800165B8(void) {
     u8 actor_x;
     u8 actor_y;
     u16 display_setting;
-    register u16 lift_height ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 lift_height;
     u8 *display_page;
     u8 *display_state;
-    DungeonGlobalStatus *map_state;
     s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;
@@ -217,6 +216,7 @@ void func_800165B8(void) {
     s32 entity_mask;
     s32 entity_flags;
     s32 copy_tail;
+    s32 final_flags;
     u8 *zero_arg;
 
     D_800DCF5A = 1;
@@ -438,7 +438,7 @@ load_entries:
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((S_800165B8_3 *)state)->unk_25;
         display_setting = display_table[(s16)display_index];
-        map_state = &dungeonStatus;
+        bind_state = (u8 *)&dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
         *(u16 *)(display_page - 0x31A0) = display_setting;
@@ -448,12 +448,14 @@ load_entries:
         ((S_800165B8_8 *)display_state)->unk_04 = 0;
         (*(u16 *)((u8 *)display_state + 2)) = display_value;
         D_800E4938[0] = 0;
+        final_flags = ((DungeonGlobalStatus *)bind_state)->flags;
         *(void **)&D_800E4938[1] = allocation;
         D_800E4938[2] = 0;
-        map_state->flags |= 2;
+        final_flags |= 2;
+        ((DungeonGlobalStatus *)bind_state)->flags = final_flags;
         ((S_800165B8_8 *)display_state)->unk_06.s = lift_height;
         ((S_800165B8_3 *)state)->unk_26 =
-            func_8009FB34((s32)call_target, tile_y, map_state, lift_height);
+            func_8009FB34((s32)call_target, tile_y, bind_state, lift_height);
     }
     ((S_800165B8_1 *)obj)->unk_9C = -2;
     func_8009D380();
