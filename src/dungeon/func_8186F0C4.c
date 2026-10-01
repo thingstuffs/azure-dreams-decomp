@@ -51,7 +51,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     u8 *source;
     u8 *copy_page;
     u8 *copy_source;
-    register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **jump_table;
     s32 state;
 
@@ -81,24 +80,13 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 #endif
         copy_source = D_800252FC;
         memcpy(effect_data + 0x94, copy_source, 12);
+        PTR_AT(display, 0x08) = effect_data + 0x94;
         {
-            u8 *copy_dest = effect_data + 0x94;
-            ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            PTR_AT(display, 0x08) = copy_dest;
-        }
-        {
-            u32 owner_bits;
-            s32 next_state;
+            u32 owner_bits = U16_AT(owner, 0x2A);
 
-            flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
-            owner_bits = U16_AT(owner, 0x2A);
-            next_state = 1;
-            *(s16 *)((u8 *)flag_base + 0x5308) = next_state;
-            next_state = U16_AT(effect_data, 0x0A);
-            owner_bits = (owner_bits >> 9) & 7;
-            next_state++;
-            S16_AT(effect_data, 0x7E) = owner_bits;
-            S16_AT(effect_data, 0x0A) = next_state;
+            D_80025308[0] = 1;
+            S16_AT(effect_data, 0x7E) = (owner_bits >> 9) & 7;
+            S16_AT(effect_data, 0x0A)++;
         }
 
     case 1:

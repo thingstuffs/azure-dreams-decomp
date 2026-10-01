@@ -6,77 +6,52 @@ extern s32 D_800FE520[33];
 
 /* Initializes the state tables with an extra entry for mode 10. */
 void func_80096C3C(void) {
-    register s32 packed_30 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 packed_065fffff;
-    s32 packed_f0;
-    s32 packed_09efffff;
-    s32 *state;
     u8 *mode_page;
-    s32 *header;
-    s32 entry_value;
-    s32 shared_value;
 
     D_800FE508[0] = 0x025FFFFF;
-    packed_065fffff = 0x065FFFFF;
-    packed_09efffff = 0x09EFFFFF;
-    header = D_800FE508;
-    header[2] = 0x01000000;
-    header[1] = 0x1DA00000;
-    header[3] = 0x1DA00000;
-    state = D_800FE520;
-    packed_f0 = 0xF0000000;
-    state[0] = packed_f0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    entry_value = 0x0FE00000;
-    shared_value = 0x04000000;
-    state[1] = entry_value;
-    entry_value = 0x10200000;
-    packed_30 = 0x30000000;
-    state[4] = entry_value;
-    entry_value = 0x0F500000;
-    state[9] = entry_value;
-    entry_value = 0x10B00000;
-    state[12] = entry_value;
-    entry_value = 0x0F980000;
-    state[3] = shared_value;
-    state[7] = shared_value;
-    shared_value = 0x05E80000;
-    state[17] = entry_value;
-    entry_value = 0x10680000;
-    state[20] = entry_value;
-    entry_value = 0x1A100000;
-    state[2] = 0;
-    state[5] = packed_30;
-    state[6] = 0;
-    state[8] = packed_f0;
-    state[10] = 0;
-    state[11] = packed_065fffff;
-    state[13] = packed_30;
-    state[14] = 0;
-    state[15] = packed_065fffff;
-    state[16] = packed_f0;
-    state[18] = shared_value;
-    state[19] = packed_065fffff;
-    state[21] = packed_30;
-    state[22] = shared_value;
-    state[23] = packed_065fffff;
-    state[24] = entry_value;
-    state[25] = packed_30;
-    ASM_KEEP(packed_30);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    state[26] = 0;
-    state[27] = packed_09efffff;
+    D_800FE508[2] = 0x01000000;
+    D_800FE508[1] = 0x1DA00000;
+    D_800FE508[3] = 0x1DA00000;
+    D_800FE520[0] = 0xF0000000;
+    D_800FE520[1] = 0x0FE00000;
+    D_800FE520[2] = 0;
+    D_800FE520[3] = 0x04000000;
+    D_800FE520[4] = 0x10200000;
+    D_800FE520[5] = 0x30000000;
+    D_800FE520[6] = 0;
+    D_800FE520[7] = 0x04000000;
+    D_800FE520[8] = 0xF0000000;
+    D_800FE520[9] = 0x0F500000;
+    D_800FE520[10] = 0;
+    D_800FE520[11] = 0x065FFFFF;
+    D_800FE520[12] = 0x10B00000;
+    D_800FE520[13] = 0x30000000;
+    D_800FE520[14] = 0;
+    D_800FE520[15] = 0x065FFFFF;
+    D_800FE520[16] = 0xF0000000;
+    D_800FE520[17] = 0x0F980000;
+    D_800FE520[18] = 0x05E80000;
+    D_800FE520[19] = 0x065FFFFF;
+    D_800FE520[20] = 0x10680000;
+    D_800FE520[21] = 0x30000000;
+    D_800FE520[22] = 0x05E80000;
+    D_800FE520[23] = 0x065FFFFF;
+    D_800FE520[24] = 0x1A100000;
+    D_800FE520[25] = 0x30000000;
+    D_800FE520[26] = 0;
+    D_800FE520[27] = 0x09EFFFFF;
 #ifdef NON_MATCHING
     mode_page = &D_800133A6 - 0x33A6;
 #else
     mode_page = (u8 *)0x80010000;
 #endif
     if (mode_page[0x33A6] == 0xA) {
-        state[29] = 0x05F00000;
-        state[28] = packed_f0;
-        state[30] = 0;
-        state[31] = packed_09efffff;
-        state[32] = 0x80000000;
+        D_800FE520[29] = 0x05F00000;
+        D_800FE520[28] = 0xF0000000;
+        D_800FE520[30] = 0;
+        D_800FE520[31] = 0x09EFFFFF;
+        D_800FE520[32] = 0x80000000;
     } else {
-        state[28] = 0x80000000;
+        D_800FE520[28] = 0x80000000;
     }
 }

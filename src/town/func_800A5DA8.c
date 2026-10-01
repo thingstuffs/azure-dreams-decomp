@@ -27,11 +27,8 @@ extern s32 D_800D0B20[];
 extern s32 D_800D0B50[];
 
 /* Initializes the object record and a randomized motion vector. */
-void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
+void func_800A3508(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
 {
-    register u8 *obj ASM_REG("$21") = object; /* MATCH: Preserve object register allocation across the shared tail. */
-    register s32 *vec ASM_REG("$20") = vector_data; /* MATCH: Preserve vector register allocation across the shared tail. */
-    s32 color;
     s32 tilt_angle;
     s32 scale;
     s32 direction_angle;
@@ -41,30 +38,19 @@ void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
     s32 scale_numerator;
     s32 scale_sample;
     s32 unit_scale;
-    s32 *record_values;
-    s32 *setup_params;
 
-    {
-        Rec_D_80082E80 *record = record_data;
-        record_data = (Rec_D_80082E80 *)0x808080;
-        color = record_data;
-        unit_scale = 0x1000;
-        ASM_KEEP4(obj, vec, record, unit_scale); /* MATCH: Preserve entry register setup before initialization. */
-        record_values = D_800D0B50;
-        setup_params = D_800D0B20;
-        record->unk_0C.at00_s32.v = color;
-        record->unk_1C.at02_s16.v = unit_scale;
-        record->unk_1C.at00_s16.v = unit_scale;
-        record->unk_08 = record_values[((S_800A3508_1 *)obj)->unk_22];
-        record->unk_00 = 0;
-        record->unk_04.as_s8 = 0;
-        record->unk_05.as_s8 = 0;
+    unit_scale = 0x1000;
+    record->unk_1C.at02_s16.v = unit_scale;
+    record->unk_0C.at00_s32.v = 0x808080;
+    record->unk_1C.at00_s16.v = unit_scale;
+    record->unk_08 = D_800D0B50[((S_800A3508_1 *)obj)->unk_22];
+    record->unk_00 = 0;
+    record->unk_04.as_s8 = 0;
+    record->unk_05.as_s8 = 0;
 
-        init_value = setup_params[((S_800A3508_1 *)obj)->unk_22];
-        if (init_value != 0) {
-            func_8003DB94(record, init_value, 0);
-        }
-
+    init_value = D_800D0B20[((S_800A3508_1 *)obj)->unk_22];
+    if (init_value != 0) {
+        func_8003DB94(record, init_value, 0);
     }
 
     func_8004491C(obj - 0x20, func_80045340);

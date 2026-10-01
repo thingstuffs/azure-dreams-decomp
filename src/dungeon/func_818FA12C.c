@@ -224,7 +224,7 @@ typedef struct S_818FA12C_16 {
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
 void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
 {
-    register u8 *parent ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *parent;
     u8 *parent_base;
     u8 *target_pos;
     s16 *origin;
@@ -326,8 +326,11 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             flags &= 0xFFFC;
             ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 = flags;
             (*(u8 *)((u8 *)self + 0x7A)) |= 4;
+            target = ((S_818FA12C_2 *)parent)->unk_60.p;
+        } else {
+            target = ((S_818FA12C_2 *)parent)->unk_60.p;
         }
-        if ((target = ((S_818FA12C_2 *)parent)->unk_60.p) != 0) {
+        if (target != 0) {
             target_pos = ((S_818FA12C_6 *)(target - 0x18))->unk_00;
             target_height = D_800DDC40[(*(u8 *)((u8 *)target + 0x13))];
             (*(u16 *)((u8 *)self + 0x78)) = ((S_818FA12C_7 *)target_pos)->unk_08.at02.v - (target_height >> 1);
