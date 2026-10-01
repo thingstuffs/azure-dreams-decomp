@@ -53,7 +53,7 @@ extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 Body *func_8015E894(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
     s16 held_flags;
-    register s16 held_a ASM_REG("$21");   /* UNRESOLVED C shape (pin): global.c must rank held_a above child_a (retail $s5 vs $s6); at cdk kind is 2 refs/live 20 vs position 4/77 - position live >= 81 flips it (duplicated actor callback stores in the default arms do that) but cse then folds actor into result and jump2 merges the stores */
+    s16 held_a;
     s32 held_c;
     s32 held_b;
     s16 arg0_copy;
@@ -100,10 +100,11 @@ Body *func_8015E894(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
                     child_b->field_2C = D_80162F00;
                 }
                 body_alias->callback_8C = D_8015EE9C;
+                child_b->field_2C = D_80162ED8;
             } else {
                 body->callback_8C = D_8015EE9C;
+                child_b->field_2C = D_80162ED8;
             }
-            child_b->field_2C = D_80162ED8;
         }
         object->field_10 = D_8015EA98;
         func_800A9C18(object, child_a, child_b, (s16)arg0_copy);
