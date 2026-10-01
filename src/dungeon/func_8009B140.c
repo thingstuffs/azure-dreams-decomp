@@ -41,7 +41,8 @@ void func_800A08A0(s32 spawn_mode) {
     s32 dy;
     u8 tile_x;
     u8 tile_y;
-    register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 *limits = 0;
+    u32 *next_limits;
     SpawnFunc spawn_monster;
     void *level_monster; /* MATCH: Both threshold arms supply the call argument in the branch delay slot. */
 
@@ -135,11 +136,11 @@ void func_800A08A0(s32 spawn_mode) {
 
         limits = D_800835E4;
         ((u32 *)((u8 *)monster + 0x18))[0] = limits[spawn_level];
-        limits++;
-        if (*(u32 *)((u8 *)monster + 0x18) >= limits[((u8 *)monster)[0x11]]) {
+        next_limits = limits + 1;
+        if (*(u32 *)((u8 *)monster + 0x18) >= next_limits[((u8 *)monster)[0x11]]) {
             u32 *level_thresholds;
             u32 next_level_exp;
-            level_thresholds = limits;
+            level_thresholds = next_limits;
             do {
                 func_800A1D4C(monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
