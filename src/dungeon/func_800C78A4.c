@@ -83,11 +83,8 @@ extern u8 D_800E3D40;
 /* Spawn a sprite effect for the source or invoke its fallback action. */
 s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
 {
-    s32 random_value;
-    s32 random_low;
-    register s32 roll_modulus ASM_REG("$2");
-    register s32 roll_remainder ASM_REG("$3");
-    s32 roll_range;
+    s32 random;
+    s16 roll;
     s32 tile_x;
     void *effect;
     S_800CD004_3 *quad;
@@ -102,22 +99,17 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     void *init_effect;
 
     if (D_800E3D40 == 0) {
-        random_value = func_800A6D30();
-        roll_range = ((S_800CD004_0 *)source)->unk_03;
-        if (roll_range != 0) {
-            random_low = (u16)random_value;
-            roll_modulus = roll_range;
-            ASM_KEEP(random_low);
-            roll_remainder = random_low % roll_modulus;
-            random_value = roll_remainder;
+        random = func_800A6D30() & 0xFFFF;
+        if (((S_800CD004_0 *)source)->unk_03 != 0) {
+            roll = random % ((S_800CD004_0 *)source)->unk_03;
         } else {
-            random_value = 0;
+            roll = 0;
         }
     } else {
-        random_value = 0;
+        roll = 0;
     }
 
-    if (random_value < 0x30) {
+    if (roll < 0x30) {
         effect = func_8003FC64(2);
         if (effect == NULL) {
             goto return_object;

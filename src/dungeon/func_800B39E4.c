@@ -129,6 +129,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     }
 
     do {
+        scratch = (Scratch *)0x1F800000;
         if (!(U8(part, 0) & 0x20)) {
             register s32 edge ASM_REG("$2");
             S32(scratch, 8) = U8(part, 8);
@@ -177,6 +178,8 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
                     U16(scratch, 0x7A) = edge;
                     U16(scratch, 0x72) = edge;
                     edge -= height;
+                    U16(scratch, 0x8A) = edge;
+                    U16(scratch, 0x82) = edge;
                 } else {
                     s32 origin_y;
                     s32 height;
@@ -189,12 +192,11 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
                     U16(scratch, 0x7A) = edge;
                     U16(scratch, 0x72) = edge;
                     edge += height;
+                    U16(scratch, 0x8A) = edge;
+                    U16(scratch, 0x82) = edge;
                 }
-                U16(scratch, 0x8A) = edge;
-                U16(scratch, 0x82) = edge;
             }
 
-            ASM_KEEP(scratch);
             func_80065320((u16 *)scratch + 0x38, (u16 *)scratch + 0x4C, scratch_base);
             func_80065320((u16 *)scratch + 0x3C, (u16 *)scratch + 0x50, scratch_base);
             func_80065320((u16 *)scratch + 0x40, (u16 *)scratch + 0x54, scratch_base);
