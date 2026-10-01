@@ -278,26 +278,30 @@ s32 func_80024D58(void *node) {
                         u8 *quad = ((S_80024D58_6 *)context)->unk_8D0;
                         u8 *top_pair;
                         u8 *bottom_pair;
-                        register s32 row_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        u8 *src_base;
+                        u8 *src_row;
+                        u8 *src_pair;
+                        u8 *dst_row;
+                        u8 *dst_pair;
+                        s32 row_offset;
                         ((S_80024D58_6 *)context)->unk_8D0 = quad + 0x28;
                         ((S_80024D58_7 *)quad)->unk_04 = ((S_80024D58_2 *)object)->unk_0C;
                         func_800666F4(quad);
                         func_80066640(quad, 1);
                         ((S_80024D58_7 *)quad)->unk_16 = func_80066460(0, 3, 0x300, 0x100);
                         ((S_80024D58_7 *)quad)->unk_0E = func_8006649C(0x10, 0x1F8);
-                        ASM_USE(quad);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         row_offset = point_index << 6;
-                        bottom_pair = (u8 *) (row_offset + (s32) source_points);
-                        bottom_pair = bottom_pair + 0x100;
-                        top_pair = (u8 *) (ring + (s32) bottom_pair);
-                        ((S_80024D58_7 *)quad)->unk_08 = ((S_80024D58_8 *)top_pair)->unk_00;
-                        ((S_80024D58_7 *)quad)->unk_10 = ((S_80024D58_8 *)top_pair)->unk_04;
+                        src_base = (u8 *) (row_offset + (s32) source_points);
+                        src_row = src_base + 0x100;
+                        src_pair = (u8 *) (ring + (s32) src_row);
+                        ((S_80024D58_7 *)quad)->unk_08 = ((S_80024D58_8 *)src_pair)->unk_00;
+                        ((S_80024D58_7 *)quad)->unk_10 = ((S_80024D58_8 *)src_pair)->unk_04;
                         top_pair = frame.space + 320;
-                        top_pair = top_pair + row_offset;
-                        bottom_pair = (u8 *) (ring + (s32) top_pair);
-                        ((S_80024D58_7 *)quad)->unk_18 = ((S_80024D58_9 *)bottom_pair)->unk_00;
+                        dst_row = top_pair + row_offset;
+                        dst_pair = (u8 *) (ring + (s32) dst_row);
+                        ((S_80024D58_7 *)quad)->unk_18 = ((S_80024D58_9 *)dst_pair)->unk_00;
                         {
-                            s32 bottom_right = ((S_80024D58_9 *)bottom_pair)->unk_04;
+                            s32 bottom_right = ((S_80024D58_9 *)dst_pair)->unk_04;
                             ((S_80024D58_7 *)quad)->unk_14 = 0xC0;
                             ((S_80024D58_7 *)quad)->unk_0C = 0xC0;
                             ((S_80024D58_7 *)quad)->unk_24 = 0xDF;
