@@ -60,7 +60,7 @@ typedef struct S_800A17CC_3 {
 } S_800A17CC_3;   /* packet24 in func_800A17CC */
 
 
-#define SCRATCH(type, offset) (*(type *)((u8 *)scratch + (offset)))
+#define SCRATCH(type, offset) (((struct { u8 _pad_[offset]; type v; } *)scratch)->v)
 
 typedef struct {} EmptyArg;
 
@@ -100,7 +100,7 @@ void func_800A17CC(void *sprite, s32 position) {
     s32 window_size;
     s32 color;
     u8 *quad_packet;
-    register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *scratch;
 
     color = 0x800000;
     ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -206,9 +206,7 @@ void func_800A17CC(void *sprite, s32 position) {
         (void *)0x1F800074, (void *)0x1F80007C,
         vertex2, vertex3,
         screen_xy0, screen_xy1, screen_xy2, screen_xy3, depth_cue, transform_flags,
-        (top_z = SCRATCH(u16, 0x78),
-         height *= 2,
-         top_z -= height,
+        (top_z = SCRATCH(u16, 0x78) - height * 2,
          SCRATCH(u16, 0x78) = top_z,
          SCRATCH(u16, 0x80) = top_z,
          unused_arg)) - 8;

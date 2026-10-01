@@ -70,7 +70,7 @@ typedef struct S_8187B1F4_8 {
 } S_8187B1F4_8;   /* state in func_8187B1F4 */
 
 
-#define VFIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
+#define VFIELD(base, type, offset) (((struct { u8 _pad_[offset]; type v; } *)(base))->v)
 
 typedef struct GlobalState {
     u8 pad[0x8D0];
@@ -101,6 +101,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     u8 *transform_matrix;
     GlobalRef *global;
     register GlobalState *state;
+    GlobalState *cur_state;
     GlobalState *tag_state;
     u8 *ordering_table;
     u8 *point_packet;
@@ -125,7 +126,6 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     scratch = (u8 *)0x1F800000;
     model_matrix = (u8 *)((u32)scratch | 0x74);
     transform_matrix = (u8 *)((u32)scratch | 0x54);
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     tag_addr_mask = 0x00FFFFFF;
     tag_length_mask = 0xFF000000;
     do {
@@ -160,12 +160,12 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
                 VFIELD(scratch, u16, 6) = point_coords[0x22];
                 vertex = scratch + 4;
                 component = point_coords[0x39];
-                state = global->cur;
+                cur_state = global->cur;
                 depth_cue = scratch + 0xD0;
                 VFIELD(scratch, u16, 8) = component;
-                point_packet = state->next;
+                point_packet = cur_state->next;
                 projection_flags = scratch + 0xD4;
-                state->next = point_packet + 0xC;
+                cur_state->next = point_packet + 0xC;
                 depth = func_80065420(vertex, point_packet + 8,
                                       depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
