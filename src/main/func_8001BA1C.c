@@ -32,7 +32,7 @@ void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
     u8 command_id;
     u8 *size_ptr;
     u8 *write_ptr;
-    u8 *stack_end;
+    register union { u8 *pointer; u64 bits; } stack_end;
 
     write_ptr = (u8 *)buffer;
     memcpy(&command_ids, D_80400000 + 0x544, 4);
@@ -41,7 +41,7 @@ void *func_80402A1C(void *buffer, S_80402A1C_0 *layout) {
     } while (0);
     shade = 0x101010;
     id_ptr = (u8 *)&command_ids;
-    stack_end = (u8 *)&ids_limit;
+    stack_end.pointer = (u8 *)&ids_limit;
     layout_offset = layout->unk_08 * 4;
     size_ptr = write_ptr + 0xB;
     width_extent = D_80408ADC[layout_offset] * 0xC;
@@ -89,9 +89,8 @@ loop:
         write_ptr[0] = command_id;
         write_ptr += 0x18;
     } while (0);
-    if ((s32)id_ptr < (s32)stack_end)
+    if ((s32)id_ptr < (s32)stack_end.pointer)
         goto loop;
-    ASM_SET(stack_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     write_ptr[-0x18] |= 0x80;
     return write_ptr;
 }

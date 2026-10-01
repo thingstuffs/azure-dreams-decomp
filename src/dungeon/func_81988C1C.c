@@ -130,9 +130,10 @@ s32 func_81988C1C(void *first_item) {
             void *packet;
             register u8 tex_v;
             u8 tex_u;
-            register u8 tex_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 tex_width;
             u16 screen_coord;
             u32 ot_slot;
+            u32 depth_offset;
             u32 addr_mask = 0;
             u32 color_or_tag_mask = 0;
 
@@ -167,7 +168,7 @@ s32 func_81988C1C(void *first_item) {
             ((S_81988C1C_4 *)packet)->unk_24 = tex_u;
             ((S_81988C1C_4 *)packet)->unk_1C = tex_u;
             tex_v = ((S_81988C1C_0 *)item)->unk_42;
-            ot_slot = depth_index << 2;
+            depth_offset = depth_index << 2;
             ((S_81988C1C_4 *)packet)->unk_1D = tex_v;
             ((S_81988C1C_4 *)packet)->unk_0D = tex_v;
             tex_v += ((S_81988C1C_0 *)item)->unk_46;
@@ -177,8 +178,8 @@ s32 func_81988C1C(void *first_item) {
 
             ((S_81988C1C_4 *)packet)->unk_00 =
                 (((S_81988C1C_4 *)packet)->unk_00 & color_or_tag_mask) |
-                (((S_81988C1C_7 *)((u8 *)(ot_slot + ((S_81988C1C_2 *)render_state)->unk_00.u)))->unk_B0 & addr_mask);
-            ot_slot += (u32)((S_81988C1C_2 *)render_state)->unk_00.s;
+                (((S_81988C1C_7 *)((u8 *)(depth_offset + ((S_81988C1C_2 *)render_state)->unk_00.u)))->unk_B0 & addr_mask);
+            ot_slot = depth_offset + (u32)((S_81988C1C_2 *)render_state)->unk_00.s;
             ((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 =
                 (((S_81988C1C_5 *)((u8 *)ot_slot))->unk_B0 & color_or_tag_mask) |
                 ((u32)packet & addr_mask);
