@@ -56,15 +56,13 @@ typedef struct S_801716F4_2 {
 
 
 /* Updates a dungeon actor's behavior, facing, and directional animation. */
-void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg)
+void func_801716F4(void *actor_arg, void *context_arg, void *sprite, EntityRec *entity_arg)
 {
-    void *sprite;
     u8 *anim_table;
     s32 room_id;
     s32 distance;
     u32 initial_flags = dungeonStatus.flags;
 
-    sprite = sprite_arg;
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
@@ -75,12 +73,16 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 
     if (entity_arg->tileY == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, entity_arg);
-        if (((S_801716F4_2 *)sprite)->unk_2C != D_801755A4) {
+        {
+        void *current_anim = ((S_801716F4_2 *)sprite)->unk_2C;
+        ((S_801716F4_2 *)sprite)->unk_2C = current_anim;
+        if (current_anim != D_801755A4) {
             (*(void * *)((u8 *)sprite + (0x2C))) = D_8017559C;
             {
                 s32 direction_index = ((gameWork.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;
                 func_80047784(sprite, D_8017559C[direction_index], 0);
             }
+        }
         }
         return;
     }
@@ -255,7 +257,6 @@ generic:
     if (((S_801716F4_2 *)sprite)->unk_2C == anim_table) {
         return;
     }
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     {
         s32 direction_index = ((gameWork.view.viewAngle + entity_arg->facing + 0x100) >> 9) & 7;

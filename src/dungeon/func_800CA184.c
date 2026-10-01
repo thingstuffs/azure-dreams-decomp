@@ -160,7 +160,7 @@ void func_800CF8E4(void) {
     s32 neighbor_index;
     u8 *vertices;
     CellRec *cells;
-    register u8 *normals ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *normals;
     s32 render_flags;
     s32 row_step;
     s32 face_skip;
@@ -444,7 +444,7 @@ void func_800CF8E4(void) {
             max_height = 0x7FFF;
             address_mask = 0xFFFFFF;
             tag_mask = (s32)0xFF000000;
-loop_9:
+            do {
             render_arg = 3;
             edge_start = (s32 *)(ram_base + 0x78);
 loop_0:
@@ -815,8 +815,9 @@ block_64:
                                                 ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
                                                 {
 
-                                                    edge_progress =
-                                                        (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
+                                                    edge_progress = *(u16 *)(ram_base + 0x176);
+                                                    edge_progress &= 0x9FF;
+                                                    edge_progress |= 0xE1000000;
                                                     (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
                                                 }
                                             }
@@ -920,9 +921,10 @@ loop_0_:
                 if (*(u16 *)(ram_base + 0x174) == 0) {
                     goto block_106;
                 }
-                goto loop_9;
+                continue;
             }
             goto loop_15;
+            } while (1);
         }
 block_106:
         ((S_800CF8E4_14 *)(((S_800CF8E4_0 *)scene)->unk_00))->unk_8D0 = packet;
