@@ -224,7 +224,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s32 match_offset;
     s32 result_traits;
     u16 next_clear;
-    register s32 donor_traits ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 donor_traits;
     s32 donor_trait_bits;
     s32 ability_offset;
     s32 clear_shifted;
@@ -248,7 +248,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     u8 room_x;
     u8 room_y;
     u8 merge_key;
-    register void *update_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *donor_ability;
     void *primary_output;
     void *merged_entry;
@@ -590,19 +589,17 @@ store_ability:
             s32 base_kind = ((S_800277F4_0 *)result)->unk_13;
             s32 *donor_mask_ptr, *result_mask_ptr;
             s32 result_mask, base_traits;
-            update_target = result;
+            s32 *trait_table = D_8006D6D8;
 
-            donor_traits = (s32) D_8006D6D8;
             donor_trait_bits = ((S_800277F4_8 *)donor)->unk_54;
-            donor_mask_ptr = (s32 *) donor_traits + donor_kind;
-            result_mask_ptr = (s32 *) donor_traits + base_kind;
-            donor_traits = *donor_mask_ptr;
+            donor_mask_ptr = trait_table + donor_kind;
+            result_mask_ptr = trait_table + base_kind;
+            donor_traits = *donor_mask_ptr & donor_trait_bits;
             base_traits = ((S_800277F4_0 *)result)->unk_54;
             result_mask = *result_mask_ptr;
-            donor_traits &= donor_trait_bits;
             ((S_800277F4_0 *)result)->unk_54 = (s32) ((base_traits & result_mask) | donor_traits);
         }
-        func_80041E70(update_target);
+        func_80041E70(result);
         ((S_800277F4_0 *)result)->unk_24.at00.v = (u16) ((u32) ((((S_800277F4_0 *)result)->unk_24.at00.v
             + ((S_800277F4_8 *)donor)->unk_24) & 0xFFFF) >> 1);
         level_cap = ((S_800277F4_0 *)result)->unk_66;

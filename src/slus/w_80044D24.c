@@ -25,8 +25,6 @@ void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
     void *prim;
     u8 *context;
     u8 *parts;
-    register void *matrix ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register void *translation ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     void *part;
     void *packet;
     s32 depth;
@@ -44,9 +42,7 @@ void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
     scratch = (u8 *)0x1F800000;
     depth = ot_depth;
     contexts = (u8 **)((void * *)(&gameWork));
-    do {
-        prim = *(void **)(context + 0x8D0);
-    } while (0);
+    prim = *(void **)(context + 0x8D0);
     U32_AT(scratch, 0x20) = (u32)(context + 0x70);
     U32_AT(scratch, 0x38) = 0x1000;
     U32_AT(scratch, 0x48) = 0;
@@ -56,8 +52,6 @@ void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
 
-    matrix = scratch + 0x50;
-    translation = scratch + 0x40;
     parts = *(u8 **)(sprite + 8);
     flags = U16_AT(sprite, 0x14) | 0x8000;
     U16_AT(sprite, 0x14) = flags;
@@ -65,13 +59,12 @@ void func_80044D24(void *unused, u8 *sprite, s32 ot_depth)
     part = parts + 1;
     U32_AT(scratch, 0x30) = U16_AT(sprite, 0x1C);
     origin_x = S16_AT(scratch, 0);
-    ASM_USE(part);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     packet = (u8 *)prim + 4;
     U32_AT(scratch, 0x34) = U16_AT(sprite, 0x1E);
     sprite_x = U16_AT(sprite, 0x20);
     U32_AT(scratch, 0x40) = origin_x + sprite_x;
     U32_AT(scratch, 0x44) = S16_AT(scratch, 2) + U16_AT(sprite, 0x22);
-    TransMatrix(matrix, translation, sprite_x);
+    TransMatrix(scratch + 0x50, scratch + 0x40, sprite_x);
     RotMatrix(sprite + 0x16, scratch + 0x50);
     ScaleMatrix(scratch + 0x50, scratch + 0x30);
     SetRotMatrix(scratch + 0x50);

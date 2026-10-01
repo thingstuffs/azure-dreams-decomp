@@ -37,11 +37,11 @@ void func_80171410(u8 *object, void *entry_context, u8 *tile, u8 *actor)
 {
     DungeonGlobalStatus *state = &dungeonStatus;
     s32 actor_flags;
-    register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 base_angle;
     s32 random_turn;
     s16 limit_turn;
     s16 turn_index;
-    s32 angle;
+    s16 angle;
     u16 state_flags;
     void *target_record;
     u8 *target_tile;
@@ -188,10 +188,12 @@ void func_80171410(u8 *object, void *entry_context, u8 *tile, u8 *actor)
             base_angle = *(s16 *)(actor + 0x2A);
 
             if ((*(u16 *)(object + 0x98)) & 2) {
-                angle = base_angle - D_8006CD00[turn_index];
+                base_angle -= D_8006CD00[turn_index];
+                angle = base_angle;
             }
             else {
-                angle = base_angle + D_8006CD00[turn_index];
+                base_angle += D_8006CD00[turn_index];
+                angle = base_angle;
             }
             if ((func_8009A66C((s16) angle, tile, actor, 0x20) << 16) > 0) {
                 if (turn_index >= 3) {
@@ -209,8 +211,9 @@ void func_80171410(u8 *object, void *entry_context, u8 *tile, u8 *actor)
                     ? (0x300) : (0x3000));
                 {
                     s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-                    base_angle = (s32)(((s8 *)dirStepX));
-                    *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
+                    u8 *step_x = (u8 *)dirStepX;
+                    step_x += direction;
+                    *(u8 *)(tile + 0x24) += *step_x;
                     *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (((s8 *)dirStepY))) + direction));
                 }
                 func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000)
