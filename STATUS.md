@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-01T11:52:45Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-01T11:58:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -81,7 +81,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 223 | 171,248 | 6.7% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 222 | 171,088 | 6.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,352 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5244 | 1,458,768 | 57.0% |
@@ -90,7 +90,7 @@ Pin sites now: 1,080 in 314 rows; REG 591, KEEP 169, KEEP_NV 140, SCHED_BARRIER 
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 100 (a second typed name for one symbol: a missing type); file-scope asm directives 417.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 185 rows carry one flag, 13 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 180 rows carry one flag, 13 carry two or more.
 
 
 ## Likely incorrect compiler (registered recipe vs the real build)
@@ -100,10 +100,10 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 41 | 30 / 8 / 3 | 19 | 77 |
-| cdk cell + crutch flags, module is plain | 41 | 31 / 9 / 1 | 23 | 107 |
+| cdk cell + crutch flags, module is plain | 36 | 27 / 8 / 1 | 23 | 107 |
 | stock cell inside a cdk module | 27 | 12 / 13 / 2 | 2 | 25 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 116 | 30 / 38 / 48 | 6 | 19 |
-| **total** | **225** | | **50** | **228** |
+| **total** | **220** | | **50** | **228** |
 
 Most-pinned rows off their build recipe: dungeon/func_807B0B3C 23 pins (2.7.2-cdk -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_818C3B90 7 pins (2.7.2-cdk -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_800A2564 7 pins (2.7.2-cdk-G0 -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_81912154 6 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_80CE9758 6 pins (2.7.2-cdk-G0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0).
 

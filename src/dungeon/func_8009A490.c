@@ -19,12 +19,8 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
         x = pos_x & 0xFFFF;
         y = pos_y & 0xFFFF;
         count = initial_count;
-        record = D_800E2970;
         do {
-            {
-                u8 *record_reg = record;
-                record = record_reg;
-            }
+            record = (u8 *)D_800E2970 + index * 20;
             if (*(s16 *)(record + 10) != 0) {
                 u16 left = *(u16 *)(record + 0);
                 if (x >= left - 1 && left + *(u16 *)(record + 4) >= x) {
@@ -36,7 +32,6 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
                 }
             }
             index++;
-            record += 20;
         } while (index < count);
     }
     result = -1;

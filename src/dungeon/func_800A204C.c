@@ -47,6 +47,7 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
     s32 z;
     u16 height;
     D_800E36C8_Entry *entry;
+    D_800E36C8_Entry *tab;
 
     x = pos->x;
     pos->x = x +
@@ -67,7 +68,8 @@ void func_800A77AC(FuncObj *obj, FuncVec *pos, FuncVec *target) {
         slot = func_800A71F4();
         if (slot >= 0) {
             D_800E3548[slot] = obj->field98;
-            entry = &D_800E36C8[slot];
+            tab = D_800E36C8;
+            entry = &tab[slot];
             entry->x = obj->fieldAA;
             entry->y = obj->fieldAC;
             height = obj->fieldAE;
