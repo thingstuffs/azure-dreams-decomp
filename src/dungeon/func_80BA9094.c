@@ -51,23 +51,26 @@ extern void func_800A9C18(Object *, ChildA *, ChildB *, s16);
 extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-Body *func_8015E894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
-    s32 held_flags = spawn_flags;
-    s16 held_a = attr_a;
-    s32 held_c = attr_c;
-    s32 held_b = attr_b;
-    register Body *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register Object *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+Body *func_8015E894(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
+    s16 held_flags;
+    register s16 held_a ASM_REG("$21");   /* UNRESOLVED C shape (pin): global.c must rank held_a above child_a (retail $s5 vs $s6); at cdk kind is 2 refs/live 20 vs position 4/77 - position live >= 81 flips it (duplicated actor callback stores in the default arms do that) but cse then folds actor into result and jump2 merges the stores */
+    s32 held_c;
+    s32 held_b;
+    s16 arg0_copy;
+    Body *body;
+    Object *object;
     ChildA *child_a;
-    s32 arg0_copy;
     ChildB *child_b;
     Body *body_alias;
 
+    held_flags = spawn_flags;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     body = 0;
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    arg0_copy = held_flags;
     if (object != 0) {
-        arg0_copy = held_flags;
-        ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         body = &object->body_20;
         body->field_13 = 14;
         func_8004491C(object, func_80045340);
@@ -76,45 +79,34 @@ Body *func_8015E894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
         attr_b = held_flags & 3;
         child_a->field_0A = held_c;
         child_b = object->child_b_0C;
+        child_b->field_24 = held_a;
         child_b->field_25 = held_b;
         body_alias = body;
-        child_b->field_24 = held_a;
 
         if (attr_b == 1) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x6000;
             body->flags_1C |= 0x6000;
             child_b->field_2C = D_80162ED8;
-            goto after_child_value;
-        }
-        if (attr_b >= 2) {
+        } else if (attr_b >= 2) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x2000;
             body->flags_1C |= 0x2000;
             child_b->field_2C = D_80162ED8;
-            goto after_child_value;
-        }
-        if ((s16)(held_flags & ~3) == 0) {
-            if (body->flags_14 & 0x200) {
-                body_alias->callback_8C = D_8015EE9C;
-                goto load_child_value;
-            }
-            if (!(func_800A6D30() & 1)) {
-                body_alias->callback_8C = D_8015EE9C;
-                goto load_child_value;
-            }
-            func_800A48F0(body, 1, (func_800A6D30() & 0x3F) | 0x20);
-            child_b->field_2C = D_80162F00;
-            body_alias->callback_8C = D_8015EE9C;
         } else {
-            body->callback_8C = D_8015EE9C;
+            if (((held_flags & ~3) << 16) == 0) {
+                if (!(body->flags_14 & 0x200) && (func_800A6D30() & 1)) {
+                    func_800A48F0(body, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    child_b->field_2C = D_80162F00;
+                }
+                body_alias->callback_8C = D_8015EE9C;
+            } else {
+                body->callback_8C = D_8015EE9C;
+            }
+            child_b->field_2C = D_80162ED8;
         }
-load_child_value:
-        child_b->field_2C = D_80162ED8;
-after_child_value:
         object->field_10 = D_8015EA98;
         func_800A9C18(object, child_a, child_b, (s16)arg0_copy);
-
         body_alias->field_9A = 0xFF;
         body_alias->field_9C = -1;
         func_800AA36C(body_alias, child_a, child_b, body);
