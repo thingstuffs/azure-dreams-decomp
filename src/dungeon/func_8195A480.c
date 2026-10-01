@@ -121,7 +121,6 @@ typedef struct S_80025C80_8 {
 void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     void *sprite;
     s32 x_step;
-    register s32 y_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 end_frame;
     TileObject *resident_sprite;
     void *source_data;
@@ -142,9 +141,9 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s32 delta_x;
     s32 delta_y;
     s32 target_x;
-    s32 target_y;
     s32 transform_result;
     s32 tile_object;
+    s32 found_tile;
     u16 steps_left;
     u16 update_x;
     u16 update_y;
@@ -250,13 +249,15 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v =
                 (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_00.at02.v
             + ((target_x - delta_x) / ((S_80025C80_0 *)effect_in)->unk_30.n);
-            target_y = ((S_80025C80_0 *)effect_in)->unk_3E.n << 6;
-            delta_y = ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v - 0x20;
-            y_step = (target_y - delta_y) / ((S_80025C80_0 *)effect_in)->unk_30.n;
+            tile_object = ((S_80025C80_0 *)effect_in)->unk_3E.n;
+            tile_object <<= 6;
+            delta_y = ((S_80025C80_2 *)motion_in)->unk_04.at02.v - 0x20;
+            tile_object -= delta_y;
+            tile_object /= ((S_80025C80_0 *)effect_in)->unk_30.n;
             next_z = (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v + 5;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v = next_z;
             ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v =
-                (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v + y_step;
+                (u16) ((S_80025C80_2 *)((void *)(motion_in)))->unk_04.at02.v + tile_object;
             if (((s16) ((S_80025C80_0 *)effect_in)->unk_3A - 0x10) < next_z) {
                 ((S_80025C80_2 *)((void *)(motion_in)))->unk_08.at02.v =
                     (s16) (((S_80025C80_0 *)effect_in)->unk_3A - 0x10);
@@ -264,9 +265,10 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
             move_ticks = (u16) ((S_80025C80_0 *)effect_in)->unk_30.n - 1;
             ((S_80025C80_0 *)effect_in)->unk_30.n = move_ticks;
             if (move_ticks == 2) {
-                tile_object = func_8009B4B0(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
+                found_tile = func_8009B4B0(D_800E3D7C, (u16) ((S_80025C80_0 *)effect_in)->unk_3C,
                     (u16) ((S_80025C80_0 *)effect_in)->unk_3E.n);
-                if (tile_object != 0) {
+                if (found_tile != 0) {
+                    tile_object = found_tile;
                     func_8009CE1C(tile_object, 0xC, D_8002966E, 9,
                         (s32) (s16) (((S_80025C80_0 *)effect_in)->unk_40.u << 9), D_80029670, 5);
                 }

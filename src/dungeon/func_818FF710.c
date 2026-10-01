@@ -560,8 +560,8 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
         s32 rect_y;
         s32 rect_width;
         s32 rect_bottom;
-        register s16 *rect_start ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s16 *rect_end ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s16 *rect_start;
+        s16 *rect_end;
         s16 *texture_start;
         s16 *texture_end;
         s32 rect_right;
@@ -593,11 +593,11 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
             func_800B8FC8(((S_818FF710_2 *)parent)->unk_60, texture_start, texture_end, 1, (s32) (s16) hit_tick);
             texture_start = rect_start;
             texture_end = rect_end;
+            texture_rect.half[0] = (s16) rect_left;
             rect_y = 0x1A8;
             texture_rect.half[1] = (s16) rect_y;
             rect_width = 0x60;
             texture_rect.half[2] = (s16) rect_width;
-            texture_rect.half[0] = (s16) rect_left;
             texture_rect.half[3] = (s16) rect_height;
             texture_rect.half[4] = (s16) rect_right;
             rect_bottom = 0x1EF;

@@ -304,7 +304,6 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     *((u16 *) (((s8 *) packet) + 0x8)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x8)))
                         + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (row_wave = wave + wave_index))
                         + 0x38))))) >> 0x10));
-                    ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     *((u16 *) (((s8 *) packet) + 0x10)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x10)))
                         + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) row_wave) + 0x38))))) >> 0x10));
                     row_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
@@ -319,30 +318,24 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     if (wave_index >= 0x60) {
                         wave_index = 0;
                     }
-                    do {
-                        do {
-                            do {
-                                *((u16 *) (((s8 *) packet) + 0xA)) = strip_quad.h10;
-                                *((u16 *) (((s8 *) packet) + 0x12)) = strip_quad.h10;
-                                *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((strip_quad.h10) + 1);
-                                *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((strip_quad.h10) + 1);
-                                *((u8 *) (((s8 *) packet) + 0xD)) = strip_quad.b13;
-                                *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
-                                *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
-                                *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
-                                *packet = ((*packet) & 0xFF000000)
-                                | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
-                                row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
-                                *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
-                                strip_quad = *((Quad40 *) packet);
-                                next_y = (strip_quad.h10) + 1;
-                                strip_quad.h10 = next_y;
-                                strip_quad.b13 += 1;
-                                phase = row_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
-                                packet += 10;
-                            } while (0);
-                        } while (0);
-                    } while (0);
+                    *((u16 *) (((s8 *) packet) + 0xA)) = strip_quad.h10;
+                    *((u16 *) (((s8 *) packet) + 0x12)) = strip_quad.h10;
+                    *((s16 *) (((s8 *) packet) + 0x1A)) = (s16) ((strip_quad.h10) + 1);
+                    *((s16 *) (((s8 *) packet) + 0x22)) = (s16) ((strip_quad.h10) + 1);
+                    *((u8 *) (((s8 *) packet) + 0xD)) = strip_quad.b13;
+                    *((u8 *) (((s8 *) packet) + 0x15)) = strip_quad.b13;
+                    *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((strip_quad.b13) + 1);
+                    *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((strip_quad.b13) + 1);
+                    *packet = ((*packet) & 0xFF000000)
+                    | ((*((s32 *) (*((s32 *) (((u8 *) scratch) + 0x20))))) & 0xFFFFFF);
+                    row_link = (s32 *) (*((s32 *) (((u8 *) scratch) + 0x20)));
+                    *row_link = ((*row_link) & 0xFF000000) | (((s32) packet) & 0xFFFFFF);
+                    strip_quad = *((Quad40 *) packet);
+                    next_y = (strip_quad.h10) + 1;
+                    strip_quad.h10 = next_y;
+                    strip_quad.b13 += 1;
+                    phase = row_phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
+                    packet += 10;
                     if (phase >= 0x1001) {
                         phase -= 0x1000;
                     }
@@ -356,7 +349,6 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA)))
                         + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index))
                         + 0x38))))) >> 0x10));
-                    ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A)))
                         + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
