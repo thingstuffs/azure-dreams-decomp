@@ -25,9 +25,8 @@ extern u8 D_800E2460[];
 #define U8(base, off) (*(u8 *)((u8 *)(base) + (off)))
 
 /* Updates entity appearance, position, and facing from its owner and effect state. */
-void func_800D5594(void *owner_data, void *position_data, void *entity_data)
+void func_800D5594(void *owner_data, void *position_data, u8 *entity)
 {
-    u8 *entity = entity_data;
     u8 *record;
     u8 *effect;
     u8 *appearance;

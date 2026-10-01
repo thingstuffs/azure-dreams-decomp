@@ -54,11 +54,8 @@ extern u8 D_80175404[];
 extern u8 D_8017540C[];
 
 /* Advance the actor action state and update its directional animation. */
-void func_801741D8(void *controller, void *context, void *sprite_in, void *actor_in)
+void func_801741D8(void *controller, void *context, void *sprite, void *actor_in)
 {
-
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *sprite = sprite_in;
     void *actor;
     u8 state;
     DungeonGlobalStatus *global_state;
@@ -195,7 +192,3 @@ set_owner:
     }
     return;
 }
-
-/* MECHANISM: Keep the s2/s3/s1 argument homes but remove their entry ASM_KEEP fences;
-   sched2 then emits the 0x28-frame tail saves as s0,ra,s4 and delays a3->s0.
-   A named s16 distance plus two-edge $a0 active_actor makes word 167 target the final call. */

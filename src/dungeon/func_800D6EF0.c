@@ -50,7 +50,9 @@ void func_800DC650(u8 *object_data) {
     } else {
         mode = *(u32 *)(object_data + 0x50);
         handle = *(void **)(object_data + 0x3C);
-        mode = ((mode >> 1) ^ 1) % 2;
+        mode = mode >> 1;
+        mode = mode ^ 1;
+        mode = mode % 2;
     }
     result = func_800DCA1C(handle, mode);
     do {

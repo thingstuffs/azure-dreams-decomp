@@ -164,8 +164,8 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                         << 0x10) >> 0x19)) & 7) * 2;
                     target_x = position_base->tileX + *(u16 *)(x_table_base + dir_index);
                     target_y = D_80082E80.tileY + *(u16 *)(((u8 *)dirStepY) + dir_index);
-                    if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (target_x & 0xFFFF))
-                        || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (target_y & 0xFFFF))) {
+                    if ((((S_8016FCE4_1 *)position_in)->unk_24.at00.v != (u16)target_x)
+                        || (((S_8016FCE4_1 *)position_in)->unk_24.at01.v != (u16)target_y)) {
                         heading_state = move_state + 0x98;
                         target_heading = func_800A0818(((S_8016FCE4_1 *)position_in)->unk_24.at00.v,
                             ((S_8016FCE4_1 *)position_in)->unk_24.at01.v, (s16) target_x, (s16) target_y,
