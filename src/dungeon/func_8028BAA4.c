@@ -43,16 +43,16 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     category_threshold = (u16 *)(table_cursor_or_item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
 loop_1:
-    item_index = 1;
     if (*category_threshold < (u32)category_scale_or_weight) {
         category_index += 1;
         category_threshold += 1;
         if (category_index >= 0x13) {
-            ASM_UNDEF(item_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             item_index = 1;
         } else {
             goto loop_1;
         }
+    } else {
+        item_index = 1;
     }
     category_scale_or_weight = category_index * 4;
     category_threshold = &((u16 *)table_cursor_or_item_offset)[category_index];

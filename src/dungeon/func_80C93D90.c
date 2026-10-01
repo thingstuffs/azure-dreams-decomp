@@ -59,7 +59,9 @@ void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
     s32 new_x;
     s32 new_y;
     s16 heading;
-    register s16 move_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 move_result;
+    s16 stored_result;
+    s32 result_code;
 
     if (((S_80171590_0 *)state)->unk_71.s <= 0) {
         return;
@@ -107,7 +109,9 @@ void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
     func_8009A21C(new_x, new_y, tile_mask);
     ((S_80171590_0 *)state)->unk_2A = heading;
 
-    if (move_result == 2) {
+    stored_result = move_result;
+    result_code = move_result;
+    if (result_code == 2) {
         if ((dungeonStatus.flags & 0x80)) {
             goto failure;
         }
@@ -115,12 +119,12 @@ void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
             ((S_80171590_2 *)motion)->unk_9A = 15;
             goto finish_step;
         }
-    } else if (move_result != 3 || (dungeonStatus.flags & 0x80) || (((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+    } else if (result_code != 3 || (dungeonStatus.flags & 0x80) || (((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
         goto failure;
     }
 
     func_80171F58(motion, update_param, entity, state);
-    ((S_80171590_2 *)motion)->unk_A4 = move_result;
+    ((S_80171590_2 *)motion)->unk_A4 = stored_result;
     goto finish_step;
 
 failure:
