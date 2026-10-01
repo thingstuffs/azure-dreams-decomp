@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-01T11:15:56Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-01T11:26:53Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -81,12 +81,12 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 226 | 172,460 | 6.7% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 225 | 171,736 | 6.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,352 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5243 | 1,458,520 | 57.0% |
 
-Pin sites now: 1,095 in 314 rows; REG 593, KEEP 178, KEEP_NV 143, SCHED_BARRIER 52, USE_NV 26, USE 21, USE2_NV 16, KEEP_DEP_NV 13.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,084 in 314 rows; REG 592, KEEP 171, KEEP_NV 141, SCHED_BARRIER 52, USE_NV 26, USE 21, USE2_NV 16, KEEP_DEP_NV 13.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 100 (a second typed name for one symbol: a missing type); file-scope asm directives 417.
 
@@ -99,13 +99,13 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
-| late cell (2.8.x / egcs / 2.95.2: fitted) | 44 | 33 / 8 / 3 | 22 | 115 |
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 43 | 32 / 8 / 3 | 21 | 96 |
 | cdk cell + crutch flags, module is plain | 56 | 41 / 13 / 2 | 23 | 107 |
 | stock cell inside a cdk module | 27 | 12 / 13 / 2 | 2 | 25 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 115 | 29 / 38 / 48 | 6 | 19 |
-| **total** | **242** | | **53** | **266** |
+| **total** | **241** | | **52** | **247** |
 
-Most-pinned rows off their build recipe: dungeon/func_807B0B3C 23 pins (2.7.2-cdk -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); dungeon/func_8008EE88 19 pins (2.95.2-G0 -> 2.7.2-cdk-G0); dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_818AAE60 10 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80F5F040 9 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_818C3B90 7 pins (2.7.2-cdk -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_800A2564 7 pins (2.7.2-cdk-G0 -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_807B0B3C 23 pins (2.7.2-cdk -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_818AAE60 10 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80F5F040 9 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_818C3B90 7 pins (2.7.2-cdk -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_800A2564 7 pins (2.7.2-cdk-G0 -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
