@@ -54,6 +54,7 @@ typedef struct S_801725A4_4 {
     s32 unk_0C;
 } S_801725A4_4;   /* status in func_801725A4 */
 
+extern s32 abs(s32);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
@@ -67,11 +68,13 @@ extern u8 D_80171014[];
 extern u8 D_8017420C[];
 
 /* Advances an object action through spawning, actor synchronization, and cleanup. */
-void func_801725A4(void *owner, void *motion, void *actor, void *object)
+void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
 {
+    void *object = object_in;
     register s32 is_special;
     u8 *action_data;
-    register s32 x ASM_REG("$2");
+    s16 x;
+    s32 absolute_x;
     s32 y;
     s32 kind;
     u32 kind_index;
@@ -171,15 +174,10 @@ L_selected:
                         0x10);
                     ((S_801725A4_1 *)object)->unk_60 = spawn;
 
-                    x = ((S_801725A4_1 *)object)->unk_72.u;
-                    y = ((S_801725A4_1 *)object)->unk_73.u;
-                    if (x < 0) {
-                        x = -x;
-                    }
-                    if (y < 0) {
-                        y = -y;
-                    }
-                    ((S_801725A4_1 *)object)->unk_72.s = x;
+                    absolute_x = abs(((S_801725A4_1 *)object)->unk_72.u);
+                    y = abs(((S_801725A4_1 *)object)->unk_73.u);
+
+                    ((S_801725A4_1 *)object)->unk_72.s = absolute_x;
                     ((S_801725A4_1 *)object)->unk_73.s = y;
 
                 }

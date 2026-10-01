@@ -78,10 +78,8 @@ typedef struct S_80170B64_3 {
 } S_80170B64_3;   /* work in func_80170B64 */
 
 /* Update actor callbacks, movement, sprite direction, and terrain-relative height. */
-void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
+void func_80170B64(void *actor, void *motion, void *sprite_arg)
 {
-    register void *actor ASM_REG("$17") = actor_arg;
-    register void *motion ASM_REG("$21") = motion_arg;
     void *actor_base = actor;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
     M2C_UNK (*pause_callback)(void *, void *, void *, void *);
@@ -99,10 +97,9 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
     u16 sprite_flags;
 
     if (dungeonStatus.flags & 0x2000) {
-        void *paused_actor = actor_arg;
+        void *paused_actor = actor;
         pause_callback = ((S_80170B64_0 *)actor)->unk_8C;
         if (pause_callback == &D_801711A4) {
-            ASM_KEEP(paused_actor);
             pause_callback(paused_actor, motion, sprite_arg, paused_actor);
             return;
         }
@@ -110,8 +107,6 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
         return;
     }
 
-    ASM_KEEP(actor);
-    ASM_KEEP(motion);
 
     previous_state = (s8)((S_80170B64_0 *)actor)->unk_6D;
     if (func_800A9E70(actor, motion, sprite_arg, actor) == 0) {
@@ -269,8 +264,7 @@ apply_floor_height:
                 ((S_80170B64_3 *)actor_base)->unk_88 = tile_height;
             }
         }
-        actor_arg = motion;
-        ((S_80170B64_1 *)actor_arg)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
+        ((S_80170B64_1 *)motion)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
             (((S_80170B64_3 *)actor_base)->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
         ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }

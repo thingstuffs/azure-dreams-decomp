@@ -69,11 +69,8 @@ typedef struct S_80170BB8_4 {
 } S_80170BB8_4;   /* entity in func_80170BB8 */
 
 /* Updates actor callbacks, motion, sprite effects, facing, and ground height. */
-void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
+void func_80170BB8(u8 *actor, u8 *motion, u8 *entity)
 {
-    register u8 *actor ASM_REG("$18") = actor_data;   /* Byte-exact pin. */
-    u8 *motion = motion_data;
-    u8 *entity = entity_data;
     u8 *subject = actor;
     s16 state_index;
     s32 sprite_index;
@@ -88,38 +85,33 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     s16 floor_offset;
     s32 height_limit;
     u16 height_raw;
+    u16 height_raw2;
     s32 height_offset;
     s32 ground_offset;
     u32 loaded_height;
     s32 direction;
+    s32 view_dir;
+    u32 new_height;
 
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
     global_flags = global_flags_ptr[0x1A31];
     loaded_height = (u32)(part_base + 0x20);
 
-    ASM_KEEP(actor);   /* Byte-exact pin. */
-    ASM_KEEP(subject);   /* Byte-exact pin. */
 
-    global_flags &= 0x2000;
     direction = (s32)(part_base + 0x28);
-    if (global_flags) {
+    if (global_flags & 0x2000) {
         callback = (*(Callback *)((u8 *)actor + 0x8C));
         if (callback == (Callback)D_8017140C) {
-            callback(actor_data, motion_data, entity_data, actor_data);
+            callback(actor, motion, entity, actor);
         } else {
             (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
         }
     } else {
-        void *actor_arg = actor;
-        void *motion_arg = motion;
-        void *entity_arg = entity;
-        void *actor_context;
         u32 raw_state;
 
         raw_state = (*(u8 *)((u8 *)actor + 0x6D));
-        actor_context = actor;
         state_index = (s8)raw_state;
-        if (func_800A9E70(actor_arg, motion_arg, entity_arg, actor_context) == 0) {
+        if (func_800A9E70(actor, motion, entity, actor) == 0) {
             {
                 Callback actor_callback;
 
@@ -175,8 +167,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                     ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_04 &= 0x7FFF;
                     if (((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02 > 0) {
                         do {
-                            func_80047784((u8 *)direction, 0x1C, 0);
-                            direction = (s32)(((u8 *)direction) + (0x30));
+                            func_80047784((u8 *)direction + sprite_index * 0x30, 0x1C, 0);
                             sprite_index++;
                         } while (sprite_index < ((S_80170BB8_3 *)((u8 *)loaded_height))->unk_02);
                     }
@@ -230,14 +221,14 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                 }
                 {
 
-                    if ((*(s16 *)((u8 *)actor + 0x94)) != (direction = (s16)state_index)) {
+                    if ((*(s16 *)((u8 *)actor + 0x94)) != (view_dir = (s16)state_index)) {
                         func_80047738(entity,
-                                      (*(u8 *)((u8 *)(((S_80170BB8_4 *)entity)->unk_2C) + direction)),
+                                      (*(u8 *)((u8 *)(((S_80170BB8_4 *)entity)->unk_2C) + view_dir)),
                                       ((S_80170BB8_4 *)entity)->unk_04);
                         (*(s16 *)((u8 *)actor + 0x94)) = state_index;
                     }
 
-                    if (D_8006CCF8[direction] != 0) {
+                    if (D_8006CCF8[view_dir] != 0) {
                         ((S_80170BB8_4 *)entity)->unk_14 |= 1;
                     } else {
                         ((S_80170BB8_4 *)entity)->unk_14 &= 0xFFFE;
@@ -276,21 +267,20 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                             (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
                                               ((S_80170BB8_1 *)subject)->unk_88);
                         height_offset = (*(s16 *)((u8 *)actor + 0x92));
-                        loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
-                        height_raw = loaded_height;
+                        height_raw = (*(u16 *)((u8 *)actor + 0x92));
                         height_limit = ground_offset - 0x18;
                         if (height_limit < height_offset) {
 
-                            global_flags = height_raw - 8;
-                            (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                            new_height = height_raw - 8;
+                            (*(u16 *)((u8 *)actor + 0x92)) = new_height;
                             subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
                         } else {
                             height_limit = ground_offset;
                             height_limit -= 0x20;
                             height_limit = height_offset < height_limit;
                             if (height_limit) {
-                                global_flags = height_raw + 8;
-                                (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                                new_height = height_raw + 8;
+                                (*(u16 *)((u8 *)actor + 0x92)) = new_height;
                             }
                             subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
                         }
@@ -345,19 +335,18 @@ ground_reset:
                             (s16)(((S_80170BB8_1 *)subject)->unk_88 - 0x20)) -
                                               ((S_80170BB8_1 *)subject)->unk_88);
                         height_offset = (*(s16 *)((u8 *)actor + 0x92));
-                        loaded_height = (*(volatile u16 *)((u8 *)actor + 0x92));
-                        height_raw = loaded_height;
+                        height_raw2 = (*(u16 *)((u8 *)actor + 0x92));
                         height_limit = ground_offset - 0x18;
                         if (height_limit < height_offset) {
-                            global_flags = height_raw - 8;
-                            (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                            new_height = height_raw2 - 8;
+                            (*(u16 *)((u8 *)actor + 0x92)) = new_height;
                         } else {
                             height_limit = ground_offset;
                             height_limit -= 0x20;
                             height_limit = height_offset < height_limit;
                             if (height_limit) {
-                                global_flags = height_raw + 8;
-                                (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
+                                new_height = height_raw2 + 8;
+                                (*(u16 *)((u8 *)actor + 0x92)) = new_height;
                             }
                         }
                     }
@@ -383,6 +372,4 @@ ground_reset:
         }
     }
 
-    ASM_KEEP(motion);   /* Byte-exact pin. */
-    ASM_KEEP(entity);   /* Byte-exact pin. */
 }

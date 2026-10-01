@@ -116,9 +116,9 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     s8 saved_y;
     s32 setup_value;
     register s32 work_flags;
-    register void *alloc_or_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 entry_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 entry_mode ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    void *alloc_or_entry;
+    s32 entry_id;
+    s32 entry_mode;
     s32 child_index;
     u8 *slot;
     s32 entry_index;
@@ -193,8 +193,8 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                     ((S_8017087C_6 *)child_work)->unk_02 = 2;
                 }
                 entry_index = 0;
-                if (((S_8017087C_6 *)child_work)->unk_02 > 0) {
-                    register s32 entry_offset ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                if (entry_index < ((S_8017087C_6 *)child_work)->unk_02) {
+                    s32 entry_offset;
                     s32 child_id_fixed;
 
                     child_slot = slot;
@@ -212,20 +212,18 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
                         ((S_8017087C_7 *)entry)->unk_28 = field_value;
                         entry_mode = 0;
                         callback_obj = child_slot->unk_A4;
-                        ASM_USE(entry_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        entry_offset += 48;
                         callback_obj->unk_10 = func_800D78C0;
                         setup_value = ((S_8017087C_7 *)entry)->unk_14;
-                        entry_index++;
                         setup_value |= 0xC;
                         ((S_8017087C_7 *)entry)->unk_14 = setup_value;
                         func_80047784(alloc_or_entry, entry_id, entry_mode);
+                        entry_offset += 48;
                         ((S_8017087C_7 *)entry)->unk_10 = 96;
                         ((S_8017087C_7 *)entry)->unk_12 = ((S_8017087C_3 *)part_b)->unk_12 - 128;
                         ((S_8017087C_6 *)child_work)->unk_06 = child_index + 1;
                         func_800478E8(part_b, D_800D71A8, ((S_8017087C_6 *)child_work)->unk_06);
                         ((S_8017087C_6 *)child_work)->unk_98 = (u8 *)obj + 30;
-                    } while (entry_index < ((S_8017087C_6 *)child_work)->unk_02);
+                    } while (++entry_index < ((S_8017087C_6 *)child_work)->unk_02);
                 }
             }
             entry_id_fixed += 0x10000;

@@ -19,16 +19,11 @@ extern u8 D_80080000[];
 s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, Rec_D_80082E80 *target,
     EntityRec *actor) {
     s32 target_angle;
-    s32 result;
+    u16 result;
     u16 *global_flags;
 
-    {
-        s32 history;
-
-        history = actor->unk_71;
-        history &= 0x7F;
-        actor->unk_71 = history;
-    }
+    result = actor->unk_71 & 0x7F;
+    actor->unk_71 = result;
     {
 
         global_flags = (u16 *)(D_80080000 + 0x3460);
@@ -53,7 +48,6 @@ s32 func_80172BB0(Rec_func_800A9E70_arg0 *action_state, M2C_UNK action_context, 
     if ((u32)(((0 - func_800A0134(target_angle, actor)) + 0x40) & 0xFFFF) <
         0x81U) {
         result = 1;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((func_800A2B5C(actor) << 0x10) != 0) {
             return -1;
         }

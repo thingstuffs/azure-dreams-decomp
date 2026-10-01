@@ -33,7 +33,7 @@ void *func_800B0F50(void *owner)
     s32 prim_index;
     s32 prim_flags;
     s32 count_or_color;
-    register s32 blue_color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 blue_color;
     s32 color_or_addr;
     s32 vertex_color;
     s32 text_width;
@@ -77,13 +77,14 @@ void *func_800B0F50(void *owner)
         prim = func_800B12F4();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;
         if (prim != 0) {
+            void *owner_pos;
             count_or_color = 3;
-            ASM_KEEP_NV(count_or_color);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             {
                 s32 text_style;
-                text_style = 9;
-                text_buf[2] = text_style;
-                text_buf[0] = text_style;
+                s32 text_style_2;
+                text_style_2 = 9;
+                text_buf[2] = text_style_2;
+                text_buf[0] = text_style_2;
                 text_style = 0x38;
                 digits = &text_buf[4];
                 text_buf[3] = text_style;
@@ -141,14 +142,11 @@ position_text_done:
             owner_pos = 0x204020;
             red_color = 0x200000;
             *((s32 *) (((s8 *) panel_data) + 0x18)) = count_or_color;
-            ASM_KEEP_NV(count_or_color);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            vertex_color = count_or_color;
-            ASM_KEEP_NV(vertex_color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(red_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             red_color |= 0x2040;
             *((s32 *) (((s8 *) panel_data) + 0x1C)) = blue_color;
             *((s32 *) (((s8 *) panel_data) + 0x20)) = owner_pos;
             *((s32 *) (((s8 *) panel_data) + 0x24)) = red_color;
+            vertex_color = *((s32 *) (((s8 *) panel_data) + 0x18));
             *((s32 *) (((s8 *) prim) + 4)) = vertex_color;
             vertex_color = *((s32 *) (((s8 *) panel_data) + 0x1C));
             *((s32 *) (((s8 *) prim) + 0xC)) = vertex_color;
