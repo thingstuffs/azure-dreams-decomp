@@ -3,7 +3,7 @@
 #include "shared/town_root.h"
 
 
-typedef void (*TownCallback)(void *, u8, s32);
+typedef void (*TownCallback)(void *, s32, s32);
 
 
 typedef struct S_8001A3FC_1 {
@@ -20,7 +20,7 @@ extern s32 D_8001C374;
 void func_8001A3FC(void) {
     s32 *entry_base;
     S_8001A3FC_1 *entry;
-    u8 type;
+    s32 type;
     s32 entry_index;
     s32 entry_offset;
 

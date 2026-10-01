@@ -21,7 +21,7 @@ typedef struct S_8001A8DC_2 {
 s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
 {
     s32 scaled_y_delta;
-    s16 other_x;
+    s32 other_x;
     s32 other_y;
     s32 abs_other_weight;
     s32 base_x;

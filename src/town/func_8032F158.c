@@ -15,8 +15,5 @@ typedef struct S_80019958_1 {
 
 /* Set the indexed entry flag using its identifier and entry pointer. */
 void func_80019958(S_80019958_0 *record, s32 entry_index) {
-    S_80019958_1 *entry;
-
-    entry = (entry_index * 0x10) + record->unk_10;
-    func_8001ACE8(entry->unk_0C);
+    func_8001ACE8(((S_80019958_1 *)(record->unk_10 + entry_index * 0x10))->unk_0C);
 }

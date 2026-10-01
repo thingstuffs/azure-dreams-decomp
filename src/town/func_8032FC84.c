@@ -23,30 +23,14 @@ extern void func_8001A044(s32, void *, void *);
 /* Initializes town resources and stores their pointers in the runtime. */
 void func_8001A484(void) {
     s16 *position;
-    u8 *address_base;
-    s32 resource_id;
-    void *callback;
-    void *resource_data;
     TownRuntime *runtime;
 
-    do {
-        position = D_8001B8A8;
-    } while (0);
+    position = D_8001B8A8;
     func_80019860(D_8001B8A8[0], position[1], position[2]);
-    address_base = (u8 *)0x80020000;
-    ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     func_80016748();
-    resource_id = D_8001C370;
-    ASM_KEEP(resource_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    callback = address_base - 0x3B80;
-    resource_data = &D_8001DA10;
-    func_8001A044(resource_id, callback, resource_data);
-    ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
+    func_8001A044(D_8001C370, D_8001C480, &D_8001DA10);
     runtime = *(TownRuntime **)((u8 *)(&D_80016000));
-    do {
-        runtime->field_28 = address_base - 0x3B80;
-    } while (0);
+    runtime->field_28 = D_8001C480;
     runtime->field_34 = &D_8001DC10;
     runtime->field_2C = &D_8001DCD0;
 }

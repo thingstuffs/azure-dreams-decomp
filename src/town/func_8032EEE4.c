@@ -15,22 +15,13 @@ typedef struct {
 /* Find a record by its masked key and initialize it with the source data offset if empty. */
 Func8032EEE4Record *func_800196E4(void *context, Func8032EEE4Record *source) {
     s32 record_key;
-    s32 *offset_slot;
     Func8032EEE4Record *record;
 
     record_key = source->unk0 & 0x3FFF0000;
     record = (Func8032EEE4Record *) func_800196A8(context, record_key);
     if (record->unk4 == NULL) {
-        s32 data_offset;
-        register s32 address ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        offset_slot = source->unk8;
-        data_offset = (s32) source->unkC;
-        address = D_8001DCCC;
-        data_offset = data_offset - address;
-        data_offset = data_offset + 4;
-        *offset_slot = data_offset;
-        address = (s32) source->unk8;
-        record->unk4 = (void *) address;
+        *source->unk8 = source->unkC - D_8001DCCC + 4;
+        record->unk4 = source->unk8;
         record->unk0 = record_key;
         record->unkC = 0;
     }
