@@ -12,21 +12,22 @@ u32 func_8005E4C4(s32 mode, u32 value, s32 low_index, s32 high_index)
     s32 dirty_bit;
 
     {
-        register volatile u16 *words ASM_REG("$4");
+        typedef volatile u16 CacheWord;
         u32 high_bits;
         u32 low_word;
 
         if (D_80079950 & 1) {
-            words = D_80086BD0;
+            CacheWord *branch_words = D_80086BD0;
+            high_bits = (branch_words[high_index] & 0xFF) << 16;
+            low_word = branch_words[low_index];
+            result = low_word | high_bits;
         } else {
-            words = D_80079958;
+            CacheWord *branch_words = D_80079958;
+            high_bits = (branch_words[high_index] & 0xFF) << 16;
+            low_word = branch_words[low_index];
+            result = low_word | high_bits;
         }
-        high_bits = (words[high_index] & 0xFF) << 16;
-        low_word = words[low_index];
-        do {
-            dirty_bit = 1;
-        } while (0);
-        result = low_word | high_bits;
+        dirty_bit = 1;
     }
 
     switch (mode) {
