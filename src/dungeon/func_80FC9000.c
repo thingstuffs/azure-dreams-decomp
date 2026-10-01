@@ -1,5 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
+typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -105,9 +106,6 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
     s32 count;
     u16 actor_value;
     s32 double_index;
-    s32 scaled_index;
-    u8 *selected_entry;
-    s16 *values_ptr;
     s16 values[4];
     u8 *entry;
     s16 pin_arg1;
@@ -181,18 +179,12 @@ scan_entries:
             goto scan_entries;
         }
 
-        values_ptr = values;
-        ASM_KEEP(values_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        scaled_index = double_index + index;
-        scaled_index <<= 2;
-        selected_entry =
-            (u8 *)(scaled_index + (s32)part_b->unk_08);
-        count = (*(u16 *)(selected_entry + 6)) >> 6;
-        values[2] = 0x100;
+        count = ((CountView *)(part_b->unk_08 + (double_index + index) * 4))->count >> 6;
         values[0] = 0;
-        values[3] = 1;
         values[1] = count;
-        func_800673A0(values_ptr, 0, count - 1);
+        values[2] = 0x100;
+        values[3] = 1;
+        func_800673A0(values, 0, count - 1);
 
         values[2] = 0x10;
         values[0] = 0x30;

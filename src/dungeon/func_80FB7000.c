@@ -1,4 +1,5 @@
 #include "common.h"
+typedef struct { u8 pad[6]; u16 count; } CountView;
 #include "shared/object_node.h"
 #include "shared/slus_callbacks.h"
 
@@ -107,9 +108,6 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
     s32 entry_count;
     u16 actor_value;
     s32 twice_index;
-    s32 entry_offset;
-    u8 *selected_entry;
-    s16 *rect_ptr;
     s16 rect[4];
     u8 *entry;
     s16 saved_part_value;
@@ -190,18 +188,12 @@ scan_entries:
             goto scan_entries;
         }
 
-        rect_ptr = rect;
-        ASM_KEEP(rect_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        entry_offset = twice_index + entry_index;
-        entry_offset <<= 2;
-        selected_entry =
-            (u8 *)(entry_offset + (s32)part_b->unk_08);
-        entry_count = (*(u16 *)(selected_entry + 6)) >> 6;
-        rect[2] = 0x100;
+        entry_count = ((CountView *)(part_b->unk_08 + (twice_index + entry_index) * 4))->count >> 6;
         rect[0] = 0;
-        rect[3] = 1;
         rect[1] = entry_count;
-        func_800673A0(rect_ptr, 0, entry_count - 1);
+        rect[2] = 0x100;
+        rect[3] = 1;
+        func_800673A0(rect, 0, entry_count - 1);
 
         rect[2] = 0x10;
         rect[0] = 0x30;
