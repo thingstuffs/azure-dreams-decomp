@@ -57,23 +57,21 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
 {
     Func80BBB094PartC *result = 0;
     register s32 arg1Reg ASM_REG("$21") = attr_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register unsigned long slot1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    unsigned long slot1;
     s16 arg2Reg;
     register Func80BBB094PartC *resultAlias;
     Func80BBB094Object *obj;
     Func80BBB094PartA *partA;
     s16 savedArg0;
     Func80BBB094PartB *partB;
-    unsigned long slot2;
     s32 mode;
     s32 flag;
     s32 randomTest;
     slot1 = (unsigned long)attr_c;
     arg2Reg = attr_b;
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    savedArg0 = spawn_flags;
     if (obj != 0) {
-        savedArg0 = spawn_flags;
-        ASM_KEEP_NV(spawn_flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         result = &obj->unk20;
         result->unk13 = 14;
         func_8004491C(obj, func_80045340);
@@ -98,9 +96,8 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
             result->unk1C |= 0x2000;
             partB->unk2C = D_80150ED8;
         } else {
-            slot2 = spawn_flags & -4;
-            slot2 = (u32)slot2 << 16;
-            if (slot2 == 0) {
+            spawn_flags = (s16)(spawn_flags & -4);
+            if (spawn_flags == 0) {
                 flag = result->unk14 & 0x200;
                 if (flag == 0) {
                     randomTest = func_800A6D30() & 1;

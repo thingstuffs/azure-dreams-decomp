@@ -63,7 +63,8 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
     DungeonGlobalStatus *held_base;
     void *callback;
     TileObject *room_base;
-    register DungeonGlobalStatus *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    DungeonGlobalStatus *counter_base;
+    s32 counter_value;
     s32 action_state;
     s32 obj_kind;
     s32 actor_flags;
@@ -82,7 +83,9 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
                 >> 9) & 7], 0);
         }
         counter_base = &dungeonStatus;
-        (*(u16 *)&counter_base->unk_0A)--;
+        counter_value = *(u16 *)&counter_base->unk_0A;
+        counter_value--;
+        *(u16 *)&counter_base->unk_0A = counter_value;
         ((S_8016CC70_0 *)obj_arg)->unk_9B++;
         return;
 
@@ -166,7 +169,9 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
             break;
         }
         counter_base = &dungeonStatus;
-        (*(u16 *)&counter_base->unk_0A)++;
+        counter_value = *(u16 *)&counter_base->unk_0A;
+        counter_value++;
+        *(u16 *)&counter_base->unk_0A = counter_value;
         ((S_8016CC70_0 *)obj_arg)->unk_9B++;
         return;
 
@@ -175,7 +180,9 @@ void func_8016CC70(void *obj_arg, s32 context_arg, void *target_arg, void *actor
             return;
         }
         counter_base = &dungeonStatus;
-        (*(u16 *)&counter_base->unk_0A)--;
+        counter_value = *(u16 *)&counter_base->unk_0A;
+        counter_value--;
+        *(u16 *)&counter_base->unk_0A = counter_value;
         break;
 
     default:

@@ -91,6 +91,8 @@ typedef struct S_80024930_4 {
 } S_80024930_4;   /* (void *)offset in func_80024930 */
 
 
+typedef struct TagWord { u32 addr:24; u32 len:8; } TagWord;
+
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
@@ -204,17 +206,11 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
             u32 depth_or_mask = ((S_80024930_0 *)scratch)->unk_B4;
 
             if (depth_or_mask < 0x1E0U) {
-                register u32 address_mask ASM_REG("$4") = 0x00FFFFFFU;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 u32 ot_entry_addr = depth_or_mask * 4;
-
-                depth_or_mask = 0xFF000000U;
                 ot_entry_addr += (u32)((S_80024930_0 *)scratch)->unk_18.p2;
-                ((S_80024930_3 *)prim)->unk_00.at00.v = (((S_80024930_3 *)prim)->unk_00.at00.v & depth_or_mask) |
-                    (((S_80024930_4 *)((void *)ot_entry_addr))->unk_00 & address_mask);
-                (*(u32 *)((u8 *)(((S_80024930_0 *)scratch)->unk_18.p2) + ((S_80024930_0 *)scratch)->unk_B4 * 4)) =
-                    ((*(u32 *)((u8 *)(((S_80024930_0 *)scratch)->unk_18.p2)
-                        + ((S_80024930_0 *)scratch)->unk_B4 * 4)) & depth_or_mask) |
-                    ((u32)prim & address_mask);
+                ((TagWord *)prim)->addr = ((S_80024930_4 *)(void *)ot_entry_addr)->unk_00;
+                ((TagWord *)((u8 *)((S_80024930_0 *)scratch)->unk_18.p2 +
+                    ((S_80024930_0 *)scratch)->unk_B4 * 4))->addr = (u32)prim;
             }
         }
     }

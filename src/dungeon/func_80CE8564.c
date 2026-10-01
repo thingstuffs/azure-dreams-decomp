@@ -79,7 +79,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
     s16 init_flags;
     void *object;
     register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 mode_or_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 mode_or_object;
     s32 kind_or_position;
     s32 alternate_kind;
     s32 state_flags;
@@ -154,7 +154,8 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_hei
                     mode_or_object = (s32)object;
                     kind_or_position = (s32)position;
                     if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
-                        state_flags = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
+                        mode_or_object = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
+                        state_flags = mode_or_object;
                         mode_or_object = (s32)object;
                         if (state_flags & 1) {
                             func_800A48F0(result, 1,
