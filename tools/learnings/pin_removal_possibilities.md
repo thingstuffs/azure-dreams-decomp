@@ -560,3 +560,12 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   decides which zero sets survive (800ABBF8, open).
 - **Dropped pass-through parameter:** a hook that tail-calls a dispatcher with fewer args than its siblings, with REG pins
   on parameter copies, lost a parameter (r85_opus_fit1 800C738C 3->0).
+- **Parameter REG_EQUIV family (r85_fable_regequiv MECHANISM.md):** cdk gives EVERY pointer/int register parameter a
+  REG_EQUIV to its home slot (function.c:3979; K&R and prototyped identical under PROMOTE_PROTOTYPES) and doubles its
+  live length when exactly one set survives (local-alloc.c 1043/1105). Un-doubling in C: a LIVE conditional set / a walk
+  / a narrowing store-back at a masked re-use (`p = (s16)(p & -4)` - 80BBB094 3->1, 80E07054); a dead init, store via the
+  pointer, call argument or `p = p` do not. A local COPY un-doubles but is sched1 "birthing" (sched.c 2513/2583) while
+  direct parameters' entry moves are skipped by schedule_block (3252-3275) - that is why every copy attempt sank. cse's
+  copy swap (cse.c 7490-7530) un-doubles only the LAST hard-register parameter via a first-statement typed copy. Where the
+  retail prologue shows the parameter direct (doubled), the pins were a crutch for an inequality on the COMPETITOR's
+  side (its refs/live) - work that side. Census: 68 COLOUR sites on parameters in 44 rows, 25 with a doubled parameter.
