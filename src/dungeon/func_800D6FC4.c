@@ -59,20 +59,14 @@ void func_800DC724(S_800DC724_0 *state, s32 coord)
     if (delta_x != 0) {
         state->unk_58 = 1;
         coord = position->unk_08;
-        biased_dx = delta_x + 3;
-        if (delta_x <= 0) {
-            biased_dx = delta_x - 3;
-        }
+        biased_dx = delta_x > 0 ? delta_x + 3 : delta_x - 3;
         position->unk_08 = coord + (biased_dx >> 2);
     }
     delta_y = (s16)target_y - position->unk_0A;
     if (delta_y != 0) {
         state->unk_58 = 1;
         coord = position->unk_0A;
-        biased_dy = delta_y + 3;
-        if (delta_y <= 0) {
-            biased_dy = delta_y - 3;
-        }
+        biased_dy = delta_y > 0 ? delta_y + 3 : delta_y - 3;
         position->unk_0A = coord + (biased_dy >> 2);
     }
     func_800DC650(state, coord, target_y);
