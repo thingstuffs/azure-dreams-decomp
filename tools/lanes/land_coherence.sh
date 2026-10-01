@@ -88,7 +88,7 @@ sys.path.insert(0, "tools")
 from common import rows, set_row_cfg, read_jsonl, LEDGER, clean_path, sha_text
 D, tag = sys.argv[1], sys.argv[2]
 by = {r["id"]: r for r in rows()}
-applied = {r["id"] for r in read_jsonl(LEDGER / "sweeps" / f"coherence_{tag}.jsonl") if r.get("outcome") == "applied"}
+applied = {r["id"] for r in read_jsonl(LEDGER / "sweeps" / f"coherence_{tag}.jsonl") if r.get("outcome") in ("applied", "noop")}   # noop = candidate identical to the current text: a pure recipe switch (r84: these were restored, leaving false trades)
 for rid in [l.strip() for l in open(f"{D}/switched.txt") if l.strip()]:
     if rid not in applied:
         old = next(json.loads(l)["cfg_from"] for l in reversed(open("ledger/recipe_trades.jsonl").read().splitlines()) if json.loads(l)["id"] == rid and json.loads(l).get("kind") in ("coherence", "recipe-switch"))
@@ -97,8 +97,8 @@ for rid in [l.strip() for l in open(f"{D}/switched.txt") if l.strip()]:
 print("switched", len(open(f"{D}/switched.txt").read().split()), "applied", len(applied))
 EOF
 IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
-if [ -n "$IDS" ]; then
-  echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1
+if [ -n "$IDS" ] || [ -s "$D/switched.txt" ]; then   # r84: a recipe-only switch must be gated too
+  [ -n "$IDS" ] && { echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1; }
   echo "== gate"
   if [ "$ISO" = 1 ]; then
     EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
