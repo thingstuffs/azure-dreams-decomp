@@ -1,29 +1,20 @@
 #include "common.h"
 
-extern u8 D_800157D2[];
-
-/* GCC 2.7.2 does not accept the read/write constraint in ASM_KEEP. */
-
 /* Count entries matching both bytes, stopping at a zero value or 64 entries. */
 s32 func_80026E70(s32 target_value, s32 prefix_value) {
-    s32 count;
     s32 index;
-    u8 *entry;
+    s32 count;
     u8 value;
+    u8 *page = (u8 *)0x80010000;
 
     count = 0;
-    index = count;
-    entry = D_800157D2;
-loop:
-    value = entry[0];
-    if (value != 0) {
-        if ((value == target_value) && (entry[-1] == prefix_value)) {
-            count++;
+    for (index = 0; index < 0x40; index++) {
+        value = page[0x57D2 + index * 0x13];
+        if (value == 0) {
+            break;
         }
-        index++;
-        entry += 0x13;
-        if (index < 0x40) {
-            goto loop;
+        if ((value == target_value) && (page[0x57D1 + index * 0x13] == prefix_value)) {
+            count++;
         }
     }
     return count;

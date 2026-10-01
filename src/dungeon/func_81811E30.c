@@ -1,28 +1,20 @@
 #include "common.h"
 
-extern u8 D_800157D2;
-
-
 /* Count matching entry values, stopping at a zero value or 64 entries. */
 s32 func_80026E30(s32 target_value) {
     s32 index;
     s32 count;
-    u8 *entry;
     u8 value;
+    u8 *page = (u8 *)0x80010000;
 
     count = 0;
-    index = count;
-    entry = &D_800157D2;
-loop:
-    value = *entry;
-    if (value != 0) {
+    for (index = 0; index < 0x40; index++) {
+        value = page[0x57D2 + index * 0x13];
+        if (value == 0) {
+            break;
+        }
         if (value == target_value) {
             count++;
-        }
-        index++;
-        entry += 0x13;
-        if (index < 0x40) {
-            goto loop;
         }
     }
     return count;
