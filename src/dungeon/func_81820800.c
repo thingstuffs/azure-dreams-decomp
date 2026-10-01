@@ -4,6 +4,7 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
@@ -170,12 +171,11 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     s32 step_x;
     s32 step_y;
     s32 offset_x;
-    register s32 offset_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 offset_y;
     M2C_UNK distance_or_script;
-    register s32 delta_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 *x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 abs_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    s32 effects_left;
+    s32 abs_y;
+    s32 dir_offset;
+    s32 coord_x;
     s32 velocity_x;
     s32 velocity_y;
     s32 phase;
@@ -183,25 +183,23 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     s32 end_x;
     s32 coord_y;
     u16 duration;
-    s32 coord_x;
     state_obj = state;
     source = source_data;
-    x_steps = (s8 *) ((M2C_UNK *)dirStepX);
     actor = state_obj->unk_00;
     owner = (void *) ((u8 *) actor - 0x20);
     header_raw = actor->unk_2A;
-    delta_x = header_raw >> 8;
-    abs_y = (s32)(delta_x & 0xE);
+    coord_x = header_raw >> 8;
+    dir_offset = coord_x & 0xE;
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
-    step_x = *(s16 *)((M2C_UNK)abs_y + x_steps);
-    step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)((M2C_UNK *)dirStepY));
+    step_x = *(s16 *)((u8 *)dirStepX + dir_offset);
+    step_y = *(s16 *)((u8 *)dirStepY + dir_offset);
     if (state_obj->unk_0A == 1) {
         motion->unk_00.unk_00 = (s32) (motion->unk_00.unk_00 + motion->unk_0C);
         motion->unk_04.unk_04 = (s32) (motion->unk_04.unk_04 + motion->unk_10);
-        delta_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
+        coord_x = func_800BCB04(motion->unk_00.unk_02.unk_02, motion->unk_04.unk_06.unk_06,
             (s16) (((S_func_81820800_8 *) owner->unk_08)->unk_0A - 0x30));
-        if (delta_x < 0x200) {
-            motion->unk_0A = delta_x;
+        if (coord_x < 0x200) {
+            motion->unk_0A = coord_x;
         }
     }
     phase = state_obj->unk_0A;
@@ -241,7 +239,6 @@ state_aim:
             coord_x = tile_left_2 + 0x20;
             tile_top = (tile_data->unk_25 + offset_y) << 6;
             coord_y = tile_top + 0x20;
-            ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         }
         if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400),
             (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
@@ -277,17 +274,15 @@ start_motion:
         abs_y = (s8)actor->unk_73;
         phase = tile_data->unk_24;
         start_y = tile_data->unk_25;
-        delta_x = end_x - phase;
+        coord_x = end_x - phase;
         coord_y = abs_y - start_y;
     }
-    distance_or_script = delta_x;
-    if (delta_x < 0) {
+    distance_or_script = (s16)coord_x;
+    if (coord_x < 0) {
         distance_or_script = 0 - distance_or_script;
     }
     abs_y = coord_y;
-    if (coord_y < 0) {
-        abs_y = 0 - abs_y;
-    }
+    abs_y = abs(abs_y);
     if (distance_or_script < abs_y) {
         distance_or_script = abs_y;
     }
@@ -307,7 +302,7 @@ state_trail:
     if (actor->unk_60 == NULL) {
         coord_y = -1;
     }
-    effects_left = 2;
+    coord_x = 2;
     distance_or_script = (s32)&D_800245B4;
 next_effect:
     effect = func_8003FD64(0x201, ((M2C_UNK *)&D_80083498.next));
@@ -335,8 +330,8 @@ next_effect:
         effect->unk_20 = state_obj;
         effect_data->unk_56 = (s16) ((u16) state_obj->unk_0A - 1);
     }
-    effects_left -= 1;
-    if (effects_left >= 0) {
+    coord_x -= 1;
+    if (coord_x >= 0) {
         goto next_effect;
     }
     if ((s16) state_obj->unk_50 > 0) {

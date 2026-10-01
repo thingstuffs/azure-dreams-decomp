@@ -60,28 +60,20 @@ extern void func_800257E0(void);
 #define PTR(p, o) (*(void **)((u8 *)(p) + (o)))
 
 /* Update a projectile effect, its trail, and the target hit animation. */
-void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
+void func_80025C5C(void *effect, void *motion, void *sprite) {
     u16 origin_offset[4];
     PointTable direction_steps;
-    void *effect = effect_data;
-    void *motion = motion_data;
-    void *sprite = sprite_data;
-    register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *owner;
     void *object;
-    register void *object_data ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object_data;
     void *effect_object;
-    void *depth_value;
     void *owner_sprite;
-    void *direction_offset;
-    void *y_velocity;
     void *origin_sprite;
     void *target_data;
-    void *step_entry;
-    void *z_step;
     register void *offset_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *spawn_sprite;
+    void *hit_target;
     void *target;
-    register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 render_flags;
     s32 trail_color;
     s32 state_index;
@@ -110,16 +102,14 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
         U32(sprite, 0xC) = 0x00808080;
         U16(sprite, 0x1E) = 0x1000;
         U16(sprite, 0x1C) = 0x1000;
-        ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
         PTR(sprite, 8) = (u8 *)effect + 0x98;
-        table_value = (void **)(u32)U16(owner, 0x2A);
-        D_8002694C[0] = 1;
-        offset_value = (void *)(u32)U16(effect, 0xA);
-        table_value = (void **)(((u32)table_value >> 9) & 7);
-        U16(effect, 0x7E) = (u32)table_value;
-        offset_value = (void *)((u32)offset_value + 1);
-        U16(effect, 0xA) = (u32)offset_value;
+        {
+            u16 facing = U16(owner, 0x2A);
+            D_8002694C[0] = 1;
+            U16(effect, 0x7E) = (facing >> 9) & 7;
+        }
+        U16(effect, 0xA) += 1;
 
     case 1:
         origin_sprite = PTR(object, 0xC);
@@ -150,60 +140,37 @@ await_launch:
         if (!(U8(effect, 0x7A) & 4)) {
             effect_object = (u8 *)effect - 0x20;
             func_8004491C(effect_object, func_80045340);
-            depth_value = (void *)0x20;
-            offset_value = (void *)(u32)U16(sprite, 0x14);
-            table_value = (void **)0x80;
-            U16(sprite, 0x10) = (u32)depth_value;
-            U8(sprite, 0xD) = (u32)table_value;
-            U8(sprite, 0xC) = (u32)table_value;
-            U8(sprite, 0xE) = (u32)depth_value;
-            U16(sprite, 0x14) = (u32)((void *)((u32)offset_value | 0xC));
+            U16(sprite, 0x10) = 0x20;
+            U8(sprite, 0xD) = 0x80;
+            U8(sprite, 0xC) = 0x80;
+            U8(sprite, 0xE) = 0x20;
+            U16(sprite, 0x14) |= 0xC;
             U8(effect, 0x7A) |= 4;
         }
 
-        table_value = PTR(owner, 0x60);
+        hit_target = PTR(owner, 0x60);
         offset_value = (void *)0x10;
-        if (table_value != 0) {
-            object = PTR(table_value, -0x18);
+        if (hit_target != 0) {
+            object = PTR(hit_target, -0x18);
             U16(effect, 0x74) = U16(object, 2);
             U16(effect, 0x76) = U16(object, 6);
-            offset_value = PTR(owner, 0x60);
-            offset_value = (void *)(u32)U8(offset_value, 0x13);
-            offset_value = (u8 *)offset_value + (u32)((void **)((void **)&D_800DDC40));
-            table_value = (void **)(u32)U8(offset_value, 0);
-            offset_value = (void *)(u32)U16(object, 0xA);
-            table_value = (void **)((u32)table_value + 0x20);
-            offset_value = (void *)((u32)offset_value - (u32)table_value);
-            table_value = (void **)((u8 *)dirStepX);
-            U16(effect, 0x78) = (u32)offset_value;
-            offset_value = (void *)(s32)S16(effect, 0x7E);
-            owner_sprite = PTR(owner, -0x14);
-            offset_value = (void *)((s32)offset_value << 1);
-            offset_value = (u8 *)offset_value + (u32)table_value;
-            table_value = (void **)(u32)U8(owner_sprite, 0x24);
-            offset_value = (void *)(u32)U8(offset_value, 0);
-            table_value = (void **)((u32)table_value + (u32)offset_value);
-            U8(effect, 0xA4) = (u32)table_value;
-
-            offset_value = (void *)(s32)S16(effect, 0x7E);
-            table_value = (void **)((u8 *)dirStepY);
-            offset_value = (void *)((s32)offset_value * 2);
-            offset_value = (u8 *)offset_value + (u32)table_value;
-            table_value = (void **)(u32)U8(owner_sprite, 0x25);
-            offset_value = (void *)(u32)U8(offset_value, 0);
-            table_value = (void **)((u32)table_value + (u32)offset_value);
-            U8(effect, 0xA5) = (u32)table_value;
-
             {
-                s32 owner_axis = S8(owner, 0x72);
-                offset_value = (void *)(U8(owner_sprite, 0x24));
-
-                if (owner_axis != (u32)offset_value) {
-                    tile_distance = owner_axis - (u32)offset_value;
+                s32 height = D_800DDC40[U8(PTR(owner, 0x60), 0x13)] + 0x20;
+                U16(effect, 0x78) = U16(object, 0xA) - height;
+            }
+            owner_sprite = PTR(owner, -0x14);
+            U8(effect, 0xA4) = U8(owner_sprite, 0x24) + *(u8 *)&dirStepX[S16(effect, 0x7E)];
+            U8(effect, 0xA5) = U8(owner_sprite, 0x25) + *(u8 *)&dirStepY[S16(effect, 0x7E)];
+            {
+                s32 grid;
+                tile_distance = S8(owner, 0x72);
+                grid = U8(owner_sprite, 0x24);
+                if (tile_distance != grid) {
+                    tile_distance -= grid;
                 } else {
-                    owner_axis = S8(owner, 0x73);
-                    offset_value = (void *)(U8(owner_sprite, 0x25));
-                    tile_distance = owner_axis - (u32)offset_value;
+                    tile_distance = S8(owner, 0x73);
+                    grid = U8(owner_sprite, 0x25);
+                    tile_distance -= grid;
                 }
             }
             if (tile_distance < 0) {
@@ -211,26 +178,13 @@ await_launch:
             }
             U8(effect, 0x7B) = tile_distance * 2 - 1;
         } else {
-            table_value = (void **)(s32)S16(effect, 0x7E);
-            ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            direction_offset = (void *)(s32)S16(effect, 0x7E);
             U8(effect, 0x7B) = (u32)offset_value;
-            step_entry = &direction_steps.p[0];
-            table_value = (void **)((s32)table_value * 4);
-            table_value = (void **)((u8 *)step_entry + (u32)table_value);
-            direction_offset = (void *)((s32)direction_offset * 4);
-            offset_value = (void *)(u32)U16(table_value, 0);
-            table_value = (void **)(u32)U16(motion, 2);
-            offset_value = (void *)((u32)offset_value << 4);
-            table_value = (void **)((u32)table_value + (u32)offset_value);
+            offset_value = (void *)((u16)direction_steps.p[S16(effect, 0x7E)].x << 4);
             {
                 u8 travel_ticks = U8(effect, 0x7B);
-                U16(effect, 0x74) = (u32)table_value;
-                offset_value = (void *)(u32)U16((u8 *)step_entry + (u32)direction_offset, 2);
-                table_value = (void **)(s32)(s8)travel_ticks;
+                U16(effect, 0x74) = U16(motion, 2) + (u32)offset_value;
+                U16(effect, 0x76) = U16(motion, 6) + direction_steps.p[S16(effect, 0x7E)].y * (s8)travel_ticks;
             }
-            U16(effect, 0x76) = U16(motion, 6) +
-                (u32)offset_value * (s32)table_value;
             U16(effect, 0x78) = U16(owner, 0x88) - 0x50;
         }
 
@@ -254,25 +208,21 @@ await_launch:
 
                 spawn_sprite = PTR(object, 0xC);
 
-                offset_value = (void *)(u32)U16(spawn_sprite, 0x14);
-                table_value = (void **)0x20;
-                U16(spawn_sprite, 0x10) = (u32)table_value;
-                offset_value = (void *)((u32)offset_value | 0xC);
-                U16(spawn_sprite, 0x14) = (u32)offset_value;
-                offset_value = PTR(object, 8);
-                U16(offset_value, 2) = U16(motion, 2);
-                U16(offset_value, 6) = U16(motion, 6);
-                table_value = (void **)(u32)U16(motion, 0xA);
-                U16(offset_value, 0xA) = (u32)table_value;
+                U16(spawn_sprite, 0x10) = 0x20;
+                U16(spawn_sprite, 0x14) |= 0xC;
+                {
+                    void *spawn_pos = PTR(object, 8);
+                    U16(spawn_pos, 2) = U16(motion, 2);
+                    U16(spawn_pos, 6) = U16(motion, 6);
+                    U16(spawn_pos, 0xA) = U16(motion, 0xA);
+                }
                 spawn_sprite = PTR(object, 0xC);
-                table_value = (void **)0x1000;
-                U16(spawn_sprite, 0x1E) = (u32)table_value;
-                U16(spawn_sprite, 0x1C) = (u32)table_value;
-                table_value = (void **)0x10;
+                U16(spawn_sprite, 0x1E) = 0x1000;
+                U16(spawn_sprite, 0x1C) = 0x1000;
                 U8(spawn_sprite, 0xD) = trail_color;
                 U8(spawn_sprite, 0xC) = trail_color;
-                U8(spawn_sprite, 0xE) = (u32)table_value;
-                U8(object_data, 0x38) = (u32)table_value;
+                U8(spawn_sprite, 0xE) = 0x10;
+                U8(object_data, 0x38) = 0x10;
                 U8(object_data, 0x37) = trail_color;
                 U8(object_data, 0x36) = trail_color;
                 *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026934;
@@ -300,24 +250,10 @@ await_launch:
 
             S32(motion, 0xC) = ((S16(effect, 0x74) << 16) - S32(motion, 0)) / S8(effect, 0x7B);
             S32(motion, 0x10) = ((S16(effect, 0x76) << 16) - S32(motion, 4)) / S8(effect, 0x7B);
-            table_value = (void **)(s32)S8(effect, 0x7B);
-            offset_value = (void *)(u32)S32(motion, 8);
-            depth_value = (void *)(u32)(S16(effect, 0x78) << 16);
-            depth_value = (void *)((s32)depth_value - (s32)offset_value);
-            depth_value = (void *)((s32)depth_value / (s32)table_value);
-            table_value = (void **)(u32)S32(motion, 0);
-            offset_value = (void *)(u32)S32(motion, 0xC);
-            table_value = (void **)((s32)table_value + (s32)offset_value);
-            S32(motion, 0) = (s32)table_value;
-            table_value = (void **)(u32)S32(motion, 4);
-            offset_value = (void *)(u32)S32(motion, 8);
-            *(volatile s32 *)((u8 *)motion + 0x14) = (s32)depth_value;
-            y_velocity = (void *)(u32)S32(motion, 0x10);
-            z_step = (void *)(u32)S32(motion, 0x14);
-            table_value = (void **)((s32)table_value + (s32)y_velocity);
-            offset_value = (void *)((s32)offset_value + (s32)z_step);
-            S32(motion, 4) = (s32)table_value;
-            S32(motion, 8) = (s32)offset_value;
+            S32(motion, 0x14) = ((S16(effect, 0x78) << 16) - S32(motion, 8)) / S8(effect, 0x7B);
+            S32(motion, 0) += S32(motion, 0xC);
+            S32(motion, 4) += S32(motion, 0x10);
+            S32(motion, 8) += S32(motion, 0x14);
         } while (1);
 
     case 3:
@@ -340,10 +276,12 @@ await_launch:
             spawn_sprite = PTR(object, 0xC);
             U16(spawn_sprite, 0x10) = 0x20;
             U16(spawn_sprite, 0x14) |= 0xC;
-            offset_value = PTR(object, 8);
-            U16(offset_value, 2) = U16(motion, 2);
-            U16(offset_value, 6) = U16(motion, 6);
-            U16(offset_value, 0xA) = U16(motion, 0xA);
+            {
+                void *spawn_pos = PTR(object, 8);
+                U16(spawn_pos, 2) = U16(motion, 2);
+                U16(spawn_pos, 6) = U16(motion, 6);
+                U16(spawn_pos, 0xA) = U16(motion, 0xA);
+            }
             *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026940;
             PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
         }
@@ -401,33 +339,23 @@ finish_fade:
 
     case 5:
         U16(effect, 0x82) = U16(effect, 0x82) + 1;
-        particle_index = 0;
         blue_scaled = S16(effect, 0x82) * 0x20;
-        table_value = (void **)(blue_scaled / 0x28);
-        U8(effect, 0x92) = (s32)table_value;
+        U8(effect, 0x92) = blue_scaled / 0x28;
         green_scaled = S16(effect, 0x82) * 8;
         green_scaled = (green_scaled - S16(effect, 0x82)) * 32;
-        table_value = (void **)(green_scaled / 0x28);
-        U8(effect, 0x91) = (s32)table_value;
+        U8(effect, 0x91) = green_scaled / 0x28;
         red_scaled = S16(effect, 0x82) * 8;
         red_scaled = (red_scaled - S16(effect, 0x82)) * 32;
-        table_value = (void **)(red_scaled / 0x28);
-        U8(effect, 0x90) = (s32)table_value;
+        U8(effect, 0x90) = red_scaled / 0x28;
 
-        offset_value = PTR(owner, 0x60);
-        motion = (u8 *)D_800DDC40;
-        object = PTR(offset_value, -0x18);
-loop_1:
-        {
+        object = PTR(PTR(owner, 0x60), -0x18);
+        for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
+            func_800251E8((D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-            particle_index += 1;
+                                (D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1)));
         }
-        if (particle_index < 2)
-            goto loop_1;
         if (S16(effect, 0x82) >= 0x28) {
             U16(effect, 0x82) = 0;
             U16(effect, 0xA) += 1;
@@ -441,36 +369,25 @@ loop_1:
         target_tick = (s16)next_tick;
         U16(effect, 0x82) = next_tick;
     }
-        particle_index = 0;
         if (target_tick >= 0x24) {
             U8(effect, 0x92) = ((0x46 - target_tick) * 0x20) / 0x23;
             U8(effect, 0x91) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
             U8(effect, 0x90) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
         }
 
-        offset_value = PTR(owner, 0x60);
-        motion = (u8 *)D_800DDC40;
-        object = PTR(offset_value, -0x18);
-loop_1_:
-        {
+        object = PTR(PTR(owner, 0x60), -0x18);
+        for (particle_index = 0; particle_index < 2; particle_index++) {
             particle_color = (U8(effect, 0x92) << 16) + (U8(effect, 0x91) << 8) + U8(effect, 0x90);
-            func_800251E8((*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1) + 4,
+            func_800251E8((D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1) + 4,
                           particle_color, 0x80, S16(object, 2), S16(object, 6),
                           (s16)(U16(object, 0xA) -
-                                (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-            particle_index += 1;
+                                (D_800DDC40[U8(PTR(owner, 0x60), 0x13)] >> 1)));
         }
-        if (particle_index < 2)
-            goto loop_1_;
 
         target = PTR(owner, 0x60);
-        table_value = (void **)(u32)U32(target, 0x1C);
-        offset_value = (void *)0x10000000;
-        table_value = (void **)((u32)table_value | (u32)offset_value);
-        U32(target, 0x1C) = (u32)table_value;
-        table_value = (void **)(s32)S16(effect, 0x82);
+        U32(target, 0x1C) |= 0x10000000;
         target_data = PTR(target, -0x14);
-        if ((s32)table_value >= 0x24) {
+        if (S16(effect, 0x82) >= 0x24) {
             U8(target_data, 0xC) -= 3;
             U8(target_data, 0xD) -= 3;
             U8(target_data, 0xE) += 2;
@@ -483,11 +400,11 @@ loop_1_:
             return;
         }
 
-        offset_value = PTR(owner, 0x60);
-        target_data = PTR(offset_value, -0x14);
-        table_value = (void **)(u32)U32(offset_value, 0x1C);
-        table_value = (void **)((u32)table_value & 0xEFFFFFFF);
-        U32(offset_value, 0x1C) = (u32)table_value;
+        {
+            void *released = PTR(owner, 0x60);
+            target_data = PTR(released, -0x14);
+            U32(released, 0x1C) &= 0xEFFFFFFF;
+        }
         U8(target_data, 0xE) = 0x80;
         U8(target_data, 0xD) = 0x80;
         U8(target_data, 0xC) = 0x80;
@@ -505,8 +422,7 @@ loop_1_:
         effect_busy = D_8002694C[0];
         U16(effect, 0x82) = finish_tick;
         if (effect_busy == 0) {
-            table_value = (void **)(D_8007CCD8 + 13096);
-            S32(table_value, 0x346C) = 0;
+            S32(D_8007CCD8 + 13096, 0x346C) = 0;
             U16(effect, -2) |= 0x8000;
             U32((void *)D_80080000, 0x14A0) |= 0x8000;
             return;
@@ -527,8 +443,7 @@ set_render_flag:
 reach_target:
     U16(effect, 0xA) = 3;
     U16(effect, 0x82) = 0;
-    table_value = PTR(owner, 0x60);
-    object = PTR(table_value, -0x18);
+    object = PTR(PTR(owner, 0x60), -0x18);
     U16(motion, 2) = U16(object, 2);
     U16(motion, 6) = U16(object, 6);
     U16(motion, 0xA) = U16(effect, 0x78);
