@@ -55,9 +55,7 @@ void func_80018D14(u8 *object_ref)
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
         object_flags = ((S_80018D14_1 *)context)->unk_20;
         callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
-        do {
-            callback_168(D_80016034, D_8001605C, 0x41);
-        } while (0);
+        callback_168(D_80016034, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
         updated_callbacks = ((S_80018D14_2 *)updated_context)->unk_20;
         callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
@@ -73,13 +71,7 @@ void func_80018D14(u8 *object_ref)
     link_offset = slot * 4;
     link_state = state_base + link_offset;
     link_state[0x980] = 0;
-    do {
-        link_state[0x981] = 0;
-    } while (0);
+    link_state[0x981] = 0;
     entry = (((link_offset + slot) * 4 + slot) * 4) + state_base;
     entry[0xA93] = 0;
 }
-
-/* MECHANISM: Four values span the call region: literal page base, root-derived base,
-   object-table base, and masked index, inducing retail's s3/s2/s1/s0 hold set.
-   The record address is recomputed at the branch join instead of held across calls. */

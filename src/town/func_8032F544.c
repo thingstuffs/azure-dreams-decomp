@@ -6,7 +6,7 @@ extern s32 func_8001ADE0(s32 arg0);
 /* Resolve a table entry to its referenced flag and query that flag. */
 void func_80019D44(s32 entry_table, void *context, s32 entry_key) {
     s32 entry_index;
-    s16 flag_index;
+    s32 flag_index;
     s32 flag_table;
 
     entry_index = func_800194E4(entry_table, entry_key);
