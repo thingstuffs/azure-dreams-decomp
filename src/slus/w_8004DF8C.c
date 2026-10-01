@@ -19,12 +19,9 @@ void func_8004DF8C(char *text)
     FuncPtr handler;
 
     cursor = D_80083E18;
-    cursor = cursor + 1;
-    strcpy(cursor, (D_80083E18[0] = 8, text));
-    do {
-    } while (0);
+    *cursor++ = 8;
+    strcpy(cursor, text);
     text_start = cursor;
-    ASM_KEEP(text_start);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     strcat(text_start, D_80071404);
     buffer = D_80083E18;
     cursor = strrchr(buffer, 0);
