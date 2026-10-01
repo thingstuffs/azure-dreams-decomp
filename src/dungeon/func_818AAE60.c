@@ -285,32 +285,35 @@ void func_80024660(void *effect, void *motion, void *appearance) {
 set_path_destination:
             destination = (M2C_UNK *)&scratch;
             index = 1;
-            ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
+                s32 x_fixed;
+                s32 scaled_x;
+                s32 destination_x;
+                s32 x_distance;
+                s16 narrowed_x;
                 s16 *edge_steps;
-                path_x_dist = last_tile_x << 16;
+                s16 *y_edge_steps;
+                x_fixed = last_tile_x << 16;
                 edge_steps = D_8006CCD8_3;
-                ASM_KEEP(edge_steps);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                path_x_dist >>= 10;
+                scaled_x = x_fixed >> 10;
                 path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-                path_x_dist += ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
-                edge_steps = D_8006CCE8_3;
-                ((S_80024660_8 *)destination)->unk_00.at02.v = path_x_dist;
-                path_x_dist = (u32)path_x_dist << 16;
-                path_x_dist >>= 16;
+                destination_x = scaled_x + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                y_edge_steps = D_8006CCE8_3;
+                ((S_80024660_8 *)destination)->unk_00.at02.v = destination_x;
+                narrowed_x = destination_x;
                 saved_tile_y = scratch.saved_y;
                 probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
                 probe_x_dest_y = (probe_x_dest_y >> 0xA)
-                + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
+                + ((y_edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
                 ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
                 z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v + 32;
                 probe_x_dest_y <<= 16;
                 ((S_80024660_8 *)destination)->unk_08.at02.v = z_or_state;
                 origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
                 probe_x_dest_y >>= 16;
-                path_x_dist -= origin_x;
-                path_x_dist = abs(path_x_dist);
-                scratch.dist[0] = path_x_dist;
+                x_distance = narrowed_x - origin_x;
+                x_distance = abs(x_distance);
+                scratch.dist[0] = x_distance;
                 path_z_dist = z_or_state << 16;
                 path_y_dist = probe_x_dest_y - ((S_80024660_5 *)motion)->unk_04.at02u.v;
                 path_y_dist = abs(path_y_dist);
@@ -318,7 +321,7 @@ set_path_destination:
                 path_z_dist >>= 16;
                 path_z_dist -= ((S_80024660_5 *)motion)->unk_08.at02u.v;
                 scratch.dist[2] = abs(path_z_dist);
-                ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
+                ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = x_distance;
             }
             do {
                 if (path_dist_cursor[12] > ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
