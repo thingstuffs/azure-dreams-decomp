@@ -53,7 +53,6 @@ s32 func_8182121C(void *first_item)
     u16 screen_coords[3];
     void *list_item;
     void *item_data;
-    register s32 next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     GameWork *render_context;
     u8 *draw_mode;
     u8 *triangle;
@@ -121,9 +120,9 @@ s32 func_8182121C(void *first_item)
             point_index--;
         } while (point_index >= 0);
 
-        next_node = ((S_8182121C_4_pre *)list_item)[-1].unk_00;
-        list_item = (void *)(next_node + 0x20);
-    } while (next_node != 0);
+        if (((S_8182121C_4_pre *)list_item)[-1].unk_00 == 0) break;
+        list_item = (void *)(((S_8182121C_4_pre *)list_item)[-1].unk_00 + 0x20);
+    } while (1);
 
     return 0;
 }

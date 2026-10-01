@@ -65,32 +65,25 @@ void func_80017068(void)
     do {
         clear_ptr[0x21C0] = 0;
         clear_ptr[0x21C1] = 0;
-        ASM_USE_NV(slot_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         clear_ptr -= 2;
     }
     while ((--slot_index) >= 0);
     slot_index = 19;
-    table_base = D_800E3DF0;
-    table_slot = (Entry **) (table_base + 0x4C);
-    source_offset = 0x63C;
-    entries_base = D_800E3E48;
     entry_page_offset = 0x3E48;
-    init_entry = (Entry *) (entries_base + 0xA64);
     {
         u8 *ram_page = (u8 *) 0x80010000;
         ram_page[0x21E0] = 0xFF;
         ram_page[0x21E1] = 0xFF;
         *((s32 *) (ram_page + 0x21E4)) = 0;
     }
-entry_init_loop:
+    do {
+    init_entry = &((Entry *)D_800E3E48)[slot_index];
+    table_slot = &((Entry **)D_800E3DF0)[slot_index];
+    source_offset = slot_index * 0x54;
     func_80041E28(init_entry, (void *) (0x800102F0 + source_offset));
 
-    *(table_slot--) = init_entry;
-    source_offset -= 0x54;
-    init_entry--;
-    if ((--slot_index) >= 0) {
-        goto entry_init_loop;
-    }
+    *table_slot = init_entry;
+    } while ((--slot_index) >= 0);
     slot_index = 19;
     {
         volatile u8 *index_ptr = (u8 *) 0x80010013;

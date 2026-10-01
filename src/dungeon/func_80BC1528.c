@@ -95,8 +95,7 @@ void func_80BC1528(
         step_z = -(offset_z << 16) / (duration / 8);
         effect_data->unk_48 = step_z / 2;
 
-        rounded_step_x = step_x;
-        ASM_KEEP(rounded_step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        rounded_step_x = -(offset_x << 16) / (duration / 8);
         if (rounded_step_x < 0) {
             rounded_step_x += 3;
         }
@@ -117,7 +116,8 @@ void func_80BC1528(
         effect_data->unk_14 = effect_param;
         effect_data->unk_32 = duration;
         func_8004491C(effect, D_80170884, step_x);
-        ((S_80BC1528_0 *)effect)->unk_20 = initial_value;
+        rounded_step_x = initial_value;
+        ((S_80BC1528_0 *)effect)->unk_20 = rounded_step_x;
         effect_data->unk_08 = initial_value;
     }
 
