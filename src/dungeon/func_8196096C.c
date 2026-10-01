@@ -85,6 +85,8 @@ extern void func_80065820(void *arg0, void *arg1);
 extern void func_8006658C(s32 arg0, Record *record);
 extern void func_800666F4(Record *record);
 
+static __inline__ u16 translate_x(s32 x, u16 offset) { x -= 0xA0; return offset + x; }
+
 /* Builds and submits a shaded textured quad at the requested screen position. */
 void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth) {
     Root *root = gameWork.unk_000;
@@ -103,7 +105,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     s32 corner_uv;
     s32 neutral_color;
     s32 shade;
-    register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
 
     record = root->record;
     globals = &gameWork;
@@ -174,18 +176,10 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
                   &record->f18.h[0], &record->f20.h[0],
                   &scratch->w90, &scratch->w94);
 
-    coord_x = record->f8.h[0];
-    coord_x -= 0xA0;
-    record->f8.h[0] = origin->index0 + coord_x;
-    coord_x = record->f18.h[0];
-    coord_x -= 0xA0;
-    record->f18.h[0] = origin->index0 + coord_x;
-    coord_x = record->f10.h[0];
-    coord_x -= 0xA0;
-    record->f10.h[0] = origin->index0 + coord_x;
-    coord_x = record->f20.h[0];
-    coord_x -= 0xA0;
-    record->f20.h[0] = origin->index0 + coord_x;
+    record->f8.h[0] = translate_x(record->f8.h[0], origin->index0);
+    record->f18.h[0] = translate_x(record->f18.h[0], origin->index0);
+    record->f10.h[0] = translate_x(record->f10.h[0], origin->index0);
+    record->f20.h[0] = translate_x(record->f20.h[0], origin->index0);
     {
         s32 coord_y;
         coord_y = record->f8.h[1] - 0x78;

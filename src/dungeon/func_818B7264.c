@@ -49,7 +49,7 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     s32 first_inner_y;
     u16 outer_radius;
     u16 inner_radius;
-    s16 jitter_count;
+    s32 jitter_count;
     s16 tip_radius;
     s32 segment;
     s32 angle_step;
@@ -58,15 +58,15 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     s32 next_segment;
     s32 next_angle;
     s32 jittered_inner;
-    s32 raised_z;
     s32 jitter_limit;
     s32 scaled;
 
     scratch = (u8 *)0x1F800000;
     if (effect->unk_06 < 8) {
-        raised_z = center->unk_08 - (effect->unk_06 * 0x180000);
-        ((S_80024A64_2 *)scratch)->unk_48 = raised_z;
-        ((S_80024A64_2 *)scratch)->unk_38 = raised_z;
+        s32 growing_z;
+        growing_z = center->unk_08 - (effect->unk_06 * 0x180000);
+        ((S_80024A64_2 *)scratch)->unk_48 = growing_z;
+        ((S_80024A64_2 *)scratch)->unk_38 = growing_z;
         {
             s32 phase_scale = effect->unk_06;
             s32 inner_scale;
@@ -89,19 +89,23 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         tip_radius = 8 / 2;
         jitter_count = tip_radius + 1;
     } else if (effect->unk_06 < 48) {
-        raised_z = center->unk_08 - ((48 - effect->unk_06) * 0x180000);
-        ((S_80024A64_2 *)scratch)->unk_48 = raised_z;
-        ((S_80024A64_2 *)scratch)->unk_38 = raised_z;
+        s32 fading_z;
+        jitter_count = 48;
+        fading_z = center->unk_08 - ((jitter_count - effect->unk_06) * 0x180000);
+        ((S_80024A64_2 *)scratch)->unk_48 = fading_z;
+        ((S_80024A64_2 *)scratch)->unk_38 = fading_z;
         {
-            s32 phase_scale = 48 - effect->unk_06;
             s32 inner_scale;
-            register s32 outer_scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            inner_scale = phase_scale * 2;
-            outer_scale = (inner_scale + phase_scale) * 2;
+            s32 tip_value;
+            jitter_count -= effect->unk_06;
+            inner_scale = jitter_count * 2;
+            jitter_count = inner_scale - -jitter_count;
+            jitter_count *= 2;
             inner_radius = inner_scale;
-            tip_radius = (47 - effect->unk_06) / 2;
-            outer_radius = outer_scale;
-            jitter_count = tip_radius + 1;
+            tip_value = (47 - effect->unk_06) / 2;
+            outer_radius = jitter_count;
+            tip_radius = tip_value;
+            jitter_count = tip_value + 1;
         }
     } else {
         jitter_count = 0;

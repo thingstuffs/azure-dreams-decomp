@@ -2,15 +2,7 @@
 #include "shared/game_work.h"
 #include "records/Rec_D_80083160.h"
 
-#define OT_PTR(sc) \
-    (((S_818C29D4_0 *)((sc)))->unk_18 + ((S_818C29D4_0 *)((sc)))->unk_B4)
-#define ADD_PRIM(sc, p, hi_mask, lo_mask) do { \
-    u32 *_ot; \
-    *(u32 *)(p) = (*OT_PTR(sc) & (lo_mask)) | \
-                   (*(u32 *)(p) & (hi_mask)); \
-    _ot = OT_PTR(sc); \
-    *_ot = (*_ot & (hi_mask)) | ((u32)(p) & (lo_mask)); \
-} while (0)
+typedef struct { u32 addr:24; u32 len:8; } Tag818C29D4;
 
 typedef struct { s16 x; s16 y; s16 z; s16 pad; } Vec818C29D4;
 typedef struct {
@@ -185,49 +177,41 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     if (((S_818C29D4_2 *)scratch)->unk_B4.n < 0x1E0U) {
         u8 *draw_mode;
         u8 *draw_mode_2;
-        u32 addr_mask;
-        u32 length_mask;
         s32 reset_depth;
         s32 reset_blend;
         s32 reset_page_x;
         s32 reset_page_y;
         reset_depth = 0; reset_blend = 1; reset_page_x = 0x280; reset_page_y = 0x100;
-        ASM_KEEP4(reset_depth, reset_blend, reset_page_x, reset_page_y);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        addr_mask = 0x00FF0000; ASM_KEEP(addr_mask);
         texture_window.y = 0; texture_window.x = 0; texture_window.h = 0xFF; texture_window.w = 0xFF;
         draw_mode = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2;
-        addr_mask |= 0xFFFF; 
         ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode + 0xC;
         func_80067F20(draw_mode, 0, 0,
                      func_80066460(reset_depth, reset_blend, reset_page_x, reset_page_y) & 0xFFFF,
                      &texture_window);
-        tex_depth = 0; length_mask = 0xFF000000; blend_mode = 1; page_x = 0x280;
-        { u32 *ot; u32 prim_tag; u32 ot_tag;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             prim_tag = *(u32 *)draw_mode; ot_tag = *ot;
-            *(u32 *)draw_mode = (prim_tag & length_mask) | (ot_tag & addr_mask); }
+        tex_depth = 0; blend_mode = 1; page_x = 0x280;
         { u32 *ot;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             *ot = (*ot & length_mask) | ((u32)draw_mode & addr_mask); }
-        { u32 *ot; u32 prim_tag; u32 ot_tag;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             prim_tag = *(u32 *)poly; ot_tag = *ot;
-            *(u32 *)poly = (prim_tag & length_mask) | (ot_tag & addr_mask); }
+            ((Tag818C29D4 *)draw_mode)->addr = ((Tag818C29D4 *)ot)->addr; }
         { u32 *ot;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             *ot = (*ot & length_mask) | ((u32)poly & addr_mask); }
+            ((Tag818C29D4 *)ot)->addr = (u32)draw_mode; }
+        { u32 *ot;
+            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ((Tag818C29D4 *)poly)->addr = ((Tag818C29D4 *)ot)->addr; }
+        { u32 *ot;
+            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ((Tag818C29D4 *)ot)->addr = (u32)poly; }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
         draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2;
         ((S_818C29D4_7 *)(((Rec_D_80083160 *)((u8 *)(&gameWork)))->unk_00.as_pu8))->unk_8D0.p2 = draw_mode_2 + 0xC;
         func_80067F20(draw_mode_2, 0, 0,
                      func_80066460(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
-        { u32 *ot; u32 prim_tag; u32 ot_tag;
-            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             prim_tag = *(u32 *)draw_mode_2; ot_tag = *ot;
-            *(u32 *)draw_mode_2 = (prim_tag & length_mask) | (ot_tag & addr_mask); }
         { u32 *ot;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             *ot = (*ot & length_mask) | ((u32)draw_mode_2 & addr_mask); }
+            ((Tag818C29D4 *)draw_mode_2)->addr = ((Tag818C29D4 *)ot)->addr; }
+        { u32 *ot;
+            ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
+            ((Tag818C29D4 *)ot)->addr = (u32)draw_mode_2; }
     }
     return 0;
 }

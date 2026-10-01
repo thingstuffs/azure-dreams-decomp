@@ -123,6 +123,12 @@ extern u32 func_80065590(void *, void *, void *, void *, void *, void *, void *,
 extern void func_80065820(void *, void *);
 extern u8 D_8002745C[];
 
+static __inline__ void set_v_width(s32 *rect, s32 v, s32 width)
+{
+    VFIELD(rect, s32, 0x10) = width;
+    rect[3] = v;
+}
+
 /* Project a textured object quad onto the height grid and add it to the ordering table. */
 void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_y)
 {
@@ -271,24 +277,23 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
                 u16 packed_u;
 
                 {
-                    register s32 v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    s32 u;
+                    s32 v;
 
                     {
                         s32 width;
 
                         width = VFIELD(scratch, s32, 0x10);
-                        u = VFIELD(scratch, s32, 8);
-                        v = VFIELD(scratch, s32, 0xC);
-                        VFIELD(scratch, s32, 0x10) = width + u;
+                        edge_uv = VFIELD(scratch, s32, 8);
+                        v = *(s32 *)((u8 *)scratch + 0xC);
+                        width += edge_uv;
+                        edge_uv = v;
+                        set_v_width((s32 *)scratch, edge_uv, width);
                     }
                     {
 
-                        u = v;
-                        ASM_USE(u);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         v_end = VFIELD(scratch, s32, 0x14);
-                        u <<= 8;
-                        VFIELD(scratch, s32, 0xC) = u;
+                        edge_uv <<= 8;
+                        VFIELD(scratch, s32, 0xC) = edge_uv;
                         uv_row = VFIELD(scratch, u16, 0xC);
                         v_end += v;
                     }

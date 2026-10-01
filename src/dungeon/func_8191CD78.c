@@ -233,7 +233,8 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     s16 *delta_cursor;
     u32 page_base;
     s16 final_floor;
-    register s32 expanded_floor ASM_REG("$2");
+    s32 expanded_floor;
+    S_func_80024578_4 *finished_render;
 
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
@@ -494,10 +495,11 @@ set_state:
         ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
             (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
         if (effect->unk_10.s16 >= 28) {
-            expanded_floor = (s32)(effect->unk_24);
+            finished_render = effect->unk_24;
 
-            ((S_func_80024578_4 *)expanded_floor)->unk_1A = (u16)(((S_func_80024578_4 *)expanded_floor)->unk_1A
-                + 0x800);
+            state = finished_render->unk_1A;
+            state += 0x800;
+            finished_render->unk_1A = state;
             goto advance_state;
         }
         break;

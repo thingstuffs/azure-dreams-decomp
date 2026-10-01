@@ -218,19 +218,18 @@ create_spawn:
     {
         RoomData *room;
         SpawnData *data;
-        register s32 coord_or_variant ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 coord_or_variant;
         s32 offset_x;
         s32 offset_y;
         s16 steps;
 
         spawn = func_8003FC64(0x12);
-        coord_or_variant = (s32)(&offsets);
         if (spawn != 0) {
-            offset_x = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].x;
+            offset_x = offsets.entry[(s16)state->variant7E].x;
             offset_x <<= 16;
             data = &spawn->data20;
             data->x4C = offset_x;
-            offset_y = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].y;
+            offset_y = offsets.entry[(s16)state->variant7E].y;
             data->owner2C = entity;
             data->y50 = offset_y << 16;
             data->path30 = entity->path60;
@@ -244,6 +243,7 @@ create_spawn:
             state->valueA1 = room->y25 + ((ByteEntry *)dirStepY)[coord_or_variant].value;
 
             if (entity->path60 != 0) {
+                s32 target_coord;
                 data->startX38 = (s8)entity->startX72;
                 data->startY3A = (s8)entity->startY73;
                 data->targetX3C = room->x24;
@@ -251,13 +251,13 @@ create_spawn:
                 data->active8 = 1;
 
                 flags_or_result = (u32)((s8)entity->startX72);
-                coord_or_variant = room->x24;
-                if ((s32)flags_or_result != coord_or_variant) {
-                    flags_or_result = (u32)(((s32)flags_or_result) - (coord_or_variant));
+                target_coord = room->x24;
+                if ((s32)flags_or_result != target_coord) {
+                    flags_or_result = (u32)(((s32)flags_or_result) - (target_coord));
                 } else {
                     flags_or_result = (u32)((s8)entity->startY73);
-                    coord_or_variant = room->y25;
-                    flags_or_result = (u32)(((s32)flags_or_result) - (coord_or_variant));
+                    target_coord = room->y25;
+                    flags_or_result = (u32)(((s32)flags_or_result) - (target_coord));
                 }
                 if ((s32)flags_or_result < 0) {
                     data->step2 = -(s32)flags_or_result * 2;
