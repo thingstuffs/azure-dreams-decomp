@@ -3,7 +3,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "shared/entity.h"
 
-typedef struct { s32 word[4]; } Copy16;
+typedef struct { s32 word[6]; } Copy24;
 
 typedef struct S_80174EB4_0 {
     u8 pad_00[0x8];
@@ -34,7 +34,6 @@ typedef struct S_80174EB4_2 {
     s32 unk_28;
 } S_80174EB4_2;   /* prim in func_80174EB4 */
 
-
 typedef struct S_80174EB4_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -48,7 +47,6 @@ typedef struct S_80174EB4_6 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174EB4_6;   /* query_arg in func_80174EB4 */
-
 
 extern void *func_8003FD64(s32, s32);
 extern void func_8004491C(void *, void *);
@@ -88,16 +86,11 @@ s32 func_80174EB4(s32 priority, EntityRec *source_state, Rec_func_800AA258_arg2 
         {
             S_80174EB4_6 *query_data = render_data;
             u16 *offset_out;
-            s32 copy_word_1;
 
-            ASM_KEEP(query_data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            state = ((S_80174EB4_0 *)object)->unk_08;
-            *(Copy16 *)state = *(Copy16 *)source_state;
+            render_data = ((S_80174EB4_0 *)object)->unk_08;
+            state = (void *)render_data;
+            *(Copy24 *)state = *(Copy24 *)source_state;
             offset_out = offsets;
-            ASM_KEEP(offset_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_word_1 = source_state->flags14;
-            state->unk_10 = source_state->unk_10;
-            state->unk_14 = copy_word_1;
 
             offsets[2] = 0;
             offsets[1] = 0;

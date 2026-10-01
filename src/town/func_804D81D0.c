@@ -4,7 +4,7 @@
 
 typedef struct CallbackTable {
     u8 pad_00[0x2C8];
-    void (*callback)(s32, void *);
+    s32 (*callback)(s32, void *);
 } CallbackTable;
 
 typedef struct DataPage {
@@ -24,7 +24,7 @@ void func_800161D0(void)
 {
     s32 zero = 0;
     DataPage *data_page = (DataPage *)0x80010000;
-    register void (*callback)(s32, void *) ASM_REG("$2");
+    s32 (*callback)(s32, void *);
     Rec_D_80016000 *owner;
     CallbackTable *table;
 

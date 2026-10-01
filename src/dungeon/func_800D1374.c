@@ -78,10 +78,12 @@ typedef struct S_800D6AD4_5 {
 } S_800D6AD4_5;   /* temp_s0 in func_800D6AD4 */
 
 /* Creates an object at an offset from its parent and initializes its motion and state. */
-void func_800D6AD4(EntityRec *parent, s32 state_value, s32 x_offset, s32 y_offset, s32 z_offset,
+void func_800D6AD4(EntityRec *parent, s32 state_value, s16 x_offset, s16 y_offset, s32 z_offset,
                    s32 motion_scale) {
-    s32 saved_z_offset = z_offset;
-    s32 saved_motion_scale = motion_scale;
+    s32 *z_argument = &z_offset;
+    s32 *motion_argument = &motion_scale;
+    s32 saved_z_offset = *z_argument;
+    s32 saved_motion_scale = *motion_argument;
     s32 scaled_motion;
     S_800D6AD4_5 *object_state;
     void *object;
@@ -120,7 +122,5 @@ void func_800D6AD4(EntityRec *parent, s32 state_value, s32 x_offset, s32 y_offse
         func_8004491C(object, D_800D68F4);
         ((S_800D6AD4_0 *)object)->unk_20 = state_value;
         object_state->unk_08 = state_value;
-        ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_motion_scale);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }

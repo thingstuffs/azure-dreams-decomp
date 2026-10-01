@@ -148,11 +148,7 @@ loop_0:
     endpoint--;
     if (side >= 0) goto loop_0;
     transform = &transform_rec;
-    ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): the &transform argument is set first in the block in retail; the source shape that makes it unnecessary has not been found */
-    min_xy &= 0xFFFF;
-    max_xy &= 0xFFFF;
     view_angle = gw->view.viewAngle;
-    side = 1;
     transform_rec.rot_y = 0;
     transform_rec.rot_x = 0;
     transform_rec.input = (M2C_UNK *) points;
@@ -162,6 +158,9 @@ loop_0:
     transform_rec.count = 2;
     transform_rec.flags = 0;
     func_800DBA90(transform);
+    min_xy &= 0xFFFF;
+    max_xy &= 0xFFFF;
+    side = 1;
     min_xy |= 0x75300000;
     min_xy &= hi_mask;
     min_xy |= 0x7530;

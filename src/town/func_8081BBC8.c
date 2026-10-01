@@ -202,8 +202,8 @@ case_4:
         tw_sd_sq_ld_call(0x20, 0x200);
         func_8009AC8C();
         progress = D_800135BE;
+        D_800135BE = progress;
         threshold = state->threshold;
-        ASM_KEEP(progress);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if ((s16)progress < threshold) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
             SD_Call(0x300);

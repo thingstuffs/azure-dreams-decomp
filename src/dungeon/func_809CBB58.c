@@ -53,10 +53,9 @@ extern u8 D_80173CDC[];
 extern u8 D_80173CE4[];
 
 /* Updates actor status and directional animation, then restores the default handler. */
-void func_80173358(void *in_controller, void *in_context, void *in_sprite, void *in_actor)
+void func_80173358(void *in_controller, void *in_context, void *sprite, void *in_actor)
 {
     void *context = in_context;
-    void *sprite = in_sprite;
     void *actor = in_actor;
     s32 state;
 
@@ -173,7 +172,8 @@ state_one:
             0);
     }
 
-    if (!(((S_80173358_1 *)sprite)->unk_14 & 0x8000)) {
+    sprite = (u8 *)sprite + 0x14;
+    if (!(*(u16 *)sprite & 0x8000)) {
         DungeonGlobalStatus *system_base = &dungeonStatus;
 
         (*(u16 *)&system_base->unk_0A)++;
@@ -193,7 +193,6 @@ state_two:
 
 finish:
     ((S_80173358_2 *)actor)->unk_1C &= ~0x200;
-    ((S_80173358_0 *)in_controller)->unk_8C = D_80170E54;
-    ASM_KEEP(in_controller);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    in_controller = (u8 *)in_controller + 0x8C;
+    *(void **)in_controller = D_80170E54;
 }

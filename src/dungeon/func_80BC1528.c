@@ -66,13 +66,8 @@ void func_80BC1528(
     S_80BC1528_1 *parent = parent_obj;
     void *effect;
     S_80BC1528_2 *effect_data;
-    register s32 duration_s16;
-    s32 duration_eighth;
-    s16 initial_divisor;
-    s32 calculation;
-    s32 return_delta_x;
     s32 step_x;
-    register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step_y;
     s32 step_z;
     s32 rounded_step_x;
     s32 rounded_step_z;
@@ -93,24 +88,11 @@ void func_80BC1528(
         effect_data->unk_38 = ((S_80BC1528_4 *)(parent->unk_08))->unk_06;
         effect_data->unk_3A = ((S_80BC1528_4 *)(parent->unk_08))->unk_0A;
 
-        duration_s16 = (s16)duration;
-        initial_divisor = duration_s16;
-        duration_eighth = initial_divisor;
-        return_delta_x = -(offset_x << 16);
-        if (duration_s16 < 0) {
-            duration_eighth = duration_s16 + 7;
-        }
-        duration_eighth >>= 3;
-
-        step_x = return_delta_x / duration_eighth;
-        calculation = step_x / 2;
-        effect_data->unk_40 = calculation;
-        calculation = -(offset_y << 16);
-        step_y = calculation / duration_eighth;
-        calculation = step_y / 2;
-        effect_data->unk_44 = calculation;
-        calculation = -(offset_z << 16);
-        step_z = calculation / duration_eighth;
+        step_x = -(offset_x << 16) / (duration / 8);
+        effect_data->unk_40 = step_x / 2;
+        step_y = -(offset_y << 16) / (duration / 8);
+        effect_data->unk_44 = step_y / 2;
+        step_z = -(offset_z << 16) / (duration / 8);
         effect_data->unk_48 = step_z / 2;
 
         rounded_step_x = step_x;

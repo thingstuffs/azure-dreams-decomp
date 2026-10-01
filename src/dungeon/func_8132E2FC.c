@@ -77,7 +77,6 @@ void func_801652FC(
     s32 offset_y, s32 offset_z)
 {
     S_801652FC_2 *source_obj = source;
-    s32 saved_value = initial_value;
     s32 saved_duration = duration;
     s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
@@ -130,10 +129,10 @@ void func_801652FC(
         ((S_801652FC_0 *)state)->unk_50 = calculation;
         calculation = -(saved_offset_z << 16);
         quotient_z = calculation / divisor;
-        ((S_801652FC_0 *)state)->unk_54 = quotient_z / 2;
+        rounded_x = quotient_z / 2;
+        ((S_801652FC_0 *)state)->unk_54 = rounded_x;
 
         rounded_x = quotient_x;
-        ASM_KEEP(rounded_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         if (rounded_x < 0) {
             rounded_x += 3;
         }
@@ -153,8 +152,9 @@ void func_801652FC(
 
         ((S_801652FC_0 *)state)->unk_32 = duration;
         func_8004491C(object, D_80164BC4, quotient_x);
-        ((S_801652FC_1 *)object)->unk_20 = saved_value;
-        ((S_801652FC_0 *)state)->unk_08 = saved_value;
+        rounded_x = initial_value;
+        ((S_801652FC_1 *)object)->unk_20 = rounded_x;
+        ((S_801652FC_0 *)state)->unk_08 = initial_value;
     }
 
 }
