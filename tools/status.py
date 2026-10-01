@@ -5,6 +5,52 @@ from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from pin_census import sites_of, hidden_asm
 from census import _fakedep
 
+def _recipe_tracker(rs, curc):
+    """Rows whose registered recipe is likely NOT their real build (round 84 build structure, r84_fable_build): every
+    2.8.x / egcs / 2.95.2 cell is fitted, and a row off its module's census recipe is a crutch candidate."""
+    cen = {(c["container"], c["module"]): c.get("best_recipe") for c in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
+    mod = {r["id"]: r.get("module") for r in read_jsonl(LEDGER / "modules.jsonl")}
+    cats = collections.OrderedDict((k, collections.Counter()) for k in (
+        "late cell (2.8.x / egcs / 2.95.2: fitted)", "cdk cell + crutch flags, module is plain",
+        "stock cell inside a cdk module", "other mismatch with the module recipe (-G, stock flavour, -O1)"))
+    worst = []
+    for r in rs:
+        c = r["id"].split("/")[0]
+        if c not in ("dungeon", "town", "main"):
+            continue
+        cell = r["cfg"].split()[0]
+        best = cen.get((c, mod.get(r["id"])))
+        late = cell.startswith(("2.8", "2.9"))
+        if not late and (not best or r["cfg"] == best):
+            continue
+        flags = [x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]
+        if late:
+            k = "late cell (2.8.x / egcs / 2.95.2: fitted)"
+        elif cell.startswith("2.7.2-cdk") and flags and best and best.startswith("2.7.2-cdk") and not best.split()[1:]:
+            k = "cdk cell + crutch flags, module is plain"
+        elif not cell.startswith("2.7.2-cdk") and best and best.startswith("2.7.2-cdk"):
+            k = "stock cell inside a cdk module"
+        else:
+            k = "other mismatch with the module recipe (-G, stock flavour, -O1)"
+        n = (curc.get(r["id"]) or {}).get("pin_total", 0)
+        cats[k]["rows"] += 1; cats[k]["pinned"] += bool(n); cats[k]["pins"] += n; cats[k][c] += 1
+        if n:
+            worst.append((n, r["id"], r["cfg"], best or "?"))
+    out = ["\n## Likely incorrect compiler (registered recipe vs the real build)\n",
+           "The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects "
+           "(r84_fable_build). A row listed here carries a recipe its module's pin-free rows do not use - usually pins fitted "
+           "at the wrong compiler. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.\n",
+           "| class | rows | dungeon / town / main | pinned rows | pins |", "|---|---:|---|---:|---:|"]
+    for k, v in cats.items():
+        out.append(f"| {k} | {v['rows']} | {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
+    tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
+    out.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
+    if worst:
+        out.append("\nMost-pinned rows off their build recipe: " + "; ".join(
+            f"{i} {n} pins ({cfg} -> {best})" for n, i, cfg, best in sorted(worst, reverse=True)[:12]) + ".\n")
+    return "\n".join(out)
+
+
 def main():
     rs = rows(); by = {r["id"]: r for r in rs}
     base = {b["id"]: b for b in read_jsonl(LEDGER / "baseline.jsonl")}
@@ -112,6 +158,10 @@ def main():
     out.append(f"Per-row optimization flags (weak evidence about the real build; each switch is undone from the "
                f"`t30_cellpins` journal's `cell_from`): {nfl[1]:,} rows carry one flag, {nfl[2]:,} carry two or more.\n")
 
+    try:
+        out.append(_recipe_tracker(rs, curc))
+    except Exception as e:
+        out.append(f"\n(recipe tracker unavailable: {e})")
     trades = list(read_jsonl(LEDGER / "recipe_trades.jsonl")) if (LEDGER / "recipe_trades.jsonl").exists() else []
     site_for_pin = sum(1 for t in trades if t.get("kind") == "site_for_pin")
     out.append(f"Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped "
