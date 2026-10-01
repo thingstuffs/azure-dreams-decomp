@@ -136,32 +136,22 @@ settle:
         frames_left = ((S_801747F0_0 *)motion)->unk_26.u - 1;
         ((S_801747F0_0 *)motion)->unk_26.u = frames_left;
         if (frames_left != 0) {
-            s32 next_x;
-            s32 dest_cell_y;
             {
                 s32 step_x;
                 s32 offset_x;
                 step_x = ((S_801747F0_1 *)position)->unk_0E << 6;
                 offset_x = ((S_801747F0_1 *)position)->unk_00.at02.v - 0x20;
-                step_x -= offset_x;
-                step_x /= frames_left;
-                next_x = (u16)((S_801747F0_1 *)position)->unk_00.at02.v + step_x;
-                ASM_KEEP(step_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                dest_cell_y = ((S_801747F0_1 *)position)->unk_12;
-                ((S_801747F0_1 *)position)->unk_00.at02.v = next_x;
+                ((S_801747F0_1 *)position)->unk_00.at02.v = (u16)((S_801747F0_1 *)position)->unk_00.at02.v + (step_x - offset_x) / frames_left;
             }
             {
                 s32 step_y;
                 s32 offset_y;
-                step_y = dest_cell_y << 6;
+                step_y = ((S_801747F0_1 *)position)->unk_12 << 6;
                 offset_y = ((S_801747F0_1 *)position)->unk_04.at02.v - 0x20;
-                step_y -= offset_y;
-                step_y /= ((S_801747F0_0 *)motion)->unk_26.s;
-                ((S_801747F0_1 *)position)->unk_04.at02.v = (u16)((S_801747F0_1 *)position)->unk_04.at02.v + step_y;
+                ((S_801747F0_1 *)position)->unk_04.at02.v = (u16)((S_801747F0_1 *)position)->unk_04.at02.v + (step_y - offset_y) / ((S_801747F0_0 *)motion)->unk_26.s;
             }
             ((S_801747F0_1 *)position)->unk_08.at02.v = (u16)((S_801747F0_1 *)position)->unk_08.at02.v +
-                ((((S_801747F0_1 *)position)->unk_16 - ((S_801747F0_1 *)position)->unk_08.at02.v) /
-                 ((S_801747F0_0 *)motion)->unk_26.s);
+                ((((S_801747F0_1 *)position)->unk_16 - ((S_801747F0_1 *)position)->unk_08.at02.v) / ((S_801747F0_0 *)motion)->unk_26.s);
         }
         if (((S_801747F0_0 *)motion)->unk_26.s <= 0) {
             colors[0] = ((S_801747F0_0 *)motion)->unk_2C;

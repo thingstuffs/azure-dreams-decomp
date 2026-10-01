@@ -155,8 +155,10 @@ s32 func_80174228(u8 *item_data)
     s32 shade_bias;
     s32 profile_raw;
     s32 vertex_depth;
-    s32 screen_coord;
-    u32 coord_bits;
+    s32 screen_x;
+    u16 bits_x;
+    s32 screen_y;
+    u16 bits_y;
     u16 profile_peak;
     s32 half_height;
     S_func_80174228_3 *item;
@@ -229,30 +231,27 @@ loop_0:
         do {
             vertex_depth = func_80065420(vertex, &OUTX, scratch_ptr, scratch_ptr);
             prev_depth = depth;
-            screen_coord = OUTX;
+            screen_x = OUTX;
             biased_depth = prev_depth - 8;
-            ASM_USE2_NV(screen_coord, biased_depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             next_depth = biased_depth + vertex_depth;
-            extends_right = (s16)max_xy < screen_coord;
+            extends_right = (s16)max_xy < screen_x;
             depth = next_depth;
-            coord_bits = (u16)OUTX;
+            bits_x = (u16)OUTX;
             if (extends_right) {
                 max_xy &= 0xFFFF0000;
-                coord_bits |= max_xy;
-                max_xy = coord_bits;
-            } else if (screen_coord < (s16)min_xy) {
+                max_xy = bits_x | max_xy;
+            } else if (screen_x < (s16)min_xy) {
                 min_xy &= 0xFFFF0000;
-                coord_bits |= min_xy;
-                min_xy = coord_bits;
+                min_xy = bits_x | min_xy;
             }
-            screen_coord = OUTY;
-            coord_bits = (u16)OUTY;
-            if ((max_xy >> 16) < screen_coord) {
+            screen_y = OUTY;
+            bits_y = (u16)OUTY;
+            if ((max_xy >> 16) < screen_y) {
                 max_xy &= 0xFFFF;
-                max_xy = max_xy | (coord_bits << 16);
-            } else if (screen_coord < (min_xy >> 16)) {
+                max_xy = max_xy | (bits_y << 16);
+            } else if (screen_y < (min_xy >> 16)) {
                 min_xy &= 0xFFFF;
-                min_xy = min_xy | (coord_bits << 16);
+                min_xy = min_xy | (bits_y << 16);
             }
             i--;
             vertex -= 8;
