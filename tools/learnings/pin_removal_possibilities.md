@@ -572,3 +572,6 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
 - **Join-statement duplication (r85_opus_par1, 4 pins on 3 rows):** a parameter short of global.c priority by k refs
   gets them from a join-head statement written into each arm (after a barrier in each arm); jump2 cross_jump re-merges
   the copies after allocation, bytes unchanged. Brief paragraph param_priority.md.
+- **One-trip blocks weight refs (r85_opus_g1):** loop notes from a `do{}while(0)` (macro bodies too) double the refs
+  inside for global.c priority; unwrap + parameters direct + erase pins together (800A8714 7->4). Brief paragraph
+  one_trip.md. Also: arity fixes work in BOTH directions - test by scoring (818F34E4 4->0 dropped an extra argument).
