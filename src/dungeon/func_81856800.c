@@ -233,12 +233,12 @@ __asm__(".globl func_80024000
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg) BODY_ATTR;
+BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg) BODY_ATTR;
 /* Updates a staged movement effect, spawning particles and applying its final action. */
-BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg)
+BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, S_func_81856800_2 *motion_arg)
 {
 #ifdef __mips__
-    register S_func_81856800_2 *motion ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81856800_2 *motion;
 #else
     S_func_81856800_2 *motion;
 #endif
@@ -276,7 +276,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     };
 
     (void)dispatch_labels;
-    motion = motion_arg;
+
     object = action->unk_00;
     state = action->unk_0A.s16_0A;
     owner = ((S_func_81856800_4 *)((u8 *)object - 32))->unk_0C;
@@ -307,13 +307,13 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                     effect->unk_10 = effect_type;
                 }
                 ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
-                    motion->unk_00.s32_00 +
+                    motion_arg->unk_00.s32_00 +
                     (((func_80069EF8() & 0x1FF) - 255) << 13);
                 ((S_func_81856800_2 *)effect->unk_08)->unk_04.s32_04 =
-                    motion->unk_04.s32_04 +
+                    motion_arg->unk_04.s32_04 +
                     (((func_80069EF8() & 0x1FF) - 255) << 13);
                 ((S_func_81856800_2 *)effect->unk_08)->unk_08.s32_08 =
-                    motion->unk_08.s32_08 -
+                    motion_arg->unk_08.s32_08 -
                     (((func_80069EF8() & 0x1FF) - 255) << 14) +
                     (s32)0xFFE00000;
                 flags = part->unk_14;
@@ -402,9 +402,9 @@ case0:
         coord_offset[1] = 0;
         coord_offset[0] = 0;
     }
-    motion->unk_00.u16_02.unk_02 = ((S_func_81856800_2 *)object_base->unk_08)->unk_00.u16_02.unk_02 + coord_offset[0];
-    motion->unk_04.u16_06.unk_06 = ((S_func_81856800_2 *)object_base->unk_08)->unk_04.u16_06.unk_06 + coord_offset[1];
-    motion->unk_08.u16_0A.unk_0A = ((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A + coord_offset[2];
+    motion_arg->unk_00.u16_02.unk_02 = ((S_func_81856800_2 *)object_base->unk_08)->unk_00.u16_02.unk_02 + coord_offset[0];
+    motion_arg->unk_04.u16_06.unk_06 = ((S_func_81856800_2 *)object_base->unk_08)->unk_04.u16_06.unk_06 + coord_offset[1];
+    motion_arg->unk_08.u16_0A.unk_0A = ((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A + coord_offset[2];
     action->unk_50.u16_50 = 8;
     {
         s32 velocity;
@@ -412,47 +412,45 @@ case0:
 
         velocity = object->unk_72.s8_72;
         velocity <<= 6;
-        position = motion->unk_00.u16_02.unk_02;
+        position = motion_arg->unk_00.u16_02.unk_02;
         position -= 32;
         velocity -= position;
-        motion->unk_0C.s16_0E.unk_0E = velocity;
+        motion_arg->unk_0C.s16_0E.unk_0E = velocity;
     }
     {
         s32 quotient;
 
-        quotient = motion->unk_0C.s32_0C / action->unk_50.s16_50;
-        ASM_KEEP(quotient);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        motion->unk_0C.s32_0C = quotient;
+        quotient = motion_arg->unk_0C.s32_0C / action->unk_50.s16_50;
+        motion_arg->unk_0C.s32_0C = quotient;
     }
     {
         s32 velocity;
-        s32 position;
+        s16 position;
 
         velocity = object->unk_73.s8_73;
         velocity <<= 6;
-        position = motion->unk_04.u16_06.unk_06;
+        position = motion_arg->unk_04.u16_06.unk_06;
         position -= 32;
-        velocity -= position;
-        motion->unk_10.s16_12.unk_12 = velocity;
+        motion_arg->unk_10.s16_12.unk_12 = (s16)velocity - position;
     }
     {
         s32 quotient;
 
-        quotient = motion->unk_10.s32_10 / action->unk_50.s16_50;
-        motion->unk_10.s32_10 = quotient;
+        quotient = motion_arg->unk_10.s32_10 / action->unk_50.s16_50;
+        motion_arg->unk_10.s32_10 = quotient;
     }
     height_limit = (s16)(((S_func_81856800_2 *)object_base->unk_08)->unk_08.u16_0A.unk_0A - 48);
-    target_height = func_800BCB04(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06, height_limit);
-    motion->unk_14.s16_16.unk_16 = target_height - motion->unk_08.u16_0A.unk_0A;
-    motion->unk_14.s32_14 /= action->unk_50.s16_50;
+    target_height = func_800BCB04(motion_arg->unk_00.u16_02.unk_02, motion_arg->unk_04.u16_06.unk_06, height_limit);
+    motion_arg->unk_14.s16_16.unk_16 = target_height - motion_arg->unk_08.u16_0A.unk_0A;
+    motion_arg->unk_14.s32_14 /= action->unk_50.s16_50;
     func_800A56E0(0x300);
     goto increment_state;
 
 case1:
 {
-    motion->unk_00.s32_00 += motion->unk_0C.s32_0C;
-    motion->unk_04.s32_04 += motion->unk_10.s32_10;
-    motion->unk_08.s32_08 += motion->unk_14.s32_14;
+    motion_arg->unk_00.s32_00 += motion_arg->unk_0C.s32_0C;
+    motion_arg->unk_04.s32_04 += motion_arg->unk_10.s32_10;
+    motion_arg->unk_08.s32_08 += motion_arg->unk_14.s32_14;
     timer = action->unk_50.u16_50 - 1;
     action->unk_50.u16_50 = timer;
     next_timer = 10;
@@ -487,9 +485,9 @@ case2_spawn_loop:
         part = (S_func_81856800_6 *)((u8 *)effect + 32);
         effect->unk_10 = spawn_type;
         part->unk_48 = index;
-        part->unk_04.u16_04 = motion->unk_00.u16_02.unk_02;
-        part->unk_06 = motion->unk_04.u16_06.unk_06;
-        part->unk_08.u16_08 = motion->unk_08.u16_0A.unk_0A;
+        part->unk_04.u16_04 = motion_arg->unk_00.u16_02.unk_02;
+        part->unk_06 = motion_arg->unk_04.u16_06.unk_06;
+        part->unk_08.u16_08 = motion_arg->unk_08.u16_0A.unk_0A;
         part->unk_46 = 3;
         effect->unk_20 = action;
         part->unk_4A = 0;
@@ -508,7 +506,7 @@ case3:
 {
     s32 point_offset;
 #ifdef __mips__
-    register S_func_81856800_11 *dst_point ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_81856800_11 *dst_point;
 #else
     S_func_81856800_11 *dst_point;
 #endif
@@ -524,10 +522,10 @@ case3:
     effect->unk_10 = D_80024F40;
     func_8004491C(effect, D_800249BC);
     part->unk_04.u16_04 =
-        motion->unk_00.u16_02.unk_02 + (func_80069EF8() & 0x3F) - 32;
+        motion_arg->unk_00.u16_02.unk_02 + (func_80069EF8() & 0x3F) - 32;
     part->unk_06 =
-        motion->unk_04.u16_06.unk_06 + (func_80069EF8() & 0x3F) - 32;
-    part->unk_08.u16_08 = motion->unk_08.u16_0A.unk_0A;
+        motion_arg->unk_04.u16_06.unk_06 + (func_80069EF8() & 0x3F) - 32;
+    part->unk_08.u16_08 = motion_arg->unk_08.u16_0A.unk_0A;
     part->unk_40 = func_80066460(0, 3, 0x2C0, 0x100);
     part->unk_34 = 0x00707070;
     if (action->unk_50.u16_50 & 1) {
@@ -546,9 +544,9 @@ case3:
     page_or_magic = 0x19C2D14F;
 #endif
     point_offset = 0;
-    dst_point = (S_func_81856800_11 *)((u8 *)part + 8);
     do {
-        src_point = (S_func_81856800_11 *)((u8 *)part + point_offset);
+        dst_point = (S_func_81856800_11 *)((u8 *)part + index * 8);
+        src_point = (S_func_81856800_11 *)((u8 *)part + (index - 1) * 8);
 #ifdef __mips__
         {
             MipsProduct product;
@@ -575,8 +573,7 @@ case3:
 
             mod_value = func_80069EF8();
             product.value = (long long)mod_value * page_or_magic;
-            point_offset += 8;
-            index++;
+
             mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
             mod_sign = (mod_quotient << 2) + mod_quotient;
             mod_sign = (mod_sign << 5) - mod_quotient;
@@ -591,12 +588,11 @@ case3:
             src_point->unk_04 + (func_80069EF8() % 159) - 80;
         dst_point->unk_06 =
             src_point->unk_06 + (func_80069EF8() % 159) - 80;
-        point_offset += 8;
-        index++;
+
 #endif
         dst_point->unk_08 =
             src_point->unk_08 - ((func_80069EF8() & 0x1F) + 20);
-        dst_point = (S_func_81856800_11 *)((u8 *)dst_point + 8);
+        index++;
     } while (index < 5);
     part->unk_00 = action;
     part->unk_4A = 0;
@@ -631,13 +627,13 @@ case5:
         part = effect->unk_0C;
         effect->unk_10 = D_80024850;
         ((S_func_81856800_2 *)effect->unk_08)->unk_00.s32_00 =
-            motion->unk_00.s32_00 +
+            motion_arg->unk_00.s32_00 +
             (((func_80069EF8() & 0x1FF) - 255) << 13);
         ((S_func_81856800_2 *)effect->unk_08)->unk_04.s32_04 =
-            motion->unk_04.s32_04 +
+            motion_arg->unk_04.s32_04 +
             (((func_80069EF8() & 0x1FF) - 255) << 13);
         ((S_func_81856800_2 *)effect->unk_08)->unk_08.s32_08 =
-            motion->unk_08.s32_08 -
+            motion_arg->unk_08.s32_08 -
             ((func_80069EF8() & 0x1FF) << 12) + (s32)0xFFE00000;
         part->unk_1E = 3072;
         part->unk_1C = 3072;
