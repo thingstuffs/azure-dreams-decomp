@@ -63,91 +63,58 @@ void *func_80158894(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
     s32 part_ptr;
     s32 actor_ptr;
     s16 saved_flags;
-    register s32 saved_kind_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s16 held_kind ASM_REG("$21");   /* UNRESOLVED C shape (pin): global.c must rank kind above child_a/position (retail $s5 vs $s6); at cdk kind is 2 refs/live 20 vs position 4/77 - position live >= 81 flips it (duplicated actor callback stores in the default arms do that) but cse then folds actor into result and jump2 merges the stores */
+    s32 held_value;
+    s32 held_variant;
     s16 original_flags;
-    register s32 create_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ObjectNodeHeader *create_data;
-    s32 kind;
 
     saved_flags = flags;
+    held_kind = kind_id;
+    held_value = spawn_value;
+    held_variant = variant;
     result = 0;
-    create_kind = 0x112;
-    saved_kind_id = kind_id;
-    ASM_KEEP_DEP_NV(saved_kind_id, create_kind);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    create_data = &D_80083498;
-    part_ptr = spawn_value;
-    ASM_KEEP_DEP_NV(part_ptr, create_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    actor_ptr = variant;
-    created = func_8003FD64(create_kind, create_data);
+    created = func_8003FD64(0x112, &D_80083498);
     original_flags = saved_flags;
-    if (created == 0) {
-        goto done;
-    }
-    result = (u8 *)created + 0x20;
-    ((S_80158894_0 *)result)->unk_13 = 0xE;
-    func_8004491C(created, func_80045340);
+    if (created != 0) {
+        result = (u8 *)created + 0x20;
+        ((S_80158894_0 *)result)->unk_13 = 0xE;
+        func_8004491C(created, func_80045340);
 
-    position = ((S_80158894_1 *)created)->unk_08;
-    ((S_80158894_2 *)position)->unk_0A = part_ptr;
-    part_ptr = (s32)((S_80158894_1 *)created)->unk_0C;
-    kind = saved_flags & 3;
-    ((S_80158894_3 *)((void *)part_ptr))->unk_25 = actor_ptr;
-    actor_ptr = (s32)result;
-    ((S_80158894_3 *)((void *)part_ptr))->unk_24 = saved_kind_id;
+        position = ((S_80158894_1 *)created)->unk_08;
+        variant = saved_flags & 3;
+        ((S_80158894_2 *)position)->unk_0A = held_value;
+        part_ptr = (s32)((S_80158894_1 *)created)->unk_0C;
+        ((S_80158894_3 *)((void *)part_ptr))->unk_24 = held_kind;
+        ((S_80158894_3 *)((void *)part_ptr))->unk_25 = held_variant;
+        actor_ptr = (s32)result;
 
-    if (kind == 1) {
-        ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
-        ((S_80158894_0 *)result)->unk_14 |= 0x6000;
-        ((S_80158894_0 *)result)->unk_1C |= 0x6000;
-        ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
-        goto setup;
-    }
-    if (kind >= 2) {
-        ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
-        ((S_80158894_0 *)result)->unk_14 |= 0x2000;
-        ((S_80158894_0 *)result)->unk_1C |= 0x2000;
-        ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
-        goto setup;
-    }
-
-    if (((saved_flags & ~3) << 16) != 0) {
-        goto set_actor;
-    }
-    if (!(((S_80158894_0 *)result)->unk_14 & 0x200)) {
-        if (func_800A6D30() & 1) {
-            func_800A48F0(result, 1,
-                (func_800A6D30() & 0x3F) | 0x20);
-            ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CF00;
+        if (variant == 1) {
+            ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+            ((S_80158894_0 *)result)->unk_14 |= 0x6000;
+            ((S_80158894_0 *)result)->unk_1C |= 0x6000;
+            ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
+        } else if (variant >= 2) {
+            ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+            ((S_80158894_0 *)result)->unk_14 |= 0x2000;
+            ((S_80158894_0 *)result)->unk_1C |= 0x2000;
+            ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
+        } else {
+            if (((saved_flags & ~3) << 16) == 0) {
+                if (!(((S_80158894_0 *)result)->unk_14 & 0x200) && (func_800A6D30() & 1)) {
+                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CF00;
+                }
+                ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = D_80158E9C;
+            } else {
+                ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
+            }
+            ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
         }
+        ((S_80158894_1 *)created)->unk_10 = func_80158A98;
+        func_800A9C18(created, position, (void *)part_ptr, (s16)original_flags);
+        ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
+        ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;
+        func_800AA36C((void *)actor_ptr, position, (void *)part_ptr, result);
     }
-
-#ifdef NON_MATCHING
-    ((S_80158894_4 *)((void *)actor_ptr))->unk_8C = D_80158E9C;
-#else
-    ((S_80158894_4 *)((void *)actor_ptr))->unk_8C =
-        (void *)D_80158E9C;
-#endif
-    goto set_part;
-
-set_actor:
-#ifdef NON_MATCHING
-    ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
-#else
-    ((S_80158894_0 *)result)->unk_8C = (void *)D_80158E9C;
-#endif
-
-set_part:
-    ((S_80158894_3 *)((void *)part_ptr))->unk_2C = D_8015CED8;
-
-setup:
-    ((S_80158894_1 *)created)->unk_10 = func_80158A98;
-    func_800A9C18(created, position, (void *)part_ptr,
-        (s16)original_flags);
-    ((S_80158894_4 *)((void *)actor_ptr))->unk_9A = 0xFF;
-    ((S_80158894_4 *)((void *)actor_ptr))->unk_9C = -1;
-    func_800AA36C((void *)actor_ptr, position,
-        (void *)part_ptr, result);
-
-done:
     return result;
 }
