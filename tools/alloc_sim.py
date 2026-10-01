@@ -32,7 +32,9 @@ INCLUDE = ROOT / "include"
 GPR = ("$zero $at $v0 $v1 $a0 $a1 $a2 $a3 $t0 $t1 $t2 $t3 $t4 $t5 $t6 $t7 "
        "$s0 $s1 $s2 $s3 $s4 $s5 $s6 $s7 $t8 $t9 $k0 $k1 $gp $sp $fp $ra").split()
 # FIRST_PSEUDO_REGISTER per compiler cell (study search.py).
-FIRST = {"2.6.3": 67, "2.7.2": 68, "2.7.2-cdk": 76, "2.8.0": 76, "2.8.1": 76}
+# FIRST_PSEUDO_REGISTER per cell = len(call_used_regs[]) in that cell's cc1 (`nm -S`: 67, 68, 76, ...) and the
+# `#define FIRST_PSEUDO_REGISTER` of its config/mips/mips.h; 2.91.66 / 2.95.2 (egcs) added r85_opus_dbrtool.
+FIRST = {"2.6.3": 67, "2.7.2": 68, "2.7.2-cdk": 76, "2.8.0": 76, "2.8.1": 76, "2.91.66": 76, "2.95.2": 76}
 
 STAT = re.compile(r"^Register (\d+) used (\d+) times across (-?\d+) insns(.*)$", re.M)
 ALLOC = re.compile(r"^;; (\d+) regs to allocate:(.*)$", re.M)

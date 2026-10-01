@@ -44,7 +44,12 @@ losing_caller_save_reg_set) on that stream and checks itself against the result 
    Each is NECESSARY in the model, not sufficient in the source: re-run the tool on the candidate.
 
 `alloc_need.py` calls `explain()` for its LOCAL verdicts (and narrows BLOCKED holders to the blocks where the
-global pseudo lives).  2.91.66 / 2.95.2 are refused (no FIRST_PSEUDO_REGISTER in alloc_sim).
+global pseudo lives).  2.91.66 / 2.95.2 (egcs; needs alloc_sim.FIRST for them - patch alloc_sim_first) are read
+with their own md and 2.95.2's block header (`Predecessors:` / `Successors:` lines); the replay is 2.x
+local-alloc, which egcs changed in detail: fidelity 429/468 on the 10 egcs rows pinned + erased (105/105
+8180F208, 10/10 810330FC, 3/3 8001EB98, 5/5 code3/code9; 25-27/27-28 800BAE88, 10/11-12 800C379C, 20/21
+w_8003E240, 7/8 w_8003E188, but 21/39 and 27/37 on 80094C70) - the misses are $v0/$v1 choices.  Read the
+FIDELITY line before trusting a LOCAL verdict at those cells.
 """
 from __future__ import annotations
 
@@ -70,7 +75,8 @@ MODE_BYTES = {"QI": 1, "HI": 2, "SI": 4, "DI": 8, "TI": 16, "SF": 4, "DF": 8, "C
 FLOATISH = {"SF", "DF", "SC", "DC", "XF", "TF"}
 # md backends: 2.7.2-cdk carries the 76-register (2.8-era) mips backend, so its patterns are read from 2.8.1's md
 MD_FOR = {"2.6.3": ["2.6.3", "2.7.2"], "2.7.2": ["2.7.2", "2.8.1"], "2.7.2-cdk": ["2.8.1", "2.8.0", "2.7.2"],
-          "2.8.0": ["2.8.0", "2.8.1"], "2.8.1": ["2.8.1", "2.8.0"]}
+          "2.8.0": ["2.8.0", "2.8.1"], "2.8.1": ["2.8.1", "2.8.0"],
+          "2.91.66": ["2.91.66", "2.95.2", "2.8.1"], "2.95.2": ["2.95.2", "2.91.66", "2.8.1"]}
 FIXED_GPR = {0, 1, 26, 27, 28, 29, 31}
 CALL_USED_GPR = set(range(16)) | {24, 25, 26, 27, 28, 29, 31}
 FP_REGNUM = 30                                               # ELIMINABLE_REGS from: arg pointer ($0), frame pointer ($fp)
@@ -288,7 +294,8 @@ def requires_inout(p):
 
 STAT = re.compile(r"^Register (\d+) used (\d+) times across (-?\d+) insns(.*)$", re.M)
 BLOCK = re.compile(r"^Basic block (\d+): first insn (\d+), last (\d+)\.\s*\n(?:\s*\n)?"
-                   r"(?:Reached from blocks:[^\n]*\n\s*\n?)?Registers live at start:([^\n]*)", re.M)
+                   r"(?:(?:Reached from blocks|Predecessors|Successors):[^\n]*\n\s*\n?)*"   # 2.95.2 prints both
+                   r"Registers live at start:([^\n]*)", re.M)
 RESULT = re.compile(r"^;; Register (\d+) in (\d+)\.$", re.M)
 FUNC = re.compile(r"^;; Function (\S+)", re.M)
 INSN_KINDS = ("insn", "jump_insn", "call_insn")

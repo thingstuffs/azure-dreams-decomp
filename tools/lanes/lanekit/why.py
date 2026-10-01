@@ -41,6 +41,10 @@ that differ:
                  a filtered insn-pattern diff of that pass's dump, pseudos anonymised (their numbers
                  shift when a pin is erased, so raw UIDs and regnos never align) - and `--around`
                  narrows it to the insns that mention one variable, pseudo or hard register.
+  dbr            FIRST the delay-slot replay of the `--variant` text (dbr.py: which reorg routine filled each
+                 slot, every candidate refused and why, the branch prediction - the cell's cc1 under gdb;
+                 at most --top slot sections, or the one `--insn UID`), THEN the filtered two-text diff of
+                 the `.dbr` dump as above.
 
 `--around` accepts a C variable name (resolved to its pseudo through `alloc_sim.decl_pseudos`), a
 hard register (`$19`, `a0`, `s3`), a bare pseudo number, `L<n>` for a source line (its identifiers
@@ -313,10 +317,15 @@ def alloc_excuse(code, row):
                 "cell %s (known: %s). The allocno numbering cannot be read without it - add the "
                 "cell to tools/alloc_sim.py (FIRST_PSEUDO_REGISTER), or read the allocation as a stream "
                 "with `--pass greg` disabled and `--pass flow`/`--pass combine` instead. "
-                "19 of the ~1,117 pinned rows sit on such a cell." % (cell, "2.6.3, "
-                "2.7.2, 2.7.2-cdk, 2.8.0, 2.8.1"))
+                "" % (cell, ", ".join(sorted(alloc_sim_cells()))))
     return ("why: this recipe produced no .greg/.lreg dump (%s) - the allocation passes did not "
             "run or the dump was not written." % row["cfg"])
+
+
+def alloc_sim_cells():
+    kitlib.add_paths()
+    import alloc_sim                                                     # noqa: E402
+    return alloc_sim.FIRST.keys()
 
 
 def alloc_rows(rd, around):
@@ -990,7 +999,14 @@ def main():
     if a.cfg:
         row = kitlib.row_at_cfg(row, a.cfg)
     base = kitlib.base_text(row, lane)
-    if single:
+    if a.phase == "dbr" and not a.trace and a.block is None and a.deps is None:
+        import dbr                                                       # noqa: E402  (dbr.py, this kit)
+        tv, nv = resolve_text(a.variant, row, lane, base)
+        dbr.report(row, tv, nv, lane=lane, top=a.top, insns=[a.insn] if a.insn is not None else ())
+        if a.insn is not None:
+            return                        # --insn names one delay slot: the replay is the answer
+        print("\n# ---- the filtered .dbr insn-pattern diff, %s vs %s ----" % (a.vs, nv))
+    elif single:
         return run_single(a, row, lane, base)
     ta, na = resolve_text(a.vs, row, lane, base)
     tb, nb = resolve_text(a.variant, row, lane, base)

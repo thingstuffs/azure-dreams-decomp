@@ -22,13 +22,14 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL (`--cfg` for another cell); ONE text at TWO cfgs (`<text> --cfg A --vs-cfg B`); `--trace --block`: one block tick by tick; `--deps UID`: one insn's LOG_LINKS and dependents |
 | `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`, `--cfg`, `--scorer [--norm-regs]`: the byte scorer's retail-vs-generated diff and score; `--scorer --classify`: ORDER / COLOUR / OPCODE / COUNT per region); journalled to `lab_log.jsonl` |
 | `checks.py` | the four proof checks (sole-ready, launched group, known-constant base, barrier): a verdict per residue insn |
+| `dbr.py` | the delay-slot (reorg.c) explainer: for every branch/jump/call with a delay slot, which routine filled it (fill_simple backward/forward, fill_eager fall-through/target thread, steal, copy + redirect, relax) and every candidate it refused, in order, with the reason (register/memory conflict and the insn behind it, LIVE at the opposite thread and why - flow, first read, an update_block `(use (insn N))` marker -, may trap, not eligible: type/dslot/length, label/jump/asm stop, thread not owned); the mostly_true_jump prediction and the rule that gave it; `--retail`: retail's slot word beside ours and a `DECIDING:` line. The cell's own cc1 under gdb (`dbr_gdb.py`) |
 | `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `prio.py` | the global-allocation priority table of one text at a cfg (refs, live, floor_log2, priority, got) |
 | `regcmp.py` | how many NAMED variables sit in a different register than in a reference text (`--subsets`: every pin-removal subset ranked) |
 | `alloc_need.py` | the allocation INVERSE: retail's register per pseudo (from the aligned listing), a verdict per mis-coloured pseudo (ORDER / BLOCKED / CLASS / LOCAL / SPILLED) and, for ORDER, the `allocno_compare` inequality that flips it (`refs >= N at live L`, `live <= L`, ...) with the source lever per term |
 | `lreg_explain.py` | local-alloc replayed from the `.lreg` dump: per block the qty list (birth/death indices, ties, copy/arith suggestions), the suggestion and priority orders block_alloc used (the 2/3-qty literal-number replay included), why each qty got its register, and for a mis-coloured LOCAL pseudo who held retail's register plus the PRIORITY (refs/length) or GEOMETRY (birth/death index) change that gives it; reproduces every local pseudo of every row against `;; Register N in R.` |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
-| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py` | plumbing; you never call these |
+| `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py`, `retailmap.py`, `dbr_gdb.py` | plumbing; you never call these |
 
 ## Pin-removal source-shape possibilities
 
@@ -263,7 +264,7 @@ python3 .../why.py <row> <text> --vs-cfg B [--cfg A] [--pass P] [--around TOKEN]
 
 compiles the SAME text as if the row were registered at A (default the registered cfg) and at B, and prints the
 same explanations with the sides named A and B. `--pass greg`/`lreg` read each side's allocnos with ITS cell's
-FIRST_PSEUDO_REGISTER (a 2.95.2 side gets the "no FIRST_PSEUDO_REGISTER" message, the other side still prints);
+FIRST_PSEUDO_REGISTER (a cell missing from alloc_sim.FIRST gets the "no FIRST_PSEUDO_REGISTER" message, the other side still prints);
 `--pass greg` also prints reload's `;; Need N regs of class C (for insn U)` -> `Spilling reg R` rounds of both
 sides and says IDENTICAL/DIFFERENT (insn uids ignored) - on 81910A9C erased, 2.8.0 needs HI_REG/HILO_REG/2 MD_REGS/
 3 ALL_REGS and spills 9, 64, 65, 66 where cdk needs 1 LO_REG/1 MD_REGS and spills 9, 65 (r81_fable_late class S,
@@ -362,6 +363,79 @@ reproduce the report (819B3414 g_seed: 780/781 BARRIER-GOVERNED by ASM_KEEP uid 
 T-24; 800AFA68 a_t2: (ii) NOT-REORDERABLE, consumers 30*/41* launched, 49 above 44; c_nokeep_noreg: 19
 OPAQUE-BASE `ori`s on pseudo 95 = 0x1f800000).
 
+## dbr.py - why a delay slot holds what it holds (reorg.c)
+
+```
+python3 .../dbr.py <row> [pinned|erased|cand.c] [--cfg CFG] [--retail] [--insn UID ...] [--all] [--json OUT]
+python3 .../why.py <row> --pass dbr --variant cand.c [--cfg CFG]     # the same replay, then the old two-text .dbr diff
+python3 .../dbr.py <row> cand.c --no-gdb                             # static: fills + a notes-only prediction
+```
+
+Round 85: five lanes stopped on a delay-slot residue (r85_opus_m10 800C379C / 8009CCC4, r85_opus_m5 80B471EC,
+r85_opus_p3 810ADDF4, r85_opus_fit2 800C379C) and one traced reorg.c under gdb by hand (fit2's
+`tmp/gdb1/t*.py`, hard-coded cdk addresses). The `.dbr` dump holds only reorg's statistics and the final
+SEQUENCEs - not one reason - so this tool runs the cell's own cc1 under gdb (batch mode, no prompts, `--timeout`,
+breakpoints placed by `nm` address and argument order read from the cell's own `reorg.c`, nothing hard-coded),
+logs every reorg routine's arguments and return value and replays them against reorg.c's control flow.
+
+* **Table**: one line per delay insn: the slot (`.dbr`), `filled by` (`simple (calls|jumps) pN (backward |
+  forward | target thread)`, `eager pN (fall-through thread | target thread | steal)`), and with `--retail`
+  `retail slot | ours` (the scorer listing aligned through the `-dap` uids, retailmap). `(insn deleted by reorg)`
+  = relax_delay_slots removed the jump.
+* **Per slot** (`--insn UID`, `--all`; default: every empty slot and every fill_eager fill): each routine and pass
+  that looked at it, each candidate in scan order with ACCEPTED / REJECTED / STOP / PAST and the reason:
+  * `reads $v1, which 158 `andi ...` sets` / `sets $a0, which the call itself sets` - insn_references /
+    insn_sets_resource_p against the `set` / `needed` of the insns it would move past, with the insn behind it;
+  * `sets $a0, LIVE at the opposite thread 188 ...` - mark_target_live_regs, and per register WHY:
+    `live entering the target (flow's live-at-start of block B, head ...)`, `first read by U before any set`,
+    `ADDED by find_dead_or_set_registers at (use (insn 223)) - update_block's marker for 223 `move $4,$2`, moved into
+    the delay slot of 225 `jal ...``, and whether the forward scan reached an unconditional jump (whose target's
+    liveness is ANDed in) - the r85_opus_fit2 800C379C mechanism in one line;
+  * `may trap (it accesses memory)` - may_trap_p: a load/store is never hoisted into a non-annulled slot from a
+    thread; `redundant with U`; `not eligible: type load has its own delay slot (dslot=yes)` / `too big: length 2
+    words` (get_attr_type/dslot/length called on the candidate) / `the annulled alternative is unavailable` (MIPS I);
+  * `stop:` a label (labels end fill_simple's backward scan and the fall-through thread), a jump, an asm
+    (`asm_input` - an ASM_* barrier is exactly this stop), an already-filled sequence; `not examined: ... this
+    thread is not owned` (only the head of an un-owned thread can be taken; the branch is then redirected past
+    the copied insn - `branch redirected $L40 -> $L63`);
+  * `own_target / own_fallthrough`: own_thread_p, and if not owned WHY (`$L11 (used 2 times) sits before its first
+    active insn`, `85 bne ... precedes it with no barrier`);
+  * `mostly_true_jump = 0 (likely NOT taken): EQ test` - the value AND the rule that produced it, in reorg.c order:
+    __builtin_expect (cdk), LABEL_OUTSIDE_LOOP_P, NOTE_INSN_LOOP_BEG before the target label (2), NOTE_INSN_LOOP_VTOP
+    right after it (1; 2.x looks at NEXT_INSN(label) only), rare_destination fall-through minus target, EQ/NE/sign
+    tests against 0, backward/forward; the facts are printed (notes before/after the label, both rare values) and a
+    rule that disagrees with the real value prints `MISMATCH` (never seen in validation).
+* **`DECIDING:`** (with `--retail`): when retail's slot word is one of our candidates, the refusal that kept it out
+  (`retail's slot insn `move a0,s0` = our 164: REJECTED in fill_eager_delay_slots (pass 1): sets $a0, LIVE at the
+  opposite thread`); when it is the head of a thread fill_eager never tried, the prediction that ordered the
+  threads (`... = the head of our target thread (1056 `li $2,1`), which fill_eager never tried: mostly_true_jump = 0:
+  EQ test, so the fall-through thread was tried first and filled the slot with 788 `lui ...``).
+* **Trust lines**, every run: `trace faithful` (the traced compile's assembly is byte-identical to a plain compile -
+  the attribute queries cannot perturb it; same rule as tools/alloc_trace.py) and `trace vs .dbr` (the fills the
+  trace recorded = the `.dbr` SEQUENCEs; a difference is labelled as a later relax_delay_slots / pass-2 change).
+* `why.py --pass dbr` prints this replay for `--variant` (default erased; at most `--top` slot sections, or the one
+  `--insn UID`), then the filtered two-text `.dbr` insn diff it always printed.
+* Cost: one plain compile + one gdb run, 2-17 s (a 300-insn function ~2 s, 810ADDF4's 89 slots 17 s).
+
+**Cells.** 2.7.2-cdk, 2.8.0, 2.8.1: full, validated (below). 2.7.2 / 2.6.3: the trace and fills are verified
+(`trace vs .dbr` all equal on a pinned row), but those cc1s have no separate find_dead_or_set_registers
+(2.6.3 also no redundant_insn), so a LIVE reason stops at "live at the target". 2.91.66 / 2.95.2 (egcs): the
+same routine names (resource.c), arguments read from their own signatures; fills verified on pinned rows (`trace vs
+.dbr` 22/22, 24/24, 98/98) but the replay wording is tagged UNVALIDATED (egcs reorg.c differs in detail).
+Module / partitioned slus rows: the unit that defines the function is traced (`--func NAME` if the row's
+`true_name` is not the C name).
+
+**Validated** (lane `r85_opus_dbrtool`, `validation/`): fit2's text for 800C379C at cdk reproduces fit2's gdb
+finding uid for uid (trial 164 `move $4,$16` refused: $a0 live at the else target, added at `(use (insn 223))`,
+223 in the slot of 225 `jal func_80099290`); m10's g3c gives the same mechanism and the DECIDING line; 8009CCC4 nb:
+EQ -> 0, fall-through owned, `lui` taken, retail's `li v0,1` is the untried target head; 80B471EC: pinned stops at
+the barrier's `asm_input` and copies `addu $2,$19,1` from the target (= retail), 1ec_nb takes the fall-through
+(DECIDING: EQ -> 0); 810ADDF4: for-loop text VTOP -> 1 (target thread first, exact), do-while text EQ -> 0
+(DECIDING). Exact pinned rows at 2.6.3, 2.7.2, 2.7.2-cdk, 2.8.0, 2.8.1, 2.91.66, 2.95.2: `trace faithful` and
+`trace vs .dbr` all equal (8008F814 at 2.8.1: a call slot filled in pass 2 is emptied again by
+try_merge_delay_insns - the table says `emptied by relax p2` and the slot's lines say into which slot it merged).
+The rule replay of mostly_true_jump agreed with the compiler's value on every branch of every run (no `MISMATCH`).
+
 ## New extern symbols: no `.set` line
 
 `kitlib.admissible` refuses any candidate that adds an `__asm__`, so a lane that declares a new data symbol
@@ -395,15 +469,20 @@ only): keep it unless you are measuring exactly this.
 * The uid -> generated-word map (`--retail`, `checks.py`) is a mnemonic alignment of gcc's `-dap` assembly
   against the scorer's disassembly with a small table of assembler macro expansions, not the assembler
   itself; a word it cannot place prints `-` and a check without a retail position says `UNKNOWN`.
+* `dbr.py` needs gdb (`/usr/bin/gdb`; `--no-gdb` falls back to the dumps: fills classified by where the slot insn
+  sat in `.jump2`, prediction from the loop notes and the condition only). The conflicting register is NAMED from
+  the dump's RTL (a static mirror of mark_set/mark_referenced_resources); the decision itself is the compiler's
+  return value. The insn "behind" a conflict is the nearest one in the chain as it was when reorg started.
 * `--trace` reads gcc 2.6-2.8 `sched.c` commentary; the haifa scheduler of 2.91.66 / 2.95.2 prints another
   format and the trace refuses rather than guesses.
 * `alloc_sim`'s `find_reg` model does not reproduce every disposition (30 of 38 on one smoke row).
   Read the `got` column, which is the dump.
 * `--pass greg` / `--pass lreg` need `alloc_sim.FIRST`'s FIRST_PSEUDO_REGISTER for the cell, which
-  covers 2.6.3, 2.7.2, 2.7.2-cdk, 2.8.0 and 2.8.1 - 1,098 of the ~1,117 pinned rows. The 19 rows on
-  2.91.66 / 2.95.2 get a message saying so rather than a wrong table. `--pass sched` works on all of
-  them (2.95.2 still prints `;; insn[N]: priority`), and falls back to the filtered RTL diff if a
-  future cell does not.
+  covers every cell of the tree: 2.6.3 (67), 2.7.2 (68), 2.7.2-cdk / 2.8.0 / 2.8.1 / 2.91.66 / 2.95.2 (76 -
+  `len(call_used_regs)` in each cc1, the `#define` in each mips.h; egcs added round 85: on all 10 egcs rows,
+  pinned and erased, every allocno is >= 76 and the named pseudos resolve). A future cell without an entry gets
+  a message saying so rather than a wrong table. `--pass sched` works on all of them (2.95.2 still prints
+  `;; insn[N]: priority`), and falls back to the filtered RTL diff if a future cell does not.
 
 ## Switch jump tables: `jtbl-mismatch` and `--no-jtbl` (round 82)
 

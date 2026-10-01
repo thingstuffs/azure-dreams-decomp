@@ -67,6 +67,7 @@ Before writing a helper of your own, check this table - 26 lanes rebuilt the lis
 | one block tick by tick: ready lists, each pick's reason, uid -> retail word | `python3 {kit}/why.py <row> --pass sched2 --block <uid\\|bN\\|rN> --trace --variant cand.c [--retail] [--insn N] [--cfg CFG]` |
 | one insn's LOG_LINKS (kind) and the insns that depend on it | `python3 {kit}/why.py <row> --deps <uid> [--pass sched2] --variant cand.c [--cfg CFG]` |
 | the four proof checks, a verdict per residue insn (run BEFORE sweeping an axis) | `python3 {kit}/checks.py <row> cand.c [--cfg CFG]` |
+| WHY that delay slot holds that insn (or a nop): reorg's routine, every refused candidate and its reason, the branch prediction; retail's slot + DECIDING | `python3 {kit}/dbr.py <row> cand.c [--retail] [--insn UID] [--all] [--cfg CFG]` |
 | WHY that variable got that register | `python3 {kit}/why.py <row> --pass greg --around <var>` |
 | WHY that constant stayed in the loop | `python3 {kit}/why.py <row> --pass loop` |
 | what changed at cse / combine / flow / jump | `python3 {kit}/why.py <row> --pass combine --around <var>` |
