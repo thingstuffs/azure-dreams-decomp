@@ -296,7 +296,9 @@ state1:
         S_func_8190B2D0_6 *target;
         S_func_8190B2D0_5 *owner_sprite;
         s32 target_z;
-        register s32 height_or_steps ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 height_or_steps;
+        s32 coordinate_steps;
+        s32 target_coord;
         motion_or_child->unk_0.at_2_u16.unk_2 = ((S_func_8190B2D0_3 *)source_pos)->unk_0.at_2_u16.unk_2;
         motion_or_child->unk_4.at_6_u16.unk_6 = ((S_func_8190B2D0_3 *)source_pos)->unk_4.at_6_u16.unk_6;
         base_z = ((S_func_8190B2D0_3 *)source_pos)->unk_8.at_A_u16.unk_A;
@@ -340,16 +342,17 @@ state1:
                 owner_sprite->unk_25 +
                 ((u8 *)dirStepY)[(s16)effect->unk_7E.s16 * 2];
 
-            if (owner->unk_72 != owner_sprite->unk_24) {
-                height_or_steps = owner->unk_72 - owner_sprite->unk_24;
+            coordinate_steps = owner->unk_72;
+            target_coord = owner_sprite->unk_24;
+            if (coordinate_steps != target_coord) {
+                coordinate_steps -= target_coord;
             } else {
-                height_or_steps = owner->unk_73;
-                height_or_steps -= owner_sprite->unk_25;
+                coordinate_steps = owner->unk_73;
+                target_coord = owner_sprite->unk_25;
+                coordinate_steps -= target_coord;
             }
-            if (height_or_steps < 0) {
-                height_or_steps = -height_or_steps;
-            }
-            effect->unk_7B.u8 = (u8)((height_or_steps << 1) - 1);
+            coordinate_steps = __builtin_abs(coordinate_steps);
+            effect->unk_7B.u8 = (u8)((coordinate_steps << 1) - 1);
         } else {
             base_height = owner->unk_88;
             effect->unk_7B.u8 = 32;

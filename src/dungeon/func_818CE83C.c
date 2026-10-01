@@ -73,6 +73,8 @@ typedef struct S_8002403C_6 {
     u8 * unk_8D0;
 } S_8002403C_6;   /* final_state in func_8002403C */
 
+typedef struct { u32 addr:24; u32 length:8; } PacketTag;
+
 /* Project linked nodes and enqueue shaded point primitives with their draw modes. */
 s32 func_8002403C(void *start_node, void *start_coords)
 {
@@ -87,15 +89,11 @@ s32 func_8002403C(void *start_node, void *start_coords)
     register void *prev_entry;
     u32 depth_index;
     u16 coord_x;
-    register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 length_mask;
 
     node = start_node;
     coords = start_coords;
     state_ptr = (u8 **)((u8 *)(&gameWork));
-    addr_mask = 0x00FFFFFF;
     render_state = *(u8 **)((u8 *)(&gameWork));
-    length_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
 
     *(u8 * *)(scratch + 0x18) = ((S_8002403C_0 *)render_state)->unk_8D0;
@@ -147,9 +145,8 @@ s32 func_8002403C(void *start_node, void *start_coords)
             page_x = texture_depth;
             ((S_8002403C_3 *)packet)->unk_04.at03.v = opcode;
 
-            ((S_8002403C_3 *)packet)->unk_00.at00.v =
-                (((S_8002403C_3 *)packet)->unk_00.at00.v & length_mask) |
-                ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & addr_mask);
+            ((PacketTag *)packet)->addr =
+                ((PacketTag *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
@@ -159,7 +156,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 ot_entry = (u32 *)((u32)ot_entry +
                                 (u32)((S_8002403C_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
-                *ot_entry = ((u32)((ot_tag & length_mask) | ((u32)((u32)packet & addr_mask))));
+                *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
             packet = *(u8 * *)(scratch + 0x18);
@@ -167,12 +164,11 @@ s32 func_8002403C(void *start_node, void *start_coords)
             color_or_tpage = func_80066460(texture_depth, blend_mode, page_x, texture_depth);
             func_80067F20(packet, 0, 0, (u16)color_or_tpage, 0);
 
-            ((S_8002403C_3 *)packet)->unk_00.at00.v =
-                (((S_8002403C_3 *)packet)->unk_00.at00.v & length_mask) |
-                ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & addr_mask);
-            packet = (u8 *)((u32)packet & addr_mask);
+            ((PacketTag *)packet)->addr =
+                ((PacketTag *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4)))->addr;
+            packet = (u8 *)((u32)packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) =
-                ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & length_mask) |
+                ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & 0xFF000000) |
                 (u32)packet;
         }
 

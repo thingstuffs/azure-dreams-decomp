@@ -81,7 +81,8 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
     s32 object_type;
     s16 offset_angle;
     uptr effect;
-    register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    uptr render_or_radius;
+    s16 radius;
     s32 scaled_radius;
     s32 divisor_reciprocal;
     S_818C2FAC_1 *effect_state;
@@ -156,18 +157,19 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         divisor_reciprocal = 0x78787879;
         render_or_radius = (uptr)random_value;
         offset_angle = (s16)offset_angle;
-        render_or_radius = (uptr)((s32)render_or_radius % 17 + 0x20);
+        render_or_radius = (uptr)((s32)render_or_radius % 17);
+        render_or_radius += 0x20;
         y_factor = func_800644B8(offset_angle) >> 4;
-        render_or_radius = (uptr)(s16)(s32)render_or_radius;
+        radius = (s16)render_or_radius;
         {
             s32 x_offset;
-            scaled_radius = y_factor * (s32)render_or_radius;
+            scaled_radius = y_factor * (s32)radius;
             x_offset = scaled_radius << 8;
             (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
         }
         {
             y_factor = func_80064584(offset_angle) >> 4;
-            scaled_radius = y_factor * (s32)render_or_radius;
+            scaled_radius = y_factor * (s32)radius;
             y_offset = scaled_radius << 8;
             new_y = (*(s32 *)((u8 *)((void *)data_addr) + 4)) + y_offset;
             (*(s32 *)((u8 *)((void *)data_addr) + 4)) = new_y;

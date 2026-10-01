@@ -207,13 +207,14 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                 coord_base = step_coord;
                 next_tile += collision_coord;
                 effect->unk_4D.u = next_tile;
-                target_y = (effect->unk_4D.s << 6) + 0x20;
+                target_y = effect->unk_4D.s;
+                target_y <<= 6;
+                target_y += 0x20;
                 collision_coord = effect->unk_26;
                 if (collision_coord == 0) {
-                    ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     check_x = (u16)coord_base;
-                    check_y = (u16)target_y;
-                    if ((func_800A45D8(check_x, check_y,
+                    check_y = target_y;
+                    if ((func_800A45D8(check_x, (u16)check_y,
                                        motion->unk_0A.s) << 16) != 0) {
                         effect->unk_26 = 1;
                     }
@@ -225,7 +226,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                         }
                     }
                     if (effect->unk_26 == 0) {
-                        floor_height = func_800BCB04(check_x, check_y,
+                        floor_height = func_800BCB04(check_x, (u16)check_y,
                                               (s16)((u16)motion->unk_0A.s - 0x20));
                         if (floor_height >= 0x200 || floor_height > motion->unk_0A.s + 0x20 ||
                             floor_height < motion->unk_0A.s) {
@@ -246,8 +247,9 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                     display = object->unk_0C;
                     transform = object->unk_08;
                     cleanup_mask = 0xFFEFFFFF;
-                    ASM_KEEP4_NV(cleanup_mask, cleanup_mask, cleanup_mask, cleanup_mask);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    object_data->unk_14 &= cleanup_mask;
+                    state = object_data->unk_14;
+                    state &= cleanup_mask;
+                    object_data->unk_14 = state;
                     goto cleanup_object;
                 }
 
