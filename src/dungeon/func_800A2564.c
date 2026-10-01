@@ -201,8 +201,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             tex_bottom = tex_bottom + tex_top;
                             U32(scratch, 0x10) = tex_right;
                             ASM_SET(packed_uv);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                            packed_uv = tex_top;
-                            ASM_KEEP_NV(packed_uv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                            packed_uv = U32(scratch, 0xC);
                             tex_bottom = tex_bottom << 8;
                             packed_uv = packed_uv << 8;
                             U32(scratch, 0x14) = tex_bottom;

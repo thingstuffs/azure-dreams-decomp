@@ -50,12 +50,11 @@ void func_8002472C(void *effect_data) {
                                             (residue: 78/79 words, 35 subs + 1 indel). */
     u8 *color_cursor;
     register s32 tick_or_index;
-    register u32 saved_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u16 saved_state;
     u32 position;
     u32 step;
     s32 state;
     u32 color_delta;
-    S_81844F2C_1 *entity;
     u8 *flag_page;
 
     effect = effect_data;
@@ -65,9 +64,9 @@ void func_8002472C(void *effect_data) {
                            update (words 0-6).  MEASURED 2026-09-22 on this text at 2.7.2-cdk-G0:
                            ASM_REG("$5") alone (this keep dropped) is 79 words off, so the keep is
                            not redundant with the colour pin. */
-    entity = ((S_81844F2C_0 *)effect)->unk_00;
-    entity->unk_52 =
-        (u16)(entity->unk_52 | 0x8000);
+    flag_page = ((S_81844F2C_0 *)effect)->unk_00;
+    ((S_81844F2C_1 *)flag_page)->unk_52 =
+        (u16)(((S_81844F2C_1 *)flag_page)->unk_52 | 0x8000);
 
     position = ((S_81844F2C_0 *)effect)->unk_04;
     step = ((S_81844F2C_0 *)effect)->unk_0C;

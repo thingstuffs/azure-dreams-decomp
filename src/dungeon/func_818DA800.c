@@ -287,7 +287,6 @@ case1:
         resource_base = D_800DEAE0;
         do {
             S_func_818DA800_5 *burst_obj;
-            S_func_818DA800_9 *resource_cursor;
             s32 center_coord;
             s32 corner_coord;
             s32 position_or_z_offset;
@@ -328,14 +327,12 @@ case1:
                     prim_color |= 0xC0C0;
                     prim->unk_00 = resource_base;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    resource_cursor = resource_base;
-                    ASM_KEEP(resource_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     prim->unk_1C = 0;
                     prim->unk_0C = prim_color;
                     prim_flags |= 0xC;
                     prim->unk_14 = prim_flags;
                 }
-                prim->unk_08 = resource_cursor->unk_04;
+                prim->unk_08 = ((S_func_818DA800_9 *)prim->unk_00)->unk_04;
                 prim->unk_04 = 0;
                 prim->unk_05 = 0;
                 child_state->unk_00 = effect_state;
