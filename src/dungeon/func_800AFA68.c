@@ -61,7 +61,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     u8 *depth_cue = (u8 *) 0x1F800090;
     u8 *transform_flags = (u8 *) 0x1F800094;
 
-    u8 *sprite_rotation;
     u8 *game_base = (u8 *)&gameWork;
     u8 *matrix_base;
 
@@ -304,15 +303,13 @@ next_world_part:
             *((s32 *) (scratch + 0x0c0)) = sprite_depth;
             ASM_KEEP_MEMDEP_NV(sprite_depth, depth_dependency, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sort_depth = sprite_depth;
-            ASM_KEEP_MEM_NV(sort_depth, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            sprite_depth *= 4;
+            sprite_depth <<= 2;
             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
             adjusted_depth = sort_depth - 4;
             *((s32 *) (scratch + 0x0c0)) = adjusted_depth;
             if (adjusted_depth < 0x1E0U) {
+                transform_dst = scratch + 0x100;
                 world_matrix_arg = rotation_matrix;
-                sprite_rotation = scratch + 0x100;
-                ASM_USE_NV(sprite_rotation);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
                 pitch_bits = camera_pitch;
                 *((u16 *) (scratch + 0x0ba)) = (u16) ((*((u16 *) (scratch + 0x0ba))) - 0x78);
@@ -326,7 +323,7 @@ next_world_part:
                 sprite_part = part_header + 4;
 
                 *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
-                func_80065820(sprite_rotation, world_matrix_arg, view_yaw);
+                func_80065820(transform_dst, world_matrix_arg, view_yaw);
                 func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                 func_80064D80((M2C_UNK *) view_matrix);
                 func_80064CF0((M2C_UNK *) view_matrix);
