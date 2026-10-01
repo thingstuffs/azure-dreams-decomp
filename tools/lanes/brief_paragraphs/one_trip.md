@@ -5,3 +5,7 @@ order the pins then faked), calls.c treats it as a loop for argument pre-copies,
 barriers. 38 pinned rows (142 pins) still carry one: unwrap it to `{ }` (or delete it) TOGETHER with erasing the pins
 around it and using parameters directly - alone, either move usually fails (both are needed on 800A8714). Some are
 load-bearing fences (8095563C: unwrapping one block alone is 2 off): then find what retail's order really came from.
+Calibration (r85_opus_ot2, 7 rows): most remaining one-trip blocks are LOAD-BEARING barriers (unwrapping alone is not
+exact on 5 of 7): they stand for a cse block end (cse.c 8102 ends at the loop note - the copy-head rule), a MEM_IN_STRUCT
+dependence (spell the store as a struct field), or a sched1 order (birthing boost / single-set locals). Replace the
+block with the C shape it stands for, not with nothing.
