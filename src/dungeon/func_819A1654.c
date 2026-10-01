@@ -269,15 +269,13 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                             coord->y = entity->y + origin_loop->y;
                             coord->z = entity->z + origin_loop->z;
                             sprite = task->sprite;
-                            sprite->field1E = 0x1000;
-                            sprite->field1C = 0x1000;
-                            ASM_SCHED_BARRIER();
-                            {
-                                interp_work = 0x80;
-                                sprite->b = interp_work;
-                                sprite->g = interp_work;
-                                sprite->r = interp_work;
-                            }
+                            interp_work = 0x1000;
+                            sprite->field1E = interp_work;
+                            sprite->field1C = interp_work;
+                            interp_work = 0x80;
+                            sprite->b = interp_work;
+                            sprite->g = interp_work;
+                            sprite->r = interp_work;
                             sprite->field16 = (func_80069EF8() & 0xF) << 8;
                             sprite->field18 = (func_80069EF8() & 0xF) << 8;
                             sprite->field1A = (func_80069EF8() & 0xF) << 8;
@@ -675,12 +673,10 @@ loop_1:
                     sprite->b = 0x80;
                     sprite->g = 0x80;
                     sprite->r = 0x80;
-                    ASM_SCHED_BARRIER();
                     *(Blob12 *)task->data = *(Blob12 *)D_80026198;
                     copy_page = (u8 *)D_80026198;
                     *(Blob12 *)(task->data + 12) = *(Blob12 *)(copy_page + 12);
-                    interp_work = (s32)(task->data);
-                    sprite->data = (u8 *)interp_work;
+                    sprite->data = task->data;
                     break;
                 }
             }
