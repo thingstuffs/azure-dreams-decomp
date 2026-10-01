@@ -47,6 +47,7 @@ void func_8017364C(void *action, EntityRec *motion, void *sprite, EntityRec *act
     u8 *ability;
     s32 phase;
     void *target;
+    u8 *target_sprite;
 
     phase = ((S_8017364C_0 *)action)->unk_9B;
     use_player = 0;
@@ -109,7 +110,7 @@ check_ability:
                     target = D_800814A8;
                     actor->target = target;
                     {
-                        u8 *target_sprite =
+                        target_sprite =
                             ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
                         actor->unk_72 = target_sprite[0x24];
                         actor->unk_73 = target_sprite[0x25];
@@ -127,7 +128,7 @@ check_ability:
                         target = actor->target;
                         if (target != NULL) {
                             {
-                                register u8 *target_sprite ASM_REG("$3") =
+                                target_sprite =
                                     ((S_8017364C_2 *)((u8 *)target - 0x14))->unk_00;
                                 actor->unk_72 = target_sprite[0x24];
                                 actor->unk_73 = target_sprite[0x25];
