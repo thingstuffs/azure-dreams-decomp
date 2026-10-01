@@ -70,7 +70,7 @@ typedef struct S_8187B1F4_8 {
 } S_8187B1F4_8;   /* state in func_8187B1F4 */
 
 
-#define VFIELD(base, type, offset) (*(volatile type *)((u8 *)(base) + (offset)))
+#define VFIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
 typedef struct GlobalState {
     u8 pad[0x8D0];
