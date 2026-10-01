@@ -602,3 +602,11 @@ In sched1, birthing_insn_p (sched.c 2513-2545/2583) boosts a SET to a live REG d
 - **Symbol HIGH/lo_sum** cannot be multi-set from C at a splitting cell.
 - **Owner ruling pending on R and S.** 818E6800 3->1 (R) and 81941338 3->2 (S) are held.
 - **References:** census in work/native_lane/r85_fable_birth/census_boost.jsonl (19 BIRTHING sites in 17 rows). Paragraph draft: paragraph.md there. Tool: tools/lanes/lanekit/counts.py (reg_n_sets per register at flow and combine, plus the boosted uids per sched1 block).
+
+### Delay-slot residues: the EQ not-taken pattern (r85_opus_dbrtool, 2026-10-01)
+cdk mostly_true_jump predicts an EQ branch NOT taken unless a LOOP_VTOP note follows the target label. fill_eager_delay_slots then fills the slot from an owned fall-through thread first. Where retail's slot holds the head of the TARGET thread, there are three levers:
+- **A prediction > 0:** for example, a `for` loop's VTOP note.
+- **A fall-through thread that is not owned:** a label at the arm head.
+- **A fall-through head that fill_eager refuses.**
+
+A separate cause: update_block's USE marker for an insn already moved into a jal slot makes that register live at the opposite thread (800C379C). Tool: tools/lanes/lanekit/dbr.py <row> <text> --retail [--insn UID]; its DECIDING line names the case.
