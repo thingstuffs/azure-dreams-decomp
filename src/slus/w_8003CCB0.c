@@ -51,9 +51,10 @@ void func_8003CCB0(s32 blend_step)
 {
     u8 *scratch;
     SpriteQuad *packet;
-    register u8 *sprite_uv ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *sprite_uv;
     u8 *quad;
     u8 *transform_flags;
+    u8 *sprite_base;
     s32 sprite_index;
     u8 sprite_key[2];
     u8 **render_state;
@@ -102,7 +103,7 @@ void func_8003CCB0(s32 blend_step)
     PushMatrix();
     {
         colour = (s32)((u8 *)D_80080AB0);
-        sprite_uv = ((u8 *)colour) + 4;
+        sprite_base = ((u8 *)colour) + 4;
     }
     U16_AT(scratch, 0x28) = 0;
     U16_AT(scratch, 0x2A) = 0;
@@ -110,6 +111,7 @@ void func_8003CCB0(s32 blend_step)
     packet = (SpriteQuad *)quad;
 
     do {
+        sprite_uv = sprite_base + sprite_index * 12;
         path_offset = sprite_index << 2;
         {
             s32 start_x = *(s16 *)((u8 *)D_80083858 + path_offset);
@@ -205,14 +207,13 @@ void func_8003CCB0(s32 blend_step)
         {
             u8 *draw_quad = quad;
             quad += 0x28;
-            sprite_uv += 0xC;
-            sprite_index++;
             packet->b = colour;
             packet->g = colour;
             packet->code |= 2;
             DrawPrim(draw_quad);
         }
         packet++;
+        sprite_index++;
     } while (sprite_index < 0xE);
 
     PopMatrix();
