@@ -11,18 +11,16 @@ typedef struct {
 } Status;
 
 extern void func_8009A21C(s32, s32, s32);
-extern void func_8009A3D0();
+extern void func_8009A3D0(s32, s32, s32);
 extern void func_800A2B04(s32, s32, s32);
 extern Copy12 D_8016A858[];
 extern u8 *D_80174704;
 
 /* Reposition the current object using an indexed offset from the reference coordinates. */
 void func_8016E138(s32 offset_index) {
-    Copy12 offsets;
+    Copy12 offsets = D_8016A858[0];
     s32 old_tile_mask;
     u8 *offset_bytes;
-    register u8 *offset_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register Copy12 *offset_src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 *xy_offset;
     s32 object_handle;
     u8 *object;
@@ -36,16 +34,6 @@ void func_8016E138(s32 offset_index) {
     s32 updated_y;
 
     state = D_80174704;
-#ifdef NON_MATCHING
-    offset_page = (u8 *)D_8016A858 + 0x57A8;
-#else
-    offset_page = (u8 *)0x80170000;
-#endif
-    ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    offset_src = (Copy12 *)offset_page;
-    offset_src = (Copy12 *)((u8 *)offset_src - 0x57A8);
-    offsets = *offset_src;
-    ASM_KEEP_DEP_NV(offset_src, offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     object = *(u8 **)(state + 0xC);
     old_tile_mask = 0x3000;
     status = (Status *)state + 1;
@@ -57,7 +45,7 @@ void func_8016E138(s32 offset_index) {
         old_tile_mask = 0x300;
     }
     offset_bytes = (u8 *)&offsets;
-    func_8009A3D0(x, y, old_tile_mask, offset_src);
+    func_8009A3D0(x, y, old_tile_mask);
     origin = &D_80082E80;
     offset_pos = offset_index << 1;
     xy_offset = (s16 *)(offset_bytes + offset_pos);
