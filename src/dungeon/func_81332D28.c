@@ -9,7 +9,7 @@ extern u8 *func_8003FD64(s32, u8 *);
 extern void func_8004491C(u8 *, u8 *);
 extern void func_800A9C18(u8 *, void *, void *, s32);
 extern void func_800AA36C(u8 *, void *, void *, u8 *);
-extern s32 func_800F6598(s32, s32, s32, s32);
+extern s32 func_800F6598(void);
 extern M2C_UNK D_80169EC0;
 extern M2C_UNK D_80173980;
 
@@ -53,7 +53,7 @@ typedef struct S_80169D28_3 {
     M2C_UNK * unk_2C;
 } S_80169D28_3;   /* second in func_80169D28 */
 
-u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *func_80169D28(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *result;
     s32 mode;
     u8 *obj;
@@ -61,7 +61,7 @@ u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *first;
     u8 *second;
     s16 saved_arg0;
-    register s32 saved_arg1 ASM_REG("$20");
+    s16 saved_arg1;
     s16 saved_arg2;
     s16 saved_arg3;
 
@@ -70,7 +70,7 @@ u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     saved_arg0 = arg0;
     saved_arg1 = arg1;
     saved_arg2 = arg2;
-    if (func_800F6598(arg0, saved_arg1, arg2, arg3) == 0) {
+    if (func_800F6598() == 0) {
         obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         if (obj != NULL) {
             result = obj + 0x20;

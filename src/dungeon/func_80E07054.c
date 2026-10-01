@@ -18,10 +18,9 @@ extern void func_80150538(void);
 extern void func_8014CA58(void);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
+void *func_8014C854(s32 spawn_flags, s16 attr_a, s16 attr_b, s32 attr_c)
 {
     u8 *work = 0;
-    register s32 held_a ASM_REG("$21") = attr_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     long part_b;
     long work_copy;
     u8 *object;
@@ -38,17 +37,16 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
     object = func_8003FD64(alloc_kind, alloc_data);
     flags_s16 = spawn_flags;
     if (object != 0) {
-        work = object;
-        work += 0x20;
+        work = object + 0x20;
         *(u8 *)(work + 0x13) = 0x1C;
         func_8004491C(object, func_80045340);
 
         part_a = *(u8 **)(object + 8);
         *(s16 *)(part_a + 0xA) = attr_c;
         part_b = (long)*(u8 **)(object + 0xC);
+        *(u8 *)((u8 *)part_b + 0x24) = attr_a;
         *(u8 *)((u8 *)part_b + 0x25) = attr_b;
         work_copy = (long)work;
-        *(u8 *)((u8 *)part_b + 0x24) = held_a;
 
         if ((spawn_flags & 3) == 1) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
@@ -73,10 +71,11 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
                     }
                 }
                 *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
+                *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
             } else {
                 *(Callback *)(work + 0x8C) = func_8014CE5C;
+                *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
             }
-            *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
         }
 
         *(Callback *)(object + 0x10) = func_8014CA58;

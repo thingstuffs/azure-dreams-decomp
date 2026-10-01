@@ -16,9 +16,9 @@ extern void func_8016EF00(void);
 extern void func_8016AA98(void);
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
+u8 *func_8016A894(s16 flags, s16 kind_id, u16 variant, s16 spawn_value)
 {
-    register u8 byte_kind_id ASM_REG("$21") = kind_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 byte_kind_id = kind_id;
     s16 half_spawn = spawn_value;
     u8 byte_variant = variant;
     u8 *result;
@@ -32,17 +32,16 @@ u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
     result = 0;
     allocation = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (allocation != 0) {
-        result = allocation;
-        result += 0x20;
+        result = allocation + 0x20;
         result[0x13] = 14;
         func_8004491C(allocation, func_80045340);
 
         part_a = *(u8 **)(allocation + 8);
         *(s16 *)(part_a + 10) = half_spawn;
         part_b = *(u8 **)(allocation + 12);
+        part_b[36] = byte_kind_id;
         part_b[37] = byte_variant;
         secondary = result;
-        part_b[36] = byte_kind_id;
 
         if ((flags & 3) == 1) {
             *(void (**)(void))(result + 140) = func_8016AE9C;
@@ -65,10 +64,11 @@ u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
                         }
                     }
                     *(void (**)(void))(secondary + 140) = func_8016AE9C;
+                    *(void (**)(void))(part_b + 44) = func_8016EED8;
                 } else {
                     *(void (**)(void))(result + 140) = func_8016AE9C;
+                    *(void (**)(void))(part_b + 44) = func_8016EED8;
                 }
-                *(void (**)(void))(part_b + 44) = func_8016EED8;
             }
         }
         *(void (**)(void))(allocation + 16) = func_8016AA98;

@@ -53,10 +53,9 @@ extern void func_800AA36C(Func80BBB094PartC *, Func80BBB094PartA *,
                           Func80BBB094PartB *, Func80BBB094PartC *);
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+Func80BBB094PartC *func_8014C894(s32 spawn_flags, s16 attr_a, s32 attr_b, s32 attr_c)
 {
     Func80BBB094PartC *result = 0;
-    register s32 arg1Reg ASM_REG("$21") = attr_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     unsigned long slot1;
     s16 arg2Reg;
     register Func80BBB094PartC *resultAlias;
@@ -80,8 +79,8 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
         partA->unkA = (s32)slot1;
         slot1 = (unsigned long)obj->unkC;
         partB = (Func80BBB094PartB *)slot1;
+        partB->unk24 = attr_a;
         partB->unk25 = arg2Reg;
-        partB->unk24 = arg1Reg;
         resultAlias = result;
 
         mode = spawn_flags & 3;
@@ -110,10 +109,11 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
                 } else {
                 }
                 resultAlias->unk8C = (void *)D_8014CE9C;
+                partB->unk2C = D_80150ED8;
             } else {
                 result->unk8C = (void *)D_8014CE9C;
+                partB->unk2C = D_80150ED8;
             }
-            partB->unk2C = D_80150ED8;
         }
 
         obj->unk10 = D_8014CA98;
