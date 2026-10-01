@@ -73,35 +73,35 @@ extern void func_8009C12C(void *, void *, s16, s32);
 extern void func_800A56E0(s32);
 
 /* Process nodes at the target tile and height, triggering type-specific effects. */
-void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
+void func_801745BC(void *node, s32 target_x, s32 target_y, s32 target_height)
 {
-    register void *node ASM_REG("$16") = source;
     OffsetTable offsets = D_80170884;
     void *head = node;
     register void *owner = head;
-    register s32 match_x ASM_REG("$23") = target_x;
+    s32 match_x = target_x;
+    s32 match_y;
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
     void *next_link = ((S_801745BC_0 *)head)->unk_5C;
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
     u16 height_arg = target_height;
-    register s32 center_height ASM_REG("$20");
+    s32 center_height;
+    s32 low_height;
 
     node = (u8 *)next_link + 0x20;
-    target_x = target_y;
+    match_y = target_y;
 
     if (node != head) {
-        next_link = (void *)(height_arg << 16);
-        center_height = (s32)next_link >> 16;
-        target_height = center_height - 0x40;
+        center_height = (s32)(height_arg << 16) >> 16;
+        low_height = center_height - 0x40;
         do {
             S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
             S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
-            s16 height;
+            s32 height;
 
             if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
-                (node_data->unk_25 == (target_x & 0xFFFF))) {
+                (node_data->unk_25 == (match_y & 0xFFFF))) {
                 height = node_position->unk_0A;
-                if (((center_height + 0x40) >= height) && (target_height < height)) {
+                if (((center_height + 0x40) >= height) && (low_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
                         u16 angle;
                         OffsetPair *offset;
@@ -131,10 +131,8 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
                     }
                 }
             }
-            next_link = ((S_801745BC_1 *)node)->unk_5C;
-            node = (u8 *)next_link + 0x20;
+            node = (u8 *)((S_801745BC_1 *)node)->unk_5C + 0x20;
         } while (node != head);
     }
 
-    ASM_KEEP(owner_data);
 }

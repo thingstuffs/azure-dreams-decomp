@@ -59,16 +59,13 @@ typedef struct S_if_0 {
 } S_if_0;   /* actor2 in if */
 
 /* Update actor callbacks, motion, directional animation, and ground-relative height. */
-void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
+void func_80170BB8(void *actor, void *motion, void *object)
 {
     u16 initial_flags = dungeonStatus.flags;
-    register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *motion = motion_arg;
-    void *object = object_arg;
     s32 bob = 0;
-    register void *actor_state ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor_state = actor;
     s16 previous_index;
-    register s16 direction ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 direction;
     s16 ground;
     s32 ground_offset;
     s32 bob_wave;
@@ -80,10 +77,8 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 
     if (initial_flags & 0x2000) {
         EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
-        actor_state = (void *)early_callback;
-        if (actor_state == (void *)D_801713A8) {
-            actor = actor_state;
-            ((EntityCallback)actor)(actor_arg, motion_arg, object_arg, actor_arg);
+        if ((void *)early_callback == (void *)D_801713A8) {
+            early_callback(actor, motion, object, actor);
             return;
         } else {
             (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;
@@ -91,7 +86,6 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
         }
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     previous_index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
@@ -309,12 +303,6 @@ common_tail:
     height = ((S_80170BB8_2 *)actor_state)->unk_88.u +
         (u16)(*(s16 *)((u8 *)actor + (0x92)));
     height += bob;
-    motion = (u8 *)motion + 0xA;
-    *(s16 *)motion = height;
-    {
-        u16 final_flags;
-        final_flags = ((S_80170BB8_1 *)object)->unk_14;
-        object = (u8 *)object + 0x14;
-        *(u16 *)object = final_flags | 0x40;
-    }
+    *(s16 *)((u8 *)motion + 0xA) = height;
+    ((S_80170BB8_1 *)object)->unk_14 |= 0x40;
 }
