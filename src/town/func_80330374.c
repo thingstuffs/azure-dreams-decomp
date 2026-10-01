@@ -10,9 +10,6 @@ extern s8 D_80016158[];
 
 /* Returns the lowest-valued entry and reports a player.c assertion if none is selected. */
 s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
-    s32 entry;
-    s32 context;
-    s32 count;
     s32 best_entry;
     s32 best_value;
     s32 index;
@@ -22,38 +19,22 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     TownCopyFn report_assert;
     TownSetFn set_fn;
 
-    do {
-        entry = entries;
-    } while (0);
-    context = eval_context;
-    count = entry_count;
-    do {
-        best_value = 0x7FFFFFFF;
-    } while (0);
-    index = 0;
-    best_entry = index;
-    if (count > 0) {
-loop_0:
-        {
-            value = func_8001AB20(entry, context);
-            if (value < best_value) {
-                best_entry = entry;
-                best_value = value;
-            }
-            index++;
-            entry += 8;
+    best_value = 0x7FFFFFFF;
+    best_entry = 0;
+    for (index = 0; index < entry_count; index++) {
+        value = func_8001AB20(entries, eval_context);
+        if (value < best_value) {
+            best_entry = entries;
+            best_value = value;
         }
-        if (index < count)
-            goto loop_0;
+        entries += 8;
     }
 
     if (best_entry == 0) {
         object = *(void **)((s8 *)(&D_80016000));
         dispatch = *(void **)((s8 *)object + 0x20);
         report_assert = *(TownCopyFn *)((s8 *)dispatch + 0x168);
-        do {
-            report_assert(D_80016130, D_80016158, 0x40);
-        } while (0);
+        report_assert(D_80016130, D_80016158, 0x40);
 
         object = *(void **)((s8 *)(&D_80016000));
         dispatch = *(void **)((s8 *)object + 0x20);
@@ -62,7 +43,3 @@ loop_0:
     }
     return best_entry;
 }
-
-/* MECHANISM: guarded saved-register roles plus an entry scheduling boundary
-   keep the 0x30-frame save block contiguous; joint liveness orders s5/s4 setup.
-   A post-dispatch boundary preserves the first call's two load-delay nops. */

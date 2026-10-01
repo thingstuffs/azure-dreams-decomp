@@ -9,7 +9,8 @@ void func_8001ACE8(s32 bit_index)
     s32 value;
     s32 *dst_word;
     s32 *src_word;
-    s32 byte_offset;
+    s32 word_index;
+    s32 table;
     s32 biased_index;
     u32 bit_mask;
 
@@ -20,11 +21,11 @@ void func_8001ACE8(s32 bit_index)
         if (bit_index < 0) {
             biased_index = bit_index + 31;
         }
-        byte_offset = (biased_index >> 5) * 4;
-        value = *(s32 *)(value + 0x18);
-        dst_word = (s32 *)(byte_offset + value);
+        word_index = biased_index >> 5;
+        table = *(s32 *)(value + 0x18);
+        dst_word = (s32 *)(word_index * 4 + table);
 
-        src_word = (s32 *)(byte_offset + *(s32 *)(D_80016000_reload[0] + 0x18));
+        src_word = (s32 *)(*(s32 *)(D_80016000_reload[0] + 0x18) + word_index * 4);
 
         value = bit_index;
         if (bit_index < 0) {

@@ -18,21 +18,10 @@ typedef struct S_8001A7F4_1 {
 void func_8001A7F4(s32 unused, s32 x, s32 y)
 {
     void *base;
-    void *dst;
 
     (void)unused;
     base = *(void **)((s8 *)(&D_80016000));
-    dst = ((S_8001A7F4_0 *)base)->unk_1C;
-    x <<= 6;
-    do {
-        ((S_8001A7F4_1 *)dst)->unk_04 = x / 10 + 0x220;
-    } while (0);
-    base = ((S_8001A7F4_0 *)base)->unk_1C;
-    y <<= 6;
-    ((S_8001A7F4_0 *)base)->unk_08 = y / 10 + 0x220;
+    ((S_8001A7F4_1 *)((S_8001A7F4_0 *)base)->unk_1C)->unk_04 = (x << 6) / 10 + 0x220;
+    ((S_8001A7F4_0 *)((S_8001A7F4_0 *)base)->unk_1C)->unk_08 = (y << 6) / 10 + 0x220;
 }
 
-/* MECHANISM: Frameless leaf with the global base held in a0 and the first
-   destination in a3; scaled coordinates remain in their a1/a2 ABI registers.
-   The portable /10 form is byte-exact when sched2 is disabled, preventing its
-   repeated sign-shift hoist across mfhi and the quotient shift. */

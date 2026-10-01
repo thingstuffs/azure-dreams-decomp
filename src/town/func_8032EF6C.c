@@ -42,18 +42,16 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     header_word = packed_word | header_or_addr;
     half_bits &= 0x3F;
     flag_bits = half_bits << 24;
-    tag_bits = (tag & 0xFF) << 16;
+    tag &= 0xFF;
+    tag_bits = tag << 16;
     header_or_addr = (u32)record;
 loop_0:
     {
         func_8001941C((void *)header_or_addr, entry, 5);
-        packed_word = 0xC0000000;
         if (record_flags != 0) {
             record->unk8 = header_word;
-            packed_word = tag_bits | packed_word;
-        } else {
-            packed_word = tag_bits | packed_word;
         }
+        packed_word = tag_bits | 0xC0000000;
         packed_word |= flag_bits & ~packed_word;
         half_bits = record->unkC.half.lo;
         record->unkC.word = packed_word | half_bits;

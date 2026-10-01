@@ -24,12 +24,15 @@ s32 func_80019DFC(Entry *entries, s32 object, void *context, s32 selection)
     s32 saved_object;
     s32 entry_index;
     Position *position;
+    s32 selector;
+    s32 table;
 
     saved_object = object;
 
     entry_index = func_800194E4(entries, selection);
-    position = (Position *)(entries[entry_index].selector * 8
-             + *(s32 *)((u8 *)context + 0x14));
+    selector = entries[entry_index].selector;
+    table = *(s32 *)((u8 *)context + 0x14);
+    position = (Position *)(selector * 8 + table);
     func_80019860(position->x, position->y, position->z);
 
     if (saved_object != 0 && func_80019CD8(saved_object) != 0) {
