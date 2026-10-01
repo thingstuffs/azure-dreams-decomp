@@ -39,8 +39,7 @@ void func_800A6684(void *entity, EntityRec *position, S_800A6684_0 *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
-    s32 above_height;
-    register s32 height_or_shade;
+    s32 height_or_shade;
 
     (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);
     if (!((*(u16 *)((u8 *)entity + -2)) & 0x8000)) {
@@ -60,15 +59,13 @@ void func_800A6684(void *entity, EntityRec *position, S_800A6684_0 *sprite)
                    /* MATCH: keep the flags store before call argument setup. */
         func_800478B8(sprite);
 
-        height_or_shade = position->y.v;
-        above_height = height_or_shade > 0x06500000;
-        if (!above_height && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
+        if (position->y.v <= 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
             effect_pos.unk0 = position->x.v;
             effect_pos.unk4 = 0x06400000;
             effect_pos.unk8 = position->z.v - 0x00280000;
             func_800A6A94(&effect_pos);
-        } else if (above_height && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
+        } else if (position->y.v > 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
             sprite->unk_0C = sprite->unk_0D = sprite->unk_0E = 0xFF;
             effect_pos.unk0 = position->x.v;

@@ -8,24 +8,16 @@ extern void func_80024F3C(s32, s32, s32);
 void func_800250E8(void *arg0)
 {
     s32 index;
-    u8 *entry;
 
-    index = 0;
-    entry = arg0;
-    do {
+    for (index = 0; index < 5; index++) {
         if (index == *(s32 *)((u8 *)arg0 + 0x2C)) {
-            func_80024224(*(void **)(entry + 4), 1);
-            entry += 4;
+            func_80024224(((void **)arg0)[index + 1], 1);
         } else if (index == *(s32 *)((u8 *)arg0 + 0x28)) {
-            func_800241D4(*(void **)(entry + 4), 1);
-            entry += 4;
+            func_800241D4(((void **)arg0)[index + 1], 1);
         } else {
-            func_80024274(*(void **)(entry + 4));
-            entry += 4;
+            func_80024274(((void **)arg0)[index + 1]);
         }
-                        /* MATCH: Keep entry advances before the shared index increment. */
-        index++;
-    } while (index < 5);
+    }
 
     func_80024F3C(
         *(s32 *)((u8 *)arg0 + 0x1C),
