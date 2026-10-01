@@ -56,9 +56,8 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_offset / scale;
         *((s32 *) (((u8 *) scratch) + 0x108)) = radial_offset;
-        ASM_KEEP_NV(radial_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        end_step_offset = radial_offset / scale;
         *((u16 *) (((u8 *) scratch) + 0x64)) += (start_step_offset * prev_step) >> 16;
+        end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x108))) / scale;
         *((u16 *) (((u8 *) scratch) + 0x6C)) += (end_step_offset * step) >> 16;
         origin_ptr = *((void * *) (&origin));
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
@@ -68,9 +67,8 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = radial_offset / scale;
         *((s32 *) (((u8 *) scratch) + 0x10C)) = radial_offset;
-        ASM_KEEP_NV(radial_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        end_step_offset = radial_offset / scale;
         *((u16 *) (((u8 *) scratch) + 0x66)) += (start_step_offset * prev_step) >> 16;
+        end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x10C))) / scale;
         projection_param = scratch + 0x84;
         *((u16 *) (((u8 *) scratch) + 0x6E)) += (end_step_offset * step) >> 16;
         origin_ptr = *((void * *) (&origin));

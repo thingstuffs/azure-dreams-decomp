@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-01T15:38:53Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-01T15:51:28Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -87,7 +87,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,352 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5296 | 1,507,268 | 58.9% |
 
-Pin sites now: 748 in 222 rows; REG 418, KEEP 109, KEEP_NV 99, SCHED_BARRIER 34, USE_NV 16, USE 13, USE2_NV 13, SET 9.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 743 in 222 rows; REG 417, KEEP 108, KEEP_NV 96, SCHED_BARRIER 34, USE_NV 16, USE 13, USE2_NV 13, SET 9.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 97 (a second typed name for one symbol: a missing type); file-scope asm directives 416.
 
@@ -100,13 +100,13 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
-| late cell (2.8.x / egcs / 2.95.2: fitted) | 39 | 29 / 7 / 3 | 17 | 73 |
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 39 | 29 / 7 / 3 | 17 | 71 |
 | cdk cell + crutch flags, module is plain | 26 | 18 / 7 / 1 | 12 | 37 |
 | stock cell inside a cdk module | 27 | 12 / 13 / 2 | 2 | 25 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 116 | 30 / 38 / 48 | 6 | 19 |
-| **total** | **208** | | **37** | **154** |
+| **total** | **208** | | **37** | **152** |
 
-Most-pinned rows off their build recipe: dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_81912154 6 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_81910A9C 5 pins (2.8.0-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80A4B678 5 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8028A5D8 5 pins (2.8.1 -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_81912154 6 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80A4B678 5 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8028A5D8 5 pins (2.8.1 -> 2.7.2-cdk-G0); dungeon/func_800BFE94 5 pins (2.8.0 -fno-expensive-optimizations -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
