@@ -20,7 +20,6 @@ extern void func_8014CA58(void);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
 void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
 {
-    s32 held_flags = spawn_flags;
     u8 *work = 0;
     register s32 held_a ASM_REG("$21") = attr_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     long part_b;
@@ -30,16 +29,14 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
     s16 flags_s16;
     s32 alloc_kind;
     ObjectNodeHeader *alloc_data;
-    u32 callback_page;
     u32 flags0;
     u32 flags1;
-    u32 masked;
     s32 random;
 
     alloc_kind = 0x112;
     alloc_data = &D_80083498;
     object = func_8003FD64(alloc_kind, alloc_data);
-    flags_s16 = held_flags;
+    flags_s16 = spawn_flags;
     if (object != 0) {
         work = object;
         work += 0x20;
@@ -53,12 +50,12 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
         work_copy = (long)work;
         *(u8 *)((u8 *)part_b + 0x24) = held_a;
 
-        if ((held_flags & 3) == 1) {
+        if ((spawn_flags & 3) == 1) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             *(u32 *)(work + 0x14) |= 0x6000;
             *(u32 *)(work + 0x1C) |= 0x6000;
             *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
-        } else if ((held_flags & 3) >= 2) {
+        } else if ((spawn_flags & 3) >= 2) {
             *(Callback *)(work + 0x8C) = func_8014CE5C;
             flags0 = *(u32 *)(work + 0x14) | 0x2000;
             flags1 = *(u32 *)(work + 0x1C) | 0x2000;
@@ -66,8 +63,8 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
             *(u32 *)(work + 0x1C) = flags1;
             *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
         } else {
-            masked = held_flags & -4;
-            if ((s16)masked == 0) {
+            spawn_flags = (s16)(spawn_flags & -4);
+            if (spawn_flags == 0) {
                 if ((*(u32 *)(work + 0x14) & 0x200) == 0) {
                     if ((func_800A6D30() & 1) != 0) {
                         random = func_800A6D30();
@@ -75,23 +72,9 @@ void *func_8014C854(s32 spawn_flags, s32 attr_a, s16 attr_b, s32 attr_c)
                         *(Callback *)((u8 *)part_b + 0x2C) = func_80150538;
                     }
                 }
-#ifdef NON_MATCHING
                 *(Callback *)((u8 *)work_copy + 0x8C) = func_8014CE5C;
-#else
-                callback_page = 0x80150000;
-                ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                callback_page -= 0x31A4;
-                *(Callback *)((u8 *)work_copy + 0x8C) = (Callback)callback_page;
-#endif
             } else {
-#ifdef NON_MATCHING
                 *(Callback *)(work + 0x8C) = func_8014CE5C;
-#else
-                callback_page = 0x80150000;
-                ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                callback_page -= 0x31A4;
-                *(Callback *)(work + 0x8C) = (Callback)callback_page;
-#endif
             }
             *(Callback *)((u8 *)part_b + 0x2C) = func_80150510;
         }
