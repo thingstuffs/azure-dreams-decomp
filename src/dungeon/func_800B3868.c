@@ -15,6 +15,12 @@ typedef struct {
     u32 data;
 } Packet;
 
+typedef struct DrawContext {
+    u8 pad[0x8B0];
+    u8 ordering_table[0x20];
+    Packet *next_packet;
+} DrawContext;
+
 extern void func_8006658C(void *, void *);
 extern void func_80067E2C(void *, void *);
 extern void func_800B9144(Position *, s32, void *, s16);
@@ -24,7 +30,7 @@ extern u8 D_801C9E40[16];
 void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 clear_bg, volatile s32 draw_flags)
 {
     Position draw_pos;
-    s8 *context;
+    DrawContext *context;
     void *draw_context;
     void *ordering_table;
     Packet *area_packet;
@@ -33,27 +39,26 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     s32 saved_draw_flags;
     s32 y;
 
-    context = *(s8 **)((s8 *)(&gameWork));
+    context = (DrawContext *)gameWork.unk_000;
     saved_clear_bg = clear_bg;
-    shift_y = context != (s8 *)D_801C9E40;
-    area_packet = *(Packet **)(context + 0x8D0);
-    ordering_table = context + 0x8B0;
-    *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)area_packet + 0xC);
-    draw_context = *(void * volatile *)((s8 *)(&gameWork));
+    shift_y = context != (DrawContext *)D_801C9E40;
+    area_packet = context->next_packet;
+    ordering_table = context->ordering_table;
+    context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
+    draw_context = gameWork.unk_000;
     saved_draw_flags = draw_flags;
-    ASM_KEEP_DEP_NV(area_packet, saved_draw_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_80067E2C(area_packet, draw_context);
     func_8006658C(ordering_table, area_packet);
 
     draw_pos.x = screen_pos->x;
     y = screen_pos->y;
     {
-        s8 **context_slot;
+        DrawContext **context_slot;
 
         if (shift_y) {
             y -= 0xE0;
         }
-        context_slot = (s8 **)((s8 *)(&gameWork));
+        context_slot = (DrawContext **)&gameWork.unk_000;
         draw_pos.y = y;
         func_800B9144(&draw_pos, sprite, ordering_table, (s16)saved_draw_flags);
 
@@ -61,8 +66,8 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
             Packet *clear_packet;
 
             context = *context_slot;
-            clear_packet = *(Packet **)(context + 0x8D0);
-            *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)clear_packet + 0x10);
+            clear_packet = context->next_packet;
+            context->next_packet = (Packet *)((u8 *)clear_packet + 0x10);
             clear_packet->code = 0x60000000;
             clear_packet->size = 3;
             clear_packet->x = clip_rect->x;
@@ -76,8 +81,8 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
         }
 
         context = *context_slot;
-        area_packet = *(Packet **)(context + 0x8D0);
-        *(Packet **)(context + 0x8D0) = (Packet *)((u8 *)area_packet + 0xC);
+        area_packet = context->next_packet;
+        context->next_packet = (Packet *)((u8 *)area_packet + 0xC);
         func_80067E2C(area_packet, clip_rect);
         func_8006658C(ordering_table, area_packet);
     }

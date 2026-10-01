@@ -38,6 +38,7 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     register s32 wait_state;
     s32 glide_state;
     u32 settle_state;
+    s32 home_dx;
 
     sequence = 0;
     if ((func_800352FC() != 0) && (func_800C2AB4(actor) != 0)) {
@@ -99,7 +100,6 @@ case_0:
         s32 action_choice;
         s32 random_value;
         register s32 quotient;
-        register s32 home_dx;
         s32 home_distance;
         register s32 vx;
 
@@ -216,7 +216,6 @@ case_20:
         s32 vy;
         s32 vx;
         s32 y;
-        register s32 floor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u16 timer;
 
         x = ((S_800BCE78_1 *)motion)->unk_00;
@@ -226,10 +225,10 @@ case_20:
         ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
         ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
         ((S_800BCE78_1 *)motion)->unk_14 += 0x10000;
-        floor = func_800C2AE8(motion);
-        state = floor < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
+        home_dx = func_800C2AE8(motion);
+        state = home_dx < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
         if (state) {
-            ((S_800BCE78_1 *)motion)->unk_08.at02.v = floor;
+            ((S_800BCE78_1 *)motion)->unk_08.at02.v = home_dx;
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
             if ((s16)timer <= 0) {
