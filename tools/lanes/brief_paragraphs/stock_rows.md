@@ -13,3 +13,9 @@ PLAIN Sony-style statements - in 4 of 6 the old text had split one statement int
   score at 2.6.3(-G0) (2.6.3 reorg never fills the epilogue slot with the return move; 2.7.2 does);
 - 2.6.3 sched.c birthing boost: a value set once and live at block end gets top priority (8001BA1C still open on it).
 Diff the row against an exact pin-free sibling of the same object before guessing.
+More from r84_opus_stock2 (3 more rows, 7 pins): (1) a "return value" that is really a compare constant or a delay-slot
+fill means the function is `void`; (2) Sony 2.6.3 `s16` locals are true 16-bit values - a switch on one reserves frame
+slots that m2c covered with unused arrays; (3) a computed goto + keepalive label table is NOT neutral (every label looks
+live across calls) - write a real `switch` whose case labels and fallthroughs come from the retail table words; (4)
+PsyQ bitfield setaddr/getaddr/addPrim macros decide the AND operand order and mask allocation at 2.6.3; pool-allocation
+base variables were reused; (5) per-arm locals with all loads first in retail's order.
