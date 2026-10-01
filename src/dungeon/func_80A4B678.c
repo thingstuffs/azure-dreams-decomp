@@ -64,11 +64,6 @@ extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 extern void func_80174934(void);
 
-static __inline__ u16 hold_intensity(s32 value)
-{
-    return value;
-}
-
 /* Creates a 16-segment ring effect at the supplied position. */
 void func_80174E78(Source *source, Vec3i *center)
 {
@@ -82,22 +77,18 @@ void func_80174E78(Source *source, Vec3i *center)
     for (; segment_index < 16; segment_index++) {
         Entity *entity;
         Sub *sub;
-        Prim *prim;
         Vec3i *position;
+        Prim *prim;
         s32 angle;
         s32 next_angle;
-        s32 radial_offset;
+        s16 radial_offset;
         u16 prim_flags;
         volatile u16 *prim_flags_ptr;
         Entity *setup_entity;
         s32 initial_count;
+        s32 unit_scale;
         s32 trig_angle;
         s32 trig_value;
-        s32 trig_value_2;
-        s32 trig_value_3;
-        s32 trig_value_4;
-        s32 intensity;
-        u8 held_intensity;
 
         entity = func_8003FC64(18);
         if (entity == 0) {
@@ -107,13 +98,11 @@ void func_80174E78(Source *source, Vec3i *center)
         sub = &entity->sub;
         initial_count = 50;
         setup_entity = entity;
-        ASM_KEEP(setup_entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         sub->field_1A = initial_count;
         sub->field_1C = source->field_96;
         entity->callback = update_callback;
         func_8004491C(setup_entity, func_80045340);
 
-        angle = segment_index;
         prim = entity->prim;
         prim_flags_ptr = &prim->field_14;
         prim_flags = *(u16 *)prim_flags_ptr;
@@ -125,7 +114,7 @@ void func_80174E78(Source *source, Vec3i *center)
 
         position = entity->vec;
         position->x = center->x;
-        next_angle = (angle + 1) << 8;
+        next_angle = (segment_index + 1) << 8;
         position->y = center->y;
         position->z = center->z;
 
@@ -135,47 +124,38 @@ void func_80174E78(Source *source, Vec3i *center)
         sub->field_74 = 0;
 
         trig_value = func_80064584(next_angle);
-        angle <<= 8;
+        angle = segment_index << 8;
         trig_angle = angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         radial_offset = (trig_value * 24) >> 12;
         sub->field_70 = radial_offset;
         sub->field_64 = radial_offset;
 
-        trig_value_2 = func_80064584(trig_angle);
+        trig_value = func_80064584(trig_angle);
         trig_angle = next_angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        radial_offset = (trig_value_2 * 24) >> 12;
+        radial_offset = (trig_value * 24) >> 12;
         sub->field_76 = radial_offset;
         sub->field_6A = radial_offset;
 
-        trig_value_3 = func_800644B8(trig_angle);
+        trig_value = func_800644B8(trig_angle);
         trig_angle = angle;
-        ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        radial_offset = (trig_value_3 * 24) >> 12;
+        radial_offset = (trig_value * 24) >> 12;
         sub->field_72 = radial_offset;
         sub->field_66 = radial_offset;
 
-        trig_value_4 = func_800644B8(trig_angle);
-        radial_offset = (trig_value_4 * 24) >> 12;
+        trig_value = func_800644B8(trig_angle);
+        radial_offset = (trig_value * 24) >> 12;
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;
 
         prim = entity->prim;
-        intensity = 128;
-        prim->field_0C = intensity;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        held_intensity = hold_intensity(intensity);
-        prim->field_1E = 4096;
-        prim->field_1C = 4096;
+        prim->field_0C = 128;
+        unit_scale = 4096;
+        prim->field_1E = unit_scale;
+        prim->field_1C = unit_scale;
         prim->field_0D = base_level;
         prim->field_0E = base_level;
-        sub->field_04 = held_intensity;
+        sub->field_04 = prim->field_0C;
         sub->field_05 = prim->field_0D;
         sub->field_06 = prim->field_0E;
     }
 }
-
-/* MECHANISM: The 0x38 frame and s0-s7/fp roles fall from the natural loop lifetimes.
-   Split call setup and trig returns into guarded a0/v0 ranges to reproduce retail's pipeline.
-   A held u8 0x80 plus a store-seam ASM_SCHED_BARRIER closes the final one-word rotation. */
