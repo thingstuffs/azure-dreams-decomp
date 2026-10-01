@@ -58,7 +58,7 @@ extern M2C_UNK func_800A9C18();
 extern M2C_UNK func_800AA36C();
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8015E854(s16 flags, s8 kind_id, s16 variant, s16 spawn_value)
+void *func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     s32 left;
@@ -67,7 +67,7 @@ void *func_8015E854(s16 flags, s8 kind_id, s16 variant, s16 spawn_value)
     s16 saved_spawn;
     void *obj;
     register s8 saved_variant;
-    register s8 saved_kind_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 saved_kind_id;
     void *part_a;
     S_8015E854_3 *part_b;
     void *actor;
@@ -85,10 +85,10 @@ void *func_8015E854(s16 flags, s8 kind_id, s16 variant, s16 spawn_value)
         part_a = ((S_8015E854_1 *)obj)->unk_08;
         ((S_8015E854_2 *)part_a)->unk_0A = saved_spawn;
         part_b = ((S_8015E854_1 *)obj)->unk_0C;
+        part_b->unk_24 = saved_kind_id;
         part_b->unk_25 = saved_variant;
         actor = work;
         kind = flags & 3;
-        part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
             ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
@@ -115,10 +115,11 @@ void *func_8015E854(s16 flags, s8 kind_id, s16 variant, s16 spawn_value)
                         }
                     }
                     ((S_8015E854_4 *)actor)->unk_8C = D_8015EE5C;
+                    part_b->unk_2C = D_80162510;
                 } else {
                     ((S_8015E854_0 *)work)->unk_8C = D_8015EE5C;
+                    part_b->unk_2C = D_80162510;
                 }
-                part_b->unk_2C = D_80162510;
             }
         }
         ((S_8015E854_1 *)obj)->unk_10 = D_8015EA58;
