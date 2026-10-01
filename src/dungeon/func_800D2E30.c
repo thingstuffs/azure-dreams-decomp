@@ -55,7 +55,7 @@ void *func_800D8590(void *entity)
 {
     u8 *child;
     u8 *map;
-    register u8 map_index ASM_REG("$3");
+    s32 map_index;
     register u16 flags ASM_REG("$2");
     register void *result ASM_REG("$2");
     void *entity_arg;
@@ -86,7 +86,7 @@ void *func_800D8590(void *entity)
             (((S_800D8590_1 *)entity)->unk_A7 != 0) &&
             (((S_800D8590_1 *)entity)->unk_A8 != 0)) {
             map = *(u8 * *)&D_800E3D7C;
-            map_index = *(volatile u8 *)(entity + 0xA8);
+            map_index = ((S_800D8590_1 *)entity)->unk_A8;
             map += map_index;
             map[0xF9] = 1;
         }
