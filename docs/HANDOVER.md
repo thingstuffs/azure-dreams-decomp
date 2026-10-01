@@ -1,3 +1,23 @@
+# Handover (2026-10-01 ~09:00, round 84 CLOSED; round 85 sol 6.1 wave running) - start here
+
+**1,201 pins / 360 rows** (1,483 / 487 at round-84 pickup: -282). maspsx_d3 applied as reviewed (587652d78: behind
+--gp-limit-from-cc1, default OFF; ON = 0 bytes changed but la spelled lui/addiu, one golden-hash test - owner's call to
+enable). Every overlay window (--all) + SLUS MATCH at 587652d78.
+Round 84 levers, in order of yield: sol 6.1 waves on 1-3-pin rows never sol61-served at their CURRENT text (~180 pins over
+five waves; partial wins re-enter the pool with new text), build structure (r84_fable_build: one cdk -G0 -O2 build + town
+-O1 debug family + stock objects; 2.8.x/egcs cells are fitted), stock objects worked as stock rows (13 pins), the town -O1
+family (4 pins + 18 crutch recipes), opaque base classes A/B/C (r84_fable_opaque; ~25 pins so far), cse/nosr flag classes
+(flags, few pins). Rules: tools/learnings/pin_removal_possibilities.md "Round 84"; codex brief paragraphs r83_rules,
+stock_rows, opaque_c.
+**Round 85 (running):** r85_sol61_s1-s24 (96 one-to-three-pin cdk rows, launch_wave.sh cap 12, autoqueue lands).
+**Open / next:** class-C rows not yet served (CLASS.tsv in r84_fable_opaque); 813274E4 (combine folds a dying page into a
+const address); the 13 fitted 2.8.x carrier rows + RANKED_PINNED.tsv (r84_fable_build) at cdk-G0; the 47 held stock-flavour
+switches (r84_fable_build/cells.jsonl, 1-3 deciding rows each) + 17 undecided; a named-struct tidy pass over r84_opus_opqC's
+anonymous pad-struct field macros (8187B1F4, 800A406C); r84_sol61_s37 held func_80FB7000 (build fails); 800C9858 (astra c1
+equal pins, held); 8001BA1C (2.6.3 birthing boost, 4 off); stock rows 808B8184 (3), 8080DAB8 (10), 808135E0 (33), 8080C650.
+**Landing:** c8_chain2.sh (cell moves), runner queue (registered-cfg rows), work/native_lane/r84_fb_cdk/land.sh pattern for
+byte-neutral switches. Any runner restart must close fd 8 (`8>&- 9>&-`).
+
 # Handover (2026-10-01 ~06:00, round 84 in progress: build structure, -O1 debug family, stock objects, sol 6.1 waves) - start here
 
 **Pin sites now: 1,322 in 405 rows** (1,483 at round-84 pickup). Owner calls of 09-30 all approved and done: 8046C280 at -O1 (trade), w_80049F68
