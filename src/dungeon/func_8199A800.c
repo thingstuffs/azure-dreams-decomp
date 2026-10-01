@@ -77,9 +77,11 @@ void func_8199A800(void *state_data)
 case_0:
     U32_AT(MANAGER_PTR(), 0xF4) = (u32)D_80024A64;
     func_800246F4((u8 *)PTR_AT(state, 0) - 0x20, PTR_AT(state, 4));
-    VOL_U16_AT(state, 0x0A)++;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if ((U16_AT(PTR_AT(state, 4), 0) & 0x80) == 0) {
+    result = U16_AT(state, 0x0A);
+    result++;
+    VOL_U16_AT(state, 0x0A) = result;
+    result = (s32)PTR_AT(state, 4);
+    if ((U16_AT((void *)result, 0) & 0x80) == 0) {
         goto default_case;
     }
     {

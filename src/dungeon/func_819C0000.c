@@ -123,11 +123,11 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
             break;
         case 2:
         {
-            s32 base_x;
+            s16 base_x;
             s16 base_y;
             s32 pos_x;
             s32 pos_y;
-            register s32 biased_x ASM_REG("$4");
+            s32 biased_x;
             s32 biased_y;
 
             S32_AT(position_in, 0x14) = S32_AT(position_in, 8);
@@ -153,7 +153,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
                 do {
                     s32 point_offset;
                     s32 offset_x;
-                    u32 tile_x;
+                    u16 tile_x;
                     u16 tile_y;
                     point_offset = column * sizeof(LocalPoint) +
                                    row * 3 * sizeof(LocalPoint);

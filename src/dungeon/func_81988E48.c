@@ -94,7 +94,7 @@ void func_81988E48(MainObject *obj)
     ChildObject *child;
     void *callback;
     Resource *resource;
-    register TileObject *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    TileObject *call_data;
     s32 state;
 
     obj->age++;
@@ -113,8 +113,7 @@ void func_81988E48(MainObject *obj)
         obj->state++;
     case 1:
         state_count = 14;
-        call_data = &D_80082E80;
-        if (func_8003DE58(((void *)call_data->unk_008), call_data, hit, 0)) {
+        if (func_8003DE58(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 14;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 14;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 14;
@@ -131,8 +130,7 @@ void func_81988E48(MainObject *obj)
             state_count = 4;
         }
         obj->angle += 2;
-        call_data = &D_80082E80;
-        if (func_8003DE58(((void *)call_data->unk_008), call_data, hit, 0)) {
+        if (func_8003DE58(((void *)D_80082E80.unk_008), &D_80082E80, hit, 0)) {
             obj->x += (hit[0] + D_80083780.x.w.i - *(s16 *)((u8 *)obj + 0x1E)) << 15;
             obj->y += (hit[1] + D_80083780.y.w.i - *(s16 *)((u8 *)obj + 0x22)) << 15;
             obj->z += (hit[2] + D_80083780.z.w.i - *(s16 *)((u8 *)obj + 0x26)) << 15;
