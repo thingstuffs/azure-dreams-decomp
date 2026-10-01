@@ -75,7 +75,7 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     void *sprite = sprite_in;
     void *actor;
     u8 *world_state;
-    register DungeonGlobalStatus *world_counters_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 counter_value;
 
     state = ((S_80173CD4_0 *)action)->unk_9B;
     actor = actor_in;
@@ -198,16 +198,18 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
             }
 
             {
-                world_counters_m = &dungeonStatus;
-                (*(u16 *)&world_counters_m->unk_0A)++;
+                counter_value = (u16)dungeonStatus.unk_0A;
+                counter_value++;
+                dungeonStatus.unk_0A = counter_value;
             }
         }
         ((S_80173CD4_0 *)action)->unk_9B++;
         return;
     case 2:
         if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
-            world_counters_m = &dungeonStatus;
-            (*(u16 *)&world_counters_m->unk_0A)--;
+            counter_value = (u16)dungeonStatus.unk_0A;
+            counter_value--;
+            dungeonStatus.unk_0A = counter_value;
         } else {
             return;
         }
@@ -216,7 +218,3 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     }
 }
 
-/* MECHANISM: Delayed a3->s0 plus removal of the four leading ASM_KEEP fences
-   restores the 0x28 prologue/save order and fills the first branch delay.
-   A named state-zero base, v0-pinned tail bases, split page, and zero-arg
-   func_800A6D30 prevent RMW commoning and collapse the +1-word cascade. */

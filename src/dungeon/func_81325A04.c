@@ -60,7 +60,7 @@ extern s32 func_800AD4D0();
 extern s32 func_80047784();
 
 /* Updates timed movement, returns the entity to its tile, and restores its animation. */
-u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
+void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_81325A04_2 *entity,
     S_func_81325A04_3 *actor) {
     s32 state;
     s16 timer;
@@ -76,7 +76,9 @@ u8 *func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_8
     s32 tile_y;
     s32 offset_y;
     u8 *final_state;
-    register u32 result_bits ASM_REG("$2");
+    s32 state_bits;
+    u16 saved_timer;
+    s32 shifted_timer;
     u8 *anim_table;
 
     state = action->unk_9B;
@@ -107,15 +109,15 @@ start_move:
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         if (action->unk_B4 != 0) {
-            result_bits = (u32)D_8016B778;
             action->unk_9B = 0;
-            goto store_handler;
+            action->unk_8C = D_8016B778;
+            return;
         }
         goto initialize;
     }
     final_state = (u8 *)3;
     if (!(entity->unk_14 & 0x8000)) {
-        return final_state;
+        return;
     }
     action->unk_96.s = 0;
     action->unk_9B = (u32)final_state;
@@ -158,10 +160,10 @@ slow_move:
         return;
     }
     if (timer != 0) {
-        return (u8 *)(u32)timer_ending;
+        return;
     }
     timer = 4;
-    result_bits = action->unk_9B;
+    state_bits = action->unk_9B;
     action->unk_96.s = timer;
     goto increment_state;
 return_to_tile:
@@ -175,19 +177,19 @@ return_to_tile:
         motion->unk_10 =
             ((tile_y - offset_y) << 16) / action->unk_96.s;
     }
-    result_bits = action->unk_96.u;
-    next_timer = (s16)(result_bits - 1);
-    result_bits <<= 16;
+    saved_timer = action->unk_96.u;
+    next_timer = (s16)(saved_timer - 1);
+    shifted_timer = (s32)saved_timer << 16;
     action->unk_96.s = next_timer;
-    if ((s32)result_bits > 0) {
-        return (u8 *)result_bits;
+    if (shifted_timer > 0) {
+        return;
     }
     motion->unk_14 = 0;
     motion->unk_10 = 0;
     motion->unk_0C = 0;
-    result_bits = action->unk_9B;
+    state_bits = action->unk_9B;
 increment_state:
-    action->unk_9B = (u8)(result_bits + 1);
+    action->unk_9B = (u8)(state_bits + 1);
     return;
 
 finish_move:
@@ -210,10 +212,12 @@ initialize:
     return;
 
 reset_action:
-    result_bits = (u32)D_8016B778;
-    ASM_KEEP(result_bits);
-    action->unk_9B = 0;
-    goto store_handler;
+    {
+        u8 *result_bits = D_8016B778;
+        action->unk_9B = 0;
+        action->unk_8C = result_bits;
+        return;
+    }
 
 restore_animation:
     anim_addr = entity->unk_2C;
@@ -221,8 +225,7 @@ restore_animation:
         if (action->unk_B3 == 0) {
             anim_table = D_8017467C;
         } else {
-            result_bits = (u32)D_80174684;
-            anim_table = (u8 *)result_bits;
+            anim_table = D_80174684;
         }
         if (anim_addr != (s32)anim_table) {
             entity->unk_2C = (s32)anim_table;
@@ -233,8 +236,6 @@ restore_animation:
     if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
         *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
     }
-    result_bits = (u32)D_8016B778;
-store_handler:
-    action->unk_8C = (u8 *)result_bits;
-    return (u8 *)result_bits;
+    action->unk_8C = D_8016B778;
+    return;
 }

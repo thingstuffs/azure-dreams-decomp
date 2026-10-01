@@ -43,18 +43,12 @@ typedef struct S_80173A2C_0 {
 
 
 /* Updates an actor's action state and animation before restoring its default callback. */
-void func_80173A2C(void *controller_in, void *motion_in, void *sprite_in, void *actor_in)
+void func_80173A2C(void *controller_in, EntityRec *motion, void *sprite, EntityRec *actor)
 {
-    EntityRec *motion;
-    register void *sprite ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register EntityRec *actor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     s32 actor_flags;
     u16 ticks_left;
     s32 state;
 
-    motion = motion_in;
-    sprite = sprite_in;
-    actor = actor_in;
 
 
     state = ((S_80173A2C_0 *)controller_in)->unk_9B;
@@ -78,8 +72,9 @@ state_zero:
         return;
     }
     (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
+    actor = (EntityRec *)((u8 *)actor + 0x2A);
     func_80047784(sprite,
-        D_80175188[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+        D_80175188[((gameWork.view.viewAngle + *(s16 *)actor + 0x100) >> 9) & 7],
         0);
     {
 
@@ -200,7 +195,8 @@ state_two:
     actor->flags1C &= ~0x200;
 
 set_callback:
-    ((S_80173A2C_0 *)controller_in)->unk_8C = D_80171400;
+    controller_in = (u8 *)controller_in + 0x8C;
+    *(void **)controller_in = D_80171400;
 
     return;
 }

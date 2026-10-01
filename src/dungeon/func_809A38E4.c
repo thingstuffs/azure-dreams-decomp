@@ -85,7 +85,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     u8 *submit_prim;
     register u8 *vertex_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     GraphicsState **graphics_ptr;
-    register GraphicsState *graphics ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    GraphicsState *graphics;
     u16 next_segment;
     s32 outer_prev_x;
     s32 outer_prev_y;
@@ -104,7 +104,8 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     radii.arg0 = radius_a_x;
     graphics_ptr = &gameWork.unk_000;
     graphics = *graphics_ptr;
-    prim = (u8 *)graphics->next_prim;
+    graphics = (GraphicsState *)((u8 *)graphics + 0x8D0);
+    prim = *(u8 **)graphics;
     radii.arg1 = radius_a_y;
     radii.arg2 = radius_b_x;
     radii.arg3 = radius_b_y;

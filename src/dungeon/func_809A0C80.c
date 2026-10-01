@@ -7,11 +7,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-#ifdef NON_MATCHING
-#define DGN_TABLE_PAGE(sym, offset) ((unsigned long)(sym) - (offset))
-#else
-#define DGN_TABLE_PAGE(sym, offset) 0x80170000UL
-#endif
 
 extern void func_80047784();
 extern u8 D_801710EC[];
@@ -52,11 +47,11 @@ typedef struct S_80172480_4 {
 } S_80172480_4;   /* D_800E3D7C[0] in func_80172480 */
 
 /* Advances an actor's turn-and-animation sequence and restores its saved heading. */
-void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform) {
+void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S_80172480_1 *transform_in) {
+    S_80172480_1 *transform = transform_in;
     s32 heading;
     u8 phase;
     GameWork *scene_state = &gameWork;
-    unsigned long table_page;
 
     phase = actor->unk_9B;
     switch (phase) {
@@ -70,16 +65,36 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
         goto advance;
     case 1:
         if (actor->unk_92 == 0) {
-            table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-            goto resolve_table;
+            {
+                u8 *animation_table = D_80175EC8;
+                animation->unk_2C.as_pm = animation_table;
+                {
+                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                    animation_entry += (unsigned long)animation_table;
+                    func_80047784(animation, *(u8 *)animation_entry, 0);
+                }
+            }
+            phase = actor->unk_9B + 1;
+            actor->unk_9B = phase;
+            return;
         }
-        table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table_page += 0x5EC8;
         if ((animation->unk_14.at00_u16.v & 0x8000) == 0) {
             return;
         }
-        goto start_animation;
+        {
+            u8 *animation_table = D_80175EC8;
+            animation->unk_2C.as_pm = animation_table;
+            {
+                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                    + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                animation_entry += (unsigned long)animation_table;
+                func_80047784(animation, *(u8 *)animation_entry, 0);
+            }
+        }
+        phase = actor->unk_9B + 1;
+        actor->unk_9B = phase;
+        return;
     case 2:
         if (animation->unk_14.at00_u16.v & 0xE000) {
             {
@@ -102,30 +117,37 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
     {
         u16 scene_status = ((u16)scene_state->buttons);
         if (scene_status != 0) {
-            table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-            goto resolve_table;
+            {
+                u8 *animation_table = D_80175EC8;
+                animation->unk_2C.as_pm = animation_table;
+                {
+                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                    animation_entry += (unsigned long)animation_table;
+                    func_80047784(animation, *(u8 *)animation_entry, 0);
+                }
+            }
+            phase = actor->unk_9B + 1;
+            actor->unk_9B = phase;
+            return;
         }
         if (((S_80172480_4 *)(((u8 *)D_800E3D7C)))->unk_9A != 0x17) {
-            table_page = DGN_TABLE_PAGE(D_80175EC8, 0x5EC8);
-            goto resolve_table;
-        }
-    }
-        return;
-resolve_table:
-        table_page += 0x5EC8;
-start_animation:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        {
-            u8 *animation_table;
-            animation_table = (u8 *)table_page;
-            animation->unk_2C.as_pm = animation_table;
             {
-                unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
-                    + (s16) transform->unk_2A + 0x100) >> 9) & 7);
-                animation_entry += (unsigned long)animation_table;
-                func_80047784(animation, *(u8 *)animation_entry, 0);
+                u8 *animation_table = D_80175EC8;
+                animation->unk_2C.as_pm = animation_table;
+                {
+                    unsigned long animation_entry = (unsigned long)(((s32) (gameWork.view.viewAngle
+                        + (s16) transform->unk_2A + 0x100) >> 9) & 7);
+                    animation_entry += (unsigned long)animation_table;
+                    func_80047784(animation, *(u8 *)animation_entry, 0);
+                }
             }
+            phase = actor->unk_9B + 1;
+            actor->unk_9B = phase;
+            return;
         }
+        return;
+    }
 advance:
         phase = actor->unk_9B + 1;
         actor->unk_9B = phase;

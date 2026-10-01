@@ -124,7 +124,7 @@ s32 func_807B040C(void) {
     s16 *direction_offset;
     TileObject *room;
     EntityRec *collision;
-    register s32 distance_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 distance_y;
 
     switch (state) {
     case 0:
@@ -203,10 +203,8 @@ s32 func_807B040C(void) {
                 distance_x = -distance_x;
             }
             delta_y -= target_y;
-            distance_y = delta_y;
-            if (delta_y < 0) {
-                distance_y = -distance_y;
-            }
+            move_ticks = delta_y;
+            distance_y = abs(move_ticks);
             y_is_farther = distance_x < distance_y;
             if (y_is_farther) {
                 move_ticks = distance_y * 4;
@@ -234,7 +232,6 @@ s32 func_807B040C(void) {
             world_x <<= 6;
             world_x += 0x20;
             move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
-            ASM_KEEP_NV(move_ticks);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             distance_y = move_ticks + 0x20;
             aligned_x = world_x & 0xFFE0;
             ground_height = func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);

@@ -60,7 +60,6 @@ typedef struct S_801715F4_4 {
     u8 unk_25;
 } S_801715F4_4;   /* other in func_801715F4 */
 
-
 typedef struct S_801715F4_6 {
     u8 pad_00[0xC];
     u16 unk_0C;
@@ -90,7 +89,6 @@ typedef struct S_801715F4_10 {
     u8 pad_75[0x7];
     u8 unk_7C;
 } S_801715F4_10;   /* (u8 *)arg3 + (((S_801715F4_1 *)arg3)->unk_71.u & 0x7F) in func_801715F4 */
-
 
 extern s32 func_8009A180(void *, void *);
 extern void func_8009A21C(u8, u8, s32);
@@ -170,13 +168,14 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             }
             {
                 s32 sign_mask = 0x80000000;
-                register s32 state_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 state_flags;
 
                 state_flags = ((S_801715F4_1 *)actor_arg)->unk_14;
                 if (state_flags >= 0) {
                     state_flags |= sign_mask;
                     ((S_801715F4_1 *)actor_arg)->unk_14 = state_flags;
-                    ((S_801715F4_1 *)actor_arg)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                    sign_mask = func_800A6D30();
+                    ((S_801715F4_1 *)actor_arg)->unk_2A.u += (sign_mask & 7) << 9;
                 }
             }
             goto reset_turn_index;

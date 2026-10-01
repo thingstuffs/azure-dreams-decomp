@@ -3,7 +3,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80172D08_arg1.h"
 
-typedef struct { s32 word[4]; } Copy16;
+typedef struct { s32 word[6]; } Copy24;
 
 typedef struct S_80174A6C_0 {
     u8 pad_00[0x8];
@@ -30,7 +30,6 @@ typedef struct S_80174A6C_1 {
     s32 unk_28;
 } S_80174A6C_1;   /* prim in func_80174A6C */
 
-
 typedef struct S_80174A6C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -44,7 +43,6 @@ typedef struct S_80174A6C_5 {
     u8 pad_00[0x8];
     s32 unk_08;
 } S_80174A6C_5;   /* query_arg in func_80174A6C */
-
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
@@ -81,16 +79,11 @@ s32 func_80174A6C(void *unused, Rec_func_80172D08_arg1 *src_state, Rec_D_80082E8
         {
             S_80174A6C_5 *query_arg = source;
             u16 *query_out;
-            s32 copy_word_1;
 
-            ASM_KEEP(query_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            dst_state = obj->unk_08;
-            *(Copy16 *)dst_state = *(Copy16 *)src_state;
+            source = obj->unk_08;
+            dst_state = (void *)source;
+            *(Copy24 *)dst_state = *(Copy24 *)src_state;
             query_out = offsets;
-            ASM_KEEP(query_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_word_1 = src_state->unk_14;
-            dst_state->unk_10 = src_state->unk_10;
-            dst_state->unk_14 = copy_word_1;
 
             offsets[2] = 0;
             offsets[1] = 0;

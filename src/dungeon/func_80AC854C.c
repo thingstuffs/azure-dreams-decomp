@@ -53,20 +53,15 @@ extern u8 D_80174E4C[];
 extern u8 D_80174E54[];
 
 /* Advances the actor action state and updates its directional animation. */
-void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *actor_in)
+void func_80173D4C(void *action, void *context, void *sprite_in, void *actor_in)
 {
-    void *action;
-    register void *context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *sprite;
     void *actor;
     s32 state;
     void *actor_to_check;
     DungeonGlobalStatus *status;
     s32 actor_flags;
-    register DungeonGlobalStatus *counter_base_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    action = action_in;
-    context = context_in;
     sprite = sprite_in;
     state = ((S_80173D4C_0 *)action)->unk_9B;
     actor = actor_in;
@@ -167,11 +162,7 @@ final_check_call:
             ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
             return;
         }
-        {
-
-            counter_base_m = &dungeonStatus;
-            (*(u16 *)&counter_base_m->unk_0A)++;
-        }
+        dungeonStatus.unk_0A++;
 
         ((S_80173D4C_0 *)action)->unk_9B++;
         return;
@@ -180,19 +171,11 @@ final_check_call:
         if (!(((S_80173D4C_1 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
-        {
+        dungeonStatus.unk_0A--;
 
-            counter_base_m = &dungeonStatus;
-            (*(u16 *)&counter_base_m->unk_0A)--;
-        }
-
-        ((S_80173D4C_0 *)action)->unk_8C = &D_80171728;
+        action = (u8 *)action + 0x8C;
+        *(void **)action = &D_80171728;
 
         return;
     }
 }
-
-/* MECHANISM: Removing value-rewriting arg/table keeps recovered the 40-byte frame,
-   retail save order, and v0-destination symbolic indexing. Nonvolatile counter RMW
-   lets sh fill the jump delay; duplicated A6D30 paths merge with predecessor-held a0.
-   A pinned $a0 final-check local exposes the call-only label needed by word 160. */

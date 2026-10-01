@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "shared/def_table.h"
 #include "shared/record_ptrs.h"
 #include "shared/game_work.h"
@@ -60,18 +61,15 @@ typedef struct S_80172A48_3 {
 
 
 /* Advance item use through effect activation, actor animation, and cleanup. */
-void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_in)
+void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
 {
-    void *action = action_in;
-    EntityRec *motion = motion_in;
-    register void *actor ASM_REG("$19") = actor_in; /* MATCH: retain the actor register across the shared model tail. */
-    register void *item ASM_REG("$18") = item_in; /* MATCH: retain the item register across the shared model tail. */
     register u8 *effect_slot;
     s16 is_special;
     s32 effect_special;
     s16 next_state;
     u8 state;
     void *target;
+    void *linked;
 
 
     do {
@@ -146,9 +144,9 @@ selection_ready:
                 if (special_target != 0) {
                     target = D_800814A8;
                     (*(void * *)((u8 *)item + 0x60)) = target;
-                    action_in = ((S_80172A48_1_pre *)target)[-1].unk_00;
-                    (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)action_in)->unk_24;
-                    (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)action_in)->unk_25;
+                    linked = ((S_80172A48_1_pre *)target)[-1].unk_00;
+                    (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)linked)->unk_24;
+                    (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)linked)->unk_25;
                 } else {
                     u8 effect_id;
 
@@ -156,9 +154,9 @@ selection_ready:
                     if (D_8006DE24[effect_id].kind == 2) {
                         target = (*(void * *)((u8 *)item + 0x60));
                         if (target != 0) {
-                            action_in = ((S_80172A48_1_pre *)target)[-1].unk_00;
-                            (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)action_in)->unk_24;
-                            (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)action_in)->unk_25;
+                            linked = ((S_80172A48_1_pre *)target)[-1].unk_00;
+                            (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)linked)->unk_24;
+                            (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)linked)->unk_25;
                         }
                     } else {
                         s32 dx;
@@ -172,12 +170,8 @@ selection_ready:
                             dx = (*(s8 *)((u8 *)item + 0x72));
                         } while (0);
                         dy = (*(s8 *)((u8 *)item + 0x73));
-                        if (dx < 0) {
-                            dx = -dx;
-                        }
-                        if (dy < 0) {
-                            dy = -dy;
-                        }
+                        dx = abs(dx);
+                        dy = abs(dy);
                         (*(u8 *)((u8 *)item + 0x72)) = dx;
                         (*(u8 *)((u8 *)item + 0x73)) = dy;
                     }

@@ -110,7 +110,6 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
     LocalWork work;
 #define base work.base
 #define delta work.delta
-    s32 next_state;
     u32 state;
 
     motion->unk_02.u++;
@@ -280,14 +279,14 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
                 trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
                 trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
                 return_dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                next_state = 3;
+
                 trajectory->dz = return_dz;
+                motion->unk_00.u = 3;
             } else {
-                next_state = motion->unk_00.u + 1;
+                motion->unk_00.u++;
             }
         }
-        goto commit_state;
+        goto call_helper;
     }
 
     case 2:
@@ -345,9 +344,7 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
         trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
         motion->unk_02.u = 0;
 
-        next_state = motion->unk_00.u + 1;
-commit_state:
-        motion->unk_00.u = next_state;
+        motion->unk_00.u++;
 call_helper:
         func_80175A90(&base, trajectory);
         break;
