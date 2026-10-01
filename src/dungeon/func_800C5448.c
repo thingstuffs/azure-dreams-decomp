@@ -53,14 +53,13 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     s16 restore_ticks;
     s16 restore_ticks_left;
     s16 next_duration;
-    register s32 green_step_or_effect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 green_result;
     s32 red_result;
     s32 green_step;
     s32 red_step;
     s32 fade_ticks;
     s32 phase_or_ticks;
-    register s32 blue_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 blue_step;
     s32 rotation_done;
     u16 effect_level;
     u16 cycles_left;
@@ -117,9 +116,9 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
         green_result = fade_green + green_step;
         red_result = red_2 + red_step;
         ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8)red_result;
-        ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8)green_result;
         fade_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
         blue_step = (s32) (8 - fade_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
+        ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8)green_result;
         fade_ticks_left = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks - 1;
         ((S_800CABA8_0 *)effect)->timer.half.ticks = fade_ticks_left;
         ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (fade_blue + blue_step);
@@ -176,13 +175,12 @@ block_9_done:
         func_800A4ACC(actor_state);
         cycles_left = ((S_800CABA8_0 *)effect)->unk_B6 - 1;
         ((S_800CABA8_0 *)effect)->unk_B6 = cycles_left;
-        green_step_or_effect = (s32) effect;
         if ((cycles_left << 0x10) > 0) {
-            if (!(D_80013714 & 8)) {
+            if (!((*(u16 *)0x80013714) & 8)) {
                 goto block_22;
             }
         }
-        func_800CAA94((void *) green_step_or_effect, context, record);
+        func_800CAA94(effect, context, record);
         return;
 block_22:
         ((S_800CABA8_0 *)effect)->unk_8C = &D_800C9F34;

@@ -58,7 +58,7 @@ void func_800A08A0(s32 spawn_mode) {
     mode = (s16)spawn_mode;
     fixed_entry_offset = (mode - 2) * 2;
 
-    do {
+    for (; attempt < 0x10; ++attempt) {
         func_800A4E2C(&tile_x, &tile_y);
         if ((s16)func_8009FB34(tile_x, tile_y) < 0) {
             continue;
@@ -111,7 +111,6 @@ void func_800A08A0(s32 spawn_mode) {
             continue;
         }
 
-        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         spawn_height = func_800BCB04((tile_x << 6) | 0x20, (tile_y << 6) | 0x20, -0x400);
         spawn_monster = func_800A0B94(monster_type, monster, 1);
         monster = spawn_monster(0, tile_x, tile_y, (s16)spawn_height);
@@ -152,5 +151,5 @@ void func_800A08A0(s32 spawn_mode) {
         }
         *(s32 *)((u8 *)monster + 0x48) = func_800A9230(monster);
         return;
-    } while (++attempt < 0x10);
+    }
 }

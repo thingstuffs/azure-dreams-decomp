@@ -187,7 +187,7 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
     s16 selected_slot;
     s32 object_slot;
     u8 state;
-    register u8 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 next_state;
     void *new_object;
     void *selected_object;
     void *old_object;
@@ -327,7 +327,8 @@ void func_8009345C(void *actor_arg, void *map_arg, void *entity_arg, void *conte
         }
 start_end_delay:
         next_state = ((S_8009345C_0 *)actor)->unk_9B;
-        ((S_8009345C_0 *)actor)->unk_96 = 0x10U;
+        start_ticks = 0x10U;
+        ((S_8009345C_0 *)actor)->unk_96 = start_ticks;
         goto increment_state;
     case 7:
         end_ticks = ((S_8009345C_0 *)actor)->unk_96 - 1;

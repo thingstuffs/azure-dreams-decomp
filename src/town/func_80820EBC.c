@@ -50,7 +50,6 @@ void func_800236BC(void *object, void *motion, void *sprite)
     s32 sprite_data;
     s32 reward_amount;
     s32 reward_units;
-    register u32 reward_page ASM_REG("$4"); /* MATCH: both reward paths carry the global page in a0. */
     s32 *reward_table = (s32 *)&reward_values;
     u32 collision_addr;
 
@@ -127,8 +126,18 @@ void func_800236BC(void *object, void *motion, void *sprite)
             u8 *stack_base;
             stack_base = __builtin_alloca(0);
             reward_units = *(s32 *)(((S_800236BC_1 *)object)->unk_54 * 4 + stack_base);
-            reward_page = 0x80010000;
-            goto collision_reward;
+
+            {
+                s32 reward_total, collected_total;
+                reward_amount = reward_units * 100;
+                reward_total = D_80012D5C[0];
+                collected_total = D_80024628[0];
+                D_80012D5C[0] = reward_total + reward_amount;
+                D_80024628[0] = collected_total + reward_amount;
+            }
+            ((S_800236BC_1 *)object)->unk_04.s = 255;
+            return;
+
         }
 
     case 3:
@@ -142,17 +151,13 @@ void func_800236BC(void *object, void *motion, void *sprite)
         }
         SD_Call(0x516);
         reward_units = reward_table[((S_800236BC_1 *)object)->unk_54];
-        reward_page = 0x80010000;
-collision_reward:
         {
             s32 reward_total, collected_total;
-            u32 collected_page = 0x80020000;
-            ASM_KEEP(collected_page); /* MATCH: prepare the second global page before the reward arithmetic. */
             reward_amount = reward_units * 100;
-            reward_total = *(s32 *)(reward_page + 0x2D5C);
-            collected_total = *(s32 *)(collected_page + 0x4628);
-            *(s32 *)(reward_page + 0x2D5C) = reward_total + reward_amount;
-            *(s32 *)(collected_page + 0x4628) = collected_total + reward_amount;
+            reward_total = D_80012D5C[0];
+            collected_total = D_80024628[0];
+            D_80012D5C[0] = reward_total + reward_amount;
+            D_80024628[0] = collected_total + reward_amount;
         }
         ((S_800236BC_1 *)object)->unk_04.s = 255;
         return;

@@ -12,10 +12,9 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     s32 best_score;
     s16 best_value;
     s32 count;
-    u8 *item_data;
+    s32 table_or_result;
     s16 index;
     s32 value;
-    u32 item_page;
     s32 tripled_index;
     u8 item;
     register s32 item_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -29,9 +28,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     best_value = 0;
     count = 0;
     tripled_index = dungeonStatus.unk_1E;
-    item_page = 0x80070000;
-    ASM_KEEP_NV(item_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    item_data = (u8 *)(item_page - 0x21DC);
+    table_or_result = (s32)D_8006DE24;
     index = tripled_index & 3;
     do {
         if (((s16)(index)) == 3) {
@@ -47,7 +44,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
 
             value = record[9];
             item_offset = item * 20;
-            score = func_800A35D8(item_data[item_offset + 16], (u16)records_addr);
+            score = func_800A35D8(((u8 *)table_or_result)[item_offset + 16], (u16)records_addr);
             prior_value = best_value;
             candidate_value = value;
             if (prior_value < candidate_value) {
@@ -69,5 +66,6 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
             break;
         }
     } while (1);
-    return result;
+    table_or_result = result;
+    return table_or_result;
 }
