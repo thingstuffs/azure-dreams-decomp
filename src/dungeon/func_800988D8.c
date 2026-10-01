@@ -117,7 +117,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     S_func_8009E038_8 *viewport_page;
     S_func_8009E038_6 *flags_page;
     s32 left_step;
-    register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 shared_flags;
 
     render = render_params;
     input = &gameWork;
@@ -135,18 +135,16 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
             transition->unk_1A = 0;
             transition->unk_1C = 8;
         }
-        shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
         transition->unk_2C = 0U;
-        (*(s32 *)&D_800E296C) = shared_flags & 0xFEFFFFFF;
+        D_800E296C &= 0xFEFFFFFF;
     } else if ((u32) ((u16) transition->unk_1A - 0x20) < 0x10U) {
         if (!(((S_func_8009E038_3 *)&D_800E296C)->unk_00 & 0x2000)) {
             transition->unk_1A = 0x30;
         }
     }
     if (transition->unk_1A != 0 || (D_800E3D7C->flags1C & 0x10)) {
-        shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
         transition->unk_2C = 0U;
-        (*(s32 *)&D_800E296C) = shared_flags & 0xFEFFFFFF;
+        D_800E296C &= 0xFEFFFFFF;
     }
     state = transition->unk_1A;
     switch (state) {
@@ -203,7 +201,8 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
             transition->unk_04 = 0;
             transition->unk_06 = 0;
             transition->unk_1C = 0;
-            if (shared_flags & 0x800000) {
+            state = 0x800000;
+            if (shared_flags & state) {
                 transition->unk_1C = 0x1E;
                 transition->unk_1A = (s16) ((u16) transition->unk_1A + 1);
             } else if (!(input->buttons & 0x100)) {
@@ -223,7 +222,8 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         flags_page = (S_func_8009E038_6 *)0x800E0000;
         transition->unk_1C = shared_flags;
         shared_flags = flags_page->unk_296C;
-        transition->unk_1A = 0x10;
+        state = 0x10;
+        transition->unk_1A = state;
         goto store_flags;
     case 16:
         move_frames = transition->unk_1C;
@@ -303,9 +303,11 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
         shared_flags = flags_page->unk_296C;
         transition->unk_2C = 0U;
         transition->unk_1A = 0;
-        transition->unk_1C = 1;
+        state = 1;
+        transition->unk_1C = state;
 store_flags:
-        flags_page->unk_296C = shared_flags & flags_mask;
+        shared_flags &= flags_mask;
+        flags_page->unk_296C = shared_flags;
         break;
     case 32:
         shrink_scale = render->unk_1E;

@@ -1,8 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 typedef struct DungeonRoot DungeonRoot;
 struct DungeonRoot {
     u8 pad[0x8D0];
@@ -21,28 +19,6 @@ struct DungeonObject {
 
 typedef struct Scratch Scratch;
 
-typedef struct S_807AF648_0_pre {
-    s8 unk_00;
-    u8 pad_01[0x3];
-} S_807AF648_0_pre;   /* the 0x4 bytes before dst in func_807AF648, addressed as dst[-1] */
-
-typedef struct S_807AF648_0 {
-    s8 unk_00;
-    u8 pad_01[0xC];
-    s8 unk_0D;
-    s8 unk_0E;
-    s8 unk_0F;
-    u8 pad_10[0x5];
-    s8 unk_15;
-    s8 unk_16;
-    s8 unk_17;
-} S_807AF648_0;   /* dst in func_807AF648 */
-
-typedef struct S_807AF648_1 {
-    u8 pad_00[0x8D0];
-    s32 unk_8D0;
-} S_807AF648_1;   /* *(DungeonRoot **)global_field in func_807AF648 */
-
 struct Scratch {
     u16 values[3];
     u8 pad06[0x1A];
@@ -59,13 +35,36 @@ struct Scratch {
     s32 length;
 };
 
-
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
+
+typedef union {
+    u32 word;
+    struct { u8 r, g, b, code; } bytes;
+} ParticleColor;
+typedef union {
+    u32 word;
+    struct { u16 x, y; } halves;
+} ParticlePoint;
+typedef union {
+    u32 word;
+    struct { u8 address[3], length; } bytes;
+} ParticleTag;
+typedef struct {
+    ParticleTag tag;
+    ParticleColor color0;
+    ParticlePoint point0;
+    ParticleColor color1;
+    ParticlePoint point1;
+    ParticleColor color2;
+    ParticlePoint point2;
+    ParticleColor color3;
+    ParticlePoint point3;
+} ParticleQuad;
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 func_807AF648(DungeonObject *object, u16 *origin) {
@@ -76,7 +75,6 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
     s16 particle_index = 0;
     u8 *projection_param = (u8 *)0x1F800090;
     u8 *projection_flags;
-    void *quad_fields;
 
     object->count = 0;
     scratch = (Scratch *)0x1F800000;
@@ -86,7 +84,6 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
     scratch->values[1] = origin[3];
     projection_flags = (u8 *)((u32)projection_flags | 0x94);
     scratch->values[2] = origin[5];
-    quad_fields = (void *)(packet_cursor + 7);
     do {
         {
             DungeonObject *particle_view = (DungeonObject *)((u8 *)object + (s16)particle_index);
@@ -101,8 +98,8 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
         }
         {
             s32 particle_offset = particle_index;
-            (*(s32 *)((u8 *)quad_fields + -3)) = 0;
-            (*(s32 *)((u8 *)quad_fields + 5)) = 0;
+            ((ParticleQuad *)packet_cursor)->color0.word = 0;
+            ((ParticleQuad *)packet_cursor)->color1.word = 0;
             scratch->x70 = scratch->values[0] +
                 ((func_80064584((particle_offset + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->x78 = scratch->x70;
@@ -121,33 +118,29 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
                 } else if (level < 16) {
                     intensity = intensity / (16 - level);
                 }
-                ((S_807AF648_0 *)quad_fields)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
-                ((S_807AF648_0 *)quad_fields)->unk_15 = ((S_807AF648_0 *)quad_fields)->unk_0D;
-                ((S_807AF648_0 *)quad_fields)->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
-                ((S_807AF648_0 *)quad_fields)->unk_16 = ((S_807AF648_0 *)quad_fields)->unk_0E;
-                ((S_807AF648_0 *)quad_fields)->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
-                ((S_807AF648_0 *)quad_fields)->unk_17 = ((S_807AF648_0 *)quad_fields)->unk_0F;
+                ((ParticleQuad *)packet_cursor)->color2.bytes.r = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
+                ((ParticleQuad *)packet_cursor)->color3.bytes.r = ((ParticleQuad *)packet_cursor)->color2.bytes.r;
+                ((ParticleQuad *)packet_cursor)->color2.bytes.g = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
+                ((ParticleQuad *)packet_cursor)->color3.bytes.g = ((ParticleQuad *)packet_cursor)->color2.bytes.g;
+                ((ParticleQuad *)packet_cursor)->color2.bytes.b = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
+                ((ParticleQuad *)packet_cursor)->color3.bytes.b = ((ParticleQuad *)packet_cursor)->color2.bytes.b;
             }
 
             scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),
                 projection_param, projection_flags);
-            (*(s32 *)((u8 *)quad_fields + 9)) = (*(s32 *)((u8 *)quad_fields + 1));
-            (*(u16 *)((u8 *)quad_fields + 9)) += 4;
+            ((ParticleQuad *)packet_cursor)->point1.word = ((ParticleQuad *)packet_cursor)->point0.word;
+            ((ParticleQuad *)packet_cursor)->point1.halves.x += 4;
             scratch->length += func_80065420(&scratch->x78, (void *)(packet_cursor + 24),
                 projection_param, projection_flags);
-            (*(s32 *)((u8 *)quad_fields + 25)) = (*(s32 *)((u8 *)quad_fields + 17));
-            (*(u16 *)((u8 *)quad_fields + 25)) += 2;
+            ((ParticleQuad *)packet_cursor)->point3.word = ((ParticleQuad *)packet_cursor)->point2.word;
+            ((ParticleQuad *)packet_cursor)->point3.halves.x += 2;
             scratch->length >>= 1;
-            ((S_807AF648_0_pre *)quad_fields)[-1].unk_00 = 8;
-            ((S_807AF648_0 *)quad_fields)->unk_00 = 58;
-            quad_fields = (void *)((s8 *)quad_fields + 36);
-            ASM_KEEP_NV(quad_fields);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            quad_fields = (void *)((s8 *)quad_fields + 12);
+            ((ParticleQuad *)packet_cursor)->tag.bytes.length = 8;
+            ((ParticleQuad *)packet_cursor)->color0.bytes.code = 58;
             {
-                void *quad_packet = (void *)packet_cursor;
-                packet_cursor += 36;
                 func_8006658C((void *)(scratch->base + scratch->length * 4),
-                    quad_packet);
+                    (void *)packet_cursor);
+                packet_cursor += 36;
             }
             func_80067F20((void *)packet_cursor, 0, 0, 96, 0);
             func_8006658C((void *)(scratch->base + scratch->length * 4),
@@ -167,6 +160,6 @@ advance:
             }
         }
     } while (1);
-    ((S_807AF648_1 *)(root_slot->unk_000))->unk_8D0 = packet_cursor;
+    ((DungeonRoot *)root_slot->unk_000)->cursor = packet_cursor;
     return 0;
 }

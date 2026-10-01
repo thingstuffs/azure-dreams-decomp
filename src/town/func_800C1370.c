@@ -44,16 +44,16 @@ s32 event_pool_clean_in(void)
     s32 origin_z;
     void *object;
     void *object_part;
+    void *body;
 
     object = func_8003FC64(0x136);
     if (object != NULL) {
         SD_Call(0x512);
         motion = ((S_800BEAD0_0 *)object)->unk_08;
         ((S_800BEAD0_0 *)object)->unk_10 = &D_800BEBA4;
+        body = (u8 *)object + 0x20;
         func_8004491C(object, func_80045340);
-        object_part = object + 0x20;
-        ASM_KEEP(object_part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        (*(s16 *)((u8 *)object_part + 2)) = 0x10;
+        (*(s16 *)((u8 *)body + 2)) = 0x10;
         color = 0x00800000;
         motion[0] = D_80083780.x.v;
         origin = &D_80083780;
@@ -71,7 +71,3 @@ s32 event_pool_clean_in(void)
     }
     return 0;
 }
-
-/* MECHANISM: The 0x20 frame and s0/s1 holds already matched retail.
-   Depinning the page base and color restored the page-lui/color-lui sched2 order.
-   Retaining only ASM_KEEP(object_part) preserves the standalone s1+0x20 address word. */
