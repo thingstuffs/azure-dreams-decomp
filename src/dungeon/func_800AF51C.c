@@ -74,9 +74,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     s32 number;
     s16 space;
     register s32 format ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register s32 number_style ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 text_style ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    void *saved_flags;
+    s16 number_style;
+    s16 text_style;
+    u16 saved_flags;
     s16 saved_value;
     void *object;
     s8 *text_cursor;
@@ -95,8 +95,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     void *anchor;
 
     new_object = func_8003FD64(0x212, ((u8 *)(&D_80083498)));
-    saved_flags = (void *)(u32) flags;
-    ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    saved_flags = flags;
     object = new_object;
     saved_value = value;
     if (object != NULL) {
@@ -184,7 +183,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
             default:
                 break;
             }
-            if (((u32) saved_flags & 0xF0) < 0x80U) {
+            if ((saved_flags & 0xF0) < 0x80U) {
                 func_8004E5A0(saved_value, 3, text_cursor);
                 func_8004E298(text, text_buffer, number_style);
             }

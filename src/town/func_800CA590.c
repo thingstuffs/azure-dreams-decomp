@@ -3,7 +3,7 @@
 
 extern void *D_800834A0;
 
-extern void func_800C4174(void *);
+extern void func_800C4174(void *, void *, s32);
 
 
 typedef struct S_800C7CF0_0 {
@@ -26,10 +26,8 @@ typedef struct S_800C7CF0_2 {
 } S_800C7CF0_2;   /* out in func_800C7CF0 */
 
 /* Move the output toward the target position until the object countdown expires. */
-void func_800C7CF0(void *moving_object, void *position) {
-    register void *object ASM_REG("$7") = moving_object;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *out ASM_REG("$16") = position;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 signed_frames ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+void func_800C7CF0(void *object, void *out, s32 setup_context) {
+    s16 signed_frames;
     u16 target_x;
     u16 target_y;
     u16 frames;
@@ -41,7 +39,7 @@ void func_800C7CF0(void *moving_object, void *position) {
     signed_frames = (s32)((u32)frames << 16) >> 16;
 
     if (signed_frames <= 0) {
-        func_800C4174(object);
+        func_800C4174(object, out, setup_context);
         ((S_800C7CF0_2 *)out)->unk_02 = target_x;
         ((S_800C7CF0_2 *)out)->unk_06 = target_y;
         return;
@@ -56,4 +54,3 @@ void func_800C7CF0(void *moving_object, void *position) {
               ((s16)target_y - ((S_800C7CF0_2 *)out)->unk_06) /
               (s16)((S_800C7CF0_1 *)object)->unk_6C);
 }
-
