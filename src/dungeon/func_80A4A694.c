@@ -1,6 +1,8 @@
 #include "common.h"
 #include "shared/game_work.h"
 
+typedef struct OrderingTag { u32 addr : 24; u32 count : 8; } OrderingTag;
+
 typedef struct S_80173E94_0 {
     u8 pad_00[0x8D0];
     u8 * unk_8D0;
@@ -66,7 +68,7 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 
 /* Append shaded point and draw-mode packets for the linked nodes to the ordering table. */
-s32 func_80173E94(void *node_arg, void *vertex_arg)
+s32 func_80173E94(u8 *node, void *vertex_arg)
 {
     u8 **state_ptr;
     u8 *scratch;
@@ -74,20 +76,14 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
     register u8 *final_state;
     register u8 *packet_end;
     register u8 *packet;
-    u8 *node;
     u8 *vertex;
     void *previous;
     u32 depth_index;
     u16 vertex_x;
-    register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 tag_mask;
 
-    node = node_arg;
     vertex = vertex_arg;
     state_ptr = (u8 **)((u8 *)(&gameWork));
-    addr_mask = 0x00FFFFFF;
     state = *(u8 **)((u8 *)(&gameWork));
-    tag_mask = 0xFF000000;
     scratch = (u8 *)0x1F800000;
 
     *(u8 * *)(scratch + 0x18) = ((S_80173E94_0 *)state)->unk_8D0;
@@ -139,10 +135,9 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
             page_x = pixel_mode;
             ((S_80173E94_3 *)packet)->unk_04.at03.v = tile_code;
 
-            ((S_80173E94_3 *)packet)->unk_00.at00.v =
-                (((S_80173E94_3 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
-                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
+            ((OrderingTag *)packet)->addr =
+                ((OrderingTag *)(((S_80173E94_1 *)scratch)->unk_20.p2
+                    + ((S_80173E94_1 *)scratch)->unk_C0))->addr;
             {
                 u32 *ot_entry;
                 u32 ot_tag;
@@ -152,7 +147,7 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
                 ot_entry = (u32 *)((u32)ot_entry +
                                    (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
-                *ot_entry = ((u32)((ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask))));
+                *ot_entry = ((u32)((ot_tag & 0xFF000000) | ((u32)((u32)packet & 0x00FFFFFF))));
             }
 
             packet = *(u8 * *)(scratch + 0x18);
@@ -160,14 +155,13 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
             shade_or_page = func_80066460(pixel_mode, blend_mode, page_x, pixel_mode);
             func_80067F20(packet, 0, 0, (u16)shade_or_page, 0);
 
-            ((S_80173E94_3 *)packet)->unk_00.at00.v =
-                (((S_80173E94_3 *)packet)->unk_00.at00.v & tag_mask) |
-                ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
-                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
-            packet = (u8 *)((u32)packet & addr_mask);
+            ((OrderingTag *)packet)->addr =
+                ((OrderingTag *)(((S_80173E94_1 *)scratch)->unk_20.p2
+                    + ((S_80173E94_1 *)scratch)->unk_C0))->addr;
+            packet = (u8 *)((u32)packet & 0x00FFFFFF);
             (*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) =
                 ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2)
-                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & tag_mask) |
+                    + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & 0xFF000000) |
                 (u32)packet;
         }
 

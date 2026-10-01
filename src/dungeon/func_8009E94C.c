@@ -17,7 +17,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     s32 value;
     s32 tripled_index;
     u8 item;
-    register s32 item_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+
     s32 records;
     u8 *record;
 
@@ -43,8 +43,11 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
             s16 candidate_value;
 
             value = record[9];
-            item_offset = item * 20;
-            score = func_800A35D8(((u8 *)table_or_result)[item_offset + 16], (u16)records_addr);
+            tripled_index = item * 4;
+            tripled_index += item;
+            tripled_index *= 4;
+            tripled_index += table_or_result;
+            score = func_800A35D8(*(u8 *)(tripled_index + 16), (u16)records_addr);
             prior_value = best_value;
             candidate_value = value;
             if (prior_value < candidate_value) {
