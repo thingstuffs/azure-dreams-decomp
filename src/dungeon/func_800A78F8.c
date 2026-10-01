@@ -85,6 +85,7 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
     s32 orbit_offset;
     s32 finished;
     s32 dispatch_zero;
+    s16 active_count;
     u16 scale_y;
     u16 scale_x;
     u8 blue;
@@ -96,7 +97,7 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
 
     switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
     case 0:
-        if (dungeonStatus.unk_0A != 0) {
+        if ((active_count = dungeonStatus.unk_0A) != 0) {
             return 0;
         }
         ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
@@ -193,9 +194,11 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
         ((Rec_func_800AD058_arg0 *)state)->unk_96 = spiral_ticks;
         finished = 0;
         if ((spiral_ticks << 0x10) <= 0) {
-            register s32 *shared_state ASM_REG("$2") = ((s32 *)(&dungeonStatus));   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 *shared_state = ((s32 *)(&dungeonStatus));
 
-            ((S_800AD058_5 *)shared_state)->unk_0A = (u16) (((S_800AD058_5 *)shared_state)->unk_0A - 1);
+            active_count = ((S_800AD058_5 *)shared_state)->unk_0A;
+            active_count--;
+            ((S_800AD058_5 *)shared_state)->unk_0A = active_count;
             func_800A2FE0(entity);
             func_800A32A4(entity);
         } else {

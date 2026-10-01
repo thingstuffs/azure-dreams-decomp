@@ -143,7 +143,7 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     s32 dest_offset;
     s32 edge;
     s32 sample_offset;
-    register s32 edge_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 edge_offset;
     s32 axis;
     s32 dest_coord;
     register u8 *shape_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -164,7 +164,6 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     void *texture;
     u16 *near_vertex;
     s32 coord;
-    s32 source_offset;
     s32 coord_offset;
     s32 source_side;
     s32 source_index;
@@ -318,7 +317,7 @@ loop_2:
                 source_index = source_side * 2;
                 source_index += source_side;
                 ASM_KEEP_NV(source_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                source_offset = source_index * 2;
+                edge_offset = source_index * 2;
                 start_coord = (s16 *)(vertex_base + 0x80);
                 near_vertex = (u16 *)(vertex_base + 0x74);
 copy_coord:
@@ -326,7 +325,7 @@ copy_coord:
                 endpoint = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
                 endpoint += (s32)coord_table;
                 endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
-                endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
+                endpoint = (u8 *)((s32)edge_offset + (s32)endpoint);
                 endpoint = (u8 *)((s32)coord_offset + (s32)endpoint);
                 *near_vertex = ((S_80168C88_13 *)endpoint)->unk_00;
                 coord += 1;
@@ -335,7 +334,7 @@ copy_coord:
                 endpoint += (s32)coord_table;
                 endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
                 endpoint += 0xC;
-                endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
+                endpoint = (u8 *)((s32)edge_offset + (s32)endpoint);
                 far_coord = (u8 *)((s32)coord_offset + (s32)endpoint);
                 *start_coord = ((S_80168C88_14 *)far_coord)->unk_00;
                 start_coord += 1;
@@ -343,8 +342,9 @@ copy_coord:
                     goto copy_coord;
                 }
                 side += 1;
+                if (side >= 2) break;
                 vertex_base += 6;
-            } while (side < 2);
+            } while (1);
         }
         segment += 1;
         segment_offset += 0xC;

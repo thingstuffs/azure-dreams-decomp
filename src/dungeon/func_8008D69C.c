@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern s32 D_80012090[];
 extern s32 D_8008ACDC;
 
 /* Waits for a countdown or global state change before resetting the object's handler. */
@@ -29,8 +28,7 @@ state_one:
         if (((s32)shared_data->unk_010) == 0) {
             return;
         }
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (D_80012090[0] == state) {
+        if (*(s32 *)0x80012090 == state) {
             return;
         }
     }

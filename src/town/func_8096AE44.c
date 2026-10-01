@@ -83,8 +83,7 @@ void func_801232DC(void)
     s32 column_offset;
     s32 column;
     s32 object_offset;
-    register s32 initial_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 group_index;
+    s32 initial_index;
     s32 final_width;
     s32 final_x;
     u16 initial_y;
@@ -103,20 +102,22 @@ void func_801232DC(void)
         initial_slot = &object_base[0x1C];
     }
     initial_pos = D_80126AF8;
-    do {
-        ((S_801232DC_0 *)(*initial_slot))->unk_00 = initial_pos->data;
-        object = *initial_slot;
-        initial_index += 1;
-        ((S_801232DC_6 *)(object->unk_04))->unk_08.s = initial_pos->x;
-        object_index += 1;
-        object = *initial_slot;
-        initial_y = initial_pos->y;
-        initial_pos += 1;
-        ((S_801232DC_6 *)(object->unk_04))->unk_0A = initial_y;
-        initial_slot += 1;
-    } while (initial_index < 5);
+initial_loop:
+    ((S_801232DC_0 *)(*initial_slot))->unk_00 = initial_pos->data;
+    object = *initial_slot;
+    initial_index += 1;
+    ((S_801232DC_6 *)(object->unk_04))->unk_08.s = initial_pos->x;
+    object_index += 1;
+    object = *initial_slot;
+    initial_y = initial_pos->y;
+    initial_pos += 1;
+    ((S_801232DC_6 *)(object->unk_04))->unk_0A = initial_y;
+    initial_slot += 1;
+    if (initial_index < 5) {
+        goto initial_loop;
+    }
 
-    group_index = 0;
+    initial_index = 0;
     group_data = D_801331D0;
     {
         void **object_base;
@@ -126,12 +127,12 @@ void func_801232DC(void)
     }
     do {
         object = *group_slot;
-        column_offset = group_index >> 3;
+        column_offset = initial_index >> 3;
         object->unk_00 = group_data;
         object = *group_slot;
         column_offset <<= 7;
         ((S_801232DC_6 *)(object->unk_04))->unk_08.u = column_offset + 0x38;
-        row_offset = (group_index & 7) * 0x12;
+        row_offset = (initial_index & 7) * 0x12;
         ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = row_offset + 0x2C;
         group_slot += 1;
         ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x3E;
@@ -143,10 +144,10 @@ void func_801232DC(void)
         object->unk_08.at02.v = detail_y;
         group_data += 0xC;
         ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_08 = column_offset + 0x44;
-        group_index += 1;
+        initial_index += 1;
         ((S_801232DC_7 *)(((S_801232DC_2 *)(*group_slot))->unk_04))->unk_0A = detail_y;
         group_slot += 1;
-    } while (group_index < 0x10);
+    } while (initial_index < 0x10);
 
     initial_index = 0;
     {
@@ -183,7 +184,3 @@ void func_801232DC(void)
         display_slot += 1;
     } while (initial_index < 0x46);
 }
-
-/* MECHANISM: The 24-byte frame keeps only s0, with loop counters/data roles pinned at their ABI seams.
-   Block-local v0 bases plus split scaled-index names reproduce each hi/lo and pointer-add order.
-   One-use object reloads, ASM_KEEP seams, and held s0 liveness reproduce the retail loop schedules. */

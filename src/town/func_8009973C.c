@@ -1,23 +1,23 @@
 #include "common.h"
 
+extern s32 D_800FE520[];
+
 /* Push the point to the nearest edge of each containing rectangle and return the hit side flags. */
 s32 func_80096E9C(s32 *x, s32 *y) {
     s32 nearest_side[2];
     s32 edge_dist[4];
-    s32 *bounds_page;
     volatile s32 *bounds;
     s32 hit_sides;
+    s32 bounds_index;
     s32 first_min_x;
     s32 min_y_side;
 
-    bounds_page = (s32 *)0x80100000;
-    ASM_KEEP(bounds_page);
-    first_min_x = *(s32 *)((s8 *)bounds_page - 0x1AE0);
+    first_min_x = D_800FE520[0];
     hit_sides = 0;
     if (first_min_x != 0x80000000) {
         min_y_side = 2;
-        bounds = (s32 *)((s8 *)bounds_page - 0x1AE0);
-        do {
+        for (bounds_index = 0; D_800FE520[bounds_index] != 0x80000000; bounds_index += 4) {
+            bounds = &D_800FE520[bounds_index];
             edge_dist[0] = *x - bounds[0];
             if (edge_dist[0] > 0) {
                 edge_dist[1] = bounds[1] - *x;
@@ -57,8 +57,7 @@ s32 func_80096E9C(s32 *x, s32 *y) {
                     }
                 }
             }
-            bounds += 4;
-        } while (bounds[0] != 0x80000000);
+        }
     }
     return hit_sides;
 }
