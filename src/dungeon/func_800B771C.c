@@ -20,58 +20,58 @@ typedef struct S_800BCE7C_0 {
 
 s32 func_80065F90();
 
-/* Compute direction angles and check that adjacent angular gaps do not exceed a half turn. */
-s32 func_800BCE7C(S_800BCE7C_0 *state) {
-    s32 second_offset;
-    s32 fourth_angle;
-    s32 fourth_offset;
-    s32 third_angle;
-    s32 third_offset;
-    s32 second_angle;
-    s32 second_to_third;
-    s32 fourth_to_first;
-    s32 third_to_fourth;
+/* True unless the quad's corner angles are laid out so that one of its successive turns exceeds half a revolution. */
+s32 func_800BCE7C(S_800BCE7C_0 *poly) {
+    s32 delta_3;
+    s32 angle_1;
+    s32 delta_1;
+    s32 angle_2;
+    s32 delta_2;
+    s32 angle_3;
+    s32 turn_1;
+    s32 turn_2;
+    s32 turn_3;
 
-    if (state->unk_154.at00.v != 0) {
-        if (state->unk_160.at00.v != 0) {
-            state->unk_164 = func_80065F90(state->unk_154.at02.v, (s16) state->unk_154.at00.v);
-            fourth_angle = func_80065F90(state->unk_160.at02.v, (s16) state->unk_160.at00.v);
-            state->unk_170 = fourth_angle;
-            fourth_offset = fourth_angle - state->unk_164;
-            fourth_to_first = (0x1000 - fourth_offset) & 0xFFF;
-            state->unk_180 = fourth_to_first;
-            state->unk_170 = fourth_offset;
-            if (fourth_to_first >= 0x801) {
-                return 0;
-            }
-            if (state->unk_15C.at00.v != 0) {
-                third_angle = func_80065F90(state->unk_15C.at02.v, (s16) state->unk_15C.at00.v);
-                state->unk_16C = third_angle;
-                third_offset = third_angle - state->unk_164;
-                third_to_fourth = (state->unk_170 - third_offset) & 0xFFF;
-                state->unk_17C = third_to_fourth;
-                state->unk_16C = third_offset;
-                if (third_to_fourth >= 0x801) {
-                    return 0;
-                }
-                if (state->unk_158.at00.v != 0) {
-                    goto check_second;
-                }
-            }
-        }
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    if (poly->unk_154.at00.v == 0) {
         return 1;
-check_second:
-        second_angle = func_80065F90(state->unk_158.at02.v, (s16) state->unk_158.at00.v);
-        state->unk_168 = second_angle;
-        second_offset = (second_angle - state->unk_164) & 0xFFF;
-        state->unk_168 = second_offset;
-        if (second_offset < 0x801) {
-            second_to_third = (state->unk_16C - second_offset) & 0xFFF;
-            state->unk_178 = second_to_third;
-            return second_to_third < 0x801;
-        }
+    }
+    if (poly->unk_160.at00.v == 0) {
+        return 1;
+    }
+    poly->unk_164 = func_80065F90(poly->unk_154.at02.v, (s16) poly->unk_154.at00.v);
+    angle_1 = func_80065F90(poly->unk_160.at02.v, (s16) poly->unk_160.at00.v);
+    poly->unk_170 = angle_1;
+    delta_1 = angle_1 - poly->unk_164;
+    turn_1 = (0x1000 - delta_1) & 0xFFF;
+    poly->unk_180 = turn_1;
+    poly->unk_170 = delta_1;
+    if (turn_1 >= 0x801) {
         return 0;
     }
-    return 1;
+    if (poly->unk_15C.at00.v == 0) {
+        return 1;
+    }
+    angle_2 = func_80065F90(poly->unk_15C.at02.v, (s16) poly->unk_15C.at00.v);
+    poly->unk_16C = angle_2;
+    delta_2 = angle_2 - poly->unk_164;
+    turn_2 = (poly->unk_170 - delta_2) & 0xFFF;
+    poly->unk_17C = turn_2;
+    poly->unk_16C = delta_2;
+    if (turn_2 >= 0x801) {
+        return 0;
+    }
+    if (poly->unk_158.at00.v == 0) {
+        return 1;
+    }
+    angle_3 = func_80065F90(poly->unk_158.at02.v, (s16) poly->unk_158.at00.v);
+    poly->unk_168 = angle_3;
+    delta_3 = (angle_3 - poly->unk_164) & 0xFFF;
+    poly->unk_168 = delta_3;
+    if (delta_3 >= 0x801) {
+        return 0;
+    }
+    turn_3 = (poly->unk_16C - delta_3) & 0xFFF;
+    poly->unk_178 = turn_3;
+    return turn_3 < 0x801;
 }
+
