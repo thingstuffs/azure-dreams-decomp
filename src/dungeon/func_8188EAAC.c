@@ -64,7 +64,7 @@ void *func_800262AC(s16 x, s16 y, s16 z)
     s32 group_index;
     s32 object_index;
     s32 object_flags;
-    register s32 init_value ASM_REG("$2");
+    s32 init_value = 0;
     u16 render_flags;
     void *object;
     S_800262AC_1 *coords;
@@ -109,11 +109,10 @@ void *func_800262AC(s16 x, s16 y, s16 z)
                 render_flags = render->unk_1E.u;
                 render->unk_14 = 0xC;
                 render->unk_10 = 0x20;
-                ASM_SCHED_BARRIER();
+                state = (u8 *)object + 0x20;
                 init_value = 8;
                 render->unk_08 = texture;
                 render->unk_1C = render_flags;
-                state = (u8 *)object + 0x20;
                 state->unk_1A = init_value;
                 state->unk_64 = init_value;
                 state->unk_22 = object_index;
