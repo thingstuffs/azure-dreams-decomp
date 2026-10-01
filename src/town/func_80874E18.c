@@ -1,11 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define ({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (value);                                                      }) (value)
-#else
-#endif
-
-
 typedef struct {
     u8 pad[0xBBC];
     s16 values[1];
@@ -25,7 +19,6 @@ extern InputTable D_80700000;
 extern s16 D_80700BB2[];
 extern State *D_80701968[3];
 extern CallbackOwner *D_80701984[4];
-extern CallbackOwner *D_80701984_ALT[4] __asm__("D_80701984");
 
 #define STATE_ROOT D_80701968[0]
 
@@ -36,56 +29,26 @@ extern s32 func_807018AC(s16 value);
 /* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
 s32 func_80700E18(s32 slot) {
     s32 callback;
-    s32 tail_arg;
 
     if (func_80700D84() > 0) {
         s16 value;
-        s32 input_offset;
-        s32 index;
         s32 *word;
         s32 old_value;
-#ifndef NON_MATCHING
-#else
-        s32 zero_nf = 0;
-#endif
 
-        input_offset = slot * 2;
-        value = *(s16 *)((u8 *)&D_80700000 + 0xBBC + input_offset);
-        index = value / 32;
-        word = (s32 *)(index * 4 + (s32)STATE_ROOT);
+        value = D_80700000.values[slot];
+        word = &((s32 *)STATE_ROOT)[value / 32];
         old_value = *word;
-        *word = ((1) << (value - (index << 5))) | old_value;
+        *word = (1 << (value % 32)) | old_value;
         return func_80701060(word, old_value);
     }
 
-callback_path:
-    callback = D_80701984[0]->callback(2);
-    tail_arg = 0x40000000;
-    if (callback != 0) {
-        {
-#ifndef NON_MATCHING
-            void *state;
-            register s32 new_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-#else
-            void *state;
-            s32 new_flags;
-#endif
-            state = (void *)STATE_ROOT;
-            new_flags = ((State *)state)->flags | tail_arg;
-            ((State *)state)->flags = new_flags;
-        }
+    if (D_80701984[0]->callback(2) != 0) {
+        STATE_ROOT->flags |= 0x40000000;
     } else {
-        void *state;
-        s32 clear_mask;
-        s32 clear_value;
-        state = (void *)STATE_ROOT;
-        clear_mask = 0xBFFFFFFF;
-        clear_value = ((State *)state)->flags;
-        clear_value &= clear_mask;
-        ((State *)state)->flags = clear_value;
+        STATE_ROOT->flags &= ~0x40000000;
     }
     if (func_807018AC(D_80700BB2[0]) == 0) {
-        callback = D_80701984_ALT[0]->callback(2);
+        callback = D_80701984[0]->callback(2);
         if (callback == 0) {
             return slot;
         }

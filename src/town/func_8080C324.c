@@ -103,8 +103,6 @@ s32 func_8080C324(void) {
     void *node;
     S_8080C324_1 *root;
     S_8080C324_2 *render_state;
-    void *panel_template;
-    void *panel_record;
 
     root = 0;
     func_80058F88(0x704);
@@ -150,10 +148,6 @@ loop_0:
         goto loop_0;
 
     color_or_flags = 0x00404040;
-    panel_template = D_805267E0;
-    panel_record = &rect_record;
-    ASM_USE2(panel_template, panel_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    remaining = 8;
     rect_record.f8 = color_or_flags;
     color_or_flags = rect_record.f16;
     initial_state = 0x3020;
@@ -168,10 +162,9 @@ loop_0:
     rect_record.f0 = 0;
     rect_record.f2 = 0x10;
     rect_record.f4 = root;
-    line_x = 0xE0;
     color_or_flags |= 3;
     rect_record.f16 = color_or_flags;
-    func_80526C90(panel_template, panel_record);
+    func_80526C90(D_805267E0, &rect_record);
 
     rect_record.fE = 0xA2;
     rect_record.f10 = 1;
@@ -181,6 +174,8 @@ loop_0:
     rect_record.f0 = 0;
     rect_record.f4 = root;
     rect_record.f16 |= 0xFFFD;
+    remaining = 8;
+    line_x = 0xE0;
     do {
         rect_record.fC = line_x;
         func_80526C90(D_805268D4, &rect_record);
@@ -199,16 +194,8 @@ loop_0:
         s16 content_x;
         s32 color_or_content;
         s32 content;
-        void *content_template;
-        void *content_args;
 
         color_or_content = 0x00808080;
-        content_template = D_80526970;
-        content_args = &content_record;
-        ASM_USE2(content_template, content_args);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        clear_addr = 8;
-        content_x = 0xE4;
-        content_ptr = D_805300BC;
         content_record.f10 = color_or_content;
         color_or_content = (s32)0x80530000;
         color_or_content = *(s32 *)(color_or_content + 0xC0);
@@ -221,9 +208,12 @@ loop_0:
         content_record.f2 = 0x10;
         content_record.fC = root;
         content_record.f4 = color_or_content;
-        func_80526BFC(content_template, content_args);
+        func_80526BFC(D_80526970, &content_record);
 
         content_record.f16 = 0xA4;
+        clear_addr = 8;
+        content_x = 0xE4;
+        content_ptr = D_805300BC;
 loop_2:
         {
             void *entry_template;
