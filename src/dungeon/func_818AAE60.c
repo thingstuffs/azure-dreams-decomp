@@ -216,12 +216,11 @@ void func_80024660(void *effect, void *motion, void *appearance) {
                 - ((S_80024660_5 *)motion)->unk_04.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
             ((S_80024660_5 *)motion)->unk_14 = (s32) ((s32) (((S_80024660_8 *)destination)->unk_08.at00.v
                 - ((S_80024660_5 *)motion)->unk_08.at00.v) / (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16);
-            func_800A56E0(0x300, target_dist_cursor);
+            func_800A56E0(0x300);
             ((Rec_func_800243B8_arg0 *)effect)->unk_0A += 1;
             goto spawn_children;
         } else {
             register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s16 last_tile_x;
@@ -301,8 +300,8 @@ set_path_destination:
                 y_edge_steps = D_8006CCE8_3;
                 ((S_80024660_8 *)destination)->unk_00.at02.v = destination_x;
                 narrowed_x = destination_x;
-                saved_tile_y = scratch.saved_y;
-                probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
+                step_table = (u16 *)(u32)scratch.saved_y;
+                probe_x_dest_y = ((s32) ((s32)step_table << 0x10));
                 probe_x_dest_y = (probe_x_dest_y >> 0xA)
                 + ((y_edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
                 ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;
