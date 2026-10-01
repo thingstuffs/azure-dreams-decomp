@@ -10,8 +10,8 @@ extern u8 D_800D185D;
 void func_800B9260(void) {
     GameWork *input_state = &gameWork;
     s32 input_flags = ((s32)input_state->unk_010);
-    register s32 buttons ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 masked_buttons ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 buttons;
+    s32 masked_buttons;
 
     if (input_flags < 0) {
         D_800D185C += 0x20;
@@ -26,7 +26,9 @@ void func_800B9260(void) {
     if (input_flags & 0x10000000) {
         D_800D185D++;
     }
-    *(volatile u8 *) &D_800D185D = D_800D185D % 67;
+    buttons = D_800D185D;
+    buttons -= buttons / 67 * 67;
+    *(volatile u8 *) &D_800D185D = buttons;
     buttons = *(volatile s32 *) &input_state->buttons;
     masked_buttons = buttons & 0x500000;
     if (masked_buttons == 0x500000) {

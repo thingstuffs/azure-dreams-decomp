@@ -20,36 +20,24 @@ typedef struct Position {
 } Position;
 
 extern void SD_Call(s32);
+extern s32 abs(s32);
 extern u8 D_800C1EA4[];
 
 
 /* Trigger an action and update the object state when either position limit is exceeded. */
 void func_800C1F8C(S_800C1F8C_0 *object)
 {
+    s32 x_offset;
+    s32 y_offset;
+    s32 x_distance;
     s32 y_distance;
-    register s32 axis_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 axis_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    axis_distance = object->unk_04;
-    axis_offset = D_80083780.x.w.i;
-    y_distance = D_80083780.y.w.i;
-    axis_distance -= axis_offset;
-    if (axis_distance < 0) {
-        axis_distance = -axis_distance;
-    }
-    axis_distance <<= 16;
-
-    axis_offset = object->unk_06 - y_distance;
-    y_distance = axis_offset;
-    if (axis_offset < 0) {
-        y_distance = -y_distance;
-    }
-
-    if (object->unk_0C >= (axis_distance >> 16)) {
-        axis_distance = (s16)y_distance;
-        if (object->unk_0E >= axis_distance) {
-            return;
-        }
+    x_offset = object->unk_04 - D_80083780.x.w.i;
+    x_distance = abs(x_offset);
+    y_offset = object->unk_06 - D_80083780.y.w.i;
+    y_distance = abs(y_offset);
+    if (object->unk_0C >= (s16)x_distance && object->unk_0E >= (s16)y_distance) {
+        return;
     }
     SD_Call(object->unk_10 | 0x1000);
     object->unk_00 = D_800C1EA4;

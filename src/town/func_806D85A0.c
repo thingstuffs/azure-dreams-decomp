@@ -63,7 +63,7 @@ void func_806D85A0(void) {
     register void *context ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *dispatch_ptr;
     void *entry_flags;
-    register void *position ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *position;
     void *group_flags;
 
     entry_flags = ((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_38;
@@ -100,29 +100,29 @@ void func_806D85A0(void) {
             s16 *entry_counts;
 
             entry_counts = (s16 *)(D_80018FD0 + 0x10);
-next_entry:
-            if (((S_806D85A0_3 *)(group_flags + entry_index))->unk_3640 != 0) {
-                position = func_80017024(group_index, entry_index, variant);
-                if (group_index == 0) {
-                    x_offset = 0;
-                    do {
-                        y_offset = 0;
+            do {
+                if (((S_806D85A0_3 *)(group_flags + entry_index))->unk_3640 != 0) {
+                    position = func_80017024(group_index, entry_index, variant);
+                    if (group_index == 0) {
+                        x_offset = 0;
                         do {
+                            y_offset = 0;
+y_cell:
                             cell_value = x_offset + y_offset;
                             cell_x = ((S_806D85A0_4 *)position)->unk_00 + x_offset;
                             cell_y = ((S_806D85A0_4 *)position)->unk_02 + y_offset;
                             ((S_806D85A0_6 *)(((S_806D85A0_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;
-                        } while (y_offset < 2);
-                        x_offset += 1;
-                    } while (x_offset < 2);
+                            if (y_offset < 2) goto y_cell;
+                            x_offset += 1;
+                        } while (x_offset < 2);
+                    }
+                    entry_index += 1;
+                } else {
+                    break;
                 }
-                entry_index += 1;
-                if (entry_index < (*(s16 *)((u8 *)((s8 *)(u32)count_offset) + (s32)entry_counts))) {
-                    goto next_entry;
-                }
-            }
+            } while (entry_index < (*(s16 *)((u8 *)((s8 *)(u32)count_offset) + (s32)entry_counts)));
         }
         count_offset += 0x18;
         group_index += 1;

@@ -24,14 +24,23 @@ typedef struct S_func_8065C05C_3 {
 } S_func_8065C05C_3;
 
 
+static __inline__ S_func_8065C05C_0 *terminate_entries(S_func_8065C05C_0 *base, s32 count)
+{
+    u32 offset = count * 4;
+    S_func_8065C05C_0 *end;
+    offset += (u32)base;
+    end = (S_func_8065C05C_0 *)offset;
+    end->unk_01 = 0;
+    end->unk_00 = 0;
+    return base;
+}
+
 /* Build a terminated list of four-byte entries for IDs accepted by the callback. */
-void func_8065C05C(register S_func_8065C05C_0 *entries_base) {
+S_func_8065C05C_0 *func_8065C05C(register S_func_8065C05C_0 *entries_base) {
     s32 entry_count;
     register s32 entry_id;
     s32 entry_tag;
     S_func_8065C05C_1 *globals_page;
-    register S_func_8065C05C_0 *entries_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 terminator;
 
     entry_count = 0;
     entry_id = 0;
@@ -48,11 +57,5 @@ void func_8065C05C(register S_func_8065C05C_0 *entries_base) {
         entry_id += 1;
     } while (entry_id < 0x43);
 
-    entries_copy = entries_base;
-    terminator = entry_count;
-    terminator <<= 2;
-    terminator += (u32)entries_copy;
-    ((S_func_8065C05C_0 *)terminator)->unk_01 = 0;
-    ((S_func_8065C05C_0 *)terminator)->unk_00 = 0;
-    ASM_USE2(entries_copy, terminator);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    return terminate_entries(entries_base, entry_count);
 }
