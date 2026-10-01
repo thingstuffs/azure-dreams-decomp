@@ -238,8 +238,8 @@ tick:
         tw_sd_sq_ld_call(0x20, 0x200);
         func_80033B78(0xA4);
         best_score = D_800135BC[0];
+        D_800135BC[0] = best_score;
         score_threshold = controller->threshold;
-        ASM_KEEP(best_score);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         dialog_zero = 0;
         if ((s16)best_score < score_threshold) {
             s32 dialog_id;
