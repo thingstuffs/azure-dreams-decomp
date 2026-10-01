@@ -64,7 +64,6 @@ extern u8 D_80175E7C[];
 void func_80175574(Obj0 *controller, void *context, Obj2 *animation, Obj3 *actor)
 {
     unsigned long table_entry;
-    register DungeonGlobalStatus *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 
     switch (((S_80175574_0 *)controller)->unk_9B) {
@@ -73,9 +72,9 @@ void func_80175574(Obj0 *controller, void *context, Obj2 *animation, Obj3 *actor
             return;
         }
         {
-            counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &dungeonStatus;
 
-            (*(u16 *)&counter_base->unk_0A)--;
+            counter_base->unk_0A--;
         }
         {
 
@@ -254,9 +253,9 @@ void func_80175574(Obj0 *controller, void *context, Obj2 *animation, Obj3 *actor
 
 increment_counter:
         {
-            counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &dungeonStatus;
 
-            (*(u16 *)&counter_base->unk_0A)++;
+            counter_base->unk_0A++;
         }
 increment_state:
         ((S_80175574_0 *)controller)->unk_9B++;
@@ -267,9 +266,9 @@ increment_state:
             return;
         }
         {
-            counter_base = &dungeonStatus;
+            DungeonGlobalStatus *counter_base = &dungeonStatus;
 
-            (*(u16 *)&counter_base->unk_0A)--;
+            counter_base->unk_0A--;
         }
         ((S_80175574_0 *)controller)->unk_8C = D_801724BC;
         return;

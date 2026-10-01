@@ -111,10 +111,13 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     S_8017121C_2 *part;
     S_8017121C_9 *target_coords;
     s16 *direction_table;
-    register s32 coord_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *tracked_target;
+    s32 delta_x;
+    s32 delta_z;
+    s32 fallback_x;
+    s32 fallback_y;
     u32 untracked_mask;
     u32 target_flags;
-    u32 x_table_addr;
     s32 effect_x;
     s16 *x_entry;
     s32 x_offset;
@@ -122,7 +125,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     u32 y_table_addr;
     s16 *y_entry;
     s32 y_offset;
-    s32 y_delta;
+    s32 z_delta;
     s32 effect_z;
     s32 grid_x_bits;
     s32 grid_axis;
@@ -188,37 +191,40 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
             ((S_8017121C_0 *)effect_state)->unk_5C = 0;
             ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
-            x_table_addr = ((u16)target->facing);
-            coord_delta = (s32)(target->target);
+            grid_axis = ((u16)target->facing);
+            tracked_target = target->target;
             effect_x = coords->unk_02.u;
-            x_table_addr = (x_table_addr >> 7) & 0x1C;
-            x_table_addr += (u32)direction_table;
-            x_entry = (s16 *)x_table_addr;
-            target_coords = ((S_8017121C_8_pre *)(void *)coord_delta)[-1].unk_00;
+            grid_axis = (u32)grid_axis >> 7;
+            grid_axis &= 0x1C;
+            grid_axis += (u32)direction_table;
+            x_entry = (s16 *)grid_axis;
+            target_coords = ((S_8017121C_8_pre *)tracked_target)[-1].unk_00;
             x_offset = *x_entry;
             target_x = target_coords->unk_02;
             x_offset <<= 4;
-            coord_delta = target_x - effect_x;
-            coord_delta -= x_offset;
-            ((S_8017121C_0 *)effect_state)->unk_5A = coord_delta / 2;
+            delta_x = target_x - effect_x;
+            delta_x -= x_offset;
+            ((S_8017121C_0 *)effect_state)->unk_5A = delta_x / 2;
 
             y_table_addr = ((u16)target->facing);
-            y_delta = target_coords->unk_06;
+            centered_coord = target_coords->unk_06;
             effect_z = coords->unk_06.u;
             y_table_addr = (y_table_addr >> 7) & 0x1C;
             y_table_addr += (u32)direction_table;
             y_entry = (s16 *)y_table_addr;
             y_offset = y_entry[1];
-            y_delta = y_delta - effect_z;
+            centered_coord = centered_coord - effect_z;
             y_offset <<= 4;
-            y_delta -= y_offset;
-            ((S_8017121C_0 *)effect_state)->unk_5E = y_delta / 2;
+            centered_coord -= y_offset;
+            centered_coord += (u32)centered_coord >> 31;
+            centered_coord >>= 1;
+            ((S_8017121C_0 *)effect_state)->unk_5E = centered_coord;
 
             effect_z = coords->unk_0A.u;
-            y_offset = target_coords->unk_0A - effect_z;
-            coord_delta = y_offset;
-            coord_delta -= D_800DDC40[((S_8017121C_10 *)(target->target))->unk_13] >> 1;
-            ((S_8017121C_0 *)effect_state)->unk_62 = coord_delta / 2;
+            z_delta = target_coords->unk_0A - effect_z;
+            delta_z = z_delta;
+            delta_z -= D_800DDC40[((S_8017121C_10 *)(target->target))->unk_13] >> 1;
+            ((S_8017121C_0 *)effect_state)->unk_62 = delta_z / 2;
             return;
         }
 
@@ -245,14 +251,14 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     scaled_x >>= 10;
     centered_coord -= 0x20;
 
-    coord_delta = scaled_x - centered_coord;
-    ((S_8017121C_0 *)effect_state)->unk_5A = coord_delta / 2;
+    fallback_x = scaled_x - centered_coord;
+    ((S_8017121C_0 *)effect_state)->unk_5A = fallback_x / 2;
     centered_coord = coords->unk_06.u;
     scaled_y = (grid_y << 16) >> 10;
     ((S_8017121C_0 *)effect_state)->unk_62 = 0;
     centered_coord -= 0x20;
-    coord_delta = scaled_y - centered_coord;
-    ((S_8017121C_0 *)effect_state)->unk_5E = coord_delta / 2;
+    fallback_y = scaled_y - centered_coord;
+    ((S_8017121C_0 *)effect_state)->unk_5E = fallback_y / 2;
 }
 
 /* MECHANISM: The 0x38 frame and guarded register live ranges preserve the retail prologue, held bases, and table pipelines.
