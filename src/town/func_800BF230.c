@@ -30,7 +30,7 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
     s16 *x_steps;
     s16 *y_steps;
     s16 *step_y;
-    register s16 *step_x;
+    s16 *step_x;
     s16 *probe_x;
     s32 state;
     u16 timer;
@@ -95,10 +95,8 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
                 }
             }
             walk_ticks = 0x40;
-            step_x = dirStepX;
-            step_x = (s16 *)((u8 *)step_x + step_offset);
-            step_y = dirStepY;
-            step_y = (s16 *)((u8 *)step_y + step_offset);
+            step_x = (s16 *)((u8 *)dirStepX + step_offset);
+            step_y = (s16 *)((u8 *)dirStepY + step_offset);
             F_U16(actor, 0x6C) = walk_ticks;
             F_S16(actor, 0xA2) = (u16)F_S16(actor, 0xA2) + (u16)*step_x;
             F_S16(actor, 0xA0) = (u16)F_S16(actor, 0xA0) + (u16)*step_y;

@@ -31,15 +31,14 @@ typedef struct S_800AE324_1 {
 
 /* Create an object and initialize its state, releasing the state if setup fails. */
 s32 func_800AE324(s32 selector) {
-    register s32 object_selector = selector;
     void *object;
     S_800AE324_0 *state;
     void *initializer;
     s32 count;
     s32 result;
 
-    if (object_selector != 0) {
-        object = func_8003FD64(0, object_selector);
+    if (selector != 0) {
+        object = func_8003FD64(0, selector);
     } else {
         object = func_8003FC64(0);
     }
@@ -48,11 +47,9 @@ s32 func_800AE324(s32 selector) {
         initializer = (void *)0x8001029C;
         state = (u8 *)object + 0x20;
         state->unk_20 = initializer;
-        do {
-            state->unk_1C = func_800B0718();
-        } while (0);
+        state->unk_1C = func_800B0718();
+        state->unk_74 = selector;
         count = state->unk_1C;
-        state->unk_74 = object_selector;
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;
         }
