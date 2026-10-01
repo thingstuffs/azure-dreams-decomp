@@ -47,8 +47,6 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
     s16 ticks_left;
     u16 state;
 
-    ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     child = obj->child;
     motion->x += motion->dx;
@@ -65,7 +63,7 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
         s32 y;
         u16 score;
         s16 signed_score;
-        s32 next_timer;
+        s32 next_state;
 
         if (motion->dy < 0) {
             break;
@@ -77,7 +75,8 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
                 SD_Call(0x506);
             }
             child->flags |= 1;
-            goto set_state_ff;
+            obj->state = 0xFF;
+            return;
         }
         if (y <= (s32)0xFFA00000) {
             break;
@@ -98,7 +97,7 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
         score = *(volatile u16 *)&child->count;
         if (signed_score < 9999) {
             if (obj->state != 0) {
-                next_timer = 8;
+                obj->timer = 8;
                 goto store_timer;
             }
             score++;
@@ -106,15 +105,16 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
             if ((D_800135C2[0] << 16) < (score << 16)) {
                 D_800135C2[0] = score;
             }
-        }
-        next_timer = obj->state;
-        if (next_timer != 0) {
-            next_timer = 8;
+            next_state = obj->state;
         } else {
-            next_timer = 4;
+            next_state = obj->state;
+        }
+        if (next_state != 0) {
+            obj->timer = 8;
+        } else {
+            obj->timer = 4;
         }
 store_timer:
-        obj->timer = next_timer;
         do {
             func_80093CEC(D_800D0138);
         } while (0);
@@ -142,7 +142,8 @@ store_timer:
         SD_Call(0x525);
         obj->timer = 6;
         motion->dx = motion->dy = motion->dz;
-        goto set_state_ff;
+        obj->state = 0xFF;
+        return;
 
     case 0x20:
         if ((ticks_left << 16) > 0) {
@@ -176,18 +177,19 @@ store_timer:
 
         if (*(s16 *)0x800135C2 == child->count) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
-        } else {
-            func_8003F540(0, 0x2C3D, 0, 0x01000290);
+            SD_Call(0x300);
+            state = obj->state + 1;
+            obj->timer = 7;
+            obj->state = state;
+            return;
         }
+        func_8003F540(0, 0x2C3D, 0, 0x01000290);
         SD_Call(0x300);
-        state = obj->state;
+        state = obj->state + 1;
         obj->timer = 7;
-        obj->state = state + 1;
+        obj->state = state;
         return;
     }
-
-        obj->state = state + 1;
-        return;
 
     case 0x42:
     {
@@ -204,13 +206,10 @@ store_timer:
                 break;
             }
             obj->timer = 4;
-            goto set_state_ff;
+            obj->state = 0xFF;
+            return;
         }
     }
-
-set_state_ff:
-        obj->state = 0xFF;
-        return;
 
     case 0xFF:
     {
