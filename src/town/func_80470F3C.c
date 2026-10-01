@@ -10,14 +10,14 @@ extern u8 D_8001B1C0[];
 extern u8 D_8001B218[];
 
 /* Builds a terminated record list with an optional entry and flags checked records. */
-void func_80017F3C(void *unused)
+u8 *func_80017F3C(void *unused)
 {
     s32 record_count;
     s32 record_id;
     s32 checked_count;
     s32 plain_count;
     s32 checked_tag;
-    s32 plain_tag;
+    u32 plain_tag;
     register u8 *seed_record;
     register u8 *records;
     u8 *optional_record;
@@ -26,10 +26,7 @@ void func_80017F3C(void *unused)
     u8 *plain_base;
     u8 *plain_record;
     u8 *tail_base;
-    u32 tail_page;
-    register u32 tail_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 end_offset;
-    u8 *tail_record;
     u8 *end_record;
 
     records = D_8001B218;
@@ -78,21 +75,17 @@ loop_1:
         goto loop_1;
 
     record_count = plain_count;
-    tail_offset = plain_count * 4;
-#ifdef NON_MATCHING
-    tail_page = (u32)(D_8001B218 + 0x4DE8);
-#else
-#endif
+    plain_tag = plain_count * 4;
     record_count++;
     tail_base = D_8001B218;
-    tail_record = (u8 *)(tail_offset + (u32)tail_base);
-    ASM_KEEP_NV(tail_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    plain_tag += (u32)tail_base;
     end_record = (u8 *)0x18;
-    tail_record[1] = (s32)end_record;
+    ((u8 *)plain_tag)[1] = (s32)end_record;
     end_record = (u8 *)0x20;
-    tail_record[0] = (s32)end_record;
+    ((u8 *)plain_tag)[0] = (s32)end_record;
     end_offset = record_count * 4;
     end_record = (u8 *)(end_offset + (u32)tail_base);
     end_record[1] = 0;
     end_record[0] = 0;
+    return tail_base;
 }

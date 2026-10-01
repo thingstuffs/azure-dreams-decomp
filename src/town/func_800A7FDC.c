@@ -19,7 +19,6 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
     s32 direction;
     s32 current_angle;
     s32 target_angle;
-    s32 turn_step;
 
     transform_arg = transform;
     input_state = &gameWork;
@@ -32,26 +31,18 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle -= 0x200;
-            turn_step = 0x200;
+            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)&D_800A5A98 && (input_state->buttons & 0x8000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle += 0x200;
-            turn_step = 0x200;
+            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
         } else {
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle = *(s16 *)((u8 *)entity + 0x10);
-            ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            turn_step = 0x200;
+            *(s16 *)((u8 *)entity + 0x18) = func_80094AA0(current_angle, target_angle, 0x200);
         }
     }
-    {
-        s16 next_angle;
-
-        next_angle = func_80094AA0(current_angle, target_angle, turn_step);
-        *(s16 *)((u8 *)entity + 0x18) = next_angle;
-    }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     direction = func_80095360(*(s16 *)((u8 *)entity + 0x18));
     if (*(s16 *)((u8 *)entity + 0x12) != direction) {
         func_800489F4(sprite,

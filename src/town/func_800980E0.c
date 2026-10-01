@@ -39,22 +39,25 @@ s32 func_80095840(void *destination, void *source)
 {
     S_80095840_0 *result;
     void *candidates;
-    register s32 selection ASM_REG("$2");
+    s32 selection;
     s32 offset;
+    s32 initial_angle;
     u8 entry_kind;
     register void *entry ASM_REG("$6");
 
     result = destination;
     candidates = source;
-    offset = result->unk_10;
-    selection = offset + 0x100;
+    initial_angle = result->unk_10;
+    selection = initial_angle + 0x100;
     if (selection >= 0) {
         selection >>= 7;
+        offset = 0x800D0000;
     } else {
-        selection = (offset + 0x2FF) >> 7;
+        selection = (initial_angle + 0x2FF) >> 7;
+        offset = 0x800D0000;
     }
 
-    offset = (s32)D_800D0484;
+    offset += 0x484;
     selection &= 0x1C;
     selection += offset;
     offset = *(s32 *)selection;

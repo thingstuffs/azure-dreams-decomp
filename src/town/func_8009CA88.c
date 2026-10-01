@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
@@ -36,11 +37,10 @@ extern M2C_UNK D_80099C18;
 /* Set travel timing from distance and speed, or snap motion to the destination. */
 void func_8009A1E8(void *actor, void *motion, M2C_UNK context)
 {
-    unsigned int modifier_bits;
     s32 base_ticks;
     s32 scaled_ticks;
     s32 distance;
-    register s32 speed_modifier ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 speed_modifier;
     s32 modifier_magnitude;
     s8 *movement_state;
     *(((*((s32 *) (((s8 *) actor) + 0x40))) * 8) + ((u8 *)D_80082660)) = 0;
@@ -67,14 +67,7 @@ void func_8009A1E8(void *actor, void *motion, M2C_UNK context)
         return;
     }
     if (speed_modifier < 0) {
-        ASM_KEEP(speed_modifier);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        modifier_bits = speed_modifier;
-        if (speed_modifier < 0) {
-            modifier_magnitude = 0 - modifier_bits;
-        }
-        else {
-            modifier_magnitude = modifier_bits;
-        }
+        modifier_magnitude = abs(speed_modifier);
         scaled_ticks = base_ticks * (modifier_magnitude + 0x10);
         if (scaled_ticks < 0) {
             scaled_ticks += 0xF;
