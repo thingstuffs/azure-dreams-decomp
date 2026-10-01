@@ -21,7 +21,6 @@ UA32 *func_80018B64(UA32 *buffer)
     u8 *state;
     u8 y;
     u8 x;
-    u8 *grid_row;
 
     result = buffer;
     global_page = (u8 *)0x80010000;
@@ -40,9 +39,8 @@ loop_0:
         {
             *(UA32 *)write_ptr = **entry_ptr;
             y = write_ptr[1];
-            grid_row = (u8 *)((u32)(y * 0x14) + (u32)grid_rows);
             x = write_ptr[0];
-            if (*(s16 *)(*(u8 **)(grid_row + 0xC) + (x * 0x14) + 0x12) == 0) {
+            if (*(s16 *)(*(u8 **)(grid_rows + y * 0x14 + 0xC) + (x * 0x14) + 0x12) == 0) {
                 write_ptr[3] |= 0x80;
             }
             entry_ptr++;

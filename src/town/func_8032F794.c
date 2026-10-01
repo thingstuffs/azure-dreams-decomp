@@ -25,7 +25,6 @@ typedef struct S_80019F94_0 {
 s32 func_80019F94(void *context) {
     S_80019F94_0 *scan;
     M2C_UNK *flag_page;
-    s32 entry_offset;
     s32 entry_index;
 
     scan = context;
@@ -35,9 +34,8 @@ s32 func_80019F94(void *context) {
         flag_page[-3874] = 0;
         entry_index = 0;
         for (;;) {
-            entry_offset = entry_index * 0x10;
-            if ((func_8001ADE0(((S_80019F94_1 *)(entry_offset + scan->unk_10))->unk_0C) != 0) ||
-                (*(M2C_CALLBACK *)(entry_offset + scan->unk_10))(scan, entry_index) != 0) {
+            if ((func_8001ADE0(((S_80019F94_1 *)(scan->unk_10 + entry_index * 0x10))->unk_0C) != 0) ||
+                (*(M2C_CALLBACK *)(scan->unk_10 + entry_index * 0x10))(scan, entry_index) != 0) {
                 entry_index++;
                 continue;
             }
