@@ -198,11 +198,11 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
 
         case 9:
             if (((S_80170E5C_1 *)status)->unk_1C & 0x400) {
-                register s32 movement_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 movement_flags;
 
                 movement_flags = ((S_80170E5C_1 *)status)->unk_14;
 
-                if (movement_flags >= 0) {
+                if (!(movement_flags & 0x80000000)) {
                     ((S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
                     ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30() & 7) << 9;
                 }
