@@ -88,7 +88,6 @@ extern Data12 D_80173B4C;
 void func_8016E4E8(void *animation, s32 *origin, void *color)
 {
     s32 bottom_y;
-    register u16 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 tick_count;
     s32 frame_count;
     register s32 color_index;
@@ -173,9 +172,10 @@ outer_loop:
         func_8004491C(object, D_8016E450);
 
         effect = ((S_8016E4E8_3 *)object)->unk_0C;
-        effect_flags = ((S_8016E4E8_4 *)effect)->unk_14;
+        state = ((S_8016E4E8_4 *)effect)->unk_14;
         ((S_8016E4E8_4 *)effect)->unk_10 = 0x20;
-        ((S_8016E4E8_4 *)effect)->unk_14 = effect_flags | 0xC;
+        state |= 0xC;
+        ((S_8016E4E8_4 *)effect)->unk_14 = state;
 
         position = ((S_8016E4E8_3 *)object)->unk_08;
         position[0] = origin[0];
