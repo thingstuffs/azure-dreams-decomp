@@ -1,3 +1,44 @@
+# Handover (2026-10-01 ~20:30, round 85 in progress: Opus multi-pass lanes, rule harvest, dbr tool) - start here
+
+**658 pins / 196 rows** (1,201 / 360 at round-85 start). The goal from the owner (10-01) is to drive asm pins to 0 with all tiers.
+**What paid this round:**
+- Opus general and second-pass lanes, 5-6 rows each, briefs led by the new paragraphs: about 1-3 rows per lane, more on first touch.
+- sol 6.1 current-text waves on 1-3-pin rows.
+- Fable mechanism lanes: surviving copy, birthing boost, regequiv.
+- Structural fixes: the w_8005EDA0 SLUS rodata owner, the 804FE77C row split (TOWN sector leftover + DUNGEON header), and 11 computed-goto rows made real switches with their tables at the retail address (tptab step A).
+
+**New rules (tools/learnings "Round 85" sections + tools/lanes/brief_paragraphs):**
+- shared_global: host a value in another block's variable so it becomes a global allocno; cdk local-alloc sorts a block's first three quantities by slot.
+- copy_host: M1 0/1-flag branch, M2 reload_cse read-back, M3 live after use.
+- early_arg, call_arity (now also real callee return types, e.g. bzero void*), narrow_copy (with the loop-tail shadow copy).
+- one_trip, with the for-loop VTOP note deciding reorg's prediction.
+- dslot: the EQ not-taken pattern.
+
+**New kit tools:**
+- tools/lanes/lanekit/counts.py: reg_n_sets at flow/combine, plus the sched1 boosted insns.
+- tools/lanes/lanekit/dbr.py (also `why.py --pass dbr`): gdb-traced reorg, each candidate and its reason, plus a DECIDING line.
+- alloc_sim and lreg_explain now support the egcs cells.
+
+**OWNER DECISIONS PENDING (work/native_lane/_landq/handover_todo.txt has the detail):**
+1. Form R (re-read an unchanged field after a store through the same base as a no-code second set): 818E6800 3->1 is held. If accepted, add r85_fable_birth/paragraph.md to the briefs; R-form candidates are 80A20A28, 81912154, 800CDFD8, 80098520, w_80048B8C, 818F2800 and 8181214C. Form S (same-value re-copy, 81941338) is held as a crutch.
+2. 81084D04 0-pin text with a dead pre-loop store (r85_opus_j1 cand/b84_REJ_dxboth.c).
+3. maspsx lo-fold guard (r85_opus_lofold: 4-step plan, 8008F814 2->1 plus a crutch cell retired).
+4. tptab step B "rodata-first owner" for single-function DUNGEON composite modules (r85_opus_tptab/LANDING.md; 5 rows now, 10 later).
+5. Spellings to eyeball (landed): 81845068 (store moved into an existing do-while(0)), 808135E0 (written-out setaddr mask), 800B39E4 (scratch pointer re-set at the loop top).
+
+**Remaining families:**
+- Birthing boost: about 17 rows; most need form R or a natural second set.
+- Opaque page base: 81329AC4, 813274E4, 818FECCC.
+- Register-priority hairs: alloc_need names the inequality on each.
+- Delay-slot rows: 8009CCC4, 800C379C.
+- Big rows: 80DB9000 20, 800C4A80 16, 800C9858 15, 8187A9A8 13, 802835B8 13, 800CA184 13, 800AFA68 12, 8180E7F4 11.
+
+**Running at writing:** r85_sol61_w1-w16 (aq_watch auto-lands).
+**Landing:**
+- Runner queue: work/native_lane/_landq/land_queue.txt (`tag|lane|pin-or-switch|what`).
+- Cell moves: c8_chain2.sh.
+- Bespoke: work/native_lane/_r84/land_rodata_eda0.sh and land_split77c.sh are the patterns for patch-plus-gate landings.
+
 # Handover (2026-10-01 ~09:00, round 84 CLOSED; round 85 sol 6.1 wave running) - start here
 
 **1,201 pins / 360 rows** (1,483 / 487 at round-84 pickup: -282). maspsx_d3 applied as reviewed (587652d78: behind
