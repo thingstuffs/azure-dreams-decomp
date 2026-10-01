@@ -101,15 +101,14 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
                         ASM_SET(offset_work);
-                        coord_or_height = (s32)((u8 *)D_800DCEAC + step_offset);
-                        ASM_KEEP_NV(coord_or_height);
-                        offset_work = (s32)((u8 *)D_800DCEBC + step_offset);
-                        direction_or_x = actor->x;
-                        tile_coord = actor->y;
-                        coord_or_height = *(u16 *)coord_or_height;
-                        offset_work = *(u16 *)offset_work;
-                        target_x = coord_or_height + coord_work;
-                        coord_work = offset_work + center_y;
+                        {
+                            u16 *pa = (u16 *)((u8 *)D_800DCEAC + step_offset);
+                            u16 *pb = (u16 *)((u8 *)D_800DCEBC + step_offset);
+                            direction_or_x = actor->x;
+                            tile_coord = actor->y;
+                            target_x = *pa + coord_work;
+                            coord_work = *pb + center_y;
+                        }
                         func_8009A350(direction_or_x, tile_coord, y_or_direction, (u16 *)collision_out);
                         if ((collision.value & 0x8002) != 0) {
                             result = 0;
