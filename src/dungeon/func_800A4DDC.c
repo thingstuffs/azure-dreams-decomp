@@ -7,15 +7,16 @@ extern void func_800A1B44(s32, s32);
 
 /* Updates the default or linked state and dispatches action (3, 6). */
 void func_800AA53C(u8 *context) {
-    u8 *state;
-
     if ((context == 0) || (context[0x13] == 0)) {
-        state = ((u8 *)(&D_80082E80));
-        state[0x26] = func_8009FB34(state[0x24], state[0x25]);
+        TileObject *state = &D_80082E80;
+
+        state->unk_026 = func_8009FB34(state->tileX, state->tileY);
         func_800A1B44(3, 6);
         return;
+    } else {
+        TileObject *state = *(TileObject **)(context - 0x14);
+
+        state->unk_026 = func_8009FB34(state->tileX, state->tileY);
+        func_800A19E4(state, context, 3, 6, context + 0x9C);
     }
-    state = *(u8 **)(context - 0x14);
-    state[0x26] = func_8009FB34(state[0x24], state[0x25]);
-    func_800A19E4(state, context, 3, 6, context + 0x9C);
 }

@@ -20,22 +20,18 @@ extern u8 D_80111FB0[8];
 /* Advances a timed color fade and sets completion flags when it finishes. */
 void func_800BC290(void *fade_state, s32 unused, void *visual)
 {
-    s16 state;
     s32 ticks_left;
-    u16 next_state;
 
-    state = ((S_800BC290_0 *)fade_state)->unk_00.s;
     ticks_left = ((S_800BC290_0 *)fade_state)->unk_02.u - 1;
     ((S_800BC290_0 *)fade_state)->unk_02.u = ticks_left;
 
-    switch (state) {
+    switch (((S_800BC290_0 *)fade_state)->unk_00.s) {
     case 0:
         if ((ticks_left << 16) <= 0) {
             ((S_800BC290_1 *)visual)->unk_14 = 12;
             ((S_800BC290_1 *)visual)->unk_0C.s32 = 0xC0C0C0;
-            next_state = ((S_800BC290_0 *)fade_state)->unk_00.u;
             ((S_800BC290_0 *)fade_state)->unk_02.u = 12;
-            ((S_800BC290_0 *)fade_state)->unk_00.u = next_state + 1;
+            ((S_800BC290_0 *)fade_state)->unk_00.u++;
         }
         break;
 
@@ -47,15 +43,12 @@ void func_800BC290(void *fade_state, s32 unused, void *visual)
         if (((S_800BC290_1 *)visual)->unk_0C.u8 >= 0x10U) {
             color = ((S_800BC290_1 *)visual)->unk_0C.s32;
             color_step = 0xFFEFEFF0;
-            do {
-                color = color + color_step;
-            } while (0);
+            color = color + color_step;
             ((S_800BC290_1 *)visual)->unk_0C.s32 = color;
         }
         if (((S_800BC290_0 *)fade_state)->unk_02.s <= 0) {
             func_8004E994(D_80111FB0);
-            next_state = ((S_800BC290_0 *)fade_state)->unk_00.u;
-            ((S_800BC290_0 *)fade_state)->unk_00.u = next_state + 1;
+            ((S_800BC290_0 *)fade_state)->unk_00.u++;
         }
         break;
     }
