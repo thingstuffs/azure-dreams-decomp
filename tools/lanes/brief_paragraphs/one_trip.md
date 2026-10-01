@@ -9,3 +9,5 @@ Calibration (r85_opus_ot2, 7 rows): most remaining one-trip blocks are LOAD-BEAR
 exact on 5 of 7): they stand for a cse block end (cse.c 8102 ends at the loop note - the copy-head rule), a MEM_IN_STRUCT
 dependence (spell the store as a struct field), or a sched1 order (birthing boost / single-set locals). Replace the
 block with the C shape it stands for, not with nothing.
+
+Loop form decides delay slots (r85_opus_p3): if a fence sits near the last test of a `do { ... i++; if (i >= N) break; } while (1)` body, try a `for (; i < N; i++)` loop with the entry zero written once at the loop head. Only the for form puts NOTE_INSN_LOOP_VTOP right after the beq's target label. cdk reorg.c mostly_true_jump (1403-1411) then predicts the jump taken, and the delay slot takes the increment from the target. Check sibling rows for a for-loop shape. Exact on 810ADDF4.
