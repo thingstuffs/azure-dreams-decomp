@@ -124,7 +124,7 @@ extern u8 D_801748F0[];
 extern u8 D_801748F8[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
-void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *entity) {
+void func_81008664(S_func_81008664_1 *actor, S_func_81008664_5 *motion, S_func_81008664_4 *sprite, void *entity) {
     S_func_81008664_5 *partner_motion;
     s16 saved_x;
     s16 saved_y;
@@ -142,7 +142,7 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     s32 direction;
     s32 tile_blocked;
     s32 reverse_angle;
-    register s32 attempts ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 attempts;
     u16 partner_height;
     u32 state;
     u32 angle;
@@ -168,7 +168,7 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     u32 saved_handler;
     M2C_UNK *next_handler;
     u32 active_count;
-    register u32 height_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 height_value;
     u32 height_offset;
     s32 entity_height;
     u32 height_adjust;
@@ -181,11 +181,8 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
     s16 *angle_or_count;
     void *tile_x_ptr;
     S_func_81008664_4 *partner_sprite;
-    register S_func_81008664_2 *partner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register S_func_81008664_11 *partner_actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_func_81008664_1 *actor = actor_arg;
-    S_func_81008664_5 *motion = motion_arg;
-    register S_func_81008664_4 *sprite = sprite_arg;
+    S_func_81008664_2 *partner;
+    S_func_81008664_11 *partner_actor;
 
     partner = actor->unk_A8;
     state = actor->unk_9B;
@@ -290,12 +287,9 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         launch_ticks = (u16) actor->unk_96 - 1;
         actor->unk_96 = launch_ticks;
         if (launch_ticks == 8) {
-            height_value = (u32) D_800DDC40;
-            height_offset = partner->unk_13;
-            height_offset += height_value;
+            height_offset = D_800DDC40[partner->unk_13];
             height_value = ((S_func_81008664_12 *) partner_motion)->unk_0A;
             entity_height = (*(s16 *)((u8 *)entity + 0x88));
-            height_offset = ((S_func_81008664_9 *) height_offset)->unk_00;
             motion->unk_14 = (s32) ((s32) ((((height_value - entity_height) - height_offset) + 0x10)
                 << 0x10) / launch_ticks);
             partner_actor->unk_90.unk_92.unk_92 = (u16) (partner_actor->unk_90.unk_92.unk_92 + partner->unk_88);
@@ -435,28 +429,13 @@ place_actors:
             s32 return_step_offset;
 
             angle_or_duration = ((S_func_81008664_3 *)entity)->unk_2A;
-            height_value = (u32)(8);
             motion->unk_14 = 0;
-            actor->unk_96 = (s32)height_value;
-            height_value = (u32)((u32) ((u8 *)dirStepX));
+            actor->unk_96 = 8;
             direction = angle_or_duration >> 8;
             return_step_offset = direction & 0xE;
-            height_value = (u32)(return_step_offset + (s32)height_value);
-            direction = (u32)(((S_func_81008664_10 *) (s32)height_value)->unk_00);
-            height_value = direction;
             angle_or_duration = 8;
-            height_value = (u32)(((s32)height_value) << (0x16));
-            height_value = (u32)(0 - (s32)height_value);
-            height_value = (u32)(((s32)height_value) / ((s32) angle_or_duration));
-            motion->unk_0C = (s32)height_value;
-            height_value = (u32)((u32) ((u8 *)dirStepY));
-            return_step_offset += (s32)height_value;
-            height_value = (u32)(((S_func_81008664_10 *) return_step_offset)->unk_00);
-            angle_or_duration = actor->unk_96;
-            height_value = (u32)(((s32)height_value) << (0x16));
-            height_value = (u32)(0 - (s32)height_value);
-            height_value = (u32)(((s32)height_value) / ((s32) angle_or_duration));
-            motion->unk_10 = (s32)height_value;
+            motion->unk_0C = -(((S_func_81008664_10 *)((u8 *)dirStepX + return_step_offset))->unk_00 << 0x16) / angle_or_duration;
+            motion->unk_10 = -(((S_func_81008664_10 *)((u8 *)dirStepY + return_step_offset))->unk_00 << 0x16) / actor->unk_96;
             partner_motion->unk_14 = 0;
             motion->unk_14 = 0;
             actor->unk_9B = actor->unk_9B + 1;

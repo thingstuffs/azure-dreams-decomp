@@ -31,8 +31,7 @@ void func_800260DC(u8 *obj, u8 *coords_out, u8 *rgb)
     s16 *y_adjust;
     s32 history_index;
     s32 history_offset;
-    register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 frames_left;
+    s32 direction_offset;
     s32 shade;
     u8 *linked_rgb;
     s32 raw_shade;
@@ -79,9 +78,8 @@ copy_history:
                 s32 x_current;
 
                 x_target = (room->tileX + *x_adjust) << 6;
-                frames_left = S16_AT(obj, 0x66);
                 x_current = S16_AT(obj, 0x0E) - 0x20;
-                U16_AT(obj, 0x0E) += (x_target - x_current) / frames_left;
+                U16_AT(obj, 0x0E) += (x_target - x_current) / S16_AT(obj, 0x66);
             }
             y_adjust = (s16 *)(((u8 *)dirStepY) + direction_offset);
             {
@@ -90,11 +88,11 @@ copy_history:
 
                 y_target = (room->tileY + *y_adjust) << 6;
                 y_current = S16_AT(obj, 0x12) - 0x20;
-                U16_AT(obj, 0x12) += (y_target - y_current) / frames_left;
+                U16_AT(obj, 0x12) += (y_target - y_current) / S16_AT(obj, 0x66);
             }
             S32_AT(obj, 0x14) +=
                 (D_80083780.z.v -
-                 (func_800644B8(frames_left * 42, frames_left) << 12) -
+                 (func_800644B8(S16_AT(obj, 0x66) * 42, S16_AT(obj, 0x66)) << 12) -
                  S32_AT(obj, 0x14)) / S16_AT(obj, 0x66);
 
             if (S16_AT(obj, 0x6A) < 0x80) {

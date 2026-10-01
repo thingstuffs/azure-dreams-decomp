@@ -77,19 +77,14 @@ void func_801652FC(
     s32 offset_y, s32 offset_z)
 {
     S_801652FC_2 *source_obj = source;
-    s32 saved_duration = duration;
     s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
     void *object;
     void *state;
-    register s32 duration_s16;
-    s32 divisor;
     s32 calculation;
-    s16 initial_divisor;
-    s32 numerator_x;
     s32 quotient_x;
-    register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 quotient_y;
     s32 quotient_z;
     s32 rounded_x;
     s32 rounded_z;
@@ -110,25 +105,15 @@ void func_801652FC(
         ((S_801652FC_0 *)state)->unk_44 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_06;
         ((S_801652FC_0 *)state)->unk_46 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_0A;
 
-        saved_duration = (s16)saved_duration;
-        duration_s16 = (s16)saved_duration;
-        initial_divisor = duration_s16;
-        divisor = initial_divisor;
-        numerator_x = -(saved_offset_x << 16);
-        if (duration_s16 < 0) {
-            divisor = duration_s16 + 7;
-        }
-        divisor >>= 3;
-
-        quotient_x = numerator_x / divisor;
+        quotient_x = -(saved_offset_x << 16) / ((s16)duration / 8);
         calculation = quotient_x / 2;
         ((S_801652FC_0 *)state)->unk_4C = calculation;
         calculation = -(saved_offset_y << 16);
-        quotient_y = calculation / divisor;
+        quotient_y = calculation / ((s16)duration / 8);
         calculation = quotient_y / 2;
         ((S_801652FC_0 *)state)->unk_50 = calculation;
         calculation = -(saved_offset_z << 16);
-        quotient_z = calculation / divisor;
+        quotient_z = calculation / ((s16)duration / 8);
         rounded_x = quotient_z / 2;
         ((S_801652FC_0 *)state)->unk_54 = rounded_x;
 
