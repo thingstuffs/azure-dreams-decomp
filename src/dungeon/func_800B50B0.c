@@ -63,7 +63,7 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
     register s32 direction;
     s32 mode;
     s32 entry_value;
-    s32 mode_index;
+    s16 mode_index;
     s32 forward_steps;
     s32 adjacent_steps;
     u32 tile_z;

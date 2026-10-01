@@ -37,22 +37,13 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         motion->unk6A++;
     }
 
-    initial_dx = motion->unk6C - 1;
-    initial_dy = initial_dx;
-    timer = initial_dy;
+    timer = motion->unk6C - 1;
+    initial_dx = timer;
+    initial_dy = timer;
     motion->unk6C = timer;
     if ((timer << 0x10) > 0) {
-        s32 pos_x = obj->unk2;
-        s32 delta_x = obj->unkE;
-        s32 pos_y = obj->unk6;
-        s32 delta_y = obj->unk12;
-
-        do {
-            pos_x += delta_x;
-        } while (0);
-        pos_y += delta_y;
-        obj->unk2 = pos_x;
-        obj->unk6 = pos_y;
+        obj->unk2 += obj->unkE;
+        obj->unk6 += obj->unk12;
     } else {
         motion->unk6A = 0;
         motion->unk68++;

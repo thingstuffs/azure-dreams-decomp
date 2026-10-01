@@ -30,6 +30,7 @@ extern s16 func_800B627C(s32, s32, s16, s32);
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
     u8 *entry;
+    u8 *tab;
     int state = actor->state;
     s32 target = target_arg;
     if (state != 1) {
@@ -45,7 +46,8 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         if ((s16) func_800A2B5C(target) != 0) {
             return;
         }
-        entry = &D_800E3648[actor->h100 * 4];
+        tab = D_800E3648;
+        entry = &tab[actor->h100 * 4];
         if (entry[0] == 0) {
             func_80096088(actor, target);
             dungeonStatus.unk_0C = 0;
