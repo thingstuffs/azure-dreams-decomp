@@ -24,14 +24,12 @@ s32 func_800210F0(void)
         if (state == 1) {
             goto state_one;
         }
-        result = 5;
-        goto done;
+        goto invalid_state;
     }
-    result = 5;
     if (state == 3) {
         goto state_three;
     }
-    goto return_result;
+    goto invalid_state;
 
 state_one:
     {
@@ -67,11 +65,11 @@ state_three:
         result = 2;
         *completion_flag = 1;
         D_800287C8 = 0;
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        goto done;
     }
 
+invalid_state:
+    result = 5;
 done:
-    return result;
-return_result:
     return result;
 }
