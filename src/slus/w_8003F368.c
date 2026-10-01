@@ -76,7 +76,7 @@ L8003F3A4:
         return 0;
     }
     {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        s32 result;
 
         if (func_8003F688((*(u8 *)((u32)D_80081452 - 1))) < 0x3C) {
             s32 sector_valid;
@@ -85,9 +85,8 @@ L8003F3A4:
             if (!sector_valid) {
                 return result;
             }
-            result = sector_pos;
             if (sector_pos > 0) {
-                return result;
+                return sector_pos;
             }
         }
         result = 0;
