@@ -20,7 +20,7 @@ typedef struct S_800165B8_1 {
     u8 pad_00[0x13];
     s8 unk_13;
     u8 pad_14[0x86];
-    s8 unk_9A;
+    u8 unk_9A;
     u8 pad_9B[0x1];
     s8 unk_9C;
     u8 pad_9D[0x5];
@@ -111,10 +111,6 @@ typedef struct S_800165B8_10 {
     u16 unk_3714;
 } S_800165B8_10;   /* base_8001 in func_800165B8 */
 
-typedef struct S_800165B8_11 {
-    u8 pad_00[0x2A3B];
-    s8 unk_2A3B;
-} S_800165B8_11;   /* final_base in func_800165B8 */
 
 
 typedef struct {
@@ -143,7 +139,7 @@ extern void func_80096088(void *, void *);
 extern s8 func_8009FB34(s32, s32, void *, u16);
 extern void func_8009D380(void);
 extern void func_800172A0(void *, s16);
-extern void func_800A6C00(void *);
+extern void *func_800A6C00(void);
 
 extern s32 D_80012090;
 extern s16 D_8008146C;
@@ -171,54 +167,47 @@ extern s32 D_800E4938[];
 
 /* Initialize the dungeon actor and its state at a position_selected starting position. */
 void func_800165B8(void) {
-    u8 *no_flags = 0;
     u8 pos_x;
     u8 pos_y;
     u16 flags;
     void *allocation;
     u8 *actor_storage;
     u8 *actor;
-    register u8 *call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    u8 *call_target;
     u8 *state;
     u8 *obj;
     u8 *entity;
     u8 *room;
     s16 first_height;
     s16 height;
-    register s16 *delta_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *delta_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s16 *delta_x;
+    u8 *delta_page;
     s16 *delta_y;
     s32 height_diff;
     s32 entry_index;
     s32 offset_index;
-    u32 entry_offset;
     s32 sample_x;
     s32 sample_y;
     s32 state_config;
-    register s32 *reverse_entries ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 *state_entries;
     u8 *table_base;
     u8 tile;
     u8 actor_x;
     u8 actor_y;
     u16 display_setting;
     s32 lift_height;
-    u8 *display_page;
     u8 *display_state;
     s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;
     u8 *defaults_page;
-    s32 status_value;
     u16 init_flags;
     s32 neutral_color;
     s32 object_color;
     s32 entity_mask;
-    s32 entity_flags;
     s32 copy_tail;
     s32 final_flags;
-    u8 *zero_arg;
 
+    table_base = (u8 *)&gameWork;
     D_800DCF5A = 1;
     allocation = func_8003FE78(0, ((u8 *)(&D_80083498)), 0x53);
     ((S_800165B8_0 *)allocation)->unk_10 = D_80089AA0;
@@ -248,16 +237,13 @@ retry_position:
         }
         call_target = actor;
         if (D_8008146C != 0x1F) {
-            entry_index = 7;
             goto initialize_position;
         }
         bind_state = (u8 *)(-0x400);
         first_height = func_800BCB04((pos_x << 6) | 0x20,
                                      (pos_y << 6) | 0x20, (s32)bind_state);
         entry_index = -1;
-        delta_page = (u8 *)0x80070000;
-        ASM_KEEP(delta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        delta_x = (s16 *)(delta_page - 0x3328);
+        delta_x = dirStepX;
         delta_y = dirStepY;
 check_neighbor:
         func_8009A350(pos_x, pos_y, (s16)entry_index, &flags);
@@ -291,7 +277,6 @@ check_neighbor:
             goto check_neighbor;
         }
         call_target = actor;
-        entry_index = 7;
         goto initialize_position;
     }
 
@@ -299,8 +284,8 @@ check_neighbor:
     pos_y = ((S_800165B8_2 *)room)->unk_12;
 position_selected:
     call_target = actor;
-    entry_index = 7;
 initialize_position:
+    entry_index = 7;
     {
         u8 setup_x;
         u8 setup_y;
@@ -330,46 +315,17 @@ initialize_position:
     func_80094988(obj, entity, actor_x, actor_y);
 
     entity_mask = 0xFFEFFFFF;
-    {
-
-        delta_page = (u8 *)((s32)((s32 *)((u8 *)&D_800E3D80)));
-        entity_flags = ((S_800165B8_5 *)entity)->unk_14;
-        reverse_entries = (s32 *)(s32)delta_page + 7;
-        entity_flags &= entity_mask;
-        ((S_800165B8_5 *)entity)->unk_14 = entity_flags;
-    }
-load_entries:
-    call_target = state;
-    bind_state = no_flags;
-    table_base = (u8 *)0x800E0000;
-    ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    table_base -= 0x2F88;
-    delta_page = (u8 *)((u32)entry_index + (u32)table_base);
-    ASM_KEEP_DEP_NV(delta_page, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_target, *delta_page, (s32)bind_state, (s32)bind_state);
-    call_target = state;
-    bind_state = (u8 *)0;
-    zero_arg = bind_state;
-    ASM_KEEP_DEP_NV(zero_arg, bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    table_base = (u8 *)0x800E0000;
-    ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    delta_page = (u8 *)(((S_800165B8_3 *)state)->unk_08);
-    table_base -= 0x2F58;
-    *reverse_entries = (s32)delta_page;
-    reverse_entries--;
-    delta_page = (u8 *)((u32)entry_index + (u32)table_base);
-    ASM_KEEP_DEP_NV(delta_page, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_target, *delta_page, (s32)bind_state, (s32)zero_arg);
-    entry_offset = (u32)entry_index << 2;
-    state_entries = D_800E3CF8;
-    *(s32 *)((u8 *)state_entries + entry_offset) = ((S_800165B8_3 *)state)->unk_08;
-    func_800489F4(state, *(&D_800DD090 + entry_index), 0, 0);
-    entry_index--;
-    *(s32 *)((u8 *)D_800E3D48 + entry_offset) = ((S_800165B8_3 *)state)->unk_08;
-    if (entry_index >= 0) {
-        goto load_entries;
-    }
-    D_800E3D18 = state_entries;
+    ((S_800165B8_5 *)entity)->unk_14 &= entity_mask;
+    do {
+        func_800489F4(state, (&D_800DD078)[entry_index], 0, 0);
+        D_800E3D80[entry_index] = ((S_800165B8_3 *)state)->unk_08;
+        func_800489F4(state, (&D_800DD0A8)[entry_index], 0, 0);
+        D_800E3CF8[entry_index] = ((S_800165B8_3 *)state)->unk_08;
+        func_800489F4(state, (&D_800DD090)[entry_index], 0, 0);
+        D_800E3D48[entry_index] = ((S_800165B8_3 *)state)->unk_08;
+        entry_index--;
+    } while (entry_index >= 0);
+    D_800E3D18 = D_800E3CF8;
 
     if ((func_80042900(entity, 0xA) << 16) != 0) {
         (*(void * *)((u8 *)state + 0x2C)) = D_800DD274;
@@ -377,28 +333,24 @@ load_entries:
             *(void **)((u8 *)D_800DD274 +
                 (((gameWork.view.viewAngle + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
-        call_target = ((u8 *)(&D_80083498));
     } else {
         func_800489F4(state, 0xB0, 0, 1);
         ((S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
-        call_target = ((u8 *)(&D_80083498));
     }
     bind_count = 1;
     bind_angle = obj + 0x2A;
     (*(s16 *)((u8 *)obj + 0x94)) = -1;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)gameWork.view.viewAngle + 0x100) & 0xE00);
-    func_800BC26C(call_target, bind_count, state + 0x2C, bind_angle);
+    func_800BC26C((u8 *)&D_80083498, bind_count, state + 0x2C, bind_angle);
     {
         s32 clear_flag_mask;
 
         clear_flag_mask = 0xFFEFFFFF;
-        call_target = obj;
-        delta_page = (u8 *)(0xFF);
-        ((S_800165B8_1 *)obj)->unk_9A = (s32)delta_page;
+        ((S_800165B8_1 *)obj)->unk_9A = 0xFF;
         ((S_800165B8_5 *)entity)->unk_1C &= clear_flag_mask;
     }
-    func_80096088(call_target, entity);
+    func_80096088(obj, entity);
     ((S_800165B8_3 *)state)->unk_14 |= 0x8000;
     defaults_page = (u8 *)0x80010000;
     for (entry_index = 0; entry_index < 2; entry_index++) {
@@ -411,15 +363,10 @@ load_entries:
 
     object_color = 0x2C808080;
     entry_index = (s32)0x80010000;
-    table_base = (u8 *)0x80080000;
-    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     delta_page = (u8 *)(((S_800165B8_1 *)obj)->unk_A2);
-    table_base += 0x3160;
     delta_page = (u8 *)(((s32)delta_page) | (0x10));
     ((S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page;
     ((S_800165B8_5 *)entity)->unk_14 |= 0x4000;
-    display_page = (u8 *)0x800E0000;
-    ASM_KEEP(display_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     bind_state = (u8 *)(0x8001020C);
     *(Copy13 *)(entity + 0x34) = *(Copy13 *)(u32)bind_state;
     ((S_800165B8_5 *)entity)->unk_42 = 0;
@@ -441,10 +388,10 @@ load_entries:
         bind_state = (u8 *)&dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
-        *(u16 *)(display_page - 0x31A0) = display_setting;
+        *(u16 *)D_800DCE60 = display_setting;
         lift_height = D_800DD26C[(s16)height_index];
         display_value = ((S_800165B8_7 *)table_base)->unk_C6;
-        display_state = display_page - 0x31A0;
+        display_state = D_800DCE60;
         ((S_800165B8_8 *)display_state)->unk_04 = 0;
         (*(u16 *)((u8 *)display_state + 2)) = display_value;
         D_800E4938[0] = 0;
@@ -469,11 +416,9 @@ load_entries:
         D_80081470 = 0;
         func_800172A0(call_target, actor_lift);
     }
-    call_target = (u8 *)0x80080000;
     init_flags = ((S_800165B8_10 *)(u8 *)entry_index)->unk_3714;
-    status_value = -0x24;
-    ((S_800165B8_11 *)call_target)->unk_2A3B = status_value;
+    D_80082A3B = -0x24;
     if (init_flags & 4) {
-        func_800A6C00(call_target);
+        func_800A6C00();
     }
 }
