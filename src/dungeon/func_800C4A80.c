@@ -61,7 +61,7 @@ s32 func_800CA1E0(u32 action_flags, S_800CA1E0_0 *position, void *volatile objec
     u32 bounds_page_2;
     s32 early_result;
     u32 scaled_y;
-    register u32 scaled_x ASM_REG("$3");
+
     s32 call_height_offset;
     register u8 *bounds ASM_REG("$6");
     u16 bounded_x;
@@ -109,16 +109,16 @@ s32 func_800CA1E0(u32 action_flags, S_800CA1E0_0 *position, void *volatile objec
     early_result = -1;
     return early_result;
 check_step:
-    scaled_x = position->unk_24.u;
+    coord_value = position->unk_24.u;
     scaled_y = position->unk_25.u;
     call_height_offset = (s32)(object);
-    scaled_x <<= 6;
-    query_arg = scaled_x >> 6;
+    coord_value <<= 6;
+    query_arg = (u32)coord_value >> 6;
     ASM_KEEP_NV(query_arg);
     scaled_y <<= 6;
     direction_arg = scaled_y >> 6;
     ASM_KEEP_NV(direction_arg);
-    target_coord = scaled_x + 0x20;
+    target_coord = coord_value + 0x20;
     height = ((S_800CA1E0_2 *)call_height_offset)->unk_88;
     center_y = scaled_y + 0x20;
     if ((func_8009A540(lookup_arg, query_arg, direction_arg, (s16) (height - entry_height_offset)) << 0x10) == 0) {
