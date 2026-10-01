@@ -114,7 +114,7 @@ void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
     u8 *entry;
     s16 saved_part_value;
     void *pin_part_a;
-    register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *pin_actor;
 
     work = 0;
     object_type = 0x112;
@@ -155,7 +155,7 @@ normal_kind:
         {
             s32 non_kind_mask;
             non_kind_mask = -4;
-            if (((spawn_flags & non_kind_mask) << 16) != 0) {
+            if (((spawn_flags = (s16)(spawn_flags & non_kind_mask)) << 16) != 0) {
                 goto normal_kind_nonzero;
             }
             if (!(((S_80FB7000_1 *)work)->unk_14 & 0x200)) {

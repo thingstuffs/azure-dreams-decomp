@@ -113,7 +113,7 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
     s16 pin_arg1;
     s16 pin_arg3;
     void *pin_part_a;
-    register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *pin_actor;
 
     work = 0;
     call_id = 0x112;
@@ -151,7 +151,7 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
         goto post_kind;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((arg0 = (s16)(arg0 & ~3)) << 16) == 0) {
             if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
                 if (func_800A6D30() & 1) {
                     ((S_80FC9000_1 *)work)->unk_1C |= 0x200;

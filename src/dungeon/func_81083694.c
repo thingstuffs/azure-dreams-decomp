@@ -57,7 +57,7 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
     u32 active_state;
     u32 idle_state;
     u8 *active_anims;
-    register u8 *next_anims ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *next_anims;
     u8 *anim_entry;
     register void *anim_sprite;
 
@@ -73,10 +73,9 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         if (F(sprite, void *, 0x2C) == &D_80175F28) {
             return;
         }
-        next_anims = &D_80175F20;
-        F(sprite, void *, 0x2C) = next_anims;
+        F(sprite, void *, 0x2C) = &D_80175F20;
         func_80047784(sprite,
-            next_anims[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+            (&D_80175F20)[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
         return;
     }
 
@@ -144,10 +143,13 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         if ((s16)func_800A1C58(stats) != 0) {
             func_800AAB10(actor, context, sprite, stats);
         }
-    }
-
     tile_index = func_8009FB34(F(sprite, u8, 0x24), F(sprite, u8, 0x25));
     F(sprite, u8, 0x26) = tile_index;
+    } else {
+    tile_index = func_8009FB34(F(sprite, u8, 0x24), F(sprite, u8, 0x25));
+    F(sprite, u8, 0x26) = tile_index;
+    }
+
     if (F(stats, s8, 0x6D) > 0) {
         if (F(stats, u32, 0x1C) & 0x20) {
             func_800A9A0C(stats);
@@ -189,10 +191,9 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
                 func_800A9A0C(stats);
                 return;
             }
-            next_anims = D_80175F10;
-            F(sprite, void *, 0x2C) = next_anims;
+            F(sprite, void *, 0x2C) = D_80175F10;
             func_80047784(sprite,
-                next_anims[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
+                D_80175F10[((gameWork.view.viewAngle + F(stats, s16, 0x2A) + 0x100) >> 9) & 7], 0);
             func_800A9A0C(stats);
             return;
 
@@ -212,13 +213,11 @@ void func_80170E94(void *actor, void *context, void *sprite, void *stats) {
         case 8:
             if (F(actor, u8, 0xAE) != 0) {
                 if (F(stats, u32, 0x1C) & 0x400) {
-                    register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    if (turn_flags >= 0) {
-                        void *random_actor = actor;
-                        void *random_context = context;
+                    s32 turn_flags = F(stats, s32, 0x14);
+                    if ((turn_flags & 0x80000000) == 0) {
                         F(stats, u32, 0x14) = (u32)turn_flags | 0x80000000;
                         F(stats, u16, 0x2A) +=
-                            (func_800A6D30(random_actor, random_context) & 7) << 9;
+                            (func_800A6D30() & 7) << 9;
                     }
                 }
                 func_80172504(actor, context, sprite, stats);
