@@ -67,8 +67,6 @@ typedef struct LargeInt {
 typedef struct StackLocals {
     Motion local;
     s16 diffs[3];
-    u16 pad;
-    u16 accum_y;
 } StackLocals;
 
 
@@ -83,9 +81,8 @@ extern void func_80024024(void *, u8, Owner *);
 
 
 /* Updates an owner-directed movement sequence and its timed action states. */
-void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
+void func_818C3B90(State *action, Motion *motion, Motion *aux_arg)
 {
-    register Motion *motion ASM_REG("$20") = motion_arg;
     Motion *aux_motion = aux_arg;
     OwnerPrefix *prefix;
     Owner *owner;
@@ -131,10 +128,11 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
 
         if (*(u16 *)action->field4 & 0x80) {
             Motion *target;
-            index = 1;
             if (owner->target != 0) {
                 s32 x_delta;
                 u8 *delta_iter;
+
+                index = 1;
 
                 target = *(Motion **)((u8 *)owner->target - 24);
                 stack.diffs[0] = x_delta = abs(target->x.h.hi - motion->x.h.hi);
@@ -166,128 +164,65 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
                     action->duration;
                 func_80024F0C(action, motion);
                 next_state = (u16)action->state + 1;
-                goto set_state;
             } else {
-                s32 grid_x;
-                register s32 x_delta ASM_REG("$4");
+                u16 path_x;
+                u16 path_y;
+                s16 grid_x;
                 s16 grid_y;
-                s16 saved_x;
-                s32 coord_aux;
-                s32 x_work;
-                register s16 *table ASM_REG("$3");
-                u8 *delta_iter;
-                register s32 table_work ASM_REG("$8");
-                s16 *table_x_entry;
-                s16 *table_y_entry;
-                u16 *update_x_entry;
-                u16 *update_y_entry;
+                u16 last_x;
+                u16 saved_y;
                 s32 probe_z;
-                s32 table_offset;
-                s16 probe_result;
+                s16 *step_y;
+                s32 floor_height;
+                s32 dest_x;
+                s32 dest_y;
 
                 index = 0;
-                table = (s16 *)prefix->lookup;
-                coord_aux = 0x80070000;
-                grid_x = ((Lookup *)table)->x;
-                ASM_KEEP(coord_aux);
-                grid_y = ((Lookup *)table)->y;
-                saved_x = grid_x;
-                stack.accum_y = grid_y;
-
-                for (; index < 8;) {
-                    s16 tile_x;
-                    s16 tile_y;
-                    s32 probe;
-
-                    tile_x = grid_x;
-                    tile_y = grid_y;
-                    probe = func_800A44E0(
-                        (tile_x << 6) & 0xFFC0,
-                        (tile_y << 6) & 0xFFC0,
-                        owner->z,
-                        (s32)((u32)(u16)action->angle << 25) >> 16);
-                    if ((s16)probe != 0) {
+                path_x = prefix->lookup->x;
+                path_y = prefix->lookup->y;
+                last_x = path_x;
+                saved_y = path_y;
+                while (index < 8) {
+                    grid_x = (s16)path_x;
+                    grid_y = (s16)path_y;
+                    if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->z,
+                            (s16)(action->angle << 9)) != 0) {
                         break;
                     }
-
-                    table_work = (s32)dirStepY - 0x10;
-                    table_offset = (s16)action->angle;
+                    position = (Motion *)&dirStepX[action->angle];
                     probe_z = (u16)owner->z;
-                    table_offset *= 2;
-                    table_x_entry = (s16 *)(table_offset + table_work);
-                    ASM_KEEP(table_x_entry);
                     probe_z -= 32;
                     probe_z = (u32)probe_z << 16;
                     probe_z >>= 16;
-                    table_work = (s32)dirStepX + 0x10;
-                    table_y_entry = (s16 *)(table_offset + table_work);
-                    ASM_KEEP(table_y_entry);
-                    probe_result = func_800BCB04(
-                        ((tile_x + *table_x_entry) * 64 + 32) & 0xFFE0,
-                        ((tile_y + *table_y_entry) * 64 + 32) & 0xFFE0,
-                        probe_z);
-                    if (probe_result >= 513 ||
-                        (s16)(probe_result - (u16)owner->z) < -63) {
+                    step_y = &dirStepY[action->angle];
+                    floor_height = func_800BCB04(((grid_x + *(s16 *)position) << 6) + 32 & 0xFFE0,
+                        ((grid_y + *step_y) << 6) + 32 & 0xFFE0, probe_z);
+                    if ((s16)floor_height >= 513 || (s16)(floor_height - owner->z) < -63) {
                         break;
                     }
-
-                    table_work = (s32)dirStepX;
-                    table = (s16 *)((s16)action->angle);
                     index++;
-                    table = (s16 *)(((s32)table) * (2));
-                    update_x_entry = (u16 *)((s32)table + table_work);
-                    table_work = (s32)dirStepY;
-                    update_y_entry = (u16 *)((s32)table + table_work);
-                    x_delta = grid_x + *update_x_entry;
-                    grid_x = x_delta;
-                    grid_y += *update_y_entry;
-                    stack.accum_y = grid_y;
-                    saved_x = x_delta;
+                    path_x += dirStepX[action->angle];
+                    path_y += dirStepY[action->angle];
+                    saved_y = path_y;
+                    last_x = path_x;
                 }
 
                 target = &stack.local;
                 index = 1;
-                x_work = (u32)saved_x << 16;
-                table = dirStepX;
-                x_work = (s32)x_work >> 10;
-                x_work += (table[action->angle] + 1) << 5;
-                target->x.h.hi = x_work;
-                x_work = (u32)x_work << 16;
-                x_work >>= 16;
-                x_delta = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
-                table = dirStepY;
-                x_delta += (table[action->angle] + 1) << 5;
-                target->y.h.hi = x_delta;
-                x_delta = (u32)x_delta << 16;
-                coord_aux = (u16)motion->z.h.hi + 32;
-                target->z.h.hi = coord_aux;
+                dest_x = ((last_x << 16) >> 10) + ((dirStepX[action->angle] + 1) << 5);
+                target->x.h.hi = dest_x;
+                dest_y = ((saved_y << 16) >> 10) + ((dirStepY[action->angle] + 1) << 5);
+                target->y.h.hi = dest_y;
+                target->z.h.hi = motion->z.h.hi + 32;
+                stack.diffs[0] = abs(target->x.h.hi - motion->x.h.hi);
+                stack.diffs[1] = abs(target->y.h.hi - motion->y.h.hi);
+                stack.diffs[2] = abs(target->z.h.hi - motion->z.h.hi);
 
-                {
-                    s32 coord;
-
-                    coord = motion->x.h.hi;
-                    x_delta = (s32)x_delta >> 16;
-                    x_work -= coord;
-                    x_work = abs(x_work);
-                    stack.diffs[0] = x_work;
-
-                    coord = motion->y.h.hi;
-                    coord_aux = (u32)coord_aux << 16;
-                    x_delta -= coord;
-                    x_delta = abs(x_delta);
-                    stack.diffs[1] = x_delta;
-
-                    coord = motion->z.h.hi;
-                    coord_aux = (s32)coord_aux >> 16;
-                    coord_aux -= coord;
-                    coord_aux = abs(coord_aux);
-                    stack.diffs[2] = coord_aux;
-                }
-
-                action->duration = x_work;
+                action->duration = stack.diffs[0];
                 do {
                     s32 signed_delta;
                     u32 delta_bits;
+                    u8 *delta_iter;
 
                     delta_iter = (u8 *)&stack.local + index * 2;
                     signed_delta = *(s16 *)(delta_iter + 24);
@@ -307,8 +242,9 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
                 motion->dz.val = (target->z.val - motion->z.val) / action->duration;
                 func_8002523C(action, motion);
                 next_state = 6;
-                goto set_state;
             }
+            action->state = next_state;
+            action->timer = 0;
         }
         break;
 
@@ -325,7 +261,8 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
     case 3:
         if (action->timer >= 12) {
             func_80024640(action, motion);
-            goto bump_state;
+            action->timer = 0;
+            action->state++;
         }
         break;
 
@@ -351,9 +288,7 @@ bump_state:
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
         if (action->timer >= action->duration) {
-            next_state = 5;
-set_state:
-            action->state = next_state;
+            action->state = 5;
             action->timer = 0;
         }
     }
