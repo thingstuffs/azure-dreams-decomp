@@ -142,7 +142,6 @@ extern s32 func_800A94A0(void *, u8 *, s32, void *);
 
 extern u8 D_800DEA68[0x20];
 extern u8 D_80170E68[0x10];
-extern void *D_80170838[];
 extern u8 D_80173EC0[0x10];
 extern u8 D_80174194[0x10];
 
@@ -198,27 +197,22 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
         s16 special_flag;
 
         if (((S_80172840_0 *)actor)->unk_1C & 0x2000) {
-            u32 kind_index = (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) - 1;
-            static void *const switch_keep[] = {
-                &&special_3, &&special_2, &&special_1, &&kind_none,
-                &&special_3, &&special_2, &&special_1
-            };
-
-            if (kind_index >= 7) {
+            switch (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) {
+            case 7:
+                is_special = 1;
+            case 3:
+                goto kind_3;
+            case 6:
+                is_special = 1;
+            case 2:
+                goto kind_2;
+            case 5:
+                is_special = 1;
+            case 1:
+                goto kind_1;
+            default:
                 goto kind_none;
             }
-            (void)switch_keep;
-            goto *D_80170838[kind_index];
-
-special_3:
-            is_special = 1;
-            goto kind_3;
-special_2:
-            is_special = 1;
-            goto kind_2;
-special_1:
-            is_special = 1;
-            goto kind_1;
         }
 
         move_kind = ((S_80172840_0 *)actor)->unk_46 & 0x3FFF;

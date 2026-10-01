@@ -275,140 +275,125 @@ void func_80024BE8(void *effect, void *motion, void *sprite) {
     s32 impact_position;
     s32 impact_sprite;
     s32 particle_count_m;
+    S_80024BE8_1 *task;
+    S_80024BE8_6 *origin;
+    S_80024BE8_4 *source_sprite;
+    void *target;
+    register u8 *direction_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
+    u8 *direction_entry;
+    s32 default_steps;
+    s32 tile_distance;
+    s32 tile_offset;
+    s32 tile_coord;
+    s32 source_coord;
+    s32 direction;
+    u16 prev_state;
+    u16 source_flags;
+    u16 target_height;
+    u16 origin_height;
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
-    {
-        S_80024BE8_1 *task;
-        S_80024BE8_6 *origin;
-        void **jump_table;
-        static void *const state_labels[] = {
-            &&state_0, &&state_1, &&state_2, &&state_3, &&state_4,
-            &&state_5, &&state_6, &&common, &&state_8
-        };
+    task = (u8 *)source - 0x20;
+    origin = task->unk_08;
+    ((S_80024BE8_0 *)effect)->unk_82++;
+    state = ((S_80024BE8_0 *)effect)->unk_0A.s;
 
-        task = (u8 *)source - 0x20;
-        origin = task->unk_08;
-        ((S_80024BE8_0 *)effect)->unk_82++;
-        state = ((S_80024BE8_0 *)effect)->unk_0A.s;
+    switch (state) {
+    case 0:
+        ((S_80024BE8_2 *)sprite)->unk_0C.at00.v = 0x808080;
+        ((S_80024BE8_2 *)sprite)->unk_1E = 0x400;
+        ((S_80024BE8_2 *)sprite)->unk_1C = 0x400;
+        ((S_80024BE8_2 *)sprite)->unk_12 = 0x7DCF;
+        ((S_80024BE8_2 *)sprite)->unk_14 |= 0x100;
+        ((S_80024BE8_0 *)effect)->unk_84 = 0;
+        func_8003DB94(sprite, D_800DE870, 2);
+        source_flags = ((S_80024BE8_3 *)source)->unk_2A;
+        D_80025914[0] = 1;
+        ((S_80024BE8_0 *)effect)->unk_7E.s = (source_flags >> 9) & 7;
+        ((S_80024BE8_0 *)effect)->unk_0A.s++;
 
-        if ((u32)state >= 9U) {
-            goto common;
-        }
-        jump_table = (void **)&D_80024028;
-        goto *jump_table[state];
+    case 1:
+        source_sprite = task->unk_0C;
+        if ((func_8003DF74(source_sprite->unk_08, source_sprite, offset, 0) != 0) ||
+            (((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
+            ((S_80024BE8_5 *)motion)->unk_00.at02.v = origin->unk_02;
+            ((S_80024BE8_5 *)motion)->unk_04.at02.v = origin->unk_06;
+            origin_height = origin->unk_0A;
+            ((S_80024BE8_5 *)motion)->unk_08.at02.v = origin_height;
 
-state_0:
-        {
-            S_80024BE8_4 *source_sprite;
-            void *target;
-            register u8 *direction_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
-            u8 *direction_entry;
-            s32 default_steps;
-            s32 tile_distance;
-            s32 tile_offset;
-            s32 tile_coord;
-            s32 source_coord;
-            s32 direction;
-            u16 prev_state;
-            u16 source_flags;
-            u16 target_height;
-            u16 origin_height;
-
-            ((S_80024BE8_2 *)sprite)->unk_0C.at00.v = 0x808080;
-            ((S_80024BE8_2 *)sprite)->unk_1E = 0x400;
-            ((S_80024BE8_2 *)sprite)->unk_1C = 0x400;
-            ((S_80024BE8_2 *)sprite)->unk_12 = 0x7DCF;
-            ((S_80024BE8_2 *)sprite)->unk_14 |= 0x100;
-            ((S_80024BE8_0 *)effect)->unk_84 = 0;
-            func_8003DB94(sprite, D_800DE870, 2);
-            source_flags = ((S_80024BE8_3 *)source)->unk_2A;
-            D_80025914[0] = 1;
-            ((S_80024BE8_0 *)effect)->unk_7E.s = (source_flags >> 9) & 7;
-            ((S_80024BE8_0 *)effect)->unk_0A.s++;
-
-            source_sprite = task->unk_0C;
-            if ((func_8003DF74(source_sprite->unk_08, source_sprite, offset, 0) != 0) ||
-                (((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
-                ((S_80024BE8_5 *)motion)->unk_00.at02.v = origin->unk_02;
-                ((S_80024BE8_5 *)motion)->unk_04.at02.v = origin->unk_06;
-                origin_height = origin->unk_0A;
-                ((S_80024BE8_5 *)motion)->unk_08.at02.v = origin_height;
-
-                if (!(((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
-                    ((S_80024BE8_5 *)motion)->unk_00.at02.v += offset[0];
-                    ((S_80024BE8_5 *)motion)->unk_04.at02.v += offset[1];
-                    ((S_80024BE8_5 *)motion)->unk_08.at02.v += offset[2];
-                } else {
-                    ((S_80024BE8_5 *)motion)->unk_08.at02.v = origin_height - 0x40;
-                }
-
-                if (*((S_80024BE8_0 *)effect)->unk_04 & 0x80) {
-                    if (!(((S_80024BE8_0 *)effect)->unk_7A & 4)) {
-                        func_8004491C((u8 *)effect - 0x20, func_80045340);
-                        ((S_80024BE8_2 *)sprite)->unk_10 = 0x60;
-                        ((S_80024BE8_2 *)sprite)->unk_14 |= 0xC;
-                        ((S_80024BE8_0 *)effect)->unk_7A |= 4;
-                    }
-
-                    default_steps = 8;
-                    target = ((S_80024BE8_3 *)source)->unk_60;
-                    if (target != 0) {
-                        target_height = ((S_80024BE8_7 *)target)->unk_88;
-                        direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-                        direction_table = target_height;
-                        ((S_80024BE8_0 *)effect)->unk_78.u = direction_table;
-                        direction_table = D_8006CCD8;
-                        direction_entry = direction_table + direction * 2;
-                        target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
-                        tile_offset = *direction_entry;
-                        tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
-                        direction_table = (u8 *)(tile_coord + tile_offset);
-                        ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
-                        direction_table = D_8006CCE8;
-                        direction_entry = direction_table + ((S_80024BE8_0 *)effect)->unk_7E.s * 2;
-                        tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
-                        tile_offset = *direction_entry;
-                        direction_table = (u8 *)(tile_coord + tile_offset);
-                        ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
-                        tile_distance = ((S_80024BE8_3 *)source)->unk_72;
-                        source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
-                        if (tile_distance == source_coord) {
-                            tile_distance = ((S_80024BE8_3 *)source)->unk_73;
-                            source_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
-                        }
-                        tile_distance -= source_coord;
-                        if (tile_distance < 0) {
-                            tile_distance = -tile_distance;
-                        }
-                        tile_distance *= 2;
-                        tile_distance -= 1;
-                        ((S_80024BE8_0 *)effect)->unk_7B = tile_distance;
-                    } else {
-                        u16 target_height;
-                        target_height = ((S_80024BE8_3 *)source)->unk_88;
-                        ((S_80024BE8_0 *)effect)->unk_7B = default_steps;
-                        ((S_80024BE8_0 *)effect)->unk_78.u = target_height - 0x50;
-                    }
-
-                    ((S_80024BE8_5 *)motion)->unk_0C = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].x
-                    << 16;
-                    ((S_80024BE8_5 *)motion)->unk_10 = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].y
-                    << 16;
-                    ((S_80024BE8_5 *)motion)->unk_14 =
-                        ((((S_80024BE8_0 *)effect)->unk_78.s << 16) - ((S_80024BE8_5 *)motion)->unk_08.at00.v) /
-                        ((S_80024BE8_0 *)effect)->unk_7B;
-                    prev_state = ((S_80024BE8_0 *)effect)->unk_0A.u;
-                    ((S_80024BE8_0 *)effect)->unk_82 = 0;
-                    ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
-                    goto common;
-                }
+            if (!(((S_80024BE8_22 *)(task->unk_0C))->unk_14 & 0x8000)) {
+                ((S_80024BE8_5 *)motion)->unk_00.at02.v += offset[0];
+                ((S_80024BE8_5 *)motion)->unk_04.at02.v += offset[1];
+                ((S_80024BE8_5 *)motion)->unk_08.at02.v += offset[2];
+            } else {
+                ((S_80024BE8_5 *)motion)->unk_08.at02.v = origin_height - 0x40;
             }
-            goto common;
-        }
-    }
 
-state_1:
+            if (*((S_80024BE8_0 *)effect)->unk_04 & 0x80) {
+                if (!(((S_80024BE8_0 *)effect)->unk_7A & 4)) {
+                    func_8004491C((u8 *)effect - 0x20, func_80045340);
+                    ((S_80024BE8_2 *)sprite)->unk_10 = 0x60;
+                    ((S_80024BE8_2 *)sprite)->unk_14 |= 0xC;
+                    ((S_80024BE8_0 *)effect)->unk_7A |= 4;
+                }
+
+                default_steps = 8;
+                target = ((S_80024BE8_3 *)source)->unk_60;
+                if (target != 0) {
+                    target_height = ((S_80024BE8_7 *)target)->unk_88;
+                    direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
+                    direction_table = target_height;
+                    ((S_80024BE8_0 *)effect)->unk_78.u = direction_table;
+                    direction_table = D_8006CCD8;
+                    direction_entry = direction_table + direction * 2;
+                    target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
+                    tile_offset = *direction_entry;
+                    tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
+                    direction_table = (u8 *)(tile_coord + tile_offset);
+                    ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
+                    direction_table = D_8006CCE8;
+                    direction_entry = direction_table + ((S_80024BE8_0 *)effect)->unk_7E.s * 2;
+                    tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
+                    tile_offset = *direction_entry;
+                    direction_table = (u8 *)(tile_coord + tile_offset);
+                    ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
+                    tile_distance = ((S_80024BE8_3 *)source)->unk_72;
+                    source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
+                    if (tile_distance == source_coord) {
+                        tile_distance = ((S_80024BE8_3 *)source)->unk_73;
+                        source_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
+                    }
+                    tile_distance -= source_coord;
+                    if (tile_distance < 0) {
+                        tile_distance = -tile_distance;
+                    }
+                    tile_distance *= 2;
+                    tile_distance -= 1;
+                    ((S_80024BE8_0 *)effect)->unk_7B = tile_distance;
+                } else {
+                    u16 target_height;
+                    target_height = ((S_80024BE8_3 *)source)->unk_88;
+                    ((S_80024BE8_0 *)effect)->unk_7B = default_steps;
+                    ((S_80024BE8_0 *)effect)->unk_78.u = target_height - 0x50;
+                }
+
+                ((S_80024BE8_5 *)motion)->unk_0C = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].x
+                << 16;
+                ((S_80024BE8_5 *)motion)->unk_10 = velocity_table.entries[((S_80024BE8_0 *)effect)->unk_7E.s].y
+                << 16;
+                ((S_80024BE8_5 *)motion)->unk_14 =
+                    ((((S_80024BE8_0 *)effect)->unk_78.s << 16) - ((S_80024BE8_5 *)motion)->unk_08.at00.v) /
+                    ((S_80024BE8_0 *)effect)->unk_7B;
+                prev_state = ((S_80024BE8_0 *)effect)->unk_0A.u;
+                ((S_80024BE8_0 *)effect)->unk_82 = 0;
+                ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
+                break;
+            }
+        }
+        break;
+
+    case 2:
     {
         void *target_position;
         void *animation;
@@ -420,7 +405,7 @@ state_1:
             ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
             ((S_80024BE8_2 *)sprite)->unk_14 |= 0x80;
-            goto common;
+            break;
         }
 
         particle_count_m = 0;
@@ -491,80 +476,80 @@ state_1:
             ((S_80024BE8_2 *)sprite)->unk_0C.at01.v = 0;
             ((S_80024BE8_2 *)sprite)->unk_0C.at00u.v = 0;
         }
-        goto common;
+        break;
     }
 
 state_2:
-    {
+        {
 
-        ((S_80024BE8_5 *)motion)->unk_00.at00.v += ((S_80024BE8_5 *)motion)->unk_0C;
-        ((S_80024BE8_5 *)motion)->unk_04.at00.v += ((S_80024BE8_5 *)motion)->unk_10;
-        ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
+            ((S_80024BE8_5 *)motion)->unk_00.at00.v += ((S_80024BE8_5 *)motion)->unk_0C;
+            ((S_80024BE8_5 *)motion)->unk_04.at00.v += ((S_80024BE8_5 *)motion)->unk_10;
+            ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
 
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        impact_position = func_80069EF8() & 0xF;
-        impact_position -= 8;
-        impact_position <<= 16;
-        impact_position >>= 16;
-        impact_sprite = func_80069EF8() & 0xF;
-        impact_sprite -= 8;
-        impact_sprite <<= 16;
-        impact_sprite >>= 16;
-        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
-            (s16)((func_80069EF8() & 0xF) - 8));
-        goto common;
-    }
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            impact_position = func_80069EF8() & 0xF;
+            impact_position -= 8;
+            impact_position <<= 16;
+            impact_position >>= 16;
+            impact_sprite = func_80069EF8() & 0xF;
+            impact_sprite -= 8;
+            impact_sprite <<= 16;
+            impact_sprite >>= 16;
+            func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
+                (s16)((func_80069EF8() & 0xF) - 8));
+            break;
+        }
 
-state_3:
+    case 3:
     {
         s32 color_step;
         u16 prev_state;
@@ -581,12 +566,12 @@ state_3:
             ((S_80024BE8_0 *)effect)->unk_86.u = 0;
             ((S_80024BE8_0 *)effect)->unk_82 = 0;
             ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
-            goto common;
+            break;
         }
-        goto common;
+        break;
     }
 
-state_4:
+    case 4:
     {
         void *animation;
         void *particle_sprite;
@@ -685,12 +670,12 @@ state_4:
             prev_state = ((S_80024BE8_0 *)effect)->unk_0A.u;
             ((S_80024BE8_0 *)effect)->unk_86.u = scale_step;
             ((S_80024BE8_0 *)effect)->unk_0A.u = prev_state + 1;
-            goto common;
+            break;
         }
-        goto common;
+        break;
     }
 
-state_5:
+    case 5:
     {
         void *target;
         void *current_target;
@@ -729,10 +714,10 @@ state_5:
             func_8009CE1C(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
                 (s16)(((S_80024BE8_0 *)effect)->unk_7E.u << 9), source, 2);
         }
-        goto common;
+        break;
     }
 
-state_6:
+    case 6:
     {
         u16 elapsed;
 
@@ -742,10 +727,10 @@ state_6:
             ((S_80024BE8_0 *)effect)->unk_0A.s = 8;
             ((S_80024BE8_0 *)effect)->unk_82 = 0x1E;
         }
-        goto common;
+        break;
     }
 
-state_8:
+    case 8:
     {
         u16 elapsed;
         s32 active;
@@ -763,10 +748,10 @@ state_8:
                 D_80025914[0] = 0;
             }
         }
-        goto common;
+        break;
+    }
     }
 
-common:
     {
         u16 animation_tick;
 
