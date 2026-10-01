@@ -225,13 +225,13 @@ interpolate_step:
             interp_current -= 32;
             interp_goal -= interp_current;
             interp_goal /= countdown;
-            position->unk_00.half.unk_02.unk_02 += interp_goal;
+            interp_current = position->unk_00.half.unk_02.unk_02_u16;
+            interp_current += interp_goal;
+            position->unk_00.half.unk_02.unk_02 = interp_current;
 
             interp_goal = position->unk_12;
-            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_current = position->unk_04.half.unk_06.unk_06;
             countdown = motion->unk_36;
-            ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             interp_goal = interp_goal * 64;
             interp_current -= 32;
             interp_goal -= interp_current;

@@ -78,7 +78,7 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     s32 direction_offset;
     register u32 raw_direction;
     s16 height;
-    register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 attempts_left;
     TileObject *world;
     s16 *level;
     u32 state_id;
@@ -176,37 +176,25 @@ case_4:
     x_step = ((S_80174428_2 *)actor)->unk_24;
     y_step = ((S_80174428_2 *)actor)->unk_25;
 
-    ASM_KEEP(attempts_left);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    attempts_left--;
-case_4_check:
-    if (attempts_left <= 0) {
-        goto case_3;
-    }
-    {
+    for (;;) {
+        if (--attempts_left <= 0) {
+            goto case_3;
+        }
         direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
-        attempts_left--;
         if (direction_offset < 0) {
-            goto case_4_check;
+            continue;
         }
-        attempts_left++;
-        if (direction_offset != (s8)((u8)world->unk_026)) {
-            goto case_4_position;
+        if (direction_offset == (s8)((u8)world->unk_026) &&
+            *(s16 *)((u8 *)level + 6) >= 2) {
+            continue;
         }
-        attempts_left--;
-        if (*(s16 *)((u8 *)level + 6) >= 2) {
-            goto case_4_check;
-        }
-        attempts_left++;
-case_4_position:
         direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
         raw_direction = direction_offset < 0x201;
-        attempts_left--;
-        if (!raw_direction) {
-            goto case_4_check;
+        if (raw_direction) {
+            goto advance_state;
         }
-        goto advance_state;
     }
 
 advance_state:
