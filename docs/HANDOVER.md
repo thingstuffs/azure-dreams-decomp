@@ -1,3 +1,23 @@
+# Handover (2026-10-01 ~06:00, round 84 in progress: build structure, -O1 debug family, stock objects, sol 6.1 waves) - start here
+
+**Pin sites now: 1,322 in 405 rows** (1,483 at round-84 pickup). Owner calls of 09-30 all approved and done: 8046C280 at -O1 (trade), w_80049F68
+6->0 (single-member slus module recipe; e1c553122), 8028B994/808B2E74 accepted, module splits (221f5522f) incl. the town -O1
+image run; **maspsx_d3 patch still to apply at the END of round 84** (gate --all).
+- **Build structure (r84_fable_build):** one 2.7.2-cdk -G0 -O2 build + town -O1 debug family + stock Sony/devkit/minigame
+  objects (rules: tools/learnings "Round 84"). 100 byte-neutral switches landed (ee7113f1f); 47 stock-flavour switches HELD
+  (r84_fable_build/cells.jsonl, decided by 1-3 rows each); 17 held undecided (cells_held_undecided.jsonl); module patch
+  applied (f151efb7b). RANKED_PINNED.tsv = the pool at the proven recipe.
+- **Landed lanes:** r84_opus_walk (3 flag drops), r84_opus_scratch (800A5398 5->0), r84_opus_cse (3 spellings; its 21
+  byte-neutral drops only landed with ee7113f1f - land_coherence bug fixed ec2a8021d), r84_opus_o1 (4 pins), r84_sonnet_o1,
+  r84_opus_stock (6 pins), r84_opus_fitted (800B998C cell only), codex r84_astra_b1-b8, r84_sol61_s1-s32.
+- **Running:** r84_opus_stock2 (7 stock rows), r84_sol61_st1 (5 stock one-pin rows), r84_sol61_s33-s40 (2/3-pin),
+  Fable r84_fable_opaque (opaque constant base family: ~57 rows / ~111 pins on integer-page / scratch-base locals).
+- **Next:** sol 6.1 on the remaining 2-pin rows (two-pin probe 7/12 to zero) and a 3-pin decision from s38-s40; Opus on
+  RANKED_PINNED fitted rows; apply the opaque-base rule if Fable finds one; maspsx_d3 at round end.
+- **Landing (c8):** c8_chain2.sh now pauses the runner before waiting (a codex stream starved it); any script restarting
+  land_queue2.sh MUST close fd 8 (`8>&- 9>&-`) or the runner holds c8_land.lock forever. Byte-neutral switches: copy of
+  work/native_lane/r84_fb_cdk/land.sh (isolated gate, no codex check).
+
 # Handover (2026-09-30 23:30, round 84 started: cse-flag mechanism, walker residual, scratchpad-struct class + codex wave) - start here
 
 **Pickup 1,483 pins / 487 rows.** Round plan (census first: flag x pin table, erase census near scratch accesses):

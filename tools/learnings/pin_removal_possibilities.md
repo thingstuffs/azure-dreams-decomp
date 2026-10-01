@@ -514,3 +514,28 @@ under the row's cfg; a neighbour exact at the census recipe that breaks proves t
   (800CA184, 819112CC, 800A406C, 8187B1F4, w_80045CC4) as opaque/hard-register base; do not send them to struct lanes.
 - **Sol 6.1 on never-served one-pin rows: 13 of 15 to 0** (r84_sol61_s1-s3) - the one-pin pool not yet seen by sol61 is
   worth draining.
+- **Build structure of TOWN / DUNGEON / MAIN** (r84_fable_build STRUCTURE.md, VERDICT.tsv): the game is ONE
+  `2.7.2-cdk -G0 -O2` build plus four real families: a town DEBUG build at `2.7.2-cdk-G0 -O1` (asserts live: lshop.o,
+  main.o, player.o + one unnamed object, the 0x80018ABC-0x8001B0E8 run of chunk 0x7FD6A800 and its copies); the older
+  main.c revision (assert lines 39/54) at stock `2.7.2 -G0`; Sony / devkit objects (card UI + libcard devkit image,
+  memory.c, sn_main/tobjs/flgtst, the devkit c_server.c tail) at stock FSF 2.6.3 / 2.7.2; two Konami objects at stock
+  cells (DUNGEON.BIN head ovl_7804.c 2.7.2-G0, the town gym/survival minigame image 0x805267E0 2.6.3-G0). EVERY
+  2.8.0/2.8.1/egcs 2.91.66/2.95.2 registration is fitted (cdk-only vs 2.8.1-only pin-free rows 148:12, vs 2.95.2 493:6;
+  no run has a 2.8+ majority): treat a 2.8.x cell like a crutch flag. A stock cell inside a cdk run is a spelling
+  accident. Two revisions of one source on the disc = two builds (assert line numbers mark them). `-G` is never a TU
+  fact in the overlays (no `$gp` in 5,861 retail functions). 100 byte-neutral switches landed (ee7113f1f).
+- **Stock objects are worked as stock rows** (r84_opus_stock 6/7): pins there were fitted in cdk terms; plain Sony-style
+  statements fix them (parameter direct, `field |= LITERAL` inside the arm, stores in field-offset order, direct call
+  arguments + loop inits at the loop head, u8-struct copy at 2.6.3 where 2.7.2 needed `packed` + a KEEP: 2.6.3 reorg
+  never fills the epilogue slot with the return move). Brief paragraph tools/lanes/brief_paragraphs/stock_rows.md.
+- **Town -O1 debug rows** (r84_opus_o1 7/7, r84_sonnet_o1 11/11): at -O1 there is no sched1/sched2 and no argument
+  pre-copy - delete one-trip blocks around calls, s16/u8 locals extended at their use -> s32, fold one-use address
+  locals into their use (or split into locals in retail load order when the base load must precede the scale), m2c
+  temp chains -> the plain expression, goto loops over m2c parameter copies -> for loops on the parameters.
+- **Opaque constant base** (r84_opus_scratch2, r84_opus_fitted; Fable r84_fable_opaque running): retail keeps a
+  constant page / scratchpad base in a register that sched1 (no REG_EQUAL single set), combine (nonzero_bits) and cse
+  cannot see through; KEEP/REG pins on integer-page locals are second sets imitating it. Dead zero-init and repeated
+  identical assignments are deleted / folded - no natural C found yet.
+- **Codex in round 84:** sol 6.1 on never-sol61-served one-pin rows 45/95, two-pin probe 7/12 to zero; astra 4-7-pin rows
+  ~2-3 pins per lane. Landing traps: land_coherence restored no-op recipe switches but kept their trades (fixed
+  ec2a8021d); a runner restarted without `8>&-` holds c8_land.lock forever (every chain blocks).
