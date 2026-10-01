@@ -8,17 +8,10 @@
 typedef struct Block24 {
     s32 word[6];
 } Block24;
-typedef union Product64 {
-    s64 value;
-    struct {
-        s32 hi;
-        u32 lo;
-    } word;
-} Product64;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800644B8(s16);           /* extern */
-s16 func_800BCB04();              /* extern */
+s16 func_800BCB04(s32, s32, s16); /* extern */
 extern s16 D_800259AC;
 
 
@@ -68,6 +61,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     s16 step;
     s16 next_angle;
     s32 fade_numerator;
+    s32 fade_level;
     s32 wave_height;
     s32 height_offset;
     u16 angle_step;
@@ -77,7 +71,6 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     void *global_state;
     void *transform;
     S_80024CE4_0 *view_state;
-    Product64 fade_product;
 
     D_800259AC = 1;
     global_state = ((void *)&gameWork.view);
@@ -110,23 +103,10 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     fade_ticks = (s16) (*(u16 *)((u8 *)effect + 2));
     if (fade_ticks < 0x14) {
         fade_numerator = fade_ticks << 7;
-        {
-            register s32 product_hi ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 divide_magic ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            {
-                divide_magic = 0x66666667;
-                fade_product.value = (s64) fade_numerator * divide_magic;
-                ASM_KEEP_NV(fade_product.word.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                product_hi = fade_product.word.hi;
-                ASM_KEEP_NV(product_hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            }
-            {
-                divide_magic = (product_hi >> 3) - (fade_numerator >> 31);
-                visual->unk_0E = divide_magic;
-                visual->unk_0D = divide_magic;
-                visual->unk_0C = divide_magic;
-            }
-        }
+        fade_level = fade_numerator / 20;
+        visual->unk_0E = fade_level;
+        visual->unk_0D = fade_level;
+        visual->unk_0C = fade_level;
     }
     scale = visual->unk_1C;
     visual->unk_1A = (u16) (visual->unk_1A + 0x10);
@@ -155,7 +135,7 @@ void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s
     height_offset = wave_height * 2;
     (*(s32 *)((u8 *)transform + 8)) = height_offset;
     (*(s32 *)((u8 *)transform + 8)) = (s32) (height_offset + (*(s32 *)((u8 *)effect + 0x40)));
-    height_limit = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A, wave_height);
+    height_limit = func_800BCB04(position->unk_02, position->unk_06, position->unk_0A);
     if (height_limit < (*(s16 *)((u8 *)transform + 0xA))) {
         (*(s16 *)((u8 *)transform + 0xA)) = height_limit;
     }
