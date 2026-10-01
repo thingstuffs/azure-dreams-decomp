@@ -94,7 +94,7 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
     s16 saved_y;
     s16 init_flags;
     S_80FF9000_1 *work;
-    register s32 alloc_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 alloc_kind;
     void *alloc_desc;
     s32 random_bits;
     s32 extra_flags;
@@ -140,29 +140,23 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
             work->unk_1C = flags_1c;
         } else {
             extra_flags = (spawn_flags & ~3) << 0x10;
-            alloc_kind = (s32)obj;
             if (extra_flags != 0) {
-                goto set_part_arg;
+                goto initialize_parts;
             }
-            alloc_desc = part_a;
             if (work->unk_14 & 0x200) {
-                goto init_actor;
+                goto initialize_parts;
             }
             random_bits = func_800A6D30();
-            alloc_kind = (s32)obj;
             if (!(random_bits & 1)) {
-                goto set_part_arg;
+                goto initialize_parts;
             }
             work->unk_1C = (s32) (work->unk_1C | 0x200);
             func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
             part_b->unk_2C = &D_80156088;
         }
 
-        alloc_kind = (s32)obj;
-set_part_arg:
-        alloc_desc = part_a;
-init_actor:
-        func_800A9C18(alloc_kind, alloc_desc, part_b, init_flags);
+initialize_parts:
+        func_800A9C18((s32)obj, part_a, part_b, init_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80152EA8;

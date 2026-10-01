@@ -115,6 +115,8 @@ typedef struct S_func_818BC9CC_6 {
     s16 unk_C8;
 } S_func_818BC9CC_6;
 
+typedef struct { unsigned addr : 24; unsigned len : 8; } PacketTag;
+
 #define OT_ADDR(sc) ((u32 *)((((S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
 extern s32 func_800644B8(s32);
@@ -133,15 +135,12 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     S_func_818BC9CC_4 *draw_mode_2;
     S_func_818BC9CC_5 *render_ctx;
     GameWork *render_state;
-    u32 tag_mask;
-    u32 window_tag_mask;
     s32 page_depth;
     s32 page_blend;
     s32 page_x;
     u32 y_extent;
     u32 x_extent;
     u32 depth;
-    register u32 addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 quad_index;
     u32 far_z;
     u32 z_extent;
@@ -162,7 +161,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     texture_v = (effect->unk_04 % 4) << 3;
 
     quad_index = 0;
-    addr_mask = 0x00FFFFFF;
+
     do {
         render_ctx = render_state->unk_000;
         packet = render_ctx->unk_8D0;
@@ -305,41 +304,33 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
             render_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
             func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0x280, 0x100), full_window);
             page_depth = 0;
-            tag_mask = 0xFF000000;
+
             page_blend = 1;
             page_x = 0x280;
 
             {
                 u32 *ot;
-                u32 prim_tag;
-                u32 ot_tag;
 
                 ot = OT_ADDR(scratch);
-                prim_tag = draw_mode->unk_00;
-                ot_tag = *ot;
-                draw_mode->unk_00 = (prim_tag & tag_mask) | (ot_tag & addr_mask);
+                ((PacketTag *)draw_mode)->addr = ((PacketTag *)ot)->addr;
             }
             {
                 u32 *ot;
 
                 ot = OT_ADDR(scratch);
-                *ot = (*ot & tag_mask) | ((u32)draw_mode & addr_mask);
-            }
-            {
-                u32 *ot;
-                u32 prim_tag;
-                u32 ot_tag;
-
-                ot = OT_ADDR(scratch);
-                prim_tag = packet->unk_00.as_u32;
-                ot_tag = *ot;
-                packet->unk_00.as_u32 = (prim_tag & tag_mask) | (ot_tag & addr_mask);
+                ((PacketTag *)ot)->addr = (u32)draw_mode;
             }
             {
                 u32 *ot;
 
                 ot = OT_ADDR(scratch);
-                *ot = (*ot & tag_mask) | ((u32)packet & addr_mask);
+                ((PacketTag *)packet)->addr = ((PacketTag *)ot)->addr;
+            }
+            {
+                u32 *ot;
+
+                ot = OT_ADDR(scratch);
+                ((PacketTag *)ot)->addr = (u32)packet;
             }
 
             tile_window[0] = 0;
@@ -350,23 +341,18 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
             draw_mode_2 = render_ctx->unk_8D0;
             render_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
             func_80067F20(draw_mode_2, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
-            window_tag_mask = 0xFF000000;
 
             {
                 u32 *ot;
-                u32 prim_tag;
-                u32 ot_tag;
 
                 ot = OT_ADDR(scratch);
-                prim_tag = draw_mode_2->unk_00;
-                ot_tag = *ot;
-                draw_mode_2->unk_00 = (prim_tag & window_tag_mask) | (ot_tag & addr_mask);
+                ((PacketTag *)draw_mode_2)->addr = ((PacketTag *)ot)->addr;
             }
             {
                 u32 *ot;
 
                 ot = OT_ADDR(scratch);
-                *ot = (*ot & window_tag_mask) | ((u32)draw_mode_2 & addr_mask);
+                ((PacketTag *)ot)->addr = (u32)draw_mode_2;
             }
         }
         quad_index++;

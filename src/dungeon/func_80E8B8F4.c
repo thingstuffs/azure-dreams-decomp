@@ -22,7 +22,7 @@ extern void func_800AA888(void *, void *, void *, void *);
 extern s32 func_800AA924(void *, void *, void *, void *);
 extern void func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
-extern void func_80171684(void *, void *);
+extern void func_80171684(void *, void *, void *, void *);
 extern void func_801718DC(void *, void *, void *, void *);
 extern s32 func_80172088(void *, void *, void *, void *);
 extern void func_8017224C(void *, void *, void *, void *);
@@ -55,29 +55,19 @@ typedef struct S_801710F4_2 {
 
 
 /* Updates dungeon actor behavior, facing, and animation from its current state. */
-void func_801710F4(void *actor_input, void *context_input, void *sprite_input, void *entity_input)
+void func_801710F4(void *actor, void *context, void *sprite, EntityRec *entity)
 {
-    void *actor;
-    void *context;
-    void *sprite;
-    register EntityRec *entity ASM_REG("$18");
     u8 *anim_table;
     s32 distance;
     s8 room_id;
     u16 action_state;
     u16 initial_flags = dungeonStatus.flags;
 
-    actor = actor_input;
-    context = context_input;
-    sprite = sprite_input;
-    entity = entity_input;
 
     if (initial_flags & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
-        func_80171684(actor, context);
-        do {
-            return;
-        } while (0);
+        func_80171684(actor, context, sprite, entity);
+        return;
     }
 
 

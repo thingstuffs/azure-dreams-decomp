@@ -130,14 +130,9 @@ loop_0:
         if (index_or_row >= 0)
             goto loop_0;
         projection_ptr = &projection;
-        ASM_KEEP4_NV(projection_ptr, projection_ptr, projection_ptr, projection_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        min_xy &= 0xFFFF;
-        max_xy &= 0xFFFF;
-        index_or_row = 3;
         camera_z = *((u16 *) (((u8 *) render_state) + 0xC8));
         projection.pad0A = 0;
         projection.pad08 = 0;
-        depth_out_or_phase = (s32) (&scratch.outer);
         projection.vertices = vertex_base;
         projection.output = vertex_base;
         projection.z = -camera_z;
@@ -145,6 +140,10 @@ loop_0:
         projection.count = 4;
         projection.pad1A = 0;
         func_800DBA90(projection_ptr);
+        min_xy &= 0xFFFF;
+        max_xy &= 0xFFFF;
+        index_or_row = 3;
+        depth_out_or_phase = (s32) (&scratch.outer);
         vertex_bytes = ((u8 *) vertex_base) + 24;
         min_xy |= 0x75300000;
         min_xy &= 0xFFFF0000;

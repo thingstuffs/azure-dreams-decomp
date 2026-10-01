@@ -134,8 +134,6 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
     s16 saved_value_24;
     s16 saved_value_0a;
     s16 saved_value_25;
-    register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *init_part_a;
 
     work = 0;
     saved_value_24 = part_value_24;
@@ -168,18 +166,15 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
             ((S_80FE1000_1 *)work)->unk_14 = flags;
             ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
         } else {
-            init_obj = obj;
             if (((kind_flags & ~3) << 16) != 0) {
-                goto call_a1_setup;
+                goto initialize_parts;
             }
-            init_part_a = part_a;
             if (((S_80FE1000_1 *)work)->unk_14 & 0x200) {
-                goto call_a2_setup;
+                goto initialize_parts;
             }
             flags = func_800A6D30();
-            init_obj = obj;
             if (!(flags & 1)) {
-                goto call_a1_setup;
+                goto initialize_parts;
             }
             ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
             func_800A48F0(work, 1,
@@ -187,11 +182,8 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
             part_b->unk_2C = D_8016E088;
         }
 
-        init_obj = obj;
-call_a1_setup:
-        init_part_a = part_a;
-call_a2_setup:
-        func_800A9C18(init_obj, init_part_a, part_b, kind_flags);
+initialize_parts:
+        func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AEA8;

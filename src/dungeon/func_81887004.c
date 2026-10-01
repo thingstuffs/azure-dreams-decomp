@@ -68,10 +68,12 @@ void func_81887004(EffectState *effect, Vec3s *pos)
 jt_0:
     object = effect->object;
     object->flags |= 0x10000000;
-    effect->state++;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    channel_value = (u16)effect->state;
+    channel_value++;
+    effect->state = channel_value;
 
-    color = *(ColorObject **)((u8 *)effect->object - 0x14);
+    channel_value = (s32)effect->object;
+    color = *(ColorObject **)((u8 *)channel_value - 0x14);
     channel_value = color->r - 1;
     color->r = channel_value;
     if ((u8)channel_value < 0x40) {
