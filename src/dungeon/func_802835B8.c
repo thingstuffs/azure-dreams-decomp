@@ -212,7 +212,8 @@ void func_800165B8(void) {
     u8 *defaults_page;
     s32 status_value;
     u16 init_flags;
-    register s32 neutral_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 neutral_color;
+    s32 object_color;
     s32 entity_mask;
     s32 entity_flags;
     s32 copy_tail;
@@ -408,7 +409,7 @@ load_entries:
         }
     }
 
-    neutral_color = 0x2C808080;
+    object_color = 0x2C808080;
     entry_index = (s32)0x80010000;
     table_base = (u8 *)0x80080000;
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -423,22 +424,20 @@ load_entries:
     *(Copy13 *)(entity + 0x34) = *(Copy13 *)(u32)bind_state;
     ((S_800165B8_5 *)entity)->unk_42 = 0;
     ((S_800165B8_5 *)entity)->unk_41 = 0;
-    ((S_800165B8_1 *)obj)->unk_DC = neutral_color;
-    ((S_800165B8_1 *)obj)->unk_E0 = neutral_color;
+    ((S_800165B8_1 *)obj)->unk_DC = object_color;
+    ((S_800165B8_1 *)obj)->unk_E0 = object_color;
 
     {
-        u32 tile_x;
         u32 tile_y;
         s32 display_index;
         u16 height_index;
         u16 display_value;
 
-        neutral_color = (s32)(D_800DD264);
-        tile_x = ((S_800165B8_3 *)state)->unk_24;
-        ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        u16 *display_table = D_800DD264;
+        call_target = (u8 *)(u32)((S_800165B8_3 *)state)->unk_24;
         display_index = *(u16 *)((u8 *)entry_index + 0x20A2);
         tile_y = ((S_800165B8_3 *)state)->unk_25;
-        display_setting = ((u16 *)neutral_color)[(s16)display_index];
+        display_setting = display_table[(s16)display_index];
         map_state = &dungeonStatus;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)((u8 *)entry_index + 0x20A0);
@@ -454,7 +453,7 @@ load_entries:
         map_state->flags |= 2;
         ((S_800165B8_8 *)display_state)->unk_06.s = lift_height;
         ((S_800165B8_3 *)state)->unk_26 =
-            func_8009FB34(tile_x, tile_y, map_state, lift_height);
+            func_8009FB34((s32)call_target, tile_y, map_state, lift_height);
     }
     ((S_800165B8_1 *)obj)->unk_9C = -2;
     func_8009D380();
