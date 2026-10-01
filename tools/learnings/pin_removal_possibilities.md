@@ -610,3 +610,9 @@ cdk mostly_true_jump predicts an EQ branch NOT taken unless a LOOP_VTOP note fol
 - **A fall-through head that fill_eager refuses.**
 
 A separate cause: update_block's USE marker for an insn already moved into a jal slot makes that register live at the opposite thread (800C379C). Tool: tools/lanes/lanekit/dbr.py <row> <text> --retail [--insn UID]; its DECIDING line names the case.
+
+### Big rows: real loops first, then the alloc_need moves (r85_opus_bg1/bg5, 2026-10-01)
+These rules took 8180E7F4 from 11 pins to 0 and 802835B8 from 13 to 1:
+- **Real loops:** rewrite goto loops over integer pages as real index loops over the named symbols. Put the counter's constant start after the merge label so loop.c sees it. Then apply exactly the refs/live moves that alloc_need asks for: join merges, moving an init, or declaration order to win an allocno tie (ties break by allocno number).
+- **Reload's spill register:** reload uses the lowest caller-saved register that no pseudo uses. To get retail's $t0 rematerialisation of a constant pointer, assign that pointer early so it crosses calls while every callee-saved register is taken. It is then spilled and rematerialised.
+- **Keep the loop invariant in the loop:** a table read written as a direct symbol index stays in the loop ("not desirable" to hoist). A table kept in an m2c variable gets hoisted.
