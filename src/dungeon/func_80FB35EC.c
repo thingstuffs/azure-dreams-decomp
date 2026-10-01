@@ -45,7 +45,7 @@ extern u8 D_80175258[];
 void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, EntityRec *actor)
 {
     u16 saved_position[3];
-    register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *motion;
     s32 use_global_target;
     void *target;
     s32 target_x;
@@ -65,10 +65,12 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
                 goto kind_c;
             case 6:
                 use_global_target = 1;
+                goto selected_b;
             case 2:
                 goto kind_b;
             case 5:
                 use_global_target = 1;
+                goto selected_a;
             case 1:
                 goto kind_a;
             default:
@@ -90,11 +92,19 @@ kind_a:
             motion = (u8 *)actor + 8;
             break;
         default:
-sel_none:
-            motion = (u8 *)0;
-            break;
+            goto sel_none;
         }
 
+        goto motion_selected;
+selected_b:
+        motion = (u8 *)actor + 0xB;
+        goto motion_selected;
+selected_a:
+        motion = (u8 *)actor + 8;
+        goto motion_selected;
+sel_none:
+        motion = (u8 *)0;
+motion_selected:
         if (*motion != 0) {
             ((S_80172DEC_0 *)action_state)->unk_98 &= 0xFF7F;
             {
@@ -211,25 +221,3 @@ do_step:
         break;
     }
 }
-
-/* MECHANISM: ROWBASE rebuild. Defined under the TRUE-space name func_80172DEC so
-   every retail `j 0x8017xxxx` is INTRA-function control flow (goto / switch /
-   case-fallthrough), not the prior run's phantom noreturn externs -- that alone
-   lets gcc's delayed-branch pass fill the three direction_table-arm `j` slots with
-   `addiu $s5,1` (the prior wall at word 48). Two natural switches (state 0/1/2,
-   kind 1/2/3) give gcc's balanced compare tree with the shared `li $a0,1`; the
-   special kinds 5-7 are a real switch whose jump table is retail's D_80170850 (the TU's own
-   .rodata, placed there by the gate's Option-D derivation): kinds 5-7 set use_global_target
-   and fall into the 1-3 entries, whose arms jump into the kind-switch case bodies, and
-   `sel_none` is BOTH that switch's default and the kind-switch default.
-   Frame objects: plain (non-volatile) u16 saved_position[3] gives the three 0x18(sp)
-   stores AND lets the last one fill the jal delay slot; ((MotionEntry *)
-   D_8006DE24)[*motion].kind keeps retail's `lbu 0x12(reg)` instead of folding +18
-   into the %lo; `action_status = &D_80083460` is the held base for +0xa/+0xc.
-   Residue closers: motion/$16 + use_global_target/$21 pins fix the callee-saved priority
-   permutation; ASM_KEEP(actor) after the 0x60 store is a SCHEDULER FENCE that
-   stops sched1 hoisting the 0x72/0x73 lb pair above the store (that hoist is
-   what pushed target_x,target_y off $v0/$v1 and sank the store into the bgez delay slot);
-   ASM_KEEP(motion) fences the 0x98 RMW from the `global_target_flag = use_global_target` copy so the copy
-   stays after the `sh` in $v0 (retail's extra `move $v0,$s5`) instead of being
-   hoisted and sunk into the earlier beqz delay slot; target_record/$3 keeps target in $v0. */
