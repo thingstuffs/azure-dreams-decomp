@@ -2,7 +2,7 @@
 
 extern u8 D_80080B28[16];
 extern u8 D_80080B2C[16];
-extern void bzero(void *, s32);
+extern void *bzero(void *, s32);
 
 /* Builds a tinted rectangle with gradient top and bottom bands. */
 void *func_800499E8(u8 *cmd, u8 *rect, u8 *tint)
@@ -65,7 +65,6 @@ void *func_800499E8(u8 *cmd, u8 *rect, u8 *tint)
 
     cmd += 0x18;
     start = cmd - 0x3C;
-    ASM_USE_NV(start);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     cmd[1] = 0x81;
     *(u16 *)(cmd + 4) = 0x10;
     *(u16 *)(cmd + 6) = 1;

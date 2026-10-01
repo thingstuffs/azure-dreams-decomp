@@ -58,10 +58,8 @@ extern s32 func_800A6D30(void);
 extern void func_800C77D0(void *, s32, s32, s32);
 
 /* Prepares an entity action, updates its directional animation, and advances the counter. */
-void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frames, s32 fallback_state)
+void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_table, s32 fallback_state)
 {
-    register u8 *action_sprite ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *frame_table ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *self;
     u8 *player;
     u8 *action_slot;
@@ -74,11 +72,8 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     s32 entry_index;
     s32 state_flags;
 
-    action_sprite = sprite;
-    frame_table = direction_frames;
     special_action = 0;
     self = entity;
-    ASM_KEEP(action_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
 
     if (((S_801717D0_0 *)self)->unk_1C & 0x2000) {
@@ -147,9 +142,11 @@ process:
                                   ((S_801717D0_5 *)action_entry)->unk_13);
             }
         }
+        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
+    } else {
+        ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
     }
 
-    ((Rec_func_800A9E70_arg0 *)entity)->unk_9A.as_u8 = 0x12;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_9B.as_u8 = 0;
     ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = 0;
 
@@ -157,7 +154,6 @@ process:
         (*(u8 * *)((u8 *)action_sprite + 0x2C)) = frame_table;
         selection_index = (gameWork.view.viewAngle + ((S_801717D0_0 *)self)->unk_2A.s + 0x100) >> 9;
         func_80047784(action_sprite, frame_table[selection_index & 7], 0);
-        ASM_KEEP(frame_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 
     ((S_801717D0_2 *)((u8 *)&dungeonStatus.unk_00))->unk_0A++;
