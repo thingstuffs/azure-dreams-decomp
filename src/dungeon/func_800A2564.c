@@ -38,16 +38,15 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     u8 *render_ctx;
     u8 *entity;
     u8 *prim;
-    u8 *prim_code;
     u8 *sprite;
-    u8 *tex_info;
     s32 world_z, depth, angle_y_offset, sort_depth;
     s32 tex_u, tex_width, tex_v, tex_height;
     register s32 tex_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tex_right;
     s32 tex_top;
     s32 tex_bottom;
-    s32 quad_right, quad_bottom, packed_uv, quad_left, quad_top;
+    s32 packed_uv;
+    s16 quad_left, quad_top, quad_right, quad_bottom;
     u8 offset_x_byte, offset_y_byte;
     s32 visible, visible1, visible2, visible3;
     s32 screen_bottom;
@@ -121,51 +120,42 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                 screen3 = scratch + 0xFC;
                 depth_out = scratch + 0x90;
                 flags_out = scratch + 0x94;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 U16(scratch, 0xB8) = U16(scratch, 0xB8) - 0xA0;
                 U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
-                tex_info = sprite + 4;
-                prim_code = prim + 7;
                 U16(scratch, 0x100) = U16(render_params, 0x16);
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                angle_z = U16(render_params, 0x1A);
-                angle_z -= camera_angles.b;
+                angle_z = U16(render_params, 0x1A) - camera_angles.b;
                 U16(scratch, 0x104) = U16(render_state, 184) + angle_z;
-                angle_y = camera_angles.c;
-                angle_y += 0x100;
-                angle_y &= 0x1FF;
-                angle_y_offset = U16(render_params, 0x18);
-                angle_y_offset -= 0x100;
-                angle_y += angle_y_offset;
-                U16(scratch, 0x102) = angle_y;
+                angle_y = (camera_angles.c + 0x100) & 0x1FF;
+                angle_y_offset = U16(render_params, 0x18) - 0x100;
+                U16(scratch, 0x102) = angle_y + angle_y_offset;
                 func_80065820((u8 *)tex_left, matrix_or_prim);
                 func_80064840(view_matrix, rotation_matrix, transform);
                 func_80064D80(transform);
                 func_80064CF0(transform);
                 for (;;) {
                     if (!(U8(sprite, 0) & 0x20)) {
-                        tex_u = U8(tex_info, 4);
+                        tex_u = U8(sprite, 0x8);
                         U32(scratch, 8) = tex_u;
-                        tex_width = U8(tex_info, 6);
+                        tex_width = U8(sprite, 0xA);
                         U32(scratch, 0x10) = tex_width;
                         if (tex_u + tex_width >= 0x100) {
                             U32(scratch, 0x10) = tex_width - 1;
                         }
-                        tex_v = U8(tex_info, 5);
+                        tex_v = U8(sprite, 0x9);
                         U32(scratch, 0xC) = tex_v;
-                        tex_height = U8(tex_info, 7);
+                        tex_height = U8(sprite, 0xB);
                         U32(scratch, 0x14) = tex_height;
                         if (tex_v + tex_height >= 0x100) {
                             U32(scratch, 0x14) = tex_height - 1;
                         }
-                        offset_x_byte = *(volatile u8 *)(tex_info - 2);
+                        offset_x_byte = U8(sprite, 0x2);
                         quad_left = (s8)offset_x_byte;
                         S16(scratch, 0x80) = quad_left;
                         S16(scratch, 0x70) = quad_left;
                         quad_right = quad_left + U16(scratch, 0x10);
                         S16(scratch, 0x88) = quad_right;
                         S16(scratch, 0x78) = quad_right;
-                        offset_y_byte = *(volatile u8 *)(tex_info - 1);
+                        offset_y_byte = U8(sprite, 0x3);
                         quad_top = (s8)offset_y_byte;
                         S16(scratch, 0x7A) = quad_top;
                         S16(scratch, 0x72) = quad_top;
@@ -174,32 +164,32 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                         S16(scratch, 0x82) = quad_bottom;
                         func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                             depth_out, flags_out);
-                        U16(prim_code, 1) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
-                        U16(prim_code, 3) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
-                        U16(prim_code, 9) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
-                        U16(prim_code, 0xB) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
-                        U16(prim_code, 0x11) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
-                        U16(prim_code, 0x13) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
-                        U16(prim_code, 0x19) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
+                        U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
+                        U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
+                        U16(prim, 0x10) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
+                        U16(prim, 0x12) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
+                        U16(prim, 0x18) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
+                        U16(prim, 0x1A) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
+                        U16(prim, 0x20) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
                         screen_bottom = U16(scratch, 0xFE) + U16(scratch, 0xBA);
-                        U16(prim_code, 0x1B) = screen_bottom;
+                        U16(prim, 0x22) = screen_bottom;
                         visible = 0;
-                        if ((u16)(U16(prim_code, 1) + 0x20) < 0x181) {
-                            visible = (u16)(U16(prim_code, 3) + 0x20) < 0x121;
+                        if ((u16)(U16(prim, 0x8) + 0x20) < 0x181) {
+                            visible = (u16)(U16(prim, 0xA) + 0x20) < 0x121;
                         }
                         visible1 = 0;
-                        if ((u16)(U16(prim_code, 9) + 0x20) < 0x181) {
-                            visible1 = (u16)(U16(prim_code, 0xB) + 0x20) < 0x121;
+                        if ((u16)(U16(prim, 0x10) + 0x20) < 0x181) {
+                            visible1 = (u16)(U16(prim, 0x12) + 0x20) < 0x121;
                         }
                         visible2 = 0;
                         visible = visible | visible1;
-                        if ((u16)(U16(prim_code, 0x11) + 0x20) < 0x181) {
-                            visible2 = (u16)(U16(prim_code, 0x13) + 0x20) < 0x121;
+                        if ((u16)(U16(prim, 0x18) + 0x20) < 0x181) {
+                            visible2 = (u16)(U16(prim, 0x1A) + 0x20) < 0x121;
                         }
                         visible3 = 0;
                         visible |= visible2;
                         visible2 = visible;
-                        if ((u16)(U16(prim_code, 0x19) + 0x20) < 0x181) {
+                        if ((u16)(U16(prim, 0x20) + 0x20) < 0x181) {
                             visible3 = (u16)(screen_bottom + 0x20) < 0x121;
                         }
                         if ((visible2 | visible3) != 0) {
@@ -218,29 +208,28 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             U32(scratch, 0x14) = tex_bottom;
                             U32(scratch, 0xC) = packed_uv;
                             packed_uv += tex_left;
-                            packed_uv += U16(tex_info, 2) << 16;
-                            S32(prim_code, 5) = packed_uv;
-                            S32(prim_code, 0xD) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(tex_info, 0) << 16);
-                            S16(prim_code, 0x15) = U32(scratch, 0x14) + U32(scratch, 8);
-                            S16(prim_code, 0x1D) = U32(scratch, 0x14) + U32(scratch, 0x10);
+                            packed_uv += U16(sprite, 0x6) << 16;
+                            S32(prim, 0xC) = packed_uv;
+                            S32(prim, 0x14) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(sprite, 0x4) << 16);
+                            S16(prim, 0x1C) = U32(scratch, 0x14) + U32(scratch, 8);
+                            S16(prim, 0x24) = U32(scratch, 0x14) + U32(scratch, 0x10);
                             if ((s16)U16(scratch, 0x50) >= 0x1800) {
-                                U8(prim_code, 0xD) = U8(prim_code, 0x1D)--;
+                                U8(prim, 0x14) = U8(prim, 0x24)--;
                             }
                             if ((s16)U16(scratch, 0x58) >= 0x1800) {
-                                U8(prim_code, 0x16) = U8(prim_code, 0x1E)--;
+                                U8(prim, 0x1D) = U8(prim, 0x25)--;
                             }
-                            if (S16(prim_code, 1) > S16(prim_code, 0x19)) {
-                                U8(prim_code, 0xD) = U8(prim_code, 0xD) - 1;
-                                U8(prim_code, 0x1D) = U8(prim_code, 0x1D) - 1;
+                            if (S16(prim, 0x8) > S16(prim, 0x20)) {
+                                U8(prim, 0x14) = U8(prim, 0x14) - 1;
+                                U8(prim, 0x24) = U8(prim, 0x24) - 1;
                             }
-                            if (S16(prim_code, 3) > S16(prim_code, 0x1B)) {
-                                U8(prim_code, 0x16) = U8(prim_code, 0x16) - 1;
-                                U8(prim_code, 0x1E) = U8(prim_code, 0x1E) - 1;
+                            if (S16(prim, 0xA) > S16(prim, 0x22)) {
+                                U8(prim, 0x1D) = U8(prim, 0x1D) - 1;
+                                U8(prim, 0x25) = U8(prim, 0x25) - 1;
                             }
-                            S32(prim_code, -3) = S32(render_params, 0xC);
+                            S32(prim, 0x4) = S32(render_params, 0xC);
                             func_800666F4(prim);
                             matrix_or_prim = prim;
-                            prim_code += 40;
                             func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
                             prim += 40;
                             func_800649A0();
@@ -263,36 +252,34 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             U16(scratch, 0x78) = U16(scratch, 0x78) + 6;
                             func_800654B0(vertex0, vertex1, vertex2, vertex3, screen0, screen1, screen2, screen3,
                                 depth_out, flags_out);
-                            U16(prim_code, 1) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
-                            U16(prim_code, 3) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
-                            U16(prim_code, 9) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
-                            U16(prim_code, 0xB) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
-                            U16(prim_code, 0x11) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
-                            U16(prim_code, 0x13) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
-                            U16(prim_code, 0x19) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
-                            U16(prim_code, 0x1B) = U16(scratch, 0xFE) + U16(scratch, 0xBA);
-                            S32(prim_code, 5) = U32(scratch, 0xC) + U32(scratch, 8) + 0x7FC00000;
-                            S32(prim_code, 0xD) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(tex_info, 0) << 16);
-                            S16(prim_code, 0x15) = U32(scratch, 0x14) + U32(scratch, 8);
-                            S16(prim_code, 0x1D) = U32(scratch, 0x14) + U32(scratch, 0x10);
-                            if (S16(prim_code, 1) > S16(prim_code, 0x19)) {
-                                U8(prim_code, 0xD) = U8(prim_code, 0xD) - 1;
-                                U8(prim_code, 0x1D) = U8(prim_code, 0x1D) - 1;
+                            U16(prim, 0x8) = U16(scratch, 0xF0) + U16(scratch, 0xB8);
+                            U16(prim, 0xA) = U16(scratch, 0xF2) + U16(scratch, 0xBA);
+                            U16(prim, 0x10) = U16(scratch, 0xF4) + U16(scratch, 0xB8);
+                            U16(prim, 0x12) = U16(scratch, 0xF6) + U16(scratch, 0xBA);
+                            U16(prim, 0x18) = U16(scratch, 0xF8) + U16(scratch, 0xB8);
+                            U16(prim, 0x1A) = U16(scratch, 0xFA) + U16(scratch, 0xBA);
+                            U16(prim, 0x20) = U16(scratch, 0xFC) + U16(scratch, 0xB8);
+                            U16(prim, 0x22) = U16(scratch, 0xFE) + U16(scratch, 0xBA);
+                            S32(prim, 0xC) = U32(scratch, 0xC) + U32(scratch, 8) + 0x7FC00000;
+                            S32(prim, 0x14) = U32(scratch, 0xC) + U32(scratch, 0x10) + (S16(sprite, 0x4) << 16);
+                            S16(prim, 0x1C) = U32(scratch, 0x14) + U32(scratch, 8);
+                            S16(prim, 0x24) = U32(scratch, 0x14) + U32(scratch, 0x10);
+                            if (S16(prim, 0x8) > S16(prim, 0x20)) {
+                                U8(prim, 0x14) = U8(prim, 0x14) - 1;
+                                U8(prim, 0x24) = U8(prim, 0x24) - 1;
                             }
-                            if (S16(prim_code, 3) > S16(prim_code, 0x1B)) {
-                                U8(prim_code, 0x16) = U8(prim_code, 0x16) - 1;
-                                U8(prim_code, 0x1E) = U8(prim_code, 0x1E) - 1;
+                            if (S16(prim, 0xA) > S16(prim, 0x22)) {
+                                U8(prim, 0x1D) = U8(prim, 0x1D) - 1;
+                                U8(prim, 0x25) = U8(prim, 0x25) - 1;
                             }
-                            S32(prim_code, -3) = S32(render_params, 0xC);
+                            S32(prim, 0x4) = S32(render_params, 0xC);
                             func_800666F4(prim);
-                            U8(prim_code, 0) = U8(prim_code, 0) | 2;
-                            prim_code += 40;
+                            U8(prim, 0x7) = U8(prim, 0x7) | 2;
                             func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, prim);
                             prim += 40;
                             func_80064A40();
                         }
                     }
-                    tex_info += 12;
                     if (S8(sprite, 0) < 0) {
                         break;
                     }
