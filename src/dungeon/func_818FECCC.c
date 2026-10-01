@@ -57,72 +57,65 @@ extern u8 D_80024400[];
 
 /* Creates an effect at randomized offsets from the source object's position. */
 void func_818FECCC(
-    void *source_obj,
-    s32 param_34,
-    s32 param_28,
-    s16 param_52,
-    s32 x_offset,
-    s32 y_offset,
-    s32 z_offset)
+    void *source,
+    s16 field_34,
+    s32 field_28,
+    s16 field_52,
+    s16 offset_x,
+    s16 offset_y,
+    s16 offset_z)
 {
-    void *source = source_obj;
-    u32 saved_param_28 = param_28;
-    register s16 saved_param_52 ASM_REG("$22") = param_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_y_offset = y_offset;
-    s32 saved_z_offset = z_offset;
-    void *effect_cursor;
-    s32 x_random;
-    s32 y_random;
-    s32 z_random;
-    s32 x_bias;
-    s32 y_bias;
-    s32 z_bias;
-    s32 x_pos;
-    s32 y_pos;
-    s32 z_pos;
-    u32 descriptor_page;
-    register void *effect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *effect_data;
-    S_818FECCC_2 *x_dest;
-    S_818FECCC_3 *y_dest;
-    S_818FECCC_5 *z_dest;
+    void *source_obj = source;
+    u32 saved_field_28 = field_28;
+    s16 saved_field_52 = field_52;
+    void *object_cursor;
+    S_818FECCC_0 *fields;
+    s32 jitter_x;
+    s32 jitter_y;
+    s32 jitter_z;
+    s16 bias_x;
+    s16 bias_y;
+    s16 bias_z;
+    s16 position_x;
+    s16 position_y;
+    s16 position_z;
+    void *init_data;
+    S_818FECCC_2 *dest_x;
+    S_818FECCC_3 *dest_y;
+    S_818FECCC_5 *dest_z;
 
-    effect_cursor = func_8003FD64(0x211, source);
-    if (effect_cursor != NULL) {
-        descriptor_page = 0x80020000;
-        ASM_KEEP(descriptor_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_818FECCC_0 *)effect_cursor)->unk_10 = descriptor_page + 0x4400;
-        x_random = func_80069EF8() & 0x1F;
-        x_pos = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source)->unk_08))->unk_02;
-        x_dest = ((S_818FECCC_0 *)effect_cursor)->unk_08.s;
-        x_pos += x_random;
-        x_bias = x_offset - 0x10;
-        x_pos += x_bias;
-        x_dest->unk_02 = (s16)x_pos;
+    object_cursor = func_8003FD64(0x211, source_obj);
+    if (object_cursor != NULL) {
+        ((S_818FECCC_0 *)object_cursor)->unk_10 = (s32)D_80024400;
+        jitter_x = func_80069EF8() & 0x1F;
+        position_x = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_02;
+        dest_x = ((S_818FECCC_0 *)object_cursor)->unk_08.s;
+        position_x += jitter_x;
+        bias_x = offset_x - 0x10;
+        position_x += bias_x;
+        dest_x->unk_02 = (s16)position_x;
 
-        y_random = func_80069EF8() & 0x1F;
-        y_pos = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source)->unk_08))->unk_06;
-        y_dest = ((S_818FECCC_0 *)effect_cursor)->unk_08.s;
-        y_pos += y_random;
-        y_bias = saved_y_offset - 0x10;
-        y_pos += y_bias;
-        y_dest->unk_06 = (s16)y_pos;
+        jitter_y = func_80069EF8() & 0x1F;
+        position_y = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_06;
+        dest_y = ((S_818FECCC_0 *)object_cursor)->unk_08.s;
+        position_y += jitter_y;
+        bias_y = offset_y - 0x10;
+        position_y += bias_y;
+        dest_y->unk_06 = (s16)position_y;
 
-        z_random = func_80069EF8();
-        effect = effect_cursor;
-        effect_data = &D_800241B0;
-        z_random &= 0x1F;
-        z_pos = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source)->unk_08))->unk_0A;
-        effect_cursor = (u8 *)effect + 0x20;
-        z_dest = ((S_818FECCC_4 *)effect)->unk_08;
-        z_pos += z_random;
-        z_bias = saved_z_offset + 0x10;
-        z_pos += z_bias;
-        z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(effect_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_818FECCC_0 *)effect_cursor)->unk_14 = param_34;
-        ((S_818FECCC_0 *)effect_cursor)->unk_32 = saved_param_52;
-        func_8004491C(effect, effect_data);
-        ((S_818FECCC_0 *)effect_cursor)->unk_08.u = saved_param_28;
+        jitter_z = func_80069EF8();
+        init_data = &D_800241B0;
+        jitter_z &= 0x1F;
+        position_z = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source_obj)->unk_08))->unk_0A;
+        fields = (S_818FECCC_0 *)((u8 *)object_cursor + 0x20);
+        dest_z = ((S_818FECCC_4 *)object_cursor)->unk_08;
+        position_z += jitter_z;
+        bias_z = offset_z + 0x10;
+        position_z += bias_z;
+        dest_z->unk_0A = (s16)position_z;
+        fields->unk_14 = field_34;
+        fields->unk_32 = saved_field_52;
+        func_8004491C(object_cursor, init_data);
+        fields->unk_08.u = saved_field_28;
     }
 }
