@@ -7,8 +7,7 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
     u8 *first_row_end;
     u8 *dst_end;
     register u8 *dst_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 header ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    s32 stride;
+    s32 header;
     s32 size;
     s32 remaining;
     s32 dst_high;
@@ -78,12 +77,12 @@ return_linear_end:
         return dst + 1;
     }
     if (header != 0) {
-        stride = header >> 1;
+        header = header >> 1;
         size = src_start[0] + (src_start[1] << 8);
         src_start += 2;
-        first_row_end = dst + stride;
+        first_row_end = dst + header;
         dst_end = dst + size;
-        do {
+        for (;;) {
             packed = *src_start++;
             if ((packed & 0xF0) == 0) {
                 remaining = packed * 2;
@@ -107,7 +106,7 @@ return_linear_end:
                         }
                         *dst = column_byte | nibble;
                     }
-                    dst += stride;
+                    dst += header;
                     src_low ^= 1;
                     if (dst >= dst_end) {
                         dst_high ^= 1;
@@ -133,7 +132,7 @@ return_linear_end:
                     } else {
                         *dst |= column_byte;
                     }
-                    dst += stride;
+                    dst += header;
                     if (dst >= dst_end) {
                         dst_high ^= 1;
                         if (dst_high == 0) {
@@ -147,8 +146,14 @@ return_linear_end:
                     remaining--;
                 }
             }
-        } while (dst + stride < dst_end || dst_high == 0 || dst_start + 1 < first_row_end);
-        return dst_end;
+            if (dst + header < dst_end)
+                continue;
+            if (dst_high == 0)
+                continue;
+            if (dst_start + 1 < first_row_end)
+                continue;
+            return dst_end;
+        }
     }
     size = src_start[0] + (src_start[1] << 8);
     memcpy(dst, src_start + 2, size);

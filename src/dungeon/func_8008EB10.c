@@ -60,7 +60,6 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
     s16 out_b;
     s16 kind;
     s32 text;
-    s16 index;
     u8 bits;
     s32 msg;
     s32 call_result;
@@ -116,18 +115,10 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         if (kind != 0) {
             msg = func_800990FC((s32)hdr3);
             if (kind == 1) {
-                s32 *table_base;
-                register u32 table_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-                bits = item->unk_03 & 0x1F;
-                index = bits & 0xFF;
+                kind = item->unk_03 & 0x1F;
                 text = func_80099194(&D_800E0747, msg);
                 text = func_8009929C(0xA, text);
-                table_base = D_800E3DF0;
-                table_entry = index;
-                table_entry <<= 2;
-                table_entry += (u32) table_base;
-                call_result = func_80099734(*(s32 *) table_entry, text);
+                call_result = func_80099734(D_800E3DF0[kind], text);
                 hdr3 = &D_800E0766;
             } else {
                 if (kind == 2) {

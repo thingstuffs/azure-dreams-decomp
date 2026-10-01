@@ -61,14 +61,12 @@ typedef struct S_80921B2C_6 {
 } S_80921B2C_6;   /* (s8 *)temp_buf + (((u16) ((S_80921B2C_4 *)temp_s6)->unk_2A >> 7) & 0x1C) in func_80921B2C */
 
 /* Creates an effect at an offset position with direction-based motion and sprite settings. */
-void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_offset) {
+void func_80921B2C(S_80921B2C_3 *position, s16 x_offset, s16 y_offset, s16 z_offset) {
     u8 direction_table[32];
     u8 *direction_source;
-    s32 saved_y_offset = y_offset;
-    s32 saved_z_offset = z_offset;
-    register s32 effect_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 effect_type;
     u8 *global_state;
-    register u8 *direction_state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *direction_state;
     S_80921B2C_2 *motion;
     S_80921B2C_5 *sprite;
     S_80921B2C_0 *effect;
@@ -76,7 +74,6 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
     direction_source = D_800F6000;
     memcpy(direction_table, direction_source, 0x20);
     effect_type = 0x212;
-    ASM_USE_NV(effect_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     global_state = ((u8 *)(&D_80083498));
     direction_state = global_state + 0x20;
     effect = func_8003FC64(effect_type);
@@ -96,12 +93,11 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
         }
         motion = effect->unk_08;
         motion->unk_00.at00.v = (s32) position->unk_00;
-        global_state = (s32) position->unk_04;
-        motion->unk_04.at00.v = global_state;
+        motion->unk_04.at00.v = (s32) position->unk_04;
         motion->unk_08.at00.v = (s32) position->unk_08;
         motion->unk_00.at02.v = (u16) (motion->unk_00.at02.v + x_offset);
-        motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + saved_y_offset);
-        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + saved_z_offset);
+        motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + y_offset);
+        motion->unk_08.at02.v = (u16) (motion->unk_08.at02.v + z_offset);
         motion->unk_0C = (s32) ((*(s16 *)((u8 *)directions + (((u16) ((S_80921B2C_4 *)direction_state)->unk_2A
             >> 7) & 0x1C))) * 0x180000);
         motion->unk_10 = (s32) ((s16) ((S_80921B2C_6 *)((s8 *)directions
