@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-01T10:23:59Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-01T10:25:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,7 +73,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,284 | 11.9% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 338 | 414,728 | 16.2% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 337 | 413,472 | 16.2% |
 | goto | 1545 | 1,318,412 | 51.5% | 692 | 746,664 | 29.2% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 88 | 144,544 | 5.7% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 250 | 212,724 | 8.3% |
@@ -86,11 +86,26 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,704 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5228 | 1,450,852 | 56.7% |
 
-Pin sites now: 1,162 in 337 rows; REG 624, KEEP 192, KEEP_NV 159, SCHED_BARRIER 54, USE_NV 28, USE 21, USE2_NV 16, KEEP_DEP_NV 13.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 1,161 in 336 rows; REG 623, KEEP 192, KEEP_NV 159, SCHED_BARRIER 54, USE_NV 28, USE 21, USE2_NV 16, KEEP_DEP_NV 13.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 2 (C that is missing); symbol aliases 101 (a second typed name for one symbol: a missing type); file-scope asm directives 417.
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 207 rows carry one flag, 15 carry two or more.
+
+
+## Likely incorrect compiler (registered recipe vs the real build)
+
+The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects (r84_fable_build). A row listed here carries a recipe its module's pin-free rows do not use - usually pins fitted at the wrong compiler. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.
+
+| class | rows | dungeon / town / main | pinned rows | pins |
+|---|---:|---|---:|---:|
+| late cell (2.8.x / egcs / 2.95.2: fitted) | 71 | 48 / 17 / 6 | 28 | 142 |
+| cdk cell + crutch flags, module is plain | 56 | 41 / 13 / 2 | 24 | 109 |
+| stock cell inside a cdk module | 27 | 12 / 13 / 2 | 2 | 25 |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 115 | 29 / 38 / 48 | 6 | 19 |
+| **total** | **269** | | **60** | **295** |
+
+Most-pinned rows off their build recipe: dungeon/func_807B0B3C 23 pins (2.7.2-cdk -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); dungeon/func_8008EE88 19 pins (2.95.2-G0 -> 2.7.2-cdk-G0); dungeon/func_800C4A80 17 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 14 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_818AAE60 10 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80F5F040 9 pins (2.8.0-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 8 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); town/func_800B9CC8 7 pins (2.95.2-G0 -> 2.7.2-cdk-G0); dungeon/func_818C3B90 7 pins (2.7.2-cdk -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_800A2564 7 pins (2.7.2-cdk-G0 -fno-strength-reduce -> 2.7.2-cdk-G0); dungeon/func_800A172C 7 pins (2.95.2-G0 -fno-schedule-insns -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
@@ -111,7 +126,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 819 rows, 474,348 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 337 rows (414,604 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 336 rows (413,348 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

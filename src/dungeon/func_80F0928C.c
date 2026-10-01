@@ -38,11 +38,10 @@ __attribute__((section(".text.func_80170A8C"))) = {
 void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
 {
     void *state_alias = entity_state;
-    register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 part_flags;
     u16 fade_frame;
     u8 *direction_frames;
-    s16 sample_height;
+    s32 sample_height;
     s16 base_height;
     s32 view_direction;
     s32 state_flags;
@@ -161,12 +160,12 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
         if (!(U16_AT(entity_state, 0x98) & 4)) {
             sample_height = func_800BCB04(U16_AT(entity_motion, 2), U16_AT(entity_motion, 6),
                                           (s16)(U16_AT(state_alias, 0x88) - 0x20));
-            if (sample_height < 0x200) {
+            if ((s16)sample_height < 0x200) {
                 base_height = U16_AT(state_alias, 0x88);
-                if ((S16_AT(entity_state, 0x92) + base_height) < sample_height) {
+                if ((S16_AT(entity_state, 0x92) + base_height) < (s16)sample_height) {
                     S32_AT(state_alias, 0x1C) &= 0xF7FFFFFF;
                 } else {
-                    if (sample_height >= base_height) {
+                    if ((s16)sample_height >= base_height) {
                         S32_AT(entity_state, 0x90) = 0;
                         S32_AT(entity_motion, 0x14) = 0;
                         S32_AT(state_alias, 0x1C) |= 0x08000000;
@@ -181,11 +180,11 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
                 state_flags = S32_AT(state_alias, 0x1C);
                 if (state_flags & 0x40000000) {
                     S32_AT(state_alias, 0x1C) = state_flags & 0xBFFFFFFF;
-                    floor_height = func_800BCB04((U8_AT(entity_part, 0x24) << 6) | 0x20,
+                    sample_height = func_800BCB04((U8_AT(entity_part, 0x24) << 6) | 0x20,
                                                  (U8_AT(entity_part, 0x25) << 6) | 0x20,
                                                  (s16)(U16_AT(state_alias, 0x88) - 0x20));
-                    S16_AT(entity_state, 0x92) += U16_AT(state_alias, 0x88) - floor_height;
-                    U16_AT(state_alias, 0x88) = floor_height;
+                    S16_AT(entity_state, 0x92) += U16_AT(state_alias, 0x88) - sample_height;
+                    U16_AT(state_alias, 0x88) = sample_height;
                 }
                 goto final_update;
             }
