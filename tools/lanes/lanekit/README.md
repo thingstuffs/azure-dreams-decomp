@@ -421,3 +421,4 @@ differs is rejected (`jtbl: local .rodata at 0x... word N: got 0x..., retail 0x.
   check is disabled inside a child process by `nojtbl_run.py`; overlay rows only).
 * A text-exact `--no-jtbl` result still needs the table fixed (word index and got/retail values are in the
   `jtbl-mismatch` status of the ordinary run) before it can land.
+- `counts.py FILE.c --row <id> [--cfg CFG]`: reg_n_sets per register at flow and at combine (what sched1 reads), plus each sched1 block's boosted and not-boosted ready insns. Use it when why.py tags a moved insn `[launched: birthing boost]` (r85_fable_birth).
