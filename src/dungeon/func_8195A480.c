@@ -240,10 +240,8 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
                     update_y_base = (s16 *)dirStepY;
                     update_y_offset = ((S_80025C80_0 *)effect_in)->unk_40.s << 1;
                     update_y_ptr = (s16 *) ((unsigned long) update_y_offset + (unsigned long) update_y_base);
-                    update_y = (u16) ((S_80025C80_0 *)effect_in)->unk_3E.v;
-                    y_step = (u16) *(volatile u16 *) update_y_ptr;
+                    update_y = (u16) ((S_80025C80_0 *)effect_in)->unk_3E.v + *update_y_ptr;
                     ((S_80025C80_0 *)effect_in)->unk_30.n = 3;
-                    update_y += y_step;
                     ((S_80025C80_0 *)effect_in)->unk_3E.n = update_y;
                 }
             }
