@@ -29,64 +29,51 @@ s32 func_800A6D30(void);
 void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 setup_arg3) {
     s32 random_bits;
     u16 tile_flags;
-    s16 limit_test;
+    s16 count;
+    s32 entry_index;
     s32 x_offset;
     s32 y_offset;
-    s32 coord;
-    s32 entry_index;
-    s32 last_index;
-    void *coords;
-    void *state;
-    void *state_prefix;
+    u8 *state;
+    u8 *state_prefix;
+    S_8001D328_1 *coords;
+    s32 sum;
     u8 *state_base;
-    register s32 index_sum ASM_REG("$3");
-    register s32 height ASM_REG("$4");
+    u8 *prefix_base;
+    u8 *coords_base;
+    s32 state_offset;
+    s32 coords_offset;
 
     random_bits = func_800A6D30();
-    {
-        register s32 area ASM_REG("$8");
-
-        height = region->unk_06;
-        coord = region->unk_04;
-        area = height * coord;
-        random_bits &= 7;
-        index_sum = (area >> 6) + random_bits + 4;
-        limit_test = index_sum;
-        last_index = index_sum;
+    sum = ((region->unk_06 * region->unk_04) >> 6) + (random_bits & 7) + 4;
+    count = sum;
+    if ((s16)sum >= 0x3D) {
+        count = 0x3C;
     }
-    limit_test = limit_test < 0x3D;
-    if (!limit_test) {
-        last_index = 0x3C;
-    }
-    entry_index = (s16) last_index;
+    entry_index = count;
     if (entry_index >= 0) {
-        u8 *coords_base;
-        s32 coords_offset;
-
         state_base = D_800E3549;
-        height = (s32)(state_base - 1);
-        index_sum = entry_index * 4;
-        state_prefix = (void *) (index_sum + (s32) (u8 *)height);
-        state = index_sum + state_base;
+        prefix_base = state_base - 1;
+        state_offset = entry_index * 4;
+        state_prefix = state_offset + prefix_base;
+        state = state_offset + state_base;
         coords_base = D_800E36C8;
         coords_offset = entry_index * 0xC;
-        coords = (void *) (coords_offset + (s32) coords_base);
-        do {
+        coords = (S_8001D328_1 *)(coords_offset + coords_base);
+loop:
             x_offset = func_800A6DA4(0, (region->unk_04 - 1) & 0xFFFF) & 0xFFFF;
             y_offset = func_800A6DA4(0, (region->unk_06 - 1) & 0xFFFF) & 0xFFFF;
-            coord = region->unk_00 + x_offset;
-            ((S_8001D328_1 *)coords)->unk_00 = (u8) coord;
-            coord = region->unk_02 + y_offset;
-            ((S_8001D328_1 *)coords)->unk_01 = (u8) coord;
-            if (((func_8009A350(((S_8001D328_1 *)coords)->unk_00 - 1, *(volatile u8 *) ((u8 *) coords + 1), 0,
-                &tile_flags) << 0x10) == 0) || !(tile_flags & 0xFF20)) {
-                func_8009A21C(((S_8001D328_1 *)coords)->unk_00, ((S_8001D328_1 *)coords)->unk_01, 0x800);
+            coords->unk_00 = region->unk_00 + x_offset;
+            coords->unk_01 = region->unk_02 + y_offset;
+            if (((func_8009A350(coords->unk_00 - 1, coords->unk_01, 0, &tile_flags) << 16) == 0) || !(tile_flags & 0xFF20)) {
+                func_8009A21C(coords->unk_00, coords->unk_01, 0x800);
                 func_8001E660(state, state_prefix, 0, 1);
             }
             state_prefix -= 4;
             state -= 4;
-            entry_index -= 1;
-            coords -= 0xC;
-        } while (entry_index >= 0);
+            entry_index--;
+            coords = (S_8001D328_1 *)((u8 *)coords - 0xC);
+            if (entry_index >= 0) {
+                goto loop;
+            }
     }
 }
