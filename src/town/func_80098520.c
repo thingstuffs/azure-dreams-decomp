@@ -83,7 +83,7 @@ void func_80095C80(EntityRec *position) {
     s32 neg_xy_boundary;
     s32 pos_xy_test;
     s32 pos_x_neg_y_test;
-    register s32 axis_test ASM_REG("$2");
+    s32 axis_test;
 
     motion = (M2C_UNK *)D_800FE5C0;
     if (((S_80095C80_0 *)motion)->unk_0C > 0) {
@@ -161,12 +161,13 @@ void func_80095C80(EntityRec *position) {
                 pos_x_neg_y_motion = (M2C_UNK *)D_80100000;
                 if (neg_y_hit == 0) {
                     s32 x_offset;
+                    s32 absolute_y;
                     x_offset = ((u16)position->x.w.i);
-                    axis_test = (s16) ((u16)position->y.w.i);
+                    absolute_y = position->y.w.i;
                     x_offset &= 0x3F;
-                    axis_test = abs(axis_test);
-                    axis_test &= 0x3F;
-                    x_offset = x_offset < axis_test;
+                    absolute_y = abs(absolute_y);
+                    absolute_y &= 0x3F;
+                    x_offset = x_offset < absolute_y;
                     if (x_offset != 0) {
                         func_800961A8(position);
                         return;
@@ -227,12 +228,11 @@ void func_80095C80(EntityRec *position) {
                     neg_x_pos_y_motion = (M2C_UNK *)D_80100000;
                     if (y_test == 0) {
                         s32 y_offset;
-                        axis_test = (s16) ((u16)position->x.w.i);
+                        s32 absolute_x = abs(position->x.w.i);
                         y_offset = ((u16)position->y.w.i);
-                        axis_test = abs(axis_test);
-                        axis_test &= 0x3F;
+                        absolute_x &= 0x3F;
                         y_offset &= 0x3F;
-                        if (axis_test < y_offset) {
+                        if (absolute_x < y_offset) {
                             func_800961A8(position);
                             return;
                         }
@@ -284,13 +284,12 @@ void func_80095C80(EntityRec *position) {
                     neg_xy_motion = (M2C_UNK *)D_80100000;
                     if (axis_test == 0) {
                         s32 y_offset;
-                        axis_test = (s16) ((u16)position->x.w.i);
+                        s32 absolute_x = abs(position->x.w.i);
                         y_offset = (s16) ((u16)position->y.w.i);
-                        axis_test = abs(axis_test);
-                        axis_test &= 0x3F;
+                        absolute_x &= 0x3F;
                         y_offset = abs(y_offset);
                         y_offset &= 0x3F;
-                        if (axis_test < y_offset) {
+                        if (absolute_x < y_offset) {
                             func_800961D8(position);
                             return;
                         }
@@ -308,7 +307,10 @@ void func_80095C80(EntityRec *position) {
                 y_step_or_side = 1;
                 probe.y = pos_x_neg_y_y - probe_coord;
                 probe.z = position->z.v - probe_coord;
-                axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->x.v;
+                axis_test = func_80095BF0(&probe, y_step_or_side);
+                axis_test <<= 16;
+                axis_test = axis_test < position->x.v;
+                axis_test ^= 1;
                 if (axis_test != 0) {
                     func_800961A8(position);
                     return;

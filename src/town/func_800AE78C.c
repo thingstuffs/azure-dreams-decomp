@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/dir_step.h"
 
-extern void func_800ABE60(u32 x, u32 y, u32 cell);
+extern void func_800ABE60(u16 x, u16 y, u32 cell);
 
 typedef struct {
     s32 map_base;
@@ -13,7 +13,7 @@ typedef struct {
 extern GridInfo D_8008333C[];
 
 /* Visit and count flagged grid cells along two opposite directions for up to ten steps. */
-s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
+s32 func_800ABEEC(s32 dir, s16 start_x, s16 start_y) {
         /* The six spilled locals. Declaration order == stack slot order:
        0x10, 0x18, 0x20, 0x28, 0x30, 0x34($sp). */
     s32 map_base;
@@ -28,11 +28,11 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     s32 fwd_check_y;
     s32 rev_check_x;
     s32 rev_check_y;
-    register s32 fwd_y;
-    register s32 rev_y;
-    register s32 fwd_x;
-    register s32 fwd_blocked;
-    register s32 rev_blocked;
+    register s16 fwd_y;
+    register s16 rev_y;
+    register s16 fwd_x;
+    register s16 fwd_blocked;
+    register s16 rev_blocked;
     register GridInfo *grid;
     register s32 step_count;
     s32 one;
@@ -46,7 +46,7 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     u16 *rev_cell;
     register u32 fwd_cell_flags;
     register u32 rev_cell_flags;
-    s32 rev_x;
+    s16 rev_x;
     u8 *x_steps;
     s32 fwd_map_y;
     s32 fwd_dx;
@@ -65,28 +65,14 @@ s32 func_800ABEEC(s32 dir, s32 start_x, s32 start_y) {
     s32 y_steps_addr;
     u16 *rev_y_step;
     s32 rev_step_dir;
-        /* $0 read as the constant zero.  Spelling `step_count = 0` with a literal
-       lets reload's find_equiv_reg re-source the 0 from $s4/$s5 (which hold 0
-       here); reading the zero register keeps retail's `move $s7,$zero`. */
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-#ifdef NON_MATCHING
-    zero = 0;
-#endif
     grid = D_8008333C;
     rev_blocked = 0;
     fwd_blocked = rev_blocked;
     rev_x = start_x;
-        /* Copy-propagation pin: this empty asm writes the parameter pseudo, which
-       stops local-alloc's optimize_reg_copy_1 from re-sourcing the second copy
-       below from the first (would give `move $s2,$s3` instead of retail's two
-       direct `move $sN,$a1`). */
-    ASM_KEEP_NV(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     fwd_x = start_x;
     rev_y = start_y;
-    ASM_KEEP_NV(start_y); /* same pin for the $a2 pair */
     fwd_y = start_y;
-    step_count = zero;
+    step_count = 0;
     one = 1;
     map_base = D_8008333C[0].map_base;
     x_steps = (u8 *)((s8 *)dirStepX);
@@ -117,10 +103,8 @@ check_fwd_y:
         if ((fwd_check_y < 0) ||
             ((fwd_check_y < (one << grid->y_shift)) == 0)) {
             fwd_blocked = 1;
-            fwd_stopped = fwd_blocked;
-        } else {
-            fwd_stopped = fwd_blocked;
         }
+        fwd_stopped = fwd_blocked;
         if (fwd_stopped == 0) {
             fwd_map_x = (fwd_x << 0x10) >> 0x10;
             fwd_map_y = (fwd_y << 0x10) >> 0x10;
@@ -131,7 +115,7 @@ check_fwd_y:
             fwd_cell_flags = *fwd_cell;
             if (fwd_cell_flags & 0x8000) {
                 *fwd_cell = fwd_cell_flags | 0x4000;
-                func_800ABE60(fwd_x & 0xFFFF, fwd_y & 0xFFFF, fwd_cell_flags);
+                func_800ABE60(fwd_x, fwd_y, fwd_cell_flags);
                 {
                     u16 *fwd_y_step;
                     u16 *fwd_x_step_ptr;
@@ -160,10 +144,8 @@ check_fwd_y:
         if ((rev_check_y < 0) ||
             ((rev_check_y < (one << grid->y_shift)) == 0)) {
             rev_blocked = 1;
-            rev_stopped = rev_blocked;
-        } else {
-            rev_stopped = rev_blocked;
         }
+        rev_stopped = rev_blocked;
         if (rev_stopped == 0) {
             rev_map_x = (rev_x << 0x10) >> 0x10;
             rev_map_y = (rev_y << 0x10) >> 0x10;
@@ -174,7 +156,7 @@ check_fwd_y:
             rev_cell_flags = *rev_cell;
             if (rev_cell_flags & 0x8000) {
                 *rev_cell = rev_cell_flags | 0x4000;
-                func_800ABE60(rev_x & 0xFFFF, rev_y & 0xFFFF, rev_cell_flags);
+                func_800ABE60(rev_x, rev_y, rev_cell_flags);
                 {
                     register u16 *rev_x_step;
 
@@ -197,11 +179,6 @@ next_step:
         visit_count = fwd_x << 0x10; /* loop-bottom reference; keeps the s2/s3
                                        walker birth order (do not remove) */
     } while (step_count < 10);
-        /* Two dead stores (removed by flow): they keep the parameter pseudos
-       cse-canonical for their whole lifetime, so cse leaves both prologue
-       copies of each parameter reading the argument register directly. */
-    visit_count = start_x;
-    visit_count = start_y;
     visit_count = (s16)(fwd_count + rev_count);
     return visit_count;
 }
