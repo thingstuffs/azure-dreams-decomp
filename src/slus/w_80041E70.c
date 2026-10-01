@@ -17,9 +17,9 @@ void func_80041E70(void *entity)
         s32 scale;
         s32 scale_flags;
 
-        U16(0x6E, entity) = 0x100;
+        scale_flags = 0x100;
+        U16(0x6E, entity) = scale_flags;
         scale_flags = S32(0x54, entity);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         scale = 0x10;
         U8(0x87, entity) = scale;
         if (scale_flags & 1) {

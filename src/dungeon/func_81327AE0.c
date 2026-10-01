@@ -75,13 +75,12 @@ typedef struct S_8016F2E0_5 {
 void func_8016F2E0(void *entity, void *motion, register void *sprite)
 {
     void *actor = entity;
-    s32 old_direction;
-    register s32 direction_copy ASM_REG("$21");
+    s16 old_direction;
+    s16 direction_copy;
     Callback paused_callback;
     s32 floor_height;
     s16 actor_height;
-    s32 direction_check;
-    s32 direction_value;
+    s16 direction_value;
     u8 *tile_slot;
     u16 facing_flags;
     u16 sprite_flags;
@@ -125,8 +124,7 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
         return;
     }
 
-    old_direction = ((S_8016F2E0_3 *)actor)->unk_6D.v;
-    old_direction = (old_direction << 24) >> 24;
+    old_direction = (s8)((S_8016F2E0_3 *)actor)->unk_6D.v;
     if (func_800A9E70(entity, motion, sprite, actor) != 0) {
         return;
     }
@@ -139,8 +137,7 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
     }
     D_80174AD4[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion, sprite, actor);
 
-    direction_check = (s16)old_direction;
-    if (direction_check != ((S_8016F2E0_3 *)actor)->unk_6D.n) {
+    if (old_direction != ((S_8016F2E0_3 *)actor)->unk_6D.n) {
         func_800AA36C(entity, motion, sprite, actor);
     }
 
@@ -149,9 +146,7 @@ void func_8016F2E0(void *entity, void *motion, register void *sprite)
     if (updated_flags == 0) {
         old_direction = ((gameWork.view.viewAngle + ((S_8016F2E0_3 *)actor)->unk_2A + 0x100) >> 9) & 7;
         previous_direction = (*(s16 *)((u8 *)entity + (0x94)));
-        ASM_SCHED_BARRIER();
         direction_value = old_direction;
-        ASM_KEEP(old_direction);
         direction_copy = old_direction;
         if (previous_direction != direction_value) {
             direction_tiles = ((S_8016F2E0_4 *)sprite)->unk_2C;
