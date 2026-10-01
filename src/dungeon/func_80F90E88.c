@@ -121,7 +121,7 @@ s32 func_80F90E88(void *object) {
     s32 merged;
     GameWork *gw;
     s32 link;
-    register s32 tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): local-alloc gives the OT-link block's temps $v0 first; the source shape that leaves $v0 to the tag chain has not been found */
+    s32 ot_entry_address;
 
     points = work;
     z_ptr = &screen.z;
@@ -237,18 +237,23 @@ loop_1:
             ((S_80F90E88_1 *)quad)->unk_0A = 0;
             ((S_80F90E88_1 *)quad)->unk_22 = bottom_y;
             ((S_80F90E88_1 *)quad)->unk_12 = bottom_y;
-            link = (s32) gw->unk_000;
-            tag = ((S_80F90E88_1 *)quad)->unk_00;
-            link = ((S_80F90E88_2 *)(ot_offset + link))->unk_B0;
-            tag &= 0xFF000000;
+            coord_bits = (u32)gw->unk_000;
+            color = ((S_80F90E88_1 *)quad)->unk_00;
+            link = ot_offset + coord_bits;
+            link = ((S_80F90E88_2 *)link)->unk_B0;
+            color &= 0xFF000000;
             link &= address_mask;
-            tag |= link;
-            ((S_80F90E88_1 *)quad)->unk_00 = tag;
+            color |= link;
+            ((S_80F90E88_1 *)quad)->unk_00 = color;
             side--;
-            tag = ((S_80F90E88_2 *)(ot_offset + (s32)gw->unk_000))->unk_B0;
-            tag &= 0xFF000000;
-            tag |= (s32) quad & address_mask;
-            ((S_80F90E88_2 *)(ot_offset + (s32)gw->unk_000))->unk_B0 = tag;
+            next_object = (s32)gw->unk_000;
+            ot_entry_address = ot_offset + next_object;
+            color = ((S_80F90E88_2 *)ot_entry_address)->unk_B0;
+            color &= 0xFF000000;
+            link = (s32)quad;
+            link &= address_mask;
+            color |= link;
+            ((S_80F90E88_2 *)ot_entry_address)->unk_B0 = color;
         } while (side >= 0);
         draw_mode = ((S_80F90E88_7 *)gw->unk_000)->unk_8D0;
         ((S_80F90E88_7 *)gw->unk_000)->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
@@ -256,7 +261,8 @@ loop_1:
         mode_ot_offset = depth * 4;
         link = getaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->unk_000))->unk_B0);
         setaddr(*draw_mode, link);
-        setaddr(((S_80F90E88_2 *)(mode_ot_offset + (s32)gw->unk_000))->unk_B0, (s32) draw_mode);
+        ot_entry_address = mode_ot_offset + (s32)gw->unk_000;
+        setaddr(((S_80F90E88_2 *)ot_entry_address)->unk_B0, (s32) draw_mode);
     }
     next_object = ((S_80F90E88_0 *)((u8 *)object - 0x8))->unk_00;
     if (next_object != 0) {
