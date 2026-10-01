@@ -201,7 +201,7 @@ s32 func_80813AB0(void)
 
     obj = func_800374FC(1, D_801328C8);
     if (obj != 0) {
-        register s32 final_dim ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 final_dim;
         u32 final_color;
 
         ((S_80813AB0_0 *)obj)->unk_10 = D_8052FDF8;
@@ -210,8 +210,8 @@ s32 func_80813AB0(void)
         final_dim = 0x1C;
         ((S_80813AB0_0 *)obj)->unk_2C.at00u.v = final_dim;
         ((S_80813AB0_0 *)obj)->unk_2C.at02.v = final_dim;
-        ((S_80813AB0_0 *)obj)->unk_30.at02.v = final_dim;
         ((S_80813AB0_0 *)obj)->unk_30.at00u.v = 0x48;
+        ((S_80813AB0_0 *)obj)->unk_30.at02.v = final_dim;
         ((S_80813AB0_0 *)obj)->unk_34 = 2;
         ((S_80813AB0_0 *)obj)->unk_28.i = final_color;
         ((S_80813AB0_0 *)obj)->unk_24 = base;
@@ -227,4 +227,6 @@ s32 func_80813AB0(void)
    come FIRST in the source: with case 1 first its body lands after the default jump and jump.c
    inverts the second test (bne to the join) - three words off.
    Explicit copy pointers and volatile final fields reproduce CFG scheduling.
-   A held a0 color plus a guarded short-lived v1 dimension closes the final four-word role swap. */
+   The final object's halfwords are stored in field-offset order (0x2C, 0x2E, 0x30, 0x32): the 0x48
+   store between the dimension stores keeps the 0x1C value live across the 0x48 temporary, so local-alloc
+   gives the dimension v1 and the later unk_36 load reuses it. */
