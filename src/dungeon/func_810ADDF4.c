@@ -322,7 +322,6 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             }
         }
         ((S_801715F4_1 *)actor_arg)->unk_2A.u = (func_800A6D30() & 7) << 9;
-        turn_index = 0;
         goto loop_setup;
     }
 call_obstacle:
@@ -330,12 +329,11 @@ call_obstacle:
                   (u8 *)move_state + 0x98);
 
 reset_turn_index:
-    turn_index = 0;
-
 loop_setup:
+    turn_index = 0;
     turn_table = (s16 *)&D_8006CD00;
 
-    do {
+    for (; turn_index < 8; turn_index++) {
         {
 
             angle = (void *)(((S_801715F4_1 *)actor_arg)->unk_2A.s);
@@ -385,7 +383,6 @@ loop_setup:
 
         if (turn_index == 0) {
             if (*(u16 *)(&D_80082E80.tileX) != ((S_801715F4_2 *)position_arg)->unk_24.at00u.v) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 if ((s16)func_8009A180(
                         actor_arg,
                         (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
@@ -394,11 +391,7 @@ loop_setup:
             }
         }
 
-        turn_index++;
-        if (turn_index >= 8) {
-            break;
-        }
-    } while (1);
+    }
 
     if (turn_index >= 8) {
         ((S_801715F4_1 *)actor_arg)->unk_71.u &= 0x7F;
