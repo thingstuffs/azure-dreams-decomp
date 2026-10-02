@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T06:00:04Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T06:05:15Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -102,9 +102,9 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 32 | 25 / 5 / 2 | 14 | 59 |
 | cdk cell + crutch flags, module is plain | 23 | 15 / 7 / 1 | 10 | 28 |
-| stock cell inside a cdk module | 20 | 9 / 9 / 2 | 2 | 24 |
+| stock cell inside a cdk module | 16 | 7 / 7 / 2 | 2 | 24 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 201 | 108 / 40 / 53 | 14 | 35 |
-| **total** | **276** | | **40** | **146** |
+| **total** | **272** | | **40** | **146** |
 
 Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 13 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_800AFA68 10 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80A20A28 5 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_800BFE94 5 pins (2.8.0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0).
 
