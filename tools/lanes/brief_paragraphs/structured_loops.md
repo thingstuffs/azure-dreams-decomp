@@ -26,3 +26,7 @@ Also from r86_opus_oc1 (8187A9A8 13 -> 0, retiring a fitted 2.8.1 cell): read ga
 gw->unk_000`, not through `*(S **)&gameWork` or a direct `gameWork.unk_000`. The struct-pointer read is a struct memory
 access, so sched1 keeps it after an OT-link bitfield store (a dependence edge in the sched dump). The other spellings
 let it float above the store.
+Movable order (r86_opus_cr3, 80B471EC 4->0): loop.c moves movables in INSN order, so a loop-invariant copy `r = s` that
+retail emits AFTER a hoisted invariant (address/spill) in the preheader is written INSIDE the innermost body after the
+invariant's first use; loop.c then moves it behind that invariant at every loop level. It survives cse only if `r`
+outlives the cse block and `s` is not mentioned after `r`'s last use (host other roles of `s` elsewhere).
