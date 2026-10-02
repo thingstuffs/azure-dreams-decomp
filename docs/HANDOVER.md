@@ -34,7 +34,7 @@
 - Never pgrep for lander names inside a waiter whose own command line holds them. This deadlocked for an hour on 10-02. Use land.lock instead.
 - Reconciliation lanes need their own AGENT_PROMPT (the pin-lane prompt made rc4 stop at "0 pins").
 
-**Next:**
+**Next:** (also the queued SLUS RECONCILIATION PASS in _landq/handover_todo.txt: fold CC_VER.update overrides, retire 7 -G32 dodges, region-B stock flag drops, module-member recipes)
 1. Opus on the 23 pinned rows still on late/flag cells (86 pins), at the proven recipe (recon_scan2.jsonl).
 2. The twin-conflict pass.
 3. SLUS reconciliation: region A cdk -G8 / region B stock sound TU.
