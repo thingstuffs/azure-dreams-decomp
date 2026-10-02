@@ -22,3 +22,7 @@ exit's load); no `volatile` on walker bytes (volatile bytes are not givs). A `(s
 retail's `lbu; sll; sra` (combine merges a plain single-use load into `lb`). Then read the `.loop` dump (`why.py --pass
 loop`): every `moved`, `not desirable` and `reduced to` line must match a retail register/position; adjust luid lifetimes
 (statement order, scopes) until the thresholds match.
+Also from r86_opus_oc1 (8187A9A8 13 -> 0, retiring a fitted 2.8.1 cell): read game state through `GameWork *gw = &gameWork;
+gw->unk_000`, not through `*(S **)&gameWork` or a direct `gameWork.unk_000`. The struct-pointer read is a struct memory
+access, so sched1 keeps it after an OT-link bitfield store (a dependence edge in the sched dump). The other spellings
+let it float above the store.
