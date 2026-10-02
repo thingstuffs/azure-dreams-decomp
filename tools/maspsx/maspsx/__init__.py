@@ -772,9 +772,11 @@ class MaspsxProcessor:
         prefer_target_arg_setup=False,
         preserve_immediate_funcaddr_la=False,
         fold_lo_into_accesses=True,
+        fold_selfinc_la=True,
     ):
         self.lines = [x.strip() for x in lines]
         self.fold_lo_into_accesses_enabled = fold_lo_into_accesses
+        self.fold_selfinc_la_enabled = fold_selfinc_la
 
         self.sdata_limit = sdata_limit
 
@@ -4959,7 +4961,22 @@ class MaspsxProcessor:
             a full pointer into a %hi-only base; retail keeps the materialized
             pointer for call-separated loop seeds such as func_8004AB7C.
         See func_8004A6C0.
+
+        Switch (r86_opus_selfinc, work/native_lane/r86_opus_selfinc/REPORT.md): skipped when maspsx
+        runs with --no-selfinc-la-fold / MASPSX_NO_SELFINC_LA_FOLD=1.  Genuine ASPSX 2.56-2.86 never
+        performs this rewrite: it expands the bare `la` to `lui %hi / addiu %lo` and keeps the 0-offset
+        accesses (aspsx_diff genuine legs of both consumers, 15 words off retail; `no:_fold_selfinc_la`
+        is the only ablation that closes them).  The retail shape is cc1's own output for
+        INTEGER-address source: a single-set offset local `(offset + 0xADDR)` reaches mips
+        LEGITIMIZE_ADDRESS as (plus reg CONST_INT), which splits it into a `lui` high part plus a
+        numeric displacement, and loop.c strength-reduces the high part as the self-incremented base.
+        The 2.7.2-cdk cell does that by itself (slus/w_8004A6C0, slus/konami_runtime_w_8003B7C8:
+        genuine-exact at cdk with that spelling); under cdk the pass cannot fire at all (cdk splits
+        every non-small symbol and sizes every extern).  The docstring above ("no pinned gcc
+        reproduces retail's folded shape") held only for symbol source.
         """
+        if not self.fold_selfinc_la_enabled:
+            return res
         def C(i):
             return strip_comments(res[i]).strip()
 
