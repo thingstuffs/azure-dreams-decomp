@@ -13,7 +13,7 @@ extern volatile s32 D_800794F0;
 extern volatile s32 D_80079518;
 extern volatile s32 D_8007951C;
 extern s32 D_80079950;
-extern volatile u16 D_80086D58[2];
+extern volatile u16 D_80086D58[];
 extern volatile u16 D_80086D5C;
 extern volatile u16 D_80086D5E;
 

@@ -61,6 +61,15 @@ def splits(cfg):
     return cell in SPLIT_CELLS and not (OFF_SWITCHES & set(flags))
 
 
+def slus_region_b(rid):
+    """True for a SLUS row inside the stock-2.7.2 sound TU 0x8005CA90-0x8005FA34 (r82_fable_slus: the one non-splitting
+    stock TU of the SLUS image).  Its proven recipe is plain stock `2.7.2`, which does not split addresses, so the
+    splitting-target rule below cannot apply to it; --slus-region-b (r86, owner-approved reconciliation) lets such a row
+    move to exactly that recipe."""
+    m = re.search(r"w_([0-9A-F]{8})", rid)
+    return bool(m) and 0x8005CA90 <= int(m.group(1), 16) <= 0x8005FA34
+
+
 @contextlib.contextmanager
 def rooted(root: Path):
     """Point common's ROOT/LEDGER at `root` (every ledger/src write of this lander goes through common)."""
@@ -164,8 +173,10 @@ def verify_slus_at(changes):
 # ------------------------------------------------------------------ the lander
 
 class Lander:
-    def __init__(self, root: Path, tag: str, lane: Path, round_=None, verify_overlay=None, verify_slus=None, log=print):
+    def __init__(self, root: Path, tag: str, lane: Path, round_=None, verify_overlay=None, verify_slus=None, log=print,
+                 allow_region_b=False):
         self.root, self.tag, self.lane = Path(root), tag, Path(lane)
+        self.allow_region_b = allow_region_b
         self.round = round_ if round_ is not None else os.environ.get("ROUND", "fidelity-step4")
         self.verify_overlay = verify_overlay or verify_overlay_at
         self.verify_slus = verify_slus or verify_slus_at
@@ -199,7 +210,8 @@ class Lander:
                     self.log("skip stale", rid); continue
                 if row["cfg"] == to:
                     self.log("skip same recipe", rid); continue
-                if not is_stock_cfg(to) or not splits(to):
+                region_b = self.allow_region_b and row["kind"] == "slus" and to == "2.7.2" and slus_region_b(rid)
+                if not is_stock_cfg(to) or not (splits(to) or region_b):
                     self.log("skip target not a stock splitting recipe", rid, to); continue
                 if row["kind"] == "slus":
                     from slus_module_context import require_individual_recipe
@@ -440,6 +452,8 @@ def main(argv=None):
     ap.add_argument("--apply", action="store_true", help="land for real (default: dry run - verify and print the plan)")
     ap.add_argument("--root", help="tree to write into (tests: a throwaway copy); default this repository")
     ap.add_argument("--round")
+    ap.add_argument("--slus-region-b", action="store_true",
+                    help="also move SLUS sound-TU rows (0x8005CA90-0x8005FA34) to their proven plain stock 2.7.2")
     a = ap.parse_args(argv)
     root = Path(a.root).resolve() if a.root else REAL_ROOT
     lane = Path(a.lane)
@@ -453,9 +467,9 @@ def main(argv=None):
         (root / "build_ovl/work").mkdir(parents=True, exist_ok=True)
         with open(root / "build_ovl/work/land.lock", "w") as lk:
             fcntl.flock(lk, fcntl.LOCK_EX)
-            res = Lander(root, a.tag, lane, round_=a.round).run(apply=True)
+            res = Lander(root, a.tag, lane, round_=a.round, allow_region_b=a.slus_region_b).run(apply=True)
     else:
-        res = Lander(root, a.tag, lane, round_=a.round).run(apply=False)
+        res = Lander(root, a.tag, lane, round_=a.round, allow_region_b=a.slus_region_b).run(apply=False)
     print(json.dumps(res))
     return 0 if (not a.apply or res.get("moved") or not res.get("failed")) else 1
 

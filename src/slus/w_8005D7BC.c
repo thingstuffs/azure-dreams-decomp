@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 D_80079954[3];
-extern s32 D_80079950[3];
+extern s32 D_80079950[];
 extern s32 D_80079990[3];
 extern s32 D_80079994[4];
 extern s32 D_800794EC[3];
