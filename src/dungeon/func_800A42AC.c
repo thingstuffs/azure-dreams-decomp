@@ -18,7 +18,7 @@ void func_800A9A0C(EntityRec *entity) {
     if (!(dungeonStatus.flags & 0x2800)) {
         if (entity->unk_6D != 0) {
             do {
-                if (!(D_80013714 & 8)) {
+                if (!(*(u16 *)0x80013714 & 8)) {
                     if (!(entity->flags1C & 8) && ((entity_type = (*(u8 *)((u8 *)&entity->unk_10 + 3)), ((entity_type
                         < 0x2FU) != 0)) || (entity_type == 0x39))) {
                         func_800AD594(entity, 4);
