@@ -35,9 +35,9 @@ void func_8003A1A4(RuntimeState *state) {
     + ((u32)addr_bytes[3] << 24);
     state->read_ptr = cursor + 5;
     entry = (u8 *)(base_addr + entry_offset);
-    value_addr = (u32)entry[0]
-    + ((u32)entry[1] << 8)
-    + ((u32)entry[2] << 16)
-    + ((u32)entry[3] << 24);
+    value_addr = entry[0];
+    value_addr += (u32)entry[1] << 8;
+    value_addr += (u32)entry[2] << 16;
+    value_addr += (u32)entry[3] << 24;
     *(u32 *)(table + (dst_index * 4) + 0x48) = *(u32 *)value_addr;
 }
