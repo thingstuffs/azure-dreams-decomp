@@ -49,7 +49,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     s32 step_offset;
     u32 offset_work;
     s32 result;
-    register s32 coord_or_height ASM_REG("$3");
+    s32 coord_or_height;
     s32 next_x;
     MapGrid *map_limits;
     u16 *x_step;
@@ -164,7 +164,9 @@ move_failed:
 check_height:
                         result = -1;
                         coord_or_height = actor_or_height.height << 0x10;
-                        if ((coord_or_height >> 0x10) < 0x201) {
+                        coord_or_height >>= 0x10;
+                        coord_or_height = coord_or_height < 0x201;
+                        if (coord_or_height) {
                             result = 1;
                         }
                         return result;
