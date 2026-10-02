@@ -125,7 +125,7 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
     register s32 abs_v1;
     s32 state6_v0;
     s32 state6_v1;
-    u16 temp_v0;
+    s32 temp_v0;
     u16 temp_v0_2;
     u16 temp_v0_5;
     u16 temp_v0_7;
