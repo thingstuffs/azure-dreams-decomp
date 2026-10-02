@@ -33,7 +33,7 @@ void func_8009D8A4(void) {
     s16 row;
     s32 column;
     s16 next_row;
-    register s32 row_offset ASM_REG("$3");
+    s32 row_offset;
     s32 level;
     u16 cell_type;
     s32 packed_levels;
@@ -65,7 +65,8 @@ next_row_loop:
             row_index = value >> 16;
             row_offset = row_index << stride_shift;
 next_cell:
-            cell = (u8 *)((long)((row_offset + (s16) column) * 6) + (long)cells);
+            row_offset += (s16) column;
+            cell = (u8 *)((long)(row_offset * 6) + (long)cells);
             cell_type = *(u16 *)cell;
             if ((cell_type != 0) && (cell_type != 3)) {
                 s16 raw_level;
