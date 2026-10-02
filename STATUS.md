@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T06:16:15Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T06:17:19Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -101,8 +101,8 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 32 | 25 / 5 / 2 | 14 | 59 |
-| cdk cell + crutch flags, module is plain | 22 | 15 / 6 / 1 | 10 | 28 |
-| stock cell inside a cdk module | 12 | 5 / 5 / 2 | 2 | 24 |
+| cdk cell + crutch flags, module is plain | 25 | 15 / 9 / 1 | 10 | 28 |
+| stock cell inside a cdk module | 9 | 5 / 2 / 2 | 2 | 24 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 201 | 108 / 40 / 53 | 14 | 35 |
 | **total** | **267** | | **40** | **146** |
 
