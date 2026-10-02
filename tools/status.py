@@ -20,6 +20,10 @@ def _recipe_tracker(rs, curc):
             continue
         cell = r["cfg"].split()[0]
         best = cen.get((c, mod.get(r["id"])))
+        if best and best.split()[0] == "2.7.2-cdk":
+            # overlays are -G0 everywhere (r84_fable_build: no overlay function touches $gp); a census that picked cdk -G8
+            # only saw texts neutral on the -G axis, so the yardstick is the -G0 cell (r86: 132 rows moved to it)
+            best = " ".join(["2.7.2-cdk-G0"] + best.split()[1:])
         late = cell.startswith(("2.8", "2.9"))
         if not late and (not best or r["cfg"] == best):
             continue
@@ -45,6 +49,20 @@ def _recipe_tracker(rs, curc):
         out.append(f"| {k} | {v['rows']} | {v['dungeon']} / {v['town']} / {v['main']} | {v['pinned']} | {v['pins']} |")
     tot = sum(v["rows"] for v in cats.values()); tp = sum(v["pins"] for v in cats.values())
     out.append(f"| **total** | **{tot}** | | **{sum(v['pinned'] for v in cats.values())}** | **{tp}** |")
+    # SLUS (r82_fable_slus): game image 0x80033AA8-0x8005CA70 = one 2.7.2-cdk (-G8) build, sound TU 0x8005CA90-0x8005FA34 = stock 2.7.2
+    import re as _re
+    sl = collections.Counter()
+    for r in rs:
+        if r["id"].split("/")[0] != "slus":
+            continue
+        m = _re.search(r"w_([0-9A-F]{8})", r["id"])
+        a = int(m.group(1), 16) if m else 0
+        want = "2.7.2-cdk" if 0x80033AA8 <= a < 0x8005CA70 else "2.7.2" if 0x8005CA90 <= a <= 0x8005FA34 else None
+        if want and r["cfg"] != want:
+            n = (curc.get(r["id"]) or {}).get("pin_total", 0)
+            sl["rows"] += 1; sl["pinned"] += bool(n); sl["pins"] += n
+    out.append(f"\nSLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): "
+               f"{sl['rows']} rows, {sl['pinned']} pinned / {sl['pins']} pins.")
     if worst:
         out.append("\nMost-pinned rows off their build recipe: " + "; ".join(
             f"{i} {n} pins ({cfg} -> {best})" for n, i, cfg, best in sorted(worst, reverse=True)[:12]) + ".\n")
