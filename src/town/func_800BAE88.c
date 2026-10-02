@@ -1,199 +1,149 @@
 #include "common.h"
 
-extern s32 func_80033B2C(s16);
-extern u8 D_800133E6;
-extern s8 D_800133E7[9];
-extern void *D_80089490[];
-extern u8 D_800D2644[];
+typedef struct {
+    u8 pad0[3];
+    u8 kind;
+    u8 byte4;
+    u8 byte5;
+    u8 byte6;
+    u8 pad7;
+    s16 field8;
+    u8 padA[22];
+} Record;
+
+extern s32 func_80033B2C(s32);
+extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
-extern u8 D_800D2644_case1[] __asm__("D_800D2644");
-extern u8 D_80010000[];
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
-s32 CheckBuildBuildingLandNo(s32 entry_id, s8 *slots_out) {
-    static void *const case_labels[] = {
-        &&case_1, &&case_default, &&case_default, &&case_4_8,
-        &&case_default, &&case_default, &&case_default, &&case_4_8,
-        &&case_default, &&case_default, &&case_default, &&case_default,
-        &&case_default, &&case_default, &&case_default, &&case_16
-    };
+s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
     s8 *slot_out;
-    s32 raw_entry_id;
+    s32 key;
     s8 *slots_start;
+    Record *record;
+    u8 slot_count;
+    s32 slot;
+    s32 record_id;
+    s32 slot_index;
+    u32 first_id;
+    u32 second_id;
+    u8 single_id;
+    u8 *slot_pair;
     u8 *entry;
-    u8 *entry_table;
-    s32 slot_count;
-    register u32 selected_id ASM_REG("$4");
-    s32 entry_offset;
+    Record *match_record;
+    Record *match_records;
 
     slot_out = slots_out;
-    raw_entry_id = entry_id;
+    key = record_key;
+    ASM_KEEP_NV(key);
     slot_count = 0;
-    entry_table = D_800D2644;
-    entry = entry_table + ((u8)raw_entry_id << 5);
+    {
+        Record *records = D_800D2644;
+        record = records + (key & 0xFF);
+    }
     slots_start = slot_out;
-    if (func_80033B2C(*(s16 *)(entry + 8)) == 0) {
+    if (func_80033B2C(record->field8) == 0) {
         return 0;
     }
 
-    {
-        unsigned long dispatch_addr;
-
-        entry_id = entry[3];
-        dispatch_addr = entry_id - 1;
-        if (dispatch_addr >= 16) {
-            goto case_default;
-        }
-        (void)case_labels;
-        {
-            unsigned long jump_addr;
-
-            jump_addr = (unsigned long)D_80089490;
-            dispatch_addr *= sizeof(void *);
-            dispatch_addr += jump_addr;
-            jump_addr = *(unsigned long *)dispatch_addr;
-            goto *(void *)jump_addr;
-        }
-    }
-
-case_4_8:
+    switch (record->kind) {
+    case 4:
+    case 8:
     {
         u8 *selected_entry;
         u8 *filter_entry;
         u8 *slot_table_base;
         u8 *slot_row;
-        s32 slot;
-        u32 slot_offset;
+        u32 selected_id;
 
-        {
-
-            slot_offset = (u32)(D_800D2EA4 - 0x860);
-            selected_id = (u8)raw_entry_id;
-            selected_entry = (u8 *)(selected_id << 5);
-            selected_entry = (u8 *)((u32)selected_entry + (u32)((u8 *)slot_offset));
-        }
-        {
-            u32 link_id;
-
-            link_id = selected_entry[6];
-            if (link_id == 0) {
-                goto case_default;
-            }
+        Record *records = D_800D2644;
+        selected_id = key & 0xFF;
+        selected_entry = (u8 *)&records[selected_id];
+        if (selected_entry[6] == 0) {
+            break;
         }
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
         filter_entry = selected_entry;
         do {
-            {
-                slot_offset = slot & 0xFF;
-                slot_offset *= 2;
-                slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
-                if ((slot_row[0x33A4] == filter_entry[6]) &&
-                    (slot_row[0x33A5] != selected_id)) {
-                    *slot_out++ = (u8)slot;
-                    slot_count++;
-                }
-                slot++;
+            slot_row = (u8 *)((u8)slot * 2 + (u32)slot_table_base);
+            if ((slot_row[0x33A4] == filter_entry[6]) && (slot_row[0x33A5] != selected_id)) {
+                *slot_out++ = slot;
+                slot_count++;
             }
+            slot++;
         } while ((u8)slot < 0x21);
         *slot_out = 0;
-        goto return_count;
+        return (u8)slot_count;
     }
-
-case_16:
+    case 16:
     {
-        u8 *selected_entry;
-        u32 selected_id;
-        register u32 link_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        entry_offset = (u32)(D_800D2EA4 - 0x860);
-        selected_id = (u8)raw_entry_id;
-        selected_entry = (u8 *)(selected_id << 5);
-        selected_entry = (u8 *)((u32)selected_entry + entry_offset);
-        link_id = selected_entry[6];
-        if (link_id == 0) {
-            goto case_default;
-        }
-        {
-            u32 special_link_id;
-
-            special_link_id = 0x80010000;
-            special_link_id = *(u8 *)(special_link_id + 0x33E6);
-            if (special_link_id != link_id) {
-                goto case_default;
+        u8 *pair_page;
+        u8 *owner_page;
+        Record *records = D_800D2644;
+        s32 record_id = key & 0xFF;
+        single_id = records[record_id].byte6;
+        if (single_id == 0)
+            break;
+        pair_page = (u8 *)0x80010000;
+        if (pair_page[0x33E6] == single_id) {
+            owner_page = pair_page;
+            if (owner_page[0x33E7] != record_id) {
+                *slot_out++ = 0xB;
+                slot_count++;
             }
         }
-        {
-            u32 special_entry_id;
-
-            entry_offset = (u32)D_80010000;
-            special_entry_id = *(u8 *)(entry_offset + 0x33E7);
-            if (special_entry_id == selected_id) {
-                goto case_default;
-            }
-        }
-        *slot_out++ = 0xB;
-        slot_count++;
-        goto case_default;
+        break;
     }
-
-case_1:
+    case 1:
     {
-        u8 *selected_entry;
-        u8 *slot_data_base;
-        u8 *data_base;
-        u8 *slot_data;
-        u8 *slot_table_base;
-        u8 *slot_row;
-        register s32 slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u32 slot_index;
-        u32 row_offset;
-        u8 primary_id;
-        u32 secondary_id;
-
+        u8 *entries;
+        u8 *slots_page;
+        s32 excluded_id = 0;
         slot = 0;
-        slot_table_base = (u8 *)0x80010000;
-        data_base = (u8 *)0x800D0000;
-        ASM_KEEP_NV(data_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        slot_data_base = data_base + 0x2EA4;
-        selected_id = (u8)raw_entry_id;
-        data_base = D_800D2644_case1;
-        entry_offset = selected_id << 5;
-        selected_entry = data_base + entry_offset;
-        ASM_KEEP_NV(slot_data_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        slots_page = (u8 *)0x80010000;
+        entries = &D_800D2EA4[0];
+        record_id = key & 0xFF;
+        match_records = D_800D2644;
+        match_record = match_records + record_id;
         do {
             slot_index = slot & 0xFF;
-            row_offset = slot_index * 2;
-            slot_row = (u8 *)((u32)row_offset + (u32)slot_table_base);
-            primary_id = slot_row[0x33A4];
-            if ((primary_id == selected_id) ||
-                (secondary_id = slot_row[0x33A5], secondary_id == selected_id)) {
+            slot_pair = (u8 *)(slot_index * 2 + (u32)slots_page);
+            first_id = slot_pair[0x33A4];
+            if (first_id == record_id || (second_id = slot_pair[0x33A5], second_id == record_id)) {
                 slot_out = slots_start;
                 slot_count = 0;
-                goto case_default;
+                break;
             }
-            row_offset = slot_index * 8;
-            slot_data = (u8 *)((u32)row_offset + (u32)slot_data_base);
-            if (slot_data[2] == selected_entry[4]) {
-                if (slot_data[3] == selected_entry[5]) {
-                    if (primary_id >= 0x2D) {
-                        row_offset = 0x30;
-                        if (primary_id != row_offset) {
-                            if (secondary_id == 0) {
-                                *slot_out++ = (u8)slot;
-                                slot_count++;
-                            }
-                        }
-                    }
+            entry = (u8 *)(slot_index * 8 + (u32)entries);
+            if (entry[2] == match_record->byte4 &&
+                entry[3] == match_record->byte5 &&
+                first_id >= 0x2D) {
+                excluded_id = 0x30;
+                if (first_id != excluded_id && second_id == 0) {
+                    *slot_out++ = slot;
+                    slot_count++;
                 }
             }
             slot++;
         } while ((u8)slot < 0x21);
+        break;
     }
-
-case_default:
+    case 2:
+    case 3:
+    case 5:
+    case 6:
+    case 7:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    default:
+        break;
+    }
     *slot_out = 0;
-return_count:
-    ASM_KEEP_NV(raw_entry_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return (u8)slot_count;
 }
