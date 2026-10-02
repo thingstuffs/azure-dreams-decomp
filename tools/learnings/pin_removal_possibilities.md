@@ -640,3 +640,12 @@ These rules took 8180E7F4 from 11 pins to 0 and 802835B8 from 13 to 1:
   (work/native_lane/r86_eval/twin_census.py).
 - **Form R accepted (owner 10-02):** a field re-read after another field's store, as in 81905FD0 6 -> 0 (clone 80D65810's
   shape).
+- **Fixed-address reads vs struct stores (r86_opus_decl, w_80059F8C):** a load retail hoists past varying-address struct
+  stores, exact only with `const` or -G0, is a NON-in-struct read: declare the symbol at its real extent (> 8 bytes, no
+  small data) and read it as `*(T *)sym` (cdk true_dependence exempts it); `sym[0]`/`*sym`/struct members are in-struct.
+- **Set-twice RMW local (w_80043C30):** a read-modify-write whose load sched1 issues too late: `t = f; t |= K; f = t;`
+  (the multi-set result loses the birthing boost) - replaced a one-trip block.
+- **-G/small-data crutches in SLUS** are declaration extents: <= 8 bytes = small data (unsplit $at macro / gp), larger or
+  unsized = split lui. Pick the extent retail's addressing implies (r86 sl1-sl3, decl).
+- **maspsx _fold_selfinc_la** makes w_8004A6C0's loop shape (HIGH-only base, %lo folded into the loads) and can never
+  fire under cdk sized externs: belongs to the maspsx imitation-pass retirement (like the lo-fold), not to C.

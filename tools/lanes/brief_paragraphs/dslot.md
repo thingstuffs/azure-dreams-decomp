@@ -5,3 +5,8 @@ If the erased text differs only in a branch's or call's delay slot, run `tools/l
 - **A fall-through head that reorg refuses.**
 
 If dbr reports "ADDED ... at (use (insn N))", a USE marker from an earlier jal-slot fill holds the register live. Only an argument set placed before the branch helps then (800C379C).
+
+r86 (800C379C 4->0, r86_opus_nm2): when dbr.py shows fill_eager refusing an argument move at the head of the fall-through
+arm because of a `(use (insn N))` marker, compute the test into a local, copy the argument BEFORE the branch, use the copy
+only in the fall-through arm and give the copy a real later role in the taken arm (cse.c 856-870 then keeps the copy as
+class head on that path; reorg's fill_simple takes the pre-branch set backward into the slot).
