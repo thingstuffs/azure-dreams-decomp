@@ -14,3 +14,9 @@ erase all pins there first, then fix the shape the flag stood for (tools/learnin
 - `-O1` on a resident-image row -> not the -O1 debug family (that is only the town 0x8032E2BC run): a crutch.
 Stage with `lab.py stage-cell <row> cand.c --cfg "2.7.2-cdk-G0" --note "..."` (`--equal-pins` for pin-free or equal-pin
 rows - a flag retired is a landing). Never stage at a cfg that ADDS a flag.
+
+r86 (10-02): **-fno-rerun-cse-after-loop** can stand for a loop entered by a goto into its middle (`goto next; do { ...
+next: ... } while (a != b)`): cse2 records entry == actor on the loop-exit fall-through and makes the spilled variable the
+class head. Write the loop with its test at the top (r86_opus_oc2, 8009612C). **-fno-expensive-optimizations /
+-fno-strength-reduce** on scratch/OT rows were loop.c effects of m2c goto loops: structured loops + struct scratch +
+addPrim macros retired both on 81892C5C and 818B0E10 (r86_opus_oc3).
