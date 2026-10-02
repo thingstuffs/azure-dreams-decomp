@@ -74,7 +74,7 @@ build build/src/c8_accessors_owned.o: cc src/c8_accessors_owned.c | tools/cc.sh 
 
 build build/src/cd_command_state_owned.o: cc src/cd_command_state_owned.c | tools/cc.sh tools/ccproc.py  src/w_8003E34C.c src/w_8003E4FC.c src/w_8003E758.c src/w_8003F2A4.c src/w_8003F368.c src/w_8003F5AC.c src/w_8003F624.c include/common.h include/slus/cd_state.h include/slus/cd_cohort_types.h config/slus_modules.json build/partition_sources/code2__cd_command_state.c tools/slus_data_pieces.py tools/slus_modules.py
   ccver = 2.7.2-cdk
-  ccflags = -G32
+  ccflags = 
   asflags = 
   data_piece_step =  && python3 tools/slus_data_pieces.py --manifest config/slus_modules.json --module cd_command_state --object build/src/cd_command_state_owned.o
 

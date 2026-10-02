@@ -416,7 +416,7 @@ CC_VER = {
     "src/w_80054E00.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8005AC68.c": ("2.7.2-cdk", ""),
     "src/w_8005A428.c": ("2.7.2-cdk", ""),
-    "src/w_8003F624.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F624.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_80048118.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80048088.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004450C.c": ("2.7.2-cdk", ""),
@@ -504,7 +504,7 @@ CC_VER = {
     "src/w_80053DF0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800558FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8005DF80.c": ("2.7.2", ""),  # fidelity step 4 (r86slusb): retail-proven splitting recipe
-    "src/w_8003F2A4.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F2A4.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_80048224.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_8005D598.c": ("2.7.2", ""),
     "src/w_8004AB7C.c": ("2.7.2-cdk", ""),
@@ -566,7 +566,7 @@ CC_VER = {
     "src/w_8003CCB0.c": ("2.7.2-cdk", ""),
     "src/w_8003D0F0.c": ("2.7.2-cdk", ""),
     "src/w_8003E39C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
-    "src/w_8003E758.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003E758.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_8003DBD0.c": ("2.7.2-cdk", ""),
     "src/w_8003D760.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
     "src/w_80046D64.c": ("2.7.2-cdk", ""),
@@ -620,8 +620,8 @@ CC_VER = {
     "src/w_8004FC98.c": ("2.7.2-cdk", ""),
     "src/w_80047468.c": ("2.7.2-cdk", ""),
     "src/w_80059BC4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83sn5): retail-proven splitting recipe
-    "src/w_8003F368.c": ("2.7.2-cdk", "-G32"),
-    "src/w_8003F5AC.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003F368.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
+    "src/w_8003F5AC.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_80042B68.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8005500C.c": ("2.7.2-cdk", ""),
     "src/w_8003F8F8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -647,7 +647,7 @@ CC_VER = {
     "src/w_8005914C.c": ("2.7.2-cdk", "-fno-strength-reduce"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80055E84.c": ("2.7.2-cdk", ""),
     "src/w_80042A80.c": ("2.7.2-cdk", ""),
-    "src/w_8003E34C.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003E34C.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_8004A464.c": ("2.7.2-cdk", ""),
     "src/w_80055ADC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80040CBC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc2): retail-proven splitting recipe
@@ -736,7 +736,7 @@ CC_VER = {
     "src/w_8003FAD4.c": ("2.7.2-cdk", ""),
     "src/w_80040C08.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_80046E38.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
-    "src/w_8003E4FC.c": ("2.7.2-cdk", "-G32"),
+    "src/w_8003E4FC.c": ("2.7.2-cdk", ""),  # r86 module recipe move (cd_command_state)
     "src/w_80046884.c": ("2.7.2-cdk", ""),
     "src/w_800517CC.c": ("2.7.2-cdk", "-G16"),
     "src/w_80044724.c": ("2.7.2-cdk", ""),
