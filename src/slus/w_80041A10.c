@@ -8,12 +8,6 @@ typedef struct State16 {
     u8 pad4[12];
 } State16;
 
-typedef struct State12 {
-    s32 field0;
-    s32 pad4;
-    s32 pad8;
-} State12;
-
 typedef struct FrameData {
     u8 raw[0x8D8];
 } FrameData;
@@ -23,8 +17,8 @@ typedef struct OrderingTable {
 } OrderingTable;
 
 extern State16 D_80082E60;
-extern State12 D_8008148C;
-extern State12 D_80081480;
+extern s32 D_8008148C;
+extern s32 D_80081480;
 extern FrameData D_801C9E40;
 extern OrderingTable D_801DA784;
 
@@ -42,9 +36,9 @@ void func_80041A10(void)
     s32 saved_state;
 
     D_80082E60.field0 |= 1;
-    saved_state = D_8008148C.field0;
+    saved_state = D_8008148C;
     do {
-        D_80081480.field0 = saved_state;
+        D_80081480 = saved_state;
     } while (0);
     func_8003FAD4(saved_state);
     func_800410FC();

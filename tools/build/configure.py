@@ -195,7 +195,7 @@ CC_VER = {
     "src/w_80047B80.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80047BC0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80047DF0.c": ("2.7.2", ""),
-    "src/w_80048D60.c": ("2.7.2", ""),
+    "src/w_80048D60.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/w_8004A534.c": ("2.7.2-cdk", ""),
     "src/w_8004AFE8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B324.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -258,7 +258,7 @@ CC_VER = {
     "src/w_80047D44.c": ("2.7.2", ""),
     "src/w_80047E78.c": ("2.7.2", ""),
     "src/w_80041E28.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_8004B298.c": ("2.7.2", "-G0 -fno-schedule-insns"),
+    "src/w_8004B298.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/w_80047738.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004A0C0.c": ("2.7.2-cdk", ""),
     "src/w_8004D75C.c": ("2.7.2-cdk", ""),
@@ -379,7 +379,7 @@ CC_VER = {
     "src/w_8004B774.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B7D0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_80041284.c": ("2.7.2-cdk", ""),  # fidelity step 4 (dec3): retail-proven splitting recipe
-    "src/w_80053E90.c": ("2.7.2", ""),
+    "src/w_80053E90.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/w_80054D64.c": ("2.7.2-cdk", ""),
     "src/w_800552C8.c": ("2.7.2-cdk", ""),
     "src/w_8005B470.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -495,7 +495,7 @@ CC_VER = {
     "src/w_80045C34.c": ("2.7.2-cdk", ""),
     "src/w_80045340.c": ("2.7.2-cdk", ""),  # fidelity step 4 (gp_81510): retail-proven splitting recipe
     "src/w_8004A030.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
-    "src/w_8003E240.c": ("2.91.66", "-G0"),
+    "src/w_8003E240.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/w_800418B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80047F90.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004B660.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -742,7 +742,7 @@ CC_VER = {
     "src/w_80044724.c": ("2.7.2-cdk", ""),
     "src/w_80049F68.c": ("2.7.2-cdk", ""),
     "src/w_8004DDE4.c": ("2.7.2-cdk", ""),
-    "src/w_80041A10.c": ("2.7.2-cdk", "-G12"),
+    "src/w_80041A10.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/w_80043C30.c": ("2.7.2-cdk", "-G12"),
     "src/konami_runtime_w_80033B78.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80033B9C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -917,7 +917,7 @@ CC_VER = {
     "src/konami_runtime_w_80039B28.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80038240.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/konami_runtime_w_8003AA84.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/konami_runtime_w_80039258.c": ("2.7.2", ""),
+    "src/konami_runtime_w_80039258.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/konami_runtime_w_8003A29C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_8003BD34.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/konami_runtime_w_80033AA8.c": ("2.7.2-cdk", ""),
@@ -988,14 +988,14 @@ CC_VER = {
     "src/konami_runtime_w_80037D9C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/konami_runtime_w_80036C7C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80037C7C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/konami_runtime_w_8003AB44.c": ("2.7.2", ""),
+    "src/konami_runtime_w_8003AB44.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/konami_runtime_w_80035AF8.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80035E58.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80038CB8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80037714.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003C5A4.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003C364.c": ("2.7.2-cdk", ""),
-    "src/konami_runtime_w_8003AFE0.c": ("2.7.2", ""),
+    "src/konami_runtime_w_8003AFE0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/konami_runtime_w_8003C4C8.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003B92C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/konami_runtime_w_80034EF8.c": ("2.7.2-cdk", ""),
@@ -1014,7 +1014,7 @@ CC_VER = {
     "src/konami_runtime_w_8003A10C.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80039C74.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80035164.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/konami_runtime_w_8003A1A4.c": ("2.7.2-cdk", "-fno-expensive-optimizations"),
+    "src/konami_runtime_w_8003A1A4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl1): retail-proven splitting recipe
     "src/konami_runtime_w_8003AC1C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_8003A060.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003A858.c": ("2.7.2-cdk", ""),

@@ -12,8 +12,8 @@ extern void func_80033AE8(s32 value);
 /* Consumes a signed little-endian 16-bit script operand and passes it to func_80033AE8. */
 void func_80039258(Func80039258State *state) {
     u8 *cursor = state->read_ptr;
-    u8 low = cursor[0];
-    u8 high = cursor[1];
+    s32 low = cursor[0];
+    s32 high = cursor[1];
 
     state->read_ptr = cursor + 2;
     func_80033AE8((s16)(low + (high << 8)));
