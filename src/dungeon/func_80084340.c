@@ -660,14 +660,11 @@ clear_turn_flags:
     linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
     sprite_or_root = actor;
     if (linked_actor != actor) {
-loop_4:
-        {
+        do {
             linked_sprite = ((S_80089AA0_19_pre *)linked_actor)[-1].unk_00.p;
             linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
             linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
-        }
-        if (linked_actor != sprite_or_root)
-            goto loop_4;
+        } while (linked_actor != sprite_or_root);
     }
     early_status = &dungeonStatus.unk_00;
     if (((S_80089AA0_21 *)early_status)->unk_02 & 0x800) {
