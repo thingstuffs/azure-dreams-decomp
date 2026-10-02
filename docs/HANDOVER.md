@@ -1,3 +1,23 @@
+# Handover (2026-10-02 ~13:00, round 86 wave 4 landed; no lanes running) - start here
+
+**410 pins / 163 rows** (527 / 175 this morning).
+
+**Tracker:** 55 overlay rows off their build (16 pinned / 55 pins); 14 SLUS rows.
+
+**Wave 4 landed:**
+- 800969CC 7->0 (message cursor priority via one statement per call + hosting).
+- 8180A990 4->2 (callee's defined (void) arity).
+- 8008A31C 3->0 (page hosted in the reused mask variable = sched1 anti-dependence).
+
+**Open near-misses at cdk-G0** (lane REPORTs hold the files):
+- 8009F018: 0 pins, total 2 (r86_opus_w4b c/f018_best.c). The z = center_x copy conflicts cse head / sched1 tie / optimize_reg_copy_1.
+- 800C4A80: 0 pins, total 2. -fno-cse-follow-jumps imitated cse following the jump past the y-bounds check.
+- 800A1AD4: 0 pins, total 5 (r86_opus_w4c c/a_best_ydir.c).
+- 800CDFD8: 1 pin, best 14.
+- 81876014: 7 pins (three cse/sched effects).
+
+**Deferred:** deleting the _fold_selfinc_la code. Default-off already gives genuine ASPSX behaviour; delete it together with the lo-fold once code2 / w_8003E188 are ported.
+
 # Handover (2026-10-02 ~11:45, round 86 reconciliation pass + crutch lanes landed; no lanes running) - start here
 
 **422 pins / 165 rows** (527 / 175 at this morning's pickup).
