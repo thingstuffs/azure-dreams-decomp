@@ -421,7 +421,7 @@
 {"src":"src/w_800439F8.c","out":"build/src/w_800439F8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80043A68.c","out":"build/src/w_80043A68.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80043B4C.c","out":"build/src/w_80043B4C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80043C30.c","out":"build/src/w_80043C30.o","ccver":"2.7.2-cdk","ccflags":"-G12","asflags":""}
+{"src":"src/w_80043C30.c","out":"build/src/w_80043C30.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80043CD0.c","out":"build/src/w_80043CD0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80043D04.c","out":"build/src/w_80043D04.o","ccver":"2.7.2-cdk","ccflags":"-G16","asflags":""}
 {"src":"src/w_80043DB8.c","out":"build/src/w_80043DB8.o","ccver":"2.7.2-cdk","ccflags":"-G16","asflags":""}
@@ -807,7 +807,7 @@
 {"src":"src/w_80059D60.c","out":"build/src/w_80059D60.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059DAC.c","out":"build/src/w_80059DAC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059E94.c","out":"build/src/w_80059E94.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80059F8C.c","out":"build/src/w_80059F8C.o","ccver":"2.7.2-cdk","ccflags":"-G0","asflags":""}
+{"src":"src/w_80059F8C.c","out":"build/src/w_80059F8C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A1D0.c","out":"build/src/w_8005A1D0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A26C.c","out":"build/src/w_8005A26C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A2FC.c","out":"build/src/w_8005A2FC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

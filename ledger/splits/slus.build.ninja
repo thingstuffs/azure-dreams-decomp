@@ -2168,7 +2168,7 @@ build build/src/w_80043B4C.o: cc src/w_80043B4C.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80043C30.o: cc src/w_80043C30.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G12
+  ccflags = 
   asflags = 
 
 build build/src/w_80043CD0.o: cc src/w_80043CD0.c | tools/cc.sh tools/ccproc.py 
@@ -4003,7 +4003,7 @@ build build/src/w_80059E94.o: cc src/w_80059E94.c | tools/cc.sh tools/ccproc.py
 
 build build/src/w_80059F8C.o: cc src/w_80059F8C.c | tools/cc.sh tools/ccproc.py 
   ccver = 2.7.2-cdk
-  ccflags = -G0
+  ccflags = 
   asflags = 
 
 build build/src/w_8005A1D0.o: cc src/w_8005A1D0.c | tools/cc.sh tools/ccproc.py 

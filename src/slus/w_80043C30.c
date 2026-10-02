@@ -8,12 +8,6 @@ typedef struct State16 {
     u8 pad4[12];
 } State16;
 
-typedef struct State12 {
-    s32 field0;
-    s32 pad4;
-    s32 pad8;
-} State12;
-
 typedef struct FrameData {
     u8 raw[0x8D8];
 } FrameData;
@@ -23,8 +17,8 @@ typedef struct OrderingTable {
 } OrderingTable;
 
 extern State16 D_80082E60;
-extern State12 D_8008148C;
-extern State12 D_80081480;
+extern s32 D_8008148C;
+extern s32 D_80081480;
 extern FrameData D_801C9E40;
 extern OrderingTable D_801DA784;
 
@@ -40,12 +34,13 @@ extern void func_80043CD0(void);
 void func_80043C30(void)
 {
     s32 state_value;
+    s32 flags;
 
-    D_80082E60.field0 |= 1;
-    state_value = D_8008148C.field0;
-    do {
-        D_80081480.field0 = state_value;
-    } while (0);
+    flags = D_80082E60.field0;
+    flags |= 1;
+    D_80082E60.field0 = flags;
+    state_value = D_8008148C;
+    D_80081480 = state_value;
     func_8003FAD4(state_value);
     func_800410FC();
     gameWork.unk_000 = (s32)&D_801C9E40;
