@@ -144,11 +144,6 @@ typedef struct S_80DB9000_7 {
     u8 pad_02[0x2];
     u16 unk_04;
     u16 unk_06;
-    u8 pad_08[0x14];
-    s32 unk_1C;
-} S_80DB9000_7;
-
-typedef struct S_80DB9000_8 {
     union {
         struct {
             u8 unk_00;
@@ -157,8 +152,10 @@ typedef struct S_80DB9000_8 {
             u8 unk_03;
         } u8;
         void * void_ptr;
-    } unk_00;
-} S_80DB9000_8;
+    } unk_08;
+    u8 pad_0C[0x10];
+    s32 unk_1C;
+} S_80DB9000_7;
 
 typedef struct S_80DB9000_9 {
     union {
@@ -201,6 +198,14 @@ typedef struct S_80DB9000_9 {
     } unk_24;
 } S_80DB9000_9;
 
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+
 #ifdef __mips__
 static const u32 split_prefix[] __asm__("func_80170800")
 __attribute__((section(".text.func_80170800"), aligned(4))) = {
@@ -221,8 +226,7 @@ __asm__(".globl func_80170800\n"
 #endif
 
 /* Project sprite entries into textured quads and append visible quads to the ordering table. */
-void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
-    S_80DB9000_1 *sprite_size;
+void BODY_NAME(S_80DB9000_1 *sprite_size, S_80DB9000_2 *position, S_80DB9000_3 *sprite, s16 depth_bias) {
     s32 screen_y3;
     register s32 view_rot_z;
     register s32 view_rot_x;
@@ -236,65 +240,49 @@ void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000
     s32 first_three_visible;
     s32 first_two_visible;
     s32 *ot_entry;
+    u32 packet_addr;
     s32 corner2_visible;
     s32 corner0_visible;
     s32 corner1_visible;
     s32 corner3_visible;
     u32 view_y_angle;
     u16 field_value;
-    u16 scale_y;
-    register u16 sprite_flags;
+    u32 tex_word;
+    u32 scale_y;
     u32 depth;
     u32 ot_index;
     u32 neg_width;
     u32 depth_scaled;
     register u32 coord_offset;
-    register u32 uv_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 uv_right;
+    S_80DB9000_6 *state;
     s16 screen_offset;
     s16 screen_offset_2;
     register u32 coord_value;
-    u32 packet_addr;
     s32 packet_code;
     u8 right_u;
     u8 bottom_v;
     s32 blend_code;
     void *(*draw_callback)(void *, void *, void *, void *, void *);
-    S_80DB9000_8 *entry_uv;
     S_80DB9000_7 *render_data;
     S_80DB9000_5 *render_state;
-    register u32 address_mask;
-    register u32 load_dependency;
     S_80DB9000_9 *packet;
-    register u8 *work_src ASM_REG("$4") = (u8 *)0x1F800004;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *work_dst ASM_REG("$5") = (u8 *)0x1F8000F8;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *work_aux ASM_REG("$6") = (u8 *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *state_page = (u8 *)0x80080000;
     register S_80DB9000_4 *scratch_page;
-    register u8 *projection_flags;
-    ASM_KEEP_MEMDEP_NV(position, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch_page = (S_80DB9000_4 *)0x1F800000;
-    ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    work_aux = (u8 *)((u32)work_aux | 0xD0);
-    uv_right = (u32)(((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);
+    state = (S_80DB9000_6 *)((S_80DB9000_5 *)&gameWork)->unk_00;
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
     scratch_page->unk_BC = 0;
     scratch_page->unk_B4 = 0;
-    scratch_page->unk_24 = (u8 *)(S_80DB9000_6 *)uv_right + 0xB0;
+    scratch_page->unk_24 = (u8 *)state + 0xB0;
     scratch_page->unk_04 = position->unk_02;
-    projection_flags = (u8 *)scratch_page;
-    ASM_KEEP_MEMDEP_NV(scratch_page, load_dependency, ((S_80DB9000_5 *)((struct S_8003E2D8 *)&gameWork))->unk_00);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ASM_SET(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(projection_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     scratch_page->unk_06 = position->unk_06;
     scratch_page->unk_08 = position->unk_0A;
-    projection_flags = (u8 *)((u32)projection_flags | 0xD4);
-    packet = ((S_80DB9000_6 *)uv_right)->unk_8D0;
-    render_state = (S_80DB9000_5 *)state_page;
-    render_state = (S_80DB9000_5 *)((u8 *)render_state + 0x3160);
-    scratch_page->unk_100 = func_80065420(work_src, work_dst, work_aux, projection_flags);
+    packet = state->unk_8D0;
+    render_state = (S_80DB9000_5 *)&gameWork;
+    scratch_page->unk_100 = func_80065420((u8 *)0x1F800004, (u8 *)0x1F8000F8, (u8 *)0x1F8000D0, (u8 *)0x1F8000D4);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
     depth = scratch_page->unk_100;
     depth_scaled = depth * 4;
@@ -304,14 +292,8 @@ void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000
     render_data->unk_1C = (s32)depth_scaled;
     scratch_page->unk_100 = ot_index;
     if (ot_index < 0x1D6U) {
-        sprite_size = sprite_size_arg;
-        address_mask = 0x00FF0000;
         func_800649A0();
-        work_src = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_src = (u8 *)((u32)work_src | 0xA4);
         screen_offset_2 = scratch_page->unk_F8;
-        work_dst = (u8 *)scratch_page;
         screen_offset_2 -= 0xA0;
         scratch_page->unk_F8 = screen_offset_2;
         screen_offset = scratch_page->unk_FA;
@@ -323,11 +305,8 @@ void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000
         scratch_page->unk_34 = view_rot_x;
         scratch_page->unk_38.u32 = view_rot_y;
         scratch_page->unk_3C.u32 = view_rot_z;
-        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         field_value = sprite->unk_16;
         view_y_angle = scratch_page->unk_38.u16;
-        work_dst = (u8 *)((u32)work_dst | 0x74);
-        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         scratch_page->unk_A4 = field_value;
         coord_offset = sprite->unk_1A;
         coord_value = render_state->unk_B8;
@@ -340,53 +319,29 @@ void BODY_NAME(S_80DB9000_1 *sprite_size_arg, S_80DB9000_2 *position, S_80DB9000
         coord_value = (coord_value + 0x100) & 0x1FF;
         coord_offset += coord_value;
         scratch_page->unk_A6 = coord_offset;
-        field_value = sprite->unk_20;
-        scratch_page->unk_88 = field_value;
-        scratch_page->unk_AC = field_value;
+        tex_word = sprite->unk_20;
+        scratch_page->unk_88 = tex_word;
+        scratch_page->unk_AC = tex_word;
         coord_value = sprite->unk_22;
-        ASM_KEEP_DEP_NV(address_mask, coord_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        address_mask |= 0xFF00;
-        address_mask |= 0xFF;
         scratch_page->unk_8C = coord_value;
         scratch_page->unk_AE = coord_value;
-        func_80065820(work_src, work_dst, view_y_angle, view_rot_z);
-        work_src = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_src = (u8 *)((u32)work_src | 0x74);
-        work_dst = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_dst = (u8 *)((u32)work_dst | 0x34);
+        func_80065820((u8 *)0x1F8000A4, (u8 *)0x1F800074, view_y_angle, view_rot_z);
         scratch_page->unk_34 = sprite->unk_1C;
         scale_y = sprite->unk_1E;
         scratch_page->unk_3C.u32 = 0x1000;
         scratch_page->unk_38.u32 = scale_y;
-        func_80064BC0(work_src, work_dst);
-        work_src = (u8 *)render_data;
-        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_dst = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_dst);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_dst = (u8 *)((u32)work_dst | 0x74);
-        work_aux = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_aux);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        work_aux = (u8 *)((u32)work_aux | 0x54);
-        func_80064840(work_src, work_dst, work_aux);
-        work_src = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_src = (u8 *)((u32)work_src | 0x54);
-        func_80064D80(work_src);
-        work_src = (u8 *)scratch_page;
-        ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        work_src = (u8 *)((u32)work_src | 0x54);
-        func_80064CF0(work_src);
+        func_80064BC0((u8 *)0x1F800074, (u8 *)0x1F800034);
+        func_80064840(render_data, (u8 *)0x1F800074, (u8 *)0x1F800054);
+        func_80064D80((u8 *)0x1F800054);
+        func_80064CF0((u8 *)0x1F800054);
         render_data = sprite->unk_08;
-        entry_uv = (S_80DB9000_8 *)((u8 *)render_data + 8);
         scratch_page->unk_28 = sprite->unk_14;
-next_entry:
+        for (;;) {
         if (!(render_data->unk_00 & 0x20)) {
-            scratch_page->unk_0C = entry_uv->unk_00.u8.unk_00;
-            scratch_page->unk_10 = entry_uv->unk_00.u8.unk_01;
-            scratch_page->unk_14 = entry_uv->unk_00.u8.unk_02;
-            scratch_page->unk_18 = entry_uv->unk_00.u8.unk_03;
+            scratch_page->unk_0C = render_data->unk_08.u8.unk_00;
+            scratch_page->unk_10 = render_data->unk_08.u8.unk_01;
+            scratch_page->unk_14 = render_data->unk_08.u8.unk_02;
+            scratch_page->unk_18 = render_data->unk_08.u8.unk_03;
             if ((render_data->unk_00 ^ scratch_page->unk_28) & 1) {
                 flipped_left_x = (0 - ((s32)(0 - sprite_size->unk_4E.s16) / 2)) - scratch_page->unk_AC;
                 scratch_page->unk_C0 = flipped_left_x;
@@ -458,9 +413,9 @@ next_entry:
                 sprite->unk_14 = (u16)(sprite->unk_14 & 0x7FFF);
                 {
                     u32 texel_count = scratch_page->unk_14;
-                    uv_right = scratch_page->unk_0C;
+                    u32 texel_base = scratch_page->unk_0C;
                     texel_count -= 1;
-                    uv_right = texel_count + uv_right;
+                    uv_right = texel_count + texel_base;
                 }
                 scratch_page->unk_14 = uv_right;
                 if (uv_right & 0x100) {
@@ -469,9 +424,9 @@ next_entry:
                 }
                 {
                     u32 texel_count = scratch_page->unk_18;
-                    uv_right = scratch_page->unk_10;
+                    u32 texel_base = scratch_page->unk_10;
                     texel_count -= 1;
-                    uv_right = texel_count + uv_right;
+                    uv_right = texel_count + texel_base;
                 }
                 scratch_page->unk_18 = uv_right;
                 if (uv_right & 0x100) {
@@ -483,21 +438,19 @@ next_entry:
                 if (scratch_page->unk_28 & 0x100) {
                     packet->unk_0E = sprite->unk_12;
                 } else {
-                    packet->unk_0E = (s16)(sprite->unk_12 + ((S_80DB9000_7 *)((u8 *)entry_uv - 8))->unk_06);
+                    packet->unk_0E = (s16)(sprite->unk_12 + render_data->unk_06);
                 }
                 packet->unk_0C = (s16)((u16)scratch_page->unk_10 + (u16)scratch_page->unk_0C);
                 packet->unk_14.s16 = (s16)((u16)scratch_page->unk_10 + (u16)scratch_page->unk_14);
                 if (sprite->unk_10 != 0) {
-                    field_value = (((S_80DB9000_7 *)((u8 *)entry_uv - 8))->unk_04 & 0xFF9F) + sprite->unk_10;
+                    field_value = (render_data->unk_04 & 0xFF9F) + sprite->unk_10;
                 } else {
-                    field_value = ((S_80DB9000_7 *)((u8 *)entry_uv - 8))->unk_04;
+                    field_value = render_data->unk_04;
                 }
                 packet->unk_16 = field_value;
                 packet->unk_1C.s16 = (s16)((u16)scratch_page->unk_18 | (u16)scratch_page->unk_0C);
-                uv_right = (u16)scratch_page->unk_18;
-                uv_right |= (u16)scratch_page->unk_14;
-                packet->unk_24.s16 = uv_right;
-                if ((s16)packet->unk_20 < (s16)packet->unk_08) {
+                packet->unk_24.s16 = (u16)scratch_page->unk_18 | (u16)scratch_page->unk_14;
+                if ((s16)packet->unk_08 > (s16)packet->unk_20) {
                     right_u = packet->unk_24.u8.unk_24;
                     packet->unk_24.u8.unk_24 = (u8)(right_u + 0xFF);
                     packet->unk_14.u8 = right_u;
@@ -507,11 +460,11 @@ next_entry:
                     packet->unk_24.u8.unk_25 = (u8)(bottom_v + 0xFF);
                     packet->unk_1C.u8.unk_1D = bottom_v;
                 }
-                packet_code = ((S_80DB9000_7 *)((u8 *)entry_uv - 8))->unk_01;
+                packet_code = render_data->unk_01;
                 sprite->unk_0C.u8.unk_0F = packet_code;
-                sprite_flags = scratch_page->unk_28;
-                if (sprite_flags & 8) {
-                    blend_code = sprite_flags & 4;
+                uv_right = scratch_page->unk_28;
+                if (uv_right & 8) {
+                    blend_code = uv_right & 4;
                     if (blend_code) {
                         blend_code = packet_code | 2;
                     } else {
@@ -519,32 +472,27 @@ next_entry:
                     }
                     sprite->unk_0C.u8.unk_0F = blend_code;
                 }
+                packet_addr = (u32)packet & 0xFFFFFF;
                 packet->unk_04 = (s32)sprite->unk_0C.s32;
-                packet_addr = (u32)packet & address_mask;
-                packet->unk_00.s32 = (s32)((packet->unk_00.s32 & 0xFF000000) | (*((u32 *)((scratch_page->unk_100 * 4)
-                    + scratch_page->unk_24)) & address_mask));
+                {
+                    u32 *ot = (u32 *)((scratch_page->unk_100 * 4) + scratch_page->unk_24);
+                    setaddr(packet, getaddr(ot));
+                }
                 ot_entry = (s32 *)((scratch_page->unk_100 * 4) + scratch_page->unk_24);
                 packet = (S_80DB9000_9 *)((u8 *)packet + 0x28);
                 *ot_entry = (*ot_entry & 0xFF000000) | packet_addr;
             }
         } else {
-            draw_callback = (void *(*)(void *, void *, void *, void *, void *))entry_uv->unk_00.void_ptr;
+            draw_callback = (void *(*)(void *, void *, void *, void *, void *))render_data->unk_08.void_ptr;
             if (draw_callback != NULL) {
                 packet = draw_callback(sprite_size, position, sprite, render_data, packet);
             }
-            if ((s8)render_data->unk_00 >= 0) {
-                entry_uv = (S_80DB9000_8 *)((u8 *)entry_uv + 0xC);
-                render_data = (S_80DB9000_7 *)((u8 *)render_data + 0xC);
-                goto next_entry;
-            }
-            goto entry_done;
         }
-        if ((s8)render_data->unk_00 >= 0) {
-            entry_uv = (S_80DB9000_8 *)((u8 *)entry_uv + 0xC);
-            render_data = (S_80DB9000_7 *)((u8 *)render_data + 0xC);
-            goto next_entry;
+        if ((s8)render_data->unk_00 < 0) {
+            break;
         }
-entry_done:
+        render_data = (S_80DB9000_7 *)((u8 *)render_data + 0xC);
+        }
         func_80064A40();
     }
     ((S_80DB9000_6 *)render_state->unk_00)->unk_8D0 = packet;

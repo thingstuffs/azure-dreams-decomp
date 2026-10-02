@@ -24,6 +24,18 @@ M2C_UNK func_80064BC0();              /* extern */
 M2C_UNK func_80064CF0();                   /* extern */
 M2C_UNK func_80064D80();                   /* extern */
 u32 func_80065420(); /* extern */
+typedef struct S_800AFA68_part {
+    u8 unk_00;
+    u8 unk_01;
+    u8 unk_02;
+    u8 unk_03;
+    u16 unk_04;
+    u16 unk_06;
+    u8 unk_08;
+    u8 unk_09;
+    u8 unk_0A;
+    u8 unk_0B;
+} S_800AFA68_part;
 typedef struct GeomTailArgs {
     void *arg9;
     void *arg10;
@@ -87,7 +99,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     u8 sprite_y_byte;
     s16 world_corner_x;
     s32 world_corner_y;
-    s32 sprite_corner_x;
+    s16 sprite_corner_x;
     s32 sprite_corner_y;
     s32 texture_v;
     s32 scale_component;
@@ -131,9 +143,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     void *sprite_entry;
     void *quad;
     void *shadow_quad;
-    void *world_part;
-    void *sprite_part;
-    void *part_header;
+    S_800AFA68_part *part_header;
     void *entry_flags;
     void *render_state;
     ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -155,7 +165,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     *((u8 **) (scratch + 0x018)) = primitive_buffer;
     func_80064AE0(transform_dst, initial_yaw, world_x, primitive_buffer);
     matrix_base = (u8 *)&D_8006CD10 + 32;
-next_entry:
+    do {
     entry_table = (u8 *) (&D_800E3648);
 
     entry_flags = (void *) ((entry_index * 4) + ((s32) entry_table));
@@ -171,7 +181,7 @@ next_entry:
         *((u16 *) (scratch + 0x002)) = (u16) (((*((u8 *) (((s8 *) sprite_entry) + 7))) << 6) + 0x20);
         entry_height = *((u16 *) (((s8 *) sprite_entry) + 0x12));
         *((u16 *) (scratch + 0x004)) = entry_height;
-        part_header = *((void **) (((s8 *) sprite_entry) + 8));
+        part_header = *((S_800AFA68_part **) (((s8 *) sprite_entry) + 8));
         *((u16 *) (((s8 *) sprite_entry) + 0x10)) = entry_height;
         if (part_header != 0) {
             register void *world_bottom_right ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -185,7 +195,6 @@ next_entry:
                 *((s32 *) (scratch + 0x034)) = (s32) 0x2000;
                 *((s32 *) (scratch + 0x038)) = (s32) 0x2000;
                 world_z = *((u16 *) (scratch + 0x004));
-                world_part = part_header + 4;
                 *((u16 *) (scratch + 0x100)) = 0;
                 *((u16 *) (scratch + 0x102)) = 0U;
                 *((u16 *) (scratch + 0x104)) = 0;
@@ -197,18 +206,18 @@ next_entry:
                 func_80064BC0(view_matrix, scratch + 0x30);
                 func_80064D80((M2C_UNK *) view_matrix);
                 func_80064CF0((M2C_UNK *) view_matrix);
-next_world_part:
-                if (!((*((u8 *) (((s8 *) part_header) + 0))) & 0x20)) {
-                    texture_u_byte = *((u8 *) (((s8 *) world_part) + 4));
+                for (;;) {
+                if (!(part_header->unk_00 & 0x20)) {
+                    texture_u_byte = part_header->unk_08;
                     *((s32 *) (scratch + 0x008)) = (s32) texture_u_byte;
-                    texture_width_byte = *((u8 *) (((s8 *) world_part) + 6));
+                    texture_width_byte = part_header->unk_0A;
                     *((s32 *) (scratch + 0x010)) = (s32) texture_width_byte;
                     if ((texture_u_byte + texture_width_byte) >= 0x100) {
                         *((s32 *) (scratch + 0x010)) = texture_width_byte - 1;
                     }
-                    texture_v_byte = *((u8 *) (((s8 *) world_part) + 5));
+                    texture_v_byte = part_header->unk_09;
                     *((s32 *) (scratch + 0x00c)) = (s32) texture_v_byte;
-                    texture_height_byte = *((u8 *) (((s8 *) world_part) + 7));
+                    texture_height_byte = part_header->unk_0B;
                     *((s32 *) (scratch + 0x014)) = (s32) texture_height_byte;
                     if ((texture_v_byte + texture_height_byte) >= 0x100) {
                         *((s32 *) (scratch + 0x014)) = texture_height_byte - 1;
@@ -218,7 +227,7 @@ next_world_part:
                         world_matrix_arg = (u8 *)(scratch + 0x78);
                         world_bottom_left = scratch + 0x80;
                         world_bottom_right = scratch + 0x88;
-                        world_x_byte = *((u8 *) (((s8 *) world_part) + (-2)));
+                        world_x_byte = part_header->unk_02;
                         world_corner_x = (s8) world_x_byte;
                         quad = *((u8 **) (scratch + 0x018));
                         *((u16 *) (scratch + 0x080)) = world_corner_x;
@@ -226,7 +235,7 @@ next_world_part:
                         world_corner_x += (u16) (*((u16 *) (scratch + 0x010)));
                         *((u16 *) (scratch + 0x088)) = world_corner_x;
                         *((u16 *) (scratch + 0x078)) = world_corner_x;
-                        world_y_byte = *((u8 *) (((s8 *) world_part) + (-1)));
+                        world_y_byte = part_header->unk_03;
                         *((u8 **) (scratch + 0x018)) = quad + 0x28;
                         quad_depth = func_80065590((void *)transform_dst, (void *)world_matrix_arg, world_bottom_left,
                             world_bottom_right, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
@@ -269,12 +278,12 @@ next_world_part:
                             *((s32 *) (scratch + 0x014)) = texture_height + texture_v;
                             *((s32 *) (scratch + 0x00c)) <<= 8;
                             *((s32 *) (scratch + 0x014)) <<= 8;
-                            *((u16 *) (((s8 *) quad) + 0xE)) = (u16) (*((u16 *) (((s8 *) world_part) + 2)));
+                            *((u16 *) (((s8 *) quad) + 0xE)) = part_header->unk_06;
                             *((s16 *) (((s8 *) quad) + 0xC)) = (s16) (((u16) (*((u16 *) (scratch + 0x00c))))
                                 + ((u16) (*((u16 *) (scratch + 0x008)))));
                             *((s16 *) (((s8 *) quad) + 0x14)) = (s16) (((u16) (*((u16 *) (scratch + 0x00c))))
                                 + ((u16) (*((u16 *) (scratch + 0x010)))));
-                            *((u16 *) (((s8 *) quad) + 0x16)) = (u16) (*((u16 *) (((s8 *) world_part) + 0)));
+                            *((u16 *) (((s8 *) quad) + 0x16)) = part_header->unk_04;
                             *((s16 *) (((s8 *) quad) + 0x1C)) = (s16) (((u16) (*((u16 *) (scratch + 0x014))))
                                 + ((u16) (*((u16 *) (scratch + 0x008)))));
                             *((s16 *) (((s8 *) quad) + 0x24)) = (s16) (((u16) (*((u16 *) (scratch + 0x014))))
@@ -289,13 +298,12 @@ next_world_part:
                     }
                 }
 
-                world_part = (void *) (((u8 *) world_part) + 12);
-                if (((s8) (*((u8 *) (((s8 *) part_header) + 0)))) >= 0) {
-                    part_header = (void *) (((u8 *) part_header) + 12);
-                    goto next_world_part;
+                if ((s8) part_header->unk_00 < 0) {
+                    break;
                 }
-                goto restore_matrix;
-            }
+                part_header = part_header + 1;
+                }
+            } else {
             *((s32 *) (scratch + 0x0e4)) = 0;
             *((s32 *) (scratch + 0x0e8)) = 0;
             *((s32 *) (scratch + 0x0ec)) = 0;
@@ -307,7 +315,10 @@ next_world_part:
             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
             adjusted_depth = sort_depth - 4;
             *((s32 *) (scratch + 0x0c0)) = adjusted_depth;
-            if (adjusted_depth < 0x1E0U) {
+            if (adjusted_depth >= 0x1E0U) {
+                continue;
+            }
+            {
                 transform_dst = scratch + 0x100;
                 world_matrix_arg = rotation_matrix;
                 *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
@@ -320,27 +331,26 @@ next_world_part:
                 view_yaw = camera_yaw;
                 *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) game_base) + 0xB8))) + (sprite_yaw
                     - view_yaw));
-                sprite_part = part_header + 4;
 
                 *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
                 func_80065820(transform_dst, world_matrix_arg, view_yaw);
                 func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                 func_80064D80((M2C_UNK *) view_matrix);
                 func_80064CF0((M2C_UNK *) view_matrix);
-next_sprite_part:
-                if (!((*((u8 *) (((s8 *) part_header) + 0))) & 0x20)) {
-                    *((s32 *) (scratch + 0x008)) = (s32) (*((u8 *) (((s8 *) sprite_part) + 4)));
-                    *((s32 *) (scratch + 0x00c)) = (s32) (*((u8 *) (((s8 *) sprite_part) + 5)));
-                    *((s32 *) (scratch + 0x010)) = (s32) (*((u8 *) (((s8 *) sprite_part) + 6)));
-                    *((s32 *) (scratch + 0x014)) = (s32) (*((u8 *) (((s8 *) sprite_part) + 7)));
-                    sprite_x_byte = *((volatile u8 *) (((s8 *) sprite_part) + (-2)));
+                for (;;) {
+                if (!(part_header->unk_00 & 0x20)) {
+                    *((s32 *) (scratch + 0x008)) = (s32) part_header->unk_08;
+                    *((s32 *) (scratch + 0x00c)) = (s32) part_header->unk_09;
+                    *((s32 *) (scratch + 0x010)) = (s32) part_header->unk_0A;
+                    *((s32 *) (scratch + 0x014)) = (s32) part_header->unk_0B;
+                    sprite_x_byte = part_header->unk_02;
                     sprite_corner_x = (s8) sprite_x_byte;
                     *((u16 *) (scratch + 0x080)) = sprite_corner_x;
                     *((u16 *) (scratch + 0x070)) = sprite_corner_x;
                     sprite_corner_x += (u16) (*((u16 *) (scratch + 0x010)));
                     *((u16 *) (scratch + 0x088)) = sprite_corner_x;
                     *((u16 *) (scratch + 0x078)) = sprite_corner_x;
-                    sprite_y_byte = *((u8 *) (((s8 *) sprite_part) + (-1)));
+                    sprite_y_byte = part_header->unk_03;
                     func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
                         scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs) { depth_cue, transform_flags },
                         (sprite_corner_y = (s8) sprite_y_byte, *((u16 *) (scratch + 0x07a)) = sprite_corner_y,
@@ -406,10 +416,10 @@ next_sprite_part:
                         *((s32 *) (scratch + 0x014)) <<= 8;
                         *((s16 *) (((s8 *) quad) + 0xC)) = (s16) (((u16) (*((u16 *) (scratch + 0x00c))))
                             + ((u16) (*((u16 *) (scratch + 0x008)))));
-                        *((u16 *) (((s8 *) quad) + 0xE)) = (u16) (*((u16 *) (((s8 *) sprite_part) + 2)));
+                        *((u16 *) (((s8 *) quad) + 0xE)) = part_header->unk_06;
                         *((s16 *) (((s8 *) quad) + 0x14)) = (s16) (((u16) (*((u16 *) (scratch + 0x00c))))
                             + ((u16) (*((u16 *) (scratch + 0x010)))));
-                        *((u16 *) (((s8 *) quad) + 0x16)) = (u16) (*((u16 *) (((s8 *) sprite_part) + 0)));
+                        *((u16 *) (((s8 *) quad) + 0x16)) = part_header->unk_04;
                         *((s16 *) (((s8 *) quad) + 0x1C)) = (s16) (((u16) (*((u16 *) (scratch + 0x014))))
                             + ((u16) (*((u16 *) (scratch + 0x008)))));
                         bottom_right_uv = ((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch
@@ -517,7 +527,7 @@ next_sprite_part:
                             shadow_yaw = (s32) (*((s32 *) (scratch + 0x00c)));
                             shadow_yaw += ((s32) (*((s32 *) (scratch + 0x010))));
                             *((s32 *) (((s8 *) shadow_quad) + 0x14)) =
-                                shadow_yaw + ((*((s16 *) (((s8 *) sprite_part) + 0))) << 0x10);
+                                shadow_yaw + ((*(s16 *)&part_header->unk_04) << 0x10);
                             *((s16 *) (((s8 *) shadow_quad) + 0x1C)) =
                                 (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x008)))));
                             *((s16 *) (((s8 *) shadow_quad) + 0x24)) =
@@ -546,28 +556,19 @@ next_sprite_part:
                     }
                 }
 
-                sprite_part = (void *) (((u8 *) sprite_part) + 12);
-                if (((s8) (*((u8 *) (((s8 *) part_header) + 0)))) >= 0) {
-                    part_header = (void *) (((u8 *) part_header) + 12);
-                    goto next_sprite_part;
+                if ((s8) part_header->unk_00 < 0) {
+                    break;
                 }
-restore_matrix:
-                func_80064D80(&saved_matrix);
-
-                func_80064CF0(&saved_matrix);
-                goto advance_entry;
+                part_header = part_header + 1;
+                }
             }
-            goto advance_entry;
+            }
+            func_80064D80(&saved_matrix);
+            func_80064CF0(&saved_matrix);
         }
-        goto advance_entry;
     }
-advance_entry:
-    entry_index += 1;
-
-    if (entry_index >= 0x20) {
-        *((void **) (((s8 *) (*((void **) (((s8 *) game_base) + 0)))) + 0x8D0)) =
-            (void *) (*((u8 **) (scratch + 0x018)));
-        return 0;
-    }
-    goto next_entry;
+    } while (++entry_index < 0x20);
+    *((void **) (((s8 *) (*((void **) (((s8 *) game_base) + 0)))) + 0x8D0)) =
+        (void *) (*((u8 **) (scratch + 0x018)));
+    return 0;
 }
