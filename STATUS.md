@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T03:57:32Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T04:02:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -74,8 +74,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,820 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,284 | 11.9% |
-| ASM_ pins | 2135 | 1,464,792 | 57.3% | 176 | 237,548 | 9.3% |
-| goto | 1545 | 1,318,412 | 51.5% | 670 | 724,856 | 28.3% |
+| ASM_ pins | 2135 | 1,464,792 | 57.3% | 175 | 236,824 | 9.3% |
+| goto | 1545 | 1,318,412 | 51.5% | 669 | 724,132 | 28.3% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 75 | 110,956 | 4.3% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 243 | 203,760 | 8.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
@@ -85,9 +85,9 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 210 | 146,496 | 5.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,096 | 61.2% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5313 | 1,520,220 | 59.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5314 | 1,520,944 | 59.5% |
 
-Pin sites now: 509 in 175 rows; REG 292, KEEP_NV 83, KEEP 57, SCHED_BARRIER 21, USE2_NV 10, USE_NV 9, USE 8, SET 5.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 501 in 174 rows; REG 287, KEEP_NV 82, KEEP 56, SCHED_BARRIER 20, USE2_NV 10, USE_NV 9, USE 8, SET 5.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 1 (C that is missing); symbol aliases 93 (a second typed name for one symbol: a missing type); file-scope asm directives 410.
 
@@ -103,10 +103,10 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 38 | 28 / 7 / 3 | 16 | 62 |
 | cdk cell + crutch flags, module is plain | 25 | 17 / 7 / 1 | 10 | 28 |
 | stock cell inside a cdk module | 27 | 12 / 13 / 2 | 2 | 24 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 116 | 30 / 38 / 48 | 6 | 16 |
-| **total** | **206** | | **34** | **130** |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 116 | 30 / 38 / 48 | 6 | 13 |
+| **total** | **206** | | **34** | **127** |
 
-Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 13 pins (2.8.1-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_81912154 5 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_800BFE94 5 pins (2.8.0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_800C379C 4 pins (2.91.66-G0 -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 13 pins (2.8.1-G0 -> 2.7.2-cdk-G0); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_800BFE94 5 pins (2.8.0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_800C379C 4 pins (2.91.66-G0 -> 2.7.2-cdk-G0); town/func_8080DAB8 3 pins (2.7.2 -> 2.6.3-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
@@ -127,7 +127,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 819 rows, 474,348 bytes (18.5%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 175 rows (237,424 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,016 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 174 rows (236,700 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,016 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

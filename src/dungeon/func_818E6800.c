@@ -69,11 +69,9 @@ void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
 
     {
         actor = (u8 *)S32(effect, 0);
-        ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         original_count = U16(effect, 80);
         state = S16(effect, 10);
         count = original_count - 1;
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     actor_data = (u8 *)S32(actor, -20);
     actor_header = actor;
@@ -81,6 +79,7 @@ void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
 
     U16(effect, 80) = (u16)count;
     if (state > 0) {
+        actor = (u8 *)S32(effect, 0);
         switch (state) {
         case 1:
             original_count = (s16)count;
