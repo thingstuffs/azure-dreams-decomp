@@ -73,16 +73,6 @@ typedef struct S_800C55F4_6 {
     u16 unk_04;
 } S_800C55F4_6;   /* (x << 3) + (u32)table in func_800C55F4 */
 
-typedef struct S_800C55F4_7_pre {
-    u8 unk_00;
-    u8 unk_01;
-    u8 pad_02[0x8];
-} S_800C55F4_7_pre;   /* the 0xA bytes before entry in func_800C55F4, addressed as entry[-1] */
-
-typedef struct S_800C55F4_7 {
-    s8 unk_00;
-} S_800C55F4_7;   /* entry in func_800C55F4 */
-
 typedef struct S_800C55F4_8 {
     u8 pad_00[0x30];
     s16 unk_30;
@@ -114,6 +104,14 @@ extern s32 func_8006658C();
 extern s32 func_800666B8();
 extern s32 func_80067F20();
 
+typedef struct Face {
+    u8 v0;
+    u8 v1;
+    u8 v2;
+    u8 pad_03[0x8];
+    s8 flags;
+} Face;
+
 static __inline__ s32 narrow_depth(s32 value)
 {
     return (s16)value;
@@ -124,41 +122,42 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 {
     u8 saved_matrix[0x20];
     register s32 depth_bias ASM_REG("$17") = depth_offset;
-    register u8 *scratch ASM_REG("$19");
-    register u8 *vector_arg ASM_REG("$4");
+    u8 *scratch;
+    u8 *vector_arg;
     u8 *screen_arg;
     void *perspective_out;
     void *flags_out;
     u8 *descriptor;
     u8 *vertices;
-    register u8 *face_end ASM_REG("$20");
-    u8 *face;
-    u8 *packet_code = (u8 *)0x80080000;
+    Face *face;
+    u8 *packet_code;
     u8 *render_state;
     u8 *packet;
+    u8 *prim;
     u8 packet_flags;
     s32 result;
     s32 face_flags;
     s32 shade_arg;
     u32 vertex_index;
     u32 vertex_depth;
-    void *vertex_arg;
     void *perspective_arg;
     void *flags_arg;
     S_800C55F4_9 *global_base;
 
 
+    global_base = (S_800C55F4_9 *)&gameWork;
     perspective_out = (void *)0x1F800090;
 
     descriptor = (*(u8 ** *)((u8 *)mesh_data + 8));
     flags_out = (void *)0x1F800094;
 
     vertices = ((S_800C55F4_0 *)descriptor)->unk_00;
-    face = ((S_800C55F4_0 *)descriptor)->unk_08;
+    face = (Face *)((S_800C55F4_0 *)descriptor)->unk_08;
 
     func_800649A0();
 
     vector_arg = (u8 *)0x1F800028;
+    ASM_KEEP_NV(vector_arg);
     screen_arg = (u8 *)0x1F800000;
     ASM_KEEP_NV(screen_arg);
     scratch = (u8 *)0x1F800000;
@@ -189,37 +188,33 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 
     result = func_80065420(vector_arg, screen_arg,
                            (void *)0x1F800090, (void *)0x1F800094);
-    vector_arg = saved_matrix;
     depth_bias = narrow_depth(depth_bias);
     ((S_800C55F4_1 *)scratch)->unk_CC = result - depth_bias;
-    func_80064AE0(vector_arg);
+    func_80064AE0(saved_matrix);
     func_80065820((u8 *)mesh_data + 0x16, scratch + 0x50);
     func_80064BC0(scratch + 0x50, scratch + 0x30);
     func_80064840(saved_matrix, scratch + 0x50, scratch + 0xD0);
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
 
-    global_base = (S_800C55F4_9 *)&gameWork;
-    render_state = ((S_800C55F4_4 *)packet_code)->unk_3160;
-    face_end = face + 0xB;
+    render_state = global_base->unk_00;
     ((S_800C55F4_1 *)scratch)->unk_20 = render_state + 0xB0;
-    record = ((S_800C55F4_5 *)render_state)->unk_8D0;
-    packet_code = record + 7;
+    prim = ((S_800C55F4_5 *)render_state)->unk_8D0;
+    packet_code = prim + 7;
     ((S_800C55F4_2 *)mesh_data)->unk_14 |= 0x8000;
 
     for (;;) {
-        vertex_index = *face;
+        vertex_index = face->v0;
         ((S_800C55F4_1 *)scratch)->unk_70 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
-        vertex_index = ((S_800C55F4_7_pre *)face_end)[-1].unk_00;
+        vertex_index = face->v1;
         ((S_800C55F4_1 *)scratch)->unk_78 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
-        vertex_index = ((S_800C55F4_7_pre *)face_end)[-1].unk_01;
+        vertex_index = face->v2;
         ((S_800C55F4_1 *)scratch)->unk_80 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_00;
-        vertex_index = *face;
+        vertex_index = face->v0;
         ((S_800C55F4_1 *)scratch)->unk_74 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
-        vertex_index = ((S_800C55F4_7_pre *)face_end)[-1].unk_00;
-        vertex_arg = scratch + 0x70;
+        vertex_index = face->v1;
         ((S_800C55F4_1 *)scratch)->unk_7C = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
-        vertex_index = *(u8 *)(face_end - 9);
+        vertex_index = face->v2;
         perspective_arg = perspective_out;
         flags_arg = flags_out;
         ((S_800C55F4_1 *)scratch)->unk_84 = ((S_800C55F4_6 *)((vertex_index << 3) + (u32)vertices))->unk_04;
@@ -227,19 +222,17 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
         {
             s32 depth;
 
-            depth = func_80065420(vertex_arg, record + 8,
+            depth = func_80065420(scratch + 0x70, prim + 8,
                                         perspective_arg, flags_arg);
-            vertex_arg = scratch + 0x78;
             perspective_arg = perspective_out;
             flags_arg = flags_out;
             ((S_800C55F4_1 *)scratch)->unk_C0.s = depth;
-            depth = func_80065420(vertex_arg, record + 0x10,
+            depth = func_80065420(scratch + 0x78, prim + 0x10,
                                         perspective_arg, flags_arg);
-            vertex_arg = scratch + 0x80;
             perspective_arg = perspective_out;
             flags_arg = flags_out;
             ((S_800C55F4_1 *)scratch)->unk_C4 = depth;
-            depth = func_80065420(vertex_arg, record + 0x18,
+            depth = func_80065420(scratch + 0x80, prim + 0x18,
                                         perspective_arg, flags_arg);
             ((S_800C55F4_1 *)scratch)->unk_C8.s = depth;
         }
@@ -274,7 +267,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
                         shade_arg = (u32)shade << 16;
                         shade_arg >>= 16;
                         func_8004CECC(((S_800C55F4_8 *)params)->unk_30,
-                                      shade_arg, 0xFF, record + 4);
+                                      shade_arg, 0xFF, prim + 4);
                     }
                 }
 
@@ -298,7 +291,7 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
                         shade_arg = (s32)(s16)shade;
                         func_8004CECC(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF,
-                                      record + 0xC);
+                                      prim + 0xC);
                     }
                 }
 
@@ -322,14 +315,14 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
                         shade_arg = (s32)(s16)shade;
                         func_8004CECC(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF,
-                                      record + 0x14);
+                                      prim + 0x14);
                     }
                 }
 
-                func_800666B8(record);
-                packet = record;
+                func_800666B8(prim);
+                packet = prim;
                 packet_flags = ((S_800C55F4_4 *)packet_code)->unk_00;
-                record += 0x1C;
+                prim += 0x1C;
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
                 func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
@@ -337,22 +330,21 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 
                 packet_code += 0xC;
                 ((S_800C55F4_2 *)mesh_data)->unk_14 &= 0x7FFF;
-                func_80067F20(record, 0, 0, 0, 0);
-                packet = record;
-                record += 0xC;
+                func_80067F20(prim, 0, 0, 0, 0);
+                packet = prim;
+                prim += 0xC;
                 func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
                               (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
             }
         }
 
-        face_flags = ((S_800C55F4_7 *)face_end)->unk_00;
+        face_flags = face->flags;
         if (face_flags >= 0) {
-            face_end += 0xC;
-            face += 0xC;
+            face++;
             continue;
         }
         break;
     }
     func_80064A40();
-    ((S_800C55F4_10 *)(global_base->unk_00))->unk_8D0 = record;
+    ((S_800C55F4_10 *)(global_base->unk_00))->unk_8D0 = prim;
 }
