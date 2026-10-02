@@ -117,9 +117,10 @@ def main() -> None:
     # threshold for TU-defined data from cc1's own -G (see cc1_sdata_limit); the
     # MASPSX_GP_LIMIT_FROM_CC1=1 environment switch does the same for measurement.
     parser.add_argument("--gp-limit-from-cc1", action="store_true")
-    # r85_opus_lofold: no %lo fold into accesses on cdk-cell output (see cc1_is_cdk); default OFF =
-    # production behaviour; MASPSX_NO_CDK_LO_FOLD=1 does the same for measurement.
+    # r85_opus_lofold: no %lo fold into accesses on cdk-cell output (see cc1_is_cdk).  ACTIVE by
+    # default; --cdk-lo-fold (or MASPSX_NO_CDK_LO_FOLD=0) restores the old fold on cdk output.
     parser.add_argument("--no-cdk-lo-fold", action="store_true")
+    parser.add_argument("--cdk-lo-fold", action="store_true")
     # decomp.me debugging
     parser.add_argument("--print-output", action="store_true")
     parser.add_argument("--print-input", action="store_true")
@@ -222,7 +223,7 @@ def main() -> None:
         prefer_target_arg_setup=args.prefer_target_arg_setup,
         preserve_immediate_funcaddr_la=args.preserve_immediate_funcaddr_la,
         fold_lo_into_accesses=not (
-            (args.no_cdk_lo_fold or os.environ.get("MASPSX_NO_CDK_LO_FOLD") == "1")
+            (args.no_cdk_lo_fold or not (args.cdk_lo_fold or os.environ.get("MASPSX_NO_CDK_LO_FOLD") == "0"))
             and cc1_is_cdk(in_lines)
         ),
     )
