@@ -771,8 +771,10 @@ class MaspsxProcessor:
         live_sibcall_tail=False,
         prefer_target_arg_setup=False,
         preserve_immediate_funcaddr_la=False,
+        fold_lo_into_accesses=True,
     ):
         self.lines = [x.strip() for x in lines]
+        self.fold_lo_into_accesses_enabled = fold_lo_into_accesses
 
         self.sdata_limit = sdata_limit
 
@@ -4490,7 +4492,14 @@ class MaspsxProcessor:
         is only sound inside ONE basic block. ``joins_from_outside`` below declines
         the fold when an access is reachable from an edge that never passed the
         seed `lui` (func_800C738C). See its docstring for the discriminator.
+
+        Guard (r85_opus_lofold): skipped for a TU compiled by the 2.7.2-cdk cell when maspsx runs
+        with --no-cdk-lo-fold / MASPSX_NO_CDK_LO_FOLD=1 (maspsx.py cc1_is_cdk).  Genuine ASPSX
+        2.56-2.86 never performs this fold; on cdk output the folded retail shape comes from
+        integer-address source, which cdk already compiles to that shape by itself.
         """
+        if not self.fold_lo_into_accesses_enabled:
+            return res
         def code(l):
             return strip_comments(l).strip()
         def mentions(text, reg):
