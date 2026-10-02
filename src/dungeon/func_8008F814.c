@@ -104,8 +104,6 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
     Slot *special_items;
     Slot *consumed_items;
     u8 *inventory_page;
-    u8 *entity_page;
-    Ent *entities;
     s32 item_kind;
 
     sys = &gameWork;
@@ -205,10 +203,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
             ctx->flags |= 0x80;
             stored_item->b0 = 0;
             stored_item->b1 = 0;
-            entity_page = (u8 *) 0x800E0000;
-            ASM_KEEP_NV(entity_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            entities = (Ent *) (entity_page + 0x36C8);
-            func_8009A3D0(entities[stored_id].a, entities[stored_id].b, 0x800);
+            func_8009A3D0(D_800E36C8[stored_id].a, D_800E36C8[stored_id].b, 0x800);
             ctx->link = inventory_slot;
         }
     }
