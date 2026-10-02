@@ -148,31 +148,15 @@ extern u8 D_800DEAE0[];
 extern u8 D_80024684[];
 extern u8 D_80024714[];
 extern u8 D_800E3D68[];
-extern void *jtbl_80024008[];
+void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion);
 
-__asm__(".set jtbl_80024008, 0x80024008");
-
-#ifdef __mips__
-static const u32 func_80024000_prefix[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
-        0x80024020,
-        0,
-        0x80024090,
-        0x8002421C,
-        0x800243E8,
-        0x80024424,
-        0x80024498,
-        0x800244BC,
-    };
-__asm__(".globl func_80024000\n"
-        ".size func_80024000, 1336");
-#define FUNC_818DA800_BODY func_80024020
-#else
-#define FUNC_818DA800_BODY func_80024000
-#endif
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The phase table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(S_func_818DA800_1 *, S_func_818DA800_2 *) __asm__("func_80024000") = func_80024020;
 
 /* Advances a targeted effect through movement, particle spawning, target interaction, and cleanup. */
-void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
+void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
 {
     S_func_818DA800_3 *actor;
     S_func_818DA800_4 *actor_data;
@@ -187,20 +171,8 @@ void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *moti
     s32 actor_header;
     S_func_818DA800_8 *child_state;
     s16 timer;
-    s32 phase_or_entry;
     s32 phase;
     s32 tile_coord;
-    void **phase_table;
-    void *phase_label;
-    static void *const phase_labels[] = {
-        &&finish,
-        &&case0,
-        &&case1,
-        &&case2,
-        &&case3,
-        &&case4,
-        &&case5,
-    };
 
     actor = effect_state->unk_00;
     timer = (u16)effect_state->unk_50.as_u16;
@@ -210,19 +182,10 @@ void FUNC_818DA800_BODY(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *moti
     effect_state->unk_50.as_u16 = timer;
 
     actor_header = (s32)((u8 *)actor - 0x20);
-    if ((u32)phase >= 6) {
-        goto finish;
-    }
-    phase_table = jtbl_80024008;
-    phase_or_entry = (u32)phase * 4;
-    phase_or_entry += (s32)phase_table;
-    phase_label = *(void **)(u32)phase_or_entry;
-    (void)phase_labels;
-    goto *phase_label;
-
-case0:
+    switch (phase) {
+    case 0:
     if ((((S_func_818DA800_6 *)effect_state->unk_04)->unk_00 & 0x80) == 0) {
-        goto finish;
+        break;
     }
     {
         S_func_818DA800_3 *target_actor;
@@ -272,14 +235,14 @@ update:
         effect_state->unk_50.as_s16;
     func_800A56E0(0x300);
     effect_state->unk_0A.as_u16++;
-    goto finish;
+    break;
 
-case1:
+    case 1:
     motion->unk_00.as_s32 += motion->unk_0C.as_s32;
     motion->unk_04.as_s32 += motion->unk_10.as_s32;
     motion->unk_08.as_s32 += motion->unk_14.as_s32;
     if (effect_state->unk_50.as_s16 > 0) {
-        goto finish;
+        break;
     }
     {
         actor_or_corner = 3;
@@ -367,24 +330,24 @@ case1:
     }
     effect_state->unk_50.as_u16 = 10;
     effect_state->unk_0A.as_u16++;
-    goto finish;
+    break;
 
-case2:
+    case 2:
     if (effect_state->unk_50.as_s16 > 0) {
-        goto finish;
+        break;
     }
     if (actor->unk_60 == 0) {
         effect_state->unk_50.as_u16 = 8;
         effect_state->unk_0A.as_u16 = 5;
-        goto finish;
+        break;
     }
     effect_state->unk_50.as_u16 = 20;
     effect_state->unk_0A.as_u16++;
-    goto finish;
+    break;
 
-case3:
+    case 3:
     if (effect_state->unk_50.as_s16 > 0) {
-        goto finish;
+        break;
     }
     if (actor->unk_60 != 0 &&
         func_8009D218(actor->unk_60, 1, actor) == 0 &&
@@ -396,17 +359,17 @@ case3:
     }
     effect_state->unk_50.as_u16 = 10;
     effect_state->unk_0A.as_u16++;
-    goto finish;
+    break;
 
-case4:
+    case 4:
     if (effect_state->unk_50.as_s16 > 0) {
-        goto finish;
+        break;
     }
     effect_state->unk_50.as_u16 = 4;
     effect_state->unk_0A.as_u16++;
-    goto finish;
+    break;
 
-case5:
+    case 5:
     if (effect_state->unk_52.as_s16 & (u16)0x8000) {
         effect_state->unk_52.as_u16 &= 0x7FFF;
     } else {
@@ -414,9 +377,8 @@ case5:
             dungeonStatus.unk_0C = 0;
             ((S_func_818DA800_11 *)((u8 *)effect_state - 4))->unk_02 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
-            goto finish;
+            break;
         }
     }
-finish:
-    ;
+    }
 }

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T05:11:11Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T05:27:36Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -76,7 +76,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c local names | 5182 | 2,172,128 | 84.9% | 781 | 303,284 | 11.9% |
 | ASM_ pins | 2135 | 1,464,792 | 57.3% | 175 | 236,824 | 9.3% |
 | goto | 1545 | 1,318,412 | 51.5% | 668 | 722,300 | 28.2% |
-| computed-goto jump table | 317 | 437,288 | 17.1% | 72 | 104,000 | 4.1% |
+| computed-goto jump table | 317 | 437,288 | 17.1% | 70 | 101,204 | 4.0% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 243 | 203,760 | 8.0% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,064 | 50.3% | 1777 | 959,904 | 37.5% |
@@ -89,7 +89,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 
 Pin sites now: 500 in 174 rows; REG 287, KEEP_NV 81, KEEP 56, SCHED_BARRIER 20, USE2_NV 10, USE_NV 9, USE 8, SET 5.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 1 (C that is missing); symbol aliases 96 (a second typed name for one symbol: a missing type); file-scope asm directives 404.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 1 (C that is missing); symbol aliases 98 (a second typed name for one symbol: a missing type); file-scope asm directives 392.
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 164 rows carry one flag, 12 carry two or more.
 

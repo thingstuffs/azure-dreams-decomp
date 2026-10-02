@@ -6,8 +6,6 @@
 #include "m2c_compat.h"
 extern int abs(int);
 
-extern void *jtbl_80024008[];
-__asm__(".set jtbl_80024008, 0x80024008");
 void *func_8003FD64();
 s32 func_8004491C();
 s32 func_80069EF8();
@@ -20,49 +18,6 @@ s16 func_800BCB04();
 extern M2C_UNK D_800245B4;
 extern M2C_UNK D_80024A1C;
 
-extern void func_80024020(void);
-extern void func_80024148(void);
-extern void func_8002439C(void);
-extern void func_800244D4(void);
-extern void func_80024518(void);
-extern void func_8002453C(void);
-__asm__(".set func_80024020, 0x80024020");
-__asm__(".set func_80024148, 0x80024148");
-__asm__(".set func_8002439C, 0x8002439c");
-__asm__(".set func_800244D4, 0x800244d4");
-__asm__(".set func_80024518, 0x80024518");
-__asm__(".set func_8002453C, 0x8002453c");
-
-/* Composite carve: retail places an 8-word bank (entry pointer, a zero word and
- * the 6-entry state jump table) immediately before this function's own code,
- * all under the func_80024000 symbol.  The bank is pinned to the function's own
- * named section so it lands ahead of the compiled body in the same output
- * section, byte-for-byte and gap-free (cf. the landed sister-floor module
- * func_81844800.c). */
-#ifdef __mips__
-static void (*const func_80024000_table[])(void)
-__asm__("func_80024000")
-__attribute__((section(".text.func_80024000"), aligned(4))) = {
-    func_80024020,
-    0,
-    func_80024148,
-    func_8002439C,
-    func_8002439C,
-    func_800244D4,
-    func_80024518,
-    func_8002453C,
-};
-__asm__(".globl func_80024000\n"
-        ".type func_80024000,@function\n"
-        ".size func_80024000, 1460");
-#define BODY_NAME composite_body_81820800
-#define BODY_STORAGE static
-#define BODY_ATTR __attribute__((used, section(".text.func_80024000")))
-#else
-#define BODY_NAME func_80024000
-#define BODY_STORAGE
-#define BODY_ATTR
-#endif
 
 typedef struct S_func_81820800_1 {
     void *unk_00;
@@ -153,12 +108,15 @@ typedef struct S_func_81820800_8 {
     u16 unk_0A;
 } S_func_81820800_8;
 
-BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) BODY_ATTR;
+void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data);
+
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(void *, S_func_81820800_2 *, void *) __asm__("func_80024000") = func_80024020;
+
 /* Moves an attack toward its target, spawns trailing effects, and applies the hit. */
-BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source_data) {
-    static void * const state_labels[] = {
-        && state_aim, && state_move, && state_trail, && state_hit, && state_wait, && state_finish
-    };
+void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
     S_func_81820800_1 *state_obj;
     S_func_81820800_4 *owner;
     S_func_81820800_5 *source;
@@ -204,12 +162,8 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     }
     phase = state_obj->unk_0A;
     state_obj->unk_50 = (u16) (state_obj->unk_50 - 1);
-    if ((u32) phase >= 6U) {
-        return;
-    }
-    (void)state_labels;
-    goto *jtbl_80024008[(u32) phase];
-state_aim:
+    switch (phase) {
+    case 0:
     if (!(*state_obj->unk_04 & 0x80)) {
         return;
     }
@@ -295,8 +249,8 @@ start_motion:
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
 
-state_move:
-state_trail:
+    case 1:
+    case 2:
     motion->unk_14 = (s32) (motion->unk_14 + 0x100);
     coord_y = 0;
     if (actor->unk_60 == NULL) {
@@ -345,20 +299,20 @@ next_effect:
 start_hit:
     state_obj->unk_0A = 3;
     return;
-state_hit:
+    case 3:
     if (actor->unk_60 != NULL) {
         func_8009CE1C(actor->unk_60, 0x10, state_obj->unk_09, 4, (s32) (s16) actor->unk_2A, actor, 2);
     }
     state_obj->unk_50 = 0x10U;
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
-state_wait:
+    case 4:
     if ((s16) state_obj->unk_50 > 0) {
         return;
     }
     state_obj->unk_0A = (s16) ((u16) state_obj->unk_0A + 1);
     return;
-state_finish:
+    case 5:
     if (state_obj->unk_52 & 0x8000) {
         state_obj->unk_52 = (s16) ((u16) state_obj->unk_52 & 0x7FFF);
         return;
@@ -367,4 +321,5 @@ state_finish:
     *(u16 *)((u8 *)state_obj - 2) = (u16) (*(u16 *)((u8 *)state_obj - 2) | 0x8000);
     objectFlagBlock.flags = (s32) (objectFlagBlock.flags | 0x8000);
     return;
+    }
 }
