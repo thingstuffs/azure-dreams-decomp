@@ -97,7 +97,6 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
     u8 * base_2;
     void *new_buf;
     void *buf;
-    void *call_arg;
     void *prev_arg;
     register s32 hard_zero;
     u32 color1;
@@ -135,20 +134,19 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             if (icon_held != 0) {
                 count = 1;
                 cursor = (u8 *)obj + 0x5C;
-                call_arg = buf;
-                ASM_KEEP_NV(call_arg);
-                *(void **)((u8 *)obj + 0x70) = call_arg;
+                slot_x = (s32)buf;
+                *(void **)((u8 *)obj + 0x70) = (void *)slot_x;
                 value_a = count;
-                buf = func_800B1434(call_arg, D_80073618[icon_held]);
+                buf = func_800B1434((void *)slot_x, D_80073618[icon_held]);
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
             } else {
                 value_a = 0;
             }
-            call_arg = buf;
+            slot_x = (s32)buf;
             base_2 = (u8 *)D_800DF03C;
             table_entry = (s32 *)((style_byte * 4) + (s32)base_2);
             hard_zero = 0;
-            *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)func_8004E298(call_arg, *table_entry, hard_zero);
+            *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)func_8004E298((void *)slot_x, *table_entry, hard_zero);
             style_hold = func_80069E98(*table_entry) * 8;
             count++;
             tmp = value_a << 2;
@@ -173,12 +171,12 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             cursor += 4;
             buf = (u8 *)buf + 0x60;
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
-            call_arg = buf;
+            slot_x = (s32)buf;
             prev_arg = (u8 *)buf - 0x60;
-            new_buf = func_800B1434(call_arg, prev_arg);
-            call_arg = buf;
+            new_buf = func_800B1434((void *)slot_x, prev_arg);
+            slot_x = (s32)buf;
             buf = new_buf;
-            func_800B1320(call_arg, 1, 1);
+            func_800B1320((void *)slot_x, 1, 1);
             color2 = 0x80808;
             tmp = count << 2;
             count++;

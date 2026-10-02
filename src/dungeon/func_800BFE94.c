@@ -121,7 +121,7 @@ static __inline__ s32 narrow_depth(s32 value)
 void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
 {
     u8 saved_matrix[0x20];
-    register s32 depth_bias ASM_REG("$17") = depth_offset;
+    s16 depth_bias = depth_offset;
     u8 *scratch;
     u8 *vector_arg;
     u8 *screen_arg;
@@ -157,12 +157,10 @@ void func_800C55F4(u8 *params, u8 *record, void *mesh_data, s32 depth_offset)
     func_800649A0();
 
     vector_arg = (u8 *)0x1F800028;
-    ASM_KEEP_NV(vector_arg);
     screen_arg = (u8 *)0x1F800000;
-    ASM_KEEP_NV(screen_arg);
     scratch = (u8 *)0x1F800000;
 
-    ((S_800C55F4_1 *)scratch)->unk_30 = ((S_800C55F4_2 *)mesh_data)->unk_1C;
+    ((S_800C55F4_1 *)scratch)->unk_30 = (*(u16 *)((u8 *)mesh_data + 0x1C));
     {
         u32 translation_y;
 

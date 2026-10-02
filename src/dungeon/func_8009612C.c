@@ -153,7 +153,6 @@ search_nearby:
         if (*(occupied + near_dir + 1) == 0) {
             near_dx = dirStepX + near_dir;
             near_dy = dirStepY + near_dir;
-            ASM_USE(near_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if ((near_offset_x = near_dx[0], near_offset_y = near_dy[0],
                  func_800A0548((s16)(target_x + near_offset_x), (s16)(target_y + near_offset_y))) == 0 &&
                 (func_8009A350(near_x, far_x, near_dir, &tile_flags) << 16) != 0 &&
@@ -173,7 +172,8 @@ search_nearby:
     far_x = (s16)target_x;
     search_seed = dungeonStatus.unk_1E;
     far_y = (s16)target_y;
-    slot = search_seed & 15;
+    near_dy = search_seed & 15;
+    slot = near_dy;
     do {
         far_dir = slot;
         if (*(occupied + far_dir + 9) == 0) {
