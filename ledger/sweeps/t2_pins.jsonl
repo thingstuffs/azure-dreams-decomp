@@ -29737,3 +29737,4 @@
 {"id":"town/func_8046B288","transform":"t2_pins","in_sha":"3522886f9bd75db0123fff81ec00662e6cf260417313233d48ebdde6d9f714a6","from_clean":true,"size":68,"outcome":"refused","reason":"no pin sites","at":"2026-10-02T06:05:42Z"}
 {"id":"dungeon/func_800938EC","transform":"t2_pins","in_sha":"f76b448bfd95fbc45c305675bb8e01f4698f9f260f77027715ff2eb42ec8a067","from_clean":true,"size":68,"outcome":"refused","reason":"no pin sites","at":"2026-10-02T06:05:42Z"}
 {"id":"dungeon/func_819BFF10","transform":"t2_pins","in_sha":"d12a659bb884090265174c4d22389e7d59b8738597cc5eaf494e67fd6baa4a18","from_clean":true,"size":240,"outcome":"refused","reason":"no pin sites","at":"2026-10-02T06:05:42Z"}
+{"id":"dungeon/func_80098144","transform":"t2_pins","in_sha":"87444b11a0b95bcad290814d0bd5fecfd2e9d910cb88259e297491669e7bbf50","from_clean":true,"size":460,"erased":0,"tried":1,"left":1,"kept":[["ASM_REG","8","reg-rename"]],"outcome":"noop","at":"2026-10-02T06:11:32Z"}
