@@ -34,7 +34,11 @@ s32 func_800BCB04(s32, s32, s16);
 s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
     StackU16 collision;
     s16 monster_index;
-    register s16 floor_height ASM_REG("$18");
+    /* The actor is finished before the floor-height samples begin. */
+    union {
+        FuncArg1 *actor;
+        s32 height;
+    } actor_or_height;
     s32 target_height;
     u32 direction_bits;
     u8 *x_steps;
@@ -62,13 +66,14 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     u16 tile_x8;
     u16 tile_y8;
 
+    actor_or_height.actor = actor;
     direction_bits = (move_flags >> 9) & 7;
     direction_arg = direction_bits;
     direction = (s16)direction_bits;
     x_steps = (u8 *)dirStepX;
     step_offset = direction * 2;
     x_step = (u16 *)((s32)step_offset + (s32)x_steps);
-    coord_or_height = actor->x;
+    coord_or_height = actor_or_height.actor->x;
     offset_work = *x_step;
     direction_or_x = direction_arg;
     target_x = coord_or_height + offset_work;
@@ -77,14 +82,14 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     if (next_x != 0) {
         if (((1 << map_limits->shiftX) - 1) >= next_x) {
             y_step = (u16 *)((u8 *)dirStepY + step_offset);
-            coord_or_height = actor->y;
+            coord_or_height = actor_or_height.actor->y;
             offset_work = *y_step;
             coord_work = coord_or_height + offset_work;
             coord_or_height = coord_work & 0xFFFF;
             if (coord_or_height != 0) {
                 if (((1 << map_limits->shiftY) - 1) >= coord_or_height) {
-                    tile_x8 = actor->x;
-                    tile_y8 = actor->y;
+                    tile_x8 = actor_or_height.actor->x;
+                    tile_y8 = actor_or_height.actor->y;
                     coord_or_height = tile_x8;
                     offset_work = tile_y8;
                     body_addr = (u32)body;
@@ -107,7 +112,8 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                             target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
-                        func_8009A350(actor->x, actor->y, y_or_direction, (u16 *)collision_out);
+                        func_8009A350(actor_or_height.actor->x, actor_or_height.actor->y,
+                                     y_or_direction, (u16 *)collision_out);
                         if ((collision.value & 0x8002) != 0) {
                             result = 0;
                             return 0;
@@ -116,9 +122,9 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                         result = 0;
                         return 0;
                     }
-                    if ((actor->flag >= 0) ||
-                        (monster_index = func_8009FB34((actor->x + *x_step) & 0xFFFF,
-                                                       (actor->y + *y_step) & 0xFFFF),
+                    if ((actor_or_height.actor->flag >= 0) ||
+                        (monster_index = func_8009FB34((actor_or_height.actor->x + *x_step) & 0xFFFF,
+                                                       (actor_or_height.actor->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
                         !(D_800E2970[monster_index].flags & 2) ||
                         (result = 0, ((body_addr = (u32)body,
@@ -130,35 +136,34 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                                     u16 sample_x;
                                     sample_x = target_x;
                                     target_y_u16 = coord_work & 0xFFFF;
-                                    floor_height = func_800BCB04(sample_x, target_y_u16,
-                                                                 (s16)(height - height_offset));
+                                    actor_or_height.height = func_800BCB04(
+                                        sample_x, target_y_u16, (s16)(height - height_offset));
                                 }
                                 tile_coord = target_x >> 6;
                                 y_or_direction = target_y_u16 >> 6;
-                                target_height = (s16)floor_height;
+                                target_height = (s16)actor_or_height.height;
                                 if (target_height >= 0x201) {
                                     body_addr = (u32)body;
                                     target_height = (s16)((FuncArg2 *)body_addr)->height;
                                 }
-                                result = func_8009B25C(body, tile_coord, y_or_direction, target_height);
-                                if (result == 0) {
-                                    coord_or_height = (u16)floor_height << 0x10;
+                                /* Target X is dead after the tile argument is formed. */
+                                target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);
+                                if (target_x == 0) {
                                     goto check_height;
                                 }
                             }
-                            coord_or_height = floor_height << 0x10;
 move_failed:
                             ASM_SCHED_BARRIER();
                             result = -1;
                             return -1;
                         }
                         {
-                            floor_height = func_800BCB04(target_x & 0xFFFF, coord_work & 0xFFFF,
-                                                         (s16)(height - height_offset));
+                            actor_or_height.height = func_800BCB04(
+                                target_x & 0xFFFF, coord_work & 0xFFFF, (s16)(height - height_offset));
                         }
-                        coord_or_height = floor_height << 0x10;
 check_height:
                         result = -1;
+                        coord_or_height = actor_or_height.height << 0x10;
                         if ((coord_or_height >> 0x10) < 0x201) {
                             result = 1;
                         }

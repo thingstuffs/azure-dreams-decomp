@@ -1,4 +1,29 @@
-# Handover (2026-10-02, round 87 single-row pickup) - start here
+# Handover (2026-10-02, round 88 single-row pickup) - start here
+
+**402 pins / 161 rows** (403 / 161 at pickup).
+
+- Picked the next named row, `dungeon/func_80095160`: **5 -> 4**, exact at
+  its existing `2.7.2-cdk-G0` recipe. Removed the floor-height `$18` pin:
+  a union hosts the actor pointer and later height result; the finished
+  target-X variable hosts the placement status. Both variable-hosting
+  spelling trades are recorded. No new pin or compiler change.
+- Validation: independent row verifier exact; old/new NON_MATCHING builds
+  compile (assembly differs, shared-C rewrite); t2 noop; all 15 nonempty
+  subsets of the four surviving pins miss; **dungeon_engine 393,216-byte
+  window MATCH**; **SLUS SHA-1 MATCH**.
+- Evidence: `docs/evidence/r88_80095160_height_storage.md`. Lane:
+  `work/native_lane/r88_sol_80095160` (49 measured variants, REPORT_TABLE.md,
+  full retail site map, candidates, ignored scratch/ pass dumps, landing.log).
+  Transferable finding: `tools/learnings/disjoint_role_hosting.md`.
+- Remaining pins: coord/height `$3`, center Y `$20`, tile coordinate `$5`,
+  and the failure-return scheduling barrier. The evidence note assigns a
+  concrete next measurement to each. Start from the new four-pin source.
+
+**Next:** continue the round-86 first-touch pool, e.g. `8182C800` (4 pins),
+or take a focused follow-up from either single-row evidence note. No worker
+lanes were launched; this was a single-agent pickup.
+
+# Handover (2026-10-02, round 87 single-row pickup)
 
 **403 pins / 161 rows** (404 / 161 at pickup).
 
