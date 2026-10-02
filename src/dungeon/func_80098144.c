@@ -38,7 +38,8 @@ void func_8009D8A4(void) {
     u16 cell_type;
     s32 packed_levels;
     u8 packed_empty;
-    register s32 value ASM_REG("$2");
+    s32 value;
+    s32 value_2;
 
     upload_pair = D_80088CB0;
     buffer = D_800E50A8;
@@ -103,14 +104,14 @@ next_cell:
                 if (odd_column) {
                     write_ptr += 1;
                 }
-                value = column + 1;
+                value_2 = column + 1;
             }
-            column = value;
-            value = (u32)value << 16;
-            value >>= 16;
+            column = value_2;
+            value_2 = (u32)value_2 << 16;
+            value_2 >>= 16;
             width_shift = config->field_14;
             stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
-            if (value >= (one << width_shift)) {
+            if (value_2 >= (one << width_shift)) {
                 goto row_done;
             }
             row_offset = row_index << stride_shift;

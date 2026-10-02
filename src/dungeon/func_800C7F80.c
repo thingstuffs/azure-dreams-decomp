@@ -92,13 +92,12 @@ s32 func_800CD6E0(void *source) {
     S_800CD6E0_1 *owner;
     S_800CD6E0_4 *position;
     S_800CD6E0_6 *sprite;
-    S_800CD6E0_7 *effect_link;
+    union { S_800CD6E0_7 * pointer; s32 value; } effect_link;
     s16 *x_offsets;
     DungeonGlobalStatus *effect_counts;
     s32 effect_index;
     s32 random;
     register s32 random_or_effect_id ASM_REG("$4");
-    register s32 color ASM_REG("$7");
     s16 roll;
     s32 spawn_roll;
     s32 owner_coord;
@@ -134,7 +133,7 @@ s32 func_800CD6E0(void *source) {
         do {
             ((S_800CD6E0_2 *)((effect = func_8003FC64(2))))->unk_10 = update_callback;
             func_8004491C(effect, D_80045C34);
-            color = 0x808080;
+            effect_link.value = 0x808080;
             random_or_effect_id = 0x50D;
             ASM_KEEP_NV(random_or_effect_id);
             y_entry = effect_index << 2;
@@ -166,15 +165,15 @@ s32 func_800CD6E0(void *source) {
             sprite->unk_08 = (void *)spawn_roll;
             sprite->unk_10 = 0x20;
             sprite->unk_16 = 0x400;
-            sprite->unk_0C = color;
+            sprite->unk_0C = effect_link.value;
             sprite->unk_18 = (effect_index << 10) + 0x400;
             sprite->unk_14 |= 0xC;
 
-            effect_link = (u8 *)effect + 0x20;
-            effect_link->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
+            effect_link.pointer = (u8 *)effect + 0x20;
+            effect_link.pointer->unk_0A = ((S_800CD6E0_0 *)source)->unk_88;
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
-            effect_link->unk_06 = 0xC;
-            effect_link->unk_08 = effect_index;
+            effect_link.pointer->unk_06 = 0xC;
+            effect_link.pointer->unk_08 = effect_index;
             ((S_800CD6E0_3 *)effect)->unk_20 = source;
             effect_index++;
             effect_counts->unk_0A++;

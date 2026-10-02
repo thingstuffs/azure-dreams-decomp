@@ -325,8 +325,8 @@ case1:
 
                     prim_flags = prim->unk_14;
                     prim_color |= 0xC0C0;
-                    prim->unk_00 = resource_base;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    position_or_z_offset = resource_base;
+                    prim->unk_00 = position_or_z_offset;
                     prim->unk_1C = 0;
                     prim->unk_0C = prim_color;
                     prim_flags |= 0xC;

@@ -48,13 +48,13 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
   *((void **) (scratch + 0x18)) = ((u8 *) initial_ctx) + 0xB0;
   do
   {
-    register s32 phase_offset ASM_REG("$2") = phase;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 color_index ASM_REG("$5") = segment + phase_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 phase_offset = phase;
+    s32 color_index = segment + phase_offset;
     s32 biased_index = color_index;
+    s32 biased_index_2;
     s32 color_scale;
     RenderState *ctx;
     s32 line_code;
-    s32 color_sign;
     s32 div255_multiplier;
     union {
       s64 both;
@@ -68,10 +68,10 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     ctx->nextPrim = line_prim + 0x14;
     line_prim[3] = 4;
     line_code = 0x52;
-    color_sign = (s32)globals_page >> 31;
+    color_phase = (s32)globals_page >> 31;
     line_prim[7] = (u8) line_code;
     phase_offset = (wide_product.word.hi - -(s32)globals_page) >> 7;
-    globals_page = (u8 *)(phase_offset - color_sign);
+    globals_page = (u8 *)(phase_offset - color_phase);
     {
       s32 shade_scale = (s32)globals_page;
       s32 saved_shade_scale = shade_scale;
@@ -83,15 +83,15 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
       phase_offset = (s32)globals_page >> 18;
       globals_page = (u8 *)saved_shade_scale;
       initial_z = color_index + 1;
-      biased_index = initial_z;
+      biased_index_2 = initial_z;
       line_prim[5] = intensity;
       line_prim[4] = (s8) phase_offset;
       line_prim[6] = (s8) phase_offset;
       if (initial_z < 0)
       {
-        biased_index = color_index + 16;
+        biased_index_2 = color_index + 16;
       }
-      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4))))));
+      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index_2 >> 4) << 4))))));
       line_prim[0xD] = intensity;
       phase_offset = (s32)globals_page >> 18;
       line_prim[0xC] = (s8) phase_offset;

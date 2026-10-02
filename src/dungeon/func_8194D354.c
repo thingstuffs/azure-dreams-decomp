@@ -158,7 +158,7 @@ void func_80024B54(void *effect_arg, void *position) {
     u8 *tile_or_y_steps;
     M2C_UNK *effect_pool;
     EntityRec *origin;
-    register void *source_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *source_pos;
     s16 phase;
     s32 state_or_heading;
     s32 rounded_phase;
@@ -231,9 +231,8 @@ void func_80024B54(void *effect_arg, void *position) {
         (*(s32 *)((u8 *)source_pos + 4)) = (s32)actor_value;
         actor_value = ((S_80024B54_3 *)target_page)->unk_14A8;
         tile_or_y_steps = (u8 *)&D_80082E80;
-        step_value = ((S_80024B54_1 *)actor_value)->unk_88;
+        step_value = ((((S_80024B54_1 *)actor_value)->unk_88) - 0x50) << 0x10;
         effect_data = offset;
-        step_value = (step_value - 0x50) << 0x10;
         (*(s32 *)((u8 *)source_pos + 8)) = step_value;
         step_count = gameWork.view.viewAngle;
         step_value = step_count;
@@ -241,7 +240,6 @@ void func_80024B54(void *effect_arg, void *position) {
         offset_mode = 0;
         step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;
         actor_or_frame = (void *)(s32)*(M2C_UNK *)(step_value + D_800E3D18);
-        ASM_KEEP_DEP_NV(tile_or_y_steps, actor_or_frame);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (func_8003DE58(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
             (*(s32 *)((u8 *)source_pos + 0)) = (s32)((*(s32 *)((u8 *)source_pos + 0)) + (offset[0] << 0x10));
             (*(s32 *)((u8 *)source_pos + 4)) = (s32)((*(s32 *)((u8 *)source_pos + 4)) + (offset[1] << 0x10));

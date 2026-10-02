@@ -81,7 +81,7 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 bottom_y;
     s32 row;
     s32 bottom_offset;
-    register s32 bottom_heights_addr ASM_REG("$7");
+    s32 bottom_heights_addr;
     s32 y_offset;
     s32 column;
     register s32 x_offset ASM_REG("$10");
@@ -116,7 +116,7 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         tile_y <<= 4;
         top_heights = (s16 *)(tile_y + (s32)height_row);
         top_row = top_heights;
-        bottom_heights_addr = column * 2;
+        bottom_heights_addr = column << 1;
         top_heights = (s16 *)(bottom_heights_addr + (s32)top_row);
         height_row += 0x10;
         height_row = (s8 *)(tile_y + (s32)height_row);
