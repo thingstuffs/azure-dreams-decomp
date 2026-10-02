@@ -6,7 +6,7 @@ typedef struct {
 } S_800869C0;
 
 extern S_800869C0 D_800869C0[16];
-extern u8 D_8007382B;
+extern s8 D_8007382B[9];
 extern s32 D_80073830[9];
 extern void func_80059DAC(void);
 
@@ -28,7 +28,7 @@ s32 func_80059F8C(u32 addr, s32 size)
     }
     block = D_800869C0;
     if (D_800869C0[0].addr == 0) {
-        if (addr + size < (u32)(0x80000 - D_80073830[D_8007382B])) {
+        if (addr + size < (u32)(0x80000 - D_80073830[*(u8 *)D_8007382B])) {
             D_800869C0[0].addr = addr;
             block->size = size;
             func_80059DAC();
@@ -66,7 +66,7 @@ insert_first:
         next_slot = slot + 1;
         next_block = &D_800869C0[next_slot];
         if (next_block->size == 0) {
-            if (size + addr < (u32)(0x80000 - D_80073830[D_8007382B])) {
+            if (size + addr < (u32)(0x80000 - D_80073830[*(u8 *)D_8007382B])) {
                 next_block->addr = addr;
                 next_block->size = size;
                 break;
