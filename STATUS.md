@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T11:12:22Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T11:27:14Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -106,7 +106,7 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 20 | 5 / 10 / 5 | 4 | 8 |
 | **total** | **59** | | **20** | **72** |
 
-SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 16 rows, 1 pinned / 1 pins.
+SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 14 rows, 1 pinned / 1 pins.
 
 Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0); town/func_8080DAB8 3 pins (2.7.2 -> 2.6.3-G0); main/func_8001AA50 3 pins (2.7.2-cdk-G0 -> 2.6.3-G0); dungeon/func_80E8D490 3 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_80094C70 3 pins (2.95.2-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8008A31C 3 pins (2.8.0-G0 -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); town/func_800A6420 2 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0).
 
