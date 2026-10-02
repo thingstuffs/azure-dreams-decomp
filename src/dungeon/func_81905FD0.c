@@ -278,7 +278,6 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
     u8 scratch[56];
     s32 index;
     s32 result;
-    u32 render_value;
     s32 random_bits;
     s32 state;
     u8 kind_or_shade;
@@ -296,8 +295,8 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
     owner_motion = owner_object->unk_08;
 
     switch (state) {
-        register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        u32 particle_shade;
+        void *effect_object;
+        S_func_81905FD0_2 *target_motion_m;
     case 0:
         render->unk_0C.u32 = 0x00808080;
         *(Copy12 *)((u8 *)effect + 0xA2) = *(Copy12 *)D_800267A8;
@@ -355,10 +354,10 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
 
                 s32 target_height;
 
-                particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08);
+                target_motion_m = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08;
                 kind_or_shade = target->unk_13;
                 target_height = D_800DDC40[kind_or_shade] + 64;
-                effect->unk_78.u16 = ((S_func_81905FD0_2 *)particle_shade)->unk_08.u16_0A.unk_0A - target_height;
+                effect->unk_78.u16 = target_motion_m->unk_08.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
                 effect->unk_BA = owner_info->unk_24 +
                     ((u8 *)dirStepX)[effect->unk_7E.s16 * 2];
@@ -414,21 +413,15 @@ void func_800257D0(S_func_81905FD0_1 *effect, S_func_81905FD0_2 *motion, S_func_
 
     case 2:
         index = 0;
-loop_0:
-        {
-            s32 particle_color;
-
-            index++;
+        while (1) {
             random_bits = func_80069EF8();
-            effect_object = (u8 *)effect - 0x20;
-            particle_color = 0xE02020;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            particle_shade = (random_bits & 0xFF) | 0x80;
-            ASM_KEEP_NV(particle_shade);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            func_80025080(effect_object, effect->unk_7E.s16, particle_color, particle_shade, 0, 0, 0);
+            func_80025080((u8 *)effect - 0x20, effect->unk_7E.s16, 0x00E02020, (random_bits & 0xFF) | 0x80, 0,
+                0, 0);
+            index++;
+            if (index >= 4) {
+                break;
+            }
         }
-        if (index < 4)
-            goto loop_0;
         result = func_800A4778(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
                                motion->unk_08.s16_0A.unk_0A, owner->unk_60);
         if ((s16)result == 0) {
@@ -474,9 +467,9 @@ loop_0:
                 }
                 {
 
-                    particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08);
-                    motion->unk_00.u16_02.unk_02 = ((S_func_81905FD0_2 *)particle_shade)->unk_00.u16_02.unk_02;
-                    motion->unk_04.u16_06.unk_06 = ((S_func_81905FD0_2 *)particle_shade)->unk_04.u16_06.unk_06;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
+                    motion->unk_00.u16_02.unk_02 = target_motion_m->unk_00.u16_02.unk_02;
+                    motion->unk_04.u16_06.unk_06 = target_motion_m->unk_04.u16_06.unk_06;
                 }
                 motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
                 return;
@@ -582,8 +575,6 @@ update_coords:
             S_func_81905FD0_7 *child_data;
             S_func_81905FD0_3 *child_render;
             S_func_81905FD0_2 *child_motion;
-            S_func_81905FD0_2 *target_motion_m;
-            u32 saved_flags_m;
 
             upper_effect = func_8003FC64(0x212);
             if (upper_effect != 0) {
@@ -592,17 +583,14 @@ update_coords:
                 upper_effect->unk_10 = D_80025294;
                 func_8004491C(upper_effect, func_80045340);
                 child_render = upper_effect->unk_0C;
-                child_render->unk_06 = 0;
                 {
+                    u16 flags;
 
-                    render_value = child_render->unk_14 | 0xC;
-                    child_render->unk_14 = render_value;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags_m = render_value;
-                    render_value = 64;
-                    child_render->unk_10.u16 = render_value;
-                    saved_flags_m |= 0x80;
-                    child_render->unk_14 = saved_flags_m;
+                    child_render->unk_14 |= 0xC;
+                    child_render->unk_10.u16 = 64;
+                    child_render->unk_06 = 0;
+                    flags = child_render->unk_14;
+                    child_render->unk_14 = flags | 0x80;
                 }
                 child_motion = upper_effect->unk_08;
                 child_data->unk_0A = 0;
@@ -672,17 +660,14 @@ update_coords:
                 ring_effect->unk_10 = D_800251A0;
                 func_8004491C(ring_effect, func_80045340);
                 child_render = ring_effect->unk_0C;
-                child_render->unk_06 = 0;
                 {
+                    u16 flags;
 
-                    render_value = child_render->unk_14 & 0xFFF3;
-                    child_render->unk_14 = render_value;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags_m = render_value;
-                    render_value = 32;
-                    child_render->unk_10.s16 = render_value;
-                    saved_flags_m |= 0x80;
-                    child_render->unk_14 = saved_flags_m;
+                    child_render->unk_14 &= 0xFFF3;
+                    child_render->unk_10.s16 = 32;
+                    child_render->unk_06 = 0;
+                    flags = child_render->unk_14;
+                    child_render->unk_14 = flags | 0x80;
                 }
                 child_motion = ring_effect->unk_08;
                 child_data->unk_0A = 0;
@@ -745,17 +730,14 @@ update_coords:
                 control_effect->unk_10 = control_script;
                 func_8004491C(effect_object, render_template);
                 child_render = control_effect->unk_0C;
-                child_render->unk_06 = 0;
                 {
+                    u16 flags;
 
-                    render_value = child_render->unk_14 | 0xC;
-                    child_render->unk_14 = render_value;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags_m = render_value;
-                    render_value = 32;
-                    child_render->unk_10.s16 = render_value;
-                    saved_flags_m |= 0x80;
-                    child_render->unk_14 = saved_flags_m;
+                    child_render->unk_14 |= 0xC;
+                    child_render->unk_10.s16 = 32;
+                    child_render->unk_06 = 0;
+                    flags = child_render->unk_14;
+                    child_render->unk_14 = flags | 0x80;
                 }
                 child_motion = control_effect->unk_08;
                 child_data->unk_0A = 0;
