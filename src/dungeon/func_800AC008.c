@@ -62,7 +62,7 @@ extern u8 D_800B06F0[];
 extern u8 D_800B14FC[];
 extern s32 D_800DF03C[];
 
-extern AcObject *func_8003FD64(s32, void *, s32);
+extern AcObject *func_8003FD64(s32, void *);
 extern void func_8004491C(AcObject *, void *);
 extern s32 func_8004E298(void *, s32, s32);
 extern s32 func_80069E98(s32);
@@ -84,8 +84,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
     s8 slot_y;
     s32 y_offset;
     s16 icon_held = icon;
-    s32 index = value_a;
-    register u8 *cursor ASM_REG("$21") = (u8 *)value_b;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *cursor;
     s32 style_hold = style;
     s32 count = 0;
     s16 style_byte;
@@ -106,7 +105,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
     u8 tail_flags;
     u32 tail_field1c;
 
-    obj = func_8003FD64(0x12, ((u8 *)(&D_80083498)), (s32)cursor);
+    obj = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (obj != NULL) {
         meta = obj->meta;
         header = obj->header;
@@ -114,19 +113,18 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
         if ((compact << 0x10) != 0) {
             meta->field14 |= 1;
         }
-        header->field02 = index;
-        sub->field0A = index;
-        header->field06 = (s32)cursor;
-        sub->field0C = (s32)cursor;
+        header->field02 = value_a;
+        sub->field0A = value_a;
+        header->field06 = value_b;
+        sub->field0C = value_b;
         header->field0A = 0;
         sub->field08 = 1;
         meta->field1C = 0x1000;
         meta->field0C = 0;
         obj->field10 = D_800B14FC;
+        base = (u8 *)&sub->field38;
         func_8004491C(obj, D_800B06F0);
         style_byte = style_hold & 0xFF;
-        base = (u8 *)&sub->field38;
-        ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         cursor = base;
         sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
         sub->field00 = (u8 *)&sub->slots[0];
@@ -138,12 +136,13 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
                 count = 1;
                 cursor = (u8 *)obj + 0x5C;
                 call_arg = buf;
+                ASM_KEEP_NV(call_arg);
                 *(void **)((u8 *)obj + 0x70) = call_arg;
+                value_a = count;
                 buf = func_800B1434(call_arg, D_80073618[icon_held]);
-                index = count;
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
             } else {
-                index = 0;
+                value_a = 0;
             }
             call_arg = buf;
             base_2 = (u8 *)D_800DF03C;
@@ -152,8 +151,8 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)func_8004E298(call_arg, *table_entry, hard_zero);
             style_hold = func_80069E98(*table_entry) * 8;
             count++;
-            tmp = index << 2;
-            tmp += index;
+            tmp = value_a << 2;
+            tmp += value_a;
             tmp2 = tmp << 1;
             offset_x = tmp2 + 0x80;
             if (((u16)compact << 0x10) != 0) {
@@ -172,9 +171,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             color1 = 0x808080;
             *(u32 *)cursor = color1;
             cursor += 4;
-            do {
-                buf = (u8 *)buf + 0x60;
-            } while (0);
+            buf = (u8 *)buf + 0x60;
             *(void **)((u8 *)sub + 0x50 + count++ * 4) = buf;
             call_arg = buf;
             prev_arg = (u8 *)buf - 0x60;
@@ -190,22 +187,22 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             *(u32 *)cursor = color2;
             *(void **)((u8 *)tmp + 0x50) = buf;
             ((u8 *)buf)[1] = 0x38;
-            if (index == 0) {
+            if (value_a == 0) {
                 base_offset = -2;
             }
             y_offset = base_offset;
             if (compact != 0) {
                 y_offset -= 2;
             }
-            tmp = index << 1;
-            tmp += index;
+            tmp = value_a << 1;
+            tmp += value_a;
             tmp <<= 3;
             slot_x = style_hold + tmp;
             ((s8 *)buf)[2] = y_offset;
             ((s8 *)buf)[3] = -0xE;
             ((s8 *)buf)[9] = 0;
             ((s8 *)buf)[8] = 0;
-            if (index == 0) {
+            if (value_a == 0) {
                 slot_x += 4;
             }
             slot_y = slot_x;
