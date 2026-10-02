@@ -138,7 +138,6 @@ void *BODY_NAME(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_80158EA8;
         func_800AA36C(extended_state, base_data, placement, object_state);
-        return object_state;
     }
     return object_state;
 }

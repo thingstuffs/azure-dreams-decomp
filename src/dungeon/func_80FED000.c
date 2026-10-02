@@ -13,12 +13,6 @@ check for the proven-region rename of func_8015E800. */
 typedef struct DungeonSub2 DungeonSub2;
 typedef struct DungeonSub1 DungeonSub1;
 typedef struct DungeonNode DungeonNode;
-typedef union DungeonArgBits DungeonArgBits;
-
-union DungeonArgBits {
-    void *p;
-    s32 i;
-};
 
 struct DungeonSub2 {
     u8 pad00[0x24];
@@ -62,7 +56,7 @@ extern M2C_UNK D_80162038;
 extern M2C_UNK D_80162088;
 
 #ifdef __mips__
-extern void *func_8015E8A8(s32, s8, s8, s16);
+extern void *func_8015E8A8(s16, s32, s32, s16);
 extern void *func_8015F2B8(void);
 extern void *func_8015F2E4(void);
 extern void *func_8015F264(void);
@@ -131,85 +125,61 @@ __asm__(".globl func_8015E800\n"
 #define BODY_ATTR
 #endif
 
-void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) BODY_ATTR;
+void *BODY_NAME(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) BODY_ATTR;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
-void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
-    s32 unused_byte_neg_d58;
-    s32 unused_byte_a64;
-    s32 unused_slot_24;
-    s32 unused_slot_28;
-    s32 mode;
-    s32 call_count;
-    void *call_target;
-    s8 saved_grid_x;
-    s16 saved_placement;
-    s8 saved_grid_y;
-    DungeonSub2 *placement;
-    void *node_data;
-    DungeonNode *node;
+void *BODY_NAME(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_value) {
     DungeonSub1 *state;
+    DungeonNode *node;
+    u16 saved_placement;
+    void *node_data;
+    s8 saved_grid_y;
+    s8 saved_grid_x;
+    s32 mode;
+    s32 flags;
+    DungeonSub2 *placement;
     DungeonSub1 *init_state;
-    DungeonArgBits saved_setup;
-    s32 state_flags;
-    s32 status_flags;
 
-    state = NULL;
-    call_count = 0x112;
     saved_grid_x = grid_x;
-    call_target = ((M2C_UNK *)&D_80083498.next);
     saved_placement = placement_value;
     saved_grid_y = grid_y;
-    unused_byte_a64 = (s32) *(s8 *)0xA64;
-    unused_byte_neg_d58 = (s32) *(s8 *)-0xD58;
-    node = func_8003FD64(call_count, call_target);
+    grid_y = 0;
+    state = (void *)grid_y;
+    grid_x = 0x112;
+    node = func_8003FD64(grid_x, ((M2C_UNK *)&D_80083498.next));
     if (node != NULL) {
-        do {
-            saved_setup.p = (void *) setup_bits;
-        } while (0);
         state = (DungeonSub1 *)((u8 *)node + 0x20);
         node->field10 = &D_8015EA7C;
         state->field13 = 0x28;
         func_8004491C(node, func_80045340);
+        flags = (s32) &D_80162038;
         node_data = node->field08;
         *(s16 *)((u8 *)node_data + 0x0a) = saved_placement;
         placement = node->field0c;
         mode = setup_bits & 3;
         placement->field25 = saved_grid_y;
         init_state = state;
-        placement->field2c = &D_80162038;
+        placement->field2c = (void *) flags;
         placement->field24 = saved_grid_x;
         if (mode == 1) {
-            state_flags = state->field14;
-            status_flags = state->field1c;
-            state_flags |= 0x6000;
-            status_flags |= 0x6000;
-            state->field14 = state_flags;
-            goto shared_tail;
-        }
-        else if (mode >= 2) {
-            state_flags = state->field14;
-            status_flags = state->field1c;
-            state_flags |= 0x2000;
-            status_flags |= 0x2000;
-store_flags:
-            state->field14 = state_flags;
-shared_tail:
-            state->field1c = status_flags;
-            goto final_call;
-        }
-        setup_bits = (s16)(setup_bits & ~3);
-        if (setup_bits == 0) {
-            if (!(state->field14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    state->field1c |= 0x200;
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    placement->field2c = &D_80162088;
+            state->field14 |= 0x6000;
+            state->field1c |= 0x6000;
+        } else if (mode >= 2) {
+            state->field14 |= 0x2000;
+            state->field1c |= 0x2000;
+        } else {
+            flags = setup_bits & ~3;
+            if ((flags << 0x10) == 0) {
+                if (!(state->field14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        state->field1c |= 0x200;
+                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        placement->field2c = &D_80162088;
+                    }
                 }
             }
         }
-final_call:
-        func_800A9C18(node, node_data, placement, (s16) saved_setup.i);
+        func_800A9C18(node, node_data, placement, (s16)(s32) setup_bits);
         init_state->field9a = 0xff;
         init_state->field9c = -1;
         init_state->field8c = &D_8015EEA8;
