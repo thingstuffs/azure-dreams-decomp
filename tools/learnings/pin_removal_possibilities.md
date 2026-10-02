@@ -620,3 +620,23 @@ These rules took 8180E7F4 from 11 pins to 0 and 802835B8 from 13 to 1:
 ### K&R short stack arguments and cse associate (r85_opus_bg16, 2026-10-01)
 - **Short stack arguments:** w_8005BBFC is libsnd SsUtKeyOnV style. Its K&R `short` parameters arrive as word loads at entry and are sign-extended at their use in a later block. Volatile copies, REG pins on those copies, and packed-enum parameters faked exactly that; the real `s16`/`u16` K&R widths replace them.
 - **cse associate (cse.c 5626-5700):** fold_rtx's associate step rewrites `copy + K` as `packet + (40 + K)` when `packet = copy + 40` was seen, which keeps packet live. Reassigning `packet = copy;` after the copy's setup kills that equivalence, so addresses stay copy-relative as retail has them (80099038 6->0).
+
+## Round 86 (2026-10-02)
+- **Structured loops (r86_fable_mech, MECHANISM.md):** m2c goto loops disable cdk loop.c. The pins on scratch/page bases,
+  argument carriers and masks imitate loop.c single-usage substitution (834-868), move_movables' luid-lifetime threshold
+  (1730/1818), combine_givs' reduced giv (one register per walker, offset = last giv) and flow's loop-depth refs.
+  80DB9000 20 -> 0. The "opaque scratch base" hypothesis is refuted. Paragraph: tools/lanes/brief_paragraphs/structured_loops.md.
+- **Build-up direction (r86_opus_up):** start from a clean near-miss and add the fewest pins (800BAE88 6 -> 1 with one
+  new KEEP_NV). The kit's admissibility check refuses new pin names, so such texts land as tracked trades.
+- **Reconciliation (owner rule 10-02):** pin-free texts fitted to a crutch cell are rewritten at the proven recipe
+  (Sonnet, 21 of 49 rows). The recurring causes:
+  - integer-address literals where retail is lui/ori or the $at macro;
+  - index loops instead of hand walkers;
+  - early-return layout;
+  - real parameter widths;
+  - single-set head copies;
+  - goto state machine -> switch in label order.
+- **Twin rule:** relocation-masked identical retail = one compiled function = one recipe
+  (work/native_lane/r86_eval/twin_census.py).
+- **Form R accepted (owner 10-02):** a field re-read after another field's store, as in 81905FD0 6 -> 0 (clone 80D65810's
+  shape).
