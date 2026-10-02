@@ -110,7 +110,7 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
     s32 temp_a0;
     s32 temp_a0_2;
     s32 temp_a1;
-    register s32 temp_lo ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 temp_lo;
     s32 temp_v0_6;
     s32 temp_v0_6_2;
     s32 temp_v1_4;
@@ -382,10 +382,8 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
         }
         abs_v1 = 0xFC600000;
         delta = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
-        temp_lo = abs(delta);
-        if (temp_lo <= 0x80000) {
-            temp_lo = (s32) (s16) ((S_8080C650_0 *)in0)->unk_6C;
-            if (temp_lo < 0) {
+        if ((abs(delta)) <= 0x80000) {
+            if (((s32) (s16) ((S_8080C650_0 *)in0)->unk_6C) < 0) {
                 ((S_8080C650_1 *)var_s0)->unk_2A = (u16) (((S_8080C650_1 *)var_s0)->unk_2A | 2);
                 ((S_8080C650_2 *)arg1)->unk_14 = 0;
                 ((S_8080C650_2 *)arg1)->unk_10 = 0;
