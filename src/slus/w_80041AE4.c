@@ -6,8 +6,8 @@ void func_80041AE4(void)
     unsigned int copied_value;
     struct SlotTransitionState *state;
 
-    copied_value = D_8008148C.field0;
-    D_80081480.field0 = copied_value;
+    copied_value = D_8008148C;
+    D_80081480 = copied_value;
     func_8003E2D8();
 
     state = &D_80082E60;

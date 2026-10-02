@@ -1,6 +1,6 @@
 #include "common.h"
 #include "shared/record_ptrs.h"
-#include "shared/object_flags.h"
+extern int D_800814A0;
 #include "shared/dungeon_status.h"
 
 typedef struct S_80042BDC {
@@ -257,7 +257,7 @@ check_2E:
             func_800A32A4(ent);
             func_8009A028(ent);
             *(u16 *)((u8 *)ent - 2) |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            D_800814A0 |= 0x8000;
             ent = spawn_result_2;
         }
 L_print4B:

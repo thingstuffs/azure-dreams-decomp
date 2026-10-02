@@ -68,7 +68,7 @@
         "include/include_asm.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -231,7 +231,7 @@
         "include/include_asm.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -267,7 +267,7 @@
         "include/include_asm.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -303,7 +303,7 @@
         "include/include_asm.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -560,7 +560,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
-        "ccflags": "-G16",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [
@@ -618,7 +618,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
-        "ccflags": "-G16",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [
@@ -892,7 +892,7 @@
         "include/slus/gp_shared_8099c.h"
       ],
       "recipe": {
-        "ccver": "2.8.1",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -928,7 +928,7 @@
         "include/include_asm.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -1146,7 +1146,7 @@
         "include/common.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -1179,7 +1179,7 @@
         "include/common.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -1235,7 +1235,7 @@
         "include/common.h"
       ],
       "recipe": {
-        "ccver": "2.7.2",
+        "ccver": "2.7.2-cdk",
         "ccflags": "",
         "asflags": ""
       },
@@ -1846,7 +1846,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
-        "ccflags": "-G16",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [
@@ -1912,7 +1912,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2-cdk",
-        "ccflags": "-G16",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [
@@ -1987,7 +1987,7 @@
       ],
       "recipe": {
         "ccver": "2.7.2",
-        "ccflags": "-G0",
+        "ccflags": "",
         "asflags": ""
       },
       "data": [
