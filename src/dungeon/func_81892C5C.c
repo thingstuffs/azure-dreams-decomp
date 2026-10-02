@@ -71,10 +71,6 @@ typedef struct S_81892C5C_5 {
     void * unk_8D0;
 } S_81892C5C_5;   /* context2 in func_81892C5C */
 
-typedef struct S_81892C5C_6 {
-    u32 unk_00;
-} S_81892C5C_6;   /* tpage in func_81892C5C */
-
 typedef struct S_81892C5C_7 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -82,6 +78,15 @@ typedef struct S_81892C5C_7 {
 
 
 struct OtCtxS { void *cur; };
+
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 
 
 extern s32 func_800644B8(s32);
@@ -94,148 +99,120 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
 {
     u8 *scratch = (u8 *)0x1F800000;
-    register u32 addr_mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     void *initial_context;
     s32 base_height;
     s32 radius;
     s32 segment;
-    u32 length_mask;
     s32 angle_step;
     void **ot_ctx;
 
     ot_ctx = (void **)((u8 *)(&gameWork));
     initial_context = *ot_ctx;
-    addr_mask = 0x00FF0000;
-    addr_mask |= 0xFFFF;
     ((S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
-loop_effect:
-    base_height = ((S_81892C5C_1 *)effect)->unk_04;
-    ((S_81892C5C_0 *)scratch)->unk_68 = ((S_81892C5C_0 *)scratch)->unk_70 =
-        ((S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
-    radius = (s16)((base_height + 1) << 5);
+    for (;;) {
+        base_height = ((S_81892C5C_1 *)effect)->unk_04;
+        ((S_81892C5C_0 *)scratch)->unk_68 = ((S_81892C5C_0 *)scratch)->unk_70 =
+            ((S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
+        radius = (s16)((base_height + 1) << 5);
 
-    length_mask = 0xFF000000;
-    angle_step = 0x100;
+        angle_step = 0x100;
 
-    segment = 0;
-loop:
-    {
-        union { void * pointer; s32 value; } context;
-        void *polyline;
-        s32 start_angle;
-        s32 angle_base;
-        s32 mid_angle;
-        s32 end_angle;
-        s32 height;
-        register s32 prim_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s32 x_trig;
+        for (segment = 0; segment < 8; segment++) {
+            union { void * pointer; s32 value; } context;
+            void *polyline;
+            s32 start_angle;
+            s32 angle_base;
+            s32 mid_angle;
+            s32 end_angle;
+            s32 height;
+            s32 x_trig;
 
-        context.pointer = *ot_ctx;
-        polyline = ((S_81892C5C_3 *)context.pointer)->unk_8D0;
-        ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (u8 *)polyline + 0x18;
-        ((S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
-        ((S_81892C5C_4 *)polyline)->unk_07 = 0x48;
-        ((S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
-        ((S_81892C5C_4 *)polyline)->unk_07 |= 2;
-        angle_base = angle_step << 1;
-        start_angle = segment * angle_base;
-        height = ((S_81892C5C_1 *)effect)->unk_04;
-        ((S_81892C5C_4 *)polyline)->unk_05 = 0;
-        ((S_81892C5C_4 *)polyline)->unk_06 = 0;
-        ((S_81892C5C_4 *)polyline)->unk_04 =
-            (s8)(-0x80 - (height << 4));
+            context.pointer = *ot_ctx;
+            polyline = ((S_81892C5C_3 *)context.pointer)->unk_8D0;
+            ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (u8 *)polyline + 0x18;
+            ((S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
+            ((S_81892C5C_4 *)polyline)->unk_07 = 0x48;
+            ((S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
+            ((S_81892C5C_4 *)polyline)->unk_07 |= 2;
+            angle_base = angle_step << 1;
+            start_angle = segment * angle_base;
+            height = ((S_81892C5C_1 *)effect)->unk_04;
+            ((S_81892C5C_4 *)polyline)->unk_05 = 0;
+            ((S_81892C5C_4 *)polyline)->unk_06 = 0;
+            ((S_81892C5C_4 *)polyline)->unk_04 =
+                (s8)(-0x80 - (height << 4));
 
-        x_trig = func_800644B8(start_angle);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            x_trig = func_800644B8(start_angle);
 
-        angle_base = segment * 2;
-        mid_angle = angle_base + 1;
-        mid_angle *= angle_step;
-        ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
-            (((x_trig >> 4) * radius) >> 8));
-        x_trig = func_800644B8(mid_angle);
+            angle_base = segment * 2;
+            mid_angle = (angle_base + 1) * angle_step;
+            ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
+                (((x_trig >> 4) * radius) >> 8));
+            x_trig = func_800644B8(mid_angle);
 
-        prim_mode = angle_base + 2;
-        end_angle = prim_mode;
-        end_angle *= angle_step;
-        ((S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
-            (((x_trig >> 4) * radius) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_74 = (s16)(center->unk_02 +
-            (((func_800644B8(end_angle) >> 4) * radius) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_66 = (s16)(center->unk_06 +
-            (((func_80064584(start_angle) >> 4) * radius) >> 8));
-        ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
-            (((func_80064584(mid_angle) >> 4) * radius) >> 8));
-        {
+            end_angle = (angle_base + 2) * angle_step;
+            ((S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
+                (((x_trig >> 4) * radius) >> 8));
+            ((S_81892C5C_0 *)scratch)->unk_74 = (s16)(center->unk_02 +
+                (((func_800644B8(end_angle) >> 4) * radius) >> 8));
+            ((S_81892C5C_0 *)scratch)->unk_66 = (s16)(center->unk_06 +
+                (((func_80064584(start_angle) >> 4) * radius) >> 8));
+            ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
+                (((func_80064584(mid_angle) >> 4) * radius) >> 8));
+            {
 
-            context.value = (func_80064584(end_angle) >> 4) * radius;
-            base_height = context.value >> 8;
-            ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
-        }
-
-        {
-            u8 *start_vertex = scratch + 0x64;
-            u8 *mid_vertex = scratch + 0x6C;
-            u8 *end_vertex = scratch + 0x74;
-            u8 *screen_start = scratch + 0xD8;
-            ((S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
-                start_vertex, mid_vertex, end_vertex, screen_start, scratch + 0xDC, scratch + 0xE0,
-                scratch + 0x84, scratch + 0x88);
-        }
-
-        ((S_81892C5C_4 *)polyline)->unk_08 = ((S_81892C5C_0 *)scratch)->unk_D8;
-        ((S_81892C5C_4 *)polyline)->unk_0A = ((S_81892C5C_0 *)scratch)->unk_DA;
-        ((S_81892C5C_4 *)polyline)->unk_0C = ((S_81892C5C_0 *)scratch)->unk_DC;
-        ((S_81892C5C_4 *)polyline)->unk_0E = ((S_81892C5C_0 *)scratch)->unk_DE;
-        ((S_81892C5C_4 *)polyline)->unk_10 = ((S_81892C5C_0 *)scratch)->unk_E0;
-        ((S_81892C5C_4 *)polyline)->unk_12 = ((S_81892C5C_0 *)scratch)->unk_E2;
-
-        {
-            u32 otz = ((S_81892C5C_0 *)scratch)->unk_B4.u;
-
-            if (otz < 0x1E0) {
-                void *tpage;
-
-                {
-                    u32 ot_link;
-                    u32 *ordering_table = ((S_81892C5C_0 *)scratch)->unk_18.u;
-                    prim_mode = (s32)(((S_81892C5C_4 *)polyline)->unk_00.at00.v & length_mask);
-                    ((S_81892C5C_4 *)polyline)->unk_00.at00.v = (u32)prim_mode | (ordering_table[otz] & addr_mask);
-                    ot_link = (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] & length_mask)
-                    | ((u32)polyline & addr_mask);
-                    ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] = ot_link;
-                }
-
-                {
-                    S_81892C5C_5 *draw_context;
-
-                    draw_context = ((struct OtCtxS *)ot_ctx)->cur;
-                    tpage = draw_context->unk_8D0;
-                    draw_context->unk_8D0 = (u8 *)tpage + 0xC;
-                }
-                func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-
-                ((S_81892C5C_6 *)tpage)->unk_00 = (((S_81892C5C_6 *)tpage)->unk_00 & length_mask) |
-                    (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] &
-                     addr_mask);
-                ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] =
-                    (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] &
-                     length_mask) | ((u32)tpage & addr_mask);
+                context.value = (func_80064584(end_angle) >> 4) * radius;
+                base_height = context.value >> 8;
+                ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
             }
+
+            {
+                u8 *start_vertex = scratch + 0x64;
+                u8 *mid_vertex = scratch + 0x6C;
+                u8 *end_vertex = scratch + 0x74;
+                u8 *screen_start = scratch + 0xD8;
+                ((S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
+                    start_vertex, mid_vertex, end_vertex, screen_start, scratch + 0xDC, scratch + 0xE0,
+                    scratch + 0x84, scratch + 0x88);
+            }
+
+            ((S_81892C5C_4 *)polyline)->unk_08 = ((S_81892C5C_0 *)scratch)->unk_D8;
+            ((S_81892C5C_4 *)polyline)->unk_0A = ((S_81892C5C_0 *)scratch)->unk_DA;
+            ((S_81892C5C_4 *)polyline)->unk_0C = ((S_81892C5C_0 *)scratch)->unk_DC;
+            ((S_81892C5C_4 *)polyline)->unk_0E = ((S_81892C5C_0 *)scratch)->unk_DE;
+            ((S_81892C5C_4 *)polyline)->unk_10 = ((S_81892C5C_0 *)scratch)->unk_E0;
+            ((S_81892C5C_4 *)polyline)->unk_12 = ((S_81892C5C_0 *)scratch)->unk_E2;
+
+            {
+                u32 otz = ((S_81892C5C_0 *)scratch)->unk_B4.u;
+
+                if (otz < 0x1E0) {
+                    void *tpage;
+
+                    addPrim(((S_81892C5C_0 *)scratch)->unk_18.u + ((S_81892C5C_0 *)scratch)->unk_B4.u, polyline);
+
+                    {
+                        S_81892C5C_5 *draw_context;
+
+                        draw_context = ((struct OtCtxS *)ot_ctx)->cur;
+                        tpage = draw_context->unk_8D0;
+                        draw_context->unk_8D0 = (u8 *)tpage + 0xC;
+                    }
+                    func_80067F20(tpage, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
+
+                    addPrim(((S_81892C5C_0 *)scratch)->unk_18.u + ((S_81892C5C_0 *)scratch)->unk_B4.u, tpage);
+                }
+            }
+
         }
 
-        segment++;
-    }
-    if (segment < 8) {
-        goto loop;
-    }
-
-    {
-        void *next_effect = ((S_81892C5C_1_pre *)effect)[-1].unk_00;
-        if (next_effect != 0) {
+        {
+            void *next_effect = ((S_81892C5C_1_pre *)effect)[-1].unk_00;
+            if (next_effect == 0) {
+                break;
+            }
             effect = (u8 *)next_effect + 0x20;
             center = ((S_81892C5C_7 *)next_effect)->unk_08;
-            goto loop_effect;
         }
     }
     {
