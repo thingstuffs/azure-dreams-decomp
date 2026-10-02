@@ -8,7 +8,7 @@ extern s32 func_80099734(void *, s32);
 extern s32 func_800A56E0(s32);
 extern s32 func_800A5720(s32);
 extern s32 func_800A6D30(void);
-extern s32 func_800C8078();
+extern s32 func_800C8078(void *);
 
 extern char D_800E1A88[];
 extern char D_800E1A9D[];
@@ -22,24 +22,16 @@ s32 func_800C8EFC(void *actor, s32 chance)
     s32 handle;
     s32 text;
     u8 count;
-    register s32 signed_arg ASM_REG("$4");
+    s32 signed_arg;
 
-    if (func_800C8078() != 0) {
+    if (func_800C8078(actor) != 0) {
         return 0;
     }
 
     {
-        s32 random;
-        s32 denominator;
-        u8 divisor;
-
-        random = func_800A6D30();
-        divisor = *(u8 *)((u8 *)actor + 3);
-        if (divisor != 0) {
-            signed_arg = random & 0xFFFF;
-            denominator = divisor;
-            ASM_KEEP(denominator);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            mod = signed_arg % denominator;
+        signed_arg = func_800A6D30() & 0xFFFF;
+        if (*(u8 *)((u8 *)actor + 3) != 0) {
+            mod = signed_arg % *(u8 *)((u8 *)actor + 3);
         } else {
             mod = 0;
         }
@@ -66,10 +58,9 @@ s32 func_800C8EFC(void *actor, s32 chance)
 
     {
         void *object;
-        register s32 decremented ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 decremented;
 
         object = actor;
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         decremented = count - 1;
         *(u8 *)((u8 *)actor + 0x26) = decremented;
         func_80041E70(object);
@@ -78,14 +69,16 @@ s32 func_800C8EFC(void *actor, s32 chance)
     text = func_80099194(D_800E1A88, handle);
 
     {
-        signed_arg = (s32)actor;
-        if (*(s32 *)((u8 *)actor + 0x14) & 0x4000) {
-            text = func_80099734((void *)signed_arg, text);
+        s32 named = *(s32 *)((u8 *)actor + 0x14) & 0x4000;
+        void *msg = actor;
+        if (named) {
+            text = func_80099734(msg, text);
             text = func_80099194(D_800E1A9D, text);
         } else {
             text = func_80099194(D_800E1AC2, text);
             text = func_80099734(actor, text);
-            text = func_80099194(D_800E1AD0, text);
+            msg = D_800E1AD0;
+            text = func_80099194(msg, text);
         }
     }
 
