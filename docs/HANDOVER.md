@@ -1,4 +1,35 @@
-# Handover (2026-10-02, round 88 single-row pickup) - start here
+# Handover (2026-10-02, round 89 rubber-duck follow-up) - start here
+
+**401 pins / 161 rows** (402 / 161 at pickup).
+
+- Continued `dungeon/func_80095160` as requested: **4 -> 3**, exact at the
+  same `2.7.2-cdk-G0` recipe. The `$3` scratch pin supported final comparison
+  temporaries: without it local allocation occupied v0 and forced the
+  global return result to a0. Writing the signed shift and boolean back
+  into `coord_or_height` removes that local quantity. First targeted trial
+  exact; no new pin, dummy use, or recipe change.
+- Validation: independent row exact; both NON_MATCHING builds compile;
+  all seven nonempty remaining-pin erasure subsets miss; t2 noop;
+  **dungeon_engine 393,216-byte window MATCH; SLUS SHA-1 MATCH**.
+- Rubber-duck evidence: `docs/evidence/r89_80095160_rubber_duck.md` answers
+  what each pin supports, what erasure changes, which source statements
+  matter, and which known residue applies. Lane:
+  `work/native_lane/r89_sol_80095160` (DUCK.md, pass traces, 32 measured
+  variants, REPORT_TABLE.md, candidates, landing.log).
+- Three remain: center Y `$20` (copy folding/saved allocation), tile X `$5`
+  (first-call scheduling tie plus later single-set boost), failure barrier
+  (EQ fall-through delay-slot selection and return-block merging).
+  New two-pin near-misses based on the landed three-pin source:
+  `cand/two_center_fresh.c` total **12**, all register substitutions;
+  `cand/tile_narrow_u16.c` total **3**, extra argument mask + first-call tie.
+  Neither is ready to land. Do not repeat statement-order-only trials on
+  the later tile shift: checks.py proves its boost makes those inert.
+
+The shared-global brief and `tools/learnings/disjoint_role_hosting.md` now
+carry the comparison fix. No worker agents or background lanes were launched.
+Continue this row from **three pins**, or the first-touch pool (`8182C800`).
+
+# Handover (2026-10-02, round 88 single-row pickup)
 
 **402 pins / 161 rows** (403 / 161 at pickup).
 

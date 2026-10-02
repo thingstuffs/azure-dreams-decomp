@@ -20,3 +20,18 @@ do not add dead reads or unused definitions to manipulate reference counts.
 The lane's scalar-host diagnostic and union form are both exact. Current
 name-to-pseudo tooling mislabels declarations after a local union, so verify
 names against RTL before interpreting its allocation table.
+
+## Hosting a final comparison in an existing scratch variable
+
+Measured on the same row and recipe in r89: `docs/evidence/r89_80095160_rubber_duck.md`.
+Removing a scratch register pin can expose local temporaries in expressions
+that consume it. Here `if ((scratch >> 16) < 513)` creates a local quantity
+that takes v0 before the global return-result variable is allocated. The
+result then moves to a0, changing earlier call-result uses too.
+
+Writing the real operations in place (`scratch >>= 16; scratch = scratch <
+513; if (scratch) ...`) makes the comparison part of the scratch's existing
+global allocno. It stays in v1 and the result regains v0: 4 -> 3 pins, exact.
+Use `alloc_need.py` to establish the local/global conflict first. Merely
+changing final return syntax or increasing a global's priority cannot
+displace a register already occupied by local allocation.
