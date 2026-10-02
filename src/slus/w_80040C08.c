@@ -1,12 +1,5 @@
 #include "common.h"
 
-typedef struct LargeWord
-{
-    s32 field_0;
-    s8 pad[8];
-}
-LargeWord;
-
 typedef struct State
 {
     s32 field_0;
@@ -26,9 +19,9 @@ typedef struct State
 }
 State;
 
-extern LargeWord D_80080A7C;
-extern LargeWord D_8008148C;
-extern LargeWord D_80081480;
+extern s32 D_80080A7C;
+extern s32 D_8008148C;
+extern s32 D_80081480;
 extern State D_80082E60;
 extern u8 D_80126804[];
 
@@ -43,20 +36,19 @@ void func_80040C08(void)
     State *state_ptr = &D_80082E60;
     State *reset_state;
     s32 saved_data_addr;
-    register s32 buffer_size;
+    s32 buffer_size;
     s32 next_mode;
     u8 flags;
 
-    saved_data_addr = D_8008148C.field_0;
     buffer_size = 0x38000;
+    saved_data_addr = D_8008148C;
+    D_80080A7C = buffer_size;
+    D_80081480 = saved_data_addr;
     flags = state_ptr->field_B;
-
-    D_80080A7C.field_0 = buffer_size;
-    D_80081480.field_0 = saved_data_addr;
     if (flags != 0) {
         next_mode = 3;
     } else {
-        D_8008148C.field_0 = (s32)D_80126804;
+        D_8008148C = (s32)D_80126804;
         func_800411FC(0);
         func_8003E1FC();
         next_mode = func_8003E240(0);

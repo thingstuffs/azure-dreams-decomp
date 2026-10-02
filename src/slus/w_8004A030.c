@@ -36,9 +36,9 @@ void func_8004A030(S_8004A030 *object, s32 x, s32 y, s16 extent)
     x_offset = (s16)(x - 0xA0);
     y_offset = (s16)(y - 0x80);
     object->unk30 = 0;
-    block->unkC = 0x200;
     block->unk8 = x_offset;
     block->unkA = y_offset;
+    block->unkC = 0x200;
     block->unkF = 4;
 
     block = (S_8004A030_Sub *)((u8 *)object + 0x40);

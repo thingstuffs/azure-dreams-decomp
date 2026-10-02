@@ -26,7 +26,7 @@ extern S_80041900_D80083CA8 D_80083CA8;
 /* Same address as D_80083CA8.u.h.field6 (0x80083CA8+6 == 0x80083CAE), but
  * retail refetches it via a fresh hi/lo instead of reusing the already
  * -materialized D_80083CA8 base register, so it must be its own symbol. */
-extern u16 D_80083CAE;
+extern u16 D_80083CAE[];
 
 typedef struct {
     char pad0[0x14];
@@ -48,9 +48,9 @@ void func_80041900(S_80041900_Obj *entity)
         }
 
         if (direction_state->unk_004 & 1) {
-            entity->unk14 += (s16)D_80083CAE >> 2;
+            entity->unk14 += (s16)D_80083CAE[0] >> 2;
         } else {
-            entity->unk14 -= (s16)D_80083CAE >> 2;
+            entity->unk14 -= (s16)D_80083CAE[0] >> 2;
         }
 
         D_80083CA8.field8 -= 1;

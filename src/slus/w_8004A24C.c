@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-#include "common.h"
-
 typedef struct S_8004A24C_0 {
     u16 unk_00;
     u8 pad_02[0x6];
@@ -22,7 +20,7 @@ M2C_UNK func_8004A170();       /* extern */
 s32 func_8004DC14();                /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
-void func_8004A24C(S_8004A24C_0 *state, M2C_UNK config_id, M2C_UNK resource_id, s16 x, s32 y, s32 size) {
+void func_8004A24C(S_8004A24C_0 *state, M2C_UNK config_id, M2C_UNK resource_id, s16 x, s16 y, s32 size) {
     s32 resource_handle;
     u16 resolved_size;
     s32 requested_size;
@@ -39,5 +37,5 @@ void func_8004A24C(S_8004A24C_0 *state, M2C_UNK config_id, M2C_UNK resource_id, 
     }
     func_8004A170(state, state->unk_08, resolved_size & 0xFFFF, state->unk_00 & 1);
     state->unk_14 = (s32) state->unk_08;
-    func_8004A030(state, x, (s16) y, (s16) resolved_size);
+    func_8004A030(state, x, y, (s16) resolved_size);
 }
