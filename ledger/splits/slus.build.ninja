@@ -1476,7 +1476,7 @@ build build/src/konami_runtime_w_8003B714.o: cc src/konami_runtime_w_8003B714.c 
   asflags = 
 
 build build/src/konami_runtime_w_8003B7C8.o: cc src/konami_runtime_w_8003B7C8.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
@@ -2697,7 +2697,7 @@ build build/src/w_8004A658.o: cc src/w_8004A658.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8004A6C0.o: cc src/w_8004A6C0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 
