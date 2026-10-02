@@ -12,13 +12,12 @@ extern Entry D_80409290[];
 s32 func_8001AA50(s32 entry_count) {
     s32 unused_stack[2];
     s32 i;   /* a2 */
-    register s32 sum ASM_REG("$3"); /* v1 */
-    register Entry *entry ASM_REG("$5"); /* a1 */
+    s32 sum; /* v1 */
+    Entry *entry; /* a1 */
     s32 rounded_sum;   /* v0 */
     s32 entry_value;
 
     i = 0;
-    ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     sum = 0;
     if (entry_count > 0) {
         entry = D_80409290;
@@ -31,5 +30,6 @@ s32 func_8001AA50(s32 entry_count) {
     if (sum < 0) {
         rounded_sum = sum + 0x1FFF;
     }
-    return 0xF - (rounded_sum >> 0xD);
+    sum = rounded_sum >> 0xD;
+    return 0xF - sum;
 }
