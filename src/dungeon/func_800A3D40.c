@@ -112,14 +112,11 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
     s32 text_context;
     s32 new_text_context;
     M2C_UNK direction_offset;
-    s16 name_index;
     s32 effect_mode;
     u16 effect_flags;
     s32 global_flags;
-    s32 effect_scale;
-    void *actor_arg;
     u8 variant;
-    register s16 effect_id ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 effect_id;
     S_800A94A0_4 *effect_position;
     S_800A94A0_7 *actor_state;
     void *effect;
@@ -131,7 +128,6 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
     effect = func_8003FD64(0x12, ((u8 *)(&D_80083498)));
     if (effect != NULL) {
-        register s32 lookup_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
             s32 mode_arg = effect_mode;
@@ -141,7 +137,6 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
             D_800E3D68 = entry_variant;
             effect_data = func_800A982C((u8) effect_id, mode_arg, ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B);
         }
-        ASM_KEEP_NV(effect_id);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         if (effect_data == 0) {
             effect_flags = ((S_800A94A0_2 *)effect)->unk_1E | 0x8000;
             global_flags = objectFlagBlock.flags | 0x8000;
@@ -170,8 +165,10 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
                 if (linked_object != NULL) {
                     func_8009FD40(((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04,
                         ((S_800A94A0_6 *)((u8 *)linked_object - 0x14))->unk_00);
+                    func_800C77D0(effect, effect_position, 8, 0x300);
+                } else {
+                    func_800C77D0(effect, effect_position, 8, 0x300);
                 }
-                func_800C77D0(effect, effect_position, 8, 0x300);
             } else {
                 func_800C77D0(effect, effect_position, 8, 0x300);
             }
@@ -192,40 +189,26 @@ void *func_800A94A0(void *actor, EntityRec *effect_record, s16 mode, void *conte
         }
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            lookup_index = effect_id;
-            effect_scale = D_800DD8B4[lookup_index];
-            actor_arg = actor;
-            effect_scale <<= 6;
+            func_800AD594(actor, D_800DD8B4[effect_id] << 6);
         } else {
-            lookup_index = effect_id;
-            effect_scale = D_800DD880[lookup_index];
-            actor_arg = actor;
-            effect_scale <<= 8;
+            func_800AD594(actor, D_800DD880[effect_id] << 8);
         }
-        func_800AD594(actor_arg, effect_scale);
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = func_800990FC();
             message = func_80099734(actor, new_text_context);
             message = func_80099194(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
-                name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
-                name_text = D_8006DE24[name_index].unk_08;
+                effect_id = func_800A9400(effect_id);
+                name_text = D_8006DE24[effect_id].unk_08;
                 message = func_80099194(name_text, message);
             } else {
-                register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                DefEntry *name_table;
-                effect_index = (s32)effect_id << 0x10;
-                name_table = D_8006DE24;
-                effect_index >>= 0x10;
-                name_text = name_table[effect_index].unk_00;
+                name_text = D_8006DE24[effect_id].unk_00;
                 message = func_80099194(name_text, message);
             }
             func_80099290(func_80099194(&D_80089080, message));
             func_800A5720(new_text_context);
-            goto return_effect;
+            return effect;
         }
-        return effect;
     }
-return_effect:
     return effect;
 }

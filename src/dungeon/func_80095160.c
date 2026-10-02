@@ -54,7 +54,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     u32 target_y_u16;
     register u32 center_y ASM_REG("$20");
     u8 direction_arg;
-    register s16 direction_or_x ASM_REG("$4");
+    s16 direction_or_x;
     register s32 tile_coord ASM_REG("$5");
     s32 y_or_direction;
     u32 collision_out;
@@ -104,12 +104,10 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                         {
                             u16 *pa = (u16 *)((u8 *)D_800DCEAC + step_offset);
                             u16 *pb = (u16 *)((u8 *)D_800DCEBC + step_offset);
-                            direction_or_x = actor->x;
-                            tile_coord = actor->y;
                             target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
-                        func_8009A350(direction_or_x, tile_coord, y_or_direction, (u16 *)collision_out);
+                        func_8009A350(actor->x, actor->y, y_or_direction, (u16 *)collision_out);
                         if ((collision.value & 0x8002) != 0) {
                             result = 0;
                             return 0;
