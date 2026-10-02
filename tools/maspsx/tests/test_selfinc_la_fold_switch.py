@@ -59,7 +59,8 @@ class TestSelfincLaFoldSwitch(unittest.TestCase):
         return r.stdout
 
     def test_cli_switch(self):
-        self.assertIn("%lo(SYM+2)", self._run())                               # default: fold as before
+        self.assertNotIn("%lo(SYM+2)", self._run())                            # default: pass skipped
+        self.assertIn("%lo(SYM+2)", self._run("--selfinc-la-fold"))              # opt back in
+        self.assertIn("%lo(SYM+2)", self._run(env_value="0"))
         self.assertNotIn("%lo(SYM+2)", self._run("--no-selfinc-la-fold"))
         self.assertNotIn("%lo(SYM+2)", self._run(env_value="1"))
-        self.assertIn("%lo(SYM+2)", self._run(env_value="0"))

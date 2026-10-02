@@ -123,9 +123,10 @@ def main() -> None:
     parser.add_argument("--cdk-lo-fold", action="store_true")
     # r86_opus_selfinc: skip `_fold_selfinc_la` (LEAD 4) - genuine ASPSX 2.56-2.86 never turns a bare
     # `la` into a %hi-only base with %lo folded into the accesses; the retail shape is cc1's own output
-    # for integer-address source.  Default OFF = production behaviour; MASPSX_NO_SELFINC_LA_FOLD=1 does
-    # the same for measurement.
+    # for integer-address source.  ACTIVE by default (the pass is skipped); --selfinc-la-fold (or
+    # MASPSX_NO_SELFINC_LA_FOLD=0) restores the old rewrite.
     parser.add_argument("--no-selfinc-la-fold", action="store_true")
+    parser.add_argument("--selfinc-la-fold", action="store_true")
     # decomp.me debugging
     parser.add_argument("--print-output", action="store_true")
     parser.add_argument("--print-input", action="store_true")
@@ -232,7 +233,8 @@ def main() -> None:
             and cc1_is_cdk(in_lines)
         ),
         fold_selfinc_la=not (
-            args.no_selfinc_la_fold or os.environ.get("MASPSX_NO_SELFINC_LA_FOLD") == "1"
+            args.no_selfinc_la_fold
+            or not (args.selfinc_la_fold or os.environ.get("MASPSX_NO_SELFINC_LA_FOLD") == "0")
         ),
     )
     try:
