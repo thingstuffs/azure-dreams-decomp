@@ -66,9 +66,8 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
         entry = *(u8 **)(actor + 88) + 32;
     }
     func_8003DB4C(occupied, 7);
-    goto next_entry;
-
-    do {
+    entry = *(u8 **)(entry + 92) + 32;
+    while (entry != actor || (wrap_check = wrap_pending) != 0) {
         object = *(u8 **)(entry - 20);
         object_x = *(u8 *)(object + 36);
         object_y = *(u8 *)(object + 37);
@@ -97,9 +96,8 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
             }
         }
 
-next_entry:
         entry = *(u8 **)(entry + 92) + 32;
-    } while (entry != actor || (wrap_check = wrap_pending) != 0);
+    }
 
     if (occupied[0] != 0) {
         goto search_nearby;
@@ -147,11 +145,8 @@ found_far:
 search_nearby:
     attempts = 0;
     near_x = (s16)target_x;
-    do {
-        search_seed = dungeonStatus.unk_1E;
-    } while (0);
+    search_seed = dungeonStatus.unk_1E;
     far_x = (s16)target_y;
-       /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     slot = search_seed & 7;
     do {
         near_dir = slot;
