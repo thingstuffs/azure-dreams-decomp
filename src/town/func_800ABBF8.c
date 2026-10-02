@@ -12,103 +12,43 @@ void func_800A9358(s32 shape, s32 source)
 {
     u32 *scratch;
     s32 segment;
-    u8 *count_base;
-    s32 angle_sum;
-    u32 *call_scratch;
-    s32 angle;
-    s32 step;
-    register s32 call_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 call_shape ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 *segment_counts;
-    u32 first_inner_xy;
-    u32 first_middle_xy;
-    u32 first_outer_xy;
-    u32 next_color;
-    u32 next_inner_xy;
-    u32 next_middle_xy;
-    u32 next_outer_xy;
-    s32 more_segments;
-    u32 closing_depth;
-    s32 count_index;
-    s32 segment_count;
-    u32 ot_addr;
+    s16 angle_sum;
+    s16 angle;
     u32 saved_outer_xy;
     u32 saved_inner_xy;
     u32 saved_middle_xy;
     u32 saved_color;
 
     angle_sum = 0;
-    segment = func_800B28A0();
-    call_scratch = (u32 *)0x1F800000;
-    ASM_KEEP_NV(call_scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    angle = 0;
-    ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    call_source = source;
-    call_shape = shape;
-    segment_counts = D_800D0E48;
-    ASM_KEEP_NV(segment_counts);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    segment_count = segment_counts[segment];
-    ASM_KEEP_NV(segment_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    count_base = (u8 *)0x80100000;
-    ASM_KEEP_NV(count_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    *(s32 *)(count_base + 0xE30) = segment_count;
-    ot_addr = ((s32)gameWork.unk_000);
-    ASM_KEEP_NV(ot_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    scratch = call_scratch;
-    ot_addr += 0xB0;
-    scratch[0x24 / 4] = ot_addr;
-    func_800A8CA8((void *)call_scratch, angle, call_source, call_shape);
-    segment = 0;
-    count_index = scratch[0x114 / 4];
-    first_inner_xy = scratch[0xE8 / 4];
-    first_middle_xy = scratch[0xEC / 4];
-    first_outer_xy = scratch[0x124 / 4];
-    scratch[0x118 / 4] = count_index;
-    scratch[0xF0 / 4] = first_inner_xy;
-    scratch[0xF4 / 4] = first_middle_xy;
-    scratch[0x128 / 4] = first_outer_xy;
-    saved_color = count_index;
-    saved_inner_xy = first_inner_xy;
-    saved_middle_xy = first_middle_xy;
-    saved_outer_xy = first_outer_xy;
+    scratch = (u32 *)0x1F800000;
+    D_80100E30 = D_800D0E48[func_800B28A0()];
+    scratch[0x24 / 4] = (s32)gameWork.unk_000 + 0xB0;
+    func_800A8CA8(scratch, 0, source, shape);
+    saved_color = scratch[0x118 / 4] = scratch[0x114 / 4];
+    saved_inner_xy = scratch[0xF0 / 4] = scratch[0xE8 / 4];
+    saved_middle_xy = scratch[0xF4 / 4] = scratch[0xEC / 4];
+    saved_outer_xy = scratch[0x128 / 4] = scratch[0x124 / 4];
 
-    if ((*(s32 *)(count_base + 0xE30) - 1) > 0) {
-        do {
-            step = 0x1000;
-            step = step / *(s32 *)(count_base + 0xE30);
-            angle = angle_sum + step;
-            angle_sum = angle;
-            func_800A8CA8((void *)scratch, (s16)angle,
-                          source, shape);
-            if (scratch[0xC4 / 4] < 0x1E0U) {
-                func_800A8EE8((void *)scratch);
-            }
-            segment++;
-            next_color = scratch[0x114 / 4];
-            next_inner_xy = scratch[0xE8 / 4];
-            next_middle_xy = scratch[0xEC / 4];
-            more_segments = *(s32 *)(count_base + 0xE30);
-            next_outer_xy = scratch[0x124 / 4];
-            more_segments -= 1;
-            scratch[0x118 / 4] = next_color;
-            scratch[0xF0 / 4] = next_inner_xy;
-            scratch[0xF4 / 4] = next_middle_xy;
-            more_segments = segment < more_segments;
-            scratch[0x128 / 4] = next_outer_xy;
-        } while (more_segments);
+    for (segment = 0; segment < D_80100E30 - 1; segment++) {
+        angle = angle_sum + 0x1000 / D_80100E30;
+        angle_sum = angle;
+        func_800A8CA8(scratch, angle, source, shape);
+        if (scratch[0xC4 / 4] < 0x1E0U) {
+            func_800A8EE8(scratch);
+        }
+        scratch[0x118 / 4] = scratch[0x114 / 4];
+        scratch[0xF0 / 4] = scratch[0xE8 / 4];
+        scratch[0xF4 / 4] = scratch[0xEC / 4];
+        scratch[0x128 / 4] = scratch[0x124 / 4];
     }
 
-    step = 0x1000;
-    step = step / D_80100E30;
-    angle = angle_sum + step;
-    func_800A8CA8((void *)scratch, (s16)angle,
-                  source, shape);
-    closing_depth = scratch[0xC4 / 4];
+    angle = angle_sum + 0x1000 / D_80100E30;
+    func_800A8CA8(scratch, angle, source, shape);
     scratch[0x114 / 4] = saved_color;
     scratch[0xE8 / 4] = saved_inner_xy;
     scratch[0xEC / 4] = saved_middle_xy;
     scratch[0x124 / 4] = saved_outer_xy;
-    if (closing_depth < 0x1E0U) {
-        func_800A8EE8((void *)scratch);
+    if (scratch[0xC4 / 4] < 0x1E0U) {
+        func_800A8EE8(scratch);
     }
 }
