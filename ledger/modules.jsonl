@@ -2563,7 +2563,7 @@
 {"id":"town/func_805D3B74","container":"town","module":"ovl_55213c.c","module_index":33,"confidence":"weak"}
 {"id":"town/func_805D3C60","container":"town","module":"ovl_55213c.c","module_index":33,"confidence":"weak"}
 {"id":"town/func_805D3D50","container":"town","module":"ovl_55213c.c","module_index":33,"confidence":"weak"}
-{"id":"town/func_805D3E58","container":"town","module":"ovl_55213c.c","module_index":33,"confidence":"weak"}
+{"id":"town/func_805D3E58","container":"town","module":"town_o1_misc.c","module_index":98,"confidence":"weak"}
 {"id":"town/func_806011BC","container":"town","module":"ovl_5811bc.c","module_index":34,"confidence":"weak"}
 {"id":"town/func_80601228","container":"town","module":"ovl_5811bc.c","module_index":34,"confidence":"weak"}
 {"id":"town/func_8060127C","container":"town","module":"ovl_5811bc.c","module_index":34,"confidence":"weak"}
@@ -2623,7 +2623,7 @@
 {"id":"town/func_8065C3AC","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
 {"id":"town/func_8065C3FC","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
 {"id":"town/func_8065C424","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
-{"id":"town/func_8065C520","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
+{"id":"town/func_8065C520","container":"town","module":"town_o1_misc.c","module_index":98,"confidence":"weak"}
 {"id":"town/func_8065C9D0","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
 {"id":"town/func_8065CB30","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
 {"id":"town/func_8065CFFC","container":"town","module":"ovl_5db954.c","module_index":38,"confidence":"weak"}
@@ -2664,7 +2664,7 @@
 {"id":"town/func_806977DC","container":"town","module":"ovl_617184.c","module_index":42,"confidence":"weak"}
 {"id":"town/func_80697800","container":"town","module":"ovl_617184.c","module_index":42,"confidence":"weak"}
 {"id":"town/func_80697824","container":"town","module":"ovl_617184.c","module_index":42,"confidence":"weak"}
-{"id":"town/func_80697908","container":"town","module":"ovl_617184.c","module_index":42,"confidence":"weak"}
+{"id":"town/func_80697908","container":"town","module":"town_o1_misc.c","module_index":98,"confidence":"weak"}
 {"id":"town/func_806A9100","container":"town","module":"ovl_629100.c","module_index":43,"confidence":"weak"}
 {"id":"town/func_806C51B0","container":"town","module":"ovl_6451b0.c","module_index":44,"confidence":"weak"}
 {"id":"town/func_806C5244","container":"town","module":"ovl_6451b0.c","module_index":44,"confidence":"weak"}

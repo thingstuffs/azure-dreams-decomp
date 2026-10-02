@@ -9,6 +9,9 @@ def _recipe_tracker(rs, curc):
     """Rows whose registered recipe is likely NOT their real build (round 84 build structure, r84_fable_build): every
     2.8.x / egcs / 2.95.2 cell is fitted, and a row off its module's census recipe is a crutch candidate."""
     cen = {(c["container"], c["module"]): c.get("best_recipe") for c in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
+    # r86_opus_census: recipes the module's pin-free rows cannot separate from best_recipe (stock 2.6.3 / 2.7.2 flavour or the
+    # -G axis below the >=3-row bar) - a row registered at one of them is not "likely incorrect"
+    tie = {(c["container"], c["module"]): set(c.get("tie_with") or ()) for c in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
     mod = {r["id"]: r.get("module") for r in read_jsonl(LEDGER / "modules.jsonl")}
     cats = collections.OrderedDict((k, collections.Counter()) for k in (
         "late cell (2.8.x / egcs / 2.95.2: fitted)", "cdk cell + crutch flags, module is plain",
@@ -25,7 +28,7 @@ def _recipe_tracker(rs, curc):
             # only saw texts neutral on the -G axis, so the yardstick is the -G0 cell (r86: 132 rows moved to it)
             best = " ".join(["2.7.2-cdk-G0"] + best.split()[1:])
         late = cell.startswith(("2.8", "2.9"))
-        if not late and (not best or r["cfg"] == best):
+        if not late and (not best or r["cfg"] == best or r["cfg"] in tie.get((c, mod.get(r["id"])), ())):
             continue
         flags = [x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]
         if late:
