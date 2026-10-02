@@ -24,3 +24,8 @@ Dead `= 0` inits, stores through the pointer, `p = p;`, call arguments do NOT co
   value's life by an insn or two (memory dependence fixes store order); duplicating a trailing store into both sub-arms
   LENGTHENS the competitor's life (cross_jump folds it back). Combine levers until prio.py shows the tie broken the
   retail way; a two-step `x = p; x += K;` leaves a (use x) that lengthens lives - write it as one statement.
+
+Entry-move run (r86_opus_oc4, 800AC008): cdk sched.c 3248-3270 leaves the LEADING run of parameter copies from hard
+registers unscheduled. When cse folds an earlier `x = earlier_param` copy, its deleted note ends that run; the next
+parameter's entry move is then scheduled and, as a single-set pseudo, birthing-boosted and sunk. Use the earlier
+parameter directly and the prologue order comes back.
