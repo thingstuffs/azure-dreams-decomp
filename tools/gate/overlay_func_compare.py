@@ -222,6 +222,22 @@ def find_row(func: str, overlay: str, *, foff: int | None = None,
     return hits[0]
 
 
+def rodata_owner_record(overlay: str, foff: int) -> dict[str, Any] | None:
+    """config/overlays/<family>.rodata_owners.jsonl record for the row at foff (round 85; the same
+    file overlay_local_gate.rodata_owner reads)."""
+    fam = "dungeon" if overlay == "dungeon_engine" else overlay
+    path = ROOT / f"config/overlays/{fam}.rodata_owners.jsonl"
+    if not path.exists():
+        return None
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            rec = json.loads(line)
+            if int(str(rec["foff"]), 0) == foff:
+                return rec
+    return None
+
+
 def rowbase_link_vram(overlay: str, foff: int, default_vram: int) -> tuple[int, dict[str, Any] | None]:
     """True link base for rows in proven alias regions (rowbase evidence lane).
 
@@ -571,6 +587,9 @@ def main() -> int:
     if rowbase is not None:
         target_symbol = _ROWBASE.target_symbol(
             args.overlay, int(row["foff"]), args.func, c_text)
+    owner = rodata_owner_record(args.overlay, int(row["foff"])) if rowbase is not None else None
+    if owner is not None:
+        target_symbol = owner["function"]
     if rowbase is not None and not args.summary_json:
         print(
             f"rowbase: linking at true base 0x{link_vram:08X} "
@@ -602,6 +621,7 @@ def main() -> int:
         retail_text=target,
         retail_data=(str(container), int(row["foff"])),
         asm_output=args.asm_output,
+        rodata_first=(int(owner["rodata_size"]) if owner is not None else None),
     )
     rowbase_note = (
         f"rowbase: linked at true base 0x{link_vram:08X} "

@@ -9,7 +9,7 @@
 
 typedef struct S_FUNC_8197C800_BODY_0_pre {
     u16 unk_00;
-} S_FUNC_8197C800_BODY_0_pre;   /* the 0x2 bytes before arg0 in FUNC_8197C800_BODY, addressed as arg0[-1] */
+} S_FUNC_8197C800_BODY_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
 
 typedef struct S_FUNC_8197C800_BODY_0 {
     void * unk_00;
@@ -20,32 +20,32 @@ typedef struct S_FUNC_8197C800_BODY_0 {
     u8 pad_0C[0x44];
     union { u16 s; s16 u; } unk_50;   /* accessed as both */
     union { s16 s; u16 u; } unk_52;   /* accessed as both */
-} S_FUNC_8197C800_BODY_0;   /* arg0 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_0;   /* arg0 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_1 {
     u8 pad_00[0x60];
     void * unk_60;
     u8 pad_64[0x90];
     s32 unk_F4;
-} S_FUNC_8197C800_BODY_1;   /* D_800814A8[0] in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_1;   /* D_800814A8[0] in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_2;   /* arg1 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_2;   /* arg1 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_3 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_FUNC_8197C800_BODY_3;   /* root in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_3;   /* root in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_4 {
     u8 pad_00[0xA6];
     u16 unk_A6;
     u8 unk_A8;
-} S_FUNC_8197C800_BODY_4;   /* segment in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_4;   /* segment in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_5 {
     u8 pad_00[0x8];
@@ -54,19 +54,19 @@ typedef struct S_FUNC_8197C800_BODY_5 {
     void * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_FUNC_8197C800_BODY_5;   /* obj in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_5;   /* obj in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_6 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_6;   /* src_position in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_6;   /* src_position in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_7 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_7;   /* dst_position in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_7;   /* dst_position in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_8 {
     void * unk_00;
@@ -81,17 +81,17 @@ typedef struct S_FUNC_8197C800_BODY_8 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_FUNC_8197C800_BODY_8;   /* node in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_8;   /* node in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_9 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_FUNC_8197C800_BODY_9;   /* D_800DEDB0 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_9;   /* D_800DEDB0 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_10 {
     u8 pad_00[0x4C];
     u16 unk_4C;
-} S_FUNC_8197C800_BODY_10;   /* tail in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_10;   /* tail in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_11 {
     u8 pad_00[0x2];
@@ -100,13 +100,13 @@ typedef struct S_FUNC_8197C800_BODY_11 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_FUNC_8197C800_BODY_11;   /* p in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_11;   /* p in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_13 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_FUNC_8197C800_BODY_13;   /* image0 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_13;   /* image0 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_14 {
     u8 pad_00[0x2];
@@ -115,77 +115,64 @@ typedef struct S_FUNC_8197C800_BODY_14 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_FUNC_8197C800_BODY_14;   /* position in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_14;   /* position in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_15 {
     u8 pad_00[0x4];
     void * unk_04;
-} S_FUNC_8197C800_BODY_15;   /* template in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_15;   /* template in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_17 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_FUNC_8197C800_BODY_17;   /* image in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_17;   /* image in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_18 {
     u8 pad_00[0x2A];
     s16 unk_2A;
-} S_FUNC_8197C800_BODY_18;   /* base in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_18;   /* base in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_19 {
     u8 pad_00[0xA];
     u16 unk_0A;
     u32 unk_0C;
-} S_FUNC_8197C800_BODY_19;   /* status in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_19;   /* status in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_20 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_FUNC_8197C800_BODY_20;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_08 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_20;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_08 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_21 {
     u16 unk_00;
-} S_FUNC_8197C800_BODY_21;   /* ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_04 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_21;   /* ((S_FUNC_8197C800_BODY_0 *)arg0)->unk_04 in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_22 {
     u8 pad_00[0x8];
     void * unk_08;
-} S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_22;   /* ((S_FUNC_8197C800_BODY_3 *)root)->unk_0C in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_23 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_FUNC_8197C800_BODY_23;   /* D_800814A8[0] in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_23;   /* D_800814A8[0] in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_24 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_FUNC_8197C800_BODY_24;   /* D_800814A8[0] in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_24;   /* D_800814A8[0] in func_8002401C */
 
 typedef struct S_FUNC_8197C800_BODY_25 {
     u8 pad_00[0xA];
     s16 unk_0A;
     u8 pad_0C[0x8];
     s32 unk_14;
-} S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in FUNC_8197C800_BODY */
+} S_FUNC_8197C800_BODY_25;   /* ((S_FUNC_8197C800_BODY_5 *)obj)->unk_08 in func_8002401C */
 
 
-/* The first seven words are the retail function bank.  The actual C body
- * starts at +0x1c; its dispatch table is the resident table at 0x80024008. */
-#ifdef __mips__
-static const u32 func_8197C800_bank[] __asm__("func_8197C800")
-__attribute__((section(".text.func_8197C800"), aligned(4))) = {
-    0x8002401C, 0x00000000, 0x80024090, 0x800240EC,
-    0x80024248, 0x80024284, 0x800245E0,
-};
-#define FUNC_8197C800_BODY func_8197C81C
-#else
-#define FUNC_8197C800_BODY func_8197C800
-#endif
 
-extern void *D_80024008[];
 extern void *D_800814A8[];
 extern u32 D_800246C0[];
 extern u8 D_80024BB8[];
@@ -208,19 +195,21 @@ static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
     return (grid << 6) + random % 64;
 }
 
-void FUNC_8197C800_BODY(void *input, void *output)
-__attribute__((section(".text.func_8197C800")));
+void func_8002401C(void *input, void *output);
+
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_8002401C;
 
 /* Updates a timed effect, spawns particles, and completes its owner's action. */
-void FUNC_8197C800_BODY(void *input, void *output)
+void func_8002401C(void *input, void *output)
 {
     s16 offsets[3];
     s32 state;
     void *owner_data;
     void *owner;
     void *particle_script;
-    void **state_table;
-    u8 *state_entry;
     S_FUNC_8197C800_BODY_4 *scene;
     void *particle;
     S_FUNC_8197C800_BODY_8 *sprite;
@@ -242,9 +231,6 @@ void FUNC_8197C800_BODY(void *input, void *output)
     TileObject *burst_origin;
     u16 timer;
     s32 scaled_coord;
-    static void *const state_labels[] = {
-        &&case_zero, &&case_one, &&case_two, &&case_three, &&case_four
-    };
 
     timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s;
     owner_data = ((S_FUNC_8197C800_BODY_0 *)input)->unk_00;
@@ -253,15 +239,8 @@ void FUNC_8197C800_BODY(void *input, void *output)
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = timer;
     owner = (u8 *)owner_data - 0x20;
 
-    (void)state_labels;
-    if ((u32)state < 5) {
-        state_table = D_80024008;
-        state_entry = (u8 *)(((u32)state << 2) + (u32)state_table);
-        goto *((void *)*(void **)state_entry);
-    }
-    return;
-
-case_zero:
+    switch (state) {
+    case 0:
     ((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_F4 = 0;
     ((S_FUNC_8197C800_BODY_2 *)output)->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_00;
@@ -271,7 +250,7 @@ case_zero:
         ((S_FUNC_8197C800_BODY_20 *)(((S_FUNC_8197C800_BODY_3 *)owner)->unk_08))->unk_08;
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u += 1;
 
-case_one:
+    case 1:
     if (!(((S_FUNC_8197C800_BODY_21 *)(((S_FUNC_8197C800_BODY_0 *)input)->unk_04))->unk_00 & 0x80)) {
         return;
     }
@@ -330,7 +309,7 @@ case_one_tail:
 
     goto store_state;
 
-case_two:
+    case 2:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
         return;
     }
@@ -346,7 +325,7 @@ case_two:
 
     goto store_timer;
 
-case_three:
+    case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
         result = (s32)0x80080000;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
@@ -514,7 +493,7 @@ store_state:
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
     return;
 
-case_four:
+    case 4:
     if (!(D_80082E80.unk_014 & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {
         return;
     }
@@ -529,11 +508,5 @@ case_four:
     dungeonStatus.unk_0A -= 1;
     ((S_FUNC_8197C800_BODY_0_pre *)input)[-1].unk_00 |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
+    }
 }
-
-#ifdef __mips__
-__asm__(
-        ".globl func_8197C800\n"
-        ".type func_8197C800,@function\n"
-        ".size func_8197C800,1728\n");
-#endif

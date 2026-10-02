@@ -413,6 +413,89 @@ def load_split_rows(sb: dict[str, Any], window_start: int, window_end: int) -> l
     return rows
 
 
+_RODATA_OWNERS: dict[str, dict[int, dict[str, Any]]] = {}
+
+
+def rodata_owner(family: str, foff: int) -> dict[str, Any] | None:
+    """The rodata-first ownership record of the row starting at ``foff`` (else None).
+
+    config/overlays/<family>.rodata_owners.jsonl (schema azure-clean.rodata_owner.v1, round 85):
+    one record per row whose retail extent is ONE whole PsyQ module - its read-only data first
+    (``rodata_size`` bytes: e.g. an entry pointer, gcc's .align 3 pad and the switch jump tables),
+    then its code.  The row's TU owns that data as real C: the rowbase mini-link LOADS the TU's
+    .rodata at the true base and its .text right after it (rodata_first_link), so the window byte
+    compare covers the table words and every relocation in them.  The SLUS analogue is a
+    config/slus_modules.json `.rodata` record; this replaces the composite-carve convention (the
+    module's data hand-copied into a `.text.<row>` array ahead of the body), which made the row's
+    own switch table impossible (its placement overlapped the row's text)."""
+    if family not in _RODATA_OWNERS:
+        path = cfg_path(f"config/overlays/{family}.rodata_owners.jsonl")
+        recs: dict[int, dict[str, Any]] = {}
+        for lineno, line in enumerate(path.read_text().splitlines() if path.exists() else [], 1):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            try:
+                rec = json.loads(line)
+                start, size = int(str(rec["foff"]), 0), int(rec["rodata_size"])
+            except (ValueError, KeyError, TypeError) as exc:
+                raise SystemExit(f"{path}:{lineno}: invalid rodata_owner record: {exc}")
+            if size <= 0 or size % 4 or start in recs:
+                raise SystemExit(f"{path}:{lineno}: rodata_size {size} is not a positive word multiple, "
+                                 f"or foff 0x{start:X} is listed twice")
+            recs[start] = rec
+        _RODATA_OWNERS[family] = recs
+    return _RODATA_OWNERS[family].get(foff)
+
+
+def rodata_first_link(obj: Path, seg: "Segment", owner: dict[str, Any], gp_value: int,
+                      symbol_files: list[Path], stem: Path) -> bytes:
+    """Link a rodata-owner TU alone: .rodata LOADED at the true base, .text at base + rodata_size.
+
+    Returns the row's bytes (owned .rodata, then .text).  Fail-closed checks: the object has
+    exactly one read-only data section (.rodata or .rdata, no .data/.sdata/.bss - those stay
+    raw-owned and would die at /DISCARD/ anyway); the only bytes cut from it are GNU-as section-end
+    padding (all zero, shorter than the section alignment, no relocation and no symbol in the cut -
+    ASPSX/psylink did not pad, as for slus_rodata_trim.py); .text fills the rest of the row
+    exactly."""
+    base, rsize = seg.match.link_vram, int(owner["rodata_size"])
+    hdr = subprocess.run([OBJDUMP, "-h", "-r", "-t", str(obj)], capture_output=True, text=True).stdout
+    sects = {m.group(1): (int(m.group(2), 16), 1 << int(m.group(3))) for m in re.finditer(
+        r"^\s*\d+\s+(\S+)\s+([0-9A-Fa-f]+)\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+2\*\*(\d+)", hdr, re.M)}
+    data = [n for n, (sz, _) in sects.items() if sz and n.split(".")[1:2] and
+            n.split(".")[1] in ("rodata", "rdata", "data", "sdata", "sbss", "bss", "lit4", "lit8")]
+    if len(data) != 1 or data[0] not in (".rodata", ".rdata"):
+        raise SystemExit(f"rodata owner {owner.get('id')}: object data sections {data}, expected exactly one .rodata")
+    sect = data[0]
+    size, align = sects[sect]
+    relocs = []
+    for block in re.split(r"^RELOCATION RECORDS FOR \[", hdr, flags=re.M)[1:]:
+        name, _, body = block.partition("]")
+        if name == sect:
+            relocs = [int(m.group(1), 16) for m in re.finditer(r"^([0-9A-Fa-f]{8})\s+R_MIPS_", body, re.M)]
+    syms = [int(m.group(1), 16) for m in re.finditer(r"^([0-9A-Fa-f]{8})\s.{7}\s" + re.escape(sect) + r"\s", hdr, re.M)]
+    if size < rsize or size - rsize >= align:
+        raise SystemExit(f"rodata owner {owner.get('id')}: {sect} is {size} B, owned span {rsize} B (align {align})")
+    if any(r >= rsize for r in relocs) or any(v >= rsize for v in syms):
+        raise SystemExit(f"rodata owner {owner.get('id')}: a relocation or symbol lies past the owned span")
+    text_vram = base + rsize
+    mini = dataclasses.replace(seg, index=0, vram=text_vram)
+    ld = stem.with_suffix(".ld")
+    write_linker_script([mini], [obj], gp_value, symbol_files, ld, placements={sect: base}, obj_paths={0: obj})
+    ld.write_text(ld.read_text().replace(" (NOLOAD) :", " :"))
+    elf = stem.with_suffix(".elf")
+    run([LD, "-EL", "--no-check-sections", "-T", str(ld), "-o", str(elf), str(obj)])
+    rbin, tbin = stem.with_suffix(".rodata.bin"), stem.with_suffix(".text.bin")
+    run([OBJCOPY, "-O", "binary", f"--only-section={sect}", str(elf), str(rbin)])
+    run([OBJCOPY, "-O", "binary", "--only-section=.out_0000", str(elf), str(tbin)])
+    rod, txt = rbin.read_bytes(), tbin.read_bytes()
+    if len(rod) != size or any(rod[rsize:]):
+        raise SystemExit(f"rodata owner {owner.get('id')}: linked {sect} is {len(rod)} B or its cut tail is not zero")
+    if rsize + len(txt) != seg.size:
+        raise SystemExit(f"rodata owner {owner.get('id')}: {rsize} B rodata + {len(txt)} B text != row extent {seg.size} B")
+    return rod[:rsize] + txt
+
+
 def _rowbase_proven_delta(family: str, foff: int) -> int | None:
     """True-base delta for a foff in a PROVEN rowbase region (else None).
     Same evidence file the scoring loader validates; landing-side consumers
@@ -1537,6 +1620,20 @@ def main() -> int:
         obj_key = segment_obj_key(seg, dup_funcs)
         obj = build_dir / "obj" / f"{obj_key}.o"
         seg_objs[seg.index] = obj
+        owner = rodata_owner(cfg["name"].split("_")[0], seg.start)
+        if owner is not None:
+            # rodata-first module row (rodata_owner): no Option-D NOLOAD placement - the TU's
+            # .rodata is LOADED inside the row and the window byte compare proves it
+            if seg.match.link_vram is None:
+                raise SystemExit(f"rodata owner {owner.get('id')}: row 0x{seg.start:X} is not in a proven rowbase region")
+            assert_unique_globals([obj], f"{cfg['name']} rodata-owner mini-link {obj_key}", expect_count=1)
+            mini_bin = build_dir / f"rowbase_{obj_key}.bin"
+            mini_bin.write_bytes(rodata_first_link(obj, seg, owner, gp_value, symbol_files,
+                                                   build_dir / f"rowbase_{obj_key}"))
+            segments[i] = dataclasses.replace(seg, kind="rowbase", bytes_path=mini_bin,
+                                              section=f".ovlseg_{seg.index:04d}")
+            rowbase_objs.add(obj)
+            continue
         # Option D: derive retail's placement for any compiler-local switch
         # table this TU references, from the row's own retail bytes. Any
         # anomaly returns {} and the /DISCARD/ fail-loud behavior is kept.

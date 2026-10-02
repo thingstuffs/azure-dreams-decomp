@@ -413,10 +413,16 @@ def _canonicalise_names(s_path):
 def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
                target=None, psyq=None, as_path=None, psyq_cpp=None,
                asm_output=None, require_linked=False, retail_text=None,
-               retail_data=None):
+               retail_data=None, rodata_first=None):
     """...  retail_data=(container_path, row_foff): when a compiler-local table is placed
     (Option D), also compare its CONTENTS with retail (local_table_diffs) and fail the build
-    with a `jtbl:` error when they differ - the placement alone proves only the address."""
+    with a `jtbl:` error when they differ - the placement alone proves only the address.
+
+    rodata_first=N (round 85, config/overlays/<family>.rodata_owners.jsonl): the row is one whole
+    module - N bytes of the TU's own read-only data (entry pointer, .align 3 pad, switch tables)
+    and then its code.  The data section is linked LOADED at `vram`, the code at vram + N, and the
+    returned bytes are the data (GNU-as end padding cut, fail-closed) followed by the target's
+    code - the same bytes overlay_local_gate.rodata_first_link injects into the window."""
     if asm_output:
         if psyq:
             # The psyq path compiles straight to .o through cc_psyq.sh -- there is no
@@ -500,6 +506,8 @@ def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
         # Link at the function's real vram so internal `j`/absolute relocs resolve
         # (external refs left unresolved -> 0). Fall back to the raw object otherwise.
         obj = o
+        if vram is not None and rodata_first:
+            return _rodata_first_text(o, td, vram, int(rodata_first), target)
         if vram is not None:
             placements = {}
             if retail_text is not None and target:
@@ -611,6 +619,71 @@ def build_text(cfile, gccdir, opt, aspsx, gcc_flags="", as_flags="", vram=None,
             else:
                 text = sliced
         return text, None
+
+NM = "mipsel-linux-gnu-nm"
+
+
+def _rodata_first_text(o, td, vram, rsize, target):
+    """build_text's rodata_first branch: (owned data + target code, None) or (None, error)."""
+    hdr = subprocess.run([OBJDUMP, "-h", "-r", o], capture_output=True).stdout.decode(errors="replace")
+    sects = {m.group(1): (int(m.group(2), 16), 1 << int(m.group(3))) for m in re.finditer(
+        r"^\s*\d+\s+(\S+)\s+([0-9A-Fa-f]+)\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+2\*\*(\d+)", hdr, re.M)}
+    data = [n for n, (sz, _) in sects.items() if sz and len(n.split(".")) > 1 and
+            n.split(".")[1] in ("rodata", "rdata", "data", "sdata", "sbss", "bss", "lit4", "lit8")]
+    if len(data) != 1 or data[0] not in (".rodata", ".rdata"):
+        return None, f"rodata-owner: object data sections {data}, expected exactly one .rodata"
+    sect = data[0]
+    size, align = sects[sect]
+    relocs = []
+    for block in re.split(r"^RELOCATION RECORDS FOR \[", hdr, flags=re.M)[1:]:
+        name, _, body = block.partition("]")
+        if name == sect:
+            relocs = [int(m.group(1), 16) for m in re.finditer(r"^([0-9A-Fa-f]{8})\s+R_MIPS_", body, re.M)]
+    if size < rsize or size - rsize >= align or any(r >= rsize for r in relocs):
+        return None, f"rodata-owner: {sect} is {size} B (align {align}), owned span {rsize} B"
+    lds = os.path.join(td, "link_rodata_first.ld")
+    with open(lds, "w") as f:
+        f.write(f"_gp = 0x{GP_VALUE:08X};\n"
+                f"SECTIONS {{ {sect} 0x{vram:08X} : {{ *({sect}) }} "
+                f".text 0x{vram + rsize:08X} : SUBALIGN(4) {{ *(.text.*) *(.text) }} }}")
+    e = os.path.join(td, "a.rf.elf")
+    cmd = [LD, "-EL", "--no-check-sections", "--unresolved-symbols=ignore-all", "-T", lds]
+    defined = {ln.split()[-1] for ln in subprocess.run([NM, o], capture_output=True).stdout.decode(
+        errors="replace").splitlines() if len(ln.split()) == 3}
+    for src in (UNDEF_SYMS, UNDEF_FUNCS):
+        if os.path.exists(src):
+            lines = [ln for ln in open(src, errors="replace").read().splitlines()
+                     if not any(re.match(rf"\s*{re.escape(d)}\s*=", ln) for d in defined if d in ln)]
+            dst = os.path.join(td, os.path.basename(src) + ".rf.ld")
+            with open(dst, "w") as fh:
+                fh.write("\n".join(lines) + "\n")
+            cmd += ["-T", dst]
+    fld = os.path.join(td, "funcs.rf.ld")
+    with open(fld, "w") as f:
+        for fn in FUNC_NAMES:
+            if fn not in defined:
+                f.write(f"{fn} = 0x{fn[5:]};\n")
+        for sn, saddr in NAMED_SYMS_LIST:
+            if sn not in defined:
+                f.write(f"{sn} = {saddr};\n")
+    cmd += ["-T", fld, "-o", e, o]
+    r = subprocess.run(cmd, capture_output=True)
+    if r.returncode != 0:
+        tail = (r.stderr.decode(errors="replace").strip().splitlines() or ["?"])[-1]
+        return None, "ld: " + tail
+    rb, tb = os.path.join(td, "a.rf.rodata"), os.path.join(td, "a.rf.text")
+    subprocess.run([OBJCOPY, "-O", "binary", f"--only-section={sect}", e, rb], capture_output=True)
+    subprocess.run([OBJCOPY, "-O", "binary", "--only-section=.text", e, tb], capture_output=True)
+    rod, text = open(rb, "rb").read(), open(tb, "rb").read()
+    if len(rod) != size or any(rod[rsize:]):
+        return None, f"rodata-owner: linked {sect} is {len(rod)} B or its cut tail is not zero"
+    if target:
+        info = symbol_info(e, target)
+        if info is None or info["section"] != ".text" or info["value"] != vram + rsize:
+            return None, f"rodata-owner: {target} is not the first code at 0x{vram + rsize:08X}"
+        text = text[:info["size"]]
+    return rod[:rsize] + text, None
+
 
 def section_vma(obj, section):
     r = subprocess.run([OBJDUMP, "-h", obj], capture_output=True)

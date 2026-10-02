@@ -9,13 +9,13 @@
 
 typedef struct S_8182C800_0_pre {
     u16 unk_00;
-} S_8182C800_0_pre;   /* the 0x2 bytes before arg0 in BODY_NAME, addressed as arg0[-1] */
+} S_8182C800_0_pre;   /* the 0x2 bytes before arg0 in func_8002401C, addressed as arg0[-1] */
 
 
 typedef struct S_8182C800_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_8182C800_1_pre;   /* the 0x14 bytes before temp_s7 in BODY_NAME, addressed as temp_s7[-1] */
+} S_8182C800_1_pre;   /* the 0x14 bytes before temp_s7 in func_8002401C, addressed as temp_s7[-1] */
 
 typedef struct S_8182C800_1 {
     u8 pad_00[0x2A];
@@ -25,18 +25,18 @@ typedef struct S_8182C800_1 {
     u8 pad_64[0xE];
     union { u8 s; s8 u; } unk_72;   /* accessed as both */
     union { u8 s; s8 u; } unk_73;   /* accessed as both */
-} S_8182C800_1;   /* temp_s7 in BODY_NAME */
+} S_8182C800_1;   /* temp_s7 in func_8002401C */
 
 typedef struct S_8182C800_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8182C800_2;   /* sp68 in BODY_NAME */
+} S_8182C800_2;   /* sp68 in func_8002401C */
 
 typedef struct S_8182C800_3 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8182C800_3;   /* temp_a1_2 in BODY_NAME */
+} S_8182C800_3;   /* temp_a1_2 in func_8002401C */
 
 typedef struct S_8182C800_4 {
     u8 pad_00[0x14];
@@ -44,7 +44,7 @@ typedef struct S_8182C800_4 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8182C800_4;   /* temp_fp in BODY_NAME */
+} S_8182C800_4;   /* temp_fp in func_8002401C */
 
 typedef struct S_8182C800_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -53,7 +53,7 @@ typedef struct S_8182C800_5 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8182C800_5;   /* arg1 in BODY_NAME */
+} S_8182C800_5;   /* arg1 in func_8002401C */
 
 typedef struct S_8182C800_6 {
     u8 * unk_00;
@@ -68,12 +68,12 @@ typedef struct S_8182C800_6 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8182C800_6;   /* work_s5 in BODY_NAME */
+} S_8182C800_6;   /* work_s5 in func_8002401C */
 
 typedef struct S_8182C800_7 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_7;   /* page_a in BODY_NAME */
+} S_8182C800_7;   /* page_a in func_8002401C */
 
 typedef struct S_8182C800_8 {
     u8 pad_00[0x8];
@@ -82,7 +82,7 @@ typedef struct S_8182C800_8 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_8182C800_8;   /* temp_s4 in BODY_NAME */
+} S_8182C800_8;   /* temp_s4 in func_8002401C */
 
 typedef struct S_8182C800_9 {
     u8 pad_00[0x14];
@@ -90,21 +90,21 @@ typedef struct S_8182C800_9 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_8182C800_9;   /* temp_s0_2 in BODY_NAME */
+} S_8182C800_9;   /* temp_s0_2 in func_8002401C */
 
 typedef struct S_8182C800_10 {
     s32 unk_00;
-} S_8182C800_10;   /* temp_a1_3 in BODY_NAME */
+} S_8182C800_10;   /* temp_a1_3 in func_8002401C */
 
 typedef struct S_8182C800_11 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_11;   /* temp_a1_4 in BODY_NAME */
+} S_8182C800_11;   /* temp_a1_4 in func_8002401C */
 
 typedef struct S_8182C800_12 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8182C800_12;   /* temp_a0_7 in BODY_NAME */
+} S_8182C800_12;   /* temp_a0_7 in func_8002401C */
 
 typedef struct S_8182C800_13 {
     u8 * unk_00;
@@ -119,12 +119,12 @@ typedef struct S_8182C800_13 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8182C800_13;   /* temp_s0_3 in BODY_NAME */
+} S_8182C800_13;   /* temp_s0_3 in func_8002401C */
 
 typedef struct S_8182C800_14 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_14;   /* state1_tex in BODY_NAME */
+} S_8182C800_14;   /* state1_tex in func_8002401C */
 
 typedef struct S_8182C800_15 {
     void * unk_00;
@@ -132,30 +132,30 @@ typedef struct S_8182C800_15 {
     s16 unk_48;
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_8182C800_15;   /* temp_s3 in BODY_NAME */
+} S_8182C800_15;   /* temp_s3 in func_8002401C */
 
 typedef struct S_8182C800_16 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_16;   /* page_e in BODY_NAME */
+} S_8182C800_16;   /* page_e in func_8002401C */
 
 typedef struct S_8182C800_17 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_17;   /* page_b in BODY_NAME */
+} S_8182C800_17;   /* page_b in func_8002401C */
 
 typedef struct S_8182C800_18 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_8182C800_18;   /* temp_a0_11 in BODY_NAME */
+} S_8182C800_18;   /* temp_a0_11 in func_8002401C */
 
 typedef struct S_8182C800_19 {
     u8 pad_00[0x4];
     s32 unk_04;
     u8 pad_08[0x8];
     s32 unk_10;
-} S_8182C800_19;   /* temp_a0_12 in BODY_NAME */
+} S_8182C800_19;   /* temp_a0_12 in func_8002401C */
 
 typedef struct S_8182C800_20 {
     u8 * unk_00;
@@ -170,22 +170,22 @@ typedef struct S_8182C800_20 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_8182C800_20;   /* temp_s0_4 in BODY_NAME */
+} S_8182C800_20;   /* temp_s0_4 in func_8002401C */
 
 typedef struct S_8182C800_21 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_8182C800_21;   /* page_d in BODY_NAME */
+} S_8182C800_21;   /* page_d in func_8002401C */
 
 typedef struct S_8182C800_22 {
     s32 unk_00;
-} S_8182C800_22;   /* D_800814A0 in BODY_NAME */
+} S_8182C800_22;   /* D_800814A0 in func_8002401C */
 
 typedef struct S_8182C800_23 {
     s32 unk_00;
     s32 unk_04;
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8182C800_23;   /* ((S_8182C800_2 *)sp68)->unk_08 in BODY_NAME */
+} S_8182C800_23;   /* ((S_8182C800_2 *)sp68)->unk_08 in func_8002401C */
 
 typedef struct S_8182C800_24 {
     s32 unk_00;
@@ -194,21 +194,15 @@ typedef struct S_8182C800_24 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_8182C800_24;   /* ((S_8182C800_8 *)temp_s4)->unk_08 in BODY_NAME */
+} S_8182C800_24;   /* ((S_8182C800_8 *)temp_s4)->unk_08 in func_8002401C */
 
 
-#ifdef __mips__
-static const u32 data_bank[] __asm__("func_80024000")
-__attribute__((section(".text.func_80024000"), aligned(4))) = {
-    0x8002401C, 0x00000000,
-    0x800240C8, 0x8002467C, 0x80024AB0,
-    0x80024C78, 0x80024CB8,
-};
-__asm__(".globl func_80024000\n.size func_80024000,3396");
-#define BODY_NAME func_8002401C
-#else
-#define BODY_NAME func_80024000
-#endif
+void func_8002401C(void *effect, void *motion, void *sprite);
+
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(void *, void *, void *) __asm__("func_80024000") = func_8002401C;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DEC28[];
@@ -228,7 +222,6 @@ s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80024D44;
 extern M2C_UNK D_80024E98;
 extern u8 D_800DEBD8;
-extern void *D_80024008[];
 
 typedef struct Func80024000Frame {
     s16 pad20;
@@ -263,9 +256,8 @@ typedef struct Func80024000Frame {
     s16 pad66;
 } Func80024000Frame;
 
-void BODY_NAME(void *effect, void *motion, void *sprite) __attribute__((section(".text.func_80024000")));
 /* Updates a projectile effect through launch, flight, impact particles, and fading. */
-void BODY_NAME(void *effect, void *motion, void *sprite) {
+void func_8002401C(void *effect, void *motion, void *sprite) {
     Func80024000Frame frame;
     S_8182C800_2 *owner_object;
     s32 direction_x;
@@ -349,371 +341,366 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     owner_object = owner - 0x20;
     target_sprite = (S_8182C800_9 *)(*(s16 *)((u8 *)dirStepY + direction_offset));
     direction_y = (s32) ((s16)target_sprite);
-    if ((u32) state >= 5) {
-        return;
-    }
-    {
-        static void *const state_labels[] = {
-            &&state_launch, &&state_flight, &&state_hit, &&state_fade, &&state_finish
-        };
-        (void) state_labels;
-        goto *D_80024008[(u32) state];
-    }
-state_launch:
-    if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
-        target_x = owner_object->unk_0C;
-        if (func_8003DE58(target_x->unk_08, target_x, &frame.sp38, 0) == 0) {
-            frame.sp3A = 0;
-            frame.sp38 = 0;
-            height_offset = 0;
-            if (owner_sprite->unk_14 & 0x8000) {
-                height_offset = -0x30;
-            }
-            frame.sp3C = height_offset;
-        }
-        ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_00
-            + (frame.sp38 << 0x10));
-        ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_04
-            + (frame.sp3A << 0x10));
-        ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at00.v
-            + (frame.sp3C << 0x10));
-        object = effect - 0x20;
-        func_8004491C(object, func_80045340);
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_1E = 0x1000;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_1C = 0x1000;
-        launch_texture = &D_800DEBD8;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = launch_texture;
-        launch_tpage = ((S_8182C800_7 *)launch_texture)->unk_04;
-        sprite_color = 0x808080;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = sprite_color;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_10 = 0x20;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
-        sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
-        ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
-        target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
-            (s16) func_800A3820(5, launch_tpage));
-        ((S_8182C800_1 *)owner)->unk_60 = target;
-        if (target == 0) {
-            distance_sum = 0;
-            step_y = 0;
-            sprite_or_step_x = 0;
-            while (distance_sum < func_800A3820(5)) {
-                tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
-                ASM_KEEP_NV(tile_origin_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                distance_x = tile_origin_x + 0x20;
-                tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
-                probe_y_full = tile_origin_y + 0x20;
-                probe_y = (u16) probe_y_full;
-                distance_x = (u16)distance_x;
-                if ((func_800A4688(distance_x, probe_y, func_800BCB04(distance_x, probe_y, -0x400),
-                    ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
-                    break;
+    switch (state) {
+    case 0:
+        if (*(*(u16 * *)&((EntityRec *)effect)->y) & 0x80) {
+            target_x = owner_object->unk_0C;
+            if (func_8003DE58(target_x->unk_08, target_x, &frame.sp38, 0) == 0) {
+                frame.sp3A = 0;
+                frame.sp38 = 0;
+                height_offset = 0;
+                if (owner_sprite->unk_14 & 0x8000) {
+                    height_offset = -0x30;
                 }
-                step_y += direction_y;
-                ASM_KEEP(probe_y_full);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                distance_sum += 1;
-                sprite_or_step_x += direction_x;
+                frame.sp3C = height_offset;
             }
-            ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->unk_24 + (direction_x * distance_sum));
-            ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
-        } else {
-            object = target - 0x20;
-            target_sprite = ((S_8182C800_8 *)object)->unk_0C;
-            if ((target_sprite->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
-                func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
-                    (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
-                ((EntityRec *)effect)->z.w.i = 4;
-                return;
-            }
-            ((S_8182C800_1 *)owner)->unk_72.s = (u8) target_sprite->unk_24;
-            ((S_8182C800_1 *)owner)->unk_73.s = (u8) target_sprite->unk_25;
-        }
-        target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
-
-        frame.sp22 = (target_tile << 6) + 0x20;
-        target_tile = ((S_8182C800_1 *)owner)->unk_73.u;
-
-        frame.sp26 = (target_tile << 6) + 0x20;
-        if (((S_8182C800_1 *)owner)->unk_60 == 0) {
-            floor_height = func_800BCB04((u16) frame.sp22, (u16) frame.sp26,
-                (s16) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v - 0x30));
-            frame.u28.half.sp2A = floor_height;
-            if (floor_height >= 0x200) {
-                frame.u28.half.sp2A = ((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v;
-            }
-            frame.u28.half.sp2A -= 0x30;
-        } else {
-            frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
-        }
-        target_x = (S_8182C800_3 *)frame.sp22;
-        tile_origin_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
-        target_y = frame.sp26;
-        start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-        distance_x = ((s32)target_x) - tile_origin_x;
-        motion_extent = target_y - start_y;
-        distance_sum = distance_x;
-        if (distance_x < 0) {
-            distance_sum = 0 - distance_sum;
-        }
-        distance_y_abs = __builtin_abs(motion_extent);
-        if (distance_sum < distance_y_abs) {
-            distance_sum = distance_y_abs;
-        }
-        covered_distance = 0;
-        distance_fixed = distance_sum << 0x10;
-        ((EntityRec *)effect)->unk_50 = 0U;
-        if (distance_fixed > 0) {
-            do {
-                effect_alias = effect;
-                effect = effect_alias;
-                covered_distance += 0xD6666;
-                ((EntityRec *)effect)->unk_50 = (u16) (((EntityRec *)effect)->unk_50 + 1);
-            } while (covered_distance < distance_fixed);
-        }
-        distance_sum = 0;
-        step_count = (s16) ((EntityRec *)effect)->unk_50;
-        step_index = 1;
-        if (step_count > 0) {
-            step_limit = step_count;
-            do {
-                distance_sum += step_index;
-            } while (step_limit >= ++step_index);
-        }
-        base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
-        travel_x = direction_x * base_travel;
-        accel_x = (s32) ((distance_x << 0x10) - travel_x) / distance_sum;
-        (*(s32 *)&((EntityRec *)effect)->unk_44) = accel_x;
-        base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
-        accel_y = (s32) ((s32) ((motion_extent << 0x10) - (direction_y * base_travel)) / distance_sum);
-        (*(s32 *)&((EntityRec *)effect)->unk_48) = accel_y;
-        ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.u28.sp28
-            - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
-        ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666)
-            + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_44)));
-        ((S_8182C800_5 *)motion)->unk_10 = (s32) ((direction_y * 0x66666)
-            + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_48)));
-        ((S_8182C800_5 *)motion)->unk_14 =
-            (s32) ((s16) ((EntityRec *)effect)->unk_50 * ((s32)((EntityRec *)effect)->unk_4C));
-        ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
-        func_800A56E0(0x300, accel_x);
-        ((EntityRec *)effect)->z.w.i += 1;
-        return;
-    }
-    return;
-state_flight:
-    trail_count = 0x14;
-    trail_texture = D_800DEC28;
-spawn_trail:
-    object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-    if (object != NULL) {
-        target_sprite = (S_8182C800_9 *)(((S_8182C800_8 *)object)->unk_0C);
-        ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
-        frame.sp60 = 0 - (func_80069EF8() & 0x1FF);
-        frame.sp64 = 0;
-        frame.sp62 = 0;
-        frame.sp40 = &frame.sp60;
-        frame.sp44 = &frame.sp60;
-        elapsed_steps = (s16) ((EntityRec *)effect)->unk_52 - (s16) ((EntityRec *)effect)->unk_50;
-        spread_decay = elapsed_steps * 8;
-        spread_base = 0x300 - spread_decay;
-        motion_extent = spread_base - (elapsed_steps << 5);
-        particle = object + 0x20;
-        if (motion_extent < 0x40) {
-            motion_extent = 0x40;
-        }
-        frame.sp48 = (func_80069EF8() & 0xFF) - 0x80;
-        frame.sp4C = (func_80069EF8() & 0xFF) - 0x80;
-        angle_offset = frame.sp48;
-        if (angle_offset <= 0) {
-            spread_angle = angle_offset - motion_extent;
-        } else {
-            spread_angle = angle_offset + motion_extent;
-        }
-        angle_offset = frame.sp4C;
-        frame.sp48 = spread_angle;
-        heading = ((S_8182C800_1 *)owner)->unk_2A.u;
-        if (angle_offset <= 0) {
-            spread_angle = heading - motion_extent;
-        } else {
-            spread_angle = motion_extent + heading;
-        }
-        coord = angle_offset + spread_angle;
-        frame.sp4C = coord;
-        frame.sp50 = 0;
-        frame.sp52 = 0;
-        frame.sp54 = 0;
-        frame.sp58 = 1;
-        frame.sp5A = 0;
-        func_800DBA90(&frame.sp40);
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
-            (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
-            (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
-            (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
-        trail_pos_x = ((S_8182C800_8 *)object)->unk_08;
-        trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.sp60 << 0xC) + (direction_x << 0x15)));
-        trail_pos_y = ((S_8182C800_8 *)object)->unk_08;
-        trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.sp62 << 0xC) + (direction_y << 0x15)));
-        trail_pos_z = ((S_8182C800_8 *)object)->unk_08;
-        trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.sp64 << 0xC));
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_0C =
-            (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_10 =
-            (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
-        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
-            (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
-        ((S_8182C800_13 *)target_sprite)->unk_1E = 0x800;
-        ((S_8182C800_13 *)target_sprite)->unk_1C = 0x800;
-        ((S_8182C800_13 *)target_sprite)->unk_10 = 0x60;
-        ((S_8182C800_13 *)target_sprite)->unk_00 = trail_texture;
-        ((S_8182C800_13 *)target_sprite)->unk_14 = (u16) (((S_8182C800_13 *)target_sprite)->unk_14 | 0xC);
-        ((S_8182C800_13 *)target_sprite)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
-        ((S_8182C800_13 *)target_sprite)->unk_04 = 0;
-        ((S_8182C800_13 *)target_sprite)->unk_05 = 0;
-        ((S_8182C800_13 *)target_sprite)->unk_0C = 0x808080;
-        particle->unk_00 = effect;
-        particle->unk_48 = (s16) (func_80069EF8() & 3);
-        particle->unk_4C = 0;
-        goto next_trail;
-    }
-next_trail:
-    trail_count -= 1;
-    if (trail_count < 0) {
-        ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C
-            - (*(s32 *)&((EntityRec *)effect)->unk_44));
-        ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10
-            - (*(s32 *)&((EntityRec *)effect)->unk_48));
-        ((S_8182C800_5 *)motion)->unk_14 = (s32) (((S_8182C800_5 *)motion)->unk_14
-            - ((s32)((EntityRec *)effect)->unk_4C));
-        ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-            + ((S_8182C800_5 *)motion)->unk_0C);
-        ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-            + ((S_8182C800_5 *)motion)->unk_10);
-        ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_5 *)motion)->unk_08 + ((S_8182C800_5 *)motion)->unk_14);
-        func_800478B8((void *) sprite_or_step_x);
-        sprite_flags = ((S_8182C800_6 *)sprite_or_step_x)->unk_14;
-        if (sprite_flags & 0x6000) {
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = (u16) (sprite_flags & 0x9FFF);
-            flight_texture = D_800DEC00;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = flight_texture;
-            flight_tpage = ((S_8182C800_16 *)flight_texture)->unk_04;
+            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_00
+                + (frame.sp38 << 0x10));
+            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_04
+                + (frame.sp3A << 0x10));
+            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at00.v
+                + (frame.sp3C << 0x10));
+            object = effect - 0x20;
+            func_8004491C(object, func_80045340);
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_1E = 0x1000;
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_1C = 0x1000;
+            launch_texture = &D_800DEBD8;
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = launch_texture;
+            launch_tpage = ((S_8182C800_7 *)launch_texture)->unk_04;
+            sprite_color = 0x808080;
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = sprite_color;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = flight_tpage;
-        }
-        steps_left = ((EntityRec *)effect)->unk_50 - 1;
-        ((EntityRec *)effect)->unk_50 = steps_left;
-        coord = ((S_8182C800_5 *)motion)->unk_00.at02.v;
-        if (coord < 0) {
-            coord += 0x3F;
-        }
-        if ((coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_72.s) {
-            tile_y_coord = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-            if (tile_y_coord < 0) {
-                tile_y_coord += 0x3F;
-            }
-            if (((tile_y_coord >> 6) != (s8) ((S_8182C800_1 *)owner)->unk_73.s) || ((s16) steps_left >= 0)) {
-                goto check_timeout;
-            }
-            goto arrive;
-        }
-check_timeout:
-        if ((s16) ((EntityRec *)effect)->unk_50 < -0x20) {
-arrive:
-            if (((S_8182C800_1 *)owner)->unk_60 == 0) {
-                ((EntityRec *)effect)->z.w.i = 3;
-                return;
-            }
-            hit_texture = (u8 *) &D_800DEB70;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = hit_texture;
-            hit_tpage = ((S_8182C800_17 *)hit_texture)->unk_04;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = 0xC0C0C0;
             ((S_8182C800_6 *)sprite_or_step_x)->unk_10 = 0x20;
-            ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = hit_tpage;
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = launch_tpage;
+            sprite_color = ((S_8182C800_6 *)sprite_or_step_x)->unk_14 | 0xC;
+            ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = sprite_color;
+            target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u,
+                (s16) func_800A3820(5, launch_tpage));
+            ((S_8182C800_1 *)owner)->unk_60 = target;
+            if (target == 0) {
+                distance_sum = 0;
+                step_y = 0;
+                sprite_or_step_x = 0;
+                while (distance_sum < func_800A3820(5)) {
+                    tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
+                    ASM_KEEP_NV(tile_origin_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    distance_x = tile_origin_x + 0x20;
+                    tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
+                    probe_y_full = tile_origin_y + 0x20;
+                    probe_y = (u16) probe_y_full;
+                    distance_x = (u16)distance_x;
+                    if ((func_800A4688(distance_x, probe_y, func_800BCB04(distance_x, probe_y, -0x400),
+                        ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
+                        break;
+                    }
+                    step_y += direction_y;
+                    ASM_KEEP(probe_y_full);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    distance_sum += 1;
+                    sprite_or_step_x += direction_x;
+                }
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->unk_24 + (direction_x * distance_sum));
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
+            } else {
+                object = target - 0x20;
+                target_sprite = ((S_8182C800_8 *)object)->unk_0C;
+                if ((target_sprite->unk_14 & 0x8000) && (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x8000)) {
+                    func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 8, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
+                        (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
+                    ((EntityRec *)effect)->z.w.i = 4;
+                    return;
+                }
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) target_sprite->unk_24;
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) target_sprite->unk_25;
+            }
             target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
 
-            ((S_8182C800_5 *)motion)->unk_00.at02.v = (s16) ((target_tile << 6) + 0x20);
-            target_tile_y = ((S_8182C800_1 *)owner)->unk_73.u;
-            ((S_8182C800_5 *)motion)->unk_14 = 0;
-            ((S_8182C800_5 *)motion)->unk_10 = 0;
-            ((S_8182C800_5 *)motion)->unk_0C = 0;
-            ((S_8182C800_5 *)motion)->unk_04.at02.v = (s16) ((target_tile_y << 6) + 0x20);
+            frame.sp22 = (target_tile << 6) + 0x20;
+            target_tile = ((S_8182C800_1 *)owner)->unk_73.u;
+
+            frame.sp26 = (target_tile << 6) + 0x20;
+            if (((S_8182C800_1 *)owner)->unk_60 == 0) {
+                floor_height = func_800BCB04((u16) frame.sp22, (u16) frame.sp26,
+                    (s16) (((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v - 0x30));
+                frame.u28.half.sp2A = floor_height;
+                if (floor_height >= 0x200) {
+                    frame.u28.half.sp2A = ((S_8182C800_23 *)(owner_object->unk_08))->unk_08.at02.v;
+                }
+                frame.u28.half.sp2A -= 0x30;
+            } else {
+                frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
+            }
+            target_x = (S_8182C800_3 *)frame.sp22;
+            tile_origin_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            target_y = frame.sp26;
+            start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
+            distance_x = ((s32)target_x) - tile_origin_x;
+            motion_extent = target_y - start_y;
+            distance_sum = distance_x;
+            if (distance_x < 0) {
+                distance_sum = 0 - distance_sum;
+            }
+            distance_y_abs = __builtin_abs(motion_extent);
+            if (distance_sum < distance_y_abs) {
+                distance_sum = distance_y_abs;
+            }
+            covered_distance = 0;
+            distance_fixed = distance_sum << 0x10;
+            ((EntityRec *)effect)->unk_50 = 0U;
+            if (distance_fixed > 0) {
+                do {
+                    effect_alias = effect;
+                    effect = effect_alias;
+                    covered_distance += 0xD6666;
+                    ((EntityRec *)effect)->unk_50 = (u16) (((EntityRec *)effect)->unk_50 + 1);
+                } while (covered_distance < distance_fixed);
+            }
+            distance_sum = 0;
+            step_count = (s16) ((EntityRec *)effect)->unk_50;
+            step_index = 1;
+            if (step_count > 0) {
+                step_limit = step_count;
+                do {
+                    distance_sum += step_index;
+                } while (step_limit >= ++step_index);
+            }
+            base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
+            travel_x = direction_x * base_travel;
+            accel_x = (s32) ((distance_x << 0x10) - travel_x) / distance_sum;
+            (*(s32 *)&((EntityRec *)effect)->unk_44) = accel_x;
+            base_travel = (s16) ((EntityRec *)effect)->unk_50 * 0x66666;
+            accel_y = (s32) ((s32) ((motion_extent << 0x10) - (direction_y * base_travel)) / distance_sum);
+            (*(s32 *)&((EntityRec *)effect)->unk_48) = accel_y;
+            ((EntityRec *)effect)->unk_4C = (s32) ((s32) ((s32) frame.u28.sp28
+                - ((S_8182C800_5 *)motion)->unk_08) / distance_sum);
+            ((S_8182C800_5 *)motion)->unk_0C = (s32) ((direction_x * 0x66666)
+                + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_44)));
+            ((S_8182C800_5 *)motion)->unk_10 = (s32) ((direction_y * 0x66666)
+                + ((s16) ((EntityRec *)effect)->unk_50 * (*(s32 *)&((EntityRec *)effect)->unk_48)));
+            ((S_8182C800_5 *)motion)->unk_14 =
+                (s32) ((s16) ((EntityRec *)effect)->unk_50 * ((s32)((EntityRec *)effect)->unk_4C));
+            ((EntityRec *)effect)->unk_52 = (u16) ((EntityRec *)effect)->unk_50;
+            func_800A56E0(0x300, accel_x);
             ((EntityRec *)effect)->z.w.i += 1;
             return;
         }
-    } else {
-        goto spawn_trail;
-    }
-    return;
-state_hit:
-    func_800478B8((void *) sprite_or_step_x);
-    if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
-        if (((S_8182C800_1 *)owner)->unk_60 != 0) {
-            func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
-                (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
-            burst_count = 0x50;
-            do {
-                object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-                if (object != NULL) {
-                    burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
-                    ((S_8182C800_8 *)object)->unk_10 = &D_80024E98;
-                    ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
-                        (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
-                    ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
-                        (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
-                    ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
-                        (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xC));
-                    burst_motion_x = ((S_8182C800_8 *)object)->unk_08;
-                    burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
-                        - burst_motion_x->unk_00) >> 3);
-                    burst_motion_y = ((S_8182C800_8 *)object)->unk_08;
-                    burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
-                        - burst_motion_y->unk_04) >> 3);
-                    ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
-                        (s32) (0 - ((func_80069EF8() & 0x3FF) << 9));
-                    burst_sprite->unk_1E = 0x800;
-                    burst_sprite->unk_1C = 0x800;
-                    burst_sprite->unk_10 = 0x20;
-                    burst_texture = D_800DEC28;
-                    burst_sprite->unk_00 = burst_texture;
-                    burst_sprite->unk_14 = (u16) (burst_sprite->unk_14 | 0xC);
-                    burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
-                    burst_sprite->unk_04 = 0;
-                    burst_sprite->unk_05 = 0;
-                    burst_sprite->unk_0C = 0x808080;
-                    burst_sprite->unk_08 = burst_tpage;
-                    ((S_8182C800_8 *)object)->unk_20 = effect;
-                    particle = object + 0x20;
-                    particle->unk_48 = (s16) (func_80069EF8() & 3);
-                }
-                burst_count -= 1;
-            } while (burst_count >= 0);
+        return;
+    case 1:
+        trail_count = 0x14;
+        trail_texture = D_800DEC28;
+spawn_trail:
+        object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+        if (object != NULL) {
+            target_sprite = (S_8182C800_9 *)(((S_8182C800_8 *)object)->unk_0C);
+            ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
+            frame.sp60 = 0 - (func_80069EF8() & 0x1FF);
+            frame.sp64 = 0;
+            frame.sp62 = 0;
+            frame.sp40 = &frame.sp60;
+            frame.sp44 = &frame.sp60;
+            elapsed_steps = (s16) ((EntityRec *)effect)->unk_52 - (s16) ((EntityRec *)effect)->unk_50;
+            spread_decay = elapsed_steps * 8;
+            spread_base = 0x300 - spread_decay;
+            motion_extent = spread_base - (elapsed_steps << 5);
+            particle = object + 0x20;
+            if (motion_extent < 0x40) {
+                motion_extent = 0x40;
+            }
+            frame.sp48 = (func_80069EF8() & 0xFF) - 0x80;
+            frame.sp4C = (func_80069EF8() & 0xFF) - 0x80;
+            angle_offset = frame.sp48;
+            if (angle_offset <= 0) {
+                spread_angle = angle_offset - motion_extent;
+            } else {
+                spread_angle = angle_offset + motion_extent;
+            }
+            angle_offset = frame.sp4C;
+            frame.sp48 = spread_angle;
+            heading = ((S_8182C800_1 *)owner)->unk_2A.u;
+            if (angle_offset <= 0) {
+                spread_angle = heading - motion_extent;
+            } else {
+                spread_angle = motion_extent + heading;
+            }
+            coord = angle_offset + spread_angle;
+            frame.sp4C = coord;
+            frame.sp50 = 0;
+            frame.sp52 = 0;
+            frame.sp54 = 0;
+            frame.sp58 = 1;
+            frame.sp5A = 0;
+            func_800DBA90(&frame.sp40);
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
+                (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
+                (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
+                (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x1FF) - 0xFF) << 9));
+            trail_pos_x = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_x->unk_00 = (s32) (trail_pos_x->unk_00 + ((frame.sp60 << 0xC) + (direction_x << 0x15)));
+            trail_pos_y = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_y->unk_04 = (s32) (trail_pos_y->unk_04 + ((frame.sp62 << 0xC) + (direction_y << 0x15)));
+            trail_pos_z = ((S_8182C800_8 *)object)->unk_08;
+            trail_pos_z->unk_08 = (s32) (trail_pos_z->unk_08 + (frame.sp64 << 0xC));
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_0C =
+                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_10 =
+                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
+            ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
+                (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
+            ((S_8182C800_13 *)target_sprite)->unk_1E = 0x800;
+            ((S_8182C800_13 *)target_sprite)->unk_1C = 0x800;
+            ((S_8182C800_13 *)target_sprite)->unk_10 = 0x60;
+            ((S_8182C800_13 *)target_sprite)->unk_00 = trail_texture;
+            ((S_8182C800_13 *)target_sprite)->unk_14 = (u16) (((S_8182C800_13 *)target_sprite)->unk_14 | 0xC);
+            ((S_8182C800_13 *)target_sprite)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
+            ((S_8182C800_13 *)target_sprite)->unk_04 = 0;
+            ((S_8182C800_13 *)target_sprite)->unk_05 = 0;
+            ((S_8182C800_13 *)target_sprite)->unk_0C = 0x808080;
+            particle->unk_00 = effect;
+            particle->unk_48 = (s16) (func_80069EF8() & 3);
+            particle->unk_4C = 0;
+            goto next_trail;
         }
-        ((EntityRec *)effect)->z.w.i += 1;
+next_trail:
+        trail_count -= 1;
+        if (trail_count < 0) {
+            ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C
+                - (*(s32 *)&((EntityRec *)effect)->unk_44));
+            ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10
+                - (*(s32 *)&((EntityRec *)effect)->unk_48));
+            ((S_8182C800_5 *)motion)->unk_14 = (s32) (((S_8182C800_5 *)motion)->unk_14
+                - ((s32)((EntityRec *)effect)->unk_4C));
+            ((S_8182C800_5 *)motion)->unk_00.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                + ((S_8182C800_5 *)motion)->unk_0C);
+            ((S_8182C800_5 *)motion)->unk_04.at00.v = (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                + ((S_8182C800_5 *)motion)->unk_10);
+            ((S_8182C800_5 *)motion)->unk_08 = (s32) (((S_8182C800_5 *)motion)->unk_08
+                + ((S_8182C800_5 *)motion)->unk_14);
+            func_800478B8((void *) sprite_or_step_x);
+            sprite_flags = ((S_8182C800_6 *)sprite_or_step_x)->unk_14;
+            if (sprite_flags & 0x6000) {
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_14 = (u16) (sprite_flags & 0x9FFF);
+                flight_texture = D_800DEC00;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = flight_texture;
+                flight_tpage = ((S_8182C800_16 *)flight_texture)->unk_04;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = flight_tpage;
+            }
+            steps_left = ((EntityRec *)effect)->unk_50 - 1;
+            ((EntityRec *)effect)->unk_50 = steps_left;
+            coord = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            if (coord < 0) {
+                coord += 0x3F;
+            }
+            if ((coord >> 6) == (s8) ((S_8182C800_1 *)owner)->unk_72.s) {
+                tile_y_coord = ((S_8182C800_5 *)motion)->unk_04.at02.v;
+                if (tile_y_coord < 0) {
+                    tile_y_coord += 0x3F;
+                }
+                if (((tile_y_coord >> 6) != (s8) ((S_8182C800_1 *)owner)->unk_73.s) || ((s16) steps_left >= 0)) {
+                    goto check_timeout;
+                }
+                goto arrive;
+            }
+check_timeout:
+            if ((s16) ((EntityRec *)effect)->unk_50 < -0x20) {
+arrive:
+                if (((S_8182C800_1 *)owner)->unk_60 == 0) {
+                    ((EntityRec *)effect)->z.w.i = 3;
+                    return;
+                }
+                hit_texture = (u8 *) &D_800DEB70;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_00 = hit_texture;
+                hit_tpage = ((S_8182C800_17 *)hit_texture)->unk_04;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_04 = 0;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_05 = 0;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = 0xC0C0C0;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_10 = 0x20;
+                ((S_8182C800_6 *)sprite_or_step_x)->unk_08 = hit_tpage;
+                target_tile = ((S_8182C800_1 *)owner)->unk_72.u;
+
+                ((S_8182C800_5 *)motion)->unk_00.at02.v = (s16) ((target_tile << 6) + 0x20);
+                target_tile_y = ((S_8182C800_1 *)owner)->unk_73.u;
+                ((S_8182C800_5 *)motion)->unk_14 = 0;
+                ((S_8182C800_5 *)motion)->unk_10 = 0;
+                ((S_8182C800_5 *)motion)->unk_0C = 0;
+                ((S_8182C800_5 *)motion)->unk_04.at02.v = (s16) ((target_tile_y << 6) + 0x20);
+                ((EntityRec *)effect)->z.w.i += 1;
+                return;
+            }
+        } else {
+            goto spawn_trail;
+        }
+        return;
+    case 2:
+        func_800478B8((void *) sprite_or_step_x);
+        if (((S_8182C800_6 *)sprite_or_step_x)->unk_14 & 0x6000) {
+            if (((S_8182C800_1 *)owner)->unk_60 != 0) {
+                func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
+                    (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
+                burst_count = 0x50;
+                do {
+                    object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                    if (object != NULL) {
+                        burst_sprite = ((S_8182C800_8 *)object)->unk_0C;
+                        ((S_8182C800_8 *)object)->unk_10 = &D_80024E98;
+                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_00 =
+                            (s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                                + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
+                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_04 =
+                            (s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                                + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xD));
+                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at00.v =
+                            (s32) (((S_8182C800_5 *)motion)->unk_08 + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xC));
+                        burst_motion_x = ((S_8182C800_8 *)object)->unk_08;
+                        burst_motion_x->unk_0C = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_00.at00.v
+                            - burst_motion_x->unk_00) >> 3);
+                        burst_motion_y = ((S_8182C800_8 *)object)->unk_08;
+                        burst_motion_y->unk_10 = (s32) ((s32) (((S_8182C800_5 *)motion)->unk_04.at00.v
+                            - burst_motion_y->unk_04) >> 3);
+                        ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 =
+                            (s32) (0 - ((func_80069EF8() & 0x3FF) << 9));
+                        burst_sprite->unk_1E = 0x800;
+                        burst_sprite->unk_1C = 0x800;
+                        burst_sprite->unk_10 = 0x20;
+                        burst_texture = D_800DEC28;
+                        burst_sprite->unk_00 = burst_texture;
+                        burst_sprite->unk_14 = (u16) (burst_sprite->unk_14 | 0xC);
+                        burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
+                        burst_sprite->unk_04 = 0;
+                        burst_sprite->unk_05 = 0;
+                        burst_sprite->unk_0C = 0x808080;
+                        burst_sprite->unk_08 = burst_tpage;
+                        ((S_8182C800_8 *)object)->unk_20 = effect;
+                        particle = object + 0x20;
+                        particle->unk_48 = (s16) (func_80069EF8() & 3);
+                    }
+                    burst_count -= 1;
+                } while (burst_count >= 0);
+            }
+            ((EntityRec *)effect)->z.w.i += 1;
+            return;
+        }
+        return;
+    case 3:
+        ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = (s32) (((S_8182C800_6 *)sprite_or_step_x)->unk_0C + 0xFFEFEFF0);
+        if ((u8) ((S_8182C800_6 *)sprite_or_step_x)->unk_0C == 0) {
+            ((EntityRec *)effect)->z.w.i += 1;
+            return;
+        }
+        return;
+    case 4:
+        effect_flags = ((EntityRec *)effect)->unk_0C;
+        if (effect_flags & 0x8000) {
+            ((EntityRec *)effect)->unk_0C = effect_flags & 0xFFFF7FFF;
+            return;
+        }
+        dungeonStatus.unk_0C = 0;
+        ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
+        ((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 =
+            (s32) (((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
         return;
     }
-    return;
-state_fade:
-    ((S_8182C800_6 *)sprite_or_step_x)->unk_0C = (s32) (((S_8182C800_6 *)sprite_or_step_x)->unk_0C + 0xFFEFEFF0);
-    if ((u8) ((S_8182C800_6 *)sprite_or_step_x)->unk_0C == 0) {
-        ((EntityRec *)effect)->z.w.i += 1;
-        return;
-    }
-    return;
-state_finish:
-    effect_flags = ((EntityRec *)effect)->unk_0C;
-    if (effect_flags & 0x8000) {
-        ((EntityRec *)effect)->unk_0C = effect_flags & 0xFFFF7FFF;
-        return;
-    }
-    dungeonStatus.unk_0C = 0;
-    ((S_8182C800_0_pre *)effect)[-1].unk_00 = (u16) (((S_8182C800_0_pre *)effect)[-1].unk_00 | 0x8000);
-    ((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 =
-        (s32) (((S_8182C800_22 *)((s32 *)(&objectFlagBlock)))->unk_00 | 0x8000);
-    return;
 }
