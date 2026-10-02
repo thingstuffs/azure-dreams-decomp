@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T11:04:19Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T11:05:36Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -103,12 +103,12 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 15 | 9 / 4 / 2 | 8 | 25 |
 | cdk cell + crutch flags, module is plain | 18 | 11 / 6 / 1 | 7 | 23 |
 | stock cell inside a cdk module | 6 | 5 / 1 / 0 | 1 | 16 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 21 | 5 / 11 / 5 | 5 | 11 |
-| **total** | **60** | | **21** | **75** |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 20 | 5 / 10 / 5 | 4 | 8 |
+| **total** | **59** | | **20** | **72** |
 
 SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 16 rows, 1 pinned / 1 pins.
 
-Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0); town/func_8080DAB8 3 pins (2.7.2 -> 2.6.3-G0); town/func_8080C650 3 pins (2.7.2-G0 -> 2.6.3-G0); main/func_8001AA50 3 pins (2.7.2-cdk-G0 -> 2.6.3-G0); dungeon/func_80E8D490 3 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_80094C70 3 pins (2.95.2-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8008A31C 3 pins (2.8.0-G0 -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0).
+Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0); town/func_8080DAB8 3 pins (2.7.2 -> 2.6.3-G0); main/func_8001AA50 3 pins (2.7.2-cdk-G0 -> 2.6.3-G0); dungeon/func_80E8D490 3 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_80094C70 3 pins (2.95.2-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8008A31C 3 pins (2.8.0-G0 -fno-rerun-cse-after-loop -> 2.7.2-cdk-G0); town/func_800A6420 2 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0).
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
