@@ -6,8 +6,8 @@ void func_80043D04(void)
     unsigned int source_value;
     struct SlotTransitionState *state;
 
-    source_value = D_8008148C.field0;
-    D_80081480.field0 = source_value;
+    source_value = D_8008148C;
+    D_80081480 = source_value;
     func_8003E2D8();
 
     state = &D_80082E60;

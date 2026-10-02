@@ -1,5 +1,5 @@
 #include "common.h"
-#include "shared/object_flags.h"
+extern int D_800814A0;
 
 typedef struct EffectState800517CC {
     void *parent;
@@ -225,5 +225,5 @@ check_trigger:
     ((ParentState800517CC *)effect->parent)->child10 = 0;
     ((ParentState800517CC *)effect->parent)->timer++;
     *(u16 *)((u8 *)effect - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
+    D_800814A0 |= 0x8000;
 }

@@ -7,8 +7,8 @@ struct SlotTransitionState {
     s32 field_0; s32 field_4; u8 pad8[3]; u8 field_B;
     u8 field_C; u8 field_D; u8 pad_E[0xA]; u8 field_18;
 };
-extern volatile SlotTransitionWords3 D_80081480;
-extern volatile SlotTransitionWords3 D_8008148C;
+extern volatile s32 D_80081480;
+extern volatile s32 D_8008148C;
 extern struct SlotTransitionState D_80082E60;
 extern s16 D_800814E8;
 extern u8 D_80082E6E[];
