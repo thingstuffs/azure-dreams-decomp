@@ -45,46 +45,23 @@ extern s32 D_80086D4C[3]; /* forced hi/lo via size > 8 */
 /* Resets the sound slot tables to their free defaults and restores the global counter. */
 void func_8005A26C(void)
 {
-    s32 slot_index;
-    S_80086A40 *slot;
-    S_800869C0 *slot_state;
-    S_80086C00 *sound_slot;
-    s16 unused_marker;
-    u8 default_volume;
-    u8 center_pan;
-    s16 free_id;
-    u16 default_level;
+    s32 i;
 
-    slot_index = 0;
-    unused_marker = -1;
-    default_volume = 0x7F;
-    center_pan = 0x40;
-    slot = D_80086A40;
-    do {
-        slot->marker = unused_marker;
-        slot->unk19 = default_volume;
-        slot->unk1A = default_volume;
-        slot->unk1B = center_pan;
-        slot_index++;
-        slot++;
-    } while (slot_index < 16);
+    for (i = 0; i < 16; i++) {
+        D_80086A40[i].marker = -1;
+        D_80086A40[i].unk19 = 0x7F;
+        D_80086A40[i].unk1A = 0x7F;
+        D_80086A40[i].unk1B = 0x40;
+    }
 
-    slot_index = 0;
-    free_id = -1;
-    default_level = 0x7F;
-    slot_state = D_800869C0;
-    sound_slot = D_80086C00;
-    do {
-        sound_slot->field_0 = free_id;
-        sound_slot->field_2 = 0;
-        sound_slot->field_A = default_level;
-        sound_slot->field_8 = default_level;
-        slot_state->unk04 = 0;
-        slot_state->unk00 = 0;
-        slot_state++;
-        slot_index++;
-        sound_slot++;
-    } while (slot_index < 16);
+    for (i = 0; i < 16; i++) {
+        D_80086C00[i].field_0 = -1;
+        D_80086C00[i].field_2 = 0;
+        D_80086C00[i].field_A = 0x7F;
+        D_80086C00[i].field_8 = 0x7F;
+        D_800869C0[i].unk04 = 0;
+        D_800869C0[i].unk00 = 0;
+    }
 
     D_80086D4C[0] = 0x1000;
 }

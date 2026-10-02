@@ -16,11 +16,9 @@ extern s32 func_80047BC0(s32 arg0);
 /* Clear flag bit 0 in the slot matching slot_id and return 1 if found, else 0. */
 s32 func_80048224(s16 slot_id) {
     s32 slot_index = func_80047BC0(slot_id);
-    S_80048224 *slot;
 
     if (slot_index != -1) {
-        slot = &D_80083D08[slot_index];
-        slot->flags4 &= ~1;
+        D_80083D08[slot_index].flags4 &= ~1;
         return 1;
     }
     return 0;

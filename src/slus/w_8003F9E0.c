@@ -12,10 +12,8 @@ extern s32 func_8003F80C(s32 a0, s32 a1, s32 a2, s32 a3);
 
 /* Uploads and caches VRAM strips until an entry with a zero source address is reached. */
 void func_8003F9E0(S_8003F9E0 *entries) {
-    S_8003F9E0 *entry = entries;
-
-    while (entry->f0) {
-        func_8003F80C(entry->f0, entry->f4, entry->f6, 0);
-        entry++;
+    while (entries->f0) {
+        func_8003F80C(entries->f0, entries->f4, entries->f6, 0);
+        entries++;
     }
 }

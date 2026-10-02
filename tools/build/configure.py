@@ -209,7 +209,7 @@ CC_VER = {
     "src/w_8003CAC4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800481E0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80049330.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_8004B2E0.c": ("2.7.2", "-G0 -fno-schedule-insns"),
+    "src/w_8004B2E0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_8004CAE8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004EBDC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004F5B0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -218,7 +218,7 @@ CC_VER = {
     "src/w_80057A50.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800587B4.c": ("2.7.2-cdk", ""),
     "src/w_80058B2C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_80059D1C.c": ("2.8.1", ""),
+    "src/w_80059D1C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_8003F320.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004AE68.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80041AB0.c": ("2.7.2", ""),
@@ -389,7 +389,7 @@ CC_VER = {
     "src/w_8005EB78.c": ("2.7.2", ""),
     "src/w_8005EC40.c": ("2.7.2", ""),
     "src/w_8005ECF8.c": ("2.7.2", ""),
-    "src/w_8003F9E0.c": ("2.7.2", "-G0 -fno-schedule-insns"),
+    "src/w_8003F9E0.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_8004846C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_800483AC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004A10C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -469,7 +469,7 @@ CC_VER = {
     "src/w_80051BFC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_8005AFF4.c": ("2.7.2-cdk", ""),
     "src/w_8005AF74.c": ("2.7.2-cdk", ""),
-    "src/w_8005A26C.c": ("2.7.2-cdk", "-O1"),
+    "src/w_8005A26C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_800599B0.c": ("2.7.2-cdk", "-G0 -fno-strength-reduce"),
     "src/w_80059F8C.c": ("2.7.2-cdk", "-G0"),
     "src/w_8005A608.c": ("2.7.2-cdk", "-fno-cse-follow-jumps"),
@@ -505,7 +505,7 @@ CC_VER = {
     "src/w_800558FC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (decl): retail-proven splitting recipe
     "src/w_8005DF80.c": ("2.6.3", "-G0"),
     "src/w_8003F2A4.c": ("2.6.3", "-fno-schedule-insns"),
-    "src/w_80048224.c": ("2.7.2", ""),
+    "src/w_80048224.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_8005D598.c": ("2.7.2", ""),
     "src/w_8004AB7C.c": ("2.7.2", ""),
     "src/w_8004D91C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -579,7 +579,7 @@ CC_VER = {
     "src/w_80048E00.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8003F80C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80041900.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
-    "src/w_800557C8.c": ("2.8.1", ""),
+    "src/w_800557C8.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_80053374.c": ("2.7.2-cdk", ""),
     "src/w_8003DF74.c": ("2.7.2-cdk", ""),
     "src/w_8004713C.c": ("2.7.2", ""),
@@ -686,12 +686,12 @@ CC_VER = {
     "src/w_8004AC3C.c": ("2.7.2-cdk", ""),
     "src/w_800589B8.c": ("2.7.2-cdk", ""),
     "src/w_800492B0.c": ("2.7.2-cdk", ""),
-    "src/w_80042900.c": ("2.7.2", ""),
+    "src/w_80042900.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_80043458.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc1): retail-proven splitting recipe
     "src/w_8004A24C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_80058E6C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83sn4): retail-proven splitting recipe
     "src/w_80057948.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83sn5): retail-proven splitting recipe
-    "src/w_80051548.c": ("2.7.2-cdk", "-O1 -fschedule-insns2"),
+    "src/w_80051548.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/w_80051F58.c": ("2.7.2-cdk", ""),
     "src/w_80052144.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_80052774.c": ("2.7.2-cdk", ""),
@@ -919,7 +919,7 @@ CC_VER = {
     "src/konami_runtime_w_8003AA84.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80039258.c": ("2.7.2", ""),
     "src/konami_runtime_w_8003A29C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/konami_runtime_w_8003BD34.c": ("2.7.2-cdk", "-O1"),
+    "src/konami_runtime_w_8003BD34.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl2): retail-proven splitting recipe
     "src/konami_runtime_w_80033AA8.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80033AE8.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80033B2C.c": ("2.7.2-cdk", ""),
