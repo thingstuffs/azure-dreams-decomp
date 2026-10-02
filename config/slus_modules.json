@@ -1652,7 +1652,7 @@
       "name": "cd_command_state",
       "recipe": {
         "asflags": "",
-        "ccflags": "-G32",
+        "ccflags": "",
         "ccver": "2.7.2-cdk"
       },
       "source": "src/cd_command_state_owned.c"

@@ -14,10 +14,8 @@ typedef struct S_80083164 {
 extern void *jtbl_8002D5C0[];
 
 extern u8  D_800814D1[1];    /* Observed tail-index byte view; no storage ownership. */
-    /* driver state byte: %hi/%lo; head via [-3] */
-extern u8  D_800814D8[16];    /* %hi/%lo CdReadSync buffer */
-extern u8  D_80081438[0x20];  /* neighbour: &D_80081438[0x18]==&D_80081450 (%hi/%lo) */
-extern u32 D_80081480[8];     /* %hi/%lo */
+extern u8  D_800814D8[8];     /* CdReadSync buffer (retail extent 8: small data at -G8) */
+extern u32 D_80081480[1];     /* retail extent 5: small data at -G8 */
 extern S_80083164 D_80083164[];
 
 extern int  CdSync(int mode, u8 *result);
@@ -49,7 +47,7 @@ extern u8  D_800814D2[1];
 extern u8  D_800814D2_P[1] __asm__("D_800814D2");
 extern u8  D_800814D2_R[1] __asm__("D_800814D2");
 
-#define CDBUF (&D_80081438[0x18])   /* == &D_80081450, %hi/%lo addressing */
+#define CDBUF (D_80081450.bytes)
 
 /* Processes queued CD commands and advances pending reads and drive operations. */
 void func_8003E758(void)
