@@ -27,7 +27,7 @@ typedef struct S_func_819BFF10_3 {
 extern s32 func_80024AE8();
 
 /* Mark and process entries at the given coordinates with thresholds in the specified range. */
-void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bound) {
+void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s16 lower_bound) {
     s32 match_x = x;
     s32 match_y = y;
     s32 upper_limit;
@@ -47,7 +47,7 @@ void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bou
     list_head = list_link;
     if (list_link != head) {
         upper_limit = (s16)upper_bound;
-        lower_limit = (s16)lower_bound;
+        lower_limit = lower_bound;
         entry = (void *)list_head - 0x20;
         do {
             void *next_entry;

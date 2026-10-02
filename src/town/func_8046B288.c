@@ -3,20 +3,14 @@
 extern s32 D_8001E954[];
 extern s32 func_8001C5CC(void);
 
-/* Return 0 when inactive, or 1 or 2 according to the check result. */
 s32 func_8001C288(void) {
     s32 value;
-
-    if (D_8001E954[0] != 0) {
-        value = func_8001C5CC();
-        if (value == 0) {
-            return 1;
-        }
+    if (D_8001E954[0] == 0) {
+        return 0;
+    }
+    value = func_8001C5CC();
+    if (value != 0) {
         return 2;
     }
-    return 0;
+    return 1;
 }
-
-/* MECHANISM: The rowbase jump to 0x8001C2BC is the local return join, not a callee.
-   A named call-result local induces the retail v0-to-v1 copy before its test;
-   an explicit zero-result arm selects the retail branch polarity and delay slots. */
