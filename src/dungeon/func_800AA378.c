@@ -1,7 +1,7 @@
 #include "common.h"
 
 typedef struct {
-    s16 field_0;
+    u16 field_0;
     s16 state;
     s16 field_4;
     u16 field_6;
@@ -15,8 +15,8 @@ void func_800AFAD8(Obj *obj)
 {
     s16 state;
     s16 phase;
-    u16 offset;
-    u16 tick;
+    s32 offset;
+    s32 tick;
 
     state = obj->state;
     switch (state) {
@@ -42,7 +42,7 @@ void func_800AFAD8(Obj *obj)
         return;
     case 3:
         obj->field_6 += 8;
-        phase = (func_800644B8(obj->field_0 << 5) >> 1) + 0xC00;
+        phase = (func_800644B8((s16)obj->field_0 << 5) >> 1) + 0xC00;
         obj->field_0++;
         obj->field_8 = phase % 0x1C00;
         return;
