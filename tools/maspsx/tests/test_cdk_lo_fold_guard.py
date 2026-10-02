@@ -59,7 +59,9 @@ class TestCdkLoFoldGuard(unittest.TestCase):
     def test_cli_guard_only_on_cdk_output(self):
         cdk = [CDK_BANNER, "\t.text"] + BODY
         other = ["\t.text"] + BODY
-        self.assertIn("%lo(SYM+2)", self._run(cdk))                              # default: fold as before
+        self.assertNotIn("%lo(SYM+2)", self._run(cdk))                           # default: guard active
+        self.assertIn("%lo(SYM+2)", self._run(cdk, "--cdk-lo-fold"))              # opt back in
+        self.assertIn("%lo(SYM+2)", self._run(cdk, env_value="0"))
         self.assertNotIn("%lo(SYM+2)", self._run(cdk, "--no-cdk-lo-fold"))
         self.assertNotIn("%lo(SYM+2)", self._run(cdk, env_value="1"))
         self.assertIn("%lo(SYM+2)", self._run(other, "--no-cdk-lo-fold"))        # non-cdk cells untouched
