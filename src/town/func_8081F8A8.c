@@ -26,101 +26,55 @@ M2C_UNK func_800644B8();
 /* Update motion through approach, oscillation, and withdrawal, flagging completion. */
 void func_800220A8(void *motion_state, void *motion) {
     s16 state;
-    s32 phase_two;
 
-    phase_two = 2;
-    if (((S_800220A8_2 *)(((S_800220A8_0 *)motion_state)->unk_04))->unk_18 == phase_two) {
+    if (((S_800220A8_2 *)(((S_800220A8_0 *)motion_state)->unk_04))->unk_18 == 2) {
         ((S_800220A8_0 *)motion_state)->unk_00 = 3;
     }
     state = ((S_800220A8_0 *)motion_state)->unk_00;
-    if (state != phase_two) {
-        if (state < 3) {
-            if (state != 0) {
-                if (state == 1) {
-                    goto accelerate;
-                }
-                return;
-            }
-            goto approach;
+    switch (state) {
+    case 0:
+        if ((((S_800220A8_1 *)motion)->unk_08 += 0x100000) < (s32)0xFF900000) {
+            return;
         }
-        if (state != 3) {
-            if (state != 0xF0) {
-                return;
-            }
-            goto oscillate;
-        }
-        goto withdraw;
-    }
-    goto decelerate;
-
-approach:
-    if ((((S_800220A8_1 *)motion)->unk_08 += 0x100000) < (s32)0xFF900000) {
+        ((S_800220A8_0 *)motion_state)->unk_02 = 0;
+        ((S_800220A8_1 *)motion)->unk_14 = -0x40000;
+        ((S_800220A8_0 *)motion_state)->unk_00 = 1;
         return;
-    }
-    ((S_800220A8_0 *)motion_state)->unk_02 = 0;
-    ((S_800220A8_1 *)motion)->unk_14 = -0x40000;
-    ((S_800220A8_0 *)motion_state)->unk_00 = 1;
-    return;
-
-accelerate:
-    {
+    case 1:
         ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
         ((S_800220A8_1 *)motion)->unk_14 += 0x4000;
         if (((S_800220A8_1 *)motion)->unk_14 != 0x40000) {
             return;
         }
-        ((S_800220A8_0 *)motion_state)->unk_00 = phase_two;
+        ((S_800220A8_0 *)motion_state)->unk_00 = 2;
         return;
-    }
-
-decelerate:
-    {
+    case 2:
         ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
         ((S_800220A8_1 *)motion)->unk_14 -= 0x8000;
         if (((S_800220A8_1 *)motion)->unk_14 != -0x40000) {
             return;
         }
-    }
-
-start_acceleration:
-    ((S_800220A8_0 *)motion_state)->unk_00 = 1;
-    return;
-
-oscillate:
-    {
+        ((S_800220A8_0 *)motion_state)->unk_00 = 1;
+        return;
+    case 0xF0: {
         u16 phase;
         s32 position;
-        s32 base_position;
-
         phase = (((S_800220A8_0 *)motion_state)->unk_02 + 1) & 0x7F;
         ((S_800220A8_0 *)motion_state)->unk_02 = phase;
-        position = func_800644B8(phase << 6, phase_two, motion_state);
-        position <<= 7;
-        base_position = (s32)0xFF900000;
-        position += base_position;
-        ((S_800220A8_1 *)motion)->unk_08 = position;
+        ((S_800220A8_1 *)motion)->unk_08 = (func_800644B8(phase << 6) << 7) - 0x700000;
         return;
     }
-
-withdraw:
-    {
-        s32 position_or_flags;
-        s32 position_or_flags_2;
-        s32 exit_check;
-
-        position_or_flags_2 = ((S_800220A8_1 *)motion)->unk_08;
-        exit_check = (s32)0xFFF00000;
-        position_or_flags_2 += exit_check;
-        exit_check = (s32)0xFE000000;
-        exit_check = exit_check < position_or_flags_2;
-        ((S_800220A8_1 *)motion)->unk_08 = position_or_flags_2;
-        if (exit_check != 0) {
+    case 3: {
+        s32 position;
+        position = ((S_800220A8_1 *)motion)->unk_08;
+        position += (s32)0xFFF00000;
+        ((S_800220A8_1 *)motion)->unk_08 = position;
+        if ((s32)0xFE000000 < position) {
             return;
         }
         (*(u16 *)((u8 *)motion_state + -2)) |= 0x8000;
-        position_or_flags = objectFlagBlock.flags;
-        position_or_flags |= 0x8000;
-        objectFlagBlock.flags = position_or_flags;
+        objectFlagBlock.flags |= 0x8000;
         return;
+    }
     }
 }

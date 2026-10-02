@@ -39,11 +39,11 @@ void func_80024A34(void *object, Rec_func_80024600_arg1 *position, Rec_D_80082E8
     node_slot = (void **)object;
     do {
         if ((node = node_slot[5]) != NULL) {
-            u16 node_flags;
+            u32 node_flags;
             s32 global_flags;
             node_flags = node->unk_1E;
             global_flags = flags_base[0x528];
-            node_flags = (u16)(node_flags | 0x8000);
+            node_flags |= 0x8000;
             global_flags = global_flags | 0x8000;
             node->unk_1E = node_flags;
             flags_base[0x528] = global_flags;

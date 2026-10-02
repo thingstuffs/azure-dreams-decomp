@@ -18,7 +18,7 @@ void func_800B2964(M2C_UNK *entries, s32 entry_count) {
     output = entries;
     entry_index = 0;
     if (entry_count > 0) {
-        entry = D_80011F80;
+        entry = (s8 *)0x80011F80;
         do {
             if (((S_800B2964_0 *)entry)->unk_01 != 0) {
                 *output = (M2C_UNK) entry;
