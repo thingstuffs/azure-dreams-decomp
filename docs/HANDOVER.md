@@ -1,4 +1,27 @@
-# Handover (2026-10-02 ~15:00, round 86 end of day; no lanes running) - start here
+# Handover (2026-10-02, round 87 single-row pickup) - start here
+
+**403 pins / 161 rows** (404 / 161 at pickup).
+
+- Picked the first next-pool row, `dungeon/func_800AFA68`: **10 -> 9**, exact at its
+  existing `2.7.2-cdk-G0` recipe. Removed the rotation-matrix `$22` register pin;
+  the existing entry memory keep now uses `view_matrix` instead of `transform_flags`.
+  This is a recorded pin trade, not a pure-C solve. The old keep's allocation effect
+  was what required the rotation pin. No new pin statement or compiler change.
+- Validation: independent row verifier exact; both NON_MATCHING builds produce
+  identical assembly; t2 noop; **dungeon_engine 393,216-byte window MATCH**;
+  **SLUS SHA-1 MATCH**. Fresh single/pair erasures found no further exact removal.
+- Evidence: `docs/evidence/r87_800AFA68_pin_trade.md`. Lane:
+  `work/native_lane/r87_sol_800AFA68` (34 variants, REPORT_TABLE.md, candidates,
+  compiler dumps under ignored scratch/, landing.log).
+- Remaining 800AFA68 leads: the 8-pin entry-HIGH candidate still has total 2;
+  typed scratch members reduce the scratch-pair erasure's listing residue from
+  38 to 16 (byte total 16). Neither is ready to land; both start from the old text.
+  The nine surviving pins remain unresolved.
+
+**Next:** continue the round-86 first-touch pool, e.g. `80095160` (5 pins), or use
+the evidence note for a focused 800AFA68 follow-up. No worker lanes were launched.
+
+# Handover (2026-10-02 ~15:00, round 86 end of day; no lanes running)
 
 **404 pins / 161 rows** (527 / 175 this morning).
 - CPU sweep 2: -6 (bbc824854).

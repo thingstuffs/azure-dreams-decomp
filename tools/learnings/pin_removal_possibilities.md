@@ -649,3 +649,16 @@ These rules took 8180E7F4 from 11 pins to 0 and 802835B8 from 13 to 1:
   unsized = split lui. Pick the extent retail's addressing implies (r86 sl1-sl3, decl).
 - **maspsx _fold_selfinc_la** makes w_8004A6C0's loop shape (HIGH-only base, %lo folded into the loads) and can never
   fire under cdk sized externs: belongs to the maspsx imitation-pass retirement (like the lo-fold), not to C.
+
+### Entry memory pin can cause a separate allocation pin (r87, 2026-10-02)
+
+Measured on dungeon/func_800AFA68 only, at `2.7.2-cdk-G0`: the entry
+`ASM_KEEP_MEM_NV(transform_flags, gameWork-memory)` keeps a symbol HIGH early, but its
+tied register also raises the flags variable's allocation priority. Erasing the
+rotation-matrix REG pin alone swaps s6/s7 (byte total 16); erasing both pins gives
+total 2, solely the HIGH order. Retaining the same memory operand at the same site
+with `view_matrix` as its carrier is exact with 9 pins instead of 10. This is a
+tracked pin trade, not ordinary C or two removals. A keep on `rotation_matrix`
+instead swaps s5/s6 and is not exact. Before treating a REG pin as independent,
+check whether a neighboring memory pin caused its allocation requirement.
+Evidence and remaining pure-C routes: `docs/evidence/r87_800AFA68_pin_trade.md`.
