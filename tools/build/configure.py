@@ -237,7 +237,7 @@ CC_VER = {
     "src/w_80048FBC.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8004E928.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80049150.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/w_8004B42C.c": ("2.7.2-cdk", "-G0 -fno-schedule-insns"),  # fidelity step 4 (cdk211): retail-proven splitting recipe
+    "src/w_8004B42C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_8004DC14.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80048EE4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
     "src/w_80049004.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
@@ -494,7 +494,7 @@ CC_VER = {
     "src/w_80043674.c": ("2.7.2-cdk", ""),
     "src/w_80045C34.c": ("2.7.2-cdk", ""),
     "src/w_80045340.c": ("2.7.2-cdk", ""),  # fidelity step 4 (gp_81510): retail-proven splitting recipe
-    "src/w_8004A030.c": ("2.7.2-cdk", "-fno-schedule-insns"),
+    "src/w_8004A030.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_8003E240.c": ("2.91.66", "-G0"),
     "src/w_800418B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_80047F90.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
@@ -578,7 +578,7 @@ CC_VER = {
     "src/w_80043B4C.c": ("2.7.2-cdk", ""),
     "src/w_80048E00.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/w_8003F80C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (cdk211): retail-proven splitting recipe
-    "src/w_80041900.c": ("2.8.1", "-G0"),
+    "src/w_80041900.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_800557C8.c": ("2.8.1", ""),
     "src/w_80053374.c": ("2.7.2-cdk", ""),
     "src/w_8003DF74.c": ("2.7.2-cdk", ""),
@@ -688,7 +688,7 @@ CC_VER = {
     "src/w_800492B0.c": ("2.7.2-cdk", ""),
     "src/w_80042900.c": ("2.7.2", ""),
     "src/w_80043458.c": ("2.7.2-cdk", ""),  # fidelity step 4 (sc1): retail-proven splitting recipe
-    "src/w_8004A24C.c": ("2.7.2", ""),
+    "src/w_8004A24C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_80058E6C.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83sn4): retail-proven splitting recipe
     "src/w_80057948.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r83sn5): retail-proven splitting recipe
     "src/w_80051548.c": ("2.7.2-cdk", "-O1 -fschedule-insns2"),
@@ -734,7 +734,7 @@ CC_VER = {
     "src/w_8005D124.c": ("2.7.2", "-G0"),
     "src/w_8005D064.c": ("2.7.2", "-G0"),
     "src/w_8003FAD4.c": ("2.7.2", ""),
-    "src/w_80040C08.c": ("2.7.2-cdk", "-fno-schedule-insns -G16"),
+    "src/w_80040C08.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/w_80046E38.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r80s1): retail-proven splitting recipe
     "src/w_8003E4FC.c": ("2.7.2-cdk", ""),
     "src/w_80046884.c": ("2.7.2-cdk", ""),
@@ -936,7 +936,7 @@ CC_VER = {
     "src/konami_runtime_w_80039F80.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_8003A4B4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_8003A500.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
-    "src/konami_runtime_w_8003AF94.c": ("2.7.2", ""),
+    "src/konami_runtime_w_8003AF94.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86sonnetsl3): retail-proven splitting recipe
     "src/konami_runtime_w_80036ED4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
     "src/konami_runtime_w_80037030.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_8003A9E4.c": ("2.7.2-cdk", ""),  # fidelity step 4 (r86slus): retail-proven splitting recipe
