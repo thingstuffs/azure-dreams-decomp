@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-02T06:14:58Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-02T06:16:15Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -82,7 +82,7 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | any fidelity site | 2654 | 1,286,064 | 50.3% | 1777 | 959,904 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 122 | 106,264 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 208 | 146,396 | 5.7% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 207 | 146,292 | 5.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3038 | 1,566,096 | 61.2% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5317 | 1,523,212 | 59.6% |
@@ -101,10 +101,10 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | class | rows | dungeon / town / main | pinned rows | pins |
 |---|---:|---|---:|---:|
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 32 | 25 / 5 / 2 | 14 | 59 |
-| cdk cell + crutch flags, module is plain | 23 | 15 / 7 / 1 | 10 | 28 |
+| cdk cell + crutch flags, module is plain | 22 | 15 / 6 / 1 | 10 | 28 |
 | stock cell inside a cdk module | 12 | 5 / 5 / 2 | 2 | 24 |
 | other mismatch with the module recipe (-G, stock flavour, -O1) | 201 | 108 / 40 / 53 | 14 | 35 |
-| **total** | **268** | | **40** | **146** |
+| **total** | **267** | | **40** | **146** |
 
 Most-pinned rows off their build recipe: dungeon/func_800C4A80 16 pins (2.7.2-G0 -fno-expensive-optimizations -fno-cse-follow-jumps -> 2.7.2-cdk-G0); dungeon/func_8187A9A8 13 pins (2.8.1-G0 -> 2.7.2-cdk-G0); dungeon/func_800AFA68 10 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); town/func_800ABBF8 8 pins (2.7.2-G0 -fno-expensive-optimizations -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_81876014 7 pins (2.7.2-cdk-G0 -fno-schedule-insns -> 2.7.2-cdk-G0); dungeon/func_8009F018 7 pins (2.7.2-cdk-G0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_800969CC 7 pins (2.8.0 -fno-cse-skip-blocks -> 2.7.2-cdk-G0); town/func_800BAE88 6 pins (2.91.66-G0 -fno-gcse -> 2.7.2-cdk-G0); dungeon/func_80DE48EC 5 pins (2.8.0-G0 -> 2.7.2-cdk-G0); dungeon/func_80A20A28 5 pins (2.7.2-cdk-G0 -> 2.7.2-cdk); dungeon/func_800BFE94 5 pins (2.8.0 -fno-expensive-optimizations -> 2.7.2-cdk-G0); dungeon/func_8180A990 4 pins (2.7.2-cdk-G0 -fno-cse-follow-jumps -> 2.7.2-cdk-G0).
 
