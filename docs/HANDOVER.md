@@ -1,3 +1,36 @@
+# Handover (2026-10-02 ~11:45, round 86 reconciliation pass + crutch lanes landed; no lanes running) - start here
+
+**422 pins / 165 rows** (527 / 175 at this morning's pickup).
+
+**Incorrect-compiler tracker:** 58 overlay rows (19 pinned / 69 pins); 14 SLUS rows off their region build (59 this morning).
+
+**Reconciliation landed:**
+- configure.py CC_VER override blocks folded.
+- land_recipe_move.py --slus-region-b (sound TU -> stock 2.7.2, 11 rows).
+- cd_command_state -G32 module (7 rows).
+- 14 SLUS modules (23 rows) via work/native_lane/_r86/land_slus_module.py (the module lander: slus_modules.json recipe + CC_VER + slus.build.ninja / slus.jsonl / rows re-derived, SLUS gate or full restore).
+- Module census refreshed (r86_opus_census: per image run / object direction counts, tie_with, 3 -O1 copies -> town_o1_misc.c, tracker honours ties) + 72 byte-neutral census switches.
+- maspsx _fold_selfinc_la retired (switch + default OFF; 2 slus consumers to cdk; 8001AA50 3->0 at its stock 2.6.3-G0).
+
+**Pins landed this stretch:**
+- 800ABBF8 8->0.
+- 80B471EC 4->0 (loop.c movable order).
+- 8197C800 3->1.
+- 8001AA50 3->0.
+- 8080C650 crutch retired.
+
+**Rules in briefs:** structured_loops gains movable order; dslot; param_priority; crutch_flags.
+
+**Queued** (_landq/handover_todo.txt):
+- Delete the _fold_selfinc_la code (and lo-fold once its last consumers port).
+- prefs.py 2.6.3 support.
+- The pre-existing maspsx hash test note.
+
+**Next:**
+- 19 pinned off-recipe rows: 800C4A80 16, 81876014 7, 8009F018 7 (0p t9), 800969CC 7 (needs big-row lane), 80DE48EC 5, 8180A990 4, ...
+- Remaining near-misses: 800C4A80 t2, 800A1AD4 t11, 8008A31C t13, 800CDFD8 t13.
+- 14 SLUS rows (sched ties, two big rows).
+
 # Handover (2026-10-02 ~11:45, round 86 waves 2-3 landed; no lanes running) - start here
 
 **439 pins / 168 rows** (527 / 175 at the round-86 pickup this morning).
