@@ -35,3 +35,20 @@ global allocno. It stays in v1 and the result regains v0: 4 -> 3 pins, exact.
 Use `alloc_need.py` to establish the local/global conflict first. Merely
 changing final return syntax or increasing a global's priority cannot
 displace a register already occupied by local allocation.
+
+## Check the role that would lose the newly requested register
+
+Same row and recipe, r90: `docs/evidence/r90_80095160_coupled_centers.md`.
+An apparent three-register rotation can depend on a fourth, currently
+correct role. Center-Y needs to precede direction and body height, but
+raising Y alone takes s0 from the X center. An exact global.c preference
+replay, checked against cc1 on all 24 allocnos, restores the desired roles
+only when X center precedes Y center and both move ahead of direction.
+
+Do not treat an inverse tool's reference-count threshold as a sufficient
+source fix. Replay the entire proposed order and inspect collateral
+changes, including formerly correct values and spills. Then verify the
+source still produces the assumed conflicts and post-sched1 live lengths.
+On this shape, earlier height-delta preparation did not change the center's
+18-instruction lifetime; map/center union sharing was undone by CSE. No
+additional exact removal was found in that pass.

@@ -1,4 +1,29 @@
-# Handover (2026-10-02, round 89 rubber-duck follow-up) - start here
+# Handover (2026-10-02, round 90 coupled-center diagnosis) - start here
+
+**401 pins / 161 rows**, unchanged. `dungeon/func_80095160` still has three
+pins; no exact reduction in 22 scored variants. Production source unchanged.
+
+- Important correction to r89: raising center-Y's priority alone steals
+  the X center's s0 and disrupts allocation. **Both centers must be ordered
+  X before Y, ahead of direction**, preserving the table-offset register.
+  An exact preference replay checked against cc1 reproduces 24/24 decisions;
+  moving both centers restores only the three desired register roles.
+  This is a diagnostic result, not a compiled C solution.
+- Map/center union sharing is split by CSE; scalar sharing changes early
+  registers. Moving center-Y after height-delta preparation does not shorten
+  its post-sched1 lifetime. Sharing X center with the Y work variable raises
+  X correctly but leaves Y wrong and changes scheduling (total 14).
+- Best inherited leads remain center total **12** and tile total **3**.
+  The latter's extra mask cannot simply be removed by widening: that restores
+  the wrong scheduling. New three-pin traces confirm the earlier boost/tie
+  diagnosis. No additional pin, dummy use, or compiler recipe was introduced.
+- Evidence and next C-rebuild constraint:
+  `docs/evidence/r90_80095160_coupled_centers.md`. Lane:
+  `work/native_lane/r90_sol_80095160`, including `replay_center.py`, ignored
+  pass dumps, candidates, and `REPORT_TABLE.md`. Start from the landed
+  **three-pin** source. No agents/background lanes were launched.
+
+# Handover (2026-10-02, round 89 rubber-duck follow-up)
 
 **401 pins / 161 rows** (402 / 161 at pickup).
 
