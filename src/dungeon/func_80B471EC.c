@@ -184,14 +184,11 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
     s32 coordinate;
     u32 scale;
-    register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 state_m ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 y_coordinate;
+    s32 state_m;
     s16 vertices[10][6][3];
-    s16 *volatile opening_angles;
-    s16 *volatile closing_angles;
     register void *object_origin;
     M2C_UNK *line_data;
-    s16 *angle_or_vertices;
     s16 *closing_angle;
     s16 next_angle_index;
     s16 next_meridian;
@@ -207,7 +204,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s16 phase;
     s16 meridian;
     s16 ring_sector;
-    register s16 sector ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 sector;
     s16 ring;
     s16 ring_index;
     s16 next_segment;
@@ -243,113 +240,65 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     void *ring_origin;
     register M2C_UNK *ring_data;
 
-    (void)&effect;
+
     object_origin = origin;
     phase = ((S_801749EC_0 *)effect)->unk_06;
     if (phase != 1) {
-        meridian = 0;
         if (phase < 2) {
-            if (phase == 0) {
-                s16 *angle_base;
-                s32 angle_limit;
-                scale = 0x1E;
-                ring_index = 1;
-                state_m = (s32) *(void *volatile *)&effect;
-                angle_base = ring_angles;
-                angle_limit = 0x400;
-                ring_angles[0] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
-                do {
-                    opening_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
-                    opening_angle = ((S_801749EC_2_pre *)opening_angle_slot)[-1].unk_00 + 0xCC;
-                    ((S_801749EC_2 *)opening_angle_slot)->unk_00 = opening_angle;
-                    if (opening_angle >= 0x401) {
-                        ((S_801749EC_2 *)opening_angle_slot)->unk_00 = angle_limit;
-                    }
-                    next_angle_index = ring_index + 1;
-                    ring_index = next_angle_index;
-                } while (next_angle_index < 0xA);
-                ring_index = 0;
-                state_m = (s32) ring_angles;
-                opening_angles = (void *) state_m;
-                radius = scale;
-loop_1:
-                {
-                    sector = 0;
-                    ring_index_shifted = ring_index << 0x10;
-                    signed_ring_index = ring_index_shifted >> 0x10;
-                    state_m = (s32) opening_angles;
-                    {
-                        coordinate = signed_ring_index << 1;
-                        angle_or_vertices = (s16 *) (coordinate + state_m);
-                    }
-opening_sector_loop:
-                    opening_sector_radius = sector << 0x10;
-                    state_m = radius * func_800644B8(*angle_or_vertices);
-                    opening_sector_radius >>= 0x10;
-                    vertex_offset = (opening_sector_radius * 6) + (signed_ring_index * 0x24);
-                    opening_vertex = (s8 *)vertices + vertex_offset;
-                    {
-                        coordinate = state_m >> 0xC;
-                        ((S_801749EC_3 *)opening_vertex)->unk_04 = (s16) coordinate;
-                    }
-                    opening_azimuth = opening_sector_radius << 2;
-                    state_m = radius * func_80064584(*angle_or_vertices);
-                    opening_azimuth += opening_sector_radius;
-                    opening_azimuth += opening_azimuth << 4;
-                    opening_azimuth <<= 2;
-                    opening_azimuth += opening_sector_radius;
-                    opening_azimuth <<= 1;
-                    opening_sector_radius = state_m >> 0xC;
-                    state_m = (s16) opening_sector_radius * func_80064584(opening_azimuth);
-                    {
-                        coordinate = state_m >> 0xC;
-                        ((S_801749EC_3 *)opening_vertex)->unk_00 = (s16) coordinate;
-                    }
-                    next_opening_sector = sector + 1;
-                    sector = next_opening_sector;
-                    state_m = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
-                    {
-                        y_coordinate = state_m >> 0xC;
-                        ((S_801749EC_3 *)opening_vertex)->unk_02 = (s16) y_coordinate;
-                    }
-                    if (next_opening_sector < 6) {
-                        goto opening_sector_loop;
-                    }
-                    next_opening_ring = ring_index + 1;
-                    ring_index = next_opening_ring;
-                }
-                if (next_opening_ring < 0xA)
-                    goto loop_1;
-                state_m = (s32) *(void **)&effect;
-                opening_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
-                ((S_801749EC_1 *)state_m)->unk_0C = opening_progress;
-                if ((s16) opening_progress >= 0x800) {
-                    ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
-                }
-                meridian = 0;
-                state_m = (s32) *(void **)&effect;
-                if (((S_801749EC_1 *)state_m)->unk_08 < 0x16) {
-                    old_phase = ((S_801749EC_1 *)state_m)->unk_06;
-                    ((S_801749EC_1 *)state_m)->unk_0C = 0U;
-                    ((S_801749EC_1 *)state_m)->unk_06 = old_phase + 1;
-                    goto select_line_data;
-                }
-                goto select_line_data;
+        if (phase == 0) {
+        s16 *angle_base;
+        s32 angle_limit;
+        scale = 0x1E;
+        ring_index = 1;
+        angle_base = ring_angles;
+        angle_limit = 0x400;
+        ring_angles[0] = (0 - ((S_801749EC_1 *)effect)->unk_0C) + 0x400;
+        do {
+            opening_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
+            opening_angle = ((S_801749EC_2_pre *)opening_angle_slot)[-1].unk_00 + 0xCC;
+            ((S_801749EC_2 *)opening_angle_slot)->unk_00 = opening_angle;
+            if (opening_angle >= 0x401) {
+                ((S_801749EC_2 *)opening_angle_slot)->unk_00 = angle_limit;
             }
-            line_data = &D_801749A8;
-            goto build_lines;
+            next_angle_index = ring_index + 1;
+            ring_index = next_angle_index;
+        } while (next_angle_index < 0xA);
+        for (ring_index = 0; ring_index < 10; ring_index++) {
+            for (sector = 0; sector < 6; sector++) {
+                coordinate = func_800644B8(ring_angles[ring_index]);
+                radius = scale;
+                state_m = radius * coordinate;
+                vertices[ring_index][sector][2] = state_m >> 0xC;
+                state_m = radius * func_80064584(ring_angles[ring_index]);
+                opening_azimuth = sector * 682;
+                opening_sector_radius = state_m >> 0xC;
+                state_m = (s16) opening_sector_radius * func_80064584(opening_azimuth);
+                vertices[ring_index][sector][0] = state_m >> 0xC;
+                state_m = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
+                vertices[ring_index][sector][1] = state_m >> 0xC;
+            }
         }
-        goto select_line_data;
-    }
-    {
+        opening_progress = ((S_801749EC_1 *)effect)->unk_0C + 0x64;
+        ((S_801749EC_1 *)effect)->unk_0C = opening_progress;
+        if ((s16) opening_progress >= 0x800) {
+            ((S_801749EC_1 *)effect)->unk_0C = 0x800U;
+        }
+        if (((S_801749EC_1 *)effect)->unk_08 < 0x16) {
+            old_phase = ((S_801749EC_1 *)effect)->unk_06;
+            ((S_801749EC_1 *)effect)->unk_0C = 0U;
+            ((S_801749EC_1 *)effect)->unk_06 = old_phase + 1;
+        }
+        }
+        }
+    } else {
+        {
         s16 *angle_base;
         s32 angle_limit;
         scale = 0x1E;
         ring_index = 8;
-        state_m = (s32) *(void *volatile *)&effect;
         angle_base = ring_angles;
         angle_limit = -0x400;
-        ring_angles[9] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
+        ring_angles[9] = (0 - ((S_801749EC_1 *)effect)->unk_0C) + 0x400;
         do {
             closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
             closing_angle_value = ((S_801749EC_4 *)closing_angle_slot)->unk_02 - 0xCC;
@@ -360,83 +309,36 @@ opening_sector_loop:
             prev_angle_index = ring_index - 1;
             ring_index = prev_angle_index;
         } while ((prev_angle_index << 0x10) != 0);
-        ring_index = 0;
-        state_m = (s32) ring_angles;
-        closing_angles = (void *) state_m;
-        radius = scale;
-        do {
-            sector = 0;
-            ring_index_shifted = ring_index << 0x10;
-            signed_ring_index = ring_index_shifted >> 0x10;
-            state_m = (s32) closing_angles;
-            {
-                s32 scaled_outer;
-                scaled_outer = signed_ring_index << 1;
-                closing_angle = (s16 *) (scaled_outer + state_m);
+        for (ring_index = 0; ring_index < 10; ring_index++) {
+            for (sector = 0; sector < 6; sector++) {
+                coordinate = func_800644B8(ring_angles[ring_index]);
+                radius = scale;
+                state_m = radius * coordinate;
+                vertices[ring_index][sector][2] = state_m >> 0xC;
+                state_m = radius * func_80064584(ring_angles[ring_index]);
+                closing_azimuth = sector * 682;
+                closing_sector_radius = state_m >> 0xC;
+                state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
+                vertices[ring_index][sector][0] = state_m >> 0xC;
+                state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
+                vertices[ring_index][sector][1] = state_m >> 0xC;
             }
-closing_sector_loop:
-            closing_sector_radius = sector << 0x10;
-            state_m = radius * func_800644B8(*closing_angle);
-            closing_sector_radius >>= 0x10;
-            vertex_offset = (closing_sector_radius * 6) + (signed_ring_index * 0x24);
-            closing_vertex = (s8 *)vertices + vertex_offset;
-            {
-                coordinate = state_m >> 0xC;
-                ((S_801749EC_5 *)closing_vertex)->unk_04 = (s16) coordinate;
-            }
-            closing_azimuth = closing_sector_radius << 2;
-            state_m = radius * func_80064584(*closing_angle);
-            closing_azimuth += closing_sector_radius;
-            closing_azimuth += closing_azimuth << 4;
-            closing_azimuth <<= 2;
-            closing_azimuth += closing_sector_radius;
-            closing_azimuth <<= 1;
-            closing_sector_radius = state_m >> 0xC;
-            state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
-            {
-                coordinate = state_m >> 0xC;
-                ((S_801749EC_5 *)closing_vertex)->unk_00 = (s16) coordinate;
-            }
-            next_closing_sector = sector + 1;
-            sector = next_closing_sector;
-            state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
-            {
-                y_coordinate = state_m >> 0xC;
-                ((S_801749EC_5 *)closing_vertex)->unk_02 = (s16) y_coordinate;
-            }
-            if (next_closing_sector < 6) {
-                goto closing_sector_loop;
-            }
-            next_closing_ring = ring_index + 1;
-            ring_index = next_closing_ring;
-        } while (next_closing_ring < 0xA);
-        state_m = (s32) *(void **)&effect;
-        closing_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
-        ((S_801749EC_1 *)state_m)->unk_0C = closing_progress;
+        }
+        closing_progress = ((S_801749EC_1 *)effect)->unk_0C + 0x64;
+        ((S_801749EC_1 *)effect)->unk_0C = closing_progress;
         if ((s16) closing_progress >= 0x800) {
-            ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
+            ((S_801749EC_1 *)effect)->unk_0C = 0x800U;
         }
-        meridian = 0;
+        }
     }
-select_line_data:
-    line_data = &D_801749A8;
-build_lines:
-    vertex_base_or_offset = (s32)vertices;
-    sector = 0;
-    do {
-        {
-            s32 sector_shifted;
-            sector_shifted = meridian << 0x10;
-            sector_or_ring_start = (void *) (sector_shifted >> 0x10);
-        }
-meridian_segment_loop:
+    for (meridian = 0; meridian < 6; meridian++) {
+        for (sector = 0; sector < 9; sector++) {
         meridian_object = func_8003FC64(0x212);
         if (meridian_object != NULL) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             meridian_line = meridian_object + 0x20;
             ((S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((S_801749EC_6 *)meridian_line)->unk_1C = 1;
-            ((S_801749EC_7 *)meridian_object)->unk_10 = line_data;
+            ((S_801749EC_7 *)meridian_object)->unk_10 = &D_801749A8;
             func_8004491C(meridian_object, &D_80174954);
             meridian_render = ((S_801749EC_7 *)meridian_object)->unk_0C;
             ((S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
@@ -448,51 +350,39 @@ meridian_segment_loop:
             meridian_render = ((S_801749EC_7 *)meridian_object)->unk_0C;
             (*(s16 *)((u8 *)meridian_render + 0x1E)) = 0x1000;
             (*(s16 *)((u8 *)meridian_render + 0x1C)) = 0x1000;
-            state_m = (s32)(*(void **)&tint);
-            ((S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
-            ((S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
-            ((S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
+            ((S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((S_801749EC_11 *)tint)->unk_0C;
+            ((S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((S_801749EC_11 *)tint)->unk_0D;
+            ((S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((S_801749EC_11 *)tint)->unk_0E;
             segment_index = sector << 0x10;
             segment_index >>= 0x10;
-            sector_offset = (s32) sector_or_ring_start * 6;
-            segment_end = (s8 *)vertex_base_or_offset + (sector_offset + ((segment_index + 1) * 0x24));
+            sector_offset = meridian * 6;
+            segment_end = (s8 *)vertices + (sector_offset + ((segment_index + 1) * 0x24));
             ((S_801749EC_6 *)meridian_line)->unk_64 = (u16) ((S_801749EC_12 *)segment_end)->unk_00;
             ((S_801749EC_6 *)meridian_line)->unk_66 = (u16) ((S_801749EC_12 *)segment_end)->unk_02;
             ((S_801749EC_6 *)meridian_line)->unk_68 = (u16) ((S_801749EC_12 *)segment_end)->unk_04;
-            segment_start = (s8 *)vertex_base_or_offset + (sector_offset + (segment_index * 0x24));
+            segment_start = (s8 *)vertices + (sector_offset + (segment_index * 0x24));
             ((S_801749EC_6 *)meridian_line)->unk_6A = (u16) ((S_801749EC_13 *)segment_start)->unk_00;
             ((S_801749EC_6 *)meridian_line)->unk_6C = (u16) ((S_801749EC_13 *)segment_start)->unk_02;
             ((S_801749EC_6 *)meridian_line)->unk_6E = (u16) ((S_801749EC_13 *)segment_start)->unk_04;
         }
-        next_segment = sector + 1;
-        sector = next_segment;
-        if (next_segment < 9) {
-            goto meridian_segment_loop;
         }
-        sector = 0;
-        next_meridian = meridian + 1;
-        meridian = next_meridian;
-    } while (next_meridian < 6);
-    ring = 1;
-    ring_data = &D_801749A8;
-    angle_or_vertices = (s16 *)vertices;
-    do {
-        ring_sector = 0;
+    }
+    for (sector = 1; sector < 9; sector++) {
+        meridian = 0;
         {
             s32 signed_outer;
             s32 scaled_outer;
-            signed_outer = ring;
+            signed_outer = sector;
             scaled_outer = (signed_outer << 3) + signed_outer;
             vertex_base_or_offset = scaled_outer << 2;
         }
-        sector_or_ring_start = (s8 *)angle_or_vertices + vertex_base_or_offset;
-        for (; ring_sector < 6; ring_sector++) {
+        for (; meridian < 6; meridian++) {
             ring_object = func_8003FC64(0x212);
             if (ring_object != NULL) {
                 meridian_line = ring_object + 0x20;
                 ((S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((S_801749EC_14 *)meridian_line)->unk_1C = 1;
-                ((S_801749EC_15 *)ring_object)->unk_10 = ring_data;
+                ((S_801749EC_15 *)ring_object)->unk_10 = &D_801749A8;
                 func_8004491C(ring_object, &D_80174954);
                 ring_render = ((S_801749EC_15 *)ring_object)->unk_0C;
                 {
@@ -508,38 +398,35 @@ meridian_segment_loop:
                 ((S_801749EC_17 *)ring_origin)->unk_00 = (s32) ((S_801749EC_10 *)object_origin)->unk_00;
                 ((S_801749EC_17 *)ring_origin)->unk_04 = (s32) ((S_801749EC_10 *)object_origin)->unk_04;
                 ((S_801749EC_17 *)ring_origin)->unk_08 = (s32) ((S_801749EC_10 *)object_origin)->unk_08;
-                scale = (s32)(((S_801749EC_15 *)ring_object)->unk_0C);
-                (*(s16 *)((u8 *)(void *)scale + 0x1E)) = 0x1000;
-                (*(s16 *)((u8 *)(void *)scale + 0x1C)) = 0x1000;
-                state_m = (s32)(*(void **)&tint);
-                ((S_801749EC_18 *)(void *)scale)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
-                ((S_801749EC_18 *)(void *)scale)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
-                ((S_801749EC_18 *)(void *)scale)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
-                if (ring_sector != 5) {
-                    next_vertex = (s8 *)angle_or_vertices + (((ring_sector + 1) * 6) + vertex_base_or_offset);
+                ring_render = ((S_801749EC_15 *)ring_object)->unk_0C;
+                (*(s16 *)((u8 *)ring_render + 0x1E)) = 0x1000;
+                (*(s16 *)((u8 *)ring_render + 0x1C)) = 0x1000;
+                ((S_801749EC_18 *)ring_render)->unk_0C = (u8) ((S_801749EC_11 *)tint)->unk_0C;
+                ((S_801749EC_18 *)ring_render)->unk_0D = (u8) ((S_801749EC_11 *)tint)->unk_0D;
+                ((S_801749EC_18 *)ring_render)->unk_0E = (u8) ((S_801749EC_11 *)tint)->unk_0E;
+                if (meridian != 5) {
+                    next_vertex = (s8 *)vertices + (((meridian + 1) * 6) + vertex_base_or_offset);
                     ((S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((S_801749EC_19 *)next_vertex)->unk_00;
                     ((S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((S_801749EC_19 *)next_vertex)->unk_02;
                     ((S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((S_801749EC_19 *)next_vertex)->unk_04;
                 } else {
+                    sector_or_ring_start = (s8 *)vertices + vertex_base_or_offset;
                     ((S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_00;
                     ((S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_02;
                     ((S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_04;
                 }
-                current_vertex = (s8 *)angle_or_vertices + ((ring_sector * 6) + vertex_base_or_offset);
+                current_vertex = (s8 *)vertices + ((meridian * 6) + vertex_base_or_offset);
                 ((S_801749EC_14 *)meridian_line)->unk_6A = (u16) ((S_801749EC_21 *)current_vertex)->unk_00;
                 ((S_801749EC_14 *)meridian_line)->unk_6C = (u16) ((S_801749EC_21 *)current_vertex)->unk_02;
                 ((S_801749EC_14 *)meridian_line)->unk_6E = (u16) ((S_801749EC_21 *)current_vertex)->unk_04;
             }
         }
-        next_ring = ring + 1;
-        ring = next_ring;
-    } while (next_ring < 9);
+    }
     {
-        state_m = (s32)(*(void **)&effect);
-        remaining_ticks = (u16) ((S_801749EC_1 *)(void *)state_m)->unk_08 - 1;
-        ((S_801749EC_1 *)(void *)state_m)->unk_08 = remaining_ticks;
+        remaining_ticks = (u16) ((S_801749EC_1 *)effect)->unk_08 - 1;
+        ((S_801749EC_1 *)effect)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)(void *)state_m + -2)) = (u16) (((S_801749EC_1_pre *)(void *)state_m)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_801749EC_1_pre *)effect)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
         return;
