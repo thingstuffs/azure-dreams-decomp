@@ -93,15 +93,6 @@ typedef struct S_FUNC_8197C800_BODY_10 {
     u16 unk_4C;
 } S_FUNC_8197C800_BODY_10;   /* tail in func_8002401C */
 
-typedef struct S_FUNC_8197C800_BODY_11 {
-    u8 pad_00[0x2];
-    u16 unk_02;
-    u8 pad_04[0x2];
-    u16 unk_06;
-    u8 pad_08[0x2];
-    u16 unk_0A;
-} S_FUNC_8197C800_BODY_11;   /* p in func_8002401C */
-
 typedef struct S_FUNC_8197C800_BODY_13 {
     u8 pad_00[0x24];
     u8 unk_24;
@@ -195,6 +186,14 @@ static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
     return (grid << 6) + random % 64;
 }
 
+static __inline__ s32 jitter_coordinate_32(s32 grid, s32 random)
+{
+    s32 scaled = grid << 6;
+    s32 jitter = random % 32 + 16;
+
+    return scaled + jitter;
+}
+
 void func_8002401C(void *input, void *output);
 
 /* The module's entry pointer: the first word of its read-only data, at the row's own address
@@ -219,7 +218,7 @@ void func_8002401C(void *input, void *output)
     S_FUNC_8197C800_BODY_7 *dst_position_2;
     void *particle_data;
     s32 remaining;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 result ASM_REG("$2");
     void *particle_script_debris;
     TileObject *debris_origin;
     s32 height;
@@ -230,7 +229,6 @@ void func_8002401C(void *input, void *output)
     u16 tail_timer;
     TileObject *burst_origin;
     u16 timer;
-    s32 scaled_coord;
 
     timer = ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s;
     owner_data = ((S_FUNC_8197C800_BODY_0 *)input)->unk_00;
@@ -327,15 +325,8 @@ case_one_tail:
 
     case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {
-        result = (s32)0x80080000;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
         remaining = 1;
-        {
-            S_FUNC_8197C800_BODY_11 *reference_position;
-            reference_position = (S_FUNC_8197C800_BODY_11 *)((u8 *)result + 0x3780);
-            height = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
-                              (s16)(reference_position->unk_0A - 0x80));
-        }
+        height = func_800BCB04(D_80083780.x.w.i, D_80083780.y.w.i, (s16)(D_80083780.z.w.i - 0x80));
         particle_script = D_80024BB8;
         burst_origin = &D_80082E80;
         do {
@@ -351,18 +342,10 @@ case_one_tail:
                 result = (s32)(dirStepX);
                 {
                     s32 grid_coord;
-                    s32 rounded_random;
-                    s32 jitter;
                     void *position;
                     grid_coord = burst_origin->tileX + ((s16 *)result)[offset_index];
-                    rounded_random = random_value;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                    scaled_coord = grid_coord << 6;
-                    if (random_value < 0) {
-                        rounded_random = random_value + 31;
-                    }
-                    jitter = random_value - ((rounded_random >> 5) << 5) + 16;
-                    result = scaled_coord + jitter;
+                    result = jitter_coordinate_32(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_02 = result;
                 }
                 random_value = func_80069EF8();
@@ -371,19 +354,10 @@ case_one_tail:
                 result = (s32)(dirStepY);
                 {
                     s32 grid_coord;
-                    s32 rounded_random;
-                    s32 jitter;
                     void *position;
                     grid_coord = burst_origin->tileY + ((s16 *)result)[offset_index];
-                    rounded_random = random_value;
                     position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    scaled_coord = grid_coord << 6;
-                    if (random_value < 0) {
-                        rounded_random = random_value + 31;
-                    }
-                    jitter = random_value - ((rounded_random >> 5) << 5) + 16;
-                    result = scaled_coord + jitter;
+                    result = jitter_coordinate_32(grid_coord, random_value);
                     ((S_FUNC_8197C800_BODY_14 *)position)->unk_06 = result;
                 }
                 {
