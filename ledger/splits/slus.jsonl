@@ -280,7 +280,7 @@
 {"src":"src/konami_runtime_w_8003BA9C.c","out":"build/src/konami_runtime_w_8003BA9C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003BAD8.c","out":"build/src/konami_runtime_w_8003BAD8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003BAF8.c","out":"build/src/konami_runtime_w_8003BAF8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/konami_runtime_w_8003BD34.c","out":"build/src/konami_runtime_w_8003BD34.o","ccver":"2.7.2-cdk","ccflags":"-O1","asflags":""}
+{"src":"src/konami_runtime_w_8003BD34.c","out":"build/src/konami_runtime_w_8003BD34.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003BD84.c","out":"build/src/konami_runtime_w_8003BD84.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003BE1C.c","out":"build/src/konami_runtime_w_8003BE1C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_8003BFE4.c","out":"build/src/konami_runtime_w_8003BFE4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -347,7 +347,7 @@
 {"src":"src/w_8003F794.c","out":"build/src/w_8003F794.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003F80C.c","out":"build/src/w_8003F80C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003F8F8.c","out":"build/src/w_8003F8F8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_8003F9E0.c","out":"build/src/w_8003F9E0.o","ccver":"2.7.2","ccflags":"-G0 -fno-schedule-insns","asflags":""}
+{"src":"src/w_8003F9E0.c","out":"build/src/w_8003F9E0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003FA44.c","out":"build/src/w_8003FA44.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003FAD4.c","out":"build/src/w_8003FAD4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8003FB98.c","out":"build/src/w_8003FB98.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -402,7 +402,7 @@
 {"src":"src/w_80042560.c","out":"build/src/w_80042560.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80042640.c","out":"build/src/w_80042640.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80042710.c","out":"build/src/w_80042710.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80042900.c","out":"build/src/w_80042900.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/w_80042900.c","out":"build/src/w_80042900.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80042984.c","out":"build/src/w_80042984.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800429E4.c","out":"build/src/w_800429E4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80042A80.c","out":"build/src/w_80042A80.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -488,7 +488,7 @@
 {"src":"src/w_80048118.c","out":"build/src/w_80048118.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80048190.c","out":"build/src/w_80048190.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800481E0.c","out":"build/src/w_800481E0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80048224.c","out":"build/src/w_80048224.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/w_80048224.c","out":"build/src/w_80048224.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800482C8.c","out":"build/src/w_800482C8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800483AC.c","out":"build/src/w_800483AC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004846C.c","out":"build/src/w_8004846C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -557,7 +557,7 @@
 {"src":"src/w_8004B1DC.c","out":"build/src/w_8004B1DC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004B248.c","out":"build/src/w_8004B248.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004B298.c","out":"build/src/w_8004B298.o","ccver":"2.7.2","ccflags":"-G0 -fno-schedule-insns","asflags":""}
-{"src":"src/w_8004B2E0.c","out":"build/src/w_8004B2E0.o","ccver":"2.7.2","ccflags":"-G0 -fno-schedule-insns","asflags":""}
+{"src":"src/w_8004B2E0.c","out":"build/src/w_8004B2E0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004B324.c","out":"build/src/w_8004B324.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004B364.c","out":"build/src/w_8004B364.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8004B42C.c","out":"build/src/w_8004B42C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -686,7 +686,7 @@
 {"src":"src/w_80051164.c","out":"build/src/w_80051164.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800511B4.c","out":"build/src/w_800511B4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80051228.c","out":"build/src/w_80051228.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80051548.c","out":"build/src/w_80051548.o","ccver":"2.7.2-cdk","ccflags":"-O1 -fschedule-insns2","asflags":""}
+{"src":"src/w_80051548.c","out":"build/src/w_80051548.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80051708.c","out":"build/src/w_80051708.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800517CC.c","out":"build/src/w_800517CC.o","ccver":"2.7.2-cdk","ccflags":"-G16","asflags":""}
 {"src":"src/w_80051BFC.c","out":"build/src/w_80051BFC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -747,7 +747,7 @@
 {"src":"src/w_800553D4.c","out":"build/src/w_800553D4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005552C.c","out":"build/src/w_8005552C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005560C.c","out":"build/src/w_8005560C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_800557C8.c","out":"build/src/w_800557C8.o","ccver":"2.8.1","ccflags":"","asflags":""}
+{"src":"src/w_800557C8.c","out":"build/src/w_800557C8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80055864.c","out":"build/src/w_80055864.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800558FC.c","out":"build/src/w_800558FC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800559B4.c","out":"build/src/w_800559B4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
@@ -803,13 +803,13 @@
 {"src":"src/w_80059814.c","out":"build/src/w_80059814.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_800599B0.c","out":"build/src/w_800599B0.o","ccver":"2.7.2-cdk","ccflags":"-G0 -fno-strength-reduce","asflags":""}
 {"src":"src/w_80059BC4.c","out":"build/src/w_80059BC4.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_80059D1C.c","out":"build/src/w_80059D1C.o","ccver":"2.8.1","ccflags":"","asflags":""}
+{"src":"src/w_80059D1C.c","out":"build/src/w_80059D1C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059D60.c","out":"build/src/w_80059D60.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059DAC.c","out":"build/src/w_80059DAC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059E94.c","out":"build/src/w_80059E94.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_80059F8C.c","out":"build/src/w_80059F8C.o","ccver":"2.7.2-cdk","ccflags":"-G0","asflags":""}
 {"src":"src/w_8005A1D0.c","out":"build/src/w_8005A1D0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
-{"src":"src/w_8005A26C.c","out":"build/src/w_8005A26C.o","ccver":"2.7.2-cdk","ccflags":"-O1","asflags":""}
+{"src":"src/w_8005A26C.c","out":"build/src/w_8005A26C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A2FC.c","out":"build/src/w_8005A2FC.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A33C.c","out":"build/src/w_8005A33C.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/w_8005A3F0.c","out":"build/src/w_8005A3F0.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}

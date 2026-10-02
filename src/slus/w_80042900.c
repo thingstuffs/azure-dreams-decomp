@@ -30,10 +30,10 @@ s32 func_80042900(S_80042900 *entry, s32 effect_id)
             if (entry->effects[effect_index].type == effect_type) {
                 s32 effect_value = entry->effects[effect_index].value;
 
-                if (effect_value != 0) {
-                    return effect_value;
+                if (effect_value == 0) {
+                    return 0x100;
                 }
-                return 0x100;
+                return effect_value;
             }
         }
     }

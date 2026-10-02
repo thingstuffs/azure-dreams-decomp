@@ -51,6 +51,8 @@ void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Fla
 {
     s16 state;
     u16 prior_state;
+    u16 *status_word;
+
     obj->field6 = obj->field6 + 1;
     func_800478B8(flags);
     state = obj->state;
@@ -96,6 +98,7 @@ void func_80051548(S_80051548_Obj *obj, S_80051548_Vec *position, S_80051548_Fla
     }
     obj->ptr0->unk0C = 0;
     obj->ptr0->cnt = obj->ptr0->cnt + 1;
-    ((u16 *) obj)[-1] |= 0x8000;
+    status_word = (u16 *) obj - 1;
+    *status_word |= 0x8000;
     D_800814A0_abs |= 0x8000;
 }
