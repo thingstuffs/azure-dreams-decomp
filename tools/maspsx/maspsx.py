@@ -70,6 +70,29 @@ def cc1_sdata_limit(in_lines: List[str]) -> int | None:
     return None
 
 
+CC1_CDK_BANNER = re.compile(r"GNU C version cygnus-2\.7\.2-970404\b")
+
+
+def cc1_is_cdk(in_lines: List[str]) -> bool:
+    """True when the TU was compiled by the 2.7.2-cdk cell (the genuine SN cygnus-2.7.2-970404
+    cc1), read from its verbose-asm banner (`# GNU C version cygnus-2.7.2-970404 SN32.3.7.0004
+    (SonyPSX) ...`), which that cc1 prints by default.  Other cells print a different banner
+    (2.6.3/2.7.2) or none (2.8.x and later).
+
+    Why it matters (work/native_lane/r85_opus_lofold/REPORT.md): `_fold_lo_into_accesses` rewrites
+    a cc1 `lui %hi / addiu %lo / addu idx / op 0(base)` into `lui %hi / addu idx / op %lo(base)`.
+    Genuine ASPSX 2.56-2.86 never does this (it assembles cc1's explicit addiu as written, and its
+    own `op SYM(reg)` macro uses $at once per access).  The folded retail shape is cc1's own output
+    for INTEGER-address source (mips LEGITIMIZE_ADDRESS splits reg + CONST_INT into `lui` + a numeric
+    offset); from SYMBOL source every splitting cell keeps the addiu, and so does retail where the
+    original named the symbol (dungeon/func_8008F814, both arms).  At the cdk cell the fold therefore
+    turns a correct symbol spelling into the bytes of a different source."""
+    for line in in_lines[:64]:
+        if line.lstrip().startswith("#") and CC1_CDK_BANNER.search(line):
+            return True
+    return False
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--aspsx-version", type=str)
@@ -94,6 +117,9 @@ def main() -> None:
     # threshold for TU-defined data from cc1's own -G (see cc1_sdata_limit); the
     # MASPSX_GP_LIMIT_FROM_CC1=1 environment switch does the same for measurement.
     parser.add_argument("--gp-limit-from-cc1", action="store_true")
+    # r85_opus_lofold: no %lo fold into accesses on cdk-cell output (see cc1_is_cdk); default OFF =
+    # production behaviour; MASPSX_NO_CDK_LO_FOLD=1 does the same for measurement.
+    parser.add_argument("--no-cdk-lo-fold", action="store_true")
     # decomp.me debugging
     parser.add_argument("--print-output", action="store_true")
     parser.add_argument("--print-input", action="store_true")
@@ -195,6 +221,10 @@ def main() -> None:
         live_sibcall_tail=args.preserve_live_sibcall_tail,
         prefer_target_arg_setup=args.prefer_target_arg_setup,
         preserve_immediate_funcaddr_la=args.preserve_immediate_funcaddr_la,
+        fold_lo_into_accesses=not (
+            (args.no_cdk_lo_fold or os.environ.get("MASPSX_NO_CDK_LO_FOLD") == "1")
+            and cc1_is_cdk(in_lines)
+        ),
     )
     try:
         out_lines = maspsx_processor.process_lines()
