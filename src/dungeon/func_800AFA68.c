@@ -67,7 +67,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     u8 saved_matrix[0x20];
     register u8 *transform_dst ASM_REG("$4") = saved_matrix;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 entry_index = 0;
-    register u8 *rotation_matrix ASM_REG("$22") = (u8 *) 0x1F8000D0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *rotation_matrix = (u8 *) 0x1F8000D0;
     register u8 *world_matrix_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *view_matrix = (u8 *) 0x1F800050;
     u8 *depth_cue = (u8 *) 0x1F800090;
@@ -146,7 +146,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     S_800AFA68_part *part_header;
     void *entry_flags;
     void *render_state;
-    ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_MEM_NV(view_matrix, *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0)));   /* Retains the entry gameWork HIGH order; using view_matrix avoids a separate rotation_matrix register pin. */
     scratch = (u8 *) 0x1F800000;
     render_state = *((void **) (((s8 *) (((struct S_8003E2D8 *)&gameWork))) + 0));
     initial_pitch = *((u16 *) (((s8 *) game_base) + 0xC4));
