@@ -1,3 +1,45 @@
+# Handover (2026-10-02 ~10:30, round 86 wave 1 landed; Fable r86_fable_mech still running) - start here
+
+**483 pins / 173 rows** (500 at the wave start).
+
+**Landed (all gated):**
+- 81905FD0 6->0 (r86_opus_ft1).
+- 800BAE88 6->1 (r86_opus_up build-up from the clean text: a new KEEP_NV(key) for six pins, tracked trade; egcs crutch retired).
+- 800A3D40 5->1, 80095160 6->5 (r86_opus_ft2).
+- 80098144 2->1 (sonnet_p2).
+- tptab step B completed for 81820800 and 818DA800.
+
+**Reconciliation (owner rule: no C for a wrong compiler):**
+- Sonnet lanes rc1-rc5: 21 pin-free rows rewritten exact at the proven recipe. Their reports list ~30 open rows with the named residue.
+- CPU byte-neutral switches: 124 (G8->G0 + crutch cells), 8 twin-census, 7 scan-2.
+- Town -O1 family: 8032E254 moved into seg_o1 plus 3 copies.
+
+**Census tools (work/native_lane/r86_eval):**
+- recon_scan.py / recon_scan2.py: off-recipe rows at the target.
+- twin_census.py + twin_score.py: relocation-masked twins must share a recipe. 32 rows conflict with an r84 "real" verdict and need a pass.
+- o1_census.py: town -O1 stretches. -O1 is fully registered now.
+
+**Model routing measured today:**
+- Sonnet on pins pays nothing: p1 0 pins / 340k tokens, p2 1 pin / 250k.
+- Sonnet on reconciliation pays: 21 of 49 rows at ~120-250k per lane.
+- Opus first-touch: 2 rows/lane.
+
+**Held / side leads:**
+- 8046A828: zero-arg passthru; lead: call with the parameters.
+- 8009CCC4: falls only at -G8.
+- 80813E14, 80952114: unsplit addresses; maybe a non-splitting object.
+- 806D23A4, 808106A4: stock rows exact at cdk -O1.
+
+**Kit traps:**
+- Never pgrep for lander names inside a waiter whose own command line holds them. This deadlocked for an hour on 10-02. Use land.lock instead.
+- Reconciliation lanes need their own AGENT_PROMPT (the pin-lane prompt made rc4 stop at "0 pins").
+
+**Next:**
+1. Opus on the 23 pinned rows still on late/flag cells (86 pins), at the proven recipe (recon_scan2.jsonl).
+2. The twin-conflict pass.
+3. SLUS reconciliation: region A cdk -G8 / region B stock sound TU.
+4. bg21-26.
+
 # Handover (2026-10-02 ~04:50, round 86 pickup: evaluation + CPU sweep + owner calls landed; no model lanes) - start here
 
 **500 pins / 174 rows** (527 / 175 at pickup). Evaluation: work/native_lane/r86_eval/ASSESSMENT.md (tables: pins, served
