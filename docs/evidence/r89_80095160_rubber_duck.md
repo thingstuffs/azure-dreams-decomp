@@ -92,6 +92,12 @@ copies. Copy/add spellings reintroduce coalescing. Narrow centers add
 extensions and can turn the add into `ori`. These failed experiments do not
 justify a dummy reference; no suitable additional real use was recovered.
 
+**r90 correction:** center-Y's priority is only half the constraint. Raising
+it alone takes the X center's s0. The exact allocation replay requires X
+center before Y center, both ahead of direction; see
+`docs/evidence/r90_80095160_coupled_centers.md`. The reference-count and
+lifetime bounds above are necessary, not a sufficient standalone fix.
+
 ## What does the `$5` tile pin support?
 
 Two early X-coordinate argument shifts. With the pin erased, the values and
