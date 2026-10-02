@@ -1,3 +1,14 @@
+# Handover (2026-10-02 ~15:00, round 86 end of day; no lanes running) - start here
+
+**404 pins / 161 rows** (527 / 175 this morning).
+- CPU sweep 2: -6 (bbc824854).
+- Twin census rerun: no new switches (remaining twin disagreements are cross-object copies).
+- Fable r86_fable_mech2: nothing exact; 8009F018 / 800C4A80 / 800A1AD4 parked at totals 1 / 2 / 6 (MECHANISM.md lists the missing constructs).
+
+**Next pool:**
+- 26 rows / 70 pins with no lane at their current text (800AFA68 10, 80095160 5, 8182C800, 80CC085C, 800AA854, 800A8714, 800A2564, 80084340 4 each, ...).
+- 69 rows / 122 pins with no Opus/Fable lane at current text (served_now.json).
+
 # Handover (2026-10-02 ~13:00, round 86 wave 4 landed; no lanes running) - start here
 
 **410 pins / 163 rows** (527 / 175 this morning).
