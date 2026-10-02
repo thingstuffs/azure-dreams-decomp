@@ -32,22 +32,23 @@ void *func_801748FC(u8 *current, s32 wanted_24, s32 wanted_25, s32 height_center
     s32 min_height;
     s32 filter_25;
     s32 scratch;
+    s32 filter_24;
     u8 *object;
     s16 height;
 
     scratch = ((S_801748FC_0 *)current)->unk_5C;
     sentinel = current;
+    filter_24 = wanted_24;
+    filter_25 = wanted_25;
     current = (u8 *)scratch + 0x20;
     if (current != sentinel) {
-        filter_25 = wanted_25;
         scratch = height_center << 0x10;
         target_height = scratch >> 0x10;
         min_height = target_height - 0x20;
         do {
-            scratch = wanted_24;
             object = ((S_801748FC_0_pre *)current)[-1].unk_00;
             entry = current - 0x20;
-            if ((((S_801748FC_1 *)object)->unk_24 == (scratch & 0xFFFF)) &&
+            if ((((S_801748FC_1 *)object)->unk_24 == (filter_24 & 0xFFFF)) &&
                 (((S_801748FC_1 *)object)->unk_25 == (filter_25 & 0xFFFF)) &&
                 (height = ((S_801748FC_0 *)current)->unk_88,
                  height <= target_height + 0x20) &&
