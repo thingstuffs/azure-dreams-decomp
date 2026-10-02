@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
-extern u8 D_800E0000[];
 
 
 typedef struct {
@@ -104,7 +103,7 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     s32 direction;
     s16 state;
 #ifndef NON_MATCHING
-    register s32 saved_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_value;
     s16 action_result;
     u32 mask_or_base;
     u32 object_or_base;
@@ -183,7 +182,7 @@ state_1:
         u8 *active_table;
         u8 *frame_ptr;
 #ifndef NON_MATCHING
-        register s32 entity_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 entity_angle;
 #else
         s32 entity_angle;
 #endif
@@ -211,9 +210,7 @@ state_1:
         ((S_8008FA7C_5 *)linked_result)->unk_8A = action_result;
 #ifndef NON_MATCHING
         effect_duration = 0x78;
-        do {
-            object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
-        } while (0);
+        object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_84 = effect_duration;
         object_or_base = ((S_8008FA7C_3 *)actor)->unk_124.i;
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_85 = 2;
@@ -228,25 +225,20 @@ state_1:
         saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
         object_or_base = (u32)((D_80083460_t *)&dungeonStatus);
         ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
-        mask_or_base = 0x800E0000;
-        ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        active_table = D_800DCFD0;
         ((S_8008FA7C_2 *)entity)->unk_1C = entity_flags;
         countdown = ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A;
-        mask_or_base -= 0x3030;
         countdown++;
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_0A = countdown;
-        ((S_8008FA7C_8 *)active_anim)->unk_2C = (u8 *)mask_or_base;
+        ((S_8008FA7C_8 *)active_anim)->unk_2C = active_table;
         active_entry = gameWork.view.viewAngle;
         entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
-        do {
-            object_or_base = (u32)D_800E0000;
-        } while (0);
-        ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_3540 = saved_value;
+        D_800E3540[0] = saved_value;
         active_entry += entity_angle;
         active_entry += 0x100;
         active_entry >>= 9;
         active_entry &= 7;
-        active_entry += mask_or_base;
+        active_entry += (s32)active_table;
         func_80048A44(active_anim, *(u8 *)active_entry, 5, 1);
         actor[0x9B]++;
 #else
