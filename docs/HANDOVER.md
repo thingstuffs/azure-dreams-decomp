@@ -1,3 +1,44 @@
+# Handover (2026-10-02 ~11:45, round 86 waves 2-3 landed; no lanes running) - start here
+
+**439 pins / 168 rows** (527 / 175 at the round-86 pickup this morning).
+
+**Waves 2-3 landed (all gated):**
+- 80DB9000 20->0 (Fable; structured loops - MECHANISM.md).
+- 8187A9A8 13->0, 81892C5C 3->0, 818B0E10 1->0 (crutch cells retired via the structured-loop recipe).
+- 800C379C 4->0 (dbr use-marker rule).
+- Build-up trades with one new KEEP each: 800AC008 3->2, 800BFE94 5->3.
+- 8009612C crutch flag retired; 80084340 goto removed.
+
+**SLUS reconciliation:**
+- 312 byte-neutral moves to 2.7.2-cdk (land_recipe_move slus path).
+- Sonnet sl1-sl3: 24 rows rewritten.
+- r86_opus_decl: w_80059F8C (non-const cast read; owner rejected const) and w_80043C30.
+
+**Rules now in the briefs:** structured_loops (+ GameWork* reads), crutch_flags, param_priority entry-move run, dslot
+use-marker copy, fixed-address non-in-struct reads, SLUS small-data extents.
+
+**STATUS tracker fixed** (-G0 overlay yardstick + a SLUS line): 158 overlay rows / 59 SLUS rows off their build.
+
+**Queued** (_landq/handover_todo.txt):
+- The SLUS reconciliation pass:
+  - CC_VER override blocks;
+  - 7 -G32 dodges;
+  - region-B stock flag drops (w_8005D7BC, w_8005E97C staged in r86_sonnet_sl3/held and r86_sonnet_sl1/out);
+  - module-member recipes.
+- module_recipe_census refresh.
+- maspsx _fold_selfinc_la retirement (w_8004A6C0).
+
+**Open near-misses** (lane REPORTs):
+- 800C4A80: 0 pins, total 2.
+- 80B471EC: 0 pins, total 4 (r86_opus_sl2 cand/B4_best_b12.c; one sched2 tie).
+- 800A1AD4: 0 pins, total 11.
+- 800CDFD8: 13.
+- 80DE48EC: frame + R1.
+
+**Routing:**
+- Opus pins at 1-2 rows/lane on first touch / crutch rows; second-pass near-miss lanes 1-2 rows.
+- Sonnet reconciliation ~60%.
+
 # Handover (2026-10-02 ~10:30, round 86 wave 1 landed; Fable r86_fable_mech still running) - start here
 
 **483 pins / 173 rows** (500 at the wave start).
