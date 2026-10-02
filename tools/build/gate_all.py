@@ -108,6 +108,11 @@ def inputs_sha(yaml_path):
         if p.exists(): h.update(p.read_bytes())
     for p in census_files(cont):
         h.update(p.read_bytes())
+    # the family's rodata-owner records (round 85, overlay_local_gate.rodata_owner) decide how an owner row is
+    # linked, so an edit to them must re-gate the family's windows like a census edit does
+    owners = ROOT / "config/overlays" / f"{'dungeon' if cont == 'dungeon_engine' else cont}.rodata_owners.jsonl"
+    if owners.exists():
+        h.update(owners.read_bytes())
     return h.hexdigest()
 
 _SPLITS = {}

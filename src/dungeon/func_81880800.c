@@ -8,7 +8,6 @@ extern int abs(int);
 
 #define F(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
-extern void *D_80024008[];
 extern u8 D_800257D0[];
 extern u8 D_800257E8[];
 extern s16 D_800257CE[5];
@@ -25,39 +24,15 @@ extern void *func_80024968(s32, void *, s16, s32);
 extern void func_80025760(void *, u8, void *);
 
 
-#ifdef __mips__
-static const u32 func_81880800_prefix[] __asm__("func_81880800")
-__attribute__((section(".text.func_81880800"), aligned(4))) = {
-    0x80024050,
-    0,
-    0x800240B4,
-    0x80024128,
-    0x80024394,
-    0x8002459C,
-    0x800245D8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x800246F8,
-    0x8002461C,
-    0x800246BC,
-};
-__asm__(".globl func_81880800\n"
-        ".size func_81880800, 1832");
-#define FUNC_81880800_BODY func_81880850
-#else
-#define FUNC_81880800_BODY func_81880800
-#endif
+void func_80024050(u8 *self, u8 *motion, u8 *part);
+
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(u8 *, u8 *, u8 *) __asm__("func_80024000") = func_80024050;
 
 /* Updates a moving effect through initialization, target tracking, fading, and cleanup. */
-void FUNC_81880800_BODY(u8 *self, u8 *motion, u8 *part)
+void func_80024050(u8 *self, u8 *motion, u8 *part)
 {
     u8 *owner;
     u8 *owner_base;
@@ -86,125 +61,118 @@ void FUNC_81880800_BODY(u8 *self, u8 *motion, u8 *part)
     u32 texture_size;
     s16 attach_offset[3];
     s32 texture_init[2];
-    static void *const state_labels[] = {
-        &&initialize, &&track_target, &&spawn_effect, &&fade, &&cleanup, &&finish
-    };
 
     owner = F(self, void *, 0);
     state = F(self, s16, 0xA);
     owner_base = (u8 *)owner - 0x20;
     owner_motion = F(owner_base, void *, 8);
-    if ((u32)state >= 18U) {
-        goto finish;
-    }
-    (void)state_labels;
-    goto *D_80024008[state];
+    switch (state) {
+    case 0:
+        color = 0x00808080;
+        texture_flags = 0x01000340;
+        texture_size = 0x00200020;
+        F(part, u32, 0xC) = color;
+        F(part, u16, 0x1E) = 0x800;
+        F(part, u16, 0x1C) = 0x800;
+        F(part, void *, 8) = D_800257E8;
+        F(self, u16, 0x1A) = (F(owner, u16, 0x2A) >> 9) & 7;
+        texture_init[0] = texture_flags;
+        texture_init[1] = texture_size;
+        func_800B835C(D_800257D0, texture_init, 1, 0);
+        F(self, u16, 0xA)++;
 
-initialize:
-    color = 0x00808080;
-    texture_flags = 0x01000340;
-    texture_size = 0x00200020;
-    F(part, u32, 0xC) = color;
-    F(part, u16, 0x1E) = 0x800;
-    F(part, u16, 0x1C) = 0x800;
-    F(part, void *, 8) = D_800257E8;
-    F(self, u16, 0x1A) = (F(owner, u16, 0x2A) >> 9) & 7;
-    texture_init[0] = texture_flags;
-    texture_init[1] = texture_size;
-    func_800B835C(D_800257D0, texture_init, 1, 0);
-    F(self, u16, 0xA)++;
-
-    if (func_8003DF74(F(F(owner_base, void *, 0xC), void *, 8),
-                      F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
-        if ((F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
-            goto finish;
-        }
-    }
-
-    F(motion, u16, 2) = F(owner_motion, u16, 2);
-    F(motion, u16, 6) = F(owner_motion, u16, 6);
-    if (F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
-        F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) - 0x40;
-    } else {
-        F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) + attach_offset[2];
-    }
-
-    if ((F(F(self, void *, 4), u16, 0) & 0x80) == 0) {
-        goto finish;
-    }
-    if ((F(self, u8, 0x16) & 4) == 0) {
-        func_8004491C((u8 *)self - 0x20, func_80045340);
-        F(part, u16, 0x10) = 0x20;
-        F(part, u8, 0x0E) = 0x80;
-        F(part, u8, 0x0D) = 0x80;
-        F(part, u8, 0x0C) = 0x80;
-        F(part, u16, 0x14) |= 0xC;
-        F(self, u8, 0x16) |= 4;
-    }
-
-    if (F(owner, void *, 0x60) != 0) {
-        void *source_data;
-        u8 target_type;
-        u8 *height_table;
-        u8 tile_coord;
-        source_data = F(F(owner, void *, 0x60), void *, -0x18);
-        F(self, u16, 0x10) = F(source_data, u16, 2);
-        F(self, u16, 0x12) = F(source_data, u16, 6);
-        height_table = D_800DDC40;
-        target_type = F(F(owner, void *, 0x60), u8, 0x13);
-        height_offset = height_table[target_type];
-        height_offset += 0x20;
-        target_height = F(source_data, u16, 0xA);
-        F(self, u16, 0x14) = target_height - height_offset;
-
-        {
-            s16 direction;
-            direction = F(self, s16, 0x1A);
-            source_data = F(owner, void *, -0x14);
-            tile_coord = F(source_data, u8, 0x24) + dirStepX[direction];
-            F(self, u8, 0x20) = tile_coord;
-            F(self, u8, 0x22) = tile_coord;
-        }
-        {
-            s16 direction;
-            direction = F(self, s16, 0x1A);
-            tile_coord = F(source_data, u8, 0x25) + dirStepY[direction];
-            F(self, u8, 0x21) = tile_coord;
-            F(self, u8, 0x23) = tile_coord;
-        }
-        {
-            s32 owner_coord;
-            s32 tile_distance;
-            owner_coord = F(owner, s8, 0x72);
-            z_pos = F(source_data, u8, 0x24);
-            if (owner_coord == z_pos) {
-                owner_coord = F(owner, s8, 0x73);
-                z_pos = F(source_data, u8, 0x25);
-                tile_distance = owner_coord - z_pos;
-            } else {
-                tile_distance = owner_coord - z_pos;
+    case 1:
+        if (func_8003DF74(F(F(owner_base, void *, 0xC), void *, 8),
+                          F(owner_base, void *, 0xC), attach_offset, 0) == 0) {
+            if ((F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) == 0) {
+                break;
             }
-            if (tile_distance < 0) {
-                tile_distance = -tile_distance;
-            }
-            F(self, u16, 0x18) = tile_distance + 1;
         }
-    } else {
-        F(self, u16, 0x18) = 8;
-        F(self, u16, 0x10) = F(motion, u16, 2);
-        F(self, u16, 0x12) = F(motion, u16, 6);
-        F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
-    }
-    direction_step = dirStepX[F(self, s16, 0x1A)];
-    F(motion, s16, 0x0E) = direction_step << 3;
-    direction_step = dirStepY[F(self, s16, 0x1A)];
-    F(motion, s16, 0x12) = direction_step << 3;
-    state_step = F(self, u16, 0xA);
-    F(self, u16, 0x1C) = 0;
-    F(self, u16, 0x0A) = state_step + 1;
-    goto finish;
 
-track_target:
+        F(motion, u16, 2) = F(owner_motion, u16, 2);
+        F(motion, u16, 6) = F(owner_motion, u16, 6);
+        if (F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
+            F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) - 0x40;
+        } else {
+            F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) + attach_offset[2];
+        }
+
+        if ((F(F(self, void *, 4), u16, 0) & 0x80) == 0) {
+            break;
+        }
+        if ((F(self, u8, 0x16) & 4) == 0) {
+            func_8004491C((u8 *)self - 0x20, func_80045340);
+            F(part, u16, 0x10) = 0x20;
+            F(part, u8, 0x0E) = 0x80;
+            F(part, u8, 0x0D) = 0x80;
+            F(part, u8, 0x0C) = 0x80;
+            F(part, u16, 0x14) |= 0xC;
+            F(self, u8, 0x16) |= 4;
+        }
+
+        if (F(owner, void *, 0x60) != 0) {
+            void *source_data;
+            u8 target_type;
+            u8 *height_table;
+            u8 tile_coord;
+            source_data = F(F(owner, void *, 0x60), void *, -0x18);
+            F(self, u16, 0x10) = F(source_data, u16, 2);
+            F(self, u16, 0x12) = F(source_data, u16, 6);
+            height_table = D_800DDC40;
+            target_type = F(F(owner, void *, 0x60), u8, 0x13);
+            height_offset = height_table[target_type];
+            height_offset += 0x20;
+            target_height = F(source_data, u16, 0xA);
+            F(self, u16, 0x14) = target_height - height_offset;
+
+            {
+                s16 direction;
+                direction = F(self, s16, 0x1A);
+                source_data = F(owner, void *, -0x14);
+                tile_coord = F(source_data, u8, 0x24) + dirStepX[direction];
+                F(self, u8, 0x20) = tile_coord;
+                F(self, u8, 0x22) = tile_coord;
+            }
+            {
+                s16 direction;
+                direction = F(self, s16, 0x1A);
+                tile_coord = F(source_data, u8, 0x25) + dirStepY[direction];
+                F(self, u8, 0x21) = tile_coord;
+                F(self, u8, 0x23) = tile_coord;
+            }
+            {
+                s32 owner_coord;
+                s32 tile_distance;
+                owner_coord = F(owner, s8, 0x72);
+                z_pos = F(source_data, u8, 0x24);
+                if (owner_coord == z_pos) {
+                    owner_coord = F(owner, s8, 0x73);
+                    z_pos = F(source_data, u8, 0x25);
+                    tile_distance = owner_coord - z_pos;
+                } else {
+                    tile_distance = owner_coord - z_pos;
+                }
+                if (tile_distance < 0) {
+                    tile_distance = -tile_distance;
+                }
+                F(self, u16, 0x18) = tile_distance + 1;
+            }
+        } else {
+            F(self, u16, 0x18) = 8;
+            F(self, u16, 0x10) = F(motion, u16, 2);
+            F(self, u16, 0x12) = F(motion, u16, 6);
+            F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
+        }
+        direction_step = dirStepX[F(self, s16, 0x1A)];
+        F(motion, s16, 0x0E) = direction_step << 3;
+        direction_step = dirStepY[F(self, s16, 0x1A)];
+        F(motion, s16, 0x12) = direction_step << 3;
+        state_step = F(self, u16, 0xA);
+        F(self, u16, 0x1C) = 0;
+        F(self, u16, 0x0A) = state_step + 1;
+        break;
+
+    case 2:
     {
         s32 next_velocity;
         velocity = F(motion, s32, 0x0C);
@@ -224,142 +192,144 @@ track_target:
                 position = 0x200000;
             }
             F(motion, s32, 0x0C) = position;
-    }
-    }
-    {
-        s32 next_velocity;
-        velocity = F(motion, s32, 0x10);
-        position = F(motion, s32, 4);
-        position += velocity;
-        F(motion, s32, 4) = position;
-        next_velocity = F(motion, s32, 0x10);
-        position = next_velocity >> 4;
-        next_velocity += position;
-        velocity = abs(next_velocity);
-        position = 0x200000;
-        over_limit = velocity > position;
-        F(motion, s32, 0x10) = next_velocity;
-        if (over_limit) {
-            position = -0x200000;
-            if (next_velocity > 0) {
-                position = 0x200000;
-            }
-            F(motion, s32, 0x10) = position;
-    }
-    }
-
-
-    z_delta = F(self, s16, 0x14) << 16;
-    z_pos = F(motion, s32, 8);
-    z_delta -= z_pos;
-    z_delta >>= 3;
-    z_pos += z_delta;
-    F(motion, s32, 8) = z_pos;
-    func_80025654(motion, part);
-
-    coord = F(motion, s16, 2);
-    if (coord < 0) {
-        coord += 0x3F;
-    }
-    F(self, s8, 0x20) = coord >> 6;
-    coord = F(motion, s16, 6);
-    if (coord < 0) {
-        coord += 0x3F;
-    }
-    F(self, s8, 0x21) = coord >> 6;
-    if (F(self, s16, 0x22) == F(self, s16, 0x20)) {
-        goto finish;
-    }
-
-    if (F(owner, void *, 0x60) != 0) {
-        if (F(self, s16, 0x28) == 0) {
-            if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
-                                 F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
-                F(self, s16, 0x28) = 1;
-                func_800A56E0(0x300);
-            }
         }
     }
-    if (F(owner, void *, 0x60) != 0 &&
-        F(owner, s16, 0x72) == F(self, s16, 0x20)) {
-        F(motion, u16, 2) = F(self, u16, 0x10);
-        F(motion, u16, 6) = F(self, u16, 0x12);
-        F(motion, u16, 0xA) = F(self, u16, 0x14);
+        {
+            s32 next_velocity;
+            velocity = F(motion, s32, 0x10);
+            position = F(motion, s32, 4);
+            position += velocity;
+            F(motion, s32, 4) = position;
+            next_velocity = F(motion, s32, 0x10);
+            position = next_velocity >> 4;
+            next_velocity += position;
+            velocity = abs(next_velocity);
+            position = 0x200000;
+            over_limit = velocity > position;
+            F(motion, s32, 0x10) = next_velocity;
+            if (over_limit) {
+                position = -0x200000;
+                if (next_velocity > 0) {
+                    position = 0x200000;
+                }
+                F(motion, s32, 0x10) = position;
+            }
+        }
+
+
+        z_delta = F(self, s16, 0x14) << 16;
+        z_pos = F(motion, s32, 8);
+        z_delta -= z_pos;
+        z_delta >>= 3;
+        z_pos += z_delta;
+        F(motion, s32, 8) = z_pos;
+        func_80025654(motion, part);
+
+        coord = F(motion, s16, 2);
+        if (coord < 0) {
+            coord += 0x3F;
+        }
+        F(self, s8, 0x20) = coord >> 6;
+        coord = F(motion, s16, 6);
+        if (coord < 0) {
+            coord += 0x3F;
+        }
+        F(self, s8, 0x21) = coord >> 6;
+        if (F(self, s16, 0x22) == F(self, s16, 0x20)) {
+            break;
+        }
+
+        if (F(owner, void *, 0x60) != 0) {
+            if (F(self, s16, 0x28) == 0) {
+                if ((s16)set_item_w0(F(self, u8, 0x20), F(self, u8, 0x21),
+                                     F(owner, u8, 0x72), F(owner, u8, 0x73)) < 5) {
+                    F(self, s16, 0x28) = 1;
+                    func_800A56E0(0x300);
+                }
+            }
+        }
+        if (F(owner, void *, 0x60) != 0 &&
+            F(owner, s16, 0x72) == F(self, s16, 0x20)) {
+            F(motion, u16, 2) = F(self, u16, 0x10);
+            F(motion, u16, 6) = F(self, u16, 0x12);
+            F(motion, u16, 0xA) = F(self, u16, 0x14);
+            F(self, u16, 0x0A)++;
+            break;
+        }
+
+        coord = F(self, u8, 0x20);
+        z_pos = F(self, u16, 0x18);
+        z_pos -= 1;
+        target = F(self, u8, 0x21);
+        F(self, u16, 0x18) = z_pos;
+        z_pos <<= 16;
+        F(self, u8, 0x22) = coord;
+        F(self, u8, 0x23) = target;
+        if (z_pos != 0) {
+            cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
+            height_result = func_800A45D8(
+                cell_center_x,
+                (((s32)F(self, s8, 0x21) << 6) + 0x20) & 0xFFE0,
+                F(motion, s16, 0x0A));
+            if ((height_result << 16) == 0) {
+                break;
+            }
+        }
+        F(self, u16, 0x0A) = 0x10;
+        break;
+
+    case 3:
+        spawn_target = F(owner, void *, 0x60);
+        spawn_height = F(spawn_target, s16, 0x88);
+        F(self, void *, 0x0C) = func_80024968((s32)self, motion, spawn_height, (s32)spawn_target);
+        if (F(self, void *, 0x0C) == 0) {
+            break;
+        }
+        F(part, u16, 0x14) |= 0x80;
+        state_step = F(self, u16, 0x0A);
+        state_step++;
+        F(self, u16, 0x0A) = state_step;
+
+    case 4:
+        state_step = (long)F(self, void *, 0x0C);
+        if ((F((void *)state_step, u16, 0x1E) & 0x8000) == 0) {
+            break;
+        }
+        target = F(owner, void *, 0x60);
+        if (target != 0) {
+            func_80025760(target, F(self, u8, 9), owner);
+        }
+        F(self, u16, 0x0A) = 0x11;
+        break;
+
+    case 16:
+        F(motion, s32, 0) += F(motion, s32, 0x0C);
+        F(motion, s32, 4) += F(motion, s32, 0x10);
+        z_delta = F(self, s16, 0x14) << 16;
+        z_pos = F(motion, s32, 8);
+        z_delta -= z_pos;
+        z_delta >>= 3;
+        z_pos += z_delta;
+        F(motion, s32, 8) = z_pos;
+        red = F(part, u8, 0x0C);
+        green = F(part, u8, 0x0D);
+        blue = F(part, u8, 0x0E);
+        F(part, u8, 0x0C) = red - (red >> 1);
+        F(part, u8, 0x0D) = green - (green >> 1);
+        F(part, u8, 0x0E) = blue - (blue >> 1);
+        func_80025654(motion, part);
+        if (F(part, u8, 0x0C) >= 2) {
+            break;
+        }
         F(self, u16, 0x0A)++;
-        goto finish;
-    }
+        break;
 
-    coord = F(self, u8, 0x20);
-    z_pos = F(self, u16, 0x18);
-    z_pos -= 1;
-    target = F(self, u8, 0x21);
-    F(self, u16, 0x18) = z_pos;
-    z_pos <<= 16;
-    F(self, u8, 0x22) = coord;
-    F(self, u8, 0x23) = target;
-    if (z_pos != 0) {
-        cell_center_x = (((s32)F(self, s8, 0x20) << 6) + 0x20) & 0xFFE0;
-        height_result = func_800A45D8(
-            cell_center_x,
-            (((s32)F(self, s8, 0x21) << 6) + 0x20) & 0xFFE0,
-            F(motion, s16, 0x0A));
-        if ((height_result << 16) == 0) {
-            goto finish;
+    case 17:
+        if (D_800257CE[0] == 0) {
+            dungeonStatus.unk_0C = 0;
+            F(self, u16, -2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
     }
-    F(self, u16, 0x0A) = 0x10;
-    goto finish;
-
-spawn_effect:
-    spawn_target = F(owner, void *, 0x60);
-    spawn_height = F(spawn_target, s16, 0x88);
-    F(self, void *, 0x0C) = func_80024968((s32)self, motion, spawn_height, (s32)spawn_target);
-    if (F(self, void *, 0x0C) == 0) {
-        goto finish;
-    }
-    F(part, u16, 0x14) |= 0x80;
-    state_step = F(self, u16, 0x0A);
-    state_step++;
-    F(self, u16, 0x0A) = state_step;
-    state_step = (long)F(self, void *, 0x0C);
-    if ((F((void *)state_step, u16, 0x1E) & 0x8000) == 0) {
-        goto finish;
-    }
-    target = F(owner, void *, 0x60);
-    if (target != 0) {
-        func_80025760(target, F(self, u8, 9), owner);
-    }
-    F(self, u16, 0x0A) = 0x11;
-    goto finish;
-
-fade:
-    F(motion, s32, 0) += F(motion, s32, 0x0C);
-    F(motion, s32, 4) += F(motion, s32, 0x10);
-    z_delta = F(self, s16, 0x14) << 16;
-    z_pos = F(motion, s32, 8);
-    z_delta -= z_pos;
-    z_delta >>= 3;
-    z_pos += z_delta;
-    F(motion, s32, 8) = z_pos;
-    red = F(part, u8, 0x0C);
-    green = F(part, u8, 0x0D);
-    blue = F(part, u8, 0x0E);
-    F(part, u8, 0x0C) = red - (red >> 1);
-    F(part, u8, 0x0D) = green - (green >> 1);
-    F(part, u8, 0x0E) = blue - (blue >> 1);
-    func_80025654(motion, part);
-    if (F(part, u8, 0x0C) >= 2) {
-        goto finish;
-    }
-    F(self, u16, 0x0A)++;
-    goto finish;
-
-cleanup:
-    if (D_800257CE[0] == 0) {
-        dungeonStatus.unk_0C = 0;
-        F(self, u16, -2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-    }
-finish:
     D_800257CE[0] = 0;
 }
