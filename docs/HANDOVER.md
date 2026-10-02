@@ -1,3 +1,53 @@
+# Handover (2026-10-02 ~04:50, round 86 pickup: evaluation + CPU sweep + owner calls landed; no model lanes) - start here
+
+**500 pins / 174 rows** (527 / 175 at pickup). Evaluation: work/native_lane/r86_eval/ASSESSMENT.md (tables: pins, served
+at current text, Pareto of near-misses for 6+-pin rows, reconcile.txt).
+
+**Landed today (all gated):**
+- **CPU sweep** of every pin generator over the pinned rows at their current text: -18 pins (6f24bc26e, script
+  r86_eval/cpu_sweep.sh). Biggest: 8133AD74 4->1, 8194D354 4->2.
+  - KIT GAP behind it: switch_land_lanes.sh runs land_lanes.sh without EXTRA_T, so the cascade_extra generators
+    (t88-t120) never swept r85's landings.
+  - t130-t135, t26/t64/t60/t61/t67 are in no cascade.
+  - Fix this, or re-run the sweep after each round.
+- **Owner calls (owner 10-02: "go with your recommendation"):**
+  - form R 818E6800 3->1; 81912154 5->3 (moved re-copy); 81084D04 3->0 (dead pre-loop store) - 0b85cdee2.
+  - tptab step B, 3 rodata owners: 81880800, 8182C800, 8197C800 (092b14271). 81820800 and 818DA800 need re-staging
+    on their newer texts.
+  - maspsx lo-fold guard, patch + activation: 36b1b090b, 740f61d47. Both gate_all --all; maspsx 421 tests pass under
+    .venv.
+  - slus pair w_8004A700 / w_8004A7D8, rebaselined.
+  - 8008F814 2->1 at cdk-G0, retiring the 2.8.1-G0 crutch (1a4fb3711).
+- **Held:**
+  - form S (fake dependency).
+  - joint-scan hit 8009CCC4 (barrier falls only at -G8 = a cell its module doesn't use): a side lead, check the
+    declaration of the symbol whose addressing differs.
+
+**Owner rule (10-02):** never write C to satisfy a wrong compiler setting. Pin removals that need a cell or flag the
+module doesn't use are side leads, not landings. Reconcile every row to its proven module recipe eventually.
+
+**Reconciliation debt** (reconcile.txt, against r84_fable_build/VERDICT.tsv):
+- 32 pinned rows / ~126 pins are registered on crutch cells, 15 of them on fitted 2.8+/egcs cells. This includes the
+  big rows 800C4A80, 8187A9A8, 800ABBF8 and 81876014.
+  - Their pins likely compensate for the wrong compiler (owner agrees).
+  - Work them ONLY at the proven recipe and land via land_coherence.
+- About 140 pin-free rows are off-recipe.
+- 132 overlay rows are registered at -G8 (overlays are -G0 everywhere): CPU byte-neutral switches.
+
+**Next, in order:**
+1. A first-touch Opus pack from the 26 rows with no lane at their current text (served_now.json; e.g. 800AFA68,
+   80095160, 81905FD0, 80A20A28).
+2. A sol 6.1 wave on the 34 two/three-pin rows sol6.1 never saw at current text (codex quota permitting).
+3. One Opus lane on the clean-rewrite rows (800C4A80 0-pin total 3 at cdk-G0, 800BAE88 total 4): pin only the residual
+   alloc_need names.
+4. Fable mechanism lane: 80DB9000 (scratch single set from a hard register), 800AFA68, 800C9858.
+5. Blind rewrites as reference for 800C9858 / 800CA184 / 800969CC / 8009E0EC / 819613A8 / 8180C3C0.
+6. bg21-bg26 (prebuilt; all Opus-served at current text).
+7. A reconciliation pass over the 32 crutch-cell pinned rows.
+
+fragclone refreshed: no new clone sources. The stale autocommit / clone_watch loops from 09-19/09-21 were killed. Lanes'
+scorer root was rebuilt after the maspsx change (mk_ovl_root.sh in land_chain3).
+
 # Handover (2026-10-01 ~23:40, round 85 WRAPPED UP on the owner's request; every lane finished and landed) - start here
 
 **527 pins / 175 rows** (1,201 / 360 at round-85 start: -674; 886 at the start of this session's stretch).
