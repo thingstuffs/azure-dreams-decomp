@@ -22,37 +22,64 @@ typedef struct
   u8 pad0[0x8D0];
   u8 *nextPrim;
 } RenderState;
+typedef struct
+{
+  u8 pad00[0x18];
+  u32 *ot;
+  u8 pad1C[0x48];
+  u16 unk_64;
+  u16 unk_66;
+  u16 unk_68;
+  u8 pad6A[0x2];
+  u16 unk_6C;
+  u16 unk_6E;
+  u16 unk_70;
+  u8 pad72[0x12];
+  s32 unk_84;
+  s32 unk_88;
+  u8 pad8C[0x28];
+  s32 unk_B4;
+  u8 padB8[0x20];
+  u16 unk_D8;
+  u16 unk_DA;
+  u16 unk_DC;
+  u16 unk_DE;
+  u8 padE0[0x14];
+  s32 unk_F4;
+  s32 unk_F8;
+} ScratchPad;
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define addPrim(ot, p) setaddr(p, getaddr(ot)), setaddr(ot, p)
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
 s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   u8 *globals_page = D_80080000;
   s32 segment = 15;
-  u32 coord_scale = (s16) point_scale;
   s32 *point_base = points_addr;
   s32 initial_z = plane_z;
   s16 phase = (s16) color_phase;
-  void *projection_aux = (void *) 0x1F800084;
-  u32 addr_mask = 0x00FFFFFF;
-  u32 tag_mask = 0xFF000000;
-  s32 *point;
-  register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+  u8 *scratch;
   u8 *line_prim;
   RenderState *initial_ctx;
   GameWork *render_state = &gameWork;
   s32 depth;
-  point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
-  *((u16 *) (scratch + 0x70)) = (u16) initial_z;
-  *((u16 *) (scratch + 0x68)) = (u16) initial_z;
-  *((void **) (scratch + 0x18)) = ((u8 *) initial_ctx) + 0xB0;
+  ((ScratchPad *) scratch)->unk_70 = (u16) initial_z;
+  ((ScratchPad *) scratch)->unk_68 = (u16) initial_z;
+  ((ScratchPad *) scratch)->ot = (u32 *) (((u8 *) initial_ctx) + 0xB0);
   do
   {
     s32 phase_offset = phase;
     s32 color_index = segment + phase_offset;
     s32 biased_index = color_index;
     s32 biased_index_2;
-    s32 color_scale;
     RenderState *ctx;
     s32 line_code;
     s32 div255_multiplier;
@@ -101,64 +128,54 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
       u8 *origin_bytes = (u8 *) origin;
       s32 point_component;
       s32 coord_offset;
-      point_component = *point;
-      coord_offset = point_component * coord_scale;
+      point_component = point_base[segment];
+      coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      *((u16 *) (scratch + 0x64)) = (*((u16 *) (origin_bytes + 2))) + coord_offset;
-      point_component = point[1];
-      coord_offset = point_component * coord_scale;
+      ((ScratchPad *) scratch)->unk_64 = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      point_component = point_base[segment + 1];
+      coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      *((u16 *) (scratch + 0x6C)) = (*((u16 *) (origin_bytes + 2))) + coord_offset;
-      point_component = point[0x11];
-      coord_offset = point_component * coord_scale;
+      ((ScratchPad *) scratch)->unk_6C = (*((u16 *) (origin_bytes + 2))) + coord_offset;
+      point_component = point_base[segment + 0x11];
+      coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      *((u16 *) (scratch + 0x66)) = (*((u16 *) (origin_bytes + 6))) + coord_offset;
-      point_component = point[0x12];
-      coord_offset = point_component * coord_scale;
+      ((ScratchPad *) scratch)->unk_66 = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      point_component = point_base[segment + 0x12];
+      coord_offset = point_component * (s16) point_scale;
       coord_offset >>= 8;
-      *((u16 *) (scratch + 0x6E)) = (*((u16 *) (origin_bytes + 6))) + coord_offset;
+      ((ScratchPad *) scratch)->unk_6E = (*((u16 *) (origin_bytes + 6))) + coord_offset;
     }
     {
-      void *screen_start = scratch + 0xD8;
-      u8 *projection_flags;
-      projection_flags = scratch + 0x88;
-      *((s32 *) (scratch + 0xF4)) = func_80065420(scratch + 0x64, screen_start, projection_aux, projection_flags);
-      *((s32 *) (scratch + 0xF8)) = func_80065420(scratch + 0x6C, scratch + 0xDC, projection_aux, projection_flags);
+      u8 *start_vertex = scratch + 0x64;
+      u8 *end_vertex = scratch + 0x6C;
+      u8 *start_screen = scratch + 0xD8;
+      u8 *end_screen = scratch + 0xDC;
+      u8 *projection_aux = scratch + 0x84;
+      u8 *projection_flags = scratch + 0x88;
+      ((ScratchPad *) scratch)->unk_F4 = func_80065420(start_vertex, start_screen, projection_aux, projection_flags);
+      ((ScratchPad *) scratch)->unk_F8 = func_80065420(end_vertex, end_screen, projection_aux, projection_flags);
     }
-    *((u16 *) (line_prim + 8)) = *((u16 *) (scratch + 0xD8));
-    *((u16 *) (line_prim + 0xA)) = *((u16 *) (scratch + 0xDA));
-    *((u16 *) (line_prim + 0x10)) = *((u16 *) (scratch + 0xDC));
-    *((u16 *) (line_prim + 0x12)) = *((u16 *) (scratch + 0xDE));
+    *((u16 *) (line_prim + 8)) = ((ScratchPad *) scratch)->unk_D8;
+    *((u16 *) (line_prim + 0xA)) = ((ScratchPad *) scratch)->unk_DA;
+    *((u16 *) (line_prim + 0x10)) = ((ScratchPad *) scratch)->unk_DC;
+    *((u16 *) (line_prim + 0x12)) = ((ScratchPad *) scratch)->unk_DE;
     {
       s32 depth_sum;
-      depth_sum = *((s32 *) (scratch + 0xF4));
-      depth_sum += *((s32 *) (scratch + 0xF8));
+      depth_sum = ((ScratchPad *) scratch)->unk_F4;
+      depth_sum += ((ScratchPad *) scratch)->unk_F8;
       depth = depth_sum / 2;
     }
-    *((s32 *) (scratch + 0xB4)) = depth;
+    ((ScratchPad *) scratch)->unk_B4 = depth;
     if (((u32) depth) < 0x1E0U)
     {
       u8 *draw_mode_prim;
-      *((s32 *) line_prim) = ((*((s32 *) line_prim)) & tag_mask) | (((s32 *) (*((void **) (scratch + 0x18))))[depth] & addr_mask);
-      {
-        u32 ot_slot;
-        u32 *ordering_table;
-        u32 old_tag;
-        u32 prim_addr;
-        ot_slot = *((u32 *) (scratch + 0xB4));
-        ordering_table = *((u32 **) (scratch + 0x18));
-        ot_slot = (ot_slot << 2) + ((u32) ordering_table);
-        old_tag = *((u32 *) ot_slot);
-        *((u32 *) ot_slot) = (old_tag & tag_mask) | ((u32)(((u32) line_prim) & addr_mask));
-      }
+      addPrim(((ScratchPad *) scratch)->ot + ((ScratchPad *) scratch)->unk_B4, line_prim);
       draw_mode_prim = ((RenderState *)render_state->unk_000)->nextPrim;
       ((RenderState *)render_state->unk_000)->nextPrim = draw_mode_prim + 0xC;
       func_80067F20(draw_mode_prim, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-      *((s32 *) draw_mode_prim) = ((*((s32 *) draw_mode_prim)) & tag_mask) | (((s32 *) (*((void **) (scratch + 0x18))))[*((s32 *) (scratch + 0xB4))] & addr_mask);
-      *(((s32 *) (*((void **) (scratch + 0x18)))) + (*((s32 *) (scratch + 0xB4)))) = ((*(((s32 *) (*((void **) (scratch + 0x18)))) + (*((s32 *) (scratch + 0xB4))))) & tag_mask) | (((s32) draw_mode_prim) & addr_mask);
+      addPrim(((ScratchPad *) scratch)->ot + ((ScratchPad *) scratch)->unk_B4, draw_mode_prim);
     }
     segment -= 1;
-    point = (s32 *) (((u8 *) point) - 4);
   }
   while (segment >= 0);
   return 0;
