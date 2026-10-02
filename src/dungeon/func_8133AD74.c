@@ -263,7 +263,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         if ((s16) rise_frame >= 0x38) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
-            ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
             ((S_80171D74_3 *)motion_in)->unk_0C.n = 0;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
@@ -276,7 +275,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             next_phase = ((S_80171D74_1 *)state_in)->unk_9A;
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             next_phase = next_phase + 1;
-            ASM_SCHED_BARRIER(); /* MATCH: preserve the distinct case tail and its delay-slot store. */
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) next_phase;
         }
         func_8016F5D8(state_in, motion_in, sprite_in);
@@ -628,6 +626,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
             ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             shared_tail_2:
+            shared_tail_3:
+            shared_tail_4:
             ((S_80171D74_1 *)state_in)->unk_96 = 0;
             goto advance_phase;
         }
@@ -644,9 +644,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFFB0000;
             ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) (direction_y << 0x13);
             tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            goto advance_phase;
+            goto shared_tail_4;
             break;
         }
     case 31:
@@ -765,6 +763,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
                     ((S_80171D74_3 *)motion_in)->unk_04.at02u.v = ((u16)D_80083780.y.w.i);
                 }
             }
+            shared_tail:
             func_8016F5D8(state_in, motion_in, sprite_in);
             break;
         }
@@ -780,8 +779,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         ((S_80171D74_1 *)state_in)->unk_96 = effect_wait_frame;
         if ((s16) effect_wait_frame >= 0x3C) {
             tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            goto advance_phase;
+            goto shared_tail_3;
         }
         break;
     case 45:
@@ -812,8 +810,7 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     case 14:
     case 18:
 update_height:
-        func_8016F5D8(state_in, motion_in, sprite_in);
-        break;
+        goto shared_tail;
 
     case 42:
         func_800945E8(((s32)D_800E3D7C), target_state);

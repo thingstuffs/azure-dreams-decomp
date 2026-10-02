@@ -546,12 +546,12 @@ loop_36:
                             face = ((void **)((S_800CF8E4_1 *)map)->unk_04)[cells[*(s32 *)(ram_base + 0x144)].index];
 L_CFE98:
                             {
-                                register s32 vertex_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                                s32 vertex_value;
                                 s32 vertex_offset;
                                 s32 vertex_xy;
                                 u16 cell_x;
                                 register u16 vertex_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                register u16 third_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                                u16 third_x;
 
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_10;
                                 cell_x = *(u16 *)(ram_base + 0x014);
@@ -612,12 +612,10 @@ L_CFE98:
                                 *(s32 *)(ram_base + 0x164) = vertex_value;
                                 third_x = *(u16 *)(ram_base + 0x164);
                                 vertex_offset = *(u16 *)(ram_base + 0x166);
-                                vertex_xy = cell_x + third_x;
+                                vertex_xy = (third_x) + (cell_x);
                                 vertex_xy &= 0xFFFF;
                                 vertex_offset = (s16)vertex_offset;
-                                vertex_value = *(s32 *)(ram_base + 0x00C);
-                                vertex_value += vertex_offset;
-                                vertex_value <<= 16;
+                                vertex_value = ((*(s32 *)(ram_base + 0x00C)) + vertex_offset) << 16;
                                 vertex_xy |= vertex_value;
                                 *(s32 *)(ram_base + 0x0F0) = vertex_xy;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_04;

@@ -141,7 +141,6 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
 
     var_s2 = 0;
     var_s0 = NULL;
-    ASM_KEEP_NV(arg2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     raw_s1 = func_8025E01C(arg1);
     global_s7 = D_8012F130;
     ASM_KEEP_NV(global_s7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -156,8 +155,10 @@ void func_8080C650(void *in0, void *arg1, void *in2) {
     func_80245C10(arg1);
     if (((S_8080C650_2 *)arg1)->unk_08.at02.v >= ((s32)temp_v0_3)) {
         ((S_8080C650_2 *)arg1)->unk_08.at02.v = (s32)temp_v0_3;
+        func_8003EA54(arg2);
+    } else {
+        func_8003EA54(arg2);
     }
-    func_8003EA54(arg2);
     temp_v1 = ((S_8080C650_0 *)in0)->unk_68.s;
     switch (temp_v1) {
     case 0:

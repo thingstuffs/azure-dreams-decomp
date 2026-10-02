@@ -16,7 +16,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     GameWork *render_global;
     u8 *line_packet;
     void *projection_param;
-    u8 *flags_or_mode;
+    union { u8 * pointer; s32 value; } flags_or_mode;
     s32 ray_index = 0;
     s32 prev_step;
     render_global = &gameWork;
@@ -30,7 +30,6 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     do {
         void **render_ptr = (void **) render_global;
         void *render_ctx = *render_ptr;
-        register s32 radial_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 start_step_offset;
         s32 end_step_offset;
         s32 z_delta;
@@ -52,10 +51,10 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
         *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
-        radial_offset = ((func_800644B8(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
+        flags_or_mode.value = ((func_800644B8(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
-        start_step_offset = radial_offset / scale;
-        *((s32 *) (((u8 *) scratch) + 0x108)) = radial_offset;
+        start_step_offset = flags_or_mode.value / scale;
+        *((s32 *) (((u8 *) scratch) + 0x108)) = flags_or_mode.value;
         *((u16 *) (((u8 *) scratch) + 0x64)) += (start_step_offset * prev_step) >> 16;
         end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x108))) / scale;
         *((u16 *) (((u8 *) scratch) + 0x6C)) += (end_step_offset * step) >> 16;
@@ -63,10 +62,10 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
         *((u16 *) (((u8 *) scratch) + 0x6E)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x66)) = origin_coord;
-        radial_offset = ((func_80064584(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
+        flags_or_mode.value = ((func_80064584(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
-        start_step_offset = radial_offset / scale;
-        *((s32 *) (((u8 *) scratch) + 0x10C)) = radial_offset;
+        start_step_offset = flags_or_mode.value / scale;
+        *((s32 *) (((u8 *) scratch) + 0x10C)) = flags_or_mode.value;
         *((u16 *) (((u8 *) scratch) + 0x66)) += (start_step_offset * prev_step) >> 16;
         end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x10C))) / scale;
         projection_param = scratch + 0x84;
@@ -82,9 +81,9 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
         *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(scratch + 0x64, scratch + 0xD8, projection_param, scratch
             + 0x88);
-        flags_or_mode = scratch + 0x88;
+        flags_or_mode.pointer = scratch + 0x88;
         *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(scratch + 0x6C, scratch + 0xDC, projection_param,
-            flags_or_mode);
+            flags_or_mode.pointer);
         *((u16 *) (((u8 *) line_packet) + 8)) = *((u16 *) (((u8 *) scratch) + 0xD8));
         *((u16 *) (((u8 *) line_packet) + 0xA)) = *((u16 *) (((u8 *) scratch) + 0xDA));
         *((u16 *) (((u8 *) line_packet) + 0x10)) = *((u16 *) (((u8 *) scratch) + 0xDC));
@@ -100,16 +99,16 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) line_packet) & addr_mask);
             render_ptr = (void **) render_global;
             render_ctx = *render_ptr;
-            flags_or_mode = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
-            *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = flags_or_mode + 0xC;
-            func_80067F20(flags_or_mode, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
+            flags_or_mode.pointer = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
+            *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = flags_or_mode.pointer + 0xC;
+            func_80067F20(flags_or_mode.pointer, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0,
                 0) & 0xFFFF, 0);
-            *((u32 *) (((u8 *) flags_or_mode) + 0)) = ((*((u32 *) (((u8 *) flags_or_mode) + 0))) & 0xFF000000)
+            *((u32 *) (((u8 *) flags_or_mode.pointer) + 0)) = ((*((u32 *) (((u8 *) flags_or_mode.pointer) + 0))) & 0xFF000000)
             | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
                 + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & addr_mask);
             *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4)))))
                 + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18)))
-                + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) flags_or_mode) & addr_mask);
+                + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) flags_or_mode.pointer) & addr_mask);
         }
         angle += 0x333;
         ray_index++;

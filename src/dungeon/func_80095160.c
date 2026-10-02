@@ -40,6 +40,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     u8 *x_steps;
     s32 direction;
     s32 coord_work;
+    s32 coord_work_2;
     u32 target_x;
     s32 step_offset;
     u32 offset_work;
@@ -92,7 +93,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     tile_coord = (u32)coord_or_height >> 6;
                     offset_work <<= 6;
                     y_or_direction = (u32)offset_work >> 6;
-                    coord_work = coord_or_height + 0x20;
+                    coord_work_2 = coord_or_height + 0x20;
                     offset_work += 0x20;
                     center_y = offset_work;
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
@@ -100,13 +101,12 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     if (result != 0) {
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
-                        ASM_SET(offset_work);
                         {
                             u16 *pa = (u16 *)((u8 *)D_800DCEAC + step_offset);
                             u16 *pb = (u16 *)((u8 *)D_800DCEBC + step_offset);
                             direction_or_x = actor->x;
                             tile_coord = actor->y;
-                            target_x = *pa + coord_work;
+                            target_x = *pa + coord_work_2;
                             coord_work = *pb + center_y;
                         }
                         func_8009A350(direction_or_x, tile_coord, y_or_direction, (u16 *)collision_out);

@@ -316,7 +316,6 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                     step_value = (s32) ((u16 *)dirStepY);
                     step_or_cell += step_value;
                     cell_coord = cell->unk_25;
-                    ASM_KEEP(cell_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     step_value = *(u16 *) step_or_cell;
                     y_value = cell_coord + step_value;
                 }
@@ -337,14 +336,12 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                         goto check_other_side;
                     }
                     first_slot = menu + 0xC;
-                    step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
-                    other_slot = first_slot;
                 } else {
 check_other_side:
                     first_slot = menu + 0xC;
-                    step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
-                    other_slot = first_slot;
                 }
+                step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
+                other_slot = first_slot;
                 if (step_or_cell == 0) {
                     other_slot = menu + 0x10;
                 }

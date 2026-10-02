@@ -67,7 +67,7 @@ extern s16 D_80026664;
 
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void func_81876014(void *effect, void *position_out, void *color_out) {
-    s16 vertex_coord;
+    s32 vertex_coord;
     register s32 y_third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 y_fourth ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 x_edge;
@@ -109,7 +109,6 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         ((S_81876014_0 *)effect)->unk_58 = y_offset;
         ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         vertex_coord = y_offset;
-        ASM_KEEP(vertex_coord);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         y_third = y_offset;
         y_fourth = y_offset;
         ASM_KEEP(y_fourth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
