@@ -35,5 +35,13 @@
  "claude-sonnet-5-5-high": {
   "tokens": 0,
   "minutes": 130
+ },
+ "claude-opus-5-5-medium": {
+  "tokens": 0,
+  "minutes": 160
+ },
+ "claude-sonnet-5-5-medium": {
+  "tokens": 0,
+  "minutes": 130
  }
 }
