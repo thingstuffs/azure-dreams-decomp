@@ -13,7 +13,7 @@
 #
 # Environment
 #   AC_INTERVAL   seconds between checks (default 600)
-#   AC_PATHS      what to commit (default "src STATUS.md ledger")
+#   AC_PATHS      what to commit (default "src include STATUS.md ledger")
 #   AC_COAUTHOR   the Co-Authored-By line, e.g. "Claude Opus 5 (1M context) <noreply@anthropic.com>";
 #                 empty (the default) writes no trailer.  The orchestrating session sets its own.
 #   AC_ONCE       1 = one check, then exit (what the test and a manual catch-up use)
@@ -24,7 +24,7 @@
 set -u
 cd "${AC_ROOT:-$(dirname "$0")/../..}"
 INTERVAL=${AC_INTERVAL:-600}
-PATHSPEC=${AC_PATHS:-"src STATUS.md ledger"}
+PATHSPEC=${AC_PATHS:-"src include STATUS.md ledger"}   # r91: include/ too (a type apply's new headers were left out)
 
 commit_if_idle() {
   if pgrep -f "[g]ate_all.py|[a]pply_candidates.py|[m]k_ovl_root.sh|[b]uild_slus.sh|[l]and_lanes.sh" >/dev/null; then
