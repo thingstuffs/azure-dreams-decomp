@@ -84,6 +84,7 @@ stage, lanes = sys.argv[1], sys.argv[2:]
 bad = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
 # a computed goto counts once plus once per `&&label` address it can reach (a label array is a jump site per entry)
 gotos = lambda t: (lambda c: len(re.findall(r"\bgoto\s+\w+\s*;", c)) + len(re.findall(r"\bgoto\s*\*", c)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", c)))(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
+m2c = lambda t: len(re.findall(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b", re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
 kinds = lambda t: collections.Counter(m.group(0).replace(" ", "") for m in bad.finditer(re.sub(r"/\*.*?\*/", "", t, flags=re.S)))
 for lane in lanes:
     for f in sorted(glob.glob("work/native_lane/%s/out/*/*.c" % lane)):
@@ -96,6 +97,11 @@ for lane in lanes:
         # round 80 (readability lanes): with pins equal, fewer `goto` statements (and none added) is a landing too
         gc, gu = gotos(cand), gotos(cur)
         if gc < gu: fell.append("goto")
+        # round 91 (luna cleanup lanes): with pins equal, fewer decompiler leftovers (M2C_* tokens, temp_/var_/phi_
+        # locals, argN, spXX, NON_MATCHING; comments excluded) is a landing too, and none may be added
+        mc, mu = m2c(cand), m2c(cur)
+        if mc < mu: fell.append("m2c")
+        if len(sites_of(cand)) == len(sites_of(cur)) and mc > mu: grew.append("m2c")
         # round 80 (format lanes): a candidate that differs from the current text ONLY in whitespace outside string
         # literals and preprocessor lines is a formatting landing (C tokens and comment text identical; the byte gate decides)
         TOK = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[A-Za-z_]\w*|\d[\w.]*|>>=|<<=|->|\+\+|--|&&|\|\||<<|>>|[<>=!+\-*/%&|^]=|\.\.\.|\S')

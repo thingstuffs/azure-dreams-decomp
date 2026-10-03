@@ -27,6 +27,19 @@ when it drains; logs `work/native_lane/_r91/pool_r91{a,b,s}.log`, pool PIDs in `
   Harvest outputs are drafts: review, then copy into tools/learnings + tools/lanes/brief_paragraphs.
 - An early landing of the 20 lanes finished by 02:50 ran as `land_gap.sh r91early` (`_r91/land_early.log`).
 
+**Added 04:50 (owner: luna on everything cheap + a read-only off-by-one investigation):**
+- kitlib.admissible + land_lanes.sh now accept an equal-pin exact text whose decompiler leftovers fell (M2C_* tokens,
+  temp_/var_/phi_ locals, argN, spXX, NON_MATCHING; comments excluded) and refuse one that adds them.
+- **r91l** luna6 c=3 `--no-land` (log `_r91/pool_r91l.log`): `r91_luna_proto1-3` (M2C_UNK -> real prototypes),
+  `rename1-3` (honest local names, "never a false name"), `nm1-2` (dead/stale NON_MATCHING arms), `goto1-3` (random
+  easy goto rows). REVIEW a sample of rename/proto diffs for false names, then
+  `LAND_ISOLATED=1 bash tools/lanes/land_gap.sh r91l <lanes>`. Briefs: `_r91/luna_briefs/`, rows `_r91/luna.json`.
+- `r91_luna_gloss1` (luna6, 3M tok/180 min): literal JP->EN gloss of TOWN m00 with US-cut classification
+  (gloss/m00.jsonl + GLOSS_NOTES.md), the script side project's raw material. Read-only outside its lane.
+- `r91_luna_offby1` (luna6, read-only): why STATUS's shape table says 151 pinned rows while "Pin sites now" says 150.
+  FINDINGS.md proposes a fix (not applied).
+- alignment results land through `land_coherence.sh` (land_lanes skips equal-pin cell moves): chain2.sh does that.
+
 **Owed after drain:** check each pool's land_gap result + gate, STATUS refresh, commit; harvest REPORT.md moves
 (cheap: let a sol lane draft it); second wave = the 92 rows strong lanes already served at current text (sol61/astra
 retry), and the 19 "other mismatch" alignment rows.
