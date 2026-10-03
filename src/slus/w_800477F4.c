@@ -37,50 +37,33 @@ void func_800477F4(S_800477F4_Actor *actor)
 
     old_flags = actor->flags;
     flags = old_flags & 0xCFFF;
-    if (old_flags & 0x800) {
-        goto store_flags;
-    }
-
-    {
+    if (!(old_flags & 0x800)) {
         u8 ticks_left = actor->f5 - 1;
         actor->f5 = ticks_left;
-        if ((s8)ticks_left > 0) {
-            goto store_flags;
+        if ((s8)ticks_left <= 0) {
+            node = (S_800477F4_Node *)actor->cur;
+            if (((S_800477F4_Node *)node)->typeA != 0) {
+                s16 step_type;
+                node = (u8 *)node + 8;
+                step = (S_800477F4_Sub *)node;
+                step_type = *(s16 *)((char *)step + 2);
+                if (step_type == 0) {
+                    flags |= 0x5000;
+                } else {
+                    if (step_type == 1) {
+                        step = step->next;
+                        flags |= 0x2000;
+                        actor->f4 = 0;
+                    } else {
+                        actor->f4 = actor->f4 + 1;
+                    }
+                    actor->f5 = step->f0 / D_80080A84;
+                    flags |= 0x1000;
+                    actor->f8 = (s32)step->next;
+                }
+                actor->cur = step;
+            }
         }
     }
-
-    node = (S_800477F4_Node *)actor->cur;
-
-    if (((S_800477F4_Node *)node)->typeA == 0) {
-        goto store_flags;
-    }
-
-    node = (u8 *)node + 8;
-    step = (S_800477F4_Sub *)node;
-    {
-        s16 step_type = *(s16 *)((char *)step + 2);
-        if (step_type == 0) {
-            flags |= 0x5000;
-            goto store_step;
-        }
-        if (step_type == 1) {
-            step = step->next;
-            flags |= 0x2000;
-            actor->f4 = 0;
-            goto update_step;
-        }
-    }
-
-    actor->f4 = actor->f4 + 1;
-
-update_step:
-    actor->f5 = step->f0 / D_80080A84;
-    flags |= 0x1000;
-    actor->f8 = (s32)step->next;
-
-store_step:
-    actor->cur = step;
-
-store_flags:
     actor->flags = flags;
 }

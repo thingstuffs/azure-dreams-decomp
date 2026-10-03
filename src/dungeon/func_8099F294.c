@@ -32,6 +32,7 @@ void func_80170A94(void *actor, void *motion, void *sprite)
     s32 ground_offset;
     s32 bob_offset;
     s32 height_adjust;
+    s32 physics_flags;
     void *actor_base = actor;
     ActorCallback callback;
     u32 initial_flags = dungeonStatus.flags;
@@ -83,7 +84,10 @@ void func_80170A94(void *actor, void *motion, void *sprite)
     }
     *((u16 *) (((u8 *) sprite) + 0x14)) = sprite_flags;
     anim_flags = *((volatile u16 *) (((u8 *) sprite) + 0x14));
-    if (!(anim_flags & 0x8000)) {
+    /* Select the animation path; afterwards physics_flags carries the flight bit. */
+    physics_flags = anim_flags & 0x8000;
+    switch (physics_flags) {
+    case 0:
         func_800A020C(*((s32 *) (((u8 *) actor_base) + 0x1C)), ((u8 *) sprite) + 0xC);
         if (!((*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x20)) {
             if (!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) {
@@ -95,7 +99,8 @@ void func_80170A94(void *actor, void *motion, void *sprite)
             *((u32 *) (((u8 *) actor_base) + 0x1C)) &= 0xFFFBFFFF;
         }
         *((u32 *) (((u8 *) actor_base) + 0x1C)) &= 0xF7FFFFFF;
-        if ((*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x40000) {
+        physics_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C))) & 0x40000;
+        if (physics_flags) {
             if ((!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40))
                 && ((*((void **) (((u8 *) sprite) + 0x2C))) == D_80175E40)) {
                 if ((*((u16 *) (((u8 *) sprite) + 4))) == 0x100) {
@@ -122,67 +127,65 @@ void func_80170A94(void *actor, void *motion, void *sprite)
                     *((u16 *) (((u8 *) actor) + 0x92)) = ((u16) height_offset) + 8;
                 }
             }
-            goto post_physics;
+            break;
         }
-        goto clear_accumulator;
-    }
-    anim_flags = (anim_flags & 0x800) ? (anim_flags & 0x8FFF) : (anim_flags | 0x7000);
-    do {
-        *((u16 *) (((u8 *) sprite) + 0x14)) = anim_flags;
-    }
-    while (0);
-    clear_mask = 0xF7FFFFFF;
-    actor_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C)));
-    actor_flags &= clear_mask;
-    *((u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags;
-    actor_flags &= 0x40000;
-    if (!actor_flags) {
-clear_accumulator:
-        bob_offset = *((s32 *) (((u8 *) actor) + 0xA0));
+        /* Fall through with zero flags to share the ground-physics path. */
+    default:
+        if (physics_flags) {
+            *((u16 *) (((u8 *) sprite) + 0x14)) = (anim_flags & 0x800) ? (anim_flags & 0x8FFF) : (anim_flags | 0x7000);
+            clear_mask = 0xF7FFFFFF;
+            actor_flags = (*((u32 *) (((u8 *) actor_base) + 0x1C)));
+            actor_flags &= clear_mask;
+            *((u32 *) (((u8 *) actor_base) + 0x1C)) = actor_flags;
+            actor_flags &= 0x40000;
+            physics_flags = actor_flags;
+        }
+        if (!physics_flags) {
+            bob_offset = *((s32 *) (((u8 *) actor) + 0xA0));
 
-        *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
-        *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
-        *((s32 *) (((u8 *) actor) + 0x90)) -= bob_offset;
-        if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
-            ground_height = func_800BCB04(*((u16 *) (((u8 *) motion) + 2)), *((u16 *) (((u8 *) motion) + 6)),
-                (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
-            ground_offset = ground_height - (*((u16 *) (((u8 *) actor_base) + 0x88)));
-            if (((s16) ground_offset) < (*((s16 *) (((u8 *) actor) + 0x92)))) {
-                *((s16 *) (((u8 *) actor) + 0x92)) = ground_offset;
-                *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
-                *((s32 *) (((u8 *) motion) + 0x14)) = 0;
-                *((u32 *) (((u8 *) actor_base) + 0x1C)) |= 0x08000000;
-                goto post_physics;
-            }
-        }
-        goto post_physics;
-    }
-    if ((!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) && ((*((void **) (((u8 *) sprite) + 0x2C))) == D_80175E40)) {
-        if ((*((u16 *) (((u8 *) sprite) + 4))) == 0x100) {
             *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
             *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
-        }
-        if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
-            s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
-            (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-            *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
+            *((s32 *) (((u8 *) actor) + 0x90)) -= bob_offset;
+            if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
+                ground_height = func_800BCB04(*((u16 *) (((u8 *) motion) + 2)), *((u16 *) (((u8 *) motion) + 6)),
+                    (s16) ((*((u16 *) (((u8 *) actor_base) + 0x88))) - 0x20));
+                ground_offset = ground_height - (*((u16 *) (((u8 *) actor_base) + 0x88)));
+                if (((s16) ground_offset) < (*((s16 *) (((u8 *) actor) + 0x92)))) {
+                    *((s16 *) (((u8 *) actor) + 0x92)) = ground_offset;
+                    *((u8 *) (((u8 *) actor) + 0x9D)) = 0;
+                    *((s32 *) (((u8 *) motion) + 0x14)) = 0;
+                    *((u32 *) (((u8 *) actor_base) + 0x1C)) |= 0x08000000;
+                }
+            }
         }
         else {
-            s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
-            (*((u16 *) (((u8 *) actor) + 0x9E)))++;
-            *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
+            if ((!((*((u16 *) (((u8 *) sprite) + 0x14))) & 0x40)) && ((*((void **) (((u8 *) sprite) + 0x2C))) == D_80175E40)) {
+                if ((*((u16 *) (((u8 *) sprite) + 4))) == 0x100) {
+                    *((u16 *) (((u8 *) actor) + 0x9E)) = 0;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) = 0;
+                }
+                if (((u32) ((*((u8 *) (((u8 *) sprite) + 4))) - 1)) < 4) {
+                    s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
+                    (*((u16 *) (((u8 *) actor) + 0x9E)))++;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 5;
+                }
+                else {
+                    s16 bob_tick = *((u16 *) (((u8 *) actor) + 0x9E));
+                    (*((u16 *) (((u8 *) actor) + 0x9E)))++;
+                    *((s32 *) (((u8 *) actor) + 0xA0)) += func_800644B8(bob_tick * 0xAA) << 6;
+                }
+            }
+            if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
+                height_offset = *((s16 *) (((u8 *) actor) + 0x92));
+                if (height_offset >= (-0x1F)) {
+                    *((u16 *) (((u8 *) actor) + 0x92)) = ((u16) height_offset) - 8;
+                }
+                else if (height_offset < (-0x28)) {
+                    *((u16 *) (((u8 *) actor) + 0x92)) = ((u16) height_offset) + 8;
+                }
+            }
         }
     }
-    if (!((*((u16 *) (((u8 *) actor) + 0x98))) & 8)) {
-        height_offset = *((s16 *) (((u8 *) actor) + 0x92));
-        if (height_offset >= (-0x1F)) {
-            *((u16 *) (((u8 *) actor) + 0x92)) = ((u16) height_offset) - 8;
-        }
-        else if (height_offset < (-0x28)) {
-            *((u16 *) (((u8 *) actor) + 0x92)) = ((u16) height_offset) + 8;
-        }
-    }
-post_physics:
     actor_flags = *((u32 *) (((u8 *) actor_base) + 0x1C));
 
     if (actor_flags & 0x40000000) {

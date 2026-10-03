@@ -137,10 +137,12 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
 
     if (status->unk_6D > 0) {
         if (((u32)status->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(status);
+            return;
         }
         if (((S_801713A8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto case_default;
+            func_80171A98(actor, context, sprite, status);
+            return;
         }
         action_flags = status->unk_46;
         if ((action_flags & 0x8000) == 0) {
@@ -156,7 +158,8 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
             action_flags = status->unk_46 | 0x4000;
             status->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto case_default;
+                func_80171A98(actor, context, sprite, status);
+                return;
             }
         }
 
@@ -184,14 +187,15 @@ void func_801713A8(void *actor, void *context, void *sprite, EntityRec *status)
             active_actor = D_800814A8;
             status->facing = target_angle;
             if (active_actor->unk_9A != 0x11) {
-                goto case_12;
+                func_800A9A0C(status);
+                return;
             }
         }
             resume_handler = (void *)func_801713A8;
-            goto case_call;
+            func_800AAF00(actor, context, sprite, D_801744D4, resume_handler);
+            return;
 
         case 11:
-case_12:
             func_800A9A0C(status);
             return;
 
@@ -200,7 +204,6 @@ case_12:
         case 2:
             resume_handler = (void *)func_801713A8;
 
-case_call:
             func_800AAF00(actor, context, sprite, D_801744D4, resume_handler);
             return;
 
@@ -208,7 +211,6 @@ case_call:
         case 9:
         case 10:
         default:
-case_default:
             func_80171A98(actor, context, sprite, status);
             return;
         }

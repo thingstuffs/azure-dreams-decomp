@@ -82,160 +82,138 @@ void func_8016D204(S_func_81325A04_0 *action, S_func_81325A04_1 *motion, S_func_
     u8 *anim_table;
 
     state = action->unk_9B;
-    if (state == 1) {
-        goto slow_move;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto start_move;
+    switch (state) {
+    case 0:
+        func_800AD4D0(actor);
+        action->unk_96.s = 12;
+        action->unk_9B = (u8)(action->unk_9B + 1);
+        if (actor->unk_28 == 0) {
+            motion->unk_14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            if (action->unk_B4 != 0) {
+                action->unk_9B = 0;
+                action->unk_8C = D_8016B778;
+                return;
+            }
+            action->unk_9B = 0;
+            func_800AAA54(action, motion, entity, D_801746CC);
+            return;
         }
+        final_state = (u8 *)3;
+        if (!(entity->unk_14 & 0x8000)) {
+            return;
+        }
+        action->unk_96.s = 0;
+        action->unk_9B = (u32)final_state;
         return;
-    }
 
-    if (state == 2) {
-        goto return_to_tile;
-    }
-    if (state == 3) {
-        goto finish_move;
-    }
-    return;
-
-start_move:
-    func_800AD4D0(actor);
-    action->unk_96.s = 12;
-    action->unk_9B = (u8)(action->unk_9B + 1);
-    if (actor->unk_28 == 0) {
+    case 1:
+        timer_bits = action->unk_96.u;
+        timer_bits--;
+        action->unk_96.u = timer_bits;
+        timer = (s16)timer_bits;
+        if (timer >= 11) {
+            motion->unk_0C =
+            *(s16 *)((u8 *)dirStepX + ((actor->unk_6A >> 8) & 0xE)) << 20;
+            motion->unk_10 =
+            *(s16 *)((u8 *)dirStepY + ((actor->unk_6A >> 8) & 0xE)) << 20;
+            entity->unk_14 |= 0x800;
+            return;
+        }
+        if (timer >= 7) {
+            velocity_x = motion->unk_0C;
+            if (velocity_x < 0) {
+                velocity_x += 3;
+            }
+            velocity_y = motion->unk_10;
+            motion->unk_0C = velocity_x >> 2;
+            if (velocity_y < 0) {
+                velocity_y += 3;
+            }
+            motion->unk_10 = velocity_y >> 2;
+            return;
+        }
+        timer_ending = timer < 2;
+        if (!timer_ending) {
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            return;
+        }
+        if (timer == state) {
+            entity->unk_14 &= 0xF7FF;
+            return;
+        }
+        if (timer != 0) {
+            return;
+        }
+        timer = 4;
+        state_bits = action->unk_9B;
+        action->unk_96.s = timer;
+        action->unk_9B = (u8)(state_bits + 1);
+        return;
+    case 2:
+        timer = action->unk_96.s;
+        if (timer != 0) {
+            tile_x = entity->unk_24 << 6;
+            offset_x = motion->unk_02 - 32;
+            motion->unk_0C = ((tile_x - offset_x) << 16) / timer;
+            tile_y = entity->unk_25 << 6;
+            offset_y = motion->unk_06 - 32;
+            motion->unk_10 =
+            ((tile_y - offset_y) << 16) / action->unk_96.s;
+        }
+        saved_timer = action->unk_96.u;
+        next_timer = (s16)(saved_timer - 1);
+        shifted_timer = (s32)saved_timer << 16;
+        action->unk_96.s = next_timer;
+        if (shifted_timer > 0) {
+            return;
+        }
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        if (action->unk_B4 != 0) {
-            action->unk_9B = 0;
-            action->unk_8C = D_8016B778;
-            return;
-        }
-        goto initialize;
-    }
-    final_state = (u8 *)3;
-    if (!(entity->unk_14 & 0x8000)) {
+        state_bits = action->unk_9B;
+        action->unk_9B = (u8)(state_bits + 1);
         return;
-    }
-    action->unk_96.s = 0;
-    action->unk_9B = (u32)final_state;
-    return;
 
-slow_move:
-    timer_bits = action->unk_96.u;
-    timer_bits--;
-    action->unk_96.u = timer_bits;
-    timer = (s16)timer_bits;
-    if (timer >= 11) {
-        motion->unk_0C =
-            *(s16 *)((u8 *)dirStepX + ((actor->unk_6A >> 8) & 0xE)) << 20;
-        motion->unk_10 =
-            *(s16 *)((u8 *)dirStepY + ((actor->unk_6A >> 8) & 0xE)) << 20;
-        entity->unk_14 |= 0x800;
-        return;
-    }
-    if (timer >= 7) {
-        velocity_x = motion->unk_0C;
-        if (velocity_x < 0) {
-            velocity_x += 3;
-        }
-        velocity_y = motion->unk_10;
-        motion->unk_0C = velocity_x >> 2;
-        if (velocity_y < 0) {
-            velocity_y += 3;
-        }
-        motion->unk_10 = velocity_y >> 2;
-        return;
-    }
-    timer_ending = timer < 2;
-    if (!timer_ending) {
+    case 3:
+        motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
-        return;
-    }
-    if (timer == state) {
-        entity->unk_14 &= 0xF7FF;
-        return;
-    }
-    if (timer != 0) {
-        return;
-    }
-    timer = 4;
-    state_bits = action->unk_9B;
-    action->unk_96.s = timer;
-    goto increment_state;
-return_to_tile:
-    timer = action->unk_96.s;
-    if (timer != 0) {
-        tile_x = entity->unk_24 << 6;
-        offset_x = motion->unk_02 - 32;
-        motion->unk_0C = ((tile_x - offset_x) << 16) / timer;
-        tile_y = entity->unk_25 << 6;
-        offset_y = motion->unk_06 - 32;
-        motion->unk_10 =
-            ((tile_y - offset_y) << 16) / action->unk_96.s;
-    }
-    saved_timer = action->unk_96.u;
-    next_timer = (s16)(saved_timer - 1);
-    shifted_timer = (s32)saved_timer << 16;
-    action->unk_96.s = next_timer;
-    if (shifted_timer > 0) {
-        return;
-    }
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    state_bits = action->unk_9B;
-increment_state:
-    action->unk_9B = (u8)(state_bits + 1);
-    return;
-
-finish_move:
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, entity->unk_24, entity->unk_25);
-    if (actor->unk_28 != 0) {
-        goto restore_animation;
-    }
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    if (action->unk_B4 != 0) {
-        goto reset_action;
-    }
-initialize:
-    action->unk_9B = 0;
-    func_800AAA54(action, motion, entity, D_801746CC);
-    return;
-
-reset_action:
-    {
-        u8 *result_bits = D_8016B778;
-        action->unk_9B = 0;
-        action->unk_8C = result_bits;
-        return;
-    }
-
-restore_animation:
-    anim_addr = entity->unk_2C;
-    if (anim_addr == (s32)D_801746C4) {
-        if (action->unk_B3 == 0) {
-            anim_table = D_8017467C;
-        } else {
-            anim_table = D_80174684;
+        func_800A2B04(motion, entity->unk_24, entity->unk_25);
+        if (actor->unk_28 == 0) {
+            motion->unk_14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            if (action->unk_B4 == 0) {
+                action->unk_9B = 0;
+                func_800AAA54(action, motion, entity, D_801746CC);
+                return;
+            } else {
+                u8 *result_bits = D_8016B778;
+                action->unk_9B = 0;
+                action->unk_8C = result_bits;
+                return;
+            }
         }
-        if (anim_addr != (s32)anim_table) {
-            entity->unk_2C = (s32)anim_table;
-            facing = gameWork.view.viewAngle + actor->unk_2A;
-            func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+        anim_addr = entity->unk_2C;
+        if (anim_addr == (s32)D_801746C4) {
+            if (action->unk_B3 == 0) {
+                anim_table = D_8017467C;
+            } else {
+                anim_table = D_80174684;
+            }
+            if (anim_addr != (s32)anim_table) {
+                entity->unk_2C = (s32)anim_table;
+                facing = gameWork.view.viewAngle + actor->unk_2A;
+                func_80047784(entity, *(u8 *)((u32)(((facing + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+            }
         }
+        if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
+            *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
+        }
+        action->unk_8C = D_8016B778;
+        return;
     }
-    if (((s32)dungeonStatus.unk_10) == (s32)((u8 *)actor - 0x20)) {
-        *(s32 *)&dungeonStatus.unk_10 &= 0x7FFFFFFF;
-    }
-    action->unk_8C = D_8016B778;
-    return;
 }

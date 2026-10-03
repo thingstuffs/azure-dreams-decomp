@@ -5,7 +5,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-typedef s32 M2C_UNK;
 
 
 extern u8 D_80170E7C;
@@ -73,14 +72,17 @@ void func_80172CE8(void *action, EntityRec *motion, void *actor, void *object) {
             switch (kind) {
             case 6:
                 is_special = 1;
+                /* fall through */
             case 2:
                 goto item_e_value;
             case 5:
                 is_special = 1;
+                /* fall through */
             case 1:
                 goto item_b_value;
             case 4:
                 is_special = 1;
+                /* fall through */
             case 0:
                 goto item_8_value;
             default:
@@ -118,74 +120,75 @@ item_none:
         }
 
 item_ready:
-        if (*item_slot == 0) {
-            goto no_item;
-        }
+        if (*item_slot != 0) {
 
-        ((S_80172CE8_0 *)action)->unk_98 &= 0xFF7F;
-        {
-            s32 use_existing;
+            ((S_80172CE8_0 *)action)->unk_98 &= 0xFF7F;
+            {
+                s32 use_existing;
+                u32 item_def;
 
-            use_existing = is_special;
-            if (use_existing) {
-                node = D_800814A8;
-                (*(void * *)((u8 *)object + 0x60)) = node;
-                goto copy_existing;
-            }
-        }
-
-        {
-            u8 *item_defs = D_8006DE24;
-            u8 item_id = *item_slot;
-            u32 item_def = (item_id * 20 + item_defs)[0x12];
-            if (item_def == 2) {
-                node = (*(void * *)((u8 *)object + 0x60));
-                if (node != 0) {
-copy_existing:
+                use_existing = is_special;
+                if (use_existing) {
+                    node = D_800814A8;
+                    (*(void * *)((u8 *)object + 0x60)) = node;
                     {
                         item_def = (u32)((S_80172CE8_1_pre *)node)[-1].unk_00;
                         (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)item_def)->unk_24;
                         (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)item_def)->unk_25;
                     }
-                    goto object_ready;
-                }
-            } else {
-                s32 x;
-                s32 y;
+                } else {
+                    u8 *item_defs = D_8006DE24;
+                    u8 item_id = *item_slot;
+                    item_def = (item_id * 20 + item_defs)[0x12];
+                    if (item_def == 2) {
+                        node = (*(void * *)((u8 *)object + 0x60));
+                        if (node != 0) {
+                            {
+                                item_def = (u32)((S_80172CE8_1_pre *)node)[-1].unk_00;
+                                (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)item_def)->unk_24;
+                                (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)item_def)->unk_25;
+                            }
 
-                x = (s32)func_800A05A4(
-                    object,
-                    ((S_80172CE8_3 *)actor)->unk_24,
-                    ((S_80172CE8_3 *)actor)->unk_25,
-                    (*(s16 *)((u8 *)object + 0x2A)),
-                    0x10);
-                (*(void * volatile *)((u8 *)object + 0x60)) = (void *)x;
-                x = (*(s8 *)((u8 *)object + 0x72));
-                y = (*(s8 *)((u8 *)object + 0x73));
-                if (x < 0) {
-                    x = -x;
+                        }
+                    } else {
+                        s32 x;
+                        s32 y;
+
+                        x = (s32)func_800A05A4(
+                            object,
+                            ((S_80172CE8_3 *)actor)->unk_24,
+                            ((S_80172CE8_3 *)actor)->unk_25,
+                            (*(s16 *)((u8 *)object + 0x2A)),
+                            0x10);
+                        (*(void * volatile *)((u8 *)object + 0x60)) = (void *)x;
+                        x = (*(s8 *)((u8 *)object + 0x72));
+                        y = (*(s8 *)((u8 *)object + 0x73));
+                        if (x < 0) {
+                            x = -x;
+                        }
+                        if (y < 0) {
+                            y = -y;
+                        }
+                        (*(s8 *)((u8 *)object + 0x72)) = x;
+                        (*(s8 *)((u8 *)object + 0x73)) = y;
+                    }
                 }
-                if (y < 0) {
-                    y = -y;
-                }
-                (*(s8 *)((u8 *)object + 0x72)) = x;
-                (*(s8 *)((u8 *)object + 0x73)) = y;
+
             }
-        }
 
-object_ready:
-        position[0] = ((u16)motion->x.w.i);
-        position[1] = ((u16)motion->y.w.i);
-        position[2] = ((u16)motion->z.w.i);
-        if (func_800A94A0(object, item_slot, is_special, (u8 *)action + 0x98)) {
-            ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
-            func_800A56E0(0x703);
-            func_800DA840(position, (s16)((*item_slot - 1) % 3));
-            goto increment_state;
-        }
-        return;
+            position[0] = ((u16)motion->x.w.i);
+            position[1] = ((u16)motion->y.w.i);
+            position[2] = ((u16)motion->z.w.i);
+            if (func_800A94A0(object, item_slot, is_special, (u8 *)action + 0x98)) {
+                ((S_80172CE8_3 *)actor)->unk_14 &= 0xF7FF;
+                func_800A56E0(0x703);
+                func_800DA840(position, (s16)((*item_slot - 1) % 3));
+                ((S_80172CE8_0 *)action)->unk_9B++;
+                return;
+            }
+            return;
 
-no_item:
+        }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
@@ -212,7 +215,6 @@ no_item:
             actor,
             D_80174C7C[((gameWork.view.viewAngle + (*(s16 *)((u8 *)object + 0x2A)) + 0x100) >> 9) & 7],
             0);
-increment_state:
         ((S_80172CE8_0 *)action)->unk_9B++;
         return;
 
@@ -227,7 +229,7 @@ increment_state:
 
     case 3:
         if ((((S_80172CE8_3 *)actor)->unk_04 == 5 &&
-             (((S_80172CE8_3 *)actor)->unk_14 & 0x1000)) ||
+            (((S_80172CE8_3 *)actor)->unk_14 & 0x1000)) ||
             (((S_80172CE8_3 *)actor)->unk_14 & 0xE000)) {
             ((S_80172CE8_3 *)actor)->unk_14 |= 0x800;
             ((S_80172CE8_0 *)action)->unk_96 = 0x10;

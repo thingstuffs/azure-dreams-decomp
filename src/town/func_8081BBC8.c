@@ -57,56 +57,56 @@ void func_80025BC8(TownState *state)
     phase = state->state;
     switch (phase) {
     default:
-        goto cleanup;
+        break;
 
-case 0:
-    func_80048568(5);
-    func_8009AC0C();
-    state->state = 1;
-    /* Fall through to the camera phase. */
-case 1:
-    {
-        TownState *init_state = state;
-        TownObject *first_object;
-        u16 round_delay;
+    case 0:
+        func_80048568(5);
+        func_8009AC0C();
+        state->state = 1;
+        /* Fall through to the camera phase. */
+    case 1:
+        {
+            TownState *init_state = state;
+            TownObject *first_object;
+            u16 round_delay;
 
-        scene_data->view.unk_094 +=
-            (-0x80 - scene_data->view.unk_094) >> 1;
-        first_object = *(TownObject **)init_state;
-        if (first_object->state != 1) {
-            goto cleanup;
+            scene_data->view.unk_094 +=
+                (-0x80 - scene_data->view.unk_094) >> 1;
+            first_object = *(TownObject **)init_state;
+            if (first_object->state != 1) {
+                break;
+            }
+            scene_data->view.unk_094 = -0x80;
+            init_state->counter = 0;
+            round_delay = *(u16 *)(D_80026F80 +
+                            init_state->table_x * 40 + init_state->table_y * 400);
+            init_state->state = 2;
+            init_state->timer = round_delay;
+            break;
         }
-        scene_data->view.unk_094 = -0x80;
-        init_state->counter = 0;
-        round_delay = *(u16 *)(D_80026F80 +
-                        init_state->table_x * 40 + init_state->table_y * 400);
-        init_state->state = 2;
-        init_state->timer = round_delay;
-        goto cleanup;
-    }
 
-case 2:
-    D_800834C8[0] = 0x400;
-    {
-        u16 flags = state->flags;
+    case 2:
+        D_800834C8[0] = 0x400;
+        {
+            u16 flags = state->flags;
 
-        if (flags & 1) {
-            state->flags = flags & ~1;
-            state->table_x++;
-            if (state->table_x >= 10) {
-                state->state = 3;
-                state->timer = 30;
+            if (flags & 1) {
+                state->flags = flags & ~1;
+                state->table_x++;
+                if (state->table_x >= 10) {
+                    state->state = 3;
+                    state->timer = 30;
+                    return;
+                }
+                state->timer = *(u16 *)(D_80026F80 +
+                                        state->table_x * 40 + state->table_y * 400);
                 return;
             }
-            state->timer = *(u16 *)(D_80026F80 +
-                                    state->table_x * 40 + state->table_y * 400);
-            return;
         }
-    }
 
-    state->timer--;
-    if (state->timer > 0) {
-        goto cleanup;
+        state->timer--;
+        if (state->timer > 0) {
+            break;
     }
     state->flags |= 1;
     do {
@@ -122,15 +122,15 @@ case 2:
     } while (state->objects[0]->random76 == state->objects[1]->random76 ||
              state->objects[1]->random76 == state->objects[2]->random76 ||
              state->objects[2]->random76 == state->objects[0]->random76);
-    goto cleanup;
+    break;
 
 case 3:
     if (state->flags & 4) {
-        goto cleanup;
+        break;
     }
     state->timer--;
     if (state->timer > 0) {
-        goto cleanup;
+        break;
     }
     SD_Call(0xB1);
     {
@@ -153,7 +153,7 @@ case 3:
     func_8009AC0C();
     state->timer = 25;
     state->state = 4;
-    goto cleanup;
+    break;
 
 case 4:
     if (state->timer < 15) {
@@ -177,15 +177,15 @@ case 4:
         } while (loop_index >= 0);
     }
     if (state->flags & 2) {
-        goto cleanup;
+        break;
     }
     if (state->timer > 0) {
-        goto cleanup;
+        break;
     }
     scene_data->view.unk_094 = 0;
     state->state = 5;
     state->flags |= 8;
-    goto cleanup;
+    break;
 
 case 5:
     {
@@ -211,11 +211,10 @@ case 5:
         *(u32 *)(&D_80082E80.unk_00C) = 0x00808080;
         *(u16 *)((u8 *)state - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
-        goto cleanup;
+        break;
     }
 
     }
-cleanup:
     state->flags &= ~6;
     return;
 }

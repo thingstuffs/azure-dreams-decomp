@@ -112,24 +112,25 @@ void func_80171590(void *motion, s32 update_param, void *entity, void *state) {
     stored_result = move_result;
     result_code = move_result;
     if (result_code == 2) {
-        if ((dungeonStatus.flags & 0x80)) {
-            goto failure;
-        }
-        if ((((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+        if (!(dungeonStatus.flags & 0x80)) {
+            if (!(((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+                func_80171F58(motion, update_param, entity, state);
+                ((S_80171590_2 *)motion)->unk_A4 = stored_result;
+            } else {
+                ((S_80171590_2 *)motion)->unk_9A = 15;
+            }
+        } else {
             ((S_80171590_2 *)motion)->unk_9A = 15;
-            goto finish_step;
         }
-    } else if (result_code != 3 || (dungeonStatus.flags & 0x80) || (((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
-        goto failure;
+    } else {
+        if (result_code == 3 && !(dungeonStatus.flags & 0x80) && !(((S_80171590_1 *)entity)->unk_14 & 0x8000)) {
+            func_80171F58(motion, update_param, entity, state);
+            ((S_80171590_2 *)motion)->unk_A4 = stored_result;
+        } else {
+            ((S_80171590_2 *)motion)->unk_9A = 15;
+        }
     }
 
-    func_80171F58(motion, update_param, entity, state);
-    ((S_80171590_2 *)motion)->unk_A4 = stored_result;
-    goto finish_step;
-
-failure:
-    ((S_80171590_2 *)motion)->unk_9A = 15;
-finish_step:
     ((S_80171590_2 *)motion)->unk_8C = 0;
     (*(u32 *)((u8 *)state + 0x1C)) |= 0x40000000;
     if (dungeonStatus.flags & 0x80) {

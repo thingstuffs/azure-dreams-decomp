@@ -85,170 +85,149 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
         ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
 
     state = ((S_80025E48_0 *)effect)->unk_0A.s;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    return;
+    switch (state) {
+    case 0:
+        {
+            s32 color;
+            s32 target_color;
+            s32 fade_frames;
+            s32 phase_duration;
+            u16 phase;
+            u16 frames_left;
 
-state_0:
-    {
-        s32 color;
-        s32 target_color;
-        s32 fade_frames;
-        s32 phase_duration;
-        u16 phase;
-        u16 frames_left;
-
-        if (((S_80025E48_0 *)effect)->unk_64.s > ((S_80025E48_0 *)effect)->unk_66.s) {
-            ((S_80025E48_0 *)effect)->unk_66.u++;
-            color = tint->unk_0D;
-        } else {
-            color = tint->unk_0D;
-        }
-        target_color = ((S_80025E48_0 *)effect)->unk_24;
-        fade_frames = ((S_80025E48_0 *)effect)->unk_1A.s;
-        if (target_color != 0) {
-            target_color = 0xF0;
-        } else {
-            target_color = 0x20;
-        }
-        tint->unk_0D = ((s32)(color + ((s32)((target_color - color) / fade_frames))));
-        frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
-        ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        if ((frames_left << 16) > 0) {
+            if (((S_80025E48_0 *)effect)->unk_64.s > ((S_80025E48_0 *)effect)->unk_66.s) {
+                ((S_80025E48_0 *)effect)->unk_66.u++;
+                color = tint->unk_0D;
+            } else {
+                color = tint->unk_0D;
+            }
+            target_color = ((S_80025E48_0 *)effect)->unk_24;
+            fade_frames = ((S_80025E48_0 *)effect)->unk_1A.s;
+            if (target_color != 0) {
+                target_color = 0xF0;
+            } else {
+                target_color = 0x20;
+            }
+            tint->unk_0D = ((s32)(color + ((s32)((target_color - color) / fade_frames))));
+            frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
+            ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
+            if ((frames_left << 16) > 0) {
+                return;
+            }
+            phase_duration = 0x18;
+            phase = ((S_80025E48_0 *)effect)->unk_0A.u;
+            ((S_80025E48_0 *)effect)->unk_1A.u = phase_duration;
+            ((S_80025E48_0 *)effect)->unk_0A.u = phase + 1;
             return;
         }
-        phase_duration = 0x18;
-        phase = ((S_80025E48_0 *)effect)->unk_0A.u;
-        ((S_80025E48_0 *)effect)->unk_1A.u = phase_duration;
-        ((S_80025E48_0 *)effect)->unk_0A.u = phase + 1;
-        return;
-    }
 
-state_1:
-    {
-        u16 frames_left;
+    case 1:
+        {
+            u16 frames_left;
 
-        points->unk_16 += (s16)((S_80025E48_0 *)effect)->unk_26 >> 1;
-        ((S_80025E48_0 *)effect)->unk_26++;
-        frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
-        ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        if ((frames_left << 16) > 0) {
+            points->unk_16 += (s16)((S_80025E48_0 *)effect)->unk_26 >> 1;
+            ((S_80025E48_0 *)effect)->unk_26++;
+            frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
+            ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
+            if ((frames_left << 16) > 0) {
+                return;
+            }
+            ((S_80025E48_0 *)effect)->unk_1A.u = 0x10;
+            ((S_80025E48_0 *)effect)->unk_0A.u++;
             return;
         }
-        ((S_80025E48_0 *)effect)->unk_1A.u = 0x10;
-        ((S_80025E48_0 *)effect)->unk_0A.u++;
-        return;
-    }
 
-state_2:
-    {
-        u8 *glow;
-        s32 glow_color;
-        s32 color_step;
-        u16 frames_left;
+    case 2:
+        {
+            u8 *glow;
+            s32 glow_color;
+            s32 color_step;
+            u16 frames_left;
 
-        if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
-            (((S_80025E48_0 *)effect)->unk_22 == 0)) {
-            glow = D_80026478;
-            glow_color = glow[0xC];
-            color_step = (0x14 - glow_color) / ((S_80025E48_0 *)effect)->unk_1A.s;
-            draw_params[0] = 0x01000340;
-            draw_params[1] = 0x00200020;
-            glow_color += color_step;
-            glow[0xC] = glow_color;
-            glow[0xD] = glow_color;
-            func_800B835C(glow, draw_params, 1, 0);
-        }
-        frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
-        ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        if ((frames_left << 16) > 0) {
+            if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
+                (((S_80025E48_0 *)effect)->unk_22 == 0)) {
+                glow = D_80026478;
+                glow_color = glow[0xC];
+                color_step = (0x14 - glow_color) / ((S_80025E48_0 *)effect)->unk_1A.s;
+                draw_params[0] = 0x01000340;
+                draw_params[1] = 0x00200020;
+                glow_color += color_step;
+                glow[0xC] = glow_color;
+                glow[0xD] = glow_color;
+                func_800B835C(glow, draw_params, 1, 0);
+            }
+            frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
+            ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
+            if ((frames_left << 16) > 0) {
+                return;
+            }
+            ((S_80025E48_0 *)effect)->unk_1A.u = 8;
+            ((S_80025E48_0 *)effect)->unk_0A.u++;
             return;
         }
-        ((S_80025E48_0 *)effect)->unk_1A.u = 8;
-        ((S_80025E48_0 *)effect)->unk_0A.u++;
-        return;
-    }
 
-state_3:
-    {
-        u8 *glow;
-        s32 glow_color;
-        s32 fast_color;
-        s32 slow_color;
-        s16 fade_step;
-        s32 color_step;
-        u16 angle_step;
-        u16 frames_left;
+    case 3:
+        {
+            u8 *glow;
+            s32 glow_color;
+            s32 fast_color;
+            s32 slow_color;
+            s16 fade_step;
+            s32 color_step;
+            u16 angle_step;
+            u16 frames_left;
 
-        points->unk_0A +=
-            (points->unk_16 - points->unk_0A) /
-            ((S_80025E48_0 *)effect)->unk_1A.s;
-        angle_step = ((S_80025E48_0 *)effect)->unk_1C;
-        ((S_80025E48_0 *)effect)->unk_1C = angle_step + 1;
-        ((S_80025E48_0 *)effect)->unk_18.u += angle_step;
-        ((S_80025E48_0 *)effect)->unk_66.u +=
-            (((s32)(((S_80025E48_0 *)effect)->unk_64.u << 16) >> 17) -
-             ((S_80025E48_0 *)effect)->unk_66.s) / ((S_80025E48_0 *)effect)->unk_1A.s;
-
-        if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
-            (((S_80025E48_0 *)effect)->unk_22 == 0)) {
-            glow = D_80026478;
-            glow_color = glow[0xC];
-            color_step = (0x10 - glow_color) /
+            points->unk_0A +=
+                (points->unk_16 - points->unk_0A) /
                 ((S_80025E48_0 *)effect)->unk_1A.s;
-            draw_params[0] = 0x01000340;
-            draw_params[1] = 0x00200020;
-            glow_color += color_step;
-            glow[0xC] = glow_color;
-            glow[0xD] = glow_color;
-            func_800B835C(glow, draw_params, 1, 0);
-        }
-        if (((S_80025E48_0 *)effect)->unk_24 == 0) {
-            goto fade_slow;
+            angle_step = ((S_80025E48_0 *)effect)->unk_1C;
+            ((S_80025E48_0 *)effect)->unk_1C = angle_step + 1;
+            ((S_80025E48_0 *)effect)->unk_18.u += angle_step;
+            ((S_80025E48_0 *)effect)->unk_66.u +=
+                (((s32)(((S_80025E48_0 *)effect)->unk_64.u << 16) >> 17) -
+                 ((S_80025E48_0 *)effect)->unk_66.s) / ((S_80025E48_0 *)effect)->unk_1A.s;
+
+            if ((((S_80025E48_0 *)effect)->unk_24 == 0) &&
+                (((S_80025E48_0 *)effect)->unk_22 == 0)) {
+                glow = D_80026478;
+                glow_color = glow[0xC];
+                color_step = (0x10 - glow_color) /
+                    ((S_80025E48_0 *)effect)->unk_1A.s;
+                draw_params[0] = 0x01000340;
+                draw_params[1] = 0x00200020;
+                glow_color += color_step;
+                glow[0xC] = glow_color;
+                glow[0xD] = glow_color;
+                func_800B835C(glow, draw_params, 1, 0);
+            }
+            if (((S_80025E48_0 *)effect)->unk_24 != 0) {
+                fast_color = tint->unk_0D;
+                fade_step = fast_color /
+                    (((S_80025E48_0 *)effect)->unk_1A.s - 6);
+                fast_color -= fade_step;
+                tint->unk_0D = fast_color;
+                frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
+                ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
+                if ((s16)frames_left >= 7) {
+                    return;
+                }
+            } else {
+                slow_color = tint->unk_0D;
+                fade_step = slow_color /
+                    ((S_80025E48_0 *)effect)->unk_1A.s;
+                slow_color -= fade_step;
+                tint->unk_0D = slow_color;
+                frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
+                ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
+                if ((frames_left << 16) > 0) {
+                    return;
+                }
+            }
+
+            ((S_80025E48_0_pre *)effect)[-1].unk_00 |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
 
-fade_fast:
-        fast_color = tint->unk_0D;
-        fade_step = fast_color /
-            (((S_80025E48_0 *)effect)->unk_1A.s - 6);
-        fast_color -= fade_step;
-        tint->unk_0D = fast_color;
-        frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
-        ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        if ((s16)frames_left < 7) {
-            goto finish;
-        }
-        return;
-
-fade_slow:
-        slow_color = tint->unk_0D;
-        fade_step = slow_color /
-            ((S_80025E48_0 *)effect)->unk_1A.s;
-        slow_color -= fade_step;
-        tint->unk_0D = slow_color;
-        frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
-        ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        if ((frames_left << 16) > 0) {
-            return;
-        }
-
-finish:
-        ((S_80025E48_0_pre *)effect)[-1].unk_00 |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
     }
-
     return;
 }

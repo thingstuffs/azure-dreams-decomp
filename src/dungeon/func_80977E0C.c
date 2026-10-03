@@ -73,7 +73,8 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
             dungeon_state = &dungeonStatus;
             (*(u16 *)&dungeon_state->unk_0A)--;
             next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-            goto store_state;
+            ((S_8017360C_0 *)action)->unk_9B = next_state;
+            return;
         }
 
     }
@@ -93,7 +94,8 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
         func_80047784(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        goto store_state;
+        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        return;
 
     }
 
@@ -112,7 +114,8 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
         func_80047784(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-        goto store_state;
+        ((S_8017360C_0 *)action)->unk_9B = next_state;
+        return;
 
     }
 
@@ -185,18 +188,12 @@ void func_8017360C(void *action, void *context, void *entity, EntityRec *actor)
                 TileObject *room_base = &D_80082E80;
                 s8 room_id = ((Rec_D_80082E80 *)entity)->unk_26.as_s8;
 
-                if ((room_id != room_base->unk_026) || (room_id < 0)) {
-                    if ((s16)func_8009FD40(room_base, entity) >= 2) {
-                        goto final_check;
+                if ((room_id == room_base->unk_026 && room_id >= 0) || (s16)func_8009FD40(room_base, entity) < 2) {
+                    if ((func_800A6D30() & 7) == 0) {
+                        func_80042B68(actor, 1);
                     }
                 }
-
-                if ((func_800A6D30() & 7) != 0) {
-                    goto final_check;
-                }
-                func_80042B68(actor, 1);
             }
-final_check:
             if ((func_80042900(actor, 1) << 16) != 0) {
                 return;
             }
@@ -210,7 +207,7 @@ final_check:
         effect_entry += (s32)local_table_3;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) != 0) {
-            goto finished;
+            break;
         }
         ((S_8017360C_0 *)action)->unk_9B++;
         {
@@ -236,7 +233,6 @@ final_check:
 
         phase_flags |= phase_flag;
         actor->flags1C = phase_flags;
-effect_common:
         (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
         effect_entry = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
         effect_entry &= 7;
@@ -244,7 +240,6 @@ effect_common:
         func_80047784(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
-store_state:
         ((S_8017360C_0 *)action)->unk_9B = next_state;
         return;
     }
@@ -274,7 +269,6 @@ store_state:
         return;
     }
 
-finished:
     ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
     return;
 }

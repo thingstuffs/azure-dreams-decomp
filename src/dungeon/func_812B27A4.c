@@ -127,27 +127,26 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, EntityRec *actor_
                 ((S_80165FA4_0 *)actor)->unk_B6 = 0;
             }
             current_anim = ((S_80165FA4_2 *)sprite)->unk_2C;
-            if (current_anim == D_80169CA8) {
-                if (!(((S_80165FA4_2 *)sprite)->unk_14 & 0xE000)) {
-                    goto state_done;
+            if (current_anim != D_80169CA8 || (((S_80165FA4_2 *)sprite)->unk_14 & 0xE000)) {
+                if (current_anim == D_80169CA8) {
+                    (*(void * *)((u8 *)sprite + 0x2C)) = D_80169C30;
+                    func_80047784(sprite,
+                        D_80169C30[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
+                        0);
+                } else {
+                    anim_table = D_80169C30;
+                    if (current_anim == anim_table) {
+                        goto state_done;
+                    }
+                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                    func_80047784(sprite,
+                        *(u8 *)((((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
+                        0);
                 }
-                (*(void * *)((u8 *)sprite + 0x2C)) = D_80169C30;
-                func_80047784(sprite,
-                    D_80169C30[((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7],
-                    0);
-            } else {
-                anim_table = D_80169C30;
-                if (current_anim == anim_table) {
-                    goto state_done;
-                }
-                (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-                func_80047784(sprite,
-                    *(u8 *)((((gameWork.view.viewAngle + actor_data->facing + 0x100) >> 9) & 7) + (u32)anim_table),
-                    0);
+                ((S_80165FA4_2 *)sprite)->unk_05 = 1;
+                ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
+                ((S_80165FA4_0 *)actor)->unk_9E = 0;
             }
-            ((S_80165FA4_2 *)sprite)->unk_05 = 1;
-            ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
-            ((S_80165FA4_0 *)actor)->unk_9E = 0;
         }
 state_done:
 
@@ -182,10 +181,12 @@ state_done:
 
     if (actor_data->unk_6D > 0) {
         if (((u32)actor_data->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(actor_data);
+            return;
         }
         if (((S_80165FA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_801666C8(actor, actor_aux, sprite, actor_data);
+            return;
         }
         if (!(actor_data->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -200,7 +201,8 @@ state_done:
             action_state = actor_data->unk_46 | 0x4000;
             actor_data->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto generic;
+                func_801666C8(actor, actor_aux, sprite, actor_data);
+                return;
             }
         }
 
@@ -228,25 +230,23 @@ state_done:
             player = D_800814A8;
             actor_data->facing = facing;
             if (player->unk_9A == 0x11) {
-                goto case_123;
+                func_800AAF00(actor, actor_aux, sprite, D_80169C88, D_80165FA4);
+                return;
             }
         }
 
         case 12:
-case_12:
             func_800A9A0C(actor_data);
             return;
 
         case 1:
         case 2:
         case 3:
-case_123:
             func_800AAF00(actor, actor_aux, sprite, D_80169C88, D_80165FA4);
             return;
 
         case 11:
         default:
-generic:
             func_801666C8(actor, actor_aux, sprite, actor_data);
             return;
         }

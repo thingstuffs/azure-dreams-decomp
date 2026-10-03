@@ -127,29 +127,28 @@ void func_80153FA4(void *actor, void *context, void *sprite, EntityRec *entity)
             }
             current_anim = ((S_80153FA4_2 *)sprite)->unk_2C;
             if (current_anim == D_80157CA8) {
-                if (!(((S_80153FA4_2 *)sprite)->unk_14 & 0xE000)) {
-                    goto state_ready;
+                if (((S_80153FA4_2 *)sprite)->unk_14 & 0xE000) {
+                    (*(void * *)((u8 *)sprite + 0x2C)) = D_80157C30;
+                    func_80047784(sprite,
+                        D_80157C30[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                        0);
+                    ((S_80153FA4_2 *)sprite)->unk_05 = 1;
+                    ((S_80153FA4_0 *)actor)->unk_A2.s = 0;
+                    ((S_80153FA4_0 *)actor)->unk_9E = 0;
                 }
-                (*(void * *)((u8 *)sprite + 0x2C)) = D_80157C30;
-                func_80047784(sprite,
-                    D_80157C30[((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
-                    0);
             } else {
                 void *idle_anim = D_80157C30;
-                if (current_anim == idle_anim) {
-                    goto state_ready;
+                if (current_anim != idle_anim) {
+                    (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
+                    func_80047784(sprite,
+                        *(u8 *)((((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
+                        0);
+                    ((S_80153FA4_2 *)sprite)->unk_05 = 1;
+                    ((S_80153FA4_0 *)actor)->unk_A2.s = 0;
+                    ((S_80153FA4_0 *)actor)->unk_9E = 0;
                 }
-                (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
-                func_80047784(sprite,
-                    *(u8 *)((((gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7) + (u32)idle_anim),
-                    0);
             }
-            ((S_80153FA4_2 *)sprite)->unk_05 = 1;
-            ((S_80153FA4_0 *)actor)->unk_A2.s = 0;
-            ((S_80153FA4_0 *)actor)->unk_9E = 0;
         }
-
-state_ready:
 
         (*(u32 *)&entity->flags1C) |= 0x40000;
         ((S_80153FA4_0 *)actor)->unk_98 &= 0xFFF7;
@@ -182,74 +181,73 @@ state_ready:
 
     if (entity->unk_6D > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            goto case_12;
-        }
-        if (((S_80153FA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
-        }
-        if (!(entity->unk_46 & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((func_8009A180(entity,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                    return;
-                }
-            }
-            if ((func_801551CC(actor, context, sprite, 0) << 16) == 0) {
-                return;
-            }
-            action = entity->unk_46 | 0x4000;
-            entity->unk_46 = action;
-            if (!(action & 0x8000)) {
-                goto generic;
-            }
-        }
-
-        action = entity->unk_46 & 0x3FFF;
-        switch (action) {
-        case 8:
-        case 9:
-            if ((func_80154E10(actor, context, sprite, entity) << 16) != 0) {
-                return;
-            }
-            func_801550A8(actor, context, sprite, entity);
-            return;
-
-        case 5:
-        case 6:
-        case 7:
-        {
-            EntityRec *player;
-            s16 facing;
-
-            facing = func_800A0818(
-                ((S_80153FA4_2 *)sprite)->unk_24.at00.v, ((S_80153FA4_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            entity->facing = facing;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
-            }
-        }
-
-        case 12:
-case_12:
             func_800A9A0C(entity);
             return;
-
-        case 1:
-        case 2:
-        case 3:
-case_123:
-            func_800AAF00(actor, context, sprite, D_80157C88, D_80153FA4);
-            return;
-
-        case 11:
-        default:
-generic:
-            func_801546C8(actor, context, sprite, entity);
-            return;
         }
+        if (((S_80153FA4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tileX)) {
+            if (!(entity->unk_46 & 0x8000)) {
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((func_8009A180(entity,
+                            (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        return;
+                    }
+                }
+                if ((func_801551CC(actor, context, sprite, 0) << 16) == 0) {
+                    return;
+                }
+                action = entity->unk_46 | 0x4000;
+                entity->unk_46 = action;
+            }
+
+            if (entity->unk_46 & 0x8000) {
+                action = entity->unk_46 & 0x3FFF;
+                switch (action) {
+                case 8:
+                case 9:
+                    if ((func_80154E10(actor, context, sprite, entity) << 16) != 0) {
+                        return;
+                    }
+                    func_801550A8(actor, context, sprite, entity);
+                    return;
+
+                case 5:
+                case 6:
+                case 7:
+                {
+                    EntityRec *player;
+                    s16 facing;
+
+                    facing = func_800A0818(
+                        ((S_80153FA4_2 *)sprite)->unk_24.at00.v, ((S_80153FA4_2 *)sprite)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY,
+                        &distance);
+                    player = D_800814A8;
+                    entity->facing = facing;
+                    if (player->unk_9A == 0x11) {
+                        func_800AAF00(actor, context, sprite, D_80157C88, D_80153FA4);
+                        return;
+                    }
+                }
+
+                case 12:
+                    func_800A9A0C(entity);
+                    return;
+
+                case 1:
+                case 2:
+                case 3:
+                    func_800AAF00(actor, context, sprite, D_80157C88, D_80153FA4);
+                    return;
+
+                case 11:
+                default:
+                    break;
+                }
+            }
+        }
+
+        func_801546C8(actor, context, sprite, entity);
+        return;
     }
 
     if (!(((u32)entity->flags1C) & 0x2000)) {

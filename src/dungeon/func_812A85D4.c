@@ -36,21 +36,8 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
     s32 state;
 
     state = U8(action, 0x9B);
-    if (state == 1) {
-        goto state_one;
-    }
-    if ((s32)state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     {
         u8 *facing_ptr;
 
@@ -72,10 +59,11 @@ state_zero:
         func_80047784(object, *facing_ptr, 0);
         U16(action, 0x96) = 0;
         func_800A56E0(0x808);
-        goto advance_state;
+        U8(action, 0x9B)++;
+        return;
     }
 
-state_one:
+    case 1:
     {
         u8 *direction_base;
         u8 *direction_base_2;
@@ -101,19 +89,20 @@ state_one:
         if (anim_table) {
             motion_x = S32(motion, 0xC) - delta_x;
             motion_y = S32(motion, 0x10) - delta_y;
-            goto store_movement;
-        }
-        signed_value = (s16)next_tick;
-        if (signed_value < 0x12) {
-            motion_x = S32(motion, 0xC) + delta_x;
-            motion_y = S32(motion, 0x10) + delta_y;
-store_movement:
             S32(motion, 0xC) = motion_x;
             S32(motion, 0x10) = motion_y;
         } else {
-            S32(motion, 0x14) = 0;
-            S32(motion, 0x10) = 0;
-            S32(motion, 0xC) = 0;
+            signed_value = (s16)next_tick;
+            if (signed_value < 0x12) {
+                motion_x = S32(motion, 0xC) + delta_x;
+                motion_y = S32(motion, 0x10) + delta_y;
+                S32(motion, 0xC) = motion_x;
+                S32(motion, 0x10) = motion_y;
+            } else {
+                S32(motion, 0x14) = 0;
+                S32(motion, 0x10) = 0;
+                S32(motion, 0xC) = 0;
+            }
         }
         object_type = S8(object, 4);
         if (object_type == 5 && (U16(object, 0x14) & 0x9000)) {
@@ -124,7 +113,6 @@ store_movement:
         }
         {
             u8 *facing_ptr;
-
 
             if ((U16(object, 0x14) & 0x6000) == 0) {
                 return;
@@ -141,12 +129,11 @@ store_movement:
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;
         func_800A2B04(motion, U8(object, 0x24), U8(object, 0x25));
-advance_state:
         U8(action, 0x9B)++;
         return;
     }
 
-state_two:
+    case 2:
     {
         void *actor_arg;
 
@@ -161,5 +148,6 @@ state_two:
         U16(actor, 0x46) &= 0x7FFF;
     }
 
+    }
     return;
 }

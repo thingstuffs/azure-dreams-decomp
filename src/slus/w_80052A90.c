@@ -45,32 +45,19 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
             cursor += 2;
             if (code_u16 == 0x8140) {
                 tile_index = 0;
-                goto do_blit;
-            }
-            if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) >= 0x1AU) {
-                if (((u32) ((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU) {
-                    tile_index = glyph_code + 0x7DC0;
-                    goto do_blit;
+            } else if (((u32)((glyph_code + 0x7DA0) & 0xFFFF)) < 0x1AU) {
+                tile_index = glyph_code + 0x7DC1;
+            } else if (((u32)((glyph_code + 0x7D7F) & 0xFFFF)) < 0x1AU) {
+                tile_index = glyph_code + 0x7DC0;
+            } else if (((u32)((glyph_code + 0x7DB1) & 0xFFFF)) < 0xAU) {
+                tile_index = glyph_code + 0x7DC1;
+            } else {
+                switch (code_u16) {
+                default: draw_enabled = 0; break;
+                case 0x8144: tile_index = 0xE; break;
+                case 0x817C: tile_index = 0xD; break;
                 }
-                if (((u32) ((glyph_code + 0x7DB1) & 0xFFFF)) >= 0xAU) {
-                    goto check_punctuation;
-                }
             }
-            tile_index = glyph_code + 0x7DC1;
-            goto do_blit;
-check_punctuation:
-            if (code_u16 != 0x8144) {
-                if (code_u16 == 0x817C) {
-                    goto set_minus;
-                }
-                draw_enabled = 0;
-                goto do_blit;
-            }
-            tile_index = 0xE;
-            goto do_blit;
-set_minus:
-            tile_index = 0xD;
-do_blit:
             draw_tile = draw_enabled;
             if (draw_tile != 0) {
                 u16 t = tile_index;

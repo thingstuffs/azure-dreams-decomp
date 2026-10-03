@@ -79,50 +79,45 @@ void func_8016C190(void *action, EntityRec *transform, void *sprite, EntityRec *
         if (((u32)actor->flags1C) & 0x2000) {
             flagged_action = actor->unk_46 & 0x3FFF;
             switch (flagged_action) {
-            case 1:
-                goto select_1;
-            case 2:
-                goto select_2;
-            case 3:
-                goto select_3;
             case 7:
                 target_mode = 1;
-                goto select_3;
+                /* fall through */
+            case 3:
+                action_slot = (u8 *)actor + 0xE;
+                break;
             case 6:
                 target_mode = 1;
-                goto select_2;
+                /* fall through */
+            case 2:
+                action_slot = (u8 *)actor + 0xB;
+                break;
             case 5:
                 target_mode = 1;
-                goto select_1;
+                /* fall through */
+            case 1:
+                action_slot = (u8 *)actor + 8;
+                break;
             default:
-                goto select_none;
+                action_slot = 0;
+                break;
             }
         } else {
             action_kind = actor->unk_46 & 0x3FFF;
             switch (action_kind) {
-            case 1:
-                goto select_1;
-            case 2:
-                goto select_2;
             case 3:
-                goto select_3;
+                action_slot = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                action_slot = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                action_slot = (u8 *)actor + 8;
+                break;
             default:
-                goto select_none;
+                action_slot = 0;
+                break;
             }
         }
-
-select_3:
-        action_slot = (u8 *)actor + 0xE;
-        goto selection_done;
-select_2:
-        action_slot = (u8 *)actor + 0xB;
-        goto selection_done;
-select_1:
-        action_slot = (u8 *)actor + 8;
-        goto selection_done;
-select_none:
-        action_slot = 0;
-selection_done:
         if (*action_slot != 0) {
             action_value = ((S_8016C190_0 *)action)->unk_98 & 0xFF7F;
             ((S_8016C190_0 *)action)->unk_98 = action_value;
@@ -216,34 +211,39 @@ selection_done:
         case 0:
             current_table = ((S_8016C190_3 *)sprite)->unk_2C;
             direction_table = D_801739A0;
+            if ((u8 *)current_table != direction_table) {
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+            }
             break;
         case 1:
             current_table = ((S_8016C190_3 *)sprite)->unk_2C;
             direction_table = D_801739A8;
+            if ((u8 *)current_table != direction_table) {
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+            }
             break;
         case 2:
             current_table = ((S_8016C190_3 *)sprite)->unk_2C;
             direction_table = D_801739B0;
+            if ((u8 *)current_table != direction_table) {
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+            }
             break;
         case 3:
             current_table = ((S_8016C190_3 *)sprite)->unk_2C;
             direction_table = D_801739B8;
+            if ((u8 *)current_table != direction_table) {
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
+                func_80047784(sprite, *(u8 *)((unsigned long)(((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7) + (unsigned long)direction_table), 0);
+            }
             break;
         default:
-            goto finish;
+            break;
         }
 
-        if ((u8 *)current_table != direction_table) {
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = direction_table;
-            func_80047784(
-                sprite,
-                *(u8 *)((unsigned long)(((gameWork.view.viewAngle +
-                    actor->facing + 0x100) >> 9) & 7) +
-                        (unsigned long)direction_table),
-                0);
-        }
-
-finish:
         action_control = (u8 *)&dungeonStatus.unk_00;
         if (((S_8016C190_5 *)action_control)->unk_0C != 0) {
             return;

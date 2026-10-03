@@ -4,9 +4,6 @@
 #include "shared/dungeon_status.h"
 #include "records/Rec_D_80082E80.h"
 
-typedef struct S_80174CCC_0_pre {
-    union { u16 s; u16 u; } unk_00;   /* accessed as both */
-} S_80174CCC_0_pre;   /* the 0x2 bytes before arg0 in func_80174CCC, addressed as arg0[-1] */
 
 typedef struct S_80174CCC_0 {
     u8 pad_00[0xC];
@@ -34,15 +31,7 @@ typedef struct S_80174CCC_1 {
 } S_80174CCC_1;   /* arg1 in func_80174CCC */
 
 
-typedef struct S_80174CCC_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_80174CCC_3;   /* global_base in func_80174CCC */
 
-typedef struct S_80174CCC_4 {
-    u8 pad_00[0x2968];
-    s8 unk_2968;
-} S_80174CCC_4;   /* (void *)state_page in func_80174CCC */
 
 typedef struct S_80174CCC_5 {
     u8 pad_00[0x14A0];
@@ -146,128 +135,124 @@ void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
     u16 timer;
 
     state = ((S_80174CCC_0 *)motion)->unk_1E.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
-        }
-        goto cleanup;
-    }
+    switch (state) {
+    case 0:
+        target_coord_x = ((S_80174CCC_0 *)motion)->unk_32 << 6;
+        current_coord_x = position->unk_00.at02.v - 0x20;
+        delta_x = target_coord_x - current_coord_x;
+        position->unk_00.at00.v +=
+            (delta_x << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
 
-    target_coord_x = ((S_80174CCC_0 *)motion)->unk_32 << 6;
-    current_coord_x = position->unk_00.at02.v - 0x20;
-    delta_x = target_coord_x - current_coord_x;
-    position->unk_00.at00.v +=
-        (delta_x << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
+        target_coord_y = ((S_80174CCC_0 *)motion)->unk_34 << 6;
+        current_coord_y = position->unk_04.at02.v - 0x20;
+        delta_y = target_coord_y - current_coord_y;
+        position->unk_04.at00.v +=
+            (delta_y << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
 
-    target_coord_y = ((S_80174CCC_0 *)motion)->unk_34 << 6;
-    current_coord_y = position->unk_04.at02.v - 0x20;
-    delta_y = target_coord_y - current_coord_y;
-    position->unk_04.at00.v +=
-        (delta_y << 16) / ((S_80174CCC_0 *)motion)->unk_20.s;
+        height_offset = func_800644B8(((S_80174CCC_0 *)motion)->unk_20.s << 6) >> 4;
+        position->unk_08.at00.v +=
+            (((((S_80174CCC_0 *)motion)->unk_36.s - height_offset) -
+              position->unk_08.at02.v) << 16) /
+            ((S_80174CCC_0 *)motion)->unk_20.s;
 
-    height_offset = func_800644B8(((S_80174CCC_0 *)motion)->unk_20.s << 6) >> 4;
-    position->unk_08.at00.v +=
-        (((((S_80174CCC_0 *)motion)->unk_36.s - height_offset) -
-          position->unk_08.at02.v) << 16) /
-        ((S_80174CCC_0 *)motion)->unk_20.s;
-
-    if (((S_80174CCC_0 *)motion)->unk_20.s == 6) {
-        func_80047784(record, 0x42, 0);
-    }
-
-    timer = ((S_80174CCC_0 *)motion)->unk_20.u - 1;
-    ((S_80174CCC_0 *)motion)->unk_20.u = timer;
-    if ((s16)timer > 0) {
-        goto cleanup;
-    }
-
-    target_coord = ((S_80174CCC_0 *)motion)->unk_32;
-    target_coord = (target_coord << 6) + 0x20;
-    position->unk_00.at02.v = target_coord;
-    target_coord = ((S_80174CCC_0 *)motion)->unk_34;
-    target_coord = (target_coord << 6) + 0x20;
-    position->unk_04.at02.v = target_coord;
-    position->unk_08.at02u.v = ((S_80174CCC_0 *)motion)->unk_36.u;
-    func_80047784(record, 0x43, 0);
-    ((S_80174CCC_0 *)motion)->unk_1E.u++;
-    goto cleanup;
-
-state_one:
-    if ((record->unk_14.at00_u16.v & 0xE000) != 0) {
-        if (func_800A1618(0x1E, 1) == 0) {
-            if (func_800A1618(0x1E, 3) == 0) {
-                return;
-            }
-        }
-        if (func_8003FA44(3) == 0) {
-            return;
+        if (((S_80174CCC_0 *)motion)->unk_20.s == 6) {
+            func_80047784(record, 0x42, 0);
         }
 
-        spawn_kind = 4;
-        dungeonStatus.unk_0A--;
-        used_page = 0x80080000;
-        removal_flags = *(u16 *)((u8 *)motion - 2);
-        flags = ((S_80174CCC_0 *)motion)->unk_38.s;
-        removal_flags |= 0x8000;
-        *(u16 *)((u8 *)motion - 2) = removal_flags;
-        state_page = &D_800E2968;
-        *state_page = state;
-        ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
-        if (flags & 0x2000) {
-            spawn_kind = 7;
+        timer = ((S_80174CCC_0 *)motion)->unk_20.u - 1;
+        ((S_80174CCC_0 *)motion)->unk_20.u = timer;
+        if ((s16)timer > 0) {
+            break;
         }
 
-        created = func_801708B4(spawn_kind,
-            ((S_80174CCC_0 *)motion)->unk_32,
-            ((S_80174CCC_0 *)motion)->unk_34,
-            ((S_80174CCC_0 *)motion)->unk_36.s);
-        if (created != 0) {
-            func_80042640(created, 0x1E);
-            ((S_80174CCC_6 *)created)->unk_14 &= ~7;
-            created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
-            motion_flags = ((S_80174CCC_0 *)motion)->unk_38.u;
-            ((S_80174CCC_6 *)created)->unk_1C &= ~7;
-            created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
-            created_flags_14 |= motion_flags;
-            ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
-            created_flags_1c |= ((S_80174CCC_0 *)motion)->unk_38.u;
-            ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
+        target_coord = ((S_80174CCC_0 *)motion)->unk_32;
+        target_coord = (target_coord << 6) + 0x20;
+        position->unk_00.at02.v = target_coord;
+        target_coord = ((S_80174CCC_0 *)motion)->unk_34;
+        target_coord = (target_coord << 6) + 0x20;
+        position->unk_04.at02.v = target_coord;
+        position->unk_08.at02u.v = ((S_80174CCC_0 *)motion)->unk_36.u;
+        func_80047784(record, 0x43, 0);
+        ((S_80174CCC_0 *)motion)->unk_1E.u++;
+        break;
 
-            ((S_80174CCC_6 *)created)->unk_05 =
-                (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_05 + 1) >> 1;
-            ((S_80174CCC_6 *)created)->unk_29 =
-                (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_29 + 1) >> 1;
-            source_value_28 = ((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_28;
-            ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
-            ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
-
-            source = ((S_80174CCC_0 *)motion)->unk_10;
-            linked_object = created;
-            if (source->unk_14 & 0x4000) {
-                ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
-            } else {
-                if (source->unk_A4 != 0) {
-                    ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+    case 1:
+        if ((record->unk_14.at00_u16.v & 0xE000) != 0) {
+            if (func_800A1618(0x1E, 1) == 0) {
+                if (func_800A1618(0x1E, 3) == 0) {
+                    return;
                 }
             }
-
-            parent = ((S_80174CCC_8 *)linked_object)->unk_A4;
-            if (parent != 0) {
-                parent->unk_CA++;
+            if (func_8003FA44(3) == 0) {
+                return;
             }
 
-            owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
-            owner->unk_2C.s = D_80176668;
-            owner->unk_14 |= 0x4000;
-            owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
-            func_80047784(owner,
-                owner->unk_2C.u
-                    [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
-                0);
-            func_800A152C(0x1E, 1);
+            spawn_kind = 4;
+            dungeonStatus.unk_0A--;
+            used_page = 0x80080000;
+            removal_flags = *(u16 *)((u8 *)motion - 2);
+            flags = ((S_80174CCC_0 *)motion)->unk_38.s;
+            removal_flags |= 0x8000;
+            *(u16 *)((u8 *)motion - 2) = removal_flags;
+            state_page = &D_800E2968;
+            *state_page = state;
+            ((S_80174CCC_5 *)((void *)used_page))->unk_14A0 |= 0x8000;
+            if (flags & 0x2000) {
+                spawn_kind = 7;
+            }
+
+            created = func_801708B4(spawn_kind,
+                ((S_80174CCC_0 *)motion)->unk_32,
+                ((S_80174CCC_0 *)motion)->unk_34,
+                ((S_80174CCC_0 *)motion)->unk_36.s);
+            if (created != 0) {
+                func_80042640(created, 0x1E);
+                ((S_80174CCC_6 *)created)->unk_14 &= ~7;
+                created_flags_14 = ((S_80174CCC_6 *)created)->unk_14;
+                motion_flags = ((S_80174CCC_0 *)motion)->unk_38.u;
+                ((S_80174CCC_6 *)created)->unk_1C &= ~7;
+                created_flags_1c = ((S_80174CCC_6 *)created)->unk_1C;
+                created_flags_14 |= motion_flags;
+                ((S_80174CCC_6 *)created)->unk_14 = created_flags_14;
+                created_flags_1c |= ((S_80174CCC_0 *)motion)->unk_38.u;
+                ((S_80174CCC_6 *)created)->unk_1C = created_flags_1c;
+
+                ((S_80174CCC_6 *)created)->unk_05 =
+                    (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_05 + 1) >> 1;
+                ((S_80174CCC_6 *)created)->unk_29 =
+                    (((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_29 + 1) >> 1;
+                source_value_28 = ((S_80174CCC_11 *)(((S_80174CCC_0 *)motion)->unk_10))->unk_28;
+                ((S_80174CCC_6 *)created)->unk_43 = 0xFD;
+                ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
+
+                source = ((S_80174CCC_0 *)motion)->unk_10;
+                linked_object = created;
+                if (source->unk_14 & 0x4000) {
+                    ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
+                } else {
+                    if (source->unk_A4 != 0) {
+                        ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
+                    }
+                }
+
+                parent = ((S_80174CCC_8 *)linked_object)->unk_A4;
+                if (parent != 0) {
+                    parent->unk_CA++;
+                }
+
+                owner = ((S_80174CCC_6_pre *)created)[-1].unk_00;
+                owner->unk_2C.s = D_80176668;
+                owner->unk_14 |= 0x4000;
+                owner->unk_12 = ((S_80174CCC_0 *)motion)->unk_3A;
+                func_80047784(owner,
+                    owner->unk_2C.u
+                        [((gameWork.view.viewAngle + ((S_80174CCC_6 *)created)->unk_2A + 0x100) >> 9) & 7],
+                    0);
+                func_800A152C(0x1E, 1);
+            }
         }
+        break;
     }
-cleanup:
     func_800478B8(record);
     return;
 }

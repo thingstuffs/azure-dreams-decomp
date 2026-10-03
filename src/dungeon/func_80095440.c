@@ -78,28 +78,26 @@ s32 func_8009ABA0(u32 direction_bits, Func95440Input *position, Func95440Actor *
         y = wrapped_y;
         object = func_8009B25C(((s32)D_800814A8), x >> 6, y >> 6, (s16)target_height);
         if (object != 0) {
-            if (!(object->flags1c & 0x2000)) {
-                goto object_failure;
-            }
-            if (object->flags1c & 0x628) {
-                goto object_failure;
-            }
-            if (object->mask14 & 0x40000000) {
-                goto object_failure;
-            }
-            if (object->value6c + ((object->value6e * dungeonStatus.unk_00) >> 8) < 0x100) {
-                goto object_failure;
+            if (object->flags1c & 0x2000) {
+                if (!(object->flags1c & 0x628)) {
+                    if (!(object->mask14 & 0x40000000)) {
+                        if (object->value6c + ((object->value6e * dungeonStatus.unk_00) >> 8) < 0x100) {
+                            return -1;
+                        }
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    return -1;
+                }
+            } else {
+                return -1;
             }
         }
-        goto compare;
-
-object_failure:
-        return -1;
     } else {
         target_height = func_800BCB04(x & 0xffff, y & 0xffff, target_height);
     }
 
-compare:
     signed_height = (target_height << 16) >> 16;
     if (signed_height < 0x200) {
         level_result = 1;

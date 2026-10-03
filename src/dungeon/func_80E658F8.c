@@ -28,11 +28,6 @@ typedef struct S_801750F8_2 {
     u16 unk_1E;
 } S_801750F8_2;   /* arg2 in func_801750F8 */
 
-typedef struct S_801750F8_3 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801750F8_3;   /* counter in func_801750F8 */
 
 
 extern s32 func_801744E0(void *);
@@ -123,47 +118,41 @@ void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, vo
         s16 timer;
 
         timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
-        if (timer >= 3) {
-            if (timer < 7) {
-                scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
-                scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
-                scale_x += 0x258;
-                scale_y -= 0x258;
-                ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
-                goto store_xy_done;
-            }
-            if (timer >= 0xB) {
-                goto timer_ge_11;
-            }
-        }
-        scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
-        scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
-        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
-        ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
-        func_800A56E0(0x51F);
-        goto after_xy;
-
-timer_ge_11:
-        if (timer < 0xF) {
+        if (timer < 3) {
+            scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
+            scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
+            ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+            ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
+            func_800A56E0(0x51F);
+        } else if (timer < 7) {
             scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
             scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
             scale_x += 0x258;
             scale_y -= 0x258;
             ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
-        } else {
-            if (timer >= 0x11) {
-                goto after_xy;
-            }
+            ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
+        } else if (timer < 0xB) {
             scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
             scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
-
             ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+            ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
+            func_800A56E0(0x51F);
+        } else {
+            if (timer < 0xF) {
+                scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
+                scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
+                scale_x += 0x258;
+                scale_y -= 0x258;
+                ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+                ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
+            } else if (timer < 0x11) {
+                scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
+                scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
+                ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+                ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
+            }
         }
-store_xy_done:
-        ;
-        ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
 
-after_xy:
         if (((S_801750F8_0 *)action_in)->unk_96.u < 0x14) {
             return;
         }
@@ -211,13 +200,7 @@ after_xy:
     return;
 }
 
-/* MECHANISM: frame is 4 param->callee-saved copies; all four MUST be declared as
-   ASM_REG register locals in parameter order ($18,$16,$17,$19) so the copies emit
-   a0,a1,a2,a3 and each sw pairs with its move (unpinned params emit via assign_parms
-   and reorder to a1,a3,a0,a2).  L3's two identical "+0x258" arms are cross-jumped
-   into one block unless each carries an ASM_KEEP at a DIFFERENT depth (after both
-   lhu in arm A, after the first addiu in arm C): the volatile asm stops
-   find_cross_jump's backward match while leaving the trailing addiu free to fill the
-   `j` delay slot.  Config: 2.7.2-cdk-G0 -- 2.8.1-G0's dbr refuses a split-address
-   %hi (HIGH) insn in a branch delay slot and steals `move a0,s1` instead (+1 word
-   at each of the two table sites); cdk fills both slots with `lui a1,%hi(tbl)`. */
+/* MECHANISM: pin-free at 2.7.2-cdk-G0. Testing timer < 3 first, then
+   < 7, < 11, < 15 and < 17, retains both squash/stretch sites and the shared
+   completion path. The short deformation-and-sound tail is copied for the
+   two low-timer intervals; all four original gotos are removed byte-exactly. */

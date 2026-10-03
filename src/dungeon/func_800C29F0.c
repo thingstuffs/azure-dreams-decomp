@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/entity.h"
 
-
 typedef struct S_800C8150_1 {
     u8 pad_00[0xAC];
     void * unk_AC;
@@ -12,7 +11,6 @@ typedef struct S_800C8150_2 {
     u8 pad_00[0x54];
     u32 unk_54;
 } S_800C8150_2;   /* object in func_800C8150 */
-
 
 typedef struct TablePage {
     u8 pad[0x2098];
@@ -51,18 +49,21 @@ u32 func_800C8150(EntityRec *actor, s16 action_arg_1, s16 action_arg_2, s32 stat
         do {
             linked_object = ((S_800C8150_1 *)slot_entry)->unk_AC;
             if ((linked_object != 0) && (linked_object->unk_54 & status_mask)) {
-                goto marked_move;
+                message_target = actor;
+                message = D_800E18F5;
+                func_80099844(message_target, message);
+                return 0;
             }
             slot--;
             slot_entry -= 4;
         } while (slot >= 0);
-        goto common;
     } else if (((u32)actor->unk_54) & 0x40000) {
         message_target = actor;
-        goto marked_ready;
+        message = D_800E18F5;
+        func_80099844(message_target, message);
+        return 0;
     }
 
-common:
     if (((u32)actor->flags14) & 0x4000) {
         state_index = (*(u8 *)((u8 *)&actor->unk_10 + 2));
         if ((state_index != 4) && ((*(u8 *)((u8 *)&actor->unk_10 + 3)) != 0)) {
@@ -83,15 +84,5 @@ common:
         return 1;
     }
 
-    goto unmarked;
-
-marked_move:
-    message_target = actor;
-marked_ready:
-    message = D_800E18F5;
-    func_80099844(message_target, message);
-    return 0;
-
-unmarked:
     return (u32)~func_800C8900(actor, action_arg_1, action_arg_2) >> 31;
 }

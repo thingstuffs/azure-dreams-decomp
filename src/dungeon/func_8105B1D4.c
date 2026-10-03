@@ -73,162 +73,146 @@ void func_801729D4(void *action, EntityRec *motion, void *sprite, EntityRec *act
 
     state = ((S_801729D4_0 *)action)->unk_9B;
     reuse_target = 0;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
-
-state_0:
-    if (!(actor->flags1C & 0x2000)) {
-        goto no_special;
-    }
-    anim_kind = (actor->unk_46 & 0x3FFF) - 1;
-    switch (anim_kind) {
-    case 6:
-        reuse_target = 1;
-        goto no_3;
-    case 5:
-        reuse_target = 1;
-        goto no_2;
-    case 4:
-        reuse_target = 1;
-        goto no_1;
-
-no_special:
-        anim_kind = actor->unk_46 & 0x3FFF;
-        if (anim_kind == 2) {
-            goto no_2;
-        }
-        if (anim_kind < 3) {
-            if (anim_kind == 1) {
-                goto no_1;
-            }
-            animation = 0;
-            goto selected;
-        }
-        if (anim_kind != 3) {
-            animation = 0;
-            goto selected;
-        }
-no_3:
-    case 2:
-        animation = (u8 *)actor + 0xE;
-        goto selected;
-no_2:
-    case 1:
-        animation = (u8 *)actor + 0xB;
-        goto selected;
-no_1:
+    switch (state) {
     case 0:
-        animation = (u8 *)actor + 8;
-        goto selected;
-    case 3:
-    default:
-        animation = 0;
-    }
-
-selected:
-    if (*animation != 0) {
-        ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
-        reuse_test = reuse_target;
-        if (reuse_test != 0) {
-            target_root = D_800814A8;
-            actor->target = target_root;
-            target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
-            actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
-            actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
+        if (actor->flags1C & 0x2000) {
+            anim_kind = (actor->unk_46 & 0x3FFF) - 1;
+            switch (anim_kind) {
+            case 6:
+                reuse_target = 1;
+                /* fall through */
+            case 2:
+                animation = (u8 *)actor + 0xE;
+                break;
+            case 5:
+                reuse_target = 1;
+                /* fall through */
+            case 1:
+                animation = (u8 *)actor + 0xB;
+                break;
+            case 4:
+                reuse_target = 1;
+                /* fall through */
+            case 0:
+                animation = (u8 *)actor + 8;
+                break;
+            case 3:
+            default:
+                animation = 0;
+                break;
+            }
         } else {
-            new_target = func_800A05A4(
-                actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
-                actor->facing, 0x10);
-            actor->target = new_target;
-            abs_x = abs(actor->unk_72);
-            abs_y = abs(actor->unk_73);
-            actor->unk_72 = abs_x;
-            actor->unk_73 = abs_y;
+            anim_kind = actor->unk_46 & 0x3FFF;
+            switch (anim_kind) {
+            case 3:
+                animation = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                animation = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                animation = (u8 *)actor + 8;
+                break;
+            default:
+                animation = 0;
+                break;
+            }
         }
-        position[0] = ((u16)motion->x.w.i);
-        position[1] = ((u16)motion->y.w.i);
-        position[2] = ((u16)motion->z.w.i);
-        if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
-            ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
-            func_800A56E0(0x703);
-            func_800DA840(position, (s16)((*animation - 1) % 3));
-            ((S_801729D4_0 *)action)->unk_9B++;
+
+        if (*animation != 0) {
+            ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
+            reuse_test = reuse_target;
+            if (reuse_test != 0) {
+                target_root = D_800814A8;
+                actor->target = target_root;
+                target_source = ((S_801729D4_2_pre *)target_root)[-1].unk_00;
+                actor->unk_72 = ((S_801729D4_3 *)target_source)->unk_24;
+                actor->unk_73 = ((S_801729D4_3 *)target_source)->unk_25;
+            } else {
+                new_target = func_800A05A4(
+                    actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
+                    actor->facing, 0x10);
+                actor->target = new_target;
+                abs_x = abs(actor->unk_72);
+                abs_y = abs(actor->unk_73);
+                actor->unk_72 = abs_x;
+                actor->unk_73 = abs_y;
+            }
+            position[0] = ((u16)motion->x.w.i);
+            position[1] = ((u16)motion->y.w.i);
+            position[2] = ((u16)motion->z.w.i);
+            if (func_800A94A0(actor, animation, reuse_target, (u8 *)action + 0x98) != 0) {
+                ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+                func_800A56E0(0x703);
+                func_800DA840(position, (s16)((*animation - 1) % 3));
+                ((S_801729D4_0 *)action)->unk_9B++;
+                return;
+            }
             return;
         }
-        return;
-    }
-    motion->flags14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
-    dungeonStatus.unk_0C = 0;
-    (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
-    func_800A4ACC(actor);
-    (*(u8 *)&actor->unk_6D)--;
-    ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
-    actor->unk_73 = 0;
-    actor->unk_72 = 0;
-    actor->unk_46 &= 0x7FFF;
-    return;
-
-state_1:
-    if (func_8003F270() != 0) {
-        ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
-        return;
-    }
-    ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
-    ((S_801729D4_0 *)action)->unk_9B++;
-
-state_2:
-    if ((((S_801729D4_4 *)sprite)->unk_04 == 8 &&
-         (((S_801729D4_4 *)sprite)->unk_14 & 0x1000)) ||
-        (((S_801729D4_4 *)sprite)->unk_14 & 0xE000)) {
-        ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
-        ((S_801729D4_0 *)action)->unk_96 = 3;
-        ((S_801729D4_0 *)action)->unk_98 |= 0x80;
-    }
-    ((S_801729D4_0 *)action)->unk_96--;
-    if ((s16)((S_801729D4_0 *)action)->unk_96 <= 0) {
-        ((S_801729D4_0 *)action)->unk_96 = 0;
-        ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
-    }
-    if (((S_801729D4_4 *)sprite)->unk_14 & 0xE000) {
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
         func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
-        if (((S_801729D4_4 *)sprite)->unk_2C != D_80173FB8) {
-            (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
-            func_80047784(
-                sprite,
-                D_80173FB8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
-                0);
-        }
-        if (((s32)dungeonStatus.unk_0C) == 0) {
-            dungeonStatus.unk_0A--;
-            ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
-            ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
-            func_800A4ACC(actor);
-            if (actor->unk_6D > 0) {
-                (*(u8 *)&actor->unk_6D)--;
-            }
-            actor->unk_73 = 0;
-            actor->unk_72 = 0;
-            actor->unk_46 &= 0x7FFF;
-            func_800A56E0(0xB4);
-        }
-    }
+        dungeonStatus.unk_0C = 0;
+        (*(u16 *)((u8 *)D_800814A8 + (0xA6)))--;
+        func_800A4ACC(actor);
+        (*(u8 *)&actor->unk_6D)--;
+        ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+        actor->unk_73 = 0;
+        actor->unk_72 = 0;
+        actor->unk_46 &= 0x7FFF;
+        return;
 
-    return;
+    case 1:
+        if (func_8003F270() != 0) {
+            ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
+            return;
+        }
+        ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((S_801729D4_0 *)action)->unk_9B++;
+
+        /* fall through */
+    case 2:
+        if ((((S_801729D4_4 *)sprite)->unk_04 == 8 &&
+             (((S_801729D4_4 *)sprite)->unk_14 & 0x1000)) ||
+            (((S_801729D4_4 *)sprite)->unk_14 & 0xE000)) {
+            ((S_801729D4_4 *)sprite)->unk_14 |= 0x800;
+            ((S_801729D4_0 *)action)->unk_96 = 3;
+            ((S_801729D4_0 *)action)->unk_98 |= 0x80;
+        }
+        ((S_801729D4_0 *)action)->unk_96--;
+        if ((s16)((S_801729D4_0 *)action)->unk_96 <= 0) {
+            ((S_801729D4_0 *)action)->unk_96 = 0;
+            ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+        }
+        if (((S_801729D4_4 *)sprite)->unk_14 & 0xE000) {
+            motion->flags14 = 0;
+            motion->unk_10 = 0;
+            motion->unk_0C = 0;
+            func_800A2B04(motion, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25);
+            if (((S_801729D4_4 *)sprite)->unk_2C != D_80173FB8) {
+                (*(void * *)((u8 *)sprite + (0x2C))) = D_80173FB8;
+                func_80047784(
+                    sprite,
+                    D_80173FB8[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                    0);
+            }
+            if (((s32)dungeonStatus.unk_0C) == 0) {
+                dungeonStatus.unk_0A--;
+                ((S_801729D4_4 *)sprite)->unk_14 &= 0xF7FF;
+                ((S_801729D4_0 *)action)->unk_8C = &D_80170F68;
+                func_800A4ACC(actor);
+                if (actor->unk_6D > 0) {
+                    (*(u8 *)&actor->unk_6D)--;
+                }
+                actor->unk_73 = 0;
+                actor->unk_72 = 0;
+                actor->unk_46 &= 0x7FFF;
+                func_800A56E0(0xB4);
+            }
+        }
+
+        return;
+    }
 }

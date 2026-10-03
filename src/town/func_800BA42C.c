@@ -77,119 +77,90 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
     }
 
     phase = *(s16 *)anim_tick % 16;
-    if (phase == 4) {
-        goto Lsecond_4;
-    }
-    if (phase < 5) {
-        if (phase == 0) {
-            goto Lsecond_0;
+    switch (phase) {
+    case 0:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x330;
+        ((s16 *)rect)[1] = 0x80;
+        ((s16 *)rect)[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_801116C8);
+        break;
+
+    case 4:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x330;
+        rect[1] = 0x80;
+        rect[2] = 8;
+        rect[3] = 0x20;
+        func_800672D8(rect, D_801118C8);
+        break;
+
+    case 8:
+        tile_width = 8;
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0x330;
+        rect[1] = 0x80;
+        {
+            s32 tile_height;
+            tile_height = 0x20;
+            rect[2] = tile_width;
+            rect[3] = tile_height;
+            func_800672D8(rect, D_80111AC8);
         }
-        goto Lafter_second;
-    }
-    tile_width = 8;
-    if (phase == tile_width) {
-        goto Lsecond_8;
-    }
-    if (phase == 12) {
-        goto Lsecond_12;
-    }
-    goto Lafter_second;
+        break;
 
-Lsecond_0:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x330;
-    ((s16 *)rect)[1] = 0x80;
-    ((s16 *)rect)[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_801116C8);
-    goto Lafter_second;
+    case 12:
+        tile_width = 8;
+        rect = (s16 *)D_80111FA8;
 
-Lsecond_4:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x330;
-    rect[1] = 0x80;
-    rect[2] = 8;
-    rect[3] = 0x20;
-    func_800672D8(rect, D_801118C8);
-    goto Lafter_second;
-
-Lsecond_8:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0x330;
-    rect[1] = 0x80;
-    {
-        s32 tile_height;
-        tile_height = 0x20;
-        rect[2] = tile_width;
-        rect[3] = tile_height;
-        func_800672D8(rect, D_80111AC8);
+        *(s16 *)D_80111FA8 = 0x330;
+        rect[1] = 0x80;
+        {
+            s32 tile_height;
+            tile_height = 0x20;
+            rect[2] = tile_width;
+            rect[3] = tile_height;
+            func_800672D8(rect, D_80111CC8);
+        }
     }
-    goto Lafter_second;
 
-Lsecond_12:
-    rect = (s16 *)D_80111FA8;
-
-    *(s16 *)D_80111FA8 = 0x330;
-    rect[1] = 0x80;
-    {
-        s32 tile_height;
-        tile_height = 0x20;
-        rect[2] = tile_width;
-        rect[3] = tile_height;
-        func_800672D8(rect, D_80111CC8);
-    }
-Lafter_second:
     phase = *(s16 *)anim_tick % 8;
-    if (phase == 2) {
-        goto Lthird_2;
-    }
-    if (phase < 3) {
-        if (phase == 0) {
-            goto Lthird_0;
-        }
+    switch (phase) {
+    case 0:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0;
+        rect[1] = 0x1FB;
+        rect[2] = 0x10;
+        rect[3] = 1;
+        func_800672D8(rect, D_80111EC8);
         return;
+
+    case 2:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0;
+        rect[1] = 0x1FB;
+        rect[2] = 0x10;
+        rect[3] = 1;
+        func_800672D8(rect, D_80111EE8);
+        return;
+
+    case 4:
+        rect = (s16 *)D_80111FA8;
+        *(s16 *)D_80111FA8 = 0;
+        rect[1] = 0x1FB;
+        rect[2] = 0x10;
+        rect[3] = 1;
+        func_800672D8(rect, D_80111F08);
+        return;
+
+    case 6:
+        rect = (s16 *)D_80111FA8;
+
+        *(s16 *)D_80111FA8 = 0;
+        rect[1] = 0x1FB;
+        rect[2] = 0x10;
+        rect[3] = 1;
+        func_800672D8(rect, D_80111F28);
     }
-    if (phase == 4) {
-        goto Lthird_4;
-    }
-    if (phase == 6) {
-        goto Lthird_6;
-    }
-    return;
-
-Lthird_0:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0;
-    rect[1] = 0x1FB;
-    rect[2] = 0x10;
-    rect[3] = 1;
-    func_800672D8(rect, D_80111EC8);
-    return;
-
-Lthird_2:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0;
-    rect[1] = 0x1FB;
-    rect[2] = 0x10;
-    rect[3] = 1;
-    func_800672D8(rect, D_80111EE8);
-    return;
-
-Lthird_4:
-    rect = (s16 *)D_80111FA8;
-    *(s16 *)D_80111FA8 = 0;
-    rect[1] = 0x1FB;
-    rect[2] = 0x10;
-    rect[3] = 1;
-    func_800672D8(rect, D_80111F08);
-    return;
-
-Lthird_6:
-    rect = (s16 *)D_80111FA8;
-
-    *(s16 *)D_80111FA8 = 0;
-    rect[1] = 0x1FB;
-    rect[2] = 0x10;
-    rect[3] = 1;
-    func_800672D8(rect, D_80111F28);
 }

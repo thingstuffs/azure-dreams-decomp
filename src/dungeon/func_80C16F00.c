@@ -49,139 +49,126 @@ void func_80172700(void *action, void *motion, void *sprite, void *actor)
     state = F8(action, 0x9B);
     F16(action, 0x96)--;
 
-    if (state == 2)
-        goto state_2;
-    if (state < 3) {
-        if (state == 0)
-            goto state_0;
-        if (state == 1)
-            goto state_1;
+    switch (state) {
+    case 0:
+        flags = F16(sprite, 0x14);
+        turn_actor = actor;
+        if (flags & 0x8000) {
+            F8(action, 0x9B) = 0xFF;
+            F16(sprite, 0x14) |= 0x6000;
+            func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
+            return;
+        }
+        if (!(flags & 0xE000))
+            return;
+        FPTR(sprite, 0x2C) = D_801744B4;
+        func_80047784(sprite, D_801744B4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        F32(motion, 0xC) = (-step_x) << 18;
+        F32(motion, 0x10) = (-step_y) << 18;
+        F16(action, 0x98) |= 8;
+        F32(actor, 0x1C) &= 0xF7FFFFFF;
+        F32(actor, 0x1C) &= 0xFFFBFFFF;
+        F16(action, 0x96) = 4;
+        F32(motion, 0x14) = 0xFFFE8000;
+        F8(action, 0x9B)++;
         return;
-    }
-    if (state == 4)
-        goto state_4;
-    if (state <= 3)
-        goto state_3;
-    if (state == 0xFF)
-        goto state_ff;
-    return;
 
-state_0:
-    flags = F16(sprite, 0x14);
-    turn_actor = actor;
-    if (flags & 0x8000) {
-        F8(action, 0x9B) = 0xFF;
-        F16(sprite, 0x14) |= 0x6000;
+    case 1:
+        rise = F32(motion, 0x14);
+        F32(motion, 0x14) = rise + (rise >> 2);
+        if (FS16(action, 0x96) > 0)
+            return;
+        F16(action, 0x96) = 8;
+        F8(action, 0x9B)++;
+        return;
+
+    case 2:
+        F32(motion, 0xC) -= F32(motion, 0xC) >> 3;
+        F32(motion, 0x10) -= F32(motion, 0x10) >> 3;
+        F32(motion, 0x14) -= F32(motion, 0x14) >> 3;
+        phase_ticks = 4;
+        if (FS16(action, 0x96) == phase_ticks) {
+            F32(motion, 0xC) = 0;
+            F32(motion, 0x10) = 0;
+            F32(motion, 0x14) = 0;
+            FPTR(sprite, 0x2C) = D_801744BC;
+            func_80047784(sprite, D_801744BC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        }
+        if (FS16(action, 0x96) > 0)
+            return;
+        if (!(F16(sprite, 0x14) & 0xE000))
+            return;
+        F16(action, 0x96) = phase_ticks;
+        F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
+        F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
+        FPTR(sprite, 0x2C) = D_801744C4;
+        func_80047784(sprite, D_801744C4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        F8(action, 0x9B)++;
+        return;
+
+    case 3:
+        F32(action, 0x90) += 0x80000;
+        F32(motion, 0xC) += step_x << 18;
+        F32(motion, 0x10) += step_y << 18;
+        if (FS16(action, 0x96) == 2) {
+            func_800A56E0(0x809);
+        }
+        turn_actor = actor;
+        if (FS16(action, 0x96) > 0)
+            return;
         func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
-        return;
-    }
-    if (!(flags & 0xE000))
-        return;
-    FPTR(sprite, 0x2C) = D_801744B4;
-    func_80047784(sprite, D_801744B4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-    F32(motion, 0xC) = (-step_x) << 18;
-    F32(motion, 0x10) = (-step_y) << 18;
-    F16(action, 0x98) |= 8;
-    F32(actor, 0x1C) &= 0xF7FFFFFF;
-    F32(actor, 0x1C) &= 0xFFFBFFFF;
-    F16(action, 0x96) = 4;
-    F32(motion, 0x14) = 0xFFFE8000;
-    F8(action, 0x9B)++;
-    return;
 
-state_1:
-    rise = F32(motion, 0x14);
-    F32(motion, 0x14) = rise + (rise >> 2);
-    if (FS16(action, 0x96) > 0)
+        F8(action, 0x9B)++;
         return;
-    F16(action, 0x96) = 8;
-    F8(action, 0x9B)++;
-    return;
 
-state_2:
-    F32(motion, 0xC) -= F32(motion, 0xC) >> 3;
-    F32(motion, 0x10) -= F32(motion, 0x10) >> 3;
-    F32(motion, 0x14) -= F32(motion, 0x14) >> 3;
-    phase_ticks = 4;
-    if (FS16(action, 0x96) == phase_ticks) {
-        F32(motion, 0xC) = 0;
-        F32(motion, 0x10) = 0;
+    case 4:
+        F32(action, 0x90) += 0x80000;
+        if (!(F16(sprite, 0x14) & 0xE000))
+            return;
+        FPTR(sprite, 0x2C) = D_801744CC;
+        func_80047784(sprite, D_801744CC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
         F32(motion, 0x14) = 0;
-        FPTR(sprite, 0x2C) = D_801744BC;
-        func_80047784(sprite, D_801744BC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-    }
-    if (FS16(action, 0x96) > 0)
+        F32(action, 0x90) = 0;
+        F16(action, 0x98) &= 0xFFF7;
+        F32(actor, 0x1C) |= 0x08000000;
+        F8(action, 0x9B) = 0xFF;
         return;
-    if (!(F16(sprite, 0x14) & 0xE000))
-        return;
-    F16(action, 0x96) = phase_ticks;
-    F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
-    F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
-    FPTR(sprite, 0x2C) = D_801744C4;
-    func_80047784(sprite, D_801744C4[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-    F8(action, 0x9B)++;
-    return;
 
-state_3:
-    F32(action, 0x90) += 0x80000;
-    F32(motion, 0xC) += step_x << 18;
-    F32(motion, 0x10) += step_y << 18;
-    if (FS16(action, 0x96) == 2) {
-        func_800A56E0(0x809);
-    }
-    turn_actor = actor;
-    if (FS16(action, 0x96) > 0)
-        return;
-    func_8009C12C(turn_actor, sprite, FS16(turn_actor, 0x2A), 1);
+    case 0xFF:
+        target = F8(sprite, 0x24) << 6;
+        current = FS16(motion, 2);
+        current -= 0x20;
+        target -= current;
+        target <<= 15;
+        target >>= 1;
+        F32(motion, 0xC) = target;
+        target = F8(sprite, 0x25) << 6;
+        current = FS16(motion, 6);
+        current -= 0x20;
+        target -= current;
+        target <<= 15;
+        target >>= 1;
+        F32(motion, 0x10) = target;
+        if (!(F16(sprite, 0x14) & 0xE000))
+            return;
+        F32(motion, 0x10) = 0;
+        F32(motion, 0xC) = 0;
+        F32(actor, 0x1C) |= 0x40000;
+        func_800A2B04(motion, F8(sprite, 0x24), F8(sprite, 0x25));
+        func_800AD594(actor, 0x100);
+        FPTR(action, 0x8C) = D_801713A8;
+        dungeonStatus.unk_0C = 0;
+        func_800A4ACC(actor);
+        FPTR(sprite, 0x2C) = D_8017449C;
+        func_80047784(sprite, D_8017449C[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+        if (FS8(actor, 0x6D) == 0) {
+            F16(actor, 0x46) &= 0x7FFF;
+            return;
+        }
+        D_800E3DE8 = (u8 *)actor - 0x20;
 
-    F8(action, 0x9B)++;
-    return;
-
-state_4:
-    F32(action, 0x90) += 0x80000;
-    if (!(F16(sprite, 0x14) & 0xE000))
         return;
-    FPTR(sprite, 0x2C) = D_801744CC;
-    func_80047784(sprite, D_801744CC[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-    F32(motion, 0x14) = 0;
-    F32(action, 0x90) = 0;
-    F16(action, 0x98) &= 0xFFF7;
-    F32(actor, 0x1C) |= 0x08000000;
-    F8(action, 0x9B) = 0xFF;
-    return;
-
-state_ff:
-    target = F8(sprite, 0x24) << 6;
-    current = FS16(motion, 2);
-    current -= 0x20;
-    target -= current;
-    target <<= 15;
-    target >>= 1;
-    F32(motion, 0xC) = target;
-    target = F8(sprite, 0x25) << 6;
-    current = FS16(motion, 6);
-    current -= 0x20;
-    target -= current;
-    target <<= 15;
-    target >>= 1;
-    F32(motion, 0x10) = target;
-    if (!(F16(sprite, 0x14) & 0xE000))
-        return;
-    F32(motion, 0x10) = 0;
-    F32(motion, 0xC) = 0;
-    F32(actor, 0x1C) |= 0x40000;
-    func_800A2B04(motion, F8(sprite, 0x24), F8(sprite, 0x25));
-    func_800AD594(actor, 0x100);
-    FPTR(action, 0x8C) = D_801713A8;
-    dungeonStatus.unk_0C = 0;
-    func_800A4ACC(actor);
-    FPTR(sprite, 0x2C) = D_8017449C;
-    func_80047784(sprite, D_8017449C[((gameWork.view.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-    if (FS8(actor, 0x6D) == 0) {
-        F16(actor, 0x46) &= 0x7FFF;
+    default:
         return;
     }
-    D_800E3DE8 = (u8 *)actor - 0x20;
-
-    return;
 }

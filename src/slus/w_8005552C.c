@@ -8,7 +8,7 @@ extern void func_80055730(void);
 
 /* Decode a packed selector and dispatch its index and offset if its code is available. */
 void func_8005552C(s32 selector) {
-            /* Pin keeps andi a0,a0 (not CSE-from-saved_selector) and value temps in $v0. */
+    /* Pin keeps andi a0,a0 (not CSE-from-saved_selector) and value temps in $v0. */
     s32 type_bits = selector;
     s16 selected_code;
     s16 saved_selector;
@@ -21,19 +21,16 @@ void func_8005552C(s32 selector) {
     if (type_bits != 0x600) {
         if (type_bits < 0x601) {
             selected_code = 1;
-            goto merge;
-        }
-        if (type_bits == 0x700) {
+        } else if (type_bits == 0x700) {
             goto case_700;
-        }
-        if (type_bits == 0x800) {
+        } else if (type_bits == 0x800) {
             goto case_800;
+        } else {
+            selected_code = 1;
         }
-                        /* default: selected_code→dispatch_code then jump past merge (delay-slot duplicate of merge) */
-        selected_code = 1;
-        goto merge;
+    } else {
+        selected_code = 2;
     }
-    selected_code = 2;
     goto merge;
 case_700:
     selected_code = 3;

@@ -73,72 +73,54 @@ void func_801737B0(void *action, EntityRec *motion, void *sprite, EntityRec *act
             raw_kind = actor->unk_46 & 0x3FFF;
             kind_index = raw_kind - 1;
             switch (kind_index) {
-            case 0:
-                goto kind_1;
-            case 1:
-                goto kind_2;
-            case 2:
-                goto kind_3;
             case 6:
                 use_player_target = 1;
-                goto kind_3;
+                /* fall through */
+            case 2:
+                action_data = (u8 *)actor + 0xE;
+                break;
             case 5:
                 use_player_target = 1;
-                goto kind_2;
+                /* fall through */
+            case 1:
+                action_data = (u8 *)actor + 0xB;
+                break;
             case 4:
                 use_player_target = 1;
-                goto kind_1;
+                /* fall through */
+            case 0:
+                action_data = (u8 *)actor + 8;
+                break;
             default:
-                goto kind_bad;
+                action_data = 0;
+                break;
+            }
+        } else {
+            action_kind = actor->unk_46 & 0x3FFF;
+            switch (action_kind) {
+            case 3:
+                action_data = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                action_data = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                action_data = (u8 *)actor + 8;
+                break;
+            default:
+                action_data = 0;
+                break;
             }
         }
+        if (*action_data != 0) {
 
-        action_kind = actor->unk_46 & 0x3FFF;
-        if (action_kind == 2) {
-            goto kind_2;
-        }
-        if (action_kind < 3) {
-            action_data = 0;
-            if (action_kind == 1) {
-                goto kind_1;
-            }
-            goto kind_ready;
-        }
-        action_data = 0;
-        if (action_kind != 3) {
-            goto kind_ready;
-        }
-kind_3:
-        action_data = (u8 *)actor + 0xE;
-        goto kind_ready;
-kind_2:
-        action_data = (u8 *)actor + 0xB;
-        goto kind_ready;
-kind_1:
-        action_data = (u8 *)actor + 8;
-        goto kind_ready;
-kind_bad:
-        action_data = 0;
-
-kind_ready:
-        if (*action_data == 0) {
-            goto remove_actor;
-        }
-
-        direction = ((S_801737B0_0 *)action)->unk_98;
-        direction &= 0xFF7F;
-        ((S_801737B0_0 *)action)->unk_98 = direction;
-        direction = use_player_target;
-        if (((void *)direction) != 0) {
-            direction = (s32)D_800814A8;
-            actor->target = (void *)direction;
-            goto copy_facing;
-        }
-
-        if (D_8006DE24[*action_data].kind == 2) {
-            direction = (s32)(actor->target);
+            direction = ((S_801737B0_0 *)action)->unk_98;
+            direction &= 0xFF7F;
+            ((S_801737B0_0 *)action)->unk_98 = direction;
+            direction = use_player_target;
             if (((void *)direction) != 0) {
-copy_facing:
+                direction = (s32)D_800814A8;
+                actor->target = (void *)direction;
                 {
                     u8 facing;
 
@@ -148,27 +130,39 @@ copy_facing:
                     facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
                     actor->unk_73 = facing;
                 }
+            } else if (D_8006DE24[*action_data].kind == 2) {
+                direction = (s32)(actor->target);
+                if (((void *)direction) != 0) {
+                    {
+                        u8 facing;
+
+                        action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
+                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
+                        actor->unk_72 = facing;
+                        facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
+                        actor->unk_73 = facing;
+                    }
+                }
+            } else {
+
+                actor->target = func_800A05A4(
+                    actor,
+                    ((Rec_D_80082E80 *)sprite)->unk_24,
+                    ((Rec_D_80082E80 *)sprite)->unk_25,
+                    actor->facing,
+                    0x10);
+
+                actor->unk_72 = abs(actor->unk_72);
+                actor->unk_73 = abs(actor->unk_73);
             }
-        } else {
 
-            actor->target = func_800A05A4(
-                actor,
-                ((Rec_D_80082E80 *)sprite)->unk_24,
-                ((Rec_D_80082E80 *)sprite)->unk_25,
-                actor->facing,
-                0x10);
-
-            actor->unk_72 = abs(actor->unk_72);
-            actor->unk_73 = abs(actor->unk_73);
-        }
-
-        if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
+            if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {
+                return;
+            }
+            ((S_801737B0_0 *)action)->unk_9B++;
             return;
-        }
-        ((S_801737B0_0 *)action)->unk_9B++;
-        return;
 
-remove_actor:
+        }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
