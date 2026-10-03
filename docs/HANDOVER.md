@@ -14,6 +14,19 @@ when it drains; logs `work/native_lane/_r91/pool_r91{a,b,s}.log`, pool PIDs in `
   debris in sol61 texts if the landing refuses them.
 - pool.py gained the `sol61` key (gpt-6.1-sol, served tier sol6). Build script: `_r91/build.sh`; row lists `_r91/*.json`.
 
+**Added 03:00 (owner: also goto readability, alignment wave 2, type phase 12, harvest):**
+- **r91g** sol61 c=2, 10 goto lanes `r91_goto_g1..g10` (60 densest pin-free goto rows via build_goto_lane.py --densest,
+  codex PROMPT.txt derived from AGENT_PROMPT.txt); lands at drain (land_lanes counts fewer gotos as a landing).
+- **r91_types_p12** astra single lane (caps 2.5M tok / 300 min): type consolidation phase 12 per phase 11's HOW TO
+  CONTINUE (town-root pointees unk_20/unk_38, D_80082E60). Delivers apply12.sh + manifest; NOT auto-applied - run
+  `bash work/native_lane/r91_types_p12/apply12.sh --dry-run` then the sample, as in phase 11.
+- `_r91/chain.sh` (log `_r91/chain.log`): after r91b drains -> recompute the tracker (`_r91/offbuild.py`) -> **r91c**
+  alignment wave 2 (every row still off its build: the 19 "other mismatch" rows + r91b's open rows, briefed to start
+  from the earlier lane's best candidate) -> after r91a/r91s/r91c drain -> **r91_harvest** astra lane: HARVEST.md,
+  learnings/ drafts, paragraphs/r91_harvest.md, KIT_GAPS.md, GENERATORS.md, **open_rows.tsv = Monday's Opus queue**.
+  Harvest outputs are drafts: review, then copy into tools/learnings + tools/lanes/brief_paragraphs.
+- An early landing of the 20 lanes finished by 02:50 ran as `land_gap.sh r91early` (`_r91/land_early.log`).
+
 **Owed after drain:** check each pool's land_gap result + gate, STATUS refresh, commit; harvest REPORT.md moves
 (cheap: let a sol lane draft it); second wave = the 92 rows strong lanes already served at current text (sol61/astra
 retry), and the 19 "other mismatch" alignment rows.
