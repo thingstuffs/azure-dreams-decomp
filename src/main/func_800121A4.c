@@ -1,12 +1,9 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 /* S_80082E60: shared global state struct; field_16 (u16) has bit 0x2 set here.
  * Same struct family as src/code2.c / src/w_80041818.c's D_80082E60. */
-struct S_80082E60 {
-    char pad0[0x16];
-    u16 field_16;
-};
-extern struct S_80082E60 D_80082E60;
+
 
 extern void func_80025D34();
 extern void func_80027BF4(void);
@@ -29,9 +26,9 @@ void func_800251A4(void *object) {
     if (*(s32 *)((char *)object + 0x44) == 0) {
         object_mode = 3;
     }
-    state_flags = D_80082E60.field_16;
+    state_flags = D_80082E60.flags16;
     *(s16 *)(global_page + 0x3714) = object_mode;
-    D_80082E60.field_16 = state_flags | 2;
+    D_80082E60.flags16 = state_flags | 2;
     func_80025D34(object - 0x20);
     func_800439F8();
     global_mode = 6;

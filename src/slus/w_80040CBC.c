@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 struct S_8006CE80_ptr
@@ -19,15 +20,7 @@ struct S_8006CE44
 };
 extern struct S_8006CE44 D_8006CE44[];
 extern s32 D_8006CE6C[];
-struct S_80082E60
-{
-    s32 field_0;
-    s32 field_4;
-    u8 pad_8[2];
-    u8 field_A;
-    u8 pad_B[0x18 - 0xB];
-};
-extern struct S_80082E60 D_80082E60;
+
 struct S_pad9
 {
     s32 field0;
@@ -59,11 +52,11 @@ void func_80040CBC(s16 entry_index)
     D_8008333C[0].field0 = 0;
     if (resource_type != 0) {
         if (resource_type != 4) {
-            if (D_80082E60.field_A != resource_type) {
+            if (D_80082E60.mode != resource_type) {
                 s32 block_count;
                 s32 *resource_info;
                 s32 block_offset;
-                D_80082E60.field_A = resource_type;
+                D_80082E60.mode = resource_type;
                 block_count = D_8006CE6C[resource_type];
                 resource_info = D_8006CE44[resource_type].field4;
                 block_offset = 0;

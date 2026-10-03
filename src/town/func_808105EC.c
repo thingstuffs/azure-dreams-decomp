@@ -2,7 +2,7 @@
 
 extern s16 func_8025E01C(void *);
 
-// Advances the accumulator and resets it when clamping the stored value to a nonpositive bound.
+/* Advances the accumulator and resets it when clamping the stored value to a nonpositive bound. */
 void func_808105EC(void *unused, void *state)
 {
     s32 upperBound;

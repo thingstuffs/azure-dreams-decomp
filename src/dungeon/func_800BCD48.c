@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -12,7 +13,6 @@ typedef struct DungeonObject {
     s32 unk_110;
 } DungeonObject;
 
-extern u16 D_800DDE84[];
 extern u8 D_800E15BB[];
 extern u8 D_800E15E5[];
 

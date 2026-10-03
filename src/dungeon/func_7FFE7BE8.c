@@ -64,7 +64,6 @@ void func_7FFE7BE8(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, S_7FFE7BE8_3 *pos
     S_7FFE7BE8_4 *display_state;
     S_7FFE7BE8_2 *object_position;
     s32 source_value;
-    u16 flags;
 
     object->unk_44 = source;
     func_70040A18(object, &D_8004136C);
@@ -80,10 +79,8 @@ void func_7FFE7BE8(S_7FFE7BE8_0 *object, S_7FFE7BE8_5 *source, S_7FFE7BE8_3 *pos
     display_state->unk_1C = 0x800;
     object->unk_2C = source->unk_0C;
     source_value = source->unk_0C;
-    flags = display_state->unk_14;
     display_state->unk_12 = 0x7DCF;
-    flags |= 0x100;
     display_state->unk_0C = source_value;
-    display_state->unk_14 = flags;
+    display_state->unk_14 |= 0x100;
     func_7003A7C4(display_state, &D_800E2BB8, 0);
 }

@@ -124,7 +124,8 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
 
     case 0:
         next_state = ((S_80175470_0 *)sequence)->unk_9B.v + 1;
-        goto store_next_state;
+        ((S_80175470_0 *)sequence)->unk_9B.n = next_state;
+        return;
 
     case 1:
         func_80041588(D_80175B0C, &D_80175B24, 0);
@@ -135,18 +136,14 @@ void func_80175470(void *sequence, void *position, Rec_D_80082E80 *record, void 
 
     case 2:
         direction = ((gameWork.view.viewAngle + ((S_80175470_1 *)actor)->unk_2A.s + 0x100) >> 9) & 7;
-        if (D_80175B24 != 0) {
+        if (D_80175B24 == 0 || direction != 2) {
             if (direction == 2) {
-                goto start_effect;
+                return;
             }
-        }
-        if (direction == 2) {
+            ((S_80175470_1 *)actor)->unk_2A.u += 0x200;
             return;
         }
-        ((S_80175470_1 *)actor)->unk_2A.u += 0x200;
-        return;
 
-start_effect:
         func_80041588(D_80175B0C, &D_80175B24, 1);
         func_8003F540(0, D_8006CD58[0], 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), 0);

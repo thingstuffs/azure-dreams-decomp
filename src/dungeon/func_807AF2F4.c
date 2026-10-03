@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
@@ -7,15 +8,7 @@ typedef struct {
     u16 flags;
 } DungeonCell;
 
-typedef struct {
-    u8 pad00[0x10];
-    s16 field10;
-    s16 field12;
-    s16 field14;
-    u16 field16;
-} GlobalState;
 
-extern GlobalState D_80082E60;
 extern s8 D_800DCF5B[9];
 
 extern void func_80043B4C(void);
@@ -25,7 +18,7 @@ void func_807AF2F4(void)
 {
     MapGrid *dungeon;
     u8 *cells;
-    GlobalState *global_state;
+    RuntimeDispatchState *global_state;
     s32 coord;
 
     dungeon = &gameWork.map;
@@ -63,9 +56,9 @@ void func_807AF2F4(void)
     func_80043B4C();
 
     global_state = &D_80082E60;
-    global_state->field10 = 0x1F;
-    global_state->field12 = 0x39;
+    global_state->unk_10 = 0x1F;
+    global_state->unk_12 = 0x39;
     D_800DCF5B[0] = 1;
-    global_state->field16 |= 1;
+    global_state->flags16 |= 1;
     D_800E296C |= 0x10000000;
 }

@@ -24,7 +24,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A854(&s0, first_input);
     {
         ReportValue report;
-        report = ((TownDispatch *)D_80016000->unk_20)->report_value;
+        report = D_80016000->unk_20->callback_168;
         first_format = D_8001610C;
         report(first_format, D_80016118, s0.x);
     }
@@ -32,7 +32,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A854(&s1, second_input);
     {
         ReportValue report;
-        report = ((TownDispatch *)D_80016000->unk_20)->report_value;
+        report = D_80016000->unk_20->callback_168;
         second_format = D_8001610C;
         report(second_format, D_80016120, s1.x);
     }
@@ -40,7 +40,7 @@ void func_8001A9B8(s32 first_input, s32 second_input, s32 blend_weight, s32 rema
     func_8001A8DC(&s0, &s1, blend_weight, remaining_weight, &s);
     {
         ReportValue report;
-        report = ((TownDispatch *)D_80016000->unk_20)->report_value;
+        report = D_80016000->unk_20->callback_168;
         result_format = D_8001610C;
         report(result_format, D_80016128, s.x);
     }

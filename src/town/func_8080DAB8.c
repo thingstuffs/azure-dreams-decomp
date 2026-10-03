@@ -126,16 +126,31 @@ s32 func_8080DAB8(void *first_record) {
             depth0_shifted = (u32)((s32)depth1_shifted >> 0x13);
         }
         ot_slot = (s32)(depth0_shifted << 0x10) >> 0xE;
-        ((S_8080DAB8_1 *)primitive)->unk_00 = (s32)((((S_8080DAB8_1 *)primitive)->unk_00 & tag_mask)
-            | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0 & addr_mask));
-        ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
-        ot_entry->unk_B0 = (s32)((ot_entry->unk_B0 & tag_mask) | ((u32)(primitive & addr_mask)));
-        *draw_mode = (s32)((*draw_mode & tag_mask) | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot
-            + (u32)*render_root)))->unk_B0 & addr_mask));
-        ot_slot = ot_slot + (u8 *)*render_root;
-        packet_addr = (u32)draw_mode & addr_mask;
-        ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 = (s32)((((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 & tag_mask)
-            | packet_addr);
+        {
+            u32 tag_word, link_word;
+            tag_word = ((S_8080DAB8_1 *)primitive)->unk_00;
+            link_word = ((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0;
+            ((S_8080DAB8_1 *)primitive)->unk_00 = (tag_word & tag_mask) | (link_word & addr_mask);
+        }
+        {
+            u32 tag_word;
+            ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
+            tag_word = ot_entry->unk_B0;
+            ot_entry->unk_B0 = (tag_word & tag_mask) | ((u32)primitive & addr_mask);
+        }
+        {
+            u32 tag_word, link_word;
+            tag_word = *draw_mode;
+            link_word = ((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0;
+            *draw_mode = (tag_word & tag_mask) | (link_word & addr_mask);
+        }
+        {
+            u32 tag_word;
+            ot_slot = ot_slot + (u8 *)*render_root;
+            packet_addr = (u32)draw_mode & addr_mask;
+            tag_word = ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0;
+            ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 = (tag_word & tag_mask) | packet_addr;
+        }
         mode_base = (u8 *)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
         record = mode_base + 0x20;
     } while (mode_base != 0);

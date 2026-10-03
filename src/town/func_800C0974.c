@@ -31,28 +31,31 @@ void func_800BE0D4(S0 *self, s32 arg1, S1 *arg2) {
     case 0:
         if (func_800352FC() && func_800C2AB4(obj)) {
             callValue = obj->fieldA4;
-            goto Lcall;
+            func_8003DB94(dst, callValue, 0);
+            obj->state = (u16)obj->state + 1;
+            return;
         }
         return;
     case 1:
         if (dst->field14 & 0x6000) {
             callValue = obj->fieldA8;
-            goto Lcall;
+            func_8003DB94(dst, callValue, 0);
+            obj->state = (u16)obj->state + 1;
+            return;
         }
         return;
     case 2:
         if (func_800352FC() && func_800C2AB4(obj)) {
             return;
         }
-        goto Linc;
+        obj->state = (u16)obj->state + 1;
+        return;
     case 3:
         if (!(func_800352FC() && func_800C2AB4(obj))) {
             return;
         }
         callValue = obj->fieldA0;
-Lcall:
         func_8003DB94(dst, callValue, 0);
-Linc:
         obj->state = (u16)obj->state + 1;
         return;
     case 4:

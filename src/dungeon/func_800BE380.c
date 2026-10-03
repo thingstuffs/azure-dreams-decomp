@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -13,7 +14,6 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A63B8(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 
-extern u16 D_800DDE84[];
 extern u8 D_800E1827[];
 
 /* Applies the item's status effect to the target and consumes the handled item. */

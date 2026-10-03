@@ -38,55 +38,55 @@ M2C_UNK func_8009A3D0();           /* extern */
 s32 func_8009B88C();   /* extern */
 extern u8 D_800DD130;
 
-s32 func_80095854(void *arg0, s32 arg1, void *arg2_in, s32 arg3_in) {
-    s16 sp18;
-    s16 sp1A;
-    s16 sp1C;
-    s16 sp1E;
-    void *arg2 = arg2_in;
-    s32 arg3 = arg3_in;
-    u16 var_s1;
-    s32 temp_cmp;
-    s32 temp_a2;
-    s32 temp_shift;
-    s8 temp_v0;
-    void *temp_v1;
+s32 func_80095854(void *record, s32 input1, void *pointer_input, s32 value_input) {
+    s16 candidate_x;
+    s16 candidate_y;
+    s16 checked_x;
+    s16 checked_y;
+    void *pointer_data = pointer_input;
+    s32 input_value = value_input;
+    u16 status;
+    s32 value;
+    s32 direction_index;
+    s32 condition;
+    s8 next_y;
+    void *child;
 
-    var_s1 = 0;
-    temp_v1 = ((S_80095854_0 *)arg0)->unk_124;
-    ((S_80095854_0 *)arg0)->unk_9A = 0x31;
-    ((S_80095854_0 *)arg0)->unk_9B = 0;
-    ((S_80095854_0 *)arg0)->unk_8C = 0;
-    if (temp_v1 != NULL) {
-        temp_cmp = ((S_80095854_1 *)temp_v1)->unk_13;
-        temp_cmp = temp_cmp > 0;
-        var_s1 = temp_cmp;
+    status = 0;
+    child = ((S_80095854_0 *)record)->unk_124;
+    ((S_80095854_0 *)record)->unk_9A = 0x31;
+    ((S_80095854_0 *)record)->unk_9B = 0;
+    ((S_80095854_0 *)record)->unk_8C = 0;
+    if (child != NULL) {
+        value = ((S_80095854_1 *)child)->unk_13;
+        value = value > 0;
+        status = value;
     }
     func_80094E34();
-    (*(M2C_UNK **)((u8 *)arg2 + 0x2C)) = &D_800DD130;
-    func_80048A44(arg2, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)arg0)->unk_2A + 0x100) >> 9) & 7)
+    (*(M2C_UNK **)((u8 *)pointer_data + 0x2C)) = &D_800DD130;
+    func_80048A44(pointer_data, *((((s32) (gameWork.view.viewAngle + ((S_80095854_0 *)record)->unk_2A + 0x100) >> 9) & 7)
         + &D_800DD130), 0, 1);
-    D_80082E80.unk_030 = arg3;
-    temp_a2 = ((u16) (*(s16 *)((u8 *)arg0 + 0x2A)) >> 8) & 0xE;
-    ((S_80095854_0 *)arg0)->unk_72 = (s8) (((S_80095854_2 *)arg2)->unk_24 + *(temp_a2 + ((s8 *)dirStepX)));
-    temp_v0 = ((S_80095854_2 *)arg2)->unk_25 + *(temp_a2 + ((s8 *)dirStepY));
-    ((S_80095854_0 *)arg0)->unk_73 = temp_v0;
-    if ((func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, temp_v0, &sp18, &sp1A) << 0x10) != 0) {
-        temp_cmp = var_s1 << 0x10;
-        if (temp_cmp != 0) {
-            func_8009A21C(sp18, sp1A, 0x8000);
-            var_s1 = func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, ((S_80095854_0 *)arg0)->unk_73, &sp1C, &sp1E);
-            func_8009A3D0(sp18, sp1A, 0x8000);
-            temp_shift = var_s1 << 0x10;
-            if (temp_shift != 0) {
-                ((S_80095854_0 *)arg0)->unk_72 = (s8) (u8) sp1C;
-                ((S_80095854_0 *)arg0)->unk_73 = (s8) (u8) sp1E;
+    D_80082E80.unk_030 = input_value;
+    direction_index = ((u16) (*(s16 *)((u8 *)record + 0x2A)) >> 8) & 0xE;
+    ((S_80095854_0 *)record)->unk_72 = (s8) (((S_80095854_2 *)pointer_data)->unk_24 + *(direction_index + ((s8 *)dirStepX)));
+    next_y = ((S_80095854_2 *)pointer_data)->unk_25 + *(direction_index + ((s8 *)dirStepY));
+    ((S_80095854_0 *)record)->unk_73 = next_y;
+    if ((func_8009B88C(0, ((S_80095854_0 *)record)->unk_72, next_y, &candidate_x, &candidate_y) << 0x10) != 0) {
+        value = status << 0x10;
+        if (value != 0) {
+            func_8009A21C(candidate_x, candidate_y, 0x8000);
+            status = func_8009B88C(0, ((S_80095854_0 *)record)->unk_72, ((S_80095854_0 *)record)->unk_73, &checked_x, &checked_y);
+            func_8009A3D0(candidate_x, candidate_y, 0x8000);
+            condition = status << 0x10;
+            if (condition != 0) {
+                ((S_80095854_0 *)record)->unk_72 = (s8) (u8) checked_x;
+                ((S_80095854_0 *)record)->unk_73 = (s8) (u8) checked_y;
                 return 1;
             }
             return 0;
         }
-        ((S_80095854_0 *)arg0)->unk_72 = (s8) (u8) sp18;
-        ((S_80095854_0 *)arg0)->unk_73 = (s8) (u8) sp1A;
+        ((S_80095854_0 *)record)->unk_72 = (s8) (u8) candidate_x;
+        ((S_80095854_0 *)record)->unk_73 = (s8) (u8) candidate_y;
         return 1;
     }
     return 0;

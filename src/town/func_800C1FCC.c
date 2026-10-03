@@ -59,7 +59,8 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         position->unk_04 = increased_y;
         if (increased_y > 0x023FFFFF) {
             position->unk_04 = 0x02400000;
-            goto block_15;
+            object->unk_68 = (s16)((u16)object->unk_68 + 1);
+            return;
         }
         return;
 
@@ -79,7 +80,8 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         }
         if (position->unk_00 > 0x105FFFFF) {
             position->unk_00 = 0x10600000;
-            goto block_18;
+            object->unk_68 = 0;
+            return;
         }
         return;
 
@@ -91,7 +93,6 @@ void func_800BF72C(S_800BF72C_0 *object, S_800BF72C_1 *position) {
         } else {
             return;
         }
-block_15:
         object->unk_68 =
             (s16)((u16)object->unk_68 + 1);
         return;
@@ -104,8 +105,6 @@ block_15:
         position->unk_04 = 0x02300000;
         object->unk_68 = 0;
         return;
-block_18:
-        object->unk_68 = 0;
     case 0:
         return;
     }

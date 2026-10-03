@@ -2,11 +2,11 @@
 #include "shared/game_work.h"
 
 
-extern s16 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s16 func_80066460(s32 value0, s32 value1, s32 value2, s32 value3);
 extern s32 func_80065590(
-    void *arg0, void *arg1, void *arg2, void *arg3,
-    void *arg4, void *arg5, void *arg6, void *arg7,
-    void *arg8, void *arg9);
+    void *ptr0, void *ptr1, void *ptr2, void *ptr3,
+    void *ptr4, void *ptr5, void *ptr6, void *ptr7,
+    void *ptr8, void *ptr9);
 
 
 typedef struct S_818B6F90_0 {

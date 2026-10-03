@@ -1,13 +1,12 @@
 #include "common.h"
 
 typedef struct {
-    s32 x;
-    s32 y;
-} __attribute__((packed)) PackedPair;
+    u8 data[8];
+} PackedPair;
 
 typedef struct {
-    s32 value;
-} __attribute__((packed)) PackedWord;
+    u8 data[4];
+} PackedWord;
 
 typedef struct {
     u8 pad_00[0x10];

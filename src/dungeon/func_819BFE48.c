@@ -6,7 +6,7 @@ extern s32 func_800A56E0();
 extern s16 func_800BCB04();
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
-void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s32 lower_bound) {
+void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
     u16 call_x = x;
@@ -26,7 +26,9 @@ void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s32 lower_bo
         lower = shifted_lower >> 16;
         query_value = func_800BCB04(query_x, query_y, lower);
         if (query_value < upper && query_value >= lower) {
-            func_800251F4(object_data, (s16)x, (s16)y, upper);
+            raw_x = (s16)x;
+            raw_y = (s16)y;
+            func_800251F4(object_data, raw_x, raw_y, upper);
             func_800419EC(6, 12);
             func_800A56E0(0x50B);
         }

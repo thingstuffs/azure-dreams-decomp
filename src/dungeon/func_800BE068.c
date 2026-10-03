@@ -1,10 +1,10 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u16 D_800DDE84[];
 extern u8 D_800E2082[];
 
 extern s32 func_8008D330(void *, u8 *, u8 *, void *);

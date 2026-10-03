@@ -2,7 +2,6 @@
 #include "records/Rec_func_800247B8_arg0.h"
 #include "records/Rec_func_800247B8_arg1.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -43,7 +42,7 @@ typedef struct S_800247B8_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
     u8 pad_14[0xC];
     s32 unk_20;
 } S_800247B8_1;   /* obj in func_800247B8 */
@@ -75,12 +74,12 @@ typedef struct S_800247B8_4 {
 
 extern s32 func_8002406C(s32);
 extern void *func_8003FC64(s32);
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 rand();
-extern M2C_UNK D_80024670[];
-extern M2C_UNK D_800246C4[];
+extern s32 D_80024670[];
+extern s32 D_800246C4[];
 
 /* Creates an effect at the supplied position with randomized color and radial offsets. */
 void func_800247B8(Rec_func_800247B8_arg0 *source, Rec_func_800247B8_arg1 *origin)

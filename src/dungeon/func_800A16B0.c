@@ -1,14 +1,14 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
-extern M2C_UNK D_800E3548;
-extern M2C_UNK D_800E36C8;
+
+extern s32 D_800E3548;
+extern s32 D_800E36C8;
 
 /* Counts active entries whose first two key bytes match the given values. */
 s16 func_800A6E10(s16 first_key, s16 second_key) {
-    M2C_UNK *status_entry;
-    M2C_UNK *key_entry;
+    s32 *status_entry;
+    s32 *key_entry;
     s16 match_count;
     s32 entry_index;
     s32 match_first;

@@ -10,7 +10,7 @@ typedef struct S_8015E854_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_8015E854_0;   /* temp_v0 in func_8015E854 */
+} S_8015E854_0;   /* objectBase in func_8015E854 */
 
 typedef struct S_8015E854_1 {
     u8 pad_00[0x13];
@@ -18,12 +18,12 @@ typedef struct S_8015E854_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_8015E854_1;   /* var_s1 in func_8015E854 */
+} S_8015E854_1;   /* result in func_8015E854 */
 
 typedef struct S_8015E854_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_8015E854_2;   /* temp_s6 in func_8015E854 */
+} S_8015E854_2;   /* data08 in func_8015E854 */
 
 typedef struct S_8015E854_3 {
     u8 pad_00[0x10];
@@ -35,7 +35,7 @@ typedef struct S_8015E854_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_8015E854_3;   /* temp_s2 in func_8015E854 */
+} S_8015E854_3;   /* data0C in func_8015E854 */
 
 typedef struct S_8015E854_4 {
     u8 pad_00[0x8C];
@@ -47,7 +47,7 @@ typedef struct S_8015E854_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_8015E854_4;   /* temp_s3 in func_8015E854 */
+} S_8015E854_4;   /* objectState in func_8015E854 */
 
 
 extern u8 D_8015EA8C[];
@@ -67,68 +67,68 @@ extern M2C_UNK func_800BC318();
 #define BODY_STORAGE
 #define BODY_ATTR
 
-BODY_STORAGE void *func_8015E854(s16 arg0, s16 arg1, s16 arg2, s16 arg3) BODY_ATTR;
+BODY_STORAGE void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A) BODY_ATTR;
 
-BODY_STORAGE void *func_8015E854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+BODY_STORAGE void *func_8015E854(s16 mode, s16 value24, s16 value25, s16 value0A)
 {
-    s32 temp_v0_2;
-    s32 var_s5;
-    void *temp_s0;
-    S_8015E854_3 *temp_s2;
-    S_8015E854_2 *temp_s6;
-    void *temp_s3;
-    void *temp_v0;
-    S_8015E854_1 *var_s1;
+    s32 modeBits;
+    s32 optionValue;
+    void *objectBaseForCallbacks;
+    S_8015E854_3 *data0C;
+    S_8015E854_2 *data08;
+    void *objectState;
+    void *objectBase;
+    S_8015E854_1 *result;
 
-    var_s1 = 0;
-    var_s5 = 1;
-    temp_v0 = func_8003FD64(274, ((u8 *)(&D_80083498)));
-    if (temp_v0 != 0) {
-        var_s1 = (u8 *)temp_v0 + 0x20;
-        ((S_8015E854_0 *)temp_v0)->unk_10 = D_8015EA8C;
-        var_s1->unk_13 = 0x23;
-        func_8004491C(temp_v0, func_80045340);
-        temp_s6 = ((S_8015E854_0 *)temp_v0)->unk_08;
-        temp_s6->unk_0A = arg3;
-        temp_s2 = ((S_8015E854_0 *)temp_v0)->unk_0C;
-        temp_s2->unk_25 = arg2;
-        temp_s3 = var_s1;
-        temp_s2->unk_2C = D_80161D30;
-        temp_v0_2 = arg0 & 3;
-        temp_s2->unk_24 = arg1;
-        if (temp_v0_2 == 1) {
-            var_s1->unk_14 |= 0x6000;
-            var_s1->unk_1C |= 0x6000;
-        } else if (temp_v0_2 >= 2) {
-            var_s1->unk_14 |= 0x2000;
-            var_s1->unk_1C |= 0x2000;
-        } else if (((arg0 & ~3) << 16) == 0) {
-            if (!(var_s1->unk_14 & 0x200)) {
+    result = 0;
+    optionValue = 1;
+    objectBase = func_8003FD64(274, ((u8 *)(&D_80083498)));
+    if (objectBase != 0) {
+        result = (u8 *)objectBase + 0x20;
+        ((S_8015E854_0 *)objectBase)->unk_10 = D_8015EA8C;
+        result->unk_13 = 0x23;
+        func_8004491C(objectBase, func_80045340);
+        data08 = ((S_8015E854_0 *)objectBase)->unk_08;
+        data08->unk_0A = value0A;
+        data0C = ((S_8015E854_0 *)objectBase)->unk_0C;
+        data0C->unk_25 = value25;
+        objectState = result;
+        data0C->unk_2C = D_80161D30;
+        modeBits = mode & 3;
+        data0C->unk_24 = value24;
+        if (modeBits == 1) {
+            result->unk_14 |= 0x6000;
+            result->unk_1C |= 0x6000;
+        } else if (modeBits >= 2) {
+            result->unk_14 |= 0x2000;
+            result->unk_1C |= 0x2000;
+        } else if (((mode & ~3) << 16) == 0) {
+            if (!(result->unk_14 & 0x200)) {
                 if (func_800A6D30() & 1) {
-                    var_s1->unk_1C |= 0x200;
-                    func_800A48F0(var_s1, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    temp_s2->unk_2C = D_80161D78;
+                    result->unk_1C |= 0x200;
+                    func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    data0C->unk_2C = D_80161D78;
                 }
             }
-            var_s5 = func_800A6D30() & 3;
+            optionValue = func_800A6D30() & 3;
         }
-        func_800A9C18(temp_v0, temp_s6, temp_s2, arg0);
-        ((S_8015E854_4 *)temp_s3)->unk_9A = 0xFF;
-        ((S_8015E854_4 *)temp_s3)->unk_9C = -1;
-        ((S_8015E854_4 *)temp_s3)->unk_8C = D_8015EF74;
-        ((S_8015E854_4 *)temp_s3)->unk_A4 = -1;
-        if (var_s5 != 0) {
-            ((S_8015E854_4 *)temp_s3)->unk_A6 = 0;
+        func_800A9C18(objectBase, data08, data0C, mode);
+        ((S_8015E854_4 *)objectState)->unk_9A = 0xFF;
+        ((S_8015E854_4 *)objectState)->unk_9C = -1;
+        ((S_8015E854_4 *)objectState)->unk_8C = D_8015EF74;
+        ((S_8015E854_4 *)objectState)->unk_A4 = -1;
+        if (optionValue != 0) {
+            ((S_8015E854_4 *)objectState)->unk_A6 = 0;
         } else {
-            temp_s0 = (u8 *)temp_s3 - 0x20;
-            ((S_8015E854_4 *)temp_s3)->unk_A6 = 1;
-            temp_s2->unk_10 = 0x60;
-            temp_s2->unk_14 |= 0xC;
-            temp_s2->unk_12 -= 0x80;
-            func_80044A50(temp_s0);
-            func_800BC318(temp_s0);
+            objectBaseForCallbacks = (u8 *)objectState - 0x20;
+            ((S_8015E854_4 *)objectState)->unk_A6 = 1;
+            data0C->unk_10 = 0x60;
+            data0C->unk_14 |= 0xC;
+            data0C->unk_12 -= 0x80;
+            func_80044A50(objectBaseForCallbacks);
+            func_800BC318(objectBaseForCallbacks);
         }
-        func_800AA36C(temp_s3, temp_s6, temp_s2, var_s1);
+        func_800AA36C(objectState, data08, data0C, result);
     }
-    return var_s1;
+    return result;
 }

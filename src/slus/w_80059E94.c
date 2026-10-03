@@ -48,7 +48,8 @@ s32 func_80059E94(s32 size)
 found:
     entry->unk00 = end_offset;
     entry->unk04 = alloc_size;
-    goto tail;
+    func_80059DAC();
+    return offset;
 
 loop_start:
     {

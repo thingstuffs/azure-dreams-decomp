@@ -125,7 +125,9 @@ void func_80024064(void *transition) {
         ((S_80024064_0 *)transition)->unk_20 = -1;
         ((S_80024064_0 *)transition)->unk_22 = 0x20;
         func_800A56E0(0x300);
-        goto increment_state;
+        result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
+        ((S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
+        break;
     case 2:
         state_or_frames = 0x10;
         if (D_80027C94 != 0) {
@@ -133,7 +135,8 @@ void func_80024064(void *transition) {
         }
         ((S_80024064_0 *)transition)->unk_1A = (s16) state_or_frames;
         result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
-        goto increment_loaded;
+        ((S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
+        break;
     case 3:
         levels->view.unk_091 = (u8) (levels->view.unk_091 + ((s32) (0x80
             - levels->view.unk_091) / (s16) ((S_80024064_0 *)transition)->unk_1A));
@@ -146,9 +149,7 @@ void func_80024064(void *transition) {
         }
         levels->view.unk_091 = 0x80U;
         levels->view.unk_090 = 0x80U;
-increment_state:
         result_or_state = ((S_80024064_0 *)transition)->unk_0A.p;
-increment_loaded:
         ((S_80024064_0 *)transition)->unk_0A.p = result_or_state + 1;
         break;
     case 4:

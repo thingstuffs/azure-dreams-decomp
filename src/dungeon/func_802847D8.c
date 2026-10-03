@@ -2,7 +2,7 @@
 #include "shared/dungeon_floor.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800E2C40[];
+extern u8 D_800E2C40[];
 
 typedef struct S_800177D8_0 {
     u8 pad_00[0xA];

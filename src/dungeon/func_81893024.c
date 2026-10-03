@@ -38,12 +38,9 @@ void *func_81893024(s32 object_arg, void *source_data, s16 initial_value, s16 fi
     M2C_OBJECT *object;
     s32 *object_args;
     M2C_BLOCK *data;
-    void *result;
 
     object = func_8003FC64(0x212);
-    do {
-        result = NULL;
-    } while (0);
+
     if (object != NULL) {
         src = (M2C_BLOCK *)source_data;
         object->callback = &D_800243F8;
@@ -55,7 +52,8 @@ void *func_81893024(s32 object_arg, void *source_data, s16 initial_value, s16 fi
         *data = *src;
         ((S_81893024_0 *)data)->unk_0A = (s16) (((S_81893024_0 *)data)->unk_0A + field_delta);
         func_8004491C(object, D_8002445C);
-        result = object;
+    } else {
+        return NULL;
     }
-    return result;
+    return object;
 }

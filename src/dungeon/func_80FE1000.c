@@ -166,23 +166,19 @@ void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_v
             ((S_80FE1000_1 *)work)->unk_14 = flags;
             ((S_80FE1000_1 *)work)->unk_1C = paired_flags;
         } else {
-            if (((kind_flags & ~3) << 16) != 0) {
-                goto initialize_parts;
+            if ((((kind_flags & ~3) << 16) == 0) &&
+                !(((S_80FE1000_1 *)work)->unk_14 & 0x200)) {
+                flags = func_800A6D30();
+                if (flags & 1) {
+                    ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8016E088;
+                }
             }
-            if (((S_80FE1000_1 *)work)->unk_14 & 0x200) {
-                goto initialize_parts;
-            }
-            flags = func_800A6D30();
-            if (!(flags & 1)) {
-                goto initialize_parts;
-            }
-            ((S_80FE1000_1 *)work)->unk_1C |= 0x200;
-            func_800A48F0(work, 1,
-                          (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = D_8016E088;
         }
 
-initialize_parts:
+
         func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

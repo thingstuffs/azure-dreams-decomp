@@ -1,21 +1,7 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
-struct S_80082E60 {
-    char pad0[8];
-    union {
-        u8 b;
-        u16 h;
-    } field_8;
-    s8 pad_A;
-    u8 field_B;
-    s8 field_C;
-    s8 field_D;
-    s8 field_E;
-    char pad_F[0xA];
-    s8 field_18;
-};
 
-extern struct S_80082E60 D_80082E60;
 
 typedef struct S_8006CE80 {
     u16 unk0;
@@ -37,7 +23,7 @@ void func_80041818(void) {
 
     dispatch_entry = &D_8006CE80[D_80082E60.field_B];
     func_801768AC();
-    D_80082E60.field_8.h = dispatch_entry->unk2;
+    D_80082E60.unk_08 = dispatch_entry->unk2;
     func_80040B88();
 
     dispatch_entry = &D_8006CE80[D_80082E60.field_B];

@@ -1,6 +1,6 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 
-extern u8 *D_8001E950;
 extern s32 D_8001E954[];
 
 s32 func_8001A2F0(void);
@@ -9,12 +9,12 @@ s32 func_8001BC60(s32);
 
 void func_8001BC98(s32 arg0, s32 arg1, s32 arg2)
 {
-    D_8001E950[2] = 0xFF;
+    D_8001E950->unk_02 = 0xFF;
     if (func_8001A2F0() != 0) {
-        D_8001E950[4] = func_8001A3E8();
-        D_8001E950[5] = 2;
-        D_8001E954[0] = func_8001BC60(D_8001E950[4]);
+        D_8001E950->unk_04 = func_8001A3E8();
+        D_8001E950->unk_05 = 2;
+        D_8001E954[0] = func_8001BC60(D_8001E950->unk_04);
     } else {
-        D_8001E950[5] = 1;
+        D_8001E950->unk_05 = 1;
     }
 }

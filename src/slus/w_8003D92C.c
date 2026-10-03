@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -11,7 +12,7 @@ extern short D_80080A9C;
 extern u8 D_80080A8A;
 extern u8 D_80080A88;
 extern u8 D_80080AA0;
-extern int D_80082E60[4];
+
 extern void func_8003F320(void);
 extern int func_80053EF0(int);
 extern void func_8003E758(void);
@@ -87,11 +88,11 @@ int func_8003D92C(void)
         func_80040AA0(3);
         {
             saved_setting = D_80080A94;
-            flags = D_80082E60[0];
+            flags = D_80082E60.field_0;
             D_80080A8A = 0;
             D_80080A88 = 0;
             D_80080AA0 = 0;
-            D_80082E60[0] = flags & ~2;
+            D_80082E60.field_0 = flags & ~2;
             func_80053DCC(saved_setting);
         }
         func_80053DF0(D_80080A98);

@@ -10,9 +10,7 @@ s32 func_8009EE4C(s16 x, s16 y) {
     u8 packed_cells;
     s32 odd_column;
     s32 row_shift;
-#ifndef NON_MATCHING
     s16 *shift_page;
-#endif
 
 #ifndef NON_MATCHING
     shift_page = (s16 *)0x80080000;

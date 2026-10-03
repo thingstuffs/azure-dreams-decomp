@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -17,7 +18,7 @@ extern void func_80067014();
 extern void func_8006733C();
 extern void func_800B73F0();
 
-extern u8 D_80082E60[];
+
 extern u8 D_800D2FB4[];
 extern u8 D_800D381A[];
 extern u8 D_80110EC8[];
@@ -47,7 +48,7 @@ void func_800B70EC(void) {
     u8 *kind_table;
     u8 *state_base;
     u8 *asset_state;
-    u8 *shared_state;
+    RuntimeDispatchState *shared_state;
     u16 *upload_rect;
     u8 *image_data;
 
@@ -64,12 +65,12 @@ void func_800B70EC(void) {
     ((S_800B70EC_0 *)asset_state)->unk_16 = seven;
     ((S_800B70EC_0 *)asset_state)->unk_1A = limit;
     ((S_800B70EC_0 *)asset_state)->unk_1E = size;
-    shared_state = D_80082E60;
+    shared_state = &D_80082E60;
     D_80111FA8[0] = 0x328;
     upload_rect[1] = 0x80;
     upload_rect[2] = 8;
     upload_rect[3] = 0x80;
-    (*(u16 *)((u8 *)shared_state + 0x16)) |= 1;
+    (shared_state->flags16) |= 1;
     asset_data = D_8014F004;
     func_8006733C(upload_rect, image_data);
 

@@ -9,13 +9,6 @@ typedef struct Entry {
     void *value;
 } Entry;
 
-typedef struct RuntimeMethods {
-    char pad0[0x168];
-    void (*assert_fail)(char *, char *, s32);
-    char pad16C[8];
-    void (*terminate)(s32);
-} RuntimeMethods;
-
 extern char D_80016080[];
 extern char D_800160A8[];
 
@@ -41,7 +34,7 @@ s32 func_8095013C(Entry *entries, s32 key)
         }
     }
 
-    ((RuntimeMethods *)D_80016000->unk_20)->assert_fail(D_80016080, D_800160A8, 39);
-    ((RuntimeMethods *)D_80016000->unk_20)->terminate(1);
+    D_80016000->unk_20->callback_168(D_80016080, D_800160A8, 39);
+    D_80016000->unk_20->callback_174(1);
     return index;
 }

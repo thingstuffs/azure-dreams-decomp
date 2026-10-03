@@ -38,51 +38,55 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
         center_y = probe_y;
         if ((func_8009A350(probe_x, probe_y, probe_z, &probe_result) << 0x10) != 0) {
             coord_work = center_x << 6;
-            center_x = coord_work + 0x20;
-            probe_x = center_x & 0xFFE0;
-            coord_work = center_y << 6;
-            ASM_KEEP(coord_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            coord_work += 0x20;
-            probe_y = coord_work & 0xFFE0;
-            probe_z = (s16) (probe_coord - 0x20);
-            center_y = coord_work;
-            center_result = func_800BCB04(probe_x, probe_y, probe_z);
-            probe_result = center_result;
-            if (center_result >= 0x201) {
-                probe_coord = center_x;
-                coord_work = center_x - source_x;
-                center_delta = (s16) coord_work;
-                x_distance = (s32)(s16)center_delta;
-                if (center_delta < 0) {
-                    x_distance = 0 - x_distance;
-                }
-                x_offset = 0;
-                if (x_distance >= 0x16) {
-                    x_step = 0x40;
-                    if (center_delta > 0) {
-                        x_step = -0x40;
-                    }
-                    x_offset = x_step;
-                }
-                coord_work = center_y - source_y;
-                center_delta = (s16) coord_work;
-                y_distance = (s32)(s16)center_delta;
-                if (center_delta < 0) {
-                    y_distance = 0 - y_distance;
-                }
-                if (y_distance >= 0x16) {
-                    y_offset = 0x40;
-                    if (center_delta > 0) {
-                        y_offset = -0x40;
-                    }
-                } else {
-                    y_offset = 0;
-                }
-                probe_result = func_800BCB04((probe_coord + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF,
-                    (s16) (source_z - 0x20));
-                return probe_result > 0x200;
-            }
+        } else {
+            return 0;
         }
+    } else {
+        return 0;
+    }
+    center_x = coord_work + 0x20;
+    probe_x = center_x & 0xFFE0;
+    coord_work = center_y << 6;
+    ASM_KEEP(coord_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    coord_work += 0x20;
+    probe_y = coord_work & 0xFFE0;
+    probe_z = (s16) (probe_coord - 0x20);
+    center_y = coord_work;
+    center_result = func_800BCB04(probe_x, probe_y, probe_z);
+    probe_result = center_result;
+    probe_coord = center_x;
+    if (center_result >= 0x201) {
+        coord_work = center_x - source_x;
+        center_delta = (s16) coord_work;
+        x_distance = (s32)(s16)center_delta;
+        if (center_delta < 0) {
+            x_distance = 0 - x_distance;
+        }
+        x_offset = 0;
+        if (x_distance >= 0x16) {
+            x_step = 0x40;
+            if (center_delta > 0) {
+                x_step = -0x40;
+            }
+            x_offset = x_step;
+        }
+        coord_work = center_y - source_y;
+        center_delta = (s16) coord_work;
+        y_distance = (s32)(s16)center_delta;
+        if (center_delta < 0) {
+            y_distance = 0 - y_distance;
+        }
+        if (y_distance >= 0x16) {
+            y_offset = 0x40;
+            if (center_delta > 0) {
+                y_offset = -0x40;
+            }
+        } else {
+            y_offset = 0;
+        }
+        probe_result = func_800BCB04((probe_coord + x_offset) & 0xFFFF, (center_y + y_offset) & 0xFFFF,
+            (s16) (source_z - 0x20));
+        return probe_result > 0x200;
     }
     return 0;
 }

@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 
 #ifdef NON_MATCHING
@@ -12,11 +13,10 @@ typedef struct {
     void *records;
 } TownObject;
 
-extern u8 *D_8001E950;
 extern s32 func_8001A79C(void);
 
 s32 func_8001BAC4(TownObject *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    if (D_8001E950[5] != 1) {
+    if (D_8001E950->unk_05 != 1) {
         return 1;
     }
     {

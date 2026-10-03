@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -24,7 +25,6 @@ extern s32 func_800AD6FC();
 extern u8 D_8008936C[];
 extern u8 D_80089370[];
 extern u8 D_800DD158[];
-extern u16 D_800DDE84[];
 extern u8 D_800E118C[];
 extern u8 D_800E11AB[];
 extern u8 D_800E11D7[];

@@ -16,6 +16,10 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     GameWork *render_global;
     u8 *line_packet;
     void *projection_param;
+    void *start_vertex;
+    void *start_screen;
+    void *end_vertex;
+    void *end_screen;
     union { u8 * pointer; s32 value; } flags_or_mode;
     s32 ray_index = 0;
     s32 prev_step;
@@ -47,7 +51,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         *((u8 *) (((u8 *) line_packet) + 0xC)) = *((u8 *) (((u8 *) effect_data) + 0x40));
         *((u8 *) (((u8 *) line_packet) + 0xD)) = *((u8 *) (((u8 *) effect_data) + 0x41));
         *((u8 *) (((u8 *) line_packet) + 0xE)) = *((u8 *) (((u8 *) effect_data) + 0x42));
-        origin_ptr = *((void * *) (&origin));
+        origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
         *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
@@ -58,10 +62,14 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         *((u16 *) (((u8 *) scratch) + 0x64)) += (start_step_offset * prev_step) >> 16;
         end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x108))) / scale;
         *((u16 *) (((u8 *) scratch) + 0x6C)) += (end_step_offset * step) >> 16;
-        origin_ptr = *((void * *) (&origin));
+        origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
         *((u16 *) (((u8 *) scratch) + 0x6E)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x66)) = origin_coord;
+        start_vertex = scratch + 0x64;
+        start_screen = scratch + 0xD8;
+        end_vertex = scratch + 0x6C;
+        end_screen = scratch + 0xDC;
         flags_or_mode.value = ((func_80064584(angle + (*((s16 *) (((u8 *) effect_data) + 0xA))))
             >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
         start_step_offset = flags_or_mode.value / scale;
@@ -70,7 +78,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         end_step_offset = (*((s32 *) (((u8 *) scratch) + 0x10C))) / scale;
         projection_param = scratch + 0x84;
         *((u16 *) (((u8 *) scratch) + 0x6E)) += (end_step_offset * step) >> 16;
-        origin_ptr = *((void * *) (&origin));
+        origin_ptr = origin;
         origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
         *((u16 *) (((u8 *) scratch) + 0x70)) = origin_coord;
         *((u16 *) (((u8 *) scratch) + 0x68)) = origin_coord;
@@ -79,10 +87,10 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
         z_step = z_delta >> scale;
         *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
         *((u16 *) (((u8 *) scratch) + 0x70)) += (((*((s32 *) (scratch + 0x110))) >> scale) << step) >> 16;
-        *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(scratch + 0x64, scratch + 0xD8, projection_param, scratch
+        *((s32 *) (((u8 *) scratch) + 0xF4)) = func_80065420(start_vertex, start_screen, projection_param, scratch
             + 0x88);
         flags_or_mode.pointer = scratch + 0x88;
-        *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(scratch + 0x6C, scratch + 0xDC, projection_param,
+        *((s32 *) (((u8 *) scratch) + 0xF8)) = func_80065420(end_vertex, end_screen, projection_param,
             flags_or_mode.pointer);
         *((u16 *) (((u8 *) line_packet) + 8)) = *((u16 *) (((u8 *) scratch) + 0xD8));
         *((u16 *) (((u8 *) line_packet) + 0xA)) = *((u16 *) (((u8 *) scratch) + 0xDA));

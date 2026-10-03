@@ -1,5 +1,5 @@
+#include "shared/town_event_state.h"
 #include "common.h"
-#include "records/Rec_D_8001E950.h"
 
 typedef long long s64;
 typedef unsigned long long u64;
@@ -13,7 +13,6 @@ typedef s64 M2C_UNK64;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8001A7E8();
-extern void *D_8001E950;
 
 
 typedef struct S_8001AC10_1 {
@@ -28,7 +27,7 @@ typedef struct S_8001AC10_2 {
 
 /* Store the queried value in the selected entry when the current state is 9. */
 s32 func_8001AC10(S_8001AC10_1 *entry_table, s32 entry_index) {
-    if (((Rec_D_8001E950 *)D_8001E950)->unk_05 == 9) {
+    if (D_8001E950->unk_05 == 9) {
         ((S_8001AC10_2 *)(((entry_index * 0x10) + entry_table->unk_10)))->unk_08 = func_8001A7E8();
         return 0;
     }

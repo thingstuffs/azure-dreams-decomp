@@ -72,7 +72,7 @@ s32 func_80098FF8(void);
 void func_8009F644(Unit *, s32, s32, s32);
 u8 *func_8009F868(void);
 void func_8009F988(void);
-s32 func_800438E4(void);
+s32 func_800438E4(Slot *);
 void func_800B4C7C(s32, Unit *, s32, s32);
 void func_8009A3D0(s32, s32, s32);
 
@@ -159,7 +159,6 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
         special_item = &special_items[(s16) item_lookup];
         item_kind = special_item->b1;
         if (item_kind == 12) {
-            ASM_USE2(special_item, item_kind);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             message = func_80099194(D_800E0ABC, func_8009929C(10, func_80099194(D_800E0AA1, func_8009929C(10,
                 message))));
             ctx->done = 1;
@@ -173,7 +172,7 @@ s32 func_80094F74(Ctx *ctx, char *text, Item *item, Unit *unit) {
             }
             *(u16 *) 0x8001209A = 0;
         } else if (item_kind == 14) {
-            pickup_value = func_800438E4();
+            pickup_value = func_800438E4(special_item);
             ctx->total += pickup_value;
             func_800B4C7C(151, unit, (s16) pickup_value, 1);
         }

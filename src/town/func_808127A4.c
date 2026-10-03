@@ -24,40 +24,40 @@ typedef struct S_808127A4_1 {
 M2C_UNK func_80058588();           /* extern */
 extern s32 D_80084D5C;
 
-void func_8052D3A4(void *arg0) {
-    s16 temp_v1;
-    u32 temp_a0;
-    u16 temp_step;
-    u16 temp_v0;
-    u16 temp_condition;
-    void *temp_s1;
+void func_8052D3A4(void *record_ptr) {
+    s16 state;
+    u32 sum;
+    u16 step;
+    u16 value;
+    u16 threshold_value;
+    void *related_record;
 
-    temp_v1 = ((S_808127A4_0 *)arg0)->unk_00.s;
-    temp_s1 = ((S_808127A4_0 *)arg0)->unk_0C;
-    switch (temp_v1) {
+    state = ((S_808127A4_0 *)record_ptr)->unk_00.s;
+    related_record = ((S_808127A4_0 *)record_ptr)->unk_0C;
+    switch (state) {
     case 0:
-        func_80058588(*((S_808127A4_0 *)arg0)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)arg0)->unk_04 + 4);
-        if (((S_808127A4_1 *)temp_s1)->unk_5C != 3) {
+        func_80058588(*((S_808127A4_0 *)record_ptr)->unk_08 * 0x3E8, 5, ((S_808127A4_0 *)record_ptr)->unk_04 + 4);
+        if (((S_808127A4_1 *)related_record)->unk_5C != 3) {
             break;
         }
-        if (((S_808127A4_0 *)arg0)->unk_16.s >= 0x78) {
-            ((S_808127A4_0 *)arg0)->unk_02.s = 8;
+        if (((S_808127A4_0 *)record_ptr)->unk_16.s >= 0x78) {
+            ((S_808127A4_0 *)record_ptr)->unk_02.s = 8;
         } else {
-            ((S_808127A4_0 *)arg0)->unk_02.s = -8;
+            ((S_808127A4_0 *)record_ptr)->unk_02.s = -8;
         }
-        ((S_808127A4_0 *)arg0)->unk_00.u++;
+        ((S_808127A4_0 *)record_ptr)->unk_00.u++;
         break;
     case 1:
-        temp_a0 = ((S_808127A4_0 *)arg0)->unk_16.u;
-        temp_step = ((S_808127A4_0 *)arg0)->unk_02.u;
-        temp_v0 = ((S_808127A4_0 *)arg0)->unk_02.p;
-        temp_a0 += temp_step;
-        temp_v0 = temp_a0 + ((s32) (temp_v0 << 0x10) >> 0x12);
-        temp_condition = (temp_v0 + 8) & 0xFFFF;
-        ((S_808127A4_0 *)arg0)->unk_16.p = temp_a0;
-        ((S_808127A4_0 *)arg0)->unk_16.u = temp_v0;
-        if (temp_condition >= 0xF9U) {
-            (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_808127A4_0_pre *)arg0)[-1].unk_00 | 0x8000);
+        sum = ((S_808127A4_0 *)record_ptr)->unk_16.u;
+        step = ((S_808127A4_0 *)record_ptr)->unk_02.u;
+        value = ((S_808127A4_0 *)record_ptr)->unk_02.p;
+        sum += step;
+        value = sum + ((s32) (value << 0x10) >> 0x12);
+        threshold_value = (value + 8) & 0xFFFF;
+        ((S_808127A4_0 *)record_ptr)->unk_16.p = sum;
+        ((S_808127A4_0 *)record_ptr)->unk_16.u = value;
+        if (threshold_value >= 0xF9U) {
+            (*(u16 *)((u8 *)record_ptr + -2)) = (u16) (((S_808127A4_0_pre *)record_ptr)[-1].unk_00 | 0x8000);
             *(s32 *) 0x80084D5C = D_80084D5C | 0x8000;
         }
     }

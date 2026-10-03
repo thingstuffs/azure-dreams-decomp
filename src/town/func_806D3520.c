@@ -23,6 +23,6 @@ void func_80016D20(s32 flag_id) {
         }
         word_index = adjusted_id >> 5;
         flag_word = (word_index * 4) + context->unk_18;
-        *flag_word &= ~(1 << (flag_id - (word_index << 5)));
+        *flag_word = ~(1 << (flag_id - (word_index << 5))) & *flag_word;
     }
 }

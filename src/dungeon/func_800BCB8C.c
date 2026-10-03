@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -16,7 +17,6 @@ M2C_UNK func_80099844();           /* extern */
 M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-extern u8 D_800DDE84[];
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
 extern void *D_800E3DF0[];
@@ -61,7 +61,7 @@ s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, M2C_UNK contex
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, action, action_type);
-        if (func_800AD6FC(entity, ((u16 *)D_800DDE84)[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
+        if (func_800AD6FC(entity, D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3, 0) == 0) {
             func_800A5F38(entity, action);
             return 1;
         }

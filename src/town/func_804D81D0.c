@@ -32,16 +32,15 @@ void func_800161D0(void)
     if (func_800176F4(0x942) != 0) {
         if (func_80017868(0xB) != 0) {
             func_800175FC(0xB0F);
-            if (func_800176F4(0xB10) != 0) {
-                goto final;
+            if (func_800176F4(0xB10) == 0) {
+                func_800175FC(0xB0E);
+                return;
             }
         } else {
             func_80017674(0xB0F);
+            func_800175FC(0xB0E);
+            return;
         }
-        func_800175FC(0xB0E);
-        return;
     }
-
-final:
     func_80017674(0xB0E);
 }

@@ -2,8 +2,8 @@
 
 #include "common.h"
 
-extern void func_8003AB44(u8 *arg0, s16 arg1, s16 arg2, s32 arg3,
-                          s16 arg4, s32 arg5, s32 arg6);
+extern void func_8003AB44(u8 *glyph_codes, s16 column, s16 row, s32 spacing,
+                          s16 x, s32 y, s32 value);
 
 /* Draw a zero-terminated sequence of two-byte glyph codes in a horizontal row. */
 void func_8003AC1C(s32 x, s32 y, s32 spacing_index, u8 *glyph_codes)

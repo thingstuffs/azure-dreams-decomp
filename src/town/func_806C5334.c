@@ -12,7 +12,7 @@ typedef struct S_80016334_1 {
 
 typedef struct S_80016334_2 {
     u8 pad_00[0x248];
-    M2C_UNK (*unk_248)(M2C_UNK);
+    void (*unk_248)(s32);
 } S_80016334_2;   /* ((S_80016334_1 *)(((Rec_D_80016000 *)D_80016000)->unk_00.at00_pv.v))->unk_20 in func_80016334 */
 
 typedef struct S_80016334_3 {

@@ -5,7 +5,7 @@
 
 typedef struct S_819598B4_0_pre {
     u16 unk_00;
-} S_819598B4_0_pre;   /* the 0x2 bytes before arg0 in func_819598B4, addressed as arg0[-1] */
+} S_819598B4_0_pre;   /* the 0x2 bytes before state in func_819598B4, addressed as state[-1] */
 
 typedef struct S_819598B4_0 {
     u8 pad_00[0x14];
@@ -24,7 +24,7 @@ typedef struct S_819598B4_0 {
     s16 unk_38;
     u8 pad_3A[0x2];
     s16 unk_3C;
-} S_819598B4_0;   /* arg0 in func_819598B4 */
+} S_819598B4_0;   /* state in func_819598B4 */
 
 typedef struct S_819598B4_1 {
     u8 pad_00[0xC];
@@ -36,7 +36,7 @@ typedef struct S_819598B4_1 {
     } unk_0C;   /* overlapping accesses */
     u8 pad_10[0xE];
     u16 unk_1E;
-} S_819598B4_1;   /* arg2 in func_819598B4 */
+} S_819598B4_1;   /* parameters in func_819598B4 */
 
 typedef struct S_819598B4_2 {
     u8 pad_00[0x2];
@@ -45,7 +45,7 @@ typedef struct S_819598B4_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     union { s16 n; u16 v; } unk_0A;   /* accessed as both */
-} S_819598B4_2;   /* arg1 in func_819598B4 */
+} S_819598B4_2;   /* values in func_819598B4 */
 
 typedef struct S_819598B4_3 {
     u8 pad_00[0x2A];
@@ -59,88 +59,88 @@ extern s32 func_80026384();
 extern u16 D_800281F8[];
 extern u8 D_80028220[];
 
-void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
-    s16 temp_a0_3;
-    s16 temp_a1;
-    s32 temp_x;
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 temp_v1;
-    u16 temp_v1_2;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    u8 temp_v0_3;
-    u8 temp_v1_3;
+void func_819598B4(void *state, S_819598B4_2 *values, S_819598B4_1 *parameters) {
+    s16 value0A;
+    s16 value3C;
+    s32 byteDistance;
+    s16 timerNextFirst;
+    s16 timerNextSecond;
+    s16 stateId;
+    u16 value1E;
+    s32 byteValue;
+    s32 nextByteValue;
+    u8 tickCountNext;
+    u8 byteNext;
 
     D_800281F8[0]++;
-    temp_v1 = ((S_819598B4_0 *)arg0)->unk_2C.s;
-    switch (temp_v1) {
+    stateId = ((S_819598B4_0 *)state)->unk_2C.s;
+    switch (stateId) {
     case 0:
-        temp_v1_2 = arg2->unk_1E;
-        temp_a0 = arg2->unk_0C.at00.v;
-        arg2->unk_1E = (u16)(temp_v1_2 + ((s32)(0x1000 - temp_v1_2) / ((S_819598B4_0 *)arg0)->unk_30));
-        temp_x = 0x80 - temp_a0;
-        temp_a1 = ((S_819598B4_0 *)arg0)->unk_3C;
-        temp_a0_2 = temp_a0 + ((temp_x - temp_a1) / ((S_819598B4_0 *)arg0)->unk_30);
-        arg2->unk_0C.at00.v = temp_a0_2;
-        arg2->unk_0C.at01.v = temp_a0_2;
-        arg2->unk_0C.at02.v = temp_a0_2;
-        arg1->unk_02 = (s16)((u16)arg1->unk_02 + ((s32)(((S_819598B4_0 *)arg0)->unk_14
-            - arg1->unk_02) / ((S_819598B4_0 *)arg0)->unk_30));
-        arg1->unk_06 = (s16)((u16)arg1->unk_06 + ((s32)(((S_819598B4_0 *)arg0)->unk_16
-            - arg1->unk_06) / ((S_819598B4_0 *)arg0)->unk_30));
-        temp_a0_3 = arg1->unk_0A.n;
-        arg1->unk_0A.n = (s16)(arg1->unk_0A.v + ((s32)(((S_819598B4_0 *)arg0)->unk_18
-            - temp_a0_3) / ((S_819598B4_0 *)arg0)->unk_30));
-        temp_v0 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-        ((S_819598B4_0 *)arg0)->unk_30 = temp_v0;
-        if ((temp_v0 << 0x10) <= 0) {
-            ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
-            arg2->unk_1E = 0x1000;
-            arg2->unk_0C.at00u.v = 0x00808080;
-            if (((S_819598B4_0 *)arg0)->unk_3C != 0) {
-                ((S_819598B4_0 *)arg0)->unk_2C.s = 2;
+        value1E = parameters->unk_1E;
+        byteValue = parameters->unk_0C.at00.v;
+        parameters->unk_1E = (u16)(value1E + ((s32)(0x1000 - value1E) / ((S_819598B4_0 *)state)->unk_30));
+        byteDistance = 0x80 - byteValue;
+        value3C = ((S_819598B4_0 *)state)->unk_3C;
+        nextByteValue = byteValue + ((byteDistance - value3C) / ((S_819598B4_0 *)state)->unk_30);
+        parameters->unk_0C.at00.v = nextByteValue;
+        parameters->unk_0C.at01.v = nextByteValue;
+        parameters->unk_0C.at02.v = nextByteValue;
+        values->unk_02 = (s16)((u16)values->unk_02 + ((s32)(((S_819598B4_0 *)state)->unk_14
+            - values->unk_02) / ((S_819598B4_0 *)state)->unk_30));
+        values->unk_06 = (s16)((u16)values->unk_06 + ((s32)(((S_819598B4_0 *)state)->unk_16
+            - values->unk_06) / ((S_819598B4_0 *)state)->unk_30));
+        value0A = values->unk_0A.n;
+        values->unk_0A.n = (s16)(values->unk_0A.v + ((s32)(((S_819598B4_0 *)state)->unk_18
+            - value0A) / ((S_819598B4_0 *)state)->unk_30));
+        timerNextFirst = (u16)((S_819598B4_0 *)state)->unk_30 - 1;
+        ((S_819598B4_0 *)state)->unk_30 = timerNextFirst;
+        if ((timerNextFirst << 0x10) <= 0) {
+            ((S_819598B4_0 *)state)->unk_30 = 0x10;
+            parameters->unk_1E = 0x1000;
+            parameters->unk_0C.at00u.v = 0x00808080;
+            if (((S_819598B4_0 *)state)->unk_3C != 0) {
+                ((S_819598B4_0 *)state)->unk_2C.s = 2;
             } else {
-                ((S_819598B4_0 *)arg0)->unk_2C.s++;
+                ((S_819598B4_0 *)state)->unk_2C.s++;
             }
         }
         break;
     case 1:
-        if (((S_819598B4_0 *)arg0)->unk_38 == 0) {
-            if (func_80026384(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E,
-                ((S_819598B4_0 *)arg0)->unk_20, D_800E3D7C->facing) == 0) {
+        if (((S_819598B4_0 *)state)->unk_38 == 0) {
+            if (func_80026384(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,
+                ((S_819598B4_0 *)state)->unk_20, D_800E3D7C->facing) == 0) {
                 break;
             }
-            func_80025604(((S_819598B4_0 *)arg0)->unk_1C, ((S_819598B4_0 *)arg0)->unk_1E,
-                ((S_819598B4_0 *)arg0)->unk_20);
+            func_80025604(((S_819598B4_0 *)state)->unk_1C, ((S_819598B4_0 *)state)->unk_1E,
+                ((S_819598B4_0 *)state)->unk_20);
         }
-        ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
-        ((S_819598B4_0 *)arg0)->unk_2C.s++;
+        ((S_819598B4_0 *)state)->unk_30 = 0x10;
+        ((S_819598B4_0 *)state)->unk_2C.s++;
         break;
     case 2:
-        temp_v1_3 = arg2->unk_0C.at00.v;
-        temp_v1_3 -= (s32)temp_v1_3 / ((S_819598B4_0 *)arg0)->unk_30;
-        arg2->unk_0C.at00.v = temp_v1_3;
-        arg2->unk_0C.at01.v = temp_v1_3;
-        arg2->unk_0C.at02.v = temp_v1_3;
-        temp_v0_2 = (u16)((S_819598B4_0 *)arg0)->unk_30 - 1;
-        ((S_819598B4_0 *)arg0)->unk_30 = temp_v0_2;
-        if ((temp_v0_2 << 0x10) <= 0) {
-            ((S_819598B4_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+        byteNext = parameters->unk_0C.at00.v;
+        byteNext -= (s32)byteNext / ((S_819598B4_0 *)state)->unk_30;
+        parameters->unk_0C.at00.v = byteNext;
+        parameters->unk_0C.at01.v = byteNext;
+        parameters->unk_0C.at02.v = byteNext;
+        timerNextSecond = (u16)((S_819598B4_0 *)state)->unk_30 - 1;
+        ((S_819598B4_0 *)state)->unk_30 = timerNextSecond;
+        if ((timerNextSecond << 0x10) <= 0) {
+            ((S_819598B4_0_pre *)state)[-1].unk_00 |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
         }
         break;
     }
 
-    if (((S_819598B4_0 *)arg0)->unk_38 != 0) {
+    if (((S_819598B4_0 *)state)->unk_38 != 0) {
         return;
     }
-    if (((S_819598B4_0 *)arg0)->unk_3C != 0) {
+    if (((S_819598B4_0 *)state)->unk_3C != 0) {
         return;
     }
-    temp_v0_3 = D_80028220[9] + 1;
-    D_80028220[9] = temp_v0_3;
-    if ((u32)(temp_v0_3 & 0xFF) >= 0x20U) {
+    tickCountNext = D_80028220[9] + 1;
+    D_80028220[9] = tickCountNext;
+    if ((u32)(tickCountNext & 0xFF) >= 0x20U) {
         D_80028220[9] = 0;
     }
 }

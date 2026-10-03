@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 
 extern void func_8001C108(void);
@@ -7,7 +8,6 @@ extern u8 *func_8001B6F8(s32, s32, s32);
 
 extern u8 D_8001786E[];
 extern u8 D_8001914C[];
-extern u8 *D_8001E950;
 extern s32 D_8001E958;
 extern u8 D_8001EEA7[];
 extern u8 D_8001F0AA[];

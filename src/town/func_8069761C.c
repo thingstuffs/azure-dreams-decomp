@@ -4,11 +4,6 @@
 #include "m2c_compat.h"
 
 
-typedef struct S_8069761C_1 {
-    u8 pad_00[0x68];
-    s32 (*unk_68)(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *);
-} S_8069761C_1;   /* D_80016000->unk_20 in func_8069761C */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -29,5 +24,5 @@ void func_8069761C(void) {
     func_800165C4(&D_80018AE8);
 
     zero = 0;
-    D_80018BE8 = ((S_8069761C_1 *)(D_80016000->unk_20))->unk_68(zero, zero, 2, &D_80018AE8);
+    D_80018BE8 = D_80016000->unk_20->callback_068(zero, zero, 2, &D_80018AE8);
 }

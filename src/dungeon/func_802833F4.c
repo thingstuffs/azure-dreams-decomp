@@ -1,12 +1,8 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/tile_object.h"
 #include "shared/dungeon_status.h"
-
-typedef struct {
-    u8 unk0[0xB];
-    u8 floor;
-} State;
 
 extern void func_80016EC0(void);
 extern void func_80017018(void);
@@ -33,7 +29,7 @@ extern s32 D_80013628;
 extern s32 D_80080A80;
 extern s8 D_80080A88;
 extern s16 D_8008146C;
-extern State D_80082E60;
+
 extern s8 D_800DCF4E;
 extern u8 D_800E3CD0;
 extern s32 D_800E3D1C;
@@ -44,7 +40,7 @@ void func_800163F4(void) {
     s32 floor_data;
     s32 floor_index;
     u32 saved_init_value;
-    u8 *dungeon_state;
+    RuntimeDispatchState *dungeon_state;
     u8 *globals_base;
 
     func_80016EC0();
@@ -77,9 +73,9 @@ void func_800163F4(void) {
         func_800A9024(*(s32 *)(globals_base + 0x2090));
     }
     func_8004AB7C();
-    dungeon_state = (u8 *)&D_80082E60;
-    if (dungeon_state[0xB] >= 0x12) {
-        floor_index = dungeon_state[0xB] - 0x12;
+    dungeon_state = &D_80082E60;
+    if (dungeon_state->field_B >= 0x12) {
+        floor_index = dungeon_state->field_B - 0x12;
         func_80040AA0(0x11);
         func_8003F6D4(0xC, (void *)0x80010000, &floor_data,
                       (floor_index * 0xC) + 0x399D);

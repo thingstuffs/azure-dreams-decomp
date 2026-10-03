@@ -1,8 +1,9 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 extern s8 D_80080A84[];
 extern s8 D_80080A88[];
-extern u8 D_80082E60[];
+
 extern u8 D_80082E6A[];
 
 extern void func_80020F18(void);
@@ -19,5 +20,5 @@ void func_80027BF4(void) {
     } else {
         D_80080A88[0] = 0;
     }
-    D_80082E60[0xF] &= 0x7F;
+    D_80082E60.flags0F &= 0x7F;
 }

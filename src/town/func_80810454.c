@@ -1,9 +1,5 @@
 #include "common.h"
 
-typedef struct S_80810454_0_pre {
-    u16 unk_00;
-} S_80810454_0_pre;   /* the 0x2 bytes before arg0 in func_8052B054, addressed as arg0[-1] */
-
 typedef struct S_80810454_0 {
     s16 unk_00;
     u16 unk_02;
@@ -107,7 +103,7 @@ void func_8052B054(void *arg0, S_80810454_1 *arg1) {
         position -= 0x100000;
         arg1->unk_08.s = position;
         if (position <= (s32)0xFE000000) {
-            ((S_80810454_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
             D_80084D5C |= 0x8000;
         }
         return;

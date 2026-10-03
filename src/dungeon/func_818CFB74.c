@@ -202,7 +202,11 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         }
 
         advance = *state->flags4 & 0x80;
-        goto advance_check;
+        if (advance != 0) {
+            state->counter84 = 0;
+            state->stateA++;
+        }
+        break;
 
     case 2:
     {
@@ -314,7 +318,6 @@ void func_80025374(State *state, Vec12 *position, Graphic *graphic)
         advance = state->advance86;
     }
 
-advance_check:
         if (advance != 0) {
             state->counter84 = 0;
             state->stateA++;

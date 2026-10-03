@@ -9,7 +9,9 @@ extern s16 func_800B500C(s32, s32, s16);
 /* Find a record in the given direction and clear bit 0x80 if bit 0x40 is unset. */
 s32 func_800B5ED0(s32 origin_x, s32 origin_y, u32 direction, s16 search_param) {
     s32 offset_index;
+    s32 direction_shift;
     u8 *offsets;
+    u8 *offsets_y;
     s32 shifted_x;
     s32 shifted_y;
     s16 record_index;
@@ -17,12 +19,12 @@ s32 func_800B5ED0(s32 origin_x, s32 origin_y, u32 direction, s16 search_param) {
     u8 *record;
     u8 flags;
 
-    offset_index = direction >> 8;
+    direction_shift = direction >> 8;
     offsets = (u8 *)&D_8006CCD8;
-    offset_index &= 0xE;
+    offset_index = direction_shift & 0xE;
     shifted_x = (*(u16 *)(offsets + offset_index) + origin_x) << 16;
-    offsets = (u8 *)&D_8006CCE8;
-    shifted_y = (*(u16 *)(offsets + offset_index) + origin_y) << 16;
+    offsets_y = (u8 *)&D_8006CCE8;
+    shifted_y = (*(u16 *)(offsets_y + offset_index) + origin_y) << 16;
     record_index = func_800B500C(shifted_x >> 16, shifted_y >> 16, search_param);
     if (record_index >= 0) {
         table = D_800E3648;

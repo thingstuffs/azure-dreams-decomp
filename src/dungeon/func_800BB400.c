@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/def_table.h"
 #include "shared/tile_object.h"
@@ -18,7 +19,6 @@ extern void func_80099290();
 extern void func_800A5720();
 extern void func_80098B38();
 
-extern u16 D_800DDE84[];
 extern u8 D_800E13FB[];
 extern u8 D_800E1402[];
 extern u8 D_800E1411[];

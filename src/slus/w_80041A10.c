@@ -1,12 +1,8 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
 
 typedef u32 OT_TYPE;
-
-typedef struct State16 {
-    s32 field0;
-    u8 pad4[12];
-} State16;
 
 typedef struct FrameData {
     u8 raw[0x8D8];
@@ -16,7 +12,7 @@ typedef struct OrderingTable {
     OT_TYPE ot[0x218];
 } OrderingTable;
 
-extern State16 D_80082E60;
+
 extern s32 D_8008148C;
 extern s32 D_80081480;
 extern FrameData D_801C9E40;
@@ -35,7 +31,7 @@ void func_80041A10(void)
 {
     s32 saved_state;
 
-    D_80082E60.field0 |= 1;
+    D_80082E60.field_0 |= 1;
     saved_state = D_8008148C;
     do {
         D_80081480 = saved_state;

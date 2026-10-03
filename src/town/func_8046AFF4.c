@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 #include "records/Rec_D_80016000.h"
@@ -25,19 +26,18 @@ typedef struct S_8001BFF4_3 {
 extern s32 func_8001A58C(s32);
 extern s32 func_8001A86C(s32);
 extern s32 func_8001A9B4(s32);
-extern u8 *D_8001E950;
 
 /* Updates the indexed entry from the current selection in mode 2. */
 s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
     u8 mode;
 
-    mode = D_8001E950[5];
+    mode = D_8001E950->unk_05;
     if (mode == 2) {
         if ((*(Callback *)((u8 *)(((S_8001BFF4_2 *)(((Rec_D_80016000 *)((s8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)
             + 0x2D4))(0) == mode) {
-            if (func_8001A58C(D_8001E950[4]) != 0) {
+            if (func_8001A58C(D_8001E950->unk_04) != 0) {
                 ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
-                    func_8001A86C(D_8001E950[4]);
+                    func_8001A86C(D_8001E950->unk_04);
                 return 0;
             } else {
                 ((S_8001BFF4_3 *)((u8 *)context->unk_10 + entry_index * 0x10))->unk_08 =
@@ -47,8 +47,8 @@ s32 func_8001BFF4(S_8001BFF4_1 *context, s32 entry_index) {
         } else {
             s32 selection;
 
-            if (func_8001A58C(D_8001E950[4]) != 0) {
-                selection = D_8001E950[4];
+            if (func_8001A58C(D_8001E950->unk_04) != 0) {
+                selection = D_8001E950->unk_04;
             } else {
                 selection = 0;
             }

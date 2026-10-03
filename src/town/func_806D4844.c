@@ -3,7 +3,6 @@
 #include "shared/town_root.h"
 
 
-typedef s32 M2C_UNK;
 
 typedef struct S_80016844_2 {
     u8 pad_00[0x4];
@@ -21,8 +20,8 @@ typedef struct S_80016844_3 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_800176B8();
-extern M2C_UNK func_800177CC();
-extern M2C_UNK func_80018594();
+extern s32 func_800177CC();
+extern s32 func_80018594();
 extern s32 func_8001868C();
 
 typedef struct S_80016844_0 {
@@ -31,7 +30,7 @@ typedef struct S_80016844_0 {
 } S_80016844_0;   /* arg0 in func_80016844 */
 
 /* Runs the selected object handler and clears the current entry status. */
-s32 func_80016844(S_80016844_0 *object, M2C_UNK context) {
+s32 func_80016844(S_80016844_0 *object, s32 context) {
     s32 result;
 
     result = 0;

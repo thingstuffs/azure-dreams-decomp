@@ -80,14 +80,13 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
         switch (denomination) {
         case 1:
             reward = 10;
-            goto state0_compute;
+            break;
         case 2:
             reward = 100;
             break;
         default:
-            goto state0_compute;
+            break;
         }
-state0_compute:
         scaled_count = ((S_800206D0_1 *)source_object)->unk_1E / reward;
         reward = scaled_count % 10;
         if (((S_800206D0_0 *)pickup)->unk_56 < reward) {

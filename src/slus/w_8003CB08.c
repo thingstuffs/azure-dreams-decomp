@@ -1,11 +1,7 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
-struct S_80082E60 {
-    s32 field_0;
-    u8 pad[12];
-};
 
-extern struct S_80082E60 D_80082E60;
 extern void *D_80083160[3];
 extern u8 D_801C9E40[2][0x108D4];
 extern u16 D_80083960[5];

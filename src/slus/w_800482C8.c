@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 /* S_800482C8: array element for the entity/monster list iterated here;
@@ -11,12 +12,8 @@ struct S_800482C8_Entry {
  * of two callback functions is invoked. This is the same struct as
  * src/w_80040BB4.c's S_80082E60, which currently names this byte pad_A
  * (unused there) -- it should be renamed field_A and reconciled. */
-struct S_80082E60 {
-    char pad0[0xA];
-    u8 field_A;
-};
 
-extern struct S_80082E60 D_80082E60;
+
 
 extern void func_80047338(struct S_800482C8_Entry *a0, s32 a1, s32 a2);
 extern void func_80047468(struct S_800482C8_Entry *a0, s32 a1, s32 a2);
@@ -31,7 +28,7 @@ void func_800482C8(struct S_800482C8_Entry *entries, s32 *shared_value)
     do {
         if (!(entry->flags & 0x60)) {
             value_cursor--;
-            if (D_80082E60.field_A == 1) {
+            if (D_80082E60.mode == 1) {
                 func_80047468(entry, *value_ptr, *value_cursor);
             } else {
                 func_80047338(entry, *value_ptr, *value_cursor);

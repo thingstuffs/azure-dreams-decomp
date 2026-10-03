@@ -30,24 +30,18 @@ void func_8001E824(void *arg0) {
         var_s0 = -0x80;
         break;
     case 15:
-        if (((S_8001E824_0 *)entity)->unk_00 != 9) {
-            goto block_8;
+        if (((S_8001E824_0 *)entity)->unk_00 == 9) {
+            var_s0 |= 0x40;
         }
-        var_s0 |= 0x40;
     case 17:
-block_8:
-        if (func_800A6D30() & 3) {
-            goto block_12;
+        if (!(func_800A6D30() & 3)) {
+            temp_v0_2 = (func_800A6D30() & 3) - 1;
+            var_s2 = temp_v0_2;
+            if (temp_v0_2 < 0) {
+                var_s0 |= 0x40;
+            }
         }
-        temp_v0_2 = (func_800A6D30() & 3) - 1;
-        var_s2 = temp_v0_2;
-        if (temp_v0_2 >= 0) {
-            goto block_11;
-        }
-        var_s0 |= 0x40;
     case 16:
-block_11:
-block_12:
         minus_128 = -0x80;
         var_s1 = var_s0 | minus_128;
         var_s0 = var_s1;

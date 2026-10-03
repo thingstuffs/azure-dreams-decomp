@@ -63,7 +63,10 @@ void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
     s32 tile_y;
     s32 distance;
     s16 offset[3];
-    register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 original_count;
+    s32 delta_y;
+    s32 frames;
+    s32 velocity_y;
     u8 *spawn_callback = D_800249DC;
     u8 *template_data = D_800DECF8;
 
@@ -182,39 +185,36 @@ void BODY_NAME(u8 *effect, u8 *motion, void *context_arg) {
                     func_8004491C(effect_header, callback);
                 }
                 delta_x = S8(actor, 114);
-                original_count = U8(actor_data, 36);
+                delta_y = U8(actor_data, 36);
                 abs_y = U8(actor_data, 37);
-                delta_x -= original_count;
-                original_count = S8(actor, 115);
+                delta_x -= delta_y;
+                delta_y = S8(actor, 115);
                 distance = abs(delta_x);
-                original_count -= abs_y;
-                abs_y = original_count;
-                if (original_count < 0) {
-                    abs_y = -abs_y;
-                } else {
-                }
+                delta_y -= abs_y;
+                abs_y = abs(delta_y);
                 if (distance < abs_y)
                     distance = abs_y;
                 if (distance < 4)
                     distance = 4;
-                original_count = distance << 2;
-                U16(effect, 80) = (u16)original_count;
+                frames = distance << 2;
+                U16(effect, 80) = (u16)frames;
                 abs_y = S8(actor, 114);
                 delta_x = S16(motion, 2);
                 abs_y <<= 6;
                 distance = abs_y + 32;
-                original_count = (s16)original_count;
+                frames = (s16)frames;
                 delta_x = distance - delta_x;
-                delta_x /= original_count;
-                original_count = S8(actor, 115);
-                original_count <<= 6;
-                abs_y = original_count + 32;
-                original_count = S16(motion, 6);
-                S32(motion, 12) = delta_x << 16;
+                delta_x /= frames;
+                velocity_y = S8(actor, 115);
+                velocity_y <<= 6;
+                abs_y = velocity_y + 32;
+                velocity_y = S16(motion, 6);
+                state = delta_x << 16;
+                S32(motion, 12) = state;
                 delta_x = S16(effect, 80);
-                original_count = abs_y - original_count;
-                original_count /= delta_x;
-                S32(motion, 16) = original_count << 16;
+                velocity_y = abs_y - velocity_y;
+                velocity_y /= delta_x;
+                S32(motion, 16) = velocity_y << 16;
                 tile_x = (S8(actor, 114) << 6) & 0xffc0;
                 tile_y = (S8(actor, 115) << 6) & 0xffc0;
                 distance = (s16)func_800BCB04(tile_x, tile_y, U16(S32(actor_header, 8), 10) - 48) - 192;

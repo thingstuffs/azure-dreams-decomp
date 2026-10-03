@@ -23,6 +23,6 @@ s32 func_8001686C(void)
         return 1;
     }
 
-    (*(Callback *)((u8 *)(D_80016000->unk_20) + 0x2F8))(0x10, 0x200);
+    ((Callback)D_80016000->unk_20->callback_2F8)(0x10, 0x200);
     return 0;
 }
