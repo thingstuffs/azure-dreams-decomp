@@ -326,3 +326,5 @@
 {"date": "2026-10-03T05:28Z", "codex": {"pack": "r91_luna_nm2", "model": "gpt-6-luna", "candidates": 2}, "note": "r91 luna cleanup pilots"}
 {"date": "2026-10-03T05:30Z", "codex": {"pack": "r91_luna_proto1", "model": "gpt-6-luna", "candidates": 3}, "note": "r91 luna cleanup pilots"}
 {"date": "2026-10-03T05:34Z", "codex": {"pack": "r91_luna_goto2", "model": "gpt-6-luna", "candidates": 5}, "note": "r91 luna cleanup pilots"}
+{"date": "2026-10-03T05:38Z", "codex": {"pack": "r91_luna_proto2", "model": "gpt-6-luna", "candidates": 6}, "note": "r91 luna cleanup pilots"}
+{"date": "2026-10-03T05:40Z", "codex": {"pack": "r91_sol61_p14", "model": "gpt-6.1-sol", "candidates": 0}, "note": "r91 sol61 1-pin"}
