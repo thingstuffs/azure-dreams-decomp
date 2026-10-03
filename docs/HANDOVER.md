@@ -40,6 +40,11 @@ when it drains; logs `work/native_lane/_r91/pool_r91{a,b,s}.log`, pool PIDs in `
   FINDINGS.md proposes a fix (not applied).
 - alignment results land through `land_coherence.sh` (land_lanes skips equal-pin cell moves): chain2.sh does that.
 
+**06:10 update:** r91a/r91s/r91g/r91c drained and landed (358 pins / 144 rows before r91c coherence). offby1 answered
+(parked ovmovie/func_80041044; status.py fixed 6610a48ac). types_p12 delivered 201 verify-exact rows; gloss1 did m00
+(353 items: 266 same, 13 abridged, 36 rewritten, 34 missing in US). `_r91/types12_apply.sh` (log types12_apply.log):
+waits for r91l -> lands r91l (renames/protos spot-checked OK) -> apply12 dry run -> 40-row sample -> full apply.
+
 **Owed after drain:** check each pool's land_gap result + gate, STATUS refresh, commit; harvest REPORT.md moves
 (cheap: let a sol lane draft it); second wave = the 92 rows strong lanes already served at current text (sol61/astra
 retry), and the 19 "other mismatch" alignment rows.
