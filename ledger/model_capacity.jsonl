@@ -310,3 +310,4 @@
 {"date": "2026-10-03T04:11Z", "codex": {"pack": "r91c_astra_al1", "model": "gpt-6-astra", "candidates": 1}, "note": "r91c alignment wave 2"}
 {"date": "2026-10-03T04:20Z", "codex": {"pack": "r91c_astra_al2", "model": "gpt-6-astra", "candidates": 2}, "note": "r91c alignment wave 2"}
 {"date": "2026-10-03T04:24Z", "codex": {"pack": "r91_goto_g8", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
+{"date": "2026-10-03T04:32Z", "codex": {"pack": "r91c_astra_al5", "model": "gpt-6-astra", "candidates": 2}, "note": "r91c alignment wave 2"}
