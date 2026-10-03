@@ -56,7 +56,7 @@ void func_8001D5D8(DungeonRect *rect) {
     s16 signed_height;
     s32 size_sum;
     s32 patch_count;
-    s16 swap_styles;
+    u16 swap_styles;
     s16 patch_style;
     s16 fill_value;
     s32 style_value_hi;
@@ -135,7 +135,7 @@ void func_8001D5D8(DungeonRect *rect) {
             if (patch_height > 0) {
                 do {
                     register s32 coord_hi = (s32)scan_y << 16;
-                    register s32 coord = coord_hi >> 16;
+                    register s16 coord = coord_hi >> 16;
                     if (coord < (s16)bottom) {
                         cell_x = scan_x;
                         cols_left = patch_width;
@@ -152,8 +152,9 @@ void func_8001D5D8(DungeonRect *rect) {
                                 coord_hi = (s32)cell_x << 16;
                                 coord = coord_hi >> 16;
                                 if (coord < (s16)right) {
-                                    cell = &D_800EA000[(patch_row << D_8008333C.stride) + coord];
-                                    if (swap_styles != 0) {
+                                    cell = &D_800EA000[(patch_row << state->stride) + coord];
+                                    coord = swap_styles;
+                                    if (coord != 0) {
                                         patch_cell = cell;
                                         if (row_style != 0) {
                                             func_8001DD08(patch_cell, style_value_hi >> 16);
@@ -183,6 +184,5 @@ void func_8001D5D8(DungeonRect *rect) {
             patches_left--;
         } while (patches_left > 0);
     }
-    ASM_USE_G_NV(state);
     func_8001D9CC((s16)left, (s16)top, (s16)right, (s16)bottom, (s16)value);
 }

@@ -60,7 +60,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     u8 *transform;
     u8 *matrix_page;
     s32 depth_offset, flags_offset;
-    register u8 *matrix_or_prim ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *matrix_or_prim;
     s32 angle_z;
     s32 angle_y;
 
@@ -102,24 +102,13 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
             U16(entity, 2) = world_z;
             depth = func_80065420(scratch, scratch + 0xB8, scratch + depth_offset, scratch + flags_offset);
             U32(scratch, 0xC0) = depth;
-            do {
-                sort_depth = depth;
-            } while (0);
-            ASM_KEEP_NV(sort_depth);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             U32(view_matrix, 0x1C) = depth * 4;
-            U32(scratch, 0xC0) = sort_depth - 2;
-            sort_depth -= 2;
+            U32(scratch, 0xC0) -= 2;
+            sort_depth = U32(scratch, 0xC0);
             if ((u32)sort_depth < 0x1E0) {
                 func_800649A0();
                 tex_left = (s32)(scratch + 0x100);
                 matrix_or_prim = rotation_matrix;
-                vertex3 = scratch + 0x88;
-                screen0 = scratch + 0xF0;
-                screen1 = scratch + 0xF4;
-                screen2 = scratch + 0xF8;
-                screen3 = scratch + 0xFC;
-                depth_out = scratch + 0x90;
-                flags_out = scratch + 0x94;
                 U16(scratch, 0xB8) = U16(scratch, 0xB8) - 0xA0;
                 U16(scratch, 0xBA) = U16(scratch, 0xBA) - 0x78;
                 U16(scratch, 0x100) = U16(render_params, 0x16);
@@ -129,6 +118,13 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                 angle_y_offset = U16(render_params, 0x18) - 0x100;
                 U16(scratch, 0x102) = angle_y + angle_y_offset;
                 func_80065820((u8 *)tex_left, matrix_or_prim);
+                vertex3 = scratch + 0x88;
+                screen0 = scratch + 0xF0;
+                screen1 = scratch + 0xF4;
+                screen2 = scratch + 0xF8;
+                screen3 = scratch + 0xFC;
+                depth_out = scratch + 0x90;
+                flags_out = scratch + 0x94;
                 func_80064840(view_matrix, rotation_matrix, transform);
                 func_80064D80(transform);
                 func_80064CF0(transform);

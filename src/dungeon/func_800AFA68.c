@@ -9,6 +9,7 @@
 
 #include "m2c_compat.h"
 extern u8 D_8006CD10[];
+typedef struct { u8 reserved[0xC0]; s32 depth; } SpriteDepthScratch;
 
 #define SCR_S8(off)  (*(s8  *)(scratch + (off)))
 #define SCR_U8(off)  (*(u8  *)(scratch + (off)))
@@ -36,14 +37,10 @@ typedef struct S_800AFA68_part {
     u8 unk_0A;
     u8 unk_0B;
 } S_800AFA68_part;
-typedef struct GeomTailArgs {
-    void *arg9;
-    void *arg10;
-} GeomTailArgs;
 typedef struct GeomSideEffects {
 } GeomSideEffects;
-u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, GeomTailArgs, GeomSideEffects);
-M2C_UNK func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, GeomTailArgs, GeomSideEffects);
+u32 func_80065590(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
+M2C_UNK func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, GeomSideEffects);
 
 M2C_UNK func_80065820();        /* extern */
 M2C_UNK func_8006658C();         /* extern */
@@ -68,7 +65,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     register u8 *transform_dst ASM_REG("$4") = saved_matrix;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 entry_index = 0;
     u8 *rotation_matrix = (u8 *) 0x1F8000D0;
-    register u8 *world_matrix_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *view_matrix = (u8 *) 0x1F800050;
     u8 *depth_cue = (u8 *) 0x1F800090;
     u8 *transform_flags = (u8 *) 0x1F800094;
@@ -76,7 +72,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
     u8 *game_base = (u8 *)&gameWork;
     u8 *matrix_base;
 
-    u32 depth_dependency;
     register u8 *scratch ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     volatile u16 camera_pitch;
     volatile u16 camera_yaw;
@@ -184,11 +179,10 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
         part_header = *((S_800AFA68_part **) (((s8 *) sprite_entry) + 8));
         *((u16 *) (((s8 *) sprite_entry) + 0x10)) = entry_height;
         if (part_header != 0) {
-            register void *world_bottom_right ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register void *world_bottom_left ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            void *world_bottom_right;
+            void *world_bottom_left;
             if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x100) {
                 transform_dst = scratch + 0x100;
-                world_matrix_arg = rotation_matrix;
                 world_x = *((s16 *) (scratch + 0x000));
                 world_y = *((u16 *) (scratch + 0x002));
                 *((s32 *) (scratch + 0x030)) = (s32) 0x2000;
@@ -201,7 +195,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                 *((s32 *) (scratch + 0x0e4)) = (s32) world_x;
                 *((s32 *) (scratch + 0x0e8)) = (s32) ((s16) world_y);
                 *((s32 *) (scratch + 0x0ec)) = (s32) ((s16) world_z);
-                func_80065820(transform_dst, world_matrix_arg, world_x);
+                func_80065820(transform_dst, rotation_matrix, world_x);
                 func_80064840(&saved_matrix, rotation_matrix, view_matrix);
                 func_80064BC0(view_matrix, scratch + 0x30);
                 func_80064D80((M2C_UNK *) view_matrix);
@@ -224,7 +218,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                     }
                     {
                         transform_dst = (u8 *)(scratch + 0x70);
-                        world_matrix_arg = (u8 *)(scratch + 0x78);
                         world_bottom_left = scratch + 0x80;
                         world_bottom_right = scratch + 0x88;
                         world_x_byte = part_header->unk_02;
@@ -237,9 +230,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                         *((u16 *) (scratch + 0x078)) = world_corner_x;
                         world_y_byte = part_header->unk_03;
                         *((u8 **) (scratch + 0x018)) = quad + 0x28;
-                        quad_depth = func_80065590((void *)transform_dst, (void *)world_matrix_arg, world_bottom_left,
+                        quad_depth = func_80065590((void *)transform_dst, (void *)(scratch + 0x78), world_bottom_left,
                             world_bottom_right, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20,
-                            (GeomTailArgs) { depth_cue, transform_flags },
+                            depth_cue, transform_flags,
                             (world_corner_y = (s8) world_y_byte, *((u16 *) (scratch + 0x07a)) = world_corner_y,
                              *((u16 *) (scratch + 0x072)) = world_corner_y,
                              world_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
@@ -308,19 +301,17 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
             *((s32 *) (scratch + 0x0e8)) = 0;
             *((s32 *) (scratch + 0x0ec)) = 0;
             sprite_depth = func_80065420(scratch, scratch + 0xB8, scratch + 0x90, scratch + 0x94);
-            *((s32 *) (scratch + 0x0c0)) = sprite_depth;
-            ASM_KEEP_MEMDEP_NV(sprite_depth, depth_dependency, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sort_depth = sprite_depth;
+            ((SpriteDepthScratch *)scratch)->depth = sprite_depth;
             sprite_depth <<= 2;
             *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
+            sort_depth = ((SpriteDepthScratch *)scratch)->depth;
             adjusted_depth = sort_depth - 4;
-            *((s32 *) (scratch + 0x0c0)) = adjusted_depth;
+            ((SpriteDepthScratch *)scratch)->depth = adjusted_depth;
             if (adjusted_depth >= 0x1E0U) {
                 continue;
             }
             {
                 transform_dst = scratch + 0x100;
-                world_matrix_arg = rotation_matrix;
                 *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
                 pitch_bits = camera_pitch;
                 *((u16 *) (scratch + 0x0ba)) = (u16) ((*((u16 *) (scratch + 0x0ba))) - 0x78);
@@ -333,7 +324,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                     - view_yaw));
 
                 *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) render_params) + 0x18)));
-                func_80065820(transform_dst, world_matrix_arg, view_yaw);
+                func_80065820(transform_dst, rotation_matrix, view_yaw);
                 func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                 func_80064D80((M2C_UNK *) view_matrix);
                 func_80064CF0((M2C_UNK *) view_matrix);
@@ -352,7 +343,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                     *((u16 *) (scratch + 0x078)) = sprite_corner_x;
                     sprite_y_byte = part_header->unk_03;
                     func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0,
-                        scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs) { depth_cue, transform_flags },
+                        scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, depth_cue, transform_flags,
                         (sprite_corner_y = (s8) sprite_y_byte, *((u16 *) (scratch + 0x07a)) = sprite_corner_y,
                          *((u16 *) (scratch + 0x072)) = sprite_corner_y,
                          sprite_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) =
@@ -469,7 +460,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                                 shadow_scale[2] = 0;
                             }
                             transform_dst = scratch + 0x100;
-                            world_matrix_arg = rotation_matrix;
                             scale_component = shadow_scale[2];
                             *((u16 *) (scratch + 0x102)) = 0U;
                             shadow_yaw = camera_yaw;
@@ -483,7 +473,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                                 *((u16 *) (scratch + 0x100)) = (s16) shadow_pitch;
                                 *((u16 *) (scratch + 0x104)) = (s16) shadow_roll;
                             }
-                            func_80065820(transform_dst, world_matrix_arg);
+                            func_80065820(transform_dst, rotation_matrix);
                             func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
                             func_80064BC0(view_matrix, shadow_scale);
                             func_80064D80((M2C_UNK *) view_matrix);
@@ -492,13 +482,12 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void *render_params)
                                 u16 right_x;
                                 u16 left_x;
                                 transform_dst = (u8 *)(scratch + 0x70);
-                                world_matrix_arg = (u8 *)(scratch + 0x78);
                                 world_bottom_left = scratch + 0x80;
                                 world_bottom_right = scratch + 0x88;
                                 shadow_quad = *((u8 **) (scratch + 0x018));
-                                func_800654B0((void *)transform_dst, (void *)world_matrix_arg, world_bottom_left,
+                                func_800654B0((void *)transform_dst, (void *)(scratch + 0x78), world_bottom_left,
                                     world_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC,
-                                    (GeomTailArgs) { depth_cue, transform_flags },
+                                    depth_cue, transform_flags,
                                     (left_x = *((u16 *) (scratch + 0x070)),
                                      *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x =
                                      *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x,

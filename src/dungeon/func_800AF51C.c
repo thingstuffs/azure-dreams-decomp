@@ -73,7 +73,7 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     s32 callback_kind;
     s32 number;
     s16 space;
-    register s32 format ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 format;
     s16 number_style;
     s16 text_style;
     u16 saved_flags;
@@ -167,7 +167,9 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
                 break;
             case 0xA0:
                 text_buffer[0] = space;
-                func_8004E5A0(number, 3, text_buffer + 1);
+                format = number;
+                number = (s32)(text_buffer + 1);
+                func_8004E5A0(format, 3, (u8 *)number);
                 text_cursor = (s8 *) text_buffer + 6;
                 text_buffer[4] = 0x25;
                 text_buffer[5] = 0;

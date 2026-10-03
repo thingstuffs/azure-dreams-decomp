@@ -39,17 +39,16 @@ typedef struct S_81844F2C_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-/* Updates an effect's position, colors, countdown, and completion flags. */
-void func_8002472C(void *effect_data) {
-    register u8 *effect ASM_REG("$5");   /* SITE-FOR-PIN TRADE 2026-09-22: the
-                                            `func_80024808(tick_or_index, effect, saved_state)`
+/* Updates an effect_base's position, colors, countdown, and completion flags. */
+void func_8002472C(s32 effect) {
+    u8 *effect_base;   /* SITE-FOR-PIN TRADE 2026-09-22: the
+                                            `func_80024808(effect, effect_base, saved_state)`
                                             tail pseudo-call is gone; its argument setup was the
                                             only thing putting the struct pointer in $a1.  Without
                                             it gcc keeps the parameter in $a0, the `move $a1,$a0`
                                             never appears and every colour in the row shifts
                                             (residue: 78/79 words, 35 subs + 1 indel). */
     u8 *color_cursor;
-    register s32 tick_or_index;
     u16 saved_state;
     u32 position;
     u32 step;
@@ -57,30 +56,25 @@ void func_8002472C(void *effect_data) {
     u32 color_delta;
     u8 *flag_page;
 
-    effect = effect_data;
-    ASM_KEEP(effect);   /* SITE-FOR-PIN TRADE 2026-09-22: pins the copy in place.  With the
-                           pseudo-call gone gcc copy-propagates `effect_data` into the first
-                           load and sinks the `move $a1,$a0` six words down, below the entity
-                           update (words 0-6).  MEASURED 2026-09-22 on this text at 2.7.2-cdk-G0:
-                           ASM_REG("$5") alone (this keep dropped) is 79 words off, so the keep is
-                           not redundant with the colour pin. */
-    flag_page = ((S_81844F2C_0 *)effect)->unk_00;
+    ASM_KEEP(effect);
+    effect_base = (u8 *)effect;
+    flag_page = ((S_81844F2C_0 *)effect_base)->unk_00;
     ((S_81844F2C_1 *)flag_page)->unk_52 =
         (u16)(((S_81844F2C_1 *)flag_page)->unk_52 | 0x8000);
 
-    position = ((S_81844F2C_0 *)effect)->unk_04;
-    step = ((S_81844F2C_0 *)effect)->unk_0C;
-    tick_or_index = ((S_81844F2C_0 *)effect)->unk_2A.s;
+    position = ((S_81844F2C_0 *)effect_base)->unk_04;
+    step = ((S_81844F2C_0 *)effect_base)->unk_0C;
+    effect = ((S_81844F2C_0 *)effect_base)->unk_2A.s;
     position += step;
-    ((S_81844F2C_0 *)effect)->unk_04 = (u16)position;
-    position = ((S_81844F2C_0 *)effect)->unk_06.s;
-    step = ((S_81844F2C_0 *)effect)->unk_0E;
-    saved_state = ((S_81844F2C_0 *)effect)->unk_2C.s;
+    ((S_81844F2C_0 *)effect_base)->unk_04 = (u16)position;
+    position = ((S_81844F2C_0 *)effect_base)->unk_06.s;
+    step = ((S_81844F2C_0 *)effect_base)->unk_0E;
+    saved_state = ((S_81844F2C_0 *)effect_base)->unk_2C.s;
     position += step;
-    state = ((S_81844F2C_0 *)effect)->unk_2C.u;
-    tick_or_index -= 1;
-    ((S_81844F2C_0 *)effect)->unk_2A.u = (u16)tick_or_index;
-    ((S_81844F2C_0 *)effect)->unk_06.u = (u16)position;
+    state = ((S_81844F2C_0 *)effect_base)->unk_2C.u;
+    effect -= 1;
+    ((S_81844F2C_0 *)effect_base)->unk_2A.u = (u16)effect;
+    ((S_81844F2C_0 *)effect_base)->unk_06.u = (u16)position;
 
     if (state == 1) {
         goto state_1;
@@ -97,38 +91,38 @@ void func_8002472C(void *effect_data) {
     return;
 
 state_0:
-    tick_or_index = 7 - (s16)tick_or_index;
-    if (tick_or_index < 5) {
-        ((S_81844F2C_2 *)(effect + (tick_or_index * 4)))->unk_14 = 0x00808080;
+    effect = 7 - (s16)effect;
+    if (effect < 5) {
+        ((S_81844F2C_2 *)(effect_base + (effect * 4)))->unk_14 = 0x00808080;
     } else {
-        tick_or_index = 4;
+        effect = 4;
         color_delta = 0xFFDFDFE0;
-        color_cursor = effect + 0x10;
+        color_cursor = effect_base + 0x10;
         do {
-            tick_or_index -= 1;
+            effect -= 1;
             ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
             color_cursor -= 4;
-        } while (tick_or_index >= 0);
+        } while (effect >= 0);
     }
 
-    if (((S_81844F2C_0 *)effect)->unk_2A.p > 0) {
+    if (((S_81844F2C_0 *)effect_base)->unk_2A.p > 0) {
         return;
     }
-    ((S_81844F2C_0 *)effect)->unk_2A.s = 3;
-    ((S_81844F2C_0 *)effect)->unk_2C.p += 1;
+    ((S_81844F2C_0 *)effect_base)->unk_2A.s = 3;
+    ((S_81844F2C_0 *)effect_base)->unk_2C.p += 1;
     return;
 
 state_1:
-    if ((tick_or_index << 16) > 0) {
+    if ((effect << 16) > 0) {
         return;
     }
     position = saved_state + 1;
-    ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)position;
+    ((S_81844F2C_0 *)effect_base)->unk_2C.p = (u16)position;
     return;
 
 state_2_done:
     flag_page = (u8 *)0x80080000;
-    ((S_81844F2C_0_pre *)effect)[-1].unk_00 =
-        (u16)(((S_81844F2C_0_pre *)effect)[-1].unk_00 | 0x8000);
+    ((S_81844F2C_0_pre *)effect_base)[-1].unk_00 =
+        (u16)(((S_81844F2C_0_pre *)effect_base)[-1].unk_00 | 0x8000);
     ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;
 }

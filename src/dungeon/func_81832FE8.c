@@ -25,7 +25,8 @@ void func_81832FE8(S_81832FE8_0 *owner) {
     object = owner->unk_60;
     if (object != NULL) {
         flags = object->unk_14;
-        if (!(flags & 0x20) && (flags & 1)) {
+        if (flags & 0x20) return;
+        if (flags & 1) {
             object->unk_1C = (s32) (object->unk_1C | 0x20);
             func_800A48F0(owner->unk_60, 4, (rand() & 0x3F) | 0x20);
         }

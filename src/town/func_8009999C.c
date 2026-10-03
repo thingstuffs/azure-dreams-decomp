@@ -138,11 +138,13 @@ extern u8 D_801C9E40[];
 s32 func_800970FC(void) {
     s32 page_offset;
     s32 texture_y;
+    s32 uv_sum;
     s32 rounded_texture_y;
     s16 draw_y;
     s16 draw_x;
     s32 rect_y;
     s32 texture_top;
+    s32 bottom;
     s32 alternate_page;
     s16 page_index;
     s32 overlay_height;
@@ -187,8 +189,7 @@ s32 func_800970FC(void) {
         if (height_index != 0) {
             coord_z = ((S_800970FC_1 *)coord)->unk_0A;
             height_delta = (s32) (coord_z - D_800D45AA[height_index]) / 2;
-            overlay_height = height_delta;
-            overlay_height = overlay_height + 6;
+            overlay_height = height_delta + 6;
             if ((u32) ((height_delta + 5) & 0xFFFF) < 0x3FU) {
                 D_800D0460[0] = 1;
                 scratch_control = (u32 *)0x1F80013C;
@@ -233,9 +234,9 @@ s32 func_800970FC(void) {
                     rounded_texture_y = texture_y;
                     page_offset = page_index;
                 }
-                ((S_800970FC_4 *)primitive)->unk_25 =
-                    (s8)(texture_y - ((rounded_texture_y >> 8) * 0x100) +
-                         ((S_800970FC_6 *)texture_rect)->unk_06.u8);
+                uv_sum = texture_y - ((rounded_texture_y >> 8) * 0x100) +
+                         ((S_800970FC_6 *)texture_rect)->unk_06.u8;
+                ((S_800970FC_4 *)primitive)->unk_25 = uv_sum;
                 {
                     u8 *rect;
                     u32 edge_height;
@@ -361,9 +362,11 @@ s32 func_800970FC(void) {
                 (*(s16 *)((u8 *)primitive + 0xC)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
                 (*(s16 *)((u8 *)primitive + 0xE)) = texture_top;
                 (*(u16 *)((u8 *)primitive + 0x10)) = quad_x;
-                (*(s16 *)((u8 *)primitive + 0x12)) = (s16) (texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16);
+                bottom = texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16;
+                (*(s16 *)((u8 *)primitive + 0x12)) = bottom;
                 (*(s16 *)((u8 *)primitive + 0x14)) = (s16) (quad_x + ((S_800970FC_6 *)texture_rect)->unk_04.u16);
-                (*(s16 *)((u8 *)primitive + 0x16)) = (s16) (texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16);
+                bottom = texture_top + ((S_800970FC_6 *)texture_rect)->unk_06.u16;
+                (*(s16 *)((u8 *)primitive + 0x16)) = bottom;
                 func_8006658C(CUR_CTX + 0x830, primitive);
                 primitive = ((S_800970FC_9 *)CUR_CTX)->unk_8D0;
                 ((S_800970FC_9 *)CUR_CTX)->unk_8D0 = (void *) (primitive + 0xC);

@@ -150,7 +150,9 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     register s32 shade_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 near_shade;
     s32 texture_height;
-    register s32 coord_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 coord_bits;
+    u8 edge_u;
+    u8 edge_v;
     s32 vertex_value;
     s32 entry_v;
     s32 x_in_bounds;
@@ -166,7 +168,6 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     s32 quad_index;
     register u8 *packet ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 strip_index;
-    s32 packet_end;
     s32 visible_right;
     u16 screen_y;
     s32 depth_flag;
@@ -257,8 +258,8 @@ next_strip:
             }
             depth_step >>= 8;
             ((S_800AFFB4_1 *)render_data_in)->unk_90.s32 = depth_step;
-            coord_bits = shade_offset;
-            if (coord_bits != 0) {
+            screen_y = shade_offset;
+            if (screen_y != 0) {
                 ((S_800AFFB4_1 *)render_data_in)->unk_90.s32 = depth_step + 0x10;
             }
             shade_uv = 0x80;
@@ -369,12 +370,12 @@ loop_0:
                 vertex_value += shade_uv;
                 ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v2 = coord_bits;
                 (*(s16 *)((u8 *)uv_end + -1)) = vertex_value;
-                coord_bits = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v;
-                vertex_value = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D;
-                coord_bits -= 1;
-                vertex_value -= 1;
-                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v2 = coord_bits;
-                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D = vertex_value;
+                edge_u = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v;
+                edge_v = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D;
+                edge_u -= 1;
+                edge_v -= 1;
+                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_18.v2 = edge_u;
+                ((S_800AFFB4_4_pre *)uv_end)[-1].unk_0D = edge_v;
                 coord_bits = ((S_800AFFB4_4 *)uv_end)->unk_00;
                 coord_bits -= 1;
                 ((S_800AFFB4_4 *)uv_end)->unk_00 = coord_bits;
@@ -396,11 +397,11 @@ loop_0:
     }
     strip_index += 1;
     if (strip_index >= 0xE) {
-        packet_end = 0;
+        coord_bits = 0;
         if (visible_strips != 0) {
-            packet_end = (s32)packet;
+            coord_bits = (s32)packet;
         }
-        return packet_end;
+        return coord_bits;
     }
     goto next_strip;
 }

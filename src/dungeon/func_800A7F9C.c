@@ -77,7 +77,10 @@ s32 func_800AD6FC(DungeonState *state, s32 mode, u8 *item, s32 text_arg) {
         break;
     }
 
-    if ((item != 0) || (mode == 0)) {
+    if (item != 0) {
+        func_80099290(message);
+        func_800A5720(base_message);
+    } else if (mode == 0) {
         func_80099290(message);
         func_800A5720(base_message);
     }

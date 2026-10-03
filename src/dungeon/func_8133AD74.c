@@ -192,7 +192,6 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
     s32 speed;
     MapGrid *map_info;
     s32 map_tiles;
-    u8 tail_phase;
     u16 left_angle;
     u16 wait_frame;
     u16 return_frames;
@@ -344,8 +343,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         break;
     case 9:
         func_801677FC(phase, target_state);
-        tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-        goto shared_tail_2;
+        ((S_80171D74_1 *)state_in)->unk_96 = 0;
+        ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 10:
         appear_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
@@ -537,8 +536,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         approach_frames = ((S_80171D74_1 *)state_in)->unk_96 - 1;
         ((S_80171D74_1 *)state_in)->unk_96 = approach_frames;
         if ((approach_frames << 0x10) <= 0) {
-            tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            goto shared_tail_2;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
         }
         break;
     case 21:
@@ -623,13 +622,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         launch_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
         ((S_80171D74_1 *)state_in)->unk_96 = launch_frame;
         if ((s16) launch_frame >= 0x28) {
-            tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            ASM_KEEP(tail_phase);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            shared_tail_2:
-            shared_tail_3:
-            shared_tail_4:
             ((S_80171D74_1 *)state_in)->unk_96 = 0;
-            goto advance_phase;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
         }
         break;
     case 30:
@@ -643,8 +637,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
             direction_y = SP2_Y_AT(direction_base, owner_state->unk_2A.n);
             ((S_80171D74_3 *)motion_in)->unk_14 = (void *)0xFFFB0000;
             ((S_80171D74_3 *)motion_in)->unk_10.n = (void *) (direction_y << 0x13);
-            tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            goto shared_tail_4;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
             break;
         }
     case 31:
@@ -778,8 +772,8 @@ void func_80171D74(void *state_in, void *motion_in, void *sprite_in) {
         effect_wait_frame = ((S_80171D74_1 *)state_in)->unk_96 + 1;
         ((S_80171D74_1 *)state_in)->unk_96 = effect_wait_frame;
         if ((s16) effect_wait_frame >= 0x3C) {
-            tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-            goto shared_tail_3;
+            ((S_80171D74_1 *)state_in)->unk_96 = 0;
+            ((S_80171D74_1 *)state_in)->unk_9A++;
         }
         break;
     case 45:
@@ -817,16 +811,14 @@ update_height:
         func_800948BC();
         D_80082E76[0] = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
-        tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-        goto advance_phase;
+        ((S_80171D74_1 *)state_in)->unk_9A++;
+        break;
     case 47:
         func_800945E8(((s32)D_800E3D7C), target_state);
         func_800948BC();
         D_80082E76[0] = 0x8000;
         func_80041094(6, 0, 0, 0, 0x8000);
-        tail_phase = ((S_80171D74_1 *)state_in)->unk_9A;
-        advance_phase:
-        ((S_80171D74_1 *)state_in)->unk_9A = (u8) (tail_phase + 1);
+        ((S_80171D74_1 *)state_in)->unk_9A++;
         break;
     case 48:
     default:

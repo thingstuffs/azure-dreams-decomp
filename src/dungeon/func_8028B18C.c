@@ -56,7 +56,7 @@ void func_8001E18C(void)
     u8 tile_y;
     u8 item_category;
     u8 item_subtype;
-    register s32 count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 count;
     s32 crystal_pending;
     s16 category18_pending;
     s32 slot_limit;
@@ -117,7 +117,6 @@ void func_8001E18C(void)
 
     if (*(s32 *)0x80012090 == 0) {
         spawn_check = func_800A6928(6, 3);
-        count = 0;
         if ((s16)spawn_check < 2) {
             if ((func_800A6D30() & 3) == 0) {
                 spawn_index = (s16)func_800A71F4();
@@ -136,15 +135,12 @@ void func_8001E18C(void)
                     spawn_records[spawn_index].y = tile_y;
                     func_8009A21C(spawn_records[spawn_index].x,
                                   spawn_records[spawn_index].y, 0x800);
-                    count = 0;
                 }
             }
         }
     }
 
-    else {
-        count = 0;
-    }
+    count = 0;
     spawn_check = (s32)((u8 *)0x80010000);
     item_category_table = D_80073414;
     item_state = (DungeonState *)D_800E3548;
@@ -231,11 +227,13 @@ cleanup:
 
         cleanup_base = (DungeonState *)D_800E3548;
         cleanup_state = cleanup_base + count;
-        do {
+cleanup_loop:
             cleanup_state->active = 0;
             (cleanup_state++)->kind = 0;
             count++;
-        } while (count < 0x40);
+        if (count < 0x40) {
+            goto cleanup_loop;
+        }
     }
     func_8001EC54();
 

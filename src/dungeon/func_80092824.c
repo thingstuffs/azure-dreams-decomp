@@ -28,7 +28,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     s32 index;
     void *object;
     s32 found;
-    register s32 narrowed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 narrowed;
     u32 flags;
     u8 *entry;
     u8 *entry_base;
@@ -38,17 +38,15 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     if (arg0 != (void *)&D_80081484 &&
         arg0 != (void *)D_80081470 &&
         arg0 != *(void **)((u8 *)D_800814A8 + 0xF0)) {
-        return arg0;
+        goto done;
     }
 
     first = func_80098FB0();
     second = func_80098FF8();
-    narrowed = first << 16;
-    index = narrowed >> 16;
+    index = (s16)first;
 
     if (index >= 0) {
-        narrowed = second << 16;
-        if (narrowed >= 0) {
+        if ((s16)second >= 0) {
             goto valid_index;
         }
     }
@@ -81,10 +79,8 @@ valid_index:
         *(u32 *)((u8 *)global_object + 0x1C) = flags & 0xFFEFFFFF;
     } else {
 
-        narrowed = func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
+        found = (s16)func_800422A8(*(void **)(((u8 *)D_800E3D7C) + 0xF0),
                                  D_800E3548, 4, 0x40);
-        narrowed <<= 16;
-        found = narrowed >> 16;
         if (found >= 0) {
             entry_base_s = (s32)D_800E36C8;
             entry = (u8 *)(found * 12);
@@ -94,9 +90,7 @@ valid_index:
         } else {
             ((void **)0x80010248)[index] = *(void **)D_80081470;
         }
-        narrowed = (s32)D_800814A8;
-        narrowed = *(s32 *)(narrowed + 0xF0);
-        *(s32 *)narrowed = 0;
+        *(s32 *)*(void **)((u8 *)D_800814A8 + 0xF0) = 0;
     }
     entry_base = (u8 *)0x80010248;
     narrowed = first << 16;
@@ -110,5 +104,6 @@ valid_index:
     narrowed >>= 14;
     narrowed += (s32)entry_base;
     *(void **)(narrowed + 0x29c) = arg0;
+done:
     return arg0;
 }

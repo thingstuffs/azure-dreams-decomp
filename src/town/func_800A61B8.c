@@ -27,11 +27,11 @@ typedef struct S_800A3918_2 {
 
 extern void *D_8008274C;
 extern s32 D_800C5100;
+extern union { s16 s; u16 u; } D_80100D8A;
 
 /* Advances the animation phase and frame index, applying the state-one offset transition. */
 void func_800A3918(S_800A3918_0 *anim, s32 unused) {
     s32 phase;
-    u8 *global_base;
     s16 offset;
     u16 offset_bits;
 
@@ -55,17 +55,16 @@ void func_800A3918(S_800A3918_0 *anim, s32 unused) {
         }
         break;
     case 1:
-        global_base = (u8 *)0x80100000;
-        offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;
-        offset_bits = ((S_800A3918_2 *)global_base)->unk_D8A.u;
+        offset = D_80100D8A.s;
+        offset_bits = D_80100D8A.u;
         if (offset < -0x1FFF) {
-            ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
+            D_80100D8A.s = -0x2000;
         } else {
             anim->unk_12 -= 0x20;
             offset = offset_bits + anim->unk_12;
-            ((S_800A3918_2 *)global_base)->unk_D8A.s = offset;
+            D_80100D8A.s = offset;
             if (offset < -0x1FFF) {
-                ((S_800A3918_2 *)global_base)->unk_D8A.s = -0x2000;
+                D_80100D8A.s = -0x2000;
             }
         }
         if (anim->unk_14.s < 0x200) {

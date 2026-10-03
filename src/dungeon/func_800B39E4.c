@@ -69,7 +69,10 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     u8 *scratch_base;
     u8 *packet;
     s32 mode_bits;
-    register s32 y_component ASM_REG("$3");
+    s32 extent;
+    u8 edge_byte;
+    s32 tex_result;
+    s32 y_component;
 
     VU16(scratch, 0x8C) = 0;
     VU16(scratch, 0x84) = 0;
@@ -115,7 +118,8 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
         S32(scratch, 0x40) = x;
         S32(scratch, 0x48) = 0;
         U16(scratch, 0x10A) = y_component;
-        y_component = (s16)y_component;
+        y_component <<= 16;
+        y_component >>= 16;
         y += y_component;
         S32(scratch, 0x44) = y;
         func_80064B90((u8 *)scratch + 0x50, (u8 *)scratch + 0x40,
@@ -131,7 +135,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     do {
         scratch = (Scratch *)0x1F800000;
         if (!(U8(part, 0) & 0x20)) {
-            register s32 edge ASM_REG("$2");
+            s32 edge;
             S32(scratch, 8) = U8(part, 8);
             S32(scratch, 0xC) = U8(part, 9);
             S32(scratch, 0x10) = U8(part, 0xA);
@@ -139,28 +143,25 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 
             {
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
-                    s32 width;
 
-                    edge = VU8(part, 2);
+                    edge_byte = VU8(part, 2);
                     y_component = U16(scratch, 0x108);
-                    width = U16(scratch, 0x10);
-                    edge = (s8)edge;
+                    extent = U16(scratch, 0x10);
+                    edge = (s8)edge_byte;
                     edge = -edge - y_component;
                     U16(scratch, 0x80) = edge;
                     U16(scratch, 0x70) = edge;
-                    edge -= width;
+                    edge -= extent;
                 } else {
-                    s32 origin_x;
-                    s32 width;
 
-                    edge = VU8(part, 2);
-                    origin_x = U16(scratch, 0x108);
-                    width = U16(scratch, 0x10);
-                    edge = (s8)edge;
-                    edge -= origin_x;
+                    edge_byte = VU8(part, 2);
+                    y_component = U16(scratch, 0x108);
+                    extent = U16(scratch, 0x10);
+                    edge = (s8)edge_byte;
+                    edge -= y_component;
                     U16(scratch, 0x80) = edge;
                     U16(scratch, 0x70) = edge;
-                    edge += width;
+                    edge += extent;
                 }
                 U16(scratch, 0x88) = edge;
                 U16(scratch, 0x78) = edge;
@@ -168,30 +169,27 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 
             {
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
-                    s32 height;
 
-                    edge = VU8(part, 3);
+                    edge_byte = VU8(part, 3);
                     y_component = U16(scratch, 0x10A);
-                    height = U16(scratch, 0x14);
-                    edge = (s8)edge;
+                    extent = U16(scratch, 0x14);
+                    edge = (s8)edge_byte;
                     edge = -edge - y_component;
                     U16(scratch, 0x7A) = edge;
                     U16(scratch, 0x72) = edge;
-                    edge -= height;
+                    edge -= extent;
                     U16(scratch, 0x8A) = edge;
                     U16(scratch, 0x82) = edge;
                 } else {
-                    s32 origin_y;
-                    s32 height;
 
-                    edge = VU8(part, 3);
-                    origin_y = U16(scratch, 0x10A);
-                    height = U16(scratch, 0x14);
-                    edge = (s8)edge;
-                    edge -= origin_y;
+                    edge_byte = VU8(part, 3);
+                    y_component = U16(scratch, 0x10A);
+                    extent = U16(scratch, 0x14);
+                    edge = (s8)edge_byte;
+                    edge -= y_component;
                     U16(scratch, 0x7A) = edge;
                     U16(scratch, 0x72) = edge;
-                    edge += height;
+                    edge += extent;
                     U16(scratch, 0x8A) = edge;
                     U16(scratch, 0x82) = edge;
                 }
@@ -223,10 +221,10 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
                 tex_extent = S32(scratch, 0x10);
                 y_component = S32(scratch, 8);
                 tex_extent -= 1;
-                y_component = tex_extent + y_component;
-                S32(scratch, 0x10) = y_component;
-                if (y_component & 0x100) {
-                    tex_extent = y_component - 1;
+                tex_result = tex_extent + y_component;
+                S32(scratch, 0x10) = tex_result;
+                if (tex_result & 0x100) {
+                    tex_extent = tex_result - 1;
                     S32(scratch, 0x10) = tex_extent;
                 }
             }
@@ -236,10 +234,10 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
                 tex_extent = S32(scratch, 0x14);
                 y_component = S32(scratch, 0xC);
                 tex_extent -= 1;
-                y_component = tex_extent + y_component;
-                S32(scratch, 0x14) = y_component;
-                if (y_component & 0x100) {
-                    tex_extent = y_component - 1;
+                tex_result = tex_extent + y_component;
+                S32(scratch, 0x14) = tex_result;
+                if (tex_result & 0x100) {
+                    tex_extent = tex_result - 1;
                     S32(scratch, 0x14) = tex_extent;
                 }
             }
@@ -267,11 +265,12 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             S16(packet, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
 
             {
+                s32 page_input;
                 s32 page_offset = U16(sprite, 0x10);
                 if (page_offset != 0) {
-                    edge = U16(part, 4);
-                    edge &= 0xFF9F;
-                    edge = page_offset + edge;
+                    page_input = U16(part, 4);
+                    page_input &= 0xFF9F;
+                    edge = page_offset + page_input;
                 } else {
                     edge = U16(part, 4);
                 }

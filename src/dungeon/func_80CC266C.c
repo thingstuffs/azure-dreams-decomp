@@ -39,12 +39,17 @@ void func_800A9A0C(void *);
 void func_80175E14(void *);
 extern u8 D_80176348[];
 
+static __inline__ s16 scan_angle(s32 direction)
+{
+    return direction << 9;
+}
+
 /* Selects a neighboring target and starts an action when the reference entity is nearby. */
 s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *actor) {
     s32 distance;
     s32 neighbor_flags;
     s32 direction;
-    s32 reference_found;
+    u16 reference_found;
     s32 result;
     void *neighbor;
     void *target_pos;
@@ -57,10 +62,9 @@ s32 func_80175E6C(void *action_state, void *unused, void *actor_pos_arg, void *a
         result = -1;
         return result;
     }
-    direction = 0;
-scan_neighbors:
+    for (direction = 0; direction < 8; direction++) {
     neighbor = func_800A04F0(actor, ((S_80175E6C_1 *)actor_pos_arg)->unk_24, ((S_80175E6C_1 *)actor_pos_arg)->unk_25,
-        (s16) (direction << 9));
+        scan_angle(direction));
     if (neighbor != NULL) {
         if (neighbor == ((u8 *)D_800E3D7C)) {
             reference_found = 1;
@@ -73,9 +77,6 @@ scan_neighbors:
             }
         }
     }
-    direction++;
-    if (direction < 8) {
-        goto scan_neighbors;
     }
     if ((target != NULL) && (reference_found & 0xFFFF)) {
         reference_found = (s16) (dungeonStatus.unk_0A + 1);

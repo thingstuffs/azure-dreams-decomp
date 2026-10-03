@@ -195,7 +195,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     s32 *side_ptr;
     u16 target_y;
     u16 entry_counter;
-    s16 enter_ticks;
+    void *side_data;
     s16 exit_ticks;
     s16 selected_side;
     s16 turn_ticks;
@@ -203,6 +203,7 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     s16 turn_left;
     s32 exit_left;
     s32 state;
+    s32 step_index;
     s16 wrap_side;
     s32 x_in_bounds;
     u16 *other_dir_dst;
@@ -226,7 +227,6 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     S_8002520C_1 *motion;
     S_8002520C_14 *actor;
     void *side_object;
-    void *side_data;
     s32 side_count;
     void *side_cursor;
     GameWork *state_base;
@@ -254,9 +254,9 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
         ((S_8002520C_0 *)menu)->unk_1C = (s16) ((u16) ((S_8002520C_0 *)menu)->unk_1C + 1);
                     /* fallthrough */
     case 1:
-        enter_ticks = ((S_8002520C_0 *)menu)->unk_22;
-        if (enter_ticks != 0) {
-            motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / enter_ticks));
+        side_data = (void *)(((S_8002520C_0 *)menu)->unk_22);
+        if (((s16)side_data) != 0) {
+            motion->unk_02 = (s16) ((u16) motion->unk_02 + ((s32) (-0x80 - motion->unk_02) / ((s16)side_data)));
             motion->unk_0A.s = (s16) (func_800644B8(((S_8002520C_0 *)menu)->unk_22 << 5) + 0x400);
             enter_scale = appearance->unk_16;
             appearance->unk_16 = (u16) (enter_scale + ((s32) (0xD00
@@ -286,12 +286,11 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
             input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7,
                 ((EntityRec *)(((u8 *)(&D_800E3D7C))))->x.v + 0xA2, 0) & 0xFFFF;
             if ((input_angle != 0xFFF) && (((s32)state_base->unk_010) & 0xF000)) {
-                s32 step_index;
                 s32 step_or_cell;
                 s32 side_index;
                 u16 *x_step_ptr;
-                register u32 base_x ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                u32 x_value;
+                u32 base_x;
+                u16 x_value;
                 u32 y_value;
                 s32 compare_x;
 
@@ -320,7 +319,6 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
                     y_value = cell_coord + step_value;
                 }
                 target_y = (u16) y_value;
-                ASM_USE2_NV(step_index, side_data);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 x_value = base_x;
                 compare_x = x_value & 0xFFFF;
@@ -361,7 +359,6 @@ check_other_side:
                             s32 y_step_value;
 
                             step_or_cell = step_index & 0xFFFF;
-                            ASM_KEEP_NV(step_or_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                             x_value += ((u16 *)dirStepX)[step_or_cell];
                             y_step_value = y_value + ((u16 *)dirStepY)[step_or_cell];
                             target_y = y_step_value;
@@ -399,13 +396,12 @@ check_other_side:
                 }
                 {
                     s32 turned_dir;
-                    s32 side_index;
                     u8 *direction_entry;
 
                     turned_dir = direction - 2;
-                    side_index = ((S_8002520C_0 *)menu)->unk_26;
+                    step_index = ((S_8002520C_0 *)menu)->unk_26;
                     direction_page = (u8 *)0x80010000;
-                    direction_entry = (side_index * 2) + direction_page;
+                    direction_entry = ((s16)step_index * 2) + direction_page;
                     if ((turned_dir & 7) != ((S_8002520C_13 *)direction_entry)->unk_2094) {
                         direction = (direction - 2) & 7;
                         ((S_8002520C_13 *)direction_entry)->unk_2094 = direction;

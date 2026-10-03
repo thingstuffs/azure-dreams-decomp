@@ -30,8 +30,10 @@ s32 func_80028208(void *obj, s32 fallback)
     s32 text;
     s32 count;
     s32 result;
+    s32 saved_fallback;
     count = 0;
-    text = func_80099194(&D_800250B8);
+    saved_fallback = fallback;
+    text = func_80099194(&D_800250B8, fallback);
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 1) {
         text = func_80099194(&D_800250D8, func_8009929C(0xA, text));
         count = 1;
@@ -79,8 +81,6 @@ s32 func_80028208(void *obj, s32 fallback)
         count += 1;
     }
     if ((*((s32 *) (((s8 *) obj) + 0x54))) & 0x100) {
-        obj++;
-        obj--;
         if ((count << 0x10) != 0) {
             text = func_80099194(D_800250E8, text);
         }
@@ -168,7 +168,7 @@ s32 func_80028208(void *obj, s32 fallback)
         result = func_80099194(&D_80025024, text);
     }
     else {
-        result = fallback;
+        result = saved_fallback;
     }
     return result;
 }
