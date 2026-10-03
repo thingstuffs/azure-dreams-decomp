@@ -1,3 +1,20 @@
+# Handover (2026-10-03 ~09:30, round 91 END: codex wave done, no lanes running) - start here
+
+**357 pins / 143 rows** (401 / 161 at pickup); rows off their build **55 -> 20** (9 pinned / 36 pins).
+Landed: astra multi-pin + sol61 one-pin pools, compiler alignment waves r91b + r91c (via land_coherence.sh),
+sol61 + luna goto/cleanup lanes, **type consolidation phase 12** (199 rows, 5 new shared headers; a83e8dbf6).
+status.py parked-row fix (6610a48ac); autocommit now commits include/ too (c7a46d095).
+
+**Monday (Opus quota): start from `work/native_lane/r91_harvest/`:**
+- `open_rows.tsv` - 119 open rows ranked, each with best candidate path, distance/total, mechanism, next model.
+  Top of the list is 1-4 words off (800219C4 reorg return liveness, 8087FEF0 li addiu/ori, 8008F228 sched1 ...).
+- `HARVEST.md` (68 lanes, moves table), `learnings/` (47 draft notes) and `paragraphs/r91_harvest.md` - DRAFTS:
+  review, then copy the good ones into tools/learnings/ and tools/lanes/brief_paragraphs/ (dedupe vs existing).
+- `KIT_GAPS.md` (lane-written tools to fold into the kit), `GENERATORS.md` (20 CPU-generator proposals).
+- Type phase 13: `work/native_lane/r91_types_p12/DESIGN.md` HOW TO CONTINUE.
+- Script gloss pilot m00: `work/native_lane/r91_luna_gloss1/` (owner to judge before the other 53 modules).
+- Cheap luna pools can keep going on the cleanup classes (`_r91/luna_briefs/`, builder lines in the 04:50 block).
+
 # Handover (2026-10-03 ~00:20, round 91 codex wave RUNNING) - start here
 
 **401 pins / 161 rows** at launch. Claude budget low, codex quota full: the owner asked for minimal Claude effort
