@@ -302,3 +302,6 @@
 {"date": "2026-10-03T03:28Z", "codex": {"pack": "r91_sol61_p9", "model": "gpt-6.1-sol", "candidates": 2}, "note": "r91 sol61 1-pin"}
 {"date": "2026-10-03T03:32Z", "codex": {"pack": "r91_goto_g3", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
 {"date": "2026-10-03T03:37Z", "codex": {"pack": "r91_sol61_p10", "model": "gpt-6.1-sol", "candidates": 1}, "note": "r91 sol61 1-pin"}
+{"date": "2026-10-03T03:57Z", "codex": {"pack": "r91_sol61_p11", "model": "gpt-6.1-sol", "candidates": 1}, "note": "r91 sol61 1-pin"}
+{"date": "2026-10-03T03:57Z", "codex": {"pack": "r91_goto_g5", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
+{"date": "2026-10-03T03:59Z", "codex": {"pack": "r91_goto_g4", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
