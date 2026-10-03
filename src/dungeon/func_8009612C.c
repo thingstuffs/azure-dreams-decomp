@@ -99,50 +99,21 @@ s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y)
         entry = *(u8 **)(entry + 92) + 32;
     }
 
-    if (occupied[0] != 0) {
-        goto search_nearby;
-    }
-    center_x = (s16)target_x;
-    center_y = (s16)target_y;
-    if (func_800A0548(center_x, center_y) != 0) {
-        goto search_nearby;
-    }
-    if ((func_8009A350((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) == 0) {
-        goto search_nearby;
-    }
-    if ((tile_flags & 0x8000) != 0) {
-        goto search_nearby;
-    }
-    if ((tile_flags & 0x400) != 0 && (*(u32 *)(entry + 28) & 0x40000) == 0) {
-        goto search_nearby;
-    }
-    if ((s16)func_800BCB04((((center_x << 6) + 32) & 0xffe0), (((center_y << 6) + 32) & 0xffe0),
-                           (s16)(*(u16 *)(actor + 136) - 32)) >= 512) {
-        goto search_nearby;
-    }
-    *out_x = target_x;
-    *out_y = target_y;
-    return 1;
-
-found_near:
-    {
-        s16 near_result_x, near_result_y;
-        near_result_x = near_dx[0];
-        *out_x = target_x + near_result_x;
-        near_result_y = near_dy[0];
-        *out_y = target_y + near_result_y;
-        return 1;
-
+    if (occupied[0] == 0) {
+        center_x = (s16)target_x;
+        center_y = (s16)target_y;
+        if ((func_800A0548(center_x, center_y) == 0) &&
+            ((func_8009A350((s16)(target_x - 1), center_y, 0, &tile_flags) << 16) != 0) &&
+            ((tile_flags & 0x8000) == 0) &&
+            ((tile_flags & 0x400) == 0 || (*(u32 *)(entry + 28) & 0x40000) != 0) &&
+            ((s16)func_800BCB04((((center_x << 6) + 32) & 0xffe0), (((center_y << 6) + 32) & 0xffe0),
+                           (s16)(*(u16 *)(actor + 136) - 32)) < 512)) {
+            *out_x = target_x;
+            *out_y = target_y;
+            return 1;
+        }
     }
 
-found_far:
-    result_dx = far_dx[0];
-    *out_x = target_x + result_dx;
-    result_dy = far_dy[0];
-    *out_y = target_y + result_dy;
-    return 1;
-
-search_nearby:
     attempts = 0;
     near_x = (s16)target_x;
     search_seed = dungeonStatus.unk_1E;
@@ -161,7 +132,12 @@ search_nearby:
                 (s16)func_800BCB04((((near_x + (s16)near_dx[0]) << 6) + 32) & 0xffe0,
                                    (((far_x + (s16)near_dy[0]) << 6) + 32) & 0xffe0,
                                    (s16)(*(u16 *)(actor + 136) - 32)) < 512) {
-                goto found_near;
+                s16 near_result_x, near_result_y;
+                near_result_x = near_dx[0];
+                *out_x = target_x + near_result_x;
+                near_result_y = near_dy[0];
+                *out_y = target_y + near_result_y;
+                return 1;
             }
         }
         attempts++;
@@ -190,7 +166,11 @@ search_nearby:
                 (s16)func_800BCB04((((far_x + (s16)far_dx[0]) << 6) + 32) & 0xffe0,
                                    (((far_y + (s16)far_dy[0]) << 6) + 32) & 0xffe0,
                                    (s16)(*(u16 *)(actor + 136) - 32)) < 512) {
-                goto found_far;
+                result_dx = far_dx[0];
+                *out_x = target_x + result_dx;
+                result_dy = far_dy[0];
+                *out_y = target_y + result_dy;
+                return 1;
             }
         }
         attempts++;

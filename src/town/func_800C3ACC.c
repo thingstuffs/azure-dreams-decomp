@@ -51,34 +51,35 @@ void func_800C122C(void)
             SD_Call(0x71);
             func_800542BC();
             func_8004437C(active[2], 0);
-            if (active[3] == unset)
-                goto finish;
-            goto play_active_floor;
-        }
-        if (active[3] != unset) {
+            if (active[3] != unset) {
+                selection = (u16)active[3];
+                SD_Call(selection);
+            }
+        } else if (active[3] != unset) {
             if (previous[3] != active[3]) {
                 SD_Call(0x71);
                 func_800542BC();
-                goto play_active_floor;
+                selection = (u16)active[3];
+                SD_Call(selection);
+            } else if (D_80080A88[0] == 0) {
+                ((void (*)(s32))SD_Call)(0x71);
+                func_800542BC();
+                selection = (u16)active[3];
+                SD_Call(selection);
             }
-            if (D_80080A88[0] != 0)
-                goto finish;
-            ((void (*)(s32))SD_Call)(0x71);
+        } else {
+            SD_Call(0x71);
             func_800542BC();
-            goto play_active_floor;
         }
+    } else {
         SD_Call(0x71);
         func_800542BC();
-        goto finish;
-    }
-    SD_Call(0x71);
-    func_800542BC();
-    if (active[3] != selection) {
-play_active_floor:
-        SD_Call((u16)active[3]);
+        if (active[3] != selection) {
+            selection = (u16)active[3];
+            SD_Call(selection);
+        }
     }
 
-finish:
     active = D_800D4260;
     unset = -1;
     if (active[1] != unset)

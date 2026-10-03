@@ -20,11 +20,6 @@ typedef struct S_8016D0FC_1 {
     u8 * unk_2C;
 } S_8016D0FC_1;   /* object_arg in func_8016D0FC */
 
-typedef struct S_8016D0FC_2 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-} S_8016D0FC_2;   /* counter_base in func_8016D0FC */
-
 typedef struct S_8016D0FC_3 {
     u8 pad_00[0x1C];
     s32 unk_1C;
@@ -37,7 +32,6 @@ typedef struct S_8016D0FC_3 {
     u8 pad_66[0x7];
     s8 unk_6D;
 } S_8016D0FC_3;   /* actor_arg in func_8016D0FC */
-
 
 extern void func_80047784(void *, s32, s32);
 extern s32 func_8009A180(void *, void *);
@@ -97,7 +91,13 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
         if (((S_8016D0FC_3 *)actor_arg)->unk_25 != 0) {
             kind = ((S_8016D0FC_0 *)context)->unk_AC;
             if (kind == 0xE) {
-                goto set_ad0;
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
+                func_80047784(object,
+                    D_80173AD0[((gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                current_table = (u8 *)(((u16)dungeonStatus.unk_0A) + 1);
+                dungeonStatus.unk_0A = current_table;
+                ((S_8016D0FC_0 *)context)->unk_9B++;
+                return;
             }
             if (kind < 0xF) {
                 goto kind_lt_15;
@@ -145,21 +145,31 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
         if (kind < 0xF) {
 kind_lt_15:
             if (kind == 0xD) {
-                goto set_ad0;
+                (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
+                func_80047784(object,
+                    D_80173AD0[((gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+                current_table = (u8 *)(((u16)dungeonStatus.unk_0A) + 1);
+                dungeonStatus.unk_0A = current_table;
+                ((S_8016D0FC_0 *)context)->unk_9B++;
+                return;
             }
-            goto increment_counter;
+            current_table = (u8 *)(((u16)dungeonStatus.unk_0A) + 1);
+            dungeonStatus.unk_0A = current_table;
+            ((S_8016D0FC_0 *)context)->unk_9B++;
+            return;
         }
 kind_ge_15:
         if (kind != 0xF) {
-            goto increment_counter;
+            current_table = (u8 *)(((u16)dungeonStatus.unk_0A) + 1);
+            dungeonStatus.unk_0A = current_table;
+            ((S_8016D0FC_0 *)context)->unk_9B++;
+            return;
         }
 set_ad0:
         (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
-        direction_index = (gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9;
-        func_80047784(object, D_80173AD0[direction_index & 7], 0);
-increment_counter:
-        current_table = ((u16)dungeonStatus.unk_0A);
-        current_table++;
+        func_80047784(object,
+            D_80173AD0[((gameWork.view.viewAngle + ((S_8016D0FC_3 *)actor_arg)->unk_2A + 0x100) >> 9) & 7], 0);
+        current_table = (u8 *)(((u16)dungeonStatus.unk_0A) + 1);
         dungeonStatus.unk_0A = current_table;
         ((S_8016D0FC_0 *)context)->unk_9B++;
         return;

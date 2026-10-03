@@ -36,46 +36,41 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
         if (func_8001A64C(0x93A) == 0) {
             if (func_8001A64C(0x93B) == 0) {
                 if (func_8001A64C(0x948) == 0) {
-                    goto L6;
+                    func_8001A554(0x948);
+                    return D_8001D000;
                 }
                 {
                     s32 flag_94a_set = func_8001A64C(0x94A);
                     if (flag_94a_set == 0) {
-                        goto L7tail;
+                        func_8001A554(0x94A);
+                        func_8001A554(0x12C7);
+                        return D_8001D3CC;
                     }
                 }
-                goto L6;
+                func_8001A554(0x948);
+                return D_8001D000;
             }
         }
         if (func_8001A64C(0x93A) != 0) {
             if (func_8001A64C(0x93B) == 0) {
-                goto L7tail;
+                func_8001A554(0x94A);
+                func_8001A554(0x12C7);
+                return D_8001D3CC;
+            }
+        }
+        if (func_8001A64C(0x93A) == 0) {
+            if (func_8001A64C(0x93B) != 0) {
+                func_8001A554(0x948);
+                return D_8001D000;
             }
         }
         if (func_8001A64C(0x93A) != 0) {
-            goto L7;
+            if (func_8001A64C(0x93B) != 0) {
+                func_8001A554(0x94A);
+                func_8001A554(0x12C7);
+                return D_8001D3CC;
+            }
         }
-        if (func_8001A64C(0x93B) == 0) {
-            goto L7;
-        }
-L6:
-        func_8001A554(0x948);
-        return D_8001D000;
-
-L7:
-        if (func_8001A64C(0x93A) == 0) {
-            goto L8;
-        }
-        if (func_8001A64C(0x93B) == 0) {
-            goto L8;
-        }
-
-L7tail:
-        func_8001A554(0x94A);
-        func_8001A554(0x12C7);
-        return D_8001D3CC;
-
-L8:
         return D_8001C6D0;
     case 40:
     case 41:

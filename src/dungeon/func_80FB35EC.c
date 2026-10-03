@@ -61,50 +61,42 @@ void func_80172DEC(void *action_state, EntityRec *transform, void *sprite, Entit
             switch (actor->unk_46 & 0x3FFF) {
             case 7:
                 use_global_target = 1;
+                /* fall through */
             case 3:
-                goto kind_c;
+                motion = (u8 *)actor + 0xE;
+                break;
             case 6:
                 use_global_target = 1;
-                goto selected_b;
+                /* fall through */
             case 2:
-                goto kind_b;
+                motion = (u8 *)actor + 0xB;
+                break;
             case 5:
                 use_global_target = 1;
-                goto selected_a;
+                /* fall through */
             case 1:
-                goto kind_a;
+                motion = (u8 *)actor + 8;
+                break;
             default:
-                goto sel_none;
+                motion = (u8 *)0;
+                break;
+            }
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
+                motion = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                motion = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                motion = (u8 *)actor + 8;
+                break;
+            default:
+                motion = (u8 *)0;
+                break;
             }
         }
-
-        switch (actor->unk_46 & 0x3FFF) {
-        case 3:
-kind_c:
-            motion = (u8 *)actor + 0xE;
-            break;
-        case 2:
-kind_b:
-            motion = (u8 *)actor + 0xB;
-            break;
-        case 1:
-kind_a:
-            motion = (u8 *)actor + 8;
-            break;
-        default:
-            goto sel_none;
-        }
-
-        goto motion_selected;
-selected_b:
-        motion = (u8 *)actor + 0xB;
-        goto motion_selected;
-selected_a:
-        motion = (u8 *)actor + 8;
-        goto motion_selected;
-sel_none:
-        motion = (u8 *)0;
-motion_selected:
         if (*motion != 0) {
             ((S_80172DEC_0 *)action_state)->unk_98 &= 0xFF7F;
             {
@@ -116,28 +108,23 @@ motion_selected:
                     target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
                     actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
                     actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
-                    goto do_step;
+                } else if (D_8006DE24[*motion].kind == 2) {
+                    target = actor->target;
+                    if (target != 0) {
+                        target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
+                        actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
+                        actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
+                    }
+                } else {
+                    actor->target =
+                        func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
+                                      actor->facing, 0x10);
+                    abs_x = abs(actor->unk_72);
+                    abs_y = abs(actor->unk_73);
+                    actor->unk_72 = abs_x;
+                    actor->unk_73 = abs_y;
                 }
             }
-            if (D_8006DE24[*motion].kind == 2) {
-                target = actor->target;
-                if (target == 0) {
-                    goto do_step;
-                }
-have_obj:
-                target_y = ((S_80172DEC_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172DEC_3 *)target_y)->unk_24;
-                actor->unk_73 = ((S_80172DEC_3 *)target_y)->unk_25;
-                goto do_step;
-            }
-            actor->target =
-                func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
-                              actor->facing, 0x10);
-            abs_x = abs(actor->unk_72);
-            abs_y = abs(actor->unk_73);
-            actor->unk_72 = abs_x;
-            actor->unk_73 = abs_y;
-do_step:
             saved_position[0] = ((u16)transform->x.w.i);
             saved_position[1] = ((u16)transform->y.w.i);
             saved_position[2] = ((u16)transform->z.w.i);

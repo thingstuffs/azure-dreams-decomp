@@ -43,13 +43,13 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
     case 1:
         timer = *(u16 *)(sequence + 0x96) - 1;
         *(u16 *)(sequence + 0x96) = timer;
-        if ((timer << 0x10) <= 0) {
-            goto advance;
-        }
-        if (!( *(u16 *)(sprite + 0x14) & 0xE000)) {
+        if ((timer << 0x10) > 0 && !( *(u16 *)(sprite + 0x14) & 0xE000)) {
             return;
         }
-        goto advance;
+        state = sequence[0x9B];
+        *(u16 *)(sequence + 0x96) = 0;
+        sequence[0x9B] = state + 1;
+        return;
 
     case 2:
         timer = *(u16 *)(sequence + 0x96) + 1;
@@ -66,7 +66,10 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
             func_80169C1C(sequence, transform, sprite);
         }
         if (*(s16 *)(sequence + 0x96) == 0xB) {
-            goto advance;
+            state = sequence[0x9B];
+            *(u16 *)(sequence + 0x96) = 0;
+            sequence[0x9B] = state + 1;
+            return;
         }
         return;
 
@@ -79,39 +82,29 @@ void func_8016DBB4(u8 *sequence, u8 *transform, u8 *sprite_arg, u8 *actor_arg) {
         *(s32 *)(transform + 0x0C) = 0;
         func_800A2B04(transform, sprite[0x24], sprite[0x25]);
         anim_mode = sequence[0xAC];
-        if (anim_mode == 1) {
-            goto set_base1;
+        switch (anim_mode) {
+        case 0:
+            current_anim_table = *(u8 **)(sprite + 0x2C);
+            anim_table = D_801739A0;
+            break;
+        case 1:
+            current_anim_table = *(u8 **)(sprite + 0x2C);
+            anim_table = D_801739A0 + 0x8;
+            break;
+        case 2:
+            current_anim_table = *(u8 **)(sprite + 0x2C);
+            anim_table = D_801739A0 + 0x10;
+            break;
+        case 3:
+            current_anim_table = *(u8 **)(sprite + 0x2C);
+            anim_table = D_801739A0 + 0x18;
+            break;
+        default:
+            state = sequence[0x9B];
+            *(u16 *)(sequence + 0x96) = 0;
+            sequence[0x9B] = state + 1;
+            return;
         }
-        if (anim_mode < 2) {
-            if (anim_mode == 0) {
-                goto set_base0;
-            }
-            goto advance;
-        }
-        if (anim_mode == 2) {
-            goto set_base2;
-        }
-        if (anim_mode == 3) {
-            goto set_base3;
-        }
-        goto advance;
-
-set_base0:
-        current_anim_table = *(u8 **)(sprite + 0x2C);
-        anim_table = D_801739A0;
-        goto shared_base;
-set_base1:
-        current_anim_table = *(u8 **)(sprite + 0x2C);
-        anim_table = D_801739A0 + 0x8;
-        goto shared_base;
-set_base2:
-        current_anim_table = *(u8 **)(sprite + 0x2C);
-        anim_table = D_801739A0 + 0x10;
-        goto shared_base;
-set_base3:
-        current_anim_table = *(u8 **)(sprite + 0x2C);
-        anim_table = D_801739A0 + 0x18;
-shared_base:
         if (current_anim_table != anim_table) {
             *(u8 **)(sprite + 0x2C) = anim_table;
             direction = ((s32)(gameWork.view.viewAngle + *(s16 *)(actor + 0x2A) + 0x100) >> 9) & 7;

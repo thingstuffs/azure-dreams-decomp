@@ -146,15 +146,17 @@ void func_80171728(void *actor_in, void *context_in, void *sprite, EntityRec *cr
 
     if (creature_in->unk_6D > 0) {
         if (((u32)creature_in->flags1C) & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(creature_in);
+            return;
         }
         if (((S_80171728_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_80171F40(actor_in, context_in, sprite, creature_in);
+            return;
         }
         if (!(creature_in->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((func_8009A180(creature_in,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                    (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
                     return;
                 }
             }
@@ -164,7 +166,8 @@ void func_80171728(void *actor_in, void *context_in, void *sprite, EntityRec *cr
             action_flags = creature_in->unk_46 | 0x4000;
             creature_in->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                goto generic;
+                func_80171F40(actor_in, context_in, sprite, creature_in);
+                return;
             }
         }
 
@@ -184,36 +187,34 @@ void func_80171728(void *actor_in, void *context_in, void *sprite, EntityRec *cr
         case 5:
         case 6:
         case 7:
-        {
-            EntityRec *player;
-            s16 heading;
+            {
+                EntityRec *player;
+                s16 heading;
 
-            heading = func_800A0818(
-                ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            creature_in->facing = heading;
-            if (player->unk_9A == 0x11) {
-                goto case_123;
+                heading = func_800A0818(
+                    ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                creature_in->facing = heading;
+                if (player->unk_9A == 0x11) {
+                    func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
+                    return;
+                }
             }
-        }
 
         case 12:
-jt_c12:
             func_800A9A0C(creature_in);
             return;
 
         case 1:
         case 2:
         case 3:
-case_123:
             func_800AAF00(actor_in, context_in, sprite, D_80174E2C, &D_80171728);
             return;
 
         case 10:
         default:
-generic:
             func_80171F40(actor_in, context_in, sprite, creature_in);
             return;
         }
@@ -227,8 +228,8 @@ generic:
             if (!(((u32)creature_in->flags1C) & 0x430)) {
 
                 if ((func_8009FD7C(
-                        ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
-                        D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
+                    ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
                     creature_in->facing = func_800A0818(
                         ((S_80171728_2 *)sprite)->unk_24.at00.v, ((S_80171728_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,

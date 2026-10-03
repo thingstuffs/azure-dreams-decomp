@@ -31,15 +31,8 @@ void func_80813368(void *hud) {
     u16 counter;
 
     state = S16_AT(hud, 0x18);
-    if (state == 0) {
-        goto state_zero;
-    }
-    if (state == 1) {
-        goto state_done;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
         S16_AT(hud, 0xC) = 0x410;
         S16_AT(hud, 4) = 0x340;
         S16_AT(hud, 0xE) = 0x348;
@@ -51,13 +44,16 @@ state_zero:
         switch (init_kind) {
         case 0:
             value = -0x60;
-            goto init_pair;
+            S16_AT(hud, 0x1E) = value;
+            S16_AT(hud, 0x1C) = value;
+            break;
         case 1:
             value = -0x98;
-            goto init_pair;
+            S16_AT(hud, 0x1E) = value;
+            S16_AT(hud, 0x1C) = value;
+            break;
         case 2:
             value = -0x30;
-    init_pair:
             S16_AT(hud, 0x1E) = value;
             S16_AT(hud, 0x1C) = value;
             break;
@@ -65,12 +61,12 @@ state_zero:
             value = -0xB0;
             S16_AT(hud, 0x1C) = value;
             value = -0x10;
-            goto init_last;
+            S16_AT(hud, 0x1E) = value;
+            break;
         case 4:
             value = -0x10;
             S16_AT(hud, 0x1C) = value;
             value = -0xB0;
-    init_last:
             S16_AT(hud, 0x1E) = value;
         }
 
@@ -91,7 +87,12 @@ state_zero:
             }
         }
         S16_AT(hud, 0x18) = 1;
-state_done:
+        /* State zero continues with the per-frame update. */
+    case 1:
+        break;
+    default:
+        return;
+    }
 
     counter = U16_AT(hud, 0x1A) + 1;
     U16_AT(hud, 0x1A) = counter;

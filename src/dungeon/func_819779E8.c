@@ -17,25 +17,12 @@ typedef struct S_800251E8_1 {
     u16 unk_1A;
 } S_800251E8_1;   /* linked in func_800251E8 */
 
-
-
-
-typedef struct LoopEntry {
-    u8 pad0[0xA];
-    u16 fieldA;
-    u8 padC[0x3A];
-    u16 field46;
-    u8 pad48[0x3A];
-    s16 field82;
-} LoopEntry;
-
 /* Advances the object's timed state and updates its 30 entries. */
 void func_800251E8(void *object_data)
 {
     void *object;
     S_800251E8_1 *linked;
     s32 state;
-    s32 state_pending;
     s32 entry_index;
     u32 entry_offset;
     u16 accumulated_value;
@@ -53,42 +40,40 @@ void func_800251E8(void *object_data)
     case 0:
         ((S_800251E8_0 *)object)->unk_08 -= 0xC0;
         if (((S_800251E8_0 *)object)->unk_06.u < 8) {
-            goto loop_init;
-    }
-    goto reset_state;
-
+            break;
+        }
+        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_04.u++;
+        break;
     case 1:
-    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 12;
-    goto shared_test;
-
+        if (((S_800251E8_0 *)object)->unk_06.u < 12) {
+            break;
+        }
+        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_04.u++;
+        break;
     case 2:
-    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 4;
-    goto shared_test;
-
+        if (((S_800251E8_0 *)object)->unk_06.u < 4) {
+            break;
+        }
+        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_04.u++;
+        break;
     case 3:
-    state_pending = ((S_800251E8_0 *)object)->unk_06.u < 8;
-
-shared_test:
-    entry_index = 0;
-    if (state_pending) {
-        goto loop_body;
-    }
-
-reset_state:
-    ((S_800251E8_0 *)object)->unk_06.s = 0;
-    ((S_800251E8_0 *)object)->unk_04.u++;
-    break;
-
+        if (((S_800251E8_0 *)object)->unk_06.u < 8) {
+            break;
+        }
+        ((S_800251E8_0 *)object)->unk_06.s = 0;
+        ((S_800251E8_0 *)object)->unk_04.u++;
+        break;
     case 4:
-    ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
+        ((S_800251E8_0_pre *)object)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
     }
 
-loop_init:
     entry_index = 0;
 
-loop_body:
     entry_offset = 0;
     do {
         accumulated_value = ((u16 *)object)[entry_offset + 0x23];

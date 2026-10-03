@@ -99,53 +99,46 @@ void func_80172A40(void *owner_input, EntityRec *motion_input, void *actor_input
         if (((S_80172A40_1 *)object)->unk_1C & 0x2000) {
             slot_index = (((S_80172A40_1 *)object)->unk_46 & 0x3FFF) - 1;
             switch (slot_index) {
-            case 0:
-                goto slot_one;
-            case 1:
-                goto slot_two;
-            case 2:
-                goto slot_three;
             case 6:
                 special = 1;
-                goto slot_three;
+                /* fall through */
+            case 2:
+                item_slot = (u8 *)object + 0xE;
+                break;
             case 5:
                 special = 1;
-                goto slot_two;
+                /* fall through */
+            case 1:
+                item_slot = (u8 *)object + 0xB;
+                break;
             case 4:
                 special = 1;
-                goto slot_one;
+                /* fall through */
+            case 0:
+                item_slot = (u8 *)object + 8;
+                break;
             default:
-                goto slot_none;
+                item_slot = 0;
+                break;
+            }
+        } else {
+            slot_kind = ((S_80172A40_1 *)object)->unk_46 & 0x3FFF;
+            switch (slot_kind) {
+            case 3:
+                item_slot = (u8 *)object + 0xE;
+                break;
+            case 2:
+                item_slot = (u8 *)object + 0xB;
+                break;
+            case 1:
+                item_slot = (u8 *)object + 8;
+                break;
+            default:
+                item_slot = 0;
+                break;
             }
         }
 
-        slot_kind = ((S_80172A40_1 *)object)->unk_46 & 0x3FFF;
-        if (slot_kind == 2) {
-            goto slot_two;
-        }
-        if (slot_kind < 3) {
-            if (slot_kind == 1) {
-                goto slot_one;
-            }
-            item_slot = 0;
-        } else if (slot_kind == 3) {
-            goto slot_three;
-        } else {
-            item_slot = 0;
-        }
-        goto selected;
-slot_three:
-        item_slot = (u8 *)object + 0xE;
-        goto selected;
-slot_two:
-        item_slot = (u8 *)object + 0xB;
-        goto selected;
-slot_one:
-        item_slot = (u8 *)object + 8;
-        goto selected;
-slot_none:
-        item_slot = 0;
-selected:
         if (*item_slot != 0) {
             ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFF7F;
 

@@ -167,79 +167,77 @@ void func_80171138(void *actor_in, void *context_in, void *sprite_in, void *stat
 
     if (((S_80171138_1 *)stats)->unk_6D > 0) {
         if (((S_80171138_1 *)stats)->unk_1C & 0x20) {
-            goto case_12;
-        }
-        if (((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto default_case;
-        }
-        action_state = ((S_80171138_1 *)stats)->unk_46;
-        if (!(action_state & 0x8000)) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((func_8009A180(stats,
-                        (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
-                    return;
-                }
-            }
-            if ((func_80172258(actor, context, sprite, 0) << 16) == 0) {
-                return;
-            }
-            action_state = ((S_80171138_1 *)stats)->unk_46 | 0x4000;
-            ((S_80171138_1 *)stats)->unk_46 = action_state;
-            if (!(action_state & 0x8000)) {
-                goto default_case;
-            }
-        }
-
-        switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
-        case 9:
-            func_801740F4(actor, context, sprite, stats);
-            return;
-
-        case 8:
-            if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
-                return;
-            }
-            func_80172138(actor, context, sprite, stats);
-            return;
-
-        case 5:
-        case 6:
-        case 7:
-        {
-            EntityRec *player;
-            s16 facing_angle;
-
-            facing_angle = func_800A0818(
-                ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &angle_aux);
-            player = D_800814A8;
-            ((S_80171138_1 *)stats)->unk_2A = facing_angle;
-            if (player->unk_9A == 0x11) {
-                goto call_aaf;
-            }
-        }
-
-        case 12:
-case_12:
             func_800A9A0C(stats);
             return;
-
-        case 1:
-        case 2:
-        case 3:
-call_aaf:
-            func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
-            return;
-
-        case 4:
-        case 10:
-        case 11:
-        default:
-default_case:
-            func_8017182C(actor, context, sprite, stats);
-            return;
         }
+        if (!(((S_80171138_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX))) {
+            action_state = ((S_80171138_1 *)stats)->unk_46;
+            if (!(action_state & 0x8000)) {
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((func_8009A180(stats,
+                            (u8 *)D_800814A8->unk_58 + 0x20) << 16) != 0) {
+                        return;
+                    }
+                }
+                if ((func_80172258(actor, context, sprite, 0) << 16) == 0) {
+                    return;
+                }
+                action_state = ((S_80171138_1 *)stats)->unk_46 | 0x4000;
+                ((S_80171138_1 *)stats)->unk_46 = action_state;
+            }
+
+            if (action_state & 0x8000) {
+                switch (((S_80171138_1 *)stats)->unk_46 & 0x3FFF) {
+                case 9:
+                    func_801740F4(actor, context, sprite, stats);
+                    return;
+
+                case 8:
+                    if ((func_80171F74(actor, context, sprite, stats) << 16) != 0) {
+                        return;
+                    }
+                    func_80172138(actor, context, sprite, stats);
+                    return;
+
+                case 12:
+                    func_800A9A0C(stats);
+                    return;
+
+                case 5:
+                case 6:
+                case 7:
+                {
+                    EntityRec *player;
+                    s16 facing_angle;
+
+                    facing_angle = func_800A0818(
+                        ((S_80171138_2 *)sprite)->unk_24.at00.v, ((S_80171138_2 *)sprite)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY,
+                        &angle_aux);
+                    player = D_800814A8;
+                    ((S_80171138_1 *)stats)->unk_2A = facing_angle;
+                    if (player->unk_9A != 0x11) {
+                        func_800A9A0C(stats);
+                        return;
+                    }
+                }
+
+                case 1:
+                case 2:
+                case 3:
+                    func_800AAF00(actor, context, sprite, D_80174AEC, D_80171138);
+                    return;
+
+                case 4:
+                case 10:
+                case 11:
+                default:
+                    break;
+                }
+            }
+        }
+        func_8017182C(actor, context, sprite, stats);
+        return;
     }
 
     status_flags = ((S_80171138_1 *)stats)->unk_1C;

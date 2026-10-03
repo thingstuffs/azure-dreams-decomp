@@ -61,161 +61,157 @@ void func_80170E68(Rec_func_800A9E70_arg0 *actor, void *context, void *sprite, E
     }
 
     if (state->tileY == 0) {
-        result = -0x201;
         func_800AA79C(actor, context, sprite, state);
-        (void)result;
-        goto tail_animation;
-    }
+    } else {
+        initial_flags = ((u32)state->flags1C);
+        state->flags1C = initial_flags & -0x201;
 
-    initial_flags = ((u32)state->flags1C);
-    state->flags1C = initial_flags & -0x201;
+        status_flags = dungeon_status[1];
 
-    status_flags = dungeon_status[1];
-
-    if ((status_flags & 0x2000) == 0) {
-        if (initial_flags & 0x100) {
-            func_800AA258(actor, context, sprite, state);
-            return;
-        }
-
-        if (actor->unk_9A.as_u8 != 14) {
-            if (*(u8 **)((u8 *)sprite + 0x2C) != D_8017386C) {
-                *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
-                func_80047784(
-                    sprite,
-                    D_8017386C[((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7],
-                    0);
-            }
-            actor->unk_9A.as_u8 = 14;
-        }
-
-        actor->unk_98 &= 0xFFF3;
-
-        if (state->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, sprite, D_80173874) != 0) {
+        if ((status_flags & 0x2000) == 0) {
+            if (initial_flags & 0x100) {
+                func_800AA258(actor, context, sprite, state);
                 return;
             }
-        }
 
-        if (((u32)state->flags1C) & 0x80000) {
-            func_800AA888(actor, context, sprite, state);
-            func_80173478(actor, context, sprite, state);
-            return;
-        }
+            if (actor->unk_9A.as_u8 != 14) {
+                if (*(u8 **)((u8 *)sprite + 0x2C) != D_8017386C) {
+                    *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
+                    func_80047784(
+                        sprite,
+                        D_8017386C[((gameWork.view.viewAngle + state->facing + 0x100) >> 9) & 7],
+                        0);
+                }
+                actor->unk_9A.as_u8 = 14;
+            }
 
-        if ((s16)func_800A1C58(state) != 0) {
-            func_800AAB10(actor, context, sprite, state);
-        }
-    }
+            actor->unk_98 &= 0xFFF3;
 
-    result = func_8009FB34(*(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
-    *(u8 *)((u8 *)sprite + 0x26) = result;
-
-    if (state->unk_6D > 0) {
-        if (((u32)state->flags1C) & 0x20) {
-            goto case_12;
-        }
-
-        if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&D_80082E80.tileX)) {
-            goto case_default;
-        }
-
-        if ((state->unk_46 & 0x8000) == 0) {
-            if (dungeonStatus.flags & 0x2000) {
-                if ((s16)func_8009A180(state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+            if (state->unk_64 != 0) {
+                if (func_800AA6B4(actor, context, sprite, D_80173874) != 0) {
                     return;
                 }
             }
 
-            if ((s16)func_801720E0(actor, context, sprite, 0) == 0) {
+            if (((u32)state->flags1C) & 0x80000) {
+                func_800AA888(actor, context, sprite, state);
+                func_80173478(actor, context, sprite, state);
                 return;
             }
-            state->unk_46 |= 0x4000;
+
+            if ((s16)func_800A1C58(state) != 0) {
+                func_800AAB10(actor, context, sprite, state);
+            }
+        }
+
+        result = func_8009FB34(*(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25));
+        *(u8 *)((u8 *)sprite + 0x26) = result;
+
+        if (state->unk_6D > 0) {
+            if (((u32)state->flags1C) & 0x20) {
+                func_800A9A0C(state);
+                return;
+            }
+
+            if (*(u16 *)((u8 *)sprite + 0x24) == *(u16 *)(&D_80082E80.tileX)) {
+                func_801715CC(actor, context, sprite, state);
+                return;
+            }
+
             if ((state->unk_46 & 0x8000) == 0) {
-                goto case_default;
-            }
-        }
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((s16)func_8009A180(state, (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                        return;
+                    }
+                }
 
-        action_kind = state->unk_46 & 0x3FFF;
-        switch (action_kind) {
-        case 9:
-            actor->unk_98 |= 0x8000;
-                                    /* fallthrough */
-        case 8:
-            if ((((u32)state->flags1C) & 0x2000) &&
-                ((state->unk_46 & 0x3FFF) == 8)) {
-                actor->unk_98 &= 0x7FFF;
+                if ((s16)func_801720E0(actor, context, sprite, 0) == 0) {
+                    return;
+                }
+                state->unk_46 |= 0x4000;
+                if ((state->unk_46 & 0x8000) == 0) {
+                    func_801715CC(actor, context, sprite, state);
+                    return;
+                }
             }
-            if ((s16)func_80171D80(actor, context, sprite, state) != 0) {
+
+            action_kind = state->unk_46 & 0x3FFF;
+            switch (action_kind) {
+            case 9:
+                actor->unk_98 |= 0x8000;
+                                        /* fallthrough */
+            case 8:
+                if ((((u32)state->flags1C) & 0x2000) &&
+                    ((state->unk_46 & 0x3FFF) == 8)) {
+                    actor->unk_98 &= 0x7FFF;
+                }
+                if ((s16)func_80171D80(actor, context, sprite, state) != 0) {
+                    return;
+                }
+                func_80171F90(actor, context, sprite, state);
                 return;
-            }
-            func_80171F90(actor, context, sprite, state);
-            return;
 
-        case 5:
-        case 6:
-        case 7:
-            result = func_800A0818(
-                *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
-            player = D_800814A8;
-            state->facing = result;
-            if (player->unk_9A == 0x11) {
-                goto case_1_3_common;
-            }
-                                    /* fallthrough */
-        case 12:
-case_12:
-            func_800A9A0C(state);
-            return;
-
-        case 1:
-        case 2:
-        case 3:
-case_1_3_common:
-            func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
-            return;
-
-        case 4:
-        case 10:
-        case 11:
-        default:
-case_default:
-            func_801715CC(actor, context, sprite, state);
-            return;
-        }
-    }
-
-    flags = ((u32)state->flags1C);
-    if ((flags & 0x2000) == 0) {
-        entry_index = (s8)result;
-        if (entry_index >= 0) {
-            entry_base = (u8 *)D_800E2970;
-            entry = entry_base + entry_index * 20;
-            if (((S_80170E68_4 *)entry)->unk_0C & 2) {
-                goto tail_checks;
-            }
-        }
-        if ((flags & 0x430) == 0) {
-            if ((s16)func_8009FD7C(
-                    *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
-                    D_80082E80.tileX, D_80082E80.tileY) != 0) {
+            case 5:
+            case 6:
+            case 7:
                 result = func_800A0818(
                     *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
                     D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                player = D_800814A8;
                 state->facing = result;
+                if (player->unk_9A == 0x11) {
+                    func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
+                    return;
+                }
+                                        /* fallthrough */
+            case 12:
+                func_800A9A0C(state);
+                return;
+
+            case 1:
+            case 2:
+            case 3:
+                func_800AAF00(actor, context, sprite, D_8017389C, D_80170E68);
+                return;
+
+            case 4:
+            case 10:
+            case 11:
+            default:
+                func_801715CC(actor, context, sprite, state);
+                return;
             }
         }
-    }
 
-tail_checks:
-    if (dungeonStatus.flags & 0x2000) {
-        return;
+        flags = ((u32)state->flags1C);
+        if ((flags & 0x2000) == 0) {
+            entry_index = (s8)result;
+            if (entry_index >= 0) {
+                entry_base = (u8 *)D_800E2970;
+                entry = entry_base + entry_index * 20;
+            }
+            if (entry_index < 0 ||
+                !(((S_80170E68_4 *)entry)->unk_0C & 2)) {
+                if ((flags & 0x430) == 0) {
+                    if ((s16)func_8009FD7C(
+                            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                            D_80082E80.tileX, D_80082E80.tileY) != 0) {
+                        result = func_800A0818(
+                            *(u8 *)((u8 *)sprite + 0x24), *(u8 *)((u8 *)sprite + 0x25),
+                            D_80082E80.tileX, D_80082E80.tileY, (s16 *)&distance);
+                        state->facing = result;
+                    }
+                }
+            }
+        }
+
+        if (dungeonStatus.flags & 0x2000) {
+            return;
+        }
+        if (*(u16 *)((u8 *)sprite + 0x14) & 0x40) {
+            return;
+        }
     }
-    if (*(u16 *)((u8 *)sprite + 0x14) & 0x40) {
-        return;
-    }
-tail_animation:
     if (*(u8 * *)((u8 *)sprite + 0x2C) != D_8017386C) {
         *(u8 **)((u8 *)sprite + 0x2C) = D_8017386C;
         func_80047784(

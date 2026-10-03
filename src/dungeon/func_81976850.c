@@ -103,102 +103,92 @@ void func_81976850(void *effect, void *motion, void *visual)
     u8 brightness;
 
     state = ((S_81976850_0 *)effect)->unk_0C.s;
-    if (state != 1) {
-        if (state < 2) {
-            object = (u8 *)effect - 0x20;
-            if (state == 0) {
-                goto initialize;
-            }
-            goto update_visual;
-        }
-        if (state == 2) {
-            goto move_to_target;
-        }
-        goto update_visual;
-    }
-
-    goto follow_source;
-
-initialize:
-    func_8004491C(object, func_80045340);
-    ((S_81976850_0 *)effect)->unk_0C.u++;
-
-follow_source:
-    source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
-    if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
-        func_8003DE58(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
-        source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
-        ((S_81976850_2 *)motion)->unk_00.at02.v = ((S_81976850_3 *)source_pos)->unk_02;
-        ((S_81976850_2 *)motion)->unk_04.at02.v = ((S_81976850_3 *)source_pos)->unk_06;
-        source_z = ((S_81976850_3 *)source_pos)->unk_0A;
-        ((S_81976850_2 *)motion)->unk_08.at02.v = source_z;
-
-        if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
-            ((S_81976850_2 *)motion)->unk_00.at02.v += delta.x;
-            ((S_81976850_2 *)motion)->unk_04.at02.v += delta.y;
-            ((S_81976850_2 *)motion)->unk_08.at02.v += delta.z;
-        } else {
-            ((S_81976850_2 *)motion)->unk_08.at02.v = source_z - 0x20;
-        }
-    }
-
-    if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {
-        ((S_81976850_0 *)effect)->unk_0E.s = 10;
+    switch (state) {
+    case 0:
+        object = (u8 *)effect - 0x20;
+        func_8004491C(object, func_80045340);
         ((S_81976850_0 *)effect)->unk_0C.u++;
+        /* Fall through to follow the source on the initialization frame. */
+
+    case 1:
+        source = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_0C;
+        if ((((S_81976850_1 *)source)->unk_14 & 0x8000) ||
+            func_8003DE58(((S_81976850_1 *)source)->unk_08, source, &delta, 0)) {
+            source_pos = ((S_81976850_8 *)(((S_81976850_0 *)effect)->unk_00))->unk_08;
+            ((S_81976850_2 *)motion)->unk_00.at02.v = ((S_81976850_3 *)source_pos)->unk_02;
+            ((S_81976850_2 *)motion)->unk_04.at02.v = ((S_81976850_3 *)source_pos)->unk_06;
+            source_z = ((S_81976850_3 *)source_pos)->unk_0A;
+            ((S_81976850_2 *)motion)->unk_08.at02.v = source_z;
+
+            if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
+                ((S_81976850_2 *)motion)->unk_00.at02.v += delta.x;
+                ((S_81976850_2 *)motion)->unk_04.at02.v += delta.y;
+                ((S_81976850_2 *)motion)->unk_08.at02.v += delta.z;
+            } else {
+                ((S_81976850_2 *)motion)->unk_08.at02.v = source_z - 0x20;
+            }
+        }
+
+        if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {
+            ((S_81976850_0 *)effect)->unk_0E.s = 10;
+            ((S_81976850_0 *)effect)->unk_0C.u++;
+        }
+        break;
+
+    case 2:
+        brightness = ((S_81976850_4 *)visual)->unk_0E + 8;
+        ((S_81976850_4 *)visual)->unk_0E = brightness;
+        ((S_81976850_4 *)visual)->unk_0D = brightness;
+        ((S_81976850_4 *)visual)->unk_0C = brightness;
+
+        target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
+        ((S_81976850_2 *)motion)->unk_0C = ((S_81976850_5 *)target_pos)->unk_00;
+        (*(s32 *)((u8 *)motion + 0x10)) = ((S_81976850_5 *)target_pos)->unk_04;
+
+        scene = D_800814A8;
+        ((S_81976850_2 *)motion)->unk_14 =
+            (scene->unk_88 - 0x50) << 16;
+
+        table_entry = ((gameWork.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
+        table_entry += (s32)D_800E3D18;
+        if (func_8003DE58(
+                ((S_81976850_7 *)((void *)table_entry))->unk_00,
+                &D_80082E80,
+                &delta,
+                0) != 0) {
+            ((S_81976850_2 *)motion)->unk_0C += delta.x << 16;
+            ((S_81976850_2 *)motion)->unk_10 += delta.y << 16;
+            ((S_81976850_2 *)motion)->unk_14 += delta.z << 16;
+        }
+
+        ((S_81976850_2 *)motion)->unk_00.at00.v +=
+            (((S_81976850_2 *)motion)->unk_0C - ((S_81976850_2 *)motion)->unk_00.at00.v) /
+            ((S_81976850_0 *)effect)->unk_0E.s;
+
+        ((S_81976850_2 *)motion)->unk_04.at00.v +=
+            (((S_81976850_2 *)motion)->unk_10 - ((S_81976850_2 *)motion)->unk_04.at00.v) /
+            ((S_81976850_0 *)effect)->unk_0E.s;
+
+        z_offset = func_800644B8(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
+        ((S_81976850_2 *)motion)->unk_08.at00.v +=
+            (((S_81976850_2 *)motion)->unk_14 - ((S_81976850_2 *)motion)->unk_08.at00.v) /
+            ((S_81976850_0 *)effect)->unk_0E.s - z_offset;
+
+        frames_left = ((S_81976850_0 *)effect)->unk_0E.u - 1;
+        ((S_81976850_0 *)effect)->unk_0E.s = frames_left;
+        if (frames_left <= 0) {
+            ((S_81976850_2 *)motion)->unk_00.at00.v = ((S_81976850_2 *)motion)->unk_0C;
+            ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
+            ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
+            (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
+        }
+
+        break;
+    default:
+        break;
     }
-    goto update_visual;
-
-move_to_target:
-    brightness = ((S_81976850_4 *)visual)->unk_0E + 8;
-    ((S_81976850_4 *)visual)->unk_0E = brightness;
-    ((S_81976850_4 *)visual)->unk_0D = brightness;
-    ((S_81976850_4 *)visual)->unk_0C = brightness;
-
-    target_pos = ((S_81976850_10 *)(((S_81976850_0 *)effect)->unk_04))->unk_08;
-    ((S_81976850_2 *)motion)->unk_0C = ((S_81976850_5 *)target_pos)->unk_00;
-    (*(s32 *)((u8 *)motion + 0x10)) = ((S_81976850_5 *)target_pos)->unk_04;
-
-    scene = D_800814A8;
-    ((S_81976850_2 *)motion)->unk_14 =
-        (scene->unk_88 - 0x50) << 16;
-
-    table_entry = ((gameWork.view.viewAngle + scene->facing + 0x100) >> 7) & 0x1C;
-    table_entry += (s32)D_800E3D18;
-    if (func_8003DE58(
-            ((S_81976850_7 *)((void *)table_entry))->unk_00,
-            &D_80082E80,
-            &delta,
-            0) != 0) {
-        ((S_81976850_2 *)motion)->unk_0C += delta.x << 16;
-        ((S_81976850_2 *)motion)->unk_10 += delta.y << 16;
-        ((S_81976850_2 *)motion)->unk_14 += delta.z << 16;
-    }
-
-    ((S_81976850_2 *)motion)->unk_00.at00.v +=
-        (((S_81976850_2 *)motion)->unk_0C - ((S_81976850_2 *)motion)->unk_00.at00.v) /
-        ((S_81976850_0 *)effect)->unk_0E.s;
-
-    ((S_81976850_2 *)motion)->unk_04.at00.v +=
-        (((S_81976850_2 *)motion)->unk_10 - ((S_81976850_2 *)motion)->unk_04.at00.v) /
-        ((S_81976850_0 *)effect)->unk_0E.s;
-
-    z_offset = func_800644B8(((S_81976850_0 *)effect)->unk_0E.s * 0xAA) << 7;
-    ((S_81976850_2 *)motion)->unk_08.at00.v +=
-        (((S_81976850_2 *)motion)->unk_14 - ((S_81976850_2 *)motion)->unk_08.at00.v) /
-        ((S_81976850_0 *)effect)->unk_0E.s - z_offset;
-
-    frames_left = ((S_81976850_0 *)effect)->unk_0E.u - 1;
-    ((S_81976850_0 *)effect)->unk_0E.s = frames_left;
-    if (frames_left <= 0) {
-        ((S_81976850_2 *)motion)->unk_00.at00.v = ((S_81976850_2 *)motion)->unk_0C;
-        ((S_81976850_2 *)motion)->unk_04.at00.v = ((S_81976850_2 *)motion)->unk_10;
-        ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
-        return;
-    }
-
-update_visual:
     ((S_81976850_0 *)effect)->unk_10++;
     ((S_81976850_4 *)visual)->unk_1A += 0x300;
 }

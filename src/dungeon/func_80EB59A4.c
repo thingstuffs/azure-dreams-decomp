@@ -152,70 +152,66 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
     }
     room_id = func_8009FB34(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v);
     ((S_801711A4_2 *)sprite)->unk_26 = room_id;
-    if (status->unk_6D <= 0) {
-        goto block_49;
-    }
-    if (status->flags1C & 0x20) {
-        goto block_41;
-    }
-    if (((S_801711A4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-        goto block_47;
-    }
-    if (!(status->unk_46 & 0x8000)) {
-        if (dungeonStatus.flags & 0x2000) {
-            if ((func_8009A180(status, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
-                return;
+    if (status->unk_6D > 0) {
+        if (status->flags1C & 0x20) {
+            func_800A9A0C(status);
+            return;
+        }
+        if (((S_801711A4_2 *)sprite)->unk_24.at00u.v != *(u16 *)(&D_80082E80.tileX)) {
+            if (!(status->unk_46 & 0x8000)) {
+                if (dungeonStatus.flags & 0x2000) {
+                    if ((func_8009A180(status, ((s32)D_800814A8->unk_58) + 0x20) << 0x10) != 0) {
+                        return;
+                    }
+                }
+                if ((func_801722B8(actor, context, sprite, 0) << 0x10) == 0) {
+                    return;
+                }
+                action_flags = status->unk_46 | 0x4000;
+                status->unk_46 = action_flags;
+            }
+            if (status->unk_46 & 0x8000) {
+                action_id = status->unk_46 & 0x3FFF;
+                switch (action_id) {
+                case 8:
+                case 9:
+                    if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
+                        return;
+                    }
+                    func_80172190(actor, context, sprite, status);
+                    return;
+                case 5:
+                case 6:
+                case 7:
+                    angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
+                        D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
+                    active_actor = D_800814A8;
+                    status->facing = angle;
+                    if (active_actor->unk_9A == 0x11) {
+                        next_handler = &D_801711A4;
+                        func_800AAF00(actor, context, sprite, &D_801741AC, next_handler);
+                        return;
+                    }
+                case 12:
+                    func_800A9A0C(status);
+                    return;
+                case 1:
+                case 2:
+                case 3:
+                    next_handler = &D_801711A4;
+                    func_800AAF00(actor, context, sprite, &D_801741AC, next_handler);
+                    return;
+                case 4:
+                case 10:
+                case 11:
+                default:
+                    break;
+                }
             }
         }
-        if ((func_801722B8(actor, context, sprite, 0) << 0x10) == 0) {
-            return;
-        }
-        action_flags = status->unk_46 | 0x4000;
-        status->unk_46 = action_flags;
-        if (!(action_flags & 0x8000)) {
-            goto block_47;
-        }
-    }
-    action_id = status->unk_46 & 0x3FFF;
-    switch (action_id) {
-    case 8:
-    case 9:
-        if ((func_80171FCC(actor, context, sprite, status) << 0x10) != 0) {
-            return;
-        }
-        func_80172190(actor, context, sprite, status);
-        return;
-    case 5:
-    case 6:
-    case 7:
-        angle = func_800A0818(((S_801711A4_2 *)sprite)->unk_24.at00.v, ((S_801711A4_2 *)sprite)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &direction_aux);
-        active_actor = D_800814A8;
-        status->facing = angle;
-        if (active_actor->unk_9A == 0x11) {
-            next_handler = &D_801711A4;
-            goto block_44;
-        }
-    case 12:
-block_41:
-        func_800A9A0C(status);
-        return;
-    case 1:
-    case 2:
-    case 3:
-        next_handler = &D_801711A4;
-block_44:
-        func_800AAF00(actor, context, sprite, &D_801741AC, next_handler);
-        return;
-    case 4:
-    case 10:
-    case 11:
-    default:
-block_47:
         func_80171884(actor, context, sprite, status);
         return;
     }
-block_49:
     status_flags = status->flags1C;
     if (status_flags & 0x2000) {
         return;

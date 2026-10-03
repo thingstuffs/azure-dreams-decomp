@@ -78,57 +78,47 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *act
         if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
             item_selector = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
             switch (item_selector) {
-            case 0:
-                goto item_1;
-            case 1:
-                goto item_2;
-            case 2:
-                goto item_3;
             case 6:
                 special_mode = 1;
-                goto item_3;
+                /* fall through */
+            case 2:
+                item = (u8 *)actor + 0x0E;
+                break;
             case 5:
                 special_mode = 1;
-                goto item_2;
+                /* fall through */
+            case 1:
+                item = (u8 *)actor + 0x0B;
+                break;
             case 4:
                 special_mode = 1;
-                goto item_1;
+                /* fall through */
+            case 0:
+                item = (u8 *)actor;
+                item += 8;
+                break;
             default:
-                goto no_item;
+                item = 0;
+                break;
             }
         } else {
             item_selector = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-            if (item_selector == 2) {
-                goto item_2;
-            }
-            if (item_selector < 3) {
-                if (item_selector == 1) {
-                    goto item_1;
-                }
+            switch (item_selector) {
+            case 3:
+                item = (u8 *)actor + 0x0E;
+                break;
+            case 2:
+                item = (u8 *)actor + 0x0B;
+                break;
+            case 1:
+                item = (u8 *)actor + 8;
+                break;
+            default:
                 item = 0;
-                goto have_item;
+                break;
             }
-            if (item_selector == 3) {
-                goto item_3;
-            }
-            item = 0;
-            goto have_item;
         }
 
-item_3:
-        item = (u8 *)actor + 0x0E;
-        goto have_item;
-item_2:
-        item = (u8 *)actor + 0x0B;
-        goto have_item;
-item_1:
-        item = (u8 *)actor;
-        item += 8;
-        goto have_item;
-no_item:
-        item = 0;
-
-have_item:
         if (*item != 0) {
 
             ((S_801738B4_0 *)action_ctx)->unk_98 &= 0xFF7F;
@@ -151,15 +141,9 @@ have_item:
                     ((S_801738B4_2 *)entity)->unk_24,
                     ((S_801738B4_2 *)entity)->unk_25,
                     (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
-                target_x = (*(s8 *)((u8 *)actor + 0x72));
-                target_y = (*(s8 *)((u8 *)actor + 0x73));
-                if (target_x < 0) {
-                    target_x = -target_x;
-                }
-                if (target_y < 0) {
-                    target_y = -target_y;
-                }
+                (*(void * *)((u8 *)actor + 0x60)) = (void *)target_x;
+                target_x = __builtin_abs(*(s8 *)((u8 *)actor + 0x72));
+                target_y = __builtin_abs(*(s8 *)((u8 *)actor + 0x73));
                 (*(s8 *)((u8 *)actor + 0x72)) = target_x;
                 (*(s8 *)((u8 *)actor + 0x73)) = target_y;
             }

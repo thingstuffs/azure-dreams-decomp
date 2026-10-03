@@ -55,116 +55,99 @@ void func_80176028(void *owner_data, s32 unused, void *entry_data, void *work_da
     register u8 *actor = *(u8 **)(work + 0x60);
     s16 type_check;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        type_check = 3;
-        if (state == 0) {
-            goto state_0;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_2;
-    }
-    if (state == 3) {
-        goto state_3;
-    }
-    {
-        return;
-    }
-
-state_0:
-    {
-        if ((((S_80176028_0 *)entry_data)->unk_04 == type_check) &&
-            (((S_80176028_0 *)entry_data)->unk_14 & 0x1000)) {
-            func_800A56E0(0x808);
-        }
-        if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
-            goto advance_state;
-        }
-        return;
-    }
-
-state_1:
-    {
-        u8 *saved_actor;
-        EntityRec *actor_map;
-        u16 saved_index;
-        u8 actor_index;
-        EntityRec *primary_table;
-        TileObject *secondary_table;
-
-        saved_index = ((u16)((EntityRec *)((u8 *)D_800E3D7C))->unk_8A);
-        saved_actor = ((EntityRec *)((u8 *)D_800E3D7C))->target;
-        actor_index = func_800A1BD0(actor);
-        primary_table = &D_80083780;
-        secondary_table = &D_80082E80;
-        actor_map = D_800E3D7C;
-        owner[0xA9] = actor_index;
-        actor_map->unk_8A = actor_index;
-        ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
-        func_80093E74(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
-        (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
-        ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
-        dungeonStatus.unk_0A--;
-    }
-
-advance_state:
-    ((u8 *)owner_data)[0x9B]++;
-    return;
-
-state_2:
-    {
-        u8 *map;
-        u8 *tile;
-        u8 x;
-        u8 y;
-        s32 tile_mask;
-
-        if (!(((S_80176028_4 *)actor)->unk_1C & 0x00800000)) {
+    switch (state) {
+    case 0:
+        {
+            type_check = 3;
+            if ((((S_80176028_0 *)entry_data)->unk_04 == type_check) &&
+                (((S_80176028_0 *)entry_data)->unk_14 & 0x1000)) {
+                func_800A56E0(0x808);
+            }
+            if (((S_80176028_0 *)entry_data)->unk_14 & 0xE000) {
+                ((u8 *)owner_data)[0x9B]++;
+                return;
+            }
             return;
         }
 
-        map = ((u8 *)D_800E3D7C);
-        *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
-        *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
-        func_800A18E8(actor[0x13], 3);
-        tile = *(u8 **)(actor - 0x14);
-        x = tile[0x24];
-        y = tile[0x25];
-        tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
-        func_8009A3D0(x, y, tile_mask);
-        func_8009A028(actor);
-        (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
+    case 1:
         {
-            u8 *actor_slot;
+            u8 *saved_actor;
+            EntityRec *actor_map;
+            u16 saved_index;
+            u8 actor_index;
+            EntityRec *primary_table;
+            TileObject *secondary_table;
 
-            actor_slot = ((u8 *)D_800E3D7C) + 0xFA;
-            actor_slot[owner[0xA9]] = state;
+            saved_index = ((u16)((EntityRec *)((u8 *)D_800E3D7C))->unk_8A);
+            saved_actor = ((EntityRec *)((u8 *)D_800E3D7C))->target;
+            actor_index = func_800A1BD0(actor);
+            primary_table = &D_80083780;
+            secondary_table = &D_80082E80;
+            actor_map = D_800E3D7C;
+            owner[0xA9] = actor_index;
+            actor_map->unk_8A = actor_index;
+            ((EntityRec *)((u8 *)D_800E3D7C))->target = actor;
+            func_80093E74(((u8 *)D_800E3D7C), primary_table, secondary_table, ((u8 *)D_800E3D7C));
+            (*(u8 * *)((u8 *)((u8 *)D_800E3D7C) + (0x60))) = saved_actor;
+            ((EntityRec *)((u8 *)D_800E3D7C))->unk_8A = saved_index;
+            dungeonStatus.unk_0A--;
         }
-        owner[0xA8] = owner[0xA9] + 1;
-        owner[0x9B]++;
+
+        ((u8 *)owner_data)[0x9B]++;
+        return;
+
+    case 2:
+        {
+            u8 *map;
+            u8 *tile;
+            u8 x;
+            u8 y;
+            s32 tile_mask;
+
+            if (!(((S_80176028_4 *)actor)->unk_1C & 0x00800000)) {
+                return;
+            }
+
+            map = ((u8 *)D_800E3D7C);
+            *(u32 *)(map + 0xAC + owner[0xA9] * 4) = 0;
+            *(u32 *)(map + 0xD0 + owner[0xA9] * 4) = 0;
+            func_800A18E8(actor[0x13], 3);
+            tile = *(u8 **)(actor - 0x14);
+            x = tile[0x24];
+            y = tile[0x25];
+            tile_mask = (((S_80176028_4 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000;
+            func_8009A3D0(x, y, tile_mask);
+            func_8009A028(actor);
+            (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            {
+                u8 *actor_slot;
+
+                actor_slot = ((u8 *)D_800E3D7C) + 0xFA;
+                actor_slot[owner[0xA9]] = state;
+            }
+            owner[0xA8] = owner[0xA9] + 1;
+            owner[0x9B]++;
+            return;
+        }
+
+    case 3:
+        {
+            register u8 *entry = entry_data;
+
+            func_800AD594(work, 0x800);
+            ((S_80176028_5 *)work)->unk_1C |= 0x2000;
+            func_8009A3D0(entry[0x24], entry[0x25], 0x3000);
+            func_8009A21C(entry[0x24], entry[0x25], 0x300);
+            work[0x12] = state;
+            func_80175DA4(*(void **)(work + 0x60));
+            ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;
+            ((S_80176028_6 *)owner)->unk_8C = &D_80173B98;
+            func_800A4ACC(work);
+            work[0x6D]--;
+        }
+
         return;
     }
-
-state_3:
-    {
-        register u8 *entry = entry_data;
-
-        func_800AD594(work, 0x800);
-        ((S_80176028_5 *)work)->unk_1C |= 0x2000;
-        func_8009A3D0(entry[0x24], entry[0x25], 0x3000);
-        func_8009A21C(entry[0x24], entry[0x25], 0x300);
-        work[0x12] = state;
-        func_80175DA4(*(void **)(work + 0x60));
-        ((S_80176028_5 *)work)->unk_46 &= 0x7FFF;
-        ((S_80176028_6 *)owner)->unk_8C = &D_80173B98;
-        func_800A4ACC(work);
-        work[0x6D]--;
-    }
-
-    return;
 }

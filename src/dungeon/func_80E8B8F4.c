@@ -140,10 +140,12 @@ void func_801710F4(void *actor, void *context, void *sprite, EntityRec *entity)
 
     if (entity->unk_6D > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(entity);
+            return;
         }
         if (((S_801710F4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_801718DC(actor, context, sprite, entity);
+            return;
         }
         if (!(entity->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -158,7 +160,8 @@ void func_801710F4(void *actor, void *context, void *sprite, EntityRec *entity)
             action_state = entity->unk_46 | 0x4000;
             entity->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto generic;
+                func_801718DC(actor, context, sprite, entity);
+                return;
             }
         }
 
@@ -176,7 +179,7 @@ void func_801710F4(void *actor, void *context, void *sprite, EntityRec *entity)
 
         case 9:
             if (D_800DCF5B != 0) {
-                goto generic;
+                break;
             }
             func_80174234(actor, context, sprite, entity);
             return;
@@ -195,19 +198,18 @@ void func_801710F4(void *actor, void *context, void *sprite, EntityRec *entity)
             player = D_800814A8;
             entity->facing = facing_angle;
             if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                func_800AAF00(actor, context, sprite, &D_80174F38, func_801710F4);
+                return;
             }
         }
 
         case 12:
-special_cleanup:
             func_800A9A0C(entity);
             return;
 
         case 1:
         case 2:
         case 3:
-aaf_cleanup:
             func_800AAF00(actor, context, sprite, &D_80174F38, func_801710F4);
             return;
 
@@ -216,7 +218,6 @@ aaf_cleanup:
         default:
             break;
         }
-generic:
         func_801718DC(actor, context, sprite, entity);
         return;
     }

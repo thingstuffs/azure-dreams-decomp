@@ -49,126 +49,112 @@ void func_80172CC0(void *action, EntityRec *motion, void *sprite, void *actor) {
         if ((*(u32 *)((u8 *)actor + 0x1C)) & 0x2000) {
             u32 kind = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
             switch (kind) {
-            case 0:
-                goto item_8_value;
-            case 1:
-                goto item_b_value;
-            case 2:
-                goto item_e_value;
             case 6:
                 is_special = 1;
-                goto item_e_value;
+                /* fall through */
+            case 2:
+                item = (u8 *)actor + 0xE;
+                break;
             case 5:
                 is_special = 1;
-                goto item_b_value;
+                /* fall through */
+            case 1:
+                item = (u8 *)actor + 0xB;
+                break;
             case 4:
                 is_special = 1;
-                goto item_8_value;
+                /* fall through */
+            case 0:
+                item = (u8 *)actor + 8;
+                break;
             default:
-                goto item_none;
-            }
-        }
-
-        {
-            s32 kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-            if (kind == 2) {
-                goto item_b_value;
-            }
-            if (kind < 3) {
                 item = 0;
-                if (kind == 1) {
-                    goto item_8_value;
+                break;
+            }
+        } else {
+            s32 kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
+            switch (kind) {
+            case 3:
+                item = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                item = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                item = (u8 *)actor + 8;
+                break;
+            default:
+                item = 0;
+                break;
+            }
+        }
+        if (*item != 0) {
+
+            ((Rec_func_80172CC0_arg0 *)action)->unk_98 &= 0xFF7F;
+            {
+                s32 use_existing;
+
+                use_existing = is_special;
+                if (use_existing) {
+                    node = D_800814A8;
+                    (*(void * *)((u8 *)actor + 0x60)) = node;
+                    goto copy_existing;
                 }
-                goto item_ready;
             }
-            item = 0;
-            if (kind != 3) {
-                goto item_ready;
-            }
-item_e_value:
-            item = (u8 *)actor + 0xE;
-            goto item_ready;
-item_b_value:
-            item = (u8 *)actor + 0xB;
-            goto item_ready;
-item_8_value:
-            item = (u8 *)actor + 8;
-            goto item_ready;
-item_none:
-            item = 0;
-        }
 
-item_ready:
-        if (*item == 0) {
-            goto no_item;
-        }
-
-        ((Rec_func_80172CC0_arg0 *)action)->unk_98 &= 0xFF7F;
-        {
-            s32 use_existing;
-
-            use_existing = is_special;
-            if (use_existing) {
-                node = D_800814A8;
-                (*(void * *)((u8 *)actor + 0x60)) = node;
-                goto copy_existing;
-            }
-        }
-
-        {
-            u8 *item_table = D_8006DE24;
-            u8 item_id = *item;
-            u8 *item_entry = item_table + item_id * 20;
-            if (item_entry[0x12] == 2) {
-                node = (*(void * *)((u8 *)actor + 0x60));
-                if (node != 0) {
+            {
+                u8 *item_table = D_8006DE24;
+                u8 item_id = *item;
+                u8 *item_entry = item_table + item_id * 20;
+                if (item_entry[0x12] == 2) {
+                    node = (*(void * *)((u8 *)actor + 0x60));
+                    if (node != 0) {
 copy_existing:
-                    {
+                        {
 
-                        state = ((S_80172CC0_1_pre *)node)[-1].unk_00;
-                        (*(u8 *)((u8 *)actor + 0x72)) = ((S_80172CC0_2 *)state)->unk_24;
-                        (*(u8 *)((u8 *)actor + 0x73)) = ((S_80172CC0_2 *)state)->unk_25;
+                            state = ((S_80172CC0_1_pre *)node)[-1].unk_00;
+                            (*(u8 *)((u8 *)actor + 0x72)) = ((S_80172CC0_2 *)state)->unk_24;
+                            (*(u8 *)((u8 *)actor + 0x73)) = ((S_80172CC0_2 *)state)->unk_25;
+                        }
+
                     }
-                    goto object_ready;
-                }
-            } else {
-                s32 x;
-                s32 y;
+                } else {
+                    s32 x;
+                    s32 y;
 
-                x = (s32)func_800A05A4(
-                    actor,
-                    ((Rec_D_80082E80 *)sprite)->unk_24,
-                    ((Rec_D_80082E80 *)sprite)->unk_25,
-                    (*(s16 *)((u8 *)actor + 0x2A)),
-                    0x10);
-                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)x;
-                x = (*(s8 *)((u8 *)actor + 0x72));
-                y = (*(s8 *)((u8 *)actor + 0x73));
-                if (x < 0) {
-                    x = -x;
+                    x = (s32)func_800A05A4(
+                        actor,
+                        ((Rec_D_80082E80 *)sprite)->unk_24,
+                        ((Rec_D_80082E80 *)sprite)->unk_25,
+                        (*(s16 *)((u8 *)actor + 0x2A)),
+                        0x10);
+                    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)x;
+                    x = (*(s8 *)((u8 *)actor + 0x72));
+                    y = (*(s8 *)((u8 *)actor + 0x73));
+                    if (x < 0) {
+                        x = -x;
+                    }
+                    if (y < 0) {
+                        y = -y;
+                    }
+                    (*(s8 *)((u8 *)actor + 0x72)) = x;
+                    (*(s8 *)((u8 *)actor + 0x73)) = y;
                 }
-                if (y < 0) {
-                    y = -y;
-                }
-                (*(s8 *)((u8 *)actor + 0x72)) = x;
-                (*(s8 *)((u8 *)actor + 0x73)) = y;
             }
-        }
 
-object_ready:
-        pos[0] = ((u16)motion->x.w.i);
-        pos[1] = ((u16)motion->y.w.i);
-        pos[2] = ((u16)motion->z.w.i);
-        if (func_800A94A0(actor, item, is_special, (u8 *)action + 0x98)) {
-            ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-            func_800A56E0(0x703);
-            func_800DA840(pos, (s16)((*item - 1) % 3));
-            ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
+            pos[0] = ((u16)motion->x.w.i);
+            pos[1] = ((u16)motion->y.w.i);
+            pos[2] = ((u16)motion->z.w.i);
+            if (func_800A94A0(actor, item, is_special, (u8 *)action + 0x98)) {
+                ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
+                func_800A56E0(0x703);
+                func_800DA840(pos, (s16)((*item - 1) % 3));
+                ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8++;
+                return;
+            }
             return;
-        }
-        return;
 
-no_item:
+        }
         motion->flags14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;
@@ -209,16 +195,16 @@ no_item:
         return;
 
     case 3:
-    {
-        s16 sound_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_A8 - 1;
-        ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = sound_timer;
-        if (sound_timer == 0) {
-            func_800A56E0(0x610);
+        {
+            s16 sound_timer = ((Rec_func_80172CC0_arg0 *)action)->unk_A8 - 1;
+            ((Rec_func_80172CC0_arg0 *)action)->unk_A8 = sound_timer;
+            if (sound_timer == 0) {
+                func_800A56E0(0x610);
+            }
         }
-    }
 
         if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 12 &&
-             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
+            (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
             ((Rec_func_80172CC0_arg0 *)action)->unk_96.as_u16 = 0x10;

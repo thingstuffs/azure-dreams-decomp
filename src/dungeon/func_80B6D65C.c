@@ -161,15 +161,17 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
 
     if (((S_80170E5C_1 *)status)->unk_6D > 0) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(status);
+            return;
         }
         if (((S_80170E5C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_8017162C(actor, context, sprite, status);
+            return;
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
                 if ((s16)func_8009A180(status,
-                        (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
+                    (u8 *)D_800814A8->unk_58 + 0x20) != 0) {
                     return;
                 }
             }
@@ -178,7 +180,8 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
             }
             ((S_80170E5C_1 *)status)->unk_46 |= 0x4000;
             if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
-                goto ordinary_cleanup;
+                func_8017162C(actor, context, sprite, status);
+                return;
             }
         }
 
@@ -193,30 +196,29 @@ void func_80170E5C(void *actor, void *context, void *sprite, void *status)
         case 4:
         case 5:
         case 6:
-        {
-            EntityRec *global_actor;
-            s32 direction;
+            {
+                EntityRec *global_actor;
+                s32 direction;
 
-            direction = func_800A0818(
-                ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_aux);
-            global_actor = D_800814A8;
-            ((S_80170E5C_1 *)status)->unk_2A = direction;
-            if (global_actor->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                direction = func_800A0818(
+                    ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_aux);
+                global_actor = D_800814A8;
+                ((S_80170E5C_1 *)status)->unk_2A = direction;
+                if (global_actor->unk_9A == 0x11) {
+                    func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
+                    return;
+                }
             }
-        }
 
         case 11:
-special_cleanup:
             func_800A9A0C(status);
             return;
 
         case 0:
         case 1:
         case 2:
-aaf_cleanup:
             func_800AAF00(actor, context, sprite, D_80173D3C, func_80170E5C);
             return;
 
@@ -224,7 +226,6 @@ aaf_cleanup:
         case 9:
         case 10:
         default:
-ordinary_cleanup:
             func_8017162C(actor, context, sprite, status);
             return;
 
@@ -239,8 +240,8 @@ ordinary_cleanup:
             if (!(((S_80170E5C_1 *)status)->unk_1C & 0x430)) {
 
                 if ((s16)func_8009FD7C(((S_80170E5C_2 *)sprite)->unk_24.at00.v,
-                        ((S_80170E5C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX,
-                        D_80082E80.tileY) != 0) {
+                    ((S_80170E5C_2 *)sprite)->unk_24.at01.v, D_80082E80.tileX,
+                    D_80082E80.tileY) != 0) {
                     ((S_80170E5C_1 *)status)->unk_2A = func_800A0818(
                         ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
                         D_80082E80.tileX, D_80082E80.tileY,

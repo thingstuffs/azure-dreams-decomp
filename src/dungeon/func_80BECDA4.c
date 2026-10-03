@@ -48,12 +48,6 @@ typedef struct S_801725A4_3 {
     s32 unk_14;
 } S_801725A4_3;   /* motion in func_801725A4 */
 
-typedef struct S_801725A4_4 {
-    u8 pad_00[0xA];
-    u16 unk_0A;
-    s32 unk_0C;
-} S_801725A4_4;   /* status in func_801725A4 */
-
 extern s32 abs(s32);
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, u8, s32);
@@ -91,55 +85,42 @@ void func_801725A4(void *owner, void *motion, void *actor, void *object_in)
         if (((S_801725A4_1 *)object)->unk_1C & 0x2000) {
             kind_index = (((S_801725A4_1 *)object)->unk_46 & 0x3FFF) - 1;
             switch (kind_index) {
-            case 0:
-                goto L_kind1;
-            case 1:
-                goto L_kind2;
-            case 2:
-                goto L_kind3;
             case 6:
                 is_special = 1;
-                goto L_kind3;
+            case 2:
+                action_data = (u8 *)object + 0xE;
+                break;
             case 5:
                 is_special = 1;
-                goto L_kind2;
+            case 1:
+                action_data = (u8 *)object + 0xB;
+                break;
             case 4:
                 is_special = 1;
-                goto L_kind1;
+            case 0:
+                action_data = (u8 *)object + 8;
+                break;
             default:
-                goto L_after_jt;
+                action_data = 0;
+                break;
+            }
+        } else {
+            kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
+            switch (kind) {
+            case 3:
+                action_data = (u8 *)object + 0xE;
+                break;
+            case 2:
+                action_data = (u8 *)object + 0xB;
+                break;
+            case 1:
+                action_data = (u8 *)object + 8;
+                break;
+            default:
+                action_data = 0;
+                break;
             }
         }
-
-        kind = ((S_801725A4_1 *)object)->unk_46 & 0x3FFF;
-        switch (kind) {
-        case 3:
-            action_data = (u8 *)object + 0xE;
-            break;
-        case 2:
-            action_data = (u8 *)object + 0xB;
-            break;
-        case 1:
-            action_data = (u8 *)object + 8;
-            break;
-        default:
-            action_data = 0;
-            break;
-        }
-        goto L_selected;
-L_kind3:
-        action_data = (u8 *)object + 0xE;
-        goto L_selected;
-L_kind2:
-        action_data = (u8 *)object + 0xB;
-        goto L_selected;
-L_kind1:
-        action_data = (u8 *)object + 8;
-        goto L_selected;
-
-L_after_jt:
-        action_data = 0;
-L_selected:
         if (*action_data != 0) {
             x = ((S_801725A4_0 *)owner)->unk_98 & 0xFF7F;
             ((S_801725A4_0 *)owner)->unk_98 = x;
@@ -183,7 +164,6 @@ L_selected:
                 }
             }
 
-L_spawn_ready:
             if (func_800A94A0(object, action_data, is_special,
                               (u16 *)((u8 *)owner + 0x98)) == 0) {
                 return;

@@ -69,27 +69,10 @@ typedef struct {
     s8 f73;
 } Entity;
 
-typedef union {
-    Entity entity;
-    s8 bytes[sizeof(Entity)];
-} EntityAlias;
-
-typedef struct {
-    u8 pad00[0x12];
-    u8 f12;
-    u8 pad13;
-} ItemInfo;
-
 typedef struct {
     u8 pad00[0xA6];
     u16 fA6;
 } MainObj;
-
-typedef struct {
-    u8 pad00[0xA];
-    u16 fA;
-    u32 fC;
-} Global83460;
 
 extern u8 D_801713A8[];
 extern u8 D_801744E4[];
@@ -131,57 +114,46 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
             switch (slot_index) {
             case 6:
                 use_main_link = 1;
-                goto slot3;
+                /* fall through */
+            case 2:
+                item_slot = &ent->slots[6];
+                break;
             case 5:
                 use_main_link = 1;
-                goto slot2;
+                /* fall through */
+            case 1:
+                item_slot = &ent->slots[3];
+                break;
             case 4:
                 use_main_link = 1;
-                                                /* fall through */
+                /* fall through */
             case 0:
-                goto slot1;
-            case 1:
-                goto slot2;
-            case 2:
-                goto slot3;
+                item_slot = &ent->slots[0];
+                break;
             default:
-                goto slot4;
+                item_slot = 0;
+                break;
             }
-        }
-
-        {
+        } else {
             s32 slot_type;
 
             slot_type = ent->f46 & 0x3FFF;
-            if (slot_type == 2) {
-                goto slot2;
-            }
-            if (slot_type < 3) {
+            switch (slot_type) {
+            case 3:
+                item_slot = &ent->slots[6];
+                break;
+            case 2:
+                item_slot = &ent->slots[3];
+                break;
+            case 1:
+                item_slot = &ent->slots[0];
+                break;
+            default:
                 item_slot = 0;
-                if (slot_type == 1) {
-                    goto slot1;
-                }
-                goto have_slot;
-            }
-            if (slot_type != 3) {
-                item_slot = 0;
-                goto have_slot;
+                break;
             }
         }
 
-slot3:
-        item_slot = &ent->slots[6];
-        goto have_slot;
-slot2:
-        item_slot = &ent->slots[3];
-        goto have_slot;
-slot1:
-        item_slot = &ent->slots[0];
-        goto have_slot;
-slot4:
-        item_slot = 0;
-
-have_slot:
         if (*item_slot != 0) {
             s32 main_link_test;
             u16 state_flags;
