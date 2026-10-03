@@ -148,17 +148,15 @@ extern s32 D_800E3D18;
 
 /* Updates a three-way effect, selects its target, and animates the target color. */
 void func_80024B54(void *effect_arg, void *position) {
-    void *effect = effect_arg;
     M2C_UNK fallback_pos[6];
     Packed8 direction;
     FourWords transform[2];
     s16 offset[3];
     M2C_UNK *target_pos;
-    register u8 *target_page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *tile_or_y_steps;
     M2C_UNK *effect_pool;
     EntityRec *origin;
-    void *source_pos;
+
     s16 phase;
     s32 state_or_heading;
     s32 rounded_phase;
@@ -184,36 +182,36 @@ void func_80024B54(void *effect_arg, void *position) {
     void *actor_value;
     void *actor_value_2;
 
-    source_pos = position;
-    state_or_heading = ((S_80024B54_0 *)effect)->unk_0A.s;
-    ((S_80024B54_0 *)effect)->unk_10 = (u16)(((S_80024B54_0 *)effect)->unk_10 + 1);
+
+    state_or_heading = ((S_80024B54_0 *)effect_arg)->unk_0A.s;
+    ((S_80024B54_0 *)effect_arg)->unk_10 = (u16)(((S_80024B54_0 *)effect_arg)->unk_10 + 1);
     switch ((u32)state_or_heading) {
     case 0:
-        ((S_80024B54_0 *)effect)->unk_10 = 0U;
-        ((S_80024B54_0 *)effect)->unk_0A.s++;
+        ((S_80024B54_0 *)effect_arg)->unk_10 = 0U;
+        ((S_80024B54_0 *)effect_arg)->unk_0A.s++;
         D_800814A8->unk_F4 = 0;
-        func_80024494(((S_80024B54_0 *)effect)->unk_00 - 0x20, ((S_80024B54_0 *)effect)->unk_04, &D_800DE5DC);
+        func_80024494(((S_80024B54_0 *)effect_arg)->unk_00 - 0x20, ((S_80024B54_0 *)effect_arg)->unk_04, &D_800DE5DC);
     case 1:
-        if (*((S_80024B54_0 *)effect)->unk_04 & 0x80) {
-            ((S_80024B54_0 *)effect)->unk_18 = 0xAU;
+        if (*((S_80024B54_0 *)effect_arg)->unk_04 & 0x80) {
+            ((S_80024B54_0 *)effect_arg)->unk_18 = 0xAU;
             ((S_80024B54_1 *)D_800814A8)->unk_A6--;
-            ((S_80024B54_1 *)D_800814A8)->unk_A8 = ((S_80024B54_0 *)effect)->unk_08;
+            ((S_80024B54_1 *)D_800814A8)->unk_A8 = ((S_80024B54_0 *)effect_arg)->unk_08;
             next_state_c1 = ((S_80024B54_1 *)D_800814A8)->unk_2A.u;
-            ((S_80024B54_0 *)effect)->unk_0A.s++;
-            ((S_80024B54_0 *)effect)->unk_0E = next_state_c1;
+            ((S_80024B54_0 *)effect_arg)->unk_0A.s++;
+            ((S_80024B54_0 *)effect_arg)->unk_0E = next_state_c1;
             if (func_80053EF0(4) != 2) {
                 func_800A56E0(0x300);
-                ((S_80024B54_0 *)effect)->unk_1A = 0;
+                ((S_80024B54_0 *)effect_arg)->unk_1A = 0;
                 return;
             }
             func_800A56E0(0x4300);
-            ((S_80024B54_0 *)effect)->unk_1A = 0;
+            ((S_80024B54_0 *)effect_arg)->unk_1A = 0;
             return;
         }
         break;
     case 2:
-        start_delay = ((S_80024B54_0 *)effect)->unk_18 - 1;
-        ((S_80024B54_0 *)effect)->unk_18 = start_delay;
+        start_delay = ((S_80024B54_0 *)effect_arg)->unk_18 - 1;
+        ((S_80024B54_0 *)effect_arg)->unk_18 = start_delay;
         if ((start_delay << 0x10) > 0) {
             break;
         }
@@ -224,16 +222,15 @@ void func_80024B54(void *effect_arg, void *position) {
         }
         origin = &D_80083780;
         step_value = (s32)D_80083780.x.v;
-        target_page = (u8 *)0x80080000;
-        (*(s32 *)((u8 *)source_pos + 0)) = step_value;
+        (*(s32 *)((u8 *)position + 0)) = step_value;
         phase = phase_random - ((rounded_phase >> 12) << 12);
         actor_value = (void *)origin->y.v;
-        (*(s32 *)((u8 *)source_pos + 4)) = (s32)actor_value;
-        actor_value = ((S_80024B54_3 *)target_page)->unk_14A8;
+        (*(s32 *)((u8 *)position + 4)) = (s32)actor_value;
+        actor_value = D_800814A8;
         tile_or_y_steps = (u8 *)&D_80082E80;
         step_value = ((((S_80024B54_1 *)actor_value)->unk_88) - 0x50) << 0x10;
         effect_data = offset;
-        (*(s32 *)((u8 *)source_pos + 8)) = step_value;
+        (*(s32 *)((u8 *)position + 8)) = step_value;
         step_count = gameWork.view.viewAngle;
         step_value = step_count;
         state_or_heading = ((S_80024B54_1 *)actor_value)->unk_2A.s;
@@ -241,14 +238,14 @@ void func_80024B54(void *effect_arg, void *position) {
         step_value = ((step_value + state_or_heading + 0x100) >> 7) & 0x1C;
         actor_or_frame = (void *)(s32)*(M2C_UNK *)(step_value + D_800E3D18);
         if (func_8003DE58(actor_or_frame, tile_or_y_steps, effect_data, offset_mode) != 0) {
-            (*(s32 *)((u8 *)source_pos + 0)) = (s32)((*(s32 *)((u8 *)source_pos + 0)) + (offset[0] << 0x10));
-            (*(s32 *)((u8 *)source_pos + 4)) = (s32)((*(s32 *)((u8 *)source_pos + 4)) + (offset[1] << 0x10));
-            (*(s32 *)((u8 *)source_pos + 8)) = (s32)((*(s32 *)((u8 *)source_pos + 8)) + (offset[2] << 0x10));
+            (*(s32 *)((u8 *)position + 0)) = (s32)((*(s32 *)((u8 *)position + 0)) + (offset[0] << 0x10));
+            (*(s32 *)((u8 *)position + 4)) = (s32)((*(s32 *)((u8 *)position + 4)) + (offset[1] << 0x10));
+            (*(s32 *)((u8 *)position + 8)) = (s32)((*(s32 *)((u8 *)position + 8)) + (offset[2] << 0x10));
         }
-        actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
+        actor_or_frame = D_800814A8;
         target = func_800A05A4(actor_or_frame, ((S_80024B54_4 *)tile_or_y_steps)->unk_24,
             ((S_80024B54_4 *)tile_or_y_steps)->unk_25, (s16)((S_80024B54_5 *)actor_or_frame)->unk_2A, 8);
-        ((S_80024B54_0 *)effect)->unk_14 = target;
+        ((S_80024B54_0 *)effect_arg)->unk_14 = target;
         if (target != NULL) {
             target_pos = ((S_80024B54_6_pre *)target)[-1].unk_00;
         } else {
@@ -258,7 +255,7 @@ void func_80024B54(void *effect_arg, void *position) {
             tile_y = ((S_80024B54_4 *)tile_or_y_steps)->unk_25;
             ((S_80024B54_7 *)target_pos)->unk_06.u = (u16)((tile_y << 6) + 0x20);
             do {
-                actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
+                actor_or_frame = D_800814A8;
                 step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                 ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u + (step_value << 6));
                 step_value = dirStepY[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
@@ -268,12 +265,12 @@ void func_80024B54(void *effect_arg, void *position) {
                 ((S_80024B54_7 *)target_pos)->unk_0A.u = ground_height;
                 if ((s16)ground_height > 0x200) {
                     ((S_80024B54_7 *)target_pos)->unk_0A.u =
-                        (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
+                        (u16)((S_80024B54_12 *)(D_800814A8))->unk_88;
                 }
                 position_valid = func_800A45D8(((S_80024B54_7 *)target_pos)->unk_02.u,
                     ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
                 if ((position_valid << 0x10) != 0) {
-                    actor_or_frame = ((S_80024B54_3 *)target_page)->unk_14A8;
+                    actor_or_frame = D_800814A8;
                     step_value = dirStepX[(((S_80024B54_5 *)actor_or_frame)->unk_2A >> 9) & 7];
                     ((S_80024B54_7 *)target_pos)->unk_02.u = (u16)(((S_80024B54_7 *)target_pos)->unk_02.u - (step_value
                         << 5));
@@ -285,30 +282,30 @@ void func_80024B54(void *effect_arg, void *position) {
                     ((S_80024B54_7 *)target_pos)->unk_0A.u = near_height;
                     if ((s16)near_height > 0x200) {
                         ((S_80024B54_7 *)target_pos)->unk_0A.u =
-                            (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
+                            (u16)((S_80024B54_12 *)(D_800814A8))->unk_88;
                     }
                     break;
                 }
                 step_count += 1;
             } while (step_count < 8);
         }
-        func_8002401C(((S_80024B54_8 *)source_pos)->unk_02, ((S_80024B54_8 *)source_pos)->unk_06,
-            ((S_80024B54_8 *)source_pos)->unk_0A, ((S_80024B54_7 *)target_pos)->unk_02.s,
+        func_8002401C(((S_80024B54_8 *)position)->unk_02, ((S_80024B54_8 *)position)->unk_06,
+            ((S_80024B54_8 *)position)->unk_0A, ((S_80024B54_7 *)target_pos)->unk_02.s,
             (s32)((S_80024B54_7 *)target_pos)->unk_06.s, (s32)((S_80024B54_7 *)target_pos)->unk_0A.s, &direction);
         func_80065820(&direction, transform);
-        func_800249E4((s32)effect, source_pos, target_pos, phase, transform[0], transform[1], direction);
-        func_800249E4((s32)effect, source_pos, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
-        func_800249E4((s32)effect, source_pos, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
-        next_state_c2 = ((S_80024B54_0 *)effect)->unk_0A.u;
-        ((S_80024B54_0 *)effect)->unk_18 = 0x18U;
-        ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c2 + 1);
+        func_800249E4((s32)effect_arg, position, target_pos, phase, transform[0], transform[1], direction);
+        func_800249E4((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
+        func_800249E4((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
+        next_state_c2 = ((S_80024B54_0 *)effect_arg)->unk_0A.u;
+        ((S_80024B54_0 *)effect_arg)->unk_18 = 0x18U;
+        ((S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c2 + 1);
         break;
     case 3:
-        actor_or_frame = ((S_80024B54_0 *)effect)->unk_14;
+        actor_or_frame = ((S_80024B54_0 *)effect_arg)->unk_14;
         if (actor_or_frame != NULL) {
             (*(s32 *)((u8 *)actor_or_frame + 0x1C)) = (s32)((*(s32 *)((u8 *)actor_or_frame + 0x1C)) | 0x10000000);
-            effect_data = ((S_80024B54_13_pre *)(((S_80024B54_0 *)effect)->unk_14))[-1].unk_00;
-            if ((s16)((S_80024B54_0 *)effect)->unk_18 >= 0xC) {
+            effect_data = ((S_80024B54_13_pre *)(((S_80024B54_0 *)effect_arg)->unk_14))[-1].unk_00;
+            if ((s16)((S_80024B54_0 *)effect_arg)->unk_18 >= 0xC) {
                 ((S_80024B54_9 *)effect_data)->unk_0C = (u8)(((S_80024B54_9 *)effect_data)->unk_0C + 8);
                 ((S_80024B54_9 *)effect_data)->unk_0D = (u8)(((S_80024B54_9 *)effect_data)->unk_0D - 8);
                 ((S_80024B54_9 *)effect_data)->unk_0E = (u8)(((S_80024B54_9 *)effect_data)->unk_0E - 8);
@@ -342,42 +339,42 @@ void func_80024B54(void *effect_arg, void *position) {
             input_page = (u16 *)0x80080000;
         }
         if (!(((S_80024B54_10 *)input_page)->unk_2E94 & 0x8000)) {
-            tint_delay = ((S_80024B54_0 *)effect)->unk_18 - 1;
-            ((S_80024B54_0 *)effect)->unk_18 = tint_delay;
+            tint_delay = ((S_80024B54_0 *)effect_arg)->unk_18 - 1;
+            ((S_80024B54_0 *)effect_arg)->unk_18 = tint_delay;
             if ((s16)tint_delay >= 0) {
                 break;
             }
         }
-        if (((S_80024B54_0 *)effect)->unk_14 != NULL) {
-            func_8009CE1C(((S_80024B54_0 *)effect)->unk_14, 0xA, ((S_80024B54_0 *)effect)->unk_09, 9,
-                (s32)(s16)((((S_80024B54_0 *)effect)->unk_0E << 9) + 0x800), ((S_80024B54_0 *)effect)->unk_00, 1);
+        if (((S_80024B54_0 *)effect_arg)->unk_14 != NULL) {
+            func_8009CE1C(((S_80024B54_0 *)effect_arg)->unk_14, 0xA, ((S_80024B54_0 *)effect_arg)->unk_09, 9,
+                (s32)(s16)((((S_80024B54_0 *)effect_arg)->unk_0E << 9) + 0x800), ((S_80024B54_0 *)effect_arg)->unk_00, 1);
             clear_tint_mask = 0xEFFFFFFF;
             neutral_color = 0x00808080;
-            actor_value_2 = ((S_80024B54_0 *)effect)->unk_14;
+            actor_value_2 = ((S_80024B54_0 *)effect_arg)->unk_14;
             ((S_80024B54_1 *)actor_value_2)->unk_1C = (s32)(((S_80024B54_1 *)actor_value_2)->unk_1C & clear_tint_mask);
             effect_data = ((S_80024B54_1_pre *)actor_value_2)[-1].unk_00;
             (*(s32 *)((u8 *)effect_data + 0xC)) = neutral_color;
         }
         effect_pool = (M2C_UNK *)0x80080000;
-        if (((S_80024B54_0 *)effect)->unk_1A != 0) {
-            next_state_c3 = ((S_80024B54_0 *)effect)->unk_0A.u;
-            ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c3 + 1);
+        if (((S_80024B54_0 *)effect_arg)->unk_1A != 0) {
+            next_state_c3 = ((S_80024B54_0 *)effect_arg)->unk_0A.u;
+            ((S_80024B54_0 *)effect_arg)->unk_0A.s = (s16)(next_state_c3 + 1);
             break;
         }
     case 4:
         effect_pool = (M2C_UNK *)0x80080000;
-        if (((S_80024B54_0 *)effect)->unk_1A != 0) {
+        if (((S_80024B54_0 *)effect_arg)->unk_1A != 0) {
             break;
         }
         effect_pool = (M2C_UNK *)((u8 *)effect_pool + 0x3460);
         (*(s32 *)((u8 *)effect_pool + 0xC)) = 0;
         ((S_80024B54_11 *)effect_pool)->unk_0A = (u16)(((S_80024B54_11 *)effect_pool)->unk_0A - 1);
-        (*(u16 *)((u8 *)effect + -2)) = (u16)(((S_80024B54_0_pre *)effect)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)effect_arg + -2)) = (u16)(((S_80024B54_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
         (*(s32 *)&objectFlagBlock.flags) = (s32)((*(s32 *)((u8 *)(&objectFlagBlock.flags) + 0)) | 0x8000);
         return;
     default:
         break;
     }
-    ((S_80024B54_0 *)effect)->unk_1A = 0;
+    ((S_80024B54_0 *)effect_arg)->unk_1A = 0;
     return;
 }

@@ -83,6 +83,7 @@ s32 func_800ADE74(s32 unused, u8 *position, u8 *creature, s32 lower_limit, u16 u
     s32 assist_ally_dist;
     s32 ranged_distance;
     s32 distance;
+    s32 distance_scaled;
     u32 delta_or_result;
     s32 idle_player_range;
     s32 idle_ally_range;
@@ -227,7 +228,9 @@ idle_ally_scan:
                     target_pos = *(void **)(ally - 0x14);
                     idle_ally_dist = func_8009FD40(position, target_pos);
                     idle_ally_range = func_800A35A4(creature, slot_or_distance);
-                    if ((idle_ally_dist << 16) < (idle_ally_range << 16)) {
+                    distance_scaled = idle_ally_dist << 16;
+                    distance = (s32)distance_scaled < (idle_ally_range << 16);
+                    if (distance) {
                         if ((func_800A3518(*(void **)((ally_offset + (s32)D_800814A8) + 0xAC)) << 16) != 0) {
                             {
                                 {
@@ -901,7 +904,6 @@ check_occupied_tile:
             goto wander;
         }
         distance = func_8009FD40(player_pos, position);
-        ASM_KEEP_NV(distance);
         if ((u32)((distance - 2) & 0xFFFF) >= 7) {
             goto wander;
         }

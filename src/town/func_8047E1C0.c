@@ -9,7 +9,7 @@ extern M2C_UNK *D_8001794C[3];
 extern M2C_UNK D_8001802A;
 extern u8 D_80010000[];
 
-typedef void (*TownCall)(s32, s32, void *);
+typedef void (*TownCall)(s32, s32);
 
 typedef struct S_func_8047E1C0_0 {
     u8 pad_00[0x6000];
@@ -47,7 +47,7 @@ void func_8047E1C0(void) {
     ((S_func_8047E1C0_2 *)((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_1C)->unk_40 = state_data;
     dispatch_table = *(void **)((u8 *)(*(void **)((u8 *)D_80010000 + 0x6000)) + 0x20);
     *(M2C_UNK **)&D_8001794C[0] = &D_800177C8;
-    dispatch_table->unk_2EC(call_code, 0x100, ((S_func_8047E1C0_0 *)D_80010000)->unk_6000);
+    dispatch_table->unk_2EC(call_code, 0x100);
     func_800175E0(0x98);
     *(void **)((s8 *)((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_40
         + ((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_08 * 8) = &D_8001624C;

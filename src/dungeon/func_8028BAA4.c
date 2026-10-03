@@ -33,14 +33,15 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     unsigned long table_base_or_mode;
     u8 *item_category_table;
     u8 *category_entry;
+    u8 *item_offset;
 
     rng_result = func_800A6D30();
     category_threshold = (u16 *)D_8001F6F8;
     random_weight = category_threshold[19];
     random_weight = (rng_result & 0xFFFF) % random_weight;
     category_index = 1;
-    table_cursor_or_item_offset = (u8 *)category_threshold;
-    category_threshold = (u16 *)(table_cursor_or_item_offset + 2);
+    item_offset = (u8 *)category_threshold;
+    category_threshold = (u16 *)(item_offset + 2);
     category_scale_or_weight = random_weight & 0xFFFF;
 loop_1:
     if (*category_threshold < (u32)category_scale_or_weight) {
@@ -55,7 +56,7 @@ loop_1:
         item_index = 1;
     }
     category_scale_or_weight = category_index * 4;
-    category_threshold = &((u16 *)table_cursor_or_item_offset)[category_index];
+    category_threshold = &((u16 *)item_offset)[category_index];
     table_base_or_mode = (unsigned long)D_80073414;
     scan_value = category_scale_or_weight + category_index;
     scan_value *= 4;
@@ -68,9 +69,9 @@ loop_1:
         table_base_or_mode = 2;
         category_entry = table_cursor_or_item_offset;
         selected_category = scan_value >> 16;
-        table_cursor_or_item_offset = (u8 *)0x14;
+        item_offset = (u8 *)0x14;
 loop_6:
-        item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table
+        item_flags = *(u16 *)(item_offset + ((S_8001EAA4_0 *)(item_category_table
             + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
         if (!(item_flags & 0x10)) {
             if (item_flags & 0x40) {
@@ -81,7 +82,7 @@ loop_6:
                 }
             }
             {
-                scan_value = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
+                scan_value = *(u16 *)(item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
                 if (scan_value < 0) {
                     scan_value += 0xFFF;
                     rarity = (scan_value >> 0xC) & 3;
@@ -126,7 +127,7 @@ loop_6:
         scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
 advance_item:
         item_index += 1;
-        table_cursor_or_item_offset += 0x14;
+        item_offset += 0x14;
         if (item_index >= scan_value) {
             *category_out = 0;
             *item_out = 0;

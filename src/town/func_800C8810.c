@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800C46A8(void *arg0);
+extern void func_800C46A8(void *arg0, s32 arg1, s32 arg2);
 extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
 extern u8 D_80082660[][8];
 extern s32 D_800C5FDC[];
@@ -12,7 +12,7 @@ void func_800C5F70(void *object, s32 unusedArgument, s32 updateValue) {
     s32 stagedUpdateValue;
 
     D_80082660[*((s32 *)object + 0x18)][0] = 0;
-    func_800C46A8(object);
+    func_800C46A8(object, unusedArgument, updateValue);
     updateObject = object;
     stagedUpdateValue = updateValue;
     func_800C2E84(updateObject, stagedUpdateValue, D_800D5590);

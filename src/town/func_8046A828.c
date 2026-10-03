@@ -16,7 +16,7 @@ typedef struct S_8001B828_1 {
 } S_8001B828_1;   /* final_obj in func_8001B828 */
 
 
-extern void func_80019730(s32, void *);
+extern void func_80019730(void);
 extern s8 func_8001A4F0(void);
 extern s32 func_8001A58C(s32);
 extern void *func_8001B6E4(s32);
@@ -30,8 +30,6 @@ extern u8 *D_8001E950;
 
 /* Dispatches requests by mode, refreshing the state code before selecting a response. */
 void *func_8001B828(s32 request, void *data, s32 mode) {
-    s32 call_request = request;
-    void *call_data = data;
     u8 new_code;
     s32 status;
     void *context;
@@ -58,7 +56,7 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
         return D_8001914C;
     }
     if (mode == 1) {
-        func_80019730(call_request, call_data);
+        func_80019730();
         return func_8001B6F8(request, data, 1);
     }
     if (mode == 5) {

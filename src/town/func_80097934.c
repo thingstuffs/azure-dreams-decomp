@@ -5,9 +5,11 @@ extern int abs(int);
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-s32 func_80065F90();             /* extern */
+s32 func_80065F90(s32, s32);             /* extern */
 extern M2C_UNK D_80000001;
 
+
+static __inline__ s32 clamp_min(s32 value, s32 bound) { if (bound < value) return value; return bound; }
 
 /* Move both components toward zero by direction-dependent steps, clamping at zero. */
 void func_80095094(EntityRec *record) {
@@ -30,16 +32,10 @@ void func_80095094(EntityRec *record) {
     initial_x = record->unk_0C;
     if ((initial_x != 0) || (record->unk_10 != 0)) {
         min_component = 0x80000001;
-        clamped_x = 0x80000001;
-        if (min_component < initial_x) {
-            clamped_x = initial_x;
-        }
+        clamped_x = clamp_min(initial_x, min_component);
         initial_y = record->unk_10;
-        clamped_y = 0x80000001;
-        if (min_component < initial_y) {
-            clamped_y = initial_y;
-        }
-        x_step = func_80065F90(clamped_x, clamped_y, min_component);
+        clamped_y = clamp_min(initial_y, min_component);
+        x_step = func_80065F90(clamped_x, clamped_y);
         signed_x_step = func_800644B8(x_step);
         y_step = x_step;
         signed_x_step = signed_x_step << 5;

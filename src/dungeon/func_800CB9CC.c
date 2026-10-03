@@ -7,12 +7,11 @@ extern s16 func_800D0DE0(s16, s16, s16);
 
 /* Counts flagged tiles along a direction for up to eleven steps. */
 s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
-    struct {
-        u16 flags;
-        u16 pad;
-        s32 byte_offset;
-        u16 *x_step;
-    } work;
+    s32 bound_bit;
+    u16 flags;
+    s32 saved_offset;
+    u16 *saved_x_step;
+    u16 *y_step;
     s32 direction;
     register s32 byte_offset;
     u8 *x_base;
@@ -35,13 +34,12 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     x = (u16)x_acc;
     bounds = &gameWork.map;
 
-    if (x < 0 || x >= (1 << bounds->shiftX)) {
+    if (x < 0 || x >= ((bound_bit = 1) << bounds->shiftX)) {
         return 0;
     }
 
     {
         u8 *y_base;
-        u16 *y_step;
 
         y_base = (u8 *)dirStepY;
         y_step = (u16 *)(y_base + byte_offset);
@@ -51,18 +49,18 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
     if (y < 0) {
         return 0;
     }
-    if (y >= (1 << bounds->shiftY)) {
+    if (y >= (bound_bit << bounds->shiftY)) {
         return 0;
     }
 
-    work.byte_offset = byte_offset;
-    work.x_step = x_step;
+    saved_offset = byte_offset;
+    saved_x_step = x_step;
     do {
-        register u16 *loop_x_step ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 *loop_x_step;
         x = (s16)x_acc;
         y = (s16)y_acc;
-        if ((func_8009A350(x, y, direction, &work.flags) << 16) != 0 &&
-            (work.flags & 4)) {
+        if ((func_8009A350(x, y, direction, &flags) << 16) != 0 &&
+            (flags & 4)) {
             count++;
             if (func_800D0DE0(direction, x, y) >= 2) {
                 break;
@@ -70,8 +68,7 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
         }
 
         {
-
-            loop_x_step = work.x_step;
+            loop_x_step = saved_x_step;
             x_acc += *loop_x_step;
         }
         x = (s16)x_acc;
@@ -81,13 +78,12 @@ s32 func_800D112C(s16 scan_direction, s32 start_x, s32 start_y) {
 
         {
             u8 *loop_y_base;
-            u16 *loop_y_step;
 
             loop_y_base = (u8 *)dirStepY;
-            loop_x_step = (u16 *)(work.byte_offset);
+            loop_x_step = (u16 *)(saved_offset);
             loop_y_base += (s32)loop_x_step;
-            loop_y_step = (u16 *)loop_y_base;
-            y_acc += *loop_y_step;
+            y_step = (u16 *)loop_y_base;
+            y_acc += *y_step;
         }
         y = (s16)y_acc;
         if (y < 0 || y >= (1 << bounds->shiftY)) {

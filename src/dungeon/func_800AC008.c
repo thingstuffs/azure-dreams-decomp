@@ -80,7 +80,7 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
     s32 offset_x;
     s32 gap;
     s32 base_offset;
-    register s32 slot_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 slot_x;
     s8 slot_y;
     s32 y_offset;
     s16 icon_held = icon;
@@ -137,7 +137,8 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
                 slot_x = (s32)buf;
                 *(void **)((u8 *)obj + 0x70) = (void *)slot_x;
                 value_a = count;
-                buf = func_800B1434((void *)slot_x, D_80073618[icon_held]);
+                buf = D_80073618[icon_held];
+                buf = func_800B1434((void *)slot_x, buf);
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
             } else {
                 value_a = 0;
@@ -205,8 +206,9 @@ void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u
             }
             slot_y = slot_x;
             if (compact != 0) {
+                slot_x = 0x80000;
                 slot_y -= 2;
-                color2 = 0x80000;
+                color2 = slot_x;
             } else {
                 color2 = 0x80000;
             }

@@ -153,6 +153,7 @@ void func_80022768(State8081FF68 *state, void *position)
     s32 angle;
     s32 angle_delta;
     s32 angle_delta_2;
+    s32 reel_mode;
     s32 symbols[3][3];
     void *coin;
 
@@ -270,7 +271,6 @@ void func_80022768(State8081FF68 *state, void *position)
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         u8 *reel_slot;
-        s32 reel_mode;
         ((S_80022768_0 *)state)->unk_5E.u = timer;
         if ((s16)timer > 0) {
             return;
@@ -340,10 +340,9 @@ outer_top:
                 symbol_out = symbol_row + 2;
 inner_top:
                 {
-                    register s32 reel_offset ASM_REG("$4");
-                    reel_table = (s16)((S_80022768_13 *)(((S_80022768_6 *)slot_cursor)->unk_4C))->unk_2A;
-                    reel_offset = reel_table;
-                    *symbol_out = strip[(angle + reel_offset) % 12];
+                    reel_mode = (s16)((S_80022768_13 *)(((S_80022768_6 *)slot_cursor)->unk_4C))->unk_2A;
+                    reel_table = (u8 *)(s32)strip[(angle + reel_mode) % 12];
+                    *symbol_out = (s32)reel_table;
                     symbol_out--;
                 }
                 if (--angle >= 0)

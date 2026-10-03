@@ -2,6 +2,8 @@
 
 extern u16 D_80162004[];
 
+static __inline__ u16 *grid_base(void) { return D_80162004; }
+
 /* Copies a width-and-height-prefixed block to the destination grid, skipping zero entries. */
 void func_800B7868(s16 dst_x, s16 dst_y, u16 *src) {
     s16 next_row;
@@ -20,7 +22,7 @@ void func_800B7868(s16 dst_x, s16 dst_y, u16 *src) {
         while (col < (s16) width) {
             entry = *src;
             if (entry != 0) {
-                D_80162004[((row + dst_y) << 7) + col + dst_x] = entry;
+                grid_base()[(((row + dst_y) << 7) + col + dst_x)] = entry;
             }
             next_col = col + 1;
             col = next_col;

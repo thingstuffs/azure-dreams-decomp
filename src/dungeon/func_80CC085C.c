@@ -121,14 +121,14 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
 {
     s16 move_index;
     s16 stop_fallback = 0;
-    s32 heading;
+    s16 heading;
     s32 target_x_sum;
     u16 target_y;
     u16 state_flags;
     s32 flags;
     void *root;
     s32 y_offset;
-    register void *target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *target;
 
     state_flags = dungeonStatus.flags;
 
@@ -345,16 +345,20 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
                 s32 base_heading = ((Rec_func_800A9E70_arg0 *)context)->unk_A4;
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    heading = base_heading - D_8006CD00[move_index];
+                    y_offset = D_8006CD00[move_index];
+                    heading = base_heading - y_offset;
                 } else {
-                    heading = base_heading + D_8006CD00[move_index];
+                    y_offset = D_8006CD00[move_index];
+                    heading = base_heading + y_offset;
                 }
             } else {
                 target = (void *)((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    heading = (s32)(u8 *)target - D_8006CD00[move_index];
+                    y_offset = D_8006CD00[move_index];
+                    heading = (s32)(u8 *)target - y_offset;
                 } else {
-                    heading = (s32)(u8 *)target + D_8006CD00[move_index];
+                    y_offset = D_8006CD00[move_index];
+                    heading = (s32)(u8 *)target + y_offset;
                 }
             }
             if (func_8009A66C(heading, actor, movement, 0x20) > 0) {
@@ -374,10 +378,11 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                 {
                     s32 step_offset;
-                    target = (void *)((u8 *)dirStepX);
+                    u8 *x_steps;
                     step_offset = (((S_8017405C_0 *)movement)->unk_2A.u >> 8) & 0xE;
-                    actor->unk_24.at00.v = actor->unk_24.at00.v +
-                                         *(u8 *)((unsigned long)step_offset + (unsigned long)(u8 *)target);
+                    x_steps = (u8 *)dirStepX;
+                    x_steps += step_offset;
+                    actor->unk_24.at00.v = actor->unk_24.at00.v + *x_steps;
                     {
                         u8 *y_steps = (u8 *)dirStepY;
                         actor->unk_24.at01.v = actor->unk_24.at01.v +

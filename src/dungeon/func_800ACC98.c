@@ -48,14 +48,14 @@ extern M2C_UNK D_800B274C;
 extern M2C_UNK D_800B2A60;
 
 /* Create an object and initialize its components and flags from the mode and supplied values. */
-void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
-                    volatile s32 part_b_value)
+void *func_800B23F8(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
+                    s32 part_b_value)
 {
     s16 saved_byte_24;
     long value_or_part_b;
     s16 part_a_s16;
     long byte_or_work;
-    s8 byte_25;
+    s16 byte_25;
     s32 kind;
     s16 kind_test;
     s32 flags_14;
@@ -65,15 +65,14 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
     void *work;
     s16 init_mode;
 
-    init_mode = mode;
     work = 0;
     saved_byte_24 = part_b_byte_24;
     part_a_s16 = part_a_value;
     byte_25 = part_b_byte_25;
     obj = func_8003FD64(0x112, (void *)&D_80083498);
+    init_mode = mode;
     if (obj != 0) {
-        work = obj;
-        work = (u8 *)work + 0x20;
+        work = (u8 *)obj + 0x20;
         ((S_800B23F8_0 *)obj)->unk_10 = &D_800B274C;
         ((S_800B23F8_1 *)work)->unk_13 = 0x1E;
         func_8004491C(obj, func_80045340);

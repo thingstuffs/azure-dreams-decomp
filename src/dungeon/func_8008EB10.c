@@ -65,7 +65,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
     s32 call_result;
     S_80094270_1 *entry;
     M2C_UNK *hdr;
-    register M2C_UNK *hdr3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    M2C_UNK *hdr3;
 
     ((Rec_func_8008ACDC_arg0 *)actor)->unk_8A = (s16) slot;
     if (func_80094208(0) == 0) {
@@ -75,23 +75,9 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         }
         entry = (void *) ((((Rec_func_8008ACDC_arg0 *)actor)->unk_8A * 4) + (u32) actor);
         if (entry->unk_D0 == item) {
-            hdr3 = (M2C_UNK *)((s32) actor);
             if (!(((S_80094270_5 *)(((S_80094270_4 *)entry)->unk_AC))->unk_1C & 0x20000)) {
-                                /* retail: a single shared "jal func_80099194(hdr,.)" call is
-                 * reached from BOTH arms of the (s16)slot check below (hdr
-                 * chosen per arm, computed BEFORE the call, not two separate
-                 * calls); the "-3" applies UNIFORMLY to the result regardless
-                 * of which arm ran (it is the delay-slot arg-setup for the
-                 * NEXT, D_800E0739 call, not part of either arm). This ending
-                 * then jumps into the SAME shared func_80099290(text,
-                 * text) / func_800A5720 / func_800A56E0 / "return 1" tail
-                 * the kind dispatch below also reaches (retail has only
-                 * ONE physical "jal func_80099290" instance for all four
-                 * endings). Previously spelled as fake externs
-                 * func_80094364()/func_800944CC() whose "return" never
-                 * actually escaped the function -- the real control flow
-                 * always ends in "return 1". */
-                msg = func_800990FC((s32)hdr3);
+                /* Format the selected outcome, then terminate the message. */
+                msg = func_800990FC();
                 text = func_80099194(&D_800E0726, msg);
                 if (((Rec_func_8008ACDC_arg0 *)actor)->unk_8A != 0) {
                     hdr = &D_800E05F0;
@@ -100,9 +86,8 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
                 }
                 text = func_80099194(hdr, text);
                 call_result = func_80099194(&D_800E0739, text - 3);
-                ASM_SET(text);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                hdr3 = (M2C_UNK *)(call_result);
-                goto call_290;
+                func_80099290(call_result);
+                goto finish;
             }
             func_80094E34();
             D_80082E80.unk_030 = 0;
@@ -113,48 +98,35 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
         kind = func_8009402C(actor, param_a, param_b, &out_a, &out_b, item);
         hdr3 = (M2C_UNK *)((s32) actor);
         if (kind != 0) {
-            msg = func_800990FC((s32)hdr3);
+            msg = func_800990FC();
             if (kind == 1) {
                 kind = item->unk_03 & 0x1F;
                 text = func_80099194(&D_800E0747, msg);
                 text = func_8009929C(0xA, text);
                 call_result = func_80099734(D_800E3DF0[kind], text);
-                hdr3 = &D_800E0766;
+                text = func_80099194(&D_800E0766, call_result);
+            } else if (kind == 2) {
+                text = func_80099194(&D_800E0769, msg);
+                if ((s16)slot != 0)
+                    hdr = &D_800E05F0;
+                else
+                    hdr = &D_800E05E1;
+                text = func_80099194(hdr, text);
+                text = func_80099194(&D_800E077C, text - 3);
             } else {
-                if (kind == 2) {
-                    text = func_80099194(&D_800E0769, msg);
-                    if ((s16) slot != 0) {
-                        hdr = &D_800E05F0;
-                    } else {
-                        hdr = &D_800E05E1;
-                    }
-                    text = func_80099194(hdr, text);
-                    hdr3 = &D_800E077C;
-                    text -= 3;
-                    goto call3;
-                }
                 bits = item->unk_03 & 0x1F;
                 call_result = func_80099734(D_800E3DF0[bits], msg);
-                hdr3 = &D_800E078A;
+                text = func_80099194(&D_800E078A, call_result);
             }
-            text = call_result;
-call3:
-                        /* one physical "jal func_80099194(hdr3,.)" call shared by all
-             * three arms above (each pre-selects hdr3 and text, then
-             * merges here). */
-            text = func_80099194(hdr3, text);
-            hdr3 = (M2C_UNK *)(text);
-call_290:
-                        /* one physical "jal func_80099290(text,text)" call shared
-             * by ALL FOUR endings (the single-arg I-block ending above jumps
-             * straight here too), followed by the shared finish tail. */
-            func_80099290((s32)hdr3, text);
+
+            /* The three outcomes share the termination and display tail. */
+            func_80099290(text);
 finish:
             func_800A5720(msg);
             func_800A56E0(0x506);
             return 1;
         }
-        ((Rec_func_8008ACDC_arg0 *)actor)->unk_C8 = 0;
+        ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
         D_80082E80.unk_030 = (s32) item;
         func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
         func_80094E34();

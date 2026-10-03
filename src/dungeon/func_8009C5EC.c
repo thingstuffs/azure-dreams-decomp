@@ -38,13 +38,12 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
     s32 slot;
     s32 message;
     s32 text_end;
-    s32 effect_id;
     s32 old_stat;
     s32 level_product;
     s32 level_product_2;
 
     if (((u8 *)entity_data)[0x11] < 99U) {
-        register s32 stat_gain_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 stat_gain_m;
         level = ((u8 *)entity_data)[0x11];
         species_id = ((u8 *)entity_data)[0x13];
         ((u8 *)entity_data)[0x11] = level + 1;
@@ -141,7 +140,6 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
         {
             s32 base_stat;
             s32 old_scaled;
-            s32 new_scaled;
             s32 new_stat;
             s32 stat;
             s32 old_value;
@@ -154,12 +152,12 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = slot * level;
+            stat_gain_m = slot * level;
             old_stat = initial_stats[0] + (old_scaled >> 6);
-            if (new_scaled < 0) {
-                new_scaled += 0x3F;
+            if (stat_gain_m < 0) {
+                stat_gain_m += 0x3F;
             }
-            new_stat = initial_stats[0] + (new_scaled >> 6);
+            new_stat = initial_stats[0] + (stat_gain_m >> 6);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
@@ -325,11 +323,11 @@ loop_0:
                 D_800DCF4F[0] = 1;
                 dungeonStatus.unk_0A++;
             }
-            effect_id = 0x8003;
+            stat_gain_m = 0x8003;
             if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
-                effect_id = 0x8002;
+                stat_gain_m = 0x8002;
             }
-            func_800B4C7C(effect_id, ((u8 *)entity_data), -2, 1);
+            func_800B4C7C(stat_gain_m, ((u8 *)entity_data), -2, 1);
 
             message = func_800990FC();
             text_end = func_80099194(&D_800E0953, message);

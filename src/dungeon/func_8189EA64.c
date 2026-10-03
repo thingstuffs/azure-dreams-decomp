@@ -22,6 +22,7 @@ typedef struct S_80024264_1 {
 /* Advances the timed state sequence and updates the record channels and packed values. */
 void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
 {
+    s16 word_or_frame;
     s16 state;
     s32 next_high_word;
     S_80024264_1 *owner;
@@ -36,18 +37,17 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
     case 0:
     {
         u8 channel_value;
-        u16 high_word;
         u16 low_word;
 
         channel_value = record->unk_0C.at02_u8.v;
-        high_word = record->unk_1C.at02_u16.v;
+        word_or_frame = record->unk_1C.at02_u16.v;
         channel_value++;
         record->unk_0C.at02_u8.v = channel_value;
         record->unk_0C.at01_u8.v = channel_value;
         record->unk_0C.at00_u8.v = channel_value;
         low_word = record->unk_1C.at00_u16.v;
-        high_word += 0x10;
-        record->unk_1C.at02_u16.v = high_word;
+        word_or_frame += 0x10;
+        record->unk_1C.at02_u16.v = word_or_frame;
         low_word += 0x100;
         record->unk_1C.at00_u16.v = low_word;
         break;
@@ -72,15 +72,14 @@ void func_80024264(S_80024264_0 *sequence, s32 unused, Rec_D_80082E80 *record)
     case 2:
     {
         u8 channel_value;
-        s32 frame;
 
         channel_value = record->unk_0C.at02_u8.v + 6;
         record->unk_0C.at02_u8.v = channel_value;
         record->unk_0C.at01_u8.v = channel_value;
         record->unk_0C.at00_u8.v = channel_value;
-        frame = sequence->unk_02.s;
+        word_or_frame = sequence->unk_02.s;
 
-        next_high_word = (frame + 0x10) << 8;
+        next_high_word = (word_or_frame + 0x10) << 8;
         record->unk_1C.at02_u16.v = next_high_word;
         break;
     }

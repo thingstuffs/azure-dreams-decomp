@@ -301,7 +301,6 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     s32 accel_y;
     s32 base_travel;
     s32 elapsed_steps;
-    s32 trail_count;
     s32 burst_count;
     s32 distance_sum;
     s32 distance_y_abs;
@@ -313,6 +312,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     u16 steps_left;
     s32 probe_y_full;
     s32 probe_y;
+    s32 probe_x;
     u16 sprite_flags;
     S_8182C800_18 *burst_motion_x;
     S_8182C800_19 *burst_motion_y;
@@ -384,13 +384,12 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                 sprite_or_step_x = 0;
                 while (distance_sum < func_800A3820(5)) {
                     tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
-                    ASM_KEEP_NV(tile_origin_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    distance_x = tile_origin_x + 0x20;
+                    burst_count = tile_origin_x + 0x20;
                     tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
                     probe_y_full = tile_origin_y + 0x20;
                     probe_y = (u16) probe_y_full;
-                    distance_x = (u16)distance_x;
-                    if ((func_800A4688(distance_x, probe_y, func_800BCB04(distance_x, probe_y, -0x400),
+                    probe_x = (u16)burst_count;
+                    if ((func_800A4688(probe_x, probe_y, func_800BCB04(probe_x, probe_y, -0x400),
                         ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
                         break;
                     }
@@ -486,7 +485,7 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
         }
         return;
     case 1:
-        trail_count = 0x14;
+        distance_x = 0x14;
         trail_texture = D_800DEC28;
 spawn_trail:
         object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
@@ -563,8 +562,8 @@ spawn_trail:
             goto next_trail;
         }
 next_trail:
-        trail_count -= 1;
-        if (trail_count < 0) {
+        distance_x -= 1;
+        if (distance_x < 0) {
             ((S_8182C800_5 *)motion)->unk_0C = (s32) (((S_8182C800_5 *)motion)->unk_0C
                 - (*(s32 *)&((EntityRec *)effect)->unk_44));
             ((S_8182C800_5 *)motion)->unk_10 = (s32) (((S_8182C800_5 *)motion)->unk_10

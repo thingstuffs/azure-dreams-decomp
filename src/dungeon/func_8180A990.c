@@ -161,7 +161,7 @@ extern void func_80044A50(void *);
 extern void func_8004E130(void);
 extern void *func_800A0B94(s32, s32, s32);
 extern s32 func_800A1618(s32, s32);
-extern void func_8009A028(void *, s32);
+extern void func_8009A028(void *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800BC318(void *);
 
@@ -183,18 +183,16 @@ void func_80026190(void *owner)
     s32 signed_kind;
     s32 shifted_kind;
     s32 parent_value;
-    s32 fail_flags;
     s32 entity_flags;
     s32 flags_mask;
     s32 clear_pairs_left;
-    s32 clear_mask;
     u16 spawn_bits;
     u16 owner_bits;
     u16 child_bits;
     u16 alloc_bits;
     s32 cleanup_flags;
     s32 alloc_flags;
-    register void *entity_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register void *entity_arg;
     void *child;
     u8 *status_page;
     s32 mode;
@@ -208,7 +206,7 @@ void func_80026190(void *owner)
     void *child_object;
     void *alloc_container;
     void *setup_container;
-    void *setup_child;
+    union { void *pointer; s32 value; } mask_work;
     void *spawn_container;
     void *spawn_child;
     void *spawn_resource;
@@ -278,12 +276,12 @@ void func_80026190(void *owner)
         cleanup_page = (u8 *)0x80080000;
         ((S_80026190_7_pre *)setup_container)[-1].unk_00 = owner_bits | 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
-        setup_child = ((S_80026190_5 *)child)->unk_08;
+        mask_work.pointer = ((S_80026190_5 *)child)->unk_08;
         cleanup_flags = ((S_80026190_8 *)cleanup_page)->unk_14A0;
-        child_bits = ((S_80026190_9 *)setup_child)->unk_1E;
+        child_bits = ((S_80026190_9 *)mask_work.pointer)->unk_1E;
         cleanup_flags |= 0x8000;
         ((S_80026190_8 *)cleanup_page)->unk_14A0 = cleanup_flags;
-        ((S_80026190_9 *)setup_child)->unk_1E = child_bits | 0x8000;
+        ((S_80026190_9 *)mask_work.pointer)->unk_1E = child_bits | 0x8000;
         ((S_80026190_5 *)child)->unk_08 = NULL;
         return;
     }
@@ -338,11 +336,11 @@ void func_80026190(void *owner)
             parent_value = ((S_80026190_15 *)flag_page)->unk_14A0.s;
             entity_arg = ((S_80026190_5 *)child)->unk_0C;
             ((S_80026190_5 *)child)->unk_14 = NULL;
-            fail_flags = parent_value | 0x8000;
-            ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
+            flags_mask = parent_value | 0x8000;
+            ((S_80026190_15 *)flag_page)->unk_14A0.u = flags_mask;
             if (entity_arg != NULL) {
                 spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
-                ((S_80026190_15 *)flag_page)->unk_14A0.s = fail_flags;
+                ((S_80026190_15 *)flag_page)->unk_14A0.s = flags_mask;
                 ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
                 ((S_80026190_5 *)child)->unk_0C = NULL;
             }
@@ -360,20 +358,15 @@ void func_80026190(void *owner)
             ((u8 *)entity)[clear_pairs_left * 2 + 0x2D] = 0;
         }
 
-        clear_mask = 0xBFFFFFFF;
-        ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        mask_work.value = 0xBFFFFFFF;
         entity_arg = entity;
         entity_flags = 0x64;
         ((S_80026190_17 *)entity)->unk_25 = entity_flags;
         ((S_80026190_17 *)entity)->unk_88 = 0;
-        entity_flags = ((S_80026190_17 *)entity)->unk_1C;
-        flags_mask = ~0x1EF8;
-        entity_flags &= flags_mask;
-        entity_flags &= clear_mask;
-        flags_mask = 0x40000;
-        entity_flags |= flags_mask;
-        ((S_80026190_17 *)entity)->unk_1C = entity_flags;
-        func_8009A028(entity_arg, clear_mask);
+        ((S_80026190_17 *)entity)->unk_1C &= ~0x1EF8;
+        ((S_80026190_17 *)entity)->unk_1C &= mask_work.value;
+        ((S_80026190_17 *)entity)->unk_1C |= 0x40000;
+        func_8009A028(entity_arg);
 
         flags_mask = ((S_80026190_10 *)source)->unk_14;
         parent = ((S_80026190_17_pre *)entity)[-1].unk_00;

@@ -107,7 +107,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
     position->unk_08 = (s32) (position->unk_08 + vertical_speed);
     elapsed_frames = ((S_800CB9DC_0 *)trap_state_in)->unk_06 + 1;
     ((S_800CB9DC_0 *)trap_state_in)->unk_06 = elapsed_frames;
-    if (((s16) elapsed_frames >= 0x41) || ((animation->unk_14 & 0x8000) != 0)) {
+    if (((s16) elapsed_frames >= 0x41) || ((animation_in = (void *)(u32)(animation->unk_14 & 0x8000), (u32)animation_in) != 0)) {
         if (actor == ((u8 *)D_800E3D7C)) {
             s16 *trap_counts;
             u8 transition_id;
@@ -126,9 +126,8 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 transition_page = (u8 *)D_80080000;
                 trap_counts = D_80081468;
                 transition_id = transition_page[0x2E6B];
-                floors_ascended = motion_state->unk_234;
+                floors_ascended = motion_state->unk_234 + 1;
                 go_up_trap_count = ((S_800CB9DC_5 *)trap_counts)->unk_04;
-                floors_ascended++;
                 go_up_trap_count++;
                 motion_state->unk_234 = floors_ascended;
                 ((S_800CB9DC_5 *)trap_counts)->unk_04 = go_up_trap_count;
@@ -163,9 +162,8 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 actor_counts = &dungeonStatus;
                 removal_flags = ((S_800CB9DC_1_pre *)actor)[-1].unk_16;
                 ((S_800CB9DC_1_pre *)actor)[-1].unk_16 = removal_flags | 0x8000;
-                global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0;
+                global_flags = ((S_800CB9DC_7 *)status_page)->unk_14A0 | 0x8000;
                 actor_count = ((u16)actor_counts->unk_0A);
-                global_flags |= 0x8000;
                 actor_count--;
                 ((S_800CB9DC_7 *)status_page)->unk_14A0 = global_flags;
                 actor_counts->unk_0A = actor_count;
@@ -185,6 +183,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
         }
     }
 }
-/* MECHANISM: Pinned long-lived args reproduce the s3/s0/s2 prologue, with keeps after the first call.
-   Split RMW locals and ABI-pinned call args recover both interleaved load/store schedules.
-   Held page bases plus a symbolic D_80083460 base and dead-$a1 clobber force the final rematerialization. */
+/* The incoming animation parameter is reused for the masked condition value.
+ * Combining that mask leaves the halfword load in a temporary; the earlier
+ * references still put the animation pointer before trap_state in allocation.
+ * Fused load/update expressions give the two counter blocks their local order. */

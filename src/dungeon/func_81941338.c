@@ -50,7 +50,6 @@ static __inline__ void *prepare_burst(void *p, void *script, void *animation) {
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
 void func_81941338(void *effect, void *effect_pos, void *effect_data)
 {
-    register void *effect_base ASM_REG("$21") = effect;
     void *position = effect_pos;
     register void *effect_context ASM_REG("$18") = effect_data;
     u32 neutral_color;
@@ -76,11 +75,11 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 component;
     u32 bits;
     u32 bits_2;
+    u32 mode_a = 0;
+    u32 mode_b = 0;
 
-    ASM_KEEP_NV(effect_base);
-
-    F(effect_base, u16, 0x2A) = (u16)(F(effect_base, u16, 0x2A) + 1);
-    state = F(effect_base, s16, 0xA);
+    F(effect, u16, 0x2A) = (u16)(F(effect, u16, 0x2A) + 1);
+    state = F(effect, s16, 0xA);
     effect_context = effect_data;
     switch (state) {
     case 0:
@@ -88,39 +87,39 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
         initial_color = 0x00808080;
         F(D_800814A8, s32, 0xF4) = 0;
         F(((u8 *)(&D_80082E80)), u16, 6) = 6;
-        F(effect_base, void *, 0x64) = func_800249F0(effect_base, position, effect_context, D_80025704,
+        F(effect, void *, 0x64) = func_800249F0(effect, position, effect_context, D_80025704,
                                                      enabled, 0x1000, 0x1000, initial_color);
-        F(effect_base, void *, 0x68) = func_800249F0(effect_base, position, effect_context, D_80025710,
+        F(effect, void *, 0x68) = func_800249F0(effect, position, effect_context, D_80025710,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
-        old_state = F(effect_base, u16, 0xA);
+        old_state = F(effect, u16, 0xA);
         F(D_8002571C, u16, 0) = (u16)enabled;
-        F(effect_base, u16, 0xA) = (u16)(old_state + 1);
+        F(effect, u16, 0xA) = (u16)(old_state + 1);
 
     case 1:
-        if ((F(F(effect_base, void *, 4), u16, 0) & 0x80) == 0) {
+        if ((F(F(effect, void *, 4), u16, 0) & 0x80) == 0) {
             return;
         }
-        init_object = effect_base;
+        init_object = effect;
         {
             void *actor = D_800814A8;
-            F(effect_base, u16, 0x20) = (u16)((u32)(0x14));
+            F(effect, u16, 0x20) = (u16)((u32)(0x14));
             F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
-            F(actor, u8, 0xA8) = F(effect_base, u8, 8);
+            F(actor, u8, 0xA8) = F(effect, u8, 8);
         }
         component = F(D_800814A8, u16, 0x2A);
-        F(effect_base, u16, 0xA) = (u16)(F(effect_base, u16, 0xA) + 1);
-        F(effect_base, u16, 0x26) = (u16)component;
+        F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
+        F(effect, u16, 0x26) = (u16)component;
         func_800243D8(init_object, position, effect_context);
-        if (F(effect_base, void *, 0x68) != 0) {
+        if (F(effect, void *, 0x68) != 0) {
             texture_rect[0] = 0x340;
             texture_rect[1] = 0x100;
             texture_rect[2] = 0x40;
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect_base, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
+            func_800B8FC8(F(effect, void *, 0x68), texture_rect, &texture_rect[4], 0, 1);
         }
-        if (F(effect_base, void *, 0x64) == 0) {
+        if (F(effect, void *, 0x64) == 0) {
             return;
         }
         {
@@ -130,52 +129,51 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
             texture_rect[3] = 0x40;
             texture_rect[4] = 0x360;
             texture_rect[5] = 0x120;
-            func_800B8FC8(F(effect_base, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
+            func_800B8FC8(F(effect, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
         }
         return;
 
     case 2:
-        timer = (s16)((u16)F(effect_base, u16, 0x20) - 1);
-        F(effect_base, u16, 0x20) = (u16)timer;
+        timer = (s16)((u16)F(effect, u16, 0x20) - 1);
+        F(effect, u16, 0x20) = (u16)timer;
         if (timer <= 0) {
-            F(effect_base, u16, 0x20) = 0x10;
-            F(effect_base, u16, 0xA) = (u16)(F(effect_base, u16, 0xA) + 1);
+            F(effect, u16, 0x20) = 0x10;
+            F(effect, u16, 0xA) = (u16)(F(effect, u16, 0xA) + 1);
         }
-        if (F(effect_base, s16, 0x20) == 0x13) {
+        if (F(effect, s16, 0x20) == 0x13) {
             if (func_80053EF0(4) != 2) {
                 func_800A56E0(0x300);
             } else {
                 func_800A56E0(0x4300);
             }
         }
-        if (F(effect_base, s16, 0x20) >= 11) {
+        if (F(effect, s16, 0x20) >= 11) {
             goto emit_flash;
         }
         {
             u8 *dungeon = ((u8 *)(&D_80082E80));
             if (func_8003DF74(F(dungeon, void *, 8), dungeon,
-                              (u8 *)effect_base + 0xC, 0) == 0) {
+                              (u8 *)effect + 0xC, 0) == 0) {
                 goto emit_flash;
             }
         }
         particle_index = 0;
-loop_0:
+        do
         {
             bits = (u32)func_80069EF8();
             particle_color = 0x200000;
             particle_alpha = particle_alpha_from_random(bits);
-            particle_level = F(effect_base, s16, 0x26);
-            particle_x = F(effect_base, s16, 0xC);
+            particle_level = F(effect, s16, 0x26);
+            particle_x = F(effect, s16, 0xC);
             particle_color |= 0x20F0;
             func_80024798((u8 *)D_800814A8 - 0x20,
                           particle_level, particle_color,
                           particle_alpha,
-                          particle_x, F(effect_base, s16, 0xE),
-                          F(effect_base, s16, 0x10));
+                          particle_x, F(effect, s16, 0xE),
+                          F(effect, s16, 0x10));
             particle_index++;
         }
-        if (particle_index < 4)
-            goto loop_0;
+        while (particle_index < 4);
         particle_index = 0;
         spawn_data = D_8002492C;
         world_offset = &D_80083780;
@@ -193,9 +191,9 @@ loop_1:
                 if ((func_80069EF8() & 1) == 0) {
                     F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                 }
-                F(position, u16, 2) = F(effect_base, u16, 0xC);
-                F(position, u16, 6) = F(effect_base, u16, 0xE);
-                F(position, u16, 0xA) = F(effect_base, u16, 0x10);
+                F(position, u16, 2) = F(effect, u16, 0xC);
+                F(position, u16, 6) = F(effect, u16, 0xE);
+                F(position, u16, 0xA) = F(effect, u16, 0x10);
                 F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
                 F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
                 F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
@@ -243,33 +241,33 @@ loop_1:
         }
         if (particle_index < 4)
             goto loop_1;
-        if (F(effect_base, s16, 0x20) < 6) {
-            F(effect_base, s16, 0x18) =
-                (F(effect_base, s16, 0xC) + F(effect_base, s16, 0x12)) / 2;
-            F(effect_base, s16, 0x1A) =
-                (F(effect_base, s16, 0xE) + F(effect_base, s16, 0x14)) / 2;
-            F(effect_base, s16, 0x1C) =
-                (F(effect_base, s16, 0x10) + F(effect_base, s16, 0x16)) / 2;
+        if (F(effect, s16, 0x20) < 6) {
+            F(effect, s16, 0x18) =
+                (F(effect, s16, 0xC) + F(effect, s16, 0x12)) / 2;
+            F(effect, s16, 0x1A) =
+                (F(effect, s16, 0xE) + F(effect, s16, 0x14)) / 2;
+            F(effect, s16, 0x1C) =
+                (F(effect, s16, 0x10) + F(effect, s16, 0x16)) / 2;
             particle_index = 0;
             do {
                 bits = (u32)func_80069EF8();
                 particle_color = 0x200000;
                 particle_alpha = particle_alpha_from_random(bits);
-                particle_level = F(effect_base, s16, 0x26);
-                particle_x = F(effect_base, s16, 0x18);
+                particle_level = F(effect, s16, 0x26);
+                particle_x = F(effect, s16, 0x18);
                 particle_color |= 0x20F0;
                 func_80024798((u8 *)D_800814A8 - 0x20,
                               particle_level, particle_color,
                               particle_alpha,
-                              particle_x, F(effect_base, s16, 0x1A),
-                              F(effect_base, s16, 0x1C));
+                              particle_x, F(effect, s16, 0x1A),
+                              F(effect, s16, 0x1C));
                 particle_index++;
             } while (particle_index < 4);
             particle_index = 0;
             spawn_data = D_8002492C;
             world_offset = &D_80083780;
             effect_context = 0x80;
-loop_4:
+            do
             {
                 particle = func_8003FC64(0x212);
                 if (particle != 0) {
@@ -282,9 +280,9 @@ loop_4:
                     if ((func_80069EF8() & 1) == 0) {
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                     }
-                    F(position, u16, 2) = F(effect_base, u16, 0x18);
-                    F(position, u16, 6) = F(effect_base, u16, 0x1A);
-                    F(position, u16, 0xA) = F(effect_base, u16, 0x1C);
+                    F(position, u16, 2) = F(effect, u16, 0x18);
+                    F(position, u16, 6) = F(effect, u16, 0x1A);
+                    F(position, u16, 0xA) = F(effect, u16, 0x1C);
                     F(position, u16, 2) = (u16)(F(position, u16, 2) + F(world_offset, u16, 2));
                     F(position, u16, 6) = (u16)(F(position, u16, 6) + F(world_offset, u16, 6));
                     F(position, u16, 0xA) = (u16)(F(position, u16, 0xA) + F(world_offset, u16, 0xA));
@@ -313,7 +311,8 @@ loop_4:
                         if (particle_index != 0) {
                             void *animation = D_800DED28;
                             void *anim_context = 0;
-                            F((void *)neutral_color, u16, 0x10) = (u16)0x20;
+                            mode_a = 0x20;
+                            F((void *)neutral_color, u16, 0x10) = mode_a;
                             F((void *)neutral_color, u16, 0x1E) = 0x1000;
                             F((void *)neutral_color, u16, 0x1C) = 0x1000;
                             F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
@@ -325,7 +324,8 @@ loop_4:
                             void *anim_context = 0;
                             F((void *)neutral_color, u16, 0x1E) = 0x2000;
                             F((void *)neutral_color, u16, 0x1C) = 0x2000;
-                            F((void *)neutral_color, u16, 0x10) = (u16)0x20;
+                            mode_b = 0x20;
+                            F((void *)neutral_color, u16, 0x10) = mode_b;
                             F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
                             F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
                             F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
@@ -335,19 +335,18 @@ loop_4:
                 }
                 particle_index++;
             }
-            if (particle_index < 4)
-                goto loop_4;
+            while (particle_index < 4);
         }
         {
-            bits = F(effect_base, u16, 0xC);
-            component = F(effect_base, u16, 0xE);
-            effect = F(effect_base, u16, 0x10);
-            F(effect_base, u16, 0x12) = (u16)bits;
-            F(effect_base, u16, 0x14) = (u16)component;
-            F(effect_base, u16, 0x16) = (u16)effect;
+            bits = F(effect, u16, 0xC);
+            component = F(effect, u16, 0xE);
+            neutral_color = F(effect, u16, 0x10);
+            F(effect, u16, 0x12) = (u16)bits;
+            F(effect, u16, 0x14) = (u16)component;
+            F(effect, u16, 0x16) = (u16)neutral_color;
         }
 emit_flash:
-        if (F(effect_base, s16, 0x20) != 11) {
+        if (F(effect, s16, 0x20) != 11) {
             return;
         }
         particle = func_8003FC64(0x212);
@@ -376,10 +375,10 @@ emit_flash:
         {
             u8 *dungeon = ((u8 *)(&D_80082E80));
             if (func_8003DF74(F(dungeon, void *, 8), dungeon,
-                              (u8 *)effect_base + 0xC, 0) != 0) {
-                F(position, u32, 0) += (u32)(F(effect_base, s16, 0xC) << 16);
-                F(position, u32, 4) += (u32)(F(effect_base, s16, 0xE) << 16);
-                F(position, u32, 8) += (u32)(F(effect_base, s16, 0x10) << 16);
+                              (u8 *)effect + 0xC, 0) != 0) {
+                F(position, u32, 0) += (u32)(F(effect, s16, 0xC) << 16);
+                F(position, u32, 4) += (u32)(F(effect, s16, 0xE) << 16);
+                F(position, u32, 8) += (u32)(F(effect, s16, 0x10) << 16);
             }
         }
         sprite = F(particle, void *, 0xC);
@@ -393,7 +392,7 @@ emit_flash:
         return;
 
     case 3:
-        if (F(effect_base, s16, 0x20) >= 13) {
+        if (F(effect, s16, 0x20) >= 13) {
             particle_index = 0;
             particle_script = D_8002492C;
             spawn_data = ((u8 *)(&D_80082E80));
@@ -410,33 +409,33 @@ emit_flash:
                         F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 1);
                     }
                     position = F(particle, void *, 8);
-                    if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect_base + 0xC, 0) != 0) {
-                        F(effect_base, u16, 0xC) = (u16)(F(effect_base, u16, 0xC) + F(world_offset, u16, 2));
-                        F(effect_base, u16, 0xE) = (u16)(F(effect_base, u16, 0xE) + F(world_offset, u16, 6));
-                        F(effect_base, u16, 0x10) = (u16)(F(effect_base, u16, 0x10) + F(world_offset, u16, 0xA));
+                    if (func_8003DF74(F(spawn_data, void *, 8), spawn_data, (u8 *)effect + 0xC, 0) != 0) {
+                        F(effect, u16, 0xC) = (u16)(F(effect, u16, 0xC) + F(world_offset, u16, 2));
+                        F(effect, u16, 0xE) = (u16)(F(effect, u16, 0xE) + F(world_offset, u16, 6));
+                        F(effect, u16, 0x10) = (u16)(F(effect, u16, 0x10) + F(world_offset, u16, 0xA));
                         if (particle_index != 0) {
                             F(effect_context, s16, 0x2A) = 8;
                             F(sprite, u16, 0x10) = 0x20;
                             bits = (u32)func_80069EF8() & 0x3F;
-                            component = F(effect_base, u16, 0xC);
+                            component = F(effect, u16, 0xC);
                             component -= 0x20;
                             component += bits;
-                            F(effect_base, u16, 0xC) = (u16)component;
+                            F(effect, u16, 0xC) = (u16)component;
                             bits = (u32)func_80069EF8() & 0x3F;
-                            component = F(effect_base, u16, 0xE);
+                            component = F(effect, u16, 0xE);
                             component -= 0x20;
                             component += bits;
-                            F(effect_base, u16, 0xE) = (u16)component;
+                            F(effect, u16, 0xE) = (u16)component;
                             bits = (u32)func_80069EF8() & 0x3F;
-                            component = F(effect_base, u16, 0x10);
+                            component = F(effect, u16, 0x10);
                             component -= 0x20;
                             component += bits;
-                            F(effect_base, u16, 0x10) = (u16)component;
+                            F(effect, u16, 0x10) = (u16)component;
                         }
                     }
-                    F(position, u16, 2) = F(effect_base, u16, 0xC);
-                    F(position, u16, 6) = F(effect_base, u16, 0xE);
-                    F(position, u16, 0xA) = F(effect_base, u16, 0x10);
+                    F(position, u16, 2) = F(effect, u16, 0xC);
+                    F(position, u16, 6) = F(effect, u16, 0xE);
+                    F(position, u16, 0xA) = F(effect, u16, 0x10);
                     sprite = F(particle, void *, 0xC);
                     F(sprite, u16, 0x1E) = 0x1000;
                     F(sprite, u16, 0x1C) = 0x1000;
@@ -459,24 +458,24 @@ emit_flash:
                 F(animation_m, u32, 0x1C) |= 0x10000000;
                 {
                     model_color = F(animation_m, void *, -20);
-                    fade = F(effect_base, s16, 0x20) * 0x7F;
+                    fade = F(effect, s16, 0x20) * 0x7F;
                     if (fade < 0) {
                         fade += 15;
                     }
                     F(model_color, s8, 0xC) = (s8)((fade >> 4) - 0x80);
-                    fade = (16 - F(effect_base, s16, 0x20)) << 3;
+                    fade = (16 - F(effect, s16, 0x20)) << 3;
                     F(model_color, s8, 0xE) = (s8)fade;
                     F(model_color, s8, 0xD) = (s8)fade;
                 }
             }
         }
         if ((F(((u8 *)(&D_80082E80)), u16, 0x14) & 0x8000) == 0) {
-            F(effect_base, u16, 0x20) = (u16)(F(effect_base, u16, 0x20) - 1);
-            if (F(effect_base, s16, 0x20) >= 0) {
+            F(effect, u16, 0x20) = (u16)(F(effect, u16, 0x20) - 1);
+            if (F(effect, s16, 0x20) >= 0) {
                 return;
             }
         }
-        F(effect_base, u16, 0xA) = 4;
+        F(effect, u16, 0xA) = 4;
         return;
 
     case 4:
@@ -498,7 +497,7 @@ emit_flash:
                 F(((u8 *)(&D_80082E80)), u16, 6) = 0;
                 dungeon_state->unk_0A = (u16)(bits_2 - 1);
             }
-            F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
+            F(effect, u16, -2) = (u16)(F(effect, u16, -2) | 0x8000);
             objectFlagBlock.flags |= 0x8000;
             return;
         }

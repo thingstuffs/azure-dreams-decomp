@@ -9,9 +9,11 @@ s32 func_80021EE0(void *save_data) {
     checksum = 0;
     data_word = (s32 *) ((u8 *) save_data + 0x208);
     word_index = checksum;
-    do {
+    for (;;) {
         checksum ^= *data_word++;
         word_index += 1;
-    } while (word_index < 6014);
+        if (word_index < 6014) continue;
+        break;
+    }
     return (*(s32 *) ((u8 *) save_data + 0x204) ^ checksum) == 0;
 }

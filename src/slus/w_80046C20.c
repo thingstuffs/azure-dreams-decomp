@@ -12,9 +12,9 @@ s32 func_80046C20(s32 bottom_vertex, s32 *edges, u16 *edge_count) {
     s32 top_vertex;
     s16 *vertices = (s16 *)bottom_vertex;
     s32 top_y;     /* a3 */
-    register s32 edge_value ASM_REG("$2");    /* v0 */
+    s32 edge_value;
     s32 *edge_x;
-    s32 height;
+    s32 edge_scratch;
     s32 signed_dx;
 
     edge_x = edges;
@@ -53,24 +53,23 @@ loop_0:
 
             bottom_vertex <<= 3;
             bottom_vertex += (s32)vertices;
-            height = ((s16 *)bottom_vertex)[1] - top_y;
-            edge_state[-4] = height;
+            edge_scratch = ((s16 *)bottom_vertex)[1];
+            edge_scratch -= top_y;
+            edge_state[-4] = edge_scratch;
             ASM_MEM_BARRIER();
-            edge_value = height;
+            edge_value = edge_scratch;
             ASM_USE(edge_value);
             edge_value <<= 7;
-            edge_state[-3] = height;
+            edge_state[-3] = edge_scratch;
             edge_state[-6] = edge_value;
 
-                                    /* reuse edge_value ($v0) for dx so lh lands in v0 like retail */
             edge_value = ((s16 *)bottom_vertex)[0];
-            edge_value = edge_value - *edge_x;
+            edge_scratch = *edge_x;
+            edge_value = edge_value - edge_scratch;
             edge_state[-2] = edge_value;
-            signed_dx = *(volatile s32 *)&edge_state[-2];
-            if (edge_value < 0) {
-                edge_value = -edge_value;
-            }
+            edge_value = __builtin_abs(edge_value);
             edge_state[1] = edge_value;
+            signed_dx = edge_state[-2];
             edge_state[-5] = edge_value << 7;
             if (signed_dx > 0) {
                 edge_state[-2] = 0x40;
