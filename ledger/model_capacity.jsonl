@@ -314,3 +314,5 @@
 {"date": "2026-10-03T04:36Z", "codex": {"pack": "r91_goto_g6", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
 {"date": "2026-10-03T04:37Z", "codex": {"pack": "r91_sol61_p12", "model": "gpt-6.1-sol", "candidates": 0}, "note": "r91 sol61 1-pin"}
 {"date": "2026-10-03T04:39Z", "codex": {"pack": "r91c_astra_al4", "model": "gpt-6-astra", "candidates": 2}, "note": "r91c alignment wave 2"}
+{"date": "2026-10-03T04:45Z", "codex": {"pack": "r91_goto_g9", "model": "gpt-6.1-sol", "candidates": 6}, "note": "r91 goto readability (sol61)"}
+{"date": "2026-10-03T04:51Z", "codex": {"pack": "r91_sol61_p13", "model": "gpt-6.1-sol", "candidates": 0}, "note": "r91 sol61 1-pin"}
