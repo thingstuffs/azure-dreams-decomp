@@ -1,3 +1,23 @@
+# Handover (2026-10-03 ~00:20, round 91 codex wave RUNNING) - start here
+
+**401 pins / 161 rows** at launch. Claude budget low, codex quota full: the owner asked for minimal Claude effort
+directing astra + sol. Three pools (tools/lanes/pool.py, each lands itself through land_gap.sh with LAND_ISOLATED=1
+when it drains; logs `work/native_lane/_r91/pool_r91{a,b,s}.log`, pool PIDs in `_r91/pool_pids.txt`):
+
+- **r91a** astra c=3, 11 lanes `r91_astra_p1..p11`: the 25 multi-pin rows (75 pins) no astra/Opus lane served at their
+  current text (`served.py --strong-kit`), 800AFA68 alone in p1.
+- **r91b** astra c=3, 9 lanes `r91_astra_al1..al9`: **compiler alignment** - the 36 cdk-module rows the STATUS tracker
+  lists off their build (late cell / cdk+crutch flags / stock cell in a cdk module). Each lane's question
+  (`_r91/q_<lane>.md`) gives row -> TARGET (module recipe); stage-cell at the target, `--equal-pins` retires a crutch
+  on pin-free rows. The 19 "other mismatch" rows (stock flavour / -G) were left out.
+- **r91s** sol61 c=2, 15 lanes `r91_sol61_p1..p15`: the 44 one-pin rows of the same un-served list. Tidy NON_MATCHING
+  debris in sol61 texts if the landing refuses them.
+- pool.py gained the `sol61` key (gpt-6.1-sol, served tier sol6). Build script: `_r91/build.sh`; row lists `_r91/*.json`.
+
+**Owed after drain:** check each pool's land_gap result + gate, STATUS refresh, commit; harvest REPORT.md moves
+(cheap: let a sol lane draft it); second wave = the 92 rows strong lanes already served at current text (sol61/astra
+retry), and the 19 "other mismatch" alignment rows.
+
 # Handover (2026-10-02, round 90 coupled-center diagnosis) - start here
 
 **401 pins / 161 rows**, unchanged. `dungeon/func_80095160` still has three

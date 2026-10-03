@@ -81,11 +81,11 @@ import lane_cap  # noqa: E402  (round 76: per-lane caps, the band stop rule)
 
 # launch_lane.sh is canonical for these ids; repeated here only for the capacity probe.
 MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna",
-          "sol6": "gpt-6-sol", "luna6": "gpt-6-luna",
+          "sol6": "gpt-6-sol", "luna6": "gpt-6-luna", "sol61": "gpt-6.1-sol",
           "agy": os.environ.get("AGY_MODEL", "gemini-3.8-flash-high")}   # Gemini via the agy CLI (round 76)
 LIMIT_WORDS = ("usage limit", "quota", "rate limit", "resource_exhausted", "exhausted", "429")
 # the served-guard tier of each model key (tools/lanes/served.py, ledger.tier_of_model)
-TIER_OF = {"astra": "astra", "sol": "sol", "luna": "luna", "sol6": "sol6", "luna6": "luna6", "agy": "agy"}
+TIER_OF = {"astra": "astra", "sol": "sol", "luna": "luna", "sol6": "sol6", "luna6": "luna6", "sol61": "sol6", "agy": "agy"}
 CAPACITY = "ledger/model_capacity.jsonl"
 DEFAULT_CLASSES = "CHANGED|17-32,BOTH|17-32,CHANGED|3-4,MOVED|1-2"
 
