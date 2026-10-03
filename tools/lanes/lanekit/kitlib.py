@@ -215,6 +215,14 @@ def goto_count(text):
     return len(re.findall(r"\bgoto\s+\w+\s*;", t)) + len(re.findall(r"\bgoto\s*\*", t)) + len(re.findall(r"[{,=]\s*&&\s*[A-Za-z_]\w*", t))
 
 
+M2C_RX = re.compile(r"\bM2C_[A-Z_]+\b|\b(?:temp|var|phi)_[a-z][a-z0-9_]*\b|\barg[0-9]\b|\bsp[0-9A-F]{2,3}\b|\bNON_MATCHING\b")
+
+
+def m2c_count(t):
+    """Decompiler leftovers in a row's text, comments excluded (round 91 cleanup lanes)."""
+    return len(M2C_RX.findall(re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))))
+
+
 def admissible(base, cand, equal_pins=False):
     """[] when `cand` may be staged against `base`, else the reasons it may not.
 
@@ -232,6 +240,12 @@ def admissible(base, cand, equal_pins=False):
     # equal pins also stage when scaffolding fell (land_lanes.sh, round 78: volatile, while (0), __asm__) or
     # plain `goto` statements fell (round 80 readability lanes) - nothing banned may grow either way (below)
     scaffold_fell = any(len(rx.findall(cand)) < len(rx.findall(base)) for rx, _ in BANNED + ONE_TRIP)
+    # round 91 (luna cleanup lanes): equal pins also stage when decompiler leftovers fell (M2C_* tokens, temp_/var_/phi_
+    # locals, argN parameters, spXX stack names, NON_MATCHING) - the same measure land_lanes.sh lands on
+    mb, mc = m2c_count(base), m2c_count(cand)
+    scaffold_fell = scaffold_fell or mc < mb
+    if sum(c.values()) == sum(b.values()) and mc > mb:
+        bad.append("adds %d decompiler leftover(s) (M2C_/temp_/var_/phi_/argN/spXX/NON_MATCHING)" % (mc - mb))
     if sum(c.values()) > sum(b.values()) or (sum(c.values()) == sum(b.values()) and gc >= gb and not scaffold_fell
                                              and not equal_pins):
         bad.append("pin sites not reduced (%d -> %d), no scaffolding removed, gotos not reduced (%d -> %d)"
