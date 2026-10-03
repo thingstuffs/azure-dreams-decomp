@@ -322,7 +322,8 @@ def scan_lane(lane, served_ids, journal, root=ROOT, claimed=None):
     # An agy lane's BRIEF still says "(luna)" - the pack was built before launch_lane.sh sent it to agy -
     # so the empty agy.log outranks the title. The codex.log model line outranks both.
     if tier is None and (lane / "agy.log").exists():
-        tier = "agy"
+        am = lane / "agy_model.txt"                   # round 92: agy serves Claude too (claude-opus-5-5-high -> opus)
+        tier = (tier_of_model(am.read_text().strip()) if am.exists() else None) or "agy"
     brief = lane / "BRIEF.md"
     if brief.exists():
         with brief.open(errors="replace") as fh:

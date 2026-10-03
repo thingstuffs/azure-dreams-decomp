@@ -27,5 +27,13 @@
  "gpt-6.1-sol": {
   "tokens": 400000,
   "minutes": 75
+ },
+ "claude-opus-5-5-high": {
+  "tokens": 0,
+  "minutes": 160
+ },
+ "claude-sonnet-5-5-high": {
+  "tokens": 0,
+  "minutes": 130
  }
 }
