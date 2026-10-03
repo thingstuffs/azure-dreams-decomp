@@ -30,7 +30,7 @@ void func_803334D4(s32 slot_id)
             mode = entry[1];
             x = (entry[0] << 6) + position[0] + 0x20;
             y = position[1] - 0x40;
-            (*(TownCallback *)((u8 *)(D_80016000->unk_20) + 0x264))(
+            ((TownCallback)D_80016000->unk_20->callback_264)(
                 0xF,
                 mode,
                 x,

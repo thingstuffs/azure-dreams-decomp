@@ -4,11 +4,6 @@
 
 typedef s32 (*Callback)(s8 *);
 
-typedef struct Inner {
-    u8 pad[0x50];
-    Callback callback;
-} Inner;
-
 extern u32 D_80017FB8;
 
 /* Call the callback with fixed arguments and cache three quarters of its result. */
@@ -20,7 +15,7 @@ u32 func_8060127C(void) {
     callback_args[0] = 1;
     callback_args[2] = 0;
     callback_args[3] = 0;
-    scaled_result = (u32) (((Inner *)D_80016000->unk_20)->callback(callback_args) * 3) >> 2;
+    scaled_result = (u32) (D_80016000->unk_20->callback_050(callback_args) * 3) >> 2;
     D_80017FB8 = scaled_result;
     return scaled_result;
 }

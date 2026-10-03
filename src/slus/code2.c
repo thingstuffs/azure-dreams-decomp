@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -18,11 +19,11 @@ struct S_80082E60 {
     char field_18;
 };
 
-extern struct S_80082E60 D_80082E60;
+
 
 /* Stores the value in D_80082E60 and clears its two flag bytes. */
 void func_80040A88(int value) {
-    struct S_80082E60 *state = &D_80082E60;
+    struct S_80082E60 *state = ((struct S_80082E60 *)&D_80082E60);
 
     state->field_4 = value;
     state->field_D = 0;
@@ -265,7 +266,7 @@ extern void func_80040BB4(void);
 /* Copies field_B into field_18 of D_80082E60, then calls func_80040BB4. */
 void func_80040B88(void)
 {
-    D_80082E60.field_18 = D_80082E60.field_B;
+    D_80082E60.field_18 = ((signed char)D_80082E60.field_B);
     func_80040BB4();
 }
 
@@ -338,11 +339,6 @@ int func_8005C918(int unused, short index) {
 
 /* D_80084960 is an array of structs, each 0x9C (156) bytes; offset 0x1C
    holds a 32-bit field (getter func_8005C918 does a plain lw from +0x1C). */
-typedef struct {
-    u8 pad00[0x1C];
-    s32 unk1C;
-    u8 pad20[0x9C - 0x1C - 4];
-} EntryStruct; /* size 0x9C */
 
 /* Stores the low seven bits of value in the indexed D_80084960 entry. */
 void func_8005C94C(s32 unused, s16 index, s32 value) {

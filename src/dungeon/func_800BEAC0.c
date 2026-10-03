@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -15,7 +16,6 @@ M2C_UNK func_800A5F38();
 M2C_UNK func_800A63B8();
 s32 func_800AD6FC();
 s32 func_800C8A3C();
-extern u16 D_800DDE84[];
 
 
 /* Process an entity's item, deferring the primary entity's handling and cleaning up completed uses. */

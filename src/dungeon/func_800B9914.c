@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -18,7 +19,6 @@ typedef struct S_800BF074_2 {
 
 
 extern u8 D_80089374[];
-extern u16 D_800DDE84[];
 extern u8 D_800E11F5[];
 
 extern void func_8008D344(void *, void *, void *, void *);

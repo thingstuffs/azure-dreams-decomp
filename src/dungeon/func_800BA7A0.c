@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -14,7 +15,6 @@ M2C_UNK func_800A5F38();                 /* extern */
 M2C_UNK func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
 M2C_UNK func_800D4FC8();    /* extern */
-extern u16 D_800DDE84[];
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 func_800BFF00(void *entity, s32 item, s16 action_id) {

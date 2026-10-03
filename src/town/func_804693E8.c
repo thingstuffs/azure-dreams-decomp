@@ -1,10 +1,9 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_8001E950.h"
 
 
 M2C_UNK func_8001A414(void);                                     /* extern */
-extern Rec_D_8001E950 *D_8001E950;
 
 /* Set unk_02 to 0xFF before forwarding three values to func_8001A414. */
 void func_8001A3E8(void) {

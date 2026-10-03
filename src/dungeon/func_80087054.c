@@ -30,20 +30,12 @@ extern M2C_UNK D_800DD0B8;
 void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
     s32 control_needed;
-#ifndef NON_MATCHING
     u8 *flags;
     s32 initial_state;
-#else
-    M2C_UNK *flags = ((M2C_UNK *)&gameWork.unk_000);
-#endif
 
-#ifndef NON_MATCHING
     initial_state = 0x1C;
     ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
     flags = (u8 *)&gameWork;
-#else
-    ((S_8008C7B4_0 *)state)->unk_9A = 0x1C;
-#endif
     ((S_8008C7B4_0 *)state)->unk_9B = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
     if (((SysPage *)0x80010000)->flags & 2) {
@@ -80,7 +72,6 @@ after_control:
             direction_table = &D_800DCFB0;
         }
         (*(u8 **)((u8 *)sprite + 0x2C)) = direction_table;
-#ifndef NON_MATCHING
         {
             u8 *direction_entry;
 
@@ -88,9 +79,5 @@ after_control:
             direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
-#else
-        func_80048A44(sprite, direction_table[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7], 0,
-            1);
-#endif
     }
 }

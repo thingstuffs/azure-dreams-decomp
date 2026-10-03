@@ -70,7 +70,7 @@ void func_80025C5C(void *effect, void *motion, void *sprite) {
     void *owner_sprite;
     void *origin_sprite;
     void *target_data;
-    register void *offset_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 offset_value;
     void *spawn_sprite;
     void *hit_target;
     void *target;
@@ -149,7 +149,7 @@ await_launch:
         }
 
         hit_target = PTR(owner, 0x60);
-        offset_value = (void *)0x10;
+        offset_value = 0x10;
         if (hit_target != 0) {
             object = PTR(hit_target, -0x18);
             U16(effect, 0x74) = U16(object, 2);
@@ -179,11 +179,15 @@ await_launch:
             U8(effect, 0x7B) = tile_distance * 2 - 1;
         } else {
             U8(effect, 0x7B) = (u32)offset_value;
-            offset_value = (void *)((u16)direction_steps.p[S16(effect, 0x7E)].x << 4);
+            offset_value = (u16)direction_steps.p[S16(effect, 0x7E)].x << 4;
             {
-                u8 travel_ticks = U8(effect, 0x7B);
+                s16 travel_ticks;
+                u16 y_step;
                 U16(effect, 0x74) = U16(motion, 2) + (u32)offset_value;
-                U16(effect, 0x76) = U16(motion, 6) + direction_steps.p[S16(effect, 0x7E)].y * (s8)travel_ticks;
+                y_step = direction_steps.p[S16(effect, 0x7E)].y;
+                travel_ticks = U8(effect, 0x7B);
+                travel_ticks = (s8)travel_ticks;
+                U16(effect, 0x76) = U16(motion, 6) + y_step * (s8)travel_ticks;
             }
             U16(effect, 0x78) = U16(owner, 0x88) - 0x50;
         }

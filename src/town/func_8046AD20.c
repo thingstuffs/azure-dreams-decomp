@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -12,7 +13,6 @@ typedef void (*CallPair)(s32, s32);
 typedef s16 *(*GetHalfword)(s32, s32);
 
 extern LocalValues D_80019164;
-extern u8 *D_8001E950;
 extern s8 D_8001F2D4[];
 
 extern s32 func_8001E670(s32);
@@ -49,13 +49,13 @@ s32 func_8001BD20(s32 fallback_first, s32 fallback_second) {
     indexed_values = D_80019164;
     if (func_8001E670(0xA3) != 0) {
         if (func_8001E670(0x408) == 0) {
-            D_8001E950[1] = 1;
+            D_8001E950->dispatchState = 1;
         } else {
-            D_8001E950[1] = 2;
+            D_8001E950->dispatchState = 2;
         }
     }
 
-    if (D_8001E950[1] == 0) {
+    if (D_8001E950->dispatchState == 0) {
         second_or_base = 0x80010000;
         page = (void *)second_or_base;
         (*(UseValue *)((u8 *)(((S_8001BD20_1 *)(((S_8001BD20_0 *)page)->unk_6000))->unk_20) + 0x2EC))(

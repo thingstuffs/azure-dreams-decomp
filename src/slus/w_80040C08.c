@@ -1,28 +1,10 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
-
-typedef struct State
-{
-    s32 field_0;
-    s32 field_4;
-    union {
-        u8 b;
-        u16 h;
-    } field_8;
-    s8 field_A;
-    u8 field_B;
-    s8 field_C;
-    s8 field_D;
-    s8 field_E;
-    u8 field_F;
-    u8 pad10[8];
-    s8 field_18;
-}
-State;
 
 extern s32 D_80080A7C;
 extern s32 D_8008148C;
 extern s32 D_80081480;
-extern State D_80082E60;
+
 extern u8 D_80126804[];
 
 extern void func_800411FC(u16);
@@ -33,8 +15,8 @@ extern void func_80040CBC(s16);
 /* Selects the next mode, clears transient state, and dispatches mode setup. */
 void func_80040C08(void)
 {
-    State *state_ptr = &D_80082E60;
-    State *reset_state;
+    RuntimeDispatchState *state_ptr = &D_80082E60;
+    RuntimeDispatchState *reset_state;
     s32 saved_data_addr;
     s32 buffer_size;
     s32 next_mode;
@@ -61,10 +43,10 @@ void func_80040C08(void)
     state_ptr->field_B = next_mode;
     reset_state = &D_80082E60;
     buffer_size = reset_state->field_B;
-    flags = reset_state->field_F;
+    flags = reset_state->flags0F;
     reset_state->field_D = 0;
     reset_state->field_C = 0;
     reset_state->field_18 = 0;
-    reset_state->field_F = flags & 0x7E;
+    reset_state->flags0F = flags & 0x7E;
     func_80040CBC(buffer_size);
 }

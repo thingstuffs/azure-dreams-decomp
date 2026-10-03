@@ -49,8 +49,8 @@ s32 func_806D2AB0(s32 *entries, s32 target_key)
             return entry_index;
         }
     }
-    (*(Callback3 *)((u8 *)(D_80016000->unk_20) + 0x168))(
+    ((Callback3)D_80016000->unk_20->callback_168)(
         D_80016148, D_80016170, 0x36);
-    (*(Callback1 *)((u8 *)(D_80016000->unk_20) + 0x174))(1);
+    ((Callback1)D_80016000->unk_20->callback_174)(1);
     return entry_index;
 }

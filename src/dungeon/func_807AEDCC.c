@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/sys_flags.h"
 #include "shared/game_work.h"
@@ -37,7 +38,7 @@ struct S_80082E60 {
 };
 typedef struct S_80082E60 S_80082E60;
 extern s16 *D_800F8A44[];
-extern struct S_80082E60 D_80082E60;
+
 extern u8 D_80013720[];
 extern u8 D_800F6544[];
 extern u8 D_800F8A4C[];
@@ -54,7 +55,7 @@ void func_800F65CC(void) {
     s32 index;
     GameWork *world_state;
     s16 *entry_info;
-    S_80082E60 *effect_state;
+    RuntimeDispatchState *effect_state;
     s16 **state_table;
     s32 state_code;
     u16 entry_flags;
@@ -69,9 +70,9 @@ void func_800F65CC(void) {
     state_table = D_800F8A44;
     state_slot = state_table + 1;
     effect_state = &D_80082E60;
-    effect_state->field_10 = 0x1F;
-    effect_state->field_12 = 0x3E;
-    effect_state->field_16 = (u16)(effect_state->field_16 | 1);
+    effect_state->unk_10 = 0x1F;
+    effect_state->unk_12 = 0x3E;
+    effect_state->flags16 = (u16)(((s16)effect_state->flags16) | 1);
     do {
         state_value = *state_slot;
         if (state_value != NULL) {

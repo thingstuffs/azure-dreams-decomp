@@ -328,3 +328,9 @@
 {"date": "2026-10-03T05:34Z", "codex": {"pack": "r91_luna_goto2", "model": "gpt-6-luna", "candidates": 5}, "note": "r91 luna cleanup pilots"}
 {"date": "2026-10-03T05:38Z", "codex": {"pack": "r91_luna_proto2", "model": "gpt-6-luna", "candidates": 6}, "note": "r91 luna cleanup pilots"}
 {"date": "2026-10-03T05:40Z", "codex": {"pack": "r91_sol61_p14", "model": "gpt-6.1-sol", "candidates": 0}, "note": "r91 sol61 1-pin"}
+{"date": "2026-10-03T05:47Z", "codex": {"pack": "r91_luna_proto3", "model": "gpt-6-luna", "candidates": 7}, "note": "r91 luna cleanup pilots"}
+{"date": "2026-10-03T05:50Z", "codex": {"pack": "r91_sol61_p15", "model": "gpt-6.1-sol", "candidates": 0}, "note": "r91 sol61 1-pin"}
+{"date": "2026-10-03T05:51Z", "codex": {"pack": "r91_luna_rename1", "model": "gpt-6-luna", "candidates": 6}, "note": "r91 luna cleanup pilots"}
+{"date": "2026-10-03T05:52Z", "codex": {"pack": "r91_luna_rename2", "model": "gpt-6-luna", "candidates": 6}, "note": "r91 luna cleanup pilots"}
+{"date": "2026-10-03T05:53Z", "codex": {"pack": "r91c_astra_al8", "model": "gpt-6-astra", "candidates": 2}, "note": "r91c alignment wave 2"}
+{"date": "2026-10-03T06:04Z", "codex": {"pack": "r91_luna_rename3", "model": "gpt-6-luna", "candidates": 6}, "note": "r91 luna cleanup pilots"}

@@ -28,16 +28,10 @@ s32 func_80702714(s32 flag_index)
             return value & *flag_word;
         } else {
             s32 zero = 0;
-#ifdef NON_MATCHING
-            zero = 0;
-#endif
             return zero + 1;
         }
     } else {
         s32 zero = 0;
-#ifdef NON_MATCHING
-        zero = 0;
-#endif
         return zero;
     }
 }

@@ -82,10 +82,7 @@ void func_801741D8(void *controller, void *context, void *sprite, void *actor_in
         break;
 
     case 1:
-        if ((s16)func_80042900(actor, 1) == 0) {
-            goto set_effect;
-        }
-
+        if ((s16)func_80042900(actor, 1) != 0) {
         global_state = &dungeonStatus;
         if (global_state->flags & 0x1000) {
             break;
@@ -154,14 +151,13 @@ void func_801741D8(void *controller, void *context, void *sprite, void *actor_in
                 func_80042B68(actor, 1);
             }
         }
-
         active_actor = actor;
 final_call:
         if ((s16)func_80042900(active_actor, 1) != 0) {
             break;
         }
+        }
 
-set_effect:
         (*(void * *)((u8 *)sprite + 0x2C)) = D_8017540C;
         func_80047784(sprite,
             D_8017540C[((gameWork.view.viewAngle + ((S_801741D8_2 *)actor)->unk_2A + 0x100) >> 9) & 7],

@@ -4,11 +4,6 @@
 #include "m2c_compat.h"
 
 
-typedef struct S_80018544_1 {
-    u8 pad_00[0x78];
-    M2C_UNK (*unk_78)(M2C_UNK);
-} S_80018544_1;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80018544 */
-
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
@@ -27,7 +22,7 @@ void func_80018544(s32 context, s32 unused, s32 event_code) {
     void *selected_data;
 
     if ((event_code == 0x1E) && (func_80019A34(0xD, 1) != 0)) {
-        ((S_80018544_1 *)(D_80016000->unk_20))->unk_78(0);
+        D_80016000->unk_20->callback_078(0);
         func_8001ACE8(0x1460);
         func_80019BC0();
     }

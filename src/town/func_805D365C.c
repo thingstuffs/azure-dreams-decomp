@@ -36,5 +36,5 @@ void func_805D365C(void) {
     output->value2 = 0;
     output->value1 = source_value2 << 16;
     ((MethodTable *)context->unk_20)->method_208(0);
-    ((MethodTable *)D_80016000->unk_20)->method_224(output);
+    D_80016000->unk_20->callback_224(output);
 }

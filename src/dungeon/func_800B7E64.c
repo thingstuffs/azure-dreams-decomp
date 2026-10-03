@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -21,7 +22,6 @@ typedef struct {
     u8 pad[0xA];
     u16 fieldA;
 } D_80083460_t;
-extern u16 D_800DDE84[];
 extern M2C_UNK D_800E0E82;
 
 

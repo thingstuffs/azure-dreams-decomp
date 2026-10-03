@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -24,7 +25,6 @@ typedef struct S_800C30D4_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern u8 D_800DDE84[];
 M2C_UNK func_8008D330(void *arg0, void *arg1, void *arg2, void *arg3);          /* extern */
 M2C_UNK func_80098B38();                         /* extern */
 M2C_UNK func_80099844();           /* extern */
@@ -46,7 +46,7 @@ s32 func_800C30D4(void *entity, s32 item, s16 action_type) {
     }
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, item, action_type);
-        if (func_800AD6FC(entity, (*((u16 *)(D_800DDE84 + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
+        if (func_800AD6FC(entity, (*((u16 *)(((u8 *)D_800DDE84) + ((S_800C30D4_0 *)((u8 *)entity - 0x14))->unk_27 * 2))
             >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, item);
             return 1;

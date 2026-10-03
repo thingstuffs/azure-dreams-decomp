@@ -86,12 +86,10 @@ void func_800D2664(void *object, void *motion, void *entity) {
     fall_flags = ((S_800D2664_1 *)object)->unk_98;
     ((S_800D2664_1 *)object)->unk_90.at00.v = fall_offset + fall_speed;
 
-    if (!(fall_flags & 4)) {
-        ground_height = func_800BCB04(
+    if (!(fall_flags & 4) && (ground_height = func_800BCB04(
             ((S_800D2664_0 *)motion)->unk_00.at02.v,
             ((S_800D2664_0 *)motion)->unk_04.at02.v,
-            (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20));
-        if (ground_height < 0x200) {
+            (s16)((*(u16 *)((u8 *)update_obj + (0x88))) - 0x20))) < 0x200) {
             base_height_u = (*(u16 *)((u8 *)update_obj + (0x88)));
             base_height = (*(s16 *)((u8 *)update_obj + (0x88)));
             if (((S_800D2664_1 *)object)->unk_90.at02.v + base_height < ground_height) {
@@ -119,12 +117,11 @@ void func_800D2664(void *object, void *motion, void *entity) {
                 ((S_800D2664_1 *)object)->unk_90.at02.v += (*(u16 *)((u8 *)update_obj + (0x88))) - ground_height;
                 (*(s16 *)((u8 *)update_obj + (0x88))) = ground_height;
             }
-            goto finish;
-        }
+    } else {
+        (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
     }
-    (*(u32 *)((u8 *)update_obj + (0x1C))) &= ~0x08000000;
 
-finish:
+
     ((S_800D2664_0 *)motion)->unk_0A = (*(u16 *)((u8 *)update_obj + (0x88))) + ((S_800D2664_1 *)object)->unk_90.at02u.v;
     ((S_800D2664_2 *)ent)->unk_14 |= 0x40;
     (*(u32 *)((u8 *)update_obj + (0x1C))) |= 0x200;

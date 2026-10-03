@@ -9,11 +9,11 @@ typedef struct S_800D34CC_0 {
     s16 unk_96;
     u8 pad_98[0x3];
     u8 unk_9B;
-} S_800D34CC_0;   /* arg0 in func_800D34CC */
+} S_800D34CC_0;   /* state in func_800D34CC */
 
 typedef struct S_800D34CC_1_pre {
     u16 unk_00;
-} S_800D34CC_1_pre;   /* the 0x2 bytes before arg3 in func_800D34CC, addressed as arg3[-1] */
+} S_800D34CC_1_pre;   /* the 0x2 bytes before entity in func_800D34CC, addressed as entity[-1] */
 
 
 typedef struct S_800D34CC_2 {
@@ -33,7 +33,7 @@ typedef struct S_800D34CC_2 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_800D34CC_2;   /* arg2 in func_800D34CC */
+} S_800D34CC_2;   /* data in func_800D34CC */
 
 typedef struct S_800D34CC_3 {
     u8 pad_00[0x10];
@@ -48,72 +48,72 @@ void func_800A32A4(void *);                 /* extern */
 M2C_UNK func_800A56C0();                            /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 
-void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
-    M2C_UNK var_a2;
-    s16 temp_a1;
-    s16 temp_v0_2;
-    s32 temp_dim;
-    s32 temp_dim2;
-    s32 temp_green;
-    s32 temp_v1_4;
-    u8 temp_a0_2;
-    u8 temp_a1_2;
-    u8 temp_v0;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
+void func_800D34CC(void *state, void *unused, void *data, void *entity) {
+    M2C_UNK selectedValue;
+    s16 countdown;
+    s16 countdownNext;
+    s32 value1C;
+    s32 value1E;
+    s32 byte1Next;
+    s32 statusValue;
+    u8 value24;
+    u8 value25;
+    u8 byte2;
+    u8 stateId;
+    u8 byte0;
+    u8 byte1;
 
-    temp_v1 = ((S_800D34CC_0 *)arg0)->unk_9B;
-    switch (temp_v1) {
+    stateId = ((S_800D34CC_0 *)state)->unk_9B;
+    switch (stateId) {
     case 0:
         if (dungeonStatus.unk_0A != 0) {
             break;
         }
-        ((EntityRec *)arg3)->flags1C = (s32) (((EntityRec *)arg3)->flags1C | 0x10000000);
+        ((EntityRec *)entity)->flags1C = (s32) (((EntityRec *)entity)->flags1C | 0x10000000);
         func_800A56E0(0x805);
-        ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;
-        ((S_800D34CC_0 *)arg0)->unk_96 = 0x10;
-        ((S_800D34CC_0 *)arg0)->unk_9B = (u8) (((S_800D34CC_0 *)arg0)->unk_9B + 1);
+        ((S_800D34CC_2 *)data)->unk_0C.at00.v = 0x808080;
+        ((S_800D34CC_0 *)state)->unk_96 = 0x10;
+        ((S_800D34CC_0 *)state)->unk_9B = (u8) (((S_800D34CC_0 *)state)->unk_9B + 1);
     case 1:
-        temp_v1_2 = (u8) ((S_800D34CC_2 *)arg2)->unk_0C.at00.v;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((0x20
-            - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
-        temp_v1_3 = ((S_800D34CC_2 *)arg2)->unk_0C.at01.v;
-        temp_a1 = ((S_800D34CC_0 *)arg0)->unk_96;
-        temp_green = temp_v1_3 + ((0x20 - temp_v1_3) / temp_a1);
-        temp_v0 = ((S_800D34CC_2 *)arg2)->unk_0C.at02.v;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at01.v = (u8) temp_green;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at02u.v = (u8) (temp_v0 + ((0x20
-            - temp_v0) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
-        temp_dim = ((S_800D34CC_2 *)arg2)->unk_1C;
-        ((S_800D34CC_2 *)arg2)->unk_1C = (u16) (temp_dim - (temp_dim / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
-        temp_dim2 = ((S_800D34CC_2 *)arg2)->unk_1E;
-        ((S_800D34CC_2 *)arg2)->unk_1E = (u16) (temp_dim2 - (temp_dim2 / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
-        temp_v0_2 = (u16) ((S_800D34CC_0 *)arg0)->unk_96 - 1;
-        ((S_800D34CC_0 *)arg0)->unk_96 = temp_v0_2;
-        if (((temp_v0_2 << 0x10) <= 0) || ((((S_800D34CC_2 *)arg2)->unk_14 & 0x8000) != 0)) {
-            temp_v1_4 = ((s32)dungeonStatus.unk_10);
-            if (temp_v1_4 == (arg3 - 0x20)) {
-                dungeonStatus.unk_10 = (s32) (temp_v1_4 & 0x7FFFFFFF);
+        byte0 = (u8) ((S_800D34CC_2 *)data)->unk_0C.at00.v;
+        ((S_800D34CC_2 *)data)->unk_0C.at00u.v = (u8) (byte0 + ((0x20
+            - byte0) / (s16) ((S_800D34CC_0 *)state)->unk_96));
+        byte1 = ((S_800D34CC_2 *)data)->unk_0C.at01.v;
+        countdown = ((S_800D34CC_0 *)state)->unk_96;
+        byte1Next = byte1 + ((0x20 - byte1) / countdown);
+        byte2 = ((S_800D34CC_2 *)data)->unk_0C.at02.v;
+        ((S_800D34CC_2 *)data)->unk_0C.at01.v = (u8) byte1Next;
+        ((S_800D34CC_2 *)data)->unk_0C.at02u.v = (u8) (byte2 + ((0x20
+            - byte2) / (s16) ((S_800D34CC_0 *)state)->unk_96));
+        value1C = ((S_800D34CC_2 *)data)->unk_1C;
+        ((S_800D34CC_2 *)data)->unk_1C = (u16) (value1C - (value1C / (s16) ((S_800D34CC_0 *)state)->unk_96));
+        value1E = ((S_800D34CC_2 *)data)->unk_1E;
+        ((S_800D34CC_2 *)data)->unk_1E = (u16) (value1E - (value1E / (s16) ((S_800D34CC_0 *)state)->unk_96));
+        countdownNext = (u16) ((S_800D34CC_0 *)state)->unk_96 - 1;
+        ((S_800D34CC_0 *)state)->unk_96 = countdownNext;
+        if (((countdownNext << 0x10) <= 0) || ((((S_800D34CC_2 *)data)->unk_14 & 0x8000) != 0)) {
+            statusValue = ((s32)dungeonStatus.unk_10);
+            if (statusValue == (entity - 0x20)) {
+                dungeonStatus.unk_10 = (s32) (statusValue & 0x7FFFFFFF);
             }
-            func_800A32A4(arg3);
-            if ((func_80042900(arg3, 0x1B) << 0x10) == 0) {
-                temp_a0_2 = ((S_800D34CC_2 *)arg2)->unk_24;
-                temp_a1_2 = ((S_800D34CC_2 *)arg2)->unk_25;
-                var_a2 = 0x3000;
-                if (((EntityRec *)arg3)->flags1C & 0x2000) {
-                    var_a2 = 0x300;
+            func_800A32A4(entity);
+            if ((func_80042900(entity, 0x1B) << 0x10) == 0) {
+                value24 = ((S_800D34CC_2 *)data)->unk_24;
+                value25 = ((S_800D34CC_2 *)data)->unk_25;
+                selectedValue = 0x3000;
+                if (((EntityRec *)entity)->flags1C & 0x2000) {
+                    selectedValue = 0x300;
                 }
-                func_8009A3D0(temp_a0_2, temp_a1_2, var_a2);
+                func_8009A3D0(value24, value25, selectedValue);
             }
-            func_8009A028(arg3);
-            (*(u16 *)((u8 *)arg3 + -2)) = (u16) (((S_800D34CC_1_pre *)arg3)[-1].unk_00 | 0x8000);
+            func_8009A028(entity);
+            (*(u16 *)((u8 *)entity + -2)) = (u16) (((S_800D34CC_1_pre *)entity)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags |= 0x8000;
             func_800A56C0();
         }
     }
 }
 
-/* MECHANISM: The four-argument ABI yields s0=arg0, s1=arg2, and s2=arg3 in the retail 0x20 frame.
+/* MECHANISM: The four-argument ABI yields s0=state, s1=data, and s2=entity in the retail 0x20 frame.
    Split byte/halfword RMWs and one held &D_80083460 base reproduce the widths, live ranges, and CFG.
    Naming the final two byte arguments fills the lw delay slot and removes the +1 displacement cascade. */

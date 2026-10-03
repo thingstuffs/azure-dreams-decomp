@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -5,7 +6,6 @@
 #include "shared/dungeon_status.h"
 
 extern u8 D_8008000A[];
-extern u16 D_800DDE84[];
 extern u8 D_800E0F2D[];
 extern u8 D_800E0F44[];
 extern u8 D_800E0F65[];

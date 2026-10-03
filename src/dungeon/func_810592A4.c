@@ -156,24 +156,19 @@ void func_80170AA4(void *actor, S_80170AA4_2 *motion, void *part)
         if (!(((S_80170AA4_1 *)entity)->unk_1C & 0x20)) {
             if (!(((S_80170AA4_0 *)part)->unk_14.v & 0x40)) {
                 func_800478B8(part);
-                goto after_part_flags;
             }
         } else {
             ((S_80170AA4_0 *)part)->unk_14.v |= 0x7000;
         }
-after_part_flags:
         func_800A020C(((S_80170AA4_1 *)entity)->unk_1C, (u8 *)part + 0xC);
-        goto motion;
-    }
-
-    if (part_flags & 0x800) {
-        new_part_flags = part_flags & 0x8FFF;
     } else {
-        new_part_flags = part_flags | 0x7000;
+        if (part_flags & 0x800) {
+            new_part_flags = part_flags & 0x8FFF;
+        } else {
+            new_part_flags = part_flags | 0x7000;
+        }
+        ((S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
     }
-    ((S_80170AA4_0 *)part)->unk_14.n = new_part_flags;
-
-motion:
     motion->unk_00.at00.v += motion->unk_0C;
     motion->unk_04.at00.v += motion->unk_10;
 
@@ -216,15 +211,14 @@ motion:
                 (*(s16 *)((u8 *)actor + 0x92)) +=
                     ((S_80170AA4_1 *)entity)->unk_88 - ground_height;
                 ((S_80170AA4_1 *)entity)->unk_88 = ground_height;
-                goto finish;
             }
-            goto finish;
+        } else {
+            ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
     }
 
-    ((S_80170AA4_1 *)entity)->unk_1C &= 0xF7FFFFFF;
-
-finish:
     motion->unk_0A =
         ((S_80170AA4_1 *)entity)->unk_88 + (*(u16 *)((u8 *)actor + 0x92));
     ((S_80170AA4_0 *)part)->unk_14.n |= 0x40;

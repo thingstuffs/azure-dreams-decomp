@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -13,7 +14,6 @@ typedef struct {
     u8 pad_E[6];
 } DungeonRecord;
 
-extern u16 D_800DDE84[];
 extern u8 D_800E12D6[];
 extern u8 D_800E1303[];
 

@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
@@ -8,10 +9,6 @@ typedef struct S_8001CF9C_1 {
 } S_8001CF9C_1;   /* ((arg1 * 0x10) + arg0->unk_10) in func_8001CF9C */
 
 
-extern struct {
-    u8 *ptr;
-    u8 pad[8];
-} D_8001E950;
 extern M2C_UNK D_8001F0D8;
 extern M2C_UNK D_8001F18C;
 
@@ -26,6 +23,6 @@ s32 func_8001CF9C(S_8001CF9C_0 *table, s32 entry_index) {
 
     state_pointers[0] = &D_8001F0D8;
     state_pointers[1] = &D_8001F18C;
-    ((S_8001CF9C_1 *)(((entry_index * 0x10) + table->unk_10)))->unk_08 = state_pointers[D_8001E950.ptr[1]];
+    ((S_8001CF9C_1 *)(((entry_index * 0x10) + table->unk_10)))->unk_08 = state_pointers[D_8001E950->dispatchState];
     return 0;
 }

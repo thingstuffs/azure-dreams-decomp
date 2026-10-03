@@ -1,9 +1,10 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
+#include "shared/town_root.h"
 
 typedef s32 (*StateQuery)(s32);
 
-extern u8 *D_8001E950;
 
 extern s8 D_8001602A[];
 extern s8 D_80016359[];
@@ -70,11 +71,11 @@ s8 *func_8001C884(void) {
         }
 
         {
-            void *root;
+            Rec_D_80016000 *root;
 
             root = D_80016000;
-            if ((u32)*(s32 *)((u8 *)*(void **)((u8 *)root + 0x38) + 0x2D68) >= 20000U) {
-                if ((*(StateQuery *)((u8 *)*(void **)((u8 *)root + 0x20) + 0x2D4))(0) == 0) {
+            if ((u32)*(s32 *)((u8 *)root->unk_38 + 0x2D68) >= 20000U) {
+                if ((*(StateQuery *)((u8 *)root->unk_20 + 0x2D4))(0) == 0) {
                     return D_8001688A;
                 }
             }
@@ -92,14 +93,14 @@ s8 *func_8001C884(void) {
         }
 
         {
-            u8 *state;
+            TownEventState *state;
 
             state = D_8001E950;
-            state_zero = state[0];
+            state_zero = state->unk_00;
             if (state_zero == 2) {
-                state_five = state[5];
+                state_five = state->unk_05;
                 if (state_five == state_zero) {
-                    state_one = state[1];
+                    state_one = state->dispatchState;
                     if (state_one == 1) {
                         if ((*(StateQuery *)((u8 *)*(void **)((u8 *)D_80016000 + 0x20) + 0x2D4))(0) == state_five) {
                             if (func_8001A5D0() >= 3) {
@@ -107,10 +108,10 @@ s8 *func_8001C884(void) {
                             }
                             if (func_8001A5D0() == state_one) {
                                 {
-                                    u8 *state;
+                                    TownEventState *state;
 
                                     state = D_8001E950;
-                                    value = state[4];
+                                    value = state->unk_04;
                                 }
                                 if (value == state_one) {
                                     return D_80016BCF;
@@ -127,10 +128,10 @@ s8 *func_8001C884(void) {
                             }
                         } else {
                             {
-                                u8 *state;
+                                TownEventState *state;
 
                                 state = D_8001E950;
-                                value = state[4];
+                                value = state->unk_04;
                             }
                             if (value == state_one) {
                                 return D_80016BCF;

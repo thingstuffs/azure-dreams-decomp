@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 typedef struct S_800B6FB8_0 {
@@ -24,7 +25,8 @@ extern void func_80046E38();
 extern void func_80067014();
 extern void func_8006733C();
 extern void func_800B73D0();
-extern u8 D_80082E60[], D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
+
+extern u8 D_80083160[], D_80110EC8[], D_801116C8[], D_80111EC8[], D_8012F004[], D_80162004[];
 extern u16 D_80111FA8[];
 /* Initialize drawing state and upload image and palette data. */
 void func_800B6FB8(void)
@@ -51,7 +53,7 @@ void func_800B6FB8(void)
     ((S_800B6FB8_0 *)draw)->unk_16 = draw_setting;
     ((S_800B6FB8_0 *)draw)->unk_1A = color;
     ((S_800B6FB8_0 *)draw)->unk_1E = width;
-    status = D_80082E60;
+    status = ((u8 *)&D_80082E60);
 
     D_80111FA8[0] = 0x328;
     image_rect[1] = 0x80;

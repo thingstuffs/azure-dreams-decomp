@@ -23,9 +23,9 @@ s32 func_8001AFEC(void *gsw)
     }
     do {
         value = *word;
-        count++;
         checksum ^= value;
         word++;
+        count++;
     } while (count < 0x1782);
 
     func_8007C040(D_80400114, D_80400134, checksum);

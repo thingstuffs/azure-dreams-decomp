@@ -17,42 +17,42 @@ extern s32 func_80700DC0(s16);
 typedef struct S_808B2B98_0 {
     u8 pad_00[0xE];
     u8 unk_0E;
-} S_808B2B98_0;   /* temp_v1 in func_808B2B98 */
+} S_808B2B98_0;   /* record in func_808B2B98 */
 
-s32 func_808B2B98(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_v0;
-    s32 temp_a0;
-    s32 var_s0;
-    u8 *temp_a1;
-    S_808B2B98_0 *temp_v1;
-    s32 temp_result;
+s32 func_808B2B98(s32 initial_index, s32 input1, s32 input2, s32 input3) {
+    s32 value;
+    s32 offset;
+    s32 index;
+    u8 *byte_ptr;
+    S_808B2B98_0 *record;
+    s32 result;
 
-    var_s0 = arg0;
-    if (func_80700304(arg0, arg1, arg2, arg3) > 0) {
-        temp_v0 = *(s16 *)(D_A0700000 + (var_s0 * 2) + 0xF34);
-        temp_a0 = temp_v0;
-        if (temp_v0 < 0) {
-            temp_a0 = temp_v0 + 0x1F;
+    index = initial_index;
+    if (func_80700304(initial_index, input1, input2, input3) > 0) {
+        value = *(s16 *)(D_A0700000 + (index * 2) + 0xF34);
+        offset = value;
+        if (value < 0) {
+            offset = value + 0x1F;
         }
-        temp_a0 >>= 5;
-        temp_a1 = *(u8 **)0xA0700F40 + temp_a0;
-        temp_a0 <<= 5;
-        temp_a0 = temp_v0 - temp_a0;
-        *temp_a1 |= 1 << temp_a0;
-        return func_80700590(temp_a0, temp_a1);
+        offset >>= 5;
+        byte_ptr = *(u8 **)0xA0700F40 + offset;
+        offset <<= 5;
+        offset = value - offset;
+        *byte_ptr |= 1 << offset;
+        return func_80700590(offset, byte_ptr);
     }
     D_A0700F58[0]->callback(2);
-    temp_v1 = *(void **)0xA0700F40;
-    temp_v1->unk_0E = (u8) temp_v1->unk_0E;
-    temp_result = func_80700DC0(*(s16 *)0xA0700F2A);
-    if (temp_result == 0) {
+    record = *(void **)0xA0700F40;
+    record->unk_0E = (u8) record->unk_0E;
+    result = func_80700DC0(*(s16 *)0xA0700F2A);
+    if (result == 0) {
         if (D_A0700F58[0]->callback(2) != 0) {
-            var_s0 += 1;
+            index += 1;
         }
-        *(s32 *)0xA0700F3C = var_s0;
+        *(s32 *)0xA0700F3C = index;
     } else {
-        var_s0 = *(s32 *)0xA0700F3C;
+        index = *(s32 *)0xA0700F3C;
     }
-    temp_v0 = var_s0;
-    return temp_v0;
+    value = index;
+    return value;
 }

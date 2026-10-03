@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -24,7 +25,6 @@ typedef struct {
 } DungeonGroup;
 
 extern DungeonGroup D_80073414[];
-extern u16 D_800DDE84[];
 extern u8 D_800E101C;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */

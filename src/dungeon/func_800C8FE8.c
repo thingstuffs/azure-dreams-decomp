@@ -12,19 +12,19 @@ typedef struct S_800CE748_0 {
     void * unk_64;
     u8 pad_68[0x34];
     s16 unk_9C;
-} S_800CE748_0;   /* arg0 in func_800CE748; pointer addresses record offset 0x14 */
+} S_800CE748_0;   /* record in func_800CE748; pointer addresses record offset 0x14 */
 
 typedef struct S_800CE748_1 {
     u8 unk_00;
     u8 unk_01;
     s8 unk_02;
-} S_800CE748_1;   /* temp_s0 in func_800CE748 */
+} S_800CE748_1;   /* firstEntry in func_800CE748 */
 
 typedef struct S_800CE748_2 {
     u8 unk_00;
     u8 pad_01[0x1];
     s8 unk_02;
-} S_800CE748_2;   /* temp_s0_2 in func_800CE748 */
+} S_800CE748_2;   /* secondEntry in func_800CE748 */
 
 typedef struct S_800CE748_3 {
     u8 pad_00[0x14];
@@ -32,7 +32,7 @@ typedef struct S_800CE748_3 {
     u8 pad_16[0xE];
     u8 unk_24;
     u8 unk_25;
-} S_800CE748_3;   /* temp_v1_2 in func_800CE748 */
+} S_800CE748_3;   /* objectData in func_800CE748 */
 
 
 extern u8 D_800E3D40[];
@@ -53,41 +53,41 @@ extern u8 D_800E1B87[18];
 extern u8 D_800E1B99[18];
 extern u8 D_800E1BAA[18];
 
-s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_v0;
-    s32 temp_v1;
-    s32 var_a1;
-    s16 var_s1;
-    s32 var_s2;
-    s32 temp_a0_3;
-    S_800CE748_1 *temp_s0;
-    S_800CE748_2 *temp_s0_2;
-    S_800CE748_3 *temp_v1_2;
+s32 func_800CE748(void *record, s32 unused1, s32 unused2, s32 unused3) {
+    s32 randomValueSecond;
+    s32 randomValueFirst;
+    s32 secondLookupValue;
+    s32 firstLookupValue;
+    s32 initialValue;
+    s32 entryCode;
+    s32 currentValue;
+    s16 entryFlags;
+    s32 triggerFlags;
+    s32 entryValue;
+    S_800CE748_1 *firstEntry;
+    S_800CE748_2 *secondEntry;
+    S_800CE748_3 *objectData;
 
-    var_s2 = 0;
-    var_s1 = 0;
-    if (func_800C80F0(arg0) == 0) {
+    triggerFlags = 0;
+    entryFlags = 0;
+    if (func_800C80F0(record) == 0) {
         s16 probability;
         s32 random_mod;
-        temp_s0 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60;
-        if (temp_s0 != NULL) {
+        firstEntry = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_60;
+        if (firstEntry != NULL) {
 
-            var_s1 = 1;
-            if (temp_s0->unk_01 == 0xF) {
+            entryFlags = 1;
+            if (firstEntry->unk_01 == 0xF) {
                 s32 is_one;
 
-                is_one = temp_s0->unk_00 == 1;
-                var_s1 = is_one;
+                is_one = firstEntry->unk_00 == 1;
+                entryFlags = is_one;
             }
             if (*D_800E3D40 == 0) {
                                 /* garbage-passthru: a1/a3 are residue from func_800C80F0, without a defined C value. */
-                temp_a0_2 = func_800A6D30() & 0xFFFF;
-                if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    random_mod = temp_a0_2 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
+                randomValueFirst = func_800A6D30() & 0xFFFF;
+                if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
+                    random_mod = randomValueFirst % ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17;
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -96,27 +96,27 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 probability = 0;
             }
             if (probability < 0x40) {
-                if (!(var_s1 & 1)) {
-                    if (temp_s0->unk_02 >= -0x62) {
-                        temp_s0->unk_02 = (s8) ((u8) temp_s0->unk_02 - 1);
+                if (!(entryFlags & 1)) {
+                    if (firstEntry->unk_02 >= -0x62) {
+                        firstEntry->unk_02 = (s8) ((u8) firstEntry->unk_02 - 1);
                     }
                 }
-                var_s2 = 1;
+                triggerFlags = 1;
             }
         }
-        temp_s0_2 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64;
-        if (temp_s0_2 != NULL) {
+        secondEntry = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_64;
+        if (secondEntry != NULL) {
 
-            temp_a0_3 = temp_s0_2->unk_00;
-            temp_v1 = temp_a0_3 & 0xFF;
-            if ((temp_v1 == 1) || (temp_v1 == 7) || (((u32) (temp_a0_3 - 2) < 2U) != 0)) {
-                var_s1 |= 2;
+            entryValue = secondEntry->unk_00;
+            entryCode = entryValue & 0xFF;
+            if ((entryCode == 1) || (entryCode == 7) || (((u32) (entryValue - 2) < 2U) != 0)) {
+                entryFlags |= 2;
             }
             if (*D_800E3D40 == 0) {
                                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
-                temp_a0 = func_800A6D30() & 0xFFFF;
-                if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    random_mod = temp_a0 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
+                randomValueSecond = func_800A6D30() & 0xFFFF;
+                if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17 != 0) {
+                    random_mod = randomValueSecond % ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_17;
                     probability = random_mod;
                 } else {
                     probability = 0;
@@ -125,57 +125,57 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 probability = 0;
             }
             if (probability < 0x40) {
-                if (!(var_s1 & 2)) {
-                    if (temp_s0_2->unk_02 >= -0x62) {
-                        temp_s0_2->unk_02 = (s8) ((u8) temp_s0_2->unk_02 - 1);
+                if (!(entryFlags & 2)) {
+                    if (secondEntry->unk_02 >= -0x62) {
+                        secondEntry->unk_02 = (s8) ((u8) secondEntry->unk_02 - 1);
                     }
                 }
-                var_s2 |= 2;
+                triggerFlags |= 2;
             }
         }
     }
-    if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_28 & 0x4000) {
-        if ((var_s2 << 0x10) == 0) {
+    if (((S_800CE748_0 *)((u8 *)record - 0x14))->unk_28 & 0x4000) {
+        if ((triggerFlags << 0x10) == 0) {
                         /* garbage-passthru: a3 remains residue from earlier calls. */
             func_800A6508();
         } else {
                         /* garbage-passthru: a3 remains residue from earlier calls. */
-            temp_v0 = func_800990FC();
-            var_a1 = temp_v0;
-            if (var_s2 & 1) {
-                temp_a1_2 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60, var_a1);
+            initialValue = func_800990FC();
+            currentValue = initialValue;
+            if (triggerFlags & 1) {
+                firstLookupValue = func_8009955C(((S_800CE748_0 *)((u8 *)record - 0x14))->unk_60, currentValue);
                 {
 
-                    if (!(var_s1 & 1)) {
-                        var_a1 = func_80099194(D_800E1B76, temp_a1_2);
+                    if (!(entryFlags & 1)) {
+                        currentValue = func_80099194(D_800E1B76, firstLookupValue);
                     } else {
-                        var_a1 = func_80099194(D_800E1B87, temp_a1_2);
+                        currentValue = func_80099194(D_800E1B87, firstLookupValue);
                     }
                 }
-                if (var_s2 & 2) {
-                    var_a1 = func_8009929C(0xA, var_a1);
+                if (triggerFlags & 2) {
+                    currentValue = func_8009929C(0xA, currentValue);
                 }
             }
-            if (var_s2 & 2) {
-                temp_a1 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64, var_a1);
+            if (triggerFlags & 2) {
+                secondLookupValue = func_8009955C(((S_800CE748_0 *)((u8 *)record - 0x14))->unk_64, currentValue);
                 {
 
-                    if (!(var_s1 & 2)) {
-                        var_a1 = func_80099194(D_800E1B99, temp_a1);
+                    if (!(entryFlags & 2)) {
+                        currentValue = func_80099194(D_800E1B99, secondLookupValue);
                     } else {
-                        var_a1 = func_80099194(D_800E1BAA, temp_a1);
+                        currentValue = func_80099194(D_800E1BAA, secondLookupValue);
                     }
                 }
             }
-            func_80099290(var_a1);
-            func_800A5720(temp_v0);
+            func_80099290(currentValue);
+            func_800A5720(initialValue);
         }
     }
-    if ((var_s2 << 0x10) != 0) {
-        temp_v1_2 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_00;
-        if (!(temp_v1_2->unk_14 & 0x8000)) {
-            func_800C5BBC((temp_v1_2->unk_24 << 6) | 0x20, (temp_v1_2->unk_25 << 6) | 0x20,
-                ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_9C, 0xC0C040, 0x20, 0);
+    if ((triggerFlags << 0x10) != 0) {
+        objectData = ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_00;
+        if (!(objectData->unk_14 & 0x8000)) {
+            func_800C5BBC((objectData->unk_24 << 6) | 0x20, (objectData->unk_25 << 6) | 0x20,
+                ((S_800CE748_0 *)((u8 *)record - 0x14))->unk_9C, 0xC0C040, 0x20, 0);
             func_800A56E0(0x615);
         }
     }

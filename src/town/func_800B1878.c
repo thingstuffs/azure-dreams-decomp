@@ -15,13 +15,13 @@ typedef struct S_800AEFD8_1 {
     void * unk_D8;
 } S_800AEFD8_1;   /* payload in func_800AEFD8 */
 
-extern void *func_8003FD64(s32 arg0, void *arg1);
-extern s32 func_800AEF5C(void *arg0, s32 arg1);
-extern void *func_800AEB9C(void *arg0);
-extern void func_800AEEF0(void *arg0, void *arg1, s32 arg2, s32 arg3,
-                          s32 arg4, s32 arg5, s32 arg6);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void func_8004B248(void *arg0);
+extern void *func_8003FD64(s32 value, void *parent);
+extern s32 func_800AEF5C(void *payload, s32 value);
+extern void *func_800AEB9C(void *value);
+extern void func_800AEEF0(void *payload, void *parent, s32 resource_id, s32 resource_data,
+                          s32 x, s32 y, s32 context);
+extern void func_8004491C(void *object, void *callback);
+extern void func_8004B248(void *address);
 extern void func_8004CAA0(void);
 extern void func_800AE630(void);
 

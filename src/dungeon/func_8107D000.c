@@ -83,66 +83,66 @@ __asm__(".globl func_8014C800\n"
 #define BODY_NAME func_8014C800
 #endif
 
-void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
-    S_8107D000_1 *var_s0;
-    s32 temp_v1;
+void *BODY_NAME(s16 input0, s16 input1, s16 input2, s16 input3) {
+    S_8107D000_1 *record;
+    s32 value;
     u16 flags98;
-    S_8107D000_3 *temp_s2;
-    S_8107D000_2 *temp_s4;
-    S_8107D000_4 *temp_s5;
-    void *temp_v0;
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
-    void *call_a0;
+    S_8107D000_3 *child_0C;
+    S_8107D000_2 *child_08;
+    S_8107D000_4 *record_alias;
+    void *allocation;
+    s8 saved_input1;
+    s16 saved_input3;
+    s8 saved_input2;
+    void *allocation_arg;
     void *call_a1;
 
-    var_s0 = NULL;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
-    temp_v0 = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
-    if (temp_v0 != NULL) {
-        var_s0 = temp_v0 + 0x20;
-        ((S_8107D000_0 *)temp_v0)->unk_10 = &D_8014CAA4;
-        var_s0->unk_13 = 0x2B;
-        func_8004491C(temp_v0, func_80045340);
-        temp_s4 = ((S_8107D000_0 *)temp_v0)->unk_08;
-        temp_s4->unk_0A = saved_arg3;
-        temp_s2 = ((S_8107D000_0 *)temp_v0)->unk_0C;
-        temp_v1 = arg0 & 3;
-        temp_s2->unk_25 = saved_arg2;
-        temp_s5 = var_s0;
-        temp_s2->unk_2C = &D_8014FFB8;
-        temp_s2->unk_24 = saved_arg1;
-        if (temp_v1 == 1) {
-            flags98 = var_s0->unk_98;
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x6000);
-            var_s0->unk_98 = (u16) (flags98 | 0x4000);
-            var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x6000);
-        } else if (temp_v1 >= 2) {
-            flags98 = var_s0->unk_98;
-            var_s0->unk_14 = (s32) (var_s0->unk_14 | 0x2000);
-            var_s0->unk_98 = (u16) (flags98 | 0x4000);
-            var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x2000);
-        } else if (((arg0 & ~3) << 0x10) == 0) {
-            if (!(var_s0->unk_14 & 0x200)) {
-                temp_v1 = func_800A6D30();
-                if (temp_v1 & 1) {
-                    var_s0->unk_1C = (s32) (var_s0->unk_1C | 0x200);
-                    func_800A48F0(var_s0, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    temp_s2->unk_2C = &D_80150000;
+    record = NULL;
+    saved_input1 = input1;
+    saved_input3 = input3;
+    saved_input2 = input2;
+    allocation = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    if (allocation != NULL) {
+        record = allocation + 0x20;
+        ((S_8107D000_0 *)allocation)->unk_10 = &D_8014CAA4;
+        record->unk_13 = 0x2B;
+        func_8004491C(allocation, func_80045340);
+        child_08 = ((S_8107D000_0 *)allocation)->unk_08;
+        child_08->unk_0A = saved_input3;
+        child_0C = ((S_8107D000_0 *)allocation)->unk_0C;
+        value = input0 & 3;
+        child_0C->unk_25 = saved_input2;
+        record_alias = record;
+        child_0C->unk_2C = &D_8014FFB8;
+        child_0C->unk_24 = saved_input1;
+        if (value == 1) {
+            flags98 = record->unk_98;
+            record->unk_14 = (s32) (record->unk_14 | 0x6000);
+            record->unk_98 = (u16) (flags98 | 0x4000);
+            record->unk_1C = (s32) (record->unk_1C | 0x6000);
+        } else if (value >= 2) {
+            flags98 = record->unk_98;
+            record->unk_14 = (s32) (record->unk_14 | 0x2000);
+            record->unk_98 = (u16) (flags98 | 0x4000);
+            record->unk_1C = (s32) (record->unk_1C | 0x2000);
+        } else if (((input0 & ~3) << 0x10) == 0) {
+            if (!(record->unk_14 & 0x200)) {
+                value = func_800A6D30();
+                if (value & 1) {
+                    record->unk_1C = (s32) (record->unk_1C | 0x200);
+                    func_800A48F0(record, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    child_0C->unk_2C = &D_80150000;
                 }
             }
         }
-        call_a0 = temp_v0;
-        func_800A9C18(call_a0, temp_s4, temp_s2, arg0);
-        temp_s5->unk_9A = 0xFF;
-        temp_s5->unk_9C = -1;
-        temp_s5->unk_8C = &D_8014CF68;
-        temp_s2->unk_14 = (u16) (temp_s2->unk_14 | 0xC);
-        temp_s5->unk_AA = (s16) ((u16) var_s0->unk_14 & 7);
-        func_800AA36C(temp_s5, temp_s4, temp_s2, var_s0);
+        allocation_arg = allocation;
+        func_800A9C18(allocation_arg, child_08, child_0C, input0);
+        record_alias->unk_9A = 0xFF;
+        record_alias->unk_9C = -1;
+        record_alias->unk_8C = &D_8014CF68;
+        child_0C->unk_14 = (u16) (child_0C->unk_14 | 0xC);
+        record_alias->unk_AA = (s16) ((u16) record->unk_14 & 7);
+        func_800AA36C(record_alias, child_08, child_0C, record);
     }
-    return var_s0;
+    return record;
 }

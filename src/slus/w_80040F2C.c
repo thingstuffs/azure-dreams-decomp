@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 typedef void (*S_8006CE80_FuncPtr)(void);
@@ -25,9 +26,9 @@ typedef struct S_8006CE80 {
 } S_8006CE80;
 
 extern S_8006CE80 D_8006CE80[];
-extern u8 D_80082E60[];
 
-/* Runs an entry's callbacks, returning 1 if the flag at D_80082E60[0xE] is set after a call, otherwise 0. */
+
+/* Runs an entry's callbacks, returning 1 if the flag at D_80082E60.unk_0E is set after a call, otherwise 0. */
 s32 func_80040F2C(u16 entry_id)
 {
     S_8006CE80 *entry;
@@ -42,7 +43,7 @@ s32 func_80040F2C(u16 entry_id)
                 if ((*callback) != 0) {
                     do {
                         (*callback)();
-                        if (D_80082E60[0xE] != 0) {
+                        if (D_80082E60.unk_0E != 0) {
                             return 1;
                         }
                         callback++;

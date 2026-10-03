@@ -102,12 +102,12 @@ store_second:
         color = (s32)PTR_AT(state, 0);
         if ((U16_AT(color, 0x62) & D_80024500[mask_index]) != 0) {
             S32_AT(state, 0x14) = 0;
-            goto color_done;
+        } else {
+            S32_AT(state, 0x14) = 0x00FFFFFF;
         }
+    } else {
+        S32_AT(state, 0x14) = 0x00FFFFFF;
     }
-    S32_AT(state, 0x14) = 0x00FFFFFF;
-
-color_done:
     if (U16_AT(PTR_AT(state, 0), 0x64) >= U16_AT(state, 0x20)) {
         s32 first_step = (S16_AT(state, 0x1C) - S16_AT(state, 8)) >> 1;
         s32 second_step = (S16_AT(state, 0x1E) - S16_AT(state, 0x10)) >> 1;

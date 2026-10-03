@@ -13,13 +13,12 @@ void func_81862A5C(s32 owner, void *source)
     s32 roll;
     void *render;
     int white;
-    void *part;
     void *obj;
     obj = func_8003FC64(0x212);
     if (obj != 0) {
+        *((s32 *) (((s8 *) obj) + 0x20)) = owner;
         *((M2C_UNK **) (((s8 *) obj) + 0x10)) = &D_8002418C;
         render = *((void **) (((s8 *) obj) + 0xC));
-        *((s32 *) (((s8 *) obj) + 0x20)) = owner;
         *((s8 *) (((s8 *) obj) + 0x24)) = 0;
         white = 0x80;
         *((s8 *) (((s8 *) render) + 0xE)) = white;
@@ -32,11 +31,11 @@ void func_81862A5C(s32 owner, void *source)
         *((u16 *) (((s8 *) render) + 0x10)) = (u16) ((*((u16 *) (((s8 *) render) + 0x10))) | 0x60);
         *((u16 *) (((s8 *) render) + 0x14)) = (u16) ((*((u16 *) (((s8 *) render) + 0x14))) | 0x10C);
         func_8004491C(obj, func_80045340);
-        part = *((void **) (((s8 *) obj) + 8));
+        render = *((void **) (((s8 *) obj) + 8));
         rand();
-        *((u16 *) (((s8 *) part) + 2)) = (u16) (*((u16 *) (((s8 *) source) + 2)));
-        *((u16 *) (((s8 *) part) + 6)) = (u16) (*((u16 *) (((s8 *) source) + 6)));
+        *((u16 *) (((s8 *) render) + 2)) = (u16) (*((u16 *) (((s8 *) source) + 2)));
+        *((u16 *) (((s8 *) render) + 6)) = (u16) (*((u16 *) (((s8 *) source) + 6)));
         roll = rand();
-        *((s16 *) (((s8 *) part) + 0xA)) = (s16) (((*((u16 *) (((s8 *) source) + 0xA))) - 0x40) - (roll % 16));
+        *((s16 *) (((s8 *) render) + 0xA)) = (s16) (((*((u16 *) (((s8 *) source) + 0xA))) - 0x40) - (roll % 16));
     }
 }

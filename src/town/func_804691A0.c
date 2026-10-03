@@ -4,11 +4,6 @@
 #include "shared/town_root.h"
 #include "m2c_compat.h"
 
-typedef struct S_8001A1A0_1 {
-    u8 pad_00[0x2D4];
-    s32 (*unk_2D4)(M2C_UNK);
-} S_8001A1A0_1;   /* ((S_8001A1A0_0 *)(D_80016000[0]))->unk_20 in func_8001A1A0 */
-
 
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
@@ -18,5 +13,5 @@ M2C_UNK func_8001A188();
 
 /* Pass the callback-selected table value to the destination handler. */
 void func_8001A1A0(s32 destination, s32 *values) {
-    func_8001A188(destination, *((((S_8001A1A0_1 *)(D_80016000->unk_20))->unk_2D4(0)) + values));
+    func_8001A188(destination, *((D_80016000->unk_20->callback_2D4(0)) + values));
 }

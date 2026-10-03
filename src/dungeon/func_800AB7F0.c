@@ -109,7 +109,7 @@ void *func_800B0F50(void *owner)
                 text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
                 prim_index = 4;
                 text_width = func_80069E98(text_addr + 1);
-                goto position_text_done;
+    
             }
             else {
                 s32 *text_table = D_800DEFF8;
@@ -117,15 +117,12 @@ void *func_800B0F50(void *owner)
                 text_addr_2 = text_table[4];
                 prim_index = 4;
                 text_width = func_80069E98(text_addr_2 + 1);
-position_text_done:
-                ;
-
-                text_width *= 4;
+            }
+            text_width *= 4;
                 func_800B1320(prim, (s16) ((((s32) (0x20 - text_width)) >> 1) + 0x80),
                     (s32) ((s16) ((0 - ((s8) (*((u8 *) (((s8 *) prim) + 3))))) + 0x11)));
                 func_800B135C(prim, 8);
                 prim += 0x30;
-            }
             *color_ptr = 0x808080;
             *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;
             *((u8 *) (((s8 *) prim) + 1)) = 0x38U;

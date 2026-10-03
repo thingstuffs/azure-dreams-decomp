@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 
 typedef struct {
@@ -6,15 +7,9 @@ typedef struct {
     u8 pad6[6];
 } Entry;
 
-typedef struct {
-    u8 pad0[2];
-    s8 index;
-} State;
-
 extern s32 func_8001E670(s32 value);
 extern Entry D_8001791C[];
 extern u8 D_80017BB0[];
-extern State *D_8001E950;
 
 /* Select the next entry whose value passes func_8001E670, wrapping at the terminator. */
 u8 func_8001A414(void) {
@@ -22,7 +17,7 @@ u8 func_8001A414(void) {
     s32 next_index;
     u8 *entry_id;
 
-    start_index = D_8001E950->index;
+    start_index = ((s8)D_8001E950->unk_02);
     next_index = start_index + 1;
     if (next_index != start_index) {
         Entry *entries = D_8001791C;
@@ -41,6 +36,6 @@ u8 func_8001A414(void) {
             entry_id++;
         } while (next_index != start_index);
     }
-    D_8001E950->index = next_index;
+    D_8001E950->unk_02 = next_index;
     return D_80017BB0[next_index];
 }

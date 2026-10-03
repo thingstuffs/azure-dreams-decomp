@@ -109,20 +109,15 @@ void func_800BFB8C(void *source)
         } while (spawn_count >= 0);
     }
     state = ((S_800BFB8C_0 *)source)->unk_0C.s;
-    if (state != 0) {
-        if (state == 1) {
-            goto state_one;
+    switch (state) {
+    case 0:
+        if (func_80033BC0(0xA1) == 0) {
+            return;
         }
+        next_value = ((S_800BFB8C_0 *)source)->unk_0C.u + 1;
+        ((S_800BFB8C_0 *)source)->unk_0C.u = next_value;
         return;
-    }
-    if (func_80033BC0(0xA1) == 0) {
-        return;
-    }
-    next_value = ((S_800BFB8C_0 *)source)->unk_0C.u + 1;
-    ((S_800BFB8C_0 *)source)->unk_0C.u = next_value;
-    return;
-
-state_one:
+    case 1:
     next_value = ((S_800BFB8C_0 *)source)->unk_0E - 1;
     ((S_800BFB8C_0 *)source)->unk_0E = next_value;
     if ((next_value << 0x10) <= 0) {
@@ -132,4 +127,7 @@ state_one:
     }
 
     return;
+    default:
+        return;
+    }
 }

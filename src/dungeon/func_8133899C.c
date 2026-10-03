@@ -75,7 +75,10 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
         } else {
             *(void **)D_80175D5C = 0;
         }
-        goto finish;
+        ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
+        next_timer = 0x80080000;
+        *(s32 *)(next_timer + 0x14A0) |= 0x8000;
+        return;
 
     case 10:
         next_state = ((S_8016F99C_0 *)transition)->unk_12.u;
@@ -96,7 +99,6 @@ void func_8016F99C(void *transition, S_8016F99C_1 *target)
         } else {
             *(void **)D_80175D5C = 0;
         }
-finish:
         ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
         next_timer = 0x80080000;
         *(s32 *)(next_timer + 0x14A0) |= 0x8000;

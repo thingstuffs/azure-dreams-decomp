@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -24,14 +25,9 @@ typedef struct Shared83160 {
     s32 flags10;
 } Shared83160;
 
-typedef struct Shared82E60 {
-    u8 pad00[0x16];
-    u16 flags16;
-} Shared82E60;
-
 extern Shared83160 D_80083160;
 extern void *jtbl_8002EFDC[];
-extern Shared82E60 D_80082E60;
+
 extern s32 D_800814A0;
 
 

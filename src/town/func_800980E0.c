@@ -42,8 +42,7 @@ s32 func_80095840(void *destination, void *source)
     s32 selection;
     s32 offset;
     s32 initial_angle;
-    u8 entry_kind;
-    register void *entry ASM_REG("$6");
+    void *entry;
 
     result = destination;
     candidates = source;
@@ -66,11 +65,11 @@ s32 func_80095840(void *destination, void *source)
         if (selection != 0) {
 
             selection = ((S_80095840_1 *)candidates)->unk_1C;
-            ((S_80095840_1 *)candidates)->unk_18 = 0;
             ((S_80095840_1 *)candidates)->unk_10 = selection;
-            entry = (void *)selection;
-            entry_kind = ((S_80095840_2 *)((void *)selection))->unk_14;
-            if ((entry_kind == 1) || (entry_kind == 3)) {
+            ((S_80095840_1 *)candidates)->unk_18 = 0;
+            entry = (void *)((S_80095840_1 *)candidates)->unk_10;
+            offset = ((S_80095840_2 *)((void *)selection))->unk_14;
+            if ((offset == 1) || (offset == 3)) {
                 goto none;
             }
             selection = 2;
@@ -84,11 +83,11 @@ s32 func_80095840(void *destination, void *source)
             selection = offset * 4;
             selection += (s32)candidates;
             selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
-            ((S_80095840_1 *)candidates)->unk_18 = offset;
             ((S_80095840_1 *)candidates)->unk_10 = selection;
-            entry = (void *)selection;
-            entry_kind = ((S_80095840_3 *)entry)->unk_14;
-            if ((entry_kind != 1) && (entry_kind != 3)) {
+            ((S_80095840_1 *)candidates)->unk_18 = offset;
+            entry = (void *)((S_80095840_1 *)candidates)->unk_10;
+            offset = ((S_80095840_3 *)entry)->unk_14;
+            if ((offset != 1) && (offset != 3)) {
                 selection = 1;
                 result->unk_2C.s = entry;
                 return selection;

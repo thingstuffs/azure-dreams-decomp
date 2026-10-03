@@ -21,7 +21,7 @@ typedef struct S_800AF674_0 {
 
 s32 func_8004AC3C();
 s32 func_8004DC14();
-M2C_UNK func_800B0318();
+void func_800B0318();
 
 /* Initialize the output and fill up to ten slots with converted entries from the current page. */
 void func_800AF674(S_800AF674_0 *state) {

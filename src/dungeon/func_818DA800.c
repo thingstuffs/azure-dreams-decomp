@@ -164,7 +164,7 @@ void func_80024020(S_func_818DA800_1 *effect_state, S_func_818DA800_2 *motion)
     void *resource_base;
     s32 actor_or_corner;
 #ifdef __mips__
-    register S_func_818DA800_7 *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_818DA800_7 *prim;
 #else
     S_func_818DA800_7 *prim;
 #endif
@@ -287,7 +287,8 @@ update:
                     u16 prim_flags;
 
                     prim_flags = prim->unk_14;
-                    prim_color |= 0xC0C0;
+                    prim_color |= 0xC000;
+                    prim_color |= 0xC0;
                     position_or_z_offset = resource_base;
                     prim->unk_00 = position_or_z_offset;
                     prim->unk_1C = 0;

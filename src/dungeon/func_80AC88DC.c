@@ -38,21 +38,8 @@ void func_801740DC(void *actor_in, s32 actor_index, void *target, void *entity_i
     s32 direction;
     DungeonGlobalStatus *shared_state;
     state = ((S_801740DC_0 *)actor_in)->unk_9B;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_zero;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
+    switch (state) {
+    case 0:
     if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -68,7 +55,7 @@ state_zero:
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
 
-state_one:
+    case 1:
     if (entity->tileY != 0) {
         DungeonGlobalStatus *shared_counter;
 
@@ -126,7 +113,7 @@ state_one:
     ((S_801740DC_0 *)actor_in)->unk_9B++;
     return;
 
-state_two:
+    case 2:
     if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0xE000)) {
         return;
     }
@@ -139,4 +126,7 @@ state_two:
     ((S_801740DC_0 *)actor_in)->unk_8C = &D_80171728;
 
     return;
+    default:
+        return;
+    }
 }

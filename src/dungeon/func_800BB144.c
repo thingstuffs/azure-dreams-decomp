@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -33,7 +34,6 @@ typedef struct S_800C08A4_2 {
 } S_800C08A4_2;   /* counter_base in func_800C08A4 */
 
 
-extern u16 D_800DDE84[];
 M2C_UNK func_8008D344();
 M2C_UNK func_80098864();
 M2C_UNK func_80098B38();

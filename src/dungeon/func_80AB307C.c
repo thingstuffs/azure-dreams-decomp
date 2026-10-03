@@ -3,7 +3,6 @@
 #include "shared/slus_callbacks.h"
 
 
-typedef s32 M2C_UNK;
 
 typedef struct S_8015887C_0 {
     u8 pad_00[0x8];
@@ -50,7 +49,7 @@ extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
 extern u8 D_80158A50[];
-extern M2C_UNK D_80158E7C;
+extern u8 D_80158E7C;
 extern u8 D_8015CC3C[];
 extern u8 D_8015CC8C[];
 

@@ -1,6 +1,6 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 
-extern void *D_8001E950;
 
 extern s32 func_8001E670(s32 id);
 extern void func_8001E578(s32 id);

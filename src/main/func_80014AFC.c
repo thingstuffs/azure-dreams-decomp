@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 /* Linked-list node shape shared with func_8004B4A8/func_800403BC's Node/
@@ -15,9 +16,9 @@ typedef struct Node8002BB08 {
 
 extern Node8002BB08 D_8002BB08;
 
-/* D_80082E60: shared global state struct; only the flags byte at offset 0xF
+/* ((u8 *)&D_80082E60): shared global state struct; only the flags byte at offset 0xF
  * is touched here. Size >8B forces %hi/%lo. */
-extern u8 D_80082E60[];
+
 
 /* Address-only use; size clears the small-data threshold. */
 extern u8 D_80027A9C[];
@@ -40,7 +41,7 @@ Node8002BB08 *func_80027AFC(s32 request, s32 mode) {
         node->field_1E &= 0x7FFF;
         bzero(node_data, 0x44);
     }
-    D_80082E60[0xF] |= 0x80;
+    D_80082E60.flags0F |= 0x80;
     func_80027A68(node_data, request, mode);
     node->field_10 = &D_80027A9C[0];
     return node;

@@ -44,6 +44,8 @@ typedef struct S_7FFE7804_2 {
 /* Advance the effect around its center, fade its color, and flag it when its lifetime ends. */
 void func_7FFE7804(void *effect, void *position, void *color) {
     s32 life_left;
+    s32 arithmetic;
+    s32 product;
     u16 next_angle;
     u16 angle;
 
@@ -53,16 +55,33 @@ void func_7FFE7804(void *effect, void *position, void *color) {
     if ((s16) next_angle >= 0x1001) {
         ((S_7FFE7804_0 *)effect)->unk_28 = (u16) (angle - 0xF38);
     }
-    ((S_7FFE7804_1 *)position)->unk_02 = (s16) (((S_7FFE7804_0 *)effect)->unk_38
-        + ((s32) (((S_7FFE7804_0 *)effect)->unk_2A * func_7006DD28((s16) ((S_7FFE7804_0 *)effect)->unk_28)) >> 0xC));
-    ((S_7FFE7804_1 *)position)->unk_06 = (s16) (((S_7FFE7804_0 *)effect)->unk_3A
-        + ((s32) (((S_7FFE7804_0 *)effect)->unk_2A * func_7006DC5C((s16) ((S_7FFE7804_0 *)effect)->unk_28)) >> 0xC));
-    ((S_7FFE7804_2 *)color)->unk_0C =
-        (s8) ((s32) (((S_7FFE7804_0 *)effect)->unk_0C * ((S_7FFE7804_0 *)effect)->unk_1E.s) / (s16) ((S_7FFE7804_0 *)effect)->unk_20);
-    ((S_7FFE7804_2 *)color)->unk_0D =
-        (s8) ((s32) (((S_7FFE7804_0 *)effect)->unk_0D * ((S_7FFE7804_0 *)effect)->unk_1E.s) / (s16) ((S_7FFE7804_0 *)effect)->unk_20);
-    ((S_7FFE7804_2 *)color)->unk_0E =
-        (s8) ((s32) (((S_7FFE7804_0 *)effect)->unk_0E * ((S_7FFE7804_0 *)effect)->unk_1E.s) / (s16) ((S_7FFE7804_0 *)effect)->unk_20);
+    {
+        product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DD28((s16)((S_7FFE7804_0 *)effect)->unk_28);
+        arithmetic = ((S_7FFE7804_0 *)effect)->unk_38;
+        arithmetic += product >> 12;
+        ((S_7FFE7804_1 *)position)->unk_02 = arithmetic;
+    }
+    {
+        product = ((S_7FFE7804_0 *)effect)->unk_2A * func_7006DC5C((s16)((S_7FFE7804_0 *)effect)->unk_28);
+        arithmetic = ((S_7FFE7804_0 *)effect)->unk_3A;
+        arithmetic += product >> 12;
+        ((S_7FFE7804_1 *)position)->unk_06 = arithmetic;
+    }
+    {
+        product = ((S_7FFE7804_0 *)effect)->unk_0C * ((S_7FFE7804_0 *)effect)->unk_1E.s;
+        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
+        ((S_7FFE7804_2 *)color)->unk_0C = product / arithmetic;
+    }
+    {
+        product = ((S_7FFE7804_0 *)effect)->unk_0D * ((S_7FFE7804_0 *)effect)->unk_1E.s;
+        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
+        ((S_7FFE7804_2 *)color)->unk_0D = product / arithmetic;
+    }
+    {
+        product = ((S_7FFE7804_0 *)effect)->unk_0E * ((S_7FFE7804_0 *)effect)->unk_1E.s;
+        arithmetic = ((S_7FFE7804_0 *)effect)->unk_20;
+        ((S_7FFE7804_2 *)color)->unk_0E = product / arithmetic;
+    }
     life_left = ((S_7FFE7804_0 *)effect)->unk_1E.u - 1;
     ((S_7FFE7804_0 *)effect)->unk_1E.s = life_left;
     if ((life_left << 0x10) <= 0) {

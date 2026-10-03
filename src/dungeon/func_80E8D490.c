@@ -68,25 +68,24 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
 {
     u32 dir_offset;
     u16 angle;
+    u32 action_index;
     s16 *dir_x_table;
     s32 dir_x;
     s32 dir_y;
     u16 timer;
     u32 state;
-    u32 action_index;
     u8 *selector;
     s32 special;
     s32 tail_state; /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
 
-    ASM_KEEP_DEP_NV(special, actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dir_x_table = dirStepX;
     angle = ((u16)actor->facing);
     dir_offset = angle >> 8;
-    ASM_USE2_NV(angle, special);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     dir_offset &= 0xE;
     dir_x = *(s16 *)((u8 *)dir_x_table + dir_offset);
-    dir_y = *(s16 *)((u8 *)dirStepY + dir_offset);
+    dir_offset += (u32)dirStepY;
+    dir_y = *(s16 *)dir_offset;
     timer = ((S_80172C90_1 *)action)->unk_96.s;
     state = ((S_80172C90_1 *)action)->unk_9B;
     ((S_80172C90_1 *)action)->unk_96.s = timer - 1;
@@ -155,18 +154,18 @@ I1:
 IEnd:
         if (*selector != 0) {
             void *owner;
-            s32 use_owner;
+            u16 use_owner;
             s32 move_result;
 
             ((S_80172C90_1 *)action)->unk_98 &= 0xFF7F;
             use_owner = special;
-            ASM_KEEP_NV(use_owner);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (use_owner) {
                 owner = D_800814A8;
                 actor->target = owner;
                 goto OwnerLinked;
             }
-            if (D_8006DE24[*selector].kind == 2) {
+            dir_offset = *selector;
+            if (D_8006DE24[dir_offset].kind == 2) {
                 owner = actor->target;
                 if (owner != 0) {
 OwnerLinked:

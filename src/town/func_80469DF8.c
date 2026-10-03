@@ -1,5 +1,5 @@
+#include "shared/town_event_state.h"
 #include "common.h"
-#include "records/Rec_D_8001E950.h"
 
 typedef struct S_8001ADF8_2 {
     u8 pad_00[0x8];
@@ -16,7 +16,6 @@ typedef struct S_8001ADF8_1 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern s32 func_8001A6D0();
-extern Rec_D_8001E950 *D_8001E950;
 
 /* Stores the lookup result in the selected entry when the current record has code 7. */
 s32 func_8001ADF8(S_8001ADF8_1 *entry_table, s32 entry_index) {

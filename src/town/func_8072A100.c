@@ -4,12 +4,6 @@
 #include "m2c_compat.h"
 
 
-typedef struct SceneStateVtbl {
-    u8 pad_00[0x330];
-    s32 (*unk_330)(M2C_UNK);
-    s32 (*unk_334)(M2C_UNK);
-} SceneStateVtbl;   /* ((Rec_D_80016000 *)D_80016000)->unk_20 in func_80016100 */
-
 
 M2C_UNK func_80017684();                         /* extern */
 M2C_UNK func_800176FC();                         /* extern */
@@ -26,7 +20,7 @@ void func_80016100(void) {
     s32 state;
     s32 slot;
 
-    state = ((SceneStateVtbl *)(D_80016000->unk_20))->unk_330(0);
+    state = D_80016000->unk_20->callback_330(0);
     slot = 0;
     label_cursor = &D_80017A6C;
     state_cursor = &D_80017A74;
@@ -39,7 +33,7 @@ void func_80016100(void) {
         state_cursor += 1;
         slot += 1;
     } while (slot < 4);
-    if (((SceneStateVtbl *)(D_80016000->unk_20))->unk_334(0) != 5) {
+    if (D_80016000->unk_20->callback_334(0) != 5) {
         func_80017684(0xBE0);
     } else {
         func_800176FC(0xBE0);

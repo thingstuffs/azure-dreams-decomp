@@ -1,3 +1,4 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "shared/record_ptrs.h"
 
@@ -7,7 +8,6 @@ extern s32 func_8001E670(s32 id);
 extern void func_800196A4(void);
 
 extern s32 D_80018448[];
-extern u8 *D_8001E950;
 
 /* Town state query: when flag 0x1391 is clear or flag 0xA2 is set, return the table entry the object's 0x2D4 callback picks; otherwise run the fallback and bump its counter. */
 s32 func_8001947C(void)
@@ -21,7 +21,7 @@ s32 func_8001947C(void)
     }
 
     func_800196A4();
-    D_8001E950[0]++;
+    D_8001E950->unk_00++;
     return 0;
 }
 

@@ -2,11 +2,6 @@
 #include "shared/record_ptrs.h"
 #include "shared/town_root.h"
 
-typedef struct {
-    s8 pad[0x54];
-    s32 (*callback)(s32);
-} TownCallback;
-
 extern s8 D_80018AF8[];
 extern u16 D_80019114;
 extern s8 *D_80019118;
@@ -20,13 +15,13 @@ void func_800169FC(void) {
     D_80019118 = D_80018AF8;
     D_80019114 = 0;
 
-    if (((TownCallback *)D_80016000->unk_20)->callback(4) != 0) {
+    if (D_80016000->unk_20->callback_054(4) != 0) {
         func_800185C0(0x9AC);
     } else {
         func_80018548(0x9AC);
     }
 
-    if (((TownCallback *)D_80016000->unk_20)->callback(4) != 0) {
+    if (D_80016000->unk_20->callback_054(4) != 0) {
         func_800185C0(0x9AD);
     } else {
         func_80018548(0x9AD);

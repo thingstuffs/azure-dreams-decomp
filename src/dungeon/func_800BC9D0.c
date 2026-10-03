@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/tile_object.h"
 #include "shared/entity_objects.h"
@@ -18,7 +19,6 @@ extern void func_800A6480();
 extern s32 func_800AD6FC();
 extern void func_800C4D78();
 
-extern u8 D_800DDE84[];
 extern u8 D_800E1567[];
 extern u8 D_800E3648[];
 
@@ -46,7 +46,7 @@ s32 func_800C2130(EntityRec *entity, s32 event, s16 event_type, s32 event_arg) {
         func_800A6480(entity, event);
         if (func_800AD6FC(
                 entity,
-                ((u16 *)D_800DDE84)[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
+                D_800DDE84[(*(u8 *)((u8 *)&entity->unk_10 + 3))] & 3,
                 event) == 0) {
             func_800A5F38(entity, event);
             return 1;

@@ -1,11 +1,10 @@
+#include "shared/town_event_state.h"
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_8001E950.h"
 
 
 s32 func_8001E670();                             /* extern */
 extern s16 D_8001792C;
-extern Rec_D_8001E950 *D_8001E950;
 
 /* Return whether the identifier check passes when the state permits it. */
 s32 func_8001C37C(void) {

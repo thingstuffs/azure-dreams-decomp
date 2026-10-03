@@ -1,3 +1,4 @@
+#include "shared/entity_action_selectors.h"
 #include "common.h"
 #include "shared/dungeon_floor.h"
 #include "shared/tile_object.h"
@@ -18,7 +19,6 @@ extern s32 func_800403BC();
 extern s32 func_800997FC();
 extern s32 func_80098B38();
 
-extern u8 D_800DDE84[];
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
 extern u8 D_800E3648[];
@@ -62,7 +62,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     }
     if ((u32) target <= 0x9FFFFFFFU) {
         func_800A6480(target, effect_arg, effect_code);
-        if (func_800AD6FC(target, U16(D_800DDE84, U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
+        if (func_800AD6FC(target, U16(((u8 *)D_800DDE84), U8(target, 0x13) * 2) & 3, effect_arg) == 0) {
             func_800A5F38(target, effect_arg);
             return 1;
         }

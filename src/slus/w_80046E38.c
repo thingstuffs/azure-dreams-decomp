@@ -1,3 +1,4 @@
+#include "shared/runtime_dispatch.h"
 #include "common.h"
 
 typedef struct Info80046E38 {
@@ -10,12 +11,6 @@ typedef struct Pair80046E38 {
     s32 second;
 } Pair80046E38;
 
-typedef struct State80046E38 {
-    u8 pad[10];
-    u8 mode;
-    u8 tail;
-} State80046E38;
-
 extern s32 DrawSync(s32);
 extern void Control_CD(s32, s32 *, s32);
 extern void func_8003F320(void);
@@ -27,7 +22,7 @@ extern Info80046E38 *D_8006E7F0[];
 extern s32 D_80080A7C;
 extern u8 *D_80081480;
 extern u8 *D_8008148C[3];
-extern State80046E38 D_80082E60;
+
 
 /* Processes the selected entry stream and updates the drawing buffer and mode mask. */
 void func_80046E38(s16 entry_id, u8 *stream)
