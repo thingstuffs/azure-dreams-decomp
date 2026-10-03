@@ -147,7 +147,8 @@ def main():
     for name, f in defs:
         sel = [by[i] for i, c in cen.items() if not c.get("missing") and f(dict(c, audit=c.get("audit_pin", c.get("audit", {}))))]   # pin column: the audit as it was at the pin
         b = sum(r["size"] for r in sel)
-        sel2 = [by[i] for i, c in curc.items() if c and f(c)]
+        # parked containers excluded like "Pin sites now" and the L4 line (r91_luna_offby1: ovmovie/func_80041044 made it 151 vs 150)
+        sel2 = [by[i] for i, c in curc.items() if c and i.split("/")[0] not in PARKED_CONTAINERS and f(c)]
         b2 = sum(r["size"] for r in sel2)
         out.append(f"| {name} | {len(sel)} | {b:,} | {100*b/tot:.1f}% | {len(sel2)} | {b2:,} | {100*b2/tot:.1f}% |")
     pins = collections.Counter(); 
