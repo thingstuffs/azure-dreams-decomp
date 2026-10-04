@@ -21,6 +21,8 @@ Partial progress counts: a byte-exact candidate with FEWER gotos (and nothing el
 Stage it and keep working from it. A row where every goto provably has to stay is a result too - say which
 compiler decision each remaining goto holds, measured, not guessed.
 
+**Round 93 measured recipes (read before the first rewrite):** `<REPO>/tools/lanes/brief_paragraphs/goto_recipes.md` (every shape the r93 goto lanes measured, pooled tried/exact, and the never-worked list with its mechanism). Computed-goto rows (`goto *T[...]` over `&&label` arrays): `<REPO>/tools/lanes/brief_paragraphs/computed_goto_switch.md`.
+
 ## What already worked (r79_sonnet_g1, Sonnet 5.5: 35 -> 5 gotos on 6 rows, every shape measured)
 
 | shape | rewrite | tried / exact |
