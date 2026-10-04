@@ -28,14 +28,14 @@ typedef struct {
     s32 unk18;
 } Unk96134State;
 
-extern void func_8008B5D8(void *arg0, s32 arg1);
+extern void func_8008B5D8(void *ptr, s32 value);
 extern s32 func_800937F8(void);
-extern void func_80093D48(void *arg0, void *arg1, void *arg2);
-extern void func_8009451C(void *arg0, void *arg1, void *arg2);
-extern void func_800947BC(void *arg0, void *arg1, void *arg2);
-extern void *func_8009DFD8(void *arg0, Unk96134Pos *arg1, s32 arg2);
-extern s32 func_8009F71C(void *arg0, s32 arg1);
-extern s32 func_8009FF50(s32 arg0);
+extern void func_80093D48(void *object, void *position, void *callback_data);
+extern void func_8009451C(void *object, void *position, void *callback_data);
+extern void func_800947BC(void *object, void *position, void *callback_data);
+extern void *func_8009DFD8(void *context, Unk96134Pos *position, s32 mode);
+extern s32 func_8009F71C(void *ptr, s32 value);
+extern s32 func_8009FF50(s32 state_index);
 extern s32 func_800A0608(void);
 extern s32 func_800B28A0(void);
 
@@ -50,7 +50,7 @@ extern u8 D_800CFCB4[];
 extern s32 D_800D0428;
 extern s32 D_800D0728[];
 extern s32 D_800FE518;
-extern void (*D_800FE5D8)(void *arg0, void *arg1, void *arg2);
+extern void (*D_800FE5D8)(void *object, void *position, void *callback_data);
 extern u8 D_80110EB8[];
 
 

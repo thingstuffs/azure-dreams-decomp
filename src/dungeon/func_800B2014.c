@@ -18,21 +18,21 @@ typedef struct {
 extern s32 D_800835E8[];
 M2C_UNK func_8003E188();
 M2C_UNK func_80042640();
-M2C_UNK func_800424E0();
+void func_800424E0(); /* extern */
 s32 func_800990FC();
 s32 func_80099194();
 M2C_UNK func_80099290();
 s32 func_8009929C();
 s32 func_80099734();
-M2C_UNK func_800997FC();
+void func_800997FC(); /* extern */
 s32 func_8009B88C();
-s32 *(*func_800A0B94())(M2C_UNK, s16, s16, s16);
+s32 *(*func_800A0B94())(s32, s16, s16, s16); /* extern */
 s32 func_800A1618();
-M2C_UNK func_800A1D4C();
+s32 func_800A1D4C(); /* extern */
 s32 func_800A384C();
 s32 func_800A3D18();
-M2C_UNK func_800A48F0();
-M2C_UNK func_800A5720();
+s16 func_800A48F0(); /* extern */
+s32 func_800A5720(); /* extern */
 M2C_UNK func_800A90E8();
 void func_8009A180(s32 *, u8 *);
 extern M2C_UNK D_800E0A42;

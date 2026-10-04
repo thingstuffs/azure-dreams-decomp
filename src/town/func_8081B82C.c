@@ -93,17 +93,14 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
     case 0:
         if (motion->w8 > 0) {
             motion->w8 += motion->w20;
-            particles_left = 3;
-            for (;;) {
+            for (particles_left = 3; particles_left >= 0; particles_left--) {
                 random_value = rand();
                 particle_x = motion->w0;
                 particle_x += ((random_value & 0xff) - 128) << 14;
                 random_value = rand();
                 func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
-                if (--particles_left < 0) {
-                    goto END;
-                }
             }
+            break;
         }
         motion->w8 = 0;
         motion->w20 = 0;
@@ -144,8 +141,7 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
                 s32 height = motion->w8 + motion->w20;
                 motion->w8 = height;
                 if (height <= 0x3fffff) {
-                    particles_left = 3;
-                    for (;;) {
+                    for (particles_left = 3; particles_left >= 0; particles_left--) {
                         random_value = rand();
                         particle_x = random_value & 0xff;
                         particle_x -= 128;
@@ -153,9 +149,6 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
                         particle_x += 0x5600000;
                         random_value = rand();
                         func_800252B8(0x808080, particle_x, motion->w4 + 0x80000, (random_value & 0xf) << 16);
-                        if (--particles_left < 0) {
-                            goto END;
-                        }
                     }
                 }
             }
@@ -177,6 +170,5 @@ void func_8002582C(A *entity, C *motion, D *sprite) {
     }
 
     }
-END:
     entity->flags &= ~2;
 }

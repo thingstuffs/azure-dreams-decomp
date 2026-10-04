@@ -46,23 +46,19 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
     kind = kind_byte;
 
     if (entry[1] != 0) {
-        if ((entry[1] & 7) == compare_kind) {
-            shifted_action = (s16)action_code;
-            entry_action = *(volatile u8 *)(entry + 1);
-            entry_action &= 0xF8;
-            if (entry_action == shifted_action) {
-                if (entry[0] < 0x7F) {
-                    goto entry_valid;
-                }
-            }
+        if ((entry[1] & 7) != compare_kind ||
+            (shifted_action = (s16)action_code,
+             entry_action = entry[1],
+             entry_action &= 0xF8,
+             entry_action != shifted_action) ||
+            entry[0] >= 0x7F) {
+            state->position++;
+            entry += 2;
+            entry[1] = 0;
+            entry[0] = 0;
         }
-        state->position++;
-        entry += 2;
-        entry[1] = 0;
-        entry[0] = 0;
     }
 
-entry_valid:
     action_offset = (s16)(saved_action - 8);
     dispatch_index = (s16)action_offset;
     switch (dispatch_index) {

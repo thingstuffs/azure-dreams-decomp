@@ -1,11 +1,11 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80033C1C();
-M2C_UNK func_80033D08();
-M2C_UNK func_800375C0();
-M2C_UNK func_8003DB94(void *, M2C_UNK *, s32);
-M2C_UNK func_8004491C();
+void func_80033C1C();
+void func_80033D08();
+void func_800375C0();
+void func_8003DB94(void *, void *, s16);
+s32 func_8004491C();
 extern M2C_UNK D_80033D54;
 extern M2C_UNK D_80037714;
 extern M2C_UNK D_800794AC;

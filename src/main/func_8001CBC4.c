@@ -3,17 +3,17 @@
 
 typedef void (*Callback)(void *);
 
-extern s32 func_80047FD8(void *arg0);
-extern s32 func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern void func_8007BEF0(s32 arg0);
-extern void func_80040560(s32 arg0, void *arg1);
-extern void func_80403D24(void *arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_80403AC8(void *arg0, s32 arg1);
-extern s32 func_80403AA0(void *arg0);
-extern void func_80403B84(void *arg0, s32 arg1);
-extern void func_804034D8(void *arg0);
+extern s32 func_80047FD8(void *object);
+extern s32 func_8003C714(s32 value, void *object, s32 size);
+extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
+extern void func_8007BEF0(s32 value);
+extern void func_80040560(s32 object, void *ptr);
+extern void func_80403D24(void *object);
+extern void func_8007BFE0(void *object, s32 size);
+extern void func_80403AC8(void *object, s32 value);
+extern s32 func_80403AA0(void *ptr);
+extern void func_80403B84(void *object, s32 option_param);
+extern void func_804034D8(void *object);
 
 extern u8 D_804005A0[];
 extern u8 D_804005C8[];

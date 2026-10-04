@@ -14,20 +14,17 @@ s32 func_800A1C14(s32 target_value) {
     s32 slot_value;
     s16 match_index;
 
-    do {
-        slot = 0;
-    } while (0);
+    slot = 0;
     slot_ptr = (s32 *)D_800E3D7C.ptr;
-loop:
-    slot_value = slot_ptr[0x39];
-    if (slot_value != target_value) {
-        slot++;
-        slot_ptr++;
-        if (slot < 4) {
-            goto loop;
+    do {
+        slot_value = slot_ptr[0x39];
+        if (slot_value != target_value) {
+            slot++;
+            slot_ptr++;
+            continue;
         }
-        return -1;
-    }
-    match_index = (s16)slot;
-    return match_index;
+        match_index = (s16)slot;
+        return match_index;
+    } while (slot < 4);
+    return -1;
 }

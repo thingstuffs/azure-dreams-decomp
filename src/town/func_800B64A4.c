@@ -8,7 +8,6 @@ typedef struct TownState {
     s32 flags;
 } TownState;
 
-
 // Selects a choice from enabled town flags, marks its array entry with 4, and returns it.
 s32 func_800B3C04(s32 *choice_values)
 {
@@ -21,17 +20,12 @@ s32 func_800B3C04(s32 *choice_values)
         town_flags = ((s32)gameWork.unk_010);
         if (town_flags & 0x40) {
             choice = 2;
-            goto selected;
-        }
-        if (town_flags & 0x10) {
+        } else if (town_flags & 0x10) {
             choice = 3;
-            goto selected;
-        }
-        if (town_flags & 0x20) {
+        } else if (town_flags & 0x20) {
             choice = 4;
         }
     }
-selected:
     selected_value = 4;
     if (choice != -1) {
         choice_values[choice + 3] = selected_value;

@@ -3,12 +3,12 @@
 #include "shared/entity_objects.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();    /* extern */
+void func_8003DB94();    /* extern */
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 M2C_UNK func_800BB2E4(); /* extern */
-M2C_UNK func_800C77D0(); /* extern */
+s32 func_800C77D0(); /* extern */
 extern M2C_UNK D_800BB55C;
 extern M2C_UNK D_800BBA20;
 extern M2C_UNK D_800DF3C0;
@@ -53,7 +53,7 @@ typedef struct S_800BBA40_3 {
 } S_800BBA40_3;   /* var_v1 in func_800BBA40 */
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, M2C_UNK transform_data, s16 scale, s32 setup_word_5c,
+void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, void *transform_data, s16 scale, s32 setup_word_5c,
     s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
@@ -61,7 +61,7 @@ void *func_800BBA40(s16 tile_x, s16 tile_y, s16 pos_z, M2C_UNK transform_data, s
     S_800BBA40_1 *position;
     S_800BBA40_2 *render_data;
     s16 held_pos_z = pos_z;
-    M2C_UNK held_transform = transform_data;
+    void *held_transform = transform_data;
     void *setup_base;
 
     call_data[0] = 0x01000340;

@@ -42,8 +42,8 @@ typedef struct S_800C4F6C_4 {
 } S_800C4F6C_4;   /* temp_a1 in func_800C4F6C */
 
 
-M2C_UNK func_800A47A8();                     /* extern */
-M2C_UNK func_800A48B0();            /* extern */
+void func_800A47A8();                     /* extern */
+void func_800A48B0();            /* extern */
 M2C_UNK func_800C3050(); /* extern */
 M2C_UNK func_800C5214();                      /* extern */
 extern M2C_UNK D_800C5064;

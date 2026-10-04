@@ -35,15 +35,15 @@ typedef struct S_800AB1E0_1 {
 } S_800AB1E0_1;   /* base in func_800AB1E0 */
 
 
-void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
-    GameWork *base = &gameWork;
+void func_800AB1E0(void *ptr, s32 value, Rec_D_80082E80 *record) {
+    GameWork *work = &gameWork;
     s16 buf[12];
-    s32 idx;
-    u16 cleared;
+    s32 index;
+    u16 flag_value;
 
     if (D_800834A8 == 0) {
-        func_80033D08(arg0, arg1);
-        (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
+        func_80033D08(ptr, value);
+        (*(u16 *)((u8 *)ptr + (-2))) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
     }
@@ -51,48 +51,48 @@ void func_800AB1E0(void *arg0, s32 arg1, Rec_D_80082E80 *arg2) {
     func_800AAFE0(buf, 0);
     if (buf[1] != D_80083780.x.w.i || buf[3] != D_80083780.y.w.i ||
         buf[5] != D_80083780.z.w.i || func_800352FC() != 0 ||
-        (base->buttons & 0xF000) != 0) {
+        (work->buttons & 0xF000) != 0) {
         func_800AAF5C();
-        (*(s16 *)((u8 *)arg0 + (0x90))) = 0;
+        (*(s16 *)((u8 *)ptr + (0x90))) = 0;
     } else {
-        (*(s16 *)((u8 *)arg0 + (0x90))) = (*(s16 *)((u8 *)arg0 + (0x90))) + 1;
-        if ((*(s16 *)((u8 *)arg0 + (0x90))) > 100) {
-            (*(s16 *)((u8 *)arg0 + (0x90))) = 100;
+        (*(s16 *)((u8 *)ptr + (0x90))) = (*(s16 *)((u8 *)ptr + (0x90))) + 1;
+        if ((*(s16 *)((u8 *)ptr + (0x90))) > 100) {
+            (*(s16 *)((u8 *)ptr + (0x90))) = 100;
         }
     }
-    (*(Callback *)((u8 *)arg0 + (0x50)))(arg0, arg1, arg2);
-    if (((*(u16 *)((u8 *)arg0 + (-2))) & 0x8000) != 0) {
+    (*(Callback *)((u8 *)ptr + (0x50)))(ptr, value, record);
+    if (((*(u16 *)((u8 *)ptr + (-2))) & 0x8000) != 0) {
         return;
     }
 
-    idx = func_800C2E1C((*(s16 *)((u8 *)arg0 + (0x72))), (*(s16 *)((u8 *)arg0 + (0x64))));
-    if ((*(s16 *)((u8 *)arg0 + (0x74))) != idx) {
-        func_800C2CB0(arg0, arg2, ((void **)(*(void * *)((u8 *)arg0 + (0x78))))[idx],
-                      arg2->unk_04.as_s8);
-        (*(s16 *)((u8 *)arg0 + (0x74))) = idx;
+    index = func_800C2E1C((*(s16 *)((u8 *)ptr + (0x72))), (*(s16 *)((u8 *)ptr + (0x64))));
+    if ((*(s16 *)((u8 *)ptr + (0x74))) != index) {
+        func_800C2CB0(ptr, record, ((void **)(*(void * *)((u8 *)ptr + (0x78))))[index],
+                      record->unk_04.as_s8);
+        (*(s16 *)((u8 *)ptr + (0x74))) = index;
     }
 
-    if (((*(u8 *)((u8 *)arg0 + (0x71))) & 1) == 0) {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
-                               (*(s16 *)((u8 *)arg0 + (0x64)))) == 0) {
-            cleared = arg2->unk_14.at00_u16.v;
+    if (((*(u8 *)((u8 *)ptr + (0x71))) & 1) == 0) {
+        if ((s16)func_800C2F14((*(s16 *)((u8 *)ptr + (0x72))),
+                               (*(s16 *)((u8 *)ptr + (0x64)))) == 0) {
+            flag_value = record->unk_14.at00_u16.v;
                          /* MATCH: keep each clear load in its own arm. */
-            cleared = (u16)(cleared - (cleared & 1));
+            flag_value = (u16)(flag_value - (flag_value & 1));
         } else {
-            cleared = arg2->unk_14.at00_u16.v | 1;
+            flag_value = record->unk_14.at00_u16.v | 1;
         }
     } else {
-        if ((s16)func_800C2F14((*(s16 *)((u8 *)arg0 + (0x72))),
-                               (*(s16 *)((u8 *)arg0 + (0x64)))) != 0) {
-            cleared = arg2->unk_14.at00_u16.v;
+        if ((s16)func_800C2F14((*(s16 *)((u8 *)ptr + (0x72))),
+                               (*(s16 *)((u8 *)ptr + (0x64)))) != 0) {
+            flag_value = record->unk_14.at00_u16.v;
 
-            cleared &= 0xFFFE;
+            flag_value &= 0xFFFE;
         } else {
-            cleared = arg2->unk_14.at00_u16.v | 1;
+            flag_value = record->unk_14.at00_u16.v | 1;
         }
     }
 
          /* MATCH: keep the flag store in the common tail. */
-    arg2->unk_14.at00_u16.v = cleared;
-    func_800C2C80(arg0, arg2, 0, 0);
+    record->unk_14.at00_u16.v = flag_value;
+    func_800C2C80(ptr, record, 0, 0);
 }

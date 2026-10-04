@@ -11,17 +11,17 @@ extern s32 D_80082EB0[];
 extern s16 D_800DCE66[5];
 extern s32 D_800E4940[];
 extern u8 D_8004F5F4[];
-M2C_UNK func_8004DD2C();                     /* extern */
+void func_8004DD2C();                     /* extern */
 s32 func_8009074C();                /* extern */
 s32 func_8009402C(); /* extern */
 s32 func_80094208();                         /* extern */
-M2C_UNK func_800997FC();                   /* extern */
-M2C_UNK func_8009F644();   /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+void func_800997FC();                   /* extern */
+void func_8009F644();   /* extern */
+s32 func_800A56E0();                     /* extern */
 M2C_UNK func_800B0F50();                      /* extern */
 s32 func_800B9964();                          /* extern */
-M2C_UNK func_800BA810();                 /* extern */
-M2C_UNK func_800C77D0();   /* extern */
+void func_800BA810();                 /* extern */
+s32 func_800C77D0();   /* extern */
 extern u8 D_80012D6D;
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_80023C58;
@@ -73,7 +73,7 @@ typedef struct S_80091430_7 {
 } S_80091430_7;   /* (*(void **)((u8 *)arg0 + 0x104)) in func_80091430 */
 
 /* Updates the selection, handles dungeon input, and restores the actor callback on exit. */
-void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *actor_ptr) {
+void func_80091430(void *state, s32 context_a, void *context_b, void *actor_ptr) {
     S_80091430_1 *actor = actor_ptr;
     GameWork *dungeon_state = &gameWork;
     s16 action_id;

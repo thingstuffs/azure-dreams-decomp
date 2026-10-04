@@ -59,7 +59,7 @@ extern M2C_UNK D_8014A000;
 
 /* Reset dungeon state, update peak progress, and initialize shared resources once. */
 void func_8001625C(void) {
-    M2C_UNK *init_flag_page;
+    u8 *init_flag_page;
     s16 *progress_stats;
     s32 *reset_values;
 
@@ -96,7 +96,7 @@ void func_8001625C(void) {
             D_80012D60 = (s32) progress_stats[2];
         }
     }
-    init_flag_page = (M2C_UNK *)0x800E0000;
+    init_flag_page = (u8 *)0x800E0000;
     if (((S_8001625C_3 *)((u8 *)init_flag_page - 0x30B2))->unk_00 == 0) {
         file_load_com(&D_80080AE0);
         file_load_com(&D_80080AE8);

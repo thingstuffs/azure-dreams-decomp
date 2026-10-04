@@ -8,17 +8,17 @@ extern void func_8007BF18(void *arg0);
 extern u8 D_8009DDD8[];
 extern u8 D_80400138[];
 
-s32 func_80402154(s32 arg0, void *arg1) {
-    u8 sp18[32];
+s32 func_80402154(s32 index, void *data_ptr) {
+    u8 buffer[32];
     s32 result;
 
-    func_80401BF4(sp18, arg0);
-    result = func_80401C70(sp18, arg1, 0xC0, 0);
+    func_80401BF4(buffer, index);
+    result = func_80401C70(buffer, data_ptr, 0xC0, 0);
     if (result != 0) {
-        result = func_80401FEC(arg1);
+        result = func_80401FEC(data_ptr);
         if (result != 0) {
-            result = func_80401D28(sp18, D_8009DDD8 + (arg0 << 7), 1, 4,
-                                   *(s32 *)(D_8009DDD8 + (arg0 << 7)));
+            result = func_80401D28(buffer, D_8009DDD8 + (index << 7), 1, 4,
+                                   *(s32 *)(D_8009DDD8 + (index << 7)));
             goto done;
         }
         func_8007BF18(D_80400138);

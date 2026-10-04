@@ -47,7 +47,7 @@ typedef struct S_80170E9C_2 {
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_80170E9C_2;   /* arg2 in func_80170E9C */
 
 
@@ -59,18 +59,18 @@ s8 func_8009FB34();
 s32 func_8009FD7C();
 s16 func_800A0818();
 s32 func_800A1C58();
-M2C_UNK func_800A9A0C();
-M2C_UNK func_800AA258();
+void func_800A9A0C();
+void func_800AA258();
 s32 func_800AA6B4();
-M2C_UNK func_800AA79C();
-M2C_UNK func_800AA888();
+s32 func_800AA79C();
+void func_800AA888();
 s32 func_800AA924();
 s32 func_800AAB10();
-M2C_UNK func_800AAF00();
-M2C_UNK func_80171410();
+void func_800AAF00();
+void func_80171410();
 M2C_UNK func_80171B58();
 s32 func_80171E00();
-M2C_UNK func_80171FC4();
+void func_80171FC4();
 M2C_UNK func_801737C4();
 s32 func_80173A08();
 M2C_UNK func_801747D0();
@@ -81,9 +81,9 @@ extern M2C_UNK D_80174F08;
 extern M2C_UNK D_80174F10;
 
 /* Updates entity actions, facing, and animation from state and terrain. */
-void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
-    M2C_UNK direction_aux;
-    M2C_UNK *resume_handler;
+void func_80170E9C(void *entity, s32 context, void *sprite, void *state) {
+    s32 direction_aux;
+    s32 *resume_handler;
     EntityRec *reference_entity;
     s16 target_angle;
     s32 idle_flags;
@@ -104,7 +104,7 @@ void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
         if (((S_80170E9C_2 *)sprite)->unk_2C == &D_80174F00) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
+        (*(void **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
         func_80047784(sprite, *(u8 *)((((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
             >> 9) & 7) + (u32)&D_80174EF8), 0);
         return;
@@ -136,7 +136,7 @@ void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
         idle_mode = 0xE;
         if (current_mode != idle_mode) {
             if (((S_80170E9C_2 *)sprite)->unk_2C != D_80174EE0) {
-                (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = D_80174EE0;
+                (*(void **)((u8 *)sprite + 0x2C)) = D_80174EE0;
                 func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A
                     + 0x100) >> 9) & 7], 0);
             }
@@ -212,7 +212,7 @@ block_44:
     case 2:
     case 3:
 block_46:
-        resume_handler = (M2C_UNK *)func_80170E9C;
+        resume_handler = (s32 *)func_80170E9C;
 block_47:
         func_800AAF00(entity, context, sprite, &D_80174F08, resume_handler);
         return;
@@ -246,10 +246,10 @@ block_59:
     if (((S_80170E9C_2 *)sprite)->unk_14 & 0x40) {
         return;
     }
-    if (((S_80170E9C_2 *)sprite)->unk_2C == (M2C_UNK *)D_80174EE0) {
+    if (((S_80170E9C_2 *)sprite)->unk_2C == (void *)D_80174EE0) {
         return;
     }
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_80174EE0;
+    (*(void **)((u8 *)sprite + 0x2C)) = (void *)D_80174EE0;
     func_80047784(sprite, D_80174EE0[((s32)(gameWork.view.viewAngle + ((S_80170E9C_1 *)state)->unk_2A + 0x100)
         >> 9) & 7], 0);
     return;

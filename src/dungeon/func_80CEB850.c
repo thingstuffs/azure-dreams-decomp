@@ -60,18 +60,18 @@ typedef struct S_80175050_6 {
 
 
 s32 func_80042900();
-M2C_UNK func_80042B68();
-M2C_UNK func_80047784();
+void func_80042B68();
+void func_80047784();
 s32 func_8009A180();
 s16 func_8009FD40();
 s32 func_800A2C34();
 s32 func_800A6D30();
 M2C_UNK func_800A9A04();
-M2C_UNK func_800A9A0C();
-M2C_UNK func_800AA258();
+void func_800A9A0C();
+void func_800AA258();
 s32 func_800AA6B4();
-M2C_UNK func_800AA79C();
-M2C_UNK func_800AA888();
+s32 func_800AA79C();
+void func_800AA888();
 M2C_UNK func_80171BEC();
 #ifndef NON_MATCHING
 __asm__(".set func_80171BEC_returning, func_80171BEC");
@@ -90,11 +90,11 @@ extern u8 D_80175E74[];
 extern u8 D_80175E7C[];
 
 /* Updates actor state, directional animations, and the shared activity count. */
-void func_80175050(M2C_UNK *task, M2C_UNK task_id, void *sprite_in, M2C_UNK *actor_in) {
+void func_80175050(void *task, s32 task_id, void *sprite_in, void *actor_in) {
     u8 *next_anim_table;
     u8 *old_anim_table;
-    M2C_UNK *starting_task;
-    M2C_UNK *actor;
+    void *starting_task;
+    void *actor;
     s32 flags;
     s32 state;
     s32 kind;

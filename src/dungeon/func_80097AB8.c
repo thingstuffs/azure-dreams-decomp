@@ -10,37 +10,37 @@ M2C_UNK func_800CB82C();
 typedef struct S_8009D218_1_pre {
     s32 unk_00;
     u8 pad_04[0x14];
-} S_8009D218_1_pre;   /* the 0x18 bytes before arg0 in func_8009D218, addressed as arg0[-1] */
+} S_8009D218_1_pre;   /* the 0x18 bytes before entity in func_8009D218, addressed as entity[-1] */
 
 /* extern */
 
-s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
-    u8 *temp_v0;
+s32 func_8009D218(EntityRec *entity, s32 flags, Rec_D_800287A4 *record) {
+    u8 *value_ptr;
 
-    if (!(arg1 & 8) && (arg2 != NULL)) {
-        if (arg1 & 1) {
-            if (((func_80042900(arg0, 0x16) << 0x10) != 0) && (arg2->unk_13 >= 0)) {
-                func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+    if (!(flags & 8) && (record != NULL)) {
+        if (flags & 1) {
+            if (((func_80042900(entity, 0x16) << 0x10) != 0) && (record->unk_13 >= 0)) {
+                func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                 return 1;
             }
-        } else if (arg1 & 2) {
-            if ((((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x17) << 0x10) != 0))
-                && (arg2->unk_13 >= 0)) {
-                func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+        } else if (flags & 2) {
+            if ((((func_80042900(entity, 0x16) << 0x10) != 0) || ((func_80042900(entity, 0x17) << 0x10) != 0))
+                && (record->unk_13 >= 0)) {
+                func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                 return 1;
             }
-        } else if ((arg1 & 4) && (((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x15) << 0x10)
-            != 0)) && (arg2->unk_13 >= 0)) {
-            func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+        } else if ((flags & 4) && (((func_80042900(entity, 0x16) << 0x10) != 0) || ((func_80042900(entity, 0x15) << 0x10)
+            != 0)) && (record->unk_13 >= 0)) {
+            func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
             return 1;
         }
         {
-            if (arg2 != NULL) {
-                temp_v0 = (*(u8 * *)&arg0->unk_50);
-                if (temp_v0 != NULL) {
-                    if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
+            if (record != NULL) {
+                value_ptr = (*(u8 * *)&entity->unk_50);
+                if (value_ptr != NULL) {
+                    if ((*value_ptr == 3) && (record->unk_13 >= 0) && (func_800A6D30() & 3)) {
                                                 /* Duplicate return node #22. Try simplifying control flow for better match */
-                        func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+                        func_800CB82C(((S_8009D218_1_pre *)entity)[-1].unk_00, entity, record);
                         return 1;
                     }
                                         /* Duplicate return node #25. Try simplifying control flow for better match */
@@ -57,9 +57,9 @@ s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
 
 /* MECHANISM (byte-exact @ 2.7.2, dungeon overlay)
  * 1. IMPLICIT $a0 PASSTHROUGH: the first func_80042900 site is spelled
- *    func_80042900(arg0, 0x16) like the other three -- NOT m2c's one-arg
+ *    func_80042900(entity, 0x16) like the other three -- NOT m2c's one-arg
  *    func_80042900((void*)0x16). It sits in the ENTRY extended basic block, so
- *    cse still knows $a0 == arg0 and deletes the `move a0,s0` copy; retail's
+ *    cse still knows $a0 == entity and deletes the `move a0,s0` copy; retail's
  *    jal delay slot therefore carries `addiu a1,zero,0x16` (word 13) while the
  *    three later sites (all branch targets, cse reset) keep their `move a0,s0`.
  * 2. LEAD-22 SHAPE-C TAIL: func_8009D368 is declared VOID and the arm is spelled
@@ -69,6 +69,6 @@ s32 func_8009D218(EntityRec *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
  *    `j func_8009D368` delay slot (word 82) -- the func_800C7C24 spelling.
  * 3. ONE-SIDED ASM_MEM_BARRIER after the FIRST `return func_8009D34C();` arm
  *    defeats -O2 cross-jump merging of the two identical `j 8009d34c; nop` tail
- *    sites (words 21 and 39) so both survive; the arg1&4 arm's `bgez -> 7bec`
+ *    sites (words 21 and 39) so both survive; the flags&4 arm's `bgez -> 7bec`
  *    keeps the two func_800CB82C/func_8009D368 tails legitimately merged.
  */

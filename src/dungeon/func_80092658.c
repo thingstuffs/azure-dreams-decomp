@@ -27,56 +27,56 @@ extern void func_80099F04(s32);
 extern void func_80099F70(s32);
 extern s32 func_800A5C70(void);
 
-void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
+void func_80097DB8(Object *object, s32 unused1, s32 unused2, Resource *resource) {
     s32 state;
         /* MATCH: Keep the guard result in v0 across argument setup. */
     s32 guard;
-    GameWork *ctx;
+    GameWork *work;
         /* MATCH: Keep the shared flag table in its retail saved register. */
-    DungeonGlobalStatus *flags;
+    DungeonGlobalStatus *status;
         /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
         /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
     Resource *callResource;
 
-    state = arg0->state;
-    ctx = &gameWork;
+    state = object->state;
+    work = &gameWork;
     switch (state) {
     case 0:
-        arg0->callback = &D_80097C78;
-        arg0->state += 1;
+        object->callback = &D_80097C78;
+        object->state += 1;
         break;
     case 1:
                 /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-        if ((dungeonStatus.flags & 4) == 0 && (arg0->flags & 0x10) != 0) {
-            guard = ctx->buttons & 0x20;
-            callResource = arg3;
+        if ((dungeonStatus.flags & 4) == 0 && (object->flags & 0x10) != 0) {
+            guard = work->buttons & 0x20;
+            callResource = resource;
             if (guard != 0) {
                 guard = func_800A5C70();
-                callResource = arg3;
+                callResource = resource;
                 if (guard != 0) {
-                    flags = &dungeonStatus;
-                    flags->flags |= 0x80;
+                    status = &dungeonStatus;
+                    status->flags |= 0x80;
                 }
             }
             if ((func_80042900(callResource, 1) << 16) == 0) {
-                arg0->callback = 0;
+                object->callback = 0;
                 dungeonStatus.unk_0A += 1;
-                arg0->state += 1;
+                object->state += 1;
             } else {
-                func_80099F70(arg3->value);
-                func_80099F04(arg3->value);
+                func_80099F70(resource->value);
+                func_80099F04(resource->value);
                 dungeonStatus.flags |= 0x812;
             }
         }
         break;
     case 2:
-        arg3->flags &= ~0x200;
-        func_80099F70(arg3->value);
-        func_80099F04(arg3->value);
+        resource->flags &= ~0x200;
+        func_80099F70(resource->value);
+        func_80099F04(resource->value);
         dungeonStatus.flags |= 0x812;
-        arg0->callback = D_80096384;
+        object->callback = D_80096384;
         dungeonStatus.unk_0A -= 1;
         break;
     }
-    arg0->counter += 1;
+    object->counter += 1;
 }

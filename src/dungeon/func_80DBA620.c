@@ -68,7 +68,6 @@ extern s32 func_80173050(void *, void *, void *, s32);
 extern void func_80174890(void *, void *, void *, void *);
 extern void func_80174A9C(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_801753BC[];
 extern u8 D_801753C4[];
 extern u8 D_801753F4[];
@@ -78,14 +77,9 @@ extern u8 D_80175404[];
 /* Updates an actor's dungeon behavior, facing, and animation. */
 void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *status_in)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
-        &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
-    };
     u32 initial_flags = dungeonStatus.flags;
     s16 distance;
     s32 status_flags;
-    s32 action_index;
     s8 tile_id;
     s16 facing;
     u16 action_flags;
@@ -175,10 +169,12 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
 
     if (((S_80171E20_1 *)status_in)->unk_6D > 0) {
         if (((S_80171E20_1 *)status_in)->unk_1C & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(status_in);
+            return;
         }
         if (((S_80171E20_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto jt_default;
+            func_801725C8(actor_in, actor_data_in, sprite_in, status_in);
+            return;
         }
         action_flags = ((S_80171E20_1 *)status_in)->unk_46;
         if ((action_flags & 0x8000) == 0) {
@@ -194,57 +190,46 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
             action_flags = ((S_80171E20_1 *)status_in)->unk_46 | 0x4000;
             ((S_80171E20_1 *)status_in)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto jt_default;
+                func_801725C8(actor_in, actor_data_in, sprite_in, status_in);
+            return;
             }
         }
 
-        action_index = (((S_80171E20_1 *)status_in)->unk_46 & 0x3FFF) - 1;
-        if ((u32)action_index >= 12U) {
-            goto jt_default;
-        }
-        (void)action_labels;
-        goto *D_80170808[action_index];
-
-jt_c9:
-        if ((s16)func_80172D74(actor_in, actor_data_in, sprite_in, status_in) != 0) {
+        switch (((S_80171E20_1 *)status_in)->unk_46 & 0x3FFF) {
+        case 8:
+            if ((s16)func_80172D74(actor_in, actor_data_in, sprite_in, status_in) != 0) {
+                return;
+            }
+            func_80172F38(actor_in, actor_data_in, sprite_in, status_in);
+            return;
+        case 9:
+            func_80174A9C(actor_in, actor_data_in, sprite_in, status_in);
+            return;
+        case 5:
+        case 6:
+        case 7:
+            facing = func_800A0818(
+                ((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v,
+                D_80082E80.tileX, D_80082E80.tileY, &distance);
+            player = D_800814A8;
+            ((S_80171E20_1 *)status_in)->unk_2A = facing;
+            if (player->unk_9A == 0x11) {
+                func_800AAF00(actor_in, actor_data_in, sprite_in, D_801753F4, func_80171E20);
+                return;
+            }
+            /* fallthrough */
+        case 12:
+            func_800A9A0C(status_in);
+            return;
+        case 1:
+        case 2:
+        case 3:
+            func_800AAF00(actor_in, actor_data_in, sprite_in, D_801753F4, func_80171E20);
+            return;
+        default:
+            func_801725C8(actor_in, actor_data_in, sprite_in, status_in);
             return;
         }
-        func_80172F38(actor_in, actor_data_in, sprite_in, status_in);
-        return;
-
-jt_c8:
-        func_80174A9C(actor_in, actor_data_in, sprite_in, status_in);
-        return;
-
-jt_c5:
-jt_c6:
-jt_c7:
-        facing = func_800A0818(
-            ((S_80171E20_2 *)sprite_in)->unk_24.at00.v, ((S_80171E20_2 *)sprite_in)->unk_24.at01.v,
-            D_80082E80.tileX, D_80082E80.tileY, &distance);
-        player = D_800814A8;
-        ((S_80171E20_1 *)status_in)->unk_2A = facing;
-        if (player->unk_9A == 0x11) {
-            goto jt_call;
-        }
-
-jt_c12:
-        func_800A9A0C(status_in);
-        return;
-
-jt_c1:
-jt_c2:
-jt_c3:
-jt_call:
-        func_800AAF00(actor_in, actor_data_in, sprite_in, D_801753F4, func_80171E20);
-        return;
-
-jt_c4:
-jt_c10:
-jt_c11:
-jt_default:
-        func_801725C8(actor_in, actor_data_in, sprite_in, status_in);
-        return;
     }
 
     status_flags = ((S_80171E20_1 *)status_in)->unk_1C;
@@ -274,7 +259,6 @@ jt_default:
         return;
     }
 
-assign_table:
     (*(u8 * *)((u8 *)sprite_in + 0x2C)) = anim_table;
     func_80047784(
         sprite_in,

@@ -18,7 +18,7 @@ typedef struct S_800CB9DC_0 {
 
 typedef struct S_800CB9DC_1_pre {
     void * unk_00;
-    M2C_UNK * unk_04;
+    void * unk_04;
     u8 pad_08[0xE];
     u16 unk_16;
 } S_800CB9DC_1_pre;   /* the 0x18 bytes before temp_s1 in func_800CB9DC, addressed as temp_s1[-1] */
@@ -76,13 +76,13 @@ typedef struct S_800CB9DC_9 {
 
 M2C_UNK func_80040AA0();               /* extern */
 M2C_UNK func_800478B8();                      /* extern */
-M2C_UNK func_800481E0();                            /* extern */
-M2C_UNK func_800945E8();           /* extern */
+void func_800481E0();                            /* extern */
+void func_800945E8();           /* extern */
 M2C_UNK func_800948BC();                            /* extern */
-M2C_UNK func_8009A028();                      /* extern */
+void func_8009A028();                      /* extern */
 M2C_UNK func_8009A3D0();             /* extern */
-M2C_UNK func_800A32A4();                      /* extern */
-M2C_UNK func_800A6780();                            /* extern */
+s32 func_800A32A4();                      /* extern */
+s32 func_800A6780();                            /* extern */
 extern s32 D_80010234;
 extern s16 D_80081468[3];
 extern u8 D_80082E6B;
@@ -91,8 +91,8 @@ extern u8 D_80082E6B;
 void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_in) {
     S_800CB9DC_2 *motion_state = motion_state_in;
     S_800CB9DC_4 *animation = animation_in;
-    M2C_UNK *actor_data;
-    M2C_UNK tile_mask;
+    void *actor_data;
+    s32 tile_mask;
     s32 vertical_speed;
     u16 elapsed_frames;
     S_800CB9DC_3 *position;

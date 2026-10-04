@@ -6,11 +6,11 @@
 #include "shared/entity.h"
 
 extern void *func_8003FE78();
-extern M2C_UNK func_8008EF58();
-extern M2C_UNK func_8008F01C();
-extern M2C_UNK func_8008FCE0();
-extern M2C_UNK func_8008FD48();
-extern M2C_UNK func_8009550C();
+extern void func_8008EF58();
+extern void func_8008F01C();
+extern void func_8008FCE0();
+extern void func_8008FD48();
+extern void func_8009550C();
 extern s16 func_800C2AE8();
 
 extern M2C_UNK D_8006ADBC;
@@ -22,9 +22,9 @@ extern M2C_UNK D_800FE490;
 
 typedef struct S_800C01DC_0 {
     u8 pad_00[0x8];
-    M2C_UNK * unk_08;
-    M2C_UNK * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_08;
+    void * unk_0C;
+    void * unk_10;
 } S_800C01DC_0;   /* temp_v0 in func_800C01DC */
 
 typedef struct S_800C01DC_1 {
@@ -40,7 +40,7 @@ void func_800C01DC(void) {
     S_800C01DC_0 *object;
 
     D_800D0438 = 0;
-    object = func_8003FE78(0, ((M2C_UNK *)&D_80083498.next), 0x22);
+    object = func_8003FE78(0, ((void *)&D_80083498.next), 0x22);
     object->unk_10 = &D_800C02C4;
     object->unk_0C = &D_80082E80.unk_000;
     object->unk_08 = &D_80083780.x.v;

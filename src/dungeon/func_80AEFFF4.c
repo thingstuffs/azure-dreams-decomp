@@ -31,7 +31,6 @@ extern void func_80174258(void *, void *, void *, void *);
 extern void func_80174798(void *, void *, void *, void *);
 extern void func_801751C0(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_801717F4;
 extern u8 D_80175988[];
 extern u8 D_80175998[];
@@ -56,15 +55,9 @@ typedef struct S_801717F4_2 {
 /* Updates actor animation and dispatches dungeon actions from entity state. */
 void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityRec *entity_arg)
 {
-    static void *const action_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
-        &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8,
-        &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-    };
     s32 direction_aux;
     s32 tile_record;
     u16 action_state;
-    s32 jt_idx;
     u32 initial_flags = dungeonStatus.flags;
 
 
@@ -161,10 +154,12 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
 
     if (entity_arg->unk_6D > 0) {
         if (((u32)entity_arg->flags1C) & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(entity_arg);
+            return;
         }
         if (((S_801717F4_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
+            return;
         }
         if (!(entity_arg->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -179,66 +174,52 @@ void func_801717F4(void *actor_arg, void *context_arg, void *sprite_arg, EntityR
             action_state = entity_arg->unk_46 | 0x4000;
             entity_arg->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto ordinary_cleanup;
+                func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
+            return;
             }
         }
 
-        action_state = entity_arg->unk_46 & 0x3FFF;
-        jt_idx = action_state - 1;
-        if ((u32)jt_idx >= 12) {
-            goto ordinary_cleanup;
-        }
-        (void)action_labels;
-        goto *D_80170808[jt_idx];
+        switch (entity_arg->unk_46 & 0x3FFF) {
+        case 8:
+            if ((s16)func_801727B8(actor_arg, context_arg, sprite_arg, entity_arg) != 0) {
+                return;
+            }
+            func_8017297C(actor_arg, context_arg, sprite_arg, entity_arg);
+            return;
+        case 9:
+            func_80174798(actor_arg, context_arg, sprite_arg, entity_arg);
+            return;
+        case 5:
+        case 6:
+        case 7:
+            {
+                EntityRec *player;
+                s16 direction;
 
-jt_c8:
-jt_c9:
-        if ((s16)func_801727B8(actor_arg, context_arg, sprite_arg, entity_arg) != 0) {
+                direction = func_800A0818(
+                    ((S_801717F4_2 *)sprite_arg)->unk_24.at00.v, ((S_801717F4_2 *)sprite_arg)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_aux);
+                player = D_800814A8;
+                entity_arg->facing = direction;
+                if (player->unk_9A == 0x11) {
+                    func_800AAF00(actor_arg, context_arg, sprite_arg, D_801759D0, &D_801717F4);
+                    return;
+                }
+            }
+            /* fallthrough */
+        case 12:
+            func_800A9A0C(entity_arg);
+            return;
+        case 1:
+        case 2:
+        case 3:
+            func_800AAF00(actor_arg, context_arg, sprite_arg, D_801759D0, &D_801717F4);
+            return;
+        default:
+            func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
             return;
         }
-        func_8017297C(actor_arg, context_arg, sprite_arg, entity_arg);
-        return;
-
-jt_c10:
-        func_80174798(actor_arg, context_arg, sprite_arg, entity_arg);
-        return;
-
-jt_c5:
-jt_c6:
-jt_c7:
-        {
-            EntityRec *player;
-            s16 direction;
-
-            direction = func_800A0818(
-                ((S_801717F4_2 *)sprite_arg)->unk_24.at00.v, ((S_801717F4_2 *)sprite_arg)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_aux);
-            player = D_800814A8;
-            entity_arg->facing = direction;
-            if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
-            }
-            goto special_cleanup;
-        }
-
-jt_c12:
-special_cleanup:
-        func_800A9A0C(entity_arg);
-        return;
-
-jt_c1:
-jt_c2:
-jt_c3:
-aaf_cleanup:
-        func_800AAF00(actor_arg, context_arg, sprite_arg, D_801759D0, &D_801717F4);
-        return;
-
-jt_c4:
-jt_c11:
-ordinary_cleanup:
-        func_80171FE8(actor_arg, context_arg, sprite_arg, entity_arg);
-        return;
     }
 
     if (!(((u32)entity_arg->flags1C) & 0x2000)) {

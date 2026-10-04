@@ -68,8 +68,6 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     s8 saved_tile_x;
     s16 saved_part_id;
     s8 saved_tile_y;
-    void *object_arg;
-    void *part_arg;
 
     work = 0;
     saved_tile_x = tile_x;
@@ -101,30 +99,17 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
             secondary_flags = work->unk_1C | 0x2000;
             work->unk_14 = flags_or_roll;
             work->unk_1C = secondary_flags;
-        } else {
-            object_arg = obj;
-            if (((kind_flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
-                    part_arg = part_a;
-                    object_arg = (void *)func_800A6D30();
-                    flags_or_roll = (s32)object_arg;
-                    object_arg = obj;
-                    if (flags_or_roll & 1) {
-                        work->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_80174C8C;
-                        goto post_kind;
-                    }
+        } else if (((kind_flags & ~3) << 16) == 0) {
+            if (!(work->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_80174C8C;
                 }
             }
-            goto init_actor;
         }
-
-post_kind:
-        object_arg = obj;
-init_actor:
-        func_800A9C18(object_arg, part_a, part_b, kind_flags);
+        func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80170E7C;

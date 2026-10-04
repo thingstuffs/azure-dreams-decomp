@@ -260,13 +260,21 @@ void func_800C4F20(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) 
             ((S_800C4F20_0 *)anim)->unk_32 = (s16) ((u16) ((S_800C4F20_0 *)anim)->unk_32 + ((s32) (0x400
                 - ((S_800C4F20_0 *)anim)->unk_32) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));
         }
-        goto tick_finish;
+        finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
+        ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
+        if ((finish_left << 0x10) > 0) {
+            break;
+        }
+        owner = ((S_800C4F20_0 *)anim)->unk_24;
+        owner->unk_14 = (s32) (owner->unk_14 & 0xFFEFFFFF);
+        ((S_800C4F20_0_pre *)anim)[-1].unk_00 = (u16) (((S_800C4F20_0_pre *)anim)[-1].unk_00 | 0x8000);
+        (*(s32 *)&objectFlagBlock.flags) = (s32) (objectFlagBlock.flags | 0x8000);
+        return;
     case 17:
         rise_ticks = ((S_800C4F20_0 *)anim)->unk_2A;
         if (rise_ticks != 0) {
             position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (-0x400 - position->unk_0A) / rise_ticks));
         }
-tick_finish:
         finish_left = (u16) ((S_800C4F20_0 *)anim)->unk_2A - 1;
         ((S_800C4F20_0 *)anim)->unk_2A = finish_left;
         if ((finish_left << 0x10) > 0) {

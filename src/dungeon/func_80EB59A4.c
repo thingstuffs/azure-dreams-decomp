@@ -20,7 +20,7 @@ typedef struct S_801711A4_2 {
     } unk_24;   /* overlapping accesses */
     s8 unk_26;
     u8 pad_27[0x5];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_801711A4_2;   /* arg2 in func_801711A4 */
 
 typedef struct S_801711A4_3 {
@@ -44,14 +44,14 @@ s8 func_8009FB34();
 s32 func_8009FD7C();
 s16 func_800A0818();
 s32 func_800A1C58();
-M2C_UNK func_800A9A0C();
-M2C_UNK func_800AA258();
+void func_800A9A0C();
+void func_800AA258();
 s32 func_800AA6B4();
-M2C_UNK func_800AA79C();
-M2C_UNK func_800AA888();
+s32 func_800AA79C();
+void func_800AA888();
 s32 func_800AA924();
-M2C_UNK func_800AAB10();
-M2C_UNK func_800AAF00();
+s32 func_800AAB10();
+void func_800AAF00();
 M2C_UNK func_801716CC();
 M2C_UNK func_80171884();
 s32 func_80171FCC();
@@ -66,16 +66,16 @@ extern M2C_UNK D_801741C4;
 extern M2C_UNK D_801741CC;
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
-void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status) {
-    M2C_UNK direction_aux;
-    M2C_UNK *next_handler;
+void func_801711A4(void *actor, s32 context, void *sprite, EntityRec *status) {
+    s32 direction_aux;
+    void *next_handler;
     s32 status_flags;
     s32 action_id;
     s8 room_id;
     s16 angle;
     u16 action_flags;
     EntityRec *active_actor;
-    M2C_UNK *direction_aux_ptr;
+    s32 *direction_aux_ptr;
     EmptyArg empty_arg;
 
     if (dungeonStatus.flags & 0x1000) {
@@ -88,7 +88,7 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
         if (((S_801711A4_2 *)sprite)->unk_2C == &D_801741CC) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801741C4;
+        (*(void **)((u8 *)sprite + 0x2C)) = &D_801741C4;
         func_80047784(sprite, *(((u8 *)&D_801741C4) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100)
             >> 9) & 7)), 0);
         return;
@@ -126,7 +126,7 @@ void func_801711A4(void *actor, M2C_UNK context, void *sprite, EntityRec *status
             ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xEU;
         }
         if (((S_801711A4_2 *)sprite)->unk_2C != &D_8017418C) {
-            (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_8017418C;
+            (*(void **)((u8 *)sprite + 0x2C)) = &D_8017418C;
             func_80047784(sprite, *(((u8 *)&D_8017418C) + (((s32) (gameWork.view.viewAngle + status->facing + 0x100)
                 >> 9) & 7)), 0);
             ((S_801711A4_2 *)sprite)->unk_05 = 1;

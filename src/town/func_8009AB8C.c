@@ -13,16 +13,13 @@ void func_800982EC(void *context, void *object, s32 mode) {
 
     if (D_800CFCB4[0x3B] != 0) {
         state = *(void **)(*(void **)(D_800CFCB4 + 0x20) + 8);
-        if ((*(s32 *)((u8 *)state + 0xC) == 0) &&
-            (*(s32 *)((u8 *)state + 0x10) == 0)) {
-            if (*(s32 *)((u8 *)state + 0x14) != 0) {
-                goto update;
-            }
-        } else {
-            goto update;
+        if ((*(s32 *)((u8 *)state + 0xC) != 0) ||
+            (*(s32 *)((u8 *)state + 0x10) != 0) ||
+            (*(s32 *)((u8 *)state + 0x14) != 0)) {
+            func_80095A94(object, func_80095978(object, D_800FE488),
+                          D_800FE488);
         }
     } else {
-update:
         func_80095A94(object, func_80095978(object, D_800FE488),
                       D_800FE488);
     }

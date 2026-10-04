@@ -23,15 +23,15 @@ typedef struct S_80094270_5 {
 extern s32 D_800E3DF0[];
 s16 func_8009402C(); /* extern */
 s32 func_80094208();                         /* extern */
-M2C_UNK func_80094E34();                      /* extern */
+void func_80094E34();                      /* extern */
 s32 func_800990FC();                          /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                    /* extern */
+void * func_80099290();                    /* extern */
 s32 func_8009929C();                    /* extern */
 s32 func_80099734();                        /* extern */
-M2C_UNK func_800997FC();                   /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+void func_800997FC();                   /* extern */
+s32 func_800A56E0();                     /* extern */
+s32 func_800A5720();                         /* extern */
 extern M2C_UNK D_800E05E1;
 extern M2C_UNK D_800E05F0;
 extern M2C_UNK D_800E0633;
@@ -55,7 +55,7 @@ typedef struct S_80094270_2 {
 } S_80094270_2;   /* item in func_80094270 */
 
 /* Use or equip the item in the given slot: build the result message for the outcome, or fall through to the failure path. */
-s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *item, s32 slot) {
+s32 func_80094270(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s32 slot) {
     s16 out_a;
     s16 out_b;
     s16 kind;
@@ -64,8 +64,8 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
     s32 msg;
     s32 call_result;
     S_80094270_1 *entry;
-    M2C_UNK *hdr;
-    M2C_UNK *hdr3;
+    void *hdr;
+    void *hdr3;
 
     ((Rec_func_8008ACDC_arg0 *)actor)->unk_8A = (s16) slot;
     if (func_80094208(0) == 0) {
@@ -96,7 +96,7 @@ s32 func_80094270(void *actor, M2C_UNK param_a, M2C_UNK param_b, S_80094270_2 *i
             goto return_zero;
         }
         kind = func_8009402C(actor, param_a, param_b, &out_a, &out_b, item);
-        hdr3 = (M2C_UNK *)((s32) actor);
+        hdr3 = (void *)((s32) actor);
         if (kind != 0) {
             msg = func_800990FC();
             if (kind == 1) {

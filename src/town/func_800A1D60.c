@@ -30,14 +30,14 @@ struct TownCopy84 {
     s32 words[21];
 };
 
-M2C_UNK func_80033CD8();                   /* extern */
+void func_80033CD8();                   /* extern */
 void *func_8003C06C();               /* extern */
 M2C_UNK func_8003E188();        /* extern */
 M2C_UNK func_800422DC();            /* extern */
 M2C_UNK func_800423C0();      /* extern */
 M2C_UNK func_80042640();               /* extern */
-M2C_UNK memset(); /* extern */
-M2C_UNK func_8009DC8C();    /* extern */
+void *memset(); /* extern */
+void func_8009DC8C();    /* extern */
 extern M2C_UNK D_80010A80;
 extern M2C_UNK D_80010AB4;
 extern M2C_UNK D_8009F374;
@@ -59,7 +59,7 @@ typedef struct S_8009F4C0_2 {
 } S_8009F4C0_2;   /* temp_v1 in func_8009F4C0 */
 
 /* Initialize the town entity record and synchronize its slot state. */
-void func_8009F4C0(Rec_func_80094268_arg0 *entity, M2C_UNK unused_arg1, M2C_UNK unused_arg2, M2C_UNK context) {
+void func_8009F4C0(Rec_func_80094268_arg0 *entity, s32 unused_arg1, s32 unused_arg2, void *context) {
     void *stored_entry;
     s32 unused_value;
     s32 record_offset;

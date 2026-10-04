@@ -7,14 +7,14 @@
 #include "shared/dungeon_status.h"
 
 
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_8008D330(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_80098B38(s32 arg0);
-extern void func_800997FC(void *arg0);
-extern void func_800A5F38(void *arg0, s32 arg1);
-extern void func_800A63B8(void *arg0, s32 arg1, s16 arg2);
-extern s32 func_800AD6FC(void *arg0, s32 arg1, s32 arg2);
-extern void func_800C4AFC(s32 arg0, s32 arg1, void *arg2);
+extern void func_80042B68(void *entity, s32 value);
+extern void func_8008D330(void *entity_ptr, void *ptr0, void *ptr1, void *entity);
+extern void func_80098B38(s32 event);
+extern void func_800997FC(void *ptr);
+extern void func_800A5F38(void *entity, s32 event);
+extern void func_800A63B8(void *entity, s32 event, s16 event_type);
+extern s32 func_800AD6FC(void *entity, s32 value, s32 value2);
+extern void func_800C4AFC(s32 value, s32 value2, void *entity);
 
 extern u8 D_800E0E9B[];
 

@@ -31,7 +31,6 @@ extern s32 func_80172228(void *, void *, void *, s32);
 extern void func_80173900(void *, void *, void *, void *);
 extern void func_80173AD4(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern s32 D_80170F68;
 extern u8 D_80173FB8[];
 extern u8 D_80173FC0[];
@@ -160,10 +159,12 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
 
     if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
         if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(actor_state_arg);
+            return;
         }
         if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_80171768(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            return;
         }
         if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -177,97 +178,52 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             }
             ((S_80170F68_1 *)actor_state_arg)->unk_46 |= 0x4000;
             if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
-                goto ordinary_cleanup;
+                func_80171768(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            return;
             }
         }
 
-#ifdef __mips__
-        {
-            static void *dispatch_labels[] = {
-                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
-                &&extra_cleanup,
-                &&coords_case, &&coords_case, &&coords_case,
-                &&handler_case, &&handler_case,
-                &&ordinary_cleanup, &&ordinary_cleanup,
-                &&special_cleanup,
-            };
-            s32 dispatch_index;
-
-            dispatch_index = (((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x3FFF) - 1;
-            if ((u32)dispatch_index >= 12) {
-                goto ordinary_cleanup;
-            }
-            goto *D_80170808[dispatch_index];
-        }
-handler_case:
-#else
         switch (((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x3FFF) {
         case 8:
-        case 9:
-#endif
             if ((s16)func_80171F24(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
                 func_80172110(actor_arg, context_arg, map_object_arg, actor_state_arg);
                 return;
             }
             return;
-
-#ifdef __mips__
-extra_cleanup:
-#else
-        case 4:
-#endif
+        case 9:
             func_80173AD4(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
-
-#ifdef __mips__
-coords_case:
-#else
         case 5:
         case 6:
         case 7:
-#endif
-        {
-            EntityRec *player;
-            s32 direction;
+            {
+                EntityRec *player;
+                s32 direction;
 
-            direction = func_800A0818(
-                ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &distance);
-            player = D_800814A8;
-            ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
-            if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                direction = func_800A0818(
+                    ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &distance);
+                player = D_800814A8;
+                ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
+                if (player->unk_9A == 0x11) {
+                    func_800AAF00(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
+                    return;
+                }
             }
-            goto special_cleanup;
-        }
-#ifndef __mips__
+            /* fallthrough */
+        case 12:
+            func_800A9A0C(actor_state_arg);
+            return;
         case 1:
         case 2:
         case 3:
-            goto aaf_cleanup;
-
-        case 12:
-            goto special_cleanup;
-
-        case 10:
-        case 11:
+            func_800AAF00(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
+            return;
         default:
-            goto ordinary_cleanup;
+            func_80171768(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            return;
         }
-#endif
-
-special_cleanup:
-        func_800A9A0C(actor_state_arg);
-        return;
-
-aaf_cleanup:
-        func_800AAF00(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
-        return;
-
-ordinary_cleanup:
-        func_80171768(actor_arg, context_arg, map_object_arg, actor_state_arg);
-        return;
     } else if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_id;
 

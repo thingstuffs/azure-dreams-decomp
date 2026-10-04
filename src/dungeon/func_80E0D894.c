@@ -80,8 +80,6 @@ extern void func_8017294C(void *, void *, void *, void *);
 extern s32 func_80172A5C(void *, void *, void *, s32);
 extern void func_80174520(void *, void *, void *, void *);
 
-extern void *D_80170808[];
-extern u8 D_80170838[16];
 extern u8 D_80171094[];
 extern u8 D_80176460[];
 extern u8 D_80176468[];
@@ -91,15 +89,9 @@ extern u8 D_801764A8[];
 /* Updates actor animation, status, and behavior according to dungeon state. */
 void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *stats_arg)
 {
-    static void *const dispatch_labels[] = {
-        &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
-        &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
-        &&jt_s0, &&jt_s1, &&jt_s2, &&jt_s3, &&jt_s4
-    };
     void *stats = stats_arg;
     s16 distance;
     s8 tile_id;
-    s32 dispatch_index;
     u16 action_flags;
 
     if (dungeonStatus.flags & 0x1000) {
@@ -199,10 +191,12 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
     if (((S_80171094_1 *)stats)->unk_6D > 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
-            goto jt_c12;
+            func_800A9A0C(stats);
+            return;
         }
         if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto jt_default;
+            func_801718B4(actor_arg, context_arg, sprite_arg, stats);
+            return;
         }
         action_flags = ((S_80171094_1 *)stats)->unk_46;
         if ((action_flags & 0x8000) == 0) {
@@ -218,85 +212,70 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             action_flags = ((S_80171094_1 *)stats)->unk_46 | 0x4000;
             ((S_80171094_1 *)stats)->unk_46 = action_flags;
             if ((action_flags & 0x8000) == 0) {
-                goto jt_default;
+                func_801718B4(actor_arg, context_arg, sprite_arg, stats);
+            return;
             }
         }
 
-        dispatch_index = (((S_80171094_1 *)stats)->unk_46 & 0x3FFF) - 1;
-        if ((u32)dispatch_index >= 12U) {
-            goto jt_default;
-        }
-        (void)dispatch_labels;
-        goto *D_80170808[dispatch_index];
-
-jt_c9:
-        if ((s16)func_80171FFC(actor_arg, context_arg, sprite_arg, stats) != 0) {
+        switch (((S_80171094_1 *)stats)->unk_46 & 0x3FFF) {
+        case 8:
+            if ((s16)func_80171FFC(actor_arg, context_arg, sprite_arg, stats) != 0) {
+                return;
+            }
+            func_801721C0(actor_arg, context_arg, sprite_arg, stats);
+            return;
+        case 9:
+            if (((S_80171094_1 *)stats)->unk_1C & 0x400) {
+                s32 behavior_state;
+                behavior_state = ((S_80171094_1 *)stats)->unk_14;
+                if ((behavior_state & 0x80000000) == 0) {
+                    behavior_state |= 0x80000000;
+                    ((S_80171094_1 *)stats)->unk_14 = behavior_state;
+                    ((S_80171094_1 *)stats)->unk_2A.u += (func_800A6D30() & 7) << 9;
+                }
+            }
+            switch ((s16)func_80172438(actor_arg, context_arg, sprite_arg, stats)) {
+            case -1:
+            case 1:
+                break;
+            case 0:
+                func_8017272C(actor_arg, context_arg, sprite_arg, stats);
+                return;
+            case 2:
+                func_8017283C(actor_arg, context_arg, sprite_arg, stats);
+                return;
+            case 3:
+                func_8017294C(actor_arg, context_arg, sprite_arg, stats);
+                return;
+            }
+            return;
+        case 5:
+        case 6:
+        case 7:
+            {
+                s16 heading = func_800A0818(
+                    ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY, &distance);
+                EntityRec *player = D_800814A8;
+                ((S_80171094_1 *)stats)->unk_2A.s = heading;
+                if (player->unk_9A == 0x11) {
+                    func_800AAF00(actor_arg, context_arg, sprite_arg, D_80176460, D_80171094);
+                    return;
+                }
+            }
+            /* fallthrough */
+        case 12:
+            func_800A9A0C(stats);
+            return;
+        case 1:
+        case 2:
+        case 3:
+            func_800AAF00(actor_arg, context_arg, sprite_arg, D_80176460, D_80171094);
+            return;
+        default:
+            func_801718B4(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
-        func_801721C0(actor_arg, context_arg, sprite_arg, stats);
-        return;
-
-jt_c8:
-        if (((S_80171094_1 *)stats)->unk_1C & 0x400) {
-            s32 behavior_state;
-            behavior_state = ((S_80171094_1 *)stats)->unk_14;
-            if ((behavior_state & 0x80000000) == 0) {
-                behavior_state |= 0x80000000;
-                ((S_80171094_1 *)stats)->unk_14 = behavior_state;
-                ((S_80171094_1 *)stats)->unk_2A.u += (func_800A6D30() & 7) << 9;
-            }
-        }
-        dispatch_index = (s16)(func_80172438(actor_arg, context_arg, sprite_arg, stats) + 1);
-        if ((u32)dispatch_index >= 5U) {
-            return;
-        }
-        goto *(((void **)D_80170838)[dispatch_index]);
-
-jt_s0:
-        func_8017272C(actor_arg, context_arg, sprite_arg, stats);
-        return;
-
-jt_s1:
-        func_8017283C(actor_arg, context_arg, sprite_arg, stats);
-        return;
-
-jt_s2:
-        func_8017294C(actor_arg, context_arg, sprite_arg, stats);
-        return;
-
-jt_s3:
-jt_s4:
-jt_c5:
-jt_c6:
-jt_c7:
-        {
-            s16 heading = func_800A0818(
-                ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY, &distance);
-            EntityRec *player = D_800814A8;
-            ((S_80171094_1 *)stats)->unk_2A.s = heading;
-            if (player->unk_9A == 0x11) {
-                goto jt_call;
-            }
-        }
-
-jt_c12:
-        func_800A9A0C(stats);
-        return;
-
-jt_c1:
-jt_c2:
-jt_c3:
-jt_call:
-        func_800AAF00(actor_arg, context_arg, sprite_arg, D_80176460, D_80171094);
-        return;
-
-jt_c4:
-jt_c10:
-jt_c11:
-jt_default:
-        func_801718B4(actor_arg, context_arg, sprite_arg, stats);
-        return;
     }
 
     {

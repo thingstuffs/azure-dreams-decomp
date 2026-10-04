@@ -2,13 +2,13 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8003DB94();  /* extern */
+void func_8003DB94();  /* extern */
 void *func_8003FD64();            /* extern */
 M2C_UNK func_8004491C();           /* extern */
 M2C_UNK func_80099FDC();                      /* extern */
 M2C_UNK func_8009A21C();             /* extern */
 s8 func_8009FB34();                           /* extern */
-M2C_UNK func_800A2B04();              /* extern */
+void func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_800D2E9C;
 extern M2C_UNK D_800D3140;
@@ -66,7 +66,7 @@ typedef struct S_800D2CB4_3 {
 
 /* Creates a dungeon object at the given tile and initializes its graphics and state. */
 void *func_800D2CB4(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
-    M2C_UNK tile_flags;
+    s32 tile_flags;
     s16 saved_kind;
     S_800D2CB4_3 *graphics;
     S_800D2CB4_2 *position;

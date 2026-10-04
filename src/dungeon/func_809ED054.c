@@ -68,8 +68,6 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     s8 saved_x;
     s16 saved_id;
     s8 saved_y;
-    void *call_obj;
-    void *call_part;
 
     work = 0;
     saved_x = tile_x;
@@ -101,26 +99,17 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
             extra_flags = work->unk_1C | 0x2000;
             work->unk_14 = flags;
             work->unk_1C = extra_flags;
-        } else {
-            call_obj = obj;
-            if (((spawn_flags & ~3) << 16) != 0 || (work->unk_14 & 0x200)) {
-                goto init_parts;
+        } else if (((spawn_flags & ~3) << 16) == 0) {
+            if (!(work->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8014FCDC;
+                }
             }
-            call_part = part_a;
-            call_obj = (void *)func_800A6D30();
-            flags = (s32)call_obj;
-            call_obj = obj;
-            if (!(flags & 1)) {
-                goto init_parts;
-            }
-            work->unk_1C |= 0x200;
-            func_800A48F0(work, 1,
-                          (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = D_8014FCDC;
         }
-        call_obj = obj;
-init_parts:
-        func_800A9C18(call_obj, part_a, part_b, spawn_flags);
+        func_800A9C18(obj, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE54;
