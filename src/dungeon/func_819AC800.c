@@ -31,7 +31,6 @@ typedef struct {
 
 extern u8 D_80027452[16];
 extern s32 D_8002744C;
-extern void *D_80024008[];
 extern u8 D_80028260[];
 extern u8 D_80028780[];
 extern s16 D_800287A0;
@@ -44,42 +43,23 @@ extern void func_8003F80C(void *, s32, s32, s32);
 extern void func_80040490(void *, void *);
 extern void func_800A56E0(s32);
 
-#ifdef __mips__
-#define BODY_NAME jt_body_819AC800
-#define BODY_LINKAGE static
-#else
-#define BODY_NAME func_80024000
-#define BODY_LINKAGE
-#endif
+void func_80024020(EventState *event);
 
-BODY_LINKAGE void BODY_NAME(EventState *event);
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(EventState *) __asm__("func_80024000") = func_80024020;
 
 /* Advances a dungeon event through setup, activation, timed color fades, and cleanup. */
-BODY_LINKAGE void BODY_NAME(EventState *event) {
-#ifdef __mips__
-    static void *const state_table[] __asm__("func_80024000")
-    __attribute__((section(".text.func_80024000"), aligned(4))) = {
-        (void *)BODY_NAME, 0,
-            &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
-    };
-#else
-    static void *const state_table[] = {
-        &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5
-    };
-#endif
+void func_80024020(EventState *event) {
     s32 setup[2];
     GameWork *colors;
     s32 state;
 
     colors = &gameWork;
     state = event->state;
-    if ((u32)state >= 6) {
-        goto common_tail;
-    }
-    (void)state_table;
-    goto *D_80024008[(u32)state];
-
-jt_c0:
+    switch (state) {
+    case 0:
     {
         EntityRec *object;
         u8 event_option;
@@ -99,42 +79,43 @@ jt_c0:
         D_800814A8->unk_102 = 1;
         event->state++;
     }
-jt_c1:
-    if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
-        goto common_tail;
-    }
-    event->result = (s32)func_800244C4(*(void **)(*(u8 **)event - 0x18), *(void **)event);
-    if (event->result == 0) {
-        goto common_tail;
-    }
-    event->mode20 = -1;
-    event->timer22 = 0x20;
-    event->timer1C = 0x10;
-    ((DungeonObject *)D_800814A8_count)->countA6--;
-    event->state++;
-    func_800A56E0(0x300);
-    goto common_tail;
+    case 1:
+        if ((**(u16 **)((u8 *)event + 4) & 0x80) == 0) {
+            break;
+        }
+        event->result = (s32)func_800244C4(*(void **)(*(u8 **)event - 0x18), *(void **)event);
+        if (event->result == 0) {
+            break;
+        }
+        event->mode20 = -1;
+        event->timer22 = 0x20;
+        event->timer1C = 0x10;
+        ((DungeonObject *)D_800814A8_count)->countA6--;
+        event->state++;
+        func_800A56E0(0x300);
+        break;
 
-jt_c2:
+    case 2:
     {
         s16 wait_ticks;
 
         wait_ticks = (s16)(event->timer1C - 1);
         event->timer1C = wait_ticks;
         if (wait_ticks >= 0) {
-            goto common_tail;
+            break;
         }
-        goto advance_state;
     }
+        event->state++;
+        break;
 
-jt_c3:
-    D_800287A0 = 0;
-    event->timer1A = 0x20;
-    event->mode20 = 0;
-    event->state++;
-    goto common_tail;
+    case 3:
+        D_800287A0 = 0;
+        event->timer1A = 0x20;
+        event->mode20 = 0;
+        event->state++;
+        break;
 
-jt_c4:
+    case 4:
     {
         s16 fade_ticks;
 
@@ -143,25 +124,24 @@ jt_c4:
         fade_ticks = (s16)(event->timer1A - 1);
         event->timer1A = fade_ticks;
         if (fade_ticks > 0) {
-            goto common_tail;
+            break;
         }
         colors->view.unk_092 = 0x80;
         colors->view.unk_090 = 0x80;
     }
-advance_state:
-    event->state++;
-    goto common_tail;
+        event->state++;
+        break;
 
-jt_c5:
-    if (*(s16 *)D_80027452 == 0) {
-        {
-            dungeonStatus.unk_0C = 0;
-            dungeonStatus.unk_0A--;
+    case 5:
+        if (*(s16 *)D_80027452 == 0) {
+            {
+                dungeonStatus.unk_0C = 0;
+                dungeonStatus.unk_0A--;
+            }
+            *(u16 *)((u8 *)event - 2) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
         }
-        *(u16 *)((u8 *)event - 2) |= 0x8000;
-        objectFlagBlock.flags |= 0x8000;
     }
-common_tail:
     if (event->mode20 < 0) {
         s16 fade_ticks;
 
@@ -175,8 +155,3 @@ common_tail:
     }
     *(s16 *)D_80027452 = 0;
 }
-
-#ifdef __mips__
-__asm__(".globl func_80024000\n"
-        ".size func_80024000, 808");
-#endif
