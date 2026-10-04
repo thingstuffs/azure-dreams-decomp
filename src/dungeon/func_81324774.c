@@ -83,8 +83,8 @@ typedef struct S_8016BF74_9 {
 
 
 s32 func_8009A180();                     /* extern */
-M2C_UNK func_8009A21C();             /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+void func_8009A21C();             /* extern */
+void func_8009A3D0();             /* extern */
 s32 func_8009A540();                /* extern */
 s32 func_8009A66C();    /* extern */
 s32 func_8009FD7C();                  /* extern */
@@ -92,10 +92,10 @@ s16 func_800A0134();                  /* extern */
 void *func_800A02AC();                /* extern */
 void *func_800A04F0();           /* extern */
 u16 func_800A0818();          /* extern */
-M2C_UNK func_800A0E6C();  /* extern */
-M2C_UNK func_800A19E4(); /* extern */
-M2C_UNK func_800A6D30();                            /* extern */
-M2C_UNK func_800A9A0C();                      /* extern */
+s32 func_800A0E6C();  /* extern */
+s32 func_800A19E4(); /* extern */
+s32 func_800A6D30();                            /* extern */
+void func_800A9A0C();                      /* extern */
 s16 func_800BCB04();                   /* extern */
 s32 func_8016C720();          /* extern */
 typedef struct {
@@ -118,8 +118,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
     s32 turn_index;
     s32 near_target;
     u8 *x_offsets;
-    M2C_UNK old_tile_mask;
-    M2C_UNK new_tile_mask;
+    s32 old_tile_mask;
+    s32 new_tile_mask;
     s32 target_y;
     s32 target_x;
     s32 y_offset;
@@ -213,8 +213,8 @@ void func_8016BF74(void *motion, void *context, S_8016BF74_2 *position, void *ac
                         >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
-                    x_offset = (void *)(*(u16 *)((u8 *)(((M2C_UNK *)dirStepX)) + direction_offset));
-                    y_offset = (*(u16 *)((u8 *)(((M2C_UNK *)dirStepY)) + direction_offset));
+                    x_offset = (void *)(*(u16 *)((u8 *)(((s32 *)dirStepX)) + direction_offset));
+                    y_offset = (*(u16 *)((u8 *)(((s32 *)dirStepY)) + direction_offset));
                     current_x = (*(u8 *)((u8 *)position + 0x24));
                     target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;

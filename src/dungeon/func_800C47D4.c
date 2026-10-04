@@ -12,9 +12,9 @@ typedef s32 M2C_UNK;
 extern s32 func_8009A180();
 extern s8 func_8009FB34();
 extern s32 func_800A1C58();
-extern M2C_UNK func_800CA0DC();
-extern M2C_UNK func_800CA93C();
-extern M2C_UNK func_800CAA94();
+extern void func_800CA0DC();
+extern s32 func_800CA93C();
+extern void func_800CAA94();
 
 
 typedef struct S_800C9F34_3 {
@@ -26,7 +26,7 @@ typedef struct S_800C9F34_3 {
 
 
 /* Updates entity action state and dispatches the appropriate handler. */
-void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, M2C_UNK context, S_800C9F34_3 *position, EntityRec *entity) {
+void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, s32 context, S_800C9F34_3 *position, EntityRec *entity) {
 
     if (dungeonStatus.flags & 0x1000) {
         actor_state->unk_9A.as_s8 = 0xE;

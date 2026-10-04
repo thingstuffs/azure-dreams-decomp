@@ -21,7 +21,7 @@ typedef struct S_812A524C_3 {
     u8 pad_00[0x2A];
     s16 unk_2A;
     u8 pad_2C[0x60];
-    M2C_UNK (*unk_8C)(void *, void *, void *, void *);
+    void (*unk_8C)(void *, void *, void *, void *);
     union {
         struct { s32 v; } at00;
         struct { u8 pad[0x2]; s16 v; } at02;
@@ -264,17 +264,17 @@ typedef struct S_812A524C_40 {
 } S_812A524C_40;   /* ((S_812A524C_5 *)(&D_800FBE54))->unk_00 in func_812A524C */
 
 
-M2C_UNK func_800353F4(); /* extern */
-M2C_UNK func_80042B68();                /* extern */
-M2C_UNK func_80047738();              /* extern */
-M2C_UNK func_800478B8();                      /* extern */
+s32 func_800353F4(); /* extern */
+void func_80042B68();                /* extern */
+void func_80047738();              /* extern */
+void func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
-M2C_UNK func_800A020C();                 /* extern */
+void func_800A020C();                 /* extern */
 s32 func_800A2C34();                          /* extern */
-M2C_UNK func_800A48F0();       /* extern */
-M2C_UNK func_800A9A0C();                      /* extern */
+s16 func_800A48F0();       /* extern */
+void func_800A9A0C();                      /* extern */
 s32 func_800A9E70();  /* extern */
-M2C_UNK func_800AA36C(); /* extern */
+s32 func_800AA36C(); /* extern */
 s32 func_800BCB04();                   /* extern */
 s32 func_800F6D28();    /* extern */
 void *func_800F6DFC();                /* extern */
@@ -341,8 +341,8 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     u8 *event_10;
     u8 *event_11;
     u8 *position_11;
-    M2C_UNK (*update_actor)(void *, void *, void *, void *);
-    M2C_UNK (*update_special)(void *, void *, void *, void *);
+    void (*update_actor)(void *, void *, void *, void *);
+    void (*update_special)(void *, void *, void *, void *);
     TileObject *nearby_event;
     u8 *scan_10;
     u8 *scan_80;

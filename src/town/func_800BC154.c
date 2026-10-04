@@ -5,11 +5,11 @@
 #define M2C_BREAK() M2C_ERROR(0)
 #define M2C_SYNC() M2C_ERROR(0)
 
-M2C_UNK func_80033AA8();
-M2C_UNK func_80033AE8();
+void func_80033AA8();
+void func_80033AE8();
 M2C_UNK Control_CD();
 M2C_UNK func_8003F320();
-M2C_UNK func_800B7934();
+void func_800B7934();
 extern u8 D_80010000[];
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];

@@ -16,13 +16,13 @@ typedef struct S_80173F6C_5 {
 extern u8 D_80174C84[];
 extern void *D_80174CE0[];
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A152C();
-M2C_UNK func_800A9C18();
-M2C_UNK func_80047784();
-M2C_UNK func_80172A14();
+s32 func_8004491C(); /* extern */
+void func_8009A028(); /* extern */
+void func_8009A3D0(); /* extern */
+s32 func_800A152C(); /* extern */
+void func_800A9C18(); /* extern */
+void func_80047784(); /* extern */
+void func_80172A14(); /* extern */
 extern M2C_UNK D_801730AC;
 
 typedef struct S_80173F6C_0 {
@@ -44,7 +44,7 @@ typedef struct S_80173F6C_1 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_10;
 } S_80173F6C_1;   /* temp_v0 in func_80173F6C */
 
 typedef struct S_80173F6C_2 {

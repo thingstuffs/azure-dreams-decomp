@@ -10,15 +10,15 @@ typedef struct S_8009F2A8_0 {
 
 M2C_UNK SD_Call();                     /* extern */
 s32 func_800644B8();                             /* extern */
-M2C_UNK func_8009F4C0(); /* extern */
+void func_8009F4C0(); /* extern */
 M2C_UNK func_800A3248();                      /* extern */
-M2C_UNK func_800A33E8();                      /* extern */
+void func_800A33E8();                      /* extern */
 extern s32 D_800834B8;
 extern M2C_UNK D_800935BC;
 extern s32 D_800CFCC4;
 
 /* Update the target offset, advance the phase, and handle the active event. */
-void func_8009F2A8(void *state, s32 event_id, void *target, M2C_UNK context) {
+void func_8009F2A8(void *state, s32 event_id, void *target, s32 context) {
     s32 active_event;
 
     ((S_8009F2A8_0 *)target)->unk_08 = (s32) (((Rec_func_80094268_arg0 *)state)->unk_A0

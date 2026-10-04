@@ -25,10 +25,10 @@ typedef struct S_801728B4_2 {
 } S_801728B4_2;   /* actor in func_801728B4 */
 
 
-M2C_UNK func_8009C12C(); /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_800AD594();             /* extern */
+void * func_8009C12C(); /* extern */
+s32 func_800A4ACC();                      /* extern */
+s32 func_800A56E0();                     /* extern */
+void func_800AD594();             /* extern */
 extern M2C_UNK D_80170E5C;
 
 /* Advances the object state from entity flags and updates the actor. */

@@ -2,14 +2,14 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80701FEC();                     /* extern */
-M2C_UNK func_8070207C();                     /* extern */
+void func_80701FEC();                     /* extern */
+void func_8070207C();                     /* extern */
 s32 func_80702260();                                /* extern */
-M2C_UNK func_807022BC();                            /* extern */
+void func_807022BC();                            /* extern */
 s32 func_80702314();                             /* extern */
-M2C_UNK func_80702360();                            /* extern */
+void func_80702360();                            /* extern */
 M2C_UNK func_80702924();                         /* extern */
-M2C_UNK func_80702A78();                    /* extern */
+void func_80702A78();                    /* extern */
 
 __asm__(".set D_80701DC4_0, 0x80701DC4\n.set D_80701DC4_1, 0x80701DC4\n.set D_80701DC4_2, 0x80701DC4\n.set D_80701DC4_3, 0x80701DC4\n.set D_80701DC8_0, 0x80701DC8\n.set D_80701DC8_1, 0x80701DC8");
 extern s32 D_80701DC4_0[];

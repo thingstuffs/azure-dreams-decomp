@@ -7,13 +7,13 @@
 #include "shared/dungeon_status.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8008D330(); /* extern */
-M2C_UNK func_80098B38();                         /* extern */
-M2C_UNK func_80099844();           /* extern */
-M2C_UNK func_800A5F38();                 /* extern */
-M2C_UNK func_800A63B8();            /* extern */
+void func_8008D330(); /* extern */
+void func_80098B38();                         /* extern */
+void func_80099844();           /* extern */
+void func_800A5F38();                 /* extern */
+void func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-M2C_UNK func_800D4FC8();    /* extern */
+void func_800D4FC8();    /* extern */
 extern u8 D_800E1843[];
 
 

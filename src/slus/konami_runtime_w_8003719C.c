@@ -51,12 +51,12 @@ typedef struct S_8003719C_3 {
 } S_8003719C_3;   /* sprite in func_8003719C */
 
 
-M2C_UNK func_80033C1C();                 /* extern */
+void func_80033C1C();                 /* extern */
 M2C_UNK func_800350B0();                 /* extern */
-M2C_UNK func_80036C7C(); /* extern */
+void func_80036C7C(); /* extern */
 M2C_UNK func_80037394();         /* extern */
 void *func_8003FF2C(); /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 extern u8 D_8006A988[];
 extern u8 D_8006A994[];
 extern u8 D_8006A9A0[];

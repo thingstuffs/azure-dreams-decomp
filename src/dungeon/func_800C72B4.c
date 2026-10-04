@@ -34,8 +34,8 @@ typedef struct S_800CCA14_2 {
 
 void *func_8003FE78();      /* extern */
 s32 func_8009B390();                   /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
-M2C_UNK func_800CC5F0(); /* extern */
+void func_8009CE1C(); /* extern */
+void *func_800CC5F0(); /* extern */
 M2C_UNK func_800CC88C();     /* extern */
 extern M2C_UNK D_800CC370;
 extern M2C_UNK D_800CC9BC;

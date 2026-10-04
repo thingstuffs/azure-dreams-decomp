@@ -2,12 +2,12 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK Control_CD();       /* extern */
-M2C_UNK func_8003F320();                            /* extern */
-M2C_UNK func_8003F5E0();                         /* extern */
-M2C_UNK SD_Call();                    /* extern */
+s32 Control_CD();       /* extern */
+void func_8003F320();                            /* extern */
+void func_8003F5E0();                         /* extern */
+short SD_Call();                    /* extern */
 s16 func_8005405C();                             /* extern */
-M2C_UNK func_800542BC();                            /* extern */
+void func_800542BC();                            /* extern */
 M2C_UNK func_8005FE18();                     /* extern */
 M2C_UNK func_80067014();                     /* extern */
 extern M2C_UNK D_8006E61C;

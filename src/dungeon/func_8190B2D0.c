@@ -237,10 +237,6 @@ typedef struct S_func_8190B2D0_9 {
 /* Updates a moving effect, its target animation, and cleanup state. */
 void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
-    static void *const state_labels[] = {
-        &&state0, &&state1, &&state2, &&state3, &&state4,
-        &&state5, &&done, &&done, &&state8
-    };
     s16 start_offset[3];
     Rect capture_rect;
     Point capture_point;
@@ -260,17 +256,11 @@ void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg
     source_pos = (u32)((S_func_8190B2D0_2 *)owner_base)->unk_8;
     state = effect->unk_A.s16;
 
-    if ((u32)state >= 9U) {
-        return;
-    }
-    (void)state_labels;
-    goto *jtbl_80024088[(u32)state];
-
-state0:
+    switch (state) {
+    case 0:
     {
         s16 owner_flags;
         u16 next_state;
-        s32 offset_ready;
         sprite->unk_C.u32 = 0x00808080;
         effect->unk_96 = D_80025624;
         sprite->unk_8 = (u8 *)effect + 0x96;
@@ -280,16 +270,11 @@ state0:
         effect->unk_7E.u16 = (u16)(owner_flags >> 9) & 7;
         next_state++;
         effect->unk_A.u16 = next_state;
-        offset_ready = func_8003DF74(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_8,
-                           ((S_func_8190B2D0_2 *)owner_base)->unk_C, start_offset, 0);
-        if (offset_ready == 0 &&
-            !(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_14 & 0x8000)) {
-            return;
-        }
     }
 
-state1:
+    case 1:
     {
+        s32 offset_ready;
         u16 next_state;
         u16 base_z;
         u16 base_height;
@@ -299,6 +284,12 @@ state1:
         s32 height_or_steps;
         s32 coordinate_steps;
         s32 target_coord;
+        offset_ready = func_8003DF74(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_8,
+                           ((S_func_8190B2D0_2 *)owner_base)->unk_C, start_offset, 0);
+        if (offset_ready == 0 &&
+            !(((S_func_8190B2D0_5 *)((S_func_8190B2D0_2 *)owner_base)->unk_C)->unk_14 & 0x8000)) {
+            return;
+        }
         motion_or_child->unk_0.at_2_u16.unk_2 = ((S_func_8190B2D0_3 *)source_pos)->unk_0.at_2_u16.unk_2;
         motion_or_child->unk_4.at_6_u16.unk_6 = ((S_func_8190B2D0_3 *)source_pos)->unk_4.at_6_u16.unk_6;
         base_z = ((S_func_8190B2D0_3 *)source_pos)->unk_8.at_A_u16.unk_A;
@@ -376,7 +367,7 @@ state1:
         return;
     }
 
-state2:
+    case 2:
     {
         u32 particle_index;
         u8 frames_left;
@@ -385,17 +376,14 @@ state2:
         s32 elapsed_frames_3;
         s32 collision;
         particle_index = 0;
-loop_0:
-        {
+        do {
             s32 particle_shade;
             s32 random_bits = func_80069EF8();
             particle_shade = (random_bits & 0xFF) | 0x80;
             func_80024470((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
-        }
-        if ((s32)particle_index < 4)
-            goto loop_0;
+        } while ((s32)particle_index < 4);
         {
             u16 angle = sprite->unk_1A + 400;
             sprite->unk_1A = angle;
@@ -454,7 +442,7 @@ loop_0:
         return;
     }
 
-state3:
+    case 3:
     {
         S_func_8190B2D0_3 *child_pos;
         u32 child_data;
@@ -527,7 +515,7 @@ state3:
         return;
     }
 
-state4:
+    case 4:
     {
         s32 fade_frame;
         s32 green_frame;
@@ -592,7 +580,7 @@ state4:
         return;
     }
 
-state5:
+    case 5:
     {
         S_func_8190B2D0_6 *target;
         u8 target_mode;
@@ -614,7 +602,7 @@ state5:
         return;
     }
 
-state8:
+    case 8:
     {
         s16 old_frame;
         s16 frame;
@@ -623,7 +611,7 @@ state8:
         frame = old_frame + 1;
         effect->unk_82.u16 = frame;
         if ((s16)frame < 31) {
-            goto done;
+            break;
         }
         cleanup_pending = D_80025630[0];
         effect->unk_82.u16 = old_frame;
@@ -640,7 +628,5 @@ state8:
             break;
         }
     }
-
-done:
-    return;
+    }
 }

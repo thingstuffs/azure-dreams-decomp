@@ -7,7 +7,7 @@
 
 typedef struct S_80176084_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    u8 * unk_8C;
     u8 pad_90[0x6];
     u16 unk_96;
     u16 unk_98;
@@ -22,11 +22,11 @@ typedef struct S_80176084_0 {
 } S_80176084_0;   /* arg0 in func_80176084 */
 
 
-extern M2C_UNK func_80042B68();
-extern M2C_UNK func_80047784();
-extern M2C_UNK func_800A2B04();
-extern M2C_UNK func_800A56E0();
-extern M2C_UNK func_800AA36C();
+extern void func_80042B68();
+extern void func_80047784();
+extern void func_800A2B04();
+extern s32 func_800A56E0();
+extern s32 func_800AA36C();
 extern M2C_UNK func_801708B8();
 
 extern u8 D_800E23E0[];
@@ -55,7 +55,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                     ((S_80176084_0 *)state)->unk_B1 = active_step;
                 } while (0);
                 ((S_80176084_0 *)state)->unk_96 = 4U;
-                (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E2448;
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E2448;
                 func_80047784(sprite, D_800E2448[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 if (!((((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)
@@ -73,7 +73,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
                 entity->flags1C |= 0x40000;
                 ((S_80176084_0 *)state)->unk_B5 = 0;
                 ((S_80176084_0 *)state)->unk_98 |= 8;
-                (*(M2C_UNK * *)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_800E23E0;
+                (*(u8 * *)((u8 *)sprite + 0x2C)) = (u8 *)D_800E23E0;
                 func_80047784(sprite, D_800E23E0[((s32)(gameWork.view.viewAngle + entity->facing + 0x100) >> 9) & 7],
                     0);
                 ((S_80176084_0 *)state)->unk_96 = 5U;
@@ -92,7 +92,7 @@ void func_80176084(void *state, EntityRec *motion, void *sprite, EntityRec *enti
     ((S_80176084_0 *)state)->unk_96 = (u16)(finish_ticks - 1);
     if (((finish_ticks << 0x10) <= 0) || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         ((Rec_D_80082E80 *)sprite)->unk_06.as_s16 = 0;
-        ((S_80176084_0 *)state)->unk_8C = (M2C_UNK *)D_80171A80;
+        ((S_80176084_0 *)state)->unk_8C = (u8 *)D_80171A80;
         func_80042B68(entity, 0x1B);
         if (((S_80176084_0 *)state)->unk_B4 == 0) {
             dungeonStatus.unk_0C = 0;

@@ -3,8 +3,8 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK SD_Call();
-M2C_UNK func_80094984(); /* extern */
-M2C_UNK func_80094C1C();                  /* extern */
+void func_80094984(s32 *entries, void *record, s32 handler_param); /* extern */
+void func_80094C1C(void *record);                /* extern */
 extern M2C_UNK D_800924EC;
 extern M2C_UNK D_800D0110;
 

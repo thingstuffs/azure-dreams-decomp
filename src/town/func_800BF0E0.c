@@ -12,8 +12,8 @@ typedef struct S_800BC840_0 {
 
 
 M2C_UNK func_8003DB94(); /* extern */
-M2C_UNK func_8004491C();              /* extern */
-M2C_UNK func_8008F074();  /* extern */
+s32 func_8004491C();              /* extern */
+void func_8008F074();  /* extern */
 extern M2C_UNK D_800BC764;
 extern M2C_UNK D_800D20CC;
 extern s32 D_800D20E4;

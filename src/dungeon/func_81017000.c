@@ -8,7 +8,7 @@ typedef struct S_81017000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_10;
 } S_81017000_0;   /* obj in BODY_NAME */
 
 typedef struct S_81017000_1 {
@@ -29,12 +29,12 @@ typedef struct S_81017000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_81017000_3;   /* part_b in BODY_NAME */
 
 typedef struct S_81017000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void * unk_8C;
     u8 pad_90[0x2];
     s16 unk_92;
     u8 pad_94[0x6];
@@ -45,11 +45,11 @@ typedef struct S_81017000_4 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s32 func_8004491C();
+s16 func_800A48F0();
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
+void func_800A9C18();
+s32 func_800AA36C();
 extern M2C_UNK D_8015EA78;
 extern M2C_UNK D_8015F058;
 extern M2C_UNK D_80162880;
@@ -98,7 +98,7 @@ void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     held_a = attr_a;
     held_c = attr_c;
     held_b = attr_b;
-    obj = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+    obj = func_8003FD64(0x112, ((void *)&D_80083498.next));
     final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = obj + 0x20;

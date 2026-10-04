@@ -15,12 +15,12 @@ typedef struct S_801722E4_5_pre {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80047784();
+extern void func_80047784();
 extern s16 func_800A0818();
 extern s32 func_800A2B5C();
-extern M2C_UNK func_800A4ACC();
-extern M2C_UNK func_800C77D0();
-extern M2C_UNK func_800C7930();
+extern s32 func_800A4ACC();
+extern s32 func_800C77D0();
+extern s32 func_800C7930();
 extern u8 D_801764A0[];
 
 
@@ -48,8 +48,8 @@ typedef struct S_801722E4_3 {
 } S_801722E4_3;   /* arg0 in func_801722E4 */
 
 /* Face the target and initialize the actor action when status checks allow it. */
-void func_801722E4(S_801722E4_3 *action_state, M2C_UNK event_context, S_801722E4_1 *sprite, EntityRec *actor) {
-    M2C_UNK distance;
+void func_801722E4(S_801722E4_3 *action_state, s32 event_context, S_801722E4_1 *sprite, EntityRec *actor) {
+    s32 distance;
     void *actor_base;
     S_801722E4_2 *target;
     u8 *direction_frames;

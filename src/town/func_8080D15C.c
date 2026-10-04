@@ -2,18 +2,18 @@
 #include "m2c_compat.h"
 
 s32 func_80052374();                             /* extern */
-M2C_UNK func_80058F88();        /* extern */
+void func_80058F88();        /* extern */
 s32 func_8006A3A4();                             /* extern */
 s32 func_8006A470();                             /* extern */
-M2C_UNK func_802441A4();                       /* extern */
-M2C_UNK func_80244588();                  /* extern */
-M2C_UNK func_802445FC();                     /* extern */
-M2C_UNK func_80244660();                     /* extern */
-M2C_UNK func_8025E01C();                     /* extern */
-M2C_UNK func_80526BFC();              /* extern */
-M2C_UNK func_80526D34();                      /* extern */
-M2C_UNK func_80526E4C(); /* extern */
-M2C_UNK func_80528998();                      /* extern */
+void func_802441A4();                       /* extern */
+void func_80244588();                  /* extern */
+void func_802445FC();                     /* extern */
+void func_80244660();                     /* extern */
+s32 func_8025E01C();                     /* extern */
+void func_80526BFC();              /* extern */
+void func_80526D34();                      /* extern */
+void func_80526E4C(); /* extern */
+void func_80528998();                      /* extern */
 extern s32 D_80084D5C;
 extern u8 D_80095AA0[8];
 extern u8 D_801328E8[0x14];
@@ -21,11 +21,11 @@ extern u8 D_80132AE8[0x18];
 extern u16 D_80530658[];
 extern u16 D_805306C8[];
 M2C_UNK func_802483B8();                      /* extern */
-M2C_UNK func_80529134();                      /* extern */
+void func_80529134();                      /* extern */
 M2C_UNK func_80290318();                      /* extern */
-M2C_UNK func_80528950();                      /* extern */
-M2C_UNK func_80528910();                      /* extern */
-M2C_UNK func_80526B18();                      /* extern */
+void func_80528950();                      /* extern */
+void func_80528910();                      /* extern */
+void func_80526B18();                      /* extern */
 M2C_UNK func_80243A38();
 typedef struct S_80527D5C_0_pre {
     u16 unk_00;
@@ -137,7 +137,7 @@ typedef struct S_80527D5C_11 {
 void func_80527D5C(void *sequence) {
     u8 record_params[0x30];
     u8 line_params[0x28];
-    M2C_UNK coord_or_sound;
+    s32 coord_or_sound;
     s16 next_round;
     s16 state;
     s32 speed_magnitude;

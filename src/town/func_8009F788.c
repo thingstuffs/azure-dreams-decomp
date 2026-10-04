@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8009D808(); /* extern */
-M2C_UNK func_8009D940(); /* extern */
-M2C_UNK func_8009DA50();    /* extern */
+void func_8009D808(); /* extern */
+void func_8009D940(); /* extern */
+void func_8009DA50();    /* extern */
 extern u16 D_80082D08[];
 extern s32 D_801007F8[];
 extern s32 D_80100900[];

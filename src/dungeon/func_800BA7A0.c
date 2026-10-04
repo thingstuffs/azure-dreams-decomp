@@ -10,11 +10,11 @@
 
 s32 func_8004383C();                 /* extern */
 void func_8008D330(void *, void *, void *, void *); /* extern */
-M2C_UNK func_80098B38();                         /* extern */
-M2C_UNK func_800A5F38();                 /* extern */
-M2C_UNK func_800A63B8();            /* extern */
+void func_80098B38();                         /* extern */
+void func_800A5F38();                 /* extern */
+void func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-M2C_UNK func_800D4FC8();    /* extern */
+void func_800D4FC8();    /* extern */
 
 /* Handles item use for an entity, updating its state and consuming the item. */
 s32 func_800BFF00(void *entity, s32 item, s16 action_id) {

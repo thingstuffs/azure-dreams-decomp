@@ -10,11 +10,11 @@
 s32 func_8009B164();             /* extern */
 s32 func_8009B88C();      /* extern */
 void *func_8009C93C(); /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 u8 func_8009FB34();                           /* extern */
-M2C_UNK func_800A19E4(); /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800AA5E4(); /* extern */
+s32 func_800A19E4(); /* extern */
+void func_800A2B04();              /* extern */
+void func_800AA5E4(); /* extern */
 s16 func_800BCB04();                   /* extern */
 
 
@@ -32,10 +32,10 @@ typedef struct S_800AC010_5 {
 s32 func_800AC010(void *move_state, EntityRec *motion, Rec_D_80082E80 *tile_pos, EntityRec *actor) {
     u16 resolved_x;
     u16 resolved_y;
-    M2C_UNK contact_tile_mask;
-    M2C_UNK stop_tile_mask;
-    M2C_UNK contact_flags;
-    M2C_UNK stop_flags;
+    s32 contact_tile_mask;
+    s32 stop_tile_mask;
+    s32 contact_flags;
+    s32 stop_flags;
     u8 contact_x;
     u8 contact_y;
     u8 stop_x;

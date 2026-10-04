@@ -3,15 +3,15 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009431C_arg0.h"
 
-M2C_UNK func_8008F664();           /* extern */
-M2C_UNK func_8009065C();     /* extern */
-M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_800953D0();                      /* extern */
+void func_8008F664();           /* extern */
+void func_8009065C();     /* extern */
+void func_8009539C();                      /* extern */
+void func_800953D0();                      /* extern */
 M2C_UNK func_80095460();                      /* extern */
-M2C_UNK func_80095910();                   /* extern */
-M2C_UNK func_80096FF4();                      /* extern */
-M2C_UNK func_800A573C();     /* extern */
-extern M2C_UNK D_800903FC;
+void func_80095910();                   /* extern */
+s32 func_80096FF4();                      /* extern */
+void func_800A573C();     /* extern */
+extern s32 D_800903FC[];
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800FE490;
 
@@ -24,7 +24,7 @@ typedef struct S_800A5638_0_pre {
 
 
 /* Updates the record, invokes its handler, clamps values, and dispatches follow-up processing. */
-void func_800A5638(void *handler, EntityRec *record, M2C_UNK context) {
+void func_800A5638(void *handler, EntityRec *record, s32 context) {
     func_800953D0(record);
     func_80095910(&D_800FE490);
     func_8009539C(record);

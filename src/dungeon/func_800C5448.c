@@ -39,16 +39,16 @@ typedef struct S_800CABA8_2 {
 } S_800CABA8_2;   /* temp_s2 in func_800CABA8 */
 
 
-M2C_UNK func_8009C12C();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A4ACC();
-extern void func_800CAA94(void *, M2C_UNK, void *);
-M2C_UNK func_800CAFDC();
-M2C_UNK func_800CB4C0();
+void *func_8009C12C();
+void func_800A2B04();
+s32 func_800A4ACC();
+extern void func_800CAA94(void *, s32, void *);
+void func_800CAFDC();
+void *func_800CB4C0();
 extern u8 D_800C9F34;
 
 /* Advances the actor rotation and color effect through fading and cleanup. */
-void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
+void func_800CABA8(void *effect, s32 context, void *record, void *actor) {
     s16 fade_ticks_left;
     s16 restore_ticks;
     s16 restore_ticks_left;

@@ -17,14 +17,14 @@ typedef struct S_800B2FAC_1_pre {
 } S_800B2FAC_1_pre;   /* the 0x2 bytes before arg3 in func_800B2FAC, addressed as arg3[-1] */
 
 
-M2C_UNK func_8009A028();                      /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
-M2C_UNK func_800A2DB8();                      /* extern */
-M2C_UNK func_800A32A4();                      /* extern */
+void func_8009A028();                      /* extern */
+void func_8009A3D0();             /* extern */
+s32 func_800A2DB8();                      /* extern */
+s32 func_800A32A4();                      /* extern */
 
 /* Update a flagged target and its tile state, then mark it dirty. */
 void func_800B2FAC(void *unused_0, void *unused_1, void *source, void *target) {
-    M2C_UNK update_mask;
+    s32 update_mask;
     s32 target_flags;
     u8 tile_x;
     u8 tile_y;

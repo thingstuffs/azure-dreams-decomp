@@ -93,11 +93,11 @@ typedef struct S_800B1188_15 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_8004CBFC();
-extern M2C_UNK func_800B08D4();
-extern M2C_UNK func_800B0C68();
-extern M2C_UNK func_800B0D0C();
-extern M2C_UNK func_800B0FD4();
+extern void func_8004CBFC();
+extern void func_800B08D4();
+extern void func_800B0C68();
+extern void func_800B0D0C();
+extern void func_800B0FD4();
 extern M2C_UNK D_800788E0;
 extern M2C_UNK D_800792DC;
 extern M2C_UNK D_800D15F4;

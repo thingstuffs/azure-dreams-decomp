@@ -10,14 +10,14 @@
 s32 func_800374F4();
 M2C_UNK func_80094048();
 M2C_UNK func_80094378();
-M2C_UNK func_80094944();
-M2C_UNK func_80094C1C();
-M2C_UNK func_8009503C();
-M2C_UNK func_800951B4();
+void func_80094944();
+void func_80094C1C();
+void func_8009503C();
+void func_800951B4();
 s16 func_80095978();
-M2C_UNK func_80095A94();
-M2C_UNK func_80095C80();
-M2C_UNK func_800A895C();
+void func_80095A94();
+void func_80095C80();
+void func_800A895C();
 extern u8 D_800CFCEF[];
 extern u8 D_800D043C[];
 extern u8 D_800FE488[];
@@ -31,7 +31,7 @@ typedef struct S_800917EC_2 {
 } S_800917EC_2;   /* temp_s0 in func_800917EC */
 
 /* Updates actor height, emits periodic effects, and handles the active state. */
-void func_800917EC(Rec_func_80094268_arg0 *actor, EntityRec *position, M2C_UNK context) {
+void func_800917EC(Rec_func_80094268_arg0 *actor, EntityRec *position, s32 context) {
     GameWork *state = &gameWork;
     s16 surface_height;
     s16 action_timer;

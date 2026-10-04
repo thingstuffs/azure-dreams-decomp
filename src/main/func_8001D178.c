@@ -1,10 +1,10 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80403E54();                       /* extern */
+void func_80403E54();                       /* extern */
 M2C_UNK func_80403F1C();       /* extern */
-M2C_UNK func_80403F7C();                       /* extern */
-M2C_UNK func_804040C8();                       /* extern */
+void func_80403F7C();                       /* extern */
+void func_804040C8();                       /* extern */
 
 /* Absolute anchor for a table of 128-byte records; the two fields accessed here
  * are 8 bytes apart and sit just BEFORE this anchor address (negative offsets). */

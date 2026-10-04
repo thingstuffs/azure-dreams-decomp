@@ -21,17 +21,17 @@ typedef union {
 } Local38;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8002407C();          /* extern */
-M2C_UNK func_800244CC(); /* extern */
-M2C_UNK func_80024DB8(); /* extern */
+void func_8002407C();          /* extern */
+void func_800244CC(); /* extern */
+void func_80024DB8(); /* extern */
 s32 func_8003DE58();     /* extern */
 void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
 s16 func_80066460(); /* extern */
 s32 func_80069EF8();                                /* extern */
 s32 func_800A4778();           /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_800B8FC8(); /* extern */
+s32 func_800A56E0();                     /* extern */
+void func_800B8FC8(); /* extern */
 extern Packed8 D_80024028;
 extern Packed32 D_80024038;
 extern M2C_UNK D_800245EC;
@@ -342,9 +342,9 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     s32 effect_active;
     void *follow_target;
     s16 fade_tick;
-    M2C_UNK red_tick;
-    M2C_UNK green_tick;
-    M2C_UNK blue_tick;
+    s32 red_tick;
+    s32 green_tick;
+    s32 blue_tick;
     s32 launch_particle;
     s32 impact_particle;
     s32 tile_distance;

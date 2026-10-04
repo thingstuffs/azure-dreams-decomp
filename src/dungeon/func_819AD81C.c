@@ -114,21 +114,21 @@ typedef struct S_819AD81C_6 {
 } S_819AD81C_6;   /* link in func_819AD81C */
 
 
-M2C_UNK func_800257D0();
-M2C_UNK func_80025840();
-M2C_UNK func_8002590C();
-M2C_UNK func_8002593C();
-M2C_UNK func_80025B78();
-M2C_UNK func_80025FCC();
+void func_800257D0();
+void func_80025840();
+void func_8002590C();
+void func_8002593C();
+void *func_80025B78();
+void *func_80025FCC();
 s32 func_800644B8();
 s32 func_80064584();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80065450();
-M2C_UNK func_8009CE1C();
+void func_800649A0();
+void func_80064A40();
+void func_80065450();
+void func_8009CE1C();
 s32 func_800A07D0();
 s32 func_800A45D8();
-M2C_UNK func_800B653C();
+void func_800B653C();
 extern s8 D_8002758C[];
 extern u8 D_800287A2;
 extern s32 D_800287A4;
@@ -153,7 +153,7 @@ void func_819AD81C(void *entity, void *motion, void *gfx) {
     } Local38;
     Local20 warp_params;
     Local38 zero_vec;
-    M2C_UNK rotated;
+    s32 rotated;
     s16 phase;
     s16 fade_left;
     s16 fade_left_out;

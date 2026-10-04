@@ -38,9 +38,9 @@ typedef struct DungeonSlot {
     u32 flags;
 } DungeonSlot;
 
-M2C_UNK func_80094E34();
-M2C_UNK func_8009A21C();
-M2C_UNK func_8009A3D0();
+void func_80094E34();
+void func_8009A21C();
+void func_8009A3D0();
 s32 func_8009B88C();
 extern DungeonSlot *D_800E3DF0[];
 

@@ -22,10 +22,10 @@ typedef struct S_80172834_0 {
 
 M2C_UNK func_80047784();
 s16 func_800A0818();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A4ACC();
+void func_800A2B04();
+s32 func_800A4ACC();
 M2C_UNK func_800A9A04();
-M2C_UNK func_800AD594();
+void func_800AD594();
 s32 func_800AD9B4();
 
 extern u8 D_80170F6C;

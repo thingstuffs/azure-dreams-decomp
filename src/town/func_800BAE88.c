@@ -16,9 +16,10 @@ extern Record D_800D2644[];
 extern u8 D_800D2EA4[];
 
 /* CheckBuildBuildingLandNo collects eligible land slots for a building and returns their count. */
-s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
-    s8 *slot_out;
-    s32 key;
+s32 CheckBuildBuildingLandNo(record_key, slots_out)
+u8 record_key;
+s8 *slots_out;
+{
     s8 *slots_start;
     Record *record;
     u8 slot_count;
@@ -33,15 +34,12 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
     Record *match_record;
     Record *match_records;
 
-    slot_out = slots_out;
-    key = record_key;
-    ASM_KEEP_NV(key);
     slot_count = 0;
     {
         Record *records = D_800D2644;
-        record = records + (key & 0xFF);
+        record = records + (record_key & 0xFF);
     }
-    slots_start = slot_out;
+    slots_start = slots_out;
     if (func_80033B2C(record->field8) == 0) {
         return 0;
     }
@@ -57,7 +55,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
         u32 selected_id;
 
         Record *records = D_800D2644;
-        selected_id = key & 0xFF;
+        selected_id = record_key & 0xFF;
         selected_entry = (u8 *)&records[selected_id];
         if (selected_entry[6] == 0) {
             break;
@@ -68,12 +66,12 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
         do {
             slot_row = (u8 *)((u8)slot * 2 + (u32)slot_table_base);
             if ((slot_row[0x33A4] == filter_entry[6]) && (slot_row[0x33A5] != selected_id)) {
-                *slot_out++ = slot;
+                *slots_out++ = slot;
                 slot_count++;
             }
             slot++;
         } while ((u8)slot < 0x21);
-        *slot_out = 0;
+        *slots_out = 0;
         return (u8)slot_count;
     }
     case 16:
@@ -81,7 +79,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
         u8 *pair_page;
         u8 *owner_page;
         Record *records = D_800D2644;
-        s32 record_id = key & 0xFF;
+        s32 record_id = record_key & 0xFF;
         single_id = records[record_id].byte6;
         if (single_id == 0)
             break;
@@ -89,7 +87,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
         if (pair_page[0x33E6] == single_id) {
             owner_page = pair_page;
             if (owner_page[0x33E7] != record_id) {
-                *slot_out++ = 0xB;
+                *slots_out++ = 0xB;
                 slot_count++;
             }
         }
@@ -103,7 +101,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
         slot = 0;
         slots_page = (u8 *)0x80010000;
         entries = &D_800D2EA4[0];
-        record_id = key & 0xFF;
+        record_id = record_key & 0xFF;
         match_records = D_800D2644;
         match_record = match_records + record_id;
         do {
@@ -111,7 +109,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
             slot_pair = (u8 *)(slot_index * 2 + (u32)slots_page);
             first_id = slot_pair[0x33A4];
             if (first_id == record_id || (second_id = slot_pair[0x33A5], second_id == record_id)) {
-                slot_out = slots_start;
+                slots_out = slots_start;
                 slot_count = 0;
                 break;
             }
@@ -121,7 +119,7 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
                 first_id >= 0x2D) {
                 excluded_id = 0x30;
                 if (first_id != excluded_id && second_id == 0) {
-                    *slot_out++ = slot;
+                    *slots_out++ = slot;
                     slot_count++;
                 }
             }
@@ -144,6 +142,6 @@ s32 CheckBuildBuildingLandNo(s32 record_key, s8 *slots_out) {
     default:
         break;
     }
-    *slot_out = 0;
+    *slots_out = 0;
     return (u8)slot_count;
 }

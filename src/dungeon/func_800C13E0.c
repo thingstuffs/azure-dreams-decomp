@@ -69,16 +69,16 @@ typedef struct {
     u16 origin_y;
 } RotationWork;
 
-M2C_UNK func_80064840();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80064BC0();
-M2C_UNK func_80064CF0();
-M2C_UNK func_80064D80();
+void func_80064840();
+void func_800649A0();
+void func_80064A40();
+void func_80064BC0();
+void func_80064CF0();
+void func_80064D80();
 u32 func_80065420();
-M2C_UNK func_800654B0();
-M2C_UNK func_80065820();
-M2C_UNK func_8006658C();
+void func_800654B0();
+void func_80065820();
+void func_8006658C();
 extern s32 D_8006CD30[];
 
 /* Draws sprite parts as a 4-by-4 grid of textured quads, invoking custom part callbacks. */

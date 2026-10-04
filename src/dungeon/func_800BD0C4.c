@@ -131,13 +131,13 @@ extern u8 D_80010000[];
 s32 func_80042900();
 s32 func_8004491C();
 void func_80044A50();
-M2C_UNK func_80099844();
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
+void func_80099844();
+void func_8009A028();
+void func_8009A3D0();
 void *func_800A32A4();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 s32 func_800A6620();
-M2C_UNK func_800B8FC8();
+void func_800B8FC8();
 s32 func_800BBA40(u8, u8, s16, void *, s32, s32, void *);
 void func_800BC318();
 extern M2C_UNK D_800C0180;
@@ -159,9 +159,9 @@ typedef struct {
 /* Advance the object effect through fading, tile cleanup, and completion. */
 void func_800C2824(void *effect, void *vertices, void *sprite) {
     StackArgs effect_args;
-    M2C_UNK object_slot;
-    M2C_UNK release_flags;
-    M2C_UNK tile_flags;
+    s32 object_slot;
+    s32 release_flags;
+    s32 tile_flags;
     s16 fade_ticks;
     s16 wait_ticks;
     s32 state;

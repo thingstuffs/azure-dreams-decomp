@@ -28,9 +28,9 @@ typedef struct {
 } __attribute__((packed)) M2C_UNALIGNED_WORD;
 
 s32 func_800B2130();
-M2C_UNK func_800B2190();
-M2C_UNK *func_800B2280();
-M2C_UNK func_800B23C0();
+void func_800B2190();
+u32 func_800B2280();
+void func_800B23C0();
 s32 func_800B29A4();
 
 

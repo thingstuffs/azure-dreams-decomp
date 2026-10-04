@@ -49,18 +49,18 @@ typedef struct S_80173AD4_3 {
 M2C_UNK func_80047784();         /* extern */
 s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                         /* extern */
+void *func_80099290();                         /* extern */
 s32 func_80099734();                     /* extern */
-M2C_UNK func_8009A21C();             /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+void func_8009A21C();             /* extern */
+void func_8009A3D0();             /* extern */
 s32 func_800A2BDC();                          /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+s32 func_800A5720();                         /* extern */
 extern u8 D_80170854[];
 extern u8 D_80173FD0[];
 
 /* Kill the actor: clear its flags, fire the burst at its tile and post its death message. */
 void func_80173AD4(void *work_in, void *part_a, void *part_b_in, void *actor) {
-    M2C_UNK burst;
+    s32 burst;
     s32 handle;
     s32 msg;
     void *msg_actor;

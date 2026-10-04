@@ -4,10 +4,10 @@
 M2C_UNK obj_disp23_cancel_sw_set();                     /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK came_bright_set();                     /* extern */
-M2C_UNK func_800B2394();             /* extern */
+void func_800B2394();             /* extern */
 s32 func_800B29D0();                          /* extern */
-M2C_UNK func_800B2B60();                      /* extern */
-M2C_UNK func_800B2C6C();                      /* extern */
+void func_800B2B60();                      /* extern */
+void func_800B2C6C();                      /* extern */
 s32 func_800B3924();                          /* extern */
 s32 func_800B4588();                          /* extern */
 s32 func_800B4F60();                          /* extern */

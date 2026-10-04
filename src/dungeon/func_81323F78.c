@@ -44,25 +44,25 @@ extern u8 D_8016B778[];
 s8 func_8009FB34();
 s32 func_8009FD7C();
 s32 func_800A1C58();
-M2C_UNK func_800A9A0C();
+void func_800A9A0C();
 extern void func_800AA258(void *, void *, void *, void *);
 s32 func_800AA6B4();
-M2C_UNK func_800AA888();
+void func_800AA888();
 s32 func_800AA924();
 M2C_UNK func_800AAF00();
-M2C_UNK func_8016BD14();
-M2C_UNK func_8016BF74();
+void func_8016BD14();
+void func_8016BF74();
 s32 func_8016C720();
-M2C_UNK func_8016C8AC();
+void func_8016C8AC();
 s32 func_8016C98C();
 M2C_UNK func_8016DAA4();
-M2C_UNK func_8016EF10();
+s32 func_8016EF10();
 extern M2C_UNK D_8017469C;
 extern M2C_UNK D_801746BC;
 
 /* Update the actor's dungeon action, animation, and facing direction. */
-void func_8016B778(Rec_func_800A9E70_arg0 *actor, M2C_UNK context, S_8016B778_2 *map_actor, EntityRec *entity) {
-    M2C_UNK target_distance;
+void func_8016B778(Rec_func_800A9E70_arg0 *actor, s32 context, S_8016B778_2 *map_actor, EntityRec *entity) {
+    u16 target_distance;
     s32 entity_flags;
     s32 state_flags;
     s32 override_flag;

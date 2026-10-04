@@ -8,7 +8,7 @@ typedef struct S_80DA7000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_10;
 } S_80DA7000_0;   /* temp_v0 in BODY_NAME */
 
 typedef struct S_80DA7000_1 {
@@ -29,12 +29,12 @@ typedef struct S_80DA7000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_80DA7000_3;   /* temp_s2 in BODY_NAME */
 
 typedef struct S_80DA7000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -64,11 +64,11 @@ __asm__(".globl func_80DA7000\n"
 #endif
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s32 func_8004491C(); /* extern */
+s16 func_800A48F0(); /* extern */
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
+void func_800A9C18(); /* extern */
+s32 func_800AA36C(); /* extern */
 extern M2C_UNK D_80158A3C;
 extern M2C_UNK D_80158E68;
 extern M2C_UNK D_8015B86C;

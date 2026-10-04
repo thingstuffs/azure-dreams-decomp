@@ -5,13 +5,13 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-extern s32 func_800A9E38(void *arg0);
-extern s32 func_800A2BDC(void *arg0);
-extern void func_8003DB94(void *arg0, s32 arg1, s8 arg2);
-extern void func_80047738(void *arg0, u8 arg1, s8 arg2);
-extern void func_800478B8(void *arg0);
-extern void func_800ACB98(void *arg0, s32 arg1, void *arg2, void *arg3);
-extern void func_800ACD74(void *arg0, s32 arg1, void *arg2, void *arg3);
+extern s32 func_800A9E38(void *record);
+extern s32 func_800A2BDC(void *entity);
+extern void func_8003DB94(void *state, s32 entries, s8 index);
+extern void func_80047738(void *state, u8 table_index, s8 entry_index);
+extern void func_800478B8(void *entity);
+extern void func_800ACB98(void *entity, s32 unused, void *status, void *event_state);
+extern void func_800ACD74(void *object_state, s32 unused_context, void *properties, void *status);
 
 extern s16 D_800DCE68;
 

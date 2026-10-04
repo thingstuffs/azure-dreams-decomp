@@ -5,10 +5,10 @@
 #include "m2c_compat.h"
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
-M2C_UNK func_80170B50();
+s32 func_800AA36C();
+void func_80170B50();
 M2C_UNK func_80173C30();
 extern M2C_UNK D_8017112C;
 extern M2C_UNK D_80171514;

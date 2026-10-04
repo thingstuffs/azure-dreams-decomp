@@ -8,7 +8,7 @@ typedef struct S_80D95000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_10;
 } S_80D95000_0;   /* temp_v0 in BODY_NAME */
 
 typedef struct S_80D95000_1 {
@@ -29,12 +29,12 @@ typedef struct S_80D95000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_80D95000_3;   /* temp_s2 in BODY_NAME */
 
 typedef struct S_80D95000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -65,13 +65,13 @@ __asm__(".globl func_80D95000\n"
 
 void *func_8003FD64();
 M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s16 func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
-extern M2C_UNK D_8016AA3C;
-extern M2C_UNK D_8016AE68;
-extern M2C_UNK D_8016D86C;
+s32 func_800AA36C();
+extern u8 D_8016AA3C[];
+extern s32 D_8016AE68;
+extern s32 D_8016D86C;
 
 void *BODY_NAME(s16 init_flags, s16 x, s16 y, s16 initial_value) BODY_ATTR;
 /* Allocates an object and initializes its state, placement, and mode. */

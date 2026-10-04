@@ -51,11 +51,11 @@ extern u8 D_8015C510[];
 extern u8 D_8015C538[];
 
 extern void *func_8003FD64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_800A6D30(void);
-extern M2C_UNK func_800A48F0();
-extern M2C_UNK func_800A9C18();
-extern M2C_UNK func_800AA36C();
+extern s16 func_800A48F0();
+extern void func_800A9C18();
+extern s32 func_800AA36C();
 
 void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {

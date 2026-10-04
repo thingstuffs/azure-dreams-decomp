@@ -22,20 +22,20 @@ typedef struct S_800A4B88_1 {
 void func_8003DB94();     /* extern */
 M2C_UNK func_8003E188();            /* extern */
 void func_80041E70();                      /* extern */
-M2C_UNK func_80096088();              /* extern */
+void func_80096088();              /* extern */
 void func_8009A21C();             /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
-M2C_UNK func_800ACB98(); /* extern */
-M2C_UNK func_800D8590();                      /* extern */
+void func_8009A3D0();             /* extern */
+void func_800ACB98(); /* extern */
+void *func_800D8590();                      /* extern */
 extern s32 D_80083110[];
 extern u8 D_800DD274[];
 
 /* Applies an action to the object's flags and tile state, then updates the object. */
 void func_800A4B88(void *object, s32 action) {
-    M2C_UNK clear_mask;
-    M2C_UNK enable_clear_mask;
-    M2C_UNK set_mask;
-    M2C_UNK disable_clear_mask;
+    s32 clear_mask;
+    s32 enable_clear_mask;
+    s32 set_mask;
+    s32 disable_clear_mask;
     s32 action_index;
     s32 *reset_slot;
     s32 updated_flags;

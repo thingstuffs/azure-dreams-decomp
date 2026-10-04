@@ -20,19 +20,19 @@ typedef struct S_800D991C_0 {
 } S_800D991C_0;   /* arg0 in func_800D991C */
 
 
-M2C_UNK func_8003DB94();        /* extern */
+void func_8003DB94();        /* extern */
 s16 func_800A0818();       /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
+void func_800A2B04();              /* extern */
+s32 func_800A4ACC();                      /* extern */
 M2C_UNK func_800A9A04();                      /* extern */
-M2C_UNK func_800AD594();             /* extern */
+void func_800AD594();             /* extern */
 s32 func_800AD9B4();                  /* extern */
 extern M2C_UNK D_800D8C64;
 extern void *D_800E262C[];
 
 /* Update airborne movement toward a map tile and finish the landing transition. */
 void func_800D991C(void *motion_state, EntityRec *transform, void *map_entity, EntityRec *actor) {
-    M2C_UNK direction_aux;
+    s32 direction_aux;
     void **animation_table;
     s32 frames_left;
     s16 next_timer;

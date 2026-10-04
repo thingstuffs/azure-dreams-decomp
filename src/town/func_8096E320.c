@@ -18,14 +18,14 @@ typedef struct S_801267B8_0 {
 
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_8004B248();
 M2C_UNK SD_Call();
 M2C_UNK func_80064F00();
 M2C_UNK func_80064F20();
-M2C_UNK func_80123130();
+void func_80123130();
 s32 func_801264AC();
-M2C_UNK func_80126620();
+void func_80126620();
 
 extern M2C_UNK D_8004CAA0;
 extern s8 D_80080A84;

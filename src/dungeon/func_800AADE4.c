@@ -31,7 +31,7 @@ typedef struct S_800B0544_6 {
 
 extern M2C_UNK func_8003E1C4();
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 
 extern s32 D_80012090[];
 extern s16 D_8008146C;

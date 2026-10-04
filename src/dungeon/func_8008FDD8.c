@@ -25,9 +25,9 @@ typedef struct S_80095538_1 {
 } S_80095538_1;   /* &D_80082EB0 in func_80095538 */
 
 
-M2C_UNK func_8008D388();    /* extern */
-M2C_UNK func_800982A8();              /* extern */
-M2C_UNK func_80098614();              /* extern */
+s32 func_8008D388();    /* extern */
+void func_800982A8();              /* extern */
+void func_80098614();              /* extern */
 s32 func_80098920(); /* extern */
 s32 func_8009FADC();                             /* extern */
 

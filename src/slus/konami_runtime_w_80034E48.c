@@ -4,9 +4,9 @@
 #include "common.h"
 
 M2C_UNK ClearImage(); /* extern */
-M2C_UNK func_80034EB4();                   /* extern */
-M2C_UNK func_80034EC4();                   /* extern */
-M2C_UNK func_8003C920();                            /* extern */
+void func_80034EB4();                   /* extern */
+void func_80034EC4();                   /* extern */
+void func_8003C920();                            /* extern */
 extern u8 D_800809A8[];
 extern u8 D_800809B0[];
 extern u8 D_80082A38[];

@@ -22,16 +22,16 @@ typedef struct S_800A6994_2 {
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_8009BFD8();
-M2C_UNK func_800A6328();
-M2C_UNK func_800C2E84();
+void func_8009BFD8();
+void func_800A6328();
+void func_800C2E84();
 extern M2C_UNK D_800A5638;
 extern s32 D_800D0C78;
 extern M2C_UNK D_800D0D54;
 extern s32 D_80100E24;
 
 /* Updates the actor position and rounds its heading, or restores the fixed position and heading. */
-void func_800A6994(void *actor, M2C_UNK update_context, void *position, M2C_UNK setup_context) {
+void func_800A6994(void *actor, s32 update_context, void *position, s32 setup_context) {
     u32 heading;
     u8 *state;
     s32 *saved_position;

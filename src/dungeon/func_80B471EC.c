@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
 
 #ifndef NULL
 #define NULL 0
@@ -66,7 +65,7 @@ typedef struct S_801749EC_7 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    u8 * unk_10;
 } S_801749EC_7;   /* temp_v0_12 in func_801749EC */
 
 typedef struct S_801749EC_8 {
@@ -128,7 +127,7 @@ typedef struct S_801749EC_15 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    u8 * unk_10;
 } S_801749EC_15;   /* temp_v0_14 in func_801749EC */
 
 typedef struct S_801749EC_16 {
@@ -176,8 +175,8 @@ void *func_8003FC64(s32);
 void func_8004491C(void *, void *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
-extern M2C_UNK D_80174954;
-extern M2C_UNK D_801749A8;
+extern void D_80174954();
+extern u8 D_801749A8[];
 
 /* Build an animated spherical wireframe and advance its lifetime. */
 void func_801749EC(void *effect, void *origin, void *tint) {
@@ -188,7 +187,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s32 state_m;
     s16 vertices[10][6][3];
     register void *object_origin;
-    M2C_UNK *line_data;
+    void *line_data;
     s16 *closing_angle;
     s16 next_angle_index;
     s16 next_meridian;
@@ -238,7 +237,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     void *closing_angle_slot;
     void *meridian_origin;
     void *ring_origin;
-    register M2C_UNK *ring_data;
+    register void *ring_data;
 
 
     object_origin = origin;
@@ -338,7 +337,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
             meridian_line = meridian_object + 0x20;
             ((S_801749EC_6 *)meridian_line)->unk_1A = 1;
             ((S_801749EC_6 *)meridian_line)->unk_1C = 1;
-            ((S_801749EC_7 *)meridian_object)->unk_10 = &D_801749A8;
+            ((S_801749EC_7 *)meridian_object)->unk_10 = D_801749A8;
             func_8004491C(meridian_object, &D_80174954);
             meridian_render = ((S_801749EC_7 *)meridian_object)->unk_0C;
             ((S_801749EC_8 *)meridian_render)->unk_10 = 0x20;
@@ -382,7 +381,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                 meridian_line = ring_object + 0x20;
                 ((S_801749EC_14 *)meridian_line)->unk_1A = 1;
                 ((S_801749EC_14 *)meridian_line)->unk_1C = 1;
-                ((S_801749EC_15 *)ring_object)->unk_10 = &D_801749A8;
+                ((S_801749EC_15 *)ring_object)->unk_10 = D_801749A8;
                 func_8004491C(ring_object, &D_80174954);
                 ring_render = ((S_801749EC_15 *)ring_object)->unk_0C;
                 {

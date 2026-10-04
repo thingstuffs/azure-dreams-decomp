@@ -3,11 +3,11 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80099844();
+extern void func_80099844();
 extern void func_800A6508(void);
-extern M2C_UNK func_800C5BBC();
+extern void *func_800C5BBC();
 extern s32 func_800C8844();
-extern M2C_UNK func_800DC1B8();
+extern void func_800DC1B8();
 extern s32 D_800DCF1C;
 extern M2C_UNK D_800E1C14;
 extern u8 D_800E3D40;

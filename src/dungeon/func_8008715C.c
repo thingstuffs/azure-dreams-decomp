@@ -11,11 +11,11 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80099F70();
+void func_80099F70();
 s32 func_8009A540();
 s32 func_8009B25C();
 M2C_UNK func_8009C93C();
-M2C_UNK func_8009F644();
+void func_8009F644();
 s32 func_800A5C70();
 extern u8 D_80013186;
 

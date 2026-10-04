@@ -2,13 +2,13 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_8009431C();        /* extern */
-M2C_UNK func_80094C1C();                         /* extern */
-M2C_UNK func_80094C74();                      /* extern */
-M2C_UNK func_80095388();                      /* extern */
-M2C_UNK func_800954F4();                      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
-M2C_UNK func_80096810();                      /* extern */
+void func_8009431C();        /* extern */
+void func_80094C1C();                         /* extern */
+void func_80094C74();                      /* extern */
+void func_80095388();                      /* extern */
+void func_800954F4();                      /* extern */
+void func_80095C80();                      /* extern */
+void func_80096810();                      /* extern */
 extern u8 D_800CFCEE;
 
 

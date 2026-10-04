@@ -2,16 +2,16 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_80095388();                 /* extern */
+void func_80095388();                 /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
-M2C_UNK func_80098B30();        /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
+void func_80098B30();        /* extern */
 extern M2C_UNK D_800FE488;
 
 
 /* Updates the record and selects a handler based on its computed threshold. */
-void func_80097EFC(s32 context, EntityRec *record, M2C_UNK action_data) {
+void func_80097EFC(s32 context, EntityRec *record, s32 action_data) {
     s16 threshold;
 
     func_80095C80(record);

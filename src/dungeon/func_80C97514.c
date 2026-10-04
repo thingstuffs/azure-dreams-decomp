@@ -54,7 +54,7 @@ typedef struct S_80C97514_4 {
 typedef struct S_80C97514_5 {
     u8 pad_00[0xC];
     void * unk_0C;
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_80C97514_5;   /* temp_v0_2 in func_80C97514 */
 
 
@@ -103,17 +103,17 @@ s32 func_800A56E0();                     /* extern */
 s32 func_800ADC4C();     /* extern */
 s32 func_800C77D0(); /* extern */
 M2C_UNK func_80174724();      /* extern */
-extern M2C_UNK D_8003E140;
+extern s32 D_8003E140[];
 extern s32 D_8006CD58;
-extern M2C_UNK D_800DCEEC;
-extern M2C_UNK D_800DCF5C;
-extern M2C_UNK D_8014A000;
-extern M2C_UNK D_80174BE8;
-extern M2C_UNK D_8017530C;
+extern void *D_800DCEEC[];
+extern s8 D_800DCF5C;
+extern u8 D_8014A000[];
+extern s32 D_80174BE8;
+extern s32 D_8017530C;
 extern s16 D_80175314;
-extern M2C_UNK D_80175318;
-extern M2C_UNK D_801753A8;
-extern M2C_UNK D_801753A9;
+extern u8 D_80175318[];
+extern u8 D_801753A8;
+extern u8 D_801753A9;
 extern s32 D_801753AC;
 
 /* Advances the actor transition through turning, color blending, effects, and model replacement. */
