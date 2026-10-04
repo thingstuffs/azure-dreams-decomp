@@ -41,7 +41,7 @@ typedef struct S_80BC172C_6 {
 
 extern u8 D_80170884[];
 extern void *func_8003FD64(s32, void *);
-extern M2C_UNK func_8004491C(void *, void *);
+extern s32 func_8004491C(void *, void *);
 extern s32 rand(void);
 extern M2C_UNK D_80170BFC;
 

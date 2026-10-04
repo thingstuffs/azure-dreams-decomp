@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_80096208();                         /* extern */
+void func_80096208();                         /* extern */
 M2C_UNK func_800962B8(s32);                            /* extern */
 
 /* Pass the input to func_800962B8, then func_80096208. */

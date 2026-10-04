@@ -15,7 +15,7 @@ typedef struct {
 
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern u8 D_800DEAE0[];
 extern LocalTable D_8016482C;
 extern M2C_UNK D_80167540[3];

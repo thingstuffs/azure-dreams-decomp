@@ -2,7 +2,7 @@
 #include "shared/dungeon_floor.h"
 
 typedef s32 M2C_UNK;
-M2C_UNK func_800B835C();
+void func_800B835C();
 extern M2C_UNK D_800DD80C;
 
 /* Submit a fixed command and set the global activation flag. */

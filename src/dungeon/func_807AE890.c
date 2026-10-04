@@ -6,7 +6,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_800DEAE0[];
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();                /* extern */
+s32 func_8004491C();                /* extern */
 void func_8003DB94();                    /* extern */
 s32 func_800BCB04();               /* extern */
 extern M2C_UNK D_800F6070;

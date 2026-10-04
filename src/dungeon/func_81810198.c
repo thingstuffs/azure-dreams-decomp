@@ -2,15 +2,15 @@
 #include "shared/object_flags.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK func_800250B4();
+extern void func_800250B4();
 extern void *func_80025350();
-extern M2C_UNK func_800253C0();
+extern void func_800253C0();
 extern s32 func_80026168();
 extern s32 func_80026A64();
 extern s32 func_8002845C();
 extern void *func_8003FC64();
 extern s32 func_8004A330();
-extern M2C_UNK func_800DBF38();
+extern void func_800DBF38();
 extern s32 D_80029498;
 extern u8 D_80082E6A;
 

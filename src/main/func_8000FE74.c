@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80022D60();   /* extern */
+u8 *func_80022D60();   /* extern */
 
 /* Initializes a request with selector 0 and mode 1. */
 void func_80022E74(M2C_UNK request_id, M2C_UNK request_value) {

@@ -170,7 +170,7 @@ extern u8 D_800DEC00[];
 extern s16 D_80025338[5];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 u8 *func_8003FC64();   /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_800246DC;
 
 /* Updates an effect through attachment, spawning, tracking, and cleanup. */

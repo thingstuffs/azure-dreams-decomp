@@ -13,7 +13,7 @@
 #define LOCAL_ASM_REG(reg) asm(reg)
 #endif
 
-M2C_UNK func_800165C4();
+void func_800165C4();
 extern M2C_UNK D_80018AE8;
 extern s32 D_80018BE8;
 

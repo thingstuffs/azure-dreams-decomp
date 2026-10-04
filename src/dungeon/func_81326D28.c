@@ -4,7 +4,7 @@
 
 s32 func_800A45D8();
 s32 func_800A7234();
-M2C_UNK func_800A7A7C();
+s32 func_800A7A7C();
 s16 func_800BCB04();
 extern u8 D_80174708;
 

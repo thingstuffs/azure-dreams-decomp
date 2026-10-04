@@ -5,7 +5,7 @@ void *func_8003FC64();                       /* extern */
 M2C_UNK bzero();             /* extern */
 s32 func_800AE500();                     /* extern */
 s32 func_800AEFD8(); /* extern */
-M2C_UNK func_800B06C4();                      /* extern */
+void func_800B06C4();                      /* extern */
 extern M2C_UNK D_800B0490;
 
 typedef struct S_800B05DC_0 {

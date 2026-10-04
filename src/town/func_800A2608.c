@@ -3,7 +3,7 @@
 
 M2C_UNK func_80041E28();              /* extern */
 M2C_UNK func_800422DC();              /* extern */
-M2C_UNK func_800AB9A0();                   /* extern */
+void func_800AB9A0();                   /* extern */
 extern M2C_UNK D_80100A10;
 
 /* Load a record into the shared buffer, process it, and write it back. */

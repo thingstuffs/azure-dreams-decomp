@@ -30,7 +30,7 @@ typedef struct S_800BEAD0_1 {
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern M2C_UNK SD_Call();
 extern M2C_UNK D_8007789C;
 extern M2C_UNK D_800BEBA4;

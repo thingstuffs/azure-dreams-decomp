@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80026370();                    /* extern */
+void func_80026370();                    /* extern */
 s32 func_80026388();               /* extern */
 
 typedef struct S_80026508_0 {

@@ -4,8 +4,8 @@
 M2C_UNK func_80067014();                     /* extern */
 M2C_UNK func_800671A8(); /* extern */
 s32 func_80123200();                             /* extern */
-M2C_UNK func_80123928();               /* extern */
-M2C_UNK func_801239B8(); /* extern */
+void func_80123928();               /* extern */
+void func_801239B8(); /* extern */
 extern M2C_UNK D_8011ACD8;
 typedef struct {
     void *image;

@@ -23,7 +23,7 @@ typedef struct S_800A6F48_15 {
 
 
 void *func_800A75B8();                         /* extern */
-M2C_UNK func_800ABD74();               /* extern */
+void func_800ABD74();               /* extern */
 extern M2C_UNK D_800A70EC;
 extern M2C_UNK D_800D0DD8;
 

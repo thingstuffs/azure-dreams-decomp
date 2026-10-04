@@ -65,7 +65,7 @@ typedef struct S_80D65810_5 {
 
 M2C_UNK func_8003DB94();
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 rand();
 extern u8 D_800DE870[];
 extern void func_80045340(void);

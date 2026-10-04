@@ -3,14 +3,14 @@
 #include "m2c_compat.h"
 extern int abs(int);
 
-M2C_UNK func_800247B8();      /* extern */
-M2C_UNK func_80024AEC();      /* extern */
-M2C_UNK func_80024D34();      /* extern */
+void func_800247B8();      /* extern */
+void func_80024AEC();      /* extern */
+void func_80024D34();      /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800A4778();           /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_800D4AB0();      /* extern */
+s32 func_800A56E0();                     /* extern */
+void func_800D4AB0();      /* extern */
 extern u8 D_80025B38[9];
 extern s16 D_80025B60;
 extern u8 D_800DDC40[];

@@ -6,7 +6,7 @@
 
 M2C_UNK func_80042B68();             /* extern */
 M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_80094E34();                            /* extern */
+void func_80094E34();                            /* extern */
 s32 func_800A6D30();                                /* extern */
 extern u8 D_800DCFE0[];
 extern u8 D_800DCFE8[];

@@ -90,11 +90,11 @@ typedef struct S_80024660_12 {
 } S_80024660_12;   /* ((S_80024660_3 *)temp_s0)->unk_0C in func_80024660 */
 
 
-M2C_UNK func_8002403C();
+s32 func_8002403C();
 s32 func_800243B8();
 s32 func_8003DE58();
 s32 func_800A44E0(s32, s32, s16, s32);
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 s32 func_800BCB04(s32, s32, s16);
 
 typedef struct {

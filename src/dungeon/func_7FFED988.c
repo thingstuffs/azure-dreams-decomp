@@ -3,7 +3,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8008AD1C(arg0, arg1, arg2);                                /* extern */
-M2C_UNK func_8008AE4C();                         /* extern */
+void func_8008AE4C();                         /* extern */
 s32 func_8008AFB0();      /* extern */
 
 /* Load a resource into the cache or move its existing entry to the front. */

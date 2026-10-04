@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-extern M2C_UNK func_80094A60(s32 *, Rec_func_80094268_arg0 *);
+extern void func_80094A60(s32 *, Rec_func_80094268_arg0 *);
 
 
 /* Call the handler when the record selects a nonzero entry. */

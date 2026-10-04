@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_80095388();                      /* extern */
+void func_80095388();                      /* extern */
 M2C_UNK func_800CE04C();     /* extern */
 
 typedef struct S_800CDC2C_0 {

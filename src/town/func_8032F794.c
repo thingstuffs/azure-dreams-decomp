@@ -9,7 +9,7 @@ typedef struct S_80019F94_1 {
 } S_80019F94_1;   /* (temp_s0 + held_arg0->unk_10) in func_80019F94 */
 
 
-M2C_UNK func_80019EA8();
+void func_80019EA8();
 s32 func_8001ADE0();
 extern M2C_UNK D_8001C378[];
 

@@ -10,10 +10,10 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8003DE58();     /* extern */
 u8 *func_8003FD64();                   /* extern */
-M2C_UNK func_8004491C();             /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+s32 func_8004491C();             /* extern */
+void func_8009CE1C(); /* extern */
 void *func_800A3F28();           /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_80024440;
 extern M2C_UNK D_8002466C;
 extern M2C_UNK D_80024B48;

@@ -31,7 +31,7 @@ extern volatile int D_80071250[];
 extern int D_800712B4[];
 extern int D_80084130[3];
 s32 func_8003BD84();
-M2C_UNK func_80098928();
+void func_80098928();
 u16 func_800C2AE8();
 extern M2C_UNK D_80099C18;
 /* Set travel timing from distance and speed, or snap motion to the destination. */

@@ -8,7 +8,7 @@ typedef struct S_80026494_0 {
 } S_80026494_0;   /* arg0 in func_80026494; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80022FB4();                         /* extern */
+void func_80022FB4();                         /* extern */
 extern M2C_UNK D_800261F0;
 extern M2C_UNK D_800265B8;
 

@@ -9,7 +9,7 @@ typedef struct S_800A553C_0 {
 
 
 M2C_UNK func_80033D08();                      /* extern */
-M2C_UNK func_80094A38();           /* extern */
+void func_80094A38();           /* extern */
 extern M2C_UNK D_800A5638;
 extern M2C_UNK D_800A5FDC;
 extern s32 D_800D0460;

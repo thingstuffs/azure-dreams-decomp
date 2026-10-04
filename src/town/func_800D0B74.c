@@ -21,7 +21,7 @@ typedef struct S_800CE2D4_1 {
 } S_800CE2D4_1;   /* arg1 in func_800CE2D4 */
 
 
-M2C_UNK func_800C4174(S_800CE2D4_0 *, S_800CE2D4_1 *, M2C_UNK);
+void func_800C4174(S_800CE2D4_0 *, S_800CE2D4_1 *, M2C_UNK);
 /* Decrement the countdown and ease the current values toward their targets. */
 void func_800CE2D4(S_800CE2D4_0 *state, S_800CE2D4_1 *current, M2C_UNK context) {
     u16 ticks_left;

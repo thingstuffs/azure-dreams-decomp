@@ -3,7 +3,7 @@
 
 s32 func_800A027C();                     /* extern */
 void *func_800A04A8();                              /* extern */
-M2C_UNK func_800A04B4();                            /* extern */
+void func_800A04B4();                            /* extern */
 
 typedef struct S_800A0504_0 {
     u8 pad_00[0x1];

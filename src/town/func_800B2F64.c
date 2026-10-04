@@ -11,7 +11,7 @@ typedef struct S_800B06C4_0 {
 } S_800B06C4_0;   /* arg0 in func_800B06C4 */
 
 
-M2C_UNK func_800AF148();                         /* extern */
+void func_800AF148();                         /* extern */
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Set the record and global high flags, then process the stored record value. */

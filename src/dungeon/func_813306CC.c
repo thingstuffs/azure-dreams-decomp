@@ -7,7 +7,7 @@
 extern M2C_UNK D_80167540[3];
 extern u8 D_800DEAE0[];
 extern void *func_8003FC64(s32);
-extern M2C_UNK func_8004491C(void *, void *);
+extern s32 func_8004491C(void *, void *);
 extern void func_8003DB94(void *, void *, s32);
 
 typedef struct S_801676CC_0 {

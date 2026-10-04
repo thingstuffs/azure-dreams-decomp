@@ -10,7 +10,7 @@ typedef struct S_800CB1E0_0 {
 } S_800CB1E0_0;   /* arg0 in func_800CB1E0 */
 
 
-M2C_UNK func_800C4174(S_800CB1E0_0 *, M2C_UNK, M2C_UNK);
+void func_800C4174(S_800CB1E0_0 *, M2C_UNK, M2C_UNK);
 /* Decrement the countdown and call func_800C4174 when it reaches zero. */
 void func_800CB1E0(S_800CB1E0_0 *object, M2C_UNK context, M2C_UNK update_data) {
     u16 remaining_ticks;

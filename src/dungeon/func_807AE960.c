@@ -47,7 +47,7 @@ s32 func_8003F270();
 void func_8003F540();
 int func_800445E0();
 s32 func_80053EF0();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 D_8006CD58;

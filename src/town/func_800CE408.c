@@ -21,7 +21,7 @@ typedef struct S_800CBB68_2 {
 
 extern void *func_8009C390();
 extern s16 func_800C2AE8();
-extern M2C_UNK func_800CBAE0();
+extern void func_800CBAE0();
 
 /* Allocate and initialize an object with the given coordinates and variant. */
 void func_800CBB68(s32 variant, s32 x, s32 y) {

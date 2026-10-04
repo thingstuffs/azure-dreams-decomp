@@ -88,10 +88,10 @@ typedef struct S_8195281C_10 {
 
 extern u8 D_800DF334[];
 extern void *D_80024008[];
-M2C_UNK func_80024908();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800B835C();
-M2C_UNK func_800B8C20();
+void func_80024908();
+s32 func_800A56E0();
+void func_800B835C();
+void func_800B8C20();
 extern u8 D_80024980;
 extern M2C_UNK D_80024998;
 extern s16 D_800249A4;

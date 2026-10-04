@@ -31,7 +31,7 @@ struct Object {
 
 M2C_UNK func_8003DB94();
 Object *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 rand();
 extern u8 D_80024AB4[];
 extern u8 D_800DECF8[];

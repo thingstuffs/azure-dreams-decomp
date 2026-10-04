@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8008F01C(Rec_func_80094268_arg0 *, s32, s32);                            /* extern */
+void func_8008F01C(Rec_func_80094268_arg0 *, s32, s32);                            /* extern */
 
 
 /* Configure the record and set its mode to 2. */

@@ -7,14 +7,14 @@
 #include "records/Rec_D_80082E80.h"
 
 M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_80099F04();                         /* extern */
+void func_80099F04();                         /* extern */
 s32 func_8009C12C();    /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_800B341C();        /* extern */
-M2C_UNK func_800B3D10();          /* extern */
-M2C_UNK func_800B4194();             /* extern */
-M2C_UNK func_800C77D0(); /* extern */
+void func_800A2B04();              /* extern */
+s32 func_800A56E0();                     /* extern */
+void func_800B341C();        /* extern */
+void func_800B3D10();          /* extern */
+s32 func_800B4194();             /* extern */
+s32 func_800C77D0(); /* extern */
 extern s32 D_8008ACDC;
 extern u8 D_800DD030[];
 extern u8 D_800DD068[];

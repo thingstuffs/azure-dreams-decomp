@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80100B70.h"
 
-M2C_UNK func_800A17CC(Rec_D_80100B70 *, s32);                            /* extern */
+void func_800A17CC(Rec_D_80100B70 *, s32);                            /* extern */
 
 
 /* Decrease the value with a floor of four, advance the cyclic counter, and update the record. */

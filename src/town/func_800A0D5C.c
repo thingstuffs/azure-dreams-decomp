@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80094AF8();                            /* extern */
+void func_80094AF8();                            /* extern */
 s32 open_twin_souko();                         /* extern */
 extern s32 D_80100A08;
 

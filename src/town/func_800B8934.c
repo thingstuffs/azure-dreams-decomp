@@ -22,7 +22,7 @@ s32 func_800439BC();
 M2C_UNK func_800498EC();
 s32 func_80049918();
 s32 func_80049944();
-M2C_UNK func_800B5264();
+void func_800B5264();
 M2C_UNK func_800B53BC();
 s32 func_800B6030();
 

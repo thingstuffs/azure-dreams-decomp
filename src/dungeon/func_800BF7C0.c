@@ -96,7 +96,7 @@ typedef struct S_800C4F20_8 {
 s32 func_800644B8();
 s32 func_80064584();
 s32 func_80069EF8();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 
 /* Updates an object's staged scale and position animation. */
 void func_800C4F20(void *anim, S_800C4F20_5 *position, S_800C4F20_1 *transform) {

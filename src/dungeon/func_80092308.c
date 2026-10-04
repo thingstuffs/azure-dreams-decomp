@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94();        /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern u8 D_800DD294[];
 
 typedef struct S_func_80097A68_0 {

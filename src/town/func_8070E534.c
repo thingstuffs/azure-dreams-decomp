@@ -6,7 +6,7 @@
 
 
 M2C_UNK func_80016CC4();                            /* extern */
-M2C_UNK func_80016DBC();                            /* extern */
+void func_80016DBC();                            /* extern */
 
 
 /* Run both setup routines and invoke the state callback with 0xE and 0x200. */

@@ -15,7 +15,7 @@ typedef struct S_800CAFDC_5 {
 
 
 void *func_8003FD64();               /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s16 rand();                                /* extern */

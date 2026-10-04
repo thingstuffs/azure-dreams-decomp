@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 
-M2C_UNK func_8001A414(void);                                     /* extern */
+u8 func_8001A414(void);                                     /* extern */
 
 /* Set unk_02 to 0xFF before forwarding three values to func_8001A414. */
 void func_8001A3E8(void) {

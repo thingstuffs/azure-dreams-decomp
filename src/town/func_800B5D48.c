@@ -14,7 +14,7 @@ typedef struct S_800B34A8_1 {
 
 
 M2C_UNK func_800497F4();                /* extern */
-M2C_UNK func_8004CB2C();                         /* extern */
+s32 func_8004CB2C();                         /* extern */
 
 
 /* Resets the object substate and its two referenced resources. */

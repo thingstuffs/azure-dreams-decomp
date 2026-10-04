@@ -9,7 +9,7 @@ typedef struct S_80033D08_0_pre {
 } S_80033D08_0_pre;   /* the 0xC bytes before arg0 in func_80033D08, addressed as arg0[-1] */
 
 
-M2C_UNK func_80044A50();                      /* extern */
+void func_80044A50();                      /* extern */
 
 /* Unlinks the enclosing block when its header field is nonzero. */
 void func_80033D08(void *block_data) {

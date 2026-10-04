@@ -4,7 +4,7 @@
 
 M2C_UNK strcat(); /* extern */
 M2C_UNK *func_800A652C();                        /* extern */
-M2C_UNK func_800B5264(); /* extern */
+void func_800B5264(); /* extern */
 extern M2C_UNK D_800892C0;
 extern M2C_UNK D_800892C8;
 extern M2C_UNK D_800892CC;

@@ -57,9 +57,9 @@ typedef struct S_800D24A8_3 {
 
 
 void *func_8003FD64();            /* extern */
-M2C_UNK func_8004491C();           /* extern */
-M2C_UNK func_80099FDC();                      /* extern */
-M2C_UNK func_8009A21C();             /* extern */
+s32 func_8004491C();           /* extern */
+void func_80099FDC();                      /* extern */
+void func_8009A21C();             /* extern */
 s8 func_8009FB34();                           /* extern */
 void func_800A2B04();              /* extern */
 s16 func_800BCB04();                   /* extern */

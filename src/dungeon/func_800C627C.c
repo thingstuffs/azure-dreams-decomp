@@ -78,9 +78,9 @@ M2C_UNK func_80040AA0();               /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 void func_800481E0();                            /* extern */
 void func_800945E8();           /* extern */
-M2C_UNK func_800948BC();                            /* extern */
+void func_800948BC();                            /* extern */
 void func_8009A028();                      /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+void func_8009A3D0();             /* extern */
 s32 func_800A32A4();                      /* extern */
 s32 func_800A6780();                            /* extern */
 extern s32 D_80010234;

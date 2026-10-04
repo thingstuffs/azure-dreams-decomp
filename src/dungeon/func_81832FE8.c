@@ -3,7 +3,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 rand();                             /* extern */
-M2C_UNK func_800A48F0();        /* extern */
+s16 func_800A48F0();        /* extern */
 
 typedef struct S_81832FE8_0 {
     u8 pad_00[0x60];

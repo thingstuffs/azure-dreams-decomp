@@ -5,7 +5,7 @@
 #include "records/Rec_func_800A9E70_arg0.h"
 
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
+s32 func_800A4ACC();                      /* extern */
 
 
 /* Clears the object's high flag bit and conditionally resets state and decrements its counter. */

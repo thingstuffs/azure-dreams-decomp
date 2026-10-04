@@ -9,12 +9,12 @@
 
 s32 func_8003DE58();
 s32 func_80098920();
-M2C_UNK func_8009A028();
+void func_8009A028();
 s32 func_8009B164();
 void *func_8009B25C();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A7A7C();
-M2C_UNK func_800B66C8();
+void func_800A2B04();
+s32 func_800A7A7C();
+void func_800B66C8();
 s16 func_800BCB04();
 extern M2C_UNK D_80081484;
 extern u8 D_800DD7DC[];

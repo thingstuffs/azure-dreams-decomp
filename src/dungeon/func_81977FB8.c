@@ -6,7 +6,7 @@ typedef s32 M2C_UNK;
 struct TargetVec;
 extern struct TargetVec *D_80026208[];
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_800644B8();
 s32 func_80064584();
 s32 rand();

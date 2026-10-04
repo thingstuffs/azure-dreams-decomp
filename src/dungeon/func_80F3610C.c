@@ -61,7 +61,7 @@ typedef struct {
 
 
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_8004A658();
 extern s32 func_800A56E0();
 extern s32 func_800AD058();

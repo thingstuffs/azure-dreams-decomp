@@ -10,7 +10,7 @@ typedef struct S_800C5620_0 {
 } S_800C5620_0;   /* arg0 in func_800C5620 */
 
 
-M2C_UNK func_800C4174(S_800C5620_0 *, M2C_UNK, M2C_UNK);
+void func_800C4174(S_800C5620_0 *, M2C_UNK, M2C_UNK);
 /* Decrement the countdown and call func_800C4174 when it reaches zero or becomes negative. */
 void func_800C5620(S_800C5620_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
     u16 countdown;

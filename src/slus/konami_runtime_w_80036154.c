@@ -24,7 +24,7 @@ typedef struct S_80036154_0 {
 } S_80036154_0;   /* arg0 in func_80036154 */
 
 
-M2C_UNK func_80036988();              /* extern */
+void func_80036988();              /* extern */
 void func_80036210();
 void func_800362D0();
 void func_800364EC();

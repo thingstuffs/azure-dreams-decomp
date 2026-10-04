@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800169F8();                            /* extern */
+void func_800169F8();                            /* extern */
 s32 func_80017F8C();         /* extern */
 s32 func_80018044(); /* extern */
 s32 func_8001894C();                             /* extern */

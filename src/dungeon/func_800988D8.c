@@ -8,8 +8,8 @@
 
 void func_8009DF0C();
 s32 func_800A2C34();
-M2C_UNK func_800A634C();
-M2C_UNK func_800A67F4();
+void *func_800A634C();
+void func_800A67F4();
 extern s16 D_80013630[4];
 extern M2C_UNK D_8001363C;
 

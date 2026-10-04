@@ -69,7 +69,7 @@ typedef struct StackPair {
 extern s16 D_800269F8[5];
 s32 func_800244EC();                     /* extern */
 M2C_UNK func_800263F0();                         /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern s32 D_800269D0;
 extern M2C_UNK D_80027750;
 extern M2C_UNK D_80027C74;

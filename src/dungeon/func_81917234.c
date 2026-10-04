@@ -5,7 +5,7 @@
 #include "records/Rec_func_80024600_arg1.h"
 
 extern s32 D_800DEDB0[3];
-M2C_UNK func_80024600();
+void *func_80024600();
 s32 func_8003DB94();
 s32 func_800644B8();
 s32 func_80064584();

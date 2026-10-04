@@ -5,7 +5,7 @@
 s32 func_800374F4();                         /* extern */
 s32 *func_8008FAC0();              /* extern */
 s32 func_800C30E0(Rec_func_80094268_arg0 *, M2C_UNK, M2C_UNK, s32);                                /* extern */
-M2C_UNK func_800CDDFC();    /* extern */
+void func_800CDDFC();    /* extern */
 M2C_UNK func_800CDE4C();    /* extern */
 extern M2C_UNK D_800CFCB4;
 

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-M2C_UNK func_80033C84();                   /* extern */
+void func_80033C84();                   /* extern */
 extern u8 D_800816C0[];
 
 /* Calls func_80033C84 for each of the 20 records starting at D_800816C0. */

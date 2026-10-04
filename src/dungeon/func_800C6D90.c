@@ -26,7 +26,7 @@ typedef struct S_800CC4F0_1 {
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-M2C_UNK func_800CC5F0(); /* extern */
+void *func_800CC5F0(); /* extern */
 
 /* Updates directional motion, emits paired effects, and marks completion when the timer expires. */
 void func_800CC4F0(void *effect_data, S_800CC4F0_0 *position) {

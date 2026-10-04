@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80026340();                         /* extern */
+void func_80026340();                         /* extern */
 
 typedef struct S_800255AC_0 {
     u8 pad_00[0x40];

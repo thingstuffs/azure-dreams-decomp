@@ -37,7 +37,7 @@ typedef struct S_800A21EC_3 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern M2C_UNK D_80046398;
 extern M2C_UNK D_800A22D0;
 

@@ -4,7 +4,7 @@
 
 s32 func_800352FC(Rec_func_80097D54_arg0 *, M2C_UNK, M2C_UNK, s32);                                /* extern */
 M2C_UNK func_80093D90();    /* extern */
-M2C_UNK func_80098988();    /* extern */
+void func_80098988();    /* extern */
 extern M2C_UNK D_800CFFF0;
 
 /* Check the record, tick its countdown, and dispatch the appropriate handler. */

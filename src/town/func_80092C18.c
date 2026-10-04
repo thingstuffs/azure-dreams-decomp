@@ -6,7 +6,7 @@ typedef struct S_80090378_0 {
 } S_80090378_0;   /* temp_a1 in func_80090378; pointer addresses record offset 0x14 */
 
 
-M2C_UNK func_80094984();   /* extern */
+void func_80094984();   /* extern */
 extern M2C_UNK D_800834B8;
 extern M2C_UNK D_800D0178;
 

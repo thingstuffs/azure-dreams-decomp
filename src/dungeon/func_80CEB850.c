@@ -72,14 +72,14 @@ void func_800AA258();
 s32 func_800AA6B4();
 s32 func_800AA79C();
 void func_800AA888();
-M2C_UNK func_80171BEC();
+void func_80171BEC();
 #ifndef NON_MATCHING
 __asm__(".set func_80171BEC_returning, func_80171BEC");
 extern M2C_UNK func_80171BEC_returning();
 #else
 #define func_80171BEC_returning func_80171BEC
 #endif
-M2C_UNK func_801759A0();
+void func_801759A0();
 
 extern u8 D_801724BC[];
 extern u8 D_80175E54[];

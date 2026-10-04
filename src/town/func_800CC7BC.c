@@ -10,7 +10,7 @@ typedef struct S_800C9F1C_0 {
 } S_800C9F1C_0;   /* arg0 in func_800C9F1C */
 
 
-M2C_UNK func_800C4174(S_800C9F1C_0 *, M2C_UNK, M2C_UNK);
+void func_800C4174(S_800C9F1C_0 *, M2C_UNK, M2C_UNK);
 /* Decrement the object countdown and call func_800C4174 when it expires. */
 void func_800C9F1C(S_800C9F1C_0 *object, M2C_UNK param_1, M2C_UNK param_2) {
     u16 countdown;

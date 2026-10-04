@@ -8,7 +8,7 @@ typedef struct S_80026748_0 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern s32 D_800265B8[];
-M2C_UNK func_80025DC8(void *);                            /* extern */
+void func_80025DC8(void *);                            /* extern */
 
 /* Update the record, run the shared follow-up, and install its next table. */
 void func_80026748(void *record_data) {

@@ -10,7 +10,7 @@ typedef struct Copy12 {
 #define M2C_UNALIGNED32(expr) (expr)
 
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 rand();
 extern s32 func_80167088();
 extern M2C_UNK D_80045C34;

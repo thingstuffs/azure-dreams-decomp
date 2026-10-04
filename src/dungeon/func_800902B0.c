@@ -102,7 +102,7 @@ void func_80047DF0();
 void func_80048A44();
 void func_80093C70();
 void func_80093D8C();
-M2C_UNK func_800956B8();
+void func_800956B8();
 void func_80099F04();
 void func_80099F70();
 void *(*func_800A0B94())(s32, s8, s8, s16);

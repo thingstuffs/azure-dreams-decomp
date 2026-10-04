@@ -60,9 +60,9 @@ typedef struct {
 } DungeonTableEntry;
 
 extern s16 D_8006CD00[];
-M2C_UNK func_800A0E6C();
-M2C_UNK func_800A19E4();
-M2C_UNK func_800A9A0C();
+s32 func_800A0E6C();
+s32 func_800A19E4();
+void func_800A9A0C();
 s32 func_8009A180();
 s16 func_800BCB04();
 s32 func_800CA1E0();

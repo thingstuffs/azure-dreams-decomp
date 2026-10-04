@@ -12,7 +12,7 @@ typedef struct S_80125420_0 {
 } S_80125420_0;   /* arg0 in func_80125420 */
 
 
-M2C_UNK func_801248C0(S_80125420_0 *);
+void func_801248C0(S_80125420_0 *);
 /* Advance the counter and invoke completion when it reaches the target, then reset the state. */
 void func_80125420(S_80125420_0 *state) {
     u16 next_count;

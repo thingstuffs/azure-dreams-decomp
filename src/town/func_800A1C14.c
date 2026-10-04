@@ -5,7 +5,7 @@
 
 s32 func_800374F4();                         /* extern */
 s32 func_800644B8();                             /* extern */
-M2C_UNK func_8009F148(); /* extern */
+void func_8009F148(); /* extern */
 
 
 typedef struct S_8009F374_2 {

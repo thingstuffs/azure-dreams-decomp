@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-M2C_UNK func_8003AE28(); /* extern */
+void func_8003AE28(); /* extern */
 
 /* Calls func_8003AE28 with a fixed set of parameters. */
 void func_8003B324(void) {

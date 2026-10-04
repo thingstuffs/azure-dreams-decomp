@@ -40,7 +40,7 @@ typedef struct S_800F643C_3 {
 
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 func_800BCB04();               /* extern */
 extern M2C_UNK D_80046398;
 extern s32 D_80083208;

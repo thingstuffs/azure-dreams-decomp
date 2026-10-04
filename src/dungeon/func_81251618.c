@@ -12,7 +12,7 @@ typedef struct {
 } Block16;
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 void func_80047784();
 extern M2C_UNK D_80170D44;
 extern u8 D_80173EB4[8];

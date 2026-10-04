@@ -27,7 +27,7 @@ M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
-M2C_UNK func_8017406C();      /* extern */
+void func_8017406C();      /* extern */
 
 /* Update the effect's orbit and height, fade its color, and mark it for removal when its life expires. */
 void func_801741A0(void *effect, EntityRec *position, Rec_D_80082E80 *primitive) {

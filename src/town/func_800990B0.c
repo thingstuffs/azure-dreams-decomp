@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 s32 func_80096788(EntityRec *);                                /* extern */
-M2C_UNK func_800967E0();                 /* extern */
+void func_800967E0();                 /* extern */
 extern s32 D_800FE5D4;
 
 

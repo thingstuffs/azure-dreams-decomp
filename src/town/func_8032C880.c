@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8001ACE8();                     /* extern */
+void func_8001ACE8();                     /* extern */
 s32 func_8001ADE0();                         /* extern */
 
 /* Process ID 0xD51 and return its preceding query result. */

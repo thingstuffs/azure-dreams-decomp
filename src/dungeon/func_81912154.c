@@ -108,9 +108,9 @@ typedef struct S_80025954_15 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_80024170(); /* extern */
-M2C_UNK func_80025874();         /* extern */
+void *func_80025874();         /* extern */
 s32 func_8003DE58();     /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 s32 func_800A44E0();              /* extern */
 s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */

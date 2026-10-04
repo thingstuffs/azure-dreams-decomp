@@ -4,7 +4,7 @@
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */
-M2C_UNK func_800ABC00(void *, s16);              /* extern */
+void func_800ABC00(void *, s16);              /* extern */
 
 typedef struct {
     s16 unk0;

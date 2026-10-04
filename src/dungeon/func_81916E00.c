@@ -15,7 +15,7 @@ typedef struct Copy24 {
 
 M2C_UNK func_8003DB94();
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 extern M2C_UNK D_8002457C;
 extern M2C_UNK D_800DEC50;
 

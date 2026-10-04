@@ -68,7 +68,7 @@ typedef struct S_80166204_2 {
 
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;

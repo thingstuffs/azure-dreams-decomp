@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-M2C_UNK func_80034FD0();                   /* extern */
+s32 func_80034FD0();                   /* extern */
 extern u8 D_80082A38[];
 
 /* Passes the global state to func_80034FD0. */

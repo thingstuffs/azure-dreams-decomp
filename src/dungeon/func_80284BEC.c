@@ -6,7 +6,7 @@ s32 func_80017EBC();
 s16 func_80017F88();
 s16 func_8001816C();
 s32 func_80018304();
-M2C_UNK func_800BCB04();
+s32 func_800BCB04();
 
 typedef struct S_80017BEC_T {
     u8 pad_00[0x4];

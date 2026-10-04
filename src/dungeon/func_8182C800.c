@@ -210,14 +210,14 @@ extern u8 D_800DEC00[];
 extern s32 D_800DEB70;
 s32 func_8003DE58();     /* extern */
 void *func_8003FD64();                 /* extern */
-M2C_UNK func_8004491C();                /* extern */
+s32 func_8004491C();                /* extern */
 s32 func_80069EF8(void);            /* extern */
 void func_800478B8(void *);          /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 s32 func_800A05A4();        /* extern */
 s32 func_800A3820();                    /* extern */
 s32 func_800A4688();         /* extern */
-M2C_UNK func_800A56E0();                /* extern */
+s32 func_800A56E0();                /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80024D44;
 extern M2C_UNK D_80024E98;

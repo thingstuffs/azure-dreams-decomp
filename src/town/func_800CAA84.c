@@ -14,7 +14,7 @@ typedef struct S_800C81E4_1 {
 } S_800C81E4_1;   /* arg1 in func_800C81E4 */
 
 
-M2C_UNK func_800C8194(S_800C81E4_0 *, S_800C81E4_1 *);
+void func_800C8194(S_800C81E4_0 *, S_800C81E4_1 *);
 /* Update the output, adding eight while the state's countdown is positive. */
 void func_800C81E4(S_800C81E4_0 *state, S_800C81E4_1 *output) {
     func_800C8194(state, output);

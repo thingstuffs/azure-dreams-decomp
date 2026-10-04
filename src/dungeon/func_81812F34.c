@@ -20,7 +20,7 @@ typedef struct S_80027F34_0 {
 } S_80027F34_0;   /* arg0 in func_80027F34; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80027A20();              /* extern */
+void func_80027A20();              /* extern */
 extern M2C_UNK D_80027A68;
 
 /* Decrease the linked value from 0x400 toward zero and advance the state after the final step. */

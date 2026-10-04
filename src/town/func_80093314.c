@@ -18,7 +18,7 @@ void func_80095094();                      /* extern */
 s32 func_8009567C();            /* extern */
 s32 func_80095840();               /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
+void func_80095A94();      /* extern */
 void func_80095C80();                      /* extern */
 void func_80098868();     /* extern */
 extern s32 D_800CFCB4;

@@ -12,7 +12,7 @@ typedef struct S_800AF8B0_2 {
 } S_800AF8B0_2;   /* ((Rec_func_800AF254_arg1 *)arg0)->unk_00 in func_800AF8B0 */
 
 
-M2C_UNK func_800B05DC(); /* extern */
+void *func_800B05DC(); /* extern */
 
 
 /* Positions an indexed entry in a two-column, five-row layout. */

@@ -9,7 +9,7 @@ typedef struct {
     s32 unk10;
 } State;
 
-M2C_UNK func_80096A90();                 /* extern */
+void func_80096A90();                 /* extern */
 extern s16 D_8006ADD6;
 extern s32 D_800FE508[4];
 extern State D_800FE520;

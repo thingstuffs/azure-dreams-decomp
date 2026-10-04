@@ -6,9 +6,9 @@
 s32 func_800644B8();
 s32 func_80064584();
 s16 func_800A07D0();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800BB2E4();
-M2C_UNK func_800BC0A8();
+s32 func_800A56E0();
+void func_800BB2E4();
+void *func_800BC0A8();
 
 typedef struct DungeonWork {
     u8 pad_00[0x30];

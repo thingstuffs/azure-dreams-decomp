@@ -15,7 +15,7 @@ typedef struct S_8001A200_2 {
 } S_8001A200_2;   /* var_s0 in func_8001A200 */
 
 
-M2C_UNK func_8001A188();     /* extern */
+void func_8001A188();     /* extern */
 extern u8 D_8001791C[96];
 
 /* Dispatches each record to the first matching kind-table entry. */

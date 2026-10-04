@@ -40,7 +40,7 @@ typedef struct S_80175060_3 {
 
 void func_8003DB94(void *, void *, s32);  /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 rand();                                /* extern */
 extern M2C_UNK D_800DEA68;

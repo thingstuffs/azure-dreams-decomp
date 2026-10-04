@@ -3,7 +3,7 @@
 
 extern M2C_UNK change_map();
 extern s32 get_player_homerank();
-extern M2C_UNK func_800B28A0();
+extern s32 func_800B28A0();
 
 /* Changes maps using direct map data or a selected table entry. */
 void func_800A0B74(void *map_source, s32 *map_table) {

@@ -9,7 +9,7 @@ typedef struct {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();                /* extern */
+s32 func_8004491C();                /* extern */
 extern M2C_UNK D_800249FC;
 extern M2C_UNK D_80025B48;
 

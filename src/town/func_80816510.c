@@ -22,7 +22,7 @@ typedef struct S_80020510_1 {
 } S_80020510_1;   /* temp_s2 in func_80020510 */
 
 
-M2C_UNK func_800537D0();               /* extern */
+void func_800537D0();               /* extern */
 s32 strlen();                             /* extern */
 extern s16 D_800272A0[];
 

@@ -89,30 +89,30 @@ s32 func_80042900();                 /* extern */
 void func_80048A44(); /* extern */
 void func_8004B568();                            /* extern */
 s32 func_8008D024(); /* extern */
-M2C_UNK func_8008D330(); /* extern */
+void func_8008D330(); /* extern */
 s32 func_8008D388(); /* extern */
 void func_8008D9F0(); /* extern */
-M2C_UNK func_80091920(); /* extern */
+void func_80091920(); /* extern */
 s32 func_80094270(); /* extern */
-M2C_UNK func_800956B8(); /* extern */
+void func_800956B8(); /* extern */
 s32 func_80095854(); /* extern */
-M2C_UNK func_80096088();              /* extern */
-M2C_UNK func_80097F84(); /* extern */
-M2C_UNK func_800982A8();              /* extern */
+void func_80096088();              /* extern */
+void *func_80097F84(); /* extern */
+void func_800982A8();              /* extern */
 void func_80098614();              /* extern */
 s32 func_80098920(); /* extern */
 s16 func_80098C80();                          /* extern */
-M2C_UNK func_80098CF8(); /* extern */
+void *func_80098CF8(); /* extern */
 s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                         /* extern */
+void *func_80099290();                         /* extern */
 s32 func_80099734();                        /* extern */
-M2C_UNK func_800997FC();                   /* extern */
+void func_800997FC();                   /* extern */
 s32 func_8009B88C(); /* extern */
-M2C_UNK func_8009F644();   /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+void func_8009F644();   /* extern */
+s32 func_800A5720();                         /* extern */
 s32 func_800BA33C();                             /* extern */
-M2C_UNK func_800BA810();            /* extern */
+void func_800BA810();            /* extern */
 extern M2C_UNK D_8001EF2C;
 extern M2C_UNK D_8004F5F4;
 extern M2C_UNK D_80082EB0;

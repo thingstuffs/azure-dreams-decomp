@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-M2C_UNK func_80034F88();              /* extern */
+void func_80034F88();              /* extern */
 extern u8 D_80082A38[];
 
 /* Passes the value and the shared object to func_80034F88. */

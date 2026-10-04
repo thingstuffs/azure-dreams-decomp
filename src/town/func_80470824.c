@@ -8,7 +8,7 @@ typedef struct S_80017824_2 {
 
 
 s32 func_800169EC();                                /* extern */
-M2C_UNK func_80017808();                      /* extern */
+void func_80017808();                      /* extern */
 M2C_UNK func_8001A418();                     /* extern */
 s32 func_8001A510();                         /* extern */
 extern M2C_UNK D_80016A3C;

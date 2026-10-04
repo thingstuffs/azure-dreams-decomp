@@ -18,7 +18,7 @@ typedef struct S_800166B0_2 {
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800161EC();
-M2C_UNK func_80016D78();
+void *func_80016D78();
 
 typedef struct S_800166B0_0 {
     u8 pad_00[0x14];

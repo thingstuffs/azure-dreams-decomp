@@ -11,7 +11,7 @@ typedef struct S_800A1B44_1 {
 } S_800A1B44_1;   /* var_s0 in func_800A1B44; pointer addresses record offset 0x14 */
 
 
-M2C_UNK func_800A19E4(); /* extern */
+s32 func_800A19E4(); /* extern */
 
 /* Update proximity state for each actor in the list. */
 void func_800A1B44(s16 near_limit, s16 far_limit) {

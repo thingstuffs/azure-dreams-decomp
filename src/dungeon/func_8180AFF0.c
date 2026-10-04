@@ -3,7 +3,7 @@
 
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004DCE0();                     /* extern */
-M2C_UNK func_8004DCEC();                            /* extern */
+void func_8004DCEC();                            /* extern */
 M2C_UNK func_8004DD2C();                   /* extern */
 extern M2C_UNK D_80026190;
 extern s16 D_8002715A;

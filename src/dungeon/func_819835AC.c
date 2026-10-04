@@ -211,22 +211,22 @@ typedef struct S_819835AC_12 {
 } S_819835AC_12;
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_8002470C();     /* extern */
-M2C_UNK func_80024938();     /* extern */
-M2C_UNK func_80024B2C();     /* extern */
+void *func_8002470C();     /* extern */
+void *func_80024938();     /* extern */
+void *func_80024B2C();     /* extern */
 M2C_UNK func_80026240();                 /* extern */
 M2C_UNK func_800262F4();    /* extern */
-M2C_UNK func_800263C0();                  /* extern */
+void func_800263C0();                  /* extern */
 void *func_80026444();        /* extern */
 M2C_UNK func_80026694(); /* extern */
 s32 func_8003DE58();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                /* extern */
 s32 func_80069EF8();                              /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 s16 func_800A07D0();              /* extern */
-M2C_UNK func_800A56E0();                /* extern */
-M2C_UNK func_800B8D64();               /* extern */
+s32 func_800A56E0();                /* extern */
+void func_800B8D64();               /* extern */
 extern M2C_UNK D_800269F8;
 extern s16 D_80026B28;
 extern u8 D_80026BC8[];

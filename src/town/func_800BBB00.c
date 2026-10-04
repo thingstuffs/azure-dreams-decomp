@@ -2,7 +2,7 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800B9204(); /* extern */
+void func_800B9204(); /* extern */
 extern u8 D_800D185C;
 extern u8 D_800D185D;
 

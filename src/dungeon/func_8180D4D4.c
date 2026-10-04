@@ -86,7 +86,7 @@ extern u8 D_800260DC[];
 extern u8 D_800CEF54[];
 
 void *func_8003FD64(s32, void *);
-M2C_UNK func_8004491C(void *, void *);
+s32 func_8004491C(void *, void *);
 
 /* Creates six linked objects at the source position and initializes their position histories. */
 void *func_800264D4(S_800264D4_1 *source_pos, s32 effect_value, s16 sprite_id, s16 effect_option) {

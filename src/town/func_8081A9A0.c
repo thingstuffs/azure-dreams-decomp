@@ -20,7 +20,7 @@ typedef struct S_800249A0_1 {
 } S_800249A0_1;   /* temp_s1 in func_800249A0 */
 
 
-M2C_UNK func_800537D0();               /* extern */
+void func_800537D0();               /* extern */
 s32 strlen();                             /* extern */
 
 /* Process the entry text when its state is zero and propagate the linked flags. */

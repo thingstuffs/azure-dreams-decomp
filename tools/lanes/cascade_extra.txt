@@ -59,3 +59,6 @@ t119_deadinit
 t120_unvolatile
 t136_stubtail
 t137_switchbreak
+t138_protodef
+t139_dataextern
+t140_protoparams

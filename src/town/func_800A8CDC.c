@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_800A639C();                             /* extern */
-M2C_UNK func_800A63C8();                /* extern */
+void func_800A63C8();                /* extern */
 extern s32 D_80100E2C[1];
 
 /* Resolve the low-byte index, apply its value, and clear the pending state. */

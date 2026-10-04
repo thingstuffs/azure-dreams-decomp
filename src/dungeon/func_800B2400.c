@@ -43,7 +43,7 @@ typedef struct S_800B7B60_3 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FC64();
-extern M2C_UNK func_800B8024();
+extern void func_800B8024();
 extern M2C_UNK D_800B7774;
 
 /* Allocates an object, copies the source coordinates, and increments the object counter. */

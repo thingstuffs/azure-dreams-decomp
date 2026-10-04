@@ -30,7 +30,7 @@ typedef struct S_81868B84_3 {
 } S_81868B84_3;   /* ((S_81868B84_0 *)arg0)->unk_0C in func_81868B84 */
 
 
-M2C_UNK func_80024264();
+void *func_80024264();
 s32 func_800644B8();
 s32 func_80064584();
 s32 func_800A45D8();

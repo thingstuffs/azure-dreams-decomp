@@ -13,7 +13,7 @@ s32 func_80096190();
 s32 func_80096200();
 s32 func_8009635C();
 s32 func_800A2BDC();
-M2C_UNK func_800DC888();
+void func_800DC888();
 extern u16 D_800120A0[5];
 extern s16 D_800DD26C[];
 s32 func_8004D7A8(s32 enable);

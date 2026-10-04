@@ -8,7 +8,7 @@ typedef struct
 DungeonTable;
 extern u8 D_80171704[];
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_80069EF8();
 extern DungeonTable D_8016A894;
 extern M2C_UNK D_801718E4;

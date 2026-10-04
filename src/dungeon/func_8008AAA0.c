@@ -6,7 +6,7 @@
 
 
 M2C_UNK func_80048A44(); /* extern */
-M2C_UNK func_80094E34();                            /* extern */
+void func_80094E34();                            /* extern */
 extern u8 D_800DD0E8;
 
 void func_80090200(void *record, M2C_UNK unused, void *object, EntityRec *entity) {

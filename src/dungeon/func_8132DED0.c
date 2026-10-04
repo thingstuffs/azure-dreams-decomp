@@ -45,7 +45,7 @@ typedef struct S_80164ED0_6 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 rand();
 extern u8 D_80164BC4[];
 extern u8 D_80164DA4[];

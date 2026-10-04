@@ -9,7 +9,7 @@ typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern u8 D_8002609C[];
 extern u8 D_800F15AC[];
 /* Creates a sprite at the given position and applies color-specific settings. */

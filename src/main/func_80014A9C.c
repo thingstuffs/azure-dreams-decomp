@@ -11,7 +11,7 @@ typedef struct S_80027A9C_0 {
 } S_80027A9C_0;   /* arg0 in func_80027A9C; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_800209C4();                            /* extern */
+void func_800209C4();                            /* extern */
 s32 func_80026ED0();                        /* extern */
 s32 func_8004F418();                        /* extern */
 extern M2C_UNK D_8002789C;

@@ -43,7 +43,7 @@ typedef struct {
 
 M2C_UNK func_8003DB94();
 Node *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 
 extern M2C_UNK D_800DE870[3];
 extern M2C_UNK D_800DEDB0[3];

@@ -48,7 +48,7 @@ typedef struct S_8191CBCC_4 {
 
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 rand();                             /* extern */
 typedef struct { s32 w0, w1, w2, w3, w4, w5; } Blk24;
 extern M2C_UNK D_80024288;
