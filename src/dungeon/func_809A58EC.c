@@ -185,10 +185,12 @@ void func_8016B0EC(void *actor, void *context, void *sprite, EntityRec *creature
 
     if (creature->unk_6D > 0) {
         if (((u32)creature->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(creature);
+            return;
         }
         if (((S_8016B0EC_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_8016B854(actor, context, sprite, creature);
+            return;
         }
         if (!(creature->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -203,7 +205,8 @@ void func_8016B0EC(void *actor, void *context, void *sprite, EntityRec *creature
             action_flags = creature->unk_46 | 0x4000;
             creature->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                goto generic;
+                func_8016B854(actor, context, sprite, creature);
+                return;
             }
         }
 
@@ -233,20 +236,19 @@ void func_8016B0EC(void *actor, void *context, void *sprite, EntityRec *creature
                 player = D_800814A8;
                 creature->facing = facing_angle;
                 if (player->unk_9A == 0x11) {
-                    goto case_123;
+                    func_800AAF00(actor, context, sprite, D_8016FE98, func_8016B0EC);
+                    return;
                 }
             }
                                             /* fallthrough */
 
             case 11:
-case_12:
                 func_800A9A0C(creature);
                 return;
 
             case 0:
             case 1:
             case 2:
-case_123:
                 func_800AAF00(actor, context, sprite, D_8016FE98, func_8016B0EC);
                 return;
 
@@ -254,7 +256,6 @@ case_123:
             case 9:
             case 10:
             default:
-generic:
                 func_8016B854(actor, context, sprite, creature);
                 return;
             }
