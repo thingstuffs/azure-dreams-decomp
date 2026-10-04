@@ -62,7 +62,9 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
             transform->unk_2A = heading + 0x200;
             return;
         }
-        goto advance;
+        phase = actor->unk_9B + 1;
+        actor->unk_9B = phase;
+        return;
     case 1:
         if (actor->unk_92 == 0) {
             {
@@ -148,7 +150,6 @@ void func_80172480(S_80172480_0 *actor, s32 unused, Rec_D_80082E80 *animation, S
         }
         return;
     }
-advance:
         phase = actor->unk_9B + 1;
         actor->unk_9B = phase;
         return;

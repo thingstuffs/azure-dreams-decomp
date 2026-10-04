@@ -223,7 +223,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             }
         }
         if ((func_80042900(entity, 1) << 16) != 0) {
-            goto done;
+            return;
         }
 
         (*(void * *)((u8 *)sprite + 0x2C)) = D_801744F4;
@@ -243,11 +243,11 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             globals->counter++;
         }
         ((S_801738E0_0 *)actor)->unk_9B++;
-        goto done;
+        return;
 
     case 3:
         if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         } else {
             (*(void * *)((u8 *)sprite + 0x2C)) = D_801744EC;
         }
@@ -259,11 +259,11 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
 
 advance_state:
         ((S_801738E0_0 *)actor)->unk_9B++;
-        goto done;
+        return;
 
     case 4:
         if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
         ((S_801738E0_3 *)motion)->unk_14 = 0xFFF80000;
         ((S_801738E0_0 *)actor)->unk_A8 = 8;
@@ -277,11 +277,11 @@ advance_state:
         ((S_801738E0_0 *)actor)->unk_98 |= 8;
         ((S_801738E0_2 *)entity)->unk_1C &= 0xF7FFFFFF;
         ((S_801738E0_0 *)actor)->unk_9B = 0x10;
-        goto done;
+        return;
 
     case 16:
         if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
-            goto done;
+            return;
         }
         ((S_801738E0_0 *)actor)->unk_98 &= 0xFFF7;
         ((S_801738E0_2 *)entity)->unk_1C |= 0x08000000;
@@ -293,15 +293,14 @@ advance_state:
         }
         ((S_801738E0_2 *)entity)->unk_1C &= ~0x200;
         ((S_801738E0_0 *)actor)->unk_8C = D_801713A8;
-        goto done;
+        return;
     default:
-        goto done;
+        return;
     }
 
 clear_200:
     ((S_801738E0_2 *)entity)->unk_1C = clear_mask & entity_flags;
     ((S_801738E0_0 *)actor)->unk_8C = D_801713A8;
 
-done:
     return;
 }

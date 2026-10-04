@@ -70,7 +70,9 @@ s32 func_80095840(void *destination, void *source)
             entry = (void *)((S_80095840_1 *)candidates)->unk_10;
             offset = ((S_80095840_2 *)((void *)selection))->unk_14;
             if ((offset == 1) || (offset == 3)) {
-                goto none;
+                result->unk_2C.u = 0;
+                selection = 0;
+                return selection;
             }
             selection = 2;
             result->unk_2C.s = entry;
@@ -94,7 +96,6 @@ s32 func_80095840(void *destination, void *source)
             }
         }
     }
-none:
     result->unk_2C.u = 0;
     selection = 0;
     return selection;

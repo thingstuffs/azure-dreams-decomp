@@ -52,7 +52,8 @@ void func_80173514(void *action, void *motion, void *sprite, EntityRec *actor)
             ((S_80173514_0 *)action)->unk_9B = 4;
             call_sprite = sprite;
             ((Rec_D_80082E80 *)call_sprite)->unk_14.at00_u16.v |= 0x6000;
-            goto call_tail;
+            func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
+            return;
         }
         ((S_80173514_2 *)motion)->unk_14 = 0;
         ((S_80173514_2 *)motion)->unk_10 = 0;
@@ -101,7 +102,6 @@ void func_80173514(void *action, void *motion, void *sprite, EntityRec *actor)
         if (((S_80173514_0 *)action)->unk_96.s == 1 ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             call_sprite = sprite;
-call_tail:
             func_8009C12C(call_actor, call_sprite, call_actor->facing, 1);
             return;
         }

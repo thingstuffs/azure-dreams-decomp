@@ -152,7 +152,8 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
         if (D_80175DC1 != 0) {
             state_index = ((S_8016BE20_0 *)state)->unk_9B.v;
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
-            goto increment_state;
+            ((S_8016BE20_0 *)state)->unk_9B.n = state_index + 1;
+            return;
         }
         ((S_8016BE20_0 *)state)->unk_9B.n += 2;
         return;
@@ -164,7 +165,6 @@ void func_8016BE20(void *state_arg, void *work_arg, void *actor_arg, void *ctx_a
             return;
         }
         state_index = ((S_8016BE20_0 *)state)->unk_9B.n;
-increment_state:
         ((S_8016BE20_0 *)state)->unk_9B.n = state_index + 1;
         return;
 

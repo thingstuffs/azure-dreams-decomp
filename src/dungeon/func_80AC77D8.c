@@ -49,7 +49,9 @@ void func_80172FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
         ((S_80172FD8_3 *)motion)->unk_14 = 0;
         ((S_80172FD8_3 *)motion)->unk_10 = 0;
         ((S_80172FD8_3 *)motion)->unk_0C = 0;
-        goto advance_state;
+        ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+        ((S_80172FD8_0 *)sequence)->unk_9B++;
+        return;
 
     case 1:
         if ((s16)++((S_80172FD8_0 *)sequence)->unk_96.u == 4 ||
@@ -58,7 +60,9 @@ void func_80172FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
             func_80047784(sprite,
                 D_80174E1C[((gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
-            goto advance_state;
+            ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
+            ((S_80172FD8_0 *)sequence)->unk_9B++;
+            return;
         }
         return;
 
@@ -82,7 +86,6 @@ void func_80172FD8(void *sequence, void *motion, void *sprite, EntityRec *actor)
         if (((S_80172FD8_0 *)sequence)->unk_96.s == 15 ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-advance_state:
             ((S_80172FD8_0 *)sequence)->unk_96.u = 0;
             ((S_80172FD8_0 *)sequence)->unk_9B++;
             return;

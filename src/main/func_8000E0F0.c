@@ -51,7 +51,7 @@ state_one:
             D_800287E0 = 0;
             D_800287C8 = 3;
         }
-        goto done;
+        return result;
     }
 
 state_three:

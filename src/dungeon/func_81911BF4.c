@@ -74,7 +74,9 @@ loop_0:
             return;
         }
         position[2] = effect->field14 << 16;
-        goto advance;
+        effect->timer = 0;
+        effect->state++;
+        return;
 
     case 1:
         func_800246C0(effect, position, effect->timer, effect->duration);
@@ -109,7 +111,9 @@ loop_0:
         if (effect->timer < effect->duration) {
             return;
         }
-        goto advance;
+        effect->timer = 0;
+        effect->state++;
+        return;
 
     case 4:
         angle_step = effect->angle_step;
@@ -179,7 +183,6 @@ loop_0:
             return;
         }
 
-advance:
         effect->timer = 0;
         effect->state++;
         return;

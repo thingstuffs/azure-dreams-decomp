@@ -33,7 +33,7 @@ range_loop:
         if (value >= range[0]) {
             if (range[1] >= value) {
                 return_value = group_number;
-                goto done;
+                return return_value;
             }
             ranges = range_groups[group_index];
         } else {
@@ -55,6 +55,5 @@ range_loop:
 
 not_found:
     return_value = 0;
-done:
     return return_value;
 }

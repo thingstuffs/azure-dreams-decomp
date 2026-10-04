@@ -148,7 +148,8 @@ void func_80174704(void *action, EntityRec *position, Rec_D_80082E80 *entity, vo
     case 0:
     {
         next_state = ((S_80174704_0 *)action)->unk_9B + 1;
-        goto store_next_state;
+        ((S_80174704_0 *)action)->unk_9B = next_state;
+        return;
     }
 
     case 1:
@@ -252,7 +253,6 @@ direction_ready:
         entity->unk_14.at00_u16.v |= 0x80;
         ((S_80174704_0 *)action)->unk_96.u = 0;
         next_state = ((S_80174704_0 *)action)->unk_9B + 1;
-store_next_state:
         ((S_80174704_0 *)action)->unk_9B = next_state;
         return;
 

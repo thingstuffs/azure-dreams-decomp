@@ -135,7 +135,8 @@ void func_80C97514(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
     switch (status) {
     case 0:
         next_state = ((S_80C97514_0 *)state)->unk_9B + 1;
-        goto advance_state;
+        ((S_80C97514_0 *)state)->unk_9B = next_state;
+        return;
     case 1:
         func_80041588(&D_8017530C, &D_801753A8, 0);
         ((S_80C97514_0 *)state)->unk_A4 = 0;
@@ -215,7 +216,6 @@ start_effect:
         entity->unk_14.at00_u16.v = (u16) (entity->unk_14.at00_u16.v | 0x80);
         ((S_80C97514_0 *)state)->unk_96 = 0U;
         next_state = ((S_80C97514_0 *)state)->unk_9B + 1;
-advance_state:
         ((S_80C97514_0 *)state)->unk_9B = next_state;
         return;
     }

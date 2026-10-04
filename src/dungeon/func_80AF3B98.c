@@ -153,7 +153,8 @@ void func_80175398(void *transition, void *position, Rec_D_80082E80 *record, voi
 
     case 0:
         next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
-        goto store_next_state;
+        ((S_80175398_0 *)transition)->unk_9B = next_state;
+        return;
 
     case 1:
         func_80041588(D_801759F8, D_80175A80, 0);
@@ -254,7 +255,6 @@ direction_ready:
         record->unk_14.at00_u16.v |= 0x80;
         ((S_80175398_0 *)transition)->unk_96.u = 0;
         next_state = ((S_80175398_0 *)transition)->unk_9B + 1;
-store_next_state:
         ((S_80175398_0 *)transition)->unk_9B = next_state;
         return;
 

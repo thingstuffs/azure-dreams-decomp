@@ -168,10 +168,12 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
 
     if (((S_80170E5C_1 *)status)->unk_6D > 0) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(status);
+            return;
         }
         if (((S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_80171420(actor_in, context_in, sprite_in, status);
+            return;
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -185,7 +187,8 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
             }
             ((S_80170E5C_1 *)status)->unk_46 |= 0x4000;
             if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
-                goto ordinary_cleanup;
+                func_80171420(actor_in, context_in, sprite_in, status);
+                return;
             }
         }
 
@@ -227,26 +230,24 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
             active_actor = D_800814A8;
             ((S_80170E5C_1 *)status)->unk_2A.s = direction;
             if (active_actor->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
+                return;
             }
         }
 
         case 12:
-special_cleanup:
             func_800A9A0C(status);
             return;
 
         case 1:
         case 2:
         case 3:
-aaf_cleanup:
             func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
             return;
 
         case 11:
         case 4:
         default:
-ordinary_cleanup:
             func_80171420(actor_in, context_in, sprite_in, status);
             return;
         }

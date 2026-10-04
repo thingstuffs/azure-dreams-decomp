@@ -230,7 +230,8 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
             ((S_80172790_0 *)actor)->unk_1C &= 0xFFFBFFFF;
             ((S_80172790_1 *)action)->unk_96.s = 4;
             ((S_80172790_4 *)motion)->unk_14 = 0xFFFC0000;
-            goto advance;
+            ((S_80172790_1 *)action)->unk_9B++;
+            return;
         }
         return;
 
@@ -260,7 +261,6 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
         } else {
             return;
         }
-advance:
         ((S_80172790_1 *)action)->unk_9B++;
         return;
 

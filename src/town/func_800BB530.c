@@ -37,7 +37,7 @@ s32 func_800B8C90(void)
     if (D_800133BA != expected_value) {
         pair_base = D_80010000;
         if (pair_base[0x33BB] != expected_value) {
-            goto return_zero;
+            return 0;
         }
     }
     expected_value = 0x29;

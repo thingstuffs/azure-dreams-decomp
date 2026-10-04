@@ -96,7 +96,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
 
             if (!(flags & 0x40)) {
                 status = -1;
-                goto done;
+                return status;
             }
             x_pos &= 0xFFFF;
             x_coord = x_pos;

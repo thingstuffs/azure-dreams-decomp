@@ -395,7 +395,7 @@ decrement_timer:
             ((S_80175CD8_3 *)motion)->unk_14 = 0;
             ((S_80175CD8_3 *)motion)->unk_10 = 0;
             ((S_80175CD8_3 *)motion)->unk_0C = 0;
-            goto done;
+            return;
 
         case 9:
             ((S_80175CD8_3 *)motion)->unk_14 = 0;
@@ -427,7 +427,6 @@ clear_object_flag:
             break;
         }
     }
-done:
     return;
 }
 

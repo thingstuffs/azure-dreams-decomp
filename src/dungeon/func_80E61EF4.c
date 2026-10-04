@@ -158,10 +158,12 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite, EntityRec *
         u16 action_flags;
 
         if (((u32)entity_arg->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(entity_arg);
+            return;
         }
         if (((S_801716F4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+            return;
         }
         if (!(entity_arg->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -176,7 +178,8 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite, EntityRec *
             action_flags = entity_arg->unk_46 | 0x4000;
             entity_arg->unk_46 = action_flags;
             if (!(action_flags & 0x8000)) {
-                goto generic;
+                func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
+                return;
             }
         }
 
@@ -207,24 +210,22 @@ void func_801716F4(void *actor_arg, void *context_arg, void *sprite, EntityRec *
             player = D_800814A8;
             entity_arg->facing = heading;
             if (player->unk_9A == 0x11) {
-                goto case_123;
+                func_800AAF00(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
+                return;
             }
         }
 
         case 12:
-case_12:
             func_800A9A0C(entity_arg);
             return;
 
         case 1:
         case 2:
         case 3:
-case_123:
             func_800AAF00(actor_arg, context_arg, sprite, D_80175594, D_801716F4);
             return;
 
         default:
-generic:
             func_80171EEC(actor_arg, context_arg, sprite, entity_arg);
             return;
         }
