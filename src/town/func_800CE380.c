@@ -11,14 +11,14 @@ typedef struct S_800CBAE0_0 {
 } S_800CBAE0_0;   /* arg0 in func_800CBAE0; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_8008F104();                   /* extern */
-M2C_UNK func_8009B218(); /* extern */
+void func_8008F104();                   /* extern */
+void func_8009B218(); /* extern */
 extern M2C_UNK D_800CBAAC;
 extern M2C_UNK D_800D68B0;
 extern M2C_UNK D_800D6A58;
 
 /* Initializes record state using its stored table index and setup routines. */
-void func_800CBAE0(void *record_data, M2C_UNK context, Rec_D_80082E80 *state) {
+void func_800CBAE0(void *record_data, s32 context, Rec_D_80082E80 *state) {
     u8 table_index;
 
     table_index = ((S_800CBAE0_0 *)((u8 *)record_data - 0x10))->unk_A6;

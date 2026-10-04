@@ -9,14 +9,14 @@ typedef struct S_801721C0_0 {
 } S_801721C0_0;   /* arg0 in func_801721C0 */
 
 
-M2C_UNK func_800A4ACC();                     /* extern */
+s32 func_800A4ACC();                     /* extern */
 s32 func_800AB1C0();                                /* extern */
-M2C_UNK func_800AD594();            /* extern */
+void func_800AD594();            /* extern */
 s32 func_800AD9B4();                /* extern */
 extern M2C_UNK D_80170E54;
 
 /* Updates object state after checking the target and conditionally clears its value. */
-void func_801721C0(S_801721C0_0 *object, M2C_UNK unused, M2C_UNK check_data, M2C_UNK target) {
+void func_801721C0(S_801721C0_0 *object, void *unused, void *check_data, void *target) {
     if (func_800AB1C0() != 0) {
         func_800AD594(target, 4);
         func_800A4ACC(target);

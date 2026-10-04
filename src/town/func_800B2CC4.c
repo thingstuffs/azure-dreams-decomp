@@ -1,9 +1,8 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
-extern M2C_UNK func_800AE484();
-extern M2C_UNK func_800AE4D4();
+extern void func_800AE484();
+extern void func_800AE4D4();
 extern s32 func_800AF234();
 
 /* Dispatch the request's payload according to its result code. */

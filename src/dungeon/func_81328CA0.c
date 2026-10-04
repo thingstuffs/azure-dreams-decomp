@@ -24,8 +24,8 @@ typedef struct S_801704A0_0 {
 M2C_UNK func_80047784();
 s32 func_800644B8();
 s16 func_800A0818();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A4ACC();
+void func_800A2B04();
+s32 func_800A4ACC();
 M2C_UNK func_800A9A04();
 s32 func_800AD9B4();
 typedef struct {
@@ -42,7 +42,7 @@ extern u8 D_80174A2C[];
 
 /* Updates movement toward a tile and completes the timed action. */
 void func_801704A0(S_801704A0_0 *action, EntityRec *motion, Rec_D_80082E80 *tile, EntityRec *entity) {
-    M2C_UNK facing_aux;
+    s32 facing_aux;
     s32 frames_left;
     s32 next_frame;
     s32 x_step;

@@ -16,11 +16,11 @@ typedef struct S_801721C0_1 {
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800C7930(); /* extern */
 extern u8 D_80176480;
 
 /* Update the actor action state and directional animation when both checks pass. */
-void func_801721C0(void *action_state, M2C_UNK action_ctx, void *sprite, EntityRec *actor) {
+void func_801721C0(void *action_state, s32 action_ctx, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930((u8 *)actor - 0x20, action_ctx, 8, 0x300);

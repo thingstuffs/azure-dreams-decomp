@@ -5,8 +5,8 @@
 
 
 
-M2C_UNK func_800181DC();                            /* extern */
-M2C_UNK func_80019098();                   /* extern */
+void func_800181DC();                            /* extern */
+void func_80019098();                   /* extern */
 extern s32 D_8001B210;
 extern M2C_UNK D_8001B218;
 

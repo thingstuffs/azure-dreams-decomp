@@ -2,8 +2,9 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80027AFC();                /* extern */
-M2C_UNK func_80027C60();                            /* extern */
+typedef struct Node8002BB08 Node8002BB08;
+Node8002BB08 *func_80027AFC();                /* extern */
+void func_80027C60();                            /* extern */
 M2C_UNK func_80064F00();            /* extern */
 M2C_UNK func_80064F20();                     /* extern */
 

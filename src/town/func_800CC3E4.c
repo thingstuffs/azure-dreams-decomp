@@ -3,16 +3,16 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800C9B44_arg0.h"
 
-M2C_UNK func_80095388();                      /* extern */
+void func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 M2C_UNK func_800C9C94();     /* extern */
-M2C_UNK func_800C9DB8();
+void func_800C9DB8();
 
 
 /* extern */
 
 /* Advance motion and handle reaching the position limit. */
-void func_800C9B44(Rec_func_800C9B44_arg0 *state, EntityRec *motion, M2C_UNK context) {
+void func_800C9B44(Rec_func_800C9B44_arg0 *state, EntityRec *motion, s32 context) {
     u16 remaining_count;
 
     motion->z.v = (s32) (motion->z.v + motion->flags14);

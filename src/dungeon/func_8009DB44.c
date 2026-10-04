@@ -49,8 +49,8 @@ typedef struct S_800E3E48 S_800E3E48;
 extern S_800E3E48 D_800E3E48[];
 extern s32 D_800E3DF0[];
 extern void func_80042B68(void *, s32);
-extern M2C_UNK func_800A18E8();
-extern M2C_UNK func_800A31D0();
+extern void func_800A18E8();
+extern void func_800A31D0();
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 s32 func_800A32A4(void *record) {

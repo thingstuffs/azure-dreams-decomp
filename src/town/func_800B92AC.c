@@ -3,10 +3,10 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 M2C_UNK func_8004B248();                      /* extern */
 s32 func_800B677C();                             /* extern */
-M2C_UNK func_800B691C(); /* extern */
+void func_800B691C(); /* extern */
 s32 func_800B6990();                 /* extern */
 extern M2C_UNK D_8004CAA0;
 extern M2C_UNK D_800B6754;
@@ -27,7 +27,7 @@ typedef struct S_800B6A0C_1 {
 } S_800B6A0C_1;   /* temp_s1 in func_800B6A0C */
 
 /* Allocate and initialize an object, marking it for cleanup if setup fails. */
-void *func_800B6A0C(s32 resource_id, M2C_UNK slot_index, M2C_UNK x, s32 y, s32 z) {
+void *func_800B6A0C(s32 resource_id, s32 slot_index, s32 x, s32 y, s32 z) {
     S_800B6A0C_1 *state;
     void *object;
 

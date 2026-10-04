@@ -9,14 +9,14 @@ typedef struct S_800D9884_0 {
 } S_800D9884_0;   /* arg0 in func_800D9884 */
 
 
-M2C_UNK func_800A4ACC();                     /* extern */
+s32 func_800A4ACC();                     /* extern */
 s32 func_800AB1C0();                                /* extern */
-M2C_UNK func_800AD594();            /* extern */
+void func_800AD594();            /* extern */
 s32 func_800AD9B4();                /* extern */
 extern M2C_UNK D_800D8C64;
 
 /* Updates the target and resets state after a successful check or a reset flag. */
-void func_800D9884(S_800D9884_0 *state, M2C_UNK unused, M2C_UNK source, M2C_UNK target) {
+void func_800D9884(S_800D9884_0 *state, void *unused, void *source, void *target) {
     if (func_800AB1C0() != 0) {
         func_800AD594(target, 4);
         func_800A4ACC(target);

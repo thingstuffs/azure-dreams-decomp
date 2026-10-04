@@ -1,13 +1,12 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
 
 extern s8 func_800374F4();
-extern M2C_UNK func_8009B454();
-extern M2C_UNK func_8009BFD8();
+extern void func_8009B454();
+extern void func_8009BFD8();
 
 /* Randomize color during an update, then reset it when the timer expires or state changes. */
-void func_800AAC64(void *object, M2C_UNK context, M2C_UNK update_param, void *color_data) {
+void func_800AAC64(void *object, s32 context, s32 update_param, void *color_data) {
     s32 previous_state;
     s16 ticks_left;
 

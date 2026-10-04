@@ -8,17 +8,17 @@ typedef struct S_800981D4_0 {
 
 extern s32 func_80098DC0(s32 arg0, S_800981D4_0 *arg1, s32 arg2);
 
-s32 func_800981D4(s32 arg0, S_800981D4_0 *arg1, s32 arg2)
+s32 func_800981D4(s32 value, S_800981D4_0 *field_ptr, s32 other_value)
 {
     s16 current;
     u16 raw;
     s32 result;
 
-    current = arg1->unk_06.s;
-    raw = arg1->unk_06.u;
+    current = field_ptr->unk_06.s;
+    raw = field_ptr->unk_06.u;
     if (current < 0x300) {
         current = raw + 4;
-        arg1->unk_06.s = current;
+        field_ptr->unk_06.s = current;
         if (current < 0x300) {
             goto done_return;
         } else {
@@ -26,7 +26,7 @@ s32 func_800981D4(s32 arg0, S_800981D4_0 *arg1, s32 arg2)
         }
     } else {
         current = raw - 4;
-        arg1->unk_06.s = current;
+        field_ptr->unk_06.s = current;
         if (current < 0x301) {
             goto clamp;
         }
@@ -37,7 +37,7 @@ done_return:
 
 clamp:
     result = 0x300;
-    arg1->unk_06.s = result;
-    result = func_80098DC0(arg0, arg1, arg2);
+    field_ptr->unk_06.s = result;
+    result = func_80098DC0(value, field_ptr, other_value);
     return result;
 }

@@ -8,8 +8,8 @@
 M2C_UNK func_80033D08();
 void func_8003DB94();
 void func_800478B8();
-M2C_UNK func_8008F134();
-M2C_UNK func_8009706C();
+void func_8008F134();
+s32 func_8009706C();
 s32 func_8009CFE0();
 s32 func_800C2E1C();
 s32 func_800C2F14();
@@ -21,7 +21,7 @@ typedef struct S_800AAB20_0_pre {
 
 
 /* Updates an object and its display state, or removes it when requested. */
-void func_800AAB20(void *object, M2C_UNK update_ctx, Rec_D_80082E80 *display) {
+void func_800AAB20(void *object, s32 update_ctx, Rec_D_80082E80 *display) {
     s32 frame_index;
     s8 *active_flag;
 

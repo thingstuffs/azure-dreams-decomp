@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-M2C_UNK func_8009F644(); /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+void func_8009F644(); /* extern */
+s32 func_800A56E0();                     /* extern */
 
 
 /* Reset object state, clear flag 0x10, and invoke the state handlers. */

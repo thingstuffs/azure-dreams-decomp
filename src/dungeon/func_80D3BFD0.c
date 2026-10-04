@@ -76,44 +76,39 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *action_sprite, u8 *frame_ta
     self = entity;
     ((S_801717D0_0 *)self)->unk_71 &= 0x7F;
 
-    if (((S_801717D0_0 *)self)->unk_1C & 0x2000) {
-        if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
-            special_action = 1;
-            if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
-                counter = ((u16)dungeonStatus.unk_0A);
-                counter--;
-                dungeonStatus.unk_0A = counter;
-            }
+    if ((((S_801717D0_0 *)self)->unk_1C & 0x2000) && ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5)) {
+        special_action = 1;
+        if ((*(u16 *)((u8 *)&((EntityRec *)((u8 *)D_800E3D7C))->unk_A4 + 2)) == 2) {
+            counter = ((u16)dungeonStatus.unk_0A);
+            counter--;
+            dungeonStatus.unk_0A = counter;
+        }
 
-            player = ((u8 *)D_800E3D7C);
-            if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
-                ((S_801717D0_3 *)player)->unk_A6 != special_action) {
-                ((S_801717D0_3 *)player)->unk_A6 = special_action;
-                ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
-                dungeonStatus.unk_0A++;
-                goto process;
-            }
-
+        player = ((u8 *)D_800E3D7C);
+        if ((((S_801717D0_3 *)player)->unk_98.s32 & 0x3000) == 0x2000 &&
+            ((S_801717D0_3 *)player)->unk_A6 != special_action) {
+            ((S_801717D0_3 *)player)->unk_A6 = special_action;
+            ((S_801717D0_3 *)player)->unk_98.u16 |= 0x1000;
+            dungeonStatus.unk_0A++;
+        } else {
             func_800A4ACC(self);
             ((S_801717D0_0 *)self)->unk_6D--;
             ((Rec_func_800A9E70_arg0 *)entity)->unk_8C = fallback_state;
             return;
         }
-    }
+    } else {
+        if (dungeonStatus.flags & 8) {
+            return;
+        }
+        if ((func_800A2B5C(self) << 16) != 0) {
+            return;
+        }
 
-    if (dungeonStatus.flags & 8) {
-        return;
+        func_800C77D0(self - 0x20, action_param, 8, 0x300);
+        if ((func_800A2B5C(self) << 16) != 0) {
+            return;
+        }
     }
-    if ((func_800A2B5C(self) << 16) != 0) {
-        return;
-    }
-
-    func_800C77D0(self - 0x20, action_param, 8, 0x300);
-    if ((func_800A2B5C(self) << 16) != 0) {
-        return;
-    }
-
-process:
     if (special_action == 0) {
         if (((S_801717D0_0 *)self)->unk_1C & 0x400) {
             state_flags = ((S_801717D0_0 *)self)->unk_14;

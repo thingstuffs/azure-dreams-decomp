@@ -1,7 +1,6 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-typedef u32 M2C_UNK;
 
 typedef struct State {
     s32 unk0;
@@ -9,11 +8,11 @@ typedef struct State {
     s32 flags;
 } State;
 
-M2C_UNK func_80091000(s32 *, M2C_UNK, M2C_UNK);
-M2C_UNK func_80093D48();
+void func_80091000(s32 *, s32, s32);
+void func_80093D48();
 
 /* Calls func_80093D48 if func_80091000 leaves the value unchanged and flag 0x20 is clear. */
-void func_800911D4(s32 *value, M2C_UNK input_a, M2C_UNK input_b) {
+void func_800911D4(s32 *value, s32 input_a, s32 input_b) {
     GameWork *state;
     s32 old_value;
 

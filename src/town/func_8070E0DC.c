@@ -9,16 +9,16 @@
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern M2C_UNK func_80016CC4();
-extern M2C_UNK func_80016DBC();
+extern void func_80016DBC();
 extern s32 func_8001991C();
-extern M2C_UNK func_80019988();
+extern s32 func_80019988();
 extern M2C_UNK func_8001A554();
 extern M2C_UNK func_8001A5CC();
 extern s32 func_8001A64C();
 
 
 /* Advance the town scene: raise 0x94B, then hand back to the scene callback unless flag 0x943 and the step check both pass. */
-s32 func_800170DC(s32 kind, M2C_UNK value) {
+s32 func_800170DC(s32 kind, s32 value) {
     func_80016CC4();
     func_80016DBC();
     func_8001A554(0x94B);

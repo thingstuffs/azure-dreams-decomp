@@ -5,23 +5,21 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
-
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_8008D330();
-M2C_UNK func_80098B38();
+void func_8008D330();
+void func_80098B38();
 s32 func_800990FC(void);
 s32 func_80099194();
-M2C_UNK func_80099290();
+void *func_80099290();
 s32 func_80099368();
 s32 func_80099734();
-M2C_UNK func_80099844();
-M2C_UNK func_800A5720();
-M2C_UNK func_800A5F38();
-M2C_UNK func_800A63B8();
+void func_80099844();
+s32 func_800A5720();
+void func_800A5F38();
+void func_800A63B8();
 s32 func_800AD6FC();
-M2C_UNK func_800D5460();
+void func_800D5460();
 
 extern u8 D_8008935C[];
 extern u8 D_800E0FF4[];

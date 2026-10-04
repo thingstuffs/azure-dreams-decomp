@@ -9,8 +9,8 @@ typedef struct S_800AE494_0 {
 } S_800AE494_0;   /* arg0 in func_800AE494; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_800B0418();                         /* extern */
-M2C_UNK func_800B0700();                         /* extern */
+void func_800B0418();                         /* extern */
+void func_800B0700();                         /* extern */
 
 /* Pass the record handles to their handlers and clear its secondary handle and status. */
 void func_800AE494(void *record_payload) {

@@ -21,15 +21,15 @@ typedef struct {
 
 extern DungeonState D_80083160[];
 
-extern void SD_Call(s32 arg0);
-extern s32 func_80025514(s32 arg0);
-extern s32 func_80025850(DungeonArg *arg0, s32 arg1);
-extern s32 func_80025888(s32 arg0, s32 arg1);
-extern s32 func_800258B0(DungeonArg *arg0);
-extern s32 func_800258B8(DungeonArg *arg0);
-extern void func_80025964(DungeonArg *arg0);
-extern s32 func_800259CC(DungeonArg *arg0);
-extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
+extern void SD_Call(s32 value);
+extern s32 func_80025514(s32 unk14);
+extern s32 func_80025850(DungeonArg *menu, s32 unk8);
+extern s32 func_80025888(s32 unk54, s32 unk8);
+extern s32 func_800258B0(DungeonArg *menu);
+extern s32 func_800258B8(DungeonArg *menu);
+extern void func_80025964(DungeonArg *menu);
+extern s32 func_800259CC(DungeonArg *menu);
+extern s32 func_80049DE8(s32 selection_step, s32 unk8, s32 value);
 
 /* Handles menu actions and selection movement with held-button repeat. */
 void func_80025A0C(DungeonArg *menu) {

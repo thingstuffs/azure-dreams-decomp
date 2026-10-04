@@ -34,7 +34,7 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
     object = func_8003FC64(alloc_flags);
     if (object != NULL) {
         position = *(void **)((u8 *)object + 8);
-        *(M2C_UNK **)((u8 *)object + 0x10) = &D_8009F21C;
+        *(void **)((u8 *)object + 0x10) = &D_8009F21C;
         *(u16 *)(scratchpad + 0x98) = 0;
         *(u16 *)(scratchpad + 0x9A) = 0;
         *(u32 *)(scratchpad + 0x34) = 0x1800;
@@ -57,7 +57,7 @@ void *func_8009F3D4(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode)
         *(u16 *)((u8 *)position + 6) = *(u16 *)(scratchpad + 0xF2);
         render_data = *(void **)((u8 *)object + 0xC);
         *(s16 *)((u8 *)render_data + 0x14) = 0xC;
-        *(M2C_UNK **)((u8 *)render_data + 8) = &D_800DD824;
+        *(void **)((u8 *)render_data + 8) = &D_800DD824;
         *(s16 *)((u8 *)render_data + 0x1E) = 0x2000;
         *(s16 *)((u8 *)render_data + 0x1C) = 0x2000;
         state = (u8 *)object + 0x20;

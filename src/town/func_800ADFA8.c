@@ -4,8 +4,8 @@
 #include "records/Rec_func_800AB014_arg0.h"
 
 s32 func_800AAE98();                          /* extern */
-M2C_UNK func_800AAFE0();          /* extern */
-M2C_UNK func_800AB014();             /* extern */
+void func_800AAFE0();          /* extern */
+void func_800AB014();             /* extern */
 s32 func_800AB030();                          /* extern */
 extern M2C_UNK D_800AB5C0;
 

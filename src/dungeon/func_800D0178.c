@@ -76,8 +76,8 @@ typedef struct {
 M2C_UNK func_8003DB94();  /* extern */
 s32 func_8003DE58(void *, void *, Vec3u16 *, s32);     /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
-M2C_UNK func_80047738();              /* extern */
+s32 func_8004491C();           /* extern */
+void func_80047738();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 extern s32 D_800D586C[];
 extern s32 D_800DE870[];

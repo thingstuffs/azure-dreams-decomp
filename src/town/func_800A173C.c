@@ -5,8 +5,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 s32 func_800644B8();
-M2C_UNK func_8009F1C0();
-M2C_UNK func_8009F48C();
+void func_8009F1C0();
+void func_8009F48C();
 extern s32 D_800834B8[3];
 extern M2C_UNK D_80093328;
 extern M2C_UNK D_80093524[3];
@@ -22,7 +22,7 @@ typedef struct S_8009EE9C_0 {
 
 
 /* Update position and displacement, then dispatch the active entity handler. */
-void func_8009EE9C(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, M2C_UNK context) {
+void func_8009EE9C(Rec_func_8009EE9C_arg0 *entity, s32 entity_id, S_8009EE9C_0 *motion, s32 context) {
     s32 previous_pos;
 
     previous_pos = motion->unk_08;

@@ -10,13 +10,13 @@ typedef struct S_8009DD40_0_pre {
 
 M2C_UNK func_80033D08();                      /* extern */
 M2C_UNK func_800478B8();                     /* extern */
-M2C_UNK func_8008F134();                      /* extern */
+void func_8008F134();                      /* extern */
 s32 func_80096FF4();                         /* extern */
-M2C_UNK func_800970AC();                 /* extern */
-s32 func_8009D20C(void *, M2C_UNK);                                /* extern */
+void func_800970AC();                 /* extern */
+s32 func_8009D20C(void *, s32);                                /* extern */
 
 /* Cleans up an object when its state check succeeds, or dispatches its callback and updates it. */
-void func_8009DD40(void *object, M2C_UNK source, M2C_UNK context) {
+void func_8009DD40(void *object, s32 source, s32 context) {
     s8 *status_ptr;
 
     if (func_8009D20C(object, source) != 0) {

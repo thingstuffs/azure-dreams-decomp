@@ -10,15 +10,15 @@
 M2C_UNK func_80047784();         /* extern */
 s32 func_8009A180();                     /* extern */
 s8 func_8009FB34();                           /* extern */
-M2C_UNK func_800A9A0C();                      /* extern */
-M2C_UNK func_800AA258(); /* extern */
+void func_800A9A0C();                      /* extern */
+void func_800AA258(); /* extern */
 s32 func_800AA6B4(); /* extern */
-M2C_UNK func_800AA888(); /* extern */
+void func_800AA888(); /* extern */
 M2C_UNK func_8016FA84();                            /* extern */
-M2C_UNK func_8016FCE4(); /* extern */
+void func_8016FCE4(); /* extern */
 s32 func_80170224(); /* extern */
 M2C_UNK func_8017092C(); /* extern */
-M2C_UNK func_80174320();     /* extern */
+s32 func_80174320();     /* extern */
 extern u8 D_80174A2C[];
 extern u8 D_80174A64[];
 
@@ -32,7 +32,7 @@ typedef struct S_8016F78C_0 {
 } S_8016F78C_0;   /* arg0 in func_8016F78C */
 
 /* Updates actor state, directional animation, and action handling. */
-void func_8016F78C(void *actor, M2C_UNK context, void *sprite, EntityRec *entity) {
+void func_8016F78C(void *actor, void *context, void *sprite, EntityRec *entity) {
     u8 stack_pad[8];
     u8 current_state;
     s32 next_state;

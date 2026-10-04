@@ -5,8 +5,8 @@
 extern s32 Control_CD();
 extern s32 func_80049984();
 extern s16 func_800B6CEC();
-extern M2C_UNK func_800B6D54();
-extern M2C_UNK func_800B6D94();
+extern void func_800B6D54();
+extern void func_800B6D94();
 extern s32 func_800B6F54();
 extern s16 D_80083D78[8];
 extern u8 D_800B5B20[16];

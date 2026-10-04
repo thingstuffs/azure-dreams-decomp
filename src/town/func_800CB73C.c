@@ -5,8 +5,8 @@
 
 typedef void (*Callback)(void *, s32, void *);
 
-M2C_UNK func_800C2C80();
-M2C_UNK func_800C2CB0();
+void func_800C2C80();
+void func_800C2CB0();
 s32 func_800C2E1C();
 s32 func_800C2F14();
 

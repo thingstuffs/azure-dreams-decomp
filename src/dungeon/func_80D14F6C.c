@@ -11,15 +11,15 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80047784();
+void func_80047784();
 s32 func_8009B25C();
 s32 func_800A2B5C();
-M2C_UNK func_800A4ACC();
-M2C_UNK func_800C7930();
+s32 func_800A4ACC();
+s32 func_800C7930();
 extern u8 D_80174EC8;
 
 /* Start the actor's directional action and record the adjacent tile result. */
-void func_8017476C(void *action_state, M2C_UNK action_context, void *sprite, EntityRec *actor) {
+void func_8017476C(void *action_state, void *action_context, void *sprite, EntityRec *actor) {
     s32 direction;
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);

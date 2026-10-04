@@ -16,13 +16,12 @@ typedef struct S_8001659C_6 {
 
 typedef struct S_8001659C_7 {
     u8 pad_00[0x248];
-    M2C_UNK (*unk_248)(M2C_UNK);
+    s32 (*unk_248)(s32);
     u8 pad_24C[0xC];
-    M2C_UNK (*unk_258)(M2C_UNK);
+    s32 (*unk_258)(s32);
 } S_8001659C_7;   /* ((S_8001659C_5 *)(((Rec_D_80016000 *)(&D_80016000))->unk_00.at00_pv.v))->unk_20 in func_8001659C */
 
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 
 typedef struct S_8001659C_0 {
@@ -60,14 +59,14 @@ void func_8001659C(void) {
     S_8001659C_2 *second_x_state;
     S_8001659C_3 *second_y_state;
 
-    ((S_8001659C_7 *)(((S_8001659C_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_248(0);
-    first_x_state = ((S_8001659C_6 *)((*(void **)((u8 *)(((M2C_UNK *)&D_80016000)) + 0))))->unk_1C;
+    ((S_8001659C_7 *)(((S_8001659C_5 *)(((Rec_D_80016000 *)(((s32 *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_248(0);
+    first_x_state = ((S_8001659C_6 *)((*(void **)((u8 *)(((s32 *)&D_80016000)) + 0))))->unk_1C;
     first_x_state->unk_10 = (s32) first_x_state->unk_04;
-    first_y_state = ((S_8001659C_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
+    first_y_state = ((S_8001659C_5 *)(((Rec_D_80016000 *)(((s32 *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
     first_y_state->unk_14 = (s32) (first_y_state->unk_08 + 0x20);
-    ((S_8001659C_7 *)(((S_8001659C_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_258(0xD);
-    second_x_state = ((S_8001659C_6 *)((*(void **)((u8 *)(((M2C_UNK *)&D_80016000)) + 0))))->unk_1C;
+    ((S_8001659C_7 *)(((S_8001659C_5 *)(((Rec_D_80016000 *)(((s32 *)&D_80016000)))->unk_00.at00_pv.v))->unk_20))->unk_258(0xD);
+    second_x_state = ((S_8001659C_6 *)((*(void **)((u8 *)(((s32 *)&D_80016000)) + 0))))->unk_1C;
     second_x_state->unk_18 = (s32) second_x_state->unk_04;
-    second_y_state = ((S_8001659C_5 *)(((Rec_D_80016000 *)(((M2C_UNK *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
+    second_y_state = ((S_8001659C_5 *)(((Rec_D_80016000 *)(((s32 *)&D_80016000)))->unk_00.at00_pv.v))->unk_1C;
     second_y_state->unk_1C = (s32) second_y_state->unk_08;
 }

@@ -3,13 +3,13 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_800941D8();    /* extern */
-M2C_UNK func_80094984();  /* extern */
-M2C_UNK func_80095C80();                     /* extern */
+void func_80094984();  /* extern */
+void func_80095C80();                     /* extern */
 extern M2C_UNK D_800D00E0;
 
 
 /* Decrements the state countdown and invokes its handler when it expires. */
-void func_80091CE0(Rec_func_80094268_arg0 *state, M2C_UNK update_ctx, M2C_UNK handler_ctx) {
+void func_80091CE0(Rec_func_80094268_arg0 *state, s32 update_ctx, s32 handler_ctx) {
     s16 countdown;
 
     func_80095C80(update_ctx);

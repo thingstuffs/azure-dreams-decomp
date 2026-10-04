@@ -4,8 +4,8 @@
 #include "shared/entity.h"
 
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800A4ACC();                      /* extern */
+s32 func_800C7930(); /* extern */
 
 
 typedef struct S_80174824_1 {
@@ -19,7 +19,7 @@ typedef struct S_80174824_1 {
 } S_80174824_1;   /* arg0 in func_80174824 */
 
 /* Clears an entity flag and resets its action state after processing completes. */
-void func_80174824(S_80174824_1 *action_state, M2C_UNK context, M2C_UNK unused, EntityRec *entity) {
+void func_80174824(S_80174824_1 *action_state, s32 context, s32 unused, EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
         func_800C7930((u8 *)entity - 0x20, context, 8, 0x300);

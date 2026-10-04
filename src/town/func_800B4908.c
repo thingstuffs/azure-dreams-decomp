@@ -4,8 +4,8 @@
 #include "records/Rec_func_800B1DCC_arg0.h"
 
 extern s32 func_80049E1C();
-extern M2C_UNK func_800B1F10();
-extern M2C_UNK func_800B1F48();
+extern void func_800B1F10();
+extern void func_800B1F48();
 
 
 typedef struct S_800B2068_1 {

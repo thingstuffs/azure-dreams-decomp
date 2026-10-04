@@ -23,8 +23,8 @@ typedef struct S_818C3448_1 {
 
 
 
-M2C_UNK func_800247AC();
-M2C_UNK func_80024AF4();
+s32 func_800247AC();
+s32 func_80024AF4();
 s32 func_80069EF8();
 
 typedef struct {

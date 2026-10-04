@@ -7,8 +7,8 @@ typedef struct S_80024FAC_0 {
 
 
 s32 func_8002168C();                                /* extern */
-M2C_UNK func_800231E4();                     /* extern */
-M2C_UNK func_80024F7C(void *);                            /* extern */
+s32 func_800231E4();                     /* extern */
+void func_80024F7C(void *);                            /* extern */
 extern M2C_UNK D_8002593C;
 
 /* Update the record and switch its table when the status reaches four. */

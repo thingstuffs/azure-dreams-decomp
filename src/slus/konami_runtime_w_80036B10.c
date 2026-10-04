@@ -55,10 +55,10 @@ typedef struct S_80036B10_8 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80033C1C();
-M2C_UNK func_800350B0();
+void func_80033C1C();
+void func_800350B0();
 void *func_8003FF2C();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_8003DB94();
 extern u8 D_8006A934[];
 extern u8 D_80073DC4[];

@@ -4,13 +4,13 @@
 
 typedef struct S_808B94E0_1 {
     u8 pad_00[0x64];
-    M2C_UNK (*unk_64)(M2C_UNK, M2C_UNK, M2C_UNK);
+    M2C_UNK (*unk_64)(s32, s32, s32);
 } S_808B94E0_1;   /* *(void **)(D_A0700000 + 0xB50) in func_808B94E0 */
 
 
 typedef struct S_808B94E0_0 {
     u8 pad_00[0x6C];
-    M2C_UNK (*unk_6C)(M2C_UNK);
+    M2C_UNK (*unk_6C)(s32);
 } S_808B94E0_0;   /* *(s32 *)(D_A0700000 + 0xB50) in func_808B94E0 */
 
 

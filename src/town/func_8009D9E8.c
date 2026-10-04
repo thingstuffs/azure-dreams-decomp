@@ -6,10 +6,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_80033D08();
-M2C_UNK func_8008F134();
+void func_8008F134();
 s32 func_80096FF4();
-M2C_UNK func_800970AC();
-s32 func_8009CFE0(void *, M2C_UNK);
+void func_800970AC();
+s32 func_8009CFE0(void *, s32);
 
 
 typedef struct S_8009B148_0_pre {
@@ -18,10 +18,10 @@ typedef struct S_8009B148_0_pre {
 
 
 /* Dispatches an object event or cleans up the object when the event check succeeds. */
-void func_8009B148(void *object, M2C_UNK event, M2C_UNK event_data)
+void func_8009B148(void *object, s32 event, s32 event_data)
 {
-    M2C_UNK saved_event = event;
-    register M2C_UNK saved_event_data = event_data;
+    s32 saved_event = event;
+    register s32 saved_event_data = event_data;
     s8 *status_ptr;
 
     if (func_8009CFE0(object, event) != 0) {

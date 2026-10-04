@@ -3,8 +3,8 @@
 
 s32 func_800990FC(void);                                /* extern */
 s32 func_80099194();                        /* extern */
-M2C_UNK func_80099290();                         /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+void *func_80099290();                         /* extern */
+s32 func_800A5720();                         /* extern */
 
 /* Computes a value, applies its context-dependent result, and finalizes the value. */
 void func_800997FC(s32 context, s32 first_input, s32 second_input, s32 third_input) {

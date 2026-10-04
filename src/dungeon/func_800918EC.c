@@ -5,8 +5,8 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-M2C_UNK func_80095DD0(); /* extern */
-M2C_UNK func_800A2B04();              /* extern */
+void func_80095DD0(); /* extern */
+void func_800A2B04();              /* extern */
 extern M2C_UNK D_80096384;
 
 typedef struct S_8009704C_0 {

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8001E660(); /* extern */
-M2C_UNK func_8009A21C();             /* extern */
+s32 func_8001E660(); /* extern */
+void func_8009A21C();             /* extern */
 s32 func_8009A350();         /* extern */
 /* extern */
 s32 func_800A6DA4();                    /* extern */

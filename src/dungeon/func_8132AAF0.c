@@ -45,9 +45,9 @@ typedef struct S_801722F0_5 {
 
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_8003DB94();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80172274;
 extern Rec_D_80174CD8 *D_80174CD8;

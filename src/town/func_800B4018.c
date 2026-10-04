@@ -1,8 +1,8 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800B0FD4();                      /* extern */
-M2C_UNK func_800B173C();                      /* extern */
+void func_800B0FD4();                      /* extern */
+void func_800B173C();                      /* extern */
 
 typedef struct S_800B1778_0 {
     u8 pad_00[0x8];

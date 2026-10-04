@@ -5,12 +5,12 @@
 #include "records/Rec_func_800243C4_arg1.h"
 
 extern u8 D_800DF334[];
-M2C_UNK func_80024654();
+void func_80024654();
 void *func_8003FD64();
 s32 func_800644B8();
 s32 func_80064584();
 s16 func_800A07D0();
-M2C_UNK func_800B835C();
+void func_800B835C();
 extern M2C_UNK D_80028214;
 extern M2C_UNK D_80024728;
 

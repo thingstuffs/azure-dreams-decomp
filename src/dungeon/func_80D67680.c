@@ -20,12 +20,12 @@ s32 func_800A0134();
 s32 func_800A04F0();
 s32 func_800A2B5C();
 s32 func_800A2CB8();
-M2C_UNK func_800C7930();
+s32 func_800C7930();
 
 extern u8 D_800E2378;
 
 /* Checks action readiness and initializes the actor state and directional animation. */
-s32 func_80172E80(void *action_state, M2C_UNK action_param, void *sprite, void *actor) {
+s32 func_80172E80(void *action_state, s32 action_param, void *sprite, void *actor) {
     s32 result;
     s32 action_ready;
     s32 direction;

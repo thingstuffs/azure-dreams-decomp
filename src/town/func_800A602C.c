@@ -3,9 +3,9 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_800374F4();                     /* extern */
+u32 func_800374F4();                     /* extern */
 M2C_UNK func_800478B8();                      /* extern */
-M2C_UNK func_8009539C();                      /* extern */
+void func_8009539C();                      /* extern */
 extern M2C_UNK D_800A38A8;
 extern M2C_UNK D_800D0B20;
 
