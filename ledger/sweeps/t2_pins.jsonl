@@ -31480,3 +31480,4 @@
 {"id":"slus/konami_runtime_w_8003B9B8","transform":"t2_pins","in_sha":"0b5d347be6fcf9d3af0208a66b6849c385b6463b50531a552aeb3a8851c8c10b","from_clean":true,"size":356,"outcome":"refused","reason":"no pin sites","at":"2026-10-04T23:41:37Z"}
 {"id":"slus/konami_runtime_w_8003C2B8","transform":"t2_pins","in_sha":"3f8ccadd55b8e75d1efb0b31b1a412d5a1b414c1c52dba0860fe832966dc6cc6","from_clean":true,"size":120,"outcome":"refused","reason":"no pin sites","at":"2026-10-04T23:41:37Z"}
 {"id":"slus/w_8004BDDC","transform":"t2_pins","in_sha":"e6996afd930756a3cfba51f4392d77c71d330837a9a0a397b9d2adc7738559eb","from_clean":true,"size":676,"outcome":"refused","reason":"no pin sites","at":"2026-10-04T23:41:37Z"}
+{"id":"dungeon/func_80094DE0","transform":"t2_pins","in_sha":"1efcd6de677dedb125ea5355690a4be8780567bb480fa6fa2d5925ca6d44d53e","from_clean":true,"size":300,"outcome":"refused","reason":"no pin sites","at":"2026-10-04T23:48:47Z"}
