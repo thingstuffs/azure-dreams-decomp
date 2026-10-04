@@ -50,7 +50,6 @@ typedef struct S_80173510_3 {
 void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
 {
     u8 state;
-    u32 next_timer;
 
     state = ((S_80173510_0 *)action)->unk_9B.n;
     switch (state) {
@@ -202,9 +201,9 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
             !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        state = ((S_80173510_0 *)action)->unk_9B.n;
-        next_timer = 2;
-        goto advance_state;
+        ((S_80173510_0 *)action)->unk_96.u = 2;
+        ((S_80173510_0 *)action)->unk_9B.n++;
+        return;
     }
 
     case 4:
@@ -216,14 +215,8 @@ void func_80173510(void *action, void *motion, void *record, EntityRec *actor)
         if ((s16)timer > 0 && !(((Rec_D_80082E80 *)record)->unk_14.at00_u16.v & 0x8000)) {
             return;
         }
-        state = ((S_80173510_0 *)action)->unk_9B.n;
-        next_timer = 6;
-advance_state:
-        do {
-            ((S_80173510_0 *)action)->unk_96.u = next_timer;
-        } while (0);
-                             /* MATCH: Keep the timer store before the shared state increment. */
-        ((S_80173510_0 *)action)->unk_9B.n = state + 1;
+        ((S_80173510_0 *)action)->unk_96.u = 6;
+        ((S_80173510_0 *)action)->unk_9B.n++;
         return;
     }
 

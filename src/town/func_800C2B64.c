@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 typedef struct S_800C02C4_0 {
-    M2C_UNK * unk_00;
+    void * unk_00;
     u8 pad_04[0x1C];
     s16 unk_20;
     s16 unk_22;
@@ -17,16 +17,16 @@ typedef struct S_800C02C4_1 {
     s16 unk_1C;
     s16 unk_1E;
     u8 pad_20[0xC];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_800C02C4_1;   /* arg2 in func_800C02C4 */
 
 
-M2C_UNK func_80033D08();                      /* extern */
-M2C_UNK func_80094A38();           /* extern */
-M2C_UNK func_800A643C();          /* extern */
-M2C_UNK func_800A647C();          /* extern */
-extern M2C_UNK D_800A62E8;
-extern M2C_UNK D_800A630C;
+void func_80033D08(void *);                      /* extern */
+void func_80094A38();           /* extern */
+void func_800A643C();          /* extern */
+void func_800A647C();          /* extern */
+extern char D_800A62E8[];
+extern char D_800A630C[];
 extern M2C_UNK D_800C035C;
 extern M2C_UNK D_800D0C58;
 

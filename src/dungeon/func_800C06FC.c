@@ -9,8 +9,8 @@ typedef struct CounterBlock {
 
 M2C_UNK func_8003DB94();        /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_8004491C();           /* extern */
+s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_80045C34;
 extern M2C_UNK D_800C5D80;
 

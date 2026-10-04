@@ -3,8 +3,8 @@
 
 s32 func_80096368(s32 *);                           /* extern */
 s32 func_80096440();                           /* extern */
-M2C_UNK func_800966C8();                  /* extern */
-M2C_UNK func_800966F8();                  /* extern */
+void func_800966C8();                  /* extern */
+void func_800966F8();                  /* extern */
 extern s32 D_800FE5CC;
 
 /* Applies fixed-point boundary corrections according to D_800FE5CC. */

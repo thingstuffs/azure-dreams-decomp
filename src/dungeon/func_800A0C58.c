@@ -3,11 +3,11 @@
 
 s32 func_800990FC(s32, M2C_UNK, s32, s32);                                /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                         /* extern */
+void *func_80099290();                         /* extern */
 s32 func_80099368();                    /* extern */
 s32 func_80099734();                        /* extern */
 s32 func_800999B0();                             /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+s32 func_800A5720();                         /* extern */
 extern M2C_UNK D_80089000[];
 extern M2C_UNK D_800E0A03[];
 extern M2C_UNK D_800E0A12[];

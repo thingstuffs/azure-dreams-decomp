@@ -2,7 +2,7 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80019730(void);
+extern void func_80019730(void);
 extern M2C_UNK D_8001601C;
 extern u8 D_80017774[];
 extern M2C_UNK D_8002576F;

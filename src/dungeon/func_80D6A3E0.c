@@ -4,8 +4,8 @@
 #include "shared/entity.h"
 
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800A4ACC();                      /* extern */
+s32 func_800C7930(); /* extern */
 
 
 typedef struct S_80175BE0_1 {
@@ -24,7 +24,7 @@ typedef struct S_80175BE0_1 {
 
 
 /* Reset motion and transfer the pending amount after the entity checks pass. */
-void func_80175BE0(S_80175BE0_1 *state, EntityRec *motion, M2C_UNK unused, EntityRec *entity) {
+void func_80175BE0(S_80175BE0_1 *state, EntityRec *motion, s32 unused, EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {
         func_800C7930((u8 *)entity - 0x20, motion, 8, 0x300);

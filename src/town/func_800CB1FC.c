@@ -1,24 +1,24 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800D6220;
-extern M2C_UNK D_800D62D8;
-extern M2C_UNK D_800D62E0;
-extern M2C_UNK D_800D6308;
-extern M2C_UNK D_800D630C;
+extern u8 D_800D6220;
+extern u8 D_800D62D8;
+extern u8 D_800D62E0;
+extern u8 D_800D6308;
+extern u8 D_800D630C;
 
 typedef struct S_800C895C_0 {
     u8 pad_00[0x58];
-    M2C_UNK * unk_58;
-    M2C_UNK * unk_5C;
+    void * unk_58;
+    void * unk_5C;
     u8 pad_60[0x1C];
-    M2C_UNK * unk_7C;
-    M2C_UNK * unk_80;
+    void * unk_7C;
+    void * unk_80;
 } S_800C895C_0;   /* arg0 in func_800C895C */
 
 typedef struct S_800C895C_1 {
     u8 pad_00[0x4];
-    M2C_UNK * unk_04;
+    void * unk_04;
 } S_800C895C_1;   /* &D_800D62E0 in func_800C895C */
 
 /* Assign the object data pointers and link the shared data entry. */

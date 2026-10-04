@@ -10,13 +10,13 @@ typedef struct S_800C3F44_3 {
 } S_800C3F44_3;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_80 in func_800C3F44 */
 
 
-M2C_UNK func_80095388();                      /* extern */
-M2C_UNK func_800C2E84();        /* extern */
+void func_80095388();                      /* extern */
+void func_800C2E84();        /* extern */
 extern M2C_UNK D_800C3EAC;
 
 
 /* Advances motion and changes the object handler when the motion step is nonnegative. */
-void func_800C3F44(Rec_func_80094268_arg0 *object, EntityRec *motion, M2C_UNK context) {
+void func_800C3F44(Rec_func_80094268_arg0 *object, EntityRec *motion, s32 context) {
     motion->z.v = (s32) (motion->z.v + motion->flags14);
     func_80095388(motion);
     if (motion->flags14 >= 0) {

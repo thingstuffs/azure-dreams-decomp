@@ -11,8 +11,8 @@ typedef struct S_800AFD00_1 {
 
 
 M2C_UNK func_800497F4();                /* extern */
-M2C_UNK func_8004CB2C();                         /* extern */
-M2C_UNK func_800AF9C4();                      /* extern */
+s32 func_8004CB2C();                         /* extern */
+void func_800AF9C4();                      /* extern */
 
 
 /* Reset the entity sub-object and its two linked handles, then finalize the update. */

@@ -5,9 +5,9 @@
 
 s32 func_8004CAE8();                    /* extern */
 M2C_UNK func_80099F04();                         /* extern */
-M2C_UNK func_80099F70();                         /* extern */
-M2C_UNK func_8009A350();          /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+void func_80099F70(s32);                         /* extern */
+s16 func_8009A350(s16, s16, s16, u16 *);          /* extern */
+s32 func_800A56E0(s32);                     /* extern */
 extern M2C_UNK D_80081484;
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_800DD25C;
@@ -72,7 +72,7 @@ typedef struct S_8008F878_8 {
 /* Initializes an actor action and completes it when the action flags are set. */
 void func_8008F878(S_8008F878_0 *action, void *unused, S_8008F878_1 *action_data, S_8008F878_5 *actor) {
     u16 query_flags;
-    M2C_UNK event_id;
+    s32 event_id;
     s32 state;
     s32 saved_value;
     S_8008F878_3 *target;

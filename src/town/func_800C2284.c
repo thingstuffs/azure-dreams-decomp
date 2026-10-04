@@ -4,7 +4,7 @@
 typedef s32 M2C_UNK;
 
 typedef struct S_800BF9E4_0_pre {
-    M2C_UNK * unk_00;
+    u8 * unk_00;
     u8 pad_04[0xC];
 } S_800BF9E4_0_pre;   /* the 0x10 bytes before arg0 in func_800BF9E4, addressed as arg0[-1] */
 
@@ -19,7 +19,7 @@ typedef struct S_800BF9E4_2 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    u8 * unk_10;
 } S_800BF9E4_2;   /* temp_v0 in func_800BF9E4 */
 
 typedef struct S_800BF9E4_3 {
@@ -49,8 +49,8 @@ typedef struct S_800BF9E4_5 {
 
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
-extern M2C_UNK func_8008F074();
+extern s32 func_8004491C();
+extern void func_8008F074();
 
 extern u8 D_80045340[];
 extern u8 D_80046398[];
@@ -61,7 +61,7 @@ extern s32 D_800D237C[];
 extern u8 D_800F9F78[];
 
 /* Initialize the object and create a positioned visual child linked to it. */
-void func_800BF9E4(void *object, S_800BF9E4_1 *position, M2C_UNK resource_context) {
+void func_800BF9E4(void *object, S_800BF9E4_1 *position, s32 resource_context) {
     void *child;
     S_800BF9E4_5 *child_data;
     S_800BF9E4_3 *child_visual;

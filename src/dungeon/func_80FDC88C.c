@@ -8,11 +8,11 @@
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800C7930(); /* extern */
 extern u8 D_80174038[];
 
 /* Updates the actor's action state and directional animation when it can act. */
-void func_8017208C(void *action_state, M2C_UNK context, void *sprite, void *actor) {
+void func_8017208C(void *action_state, s32 context, void *sprite, void *actor) {
     ((EntityRec *)actor)->unk_71 = (u8) (((EntityRec *)actor)->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)
         && (func_800C7930(actor - 0x20, context, 8, 0x300), ((func_800A2B5C(actor) << 0x10) == 0))) {

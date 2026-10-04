@@ -11,8 +11,8 @@ typedef struct S_800274A8_0 {
 } S_800274A8_0;   /* arg0 in func_800274A8; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80025598();                         /* extern */
-M2C_UNK func_80028620();                      /* extern */
+void func_80025598();                         /* extern */
+void func_80028620();                      /* extern */
 extern M2C_UNK D_80027E10;
 
 /* Reset the record handler, restore its saved state, and run cleanup helpers. */

@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 
 void *func_8003FE78();   /* extern */
-M2C_UNK func_8008D084();                            /* extern */
-M2C_UNK func_80096DC8();                   /* extern */
+void func_8008D084();                            /* extern */
+void func_80096DC8();                   /* extern */
 extern M2C_UNK D_8009CE80;
 extern M2C_UNK D_801006D0;
 extern M2C_UNK D_80100900;

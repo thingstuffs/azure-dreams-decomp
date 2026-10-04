@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-04T15:58:38Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-04T23:13:49Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -73,19 +73,19 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,820 | 57.0% | 0 | 0 | 0.0% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 717 | 264,076 | 10.3% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 702 | 259,696 | 10.2% |
 | ASM_ pins | 2135 | 1,464,792 | 57.3% | 138 | 187,836 | 7.3% |
-| goto | 1545 | 1,318,412 | 51.5% | 443 | 488,600 | 19.1% |
+| goto | 1545 | 1,318,412 | 51.5% | 434 | 483,308 | 18.9% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 18 | 31,840 | 1.2% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 235 | 200,348 | 7.8% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2654 | 1,286,064 | 50.3% | 1777 | 959,904 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 123 | 106,988 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 1 | 1,176 | 0.0% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 192 | 134,248 | 5.2% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 191 | 132,888 | 5.2% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2978 | 1,559,088 | 61.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5565 | 1,769,092 | 69.2% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5588 | 1,778,540 | 69.5% |
 
 Pin sites now: 347 in 138 rows; REG 204, KEEP_NV 50, KEEP 40, SCHED_BARRIER 14, USE2_NV 8, USE_NV 7, USE 6, SET 3.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 

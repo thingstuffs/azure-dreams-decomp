@@ -25,12 +25,12 @@ typedef struct S_80174A9C_2 {
 M2C_UNK func_80047784();
 s32 func_8009B25C();
 s32 func_800A2B5C();
-M2C_UNK func_800A4ACC();
-M2C_UNK func_800C7930();
+s32 func_800A4ACC();
+s32 func_800C7930();
 extern u8 D_80175414;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
-void func_80174A9C(void *action_state, M2C_UNK action_context, void *sprite, EntityRec *actor) {
+void func_80174A9C(void *action_state, s32 action_context, void *sprite, EntityRec *actor) {
     s32 direction;
 
     actor->unk_71 = (u8)(actor->unk_71 & 0x7F);

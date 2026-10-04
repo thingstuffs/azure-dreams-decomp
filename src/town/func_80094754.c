@@ -5,11 +5,11 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80093D48();
-extern M2C_UNK func_80095C80();
+extern void func_80093D48();
+extern void func_80095C80();
 
 /* Advance interpolation toward the target and finish when the countdown expires. */
-void func_80091EB4(Rec_func_80094268_arg0 *state, EntityRec *motion, M2C_UNK context) {
+void func_80091EB4(Rec_func_80094268_arg0 *state, EntityRec *motion, s32 context) {
     s32 target_pos;
     u16 ticks_left;
 

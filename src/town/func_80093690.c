@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* extern */
-M2C_UNK func_80093D48();      /* extern */
+void func_80093D48();      /* extern */
 
 typedef struct S_80090DF0_0 {
     u8 pad_00[0xC];
@@ -11,9 +11,9 @@ typedef struct S_80090DF0_0 {
 } S_80090DF0_0;   /* arg1 in func_80090DF0 */
 
 
-M2C_UNK func_80090A74(s32 *, S_80090DF0_0 *, M2C_UNK);
+void func_80090A74(s32 *, S_80090DF0_0 *, s32);
 /* Runs the fallback if the value is unchanged and both state fields are zero. */
-void func_80090DF0(s32 *value, S_80090DF0_0 *state, M2C_UNK context) {
+void func_80090DF0(s32 *value, S_80090DF0_0 *state, s32 context) {
     s32 old_value;
 
     old_value = *value;

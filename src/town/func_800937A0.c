@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* extern */
-M2C_UNK func_80093D48();    /* extern */
+void func_80093D48();    /* extern */
 
 typedef struct S_80090F00_0 {
     s32 unk_00;
@@ -11,9 +11,9 @@ typedef struct S_80090F00_0 {
 } S_80090F00_0;   /* arg0 in func_80090F00 */
 
 
-M2C_UNK func_80090A74(S_80090F00_0 *, M2C_UNK, M2C_UNK);
+void func_80090A74(S_80090F00_0 *, s32, s32);
 /* Updates the object and decrements its countdown if its state is unchanged. */
-void func_80090F00(S_80090F00_0 *object, M2C_UNK context, M2C_UNK data) {
+void func_80090F00(S_80090F00_0 *object, s32 context, s32 data) {
     s32 previous_state;
     u16 countdown;
 

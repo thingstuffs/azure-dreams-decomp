@@ -9,14 +9,14 @@ typedef struct S_801724A8_0 {
 } S_801724A8_0;   /* arg0 in func_801724A8 */
 
 
-M2C_UNK func_800A4ACC();                     /* extern */
+s32 func_800A4ACC();                     /* extern */
 s32 func_800AB1C0(arg0, arg1, arg2, arg3);                                /* extern */
-M2C_UNK func_800AD594();            /* extern */
+void func_800AD594();            /* extern */
 s32 func_800AD9B4();                /* extern */
 extern M2C_UNK D_801710F4;
 
 /* Updates the target and conditionally resets the caller state. */
-void func_801724A8(S_801724A8_0 *state, M2C_UNK context, M2C_UNK source, M2C_UNK target) {
+void func_801724A8(S_801724A8_0 *state, s32 context, s32 source, s32 target) {
     if (func_800AB1C0(state, context, source, target) != 0) {
         func_800AD594(target, 3);
         func_800A4ACC(target);

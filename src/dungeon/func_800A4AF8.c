@@ -12,8 +12,8 @@ typedef struct S_800AA258_2 {
 } S_800AA258_2;   /* arg2 in func_800AA258 */
 
 
-M2C_UNK func_8009A21C();                 /* extern */
-M2C_UNK func_8009A3D0();                 /* extern */
+void func_8009A21C();                 /* extern */
+void func_8009A3D0();                 /* extern */
 extern struct {
     s8 pad0[10];
     u16 field_0x0A;

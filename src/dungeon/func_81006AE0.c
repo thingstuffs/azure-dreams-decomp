@@ -18,10 +18,10 @@ typedef struct S_801722E0_2 {
 extern M2C_UNK func_80047784();
 extern s32 func_800990FC();
 extern s32 func_80099194();
-extern M2C_UNK func_80099290();
+extern void * func_80099290();
 extern s32 func_80099734();
 extern s32 func_800A2BDC();
-extern M2C_UNK func_800A5720();
+extern s32 func_800A5720();
 
 extern u8 D_80170838[16];
 extern u8 D_80170848[16];

@@ -15,17 +15,18 @@ typedef struct S_80171E00_3 {
 } S_80171E00_3;   /* arg0 in func_80171E00 */
 
 
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009C93C(); /* extern */
+void func_80047784();         /* extern */
+typedef struct Ent Ent;
+Ent *func_8009C93C(); /* extern */
 s32 func_800A0134();                     /* extern */
 s32 func_800A04F0();             /* extern */
 s32 func_800A2B5C();                          /* extern */
 s32 func_800A2CB8();                     /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800C7930(); /* extern */
 extern u8 D_80174F28;
 
 /* Check movement conditions and initialize the actor action and directional animation. */
-s32 func_80171E00(void *action_state, M2C_UNK action_ctx, void *sprite, EntityRec *actor) {
+s32 func_80171E00(void *action_state, void *action_ctx, void *sprite, EntityRec *actor) {
     volatile s64 frame_pad;
     u8 *direction_table;
     s32 move_heading;

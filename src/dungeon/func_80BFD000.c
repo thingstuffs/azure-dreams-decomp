@@ -65,11 +65,11 @@ __asm__(".globl func_8015E800\n.size func_8015E800, 600");
 
 extern u8 D_8015EA58[];
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s32 func_8004491C();
+s16 func_800A48F0();
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
+void func_800A9C18();
+s32 func_800AA36C();
 extern M2C_UNK D_8015F014;
 extern M2C_UNK D_8016220C;
 extern M2C_UNK D_8016225C;

@@ -75,15 +75,15 @@ void func_80047738();
 void func_800478B8();
 s32 func_80069EF8();
 u16 func_800A0818(u8, u8, u8, u8, s32 *);
-M2C_UNK func_800A56E0();
-M2C_UNK func_80164ED0();
+s32 func_800A56E0();
+void func_80164ED0();
 void func_801655EC(void *, s32, s32, s32);
 extern s16 D_80173AFC[16];
 extern void *D_80175D50[3];
 
 /* Updates the effect phases, particle bursts, movement, and directional sprite. */
 void func_8016FC4C(void *effect, S_8016FC4C_6 *entity, S_8016FC4C_5 *object) {
-    M2C_UNK distance;
+    s32 distance;
     s32 burst_y;
     s16 sustain_y;
     s32 direction;

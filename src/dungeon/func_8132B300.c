@@ -72,9 +72,9 @@ typedef struct S_80172B00_7 {
 
 
 void *func_8003FD64();                  /* extern */
-M2C_UNK func_8004491C(); /* extern */
+s32 func_8004491C(); /* extern */
 M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_800BC26C(); /* extern */
+void * func_800BC26C(); /* extern */
 extern s8 D_800DCECC[];
 extern M2C_UNK D_80172610;
 extern u8 D_80174C74[];

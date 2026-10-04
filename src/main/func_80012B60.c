@@ -6,8 +6,8 @@ typedef struct S_80025B60_0 {
 } S_80025B60_0;   /* arg0 in func_80025B60; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80020984();                            /* extern */
-M2C_UNK func_80025030(void *);                            /* extern */
+void func_80020984();                            /* extern */
+void func_80025030(void *);                            /* extern */
 extern M2C_UNK D_8002593C;
 
 /* Update the record, run the shared follow-up, and install its next table. */

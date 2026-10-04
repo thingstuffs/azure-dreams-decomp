@@ -17,8 +17,8 @@ typedef struct {
     M2C_UNK **table78;
 } TargetObj;
 
-M2C_UNK func_800C2C80(TargetObj *, void *, s32, s32);
-M2C_UNK func_800C2CB0();
+void func_800C2C80(TargetObj *, void *, s32, s32);
+void func_800C2CB0();
 s32 func_800C2E1C();
 s32 func_800C2F14();
 extern M2C_UNK D_800D5028;

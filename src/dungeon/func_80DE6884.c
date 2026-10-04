@@ -61,7 +61,7 @@ typedef struct {
 M2C_UNK func_8003DB94();
 s32 func_8003DE58(s32, void *, s16 *, s32);
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_800478B8();
 s32 func_800644B8();
 s32 func_80064584(s32);

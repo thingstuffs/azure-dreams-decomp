@@ -17,7 +17,7 @@ typedef struct {
 
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64(s32);
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern M2C_UNK func_800649A0();
@@ -72,7 +72,7 @@ void func_80024700(void *source_object)
     s32 word_z;
     u16 offset_length;
     u16 offset_angle;
-    M2C_UNK *link;
+    s32 *link;
     void *source = source_object;
     void *object;
     S_80024700_0 *data;

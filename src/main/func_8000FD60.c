@@ -25,14 +25,14 @@ typedef struct S_80022D60_2 {
 
 #define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
 
-extern s32 func_80022B20(void *arg0);
-extern void func_80022B48(void *arg0, s32 arg1);
-extern void func_80022C90(void *arg0, s32 arg1, void *arg2, void *arg3, s32 arg4);
-extern void func_800231E4(s32 arg0);
-extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
-extern s32 func_8004B4A8(void *arg0);
-extern void bzero(void *arg0, s32 arg1);
+extern s32 func_80022B20(void *ptr);
+extern void func_80022B48(void *context, s32 value);
+extern void func_80022C90(void *body, s32 value_14, void *entry_index, void *value_0c, s32 value_20);
+extern void func_800231E4(s32 condition);
+extern void *func_8003FE78(s32 value0, void *ptr, s32 value2);
+extern void func_8004491C(void *base, void *handler);
+extern s32 func_8004B4A8(void *base);
+extern void bzero(void *ptr, s32 size);
 extern u8 D_80022CD8[];
 extern u8 D_80027DD0[];
 extern u8 D_800287E8[];

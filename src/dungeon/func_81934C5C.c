@@ -73,7 +73,7 @@ typedef struct S_81934C5C_5 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_80069EF8();
 s16 func_800BCB04();
 extern M2C_UNK D_80024928;
@@ -143,7 +143,7 @@ void func_8002445C(void *effect) {
             impact_sprite->unk_1C = 0x500;
             impact_sprite->unk_14 = (u16) (impact_sprite->unk_14 | 0xC);
             {
-                M2C_UNK *animation;
+                s32 *animation;
 
                 if (func_80069EF8() & 1) {
                     animation = &D_800DEDB0;

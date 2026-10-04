@@ -13,14 +13,15 @@ typedef struct S_809A0A34_1 {
 } S_809A0A34_1;   /* arg0 in func_809A0A34 */
 
 
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009C93C(); /* extern */
+void func_80047784();         /* extern */
+typedef struct Ent Ent;
+Ent *func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800C7930(); /* extern */
 extern u8 D_80175E70;
 
 /* Clears the actor flag and conditionally updates its state and directional animation. */
-void func_809A0A34(void *controller, M2C_UNK action_context, void *sprite, EntityRec *actor) {
+void func_809A0A34(void *controller, void *action_context, void *sprite, EntityRec *actor) {
     actor->unk_71 = (u8) (actor->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(actor) << 0x10) == 0)) {
         func_800C7930((u8 *)actor - 0x20, action_context, 8, 0x300);

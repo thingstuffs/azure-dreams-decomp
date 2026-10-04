@@ -3,9 +3,9 @@
 #include "m2c_compat.h"
 
 s32 func_800A2BDC();                          /* extern */
-M2C_UNK func_800A9A0C();                      /* extern */
+void func_800A9A0C();                      /* extern */
 s32 func_800ADDA0(); /* extern */
-M2C_UNK func_801716A4(); /* extern */
+void func_801716A4(); /* extern */
 
 typedef struct S_80172114_0 {
     u8 pad_00[0x46];
@@ -17,9 +17,9 @@ typedef struct S_80172114_0 {
 } S_80172114_0;   /* held_arg0 in func_80172114 */
 
 /* Updates object state and flags according to the state handler result. */
-s32 func_80172114(void *object, M2C_UNK state_input_a, M2C_UNK state_input_b) {
-    M2C_UNK saved_input_a;
-    M2C_UNK saved_input_b;
+s32 func_80172114(void *object, s32 state_input_a, s32 state_input_b) {
+    s32 saved_input_a;
+    s32 saved_input_b;
     void *saved_object;
     s32 call_result;
     s32 state;

@@ -5,8 +5,8 @@
 typedef s32 (*M2C_CALLBACK2)(s32, s32);
 typedef s32 (*M2C_CALLBACK0)(void);
 
-M2C_UNK func_800196A4();                            /* extern */
-M2C_UNK func_8001D048(void);                            /* extern */
+void func_800196A4();                            /* extern */
+void func_8001D048(void);                            /* extern */
 M2C_UNK func_8001E578();                     /* extern */
 M2C_UNK func_8001E5F0();                     /* extern */
 s32 func_8001E670();                             /* extern */

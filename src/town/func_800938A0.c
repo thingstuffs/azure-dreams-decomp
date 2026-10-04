@@ -3,13 +3,13 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_800942B0();        /* extern */
-M2C_UNK func_80094378();        /* extern */
-M2C_UNK func_80094C1C();                         /* extern */
-M2C_UNK func_80095094();                      /* extern */
+void func_800942B0();        /* extern */
+void func_80094378();        /* extern */
+void func_80094C1C();                         /* extern */
+void func_80095094();                      /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 extern M2C_UNK D_800CFCEF;
 extern M2C_UNK D_800FE488;
 
@@ -26,7 +26,7 @@ typedef struct S_80091000_2 {
 } S_80091000_2;   /* state in func_80091000 */
 
 /* Update the actor against ground height, then dispatch input actions. */
-void func_80091000(s32 controller, EntityRec *actor, M2C_UNK context) {
+void func_80091000(s32 controller, EntityRec *actor, s32 context) {
     s16 ground_height;
     GameWork *input_state = &gameWork;
 

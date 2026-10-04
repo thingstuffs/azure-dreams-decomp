@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 extern M2C_UNK D_80026DE4;
 extern M2C_UNK D_800273B0;
 extern M2C_UNK D_800CEEFC;
@@ -72,8 +72,8 @@ void *func_81961A04(void *position)
 {
     S_81961A04_1 *source_pos;
     s32 slot;
-    M2C_UNK *object_handler;
-    M2C_UNK *control_handler;
+    s32 *object_handler;
+    s32 *control_handler;
     s32 last_slot;
     void *object;
     s16 slot_offset;

@@ -12,8 +12,8 @@ typedef struct S_8002692C_0 {
 } S_8002692C_0;   /* arg0 in func_8002692C; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80026708();                    /* extern */
-M2C_UNK func_8002675C();                      /* extern */
+void * func_80026708();                    /* extern */
+void func_8002675C();                      /* extern */
 extern M2C_UNK D_800266B0;
 
 // Initializes record fields and substructures for the supplied type.

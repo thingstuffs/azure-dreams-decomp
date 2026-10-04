@@ -3,8 +3,8 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A5DFC_arg1.h"
 
-M2C_UNK func_800B4C7C(); /* extern */
-M2C_UNK func_800C5BBC();
+void *func_800B4C7C(); /* extern */
+void *func_800C5BBC();
 typedef struct S_800A5DFC_0_pre {
     void * unk_00;
     u8 pad_04[0x10];

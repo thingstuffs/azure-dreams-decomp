@@ -11,13 +11,14 @@
 #define M2C_SYNC() 0
 
 void func_80047784();
-M2C_UNK func_8009C93C();
+typedef struct Ent Ent;
+Ent *func_8009C93C();
 s32 func_800A2B5C();
-M2C_UNK func_800C7930();
+s32 func_800C7930();
 
 
 /* Initialize action state and directional animation when the entity status permits. */
-void func_80172434(Rec_func_800A9E70_arg0 *action_state, M2C_UNK context, Rec_D_80082E80 *animation,
+void func_80172434(Rec_func_800A9E70_arg0 *action_state, void *context, Rec_D_80082E80 *animation,
     EntityRec *entity) {
     entity->unk_71 = (s8) (entity->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {

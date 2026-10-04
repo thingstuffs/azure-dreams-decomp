@@ -8,16 +8,16 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_80042B68();             /* extern */
-M2C_UNK func_8008D330(); /* extern */
-M2C_UNK func_80098B38();                         /* extern */
+void func_8008D330(); /* extern */
+void func_80098B38();                         /* extern */
 s32 func_800990FC(void);                          /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                         /* extern */
-M2C_UNK func_800A5720();                         /* extern */
-M2C_UNK func_800A5F38();                 /* extern */
-M2C_UNK func_800A63B8();            /* extern */
+void *func_80099290();                         /* extern */
+s32 func_800A5720();                         /* extern */
+void func_800A5F38();                 /* extern */
+void func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-M2C_UNK func_800C4AFC();            /* extern */
+void func_800C4AFC();            /* extern */
 typedef struct {
     u8 pad[0xA];
     u16 fieldA;

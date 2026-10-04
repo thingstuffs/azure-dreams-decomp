@@ -106,17 +106,15 @@ void *func_8017087C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
                     call_a1 = part_a;
                     left = func_800A6D30();
                     call_a1 = obj;
-                    if (!(left & 1)) {
-                        goto call_a1_setup;
+                    if (left & 1) {
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = D_80175A9C;
                     }
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) | 0x20);
-                    part_b->unk_2C = D_80175A9C;
                 }
             }
         }
         call_a1 = obj;
-call_a1_setup:
         func_800A9C18(call_a1, part_a, part_b, spawn_flags);
         actor->byte9a = 0xFF;
         actor->byte9c = -1;

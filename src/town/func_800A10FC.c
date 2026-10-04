@@ -46,8 +46,8 @@ typedef struct S_8009E85C_6 {
 
 M2C_UNK D_8009E714();         /* extern */
 M2C_UNK func_80033CD8();           /* extern */
-M2C_UNK func_800374F4();                     /* extern */
-M2C_UNK func_8009DC8C();     /* extern */
+u32 func_800374F4();                     /* extern */
+void func_8009DC8C();     /* extern */
 extern M2C_UNK D_8006E240;
 extern s32 D_800D09C8[];
 

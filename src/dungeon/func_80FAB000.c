@@ -83,9 +83,9 @@ __asm__(".globl func_8014C800\n"
 #define BODY_NAME func_8014C800
 #endif
 
-void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *BODY_NAME(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 __attribute__((section(".text.func_8014C800")));
-void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *BODY_NAME(s16 flags, s16 field24_input, s16 field25_input, s16 field0A_input)
 {
     s32 kind;
     void *obj;
@@ -95,14 +95,14 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     S_80FAB000_4 *actor;
     s32 left;
     s32 right;
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
+    s8 field24_value;
+    s16 field0A_value;
+    s8 field25_value;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    field24_value = field24_input;
+    field0A_value = field0A_input;
+    field25_value = field25_input;
     obj = func_8003FD64(0x112, ((s32 *)&D_80083498.next));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -111,14 +111,14 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         func_8004491C(obj, func_80045340);
 
         part_a = ((S_80FAB000_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = field0A_value;
         part_b = ((S_80FAB000_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = flags & 3;
+        part_b->unk_25 = field25_value;
         actor = work;
         actor = work;
         part_b->unk_2C = D_80150AD4;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = field24_value;
 
         if (kind == 1) {
             left = work->unk_14 | 0x6000;
@@ -131,7 +131,7 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             work->unk_14 = left;
             work->unk_1C = right;
         } else {
-            if (((arg0 & ~3) << 16) == 0) {
+            if (((flags & ~3) << 16) == 0) {
                 if (!(work->unk_14 & 0x200)) {
                     left = func_800A6D30();
                     if (left & 1) {
@@ -143,7 +143,7 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 }
             }
         }
-        func_800A9C18(((void *)(obj)), part_a, part_b, arg0);
+        func_800A9C18(((void *)(obj)), part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8015D138;

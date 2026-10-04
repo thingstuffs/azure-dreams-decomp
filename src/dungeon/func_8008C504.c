@@ -34,8 +34,8 @@ typedef struct S_80091C64_1 {
 void func_80048A44();
 s32 func_800644B8();
 s32 func_80064584();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A56E0();
+void func_800A2B04();
+s32 func_800A56E0();
 extern M2C_UNK D_8008ACDC;
 extern M2C_UNK D_8008EAC8;
 extern u8 D_800DD038[];

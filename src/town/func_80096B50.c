@@ -2,8 +2,8 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-M2C_UNK func_800948DC();                            /* extern */
-M2C_UNK func_80094984();  /* extern */
+void func_800948DC();                            /* extern */
+void func_80094984();  /* extern */
 extern M2C_UNK D_8009204C;
 extern M2C_UNK D_800D00B0;
 
@@ -14,7 +14,7 @@ typedef struct S_800942B0_0 {
 
 
 /* Initializes an object and its associated state. */
-void func_800942B0(Rec_func_80094268_arg0 *object, S_800942B0_0 *state, M2C_UNK initData) {
+void func_800942B0(Rec_func_80094268_arg0 *object, S_800942B0_0 *state, s32 initData) {
     func_800948DC();
     state->unk_14 = 0xFFEF0000;
     func_80094984(&D_800D00B0, object, initData);

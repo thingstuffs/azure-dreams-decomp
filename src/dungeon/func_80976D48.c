@@ -4,13 +4,14 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-M2C_UNK func_8009C93C(); /* extern */
+typedef struct Ent Ent;
+Ent *func_8009C93C(); /* extern */
 s32 func_800A2B5C();                          /* extern */
-M2C_UNK func_800C7930(); /* extern */
+s32 func_800C7930(); /* extern */
 
 
 /* Clear the entity flag and advance its action state when the checks pass. */
-void func_80172548(Rec_func_800A9E70_arg0 *action_state, M2C_UNK effect_context, M2C_UNK update_context,
+void func_80172548(Rec_func_800A9E70_arg0 *action_state, void *effect_context, void *update_context,
     EntityRec *entity) {
     entity->unk_71 = (u8) (entity->unk_71 & 0x7F);
     if (!(dungeonStatus.flags & 0x2000) && ((func_800A2B5C(entity) << 0x10) == 0)) {

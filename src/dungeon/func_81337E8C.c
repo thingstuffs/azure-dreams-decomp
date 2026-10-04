@@ -38,8 +38,8 @@ typedef struct S_8016EE8C_5 {
 } S_8016EE8C_5;   /* (temp_s0 + ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v) in func_8016EE8C */
 
 
-M2C_UNK func_8009A028();                         /* extern */
-M2C_UNK func_8016E998();                   /* extern */
+void func_8009A028();                         /* extern */
+void func_8016E998();                   /* extern */
 extern s16 D_80013716;
 extern s16 D_80013718;
 extern s16 D_8001371A;

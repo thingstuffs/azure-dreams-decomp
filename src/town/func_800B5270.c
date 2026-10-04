@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 s32 func_8004B404();                         /* extern */
-M2C_UNK func_800B23C0();                      /* extern */
+void func_800B23C0();                      /* extern */
 s32 func_800B2918();                                /* extern */
-M2C_UNK func_800B2964();                    /* extern */
+void func_800B2964();                    /* extern */
 s32 func_800B29A4();                             /* extern */
 
 typedef struct S_800B29D0_0 {

@@ -4,9 +4,9 @@
 #include "m2c_compat.h"
 
 
-M2C_UNK func_80016098();                            /* extern */
-M2C_UNK func_80016510();                    /* extern */
-M2C_UNK func_800168B4();   /* extern */
+void func_80016098();                            /* extern */
+void func_80016510();                    /* extern */
+void func_800168B4();   /* extern */
 extern s16 D_800160B0;
 extern s16 D_800160B2;
 extern s32 D_80016E40;

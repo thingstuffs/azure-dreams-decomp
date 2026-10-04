@@ -2,12 +2,12 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_80033AA8();                     /* extern */
-M2C_UNK func_80098928();        /* extern */
+void func_80033AA8();                     /* extern */
+void func_80098928();        /* extern */
 
 
 /* Move the record value toward 0x4C2 by four and invoke completion handlers on arrival. */
-void func_80098244(s32 context_id, EntityRec *record, M2C_UNK context) {
+void func_80098244(s32 context_id, EntityRec *record, s32 context) {
     s16 raised_value;
     s16 lowered_value;
     u16 current_value;

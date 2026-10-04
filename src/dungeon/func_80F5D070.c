@@ -70,8 +70,6 @@ void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
     s8 saved_x;
     s16 saved_value;
     s8 saved_y;
-    register void *init_obj;
-    register void *init_part;
 
     work = 0;
     saved_x = x;
@@ -104,20 +102,14 @@ void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
             work->unk_14 = primary_flags;
             work->unk_1C = secondary_flags;
         } else {
-            init_obj = obj;
             if (((kind_flags & ~3) << 16) == 0 && !(work->unk_14 & 0x200)) {
-                init_part = part_a;
                 work->unk_1C |= 0x200;
                 func_800A48F0(work, 1,
                               (func_800A6D30() & 0x3F) | 0x20);
                 part_b->unk_2C = D_801741DC;
-            } else {
-                goto init_actor;
             }
         }
-        init_obj = obj;
-init_actor:
-        func_800A9C18(init_obj, part_a, part_b, kind_flags);
+        func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80170E68;

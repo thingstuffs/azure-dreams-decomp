@@ -51,20 +51,20 @@ typedef struct S_8009CE1C_2 {
 
 
 extern u8 D_800E3E41;
-M2C_UNK func_80094E34();
+void func_80094E34(void);
 s32 func_80098250();
 M2C_UNK func_8009CFB4();
 M2C_UNK func_8009CFF4();
 M2C_UNK func_8009D034();
 s32 func_8009D218(void *, s32, s32);
-M2C_UNK func_800A56E0();
-M2C_UNK func_800B4C7C();
+s32 func_800A56E0(s32);
+void *func_800B4C7C(s32, u8 *, s16, u16);
 extern void func_80099C58(s16, s16, s16, s16, s32);
 
 /* Compute elemental damage for a target and trigger its hit response. */
 void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
                    u16 hit_angle, s32 source_flags, u16 hit_kind) {
-    M2C_UNK event_id;
+    s32 event_id;
     s16 affinity_product;
     s32 shown_damage;
     s16 bonus;
@@ -72,10 +72,10 @@ void func_8009CE1C(void *target, s16 base_power, s16 power_bonus, s16 elements,
     s32 power;
     s32 target_elements;
     s32 damage_delta;
-    M2C_UNK direction_offset;
+    s32 direction_offset;
     s32 affinity;
     s16 requested_bonus;
-    M2C_UNK affinity_shift;
+    s32 affinity_shift;
     S_8009CE1C_2 *position;
     register u16 base = base_power;
     s16 element_mask = elements;

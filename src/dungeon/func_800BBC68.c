@@ -28,12 +28,12 @@ typedef struct S_800C13C8_2 {
 } S_800C13C8_2;   /* temp_v0 in func_800C13C8 */
 
 
-M2C_UNK func_8008D344(); /* extern */
+void func_8008D344(); /* extern */
 s32 func_80098864(s32, s32);           /* extern */
-M2C_UNK func_80098B38();                         /* extern */
-M2C_UNK func_800997FC();                   /* extern */
-M2C_UNK func_800A5F38();                 /* extern */
-M2C_UNK func_800A6480();            /* extern */
+void func_80098B38();                         /* extern */
+void func_800997FC();                   /* extern */
+void func_800A5F38();                 /* extern */
+void func_800A6480();            /* extern */
 s32 func_800AD6FC();                /* extern */
 s32 func_800BBA40(); /* extern */
 extern M2C_UNK D_800C135C;
@@ -41,7 +41,7 @@ extern M2C_UNK D_800DEAE0;
 extern M2C_UNK D_800E1482;
 
 /* Handles an object operation and updates its state or triggers its effect. */
-s32 func_800C13C8(void *object, s32 value, s16 operation, M2C_UNK context) {
+s32 func_800C13C8(void *object, s32 value, s16 operation, s32 context) {
     S_800C13C8_2 *object_data;
     s32 result;
 

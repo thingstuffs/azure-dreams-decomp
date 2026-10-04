@@ -11,7 +11,7 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 extern M2C_UNK D_800245A0;
 extern M2C_UNK D_80027460;
 extern M2C_UNK D_800CEEFC;
@@ -72,8 +72,8 @@ typedef struct S_819AD1DC_4 {
 void *func_819AD1DC(void *src)
 {
     s32 i;
-    M2C_UNK *handler;
-    M2C_UNK *sub_handler;
+    s32 *handler;
+    s32 *sub_handler;
     register s32 last_index;
     void *obj;
     s32 shade;

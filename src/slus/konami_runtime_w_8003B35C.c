@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-M2C_UNK func_8003AE28(); /* extern */
-M2C_UNK func_8003AF58();        /* extern */
+void func_8003AE28(); /* extern */
+void func_8003AF58();        /* extern */
 M2C_UNK file_load_com();                   /* extern */
 M2C_UNK func_800418B4();                            /* extern */
 M2C_UNK load_bin_nametwin();                            /* extern */

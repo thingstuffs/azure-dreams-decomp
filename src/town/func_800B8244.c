@@ -20,9 +20,9 @@ typedef struct S_800B59A4_5 {
 s32 func_8004A658();
 s32 func_8004AC3C();
 M2C_UNK bzero(void **, M2C_UNK);
-M2C_UNK func_800B5264();
+void func_800B5264();
 M2C_UNK func_800B53BC();
-M2C_UNK func_800B58B8(void **, s32);
+void func_800B58B8(void **, s32);
 s32 func_800B5918();
 
 typedef struct S_800B59A4_0 {

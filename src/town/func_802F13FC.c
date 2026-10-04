@@ -10,13 +10,13 @@ extern u16 D_8040C5DE_LOAD[5];
 extern u16 D_8040C5DE_STORE[5];
 extern u8 D_8040086C[];
 extern u8 D_80400894[];
-extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern s32 func_80047FD8(void *arg0);
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern void func_80408394(void *arg0, s32 arg1, s32 arg2);
-extern void func_804084DC(void *arg0);
+extern void *func_8003C714(s32 value, void *ptr, s32 value_2);
+extern s32 func_80047FD8(void *object);
+extern void func_8007BEF0(s32 value);
+extern void func_8007BFE0(void *state, s32 value);
+extern void func_8007C040(void *data, void *data_2, s32 value);
+extern void func_80408394(void *state, s32 init_value_a, s32 init_value_b);
+extern void func_804084DC(void *object);
 extern void func_804083A0(void);
 
 /* Creates or resets the town object, initializes its state, and installs its callback. */

@@ -19,16 +19,16 @@ extern InputTable D_80700000;
 extern State *D_80701968[3];
 extern CallbackOwner *D_80701984[4];
 
-extern s32 func_80700D84(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern s32 func_80700D84(s32 index, s32 input_a, s32 input_b, s32 input_c);
 extern s32 func_80701060(s32 *word, s32 old_value);
 
-s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 func_80874F4C(s32 index, s32 input_a, s32 input_b, s32 input_c) {
     s32 old_value;
     s32 shift;
     s32 *word;
 
-    if (func_80700D84(arg0, arg1, arg2, arg3) >= 2) {
-        old_value = D_80700000.values[arg0];
+    if (func_80700D84(index, input_a, input_b, input_c) >= 2) {
+        old_value = D_80700000.values[index];
         word = &D_80701968[0]->words[old_value / 32];
         shift = old_value % 32;
         old_value = *word;
@@ -40,5 +40,5 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     } else {
         D_80701968[0]->flags &= ~0x40000000;
     }
-    return arg0;
+    return index;
 }

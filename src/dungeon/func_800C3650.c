@@ -14,10 +14,10 @@ typedef struct S_800C8DB0_0 {
 } S_800C8DB0_0;   /* arg0 in func_800C8DB0 */
 
 
-M2C_UNK func_80099844();
+void func_80099844();
 s32 func_800A48F0();
 s32 func_800A6D30();
-M2C_UNK func_800DC1B8();
+void func_800DC1B8();
 extern s32 D_800DCF20;
 extern M2C_UNK D_800E1937;
 extern M2C_UNK D_800E1A6D;

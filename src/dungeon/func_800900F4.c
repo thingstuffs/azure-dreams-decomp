@@ -31,10 +31,10 @@ typedef struct S_80095854_2 {
 } S_80095854_2;   /* arg2 in func_80095854 */
 
 
-M2C_UNK func_80048A44(); /* extern */
+void func_80048A44(); /* extern */
 void func_80094E34(void);                            /* extern */
-M2C_UNK func_8009A21C();           /* extern */
-M2C_UNK func_8009A3D0();           /* extern */
+void func_8009A21C();           /* extern */
+void func_8009A3D0();           /* extern */
 s32 func_8009B88C();   /* extern */
 extern u8 D_800DD130;
 
