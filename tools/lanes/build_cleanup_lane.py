@@ -49,6 +49,19 @@ def served():
     return out
 
 
+_DEFS = None
+
+
+def resolvable(text, container):
+    """proto task (round 93): M2C_UNK prototypes whose callee has a definition in a row of the same container (by
+    `func` or `true_name`; rows are filed by file offset) or in slus - only those can be typed honestly."""
+    global _DEFS
+    if _DEFS is None:
+        _DEFS = {(r["container"], n) for r in rows() for n in (r["func"], r.get("true_name")) if n}
+    names = re.findall(r"M2C_UNK\s*\**\s*\b((?:func|w)_[0-9A-Fa-f]{8})\s*\(", strip_comments(text))
+    return sum(1 for n in names if (container, n) in _DEFS or ("slus", n) in _DEFS)
+
+
 def pool(task, busy=frozenset(), max_size=12000):
     rx = TASKS[task][1]; seen = served(); ids = {r["id"] for r in rows()}; out = []
     for f in sorted(glob.glob(str(ROOT / "src/*/*.c"))):
@@ -56,7 +69,7 @@ def pool(task, busy=frozenset(), max_size=12000):
         if rid not in ids or rid in busy or rid.startswith("ovmovie/"): continue
         t = Path(f).read_text(errors="replace")
         if len(t) > max_size or (rid, sha(t)) in seen or sites_of(t): continue
-        n = len(rx.findall(strip_comments(t)))
+        n = resolvable(t, rid.split("/")[0]) if task == "proto" else len(rx.findall(strip_comments(t)))
         if n: out.append((n, rid))
     return sorted(out, key=lambda x: (-x[0], x[1]))
 
