@@ -192,62 +192,57 @@ void func_81978428(State81978428 *state, s32 *position_out)
         self->object = spawned_object;
         if (spawned_object != 0) {
             target_pos = *(void **)((u8 *)spawned_object - 0x18);
-            goto position_ready;
-        }
-
-        target_pos = &fallback_pos;
-        {
-            u8 tile_x;
-            u8 tile_y;
-
-            tile_x = tile_map[0x24];
-            ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
-            tile_y = tile_map[0x25];
-            ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
-        }
-
-        for (step_count = 0; step_count < 8; step_count++) {
-        {
-            u8 *player;
-
-            player = (u8 *)D_800814A8;
-            tile_step = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
-            ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
-            tile_step_2 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
-            ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
-            ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
-        }
-        ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
-        if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
-            u8 *player;
-            player = (u8 *)D_800814A8;
-            ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
-        }
-
-        if ((func_800A45D8(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
-                            ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
-            u8 *player;
-
-            player = (u8 *)D_800814A8;
-            tile_step_3 = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
-            ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
-            tile_step_4 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
-            ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
-            ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
-            ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
-            if (((S_81978428_6 *)target_pos)->unk_0A.u < 0x201) {
-                goto position_ready;
-            }
+        } else {
+            target_pos = &fallback_pos;
             {
-                u8 *height_player;
-                height_player = (u8 *)D_800814A8;
-                ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
-                goto position_ready;
+                u8 tile_x;
+                u8 tile_y;
+
+                tile_x = tile_map[0x24];
+                ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
+                tile_y = tile_map[0x25];
+                ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;
+            }
+
+            for (step_count = 0; step_count < 8; step_count++) {
+                {
+                    u8 *player;
+
+                    player = (u8 *)D_800814A8;
+                    tile_step = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
+                    tile_step_2 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                }
+                ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+                if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
+                    u8 *player;
+                    player = (u8 *)D_800814A8;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                }
+
+                if ((func_800A45D8(((S_81978428_6 *)target_pos)->unk_02.s, ((S_81978428_6 *)target_pos)->unk_06.s,
+                                    ((S_81978428_6 *)target_pos)->unk_0A.u) << 16) != 0) {
+                    u8 *player;
+
+                    player = (u8 *)D_800814A8;
+                    tile_step_3 = dirStepX[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
+                    tile_step_4 = dirStepY[(((S_81978428_5 *)player)->unk_2A.u >> 9) & 7];
+                    ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
+                    ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
+                    if (((S_81978428_6 *)target_pos)->unk_0A.u >= 0x201) {
+                        u8 *height_player;
+                        height_player = (u8 *)D_800814A8;
+                        ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
+                    }
+                    break;
+                }
             }
         }
-        }
 
-position_ready:
         func_80025A9C(self, position, target_pos);
         {
             u16 next_state = self->state;
@@ -344,14 +339,17 @@ position_ready:
             self->state++;
             break;
         }
-        goto cleanup;
+        dungeonStatus.unk_0C = 0;
+        dungeonStatus.unk_0A--;
+        ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
 
     case 5:
         if (self->flag != 0) {
             break;
         }
 
-cleanup:
         dungeonStatus.unk_0C = 0;
         dungeonStatus.unk_0A--;
         ((S_81978428_12_pre *)self)[-1].unk_00 |= 0x8000;

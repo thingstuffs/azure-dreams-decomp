@@ -119,65 +119,59 @@ void func_8009DAD8(s32 draw_param) {
 
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
-    if (entry == head) {
-        goto after_entries;
-    }
+    if (entry != head) {
 #ifdef NON_MATCHING
-    flagsPage = (long)&D_800E296C - 0x296c;
+        flagsPage = (long)&D_800E296C - 0x296c;
 #else
-    ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
-    loopFlagsPage = flagsPage;
-    playerLater = (u8 *)playerAndIndex;
-    pageOrTwo = 2;
-    do {
-        if (*(s8 *)(entry + 0x13) > 0) {
-            object = *(u8 **)(entry - 0x14);
-            if (!(*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
-                if (*(s8 *)(object + 0x26) < 0 ||
-                    *(s8 *)(object + 0x26) != *(s8 *)(playerLater + 0x26)) {
-                    a0Value = (long)object;
-                    distance = func_8009FD40((u8 *)a0Value,
-                                             callPage + 0x2e80);
-                    if ((s16)distance >= 4) {
-                        goto next_entry;
+        loopFlagsPage = flagsPage;
+        playerLater = (u8 *)playerAndIndex;
+        pageOrTwo = 2;
+        for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
+            if (*(s8 *)(entry + 0x13) > 0) {
+                object = *(u8 **)(entry - 0x14);
+                if (!(*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
+                    if (*(s8 *)(object + 0x26) < 0 ||
+                        *(s8 *)(object + 0x26) != *(s8 *)(playerLater + 0x26)) {
+                        a0Value = (long)object;
+                        distance = func_8009FD40((u8 *)a0Value,
+                                                 callPage + 0x2e80);
+                        if ((s16)distance >= 4) {
+                            continue;
+                        }
+                    }
+                }
+
+                a0Value = 0;
+                if (entry[0x13] == 0x1e) {
+                    if (entry[0xad] != 0) {
+                        a0Value = 2;
+                    } else {
+                        a0Value = 1;
+                    }
+                } else if (entry[0x13] != 0x23 ||
+                           *(s16 *)(entry + 0xa6) == 0 ||
+                           (*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
+                    a0Value = 1;
+                }
+
+                flagsPage = a0Value;
+                if (flagsPage != 0) {
+                    if (flagsPage == pageOrTwo) {
+                        colour[2] = brightness;
+                        colour[0] = 0;
+                    }
+                    a0Value = object[0x24];
+                    func_8009DA70(a0Value, object[0x25], colour, draw_param);
+                    if (flagsPage == pageOrTwo) {
+                        colour[2] = 0;
+                        colour[0] = brightness;
                     }
                 }
             }
-
-            a0Value = 0;
-            if (entry[0x13] == 0x1e) {
-                if (entry[0xad] == 0) {
-                    a0Value = 1;
-                } else {
-                    a0Value = 2;
-                    goto process_mode;
-                }
-            } else if (entry[0x13] != 0x23 ||
-                       *(s16 *)(entry + 0xa6) == 0 ||
-                       (*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
-                a0Value = 1;
-            }
-
-process_mode:
-            flagsPage = a0Value;
-            if (flagsPage != 0) {
-                if (flagsPage == pageOrTwo) {
-                    colour[2] = brightness;
-                    colour[0] = 0;
-                }
-                a0Value = object[0x24];
-                func_8009DA70(a0Value, object[0x25], colour, draw_param);
-                if (flagsPage == pageOrTwo) {
-                    colour[2] = 0;
-                    colour[0] = brightness;
-                }
-            }
         }
-next_entry:
-        entry = *(u8 **)(entry + 0x5c) + 0x20;
-    } while (entry != head);
-after_entries:
+    }
     playerAndIndex = 0;
     mapEntry = (MapEntry *)D_800E36C8;
     info = (EntryInfo *)D_800E3548;
@@ -199,20 +193,15 @@ after_entries:
     objectEntry = (ObjectEntry *)D_800E3CD8;
     colour[2] = 0;
     colour[1] = brightness;
-    do {
-        if (objectEntry[playerAndIndex].type != 2) {
-            goto object_entries_done;
-        }
+    for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
         if ((D_800E296C & 1) ||
             func_8009EE4C(a0Value = objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             func_8009DA70(a0Value = (u16)objectEntry[playerAndIndex].x,
                           (u16)objectEntry[playerAndIndex].y, colour, draw_param);
         }
-        playerAndIndex++;
-    } while (playerAndIndex < 4);
+    }
 
-object_entries_done:
     playerAndIndex = 0;
     largeMapEntry = (LargeMapEntry *)D_800E39C8;
     info = (EntryInfo *)D_800E3648;

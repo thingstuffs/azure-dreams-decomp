@@ -73,15 +73,14 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
                 func_800942B0(self, target_arg, context);
                 return;
             }
-        } else {
-            goto countdown_expired;
+            return;
         }
     } else {
         busy_countdown = ((S_800930E4_2 *)self)->unk_0A - 1;
         ((S_800930E4_2 *)self)->unk_0A = busy_countdown;
-        if ((s16) busy_countdown < 0) {
-countdown_expired:
-            func_80093D48(self, target_arg, context);
+        if ((s16) busy_countdown >= 0) {
+            return;
         }
     }
+    func_80093D48(self, target_arg, context);
 }

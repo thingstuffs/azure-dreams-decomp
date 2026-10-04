@@ -85,7 +85,10 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
             p[0x34] = old - 0x1E;
         }
         if (*(s16 *)(p + 0x6A) < 31) {
-            goto advance;
+            adv = *(u16 *)p;
+            *(u16 *)(p + 2) = 0;
+            *(u16 *)p = adv + 1;
+            return;
         }
         velocity = *(s32 *)(p + 0x74) + *(s32 *)(p + 0x80);
         *(s32 *)(p + 0x68) += velocity;
@@ -102,7 +105,10 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
         temp = *(u16 *)(p + 2) + 1;
         *(u16 *)(p + 2) = temp;
         if ((s16)temp >= 31) {
-            goto advance;
+            adv = *(u16 *)p;
+            *(u16 *)(p + 2) = 0;
+            *(u16 *)p = adv + 1;
+            return;
         }
         return;
 
@@ -130,7 +136,10 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
         temp = *(u16 *)(p + 2) + 1;
         *(u16 *)(p + 2) = temp;
         if ((s16)temp >= 16) {
-            goto advance;
+            adv = *(u16 *)p;
+            *(u16 *)(p + 2) = 0;
+            *(u16 *)p = adv + 1;
+            return;
         }
         return;
 
@@ -141,15 +150,12 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
             arg2[0xE] -= 5;
         }
         if (arg2[0xC] < 6) {
-            goto advance;
+            adv = *(u16 *)p;
+            *(u16 *)(p + 2) = 0;
+            *(u16 *)p = adv + 1;
+            return;
         }
         return;
-
-advance:
-    adv = *(u16 *)p;
-    *(u16 *)(p + 2) = 0;
-    *(u16 *)p = adv + 1;
-    return;
 
     case 7:
         temp = *(u16 *)(p + 2) - 1;

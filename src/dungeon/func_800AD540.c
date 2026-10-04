@@ -74,7 +74,20 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
                 motion_state->state = 2;
                 return;
             }
-            goto stop_motion;
+        {
+            DungeonGlobalStatus *shared_state = &dungeonStatus;
+            motion->unk14 = 0;
+            motion->dy = 0;
+            motion->dx = 0;
+            if (((s32)shared_state->unk_10) == (s32)((u8 *)entity - 0x20)) {
+                *(s32 *)&shared_state->unk_10 &= 0x7fffffff;
+            }
+            shared_state->unk_0A++;
+            func_8009A028(entity);
+            ((u16 *)motion_state)[-1] |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+        }
+        return;
         }
         initial_delay = -1;
         if (entity->flags & 0x228) {
@@ -104,10 +117,7 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
         if (motion_state->delay != 0) {
             return;
         }
-        if (entity->byte28 != 0) {
-            goto begin_approach;
-        }
-stop_motion:
+        if (entity->byte28 == 0) {
         {
             DungeonGlobalStatus *shared_state = &dungeonStatus;
             motion->unk14 = 0;
@@ -122,7 +132,7 @@ stop_motion:
             objectFlagBlock.flags |= 0x8000;
         }
         return;
-begin_approach:
+        }
         motion_state->delay = 8;
         motion_state->state++;
         return;

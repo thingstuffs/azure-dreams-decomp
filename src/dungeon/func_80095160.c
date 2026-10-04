@@ -59,7 +59,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
     register u32 center_y ASM_REG("$20");
     u8 direction_arg;
     s16 direction_or_x;
-    register s32 tile_coord ASM_REG("$5");
+    s32 tile_coord;
     s32 y_or_direction;
     u32 collision_out;
     u32 body_addr;
@@ -101,8 +101,9 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                     coord_work_2 = coord_or_height + 0x20;
                     offset_work += 0x20;
                     center_y = offset_work;
+                    coord_or_height = (s16)(height - height_offset);
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
-                                           (s16)(height - height_offset)) << 0x10;
+                                           coord_or_height) << 0x10;
                     if (result != 0) {
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
@@ -122,60 +123,58 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                         result = 0;
                         return 0;
                     }
-                    if ((actor_or_height.actor->flag >= 0) ||
+                    if (!((actor_or_height.actor->flag >= 0) ||
                         (monster_index = func_8009FB34((actor_or_height.actor->x + *x_step) & 0xFFFF,
                                                        (actor_or_height.actor->y + *y_step) & 0xFFFF),
                          (monster_index < 0)) ||
                         !(D_800E2970[monster_index].flags & 2) ||
                         (result = 0, ((body_addr = (u32)body,
-                                       ((FuncArg2 *)body_addr)->flags & 0x2000) != 0))) {
-                        if (collision.value & 0x3300) {
-                            target_x &= 0xFFFF;
-                            if (collision.value & 0x40) {
-                                {
-                                    u16 sample_x;
-                                    sample_x = target_x;
-                                    target_y_u16 = coord_work & 0xFFFF;
-                                    actor_or_height.height = func_800BCB04(
-                                        sample_x, target_y_u16, (s16)(height - height_offset));
-                                }
-                                tile_coord = target_x >> 6;
-                                y_or_direction = target_y_u16 >> 6;
-                                target_height = (s16)actor_or_height.height;
-                                if (target_height >= 0x201) {
-                                    body_addr = (u32)body;
-                                    target_height = (s16)((FuncArg2 *)body_addr)->height;
-                                }
-                                /* Target X is dead after the tile argument is formed. */
-                                target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);
-                                if (target_x == 0) {
-                                    goto check_height;
-                                }
-                            }
-move_failed:
-                            ASM_SCHED_BARRIER();
-                            result = -1;
-                            return -1;
-                        }
-                        {
-                            actor_or_height.height = func_800BCB04(
-                                target_x & 0xFFFF, coord_work & 0xFFFF, (s16)(height - height_offset));
-                        }
-check_height:
-                        result = -1;
-                        coord_or_height = actor_or_height.height << 0x10;
-                        coord_or_height >>= 0x10;
-                        coord_or_height = coord_or_height < 0x201;
-                        if (coord_or_height) {
-                            result = 1;
-                        }
+                                       ((FuncArg2 *)body_addr)->flags & 0x2000) != 0)))) {
                         return result;
+                    }
+                    if (collision.value & 0x3300) {
+                        target_x &= 0xFFFF;
+                        if (collision.value & 0x40) {
+                            {
+                                u16 sample_x;
+                                sample_x = target_x;
+                                target_y_u16 = coord_work & 0xFFFF;
+                                actor_or_height.height = func_800BCB04(
+                                    sample_x, target_y_u16, (s16)(height - height_offset));
+                            }
+                            tile_coord = target_x >> 6;
+                            y_or_direction = target_y_u16 >> 6;
+                            target_height = (s16)actor_or_height.height;
+                            if (target_height >= 0x201) {
+                                body_addr = (u32)body;
+                                target_height = (s16)((FuncArg2 *)body_addr)->height;
+                            }
+                            /* Target X is dead after the tile argument is formed. */
+                            target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);
+                            if (target_x == 0) {
+                                goto check_height;
+                            }
+                        }
+move_failed:
+                        result = -1;
+                        return -1;
+                    }
+                    {
+                        actor_or_height.height = func_800BCB04(
+                            target_x & 0xFFFF, coord_work & 0xFFFF, (s16)(height - height_offset));
+                    }
+check_height:
+                    result = -1;
+                    coord_or_height = actor_or_height.height << 0x10;
+                    coord_or_height >>= 0x10;
+                    coord_or_height = coord_or_height < 0x201;
+                    if (coord_or_height) {
+                        result = 1;
                     }
                     return result;
                 }
             }
         }
-        return -1;
     }
     goto move_failed;
 }

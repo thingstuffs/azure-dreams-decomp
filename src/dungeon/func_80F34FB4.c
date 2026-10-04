@@ -124,7 +124,9 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         motion->unk_10 = (s32) ((s16) dirStepY[direction_index] * 0x30000);
         animation->unk_2C.as_pu8 = &D_80174A8C;
         func_80047784(animation, (&D_80174A8C)[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        goto increment_state_load;
+        previous_state = ((S_801727B4_0 *)action)->unk_9B;
+        ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 1:
         if (!(animation->unk_14.at00_u16.v & 0xE000)) {
             return;
@@ -134,7 +136,9 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         ((S_801727B4_0 *)action)->unk_90 = 0;
         ((S_801727B4_0 *)action)->unk_98 = (u16) (((S_801727B4_0 *)action)->unk_98 | 8);
         motion->flags14 = 0xFFF40000;
-        goto increment_state_load;
+        previous_state = ((S_801727B4_0 *)action)->unk_9B;
+        ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
+        return;
     case 2:
         vertical_speed = motion->flags14 + 0x20000;
         motion->flags14 = vertical_speed;
@@ -208,14 +212,10 @@ void func_801727B4(void *action, EntityRec *motion, Rec_D_80082E80 *animation, E
         }
         ticks_left = ((S_801727B4_0 *)action)->unk_96 - 1;
         ((S_801727B4_0 *)action)->unk_96 = ticks_left;
-        if ((ticks_left << 0x10) != 0) {
-            if (!(animation->unk_14.at00_u16.v & 0x8000)) {
-                goto check_animation;
-            }
+        if ((ticks_left << 0x10) == 0 || (animation->unk_14.at00_u16.v & 0x8000)) {
+            func_8009C12C(actor, animation, actor->facing, 1);
+            func_800A56E0(0x808);
         }
-        func_8009C12C(actor, animation, actor->facing, 1);
-        func_800A56E0(0x808);
-check_animation:
         if (!(animation->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
@@ -233,9 +233,7 @@ check_animation:
         if (animation->unk_14.at00_u16.v & 0x8000) {
             func_800A2B04(motion, animation->unk_24, animation->unk_25);
         }
-increment_state_load:
         previous_state = ((S_801727B4_0 *)action)->unk_9B;
-increment_state:
         ((S_801727B4_0 *)action)->unk_9B = (u8) (previous_state + 1);
         return;
     case 5:
@@ -252,12 +250,12 @@ increment_state:
             if (axis_distance < 0) {
                 axis_distance = 0 - axis_distance;
             }
-            if (axis_distance < 0x41) {
-                goto check_start_position;
+            if (axis_distance >= 0x41) {
+                func_800A2B04(motion, animation->unk_24, animation->unk_25);
             }
+        } else {
+            func_800A2B04(motion, animation->unk_24, animation->unk_25);
         }
-        func_800A2B04(motion, animation->unk_24, animation->unk_25);
-check_start_position:
         if ((s16) ((u16)motion->x.w.i) != (s16) ((S_801727B4_0 *)action)->unk_A8) {
             return;
         }
@@ -276,7 +274,6 @@ check_start_position:
         } else {
             *D_800E3DE8 = (u8 *)actor - 0x20;
         }
-update_actor_handle:
         actor_handle = ((s32)actor->target);
         if (actor_handle == 0) {
             return;

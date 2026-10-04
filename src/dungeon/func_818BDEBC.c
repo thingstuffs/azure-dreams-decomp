@@ -183,77 +183,78 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
                       motion->z) / state->duration;
         func_80025344(state, motion);
         next_state = (u16)state->state + 1;
-        goto set_state;
-    }
-
-    index = 0;
-    {
-        void *tile_node;
-        tile_node = PTR_AT(owner_meta, 0xC);
-        tile_x = U8_AT(tile_node, 0x24);
-        tile_y = U8_AT(tile_node, 0x25);
-    }
-    end_tile_x = tile_x;
-    end_tile_y = tile_y;
-
-    while (index < 8) {
-        grid_x = (s16)tile_x;
-        grid_y = (s16)tile_y;
-        if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0,
-                               (grid_y << 6) & 0xFFC0,
-                               S16_AT(owner, 0x88),
-                               (s16)(state->direction << 9)) != 0) {
-            break;
+    } else {
+        index = 0;
+        {
+            void *tile_node;
+            tile_node = PTR_AT(owner_meta, 0xC);
+            tile_x = U8_AT(tile_node, 0x24);
+            tile_y = U8_AT(tile_node, 0x25);
         }
-        table_x_entry = (Position16 *)&dirStepX[state->direction];
-        probe_z = U16_AT(owner, 0x88);
-        probe_z -= 0x20;
-        probe_z = (u32)probe_z << 16;
-        probe_z >>= 16;
-        table_y_entry = &dirStepY[state->direction];
-        ground_z = func_800BCB04(
-            ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
-            ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
-            probe_z);
-        if ((s16)ground_z >= 0x201 || (s16)(ground_z - U16_AT(owner, 0x88)) < -0x3F) {
-            break;
-        }
-        index++;
-        tile_x += dirStepX[state->direction];
-        tile_y += dirStepY[state->direction];
-        end_tile_y = tile_y;
         end_tile_x = tile_x;
-    }
+        end_tile_y = tile_y;
 
-    target_pos = (void *)((Position16 *)&work.destination);
-    index = 1;
-    color_part = (u8 *)&work.destination + 2;
-    dest_x = ((end_tile_x << 16) >> 10) + ((dirStepX[state->direction] + 1) << 5);
-    ((Position16 *)target_pos)->x = dest_x;
-    dest_y = ((end_tile_y << 16) >> 10) + ((dirStepY[state->direction] + 1) << 5);
-    ((Position16 *)target_pos)->y = dest_y;
-    ((Position16 *)target_pos)->z = S16_AT(motion, 0xA) + 0x20;
-    work.probe_delta[0] = abs(((Position16 *)target_pos)->x - S16_AT(motion, 2));
-    work.probe_delta[1] = abs(((Position16 *)target_pos)->y - S16_AT(motion, 6));
-    work.probe_delta[2] = abs(((Position16 *)target_pos)->z - S16_AT(motion, 0xA));
-
-    state->duration = work.probe_delta[0];
-    for (; index < 3; index++, color_part += 2) {
-        if (S16_AT(color_part, 0x18) > state->duration) {
-            state->duration = (u16)S16_AT(color_part, 0x18);
+        while (index < 8) {
+            grid_x = (s16)tile_x;
+            grid_y = (s16)tile_y;
+            if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0,
+                                   (grid_y << 6) & 0xFFC0,
+                                   S16_AT(owner, 0x88),
+                                   (s16)(state->direction << 9)) != 0) {
+                break;
+            }
+            table_x_entry = (Position16 *)&dirStepX[state->direction];
+            probe_z = U16_AT(owner, 0x88);
+            probe_z -= 0x20;
+            probe_z = (u32)probe_z << 16;
+            probe_z >>= 16;
+            table_y_entry = &dirStepY[state->direction];
+            ground_z = func_800BCB04(
+                ((grid_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
+                ((grid_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
+                probe_z);
+            if ((s16)ground_z >= 0x201 || (s16)(ground_z - U16_AT(owner, 0x88)) < -0x3F) {
+                break;
+            }
+            index++;
+            tile_x += dirStepX[state->direction];
+            tile_y += dirStepY[state->direction];
+            end_tile_y = tile_y;
+            end_tile_x = tile_x;
         }
-    }
-    state->duration = (s16)state->duration >> 4;
-    if (state->duration == 0) {
-        state->duration = 1;
-    }
 
-    motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
-    motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
-    motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
-    func_8002558C(state, motion);
-    next_state = 6;
-    goto set_state;
+        target_pos = (void *)((Position16 *)&work.destination);
+        index = 1;
+        color_part = (u8 *)&work.destination + 2;
+        dest_x = ((end_tile_x << 16) >> 10) + ((dirStepX[state->direction] + 1) << 5);
+        ((Position16 *)target_pos)->x = dest_x;
+        dest_y = ((end_tile_y << 16) >> 10) + ((dirStepY[state->direction] + 1) << 5);
+        ((Position16 *)target_pos)->y = dest_y;
+        ((Position16 *)target_pos)->z = S16_AT(motion, 0xA) + 0x20;
+        work.probe_delta[0] = abs(((Position16 *)target_pos)->x - S16_AT(motion, 2));
+        work.probe_delta[1] = abs(((Position16 *)target_pos)->y - S16_AT(motion, 6));
+        work.probe_delta[2] = abs(((Position16 *)target_pos)->z - S16_AT(motion, 0xA));
+
+        state->duration = work.probe_delta[0];
+        for (; index < 3; index++, color_part += 2) {
+            if (S16_AT(color_part, 0x18) > state->duration) {
+                state->duration = (u16)S16_AT(color_part, 0x18);
+            }
+        }
+        state->duration = (s16)state->duration >> 4;
+        if (state->duration == 0) {
+            state->duration = 1;
+        }
+
+        motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
+        motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
+        motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
+        func_8002558C(state, motion);
+        next_state = 6;
+    }
+    state->state = next_state;
+    state->timer = 0;
+    break;
 
     case 2:
     motion->x += motion->dx;
@@ -298,14 +299,11 @@ s32 func_800256BC(EffectState *state, Motion *motion, register ColorPart *part) 
     motion->y += motion->dy;
     motion->z += motion->dz;
     if (state->timer >= state->duration) {
-        next_state = 5;
-    } else {
-        break;
+        state->state = 5;
+        state->timer = 0;
     }
-set_state:
-    state->state = next_state;
-    state->timer = 0;
     break;
+
     default:
         break;
     }

@@ -45,7 +45,6 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
     u16 flags;
     s32 state;
     s32 accum;
-    s32 state_now;
     s32 timer;
 
     state = work->unk_9B;
@@ -68,10 +67,9 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
         part_a->flags14 = 0xFFF00000;
         actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
         work->unk_A0 = 0;
-        state_now = work->unk_9B;
-        state = 10;
-        work->unk_96.s = state;
-        goto block_e60;
+        work->unk_96.s = 10;
+        work->unk_9B++;
+        return;
     case 1:
     case 5:
         accum = work->unk_90;
@@ -94,7 +92,8 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
         work->unk_90 = 0;
         work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
         actor->flags1C = (s32) (actor->flags1C | 0x8000000);
-        goto block_e5c;
+        work->unk_9B++;
+        return;
     case 2:
     case 6:
         work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
@@ -105,17 +104,15 @@ void func_80173C5C(S_80173C5C_0 *work, EntityRec *part_a, Rec_D_80082E80 *part_b
         part_b->unk_2C.as_pu8 = &D_80173FE0;
         func_80047784(part_b, ((u8 *) ((u32) ((((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7)
             + (u32) &D_80173FE0)))[0], 0);
-        goto block_e5c;
+        work->unk_9B++;
+        return;
     case 3:
         if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
         part_b->unk_2C.as_pu8 = D_80173FD0;
         func_80047784(part_b, D_80173FD0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-block_e5c:
-        state_now = work->unk_9B;
-block_e60:
-        work->unk_9B = (u8) (state_now + 1);
+        work->unk_9B++;
         return;
     case 7:
         if (!(part_b->unk_14.at00_u16.v & 0xE000)) {

@@ -79,26 +79,21 @@ void func_800B70EC(void) {
     kind = kind_table[D_800D381A[0] << 5];
     special_scene = 0x21;
     if (kind != special_scene) {
-        if (scene_below(kind, 0x21)) {
-            goto common;
+        if (!scene_below(kind, 0x21) && (s32)kind < 0x29) {
+            scene_offset = (s32)kind < 0x26;
+            if (!scene_offset) {
+            D_80111FA8[0] = 0x330;
+            upload_rect[1] = 0x80;
+            upload_rect[2] = 8;
+            upload_rect[3] = 0x80;
+            func_8006733C(upload_rect, D_801116C8);
+            D_80111FA8[0] = 0;
+            upload_rect[1] = 0x1FB;
+            upload_rect[2] = 0x40;
+            upload_rect[3] = single_row;
+            func_8006733C(upload_rect, D_80111EC8);
+            }
         }
-        if ((s32)kind >= 0x29) {
-            goto common;
-        }
-        scene_offset = (s32)kind < 0x26;
-        if (scene_offset) {
-            goto common;
-        }
-        D_80111FA8[0] = 0x330;
-        upload_rect[1] = 0x80;
-        upload_rect[2] = 8;
-        upload_rect[3] = 0x80;
-        func_8006733C(upload_rect, D_801116C8);
-        D_80111FA8[0] = 0;
-        upload_rect[1] = 0x1FB;
-        upload_rect[2] = 0x40;
-        upload_rect[3] = single_row;
-        func_8006733C(upload_rect, D_80111EC8);
     } else {
         D_80111FA8[0] = 0x10;
         upload_rect[1] = 0x1C1;
@@ -107,7 +102,6 @@ void func_800B70EC(void) {
         func_8006733C(upload_rect, D_80111F48);
     }
 
-common:
     func_80067014(0);
     *(void **)asset_state = asset_data;
     func_800B73F0(asset_data);

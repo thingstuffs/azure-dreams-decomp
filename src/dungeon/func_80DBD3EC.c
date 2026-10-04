@@ -133,259 +133,250 @@ void func_80174BEC(void *state, EntityRec *source_pos, void *source_render, Enti
 
     switch (((S_80174BEC_0 *)state)->unk_9B) {
     case 0:
-        goto initialize;
-    case 1:
-        goto spawn_particles;
-    case 2:
-        goto wait_for_animation;
-    case 3:
-        goto finish_delay;
-    default:
-        return;
-    }
-
-initialize:
-    source_pos->flags14 = 0;
-    source_pos->unk_10 = 0;
-    source_pos->unk_0C = 0;
-    ((S_80174BEC_0 *)state)->unk_96.s = 0;
-    ((S_80174BEC_0 *)state)->unk_9B++;
-    ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0x9FFF;
-
-spawn_particles:
-    frame = ((S_80174BEC_0 *)state)->unk_96.u;
-    if (frame == 0 || frame == 7) {
-        s16 particle_index;
-
-        if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
-            func_800A56E0(0x80D);
-        }
-
-        particle_index = 0;
-        {
-            TableEntry *directions;
-
-            directions = (TableEntry *)&velocity_table;
-            for (; particle_index < 5; particle_index++) {
-                void *particle;
-
-                particle = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-                if (particle == 0)
-                    continue;
-                {
-                    s32 offset_y;
-                    s32 offset_x;
-                    s32 velocity_y;
-                    s32 velocity_x;
-                    s32 offset_z;
-                    s32 position_y;
-                    u8 *position;
-                    u8 *render;
-                    u8 *motion;
-                    u8 *copy_src;
-                    u8 *copy_dst;
-                    u8 *copy_end;
-                    u8 animation;
-                    void *map;
-                    u32 direction_offset;
-
-                    motion = (u8 *)particle + 0x20;
-                    ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
-                    ((S_80174BEC_3 *)motion)->unk_9B = 0;
-                    render = ((S_80174BEC_4 *)particle)->unk_0C;
-                    ((S_80174BEC_4 *)particle)->unk_10 = D_80171040;
-
-                    copy_src = source_render;
-                    copy_dst = render;
-                    copy_end = (u8 *)source_render + 0x30;
-                    do {
-                        *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-                        copy_src += 0x10;
-                        copy_dst += 0x10;
-                    } while (copy_src != copy_end);
-
-                    ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
-                    func_8004491C(particle, func_80045340);
-                    animation = D_8017541C[0];
-                    ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
-                    func_80047784(render, animation, 0);
-
-                    position = ((S_80174BEC_4 *)particle)->unk_08;
-                    ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                    ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                    ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
-
-                    map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                    if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                        ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
-                        ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
-                        ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
-                    }
-
-                    offset_x = (func_80069EF8() & 0x1F) - 0x10;
-                    offset_y = (func_80069EF8() & 0x1F) - 0x10;
-                    coord = ((S_80174BEC_6 *)position)->unk_02;
-                    coord += offset_x;
-                    position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                    ((S_80174BEC_6 *)position)->unk_02 = coord;
-                    ((S_80174BEC_6 *)position)->unk_06 = position_y;
-                    offset_z = func_80069EF8() & 0x1F;
-                    velocity_x = (s32)(offset_x << 16) >> 4;
-                    velocity_y = (s32)(offset_y << 16) >> 4;
-                    coord = ((S_80174BEC_6 *)position)->unk_0A;
-                    coord -= 0x14;
-                    coord += offset_z;
-                    ((S_80174BEC_6 *)position)->unk_0A = coord;
-                    ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
-                    ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
-
-                    direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
-                    << 19;
-                    direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
-                    << 19;
-                    ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
-                    ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
-                    ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
-                    ((S_80174BEC_5 *)render)->unk_1C = 0x1000;
-                    ((S_80174BEC_5 *)render)->unk_0E = 0x80;
-                    ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                    ((S_80174BEC_5 *)render)->unk_0C = 0x80;
-                }
-            }
-        }
-
-        particle_index = 0;
-        {
-            TableEntry *directions;
-
-            directions = (TableEntry *)&velocity_table;
-            for (; particle_index < 4; particle_index++) {
-                void *particle;
-
-                particle = func_8003FC64(0x212);
-                if (particle == 0)
-                    continue;
-                {
-                    s32 offset_y;
-                    s32 offset_x;
-                    s32 velocity_y;
-                    s32 velocity_x;
-                    s32 offset_z;
-                    s32 position_z;
-                    s32 position_y;
-                    u8 *position;
-                    u8 *motion;
-                    u8 *render;
-                    void *map;
-                    u32 direction_offset;
-
-                    motion = (u8 *)particle + 0x20;
-                    ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
-                    ((S_80174BEC_4 *)particle)->unk_20 = 0;
-                    ((S_80174BEC_4 *)particle)->unk_10 = D_8017142C;
-                    func_8004491C(particle, func_80045340);
-
-                    render = ((S_80174BEC_4 *)particle)->unk_0C;
-                    ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
-                    ((S_80174BEC_5 *)render)->unk_10 = 0x60;
-                    ((S_80174BEC_5 *)render)->unk_14 |= 2;
-
-                    position = ((S_80174BEC_4 *)particle)->unk_08;
-                    ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
-                    ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
-                    ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
-
-                    map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
-                    if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
-                        ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
-                        ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
-                        ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
-                    }
-
-                    offset_x = (func_80069EF8() & 0x1F) - 0x10;
-                    offset_y = (func_80069EF8() & 0x1F) - 0x10;
-                    coord = ((S_80174BEC_6 *)position)->unk_02;
-                    coord += offset_x;
-                    position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
-                    ((S_80174BEC_6 *)position)->unk_02 = coord;
-                    ((S_80174BEC_6 *)position)->unk_06 = position_y;
-                    offset_z = func_80069EF8() & 0x1F;
-                    velocity_x = (s32)(offset_x << 16) >> 4;
-                    velocity_y = (s32)(offset_y << 16) >> 4;
-                    position_z = ((S_80174BEC_6 *)position)->unk_0A;
-                    position_z -= 0x14;
-                    position_z += offset_z;
-                    ((S_80174BEC_6 *)position)->unk_0A = position_z;
-                    ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
-                    ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
-
-                    direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
-                    << 19;
-                    direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
-                    ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
-                    << 19;
-                    ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
-                    ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
-                    ((S_80174BEC_5 *)render)->unk_1C = 0x800;
-                    ((S_80174BEC_5 *)render)->unk_1E = 0x800;
-                    ((S_80174BEC_5 *)render)->unk_0D = 0x80;
-                    ((S_80174BEC_5 *)render)->unk_0C = 0x80;
-                    ((S_80174BEC_5 *)render)->unk_0E = 0;
-                    ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
-                    ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
-                    func_8003DB94(render, &D_800DE870, 0);
-                }
-            }
-        }
-    }
-
-    ((S_80174BEC_0 *)state)->unk_96.s++;
-    if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
-        void *active_object;
-
-        ((S_80174BEC_0 *)state)->unk_9B++;
-        active_object = actor->target;
-        if (active_object != 0) {
-            func_800C857C(actor, active_object);
-        }
-    }
-    return;
-
-wait_for_animation:
-    if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
-        s32 direction_index;
-
         source_pos->flags14 = 0;
         source_pos->unk_10 = 0;
         source_pos->unk_0C = 0;
-        func_800A2B04(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
-        if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
-            ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;
-            ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
-            direction_index = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
-            func_80047784(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
-            ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
+        ((S_80174BEC_0 *)state)->unk_96.s = 0;
+        ((S_80174BEC_0 *)state)->unk_9B++;
+        ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0x9FFF;
+
+    case 1:
+        frame = ((S_80174BEC_0 *)state)->unk_96.u;
+        if (frame == 0 || frame == 7) {
+            s16 particle_index;
+
+            if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
+                func_800A56E0(0x80D);
+            }
+
+            particle_index = 0;
+            {
+                TableEntry *directions;
+
+                directions = (TableEntry *)&velocity_table;
+                for (; particle_index < 5; particle_index++) {
+                    void *particle;
+
+                    particle = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+                    if (particle == 0)
+                        continue;
+                    {
+                        s32 offset_y;
+                        s32 offset_x;
+                        s32 velocity_y;
+                        s32 velocity_x;
+                        s32 offset_z;
+                        s32 position_y;
+                        u8 *position;
+                        u8 *render;
+                        u8 *motion;
+                        u8 *copy_src;
+                        u8 *copy_dst;
+                        u8 *copy_end;
+                        u8 animation;
+                        void *map;
+                        u32 direction_offset;
+
+                        motion = (u8 *)particle + 0x20;
+                        ((S_80174BEC_3 *)motion)->unk_96 = 0x28 - ((S_80174BEC_0 *)state)->unk_96.s;
+                        ((S_80174BEC_3 *)motion)->unk_9B = 0;
+                        render = ((S_80174BEC_4 *)particle)->unk_0C;
+                        ((S_80174BEC_4 *)particle)->unk_10 = D_80171040;
+
+                        copy_src = source_render;
+                        copy_dst = render;
+                        copy_end = (u8 *)source_render + 0x30;
+                        do {
+                            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
+                            copy_src += 0x10;
+                            copy_dst += 0x10;
+                        } while (copy_src != copy_end);
+
+                        ((S_80174BEC_5 *)render)->unk_14 &= 0xFFFC;
+                        func_8004491C(particle, func_80045340);
+                        animation = D_8017541C[0];
+                        ((S_80174BEC_5 *)render)->unk_2C = D_8017541C;
+                        func_80047784(render, animation, 0);
+
+                        position = ((S_80174BEC_4 *)particle)->unk_08;
+                        ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
+                        ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
+                        ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
+
+                        map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
+                        if (func_8003DF74(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                            ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
+                            ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
+                            ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                        }
+
+                        offset_x = (func_80069EF8() & 0x1F) - 0x10;
+                        offset_y = (func_80069EF8() & 0x1F) - 0x10;
+                        coord = ((S_80174BEC_6 *)position)->unk_02;
+                        coord += offset_x;
+                        position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
+                        ((S_80174BEC_6 *)position)->unk_02 = coord;
+                        ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                        offset_z = func_80069EF8() & 0x1F;
+                        velocity_x = (s32)(offset_x << 16) >> 4;
+                        velocity_y = (s32)(offset_y << 16) >> 4;
+                        coord = ((S_80174BEC_6 *)position)->unk_0A;
+                        coord -= 0x14;
+                        coord += offset_z;
+                        ((S_80174BEC_6 *)position)->unk_0A = coord;
+                        ((S_80174BEC_3 *)motion)->unk_A4 = velocity_x;
+                        ((S_80174BEC_3 *)motion)->unk_A8 = velocity_y;
+
+                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        ((S_80174BEC_3 *)motion)->unk_A4 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        << 19;
+                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        ((S_80174BEC_3 *)motion)->unk_A8 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        << 19;
+                        ((S_80174BEC_3 *)motion)->unk_AC = -((func_80069EF8() & 0x7FFF) * 2);
+                        ((S_80174BEC_3 *)motion)->unk_B0 = 0x1000;
+                        ((S_80174BEC_5 *)render)->unk_1E = 0x1000;
+                        ((S_80174BEC_5 *)render)->unk_1C = 0x1000;
+                        ((S_80174BEC_5 *)render)->unk_0E = 0x80;
+                        ((S_80174BEC_5 *)render)->unk_0D = 0x80;
+                        ((S_80174BEC_5 *)render)->unk_0C = 0x80;
+                    }
+                }
+            }
+
+            particle_index = 0;
+            {
+                TableEntry *directions;
+
+                directions = (TableEntry *)&velocity_table;
+                for (; particle_index < 4; particle_index++) {
+                    void *particle;
+
+                    particle = func_8003FC64(0x212);
+                    if (particle == 0)
+                        continue;
+                    {
+                        s32 offset_y;
+                        s32 offset_x;
+                        s32 velocity_y;
+                        s32 velocity_x;
+                        s32 offset_z;
+                        s32 position_z;
+                        s32 position_y;
+                        u8 *position;
+                        u8 *motion;
+                        u8 *render;
+                        void *map;
+                        u32 direction_offset;
+
+                        motion = (u8 *)particle + 0x20;
+                        ((S_80174BEC_3 *)motion)->unk_24 = 0x19 - ((S_80174BEC_0 *)state)->unk_96.s;
+                        ((S_80174BEC_4 *)particle)->unk_20 = 0;
+                        ((S_80174BEC_4 *)particle)->unk_10 = D_8017142C;
+                        func_8004491C(particle, func_80045340);
+
+                        render = ((S_80174BEC_4 *)particle)->unk_0C;
+                        ((S_80174BEC_5 *)render)->unk_14 |= 0x0C;
+                        ((S_80174BEC_5 *)render)->unk_10 = 0x60;
+                        ((S_80174BEC_5 *)render)->unk_14 |= 2;
+
+                        position = ((S_80174BEC_4 *)particle)->unk_08;
+                        ((S_80174BEC_6 *)position)->unk_02 = ((u16)source_pos->x.w.i);
+                        ((S_80174BEC_6 *)position)->unk_06 = ((u16)source_pos->y.w.i);
+                        ((S_80174BEC_6 *)position)->unk_0A = ((u16)source_pos->z.w.i);
+
+                        map = ((S_80174BEC_0_pre *)state)[-1].unk_00;
+                        if (func_8003DE58(((S_80174BEC_7 *)map)->unk_08, map, &map_offset, 1)) {
+                            ((S_80174BEC_6 *)position)->unk_02 += map_offset.x;
+                            ((S_80174BEC_6 *)position)->unk_06 += map_offset.y;
+                            ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
+                        }
+
+                        offset_x = (func_80069EF8() & 0x1F) - 0x10;
+                        offset_y = (func_80069EF8() & 0x1F) - 0x10;
+                        coord = ((S_80174BEC_6 *)position)->unk_02;
+                        coord += offset_x;
+                        position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
+                        ((S_80174BEC_6 *)position)->unk_02 = coord;
+                        ((S_80174BEC_6 *)position)->unk_06 = position_y;
+                        offset_z = func_80069EF8() & 0x1F;
+                        velocity_x = (s32)(offset_x << 16) >> 4;
+                        velocity_y = (s32)(offset_y << 16) >> 4;
+                        position_z = ((S_80174BEC_6 *)position)->unk_0A;
+                        position_z -= 0x14;
+                        position_z += offset_z;
+                        ((S_80174BEC_6 *)position)->unk_0A = position_z;
+                        ((S_80174BEC_3 *)motion)->unk_60 = velocity_x;
+                        ((S_80174BEC_3 *)motion)->unk_64 = velocity_y;
+
+                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        ((S_80174BEC_3 *)motion)->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        << 19;
+                        direction_offset = (((u16)actor->facing) >> 7) & 0x1C;
+                        ((S_80174BEC_3 *)motion)->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        << 19;
+                        ((S_80174BEC_3 *)motion)->unk_68 = -((func_80069EF8() & 0x7FFF) * 2);
+                        ((S_80174BEC_3 *)motion)->unk_74 = 0x400;
+                        ((S_80174BEC_5 *)render)->unk_1C = 0x800;
+                        ((S_80174BEC_5 *)render)->unk_1E = 0x800;
+                        ((S_80174BEC_5 *)render)->unk_0D = 0x80;
+                        ((S_80174BEC_5 *)render)->unk_0C = 0x80;
+                        ((S_80174BEC_5 *)render)->unk_0E = 0;
+                        ((S_80174BEC_5 *)render)->unk_12 = 0x7DCF;
+                        ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
+                        func_8003DB94(render, &D_800DE870, 0);
+                    }
+                }
+            }
+        }
+
+        ((S_80174BEC_0 *)state)->unk_96.s++;
+        if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+            void *active_object;
+
             ((S_80174BEC_0 *)state)->unk_9B++;
+            active_object = actor->target;
+            if (active_object != 0) {
+                func_800C857C(actor, active_object);
+            }
         }
-    }
-    return;
+        return;
 
-finish_delay:
-    {
-        u16 timer;
+    case 2:
+        if (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000) {
+            s32 direction_index;
 
-        timer = ((S_80174BEC_0 *)state)->unk_96.s;
-        ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
-        if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
-            func_800AD594(actor, 0x1000);
-            ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
-            dungeonStatus.unk_0C = 0;
-            (actor->unk_46) &= 0x7FFF;
+            source_pos->flags14 = 0;
+            source_pos->unk_10 = 0;
+            source_pos->unk_0C = 0;
+            func_800A2B04(source_pos, ((Rec_D_80082E80 *)source_render)->unk_24, ((Rec_D_80082E80 *)source_render)->unk_25);
+            if (((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 != D_801753BC) {
+                ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8 = D_801753BC;
+                ((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v &= 0xF7FF;
+                direction_index = (gameWork.view.viewAngle + actor->facing + 0x100) >> 9;
+                func_80047784(source_render, ((Rec_D_80082E80 *)source_render)->unk_2C.as_pu8[direction_index & 7], 0);
+                ((S_80174BEC_0 *)state)->unk_96.s = 0x14;
+                ((S_80174BEC_0 *)state)->unk_9B++;
+            }
         }
-    }
+        return;
 
-    return;
+    case 3:
+        {
+            u16 timer;
+
+            timer = ((S_80174BEC_0 *)state)->unk_96.s;
+            ((S_80174BEC_0 *)state)->unk_96.s = timer - 1;
+            if ((s16)timer <= 0 || (((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0xE000)) {
+                func_800AD594(actor, 0x1000);
+                ((S_80174BEC_0 *)state)->unk_8C = D_80171E20;
+                dungeonStatus.unk_0C = 0;
+                (actor->unk_46) &= 0x7FFF;
+            }
+        }
+
+        return;
+    default:
+        return;
+    }
 }

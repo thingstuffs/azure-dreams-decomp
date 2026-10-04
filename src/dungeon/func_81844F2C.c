@@ -13,7 +13,7 @@ typedef struct S_81844F2C_0 {
     u16 unk_0E;
     u8 pad_10[0x1A];
     union { u16 s; u16 u; s16 p; } unk_2A;   /* accessed as both */
-    union { volatile u16 s; s16 u; u16 p; } unk_2C;   /* accessed as both */
+    union { u16 s; s16 u; u16 p; } unk_2C;   /* accessed as both */
 } S_81844F2C_0;   /* base in func_8002472C */
 
 typedef struct S_81844F2C_1 {
@@ -76,53 +76,39 @@ void func_8002472C(s32 effect) {
     ((S_81844F2C_0 *)effect_base)->unk_2A.u = (u16)effect;
     ((S_81844F2C_0 *)effect_base)->unk_06.u = (u16)position;
 
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        effect = 7 - (s16)effect;
+        if (effect < 5) {
+            ((S_81844F2C_2 *)(effect_base + (effect * 4)))->unk_14 = 0x00808080;
+        } else {
+            effect = 4;
+            color_delta = 0xFFDFDFE0;
+            color_cursor = effect_base + 0x10;
+            do {
+                effect -= 1;
+                ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
+                color_cursor -= 4;
+            } while (effect >= 0);
         }
+
+        if (((S_81844F2C_0 *)effect_base)->unk_2A.p > 0) {
+            return;
+        }
+        ((S_81844F2C_0 *)effect_base)->unk_2A.s = 3;
+        ((S_81844F2C_0 *)effect_base)->unk_2C.p += 1;
         return;
-    }
-    if (state == 2) {
-        goto state_2_done;
-    }
-    return;
-
-state_0:
-    effect = 7 - (s16)effect;
-    if (effect < 5) {
-        ((S_81844F2C_2 *)(effect_base + (effect * 4)))->unk_14 = 0x00808080;
-    } else {
-        effect = 4;
-        color_delta = 0xFFDFDFE0;
-        color_cursor = effect_base + 0x10;
-        do {
-            effect -= 1;
-            ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
-            color_cursor -= 4;
-        } while (effect >= 0);
-    }
-
-    if (((S_81844F2C_0 *)effect_base)->unk_2A.p > 0) {
+    case 1:
+        if ((effect << 16) > 0) {
+            return;
+        }
+        position = saved_state + 1;
+        ((S_81844F2C_0 *)effect_base)->unk_2C.p = (u16)position;
         return;
+    case 2:
+        flag_page = (u8 *)0x80080000;
+        ((S_81844F2C_0_pre *)effect_base)[-1].unk_00 =
+            (u16)(((S_81844F2C_0_pre *)effect_base)[-1].unk_00 | 0x8000);
+        ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;
     }
-    ((S_81844F2C_0 *)effect_base)->unk_2A.s = 3;
-    ((S_81844F2C_0 *)effect_base)->unk_2C.p += 1;
-    return;
-
-state_1:
-    if ((effect << 16) > 0) {
-        return;
-    }
-    position = saved_state + 1;
-    ((S_81844F2C_0 *)effect_base)->unk_2C.p = (u16)position;
-    return;
-
-state_2_done:
-    flag_page = (u8 *)0x80080000;
-    ((S_81844F2C_0_pre *)effect_base)[-1].unk_00 =
-        (u16)(((S_81844F2C_0_pre *)effect_base)[-1].unk_00 | 0x8000);
-    ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;
 }

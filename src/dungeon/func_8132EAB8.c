@@ -77,7 +77,14 @@ void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
         counter_check = ((S_80165AB8_0 *)object)->unk_32.u;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 60;
-        goto check_counter;
+        ((S_80165AB8_0 *)object)->unk_32.u = next_tick;
+        if (counter_check) {
+            return;
+        }
+
+        (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
 
     case 1:
     {
@@ -86,14 +93,18 @@ void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
         next_tick += source_size;
         ((S_80165AB8_2 *)sprite)->unk_1E = next_tick;
         ((S_80165AB8_2 *)sprite)->unk_1C = next_tick;
-        goto advance_state;
+        ((S_80165AB8_0 *)object)->unk_32.s = 0;
+        ((S_80165AB8_0 *)object)->unk_17++;
+        return;
     }
 
     case 2:
         if (D_801760D8 == 0) {
             return;
         }
-        goto advance_state;
+        ((S_80165AB8_0 *)object)->unk_32.s = 0;
+        ((S_80165AB8_0 *)object)->unk_17++;
+        return;
 
     case 3:
         if ((s16)((S_80165AB8_0 *)object)->unk_32.u++ < 20) {
@@ -102,7 +113,6 @@ void func_80165AB8(u8 *object, u8 *motion, u8 *sprite)
         ((S_80165AB8_2 *)sprite)->unk_10 = 0;
         ((S_80165AB8_2 *)sprite)->unk_14 |= 0xC;
 
-advance_state:
         ((S_80165AB8_0 *)object)->unk_32.s = 0;
         ((S_80165AB8_0 *)object)->unk_17++;
         return;
@@ -115,13 +125,11 @@ advance_state:
         counter_check = ((S_80165AB8_0 *)object)->unk_32.u;
         next_tick = counter_check + 1;
         counter_check = (s16)counter_check < 10;
-check_counter:
         ((S_80165AB8_0 *)object)->unk_32.u = next_tick;
         if (counter_check) {
             return;
         }
 
-finish:
         (*(u16 *)((u8 *)object + (-2))) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
 

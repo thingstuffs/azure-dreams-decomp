@@ -22,8 +22,6 @@ extern void func_8009F644(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     s32 action = 0x33;
     u32 saved_target;
-    s32 dispatch_target;
-    s32 target_check;
 
     *((s8 *)object + 0x9A) = action;
     *((s8 *)object + 0x9B) = 0;
@@ -32,25 +30,8 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
         saved_target = target;
     } while (0);
 
-    if (D_80013714 & 2) {
-        dungeonStatus.flags |= 0x80;
-    } else {
-        dispatch_target = saved_target;
-        if (!(gameWork.buttons & 0x20)) {
-            goto done;
-        }
-        dispatch_target = func_800A5C70();
-        target_check = dispatch_target;
-        dispatch_target = saved_target;
-        if (!target_check) {
-            goto done;
-        }
-
+    if ((D_80013714 & 2) || ((gameWork.buttons & 0x20) && func_800A5C70())) {
         dungeonStatus.flags |= 0x80;
     }
-    ;
-    dispatch_target = saved_target;
-
-done:
-    func_8009F644(dispatch_target, 0x10, 0, 0);
+    func_8009F644(saved_target, 0x10, 0, 0);
 }

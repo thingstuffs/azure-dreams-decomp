@@ -41,69 +41,60 @@ void func_8016A9FC(void *effect) {
     state_arg = ((S_8016A9FC_0 *)effect)->unk_12.u;
     fade_colors = &gameWork;
 
-    if (state == 1) {
-        goto wait_frames;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto fade_out;
+    switch (state) {
+    case 0:
+        if (fade_colors->view.unk_090 >= 0x65) {
+            fade_colors->view.unk_090 -= 4;
+            fade_green = fade_colors->view.unk_091 - 4;
+            fade_blue = fade_colors->view.unk_092 - 4;
+            fade_colors->view.unk_091 = fade_green;
+            fade_colors->view.unk_092 = fade_blue;
+            return;
         }
+        ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
+        ((S_8016A9FC_0 *)effect)->unk_1A = 0;
+        result = func_800990FC(state_arg, fade_colors, effect);
+        first_result = result;
+        result = func_8009929C(0xA, result);
+        result = func_8009929C(0xA, result);
+        result = func_80099194(D_8016A808, result);
+        result = func_8009929C(0xA, result);
+        result = func_8009929C(0xA, result);
+        result = func_8009929C(0xA, result);
+        result = func_8009929C(1, result);
+        func_80099290(result);
+        func_800A5720(first_result);
+        return;
+
+    case 1:
+        frames = ((S_8016A9FC_0 *)effect)->unk_1A;
+        ((S_8016A9FC_0 *)effect)->unk_1A = frames + 1;
+        if ((s16)frames < 0x3C) {
+            return;
+        }
+        ((S_8016A9FC_0 *)effect)->unk_1A = 0;
+        ((S_8016A9FC_0 *)effect)->unk_12.u++;
+        return;
+
+    case 2:
+        cur = fade_colors->view.unk_090;
+        if (cur < 0x80) {
+            fade_colors->view.unk_090 = cur + 4;
+            fade_green = fade_colors->view.unk_091 + 4;
+            fade_blue = fade_colors->view.unk_092 + 4;
+            fade_colors->view.unk_091 = fade_green;
+            fade_colors->view.unk_092 = fade_blue;
+            return;
+        }
+        fade_colors->view.unk_092 = 0x80;
+        fade_colors->view.unk_091 = 0x80;
+        fade_colors->view.unk_090 = 0x80;
+        dungeonStatus.unk_0A--;
+        (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        return;
+
+    default:
         return;
     }
-    if (state == 2) {
-        goto fade_in;
-    }
-    return;
-
-fade_out:
-    if (fade_colors->view.unk_090 >= 0x65) {
-        fade_colors->view.unk_090 -= 4;
-        fade_green = fade_colors->view.unk_091 - 4;
-        fade_blue = fade_colors->view.unk_092 - 4;
-        goto store_fades;
-    }
-    ((S_8016A9FC_0 *)effect)->unk_12.u = state_arg + 1;
-    ((S_8016A9FC_0 *)effect)->unk_1A = 0;
-    result = func_800990FC(state_arg, fade_colors, effect);
-    first_result = result;
-    result = func_8009929C(0xA, result);
-    result = func_8009929C(0xA, result);
-    result = func_80099194(D_8016A808, result);
-    result = func_8009929C(0xA, result);
-    result = func_8009929C(0xA, result);
-    result = func_8009929C(0xA, result);
-    result = func_8009929C(1, result);
-    func_80099290(result);
-    func_800A5720(first_result);
-    return;
-
-wait_frames:
-    frames = ((S_8016A9FC_0 *)effect)->unk_1A;
-    ((S_8016A9FC_0 *)effect)->unk_1A = frames + 1;
-    if ((s16)frames < 0x3C) {
-        return;
-    }
-    ((S_8016A9FC_0 *)effect)->unk_1A = 0;
-    ((S_8016A9FC_0 *)effect)->unk_12.u++;
-    return;
-
-fade_in:
-    cur = fade_colors->view.unk_090;
-    if (cur < 0x80) {
-        fade_colors->view.unk_090 = cur + 4;
-        fade_green = fade_colors->view.unk_091 + 4;
-        fade_blue = fade_colors->view.unk_092 + 4;
-store_fades:
-        fade_colors->view.unk_091 = fade_green;
-        fade_colors->view.unk_092 = fade_blue;
-        return;
-    }
-    fade_colors->view.unk_092 = 0x80;
-    fade_colors->view.unk_091 = 0x80;
-    fade_colors->view.unk_090 = 0x80;
-    dungeonStatus.unk_0A--;
-    (*(u16 *)((u8 *)effect + (-2))) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-
-    return;
 }

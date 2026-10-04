@@ -29,7 +29,6 @@ extern M2C_UNK D_800DD0B8;
 /* Reset state, update control flags, and select the entity's directional sprite. */
 void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     void *entity_arg;
-    s32 control_needed;
     u8 *flags;
     s32 initial_state;
 
@@ -38,28 +37,10 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, EntityRec *entity) {
     flags = (u8 *)&gameWork;
     ((S_8008C7B4_0 *)state)->unk_9B = 0;
     ((S_8008C7B4_0 *)state)->unk_8C = 0;
-    if (((SysPage *)0x80010000)->flags & 2) {
-        goto set_control;
-    }
-    entity_arg = entity;
-    if (!(((S_8008C7B4_1 *)flags)->unk_08 & 0x20)) {
-        goto after_control;
-    }
-    control_needed = func_800A5C70();
-    entity_arg = entity;
-    if (control_needed == 0) {
-        goto after_control;
-    }
-set_control:
-    {
-
+    if ((((SysPage *)0x80010000)->flags & 2) || ((((S_8008C7B4_1 *)flags)->unk_08 & 0x20) && func_800A5C70() != 0)) {
         dungeonStatus.flags = (u16)(dungeonStatus.flags | 0x80);
     }
-         /* MATCH: keep the control arm's a0 reload after its store. */
-    do {
-        entity_arg = entity;
-    } while (0);
-after_control:
+    entity_arg = entity;
     func_8009F644(entity_arg, 0x10, 0, 0);
     {
         u8 *direction_table;

@@ -66,50 +66,49 @@ s32 BODY_NAME(void *object_data, void *position_data)
     scratch->ot = (u32 *)((u8 *)state + 0xB0);
     scratch->next = packet_start;
 
-do {
-    scratch->x = *(volatile u16 *)(position + 2);
-    prim = scratch->next;
-    scratch->y = *(u16 *)(position + 6);
-    scratch->z = *(u16 *)(position + 0xA);
-    scratch->next = prim + 0xC;
-
-    scratch->index = func_80065420(scratch, prim + 8,
-        (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
-
-    if (scratch->index < 0x1E0U) {
-        *(u32 *)(prim + 4) = *(u32 *)(object + 8);
-
-        prim[4] = (prim[4] * *(s16 *)(object + 0x32)) / 0x100;
-        prim[5] = (prim[5] * *(s16 *)(object + 0x32)) / 0x100;
-        prim[6] = (prim[6] * *(s16 *)(object + 0x32)) / 0x100;
-
-        prim[3] = 2;
-        prim[7] = 0x6A;
-
-        ((PrimTag818D4800 *)prim)->addr =
-            ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
-        ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)prim;
-
+    do {
+        scratch->x = *(volatile u16 *)(position + 2);
         prim = scratch->next;
-        next_prim = prim + 0xC;
-        *(u8 **)((u8 *)scratch + 0x18) = next_prim;
-        draw_mode = func_80066460(0, 1, 0, 0);
-        func_80067F20(prim, 0, 0, draw_mode & 0xFFFF, 0);
+        scratch->y = *(u16 *)(position + 6);
+        scratch->z = *(u16 *)(position + 0xA);
+        scratch->next = prim + 0xC;
 
-        ((PrimTag818D4800 *)prim)->addr = ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
-        prim = (u8 *)((u32)prim & 0x00FFFFFF);
-        scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | (u32)prim;
-    }
-    next_object = *(void **)(object - 8);
-    if (next_object == 0) {
-        goto finish;
-    }
+        scratch->index = func_80065420(scratch, prim + 8,
+            (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
 
-    object = (u8 *)next_object + 0x20;
-    position = *(u8 **)((u8 *)next_object + 8);
+        if (scratch->index < 0x1E0U) {
+            *(u32 *)(prim + 4) = *(u32 *)(object + 8);
+
+            prim[4] = (prim[4] * *(s16 *)(object + 0x32)) / 0x100;
+            prim[5] = (prim[5] * *(s16 *)(object + 0x32)) / 0x100;
+            prim[6] = (prim[6] * *(s16 *)(object + 0x32)) / 0x100;
+
+            prim[3] = 2;
+            prim[7] = 0x6A;
+
+            ((PrimTag818D4800 *)prim)->addr =
+                ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
+            ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)prim;
+
+            prim = scratch->next;
+            next_prim = prim + 0xC;
+            *(u8 **)((u8 *)scratch + 0x18) = next_prim;
+            draw_mode = func_80066460(0, 1, 0, 0);
+            func_80067F20(prim, 0, 0, draw_mode & 0xFFFF, 0);
+
+            ((PrimTag818D4800 *)prim)->addr = ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
+            prim = (u8 *)((u32)prim & 0x00FFFFFF);
+            scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | (u32)prim;
+        }
+        next_object = *(void **)(object - 8);
+        if (next_object == 0) {
+            break;
+        }
+
+        object = (u8 *)next_object + 0x20;
+        position = *(u8 **)((u8 *)next_object + 8);
     } while (1);
 
-finish:
     (((DungeonState818D4800 *)state_slot->unk_000))->next = scratch->next;
     return 0;
 }

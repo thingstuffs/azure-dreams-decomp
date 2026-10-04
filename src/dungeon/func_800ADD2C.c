@@ -89,7 +89,6 @@ void func_800B348C(void *action_state, void *motion, void *animation, EntityRec 
     u16 mix_delay;
     u16 return_delay;
     u8 jt_index;
-    u8 action_phase;
 
 #define motion motion
 #define animation animation
@@ -112,7 +111,6 @@ void func_800B348C(void *action_state, void *motion, void *animation, EntityRec 
         } else {
             ((S_800B348C_0 *)action_state)->unk_F4 = 0;
         }
-block_7:
         ((S_800B348C_0 *)action_state)->unk_98 = (u16) (((S_800B348C_0 *)action_state)->unk_98 & 0xDFFF);
         ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
     case 2:
@@ -121,9 +119,9 @@ block_7:
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
             func_80048A44(animation, D_800DD068[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
-            action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
             ((S_800B348C_0 *)action_state)->unk_CC = NULL;
-            goto bump_state_9b;
+            ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
+            return;
         }
         break;
     case 3:
@@ -164,17 +162,18 @@ block_7:
                 } else {
                     next_v1 = D_800DD0B0;
                 }
-                action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
-                ((S_800B348C_0 *)action_state)->unk_CC = next_v1;
+                    ((S_800B348C_0 *)action_state)->unk_CC = next_v1;
             }
-            goto bump_state_9b;
+            ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
+            return;
         }
         break;
     case 5:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             if (((S_800B348C_0 *)action_state)->unk_A8 != 0) {
                 D_800DF248[0] = 1;
-                goto load_state_9b;
+                ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
+                return;
             }
             ((S_800B348C_0 *)action_state)->unk_96.u = 4U;
             ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 0xA);
@@ -245,15 +244,13 @@ block_7:
                 if (temp_a2 != 0) {
                     func_800B4194(((S_800B348C_0 *)action_state)->unk_A8, temp_a2, actor);
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
-                    goto check_mix_delay;
                 } else {
                     temp_a2 = (s32)actor->target;
                     if (temp_a2 != NULL) {
                         actor->target = NULL;
                         ((S_800B348C_4 *)temp_a2)->unk_1C = (s32) (((S_800B348C_4 *)temp_a2)->unk_1C & 0xEFFFFFFF);
                         ((S_800B348C_7 *)(((S_800B348C_4_pre *)temp_a2)[-1].unk_00))->unk_0C = 0x808080;
-                        goto check_mix_delay;
-                    }
+                        }
                 }
             } else {
                 EntityRec *attached_object;
@@ -264,7 +261,6 @@ block_7:
                 }
             }
         }
-check_mix_delay:
         if (((s16) ((S_800B348C_0 *)action_state)->unk_96.u <= 0)
             && (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000)) {
             (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD088;
@@ -312,9 +308,8 @@ check_mix_delay:
             ((EntityRec *)motion)->unk_10 = (s32) ((s32) (((((Rec_D_80082E80 *)animation)->unk_25 << 6) - delta_y)
                 << 0x10) / (s16) ((S_800B348C_0 *)action_state)->unk_96.u);
 load_state_9b:
-            action_phase = ((S_800B348C_0 *)action_state)->unk_9B;
 bump_state_9b:
-            ((S_800B348C_0 *)action_state)->unk_9B = (u8) (action_phase + 1);
+            ((S_800B348C_0 *)action_state)->unk_9B = (u8) (((S_800B348C_0 *)action_state)->unk_9B + 1);
             return;
         }
         break;

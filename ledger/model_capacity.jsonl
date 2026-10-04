@@ -345,3 +345,15 @@
 {"date": "2026-10-04T13:33Z", "codex": {"pack": "r93_agy_goto3", "model": "gemini-3.8-flash-high", "candidates": 7}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-04T13:44Z", "codex": {"pack": "r93_luna_proto1", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-04T13:52Z", "codex": {"pack": "r93_luna_proto2", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:47Z", "codex": {"pack": "r93_agy_goto4", "model": "gemini-3.8-flash-high", "candidates": 7}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:49Z", "codex": {"pack": "r93_agy_goto6", "model": "gemini-3.8-flash-high", "candidates": 7}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:50Z", "codex": {"pack": "r93_agy_goto5", "model": "gemini-3.8-flash-high", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:54Z", "codex": {"pack": "r93_luna_proto3", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:56Z", "codex": {"pack": "r93_luna_proto5", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T14:59Z", "codex": {"pack": "r93_luna_proto4", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:04Z", "codex": {"pack": "r93_agy_goto7", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:04Z", "codex": {"pack": "r93_agy_goto8", "model": "gemini-3.8-flash-high", "candidates": 7}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:04Z", "codex": {"pack": "r93_luna_nm1", "model": "gpt-6-luna", "candidates": 4}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:05Z", "codex": {"pack": "r93_agy_goto9", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:08Z", "codex": {"pack": "r93_luna_nm2", "model": "gpt-6-luna", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:09Z", "codex": {"pack": "r93_luna_proto6", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}

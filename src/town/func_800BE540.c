@@ -80,22 +80,9 @@ void func_800BBCA0(void *self, void *origin)
     timer = ((S_800BBCA0_0 *)self)->unk_48 - 1;
     state = ((S_800BBCA0_0 *)self)->unk_4C.s;
     ((S_800BBCA0_0 *)self)->unk_48 = timer;
-    if (state == 1) {
-        goto state_one;
-    }
-    if (state < 2) {
+    switch (state) {
+    case 0:
         spawn_count = 7;
-        if (state == 0) {
-            goto state_zero;
-        }
-        return;
-    }
-    if (state == 2) {
-        goto state_two;
-    }
-    return;
-
-state_zero:
     {
         u8 *object_type;
         u8 *sprite_type;
@@ -143,7 +130,7 @@ state_zero:
         return;
 
     }
-state_one:
+    case 1:
     {
         u8 *object_type;
         u8 *sprite_type;
@@ -197,11 +184,14 @@ state_one:
         return;
 
     }
-state_two:
+    case 2:
     if ((s16)timer < 0) {
         (*(u16 *)((u8 *)self + -2)) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
     }
 
     return;
+    default:
+        return;
+    }
 }

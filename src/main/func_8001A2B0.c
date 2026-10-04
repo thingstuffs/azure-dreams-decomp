@@ -20,38 +20,31 @@ s32 func_804012B0(void)
 
     selection_state = D_804094E8;
     return_code = 0;
-    if (selection_state == 0)
-        goto done;
-    if (selection_state != 1) {
-        if (selection_state == 3)
-            goto case_three;
+    if (selection_state == 0) {
+    } else if (selection_state != 1 && selection_state != 3) {
         return_code = 5;
-        goto done;
-    }
-    func_80401578();
-    if ((func_80408684(D_804094EC) != 0) &&
-        ((func_80408644(D_804094EC != 0) & 4) != 0)) {
-        D_80409500 = selection_state;
-        D_804094E8 = D_804094E8 + 1;
+    } else if (selection_state == 1) {
+        func_80401578();
+        if ((func_80408684(D_804094EC) != 0) &&
+            ((func_80408644(D_804094EC != 0) & 4) != 0)) {
+            D_80409500 = selection_state;
+            D_804094E8 = D_804094E8 + 1;
+            goto fast_done;
+        }
+            D_804094E8 = 0;
+        return_code = 5;
+    } else {
+        selection = D_804094EC;
+        selected_slot = (s32 *)D_800A0000;
+        selected_slot -= 1820;
+        if (selection != 0) {
+            selected_slot++;
+        }
+        return_code = 3;
+        *selected_slot = 0;
+        D_804094E8 = 0;
         goto fast_done;
     }
-    D_804094E8 = 0;
-    return_code = 5;
-    goto done;
-
-case_three:
-    selection = D_804094EC;
-    selected_slot = (s32 *)D_800A0000;
-    selected_slot -= 1820;
-    if (selection != 0) {
-        selected_slot++;
-    }
-    return_code = 3;
-    *selected_slot = 0;
-    D_804094E8 = 0;
-    goto fast_done;
-
-done:
     ASM_KEEP(return_code);
 fast_done:
     return return_code;

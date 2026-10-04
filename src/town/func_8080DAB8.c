@@ -2,11 +2,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-typedef struct S_8080DAB8_5 {
-    u8 pad_00[0xB0];
-    s32 unk_B0;
-} S_8080DAB8_5;   /* (u8 *)((u32)temp_a1 + (u32)*rootp) in func_8080DAB8 */
-
 
 typedef struct S_8080DAB8_0 {
     u8 pad_00[0x8D0];
@@ -38,6 +33,14 @@ typedef struct S_8080DAB8_4 {
     s32 unk_B0;
 } S_8080DAB8_4;   /* (u8 *)temp_a1 in func_8080DAB8 */
 
+
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
 
 #define M2C_BREAK() ((void)0)
 
@@ -73,8 +76,6 @@ s32 func_8080DAB8(void *first_record) {
     u8 *transform_scratch;
     u8 *primitive_base;
     u8 *mode_base;
-    register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 tag_mask;
     u32 buffer_limit;
     u32 buffer_limit_2;
 
@@ -83,8 +84,6 @@ s32 func_8080DAB8(void *first_record) {
     screen_coords = (u8 *)0x1F800000;
     depths = (u8 *)0x1F800100;
     transform_scratch = (u8 *)0x1F800180;
-    addr_mask = 0x00FFFFFF;
-    tag_mask = 0xFF000000;
     do {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
@@ -128,29 +127,23 @@ s32 func_8080DAB8(void *first_record) {
         }
         ot_slot = (s32)(depth0_shifted << 0x10) >> 0xE;
         {
-            u32 tag_word, link_word;
-            tag_word = ((S_8080DAB8_1 *)primitive)->unk_00;
-            link_word = ((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0;
-            ((S_8080DAB8_1 *)primitive)->unk_00 = (tag_word & tag_mask) | (link_word & addr_mask);
+            setaddr(primitive, getaddr((u8 *)((u32)ot_slot + (u32)*render_root) + 0xB0));
         }
         {
             u32 tag_word;
             ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
             tag_word = ot_entry->unk_B0;
-            ot_entry->unk_B0 = (tag_word & tag_mask) | ((u32)primitive & addr_mask);
+            setaddr((u8 *)ot_entry + 0xB0, primitive);
         }
         {
-            u32 tag_word, link_word;
-            tag_word = *draw_mode;
-            link_word = ((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0;
-            *draw_mode = (tag_word & tag_mask) | (link_word & addr_mask);
+            setaddr(draw_mode, getaddr((u8 *)((u32)ot_slot + (u32)*render_root) + 0xB0));
         }
         {
             u32 tag_word;
             ot_slot = ot_slot + (u8 *)*render_root;
-            packet_addr = (u32)draw_mode & addr_mask;
+            packet_addr = (u32)draw_mode & 0xFFFFFF;
             tag_word = ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0;
-            ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 = (tag_word & tag_mask) | packet_addr;
+            setaddr((u8 *)ot_slot + 0xB0, packet_addr);
         }
         mode_base = (u8 *)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
         record = mode_base + 0x20;

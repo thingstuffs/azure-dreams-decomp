@@ -197,10 +197,18 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
 
         input = ((u32)controls->unk_010);
         if (input & 0x20) {
-            if (work->mode != 0) {
-                goto finish;
+            if (work->mode == 0) {
+                (dungeonStatus.unk_0A)--;
             }
-            goto decrement_counter;
+            {
+                u8 *flags_page;
+                u16 work_flags;
+                work_flags = (*(u16 *)((u8 *)work + -2));
+                flags_page = (u8 *)0x80080000;
+                (*(u16 *)((u8 *)work + -2)) = work_flags | 0x8000;
+                *(u32 *)(flags_page + 0x14A0) |= 0x8000;
+            }
+            return;
         }
         if (input & 0x40) {
             work->state = 1;
@@ -243,10 +251,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             if ((s16)result < 0) {
                 return;
             }
-decrement_counter:
             (dungeonStatus.unk_0A)--;
         }
-finish:
         {
             u8 *flags_page;
             u16 work_flags;

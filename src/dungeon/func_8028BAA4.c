@@ -74,14 +74,10 @@ loop_6:
         item_flags = *(u16 *)(item_offset + ((S_8001EAA4_0 *)(item_category_table
             + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
         if (!(item_flags & 0x10)) {
-            if (item_flags & 0x40) {
+            if ((item_flags & 0x40) && (*(s32 *)0x80012090) != (s32)table_base_or_mode) {
                 category_scale_or_weight = category_index * 4;
-                if ((*(s32 *)0x80012090) != (s32)table_base_or_mode) {
-                    scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
-                    goto advance_item;
-                }
-            }
-            {
+                scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+            } else {
                 scan_value = *(u16 *)(item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
                 if (scan_value < 0) {
                     scan_value += 0xFFF;
@@ -121,19 +117,18 @@ loop_6:
                         return selected_category;
                     }
                 }
+                category_scale_or_weight = category_index * 4;
+                scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
             }
+        } else {
+            category_scale_or_weight = category_index * 4;
+            scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
         }
-        category_scale_or_weight = category_index * 4;
-        scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
-advance_item:
         item_index += 1;
         item_offset += 0x14;
-        if (item_index >= scan_value) {
-            *category_out = 0;
-            *item_out = 0;
-            return 0;
+        if (item_index < scan_value) {
+            goto loop_6;
         }
-        goto loop_6;
     }
     *category_out = 0;
     *item_out = 0;

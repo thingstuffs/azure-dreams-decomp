@@ -137,31 +137,26 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
         if (kind == 1) {
             left = ((S_80FC9000_1 *)work)->unk_14 | 0x6000;
             right = ((S_80FC9000_1 *)work)->unk_1C | 0x6000;
-        } else {
-            if (kind < 2) {
-                goto normal_kind;
-            }
+            ((S_80FC9000_1 *)work)->unk_14 = left;
+            ((S_80FC9000_1 *)work)->unk_1C = right;
+        } else if (kind >= 2) {
             left = ((S_80FC9000_1 *)work)->unk_14 | 0x2000;
             right = ((S_80FC9000_1 *)work)->unk_1C | 0x2000;
-        }
-        ((S_80FC9000_1 *)work)->unk_14 = left;
-        ((S_80FC9000_1 *)work)->unk_1C = right;
-        goto post_kind;
-
-normal_kind:
-        if (((arg0 = (s16)(arg0 & ~3)) << 16) == 0) {
-            if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
-                    func_800A48F0(work, 1,
-                                  (func_800A6D30() & 0x3F) |
-                                  0x20);
-                    part_b->unk_2C = D_8015D298;
+            ((S_80FC9000_1 *)work)->unk_14 = left;
+            ((S_80FC9000_1 *)work)->unk_1C = right;
+        } else {
+            if (((arg0 = (s16)(arg0 & ~3)) << 16) == 0) {
+                if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        ((S_80FC9000_1 *)work)->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) |
+                                      0x20);
+                        part_b->unk_2C = D_8015D298;
+                    }
                 }
             }
         }
-
-post_kind:
         func_800A9C18(obj, pin_part_a, part_b, saved_arg0);
         index = 0;
         actor_value = part_b->unk_12;

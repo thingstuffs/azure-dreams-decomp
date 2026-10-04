@@ -187,10 +187,12 @@ void func_80170E7C(void *actor, EntityRec *position, void *object, EntityRec *ac
 
     if (actor_data->unk_6D > 0) {
         if (((u32)actor_data->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(actor_data);
+            return;
         }
         if (((S_80170E7C_2 *)object)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_801717F8(actor, position, object, actor_data);
+            return;
         }
         if (!(actor_data->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -205,7 +207,8 @@ void func_80170E7C(void *actor, EntityRec *position, void *object, EntityRec *ac
             action_state = actor_data->unk_46 | 0x4000;
             actor_data->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto generic;
+                func_801717F8(actor, position, object, actor_data);
+                return;
             }
         }
 
@@ -236,24 +239,22 @@ void func_80170E7C(void *actor, EntityRec *position, void *object, EntityRec *ac
                 player = D_800814A8;
                 actor_data->facing = facing;
                 if (player->unk_9A == 0x11) {
-                    goto case_123;
+                    func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
+                    return;
                 }
             }
 
             case 11:
-case_12:
                 func_800A9A0C(actor_data);
                 return;
 
             case 0:
             case 1:
             case 2:
-case_123:
                 func_800AAF00(actor, position, object, D_80174C34, &D_80170E7C);
                 return;
 
             default:
-generic:
                 func_801717F8(actor, position, object, actor_data);
                 return;
             }

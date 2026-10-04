@@ -137,14 +137,14 @@ void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, En
             - 0x20));
         height = ((u16)actor->unk_88);
         height_delta -= height;
-        if (((S_8017558C_0 *)action)->unk_92.s < height_delta) {
+        if (((S_8017558C_0 *)action)->unk_92.s >= height_delta) {
+            ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
+        } else {
             ((S_8017558C_0 *)action)->unk_92.u = ((S_8017558C_0 *)action)->unk_92.u + 0xC;
-            if (height_delta >= (s16) ((S_8017558C_0 *)action)->unk_92.u) {
-                goto check_height;
+            if (height_delta < (s16) ((S_8017558C_0 *)action)->unk_92.u) {
+                ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
             }
         }
-        ((S_8017558C_0 *)action)->unk_92.u = (u16) height_delta;
-check_height:
         if (((S_8017558C_0 *)action)->unk_92.s == 0) {
             sprite->unk_2C.as_pu8 = D_800E2438;
             func_80047784(sprite, D_800E2438[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
@@ -222,73 +222,63 @@ check_height:
         return;
     case 4:
         restore_phase = ((S_8017558C_0 *)action)->unk_B1;
-        if (restore_phase == 1) {
-            goto wait_pause;
-        }
-        if ((s32) restore_phase < 2) {
-            if (restore_phase == 0) {
-                goto restore_position;
+        switch (restore_phase) {
+        case 0:
+            restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
+            ((S_8017558C_0 *)action)->unk_96 = restore_timer;
+            if ((s16) restore_timer == 1) {
+                position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
+                position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
+                actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
+                saved_angle = ((S_8017558C_0 *)action)->unk_A6;
+                actor->facing = (s16) saved_angle;
+                view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
+                func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
+                ((S_8017558C_0 *)action)->unk_94 = view_dir;
             }
+            if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
+                return;
+            }
+            ((S_8017558C_0 *)action)->unk_96 = 0U;
+            ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
+            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
+            return;
+        case 1:
+            pause_timer = ((S_8017558C_0 *)action)->unk_96;
+            ((S_8017558C_0 *)action)->unk_96 = (u16) (pause_timer + 1);
+            if ((s16) pause_timer < 4) {
+                return;
+            }
+            ((S_8017558C_0 *)action)->unk_96 = 0U;
+            ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
+            sprite->unk_2C.as_pu8 = D_800E2448;
+            func_80047784(sprite, D_800E2448[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
+            func_800A56E0(0x801);
+            return;
+        case 2:
+            if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
+                return;
+            }
+            position->flags14 = 0;
+            position->unk_10 = 0;
+            position->unk_0C = 0;
+            func_800A2B04(position, sprite->unk_24, sprite->unk_25);
+            actor->flags1C = (s32) (actor->flags1C | 0x40000);
+            ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
+            if (sprite->unk_2C.as_pu8 == D_800E23E0) {
+                return;
+            }
+            sprite->unk_2C.as_pu8 = D_800E23E0;
+            func_80047784(sprite, D_800E23E0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+            ((S_8017558C_0 *)action)->unk_96 = 5U;
+            ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
+            if (((S_8017558C_0 *)action)->unk_B0 != 0) {
+                return;
+            }
+            func_801708B8(action, position, sprite);
             return;
         }
-        if (restore_phase == 2) {
-            goto finish_restore;
-        }
-        return;
-restore_position:
-        restore_timer = ((S_8017558C_0 *)action)->unk_96 + 1;
-        ((S_8017558C_0 *)action)->unk_96 = restore_timer;
-        if ((s16) restore_timer == 1) {
-            position->x.w.i = (u16) ((S_8017558C_0 *)action)->unk_B6;
-            position->y.w.i = (u16) ((S_8017558C_0 *)action)->unk_B8;
-            actor->unk_88 = (u16) ((S_8017558C_0 *)action)->unk_BA;
-            saved_angle = ((S_8017558C_0 *)action)->unk_A6;
-            actor->facing = (s16) saved_angle;
-            view_dir = ((s32) (gameWork.view.viewAngle + (s16) saved_angle + 0x100) >> 9) & 7;
-            func_80047738(sprite, sprite->unk_2C.as_pu8[view_dir], sprite->unk_04.as_s8);
-            ((S_8017558C_0 *)action)->unk_94 = view_dir;
-        }
-        if ((s16) ((S_8017558C_0 *)action)->unk_96 < 0x10) {
-            return;
-        }
-        ((S_8017558C_0 *)action)->unk_96 = 0U;
-        ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
-        sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
-        return;
-wait_pause:
-        pause_timer = ((S_8017558C_0 *)action)->unk_96;
-        ((S_8017558C_0 *)action)->unk_96 = (u16) (pause_timer + 1);
-        if ((s16) pause_timer < 4) {
-            return;
-        }
-        ((S_8017558C_0 *)action)->unk_96 = 0U;
-        ((S_8017558C_0 *)action)->unk_B1 = (u8) (((S_8017558C_0 *)action)->unk_B1 + 1);
-        sprite->unk_2C.as_pu8 = D_800E2448;
-        func_80047784(sprite, D_800E2448[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        sprite->unk_14.at00_u16.v = (u16) (sprite->unk_14.at00_u16.v & 0x9F7F);
-        func_800A56E0(0x801);
-        return;
-finish_restore:
-        if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
-            return;
-        }
-        position->flags14 = 0;
-        position->unk_10 = 0;
-        position->unk_0C = 0;
-        func_800A2B04(position, sprite->unk_24, sprite->unk_25);
-        actor->flags1C = (s32) (actor->flags1C | 0x40000);
-        ((S_8017558C_0 *)action)->unk_98 = (u16) (((S_8017558C_0 *)action)->unk_98 | 8);
-        if (sprite->unk_2C.as_pu8 == D_800E23E0) {
-            return;
-        }
-        sprite->unk_2C.as_pu8 = D_800E23E0;
-        func_80047784(sprite, D_800E23E0[((s32) (gameWork.view.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
-        ((S_8017558C_0 *)action)->unk_96 = 5U;
-        ((S_8017558C_0 *)action)->unk_9B = (u8) (((S_8017558C_0 *)action)->unk_9B + 1);
-        if (((S_8017558C_0 *)action)->unk_B0 != 0) {
-            return;
-        }
-        func_801708B8(action, position, sprite);
         return;
     case 5:
         finish_timer = ((S_8017558C_0 *)action)->unk_96;

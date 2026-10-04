@@ -75,77 +75,73 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
     switch (((S_80172810_0 *)action_state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void * const dispatch_labels[] = {
-                && player_motion_3, && player_motion_2, && player_motion_1, && no_motion
-            };
-            extern void *const D_80170838[];
-            u32 action_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (action_index >= 7) {
-                goto no_motion;
+            switch (actor->unk_46 & 0x3FFF) {
+            case 7:
+                use_player = 1;
+                /* fallthrough */
+            case 3:
+                goto motion_3;
+            case 6:
+                use_player = 1;
+                /* fallthrough */
+            case 2:
+                goto motion_2;
+            case 5:
+                use_player = 1;
+                /* fallthrough */
+            case 1:
+                goto motion_1;
+            default:
+                motion = (u8 *)0;
+                break;
             }
-            (void)dispatch_labels;
-            goto *D_80170838[action_index];
-player_motion_3:
-            use_player = 1;
-            goto motion_3;
-player_motion_2:
-            use_player = 1;
-            goto motion_2;
-player_motion_1:
-            use_player = 1;
-            goto motion_1;
-        }
-
-        switch (actor->unk_46 & 0x3FFF) {
-        case 3:
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
 motion_3:
-            motion = (u8 *)actor + 0xE;
-            break;
-        case 2:
+                motion = (u8 *)actor + 0xE;
+                break;
+            case 2:
 motion_2:
-            motion = (u8 *)actor + 0xB;
-            break;
-        case 1:
+                motion = (u8 *)actor + 0xB;
+                break;
+            case 1:
 motion_1:
-            motion = (u8 *)actor + 8;
-            break;
-        default:
-no_motion:
-            motion = (u8 *)0;
-            break;
+                motion = (u8 *)actor + 8;
+                break;
+            default:
+                motion = (u8 *)0;
+                break;
+            }
         }
 
         if (*motion != 0) {
             ((S_80172810_0 *)action_state)->unk_98 &= 0xFF7F;
             {
                 s16 player_target = use_player;
-
                 if (player_target != 0) {
                     target = D_800814A8;
                     actor->target = target;
-                    goto have_target;
+                    action_globals = ((S_80172810_2_pre *)target)[-1].unk_00;
+                    actor->unk_72 = ((S_80172810_3 *)action_globals)->unk_24;
+                    actor->unk_73 = ((S_80172810_3 *)action_globals)->unk_25;
+                } else if (D_8006DE24[*motion].kind == 2) {
+                    target = actor->target;
+                    if (target != 0) {
+                        action_globals = ((S_80172810_2_pre *)target)[-1].unk_00;
+                        actor->unk_72 = ((S_80172810_3 *)action_globals)->unk_24;
+                        actor->unk_73 = ((S_80172810_3 *)action_globals)->unk_25;
+                    }
+                } else {
+                    actor->target =
+                        func_800A05A4(actor, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25,
+                                      actor->facing, 0x10);
+                    offset_x = abs(actor->unk_72);
+                    offset_y = abs(actor->unk_73);
+                    actor->unk_72 = offset_x;
+                    actor->unk_73 = offset_y;
                 }
             }
-            if (D_8006DE24[*motion].kind == 2) {
-                target = actor->target;
-                if (target == 0) {
-                    goto apply_motion;
-                }
-have_target:
-                action_globals = ((S_80172810_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172810_3 *)action_globals)->unk_24;
-                actor->unk_73 = ((S_80172810_3 *)action_globals)->unk_25;
-                goto apply_motion;
-            }
-            actor->target =
-                func_800A05A4(actor, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25,
-                              actor->facing, 0x10);
-            offset_x = abs(actor->unk_72);
-            offset_y = abs(actor->unk_73);
-            actor->unk_72 = offset_x;
-            actor->unk_73 = offset_y;
-apply_motion:
             saved_position[0] = ((u16)((EntityRec *)position)->x.w.i);
             saved_position[1] = ((u16)((EntityRec *)position)->y.w.i);
             saved_position[2] = ((u16)((EntityRec *)position)->z.w.i);
