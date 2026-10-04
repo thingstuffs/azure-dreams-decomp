@@ -170,8 +170,6 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
             ((S_800C035C_0 *)actor)->unk_48 = (s32) (speed + 0x20000);
         } else if (speed <= 0xFFFFF) {
             ((S_800C035C_0 *)actor)->unk_48 = (s32) (speed + 0x18000);
-        } else {
-            goto apply_drag;
         }
     } else if (held_buttons & 0x40) {
         speed = ((S_800C035C_0 *)actor)->unk_48;
@@ -179,12 +177,9 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
             ((S_800C035C_0 *)actor)->unk_48 = (s32) (speed + 0xFFFE0000);
         } else if (speed > (s32) 0xFFF00000) {
             ((S_800C035C_0 *)actor)->unk_48 = (s32) (speed + 0xFFFE8000);
-        } else {
-            goto apply_drag;
         }
     }
     speed = ((S_800C035C_0 *)actor)->unk_48;
-apply_drag:
     if (speed < (s32) 0xFFFF0000) {
         ((S_800C035C_0 *)actor)->unk_48 = (s32) (speed + 0x10000);
     } else if (speed > 0x10000) {
@@ -195,11 +190,9 @@ apply_drag:
     held_buttons = controls->unk_08;
     if (held_buttons & 0x8000) {
         heading_or_speed = ((S_800C035C_0 *)actor)->unk_10.s + 0x20;
-        goto wrap_heading;
-    }
-    if (held_buttons & 0x2000) {
+        ((S_800C035C_0 *)actor)->unk_10.s = (u16) (heading_or_speed & 0xFFF);
+    } else if (held_buttons & 0x2000) {
         heading_or_speed = ((S_800C035C_0 *)actor)->unk_10.s + 0xFE0;
-wrap_heading:
         ((S_800C035C_0 *)actor)->unk_10.s = (u16) (heading_or_speed & 0xFFF);
     }
     motion->unk_0C =
@@ -209,14 +202,16 @@ wrap_heading:
     angle_base = controls->unk_C8.s - 0x800;
     angle_value = ((S_800C035C_0 *)actor)->unk_10.u;
     angle_delta = angle_value - angle_base;
-wrap_angle_delta:
-    if (angle_delta >= 0x801) {
-        angle_delta -= 0x1000;
-        goto wrap_angle_delta;
-    }
-    if (angle_delta < -0x800) {
-        angle_delta += 0x1000;
-        goto wrap_angle_delta;
+    for (;;) {
+        if (angle_delta >= 0x801) {
+            angle_delta -= 0x1000;
+            continue;
+        }
+        if (angle_delta < -0x800) {
+            angle_delta += 0x1000;
+            continue;
+        }
+        break;
     }
     motion_adjustment = 0x30000;
     heading_or_speed = ((S_800C035C_0 *)actor)->unk_48;
@@ -233,7 +228,7 @@ wrap_angle_delta:
         } else if (angle_delta > 0) {
             view_angle = (u16) controls->unk_C8.s + 0x10;
         } else {
-            goto align_view;
+            view_angle = ((S_800C035C_0 *)actor)->unk_10.s + 0x800;
         }
     } else {
         view_error = abs(angle_delta);
@@ -241,7 +236,6 @@ wrap_angle_delta:
             motion_adjustment = angle_delta >> 3;
             view_angle = (u16) controls->unk_C8.s + motion_adjustment;
         } else {
-align_view:
             view_angle = ((S_800C035C_0 *)actor)->unk_10.s + 0x800;
         }
     }
@@ -285,11 +279,17 @@ align_view:
         progress->unk_02 = 0;
         progress->unk_00 = 0;
         controls->unk_C8.s = 0xC00;
-        goto stop_motion;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        break;
     case 1:
         controls->unk_C8.s = (s16) (((0x20 - course->unk_2E) << 5) + 0xC00);
         ((S_800C035C_0 *)actor)->unk_10.s = 0xC00U;
-        goto stop_motion;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        break;
     case 2:
         controls->unk_C8.s = (s16) ((0x10 - course->unk_2E) << 5);
         wait_stage = progress->unk_00;
@@ -297,7 +297,6 @@ align_view:
             ((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 =
                 (u16) (((S_800C035C_5 *)(((wait_stage * 2) + (s8 *) course)))->unk_30 + 1);
         }
-stop_motion:
         motion->unk_14 = 0;
         motion->unk_10 = 0;
         motion->unk_0C = 0;

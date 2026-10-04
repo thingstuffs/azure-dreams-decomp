@@ -188,10 +188,12 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
 
     if (actor->unk_6D > 0) {
         if (((u32)actor->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(actor);
+            return;
         }
         if (((S_80171A80_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_801723F8(entity, context, sprite, actor);
+            return;
         }
         if (!(actor->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -206,7 +208,8 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
             action_state = actor->unk_46 | 0x4000;
             actor->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto ordinary_cleanup;
+                func_801723F8(entity, context, sprite, actor);
+                return;
             }
         }
 
@@ -256,7 +259,6 @@ void func_80171A80(void *entity, void *context, void *sprite, EntityRec *actor)
             }
 
         case 12:
-case_12:
             func_800A9A0C(actor);
             return;
 
@@ -270,7 +272,8 @@ global_continue:
                 void *leader = D_800E3D7C;
 
                 if (((S_80171A80_6 *)leader)->unk_A6 != 0) {
-                    goto ordinary_cleanup;
+                    func_801723F8(entity, context, sprite, actor);
+                    return;
                 }
                 ((S_80171A80_6 *)leader)->unk_A6 = 2;
                 func_80175F44(entity, context, sprite, 1, 2);
@@ -293,7 +296,6 @@ global_continue:
 
         case 11:
         default:
-ordinary_cleanup:
             func_801723F8(entity, context, sprite, actor);
             return;
         }

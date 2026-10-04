@@ -34,6 +34,8 @@ void func_80406368(void *menu)
     s32 nav_result;
     s32 needs_refresh;
     s32 repeat_ticks;
+    s32 *held_p = &D_801379A8;
+    s32 *press_p = &D_801379B0;
 
     held_buttons = D_801379A8;
     nav_result = 0;
@@ -56,18 +58,18 @@ void func_80406368(void *menu)
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
                 (*(s32 *)((u8 *)menu + 0x30)) = 0;
-                if (D_801379B0 & 0x1000) {
+                if (*press_p & 0x1000) {
                     nav_result = -1;
-                } else if (D_801379B0 & 0x4000) {
+                } else if (*press_p & 0x4000) {
                     nav_result = 1;
                 }
             } else {
                 repeat_ticks = ((S_80406368_0 *)menu)->unk_30;
                 if (repeat_ticks >= 13) {
                     (*(s32 *)((u8 *)menu + 0x30)) = repeat_ticks - 4;
-                    if (D_801379A8 & 0x1000) {
+                    if (*held_p & 0x1000) {
                         nav_result = -1;
-                    } else if (D_801379A8 & 0x4000) {
+                    } else if (*held_p & 0x4000) {
                         nav_result = 1;
                     }
                 } else {
