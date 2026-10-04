@@ -47,7 +47,9 @@ def _env():
     return env
 
 # ---------------------------------------------------------------- overlay rows
-DEF_SYM = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\([^;{]*\)\s*\{", re.M)
+# `\)` may be followed by K&R parameter declarations (`u8 key; s8 *out;`) before the body (round 93, town/func_800BAE88)
+KR_DECLS = r"(?:\s*[A-Za-z_][^;{}()]*(?:\([^;{}]*\)[^;{}()]*)?;)*"
+DEF_SYM = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\([^;{]*\)" + KR_DECLS + r"\s*\{", re.M)
 
 def normalise_definition(row, cfile):
     """A few upstream rows define their function under a stale rowbase name (e.g. the true-space
@@ -93,7 +95,7 @@ def canonical_spelling(cfile):
     text = Path(cfile).read_text(errors="replace")
     # only the identifiers this file DEFINES: references stay renamed and are canonicalised inside the
     # pipeline (tools/ccproc.py in the gate, match.py in the scorer), so the scorer proves what the gate links
-    hit = [n for n in canon if n in text and re.search(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**" + re.escape(n) + r"\s*\([^;{]*\)\s*\{", text, re.M)]
+    hit = [n for n in canon if n in text and re.search(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**" + re.escape(n) + r"\s*\([^;{]*\)" + KR_DECLS + r"\s*\{", text, re.M)]
     if not hit:
         return cfile
     pat = re.compile(r"\b(" + "|".join(re.escape(n) for n in hit) + r")\b")
