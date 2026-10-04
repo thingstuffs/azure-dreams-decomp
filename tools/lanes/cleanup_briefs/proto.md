@@ -14,3 +14,5 @@ locals as `M2C_UNK`). Replace each `M2C_UNK` with the REAL type:
    signed -> s16, etc.); measure; if not exact, try s32; if still not exact, leave it.
 4. A callee whose definition you cannot find: leave it and list it in the report.
 Return type `void` for a callee whose result the row never uses is the commonest exact fix; `s32` the next.
+
+**Finding the callee (round 93): rows are FILED by file offset, not by function name.** A callee `func_X` is usually defined in a row whose `true_name` is func_X: look it up in `<REPO>/ledger/rows.jsonl` by `func` OR `true_name` (`python3 -c "import json;[print(r['id']) for r in map(json.loads,open('<REPO>/ledger/rows.jsonl')) if 'func_X' in (r['func'],r.get('true_name'))]"`) and read `src/<id>.c`. Never declare `void` only because this row ignores the result - a sibling lane wrote 12 false `void`s that way. Before you finish run `python3 <REPO>/tools/lanes/proto_check.py <LANE>`: it must report 0 mismatches.
