@@ -36,7 +36,7 @@ s32 func_8002168C(void) {
     case 1:
     case 2:
         D_800287D0[slot] = state;
-        goto update_slot;
+        break;
     case 3:
         repeat_counts = D_80028530;
         count_offset = slot * 4;
@@ -57,7 +57,6 @@ check_count:
         func_80020924(slot, (s32 *)(count_offset + (s32)repeat_counts));
         return state;
     }
-update_slot:
     func_80020924(slot, (s32 *)slot_offset);
 done:
     return state;

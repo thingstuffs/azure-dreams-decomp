@@ -58,3 +58,4 @@ t118_setonce
 t119_deadinit
 t120_unvolatile
 t136_stubtail
+t137_switchbreak

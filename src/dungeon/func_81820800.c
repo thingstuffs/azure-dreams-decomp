@@ -197,13 +197,12 @@ void func_80024020(void *state, S_func_81820800_2 *motion, void *source_data) {
         effect = (S_func_81820800_6 *)(u32)(u16)coord_x;
         if ((func_800A4688((u32)effect, (u16)coord_y, func_800BCB04((u32)effect, (u16)coord_y, -0x400),
             (s16)actor->unk_2A, actor->unk_60) << 0x10) != 0) {
-            goto set_endpoint;
+            break;
         }
         distance_or_script += 1;
         offset_y += step_y;
         offset_x += step_x;
     } while (distance_or_script < 2);
-set_endpoint:
     {
         S_func_81820800_5 *tile_data = actor_data;
         actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));

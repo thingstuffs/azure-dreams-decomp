@@ -137,7 +137,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
         prefix = (RootPrefix *)(root - 0x20);
         if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
-                goto finish;
+                break;
             }
         }
 
@@ -154,7 +154,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             motion->z.h.hi = origin_z - 64;
         }
         if (!(*ctrl->flags & 0x80)) {
-            goto finish;
+            break;
         }
 
         ctrl->saved = *motion;
@@ -262,7 +262,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
         }
         ctrl->timer = 0;
         ctrl->state++;
-        goto finish;
+        break;
 
     case 2:
         motion->x.val += motion->dx.val;
@@ -270,7 +270,7 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
         motion->z.val += motion->dz.val;
         func_800247D4(ctrl, render_data);
         if (ctrl->timer < 15) {
-            goto finish;
+            break;
         }
         ctrl->timer = 0;
         ctrl->state++;
@@ -286,12 +286,12 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             } while (index >= 0);
         }
         func_800A56E0(0x300);
-        goto finish;
+        break;
 
     case 3:
         index = 7;
         if (ctrl->timer < 33) {
-            goto finish;
+            break;
         }
         child_update = func_800244D4;
         ctrl->timer = 0;
@@ -308,11 +308,11 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
                 child_slot--;
             } while (index >= 0);
         }
-        goto finish;
+        break;
 
     case 4:
         if (ctrl->timer < 17) {
-            goto finish;
+            break;
         }
         func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
         ctrl->timer = 0;
@@ -345,7 +345,7 @@ loop_3:
             if (index >= 0)
                 goto loop_3;
         }
-        goto finish;
+        break;
 
     case 5:
         if (ctrl->active == 0) {
@@ -358,6 +358,5 @@ loop_3:
         break;
     }
 
-finish:
     ctrl->active = 0;
 }

@@ -182,7 +182,7 @@ check_settling:
     do {
 check_falling:
         if (((S_8016E528_0 *)motion)->unk_12 != 2) {
-            goto update_motion;
+            break;
         }
         ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
             + ((S_8016E528_0 *)motion)->unk_54);

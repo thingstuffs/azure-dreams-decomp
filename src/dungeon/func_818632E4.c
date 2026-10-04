@@ -128,7 +128,7 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         prefix = (RootPrefix *)(root - 0x20);
         if (func_8003DE58(prefix->lookup->key, prefix->lookup, delta, 0) == 0) {
             if (!(prefix->lookup->flags & 0x8000)) {
-                goto finish;
+                break;
             }
         }
 
@@ -145,7 +145,7 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
             motion->z.h.hi = start_z - 64;
         }
         if (!(*ctrl->flags & 0x80)) {
-            goto finish;
+            break;
         }
 
         ctrl->saved = *motion;
@@ -254,7 +254,7 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         ctrl->timer = 0;
         ctrl->state++;
         func_800A56E0(0x300);
-        goto finish;
+        break;
 
     case 2:
         motion->x.val += motion->dx.val;
@@ -262,12 +262,12 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         motion->z.val += motion->dz.val;
         func_800246D8(ctrl, render_data);
         if (ctrl->timer < 15) {
-            goto finish;
+            break;
         }
         ctrl->timer = 0;
         ctrl->state++;
         func_80024428(ctrl, motion, 0, &ctrl->slots[0]);
-        goto finish;
+        break;
 
     case 3:
     {
@@ -279,20 +279,20 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         }
     }
         if (ctrl->timer < 24) {
-            goto finish;
+            break;
         }
         goto advance2;
 
     case 4:
         if (ctrl->timer < 36) {
-            goto finish;
+            break;
         }
         func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
 
 advance2:
         ctrl->timer = 0;
         ctrl->state++;
-        goto finish;
+        break;
 
     case 5:
         if (ctrl->active == 0) {
@@ -305,6 +305,5 @@ advance2:
         break;
     }
 
-finish:
     ctrl->active = 0;
 }

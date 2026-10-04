@@ -127,7 +127,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         root_prefix = (RootPrefix *)(root - 0x20);
         if (func_8003DE58(root_prefix->lookup->key, root_prefix->lookup, offsets, 0) == 0) {
             if (!(root_prefix->lookup->flags & 0x8000)) {
-                goto finish;
+                break;
             }
         }
 
@@ -144,7 +144,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             input_motion->z.h.hi = source_z - 64;
         }
         if (!(*input_ctrl->flags & 0x80)) {
-            goto finish;
+            break;
         }
 
         input_ctrl->saved = *input_motion;
@@ -258,34 +258,34 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         input_motion->z.val += input_motion->dz.val;
         func_800248C8(input_ctrl, render_data);
         if (input_ctrl->timer < 15) {
-            goto finish;
+            break;
         }
         input_ctrl->timer = 0;
         input_ctrl->state++;
         func_800247DC(input_ctrl, input_motion);
         func_800A56E0(0x300);
-        goto finish;
+        break;
 
     case 3:
         if (input_ctrl->ready == 0) {
-            goto finish;
+            break;
         }
         input_ctrl->timer = 0;
         input_ctrl->ready = 0;
         input_ctrl->state++;
         func_80024684(input_ctrl, input_motion);
-        goto finish;
+        break;
 
     case 4:
         if (input_ctrl->ready == 0) {
-            goto finish;
+            break;
         }
         func_80024060(input_ctrl->cell_x, input_ctrl->cell_y, root, input_ctrl->kind);
 
 advance:
         input_ctrl->timer = 0;
         input_ctrl->state++;
-        goto finish;
+        break;
 
     case 5:
         if (input_ctrl->active == 0) {
@@ -298,6 +298,5 @@ advance:
         break;
     }
 
-finish:
     input_ctrl->active = 0;
 }
