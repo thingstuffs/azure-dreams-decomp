@@ -28,7 +28,7 @@ typedef struct S_80171020_7 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 rand();
 extern M2C_UNK D_80170D2C;
 extern M2C_UNK D_80170F0C;

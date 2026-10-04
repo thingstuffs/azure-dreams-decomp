@@ -43,7 +43,7 @@ typedef struct S_80174B90_9 {
 
 
 void *func_8003FD64();               /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 M2C_UNK func_80047784();    /* extern */
 extern M2C_UNK D_8017474C;
 extern M2C_UNK D_80175540;

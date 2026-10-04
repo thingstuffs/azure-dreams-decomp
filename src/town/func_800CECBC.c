@@ -7,7 +7,7 @@
 
 extern M2C_UNK func_8003F540();
 extern M2C_UNK SD_Call();
-extern M2C_UNK func_800C2E84();
+extern void func_800C2E84();
 
 extern M2C_UNK D_800CC4B0[3];
 extern M2C_UNK D_800D6CF0[3];

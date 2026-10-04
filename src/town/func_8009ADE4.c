@@ -17,7 +17,7 @@ typedef struct S_80098544_1 {
 } S_80098544_1;   /* out in func_80098544 */
 
 
-M2C_UNK func_80099754();
+void func_80099754();
 extern M2C_UNK D_800984AC;
 
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */

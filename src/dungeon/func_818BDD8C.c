@@ -13,7 +13,7 @@ typedef s32 M2C_UNK;
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void *func_8003FC64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 rand();
 extern M2C_UNK D_800254E0;
 extern M2C_UNK D_80025DF8;

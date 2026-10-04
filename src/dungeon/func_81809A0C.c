@@ -174,12 +174,12 @@ typedef struct S_8002520C_21 {
 } S_8002520C_21;   /* (s32 *) slot_v0 in func_8002520C */
 
 
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 func_800644B8();                        /* extern */
 s32 func_8009074C();               /* extern */
-M2C_UNK func_8009F644();      /* extern */
+void func_8009F644();      /* extern */
 u32 func_800A0818(); /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern void *D_80025000[];
 __asm__(".set D_80025000, 0x80025000");
 extern u16 D_80012094[5];

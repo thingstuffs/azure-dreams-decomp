@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800B683C_arg0.h"
 
-M2C_UNK func_8003F2A4();                         /* extern */
+void func_8003F2A4();                         /* extern */
 
 
 /* Processes and clears both nonzero handles, returning whether either was set. */

@@ -11,7 +11,7 @@ typedef struct S_800C565C_0 {
 } S_800C565C_0;   /* arg0 in func_800C565C */
 
 
-M2C_UNK func_800C5864(S_800C565C_0 *, M2C_UNK, M2C_UNK);
+void func_800C5864(S_800C565C_0 *, M2C_UNK, M2C_UNK);
 /* Decrement the countdown, then call func_800C5864 and clear unk_72 when it expires. */
 void func_800C565C(S_800C565C_0 *object, M2C_UNK callback_arg_1, M2C_UNK callback_arg_2) {
     u16 countdown;

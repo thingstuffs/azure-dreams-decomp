@@ -11,7 +11,7 @@ typedef struct S_800C4864_2 {
 
 
 s16 func_800C2BE8();                 /* extern */
-M2C_UNK func_800C2E84();                /* extern */
+void func_800C2E84();                /* extern */
 extern M2C_UNK D_800C3C5C;
 
 

@@ -10,7 +10,7 @@ typedef struct S_80024EF8_0 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_80024930(void *, M2C_UNK, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+s32 func_80024930(void *, M2C_UNK, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 s32 func_800644B8(s32);                                                    /* extern */
 
 /* Draws two effect layers with opposing angles and phase-dependent sizes. */

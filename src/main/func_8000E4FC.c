@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80021538();                            /* extern */
+void func_80021538();                            /* extern */
 extern s32 D_800287E4;
 
 /* Returns the pending card status and processes it when nonzero. */

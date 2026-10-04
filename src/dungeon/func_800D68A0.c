@@ -2,7 +2,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800DBD5C(); /* extern */
+void func_800DBD5C(); /* extern */
 
 typedef struct S_800DC000_0 {
     u8 pad_00[0xFC];

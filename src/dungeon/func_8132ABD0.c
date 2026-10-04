@@ -19,7 +19,7 @@ typedef struct S_801723D0_2 {
 } S_801723D0_2;   /* arg0 in func_801723D0; pointer addresses record offset 0x2 */
 
 
-M2C_UNK func_80171F30(); /* extern */
+void func_80171F30(); /* extern */
 
 /* Advance record values, perform six updates, and flag an expired counter. */
 void func_801723D0(void *record_data, S_801723D0_0 *offset_record, S_801723D0_1 *value_record) {

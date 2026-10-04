@@ -5,7 +5,7 @@
 
 s32 func_80042900();                 /* extern */
 s32 func_800A6D30(void); /* Retail RNG at 0x800A6D30 reads no argument registers, including $a3. */
-M2C_UNK func_800CB82C();
+void *func_800CB82C();
 
 typedef struct S_8009D218_1_pre {
     s32 unk_00;

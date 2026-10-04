@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_800954C4(EntityRec *);                            /* extern */
+void func_800954C4(EntityRec *);                            /* extern */
 extern s8 D_800CFCEB;
 
 

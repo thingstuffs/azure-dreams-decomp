@@ -2,14 +2,14 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80093D48();     /* extern */
-M2C_UNK func_80093ED8();     /* extern */
-M2C_UNK func_800942B0();     /* extern */
+void func_80093D48();     /* extern */
+void func_80093ED8();     /* extern */
+void func_800942B0();     /* extern */
 M2C_UNK func_80094378();     /* extern */
-M2C_UNK func_80095094();                      /* extern */
+void func_80095094();                      /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 s32 func_8009FF50();                                /* extern */
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];

@@ -86,15 +86,15 @@ typedef struct S_800B1B10_7 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_8004DA74();
 s32 func_80069E98();
 s32 func_800990FC();
 s8 *func_80099368();
 void *func_800B12F4();
-M2C_UNK func_800B1320();
-M2C_UNK func_800B135C();
-M2C_UNK func_800B1400();
+void func_800B1320();
+void func_800B135C();
+void func_800B1400();
 void *func_800B1434();
 extern M2C_UNK D_800B14FC;
 extern M2C_UNK D_800B06F0;

@@ -6,7 +6,7 @@
 #include "records/Rec_func_800AA258_arg2.h"
 
 M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_800AA754();         /* extern */
+void func_800AA754();         /* extern */
 
 
 /* Set the entity to state 7 and select its directional sprite frame when ready. */

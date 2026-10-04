@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-M2C_UNK func_80098928();     /* extern */
+void func_80098928();     /* extern */
 s16 func_800C2AE8();
 
 

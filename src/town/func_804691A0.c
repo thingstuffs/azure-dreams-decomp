@@ -8,7 +8,7 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-M2C_UNK func_8001A188();
+void func_8001A188();
 
 
 /* Pass the callback-selected table value to the destination handler. */

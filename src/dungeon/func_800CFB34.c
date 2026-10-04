@@ -53,7 +53,7 @@ typedef struct S_800D5294_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FC64();                       /* extern */
 s32 rand();                                /* extern */
-M2C_UNK func_800D4BD4(); /* extern */
+void func_800D4BD4(); /* extern */
 extern M2C_UNK D_800D50FC[3];
 
 /* Emit randomized particles at the parent-relative position and expire the emitter when its lifetime ends. */

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 M2C_UNK func_8003DB94(); /* extern */
-M2C_UNK func_8009B218(); /* extern */
+void func_8009B218(); /* extern */
 extern M2C_UNK D_800D0E04;
 
 /* Initialize the object's animation data and default behavior. */

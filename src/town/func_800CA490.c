@@ -5,7 +5,7 @@ typedef struct {
     s32 value;
 } Timer;
 
-extern M2C_UNK func_800C2E84();
+extern void func_800C2E84();
 extern M2C_UNK D_800C78A8;
 extern M2C_UNK D_800D5FE8;
 extern Timer D_80113220;

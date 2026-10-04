@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800A90E8();                        /* extern */
+void func_800A90E8();                        /* extern */
 
 /* Sends the two-byte command 1, 0x12. */
 void func_800A6A6C(void) {

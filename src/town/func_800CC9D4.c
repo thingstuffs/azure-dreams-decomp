@@ -2,7 +2,7 @@
 #include "shared/object_node.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800CA75C(void *);                            /* extern */
+void func_800CA75C(void *);                            /* extern */
 
 
 typedef struct S_800CA134_0 {

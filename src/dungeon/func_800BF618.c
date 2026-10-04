@@ -12,7 +12,7 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void *func_8003FD64();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 extern M2C_UNK D_800C4C00;
 
 typedef struct S_800C4D78_0 {

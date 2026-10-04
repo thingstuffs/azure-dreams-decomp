@@ -7,7 +7,7 @@ typedef struct Copy12 {
 } __attribute__((packed)) Copy12;
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 rand();                                /* extern */
 s32 func_80167088();                         /* extern */
 extern M2C_UNK D_80165AB8;

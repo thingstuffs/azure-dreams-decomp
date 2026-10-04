@@ -66,7 +66,7 @@ extern s32 D_800E2178;
 M2C_UNK func_80024824(s32, Func81893244Sub *, s32, s32);
 Func81893244Object *func_8003FC64(s32);
 void func_8003DB94(Func81893244Sub *, s32 *, s32);
-M2C_UNK func_8004491C(Func81893244Object *, u8 *);
+s32 func_8004491C(Func81893244Object *, u8 *);
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 s32 rand(void);

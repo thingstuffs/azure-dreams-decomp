@@ -16,7 +16,7 @@ s32 func_800A5720();                         /* extern */
 void func_800A5F38();                 /* extern */
 void func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
-M2C_UNK func_800C4AFC();            /* extern */
+void func_800C4AFC();            /* extern */
 extern extern M2C_UNK D_80083460[3];
 extern M2C_UNK D_800E0E69;
 

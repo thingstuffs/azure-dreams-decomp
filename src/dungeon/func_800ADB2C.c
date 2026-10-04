@@ -45,7 +45,7 @@ typedef struct S_800B328C_4 {
 
 
 s32 func_8003DE58();     /* extern */
-M2C_UNK func_800B8EA8(); /* extern */
+void func_800B8EA8(); /* extern */
 
 /* Update the position from a base and offset, and mark completion or timeout. */
 void func_800B328C(void *state, void *position) {

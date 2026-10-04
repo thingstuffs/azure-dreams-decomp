@@ -61,7 +61,7 @@ typedef struct S_8004BDDC_2 {
 } S_8004BDDC_2;   /* temp_s3 in func_8004BDDC */
 
 
-M2C_UNK func_8004C010();                 /* extern */
+s32 func_8004C010();                 /* extern */
 
 /* Build a textured Gouraud quad packet with tinted vertex colors and adjusted UV bounds. */
 void *func_8004BDDC(s32 tint_a, s32 tint_b, void *packet, void *record, void *command) {

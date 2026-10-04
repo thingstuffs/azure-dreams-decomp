@@ -49,11 +49,11 @@ check for the proven-region rename of func_80152800. */
 #endif
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s32 func_8004491C();
+s16 func_800A48F0();
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
+void func_800A9C18();
+s32 func_800AA36C();
 void *func_80152988();
 void *func_80152A00();
 extern u8 D_80152A7C[];

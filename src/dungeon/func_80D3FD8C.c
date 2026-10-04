@@ -83,13 +83,13 @@ extern u8 D_800E23E0[];
 extern u8 D_800E2488[];
 extern u8 D_80171A80[];
 void *func_8003FD64();               /* extern */
-M2C_UNK func_8004491C();               /* extern */
-M2C_UNK func_8009D8A4();                            /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_8004491C();               /* extern */
+void func_8009D8A4();                            /* extern */
+void func_800A2B04();              /* extern */
+s32 func_800A56E0();                     /* extern */
 s32 func_800BCB04();                   /* extern */
 M2C_UNK func_801708B8();      /* extern */
-M2C_UNK func_80174C64(); /* extern */
+void func_80174C64(); /* extern */
 
 /* Update the actor action sequence, including its effect, animations, and position restoration. */
 void func_8017558C(void *action, EntityRec *position, Rec_D_80082E80 *sprite, EntityRec *actor) {

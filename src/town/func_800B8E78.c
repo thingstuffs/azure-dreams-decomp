@@ -15,7 +15,7 @@ typedef struct S_800B65D8_5 {
 s32 func_80048DA0();                         /* extern */
 s32 func_80048DCC();                             /* extern */
 s32 func_80048DE8();                             /* extern */
-M2C_UNK func_800B6580();                    /* extern */
+void func_800B6580();                    /* extern */
 extern u8 D_80089344[];
 
 typedef struct S_800B65D8_0 {

@@ -3,7 +3,7 @@
 typedef s32 M2C_UNK;
 
 
-extern M2C_UNK func_800A4B94();
+extern void func_800A4B94();
 extern M2C_UNK D_800A4B94;
 
 

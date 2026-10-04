@@ -87,7 +87,7 @@ extern void *D_80170898[];
 extern M2C_UNK D_80173EB4;
 extern s32 func_8003DE58();
 extern void *func_8003FD64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern M2C_UNK func_80047784();
 
 /* Creates an attached sprite object with copied appearance and an optional position offset. */

@@ -9,7 +9,7 @@ typedef struct S_80025494_0 {
 } S_80025494_0;   /* arg0 in func_80025494; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_800230CC();                    /* extern */
+void func_800230CC();                    /* extern */
 extern M2C_UNK D_8002546C;
 
 /* Sets two state fields, initializes embedded data, and assigns the record pointer. */

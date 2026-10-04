@@ -17,13 +17,13 @@ void func_80047784();         /* extern */
 void func_800478B8();  /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80069EF8();                                /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
-M2C_UNK func_80170C3C();                            /* extern */
-M2C_UNK func_80171A10(); /* extern */
-M2C_UNK func_80172A14();      /* extern */
-M2C_UNK func_80172B00();      /* extern */
-M2C_UNK func_80172CC8(); /* extern */
-M2C_UNK func_80172F44(); /* extern */
+s32 func_800A56E0();                     /* extern */
+void func_80170C3C();                            /* extern */
+void func_80171A10(); /* extern */
+void func_80172A14();      /* extern */
+void func_80172B00();      /* extern */
+void func_80172CC8(); /* extern */
+void func_80172F44(); /* extern */
 extern InitBlock D_8016A894;
 extern u8 D_80174C64[];
 extern u8 D_80174C6C[];

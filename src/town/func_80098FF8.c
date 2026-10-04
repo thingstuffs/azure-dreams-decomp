@@ -13,7 +13,7 @@ typedef struct S_80096758_0 {
 } S_80096758_0;   /* arg0 in func_80096758 */
 
 
-M2C_UNK func_800954DC(S_80096758_0 *);
+void func_800954DC(S_80096758_0 *);
 /* Set D_800CFCEC, initialize the record, and call func_800954DC. */
 void func_80096758(S_80096758_0 *record, s32 initial_value) {
     D_800CFCEC = 1;

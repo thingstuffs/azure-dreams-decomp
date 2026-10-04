@@ -15,7 +15,7 @@ typedef struct S_800A9734_1 {
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-M2C_UNK func_8008F104();
+void func_8008F104();
 extern M2C_UNK D_800A6CF0;
 extern M2C_UNK D_800D0E60;
 

@@ -9,7 +9,7 @@ typedef struct S_800B683C_2 {
 } S_800B683C_2;   /* ((Rec_func_800B683C_arg0 *)arg0)->unk_98 in func_800B683C */
 
 
-M2C_UNK func_800B6580();
+void func_800B6580();
 
 
 /* Clears two linked values and initializes the object's embedded data. */

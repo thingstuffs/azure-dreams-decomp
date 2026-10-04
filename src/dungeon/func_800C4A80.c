@@ -32,7 +32,7 @@ typedef struct S_800CA1E0_3 {
 
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-M2C_UNK func_8009A350();
+s16 func_8009A350();
 s16 func_8009FB34();
 s16 func_800BCB04();
 

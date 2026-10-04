@@ -10,7 +10,7 @@ typedef struct S_80098078_0 {
 } S_80098078_0;   /* arg0 in func_80098078 */
 
 
-M2C_UNK func_80098988(S_80098078_0 *, s32);
+void func_80098988(S_80098078_0 *, s32);
 /* Decrement the countdown and call func_80098988 when it reaches zero. */
 void func_80098078(S_80098078_0 *state, s32 value) {
     u16 remaining_ticks;

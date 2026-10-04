@@ -62,16 +62,16 @@ extern u8 D_80082E80_later[] __asm__("D_80082E80");
 extern u8 D_8006CCD8_bytes[] __asm__("D_8006CCD8");
 extern u8 D_8006CCE8_bytes[] __asm__("D_8006CCE8");
 extern s16 D_8006CD00[];
-M2C_UNK func_8009A3D0();
+void func_8009A3D0();
 s32 func_8009A180();
 s32 func_8009A21C();
 s32 func_8009A66C();
 s32 func_8009FD7C();
-M2C_UNK func_800A0E6C();
-M2C_UNK func_800A0818();
-M2C_UNK func_800A19E4();
-M2C_UNK func_800A6D30();
-M2C_UNK func_800A9A0C();
+s32 func_800A0E6C();
+s32 func_800A0818();
+s32 func_800A19E4();
+s32 func_800A6D30();
+void func_800A9A0C();
 s16 func_800BCB04();
 
 /* Advances an actor along a traversable heading and updates its movement state. */

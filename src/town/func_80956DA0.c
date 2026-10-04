@@ -17,7 +17,7 @@ typedef struct S_80956DA0_4 {
 
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 extern M2C_UNK D_80023E64;
 extern M2C_UNK D_80044BB0;
 extern M2C_UNK D_80079438;

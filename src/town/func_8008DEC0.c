@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8008B5D8();                /* extern */
+void func_8008B5D8();                /* extern */
 extern s32 D_800CFBA0[];
 
 /* Submit the indexed table value with code 0x23. */

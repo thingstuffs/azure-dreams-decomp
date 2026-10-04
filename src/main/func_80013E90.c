@@ -3,7 +3,7 @@
 #include "records/Rec_func_80026CF0_arg0.h"
 
 M2C_UNK func_80026C00();         /* extern */
-M2C_UNK func_80026D78();                       /* extern */
+void func_80026D78();                       /* extern */
 
 
 /* Store the initial value, link embedded data, and update the record. */

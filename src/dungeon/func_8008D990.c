@@ -73,12 +73,12 @@ s32 func_800429E4();
 void func_80043568();
 void func_800481E0();
 void func_800945E8(); /* extern */
-M2C_UNK func_800948BC();
+void func_800948BC();
 s32 func_800A56E0(); /* extern */
 s32 func_800A613C();
 s32 func_800A6780(); /* extern */
 void func_800B2074();
-M2C_UNK func_800C542C();
+void *func_800C542C();
 extern s32 D_80010234;
 typedef struct {
     s32 unk0;

@@ -4,7 +4,7 @@
 #include "records/Rec_D_80016000.h"
 
 s32 func_8004CAE8();                    /* extern */
-M2C_UNK func_80099F04();                         /* extern */
+void func_80099F04();                         /* extern */
 void func_80099F70(s32);                         /* extern */
 s16 func_8009A350(s16, s16, s16, u16 *);          /* extern */
 s32 func_800A56E0(s32);                     /* extern */

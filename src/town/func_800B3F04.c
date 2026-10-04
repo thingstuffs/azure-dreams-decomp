@@ -30,7 +30,7 @@ typedef struct S_800B1664_4 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 M2C_UNK func_8004B248();
-M2C_UNK func_800B15B8();
+void func_800B15B8();
 
 /* Halve a state value, decrement another, and trigger cleanup below the threshold. */
 void func_800B1664(void *object) {

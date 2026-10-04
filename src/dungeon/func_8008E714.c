@@ -47,7 +47,7 @@ typedef struct {
 
 s32 func_80042900();                 /* extern */
 void func_8009A3D0(u8, u8, s32);     /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern void *D_800E3DF0[];
 extern u8 D_800E3E48[];
 

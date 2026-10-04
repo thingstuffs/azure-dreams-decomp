@@ -11,12 +11,12 @@ void func_8003DB4C();
 void func_80041E70(void *);
 void func_80042710();
 void func_80042984();
-M2C_UNK func_80098B38();
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A18E8();
+void func_80098B38();
+void func_8009A028();
+void func_8009A3D0();
+void func_800A18E8();
 s32 func_800A1BD0();
-M2C_UNK func_800A31D0();
+void func_800A31D0();
 s16 func_800A57B4();
 typedef struct {
     u8 pad_00[0x10];

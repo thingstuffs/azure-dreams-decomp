@@ -7,7 +7,7 @@ typedef struct {
 } __attribute__((packed)) Packed12;
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 extern M2C_UNK D_800249A0;
 
 

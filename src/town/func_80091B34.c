@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8008F2D4(s32, M2C_UNK);                            /* extern */
+void func_8008F2D4(s32, M2C_UNK);                            /* extern */
 M2C_UNK func_8008F350();                /* extern */
 
 /* Pass the same value and context to both processing routines. */

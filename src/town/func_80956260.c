@@ -52,16 +52,16 @@ typedef struct S_80023260_5 {
 } S_80023260_5;   /* ((((S_80023260_0 *)arg0)->unk_24 * 2) + temp_fp) in func_80023260 */
 
 
-M2C_UNK func_800211C4();      /* extern */
-M2C_UNK func_80022F34();              /* extern */
-M2C_UNK func_800239A0();            /* extern */
+void func_800211C4();      /* extern */
+void func_80022F34();              /* extern */
+void func_800239A0();            /* extern */
 M2C_UNK func_80047784();         /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();              /* extern */
-M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_800ABD74();                 /* extern */
+void func_8009539C();                      /* extern */
+void func_800ABD74();                 /* extern */
 s16 func_800C2AE8();                      /* extern */
 typedef struct {
     void *ptr;

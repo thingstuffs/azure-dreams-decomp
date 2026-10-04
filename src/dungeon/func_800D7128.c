@@ -5,7 +5,7 @@
 
 typedef s32 M2C_UNK;
 
-M2C_UNK func_800DC82C();
+void func_800DC82C();
 extern s32 D_800E5910;
 
 typedef struct S_800DC888_0 {

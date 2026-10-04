@@ -30,10 +30,10 @@ typedef struct S_80173C5C_4 {
 extern u8 D_80173FD0[];
 extern u8 D_80173FB8[];
 extern s32 D_80170F68;
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A48F0();
-M2C_UNK func_800A4ACC();
-M2C_UNK func_800A56E0();
+void func_800A2B04();
+s16 func_800A48F0();
+s32 func_800A4ACC();
+s32 func_800A56E0();
 s32 func_800A6D30();
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;

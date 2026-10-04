@@ -36,7 +36,7 @@ typedef struct S_800D6C18_3 {
 } S_800D6C18_3;   /* var_a0 in func_800D6C18 */
 
 
-M2C_UNK func_800D6AD4(); /* extern */
+void func_800D6AD4(); /* extern */
 
 /* Updates effect size and offsets, emits a sequence, and flags expiration. */
 void func_800D6C18(void *effect, S_800D6C18_2 *size_state) {

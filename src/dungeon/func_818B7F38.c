@@ -124,7 +124,7 @@ M2C_UNK func_800253D0();              /* extern */
 M2C_UNK func_80025614(); /* extern */
 s32 func_8003DE58();     /* extern */
 s32 func_800A44E0();              /* extern */
-M2C_UNK func_800A56E0();                /* extern */
+s32 func_800A56E0();                /* extern */
 s16 func_800BCB04();                   /* extern */
 
 typedef struct LocalFrame {

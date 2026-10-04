@@ -49,7 +49,7 @@ extern void func_800AA258(void *, void *, void *, void *);
 s32 func_800AA6B4();
 void func_800AA888();
 s32 func_800AA924();
-M2C_UNK func_800AAF00();
+void func_800AAF00();
 void func_8016BD14();
 void func_8016BF74();
 s32 func_8016C720();

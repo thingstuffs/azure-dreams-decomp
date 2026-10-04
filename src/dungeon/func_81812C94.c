@@ -5,7 +5,7 @@ void func_80027AD0();            /* extern */
 void func_80027B44();               /* extern */
 void func_80027B6C();               /* extern */
 void func_80027BBC();                    /* extern */
-M2C_UNK func_8004CB2C();                      /* extern */
+s32 func_8004CB2C();                      /* extern */
 
 typedef struct S_80027C94_0 {
     s32 unk_00;

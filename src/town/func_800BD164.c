@@ -8,7 +8,7 @@ typedef struct S_800BA8C4_0_pre {
 
 
 M2C_UNK func_80033D08();                      /* extern */
-M2C_UNK func_8008F134(void *);                            /* extern */
+void func_8008F134(void *);                            /* extern */
 extern struct { s32 v; s32 pad[2]; } D_800814A0;
 
 /* Process a record with a zero status byte and set its header and global flags. */

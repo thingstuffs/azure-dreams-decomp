@@ -6,7 +6,7 @@
 
 void *func_8003FD64();
 s32 func_8004491C();
-M2C_UNK func_800A9C18();
+void func_800A9C18();
 s32 func_800AA36C();
 void func_80170B50();
 M2C_UNK func_80173C30();

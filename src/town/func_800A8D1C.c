@@ -2,7 +2,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800A63C8();                         /* extern */
+void func_800A63C8();                         /* extern */
 extern s8 ***D_80081458;
 extern s32 D_80100E2C[3];
 

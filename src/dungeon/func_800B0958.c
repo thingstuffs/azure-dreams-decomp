@@ -23,7 +23,7 @@ extern D_800E3648_entry D_800E3648[];
 extern u8 D_800DF258[];
 s32 func_800B500C();                   /* extern */
 s32 func_800B5128();                                /* extern */
-M2C_UNK func_800B5F80();                         /* extern */
+void func_800B5F80();                         /* extern */
 extern void func_8009A21C();
 extern D_800E39C8_entry D_800E39C8[];
 

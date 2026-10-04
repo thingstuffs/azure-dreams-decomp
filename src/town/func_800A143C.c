@@ -2,7 +2,7 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_8009EB3C();
+extern void func_8009EB3C();
 extern s32 get_item_chk();
 
 /* Process the item index when available and report success. */

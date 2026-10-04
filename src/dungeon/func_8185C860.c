@@ -17,7 +17,7 @@ typedef struct S_8185C860_1 {
 s32 func_800A2CB8();
 s32 func_800A41F0();
 s32 func_800A6D30();
-M2C_UNK func_800C87C4();
+s32 func_800C87C4();
 extern u8 D_800E0003[];
 extern u8 D_800E3D68;
 

@@ -8,9 +8,9 @@
 extern void *D_8008ACDC[];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
-M2C_UNK func_800945E8();
-M2C_UNK func_800948BC();
-M2C_UNK func_80099844();
+void func_800945E8();
+void func_800948BC();
+void func_80099844();
 extern M2C_UNK D_800E0672;
 
 

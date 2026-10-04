@@ -6,7 +6,7 @@
 
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 typedef struct {
     s16 x;
     s16 y;

@@ -14,7 +14,7 @@ typedef struct S_80023FF8_0 {
 } S_80023FF8_0;   /* arg0 in func_80023FF8 */
 
 
-M2C_UNK func_800537D0();           /* extern */
+void func_800537D0();           /* extern */
 
 /* Process the entry and set its header and global flags when its status is zero. */
 void func_80023FF8(void *entry) {

@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80099EA4();                      /* extern */
+void func_80099EA4();                      /* extern */
 
 
 typedef struct S_80099F70_1 {

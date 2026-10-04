@@ -5,7 +5,7 @@
 
 M2C_UNK D_800CB9B8();               /* extern (function symbol used as callback) */
 void *func_8003FD64();               /* extern */
-M2C_UNK func_8004491C();              /* extern */
+s32 func_8004491C();              /* extern */
 extern s32 D_800D68B0[];
 
 

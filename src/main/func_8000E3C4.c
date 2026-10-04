@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_800214A4();                            /* extern */
+void func_800214A4();                            /* extern */
 s32 _card_info();                             /* extern */
 extern s32 D_800287C8[];
 extern s32 D_800287E0[];

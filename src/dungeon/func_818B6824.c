@@ -6,7 +6,7 @@ extern s32 func_8009D218(void *, s32);
 extern s32 func_800A6870(s32);
 extern void func_800AD4D0(void *);
 extern s16 func_800AD568(void *);
-extern M2C_UNK func_800B4C7C(s32, void *, s32, s32);
+extern void *func_800B4C7C(s32, void *, s32, s32);
 
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */

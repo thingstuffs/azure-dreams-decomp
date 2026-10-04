@@ -4,7 +4,7 @@
 #include "m2c_compat.h"
 
 
-M2C_UNK func_80017F3C();                   /* extern */
+s32 func_80017F3C();                   /* extern */
 M2C_UNK func_80018824();          /* extern */
 extern M2C_UNK D_8001B218;
 extern s32 D_8001B318;

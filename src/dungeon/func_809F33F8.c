@@ -9,9 +9,9 @@ void func_80047738(void *, u8, s8);              /* extern */
 void func_80047784(void *, u8, s32);             /* extern */
 void func_800478B8(void *);                       /* extern */
 s32 func_800644B8(s32);                            /* extern */
-M2C_UNK func_800A020C(s32, void *);               /* extern */
+void func_800A020C(s32, void *);               /* extern */
 s32 func_800A9E70(void *, void *, void *, void *); /* extern */
-M2C_UNK func_800AA36C(void *, void *, void *, void *); /* extern */
+s32 func_800AA36C(void *, void *, void *, void *); /* extern */
 s16 func_800BCB04(s32, s32, s16);                 /* extern */
 extern M2C_UNK D_80171400[3];
 extern u8 D_80175140[12];

@@ -54,7 +54,7 @@ typedef struct S_8009ED30_4 {
 
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 struct ConfigWord { s32 value; };
 extern M2C_UNK D_8001363C;
 extern M2C_UNK D_8009E038;

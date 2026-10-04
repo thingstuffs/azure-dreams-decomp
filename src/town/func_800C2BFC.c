@@ -83,21 +83,21 @@ typedef struct {
     s32 w[5];
 } Blk20;
 
-M2C_UNK func_80022F34();              /* extern */
-M2C_UNK func_800239A0();     /* extern */
+void func_80022F34();              /* extern */
+void func_800239A0();     /* extern */
 M2C_UNK func_80033B9C();              /* extern */
 M2C_UNK change_map();                       /* extern */
-M2C_UNK func_800489F4();     /* extern */
+void func_800489F4();     /* extern */
 M2C_UNK func_80048AC8(void *, s32);             /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 M2C_UNK reserve_tw_mon_load();     /* extern */
-M2C_UNK func_8009539C();                      /* extern */
-M2C_UNK func_800953D0();                      /* extern */
-M2C_UNK func_800954F4();                      /* extern */
-M2C_UNK func_80095910();                   /* extern */
-M2C_UNK func_800A48B0();           /* extern */
-M2C_UNK func_800ABD74();                      /* extern */
+void func_8009539C();                      /* extern */
+void func_800953D0();                      /* extern */
+void func_800954F4();                      /* extern */
+void func_80095910();                   /* extern */
+void func_800A48B0();           /* extern */
+void func_800ABD74();                      /* extern */
 s16 func_800C2AE8();                      /* extern */
 extern s32 D_800135B4;
 __asm__(".set D_800135B4, 0x800135B4");

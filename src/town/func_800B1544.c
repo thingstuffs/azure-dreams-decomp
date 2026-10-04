@@ -80,7 +80,7 @@ typedef struct S_800AECA4_15 {
 int func_80049E6C();
 s32 func_8004DC14();
 s32 func_800AE4E4();
-M2C_UNK func_800AE854();
+void func_800AE854();
 extern u8 D_80077E84[12];
 extern u8 D_80077EF0[12];
 extern u8 D_80077EFC[12];

@@ -55,7 +55,7 @@ typedef struct Effect {
 } Effect;
 
 extern void *func_8003FD64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 rand();
 extern s32 D_800D68F4[];
 extern s32 D_800D707C[];

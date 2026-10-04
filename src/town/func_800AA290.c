@@ -17,7 +17,7 @@ typedef struct S_800A79F0_1 {
 /* extern */
 
 
-M2C_UNK func_800A790C(S_800A79F0_0 *);
+void func_800A790C(S_800A79F0_0 *);
 /* Update opposing scale offsets until the countdown ends, then restore unit scale. */
 void func_800A79F0(S_800A79F0_0 *state, s32 finish_arg1, S_800A79F0_1 *scale, s32 finish_arg3) {
     u16 ticks_left;

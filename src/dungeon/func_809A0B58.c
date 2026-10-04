@@ -45,7 +45,7 @@ typedef struct S_func_809A0B58_3 {
 } S_func_809A0B58_3;
 
 extern M2C_UNK func_80047784();
-extern M2C_UNK func_8009A350();
+extern s16 func_8009A350();
 extern u8 D_80175EA8[9];
 
 /* Advance the counter when unblocked and reset the action when it exceeds 60. */

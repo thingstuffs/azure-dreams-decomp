@@ -14,7 +14,7 @@ typedef struct S_800B07D0_2 {
 
 
 M2C_UNK func_800497F4();                    /* extern */
-M2C_UNK func_8004CB2C();                         /* extern */
+s32 func_8004CB2C();                         /* extern */
 
 typedef struct S_800B07D0_0 {
     u8 pad_00[0x1C];

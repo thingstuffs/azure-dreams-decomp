@@ -47,7 +47,7 @@ typedef struct S_800A71F0_5 {
 M2C_UNK func_80033CD8();
 M2C_UNK func_8003DB94();
 void *func_8003FD64();
-M2C_UNK func_800A7308();
+void func_800A7308();
 extern M2C_UNK D_800A7338;
 extern s32 D_800D0DF0;
 

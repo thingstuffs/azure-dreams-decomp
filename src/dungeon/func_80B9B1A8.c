@@ -97,7 +97,7 @@ s32 func_8003DB94();
 s32 func_80047738();
 s32 rand();
 void func_8009A028();
-M2C_UNK func_8009A3D0();
+void func_8009A3D0();
 void func_800A18E8();
 void *func_800A504C();
 s32 func_800A56E0();

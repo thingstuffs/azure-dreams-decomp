@@ -4,7 +4,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_80024E80_arg1.h"
 
-M2C_UNK func_80024E80();              /* extern */
+void *func_80024E80();              /* extern */
 M2C_UNK func_800478B8();                      /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */

@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_80095388();                 /* extern */
+void func_80095388();                 /* extern */
 extern M2C_UNK D_800A73E0;
 
 

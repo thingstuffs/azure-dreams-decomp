@@ -9,7 +9,7 @@ typedef struct S_80172274_0 {
 } S_80172274_0;   /* arg0 in func_80172274; pointer addresses record offset 0x2 */
 
 
-M2C_UNK func_80172160();                            /* extern */
+void func_80172160();                            /* extern */
 
 /* Decrement the record counter, calling the update on even counts and setting flags at zero. */
 void func_80172274(void *record_data) {

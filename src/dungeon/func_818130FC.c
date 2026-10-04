@@ -43,7 +43,7 @@ typedef struct S_800280FC_10 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80027AD0();
+extern void func_80027AD0();
 extern M2C_UNK func_8004CBFC();
 extern M2C_UNK D_80078AB4;
 extern M2C_UNK D_80078AD8;

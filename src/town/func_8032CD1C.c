@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_80019B54(void *, s32);                                /* extern */
-M2C_UNK func_8001B168();   /* extern */
+void func_8001B168();   /* extern */
 
 /* Process the request and invoke func_8001B168 when the result is nonzero. */
 s32 func_8001751C(void *context, s32 request) {

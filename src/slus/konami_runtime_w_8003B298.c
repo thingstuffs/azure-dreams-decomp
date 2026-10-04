@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-M2C_UNK func_8003AF58();        /* extern */
+void func_8003AF58();        /* extern */
 extern u8 D_8006AE64[];
 extern u8 D_800717D0[];
 

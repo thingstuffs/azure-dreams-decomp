@@ -10,7 +10,7 @@ typedef struct S_800C3BB8_0 {
 } S_800C3BB8_0;   /* arg0 in func_800C3BB8 */
 
 
-M2C_UNK func_800C41D4(S_800C3BB8_0 *);
+void func_800C41D4(S_800C3BB8_0 *);
 /* Decrements the timer and calls the handler when its signed value is nonpositive. */
 void func_800C3BB8(S_800C3BB8_0 *object) {
     u16 remaining_ticks;

@@ -12,9 +12,9 @@ M2C_UNK func_80026548();                 /* extern */
 M2C_UNK func_8002660C();    /* extern */
 M2C_UNK func_800266D0();                  /* extern */
 s32 func_8003DE58(); /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 func_8009B4B0();                /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 s32 func_800A44E0();              /* extern */
 extern u16 D_800281F8;
 extern s16 D_8002966C[6];

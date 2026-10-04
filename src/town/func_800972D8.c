@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80082D58.h"
 
-M2C_UNK func_800949C4();                         /* extern */
+void func_800949C4();                         /* extern */
 
 
 /* Stores the value in the record and forwards it with unk_10 to func_800949C4. */

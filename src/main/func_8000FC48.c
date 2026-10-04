@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8002290C_arg0.h"
 
-M2C_UNK func_80022BE8();                      /* extern */
+void func_80022BE8();                      /* extern */
 extern u8 D_800280B4[];
 __asm__(".set D_800280B4, 0x800280B4");
 

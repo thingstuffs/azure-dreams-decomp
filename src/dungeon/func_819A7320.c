@@ -5,7 +5,7 @@ int abs(int);
 s32 func_80065420();
 M2C_UNK func_80066640();
 M2C_UNK func_800666F4();
-M2C_UNK func_800DBA90();
+void func_800DBA90();
 typedef struct
 {
     u16 x;

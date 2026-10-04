@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_800A9E70_arg0.h"
 
-M2C_UNK func_800A4ACC();                      /* extern */
+s32 func_800A4ACC();                      /* extern */
 
 
 /* Reset the entity state, clear the target flag, and decrement its counter. */

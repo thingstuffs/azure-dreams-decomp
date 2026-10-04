@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-M2C_UNK func_80095388();                      /* extern */
+void func_80095388();                      /* extern */
 s16 func_800C2AE8();                          /* extern */
 s32 func_800C30E0();         /* extern */
 M2C_UNK func_800CDF00();     /* extern */

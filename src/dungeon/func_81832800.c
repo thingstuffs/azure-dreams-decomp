@@ -11,12 +11,12 @@ extern int abs(int);
 extern u8 D_800DEA68[];
 extern u8 D_800DED70[];
 void *func_8003FD64();                     /* extern */
-M2C_UNK func_8004491C();                /* extern */
+s32 func_8004491C();                /* extern */
 s32 func_80069EF8();                /* extern */
-M2C_UNK func_8009CE1C(); /* extern */
+void func_8009CE1C(); /* extern */
 void *func_800A05A4();      /* extern */
 s16 func_800A3820();                         /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 s16 func_800BCB04();                   /* extern */
 extern M2C_UNK D_80024860;
 extern M2C_UNK D_800248F0;

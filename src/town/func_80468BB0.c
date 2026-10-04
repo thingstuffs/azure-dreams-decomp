@@ -5,7 +5,7 @@
 
 
 
-M2C_UNK func_80019B70();                      /* extern */
+void func_80019B70();                      /* extern */
 extern u8 D_80017B30;
 
 

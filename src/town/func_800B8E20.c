@@ -5,7 +5,7 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_80048E00();
+void *func_80048E00();
 
 typedef struct S_800B6580_0 {
     u8 pad_00[0x3C];

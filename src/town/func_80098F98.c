@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-M2C_UNK func_800954C4(EntityRec *);                            /* extern */
+void func_800954C4(EntityRec *);                            /* extern */
 extern s8 D_800CFCEA;
 
 

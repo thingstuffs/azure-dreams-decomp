@@ -10,7 +10,7 @@ extern void func_800255AC(); /* extern */
 extern void func_8002661C(); /* extern */
 extern void func_80026CD8(); /* extern */
 extern void func_80026D0C(); /* extern */
-extern M2C_UNK func_80027454();
+extern void func_80027454();
 extern void func_800274A8(); /* extern */
 extern void func_80028620(); /* extern */
 extern M2C_UNK SD_Call();

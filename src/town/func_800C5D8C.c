@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 s32 func_800C30E0(Rec_func_80094268_arg0 *, M2C_UNK, M2C_UNK, s32);                                /* extern */
-M2C_UNK func_800C382C();    /* extern */
+void func_800C382C();    /* extern */
 
 
 /* Count down after an unhandled entity update and choose a direction when the timer expires. */

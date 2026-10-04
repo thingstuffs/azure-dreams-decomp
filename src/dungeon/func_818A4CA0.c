@@ -4,7 +4,7 @@
 
 M2C_UNK func_8003DB94(); /* extern */
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
 s32 rand();                                /* extern */

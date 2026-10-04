@@ -39,7 +39,7 @@ typedef struct S_800F63D0_2 {
 extern s32 func_80033BC0();
 extern void *func_8003FC64();
 extern M2C_UNK file_load_com();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s16 func_800BCA68();
 extern u8 D_80045C34[]; /* overlays/dungeon/first_pass_matched/func_80D403A8.c */
 extern M2C_UNK D_800F62BC;

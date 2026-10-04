@@ -15,7 +15,7 @@ typedef struct S_800AF148_0 {
 
 
 M2C_UNK func_8004B248();                         /* extern */
-M2C_UNK func_800AF0E0();                    /* extern */
+void func_800AF0E0();                    /* extern */
 
 /* Updates an object's state and sets its local and global 0x8000 flags. */
 void func_800AF148(s32 objectAddress) {

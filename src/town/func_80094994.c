@@ -11,7 +11,7 @@ void func_80094C74();                      /* extern */
 void func_80095388();                      /* extern */
 void func_800954F4();                      /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
+void func_80095A94();      /* extern */
 void func_80095C80();                      /* extern */
 void func_800ABD74();                      /* extern */
 extern u8 D_800CFCEF;

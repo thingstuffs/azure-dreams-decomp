@@ -3,7 +3,7 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_80069EF8();
 extern M2C_UNK D_800249E0;
 extern M2C_UNK D_80025FE8;

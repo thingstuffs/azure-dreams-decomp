@@ -13,7 +13,7 @@ typedef struct S_800A55CC_0_pre {
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
 extern void func_80033CD8(void *object, void *setup_data);
-M2C_UNK func_800942B0(void *arg0, EntityRec *arg1, s32 arg2);
+void func_800942B0(void *arg0, EntityRec *arg1, s32 arg2);
 extern M2C_UNK D_800903FC[];
 extern M2C_UNK D_800970FC[];
 extern s32 D_800D0CC0[];

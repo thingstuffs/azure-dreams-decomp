@@ -131,9 +131,9 @@ extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
 M2C_UNK func_800245BC();
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_80069EF8();
-M2C_UNK func_8009CE1C();
+void func_8009CE1C();
 s32 func_800A4778();
 extern M2C_UNK D_80024280;
 

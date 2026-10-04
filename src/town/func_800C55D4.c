@@ -4,7 +4,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_800C2CB0();
+void func_800C2CB0();
 s32 func_800C2D0C();
 
 

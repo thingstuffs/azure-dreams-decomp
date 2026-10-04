@@ -4,7 +4,7 @@
 /* extern */
 s32 func_8009F9A4();                                /* extern */
 M2C_UNK func_8009A8EC();                            /* extern */
-M2C_UNK func_8009A99C();                            /* extern */
+void func_8009A99C();                            /* extern */
 extern M2C_UNK D_800A0CF8;
 extern M2C_UNK D_800A0CC0;
 

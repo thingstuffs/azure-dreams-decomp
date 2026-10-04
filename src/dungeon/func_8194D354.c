@@ -138,7 +138,7 @@ s32 func_8003DE58();
 s32 func_80053EF0();
 M2C_UNK func_80065820();
 s32 func_80069EF8();
-M2C_UNK func_8009CE1C();
+void func_8009CE1C();
 void *func_800A05A4();
 s32 func_800A45D8();
 s32 func_800A56E0();

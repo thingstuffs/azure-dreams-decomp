@@ -7,7 +7,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_800A2BDC();                          /* extern */
-M2C_UNK func_800A48F0();    /* extern */
+s16 func_800A48F0();    /* extern */
 s32 func_800A4ACC();                      /* extern */
 extern u8 D_801741D4[8];
 

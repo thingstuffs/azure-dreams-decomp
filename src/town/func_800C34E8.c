@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_800C0D80(void);                            /* extern */
+void func_800C0D80(void);                            /* extern */
 extern M2C_UNK D_800C0C28;
 
 typedef struct S_800C0C48_0 {

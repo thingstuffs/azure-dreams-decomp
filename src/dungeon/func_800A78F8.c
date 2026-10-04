@@ -10,13 +10,13 @@ typedef s32 M2C_UNK;
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
 void func_8009A028(); /* extern */
-M2C_UNK func_8009A3D0();
+void func_8009A3D0();
 void func_800A2FE0(); /* extern */
 s32 func_800A32A4(); /* extern */
 s32 func_800A56E0(); /* extern */
 void func_800ACF88(); /* extern */
 s32 func_80042900();
-M2C_UNK func_800B8228();
+void *func_800B8228();
 
 
 typedef struct S_800AD058_1 {

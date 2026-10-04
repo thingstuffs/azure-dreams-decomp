@@ -4,8 +4,8 @@
 #include "m2c_compat.h"
 
 s32 func_80044724();
-M2C_UNK func_800D112C();
-M2C_UNK func_800D1338();
+s32 func_800D112C();
+void func_800D1338();
 
 typedef struct S_800D13B8_1 {
     u8 pad_00[0xA4];

@@ -13,7 +13,7 @@ typedef struct {
     u8 unk7;
 } D_80082660_entry;
 
-M2C_UNK func_800C2E84();          /* extern */
+void func_800C2E84();          /* extern */
 extern D_80082660_entry D_80082660[];
 extern M2C_UNK D_800CE8CC;
 extern M2C_UNK D_800D72D4;

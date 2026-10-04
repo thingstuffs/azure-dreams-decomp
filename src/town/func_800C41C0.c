@@ -7,7 +7,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef int s32;
 typedef s32 M2C_UNK;
-extern M2C_UNK func_8003AF58();
+extern void func_8003AF58();
 extern M2C_UNK D_800717D0;
 extern s8 D_80080A88;
 extern M2C_UNK D_800D429C;

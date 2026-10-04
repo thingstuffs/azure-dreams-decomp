@@ -34,7 +34,7 @@ typedef struct S_80174910_10 {
 
 
 void *func_8003FD64();               /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 M2C_UNK func_800672D8();              /* extern */
 extern M2C_UNK D_801747B8;
 

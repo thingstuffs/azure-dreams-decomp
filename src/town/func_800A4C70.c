@@ -32,7 +32,7 @@ typedef struct S_800A23D0_3 {
 } S_800A23D0_3;   /* ((S_800A23D0_2 *)arg0)->unk_14 in func_800A23D0 */
 
 
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern M2C_UNK D_80046398;
 extern M2C_UNK D_800A24A8;
 extern M2C_UNK D_800D0A48;

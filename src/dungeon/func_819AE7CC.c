@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 s16 rand();                                /* extern */
 extern M2C_UNK D_80025D28;
 extern M2C_UNK D_80027460;

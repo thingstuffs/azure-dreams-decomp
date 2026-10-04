@@ -10,7 +10,7 @@ typedef struct S_8009A58C_0 {
 } S_8009A58C_0;   /* arg0 in func_8009A58C */
 
 
-M2C_UNK func_80098988(S_8009A58C_0 *, s32);
+void func_80098988(S_8009A58C_0 *, s32);
 /* Clear the indexed table entry and call func_80098988. */
 void func_8009A58C(S_8009A58C_0 *object, s32 value) {
     D_80082660[object->unk_40].unk_00 = 0;

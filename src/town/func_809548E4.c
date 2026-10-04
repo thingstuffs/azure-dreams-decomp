@@ -229,9 +229,9 @@ short SD_Call(); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();           /* extern */
 s32 rand();                      /* extern */
-M2C_UNK func_800ABD74();                       /* extern */
+void func_800ABD74();                       /* extern */
 s32 func_800B1BEC();       /* extern */
-M2C_UNK func_800B1DBC();              /* extern */
+void func_800B1DBC();              /* extern */
 extern s32 D_80012D5C[0xB58];
 extern u8 D_80022514[0x100];
 extern s32 D_80024338[3];

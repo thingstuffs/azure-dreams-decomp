@@ -32,21 +32,21 @@ extern M2C_UNK func_80035208();
 extern M2C_UNK func_80042560();
 extern M2C_UNK func_80042640();
 extern M2C_UNK func_80042984();
-extern M2C_UNK func_800429E4();
+extern s32 func_800429E4();
 extern M2C_UNK func_80094A64();
 extern M2C_UNK func_80094AE8();
 extern M2C_UNK func_80094B54();
 extern M2C_UNK func_80094B94();
 extern M2C_UNK func_80094BD0();
-extern M2C_UNK func_800982A8();
-extern M2C_UNK func_80098614();
+extern void func_800982A8();
+extern void func_80098614();
 extern s32 func_8009B88C();
 extern void *(*func_800A0B94())(M2C_UNK, s16, s16, s16);
-extern M2C_UNK func_800A152C();
+extern s32 func_800A152C();
 extern s32 func_800A1618();
 extern s32 func_800A4E2C();
-extern M2C_UNK func_800A6A9C();
-extern M2C_UNK func_800C542C();
+extern void func_800A6A9C();
+extern void *func_800C542C();
 
 typedef struct S_80094988_0 {
     u8 pad_00[0x2D50];

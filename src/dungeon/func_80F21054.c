@@ -56,12 +56,12 @@ extern u8 D_8015BD78[];
 extern u8 D_80158F74[];
 
 extern void *func_8003FD64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_800A6D30();
 extern s16 func_800A48F0();
 extern void func_800A9C18();
 extern s32 func_800AA36C();
-extern M2C_UNK func_80044A50();
+extern void func_80044A50();
 extern void func_800BC318();
 
 #define BODY_STORAGE

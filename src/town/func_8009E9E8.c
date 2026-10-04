@@ -5,7 +5,7 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 
-M2C_UNK func_8008F664();              /* extern */
+void func_8008F664();              /* extern */
 extern M2C_UNK D_8009B8E8;
 extern s32 D_800D0428[];
 

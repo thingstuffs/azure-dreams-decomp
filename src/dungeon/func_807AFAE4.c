@@ -21,7 +21,7 @@ typedef struct S_807AFAE4_1 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 void *func_8003FD64();                  /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_800F71A4;
 
 /* Initializes a linked object from the source record and invokes func_800A56E0 on success. */

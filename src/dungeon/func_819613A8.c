@@ -59,7 +59,7 @@ typedef struct {
 
 extern s8 D_8002745C[];
 TempObj *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 extern M2C_UNK D_800264D4;
 extern M2C_UNK D_800269CC;
 extern s16 D_800273BC[5];

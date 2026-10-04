@@ -20,7 +20,7 @@ typedef struct S_800BB044_1 {
 
 
 void *func_8003FD64();                  /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+s32 func_800A56E0();                     /* extern */
 extern M2C_UNK D_800BAF04;
 
 /* Creates an object linked to the source data and copies its record fields. */

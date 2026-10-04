@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 s32 func_8008AD1C(s32, M2C_UNK, M2C_UNK);                                /* extern */
-M2C_UNK func_8008AE4C();                         /* extern */
+void func_8008AE4C();                         /* extern */
 s32 func_8008AFB0();      /* extern */
 
 /* Find or allocate the matching entry and move it to the front. */

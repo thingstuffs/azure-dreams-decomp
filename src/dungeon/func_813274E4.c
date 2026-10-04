@@ -82,7 +82,7 @@ typedef struct {
 } TableEntry;
 
 void *func_8003FC64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 s32 func_80069EF8();
 extern u8 D_80013611[];
 extern M2C_UNK D_800777F4;

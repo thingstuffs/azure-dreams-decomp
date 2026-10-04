@@ -53,11 +53,11 @@ typedef struct S_80FD5000_4 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
+s32 func_8004491C();
 M2C_UNK func_800673A0();
 s16 func_800A48F0(); /* extern */
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
+void func_800A9C18();
 s32 func_800AA36C(); /* extern */
 void *func_8014C984();
 void *func_8014CA40();

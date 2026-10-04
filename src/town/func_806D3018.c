@@ -10,7 +10,7 @@ typedef struct {
     s32 unkC;
 } CallbackEntry;
 
-extern M2C_UNK func_800167B4();
+extern s32 func_800167B4();
 extern s32 func_80016D78();
 extern s16 D_800160B2[8];
 
