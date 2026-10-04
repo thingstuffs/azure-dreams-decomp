@@ -1,3 +1,44 @@
+# Handover (2026-10-04 ~17:20, round 93: native Claude lanes + luna/Gemini pools; IN PROGRESS) - start here
+
+**Owner brief (10-04):** ~12 h of Claude usage left; Sonnet first, 1 Opus at a time, 1-2 Sonnet; minimal sol/astra; luna and
+agy Gemini 3.8 flash for grunt work; goal = fewer pins, compiler alignment, cleanliness (gotos, do-while(0) ...).
+Native Agent lanes (not agy-Claude: the r92 agy pilot was content-filter-blocked on every try).
+
+**Numbers:** pins 357/143 -> 349/140 at this writing (+2 queued: r93_opus_p3). Rows off their build 20 -> 14.
+Goto files 587 -> 443; computed-goto files 69 -> 18; m2c-name files 758 -> 718; ~700 M2C_UNK prototypes typed.
+
+**What paid (and the recipe for each):**
+- **Opus pin lanes** (record_usage.py --prompt; mkq() in the session = build_class_pack + kit_pack --question q_<lane>.md):
+  r92_agyO_p1 -2 (81810198 dbr marker from ANOTHER loop's backward fill -> for loop; 81820800 abs()), r92_agyO_p2 -3
+  (81845068 PsyQ setaddr/getaddr OT link; 80095160 3->1), r93_opus_p3 -2 (800BAE88 K&R u8 parameter - tools/verify.py now
+  accepts K&R definitions; 800B52D8 indexed for loops), r93_opus_tptabc: 10 composite rows real switch + rodata owners.
+- **Sonnet goto lanes** (build_goto_lane.py --densest, AGENT_PROMPT.txt): g1-g14, pg1-pg4 (pinned rows: gotos only, 0 pins fell).
+- **Sonnet computed-goto -> switch** cg1-cg7: 41 rows exact; read RETAIL tables (rtab.py), old label arrays were wrong.
+  Recipe now in tools/lanes/brief_paragraphs/computed_goto_switch.md (+ goto_recipes.md, tools/learnings/pin_leads_r93.md).
+- **CPU generators written by Sonnet:** t136_stubtail (76 gotos), t137_switchbreak (33 gotos); both in cascade_extra.txt.
+  t16_absidiom now sees cast copies + pins on the tested value. CPU sweep r93: -1 pin (8080DAB8).
+- **Alignment (Sonnet):** al2/al3/al4 retired crutches on 7 pin-free rows (8001A0F0, 806D30B4 nosr, 8001F368 cse-follow-jumps
+  via local pointer reads, 8080BCD4, 81893024, 80813E14, 80E8D490 - several were r91c astra winners never landed).
+- **Cleanup:** luna rename/proto/nm pools (build_cleanup_lane.py, ledger/cleanup_lanes.jsonl), Gemini goto pools (agy,
+  15 lanes, ~70% rows staged), Sonnet big-row renames + proto lanes pr1-pr16. tools/lanes/proto_check.py guards prototype
+  edits (rows are FILED by file offset: callees resolve by true_name; a sibling lane wrote 12 false voids before the check).
+
+**Held for the owner (not landed):**
+1. r93_sonnet_own2: 8195281C / 8195E81C real switches exact only after a ROW RE-CARVE (merge the 28-byte data rows
+   func_81952800 / func_8195E800 into the function rows + owner records). LANDING.md in the lane. Row-identity call.
+2. Gemini r93_agy_goto7 8009399C / 8009A108: `goto retry` loop -> self tail recursion (exact). Plausible? held/.
+3. r93_agy_goto4/5 80BC1BA8 80BC7BA8 80BCDBA8 80BD9BA8 and r93_sonnet_pg1 8009E0EC: goto into a label inside another
+   block (labels-into-blocks rule) - held/.
+4. r92_agyO_p2 80095160 landed with `move_failed:` (pre-existing label inside an if block) now reached by more gotos.
+5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
+
+**Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
+813274E4 needs an earlier no-code use of the page; 81326794 sched1 reload T-46; SLUS computed gotos (6 rows) need the
+SLUS .rodata owner path (d9f94903e) - Opus; town 806D835C (lui page sharing) / 808119EC (shared pointer across loops);
+type phase 13 (r91_types_p12/DESIGN.md) deferred - touches hundreds of rows, run when no lanes are in flight.
+**Traps:** pool.py needs LAND_ISOLATED=1 in ITS env or it idles while landers run; batch landings (one land_gap for many
+lanes) - per-lane landings queue for hours; Sonnet pin lanes 0/4 again (keep pins on Opus).
+
 # Handover (2026-10-03 ~12:10, round 92 agy pilot: ARMED for 16:40Z, no lanes running now) - start here
 
 agy now serves claude-opus-5-5-{low,medium,high} and claude-sonnet-5-5-{low,medium,high} (one SHARED "individual quota":
