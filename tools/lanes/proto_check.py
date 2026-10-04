@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Flag staged prototype edits whose declared return type contradicts the callee's real definition.
 usage: proto_check.py <lane> [<lane> ...]   (compares out/<c>/<name>.c against base/; callee looked up by func or true_name)"""
-import json, re, sys, glob, collections
+import json, os, re, sys, glob, collections
 from pathlib import Path
+os.chdir(Path(__file__).resolve().parents[2])   # paths below are repo-relative
 rows = [json.loads(l) for l in open("ledger/rows.jsonl")]
 defs = collections.defaultdict(list)            # (container, name) -> [row id]
 for r in rows:
