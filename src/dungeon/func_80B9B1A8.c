@@ -43,7 +43,7 @@ typedef struct S_801749A8_0 {
 typedef struct S_801749A8_2 {
     u8 pad_00[0xC];
     union { void * s; s32 u; } unk_0C;   /* accessed as both */
-    union { M2C_UNK * s; s32 u; } unk_10;   /* accessed as both */
+    union { void * s; s32 u; } unk_10;   /* accessed as both */
     u16 unk_14;
     u8 pad_16[0x6];
     s16 unk_1C;
@@ -90,20 +90,20 @@ extern s16 D_80174F48[];
 M2C_UNK Control_CD();
 M2C_UNK func_8003F540();
 void *func_8003FC64();
-M2C_UNK func_80041588();
-M2C_UNK func_8004491C();
+void func_80041588();
+s32 func_8004491C();
 M2C_UNK func_800445E0();
 s32 func_8003DB94();
 s32 func_80047738();
 s32 rand();
-M2C_UNK func_8009A028();
+void func_8009A028();
 M2C_UNK func_8009A3D0();
-M2C_UNK func_800A18E8();
+void func_800A18E8();
 void *func_800A504C();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 s32 func_800ADC4C();
-M2C_UNK func_800C77D0();
-M2C_UNK func_801745E0();
+s32 func_800C77D0();
+void func_801745E0();
 s32 func_800498A0(void *, ...);
 extern u8 *D_800DCEEC[];
 extern M2C_UNK D_800DCF5C;
@@ -116,7 +116,7 @@ extern s32 D_80174FD0[];
 
 /* Updates the turning, color fade, effect, and model replacement sequence. */
 void func_801749A8(void *sequence, EntityRec *position, Rec_D_80082E80 *actor, void *target) {
-    M2C_UNK *target_color;
+    u8 *target_color;
     s16 direction;
     s32 effect_choice;
     s32 movement_done;

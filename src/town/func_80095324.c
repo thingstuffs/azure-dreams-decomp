@@ -3,22 +3,22 @@
 #include "shared/entity.h"
 #include "records/Rec_func_80094268_arg0.h"
 
-M2C_UNK func_80035208();
-M2C_UNK func_8008B158();
+void func_80035208();
+void func_8008B158();
 M2C_UNK func_8009451C();
-M2C_UNK func_800945B8();
+void func_800945B8();
 M2C_UNK func_80094660();
 M2C_UNK func_800946A0();
-M2C_UNK func_80094944();
-M2C_UNK func_80094984();
-M2C_UNK func_80094C1C();
-M2C_UNK func_80094C74();
-M2C_UNK func_80095094();
-M2C_UNK func_8009567C();
+void func_80094944();
+void func_80094984();
+void func_80094C1C();
+void func_80094C74();
+void func_80095094();
+s32 func_8009567C();
 s32 func_80095760();
 s16 func_80095978();
-M2C_UNK func_80095A94();
-M2C_UNK func_80095C80();
+void func_80095A94();
+void func_80095C80();
 M2C_UNK func_800988C8();
 s32 func_8009FF50();
 s32 func_800A9D74();
@@ -52,7 +52,7 @@ typedef struct S_80092A84_4 {
 } S_80092A84_4;   /* base in func_80092A84 */
 
 /* Updates the actor's position and dispatches town actions from input and interaction state. */
-void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, M2C_UNK context) {
+void func_80092A84(Rec_func_80094268_arg0 *actor, EntityRec *body, s32 context) {
     GameWork *input_state;
     u8 *position_data;
     s32 *interaction_ctrl;

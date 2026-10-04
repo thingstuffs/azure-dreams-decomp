@@ -6,19 +6,19 @@
 
 s32 func_80033B2C();                         /* extern */
 M2C_UNK func_80094088();     /* extern */
-M2C_UNK func_800942B0();     /* extern */
+void func_800942B0();     /* extern */
 M2C_UNK func_80094378();     /* extern */
-M2C_UNK func_80094414();     /* extern */
+void func_80094414();     /* extern */
 M2C_UNK func_80094474();     /* extern */
 M2C_UNK func_800944BC();     /* extern */
 M2C_UNK func_8009451C();     /* extern */
-M2C_UNK func_80094C1C();                      /* extern */
-M2C_UNK func_80095094();                      /* extern */
+void func_80094C1C();                      /* extern */
+void func_80095094();                      /* extern */
 s32 func_8009567C(void *);            /* extern */
 s32 func_80095840();               /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 extern M2C_UNK D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 extern M2C_UNK D_800FE488;
@@ -35,7 +35,7 @@ typedef struct S_80092320_2 {
 
 
 /* Update the actor and select an action from the reference value, state flags, and timer. */
-void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, M2C_UNK context) {
+void func_80092320(Rec_func_80094268_arg0 *action, EntityRec *actor, s32 context) {
     GameWork *state = &gameWork;
     s16 reference_value;
     s32 action_result;

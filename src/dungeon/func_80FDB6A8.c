@@ -28,7 +28,6 @@ extern void func_8017208C(void *, void *, void *, void *);
 extern s32 func_80172230(void *, void *, void *, s32);
 extern void func_80173A84(void *, void *, void *, void *);
 
-extern void *D_80170808[];
 extern u8 D_80170EA8;
 extern u8 D_80174038[];
 extern u8 D_80174040[];
@@ -142,10 +141,12 @@ void func_80170EA8(void *actor, void *context, void *sprite, EntityRec *entity)
 
     if (entity->unk_6D > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(entity);
+            return;
         }
         if (((S_80170EA8_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto ordinary_cleanup;
+            func_8017167C(actor, context, sprite, entity);
+            return;
         }
         if (!(entity->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -159,98 +160,57 @@ void func_80170EA8(void *actor, void *context, void *sprite, EntityRec *entity)
             }
             entity->unk_46 |= 0x4000;
             if (!(entity->unk_46 & 0x8000)) {
-                goto ordinary_cleanup;
+                func_8017167C(actor, context, sprite, entity);
+            return;
             }
         }
 
-#ifdef __mips__
-        {
-            static void *volatile dispatch_labels[] = {
-                &&aaf_cleanup, &&aaf_cleanup, &&aaf_cleanup,
-                &&ordinary_cleanup,
-                &&coords_case, &&coords_case, &&coords_case,
-                &&case8_setup, &&handler_case,
-                &&ordinary_cleanup, &&ordinary_cleanup,
-                &&special_cleanup,
-            };
-            s32 dispatch_index;
-
-            dispatch_index = (entity->unk_46 & 0x3FFF) - 1;
-            if ((u32)dispatch_index >= 12) {
-                goto ordinary_cleanup;
-            }
-            goto *D_80170808[dispatch_index];
-        }
-case8_setup:
-#else
         switch (entity->unk_46 & 0x3FFF) {
-        case 8:
-#endif
+        case 9:
             ((S_80170EA8_0 *)actor)->unk_98.v |= 0x8000;
+            /* fallthrough */
+        case 8:
             if (((u32)entity->flags1C) & 0x2000) {
                 if ((entity->unk_46 & 0x3FFF) == 8) {
                     ((S_80170EA8_0 *)actor)->unk_98.v &= 0x7FFF;
                 }
             }
-
-#ifdef __mips__
-handler_case:
-#else
-        case 9:
-#endif
             if ((s16)func_80171E28(actor, context, sprite, entity) == 0) {
                 func_8017208C(actor, context, sprite, entity);
                 return;
             }
             return;
-
-#ifdef __mips__
-coords_case:
-#else
         case 5:
         case 6:
         case 7:
-#endif
-        {
-            EntityRec *global_actor;
-            s32 direction;
+            {
+                EntityRec *global_actor;
+                s32 direction;
 
-            direction = func_800A0818(
-                ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
-                D_80082E80.tileX, D_80082E80.tileY,
-                &direction_aux);
-            global_actor = D_800814A8;
-            entity->facing = direction;
-            if (global_actor->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                direction = func_800A0818(
+                    ((S_80170EA8_2 *)sprite)->unk_24.at00.v, ((S_80170EA8_2 *)sprite)->unk_24.at01.v,
+                    D_80082E80.tileX, D_80082E80.tileY,
+                    &direction_aux);
+                global_actor = D_800814A8;
+                entity->facing = direction;
+                if (global_actor->unk_9A == 0x11) {
+                    func_800AAF00(actor, context, sprite, D_80174070, &D_80170EA8);
+                    return;
+                }
             }
-            goto special_cleanup;
-        }
-#ifndef __mips__
+            /* fallthrough */
+        case 12:
+            func_800A9A0C(entity);
+            return;
         case 1:
         case 2:
         case 3:
-            goto aaf_cleanup;
-
-        case 12:
-            goto special_cleanup;
-
+            func_800AAF00(actor, context, sprite, D_80174070, &D_80170EA8);
+            return;
         default:
-            goto ordinary_cleanup;
+            func_8017167C(actor, context, sprite, entity);
+            return;
         }
-#endif
-
-special_cleanup:
-        func_800A9A0C(entity);
-        return;
-
-aaf_cleanup:
-        func_800AAF00(actor, context, sprite, D_80174070, &D_80170EA8);
-        return;
-
-ordinary_cleanup:
-        func_8017167C(actor, context, sprite, entity);
-        return;
     } else if (!(((u32)entity->flags1C) & 0x2000)) {
         s32 record_index = (s8)tile_record;
 

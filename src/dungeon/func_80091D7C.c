@@ -33,10 +33,10 @@ typedef struct S_800974DC_6 {
 
 
 void func_8003DB94();
-M2C_UNK func_80099F04();
+void func_80099F04(); /* extern */
 s32 func_8009C12C();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800C77D0();
+void func_800A2B04(); /* extern */
+s32 func_800C77D0(); /* extern */
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
 extern M2C_UNK D_800DD294[8];

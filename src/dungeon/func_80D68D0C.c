@@ -32,8 +32,6 @@ extern s32 func_8017165C(s32);
 
 extern u8 D_800E2368[];
 extern LocalTable D_8017088C;
-extern void *const D_801708B0[];
-extern void *const D_801708C8[];
 
 
 typedef struct S_8017450C_0 {
@@ -120,242 +118,214 @@ void func_8017450C(void *state, void *motion, void *monster, void *actor_ptr)
     direction_table = D_8017088C;
     actor = (u32)actor_ptr;
 
-    {
-        static void *const state_labels[] = {
-            &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
-        };
-        u32 state_index = ((S_8017450C_0 *)state)->unk_9B;
+    switch (((S_8017450C_0 *)state)->unk_9B) {
+    case 0:
+        if (((S_8017450C_1 *)monster)->unk_14 & 0x8000) {
+            break;
+        }
 
-        if (state_index >= 5) {
+        facing_angle = 0;
+        do {
+            if (((gameWork.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
+                ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
+            }
+            facing_angle += 0x200;
+        } while (facing_angle < 0x1000);
+
+        {
+            u8 *animation_table = D_800E2368;
+            (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
+            direction_index = (gameWork.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
+            func_80047784(monster, animation_table[direction_index], 0);
+            ((S_8017450C_0 *)state)->unk_98 |= 8;
+            ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
+            ((S_8017450C_0 *)state)->unk_90.at02.v += ((S_8017450C_3 *)actor)->unk_88;
+            ((S_8017450C_3 *)actor)->unk_88 = 0;
+        }
+        {
+            u16 next_state = ((S_8017450C_0 *)state)->unk_9B;
+            u16 state_or_height;
+            s32 height_offset = ((S_8017450C_0 *)state)->unk_90.at02.v;
+            s32 *sound_flags = &D_800E296C;
+            ((S_8017450C_0 *)state)->unk_A0 = 0;
+            ((S_8017450C_0 *)state)->unk_9B = next_state + 1;
+            state_or_height = ((S_8017450C_4 *)motion)->unk_0A;
+            state_or_height += height_offset;
+            ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
+            *sound_flags |= 0x40;
+            func_800A56E0(0x807);
+        }
+
+    case 1:
+        ((S_8017450C_0 *)state)->unk_96.s = 0;
+        ((S_8017450C_0 *)state)->unk_9B++;
+        ((S_8017450C_1 *)monster)->unk_22 = 0xFFEC;
+        ((S_8017450C_1 *)monster)->unk_1C = 0x800;
+
+    case 2:
+        switch ((s16)((S_8017450C_0 *)state)->unk_96.s) {
+        case 0:
+            break;
+
+        case 1:
+        case 2:
+            ((S_8017450C_0 *)state)->unk_AE = 0x30;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+            break;
+
+        case 3: case 4: case 5: case 6: case 7: case 8:
+            ((S_8017450C_0 *)state)->unk_AE = 0x28;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
+            break;
+
+        case 9:
+        case 10:
+            ((S_8017450C_0 *)state)->unk_AE = 0x30;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+            break;
+
+        case 11: case 12: case 13: case 14:
+            ((S_8017450C_0 *)state)->unk_AE = 0x70;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
+            break;
+
+        case 15: case 16: case 17:
+            ((S_8017450C_0 *)state)->unk_AE = 0x60;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
+            break;
+
+        case 18: case 19: case 20: case 21:
+            ((S_8017450C_0 *)state)->unk_AE = 0x50;
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
+            break;
+
+        default:
+            ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
+        }
+
+        if (((S_8017450C_1 *)monster)->unk_1A.u >= 0x1000) {
+            ((S_8017450C_1 *)monster)->unk_1A.u -= 0x1000;
+        }
+
+        {
+            s16 angle;
+            s32 radial_speed;
+
+
+            angle = ((S_8017450C_1 *)monster)->unk_1A.u;
+            angle -= 0x400;
+            if (angle < 0) {
+                angle += 0x1000;
+            }
+            angle = (s16)angle;
+
+            trig_value = func_80064584(angle);
+            scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
+            {
+                s32 original_angle = angle;
+
+                radial_speed = scaled_speed << 4;
+                trig_value = func_800644B8(original_angle);
+            }
+
+            scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
+            {
+                u8 *direction_entry = (u8 *)&direction_table;
+                direction.x = (*(u16 *)((u8 *)direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
+                direction_entry +=
+                    ((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C;
+                direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
+
+                ((S_8017450C_0 *)state)->unk_90.at00.v += scaled_speed << 4;
+                ((S_8017450C_4 *)motion)->unk_0C = (direction.x * radial_speed) >> 4;
+                ((S_8017450C_4 *)motion)->unk_10 = (direction.y * radial_speed) >> 4;
+            }
+        }
+
+        if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x2D) {
             return;
         }
-        (void)state_labels;
-        goto *D_801708B0[state_index];
-    }
 
-state_0:
-    if (((S_8017450C_1 *)monster)->unk_14 & 0x8000) {
-        goto cleanup;
-    }
-
-    facing_angle = 0;
-    do {
-        if (((gameWork.view.viewAngle + facing_angle + 0x100) >> 9 & 7) == 2) {
-            ((S_8017450C_3 *)actor)->unk_2A = facing_angle;
-        }
-        facing_angle += 0x200;
-    } while (facing_angle < 0x1000);
-
-    {
-        u8 *animation_table = D_800E2368;
-        (*(u8 * *)((u8 *)monster + (0x2C))) = animation_table;
-        direction_index = (gameWork.view.viewAngle + ((S_8017450C_3 *)actor)->unk_2A + 0x100) >> 9 & 7;
-        func_80047784(monster, animation_table[direction_index], 0);
-        ((S_8017450C_0 *)state)->unk_98 |= 8;
-        ((S_8017450C_3 *)actor)->unk_1C &= 0xFFFBFFFF;
-        ((S_8017450C_0 *)state)->unk_90.at02.v += ((S_8017450C_3 *)actor)->unk_88;
-        ((S_8017450C_3 *)actor)->unk_88 = 0;
-    }
-    {
-        u16 next_state = ((S_8017450C_0 *)state)->unk_9B;
-        u16 state_or_height;
-        s32 height_offset = ((S_8017450C_0 *)state)->unk_90.at02.v;
-        s32 *sound_flags = &D_800E296C;
+        ((S_8017450C_0 *)state)->unk_96.s = 0;
+        ((S_8017450C_0 *)state)->unk_9B++;
+        ((S_8017450C_1 *)monster)->unk_1A.s = 0x800;
+        ((S_8017450C_4 *)motion)->unk_10 = 0;
+        ((S_8017450C_4 *)motion)->unk_0C = 0;
+        ((S_8017450C_4 *)motion)->unk_02.s = (((S_8017450C_1 *)monster)->unk_24 << 6) + 0x20;
+        ((S_8017450C_4 *)motion)->unk_06.s = (((S_8017450C_1 *)monster)->unk_25 << 6) + 0x20;
+        ((S_8017450C_4 *)motion)->unk_0A = ((S_8017450C_0 *)state)->unk_B6;
+        ((S_8017450C_4 *)motion)->unk_14 = 0x280000;
         ((S_8017450C_0 *)state)->unk_A0 = 0;
-        ((S_8017450C_0 *)state)->unk_9B = next_state + 1;
-        state_or_height = ((S_8017450C_4 *)motion)->unk_0A;
-        state_or_height += height_offset;
-        ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
-        *sound_flags |= 0x40;
-        func_800A56E0(0x807);
-    }
+        ((S_8017450C_0 *)state)->unk_90.at02.v = ((S_8017450C_0 *)state)->unk_B6 - 0x12C;
+        ((S_8017450C_1 *)monster)->unk_1C = 0x600;
 
-state_1:
-    ((S_8017450C_0 *)state)->unk_96.s = 0;
-    ((S_8017450C_0 *)state)->unk_9B++;
-    ((S_8017450C_1 *)monster)->unk_22 = 0xFFEC;
-    ((S_8017450C_1 *)monster)->unk_1C = 0x800;
+        for (attempt = 0; attempt < 0xA; attempt++) {
+            random_x = func_8017165C(7) - 3;
+            random_y = func_8017165C(6) - 2;
+            x_offset = random_x << 6;
+            x = ((S_8017450C_4 *)motion)->unk_02.s + x_offset;
+            if (x >= 0x1020) {
+                continue;
+            }
+            if (x <= 0) {
+                continue;
+            }
 
-state_2:
-    {
-        static void *const angle_labels[] = {
-            &&angle_default,
-            &&angle_12, &&angle_12,
-            &&angle_3_8, &&angle_3_8, &&angle_3_8,
-            &&angle_3_8, &&angle_3_8, &&angle_3_8,
-            &&angle_9_10, &&angle_9_10,
-            &&angle_11_14, &&angle_11_14, &&angle_11_14, &&angle_11_14,
-            &&angle_15_17, &&angle_15_17, &&angle_15_17,
-            &&angle_18_21, &&angle_18_21, &&angle_18_21, &&angle_18_21
-        };
-        u32 frame_index = (u32)(s16)((S_8017450C_0 *)state)->unk_96.s;
+            y_offset = random_y << 6;
+            y = ((S_8017450C_4 *)motion)->unk_06.s + y_offset;
+            if (y >= 0x1020) {
+                continue;
+            }
+            if (y <= 0) {
+                continue;
+            }
 
-        if (frame_index >= 0x16) {
-            goto angle_default;
-        }
-        (void)angle_labels;
-        goto *D_801708C8[frame_index];
-    }
+            actor = (u16)x;
+            y = (u16)y;
+            if ((func_800A45D8(actor, y, -0x200) << 16) != 0) {
+                continue;
+            }
+            if (func_800BCB04(actor, y, -0x200) < 0x200) {
+                continue;
+            }
 
-angle_12:
-    ((S_8017450C_0 *)state)->unk_AE = 0x30;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
-
-angle_3_8:
-    ((S_8017450C_0 *)state)->unk_AE = 0x28;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    goto angle_store;
-
-angle_9_10:
-    ((S_8017450C_0 *)state)->unk_AE = 0x30;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
-
-angle_11_14:
-    ((S_8017450C_0 *)state)->unk_AE = 0x70;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x100;
-    goto angle_store;
-
-angle_15_17:
-    ((S_8017450C_0 *)state)->unk_AE = 0x60;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x200;
-    goto angle_store;
-
-angle_18_21:
-    ((S_8017450C_0 *)state)->unk_AE = 0x50;
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x80;
-    goto angle_store;
-
-angle_default:
-    ((S_8017450C_1 *)monster)->unk_1A.u += 0x20;
-
-angle_store:
-    if (((S_8017450C_1 *)monster)->unk_1A.u >= 0x1000) {
-        ((S_8017450C_1 *)monster)->unk_1A.u -= 0x1000;
-    }
-
-    {
-        s16 angle;
-        s32 radial_speed;
-
-
-        angle = ((S_8017450C_1 *)monster)->unk_1A.u;
-        angle -= 0x400;
-        if (angle < 0) {
-            angle += 0x1000;
-        }
-        angle = (s16)angle;
-
-        trig_value = func_80064584(angle);
-        scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
-        {
-            s32 original_angle = angle;
-
-            radial_speed = scaled_speed << 4;
-            trig_value = func_800644B8(original_angle);
+            random_x = 0xB;
+            attempt = random_x;
+            ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
+            ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
         }
 
-        scaled_speed = ((S_8017450C_0 *)state)->unk_AE * trig_value;
-        {
-            u8 *direction_entry = (u8 *)&direction_table;
-            direction.x = (*(u16 *)((u8 *)direction_entry + (((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C)));
-            direction_entry +=
-                ((((S_8017450C_3 *)actor)->unk_2A - 0x400) >> 7) & 0x1C;
-            direction.y = (*(u16 *)((u8 *)direction_entry + (2)));
-
-            ((S_8017450C_0 *)state)->unk_90.at00.v += scaled_speed << 4;
-            ((S_8017450C_4 *)motion)->unk_0C = (direction.x * radial_speed) >> 4;
-            ((S_8017450C_4 *)motion)->unk_10 = (direction.y * radial_speed) >> 4;
+        if (random_x == 0xB) {
+            return;
         }
-    }
 
-    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x2D) {
+        ((S_8017450C_0 *)state)->unk_9B = 4;
+        ((S_8017450C_4 *)motion)->unk_14 = 0;
+        ((S_8017450C_1 *)monster)->unk_14 |= 0x80;
+        return;
+
+    case 3:
+        if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x1E) {
+            return;
+        }
+        ((S_8017450C_0 *)state)->unk_96.s = 0;
+        ((S_8017450C_0 *)state)->unk_9B++;
+        return;
+
+    case 4:
+        if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0xA) {
+            return;
+        }
+        if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
+            if (!(((S_8017450C_3 *)actor)->unk_14 & 0x20000000)) {
+                func_800ACF88((void *)actor);
+            }
+        }
+        break;
+    default:
         return;
     }
 
-    ((S_8017450C_0 *)state)->unk_96.s = 0;
-    ((S_8017450C_0 *)state)->unk_9B++;
-    ((S_8017450C_1 *)monster)->unk_1A.s = 0x800;
-    ((S_8017450C_4 *)motion)->unk_10 = 0;
-    ((S_8017450C_4 *)motion)->unk_0C = 0;
-    ((S_8017450C_4 *)motion)->unk_02.s = (((S_8017450C_1 *)monster)->unk_24 << 6) + 0x20;
-    ((S_8017450C_4 *)motion)->unk_06.s = (((S_8017450C_1 *)monster)->unk_25 << 6) + 0x20;
-    ((S_8017450C_4 *)motion)->unk_0A = ((S_8017450C_0 *)state)->unk_B6;
-    ((S_8017450C_4 *)motion)->unk_14 = 0x280000;
-    ((S_8017450C_0 *)state)->unk_A0 = 0;
-    ((S_8017450C_0 *)state)->unk_90.at02.v = ((S_8017450C_0 *)state)->unk_B6 - 0x12C;
-    ((S_8017450C_1 *)monster)->unk_1C = 0x600;
-
-    attempt = 0;
-    do {
-        random_x = func_8017165C(7) - 3;
-        random_y = func_8017165C(6) - 2;
-        x_offset = random_x << 6;
-        x = ((S_8017450C_4 *)motion)->unk_02.s + x_offset;
-        if (x >= 0x1020) {
-            goto next_try;
-        }
-        if (x <= 0) {
-            goto next_try;
-        }
-
-        y_offset = random_y << 6;
-        y = ((S_8017450C_4 *)motion)->unk_06.s + y_offset;
-        if (y >= 0x1020) {
-            goto next_try;
-        }
-        if (y <= 0) {
-            goto next_try;
-        }
-
-        actor = (u16)x;
-        y = (u16)y;
-        if ((func_800A45D8(actor, y, -0x200) << 16) != 0) {
-            goto next_try;
-        }
-        if (func_800BCB04(actor, y, -0x200) < 0x200) {
-            attempt++;
-            continue;
-        }
-
-        random_x = 0xB;
-        attempt = random_x;
-        ((S_8017450C_4 *)motion)->unk_02.u += x_offset;
-        ((S_8017450C_4 *)motion)->unk_06.u += y_offset;
-
-next_try:
-        attempt++;
-    } while (attempt < 0xA);
-
-    if (random_x == 0xB) {
-        return;
-    }
-
-    ((S_8017450C_0 *)state)->unk_9B = 4;
-    ((S_8017450C_4 *)motion)->unk_14 = 0;
-    ((S_8017450C_1 *)monster)->unk_14 |= 0x80;
-    return;
-
-state_3:
-    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0x1E) {
-        return;
-    }
-    ((S_8017450C_0 *)state)->unk_96.s = 0;
-    ((S_8017450C_0 *)state)->unk_9B++;
-    return;
-
-state_4:
-    if ((s16)(((S_8017450C_0 *)state)->unk_96.u++) < 0xA) {
-        return;
-    }
-    if (((S_8017450C_3 *)actor)->unk_14 & 0x4000) {
-        if (!(((S_8017450C_3 *)actor)->unk_14 & 0x20000000)) {
-            func_800ACF88((void *)actor);
-        }
-    }
-
-cleanup:
     {
         u32 tracked_actor;
         s32 tile_flags;

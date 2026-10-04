@@ -1,11 +1,9 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
-
 typedef struct S_func_800A0708_0 {
     u8 pad_00[0x50];
-    M2C_UNK (*unk_50)(void *, M2C_UNK, M2C_UNK, M2C_UNK);
+    void (*unk_50)(void *, void *, void *, s32);
     u8 pad_54[0x44];
     s8 *unk_98;
 } S_func_800A0708_0;
@@ -14,15 +12,15 @@ typedef struct S_func_800A0708_1 {
     u16 unk_00;
 } S_func_800A0708_1;
 
-extern void func_80033D08(void *arg0);
-extern s32 func_8009CFE0(void *, M2C_UNK);
+extern void func_80033D08(void *);
+extern s32 func_8009CFE0(void *, void *);
 
 /* Clear and flag the object on a nonzero check result, or invoke its callback. */
-void func_800A0708(S_func_800A0708_0 *object, M2C_UNK callback_arg, M2C_UNK callback_data)
+void func_800A0708(S_func_800A0708_0 *object, void *callback_arg, s32 callback_data)
 {
     s8 *linked_flag;
-    M2C_UNK check_result;
-    M2C_UNK (*callback)(void *, M2C_UNK, M2C_UNK, M2C_UNK);
+    s32 check_result;
+    void (*callback)(void *, void *, void *, s32);
 
     check_result = func_8009CFE0(object, callback_arg);
     {

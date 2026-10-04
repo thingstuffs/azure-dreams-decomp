@@ -166,18 +166,12 @@ void func_80042BDC(S_80042BDC *ent, s16 action) {
         Ctor_80042BDC create_entity;
         u32 entity_flags;
 
-        if (ent->x13 != 0x2E) {
-            if (ent->x13 != 0) {
-                goto check_2E;
-            }
+        if (ent->x13 == 0x2E || ent->x13 == 0) {
+            func_800D5460((u8 *)ent - 0x20, 0x20A0A0, 0x613);
         }
-        func_800D5460((u8 *)ent - 0x20, 0x20A0A0, 0x613);
-        if (ent->x13 == 0) {
-            goto L_print4B;
-        }
-check_2E:
-        spawn_mode = 1;
-        if (ent->x13 == 0x2E) {
+        if (ent->x13 != 0) {
+            spawn_mode = 1;
+            if (ent->x13 == 0x2E) {
             child = *(S_80042BDC_child **)((u8 *)ent - 0x14);
             entity_flags = ent->x14;
             ent->x13 = ent->xA8;
@@ -259,6 +253,7 @@ check_2E:
             *(u16 *)((u8 *)ent - 2) |= 0x8000;
             D_800814A0 |= 0x8000;
             ent = spawn_result_2;
+        }
         }
 L_print4B:
         if (ent->x14 & 0x4000) {

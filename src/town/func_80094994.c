@@ -5,21 +5,21 @@
 
 M2C_UNK func_80094330();     /* extern */
 M2C_UNK func_80094910();                            /* extern */
-M2C_UNK func_80094984();           /* extern */
-M2C_UNK func_80094C1C();                      /* extern */
-M2C_UNK func_80094C74();                      /* extern */
-M2C_UNK func_80095388();                      /* extern */
-M2C_UNK func_800954F4();                      /* extern */
+void func_80094984();           /* extern */
+void func_80094C1C();                      /* extern */
+void func_80094C74();                      /* extern */
+void func_80095388();                      /* extern */
+void func_800954F4();                      /* extern */
 s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
-M2C_UNK func_800ABD74();                      /* extern */
+void func_80095C80();                      /* extern */
+void func_800ABD74();                      /* extern */
 extern u8 D_800CFCEF;
 extern M2C_UNK D_800D00B8;
 extern M2C_UNK D_800FE488;
 
 /* Advance the state counter and update the entity, handling threshold and flag transitions. */
-void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, M2C_UNK context) {
+void func_800920F4(Rec_func_80094268_arg0 *state, EntityRec *entity, s32 context) {
     s16 threshold;
     u16 counter;
 

@@ -89,16 +89,11 @@ s32 func_800ABEEC(s32 dir, s16 start_x, s16 start_y) {
     do {
         fwd_x_test = fwd_x << 0x10;
         fwd_check_x = fwd_x_test >> 0x10;
-        if (fwd_check_x >= 0) {
-            fwd_x_test = fwd_check_x < (one << grid->x_shift);
-            if (fwd_x_test != 0) {
-                fwd_y_high = fwd_y << 0x10;
-                goto check_fwd_y;
-            }
+        if ((fwd_check_x < 0) ||
+            ((fwd_check_x < (one << grid->x_shift)) == 0)) {
+            fwd_blocked = 1;
         }
-        fwd_blocked = 1;
         fwd_y_high = fwd_y << 0x10;
-check_fwd_y:
         fwd_check_y = fwd_y_high >> 0x10;
         if ((fwd_check_y < 0) ||
             ((fwd_check_y < (one << grid->y_shift)) == 0)) {
@@ -170,11 +165,10 @@ check_fwd_y:
                     rev_x += rev_dx;
                     rev_y += rev_dy;
                 }
-                goto next_step;
+            } else {
+                rev_blocked = 1;
             }
-            rev_blocked = 1;
         }
-next_step:
         step_count += 1;
         visit_count = fwd_x << 0x10; /* loop-bottom reference; keeps the s2/s3
                                        walker birth order (do not remove) */

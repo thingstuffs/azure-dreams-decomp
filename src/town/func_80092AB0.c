@@ -24,15 +24,15 @@ typedef struct S_80090210_2 {
 } S_80090210_2;   /* callback_page in func_80090210 */
 
 
-M2C_UNK func_80033AA8();                     /* extern */
-M2C_UNK func_80033AE8();                     /* extern */
+void func_80033AA8();                     /* extern */
+void func_80033AE8();                     /* extern */
 s32 func_80033B2C();                         /* extern */
-M2C_UNK func_80048D20();                            /* extern */
+s32 func_80048D20();                            /* extern */
 s32 func_80048D40();                                /* extern */
-M2C_UNK func_80094984(); /* extern */
-M2C_UNK func_80098868(); /* extern */
-M2C_UNK func_80098928(); /* extern */
-M2C_UNK func_80099764();                   /* extern */
+void func_80094984(); /* extern */
+void func_80098868(); /* extern */
+void func_80098928(); /* extern */
+void func_80099764();                   /* extern */
 extern s32 D_80080A80;
 extern s32 D_800834B8;
 extern u8 D_8008FFC0[];
@@ -48,7 +48,7 @@ void func_80090210(void) {
     u8 *work_state = (u8 *)&D_80083780.x.v;
     TileObject *update_state = &D_80082E80;
     u8 *handler_state = (u8 *)&D_800834B8;
-    M2C_UNK (*callback)();
+    void (*callback)();
 
     if (((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_00 != D_8008FFC0) {
         if (func_80033B2C(0x1202) == 0) {
@@ -78,7 +78,7 @@ void func_80090210(void) {
         func_80099764(handler_state);
         func_80098868(handler_state, work_state, update_state);
         func_80098928(handler_state, work_state, update_state);
-        callback = (M2C_UNK (*)())D_800D0438;
+        callback = (void (*)())D_800D0438;
         ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_14 = (M2C_UNK *)&D_80097D54;
         ((S_80090210_0 *)((u8 *)handler_state - 0x10))->unk_1A = 0x10;
         if (callback != NULL) {

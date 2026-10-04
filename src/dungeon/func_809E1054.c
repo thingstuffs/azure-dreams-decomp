@@ -68,8 +68,6 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     s8 saved_attribute_24;
     s16 saved_attribute_0a;
     s8 saved_attribute_25;
-    void *object_arg;
-    void *part_arg;
 
     work = 0;
     saved_attribute_24 = attribute_24;
@@ -101,25 +99,16 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
             secondary_flags = work->unk_1C | 0x2000;
             work->unk_14 = flags_or_result;
             work->unk_1C = secondary_flags;
-        } else {
-            object_arg = obj;
-            if (((mode_flags & ~3) << 16) != 0 || (work->unk_14 & 0x200)) {
-                goto init_parts;
+        } else if (((mode_flags & ~3) << 16) == 0) {
+            if (!(work->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8015BCDC;
+                }
             }
-            part_arg = part_a;
-            object_arg = (void *)func_800A6D30();
-            flags_or_result = (s32)object_arg;
-            object_arg = obj;
-            if (!(flags_or_result & 1)) {
-                goto init_parts;
-            }
-            work->unk_1C |= 0x200;
-            func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = D_8015BCDC;
         }
-        object_arg = obj;
-init_parts:
-        func_800A9C18(object_arg, part_a, part_b, mode_flags);
+        func_800A9C18(obj, part_a, part_b, mode_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_80158E54;

@@ -13,17 +13,17 @@ typedef struct S_80404364_1 {
 } S_80404364_1;   /* body in func_80404364 */
 
 
-extern s32 func_80047FD8(void *arg0);
-extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_80040560(void *arg0, void *arg1);
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern s32 func_8040422C(void *arg0);
+extern s32 func_80047FD8(void *record);
+extern void *func_8003C714(s32 value, void *record, s32 size);
+extern void func_80040560(void *record, void *ptr);
+extern void func_8007BEF0(s32 value);
+extern void func_8007BFE0(void *body, s32 size);
+extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
+extern s32 func_8040422C(void *ptr);
 extern void func_80404224(void);
-extern void func_80404254(void *arg0, s32 arg1);
-extern void func_80404314(void *arg0, s32 arg1, s32 arg2);
-extern void func_80404570(void *arg0);
+extern void func_80404254(void *body, s32 value);
+extern void func_80404314(void *body, s32 init_value, s32 slot_index);
+extern void func_80404570(void *record);
 
 extern u8 D_804005F8[];
 extern u8 D_80400620[];

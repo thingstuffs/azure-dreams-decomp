@@ -50,7 +50,7 @@ typedef struct S_800956B8_4 {
     u8 unk_9B;
 } S_800956B8_4;   /* st in func_800956B8 */
 
-void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
+void func_800956B8(void *context_ptr, s32 unused_one, void *unused_two, void *selection_ptr)
 {
     void *object;
     s32 index;
@@ -58,16 +58,16 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
     s16 result;
     s32 value;
 
-    object = D_800E3DF0[((S_800956B8_0 *)arg3)->unk_03 & 0x1F];
+    object = D_800E3DF0[((S_800956B8_0 *)selection_ptr)->unk_03 & 0x1F];
     if (!(((S_800956B8_1 *)object)->unk_1C & 0x20000)) {
         result = func_800A1BD0(object);
                 /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
-        arg0 = func_800990FC();
+        context_ptr = func_800990FC();
         {
             u8 *msg3;
             if (result >= 0) {
                 u8 *msg;
-                value = func_80099194(D_800E0B18, (s32)arg0);
+                value = func_80099194(D_800E0B18, (s32)context_ptr);
                 if (result != 0) {
 
                     msg = D_800E05F0;
@@ -82,18 +82,18 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
             } else {
                 msg3 = D_800E202D;
 
-                value = (s32)arg0;
+                value = (s32)context_ptr;
                 value = func_80099194(msg3, value);
             }
             func_80099290(value);
         }
-        func_800A5720((s32)arg0);
+        func_800A5720((s32)context_ptr);
         return;
     }
 
     index = (s16)func_800A1C14(object);
     if (index >= 0) {
-        object = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
+        object = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
         if (((S_800956B8_1 *)object)->unk_14 & 0x20000000) {
             ((S_800956B8_1 *)object)->unk_1C |= 0x10000;
             func_800ACB98(object, ((S_800956B8_1_pre *)object)[-1].unk_00,
@@ -108,16 +108,16 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
 
         if (index >= 0) {
             void *tail_selected;
-            tail_selected = ((S_800956B8_2 *)((u8 *)arg0 + index * 4))->unk_AC;
+            tail_selected = ((S_800956B8_2 *)((u8 *)context_ptr + index * 4))->unk_AC;
             st = tail_selected;
             ((S_800956B8_4 *)st)->unk_9A = 2;
         } else {
-            st = ((Rec_func_8008D024_arg0 *)arg0)->unk_60;
+            st = ((Rec_func_8008D024_arg0 *)context_ptr)->unk_60;
             ((S_800956B8_4 *)st)->unk_9A = 2;
         }
         ((S_800956B8_4 *)st)->unk_9B = 0;
         ((S_800956B8_4 *)st)->unk_8C = 0;
-        ((Rec_func_8008D024_arg0 *)arg0)->unk_110 = arg3;
+        ((Rec_func_8008D024_arg0 *)context_ptr)->unk_110 = selection_ptr;
     }
 }
 

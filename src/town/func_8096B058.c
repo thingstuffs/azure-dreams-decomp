@@ -56,10 +56,6 @@ typedef struct S_801234F0_8 {
 } S_801234F0_8;   /* ((S_801234F0_6 *)(((S_801234F0_1 *)tail_dst)->unk_34))->unk_08 in func_801234F0 */
 
 
-#ifdef NON_MATCHING
-#define ASM_KEEP(value) ((void)0)
-#else
-#endif
 
 extern u8 D_80126A18[0x70];
 extern u8 D_80129728[0x38];
@@ -79,13 +75,8 @@ void func_801234F0(void) {
         s16 first_default = 0x10;
         s16 second_default = 0xE0;
 
-#ifdef NON_MATCHING
-        object_slot = (void **)D_80129728;
-        src_entry = (volatile SourceEntry *)D_80126A18;
-#else
         object_slot = (void **)(D_80129728);
         src_entry = (SourceEntry *)D_80126A18;
-#endif
         do {
             ((S_801234F0_0 *)(*object_slot))->unk_00 = src_entry->word;
             ((S_801234F0_3 *)(((S_801234F0_0 *)(*object_slot))->unk_04))->unk_08 = src_entry->first;
@@ -102,13 +93,8 @@ void func_801234F0(void) {
         u8 *source_table;
         u8 *object_table;
 
-#ifdef NON_MATCHING
-        object_table = (void **)D_80129728;
-        source_table = D_80126A18;
-#else
         object_table = (u8 *)&D_80129728;
         source_table = (u8 *)&D_80126A18;
-#endif
         ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_06 =
             ((S_801234F0_2 *)source_table)->unk_64;
         ((S_801234F0_7 *)(((S_801234F0_5 *)(((S_801234F0_1 *)object_table)->unk_30))->unk_08))->unk_08 =

@@ -5,23 +5,23 @@
 #include "shared/dungeon_status.h"
 
 
-extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
-extern void func_80098B38(void *arg0);
+extern s32 func_80042900(void *actor, s32 value);
+extern void func_80042B68(void *actor, s32 value);
+extern void func_8008D344(void *actor, void *data, void *record, void *actor_again);
+extern void func_80098B38(void *object_data);
 extern s32 func_800990FC(void);
-extern s32 func_80099194(void *arg0, s32 arg1);
-extern void func_80099290(s32 arg0);
-extern s32 func_8009929C(s32 arg0, s32 arg1);
-extern s32 func_80099368(void *arg0, s32 arg1);
-extern s32 func_80099734(void *arg0, s32 arg1);
-extern s32 func_800999B0(s32 arg0);
-extern void func_8009A21C(u8 arg0, u8 arg1, s32 arg2);
-extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
-extern void func_800A56E0(s32 arg0);
-extern void func_800A5720(s32 arg0);
-extern s16 func_800B60B8(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
-extern s32 func_800C7380(u8 arg0, u8 arg1, s16 arg2, s32 arg3, s32 arg4);
+extern s32 func_80099194(void *table, s32 index);
+extern void func_80099290(s32 value);
+extern s32 func_8009929C(s32 value, s32 handle);
+extern s32 func_80099368(void *object_data, s32 value);
+extern s32 func_80099734(void *actor, s32 index);
+extern s32 func_800999B0(s32 value);
+extern void func_8009A21C(u8 x, u8 y, s32 flags);
+extern void func_8009A3D0(u8 x, u8 y, s32 flags);
+extern void func_800A56E0(s32 value);
+extern void func_800A5720(s32 handle);
+extern s16 func_800B60B8(u8 x, u8 y, s16 value, s32 mode, s32 object);
+extern s32 func_800C7380(u8 x, u8 y, s16 value, s32 mode, s32 object_data_value);
 
 extern u8 D_800893D4[];
 extern u8 D_800E1684[];

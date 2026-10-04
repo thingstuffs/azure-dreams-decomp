@@ -181,11 +181,7 @@ state_1:
         u8 *active_anim;
         u8 *active_table;
         u8 *frame_ptr;
-#ifndef NON_MATCHING
         s32 entity_angle;
-#else
-        s32 entity_angle;
-#endif
         s32 active_entry;
         s32 effect_duration;
         u32 entity_flags;

@@ -105,13 +105,13 @@ typedef struct {
 
 s32 func_8003DE58();     /* extern */
 void *func_8003FD64();            /* extern */
-M2C_UNK func_8004491C(); /* extern */
-M2C_UNK func_80047784();         /* extern */
+s32 func_8004491C(); /* extern */
+void func_80047784();         /* extern */
 s32 func_80065420(); /* extern */
 s32 rand();                                /* extern */
-M2C_UNK func_8009C12C(); /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+void *func_8009C12C(); /* extern */
+s32 func_800A4ACC();                      /* extern */
+s32 func_800A56E0();                     /* extern */
 void func_800AD594(void *, s32);  /* extern */
 extern s8 D_800DCECC[];
 extern Packed32 D_80170838;
@@ -126,13 +126,13 @@ void func_80172FFC(void *action, void *motion, void *sprite, EntityRec *actor) {
     u16 spawn_offset[3];
     u16 position[3];
     WorkMid effect_work;
-    M2C_UNK projection_aux;
-    M2C_UNK projection_flags;
+    s32 projection_aux;
+    s32 projection_flags;
     void *owner;
     u16 spawn_count;                                       /* compiler-managed */
     u8 *directions;
     u16 *position_ptr;
-    M2C_UNK *screen_pos;
+    s32 *screen_pos;
     s16 next_count;
     s32 effect_depth;
     s32 random_value;

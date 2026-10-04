@@ -9,11 +9,11 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
 void func_80047784();
-M2C_UNK func_8009C12C();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A4ACC();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800AD594();
+void *func_8009C12C();
+void func_800A2B04();
+s32 func_800A4ACC();
+s32 func_800A56E0();
+void func_800AD594();
 extern M2C_UNK D_80170E9C;
 extern u8 D_80174F30;
 extern u8 D_80174F38;
@@ -22,7 +22,7 @@ extern u8 D_80174F40;
 
 typedef struct S_80172524_0 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void * unk_8C;
     u8 pad_90[0x6];
     union { u16 u; s16 s; } unk_96;   /* accessed as both */
     u16 unk_98;
@@ -60,7 +60,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F30;
+        (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F30;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F30), 0);
         goto advance_phase;
@@ -71,7 +71,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
             return;
         }
         func_800A56E0(0x808);
-        (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F38;
+        (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F38;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F38), 0);
         goto advance_phase;
@@ -90,7 +90,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = &D_80174F40;
+        (*(u8 **)((u8 *)sprite + (0x2C))) = &D_80174F40;
         func_80047784(sprite, *((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100) >> 9) & 7)
             + &D_80174F40), 0);
         func_8009C12C(actor, sprite, ((EntityRec *)actor)->facing, 1);
@@ -119,7 +119,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             return;
         }
-        (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F40;
+        (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F40;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F40), 0);
 advance_phase:

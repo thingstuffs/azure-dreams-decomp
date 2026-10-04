@@ -128,17 +128,13 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, EntityRec *position, Rec_D_800
     case 2:
         direction = ((s32) (gameWork.view.viewAngle + (s16) ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x100)
             >> 9) & 7;
-        if ((*(u8 *)&D_801742E4) != 0) {
+        if ((*(u8 *)&D_801742E4) == 0 || direction != 2) {
             if (direction == 2) {
-                goto start_effect;
+                return;
             }
-        }
-        if (direction == 2) {
+            ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
             return;
         }
-        ((Rec_D_80082E80 *)model)->unk_28.at02_u16.v = (u16) (((Rec_D_80082E80 *)model)->unk_28.at02_u16.v + 0x200);
-        return;
-start_effect:
         func_80041588(&D_801742CC, &D_801742E4, 1);
         func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
@@ -220,12 +216,10 @@ start_effect:
         }
         effect_sprite = state->unk_AC;
         effect_sprite = effect_sprite->unk_0C.u;
-        if (!(effect_sprite->unk_14 & 0xE000)) {
-            goto check_movement;
+        if (effect_sprite->unk_14 & 0xE000) {
+            state->unk_9B = (u8) (state->unk_9B + 1);
         }
-        state->unk_9B = (u8) (state->unk_9B + 1);
     case 6:
-check_movement:
         if (state->unk_9B != 6) {
             return;
         }

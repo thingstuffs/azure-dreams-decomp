@@ -6,7 +6,6 @@ extern u8 D_80020000[];
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
 #define U8_AT(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
-extern void *D_80024008[];
 extern s16 D_80025FF4;
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
@@ -17,13 +16,8 @@ void func_81971510(void *effect, s32 unused, void *visual)
     s32 step_index;
     u8 *status_page;
     u8 *visual_bytes;
-    u8 *jump_table;
     u8 *flags_page;
     u16 field_value;
-    static void *const case_labels[] = {
-        &&case_0, &&case_1, &&case_2, &&case_3,
-        &&case_4, &&case_default
-    };
 
     effect_bytes = (u8 *)effect;
     visual_bytes = (u8 *)visual;
@@ -37,33 +31,28 @@ void func_81971510(void *effect, s32 unused, void *visual)
     countdown--;
     U16_AT(effect_bytes, 0x38) = countdown;
     step_index = (u32)(s16)countdown;
-    if ((u32)step_index >= 20U) {
-        goto case_default;
+    if ((u32)step_index < 20U) {
+        switch (step_index) {
+        case 0: case 9: case 10: case 19:
+            field_value = 0x20;
+            break;
+        case 1: case 8: case 11: case 18:
+            field_value = 0x35;
+            break;
+        case 2: case 7: case 12: case 17:
+            field_value = 0x50;
+            break;
+        case 3: case 6: case 13: case 16:
+            field_value = 0x65;
+            break;
+        case 4: case 5: case 14: case 15:
+            field_value = 0x80;
+            break;
+        }
+        U8_AT(visual_bytes, 0x0E) = field_value;
+        U8_AT(visual_bytes, 0x0D) = field_value;
+        U8_AT(visual_bytes, 0x0C) = field_value;
     }
-    jump_table = (u8 *)D_80024008;
-    (void)case_labels;
-    goto *((void **)jump_table)[(u32)step_index];
-
-case_0:
-    field_value = 0x20;
-    goto set_shade;
-case_1:
-    field_value = 0x35;
-    goto set_shade;
-case_2:
-    field_value = 0x50;
-    goto set_shade;
-case_3:
-    field_value = 0x65;
-    goto set_shade;
-case_4:
-    field_value = 0x80;
-set_shade:
-    U8_AT(visual_bytes, 0x0E) = field_value;
-    U8_AT(visual_bytes, 0x0D) = field_value;
-    U8_AT(visual_bytes, 0x0C) = field_value;
-
-case_default:
     field_value = U16_AT(visual_bytes, 0x1A) + 400;
     U16_AT(visual_bytes, 0x1A) = field_value;
     if (S16_AT(effect_bytes, 0x38) > 0) {

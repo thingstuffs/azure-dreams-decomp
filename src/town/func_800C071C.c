@@ -16,44 +16,44 @@ typedef struct S_800BDE7C_1 {
 s32 func_800352FC(void);
 s32 func_800C2AB4(void *);
 
-void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
+void func_800BDE7C(S_800BDE7C_0 *record, s32 unused_value, S_800BDE7C_1 *output, s32 unused_value2)
 {
     s16 state;
         /* MATCH: Preserve retail's source register after making call arguments explicit. */
     s32 *source;
         /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
-    S_800BDE7C_0 *call_arg0 = arg0;
-    S_800BDE7C_1 *call_arg2 = arg2;
+    S_800BDE7C_0 *call_arg0 = record;
+    S_800BDE7C_1 *call_arg2 = output;
 
-    state = arg0->unk_68.s;
-    source = arg0->unk_A0;
+    state = record->unk_68.s;
+    source = record->unk_A0;
 
     switch (state) {
     case 0:
         if (func_800352FC() == 0) {
             return;
         }
-        if (func_800C2AB4(arg0) == 0) {
+        if (func_800C2AB4(record) == 0) {
             return;
         }
-        arg2->unk_08 = source[1];
-        arg0->unk_68.u = arg0->unk_68.u + 1;
+        output->unk_08 = source[1];
+        record->unk_68.u = record->unk_68.u + 1;
         return;
     case 1:
     case 3:
-        if ((func_800352FC() == 0) || (func_800C2AB4(arg0) == 0)) {
-            arg0->unk_68.u = (arg0->unk_68.u + 1) & 3;
+        if ((func_800352FC() == 0) || (func_800C2AB4(record) == 0)) {
+            record->unk_68.u = (record->unk_68.u + 1) & 3;
         }
         return;
     case 2:
         if (func_800352FC() == 0) {
             return;
         }
-        if (func_800C2AB4(arg0) == 0) {
+        if (func_800C2AB4(record) == 0) {
             return;
         }
-        arg2->unk_08 = source[0];
-        arg0->unk_68.u = arg0->unk_68.u + 1;
+        output->unk_08 = source[0];
+        record->unk_68.u = record->unk_68.u + 1;
         return;
     }
 }

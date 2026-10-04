@@ -90,7 +90,8 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         }
         next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
         next_phase++;
-        goto skip_counter;
+        ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
+        break;
 
     case 1:
         if (((S_80170A84_1 *)owner_data)->unk_9B >= 4) {
@@ -125,7 +126,10 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
         reset_ticks = 20;
         ((S_80170A84_0 *)effect)->unk_38 = reset_ticks;
-        goto common_counter;
+        ((S_80170A84_0 *)effect)->unk_36.s = reset_ticks;
+        next_phase++;
+        ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
+        break;
 
     case 3:
     {
@@ -166,11 +170,8 @@ void func_80170A84(void *effect, void *output, S_80170A84_2 *render_data)
         next_phase = ((S_80170A84_0 *)effect)->unk_2C.u;
         reset_ticks = 20;
 
-common_counter:
         ((S_80170A84_0 *)effect)->unk_36.s = reset_ticks;
         next_phase++;
-
-skip_counter:
         ((S_80170A84_0 *)effect)->unk_2C.u = next_phase;
         break;
 

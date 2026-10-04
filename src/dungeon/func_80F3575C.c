@@ -76,47 +76,46 @@ void func_80172F5C(void *state, EntityRec *transform, void *sprite, EntityRec *a
     switch (((S_80172F5C_0 *)state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void * const dispatch_labels[] = { && sw_c, && sw_b, && sw_a, && sel_none };
-            extern void *const D_80170878[];
-            u32 action_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (action_index >= 7) {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 7:
+                use_player = 1;
+                /* fallthrough */
+            case 3:
+                goto kind_c;
+            case 6:
+                use_player = 1;
+                /* fallthrough */
+            case 2:
+                goto kind_b;
+            case 5:
+                use_player = 1;
+                /* fallthrough */
+            case 1:
+                goto kind_a;
+            default:
                 motion = (u8 *)0;
-                goto have_motion;
+                break;
             }
-            (void)dispatch_labels;
-            goto *D_80170878[action_index];
-sw_c:
-            use_player = 1;
-            goto kind_c;
-sw_b:
-            use_player = 1;
-            goto kind_b;
-sw_a:
-            use_player = 1;
-            goto kind_a;
-        }
-
-        switch (actor->unk_46 & 0x3FFF) {
-        case 3:
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
 kind_c:
-            motion = (u8 *)actor + 0xE;
-            break;
-        case 2:
+                motion = (u8 *)actor + 0xE;
+                break;
+            case 2:
 kind_b:
-            motion = (u8 *)actor + 0xB;
-            break;
-        case 1:
+                motion = (u8 *)actor + 0xB;
+                break;
+            case 1:
 kind_a:
-            motion = (u8 *)actor + 8;
-            break;
-        default:
-sel_none:
-            motion = (u8 *)0;
-            break;
+                motion = (u8 *)actor + 8;
+                break;
+            default:
+                motion = (u8 *)0;
+                break;
+            }
         }
 
-have_motion:
         if (*motion != 0) {
             ((S_80172F5C_0 *)state)->unk_98 &= 0xFF7F;
             {

@@ -32,24 +32,24 @@ typedef struct S_80173B98_2 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80047784(void *arg0, u8 arg1, s32 arg2);
-s32 func_8009A180(void *arg0, s32 arg1);
-s8 func_8009FB34(u8 arg0, u8 arg1);
-s32 func_8009FD7C(u8 arg0, u8 arg1, u8 arg2, u8 arg3);
-s16 func_800A0818(u8 arg0, u8 arg1, u8 arg2, u8 arg3, void *arg4);
-s32 func_800A1C58(void *arg0);
-void func_800A9A0C(void *arg0);
-void func_800AA258(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-s32 func_800AA6B4(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-void func_800AA79C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-void func_800AA888(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-s32 func_800AA924(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-void func_800AAB10(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-void func_80173720(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
-void func_8017405C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
+void func_80047784(void *sprite, u8 frame, s32 mode);
+s32 func_8009A180(void *creature, s32 offset);
+s8 func_8009FB34(u8 tile_x, u8 tile_y);
+s32 func_8009FD7C(u8 source_x, u8 source_y, u8 target_x, u8 target_y);
+s16 func_800A0818(u8 source_x, u8 source_y, u8 target_x, u8 target_y, void *out_value);
+s32 func_800A1C58(void *creature);
+void func_800A9A0C(void *creature);
+void func_800AA258(void *actor, M2C_UNK context, void *sprite, void *creature);
+s32 func_800AA6B4(void *actor, M2C_UNK context, void *sprite, void *creature);
+void func_800AA79C(void *actor, M2C_UNK context, void *sprite, void *creature);
+void func_800AA888(void *actor, M2C_UNK context, void *sprite, void *creature);
+s32 func_800AA924(void *actor, M2C_UNK context, void *sprite, void *creature);
+void func_800AAB10(void *actor, M2C_UNK context, void *sprite, void *creature);
+void func_80173720(void *actor, M2C_UNK context, void *sprite, void *creature);
+void func_8017405C(void *actor, M2C_UNK context, void *sprite, void *creature);
 void func_80174924(void);
-s32 func_80175C94(void *arg0, M2C_UNK arg1, void *arg2, s32 arg3);
-s32 func_80175E6C(void *arg0, M2C_UNK arg1, void *arg2, void *arg3);
+s32 func_80175C94(void *actor, M2C_UNK context, void *sprite, s32 value);
+s32 func_80175E6C(void *actor, M2C_UNK context, void *sprite, void *creature);
 
 extern u8 D_80176320[];
 extern M2C_UNK D_80176358;

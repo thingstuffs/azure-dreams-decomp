@@ -6,17 +6,17 @@ extern u8 D_8040861C[];
 extern u8 D_804F281B[];
 extern u8 D_805030EF[];
 
-extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_80040560(void *arg0, void *arg1);
-extern s32 func_80047FD8(void *arg0);
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern s32 func_804046C8(void *arg0);
-extern s32 func_80404B5C(s32 arg0);
-extern void func_80404B84(void *arg0, s32 arg1);
-extern void func_80404C44(void *arg0, s32 arg1);
-extern void func_80404DBC(void *arg0);
+extern void *func_8003C714(s32 value, void *base, s32 size);
+extern void func_80040560(void *base, void *ptr);
+extern s32 func_80047FD8(void *base);
+extern void func_8007BEF0(s32 value);
+extern void func_8007BFE0(void *object, s32 size);
+extern void func_8007C040(void *ptr0, void *ptr1, s32 value);
+extern s32 func_804046C8(void *ptr);
+extern s32 func_80404B5C(s32 field_220);
+extern void func_80404B84(void *object, s32 value);
+extern void func_80404C44(void *object, s32 value);
+extern void func_80404DBC(void *base);
 
 typedef struct {
     u8 pad_00[4];

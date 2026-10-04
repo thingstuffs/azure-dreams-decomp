@@ -5,14 +5,14 @@ typedef s32 M2C_UNK;
 
 
 extern s32 func_8002553C();
-extern M2C_UNK func_80025598();
-extern M2C_UNK func_800255AC();
-extern M2C_UNK func_8002661C();
-extern M2C_UNK func_80026CD8();
-extern M2C_UNK func_80026D0C();
+extern void func_80025598(); /* extern */
+extern void func_800255AC(); /* extern */
+extern void func_8002661C(); /* extern */
+extern void func_80026CD8(); /* extern */
+extern void func_80026D0C(); /* extern */
 extern M2C_UNK func_80027454();
-extern M2C_UNK func_800274A8();
-extern M2C_UNK func_80028620();
+extern void func_800274A8(); /* extern */
+extern void func_80028620(); /* extern */
 extern M2C_UNK SD_Call();
 
 extern M2C_UNK D_80027E10;

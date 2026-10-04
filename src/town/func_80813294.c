@@ -16,29 +16,29 @@ typedef struct S_80813294_2 {
     s16 unk_5C;
 } S_80813294_2;   /* ((S_80813294_0 *)arg0)->unk_00 in func_8052DE94 */
 
-void func_8052DE94(S_80813294_0 *arg0, s32 unused, S_80813294_1 *arg2) {
+void func_8052DE94(S_80813294_0 *record, s32 unused, S_80813294_1 *value_record) {
     s32 state;
 
-    state = arg0->unk_04.s;
-    arg0->unk_06 = arg0->unk_06 - 1;
+    state = record->unk_04.s;
+    record->unk_06 = record->unk_06 - 1;
     switch (state) {
     case 0:
-        if (((S_80813294_2 *)(arg0->unk_00))->unk_5C == 4) {
-            arg0->unk_06 = 10;
-            arg0->unk_04.p = arg0->unk_04.u + 1;
+        if (((S_80813294_2 *)(record->unk_00))->unk_5C == 4) {
+            record->unk_06 = 10;
+            record->unk_04.p = record->unk_04.u + 1;
         }
         break;
     case 1:
-        arg2->unk_16.s = arg2->unk_16.s + 0x40;
-        if ((s16)arg0->unk_06 <= 0) {
-            arg0->unk_04.p = arg0->unk_04.u + 1;
+        value_record->unk_16.s = value_record->unk_16.s + 0x40;
+        if ((s16)record->unk_06 <= 0) {
+            record->unk_04.p = record->unk_04.u + 1;
         }
         break;
     case 2:
-        arg2->unk_16.s = arg2->unk_16.s - 0x18;
-        if (arg2->unk_16.u < 0x18U) {
-            arg2->unk_16.s = 0;
-            arg0->unk_04.s = 0;
+        value_record->unk_16.s = value_record->unk_16.s - 0x18;
+        if (value_record->unk_16.u < 0x18U) {
+            value_record->unk_16.s = 0;
+            record->unk_04.s = 0;
         }
         break;
     }

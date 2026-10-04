@@ -10,8 +10,6 @@ extern s32 D_8006CD58[];
 extern u8 D_80080A84;
 extern u8 D_800DCF50;
 extern s32 D_800DDAB8[];
-extern void *D_80170880[];
-extern void *D_80170898[];
 extern u8 D_801710EC[];
 extern u8 D_80175E40[];
 extern u8 D_80175F40[];
@@ -86,12 +84,6 @@ typedef struct S_80173560_4 {
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
 void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_arg) {
-    static void *const state_labels[] = {
-        &&prepare_item, &&start_audio, &&wait_audio, &&finish_animation, &&reset_action
-    };
-    static void *const item_labels[] = {
-        &&item_at_0e, &&item_at_0b, &&item_at_08, &&item_default
-    };
     void *actor = actor_arg;
     s32 state;
     s32 action_value;
@@ -114,36 +106,31 @@ void func_80173560(void *action, EntityRec *motion, void *sprite, void *actor_ar
     if ((u32)state >= 5) {
         return;
     }
-    (void)state_labels;
-    goto *D_80170880[state];
-
-prepare_item:
-    action_value = ((S_80173560_1 *)actor)->unk_46 & 0x3FFF;
-    state = action_value - 1;
-    if ((u32)state >= 7) {
-        goto item_default;
+    switch (state) {
+    case 0:
+    switch (((S_80173560_1 *)actor)->unk_46 & 0x3FFF) {
+    case 7:
+        item_or_audio_base = 1;
+        /* fallthrough */
+    case 3:
+        item_addr = (s32)((u8 *)actor + 0xE);
+        break;
+    case 6:
+        item_or_audio_base = 1;
+        /* fallthrough */
+    case 2:
+        item_addr = (s32)((u8 *)actor + 0xB);
+        break;
+    case 5:
+        item_or_audio_base = 1;
+        /* fallthrough */
+    case 1:
+        item_addr = (s32)((u8 *)actor + 8);
+        break;
+    default:
+        item_addr = 0;
+        break;
     }
-    (void)item_labels;
-    goto *D_80170898[state];
-
-item_at_0e:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 0xE);
-    goto item_ready;
-
-item_at_0b:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 0xB);
-    goto item_ready;
-
-item_at_08:
-    item_or_audio_base = 1;
-    item_addr = (s32)((u8 *)actor + 8);
-    goto item_ready;
-
-item_default:
-    item_addr = 0;
-item_ready:
     action_value = ((S_80173560_0 *)action)->unk_98;
     has_item = item_or_audio_base;
     ((S_80173560_0 *)action)->unk_98 = action_value & 0xFF7F;
@@ -155,15 +142,12 @@ item_ready:
     if (has_item != 0) {
         target = D_800814A8;
         ((S_80173560_1 *)actor)->unk_60 = target;
-        goto copy_target_pos;
-    }
-
-    item_index = *(u8 *)item_addr;
-    item_type = D_8006DE24[item_index].kind;
-    if (item_type == 2) {
+        state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
+        ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
+        ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
+    } else if (D_8006DE24[*(u8 *)item_addr].kind == 2) {
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {
-copy_target_pos:
             state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
             ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
             ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
@@ -196,6 +180,7 @@ copy_target_pos:
         func_800BB044(actor);
         ((S_80173560_0 *)action)->unk_9B.n++;
     }
+    case 1:
     item_addr = (s32)&D_80175F6E;
     if (*(u16 *)item_addr & 0x80) {
         if (func_8003F270() != 0) {
@@ -216,7 +201,7 @@ copy_target_pos:
     ((S_80173560_0 *)action)->unk_9B.n = action_value;
     return;
 
-start_audio:
+    case 2:
     ((S_80173560_0 *)action)->unk_96.u -= D_80080A84;
     if (((S_80173560_0 *)action)->unk_96.s < 3) {
         ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
@@ -236,7 +221,7 @@ start_audio:
     Control_CD(0x15, cd_param, 0);
     ((S_80173560_0 *)action)->unk_9B.n++;
 
-wait_audio:
+    case 3:
     if (func_8003F270() != 0) {
         ((S_80173560_4 *)sprite)->unk_14 |= 0x800;
         return;
@@ -244,21 +229,14 @@ wait_audio:
     ((S_80173560_4 *)sprite)->unk_14 &= 0xF7FF;
     ((S_80173560_0 *)action)->unk_9B.n++;
 
-finish_animation:
+    case 4:
     if (!(((S_80173560_0 *)action)->unk_98 & 0x80)) {
         ((S_80173560_4 *)sprite)->unk_05--;
     }
 
-reset_action:
-    if (((S_80173560_4 *)sprite)->unk_04 == 4) {
-        if (!(((S_80173560_4 *)sprite)->unk_14 & 0x1000)) {
-            goto check_high_flags;
-        }
-    } else {
-check_high_flags:
-        if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
-            return;
-        }
+    if (!((((S_80173560_4 *)sprite)->unk_04 == 4 && (((S_80173560_4 *)sprite)->unk_14 & 0x1000)) ||
+          (((S_80173560_4 *)sprite)->unk_14 & 0xE000))) {
+        return;
     }
     ((S_80173560_0 *)action)->unk_98 |= 0x80;
     if (!(((S_80173560_4 *)sprite)->unk_14 & 0xE000)) {
@@ -288,4 +266,5 @@ check_high_flags:
     ((S_80173560_1 *)actor)->unk_73.u = 0;
     ((S_80173560_1 *)actor)->unk_72.u = 0;
     func_800A56E0(0xB4);
+    }
 }

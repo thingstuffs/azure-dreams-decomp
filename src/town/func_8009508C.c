@@ -5,25 +5,25 @@
 #include "records/Rec_func_80094268_arg0.h"
 #include "records/Rec_D_800CFCC4.h"
 
-M2C_UNK func_80035208();                         /* extern */
-M2C_UNK func_8008B158();                         /* extern */
-M2C_UNK func_80093D38();     /* extern */
-M2C_UNK func_8009455C();     /* extern */
-M2C_UNK func_800945B8();     /* extern */
+void func_80035208();                         /* extern */
+void func_8008B158();                         /* extern */
+void func_80093D38();     /* extern */
+void func_8009455C();     /* extern */
+void func_800945B8();     /* extern */
 M2C_UNK func_80094660();     /* extern */
 M2C_UNK func_800946A0();     /* extern */
 M2C_UNK func_80094774();     /* extern */
 s32 func_80094B0C();                          /* extern */
-M2C_UNK func_80094C1C();                      /* extern */
-M2C_UNK func_80095094();                      /* extern */
-M2C_UNK func_8009550C();                      /* extern */
-M2C_UNK func_8009567C();                   /* extern */
+void func_80094C1C();                      /* extern */
+void func_80095094();                      /* extern */
+void func_8009550C();                      /* extern */
+s32 func_8009567C();                   /* extern */
 s32 func_80095760();                       /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 M2C_UNK func_800988C8();     /* extern */
-M2C_UNK func_80099754();                      /* extern */
+void func_80099754();                      /* extern */
 s32 func_8009FF50();                                /* extern */
 s32 func_800A9D74();                     /* extern */
 extern M2C_UNK D_80093B00;
@@ -57,9 +57,9 @@ typedef struct S_800927EC_5 {
 } S_800927EC_5;   /* ((Rec_func_80094268_arg0 *)arg0)->unk_2C in func_800927EC */
 
 /* Update the actor and dispatch town movement and interaction input. */
-void func_800927EC(void *actor, EntityRec *position, M2C_UNK context) {
+void func_800927EC(void *actor, EntityRec *position, s32 context) {
     GameWork *input = &gameWork;
-    M2C_UNK *interaction;
+    void *interaction;
     s16 ground_height;
     s32 interaction_result;
     s32 target_handler;

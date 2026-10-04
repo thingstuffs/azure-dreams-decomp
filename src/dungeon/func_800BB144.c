@@ -34,9 +34,9 @@ typedef struct S_800C08A4_2 {
 } S_800C08A4_2;   /* counter_base in func_800C08A4 */
 
 
-M2C_UNK func_8008D344();
-M2C_UNK func_80098864();
-M2C_UNK func_80098B38();
+void func_8008D344(); /* extern */
+s32 func_80098864(); /* extern */
+void func_80098B38(); /* extern */
 s32 func_8004A658();
 s32 func_800998C0();
 s32 func_800990FC();
@@ -45,11 +45,11 @@ M2C_UNK func_80099290();
 s32 func_80099368();
 s32 func_80099734();
 s32 func_80099978();
-M2C_UNK func_800A5720();
-M2C_UNK func_800A5F38();
-M2C_UNK func_800A6480();
+s32 func_800A5720(); /* extern */
+void func_800A5F38(); /* extern */
+void func_800A6480(); /* extern */
 s32 func_800A6D30(void);
-M2C_UNK func_800A7A7C();
+s32 func_800A7A7C(); /* extern */
 s32 func_800AD6FC();
 extern M2C_UNK D_80089378;
 extern M2C_UNK D_8008937C;
@@ -57,7 +57,7 @@ extern M2C_UNK D_800E13DA;
 extern M2C_UNK D_800E13E9;
 
 /* Applies an entity action to a target and updates the pending count. */
-s32 func_800C08A4(u8 *entity, u8 *target, s16 action, M2C_UNK context) {
+s32 func_800C08A4(u8 *entity, u8 *target, s16 action, void *context) {
     s32 entity_value;
     s32 event_value;
     s32 external_entity_value;

@@ -357,3 +357,6 @@
 {"date": "2026-10-04T15:05Z", "codex": {"pack": "r93_agy_goto9", "model": "gemini-3.8-flash-high", "candidates": 6}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-04T15:08Z", "codex": {"pack": "r93_luna_nm2", "model": "gpt-6-luna", "candidates": 5}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
 {"date": "2026-10-04T15:09Z", "codex": {"pack": "r93_luna_proto6", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:23Z", "codex": {"pack": "r93_luna_proto7", "model": "gpt-6-luna", "candidates": 7}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:25Z", "codex": {"pack": "r93_luna_proto8", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}
+{"date": "2026-10-04T15:27Z", "codex": {"pack": "r93_luna_proto9", "model": "gpt-6-luna", "candidates": 8}, "note": "duck-briefed pool (tools/lanes/pool.py)"}

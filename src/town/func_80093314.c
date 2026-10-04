@@ -5,22 +5,22 @@
 #include "records/Rec_func_8009431C_arg0.h"
 
 s32 func_80033B2C();                         /* extern */
-M2C_UNK func_8008B158();                         /* extern */
-M2C_UNK func_80093ED8();     /* extern */
+void func_8008B158();                         /* extern */
+void func_80093ED8();     /* extern */
 M2C_UNK func_80094088();     /* extern */
-M2C_UNK func_800942B0();     /* extern */
+void func_800942B0();     /* extern */
 M2C_UNK func_80094378();     /* extern */
-M2C_UNK func_800943B8();     /* extern */
+void func_800943B8();     /* extern */
 M2C_UNK func_800944BC();     /* extern */
 M2C_UNK func_8009451C();     /* extern */
-M2C_UNK func_80094C1C();                      /* extern */
-M2C_UNK func_80095094();                      /* extern */
+void func_80094C1C();                      /* extern */
+void func_80095094();                      /* extern */
 s32 func_8009567C();            /* extern */
 s32 func_80095840();               /* extern */
 s16 func_80095978();               /* extern */
 M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
-M2C_UNK func_80098868();     /* extern */
+void func_80095C80();                      /* extern */
+void func_80098868();     /* extern */
 extern s32 D_800CFCB4;
 extern M2C_UNK D_800CFCEF;
 extern u8 D_800FE488[];
@@ -44,7 +44,7 @@ typedef struct S_80090A74_4 {
 } S_80090A74_4;   /* temp_s3 in func_80090A74 */
 
 /* Update the actor and dispatch town actions from input and interaction state. */
-void func_80090A74(Rec_func_8009431C_arg0 *actor, EntityRec *record, M2C_UNK context) {
+void func_80090A74(Rec_func_8009431C_arg0 *actor, EntityRec *record, s32 context) {
     s16 height;
     s32 action_result;
     s32 interaction_result;

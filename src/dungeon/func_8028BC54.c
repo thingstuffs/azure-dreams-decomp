@@ -105,18 +105,13 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         do {
         } while ((func_800A4E2C(&x, &y) << 16) < 0);
 
-        index = 0;
-        cell_scan = (DungeonCell *)D_800E36C8;
-        entry_scan = entry_base;
         scan_x = x;
         scan_y = y;
-scan:
-        if (entry_scan->state == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y) {
-            cell_scan++;
-            index++;
-            entry_scan++;
-            if (index < 64) {
-                goto scan;
+        for (index = 0, cell_scan = (DungeonCell *)D_800E36C8, entry_scan = entry_base;
+             index < 64;
+             cell_scan++, index++, entry_scan++) {
+            if (!(entry_scan->state == 0 || cell_scan->x != scan_x || cell_scan->y != scan_y)) {
+                break;
             }
         }
 

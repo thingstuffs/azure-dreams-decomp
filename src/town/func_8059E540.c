@@ -29,7 +29,7 @@ typedef struct S_8059E540_6 {
     M2C_UNK (*unk_2F4)(M2C_UNK, M2C_UNK);
 } S_8059E540_6;   /* ((S_8059E540_4 *)(((S_8059E540_2 *)page)->unk_6000))->unk_20 in func_8059E540 */
 
-M2C_UNK func_800168E0();
+void func_800168E0();
 s32 func_80018964();
 extern u8 D_80010000[];
 extern M2C_UNK D_80018EE4;
@@ -50,8 +50,8 @@ typedef struct S_8059E540_1 {
 
 /* Close the 0x11FC dialogue if it is open, then hand the scene's queued record to the handler slot. */
 void func_8059E540(void) {
-    M2C_UNK *pending;
-    M2C_UNK *new_value;
+    void *pending;
+    void *new_value;
     S_8059E540_1 *state;
 
     if (func_80018964(0x11FC) == 0) {

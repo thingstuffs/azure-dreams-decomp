@@ -41,7 +41,16 @@ void func_81978140(S_81978140 *entity)
         func_800257B8();
         func_800257B8();
         (*(u16 *)&D_800814A8->facing) -= 0x200;
-        goto L7;
+        if ((s16)entity->timer < 8) {
+            break;
+        }
+        {
+            u16 next_state = entity->state;
+            entity->timer = 0;
+            next_state++;
+            entity->state = next_state;
+        }
+        break;
 
     case 1:
         func_800257B8();
@@ -52,7 +61,13 @@ void func_81978140(S_81978140 *entity)
         if ((s16)entity->timer < 12) {
             break;
         }
-        goto bump;
+        {
+            u16 next_state = entity->state;
+            entity->timer = 0;
+            next_state++;
+            entity->state = next_state;
+        }
+        break;
 
     case 2:
         func_800257B8();
@@ -69,12 +84,10 @@ void func_81978140(S_81978140 *entity)
         break;
 
     case 3:
-    L7:
-        if (entity->timer < 8) {
+        if ((s16)entity->timer < 8) {
             break;
         }
-    bump:
-        {
+            {
             u16 next_state = entity->state;
             entity->timer = 0;
             next_state++;

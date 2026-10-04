@@ -192,17 +192,13 @@ void func_80174B20(void *state, EntityRec *position, Rec_D_80082E80 *entity, voi
         ((S_80174B20_1 *)actor)->unk_1C = (s32) (((S_80174B20_1 *)actor)->unk_1C & 0xFFFBFFFF);
     case 2:
         direction = ((s32) (gameWork.view.viewAngle + (s16) ((S_80174B20_1 *)actor)->unk_2A + 0x100) >> 9) & 7;
-        if ((*(u8 *)&D_8017521C) != 0) {
+        if ((*(u8 *)&D_8017521C) == 0 || direction != 2) {
             if (direction == 2) {
-                goto start_effect;
+                return;
             }
-        }
-        if (direction == 2) {
+            ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
             return;
         }
-        ((S_80174B20_1 *)actor)->unk_2A = (u16) (((S_80174B20_1 *)actor)->unk_2A + 0x200);
-        return;
-start_effect:
         func_80041588(&D_801751F8, &D_8017521C, 1);
         func_8003F540(0, D_8006CD58, 0x04000AD4, 0x05000CC4);
         Control_CD(0x15, func_800445E0(), NULL);
@@ -277,18 +273,16 @@ start_effect:
     case 5:
         sprite = ((Rec_func_80174800_arg0 *)state)->unk_AC;
         sprite = sprite->unk_0C.u;
-        if (!(sprite->unk_14 & 0xE000)) {
-            goto check_motion;
+        if (sprite->unk_14 & 0xE000) {
+            ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
+            ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
+            func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
+            func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
+            func_8009A028(actor);
+            sprite = actor - 0x20;
+            sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
         }
-        ((Rec_func_80174800_arg0 *)state)->unk_96 = 0x10U;
-        ((Rec_func_80174800_arg0 *)state)->unk_9B = (u8) (((Rec_func_80174800_arg0 *)state)->unk_9B + 1);
-        func_800A18E8(((S_80174B20_1 *)actor)->unk_13, 3);
-        func_8009A3D0(entity->unk_24, entity->unk_25, 0x300);
-        func_8009A028(actor);
-        sprite = actor - 0x20;
-        sprite->unk_10 = (s32) (sprite->unk_10 | 0x80000000);
     case 6:
-check_motion:
         if (((Rec_func_80174800_arg0 *)state)->unk_9B != 6) {
             return;
         }

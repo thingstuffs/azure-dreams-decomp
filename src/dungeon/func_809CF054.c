@@ -68,8 +68,6 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
     s8 saved_byte_24;
     s16 saved_value_0a;
     s8 saved_byte_25;
-    void *call_obj;
-    void *call_part;
 
     work = 0;
     saved_byte_24 = byte_24;
@@ -101,30 +99,17 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
             secondary_flags = work->unk_1C | 0x2000;
             work->unk_14 = primary_bits;
             work->unk_1C = secondary_flags;
-        } else {
-            call_obj = obj;
-            if (((kind_flags & ~3) << 16) == 0) {
-                if (!(work->unk_14 & 0x200)) {
-                    call_part = part_a;
-                    call_obj = (void *)func_800A6D30();
-                    primary_bits = (s32)call_obj;
-                    call_obj = obj;
-                    if (primary_bits & 1) {
-                        work->unk_1C |= 0x200;
-                        func_800A48F0(work, 1,
-                                      (func_800A6D30() & 0x3F) | 0x20);
-                        part_b->unk_2C = D_8016DCDC;
-                        goto post_kind;
-                    }
+        } else if (((kind_flags & ~3) << 16) == 0) {
+            if (!(work->unk_14 & 0x200)) {
+                if (func_800A6D30() & 1) {
+                    work->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    part_b->unk_2C = D_8016DCDC;
                 }
             }
-            goto init_actor;
         }
-
-post_kind:
-        call_obj = obj;
-init_actor:
-        func_800A9C18(call_obj, part_a, part_b, kind_flags);
+        func_800A9C18(obj, part_a, part_b, kind_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE54;

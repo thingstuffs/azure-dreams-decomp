@@ -7,16 +7,14 @@
 
 typedef s32 M2C_UNK;
 
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-
 s32 func_800644B8(s32);
 s32 func_80064584(s32);
-M2C_UNK func_8009A028();
+void func_8009A028(); /* extern */
 M2C_UNK func_8009A3D0();
-M2C_UNK func_800A2FE0();
-M2C_UNK func_800A32A4();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800ACF88();
+void func_800A2FE0(); /* extern */
+s32 func_800A32A4(); /* extern */
+s32 func_800A56E0(); /* extern */
+void func_800ACF88(); /* extern */
 s32 func_80042900();
 M2C_UNK func_800B8228();
 
@@ -73,11 +71,11 @@ typedef struct S_800AD058_5 {
 
 /* Fades or spirals an entity away, then removes it and updates dungeon state. */
 s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
-    M2C_UNK sound_id;
-    M2C_UNK tile_x;
-    M2C_UNK tile_y;
-    M2C_UNK tile_mask;
-    M2C_UNK special_tile_mask;
+    s32 sound_id;
+    s32 tile_x;
+    s32 tile_y;
+    s32 tile_mask;
+    s32 special_tile_mask;
     s16 spiral_ticks;
     s16 fade_ticks;
     s32 effect_flags;

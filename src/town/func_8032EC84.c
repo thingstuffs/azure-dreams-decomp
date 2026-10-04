@@ -1,29 +1,17 @@
 #include "common.h"
 
 /* Append the source string to the destination and return the destination start. */
-u8 *func_80019484(u8 *dst, volatile u8 *src) {
+u8 *func_80019484(u8 *dst, u8 *src) {
     u8 *dst_start = dst;
 
-    if (*dst_start == 0) {
-        goto check_src;
-    }
-    do {
+    while (*dst != 0) {
         dst++;
-    } while (*dst != 0);
-    goto check_src;
-    do {
-        do {
-            *dst = *src;
-        } while (0);
+    }
+    while (*src != 0) {
+        *dst = *src;
         dst++;
         src++;
-check_src:
-    } while (*src != 0);
+    }
     *dst = 0;
     return dst_start;
 }
-
-/* MECHANISM: Frameless leaf: ret holds the original destination in v1.
-   A do-scan plus explicit body/check labels preserves retail's bottom tests.
-   Volatile src reloads each byte; a post-store scheduling barrier keeps
-   src++ after the store. The true-space name makes 0x800194C8 a local join. */

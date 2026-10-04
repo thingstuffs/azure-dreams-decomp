@@ -173,10 +173,8 @@ void func_80170A78(void *obj, void *input_motion, void *input_part)
                 (*(s16 *)((u8 *)obj + 0x92)) = (*(u16 *)((u8 *)obj + 0x92)) + 8;
             }
         }
-        goto finish_height;
-    }
-
-    if (part_flags & 0x800) {
+    } else {
+        if (part_flags & 0x800) {
         ((S_80170A78_1 *)input_part)->unk_14 = part_flags & 0x8FFF;
     } else {
         ((S_80170A78_1 *)input_part)->unk_14 = part_flags | 0x7000;
@@ -223,7 +221,7 @@ reset_height:
         }
     }
 
-finish_height:
+    }
     if (((S_80170A78_2 *)state)->unk_1C & 0x40000000) {
         ((S_80170A78_2 *)state)->unk_1C &= 0xBFFFFFFF;
         floor_delta = func_800BCB04((((S_80170A78_1 *)input_part)->unk_24 << 6) | 0x20,

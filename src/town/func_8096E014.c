@@ -8,8 +8,8 @@ typedef s32 M2C_UNK;
 #define NULL 0
 #endif
 
-M2C_UNK func_8004CC38();
-M2C_UNK func_8004CCBC();
+void func_8004CC38();
+void func_8004CCBC();
 extern M2C_UNK *D_80129728;
 extern M2C_UNK D_801298B8;
 extern M2C_UNK D_80129ED8;
@@ -39,11 +39,11 @@ typedef struct S_801264AC_3 {
 
 /* Initializes 98 linked nodes and attaches their table to the context. */
 s32 func_801264AC(S_801264AC_2 *context) {
-    M2C_UNK **node_slot;
-    M2C_UNK *node;
-    M2C_UNK *node_data;
-    M2C_UNK *node_aux;
-    M2C_UNK *prev_node;
+    s32 **node_slot;
+    s32 *node;
+    s32 *node_data;
+    s32 *node_aux;
+    s32 *prev_node;
     s32 node_count;
     s32 result;
 

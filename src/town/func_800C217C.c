@@ -20,20 +20,10 @@ void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 ch
 
     check_value = (s32)actor;
     state = actor->unk_68;
-    if (state != 1) {
-        if (state < 2) {
-            if (state == 0) {
-                goto check_distance;
-            }
-            return;
-        }
-        if (state != 2) {
-            if (state != 3) {
-                return;
-            }
-            goto check_release;
-        }
-check_distance:
+
+    switch (state) {
+    case 0:
+    case 2:
         {
             s32 threshold;
             s32 distance;
@@ -56,14 +46,19 @@ check_distance:
                 return;
             }
         }
-    } else {
-check_release:
+        break;
+    case 1:
+    case 3:
         if ((func_800352FC(check_value, position, check_param, check_mode) == 0) || (func_800C2AB4(actor) == 0)) {
             next_state = ((u16) actor->unk_68 + 1) & 3;
         } else {
             return;
         }
+        break;
+    default:
+        return;
     }
+
     actor->unk_68 = next_state;
     return;
 }

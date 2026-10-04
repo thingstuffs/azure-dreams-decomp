@@ -243,12 +243,12 @@ void func_800D8728(S_func_800D8728_0 *entity, S_func_800D8728_1 *motion, S_func_
                 entity->unk_90.half.unk_92.u16 += actor->unk_88.u16 - floor_height;
                 actor->unk_88.u16 = floor_height;
             }
-            goto finish;
+        } else {
+            actor->unk_1C &= 0xF7FFFFFF;
         }
+    } else {
+        actor->unk_1C &= 0xF7FFFFFF;
     }
-
-    actor->unk_1C &= 0xF7FFFFFF;
-finish:
     motion->unk_0A =
         actor->unk_88.u16 + entity->unk_90.half.unk_92.u16;
     monster->unk_14 |= 0x40;

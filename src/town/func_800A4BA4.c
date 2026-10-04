@@ -1,13 +1,11 @@
 #include "common.h"
 
-typedef s32 M2C_UNK;
-
-extern M2C_UNK func_800A2000(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *);
-extern M2C_UNK D_800A2338;
-extern M2C_UNK D_800A23D0;
+extern void *func_800A2000(s32, s32, s32, s32, s32, s32);
+extern s32 D_800A2338;
+extern s32 D_800A23D0;
 
 /* Forward four inputs to func_800A2000 with two fixed data pointers. */
-M2C_UNK func_800A2304(M2C_UNK input_first, M2C_UNK input_second, M2C_UNK input_third, M2C_UNK input_fourth) {
+void *func_800A2304(s32 input_first, s32 input_second, s32 input_third, s32 input_fourth) {
     return func_800A2000(input_first, input_second, input_third, input_fourth, &D_800A2338, &D_800A23D0);
 }
 

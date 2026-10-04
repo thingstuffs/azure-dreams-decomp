@@ -89,181 +89,162 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
     u16 action_flags;
     s32 item_kind;
     u8 *source_sprite;
-    static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
-    static void *const kind_labels[] = {
-        &&K8, &&KB, &&KE, &&KNone, &&K8Special, &&KBSpecial, &&KESpecial
-    };
 
     state = ((S_801728E4_0 *)action)->unk_9B;
     use_global_source = 0;
-    if ((u32)state >= 5) {
-        return;
-    }
-    goto *D_80170838[state];
+    switch (state) {
+    case 0:
+        {
+            void *source_entity;
 
-L0:
-    {
-        void *source_entity;
-
-        item = 0;
-        if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
-            s32 kind_index = (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) - 1;
-
-            if ((u32)kind_index >= 7) {
-                goto HaveSource;
-            }
-            goto *D_80170850[kind_index];
-
-KESpecial:
-            use_global_source = 1;
-            goto KE;
-KBSpecial:
-            use_global_source = 1;
-            goto KB;
-K8Special:
-            use_global_source = 1;
-            goto K8;
-        }
-
-        item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
-        switch (item_kind) {
-        case 1:
-            goto K8;
-        case 2:
-            goto KB;
-        case 3:
-            goto KE;
-        default:
-            goto HaveSource;
-        }
-
+            item = 0;
+            if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
+                switch (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) {
+                case 7:
+                    use_global_source = 1;
+                    /* fallthrough */
+                case 3:
+                    goto KE;
+                case 6:
+                    use_global_source = 1;
+                    /* fallthrough */
+                case 2:
+                    goto KB;
+                case 5:
+                    use_global_source = 1;
+                    /* fallthrough */
+                case 1:
+                    goto K8;
+                default:
+                    break;
+                }
+            } else {
+                item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
+                switch (item_kind) {
+                case 3:
 KE:
-        item = (u8 *)act + 0xE;
-        goto HaveSource;
+                    item = (u8 *)act + 0xE;
+                    break;
+                case 2:
 KB:
-        item = (u8 *)act + 0xB;
-        goto HaveSource;
+                    item = (u8 *)act + 0xB;
+                    break;
+                case 1:
 K8:
-        item = (u8 *)act + 8;
-KNone:
-HaveSource:
-        if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
+                    item = (u8 *)act + 8;
+                    break;
+                default:
+                    break;
+                }
+            }
+            if ((*(u8 *)&((EntityRec *)item)->x) == 0) {
+                return;
+            }
+
+            {
+                s16 global_source_test;
+
+                ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
+                global_source_test = use_global_source;
+                if (global_source_test) {
+                    source_entity = D_800814A8;
+                    ((S_801728E4_1 *)act)->unk_60 = source_entity;
+                    source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+                    ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+                    ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                } else if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].kind == 2) {
+                    source_entity = ((S_801728E4_1 *)act)->unk_60;
+                    if (source_entity != 0) {
+                        source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+                        ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+                        ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
+                    }
+                } else {
+                    ((S_801728E4_1 *)act)->unk_60 =
+                        func_800A05A4(act,
+                                      ((S_801728E4_4 *)sprite)->unk_24,
+                                      ((S_801728E4_4 *)sprite)->unk_25,
+                                      ((S_801728E4_1 *)act)->unk_2A,
+                                      0x10);
+                    ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
+                    ((S_801728E4_1 *)act)->unk_73.u = abs(((S_801728E4_1 *)act)->unk_73.u);
+                }
+            }
+        }
+
+        if (!func_800A94A0(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
+            return;
+        }
+        func_800BB044(act);
+        ((S_801728E4_0 *)action)->unk_9B++;
+        return;
+
+    case 1:
+        if (func_8003F270()) {
+            ((S_801728E4_4 *)sprite)->unk_14 |= 0x0800;
+            return;
+        }
+        ((S_801728E4_4 *)sprite)->unk_14 &= 0xF7FF;
+        ((S_801728E4_0 *)action)->unk_9B++;
+
+    case 2:
+        if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
+            return;
+        }
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
+        func_80047784(sprite,
+            *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+                    (uptr)D_80176648),
+            0);
+        ((S_801728E4_0 *)action)->unk_9B++;
+        return;
+
+    case 3:
+        if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {
+            ((S_801728E4_0 *)action)->unk_98 |= 0x80;
+        } else if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
+            ((S_801728E4_0 *)action)->unk_98 |= 0x80;
+        }
+        if (!(((S_801728E4_0 *)action)->unk_98 & 0x80)) {
+            return;
+        }
+        if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
             return;
         }
 
-        {
-            s16 global_source_test;
-
-            ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
-            global_source_test = use_global_source;
-            if (global_source_test) {
-                source_entity = D_800814A8;
-                ((S_801728E4_1 *)act)->unk_60 = source_entity;
-                goto CopyFacing;
-            }
-        }
-
-        if (D_8006DE24[(*(u8 *)&((EntityRec *)item)->x)].kind != 2) {
-            goto MakeSource;
-        }
-
-        source_entity = ((S_801728E4_1 *)act)->unk_60;
-        if (source_entity == 0) {
-            goto CallUpdate;
-        }
-
-CopyFacing:
-        source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
-        ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-        ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
-        goto Update;
-    }
-
-MakeSource:
-    {
-
-        ((S_801728E4_1 *)act)->unk_60 =
-            func_800A05A4(act,
-                          ((S_801728E4_4 *)sprite)->unk_24,
-                          ((S_801728E4_4 *)sprite)->unk_25,
-                          ((S_801728E4_1 *)act)->unk_2A,
-                          0x10);
-        ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
-        ((S_801728E4_1 *)act)->unk_73.u = abs(((S_801728E4_1 *)act)->unk_73.u);
-    }
-
-Update:
-CallUpdate:
-    if (!func_800A94A0(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
-        return;
-    }
-    func_800BB044(act);
-    ((S_801728E4_0 *)action)->unk_9B++;
-    return;
-
-L1:
-    if (func_8003F270()) {
-        ((S_801728E4_4 *)sprite)->unk_14 |= 0x0800;
-        return;
-    }
-    ((S_801728E4_4 *)sprite)->unk_14 &= 0xF7FF;
-    ((S_801728E4_0 *)action)->unk_9B++;
-
-L2:
-    if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
-        return;
-    }
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
-    func_80047784(sprite,
-        *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
-                (uptr)D_80176648),
-        0);
-    ((S_801728E4_0 *)action)->unk_9B++;
-    return;
-
-L3:
-    if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {
-        ((S_801728E4_0 *)action)->unk_98 |= 0x80;
-    } else if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
-        ((S_801728E4_0 *)action)->unk_98 |= 0x80;
-    }
-    if (!(((S_801728E4_0 *)action)->unk_98 & 0x80)) {
-        return;
-    }
-    if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
-        return;
-    }
-
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
-    func_80047784(sprite,
-        *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
-                (uptr)D_80176668),
-        0);
-AdvanceState:
-    ((S_801728E4_0 *)action)->unk_9B++;
-    return;
-
-L4:
-    if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
         func_80047784(sprite,
-            D_801765D8[((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+            *(u8 *)((uptr)(((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
+                    (uptr)D_80176668),
             0);
-    }
-    ((EntityRec *)item)->flags14 = 0;
-    ((EntityRec *)item)->unk_10 = 0;
-    ((EntityRec *)item)->unk_0C = 0;
-    func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
-    source_sprite = ((u8 *)(&dungeonStatus));
-    if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
+        ((S_801728E4_0 *)action)->unk_9B++;
+        return;
+
+    case 4:
+        if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
+            (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
+            func_80047784(sprite,
+                D_801765D8[((gameWork.view.viewAngle + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
+                0);
+        }
+        ((EntityRec *)item)->flags14 = 0;
+        ((EntityRec *)item)->unk_10 = 0;
+        ((EntityRec *)item)->unk_0C = 0;
+        func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
+        source_sprite = ((u8 *)(&dungeonStatus));
+        if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
+            return;
+        }
+        ((S_801728E4_5 *)source_sprite)->unk_0A--;
+        ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
+        func_800A4ACC(act);
+        ((S_801728E4_1 *)act)->unk_73.s = 0;
+        ((S_801728E4_1 *)act)->unk_72.s = 0;
+        ((S_801728E4_1 *)act)->unk_6D--;
+        ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
+        func_800A56E0(0xB4);
+        return;
+    default:
         return;
     }
-    ((S_801728E4_5 *)source_sprite)->unk_0A--;
-    ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
-    func_800A4ACC(act);
-    ((S_801728E4_1 *)act)->unk_73.s = 0;
-    ((S_801728E4_1 *)act)->unk_72.s = 0;
-    ((S_801728E4_1 *)act)->unk_6D--;
-    ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
-    func_800A56E0(0xB4);
 }
