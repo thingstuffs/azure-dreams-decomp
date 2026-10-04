@@ -75,7 +75,8 @@ s32 func_8080DAB8(void *first_record) {
     u8 *mode_base;
     register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 tag_mask;
-    register u32 buffer_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 buffer_limit;
+    u32 buffer_limit_2;
 
     record = first_record;
     render_root = &D_8012F130;
@@ -91,8 +92,8 @@ s32 func_8080DAB8(void *first_record) {
         primitive_base = (u8 *)*render_root;
         if (primitive != 0) {
             primitive_end = primitive + 0x14;
-            buffer_limit = 0x108D4;
-            primitive_cursor = primitive_end & (0 - ((u32)(primitive_base + buffer_limit) >= primitive_end));
+            buffer_limit_2 = 0x108D4;
+            primitive_cursor = primitive_end & (0 - ((u32)(primitive_base + buffer_limit_2) >= primitive_end));
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = primitive_cursor;
         mode_cursor = 0;
