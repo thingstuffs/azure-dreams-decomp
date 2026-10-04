@@ -100,20 +100,17 @@ void func_80172D74(void *action, EntityRec *motion, void *sprite, EntityRec *act
             s32 kind_index = (actor->unk_46 & 0x3FFF) - 1;
 
             switch (kind_index) {
-            case 0:
-                goto kind1;
-            case 1:
-                goto kind2;
-            case 2:
-                goto kind3;
             case 6:
                 special_item = 1;
+            case 2:
                 goto kind3;
             case 5:
                 special_item = 1;
+            case 1:
                 goto kind2;
             case 4:
                 special_item = 1;
+            case 0:
                 goto kind1;
             default:
                 goto kind4;
@@ -162,33 +159,29 @@ selected:
                 if (special_test != 0) {
                     entity = D_800814A8;
                     actor->target = entity;
-                    goto have_entity;
-                }
-            }
-            {
-                u8 *item_defs = D_8006DE24;
-                u8 item_id = *item_slot;
-
-                if (item_defs[item_id * 20 + 0x12] == 2) {
-                    entity = actor->target;
-
-                    if (entity != 0) {
-
-
-have_entity:
-                        position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
-                        actor->unk_72 = ((S_80172D74_3 *)position)->unk_24;
-                        actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
-                    }
+                    position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
+                    actor->unk_72 = ((S_80172D74_3 *)position)->unk_24;
+                    actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
                 } else {
+                    u8 *item_defs = D_8006DE24;
+                    u8 item_id = *item_slot;
 
+                    if (item_defs[item_id * 20 + 0x12] == 2) {
+                        entity = actor->target;
 
-                    position = func_800A05A4(actor,
-                        ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
-                        actor->facing, 0x10);
-                    actor->target = position;
-                    actor->unk_72 = abs(actor->unk_72);
-                    actor->unk_73 = abs(actor->unk_73);
+                        if (entity != 0) {
+                            position = ((S_80172D74_2_pre *)entity)[-1].unk_00;
+                            actor->unk_72 = ((S_80172D74_3 *)position)->unk_24;
+                            actor->unk_73 = ((S_80172D74_3 *)position)->unk_25;
+                        }
+                    } else {
+                        position = func_800A05A4(actor,
+                            ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
+                            actor->facing, 0x10);
+                        actor->target = position;
+                        actor->unk_72 = abs(actor->unk_72);
+                        actor->unk_73 = abs(actor->unk_73);
+                    }
                 }
             }
 

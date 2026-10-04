@@ -35,9 +35,7 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
 {
     register s32 *sequence;
     register s32 state;
-    register s32 wait_state;
     s32 glide_state;
-    u32 settle_state;
     s32 home_dx;
 
     sequence = 0;
@@ -52,50 +50,9 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
 
     state = ((Rec_D_80082D58 *)actor)->unk_68;
     glide_state = 0x31;
-    if (state == glide_state) {
-        goto case_31;
-    }
-    if (state < 0x32) {
-        wait_state = 0x10;
-        if (state == wait_state) {
-            goto case_10;
-        }
-        if (state < 0x11) {
-            if (state == 0) {
-                goto case_0;
-            }
-            goto tail;
-        }
-        if (state == 0x20) {
-            goto case_20;
-        }
-        if (state == 0x30) {
-            goto case_30;
-        }
-        goto tail;
-    }
-    settle_state = 0x34;
-    if (state == settle_state) {
-        goto case_34;
-    }
-    if (state < 0x35) {
-        if (state == 0x32) {
-            goto case_32;
-        }
-        if (state == 0x33) {
-            goto case_33;
-        }
-        goto tail;
-    }
-    if (state == 0x40) {
-        goto case_40;
-    }
-    if (state == 0xFF) {
-        goto case_FF;
-    }
-    goto tail;
-
-case_0:
+    glide_state = 0x31;
+    switch (state) {
+case 0:
     {
         s32 action_choice;
         s32 random_value;
@@ -105,7 +62,7 @@ case_0:
 
         ((S_800BCE78_1 *)motion)->unk_08.at02.v = func_800C2AE8(motion);
         if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
-            goto tail;
+            break;
         }
         action_choice = rand();
         quotient = action_choice / 4;
@@ -113,7 +70,7 @@ case_0:
         switch (action_choice) {
         case 0:
             sequence = (s32 *)D_800E9E7C;
-            ((Rec_D_80082D58 *)actor)->unk_68 = wait_state;
+            ((Rec_D_80082D58 *)actor)->unk_68 = 0x10;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() % 2) + 2;
             break;
 
@@ -192,10 +149,10 @@ case_0:
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 0x14;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 0x800;
         }
-        goto tail;
+        break;
     }
 
-case_10:
+case 0x10:
     {
         register u16 timer;
 
@@ -207,10 +164,10 @@ case_10:
             }
             sequence = (s32 *)D_800E9E7C;
         }
-        goto tail;
+        break;
     }
 
-case_20:
+case 0x20:
     {
         s32 x;
         s32 vy;
@@ -240,10 +197,10 @@ case_20:
                 ((S_800BCE78_1 *)motion)->unk_14 = -0x30000;
             }
         }
-        goto tail;
+        break;
     }
 
-case_30:
+case 0x30:
     {
         s32 x;
         s32 vx;
@@ -262,10 +219,10 @@ case_30:
             ((Rec_D_80082D58 *)actor)->unk_68 = glide_state;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = 3;
         }
-        goto tail;
+        break;
     }
 
-case_31:
+case 0x31:
     {
         register s32 x;
         register s32 vx;
@@ -290,10 +247,10 @@ case_31:
                 ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = (rand() & 3) + 3;
             }
         }
-        goto tail;
+        break;
     }
 
-case_32:
+case 0x32:
     {
         register s32 x;
         register s32 vx;
@@ -333,10 +290,10 @@ case_32:
                 ((Rec_D_80082D58 *)actor)->unk_68 = 0x33;
             }
         }
-        goto tail;
+        break;
     }
 
-case_33:
+case 0x33:
     {
         register s32 x;
         register s32 vx;
@@ -359,12 +316,12 @@ case_33:
             sequence = D_800E9E54;
             ((S_800BCE78_1 *)motion)->unk_14 = 0;
             ((S_800BCE78_1 *)motion)->unk_0C.s = 0;
-            ((Rec_D_80082D58 *)actor)->unk_68 = settle_state;
+            ((Rec_D_80082D58 *)actor)->unk_68 = 0x34;
         }
-        goto tail;
+        break;
     }
 
-case_34:
+case 0x34:
     {
         register s16 floor;
 
@@ -376,10 +333,10 @@ case_34:
             sequence = (s32 *)D_800E9E7C;
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
         }
-        goto tail;
+        break;
     }
 
-case_40:
+case 0x40:
     {
         register u16 timer;
 
@@ -389,16 +346,17 @@ case_40:
             ((Rec_D_80082D58 *)actor)->unk_68 = 0;
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
         }
-        goto tail;
+        break;
     }
 
-case_FF:
+case 0xFF:
     func_8008F134(actor);
     func_80033D08(actor);
     (*(u16 *)((u8 *)actor + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-tail:
+    }
+
     func_800478B8(sprite);
     if (sequence != 0) {
         func_8003DB94(sprite, sequence, 0);

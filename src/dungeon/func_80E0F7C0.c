@@ -128,75 +128,57 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
 
             effect_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
             switch (effect_kind) {
-            case 1:
-                goto select_first;
-            case 2:
-                goto select_second;
-            case 3:
-                goto select_third;
             case 7:
                 is_special = 1;
-                goto select_third;
+            case 3:
+                effect_id = (u8 *)actor + 0xE;
+                break;
             case 6:
                 is_special = 1;
-                goto select_second;
+            case 2:
+                effect_id = (u8 *)actor + 0xB;
+                break;
             case 5:
                 is_special = 1;
-                goto select_first;
+            case 1:
+                effect_id = (u8 *)actor + 8;
+                break;
             default:
-                goto no_effect;
+                effect_id = 0;
+                break;
             }
-        }
-
-        {
+        } else {
             s32 effect_kind;
 
             effect_kind = ((EntityRec *)actor)->unk_46 & 0x3FFF;
-            if (effect_kind == 2) {
-                goto select_second;
-            }
-            if (effect_kind < 3) {
+            switch (effect_kind) {
+            case 3:
+                effect_id = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                effect_id = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                effect_id = (u8 *)actor + 8;
+                break;
+            default:
                 effect_id = 0;
-                if (effect_kind == 1) {
-                    goto select_first;
-                }
-                goto apply_effect;
-            }
-            effect_id = 0;
-            if (effect_kind != 3) {
-                goto apply_effect;
+                break;
             }
         }
-select_third:
-        effect_id = (u8 *)actor + 0xE;
-        goto apply_effect;
-select_second:
-        effect_id = (u8 *)actor + 0xB;
-        goto apply_effect;
-select_first:
-        effect_id = (u8 *)actor + 8;
-        goto apply_effect;
-no_effect:
-        effect_id = 0;
-apply_effect:
         if (*effect_id != 0) {
             void *effect;
 
             ((S_80172FC0_0 *)anim)->unk_98 &= 0xFF7F;
-            {
-                s16 special_flag;
-
-                special_flag = is_special;
-                if (special_flag != 0) {
-                    effect = D_800814A8;
-                    ((EntityRec *)actor)->target = effect;
-                    goto copy_effect;
-                }
-            }
-            if (D_8006DE24[*effect_id].kind == 2) {
+            if ((s16)is_special != 0) {
+                effect = D_800814A8;
+                ((EntityRec *)actor)->target = effect;
+                main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
+                ((EntityRec *)actor)->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
+                ((EntityRec *)actor)->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;
+            } else if (D_8006DE24[*effect_id].kind == 2) {
                 effect = ((EntityRec *)actor)->target;
                 if (effect != 0) {
-copy_effect:
                     main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
                     ((EntityRec *)actor)->unk_72 = ((S_80172FC0_3 *)main_actor)->unk_24;
                     ((EntityRec *)actor)->unk_73 = ((S_80172FC0_3 *)main_actor)->unk_25;

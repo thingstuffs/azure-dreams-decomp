@@ -110,35 +110,33 @@ void func_8052BCCC(void *obj, void *motion, void *incoming_out) {
         a1 = func_80071494() & 0xF;
         if (((S_8052BCCC_2 *)aux)->unk_0A >= 25) {
             a1 = func_80071494() & 7;
-            goto state0_finish;
-        }
-        if (((S_8052BCCC_2 *)aux)->unk_0A >= 19) {
-            state0_flag = a1 < 3;
-            if (state0_flag)
-                goto state0_small;
-            state0_flag = a1 < 5;
-            goto state0_random;
-        }
-        if (((S_8052BCCC_2 *)aux)->unk_0A >= 7) {
-            state0_flag = a1 < 4;
-            if (state0_flag)
-                goto state0_small;
-            state0_flag = a1 < 8;
-            goto state0_random;
-        }
-        state0_flag = a1 < 6;
-        if (state0_flag) {
-state0_small:
-            a1 = (0 - func_80071494()) & 3;
-            goto state0_finish;
-        }
-        state0_flag = a1 < 7;
-state0_random:
-        a0 = a1 + 14;
-        if (state0_flag) {
-            a1 = (func_80071494(a0, a1) % 23) + 44;
-state0_finish:
             a0 = a1 + 14;
+        } else {
+            if (((S_8052BCCC_2 *)aux)->unk_0A >= 19) {
+                state0_flag = a1 < 3;
+                if (state0_flag)
+                    goto state0_small;
+                state0_flag = a1 < 5;
+            } else if (((S_8052BCCC_2 *)aux)->unk_0A >= 7) {
+                state0_flag = a1 < 4;
+                if (state0_flag)
+                    goto state0_small;
+                state0_flag = a1 < 8;
+            } else {
+                state0_flag = a1 < 6;
+                if (state0_flag) {
+state0_small:
+                    a1 = (0 - func_80071494()) & 3;
+                    goto state0_finish;
+                }
+                state0_flag = a1 < 7;
+            }
+            a0 = a1 + 14;
+            if (state0_flag) {
+                a1 = (func_80071494(a0, a1) % 23) + 44;
+state0_finish:
+                a0 = a1 + 14;
+            }
         }
         ((S_8052BCCC_0 *)obj)->unk_A2 = a0;
         ((S_8052BCCC_0 *)obj)->unk_A6 = a0;
@@ -153,7 +151,7 @@ state0_finish:
             func_80034A1C(out, D_8028E600, 0);
         }
         ((S_8052BCCC_0 *)obj)->unk_68 = 1;
-        goto state7_finished;
+        break;
     }
 
     case 1:
@@ -169,9 +167,9 @@ state0_finish:
                 (*(s32 *)((u8 *)(motion) + (0xC))) = 0 - case1_value;
             func_80034A1C(out, D_8028E590, 0);
             ((S_8052BCCC_0 *)obj)->unk_68 = 2;
-            goto state7_finished;
+            break;
         }
-        goto state7_finished;
+        break;
     }
 
     case 2:
@@ -194,9 +192,9 @@ state0_finish:
                 (*(s32 *)((u8 *)(motion) + (0x10))) = value;
             }
             ((S_8052BCCC_0 *)obj)->unk_68 = 3;
-            goto state7_finished;
+            break;
         }
-        goto state7_finished;
+        break;
     }
 
     case 3:
@@ -229,9 +227,9 @@ state0_finish:
                 ((S_8052BCCC_1 *)motion)->unk_14 = acceleration;
                 ((S_8052BCCC_0 *)obj)->unk_68 = 5;
             }
-            goto state7_finished;
+            break;
         }
-        goto state7_finished;
+        break;
 
     case 4:
         if (((S_8052BCCC_1 *)motion)->unk_08 <= (s32)0xFFA80000 &&
@@ -253,7 +251,7 @@ state0_finish:
             ((S_8052BCCC_0 *)obj)->unk_68 = 7;
             ((S_8052BCCC_0 *)obj)->unk_A2 = (*(s16 *)((u8 *)(obj) + (0xA6))) * 2 + 20;
         }
-        goto state7_finished;
+        break;
 
     case 5:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
@@ -262,16 +260,16 @@ state0_finish:
                 ((S_8052BCCC_0 *)obj)->unk_A2;
             ((S_8052BCCC_0 *)obj)->unk_68 = 6;
         }
-        goto state7_finished;
+        break;
 
     case 6:
         if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
             ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
             ((S_8052BCCC_1 *)motion)->unk_14 = ((s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08) / (((S_8052BCCC_0 *)obj)->unk_A2);
             ((S_8052BCCC_0 *)obj)->unk_68 = 4;
-            goto state7_finished;
+            break;
         }
-        goto state7_finished;
+        break;
 
     case 7:
     {
@@ -296,14 +294,13 @@ state0_finish:
                     a0 = 0x80000;
                 (*(s32 *)((u8 *)(motion) + (0xC))) = a0;
                 (*(s32 *)((u8 *)(motion) + (0x10))) = 0;
-                goto set_state_8;
             } else {
                 (*(s32 *)((u8 *)(motion) + (0xC))) = 0;
                 (*(s32 *)((u8 *)(motion) + (0x10))) = a1;
-                goto set_state_8;
             }
+            ((S_8052BCCC_0 *)obj)->unk_68 = 8;
         }
-        goto state7_finished;
+        break;
     }
 
     case 8:
@@ -316,7 +313,7 @@ state0_finish:
             (*(u16 *)((u8 *)(obj) + (-2))) |= 0x8000;
             D_80084D5C |= 0x8000;
         }
-        goto state7_finished;
+        break;
 
     case 9:
     {
@@ -330,17 +327,14 @@ state0_finish:
             ((S_8052BCCC_3 *)out)->unk_1C = (*(u16 *)((u8 *)(table) + (phase * 2)));
             ((S_8052BCCC_3 *)out)->unk_1E = (*(u16 *)((u8 *)(table) + ((*(s16 *)((u8 *)(obj) + (0xA2))) * 2 + 16)));
         }
-        if ((*(s16 *)((u8 *)(obj) + (0xA2))) > 0)
-            goto state7_finished;
-set_state_8:
-        ((S_8052BCCC_0 *)obj)->unk_68 = 8;
-        goto state7_finished;
+        if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0)
+            ((S_8052BCCC_0 *)obj)->unk_68 = 8;
+        break;
     }
     default:
-        goto state7_finished;
+        break;
     }
 
-state7_finished:
     func_8003EA54(out);
     if ((((S_8052BCCC_0 *)obj)->unk_A4 & 2) && func_80252550(D_8053013C, motion) != 0) {
         ((S_8052BCCC_1 *)motion)->unk_14 = 0;

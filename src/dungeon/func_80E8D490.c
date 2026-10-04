@@ -99,59 +99,45 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, E
 
             action_kind = actor->unk_46 & 0x3FFF;
             action_index = action_kind - 1;
-        } else {
-            goto IDirect;
-        }
-
-        switch (action_index) {
-        case 6:
-            special = 1;
-            goto I3;
-        case 5:
-            special = 1;
-            goto I2;
-        case 4:
-            special = 1;
-            goto I1;
-
-IDirect:
-            {
-                u16 action_kind;
-
-                action_kind = actor->unk_46 & 0x3FFF;
-                switch (action_kind) {
-                case 1:
-                    goto I1;
-                case 2:
-                    selector = (u8 *)actor + 0xB;
-                    goto I2_done;
-                case 3:
-                    goto I3;
-                default:
-                    selector = 0;
-                    goto IEnd;
-                }
+            switch (action_index) {
+            case 6:
+                special = 1;
+            case 2:
+                selector = (u8 *)actor + 0xE;
+                break;
+            case 5:
+                special = 1;
+            case 1:
+                selector = (u8 *)actor + 0xB;
+                break;
+            case 4:
+                special = 1;
+            case 0:
+                selector = (u8 *)actor + 8;
+                break;
+            case 3:
+            default:
+                selector = 0;
             }
+        } else {
+            u16 action_kind;
 
-        case 2:
-I3:
-            selector = (u8 *)actor + 0xE;
-            break;
-        case 1:
-I2:
-            selector = (u8 *)actor + 0xB;
-I2_done:
-            break;
-        case 0:
-I1:
-            selector = (u8 *)actor + 8;
-            break;
-        case 3:
-        default:
-            selector = 0;
+            action_kind = actor->unk_46 & 0x3FFF;
+            switch (action_kind) {
+            case 3:
+                selector = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                selector = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                selector = (u8 *)actor + 8;
+                break;
+            default:
+                selector = 0;
+            }
         }
 
-IEnd:
         if (*selector != 0) {
             void *owner;
             u16 use_owner;
@@ -162,25 +148,26 @@ IEnd:
             if (use_owner) {
                 owner = D_800814A8;
                 actor->target = owner;
-                goto OwnerLinked;
-            }
-            dir_offset = *selector;
-            if (D_8006DE24[dir_offset].kind == 2) {
-                owner = actor->target;
-                if (owner != 0) {
-OwnerLinked:
-                    move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
-                    actor->unk_72 = ((S_80172C90_4 *)move_result)->unk_24;
-                    actor->unk_73 = ((S_80172C90_4 *)move_result)->unk_25;
-                }
+                move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                actor->unk_72 = ((S_80172C90_4 *)move_result)->unk_24;
+                actor->unk_73 = ((S_80172C90_4 *)move_result)->unk_25;
             } else {
-
-                actor->target = func_800A05A4(actor,
-                    sprite->unk_24,
-                    sprite->unk_25,
-                    actor->facing, 16);
-                actor->unk_72 = abs(actor->unk_72);
-                actor->unk_73 = abs(actor->unk_73);
+                dir_offset = *selector;
+                if (D_8006DE24[dir_offset].kind == 2) {
+                    owner = actor->target;
+                    if (owner != 0) {
+                        move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                        actor->unk_72 = ((S_80172C90_4 *)move_result)->unk_24;
+                        actor->unk_73 = ((S_80172C90_4 *)move_result)->unk_25;
+                    }
+                } else {
+                    actor->target = func_800A05A4(actor,
+                        sprite->unk_24,
+                        sprite->unk_25,
+                        actor->facing, 16);
+                    actor->unk_72 = abs(actor->unk_72);
+                    actor->unk_73 = abs(actor->unk_73);
+                }
             }
 
             {

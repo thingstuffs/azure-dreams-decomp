@@ -41,7 +41,10 @@ NEG_RE = re.compile(r"^(?P<d>[A-Za-z_]\w*)\s*=\s*(?:0\s*-\s*|-\s*)\(?\s*(?P<x>[A
 PIN_STMT_RE = re.compile(r"^ASM_[A-Z0-9_]+\([^;]*\)$")
 ELSE_RE = re.compile(r"\s*else\b")
 # the statement right above the if (pins between allowed): `d = <ident>;`
-COPY_RE = re.compile(r"(?P<d>[A-Za-z_]\w*)\s*=\s*(?P<s>[A-Za-z_]\w*)\s*;(?P<pins>(?:\s*ASM_[A-Z0-9_]+\([^;]*\)\s*;)*)\s*$")
+# round 93 (r92_agyO_p1, dungeon/func_81820800): m2c also writes the copy through a narrowing cast,
+# `d = (s16)t; if (t < 0) d = 0 - d;` - the pin sat on t (the tested value), not on d
+CAST = r"(?:\(\s*(?:[su](?:8|16|32)|int|short|long|unsigned(?:\s+(?:int|short|char|long))?|signed(?:\s+(?:int|short|char))?)\s*\)\s*)?"
+COPY_RE = re.compile(r"(?P<d>[A-Za-z_]\w*)\s*=\s*" + CAST + r"(?P<s>[A-Za-z_]\w*)\s*;(?P<pins>(?:\s*ASM_[A-Z0-9_]+\([^;]*\)\s*;)*)\s*$")
 
 
 def last_copy_source(masked, pos, d):
@@ -49,7 +52,8 @@ def last_copy_source(masked, pos, d):
     src = None
     for m in re.finditer(r"(?<![.>\w])\b%s\s*=\s*(?!=)([^;]+);" % re.escape(d), masked[:pos]):
         rhs = m.group(1).strip()
-        src = rhs if re.fullmatch(r"[A-Za-z_]\w*", rhs) else None
+        c = re.fullmatch(CAST + r"([A-Za-z_]\w*)", rhs)
+        src = c.group(1) if c else None
     return src
 
 
@@ -80,7 +84,8 @@ def idioms(text):
         copy = None
         if c and c.group("d") == d and not c.group("pins").strip() and (t in (d, c.group("s"))):
             copy = (lo2 + 1 + c.start(), lo2 + 1 + c.end("s") + masked[lo2 + 1 + c.end("s"):].find(";") + 1, c.group("s"))
-        out.append({"start": m.start(), "end": m.end(), "d": d, "t": t, "copy": copy})
+        # pins on the tested value count too (81820800: ASM_USE(coord_x) held the abs source's colour)
+        out.append({"start": m.start(), "end": m.end(), "d": d, "t": t, "copy": copy, "vars": {d, t}})
     return out
 
 

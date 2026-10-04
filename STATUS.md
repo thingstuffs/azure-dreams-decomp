@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-10-03T18:17:33Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-10-04T13:27:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -74,8 +74,8 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,456,820 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 758 | 289,876 | 11.3% |
-| ASM_ pins | 2135 | 1,464,792 | 57.3% | 143 | 191,716 | 7.5% |
-| goto | 1545 | 1,318,412 | 51.5% | 587 | 642,664 | 25.1% |
+| ASM_ pins | 2135 | 1,464,792 | 57.3% | 141 | 189,772 | 7.4% |
+| goto | 1545 | 1,318,412 | 51.5% | 577 | 625,140 | 24.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 69 | 100,616 | 3.9% |
 | inline asm outside macros | 361 | 255,656 | 10.0% | 236 | 200,660 | 7.8% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
@@ -85,13 +85,13 @@ Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump an
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 198 | 137,560 | 5.4% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 2978 | 1,559,088 | 61.0% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5403 | 1,615,860 | 63.2% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 5413 | 1,633,384 | 63.9% |
 
-Pin sites now: 357 in 143 rows; REG 211, KEEP_NV 51, KEEP 40, SCHED_BARRIER 15, USE2_NV 8, USE 7, USE_NV 7, SET 3.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 355 in 141 rows; REG 210, KEEP_NV 51, KEEP 40, SCHED_BARRIER 15, USE2_NV 8, USE_NV 7, USE 6, SET 3.  At the pin: 25,755; REG 12,776, KEEP 6,852, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 1, calls of local asm wrappers 0, hand-written asm in function bodies 1 (C that is missing); symbol aliases 94 (a second typed name for one symbol: a missing type); file-scope asm directives 388.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 112 rows carry one flag, 7 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 110 rows carry one flag, 7 carry two or more.
 
 
 ## Likely incorrect compiler (registered recipe vs the real build)
@@ -103,8 +103,8 @@ The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock
 | late cell (2.8.x / egcs / 2.95.2: fitted) | 6 | 4 / 1 / 1 | 4 | 10 |
 | cdk cell + crutch flags, module is plain | 4 | 4 / 0 / 0 | 2 | 8 |
 | stock cell inside a cdk module | 1 | 1 / 0 / 0 | 1 | 16 |
-| other mismatch with the module recipe (-G, stock flavour, -O1) | 9 | 1 / 5 / 3 | 2 | 2 |
-| **total** | **20** | | **9** | **36** |
+| other mismatch with the module recipe (-G, stock flavour, -O1) | 8 | 1 / 5 / 2 | 2 | 2 |
+| **total** | **19** | | **9** | **36** |
 
 SLUS rows off their region's build (game image = 2.7.2-cdk, sound TU = stock 2.7.2; module members included): 14 rows, 1 pinned / 1 pins.
 
@@ -129,7 +129,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 808 rows, 473,492 bytes (18.5%); records used: 101.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 143 rows (191,716 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,016 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 141 rows (189,772 B), tail_jump 9 rows (3,452 B), not_in_module 6,745 rows (2,555,016 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 

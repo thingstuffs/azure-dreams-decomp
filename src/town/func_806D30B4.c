@@ -63,7 +63,9 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
         TownEntry *entry = (TownEntry *)entries;
 
         do {
-            s32 flags = entry->flags;
+            s32 flags;
+            entry = &((TownEntry *)entries)[entry_index];
+            flags = entry->flags;
 
             bucket_bits = flags >> 19;
             bank_bits = (flags >> 23) & 1;
@@ -93,9 +95,8 @@ void func_800168B4(s32 *entries, s32 ost_w, s32 *osel_w)
                         p, (s32)entry->choices, 0, entry_index);
                 }
             }
-            entry++;
             entry_index++;
-        } while (entry->flags != 0);
+        } while (((TownEntry *)entries)[entry_index].flags != 0);
     }
 
     (*(ReportFunc *)((u8 *)(((Rec_D_80016000 *)((Rec_D_80016000 *)D_80016000))->unk_20) + 0x168))(
