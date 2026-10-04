@@ -45,18 +45,21 @@ s32 open_twin_souko(s32 option) {
     if (task != NULL) {
         func_800B2B60(state);
         if (func_800B29D0(state) == 0) {
-            goto fail;
+            func_800B2C6C(state);
+            return 0;
         }
         func_800B2394(state, 0);
         resource_08 = func_800B4588(task);
         ((S_800B2BA0_0 *)state)->unk_08 = resource_08;
         if (resource_08 == 0) {
-            goto fail;
+            func_800B2C6C(state);
+            return 0;
         }
         resource_00 = func_800B3924(task);
         ((S_800B2BA0_1 *)task)->unk_20 = resource_00;
         if (resource_00 == 0) {
-            goto fail;
+            func_800B2C6C(state);
+            return 0;
         }
         resource_04 = func_800B4F60(task);
         ((S_800B2BA0_0 *)state)->unk_04 = resource_04;

@@ -142,7 +142,8 @@ void func_80024660(void *effect, void *motion, void *appearance) {
         source_info = ((S_80024660_3 *)source_record)->unk_0C;
         if (func_8003DE58(((S_80024660_4 *)source_info)->unk_08, source_info, &scratch.dist[0], 0) == 0) {
             if (!(((S_80024660_12 *)(((S_80024660_3 *)source_record)->unk_0C))->unk_14 & 0x8000)) {
-                goto finish;
+                ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
+                return;
             }
         }
         source_pos = ((S_80024660_3 *)source_record)->unk_08;
@@ -158,7 +159,8 @@ void func_80024660(void *effect, void *motion, void *appearance) {
             ((S_80024660_5 *)motion)->unk_08.at02.v = source_z - 0x40;
         }
         if (!(*((Rec_func_800243B8_arg0 *)effect)->unk_04 & 0x80)) {
-            goto finish;
+            ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
+            return;
         }
         target = ((S_80024660_1 *)source)->unk_60;
         index = 1;
@@ -340,7 +342,6 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     default:
         break;
     }
-finish:
     ((Rec_func_800243B8_arg0 *)effect)->unk_14 = 0;
     return;
 }

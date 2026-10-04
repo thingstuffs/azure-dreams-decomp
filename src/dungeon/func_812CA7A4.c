@@ -184,10 +184,12 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, EntityRec *entity
 
     if (entity->unk_6D > 0) {
         if (((u32)entity->flags1C) & 0x20) {
-            goto case_12;
+            func_800A9A0C(entity);
+            return;
         }
         if (((S_8014DFA4_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_8014E6C8(actor, actor_aux, sprite, entity);
+            return;
         }
         if (!(entity->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -230,19 +232,18 @@ void func_8014DFA4(void *actor, void *actor_aux, void *sprite, EntityRec *entity
             player = D_800814A8;
             entity->facing = heading;
             if (player->unk_9A == 0x11) {
-                goto case_123;
+                func_800AAF00(actor, actor_aux, sprite, D_80151C88, D_8014DFA4);
+                return;
             }
         }
 
         case 12:
-case_12:
             func_800A9A0C(entity);
             return;
 
         case 1:
         case 2:
         case 3:
-case_123:
             func_800AAF00(actor, actor_aux, sprite, D_80151C88, D_8014DFA4);
             return;
 

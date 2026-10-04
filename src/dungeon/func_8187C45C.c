@@ -249,7 +249,9 @@ await_launch:
                 U8(sprite, 0xE) = 0;
                 U8(sprite, 0xD) = 0;
                 U8(sprite, 0xC) = 0;
-                goto set_render_flag;
+                render_flags |= 0x80;
+                U16(sprite, 0x14) = render_flags;
+                return;
             }
 
             S32(motion, 0xC) = ((S16(effect, 0x74) << 16) - S32(motion, 0)) / S8(effect, 0x7B);
@@ -439,7 +441,6 @@ collision_hit:
     U16(effect, 0xA) = 7;
     U16(effect, 0x82) = 0;
     render_flags = U16(sprite, 0x14);
-set_render_flag:
     render_flags |= 0x80;
     U16(sprite, 0x14) = render_flags;
     return;

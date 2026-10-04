@@ -142,7 +142,8 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         product_result = fade_in_green * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
         product_result = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
-        goto store_blue;
+        ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
+        return;
     }
     if (frame < 0x28) {
         hold_target = ((S_818B6AFC_0 *)effect)->unk_10;
@@ -208,7 +209,6 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = fade_in_color - frames_left;
         product_result = channel_bit * ((frames_left * 3) << 3);
-    store_blue:
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
         return;
     }

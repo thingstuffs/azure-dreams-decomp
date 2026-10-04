@@ -123,7 +123,8 @@ case_13:
     D_80080AD4 = 0;
     if (event_data == 0) {
         null_kind = 13;
-        goto call_null;
+        result.value = func_8003E39C(null_kind, 0);
+        return result.value;
     }
     func_8003E39C(13, 0);
     func_8003E39C(2, event_data, 0);
@@ -133,7 +134,6 @@ case_13:
 
 case_14:
     null_kind = 14;
-call_null:
     result.value = func_8003E39C(null_kind, 0);
     return result.value;
 

@@ -82,7 +82,8 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
         next_value = (u16)object->f68;
         threshold = 32;
         object->f6C = threshold;
-        goto L_NEXT_STATE;
+        object->f68 = next_value + 1;
+        return;
     }
 
     case 1:
@@ -115,7 +116,6 @@ L_STORE_TARGET:
             return;
         }
         next_value = (u16)object->f68;
-L_NEXT_STATE:
         object->f68 = next_value + 1;
         return;
     default:

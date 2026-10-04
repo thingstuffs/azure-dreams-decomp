@@ -286,7 +286,9 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
         effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
         effect_flags |= 0x8000;
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
-        goto mark_done;
+        (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
+        ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
+        return;
     }
     case 16:
         source_object = ((S_800C2824_0 *)effect)->unk_00;
@@ -339,7 +341,6 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
         effect_flags |= 0x8000;
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
         ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
-mark_done:
         (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
         ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
         return;

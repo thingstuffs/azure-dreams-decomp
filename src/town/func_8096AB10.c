@@ -46,7 +46,8 @@ s16 *func_80122FA8(s16 char_code)
                 glyph_data = &D_80128A20[(u16)entry->value];
                 cache_head = D_80129720;
                 if (entry == cache_head) {
-                    goto found_head;
+                    D_80129724++;
+                    return glyph_data;
                 }
                 next_entry = entry->next;
                 D_80129720 = entry;
@@ -64,7 +65,7 @@ s16 *func_80122FA8(s16 char_code)
     glyph_data = func_80121C90((u16)char_code,
                                &D_80128A20[(u16)last_entry->value]);
     if (glyph_data != &D_80128A20[(u16)last_entry->value]) {
-        goto fail;
+        return 0;
     }
     {
         Entry *old_head;
@@ -78,10 +79,8 @@ s16 *func_80122FA8(s16 char_code)
         return glyph_data;
     }
 
-found_head:
     D_80129724++;
     return glyph_data;
 
-fail:
     return 0;
 }

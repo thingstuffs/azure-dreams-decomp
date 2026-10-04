@@ -160,7 +160,9 @@ settle:
             colors[3] = ((S_801747F0_0 *)motion)->unk_2F;
             func_800A7A7C(((S_801747F0_1 *)position)->unk_0E, ((S_801747F0_1 *)position)->unk_12,
                           ((S_801747F0_1 *)position)->unk_16, ((S_801747F0_2 *)object)->unk_08, colors);
-            goto finished;
+            (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
+            objectFlagBlock.flags |= 0x8000;
+            return;
         }
         if (((S_801747F0_2 *)object)->unk_14 & 0x8000) {
             goto settle;
@@ -190,7 +192,6 @@ fall:
                 (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
                 (s16)(((S_801747F0_1 *)position)->unk_08.at02p.v - 0x20));
             ((S_801747F0_1 *)position)->unk_08.at00u.v = 0;
-finished:
             (*(u16 *)((u8 *)motion + -2)) |= 0x8000;
             objectFlagBlock.flags |= 0x8000;
             return;

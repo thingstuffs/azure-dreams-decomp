@@ -175,7 +175,8 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         ((S_80172494_0 *)actor_arg)->unk_1C = actor_flags;
         ((S_80172494_1 *)action)->unk_96.s = 4;
         ((S_80172494_3 *)motion)->unk_14 = 0xFFFD0000;
-        goto advance_state;
+        ((S_80172494_1 *)action)->unk_9B++;
+        return;
 
     case 1:
         velocity_y = ((S_80172494_3 *)motion)->unk_14;
@@ -214,7 +215,8 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         ((S_80172494_3 *)motion)->unk_0C = (direction_x << 18) + (direction_x << 17);
         ((S_80172494_3 *)motion)->unk_10 = (direction_y << 18) + (direction_y << 17);
         func_800A56E0(0x80E);
-        goto advance_state;
+        ((S_80172494_1 *)action)->unk_9B++;
+        return;
 
     case 3:
         ((S_80172494_1 *)action)->unk_90 += 0x80000;
@@ -226,7 +228,6 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
         func_800A56E0(0x808);
         func_8009C12C(actor_arg, map_actor, ((S_80172494_0 *)actor_arg)->unk_2A.u, 1);
 
-advance_state:
         ((S_80172494_1 *)action)->unk_9B++;
         return;
 

@@ -161,7 +161,8 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
         }
 
         if (((S_80171514_1 *)part)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto case_default;
+            func_80171BE0(obj, motion, part, state);
+            return;
         }
 
         if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
@@ -180,7 +181,9 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
                 callback_state = state;
                 callback_flags &= 0x7F;
                 ((S_80171514_0 *)state)->unk_71 = callback_flags;
-                goto case_callback_tail;
+                func_800A9A0C(callback_state);
+                ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
+                return;
             }
 
             if ((s16)func_80172330(obj, motion, part, 0) == 0) {
@@ -188,7 +191,8 @@ void func_80171514(void *obj, void *motion, void *part, void *state)
             }
             ((S_80171514_0 *)state)->unk_46 |= 0x4000;
             if ((((S_80171514_0 *)state)->unk_46 & 0x8000) == 0) {
-                goto case_default;
+                func_80171BE0(obj, motion, part, state);
+                return;
             }
         }
 
@@ -207,7 +211,6 @@ case_stop:
         case 8:
             callback_state = state;
             (*(void * *)((u8 *)obj + (0x8C))) = &D_80171514;
-case_callback_tail:
             func_800A9A0C(callback_state);
             ((S_80171514_0 *)state)->unk_46 &= 0x7FFF;
             return;
@@ -222,7 +225,6 @@ case_callback_tail:
         case 9:
         case 10:
         default:
-case_default:
             func_80171BE0(obj, motion, part, state);
             return;
         }

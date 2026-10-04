@@ -273,10 +273,12 @@ idle_ally_scan:
         ASM_SCHED_BARRIER();
         lower_limit = action_code;
         if ((lower_limit << 16) < 0) {
-            goto return_wait;
+            *(u16 *)(creature + 0x46) = 0x800B;
+            return 2;
         }
         pending_action = lower_limit | 0x8000;
-        goto store_move_action;
+        *(u16 *)(creature + 0x46) = pending_action;
+        return 1;
     }
 
 Lcase1:
@@ -359,10 +361,12 @@ follow_ally_scan:
         ASM_SCHED_BARRIER();
         lower_limit = action_code;
         if ((s16)lower_limit < 4) {
-            goto return_wait;
+            *(u16 *)(creature + 0x46) = 0x800B;
+            return 2;
         }
         pending_action = lower_limit | 0x8000;
-        goto store_move_action;
+        *(u16 *)(creature + 0x46) = pending_action;
+        return 1;
     }
 
 Lcase2:
@@ -496,7 +500,8 @@ Lcase4:
     }
 check_default_action:
     if ((func_800A2C34(creature) << 16) == 0) {
-        goto return_default;
+        delta_or_result = default_action << 16;
+        return (u32)delta_or_result >> 16;
     }
     return -1;
 
@@ -505,13 +510,15 @@ check_species_action:
         return -1;
     }
     if (*(s32 *)(creature + 0x1C) & 0x10) {
-        goto return_default;
+        delta_or_result = default_action << 16;
+        return (u32)delta_or_result >> 16;
     }
     {
         s8 room_index = *(s8 *)(position + 0x26);
         if (room_index >= 0) {
             if (D_800E2970[room_index].flags & 2) {
-                goto return_default;
+                delta_or_result = default_action << 16;
+                return (u32)delta_or_result >> 16;
             }
         }
     }
@@ -726,7 +733,8 @@ check_species_action:
     if (D_800E296C & 4) {
         goto wander;
     }
-    goto return_ability;
+    *(u16 *)(creature + 0x46) = 0x8009;
+    return 5;
 
     case 38:
     func_800ADD20(creature, 2);
@@ -746,7 +754,8 @@ check_neighbor:
     if ((func_80042900(target, 4) << 16) != 0) {
         goto wander;
     }
-    goto return_ability;
+    *(u16 *)(creature + 0x46) = 0x8009;
+    return 5;
 
     case 39:
     func_800ADD20(creature, 0x10);
@@ -964,7 +973,9 @@ check_occupied_tile:
                     if ((func_80042900(target, 0xC) << 16) == 0) {
                         target_pos = *(void **)(target - 0x14);
                         if ((s16)func_8009FD40(target_pos, position) == 1) {
-                            goto aim_at_target;
+                            *(u16 *)(creature + 0x46) = 0x8009;
+                            *(u16 *)(creature + 0x2A) = func_800A0818( position[0x24], position[0x25], target_pos[0x24], target_pos[0x25], &action_or_flags);
+                            return 5;
                         }
                     }
                 }
@@ -1093,7 +1104,6 @@ wander:
             goto return_wait;
         }
         pending_action = action_result | 0x8000;
-store_move_action:
         *(u16 *)(creature + 0x46) = pending_action;
         return 1;
     }
@@ -1164,7 +1174,6 @@ save_ability_target:
         target_pos[0x24], target_pos[0x25], &action_or_flags);
     return 5;
 
-aim_at_target:
     *(u16 *)(creature + 0x46) = 0x8009;
     *(u16 *)(creature + 0x2A) = func_800A0818(
         position[0x24], position[0x25],

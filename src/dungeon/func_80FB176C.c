@@ -399,10 +399,12 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
 
     if (((S_80170F6C_1 *)arg3)->unk_6D > 0) {
         if (((S_80170F6C_1 *)arg3)->unk_1C & 0x20) {
-            goto sw_case12;
+            func_800A9A0C(arg3);
+            return;
         }
         if (((S_80170F6C_2 *)arg2)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto sw_generic;
+            func_80171B68(arg0, arg1, arg2, arg3);
+            return;
         }
         if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
             if ((dungeonStatus.flags & 0x2000) &&
@@ -415,7 +417,8 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             }
             ((S_80170F6C_1 *)arg3)->unk_46 |= 0x4000;
             if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
-                goto sw_generic;
+                func_80171B68(arg0, arg1, arg2, arg3);
+                return;
             }
         }
 
@@ -451,18 +454,17 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             status_object = D_800814A8[0];
             ((S_80170F6C_1 *)arg3)->unk_2A.s = next_position;
             if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
-                goto sw_case123;
+                func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
+                return;
             }
         }
         case 12:
-sw_case12:
             func_800A9A0C(arg3);
             return;
 
         case 1:
         case 2:
         case 3:
-sw_case123:
             func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
             return;
 
@@ -470,7 +472,6 @@ sw_case123:
         case 10:
         case 11:
         default:
-sw_generic:
             func_80171B68(arg0, arg1, arg2, arg3);
             return;
         }

@@ -49,7 +49,9 @@ void func_80172E04(void *action, void *motion, void *sprite, EntityRec *actor)
         ((S_80172E04_3 *)motion)->unk_14 = 0;
         ((S_80172E04_3 *)motion)->unk_10 = 0;
         ((S_80172E04_3 *)motion)->unk_0C = 0;
-        goto advance_state;
+        ((S_80172E04_0 *)action)->unk_96.u = 0;
+        ((S_80172E04_0 *)action)->unk_9B++;
+        return;
 
     case 1:
         if ((s16)++((S_80172E04_0 *)action)->unk_96.u == 4 ||
@@ -63,7 +65,9 @@ void func_80172E04(void *action, void *motion, void *sprite, EntityRec *actor)
         if (((S_80172E04_0 *)action)->unk_96.s == 7 ||
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
-            goto advance_state;
+            ((S_80172E04_0 *)action)->unk_96.u = 0;
+            ((S_80172E04_0 *)action)->unk_9B++;
+            return;
         }
         return;
 
@@ -75,7 +79,6 @@ void func_80172E04(void *action, void *motion, void *sprite, EntityRec *actor)
             (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000)) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;
             func_800A56E0(0x808);
-advance_state:
             ((S_80172E04_0 *)action)->unk_96.u = 0;
             ((S_80172E04_0 *)action)->unk_9B++;
             return;

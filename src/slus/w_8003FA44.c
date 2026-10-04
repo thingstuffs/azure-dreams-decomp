@@ -19,7 +19,7 @@ s32 func_8003FA44(s32 limit) {
     while (node != 0) {
         count++;
         if (!(count < limit)) {
-            goto ret_true;
+            return 1;
         }
         node = node->next;
     }
@@ -30,7 +30,6 @@ s32 func_8003FA44(s32 limit) {
             if (node->unk1E & 0x200) {
                 count++;
                 if (!(count < limit)) {
-ret_true:
                     return 1;
                 }
             }

@@ -51,7 +51,8 @@ void func_80023404(S_80023404_0 *scroll)
                 scroll->unk_0A = (scroll->unk_0A + 1) % 12;
             } while ((s16)scroll->unk_0E.u < 0);
         }
-        goto common_call;
+        func_80023578(scroll->unk_08, scroll->unk_0A, scroll->unk_0E.s);
+        return;
 
     case 4:
         scroll->unk_0E.u -= (s32)(scroll->unk_0E.u << 16) >> 18;
@@ -59,7 +60,6 @@ void func_80023404(S_80023404_0 *scroll)
             scroll->unk_0E.u = 0;
             scroll->unk_04.u = 0;
         }
-common_call:
         func_80023578(scroll->unk_08,
                       scroll->unk_0A,
                       scroll->unk_0E.s);

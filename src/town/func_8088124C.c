@@ -34,12 +34,12 @@ s32 func_8088124C(s32 index) {
             func_80700D20(D_80700660[0]);
             func_80700D20(0x281);
             func_80700D20(0x280);
-            goto shared_clear;
+            func_80700D20(0x278);
+            return func_80700B4C();
         }
 
         if (func_80700D74(0x288) != 0) {
             func_80700CD0(D_80700650[index].value);
-shared_clear:
             func_80700D20(0x278);
             return func_80700B4C();
         }

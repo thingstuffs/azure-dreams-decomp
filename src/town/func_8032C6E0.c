@@ -10,12 +10,11 @@ s32 func_80016EE0(void) {
     func_8001ACA0(result);
     if (result[0] < 0xF45) {
         if (result[1] < 0x1127) {
-            goto return_one;
+            return 1;
         }
         goto return_zero;
     }
 
-return_one:
     return 1;
 
 return_zero:

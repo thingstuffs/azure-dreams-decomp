@@ -389,7 +389,7 @@ bump_state:
         ((S_801757E0_0 *)actor)->unk_96.u = 0;
 bump_state_loaded:
         ((S_801757E0_0 *)actor)->unk_9B++;
-        goto end;
+        return;
 
     case 9:
         func_800AD594(entity, 0x800);
@@ -404,12 +404,11 @@ bump_state_loaded:
             ((S_801757E0_0 *)actor)->unk_9B = 9;
             ((S_801757E0_0 *)actor)->unk_96.u = 0;
         }
-        goto end;
+        return;
 
     default:
         break;
     }
 
-end:
     return;
 }

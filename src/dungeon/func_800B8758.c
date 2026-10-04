@@ -119,7 +119,9 @@ s32 func_800BDEB8(void *entity, s32 action_id, s16 mode) {
         }
         result = special_case;
         if (result == 0) {
-            goto finish;
+            func_80098B38(action_id);
+            dungeonStatus.unk_0A--;
+            return 1;
         }
 show_special:
         result = func_800990FC();
@@ -134,7 +136,6 @@ show_special:
         func_80099290(result);
         func_800A5720(saved_id);
 
-finish:
         func_80098B38(action_id);
         dungeonStatus.unk_0A--;
         return 1;
