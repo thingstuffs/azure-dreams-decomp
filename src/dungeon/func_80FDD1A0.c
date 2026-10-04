@@ -162,32 +162,31 @@ not_special:
                     if (action_kind == 1) {
                         goto kind_1;
                     }
-                    goto selection_ready;
+                    break;
                 }
                 if (action_kind != 3) {
                     item_slot = 0;
-                    goto selection_ready;
+                    break;
                 }
             }
 
         case 2:
 kind_3:
             item_slot = &actor_data->unk_0E;
-            goto selection_ready;
+            break;
         case 1:
 kind_2:
             item_slot = &actor_data->unk_0B;
-            goto selection_ready;
+            break;
         case 0:
 kind_1:
             item_slot = &actor_data->unk_08;
-            goto selection_ready;
+            break;
         case 3:
         default:
             item_slot = 0;
         }
 
-selection_ready:
         if (*item_slot != 0) {
             actor->unk_98 &= 0xFF7F;
             {

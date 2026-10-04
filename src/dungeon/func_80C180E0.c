@@ -157,7 +157,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
             ((S_801738E0_2 *)entity)->unk_1C = entity_flags;
             if (((S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
                 clear_mask = ~0x200U;
-                goto clear_200;
+                break;
             }
             {
                 register struct GlobalStruct *globals;
@@ -236,7 +236,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         ((S_801738E0_2 *)entity)->unk_1C = entity_flags;
         if (((S_801738E0_1 *)sprite)->unk_14 & 0x8000) {
             clear_mask = ~0x200U;
-            goto clear_200;
+            break;
         }
         {
             struct GlobalStruct *globals = ((struct GlobalStruct *)&dungeonStatus);
@@ -298,7 +298,6 @@ advance_state:
         return;
     }
 
-clear_200:
     ((S_801738E0_2 *)entity)->unk_1C = clear_mask & entity_flags;
     ((S_801738E0_0 *)actor)->unk_8C = D_801713A8;
 
