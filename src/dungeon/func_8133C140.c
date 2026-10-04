@@ -48,10 +48,10 @@ typedef struct S_80173140_5 {
 
 
 void *func_8003FD64();            /* extern */
-M2C_UNK func_8004491C();           /* extern */
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009A028();                      /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+s32 func_8004491C();           /* extern */
+void func_80047784();         /* extern */
+void func_8009A028();                      /* extern */
+void func_8009A3D0();             /* extern */
 void func_800A9C18(void *, void *, void *, s32); /* extern */
 extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
@@ -71,7 +71,7 @@ void func_80173140(void) {
     s32 cell_x;
     s32 cell_y;
     void *object;
-    M2C_UNK cell_mask;
+    s32 cell_mask;
     s32 origin_x;
     s32 origin_y;
     void *object_attrs;

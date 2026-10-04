@@ -9,16 +9,16 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_800A56E0();
-extern M2C_UNK func_800AD058();
-extern M2C_UNK func_80174D48();
+extern s32 func_800A56E0();
+extern s32 func_800AD058();
+extern void func_80174D48();
 
 
 /* Initializes the visual effect and advances its action state. */
-void func_801736EC(Rec_func_800AD058_arg0 *action, M2C_UNK context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
-    M2C_UNK one;
-    M2C_UNK color;
-    M2C_UNK phase;
+void func_801736EC(Rec_func_800AD058_arg0 *action, s32 context, Rec_func_800AD058_arg2 *visual, EntityRec *entity) {
+    s32 one;
+    s32 color;
+    s32 phase;
 
     phase = action->unk_9B;
     one = 1;

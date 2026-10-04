@@ -50,11 +50,11 @@ typedef struct S_80036D4C_3 {
 } S_80036D4C_3;   /* temp_s2 in func_80036D4C */
 
 
-M2C_UNK func_80033C1C();                 /* extern */
+void func_80033C1C();                 /* extern */
 M2C_UNK func_800350B0();                 /* extern */
-M2C_UNK func_80036C7C(); /* extern */
+void func_80036C7C(); /* extern */
 void *func_8003FF2C(); /* extern */
-M2C_UNK func_8004491C();           /* extern */
+s32 func_8004491C();           /* extern */
 extern u8 D_8006A958[];
 extern u8 D_8006A964[];
 extern u8 D_8006A970[];

@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_800AF254_arg1.h"
 
-M2C_UNK func_800AF254();                 /* extern */
-M2C_UNK func_800AF520(Rec_func_800AF254_arg1 *);                            /* extern */
-M2C_UNK func_800AF674();                      /* extern */
-M2C_UNK func_800AF784();                      /* extern */
-M2C_UNK func_800AF858();                 /* extern */
+void func_800AF254();                 /* extern */
+void func_800AF520(Rec_func_800AF254_arg1 *);                            /* extern */
+void func_800AF674();                      /* extern */
+void func_800AF784();                      /* extern */
+void func_800AF858();                 /* extern */
 
 
 /* Run the record update sequence and process its stored value. */

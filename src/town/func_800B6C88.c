@@ -3,11 +3,11 @@
 #include "records/Rec_func_800B3FB8_arg0.h"
 
 M2C_UNK func_8004E6F4(); /* extern */
-M2C_UNK func_800B3FB8();      /* extern */
-M2C_UNK func_800B40E0();                         /* extern */
-M2C_UNK func_800B4188();                         /* extern */
+void func_800B3FB8();      /* extern */
+void func_800B40E0();                         /* extern */
+void func_800B4188();                         /* extern */
 M2C_UNK func_800B426C();                         /* extern */
-M2C_UNK func_800B4350();                      /* extern */
+void func_800B4350();                      /* extern */
 extern M2C_UNK D_800D1658;
 extern M2C_UNK D_800D175C;
 

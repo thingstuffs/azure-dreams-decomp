@@ -9,16 +9,16 @@ typedef struct StatePair {
 
 extern u8 D_80082E6B;
 
-extern void func_80020924(s32 arg0);
+extern void func_80020924(s32 mode_enabled);
 extern StatePair *func_800217D4(void);
 extern void func_80021904(void);
-extern void func_80026FD4(s32 arg0, s32 arg1);
-extern void func_80026FF8(s32 arg0, StatePair *arg1, s32 *arg2);
+extern void func_80026FD4(s32 object_addr, s32 value);
+extern void func_80026FF8(s32 base_addr, StatePair *display_state, s32 *changed_flags);
 extern void func_80027BF4(void);
-extern void func_80027C90(void *arg0);
-extern void func_80040AA0(s32 arg0);
-extern void func_80044144(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern void SD_Call(s32 arg0);
+extern void func_80027C90(void *entry);
+extern void func_80040AA0(s32 requested_state);
+extern void func_80044144(s32 mode, s32 lookup_id, s32 payload_word_0, s32 payload_word_4);
+extern void SD_Call(s32 flags);
 extern void func_800A68F4(void);
 extern void func_800277BC(void);
 

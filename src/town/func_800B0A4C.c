@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 
 void *func_8003FC64();                       /* extern */
-M2C_UNK func_800ADFE8();                      /* extern */
-M2C_UNK func_800AE0F4();                      /* extern */
-M2C_UNK func_800AE2A4();                      /* extern */
+void func_800ADFE8();                      /* extern */
+void func_800AE0F4();                      /* extern */
+void func_800AE2A4();                      /* extern */
 s32 func_800B14B0(); /* extern */
 s32 func_800B1BEC();        /* extern */
 extern M2C_UNK D_800AE090;
@@ -26,11 +26,11 @@ typedef struct S_800AE1AC_0 {
 
 typedef struct S_800AE1AC_1 {
     u8 pad_00[0x10];
-    M2C_UNK * unk_10;
+    s32 * unk_10;
 } S_800AE1AC_1;   /* var_s1 in open_shop */
 
 /* open_shop: Allocate and initialize the shop and its resources, cleaning up if either resource fails. */
-void *open_shop(M2C_UNK unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
+void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, s32 shared_param) {
     s32 second_resource;
     S_800AE1AC_0 *shop_state;
     void *shop;

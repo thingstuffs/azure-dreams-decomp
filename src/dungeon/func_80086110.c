@@ -8,11 +8,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-M2C_UNK func_8008CAA0();
-M2C_UNK func_8008CBA0();
-M2C_UNK func_8008CF6C();
-M2C_UNK func_80090200();
-M2C_UNK func_800A2B04();
+void func_8008CAA0();
+void func_8008CBA0();
+void func_8008CF6C();
+void func_80090200();
+void func_800A2B04();
 extern M2C_UNK D_8004F5F4;
 extern s32 D_800E4940[];
 

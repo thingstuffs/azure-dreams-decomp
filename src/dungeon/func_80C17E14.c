@@ -51,12 +51,12 @@ typedef struct S_func_80C17E14_4 {
 
 typedef s32 M2C_UNK;
 
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A2FE0();
-M2C_UNK func_800A32A4();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800ACF88();
+void func_8009A028();
+void func_8009A3D0();
+void func_800A2FE0();
+s32 func_800A32A4();
+s32 func_800A56E0();
+void func_800ACF88();
 
 
 /* Advances an entity removal animation, fading its sprite before cleanup. */

@@ -75,19 +75,19 @@ void func_80047784();
 s32 func_8009A180();
 s16 func_8009FD40();
 s32 func_800A2C34();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 s32 func_800A6D30();
 M2C_UNK func_800A9A04();
-M2C_UNK func_800A9A0C();
-M2C_UNK func_800AA258();
+void func_800A9A0C();
+void func_800AA258();
 s32 func_800AA6B4();
-M2C_UNK func_800AA79C();
-M2C_UNK func_800AA888();
-M2C_UNK func_800AD4D0();
+s32 func_800AA79C();
+void func_800AA888();
+void func_800AD4D0();
 M2C_UNK func_80171F94();
-M2C_UNK func_80173CEC();
-extern M2C_UNK D_800D7960;
-extern M2C_UNK D_80170E68;
+void func_80173CEC();
+extern u8 D_800D7960[];
+extern u8 D_80170E68[];
 extern u8 D_801741DC[];
 extern u8 D_801741E4[];
 extern u8 D_801741EC[];
@@ -152,7 +152,7 @@ check_effect_state:
             }
 clear_action:
             ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
-            ((Rec_func_801732A4_arg0 *)actor)->unk_8C = &D_80170E68;
+            ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
             return;
         }
         dungeonStatus.unk_0A = (u16)(((u16)dungeonStatus.unk_0A) + 1);
@@ -254,14 +254,14 @@ check_ready:
         func_80047784(sprite, D_801741F4[((gameWork.view.viewAngle + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100)
             >> 9) & 7], 0);
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
-        new_effect = func_8003FD64(0x112, ((M2C_UNK *)&D_80083498.next));
+        new_effect = func_8003FD64(0x112, ((void *)&D_80083498.next));
         ((Rec_func_801732A4_arg0 *)actor)->unk_A0 = new_effect;
         actor = new_effect;
         if (actor == NULL)
             return;
         func_8004491C(actor, func_80045340);
         effect_transform = ((Rec_func_801732A4_arg0 *)actor)->unk_08;
-        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = &D_800D7960;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_10 = D_800D7960;
         *(Copy24 *)effect_transform = *(Copy24 *)transform;
         ((Rec_func_801732A4_arg0 *)actor)->unk_BB = 0;
         effect_sprite = ((Rec_func_801732A4_arg0 *)actor)->unk_0C;
@@ -297,7 +297,7 @@ advance_phase:
         ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
         return;
 reset_handler:
-        ((Rec_func_801732A4_arg0 *)actor)->unk_8C = &D_80170E68;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_8C = D_80170E68;
         return;
     case 5:
         func_80171F94(actor, transform, sprite, actor_state);

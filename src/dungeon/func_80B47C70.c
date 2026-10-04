@@ -20,24 +20,24 @@ extern u8 D_80175B24;
 extern u8 D_80175B25;
 extern void *D_80175B28;
 
-M2C_UNK func_8003DB94();
-M2C_UNK Control_CD();
-M2C_UNK func_8003F540();
+void func_8003DB94();
+s32 Control_CD();
+void func_8003F540();
 void *func_8003FC64();
-M2C_UNK func_80041588();
+void func_80041588();
 s32 func_800445E0();
-M2C_UNK func_8004491C();
-M2C_UNK func_80047738();
+s32 func_8004491C();
+void func_80047738();
 s32 func_800498A0();
 s32 func_80069EF8();
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A18E8();
+void func_8009A028();
+void func_8009A3D0();
+void func_800A18E8();
 void *func_800A504C();
-M2C_UNK func_800A56E0();
+s32 func_800A56E0();
 s32 func_800ADC4C();
-M2C_UNK func_800C77D0();
-M2C_UNK func_80175180();
+s32 func_800C77D0();
+void func_80175180();
 
 
 typedef struct S_80175470_0_pre {

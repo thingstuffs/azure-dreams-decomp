@@ -25,21 +25,21 @@ typedef struct S_800A5DF8_4 {
 
 s32 func_8008C180();                        /* extern */
 s16 func_80094AA0();           /* extern */
-M2C_UNK func_80095094();                      /* extern */
-M2C_UNK func_80095388();                 /* extern */
-M2C_UNK func_800954F4();                 /* extern */
+void func_80095094();                      /* extern */
+void func_80095388();                 /* extern */
+void func_800954F4();                 /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
-M2C_UNK func_800A55CC();                         /* extern */
+void func_800A55CC();                         /* extern */
 s32 func_800C1D44();                             /* extern */
 extern u8 D_800CFCEF;
 extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
+void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, s32 context) {
     s16 threshold;
     s32 offset_step;
     s16 angle;

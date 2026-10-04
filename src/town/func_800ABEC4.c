@@ -1,25 +1,24 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-typedef s32 M2C_UNK;
 
 typedef struct S_func_800A9624_1 {
     u8 pad_00[0x50];
-    M2C_UNK (*unk_50)(void *, s32, M2C_UNK);
+    s32 (*unk_50)(void *, s32, s32);
     u8 pad_54[0x44];
     s8 *unk_98;
 } S_func_800A9624_1;
 
-extern M2C_UNK func_80033CD8();
-extern M2C_UNK func_80033D08();
+extern void func_80033CD8();
+extern void func_80033D08();
 extern s32 func_8009D20C(void *, s32);
-extern M2C_UNK func_800A8BBC();
-extern M2C_UNK D_800A9528;
+extern void func_800A8BBC();
+extern s32 D_800A9528;
 
 /* Process object state results or invoke the fallback callback. */
-void func_800A9624(S_func_800A9624_1 *object, s32 state_arg, M2C_UNK callback_arg) {
+void func_800A9624(S_func_800A9624_1 *object, s32 state_arg, s32 callback_arg) {
     s32 state;
-    M2C_UNK (*callback)(void *, s32, M2C_UNK);
+    s32 (*callback)(void *, s32, s32);
 
     state = func_8009D20C(object, state_arg);
     if (state == 1) {

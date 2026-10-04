@@ -8,12 +8,12 @@
 typedef s32 M2C_UNK;
 
 extern void *D_801708A0[];
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A2FE0();
-M2C_UNK func_800A32A4();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800ACF88();
+void func_8009A028();
+void func_8009A3D0();
+void func_800A2FE0();
+s32 func_800A32A4();
+s32 func_800A56E0();
+void func_800ACF88();
 
 
 typedef struct S_80173724_0 {
@@ -65,7 +65,7 @@ typedef struct S_80173724_4 {
 
 /* Advance an entity through directional motion, fading, and removal. */
 void func_80173724(void *anim_state, void *motion, void *sprite, void *entity) {
-    M2C_UNK sound_flags;
+    s32 sound_flags;
     s32 direction_x;
     s32 direction_y;
     s32 direction_offset;

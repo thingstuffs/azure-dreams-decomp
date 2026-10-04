@@ -2,20 +2,19 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
 
 
-extern M2C_UNK func_80048A44();
+extern void func_80048A44();
 extern s32 rand();
 extern s32 func_800990FC();
 extern s32 func_80099194();
-extern M2C_UNK func_80099290();
+extern void *func_80099290();
 extern s32 func_80099734();
-extern M2C_UNK func_80099844();
-extern M2C_UNK func_80099F04();
-extern M2C_UNK func_80099F70();
-extern M2C_UNK func_800A56E0();
-extern M2C_UNK func_800A5720();
+extern void func_80099844();
+extern void func_80099F04();
+extern void func_80099F70();
+extern s32 func_800A56E0();
+extern s32 func_800A5720();
 extern s16 func_800A6DA4();
 
 extern s32 D_80081484;

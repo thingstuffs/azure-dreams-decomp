@@ -40,17 +40,17 @@ typedef struct S_801716D8_4 {
 } S_801716D8_4;   /* (state + ((S_801716D8_0 *)state)->unk_8A) in func_801716D8 */
 
 
-M2C_UNK func_80047784();         /* extern */
-M2C_UNK func_8009A21C();             /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
-M2C_UNK func_8009A66C(); /* extern */
+void func_80047784();         /* extern */
+void func_8009A21C();             /* extern */
+void func_8009A3D0();             /* extern */
+s32 func_8009A66C(); /* extern */
 s16 func_800A0818();             /* extern */
 extern u8 D_80176460[8];
 
 /* Advance the entity along its stored path and update its heading and movement timing. */
 void func_801716D8(void *motion, void *unused, void *entity, void *path_state) {
-    M2C_UNK old_cell_mask;
-    M2C_UNK new_cell_mask;
+    s32 old_cell_mask;
+    s32 new_cell_mask;
     s16 heading;
     s32 step_count;
     s32 old_x;

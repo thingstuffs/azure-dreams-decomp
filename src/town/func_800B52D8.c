@@ -14,51 +14,28 @@ extern void func_8004B1A4(void *items);
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
 void func_800B2A38(S_800B52D8 *table, void *unused) {
-    u32 values[64];
+    UA32 values[64];
     UA32 *item;
-    UA32 *value_write;
-    UA32 *value_read;
-    u8 *dest_base;
-    s32 *zero_write;
-    s32 read_index;
-    register s32 write_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 i;
+    u8 *page;
 
     if (table->items != 0) {
-        read_index = 0;
-        if (table->count > 0) {
-            value_write = values;
-copy_items:
-            item = table->items[read_index];
-            read_index += 1;
-            if (item != 0) {
-                *value_write = *item;
-                value_write += 1;
-                if (read_index < table->count) {
-                    goto copy_items;
-                }
+        for (i = 0; i < table->count; i++) {
+            item = table->items[i];
+            if (item == 0) {
+                break;
             }
+            values[i] = *item;
         }
-        write_index = 0;
-        if (table->count > 0) {
-            value_read = values;
-            dest_base = (u8 *)0x80010000;
-write_values:
-            if (table->items[write_index] != 0) {
-                *(UA32 *)(dest_base + 0x1F80) = *value_read;
-                value_read += 1;
-                dest_base += 4;
-                if (++write_index < table->count) {
-                    goto write_values;
-                }
+        page = (u8 *)0x80010000;
+        for (i = 0; i < table->count; i++) {
+            if (table->items[i] == 0) {
+                break;
             }
-            if (write_index < table->count) {
-                zero_write = (s32 *)0x80011F80 + write_index;
-                while (write_index < table->count) {
-                    *zero_write = 0;
-                    zero_write += 1;
-                    write_index += 1;
-                }
-            }
+            ((UA32 *)(page + 0x1F80))[i] = values[i];
+        }
+        for (; i < table->count; i++) {
+            ((s32 *)0x80011F80)[i] = 0;
         }
         func_8004B1A4(table->items);
     }

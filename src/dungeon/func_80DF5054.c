@@ -51,11 +51,11 @@ extern u8 D_80162510[];
 extern u8 D_80162538[];
 
 extern void *func_8003FD64();
-extern M2C_UNK func_8004491C();
+extern s32 func_8004491C();
 extern s32 func_800A6D30();
-extern M2C_UNK func_800A48F0();
-extern M2C_UNK func_800A9C18();
-extern M2C_UNK func_800AA36C();
+extern s16 func_800A48F0();
+extern void func_800A9C18();
+extern s32 func_800AA36C();
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 void *func_8015E854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)

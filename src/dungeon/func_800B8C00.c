@@ -5,13 +5,13 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern void func_8008D344(void *arg0, void *arg1, void *arg2, void *arg3);
-extern s32 func_80098864(void *arg0, s32 arg1);
-extern s32 func_80098B38(void *arg0);
-extern s32 func_800997FC(void *arg0, s32 arg1, s32 arg2);
-extern s32 func_800A5F38(void *arg0, void *arg1);
-extern s32 func_800A6480(void *arg0, void *arg1, s32 arg2);
-extern s32 func_800AD6FC(void *arg0, s32 arg1, void *arg2);
+extern void func_8008D344(void *object, void *unused_1, void *unused_2, void *mode);
+extern s32 func_80098864(void *request, s32 record_data);
+extern s32 func_80098B38(void *slot);
+extern s32 func_800997FC(void *context, s32 first_input, s32 second_input);
+extern s32 func_800A5F38(void *object_context, void *target);
+extern s32 func_800A6480(void *actor, void *item, s32 buffer_arg2);
+extern s32 func_800AD6FC(void *state, s32 mode, void *item);
 
 typedef struct {
     s16 flags;

@@ -159,16 +159,13 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s16 grid_y;
     u16 final_x;
 
-    static void *const keepalive[] = {
-        &&case_0, &&case_2, &&case_3, &&case_4,
-        &&case_5, &&case_6, &&case_7, &&case_8, &&case_9
-    };
     void *cleanup_base;
 
     index = 7;
     angle_update = (u8 *)state_arg + 14;
     entity = state_arg->entity;
-    loop_0: {
+loop_0:
+    {
         angle_raw = *(u16 *)(angle_update + 26) + (u16)state_arg->angleStep;
         angle_signed = (s16)angle_raw;
         angle_adjusted = angle_signed;
@@ -177,7 +174,9 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         *(u16 *)(angle_update + 26) = angle_raw;
         index--;
         angle_update -= 2;
-    } if (index >= 0) goto loop_0;
+    }
+    if (index >= 0)
+        goto loop_0;
     {
         s32 timer_value;
 
@@ -190,356 +189,361 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         state_arg->timer2 = timer_value;
     }
 
-    if ((u32)dispatch_state >= 10) {
-        goto end;
-    }
-    goto *D_80024028[dispatch_state];
+    switch (dispatch_state) {
+    case 0:
+        state_arg->timer = 0;
+        state_arg->timer2 = 0;
+        state_arg->angleStep = 4;
+        state_arg->state++;
+        index = 7;
+        angle_clear = (u8 *)state_arg + 14;
+        do {
+            *(s16 *)(angle_clear + 26) = 0;
+            index--;
+            angle_clear -= 2;
+        } while (index >= 0);
+        index = 9;
+        effect_clear = (u8 *)state_arg + 36;
+        do {
+            *(Effect **)(effect_clear + 44) = 0;
+            index--;
+            effect_clear -= 4;
+        } while (index >= 0);
+        func_800240EC(angle_clear, angle_update, draw_info);
+        color = 0x00808080;
+        direction = (entity->flags2A >> 9) & 7;
+        state_arg->direction = direction;
+        draw->color = color;
 
-case_0:
-    state_arg->timer = 0;
-    state_arg->timer2 = 0;
-    state_arg->angleStep = 4;
-    state_arg->state++;
-    index = 7;
-    angle_clear = (u8 *)state_arg + 14;
-    loop_0_: {
-        *(s16 *)(angle_clear + 26) = 0;
-        index--;
-        angle_clear -= 2;
-    } if (index >= 0) goto loop_0_;
-    index = 9;
-    effect_clear = (u8 *)state_arg + 36;
-    loop_0__: {
-        *(Effect **)(effect_clear + 44) = 0;
-        index--;
-        effect_clear -= 4;
-    } if (index >= 0) goto loop_0__;
-    func_800240EC(angle_clear, angle_update, draw_info);
-    color = 0x00808080;
-    direction = (entity->flags2A >> 9) & 7;
-    state_arg->direction = direction;
-    draw->color = color;
+    case 1:
+        header = (EntityHeader *)((u8 *)entity - 0x20);
+        target_info = header->info;
+        if (func_8003DE58(target_info->map, target_info, work.distance, 0) == 0) {
+            if (!(header->info->flags & 0x8000)) {
+                break;
+            }
+        }
 
-    header = (EntityHeader *)((u8 *)entity - 0x20);
-    target_info = header->info;
-    if (func_8003DE58(target_info->map, target_info, work.distance, 0) == 0) {
+        step_x = header->position;
+        motion_arg->x.half.hi = step_x->x.half.hi;
+        motion_arg->y.half.hi = step_x->y.half.hi;
+        source_z = step_x->z.half.hi;
+        motion_arg->z.half.hi = source_z;
         if (!(header->info->flags & 0x8000)) {
-            goto end;
-        }
-    }
-
-    step_x = header->position;
-    motion_arg->x.half.hi = step_x->x.half.hi;
-    motion_arg->y.half.hi = step_x->y.half.hi;
-    source_z = step_x->z.half.hi;
-    motion_arg->z.half.hi = source_z;
-    if (!(header->info->flags & 0x8000)) {
-        motion_arg->x.half.hi += work.distance[0];
-        motion_arg->y.half.hi += work.distance[1];
-        motion_arg->z.half.hi += work.distance[2];
-    } else {
-        lowered_z = source_z - 64;
-        motion_arg->z.half.hi = lowered_z;
-    }
-
-    if (!(state_arg->flags & 1)) {
-        func_8004491C((u8 *)state_arg - 0x20, func_80024DF4);
-        state_arg->flags |= 1;
-    }
-    if (!(state_arg->resource->flags & 0x80)) {
-        goto end;
-    }
-
-    index = 0;
-    if (entity->child != 0) {
-        cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
-
-        color = motion_arg->x.half.hi;
-        work.distance[0] = abs(((Motion *)cleanup_base)->x.half.hi - color);
-        work.distance[1] = abs(((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
-        if (entity->child->flags & 0x40000) {
-            color = motion_arg->z.half.hi;
-            color -= 16;
-            work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - color);
+            motion_arg->x.half.hi += work.distance[0];
+            motion_arg->y.half.hi += work.distance[1];
+            motion_arg->z.half.hi += work.distance[2];
         } else {
-            work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
+            lowered_z = source_z - 64;
+            motion_arg->z.half.hi = lowered_z;
         }
-        index = 1;
 
-        state_arg->duration = work.distance[0];
-        distance_cursor = &work.target.x.half.hi;
-        loop_0___: {
-            if (distance_cursor[12] > state_arg->duration) {
-                state_arg->duration = (u16)distance_cursor[12];
+        if (!(state_arg->flags & 1)) {
+            func_8004491C((u8 *)state_arg - 0x20, func_80024DF4);
+            state_arg->flags |= 1;
+        }
+        if (!(state_arg->resource->flags & 0x80)) {
+            break;
+        }
+
+        index = 0;
+        if (entity->child != 0) {
+            cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
+
+            color = motion_arg->x.half.hi;
+            work.distance[0] = abs(((Motion *)cleanup_base)->x.half.hi - color);
+            work.distance[1] = abs(((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi);
+            if (entity->child->flags & 0x40000) {
+                color = motion_arg->z.half.hi;
+                color -= 16;
+                work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - color);
+            } else {
+                work.distance[2] = abs(((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi);
+            }
+            index = 1;
+
+            state_arg->duration = work.distance[0];
+            distance_cursor = &work.target.x.half.hi;
+            do {
+                if (distance_cursor[12] > state_arg->duration) {
+                    state_arg->duration = (u16)distance_cursor[12];
+                }
+                index++;
+                distance_cursor++;
+            } while (index < 3);
+            state_arg->duration >>= 5;
+            if (state_arg->duration == 0) {
+                state_arg->duration = 1;
+            }
+
+            motion_arg->dx.half.hi =
+                (((Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
+            motion_arg->dy.half.hi =
+                (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
+            if (entity->child->flags & 0x40000) {
+                s32 coord;
+                coord = motion_arg->z.half.hi - 16;
+                motion_arg->dz.half.hi =
+                    (((Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
+            } else {
+                motion_arg->dz.half.hi =
+                    (((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
+                    state_arg->duration;
+            }
+            next_state = (u16)state_arg->state + 1;
+            goto reset_state;
+        }
+
+        {
+            TargetInfo *tile_info;
+
+            tile_info = header->info;
+            tile_x = tile_info->tileX;
+            tile_y = tile_info->tileY;
+        }
+        final_x = tile_x;
+        saved_y = tile_y;
+
+        while (index < 8) {
+            grid_x = (s16)tile_x;
+            grid_y = (s16)tile_y;
+            collision_result = func_800A44E0(
+                (grid_x << 6) & 0xFFC0,
+                (grid_y << 6) & 0xFFC0,
+                entity->height,
+                (s16)(state_arg->direction << 9));
+            if ((s16)collision_result != 0) {
+                break;
+            }
+            step_x = (Motion *)&dirStepX[state_arg->direction];
+            target = (u16)entity->height;
+            target -= 32;
+            target = (u32)target << 16;
+            target >>= 16;
+            step_y = &dirStepY[state_arg->direction];
+            terrain_height = func_800BCB04(
+                ((grid_x + *(s16 *)step_x) << 6) + 32 & 0xFFE0,
+                ((grid_y + *step_y) << 6) + 32 & 0xFFE0,
+                target);
+            if ((s16)terrain_height >= 513 ||
+                (s16)(terrain_height - entity->height) < -63) {
+                break;
             }
             index++;
-            distance_cursor++;
-        } if (index < 3) goto loop_0___;
+            tile_x += dirStepX[state_arg->direction];
+            tile_y += dirStepY[state_arg->direction];
+            saved_y = tile_y;
+            final_x = tile_x;
+        }
+
+        target = (s32)(&work.target);
+        index = 1;
+        target_cursor = &work.target.x.half.hi;
+        target_x = ((final_x << 16) >> 10) + ((dirStepX[state_arg->direction] + 1) << 5);
+        ((Motion *)target)->x.half.hi = target_x;
+        target_y = ((saved_y << 16) >> 10) + ((dirStepY[state_arg->direction] + 1) << 5);
+        ((Motion *)target)->y.half.hi = target_y;
+        ((Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
+        work.distance[0] = abs(((Motion *)target)->x.half.hi - motion_arg->x.half.hi);
+        work.distance[1] = abs(((Motion *)target)->y.half.hi - motion_arg->y.half.hi);
+        work.distance[2] = abs(((Motion *)target)->z.half.hi - motion_arg->z.half.hi);
+
+        state_arg->duration = work.distance[0];
+        do {
+            if (target_cursor[12] > state_arg->duration) {
+                state_arg->duration = (u16)target_cursor[12];
+            }
+            index++;
+            target_cursor++;
+        } while (index < 3);
         state_arg->duration >>= 5;
         if (state_arg->duration == 0) {
             state_arg->duration = 1;
         }
+        motion_arg->dx.word = (((Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
+        motion_arg->dy.word = (((Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
+        motion_arg->dz.word = (((Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
+        state_arg->state = 8;
+        state_arg->timer = 0;
+        state_arg->timer2 = 0;
+        break;
 
-        motion_arg->dx.half.hi =
-            (((Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
-        motion_arg->dy.half.hi =
-            (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
+    case 2:
+        motion_arg->x.half.hi += motion_arg->dx.half.hi;
+        motion_arg->y.half.hi += motion_arg->dy.half.hi;
+        motion_arg->z.half.hi += motion_arg->dz.half.hi;
+        func_800241F8(state_arg, motion_arg);
+        if (state_arg->timer < state_arg->duration) {
+            break;
+        }
+        func_800A56E0(0x300);
+        goto increment_reset;
+
+    case 3:
+        if (state_arg->timer < 8) {
+            break;
+        }
+        state_arg->timer = 0;
+        state_arg->timer2 = 0;
+        state_arg->state++;
+        cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
+        motion_arg->x.half.hi = ((Motion *)cleanup_base)->x.half.hi;
+        motion_arg->y.half.hi = ((Motion *)cleanup_base)->y.half.hi;
         if (entity->child->flags & 0x40000) {
-            s32 coord;
-            coord = motion_arg->z.half.hi - 16;
-            motion_arg->dz.half.hi =
-                (((Motion *)cleanup_base)->z.half.hi - coord) / state_arg->duration;
+            motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi + 16;
         } else {
-            motion_arg->dz.half.hi =
-                (((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
-                state_arg->duration;
+            motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi;
         }
-        next_state = (u16)state_arg->state + 1;
-        goto reset_state;
-    }
 
+        index = 7;
+        angle = 16;
+        angle_build = (u8 *)state_arg + 14;
+        do {
+            *(s16 *)(angle_build + 26) = angle;
+            angle += 16;
+            index--;
+            angle_build -= 2;
+        } while (index > 0);
+        state_arg->angles[0] = 0;
+
+        index = 9;
+        effect_create = (Effect **)((u8 *)state_arg + 36);
+        effect_angle = (s32)0xFF1F0000;
+create_loop:
+        {
+            effect_create[11] =
+                func_8002443C(state_arg, motion_arg, effect_angle >> 16, index);
+            effect_create--;
+            effect_step = 0x190000;
+            effect_angle += effect_step;
+            index--;
+        }
+        if (index >= 0)
+            goto create_loop;
+        state_arg->field14 = 0;
+        return;
+
+    case 4:
     {
-        TargetInfo *tile_info;
+        Effect *effect;
+        EffectInner *inner;
+        s32 effect_delta;
 
-        tile_info = header->info;
-        tile_x = tile_info->tileX;
-        tile_y = tile_info->tileY;
-    }
-    final_x = tile_x;
-    saved_y = tile_y;
-
-    while (index < 8) {
-        grid_x = (s16)tile_x;
-        grid_y = (s16)tile_y;
-        collision_result = func_800A44E0(
-            (grid_x << 6) & 0xFFC0,
-            (grid_y << 6) & 0xFFC0,
-            entity->height,
-            (s16)(state_arg->direction << 9));
-        if ((s16)collision_result != 0) {
+        index = 9;
+        effect_delta = 0x40404;
+        effect_grow = (Effect **)((u8 *)state_arg + 36);
+        do {
+            effect = effect_grow[11];
+            inner = effect->inner;
+            inner->value += effect_delta;
+            effect_grow--;
+            index--;
+        } while (index >= 0);
+        if (state_arg->timer2 < 32) {
             break;
         }
-        step_x = (Motion *)&dirStepX[state_arg->direction];
-        target = (u16)entity->height;
-        target -= 32;
-        target = (u32)target << 16;
-        target >>= 16;
-        step_y = &dirStepY[state_arg->direction];
-        terrain_height = func_800BCB04(
-            ((grid_x + *(s16 *)step_x) << 6) + 32 & 0xFFE0,
-            ((grid_y + *step_y) << 6) + 32 & 0xFFE0,
-            target);
-        if ((s16)terrain_height >= 513 ||
-            (s16)(terrain_height - entity->height) < -63) {
+        next_state = (u16)state_arg->state;
+        state_arg->timer2 = 0;
+        next_state++;
+        state_arg->state = next_state;
+        break;
+    }
+
+    case 5:
+        if (state_arg->timer2 < 32) {
             break;
         }
-        index++;
-        tile_x += dirStepX[state_arg->direction];
-        tile_y += dirStepY[state_arg->direction];
-        saved_y = tile_y;
-        final_x = tile_x;
-    }
+        next_state = (u16)state_arg->state;
+        state_arg->timer2 = 0;
+        next_state++;
+        state_arg->state = next_state;
+        break;
 
-    target = (s32)(&work.target);
-    index = 1;
-    target_cursor = &work.target.x.half.hi;
-    target_x = ((final_x << 16) >> 10) + ((dirStepX[state_arg->direction] + 1) << 5);
-    ((Motion *)target)->x.half.hi = target_x;
-    target_y = ((saved_y << 16) >> 10) + ((dirStepY[state_arg->direction] + 1) << 5);
-    ((Motion *)target)->y.half.hi = target_y;
-    ((Motion *)target)->z.half.hi = motion_arg->z.half.hi + 32;
-    work.distance[0] = abs(((Motion *)target)->x.half.hi - motion_arg->x.half.hi);
-    work.distance[1] = abs(((Motion *)target)->y.half.hi - motion_arg->y.half.hi);
-    work.distance[2] = abs(((Motion *)target)->z.half.hi - motion_arg->z.half.hi);
+    case 6:
+    {
+        Effect *effect;
+        EffectInner *inner;
+        Effect *cleanup_effect;
+        s32 cleanup_flags;
+        s32 global_flags;
+        s32 effect_delta;
 
-    state_arg->duration = work.distance[0];
-    do {
-        if (target_cursor[12] > state_arg->duration) {
-            state_arg->duration = (u16)target_cursor[12];
+        index = 9;
+        effect_delta = -0x40404;
+        effect_shrink = (Effect **)((u8 *)state_arg + 36);
+        do {
+            effect = effect_shrink[11];
+            inner = effect->inner;
+            inner->value += effect_delta;
+            effect_shrink--;
+            index--;
+        } while (index >= 0);
+        cleanup_base = entity;
+        if (state_arg->timer2 < 32) {
+            break;
         }
-        index++;
-        target_cursor++;
-    } while (index < 3);
-    state_arg->duration >>= 5;
-    if (state_arg->duration == 0) {
-        state_arg->duration = 1;
-    }
-    motion_arg->dx.word = (((Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
-    motion_arg->dy.word = (((Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
-    motion_arg->dz.word = (((Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
-    state_arg->state = 8;
-    state_arg->timer = 0;
-    state_arg->timer2 = 0;
-    goto end;
-
-case_2:
-    motion_arg->x.half.hi += motion_arg->dx.half.hi;
-    motion_arg->y.half.hi += motion_arg->dy.half.hi;
-    motion_arg->z.half.hi += motion_arg->dz.half.hi;
-    func_800241F8(state_arg, motion_arg);
-    if (state_arg->timer < state_arg->duration) {
-        goto end;
-    }
-    func_800A56E0(0x300);
-    goto increment_reset;
-
-case_3:
-    if (state_arg->timer < 8) {
-        goto end;
-    }
-    state_arg->timer = 0;
-    state_arg->timer2 = 0;
-    state_arg->state++;
-    cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
-    motion_arg->x.half.hi = ((Motion *)cleanup_base)->x.half.hi;
-    motion_arg->y.half.hi = ((Motion *)cleanup_base)->y.half.hi;
-    if (entity->child->flags & 0x40000) {
-        motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi + 16;
-    } else {
-        motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi;
+        func_80024050(((Entity *)cleanup_base)->child, state_arg->id);
+        index = 9;
+        cleanup_base = (void *)0x80080000;
+        next_state = (u16)state_arg->state;
+        state_arg->timer2 = 0;
+        next_state++;
+        state_arg->state = next_state;
+        do {
+            effect_cleanup = (Effect **)((u8 *)state_arg + index * 4);
+            cleanup_effect = effect_cleanup[11];
+            if (cleanup_effect != 0) {
+                cleanup_flags = cleanup_effect->flags;
+                global_flags = *(s32 *)((u8 *)cleanup_base + 0x14A0);
+                cleanup_flags |= 0x8000;
+                global_flags |= 0x8000;
+                cleanup_effect->flags = cleanup_flags;
+                *(s32 *)((u8 *)cleanup_base + 0x14A0) = global_flags;
+                effect_cleanup[11] = 0;
+            }
+            index--;
+        } while (index >= 0);
+        state_arg->field14 = 0;
+        return;
     }
 
-    index = 7;
-    angle = 16;
-    angle_build = (u8 *)state_arg + 14;
-    do {
-        *(s16 *)(angle_build + 26) = angle;
-        angle += 16;
-        index--;
-        angle_build -= 2;
-    } while (index > 0);
-    state_arg->angles[0] = 0;
-
-    index = 9;
-    effect_create = (Effect **)((u8 *)state_arg + 36);
-    effect_angle = (s32)0xFF1F0000;
-    create_loop: {
-        effect_create[11] =
-            func_8002443C(state_arg, motion_arg, effect_angle >> 16, index);
-        effect_create--;
-        effect_step = 0x190000;
-        effect_angle += effect_step;
-        index--;
-    } if (index >= 0) goto create_loop;
-    state_arg->field14 = 0;
-    return;
-
-case_4: {
-    Effect *effect;
-    EffectInner *inner;
-    s32 effect_delta;
-
-    index = 9;
-    effect_delta = 0x40404;
-    effect_grow = (Effect **)((u8 *)state_arg + 36);
-    do {
-        effect = effect_grow[11];
-        inner = effect->inner;
-        inner->value += effect_delta;
-        effect_grow--;
-        index--;
-    } while (index >= 0);
-    if (state_arg->timer2 < 32) {
-        goto end;
-    }
-    next_state = (u16)state_arg->state;
-    state_arg->timer2 = 0;
-    goto increment_state;
-}
-
-case_5:
-    if (state_arg->timer2 < 32) {
-        goto end;
-    }
-    next_state = (u16)state_arg->state;
-    state_arg->timer2 = 0;
-    goto increment_state;
-
-case_6: {
-    Effect *effect;
-    EffectInner *inner;
-    Effect *cleanup_effect;
-    s32 cleanup_flags;
-    s32 global_flags;
-    s32 effect_delta;
-
-    index = 9;
-    effect_delta = -0x40404;
-    effect_shrink = (Effect **)((u8 *)state_arg + 36);
-    do {
-        effect = effect_shrink[11];
-        inner = effect->inner;
-        inner->value += effect_delta;
-        effect_shrink--;
-        index--;
-    } while (index >= 0);
-    cleanup_base = entity;
-    if (state_arg->timer2 < 32) {
-        goto end;
-    }
-    func_80024050(((Entity *)cleanup_base)->child, state_arg->id);
-    index = 9;
-    cleanup_base = (void *)0x80080000;
-    next_state = (u16)state_arg->state;
-    state_arg->timer2 = 0;
-    next_state++;
-    state_arg->state = next_state;
-    do {
-        effect_cleanup = (Effect **)((u8 *)state_arg + index * 4);
-        cleanup_effect = effect_cleanup[11];
-        if (cleanup_effect != 0) {
-            cleanup_flags = cleanup_effect->flags;
-            global_flags = *(s32 *)((u8 *)cleanup_base + 0x14A0);
-            cleanup_flags |= 0x8000;
-            global_flags |= 0x8000;
-            cleanup_effect->flags = cleanup_flags;
-            *(s32 *)((u8 *)cleanup_base + 0x14A0) = global_flags;
-            effect_cleanup[11] = 0;
+    case 7:
+        if (state_arg->field14 != 0) {
+            break;
         }
-        index--;
-    } while (index >= 0);
-    state_arg->field14 = 0;
-    return;
-}
+        dungeonStatus.unk_0C = 0;
+        *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
+        break;
 
-case_7:
-    if (state_arg->field14 != 0) {
-        goto end;
-    }
-    dungeonStatus.unk_0C = 0;
-    *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    goto end;
-
-case_8:
-    motion_arg->x.half.hi += motion_arg->dx.half.hi;
-    motion_arg->y.half.hi += motion_arg->dy.half.hi;
-    motion_arg->z.half.hi += motion_arg->dz.half.hi;
-    func_800241F8(state_arg, motion_arg);
-    if (state_arg->timer < state_arg->duration) {
-        goto end;
-    }
+    case 8:
+        motion_arg->x.half.hi += motion_arg->dx.half.hi;
+        motion_arg->y.half.hi += motion_arg->dy.half.hi;
+        motion_arg->z.half.hi += motion_arg->dz.half.hi;
+        func_800241F8(state_arg, motion_arg);
+        if (state_arg->timer < state_arg->duration) {
+            break;
+        }
 
 increment_reset:
-    next_state = (u16)state_arg->state;
-    state_arg->timer = 0;
-    state_arg->timer2 = 0;
-increment_state:
-    next_state++;
-    state_arg->state = next_state;
-    goto end;
+        next_state = (u16)state_arg->state;
+        state_arg->timer = 0;
+        state_arg->timer2 = 0;
+        next_state++;
+        state_arg->state = next_state;
+        break;
 
-case_9:
-    if (state_arg->timer < 8) {
-        goto end;
-    }
-    next_state = 7;
+    case 9:
+        if (state_arg->timer < 8) {
+            break;
+        }
+        next_state = 7;
 reset_state:
-    state_arg->state = next_state;
-    state_arg->timer = 0;
-    state_arg->timer2 = 0;
+        state_arg->state = next_state;
+        state_arg->timer = 0;
+        state_arg->timer2 = 0;
 
-end:
+    }
     state_arg->field14 = 0;
     return;
 }

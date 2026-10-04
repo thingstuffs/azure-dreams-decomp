@@ -9,10 +9,6 @@ extern s32 func_800A48F0(State *, s32, s8);
 extern s32 func_800A6D30(void);
 extern s32 func_800C838C(State *);
 
-#ifdef NON_MATCHING
-static volatile s32 dispatch_v1;
-#else
-#endif
 
 s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
     State *state = arg0;

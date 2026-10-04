@@ -4,9 +4,9 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-M2C_UNK func_800A4ACC();                      /* extern */
-M2C_UNK func_800AA53C();                      /* extern */
-M2C_UNK func_800AD594();             /* extern */
+s32 func_800A4ACC();                      /* extern */
+void func_800AA53C();                      /* extern */
+void func_800AD594();             /* extern */
 
 
 /* Process an entity's pending updates and clear its update flags. */

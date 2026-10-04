@@ -154,26 +154,26 @@ typedef struct {
     u8 pad14[0x78];
 } D_800E3E48_Entry;
 
-M2C_UNK func_800422DC();
+void func_800422DC();
 s32 func_80042900();
 s32 func_800429E4();
-M2C_UNK func_80094E34();
-M2C_UNK func_80098B38();
+void func_80094E34();
+void func_80098B38();
 s32 func_800990FC();
 s32 func_80099194();
-M2C_UNK func_80099290();
+void *func_80099290();
 s32 func_8009929C();
 s32 func_80099734();
-M2C_UNK func_80099844();
-M2C_UNK func_8009A028();
-M2C_UNK func_8009A3D0();
-M2C_UNK func_800A18E8();
+void func_80099844();
+void func_8009A028();
+void func_8009A3D0();
+void func_800A18E8();
 s16 func_800A1BD0();
 s32 func_800A2C78();
-M2C_UNK func_800A31D0();
-M2C_UNK func_800A5720();
-M2C_UNK func_800ACB98();
-M2C_UNK func_800C542C();
+void func_800A31D0();
+s32 func_800A5720();
+void func_800ACB98();
+void *func_800C542C();
 extern u8 D_80010A80[];
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800DCE68;
@@ -186,7 +186,7 @@ extern D_800E3E48_Entry D_800E3E48[];
 
 /* Advance actor removal, updating its visual effects and clearing its references. */
 s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visual, void *actor) {
-    M2C_UNK effect_flags;
+    s32 effect_flags;
     s16 actor_slot16;
     s16 fade_ticks;
     s32 actor_slot4;

@@ -4,9 +4,9 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 s32 func_8009D218(s32, s32);                 /* extern */
-M2C_UNK func_800AD4D0();                      /* extern */
-M2C_UNK func_800AD568();                      /* extern */
-M2C_UNK func_800B4C7C(); /* extern */
+void func_800AD4D0();                      /* extern */
+s16 func_800AD568();                      /* extern */
+void *func_800B4C7C(); /* extern */
 
 
 /* Adds 0x200 to the object's unk_64 and runs callbacks when its mode-2 check returns zero. */

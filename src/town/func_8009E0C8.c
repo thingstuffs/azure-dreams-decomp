@@ -4,15 +4,15 @@
 #include "shared/entity.h"
 #include "records/Rec_func_8009B828_arg0.h"
 
-M2C_UNK func_8008F294();             /* extern */
-M2C_UNK func_8008F664();             /* extern */
-M2C_UNK func_8009539C();                 /* extern */
-M2C_UNK func_8009C148(); /* extern */
+void func_8008F294();             /* extern */
+void func_8008F664();             /* extern */
+void func_8009539C();                 /* extern */
+void func_8009C148(); /* extern */
 extern s32 D_800D0428;
 
 
 /* Update motion toward the shared target and advance state when the countdown expires. */
-void func_8009B828(Rec_func_8009B828_arg0 *state, M2C_UNK context, EntityRec *motion, M2C_UNK transition_arg) {
+void func_8009B828(Rec_func_8009B828_arg0 *state, s32 context, EntityRec *motion, s32 transition_arg) {
     s32 position;
     u16 ticks_left;
 

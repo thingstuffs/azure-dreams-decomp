@@ -2,12 +2,12 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80033D08();
+extern void func_80033D08();
 extern M2C_UNK func_800478B8();
 extern s32 func_8009706C();
-extern M2C_UNK func_800970AC();
-extern s32 func_8009D20C(void *, M2C_UNK);
-extern M2C_UNK D_8009DF84[];
+extern void func_800970AC();
+extern s32 func_8009D20C(void *, s32);
+extern s32 D_8009DF84[];
 
 typedef struct S_func_8009DEBC_0 {
     u8 pad_00[0x15];
@@ -15,19 +15,19 @@ typedef struct S_func_8009DEBC_0 {
     u8 pad_16[0x37];
     u8 unk_4D;
     u8 pad_4E[2];
-    M2C_UNK (*unk_50)(void *, void *, M2C_UNK, M2C_UNK);
+    void (*unk_50)(void *, void *, s32, s32);
     u8 pad_54[0x58];
     u8 unk_AC;
 } S_func_8009DEBC_0;
 
 typedef struct S_func_8009DEBC_1 {
-    M2C_UNK *unk_00;
+    s32 *unk_00;
     u8 pad_04[0xA];
     u16 unk_0E;
 } S_func_8009DEBC_1;
 
 /* Dispatches an object callback or switches the object to its alternate state. */
-void func_8009DEBC(S_func_8009DEBC_0 *object, M2C_UNK source, M2C_UNK context) {
+void func_8009DEBC(S_func_8009DEBC_0 *object, s32 source, s32 context) {
     u8 saved_state;
 
     if (func_8009D20C(object, source) == 2) {

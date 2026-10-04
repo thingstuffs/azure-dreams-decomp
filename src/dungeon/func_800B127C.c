@@ -4,12 +4,12 @@
 #include "records/Rec_func_8008ACDC_arg0.h"
 #include "records/Rec_D_80082E80.h"
 
-M2C_UNK func_8008CAA0(); /* extern */
-M2C_UNK func_8008CBA0(); /* extern */
-M2C_UNK func_80090200(); /* extern */
+void func_8008CAA0(); /* extern */
+void func_8008CBA0(); /* extern */
+void func_80090200(); /* extern */
 
 /* Dispatch state handlers according to the signed state value and actor flags. */
-void func_800B69DC(Rec_func_8008ACDC_arg0 *actor, M2C_UNK context, Rec_D_80082E80 *object, EntityRec *state) {
+void func_800B69DC(Rec_func_8008ACDC_arg0 *actor, s32 context, Rec_D_80082E80 *object, EntityRec *state) {
     s16 state_value;
 
     state_value = state->unk_64;

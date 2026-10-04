@@ -3,13 +3,13 @@
 #include "m2c_compat.h"
 
 void *func_8003FD64();
-M2C_UNK func_8004E298();
-M2C_UNK func_8004E5A0();
-M2C_UNK func_8004E634();
+void *func_8004E298();
+char *func_8004E5A0();
+char *func_8004E634();
 s32 func_80069E98();
-M2C_UNK func_800B1320();
+void func_800B1320();
 void *func_800B1484();
-M2C_UNK func_800B13CC();
+void func_800B13CC();
 extern M2C_UNK D_800B45E0;
 extern M2C_UNK D_800B490C;
 extern M2C_UNK D_800DF24C[];

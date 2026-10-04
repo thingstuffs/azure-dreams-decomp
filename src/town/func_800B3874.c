@@ -14,19 +14,19 @@ typedef struct S_800B0FD4_2 {
 
 
 s32 get_item_sell_money();                             /* extern */
-M2C_UNK get_item_buy_money();                         /* extern */
+s32 get_item_buy_money();                         /* extern */
 s32 func_8004A658();                          /* extern */
 s32 func_8004AC3C();                      /* extern */
 s32 func_8004DC14();                        /* extern */
-M2C_UNK func_8004E5A0();     /* extern */
-M2C_UNK func_8004E69C();                   /* extern */
+char *func_8004E5A0();     /* extern */
+u8 *func_8004E69C();                   /* extern */
 s32 func_8004E928();              /* extern */
-M2C_UNK strcat();        /* extern */
-M2C_UNK func_800B0BD0();                      /* extern */
-M2C_UNK func_800B0D7C();                      /* extern */
+char *strcat();        /* extern */
+void func_800B0BD0();                      /* extern */
+void func_800B0D7C();                      /* extern */
 s32 func_800B0F30();                             /* extern */
 s32 func_800B0F94();                             /* extern */
-M2C_UNK func_800B15B8(void *);                            /* extern */
+void func_800B15B8(void *);                            /* extern */
 extern M2C_UNK D_800D1600;
 
 typedef struct S_800B0FD4_0 {

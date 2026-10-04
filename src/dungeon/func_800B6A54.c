@@ -1,10 +1,6 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define ASM_KEEP_MEM(var) ((void)0)
-#else
 #define ASM_KEEP_MEM(var) __asm__ __volatile__("" : "+r"(var) :: "memory")
-#endif
 
 extern void func_800673A0();
 

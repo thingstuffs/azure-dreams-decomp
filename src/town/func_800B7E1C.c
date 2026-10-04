@@ -8,9 +8,9 @@ typedef struct {
     s8 z;
 } Vec3s;
 
-M2C_UNK func_8004E5A0();      /* extern */
-M2C_UNK *func_8004E634();             /* extern */
-M2C_UNK strcat();           /* extern */
+char *func_8004E5A0();      /* extern */
+char *func_8004E634();             /* extern */
+char *strcat();           /* extern */
 s32 func_800B555C();               /* extern */
 extern M2C_UNK D_800892D8;
 extern Vec3s D_800892F0;

@@ -153,7 +153,7 @@ extern u8 D_801752A0[];
 extern void *D_80170808[];
 extern void *D_80170820[];
 
-void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
+void func_80170F6C(void *self_object, void *aux_entity, void *sprite, void *entity)
 {
     u16 initial_flags = dungeonStatus.flags;
     void *post_current;
@@ -162,17 +162,17 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
     s8 result;
 
     if (initial_flags & 0x1000) {
-        ((S_80170F6C_0 *)arg0)->unk_9A = 0xE;
+        ((S_80170F6C_0 *)self_object)->unk_9A = 0xE;
         func_80171910();
         return;
     }
 
 
-    if (((S_80170F6C_1 *)arg3)->unk_25 == 0) {
-        func_800AA79C(arg0, arg1, arg2, arg3);
+    if (((S_80170F6C_1 *)entity)->unk_25 == 0) {
+        func_800AA79C(self_object, aux_entity, sprite, entity);
         {
             void *current =
-                ((S_80170F6C_2 *)arg2)->unk_2C;
+                ((S_80170F6C_2 *)sprite)->unk_2C;
             void *table;
             table = (u8 *)&D_80175298;
             post_current = current;
@@ -181,77 +181,77 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         }
     }
 
-    if (((S_80170F6C_1 *)arg3)->unk_1C & 0x200) {
-        if (((S_80170F6C_2 *)arg2)->unk_2C == D_80175298) {
-            ((S_80170F6C_0 *)arg0)->unk_9A = 0xD;
-            ((S_80170F6C_0 *)arg0)->unk_9B = 1;
-            ((S_80170F6C_0 *)arg0)->unk_8C = 0;
-            ((S_80170F6C_1 *)arg3)->unk_1C &= ~0x40000;
+    if (((S_80170F6C_1 *)entity)->unk_1C & 0x200) {
+        if (((S_80170F6C_2 *)sprite)->unk_2C == D_80175298) {
+            ((S_80170F6C_0 *)self_object)->unk_9A = 0xD;
+            ((S_80170F6C_0 *)self_object)->unk_9B = 1;
+            ((S_80170F6C_0 *)self_object)->unk_8C = 0;
+            ((S_80170F6C_1 *)entity)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(arg0, arg1, arg2, D_80175298) != 0) {
+        if (func_800AA924(self_object, aux_entity, sprite, D_80175298) != 0) {
             return;
         }
     }
 
     if (!(dungeonStatus.flags & 0x2000)) {
-        if (((S_80170F6C_1 *)arg3)->unk_1C & 0x100) {
-            func_800AA258(arg0, arg1, arg2, arg3);
+        if (((S_80170F6C_1 *)entity)->unk_1C & 0x100) {
+            func_800AA258(self_object, aux_entity, sprite, entity);
             return;
         }
 
         {
             u32 state;
-            u32 current_state = ((S_80170F6C_0 *)arg0)->unk_9A;
+            u32 current_state = ((S_80170F6C_0 *)self_object)->unk_9A;
             state = 0xE;
             if (current_state != state) {
-                if (((S_80170F6C_2 *)arg2)->unk_2C != D_80175258) {
-                    ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
-                    func_80047784(arg2,
-                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                if (((S_80170F6C_2 *)sprite)->unk_2C != D_80175258) {
+                    ((S_80170F6C_2 *)sprite)->unk_2C = D_80175258;
+                    func_80047784(sprite,
+                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                ((S_80170F6C_0 *)arg0)->unk_9A = state;
+                ((S_80170F6C_0 *)self_object)->unk_9A = state;
             }
         }
 
-        if (((S_80170F6C_1 *)arg3)->unk_14 & 0x20000) {
-            switch (((S_80170F6C_0 *)arg0)->unk_A8.s) {
+        if (((S_80170F6C_1 *)entity)->unk_14 & 0x20000) {
+            switch (((S_80170F6C_0 *)self_object)->unk_A8.s) {
             case 0:
-                if (((S_80170F6C_2 *)arg2)->unk_2C != D_801752A0) {
+                if (((S_80170F6C_2 *)sprite)->unk_2C != D_801752A0) {
                     dungeonStatus.unk_0A++;
-                    ((S_80170F6C_0 *)arg0)->unk_AA = ((S_80170F6C_1 *)arg3)->unk_2A.u;
-                    ((S_80170F6C_1 *)arg3)->unk_2A.s =
-                        (((S_80170F6C_1 *)arg3)->unk_6A + 0x800) & 0xFFF;
-                    ((S_80170F6C_2 *)arg2)->unk_14 &= 0x9FFF;
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = 300;
+                    ((S_80170F6C_0 *)self_object)->unk_AA = ((S_80170F6C_1 *)entity)->unk_2A.u;
+                    ((S_80170F6C_1 *)entity)->unk_2A.s =
+                        (((S_80170F6C_1 *)entity)->unk_6A + 0x800) & 0xFFF;
+                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0x9FFF;
+                    ((S_80170F6C_0 *)self_object)->unk_A6 = 300;
                 }
-                ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                ((S_80170F6C_0 *)self_object)->unk_A8.u++;
                 return;
 
             case 1:
             {
-                u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
+                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
 
-                ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
+                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0 ||
-                    ((S_80170F6C_1 *)arg3)->unk_64 != 0) {
+                    ((S_80170F6C_1 *)entity)->unk_64 != 0) {
                     dungeonStatus.unk_0A--;
-                    ((S_80170F6C_3 *)arg1)->unk_10 = 0;
-                    ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    func_800A2B04(arg1,
-                        ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v);
-                    ((S_80170F6C_1 *)arg3)->unk_14 &= ~0x20000;
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
+                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
+                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
+                    func_800A2B04(aux_entity,
+                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
+                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
+                    ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
                     return;
                 }
-                if (((S_80170F6C_1 *)arg3)->unk_14 & 0x1000000) {
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u++;
-                    ((S_80170F6C_2 *)arg2)->unk_2C = D_801752A0;
-                    func_80047784(arg2,
-                        D_801752A0[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                if (((S_80170F6C_1 *)entity)->unk_14 & 0x1000000) {
+                    ((S_80170F6C_0 *)self_object)->unk_A8.u++;
+                    ((S_80170F6C_2 *)sprite)->unk_2C = D_801752A0;
+                    func_80047784(sprite,
+                        D_801752A0[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = 0;
+                    ((S_80170F6C_0 *)self_object)->unk_A6 = 0;
                     return;
                 }
                 return;
@@ -267,16 +267,16 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 u32 payload_word;
                 u32 texture_word;
 
-                ((S_80170F6C_3 *)arg1)->unk_0C =
-                    dirStepX[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
-                ((S_80170F6C_3 *)arg1)->unk_10 =
-                    dirStepY[((s32)(((S_80170F6C_1 *)arg3)->unk_6A << 16)) >> 25] << 16;
-                scale = func_800644B8((s16)((S_80170F6C_0 *)arg0)->unk_A6 << 8);
-                ((S_80170F6C_3 *)arg1)->unk_0C = ((S_80170F6C_3 *)arg1)->unk_0C +
-                    (((S_80170F6C_3 *)arg1)->unk_0C * scale >> 9);
-                scale = func_800644B8((s16)((S_80170F6C_0 *)arg0)->unk_A6 << 8);
-                ((S_80170F6C_3 *)arg1)->unk_10 = ((S_80170F6C_3 *)arg1)->unk_10 +
-                    (((S_80170F6C_3 *)arg1)->unk_10 * scale >> 9);
+                ((S_80170F6C_3 *)aux_entity)->unk_0C =
+                    dirStepX[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
+                ((S_80170F6C_3 *)aux_entity)->unk_10 =
+                    dirStepY[((s32)(((S_80170F6C_1 *)entity)->unk_6A << 16)) >> 25] << 16;
+                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                ((S_80170F6C_3 *)aux_entity)->unk_0C = ((S_80170F6C_3 *)aux_entity)->unk_0C +
+                    (((S_80170F6C_3 *)aux_entity)->unk_0C * scale >> 9);
+                scale = func_800644B8((s16)((S_80170F6C_0 *)self_object)->unk_A6 << 8);
+                ((S_80170F6C_3 *)aux_entity)->unk_10 = ((S_80170F6C_3 *)aux_entity)->unk_10 +
+                    (((S_80170F6C_3 *)aux_entity)->unk_10 * scale >> 9);
 
                 object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                 if (object != 0) {
@@ -284,11 +284,11 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                     payload = object->unk_08;
                     object->unk_10 = D_80175174;
                     part = object->unk_0C;
-                    ((S_80170F6C_5 *)payload)->unk_00 = ((S_80170F6C_3 *)arg1)->unk_00.at00.v;
+                    ((S_80170F6C_5 *)payload)->unk_00 = ((S_80170F6C_3 *)aux_entity)->unk_00.at00.v;
                     payload = object->unk_08;
-                    ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)arg1)->unk_04.at00.v;
+                    ((S_80170F6C_5 *)payload)->unk_04 = ((S_80170F6C_3 *)aux_entity)->unk_04.at00.v;
                     payload = object->unk_08;
-                    payload_word = ((S_80170F6C_3 *)arg1)->unk_08;
+                    payload_word = ((S_80170F6C_3 *)aux_entity)->unk_08;
                     color = 0x00800000;
                     ((S_80170F6C_5 *)payload)->unk_08 = payload_word;
                     ((S_80170F6C_6 *)part)->unk_1E = 0x1000;
@@ -306,14 +306,14 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 }
 
                 {
-                    u16 old_timer = ((S_80170F6C_0 *)arg0)->unk_A6;
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = old_timer + 1;
+                    u16 old_timer = ((S_80170F6C_0 *)self_object)->unk_A6;
+                    ((S_80170F6C_0 *)self_object)->unk_A6 = old_timer + 1;
                     if ((s16)old_timer >= 3) {
-                        ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                        ((S_80170F6C_3 *)arg1)->unk_10 = 0;
-                        ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                        ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
-                        ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                        ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
+                        ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
+                        ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
+                        ((S_80170F6C_0 *)self_object)->unk_A6 = 4;
+                        ((S_80170F6C_0 *)self_object)->unk_A8.u++;
                         return;
                     }
                 }
@@ -322,15 +322,15 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
 
             case 3:
             {
-                u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
+                u16 timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
 
-                ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
+                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0) {
-                    ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
-                    ((S_80170F6C_3 *)arg1)->unk_10 = 0;
-                    ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = 3;
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                    ((S_80170F6C_2 *)sprite)->unk_14 &= 0xF7FF;
+                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
+                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
+                    ((S_80170F6C_0 *)self_object)->unk_A6 = 3;
+                    ((S_80170F6C_0 *)self_object)->unk_A8.u++;
                     return;
                 }
                 return;
@@ -346,29 +346,29 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 s32 delta_2;
                 u16 timer;
 
-                coord_2 = ((S_80170F6C_2 *)arg2)->unk_24.at00.v << 6;
-                delta_2 = ((S_80170F6C_3 *)arg1)->unk_00.at02.v - 0x20;
+                coord_2 = ((S_80170F6C_2 *)sprite)->unk_24.at00.v << 6;
+                delta_2 = ((S_80170F6C_3 *)aux_entity)->unk_00.at02.v - 0x20;
                 x = coord_2 - delta_2;
-                ((S_80170F6C_3 *)arg1)->unk_0C = (s32)((u32)x << 15) >> 1;
-                coord = ((S_80170F6C_2 *)arg2)->unk_24.at01.v << 6;
-                delta = ((S_80170F6C_3 *)arg1)->unk_04.at02.v - 0x20;
+                ((S_80170F6C_3 *)aux_entity)->unk_0C = (s32)((u32)x << 15) >> 1;
+                coord = ((S_80170F6C_2 *)sprite)->unk_24.at01.v << 6;
+                delta = ((S_80170F6C_3 *)aux_entity)->unk_04.at02.v - 0x20;
                 y = coord - delta;
-                ((S_80170F6C_3 *)arg1)->unk_10 = (s32)((u32)y << 15) >> 1;
-                timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
-                ((S_80170F6C_0 *)arg0)->unk_A6 = timer;
+                ((S_80170F6C_3 *)aux_entity)->unk_10 = (s32)((u32)y << 15) >> 1;
+                timer = ((S_80170F6C_0 *)self_object)->unk_A6 - 1;
+                ((S_80170F6C_0 *)self_object)->unk_A6 = timer;
                 if (((s32)timer << 16) <= 0) {
                     dungeonStatus.unk_0A--;
-                    ((S_80170F6C_3 *)arg1)->unk_10 = 0;
-                    ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    func_800A2B04(arg1,
-                        ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v);
-                    ((S_80170F6C_1 *)arg3)->unk_14 &= ~0x20000;
-                    ((S_80170F6C_1 *)arg3)->unk_2A.s = ((S_80170F6C_0 *)arg0)->unk_AA;
-                    ((S_80170F6C_2 *)arg2)->unk_2C = D_80175258;
-                    func_80047784(arg2,
-                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7],
+                    ((S_80170F6C_3 *)aux_entity)->unk_10 = 0;
+                    ((S_80170F6C_3 *)aux_entity)->unk_0C = 0;
+                    func_800A2B04(aux_entity,
+                        ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
+                    ((S_80170F6C_1 *)entity)->unk_14 &= ~0x20000;
+                    ((S_80170F6C_1 *)entity)->unk_2A.s = ((S_80170F6C_0 *)self_object)->unk_AA;
+                    ((S_80170F6C_2 *)sprite)->unk_2C = D_80175258;
+                    func_80047784(sprite,
+                        D_80175258[((gameWork.view.viewAngle + ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u = 0;
+                    ((S_80170F6C_0 *)self_object)->unk_A8.u = 0;
                     return;
                 }
                 return;
@@ -377,16 +377,16 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 return;
             }
         } else {
-            ((S_80170F6C_0 *)arg0)->unk_98 &= 0xFFF3;
-            if (((S_80170F6C_1 *)arg3)->unk_64 == 0 ||
-                func_800AA6B4(arg0, arg1, arg2, D_80175260) == 0) {
-                if (((S_80170F6C_1 *)arg3)->unk_1C & 0x80000) {
-                    func_800AA888(arg0, arg1, arg2, arg3);
-                    func_80174250(arg0, arg1, arg2, arg3);
+            ((S_80170F6C_0 *)self_object)->unk_98 &= 0xFFF3;
+            if (((S_80170F6C_1 *)entity)->unk_64 == 0 ||
+                func_800AA6B4(self_object, aux_entity, sprite, D_80175260) == 0) {
+                if (((S_80170F6C_1 *)entity)->unk_1C & 0x80000) {
+                    func_800AA888(self_object, aux_entity, sprite, entity);
+                    func_80174250(self_object, aux_entity, sprite, entity);
                     return;
                 }
-                if ((func_800A1C58(arg3) << 16) != 0) {
-                    func_800AAB10(arg0, arg1, arg2, arg3);
+                if ((func_800A1C58(entity) << 16) != 0) {
+                    func_800AAB10(self_object, aux_entity, sprite, entity);
                 }
             } else {
                 return;
@@ -394,50 +394,50 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
         }
     }
 
-    result = func_8009FB34(((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v);
-    ((S_80170F6C_2 *)arg2)->unk_26 = result;
+    result = func_8009FB34(((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v);
+    ((S_80170F6C_2 *)sprite)->unk_26 = result;
 
-    if (((S_80170F6C_1 *)arg3)->unk_6D > 0) {
-        if (((S_80170F6C_1 *)arg3)->unk_1C & 0x20) {
-            func_800A9A0C(arg3);
+    if (((S_80170F6C_1 *)entity)->unk_6D > 0) {
+        if (((S_80170F6C_1 *)entity)->unk_1C & 0x20) {
+            func_800A9A0C(entity);
             return;
         }
-        if (((S_80170F6C_2 *)arg2)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            func_80171B68(arg0, arg1, arg2, arg3);
+        if (((S_80170F6C_2 *)sprite)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
+            func_80171B68(self_object, aux_entity, sprite, entity);
             return;
         }
-        if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
+        if (!(((S_80170F6C_1 *)entity)->unk_46 & 0x8000)) {
             if ((dungeonStatus.flags & 0x2000) &&
-                ((func_8009A180(arg3,
+                ((func_8009A180(entity,
                     (u8 *)((S_80170F6C_8 *)(D_800814A8[0]))->unk_58 + 0x20) << 16) != 0)) {
                 return;
             }
-            if ((func_80172658(arg0, arg1, arg2, 0) << 16) == 0) {
+            if ((func_80172658(self_object, aux_entity, sprite, 0) << 16) == 0) {
                 return;
             }
-            ((S_80170F6C_1 *)arg3)->unk_46 |= 0x4000;
-            if (!(((S_80170F6C_1 *)arg3)->unk_46 & 0x8000)) {
-                func_80171B68(arg0, arg1, arg2, arg3);
+            ((S_80170F6C_1 *)entity)->unk_46 |= 0x4000;
+            if (!(((S_80170F6C_1 *)entity)->unk_46 & 0x8000)) {
+                func_80171B68(self_object, aux_entity, sprite, entity);
                 return;
             }
         }
 
-        switch (((S_80170F6C_1 *)arg3)->unk_46 & 0x3FFF) {
+        switch (((S_80170F6C_1 *)entity)->unk_46 & 0x3FFF) {
         case 8:
         case 9:
         {
             u32 case_flags;
-            if ((((S_80170F6C_1 *)arg3)->unk_46 & 0x3FFF) == 9) {
-                case_flags = ((S_80170F6C_0 *)arg0)->unk_98 | 0x8000;
+            if ((((S_80170F6C_1 *)entity)->unk_46 & 0x3FFF) == 9) {
+                case_flags = ((S_80170F6C_0 *)self_object)->unk_98 | 0x8000;
             } else {
-                case_flags = ((S_80170F6C_0 *)arg0)->unk_98 & 0x7FFF;
+                case_flags = ((S_80170F6C_0 *)self_object)->unk_98 & 0x7FFF;
             }
-            ((S_80170F6C_0 *)arg0)->unk_98 = case_flags;
+            ((S_80170F6C_0 *)self_object)->unk_98 = case_flags;
         }
-            if ((func_80172314(arg0, arg1, arg2, arg3) << 16) != 0) {
+            if ((func_80172314(self_object, aux_entity, sprite, entity) << 16) != 0) {
                 return;
             }
-            func_80172514(arg0, arg1, arg2, arg3);
+            func_80172514(self_object, aux_entity, sprite, entity);
             return;
 
         case 5:
@@ -448,38 +448,38 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
             void *status_object;
 
             next_position = func_800A0818(
-                ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
                 D_80082E80.tileX, D_80082E80.tileY,
                 &scratch);
             status_object = D_800814A8[0];
-            ((S_80170F6C_1 *)arg3)->unk_2A.s = next_position;
+            ((S_80170F6C_1 *)entity)->unk_2A.s = next_position;
             if (((S_80170F6C_10 *)status_object)->unk_9A == 0x11) {
-                func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
+                func_800AAF00(self_object, aux_entity, sprite, D_80175290, func_80170F6C);
                 return;
             }
         }
         case 12:
-            func_800A9A0C(arg3);
+            func_800A9A0C(entity);
             return;
 
         case 1:
         case 2:
         case 3:
-            func_800AAF00(arg0, arg1, arg2, D_80175290, func_80170F6C);
+            func_800AAF00(self_object, aux_entity, sprite, D_80175290, func_80170F6C);
             return;
 
         case 4:
         case 10:
         case 11:
         default:
-            func_80171B68(arg0, arg1, arg2, arg3);
+            func_80171B68(self_object, aux_entity, sprite, entity);
             return;
         }
     }
 
     {
         u32 final_flags =
-            ((S_80170F6C_1 *)arg3)->unk_1C;
+            ((S_80170F6C_1 *)entity)->unk_1C;
         if (!(final_flags & 0x2000)) {
             if ((result < 0) || !(D_800E2970[result].flags & 2)) {
                 u32 final_mask =
@@ -487,10 +487,10 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
                 if (!final_mask) {
 
                     if ((func_8009FD7C(
-                            ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
                             D_80082E80.tileX, D_80082E80.tileY) << 16) != 0) {
-                        ((S_80170F6C_1 *)arg3)->unk_2A.s = func_800A0818(
-                            ((S_80170F6C_2 *)arg2)->unk_24.at00.v, ((S_80170F6C_2 *)arg2)->unk_24.at01.v,
+                        ((S_80170F6C_1 *)entity)->unk_2A.s = func_800A0818(
+                            ((S_80170F6C_2 *)sprite)->unk_24.at00.v, ((S_80170F6C_2 *)sprite)->unk_24.at01.v,
                             D_80082E80.tileX, D_80082E80.tileY,
                             &scratch);
                     }
@@ -500,18 +500,18 @@ void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
     }
 
     if (!(dungeonStatus.flags & 0x2000) &&
-        !(((S_80170F6C_2 *)arg2)->unk_14 & 0x40)) {
+        !(((S_80170F6C_2 *)sprite)->unk_14 & 0x40)) {
         post_current =
-            ((S_80170F6C_2 *)arg2)->unk_2C;
+            ((S_80170F6C_2 *)sprite)->unk_2C;
         post_table = (u8 *)&D_80175258;
 post_compare:
         if (post_current != post_table) {
             u32 post_index;
 
-            ((S_80170F6C_2 *)arg2)->unk_2C = post_table;
+            ((S_80170F6C_2 *)sprite)->unk_2C = post_table;
             post_index = ((gameWork.view.viewAngle +
-                ((S_80170F6C_1 *)arg3)->unk_2A.s + 0x100) >> 9) & 7;
-            func_80047784(arg2,
+                ((S_80170F6C_1 *)entity)->unk_2A.s + 0x100) >> 9) & 7;
+            func_80047784(sprite,
                 *(u8 *)((unsigned long)post_index +
                         (unsigned long)post_table),
                 0);

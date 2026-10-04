@@ -16,15 +16,15 @@ typedef struct { s32 w[2]; } Blk8;
 #define SP5D M2C_FIELD(quad_copies, u8 *, 53)
 
 s32 func_800644B8();
-M2C_UNK func_80064840();
-M2C_UNK func_800649A0();
-M2C_UNK func_80064A40();
-M2C_UNK func_80064BC0();
-M2C_UNK func_80064CF0();
-M2C_UNK func_80064D80();
-M2C_UNK func_800654B0();
-M2C_UNK func_80065820();
-M2C_UNK func_80067EF4();
+void func_80064840();
+void func_800649A0();
+void func_80064A40();
+void func_80064BC0();
+void func_80064CF0();
+void func_80064D80();
+void func_800654B0();
+void func_80065820();
+void func_80067EF4();
 extern M2C_UNK D_8006CD10[3];
 
 #ifdef __mips__
@@ -98,13 +98,13 @@ __attribute__((section(".text.func_818EC800"))) = {
 /* Draws a transformed sprite as horizontally displaced scanline quads. */
 void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_mode)
 {
-    M2C_UNK quad_copies[20];
+    s32 quad_copies[20];
     u16 saved_draw_mode;
     u32 shifted_mode;
     s32 callback_arg;
     s32 *copy_end;
     u32 addr_mask;
-    M2C_UNK draw_arg;
+    s32 draw_arg;
     u8 *render_state;
     u8 *view_matrix;
     s32 texture_word;

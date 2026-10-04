@@ -12,15 +12,15 @@ typedef struct S_8004A24C_0 {
 } S_8004A24C_0;   /* arg0 in func_8004A24C */
 
 
-M2C_UNK func_80049F68();                            /* extern */
-M2C_UNK func_8004A030();       /* extern */
+void func_80049F68();                            /* extern */
+void func_8004A030();       /* extern */
 s32 func_8004A0C0();                         /* extern */
 s32 func_8004A10C();                             /* extern */
-M2C_UNK func_8004A170();       /* extern */
+void func_8004A170();       /* extern */
 s32 func_8004DC14();                /* extern */
 
 /* Initializes resource state, resolves its size, and sets its position. */
-void func_8004A24C(S_8004A24C_0 *state, M2C_UNK config_id, M2C_UNK resource_id, s16 x, s16 y, s32 size) {
+void func_8004A24C(S_8004A24C_0 *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size) {
     s32 resource_handle;
     u16 resolved_size;
     s32 requested_size;

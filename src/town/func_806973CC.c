@@ -6,15 +6,15 @@ s32 func_80017B24();
 M2C_UNK *func_80017BDC();
 M2C_UNK func_8001856C();
 s32 func_800187D8();
-extern M2C_UNK D_80018974;
-extern M2C_UNK D_80018AD0;
-extern M2C_UNK D_80019F15;
-extern M2C_UNK D_8001A0A1;
+extern s32 D_80018974;
+extern s32 D_80018AD0;
+extern s32 D_80019F15;
+extern s32 D_8001A0A1;
 
 /* Look up the slot's record; when it is already claimed, substitute one of two fixed records. */
-M2C_UNK *func_806973CC(s32 slot, M2C_UNK unused, M2C_UNK context) {
-    M2C_UNK *record;
-    M2C_UNK *result;
+s32 *func_806973CC(s32 slot, s32 unused, s32 context) {
+    s32 *record;
+    s32 *result;
 
     record = func_80017BDC(&D_80018974, &D_80018AD0, slot, context);
     result = record;

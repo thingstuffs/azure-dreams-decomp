@@ -1,15 +1,15 @@
 #include "common.h"
 
-extern s32 func_80047FD8(void *arg0);
-extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern void func_8007BEF0(s32 arg0);
-extern void func_80040560(void *arg0, void *arg1);
-extern void func_804059A8(void *arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_804056F4(void *arg0, s32 arg1);
-extern s32 func_804056CC(void *arg0);
-extern void func_804057B0(void *arg0, s32 arg1);
+extern s32 func_80047FD8(void *object);
+extern void *func_8003C714(s32 option, void *object, s32 param);
+extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
+extern void func_8007BEF0(s32 value);
+extern void func_80040560(void *object, void *data);
+extern void func_804059A8(void *object);
+extern void func_8007BFE0(void *object, s32 value);
+extern void func_804056F4(void *object, s32 value);
+extern s32 func_804056CC(void *value);
+extern void func_804057B0(void *object, s32 option);
 extern u8 D_8040861C[];
 extern u8 D_80400738[];
 extern u8 D_80400760[];

@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type, offset) (*(type)((s8 *)(expr) + (offset)))
 
 extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);
-extern void func_800C4174(void *arg0, M2C_UNK arg1, void *arg2);
+extern void func_800C4174(void *arg0, s32 update_context, s32 setup_context);
 extern M2C_UNK D_800D5518;
 extern M2C_UNK D_800D5624;
 extern M2C_UNK D_800D562C;
@@ -28,7 +28,7 @@ typedef struct S_800C5C70_1 {
 } S_800C5C70_1;   /* arg0 in func_800C5C70 */
 
 /* Reset the indexed flag, install handlers, and update the object on input flags 0x6000. */
-void func_800C5C70(void *object, M2C_UNK context, void *input) {
+void func_800C5C70(void *object, s32 context, void *input) {
     if (((Rec_D_80082E80 *)input)->unk_14.at00_u16.v & 0x6000) {
         func_800C2E84(object, input, &D_800D5518);
         D_80082660[((S_800C5C70_1 *)object)->unk_60].unk_00 = 0;

@@ -12,9 +12,9 @@ typedef struct S_800B8248_2 {
 #define M2C_FIELD(expr, type_ptr, offset) \
 (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_8009CDB4();
-extern M2C_UNK func_8009CDCC();
-extern M2C_UNK func_8009CE34();
+extern s32 *func_8009CDB4();
+extern void **func_8009CDCC();
+extern void func_8009CE34();
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];
 extern u8 D_800D43F0[];

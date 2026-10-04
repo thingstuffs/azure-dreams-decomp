@@ -30,10 +30,10 @@ typedef struct S_80028320_0 {
 } S_80028320_0;   /* temp_s0 in func_80028320; pointer addresses record offset 0x10 */
 
 
-M2C_UNK func_80027454();      /* extern */
+void func_80027454();      /* extern */
 s32 func_80027FA4();                             /* extern */
-M2C_UNK func_80027FF4();                    /* extern */
-M2C_UNK func_80028534();                         /* extern */
+void *func_80027FF4();                    /* extern */
+void func_80028534();                         /* extern */
 M2C_UNK func_80028648();                         /* extern */
 extern M2C_UNK D_80027D7C;
 

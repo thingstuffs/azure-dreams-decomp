@@ -12,11 +12,11 @@ typedef struct S_80035820_0 {
 } S_80035820_0;   /* arg0 in func_80035820 */
 
 
-M2C_UNK func_80033C84();                         /* extern */
-M2C_UNK func_80034EB4();                         /* extern */
-M2C_UNK func_80035090();                      /* extern */
-M2C_UNK func_8003FFF0();                      /* extern */
-M2C_UNK func_80044A50();                      /* extern */
+void func_80033C84();                         /* extern */
+void func_80034EB4();                         /* extern */
+void func_80035090();                      /* extern */
+void func_8003FFF0();                      /* extern */
+void func_80044A50();                      /* extern */
 
 /* Cleans up a type-0x101 record and unlinks its enclosing object. */
 void func_80035820(void *record) {

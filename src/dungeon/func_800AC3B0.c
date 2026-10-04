@@ -129,10 +129,6 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
     S_800B1B10_3 *meta;
 
     call_kind = 0x12;
-#ifdef NON_MATCHING
-    alloc_data = &D_80083498;
-#else
-#endif
     subroutine_arg4 = flags_held;
     alloc_data = &D_80083498;
     obj = (M2C_UNK) func_8003FD64(call_kind, alloc_data);

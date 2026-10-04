@@ -4,16 +4,16 @@ extern u8 D_804007D8[];
 extern u8 D_80400800[];
 extern u8 D_8040861C[];
 
-extern s32 func_80047FD8(void *arg0);
-extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_80040560(void *arg0, void *arg1);
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern void func_80403D24(void *arg0);
-extern s32 func_80407AEC(void *arg0);
-extern void func_80407B14(void *arg0, s32 arg1);
-extern void func_80407BD0(void *arg0, s32 arg1);
+extern s32 func_80047FD8(void *object);
+extern void *func_8003C714(s32 option, void *object, s32 param);
+extern void func_80040560(void *object, void *data);
+extern void func_8007BEF0(s32 value);
+extern void func_8007BFE0(void *object, s32 value);
+extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
+extern void func_80403D24(void *object);
+extern s32 func_80407AEC(void *context);
+extern void func_80407B14(void *object, s32 value);
+extern void func_80407BD0(void *object, s32 option);
 
 typedef struct {
     u8 unk_00[0x0C];

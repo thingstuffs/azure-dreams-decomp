@@ -62,12 +62,12 @@ typedef struct S_80024390_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-M2C_UNK func_8003AD08();
-M2C_UNK func_8004DA74();
-M2C_UNK func_8004E298();
-M2C_UNK func_8004E5A0();
-M2C_UNK func_8004E5E8();
-M2C_UNK func_8004E69C();
+u8 *func_8003AD08(); /* extern */
+void *func_8004DA74(); /* extern */
+void *func_8004E298(); /* extern */
+char *func_8004E5A0(); /* extern */
+char *func_8004E5E8(); /* extern */
+u8 *func_8004E69C(); /* extern */
 M2C_UNK func_80069E38();
 M2C_UNK func_80069E78();
 extern u8 D_800200A4[0x100];

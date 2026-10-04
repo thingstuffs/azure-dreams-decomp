@@ -1,9 +1,9 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_80023E14();                         /* extern */
-M2C_UNK func_800240EC();                         /* extern */
-M2C_UNK func_80024160();                         /* extern */
+void func_80023E14();                         /* extern */
+void func_800240EC();                         /* extern */
+void func_80024160();                         /* extern */
 
 /* Runs three update routines on the data of a non-null object. */
 void func_80024298(s32 object_addr) {

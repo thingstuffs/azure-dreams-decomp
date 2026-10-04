@@ -9,13 +9,13 @@
 
 void func_80041E70(void *);             /* extern */
 s32 func_80042900();            /* extern */
-M2C_UNK func_8008D344(); /* extern */
-M2C_UNK func_80098864();           /* extern */
-M2C_UNK func_80098B38();                         /* extern */
-M2C_UNK func_800997FC();                   /* extern */
-M2C_UNK func_80099844();           /* extern */
-M2C_UNK func_800A5F38();                 /* extern */
-M2C_UNK func_800A63B8();            /* extern */
+void func_8008D344(); /* extern */
+s32 func_80098864();           /* extern */
+void func_80098B38();                         /* extern */
+void func_800997FC();                   /* extern */
+void func_80099844();           /* extern */
+void func_800A5F38();                 /* extern */
+void func_800A63B8();            /* extern */
 s32 func_800AD6FC();            /* extern */
 extern M2C_UNK D_800E1580;
 extern M2C_UNK D_800E15A2;
@@ -43,7 +43,7 @@ typedef struct S_800C22EC_3 {
 } S_800C22EC_3;   /* temp_s0 in func_800C22EC */
 
 /* Processes an entity action and updates the selected target or reports failure. */
-s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, M2C_UNK context) {
+s32 func_800C22EC(EntityRec *entity, s32 action, s16 action_type, void *context) {
     s32 target_index;
     s32 flags_mask;
     s32 target_updated;

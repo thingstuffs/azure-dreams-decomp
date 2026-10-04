@@ -22,9 +22,9 @@ typedef struct S_800C5D38_1 {
 } S_800C5D38_1;   /* arg0 in func_800C5D38 */
 
 
-M2C_UNK func_800C4174(S_800C5D38_1 *, M2C_UNK, S_800C5D38_0 *);
+void func_800C4174(void *object, s32 update_context, s32 setup_context);
 /* Install the actor's response tables and process input when either masked flag is set. */
-void func_800C5D38(S_800C5D38_1 *actor, M2C_UNK context, S_800C5D38_0 *input) {
+void func_800C5D38(S_800C5D38_1 *actor, s32 context, S_800C5D38_0 *input) {
     if (input->unk_14 & 0x6000) {
         actor->unk_58 = &D_800D55D0;
         actor->unk_5C = &D_800D55D4;

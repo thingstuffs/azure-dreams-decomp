@@ -3,10 +3,10 @@
 
 #include "common.h"
 
-M2C_UNK func_80033C84();                         /* extern */
-M2C_UNK func_80035090();                      /* extern */
-M2C_UNK func_8003FFF0();                      /* extern */
-M2C_UNK func_80044A50();                      /* extern */
+void func_80033C84();                         /* extern */
+void func_80035090();                      /* extern */
+void func_8003FFF0();                      /* extern */
+void func_80044A50();                      /* extern */
 
 /* --- port/hal accessor shims (mechanical, no HAL dependency) --- */
 #define U8AT(b, o)  (*(u8  *)((u8 *)(b) + (o)))

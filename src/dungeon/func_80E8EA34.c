@@ -55,12 +55,12 @@ typedef struct S_80174234_3 {
 M2C_UNK func_80047784();         /* extern */
 s32 func_800990FC();                                /* extern */
 s32 func_80099194();                  /* extern */
-M2C_UNK func_80099290();                         /* extern */
+void *func_80099290();                         /* extern */
 s32 func_8009929C();                    /* extern */
-M2C_UNK func_80099368();                 /* extern */
+u8 *func_80099368();                 /* extern */
 s32 func_80099734();                     /* extern */
 s32 func_800A2BDC();                          /* extern */
-M2C_UNK func_800A5720();                         /* extern */
+s32 func_800A5720();                         /* extern */
 s32 func_800A6D30();                                /* extern */
 void *func_80170908();                /* extern */
 extern M2C_UNK D_8017089C;

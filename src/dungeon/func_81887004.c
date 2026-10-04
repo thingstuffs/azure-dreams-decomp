@@ -35,7 +35,6 @@ typedef struct {
 extern u16 D_80026324[];
 extern u16 D_80026326;
 extern s16 D_80026328[];
-extern void *D_80024050[5];
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80080A87[];
@@ -52,50 +51,39 @@ void func_81887004(EffectState *effect, Vec3s *pos)
     s32 burst_index;
     s32 state;
     s32 channel_value;
-    static void *const state_labels[] = {
-        &&jt_0, &&jt_1, &&jt_2, &&jt_3, &&jt_4,
-    };
-
 
     D_80026326++;
-    (void)state_labels;
     state = effect->state;
-    if ((u32)state >= 5) {
-        goto end;
-    }
-    goto *D_80024050[(u32)state];
-
-jt_0:
-    object = effect->object;
-    object->flags |= 0x10000000;
-    channel_value = (u16)effect->state;
-    channel_value++;
-    effect->state = channel_value;
-
-    channel_value = (s32)effect->object;
-    color = *(ColorObject **)((u8 *)channel_value - 0x14);
-    channel_value = color->r - 1;
-    color->r = channel_value;
-    if ((u8)channel_value < 0x40) {
-        color->r = 0x40;
-    }
-    channel_value = color->g - 1;
-    color->g = channel_value;
-    if ((u8)channel_value < 0x40) {
-        color->g = 0x40;
-    }
-    channel_value = color->b + 1;
-    color->b = channel_value;
-    if ((u8)channel_value >= 0xC1) {
-        color->b = 0xC0;
-    }
-    if (D_80026328[0] != 0) {
+    switch (state) {
+    case 0:
+        object = effect->object;
+        object->flags |= 0x10000000;
         effect->state++;
-        goto end;
-    }
-    goto end;
 
-jt_1:
+
+    case 1:
+        color = *(ColorObject **)((u8 *)effect->object - 0x14);
+        channel_value = color->r - 1;
+        color->r = channel_value;
+        if ((u8)channel_value < 0x40) {
+            color->r = 0x40;
+        }
+        channel_value = color->g - 1;
+        color->g = channel_value;
+        if ((u8)channel_value < 0x40) {
+            color->g = 0x40;
+        }
+        channel_value = color->b + 1;
+        color->b = channel_value;
+        if ((u8)channel_value >= 0xC1) {
+            color->b = 0xC0;
+        }
+        if (D_80026328[0] != 0) {
+            effect->state++;
+        }
+        break;
+
+    case 2:
     {
         u8 *primary_rgb;
         u8 *secondary_rgb;
@@ -116,12 +104,11 @@ jt_1:
         if (effect->timer >= 0x10) {
             effect->timer = 0xA0;
             effect->state++;
-            goto end;
         }
-        goto end;
+        break;
     }
 
-jt_2:
+    case 3:
     {
         u8 *random_rgb;
 
@@ -133,12 +120,11 @@ jt_2:
             func_80026010();
             effect->timer = 0x10;
             effect->state++;
-            goto end;
         }
-        goto end;
+        break;
     }
 
-jt_3:
+    case 4:
     {
         u8 *primary_rgb;
         u8 *secondary_rgb;
@@ -153,38 +139,36 @@ jt_3:
         secondary_rgb[2] += -(s32)secondary_rgb[2] / effect->timer;
     }
 
-jt_4:
-    {
-        s32 neutral_level;
-        s32 effect_count;
-        u32 flags;
-        u32 clear_effect_mask;
-        Object *fade_object;
+        {
+            s32 neutral_level;
+            s32 effect_count;
+            u32 flags;
+            u32 clear_effect_mask;
+            Object *fade_object;
 
-        color = *(ColorObject **)((u8 *)effect->object - 0x14);
-        neutral_level = 0x80;
-        color->r += (neutral_level - color->r) / effect->timer;
-        color->g += (neutral_level - color->g) / effect->timer;
-        color->b += (neutral_level - color->b) / effect->timer;
-        effect->timer--;
-        if (effect->timer <= 0) {
-            clear_effect_mask = 0xEFFFFFFF;
-            color->r = neutral_level;
-            color->g = neutral_level;
-            color->b = neutral_level;
-            fade_object = effect->object;
-            effect_count = D_80026324[0];
-            flags = fade_object->flags;
-            effect_count--;
-            D_80026324[0] = effect_count;
-            flags &= clear_effect_mask;
-            fade_object->flags = flags;
-            ((u16 *)effect)[-1] |= 0x8000;
-            objectFlagBlock.flags |= 0x8000;
+            color = *(ColorObject **)((u8 *)effect->object - 0x14);
+            neutral_level = 0x80;
+            color->r += (neutral_level - color->r) / effect->timer;
+            color->g += (neutral_level - color->g) / effect->timer;
+            color->b += (neutral_level - color->b) / effect->timer;
+            effect->timer--;
+            if (effect->timer <= 0) {
+                clear_effect_mask = 0xEFFFFFFF;
+                color->r = neutral_level;
+                color->g = neutral_level;
+                color->b = neutral_level;
+                fade_object = effect->object;
+                effect_count = D_80026324[0];
+                flags = fade_object->flags;
+                effect_count--;
+                D_80026324[0] = effect_count;
+                flags &= clear_effect_mask;
+                fade_object->flags = flags;
+                ((u16 *)effect)[-1] |= 0x8000;
+                objectFlagBlock.flags |= 0x8000;
+            }
+            break;
         }
-        goto end;
     }
-
-end:
     effect->ticks++;
 }

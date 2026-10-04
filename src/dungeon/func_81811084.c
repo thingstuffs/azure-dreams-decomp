@@ -2,9 +2,9 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_80025850_arg0.h"
 
-M2C_UNK func_80025D9C();       /* extern */
-M2C_UNK func_80025E3C();                 /* extern */
-M2C_UNK func_80025FFC(void *, s32, s32, s32);                            /* extern */
+void func_80025D9C();       /* extern */
+void func_80025E3C();                 /* extern */
+void func_80025FFC(void *, s32, s32, s32);                            /* extern */
 
 
 /* Initialize the object and configure it from its embedded data and stored value. */

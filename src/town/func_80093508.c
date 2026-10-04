@@ -2,18 +2,17 @@
 #include "shared/game_work.h"
 #include "records/Rec_func_80090C68_arg0.h"
 
-typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern M2C_UNK func_80090A74(void *, M2C_UNK, M2C_UNK);
-extern M2C_UNK func_80093D18();
-extern M2C_UNK func_80093DD8();
+extern void func_80090A74(void *, s32, s32);
+extern void func_80093D18();
+extern s32 func_80093DD8();
 extern s32 func_80094B0C();
-extern M2C_UNK func_8009550C();
-extern M2C_UNK func_80099754();
+extern void func_8009550C();
+extern void func_80099754();
 /* Updates the record, then handles a flagged action or countdown if its state is unchanged. */
-void func_80090C68(void *record, M2C_UNK context, M2C_UNK update_arg) {
+void func_80090C68(void *record, s32 context, s32 update_arg) {
     s32 previous_state;
     GameWork *global_state;
     u16 ticks_left;

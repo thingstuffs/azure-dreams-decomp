@@ -15,10 +15,10 @@ typedef struct S_80048C3C_1 {
 M2C_UNK DrawSync();                          /* extern */
 M2C_UNK Control_CD();       /* extern */
 M2C_UNK func_8003F320();                            /* extern */
-M2C_UNK func_8003F80C(); /* extern */
-M2C_UNK func_80046F88();                      /* extern */
-M2C_UNK func_80047200();    /* extern */
-M2C_UNK func_80048B8C();                      /* extern */
+void func_8003F80C(); /* extern */
+s32 func_80046F88();                      /* extern */
+void func_80047200();    /* extern */
+void func_80048B8C();                      /* extern */
 extern u8 D_80071210[];
 extern s8 D_80080A89;
 

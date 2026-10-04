@@ -3,15 +3,15 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 M2C_UNK func_80033D08();                      /* extern */
-M2C_UNK func_8008F134();                      /* extern */
-s32 func_8009CFE0(Rec_func_80094268_arg0 *, M2C_UNK);                                /* extern */
-M2C_UNK func_800C30A4();                      /* extern */
-M2C_UNK func_800C321C();    /* extern */
+void func_8008F134();                      /* extern */
+s32 func_8009CFE0(Rec_func_80094268_arg0 *, s32);                                /* extern */
+void func_800C30A4();                      /* extern */
+void func_800C321C();    /* extern */
 extern M2C_UNK D_800C3960;
 
 
 /* Update the object motion or clear its state and clean it up when the position check fails. */
-void func_800C3174(Rec_func_80094268_arg0 *object, M2C_UNK position, M2C_UNK motion) {
+void func_800C3174(Rec_func_80094268_arg0 *object, s32 position, s32 motion) {
     s32 check_result;
     s8 *state_flag;
 

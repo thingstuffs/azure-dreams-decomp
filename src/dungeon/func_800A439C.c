@@ -9,10 +9,10 @@ typedef struct S_800A9AFC_2 {
 } S_800A9AFC_2;   /* (arg1 + ((S_800A9AFC_0 *)arg1)->unk_71) in func_800A9AFC */
 
 
-M2C_UNK func_80042900();             /* extern */
+s32 func_80042900();             /* extern */
 M2C_UNK func_80069F28();     /* extern */
-M2C_UNK func_8009A21C();             /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+void func_8009A21C();             /* extern */
+void func_8009A3D0();             /* extern */
 
 typedef struct S_800A9AFC_0 {
     u8 pad_00[0x1C];
@@ -40,8 +40,8 @@ typedef struct S_800A9AFC_1 {
 
 /* Rotates queued coordinates into the current position and updates tile flags. */
 void func_800A9AFC(S_800A9AFC_1 *position, void *state) {
-    M2C_UNK clear_mask;
-    M2C_UNK set_mask;
+    s32 clear_mask;
+    s32 set_mask;
     s32 status_result;
     u8 next_x;
     u8 next_y;
@@ -49,7 +49,7 @@ void func_800A9AFC(S_800A9AFC_1 *position, void *state) {
     if (((S_800A9AFC_0 *)state)->unk_71 & 0x7F) {
         status_result = (s16) func_80042900(state, 0x1B);
         if (status_result == 0) {
-            M2C_UNK flags;
+            s32 flags;
             u8 tile_x;
             u8 tile_y;
 
@@ -72,7 +72,7 @@ void func_800A9AFC(S_800A9AFC_1 *position, void *state) {
         ((S_800A9AFC_0 *)state)->unk_88 = (u16) ((S_800A9AFC_0 *)state)->unk_8A;
         ((S_800A9AFC_0 *)state)->unk_2A = (u16) ((S_800A9AFC_0 *)state)->unk_6A;
         if (status_result == 0) {
-            M2C_UNK flags;
+            s32 flags;
             u8 tile_x;
             u8 tile_y;
 

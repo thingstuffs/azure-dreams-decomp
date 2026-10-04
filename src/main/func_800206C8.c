@@ -9,16 +9,16 @@ extern u8 D_8040C318[];
 extern u16 D_8040C336;
 __asm__(".set D_8040C336, 0x8040C336");
 
-extern s32 func_8003C714(s32 arg0, void *arg1, s32 arg2);
-extern void func_80040560(s32 arg0, void *arg1);
-extern s32 func_80047FD8(void *arg0);
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007BFE0(void *arg0, s32 arg1);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern s32 func_804075A8(s32 arg0);
-extern s32 func_804075D0(void *arg0, s32 arg1);
-extern u32 func_80407688(void *arg0, s32 arg1);
-extern void func_804077D4(void *arg0);
+extern s32 func_8003C714(s32 option, void *object, s32 param);
+extern void func_80040560(s32 object, void *data);
+extern s32 func_80047FD8(void *object);
+extern void func_8007BEF0(s32 value);
+extern void func_8007BFE0(void *object, s32 value);
+extern void func_8007C040(void *first_ptr, void *second_ptr, s32 value);
+extern s32 func_804075A8(s32 context);
+extern s32 func_804075D0(void *object, s32 value);
+extern u32 func_80407688(void *object, s32 option);
+extern void func_804077D4(void *card_slot);
 
 
 typedef struct S_800206C8_0 {

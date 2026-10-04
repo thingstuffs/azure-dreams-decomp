@@ -28,12 +28,12 @@ M2C_UNK func_800419EC();            /* extern */
 M2C_UNK func_80047784();         /* extern */
 s32 func_800644B8();                             /* extern */
 s16 func_800A0818();       /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800A4ACC();                      /* extern */
+void func_800A2B04();              /* extern */
+s32 func_800A4ACC();                      /* extern */
 M2C_UNK func_800A9A04();                      /* extern */
-M2C_UNK func_800AD594();             /* extern */
+void func_800AD594();             /* extern */
 s32 func_800AD9B4();                  /* extern */
-M2C_UNK func_800B66C8();                      /* extern */
+void func_800B66C8();                      /* extern */
 s16 func_800BCB04();                   /* extern */
 extern u8 D_8017102C[];
 extern u8 D_801752CC[];
@@ -41,7 +41,7 @@ extern u8 D_801752D4[];
 
 /* Updates tile movement and height interpolation, then finalizes the action when its timer expires. */
 void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *actor) {
-    M2C_UNK facing_output;
+    u16 facing_output;
     s32 move_frames;
     s16 next_move_frame;
     s16 height_frame;

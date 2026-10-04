@@ -22,12 +22,12 @@ typedef struct S_800A58CC_2 {
 
 s32 func_8008C180();                        /* extern */
 s16 func_80094AA0();               /* extern */
-M2C_UNK func_80095094();                      /* extern */
-M2C_UNK func_80095388();                 /* extern */
-M2C_UNK func_800954F4();                 /* extern */
+void func_80095094();                      /* extern */
+void func_80095388();                 /* extern */
+void func_800954F4();                 /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
 s32 func_800A5894();                          /* extern */
 s32 func_800C1D44();                             /* extern */
 extern s32 D_800A5A98;

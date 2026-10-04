@@ -28,15 +28,15 @@ typedef struct S_800195B8_4 {
 
 typedef struct S_800195B8_5 {
     u8 pad_00[0x168];
-    M2C_UNK (*unk_168)(M2C_UNK *, M2C_UNK *, M2C_UNK);
+    void (*unk_168)(s32 *, s32 *, s32);
     u8 pad_16C[0x8];
-    M2C_UNK (*unk_174)(M2C_UNK);
+    void (*unk_174)(s32);
 } S_800195B8_5;   /* ((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20 in func_800195B8 */
 
 
 extern u8 D_80010000[];
-extern M2C_UNK D_80016064[];
-extern M2C_UNK D_8001608C[];
+extern s32 D_80016064[];
+extern s32 D_8001608C[];
 
 /* Find the index of an entry by ID, reporting an error if it is missing. */
 s32 func_800195B8(void *entries, s32 entry_id) {
@@ -54,7 +54,7 @@ check_entry:
     }
     if (((S_800195B8_2 *)(((((entry_index * 8) - entry_index) * 4) + entries)))->unk_08 == 0) {
         u8 *page = (u8 *)0x80010000;
-        M2C_UNK (*report_missing)(M2C_UNK *, M2C_UNK *, M2C_UNK);
+        void (*report_missing)(s32 *, s32 *, s32);
         do {
             report_missing = ((S_800195B8_5 *)(((S_800195B8_4 *)(((S_800195B8_3 *)page)->unk_6000))->unk_20))->unk_168;
         } while (0);

@@ -95,7 +95,7 @@ typedef struct S_80167C74_14 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    u8 * unk_10;
 } S_80167C74_14;   /* temp_v0_4 in func_80167C74 */
 
 typedef struct S_80167C74_15 {
@@ -140,13 +140,13 @@ typedef struct {
 void func_8003DB94();
 void *func_8003FC64();
 void func_800419EC();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A56E0();
-M2C_UNK func_80165018();
-M2C_UNK func_80167A98();
-extern M2C_UNK D_800DEAE0;
-extern M2C_UNK D_80166D14;
-extern M2C_UNK D_80167C30;
+s32 func_8004491C();
+s32 func_800A56E0();
+void func_80165018();
+void func_80167A98();
+extern u8 D_800DEAE0[];
+extern void D_80166D14();
+extern u8 D_80167C30[];
 extern PositionTableEntry D_80175DD8[];
 
 static __inline__ s16 clamp_narrow(s32 value)
@@ -433,7 +433,7 @@ copy_pairs:
                 object_data = object + 0x20;
                 ((S_80167C74_13 *)object_data)->unk_18 = 1;
                 ((S_80167C74_13 *)object_data)->unk_1A = 1;
-                ((S_80167C74_14 *)object)->unk_10 = &D_80167C30;
+                ((S_80167C74_14 *)object)->unk_10 = D_80167C30;
                 func_8004491C(object, &D_80166D14);
                 object_flags = ((S_80167C74_14 *)object)->unk_0C;
                 object_flags->unk_10 = 0x20;
@@ -471,7 +471,7 @@ loop_4:
                 if (history_index < 4)
                     goto loop_4;
                 object_render->unk_06 = 0;
-                func_8003DB94(object_render, &D_800DEAE0, 0);
+                func_8003DB94(object_render, D_800DEAE0, 0);
                 object_pair = 0;
                 object_offset = history_offset;
                 copy_row_offset = object_data;

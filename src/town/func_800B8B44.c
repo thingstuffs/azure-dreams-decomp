@@ -9,9 +9,9 @@ typedef struct S_800B62A4_0 {
 
 
 M2C_UNK bzero();            /* extern */
-M2C_UNK func_800B58B8();             /* extern */
-M2C_UNK func_800B6094();            /* extern */
-M2C_UNK func_800B61C0();            /* extern */
+void func_800B58B8();             /* extern */
+void func_800B6094();            /* extern */
+void func_800B61C0();            /* extern */
 
 /* Fill up to three output slots from source entries and clear unused slots. */
 void func_800B62A4(EntityRec *source, s32 output) {

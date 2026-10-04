@@ -8,7 +8,7 @@ typedef struct S_80FF3000_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-    M2C_UNK * unk_10;
+    void * unk_10;
 } S_80FF3000_0;   /* temp_v0 in BODY_NAME */
 
 typedef struct S_80FF3000_1 {
@@ -29,12 +29,12 @@ typedef struct S_80FF3000_3 {
     s8 unk_24;
     s8 unk_25;
     u8 pad_26[0x6];
-    M2C_UNK * unk_2C;
+    void * unk_2C;
 } S_80FF3000_3;   /* temp_s2 in BODY_NAME */
 
 typedef struct S_80FF3000_4 {
     u8 pad_00[0x8C];
-    M2C_UNK * unk_8C;
+    void * unk_8C;
     u8 pad_90[0xA];
     u8 unk_9A;
     u8 pad_9B[0x1];
@@ -43,11 +43,11 @@ typedef struct S_80FF3000_4 {
 
 
 void *func_8003FD64();
-M2C_UNK func_8004491C();
-M2C_UNK func_800A48F0();
+s32 func_8004491C();
+s16 func_800A48F0();
 s32 func_800A6D30();
-M2C_UNK func_800A9C18();
-M2C_UNK func_800AA36C();
+void func_800A9C18();
+s32 func_800AA36C();
 extern M2C_UNK D_80158A7C;
 extern M2C_UNK D_80158EA8;
 extern M2C_UNK D_8015C038;
@@ -100,7 +100,7 @@ void *BODY_NAME(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     pos_y = 0;
     object_state = (void *)pos_y;
     pos_x = 0x112;
-    object = func_8003FD64(pos_x, ((M2C_UNK *)&D_80083498.next));
+    object = func_8003FD64(pos_x, ((void *)&D_80083498.next));
     if (object != NULL) {
         object_state = object + 0x20;
         ((S_80FF3000_0 *)object)->unk_10 = &D_80158A7C;

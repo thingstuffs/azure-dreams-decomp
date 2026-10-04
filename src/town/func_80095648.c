@@ -6,16 +6,16 @@
 M2C_UNK func_8009451C();        /* extern */
 M2C_UNK func_80094714();        /* extern */
 M2C_UNK func_80094910();                            /* extern */
-M2C_UNK func_80094C1C();                         /* extern */
-M2C_UNK func_80094C74();                      /* extern */
-M2C_UNK func_80095388();                      /* extern */
-M2C_UNK func_800954F4();                      /* extern */
+void func_80094C1C();                         /* extern */
+void func_80094C74();                      /* extern */
+void func_80095388();                      /* extern */
+void func_800954F4();                      /* extern */
 s16 func_80095978();               /* extern */
-M2C_UNK func_80095A94();      /* extern */
-M2C_UNK func_80095C80();                      /* extern */
-M2C_UNK func_800ABD74();                      /* extern */
+void func_80095A94();      /* extern */
+void func_80095C80();                      /* extern */
+void func_800ABD74();                      /* extern */
 extern u8 D_800CFCEF;
-extern M2C_UNK D_800FE488;
+extern u8 D_800FE488[];
 
 typedef struct S_80092DA8_0 {
     u8 pad_00[0x10];
@@ -24,7 +24,7 @@ typedef struct S_80092DA8_0 {
 
 
 /* Updates a town object based on its threshold and the global update flag. */
-void func_80092DA8(s32 object_id, EntityRec *object, M2C_UNK update_context) {
+void func_80092DA8(s32 object_id, EntityRec *object, s32 update_context) {
     s16 update_threshold;
     GameWork *town_state;
 

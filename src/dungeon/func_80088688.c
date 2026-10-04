@@ -10,10 +10,10 @@
 M2C_UNK func_80048A44(void *, u8, s32, s32); /* extern */
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
-M2C_UNK func_8008CAA0(); /* extern */
-M2C_UNK func_8008CBD4(); /* extern */
-M2C_UNK func_800A2B04();              /* extern */
-M2C_UNK func_800AD4D0();                      /* extern */
+void func_8008CAA0(); /* extern */
+void func_8008CBD4(); /* extern */
+void func_800A2B04();              /* extern */
+void func_800AD4D0();                      /* extern */
 extern M2C_UNK D_8008ACDC;
 extern u8 D_800DCFB0[8];
 extern u8 D_800DCFE0[8];

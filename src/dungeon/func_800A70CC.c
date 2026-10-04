@@ -13,13 +13,13 @@ typedef struct EarlyCallData {
 extern s16 D_800E3DA8[2];
 s32 func_8003DE58();
 s32 func_8004CAE8(s32, s32);
-M2C_UNK func_80094E34();
+void func_80094E34();
 s32 func_8009B88C();
-M2C_UNK func_800A2B04();
-M2C_UNK func_800A9A0C();
-M2C_UNK func_800AACA4();
-M2C_UNK func_8009A21C();
-M2C_UNK func_800AA36C();
+void func_800A2B04();
+void func_800A9A0C();
+void func_800AACA4();
+void func_8009A21C();
+s32 func_800AA36C();
 s16 func_800BCB04();
 
 
@@ -69,7 +69,7 @@ s32 func_800AC82C(Rec_func_800A9E70_arg0 *state, EntityRec *position, Rec_D_8008
     u16 offset[3];
     u16 dest_x;
     u16 dest_y;
-    M2C_UNK tile_mask;
+    s32 tile_mask;
     s16 ground_height;
     s32 flags;
     u16 parent_height;

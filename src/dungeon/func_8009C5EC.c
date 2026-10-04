@@ -3,7 +3,6 @@
 #include "shared/sys_flags.h"
 #include "shared/dungeon_status.h"
 
-typedef s32 M2C_UNK;
 
 extern s32 func_8003AD08();
 extern s32 func_80041E70();
@@ -18,14 +17,14 @@ extern s32 func_800A5720();
 extern s32 func_800B4C7C();
 
 extern u8 D_8006D168[];
-extern M2C_UNK D_80089000;
+extern u8 D_80089000[];
 extern s8 D_800DCF4F[];
 extern u8 D_800DDCBC[];
-extern M2C_UNK D_800E0458;
-extern M2C_UNK D_800E0953;
-extern M2C_UNK D_800E095F;
-extern M2C_UNK D_800E0970;
-extern M2C_UNK D_800E0979;
+extern u8 D_800E0458[];
+extern u8 D_800E0953[];
+extern u8 D_800E095F[];
+extern u8 D_800E0970[];
+extern u8 D_800E0979[];
 
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
 s32 func_800A1D4C(void *entity_data, s32 show_message) {
@@ -330,12 +329,12 @@ loop_0:
             func_800B4C7C(stat_gain_m, ((u8 *)entity_data), -2, 1);
 
             message = func_800990FC();
-            text_end = func_80099194(&D_800E0953, message);
+            text_end = func_80099194(D_800E0953, message);
             text_end = func_8009929C(0xA, text_end);
             text_end = func_80099734(((u8 *)entity_data), text_end);
-            text_end = func_80099194(&D_800E095F, text_end);
+            text_end = func_80099194(D_800E095F, text_end);
             text_end = func_8003AD08(((u8 *)entity_data)[0x11], text_end);
-            text_end = func_80099194(&D_80089000, text_end);
+            text_end = func_80099194(D_80089000, text_end);
 
             if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
                 u8 *ability_slot;
@@ -347,8 +346,8 @@ loop_0:
                     if (ability_gained[slot] != 0) {
                         text_end = func_8009929C(0xA, text_end);
                         text_end = func_80099194(*(s32 *)(ability_table + ability_slot[8] * 0x14), text_end);
-                        text_end = func_80099194(&D_800E0970, text_end);
-                        text_end = func_80099194(&D_800E0979, text_end);
+                        text_end = func_80099194(D_800E0970, text_end);
+                        text_end = func_80099194(D_800E0979, text_end);
                     }
                     slot += 1;
                     ability_slot += 3;
@@ -358,7 +357,7 @@ loop_0:
             if (!(D_80013714 & 1)) {
                 text_end = func_8009929C(0x11, text_end);
                 text_end = func_8009929C(0x4C, text_end);
-                text_end = func_80099254(&D_800E0458, text_end);
+                text_end = func_80099254(D_800E0458, text_end);
             }
             func_80099290(text_end);
             func_800A5720(message);

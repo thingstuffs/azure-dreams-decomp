@@ -9,11 +9,11 @@
 
 typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
-M2C_UNK func_8008D330();
-M2C_UNK func_80098B38();
-M2C_UNK func_800A56E0();
-M2C_UNK func_800A5F38();
-M2C_UNK func_800A63B8();
+void func_8008D330();
+void func_80098B38();
+s32 func_800A56E0();
+void func_800A5F38();
+void func_800A63B8();
 s32 func_800AD6FC();
 s32 func_800C8A3C();
 

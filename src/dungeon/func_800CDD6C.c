@@ -42,14 +42,14 @@ typedef struct S_800D34CC_3 {
 
 
 s32 func_80042900();                 /* extern */
-M2C_UNK func_8009A028();                      /* extern */
-M2C_UNK func_8009A3D0();             /* extern */
+void func_8009A028();                      /* extern */
+void func_8009A3D0();             /* extern */
 void func_800A32A4(void *);                 /* extern */
-M2C_UNK func_800A56C0();                            /* extern */
-M2C_UNK func_800A56E0();                     /* extern */
+void func_800A56C0();                            /* extern */
+s32 func_800A56E0();                     /* extern */
 
 void func_800D34CC(void *state, void *unused, void *data, void *entity) {
-    M2C_UNK selectedValue;
+    s32 selectedValue;
     s16 countdown;
     s16 countdownNext;
     s32 value1C;
