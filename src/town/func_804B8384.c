@@ -8,7 +8,7 @@ M2C_UNK func_80018854();                     /* extern */
 s32 func_8001894C();                             /* extern */
 extern s16 D_80018AEA;
 extern M2C_UNK D_80018B38;
-extern M2C_UNK D_80018E38;
+extern s32 D_80018E38;
 
 /* Runs the town interaction handler and returns its saved result. */
 s32 func_80016B84(s32 object, M2C_UNK unused, M2C_UNK context) {

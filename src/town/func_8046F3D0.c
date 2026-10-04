@@ -7,8 +7,8 @@ extern s32 func_80017E98(s32, M2C_UNK);
 extern s32 func_80019A04();
 extern s32 func_80019ABC();
 extern M2C_UNK D_8001A934;
-extern M2C_UNK D_8001B1F8;
-extern M2C_UNK D_8001B63C;
+extern s32 D_8001B1F8;
+extern s32 D_8001B63C;
 
 /* Select a table result, using an override or fallback when its check succeeds. */
 s32 func_800163D0(s32 context, M2C_UNK check_value, M2C_UNK selector) {

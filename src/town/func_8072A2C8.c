@@ -6,7 +6,7 @@
 
 
 M2C_UNK func_80017684();                     /* extern */
-extern M2C_UNK D_80017AD0;
+extern u8 D_80017AD0;
 
 
 /* Pass D_80017AD0 to the state callback, then run operation 0xBDB. */

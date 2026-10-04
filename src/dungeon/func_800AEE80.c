@@ -64,7 +64,7 @@ typedef struct S_800B45E0_5 {
 
 
 s32 func_8004491C();
-extern M2C_UNK D_80044C54;
+extern s32 D_80044C54;
 
 /* Update an anchored effect with fading, damped vertical motion, and optional flashing. */
 void func_800B45E0(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {

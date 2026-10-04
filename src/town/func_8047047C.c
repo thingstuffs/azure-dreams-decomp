@@ -7,8 +7,8 @@ s32 func_80019A04();      /* extern */
 s32 func_80019ABC(); /* extern */
 s32 func_8001A510();                             /* extern */
 extern M2C_UNK D_8001A9AC;
-extern M2C_UNK D_8001B1F8;
-extern M2C_UNK D_8001B63C;
+extern s32 D_8001B1F8;
+extern s32 D_8001B63C;
 extern M2C_UNK D_8001CFB4;
 
 typedef struct S_8001747C_0 {

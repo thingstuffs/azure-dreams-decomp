@@ -4,7 +4,7 @@
 void func_800917EC(); /* extern */
 void func_80094984();       /* extern */
 extern M2C_UNK D_800917EC;
-extern M2C_UNK D_800D0158;
+extern u8 D_800D0158;
 
 typedef struct S_80091990_0 {
     u8 pad_00[0x14];

@@ -17,7 +17,7 @@ typedef struct S_800AFD5C_0 {
 
 
 void func_800AF9C4(void *arg0);
-extern M2C_UNK D_800AFD00[];
+extern s32 D_800AFD00[];
 
 /* Update the linked value from the current step and advance the state after six steps. */
 void func_800AFD5C(void *object) {

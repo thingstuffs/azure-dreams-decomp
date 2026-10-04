@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 void func_80094984();       /* extern */
-extern M2C_UNK D_80093638;
+extern s32 D_80093638;
 extern M2C_UNK D_800D0078;
 
 /* Initialize the record and set its first pointer to D_80093638. */

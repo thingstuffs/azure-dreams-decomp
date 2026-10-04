@@ -20,8 +20,8 @@ typedef struct S_8009B014_1 {
 
 extern void func_80094984(void *arg0, void *arg1, s32 arg2);
 extern void func_80099754(void *arg0);
-extern M2C_UNK D_8009AFF4[3];
-extern M2C_UNK D_800D0078[3];
+extern void *D_8009AFF4[3];
+extern u8 D_800D0078[3];
 extern s32 D_800D0620;
 extern M2C_UNK D_800D0640[3];
 

@@ -11,10 +11,10 @@ typedef struct S_800C838C_1 {
 
 void func_800C3050(); /* extern */
 extern M2C_UNK D_800D6244;
-extern M2C_UNK D_800D62D8;
-extern M2C_UNK D_800D62E0;
-extern M2C_UNK D_800D6308;
-extern M2C_UNK D_800D630C;
+extern u8 D_800D62D8;
+extern u8 D_800D62E0;
+extern u8 D_800D6308;
+extern u8 D_800D630C;
 
 
 /* Initialize the object with configuration 0xA and set its associated data pointer. */

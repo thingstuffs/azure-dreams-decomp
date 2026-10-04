@@ -15,7 +15,7 @@ typedef struct {
     s32 _8;
 } M2C_PTR_GLOBAL;
 
-extern M2C_UNK D_80016178[3];
+extern u8 D_80016178[3];
 extern M2C_UNK D_80017720[3];
 extern M2C_PTR_GLOBAL D_8001794C;
 extern M2C_UNK D_80017B88[3];

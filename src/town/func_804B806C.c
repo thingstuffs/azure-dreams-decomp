@@ -4,7 +4,7 @@
 s32 func_8001894C();
 s32 func_80018044();
 extern M2C_UNK D_80018B18;
-extern M2C_UNK D_80018E38;
+extern s32 D_80018E38;
 extern u8 D_8001C59A[16];
 
 /* Look up the slot's record, falling back to the default table when the query fails. */

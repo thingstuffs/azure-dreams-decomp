@@ -5,7 +5,7 @@
 void func_800A0B74();                 /* extern */
 M2C_UNK into_dn_door_jobs();                            /* extern */
 void func_800A12B4(); /* extern */
-extern M2C_UNK D_800A08E8;
+extern void *D_800A08E8;
 extern M2C_UNK D_80100B70;
 
 

@@ -9,7 +9,7 @@ typedef s32 M2C_UNK;
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define U32_AT(p, off) (*(u32 *)((u8 *)(p) + (off)))
 
-extern M2C_UNK D_800C6AEC;
+extern s32 D_800C6AEC;
 
 extern void func_8004491C();
 extern void func_80044A50();

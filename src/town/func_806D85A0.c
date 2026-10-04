@@ -43,7 +43,7 @@ typedef struct S_806D85A0_6 {
 
 void *func_80017024();                 /* extern */
 s32 func_8001876C();                         /* extern */
-extern M2C_UNK D_80018FE0;
+extern s32 D_80018FE0;
 
 /* Processes active entries for the selected variant and updates 2x2 cells for the first group. */
 void func_806D85A0(void) {

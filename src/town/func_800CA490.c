@@ -7,7 +7,7 @@ typedef struct {
 
 extern void func_800C2E84();
 extern M2C_UNK D_800C78A8;
-extern M2C_UNK D_800D5FE8;
+extern s32 D_800D5FE8;
 extern Timer D_80113220;
 
 /* Initialize the object callback and set the shared timer to 16. */

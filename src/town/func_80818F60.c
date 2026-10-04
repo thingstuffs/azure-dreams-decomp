@@ -125,7 +125,7 @@ extern s32 D_80097D2C[3];
 extern M2C_UNK D_800D0120;
 extern M2C_UNK D_800D0128;
 extern M2C_UNK D_800D0138;
-extern M2C_UNK D_800F9B40;
+extern s32 D_800F9B40;
 
 /* Run the ending cutscene's state machine: swing the camera, spawn the credits sprites and hand over to the next scene. */
 void func_80022F60(u8 *state_obj) {

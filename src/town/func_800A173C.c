@@ -8,7 +8,7 @@ s32 func_800644B8();
 void func_8009F1C0();
 void func_8009F48C();
 extern s32 D_800834B8[3];
-extern M2C_UNK D_80093328;
+extern s32 D_80093328;
 extern M2C_UNK D_80093524[3];
 extern s32 D_800CFCC4[3];
 

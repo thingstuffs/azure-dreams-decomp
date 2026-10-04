@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 void func_8009539C();                      /* extern */
-extern M2C_UNK D_8009BC44;
+extern void *D_8009BC44;
 
 typedef struct S_800A022C_0 {
     u8 pad_00[0x15];

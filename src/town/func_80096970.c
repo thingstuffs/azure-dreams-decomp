@@ -5,7 +5,7 @@
 M2C_UNK SD_Call();                     /* extern */
 void func_80094984();  /* extern */
 extern M2C_UNK D_80091AF0;
-extern M2C_UNK D_800D00E8;
+extern s32 D_800D00E8;
 
 
 /* Initialize the record with its handler and a count of twelve. */

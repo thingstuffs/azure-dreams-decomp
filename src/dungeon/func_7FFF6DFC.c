@@ -4,7 +4,7 @@
 
 M2C_UNK func_80094984();
 M2C_UNK func_80094C1C();
-extern M2C_UNK D_80092A84;
+extern s32 D_80092A84;
 extern M2C_UNK D_800D0130;
 
 

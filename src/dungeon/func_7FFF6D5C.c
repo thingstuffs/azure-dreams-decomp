@@ -4,7 +4,7 @@
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 M2C_UNK func_80094984();  /* extern */
-extern M2C_UNK D_80092698;
+extern s32 D_80092698;
 extern M2C_UNK D_800D0120;
 
 

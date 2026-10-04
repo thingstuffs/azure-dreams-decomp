@@ -70,7 +70,7 @@ s32 func_800A6D30();
 void func_800A9C18(); /* extern */
 s32 func_800AA36C(); /* extern */
 extern M2C_UNK D_8014CA3C;
-extern M2C_UNK D_8014CE68;
+extern u8 D_8014CE68;
 extern M2C_UNK D_8014F86C;
 
 void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 property_value) BODY_ATTR;

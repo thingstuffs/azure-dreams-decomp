@@ -16,7 +16,7 @@ extern s32 func_8004491C();
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern M2C_UNK D_80024330[];
-extern M2C_UNK D_800DEAE0[];
+extern u8 D_800DEAE0[];
 
 typedef struct S_8185CE28_0 {
     u8 pad_00[0x8];

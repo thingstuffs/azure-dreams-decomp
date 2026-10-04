@@ -221,7 +221,7 @@ M2C_UNK func_80064D80();
 M2C_UNK func_800654B0();
 M2C_UNK func_80065820();
 M2C_UNK func_80067EF4();
-extern M2C_UNK D_8006CD10[3];
+extern u8 D_8006CD10[3];
 
 /* Build textured sprite strips and append their packets to the ordering table. */
 void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw_mode) {

@@ -59,7 +59,7 @@ typedef struct S_80173D78_5 {
 } S_80173D78_5;   /* base in func_80173D78 */
 
 
-extern M2C_UNK D_800C6AEC;
+extern s32 D_800C6AEC;
 extern M2C_UNK D_8017086C;
 extern M2C_UNK D_80170898;
 extern M2C_UNK D_80170EE4;

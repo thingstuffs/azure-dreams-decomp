@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 /* extern */
-extern M2C_UNK D_800A5340;
+extern s32 D_800A5340;
 
 typedef struct S_800A54FC_0 {
     u8 pad_00[0x4];

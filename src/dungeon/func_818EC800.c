@@ -25,7 +25,7 @@ void func_80064D80();
 void func_800654B0();
 void func_80065820();
 void func_80067EF4();
-extern M2C_UNK D_8006CD10[3];
+extern u8 D_8006CD10[3];
 
 #ifdef __mips__
 extern void func_800255B4(void);

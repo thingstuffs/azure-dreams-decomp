@@ -13,7 +13,7 @@ extern void func_80064D80(void *);
 extern void func_800654B0(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
 extern void func_80065820(void *, void *);
 extern void func_80067EF4(void *, s32, s32);
-extern M2C_UNK D_8006CD10[8];
+extern u8 D_8006CD10[8];
 
 typedef struct Quad40 {
     s32 w0;

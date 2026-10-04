@@ -9,7 +9,7 @@
 
 extern s32 func_8004491C();
 extern void func_80044A50();
-extern M2C_UNK D_800C6AEC;
+extern s32 D_800C6AEC;
 
 
 /* Resets object state, runs object setup, and updates property and status flags. */

@@ -13,7 +13,7 @@ typedef s32 M2C_UNK;
 void *func_8003FC64();
 s32 func_8004491C();
 extern M2C_UNK D_80026DE4;
-extern M2C_UNK D_800273B0;
+extern s32 D_800273B0;
 extern M2C_UNK D_800CEEFC;
 
 typedef struct S_81961A04_0 {

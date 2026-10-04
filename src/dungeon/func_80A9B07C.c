@@ -50,7 +50,7 @@ extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
 extern u8 D_80170A50[];
-extern M2C_UNK D_80170E7C;
+extern u8 D_80170E7C;
 extern u8 D_80174C3C[];
 extern u8 D_80174C8C[];
 
