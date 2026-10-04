@@ -22,18 +22,16 @@ s32 func_804010F0(void) {
     status = 0;
     if ((state != 0) && (state != 2)) {
         if (state < 3U) {
-            if (state == 1) {
-                goto state_one;
+            if (state != 1) {
+                status = 5;
+                goto done;
             }
-            status = 5;
-            goto done;
+        } else {
+            if (state == 3) {
+                goto state_three;
+            }
+            goto five_exit;
         }
-        if (state == 3) {
-            goto state_three;
-        }
-        goto five_exit;
-
-state_one:
         slot_flag = &D_8009E390[0];
         if (D_804094EC != 0) {
             slot_flag = &D_8009E390[1];
@@ -67,7 +65,7 @@ state_three:
             *completion_flag = flag_value;
         }
         D_804094E8 = 0;
-        return status;
+        goto done;
     } else {
         return status;
     }

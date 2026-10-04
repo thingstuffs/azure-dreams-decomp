@@ -58,50 +58,40 @@ void func_8017364C(void *action, EntityRec *motion, void *sprite, EntityRec *act
             switch (ability_id) {
             case 7:
                 use_player = 1;
-                goto select_third_ability;
+            case 3:
+                ability = (u8 *)actor + 0xE;
+                break;
             case 6:
                 use_player = 1;
-                goto select_second_ability;
+            case 2:
+                ability = (u8 *)actor + 0xB;
+                break;
             case 5:
                 use_player = 1;
-                goto select_first_ability;
             case 1:
-                goto select_first_ability;
-            case 2:
-                goto select_second_ability;
-            case 3:
-                goto select_third_ability;
+                ability = (u8 *)actor + 8;
+                break;
             default:
-                goto clear_ability;
+                ability = NULL;
+                break;
+            }
+        } else {
+            normal_ability = actor->unk_46 & 0x3FFF;
+            switch (normal_ability) {
+            case 3:
+                ability = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                ability = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                ability = (u8 *)actor + 8;
+                break;
+            default:
+                ability = NULL;
+                break;
             }
         }
-        normal_ability = actor->unk_46 & 0x3FFF;
-        if (normal_ability == 2) {
-            goto select_second_ability;
-        }
-        if (normal_ability < 3) {
-            ability = NULL;
-            if (normal_ability == 1) {
-                goto select_first_ability;
-            }
-            goto check_ability;
-        }
-        ability = NULL;
-        if (normal_ability != 3) {
-            goto check_ability;
-        }
-select_third_ability:
-        ability = (u8 *)actor + 0xE;
-        goto check_ability;
-select_second_ability:
-        ability = (u8 *)actor + 0xB;
-        goto check_ability;
-select_first_ability:
-        ability = (u8 *)actor + 8;
-        goto check_ability;
-clear_ability:
-        ability = NULL;
-check_ability:
         if (*ability != 0) {
             ((S_8017364C_0 *)action)->unk_98 &= 0xFF7F;
             {

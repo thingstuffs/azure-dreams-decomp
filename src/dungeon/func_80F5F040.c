@@ -151,7 +151,6 @@ void func_80172840(void *action, void *position, void *sprite, void *actor)
 {
     void *particle_callback = D_80173EC0;
     s32 direction_offset;
-    s32 one;
     u8 *move_slot;
     s32 phase;
     register s32 is_special;
@@ -178,7 +177,6 @@ void func_80172840(void *action, void *position, void *sprite, void *actor)
     is_special = 0;
     direction_x_ptr = dirStepX;
     heading = ((S_80172840_0 *)actor)->unk_2A.s;
-    one = 1;
     counter = heading >> 8;
     direction_offset = counter & 0xE;
     direction_x_ptr += direction_offset;
@@ -198,49 +196,37 @@ void func_80172840(void *action, void *position, void *sprite, void *actor)
             case 7:
                 is_special = 1;
             case 3:
-                goto kind_3;
+                move_slot = (u8 *)actor + 0x0E;
+                break;
             case 6:
                 is_special = 1;
             case 2:
-                goto kind_2;
+                move_slot = (u8 *)actor + 0x0B;
+                break;
             case 5:
                 is_special = 1;
             case 1:
-                goto kind_1;
+                move_slot = (u8 *)actor + 8;
+                break;
             default:
-                goto kind_none;
+                move_slot = 0;
+            }
+        } else {
+            move_kind = ((S_80172840_0 *)actor)->unk_46 & 0x3FFF;
+            switch (move_kind) {
+            case 3:
+                move_slot = (u8 *)actor + 0x0E;
+                break;
+            case 2:
+                move_slot = (u8 *)actor + 0x0B;
+                break;
+            case 1:
+                move_slot = (u8 *)actor + 8;
+                break;
+            default:
+                move_slot = 0;
             }
         }
-
-        move_kind = ((S_80172840_0 *)actor)->unk_46 & 0x3FFF;
-        if (move_kind == 2) {
-            goto kind_2;
-        }
-        if (move_kind < 3) {
-            if (move_kind == one) {
-                goto kind_1;
-            }
-            move_slot = 0;
-            goto have_selector;
-        }
-        if (move_kind != 3) {
-            move_slot = 0;
-            goto have_selector;
-        }
-
-kind_3:
-        move_slot = (u8 *)actor + 0x0E;
-        goto have_selector;
-kind_2:
-        move_slot = (u8 *)actor + 0x0B;
-        goto have_selector;
-kind_1:
-        move_slot = (u8 *)actor + 8;
-        goto have_selector;
-kind_none:
-        move_slot = 0;
-
-have_selector:
         if (*move_slot != 0) {
             ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
             special_flag = is_special;

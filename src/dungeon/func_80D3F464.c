@@ -69,23 +69,21 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
     angle = (*(u16 *)((u8 *)object + 0x2A));
     state = motion->unk_B3;
     direction = (angle >> 9) & 7;
-    if (state != 0) {
-        goto state1_test;
-    }
-
+    if (state == 0) {
     switch (motion->unk_B1) {
     case 0:
         switch (motion->unk_B2) {
         case 0:
             if (record->unk_14.at00_u16.v & 0x8000) {
-                goto set_state2_from_zero;
+                motion->unk_B3 = 2;
+                break;
             }
             if (motion->unk_B4 >= 7U) {
                 if ((angle & 0x3FF) == 0) {
                     motion->unk_B1 = 1;
                     motion->unk_B2 = 0;
                     motion->unk_96 = 0;
-                    goto state0_done;
+                    break;
                 }
             } else if ((angle & 0x3FF) == 0) {
                 if (func_800D5F80(position, object) != 0) {
@@ -109,11 +107,11 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
                         (*(u16 *)((u8 *)history_base + 0x66)) = 0;
                         (*(u16 *)((u8 *)history_base + 0x64)) = position_y;
                     }
-                    goto state0_done;
+                    break;
                 }
             }
             motion->unk_B2 = 2;
-            goto state0_done;
+            break;
 
         case 1:
         {
@@ -123,7 +121,7 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
             if ((timer << 16) <= 0) {
                 motion->unk_B2 = 0;
             }
-            goto state0_done;
+            break;
         }
 
         case 2:
@@ -135,26 +133,26 @@ void func_80174C64(S_80174C64_0 *motion, void *position, Rec_D_80082E80 *record,
             motion->unk_B2 = 1;
             motion->unk_96 = 1;
             motion->unk_B4++;
-            goto state0_done;
+            break;
 
         default:
-            goto state0_done;
+            break;
         }
+        break;
 
     case 1:
         switch (motion->unk_B2) {
         case 0:
             if (record->unk_14.at00_u16.v & 0x8000) {
-set_state2_from_zero:
                 motion->unk_B3 = 2;
-                goto state0_done;
+                break;
             }
             if (func_800D5F80(position, object) != 0) {
                 motion->unk_96 = 0x1E;
                 motion->unk_B2 = 0;
                 motion->unk_B1 = 0;
                 motion->unk_B3++;
-                goto state0_done;
+                break;
             }
             motion->unk_96 = 3;
             motion->unk_B2++;
@@ -170,232 +168,242 @@ set_state2_from_zero:
             }
             (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
             (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
-            goto state0_done;
+            break;
         }
 
         default:
-            goto state0_done;
+            break;
         }
+        break;
 
     default:
-        goto state0_done;
+        break;
     }
-
-state0_done:
     state = motion->unk_B3;
-state1_test:
-    if (state != 1) {
-        goto state2_test;
-    }
-    if (record->unk_14.at00_u16.v & 0x8000) {
-        motion->unk_B3 = 2;
-        goto state1_done;
     }
 
-    {
-        u16 elapsed_ticks = motion->unk_A8;
+    if (state == 1) {
+        if (record->unk_14.at00_u16.v & 0x8000) {
+            motion->unk_B3 = 2;
+        } else {
+            {
+                u16 elapsed_ticks = motion->unk_A8;
 
-        motion->unk_A8 = elapsed_ticks + 1;
-        if ((signed short)elapsed_ticks >= 300) {
-            goto set_state3;
-        }
-    }
-
-    {
-        void *history_check = motion->unk_AC;
-
-        if (history_check != 0) {
-            history_base = (u8 *)history_check + 0x20;
-            if (((*(signed short *)((u8 *)history_base + 0x66)) != 0 ||
-                 (*(signed short *)((u8 *)history_base + 0x68)) != 0) &&
-                (*(signed short *)((u8 *)history_base + 0x62)) == (*(signed short *)((u8 *)position + 2)) &&
-                (*(signed short *)((u8 *)history_base + 0x64)) == (*(signed short *)((u8 *)position + 6))) {
-                goto set_state3;
+                motion->unk_A8 = elapsed_ticks + 1;
+                if ((signed short)elapsed_ticks >= 300) {
+                    goto set_state3;
+                }
             }
 
             {
-                history_load = (unsigned long)motion->unk_AC;
+                void *history_check = motion->unk_AC;
 
-                if (history_load != 0) {
-                    history_addr = history_load;
+                if (history_check != 0) {
+                    history_base = (u8 *)history_check + 0x20;
+                    if (((*(signed short *)((u8 *)history_base + 0x66)) != 0 ||
+                         (*(signed short *)((u8 *)history_base + 0x68)) != 0) &&
+                        (*(signed short *)((u8 *)history_base + 0x62)) == (*(signed short *)((u8 *)position + 2)) &&
+                        (*(signed short *)((u8 *)history_base + 0x64)) == (*(signed short *)((u8 *)position + 6))) {
+                        goto set_state3;
+                    }
 
-                    history_base = (u8 *)history_addr + 0x20;
-                    history_x = (*(signed short *)((u8 *)history_base + 0x66));
-                    if (history_x != 0 ||
-                        (history_load = (signed long)(*(signed short *)((u8 *)history_base + 0x68))) != 0) {
-                        history_index = 2;
-                        history_base = (u8 *)history_addr + 0x20;
-                        do {
-                            u8 *history_entry = history_base + (history_index << 2);
+                    {
+                        history_load = (unsigned long)motion->unk_AC;
 
-                            if (history_x == (*(signed short *)((u8 *)history_entry + 0x62)) &&
-                                (*(signed short *)((u8 *)history_base + 0x68))
-                                == (*(signed short *)((u8 *)history_entry + 0x64))) {
-                                goto set_state3;
+                        if (history_load != 0) {
+                            history_addr = history_load;
+
+                            history_base = (u8 *)history_addr + 0x20;
+                            history_x = (*(signed short *)((u8 *)history_base + 0x66));
+                            if (history_x != 0 ||
+                                (history_load = (signed long)(*(signed short *)((u8 *)history_base + 0x68))) != 0) {
+                                history_index = 2;
+                                history_base = (u8 *)history_addr + 0x20;
+                                do {
+                                    u8 *history_entry = history_base + (history_index << 2);
+
+                                    if (history_x == (*(signed short *)((u8 *)history_entry + 0x62)) &&
+                                        (*(signed short *)((u8 *)history_base + 0x68))
+                                        == (*(signed short *)((u8 *)history_entry + 0x64))) {
+                                        goto set_state3;
+                                    }
+                                    history_index++;
+                                } while (history_index < 6);
                             }
-                            history_index++;
-                        } while (history_index < 6);
+                        }
                     }
                 }
             }
-        }
-    }
 
-    switch (motion->unk_B1) {
-    case 0:
+            switch (motion->unk_B1) {
+            case 0:
 state1_call:
-        if (func_800D5F80(position, object) == 0) {
-            motion->unk_B1 = 2;
-            motion->unk_B2 = 0;
-            goto state1_case2;
-        }
-        motion->unk_B1 = 1;
-        motion->unk_B2 = 0;
-                        /* fall through */
-
-    case 1:
-        switch (motion->unk_B2) {
-        case 0:
-state1_plus_angle:
-            next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
-            (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
-            if (((signed short)(next_angle)) >= 0x1000) {
-                (*(u16 *)((u8 *)object + 0x2A)) = 0;
-            }
-            goto state1_advance_sub;
-
-        case 1:
-        {
-            u16 timer = motion->unk_96;
-
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                goto state1_done;
-            }
-            if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
-                motion->unk_B2 = 0;
-                goto state1_plus_angle;
-            }
-            motion->unk_B1 = 0;
-            motion->unk_B2 = 0;
-            goto state1_call;
-        }
-
-        default:
-            goto state1_done;
-        }
-
-    case 2:
-state1_case2:
-        turn_phase = motion->unk_B2;
-        switch (turn_phase) {
-        case 0:
-            motion->unk_B2 = (turn_phase == 0);
-            motion->unk_96 = 3;
-                                    /* fall through */
-
-        case 1:
-        {
-            u16 timer;
-
-            (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
-            (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
-
-            timer = motion->unk_96;
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                goto state1_done;
-            }
-
-            {
-                void *history_copy = motion->unk_AC;
-
-                if (history_copy != 0) {
-                    history_base = (u8 *)history_copy + 0x20;
-                    for (history_index = 5; history_index >= 2; history_index--) {
-                        ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_62 =
-                            ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
-                                + ((history_index - 1) << 2))))->unk_62;
-                        ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_64 =
-                            ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
-                                + ((history_index - 1) << 2))))->unk_64;
-                    }
-                    (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)((u8 *)position + 2));
-                    (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)((u8 *)position + 6));
+                if (func_800D5F80(position, object) == 0) {
+                    motion->unk_B1 = 2;
+                    motion->unk_B2 = 0;
+                    goto state1_case2;
                 }
-            }
-
-            saved_angle = (*(u16 *)((u8 *)object + 0x2A));
-            next_angle = saved_angle - 0x400;
-            (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
-            if ((next_angle << 16) < 0) {
-                (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
-            }
-            if (func_800D5F80(position, object) != 0) {
+                motion->unk_B1 = 1;
                 motion->unk_B2 = 0;
-                motion->unk_B1 = 0;
-                (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
-                goto state1_done;
-            }
-            motion->unk_B1 = 3;
-            motion->unk_B2 = 0;
-            (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
-            goto state1_done;
-        }
+                                /* fall through */
 
-        default:
-            goto state1_done;
-        }
+            case 1:
+                switch (motion->unk_B2) {
+                case 0:
+                    next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
+                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    if (((signed short)(next_angle)) >= 0x1000) {
+                        (*(u16 *)((u8 *)object + 0x2A)) = 0;
+                    }
+                    next_phase = motion->unk_B2;
+                    motion->unk_96 = 0;
+                    motion->unk_B2 = next_phase + 1;
+                    break;
 
-    case 3:
-        switch (motion->unk_B2) {
-        case 0:
+                case 1:
+                {
+                    u16 timer = motion->unk_96;
+
+                    motion->unk_96 = timer - 1;
+                    if ((timer << 16) > 0) {
+                        break;
+                    }
+                    if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                        motion->unk_B2 = 0;
+                        next_angle = (*(u16 *)((u8 *)object + 0x2A)) + 0x200;
+                        (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                        if (((signed short)(next_angle)) >= 0x1000) {
+                            (*(u16 *)((u8 *)object + 0x2A)) = 0;
+                        }
+                        next_phase = motion->unk_B2;
+                        motion->unk_96 = 0;
+                        motion->unk_B2 = next_phase + 1;
+                        break;
+                    }
+                    motion->unk_B1 = 0;
+                    motion->unk_B2 = 0;
+                    goto state1_call;
+                }
+
+                default:
+                    break;
+                }
+                break;
+
+            case 2:
+state1_case2:
+                turn_phase = motion->unk_B2;
+                switch (turn_phase) {
+                case 0:
+                    motion->unk_B2 = (turn_phase == 0);
+                    motion->unk_96 = 3;
+                                            /* fall through */
+
+                case 1:
+                {
+                    u16 timer;
+
+                    (*(u16 *)((u8 *)position + 2)) = D_800E2468[direction].x * 16 + (*(u16 *)((u8 *)position + 2));
+                    (*(u16 *)((u8 *)position + 6)) = D_800E2468[direction].y * 16 + (*(u16 *)((u8 *)position + 6));
+
+                    timer = motion->unk_96;
+                    motion->unk_96 = timer - 1;
+                    if ((timer << 16) > 0) {
+                        break;
+                    }
+
+                    {
+                        void *history_copy = motion->unk_AC;
+
+                        if (history_copy != 0) {
+                            history_base = (u8 *)history_copy + 0x20;
+                            for (history_index = 5; history_index >= 2; history_index--) {
+                                ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_62 =
+                                    ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
+                                        + ((history_index - 1) << 2))))->unk_62;
+                                ((S_80174C64_2 *)((u8 *)((unsigned long)history_base + (history_index << 2))))->unk_64 =
+                                    ((S_80174C64_3 *)((u8 *)((unsigned long)history_base
+                                        + ((history_index - 1) << 2))))->unk_64;
+                            }
+                            (*(u16 *)((u8 *)history_base + 0x66)) = (*(u16 *)((u8 *)position + 2));
+                            (*(u16 *)((u8 *)history_base + 0x68)) = (*(u16 *)((u8 *)position + 6));
+                        }
+                    }
+
+                    saved_angle = (*(u16 *)((u8 *)object + 0x2A));
+                    next_angle = saved_angle - 0x400;
+                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    if ((next_angle << 16) < 0) {
+                        (*(u16 *)((u8 *)object + 0x2A)) = saved_angle + 0xC00;
+                    }
+                    if (func_800D5F80(position, object) != 0) {
+                        motion->unk_B2 = 0;
+                        motion->unk_B1 = 0;
+                        (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
+                        break;
+                    }
+                    motion->unk_B1 = 3;
+                    motion->unk_B2 = 0;
+                    (*(u16 *)((u8 *)object + 0x2A)) = saved_angle;
+                    break;
+                }
+
+                default:
+                    break;
+                }
+                break;
+
+            case 3:
+                switch (motion->unk_B2) {
+                case 0:
 state1_minus_angle:
-            old_angle = (*(u16 *)((u8 *)object + 0x2A));
-            next_angle = old_angle - 0x200;
-            (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
-            if ((next_angle << 16) < 0) {
-                (*(u16 *)((u8 *)object + 0x2A)) = old_angle + 0xE00;
+                    old_angle = (*(u16 *)((u8 *)object + 0x2A));
+                    next_angle = old_angle - 0x200;
+                    (*(u16 *)((u8 *)object + 0x2A)) = next_angle;
+                    if ((next_angle << 16) < 0) {
+                        (*(u16 *)((u8 *)object + 0x2A)) = old_angle + 0xE00;
+                    }
+                    next_phase = motion->unk_B2;
+                    motion->unk_96 = 0;
+                    motion->unk_B2 = next_phase + 1;
+                    break;
+
+                case 1:
+                {
+                    u16 timer = motion->unk_96;
+
+                    motion->unk_96 = timer - 1;
+                    if ((timer << 16) > 0) {
+                        break;
+                    }
+                    if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
+                        motion->unk_B2 = 0;
+                        goto state1_minus_angle;
+                    }
+                    motion->unk_B1 = 2;
+                    motion->unk_B2 = 0;
+                    goto state1_case2;
+                }
+
+                default:
+                    break;
+                }
+                break;
+
+            default:
+                break;
             }
-state1_advance_sub:
-            next_phase = motion->unk_B2;
-            motion->unk_96 = 0;
-            motion->unk_B2 = next_phase + 1;
             goto state1_done;
-
-        case 1:
-        {
-            u16 timer = motion->unk_96;
-
-            motion->unk_96 = timer - 1;
-            if ((timer << 16) > 0) {
-                goto state1_done;
-            }
-            if (((*(u16 *)((u8 *)object + 0x2A)) & 0x3FF) != 0) {
-                motion->unk_B2 = 0;
-                goto state1_minus_angle;
-            }
-            motion->unk_B1 = 2;
-            motion->unk_B2 = 0;
-            goto state1_case2;
-        }
-
-        default:
-            goto state1_done;
-        }
-
-    default:
-        goto state1_done;
-    }
 
 set_state3:
-    motion->unk_B3 = 3;
-    motion->unk_B1 = 0;
-    goto state3_test;
+            motion->unk_B3 = 3;
+            motion->unk_B1 = 0;
+            goto state3_test;
 
-state1_done:
-    state = motion->unk_B3;
-state2_test:
+state1_done:;
+        }
+        state = motion->unk_B3;
+    }
     if (state == 2) {
         (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
         motion->unk_9B++;
@@ -409,74 +417,73 @@ state2_test:
         func_800A56E0(0x80F);
     }
 state3_test:
-    if (motion->unk_B3 != 3) {
-        goto done;
-    }
-    state = motion->unk_B1;
-    switch (state) {
+    if (motion->unk_B3 == 3) {
+        state = motion->unk_B1;
+        switch (state) {
 
-    case 0:
-    {
-        u16 next_state = motion->unk_B1;
+        case 0:
+        {
+            u16 next_state = motion->unk_B1;
 
-        motion->unk_96 = 10;
-        motion->unk_B1 = next_state + 1;
-    }
-
-    case 1:
-    {
-        u16 timer = motion->unk_96;
-
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
-            break;
+            motion->unk_96 = 10;
+            motion->unk_B1 = next_state + 1;
         }
-    }
-        motion->unk_B1++;
-        break;
 
-    case 2:
-        record->unk_14.at00_u16.v |= 0x80;
-        goto state3_set_timer;
+        case 1:
+        {
+            u16 timer = motion->unk_96;
 
-    case 3:
-    {
-        u16 timer = motion->unk_96;
-
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
-            break;
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
         }
-    }
-
-state3_set_timer:
-        motion->unk_96 = 20;
-        motion->unk_B1++;
-        break;
-
-    case 4:
-    {
-        u16 timer = motion->unk_96;
-
-        motion->unk_96 = timer - 1;
-        if ((timer << 16) > 0) {
+            motion->unk_B1++;
             break;
+
+        case 2:
+            record->unk_14.at00_u16.v |= 0x80;
+            motion->unk_96 = 20;
+            motion->unk_B1++;
+            break;
+
+        case 3:
+        {
+            u16 timer = motion->unk_96;
+
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
         }
-    }
-        (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
-        motion->unk_9B++;
-        record->unk_14.at00_u16.v |= 0x80;
-        motion->unk_92 = 0;
-        motion->unk_B1 = 0;
-        motion->unk_96 = 0;
-        motion->unk_A2 = 0;
-        func_8009D8A4();
-        D_800E296C |= 0x800000;
-        func_800A56E0(0x80F);
+
+            motion->unk_96 = 20;
+            motion->unk_B1++;
+            break;
+
+        case 4:
+        {
+            u16 timer = motion->unk_96;
+
+            motion->unk_96 = timer - 1;
+            if ((timer << 16) > 0) {
+                break;
+            }
+        }
+            (*(u16 *)((u8 *)object + 0x2A)) &= 0xFC00;
+            motion->unk_9B++;
+            record->unk_14.at00_u16.v |= 0x80;
+            motion->unk_92 = 0;
+            motion->unk_B1 = 0;
+            motion->unk_96 = 0;
+            motion->unk_A2 = 0;
+            func_8009D8A4();
+            D_800E296C |= 0x800000;
+            func_800A56E0(0x80F);
+
+        }
 
     }
-
-done:
     (*(signed short *)((u8 *)object + 0x88)) = func_800BCB04(
         (*(u16 *)((u8 *)position + 2)), (*(u16 *)((u8 *)position + 6)),
         (signed short)((*(u16 *)((u8 *)position + 0xA)) - 0x20));

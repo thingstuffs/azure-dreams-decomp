@@ -111,60 +111,45 @@ void func_801732C4(void *action, EntityRec *motion, void *sprite, void *actor)
 
             kind_index = ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) - 1;
             switch (kind_index) {
-            case 0:
-                goto kind_1;
-            case 1:
-                goto kind_2;
-            case 2:
-                goto kind_3;
             case 6:
                 special = 1;
-                goto kind_3;
+            case 2:
+                item_slot = (u8 *)actor + 0xE;
+                break;
             case 5:
                 special = 1;
-                goto kind_2;
+            case 1:
+                item_slot = (u8 *)actor + 0xB;
+                break;
             case 4:
                 special = 1;
-                goto kind_1;
+            case 0:
+                item_slot = (u8 *)actor + 8;
+                break;
             default:
-                goto kind_default;
+                item_slot = 0;
+                break;
             }
-        }
-
-        {
+        } else {
             s32 action_kind;
 
             action_kind = (*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF;
-            if (action_kind == 2) {
-                goto kind_2;
-            }
-            if (action_kind < 3) {
+            switch (action_kind) {
+            case 3:
+                item_slot = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                item_slot = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                item_slot = (u8 *)actor + 8;
+                break;
+            default:
                 item_slot = 0;
-                if (action_kind == 1) {
-                    goto normal_kind_1;
-                }
-                goto selection_ready;
-            }
-            if (action_kind != 3) {
-                item_slot = 0;
-                goto selection_ready;
+                break;
             }
         }
 
-kind_3:
-        item_slot = (u8 *)actor + 0xE;
-        goto selection_ready;
-kind_2:
-        item_slot = (u8 *)actor + 0xB;
-        goto selection_ready;
-normal_kind_1:
-kind_1:
-        item_slot = (u8 *)actor + 8;
-        goto selection_ready;
-kind_default:
-        item_slot = 0;
-
-selection_ready:
         if (*item_slot != 0) {
             ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
             {

@@ -198,251 +198,231 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     parent_node = parent - 0x20;
     parent_position = parent_node->unk_08;
     ((S_818154FC_0 *)effect)->unk_82 = (u16) (((S_818154FC_0 *)effect)->unk_82 + 1);
-    if (state == 1) {
-        goto update_position;
-    }
-    if (state < 2) {
-        if (state == 0)
-            goto initialize;
-        return;
-    }
-    if (state == 2)
-        goto spawn_effects;
-    if (state == 3) {
-        goto wait_effects;
-    }
-    return;
+    switch (state) {
+    case 0:
+        sprite->unk_0C.at00_s32.v = 0x00808080;
+        sprite->unk_1C.at02_s16.v = 0x1000;
+        sprite->unk_1C.at00_s16.v = 0x1000;
+        func_8003DB94(sprite, D_800DEC00, 0);
+        angle = ((S_818154FC_3 *)parent)->unk_2A;
+        D_80025338[0] = 1;
+        ((S_818154FC_0 *)effect)->unk_7E.s = (s16) ((angle >> 9) & 7);
+        ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
 
-initialize:
-    sprite->unk_0C.at00_s32.v = 0x00808080;
-    sprite->unk_1C.at02_s16.v = 0x1000;
-    sprite->unk_1C.at00_s16.v = 0x1000;
-    func_8003DB94(sprite, D_800DEC00, 0);
-    angle = ((S_818154FC_3 *)parent)->unk_2A;
-    D_80025338[0] = 1;
-    ((S_818154FC_0 *)effect)->unk_7E.s = (s16) ((angle >> 9) & 7);
-    ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
+    case 1:
+        {
+            u16 position_z;
+            u16 final_z;
+            s32 delta_z;
 
-update_position:
-    {
-        u16 position_z;
-        u16 final_z;
-        s32 delta_z;
-
-        parent_sprite = parent_node->unk_0C;
-        if ((func_8003DF74(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
-            || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-            position->unk_00.at02.v = (u16) parent_position->unk_02;
-            position->unk_04.at02.v = (u16) parent_position->unk_06;
-            position_z = parent_position->unk_0A;
-            position->unk_08.at02.v = position_z;
-            if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
-                position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
-                position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
-                final_z = position->unk_08.at02.v;
-                delta_z = offset.z;
-                final_z += delta_z;
-                position->unk_08.at02.v = final_z;
-            } else {
-                final_z = position_z - 0x40;
-                position->unk_08.at02.v = final_z;
-            }
-            {
-                s32 coord;
-                s32 coord_2;
-
-                ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
-                coord_2 = position->unk_04.at00.v;
-                ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
-                coord = position->unk_08.at00.v;
-                ((S_818154FC_0 *)effect)->unk_B8 = coord;
-            }
-            if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
-                ((S_818154FC_0 *)effect)->unk_84.s = 0U;
-                ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
-                func_800A56E0(0x300);
-            }
-        }
-        return;
-    }
-
-spawn_effects:
-    spawn_tick = ((S_818154FC_0 *)effect)->unk_84.s + 1;
-    ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
-    if (spawn_tick & 1) {
-
-        node = func_8003FC64(0x12);
-        if (node != NULL) {
-            u8 *work;
-            u8 *map;
-            s32 index;
-
-            work = node + 0x20;
-            {
-                s16 *entry;
-
-                index = ((S_818154FC_0 *)effect)->unk_7E.s;
-                entry = (s16 *)((u8 *)point_base + index * 4);
-                ((S_818154FC_7 *)work)->unk_58 = (s32)entry[0] << 16;
-            }
-            {
-                u16 *entry;
-
-                index = ((S_818154FC_0 *)effect)->unk_7E.s;
-                entry = (u16 *)((u8 *)point_base + index * 4);
-                ((S_818154FC_7 *)work)->unk_5C = (s32)entry[1] << 16;
-            }
-            ((S_818154FC_7 *)work)->unk_2C = parent;
-            ((S_818154FC_7 *)work)->unk_30 = ((S_818154FC_3 *)parent)->unk_60.s;
-            ((S_818154FC_7 *)work)->unk_0A =
-                (((S_818154FC_0 *)effect)->unk_84.u - 1) / 2;
-            ((S_818154FC_7 *)work)->unk_15 = ((S_818154FC_0 *)effect)->unk_09;
-            ((S_818154FC_7 *)work)->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
-
-            {
-                u8 *table_base = (u8 *)dirStepX;
-
-                index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
-                map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
-                ((S_818154FC_0 *)effect)->unk_A8 =
-                    ((S_818154FC_8 *)map)->unk_24 + table_base[index];
-            }
-            {
-                u8 *table_base = (u8 *)dirStepY;
-
-                index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
-                ((S_818154FC_0 *)effect)->unk_A9 =
-                    ((S_818154FC_8 *)map)->unk_25 + table_base[index];
-            }
-
-            if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
-                s32 tile_distance;
-                s32 compare_one;
-                u8 *motion;
-                s32 z_step;
-                s32 other_z;
-
-                ((S_818154FC_7 *)work)->unk_08 = 1;
-                if (((S_818154FC_3 *)parent)->unk_72 != ((S_818154FC_8 *)map)->unk_24) {
-                    tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - ((S_818154FC_8 *)map)->unk_24);
-                    ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+            parent_sprite = parent_node->unk_0C;
+            if ((func_8003DF74(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0)
+                || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
+                position->unk_00.at02.v = (u16) parent_position->unk_02;
+                position->unk_04.at02.v = (u16) parent_position->unk_06;
+                position_z = parent_position->unk_0A;
+                position->unk_08.at02.v = position_z;
+                if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
+                    position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
+                    position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
+                    final_z = position->unk_08.at02.v;
+                    delta_z = offset.z;
+                    final_z += delta_z;
+                    position->unk_08.at02.v = final_z;
                 } else {
-                    tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - ((S_818154FC_8 *)map)->unk_25);
-                    ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+                    final_z = position_z - 0x40;
+                    position->unk_08.at02.v = final_z;
                 }
+                {
+                    s32 coord;
+                    s32 coord_2;
 
-                compare_one = 1;
-                motion = ((S_818154FC_15_pre *)(((S_818154FC_3 *)parent)->unk_60.p))[-1].unk_00;
-                if (((S_818154FC_0 *)effect)->unk_84.u == compare_one) {
-                    s32 duration;
-
-                    duration = ((S_818154FC_7 *)work)->unk_02.s;
-                    if (duration != 0) {
-                        z_step = ((S_818154FC_9 *)motion)->unk_08;
-                        other_z = position->unk_08.at00.v;
-                        z_step -= other_z;
-                        z_step -= 0x200000;
-                        other_z = duration - 1;
-                        z_step /= other_z;
-                        ((S_818154FC_7 *)work)->unk_60 = z_step;
-                        position->unk_14 = z_step;
-                    }
-                    goto configure_effect;
+                    ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
+                    coord_2 = position->unk_04.at00.v;
+                    ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
+                    coord = position->unk_08.at00.v;
+                    ((S_818154FC_0 *)effect)->unk_B8 = coord;
                 }
-                ((S_818154FC_7 *)work)->unk_60 = position->unk_14;
-            } else {
-                ((S_818154FC_7 *)work)->unk_02.s = 8;
-                ((S_818154FC_7 *)work)->unk_08 = 0;
+                if (*((S_818154FC_0 *)effect)->unk_04 & 0x80) {
+                    ((S_818154FC_0 *)effect)->unk_84.s = 0U;
+                    ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
+                    func_800A56E0(0x300);
+                }
             }
-configure_effect:
-            if (((S_818154FC_0 *)effect)->unk_84.u == 9) {
+            return;
+        }
+
+    case 2:
+        spawn_tick = ((S_818154FC_0 *)effect)->unk_84.s + 1;
+        ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
+        if (spawn_tick & 1) {
+
+            node = func_8003FC64(0x12);
+            if (node != NULL) {
+                u8 *work;
+                u8 *map;
+                s32 index;
+
+                work = node + 0x20;
+                {
+                    s16 *entry;
+
+                    index = ((S_818154FC_0 *)effect)->unk_7E.s;
+                    entry = (s16 *)((u8 *)point_base + index * 4);
+                    ((S_818154FC_7 *)work)->unk_58 = (s32)entry[0] << 16;
+                }
+                {
+                    u16 *entry;
+
+                    index = ((S_818154FC_0 *)effect)->unk_7E.s;
+                    entry = (u16 *)((u8 *)point_base + index * 4);
+                    ((S_818154FC_7 *)work)->unk_5C = (s32)entry[1] << 16;
+                }
+                ((S_818154FC_7 *)work)->unk_2C = parent;
+                ((S_818154FC_7 *)work)->unk_30 = ((S_818154FC_3 *)parent)->unk_60.s;
+                ((S_818154FC_7 *)work)->unk_0A =
+                    (((S_818154FC_0 *)effect)->unk_84.u - 1) / 2;
+                ((S_818154FC_7 *)work)->unk_15 = ((S_818154FC_0 *)effect)->unk_09;
+                ((S_818154FC_7 *)work)->unk_16 = ((S_818154FC_0 *)effect)->unk_7E.u;
+
+                {
+                    u8 *table_base = (u8 *)dirStepX;
+
+                    index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
+                    map = ((S_818154FC_3_pre *)parent)[-1].unk_00;
+                    ((S_818154FC_0 *)effect)->unk_A8 =
+                        ((S_818154FC_8 *)map)->unk_24 + table_base[index];
+                }
+                {
+                    u8 *table_base = (u8 *)dirStepY;
+
+                    index = ((S_818154FC_0 *)effect)->unk_7E.s * 2;
+                    ((S_818154FC_0 *)effect)->unk_A9 =
+                        ((S_818154FC_8 *)map)->unk_25 + table_base[index];
+                }
+
                 if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
-                    u16 end_time;
+                    s32 tile_distance;
+                    s32 compare_one;
+                    u8 *motion;
+                    s32 z_step;
+                    s32 other_z;
 
-                    end_time = ((S_818154FC_7 *)work)->unk_02.u;
-                    end_time += 0x28;
-                    ((S_818154FC_0 *)effect)->unk_86 = end_time;
+                    ((S_818154FC_7 *)work)->unk_08 = 1;
+                    if (((S_818154FC_3 *)parent)->unk_72 != ((S_818154FC_8 *)map)->unk_24) {
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_72 - ((S_818154FC_8 *)map)->unk_24);
+                        ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+                    } else {
+                        tile_distance = __builtin_abs(((S_818154FC_3 *)parent)->unk_73 - ((S_818154FC_8 *)map)->unk_25);
+                        ((S_818154FC_7 *)work)->unk_02.s = tile_distance * 2;
+                    }
+
+                    compare_one = 1;
+                    motion = ((S_818154FC_15_pre *)(((S_818154FC_3 *)parent)->unk_60.p))[-1].unk_00;
+                    if (((S_818154FC_0 *)effect)->unk_84.u == compare_one) {
+                        s32 duration;
+
+                        duration = ((S_818154FC_7 *)work)->unk_02.s;
+                        if (duration != 0) {
+                            z_step = ((S_818154FC_9 *)motion)->unk_08;
+                            other_z = position->unk_08.at00.v;
+                            z_step -= other_z;
+                            z_step -= 0x200000;
+                            other_z = duration - 1;
+                            z_step /= other_z;
+                            ((S_818154FC_7 *)work)->unk_60 = z_step;
+                            position->unk_14 = z_step;
+                        }
+                    } else {
+                        ((S_818154FC_7 *)work)->unk_60 = position->unk_14;
+                    }
                 } else {
-                    ((S_818154FC_0 *)effect)->unk_86 = 0x1E;
+                    ((S_818154FC_7 *)work)->unk_02.s = 8;
+                    ((S_818154FC_7 *)work)->unk_08 = 0;
+                }
+                if (((S_818154FC_0 *)effect)->unk_84.u == 9) {
+                    if (((S_818154FC_3 *)parent)->unk_60.u != NULL) {
+                        u16 end_time;
+
+                        end_time = ((S_818154FC_7 *)work)->unk_02.u;
+                        end_time += 0x28;
+                        ((S_818154FC_0 *)effect)->unk_86 = end_time;
+                    } else {
+                        ((S_818154FC_0 *)effect)->unk_86 = 0x1E;
+                    }
+                }
+                spawn_position = ((S_818154FC_10 *)node)->unk_08;
+                ((S_818154FC_10 *)node)->unk_10 = &D_800246DC;
+                spawn_position->unk_00 = ((S_818154FC_0 *)effect)->unk_B0;
+                spawn_position->unk_04 = ((S_818154FC_0 *)effect)->unk_B4;
+                spawn_position->unk_08 = ((S_818154FC_0 *)effect)->unk_B8;
+                spawn_sprite = ((S_818154FC_10 *)node)->unk_0C;
+                spawn_sprite->unk_0E = 0x80;
+                spawn_sprite->unk_0D = 0x80;
+                spawn_sprite->unk_0C = 0x80;
+                spawn_sprite->unk_1E = 0x1000;
+                spawn_sprite->unk_1C = 0x1000;
+                if ((s16) ((S_818154FC_0 *)effect)->unk_84.s == 1) {
+                    ((S_818154FC_0 *)effect)->unk_90 = node;
+                    ((S_818154FC_0 *)effect)->unk_94.s = spawn_position;
+                    ((S_818154FC_0 *)effect)->unk_88 = 0x63;
                 }
             }
-            spawn_position = ((S_818154FC_10 *)node)->unk_08;
-            ((S_818154FC_10 *)node)->unk_10 = &D_800246DC;
-            spawn_position->unk_00 = ((S_818154FC_0 *)effect)->unk_B0;
-            spawn_position->unk_04 = ((S_818154FC_0 *)effect)->unk_B4;
-            spawn_position->unk_08 = ((S_818154FC_0 *)effect)->unk_B8;
-            spawn_sprite = ((S_818154FC_10 *)node)->unk_0C;
-            spawn_sprite->unk_0E = 0x80;
-            spawn_sprite->unk_0D = 0x80;
-            spawn_sprite->unk_0C = 0x80;
-            spawn_sprite->unk_1E = 0x1000;
-            spawn_sprite->unk_1C = 0x1000;
-            if ((s16) ((S_818154FC_0 *)effect)->unk_84.s == 1) {
-                ((S_818154FC_0 *)effect)->unk_90 = node;
-                ((S_818154FC_0 *)effect)->unk_94.s = spawn_position;
-                ((S_818154FC_0 *)effect)->unk_88 = 0x63;
-            }
-            goto follow_effect;
         }
-    }
-follow_effect:
-    if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
+        if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
 
-        node = ((S_818154FC_0 *)effect)->unk_90;
-        spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
-        if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
-            ((S_818154FC_0 *)effect)->unk_88 = 0;
-            goto finish_spawning;
-        }
-        position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
-        position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
-        position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
-        goto finish_spawning;
-    }
-finish_spawning:
-    if ((s16) ((S_818154FC_0 *)effect)->unk_84.s >= 0xB) {
-        u16 old_state;
-
-        old_state = ((S_818154FC_0 *)effect)->unk_0A.u;
-        ((S_818154FC_0 *)effect)->unk_84.s = 0;
-        old_state++;
-        ((S_818154FC_0 *)effect)->unk_0A.u = old_state;
-    }
-    return;
-
-wait_effects:
-    if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
-
-        node = ((S_818154FC_0 *)effect)->unk_90;
-        spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
-        if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
-            ((S_818154FC_0 *)effect)->unk_88 = 0;
-            goto check_timeout;
-        }
-        position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
-        position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
-        position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
-        goto check_timeout;
-    }
-check_timeout:
-    {
-        u16 old_counter = ((S_818154FC_0 *)effect)->unk_84.s;
-        s16 new_counter = old_counter + 1;
-
-        ((S_818154FC_0 *)effect)->unk_84.s = new_counter;
-        if (((S_818154FC_0 *)effect)->unk_86 < new_counter) {
-            s32 global_state = D_80025338[0];
-
-            ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
-            if (global_state == 0) {
-                dungeonStatus.unk_0C = 0;
-                ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
+            node = ((S_818154FC_0 *)effect)->unk_90;
+            spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
+            if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
+                ((S_818154FC_0 *)effect)->unk_88 = 0;
             } else {
-                D_80025338[0] = 0;
+                position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
+                position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
+                position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
             }
         }
-    }
+        if ((s16) ((S_818154FC_0 *)effect)->unk_84.s >= 0xB) {
+            u16 old_state;
 
-    return;
+            old_state = ((S_818154FC_0 *)effect)->unk_0A.u;
+            ((S_818154FC_0 *)effect)->unk_84.s = 0;
+            old_state++;
+            ((S_818154FC_0 *)effect)->unk_0A.u = old_state;
+        }
+        return;
+
+    case 3:
+        if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
+
+            node = ((S_818154FC_0 *)effect)->unk_90;
+            spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
+            if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
+                ((S_818154FC_0 *)effect)->unk_88 = 0;
+            } else {
+                position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
+                position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
+                position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
+            }
+        }
+        {
+            u16 old_counter = ((S_818154FC_0 *)effect)->unk_84.s;
+            s16 new_counter = old_counter + 1;
+
+            ((S_818154FC_0 *)effect)->unk_84.s = new_counter;
+            if (((S_818154FC_0 *)effect)->unk_86 < new_counter) {
+                s32 global_state = D_80025338[0];
+
+                ((S_818154FC_0 *)effect)->unk_84.s = old_counter;
+                if (global_state == 0) {
+                    dungeonStatus.unk_0C = 0;
+                    ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
+                } else {
+                    D_80025338[0] = 0;
+                }
+            }
+        }
+
+    }
 }
+

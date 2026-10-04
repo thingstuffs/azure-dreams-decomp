@@ -188,117 +188,114 @@ kind_1:
         }
 
 selection_ready:
-        if (*item_slot == 0) {
-            goto empty_selection;
-        }
-        actor->unk_98 &= 0xFF7F;
-        {
-            s16 player_target;
+        if (*item_slot != 0) {
+            actor->unk_98 &= 0xFF7F;
+            {
+                s16 player_target;
 
-            player_target = use_player;
-            if (player_target != 0) {
-                target = D_800814A8;
-                actor_data->unk_60 = target;
-                goto copy_active_coords;
-            }
-        }
-
-        {
-            S_func_80FDD1A0_2 *item_id;
-
-            item_id = (S_func_80FDD1A0_2 *)(*item_slot);
-            if (D_8006DE24[((u8)item_id)].kind == 2) {
-                target = actor_data->unk_60;
-                if (target != 0) {
-
-copy_active_coords:
-                    item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
-                    actor_data->unk_72.u = item_id->unk_24;
-                    actor_data->unk_73.u = item_id->unk_25;
-                    goto invoke_item;
-                }
-            } else {
-                s32 target_x;
-                s32 abs_x;
-                s32 abs_y;
-                s32 target_y;
-
-                target = func_800A05A4(
-                    actor_data,
-                    sprite->unk_24,
-                    sprite->unk_25,
-                    actor_data->unk_2A.s,
-                    0x10);
-                actor_data->unk_60 = target;
-                abs_x = abs(actor_data->unk_72.s);
-                abs_y = abs(actor_data->unk_73.s);
-                actor_data->unk_72.u = abs_x;
-                actor_data->unk_73.u = abs_y;
-            }
-        }
-
-invoke_item:
-        sound_pos.x = motion->x >> 16;
-        sound_pos.y = motion->y >> 16;
-        sound_pos.z = motion->z >> 16;
-
-        if (!(actor->unk_98 & 0x2000)) {
-            void *new_effect;
-
-            new_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-            actor->unk_A8 = new_effect;
-            effect = new_effect;
-            if (effect != 0) {
-                VecData *effect_motion;
-
-                func_8004491C(effect, func_80045340);
-                effect->unk_10 = D_800D7960;
-                effect_motion = effect->unk_08;
-                *effect_motion = *motion;
-                effect->unk_BB = 0;
-                effect->unk_4A = actor_data->unk_2A.u;
-                {
-                    s32 sprite_flags = sprite->unk_28;
-                    effect_sprite = effect->unk_0C;
-
-                    effect_sprite->unk_1E = 0x1000;
-                    effect_sprite->unk_1C = 0x1000;
-                    effect_sprite->unk_28 = sprite_flags;
-                    effect_sprite->unk_14 = sprite->unk_14;
-                    effect_sprite->unk_12 = sprite->unk_12;
+                player_target = use_player;
+                if (player_target != 0) {
+                    target = D_800814A8;
+                    actor_data->unk_60 = target;
                     {
-                        s32 sprite_link = sprite->unk_0C;
+                        S_func_80FDD1A0_2 *item_id;
 
-                        effect_sprite->unk_2C = D_80174078;
-                        effect_sprite->unk_0C = sprite_link;
+                        item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
+                        actor_data->unk_72.u = item_id->unk_24;
+                        actor_data->unk_73.u = item_id->unk_25;
+                    }
+                } else {
+                    S_func_80FDD1A0_2 *item_id;
+
+                    item_id = (S_func_80FDD1A0_2 *)(*item_slot);
+                    if (D_8006DE24[((u8)item_id)].kind == 2) {
+                        target = actor_data->unk_60;
+                        if (target != 0) {
+                            item_id = ((S_func_80FDD1A0_5 *)((u8 *)target - 0x14))->unk_00;
+                            actor_data->unk_72.u = item_id->unk_24;
+                            actor_data->unk_73.u = item_id->unk_25;
+                        }
+                    } else {
+                        s32 target_x;
+                        s32 abs_x;
+                        s32 abs_y;
+                        s32 target_y;
+
+                        target = func_800A05A4(
+                            actor_data,
+                            sprite->unk_24,
+                            sprite->unk_25,
+                            actor_data->unk_2A.s,
+                            0x10);
+                        actor_data->unk_60 = target;
+                        abs_x = abs(actor_data->unk_72.s);
+                        abs_y = abs(actor_data->unk_73.s);
+                        actor_data->unk_72.u = abs_x;
+                        actor_data->unk_73.u = abs_y;
                     }
                 }
             }
-            actor->unk_98 |= 0x2000;
-        }
 
-        {
-            u8 *animations;
-            s32 direction;
+            sound_pos.x = motion->x >> 16;
+            sound_pos.y = motion->y >> 16;
+            sound_pos.z = motion->z >> 16;
 
-            effect_sprite = actor->unk_A8;
-            effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
-            animations = effect_sprite->unk_2C;
-            direction = ((gameWork.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
-            func_80047784(effect_sprite, animations[direction], 0);
-        }
-        if (func_800A94A0(actor_data, item_slot, use_player,
-                          &actor->unk_98) == 0) {
+            if (!(actor->unk_98 & 0x2000)) {
+                void *new_effect;
+
+                new_effect = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+                actor->unk_A8 = new_effect;
+                effect = new_effect;
+                if (effect != 0) {
+                    VecData *effect_motion;
+
+                    func_8004491C(effect, func_80045340);
+                    effect->unk_10 = D_800D7960;
+                    effect_motion = effect->unk_08;
+                    *effect_motion = *motion;
+                    effect->unk_BB = 0;
+                    effect->unk_4A = actor_data->unk_2A.u;
+                    {
+                        s32 sprite_flags = sprite->unk_28;
+                        effect_sprite = effect->unk_0C;
+
+                        effect_sprite->unk_1E = 0x1000;
+                        effect_sprite->unk_1C = 0x1000;
+                        effect_sprite->unk_28 = sprite_flags;
+                        effect_sprite->unk_14 = sprite->unk_14;
+                        effect_sprite->unk_12 = sprite->unk_12;
+                        {
+                            s32 sprite_link = sprite->unk_0C;
+
+                            effect_sprite->unk_2C = D_80174078;
+                            effect_sprite->unk_0C = sprite_link;
+                        }
+                    }
+                }
+                actor->unk_98 |= 0x2000;
+            }
+
+            {
+                u8 *animations;
+                s32 direction;
+
+                effect_sprite = actor->unk_A8;
+                effect_sprite = ((S_func_80FDD1A0_4 *)effect_sprite)->unk_0C;
+                animations = effect_sprite->unk_2C;
+                direction = ((gameWork.view.viewAngle + actor_data->unk_2A.s + 0x100) >> 9) & 7;
+                func_80047784(effect_sprite, animations[direction], 0);
+            }
+            if (func_800A94A0(actor_data, item_slot, use_player,
+                              &actor->unk_98) == 0) {
+                return;
+            }
+            actor->unk_98 &= 0xDFFF;
+            sprite->unk_14 &= 0xF7FF;
+            func_800A56E0(0x703);
+            func_800DA840(&sound_pos, (*item_slot - 1) % 3);
+            actor->unk_9B++;
             return;
         }
-        actor->unk_98 &= 0xDFFF;
-        sprite->unk_14 &= 0xF7FF;
-        func_800A56E0(0x703);
-        func_800DA840(&sound_pos, (*item_slot - 1) % 3);
-        actor->unk_9B++;
-        return;
-
-empty_selection:
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
