@@ -256,7 +256,8 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
         trajectory->y += trajectory->dy;
         trajectory->z += trajectory->dz;
         if (motion->unk_02.s < motion->unk_04.s) {
-            goto call_helper;
+            func_80175A90(&base, trajectory);
+            break;
         }
 
         trajectory->x = motion->unk_28.word;
@@ -278,7 +279,8 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
                 motion->unk_00.u++;
             }
         }
-        goto call_helper;
+        func_80175A90(&base, trajectory);
+        break;
     }
 
     case 2:
@@ -320,24 +322,22 @@ void func_80175018(S_81087818_0 *motion, Vec3Work *trajectory, void *context)
             (func_80064584(motion->unk_08.s) >> 4)) << 5);
         trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
 
-        if (motion->unk_02.s < 8) {
-            goto call_helper;
-        }
-        {
-            S_81087818_1 *actor = motion->unk_40;
-            if (actor->unk_AE == 2) {
-                S_81087818_2 *source = motion->unk_4C;
-                func_8009C12C(source, motion->unk_48,
-                              source->unk_2A.s, actor->unk_AC);
+        if (motion->unk_02.s >= 8) {
+            {
+                S_81087818_1 *actor = motion->unk_40;
+                if (actor->unk_AE == 2) {
+                    S_81087818_2 *source = motion->unk_4C;
+                    func_8009C12C(source, motion->unk_48,
+                                  source->unk_2A.s, actor->unk_AC);
+                }
             }
-        }
-        trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
-        trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
-        trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
-        motion->unk_02.u = 0;
+            trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
+            trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
+            trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
+            motion->unk_02.u = 0;
 
-        motion->unk_00.u++;
-call_helper:
+            motion->unk_00.u++;
+        }
         func_80175A90(&base, trajectory);
         break;
     }

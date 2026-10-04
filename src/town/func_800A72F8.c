@@ -42,26 +42,26 @@ void func_800A4A58(void)
 
     case 3:
         target_level = 0x80;
-        goto update;
+        break;
 
     case 4:
         target_level = 0;
-        goto update;
+        break;
 
     case 5:
         target_level = 0x40;
-update:
-        target_level &= 0xFF;
-        level = func_80094AA0(channels->view.unk_090, target_level, 8);
-        channels->view.unk_090 = level;
-        channels->view.unk_091 = level;
-        channels->view.unk_092 = level;
-        if ((level & 0xFF) == target_level) {
-            D_80100D94[0] = 0;
-        }
+        break;
 
-        return;
     default:
         return;
+    }
+
+    target_level &= 0xFF;
+    level = func_80094AA0(channels->view.unk_090, target_level, 8);
+    channels->view.unk_090 = level;
+    channels->view.unk_091 = level;
+    channels->view.unk_092 = level;
+    if ((level & 0xFF) == target_level) {
+        D_80100D94[0] = 0;
     }
 }

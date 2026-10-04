@@ -176,163 +176,151 @@ void func_80174668(S_80174668_0 *effect, S_80174668_3 *motion, S_80174668_1 *spr
     s32 ticks_left;
 
     state = effect->unk_9B;
-    if (state == 1) {
-        goto emit_particles;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto init_effect;
+    switch (state) {
+    case 0:
+        spawned_object = func_800A05A4(actor, sprite->unk_24,
+            sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
+        ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
+        direction_table = D_80175258;
+        sprite->unk_2C = direction_table;
+        func_80047784(sprite,
+            direction_table[((gameWork.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        if (sprite->unk_14 & 0x8000) {
+            effect->unk_9B = 2;
+            return;
         }
-        return;
-    }
-    if (state == 2) {
-        goto finish_effect;
-    }
-    return;
 
-init_effect:
-    spawned_object = func_800A05A4(actor, sprite->unk_24,
-        sprite->unk_25, ((S_80174668_2 *)actor)->unk_2A, 0x10);
-    ((S_80174668_2 *)actor)->unk_60.s = spawned_object;
-    direction_table = D_80175258;
-    sprite->unk_2C = direction_table;
-    func_80047784(sprite,
-        direction_table[((gameWork.view.viewAngle + ((S_80174668_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
-        0);
-    if (sprite->unk_14 & 0x8000) {
-        effect->unk_9B = 2;
-        return;
-    }
+        effect->unk_9B = 1;
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        if (((S_80174668_2 *)actor)->unk_60.s == 0) {
+            return;
+        }
 
-    effect->unk_9B = 1;
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    if (((S_80174668_2 *)actor)->unk_60.s == 0) {
-        return;
-    }
+        result = func_80099734(actor, context = func_800990FC());
+        previous_context = context;
+        context = result;
+        result = func_80099194(D_80170874, context);
+        func_80099290(result);
+        func_800A5720(previous_context);
+        func_800A56E0(0x60A);
 
-    result = func_80099734(actor, context = func_800990FC());
-    previous_context = context;
-    context = result;
-    result = func_80099194(D_80170874, context);
-    func_80099290(result);
-    func_800A5720(previous_context);
-    func_800A56E0(0x60A);
+        tile = ((S_80174668_11_pre *)(((S_80174668_2 *)actor)->unk_60.u))[-1].unk_00;
+        ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
+        ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
+        center.x = spawn.x + (spawn.dx >> 1);
+        center.y = spawn.y + (spawn.dy >> 1);
+        func_800B8FC8(effect, &spawn, &center, 1, 0);
 
-    tile = ((S_80174668_11_pre *)(((S_80174668_2 *)actor)->unk_60.u))[-1].unk_00;
-    ((S_80174668_2 *)actor)->unk_72.s = ((S_80174668_4 *)tile)->unk_24;
-    ((S_80174668_2 *)actor)->unk_73.s = ((S_80174668_4 *)tile)->unk_25;
-    center.x = spawn.x + (spawn.dx >> 1);
-    center.y = spawn.y + (spawn.dy >> 1);
-    func_800B8FC8(effect, &spawn, &center, 1, 0);
-
-    effect_alloc = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
-    if (effect_alloc == 0) {
-        return;
-    }
-    func_8004491C(effect_alloc, D_80174B98);
-    ((S_80174668_5 *)effect_alloc)->unk_10 = D_80174B20;
-    effect_data = effect_alloc + 0x20;
-    ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->unk_24 << 6) + 0x20;
-    ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->unk_25 << 6) + 0x20;
-    {
-        register u32 color;
-        s32 countdown;
-        u16 motion_param;
-        color = 0x00808080;
-        motion_param = motion->unk_0A;
-        countdown = 0x3C;
-        ((S_80174668_6 *)effect_data)->unk_AC = color;
-        ((S_80174668_6 *)effect_data)->unk_96 = countdown;
-        ((S_80174668_6 *)effect_data)->unk_A6 = motion_param;
-        effect->unk_96.s = countdown;
-        return;
-    }
-
-emit_particles:
-    rotating_object = ((S_80174668_2 *)actor)->unk_60.s;
-    if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
-        ((S_80174668_7 *)rotating_object)->unk_2A =
-            (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
-        effect_alloc = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+        effect_alloc = func_8003FD64(0x201, ((u8 *)(&D_80083498)));
         if (effect_alloc == 0) {
-            goto update_timer;
+            return;
         }
-        func_8004491C(effect_alloc, func_80045340);
+        func_8004491C(effect_alloc, D_80174B98);
+        ((S_80174668_5 *)effect_alloc)->unk_10 = D_80174B20;
         effect_data = effect_alloc + 0x20;
-        tile = ((S_80174668_5 *)effect_alloc)->unk_0C;
-        ((S_80174668_5 *)effect_alloc)->unk_10 = D_80175174;
+        ((S_80174668_6 *)effect_data)->unk_A2 = (sprite->unk_24 << 6) + 0x20;
+        ((S_80174668_6 *)effect_data)->unk_A4 = (sprite->unk_25 << 6) + 0x20;
+        {
+            register u32 color;
+            s32 countdown;
+            u16 motion_param;
+            color = 0x00808080;
+            motion_param = motion->unk_0A;
+            countdown = 0x3C;
+            ((S_80174668_6 *)effect_data)->unk_AC = color;
+            ((S_80174668_6 *)effect_data)->unk_96 = countdown;
+            ((S_80174668_6 *)effect_data)->unk_A6 = motion_param;
+            effect->unk_96.s = countdown;
+            return;
+        }
 
-        random = rand();
-        {
-            s32 tile_x = ((S_80174668_2 *)actor)->unk_72.u;
-            ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_02 =
-                (tile_x << 6) + (random % 64);
-        }
-        random = rand();
-        {
-            s32 tile_y = ((S_80174668_2 *)actor)->unk_73.u;
-            ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_06 =
-                (tile_y << 6) + (random % 64);
-        }
-        particle_pos = ((S_80174668_5 *)effect_alloc)->unk_08;
-        height = func_800BCB04(((S_80174668_8 *)particle_pos)->unk_02,
-            ((S_80174668_8 *)particle_pos)->unk_06, -0x400);
-        {
-            s32 height_random = rand();
-            height -= height_random % 95;
-            height -= 0x20;
-        }
-        ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_0A = height;
+    case 1:
+        rotating_object = ((S_80174668_2 *)actor)->unk_60.s;
+        if ((rotating_object != 0) && (effect->unk_96.s < 0x34)) {
+            ((S_80174668_7 *)rotating_object)->unk_2A =
+                (((S_80174668_7 *)rotating_object)->unk_2A + 0x200) & 0x3FFF;
+            effect_alloc = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+            if (effect_alloc != 0) {
+                func_8004491C(effect_alloc, func_80045340);
+                effect_data = effect_alloc + 0x20;
+                tile = ((S_80174668_5 *)effect_alloc)->unk_0C;
+                ((S_80174668_5 *)effect_alloc)->unk_10 = D_80175174;
 
-        ((S_80174668_4 *)tile)->unk_1E = 0xC04;
-        ((S_80174668_4 *)tile)->unk_1C = 0xC04;
-        ((S_80174668_4 *)tile)->unk_10 = 0x60;
-        ((S_80174668_4 *)tile)->unk_00 = D_800DEC50;
-        ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
-        {
-            u32 texture_word = ((Rec_D_80016000 *)D_800DEC50)->unk_04.at00_u32.v;
-            ((S_80174668_4 *)tile)->unk_04 = 0;
-            ((S_80174668_4 *)tile)->unk_05 = 0;
-            ((S_80174668_4 *)tile)->unk_0C = 0x00208020;
-            ((S_80174668_4 *)tile)->unk_08 = texture_word;
+                random = rand();
+                {
+                    s32 tile_x = ((S_80174668_2 *)actor)->unk_72.u;
+                    ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_02 =
+                        (tile_x << 6) + (random % 64);
+                }
+                random = rand();
+                {
+                    s32 tile_y = ((S_80174668_2 *)actor)->unk_73.u;
+                    ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_06 =
+                        (tile_y << 6) + (random % 64);
+                }
+                particle_pos = ((S_80174668_5 *)effect_alloc)->unk_08;
+                height = func_800BCB04(((S_80174668_8 *)particle_pos)->unk_02,
+                    ((S_80174668_8 *)particle_pos)->unk_06, -0x400);
+                {
+                    s32 height_random = rand();
+                    height -= height_random % 95;
+                    height -= 0x20;
+                }
+                ((S_80174668_12 *)(((S_80174668_5 *)effect_alloc)->unk_08))->unk_0A = height;
+
+                ((S_80174668_4 *)tile)->unk_1E = 0xC04;
+                ((S_80174668_4 *)tile)->unk_1C = 0xC04;
+                ((S_80174668_4 *)tile)->unk_10 = 0x60;
+                ((S_80174668_4 *)tile)->unk_00 = D_800DEC50;
+                ((S_80174668_4 *)tile)->unk_14 |= 0x0C;
+                {
+                    u32 texture_word = ((Rec_D_80016000 *)D_800DEC50)->unk_04.at00_u32.v;
+                    ((S_80174668_4 *)tile)->unk_04 = 0;
+                    ((S_80174668_4 *)tile)->unk_05 = 0;
+                    ((S_80174668_4 *)tile)->unk_0C = 0x00208020;
+                    ((S_80174668_4 *)tile)->unk_08 = texture_word;
+                }
+                ((S_80174668_6 *)effect_data)->unk_9A = 0;
+            }
         }
-        ((S_80174668_6 *)effect_data)->unk_9A = 0;
-    }
-update_timer:
-    ticks_left = effect->unk_96.u - 1;
-    effect->unk_96.u = ticks_left;
-    if ((ticks_left << 16) > 0) {
+        ticks_left = effect->unk_96.u - 1;
+        effect->unk_96.u = ticks_left;
+        if ((ticks_left << 16) > 0) {
+            return;
+        }
+        effect->unk_9B++;
+        return;
+
+    case 2:
+        if (!(sprite->unk_14 & 0xE000)) {
+            return;
+        }
+        ((S_80174668_2 *)actor)->unk_73.s = 0;
+        ((S_80174668_2 *)actor)->unk_72.s = 0;
+        func_800AD594(actor, 0x800);
+        {
+            void *actor_to_reset;
+            actor_to_reset = actor;
+            effect->unk_8C = D_80170F6C;
+            ((S_80174668_10 *)((u8 *)(&dungeonStatus.unk_0C)))->unk_00 = 0;
+            func_800A4ACC(actor_to_reset);
+        }
+        if (((S_80174668_2 *)actor)->unk_6D == 0) {
+            ((S_80174668_2 *)actor)->unk_46 &= 0x7FFF;
+        } else {
+            D_800E3DE8[0] = (u32)((u8 *)actor - 0x20);
+        }
+
+        spawned_object = ((S_80174668_2 *)actor)->unk_60.u;
+        if (spawned_object != 0) {
+            func_800C8CD8(spawned_object, 0x28, 0x10);
+        }
+
+        return;
+    default:
         return;
     }
-    effect->unk_9B++;
-    return;
-
-finish_effect:
-    if (!(sprite->unk_14 & 0xE000)) {
-        return;
-    }
-    ((S_80174668_2 *)actor)->unk_73.s = 0;
-    ((S_80174668_2 *)actor)->unk_72.s = 0;
-    func_800AD594(actor, 0x800);
-    {
-        void *actor_to_reset;
-        actor_to_reset = actor;
-        effect->unk_8C = D_80170F6C;
-        ((S_80174668_10 *)((u8 *)(&dungeonStatus.unk_0C)))->unk_00 = 0;
-        func_800A4ACC(actor_to_reset);
-    }
-    if (((S_80174668_2 *)actor)->unk_6D == 0) {
-        ((S_80174668_2 *)actor)->unk_46 &= 0x7FFF;
-    } else {
-        D_800E3DE8[0] = (u32)((u8 *)actor - 0x20);
-    }
-
-    spawned_object = ((S_80174668_2 *)actor)->unk_60.u;
-    if (spawned_object != 0) {
-        func_800C8CD8(spawned_object, 0x28, 0x10);
-    }
-
-    return;
 }

@@ -138,23 +138,21 @@ void func_800982A8(Arg0 *context, Item *item) {
     if (selected_item->b1 == 0x10) {
         context->b84 = D_800DD2E0[tail_index];
         context->b85 = D_800DD2D4[tail_index];
-        if (tail_index != 0) {
-            func_80048590(tail_index);
-        } else {
-            goto clear_state;
+        if (tail_index == 0) {
+            func_800483AC(1);
+            return;
         }
+        func_80048590(tail_index);
     } else {
         context->b84 = D_800DD2C4_index[tail_index];
         context->b85 = D_800DD2B4_index[tail_index];
-        if (tail_index != 0) {
-            func_80048568(tail_index);
-        } else {
-            goto clear_state;
+        if (tail_index == 0) {
+            func_800483AC(1);
+            return;
         }
+        func_80048568(tail_index);
     }
-    if (item_index != 0) {
-        return;
+    if (item_index == 0) {
+        func_800483AC(1);
     }
-clear_state:
-    func_800483AC(1);
 }

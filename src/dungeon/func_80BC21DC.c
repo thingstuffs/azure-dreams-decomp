@@ -205,10 +205,12 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
 
     if (((S_801719DC_1 *)actor_in)->unk_6D > 0) {
         if (((S_801719DC_1 *)actor_in)->unk_1C & 0x20) {
-            goto case_12;
+            func_800A9A0C(actor_in);
+            return;
         }
         if (((S_801719DC_2 *)entity_in)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
-            goto generic;
+            func_801721D8(motion_in, context_in, entity_in, actor_in);
+            return;
         }
         if (!(((S_801719DC_1 *)actor_in)->unk_46 & 0x8000)) {
             if (dungeonStatus.flags & 0x2000) {
@@ -223,7 +225,8 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
             action_state = ((S_801719DC_1 *)actor_in)->unk_46 | 0x4000;
             ((S_801719DC_1 *)actor_in)->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto generic;
+                func_801721D8(motion_in, context_in, entity_in, actor_in);
+                return;
             }
         }
 
@@ -252,19 +255,18 @@ void func_801719DC(void *motion_in, void *context_in, void *entity_in, void *act
             player = D_800814A8;
             ((S_801719DC_1 *)actor_in)->unk_2A = heading;
             if (player->unk_9A == 0x11) {
-                goto case_123;
+                func_800AAF00(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
+                return;
             }
         }
 
         case 11:
-case_12:
             func_800A9A0C(actor_in);
             return;
 
         case 0:
         case 1:
         case 2:
-case_123:
             func_800AAF00(motion_in, context_in, entity_in, D_80174674, &D_801719DC);
             return;
 
@@ -272,7 +274,6 @@ case_123:
         case 9:
         case 10:
         default:
-generic:
             func_801721D8(motion_in, context_in, entity_in, actor_in);
             return;
         }

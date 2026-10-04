@@ -96,7 +96,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 
         has_origin = func_8003DF74(PTR_AT(record, 0x08), record, origin_offset, 0);
         if (has_origin == 0 && !(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
-            goto done;
+            break;
         }
 
         U16_AT(effect_pos, 0x02) = U16_AT(source, 0x02);
@@ -127,7 +127,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         }
 
         if (!(U16_AT(PTR_AT(effect_data, 0x04), 0x00) & 0x80)) {
-            goto done;
+            break;
         }
 
         {
@@ -206,14 +206,12 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
             S16_AT(effect_data, 0x88) = S8_AT(effect_data, 0x7B);
             S16_AT(effect_data, 0x8A) = duration_squared;
         }
-        goto done;
+        break;
     }
 
     case 2:
     {
-        entity = 0;
-        if ((s32)entity < 4) {
-loop_0:
+        for (entity = 0; (s32)entity < 4; entity++) {
             {
                 s32 random = func_80069EF8();
                 u8 *task;
@@ -226,9 +224,6 @@ loop_0:
                 particle_param = random | 0x80;
                 D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
             }
-            entity++;
-            if ((s32)entity < 4)
-                goto loop_0;
         }
 
         if (S16_AT(effect_data, 0x92) == 0) {
@@ -263,7 +258,12 @@ loop_0:
 
         if ((func_800A4778(U16_AT(effect_pos, 0x02), U16_AT(effect_pos, 0x06),
                 S16_AT(effect_pos, 0x0A), PTR_AT(owner, 0x60)) << 16) != 0) {
-            goto enter_state8;
+            S16_AT(effect_data, 0x0A) = 8;
+            S16_AT(effect_data, 0x82) = 0;
+            U8_AT(display, 0x0E) = 0;
+            U8_AT(display, 0x0D) = 0;
+            U8_AT(display, 0x0C) = 0;
+            break;
         }
 
         U8_AT(effect_data, 0x7B)--;
@@ -277,22 +277,21 @@ loop_0:
                 U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
                 U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
                 func_800A56E0(0x300);
-                goto done;
+                break;
             }
 
-enter_state8:
             S16_AT(effect_data, 0x0A) = 8;
             S16_AT(effect_data, 0x82) = 0;
             U8_AT(display, 0x0E) = 0;
             U8_AT(display, 0x0D) = 0;
             U8_AT(display, 0x0C) = 0;
-            goto done;
+            break;
         }
 
         S32_AT(effect_pos, 0x00) += S32_AT(effect_pos, 0x0C);
         S32_AT(effect_pos, 0x04) += S32_AT(effect_pos, 0x10);
         S32_AT(effect_pos, 0x08) += S32_AT(effect_pos, 0x14);
-        goto done;
+        break;
     }
 
     case 3:
@@ -357,7 +356,7 @@ enter_state8:
             S16_AT(effect_data, 0x0A) = 4;
             S16_AT(effect_data, 0x82) = 0;
         }
-        goto done;
+        break;
     }
 
     case 4:
@@ -380,9 +379,7 @@ enter_state8:
                 U8_AT(effect_data, 0x9C) -= 0x18;
             }
 
-            entity = 0;
-            if ((s32)entity < 4) {
-loop_0_:
+            for (entity = 0; (s32)entity < 4; entity++) {
                 {
                     s32 random = func_80069EF8();
                     u8 *task;
@@ -395,9 +392,6 @@ loop_0_:
                     particle_param = random | 0x80;
                     D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
                 }
-                entity++;
-                if ((s32)entity < 4)
-                    goto loop_0_;
             }
         }
 
@@ -429,7 +423,7 @@ loop_0_:
             S16_AT(effect_data, 0x0A) = 8;
             S16_AT(effect_data, 0x82) = 0x1E;
         }
-        goto done;
+        break;
     }
 
     case 8:
@@ -454,7 +448,6 @@ loop_0_:
     }
 
     default:
-done:
-        return;
+        break;
     }
 }

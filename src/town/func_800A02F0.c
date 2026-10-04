@@ -57,20 +57,7 @@ void func_8009DA50(u8 *entries, void *bounds, s32 origin_x, s32 origin_y)
         entry_data = entries + 1;
 check_entry:
         if (*entry == 0) {
-            if (!(flags & 1)) {
-                if (func_80033B2C((*(s16 *)((u8 *)entry_data + 1)), flags) == 0) {
-                    entry_data += 0x14;
-                    flags = *entry_data;
-                    entry += 0x14;
-                    if ((flags & 0xC0) != 0x80) {
-                        goto check_entry;
-                    }
-                    return;
-                }
-                goto process_entry;
-            }
-            if (func_80033B2C((*(s16 *)((u8 *)entry_data + 1)), flags) != 1) {
-process_entry:
+            if (!(flags & 1) ? func_80033B2C((*(s16 *)((u8 *)entry_data + 1)), flags) != 0 : func_80033B2C((*(s16 *)((u8 *)entry_data + 1)), flags) != 1) {
                 test_x = base_x + (*(u16 *)((u8 *)entry_data + 0xF));
                 test_y = base_y + (*(u16 *)((u8 *)entry_data + 0x11));
                 entry_x = test_x;
@@ -99,20 +86,13 @@ process_entry:
                             entry) != 0) {
                         *entry = 1;
                     }
-                    if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) {
-loop_0:
-                        {
-                            entry_data += 0x14;
-                            entry += 0x14;
-                        }
-                        if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0))
-                            goto loop_0;
+                    while (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) {
+                        entry_data += 0x14;
+                        entry += 0x14;
                     }
                 }
             }
-            goto next_entry;
         }
-next_entry:
         entry_data += 0x14;
         flags = *entry_data;
         entry += 0x14;

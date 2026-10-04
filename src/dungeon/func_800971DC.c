@@ -70,21 +70,15 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
         u32 nc;
 
         base = (u8 *)a - 0x20;
-        if ((a->flags1c & 0x400) == 0) {
-            goto base_ready;
+        if ((a->flags1c & 0x400) != 0 && ((f = a->flags14) & 0x80000000) == 0) {
+            f |= 0x80000000;
+            a->flags14 = f;
+            nc = coordArg + ((func_800A6D30() & 7) << 9);
+            coord = nc + zero;
+            a->unk2a = nc;
         }
-        f = a->flags14;
-        if ((f & 0x80000000) != 0) {
-            goto base_ready;
-        }
-        f |= 0x80000000;
-        a->flags14 = f;
-        nc = coordArg + ((func_800A6D30() & 7) << 9);
-        coord = nc + zero;
-        a->unk2a = nc;
     }
     base = (u8 *)a - 0x20;
-base_ready:
     shifted = coord >> 8;
     tableA = D_800DCEAC;
     off = shifted & 0xE;
@@ -103,24 +97,17 @@ base_ready:
                                  (u16)(b->unk25 + *(u16 *)((u8 *)dirStepY + off) * savedMult),
                                  a->unk88);
             a->unk60 = ent2;
-            if (ent2 != 0) {
-                goto created;
+            if (ent2 == 0) {
+                return 0;
             }
+        } else {
+            return 0;
         }
-        return 0;
     }
-created:
     ent2->unk6a = a->unk2a;
-    if (ent2->unk13 != 0) {
-        if ((ent2->flags1c & 0x238) != 0) {
-            goto adjusted;
-        }
-        if ((ent2->unk46 & 0x8000) != 0) {
-            goto adjusted;
-        }
+    if (ent2->unk13 != 0 && (ent2->flags1c & 0x238) == 0 && (ent2->unk46 & 0x8000) == 0) {
         ent2->unk2a = a->unk2a + 0x800;
     }
-adjusted:
     a->flags14 |= 0x4000000;
     ent2->flags14 = (ent2->flags14 | 0x20000) & ~0x1000000;
 

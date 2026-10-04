@@ -277,31 +277,20 @@ state0_inner:
         } else {
             effect->timer = 5;
         }
-        if ((((s32)controls->unk_010) & 0x1000) == 0) {
-            if ((controls->buttons & 0x1000) == 0 || effect->timer > 0) {
-                goto state_3_body;
-            }
-        }
-        if (effect->amount < 10000 && (u32)D_80012D5C[0] >= 100) {
+        if (((((s32)controls->unk_010) & 0x1000) != 0 || ((controls->buttons & 0x1000) != 0 && effect->timer <= 0))
+            && effect->amount < 10000 && (u32)D_80012D5C[0] >= 100) {
             SD_Call(0x502);
             D_80012D5C[0] -= 100;
             effect->amount = effect->amount + 100;
-            goto state_3_after_shake;
-        }
-
-state_3_body:
-        if ((((s32)controls->unk_010) & 0x4000) == 0) {
-            if ((controls->buttons & 0x4000) == 0 || effect->timer > 0) {
-                goto state_3_after_shake;
+        } else {
+            if ((((s32)controls->unk_010) & 0x4000) != 0 || ((controls->buttons & 0x4000) != 0 && effect->timer <= 0)) {
+                if (effect->amount >= 100) {
+                    SD_Call(0x502);
+                    D_80012D5C[0] += 100;
+                    effect->amount = effect->amount - 100;
+                }
             }
         }
-        if (effect->amount >= 100) {
-            SD_Call(0x502);
-            D_80012D5C[0] += 100;
-            effect->amount = effect->amount - 100;
-        }
-
-state_3_after_shake:
         effect->ticks = effect->amount / 100;
         if (effect->ticks != 0) {
             pressed_buttons = ((s32)controls->unk_010);
@@ -712,6 +701,5 @@ state_3_after_shake:
     }
     }
 
-common_done:
     effect->flags &= ~1;
 }

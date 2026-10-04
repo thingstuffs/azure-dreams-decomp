@@ -21,7 +21,6 @@ void func_80023EB0(void *state)
     void *child_obj;
     u8 *child_state;
     s32 kind;
-    s32 target_pos;
     s32 mask_index;
     s32 color;
     s32 child_index;
@@ -39,28 +38,24 @@ void func_80023EB0(void *state)
         kind = S16_AT(state, 0x22);
         switch (kind) {
         case 0:
-            target_pos = -0x60;
-            goto store_both;
+            S16_AT(state, 0x1E) = -0x60;
+            S16_AT(state, 0x1C) = -0x60;
+            break;
         case 1:
-            target_pos = -0x98;
-            goto store_both;
+            S16_AT(state, 0x1E) = -0x98;
+            S16_AT(state, 0x1C) = -0x98;
+            break;
         case 2:
-            target_pos = -0x30;
-store_both:
-            S16_AT(state, 0x1E) = target_pos;
-            S16_AT(state, 0x1C) = target_pos;
+            S16_AT(state, 0x1E) = -0x30;
+            S16_AT(state, 0x1C) = -0x30;
             break;
         case 3:
-            target_pos = -0xB0;
-            S16_AT(state, 0x1C) = target_pos;
-            target_pos = -0x10;
-            goto store_second;
+            S16_AT(state, 0x1C) = -0xB0;
+            S16_AT(state, 0x1E) = -0x10;
+            break;
         case 4:
-            target_pos = -0x10;
-            S16_AT(state, 0x1C) = target_pos;
-            target_pos = -0xB0;
-store_second:
-            S16_AT(state, 0x1E) = target_pos;
+            S16_AT(state, 0x1C) = -0x10;
+            S16_AT(state, 0x1E) = -0xB0;
         }
 
 

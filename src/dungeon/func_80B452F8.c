@@ -73,74 +73,71 @@ void func_80172AF8(void *action, void *transform, void *sprite, EntityRec *actor
     switch (((S_80172AF8_0 *)action)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void * const motion_labels[] = { && special_third, && special_second, && special_first,
-                && no_motion };
-            extern void *const D_80170838[];
-            u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (motion_index >= 7) {
-                goto no_motion;
+            switch (actor->unk_46 & 0x3FFF) {
+            case 7:
+                special_motion = 1;
+                /* fallthrough */
+            case 3:
+                goto third_motion;
+            case 6:
+                special_motion = 1;
+                /* fallthrough */
+            case 2:
+                goto second_motion;
+            case 5:
+                special_motion = 1;
+                /* fallthrough */
+            case 1:
+                goto first_motion;
+            default:
+                motion = (u8 *)0;
+                break;
             }
-            (void)motion_labels;
-            goto *D_80170838[motion_index];
-special_third:
-            special_motion = 1;
-            goto third_motion;
-special_second:
-            special_motion = 1;
-            goto second_motion;
-special_first:
-            special_motion = 1;
-            goto first_motion;
-        }
-
-        switch (actor->unk_46 & 0x3FFF) {
-        case 3:
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
 third_motion:
-            motion = (u8 *)actor + 0xE;
-            break;
-        case 2:
+                motion = (u8 *)actor + 0xE;
+                break;
+            case 2:
 second_motion:
-            motion = (u8 *)actor + 0xB;
-            break;
-        case 1:
+                motion = (u8 *)actor + 0xB;
+                break;
+            case 1:
 first_motion:
-            motion = (u8 *)actor + 8;
-            break;
-        default:
-no_motion:
-            motion = (u8 *)0;
-            break;
+                motion = (u8 *)actor + 8;
+                break;
+            default:
+                motion = (u8 *)0;
+                break;
+            }
         }
 
         if (*motion != 0) {
             ((S_80172AF8_0 *)action)->unk_98 &= 0xFF7F;
             {
                 s16 use_special = special_motion;
-
                 if (use_special != 0) {
                     target = D_800814A8;
                     actor->target = target;
-                    goto have_target;
+                    action_state = ((S_80172AF8_2_pre *)target)[-1].unk_00;
+                    actor->unk_72 = ((S_80172AF8_3 *)action_state)->unk_24;
+                    actor->unk_73 = ((S_80172AF8_3 *)action_state)->unk_25;
+                } else if (D_8006DE24[*motion].kind == 2) {
+                    target = actor->target;
+                    if (target != 0) {
+                        action_state = ((S_80172AF8_2_pre *)target)[-1].unk_00;
+                        actor->unk_72 = ((S_80172AF8_3 *)action_state)->unk_24;
+                        actor->unk_73 = ((S_80172AF8_3 *)action_state)->unk_25;
+                    }
+                } else {
+                    actor->target =
+                        func_800A05A4(actor, ((S_80172AF8_4 *)sprite)->unk_24, ((S_80172AF8_4 *)sprite)->unk_25,
+                                      actor->facing, 0x10);
+                    actor->unk_72 = abs(actor->unk_72);
+                    actor->unk_73 = abs(actor->unk_73);
                 }
             }
-            if (D_8006DE24[*motion].kind == 2) {
-                target = actor->target;
-                if (target == 0) {
-                    goto step_motion;
-                }
-have_target:
-                action_state = ((S_80172AF8_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172AF8_3 *)action_state)->unk_24;
-                actor->unk_73 = ((S_80172AF8_3 *)action_state)->unk_25;
-                goto step_motion;
-            }
-            actor->target =
-                func_800A05A4(actor, ((S_80172AF8_4 *)sprite)->unk_24, ((S_80172AF8_4 *)sprite)->unk_25,
-                              actor->facing, 0x10);
-            actor->unk_72 = abs(actor->unk_72);
-            actor->unk_73 = abs(actor->unk_73);
-step_motion:
             saved_pos[0] = ((u16)((EntityRec *)transform)->x.w.i);
             saved_pos[1] = ((u16)((EntityRec *)transform)->y.w.i);
             saved_pos[2] = ((u16)((EntityRec *)transform)->z.w.i);

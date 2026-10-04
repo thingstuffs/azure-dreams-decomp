@@ -82,15 +82,17 @@ void func_800517CC(
         }
         return;
     case 4:
-        if ((s16)effect->timer < effect->wait) {
-            goto check_trigger;
-        }
-        {
+        if ((s16)effect->timer >= effect->wait) {
             s32 next_state = (u16)effect->state + 1;
             effect->timer = 0;
             effect->state = next_state;
         }
-        goto check_trigger;
+        if (effect->trigger != 0) {
+            effect->trigger = 0;
+            effect->timer = 0;
+            effect->state = 7;
+        }
+        return;
     case 5:
     {
         s32 cos_value;
@@ -139,15 +141,17 @@ void func_800517CC(
             motion->y = next_y;
         }
 
-        if ((s16)effect->timer < 0x100) {
-            goto check_trigger;
-        }
-        {
+        if ((s16)effect->timer >= 0x100) {
             s32 next_state = (u16)effect->state + 1;
             effect->timer = 0;
             effect->state = next_state;
         }
-        goto check_trigger;
+        if (effect->trigger != 0) {
+            effect->trigger = 0;
+            effect->timer = 0;
+            effect->state = 7;
+        }
+        return;
     case 6:
     {
         s32 cos_value;
@@ -202,7 +206,6 @@ void func_800517CC(
             effect->state = 4;
         }
 
-check_trigger:
         if (effect->trigger != 0) {
             effect->trigger = 0;
             effect->timer = 0;

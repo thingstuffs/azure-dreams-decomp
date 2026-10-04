@@ -73,74 +73,71 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
     switch (((S_80172A04_0 *)state)->unk_9B) {
     case 0:
         if (((u32)actor->flags1C) & 0x2000) {
-            static void * const dispatch_labels[] = { && special_third, && special_second, && special_first,
-                && no_motion };
-            extern void *const D_80170838[];
-            u32 motion_index = (u32)((actor->unk_46 & 0x3FFF) - 1);
-
-            if (motion_index >= 7) {
-                goto no_motion;
+            switch (actor->unk_46 & 0x3FFF) {
+            case 7:
+                special_motion = 1;
+                /* fallthrough */
+            case 3:
+                goto select_third;
+            case 6:
+                special_motion = 1;
+                /* fallthrough */
+            case 2:
+                goto select_second;
+            case 5:
+                special_motion = 1;
+                /* fallthrough */
+            case 1:
+                goto select_first;
+            default:
+                motion = (u8 *)0;
+                break;
             }
-            (void)dispatch_labels;
-            goto *D_80170838[motion_index];
-special_third:
-            special_motion = 1;
-            goto select_third;
-special_second:
-            special_motion = 1;
-            goto select_second;
-special_first:
-            special_motion = 1;
-            goto select_first;
-        }
-
-        switch (actor->unk_46 & 0x3FFF) {
-        case 3:
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
 select_third:
-            motion = (u8 *)actor + 0xE;
-            break;
-        case 2:
+                motion = (u8 *)actor + 0xE;
+                break;
+            case 2:
 select_second:
-            motion = (u8 *)actor + 0xB;
-            break;
-        case 1:
+                motion = (u8 *)actor + 0xB;
+                break;
+            case 1:
 select_first:
-            motion = (u8 *)actor + 8;
-            break;
-        default:
-no_motion:
-            motion = (u8 *)0;
-            break;
+                motion = (u8 *)actor + 8;
+                break;
+            default:
+                motion = (u8 *)0;
+                break;
+            }
         }
 
         if (*motion != 0) {
             ((S_80172A04_0 *)state)->unk_98 &= 0xFF7F;
             {
                 s16 use_special = special_motion;
-
                 if (use_special != 0) {
                     target = D_800814A8;
                     actor->target = target;
-                    goto have_target;
+                    action_state = ((S_80172A04_2_pre *)target)[-1].unk_00;
+                    actor->unk_72 = ((S_80172A04_3 *)action_state)->unk_24;
+                    actor->unk_73 = ((S_80172A04_3 *)action_state)->unk_25;
+                } else if (D_8006DE24[*motion].kind == 2) {
+                    target = actor->target;
+                    if (target != 0) {
+                        action_state = ((S_80172A04_2_pre *)target)[-1].unk_00;
+                        actor->unk_72 = ((S_80172A04_3 *)action_state)->unk_24;
+                        actor->unk_73 = ((S_80172A04_3 *)action_state)->unk_25;
+                    }
+                } else {
+                    actor->target =
+                        func_800A05A4(actor, ((S_80172A04_4 *)sprite)->unk_24, ((S_80172A04_4 *)sprite)->unk_25,
+                                      actor->facing, 0x10);
+                    actor->unk_72 = abs(actor->unk_72);
+                    actor->unk_73 = abs(actor->unk_73);
                 }
             }
-            if (D_8006DE24[*motion].kind == 2) {
-                target = actor->target;
-                if (target == 0) {
-                    goto run_motion;
-                }
-have_target:
-                action_state = ((S_80172A04_2_pre *)target)[-1].unk_00;
-                actor->unk_72 = ((S_80172A04_3 *)action_state)->unk_24;
-                actor->unk_73 = ((S_80172A04_3 *)action_state)->unk_25;
-                goto run_motion;
-            }
-            actor->target =
-                func_800A05A4(actor, ((S_80172A04_4 *)sprite)->unk_24, ((S_80172A04_4 *)sprite)->unk_25,
-                              actor->facing, 0x10);
-            actor->unk_72 = abs(actor->unk_72);
-            actor->unk_73 = abs(actor->unk_73);
-run_motion:
             effect_pos[0] = ((u16)((EntityRec *)position)->x.w.i);
             effect_pos[1] = ((u16)((EntityRec *)position)->y.w.i);
             effect_pos[2] = ((u16)((EntityRec *)position)->z.w.i);

@@ -175,7 +175,8 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
 
     if (move_data->unk_6D > 0) {
         if (((u32)move_data->flags1C) & 0x20) {
-            goto special_cleanup;
+            func_800A9A0C(move_data);
+            return;
         }
         if (((S_80171F1C_2 *)actor_arg)->unk_24.at00u.v == *(u16 *)(&D_80082E80.tileX)) {
             goto ordinary_cleanup;
@@ -193,7 +194,8 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             action_state = move_data->unk_46 | 0x4000;
             move_data->unk_46 = action_state;
             if (!(action_state & 0x8000)) {
-                goto ordinary_cleanup;
+                func_801726EC(motion_arg, actor_index_arg, actor_arg, move_data);
+                return;
             }
         }
 
@@ -208,14 +210,16 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
 
         case 10:
             if (D_800DCF5B != 0) {
-                goto special_cleanup;
+                func_800A9A0C(move_data);
+                return;
             }
             func_801754F0(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
 
         case 9:
             if (!(((u32)move_data->flags1C) & 0x20000)) {
-                goto special_cleanup;
+                func_800A9A0C(move_data);
+                return;
             }
             func_80175BE0(motion_arg, actor_index_arg, actor_arg, move_data);
             return;
@@ -234,7 +238,8 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
             player = D_800814A8;
             move_data->facing = heading;
             if (player->unk_9A == 0x11) {
-                goto aaf_cleanup;
+                func_800AAF00(motion_arg, actor_index_arg, actor_arg, &D_800E2378, &D_80171F1C);
+                return;
             }
         }
                                     /* fallthrough */

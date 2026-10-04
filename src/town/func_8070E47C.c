@@ -19,21 +19,16 @@ char *func_8001747C(long long forwarded_arg, s32 event_id)
     case 7:
         result_addr = func_80016CE4(forwarded_arg);
         D_8001B16C[0] = result_addr;
-        if (result_addr != 0) {
-            goto return_result;
+        if (result_addr == 0) {
+            return D_8001B9E0;
         }
-        return D_8001B9E0;
+        return (char *)result_addr;
     case 6:
         result_addr = func_80016D18();
         D_8001B16C[0] = result_addr;
-        if (result_addr == 0) {
-            goto case_18_zero;
+        if (result_addr != 0) {
+            return (char *)result_addr;
         }
-
-return_result:
-        return (char *)result_addr;
-
-case_18_zero:
         return D_80020E44;
     case 40:
     case 41:

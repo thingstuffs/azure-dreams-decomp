@@ -102,18 +102,8 @@ void func_81934928(void *self, void *output)
     state = ((S_81934928_0 *)self)->unk_0A.s;
     effect = ((S_81934928_0 *)self)->unk_00;
     output_data = output;
-    if (state == 1)
-        goto main_state;
-    if (state < 2) {
-        if (state == 0)
-            goto state_zero;
-        return;
-    }
-
-    if (state == 0xFF)
-        goto state_ff;
-    return;
-state_zero:
+    switch (state) {
+    case 0:
     {
         if ((((S_81934928_6 *)(((S_81934928_0 *)self)->unk_04))->unk_00 & 0x80) == 0) {
             return;
@@ -131,8 +121,8 @@ state_zero:
         ((S_81934928_0 *)self)->unk_14 = value;
         func_800A56E0(0x300);
     }
-
-main_state:
+        /* fallthrough */
+    case 1:
     spawn_index = 0x3C - ((S_81934928_0 *)self)->unk_0C.u;
     if (spawn_index >= 8) {
         spawn_index = 8;
@@ -200,7 +190,7 @@ main_state:
     ((S_81934928_0 *)self)->unk_0A.u = 0xFF;
     return;
 
-state_ff:
+    case 0xFF:
     countdown = ((S_81934928_0 *)self)->unk_0C.s - 1;
     ((S_81934928_0 *)self)->unk_0C.s = countdown;
     if (countdown > 0) {
@@ -220,6 +210,8 @@ state_ff:
     (*(u16 *)((u8 *)self + -2)) |= 0x8000;
     objectFlagBlock.flags |= 0x8000;
 
-done:
-    return;
+        return;
+    default:
+        return;
+    }
 }

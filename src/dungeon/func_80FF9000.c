@@ -140,22 +140,18 @@ void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
             work->unk_1C = flags_1c;
         } else {
             extra_flags = (spawn_flags & ~3) << 0x10;
-            if (extra_flags != 0) {
-                goto initialize_parts;
+            if (extra_flags == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    random_bits = func_800A6D30();
+                    if (random_bits & 1) {
+                        work->unk_1C = (s32) (work->unk_1C | 0x200);
+                        func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = &D_80156088;
+                    }
+                }
             }
-            if (work->unk_14 & 0x200) {
-                goto initialize_parts;
-            }
-            random_bits = func_800A6D30();
-            if (!(random_bits & 1)) {
-                goto initialize_parts;
-            }
-            work->unk_1C = (s32) (work->unk_1C | 0x200);
-            func_800A48F0(work, 1, (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = &D_80156088;
         }
 
-initialize_parts:
         func_800A9C18((s32)obj, part_a, part_b, init_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

@@ -250,7 +250,11 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                     state = object_data->unk_14;
                     state &= cleanup_mask;
                     object_data->unk_14 = state;
-                    goto cleanup_object;
+                    func_800A2B04(transform, display->unk_24, display->unk_25);
+                    func_8009A21C(display->unk_24, display->unk_25,
+                                  (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                    func_800AA53C(object_data);
+                    return;
                 }
 
                 if (effect->unk_2C == 0) {
@@ -271,129 +275,120 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
                 }
             }
         }
-        if (effect->unk_2C == 0) {
-            goto secondary_object;
-        }
-        object = effect->unk_2C;
-        display = object->unk_0C;
-        transform = object->unk_08;
-        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
-        if ((((volatile S_func_810332A4_6 *)display)->unk_24 << 6) + 0x20 !=
-            transform->unk_00.half.unk_02) {
-            goto rollback_object;
-        }
-        if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 !=
-            transform->unk_04.half.unk_06) {
-            goto rollback_object;
-        }
+        if (effect->unk_2C != 0) {
+            object = effect->unk_2C;
+            display = object->unk_0C;
+            transform = object->unk_08;
+            object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+            if ((((volatile S_func_810332A4_6 *)display)->unk_24 << 6) + 0x20 ==
+                transform->unk_00.half.unk_02) {
+                if ((((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20 ==
+                    transform->unk_04.half.unk_06) {
+                    func_8009A350(display->unk_24, display->unk_25,
+                                  effect->unk_1C, &collision_flags);
+                    coord_base = (s32)D_8017610C;
+                    step_coord = effect->unk_1C;
+                    object_tile = display->unk_24;
+                    collision_coord = collision_flags;
+                    step_coord <<= 2;
+                    step_coord += coord_base;
+                    collision_coord &= 0x8400;
+                    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_00;
+                    blocked = collision_coord != 0;
+                    object_tile += step_coord;
+                    display->unk_24 = object_tile;
+                    step_coord = effect->unk_1C;
+                    object_tile = display->unk_25;
+                    collision_coord = display->unk_24;
+                    step_coord <<= 2;
+                    step_coord += coord_base;
+                    step_coord = ((S_func_810332A4_8 *)step_coord)->unk_02;
+                    object_tile += step_coord;
+                    collision_coord <<= 6;
+                    display->unk_25 = object_tile;
+                    collision_coord += 0x20;
+                    coord_base = collision_coord;
+                    object_x = coord_base & 0xFFFF;
+                    object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
-        func_8009A350(display->unk_24, display->unk_25,
-                      effect->unk_1C, &collision_flags);
-        coord_base = (s32)D_8017610C;
-        step_coord = effect->unk_1C;
-        object_tile = display->unk_24;
-        collision_coord = collision_flags;
-        step_coord <<= 2;
-        step_coord += coord_base;
-        collision_coord &= 0x8400;
-        step_coord = ((S_func_810332A4_8 *)step_coord)->unk_00;
-        blocked = collision_coord != 0;
-        object_tile += step_coord;
-        display->unk_24 = object_tile;
-        step_coord = effect->unk_1C;
-        object_tile = display->unk_25;
-        collision_coord = display->unk_24;
-        step_coord <<= 2;
-        step_coord += coord_base;
-        step_coord = ((S_func_810332A4_8 *)step_coord)->unk_02;
-        object_tile += step_coord;
-        collision_coord <<= 6;
-        display->unk_25 = object_tile;
-        collision_coord += 0x20;
-        coord_base = collision_coord;
-        object_x = coord_base & 0xFFFF;
-        object_y = (((S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
+                    if (!blocked) {
+                        if ((func_800A45D8((u16)object_x, (u16)object_y,
+                                           transform->unk_0A.s) << 16) != 0) {
+                            blocked = 1;
+                        }
+                    }
+                    if (!blocked) {
+                        if (func_80174A00(owner, display->unk_24,
+                                          display->unk_25,
+                                          motion->unk_0A.s) != 0) {
+                            blocked = 1;
+                        }
+                    }
+                    if (!blocked) {
+                        floor_height = func_800BCB04((u16)object_x, (u16)object_y,
+                                              (s16)((u16)object_data->unk_88 - 0x20));
+                        if (floor_height >= 0x200 || floor_height > object_data->unk_88 + 0x20 ||
+                            floor_height < object_data->unk_88) {
+                            blocked = 1;
+                        }
+                    }
 
-        if (!blocked) {
-            if ((func_800A45D8((u16)object_x, (u16)object_y,
-                               transform->unk_0A.s) << 16) != 0) {
-                blocked = 1;
+                    if (func_801748FC(object_data, display->unk_24,
+                                      display->unk_25, object_data->unk_88) != 0) {
+                        blocked = 1;
+                    }
+                    if (blocked == 1) {
+                        stop_mask = 0xFFEFFFFF;
+                        object_data->unk_14 &= stop_mask;
+                        display->unk_24 -=
+                            (u8)D_8017610C[effect->unk_1C].x;
+                        display->unk_25 -=
+                            (u8)D_8017610C[effect->unk_1C].y;
+                        func_800A2B04(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
+                        func_8009A21C(display->unk_24, display->unk_25,
+                                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                        func_800AA53C(object_data);
+                        effect->unk_16.s = 10;
+                        effect->unk_1E.s = 0;
+                        motion->unk_10 = 0;
+                        motion->unk_0C = 0;
+                        func_8009CE1C(object_data, 7, owner->unk_11, 10,
+                                      owner->unk_2A, (u32)owner | 0xA0000000, 2);
+
+                        new_object = effect->unk_30;
+                        if (new_object == 0) {
+                            return;
+                        }
+                        object = new_object;
+                        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
+                        display = object->unk_0C;
+                        transform = object->unk_08;
+                        object_data->unk_14 &= stop_mask;
+                        func_800A2B04(transform, display->unk_24, display->unk_25);
+                        func_8009A21C(display->unk_24, display->unk_25,
+                                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
+                        func_800AA53C(object_data);
+                        return;
+                    }
+                }
             }
-        }
-        if (!blocked) {
-            if (func_80174A00(owner, display->unk_24,
-                              display->unk_25,
-                              motion->unk_0A.s) != 0) {
-                blocked = 1;
+            object_tile_x = display->unk_24;
+            if ((object_tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
+                transform->unk_00.half.unk_02 ||
+                (display->unk_25 - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
+                transform->unk_04.half.unk_06) {
+                floor_height = func_800BCB04((object_tile_x << 6) | 0x20,
+                                      (display->unk_25 << 6) | 0x20,
+                                      object_data->unk_88);
+                if (transform->unk_0A.s < floor_height) {
+                    transform->unk_0A.u += 0x10;
+                    object_data->unk_88 = floor_height;
+                }
             }
-        }
-        if (!blocked) {
-            floor_height = func_800BCB04((u16)object_x, (u16)object_y,
-                                  (s16)((u16)object_data->unk_88 - 0x20));
-            if (floor_height >= 0x200 || floor_height > object_data->unk_88 + 0x20 ||
-                floor_height < object_data->unk_88) {
-                blocked = 1;
-            }
-        }
+            transform->unk_00.word += motion->unk_0C;
+            transform->unk_04.word += motion->unk_10;
 
-        if (func_801748FC(object_data, display->unk_24,
-                          display->unk_25, object_data->unk_88) != 0) {
-            blocked = 1;
         }
-        if (blocked != 1) {
-            goto rollback_object;
-        }
-
-        stop_mask = 0xFFEFFFFF;
-        object_data->unk_14 &= stop_mask;
-        display->unk_24 -=
-            (u8)D_8017610C[effect->unk_1C].x;
-        display->unk_25 -=
-            (u8)D_8017610C[effect->unk_1C].y;
-        func_800A2B04(transform, display->unk_24, ((S_func_810332A4_6 *)display)->unk_25);
-        func_8009A21C(display->unk_24, display->unk_25,
-                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        func_800AA53C(object_data);
-        effect->unk_16.s = 10;
-        effect->unk_1E.s = 0;
-        motion->unk_10 = 0;
-        motion->unk_0C = 0;
-        func_8009CE1C(object_data, 7, owner->unk_11, 10,
-                      owner->unk_2A, (u32)owner | 0xA0000000, 2);
-
-        new_object = effect->unk_30;
-        if (new_object == 0) {
-            return;
-        }
-        object = new_object;
-        object_data = (S_func_810332A4_7 *)((u8 *)object + 0x20);
-        display = object->unk_0C;
-        transform = object->unk_08;
-        object_data->unk_14 &= stop_mask;
-
-cleanup_object:
-        func_800A2B04(transform, display->unk_24, display->unk_25);
-        func_8009A21C(display->unk_24, display->unk_25,
-                      (object_data->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        func_800AA53C(object_data);
-        return;
-
-rollback_object:
-        object_tile_x = display->unk_24;
-        if ((object_tile_x - D_8017610C[effect->unk_1C].x) * 64 + 0x20 !=
-            transform->unk_00.half.unk_02 ||
-            (display->unk_25 - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
-            transform->unk_04.half.unk_06) {
-            floor_height = func_800BCB04((object_tile_x << 6) | 0x20,
-                                  (display->unk_25 << 6) | 0x20,
-                                  object_data->unk_88);
-            if (transform->unk_0A.s < floor_height) {
-                transform->unk_0A.u += 0x10;
-                object_data->unk_88 = floor_height;
-            }
-        }
-        transform->unk_00.word += motion->unk_0C;
-        transform->unk_04.word += motion->unk_10;
 
 secondary_object:
         new_object = effect->unk_30;

@@ -35,7 +35,7 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
     DungeonGlobalStatus *state_base;
     register u8 *anim_table;
     register s32 facing_offset;
-    void *tail_obj;
+    s32 map_flags;
 
     globals = &gameWork;
     func_800A67F4();
@@ -124,12 +124,9 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
                 return;
             }
             func_8009F644(map, 8, 0, 0);
-            tail_obj = obj;
-            goto finish_move;
         }
     } else {
         u8 *idle_anim;
-        s32 map_flags;
 
         idle_anim = D_800DD274;
         P32(actor, 0x2C) = idle_anim;
@@ -137,24 +134,24 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         func_8003DB94(actor, *(void **)(idle_anim + (facing_offset & 0x1C)), 0);
         S32(obj, 0x8C) = (s32)D_80096384;
         return;
-finish_move:
-        func_80094ED4(tail_obj, move_mode, actor, map);
-        map_flags = S32(map, 0x1C);
-        {
-            s32 map_flag_mask;
+    }
 
-            map_flag_mask = 0x40000000;
-            map_flags |= map_flag_mask;
-        }
-        state_base = &dungeonStatus;
-        {
-            u8 *final_state_base;
+    func_80094ED4(obj, move_mode, actor, map);
+    map_flags = S32(map, 0x1C);
+    {
+        s32 map_flag_mask;
 
-            do {
-                final_state_base = state_base;
-                S32(map, 0x1C) = map_flags;
-            } while (0);
-            ((u16 *)final_state_base)[1] |= 0x812;
-        }
+        map_flag_mask = 0x40000000;
+        map_flags |= map_flag_mask;
+    }
+    state_base = &dungeonStatus;
+    {
+        u8 *final_state_base;
+
+        do {
+            final_state_base = state_base;
+            S32(map, 0x1C) = map_flags;
+        } while (0);
+        ((u16 *)final_state_base)[1] |= 0x812;
     }
 }

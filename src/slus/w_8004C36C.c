@@ -55,195 +55,162 @@ void func_8004C36C(u8 *parent, u8 *node)
     U16_AT(work, 0x5C) = 0;
 
     for (;;) {
-        if (node == 0) {
-            goto tail;
-        }
-        rotation = work + 0x50;
-        U32_AT(work, 0xB8) = U32_AT(U32_AT(node, 8), 0);
-        U32_AT(work, 0xBC) = U32_AT(U32_AT(node, 8), 4);
-        parent_matrix = work + 0xC4;
-        U32_AT(work, 0xC0) = U32_AT(U32_AT(node, 8), 8);
-        U32_AT(work, 0x20) = S16_AT(U32_AT(node, 4), 8) + S16_AT(work, 0xBE);
-        U32_AT(work, 0x24) = S16_AT(U32_AT(node, 4), 0xA) + S16_AT(work, 0xC0);
-        {
-            s32 trans_z = S16_AT(U32_AT(node, 4), 0xC) + S16_AT(work, 0xC2);
-            U32_AT(work, 0x50) = U32_AT(work, 0xB8);
-            U32_AT(work, 0x54) = U32_AT(work, 0xBC);
-            U32_AT(work, 0x28) = trans_z;
-        }
-        RotMatrix(rotation, parent_matrix);
-        TransMatrix(parent_matrix, work + 0x20);
-        U32_AT(work, 0x40) = S16_AT(U32_AT(node, 4), 4);
-        U32_AT(work, 0x44) = S16_AT(U32_AT(node, 4), 6);
-        U32_AT(work, 0x78) = U32_AT(U32_AT(node, 4), 0);
-        U32_AT(work, 0x10C) = U8_AT(U32_AT(node, 4), 0xF);
-
-        for (;;) {
-            node = *(u8 **)(node + 0xC);
-            if (node == 0) {
-                goto tail;
-            }
-            cmd = *(u8 **)(node + 0);
-            if (cmd == 0) {
-                continue;
-            }
+        if (node != 0) {
             rotation = work + 0x50;
-            U32_AT(work, 0xA8) = U32_AT(U32_AT(node, 4), 0);
-            U32_AT(work, 0xAC) = U32_AT(U32_AT(node, 4), 4);
-            U32_AT(work, 0xB0) = U32_AT(U32_AT(node, 4), 8);
-            U32_AT(work, 0xB4) = U32_AT(U32_AT(node, 4), 0xC);
-            U32_AT(work, 0x50) = U32_AT(U32_AT(node, 8), 0);
-            U32_AT(work, 0x54) = U32_AT(U32_AT(node, 8), 4);
-            RotMatrix(rotation, node_matrix);
-            U32_AT(work, 0x20) = S16_AT(U32_AT(node, 8), 6);
-            U32_AT(work, 0x24) = S16_AT(U32_AT(node, 8), 8);
-            U32_AT(work, 0x28) = S16_AT(U32_AT(node, 8), 0xA) + S16_AT(work, 0xB4);
-            TransMatrix(node_matrix, work + 0x20);
-            CompMatrix(work + 0xC4, node_matrix, sprite_matrix);
-            U32_AT(work, 0x30) = S16_AT(work, 0xAC);
-            U32_AT(work, 0x34) = S16_AT(work, 0xAE);
-            ScaleMatrix(sprite_matrix, work + 0x30);
-            ScaleMatrix(sprite_matrix, work + 0x40);
-            SetRotMatrix(sprite_matrix);
-            SetTransMatrix(sprite_matrix);
+            U32_AT(work, 0xB8) = U32_AT(U32_AT(node, 8), 0);
+            U32_AT(work, 0xBC) = U32_AT(U32_AT(node, 8), 4);
+            parent_matrix = work + 0xC4;
+            U32_AT(work, 0xC0) = U32_AT(U32_AT(node, 8), 8);
+            U32_AT(work, 0x20) = S16_AT(U32_AT(node, 4), 8) + S16_AT(work, 0xBE);
+            U32_AT(work, 0x24) = S16_AT(U32_AT(node, 4), 0xA) + S16_AT(work, 0xC0);
+            {
+                s32 trans_z = S16_AT(U32_AT(node, 4), 0xC) + S16_AT(work, 0xC2);
+                U32_AT(work, 0x50) = U32_AT(work, 0xB8);
+                U32_AT(work, 0x54) = U32_AT(work, 0xBC);
+                U32_AT(work, 0x28) = trans_z;
+            }
+            RotMatrix(rotation, parent_matrix);
+            TransMatrix(parent_matrix, work + 0x20);
+            U32_AT(work, 0x40) = S16_AT(U32_AT(node, 4), 4);
+            U32_AT(work, 0x44) = S16_AT(U32_AT(node, 4), 6);
+            U32_AT(work, 0x78) = U32_AT(U32_AT(node, 4), 0);
+            U32_AT(work, 0x10C) = U8_AT(U32_AT(node, 4), 0xF);
 
-            do {
-                U32_AT(work, 0x00) = U32_AT(cmd, 0);
-                U32_AT(work, 0x04) = U32_AT(cmd, 4);
-                U32_AT(work, 0x08) = U32_AT(cmd, 8);
-                if (U32_AT(work, 8) != 0) {
-                    if (U8_AT(work, 0) & 1) {
-                        s16 cx = U16_AT(work, 0xB0) - S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
-                        S16_AT(work, 0x68) = cx;
-                        S16_AT(work, 0x58) = cx;
-                        cx = cx - U8_AT(work, 0xA);
-                        S16_AT(work, 0x70) = cx;
-                        S16_AT(work, 0x60) = cx;
-                    } else {
-                        s16 cx = U16_AT(work, 0xB0) + S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
-                        S16_AT(work, 0x68) = cx;
-                        S16_AT(work, 0x58) = cx;
-                        cx = cx + U8_AT(work, 0xA);
-                        S16_AT(work, 0x70) = cx;
-                        S16_AT(work, 0x60) = cx;
-                    }
-
-                    if (U8_AT(work, 0) & 2) {
-                        s16 cy = U16_AT(work, 0xB2) - S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
-                        S16_AT(work, 0x62) = cy;
-                        S16_AT(work, 0x5A) = cy;
-                        cy = cy - U8_AT(work, 0xB);
-                        S16_AT(work, 0x72) = cy;
-                        S16_AT(work, 0x6A) = cy;
-                    } else {
-                        s16 cy = U16_AT(work, 0xB2) + S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
-                        S16_AT(work, 0x62) = cy;
-                        S16_AT(work, 0x5A) = cy;
-                        cy = cy + U8_AT(work, 0xB);
-                        S16_AT(work, 0x72) = cy;
-                        S16_AT(work, 0x6A) = cy;
-                    }
-
-                    gte_ldv3(work + 0x58, work + 0x60, work + 0x68);
-                    gte_rtpt();
-                    gte_stsxy3(packet + 8, packet + 0x10, packet + 0x18);
-                    gte_ldv0(work + 0x70);
-                    gte_rtps();
-                    gte_stsxy(packet + 0x20);
+            for (;;) {
+                node = *(u8 **)(node + 0xC);
+                if (node == 0) {
+                    break;
                 }
+                cmd = *(u8 **)(node + 0);
+                if (cmd == 0) {
+                    continue;
+                }
+                rotation = work + 0x50;
+                U32_AT(work, 0xA8) = U32_AT(U32_AT(node, 4), 0);
+                U32_AT(work, 0xAC) = U32_AT(U32_AT(node, 4), 4);
+                U32_AT(work, 0xB0) = U32_AT(U32_AT(node, 4), 8);
+                U32_AT(work, 0xB4) = U32_AT(U32_AT(node, 4), 0xC);
+                U32_AT(work, 0x50) = U32_AT(U32_AT(node, 8), 0);
+                U32_AT(work, 0x54) = U32_AT(U32_AT(node, 8), 4);
+                RotMatrix(rotation, node_matrix);
+                U32_AT(work, 0x20) = S16_AT(U32_AT(node, 8), 6);
+                U32_AT(work, 0x24) = S16_AT(U32_AT(node, 8), 8);
+                U32_AT(work, 0x28) = S16_AT(U32_AT(node, 8), 0xA) + S16_AT(work, 0xB4);
+                TransMatrix(node_matrix, work + 0x20);
+                CompMatrix(work + 0xC4, node_matrix, sprite_matrix);
+                U32_AT(work, 0x30) = S16_AT(work, 0xAC);
+                U32_AT(work, 0x34) = S16_AT(work, 0xAE);
+                ScaleMatrix(sprite_matrix, work + 0x30);
+                ScaleMatrix(sprite_matrix, work + 0x40);
+                SetRotMatrix(sprite_matrix);
+                SetTransMatrix(sprite_matrix);
 
-                {
+                do {
+                    U32_AT(work, 0x00) = U32_AT(cmd, 0);
+                    U32_AT(work, 0x04) = U32_AT(cmd, 4);
+                    U32_AT(work, 0x08) = U32_AT(cmd, 8);
+                    if (U32_AT(work, 8) != 0) {
+                        if (U8_AT(work, 0) & 1) {
+                            s16 cx = U16_AT(work, 0xB0) - S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
+                            S16_AT(work, 0x68) = cx;
+                            S16_AT(work, 0x58) = cx;
+                            cx = cx - U8_AT(work, 0xA);
+                            S16_AT(work, 0x70) = cx;
+                            S16_AT(work, 0x60) = cx;
+                        } else {
+                            s16 cx = U16_AT(work, 0xB0) + S8_AT(work, 2) - U16_AT(work, 0x20) - U16_AT(work, 0xBE);
+                            S16_AT(work, 0x68) = cx;
+                            S16_AT(work, 0x58) = cx;
+                            cx = cx + U8_AT(work, 0xA);
+                            S16_AT(work, 0x70) = cx;
+                            S16_AT(work, 0x60) = cx;
+                        }
+
+                        if (U8_AT(work, 0) & 2) {
+                            s16 cy = U16_AT(work, 0xB2) - S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
+                            S16_AT(work, 0x62) = cy;
+                            S16_AT(work, 0x5A) = cy;
+                            cy = cy - U8_AT(work, 0xB);
+                            S16_AT(work, 0x72) = cy;
+                            S16_AT(work, 0x6A) = cy;
+                        } else {
+                            s16 cy = U16_AT(work, 0xB2) + S8_AT(work, 3) - U16_AT(work, 0x24) - U16_AT(work, 0xC0);
+                            S16_AT(work, 0x62) = cy;
+                            S16_AT(work, 0x5A) = cy;
+                            cy = cy + U8_AT(work, 0xB);
+                            S16_AT(work, 0x72) = cy;
+                            S16_AT(work, 0x6A) = cy;
+                        }
+
+                        gte_ldv3(work + 0x58, work + 0x60, work + 0x68);
+                        gte_rtpt();
+                        gte_stsxy3(packet + 8, packet + 0x10, packet + 0x18);
+                        gte_ldv0(work + 0x70);
+                        gte_rtps();
+                        gte_stsxy(packet + 0x20);
+                    }
+
                     opcode = U8_AT(work, 1);
                     opcode &= 0xFC;
-                    if (opcode != 0x2C)
-                    goto big;
-                }
-                {
-                    if (U8_AT(work, 8) + U8_AT(work, 0xA) >= 0x100) {
-                        U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
-                    }
-                    if (U8_AT(work, 9) + U8_AT(work, 0xB) >= 0x100) {
-                        U8_AT(work, 0xB) = U8_AT(work, 0xB) - 1;
-                    }
-                    S8_AT(packet, 3) = 9;
-                    U32_AT(packet, 4) = U32_AT(work, 0xA8);
-                    func_8004C010(packet + 4, work + 0x78);
-                    {
-                        u8 tex_u;
-                        s32 screen_x0;
-                        s32 screen_x1;
-                        opcode = U8_AT(work, 1);
-                        tex_u = U8_AT(work, 8);
-                        screen_x0 = S16_AT(packet, 8);
-                        screen_x1 = S16_AT(packet, 0x10);
-                        U8_AT(packet, 7) = opcode;
-                        U8_AT(packet, 0xC) = tex_u;
+                    if (opcode == 0x2C) {
+                        if (U8_AT(work, 8) + U8_AT(work, 0xA) >= 0x100) {
+                            U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
+                        }
+                        if (U8_AT(work, 9) + U8_AT(work, 0xB) >= 0x100) {
+                            U8_AT(work, 0xB) = U8_AT(work, 0xB) - 1;
+                        }
+                        S8_AT(packet, 3) = 9;
+                        U32_AT(packet, 4) = U32_AT(work, 0xA8);
+                        func_8004C010(packet + 4, work + 0x78);
                         {
-                            opcode = U16_AT(work, 6);
-                            tex_u = U8_AT(work, 9);
-                            U16_AT(packet, 0xE) = opcode;
-                            U8_AT(packet, 0xD) = tex_u;
-                            if (screen_x1 < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
-                                U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
+                            u8 tex_u;
+                            s32 screen_x0;
+                            s32 screen_x1;
+                            opcode = U8_AT(work, 1);
+                            tex_u = U8_AT(work, 8);
+                            screen_x0 = S16_AT(packet, 8);
+                            screen_x1 = S16_AT(packet, 0x10);
+                            U8_AT(packet, 7) = opcode;
+                            U8_AT(packet, 0xC) = tex_u;
+                            {
+                                opcode = U16_AT(work, 6);
+                                tex_u = U8_AT(work, 9);
+                                U16_AT(packet, 0xE) = opcode;
+                                U8_AT(packet, 0xD) = tex_u;
+                                if (screen_x1 < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
+                                    U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
+                                }
                             }
                         }
-                    }
-                    {
-                        u8 tex_u = U8_AT(work, 8);
-                        u8 tex_width = U8_AT(work, 0xA);
-                        u8 tex_v = U8_AT(work, 9);
-                        s32 screen_y0 = S16_AT(packet, 0xA);
-                        opcode = tex_u + tex_width;
-                        U8_AT(packet, 0x24) = opcode;
-                        U8_AT(packet, 0x14) = opcode;
-                        U8_AT(packet, 0x15) = tex_v;
                         {
-                            s32 screen_y2;
-                            u16 tex_page;
-                            tex_v = U8_AT(work, 8);
-                            screen_y2 = S16_AT(packet, 0x1A);
-                            tex_page = U16_AT(work, 4);
-                            U16_AT(packet, 0x16) = tex_page;
-                            U8_AT(packet, 0x1C) = tex_v;
-                            if (screen_y2 < screen_y0 || screen_y0 != S16_AT(packet, 0x12)) {
-                                U8_AT(work, 0xB) = U8_AT(work, 0xB) - 1;
+                            u8 tex_u = U8_AT(work, 8);
+                            u8 tex_width = U8_AT(work, 0xA);
+                            u8 tex_v = U8_AT(work, 9);
+                            s32 screen_y0 = S16_AT(packet, 0xA);
+                            opcode = tex_u + tex_width;
+                            U8_AT(packet, 0x24) = opcode;
+                            U8_AT(packet, 0x14) = opcode;
+                            U8_AT(packet, 0x15) = tex_v;
+                            {
+                                s32 screen_y2;
+                                u16 tex_page;
+                                tex_v = U8_AT(work, 8);
+                                screen_y2 = S16_AT(packet, 0x1A);
+                                tex_page = U16_AT(work, 4);
+                                U16_AT(packet, 0x16) = tex_page;
+                                U8_AT(packet, 0x1C) = tex_v;
+                                if (screen_y2 < screen_y0 || screen_y0 != S16_AT(packet, 0x12)) {
+                                    U8_AT(work, 0xB) = U8_AT(work, 0xB) - 1;
+                                }
                             }
                         }
-                    }
-                    {
-                        u8 tex_v = U8_AT(work, 9);
-                        u8 tex_height = U8_AT(work, 0xB);
-                        opcode = tex_v + tex_height;
-                        U8_AT(packet, 0x25) = opcode;
-                        U8_AT(packet, 0x1D) = opcode;
-                    }
-                    {
-                        u32 *ot = (u32 *)((U8_AT(work, 0xB7) << 2)
-                                + ((U32_AT(work, 0x10C) << 2) + U32_AT(work, 0x18)));
-                        U32_AT(packet, 0) = (U32_AT(packet, 0) & size_mask) | (*ot & addr_mask);
-                    }
-                    {
-                        u32 *ot = (u32 *)((U8_AT(work, 0xB7) << 2)
-                                + ((U32_AT(work, 0x10C) << 2) + U32_AT(work, 0x18)));
-                        *ot = (*ot & size_mask) | ((u32)packet & addr_mask);
-                    }
-                    {
-                        u8 packet_words = U8_AT(packet, 3);
-                        u8 *packet_end;
-                        cmd = cmd + 0xC;
-                        packet_end = packet + (packet_words << 2);
-                        packet = packet_end + 4;
-                    }
-                    goto next;
-                }
-
-            big:
-                packet_count = 1;
-                cmd = (u8 *)func_8004C080(work + 0x78, work + 0xA8, packet, cmd, work, &packet_count);
-                packet_count = packet_count - 1;
-                if (packet_count != -1) {
-                    s32 stop_count = -1;
-                    do {
+                        {
+                            u8 tex_v = U8_AT(work, 9);
+                            u8 tex_height = U8_AT(work, 0xB);
+                            opcode = tex_v + tex_height;
+                            U8_AT(packet, 0x25) = opcode;
+                            U8_AT(packet, 0x1D) = opcode;
+                        }
                         {
                             u32 *ot = (u32 *)((U8_AT(work, 0xB7) << 2)
                                     + ((U32_AT(work, 0x10C) << 2) + U32_AT(work, 0x18)));
@@ -255,25 +222,48 @@ void func_8004C36C(u8 *parent, u8 *node)
                             *ot = (*ot & size_mask) | ((u32)packet & addr_mask);
                         }
                         {
-                            s32 remaining;
-                            u8 packet_words;
+                            u8 packet_words = U8_AT(packet, 3);
                             u8 *packet_end;
-                            remaining = packet_count;
-                            packet_words = U8_AT(packet, 3);
-                            remaining = remaining - 1;
+                            cmd = cmd + 0xC;
                             packet_end = packet + (packet_words << 2);
                             packet = packet_end + 4;
-                            packet_count = remaining;
                         }
-                    } while (packet_count != stop_count);
-                }
-                cmd = cmd + 0xC;
-
-            next:
-            } while (!(U8_AT(work, 0) & 0x80));
+                    } else {
+                        packet_count = 1;
+                        cmd = (u8 *)func_8004C080(work + 0x78, work + 0xA8, packet, cmd, work, &packet_count);
+                        packet_count = packet_count - 1;
+                        if (packet_count != -1) {
+                            s32 stop_count = -1;
+                            do {
+                                {
+                                    u32 *ot = (u32 *)((U8_AT(work, 0xB7) << 2)
+                                            + ((U32_AT(work, 0x10C) << 2) + U32_AT(work, 0x18)));
+                                    U32_AT(packet, 0) = (U32_AT(packet, 0) & size_mask) | (*ot & addr_mask);
+                                }
+                                {
+                                    u32 *ot = (u32 *)((U8_AT(work, 0xB7) << 2)
+                                            + ((U32_AT(work, 0x10C) << 2) + U32_AT(work, 0x18)));
+                                    *ot = (*ot & size_mask) | ((u32)packet & addr_mask);
+                                }
+                                {
+                                    s32 remaining;
+                                    u8 packet_words;
+                                    u8 *packet_end;
+                                    remaining = packet_count;
+                                    packet_words = U8_AT(packet, 3);
+                                    remaining = remaining - 1;
+                                    packet_end = packet + (packet_words << 2);
+                                    packet = packet_end + 4;
+                                    packet_count = remaining;
+                                }
+                            } while (packet_count != stop_count);
+                        }
+                        cmd = cmd + 0xC;
+                    }
+                } while (!(U8_AT(work, 0) & 0x80));
+            }
         }
 
-    tail:
         {
             u8 *next_parent = *(u8 **)(parent - 8);
             if (next_parent != 0) {

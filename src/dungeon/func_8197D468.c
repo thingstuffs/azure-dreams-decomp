@@ -128,119 +128,105 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
     }
     func_800478B8(sprite);
     state = ((S_8197D468_0 *)effect)->unk_4C.s;
-    if (state == 1) {
-        goto state_1;
-    }
-    if (state < 2) {
-        if (state == 0) {
-            goto state_0;
+    switch (state) {
+    case 0:
+        ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
+            + ((S_8197D468_3 *)motion)->unk_14);
+        rise_random = func_80069EF8();
+        rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
+        rise_velocity += rise_random >> 1;
+        ((S_8197D468_3 *)motion)->unk_14 = rise_velocity;
+        if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x40) {
+            ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
         }
-        return;
+        if (((S_8197D468_3 *)motion)->unk_14 > 0) {
+            ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+            sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+            sprite_flags = ((S_8197D468_2 *)sprite)->unk_14;
+            ((S_8197D468_2 *)sprite)->unk_04 = 0;
+            ((S_8197D468_2 *)sprite)->unk_05 = 0;
+            ((S_8197D468_2 *)sprite)->unk_1E = 0x400U;
+            ((S_8197D468_2 *)sprite)->unk_1C = 0x400U;
+            ((S_8197D468_2 *)sprite)->unk_10 = 0;
+            ((S_8197D468_2 *)sprite)->unk_08 = sprite_frames;
+            ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
+            ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
+            ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+            return;
+        }
+        break;
+    case 1:
+        ((S_8197D468_2 *)sprite)->unk_0C.s32 = 0x606060;
+        ((S_8197D468_2 *)sprite)->unk_1C = (u16) (((S_8197D468_2 *)sprite)->unk_1C + 0xC8);
+        ((S_8197D468_2 *)sprite)->unk_1E = (u16) (((S_8197D468_2 *)sprite)->unk_1E + 0xC8);
+        frames_left = ((S_8197D468_0 *)effect)->unk_48 - 1;
+        ((S_8197D468_0 *)effect)->unk_48 = frames_left;
+        if ((frames_left << 0x10) <= 0) {
+            ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
+            return;
+        }
+        break;
+    case 2:
+        if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
+            ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
+            effect_data = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
+            ((S_8197D468_2 *)sprite)->unk_04 = 0;
+            ((S_8197D468_2 *)sprite)->unk_05 = 0;
+            ((S_8197D468_2 *)sprite)->unk_08 = effect_data;
+        }
+        ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
+            + ((S_8197D468_3 *)motion)->unk_14);
+        fall_random = func_80069EF8();
+        fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
+        fall_velocity += fall_random >> 1;
+        ((S_8197D468_3 *)motion)->unk_14 = fall_velocity;
+        if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
+            ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
+        }
+        ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
+            (s16) (((u16)D_80083780.z.w.i) - 0x80));
+        if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
+            particle_index = 4;
+            do {
+                particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
+                if (particle != NULL) {
+                    ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
+                    func_8004491C(particle, func_80045340);
+                    particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =
+                        (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 =
+                        (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 =
+                        (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C =
+                        (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 =
+                        (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
+                    particle_work = particle + 0x20;
+                    ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
+                        (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
+                    particle_color = 0xC00000;
+                    ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
+                    ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;
+                    ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;
+                    ((S_8197D468_6 *)particle_sprite)->unk_00 = D_800DED70;
+                    ((S_8197D468_6 *)particle_sprite)->unk_14 = (u16) (((S_8197D468_6 *)particle_sprite)->unk_14 | 0xC);
+                    particle_frames = ((Rec_D_80016000 *)D_800DED70)->unk_04.at00_s32.v;
+                    particle_color |= 0x6060;
+                    ((S_8197D468_6 *)particle_sprite)->unk_04 = 0;
+                    ((S_8197D468_6 *)particle_sprite)->unk_05 = 0;
+                    ((S_8197D468_6 *)particle_sprite)->unk_0C = particle_color;
+                    ((S_8197D468_6 *)particle_sprite)->unk_08 = particle_frames;
+                    effect_data = ((S_8197D468_0 *)effect)->unk_00;
+                    ((S_8197D468_5 *)particle)->unk_20 = effect_data;
+                    ((S_8197D468_8 *)particle_work)->unk_4C = 0;
+                }
+                particle_index -= 1;
+            } while (particle_index >= 0);
+            (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags |= 0x8000;
+        }
+        break;
     }
-    if (state == 2) {
-        goto state_2;
-    }
-    return;
-
-state_0:
-    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
-        + ((S_8197D468_3 *)motion)->unk_14);
-    rise_random = func_80069EF8();
-    rise_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1A000;
-    rise_velocity += rise_random >> 1;
-    ((S_8197D468_3 *)motion)->unk_14 = rise_velocity;
-    if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x40) {
-        ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
-    }
-    if (((S_8197D468_3 *)motion)->unk_14 > 0) {
-        ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
-        sprite_frames = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-        sprite_flags = ((S_8197D468_2 *)sprite)->unk_14;
-        ((S_8197D468_2 *)sprite)->unk_04 = 0;
-        ((S_8197D468_2 *)sprite)->unk_05 = 0;
-        ((S_8197D468_2 *)sprite)->unk_1E = 0x400U;
-        ((S_8197D468_2 *)sprite)->unk_1C = 0x400U;
-        ((S_8197D468_2 *)sprite)->unk_10 = 0;
-        ((S_8197D468_2 *)sprite)->unk_08 = sprite_frames;
-        ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
-        ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8() & 3) + 4);
-        ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        return;
-    }
-    return;
-
-state_1:
-    ((S_8197D468_2 *)sprite)->unk_0C.s32 = 0x606060;
-    ((S_8197D468_2 *)sprite)->unk_1C = (u16) (((S_8197D468_2 *)sprite)->unk_1C + 0xC8);
-    ((S_8197D468_2 *)sprite)->unk_1E = (u16) (((S_8197D468_2 *)sprite)->unk_1E + 0xC8);
-    frames_left = ((S_8197D468_0 *)effect)->unk_48 - 1;
-    ((S_8197D468_0 *)effect)->unk_48 = frames_left;
-    if ((frames_left << 0x10) <= 0) {
-        ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        return;
-    }
-    return;
-
-state_2:
-    if (((S_8197D468_2 *)sprite)->unk_14 & 0x6000) {
-        ((S_8197D468_2 *)sprite)->unk_00 = &D_800DE990;
-        effect_data = (void *) ((S_8197D468_4 *)(&D_800DE990))->unk_04;
-        ((S_8197D468_2 *)sprite)->unk_04 = 0;
-        ((S_8197D468_2 *)sprite)->unk_05 = 0;
-        ((S_8197D468_2 *)sprite)->unk_08 = effect_data;
-    }
-    ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v
-        + ((S_8197D468_3 *)motion)->unk_14);
-    fall_random = func_80069EF8();
-    fall_velocity = ((S_8197D468_3 *)motion)->unk_14 + 0x1C000;
-    fall_velocity += fall_random >> 1;
-    ((S_8197D468_3 *)motion)->unk_14 = fall_velocity;
-    if ((u8) ((S_8197D468_2 *)sprite)->unk_0C.u8 < 0x80) {
-        ((S_8197D468_2 *)sprite)->unk_0C.s32 = (s32) ((s32) ((S_8197D468_2 *)sprite)->unk_0C.s32 + 0x40404);
-    }
-    ground_height = func_800BCB04(((S_8197D468_3 *)motion)->unk_00.at02.v, ((S_8197D468_3 *)motion)->unk_04.at02.v,
-        (s16) (((u16)D_80083780.z.w.i) - 0x80));
-    if (((S_8197D468_3 *)motion)->unk_08.at02.v >= (ground_height - 0x20)) {
-        particle_index = 4;
-        do {
-            particle = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
-            if (particle != NULL) {
-                ((S_8197D468_5 *)particle)->unk_10 = &D_80024BB8;
-                func_8004491C(particle, func_80045340);
-                particle_sprite = ((S_8197D468_5 *)particle)->unk_0C;
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_00 =
-                    (s32) (((S_8197D468_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_04 =
-                    (s32) (((S_8197D468_3 *)motion)->unk_04.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_08 =
-                    (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA));
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_0C =
-                    (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_10 =
-                    (s32) (((func_80069EF8() & 0x3FF) - 0x1FF) << 0xA);
-                particle_work = particle + 0x20;
-                ((S_8197D468_9 *)(((S_8197D468_5 *)particle)->unk_08))->unk_14 =
-                    (s32) (0 - ((func_80069EF8() & 0x3FF) << 8));
-                particle_color = 0xC00000;
-                ((S_8197D468_6 *)particle_sprite)->unk_1E = 0xC00;
-                ((S_8197D468_6 *)particle_sprite)->unk_1C = 0xC00;
-                ((S_8197D468_6 *)particle_sprite)->unk_10 = 0x20;
-                ((S_8197D468_6 *)particle_sprite)->unk_00 = D_800DED70;
-                ((S_8197D468_6 *)particle_sprite)->unk_14 = (u16) (((S_8197D468_6 *)particle_sprite)->unk_14 | 0xC);
-                particle_frames = ((Rec_D_80016000 *)D_800DED70)->unk_04.at00_s32.v;
-                particle_color |= 0x6060;
-                ((S_8197D468_6 *)particle_sprite)->unk_04 = 0;
-                ((S_8197D468_6 *)particle_sprite)->unk_05 = 0;
-                ((S_8197D468_6 *)particle_sprite)->unk_0C = particle_color;
-                ((S_8197D468_6 *)particle_sprite)->unk_08 = particle_frames;
-                effect_data = ((S_8197D468_0 *)effect)->unk_00;
-                ((S_8197D468_5 *)particle)->unk_20 = effect_data;
-                ((S_8197D468_8 *)particle_work)->unk_4C = 0;
-            }
-            particle_index -= 1;
-        } while (particle_index >= 0);
-        (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_8197D468_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags |= 0x8000;
-    }
-    return;
 }

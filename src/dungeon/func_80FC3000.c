@@ -148,36 +148,27 @@ void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         if (kind == 1) {
             flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x6000;
             flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x6000;
-        } else {
-            if (kind < 2) {
-                goto special;
-            }
+            ((S_80FB1000_0 *)work)->unk_14 = flags0;
+            ((S_80FB1000_0 *)work)->unk_1C = flags1;
+        } else if (kind >= 2) {
             flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x2000;
             flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x2000;
-        }
-        ((S_80FB1000_0 *)work)->unk_14 = flags0;
-        ((S_80FB1000_0 *)work)->unk_1C = flags1;
-        goto initialize;
-
-special:
-        {
+            ((S_80FB1000_0 *)work)->unk_14 = flags0;
+            ((S_80FB1000_0 *)work)->unk_1C = flags1;
+        } else {
             if ((s16)((s32)arg0 & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
                 value = func_800A6D30();
-                init_arg0 = created;
-                if (!(value & 1)) {
-                    goto initialize_after_a0;
+                if (value & 1) {
+                    ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
+                    value = func_800A6D30();
+                    func_800A48F0(work, 1, (value & 0x3F) | 0x20);
+                    (*(Callback *)((u8 *)monster + 0x2C)) = D_80163298;
                 }
-                ((S_80FB1000_0 *)work)->unk_1C |= 0x200;
-                value = func_800A6D30();
-                func_800A48F0(work, 1, (value & 0x3F) | 0x20);
-                (*(Callback *)((u8 *)monster + 0x2C)) = D_80163298;
             }
         }
 
-initialize:
         init_arg0 = created;
-initialize_after_a0:
         func_800A9C18(init_arg0, position, monster, (s16)arg0_copy);
         i = 0;
         value = (*(u16 *)((u8 *)monster + 0x12));
@@ -187,12 +178,13 @@ initialize_after_a0:
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = (*(u8 * *)((u8 *)monster + 8));
-loop_test:
-        scale = i << 1;
-        if (entry[0] & 0x20) {
+        while (1) {
+            scale = i << 1;
+            if (!(entry[0] & 0x20)) {
+                break;
+            }
             entry += 12;
             i++;
-            goto loop_test;
         }
         value = ((S_80FB1000_2 *)((*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4))->unk_06 >> 6;
         rect.x = 0;

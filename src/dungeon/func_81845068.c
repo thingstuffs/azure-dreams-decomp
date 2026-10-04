@@ -25,6 +25,15 @@ extern void func_80066640(void *, s32);
 extern void func_800666F4(void *);
 extern s32 func_80069EF8(void);
 
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+#define OTP(d) ((u32 *)((u8 *)render_state->unk_000 + 0xB0) + (d))
+
 #define LOAD_PTR(p) (*(u8 **)(p))
 #define LOAD_U32(p) (*(u32 *)(p))
 #define STORE_U32(p, v) (*(u32 *)(p) = (v))
@@ -43,7 +52,6 @@ s32 func_81845068(u8 *first_node)
     GameWork *render_state;
     u8 *alloc_ctx;
     u8 *alloc_ctx_2;
-    u8 *ot_ctx;
     u8 *ot_entry;
     u8 *prim;
     Coord *screen_base;
@@ -57,7 +65,6 @@ s32 func_81845068(u8 *first_node)
     s32 tex_u_start;
     s32 tex_u_end;
     s32 random_value;
-    register u32 addr_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 ot_or_coord;
     u16 vertex_x;
     u16 base_y;
@@ -73,7 +80,6 @@ s32 func_81845068(u8 *first_node)
     screen_base = &screen_coords[0];
     uv_choices[2] = 0;
     uv_choices[3] = 0x20;
-    addr_mask = 0xFFFFFF;
 
     do {
         effect_node = node;
@@ -134,19 +140,13 @@ s32 func_81845068(u8 *first_node)
             STORE_U8(prim + 0x15, tex_value + 0x1F);
             STORE_U8(prim + 0x0D, tex_value + 0x1F);
             {
-                u32 ot_word;
                 u32 ot_tag;
-
                 tag_mask = 0xFF000000;
-                ot_ctx = LOAD_PTR(render_state);
-                ot_word = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
-                STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_word & addr_mask));
-                ot_ctx = LOAD_PTR(render_state);
-                ot_entry += (u32)ot_ctx;
+                setaddr(prim, getaddr(OTP(depth_bucket)));
+                ot_entry += (u32)render_state->unk_000;
                 ot_tag = LOAD_U32(ot_entry + 0xB0);
                 ot_tag &= tag_mask;
-                STORE_U32(ot_entry + 0xB0,
-                          ot_tag | ((u32)prim & addr_mask));
+                STORE_U32(ot_entry + 0xB0, ot_tag | ((u32)prim & 0xFFFFFF));
             }
         }
 
@@ -194,19 +194,13 @@ s32 func_81845068(u8 *first_node)
         STORE_U16(prim + 0x12, tip_y);
 
         {
-            u32 ot_word;
             u32 ot_tag;
-
             tag_mask = 0xFF000000;
-            ot_ctx = LOAD_PTR(render_state);
-            ot_word = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
-            STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_word & addr_mask));
-            ot_ctx = LOAD_PTR(render_state);
-            ot_entry += (u32)ot_ctx;
+            setaddr(prim, getaddr(OTP(depth_bucket)));
+            ot_entry += (u32)render_state->unk_000;
             ot_tag = LOAD_U32(ot_entry + 0xB0);
             ot_tag &= tag_mask;
-            STORE_U32(ot_entry + 0xB0,
-                      ot_tag | ((u32)prim & addr_mask));
+            STORE_U32(ot_entry + 0xB0, ot_tag | ((u32)prim & 0xFFFFFF));
         }
 
     } while (((next_link = LOAD_PTR(node - 8)) != 0) && ((node = next_link + 0x20), 1));

@@ -208,17 +208,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
             }
             target = ((S_80025738_1 *)owner)->unk_60;
             index = 1;
-            if (target == NULL) {
-                goto scan_path;
-            }
-            ((S_80025738_0 *)state)->unk_18 = target;
-            destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
-            target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
-            target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
-            if (target_dx >= 0) {
-                goto store_target_dx;
-            }
-            target_dx = 0 - target_dx;
         } else {
             ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z - 0x40;
             if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
@@ -226,9 +215,8 @@ void func_80025738(void *state, void *motion_in, void *render) {
             }
             target = ((S_80025738_1 *)owner)->unk_60;
             index = 1;
-            if (target == NULL) {
-                goto scan_path;
-            }
+        }
+        if (target != NULL) {
             ((S_80025738_0 *)state)->unk_18 = target;
             destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
             target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
@@ -236,107 +224,107 @@ void func_80025738(void *state, void *motion_in, void *render) {
             if (target_dx < 0) {
                 target_dx = 0 - target_dx;
             }
-        }
-store_target_dx:
-        frame.delta[0] = (u16) target_dx;
-        target_dy = ((S_80025738_7 *)destination)->unk_04.at02.v;
-        target_dy -= ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
-        target_dy = abs(target_dy);
-        frame.delta[1] = (u16) target_dy;
-        target = ((S_80025738_1 *)owner)->unk_60;
-        current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
-        target_dz = ((S_80025738_8 *)target)->unk_88;
-        target_dz -= current_z;
-        target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-        target_dz = abs(target_dz);
-        frame.delta[2] = (u16) target_dz;
-        ((S_80025738_0 *)state)->unk_12 = target_dx;
-        do {
-            if (((S_80025738_9 *)target_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
-                ((S_80025738_0 *)state)->unk_12 = ((S_80025738_9 *)target_delta_cursor)->unk_18.u;
+            frame.delta[0] = (u16) target_dx;
+            target_dy = ((S_80025738_7 *)destination)->unk_04.at02.v;
+            target_dy -= ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
+            target_dy = abs(target_dy);
+            frame.delta[1] = (u16) target_dy;
+            target = ((S_80025738_1 *)owner)->unk_60;
+            current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
+            target_dz = ((S_80025738_8 *)target)->unk_88;
+            target_dz -= current_z;
+            target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
+            target_dz = abs(target_dz);
+            frame.delta[2] = (u16) target_dz;
+            ((S_80025738_0 *)state)->unk_12 = target_dx;
+            do {
+                if (((S_80025738_9 *)target_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
+                    ((S_80025738_0 *)state)->unk_12 = ((S_80025738_9 *)target_delta_cursor)->unk_18.u;
+                }
+                index += 1;
+                target_delta_cursor += 1;
+            } while (index < 3);
+            target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
+            ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
+            if (target_ticks == 0) {
+                ((S_80025738_0 *)state)->unk_12 = 1;
             }
-            index += 1;
-            target_delta_cursor += 1;
-        } while (index < 3);
-        target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
-        ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
-        if (target_ticks == 0) {
-            ((S_80025738_0 *)state)->unk_12 = 1;
-        }
-        ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v
-            - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v
-            - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        ((S_80025738_5 *)motion_in)->unk_14 =
-            (s32) ((s32) ((((S_80025738_14 *)(((S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
-            - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        func_800253D0(state, motion_in);
-        next_phase = (u16) ((S_80025738_0 *)state)->unk_0A + 1;
-        goto set_phase;
-scan_path:
-        index = 0;
-        tile_data = ((S_80025738_3 *)source_header)->unk_0C;
-        tile_x = ((S_80025738_10 *)tile_data)->unk_24;
-        tile_y = ((S_80025738_10 *)tile_data)->unk_25;
-        last_tile_x = tile_x;
-        saved_y = tile_y;
-        while (index < 8) {
-            grid_x = (s16)tile_x;
-            grid_y = (s16)tile_y;
-            if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((S_80025738_1 *)owner)->unk_88,
-                (s16) (((S_80025738_0 *)state)->unk_0E << 9)) != 0) {
-                break;
-            }
-            source_position = &dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
-            probe_z = (u16) ((S_80025738_1 *)owner)->unk_88;
-            probe_z -= 0x20;
-            probe_z = (u32)probe_z << 16;
-            probe_z >>= 16;
-            step_y = &dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
-            floor_z = func_800BCB04(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
-                ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
-            if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
-                break;
-            }
-            index += 1;
-            tile_x += dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
-            tile_y += dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
-            saved_y = tile_y;
+            ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v
+                - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v
+                - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            ((S_80025738_5 *)motion_in)->unk_14 =
+                (s32) ((s32) ((((S_80025738_14 *)(((S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10)
+                - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            func_800253D0(state, motion_in);
+            next_phase = (u16) ((S_80025738_0 *)state)->unk_0A + 1;
+        } else {
+            index = 0;
+            tile_data = ((S_80025738_3 *)source_header)->unk_0C;
+            tile_x = ((S_80025738_10 *)tile_data)->unk_24;
+            tile_y = ((S_80025738_10 *)tile_data)->unk_25;
             last_tile_x = tile_x;
-        }
-        destination = &frame.out_x;
-        index = 1;
-        path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-        world_x = ((last_tile_x << 16) >> 10) + ((dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
-        ((S_80025738_7 *)destination)->unk_00.at02.v = world_x;
-        world_y = ((saved_y << 16) >> 10) + ((dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
-        ((S_80025738_7 *)destination)->unk_04.at02.v = world_y;
-        ((S_80025738_7 *)destination)->unk_08.at02.v = ((S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
-        frame.delta[0] = abs(((S_80025738_7 *)destination)->unk_00.at02.v - ((S_80025738_5 *)motion_in)->unk_00.at02u.v);
-        frame.delta[1] = abs(((S_80025738_7 *)destination)->unk_04.at02.v - ((S_80025738_5 *)motion_in)->unk_04.at02u.v);
-        frame.delta[2] = abs(((S_80025738_7 *)destination)->unk_08.at02.v - ((S_80025738_5 *)motion_in)->unk_08.at02u.v);
-        ((S_80025738_0 *)state)->unk_12 = frame.delta[0];
-        do {
-            if (((S_80025738_11 *)path_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
-                ((S_80025738_0 *)state)->unk_12 = ((S_80025738_11 *)path_delta_cursor)->unk_18.u;
+            saved_y = tile_y;
+            while (index < 8) {
+                grid_x = (s16)tile_x;
+                grid_y = (s16)tile_y;
+                if ((s16)func_800A44E0((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, ((S_80025738_1 *)owner)->unk_88,
+                    (s16) (((S_80025738_0 *)state)->unk_0E << 9)) != 0) {
+                    break;
+                }
+                source_position = &dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
+                probe_z = (u16) ((S_80025738_1 *)owner)->unk_88;
+                probe_z -= 0x20;
+                probe_z = (u32)probe_z << 16;
+                probe_z >>= 16;
+                step_y = &dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
+                floor_z = func_800BCB04(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
+                    ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
+                if (floor_z >= 0x201 || (s16) (floor_z - (u16) ((S_80025738_1 *)owner)->unk_88) < -0x3F) {
+                    break;
+                }
+                index += 1;
+                tile_x += dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E];
+                tile_y += dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E];
+                saved_y = tile_y;
+                last_tile_x = tile_x;
             }
-            index += 1;
-            path_delta_cursor += 1;
-        } while (index < 3);
-        path_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
-        ((S_80025738_0 *)state)->unk_12 = (s16) path_ticks;
-        if (path_ticks == 0) {
-            ((S_80025738_0 *)state)->unk_12 = 1;
+            destination = &frame.out_x;
+            index = 1;
+            path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
+            world_x = ((last_tile_x << 16) >> 10) + ((dirStepX[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            ((S_80025738_7 *)destination)->unk_00.at02.v = world_x;
+            world_y = ((saved_y << 16) >> 10) + ((dirStepY[(s16) ((S_80025738_0 *)state)->unk_0E] + 1) << 5);
+            ((S_80025738_7 *)destination)->unk_04.at02.v = world_y;
+            ((S_80025738_7 *)destination)->unk_08.at02.v = ((S_80025738_5 *)motion_in)->unk_08.at02u.v + 0x20;
+            frame.delta[0] = abs(((S_80025738_7 *)destination)->unk_00.at02.v - ((S_80025738_5 *)motion_in)->unk_00.at02u.v);
+            frame.delta[1] = abs(((S_80025738_7 *)destination)->unk_04.at02.v - ((S_80025738_5 *)motion_in)->unk_04.at02u.v);
+            frame.delta[2] = abs(((S_80025738_7 *)destination)->unk_08.at02.v - ((S_80025738_5 *)motion_in)->unk_08.at02u.v);
+            ((S_80025738_0 *)state)->unk_12 = frame.delta[0];
+            do {
+                if (((S_80025738_11 *)path_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
+                    ((S_80025738_0 *)state)->unk_12 = ((S_80025738_11 *)path_delta_cursor)->unk_18.u;
+                }
+                index += 1;
+                path_delta_cursor += 1;
+            } while (index < 3);
+            path_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
+            ((S_80025738_0 *)state)->unk_12 = (s16) path_ticks;
+            if (path_ticks == 0) {
+                ((S_80025738_0 *)state)->unk_12 = 1;
+            }
+            ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v
+                - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v
+                - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_08.at00.v
+                - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+            func_80025614(state, motion_in);
+            next_phase = 6;
         }
-        ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v
-            - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v
-            - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_08.at00.v
-            - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-        func_80025614(state, motion_in);
-        next_phase = 6;
-        goto set_phase;
+        ((S_80025738_0 *)state)->unk_0A = next_phase;
+        ((S_80025738_0 *)state)->unk_10 = 0U;
+        break;
     case 2:
         ((S_80025738_5 *)motion_in)->unk_00.at00.v += ((S_80025738_5 *)motion_in)->unk_0C;
         ((S_80025738_5 *)motion_in)->unk_04.at00.v += ((S_80025738_5 *)motion_in)->unk_10;
@@ -380,7 +368,6 @@ advance_phase:
             break;
         }
         next_phase = 5;
-set_phase:
         ((S_80025738_0 *)state)->unk_0A = next_phase;
         ((S_80025738_0 *)state)->unk_10 = 0U;
     }

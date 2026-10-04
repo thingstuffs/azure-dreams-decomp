@@ -282,7 +282,7 @@ failed:
             end.x = end.x - dirStepX[dest_dir];
             end.y = end.y - dirStepY[dest_dir];
             if (func_8001C5E4(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
-                goto failed;
+                return 1;
             }
             start.x = start.x + dirStepX[(travel_dir + 2) & 7];
             start.y = start.y + dirStepY[(travel_dir + 2) & 7];
@@ -300,7 +300,7 @@ failed:
         end.x = D_800E2970[room_idx].x;
         end.y = D_800E2970[room_idx].y;
         if (func_8001C5E4(&start, &end, 1, &join_x, &join_y, main_height, height_step) < 0) {
-            goto failed;
+            return 1;
         }
         side_start = start;
         side_start.x = side_start.x + dirStepX[(travel_dir + 2) & 7];
@@ -308,7 +308,7 @@ failed:
         join_x = join_x - dirStepX[travel_dir];
         join_y = join_y - dirStepY[travel_dir];
         if (func_8001C5E4(&side_start, &end, 0, &join_x, &join_y, side_height, height_step) < 0) {
-            goto failed;
+            return 1;
         }
         start.x = end.x;
         start.y = end.y;

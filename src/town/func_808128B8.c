@@ -29,22 +29,19 @@ void func_808128B8(TownAnimState *anim)
     if (anim->counter++ & 1) {
         if (anim->step < 12) {
             anim->step++;
-            goto state_3;
+        } else {
+            anim->state = 3;
         }
-        anim->state = 3;
     }
 
     case 3:
-state_3:
     anim->angle -= anim->step;
-    if (anim->angle < 0) {
-        do {
-            anim->angle += 32;
-            anim->y = (anim->y + 1) % 12;
-        } while (anim->angle < 0);
-        goto update;
+    while (anim->angle < 0) {
+        anim->angle += 32;
+        anim->y = (anim->y + 1) % 12;
     }
-    goto update;
+    func_8052D62C(anim->x, anim->y, anim->angle);
+    break;
 
     case 4:
     anim->angle -= anim->angle >> 2;
@@ -53,7 +50,6 @@ state_3:
         anim->state = 0;
     }
 
-update:
     func_8052D62C(anim->x, anim->y, anim->angle);
 
     case 1:

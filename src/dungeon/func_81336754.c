@@ -187,7 +187,6 @@ case1_common:
         state->timer.unsigned_value = timer + 1;
         if ((s16)timer < 0x3C)
             return;
-        goto case0;
     }
 
 case0:

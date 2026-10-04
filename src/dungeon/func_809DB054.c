@@ -103,23 +103,22 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
             work->unk_1C = secondary_flags;
         } else {
             init_obj = obj;
-            if (((flags & ~3) << 16) != 0 || (work->unk_14 & 0x200)) {
-                goto init_parts;
+            if (((flags & ~3) << 16) == 0) {
+                if (!(work->unk_14 & 0x200)) {
+                    query_part = part_a;
+                    init_obj = (void *)func_800A6D30();
+                    flag_bits = (s32)init_obj;
+                    init_obj = obj;
+                    if (flag_bits & 1) {
+                        work->unk_1C |= 0x200;
+                        func_800A48F0(work, 1,
+                                      (func_800A6D30() & 0x3F) | 0x20);
+                        part_b->unk_2C = D_80161CDC;
+                    }
+                }
             }
-            query_part = part_a;
-            init_obj = (void *)func_800A6D30();
-            flag_bits = (s32)init_obj;
-            init_obj = obj;
-            if (!(flag_bits & 1)) {
-                goto init_parts;
-            }
-            work->unk_1C |= 0x200;
-            func_800A48F0(work, 1,
-                          (func_800A6D30() & 0x3F) | 0x20);
-            part_b->unk_2C = D_80161CDC;
         }
         init_obj = obj;
-init_parts:
         func_800A9C18(init_obj, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
@@ -128,7 +127,3 @@ init_parts:
     }
     return work;
 }
-
-/* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
-   The sole residue was part_b's saved_x byte field at 0x20 versus retail offset 0x24.
-   part_b->unk_24 closes the substitution at emitted word 32. */

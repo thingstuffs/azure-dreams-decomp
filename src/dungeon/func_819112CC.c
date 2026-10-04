@@ -90,6 +90,14 @@ typedef struct S_819112CC_5 {
 
 
 #define SP16(off) (*(u16 *)(scratch + (off)))
+typedef struct {
+    unsigned addr: 24;
+    unsigned len: 8;
+    u8 r0, g0, b0, code;
+} P_TAG;
+#define setaddr(p, _addr) (((P_TAG *)(p))->addr = (u32)(_addr))
+#define getaddr(p) (u32)(((P_TAG *)(p))->addr)
+
 #define SP32(off) (*(u32 *)(scratch + (off)))
 /* Same address as D_80083160 (0x80083178 - 0x18); this spelling keeps its
    page construction shared with the other references below. */
@@ -117,7 +125,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     void *effect = effect_in;
     s32 step = step_in;
     s32 duration = duration_in;
-    register u32 low_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+
     u8 *prim;
     s32 angle_x_or_mask;
     s32 angle_x_or_mask_2;
@@ -157,7 +165,6 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     scratch = (u8 *)0x1F800000;
     interpolate = step < duration;
     vertex_base = 0x1F800064;
-    low_mask = 0x00FFFFFF;
     SP32(0x18) = (u32)render_context + 0xB0;
     while (point_index < 5) {
         twice_index = point_index * 2;
@@ -238,12 +245,11 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             coord_or_offset = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
             coord_or_offset += SP32(0x18);
-            ((S_819112CC_2 *)prim)->unk_00.at00.v = (((S_819112CC_2 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
-                (*(u32 *)coord_or_offset & low_mask);
+            setaddr(prim, getaddr(coord_or_offset));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
                 RenderContext *ctx = *(RenderContext **)context_slot;
                 prim = ctx->nextPrim;
@@ -252,12 +258,11 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             func_80067F20(prim, 0, 0,
                           func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
-            ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
-                (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
+            setaddr(prim, getaddr(&((u32 *)SP32(0x18))[SP32(0xB4)]));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
         }
         {
             RenderContext **pool = (RenderContext **)context_slot;
@@ -327,12 +332,11 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             coord_or_offset = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
             coord_or_offset += SP32(0x18);
-            ((S_819112CC_5 *)prim)->unk_00.at00.v = (((S_819112CC_5 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
-                (*(u32 *)coord_or_offset & low_mask);
+            setaddr(prim, getaddr(coord_or_offset));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
             {
                 RenderContext *ctx = *(RenderContext **)context_slot;
                 prim = ctx->nextPrim;
@@ -341,12 +345,11 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             func_80067F20(prim, 0, 0,
                           func_80066460(0, ((S_819112CC_0 *)effect)->unk_12, 0, 0) & 0xFFFF,
                           0);
-            ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
-                (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
+            setaddr(prim, getaddr(&((u32 *)SP32(0x18))[SP32(0xB4)]));
             link = (u32 *)SP32(0xB4);
             link = (u32 *)((u32)link << 2);
             link = (u32 *)((u8 *)link + SP32(0x18));
-            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
+            *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & 0xFFFFFF);
         }
     }
 }

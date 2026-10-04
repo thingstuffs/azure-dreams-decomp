@@ -163,23 +163,21 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
                 ((S_818C8A70_0 *)effect)->unk_00 = 1;
                 ((S_818C8A70_0 *)effect)->unk_02 = 0U;
                 func_800A56E0(0x300);
-                goto move_effect;
+            } else {
+                ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+                objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
             }
-            ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
         }
-move_effect:
         if ((func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((S_818C8A70_0 *)effect)->unk_58);
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_818C8A70_0 *)effect)->unk_5C);
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((S_818C8A70_0 *)effect)->unk_60);
-            goto update_phase;
+        } else {
+            ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+            objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
+            return;
         }
-        ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
-        objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-        goto remove_effect_done;
     }
-update_phase:
     phase = ((S_818C8A70_0 *)effect)->unk_00;
     if (phase == 1) {
         burst_ticks = ((S_818C8A70_0 *)effect)->unk_02 + 1;
@@ -295,8 +293,6 @@ update_phase:
         if ((s16) fade_ticks >= 0x15) {
             ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             objectFlagBlock.flags = objectFlagBlock.flags | 0x8000;
-            remove_effect_done:
-            ;
         }
     }
 }

@@ -76,6 +76,9 @@ void func_8003B470(void)
         } else {
             goto shared_setup;
         }
+        reserve_twch_load(1);
+        reserve_tw_mon_load(1);
+        file_load_com(&D_80080EA0);
     } else if (runtime_flags & 4) {
         goto shared_setup;
     } else {
@@ -91,25 +94,20 @@ shared_setup:
             } else {
                 func_8003BA24();
             }
+            reserve_twch_load(1);
+            reserve_tw_mon_load(1);
+            file_load_com(&D_80080EA0);
         } else {
-            goto default_setup;
+            func_800434E4();
+            page->red_collar_status = 1;
+            func_800B9830();
+            page->word_2D5C = 0;
+            change_map(D_8006AEC4);
+            reserve_twch_load(0);
+            reserve_tw_mon_load(0);
         }
     }
-    reserve_twch_load(1);
-    reserve_tw_mon_load(1);
-    file_load_com(&D_80080EA0);
-    goto finalize;
 
-default_setup:
-    func_800434E4();
-    page->red_collar_status = 1;
-    func_800B9830();
-    page->word_2D5C = 0;
-    change_map(D_8006AEC4);
-    reserve_twch_load(0);
-    reserve_tw_mon_load(0);
-
-finalize:
     D_80082E60.flags16 &= 0x3FF9;
     func_8009FF28();
     func_800B9890();

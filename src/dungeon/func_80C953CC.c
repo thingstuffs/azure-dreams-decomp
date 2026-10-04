@@ -106,7 +106,6 @@ typedef struct Item {
     u8 pad2;
 } Item;
 
-extern void *D_80170838[7];
 extern u8 D_80170920[];
 extern u8 D_8017102C[];
 extern u8 D_801752B4[8];
@@ -128,57 +127,50 @@ void func_80172BCC(S_func_80C953CC_1 *work, S_func_80C953CC_2 *position, S_func_
 {
     S_func_80C953CC_9 *part;
     s32 alternate = 0;
-    static void *const part_labels[] = {
-        &&alternate_e, &&alternate_b, &&alternate_8,
-        &&no_part, &&part_8, &&part_b, &&part_e
-    };
-
-    (void)part_labels;
 
     switch (work->unk_9B) {
     case 0:
         if (actor->unk_1C & 0x2000) {
-            u32 part_index = (actor->unk_46 & 0x3FFF) - 1;
-
-            if (part_index >= 7) {
-                goto no_part;
-            }
-            goto *D_80170838[part_index];
-
-alternate_e:
-            alternate = 1;
-            goto part_e;
-alternate_b:
-            alternate = 1;
-            goto part_b;
-alternate_8:
-            alternate = 1;
-            goto part_8;
-        } else {
             switch (actor->unk_46 & 0x3FFF) {
-            case 1:
-                goto part_8;
-            case 2:
-                goto part_b;
+            case 7:
+                alternate = 1;
+                /* fallthrough */
             case 3:
                 goto part_e;
+            case 6:
+                alternate = 1;
+                /* fallthrough */
+            case 2:
+                goto part_b;
+            case 5:
+                alternate = 1;
+                /* fallthrough */
+            case 1:
+                goto part_8;
             default:
-                goto no_part;
+                part = 0;
+                break;
+            }
+        } else {
+            switch (actor->unk_46 & 0x3FFF) {
+            case 3:
+part_e:
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 0xE);
+                break;
+            case 2:
+part_b:
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 0xB);
+                break;
+            case 1:
+part_8:
+                part = (S_func_80C953CC_9 *)((u8 *)actor + 8);
+                break;
+            default:
+                part = 0;
+                break;
             }
         }
 
-part_e:
-        part = (S_func_80C953CC_9 *)((u8 *)actor + 0xE);
-        goto part_ready;
-part_b:
-        part = (S_func_80C953CC_9 *)((u8 *)actor + 0xB);
-        goto part_ready;
-part_8:
-        part = (S_func_80C953CC_9 *)((u8 *)actor + 8);
-        goto part_ready;
-no_part:
-        part = 0;
-part_ready:
         if (part->unk_00 != 0) {
             void *target_actor;
             S_func_80C953CC_3 *target_entity;
