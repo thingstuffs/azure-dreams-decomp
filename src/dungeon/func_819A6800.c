@@ -112,7 +112,6 @@ typedef struct S_func_819A6800_10 {
     u32 unk_0C;
 } S_func_819A6800_10;
 
-extern void *D_80024008[];
 extern u8 D_800814A8[16];
 extern u8 D_800244BC[];
 extern u8 D_80024810[];
@@ -132,68 +131,39 @@ extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
 extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
 
-#ifdef __mips__
-static const u32 func_819A6800_table[] __asm__("func_819A6800")
-__attribute__((used, section(".text.func_819A6800"), aligned(4))) = {
-    0x80024020,
-    0,
-    0x80024080,
-    0x8002414C,
-    0x800242C4,
-    0x80024304,
-    0x80024424,
-    0x80024448,
-};
-__asm__(".globl func_819A6800\n.size func_819A6800, 1212");
-#define FUNC_819A6800_BODY func_819A6800_body
-#else
-#define FUNC_819A6800_BODY func_819A6800
-#endif
+void func_80024020(void *sequence, void *out_position);
 
-#ifdef __mips__
-void FUNC_819A6800_BODY(void *, void *)
-__attribute__((section(".text.func_819A6800")));
-#endif
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(void *, void *) __asm__("func_80024000") = func_80024020;
 
 #define SELF ((S_func_819A6800_1 *)sequence)
 
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
-void FUNC_819A6800_BODY(void *sequence, void *out_position)
+void func_80024020(void *sequence, void *out_position)
 {
     S_func_819A6800_3 *owner = SELF->unk_00;
     S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
     S_func_819A6800_2 *owner_object = (S_func_819A6800_2 *)((u8 *)owner - 0x20);
     u16 timer;
     s32 state;
-    static void *const state_labels[] = {
-        &&state2,
-        &&state4,
-        &&state5,
-        &&state6,
-        &&state7,
-        &&advance_state,
-    };
+    S_func_819A6800_2 *new_object;
+    S_func_819A6800_4 *counter_object;
+    s16 position_offset[3];
+    S_func_819A6800_7 *effect_data;
+    S_func_819A6800_8 *sprite;
+    u8 *global_slot;
+    S_func_819A6800_4 *global_object;
+    S_func_819A6800_4 *reloaded_object;
 
     timer = SELF->unk_50.u - 1;
     state = SELF->unk_0A.s;
     SELF->unk_50.u = timer;
-    if ((u32)state >= 6U) {
-        return;
-    }
-    (void)state_labels;
-    goto *D_80024008[state];
-
-state2:
-    {
-        S_func_819A6800_2 *new_object;
-        S_func_819A6800_4 *counter_object;
-        s16 position_offset[3];
-        S_func_819A6800_7 *effect_data;
-        S_func_819A6800_8 *sprite;
-
-        u8 *global_slot = (u8 *)&D_800814A0[2];
-        S_func_819A6800_4 *global_object = *(void **)global_slot;
-        S_func_819A6800_4 *reloaded_object;
+    switch (state) {
+    case 0:
+        global_slot = (u8 *)&D_800814A0[2];
+        global_object = *(void **)global_slot;
         global_object->unk_102 = 1;
         reloaded_object = *(void * *)global_slot;
         reloaded_object->unk_F4 = 0;
@@ -217,8 +187,9 @@ state2:
             owner->unk_73 = ((S_func_819A6800_2 *)sprite)->unk_25;
         }
 
-        ((volatile S_func_819A6800_1 *)(SELF))->unk_0A.u++;
-        if ((((S_func_819A6800_6 *)(((volatile S_func_819A6800_1 *)(SELF))->unk_04))->unk_00 & 0x80) == 0) {
+        SELF->unk_0A.u++;
+    case 1:
+        if ((((S_func_819A6800_6 *)(SELF->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
 
@@ -228,69 +199,67 @@ state2:
         counter_object->unk_A8 = SELF->unk_08;
         new_object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
         record = new_object;
-        if (record == 0) {
-            goto advance_state;
+        if (record != 0) {
+            if (func_8003DE58(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
+                              owner_object->unk_0C, position_offset, 0) == 0) {
+                position_offset[2] = 0;
+                position_offset[1] = 0;
+                position_offset[0] = 0;
+            }
+            record->unk_10 = D_800244BC;
+            func_8004491C(record, func_80045340);
+            sprite = record->unk_0C;
+
+            ((S_func_819A6800_5 *)(record->unk_08))->unk_00.s =
+                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.s + ((s32)position_offset[0] << 16);
+            ((S_func_819A6800_5 *)(record->unk_08))->unk_04.s =
+                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.s + ((s32)position_offset[1] << 16);
+            ((S_func_819A6800_5 *)(record->unk_08))->unk_08.s =
+                ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.s + ((s32)position_offset[2] << 16);
+
+            effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
+            effect_data->unk_0C = ((S_func_819A6800_5 *)(record->unk_08))->unk_00.h.unk_02;
+            effect_data->unk_0E = ((S_func_819A6800_5 *)(record->unk_08))->unk_04.h.unk_06;
+            effect_data->unk_10 = ((S_func_819A6800_5 *)(record->unk_08))->unk_08.h.unk_0A;
+
+            sprite->unk_1E = 0x1000;
+            sprite->unk_1C = 0x1000;
+            sprite->unk_10 = 0x20;
+            sprite->unk_14 |= 0x0C;
+            sprite->unk_00 = D_800DEE38;
+            sprite->unk_08 = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
+            sprite->unk_04 = 0;
+            sprite->unk_05 = 0;
+            sprite->unk_0C = 0x00606060;
+            record->unk_20 = SELF;
+            effect_data->unk_4C = 0;
         }
-
-        if (func_8003DE58(((S_func_819A6800_2 *)(owner_object->unk_0C))->unk_08,
-                          owner_object->unk_0C, position_offset, 0) == 0) {
-            position_offset[2] = 0;
-            position_offset[1] = 0;
-            position_offset[0] = 0;
-        }
-        record->unk_10 = D_800244BC;
-        func_8004491C(record, func_80045340);
-        sprite = record->unk_0C;
-
-        ((S_func_819A6800_5 *)(record->unk_08))->unk_00.s =
-            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_00.s + ((s32)position_offset[0] << 16);
-        ((S_func_819A6800_5 *)(record->unk_08))->unk_04.s =
-            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_04.s + ((s32)position_offset[1] << 16);
-        ((S_func_819A6800_5 *)(record->unk_08))->unk_08.s =
-            ((S_func_819A6800_5 *)(owner_object->unk_08))->unk_08.s + ((s32)position_offset[2] << 16);
-
-        effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
-        effect_data->unk_0C = ((S_func_819A6800_5 *)(record->unk_08))->unk_00.h.unk_02;
-        effect_data->unk_0E = ((S_func_819A6800_5 *)(record->unk_08))->unk_04.h.unk_06;
-        effect_data->unk_10 = ((S_func_819A6800_5 *)(record->unk_08))->unk_08.h.unk_0A;
-
-        sprite->unk_1E = 0x1000;
-        sprite->unk_1C = 0x1000;
-        sprite->unk_10 = 0x20;
-        sprite->unk_14 |= 0x0C;
-        sprite->unk_00 = D_800DEE38;
-        sprite->unk_08 = ((S_func_819A6800_9 *)(D_800DEE38))->unk_04;
-        sprite->unk_04 = 0;
-        sprite->unk_05 = 0;
-        sprite->unk_0C = 0x00606060;
-        record->unk_20 = SELF;
-        effect_data->unk_4C = 0;
-    }
-    goto advance_state;
-
-state4:
-    if ((s16)SELF->unk_50.u > 0) {
+        SELF->unk_0A.u++;
         return;
-    }
-    {
-        s32 mode = func_80053EF0(4);
-        if (mode != 2) {
-            mode = 0x300;
-        } else {
-            mode = 0x4300;
-        }
-        func_800A56E0(mode);
-    }
-    {
-        u16 next_state = SELF->unk_0A.u;
-        u16 timer;
-        timer = 10;
-        SELF->unk_50.u = timer;
-        SELF->unk_0A.u = next_state + 1;
-    }
-    return;
 
-state5:
+    case 2:
+        if ((s16)SELF->unk_50.u > 0) {
+            return;
+        }
+        {
+            s32 mode = func_80053EF0(4);
+            if (mode != 2) {
+                mode = 0x300;
+            } else {
+                mode = 0x4300;
+            }
+            func_800A56E0(mode);
+        }
+        {
+            u16 next_state = SELF->unk_0A.u;
+            u16 timer;
+            timer = 10;
+            SELF->unk_50.u = timer;
+            SELF->unk_0A.u = next_state + 1;
+        }
+        return;
+
+    case 3:
     {
         s16 timer_left = SELF->unk_50.s;
         if (timer_left == 7) {
@@ -315,38 +284,36 @@ state5:
             }
         }
     }
-    if (SELF->unk_50.s == 4) {
-        func_8009CE1C(owner->unk_60.p,
-                      10,
-                      SELF->unk_09,
-                      12,
-                      ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
-                      owner,
-                      2);
-    }
-    if ((D_80082E80.unk_014 & 0x8000) == 0 &&
-        SELF->unk_50.s >= 0) {
+        if (SELF->unk_50.s == 4) {
+            func_8009CE1C(owner->unk_60.p,
+                          10,
+                          SELF->unk_09,
+                          12,
+                          ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
+                          owner,
+                          2);
+        }
+        if ((D_80082E80.unk_014 & 0x8000) == 0 &&
+            SELF->unk_50.s >= 0) {
+            return;
+        }
+        {
+            u16 next_state5 = SELF->unk_0A.u;
+            u16 cleanup_delay;
+            cleanup_delay = 20;
+            SELF->unk_50.u = cleanup_delay;
+            SELF->unk_0A.u = next_state5 + 1;
+        }
         return;
-    }
-    {
-        u16 next_state5 = SELF->unk_0A.u;
-        u16 cleanup_delay;
-        cleanup_delay = 20;
-        SELF->unk_50.u = cleanup_delay;
-        SELF->unk_0A.u = next_state5 + 1;
-    }
-    return;
 
-state6:
-    if ((s16)SELF->unk_50.u > 0) {
+    case 4:
+        if ((s16)SELF->unk_50.u > 0) {
+            return;
+        }
+        SELF->unk_0A.u++;
         return;
-    }
 
-advance_state:
-    SELF->unk_0A.u++;
-    return;
-
-state7:
+    case 5:
     {
         s16 signed_flags = SELF->unk_52.s;
         u16 flags = SELF->unk_52.u;
@@ -355,12 +322,13 @@ state7:
             return;
         }
     }
-    {
-        dungeonStatus.unk_0C = 0;
-        dungeonStatus.unk_0A--;
-    }
-    ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
-    D_800814A0[0] |= 0x8000;
+        {
+            dungeonStatus.unk_0C = 0;
+            dungeonStatus.unk_0A--;
+        }
+        ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
+        D_800814A0[0] |= 0x8000;
 
-    return;
+        return;
+    }
 }

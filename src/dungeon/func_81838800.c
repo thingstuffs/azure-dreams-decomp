@@ -113,34 +113,21 @@ extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
 extern void func_800A56E0(s32);
 extern void func_80044A50(void *);
 
-extern u8 D_80024008[];
 extern u8 D_80024B58[];
 extern u8 D_800248F8[];
 extern u8 D_800DEA68[];
 __asm__(".set D_800DEA68, 0x800DEA68");
 
-#ifdef __mips__
-static const u32 func_80024000_prefix[] __asm__("func_80024000")
-__attribute__((section(".text.func_80024000"), used, aligned(4))) = {
-    0x80024020,
-    0,
-    0x80024310,
-    0x800246B8,
-    0x800246DC,
-    0x800247D0,
-    0x80024844,
-    0x8002486C,
-};
-__asm__(".globl func_80024000\n.size func_80024000, 2296");
-#define FUNC_80024000_BODY func_80024020
-#else
-#define FUNC_80024000_BODY func_80024000
-#endif
+void func_80024020(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite);
 
-void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite)
-__attribute__((section(".text.func_80024000")));
+/* The module's entry pointer: the first word of its read-only data, at the row's own address
+ * (retail 0x80024000, the row symbol func_80024000).  The state table of the switch below follows
+ * it at 0x80024008 (gcc's .align 3 for jump tables), and the code starts after the table. */
+void (*const module_entry)(S_func_81838800_1 *, S_func_81838800_2 *, S_func_81838800_3 *) __asm__("func_80024000") =
+    func_80024020;
+
 /* Updates a projectile effect, spawning particles and moving toward its target before impact and cleanup. */
-void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite)
+void func_80024020(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_func_81838800_3 *effect_sprite)
 {
     S_func_81838800_4 *caster;
     s32 particle_or_y;
@@ -167,9 +154,6 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
     s32 distance;
     s32 travel_frames;
     s32 state;
-    static void *const state_labels[] __attribute__((used)) = {
-        &&launch, &&wait_launch, &&travel, &&impact, &&stop_motion, &&cleanup
-    };
 
     u8 *direction_x = ((u8 *)dirStepX);
     s32 direction_offset;
@@ -236,179 +220,169 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
 
     effect->unk_50.u = effect->unk_50.u - 1;
     state = effect->unk_0A.s;
-    if ((u32)state >= 6) {
-        return;
-    }
-    goto *(void (**)(void))((void **)D_80024008)[state];
-
-launch:
-    if ((((S_func_81838800_7 *)effect->unk_04)->unk_00 & 0x80) == 0) {
-        return;
-    }
-    if (func_8003DE58(((S_func_81838800_3 *)caster_obj->unk_0C)->unk_08,
-                      caster_obj->unk_0C, launch_offset, 0) == 0) {
-        launch_offset[1] = 0;
-        launch_offset[0] = 0;
-        launch_offset[2] = (caster_sprite->unk_14 & 0x8000) ? -48 : 0;
-    }
-    motion->unk_00.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_00.s +
-                          ((s32)launch_offset[0] << 16);
-    motion->unk_04.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_04.s +
-                          ((s32)launch_offset[1] << 16);
-    motion->unk_08.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.s +
-                          ((s32)launch_offset[2] << 16);
-    func_8004491C((u8 *)effect - 0x20, D_800248F8);
-    range = (s16)func_800A3820(7);
-    offset_y = caster_sprite->unk_24;
-    target = (void *)func_800A05A4(caster, offset_y,
-                                   caster_sprite->unk_25,
-                                   caster->unk_2A.s, range);
-    caster->unk_60.p = target;
-    if (target != 0) {
-        goto target_found;
-    }
-    {
-        distance = 0;
-        tile_dy = distance;
-        tile_dx = distance;
-        while (distance < func_800A3820(7)) {
-            index_or_x = (caster_sprite->unk_24 + tile_dx) * 64 + 32;
-            offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
-            sprite_or_x = index_or_x & 0xFFFF;
-            {
-                s32 probe_y;
-                direction_x = (u8 *)(sprite_or_x);
-                probe_y = offset_y & 0xFFFF;
-                ground_z = func_800BCB04((s32)direction_x, probe_y,
-                                   (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 128));
+    switch (state) {
+    case 0:
+        if ((((S_func_81838800_7 *)effect->unk_04)->unk_00 & 0x80) == 0) {
+            return;
+        }
+        if (func_8003DE58(((S_func_81838800_3 *)caster_obj->unk_0C)->unk_08,
+                          caster_obj->unk_0C, launch_offset, 0) == 0) {
+            launch_offset[1] = 0;
+            launch_offset[0] = 0;
+            launch_offset[2] = (caster_sprite->unk_14 & 0x8000) ? -48 : 0;
+        }
+        motion->unk_00.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_00.s +
+                              ((s32)launch_offset[0] << 16);
+        motion->unk_04.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_04.s +
+                              ((s32)launch_offset[1] << 16);
+        motion->unk_08.s = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.s +
+                              ((s32)launch_offset[2] << 16);
+        func_8004491C((u8 *)effect - 0x20, D_800248F8);
+        range = (s16)func_800A3820(7);
+        offset_y = caster_sprite->unk_24;
+        target = (void *)func_800A05A4(caster, offset_y,
+                                       caster_sprite->unk_25,
+                                       caster->unk_2A.s, range);
+        caster->unk_60.p = target;
+        if (target == 0) {
+            distance = 0;
+            tile_dy = distance;
+            tile_dx = distance;
+            while (distance < func_800A3820(7)) {
+                index_or_x = (caster_sprite->unk_24 + tile_dx) * 64 + 32;
+                offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
+                sprite_or_x = index_or_x & 0xFFFF;
+                {
+                    s32 probe_y;
+                    direction_x = (u8 *)(sprite_or_x);
+                    probe_y = offset_y & 0xFFFF;
+                    ground_z = func_800BCB04((s32)direction_x, probe_y,
+                                       (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 128));
+                }
+                particle_or_y = offset_y & 0xFFFF;
+                if (func_800A4688(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
+                                  caster->unk_60.s) != 0) {
+                    break;
+                }
+                tile_dy += step_y;
+                distance++;
+                tile_dx += step_x;
             }
-            particle_or_y = offset_y & 0xFFFF;
-            if (func_800A4688(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,
-                              caster->unk_60.s) != 0) {
-                goto probe_done;
+            caster->unk_72.u = caster_sprite->unk_24 + step_x * distance;
+            target_tile = caster_sprite->unk_25 + step_y * distance;
+        } else {
+            sprite_or_x = (s32)((S_func_81838800_5 *)((u8 *)target - 0x20))->unk_0C;
+            if ((((S_func_81838800_3 *)sprite_or_x)->unk_14 & 0x8000) && (effect_sprite->unk_14 & 0x8000)) {
+                effect->unk_0A.s = 3;
+                return;
             }
-            tile_dy += step_y;
-            distance++;
-            tile_dx += step_x;
+            caster->unk_72.u = ((S_func_81838800_3 *)sprite_or_x)->unk_24;
+            target_tile = ((S_func_81838800_3 *)sprite_or_x)->unk_25;
         }
-probe_done:
-        caster->unk_72.u = caster_sprite->unk_24 + step_x * distance;
-        target_tile = caster_sprite->unk_25 + step_y * distance;
-    }
-    goto set_destination;
-
-target_found:
-    sprite_or_x = (s32)((S_func_81838800_5 *)((u8 *)target - 0x20))->unk_0C;
-    if ((((S_func_81838800_3 *)sprite_or_x)->unk_14 & 0x8000) && (effect_sprite->unk_14 & 0x8000)) {
-        effect->unk_0A.s = 3;
-        return;
-    }
-    caster->unk_72.u = ((S_func_81838800_3 *)sprite_or_x)->unk_24;
-    target_tile = ((S_func_81838800_3 *)sprite_or_x)->unk_25;
-set_destination:
-    caster->unk_73.u = target_tile;
-    target_tile = caster->unk_72.s;
-    HI16(target_pos.x) = (target_tile << 6) + 32;
-    target_tile = caster->unk_73.s;
-    HI16(target_pos.y) = (target_tile << 6) + 32;
-    HI16(target_pos.z) = func_800BCB04(HI16U(target_pos.x), HI16U(target_pos.y),
-                                       (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 48));
-    if (HI16(target_pos.z) >= 512) {
-        HI16(target_pos.z) = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A;
-    }
-    HI16(target_pos.z) -= 48;
-    index_or_x = HI16(target_pos.x) - motion->unk_00.h.unk_02;
-    offset_y = HI16(target_pos.y) - motion->unk_04.h.unk_06;
-    distance = index_or_x;
-    distance = abs(distance);
-    abs_dy = offset_y;
-    abs_dy = abs(abs_dy);
-    if (distance < abs_dy) {
-        distance = abs_dy;
-    }
-    travel_frames = distance / 8;
-    travel_frames++;
-    effect->unk_50.s = travel_frames;
-    motion->unk_0C = (index_or_x << 16) / effect->unk_50.s;
-    motion->unk_10 = (offset_y << 16) / effect->unk_50.s;
-    motion->unk_14 = (target_pos.z - motion->unk_08.s) /
-                             effect->unk_50.s;
-    effect->unk_0C.s = 8;
-    effect->unk_50.u = effect->unk_50.u + effect->unk_0C.u;
-    func_800A56E0(0x300);
-    effect->unk_0A.u = effect->unk_0A.u + 1;
-    return;
-
-wait_launch:
-    effect->unk_0C.s = effect->unk_0C.s - 1;
-    if (effect->unk_0C.s > 0) {
-        return;
-    }
-    effect->unk_0C.s = 12;
-    effect->unk_0A.u = effect->unk_0A.u + 1;
-    return;
-
-travel:
-    effect->unk_0C.s = effect->unk_0C.s - 1;
-    if (effect->unk_0C.s > 0) {
-        motion->unk_0C += step_x << 16;
-        motion->unk_10 += step_y << 16;
-    }
-    motion->unk_00.s += motion->unk_0C;
-    motion->unk_04.s += motion->unk_10;
-    motion->unk_08.s += motion->unk_14;
-    world_x = motion->unk_00.h.unk_02;
-    if (world_x < 0) {
-        world_x += 63;
-    }
-    if ((world_x >> 6) == (s8)caster->unk_72.u) {
-        world_y = motion->unk_04.h.unk_06;
-        if (world_y < 0) {
-            world_y += 63;
+        caster->unk_73.u = target_tile;
+        target_tile = caster->unk_72.s;
+        HI16(target_pos.x) = (target_tile << 6) + 32;
+        target_tile = caster->unk_73.s;
+        HI16(target_pos.y) = (target_tile << 6) + 32;
+        HI16(target_pos.z) = func_800BCB04(HI16U(target_pos.x), HI16U(target_pos.y),
+                                           (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 48));
+        if (HI16(target_pos.z) >= 512) {
+            HI16(target_pos.z) = ((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A;
         }
-        if ((world_y >> 6) == (s8)caster->unk_73.u) {
-            effect->unk_50.u = 0;
+        HI16(target_pos.z) -= 48;
+        index_or_x = HI16(target_pos.x) - motion->unk_00.h.unk_02;
+        offset_y = HI16(target_pos.y) - motion->unk_04.h.unk_06;
+        distance = index_or_x;
+        distance = abs(distance);
+        abs_dy = offset_y;
+        abs_dy = abs(abs_dy);
+        if (distance < abs_dy) {
+            distance = abs_dy;
         }
-    }
-    if (effect->unk_50.s > 0) {
+        travel_frames = distance / 8;
+        travel_frames++;
+        effect->unk_50.s = travel_frames;
+        motion->unk_0C = (index_or_x << 16) / effect->unk_50.s;
+        motion->unk_10 = (offset_y << 16) / effect->unk_50.s;
+        motion->unk_14 = (target_pos.z - motion->unk_08.s) /
+                                 effect->unk_50.s;
+        effect->unk_0C.s = 8;
+        effect->unk_50.u = effect->unk_50.u + effect->unk_0C.u;
+        func_800A56E0(0x300);
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        return;
+
+    case 1:
+        effect->unk_0C.s = effect->unk_0C.s - 1;
+        if (effect->unk_0C.s > 0) {
+            return;
+        }
+        effect->unk_0C.s = 12;
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        return;
+
+    case 2:
+        effect->unk_0C.s = effect->unk_0C.s - 1;
+        if (effect->unk_0C.s > 0) {
+            motion->unk_0C += step_x << 16;
+            motion->unk_10 += step_y << 16;
+        }
+        motion->unk_00.s += motion->unk_0C;
+        motion->unk_04.s += motion->unk_10;
+        motion->unk_08.s += motion->unk_14;
+        world_x = motion->unk_00.h.unk_02;
+        if (world_x < 0) {
+            world_x += 63;
+        }
+        if ((world_x >> 6) == (s8)caster->unk_72.u) {
+            world_y = motion->unk_04.h.unk_06;
+            if (world_y < 0) {
+                world_y += 63;
+            }
+            if ((world_y >> 6) == (s8)caster->unk_73.u) {
+                effect->unk_50.u = 0;
+            }
+        }
+        if (effect->unk_50.s > 0) {
+            return;
+        }
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        motion->unk_0C = step_x << 16;
+        motion->unk_10 = step_y << 16;
+        return;
+
+    case 3:
+        motion->unk_00.s += motion->unk_0C;
+        motion->unk_04.s += motion->unk_10;
+        motion->unk_08.s += motion->unk_14;
+        if (caster->unk_60.s != 0) {
+            func_8009CE1C(caster->unk_60.p, 10, effect->unk_09, 1,
+                          caster->unk_2A.s, caster, 2);
+        }
+        effect->unk_50.s = 16;
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        return;
+
+    case 4:
+        func_80044A50((u8 *)effect - 0x20);
+        motion->unk_14 = 0;
+        motion->unk_10 = 0;
+        motion->unk_0C = 0;
+        effect->unk_0A.u = effect->unk_0A.u + 1;
+        return;
+
+    case 5:
+        flags = effect->unk_10;
+        if (flags & 0x8000) {
+            effect->unk_10 = flags & ~0x8000;
+            return;
+        }
+        if (effect->unk_50.s > 0) {
+            return;
+        }
+        dungeonStatus.unk_0C = 0;
+        ((S_func_81838800_8 *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
+        objectFlagBlock.flags |= 0x8000;
         return;
     }
-    effect->unk_0A.u = effect->unk_0A.u + 1;
-    motion->unk_0C = step_x << 16;
-    motion->unk_10 = step_y << 16;
-    return;
-
-impact:
-    motion->unk_00.s += motion->unk_0C;
-    motion->unk_04.s += motion->unk_10;
-    motion->unk_08.s += motion->unk_14;
-    if (caster->unk_60.s != 0) {
-        func_8009CE1C(caster->unk_60.p, 10, effect->unk_09, 1,
-                      caster->unk_2A.s, caster, 2);
-    }
-    effect->unk_50.s = 16;
-    effect->unk_0A.u = effect->unk_0A.u + 1;
-    return;
-
-stop_motion:
-    func_80044A50((u8 *)effect - 0x20);
-    motion->unk_14 = 0;
-    motion->unk_10 = 0;
-    motion->unk_0C = 0;
-    effect->unk_0A.u = effect->unk_0A.u + 1;
-    return;
-
-cleanup:
-    flags = effect->unk_10;
-    if (flags & 0x8000) {
-        effect->unk_10 = flags & ~0x8000;
-        return;
-    }
-    if (effect->unk_50.s > 0) {
-        return;
-    }
-    dungeonStatus.unk_0C = 0;
-    ((S_func_81838800_8 *)((u8 *)effect - 0x20))->unk_1E |= 0x8000;
-    objectFlagBlock.flags |= 0x8000;
-    return;
 }
