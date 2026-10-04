@@ -116,41 +116,38 @@ void func_80173A60(void *actor_state, EntityRec *motion, void *sprite, void *act
             switch (kind_index) {
             case 6:
                 use_player = 1;
-                goto L_kind3;
+            case 2:
+                item_id = (u8 *)actor + 0xE;
+                break;
             case 5:
                 use_player = 1;
-                goto L_kind2;
+            case 1:
+                item_id = (u8 *)actor + 0xB;
+                break;
             case 4:
                 use_player = 1;
-                goto L_kind1;
             case 0:
-                goto L_kind1;
-            case 1:
-                goto L_kind2;
-            case 2:
-                goto L_kind3;
+                item_id = (u8 *)actor + 8;
+                break;
             default:
-                goto L_kind4;
+                item_id = 0;
+                break;
             }
-        }
-
-        switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
-        case 3:
-L_kind3:
-            item_id = (u8 *)actor + 0xE;
-            break;
-        case 2:
-L_kind2:
-            item_id = (u8 *)actor + 0xB;
-            break;
-        case 1:
-L_kind1:
-            item_id = (u8 *)actor + 8;
-            break;
-        default:
-L_kind4:
-            item_id = 0;
-            break;
+        } else {
+            switch ((*(u16 *)((u8 *)actor + 0x46)) & 0x3FFF) {
+            case 3:
+                item_id = (u8 *)actor + 0xE;
+                break;
+            case 2:
+                item_id = (u8 *)actor + 0xB;
+                break;
+            case 1:
+                item_id = (u8 *)actor + 8;
+                break;
+            default:
+                item_id = 0;
+                break;
+            }
         }
 
         if (*item_id != 0) {
@@ -160,15 +157,19 @@ L_kind4:
             ((S_80173A60_0 *)actor_state)->unk_98 &= 0xFF7F;
             use_player_test = use_player;
             if (use_player_test != 0) {
+                u8 *linked_sprite;
+
                 linked_actor = D_800814A8;
                 (*(void * *)((u8 *)actor + 0x60)) = linked_actor;
-                goto L_copy_linked;
+                linked_sprite = ((S_80173A60_1_pre *)linked_actor)[-1].unk_00;
+                (*(u8 *)((u8 *)actor + 0x72)) = linked_sprite[0x24];
+                offset_x = linked_sprite[0x25];
+                (*(u8 *)((u8 *)actor + 0x73)) = offset_x;
             } else if (D_8006DE24[*item_id].kind == 2) {
                 linked_actor = (*(void * *)((u8 *)actor + 0x60));
                 if (linked_actor != 0) {
                     u8 *linked_sprite;
 
-L_copy_linked:
                     linked_sprite = ((S_80173A60_1_pre *)linked_actor)[-1].unk_00;
                     (*(u8 *)((u8 *)actor + 0x72)) = linked_sprite[0x24];
                     offset_x = linked_sprite[0x25];

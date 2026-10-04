@@ -330,12 +330,9 @@ ordinary_cleanup:
                 ((S_801714B8_0 *)actor)->unk_9E.s = 0;
                 ((S_801714B8_0 *)actor)->unk_A0 = (rand() & 0x1F) + 0xF;
             }
-            if (((S_801714B8_2 *)sprite)->unk_2C != main_table) {
-                goto final_state_check;
-            }
         }
 
-        {
+        if (((S_801714B8_2 *)sprite)->unk_2C == main_table) {
             s16 idle_timer = ((S_801714B8_0 *)actor)->unk_9E.u;
 
             ((S_801714B8_0 *)actor)->unk_9E.u = idle_timer + 1;
@@ -383,7 +380,6 @@ ordinary_cleanup:
         }
     }
 
-final_state_check:
     if (((S_801714B8_2 *)sprite)->unk_2C == D_801760A4 &&
         (((S_801714B8_2 *)sprite)->unk_14 & 0x6000)) {
         u8 *state_table = D_8017609C;
