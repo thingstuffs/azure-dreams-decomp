@@ -4,7 +4,7 @@
 
 M2C_UNK func_800948DC();
 M2C_UNK func_80094984();
-extern M2C_UNK D_80092CD4;
+extern s32 D_80092CD4;
 extern M2C_UNK D_800D0140;
 
 void func_800945B8(M2C_UNK **outputSlot, EntityRec *state, M2C_UNK initContext) {

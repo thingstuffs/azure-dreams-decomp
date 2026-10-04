@@ -17,7 +17,7 @@ M2C_UNK reserve_twch_load();                     /* extern */
 M2C_UNK reserve_tw_mon_load();                     /* extern */
 M2C_UNK plt_init_sleep_set();                            /* extern */
 extern M2C_UNK D_80080E28;
-extern M2C_UNK D_80080EA0;
+extern u32 D_80080EA0;
 extern M2C_UNK D_80081018;
 extern M2C_UNK D_800D1D54;
 extern M2C_UNK D_800D1E7C;

@@ -11,8 +11,8 @@ s32 func_800169EC();                                /* extern */
 void func_80017808();                      /* extern */
 M2C_UNK func_8001A418();                     /* extern */
 s32 func_8001A510();                         /* extern */
-extern M2C_UNK D_80016A3C;
-extern M2C_UNK D_8001B718;
+extern s32 D_80016A3C;
+extern s32 D_8001B718;
 
 typedef struct S_80017824_0 {
     u8 pad_00[0x10];

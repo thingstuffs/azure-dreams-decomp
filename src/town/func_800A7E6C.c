@@ -15,7 +15,7 @@ typedef struct S_800A55CC_0_pre {
 extern void func_80033CD8(void *object, void *setup_data);
 void func_800942B0(void *arg0, EntityRec *arg1, s32 arg2);
 extern M2C_UNK D_800903FC[];
-extern M2C_UNK D_800970FC[];
+extern u8 D_800970FC[];
 extern s32 D_800D0CC0[];
 
 /* Initialize the object and adjust its record value before final setup. */

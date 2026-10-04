@@ -29,7 +29,7 @@ void func_80126620();
 
 extern M2C_UNK D_8004CAA0;
 extern s8 D_80080A84;
-extern M2C_UNK D_80126704;
+extern s32 D_80126704;
 
 /* Initializes the object's state and callbacks, or flags initialization failure. */
 void func_801267B8(void) {

@@ -8,7 +8,7 @@ s32 func_80099368();                    /* extern */
 s32 func_80099734();                        /* extern */
 s32 func_800999B0();                             /* extern */
 s32 func_800A5720();                         /* extern */
-extern M2C_UNK D_80089000[];
+extern u8 D_80089000[];
 extern M2C_UNK D_800E0A03[];
 extern M2C_UNK D_800E0A12[];
 

@@ -12,7 +12,7 @@ extern s16 D_800160B2;
 extern s32 D_80016E40;
 extern M2C_UNK D_80016E48;
 extern M2C_UNK D_80016F88;
-extern M2C_UNK D_80016FC8;
+extern s32 D_80016FC8;
 extern M2C_UNK D_8001700C;
 
 /* Initialize shared state and attach its data pointers. */

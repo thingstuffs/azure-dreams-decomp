@@ -90,7 +90,7 @@ typedef struct S_81988800_12 {
 
 
 extern M2C_UNK D_8002441C;
-extern M2C_UNK D_80024648;
+extern s32 D_80024648;
 extern M2C_UNK D_80024B20;
 extern M2C_UNK D_80024D58;
 

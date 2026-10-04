@@ -76,10 +76,10 @@ M2C_UNK func_80245C10();             /* extern */
 s16 func_8025E01C();                          /* extern */
 extern s16 D_800133A0[5];
 extern s16 D_800133A0_store[5] __asm__("D_800133A0");
-extern M2C_UNK D_8003C558[3];
+extern u8 D_8003C558[3];
 extern s32 D_80084D5C;
 extern M2C_UNK D_8012F130[5];
-extern M2C_UNK D_801328C8[3];
+extern u8 D_801328C8[3];
 extern s32 D_801328E8[3];
 extern s32 D_80132AE8[3];
 extern s32 D_80132AEC[3];

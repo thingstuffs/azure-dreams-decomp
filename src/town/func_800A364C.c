@@ -8,7 +8,7 @@ typedef s32 M2C_UNK;
 extern s32 func_800A1080();
 extern void func_800A12B4();
 extern M2C_UNK D_800A0E3C[3];
-extern M2C_UNK D_80100B70[3];
+extern u8 D_80100B70[3];
 
 typedef struct S_800A0DAC_0 {
     u8 pad_00[0x50];

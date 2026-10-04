@@ -52,7 +52,7 @@ extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
 extern u8 D_8016AA3C[];
-extern M2C_UNK D_8016AE68;
+extern s32 D_8016AE68;
 extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 

@@ -65,7 +65,7 @@ void func_800A2B04(void *, u8, u8);
 s16 func_800BCB04(u16, u16, s16);
 extern M2C_UNK D_800D1E34;
 extern M2C_UNK D_800D20D8;
-extern M2C_UNK D_800E2178;
+extern s32 D_800E2178;
 
 /* Creates a dungeon object at the given tile and height, initializing its sprite and tile flags. */
 void *func_800D1C70(s16 spawn_kind, u16 tile_x, u16 tile_y, s16 height) {

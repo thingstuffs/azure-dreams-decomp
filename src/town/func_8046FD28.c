@@ -7,8 +7,8 @@ s32 func_80019A04();         /* extern */
 s32 func_80019ABC(); /* extern */
 s32 func_8001A510();                         /* extern */
 extern M2C_UNK D_8001A97C;
-extern M2C_UNK D_8001B1FC;
-extern M2C_UNK D_8001B63C;
+extern s32 D_8001B1FC;
+extern s32 D_8001B63C;
 extern M2C_UNK D_8001CDF2;
 
 /* Select dialogue from the table, state override, or fallback. */

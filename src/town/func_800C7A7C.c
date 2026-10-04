@@ -2,7 +2,7 @@
 #include "shared/object_index_slots.h"
 #include "m2c_compat.h"
 
-extern M2C_UNK D_800C5100;
+extern s32 D_800C5100;
 
 typedef struct S_800C51DC_0 {
     u8 pad_00[0x54];

@@ -3,7 +3,7 @@
 #include "records/Rec_func_80094268_arg0.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800930E4;
+extern s32 D_800930E4;
 
 
 /* Initializes the record with D_800930E4 and a value of 0x13. */

@@ -6,7 +6,7 @@ s32 func_80017B24();         /* extern */
 M2C_UNK *func_80017BDC(); /* extern */
 s32 func_80018820();                                /* extern */
 extern M2C_UNK D_8001895C;
-extern M2C_UNK D_80018AD0;
+extern s32 D_80018AD0;
 extern M2C_UNK D_80019B97;
 
 /* Retrieves a result and substitutes the fallback when the follow-up check succeeds. */

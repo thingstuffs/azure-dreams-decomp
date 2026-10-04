@@ -17,8 +17,8 @@ extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern s32 rand();
-extern M2C_UNK D_800ABB20;
-extern M2C_UNK D_800D1464;
+extern s32 D_800ABB20;
+extern s32 D_800D1464;
 
 typedef struct S_8009792C_0 {
     u8 pad_00[0x8];

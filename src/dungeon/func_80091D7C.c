@@ -39,7 +39,7 @@ void func_800A2B04(); /* extern */
 s32 func_800C77D0(); /* extern */
 extern M2C_UNK D_80096384;
 extern M2C_UNK D_800DD274[8];
-extern M2C_UNK D_800DD294[8];
+extern u8 D_800DD294[8];
 
 /* Updates airborne movement, landing animation, and alignment to the actor's tile. */
 void func_800974DC(void *action, EntityRec *motion, void *sprite, EntityRec *actor) {

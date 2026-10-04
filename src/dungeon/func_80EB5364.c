@@ -15,7 +15,7 @@ s32 func_800BCB04();
 extern M2C_UNK D_801711A4[];
 extern M2C_UNK D_80174174[];
 extern M2C_UNK D_8017418C[];
-extern M2C_UNK D_801741D4[];
+extern u8 D_801741D4[];
 
 
 typedef struct S_80170B64_0 {

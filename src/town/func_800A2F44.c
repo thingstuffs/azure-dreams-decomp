@@ -19,7 +19,7 @@ typedef struct S_800A06A4_0 {
 } S_800A06A4_0;   /* arg0 in func_800A06A4; pointer addresses record offset 0x10 */
 
 
-extern M2C_UNK D_800A0708;
+extern s32 D_800A0708;
 extern M2C_UNK D_800A07A4;
 extern M2C_UNK D_800A0AC8;
 extern M2C_UNK D_800A0BE4;

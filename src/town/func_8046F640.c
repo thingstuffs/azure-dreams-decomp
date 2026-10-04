@@ -10,8 +10,8 @@ extern M2C_UNK *func_80019ABC();
 extern s32 func_8001A7F8();
 
 extern M2C_UNK D_8001A94C;
-extern M2C_UNK D_8001B1F8;
-extern M2C_UNK D_8001B63C;
+extern s32 D_8001B1F8;
+extern s32 D_8001B63C;
 extern M2C_UNK D_80020E5C;
 
 /* Selects a lookup result or a fallback based on the input checks. */

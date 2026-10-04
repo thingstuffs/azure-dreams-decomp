@@ -15,7 +15,7 @@ extern M2C_UNK func_800A6104(void);
 extern s16 D_80010208[];
 extern M2C_UNK D_800261C0[];
 extern M2C_UNK D_80026240[];
-extern M2C_UNK D_800265B8[];
+extern s32 D_800265B8[];
 
 
 /* Processes the current selection and stores the next state. */

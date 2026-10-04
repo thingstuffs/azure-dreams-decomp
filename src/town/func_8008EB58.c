@@ -3,7 +3,7 @@
 
 void func_8003ADF4(); /* extern */
 extern s32 D_8006ADD4;
-extern M2C_UNK D_800FC428;
+extern u8 D_800FC428;
 
 /* Call func_8003ADF4 with fixed parameters when D_8006ADD4 equals 0x13000C. */
 void func_8008C2B8(void) {

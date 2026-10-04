@@ -8,7 +8,7 @@ typedef struct S_8001FF34_0 {
 
 void func_804067BC();                            /* extern */
 M2C_UNK func_80400908();                            /* extern */
-extern M2C_UNK D_80406DA0;
+extern s32 D_80406DA0;
 
 /* Process the record data, run the follow-up routine, and set its header pointer. */
 void func_8001FF34(void *record_data) {
