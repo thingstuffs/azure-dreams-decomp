@@ -61,14 +61,12 @@ void func_8009DAD8(s32 draw_param) {
     EntryInfo *info;
     LargeMapEntry *largeMapEntry;
     s32 brightness;
-    u8 *playerLater;
-    register long a0Value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    long kind;
+    s32 firstX;
     s32 firstY;
     u8 *firstColour;
     s32 firstContext;
     s32 distance;
-    register long pageOrTwo ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *callPage = (u8 *)0x80080000;
     long flagsPage;
     register long loopFlagsPage ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
@@ -96,26 +94,22 @@ void func_8009DAD8(s32 draw_param) {
         func_8009EF04();
     }
 
-    a0Value = system->unk_004 << 8;
-    brightness = (func_800644B8(a0Value) >> 6) + 0x80;
+    brightness = (func_800644B8(system->unk_004 << 8) >> 6) + 0x80;
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;
         firstContext = draw_param;
-        pageOrTwo = 0x80080000;
     } else {
         firstContext = draw_param;
-        pageOrTwo = 0x80080000;
     }
-    playerAndIndex = pageOrTwo + 0x2e80;
-    ASM_USE_NV(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    a0Value = ((u8 *)playerAndIndex)[0x24];
+    playerAndIndex = (long)&D_80082E80;
+    firstX = ((u8 *)playerAndIndex)[0x24];
     firstY = ((u8 *)playerAndIndex)[0x25];
     colour[3] = 0x68;
     colour[2] = 0;
     colour[1] = brightness;
     colour[0] = brightness;
-    func_8009DA70(a0Value, firstY, firstColour, firstContext);
+    func_8009DA70(firstX, firstY, firstColour, firstContext);
 
     entry = ((u8 *)head->unk_5C) + 0x20;
     colour[1] = 0;
@@ -126,45 +120,41 @@ void func_8009DAD8(s32 draw_param) {
         ASM_UNDEF(flagsPage);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #endif
         loopFlagsPage = flagsPage;
-        playerLater = (u8 *)playerAndIndex;
-        pageOrTwo = 2;
         for (; entry != head; entry = *(u8 **)(entry + 0x5c) + 0x20) {
             if (*(s8 *)(entry + 0x13) > 0) {
                 object = *(u8 **)(entry - 0x14);
                 if (!(*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
                     if (*(s8 *)(object + 0x26) < 0 ||
-                        *(s8 *)(object + 0x26) != *(s8 *)(playerLater + 0x26)) {
-                        a0Value = (long)object;
-                        distance = func_8009FD40((u8 *)a0Value,
-                                                 callPage + 0x2e80);
+                        *(s8 *)(object + 0x26) != D_80082E80.unk_026) {
+                        distance = func_8009FD40(object,
+                                                 (u8 *)&D_80082E80);
                         if ((s16)distance >= 4) {
                             continue;
                         }
                     }
                 }
 
-                a0Value = 0;
+                kind = 0;
                 if (entry[0x13] == 0x1e) {
                     if (entry[0xad] != 0) {
-                        a0Value = 2;
+                        kind = 2;
                     } else {
-                        a0Value = 1;
+                        kind = 1;
                     }
                 } else if (entry[0x13] != 0x23 ||
                            *(s16 *)(entry + 0xa6) == 0 ||
                            (*(s32 *)(loopFlagsPage + 0x296c) & 4)) {
-                    a0Value = 1;
+                    kind = 1;
                 }
 
-                flagsPage = a0Value;
+                flagsPage = kind;
                 if (flagsPage != 0) {
-                    if (flagsPage == pageOrTwo) {
+                    if (flagsPage == 2) {
                         colour[2] = brightness;
                         colour[0] = 0;
                     }
-                    a0Value = object[0x24];
-                    func_8009DA70(a0Value, object[0x25], colour, draw_param);
-                    if (flagsPage == pageOrTwo) {
+                    func_8009DA70(object[0x24], object[0x25], colour, draw_param);
+                    if (flagsPage == 2) {
                         colour[2] = 0;
                         colour[0] = brightness;
                     }
@@ -180,9 +170,9 @@ void func_8009DAD8(s32 draw_param) {
     do {
         if (info[playerAndIndex].active != 0) {
             if ((D_800E296C & 2) ||
-                func_8009EE4C(a0Value = mapEntry[playerAndIndex].x,
+                func_8009EE4C(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
-                func_8009DA70(a0Value = mapEntry[playerAndIndex].x,
+                func_8009DA70(mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y, colour, draw_param);
             }
         }
@@ -195,9 +185,9 @@ void func_8009DAD8(s32 draw_param) {
     colour[1] = brightness;
     for (; playerAndIndex < 4 && objectEntry[playerAndIndex].type == 2; playerAndIndex++) {
         if ((D_800E296C & 1) ||
-            func_8009EE4C(a0Value = objectEntry[playerAndIndex].x,
+            func_8009EE4C(objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
-            func_8009DA70(a0Value = (u16)objectEntry[playerAndIndex].x,
+            func_8009DA70((u16)objectEntry[playerAndIndex].x,
                           (u16)objectEntry[playerAndIndex].y, colour, draw_param);
         }
     }
@@ -214,9 +204,9 @@ void func_8009DAD8(s32 draw_param) {
             !(info[playerAndIndex].flags & 0x40)) {
             if ((D_800E296C & 8) ||
                 (!(info[playerAndIndex].flags & 0x80) &&
-                 func_8009EE4C(a0Value = largeMapEntry[playerAndIndex].x,
+                 func_8009EE4C(largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
-                func_8009DA70(a0Value = largeMapEntry[playerAndIndex].x,
+                func_8009DA70(largeMapEntry[playerAndIndex].x,
                               largeMapEntry[playerAndIndex].y, colour, draw_param);
             }
         }

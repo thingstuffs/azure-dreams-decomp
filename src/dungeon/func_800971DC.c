@@ -49,7 +49,7 @@ extern void func_8003E188(s32, s32);
 
 Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u32 coord;
+    u16 coord;
     s32 savedMult;
     s32 off;
     s32 shifted;
@@ -63,8 +63,8 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     zero = 0;
 #else
 #endif
-    coord = coordArg + zero;
-    savedMult = mult + zero;
+    coord = coordArg;
+    savedMult = mult;
     if (ent2 == 0) {
         s32 f;
         u32 nc;
@@ -74,7 +74,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
             f |= 0x80000000;
             a->flags14 = f;
             nc = coordArg + ((func_800A6D30() & 7) << 9);
-            coord = nc + zero;
+            coord = nc;
             a->unk2a = nc;
         }
     }
@@ -164,15 +164,13 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     }
     if ((ent2->flags1c & 0x238) != 0) {
         u8 d;
+        s32 rnd;
 
-        callArg = (Ent *)(func_800A6D30() & 0xFFFF);
+        rnd = func_800A6D30() & 0xFFFF;
         d = ent2->unk3;
 
         if (d != 0) {
-            s32 dd = d + zero; /* move v0,v1 */
-
-            value = ((s32)callArg % dd) + zero; /* mfhi; move s1 */
-            ASM_USE_NV(dd);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            value = (rnd % ent2->unk3) + zero;
         } else {
             value = 0;
         }
