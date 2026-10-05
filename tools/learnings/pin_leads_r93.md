@@ -81,3 +81,13 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
 - A variable shared by two blocks that pins to $2 = it became global; retail has one per block.
 - OPEN: halfword `lhu; sll 16; sra 16` (800AED64 unk_16A) is NOT the byte family - HI/u16 hosts 36, only a store
   between load and extension keeps it (cdk combine.c ~10506); next: combine.py --insn on the pinned text with VOL#5 erased.
+
+## r93_opus_p16 (800A1AD4 7 -> 0, 8009E0EC 8 -> 0; 14 gotos -> 0)
+- m2c `goto scan; found:` stub BEFORE goto loops = real loops with the exit INLINE in each: loop.c
+  find_and_verify_loops moves both exits to the first block's return barrier and jump2 merges them (retail layout).
+- Narrow (s16) parameters used directly: cse never makes the narrow copy the head of the full value; s32 base copies
+  are what needed KEEP_NV(x). An s16 loop `dir` shares the call-argument/index extension (`move $16,$17`).
+- loop.c hoisting threshold: count real insns in the loop (11*2*2 = 44 >= 44 hoists the table address); a
+  natural spelling that adds one insn (u16 read as (s16)) keeps retail's in-loop `lui`.
+- Multi-role m2c temps: split where alloc_need shows a priority inversion; a block-local chain hosted in a temp a
+  second block also uses becomes a global allocno like retail's (spelling trade, owner review).
