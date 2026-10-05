@@ -5,7 +5,7 @@
 typedef struct {
     u16 cmd;
     u16 size;
-    s32 arg0;
+    s32 offset;
     union {
         struct { u16 x, y, w; } t;
         struct { s32 a, b; } m;
@@ -49,18 +49,18 @@ void func_80041344(s32 data_base, void *scratch)
         goto *handlers[cmd_index];
 
 LA:
-        func_8004068C((void *)(data_base + command->arg0), scratch);
+        func_8004068C((void *)(data_base + command->offset), scratch);
         LoadImage((void *)&entry->u, scratch);
         DrawSync(0);
         goto next;
 LB:
-        LoadImage((void *)&entry->u, (void *)(data_base + command->arg0));
+        LoadImage((void *)&entry->u, (void *)(data_base + command->offset));
         DrawSync(0);
         goto next;
 LC:
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
-        src_addr = (void *)command->arg0;
+        src_addr = (void *)command->offset;
         flags = (s16)entry->u.t.w;
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto call_tile;
@@ -68,12 +68,12 @@ LD:
         cmd_index = entry->u.t.w;
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
-        src_addr = (void *)command->arg0;
+        src_addr = (void *)command->offset;
         cmd_index |= 2;
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto sign_flags;
 LE:
-        src = (void *)(data_base + command->arg0);
+        src = (void *)(data_base + command->offset);
         item_count = entry->u.t.y << 4;
         color = (u16 *)src + 1;
         for (item_index = 1; item_index < item_count; item_index++) {
@@ -86,7 +86,7 @@ LE:
         cmd_index |= 4;
         goto sign_flags;
 LF:
-        src = (void *)(data_base + command->arg0);
+        src = (void *)(data_base + command->offset);
         color = (u16 *)src;
         item_count = entry->u.t.y;
         for (item_index = 0; item_index < item_count; item_index++) {
@@ -109,18 +109,18 @@ call_tile:
         DrawSync(0);
         goto next;
 LG:
-        src_addr = (void *)command->arg0;
+        src_addr = (void *)command->offset;
         func_8004068C((void *)(data_base + (s32)src_addr),
                       (void *)(D_80080A8C + command->u.m.a));
         goto next;
 LH:
         src_addr = (void *)0x80080000;
         memcpy((void *)((u32 *)src_addr)[0x2A3],
-               (void *)(data_base + command->arg0),
+               (void *)(data_base + command->offset),
                command->u.m.b + command->u.m.a);
         goto next;
 LI:
-        reloc_addr = data_base + command->arg0;
+        reloc_addr = data_base + command->offset;
         for (item_index = entry->u.t.x; item_index > 0; item_index--) {
             *(s32 *)(reloc_addr + 4) = data_base + *(s32 *)(reloc_addr + 4);
         }

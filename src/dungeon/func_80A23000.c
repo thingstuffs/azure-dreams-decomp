@@ -10,7 +10,7 @@ typedef struct S_FUNC_80A23000_BODY_0 {
     void * unk_08;
     void * unk_0C;
     void * unk_10;
-} S_FUNC_80A23000_BODY_0;   /* obj in FUNC_80A23000_BODY */
+} S_FUNC_80A23000_BODY_0;   /* object in FUNC_80A23000_BODY */
 
 typedef struct S_FUNC_80A23000_BODY_1 {
     u8 pad_00[0x13];
@@ -116,50 +116,50 @@ __asm__(".globl func_8016A800\n"
 #define FUNC_80A23000_BODY func_80A23000
 #endif
 
-void *FUNC_80A23000_BODY(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *FUNC_80A23000_BODY(s16 mask, s16 value_24_input, s16 value_25_input, s16 value_0A_input)
 {
     s32 kind;
-    void *obj;
+    void *object;
     S_FUNC_80A23000_BODY_2 *part_a;
     S_FUNC_80A23000_BODY_3 *part_b;
     S_FUNC_80A23000_BODY_1 *work;
     S_FUNC_80A23000_BODY_4 *actor;
-    s32 left;
-    s32 right;
-    s16 saved_arg3;
+    s32 value_14;
+    s32 value_1C;
+    s16 value_0A;
 
     work = 0;
-    saved_arg3 = arg3;
-    obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ((S_FUNC_80A23000_BODY_0 *)obj)->unk_10 = D_8016AA58;
+    value_0A = value_0A_input;
+    object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
+    if (object != 0) {
+        work = (u8 *)object + 0x20;
+        ((S_FUNC_80A23000_BODY_0 *)object)->unk_10 = D_8016AA58;
         work->unk_13 = 5;
-        func_8004491C(obj, func_80045340);
+        func_8004491C(object, func_80045340);
 
-        part_a = ((S_FUNC_80A23000_BODY_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
-        part_b = ((S_FUNC_80A23000_BODY_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = arg2;
+        part_a = ((S_FUNC_80A23000_BODY_0 *)object)->unk_08;
+        part_a->unk_0A = value_0A;
+        part_b = ((S_FUNC_80A23000_BODY_0 *)object)->unk_0C;
+        kind = mask & 3;
+        part_b->unk_25 = value_25_input;
         actor = work;
         part_b->unk_2C = D_8016E820;
-        part_b->unk_24 = arg1;
+        part_b->unk_24 = value_24_input;
 
         if (kind == 1) {
-            left = work->unk_14 | 0x6000;
-            right = work->unk_1C | 0x6000;
-            work->unk_14 = left;
-            work->unk_1C = right;
+            value_14 = work->unk_14 | 0x6000;
+            value_1C = work->unk_1C | 0x6000;
+            work->unk_14 = value_14;
+            work->unk_1C = value_1C;
         } else if (kind >= 2) {
-            left = work->unk_14 | 0x2000;
-            right = work->unk_1C | 0x2000;
-            work->unk_14 = left;
-            work->unk_1C = right;
-        } else if (((arg0 & ~3) << 16) == 0) {
+            value_14 = work->unk_14 | 0x2000;
+            value_1C = work->unk_1C | 0x2000;
+            work->unk_14 = value_14;
+            work->unk_1C = value_1C;
+        } else if (((mask & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
-                left = func_800A6D30();
-                if (left & 1) {
+                value_14 = func_800A6D30();
+                if (value_14 & 1) {
                     work->unk_1C |= 0x200;
                     func_800A48F0(work, 1,
                                   (func_800A6D30() & 0x3F) | 0x20);
@@ -167,7 +167,7 @@ void *FUNC_80A23000_BODY(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 }
             }
         }
-        func_800A9C18(((void *)(obj)), part_a, part_b, arg0);
+        func_800A9C18(((void *)(object)), part_a, part_b, mask);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE84;

@@ -21,23 +21,23 @@ typedef struct Outer {
 
 extern u16 D_800281F8[];
 
-void func_80025AC4(void *arg0, Inner *arg1, Inner *arg2)
+void func_80025AC4(void *ptr, Inner *fields_target, Inner *field_c_target)
 {
     Outer *outer;
     Inner *inner;
-    s32 flagged;
+    s32 flags1E;
 
-    outer = *(Outer **)((u8 *)arg0 + 8);
-    flagged = outer->flags1E & 0x8000;
+    outer = *(Outer **)((u8 *)ptr + 8);
+    flags1E = outer->flags1E & 0x8000;
     D_800281F8[0]++;
-    if (flagged != 0) {
-        ((u16 *)arg0)[-1] |= 0x8000;
+    if (flags1E != 0) {
+        ((u16 *)ptr)[-1] |= 0x8000;
         objectFlagBlock.flags |= 0x8000;
         return;
     }
-    arg2->fieldC = outer->innerC->fieldC;
-    inner = (*(Outer **)((u8 *)arg0 + 8))->inner8;
-    arg1->field2 = inner->field2;
-    arg1->field6 = inner->field6;
-    arg1->fieldA = inner->fieldA;
+    field_c_target->fieldC = outer->innerC->fieldC;
+    inner = (*(Outer **)((u8 *)ptr + 8))->inner8;
+    fields_target->field2 = inner->field2;
+    fields_target->field6 = inner->field6;
+    fields_target->fieldA = inner->fieldA;
 }

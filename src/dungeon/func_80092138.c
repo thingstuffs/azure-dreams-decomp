@@ -22,20 +22,20 @@ typedef struct S_80097898_1 {
     s16 unk_2A;
 } S_80097898_1;   /* saved in func_80097898 */
 
-void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
+void func_80097898(void *object, M2C_UNK unused, void *animation, void *actor) {
         /* MATCH: retain retail's a0 table base after the explicit argument call. */
-    u8 *temp;
+    u8 *table;
         /* MATCH: save a2 then a3 before loading the state-byte constant. */
-    void *saved2 = arg2;
-    void *saved = arg3;
-    ((S_80097898_0 *)arg0)->unk_9A = 0x39;
-    ((S_80097898_0 *)arg0)->unk_9B = 0;
-    ((S_80097898_0 *)arg0)->unk_8C = 0;
+    void *saved2 = animation;
+    void *saved = actor;
+    ((S_80097898_0 *)object)->unk_9A = 0x39;
+    ((S_80097898_0 *)object)->unk_9B = 0;
+    ((S_80097898_0 *)object)->unk_8C = 0;
     if (!(func_800A6D30() & 3)) {
         ((S_80097898_1 *)saved)->unk_1C = (s32) (((S_80097898_1 *)saved)->unk_1C & ~0x620);
     }
-    temp = D_800DD294;
-    (*(u8 **)((u8 *)saved2 + (0x2C))) = temp;
-    func_8003DB94(saved2, (*(s32 *)((u8 *)temp + (((s32) (gameWork.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A
+    table = D_800DD294;
+    (*(u8 **)((u8 *)saved2 + (0x2C))) = table;
+    func_8003DB94(saved2, (*(s32 *)((u8 *)table + (((s32) (gameWork.view.viewAngle + ((S_80097898_1 *)saved)->unk_2A
         + 0x100) >> 7) & 0x1C))), 0);
 }

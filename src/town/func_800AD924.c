@@ -5,10 +5,10 @@
 #define NULL 0
 #endif
 
-extern void *func_8009C390(s32 arg0, s32 arg1, void *arg2, s32 arg3);
-extern s32 func_800AAE98(void *arg0);
+extern void *func_8009C390(s32 parent, s32 position, void *object_value, s32 state_value);
+extern s32 func_800AAE98(void *coordinates);
 extern void func_800AAEFC(void);
-extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
+extern void func_800C2E84(void *state, s32 output, void *entries);
 extern void func_80033CD8(void *arg0, void *arg1);
 
 extern s32 D_80081458[];

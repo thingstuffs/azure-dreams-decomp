@@ -19,13 +19,13 @@ typedef struct {
     s32 unk68;
 } StructA_8001F678;
 
-extern StructA_8001F678 *func_8003C714(s32 arg0, s32 arg1, s32 arg2);
-extern void func_80406570(void *arg0, s32 arg1);
+extern StructA_8001F678 *func_8003C714(s32 value, s32 value2, s32 value3);
+extern void func_80406570(void *ptr, s32 value);
 extern void func_804023C4(void);
 extern void func_80402214(void);
-extern s32 func_80404C84(StructA_8001F678 *arg0, s32 *arg1);
-extern s32 func_80403BC4(StructA_8001F678 *arg0);
-extern s32 func_804057F0(StructA_8001F678 *arg0, s32 arg1);
+extern s32 func_80404C84(StructA_8001F678 *state, s32 *value_ptr);
+extern s32 func_80403BC4(StructA_8001F678 *state);
+extern s32 func_804057F0(StructA_8001F678 *state, s32 value);
 extern void func_804065CC(void);
 extern u8 D_8040C628[0x1C];
 

@@ -41,11 +41,11 @@ typedef struct S_800D1A80_3 {
 #define M2C_BREAK() 0
 #define M2C_SYNC() 0
 
-void func_8009A028(void *arg0);
-void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
-void func_800A32A4(void *arg0);
-void func_800A56E0(s32 arg0);
-s32 func_80042900(void *arg0, s32 arg1);
+void func_8009A028(void *node);
+void func_8009A3D0(u8 x, u8 y, s32 flag_mask);
+void func_800A32A4(void *record);
+void func_800A56E0(s32 query_value);
+s32 func_80042900(void *entry, s32 effect_id);
 
 /* Fade the entity to dark gray, then remove it and update its tile flags. */
 s32 func_800D1A80(S_800D1A80_0 *state, void *unused, S_800D1A80_1 *visual, void *entity) {

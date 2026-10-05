@@ -1,9 +1,9 @@
 #include "common.h"
 
 
-extern s32 func_800C30E0(void *arg0, void *arg1, void *arg2);
-extern s16 func_800C2B38(void *arg0, s32 arg1, s32 arg2);
-extern void func_800C37C4(void *arg0, void *arg1, void *arg2);
+extern s32 func_800C30E0(void *object, void *request_data, void *request_param);
+extern s16 func_800C2B38(void *object, s32 step_x, s32 step_y);
+extern void func_800C37C4(void *object, void *unusedArg, void *initializationArg);
 extern int abs(int);
 
 extern s32 D_800D4FE8[4];

@@ -11,9 +11,9 @@ typedef struct S_80036ED4_0 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80036D4C(s32 arg0, void *arg1, s32 *arg2, s16 arg3,
-                          s32 arg4, s32 arg5);
-extern void func_80036F24(void *arg0, void *arg1, void *arg2);
+extern void func_80036D4C(s32 node_addr, void *record, s32 *config, s16 initial_mode,
+                          s32 initial_value, s32 setup_id);
+extern void func_80036F24(void *input, void *unused, void *output);
 
 /* Initialize the display object and update its initial appearance. */
 void func_80036ED4(void *object, void *display, s32 *data, s16 data_index,

@@ -16,14 +16,14 @@ typedef struct Func80035AF8State {
     s8 sound_arg;
 } Func80035AF8State;
 
-extern void func_80035BE0(void *arg0);
-extern void func_80035C44(void *arg0, void *arg1);
-extern s32 func_80035DBC(s32 arg0);
-extern void func_8003AC1C(s16 x, s16 y, s32 arg2, s32 arg3);
+extern void func_80035BE0(void *state);
+extern void func_80035C44(void *state, void *progress);
+extern s32 func_80035DBC(s32 entry_index);
+extern void func_8003AC1C(s16 x, s16 y, s32 spacing_index, s32 glyph_codes);
 extern void func_8003AE60(s16 x, s16 y, s16 w, s16 h, u8 r, u8 g, u8 b);
 extern void func_8003C2B8(void);
-extern s32 func_8003C890(s32 arg0, s32 arg1);
-extern u32 *func_8003C8E4(s32 arg0);
+extern s32 func_8003C890(s32 unused, s32 entry_index);
+extern u32 *func_8003C8E4(s32 sound_id);
 
 /* Display the requested sound and select its next state callback. */
 void func_80035AF8(Func80035AF8State *state) {

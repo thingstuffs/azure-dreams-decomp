@@ -78,9 +78,21 @@ void func_80169754(void *effect_data)
         frame = *(u16 *)(effect + 0x18);
         next_frame = frame + 1;
         within_duration = (s16)frame < 0x14;
-        goto increment_common;
+        *(u16 *)(effect + 0x18) = next_frame;
+        if (within_duration) {
+            return;
+        }
+        *(u16 *)(effect + 0x18) = 0;
+        *(u16 *)(effect + 0x12) += 1;
+        return;
+    }
 
-        case 2:
+    case 2:
+    {
+        u16 frame;
+        s32 next_frame;
+        s32 within_duration;
+
         for (particle_index = 0; particle_index < 2; particle_index++) {
             s32 jitter_x;
             s32 jitter_y;
@@ -124,8 +136,6 @@ void func_80169754(void *effect_data)
         frame = *(u16 *)(effect + 0x18);
         next_frame = frame + 1;
         within_duration = (s16)frame < 0x28;
-
-increment_common:
         *(u16 *)(effect + 0x18) = next_frame;
         if (within_duration) {
             return;

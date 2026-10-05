@@ -5,11 +5,11 @@ typedef struct {
     u32 word4;
 } __attribute__((packed)) Copy8;
 
-extern void *func_8003FC64(s32 arg0);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void *func_8004DA74(void *arg0, void *arg1, s32 arg2);
+extern void *func_8003FC64(s32 flags);
+extern void func_8004491C(void *entry, void *registration_id);
+extern void *func_8004DA74(void *entries, void *text, s32 initial_octave);
 extern void func_8004E9E4(void);
-extern void func_800BC1DC(void *arg0, void *arg1, void *arg2);
+extern void func_800BC1DC(void *position, void *object_value, void *data_value);
 
 extern s32 D_80053A88;
 extern u8 D_800782EC[8];

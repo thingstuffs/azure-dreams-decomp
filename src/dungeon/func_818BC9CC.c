@@ -248,7 +248,16 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
             scratch->unk_76 = coord;
             scratch->unk_66 = coord;
             far_y = (u32)position->unk_06 - y_extent;
-            goto store_y;
+            scratch->unk_7E = far_y;
+            scratch->unk_6E = far_y;
+            coord = position->unk_0A;
+            scratch->unk_70 = coord;
+            scratch->unk_68 = coord;
+            far_z = position->unk_0A;
+            far_z -= effect->unk_08.as_u16;
+            scratch->unk_80 = far_z;
+            scratch->unk_78 = far_z;
+            break;
         case 3:
             coord = position->unk_02;
             scratch->unk_74 = coord;
@@ -260,7 +269,6 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
             scratch->unk_76 = coord;
             scratch->unk_66 = coord;
             far_y = (u32)position->unk_06 + y_extent;
-        store_y:
             scratch->unk_7E = far_y;
             scratch->unk_6E = far_y;
             coord = position->unk_0A;

@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_8007BEF0(s32 arg0) __attribute__((noreturn));
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern s32 func_8007C998(s32 arg0, s32 arg1, s32 arg2, void *arg3);
-extern s32 func_8007C9D8(s32 arg0);
+extern void func_8007BEF0(s32 value) __attribute__((noreturn));
+extern void func_8007C040(void *ptr, void *ptr2, s32 value);
+extern s32 func_8007C998(s32 value0, s32 value1, s32 value2, void *ptr);
+extern s32 func_8007C9D8(s32 event_handle);
 extern void func_8007CA38(void);
 extern void func_8007CA48(void);
 
@@ -23,7 +23,7 @@ extern s32 D_804009E8[];
 extern s32 D_804009FC[];
 
 /* Opens and enables memory card events, asserting that each operation succeeds. */
-void func_80019A10(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_80019A10(s32 unused0, s32 unused1, s32 unused2, s32 unused3) {
     s32 event_handle;
     func_8007CA38();
     event_handle = func_8007C998(0xF4000001, 4, 0x2000, 0);

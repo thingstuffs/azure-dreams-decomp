@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8008F0A4(void *arg0, s32 arg1, void *arg2);
-extern void func_8009B218(void *arg0, s32 arg1, s32 arg2, void *arg3);
-extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);
+extern void func_8008F0A4(void *object, s32 transform, void *resource_ptr);
+extern void func_8009B218(void *object, s32 transform, s32 anim_state, void *resource_ptr);
+extern void func_800C2E84(void *object, s32 anim_state, void *resource_ptr);
 
 extern s32 D_800CFD00[];
 extern s32 D_800D11D0[];

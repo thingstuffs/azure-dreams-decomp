@@ -9,8 +9,8 @@ typedef struct {
 extern u8 D_80408ADD[][4];
 extern s32 D_80408B2C[][4];
 
-extern void func_80402508(s32 arg0, s32 arg1, s32 *arg2, s32 *arg3, s32 *arg4);
-extern void func_80402670(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+extern void func_80402508(s32 value, s32 value_2, s32 *out_a, s32 *out_b, s32 *out_c);
+extern void func_80402670(void *object, s32 value, s32 value_2, s32 index, s32 value_3);
 
 /* Resolve and apply the last table entry when the object's table is enabled. */
 void func_8001B74C(Struct8001B74C_arg0 *object) {

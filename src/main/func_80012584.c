@@ -4,7 +4,7 @@
 typedef struct S_80025584_0_pre {
     s32 * unk_00;
     u8 pad_04[0xC];
-} S_80025584_0_pre;   /* the 0x10 bytes before arg0 in func_80025584, addressed as arg0[-1] */
+} S_80025584_0_pre;   /* the 0x10 bytes before menu in func_80025584, addressed as menu[-1] */
 
 typedef struct S_80025584_0 {
     u8 pad_00[0x20];
@@ -13,19 +13,19 @@ typedef struct S_80025584_0 {
     s32 unk_28;
     u8 pad_2C[0x4];
     s32 unk_30;
-} S_80025584_0;   /* arg0 in func_80025584 */
+} S_80025584_0;   /* menu in func_80025584 */
 
 
 extern s32 D_80024FFC;
 
 extern s32 func_8002168C(void);
 extern void func_80021904(void);
-extern void func_800250E8(void *arg0);
-extern void func_800254E4(void *arg0);
-extern void func_80025D34(void *arg0);
-extern void func_80027AFC(s32 arg0, s32 arg1);
-extern s32 func_80049DE8(s32 arg0, s32 arg1, s32 arg2);
-extern void SD_Call(s32 arg0);
+extern void func_800250E8(void *menu);
+extern void func_800254E4(void *context);
+extern void func_80025D34(void *object);
+extern void func_80027AFC(s32 request, s32 mode);
+extern s32 func_80049DE8(s32 index, s32 delta, s32 limit);
+extern void SD_Call(s32 flags);
 
 /* Handle menu input, selection repeat, and transition completion. */
 void func_80025584(u8 *menu)

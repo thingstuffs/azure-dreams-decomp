@@ -35,9 +35,9 @@ typedef struct S_80D65534_1 {
 } S_80D65534_1;   /* arg0 in func_80D65534 */
 
 
-extern void func_800478B8(void *arg0);
-extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
-extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
+extern void func_800478B8(void *entity);
+extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, terrain collisions, visual properties, and lifetime. */
 void func_80D65534(void *effect, S_80D65534_0 *position, Rec_D_80082E80 *visual)

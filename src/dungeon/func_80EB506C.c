@@ -99,19 +99,19 @@ extern u8 D_801711A4[];
 extern u8 D_8017418C[];
 extern u8 D_801741CC[];
 
-void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *func_8017086C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
     s32 kind;
     void *work;
-    s8 saved_arg1;
-    s8 saved_arg2;
+    s8 saved_value_24;
+    s8 saved_value_25;
     void *obj;
     S_8017086C_2 *part_a;
     S_8017086C_3 *part_b;
     S_8017086C_4 *actor;
     s32 left;
     s32 right;
-    s16 saved_arg0;
+    s16 saved_mode;
     void *current;
     S_8017086C_8 *base;
     void *child_obj;
@@ -125,9 +125,9 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 elem_flags;
 
     work = 0;
-    saved_arg2 = arg2;
-    saved_arg0 = arg0;
-    obj = func_8003FD64(0x112, (saved_arg1 = arg1, ((u8 *)(&D_80083498))));
+    saved_value_25 = value_25;
+    saved_mode = mode;
+    obj = func_8003FD64(0x112, (saved_value_24 = value_24, ((u8 *)(&D_80083498))));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8017086C_0 *)obj)->unk_10 = D_80170B64;
@@ -136,12 +136,12 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         actor = work;
 
         part_a = ((S_8017086C_0 *)obj)->unk_08;
-        part_a->unk_0A = arg3;
+        part_a->unk_0A = value_0A;
         part_b = ((S_8017086C_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
+        kind = mode & 3;
         part_b->unk_2C = D_8017418C;
-        part_b->unk_24 = saved_arg1;
-        part_b->unk_25 = saved_arg2;
+        part_b->unk_24 = saved_value_24;
+        part_b->unk_25 = saved_value_25;
 
         if (kind == 1) {
             left = ((S_8017086C_1 *)work)->unk_14 | 0x6000;
@@ -154,7 +154,7 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             ((S_8017086C_1 *)work)->unk_14 = left;
             ((S_8017086C_1 *)work)->unk_1C = right;
         } else {
-            if (((arg0 & ~3) << 16) == 0) {
+            if (((mode & ~3) << 16) == 0) {
                 if (!(((S_8017086C_1 *)work)->unk_14 & 0x200)) {
                     left = func_800A6D30();
                     if (left & 1) {
@@ -167,7 +167,7 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             }
         }
 
-        func_800A9C18(obj, part_a, part_b, saved_arg0);
+        func_800A9C18(obj, part_a, part_b, saved_mode);
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

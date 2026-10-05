@@ -15,9 +15,9 @@ typedef struct {
     s16 state;
 } Func818B15F4Arg;
 
-s32 func_80024DF4(void *arg0, void *arg1, void *arg2)
+s32 func_80024DF4(void *state_ptr, void *second_ptr, void *third_ptr)
 {
-    switch (((Func818B15F4Arg *)arg0)->state) {
+    switch (((Func818B15F4Arg *)state_ptr)->state) {
     case 0:
     case 1:
     case 2:
@@ -26,13 +26,13 @@ s32 func_80024DF4(void *arg0, void *arg1, void *arg2)
     default:
         break;
     case 4:
-        func_800249B4(arg0);
+        func_800249B4(state_ptr);
         break;
     case 5:
-        func_80024B34(arg0, arg1, arg2);
+        func_80024B34(state_ptr, second_ptr, third_ptr);
         break;
     case 6:
-        func_80024C84(arg0, arg1, arg2);
+        func_80024C84(state_ptr, second_ptr, third_ptr);
         break;
     }
     return 0;

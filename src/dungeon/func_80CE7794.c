@@ -29,9 +29,9 @@ typedef struct S_80170F94_1 {
 } S_80170F94_1;   /* arg0 in func_80170F94 */
 
 
-extern void func_800478B8(void *arg0);
-extern s32 func_800A45D8(u16 arg0, u16 arg1, s16 arg2);
-extern s16 func_800BCB04(u16 arg0, u16 arg1, s16 arg2);
+extern void func_800478B8(void *entity);
+extern s32 func_800A45D8(u16 x, u16 y, s16 z);
+extern s16 func_800BCB04(u16 x, u16 y, s16 min_height);
 
 /* Updates effect motion, handles collisions, grows the sprite, and flags expiration. */
 void func_80170F94(void *effect, void *position, void *sprite)

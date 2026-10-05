@@ -22,9 +22,9 @@ extern void func_800B2E3C(void *arg0);
 extern void func_800B2F88(void *arg0);
 extern void func_800B3108(void *arg0);
 extern void func_800B331C(void *arg0);
-extern void func_800B2DCC(void *arg0);
-extern void func_800B2F38(void *arg0);
-extern void func_800B3440(void *arg0);
+extern void func_800B2DCC(void *objects);
+extern void func_800B2F38(void *record);
+extern void func_800B3440(void *record);
 
 /* Initialize slot data pointers and offsets, then set up the object. */
 void func_800B3734(Obj *object) {

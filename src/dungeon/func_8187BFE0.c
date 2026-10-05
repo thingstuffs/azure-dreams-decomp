@@ -145,150 +145,146 @@ void func_800257E0(void *state_data, void *source_data) {
         ((S_8187BFE0_0 *)state_data)->unk_00.u++;
                         /* fallthrough */
     case 1:
-        if (((S_8187BFE0_0 *)state_data)->unk_02.s != 0) {
-            goto update_state;
+        if (((S_8187BFE0_0 *)state_data)->unk_02.s == 0) {
+            ((S_8187BFE0_0 *)state_data)->unk_02.u++;
+            node = func_8003FC64(0x212);
+            if (node == 0) {
+                break;
+            }
+
+            edge_data = node + 0x20;
+            ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
+            ((S_8187BFE0_1 *)node)->unk_10 = D_80025380;
+            func_8004491C(node, D_800249A0);
+
+            sprite = ((S_8187BFE0_1 *)node)->unk_0C;
+            ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
+
+            dest_position = ((S_8187BFE0_1 *)node)->unk_08;
+            ((S_8187BFE0_4 *)dest_position)->unk_02 = ((S_8187BFE0_5 *)source_position)->unk_02;
+            ((S_8187BFE0_4 *)dest_position)->unk_06 = ((S_8187BFE0_5 *)source_position)->unk_06;
+            ((S_8187BFE0_4 *)dest_position)->unk_0A = ((S_8187BFE0_5 *)source_position)->unk_0A;
+
+            switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
+            case 0:
+                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                    ((S_8187BFE0_0 *)state_data)->unk_1E;
+                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                    ((S_8187BFE0_0 *)state_data)->unk_22;
+                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                    ((S_8187BFE0_0 *)state_data)->unk_2A;
+                {
+                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
+
+                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                }
+                break;
+            case 1:
+                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                    ((S_8187BFE0_0 *)state_data)->unk_22;
+                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                    ((S_8187BFE0_0 *)state_data)->unk_26;
+                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                    ((S_8187BFE0_0 *)state_data)->unk_2E;
+                {
+                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
+
+                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                }
+                break;
+            case 2:
+                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                    ((S_8187BFE0_0 *)state_data)->unk_26;
+                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                    ((S_8187BFE0_0 *)state_data)->unk_20;
+                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                    ((S_8187BFE0_0 *)state_data)->unk_32;
+                {
+                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
+
+                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                }
+                break;
+            case 3:
+                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                    ((S_8187BFE0_0 *)state_data)->unk_20;
+                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                    ((S_8187BFE0_0 *)state_data)->unk_24;
+                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                    ((S_8187BFE0_0 *)state_data)->unk_2C;
+                {
+                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
+
+                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                }
+                break;
+            case 4:
+                ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
+                    ((S_8187BFE0_0 *)state_data)->unk_24;
+                ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                    ((S_8187BFE0_0 *)state_data)->unk_1E;
+                ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
+                    ((S_8187BFE0_0 *)state_data)->unk_30;
+                {
+                    u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
+
+                    ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+                    ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+                    ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+                }
+                break;
+            default:
+                break;
+            }
+
+            ((S_8187BFE0_2 *)edge_data)->unk_1E.s = ((S_8187BFE0_2 *)edge_data)->unk_5A;
+            ((S_8187BFE0_2 *)edge_data)->unk_2A.s = ((S_8187BFE0_2 *)edge_data)->unk_62;
+
+            blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_1E.u + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
+            ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
+            blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
+            ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
+
+            blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_2A.u + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
+            ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
+            blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
+            ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
+                ((S_8187BFE0_2 *)edge_data)->unk_20.u;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 =
+                ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
+
+            sprite = ((S_8187BFE0_1 *)node)->unk_0C;
+            ((S_8187BFE0_3 *)sprite)->unk_0C = ((S_8187BFE0_3 *)sprite)->unk_0D = 0xE0;
+            ((S_8187BFE0_3 *)sprite)->unk_0E = 0x20;
+            ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;
+            ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
+            ((S_8187BFE0_3 *)sprite)->unk_1C = ((S_8187BFE0_3 *)sprite)->unk_1E = 0x1000;
+
+            *(Data12 *)(edge_data + 0x44) = D_80026940;
+            ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
+            return;
+        } else {
+            ((S_8187BFE0_0 *)state_data)->unk_02.u++;
+            if (((S_8187BFE0_0 *)state_data)->unk_02.s >= 4) {
+                ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
+                ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
+                if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
+                    (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
+                    objectFlagBlock.flags |= 0x8000;
+                }
+            }
+            break;
         }
-
-        ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-        node = func_8003FC64(0x212);
-        if (node == 0) {
-            break;
-        }
-
-        edge_data = node + 0x20;
-        ((S_8187BFE0_2 *)edge_data)->unk_02 = 0x37 - (((S_8187BFE0_0 *)state_data)->unk_1C.s * 4);
-        ((S_8187BFE0_1 *)node)->unk_10 = D_80025380;
-        func_8004491C(node, D_800249A0);
-
-        sprite = ((S_8187BFE0_1 *)node)->unk_0C;
-        ((S_8187BFE0_3 *)sprite)->unk_14 &= 0xFFF3;
-
-        dest_position = ((S_8187BFE0_1 *)node)->unk_08;
-        ((S_8187BFE0_4 *)dest_position)->unk_02 = ((S_8187BFE0_5 *)source_position)->unk_02;
-        ((S_8187BFE0_4 *)dest_position)->unk_06 = ((S_8187BFE0_5 *)source_position)->unk_06;
-        ((S_8187BFE0_4 *)dest_position)->unk_0A = ((S_8187BFE0_5 *)source_position)->unk_0A;
-
-        switch (((S_8187BFE0_0 *)state_data)->unk_1C.s) {
-        case 0:
-            ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
-                ((S_8187BFE0_0 *)state_data)->unk_1E;
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_0 *)state_data)->unk_22;
-            ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
-                ((S_8187BFE0_0 *)state_data)->unk_2A;
-            {
-                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
-
-                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-            }
-            break;
-        case 1:
-            ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
-                ((S_8187BFE0_0 *)state_data)->unk_22;
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_0 *)state_data)->unk_26;
-            ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
-                ((S_8187BFE0_0 *)state_data)->unk_2E;
-            {
-                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
-
-                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-            }
-            break;
-        case 2:
-            ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
-                ((S_8187BFE0_0 *)state_data)->unk_26;
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_0 *)state_data)->unk_20;
-            ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
-                ((S_8187BFE0_0 *)state_data)->unk_32;
-            {
-                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
-
-                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-            }
-            break;
-        case 3:
-            ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
-                ((S_8187BFE0_0 *)state_data)->unk_20;
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_0 *)state_data)->unk_24;
-            ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
-                ((S_8187BFE0_0 *)state_data)->unk_2C;
-            {
-                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
-
-                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-            }
-            break;
-        case 4:
-            ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
-                ((S_8187BFE0_0 *)state_data)->unk_24;
-            ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-                ((S_8187BFE0_0 *)state_data)->unk_1E;
-            ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
-                ((S_8187BFE0_0 *)state_data)->unk_30;
-            {
-                u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
-
-                ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-                ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-                ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
-            }
-            break;
-        default:
-            break;
-        }
-
-after_edge_setup:
-        ((S_8187BFE0_2 *)edge_data)->unk_1E.s = ((S_8187BFE0_2 *)edge_data)->unk_5A;
-        ((S_8187BFE0_2 *)edge_data)->unk_2A.s = ((S_8187BFE0_2 *)edge_data)->unk_62;
-
-        blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_1E.u + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
-        ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
-        blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_58.u) / 2;
-        ((S_8187BFE0_2 *)edge_data)->unk_20.s = blended_coord;
-
-        blended_coord = (((S_8187BFE0_2 *)edge_data)->unk_2A.u + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
-        ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
-        blended_coord = (blended_coord + ((S_8187BFE0_2 *)edge_data)->unk_60.u) / 2;
-        ((S_8187BFE0_2 *)edge_data)->unk_2C.s = blended_coord;
-
-        ((S_8187BFE0_2 *)edge_data)->unk_5A = ((S_8187BFE0_2 *)edge_data)->unk_5E =
-            ((S_8187BFE0_2 *)edge_data)->unk_20.u;
-        ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 =
-            ((S_8187BFE0_2 *)edge_data)->unk_2C.u;
-
-        sprite = ((S_8187BFE0_1 *)node)->unk_0C;
-        ((S_8187BFE0_3 *)sprite)->unk_0C = ((S_8187BFE0_3 *)sprite)->unk_0D = 0xE0;
-        ((S_8187BFE0_3 *)sprite)->unk_0E = 0x20;
-        ((S_8187BFE0_2 *)edge_data)->unk_36 = ((S_8187BFE0_2 *)edge_data)->unk_37 = 0xE0;
-        ((S_8187BFE0_2 *)edge_data)->unk_38 = 0x20;
-        ((S_8187BFE0_3 *)sprite)->unk_1C = ((S_8187BFE0_3 *)sprite)->unk_1E = 0x1000;
-
-        *(Data12 *)(edge_data + 0x44) = D_80026940;
-        ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
-        return;
-
-update_state:
-        ((S_8187BFE0_0 *)state_data)->unk_02.u++;
-        if (((S_8187BFE0_0 *)state_data)->unk_02.s >= 4) {
-            ((S_8187BFE0_0 *)state_data)->unk_02.s = 0;
-            ((S_8187BFE0_0 *)state_data)->unk_1C.u++;
-            if (((S_8187BFE0_0 *)state_data)->unk_1C.s >= 5) {
-                (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
-                objectFlagBlock.flags |= 0x8000;
-            }
-        }
-        break;
     }
 }
 

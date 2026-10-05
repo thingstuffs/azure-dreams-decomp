@@ -49,15 +49,15 @@ typedef struct TownWork {
     u16 frame1;
 } TownWork;
 
-extern void func_80033AE8(s32 arg0);
-extern s32 func_80033B2C(s32 arg0);
+extern void func_80033AE8(s32 flag_id);
+extern s32 func_80033B2C(s32 bit_id);
 extern void func_8003DB4C(void *ptr, s32 count);
 extern TownObject *func_8003FE78(s32 flags, void *storage, s16 size);
 extern void func_8004491C(TownObject *object, void *data);
 extern void func_8008EF58(void);
-extern void func_8008F01C(void *arg0, ScenePos *scene, void *arg2);
+extern void func_8008F01C(void *node, ScenePos *scene, void *value_0c);
 extern void func_8008FCE0(void);
-extern void func_8008FD48(void *arg0, ScenePos *scene, void *arg2);
+extern void func_8008FD48(void *record, ScenePos *scene, void *value_0c);
 extern void func_8008FF5C(void);
 extern void func_8009550C(ScenePos *scene);
 extern s32 func_8009F830(s32 arg0, s32 arg1);

@@ -14,10 +14,10 @@ typedef struct {
 
 extern DungeonEntry D_800CF720[];
 extern DungeonState D_801131B8;
-extern s32 func_80040574(s32 arg0);
-extern s32 func_8008ACE8(s32 arg0);
+extern s32 func_80040574(s32 size);
+extern s32 func_8008ACE8(s32 entry_count);
 extern void func_80069ED8(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8008AD90(s32 arg0, s32 arg1);
+extern void func_8008AD90(s32 record_count, s32 data_offset);
 
 /* Move the selected entry data to the start and copy its metadata to entry zero. */
 void func_8008AE4C(s32 entry_index) {

@@ -59,14 +59,14 @@ typedef struct S_func_80035484_5 {
 } S_func_80035484_5;
 
 
-extern void func_80033C1C(void *arg0, s32 arg1);
-extern void func_800350B0(void *arg0, void *arg1);
-extern void *func_8003FF2C(s32 arg0, s32 arg1, s32 arg2, void **arg3);
-extern s32 func_8004491C(void *arg0, void (*arg1)(void));
+extern void func_80033C1C(void *modelPtr, s32 value);
+extern void func_800350B0(void *configPtr, void *statePtr);
+extern void *func_8003FF2C(s32 value, s32 address, s32 value2, void **tablePtr);
+extern s32 func_8004491C(void *objectPtr, void (*callback)(void));
 
 extern void func_80033D54(void);
-extern void func_800355EC(void *arg0);
-extern void func_80035614(void *arg0);
+extern void func_800355EC(void *callbackData);
+extern void func_80035614(void *callbackData);
 
 extern s16 D_8006A93C[];
 extern void *D_8006A8F0[];

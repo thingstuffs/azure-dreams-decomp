@@ -10,12 +10,12 @@ typedef struct {
 } DungeonState;
 
 extern s32 func_800990FC(void);
-extern s32 func_80042900(DungeonState *arg0, s32 arg1);
-extern s32 func_80099194(const void *arg0, s32 arg1);
-extern s32 func_80099734(DungeonState *arg0, s32 arg1);
-extern void func_80099290(s32 arg0);
-extern void func_800A56E0(s32 arg0);
-extern void func_800A5720(s32 arg0);
+extern s32 func_80042900(DungeonState *entry, s32 effect_id);
+extern s32 func_80099194(const void *src, s32 dst);
+extern s32 func_80099734(DungeonState *record, s32 out);
+extern void func_80099290(s32 byte_ptr);
+extern void func_800A56E0(s32 query_value);
+extern void func_800A5720(s32 text);
 
 extern u8 D_80089084[];
 extern u8 D_800E0CAE[];

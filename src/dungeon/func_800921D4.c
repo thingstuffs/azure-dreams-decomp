@@ -5,11 +5,11 @@
 #include "records/Rec_D_80082E80.h"
 #include "shared/entity.h"
 
-extern void func_8003DB94(void *arg0, void *arg1, s32 arg2);
-extern void func_80042B68(void *arg0, s32 arg1);
-extern void func_8008CBD4(void *arg0, void *arg1, void *arg2, void *arg3);
+extern void func_8003DB94(void *sprite, void *ptr, s32 value);
+extern void func_80042B68(void *actor, s32 value);
+extern void func_8008CBD4(void *state, void *motion, void *sprite, void *actor);
 extern void func_80096384(void);
-extern void func_800AD4D0(void *arg0);
+extern void func_800AD4D0(void *actor);
 
 extern void *D_800DD274[8];
 

@@ -31,13 +31,13 @@ typedef struct S_800A6620_3 {
 } S_800A6620_3;   /* owner in func_800A6620 */
 
 
-extern void func_800422DC(void *arg0, void *arg1);
-extern s32 func_80042900(void *arg0, s32 arg1);
-extern void func_80098B38(void *arg0);
-extern void func_8009A028(void *arg0);
-extern void func_8009A3D0(u8 arg0, u8 arg1, s32 arg2);
-extern s16 func_800A1BD0(void *arg0);
-extern void func_800A32A4(void *arg0);
+extern void func_800422DC(void *ptr, void *object);
+extern s32 func_80042900(void *object, s32 value);
+extern void func_80098B38(void *handle);
+extern void func_8009A028(void *object);
+extern void func_8009A3D0(u8 sound_x, u8 sound_y, s32 sound_mode);
+extern s16 func_800A1BD0(void *object);
+extern void func_800A32A4(void *object);
 
 extern void *D_800E3DF0[];
 

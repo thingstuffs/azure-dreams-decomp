@@ -2,11 +2,11 @@
 #include "m2c_compat.h"
 #include "shared/entity.h"
 
-extern s32 func_8009D218(void *arg0, s32 arg1);
-extern s32 func_800A6870(s32 arg0);
-extern void func_800AD4D0(void *arg0);
-extern void func_800AD568(void *arg0);
-extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
+extern s32 func_8009D218(void *entity, s32 flags);
+extern s32 func_800A6870(s32 input_value);
+extern void func_800AD4D0(void *entity);
+extern void func_800AD568(void *entry);
+extern void func_800B4C7C(s32 flags, void *source_data, s32 value, s32 callback_mode);
 
 
 /* Applies a flag-adjusted value increase to an eligible entity and updates it. */

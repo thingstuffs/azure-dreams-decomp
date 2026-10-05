@@ -190,14 +190,14 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                         if (clut_override != 0) {
                             if (*(u16 *)(scratch + 0x28) & 0x100) {
                                 *(u16 *)(quad + 0xE) = clut_override;
-                                goto set_uvs;
+                            } else {
+                                clut = clut_override + *(u16 *)(texture + 6);
+                                *(u16 *)(quad + 0xE) = clut;
                             }
-                            clut = clut_override + *(u16 *)(texture + 6);
                         } else {
                             clut = *(u16 *)(texture + 6);
+                            *(u16 *)(quad + 0xE) = clut;
                         }
-                        *(u16 *)(quad + 0xE) = clut;
-set_uvs:
                         *(s16 *)(quad + 0xC) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x0C);
                         *(s16 *)(quad + 0x14) = *(u16 *)(scratch + 0x10) + *(u16 *)(scratch + 0x14);
                         tpage_override = *(u16 *)((u8 *)material + 0x10);

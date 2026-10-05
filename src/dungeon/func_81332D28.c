@@ -53,23 +53,23 @@ typedef struct S_80169D28_3 {
     M2C_UNK * unk_2C;
 } S_80169D28_3;   /* second in func_80169D28 */
 
-u8 *func_80169D28(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+u8 *func_80169D28(s16 init_flags, s32 value24, s32 value25, s32 value0A) {
     u8 *result;
     s32 mode;
     u8 *obj;
     u8 *child;
     u8 *first;
     u8 *second;
-    s16 saved_arg0;
-    s16 saved_arg1;
-    s16 saved_arg2;
-    s16 saved_arg3;
+    s16 saved_init_flags;
+    s16 saved_value24;
+    s16 saved_value25;
+    s16 saved_value0A;
 
     result = NULL;
-    saved_arg3 = arg3;
-    saved_arg0 = arg0;
-    saved_arg1 = arg1;
-    saved_arg2 = arg2;
+    saved_value0A = value0A;
+    saved_init_flags = init_flags;
+    saved_value24 = value24;
+    saved_value25 = value25;
     if (func_800F6598() == 0) {
         obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
         if (obj != NULL) {
@@ -80,12 +80,12 @@ u8 *func_80169D28(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
             ((S_80169D28_1 *)child)->unk_13 = 0x38;
             func_8004491C(obj, func_80045340);
             first = ((S_80169D28_0 *)obj)->unk_08;
-            ((S_80169D28_2 *)first)->unk_0A = saved_arg3;
+            ((S_80169D28_2 *)first)->unk_0A = saved_value0A;
             second = ((S_80169D28_0 *)obj)->unk_0C;
-            mode = saved_arg0 & 3;
-            ((S_80169D28_3 *)second)->unk_24 = saved_arg1;
+            mode = saved_init_flags & 3;
+            ((S_80169D28_3 *)second)->unk_24 = saved_value24;
             ((S_80169D28_3 *)second)->unk_2C = &D_80173980;
-            ((S_80169D28_3 *)second)->unk_25 = saved_arg2;
+            ((S_80169D28_3 *)second)->unk_25 = saved_value25;
             if (mode == 1) {
                 ((S_80169D28_1 *)child)->unk_14 = ((S_80169D28_1 *)child)->unk_14 | 0x6000;
                 ((S_80169D28_1 *)child)->unk_1C = ((S_80169D28_1 *)child)->unk_1C | 0x6000;
@@ -95,7 +95,7 @@ u8 *func_80169D28(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
             }
             ((S_80169D28_1 *)child)->unk_AC = 0;
             ((S_80169D28_3 *)second)->unk_14 = ((S_80169D28_3 *)second)->unk_14 | 0x400;
-            func_800A9C18(obj, first, second, saved_arg0);
+            func_800A9C18(obj, first, second, saved_init_flags);
             ((S_80169D28_1 *)child)->unk_9A = 0xFF;
             ((S_80169D28_1 *)child)->unk_9C = -1;
             ((S_80169D28_1 *)child)->unk_8C = D_8016A36C;

@@ -60,11 +60,11 @@ extern u8 D_800E2428[];
 extern u8 D_801711B0[];
 extern u8 D_80171A80[];
 
-void *func_80170F9C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *func_80170F9C(s16 mode, s16 value_24, s16 value_25, s16 value_0A)
 {
-    s8 held_arg1 = arg1;
-    s16 held_arg3 = arg3;
-    s8 held_arg2 = arg2;
+    s8 held_value_24 = value_24;
+    s16 held_value_0A = value_0A;
+    s8 held_value_25 = value_25;
     s16 mode_copy;
     s32 kind;
     u16 saved_x;
@@ -77,7 +77,7 @@ void *func_80170F9C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 
     work = 0;
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    mode_copy = arg0;
+    mode_copy = mode;
     if (object != 0) {
         work = (u8 *)object + 0x20;
         ((S_80170F9C_0 *)object)->unk_10 = D_801711B0;
@@ -85,13 +85,13 @@ void *func_80170F9C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         func_8004491C(object, func_80045340);
 
         part_a = ((S_80170F9C_0 *)object)->unk_08;
-        kind = arg0 & 3;
-        part_a->unk_0A = held_arg3;
+        kind = mode & 3;
+        part_a->unk_0A = held_value_0A;
         part_b = ((S_80170F9C_0 *)object)->unk_0C;
         work_copy = work;
         part_b->unk_2C = D_800E23E0;
-        part_b->unk_24 = held_arg1;
-        part_b->unk_25 = held_arg2;
+        part_b->unk_24 = held_value_24;
+        part_b->unk_25 = held_value_25;
 
         if (kind == 1) {
             work->unk_14 |= 0x6000;
@@ -99,7 +99,7 @@ void *func_80170F9C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         } else if (kind >= 2) {
             work->unk_14 |= 0x2000;
             work->unk_1C |= 0x2000;
-        } else if (((arg0 & -4) << 16) == 0) {
+        } else if (((mode & -4) << 16) == 0) {
             if ((work->unk_14 & 0x200) == 0) {
                 if (func_800A6D30() & 1) {
                     func_800A48F0(work, 1,
@@ -130,6 +130,6 @@ void *func_80170F9C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     return work;
 }
 
-/* MECHANISM: Ordered arg1/arg3/arg2 homes plus an s5 part_a base reproduce the 0x38 frame
+/* MECHANISM: Ordered value_24/value_0A/value_25 homes plus an s5 part_a base reproduce the 0x38 frame
    and retail save/hold set; ASM_USE keeps s6/s7 occupied so the mode copy takes fp.
    Both func_800A6D30 sites are zero-argument RNG calls, leaving their delay slots as nops. */

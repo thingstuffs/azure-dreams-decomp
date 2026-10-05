@@ -126,12 +126,12 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in BODY_NAME */
 
-BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
+BODY_STORAGE void *BODY_NAME(s16 mode, s32 value1, s16 value2, s16 value3)
 {
-    s16 arg0_copy;
-    s32 arg1_role;
-    s8 arg2_role;
-    s16 arg3_role;
+    s16 mode_copy;
+    s32 value1_saved;
+    s8 value2_byte;
+    s16 value3_saved;
     void *created;
     u8 *work = 0;
     u8 *position;
@@ -140,14 +140,14 @@ BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
     s32 kind;
     Rect rect;
 
-    arg1_role = arg1;
-    arg3_role = arg3;
-    arg2_role = arg2;
-    arg1 = 0x112;
-    created = func_8003FD64(arg1, ((u8 *)(&D_80083498)));
-    arg0_copy = (s32)arg0;
+    value1_saved = value1;
+    value3_saved = value3;
+    value2_byte = value2;
+    value1 = 0x112;
+    created = func_8003FD64(value1, ((u8 *)(&D_80083498)));
+    mode_copy = (s32)mode;
     if (created != 0) {
-        void *init_arg0;
+        void *init_object;
         s32 flags0;
         s32 flags1;
         s32 value;
@@ -161,14 +161,14 @@ BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
         func_8004491C(created, func_80045340);
 
         position = (*(u8 * *)((u8 *)created + 8));
-        ((S_80FB1000_1 *)position)->unk_0A = arg3_role;
+        ((S_80FB1000_1 *)position)->unk_0A = value3_saved;
         monster = (*(u8 * *)((u8 *)created + 0xC));
-        (*(u8 *)((u8 *)monster + 0x25)) = arg2_role;
+        (*(u8 *)((u8 *)monster + 0x25)) = value2_byte;
         actor = work;
         (*(Callback *)((u8 *)monster + 0x2C)) = func_80175258;
-        (*(u8 *)((u8 *)monster + 0x24)) = arg1_role;
+        (*(u8 *)((u8 *)monster + 0x24)) = value1_saved;
 
-        kind = (s32)arg0 & 3;
+        kind = (s32)mode & 3;
         if (kind == 1) {
             flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x6000;
             flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x6000;
@@ -180,7 +180,7 @@ BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
             ((S_80FB1000_0 *)work)->unk_14 = flags0;
             ((S_80FB1000_0 *)work)->unk_1C = flags1;
         } else {
-            if ((s16)((s32)arg0 & -4) == 0 &&
+            if ((s16)((s32)mode & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
                 value = func_800A6D30();
                 if (value & 1) {
@@ -192,8 +192,8 @@ BODY_STORAGE void *BODY_NAME(s16 arg0, s32 arg1, s16 arg2, s16 arg3)
             }
         }
 
-        init_arg0 = created;
-        func_800A9C18(init_arg0, position, monster, (s16)arg0_copy);
+        init_object = created;
+        func_800A9C18(init_object, position, monster, (s16)mode_copy);
         i = 0;
         value = (*(u16 *)((u8 *)monster + 0x12));
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;

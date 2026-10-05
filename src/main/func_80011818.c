@@ -10,10 +10,10 @@ typedef struct Node {
 
 extern s32 func_80022138(void);
 extern s32 func_80022160(void);
-extern void func_8003AD08(s32 arg0, void *arg1);
-extern void func_8004DA74(void *arg0, void *arg1, s32 arg2);
-extern void strcat(void *arg0, void *arg1);
-extern void strcpy(void *arg0, void *arg1);
+extern void func_8003AD08(s32 value, void *out);
+extern void func_8004DA74(void *entries, void *text, s32 initial_octave);
+extern void strcat(void *dest, void *src);
+extern void strcpy(void *dest, void *src);
 extern void *D_800283B8[];
 extern u8 D_800283C4[];
 extern void *D_800283EC[];
