@@ -45,10 +45,10 @@ typedef struct S_80095C80_7 {
     s32 unk_10;
 } S_80095C80_7;   /* final_base in func_80095C80 */
 
-s32 func_80095BC0();                  /* extern */
-s32 func_80095BF0();                  /* extern */
-s32 func_80095C20();             /* extern */
-s32 func_80095C50();             /* extern */
+s16 func_80095BC0();                  /* extern */
+s16 func_80095BF0();                  /* extern */
+s16 func_80095C20();             /* extern */
+s16 func_80095C50();             /* extern */
 void func_800961A8(void *);                 /* extern */
 void func_800961D8(void *);                 /* extern */
 extern s32 D_800FE5C0[];
@@ -89,28 +89,19 @@ void func_80095C80(EntityRec *position) {
     if (((S_80095C80_0 *)motion)->unk_0C > 0) {
         if (((S_80095C80_0 *)motion)->unk_10 > 0) {
             s32 boundary_test;
+            s32 x_hit;
             probe.x = position->x.v - ((S_80095C80_0 *)motion)->unk_0C;
             probe.y = position->y.v;
             probe.z = position->z.v;
-            boundary_test = func_80095BC0(&probe, 0);
-            probe_ptr = (M2C_UNK *)(&probe);
-            neg_x_boundary = position->x.v;
-            probe.x = neg_x_boundary;
-            neg_x_boundary = neg_x_boundary < (boundary_test << 0x10);
-            probe_coord = position->y.v;
-            ASM_CLOBBER("$5");
-            y_step_or_side = ((S_80095C80_0 *)motion)->unk_10;
-            neg_x_boundary ^= 1;
-            probe_coord -= y_step_or_side;
-            probe.y = probe_coord;
-            probe_coord = position->z.v;
-            probe.z = probe_coord;
-            boundary_test = func_80095C20((void *)probe_ptr, 0);
-            probe_coord = position->y.v;
-            boundary_test <<= 0x10;
-            probe_coord = probe_coord < boundary_test;
-            boundary_test = probe_coord ^ 1;
-            if (neg_x_boundary == 0) {
+            x_hit = position->x.v < (func_80095BC0(&probe, 0) << 0x10);
+            x_hit ^= 1;
+            probe.x = position->x.v;
+            probe.y = position->y.v - ((S_80095C80_0 *)motion)->unk_10;
+            probe.z = position->z.v;
+            boundary_test = func_80095C20(&probe, 0) << 0x10;
+            boundary_test = position->y.v < boundary_test;
+            boundary_test ^= 1;
+            if (x_hit == 0) {
                 probe_ptr = (M2C_UNK *)D_80100000;
                 if (boundary_test == 0) {
                     s32 x_offset;

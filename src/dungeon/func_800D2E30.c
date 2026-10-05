@@ -56,12 +56,9 @@ void *func_800D8590(void *entity)
     u8 *child;
     u8 *map;
     s32 map_index;
-    register u16 flags ASM_REG("$2");
-    register void *result ASM_REG("$2");
     void *entity_arg;
     u8 *parent;
     u8 *object;
-    u16 masked_flags;
     s32 frame_index;
 
     entity_arg = entity;
@@ -73,10 +70,10 @@ void *func_800D8590(void *entity)
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (((S_800D8590_1 *)entity)->unk_13 == 0) {
         func_80094E34();
-        flags = ((S_800D8590_3 *)child)->unk_14;
+        ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
-        flags |= 0x8000;
-        ((S_800D8590_3 *)child)->unk_14 = flags;
+        ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
+        return entity;
     } else {
         if (((S_800D8590_1 *)entity)->unk_13 == 0x2B) {
             func_80042B68(entity, 0x1A);
@@ -106,13 +103,9 @@ void *func_800D8590(void *entity)
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;
-        flags = ((S_800D8590_3 *)child)->unk_14;
+        ((S_800D8590_3 *)child)->unk_14 |= 0x8000;
         ((S_800D8590_3 *)child)->unk_12 = 0;
-        flags |= 0x8000;
-        ((S_800D8590_3 *)child)->unk_14 = flags;
+        ((S_800D8590_3 *)child)->unk_14 &= 0xFFF3;
+        return entity;
     }
-    masked_flags = flags;
-    result = entity;
-    *(u16 *)(child + 0x14) = masked_flags & 0xFFF3;
-    return result;
 }

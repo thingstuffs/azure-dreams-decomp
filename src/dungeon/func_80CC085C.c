@@ -50,10 +50,6 @@ typedef struct S_8017405C_3 {
     u8 unk_25;
 } S_8017405C_3;   /* e2 in func_8017405C */
 
-typedef struct S_8017405C_4 {
-    u8 pad_00[0x2A];
-    u16 unk_2A;
-} S_8017405C_4;   /* root in func_8017405C */
 
 
 typedef struct S_8017405C_7_pre {
@@ -95,7 +91,7 @@ typedef struct {
 extern void func_800A9A0C(void *);
 extern void func_800A19E4(void *, void *, s32, s32, void *);
 extern void *func_800A02AC(void *, s32, s32);
-extern u16 func_800A0818(s32, s32, s32, s32, void *);
+extern s32 func_800A0818(s16, s16, s16, s16, void *);
 extern s32 func_800A6D30(void);
 extern void *func_800A04F0(void *, s32, s32, s32);
 extern s16 func_8009A66C(s16, void *, void *, s32);
@@ -122,11 +118,9 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     s16 move_index;
     s16 stop_fallback = 0;
     s16 heading;
-    s32 target_x_sum;
     u16 target_y;
     u16 state_flags;
     s32 flags;
-    void *root;
     s32 y_offset;
     void *target;
 
@@ -176,33 +170,11 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                 func_800A0E6C(actor, ((Rec_func_800A9E70_arg0 *)context)->unk_9C.as_s8, movement, (u8 *)context + 0x98);
             } else {
                 {
-                    void **root_page = &D_800814A8;
-                    u8 *leader_pos;
-                    unsigned long x_lookup;
-                    unsigned long y_lookup;
-                    u8 actor_x;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    leader_pos = D_80082E80;
-                    x_lookup = (unsigned long)dirStepX;
-                    root = *root_page;
-                    y_lookup = ((S_8017405C_0 *)movement)->unk_45;
-                    target_x_sum = leader_pos[0x24];
-                    y_lookup += (s16)((S_8017405C_4 *)root)->unk_2A >> 9;
-                    leader_pos = (u8 *)(leader_pos[0x25]);
-                    y_lookup &= 7;
-                    y_lookup <<= 1;
-                    x_lookup += y_lookup;
-                    {
-                        u16 *y_steps = dirStepY;
-                        y_lookup += (unsigned long)y_steps;
-                        x_lookup = *(u16 *)x_lookup;
-                        y_offset = *(u16 *)y_lookup;
-                    }
-                    actor_x = actor->unk_24.at00.v;
-                    heading = target_x_sum + (s32)x_lookup;
-                    target_y = (s32)leader_pos;
-                    target_y += y_offset;
-                    if (actor_x == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
+                    s32 dir;
+                    dir = (((S_8017405C_0 *)movement)->unk_45 + (D_800814A8->facing >> 9)) & 7;
+                    heading = D_80082E80[0x24] + dirStepX[dir];
+                    target_y = D_80082E80[0x25] + dirStepY[dir];
+                    if (actor->unk_24.at00.v == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
                         ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
                         return;
                     }
@@ -260,50 +232,15 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                         }
                     }
                     {
-                        void **root_page = &D_800814A8;
-                        register u8 *leader_pos = D_80082E80;
-                        register unsigned long x_lookup ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                        unsigned long y_lookup;
-                        s32 actor_x;
-                        s32 current_x;
-                        s32 actor_y;
-                        s32 call_x;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        x_lookup = (unsigned long)dirStepX;
-                        root = *root_page;
-                        actor_x = actor->unk_24.at00.v;
-                        actor_y = actor->unk_24.at01.v;
-                        y_lookup = (((S_8017405C_0 *)movement)->unk_45 + ((s16)((S_8017405C_4 *)root)->unk_2A
-                            >> 9)) & 7;
-                        y_lookup <<= 1;
-                        x_lookup += y_lookup;
-                        {
-                            u16 *y_steps = dirStepY;
-                            y_lookup += (unsigned long)y_steps;
-                            x_lookup = *(u16 *)x_lookup;
-                            y_lookup = *(u16 *)y_lookup;
-                        }
-                        target_x_sum = leader_pos[0x24] + (s32)x_lookup;
-                        call_x = (u32)target_x_sum << 16;
-                        heading = target_x_sum;
-                        target_x_sum = call_x;
-                        target_x_sum >>= 16;
-                        x_lookup = leader_pos[0x25];
-                        x_lookup += y_lookup;
-                        target_y = (s32)x_lookup;
-                        x_lookup = (s16)(s32)x_lookup;
-                        ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor_x, actor_y,
-                                                            target_x_sum, (s32)x_lookup, (u8 *)context + 0x98);
-                        {
-                            current_x = actor->unk_24.at00.v;
-                            y_offset = (u16)heading;
-                            if (current_x == y_offset) {
-                                current_x = actor->unk_24.at01.v;
-                                if (current_x == (u16)target_y) {
-                                    ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
-                                    return;
-                                }
-                            }
+                        s32 dir;
+                        dir = (((S_8017405C_0 *)movement)->unk_45 + (D_800814A8->facing >> 9)) & 7;
+                        heading = D_80082E80[0x24] + dirStepX[dir];
+                        target_y = D_80082E80[0x25] + dirStepY[dir];
+                        ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
+                                                            heading, target_y, (u8 *)context + 0x98);
+                        if (actor->unk_24.at00.v == (u16)heading && actor->unk_24.at01.v == (u16)target_y) {
+                            ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                            return;
                         }
                     }
                 } else {

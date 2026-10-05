@@ -59,10 +59,6 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     u16 *tableA;
     register Ent *callArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-#ifdef NON_MATCHING
-    zero = 0;
-#else
-#endif
     coord = coordArg;
     savedMult = mult;
     if (ent2 == 0) {

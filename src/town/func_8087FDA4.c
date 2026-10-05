@@ -1,10 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define value (value)
-#else
-#endif
-
 extern s32 func_80701134(s32);
 extern s32 func_80700CE8(s32);
 extern void func_80701090(s32);

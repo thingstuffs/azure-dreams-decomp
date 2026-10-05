@@ -18,11 +18,6 @@ extern void func_80700CD0(s32);
 extern void func_8070096C(s32, s32);
 extern s32 func_80700B4C();
 
-#ifdef NON_MATCHING
-#define ({                                                                       register s32 zero ASM_REG("$0");                                     ASM_KEEP(zero);                                                      zero | (value);                                                      }) (value)
-#else
-#endif
-
 /* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 func_8088124C(s32 index) {
     if (func_80700D74(D_8070063A[0]) == 0 &&
