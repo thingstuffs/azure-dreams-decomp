@@ -56,10 +56,7 @@ s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, void *context) {
     sample_ptr = &wave_table[16];
     do {
         index_rounded = sample_index;
-        if (sample_index < 0) {
-            index_rounded = sample_index + 0xF;
-        }
-        sample_angle = (sample_index - ((index_rounded >> 4) * 0x10)) << 8;
+        sample_angle = (sample_index - ((index_rounded / 16) * 0x10)) << 8;
         ((S_818B1484_0 *)sample_ptr)->unk_00 = (u32) (func_800644B8(sample_angle) >> 4);
         ((S_818B1484_0 *)sample_ptr)->unk_44 = (s32) (func_80064584(sample_angle) >> 4);
         sample_ptr--;
@@ -70,10 +67,7 @@ s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, void *context) {
         do {
             phase = effect->unk_10 - entry_index;
             phase_rounded = phase;
-            if (phase < 0) {
-                phase_rounded = phase + 0xF;
-            }
-            entry_scale = (func_800644B8((phase - ((phase_rounded >> 4) * 0x10)) << 9) >> 9) + 0x20;
+            entry_scale = (func_800644B8((phase - ((phase_rounded / 16) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(entry_index << 9);
             effect_arg = effect;
             entry_offset = ((S_818B1484_2 *)entry_ptr)->unk_1A;

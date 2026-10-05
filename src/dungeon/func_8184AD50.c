@@ -79,7 +79,7 @@ void func_80024550(S_80024550_4 *origin)
         if (random_value < 0) {
             adjusted_random = random_value + 0xFFF;
         }
-        effect_state->unk_08 = random_value - ((adjusted_random >> 12) << 12);
+        effect_state->unk_08 = (random_value % 4096);
         render_data = ((S_80024550_0 *)effect)->unk_0C;
         render_data->unk_0E = 0x80;
         render_data->unk_0D = 0x80;

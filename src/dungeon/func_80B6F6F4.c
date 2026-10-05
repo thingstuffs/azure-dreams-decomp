@@ -84,10 +84,7 @@ void func_80172EF4(void *action, EntityRec *motion, void *sprite, EntityRec *act
         velocity_y = motion->unk_10;
         motion->unk_0C = velocity_x - (biased_velocity_x >> 2);
         biased_velocity_y = velocity_y;
-        if (velocity_y < 0) {
-            biased_velocity_y = velocity_y + 3;
-        }
-        motion->unk_10 = velocity_y - (biased_velocity_y >> 2);
+        motion->unk_10 = velocity_y - (biased_velocity_y / 4);
                         /* fall through */
 
     case 1:

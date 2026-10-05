@@ -88,7 +88,7 @@ s32 func_80025270(void *object, Copy24 *src_transform, s16 effect_index) {
         if (random_value < 0) {
             adjusted_random = random_value + 0xFFF;
         }
-        ((Rec_D_80082E80 *)object)->unk_1A.as_s16 = (s16) (random_value - ((adjusted_random >> 0xC) << 0xC));
+        ((Rec_D_80082E80 *)object)->unk_1A.as_s16 = (s16) (random_value % 4096);
         ((Rec_D_80082E80 *)object)->unk_1C.at02_s16.v = 0x400;
         ((Rec_D_80082E80 *)object)->unk_1C.at00_s16.v = 0x400;
         func_8004491C(effect, func_80045340);

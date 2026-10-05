@@ -46,10 +46,7 @@ void func_800A9024(s32 group_bit) {
                     if (!(flags & 0x200)) {
                         *item_flags = flags | 0x400;
                         byte_index_bias = item_index;
-                        if (item_index < 0) {
-                            byte_index_bias = item_index + 7;
-                        }
-                        bitset_base = (void *)(group_bitset_offset + (byte_index_bias >> 3) + ram_base);
+                        bitset_base = (void *)(group_bitset_offset + (byte_index_bias / 8) + ram_base);
                         bit_index = item_index & 7;
                         *((u8 *) bitset_base + 0x5720) = (u8) (*((u8 *) bitset_base + 0x5720) | (bit_mask
                             << bit_index));

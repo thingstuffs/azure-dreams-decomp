@@ -89,10 +89,7 @@ void func_80172D04(S_80172D04_0 *script, EntityRec *motion, Rec_D_80082E80 *tile
         motion->unk_0C = value - (adjusted >> 2);
 
         adjusted = value2;
-        if (value2 < 0) {
-            adjusted = value2 + 3;
-        }
-        motion->unk_10 = value2 - (adjusted >> 2);
+        motion->unk_10 = value2 - (adjusted / 4);
 
         timer = script->unk_A8.u - 1;
         script->unk_A8.u = timer;

@@ -141,10 +141,7 @@ void func_8002499C(void *effect, void *offset_state, void *render_state) {
 
         draw_pos[0] = moving_rect.x + (moving_rect.w >> 1) - 6;
         rounded_frame = ((S_818FF19C_0 *)effect)->unk_02;
-        if (rounded_frame < 0) {
-            rounded_frame += 3;
-        }
-        y_offset = (rounded_frame >> 2) - 0x4E;
+        y_offset = (rounded_frame / 4) - 0x4E;
         draw_pos[1] = moving_rect.y - y_offset;
         func_800B8FC8(((S_818FF19C_0 *)effect)->unk_3C, &moving_rect, draw_pos, 1, 1);
 

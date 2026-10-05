@@ -13,9 +13,6 @@ void func_806CF118(s32 forwardedValue, M2C_UNK unused, M2C_UNK forwardedData) {
 
     selectionValue = func_80017434();
     biasedSelectionValue = selectionValue;
-    if (selectionValue < 0) {
-        biasedSelectionValue = selectionValue + 3;
-    }
-    func_80016ABC(((selectionValue - ((biasedSelectionValue >> 2) * 4)) * 8) + &D_80017570, &D_80017658,
+    func_80016ABC(((selectionValue - ((biasedSelectionValue / 4) * 4)) * 8) + &D_80017570, &D_80017658,
         forwardedValue, forwardedData);
 }

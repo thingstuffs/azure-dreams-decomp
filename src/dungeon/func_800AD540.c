@@ -104,10 +104,7 @@ void func_800B2CA0(StateObj *motion_state, Motion *motion, Params *params, Entit
         velocity_y = motion->dy;
         motion->dx = velocity_x - (biased_dx >> 2);
         biased_dy = velocity_y;
-        if (velocity_y < 0) {
-            biased_dy = velocity_y + 3;
-        }
-        motion->dy = velocity_y - (biased_dy >> 2);
+        motion->dy = velocity_y - (biased_dy / 4);
         if (motion_state->delay > 0) {
             u16 delay = motion_state->delay;
             motion_state->delay = delay - 1;

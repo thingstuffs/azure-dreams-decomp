@@ -140,17 +140,11 @@ s32 func_8008EA20(s32 world_x, s32 world_z, s32 world_y)
             }
 
             grid_x = scan_x;
-            if (grid_x < 0) {
-                grid_x += 0x3F;
-            }
-            scratch->tile = map->x_mask & (grid_x >> 6);
+            scratch->tile = map->x_mask & (grid_x / 64);
 
             grid_z = scan_z;
-            if (grid_z < 0) {
-                grid_z += 0x3F;
-            }
             scratch->tile +=
-                (s16)(map->z_mask & (grid_z >> 6)) << map->shift;
+                (s16)(map->z_mask & (grid_z / 64)) << map->shift;
 
             if (tiles[(s16)scratch->tile] != 0) {
                 u16 tile_entry;

@@ -454,17 +454,11 @@ copy_pairs:
 loop_4:
                 {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
-                    if (scaled_red < 0)
-                        scaled_red += 7;
-                    ((S_80167C74_18 *)vertex_color)->unk_00 = (s8) (scaled_red >> 3);
+                    ((S_80167C74_18 *)vertex_color)->unk_00 = (s8) (scaled_red / 8);
                     scaled_green = color->unk_0C.at01.v * color_weight;
-                    if (scaled_green < 0)
-                        scaled_green += 7;
-                    ((S_80167C74_18 *)vertex_color)->unk_01 = (s8) (scaled_green >> 3);
+                    ((S_80167C74_18 *)vertex_color)->unk_01 = (s8) (scaled_green / 8);
                     scaled_blue = color->unk_0C.at02.v * color_weight;
-                    if (scaled_blue < 0)
-                        scaled_blue += 7;
-                    ((S_80167C74_18 *)vertex_color)->unk_02 = (s8) (scaled_blue >> 3);
+                    ((S_80167C74_18 *)vertex_color)->unk_02 = (s8) (scaled_blue / 8);
                     history_index += 1;
                     vertex_color += 4;
                 }

@@ -277,10 +277,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
             s32 rounded_depth;
 
             rounded_depth = depth;
-            if (depth < 0) {
-                rounded_depth = depth + 3;
-            }
-            depth = rounded_depth >> 2;
+            depth = (rounded_depth / 4);
         }
 
         {

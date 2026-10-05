@@ -92,15 +92,9 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     owner = ((S_81839358_1 *)effect)->unk_00;
     ((S_81839358_2 *)owner)->unk_10 = (s32) (((S_81839358_2 *)owner)->unk_10 | 0x8000);
     rounded_x = ((S_81839358_0 *)motion)->unk_00.at02.v;
-    if (rounded_x < 0) {
-        rounded_x += 0x3F;
-    }
-    if ((rounded_x >> 6) == ((S_81839358_1 *)effect)->unk_04) {
+    if ((rounded_x / 64) == ((S_81839358_1 *)effect)->unk_04) {
         rounded_y = ((S_81839358_0 *)motion)->unk_04.at02.v;
-        if (rounded_y < 0) {
-            rounded_y += 0x3F;
-        }
-        if ((rounded_y >> 6) == ((S_81839358_1 *)effect)->unk_06) {
+        if ((rounded_y / 64) == ((S_81839358_1 *)effect)->unk_06) {
             ((S_81839358_0 *)motion)->unk_14.n = 0;
             ((S_81839358_0 *)motion)->unk_10.n = 0;
             ((S_81839358_0 *)motion)->unk_0C.n = 0;

@@ -35,15 +35,9 @@ void func_800A70EC(S_800A70EC_0 *state, s32 unused_1, s32 unused_2, S_800A70EC_1
         return;
     }
     x_wave = func_800644B8((s16) ticks_left * 0xCC);
-    if (x_wave < 0) {
-        x_wave += 7;
-    }
-    scale->unk_1C = (s16) ((x_wave >> 3) + 0x1000);
+    scale->unk_1C = (s16) ((x_wave / 8) + 0x1000);
     y_wave = func_800644B8(state->unk_6C.s * 0xCC);
-    if (y_wave < 0) {
-        y_wave += 7;
-    }
-    scale->unk_1E = (s16) ((y_wave >> 3) + 0x1000);
+    scale->unk_1E = (s16) ((y_wave / 8) + 0x1000);
     z_wave = func_800644B8(state->unk_6C.s * 0xCC);
     z_offset = z_wave >> 3;
     if (z_wave < 0) {

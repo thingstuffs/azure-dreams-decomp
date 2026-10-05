@@ -138,15 +138,9 @@ void func_8016ECE4(void) {
             sprite->unk_06 = (s16) (D_80174708[((u16) source_state->unk_2A >> 9) & 7].field2 * 6);
             source_state->unk_AA = 0x4D;
             rounded_x = source_pos->unk_02.u;
-            if (rounded_x < 0) {
-                rounded_x += 0x3F;
-            }
-            effect_state->unk_48 = (s8) (rounded_x >> 6);
+            effect_state->unk_48 = (s8) (rounded_x / 64);
             rounded_y = source_pos->unk_06.u;
-            if (rounded_y < 0) {
-                rounded_y += 0x3F;
-            }
-            effect_state->unk_49 = (s8) (rounded_y >> 6);
+            effect_state->unk_49 = (s8) (rounded_y / 64);
             sprite->unk_0E = 0x80;
             sprite->unk_0D = 0x80;
             sprite->unk_0C = 0x80;

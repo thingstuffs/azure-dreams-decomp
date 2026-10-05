@@ -90,10 +90,7 @@ void func_80172F00(void *action, EntityRec *motion, void *sprite, EntityRec *ent
         velocity_y = motion->unk_10;
         motion->unk_0C = velocity_x - (rounded_vx >> 2);
         rounded_vy = velocity_y;
-        if (velocity_y < 0) {
-            rounded_vy = velocity_y + 3;
-        }
-        motion->unk_10 = velocity_y - (rounded_vy >> 2);
+        motion->unk_10 = velocity_y - (rounded_vy / 4);
         return;
     case 1:
         motion->unk_0C -=

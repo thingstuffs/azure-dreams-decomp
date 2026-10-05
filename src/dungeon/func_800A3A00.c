@@ -59,17 +59,11 @@ void func_800A9160(void)
             do {
                 if (!(cell_index & 7)) {
                     clear_index = cell_index;
-                    if (cell_index < 0) {
-                        clear_index = cell_index + 7;
-                    }
-                    ((S_800A9160_0 *)(group_bits_offset + (clear_index >> 3) + (s32)ram))->unk_5720 = 0;
+                    ((S_800A9160_0 *)(group_bits_offset + (clear_index / 8) + (s32)ram))->unk_5720 = 0;
                 }
                 if (*(u16 *)(cell_offset + (s32)cell_group->cells) & 0x400) {
                     set_index = cell_index;
-                    if (cell_index < 0) {
-                        set_index = cell_index + 7;
-                    }
-                    bit_byte = group_bits_offset + (set_index >> 3) + (s32)ram;
+                    bit_byte = group_bits_offset + (set_index / 8) + (s32)ram;
                     bit_index = cell_index & 7;
                     one = 1;
                     bit_byte->unk_5720 =

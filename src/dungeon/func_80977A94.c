@@ -71,10 +71,7 @@ void func_80173294(S_80173294_0 *motion_state, EntityRec *motion, Rec_D_80082E80
         motion->unk_0C = x_speed_or_entity - (rounded_velocity >> 2);
 
         rounded_velocity = velocity_z;
-        if (velocity_z < 0) {
-            rounded_velocity = velocity_z + 3;
-        }
-        motion->unk_10 = velocity_z - (rounded_velocity >> 2);
+        motion->unk_10 = velocity_z - (rounded_velocity / 4);
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;

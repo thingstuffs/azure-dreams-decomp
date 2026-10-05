@@ -77,10 +77,7 @@ void func_800A3508(u8 *obj, s32 *vec, Rec_D_80082E80 *record)
 
     direction_term = func_80064584(direction_angle);
     product = direction_term * func_800644B8(tilt_angle);
-    if (product < 0) {
-        product += 0xFFF;
-    }
-    vec[4] = product >> 12;
+    vec[4] = (product / 4096);
 
     vec[5] = func_80064584(tilt_angle);
     vec[3] *= scale;

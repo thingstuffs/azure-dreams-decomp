@@ -82,10 +82,7 @@ void func_80056098(S_80085458 *envelope) {
             }
         }
         if (scaled_wave != 0) {
-            if (scaled_wave < 0) {
-                scaled_wave += 0x3FF;
-            }
-            envelope->f3c = scaled_wave >> 10;
+            envelope->f3c = (scaled_wave / 1024);
             return;
         }
         envelope->f3c = 0;

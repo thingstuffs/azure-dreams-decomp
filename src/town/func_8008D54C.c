@@ -11,10 +11,7 @@ void func_8008ACAC(s32 dest_addr, s32 src_addr, s32 byte_count) {
     adjusted_bytes = byte_count;
     dest_word = dest_addr + adjusted_bytes;
     src_word = src_addr + adjusted_bytes;
-    if (adjusted_bytes < 0) {
-        adjusted_bytes += 3;
-    }
-    words_left = adjusted_bytes >> 2;
+    words_left = (adjusted_bytes / 4);
     if (words_left > 0) {
         do {
             word = *src_word;

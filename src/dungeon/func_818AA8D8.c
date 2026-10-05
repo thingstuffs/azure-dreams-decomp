@@ -75,10 +75,7 @@ void func_800240D8(void *effect, void *position, void *sprite)
         rand_value = rand();
         z_upper = (*(u16 *)((u8 *) position + 0xA)) - 1;
         rounded_random = rand_value;
-        if (rand_value < 0) {
-            rounded_random = rand_value + 3;
-        }
-        *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value - ((rounded_random >> 2) << 2));
+        *(u16 *)((u8 *) position + 0xA) = z_upper - (rand_value % 4);
 
         *(u8 *)((u8 *) sprite + 0xE) = (brightness = (*(u8 *)((u8 *) sprite + 0xE)) - 8);
         scale = (*(u16 *)((u8 *) sprite + 0x1E)) + 0x100;

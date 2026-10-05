@@ -34,14 +34,8 @@ void func_800C4E30(S_800C4E30_0 *state, void *context, S_800C4E30_1 *scale) {
         return;
     }
     shrink_value = func_800644B8(frames_left * 0x199);
-    if (shrink_value < 0) {
-        shrink_value += 3;
-    }
-    shrink_amount = shrink_value >> 2;
+    shrink_amount = (shrink_value / 4);
     scale->unk_1C = (s16) (0x1000 - shrink_amount);
     grow_value = func_800644B8(state->unk_6C * 0x199);
-    if (grow_value < 0) {
-        grow_value += 3;
-    }
-    scale->unk_1E = (s16) ((grow_value >> 2) + 0x1000);
+    scale->unk_1E = (s16) ((grow_value / 4) + 0x1000);
 }

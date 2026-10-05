@@ -72,10 +72,7 @@ s32 func_818B7E14(void *owner, DungeonSource *source)
         func_8003DB94(render, D_80025EE4, 0);
         random = rand();
         adjusted = random;
-        if (random < 0) {
-            adjusted = random + 0xFFF;
-        }
-        render->f1A = random - ((adjusted >> 12) << 12);
+        render->f1A = (random % 4096);
         render->f1E = 0x400;
         render->f1C = 0x400;
         func_8004491C(obj, D_80045C34);

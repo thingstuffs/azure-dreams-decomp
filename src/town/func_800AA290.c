@@ -40,8 +40,5 @@ void func_800A79F0(S_800A79F0_0 *state, s32 finish_arg1, S_800A79F0_1 *scale, s3
     }
     scale->unk_1C = (s16) (0x1000 - scale_offset);
     rounded_wave = func_800644B8((s16) state->unk_6C * 0xBA);
-    if (rounded_wave < 0) {
-        rounded_wave += 3;
-    }
-    scale->unk_1E = (s16) ((rounded_wave >> 2) + 0x1000);
+    scale->unk_1E = (s16) ((rounded_wave / 4) + 0x1000);
 }

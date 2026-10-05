@@ -28,9 +28,6 @@ s32 func_800219B8(s32 entry_count) {
         } while (entry_index < entry_count);
     }
     size_value = total_size;
-    if (total_size < 0) {
-        size_value = total_size + 0x1FFF;
-    }
-    total_size = size_value >> 0xD;
+    total_size = (size_value / 8192);
     return 0xF - total_size;
 }

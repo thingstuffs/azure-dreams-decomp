@@ -34,10 +34,7 @@ void func_80F606C0(void *effect, S_80F606C0_1 *position, Rec_D_80082E80 *transfo
     u16 frames_left;
 
     x_delta = ((S_80F606C0_0 *)effect)->unk_0C - position->unk_00.at02.v;
-    if (x_delta < 0) {
-        x_delta += 3;
-    }
-    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((x_delta >> 2) << 0x10));
+    position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((x_delta / 4) << 0x10));
     position->unk_04.at00.v = (s32) (position->unk_04.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_0E
         - position->unk_04.at02.v) / 4) << 0x10));
     position->unk_08.at00.v = (s32) (position->unk_08.at00.v + (((s32) (((S_80F606C0_0 *)effect)->unk_10

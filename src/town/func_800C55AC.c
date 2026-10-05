@@ -8,8 +8,5 @@ u32 func_800C2D0C(s32 angle) {
 
     angle -= 0x600;
     angle_delta = (gameWork.view.viewAngle - angle) & 0xFFF;
-    if (angle_delta < 0) {
-        angle_delta += 0x3FF;
-    }
-    return (u32)angle_delta >> 10;
+    return (u32)(angle_delta / 1024);
 }

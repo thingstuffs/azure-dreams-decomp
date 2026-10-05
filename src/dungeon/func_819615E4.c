@@ -168,10 +168,7 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 
         current_coord = state->cur_z;
         distance = state->z - current_coord;
-        if (distance < 0) {
-            distance += 7;
-        }
-        step_offset = (distance >> 3) * (state->step + 1);
+        step_offset = (distance / 8) * (state->step + 1);
         target->z = (u16)target->z +
             (current_coord + step_offset - target->z) / state->timer;
     }

@@ -49,10 +49,7 @@ void func_800B3B18(u8 *channels)
     magnitude = abs(magnitude);
     if (magnitude >= 5) {
         adjusted_delta = delta;
-        if (adjusted_delta < 0) {
-            adjusted_delta += 3;
-        }
-        channels[2] = value + (adjusted_delta >> 2);
+        channels[2] = value + (adjusted_delta / 4);
     } else {
         channels[2] = 0x80;
     }

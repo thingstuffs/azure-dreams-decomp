@@ -154,10 +154,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         cycle_value = (s32) ((u32) hold_cycle << 16);
         hold_color = cycle_value >> 16;
         rounded_color = hold_color;
-        if (hold_color < 0) {
-            rounded_color = hold_color + 3;
-        }
-        red = (rounded_color >> 2) * 0xC0;
+        red = (rounded_color / 4) * 0xC0;
         hold_half = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = red;
         ((S_818B6AFC_3 *)target_color)->unk_0C = red;

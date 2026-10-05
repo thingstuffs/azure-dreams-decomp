@@ -164,16 +164,10 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
                 }
             }
             cell_x_coord = (s16)x;
-            if (cell_x_coord < 0) {
-                cell_x_coord += 0x3F;
-            }
-            cell = world->x_mask & (cell_x_coord >> 6);
+            cell = world->x_mask & (cell_x_coord / 64);
             scratch->cell = cell;
             cell_y_coord = (s16)y;
-            if (cell_y_coord < 0) {
-                cell_y_coord += 0x3F;
-            }
-            cell += (s16)(world->y_mask & (cell_y_coord >> 6)) << world->shift;
+            cell += (s16)(world->y_mask & (cell_y_coord / 64)) << world->shift;
             scratch->cell = cell;
             if (tiles[(s16)cell] != 0) {
                 scratch->origin_x = scratch->x_base - scratch->inner_offset;

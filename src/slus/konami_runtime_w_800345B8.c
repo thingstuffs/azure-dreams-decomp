@@ -178,16 +178,10 @@ s32 func_800345B8(u8 *node_data, u8 *position, u8 *render_state)
                     amplitude_addr = (s32) D_8006A83E;
                     amplitude = (s16 *) (amplitude_addr + (copy_index << 1));
                     product_x = (*amplitude) * sin_x;
-                    if (product_x < 0) {
-                        product_x += 0xFFF;
-                    }
-                    (((SpU16 *) (scratch + 0xBC))->v) = base_x - (product_x >> 12);
+                    (((SpU16 *) (scratch + 0xBC))->v) = base_x - (product_x / 4096);
                     sin_y = rsin(ratan2((s16) base_y, 0x200));
                     product_y = (*amplitude) * sin_y;
-                    if (product_y < 0) {
-                        product_y += 0xFFF;
-                    }
-                    (((SpU16 *) (scratch + 0xBE))->v) = base_y - (product_y >> 12);
+                    (((SpU16 *) (scratch + 0xBE))->v) = base_y - (product_y / 4096);
                 }
 
                 (((SpU16 *) (scratch + 0xF8))->v) = *((u16 *) (render_state + 0x16));

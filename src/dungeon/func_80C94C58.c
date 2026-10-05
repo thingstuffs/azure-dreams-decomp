@@ -113,10 +113,7 @@ void func_80172458(void *action, EntityRec *motion, void *map_entry, EntityRec *
                 case 4:
                     scaled_height_delta = (((S_80172458_0 *)action)->unk_A6
                         - (s16) ((S_80172458_0 *)action)->unk_A8) * 3;
-                    if (scaled_height_delta < 0) {
-                        scaled_height_delta += 3;
-                    }
-                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((scaled_height_delta >> 2) << 0x10));
+                    ((S_80172458_0 *)action)->unk_90 = (s32) (0 - ((scaled_height_delta / 4) << 0x10));
                     actor->flags1C = (s32) (actor->flags1C & 0xF7FFFFFF);
                     break;
                 case 3:

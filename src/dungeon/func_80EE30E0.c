@@ -101,10 +101,7 @@ void func_801748E0(void *action_work, void *position, void *sprite, void *actor)
                 }
                 S8_AT(spawned_work, 0x5C) = tile_coord >> 6;
                 tile_coord = S16_AT(position, 6);
-                if (tile_coord < 0) {
-                    tile_coord += 0x3F;
-                }
-                S8_AT(spawned_work, 0x5D) = tile_coord >> 6;
+                S8_AT(spawned_work, 0x5D) = (tile_coord / 64);
                 U8_AT(spawned_sprite, 0x0E) = 0x80;
                 U8_AT(spawned_sprite, 0x0D) = 0x80;
                 U8_AT(spawned_sprite, 0x0C) = 0x80;

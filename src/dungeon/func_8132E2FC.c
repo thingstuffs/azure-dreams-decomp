@@ -130,10 +130,7 @@ void func_801652FC(
         ((S_801652FC_0 *)state)->unk_5C = rounded_z >> 2;
 
         rounded_z = quotient_z;
-        if (rounded_z < 0) {
-            rounded_z += 3;
-        }
-        ((S_801652FC_0 *)state)->unk_60 = rounded_z >> 2;
+        ((S_801652FC_0 *)state)->unk_60 = (rounded_z / 4);
 
         ((S_801652FC_0 *)state)->unk_32 = duration;
         func_8004491C(object, D_80164BC4, quotient_x);

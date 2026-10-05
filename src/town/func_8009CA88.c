@@ -68,9 +68,6 @@ void func_8009A1E8(void *actor, void *motion, M2C_UNK context)
     if (speed_modifier < 0) {
         modifier_magnitude = abs(speed_modifier);
         scaled_ticks = base_ticks * (modifier_magnitude + 0x10);
-        if (scaled_ticks < 0) {
-            scaled_ticks += 0xF;
-        }
-        *((s16 *) (((s8 *) actor) + 0xA)) = (s16) (scaled_ticks >> 4);
+        *((s16 *) (((s8 *) actor) + 0xA)) = (s16) (scaled_ticks / 16);
     }
 }

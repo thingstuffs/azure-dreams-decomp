@@ -70,10 +70,7 @@ void func_80173770(S_80173770_0 *motion_state, EntityRec *motion, Rec_D_80082E80
         motion->unk_0C = velocity_or_entity - (division_bias >> 2);
 
         division_bias = y_velocity;
-        if (y_velocity < 0) {
-            division_bias = y_velocity + 3;
-        }
-        motion->unk_10 = y_velocity - (division_bias >> 2);
+        motion->unk_10 = y_velocity - (division_bias / 4);
 
         if (motion_state->unk_96.s > 0) {
             motion_state->unk_96.u = motion_state->unk_96.u - 1;

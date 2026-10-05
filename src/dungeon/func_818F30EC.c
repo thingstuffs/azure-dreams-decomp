@@ -124,10 +124,7 @@ s32 func_800248EC(void *first_point, void *first_position)
             tile->g = color_value >> 7;
 
             color_value = (s32)tile->b * ((S_800248EC_3 *)point)->unk_32;
-            if (color_value < 0) {
-                color_value += 0x7F;
-            }
-            tile->b = color_value >> 7;
+            tile->b = (color_value / 128);
 
             ((S_800248EC_2 *)tile)->unk_03 = 2;
             ((S_800248EC_2 *)tile)->unk_04.at03.v = 0x6A;

@@ -62,9 +62,6 @@ void func_800C52D0(S_800C52D0_0 *object, S_800C52D0_2 *out_pos, S_800C52D0_5 *st
     out_pos->unk_04 = (s32) base_pos->unk_04;
     out_pos->unk_00 = (s32) (base_pos->unk_00 + (offsets->unk_1C * D_800D5138));
     z_product = ((S_800C52D0_7 *)(((S_800C52D0_6 *)offsets)->unk_08))->unk_03 * offsets->unk_1E;
-    if (z_product < 0) {
-        z_product += 0xFFF;
-    }
-    out_pos->unk_08 = (s32) (base_pos->unk_08 + ((z_product >> 0xC) * D_800D513C));
+    out_pos->unk_08 = (s32) (base_pos->unk_08 + ((z_product / 4096) * D_800D513C));
     state->unk_1A = (u16) (state->unk_1A - 0x20);
 }

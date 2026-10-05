@@ -77,10 +77,7 @@ s32 func_801752EC(FuncArg0 *source, FuncArg1 *initial_motion, FuncArg2 *render_s
         angle = source->field2A;
         direction_state = &effect->tail;
         biased_angle = angle;
-        if (angle < 0) {
-            biased_angle = angle + 0xFFF;
-        }
-        direction_state->field04 = (s16) (((angle - ((biased_angle >> 0xC) << 0xC)) << 0x10) >> 0x19);
+        direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
         direction_state->field06 = source->fieldB0;
         sprite = effect->inner;
         sprite->field28 = render_source->field28;
