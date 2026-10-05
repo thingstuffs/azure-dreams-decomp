@@ -148,26 +148,21 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     ((S_80023260_0 *)actor)->unk_10.s = offset_y >> 1;
     state = ((S_80023260_0 *)actor)->unk_18.u;
     idle_state = 2;
-    if (state == idle_state) {
-        goto update_motion;
-    }
-    if (state < 3) {
-        if (state == 0) {
-            goto init_state;
+    if (state != idle_state) {
+        if (state < 3) {
+            if (state == 0) {
+                goto init_state;
+            }
+            if (state == 1) {
+                goto init_sprite;
+            }
+        } else if (state == 0x100) {
+            goto follow_path;
+        } else if (state < 0x101) {
+            if (state == 3) {
+                goto reset_sprite;
+            }
         }
-        if (state == 1) {
-            goto init_sprite;
-        }
-        goto update_motion;
-    }
-    if (state == 0x100) {
-        goto follow_path;
-    }
-    if (state > 0x100) {
-        goto update_motion;
-    }
-    if (state == 3) {
-        goto reset_sprite;
     }
     goto update_motion;
 init_state:

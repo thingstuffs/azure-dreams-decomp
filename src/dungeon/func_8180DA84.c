@@ -113,11 +113,9 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     if (func_8003DE58(source->unk_08, source, offset, 0) == 0) {
         offset[2] = (0 - D_800DDC40[0]) + 0x10;
     }
-    callback = D_80026680;
     effect_index = 0;
-    do {
-        effect_entry = D_80028820;
-    } while (0);
+    callback = D_80026680;
+    effect_entry = D_80028820;
     do {
         effect = func_8003FD64(0x12, ((s32 *)(&D_80083498)));
         if (effect != NULL) {

@@ -33,11 +33,7 @@ void func_80040AA0(s16 requested_state)
         if ((((u16) requested_state) & 0xFFFF) == 5) {
             SD_Call(0x72);
         }
-#ifdef NON_MATCHING
-        D_80080A88[0] = 0;
-#else
         *(s8 *)0x80080A88 = 0;
-#endif
     }
     if (D_80080A88[0] == 0) {
         SD_Call(0xCF);

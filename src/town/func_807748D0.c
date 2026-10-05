@@ -15,23 +15,23 @@ typedef struct Runtime {
     CallbackEntry *callbacks;
 } Runtime;
 
-extern void func_80016128(s32 arg0, s32 arg1);
+extern void func_80016128(s32 value0, s32 value1);
 
-void func_800160D0(s32 arg0, s32 arg1)
+void func_800160D0(s32 value0, s32 value1)
 {
-    void *callback;
+    void *ptr;
     s32 callbackIndex;
 
-    callback = ((Runtime *)D_80016000);
+    ptr = ((Runtime *)D_80016000);
 
-    callbackIndex = ((Runtime *)callback)->callbackIndex;
-    callback = ((Runtime *)callback)->callbacks;
-    callback = (u8 *)callback + callbackIndex * sizeof(CallbackEntry);
-    callback = *(void **)callback;
+    callbackIndex = ((Runtime *)ptr)->callbackIndex;
+    ptr = ((Runtime *)ptr)->callbacks;
+    ptr = (u8 *)ptr + callbackIndex * sizeof(CallbackEntry);
+    ptr = *(void **)ptr;
 
-    if (callback == 0) {
-        func_80016128(arg0, arg1);
+    if (ptr == 0) {
+        func_80016128(value0, value1);
         return;
     }
-    ((Callback)callback)();
+    ((Callback)ptr)();
 }

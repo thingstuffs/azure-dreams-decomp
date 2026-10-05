@@ -7,7 +7,7 @@ typedef struct S_800B2D00_0 {
     s32 unk_00;
     u8 pad_04[0x8];
     s32 unk_0C;
-} S_800B2D00_0;   /* arg1 in func_800B2D00 */
+} S_800B2D00_0;
 
 /* Convert up to ten entries from the selected page into the output slots. */
 void func_800B2D00(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
@@ -23,16 +23,18 @@ void func_800B2D00(s32 **outputs, S_800B2D00_0 *page_info, s32 entries_base) {
     output_slot = outputs;
     entry_index = page * 0xA;
     entry_ptr = (page * 0x28) + entries_base;
-next_entry:
-    count += 1;
-    if (entry_index < page_info->unk_0C) {
-        entry = *entry_ptr;
-        entry_ptr += 1;
-        entry_index += 1;
-        **output_slot = func_80049790(entry);
-        output_slot += 1;
-        if (count < 0xA) {
-            goto next_entry;
+    for (;;) {
+        count += 1;
+        if (entry_index < page_info->unk_0C) {
+            entry = *entry_ptr;
+            entry_ptr += 1;
+            entry_index += 1;
+            **output_slot = func_80049790(entry);
+            output_slot += 1;
+            if (count < 0xA) {
+                continue;
+            }
         }
+        break;
     }
 }

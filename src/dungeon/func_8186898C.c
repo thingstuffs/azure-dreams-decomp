@@ -13,15 +13,13 @@ void func_8186898C(void *effect, void *position, void *render_data)
     *(u16 *)(effect_state + 0x14) = *(u16 *)(effect_state + 0x14) + 1;
     coordinate = *(u16 *)((u8 *)render_data + 0x1E);
     intensity = *(u8 *)((u8 *)render_data + 0xE);
-    do {
-    } while (0);
     coordinate += 0x400;
     intensity -= 4;
+    *(u16 *)((u8 *)render_data + 0x1E) = coordinate;
+    *(u16 *)((u8 *)render_data + 0x1C) = coordinate;
     *(u8 *)((u8 *)render_data + 0xE) = intensity;
     *(u8 *)((u8 *)render_data + 0xD) = intensity;
     *(u8 *)((u8 *)render_data + 0xC) = intensity;
-    *(u16 *)((u8 *)render_data + 0x1E) = coordinate;
-    *(u16 *)((u8 *)render_data + 0x1C) = coordinate;
     if (intensity == 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         objectFlagBlock.flags |= 0x8000;

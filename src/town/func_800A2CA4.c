@@ -19,13 +19,12 @@ void func_800A0404(TownRecord *record) {
 
     slot = 0;
     dst = D_80100AA0;
-loop:
-    if (dst->bytes.unk1 != 0) {
+    while (slot < 20) {
+        if (dst->bytes.unk1 == 0) {
+            break;
+        }
         slot++;
         dst++;
-        if (slot < 20) {
-            goto loop;
-        }
     }
 
     if (slot == 20) {

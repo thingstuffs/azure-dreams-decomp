@@ -10,11 +10,6 @@ typedef struct {
 } Pos;
 
 typedef struct {
-    s16 unused[10];
-    s16 stride;
-} DungeonState;
-
-typedef struct {
     s16 kind;
     s16 value;
     s16 flags;
@@ -26,13 +21,12 @@ typedef struct {
 } Walker;
 
 extern DungeonCell D_800EA000[];
-extern DungeonState D_80083160;
 
 extern s32 func_800A6D30(void);
 extern u32 func_800A07D0(s16 x0, s16 y0, s16 x1, s16 y1);
 
 /* Carve a corridor from start toward dest in up to three straight legs: stamp the walker's tile id into every cell it crosses, add the per-step cost, give up with -1 when a cell already holds an incompatible tile, and return the step count. */
-s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
+s16 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
                   Walker *walker, s32 *cost) {
     s16 count;
     s16 cx;
@@ -48,33 +42,26 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
     s32 delta;
     s32 delta2;
     s32 idy;
-    DungeonState *dead;
+    GameWork *gw;
     MapGrid *st;
     u32 r;
 
-    st = &gameWork.map;
     count = 0;
     cy = start->y;
-    delta2 = start->x;
-    cx = delta2;
+    cx = start->x;
     delta = dest->x;
-    delta = delta - delta2;
+    delta = delta - cx;
     dir = start->dir;
-    ASM_USE2_NV(delta2, cx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    if (delta < 0) {
-        delta = -delta;
-    }
+    delta = abs(delta);
     range_x = delta - 4;
-    dead = &D_80083160;
+    gw = &gameWork;
     dir_slot = dir;
     dst_y = dest->y;
-    ASM_KEEP(dead);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(dir);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(dest);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     dst_x = dest->x;
     if (range_x <= 0) {
         range_x = 1;
     }
+    st = &gw->map;
     wx = range_x;
     if (wx >= 5) {
         wx = 4;
@@ -88,10 +75,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
     idy >>= 16;
     delta = (u32)(u16)cy << 16;
     delta >>= 16;
-    delta2 = idy - delta;
-    if (delta2 < 0) {
-        delta2 = -delta2;
-    }
+    delta2 = abs(idy - delta);
     range_y = delta2 - 4;
     if (range_y <= 0) {
         range_y = 1;
@@ -130,10 +114,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
         iy = cy;
         cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
         if (cell->value != 16384) {
-            d = cell->value - (s16)tile;
-            if (d < 0) {
-                d = -d;
-            }
+            d = abs(cell->value - (s16)tile);
             if (d >= 33) {
                 return -1;
             }
@@ -155,6 +136,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             wx = dst_x;
         }
         r = func_800A07D0(cx, cy, wx, wy);
+        dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
             s32 ix;
@@ -166,10 +148,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             iy = cy;
             cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
-                d = cell->value - (s16)tile;
-                if (d < 0) {
-                    d = -d;
-                }
+                d = abs(cell->value - (s16)tile);
                 if (d >= 33) {
                     return -1;
                 }
@@ -180,13 +159,14 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += dirStepX[(r >> 9) & 6];
-            cy += dirStepY[(r >> 9) & 6];
+            cx += dirStepX[dir];
+            cy += dirStepY[dir];
         }
     }
 
     if (wx != dst_x || wy != dst_y) {
         r = func_800A07D0(cx, cy, dst_x, dst_y);
+        dir = (r >> 9) & 6;
         for (;;) {
             s32 iy;
             s32 ix;
@@ -198,10 +178,7 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             iy = cy;
             cell = &D_800EA000[(iy << st->shiftX) + (ix = cx)];
             if (cell->value != 16384) {
-                d = cell->value - (s16)tile;
-                if (d < 0) {
-                    d = -d;
-                }
+                d = abs(cell->value - (s16)tile);
                 if (d >= 33) {
                     return -1;
                 }
@@ -212,8 +189,8 @@ s32 func_8001C5E4(Pos *start, Pos *dest, s16 rnd, s16 *out_x, s16 *out_y,
             }
             *(s32 *)walker += *cost;
             count++;
-            cx += dirStepX[(r >> 9) & 6];
-            cy += dirStepY[(r >> 9) & 6];
+            cx += dirStepX[dir];
+            cy += dirStepY[dir];
         }
     }
     return count;

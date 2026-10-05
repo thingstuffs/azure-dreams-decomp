@@ -13,14 +13,14 @@ typedef struct S_800238D4_1 {
 } S_800238D4_1;   /* work in func_800238D4 */
 
 
-extern s32 func_8004B4A8(void *arg0);
-extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
+extern s32 func_8004B4A8(void *object);
+extern void *func_8003FE78(s32 value0, void *object, s32 value1);
+extern void func_8004491C(void *object, void *callback);
 extern void func_80023A00(void *record);
-extern void bzero(void *arg0, s32 arg1);
-extern void func_800237EC(void *arg0, s32 arg1);
+extern void bzero(void *ptr, s32 size);
+extern void func_800237EC(void *state, s32 value);
 extern s32 func_800237C4(void *input);
-extern void func_80023894(void *arg0, s32 arg1);
+extern void func_80023894(void *state, s32 init_value);
 extern void func_80023258(void *state);
 
 extern u8 D_80027DD0[];

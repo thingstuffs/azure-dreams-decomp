@@ -61,14 +61,10 @@ void func_80170534(void *state_data, void *unused, void *color_data) {
             }
         }
         if ((s16) ((S_80170534_0 *)state_data)->unk_18 == 0x28) {
-#ifdef NON_MATCHING
-            D_801760D8[0] = 1;
-#else
             {
                 u8 *flag_page = (u8 *) 0x80170000;
                 *(u16 *)((u8 *)&D_801760D8) = 1;
             }
-#endif
         }
         if ((s16) ((S_80170534_0 *)state_data)->unk_18 >= 0x28) {
             next_phase = ((S_80170534_0 *)state_data)->unk_12.u + 1;

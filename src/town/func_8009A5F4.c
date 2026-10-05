@@ -14,15 +14,13 @@ void func_80097D54(Rec_func_80097D54_arg0 *record, M2C_UNK call_arg_1, M2C_UNK c
     if (func_800352FC(record, call_arg_1, call_arg_2, check_arg) == 0) {
         countdown = record->unk_0A - 1;
         record->unk_0A = countdown;
-        if ((countdown << 0x10) <= 0) {
-            if (record->unk_1C == &D_800CFFF0) {
-                func_80093D90(record, call_arg_1, call_arg_2);
-                return;
-            }
-            goto finish;
+        if ((countdown << 0x10) > 0) {
+            return;
         }
-    } else {
-finish:
-        func_80098988(record, call_arg_1, call_arg_2);
+        if (record->unk_1C == &D_800CFFF0) {
+            func_80093D90(record, call_arg_1, call_arg_2);
+            return;
+        }
     }
+    func_80098988(record, call_arg_1, call_arg_2);
 }

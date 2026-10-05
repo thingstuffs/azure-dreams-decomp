@@ -16,9 +16,7 @@ void func_8001922C(void *entries, s32 entry_mode)
 
     entry_list = entries;
     initial_mode = entry_mode;
-    do {
-        entry = entry_list;
-    } while (0);
+    entry = entry_list;
     mode = initial_mode;
     entry_index = 0;
     if (entry[1] != 0) {

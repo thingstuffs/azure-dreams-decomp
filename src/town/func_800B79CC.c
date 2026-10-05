@@ -1,10 +1,4 @@
 #include "common.h"
-#ifdef NON_MATCHING
-#define ASM_KEEP(value) ((void)0)
-static volatile s32 hidden_v1;
-#elif __GNUC__ < 3
-#else
-#endif
 
 /* Set two entry bytes to complementary values derived from the amount. */
 void *func_800B512C(void *entry, s16 amount) {

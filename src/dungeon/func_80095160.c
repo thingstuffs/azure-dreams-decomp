@@ -151,30 +151,34 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_of
                             }
                             /* Target X is dead after the tile argument is formed. */
                             target_x = func_8009B25C(body, tile_coord, y_or_direction, target_height);
-                            if (target_x == 0) {
-                                goto check_height;
+                            if (target_x != 0) {
+                                return -1;
                             }
+                        } else {
+                            return -1;
                         }
-move_failed:
-                        result = -1;
-                        return -1;
-                    }
-                    {
+                    } else {
                         actor_or_height.height = func_800BCB04(
                             target_x & 0xFFFF, coord_work & 0xFFFF, (s16)(height - height_offset));
                     }
-check_height:
-                    result = -1;
-                    coord_or_height = actor_or_height.height << 0x10;
-                    coord_or_height >>= 0x10;
-                    coord_or_height = coord_or_height < 0x201;
-                    if (coord_or_height) {
-                        result = 1;
-                    }
-                    return result;
+                } else {
+                    return -1;
                 }
+            } else {
+                return -1;
             }
+        } else {
+            return -1;
         }
+    } else {
+        return -1;
     }
-    goto move_failed;
+    result = -1;
+    coord_or_height = actor_or_height.height << 0x10;
+    coord_or_height >>= 0x10;
+    coord_or_height = coord_or_height < 0x201;
+    if (coord_or_height) {
+        result = 1;
+    }
+    return result;
 }

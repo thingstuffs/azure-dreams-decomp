@@ -1,9 +1,9 @@
 #include "common.h"
 
 extern void func_8006A084(void);
-extern s32 CloseEvent(void *arg0);
-extern void printf(void *arg0, void *arg1, s32 arg2);
-extern void exit(s32 arg0) __attribute__((noreturn));
+extern s32 CloseEvent(void *event);
+extern void printf(void *format, void *ptr, s32 value);
+extern void exit(s32 status) __attribute__((noreturn));
 extern void func_8006A094(void);
 
 extern void *D_80028550;

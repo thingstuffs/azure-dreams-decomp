@@ -39,11 +39,7 @@ void func_81971398(void *fade_data)
 
     fade = fade_data;
     vertex_index = 0;
-#ifdef NON_MATCHING
-    global_page = (u8 *)&D_80025FF4 - 0x5FF4;
-#else
     global_page = (u8 *)D_80020000;
-#endif
     ticks_left = ((S_81971398_0 *)fade)->unk_38.s;
     ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
     ticks_left--;

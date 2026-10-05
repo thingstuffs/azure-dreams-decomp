@@ -109,12 +109,7 @@ void func_800243D8(State8081A3D8 *controller)
     case 0:
     case 1:
         if (((s16)controller->timer % spawn_interval) == 0) {
-            if (controller->countdown <= 0) {
-                if ((controller->state != 1) || !(controller->flags & 4)) {
-                    goto tick;
-                }
-            }
-
+            if (controller->countdown > 0 || (controller->state == 1 && (controller->flags & 4))) {
             controller->timer = 0;
             controller->phase = (controller->phase + 1) & 3;
             if (controller->state == 0) {
@@ -142,8 +137,8 @@ void func_800243D8(State8081A3D8 *controller)
                 ((S_800243D8_2 *)inner_data)->unk_0C.at00.v = 0x00808080;
             }
             controller->flags |= 1;
+            }
         }
-tick:
         controller->timer++;
         if (controller->flags & 1) {
             break;

@@ -88,6 +88,7 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
     u32 query_x_value;
     u32 masked_y;
     u8 flags;
+    u32 masked_x;
 
     query_x_value = query_x + query_y;
     query_x_value -= query_y;
@@ -100,23 +101,18 @@ s32 func_8008D0B8(u32 query_x, u32 query_y, s16 query_height, void **plane_out)
     masked_y = query_y & 0x3F;
     globals = ((TargetGlobal *)&gameWork);
     world = &globals->map;
-    {
-        u32 masked_x;
-        masked_x = query_x & 0x3F;
-        threshold = query_height - 0x14;
-        scratch->origin_x = masked_x;
-        scratch->origin_y = masked_y;
-        do {
-        } while (0);
-        planes = world->planes;
-        scratch->x_base = masked_x;
-        left_half = (s32)masked_x < 0x20;
-        scratch->threshold = threshold;
-        scratch->y_base = masked_y;
-        scratch->planes = planes;
-        tiles = world->tiles;
-        vertices = world->vertices;
-    }
+    masked_x = query_x & 0x3F;
+    threshold = query_height - 0x14;
+    scratch->origin_x = masked_x;
+    scratch->origin_y = masked_y;
+    scratch->threshold = threshold;
+    planes = world->planes;
+    scratch->x_base = masked_x;
+    left_half = (s32)masked_x < 0x20;
+    scratch->y_base = masked_y;
+    scratch->planes = planes;
+    tiles = world->tiles;
+    vertices = world->vertices;
 
     if (!left_half) {
         scratch->x_step = 0x40;

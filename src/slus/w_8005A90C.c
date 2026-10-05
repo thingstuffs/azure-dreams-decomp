@@ -36,14 +36,15 @@ s32 func_8005A90C(s32 src_addr, s32 sound_addr, s32 size, s16 requested_slot)
     slot_id = 0;
     selected_slot = requested_slot;
     if (selected_slot == -1) {
-        do {
+        while (1) {
             if (D_80086A40[slot_id].marker == -1) {
-                goto auto_setup;
+                break;
             }
-            slot_id++;
-        } while (slot_id < 16);
-        return -1;
-auto_setup:
+            slot_id = slot_id + 1;
+            if (slot_id >= 16) {
+                return -1;
+            }
+        }
         slot_index = slot_id;
         slot = &D_80086A40[slot_index];
         slot->unk14 = size;

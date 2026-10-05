@@ -71,13 +71,9 @@ void func_80043EB8(void)
     DrawSync(0);
     skip_vsync = D_80080A85[0];
     if (skip_vsync == 0) {
-#ifdef NON_MATCHING
-        vsync_mode = D_80080A84[0];
-#else
         skip_vsync = 0x80080000;
         vsync_mode = skip_vsync;
         vsync_mode = *(u8 *)(vsync_mode + 0xA84);
-#endif
         VSync((vsync_mode != 1) ? (2) : (0));
     }
 }

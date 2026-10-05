@@ -69,20 +69,12 @@ void func_800A47A8(s16 resource_index) {
     S_800A47A8_3 *object_state;
     S_800A47A8_1 *component;
     S_800A47A8_2 *scale;
-    s32 resource_offset;
-    s32 *resources;
 
     object = func_8003FC64(0x12);
     if (object != NULL) {
         ((S_800A47A8_0 *)object)->unk_10 = D_800A3918;
         func_8004491C(object, D_800A3B1C);
-        resource_offset = resource_index << 0x10;
-        do {
-            resources = D_800D0C40;
-        } while (0);
-        resource_offset >>= 0xE;
-        ((S_800A47A8_5 *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 =
-            *(s32 *)((s8 *)resources + resource_offset);
+        ((S_800A47A8_5 *)(((S_800A47A8_4 *)object)->unk_0C))->unk_08 = D_800D0C40[resource_index];
         component = ((S_800A47A8_0 *)object)->unk_0C;
         component->unk_0E = 0xE0;
         component->unk_0D = 0xE0;

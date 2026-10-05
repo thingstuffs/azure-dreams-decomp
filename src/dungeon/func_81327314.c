@@ -112,11 +112,7 @@ void func_8016EB14(void)
         spawn_pos->unk_02 = source_pos->unk_02.s;
         spawn_pos->unk_06 = source_pos->unk_06.s;
         spawn_pos->unk_0A = source_pos->unk_0A - 0x20;
-#ifdef NON_MATCHING
-        direction_table = (u8 *)D_80174708;
-#else
         direction_table = (u8 *)&D_80174708;
-#endif
         x = *(s16 *)(u8 *)(((owner_state->unk_2A >> 7) & 0x1C) +
                            (u32)direction_table);
         ((S_8016EB14_3 *)object_state)->unk_4C = x << 18;

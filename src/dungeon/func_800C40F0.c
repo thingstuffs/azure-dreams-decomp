@@ -70,9 +70,6 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         direction_entry += (s32)FLD(state, void *, 0xA4);
         func_8003DB94(sprite, FLD((void *)direction_entry, s32, 0), 0);
         func_80099FDC(entity);
-#ifdef NON_MATCHING
-        result_base = &D_80089430;
-#endif
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
         FLD(state, s32, 0x1C) |= 0x40000000;
         FLD(state, s8, 0x71) = 0;

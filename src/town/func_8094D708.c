@@ -20,15 +20,13 @@ s32 func_8094D708(Func8094D708Object *object) {
     Func8094D708Callback callback;
 
     func_800166A4(object->field14, object->field1A);
-    i = 0;
-loop:
-    call_arg = object;
-    base = object->callbacks;
-    address = (u8 *)(i << 4);
-    callback = *(Func8094D708Callback *)((u8 *)((u8 *)((s32)address + (s32)base)));
-    if (callback(call_arg, i) == 0) {
-        return i;
+    for (i = 0;; i++) {
+        call_arg = object;
+        base = object->callbacks;
+        address = (u8 *)(i << 4);
+        callback = *(Func8094D708Callback *)((u8 *)((u8 *)((s32)address + (s32)base)));
+        if (callback(call_arg, i) == 0) {
+            return i;
+        }
     }
-    i++;
-    goto loop;
 }

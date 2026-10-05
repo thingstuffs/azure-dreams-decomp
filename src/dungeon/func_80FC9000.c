@@ -84,13 +84,13 @@ __asm__(".globl func_80158800\n"
 #define BODY_NAME func_80158800
 #endif
 
-void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *BODY_NAME(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 #ifdef __mips__
 __attribute__((section(".text.func_80158800")))
 #endif
 ;
 
-void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *BODY_NAME(s32 input_value, s16 part_b_value, s16 part_b_value2, s16 part_a_value)
 {
     void *work;
     void *obj;
@@ -115,11 +115,11 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
 
     work = 0;
     call_id = 0x112;
-    pin_arg1 = arg1;
-    pin_arg3 = arg3;
+    pin_arg1 = part_b_value;
+    pin_arg3 = part_a_value;
     call_target = &D_80083498;
     obj = func_8003FD64(call_id, call_target);
-    saved_arg0 = (s16)arg0;
+    saved_arg0 = (s16)input_value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80FC9000_0 *)obj)->unk_10 = D_80158B40;
@@ -129,8 +129,8 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
         pin_part_a = ((S_80FC9000_0 *)obj)->unk_08;
         ((S_80FC9000_2 *)pin_part_a)->unk_0A = pin_arg3;
         part_b = ((S_80FC9000_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = arg2;
+        kind = input_value & 3;
+        part_b->unk_25 = part_b_value2;
         pin_actor = work;
         part_b->unk_2C = D_8015D258;
         part_b->unk_24 = pin_arg1;
@@ -145,7 +145,7 @@ void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
             ((S_80FC9000_1 *)work)->unk_14 = left;
             ((S_80FC9000_1 *)work)->unk_1C = right;
         } else {
-            if (((arg0 = (s16)(arg0 & ~3)) << 16) == 0) {
+            if (((input_value = (s16)(input_value & ~3)) << 16) == 0) {
                 if (!(((S_80FC9000_1 *)work)->unk_14 & 0x200)) {
                     if (func_800A6D30() & 1) {
                         ((S_80FC9000_1 *)work)->unk_1C |= 0x200;

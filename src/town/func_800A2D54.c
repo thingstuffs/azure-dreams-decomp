@@ -12,17 +12,14 @@ void func_800A04B4(void) {
     entry_index = 0;
     write_entry = entries;
     src = entries + 1;
-loop:
-    if (((u8 *)write_entry)[1] != 0) {
+    while (entry_index < 19) {
+        if (((u8 *)write_entry)[1] == 0) {
+            break;
+        }
         *write_entry = *src;
         src++;
         entry_index++;
         write_entry++;
-        if (entry_index < 19) {
-            goto loop;
-        }
     }
-    do {
-        entries[entry_index] = 0;
-    } while (0);
+    entries[entry_index] = 0;
 }

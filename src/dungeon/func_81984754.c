@@ -112,11 +112,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     target_pos = &D_80083780;
     object_slot = object_base;
     do {
-#ifdef NON_MATCHING
-        allocation_page = D_80080010 - 0x10;
-#else
         allocation_page = (u8 *)0x80080000;
-#endif
         if (object_index != 0) {
             prev_object = object_slot[-1];
         } else {

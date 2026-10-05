@@ -63,7 +63,6 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
         s32 y;
         u16 score;
         s16 signed_score;
-        s32 next_state;
 
         if (motion->dy < 0) {
             break;
@@ -94,30 +93,22 @@ void func_80023B14(TownObject *obj, TownMotion *motion)
 
         SD_Call(0x512);
         signed_score = child->count;
-        score = *(volatile u16 *)&child->count;
+        score = child->count;
         if (signed_score < 9999) {
-            if (obj->state != 0) {
-                obj->timer = 8;
-                goto store_timer;
+            if (obj->state == 0) {
+                score++;
+                child->count = score;
+                if ((D_800135C2[0] << 16) < (score << 16)) {
+                    D_800135C2[0] = score;
+                }
             }
-            score++;
-            child->count = score;
-            if ((D_800135C2[0] << 16) < (score << 16)) {
-                D_800135C2[0] = score;
-            }
-            next_state = obj->state;
-        } else {
-            next_state = obj->state;
         }
-        if (next_state != 0) {
+        if (obj->state != 0) {
             obj->timer = 8;
         } else {
             obj->timer = 4;
         }
-store_timer:
-        do {
-            func_80093CEC(D_800D0138);
-        } while (0);
+        func_80093CEC(D_800D0138);
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;

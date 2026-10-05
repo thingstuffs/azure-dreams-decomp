@@ -102,12 +102,12 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   
 
-void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *func_8015E8A4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
-    s16 arg0_copy;
-    s16 arg1_role;
-    s8 arg2_role;
-    s16 arg3_role;
+    s16 saved_flags;
+    s16 saved_kind_id;
+    s8 saved_variant;
+    s16 saved_spawn_value;
     void *created;
     u8 *work = 0;
     u8 *position;
@@ -116,12 +116,12 @@ void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     s32 kind;
     Rect rect;
 
-    arg1_role = arg1;
-    arg3_role = arg3;
-    arg2_role = arg2;
-    arg1 = 0x112;
-    created = func_8003FD64(arg1, ((u8 *)(&D_80083498)));
-    arg0_copy = (s32)arg0;
+    saved_kind_id = kind_id;
+    saved_spawn_value = spawn_value;
+    saved_variant = variant;
+    kind_id = 0x112;
+    created = func_8003FD64(kind_id, ((u8 *)(&D_80083498)));
+    saved_flags = (s32)flags;
     if (created != 0) {
         void *init_arg0;
         s32 flags0;
@@ -137,14 +137,14 @@ void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         func_8004491C(created, func_80045340);
 
         position = (*(u8 * *)((u8 *)created + 8));
-        ((S_80FB1000_1 *)position)->unk_0A = arg3_role;
+        ((S_80FB1000_1 *)position)->unk_0A = saved_spawn_value;
         monster = (*(u8 * *)((u8 *)created + 0xC));
-        (*(u8 *)((u8 *)monster + 0x25)) = arg2_role;
+        (*(u8 *)((u8 *)monster + 0x25)) = saved_variant;
         actor = work;
         (*(Callback *)((u8 *)monster + 0x2C)) = D_80163258;
-        (*(u8 *)((u8 *)monster + 0x24)) = arg1_role;
+        (*(u8 *)((u8 *)monster + 0x24)) = saved_kind_id;
 
-        kind = (s32)arg0 & 3;
+        kind = (s32)flags & 3;
         if (kind == 1) {
             flags0 = ((S_80FB1000_0 *)work)->unk_14 | 0x6000;
             flags1 = ((S_80FB1000_0 *)work)->unk_1C | 0x6000;
@@ -156,7 +156,7 @@ void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
             ((S_80FB1000_0 *)work)->unk_14 = flags0;
             ((S_80FB1000_0 *)work)->unk_1C = flags1;
         } else {
-            if ((s16)((s32)arg0 & -4) == 0 &&
+            if ((s16)((s32)flags & -4) == 0 &&
                 !(((S_80FB1000_0 *)work)->unk_14 & 0x200)) {
                 value = func_800A6D30();
                 if (value & 1) {
@@ -169,7 +169,7 @@ void *func_8015E8A4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         }
 
         init_arg0 = created;
-        func_800A9C18(init_arg0, position, monster, (s16)arg0_copy);
+        func_800A9C18(init_arg0, position, monster, (s16)saved_flags);
         i = 0;
         value = (*(u16 *)((u8 *)monster + 0x12));
         (*(u8 *)((u8 *)actor + 0x9A)) = 0xFF;

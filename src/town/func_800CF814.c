@@ -26,15 +26,17 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
     s32 initial_dy = step_y;
     u16 timer;
 
-    if (phase != 0) {
-        if (phase != 1) {
-            goto done;
-        }
-    } else {
+    switch (phase) {
+    case 0:
         motion->unk6C = duration;
         obj->unkE = initial_dx;
         obj->unk12 = initial_dy;
         motion->unk6A++;
+        break;
+    case 1:
+        break;
+    default:
+        return;
     }
 
     timer = motion->unk6C - 1;
@@ -48,5 +50,4 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         motion->unk6A = 0;
         motion->unk68++;
     }
-done:
 }

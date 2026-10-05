@@ -3,11 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-#ifdef NON_MATCHING
-#define ASM_DEP(var) ((void)0)
-#else
 #define ASM_DEP(var) __asm__("" : "+r"(var))
-#endif
 
 extern s32 func_800644B8();
 extern s32 func_80064584();

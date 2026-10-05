@@ -67,11 +67,7 @@ extern s16 func_800BCB04(s32, s32, s32);
 
 __asm__(".set D_800835E8, 0x800835E8");
 
-#ifdef NON_MATCHING
-#define PAGE_8008 ((u8 *)D_800835E8 - 0x35E8)
-#else
 #define PAGE_8008 ((u8 *)0x80080000)
-#endif
 
 /* Restores saved spawns and places random traps within the floor budget. */
 void func_8001EF0C(void) {

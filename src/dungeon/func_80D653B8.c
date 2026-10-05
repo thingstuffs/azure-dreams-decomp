@@ -66,13 +66,6 @@ typedef struct S_80D653B8_5 {
 } S_80D653B8_5;   /* arg1 in func_80D653B8 */
 
 
-typedef struct {
-    s32 word0;
-    s32 word1;
-    s32 word2;
-    s32 word3;
-} Block16;
-
 extern void *func_8003FD64();
 extern void func_8004491C();
 extern void func_80045340(void);
@@ -82,34 +75,24 @@ extern u8 D_800D6FEC[];
 extern u8 D_800E23D0[];
 
 /* Creates an object from a template, selects its direction, and positions it at the anchor. */
-void func_80D653B8(void *unused, S_80D653B8_5 *anchor, Block16 *object_template,
+void func_80D653B8(void *unused, S_80D653B8_5 *anchor, S_80D653B8_2 *object_template,
                    S_80D653B8_3 *facing_source, s32 initial_value)
 {
-    Block16 *copy_end;
     void *object;
     S_80D653B8_2 *object_data;
-    Block16 *copy_dst;
-    Block16 *copy_src;
     S_80D653B8_4 *position;
     S_80D653B8_0 *object_work;
 
     (void)unused;
     object = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
     if (object != NULL) {
-        copy_src = object_template;
         object_work = (u8 *)object + 0x20;
         object_work->unk_96 = initial_value;
         object_work->unk_AA = initial_value;
         ((S_80D653B8_1 *)object)->unk_10 = D_800D6FEC;
         object_work->unk_B0 = anchor;
         object_data = ((S_80D653B8_1 *)object)->unk_0C;
-        copy_end = copy_src + 3;
-        copy_dst = (Block16 *)object_data;
-        do {
-            *copy_dst = *copy_src;
-            copy_src++;
-            copy_dst++;
-        } while (copy_src != copy_end);
+        *object_data = *object_template;
 
         object_data->unk_1E = 0x1000;
         object_data->unk_1C = 0x1000;

@@ -7,29 +7,28 @@ typedef void (*Callback3)(M2C_UNK *, M2C_UNK *, M2C_UNK);
 typedef struct S_800194E4_0 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_800194E4_0;   /* arg0 in func_800194E4 */
+} S_800194E4_0;
 
 typedef struct S_800194E4_1 {
     s16 unk_00;
     u8 pad_02[0x2];
     s32 unk_04;
-} S_800194E4_1;   /* (s8 *)arg0 + var_s1 * 8 in func_800194E4 */
+} S_800194E4_1;
 
 typedef struct S_800194E4_2 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_800194E4_2;   /* root in func_800194E4 */
+} S_800194E4_2;
 
 typedef struct S_800194E4_3 {
     u8 pad_00[0x20];
     void * unk_20;
-} S_800194E4_3;   /* (*(void **)((u8 *)D_80010000 + 0x6000)) in func_800194E4 */
+} S_800194E4_3;
 
 typedef struct S_800194E4_4 {
     u8 pad_00[0x174];
     M2C_UNK (*unk_174)(M2C_UNK);
-} S_800194E4_4;   /* ((S_800194E4_3 *)((*(void **)((u8 *)D_80010000 + 0x6000))))->unk_20 in func_800194E4 */
-
+} S_800194E4_4;
 
 __asm__(".set D_80010000, 0x80010000");
 extern s8 D_80010000[];
@@ -45,11 +44,13 @@ s32 func_800194E4(void *entries, s32 entry_id) {
 
     entry_index = 0;
     if (((S_800194E4_0 *)entries)->unk_04 != 0) {
-check_entry:
-        if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_00 != entry_id) {
+        while (1) {
+            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_00 == entry_id) {
+                break;
+            }
             entry_index += 1;
-            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 != 0) {
-                goto check_entry;
+            if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 == 0) {
+                break;
             }
         }
         if (((S_800194E4_1 *)((s8 *)entries + entry_index * 8))->unk_04 != 0) {

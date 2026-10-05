@@ -300,12 +300,11 @@ void func_8002401C(void *input, void *output)
         sprite->unk_0C = (void *)random_value;
         ((S_FUNC_8197C800_BODY_5 *)particle)->unk_20 = input;
         ((S_FUNC_8197C800_BODY_10 *)particle_data)->unk_4C = 0;
-        goto case_one_tail;
     }
-case_one_tail:
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u + 1;
 
-    goto store_state;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
+    return;
 
     case 2:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
@@ -320,8 +319,10 @@ case_one_tail:
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
 
     tail_timer = 16;
-
-    goto store_timer;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = tail_timer;
+    tail_state += 1;
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
+    return;
 
     case 3:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u < 3) {

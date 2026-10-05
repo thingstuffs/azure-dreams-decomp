@@ -34,26 +34,16 @@ void func_80099C18(void *work_data, void *position_data, s32 context) {
         pos->x = work->target_x << 16;
         pos->y = work->target_y << 16;
         func_80098928(work, pos, context);
-        pos->angle = func_800C2AE8(pos);
-        return;
-    }
-
-    {
+    } else {
         s32 x;
+        s32 y;
 
         x = pos->x;
         pos->x = x +
             ((work->target_x << 16) - x) / remaining;
-    }
-    {
-        s32 y;
-
         y = pos->y;
-        *(s32 *)&pos->y = y +
+        pos->y = y +
             ((work->target_y << 16) - y) / (s16)work->count;
     }
-
-    do {
-        pos->angle = func_800C2AE8(pos);
-    } while (0);
+    pos->angle = func_800C2AE8(pos);
 }

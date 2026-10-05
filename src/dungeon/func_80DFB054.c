@@ -57,7 +57,7 @@ extern s16 func_800A48F0();
 extern void func_800A9C18();
 extern s32 func_800AA36C();
 
-void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+void *func_80158854(s16 value, s16 part_b_value_a, s16 part_b_value_b, s16 part_a_value)
 {
     s32 kind;
     s32 left;
@@ -73,11 +73,11 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     void *actor;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_arg1 = part_b_value_a;
+    saved_arg3 = part_a_value;
+    saved_arg2 = part_b_value_b;
     obj = func_8003FD64(0x112, ((u8 *)(&D_80083498)));
-    final_arg0 = arg0;
+    final_arg0 = value;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_80158854_0 *)work)->unk_13 = 0x1C;
@@ -89,7 +89,7 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         part_b->unk_24 = saved_arg1;
         part_b->unk_25 = saved_arg2;
         actor = work;
-        kind = arg0 & 3;
+        kind = value & 3;
 
         if (kind == 1) {
             ((S_80158854_0 *)work)->unk_8C = D_80158E5C;
@@ -107,7 +107,7 @@ void *func_80158854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
                 ((S_80158854_0 *)work)->unk_1C = right;
                 part_b->unk_2C = D_8015C510;
             } else {
-                if (((arg0 & ~3) << 16) == 0) {
+                if (((value & ~3) << 16) == 0) {
                     if (!(((S_80158854_0 *)work)->unk_14 & 0x200)) {
                         if (func_800A6D30() & 1) {
                             func_800A48F0(work, 1,

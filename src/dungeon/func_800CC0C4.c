@@ -56,8 +56,8 @@ typedef struct S_800D1824_6 {
 } S_800D1824_6;   /* ((S_800D1824_1 *)globals)->unk_00 in func_800D1824 */
 
 
-extern void func_80065034(void *arg0, void *arg1, void *arg2);
-extern void func_8006658C(s32 arg0, void *arg1);
+extern void func_80065034(void *ptr, void *ptr2, void *ptr3);
+extern void func_8006658C(s32 value, void *ptr);
 
 /* Transform grid tiles into quads and add visible ones to the ordering table. */
 void func_800D1824(u8 *tiles)

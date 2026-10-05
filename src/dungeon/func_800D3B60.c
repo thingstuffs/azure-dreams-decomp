@@ -155,18 +155,15 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                     }
                     goto mask_and_return;
                 }
-                goto prepare_heading;
-            }
-            room_id = position->unk_26;
-            if ((room_id < 0) || !(D_800E2970[room_id].flags & 2)) {
-                if (!(((S_800D92C0_0 *)actor)->unk_46 & 0x8000)) {
-prepare_heading:
-                    goto choose_heading;
-                }
             } else {
-choose_heading:
-                func_800A0E6C(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
+                room_id = position->unk_26;
+                if ((room_id < 0) || !(D_800E2970[room_id].flags & 2)) {
+                    if (((S_800D92C0_0 *)actor)->unk_46 & 0x8000) {
+                        goto init_loop;
+                    }
+                }
             }
+            func_800A0E6C(position, ((Rec_func_800A9E70_arg0 *)move_state)->unk_9C.as_s8, actor, move_state + 0x98);
 init_loop:
             turn_index = 0;
 loop_entry:

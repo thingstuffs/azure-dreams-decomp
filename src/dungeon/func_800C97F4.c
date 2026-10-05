@@ -6,11 +6,7 @@ typedef struct Node {
     struct Node *value2;
 } Node;
 
-#ifdef NON_MATCHING
-#define ASM_CLOBBER_A0() ((void)0)
-#else
 #define ASM_CLOBBER_A0() ASM_CLOBBER("$4")
-#endif
 
 extern void func_800CEFB8();
 

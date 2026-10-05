@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern void func_8007BEF0(s32 arg0);
-extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
-extern s32 func_8007C9A8(s32 arg0);
+extern void func_8007BEF0(s32 value);
+extern void func_8007C040(void *ptr, void *ptr2, s32 value);
+extern s32 func_8007C9A8(s32 value);
 extern void func_8007CA38(void);
 extern void func_8007CA48(void);
 

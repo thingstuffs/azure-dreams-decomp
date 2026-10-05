@@ -17,20 +17,13 @@ extern State D_800FE520;
 /* Process the terminated entry list and initialize the state for the current mode. */
 void func_80096B50(s32 *entries) {
     s16 mode;
-    s32 *entry;
 
-    entry = entries;
     D_800FE508[0] = 0x1FFFFFFF;
     D_800FE508[2] = 0x1FFFFFFF;
     D_800FE508[1] = 0;
     D_800FE508[3] = 0;
-    if (*entry != 0) {
-        do {
-            func_80096A90(D_800FE508, *entry);
-            do {
-                entry++;
-            } while (0);
-        } while (*entry != 0);
+    for (; *entries != 0; entries++) {
+        func_80096A90(D_800FE508, *entries);
     }
     mode = D_8006ADD6;
     if (mode == 8) {

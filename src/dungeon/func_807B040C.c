@@ -134,11 +134,7 @@ s32 func_807B040C(void) {
             s32 target_coord;
             s32 room_distance_y;
 
-#ifdef NON_MATCHING
-            room_page = ((u8 *)(&D_80082E80)) - 0x2E80;
-#else
             room_page = (u8 *)0x80080000;
-#endif
             nearby_room = &D_80082E80;
             dx = nearby_room->tileX;
             target_coord = ((S_807B040C_3 *)target)->unk_24;

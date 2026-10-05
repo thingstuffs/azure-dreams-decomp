@@ -21,12 +21,8 @@ void func_80025230(s8 *state) {
         next_state = &D_8002593C;
         *(s32 **)(state + 0x34) = next_state;
         func_80023004(owner);
-#ifndef NON_MATCHING
         next_state = (s32 *)0x80020000;
         next_state = &D_80024F7C;
-#else
-        next_state = &D_80024F7C;
-#endif
     } else {
         func_8002519C(0x80010000);
         next_state = &D_800251A4;

@@ -2,10 +2,6 @@
 #include "shared/game_work.h"
 #include "shared/dungeon_status.h"
 
-#if !defined(NON_MATCHING) && __GNUC__ < 3
-#else
-#define ASM_KEEP(value) ASM_KEEP(value)
-#endif
 
 extern void func_80047784(void *, s32, s32);
 extern void func_80099EA4(void *);

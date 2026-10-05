@@ -25,12 +25,12 @@ typedef struct S_800C30D4_1 {
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-void func_8008D330(void *arg0, void *arg1, void *arg2, void *arg3);          /* extern */
+void func_8008D330(void *entity, void *first_ptr, void *second_ptr, void *entity_again);          /* extern */
 void func_80098B38();                         /* extern */
 void func_80099844();           /* extern */
 s32 func_800A48F0();        /* extern */
 void func_800A5F38();                 /* extern */
-void func_800A63B8(void *arg0, s32 arg1, s16 arg2);   /* extern */
+void func_800A63B8(void *entity, s32 item, s16 action_type);   /* extern */
 s32 func_800AD6FC();            /* extern */
 void *func_800C5BBC(); /* extern */
 extern M2C_UNK D_800E1729;

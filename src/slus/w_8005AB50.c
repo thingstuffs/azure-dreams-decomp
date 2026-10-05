@@ -29,40 +29,34 @@ s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)
 {
     S_80086A40 *base;
     S_80086A40 *entry;
-    s16 marker;
-    u32 amount;
     u32 remaining;
 
     base = D_80086A40;
     entry = &base[entry_id];
-    do {
-        marker = entry->marker;
-    } while (0);
-    amount = read_size;
 
-    if (marker != entry_id) {
+    if (entry->marker != entry_id) {
         return -1;
     }
 
     func_8005ECA0(entry->unk10 + D_8007382C.value);
 
     remaining = entry->unk14 - D_8007382C.value;
-    if (remaining < amount) {
-        amount = remaining;
+    if (remaining < read_size) {
+        read_size = remaining;
     }
 
-    if (func_8005EC40(dest, amount) != amount) {
+    if (func_8005EC40(dest, read_size) != read_size) {
         return -1;
     }
 
     {
         s32 new_cursor;
         s32 end;
-        new_cursor = D_8007382C.value + amount;
+        new_cursor = D_8007382C.value + read_size;
         end = entry->unk14;
         D_8007382C.value = new_cursor;
         if (new_cursor >= end) {
-            return marker;
+            return entry_id;
         }
         return -2;
     }

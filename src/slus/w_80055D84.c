@@ -25,14 +25,10 @@ void func_80055D84(s16 entry_id) {
     index_or_error = entry_index;
     if ((s16)func_8005A778(D_80084538[index_or_error], index_or_error, D_800847C0[index_or_error]) == -1) {
         index_or_error = 0x01010000;
-        goto report_error;
-    }
-    if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) == -1) {
-        do {
-            func_80055C50(index_or_error);
-        } while (0);
+        func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
+    } else if ((s16)func_8005AAA8(D_80084758[index_or_error], entry_index) == -1) {
+        func_80055C50(index_or_error);
         index_or_error = 0x01020000;
-report_error:
         func_8003F52C(((entry_index << 8) & 0xFF00) | index_or_error);
     } else {
         func_8005AC30(1);
