@@ -241,9 +241,7 @@ void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00u.v = 0x20;
             ((S_800B1B10_5 *)((void *) b_held))->unk_04.at02.v = 0;
             ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
-            goto block_8;
         }
-block_8:
         ((S_800B1B10_2 *)sub)->unk_22 = 4;
         flags_held = subroutine_arg4;
         ((S_800B1B10_2 *)sub)->unk_26 = flags_held;

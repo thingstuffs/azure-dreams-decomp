@@ -115,39 +115,35 @@ void func_80093894(void) {
                 func_8008B5D8(D_80088C0C, 0x11);
             } else if (func_800A0608() >= 0x12) {
                 func_8008B5D8(D_80088C48, 0x11);
-            } else {
-                if (work.bytes.unk1 != 0x13) {
-                    goto process;
-                }
+            } else if (work.bytes.unk1 == 0x13) {
                 func_8008B5D8(D_80088C8C, 0x11);
+            } else {
+                goto process;
             }
             func_800947BC(object, position, callback_data);
-            callback_slot = &D_800FE5D8;
-            callback = (void (*)(void *, void *, void *))&D_80093D48;
-            *(void (**)(void *, void *, void *))callback_slot = callback;
+            D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             D_800FE518 = 0;
             return;
         } else {
 
-            if (work.bytes.unk1 == 0x13) {
-                goto process;
-            }
-            if (work.bytes.unk1 == 0x12) {
-                mode = func_800B28A0();
-                if (func_8009F71C((void *)0x80010980, D_800D0728[mode]) != -1) {
-                    goto process;
+            if (work.bytes.unk1 != 0x13) {
+                if (work.bytes.unk1 == 0x12) {
+                    mode = func_800B28A0();
+                    if (func_8009F71C((void *)0x80010980, D_800D0728[mode]) == -1) {
+                        func_8008B5D8(D_80088CCC, 0x11);
+                        func_800947BC(object, position, callback_data);
+                        D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
+                        D_800FE518 = 0;
+                        return;
+                    }
+                } else {
+                    func_8008B5D8(D_80088D04, 0x11);
+                    func_800947BC(object, position, callback_data);
+                    D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
+                    D_800FE518 = 0;
+                    return;
                 }
-                func_8008B5D8(D_80088CCC, 0x11);
-                func_800947BC(object, position, callback_data);
-                D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
-            } else {
-                func_8008B5D8(D_80088D04, 0x11);
-                func_800947BC(object, position, callback_data);
-                D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             }
-reset:
-            D_800FE518 = 0;
-            return;
         }
 
 process:

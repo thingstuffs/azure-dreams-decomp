@@ -263,13 +263,13 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     s32 direction_x;
     s32 direction_y;
     s32 target_tile;
-    register s32 tile_origin_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tile_origin_x;
+    s32 start_x;
     s32 tile_origin_y;
     s32 heading;
     s32 start_y;
     u8 *launch_texture;
     s32 travel_x;
-    void *effect_alias;
     s32 spread_angle;
     s32 target_tile_y;
     u8 *flight_texture;
@@ -295,13 +295,12 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
     s32 distance_fixed;
     s32 spread_decay;
     M2C_UNK accel_x;
-    register s32 distance_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 distance_x;
     s32 motion_extent;
     s32 target;
     s32 accel_y;
     s32 base_travel;
     s32 elapsed_steps;
-    s32 burst_count;
     s32 distance_sum;
     s32 distance_y_abs;
     s32 covered_distance;
@@ -384,11 +383,11 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                 sprite_or_step_x = 0;
                 while (distance_sum < func_800A3820(5)) {
                     tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
-                    burst_count = tile_origin_x + 0x20;
+                    distance_x = tile_origin_x + 0x20;
                     tile_origin_y = (owner_sprite->unk_25 + step_y) << 6;
                     probe_y_full = tile_origin_y + 0x20;
                     probe_y = (u16) probe_y_full;
-                    probe_x = (u16)burst_count;
+                    probe_x = (u16)distance_x;
                     if ((func_800A4688(probe_x, probe_y, func_800BCB04(probe_x, probe_y, -0x400),
                         ((S_8182C800_1 *)owner)->unk_2A.u, ((S_8182C800_1 *)owner)->unk_60) << 0x10) != 0) {
                         break;
@@ -430,15 +429,12 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
                 frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
             }
             target_x = (S_8182C800_3 *)frame.sp22;
-            tile_origin_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
             target_y = frame.sp26;
             start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-            distance_x = ((s32)target_x) - tile_origin_x;
+            distance_x = ((s32)target_x) - start_x;
             motion_extent = target_y - start_y;
-            distance_sum = distance_x;
-            if (distance_x < 0) {
-                distance_sum = 0 - distance_sum;
-            }
+            distance_sum = __builtin_abs(distance_x);
             distance_y_abs = __builtin_abs(motion_extent);
             if (distance_sum < distance_y_abs) {
                 distance_sum = distance_y_abs;
@@ -448,8 +444,6 @@ void func_8002401C(void *effect, void *motion, void *sprite) {
             ((EntityRec *)effect)->unk_50 = 0U;
             if (distance_fixed > 0) {
                 do {
-                    effect_alias = effect;
-                    effect = effect_alias;
                     covered_distance += 0xD6666;
                     ((EntityRec *)effect)->unk_50 = (u16) (((EntityRec *)effect)->unk_50 + 1);
                 } while (covered_distance < distance_fixed);
@@ -635,7 +629,7 @@ arrive:
             if (((S_8182C800_1 *)owner)->unk_60 != 0) {
                 func_8009CE1C(((S_8182C800_1 *)owner)->unk_60, 0xA, (*(u8 *)((u8 *)&((EntityRec *)effect)->z + 1)), 2,
                     (s32) ((S_8182C800_1 *)owner)->unk_2A.u, owner, 2);
-                burst_count = 0x50;
+                distance_x = 0x50;
                 do {
                     object = func_8003FD64(0x312, ((u8 *)(&D_80083498)));
                     if (object != NULL) {
@@ -672,8 +666,8 @@ arrive:
                         particle = object + 0x20;
                         particle->unk_48 = (s16) (func_80069EF8() & 3);
                     }
-                    burst_count -= 1;
-                } while (burst_count >= 0);
+                    distance_x -= 1;
+                } while (distance_x >= 0);
             }
             ((EntityRec *)effect)->z.w.i += 1;
             return;

@@ -88,49 +88,49 @@ s32 func_80094270(void *actor, s32 param_a, void *param_b, S_80094270_2 *item, s
                 call_result = func_80099194(&D_800E0739, text - 3);
                 func_80099290(call_result);
                 goto finish;
-            }
-            func_80094E34();
-            D_80082E80.unk_030 = 0;
-            func_8008DB0C(actor, param_a, param_b, 0, 0);
-            ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
-            goto return_zero;
-        }
-        kind = func_8009402C(actor, param_a, param_b, &out_a, &out_b, item);
-        hdr3 = (void *)((s32) actor);
-        if (kind != 0) {
-            msg = func_800990FC();
-            if (kind == 1) {
-                kind = item->unk_03 & 0x1F;
-                text = func_80099194(&D_800E0747, msg);
-                text = func_8009929C(0xA, text);
-                call_result = func_80099734(D_800E3DF0[kind], text);
-                text = func_80099194(&D_800E0766, call_result);
-            } else if (kind == 2) {
-                text = func_80099194(&D_800E0769, msg);
-                if ((s16)slot != 0)
-                    hdr = &D_800E05F0;
-                else
-                    hdr = &D_800E05E1;
-                text = func_80099194(hdr, text);
-                text = func_80099194(&D_800E077C, text - 3);
             } else {
-                bits = item->unk_03 & 0x1F;
-                call_result = func_80099734(D_800E3DF0[bits], msg);
-                text = func_80099194(&D_800E078A, call_result);
+                func_80094E34();
+                D_80082E80.unk_030 = 0;
+                func_8008DB0C(actor, param_a, param_b, 0, 0);
+                ((Rec_func_8008ACDC_arg0 *)actor)->unk_60 = 0;
             }
+        } else {
+            kind = func_8009402C(actor, param_a, param_b, &out_a, &out_b, item);
+            hdr3 = (void *)((s32) actor);
+            if (kind != 0) {
+                msg = func_800990FC();
+                if (kind == 1) {
+                    kind = item->unk_03 & 0x1F;
+                    text = func_80099194(&D_800E0747, msg);
+                    text = func_8009929C(0xA, text);
+                    call_result = func_80099734(D_800E3DF0[kind], text);
+                    text = func_80099194(&D_800E0766, call_result);
+                } else if (kind == 2) {
+                    text = func_80099194(&D_800E0769, msg);
+                    if ((s16)slot != 0)
+                        hdr = &D_800E05F0;
+                    else
+                        hdr = &D_800E05E1;
+                    text = func_80099194(hdr, text);
+                    text = func_80099194(&D_800E077C, text - 3);
+                } else {
+                    bits = item->unk_03 & 0x1F;
+                    call_result = func_80099734(D_800E3DF0[bits], msg);
+                    text = func_80099194(&D_800E078A, call_result);
+                }
 
-            /* The three outcomes share the termination and display tail. */
-            func_80099290(text);
+                /* The three outcomes share the termination and display tail. */
+                func_80099290(text);
 finish:
-            func_800A5720(msg);
-            func_800A56E0(0x506);
-            return 1;
+                func_800A5720(msg);
+                func_800A56E0(0x506);
+                return 1;
+            }
+            ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
+            D_80082E80.unk_030 = (s32) item;
+            func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
+            func_80094E34();
         }
-        ((Rec_func_8008ACDC_arg0 *)hdr3)->unk_C8 = 0;
-        D_80082E80.unk_030 = (s32) item;
-        func_8008DB0C(actor, param_a, param_b, out_a, (s32) out_b);
-        func_80094E34();
-return_zero:
         return 0;
     }
     return 1;

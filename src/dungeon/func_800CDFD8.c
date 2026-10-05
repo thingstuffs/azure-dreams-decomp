@@ -203,7 +203,7 @@ typedef struct S_func_800CDFD8_9 {
 /* Project sprite parts into textured quads and link visible quads into the ordering table. */
 void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 *sprite, s16 depth_bias) {
     s32 screen_y3;
-    s32 left_x;
+    s16 left_x;
     s32 first_three_visible;
     s16 edge_y;
     s16 bottom_left_x;
@@ -226,7 +226,6 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
     s32 vertex0_visible;
     s32 vertex1_visible;
     s32 vertex3_visible;
-    u16 height;
     u32 width;
     u32 flipped_width;
     u32 screen_bound;
@@ -346,7 +345,7 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                         - scratch->unk_108);
                     scratch->unk_88 = (s16) (scratch->unk_80 - (u16) scratch->unk_10);
                 } else {
-                    left_x = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02
+                    left_x = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_02
                         - ((S_func_800CDFD8_1 *)scratch)->unk_108;
                     width = scratch->unk_10;
                     left_x += (s16) left_x / 2;
@@ -358,21 +357,19 @@ void func_800D3738(void *unused, S_func_800CDFD8_2 *position, S_func_800CDFD8_5 
                     scratch->unk_88 = (s16) (bottom_left_x + (u16) scratch->unk_10);
                 }
                 if ((part->unk_00 ^ scratch->unk_24.unk_24_u16) & 2) {
-                    edge_y = (0 - (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03)
-                        - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
-                    height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
+                    edge_y = (0 - (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03)
+                        - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
                     ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                     ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
-                    edge_y -= height;
+                    edge_y -= ((S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
                     scratch->unk_8A = edge_y;
                     scratch->unk_82 = edge_y;
                 } else {
-                    edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03
+                    edge_y = (s8) ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03
                         - ((S_func_800CDFD8_1 *)scratch)->unk_10A;
-                    height = ((S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
                     ((S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                     ((S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
-                    edge_y = height + edge_y;
+                    edge_y = ((S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16 + edge_y;
                     scratch->unk_8A = edge_y;
                     scratch->unk_82 = edge_y;
                 }

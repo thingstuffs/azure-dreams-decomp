@@ -12,7 +12,7 @@ extern void func_800A56E0(s32);
 extern void func_800AD594(void *, s32);
 extern s32 func_8017589C(void *, void *, void *);
 
-extern M2C_UNK D_80170E94;
+extern void D_80170E94;
 extern u8 D_80175F10[8];
 extern u8 D_80175F40[8];
 extern u8 D_80175F68[8];
@@ -50,7 +50,6 @@ void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incom
     u16 flags;
     u16 flags3;
     u16 timer;
-    s32 gate;
 
     state = ((S_801735BC_0 *)state_work)->unk_9B;
     switch (state) {
@@ -117,13 +116,7 @@ Ladvance:
             ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v |= 0x0800;
             return;
         }
-        gate = flags3 & 0x6000;
-        goto Lgate;
-
-    case 4:
-        gate = ((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000;
-Lgate:
-        if (gate == 0) {
+        if (!(flags3 & 0x6000)) {
             return;
         }
         (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F10;
@@ -138,21 +131,30 @@ Lgate:
         func_800A2B04(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
         func_800AD594(actor, 0x800);
         ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
-        (*(M2C_UNK * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
+        (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
+        dungeonStatus.unk_0C = 0;
+        break;
+
+    case 4:
+        if (!(((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0xE000)) {
+            return;
+        }
+        (*(u8 * *)((u8 *)object + (0x2C))) = D_80175F10;
+        func_80047784(object,
+            D_80175F10[((gameWork.view.viewAngle + ((S_801735BC_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        ((S_801735BC_0 *)state_work)->unk_AE = 0;
+        ((S_801735BC_1 *)actor)->unk_14 &= ~0x40000000;
+        entity->flags14 = 0;
+        entity->unk_10 = 0;
+        entity->unk_0C = 0;
+        func_800A2B04(entity, ((Rec_D_80082E80 *)object)->unk_24, ((Rec_D_80082E80 *)object)->unk_25);
+        func_800AD594(actor, 0x800);
+        ((S_801735BC_1 *)actor)->unk_46 &= 0x7FFF;
+        (*(void * *)((u8 *)state_work + (0x8C))) = &D_80170E94;
         dungeonStatus.unk_0C = 0;
         break;
     default:
         return;
     }
 }
-
-/* MECHANISM: two edits closed this from the prior aligned-3 plateau.
-   (1) LOCAL JOIN, not a phantom noreturn sibcall: retail's `j 0x801737F0` out of
-   case 3 lands on the SHARED `beqz` of case 4, so the `andi v0,v1,0x6000` in that
-   j-delay is a live gate value, not dead code — written as `gate = flags3 & 0x6000;
-   goto Lgate;` with `Lgate:` between case 4's mask and the shared test.
-   (2) SPLIT (one name per live range): case 1 and case 3 must NOT share one `flags`
-   local — case 1's copy is live across `lb $v1,4($s0)`, so the shared pseudo inherits
-   that $v1 conflict and case 3's load colors $a0 instead of retail's $v1.
-   Frame unchanged; dispatch is now a real switch (own .rdata table),
-   args (state_work,entity,object,incoming_actor) -> s2,s3,s0,s1, tail joins via noreturn func_80173768/894. */

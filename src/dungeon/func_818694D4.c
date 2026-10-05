@@ -170,7 +170,9 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             input_motion->dx.val = (input_ctrl->target[0].val - input_motion->x.val) / 15;
             input_motion->dy.val = (input_ctrl->target[1].val - input_motion->y.val) / 15;
             input_motion->dz.val = (input_ctrl->target[2].val - input_motion->z.val) / 15;
-            goto advance;
+            input_ctrl->timer = 0;
+            input_ctrl->state++;
+            break;
         }
 
         steps = 0;

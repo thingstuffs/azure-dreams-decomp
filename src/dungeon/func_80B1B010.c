@@ -80,17 +80,20 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
                 use_player = 1;
                 /* fallthrough */
             case 3:
-                goto motion_3;
+                motion = (u8 *)actor + 0xE;
+                break;
             case 6:
                 use_player = 1;
                 /* fallthrough */
             case 2:
-                goto motion_2;
+                motion = (u8 *)actor + 0xB;
+                break;
             case 5:
                 use_player = 1;
                 /* fallthrough */
             case 1:
-                goto motion_1;
+                motion = (u8 *)actor + 8;
+                break;
             default:
                 motion = (u8 *)0;
                 break;
@@ -98,15 +101,12 @@ void func_80172810(void *action_state, void *position, void *sprite, EntityRec *
         } else {
             switch (actor->unk_46 & 0x3FFF) {
             case 3:
-motion_3:
                 motion = (u8 *)actor + 0xE;
                 break;
             case 2:
-motion_2:
                 motion = (u8 *)actor + 0xB;
                 break;
             case 1:
-motion_1:
                 motion = (u8 *)actor + 8;
                 break;
             default:

@@ -34,6 +34,7 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     u8 *entry_base;
     s32 entry_base_s;
     void *global_object;
+    void **slot;
 
     if (arg0 == (void *)&D_80081484 ||
         arg0 == (void *)D_80081470 ||
@@ -60,9 +61,8 @@ void *func_80097F84(void *arg0, void *arg1, void *arg2, s16 arg3)
     func_800A56E0(0x508);
 
     if (arg0 == (void *)&D_80081484) {
-        do {
-            ((void **)0x80010248)[index] = D_80081484;
-        } while (0);
+        slot = &((void **)0x80010248)[index];
+        *slot = D_80081484;
         global_object = D_800814A8;
         flags = *(u32 *)((u8 *)global_object + 0x1C);
         D_80081484 = 0;

@@ -26,15 +26,7 @@ void *func_802F13FC(s32 init_value_a, M2C_UNK init_value_b) {
 
     object = D_8040C5C0;
     state = (u8 *)object + 0x20;
-    if (func_80047FD8(object) == 0) {
-        object = func_8003C714(0, D_8040C5C0, 0x19);
-        if (object == NULL) {
-            func_8007C040(D_8040086C, D_80400894, 0x173);
-            func_8007BEF0(1);
-            goto reset_object;
-        }
-    } else {
-reset_object:
+    if (func_80047FD8(object) != 0 || ((object = func_8003C714(0, D_8040C5C0, 0x19)) == NULL && (func_8007C040(D_8040086C, D_80400894, 0x173), func_8007BEF0(1), 1))) {
         func_804084DC(object);
         D_8040C5DE_STORE[0] = (u16) (D_8040C5DE_LOAD[0] & 0x7FFF);
         func_8007BFE0(state, 0x44);

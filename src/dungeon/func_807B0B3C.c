@@ -215,10 +215,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
                 draw_value = (u32)((s32)draw_value + frame_remainder - 0x36);
                 ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_04 = (s32)draw_value;
             }
-            goto set_depth;
-        }
-
-        {
+        } else {
             s32 pair_addr;
             u8 *vertex_ptr;
             s32 second_pair;
@@ -254,7 +251,6 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
             if (pair_addr < pairs_end) goto build_x_pairs;
         }
 
-    set_depth:
         depth = 0;
 
         vertex_index = depth;
@@ -392,69 +388,47 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
         }
 
         coord = ((S_807B0B3C_1 *)effect)->unk_06;
-        if (coord == 0x400) {
-            goto angle_400;
-        }
-        if (coord <= 0x400) {
-            if (coord == 0) {
-                goto angle_0;
+        switch (coord) {
+        case 0:
+            ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
+            ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
+            component = (*(u16 *)((u8 *)effect + 2));
+            {
+                u8 *vertex_ptr;
+
+                vertex_ptr = scratch + 0x10;
+                ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
             }
-            vertex_index = 3;
-            goto loop_setup_b;
+            ((S_807B0B3C_14 *)scratch)->unk_02 = component;
+            break;
+        case 0x400:
+            component_2 = ((S_807B0B3C_1 *)effect)->unk_00.u;
+            ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
+            ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
+            ((S_807B0B3C_14 *)scratch)->unk_18 = component_2;
+            ((S_807B0B3C_14 *)scratch)->unk_10 = component_2;
+            break;
+        case 0x800:
+            ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
+            ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
+            component_3 = (*(u16 *)((u8 *)effect + 2));
+            {
+                u8 *vertex_ptr;
+
+                vertex_ptr = scratch + 0x18;
+                (*(u16 *)((u8 *)vertex_ptr + 2)) = component_3;
+            }
+            ((S_807B0B3C_14 *)scratch)->unk_0A = component_3;
+            break;
+        case 0xC00:
+            component_4 = ((S_807B0B3C_1 *)effect)->unk_00.u;
+            ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
+            ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
+            ((S_807B0B3C_14 *)scratch)->unk_08 = component_4;
+            ((S_807B0B3C_14 *)scratch)->unk_00 = component_4;
+            break;
         }
-        if (coord == 0x800) {
-            goto angle_800;
-        }
-        if (coord != 0xC00) {
-            vertex_index = 3;
-            goto loop_setup_b;
-        }
-        goto angle_c00;
-
-    angle_0:
-        ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
-        ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
-        component = (*(u16 *)((u8 *)effect + 2));
-        {
-            u8 *vertex_ptr;
-
-            vertex_ptr = scratch + 0x10;
-            ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
-        }
-        ((S_807B0B3C_14 *)scratch)->unk_02 = component;
-        goto loop_setup_a;
-
-    angle_400:
-        component_2 = ((S_807B0B3C_1 *)effect)->unk_00.u;
-        ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
-        ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
-        ((S_807B0B3C_14 *)scratch)->unk_18 = component_2;
-        ((S_807B0B3C_14 *)scratch)->unk_10 = component_2;
-        goto loop_setup_a;
-
-    angle_800:
-        ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
-        ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-        component_3 = (*(u16 *)((u8 *)effect + 2));
-        {
-            u8 *vertex_ptr;
-
-            vertex_ptr = scratch + 0x18;
-            (*(u16 *)((u8 *)vertex_ptr + 2)) = component_3;
-        }
-        ((S_807B0B3C_14 *)scratch)->unk_0A = component_3;
-        goto loop_setup_a;
-
-    angle_c00:
-        component_4 = ((S_807B0B3C_1 *)effect)->unk_00.u;
-        ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-        ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
-        ((S_807B0B3C_14 *)scratch)->unk_08 = component_4;
-        ((S_807B0B3C_14 *)scratch)->unk_00 = component_4;
-
-    loop_setup_a:
         vertex_index = 3;
-    loop_setup_b:
         screen_vertex = verts + 0xC;
         world_vertex = scratch + 0x18;
         loop_0__: {

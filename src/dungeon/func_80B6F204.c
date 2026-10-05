@@ -78,17 +78,20 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
                 special_motion = 1;
                 /* fallthrough */
             case 3:
-                goto select_third;
+                motion = (u8 *)actor + 0xE;
+                break;
             case 6:
                 special_motion = 1;
                 /* fallthrough */
             case 2:
-                goto select_second;
+                motion = (u8 *)actor + 0xB;
+                break;
             case 5:
                 special_motion = 1;
                 /* fallthrough */
             case 1:
-                goto select_first;
+                motion = (u8 *)actor + 8;
+                break;
             default:
                 motion = (u8 *)0;
                 break;
@@ -96,15 +99,12 @@ void func_80172A04(void *state, void *position, void *sprite, EntityRec *actor)
         } else {
             switch (actor->unk_46 & 0x3FFF) {
             case 3:
-select_third:
                 motion = (u8 *)actor + 0xE;
                 break;
             case 2:
-select_second:
                 motion = (u8 *)actor + 0xB;
                 break;
             case 1:
-select_first:
                 motion = (u8 *)actor + 8;
                 break;
             default:

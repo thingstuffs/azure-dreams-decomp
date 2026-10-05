@@ -102,17 +102,20 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
                     use_global_source = 1;
                     /* fallthrough */
                 case 3:
-                    goto KE;
+                    item = (u8 *)act + 0xE;
+                    break;
                 case 6:
                     use_global_source = 1;
                     /* fallthrough */
                 case 2:
-                    goto KB;
+                    item = (u8 *)act + 0xB;
+                    break;
                 case 5:
                     use_global_source = 1;
                     /* fallthrough */
                 case 1:
-                    goto K8;
+                    item = (u8 *)act + 8;
+                    break;
                 default:
                     break;
                 }
@@ -120,15 +123,12 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
                 item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
                 switch (item_kind) {
                 case 3:
-KE:
                     item = (u8 *)act + 0xE;
                     break;
                 case 2:
-KB:
                     item = (u8 *)act + 0xB;
                     break;
                 case 1:
-K8:
                     item = (u8 *)act + 8;
                     break;
                 default:

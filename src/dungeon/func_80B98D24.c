@@ -53,7 +53,8 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         }
         motion->unk_0C = (s32) (*(s16 *)(((u8 *)dirStepX) + (((u16) ((EntityRec *)actor)->facing >> 8) & 0xE)) << 0x14);
         motion->unk_10 = (s32) (*(s16 *)(((u8 *)dirStepY) + (((u16) ((EntityRec *)actor)->facing >> 8) & 0xE)) << 0x14);
-        goto advance_phase;
+        ((S_80172524_0 *)action)->unk_9B.n++;
+        return;
     case 1:
         motion->unk_0C = (s32) ((s32) motion->unk_0C >> 1);
         motion->unk_10 = (s32) ((s32) motion->unk_10 >> 1);
@@ -63,7 +64,8 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F30;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F30), 0);
-        goto advance_phase;
+        ((S_80172524_0 *)action)->unk_9B.n++;
+        return;
     case 2:
         motion->unk_0C = (s32) ((s32) motion->unk_0C >> 1);
         motion->unk_10 = (s32) ((s32) motion->unk_10 >> 1);
@@ -74,7 +76,8 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F38;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F38), 0);
-        goto advance_phase;
+        ((S_80172524_0 *)action)->unk_9B.n++;
+        return;
     case 3:
         if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) {
             if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000) {
@@ -83,7 +86,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
                     u16 move_duration = 6;
                     ((S_80172524_0 *)action)->unk_96.u = move_duration;
                 }
-                ((S_80172524_0 *)action)->unk_9B.n += 1;
+                ((S_80172524_0 *)action)->unk_9B.n++;
                 return;
             }
         }
@@ -122,8 +125,7 @@ void func_80172524(void *action, EntityRec *motion, void *sprite, void *actor) {
         (*(u8 **)((u8 *)sprite + (0x2C))) = (u8 *)&D_80174F40;
         func_80047784(sprite, *(u8 *)((((s32) (gameWork.view.viewAngle + ((EntityRec *)actor)->facing + 0x100)
             >> 9) & 7) + (u32)&D_80174F40), 0);
-advance_phase:
-        ((S_80172524_0 *)action)->unk_9B.n += 1;
+        ((S_80172524_0 *)action)->unk_9B.n++;
         return;
     case 5:
         settle_ticks = ((S_80172524_0 *)action)->unk_96.u - 1;
