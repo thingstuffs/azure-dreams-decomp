@@ -24,10 +24,8 @@ void func_8004A170(void *unused_ptr, Template96 *dst, u32 value, u32 unused_word
     u8 *src_end;
     u32 half_value;
 
-    do {
-        src_bytes = D_8007136C.bytes;
-    } while (0);
     dst_bytes = base->bytes;
+    src_bytes = D_8007136C.bytes;
     if (((u32)base | (u32)src_bytes) & 3) {
         src_end = src_bytes + sizeof(D_8007136C);
         do {

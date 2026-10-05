@@ -72,14 +72,10 @@ void func_80024B20(void *effect) {
     }
 
     {
-        volatile u16 *segment;
-        segment_index = 7;
-        segment = (u16 *)((u8 *)effect + 0x2A);
-        do {
-            segment_index--;
-            segment[9] = segment[9] + segment[10];
-            segment -= 3;
-        } while (segment_index >= 0);
+        u16 *segments = (u16 *)effect;
+        for (segment_index = 7; segment_index >= 0; segment_index--) {
+            segments[segment_index * 3 + 9] += segments[segment_index * 3 + 10];
+        }
     }
 
     ((S_80024B20_2 *)effect)->unk_42.u--;

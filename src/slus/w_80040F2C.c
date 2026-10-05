@@ -38,24 +38,15 @@ s32 func_80040F2C(u16 entry_id)
     handler = entry->handler;
     if (handler != 0) {
         S_8006CE80_FuncPtr *callback = handler->funcs;
-        do {
-            if (callback != 0) {
-                if ((*callback) != 0) {
-                    do {
-                        (*callback)();
-                        if (D_80082E60.unk_0E != 0) {
-                            return 1;
-                        }
-                        callback++;
-                    }
-                    while ((*callback) != 0);
+        if (callback != 0) {
+            while ((*callback) != 0) {
+                (*callback)();
+                if (D_80082E60.unk_0E != 0) {
+                    return 1;
                 }
-            }
-            else {
-                return 0;
+                callback++;
             }
         }
-        while (0);
     }
     return 0;
 }

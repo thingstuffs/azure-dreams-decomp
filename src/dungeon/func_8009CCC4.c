@@ -42,7 +42,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     s32 message_start;
     s32 message_end;
     s32 lower_stat;
-    s32 level_term;
+    s32 temp;
     s32 level_term_2;
     s32 *xp_table;
 
@@ -72,19 +72,19 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         s32 stat_value;
         hp_curve = func_800647A0((level_offset * stat_growth[5]) << 0xB);
         base_hp = *(u8 *)(initial_stats + 5);
-        lower_hp_growth = stat_growth[5] * level_offset;
+        temp = stat_growth[5];
+        lower_hp_growth = temp * level_offset;
         if (lower_hp_growth < 0) {
             lower_hp_growth += 0xF;
         }
-        lower_hp_curve = stat_growth[5] * hp_curve;
+        lower_hp_curve = temp * hp_curve;
         lower_hp_base = base_hp + (lower_hp_growth >> 4);
         if (lower_hp_curve < 0) {
             lower_hp_curve += 0x7FFF;
         }
         lower_stat = lower_hp_base + (lower_hp_curve >> 0xF);
 
-        level_term = level * stat_growth[5];
-        hp_curve = func_800647A0(level_term << 0xB);
+        hp_curve = func_800647A0((level * temp) << 0xB);
         lower_hp_curve = *(u8 *)(initial_stats + 5);
         upper_hp_growth = stat_growth[5] * level;
         if (upper_hp_growth < 0) {
@@ -134,7 +134,6 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     {
         s32 base_stat;
         s32 lower_growth;
-        s32 upper_growth;
         s32 upper_stat;
         s32 stat_value;
         lower_growth = stat_growth[0];
@@ -145,12 +144,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = spell_index * level;
+        temp = spell_index * level;
         lower_stat = initial_stats[0] + (lower_growth >> 6);
-        if (upper_growth < 0) {
-            upper_growth += 0x3F;
+        if (temp < 0) {
+            temp += 0x3F;
         }
-        upper_stat = initial_stats[0] + (upper_growth >> 6);
+        upper_stat = initial_stats[0] + (temp >> 6);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
             stat_value = 1;
@@ -162,8 +161,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         s32 stat_level_offset;
         s32 base_stat;
         s32 lower_growth;
-        register s32 upper_growth ASM_REG("$4");
-        register s32 upper_stat ASM_REG("$2");
+        s32 upper_stat;
         s32 stat_value;
         stat_level_offset = level - 1;
         lower_growth = stat_growth[1];
@@ -174,12 +172,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = spell_index * level;
+        temp = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 6);
-        if (upper_growth < 0) {
-            upper_growth += 0x3F;
+        if (temp < 0) {
+            temp += 0x3F;
         }
-        upper_stat = base_stat + (upper_growth >> 6);
+        upper_stat = base_stat + (temp >> 6);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
             stat_value = 1;
@@ -194,12 +192,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = spell_index * level;
+        temp = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 6);
-        if (upper_growth < 0) {
-            upper_growth += 0x3F;
+        if (temp < 0) {
+            temp += 0x3F;
         }
-        upper_stat = base_stat + (upper_growth >> 6);
+        upper_stat = base_stat + (temp >> 6);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
             stat_value = 1;
@@ -214,12 +212,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         if (lower_growth < 0) {
             lower_growth += 0x3FF;
         }
-        upper_growth = spell_index * level;
+        temp = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 0xA);
-        if (upper_growth < 0) {
-            upper_growth += 0x3FF;
+        if (temp < 0) {
+            temp += 0x3FF;
         }
-        upper_stat = base_stat + (upper_growth >> 0xA);
+        upper_stat = base_stat + (temp >> 0xA);
         stat_value += lower_stat - upper_stat;
         if (stat_value == 0) {
             stat_value = 1;
@@ -258,23 +256,22 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
             u8 *spell_flags;
             u8 *spell_table;
             u8 *spell_cursor;
-            register s16 spell_id ASM_REG("$4");
             u8 *lowered_flag;
-            s32 level_term;
+            s32 lowered_value;
             spell_flags = spell_lowered;
             spell_table = D_8006DE24;
-            level_term = 1;
+            lowered_value = 1;
             spell_cursor = entity + 6;
 loop_0:
             {
                 lowered_flag = spell_flags + spell_index;
                 *lowered_flag = 0;
-                spell_id = spell_cursor[8];
-                if (spell_id != 0 && (((spell_table[spell_id * 0x14 + 0x10] >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
+                temp = spell_cursor[8];
+                if (temp != 0 && (((spell_table[temp * 0x14 + 0x10] >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
                     u8 spell_level = spell_cursor[10];
                     if (spell_level >= 2U) {
                         spell_cursor[10] = spell_level - 1;
-                        *lowered_flag = level_term;
+                        *lowered_flag = lowered_value;
                     }
                 }
                 spell_index -= 1;

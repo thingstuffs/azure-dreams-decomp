@@ -254,8 +254,9 @@ typedef struct StackRecord {
 } StackRecord;
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-s32 func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sound_flags) {
+s32 func_800218E4(void *game_in) {
     StackRecord dialog_args;
+    s32 motion_mode;
     M2C_UNK init_flags;
     s32 x_or_distance;
     s32 one;
@@ -312,7 +313,6 @@ s32 func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK soun
     S_800218E4_14 *shuffle_slot;
     void *init_slot;
     void *angle_slot;
-    register void *partner_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *moving_slot;
     void *object_slot;
     S_800218E4_16 *position_slot;
@@ -322,9 +322,6 @@ s32 func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK soun
     void *launch_slot;
     u8 *base_object;
 
-    init_value = sound_param;
-    angle_slot = sound_data;
-    init_flags = sound_flags;
     state = ((S_800218E4_0 *)game_in)->unk_2C.s;
     base_object = D_800834B8;
     switch (state) {
@@ -337,7 +334,7 @@ s32 func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK soun
             clear_slot -= 2;
         } while (object_index >= 0);
         object_index = 2;
-        init_value = 1;
+        motion_mode = 1;
         init_slot = game_in + 8;
         ((S_800218E4_0 *)game_in)->unk_46 = -1;
         ((S_800218E4_0 *)game_in)->unk_44 = -1;
@@ -350,7 +347,7 @@ loop_1:
             ((S_800218E4_2 *)init_slot)->unk_04 = (s32) init_object->unk_08;
             init_object_base = ((S_800218E4_2 *)init_slot)->unk_20;
             object_motion = init_object_base + 0x20;
-            object_motion->unk_18 = init_value;
+            object_motion->unk_18 = motion_mode;
             object_motion->unk_04.s = 0;
             object_motion->unk_16 = 0;
             object_motion->unk_14 = 0;
@@ -391,10 +388,9 @@ loop_3:
             ((S_800218E4_5 *)base_object)->unk_08 = 1;
             ((S_800218E4_0 *)game_in)->unk_2E.s = 0x20U;
             ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) ((u16) ((S_800218E4_0 *)game_in)->unk_2C.s + 1);
-            SD_Call(0x521, init_value, angle_slot, init_flags);
-            goto update_objects;
+            SD_Call(0x521);
         }
-        goto update_objects;
+        break;
     case 2:
         if ((s16) ((S_800218E4_0 *)game_in)->unk_2E.s == 0x10) {
             SD_Call(0x700);
@@ -435,9 +431,9 @@ loop_3:
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
             ((S_800218E4_0 *)game_in)->unk_2E.s = transition_timer;
-            goto store_next_state;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 3:
         object_index = 3;
         do {
@@ -470,7 +466,7 @@ loop_3:
             object_index = 0xA;
             do {
                 object_index -= 1;
-                state_value = rand(shuffle_object, shuffle_value);
+                state_value = rand();
                 partner_index = state_value / 3;
                 partner_index = state_value - (partner_index * 3);
                 state_value = rand();
@@ -486,10 +482,11 @@ loop_3:
                 shuffle_object->unk_42 = (s16) ((S_800218E4_27 *)(shuffle_slot->unk_20))->unk_42;
                 ((S_800218E4_27 *)(shuffle_slot->unk_20))->unk_42 = (u16) shuffle_value;
             } while (object_index >= 0);
-            SD_Call(0x1702, shuffle_value);
-            goto advance_state;
+            SD_Call(0x1702);
+            state_value = ((S_800218E4_0 *)game_in)->unk_2C.p;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 4:
         ((S_800218E4_0 *)game_in)->unk_2E.s = (u16) (((S_800218E4_0 *)game_in)->unk_2E.s + 1);
         if (((S_800218E4_0 *)game_in)->unk_46 >= 0) {
@@ -527,9 +524,10 @@ loop_3:
             dialog_args.sp12 = 8;
             dialog_args.sp14 = game_in;
             func_80021120(&D_80022514, &dialog_args);
-            goto advance_state;
+            state_value = ((S_800218E4_0 *)game_in)->unk_2C.p;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 5:
         transition_timer = ((S_800218E4_0 *)game_in)->unk_48;
         state_value = ((S_800218E4_0 *)game_in)->unk_2E.s;
@@ -547,15 +545,13 @@ loop_3:
         if (transition_timer <= 0) {
             if (D_80113158[0] != 0) {
                 D_80024338[0] = func_800B1BEC(0, -0x50, 0x40);
-                state_value = ((S_800218E4_0 *)game_in)->unk_2C.u;
-            } else {
-                state_value = ((S_800218E4_0 *)game_in)->unk_2C.u;
             }
+            state_value = ((S_800218E4_0 *)game_in)->unk_2C.u;
                                      /* MATCH: the state load precedes timer materialization. */
             ((S_800218E4_0 *)game_in)->unk_2E.s = 0x10;
-            goto store_next_state;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 6:
         state_value = 0x10;
         transition_timer = ((S_800218E4_0 *)game_in)->unk_48;
@@ -577,9 +573,9 @@ loop_3:
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x21;
             ((S_800218E4_0 *)game_in)->unk_2E.s = transition_timer;
-            goto store_next_state;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 7:
         ((S_800218E4_0 *)game_in)->unk_48 = (u16) (((S_800218E4_0 *)game_in)->unk_48 + 0xA0);
         settle_timer = ((S_800218E4_0 *)game_in)->unk_2E.s - 1;
@@ -592,9 +588,9 @@ loop_3:
             state_value = ((S_800218E4_0 *)game_in)->unk_2C.u;
             transition_timer = 0x10;
             ((S_800218E4_0 *)game_in)->unk_2E.s = transition_timer;
-            goto store_next_state;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 8:
         transition_timer = 0x2001;
         state_value = ((S_800218E4_0 *)game_in)->unk_4A.u;
@@ -620,9 +616,9 @@ loop_3:
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x8F;
             ((S_800218E4_0 *)game_in)->unk_2E.s = transition_timer;
-            goto store_next_state;
+            ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
+        break;
     case 9:
         if ((s16) ((S_800218E4_0 *)game_in)->unk_2E.s == 0x64) {
             SD_Call(0x702);
@@ -634,111 +630,153 @@ loop_3:
             ((S_800218E4_0 *)game_in)->unk_2E.s = 0x1EU;
             ((S_800218E4_0 *)game_in)->unk_3A = (u16) (((S_800218E4_0 *)game_in)->unk_3A | 0x8000);
             ((S_800218E4_0 *)game_in)->unk_2C.p = (u16) (((S_800218E4_0 *)game_in)->unk_2C.p + 1);
-            goto update_objects;
         }
-        goto update_objects;
+        break;
     case 10:
         exit_timer = ((S_800218E4_0 *)game_in)->unk_2E.s - 1;
         ((S_800218E4_0 *)game_in)->unk_2E.s = exit_timer;
         if ((exit_timer << 0x10) <= 0) {
             ((S_800218E4_5 *)base_object)->unk_08 = 4;
-advance_state:
             state_value = ((S_800218E4_0 *)game_in)->unk_2C.p;
-store_next_state:
             ((S_800218E4_0 *)game_in)->unk_2C.s = (s16) (state_value + 1);
         }
-        goto update_objects;
-    default:
-update_objects:
-        if ((u32) ((u16) ((S_800218E4_0 *)game_in)->unk_2C.s - 6) < 3U) {
-            payout_amount = D_8011315C[0];
-            if (payout_amount >= 0x3E8) {
-                payout_gold = D_80012D5C;
-                payout_carry = *payout_gold;
-                payout_amount -= 0x3E8;
-                D_8011315C[0] = payout_amount;
-                payout_carry += 0x3E8;
-                *payout_gold = payout_carry;
-            } else {
-                if (payout_amount < 0x64) {
-                    goto update_effects;
-                }
-                payout_gold = D_80012D5C;
-                payout_carry = *payout_gold;
-                payout_amount -= 0x64;
-                D_8011315C[0] = payout_amount;
-                payout_carry += 0x64;
-                *payout_gold = payout_carry;
-            }
-            goto update_effects;
+        break;
+    }
+    if ((u32) ((u16) ((S_800218E4_0 *)game_in)->unk_2C.s - 6) < 3U) {
+        payout_amount = D_8011315C[0];
+        if (payout_amount >= 0x3E8) {
+            payout_gold = D_80012D5C;
+            payout_carry = *payout_gold;
+            payout_amount -= 0x3E8;
+            D_8011315C[0] = payout_amount;
+            payout_carry += 0x3E8;
+            *payout_gold = payout_carry;
+        } else if (payout_amount >= 0x64) {
+            payout_gold = D_80012D5C;
+            payout_carry = *payout_gold;
+            payout_amount -= 0x64;
+            D_8011315C[0] = payout_amount;
+            payout_carry += 0x64;
+            *payout_gold = payout_carry;
         }
-update_effects:
-        effect_state = (u16) ((S_800218E4_0 *)game_in)->unk_2C.s;
-        if ((u32) (effect_state - 5) < 5U) {
-            state_value = (s16) effect_state;
-            object_index = state_value < 9;
-            func_80023E6C(0x50, ((S_800218E4_0 *)game_in)->unk_44, game_in, object_index);
-            func_80023E6C(-0xF0, ((S_800218E4_0 *)game_in)->unk_46, game_in, object_index);
-            func_80023E6C(0xA0, 4, game_in, object_index);
-            func_80023E6C(-0xA0, 4, game_in, object_index);
-        }
-        object_index = 0;
-        if (((S_800218E4_0 *)game_in)->unk_2C.s >= 4) {
-            object_slot = game_in;
+    }
+    effect_state = (u16) ((S_800218E4_0 *)game_in)->unk_2C.s;
+    if ((u32) (effect_state - 5) < 5U) {
+        state_value = (s16) effect_state;
+        object_index = state_value < 9;
+        func_80023E6C(0x50, ((S_800218E4_0 *)game_in)->unk_44, game_in, object_index);
+        func_80023E6C(-0xF0, ((S_800218E4_0 *)game_in)->unk_46, game_in, object_index);
+        func_80023E6C(0xA0, 4, game_in, object_index);
+        func_80023E6C(-0xA0, 4, game_in, object_index);
+    }
+    object_index = 0;
+    if (((S_800218E4_0 *)game_in)->unk_2C.s >= 4) {
+        object_slot = game_in;
 object_pairs:
-            partner_index = object_index + 1;
-            if (partner_index < 4) {
-                state_value = partner_index * 4;
-                position_slot = object_slot;
-                motion_slot = object_slot;
-                partner_slot = (void *)(state_value + (s32) game_in);
-                do {
-                    object_position = position_slot->unk_00;
-                    partner_position = ((S_800218E4_17 *)partner_slot)->unk_00;
-                    state_value = object_position->unk_0A;
-                    pair_value = partner_position->unk_0A;
-                    state_value -= pair_value;
-                    state_value = abs(state_value);
-                    if (state_value < 0x40) {
-                        s32 near_x;
+        partner_index = object_index + 1;
+        if (partner_index < 4) {
+            state_value = partner_index * 4;
+            position_slot = object_slot;
+            motion_slot = object_slot;
+            do {
+                object_position = position_slot->unk_00;
+                partner_position = ((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00;
+                state_value = object_position->unk_0A;
+                pair_value = partner_position->unk_0A;
+                state_value -= pair_value;
+                state_value = abs(state_value);
+                if (state_value < 0x40) {
+                    s32 near_x;
 
-                        near_x = object_position->unk_02;
-                        state_value = partner_position->unk_02;
-                        collision_value = partner_position->unk_06;
-                        near_x -= state_value;
-                        state_value = object_position->unk_06;
-                        near_x = abs(near_x);
-                        state_value -= collision_value;
-                        state_value = abs(state_value);
-                        near_x += state_value;
-                        if (near_x < 0x38) {
-                            state_value = 0x3FFFF;
-                            pair_value = object_position->unk_0C;
-                            collision_value = object_position->unk_10;
+                    near_x = object_position->unk_02;
+                    state_value = partner_position->unk_02;
+                    collision_value = partner_position->unk_06;
+                    near_x -= state_value;
+                    state_value = object_position->unk_06;
+                    near_x = abs(near_x);
+                    state_value -= collision_value;
+                    state_value = abs(state_value);
+                    near_x += state_value;
+                    if (near_x < 0x38) {
+                        state_value = 0x3FFFF;
+                        pair_value = object_position->unk_0C;
+                        collision_value = object_position->unk_10;
+                        pair_value = abs(pair_value);
+                        collision_value = abs(collision_value);
+                        pair_value += collision_value;
+                        if (pair_value <= state_value) {
+                            ((S_800218E4_28 *)(position_slot->unk_00))->unk_0C =
+                                (s32) (func_80064584(*position_slot->unk_10) << 6);
+                            ((S_800218E4_28 *)(position_slot->unk_00))->unk_10 =
+                                (s32) (func_800644B8(*position_slot->unk_10) << 6);
+                        }
+                        object_velocity = position_slot->unk_00;
+                        partner_xy = ((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00;
+                        x_or_distance = object_velocity->unk_02;
+                        x_step = object_velocity->unk_10.at02.v;
+                        other_x = partner_xy->unk_02;
+                        pair_value = object_velocity->unk_06;
+                        y_step = object_velocity->unk_0C.at02.v;
+                        other_y = partner_xy->unk_06;
+                        phase_value = x_or_distance + x_step;
+                        phase_value -= other_x;
+                        collision_value = phase_value;
+                        collision_value = abs(collision_value);
+                        forward_y_gap = (pair_value - y_step) - other_y;
+                        forward_y_gap = abs(forward_y_gap);
+                        bounce_x = collision_value + forward_y_gap;
+                        x_or_distance -= x_step;
+                        x_or_distance -= other_x;
+                        x_or_distance = abs(x_or_distance);
+                        pair_value += y_step;
+                        pair_value -= other_y;
+                        pair_value = abs(pair_value);
+                        x_or_distance += pair_value;
+                        state_value = x_or_distance < bounce_x;
+                        if (state_value) {
+                            state_value = object_velocity->unk_0C.at00.v;
+                            bounce_x = object_velocity->unk_10.at00.v;
+                            x_or_distance = 0 - state_value;
+                        } else {
+                            state_value = object_velocity->unk_10.at00.v;
+                            x_or_distance = object_velocity->unk_0C.at00.v;
+                            bounce_x = 0 - state_value;
+                        }
+                        collision_value = 0x30000;
+                        if (object_index != 0) {
+                            state_value = motion_slot->unk_1C;
+                            object_motion = state_value + 0x20;
+                            object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
+                            object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
+                            pair_value = (s32)(((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00);
+                            collision_value |= 0xFFFF;
+                            other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
+                            pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
+                            other_speed_y = abs(other_speed_y);
                             pair_value = abs(pair_value);
-                            collision_value = abs(collision_value);
-                            pair_value += collision_value;
-                            if (pair_value <= state_value) {
-                                ((S_800218E4_28 *)(position_slot->unk_00))->unk_0C =
-                                    (s32) (func_80064584(*position_slot->unk_10, object_position) << 6);
-                                ((S_800218E4_28 *)(position_slot->unk_00))->unk_10 =
-                                    (s32) (func_800644B8(*position_slot->unk_10) << 6);
+                            collision_value = collision_value < (other_speed_y + pair_value);
+                            if (!collision_value) {
+                                ((S_800218E4_29 *)(((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00))->unk_0C =
+                                    (s32) (func_80064584(*((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_10,
+                                    (void *) x_or_distance, y_step, other_y) << 6);
+                                ((S_800218E4_29 *)(((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00))->unk_10 =
+                                    (s32) (func_800644B8(*((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_10) << 6);
                             }
-                            object_velocity = position_slot->unk_00;
-                            partner_xy = ((S_800218E4_17 *)partner_slot)->unk_00;
-                            x_or_distance = object_velocity->unk_02;
-                            x_step = object_velocity->unk_10.at02.v;
-                            other_x = partner_xy->unk_02;
-                            pair_value = object_velocity->unk_06;
-                            y_step = object_velocity->unk_0C.at02.v;
-                            other_y = partner_xy->unk_06;
+                            partner_velocity = ((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_00;
+                            object_xy = motion_slot->unk_00;
+                            x_or_distance = partner_velocity->unk_02;
+                            x_step = partner_velocity->unk_10.at02.v;
+                            other_x = object_xy->unk_02;
+                            pair_value = partner_velocity->unk_06;
+                            y_step = partner_velocity->unk_0C.at02.v;
+                            other_y = object_xy->unk_06;
                             phase_value = x_or_distance + x_step;
                             phase_value -= other_x;
                             collision_value = phase_value;
                             collision_value = abs(collision_value);
-                            forward_y_gap = (pair_value - y_step) - other_y;
-                            forward_y_gap = abs(forward_y_gap);
-                            bounce_x = collision_value + forward_y_gap;
+                            other_forward_y_gap = (pair_value - y_step) - other_y;
+                            other_forward_y_gap = abs(other_forward_y_gap);
+                            bounce_x = collision_value + other_forward_y_gap;
                             x_or_distance -= x_step;
                             x_or_distance -= other_x;
                             x_or_distance = abs(x_or_distance);
@@ -748,120 +786,61 @@ object_pairs:
                             x_or_distance += pair_value;
                             state_value = x_or_distance < bounce_x;
                             if (state_value) {
-                                state_value = object_velocity->unk_0C.at00.v;
-                                bounce_x = object_velocity->unk_10.at00.v;
+                                state_value = partner_velocity->unk_0C.at00.v;
+                                bounce_x = partner_velocity->unk_10.at00.v;
                                 x_or_distance = 0 - state_value;
                             } else {
-                                state_value = object_velocity->unk_10.at00.v;
-                                x_or_distance = object_velocity->unk_0C.at00.v;
+                                state_value = partner_velocity->unk_10.at00.v;
+                                x_or_distance = partner_velocity->unk_0C.at00.v;
                                 bounce_x = 0 - state_value;
                             }
-                            collision_value = 0x30000;
-                            if (object_index != 0) {
-                                state_value = motion_slot->unk_1C;
-                                object_motion = state_value + 0x20;
-                                object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
-                                object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
-                                pair_value = (s32)(((S_800218E4_17 *)partner_slot)->unk_00);
-                                collision_value |= 0xFFFF;
-                                other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
-                                pair_value = ((S_800218E4_23 *)pair_value)->unk_10;
-                                other_speed_y = abs(other_speed_y);
-                                pair_value = abs(pair_value);
-                                collision_value = collision_value < (other_speed_y + pair_value);
-                                if (!collision_value) {
-                                    ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_0C =
-                                        (s32) (func_80064584(*((S_800218E4_17 *)partner_slot)->unk_10,
-                                        (void *) x_or_distance, y_step, other_y) << 6);
-                                    ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_10 =
-                                        (s32) (func_800644B8(*((S_800218E4_17 *)partner_slot)->unk_10) << 6);
-                                }
-                                partner_velocity = ((S_800218E4_17 *)partner_slot)->unk_00;
-                                object_xy = motion_slot->unk_00;
-                                x_or_distance = partner_velocity->unk_02;
-                                x_step = partner_velocity->unk_10.at02.v;
-                                other_x = object_xy->unk_02;
-                                pair_value = partner_velocity->unk_06;
-                                y_step = partner_velocity->unk_0C.at02.v;
-                                other_y = object_xy->unk_06;
-                                phase_value = x_or_distance + x_step;
-                                phase_value -= other_x;
-                                collision_value = phase_value;
-                                collision_value = abs(collision_value);
-                                other_forward_y_gap = (pair_value - y_step) - other_y;
-                                other_forward_y_gap = abs(other_forward_y_gap);
-                                bounce_x = collision_value + other_forward_y_gap;
-                                x_or_distance -= x_step;
-                                x_or_distance -= other_x;
-                                x_or_distance = abs(x_or_distance);
-                                pair_value += y_step;
-                                pair_value -= other_y;
-                                pair_value = abs(pair_value);
-                                x_or_distance += pair_value;
-                                state_value = x_or_distance < bounce_x;
-                                if (state_value) {
-                                    state_value = partner_velocity->unk_0C.at00.v;
-                                    bounce_x = partner_velocity->unk_10.at00.v;
-                                    x_or_distance = 0 - state_value;
-                                } else {
-                                    state_value = partner_velocity->unk_10.at00.v;
-                                    x_or_distance = partner_velocity->unk_0C.at00.v;
-                                    bounce_x = 0 - state_value;
-                                }
-                                if (partner_index != 0) {
-                                    goto object_collision;
-                                }
+                            if (partner_index != 0) {
+                                goto object_collision;
                             }
-                            ((S_800218E4_5 *)base_object)->unk_58 =
-                                (s32) (((S_800218E4_5 *)base_object)->unk_58 + bounce_x);
-                            ((S_800218E4_5 *)base_object)->unk_5C =
-                                (s32) (((S_800218E4_5 *)base_object)->unk_5C + x_or_distance);
-                            goto next_object;
-object_collision:
-                            state_value = ((S_800218E4_17 *)partner_slot)->unk_1C;
-                            object_motion = state_value + 0x20;
-                            object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
-                            object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
                         }
-                        goto next_partner;
+                        ((S_800218E4_5 *)base_object)->unk_58 =
+                            (s32) (((S_800218E4_5 *)base_object)->unk_58 + bounce_x);
+                        ((S_800218E4_5 *)base_object)->unk_5C =
+                            (s32) (((S_800218E4_5 *)base_object)->unk_5C + x_or_distance);
+                        break;
+object_collision:
+                        state_value = ((S_800218E4_17 *)((u8 *)game_in + partner_index * 4))->unk_1C;
+                        object_motion = state_value + 0x20;
+                        object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
+                        object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
                     }
-next_partner:
-                    partner_index += 1;
-                    partner_slot += 4;
-                    if (partner_index >= 4) {
-                        goto next_object;
-                    }
-                } while (1);
-            }
-next_object:
-            object_index += 1;
-            object_slot += 4;
-            if (object_index >= 3) {
-                if (func_8002263C(((S_800218E4_0 *)game_in)->unk_00, game_in + 0x3C, base_object + 0x58, base_object + 0x5C)
-                    != 0) {
-                    ((S_800218E4_5 *)base_object)->unk_48 = 0;
                 }
-                object_index = 1;
-                moving_slot = game_in + 4;
-                partner_index = 0x3E;
-                do {
-                    moving_object = ((S_800218E4_26 *)moving_slot)->unk_1C;
-                    object_motion = moving_object + 0x20;
-                    if (func_8002263C(((S_800218E4_26 *)moving_slot)->unk_00, game_in + partner_index,
-                        moving_object + 0x2C, moving_object + 0x30) != 0) {
-                        object_motion->unk_04.s = 0;
-                    }
-                    moving_slot += 4;
-                    object_index += 1;
-                    partner_index += 2;
-                } while (object_index < 4);
-            } else {
-                goto object_pairs;
-            }
-        } else {
-            return;
+                partner_index += 1;
+                if (partner_index >= 4) {
+                    break;
+                }
+            } while (1);
         }
-        break;
-
+        object_index += 1;
+        object_slot += 4;
+        if (object_index >= 3) {
+            if (func_8002263C(((S_800218E4_0 *)game_in)->unk_00, game_in + 0x3C, base_object + 0x58, base_object + 0x5C)
+                != 0) {
+                ((S_800218E4_5 *)base_object)->unk_48 = 0;
+            }
+            object_index = 1;
+            moving_slot = game_in + 4;
+            partner_index = 0x3E;
+            do {
+                moving_object = ((S_800218E4_26 *)moving_slot)->unk_1C;
+                object_motion = moving_object + 0x20;
+                if (func_8002263C(((S_800218E4_26 *)moving_slot)->unk_00, game_in + partner_index,
+                    moving_object + 0x2C, moving_object + 0x30) != 0) {
+                    object_motion->unk_04.s = 0;
+                }
+                moving_slot += 4;
+                object_index += 1;
+                partner_index += 2;
+            } while (object_index < 4);
+        } else {
+            goto object_pairs;
+        }
+    } else {
+        return;
     }
 }
