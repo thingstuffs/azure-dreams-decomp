@@ -14,10 +14,8 @@ extern void func_800A34BC();
 extern void func_800BC26C();
 extern s32 func_800BCB04();
 
-extern u8 D_80080100[];
 extern s32 D_80081488[];
 extern s8 D_800DCF4D[];
-extern u8 D_800E8000[];
 
 /* Initialize an entity sprite, its position, and direction-dependent display flags. */
 void func_800A9C18(void *entity, void *position, void *sprite, s32 init_flags)

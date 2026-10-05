@@ -4,7 +4,6 @@
 #include "shared/dungeon_status.h"
 #include "shared/dir_step.h"
 #include "m2c_compat.h"
-extern u8 D_80070000[];
 extern u8 D_800E0000[];
 
 #define M2C_BREAK() 0
@@ -35,7 +34,6 @@ extern M2C_UNK D_800E0D7B;
 extern M2C_UNK D_800E0D92;
 extern M2C_UNK D_800E0D9E;
 extern M2C_UNK D_800E0DB8;
-extern M2C_UNK D_800E0DD0;
 extern M2C_UNK D_800E0DDD;
 extern M2C_UNK D_800E0DEA;
 extern M2C_UNK D_800E3648;

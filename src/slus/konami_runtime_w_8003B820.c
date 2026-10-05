@@ -3,7 +3,6 @@
 #include "common.h"
 
 extern u8 *D_8001029C[];
-extern s8 D_80010333[];
 extern void del_t_item_w_ptr(u8 *entry);
 
 /* Process type-0x13 entries whose indexed status is negative. */

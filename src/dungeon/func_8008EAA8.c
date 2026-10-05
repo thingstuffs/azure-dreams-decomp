@@ -2,7 +2,6 @@
 #include "shared/record_ptrs.h"
 
 extern void func_80099844(s32, void *);
-extern s32 D_80012090[];
 extern u8 D_800E0600[];
 
 /* Passes a nonzero table entry to func_80099844 when the global state is 1. */

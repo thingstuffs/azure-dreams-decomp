@@ -3,13 +3,6 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern s8 D_800133A7;
-extern s8 D_800133A9;
-extern s8 D_800133BB;
-extern s8 D_800133C5;
-extern s8 D_800133C7;
-extern s8 D_800133C9;
-extern s8 D_800133E7;
 typedef struct {
     s32 value[5];
 } TownFiveWords;

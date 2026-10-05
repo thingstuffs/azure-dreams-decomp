@@ -19,7 +19,6 @@ extern void func_800AD594(void *, s32);
 
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
-extern u8 D_80175EB8[];
 extern u8 D_80080000[];
 
 /* Updates the actor's directional motion and animation across three action states. */

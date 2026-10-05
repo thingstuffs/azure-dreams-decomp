@@ -10,7 +10,6 @@ typedef struct Struct_80083460 {
     u16 count;
 } Struct_80083460;
 
-extern s32 D_80012090;
 extern s16 D_8008146C;
 extern u8 D_800C0180[];
 extern u8 D_800DF45C[];

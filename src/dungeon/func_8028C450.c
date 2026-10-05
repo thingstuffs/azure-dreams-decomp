@@ -3,7 +3,6 @@
 extern void func_8001F354(s32, s32, s32, void *);
 extern void func_8004E634(s16, u8 *);
 
-extern s32 D_80012090[];
 extern void *D_8001F5B4[];
 extern u8 D_80077DE8[];
 extern u8 D_80077E00[];

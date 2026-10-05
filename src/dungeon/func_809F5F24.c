@@ -7,7 +7,6 @@
 
 typedef s32 M2C_UNK;
 
-extern void *D_801708A0[];
 void func_8009A028();
 void func_8009A3D0();
 void func_800A2FE0();

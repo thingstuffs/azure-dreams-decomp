@@ -30,7 +30,6 @@ typedef struct {
 
 extern Zone D_80024020[];
 extern Box D_800240E0[];
-extern void *D_80020180[];
 
 #define CURRENT_ZONE(F) (D_80024020[*zone_id].F)
 #define OLD_ZONE(F) (D_80024020[old_zone].F)

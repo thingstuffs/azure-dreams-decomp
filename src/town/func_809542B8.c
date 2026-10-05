@@ -66,7 +66,6 @@ extern u8 D_80023C80[];
 extern Packed8 D_80024310[];
 extern u8 D_80046398[];
 extern u8 D_800F15E4[];
-extern s32 D_800135B4[];
 
 extern void func_8002108C();
 extern void func_80021120();

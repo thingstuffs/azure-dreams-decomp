@@ -12,7 +12,6 @@ typedef struct S_8001EAA4_1 {
 
 
 extern s32 func_800A6D30(void);
-extern s32 D_80012090[];
 extern s16 D_8001F6F8[];
 extern u8 D_80073414[];
 

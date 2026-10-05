@@ -10,7 +10,6 @@ extern u8 *func_8004E634(s32, u8 *);
 extern u8 *strcat(void *, const void *);
 
 extern Text5 D_800892DC;
-extern u8 D_800892E4[];
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];
 

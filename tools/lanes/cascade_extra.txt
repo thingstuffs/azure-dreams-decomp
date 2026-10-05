@@ -63,3 +63,4 @@ t138_protodef
 t139_dataextern
 t140_protoparams
 t125_dropvolatile
+t141_deadextern

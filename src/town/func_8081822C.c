@@ -47,7 +47,6 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80066640(void *, s32);
 extern void func_800667D0(void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern u8 D_1F800000[];
 
 /* Build line and draw-mode packets for each entry and link them into the ordering table. */
 s32 func_8002222C(void *first_entry) {

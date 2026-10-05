@@ -100,7 +100,6 @@ typedef struct LargeScalar {
     s32 pad[2];
 } LargeScalar;
 
-extern void *D_80024028[10];
 
 extern void func_800240EC(u8 *, u8 *, DrawInfo *);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);

@@ -18,13 +18,9 @@ typedef struct {
 
 extern s32 D_800E3DF0[];
 extern S_800E3E48 D_800E3E48[];
-extern void *D_80010248[];
 extern s32 D_800E3D74;
 extern s16 D_800DCED4[];
 extern u8 D_800E045C[];
-extern M2C_UNK D_8001024B;
-extern u8 D_800121E0;
-extern u8 D_800121E1;
 
 extern M2C_UNK func_80041E28();
 extern M2C_UNK func_800424E0();

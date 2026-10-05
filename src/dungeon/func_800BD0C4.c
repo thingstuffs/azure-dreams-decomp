@@ -127,7 +127,6 @@ typedef struct S_800C2824_16 {
     s32 unk_14;
 } S_800C2824_16;   /* ((S_800C2824_0 *)arg0)->unk_00 in func_800C2824 */
 
-extern u8 D_80010000[];
 s32 func_80042900();
 s32 func_8004491C();
 void func_80044A50();

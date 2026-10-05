@@ -165,7 +165,6 @@ extern void func_8009A028(void *);
 extern void func_8009A3D0(u8, u8, s32);
 extern void func_800BC318(void *);
 
-extern s32 D_80012090[];
 extern s32 D_8002520C[];
 extern s32 D_80025A14[];
 extern s32 D_80025C94[];

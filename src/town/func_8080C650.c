@@ -100,7 +100,6 @@ extern u8 D_8028954C[12];
 extern s32 D_8029070C[3];
 extern u8 D_80529080[12];
 extern s16 D_80530658[];
-extern s16 D_80530666;
 void func_8080C650(void *in0, void *arg1, void *in2) {
     s16 *var_v1;
     s16 raw_s1;

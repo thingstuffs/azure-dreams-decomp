@@ -45,7 +45,6 @@ extern M2C_UNK D_80080EE8;
 extern s16 D_80081468[3];
 extern u8 D_80082E6B;
 extern s16 D_800DCE68;
-extern M2C_UNK D_800DCF4E;
 extern s8 D_800DCF4F;
 extern s8 D_800DCF58;
 extern s8 D_800DCF5B;

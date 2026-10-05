@@ -48,7 +48,6 @@ typedef struct {
 extern Rect8 D_80024028;
 extern Rect8 D_80024030;
 extern s16 D_80025E80;
-extern u16 D_80025EE8[];
 
 extern s32 func_80067014(s32);
 extern void func_800672D8(Rect8 *, u16 *);

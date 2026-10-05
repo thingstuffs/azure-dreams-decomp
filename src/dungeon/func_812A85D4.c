@@ -19,7 +19,6 @@ extern void func_800AD594(void *, s32);
 
 extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
-extern u8 D_80175CA8[];
 extern u8 D_80080000[];
 
 /* Updates action movement and directional animation through three states. */

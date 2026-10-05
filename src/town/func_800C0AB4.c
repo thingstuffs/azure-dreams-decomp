@@ -36,7 +36,6 @@ extern s32 rand();
 extern s32 func_800C2AB4();
 
 extern M2C_UNK D_80089684[9];
-extern void *D_800896A8[];
 extern M2C_UNK D_800F9D80[3];
 
 typedef struct S_800BE214_0 {

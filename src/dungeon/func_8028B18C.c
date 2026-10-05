@@ -39,9 +39,7 @@ extern s32 func_800A71F4(void);
 extern s32 func_800A7A38(DungeonState *);
 extern s16 func_800BCA68(s32, s32);
 
-extern u8 D_80010000[];
 extern s8 D_8001F6F0[];
-extern s32 D_80012090[];
 extern u8 D_800DDC9C[];
 extern DungeonGroup D_80073414[];
 extern s16 D_80081468[3];

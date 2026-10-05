@@ -2,17 +2,8 @@
 #include "shared/game_work.h"
 #include "m2c_compat.h"
 
-extern int D_800814C8;
-extern int D_80081550;
-extern int D_80081558;
-extern int D_80081554;
-extern unsigned char D_80071298[];
-extern volatile int D_80071250[];
-extern int D_800712B4[];
-extern int D_80084130[3];
 extern unsigned char D_80080000[];
 __asm__(".set D_80080000, 0x80080000");
-extern struct S_80083178State D_80083CE8;
 s32 func_80065420();
 s32 func_80066460();
 M2C_UNK func_80067F20();

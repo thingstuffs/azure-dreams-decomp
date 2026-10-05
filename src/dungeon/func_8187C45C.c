@@ -34,7 +34,6 @@ extern Copy12 D_80026934;
 extern Copy12 D_80026940;
 extern s16 D_8002694C[5];
 extern u8 D_8007CCD8[];
-extern u8 D_8007CCE8[];
 extern u8 D_800DDC40[];
 extern s32 func_8003DF74(void *, void *, void *, s32);
 extern void func_8004491C(void *, void *);

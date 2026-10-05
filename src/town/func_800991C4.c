@@ -19,7 +19,6 @@ extern s32 func_80064584(s32 angle);
 extern s32 func_800644B8(s32 angle);
 
 extern Vec3i D_800D0AE4;
-extern Vec3i D_800D0AFC;
 extern Vec3i *D_80100D20;
 
 /* Computes the record-based position offset and publishes the resulting vector. */

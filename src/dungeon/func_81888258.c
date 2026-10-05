@@ -12,7 +12,6 @@ extern void func_80064CF0(void *);
 extern void func_80064D80(void *);
 extern void func_80065320(void *, void *, void *);
 extern void func_80065820(void *, void *);
-extern u16 D_80026326[5];
 
 /* Rotate and move an effect quad, fade its colors, and flag it when its lifetime ends. */
 void func_80025A58(void *effect, void *motion_data, void *rotation_data)

@@ -66,7 +66,6 @@ typedef struct Scratch {
 #define result scratch.result
 #define map_flags scratch.map_flags
 
-extern void *D_80024008[];
 extern void *D_800814A8_early[4] __asm__("D_800814A8");
 extern u8 D_80082E80_early[] __asm__("D_80082E80");
 

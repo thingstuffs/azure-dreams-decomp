@@ -174,7 +174,6 @@ void func_800A31D0();
 s32 func_800A5720();
 void func_800ACB98();
 void *func_800C542C();
-extern u8 D_80010A80[];
 extern M2C_UNK D_800814A0;
 extern M2C_UNK D_800DCE68;
 extern s16 D_800DCED4[];

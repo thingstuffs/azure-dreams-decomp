@@ -74,7 +74,6 @@ extern void func_800666F4();
 extern void func_80067F20();
 extern void func_800A130C();
 extern void func_800A1330();
-extern u8 D_1F800000[];
 extern s16 D_800D0A40;
 
 /* Project and enqueue a textured sprite quad with a translucent overlay. */

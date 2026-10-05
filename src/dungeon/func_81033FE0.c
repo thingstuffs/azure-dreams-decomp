@@ -28,7 +28,6 @@ extern s32 func_80174A00(void *, u16, u16, s16);
 extern void func_80175494(void *, void *, void *);
 
 extern M2C_UNK D_800DE870;
-extern void *D_80170890[];
 extern u8 D_80170B48[];
 extern u8 D_801714B8;
 extern u8 D_8017609C[];

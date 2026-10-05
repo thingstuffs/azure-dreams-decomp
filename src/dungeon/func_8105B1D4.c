@@ -6,7 +6,6 @@
 extern int abs(int);
 
 
-extern u8 D_80170838[16];
 extern s32 D_80170F68;
 extern u8 D_80173FB8[8];
 

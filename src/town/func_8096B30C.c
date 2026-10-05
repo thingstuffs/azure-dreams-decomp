@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 D_80126A10[];
-extern u8 D_80126A18[0x70];
 extern s32 D_80126A60;
 extern s32 D_80126AD0;
 

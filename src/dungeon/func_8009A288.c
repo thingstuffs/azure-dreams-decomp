@@ -14,7 +14,6 @@ typedef struct {
 } DungeonEntry;
 
 
-extern DungeonEntry D_80013720[];
 
 /* Scan backward through special entry kinds for a matching kind and flag bit. */
 void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {

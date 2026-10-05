@@ -37,7 +37,6 @@ typedef struct TownObject {
     TownAux *aux;
 } TownObject;
 
-extern u8 D_8001029C[];
 extern s32 D_800891F4;
 extern u8 D_800AF96C[];
 

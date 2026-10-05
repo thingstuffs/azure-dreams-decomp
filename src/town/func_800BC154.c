@@ -10,7 +10,6 @@ void func_80033AE8();
 M2C_UNK Control_CD();
 M2C_UNK func_8003F320();
 void func_800B7934();
-extern u8 D_80010000[];
 extern M2C_UNK D_800D1BF4;
 extern u8 D_800D2644[];
 extern u8 D_800D2EA4[];

@@ -54,7 +54,6 @@ s32 func_800A6D30();
 s32 func_800A90E8();
 s32 func_800B8228();
 
-extern u8 D_80010980[];
 extern u8 D_80089360[];
 extern u8 D_800E1095[0x1E];
 extern u8 D_800E10B3[];

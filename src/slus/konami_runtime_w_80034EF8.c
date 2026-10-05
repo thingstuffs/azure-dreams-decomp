@@ -2,7 +2,6 @@
 
 #include "common.h"
 
-extern u32 D_8008099C[];
 extern u8 D_8007216C[];
 
 extern void func_80037D50(u8 *arg0, u8 arg1);

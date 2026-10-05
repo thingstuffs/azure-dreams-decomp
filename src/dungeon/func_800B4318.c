@@ -69,7 +69,6 @@ typedef struct GlobalObj {
     Entity *right;
 } GlobalObj;
 
-extern s16 D_800DCE66[5];
 extern u8 D_800DDC40[16];
 
 extern s32 func_800644B8();

@@ -3,7 +3,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
 extern u8 D_80018FD0[];
-extern u8 D_80010000[];
 
 
 typedef struct S_806D85A0_1 {

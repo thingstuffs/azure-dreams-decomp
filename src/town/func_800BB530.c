@@ -12,13 +12,9 @@ typedef struct {
 extern TownFiveWords D_800894D0;
 extern TownFourWords D_800895F0;
 extern u8 D_800133A6;
-extern u8 D_800133A7;
 extern u8 D_800133BA;
-extern u8 D_800133BB;
 extern u8 D_800133C8;
-extern u8 D_800133C9;
 extern u8 D_800133E6;
-extern s8 D_800133E7[9];
 
 /* Checks fixed value pairs and requires all four table values among five indexed pairs. */
 s32 func_800B8C90(void)

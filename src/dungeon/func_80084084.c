@@ -23,7 +23,6 @@ extern s32 func_80045310(s32);
 extern Callback D_80083360[0x20];
 extern Entry *D_800833E0[0x20];
 extern Callback D_800DCF80[];
-extern Callback D_800DCFA4;
 extern u8 D_800E0000[];
 
 /* Dispatch eligible entry_m callbacks according to the current mode. */

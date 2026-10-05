@@ -11,7 +11,6 @@ typedef struct S_80019F94_1 {
 
 void func_80019EA8();
 s32 func_8001ADE0();
-extern M2C_UNK D_8001C378[];
 
 typedef struct S_80019F94_0 {
     u8 pad_00[0x10];

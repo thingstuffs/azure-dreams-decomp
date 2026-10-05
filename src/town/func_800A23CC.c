@@ -8,8 +8,6 @@ M2C_UNK func_80042640();               /* extern */
 M2C_UNK memset(); /* extern */
 s32 func_8009F970();              /* extern */
 void *func_800B2344();                              /* extern */
-extern M2C_UNK D_800102F0;
-extern M2C_UNK D_80010324;
 extern M2C_UNK D_80100A10;
 typedef struct {
     s32 words[0x15];

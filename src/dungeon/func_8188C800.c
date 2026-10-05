@@ -9,7 +9,6 @@ extern int abs(int);
 extern u8 D_80026470[];
 extern u8 D_80026474[];
 extern u8 D_80026476[];
-extern u8 D_80026478[];
 extern u8 D_80026484[];
 extern u8 D_80026490[];
 extern u8 D_80026472[];

@@ -102,8 +102,6 @@ typedef struct {
 
 extern s16 D_80082E86[6];
 extern OffsetTable D_80024004;
-extern u8 D_80020000[0x69C0];
-extern u8 D_80080000[0x37A0];
 extern S16Global D_800269B4;
 extern Template12 D_80026990;
 extern Template12 D_8002699C;

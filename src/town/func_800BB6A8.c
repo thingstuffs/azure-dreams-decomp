@@ -7,8 +7,6 @@ typedef struct {
     u8 field5;
 } Event6;
 
-extern u8 D_800133C4;
-extern u8 D_800133C8;
 extern u8 D_800133E2;
 extern Event6 D_800D1910[];
 extern u8 D_800D2FB4[];

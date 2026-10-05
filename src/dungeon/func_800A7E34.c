@@ -26,7 +26,6 @@ typedef struct S_800AD594_1 {
 
 extern s32 func_80042900(void *, s32);
 extern void func_80094E34(void);
-extern s32 D_80012090[];
 
 /* Apply a modified reduction to an entity's stored amount and handle a drop to zero. */
 void func_800AD594(S_800AD594_0 *entity, s32 base_reduction) {

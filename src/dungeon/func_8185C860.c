@@ -18,7 +18,6 @@ s32 func_800A2CB8();
 s32 func_800A41F0();
 s32 func_800A6D30();
 s32 func_800C87C4();
-extern u8 D_800E0003[];
 extern u8 D_800E3D68;
 
 /* Apply a randomized effect to eligible targets within two tiles of the center. */

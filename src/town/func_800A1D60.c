@@ -38,12 +38,9 @@ M2C_UNK func_800423C0();      /* extern */
 M2C_UNK func_80042640();               /* extern */
 void *memset(); /* extern */
 void func_8009DC8C();    /* extern */
-extern M2C_UNK D_80010A80;
-extern M2C_UNK D_80010AB4;
 extern M2C_UNK D_8009F374;
 extern M2C_UNK D_80100A10;
 extern struct TownCopy84 D_80100AF8;
-extern u8 D_80010000[];
 
 
 typedef struct S_8009F4C0_1 {

@@ -64,8 +64,6 @@ typedef struct {
     u8 field13;
 } ItemInfo;
 
-extern void *D_80170838[5];
-extern void *D_80170850[7];
 extern u8 D_80170EE4[8];
 extern u8 D_801765D8[8];
 extern u8 D_80176648[8];
