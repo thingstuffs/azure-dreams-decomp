@@ -30,7 +30,7 @@ typedef struct S_800B9998_2 {
 
 typedef struct S_800B9998_3 {
     u8 pad_00[0x1A];
-    union { u16 s; volatile u16 u; } unk_1A;   /* accessed as both */
+    union { u16 s; u16 u; } unk_1A;   /* accessed as both */
 } S_800B9998_3;   /* p2 in func_800B9998 */
 
 
@@ -50,6 +50,7 @@ void func_800B9998(void *object, void *position, void *rotation) {
     s32 position_y;
     s32 raw_speed;
     s32 angle_step;
+    s32 t;
 
     if (func_8009CFE0(object, position) != 0) {
         active_flag = ((S_800B9998_0 *)object)->unk_98;
@@ -99,8 +100,8 @@ void func_800B9998(void *object, void *position, void *rotation) {
 
     angle_step = ((S_800B9998_0 *)object)->unk_66.s + 0x80;
     ((S_800B9998_3 *)rotation_data)->unk_1A.s = ((S_800B9998_3 *)rotation_data)->unk_1A.s + angle_step;
-    ((S_800B9998_3 *)rotation_data)->unk_1A.u =
-        ((S_800B9998_3 *)rotation_data)->unk_1A.u & 0xFFF;
+    t = ((S_800B9998_3 *)rotation_data)->unk_1A.u;
+    ((S_800B9998_3 *)rotation_data)->unk_1A.u = t & 0xFFF;
 
     return;
 }

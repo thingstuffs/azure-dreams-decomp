@@ -14,7 +14,13 @@ typedef struct Position {
 
 extern u8 D_8009AE88[];
 extern u8 D_800D0078[];
-extern s32 D_800D0624[];
+typedef struct Vec3 {
+    s32 x;
+    s32 y;
+    s32 z;
+} Vec3;
+
+extern Vec3 D_800D0624;
 
 extern void func_80094984();
 extern void func_80099754();
@@ -23,19 +29,19 @@ extern void func_80099754();
 void func_8009AD70(Rec_func_80094268_arg0 *state, Position *position, s32 context)
 {
     u16 timer;
-    s32 *target;
+    Vec3 *target;
 
-    target = D_800D0624;
-    position->half_dx = (target[0] - position->x) / 2;
-    position->half_dy = (target[1] - position->y) / 2;
-    position->half_dz = (target[2] - position->z) / 2;
+    target = &D_800D0624;
+    position->half_dx = (target->x - position->x) / 2;
+    position->half_dy = (target->y - position->y) / 2;
+    position->half_dz = (target->z - position->z) / 2;
 
     timer = state->unk_0A.as_u16 - 1;
     state->unk_0A.as_u16 = timer;
     if ((s16)timer < 0) {
-        position->x = *(volatile s32 *)&D_800D0624[0];
-        position->y = target[1];
-        position->z = target[2];
+        position->x = target->x;
+        position->y = target->y;
+        position->z = target->z;
         func_80099754(position);
 
         state->unk_30 = ((u16)((EntityRec *)position)->x.w.i);
