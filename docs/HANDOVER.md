@@ -38,6 +38,8 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
 3. r93_agy_goto4/5 80BC1BA8 80BC7BA8 80BCDBA8 80BD9BA8 and r93_sonnet_pg1 8009E0EC: goto into a label inside another
    block (labels-into-blocks rule) - held/.
 4. r92_agyO_p2 80095160 landed with `move_failed:` (pre-existing label inside an if block) now reached by more gotos.
+6. r93_sonnet_vb4 town/func_808110CC (held/): 4 volatiles -> 0 only with a visible dead store `unk_A2 = 16;` before
+   `phase3 = unk_A6; unk_A2 = phase3;` (retail HAS the store; without volatile cse deletes it). Accept or keep volatile?
 5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
 
 **Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
