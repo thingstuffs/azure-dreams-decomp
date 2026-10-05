@@ -423,7 +423,9 @@ secondary_object:
         } else {
             if ((effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 ==
                 motion->unk_04.half.unk_06) {
-                goto movement_done;
+                motion->unk_00.word += motion->unk_0C;
+                motion->unk_04.word += motion->unk_10;
+                return;
             }
             world_coord = tile_x << 6;
         }
@@ -438,7 +440,6 @@ secondary_object:
                 motion->unk_0A.u += 0x10;
             }
         }
-movement_done:
         motion->unk_00.word += motion->unk_0C;
         motion->unk_04.word += motion->unk_10;
         return;
