@@ -34,6 +34,7 @@ queue (r91 open_rows.tsv) is exhausted (p4-p6: 1 pin over 11 rows).
 8186F0C4 12-line block copied into both arms; 8001A2B0 shared jump-only `fail:` block (gotos 2 -> 6) to drop a KEEP;
 81832800 byte-offset dirStepX read; 8009B70C stepwise `x -= 0x20; x <<= 16; x >>= 16;`; 800971DC u16 narrow copy.
 Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C type, marker lost) - tighten next time.
+**Owner 10-05: accepted items 1 (re-carve) + 2 (tail recursion) -> land_own2tr.sh; items 3/4 -> copy-tail lane; flagged trades accepted.**
 **Held for the owner (not landed):**
 1. r93_sonnet_own2: 8195281C / 8195E81C real switches exact only after a ROW RE-CARVE (merge the 28-byte data rows
    func_81952800 / func_8195E800 into the function rows + owner records). LANDING.md in the lane. Row-identity call.
@@ -44,6 +45,7 @@ Prototype lanes respelled some `M2C_UNK` params/fields as `s32`/`s32 *` (same C 
 6. town/func_808110CC: owner ACCEPTED (10-05) the visible redundant store `unk_A2 = 16;` (retail emits it) - landed.
 - dungeon/func_800CA184 (r93_opus_ca184, 11 -> 10 pins, gotos 32 -> 24): pointer copy `scratch = view_scratch;` after a join (copy-host shape, byte-free) - admissible? recorded in ledger/recipe_trades.jsonl.
 - dungeon/func_8009E0EC (r93_opus_p16, 8 -> 0 pins, 9 -> 0 gotos; was HELD for labels-into-block, now goto-free): trades `self = actor` copy, move_flags split, two-role shared temps `offset`/`temp` - admissible? (ledger/recipe_trades.jsonl).
+- dungeon/func_800957B8 (r93_opus_p18, 5 -> 0): m2c `u16 tile_info[5]` -> one `u16 tile_flags` (callee definition func_8009A350 writes one u16; retail frame allows <= 8 B; array costs 56). Landed as typing-from-definition, not a dropped local.
 5. Refused (ledger/refused_trades.jsonl): 81910A9C `& addr_mask & addr_mask` double mask = fake dependency.
 
 **Leads:** 80DE48EC pin-free spill text total 35 (16 frame bytes unexplained -> gdb assign_stack_local; r92_agyO_al1);
