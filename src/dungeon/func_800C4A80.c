@@ -2,181 +2,66 @@
 #include "shared/dungeon_floor.h"
 #include "shared/game_work.h"
 #include "shared/dir_step.h"
-#include "m2c_compat.h"
-
-typedef struct S_800CA1E0_0 {
-    u8 pad_00[0x24];
-    union { u8 s; u8 u; } unk_24;   /* accessed as both */
-    union { u8 s; volatile u8 u; } unk_25;   /* accessed as both */
-    s8 unk_26;
-} S_800CA1E0_0;   /* temp_s2 in func_800CA1E0 */
-
-typedef struct S_800CA1E0_1 {
-    u8 pad_00[0x14];
-    s16 unk_14;
-    s16 unk_16;
-} S_800CA1E0_1;   /* temp_table in func_800CA1E0 */
+#include "shared/entity.h"
 
 typedef struct S_800CA1E0_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
     u8 pad_20[0x68];
     u16 unk_88;
-} S_800CA1E0_2;   /* temp_arg2 in func_800CA1E0 */
-
-typedef struct S_800CA1E0_3 {
-    u8 pad_00[0xC];
-    u16 unk_0C;
-} S_800CA1E0_3;   /* (void *)temp_e_index in func_800CA1E0 */
-
+} S_800CA1E0_2;   /* object in func_800CA1E0 */
 
 extern u16 D_800DCEAC[];
 extern u16 D_800DCEBC[];
-s16 func_8009A350();
-s16 func_8009FB34();
-s16 func_800BCB04();
+s16 func_8009A350(s16 x, s16 y, s16 offset_index, u16 *flags);
+s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height);
+s32 func_8009FB34(s32 point_x, s32 point_y);
+s32 func_800BCB04(s32 x, s32 y, s16 min_height);
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
-s32 func_800CA1E0(u32 action_flags, S_800CA1E0_0 *position, void *volatile object, u32 height_offset) {
+s32 func_800CA1E0(u32 action_flags, EntityRec *position, S_800CA1E0_2 *object, u16 height_offset) {
     u16 tile_flags;
-    u16 saved_height_offset;
-    s32 lookup_arg;
-    s32 direction;
-    register s32 target_coord ASM_REG("$16");
-    s32 target_x;
-    register s32 center_y ASM_REG("$20");
-    s32 direction_offset;
-    s32 coord_value;
-    s32 query_arg;
-    s32 direction_arg;
-    void *tile_flags_out;
-    u16 entry_height_offset;
-    s32 entity_addr;
-    register u16 *step_x;
-    u16 *step_y;
-    u16 *offset_x;
-    u16 *offset_y;
+    s16 direction;
+    u16 target_x;
+    u16 target_y;
+    u32 world_x;
+    u32 world_y;
+    MapGrid *map;
     u16 height;
-    register u32 bounds_page ASM_REG("$2");
-    u32 bounds_page_2;
-    s32 early_result;
-    u32 scaled_y;
+    s16 room;
 
-    s32 call_height_offset;
-    register u8 *bounds ASM_REG("$6");
-    u16 bounded_x;
-    s32 clearance;
-    void *position_copy;
-
-    entry_height_offset = height_offset;
-    lookup_arg = (action_flags >> 9) & 7;
-    direction = lookup_arg;
-    ASM_KEEP_NV(direction);
-    bounds_page_2 = (u32)((s32)(dirStepX));
-    direction_offset = direction;
-    direction_offset <<= 1;
-    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page_2);
-    coord_value = position->unk_24.s;
-    bounds_page = (u32)(*step_x);
-    saved_height_offset = entry_height_offset;
-    lookup_arg = direction;
-    target_x = coord_value + (s32)bounds_page;
-    bounds_page = 0x80080000;
-    ASM_KEEP_DEP_NV(bounds_page, target_x);
-    target_x &= 0xFFFF;
-    bounded_x = target_x;
-    coord_value = bounded_x;
-    bounds = (u8 *)(bounds_page + 0x333C);
-    if (coord_value != 0) {
-        ASM_KEEP_NV(bounds);
-        position_copy = (void *)1;
-        if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
-            return -1;
-        }
-        bounds_page = (u32)((s32)(dirStepY));
-        step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
-        coord_value = position->unk_25.s;
-        bounds_page = (u32)(*step_y);
-        target_coord = coord_value + (s32)bounds_page;
-        coord_value = target_coord & 0xFFFF;
-        if (coord_value == 0) {
-            return -1;
-        }
-        if (((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value) {
-            early_result = -1;
-            return early_result;
-        }
-    } else {
-        early_result = -1;
-        return early_result;
+    direction = (action_flags >> 9) & 7;
+    target_x = position->tileX + (u16)dirStepX[direction];
+    map = &gameWork.map;
+    if (target_x == 0 || ((1 << map->shiftX) - 1) < target_x) {
+        return -1;
     }
-    coord_value = position->unk_24.u;
-    scaled_y = position->unk_25.u;
-    call_height_offset = (s32)(object);
-    coord_value <<= 6;
-    query_arg = (u32)coord_value >> 6;
-    ASM_KEEP_NV(query_arg);
-    scaled_y <<= 6;
-    direction_arg = scaled_y >> 6;
-    ASM_KEEP_NV(direction_arg);
-    target_coord = coord_value + 0x20;
-    height = ((S_800CA1E0_2 *)call_height_offset)->unk_88;
-    center_y = scaled_y + 0x20;
-    if ((func_8009A540(lookup_arg, query_arg, direction_arg, (s16) (height - entry_height_offset)) << 0x10) == 0) {
-        early_result = 0;
-        return early_result;
+    target_y = position->tileY + (u16)dirStepY[direction];
+    if (target_y == 0 || ((1 << map->shiftY) - 1) < target_y) {
+        return -1;
     }
-    direction_arg = direction;
-    ASM_KEEP_NV(direction_arg);
-    tile_flags_out = &tile_flags;
-    ASM_KEEP_NV(tile_flags_out);
-    offset_x = D_800DCEAC;
-    offset_x = (u16 *)((u32)direction_offset + (u32)offset_x);
-    ASM_KEEP_NV(offset_x);
-    offset_y = D_800DCEBC;
-    offset_y = (u16 *)((u32)direction_offset + (u32)offset_y);
-    ASM_KEEP_NV(offset_y);
-    lookup_arg = position->unk_24.s;
-    ASM_KEEP_NV(lookup_arg);
-    query_arg = position->unk_25.s;
-    ASM_KEEP_NV(query_arg);
-    coord_value = *offset_x;
-    bounds_page = (u32)(*offset_y);
-    target_x = coord_value + target_coord;
-    target_coord = (s32)bounds_page + center_y;
-    func_8009A350(lookup_arg, query_arg, direction_arg, tile_flags_out);
-    if ((tile_flags & 0x8002) == 0) {
-        goto check_entity;
+    world_x = position->tileX << 6;
+    world_y = position->tileY << 6;
+    target_x = world_x + 0x20;
+    height = object->unk_88;
+    target_y = world_y + 0x20;
+    if ((func_8009A540((u16)direction, target_x >> 6, target_y >> 6, (s16)(height - height_offset)) << 16) == 0) {
+        return 0;
     }
-blocked:
-    early_result = 0;
-    return early_result;
-check_entity:
-    if (position->unk_26 < 0) {
-        lookup_arg = func_8009FB34((position->unk_24.s + *step_x) & 0xFFFF, (position->unk_25.s + *step_y) & 0xFFFF);
-        if (lookup_arg >= 0) {
-            entity_addr = lookup_arg << 2;
-            bounds_page = (u32)((s32)((u16 *)D_800E2970));
-            entity_addr = (entity_addr + lookup_arg) << 2;
-            entity_addr = entity_addr + (u32)(u16 *)(s32)bounds_page;
-            ASM_KEEP_NV(entity_addr);
-            lookup_arg = target_x & 0xFFFF;
-            if (!(((S_800CA1E0_3 *)((void *)entity_addr))->unk_0C & 2)) {
-                goto check_clearance;
-            }
-            call_height_offset = (s32)(object);
-            if (!(((S_800CA1E0_2 *)call_height_offset)->unk_1C & 0x2000)) {
-                goto blocked;
-            }
+    target_x = D_800DCEAC[direction] + target_x;
+    target_y = D_800DCEBC[direction] + target_y;
+    func_8009A350(position->tileX, position->tileY, direction, &tile_flags);
+    if (tile_flags & 0x8002) {
+        return 0;
+    }
+    if ((s8)position->unk_26 < 0) {
+        room = func_8009FB34((position->tileX + (u16)dirStepX[direction]) & 0xFFFF, (position->tileY + (u16)dirStepY[direction]) & 0xFFFF);
+        if (room >= 0 && (D_800E2970[room].flags & 2) && !(object->unk_1C & 0x2000)) {
+            return 0;
         }
     }
-    lookup_arg = target_x & 0xFFFF;
-check_clearance:
-    call_height_offset = saved_height_offset;
-    clearance = (s16)func_800BCB04(lookup_arg, target_coord & 0xFFFF, (s16) (height - call_height_offset));
-    bounds_page = (u32)(-1);
-    if (clearance < 0x201) {
-        bounds_page = (u32)(1);
+    if ((s16)func_800BCB04(target_x, target_y, (s16)(height - height_offset)) >= 0x201) {
+        return -1;
     }
-    return (s32)bounds_page;
+    return 1;
 }
