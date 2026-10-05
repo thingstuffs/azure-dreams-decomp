@@ -64,6 +64,9 @@ relocations the target lacks - keep the page macros on slus rows.
         read; jump2 merges the tail back in front of the join and sched1 never sees the store and the load in one block
         (818F9B98). Struct/non-struct spellings cannot help here: same base + disjoint offsets has no alias edge.
     Never order them with a dead load/store or a fake dependency.
+15. m2c's rotated loop `if (*p != 0) { x = *p; do { ...; x = *++p; } while (x); }` with a volatile on the read: write the
+    plain `while (*p != 0) { *dst = *p; p++; dst++; }` - gcc's own loop rotation emits retail's test + reload (r93_sonnet_vb11,
+    slus/w_80049004, 2 volatiles -> 0; converting only one of two loops = dist 1).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; frame-pad volatile locals (no
 evidence for a real local); a dead store combine would merge (8132F204).
