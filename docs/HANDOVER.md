@@ -1,3 +1,37 @@
+# Handover (2026-10-05 ~14:00Z, round 94: Fable on an unsolved row + Opus/Sonnet fidelity-first lanes; IN PROGRESS) - start here
+
+**Owner brief (10-05):** pick up the round-93 next steps with Opus + Sonnet, luna/agy where they make sense, a few
+sol/astra one or two at a time, efficiently; cleanup (compiler alignment, m2c artifacts, gotos) counts for pins.
+Mid-round: "if there's something nothing, not even astra, is able to figure out, try 1 Fable agent with its freedom
+and capture its insights".
+**Numbers:** pins 225/108 -> 198/105 (-27). Lanes in work/native_lane/r94_*; questions in work/native_lane/_r94/q_*.md;
+landing logs _r94/land_*.log; usage recorded for every Agent lane (record_usage.py).
+**What paid:**
+- **Opus on rows just restructured / never fidelity-served:** r94_opus_p32 dungeon/func_800C4A80 16 -> 0 AT THE MODULE
+  RECIPE (crutch retired; built on r86_opus_up's unused 0-pin fidelity text: definition prototypes, s16 direction
+  passed as (u16), tile args from the centre `target_x >> 6` = 3rd flow ref). r94_opus_p31 800CA184 9 -> 6 + volatiles
+  7 -> 0; p28 8180C3C0 5 -> 2; p30 8182C800 3 -> 1. Common lever: MERGE two C variables when alloc_need's mover lives
+  in another pinned variable's retail register / split two-role $v0/$v1 hosts per block; multi-set in-place
+  sign-extend (`x <<= 16; x >>= 16;`) drops a sched1 birthing boost; compute in place into an existing global temp.
+- **Sonnet prep at equal pins** (fp6 800CA184 gotos 24 -> 10, fp7, fp8 807B0B3C 14 -> 4, vb28 800CDFD8 volatiles 6 -> 1)
+  fed the Opus wins; fp9/fp10 mostly negative: remaining scaffolding on small rows is pin-tied, and backward goto loops
+  where retail has NO loop notes are the source's own (17+ spellings, 0 exact) - stop serving those.
+- **sol 6.1** s1 2/5 (800B5DFC, 8181214C 1 -> 0), s2 0/5 (best dist 6-20).
+- **Gemini (agy) goto pools** r94_agy_goto1-13: 46 pin-free rows landed (~140 gotos); capacity ran out at goto14
+  (goto14-16 built, unlaunched - relaunch after the agy reset with pool.py r94g3 --model agy --no-land).
+- **Fable** r94_fable_de48ec on dungeon/func_80DE48EC (23 lanes incl. 2 astra failed at current text): nothing staged;
+  mapped every pin (tools/learnings/fable_r94_de48ec.md), proved reload-time sources cannot make retail's 20 orphan
+  frame bytes, new lanekit tools frame_trace.py/frame_gdb.py/frame_slack.py, and a kit correction (fidelity_first:
+  MEASURE definition prototypes - a K&R TU regresses). Opus relay r94_opus_de48ec running on the struct-home lead.
+**Kit gaps seen:** slus/w_80041588 base text not exact in the lane kit (total 153 length-drift; SLUS computed-goto
+.rodata owner path, the r93 lead). Fable wanted: prio/alloc_need on a PROPOSED edit, two-text sched trace, frame bucket
+in diff --classify.
+**Trades recorded** (ledger/recipe_trades.jsonl, round 94): 800B5DFC two-role temp, 8180C3C0 merged message_text,
+8182C800 role merge + __builtin_abs, 800CA184 shared vertex_x + in-place OT address, 800C4A80 coherence line.
+**Next:** 800CA184 setup group ($8-$12 + KEEP4: five map values were global allocnos in retail; find a cross-block
+host already in $8-$12 - r94_opus_p31 REPORT); 800AED64 (6, lhu/sll/sra family + sched tie; p28 + vb5 negatives);
+809548E4 (x_step/other_x need $t0/$t1 preferences, p30); 8182C800 keep (full Y live across two calls without code).
+
 # Handover (2026-10-04 ~17:20, round 93: native Claude lanes + luna/Gemini pools; IN PROGRESS, updated 10-05 03:30Z) - start here
 
 **Owner brief (10-04):** ~12 h of Claude usage left; Sonnet first, 1 Opus at a time, 1-2 Sonnet; minimal sol/astra; luna and
