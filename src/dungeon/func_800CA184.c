@@ -239,7 +239,6 @@ void func_800CF8E4(void) {
     s32 map_width;
     s32 cell_index;
     s32 overlay_color;
-    s32 *overlay_ot_entry;
     u16 normal_x;
     u16 normal_y;
     s32 normal_index;
@@ -272,7 +271,7 @@ void func_800CF8E4(void) {
     void *render_input;
     s32 render_arg;
     s32 minus_one;
-    register s32 neighbor_row_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 vertex_x;
 
     scene = (u8 *)((void * *)(&gameWork));
     render_flags = D_80013714;
@@ -494,7 +493,7 @@ void func_800CF8E4(void) {
             s32 one;
             s32 max_height;
             s32 tag_mask;
-            register s32 edge_progress ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 edge_progress;
             s32 error_step;
 
             one = 1;
@@ -596,12 +595,10 @@ L_CFE98:
                                 s32 vertex_value;
                                 s32 vertex_offset;
                                 s32 vertex_xy;
-                                u16 cell_x;
-                                register u16 vertex_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                                u16 third_x;
+                                s32 third_x;
 
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_10;
-                                cell_x = scratch->min_x.h.x;
+                                vertex_xy = scratch->min_x.h.x;
                                 scratch->face_attr.word = vertex_value;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_00;
                                 vertex_offset = ((S_800CF8E4_6 *)face)->unk_14;
@@ -615,7 +612,7 @@ L_CFE98:
                                 vertex_x = scratch->vtx.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                vertex_xy = cell_x + vertex_x;
+                                vertex_xy += vertex_x;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
@@ -627,9 +624,9 @@ L_CFE98:
                                 vertex_offset <<= 16;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
                                 vertex_xy |= vertex_offset;
-                                *(volatile s32 *)&scratch->v[0].xy = vertex_xy;
+                                scratch->v[0].xy = vertex_xy;
 
-                                cell_x = *(volatile u16 *)&scratch->min_x.h.x;
+                                vertex_xy = scratch->min_x.h.x;
                                 vertex_offset = scratch->cell_height.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
@@ -638,7 +635,7 @@ L_CFE98:
                                 vertex_x = scratch->vtx.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                vertex_xy = cell_x + vertex_x;
+                                vertex_xy += vertex_x;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_04;
                                 vertex_xy &= 0xFFFF;
                                 vertex_value -= vertex_offset;
@@ -650,16 +647,16 @@ L_CFE98:
                                 vertex_offset <<= 16;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_04;
                                 vertex_xy |= vertex_offset;
-                                *(volatile s32 *)&scratch->v[1].xy = vertex_xy;
+                                scratch->v[1].xy = vertex_xy;
 
-                                cell_x = *(volatile u16 *)&scratch->min_x.h.x;
+                                vertex_xy = scratch->min_x.h.x;
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
                                 vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
                                 scratch->vtx.word = vertex_value;
                                 third_x = scratch->vtx.h.x;
                                 vertex_offset = scratch->vtx.h.y;
-                                vertex_xy = (third_x) + (cell_x);
+                                vertex_xy += third_x;
                                 vertex_xy &= 0xFFFF;
                                 vertex_offset = (s16)vertex_offset;
                                 vertex_value = ((scratch->cur_y) + vertex_offset) << 16;
@@ -722,18 +719,19 @@ L_CFE98:
 
                                                     neighbor_offset = scratch->step.h.x;
                                                     error_step = scratch->column;
-                                                    neighbor_row_step = *(volatile u16 *)&scratch->step.h.y;
-                                                    row_offset_mask = *(volatile s32 *)&scratch->row_mask;
+                                                    vertex_x = scratch->step.h.y;
+                                                    row_offset_mask = scratch->row_mask;
                                                     render_arg = scratch->width_shift;
                                                     neighbor_offset = (s16)neighbor_offset;
                                                     error_step += neighbor_offset;
                                                     neighbor_offset = scratch->column_mask;
-                                                    neighbor_row_step = (s16)neighbor_row_step;
+                                                    vertex_x <<= 16;
+                                                    vertex_x >>= 16;
                                                     error_step &= neighbor_offset;
-                                                    neighbor_offset = scratch->row_base;
                                                     row_offset_mask <<= render_arg;
-                                                    *(volatile s32 *)&scratch->neighbor_index = error_step;
-                                                    neighbor_offset += neighbor_row_step;
+                                                    scratch->neighbor_index = error_step;
+                                                    neighbor_offset = scratch->row_base;
+                                                    neighbor_offset += vertex_x;
                                                     neighbor_offset &= row_offset_mask;
                                                     error_step += neighbor_offset;
                                                     neighbor_index = error_step;
@@ -841,18 +839,18 @@ L_CFE98:
                                                     *(s32 *)packet = (*(s32 *)packet & tag_mask)
                                                     | (*(s32 *)((scratch->otz * 4)
                                                         + scratch->ot_base) & address_mask);
-                                                    overlay_ot_entry =
-                                                        (s32 *)((scratch->otz * 4)
-                                                        + scratch->ot_base);
+                                                    error_step = scratch->otz;
+                                                    error_step *= 4;
+                                                    error_step += scratch->ot_base;
                                                     {
                                                         s32 overlay_addr;
 
                                                         overlay_addr = (s32) packet & address_mask;
-                                                        edge_progress = *overlay_ot_entry;
+                                                        edge_progress = *(s32 *)error_step;
                                                         packet += 0x28;
                                                         edge_progress &= tag_mask;
                                                         edge_progress |= overlay_addr;
-                                                        *overlay_ot_entry = edge_progress;
+                                                        *(s32 *)error_step = edge_progress;
                                                     }
                                                     ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
                                                     {
@@ -897,7 +895,8 @@ L_CFE98:
                                     s32 end_marker;
 
                                     end_marker = 0x8001;
-                                    edge_progress = scratch->face_info.h.mode & 0x80FF;
+                                    edge_progress = scratch->face_info.h.mode;
+                                    edge_progress &= 0x80FF;
                                     if (edge_progress != end_marker) {
                                         face = (u8 *)face + 24;
                                         goto L_CFE98;
