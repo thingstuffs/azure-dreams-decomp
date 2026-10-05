@@ -46,5 +46,11 @@ relocations the target lacks - keep the page macros on slus rows.
         order). 800BB6A8.
     Shape 10 (fresh s32 local after a store) is gate (c) + (d). Never kill an entry with a dead store/load/call
     written only for that - fake dependency.
+12. Macro scaffolding: VOL_U32/VOL_PTR/VS16_AT/VPTR_AT-style accessor macros often cost 0 when replaced by their
+    plain twins (FIELD_U32, S16_AT ...) - try that first (vb8/vb9: 8187B5A0, 813315CC, 81910EC0).
+13. A ladder of m2c temps with volatile on 1-2 members around field RMWs: one compound assignment per field in the
+    order retail stores them (permute a handful of natural orders; 8186EDA8, 80921A44).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
-read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles.
+read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; volatiles that only order two
+independent loads in sched1 (6-row clone family 80C8D084..80BE5084, 818CE83C, 818F9B98); frame-pad volatile locals (no
+evidence for a real local); a dead store combine would merge (8132F204).
