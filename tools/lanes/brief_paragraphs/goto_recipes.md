@@ -179,3 +179,9 @@ but 1 for a label-headed stub (merges), so every else-stub merges into the survi
 store tails copied at each goto - measure the WHOLE set of copies, single copies were off (3 of 6). A backward goto
 into a loop retail does NOT note (`why.py --pass loop` count goes up when structured) never became a structured loop
 (0/12 across 5 loops) - leave it. Volatile accessor macros: try per SITE, not per macro (15 of 22 sites came off).
+
+**r93_sonnet_fp1 (dungeon/func_800A8714, 109 -> 7 gotos at equal pins):** `goto L` where L follows a switch whose
+`default:` is L -> `break;` + `default: break; }` before L (73/73); a goto ladder over a state variable -> `switch (v)`
+in source order, shared-tail gotos -> `break` (1/1); a label with ONE goto -> inline the block there; shared 2-line
+`store; return K;` stubs -> copy per site, measure each alone then the union (6 of 10 exact; the union of the exact
+six stayed exact); a goto over a statement into an if chain -> invert the first test into a guard.
