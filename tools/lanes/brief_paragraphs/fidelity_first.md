@@ -5,7 +5,8 @@ analyses at the m2c text were stale); typing a callee from its definition / the 
 (r93_opus_p3 K&R u8, r93_opus_p9); a `volatile` on part bytes was what kept `lbu; sll; sra` (combine.py: no-recog
 (volatile MEM)) on dungeon/func_800C9858. Order of work on a pinned row:
 1. Fidelity: callee prototypes from the DEFINITION (rows are filed by file offset - look up by true_name;
-   tools/lanes/proto_check.py), real call arity (call_arity paragraph), parameter widths (an s32 stack parameter
+   tools/lanes/proto_check.py) - MEASURED one at a time: a definition prototype that makes the bytes WORSE means the
+   original TU declared it K&R / implicit int (r94_fable_de48ec: two definition prototypes 13 -> 67; keep `extern s32 f();`), real call arity (call_arity paragraph), parameter widths (an s32 stack parameter
    tested as (p<<16)==0 is s16), D_ data externs with their agreed types, struct fields instead of raw offsets.
 2. Structure: m2c goto loops -> real for/while (loop.c, loop-depth ref weighting), goto ladders -> switch (read the
    retail table), shared tails copied only where measured (brief_paragraphs/goto_recipes.md).
