@@ -122,3 +122,10 @@ Per barrier, what it holds (do not retry the natural spellings): town/8096D944 f
 - 8081FCE0 ASM_SCHED_BARRIER (2): sched1 birthing boost on single-set render_state; lead j2_loopconst (both pins
   erased, `obj->unk_10 = D_80023DE0` direct, dist 36) needs local-alloc to rank the 0x1000 value above draw_state.
 - 80A20A28 ASM_KEEP_MEMDEP_NV (6): sched2 tie floats the profile_dst init above loop.c-hoisted constants.
+
+## Implicit-int prototype hypothesis - measured NEGATIVE (r93, work/native_lane/r93_eval_intproto/results.json)
+r93_opus_p23/p24 saw callers use an s16 callee's result unextended (8028906C, 800A8714) and suspected retail callers
+had no prototype (implicit int). Measured on 32 pinned rows with narrow-return callee prototypes: rewriting them to
+`s32` returns (with or without K&R `()`) improved NO row's best pin-erased listing distance; on 13 rows it changes the
+bytes with pins intact (the narrow prototype is load-bearing as typed). Treat implicit-int as a per-caller question
+(check that caller's uses), not a sweep.
