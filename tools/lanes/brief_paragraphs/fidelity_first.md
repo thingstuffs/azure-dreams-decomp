@@ -22,3 +22,9 @@ because m2c's text keeps TWO lockstep walkers per object (`p` and `p2 = p + K`).
 (`quad[k+1]`, `packet + K` as expressions) before concluding: loop.c then combines every giv into retail's single
 register (`addiu $18,$20,1`), substitutes single-use invariants into call arguments, and loop-depth ref weighting fixes
 colours. Same lesson: r93_opus_p9 (800A02F0 one struct walker), r93_opus_p5.
+
+**r93_opus_p25 (slus/w_8004B954 3 -> 0):** an m2c accumulator `a = i*k; ... a += k;` and a second pointer stepped in
+lockstep with the first are both loop.c strength-reduction OUTPUT that m2c copied into the source: write `f(i*k)` at
+each use and store everything off the ONE pointer (increments last) - loop.c rebuilds retail's registers itself
+(same lesson as r93_opus_vb4/vb5/p19). A spilled argument reload that lands before a sched2 block head can be moved
+INTO the block by putting its init at the top of the arm that uses it.
