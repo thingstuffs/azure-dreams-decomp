@@ -85,6 +85,9 @@ relocations the target lacks - keep the page macros on slus rows.
     (r93_sonnet_vb24/vb25, 5/5: 81251350, 80B9ADE0, 8092192C, 80B47980, 80A4B678; vb26 +4 incl. a load between: 8180E7F4, 800B73A4).
     NOT this class: a second store deleted by reload_cse_noop_set_p (reload1.c, "register known equal to memory") -
     8180A990, open.
+22. A `volatile s32` stack PARAMETER (5th+ argument) copied into a local used once: make the parameter `s16` (its real
+    width) and use it directly, drop the copy - local-alloc update_equiv_regs otherwise moves the single-use load down
+    to its use (r93_sonnet_vb27, 4/4: 80095658, 800B3868, 800A3714, 800A2EA8).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles, and so is library state shared with an interrupt handler (written
 inside EnterCriticalSection, a callback pointer reloaded between test and call) - ledger/real_volatiles.jsonl lists the
