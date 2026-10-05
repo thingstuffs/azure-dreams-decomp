@@ -50,41 +50,40 @@ s32 func_80053A88(S_80053A88_Node *first_node)
     work = &gameWork;
     addr_mask = 0x00FFFFFF;
     tag_mask = 0xFF000000;
-loop_0:
-    {
-        draw_base = ((S_80053A88_Base *)work->unk_000);
-        tile = (S_80053A88_TILE *)draw_base->unk8D0;
-        draw_base->unk8D0 = (void *)(((u8 *)tile) + 0x10);
-        tile->x0 = node->unkC;
-        tile->y0 = node->unkE;
-        tile->w = node->unk10;
-        tile->h = node->unk12;
-        tile->code = node->unk8;
-        SetTile(tile);
-        if (node->unk16 & 1) {
-            SetSemiTrans(tile, 1);
+    do {
+        {
+            draw_base = ((S_80053A88_Base *)work->unk_000);
+            tile = (S_80053A88_TILE *)draw_base->unk8D0;
+            draw_base->unk8D0 = (void *)(((u8 *)tile) + 0x10);
+            tile->x0 = node->unkC;
+            tile->y0 = node->unkE;
+            tile->w = node->unk10;
+            tile->h = node->unk12;
+            tile->code = node->unk8;
+            SetTile(tile);
+            if (node->unk16 & 1) {
+                SetSemiTrans(tile, 1);
+            }
+            if (!(node->unk16 & 2)) {
+                tile->tag = (tile->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
+                next_link = work->unk_000;
+                ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
+                | (((u32)tile) & addr_mask);
+            }
+            draw_base = ((S_80053A88_Base *)work->unk_000);
+            draw_mode = (S_80053A88_DRTPAGE *)draw_base->unk8D0;
+            draw_base->unk8D0 = (void *)(((u8 *)draw_mode) + 0xC);
+            tpage = GetTPage(0, node->unk14, 0, 0);
+            SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
+            if (!(node->unk16 & 2)) {
+                draw_mode->tag = (draw_mode->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
+                next_link = work->unk_000;
+                ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
+                | (((u32)draw_mode) & addr_mask);
+            }
+            next_link = *((void **)(((u8 *)node) - 8));
+            node = (S_80053A88_Node *)(((u8 *)next_link) + 0x20);
         }
-        if (!(node->unk16 & 2)) {
-            tile->tag = (tile->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
-            next_link = work->unk_000;
-            ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
-            | (((u32)tile) & addr_mask);
-        }
-        draw_base = ((S_80053A88_Base *)work->unk_000);
-        draw_mode = (S_80053A88_DRTPAGE *)draw_base->unk8D0;
-        draw_base->unk8D0 = (void *)(((u8 *)draw_mode) + 0xC);
-        tpage = GetTPage(0, node->unk14, 0, 0);
-        SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
-        if (!(node->unk16 & 2)) {
-            draw_mode->tag = (draw_mode->tag & tag_mask) | (((S_80053A88_Base *)work->unk_000)->unk74 & addr_mask);
-            next_link = work->unk_000;
-            ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask)
-            | (((u32)draw_mode) & addr_mask);
-        }
-        next_link = *((void **)(((u8 *)node) - 8));
-        node = (S_80053A88_Node *)(((u8 *)next_link) + 0x20);
-    }
-    if (next_link != 0)
-        goto loop_0;
+    } while (next_link != 0);
     return 0;
 }

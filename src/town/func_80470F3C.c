@@ -45,34 +45,32 @@ u8 *func_80017F3C(void *unused)
     record_id = 1;
     checked_base = records;
     checked_tag = 0x18;
-keep_loop_0:
-    {
-        checked_count = record_count + record_id;
-        checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (u32)checked_base);
-        checked_record[1] = checked_tag;
-        checked_record[0] = record_id;
-        if (func_80017EB8(checked_record) != 0) {
-            checked_record[3] |= 0x80;
+    do {
+        {
+            checked_count = record_count + record_id;
+            checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (u32)checked_base);
+            checked_record[1] = checked_tag;
+            checked_record[0] = record_id;
+            if (func_80017EB8(checked_record) != 0) {
+                checked_record[3] |= 0x80;
+            }
+            record_id++;
         }
-        record_id++;
-    }
-    if (record_id < 0x20)
-        goto keep_loop_0;
+    } while (record_id < 0x20);
 
     record_count = checked_count;
     record_id = 1;
     plain_base = D_8001B218;
     plain_tag = 0xB;
-loop_1:
-    {
-        plain_count = record_count + record_id;
-        plain_record = (u8 *)((u32)((plain_count - 1) * 4) + (u32)plain_base);
-        plain_record[0] = record_id;
-        record_id++;
-        plain_record[1] = plain_tag;
-    }
-    if (record_id < 6)
-        goto loop_1;
+    do {
+        {
+            plain_count = record_count + record_id;
+            plain_record = (u8 *)((u32)((plain_count - 1) * 4) + (u32)plain_base);
+            plain_record[0] = record_id;
+            record_id++;
+            plain_record[1] = plain_tag;
+        }
+    } while (record_id < 6);
 
     record_count = plain_count;
     plain_tag = plain_count * 4;

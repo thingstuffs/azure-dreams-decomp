@@ -639,13 +639,12 @@ after_coords:
                 goto case_4_global;
             }
             angle_base = angle_table;
-loop_3:
-            {
-                func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
-                angle -= 15;
-            }
-            if (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle)
-                goto loop_3;
+            do {
+                {
+                    func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
+                    angle -= 15;
+                }
+            } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
         }
 case_4_global:
         status_page = (u8 *)0x80080000;

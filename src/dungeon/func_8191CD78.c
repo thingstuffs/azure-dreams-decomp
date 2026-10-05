@@ -317,16 +317,15 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
             }
             effect->unk_12 = DELTA(0);
             index = 1;
-loop_0:
-            {
-                if (((S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
-                    effect->unk_12 = ((S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
+            do {
+                {
+                    if (((S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
+                        effect->unk_12 = ((S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
+                    }
+                    index++;
+                    delta_cursor++;
                 }
-                index++;
-                delta_cursor++;
-            }
-            if (index < 3)
-                goto loop_0;
+            } while (index < 3);
             travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
             effect->unk_12 = travel_frames;
             if (travel_frames == 0) {

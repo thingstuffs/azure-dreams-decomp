@@ -206,76 +206,74 @@ mark_removed:
         return;
 check_fall_repeat:
     } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
-update_motion:
-    if (((S_8016E528_0 *)motion)->unk_12 != 0) {
-        return;
-    }
-    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
-        + ((S_8016E528_0 *)motion)->unk_4C);
-    ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
-    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
-        + ((S_8016E528_0 *)motion)->unk_50);
-    direction_table = &D_80174708;
-    ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
-    direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
-    next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;
-    world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
-    if (next_tile != (world_x / 64)) {
-        goto update_height;
-    }
-    next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
-    world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
-    if (next_tile != (world_y / 64)) {
-        goto update_height;
-    }
-    if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-        (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) == 0) {
-        if (func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
-            (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) < 0x200) {
-            goto advance_tile;
-        }
-    }
-    ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
-        - ((S_8016E528_0 *)motion)->unk_4C);
-    ((S_8016E528_0 *)motion)->unk_4C = 0;
-    ((S_8016E528_0 *)motion)->unk_58 = 0;
-    ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
-        - ((S_8016E528_0 *)motion)->unk_50);
-    ((S_8016E528_0 *)motion)->unk_50 = 0;
-    ((S_8016E528_0 *)motion)->unk_5C = 0;
-    goto clear_motion;
-advance_tile:
-    ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48
-        + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
-    ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
-        + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
-clear_motion:
-    ((S_8016E528_1 *)object)->unk_06 = 0;
-update_height:
-    ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
-        + ((S_8016E528_0 *)motion)->unk_54);
-    ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
-    move_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
-    if ((func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0,
-        ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
-        ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6)
-            + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0,
-            ((S_8016E528_2 *)position)->unk_08.at02.v);
-        ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
-        ((S_8016E528_0 *)motion)->unk_5C = 0;
-        ((S_8016E528_0 *)motion)->unk_50 = 0;
-        ((S_8016E528_0 *)motion)->unk_58 = 0;
-        ((S_8016E528_0 *)motion)->unk_4C = 0;
-        ((S_8016E528_0 *)motion)->unk_12 = (s16) ((u16) ((S_8016E528_0 *)motion)->unk_12 + 1);
-        if ((func_800A7234(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49,
-            (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12,
-            position + 0x16) << 0x10) == 0) {
-            ((S_8016E528_0 *)motion)->unk_12 = 2;
-            ((S_8016E528_0 *)motion)->unk_54 = 0xFFF80000;
-        }
-    }
-    if (((S_8016E528_1 *)object)->unk_14 & 0x8000) {
-        goto update_motion;
-    }
+    do {
+            if (((S_8016E528_0 *)motion)->unk_12 != 0) {
+                return;
+            }
+            ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+                + ((S_8016E528_0 *)motion)->unk_4C);
+            ((S_8016E528_0 *)motion)->unk_4C = (s32) (((S_8016E528_0 *)motion)->unk_4C + ((S_8016E528_0 *)motion)->unk_58);
+            ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+                + ((S_8016E528_0 *)motion)->unk_50);
+            direction_table = &D_80174708;
+            ((S_8016E528_0 *)motion)->unk_50 = (s32) (((S_8016E528_0 *)motion)->unk_50 + ((S_8016E528_0 *)motion)->unk_5C);
+            direction_step = (((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table;
+            next_tile = ((S_8016E528_0 *)motion)->unk_48 + ((S_8016E528_3 *)direction_step)->unk_00;
+            world_x = ((S_8016E528_2 *)position)->unk_00.at02.v;
+            if (next_tile != (world_x / 64)) {
+                goto update_height;
+            }
+            next_tile = ((S_8016E528_0 *)motion)->unk_49 + ((S_8016E528_3 *)direction_step)->unk_02;
+            world_y = ((S_8016E528_2 *)position)->unk_04.at02.v;
+            if (next_tile != (world_y / 64)) {
+                goto update_height;
+            }
+            if ((func_800A45D8((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) << 0x10) == 0) {
+                if (func_800BCB04((u16) ((S_8016E528_2 *)position)->unk_00.at02.v,
+                    (u16) ((S_8016E528_2 *)position)->unk_04.at02.v, ((S_8016E528_2 *)position)->unk_08.at02.v) < 0x200) {
+                    goto advance_tile;
+                }
+            }
+            ((S_8016E528_2 *)position)->unk_00.at00.v = (s32) (((S_8016E528_2 *)position)->unk_00.at00.v
+                - ((S_8016E528_0 *)motion)->unk_4C);
+            ((S_8016E528_0 *)motion)->unk_4C = 0;
+            ((S_8016E528_0 *)motion)->unk_58 = 0;
+            ((S_8016E528_2 *)position)->unk_04.at00.v = (s32) (((S_8016E528_2 *)position)->unk_04.at00.v
+                - ((S_8016E528_0 *)motion)->unk_50);
+            ((S_8016E528_0 *)motion)->unk_50 = 0;
+            ((S_8016E528_0 *)motion)->unk_5C = 0;
+            goto clear_motion;
+        advance_tile:
+            ((S_8016E528_0 *)motion)->unk_48 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_48
+                + *((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table));
+            ((S_8016E528_0 *)motion)->unk_49 = (s8) ((u8) ((S_8016E528_0 *)motion)->unk_49
+                + ((S_8016E528_4 *)(((((S_8016E528_0 *)motion)->unk_18 * 4) + direction_table)))->unk_02);
+        clear_motion:
+            ((S_8016E528_1 *)object)->unk_06 = 0;
+        update_height:
+            ((S_8016E528_2 *)position)->unk_08.at00.v = (s32) (((S_8016E528_2 *)position)->unk_08.at00.v
+                + ((S_8016E528_0 *)motion)->unk_54);
+            ((S_8016E528_0 *)motion)->unk_54 = (s32) (((S_8016E528_0 *)motion)->unk_54 + ((S_8016E528_0 *)motion)->unk_60);
+            move_height = ((S_8016E528_2 *)position)->unk_08.at02.v;
+            if ((func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6) + 0x20) & 0xFFE0,
+                ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0, move_height) - 0x10) < move_height) {
+                ((S_8016E528_2 *)position)->unk_08.at02.v = func_800BCB04(((((S_8016E528_0 *)motion)->unk_48 << 6)
+                    + 0x20) & 0xFFE0, ((((S_8016E528_0 *)motion)->unk_49 << 6) + 0x20) & 0xFFE0,
+                    ((S_8016E528_2 *)position)->unk_08.at02.v);
+                ((S_8016E528_2 *)position)->unk_08.at00u.v = 0;
+                ((S_8016E528_0 *)motion)->unk_5C = 0;
+                ((S_8016E528_0 *)motion)->unk_50 = 0;
+                ((S_8016E528_0 *)motion)->unk_58 = 0;
+                ((S_8016E528_0 *)motion)->unk_4C = 0;
+                ((S_8016E528_0 *)motion)->unk_12 = (s16) ((u16) ((S_8016E528_0 *)motion)->unk_12 + 1);
+                if ((func_800A7234(((S_8016E528_0 *)motion)->unk_48, ((S_8016E528_0 *)motion)->unk_49,
+                    (s16) ((u16) ((S_8016E528_2 *)position)->unk_08.at02.v - 0x20), position + 0xE, position + 0x12,
+                    position + 0x16) << 0x10) == 0) {
+                    ((S_8016E528_0 *)motion)->unk_12 = 2;
+                    ((S_8016E528_0 *)motion)->unk_54 = 0xFFF80000;
+                }
+            }
+    } while (((S_8016E528_1 *)object)->unk_14 & 0x8000);
     return;
 }

@@ -134,16 +134,15 @@ s32 func_8080C324(void) {
     offset_entry = (s16 *)offset_addr;
     clear_addr = (s32)&D_80530666;
     clear_entry = (s16 *)clear_addr;
-loop_0:
-    {
-        *clear_entry = 0;
-        *offset_entry = initial_offset;
-        offset_entry--;
-        remaining--;
-        clear_entry--;
-    }
-    if (remaining >= 0)
-        goto loop_0;
+    do {
+        {
+            *clear_entry = 0;
+            *offset_entry = initial_offset;
+            offset_entry--;
+            remaining--;
+            clear_entry--;
+        }
+    } while (remaining >= 0);
 
     color_or_flags = 0x00404040;
     rect_record.f8 = color_or_flags;
@@ -212,22 +211,21 @@ loop_0:
         clear_addr = 8;
         content_x = 0xE4;
         content_ptr = D_805300BC;
-loop_2:
-        {
-            void *entry_template;
-            void *entry_record;
+        do {
+            {
+                void *entry_template;
+                void *entry_record;
 
-            entry_template = D_80526970;
-            content = *content_ptr;
-            content_record.f14 = content_x;
-            content_record.f4 = content;
-            func_80526BFC(entry_template, (&content_record));
-            content_x -= 0x10;
-            content_ptr--;
-            clear_addr--;
-        }
-        if (clear_addr >= 0)
-            goto loop_2;
+                entry_template = D_80526970;
+                content = *content_ptr;
+                content_record.f14 = content_x;
+                content_record.f4 = content;
+                func_80526BFC(entry_template, (&content_record));
+                content_x -= 0x10;
+                content_ptr--;
+                clear_addr--;
+            }
+        } while (clear_addr >= 0);
 
         content_record.f14 = 0xF4;
         content_record.f16 = 0xB6;
