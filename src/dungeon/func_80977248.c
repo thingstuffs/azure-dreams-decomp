@@ -6,7 +6,6 @@ extern int abs(int);
 #include "shared/dungeon_status.h"
 #include "shared/entity.h"
 
-
 extern s32 func_8003F270(void);
 extern void func_80047784(void *, s32, s32);
 extern void *func_800A05A4(void *, u8, u8, s16, s32);
@@ -20,7 +19,6 @@ extern s32 D_801714D4[];
 extern u8 D_801740E0[];
 extern u8 D_80174110[];
 extern u8 D_80174118[];
-
 
 typedef struct S_80172A48_0 {
     u8 pad_00[0x8C];
@@ -59,7 +57,6 @@ typedef struct S_80172A48_3 {
     u8 * unk_2C;
 } S_80172A48_3;   /* arg2 in func_80172A48 */
 
-
 /* Advance item use through effect activation, actor animation, and cleanup. */
 void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
 {
@@ -71,10 +68,7 @@ void func_80172A48(void *action, EntityRec *motion, void *actor, void *item)
     void *target;
     void *linked;
 
-
-    do {
-        is_special = 0;
-    } while (0);
+    is_special = 0;
     state = ((S_80172A48_0 *)action)->unk_9B;
     switch (state) {
     case 0:
@@ -433,7 +427,6 @@ selection_ready:
         ((S_80172A48_0 *)action)->unk_96.u = 0;
         ((S_80172A48_0 *)action)->unk_9B++;
         {
-
 
             (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
             func_80047784(actor,

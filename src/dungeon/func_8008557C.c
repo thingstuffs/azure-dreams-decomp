@@ -7,7 +7,6 @@
 #include "m2c_compat.h"
 #include "records/Rec_func_8008ACDC_arg0.h"
 
-
 typedef struct S_8008ACDC_1 {
     u8 pad_00[0x14];
     u16 unk_14;
@@ -65,7 +64,6 @@ typedef struct S_8008ACDC_9 {
     u8 pad_00[0x3];
     u8 unk_03;
 } S_8008ACDC_9;   /* temp_v0_2 in func_8008ACDC */
-
 
 void func_8002534C(); /* extern */
 void func_80040AA0();                     /* extern */
@@ -260,9 +258,7 @@ void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats
                     target_angle = normalized;
                     angle_raw = target_angle << 16;
                     signed_target = (s32)angle_raw >> 16;
-                    do {
-                        angle_or_flags = ((S_8008ACDC_4 *)stats)->unk_2A.u;
-                    } while (0);
+                    angle_or_flags = ((S_8008ACDC_4 *)stats)->unk_2A.u;
                     angle_raw = ((S_8008ACDC_4 *)stats)->unk_2A.s;
                     angle_delta = angle_or_flags - signed_target;
                     if (angle_delta < 0) {

@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -68,9 +67,7 @@ s32 func_801264AC(S_801264AC_2 *context) {
     func_8004CC38(&D_80129728, 0x62);
     func_8004CCBC(&D_80129728, 0x62);
     context->unk_58 = &D_80129728;
-    do {
-        context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
-    } while (0);
+    context->unk_54 = (s32)((S_801264AC_3 *)(&D_80129728))->unk_184;
     result = 1;
     return result;
 }
