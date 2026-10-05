@@ -366,12 +366,11 @@ clut_done_done_done:
         {
             Blk16 *copy_dst = (Blk16 *) (&quad_copies[10]);
             Blk16 *copy_src = (Blk16 *) quad_copies;
-loop_0:
-            {
-                *(copy_dst++) = *(copy_src++);
-            }
-            if (((s32 *) copy_src) != copy_end)
-                goto loop_0;
+            do {
+                {
+                    *(copy_dst++) = *(copy_src++);
+                }
+            } while (((s32 *) copy_src) != copy_end);
             *((Blk8 *) copy_dst) = *((Blk8 *) copy_src);
         }
         row_index = 0;

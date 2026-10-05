@@ -35,19 +35,18 @@ UA32 *func_80018B64(UA32 *buffer)
     entry_ptr = (UA32 **)(entry_list + 0x29C);
     write_ptr = (u8 *)result + 4;
     if (*(UA32 **)(entry_list + 0x29C) != 0) {
-loop_0:
-        {
-            *(UA32 *)write_ptr = **entry_ptr;
-            y = write_ptr[1];
-            x = write_ptr[0];
-            if (*(s16 *)(*(u8 **)(grid_rows + y * 0x14 + 0xC) + (x * 0x14) + 0x12) == 0) {
-                write_ptr[3] |= 0x80;
+        do {
+            {
+                *(UA32 *)write_ptr = **entry_ptr;
+                y = write_ptr[1];
+                x = write_ptr[0];
+                if (*(s16 *)(*(u8 **)(grid_rows + y * 0x14 + 0xC) + (x * 0x14) + 0x12) == 0) {
+                    write_ptr[3] |= 0x80;
+                }
+                entry_ptr++;
+                write_ptr += 4;
             }
-            entry_ptr++;
-            write_ptr += 4;
-        }
-        if (*entry_ptr != 0)
-            goto loop_0;
+        } while (*entry_ptr != 0);
     }
     *(s32 *)write_ptr = 0;
     return result;

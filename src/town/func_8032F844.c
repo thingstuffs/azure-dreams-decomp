@@ -183,35 +183,33 @@ read_record:
     record_index = previous_group;
     if (*records != 0) {
         list_page = (u8 *)0x80010000;
-build_group_list:
-        record_flags = *(s32 *)((((record_index * 8) - record_index) * 4) + (u8 *)records);
-        flag_bits = record_flags >> 0x18;
-        group_id = flag_bits & 0x3F;
-        if (group_id != previous_group) {
-            bank_bits = record_flags >> 0x15;
-            group_data = ((S_8001A044_13 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
-            flag_bits = bank_bits & 4;
-            lookup_entry = (void *)((u32)flag_bits + (u32)group_data);
-            entry_address = group_id << 5;
-            lookup_entry = ((S_8001A044_7 *)lookup_entry)->unk_00.p;
-            group_data = (void *)((u32)entry_address + (u32)lookup_entry);
-            pp += 1;
-            ((S_8001A044_8 *)group_data)->unk_18 = pp;
-            *pp = 0;
-            previous_group = group_id;
-        }
-        lookup_entry = (void *)((u32)(record_index * 0x1C) + (u32)records);
-        entry_address = ((S_8001A044_7 *)lookup_entry)->unk_04;
-        if ((entry_address != 0) &&
-            !((((S_8001A044_7 *)lookup_entry)->unk_00.i >> 0xF) & 1)) {
-            *pp = entry_address;
-            pp += 1;
-            *pp = 0;
-        }
-        record_index += 1;
-        if (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0) {
-            goto build_group_list;
-        }
+        do {
+            record_flags = *(s32 *)((((record_index * 8) - record_index) * 4) + (u8 *)records);
+            flag_bits = record_flags >> 0x18;
+            group_id = flag_bits & 0x3F;
+            if (group_id != previous_group) {
+                bank_bits = record_flags >> 0x15;
+                group_data = ((S_8001A044_13 *)(((S_8001A044_6 *)list_page)->unk_6000))->unk_30;
+                flag_bits = bank_bits & 4;
+                lookup_entry = (void *)((u32)flag_bits + (u32)group_data);
+                entry_address = group_id << 5;
+                lookup_entry = ((S_8001A044_7 *)lookup_entry)->unk_00.p;
+                group_data = (void *)((u32)entry_address + (u32)lookup_entry);
+                pp += 1;
+                ((S_8001A044_8 *)group_data)->unk_18 = pp;
+                *pp = 0;
+                previous_group = group_id;
+            }
+            lookup_entry = (void *)((u32)(record_index * 0x1C) + (u32)records);
+            entry_address = ((S_8001A044_7 *)lookup_entry)->unk_04;
+            if ((entry_address != 0) &&
+                !((((S_8001A044_7 *)lookup_entry)->unk_00.i >> 0xF) & 1)) {
+                *pp = entry_address;
+                pp += 1;
+                *pp = 0;
+            }
+            record_index += 1;
+        } while (*(s32 *)((record_index * 0x1C) + (u8 *)records) != 0);
     }
 
     (*(TownCallback *)((u8 *)(((S_8001A044_12 *)(((Rec_D_80016000 *)((u8 *)(&D_80016000)))->unk_00.at00_pv.v))->unk_20)

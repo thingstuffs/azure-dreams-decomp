@@ -225,12 +225,11 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         ((S_8016B0E8_0 *)entity)->unk_18 = initial_exp;
         if (initial_exp >= (u32) exp_limits[((S_8016B0E8_0 *)entity)->unk_11]) {
             level_limits = exp_limits;
-loop_0:
-            {
-                func_800A1D4C(actor, 0);
-            }
-            if (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18))
-                goto loop_0;
+            do {
+                {
+                    func_800A1D4C(actor, 0);
+                }
+            } while (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18));
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {

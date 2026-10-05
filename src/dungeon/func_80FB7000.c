@@ -198,13 +198,12 @@ scan_entries:
         rect[2] = 0x10;
         rect[0] = 0x30;
         rect[1] -= 1;
-loop_0:
-        {
-            func_800673A0(rect, rect[0] - 0x30, rect[1]);
-            rect[0] += 0x40;
-        }
-        if (rect[0] < 0x100)
-            goto loop_0;
+        do {
+            {
+                func_800673A0(rect, rect[0] - 0x30, rect[1]);
+                rect[0] += 0x40;
+            }
+        } while (rect[0] < 0x100);
 
         func_800AA36C(pin_actor, pin_part_a, part_b, work);
     }

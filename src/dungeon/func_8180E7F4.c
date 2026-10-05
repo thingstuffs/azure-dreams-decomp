@@ -303,20 +303,19 @@ select_donor:
         element_mask = merged_element;
         clear_shifted |= element_mask;
         ((S_800277F4_0 *)result)->unk_14 = clear_shifted;
-loop_0:
-        {
-            clear_shifted = ability_count << 0x10;
-            next_clear = ability_count - 1;
-            ability_count = next_clear;
-            clear_slot = clear_shifted >> 0x10;
-            clear_entry = clear_abilities + (clear_slot * 3);
-            ((S_800277F4_1 *)clear_entry)->unk_00 = 0;
-            ((S_800277F4_1 *)clear_entry)->unk_02 = 0;
-            clear_donor_seen[clear_slot] = 0;
-            clear_result_seen[clear_slot] = 0;
-        }
-        if ((s16) next_clear >= 0)
-            goto loop_0;
+        do {
+            {
+                clear_shifted = ability_count << 0x10;
+                next_clear = ability_count - 1;
+                ability_count = next_clear;
+                clear_slot = clear_shifted >> 0x10;
+                clear_entry = clear_abilities + (clear_slot * 3);
+                ((S_800277F4_1 *)clear_entry)->unk_00 = 0;
+                ((S_800277F4_1 *)clear_entry)->unk_02 = 0;
+                clear_donor_seen[clear_slot] = 0;
+                clear_result_seen[clear_slot] = 0;
+            }
+        } while ((s16) next_clear >= 0);
         ability_count = 0;
         result_primary = func_8002773C(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {

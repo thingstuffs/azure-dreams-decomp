@@ -4,7 +4,6 @@
 #include "shared/entity.h"
 #include "records/Rec_D_80082E80.h"
 
-
 extern void func_80047784(void *, s32, s32);
 extern void func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distance);
 extern void func_800A2B04(void *, u8, u8);
@@ -16,7 +15,6 @@ extern void D_80170E94;
 extern u8 D_80175F10[8];
 extern u8 D_80175F40[8];
 extern u8 D_80175F68[8];
-
 
 typedef struct S_801735BC_0 {
     u8 pad_00[0x96];
@@ -38,7 +36,6 @@ typedef struct S_801735BC_1 {
     u16 unk_46;
 } S_801735BC_1;   /* actor in func_801735BC */
 
-
 void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incoming_object, void *incoming_actor)
 {
         /* MATCH: the local state join must retain state_work in retail's s2. */
@@ -55,9 +52,7 @@ void func_801735BC(void *incoming_state_work, void *incoming_entity, void *incom
     switch (state) {
 
     case 0:
-        do {
-            timer = ((S_801735BC_0 *)state_work)->unk_96 - 1;
-        } while (0);
+        timer = ((S_801735BC_0 *)state_work)->unk_96 - 1;
         ((S_801735BC_0 *)state_work)->unk_96 = timer;
         if ((s16)timer > 0) {
             return;
