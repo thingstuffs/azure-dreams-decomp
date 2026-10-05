@@ -9,7 +9,7 @@ typedef struct {
 
 typedef struct {
     u8 pad00[0x1A];
-    volatile u16 field_1A;
+    u16 field_1A;
 } State;
 
 extern void func_80033D08(void *arg0);
@@ -17,6 +17,7 @@ extern void func_80033D08(void *arg0);
 /* Mark inactive objects or advance their wrapped 12-bit state value. */
 void func_800B9EDC(Obj *obj, void *unused, State *state)
 {
+    s32 t;
     if (*obj->field_98 == 0) {
         func_80033D08(obj);
         *(u16 *)((u8 *)obj - 2) |= 0x8000;
@@ -25,5 +26,6 @@ void func_800B9EDC(Obj *obj, void *unused, State *state)
     }
 
     state->field_1A += *(s8 *)(obj->field_9C + 0x97);
-    state->field_1A &= 0xFFF;
+    t = state->field_1A;
+    state->field_1A = t & 0xFFF;
 }

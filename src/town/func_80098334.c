@@ -50,13 +50,13 @@ void func_80095A94(TownObj *obj, s32 base_value, TownVec **vec_ptr)
             adjustment = (((-obj->value10) << 8) / base_value) * y;
         }
         if (adjustment < 0) {
-            adjustment += 0xFF;
-        }
-        do {
+            adjustment = (adjustment + 0xFF) >> 8;
+            obj->value14 = adjustment;
+        } else {
             adjustment >>= 8;
-        } while (0);
-        obj->value14 = adjustment;
-        clamp_value = *(volatile s32 *)&obj->value14;
+            obj->value14 = adjustment;
+        }
+        clamp_value = obj->value14;
         if (clamp_value > 0xCC000) {
             obj->value14 = 0xCC000;
         } else if (clamp_value < -0xCC000) {
