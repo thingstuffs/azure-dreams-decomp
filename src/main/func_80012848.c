@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_800230A4(void *arg0);
-extern void func_80023144(void *arg0, void *arg1);
+extern void func_800230A4(void *value);
+extern void func_80023144(void *owner, void *data);
 
 extern s32 D_80083E98[][32];
 extern s32 D_80025788;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_800B4648(void *arg0);
+extern void func_800B4648(void *owner);
 extern void func_8004B248(void *arg0);
 
 /* Updates two object components and sets the object and global high flags. */

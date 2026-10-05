@@ -14,7 +14,7 @@ typedef struct {
     s32 flag;
 } Scratchpad;
 
-extern void func_800453E0(void *arg0, s32 arg1, Entry *arg2, s16 arg3);
+extern void func_800453E0(void *context, s32 position, Entry *entry, s16 depth_bias);
 
 /* Walk linked entries, update the scratch flag, and process entries without bit 0x80 set. */
 s32 func_800ADBCC(void *initial_state, s32 context, Entry *entry)

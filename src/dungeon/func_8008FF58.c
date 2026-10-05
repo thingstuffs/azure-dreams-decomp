@@ -7,13 +7,13 @@ extern u8 D_800E0B18[16];
 extern u8 D_800E0B2B[16];
 extern u8 D_800E202D[16];
 
-extern s16 func_800A1BD0(void *arg0);
-extern s32 func_800A1C14(void *arg0);
+extern s16 func_800A1BD0(void *target_value);
+extern s32 func_800A1C14(void *target_value);
 extern void *func_800990FC(void);
-extern s32 func_80099194(void *arg0, s32 arg1);
-extern void func_80099290(s32 arg0);
-extern void func_800A5720(s32 arg0);
-extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
+extern s32 func_80099194(void *src, s32 dst);
+extern void func_80099290(s32 byte_ptr);
+extern void func_800A5720(s32 text);
+extern void func_800ACB98(void *entity, s32 unused, s32 status, void *event_state);
 extern u8 D_800E05E1[];
 extern u8 D_800E05F0[];
 

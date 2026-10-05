@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80094984(void *arg0, void *arg1, s32 arg2);
-extern void func_8009AE88(void *arg0, s32 arg1, s32 arg2);
+extern void func_80094984(void *entries, void *record, s32 handler_param);
+extern void func_8009AE88(void *entity, s32 unused_1, s32 unused_2);
 extern u8 D_800D0078[];
 extern void *D_8009AFF4[];
 

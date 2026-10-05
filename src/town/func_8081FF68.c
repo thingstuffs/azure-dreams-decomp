@@ -43,16 +43,16 @@ __asm__(".set D_80023BCC, 0x80023bcc");
 __asm__(".set D_8007947C, 0x8007947c");
 __asm__(".set D_800834C8, 0x800834c8");
 
-extern s16 func_800C2AE8(void *arg0);
+extern s16 func_800C2AE8(void *position);
 extern void func_80093864(void);
-extern s32 func_800A2A18(void *arg0, void *arg1);
+extern s32 func_800A2A18(void *box, void *offset);
 extern s16 SD_Call(s32 arg0);
-extern void *func_800B1BEC(s32 arg0, s32 arg1, s32 arg2);
+extern void *func_800B1BEC(s32 setup_value, s32 x, s32 y);
 extern void *func_80093C70(void);
-extern void func_800B1DBC(void *arg0);
+extern void func_800B1DBC(void *object);
 extern void *func_8003FC64(s32 arg0);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void func_8008F074(void *arg0, void *arg1, void *arg2);
+extern void func_8004491C(void *entry, void *registration_id);
+extern void func_8008F074(void *record, void *setup_value, void *setup_param);
 
 
 typedef struct S_80022768_0 {

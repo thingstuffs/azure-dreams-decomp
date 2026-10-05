@@ -3,8 +3,8 @@
 extern s32 D_80100DB8[];
 extern s32 D_80100DE0[];
 
-extern void func_800A4B40(s32 *arg0);
-extern void func_800A5178(s32 *arg0);
+extern void func_800A4B40(s32 *control);
+extern void func_800A5178(s32 *state);
 extern void func_800A4A4C(void);
 
 /* Initialize both state blocks and finish setup. */

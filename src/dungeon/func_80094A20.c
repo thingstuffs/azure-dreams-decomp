@@ -6,7 +6,7 @@ typedef struct S_8009A180_2 {
     void * unk_58;
 } S_8009A180_2;
 
-extern void func_8009A028(void *arg0);
+extern void func_8009A028(void *node);
 
 s32 func_8009A180(EntityRec *entry, EntityRec *anchor) {
     u32 link_bits;

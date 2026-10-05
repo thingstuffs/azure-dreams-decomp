@@ -30,8 +30,8 @@ typedef struct S_800BF654_2 {
 
 
 extern void *func_8003FC64(s32 arg0);
-extern void func_8004491C(void *arg0, void *arg1);
-extern void func_8008F074(void *arg0, void *arg1, void *arg2);
+extern void func_8004491C(void *entry, void *registration_id);
+extern void func_8008F074(void *record, void *setup_value, void *setup_param);
 
 extern u8 D_80046398[];
 extern u8 D_800BF4CC[];

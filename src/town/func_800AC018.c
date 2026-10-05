@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_80033AA8(s32 arg0);
+extern s32 func_80033AA8(s32 bit_id);
 extern s32 serch_item_plown(s32 arg0, s32 arg1);
 
 /* Trigger action 0xAB and mark the record finished when the condition check succeeds. */

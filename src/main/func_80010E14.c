@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern void func_80023B18(s32 *arg0);
+extern void func_80023B18(s32 *object);
 extern void func_80023BE4(void *arg0, s32 arg1, s32 arg2);
-extern void func_80023C44(s32 *arg0);
-extern void func_80023D64(s32 *arg0);
+extern void func_80023C44(s32 *slot_owner);
+extern void func_80023D64(s32 *context);
 
 typedef struct {
     /* 0x00 */ s32 unk0;

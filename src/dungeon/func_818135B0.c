@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_80028534(void *arg0);
+extern void func_80028534(void *state);
 extern void func_8004B1A4(void *arg0);
 extern void func_8004B248(void *arg0);
 

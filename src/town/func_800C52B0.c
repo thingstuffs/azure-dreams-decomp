@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s16 D_800FE4A6;
-extern s32 func_8008FE78(s16 arg0, s16 arg1);
-extern s32 func_800C296C(s32 arg0);
+extern s32 func_8008FE78(s16 value_a, s16 value_b);
+extern s32 func_800C296C(s32 entry_index);
 
 /* Update the object's state value according to whether the pair check returns zero. */
 void func_800C2A10(void *object) {

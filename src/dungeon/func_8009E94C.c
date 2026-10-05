@@ -3,7 +3,7 @@
 #include "shared/dungeon_status.h"
 
 
-s32 func_800A35D8(u8 arg0, u16 arg1);
+s32 func_800A35D8(u8 left_mask, u16 right_mask);
 
 /* Selects the highest-value nonempty item among three slots, breaking ties by kind score. */
 s16 func_800A40AC(s32 records_addr, s32 item_kind)

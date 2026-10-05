@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 func_800162F8(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_800162F8(s32 key, s32 unused, s32 context);
 extern u8 D_8001C9C7[];
 extern u8 D_8001D244[];
 

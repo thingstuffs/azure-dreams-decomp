@@ -15,7 +15,7 @@ typedef struct S_80022524_0 {
 extern void SD_Call(s32 code);
 extern s32 func_800231E4(s32 mode);
 extern s32 func_80049E1C(s32 current, s32 direction, u8 entry);
-extern void func_80022488(void *arg0);
+extern void func_80022488(void *object);
 typedef struct S_800280B4 {
     u8 pad_00[0x14];
     u8 unk_14;

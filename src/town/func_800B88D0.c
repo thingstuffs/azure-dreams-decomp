@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void func_8004E5A0(void *a0, s32 a1, void *a2);
-extern u8 *func_8004E69C(u8 *arg0);
+extern u8 *func_8004E69C(u8 *string);
 
 /* Builds and processes a short encoded sequence in the output buffer. */
 void *func_800B6030(void *source, u8 *outputBuffer) {

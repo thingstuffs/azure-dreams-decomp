@@ -3,7 +3,7 @@
 #define FIELD_U8(p, off) (*(u8 *)((u8 *)(p) + (off)))
 
 extern s32 func_80033B2C();
-extern s32 func_800A9878(s32 arg0);
+extern s32 func_800A9878(s32 target_value);
 extern s32 func_800A99D8();
 extern s32 func_800A9A38();
 extern s32 func_800A9ADC();

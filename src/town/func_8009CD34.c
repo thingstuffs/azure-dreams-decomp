@@ -2,7 +2,7 @@
 #include "shared/object_index_slots.h"
 
 extern void func_80033D08(void *arg0);
-extern void func_80098928(void *arg0, s32 arg1, s32 arg2);
+extern void func_80098928(void *record, s32 setup_value, s32 init_value);
 
 /* Clean up the actor, clear its indexed flag, and complete its current action. */
 void func_8009A494(void *actor, s32 motionState, s32 completionArg) {

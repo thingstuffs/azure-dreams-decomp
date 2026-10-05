@@ -50,7 +50,7 @@ extern S_80056C30_85014 D_80085014;
 
 extern void func_80056A08(void);
 extern s32 func_80056DB4(s32 arg0);
-extern void func_8005E97C(s32 arg0, s32 arg1);
+extern void func_8005E97C(s32 key_on, s32 voices);
 
 /* Resets global state, re-registers active slots, and initializes the shared request with their combined flags. */
 void func_80056C30(void) {

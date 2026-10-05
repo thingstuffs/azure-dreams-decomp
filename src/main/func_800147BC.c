@@ -5,7 +5,7 @@ extern void func_800209C4(void);
 extern s32 func_800210E0(void);
 extern s32 func_8002168C(void);
 extern void func_80021904(void);
-extern void func_80022EC4(void *arg0, void *arg1);
+extern void func_80022EC4(void *input, void *value);
 
 extern u8 D_8002789C[];
 extern void *D_8002809C[];

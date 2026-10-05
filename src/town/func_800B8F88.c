@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_800B65D8(s32 arg0, s16 arg1);
-extern void func_800B6508(void *arg0);
+extern void func_800B65D8(s32 base, s16 display_mode);
+extern void func_800B6508(void *object);
 extern s32 D_800B6578[];
 
 /* Advance the object's five-step sequence, then reset it and set its next handler. */

@@ -8,7 +8,7 @@ typedef struct {
     u16 output;
 } TownObject;
 
-extern void func_800C4174(TownObject *obj, s32 arg1, s32 arg2);
+extern void func_800C4174(TownObject *obj, s32 update_context, s32 setup_context);
 
 /* Decrement the timer and lower output until expiry restores the base value. */
 void func_800C9F58(TownObject *obj, s32 update_input_1, s32 update_input_2) {

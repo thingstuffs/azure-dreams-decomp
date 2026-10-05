@@ -18,7 +18,7 @@ typedef struct S_80036900 {
 } S_80036900;
 
 extern void func_80036980(void);
-extern void func_80044A50(void *arg0);
+extern void func_80044A50(void *node);
 
 /* Advances the sub-value, then unlinks the task, switches handlers, and sets its indexed flag past the threshold. */
 void func_80036900(S_80036900 *state)

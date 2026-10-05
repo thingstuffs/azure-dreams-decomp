@@ -55,9 +55,9 @@ extern s32 D_80073734[4];
 extern S_80084960 D_80084960[16];
 extern S_80085458 D_80085458[64];
 
-extern void func_80056800(S_80084960 *arg0);
-extern void func_800568B4(S_80084960 *arg0);
-extern void func_80056098(S_80085458 *arg0);
+extern void func_80056800(S_80084960 *state);
+extern void func_800568B4(S_80084960 *state);
+extern void func_80056098(S_80085458 *envelope);
 extern void func_80055E84(S_80085458 *arg0);
 extern void func_80056654(S_80085458 *arg0, s32 arg1);
 

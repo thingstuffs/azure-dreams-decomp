@@ -88,7 +88,7 @@ typedef struct S_func_80AF3724_6 {
 } S_func_80AF3724_6;
 
 extern void *func_8003FC64(s32 arg0);
-extern void func_8004491C(void *arg0, void *arg1);
+extern void func_8004491C(void *entry, void *registration_id);
 extern s32 rand(void);
 
 extern LocalTable D_80170874;

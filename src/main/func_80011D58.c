@@ -19,11 +19,11 @@ typedef struct S_80024D58_1 {
 
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
+extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80024EEC(void *arg0);
 extern void bzero(void *arg0, s32 arg1);
 extern void func_80024C70(void *arg0, s32 arg1);
-extern s32 func_80024C48(void *arg0);
+extern s32 func_80024C48(void *target);
 extern void func_80024D18(void *arg0, s32 arg1);
 
 extern u8 D_80027DD0[];

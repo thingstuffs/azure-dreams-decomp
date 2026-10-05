@@ -5,7 +5,7 @@ typedef struct {
     s32 words[3];
 } TownRecord;
 
-extern s32 func_8009CFE0(void *arg0, void *arg1);
+extern s32 func_8009CFE0(void *object, void *position_data);
 extern void func_80033D08(void *arg0);
 
 extern s32 D_800D0E44;

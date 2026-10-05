@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_80023194(void *arg0);
+extern void func_80023194(void *record);
 extern s32 D_80028808[4];
 
 // Optionally flags the linked record, processes the global record, and sets status bits.

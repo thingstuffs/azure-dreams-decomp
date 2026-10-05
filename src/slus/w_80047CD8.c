@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern void *func_80047A44(s32 a0);
-extern s32 func_80047BC0(s32 arg0);
+extern s32 func_80047BC0(s32 slot_id);
 extern s32 func_80047C8C(s32 a0);
 extern void func_80047C00(void);
 

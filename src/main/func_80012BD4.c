@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_80021D54(s32 arg0);
-extern s32 func_80023FF0(void *arg0, s32 arg1);
-extern void func_80023004(void *arg0);
+extern s32 func_80021D54(s32 slot);
+extern s32 func_80023FF0(void *parent_object, s32 object_index);
+extern void func_80023004(void *value);
 extern void func_80025B9C(void);
 extern void func_80024F7C(void);
 extern void func_80025B60(void);

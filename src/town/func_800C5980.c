@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 func_800352FC(void *, s32, s32, s32);
-extern s32 func_800C2A60(void *arg0);
-extern void func_800C40D0(void *arg0, s32 arg1, s32 arg2);
+extern s32 func_800C2A60(void *other);
+extern void func_800C40D0(void *object, s32 setupParam1, s32 setupParam2);
 extern void func_800C4134(void *arg0, s32 arg1, s32 arg2);
 extern u8 D_80082A39[16];
 

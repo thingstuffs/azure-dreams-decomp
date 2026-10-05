@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80099754(s32 arg0);
+extern void func_80099754(s32 record);
 extern s8 D_80082669;
 extern void *D_80097DE8[];
 

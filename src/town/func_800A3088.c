@@ -17,8 +17,8 @@ typedef struct {
 } S800A3088Arg2;
 
 extern s32 func_800A0668(S800A3088Arg0 *);
-extern s32 func_800A0F10(S800A3088Arg0 *arg0, s32 arg1);
-extern void func_8009A674(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_800A0F10(S800A3088Arg0 *object, s32 test_value);
+extern void func_8009A674(s32 entity_id, s32 x, s32 y);
 extern u8 D_800A0884[16];
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */

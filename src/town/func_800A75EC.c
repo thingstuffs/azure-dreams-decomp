@@ -15,7 +15,7 @@ typedef struct Func800A75ECState {
     s32 *other;
 } Func800A75ECState;
 
-extern void func_800A4E1C(void *arg0);
+extern void func_800A4E1C(void *state);
 
 /* Restart tracking when the current point changes; otherwise update the midpoint. */
 void func_800A4D4C(Func800A75ECState *state) {

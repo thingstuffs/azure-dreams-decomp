@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800C2E84(void *arg0, s32 arg1, s32 arg2);
+extern void func_800C2E84(void *state, s32 output, s32 entries);
 extern s32 D_800C34CC;
 
 /* Updates the object using its stored value and installs its next handler. */

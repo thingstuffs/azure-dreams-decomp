@@ -1,8 +1,8 @@
 #include "common.h"
 
 extern s32 func_800A0668(void *);
-extern s32 func_800A0F10(void *arg0, void *arg1);
-extern void func_800A0B74(void *arg0, s32 arg1);
+extern s32 func_800A0F10(void *object, void *test_value);
+extern void func_800A0B74(void *map_source, s32 map_table);
 extern void func_8009A8EC(s16 arg0, s16 arg1, s16 arg2);
 extern void *D_800A08E8;
 

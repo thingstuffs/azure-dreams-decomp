@@ -17,13 +17,13 @@ typedef struct Obj {
 
 extern u8 D_80078CDC[];
 
-extern void func_800AFDD0(void *arg0);
-extern void func_800AF36C(void *arg0);
-extern void func_800AF4AC(void *arg0);
-extern void func_800AF600(void *arg0);
-extern void func_800AF734(void *arg0);
-extern void func_800AF2F8(void *arg0);
-extern void func_800AFFA8(void *arg0);
+extern void func_800AFDD0(void *record);
+extern void func_800AF36C(void *object);
+extern void func_800AF4AC(void *context);
+extern void func_800AF600(void *context);
+extern void func_800AF734(void *record);
+extern void func_800AF2F8(void *context);
+extern void func_800AFFA8(void *record);
 
 /* Initialize four object slots with shared or embedded data and paired offsets. */
 void func_800B0024(Obj *object) {

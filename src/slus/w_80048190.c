@@ -8,7 +8,7 @@ typedef struct {
 
 extern S_80083D08 D_80083D08[6];
 
-extern s32 func_80047BC0(s32 arg0);
+extern s32 func_80047BC0(s32 slot_id);
 
 /* Set status bit 0 for the entry matching the lookup key, if found. */
 void func_80048190(s16 lookup_key) {

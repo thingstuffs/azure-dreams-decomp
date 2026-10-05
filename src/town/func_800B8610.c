@@ -1,8 +1,7 @@
 #include "common.h"
 
 extern s8 *strcat(u8 *dst, const u8 *src);
-extern void func_800B5264(s32 arg0, const u8 *arg1, s32 arg2, s32 arg3,
-                          s32 arg4);
+extern void func_800B5264(s32 entry, const u8 *text, s32 text_style, s32 x, s32 y);
 extern u8 *func_800B5D30(void *arg0);
 
 extern s32 D_800892C0[3];

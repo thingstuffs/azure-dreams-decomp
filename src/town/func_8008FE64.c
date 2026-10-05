@@ -73,7 +73,7 @@ typedef struct ScratchPrefix {
 } ScratchPrefix;
 typedef union ScratchArena { Scratch full; ScratchPrefix prefix; } ScratchArena;
 
-s32 func_8008CE08(Scratch *arg0);
+s32 func_8008CE08(Scratch *scratch);
 extern s32 D_800FE480;
 extern s32 D_800FE484;
 

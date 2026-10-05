@@ -13,9 +13,9 @@ typedef struct S_80022CD8_0 {
 } S_80022CD8_0;   /* arg0 in func_80022CD8 */
 
 
-extern void func_80022774(void *arg0, void *arg1);
-extern void func_80022934(void *arg0);
-extern void func_80022488(void *arg0);
+extern void func_80022774(void *buffer, void *layout);
+extern void func_80022934(void *context);
+extern void func_80022488(void *object);
 extern u8 D_80022524[];
 extern u8 D_800226A8[];
 typedef struct S_800280B4 {

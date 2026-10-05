@@ -10,7 +10,7 @@ typedef struct S_801722DC_0 {
 
 
 s32 func_800A4ACC();                     /* extern */
-s32 func_800AB1C0(arg0, arg1, arg2, arg3);                                /* extern */
+s32 func_800AB1C0(move_state, motion, target_tile, actor);                                /* extern */
 void func_800AD594();            /* extern */
 s32 func_800AD9B4();                /* extern */
 extern M2C_UNK D_80170E54;

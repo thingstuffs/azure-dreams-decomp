@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-extern s32 func_8003C5A4(s32 arg0);
+extern s32 func_8003C5A4(s32 value);
 extern s32 D_8006B1A8[];
 
 /* Returns the table value for the lookup key, or zero if no entry is found. */

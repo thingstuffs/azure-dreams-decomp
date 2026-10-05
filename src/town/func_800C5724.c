@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_800C2CB0(void *arg0, void *arg1, s32 arg2, s32 arg3);
-extern s32 func_800C2E1C(s16 arg0, s16 arg1);
+extern void func_800C2CB0(void *object, void *target, s32 value, s32 flags);
+extern s32 func_800C2E1C(s16 referenceAngle, s16 sectorCount);
 
 typedef struct {
     /* 0x64 */ char pad0[0x64];

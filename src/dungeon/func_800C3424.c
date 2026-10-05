@@ -2,7 +2,7 @@
 
 extern s32 func_80099844(void *arg0, void *arg1);
 extern s32 func_800C8C1C(void *arg0, s16 arg1, s16 arg2);
-extern s32 func_800DC1B8(s32 arg0);
+extern s32 func_800DC1B8(s32 state_value);
 extern s32 D_800DCF14;
 extern u8 D_800E191B[];
 extern u8 D_800E1A44[];

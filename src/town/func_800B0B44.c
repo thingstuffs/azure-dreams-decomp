@@ -9,9 +9,9 @@ typedef struct FuncArg {
     s32 field2C;
 } FuncArg;
 
-extern void func_800AE148(void *arg0);
-extern void func_800B1718(s32 arg0);
-extern void func_800B1DBC(s32 arg0);
+extern void func_800AE148(void *source);
+extern void func_800B1718(s32 object);
+extern void func_800B1DBC(s32 object);
 extern s32 D_80082AB4[];
 
 // Set the record and global flags, apply the stored values, and process the record.

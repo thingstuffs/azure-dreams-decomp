@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern void func_80099754(void *arg0);
-extern void func_80098928(void *arg0, void *arg1, s32 arg2);
+extern void func_80099754(void *record);
+extern void func_80098928(void *record, void *setup_value, s32 init_value);
 
 /* Move the position toward its target until the countdown expires, then finish the move. */
 void func_80098690(u8 *motion, u8 *position, s32 callback_arg) {

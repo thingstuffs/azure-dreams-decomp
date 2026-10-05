@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_index_slots.h"
 
-extern void func_800C2E84(void *arg0, s32 arg1, void *arg2);
+extern void func_800C2E84(void *state, s32 output, void *entries);
 extern s32 D_800C5B48[];
 extern u8 D_800D54CC[];
 

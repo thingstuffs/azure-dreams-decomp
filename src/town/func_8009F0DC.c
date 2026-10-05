@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8009C7A8(void *arg0, s32 arg1, s32 arg2, void *arg3, void *arg4, void *arg5);
+extern void func_8009C7A8(void *record, s32 context, s32 state, void *default_value, void *alternate_value, void *update_value);
 
 extern s32 D_800CFD00[];
 extern s32 D_800D06F8[];

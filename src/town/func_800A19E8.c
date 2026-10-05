@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s16 func_800374F4(s32 arg0);
+extern s16 func_800374F4(s32 limit);
 extern u8 D_8009EE9C[];
 /* Initialize entity flags, transform, and type-dependent variant. */
 void func_8009F148(void *entity, void *state, void *transform)

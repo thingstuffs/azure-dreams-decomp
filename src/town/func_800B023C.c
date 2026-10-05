@@ -10,7 +10,7 @@ typedef struct {
 } UnkStruct800B023C;
 
 extern s32 func_800AD968(void);
-extern s32 func_800AD914(u8 *arg0);
+extern s32 func_800AD914(u8 *entries);
 
 /* Checks whether the entry bypasses the limit or its combined value is below 20. */
 s32 func_800AD99C(UnkStruct800B023C *entry) {

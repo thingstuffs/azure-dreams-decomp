@@ -31,8 +31,8 @@ extern s32 D_80085F98[3];
 
 extern s32 func_80056D44(s32 arg0, S_80085458 *arg1);
 extern void func_80056DB4(s32 arg0);
-extern void func_8005E97C(s32 arg0, s32 arg1);
-extern s32 func_8005EB78(s32 arg0);
+extern void func_8005E97C(s32 key_on, s32 voices);
+extern s32 func_8005EB78(s32 voice_mask);
 
 /* Services an active SPU slot until completion and clears the busy flag. */
 s32 func_8005C4D0(s16 slot_id)

@@ -2,7 +2,7 @@
 #include "shared/dungeon_floor.h"
 
 
-s32 func_800CE4E8(u8 arg0, u8 arg1, s16 arg2, void *arg3, s32 arg4);
+s32 func_800CE4E8(u8 center_x, u8 center_y, s16 unused_value, void *unused_data, s32 reverse_offset);
 
 /* Return success if either global high flag is set, otherwise test the record lookup. */
 s32 func_800CE69C(void *record) {

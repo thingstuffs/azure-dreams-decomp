@@ -11,7 +11,7 @@ extern u8 D_800D4094[];
 extern u16 D_800D4244[];
 extern u16 D_800D4268[];
 
-extern s32 func_800C0F60(s16 arg0);
+extern s32 func_800C0F60(s16 target_value);
 extern s32 func_800B28A0(void);
 extern void func_8004437C(s32 arg0, s32 arg1);
 extern void SD_Call(s32 arg0);

@@ -7,7 +7,7 @@ typedef struct {
 } PointerGlobal;
 
 extern s32 func_800352FC(void);
-extern void func_8008F134(void *arg0);
+extern void func_8008F134(void *node);
 
 extern PointerGlobal D_800FE4A0;
 extern PointerGlobal D_800834B8;

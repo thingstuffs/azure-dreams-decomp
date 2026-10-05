@@ -2,7 +2,7 @@
 
 extern s32 D_800C3960;
 s16 func_800C2BE8(void *arg0);
-void func_800C4174(void *arg0, s32 arg1, s32 arg2);
+void func_800C4174(void *object, s32 update_context, s32 setup_context);
 
 // Initialize the object's state and delegate the remaining setup.
 void func_800C40D0(void *object, s32 setupParam1, s32 setupParam2) {

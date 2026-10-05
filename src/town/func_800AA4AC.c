@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern s32 func_8009CFE0(void *arg0, s32 arg1);
+extern s32 func_8009CFE0(void *object, s32 position_data);
 extern void func_80033D08(void *arg0);
 
 

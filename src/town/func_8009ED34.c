@@ -14,7 +14,7 @@ typedef struct {
     s16 unk6C;
 } Struct8009ED34Arg0;
 
-extern s32 func_8004491C(void *arg0, void *arg1);
+extern s32 func_8004491C(void *entry, void *registration_id);
 extern u8 D_8009C4E8[];
 
 /* Clear state, initialize the context resource, and set a 30-tick countdown and handler. */

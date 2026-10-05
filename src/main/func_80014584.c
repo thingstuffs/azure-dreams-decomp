@@ -16,10 +16,10 @@ typedef struct S_80027584_0 {
 
 
 extern void func_80020984(void);
-extern s32 func_80021A84(s32 arg0);
-extern void func_80022E9C(void *arg0);
-extern void func_8002302C(void *arg0);
-extern void func_80023054(void *arg0);
+extern s32 func_80021A84(s32 card_slot);
+extern void func_80022E9C(void *context);
+extern void func_8002302C(void *value);
+extern void func_80023054(void *input_value);
 extern u8 D_800274A8[];
 extern u8 D_800274D8[];
 extern u8 D_8002789C[];

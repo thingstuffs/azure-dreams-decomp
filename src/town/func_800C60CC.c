@@ -11,8 +11,8 @@ typedef struct S_800C382C_0 {
     s32 unk_10;
 } S_800C382C_0;   /* arg1 in func_800C382C */
 
-extern s32 func_800374F4(s32 arg0);
-extern void func_800C2E84(void *arg0, void *arg1, void *arg2);
+extern s32 func_800374F4(s32 limit);
+extern void func_800C2E84(void *state, void *output, void *entries);
 extern s32 D_800C355C;
 
 /* Chooses a random movement direction and advances the entity state. */

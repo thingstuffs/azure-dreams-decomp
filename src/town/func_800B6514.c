@@ -5,7 +5,7 @@
 #define M2C_BREAK() ((void)0)
 #define M2C_SYNC() ((void)0)
 
-void func_800B3B18(u8 *arg0);                    /* extern */
+void func_800B3B18(u8 *channels);                    /* extern */
 
 typedef struct S_800B3C74_0 {
     u8 pad_00[0xC];

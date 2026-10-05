@@ -6,8 +6,8 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) Unaligned32;
 
-extern void func_8016F140(void *arg0);
-extern void func_8009A028(void *arg0);
+extern void func_8016F140(void *state);
+extern void func_8009A028(void *node);
 
 extern void *D_80174AB4[3];
 extern s16 D_80174AB8[5];

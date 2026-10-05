@@ -8,7 +8,7 @@ typedef struct {
     s16 delta;
 } FuncState;
 
-extern s32 func_80042900(void *arg0, s32 arg1);
+extern s32 func_80042900(void *entry, s32 effect_id);
 
 /* Apply and clear the value delta, clamping the result to the byte range and state limit. */
 void func_800AD4D0(void *entity) {

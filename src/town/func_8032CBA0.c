@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern s32 func_8001ADE0(s16 arg0);
+extern s32 func_8001ADE0(s16 flagIndex);
 extern void func_80019BC0(void);
-extern void func_8001ACE8(s32 arg0);
+extern void func_8001ACE8(s32 bit_index);
 extern u8 D_8001E6F8[];
 extern u8 D_8001F4CD[];
 extern u8 D_8001F4E2[];

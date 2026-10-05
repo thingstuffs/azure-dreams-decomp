@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s32 func_80401E2C(s32 arg0);
-extern s32 func_80404364(void *arg0, s32 arg1);
+extern s32 func_80404364(void *init_value, s32 slot_index);
 extern void func_8040325C(void *arg0);
 extern void func_80406590(void);
 extern void func_80405A3C(void);

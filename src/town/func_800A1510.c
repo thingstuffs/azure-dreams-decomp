@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_8009FF8C(s32 arg0, void *arg1);
-extern void func_800A00E8(s32 arg0);
+extern s32 func_8009FF8C(s32 record_set, void *target);
+extern void func_800A00E8(s32 entryIndex);
 extern s32 func_800B28A0(void);
 extern s32 D_8009ED7C;
 extern u8 D_80100B3B;

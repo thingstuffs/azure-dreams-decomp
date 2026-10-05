@@ -12,7 +12,7 @@ typedef struct S_80080B70 {
 
 extern S_80080B70 D_80080B70;
 
-extern void func_8004E9EC(u8 *arg0, s32 arg1);
+extern void func_8004E9EC(u8 *buffer, s32 pair_count);
 extern char *strncpy(char *dst, const char *src, u32 n);
 
 /* Fills a field, appends two pattern bytes, and returns the appended position. */

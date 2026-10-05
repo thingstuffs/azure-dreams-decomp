@@ -30,7 +30,7 @@ typedef struct {
     s32 f14;
 } S_80057A94_msg;
 
-extern s32 func_80057A50(void *arg0, s32 arg1);
+extern s32 func_80057A50(void *row, s32 column);
 extern s32 func_8005DA68(void);
 extern void func_8005D88C(s32 arg0);
 extern s32 func_8005DA88(void *arg0);

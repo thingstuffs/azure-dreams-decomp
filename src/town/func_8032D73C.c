@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern u32 func_80019C68(s32 arg0, s32 arg1);
-extern void func_8001AD60(s32 arg0);
+extern u32 func_80019C68(s32 object, s32 entryIndex);
+extern void func_8001AD60(s32 bit_index);
 extern u8 D_8001F15A[];
 
 /* Record whether the check returned zero and invoke the handler when it did. */

@@ -44,7 +44,7 @@ extern u8 D_80027460[];
 extern u8 D_800260D4[];
 
 extern void *func_8003FC64(s32 arg0);
-extern s32 func_8004491C(void *arg0, void *arg1);
+extern s32 func_8004491C(void *entry, void *registration_id);
 extern s32 func_800644B8(s32 arg0);
 extern s32 func_80064584(s32 arg0);
 void *func_8002614C(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor);

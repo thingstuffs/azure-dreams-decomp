@@ -1,7 +1,7 @@
 #include "common.h"
 #include "shared/object_flags.h"
 
-extern void func_80026250(void *arg0);
+extern void func_80026250(void *context);
 extern void func_8004B248(u16 **arg0);
 
 /* Process the object resources and set the object and global flags. */

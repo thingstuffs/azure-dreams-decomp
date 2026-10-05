@@ -3,7 +3,7 @@
 #include "shared/entity.h"
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern s32 func_80042900(void *arg0, s32 arg1);
+extern s32 func_80042900(void *entry, s32 effect_id);
 
 
 typedef struct S_800A2CB8_1 {

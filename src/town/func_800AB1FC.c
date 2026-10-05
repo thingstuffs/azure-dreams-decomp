@@ -30,7 +30,7 @@ extern s32 func_800374F4(u16 value);
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
 extern s32 rand(void);
-extern void *func_800A878C(void *arg0, s16 arg1);
+extern void *func_800A878C(void *source_motion, s16 flags);
 
 typedef struct {
     s16 unk0;

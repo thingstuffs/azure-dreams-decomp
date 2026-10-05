@@ -4,7 +4,7 @@
 #define NULL 0
 #endif
 
-extern void func_800A9358(s32 arg1, s32 arg2);
+extern void func_800A9358(s32 shape, s32 source);
 
 typedef struct {
     s32 unk00;

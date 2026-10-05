@@ -19,9 +19,9 @@ typedef struct TableEntry {
 } TableEntry;
 
 extern s32 func_80022138(void);
-extern void func_80022FDC(void *arg0);
-extern void func_8002311C(void *arg0);
-extern void func_80025494(void *arg0);
+extern void func_80022FDC(void *value);
+extern void func_8002311C(void *value);
+extern void func_80025494(void *object_data);
 
 extern u8 D_80024FAC[];
 extern u8 D_80024FFC[];

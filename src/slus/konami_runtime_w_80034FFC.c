@@ -4,7 +4,7 @@
 
 extern u8 D_80082E6A[9];
 extern s16 D_8006ADE8[5];
-extern s32 func_80034FE4(void *arg0);
+extern s32 func_80034FE4(void *record);
 
 /* Returns the check result in mode 2, otherwise whether the check or fallback status is nonzero. */
 s32 func_80034FFC(void *context) {

@@ -3,7 +3,7 @@
 
 extern void *D_8008ACDC[];
 extern void *D_8008EAC8[];
-extern s32 func_800A1C58(void *arg0);
+extern s32 func_800A1C58(void *entity);
 
 /* Selects the target's table from flags and clears global state when the update returns zero. */
 void func_800924F0(void *target, void *unused, void *flag_data, void *source) {

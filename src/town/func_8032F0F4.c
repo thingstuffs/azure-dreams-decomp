@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s32 func_800194E4(s32 arg0, s32 arg1);
-extern void func_80019860(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_800194E4(s32 entries, s32 entry_id);
+extern void func_80019860(s32 checked_id, s32 first_id, s32 second_id);
 
 void func_800198F4(s32 entryTable, void *resource, s32 entryKey) {
     s32 selector;

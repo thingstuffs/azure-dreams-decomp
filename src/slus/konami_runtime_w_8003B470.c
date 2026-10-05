@@ -14,7 +14,7 @@ typedef struct MainMemoryPage {
     u16 flags_3714;
 } MainMemoryPage;
 
-extern void func_8003AF8C(void *arg0);
+extern void func_8003AF8C(void *object);
 extern void func_8008EF58(void);
 extern void func_8008FCE0(void);
 extern void func_800A03DC(void);
@@ -22,7 +22,7 @@ extern void obj_disp23_cancel_sw_set(s32 arg0);
 extern void func_8003B42C(s32 arg0);
 extern void func_8003B988(void);
 extern void func_8003B92C(void);
-extern s32 func_80033B2C(s32 arg0);
+extern s32 func_80033B2C(s32 bit_id);
 extern void func_8003BA60(void);
 extern void func_8003BA9C(void);
 extern void func_8003B9B8(void);

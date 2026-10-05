@@ -3,8 +3,8 @@
 
 typedef s32 M2C_UNK;
 
-extern void func_80094984(void *arg0, void *arg1, s32 handler_param);
-extern s16 func_800C2B88(s16 arg0, s16 arg1, M2C_UNK arg2);
+extern void func_80094984(void *entries, void *record, s32 handler_param);
+extern s16 func_800C2B88(s16 x, s16 y, M2C_UNK origin);
 extern M2C_UNK D_800D0128;
 extern M2C_UNK D_80099874;
 

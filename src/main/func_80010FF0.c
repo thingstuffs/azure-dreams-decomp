@@ -6,12 +6,12 @@ extern u8 D_80029618[];
 
 extern s32 func_8004B4A8(void *arg0);
 extern void *func_8003FE78(s32 arg0, void *arg1, s32 arg2);
-extern void func_8004491C(void *arg0, void *arg1);
+extern void func_8004491C(void *entry, void *registration_id);
 extern void func_80024184(void *arg0);
 extern void func_80069EC8(void *arg0, s32 arg1);
 extern void func_80023EF4(void *arg0, s32 arg1);
-extern s32 func_80023ECC(void *arg0);
-extern void func_80023FA0(void *arg0, s32 arg1, s32 arg2);
+extern s32 func_80023ECC(void *value);
+extern void func_80023FA0(void *record, s32 setup_value, s32 processing_value);
 
 /* Initialize the indexed object and its runtime state, then return the object. */
 void *func_80023FF0(s32 parent_object, s32 object_index)

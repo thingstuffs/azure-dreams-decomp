@@ -8,7 +8,7 @@ typedef struct UnkStruct1E {
 extern int D_800814A0;
 
 extern void func_8004F52C(UnkStruct1E *a0);
-extern void func_80023A00(s32 arg0);
+extern void func_80023A00(s32 record);
 extern void func_80024EEC(s32 arg0);
 extern void func_80024184(s32 arg0);
 

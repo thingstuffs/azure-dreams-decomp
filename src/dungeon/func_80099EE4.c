@@ -9,7 +9,7 @@ typedef struct DungeonWriteState {
     u8 *data;
 } DungeonWriteState;
 
-extern u8 *func_8009F9E8(s32 arg0, s32 arg1);
+extern u8 *func_8009F9E8(s32 wanted_kind, s32 wanted_flag);
 
 /* Records an object action in the dungeon buffer, combining compatible entries. */
 void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte) {

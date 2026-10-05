@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_80098C40(s32 arg0, s32 arg1);
+extern void func_80098C40(s32 record, s32 setup_value);
 extern s8 D_80082668;
 
 /* Forward the values to func_80098C40 and clear D_80082668. */

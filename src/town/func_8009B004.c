@@ -6,7 +6,7 @@
 
 extern s32 func_800644B8(s32 arg0);
 extern s32 func_80064584(s32 arg0);
-extern void func_80099754(void *arg0);
+extern void func_80099754(void *record);
 extern s32 D_80098690;
 
 typedef struct S_80098764_0 {

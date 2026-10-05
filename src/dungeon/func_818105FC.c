@@ -6,7 +6,7 @@ typedef struct {
     u8 type;
 } Record818105FC;
 
-extern char *func_80027110(s32 arg0, s32 arg1);
+extern char *func_80027110(s32 row_id, s32 entry_index);
 extern s32 strncmp(const char *lhs, const char *rhs, s32 count);
 extern char *strncpy(char *dst, const char *src, s32 count);
 

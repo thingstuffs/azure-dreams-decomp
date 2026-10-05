@@ -39,7 +39,7 @@ typedef struct ScratchHeader_800AFBFC {
 
 extern s32 func_800644B8(s32 value);
 extern s32 func_80064584(s32 value);
-extern s32 func_800AFFB4(void *arg0, void *arg2, s16 *scratch, s32 previous, s32 side);
+extern s32 func_800AFFB4(void *origin, void *unused, s16 *scratch, s32 previous, s32 side);
 
 /* Processes circular segments in both directions and saves the last successful result. */
 s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {

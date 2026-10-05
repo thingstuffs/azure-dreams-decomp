@@ -6,7 +6,7 @@ typedef struct {
     u8 pad[7];
 } Rec8;
 
-extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);
+extern void func_800C2E84(void *state, s32 output, void *entries);
 extern void func_800C3C5C(void);
 
 /* Apply descriptor setup, clear the indexed flag, and reset the object callback and state. */

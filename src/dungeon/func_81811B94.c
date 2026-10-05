@@ -13,7 +13,7 @@ typedef struct {
 } CleanupObject;
 
 extern int D_800814A0;
-extern void func_80026B44(void *arg0);
+extern void func_80026B44(void *owner);
 extern void func_8004B1A4(void *arg0);
 
 /* Cleans up an object's resources and sets its object and global cleanup flags. */

@@ -28,9 +28,9 @@ typedef struct {
 
 
 extern s32 func_800644B8(s32 arg0);
-extern s32 func_8009A028(void *arg0);
+extern s32 func_8009A028(void *node);
 extern s32 func_800A2C78(void *arg0);
-extern s32 func_800A32A4(void *arg0);
+extern s32 func_800A32A4(void *record);
 
 /* Animate a staged shrinking and fading effect, then release its object. */
 void func_800CB170(State *state, Position *position, Motion *motion, void *object) {

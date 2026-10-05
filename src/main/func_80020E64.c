@@ -16,7 +16,7 @@ typedef struct S_80407E64_0 {
 
 
 extern void func_80400908(void);
-extern s32 func_80401B30(s32 arg0);
+extern s32 func_80401B30(s32 card_index);
 extern void func_804030F4(void *arg0);
 extern void func_80403284(void *arg0);
 extern void func_804032AC(void *arg0);

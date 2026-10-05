@@ -1,8 +1,8 @@
 #include "common.h"
 extern u8 D_8001C380[];
 
-extern void func_80019448(void *arg0, s32 arg1);
-extern void func_80019484(void *arg0, void *arg1);
+extern void func_80019448(void *destination, s32 source);
+extern void func_80019484(void *dst, void *src);
 extern u8 D_80016108[];
 
 /* Prepare and return the shared text buffer using the source and D_80016108. */

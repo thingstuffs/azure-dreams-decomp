@@ -3,7 +3,7 @@
 #include "common.h"
 
 extern s32 func_80049E6C(s32 a0);
-extern void func_8004FFF4(void *arg0);
+extern void func_8004FFF4(void *slots);
 
 extern u8 D_80077E3C[12];
 extern u8 D_80077E48[12];

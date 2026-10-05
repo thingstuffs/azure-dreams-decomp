@@ -7,7 +7,7 @@ typedef struct Func80039C74State {
     u8 *read_ptr;
 } Func80039C74State;
 
-extern s32 func_80033B2C(s32 arg0);
+extern s32 func_80033B2C(s32 bit_id);
 
 /* Jump the event script to the encoded address if the signed operand check returns zero. */
 void func_80039C74(Func80039C74State *state) {

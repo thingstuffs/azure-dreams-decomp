@@ -1,8 +1,8 @@
 #include "common.h"
 
-extern u16 func_80095978(void *arg0, void *arg1);
-extern void func_80095A94(void *arg0, s16 arg1, void *arg2);
-extern void func_80098928(void *arg0, void *arg1, s32 arg2);
+extern u16 func_80095978(void *position, void *out_value);
+extern void func_80095A94(void *obj, s16 base_value, void *vec_ptr);
+extern void func_80098928(void *record, void *setup_value, s32 init_value);
 
 extern u8 D_800CFCB4[];
 extern u8 D_800FE488[];

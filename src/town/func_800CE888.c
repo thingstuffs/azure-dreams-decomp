@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_800C2E84(void *arg0, s32 arg2, void *arg3);
+extern void func_800C2E84(void *state, s32 output, void *entries);
 extern u8 D_800D6AA8;
 
 /* Initialize the object and advance its state. */

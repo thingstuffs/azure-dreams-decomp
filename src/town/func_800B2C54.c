@@ -12,7 +12,7 @@ typedef struct {
 } Object;
 
 extern void func_8004B248(void *arg0);
-extern void func_800B0318(s32 arg0);
+extern void func_800B0318(s32 slot_table);
 extern s32 D_800814A0;
 
 // Process a non-null object and set its local and global 0x8000 flags.

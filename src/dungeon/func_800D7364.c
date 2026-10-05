@@ -7,7 +7,7 @@ typedef struct Entry {
     s32 fieldC;
 } Entry;
 
-extern void func_800DC628(void *arg0, s32 arg1);
+extern void func_800DC628(void *object, s32 value);
 
 /* Initialize nine entry links and values, set defaults, and apply the optional flag. */
 void func_800DCAC4(void *entry_data, s32 enable_flag) {

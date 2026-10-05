@@ -4,7 +4,7 @@ typedef struct {
     u8 bytes[4];
 } __attribute__((packed)) Copy4;
 
-extern s32 func_80017EB8(void *arg0);
+extern s32 func_80017EB8(void *position);
 extern s32 func_8001A510(s32 arg0);
 extern u8 D_8001B1C0[];
 extern u8 D_8001B218[];
