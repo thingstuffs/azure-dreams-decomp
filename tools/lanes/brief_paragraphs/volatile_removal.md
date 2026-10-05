@@ -67,6 +67,10 @@ relocations the target lacks - keep the page macros on slus rows.
 15. m2c's rotated loop `if (*p != 0) { x = *p; do { ...; x = *++p; } while (x); }` with a volatile on the read: write the
     plain `while (*p != 0) { *dst = *p; p++; dst++; }` - gcc's own loop rotation emits retail's test + reload (r93_sonnet_vb11,
     slus/w_80049004, 2 volatiles -> 0; converting only one of two loops = dist 1).
+16. Volatile cursors walking parallel arrays in a counted do-while: an indexed `for (i = 0; i < N; i++)` over `A[i]`/`B[i]`
+    (plain-pointer loops stayed dist 31; r93_sonnet_vb15 dungeon/func_80099818).
+17. `x = *(volatile u16 *)p; ... p->f = x + 1;` snapshot-then-store: the compound `p->f++;` (4/5 exact; the snapshot local
+    and any one-trip block around it go too - town/func_809533D8, 8081CC54, 8081AA30, 8081617C).
 Open: volatile u8* STORES through an induction pointer (80284068: loop.c biv->giv); volatiles that only order a
 read-modify-write triple in sched1 (8105F098); SPU/GPU/CD hardware registers are REAL volatiles; frame-pad volatile locals (no
 evidence for a real local); a dead store combine would merge (8132F204).
